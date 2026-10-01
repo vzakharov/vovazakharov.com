@@ -13,10 +13,9 @@ import {
   MUSHROOM_SLOTS,
   reduce,
 } from '../../model/game';
-import type { Point } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
-import { openingPan, type Pan, worldOf } from '../../model/pan';
 import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
 import { type Among, amongAt, capBox } from './cap-cover';
@@ -24,8 +23,8 @@ import { placeIn } from './clump-layout';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
-import type { Crop } from './pan-input';
 import { perchSight } from './perch-sight';
+import { type View, viewAt } from './view';
 
 export { tapTarget } from './mushroom-tap';
 
@@ -35,36 +34,23 @@ type Meadowed = { meadow: Meadow };
 /** A stand, and the meadow it stands. */
 export type Opened = Stand & Meadowed;
 
-/**
- * `pan` held still, as the scene's crop converts a point across the screen
- * to the world (`roomFor`).
- */
-export function stillCrop(pan: Pan): Pick<Crop, 'toWorld'> {
-  return {
-    toWorld: <Placed extends Point>(point: Placed): Placed => ({
-      ...point,
-      x: worldOf(pan, 0, point.x),
-    }),
-  };
-}
-
-/** The crop the visit opens on (`openingPan`), held still (`stillCrop`). */
-export function openingCrop(layout: MeadowLayout): Pick<Crop, 'toWorld'> {
-  return stillCrop(openingPan(layout.camera));
+/** The view the visit opens on: the layout's camera, from the opening eye. */
+export function openingCrop(layout: MeadowLayout): View {
+  return viewAt(layout.camera, OPENING_EYE);
 }
 
 /**
  * A meadow as the scene opens it for the visit `seed`, drawing from the
  * scene's own streams, with the opening clump or a forest grown to
  * `MUSHROOM_SLOTS`, as far as the meadow has room, standing: each `+`
- * pressed on the crop `cropOf` gives, or anywhere in the world absent one.
+ * pressed in the view `viewIn` gives, or anywhere in the world absent one.
  */
 export function opened(
   seed: number,
   width: number,
   height: number,
   forest: boolean,
-  cropOf?: (layout: MeadowLayout) => Pick<Crop, 'toWorld'>,
+  viewIn?: (layout: MeadowLayout) => View,
 ): Opened {
   const random = mulberry32(seed);
   let meadow = firstMeadow(random);
@@ -75,7 +61,7 @@ export function opened(
     seed ^ 0xf1_0e_25,
     meadow.mushrooms,
   );
-  const crop = cropOf?.(layout);
+  const view = viewIn?.(layout);
   const growing = mulberry32(seed ^ 0x9e_0a);
   const grown = forest ? MUSHROOM_SLOTS - meadow.mushrooms.length : 0;
   for (const index of Array.from({ length: grown }).keys()) {
@@ -83,7 +69,7 @@ export function opened(
       MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
     const own = nextSeed(growing);
     const { mushrooms, planted } = meadow;
-    const foot = roomFor({ layout, flowers, mushrooms, planted }, own, crop);
+    const foot = roomFor({ layout, flowers, mushrooms, planted }, own, view);
     if (!foot) break;
     meadow = reduce(meadow, { kind: 'grow', species, seed: own, foot });
   }

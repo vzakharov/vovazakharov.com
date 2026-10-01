@@ -128,8 +128,7 @@ function grownTuft(layout: MeadowLayout, random: Random): Sprout {
  * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, as
  * the scene hit-tests it seen from the opening eye: no flower's petals as far
  * as its sway takes them — past them a flower yields to a bare tuft
- * (`tuftUnder`) — and no mushroom's tap area or
- * finger pad (`tappedMushroom`) holds the tuft's middle, nor any point of the
+ * (`tuftUnder`) — and no mushroom's drawn parts (`tappedMushroom`) hold the tuft's middle, nor any point of the
  * core round it (`BARE_CORE`). The controls stand on the screen, not the
  * world, so none is tested: a tuft a turn slides under one is the control's
  * to tap there, and the grass's again a turn on. What `stand` holds is read

@@ -2,16 +2,14 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { firstMeadow } from '../../model/game';
-import type { Ground } from '../../model/ground';
-import { openingPan, type Pan, restingAt, worldOf } from '../../model/pan';
+import { type Eye, OPENING_EYE } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
-import { placeOf } from './clump-layout';
 import { meadowLayout } from './layout';
 import { keptRoom, roomFor } from './mushroom-room';
-import { stillCrop } from './visit-play';
+import { ofGround, viewAt } from './view';
 
 /**
- * `keptRoom` over a finder that counts how often it is asked, and a crop
+ * `keptRoom` over a finder that counts how often it is asked, and a view
  * test that holds a foot while `fitting` says so.
  */
 function counted() {
@@ -31,7 +29,9 @@ describe('the room kept for the next mushroom', () => {
   const { mushrooms, planted } = firstMeadow(mulberry32(1));
   const layout = meadowLayout(1180, 820, 1);
   const stand = { layout, flowers: [], mushrooms, planted };
-  const opening = openingPan(layout.camera);
+  const from = (eye: Eye) => viewAt(layout.camera, eye);
+  const opening = from(OPENING_EYE);
+  const turned = from({ ...OPENING_EYE, heading: 0.1 });
 
   it('answers again from what it found while nothing changes', () => {
     const { asked, room } = counted();
@@ -56,17 +56,17 @@ describe('the room kept for the next mushroom', () => {
     assert.equal(asked.times, 4);
   });
 
-  it('keeps the room it found over a pan while the foot still fits the crop, and finds it again once it does not', () => {
+  it('keeps the room it found over a turn or a step while the foot still fits the view, and finds it again once it does not', () => {
     const { asked, fitting, room } = counted();
-    room(stand, 7, stillCrop(opening));
-    room(stand, 7, stillCrop(restingAt(opening, 0)));
+    room(stand, 7, opening);
+    room(stand, 7, turned);
     assert.equal(asked.times, 1);
     fitting.now = false;
-    room(stand, 7, stillCrop(restingAt(opening, 10)));
+    room(stand, 7, from({ ...OPENING_EYE, y: 1 }));
     assert.equal(asked.times, 2);
   });
 
-  it('looks for room again on a pan where it found none', () => {
+  it('looks for room again on a turn where it found none', () => {
     let asked = 0;
     const room = keptRoom(
       (): undefined => {
@@ -74,10 +74,10 @@ describe('the room kept for the next mushroom', () => {
       },
       () => true,
     );
-    room(stand, 7, stillCrop(opening));
-    room(stand, 7, stillCrop(opening));
+    room(stand, 7, opening);
+    room(stand, 7, from(OPENING_EYE));
     assert.equal(asked, 1);
-    room(stand, 7, stillCrop(restingAt(opening, 0)));
+    room(stand, 7, turned);
     assert.equal(asked, 2);
   });
 });
@@ -86,28 +86,29 @@ describe('the room a `+` finds', () => {
   const { mushrooms, planted } = firstMeadow(mulberry32(1));
   const layout = meadowLayout(1180, 820, 1);
   const stand = { layout, flowers: [], mushrooms, planted };
-  const opening = openingPan(layout.camera);
-  const crops = [
-    opening,
-    restingAt(opening, 0),
-    restingAt(opening, layout.camera.world),
+  const eyes: ReadonlyArray<readonly [string, Eye]> = [
+    ['the opening eye', OPENING_EYE],
+    ['an eye turned', { ...OPENING_EYE, heading: 0.3 }],
+    ['an eye stepped in', { ...OPENING_EYE, y: OPENING_EYE.y + 1 }],
   ];
 
-  /** Where across the screen `pan` shows `foot`. */
-  const across = (pan: Pan, foot: Ground) =>
-    placeOf(layout.camera, foot).x - worldOf(pan, 0, 0);
-
-  it('grows the next mushroom inside the crop the screen shows, wherever it is panned to', () => {
-    for (const pan of crops) {
+  it('grows the next mushroom on the screen the view shows, wherever the eye stands and faces', () => {
+    for (const [name, eye] of eyes) {
+      const view = viewAt(layout.camera, eye);
       for (const seed of [3, 11, 29, 47]) {
-        const foot = roomFor(stand, seed, stillCrop(pan));
-        assert.ok(foot, `seed ${String(seed)} found no room`);
-        const x = across(pan, foot);
+        const foot = roomFor(stand, seed, view);
+        assert.ok(foot, `${name}: seed ${String(seed)} found no room`);
+        const { x } = ofGround(view, foot);
         assert.ok(
           x > 0 && x < layout.width,
-          `seed ${String(seed)}'s foot at ${x.toFixed(0)} px across a ${String(layout.width)} px screen`,
+          `${name}: seed ${String(seed)}'s foot at ${x.toFixed(0)} px across a ${String(layout.width)} px screen`,
         );
       }
     }
+  });
+
+  it('finds no room facing away from the wedge, whose ground is bare', () => {
+    const view = viewAt(layout.camera, { ...OPENING_EYE, heading: Math.PI });
+    assert.equal(roomFor(stand, 3, view), undefined);
   });
 });

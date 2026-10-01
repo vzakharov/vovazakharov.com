@@ -3,14 +3,13 @@ import { describe, it } from 'node:test';
 
 import { firstMeadow, type Planted } from '../../model/game';
 import {
-  boxAround,
   type Circle,
   containsPoint,
   distanceToEdge,
   type Point,
 } from '../../model/geometry';
 import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
-import { tapArea, toCanvas } from '../../model/mushroom-outline';
+import { tapArea } from '../../model/mushroom-outline';
 import { openingIndex } from '../../model/placement';
 import { mulberry32 } from '../../model/random';
 import {
@@ -30,9 +29,9 @@ import {
   type Standing,
   standingAt,
 } from './door-sight';
+import { layoutShown } from './eye-crop';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
-import { FINGER_ACROSS, fingerPad } from './mushroom-tap';
 import { nearestTheSun, SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
 import { tapReach } from './tap-reach';
 import { type Screen, VIEWPORTS, VISITS } from './viewports';
@@ -53,7 +52,6 @@ const RULES = [
   'stem in view',
   'door in sight',
   'off the controls',
-  'a finger wide',
 ] as const;
 type Rule = (typeof RULES)[number];
 
@@ -107,12 +105,19 @@ function asTheyGrew(mushrooms: readonly Planted[]): Planted[][] {
   ];
 }
 
+/** Where across the world, in px, the opening view's screen spans. */
+function openingShown(layout: MeadowLayout): Record<'left' | 'right', number> {
+  const shown = layoutShown(openingCrop(layout));
+  if (!shown) throw new Error('The opening view shows no ground');
+  return shown;
+}
+
 /**
  * Every control's hit area, open pickers and all, and the sun's rays, where
- * they stand over the world on the opening crop.
+ * they stand over the world in the opening view.
  */
 function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
-  const crop = openingCrop(layout);
+  const { left } = openingShown(layout);
   const { mute, releases, plus, minus, house, picker, housePicker, sun } =
     layout;
   const controls = [
@@ -128,7 +133,7 @@ function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
   return [
     ...controls.map((control) => ({ ...control, r: tapReach(control.r) })),
     { name: 'the sun', ...sun, r: sun.r * SUN_RAY_REACH },
-  ].map((circle) => crop.toWorld(circle));
+  ].map((circle) => ({ ...circle, x: circle.x + left }));
 }
 
 /** Whether `circle` reaches into any of `outlines`. */
@@ -156,11 +161,9 @@ function broken(
   layout: MeadowLayout,
   measured = new Set<string>(),
 ): Fault[] {
-  const { sun, width, mushrooms: ground } = layout;
+  const { sun, mushrooms: ground } = layout;
   const { world } = ground.camera;
-  const crop = openingCrop(layout);
-  const shown = [0, width].map((x) => crop.toWorld({ x, y: 0 }).x);
-  const [left = 0, right = world] = shown;
+  const { left, right } = openingShown(layout);
   const newest = meadow.at(-1);
   const note = (species: Species, rule: Rule) => {
     if (newest?.species === species) measured.add(`${species}: ${rule}`);
@@ -228,32 +231,10 @@ function broken(
         );
       }
     }
-    const { genes, turn, placed } = standing;
-    const area = tapArea(genes, turn);
-    const canvas = toCanvas(place.size);
-    const pad = fingerPad({
-      cap: area.cap.map((point) => canvas(point)),
-      gills: area.gills.map((point) => canvas(point)),
-      stem: area.stem.map((point) => canvas(point)),
-    });
-    const head = boxAround(
-      [...area.cap, ...area.gills].map((point) => canvas(point)),
-    );
-    note(species, 'a finger wide');
-    if (Math.max(head.right - head.left, pad ? 2 * pad.r : 0) < FINGER_ACROSS) {
-      fault('a finger wide', `${id}'s ${species} narrower than a finger`);
-    }
-    const [middle] = pad
-      ? placed([{ x: pad.x / place.size, y: -pad.y / place.size }])
-      : [];
     const outlines = standingArea(standing);
     note(species, 'off the controls');
     for (const { name, ...circle } of controls) {
-      const onPad =
-        middle !== undefined &&
-        pad !== undefined &&
-        Math.hypot(middle.x - circle.x, middle.y - circle.y) < pad.r + circle.r;
-      if (onPad || reaches(outlines, circle)) {
+      if (reaches(outlines, circle)) {
         fault('off the controls', `${name} over ${id}'s ${species}`);
       }
     }

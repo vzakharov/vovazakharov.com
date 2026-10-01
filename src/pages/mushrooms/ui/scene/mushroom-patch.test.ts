@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { restingAt } from '../../model/pan';
+import { type Eye, OPENING_EYE } from '../../model/ground';
 import { openingIndex } from '../../model/placement';
 import {
   patchlessIn,
@@ -11,39 +11,38 @@ import {
   tappedIn,
 } from './mushroom-patch';
 import { drawnHolds } from './mushroom-tap';
+import { viewAt } from './view';
 import { type Screen, VIEWPORTS, VISITS } from './viewports';
-import { opened, openingCrop, stillCrop } from './visit-play';
+import { opened, openingCrop } from './visit-play';
 
 /** How many visits each screen grows a forest for, and tries at every size up to the cap. */
 const FORESTS = 40;
 /** How far apart, in CSS px, the taps tried across a grown mushroom's head stand. */
 const HEAD_GRID = 3;
-/** Where each forest's `+` presses stand, as `opened` takes it: a crop, or anywhere in the world absent one. */
-type Cropping = Parameters<typeof opened>[4];
+/** Where each forest's `+` presses stand, as `opened` takes it: a view, or anywhere in the world absent one. */
+type Viewing = Parameters<typeof opened>[4];
+/** The view `eye` sees each layout through. */
+const from =
+  (eye: Eye): NonNullable<Viewing> =>
+  (layout) =>
+    viewAt(layout.camera, eye);
 /**
  * Where a child grows a forest, each tried over every 40th visit from its
- * own offset: anywhere in the world, as one who pans; on the opening crop,
- * as one who never pans and so grows the densest forests; and on the crop
- * held at either world end.
+ * own offset: anywhere in the world, as one who walks about; in the opening
+ * view, as one who never moves and so grows the densest forests; and turned
+ * toward the wedge's side, and stepped 3 units in.
  */
-const GROWN_ON: ReadonlyArray<readonly [string, Cropping]> = [
+const GROWN_ON: ReadonlyArray<readonly [string, Viewing]> = [
   ['anywhere in the world', undefined],
-  ['on the opening crop', openingCrop],
-  [
-    'at the world’s left end',
-    (layout) => stillCrop(restingAt(layout.camera, 0)),
-  ],
-  [
-    'at the world’s right end',
-    (layout) => stillCrop(restingAt(layout.camera, Infinity)),
-  ],
+  ['in the opening view', openingCrop],
+  ['turned', from({ ...OPENING_EYE, heading: 0.3 })],
+  ['stepped in', from({ ...OPENING_EYE, y: OPENING_EYE.y + 3 })],
 ];
 /** How many visits apart the forests tried on each screen and crop stand. */
 const SAMPLE_STEP = 40;
 /** The visits measured worst, each on its screen and crop, tried beside the sample. */
 const WORST: ReadonlyArray<{ screen: Screen; crop: string; visit: number }> = [
-  { screen: 'tablet', crop: 'on the opening crop', visit: 2_051_024 },
-  { screen: 'phone', crop: 'at the world’s right end', visit: 1_282_881 },
+  { screen: 'tablet', crop: 'in the opening view', visit: 2_051_024 },
 ];
 /**
  * The least share of the taps on a grown mushroom's drawn cap and gills that
@@ -96,7 +95,7 @@ describe('a grown forest’s taps', () => {
     // A child aims at a grown mushroom's head: a tap anywhere on its drawn
     // cap and gills, its middle included, reaches it or what is drawn in
     // front of it, and it keeps most of them.
-    for (const [offset, [crop, cropOf]] of GROWN_ON.entries()) {
+    for (const [offset, [crop, viewIn]] of GROWN_ON.entries()) {
       const visits = [
         ...VISITS.filter((_, index) => index % SAMPLE_STEP === offset * 10),
         ...WORST.filter(
@@ -108,7 +107,7 @@ describe('a grown forest’s taps', () => {
         let covered = 0;
         let worst = 1;
         for (const seed of visits) {
-          const forest = opened(seed, width, height, true, cropOf);
+          const forest = opened(seed, width, height, true, viewIn);
           assert.deepEqual(patchlessIn(forest), [], `visit ${String(seed)}`);
           const tapped = tappedIn(forest);
           for (const target of tapped.targets) {

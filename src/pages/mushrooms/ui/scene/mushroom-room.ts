@@ -1,30 +1,31 @@
 /**
  * Where the next mushroom may grow: a foot `pickFoot` draws over the stretch
- * of the world the screen shows now (`Crop`), kept only where the mushroom
- * grown there, of whichever species the child picks, keeps every rule the
- * meadow keeps. Judged as the scene stands and draws it: its cap inside
- * `EDGE_MARGIN` of the world's edges and the screen's, no cap or stem hidden
- * behind the nearer ones past `MOST_HIDDEN`, every door in sight
- * (`doorInSight`), every control and the sun's rays off it where they stand
- * over the crop now, and off every flower; and every mushroom keeping a
- * patch of its own a finger lands on (`keepsPatches`). A later pan may slide
- * a cap under a control or the sun, which stand on the screen: one more pan
- * moves it out. The sun's wash keeps off every foot on every crop
- * (`washRings`).
+ * of the world the screen shows now (`layoutShown`), kept only where the
+ * mushroom grown there, of whichever species the child picks, keeps every
+ * rule the meadow keeps. The meadow's rules are judged at the opening eye,
+ * as the layout stands it: its cap inside `EDGE_MARGIN` of the world's
+ * edges, no cap or stem hidden behind the nearer ones past `MOST_HIDDEN`,
+ * every door in sight (`doorInSight`), off every flower, and every mushroom
+ * keeping a patch of its own a finger lands on (`keepsPatches`). The screen's
+ * are judged as the current view draws it: its cap on screen `EDGE_MARGIN`
+ * inside its edges, in front of the hills, and every control and the sun's
+ * rays off it. A later turn or step may slide a cap under a control or the
+ * sun, which stand on the screen: one more moves it out. The sun's wash
+ * keeps off every foot (`washRings`).
  */
 
 import { pick } from '@/shared/lib/collections';
 
 import {
+  type Box,
   boxAround,
   type Circle,
   containsPoint,
   distanceToEdge,
   type Point,
 } from '../../model/geometry';
-import type { Ground } from '../../model/ground';
+import type { Eye, Ground } from '../../model/ground';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
-import { type TapArea, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
 import {
   apartOnScreen,
@@ -35,6 +36,7 @@ import type { Seeded } from '../../model/random';
 import { capBox } from './cap-cover';
 import { FOREST_SPLAY, placeOf } from './clump-layout';
 import { type Standing, standingAs } from './door-sight';
+import { layoutShown } from './eye-crop';
 import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
 import type { MeadowLayout, Placement } from './layout';
@@ -45,12 +47,11 @@ import {
   patchesAround,
   patchTarget,
 } from './mushroom-patch';
-import { fingerPad } from './mushroom-tap';
-import type { Crop } from './pan-input';
 import { standingControls } from './sky-layout';
 import { doorsKept, partsInView, standingOn } from './standing-weighed';
 import { SUN_RAY_REACH } from './sun-layout';
 import { tapReach } from './tap-reach';
+import { behindHills, cull, ofLayout, type View } from './view';
 
 /**
  * How close, as a camera lays the ground out (`apartOnScreen`), in the
@@ -61,53 +62,64 @@ import { tapReach } from './tap-reach';
 const FLOWER_APART = 0.2;
 
 /**
- * The stretch of the world the screen shows as a `+` is pressed, as the
- * scene's crop converts a point across the screen to where it lies in the
- * world now (`pan-input.ts`, through `pan.ts`'s `worldOf`).
- */
-type Shown = Pick<Crop, 'toWorld'>;
-
-/**
- * What a crop holds a new mushroom to, whatever stands in it: where across
- * the world, in px, its cap stands between; every control's hit area, open
- * pickers and all, and the sun's rays, where they stand over the world now;
- * and how far across the ground its foot is drawn (`seen`). Absent a crop,
- * the whole world, which no control stands over.
+ * What the view a `+` is pressed in holds a new mushroom to, whatever stands
+ * in it: where across the world, in px, its cap stands between; the view,
+ * whose screen it stands on, and every control's hit area, open pickers and
+ * all, and the sun's rays, where they stand on that screen; and how far
+ * across the ground its foot is drawn (`seen`). Absent a view, the whole
+ * world, which no control stands over.
  */
 type Screen = WithOptionalSpan & {
   stage: MeadowLayout;
   edges: Record<'left' | 'right', number>;
+  view?: View;
   keepOff: readonly Circle[];
 };
 
-/** `stage` as a new mushroom is held to on it, over `crop`. */
-function screenOn(stage: MeadowLayout, crop: Shown | undefined): Screen {
-  const { camera, sun, picker, housePicker, width } = stage;
+/** `stage` as a new mushroom is held to on it, in `view`. */
+function screenOn(stage: MeadowLayout, view: View | undefined): Screen {
+  const { camera, sun, picker, housePicker } = stage;
   const edges = { left: EDGE_MARGIN, right: camera.world - EDGE_MARGIN };
-  if (!crop) return { stage, edges, keepOff: [] };
-  const shown = {
-    left: crop.toWorld({ x: 0, y: 0 }).x,
-    right: crop.toWorld({ x: width, y: 0 }).x,
-  };
-  const inWorld = (circle: Circle, r: number) => ({
-    ...crop.toWorld(circle),
-    r,
-  });
+  if (!view) return { stage, edges, keepOff: [] };
+  const shown = layoutShown(view);
   const across = (x: number) => (x - camera.midline) / camera.unit;
   return {
     stage,
-    edges: {
-      left: Math.max(edges.left, shown.left + EDGE_MARGIN),
-      right: Math.min(edges.right, shown.right - EDGE_MARGIN),
-    },
+    edges,
+    view,
     keepOff: [
       ...[...standingControls(stage), ...picker, ...housePicker].map(
-        (control) => inWorld(control, tapReach(control.r)),
+        (control) => ({ ...control, r: tapReach(control.r) }),
       ),
-      inWorld(sun, sun.r * SUN_RAY_REACH),
+      { ...sun, r: sun.r * SUN_RAY_REACH },
     ],
-    within: { left: across(shown.left), right: across(shown.right) },
+    ...(shown && {
+      within: { left: across(shown.left), right: across(shown.right) },
+    }),
   };
+}
+
+/**
+ * Whether a cap boxed by `cap`, in world px, standing on the ground row
+ * `footRow`, is drawn whole on `view`'s screen `EDGE_MARGIN` inside its
+ * sides: its foot in front of the hills and far enough ahead to be drawn.
+ */
+function capShown(view: View, cap: Box, footRow: number): boolean {
+  const { left, right, top, bottom } = cap;
+  const foot = ofLayout(view, { x: (left + right) / 2, y: footRow }, footRow);
+  if (cull(foot) || behindHills(foot)) return false;
+  return [left, right].every((x) =>
+    [top, bottom].every((y) => {
+      const at = ofLayout(view, { x, y }, footRow);
+      return (
+        !cull(at) &&
+        at.x >= EDGE_MARGIN &&
+        at.x <= view.width - EDGE_MARGIN &&
+        at.y >= 0 &&
+        at.y <= view.height
+      );
+    }),
+  );
 }
 
 /** How far `point` is from the closed `outline`: 0 inside it. */
@@ -115,51 +127,31 @@ function distanceTo(outline: readonly Point[], point: Point): number {
   return containsPoint(outline, point) ? 0 : distanceToEdge(outline, point);
 }
 
-/** Each stood mushroom's tap area in its own frame, laid out once. */
-const areas = new WeakMap<Splayed, TapArea>();
-
 /**
- * Whether every one of `circles` keeps off `standing`'s tap area as it
- * stands on screen: its drawn parts, and its finger pad where it has one.
+ * Whether every one of `circles`, on the screen, keeps off the drawn parts of
+ * `own`, standing on the ground row `footRow`, as `view` draws them there.
  */
 function keptOff(
-  stood: Splayed,
-  { placed, drawn }: Standing,
-  size: number,
+  view: View,
+  { drawn }: Standing,
+  footRow: number,
   circles: readonly Circle[],
 ): boolean {
-  const area = areas.get(stood) ?? tapArea(stood.genes, stood.turn);
-  areas.set(stood, area);
-  const canvas = toCanvas(size);
-  const pad = fingerPad({
-    cap: area.cap.map((point) => canvas(point)),
-    gills: area.gills.map((point) => canvas(point)),
-    stem: area.stem.map((point) => canvas(point)),
-  });
-  const [middle] = pad ? placed([{ x: pad.x / size, y: -pad.y / size }]) : [];
-  const padded = middle && pad && { middle, reach: pad.r };
   // A mushroom's drawn outlines are its tap area's parts (`TAP_PARTS`).
-  const outlines = drawn.map((outline) => ({
-    outline,
-    box: boxAround(outline),
-  }));
-  return circles.every((circle) => {
-    if (
-      padded &&
-      Math.hypot(padded.middle.x - circle.x, padded.middle.y - circle.y) <
-        padded.reach + circle.r
-    ) {
-      return false;
-    }
-    return outlines.every(
+  const outlines = drawn.map((outline) => {
+    const shown = outline.map((point) => ofLayout(view, point, footRow));
+    return { outline: shown, box: boxAround(shown) };
+  });
+  return circles.every((circle) =>
+    outlines.every(
       ({ outline, box }) =>
         circle.x + circle.r < box.left ||
         circle.x - circle.r > box.right ||
         circle.y + circle.r < box.top ||
         circle.y - circle.r > box.bottom ||
         distanceTo(outline, circle) >= circle.r,
-    );
-  });
+    ),
+  );
 }
 
 /** A new mushroom as one screen stands it on a foot, and the screen's rules. */
@@ -171,8 +163,9 @@ type Trial = {
 };
 
 /**
- * `grown` stood on `foot` on `screen`, where its cap keeps the cheap rule,
- * standing between the screen's `edges`; `undefined` where it breaks.
+ * `grown` stood on `foot` on `screen`, where its cap keeps the cheap rules,
+ * standing between the world's `edges` and shown in the view; `undefined`
+ * where it breaks one.
  */
 function trialOn(
   screen: Screen,
@@ -185,6 +178,7 @@ function trialOn(
   if (cap.left < screen.edges.left || cap.right > screen.edges.right) {
     return undefined;
   }
+  if (screen.view && !capShown(screen.view, cap, place.y)) return undefined;
   return { screen, place, stood: grown, own };
 }
 
@@ -206,7 +200,7 @@ function speciesOf(seed: number): ReadonlyMap<number, readonly Splayed[]> {
  * each inside its edges and off everything it keeps off; `undefined` where
  * one is not.
  */
-function croppedTrials(
+function shownTrials(
   screen: Screen,
   foot: Ground,
   splays: ReadonlyMap<number, readonly Splayed[]>,
@@ -222,9 +216,9 @@ function croppedTrials(
     if (!trial) return undefined;
     trials.push(trial);
   }
-  return trials.every((trial) =>
-    keptOff(trial.stood, trial.own, trial.place.size, screen.keepOff),
-  )
+  const { view, keepOff } = screen;
+  return !view ||
+    trials.every((trial) => keptOff(view, trial.own, trial.place.y, keepOff))
     ? trials
     : undefined;
 }
@@ -235,7 +229,7 @@ const TRIED = 'the tried mushroom';
 /**
  * Where the mushroom grown from `seed` grows in `stand`, as the scene and
  * the visit a sweep opens both find it, whichever species the child picks:
- * inside `crop`, or anywhere in the world absent one; `undefined` where
+ * shown in `view`, or anywhere in the world absent one; `undefined` where
  * there is no room left for one. It keeps off every flower standing there
  * (`flowerFeet`), and each foot is tried on the cheap rules first, then the
  * controls, then what it hides and what hides it, then the doors, then the
@@ -244,11 +238,11 @@ const TRIED = 'the tried mushroom';
 export function roomFor(
   stand: Stand,
   seed: number,
-  crop?: Shown,
+  view?: View,
 ): Ground | undefined {
   const { layout, mushrooms } = stand;
   const flowers = flowerFeet(stand);
-  const screen = screenOn(layout, crop);
+  const screen = screenOn(layout, view);
   const others = standingOn(mushrooms, layout);
   const splays = speciesOf(seed);
   let around: Around | undefined;
@@ -263,7 +257,7 @@ export function roomFor(
       ) {
         return false;
       }
-      const trials = croppedTrials(screen, foot, splays);
+      const trials = shownTrials(screen, foot, splays);
       return (
         trials !== undefined &&
         trials.every((trial) => partsInView(trial.own, others)) &&
@@ -278,57 +272,58 @@ export function roomFor(
 
 /**
  * Whether the mushroom grown from `seed` on `foot`, of every species, still
- * stands inside `crop` and off every control and the sun's rays over it:
- * all of `roomFor`'s rules that a pan changes.
+ * stands shown in `view` and off every control and the sun's rays on its
+ * screen: all of `roomFor`'s rules that a turn or a step changes.
  */
-export function fitsCrop(
+export function fitsView(
   { layout }: Stand,
   seed: number,
   foot: Ground,
-  crop?: Shown,
+  view?: View,
 ): boolean {
   return (
-    croppedTrials(screenOn(layout, crop), foot, speciesOf(seed)) !== undefined
+    shownTrials(screenOn(layout, view), foot, speciesOf(seed)) !== undefined
   );
 }
 
-/**
- * What a room was found in, where, and where across the world the crop it
- * was found in began: the world's x at the screen's left edge.
- */
+/** What a room was found in, where, and the eye it was found from. */
 type Found = Stand &
-  Seeded & { foot: Ground | undefined; shown: number | undefined };
+  Seeded & { foot: Ground | undefined; eye: Eye | undefined };
 
 /** What of a stand the room in it is found from. */
 const FOUND_FROM = ['layout', 'flowers', 'mushrooms', 'planted'] as const;
 
-/** Where across the world `crop` begins, or `undefined` for the whole world. */
-const shownFrom = (crop: Shown | undefined) => crop?.toWorld({ x: 0, y: 0 }).x;
+/** Whether two eyes, either absent for the whole world, stand and face alike. */
+const sameEye = (a: Eye | undefined, b: Eye | undefined) =>
+  a === b ||
+  (b !== undefined && a?.x === b.x && a.y === b.y && a.heading === b.heading);
 
 /**
  * `find` answered again only once the stand it answered for, or the seed,
  * changes — a new layout after any resize, the mushrooms, the plantings or
- * the seeded flowers — or a pan leaves it wanting: a foot found stays while
- * it `fits` the crop it is asked for, and no room found stays while the crop
- * stands where it did. A pan never makes a new layout, so it never costs a
- * search while the room found stays in sight.
+ * the seeded flowers — or a turn or a step leaves it wanting: a foot found
+ * stays while it `fits` the view it is asked for, and no room found stays
+ * while the eye stands where it did. A turn or a step never makes a new
+ * layout, so it never costs a search while the room found stays in sight.
  */
 export function keptRoom(
   find: typeof roomFor = roomFor,
-  fits: typeof fitsCrop = fitsCrop,
+  fits: typeof fitsView = fitsView,
 ): typeof roomFor {
   let found: Found | undefined;
-  return (stand, seed, crop) => {
-    const shown = shownFrom(crop);
+  return (stand, seed, view) => {
+    const eye = view?.eye;
     if (
       found?.seed === seed &&
       FOUND_FROM.every((key) => found?.[key] === stand[key]) &&
-      (found.foot ? fits(stand, seed, found.foot, crop) : found.shown === shown)
+      (found.foot
+        ? fits(stand, seed, found.foot, view)
+        : sameEye(found.eye, eye))
     ) {
       return found.foot;
     }
-    const foot = find(stand, seed, crop);
-    found = { ...stand, seed, foot, shown };
+    const foot = find(stand, seed, view);
+    found = { ...stand, seed, foot, eye };
     return foot;
   };
 }

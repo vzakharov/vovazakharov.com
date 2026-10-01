@@ -31,11 +31,9 @@ import type { Placement } from './layout';
 import {
   drawnHolds,
   drawnUnder,
-  fingerPad,
   type FlowerReach,
   flowerTakes,
   type MushroomTarget,
-  tappedMushroom,
   tapTarget,
 } from './mushroom-tap';
 
@@ -72,7 +70,7 @@ export type PatchTarget = MushroomTarget &
   Layered &
   /** The head's middle on screen, where a patch is sought first. */
   WithMiddle & {
-    /** The box round its head and pad on screen, where a patch is sought. */
+    /** The box round its head on screen, where a patch is sought. */
     box: Box;
     /** The box round all it takes a tap on, stem too, on screen: nothing past it reaches the mushroom. */
     reach: Box;
@@ -93,20 +91,9 @@ export function patchTarget(
   const target = tapTarget(genes, place.size, place, turn);
   const { cap, gills, stem } = target.area;
   const head = boxAround([...cap, ...gills]);
-  const pad = fingerPad(target.area);
   const onScreen = (points: readonly Point[]) =>
     points.map((point) => placedAt(place, turn, point));
-  const padCorners = onScreen(
-    pad
-      ? [-1, 1].flatMap((dx) =>
-          [-1, 1].map((dy) => ({
-            x: pad.x + dx * pad.r,
-            y: pad.y + dy * pad.r,
-          })),
-        )
-      : [],
-  );
-  const headCorners = [...onScreen([...cap, ...gills]), ...padCorners];
+  const headCorners = onScreen([...cap, ...gills]);
   return {
     ...target,
     id,
@@ -188,9 +175,9 @@ function boxHolds({ left, right, top, bottom }: Box, { x, y }: Point): boolean {
 const FLOWER = 'a flower';
 
 /**
- * What a tap at `at` goes to: of the mushrooms that answer it — whose drawn parts hold it, or whose pad takes
- * it (`tappedMushroom`) — and the flowers that take it (`flowerTakes`), the
- * nearest the front, a mushroom winning a tie.
+ * What a tap at `at` goes to: of the mushrooms whose drawn parts hold it and
+ * the flowers that take it (`flowerTakes`), the nearest the front, a
+ * mushroom winning a tie.
  */
 export function takerAt(
   at: Point,
@@ -198,11 +185,9 @@ export function takerAt(
 ): string | undefined {
   // Past its `reach` a mushroom takes no part in a tap.
   const near = targets.filter((target) => boxHolds(target.reach, at));
-  const padded = tappedMushroom(at, near);
   let front: { id: string; depth: number } | undefined;
   for (const target of near) {
-    const answers =
-      target === padded || drawnHolds(target.area, target.local(at));
+    const answers = drawnHolds(target.area, target.local(at));
     if (answers && (!front || target.depth >= front.depth)) front = target;
   }
   let under: boolean | undefined;

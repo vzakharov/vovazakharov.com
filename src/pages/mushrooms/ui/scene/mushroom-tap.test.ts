@@ -2,52 +2,45 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { boxAround, placedAt, type Point } from '../../model/geometry';
+import { type Eye, OPENING_EYE } from '../../model/ground';
 import {
   MUSHROOM_SPECIES,
   mushroomGenes,
   type Species,
 } from '../../model/mushroom-genes';
-import { capOutlines } from '../../model/mushroom-outline';
 import { between, mulberry32 } from '../../model/random';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import {
   drawnHolds,
-  FINGER_ACROSS,
-  fingerPad,
   flowerTakes,
-  HEAD_SHORTFALL,
   type MushroomTarget,
   tappedMushroom,
 } from './mushroom-tap';
 import { TAP_RADIUS } from './tap-reach';
+import { cull, ofGround, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, tapTarget } from './visit-play';
 
 /** Sizes a mushroom may be drawn at, px to its unit: from a speck to past any screen's clump. */
 const SIZES = [3, 5, 8, 12, 16, 20, 25, 30, 40, 50, 60, 70, 80, 100, 130];
 const SEEDS_PER = 12;
-/** How many visits each screen grows to six for its padded mushrooms. */
-const GROWN_VISITS = 20;
-/**
- * The screens whose meadows grown to six draw caps narrower than a finger:
- * every phone. A tablet's and a desktop's far rows draw their narrowest caps
- * no narrower than about one, and seldom stand a mushroom there.
- */
-const PADDED_ON: ReadonlySet<string> = new Set([
-  'phone',
-  'phone held sideways',
-  'small phone',
-]);
+/** How many visits each screen grows to six, seen from each of `EYES`. */
+const GROWN_VISITS = 10;
+/** The eyes a grown meadow's taps are tried from: the opening one, and one stepped 3 units in. */
+const EYES: ReadonlyArray<readonly [string, Eye]> = [
+  ['the opening eye', OPENING_EYE],
+  ['an eye stepped in', { ...OPENING_EYE, y: OPENING_EYE.y + 3 }],
+];
 /** Directions round a point a finger is tried in. */
 const AROUND = Array.from({ length: 16 }, (_, index) => (index * Math.PI) / 8);
+/** How far round a head's middle, in its head's half-width, fingers are tried. */
+const REACHES = [0.25, 0.5, 1, 1.5, 2];
 
 type Named = MushroomTarget & {
   name: string;
   foot: Point;
   turn: number;
-  /** Its cap's width by its gene, in pixels. */
-  capWidth: number;
 };
 
 /** A `species` mushroom drawn `size` px to its unit, standing at `foot` turned `turn`, as the bed fills its hit area. */
@@ -60,31 +53,16 @@ function standing(
   turn: number,
 ): Named {
   const genes = mushroomGenes({ seed, species });
+  return { ...tapTarget(genes, size, foot, turn), name, foot, turn };
+}
+
+/** The middle of what is drawn of a mushroom's head, cap and gills, on screen, and half its width. */
+function headOf({ area, foot, turn }: Named): Point & { half: number } {
+  const { left, right, top, bottom } = boxAround([...area.cap, ...area.gills]);
   return {
-    ...tapTarget(genes, size, foot, turn),
-    name,
-    foot,
-    turn,
-    capWidth: genes.capWidth * size,
+    ...placedAt(foot, turn, { x: (left + right) / 2, y: (top + bottom) / 2 }),
+    half: (right - left) / 2,
   };
-}
-
-/** The middle of what is drawn of a mushroom's head, cap and gills, on screen. */
-function headMiddle({ area, foot, turn }: Named): Point {
-  const { left, right, top, bottom } = boxAround([...area.cap, ...area.gills]);
-  return placedAt(foot, turn, { x: (left + right) / 2, y: (top + bottom) / 2 });
-}
-
-/** How wide its head is drawn across, in its own canvas frame. */
-function headAcross({ area }: Named): number {
-  const { left, right } = boxAround([...area.cap, ...area.gills]);
-  return right - left;
-}
-
-/** Whether its head is drawn narrower than a finger, or shallower than `TAP_RADIUS`. */
-function underFinger({ area }: Named): boolean {
-  const { left, right, top, bottom } = boxAround([...area.cap, ...area.gills]);
-  return right - left < FINGER_ACROSS || bottom - top < TAP_RADIUS;
 }
 
 const around = (middle: Point, r: number) =>
@@ -93,15 +71,21 @@ const around = (middle: Point, r: number) =>
     y: middle.y + r * Math.sin(angle),
   }));
 
+/** Fingers round a mushroom's head, on it and past it. */
+const fingersRound = (mushroom: Named) => {
+  const head = headOf(mushroom);
+  return REACHES.flatMap((reach) => around(head, reach * head.half));
+};
+
 const drawnOnScreen = (mushroom: Named, at: Point) =>
   drawnHolds(mushroom.area, mushroom.local(at));
 
-describe('a small mushroom’s tap area', () => {
-  it('takes a tap `TAP_RADIUS` from its head’s middle once drawn narrower or shallower than a finger, and only what is drawn otherwise', (t) => {
+describe('a mushroom’s tap area', () => {
+  it('takes a tap only where it is drawn, however small it is drawn', () => {
     const random = mulberry32(17);
-    const padded = new Map<Species, number>();
-    const exact = new Map<Species, number>();
     for (const species of MUSHROOM_SPECIES) {
+      let on = 0;
+      let off = 0;
       for (const size of SIZES) {
         for (let index = 0; index < SEEDS_PER; index += 1) {
           const mushroom = standing(
@@ -112,77 +96,24 @@ describe('a small mushroom’s tap area', () => {
             { x: between(random, -50, 50), y: between(random, 200, 400) },
             between(random, -0.3, 0.3),
           );
-          // Narrower than a finger by its gene, drawn no wider than that;
-          // or a finger wide by it, however much narrower it is drawn. The
-          // sliver between is either. A head drawn shallower than
-          // `TAP_RADIUS` is padded however wide.
-          const fingerWide = 2 * TAP_RADIUS;
-          const { top, bottom } = boxAround([
-            ...mushroom.area.cap,
-            ...mushroom.area.gills,
-          ]);
-          const shallow = bottom - top < TAP_RADIUS;
-          const small =
-            shallow || mushroom.capWidth < fingerWide * (1 - HEAD_SHORTFALL);
-          if (!small && mushroom.capWidth < fingerWide) continue;
-          const count = small ? padded : exact;
-          count.set(species, (count.get(species) ?? 0) + 1);
-          // Just inside a finger's circle round the head, so a pad a hair
-          // under `TAP_RADIUS` fails it as surely as none.
-          for (const finger of around(
-            headMiddle(mushroom),
-            TAP_RADIUS - 1e-6,
-          )) {
-            const landed = tappedMushroom(finger, [mushroom]) === mushroom;
+          for (const finger of fingersRound(mushroom)) {
+            const drawn = drawnOnScreen(mushroom, finger);
+            if (drawn) on += 1;
+            else off += 1;
             assert.equal(
-              landed,
-              small || drawnOnScreen(mushroom, finger),
-              `a ${species} ${headAcross(mushroom).toFixed(1)} px across, at ${size} px`,
+              tappedMushroom(finger, [mushroom]) === mushroom,
+              drawn,
+              `a ${species} at ${String(size)} px`,
             );
           }
         }
       }
+      assert.ok(on > 0 && off > 0, `${species}: left unmeasured`);
     }
-    for (const species of MUSHROOM_SPECIES) {
-      assert.ok((padded.get(species) ?? 0) > 0, `${species}: none padded`);
-      assert.ok((exact.get(species) ?? 0) > 0, `${species}: none exact`);
-    }
-    t.diagnostic(
-      `padded / exact: ${MUSHROOM_SPECIES.map((species) => `${species} ${padded.get(species)}/${exact.get(species)}`).join(', ')}`,
-    );
   });
 
-  it('draws every species’ head at most `HEAD_SHORTFALL` narrower than its cap’s gene', (t) => {
-    const random = mulberry32(53);
-    const least = new Map<Species, number>();
-    for (const species of MUSHROOM_SPECIES) {
-      for (let index = 0; index < 1500; index += 1) {
-        const genes = mushroomGenes({
-          seed: Math.floor(random() * 2 ** 31),
-          species,
-        });
-        const { left, right } = boxAround(capOutlines(genes).flat());
-        least.set(
-          species,
-          Math.min(
-            least.get(species) ?? Infinity,
-            (right - left) / genes.capWidth,
-          ),
-        );
-      }
-    }
-    assert.equal(least.size, MUSHROOM_SPECIES.length);
-    for (const [species, share] of least) {
-      assert.ok(share >= 1 - HEAD_SHORTFALL, `a ${species} drawn ${share}`);
-    }
-    t.diagnostic(
-      `least head drawn across, in its gene's width: ${[...least].map(([species, share]) => `${species} ${share.toFixed(4)}`).join(', ')}`,
-    );
-  });
-
-  it('never takes a tap on a bigger mushroom’s drawn body, in front of it or behind', (t) => {
+  it('never takes a tap on a bigger mushroom’s drawn body, in front of it or behind', () => {
     const random = mulberry32(29);
-    let stolen = 0;
     for (const bigSpecies of MUSHROOM_SPECIES) {
       for (const smallSpecies of MUSHROOM_SPECIES) {
         let contested = 0;
@@ -195,8 +126,8 @@ describe('a small mushroom’s tap area', () => {
             { x: 0, y: 0 },
             between(random, -0.2, 0.2),
           );
-          // Its foot somewhere over the big one's cap, so its pad lies on
-          // the big one's drawn body.
+          // Its foot somewhere over the big one's cap, so the fingers round
+          // its head lie on the big one's drawn body.
           const { left, right, top, bottom } = boxAround(
             big.area.cap.map((point) => placedAt(big.foot, big.turn, point)),
           );
@@ -211,7 +142,7 @@ describe('a small mushroom’s tap area', () => {
             },
             between(random, -0.3, 0.3),
           );
-          const fingers = around(headMiddle(small), TAP_RADIUS * random());
+          const fingers = around(headOf(small), TAP_RADIUS * random());
           for (const order of [
             [big, small],
             [small, big],
@@ -220,12 +151,10 @@ describe('a small mushroom’s tap area', () => {
             for (const finger of fingers) {
               if (!drawnOnScreen(big, finger)) continue;
               const onSmall = drawnOnScreen(small, finger);
-              const landed = tappedMushroom(finger, order)?.name;
               const expected = onSmall && front === small ? 'small' : 'big';
               if (!onSmall) contested += 1;
-              if (landed !== expected) stolen += 1;
               assert.equal(
-                landed,
+                tappedMushroom(finger, order)?.name,
                 expected,
                 `${smallSpecies} over ${bigSpecies}`,
               );
@@ -238,69 +167,76 @@ describe('a small mushroom’s tap area', () => {
         );
       }
     }
-    t.diagnostic(`taps on a big mushroom’s body a small one took: ${stolen}`);
   });
 
   for (const [name, width, height] of VIEWPORTS) {
-    const pads = PADDED_ON.has(name);
-    it(`pads ${pads ? 'the far caps' : 'any cap'} a meadow grown to six draws narrower than a finger, and takes a tap at the pad’s rim, on a ${name} screen`, (t) => {
-      let grown = 0;
-      let padded = 0;
-      let rimsTaken = 0;
-      for (const seed of VISITS.slice(0, GROWN_VISITS)) {
-        const { layout, mushrooms } = opened(seed, width, height, true);
-        const targets = mushrooms
-          .flatMap((mushroom) => {
-            const place = placeIn(layout.mushrooms, mushroom);
-            if (!place) return [];
-            const { turn } = standingAt(place, mushroom);
-            return [
-              standing(
+    for (const [seen, eye] of EYES) {
+      it(`answers a tap on a meadow grown to six only where each mushroom is drawn, seen from ${seen} on a ${name} screen`, (t) => {
+        let shown = 0;
+        let taken = 0;
+        for (const seed of VISITS.slice(0, GROWN_VISITS)) {
+          const { layout, mushrooms } = opened(seed, width, height, true);
+          const view = viewAt(layout.camera, eye);
+          // Each as the bed stands it through the view: where it sees the
+          // foot, drawn `zoom` times its laid-out size.
+          const targets = mushrooms
+            .flatMap((mushroom) => {
+              const place = placeIn(layout.mushrooms, mushroom);
+              if (!place) return [];
+              const at = ofGround(view, mushroom.foot);
+              if (cull(at)) return [];
+              const { turn } = standingAt(place, mushroom);
+              const laid = standing(
                 mushroom.id,
                 mushroom.species,
                 mushroom.seed,
                 place.size,
                 place,
                 turn,
-              ),
-            ];
-          })
-          .toSorted((a, b) => a.foot.y - b.foot.y);
-        grown += targets.length;
-        for (const mushroom of targets) {
-          if (!fingerPad(mushroom.area)) continue;
-          padded += 1;
-          assert.ok(underFinger(mushroom));
-          const middle = headMiddle(mushroom);
-          for (const finger of around(middle, TAP_RADIUS - 1e-6)) {
-            assert.equal(tappedMushroom(finger, [mushroom]), mushroom);
-            // Among the meadow, a mushroom drawn under the finger, or another
-            // pad whose middle is nearer, takes it instead.
-            const taken = tappedMushroom(finger, targets);
-            if (taken === mushroom) {
-              rimsTaken += 1;
-              continue;
+              );
+              const { zoom, y: depth } = at;
+              const drawn = standing(
+                mushroom.id,
+                mushroom.species,
+                mushroom.seed,
+                place.size * zoom,
+                at,
+                turn,
+              );
+              return [{ laid, drawn, zoom, depth }];
+            })
+            .toSorted((a, b) => a.depth - b.depth);
+          shown += targets.length;
+          const painted = targets.map(({ drawn }) => drawn);
+          for (const { laid, drawn, zoom } of targets) {
+            for (const finger of fingersRound(drawn)) {
+              // The point under the finger on the mushroom as laid out.
+              const back = {
+                x: laid.foot.x + (finger.x - drawn.foot.x) / zoom,
+                y: laid.foot.y + (finger.y - drawn.foot.y) / zoom,
+              };
+              const onIt = drawnOnScreen(laid, back);
+              assert.equal(
+                tappedMushroom(finger, [drawn]) === drawn,
+                onIt,
+                `visit ${String(seed)}: ${drawn.name}`,
+              );
+              const taker = tappedMushroom(finger, painted);
+              if (taker === drawn) taken += 1;
+              assert.ok(
+                taker === undefined || drawnOnScreen(taker, finger),
+                `visit ${String(seed)}: ${taker?.name ?? ''} took a tap off its body`,
+              );
             }
-            assert.ok(taken, `visit ${String(seed)}: ${mushroom.name} lost`);
-            const nearer =
-              Math.hypot(
-                headMiddle(taken).x - finger.x,
-                headMiddle(taken).y - finger.y,
-              ) <= Math.hypot(middle.x - finger.x, middle.y - finger.y);
-            assert.ok(
-              drawnOnScreen(taken, finger) || nearer,
-              `visit ${String(seed)}: ${taken.name} took ${mushroom.name}'s tap`,
-            );
           }
         }
-      }
-      t.diagnostic(
-        `${String(padded)} of ${String(grown)} grown mushrooms padded, ${String(rimsTaken)} taps at a pad's rim taken by it`,
-      );
-      if (!pads) return;
-      assert.ok(padded > 0, 'no mushroom padded');
-      assert.ok(rimsTaken > 0, 'no tap at a pad’s rim taken');
-    });
+        assert.ok(shown > 0, 'no mushroom in view');
+        assert.ok(taken > 0, 'no tap taken');
+        t.diagnostic(
+          `${String(shown)} mushrooms in view, ${String(taken)} taps taken`,
+        );
+      });
+    }
   }
 });
 

@@ -6,10 +6,8 @@ import { TAP_PARTS, type TapArea } from '../../model/mushroom-outline';
 import {
   drawnHolds,
   drawnUnder,
-  fingerPad,
   flowerTakes,
   type MushroomTarget,
-  tappedMushroom,
 } from './mushroom-tap';
 import { tuftUnder } from './tufts';
 
@@ -21,27 +19,12 @@ export type TappedFigure = Tapped &
 
 /**
  * Hit tests, bound for use as an object's hit callback. A mushroom's area is
- * its `tapArea` in its graphics' own canvas frame, pixels with y down: what is
- * drawn there, and round a mushroom smaller than a finger its `fingerPad`,
- * which answers only where no mushroom's drawn parts hold the tap and this
- * pad's middle is the nearest (`tappedMushroom`). Where drawn parts hold it,
- * Phaser hands it to the front-most object that answers.
+ * its `tapArea` in its graphics' own canvas frame, pixels with y down, and it
+ * answers only where it is drawn, at whatever scale the view draws it; Phaser
+ * hands a tap to the front-most object that answers.
  */
-export function containsMushroom(
-  area: TapArea,
-  x: number,
-  y: number,
-  mushroom: Phaser.GameObjects.GameObject,
-) {
-  if (drawnHolds(area, { x, y })) return true;
-  if (!fingerPad(area) || !(mushroom instanceof Phaser.GameObjects.Graphics))
-    return false;
-  const finger = mushroom
-    .getWorldTransformMatrix()
-    .transformPoint(x, y, { x: 0, y: 0 });
-  return (
-    tappedMushroom(finger, shownMushrooms(mushroom.scene))?.of === mushroom
-  );
+export function containsMushroom(area: TapArea, x: number, y: number) {
+  return drawnHolds(area, { x, y });
 }
 
 /**
@@ -74,9 +57,7 @@ export function containsFlower(petals: () => number) {
 }
 
 /** The scene's mushrooms that take a tap, back to front as they are painted. */
-function shownMushrooms(
-  scene: Phaser.Scene,
-): Array<MushroomTarget & { of: Phaser.GameObjects.Graphics }> {
+function shownMushrooms(scene: Phaser.Scene): MushroomTarget[] {
   return scene.children.list
     .flatMap((object) => {
       const input = object.input;
@@ -91,7 +72,6 @@ function shownMushrooms(
     })
     .toSorted((a, b) => a.object.depth - b.object.depth)
     .map(({ object, area }) => ({
-      of: object,
       area,
       local: ({ x, y }: Point) => {
         const { x: lx, y: ly } = object

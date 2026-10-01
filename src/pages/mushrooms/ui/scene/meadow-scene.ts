@@ -11,13 +11,12 @@ import {
   reduce,
 } from '../../model/game';
 import type { Point } from '../../model/geometry';
-import type { Camera, Ground } from '../../model/ground';
+import type { Ground } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import { sunLight } from '../../model/light';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import type { Opener } from './clump-shade';
 import { Controls } from './controls';
-import { eyeCrop } from './eye-crop';
 import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
 import type { Stand } from './flower-sight';
@@ -104,9 +103,6 @@ export class MeadowScene extends Phaser.Scene {
   private readonly eye = new EyeInput(this.now);
   /** The walk as the frames go by: the feet landing and the bob. */
   private readonly gait = new Gait();
-  private readonly camera = (): Camera | undefined => this.layout?.camera;
-  /** The eye's view as a crop of the layout's world. */
-  private readonly crop = eyeCrop(this.eye, this.camera);
   private readonly instrument = new Instrument(this.voice, this.now);
   private readonly planter = new Planter(
     this.voice,
@@ -311,7 +307,7 @@ export class MeadowScene extends Phaser.Scene {
   /** Where the next mushroom grows as the meadow stands now: `undefined` where there is no room. */
   private roomNow(): Ground | undefined {
     const stand = this.stand();
-    return stand && this.room(stand, this.upcoming, this.crop);
+    return stand && this.room(stand, this.upcoming, this.eye.view());
   }
 
   private fliers(): readonly Flier[] {

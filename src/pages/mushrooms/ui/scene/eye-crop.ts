@@ -1,11 +1,5 @@
 import type { Point } from '../../model/geometry';
-import {
-  type Camera,
-  EYE_HEIGHT,
-  OPENING_EYE,
-  pinholeOf,
-} from '../../model/ground';
-import type { EyeInput } from './eye-input';
+import { EYE_HEIGHT, OPENING_EYE, pinholeOf } from '../../model/ground';
 import type { View } from './view';
 
 /**
@@ -43,31 +37,24 @@ export function layoutAtRow(
   };
 }
 
-/** A screen point to where across the world, in the layout's px, it lies now: what a `+`'s room is still judged by. */
-export type Crosswise = {
-  toWorld: <Placed extends Point>(point: Placed) => Placed;
-};
-
 /**
- * `eye`'s view as a crop of the world on the camera `cameraNow` gives: a point across the screen
- * goes to the layout's x the ground has under it on the ground's middle row,
- * its y kept. Exact at the opening eye; turned, the row's x stands in for
- * the screen's. Where that row's ground is behind the opening eye, a point
- * goes past the world's end on its side of the screen.
+ * The stretch of the world, in the layout's px across, that `view`'s screen
+ * shows over the ground from its top row to its foot: the least span holding
+ * where either edge of the screen meets either row. A screen's upright edge
+ * meets a row at one x, which moves one way as the row does, so the two rows
+ * bound every row between. `undefined` where an edge meets a row nowhere
+ * ahead of the eye, as when turned past the wedge's side.
  */
-export function eyeCrop(
-  eye: EyeInput,
-  cameraNow: () => Camera | undefined,
-): Crosswise {
-  return {
-    toWorld: <Placed extends Point>(point: Placed): Placed => {
-      const camera = cameraNow();
-      if (!camera) return point;
-      const row = (camera.groundTop + camera.height) / 2;
-      const { x } = point;
-      const under = eye.toLayout({ x, y: row });
-      const beyond = x < camera.width / 2 ? -Infinity : Infinity;
-      return { ...point, x: under?.x ?? beyond };
-    },
-  };
+export function layoutShown(
+  view: View,
+): Record<'left' | 'right', number> | undefined {
+  const xs: number[] = [];
+  for (const row of [view.groundTop, view.height]) {
+    for (const x of [0, view.width]) {
+      const met = layoutAtRow(view, { x, y: row }, row);
+      if (!met) return undefined;
+      xs.push(met.x);
+    }
+  }
+  return { left: Math.min(...xs), right: Math.max(...xs) };
 }
