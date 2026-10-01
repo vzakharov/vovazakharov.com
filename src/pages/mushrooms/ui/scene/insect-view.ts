@@ -69,8 +69,9 @@ export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
  * in flight, through the view standing over a ground row (`ofLayout`), the
  * leg's two rows mixed by how far along it is, carried onto the host it left
  * and the one it lands on as it nears either (`drawnInsect`); one in the air,
- * over the clump's row. Drawn at its own size wherever it is, and hidden
- * nearer the eye than `V_NEAR`. Away is just past
+ * over the clump's row. Drawn at its own size times the zoom of where it is
+ * drawn — its host's sitting, its row's depth flying — and hidden nearer the
+ * eye than `V_NEAR`. Away is just past
  * the screen's edge where the view stands now, at the row it flies over: one
  * in from away sets off on the edge nearer its first perch where the screen
  * shows that perch, else past the world's end nearer it; one leaving goes out
@@ -284,21 +285,29 @@ export class InsectView {
     );
     shown.container.setVisible(middle !== undefined);
     if (!middle) return;
+    const { x, y, zoom } = middle;
     shown.container
-      .setPosition(middle.x, middle.y)
+      .setPosition(x, y)
       .setRotation(turn)
-      .setScale(jolt * (1 - bob / size / 2));
+      .setScale(jolt * (1 - bob / size / 2) * zoom);
+    // A finger's reach on the screen, however small the insect is drawn.
+    shown.hit.setTo(0, 0, tapReach((shown.span * zoom) / 2) / zoom);
+    const nectar =
+      seated?.nectar &&
+      drawnInsect(
+        this.view(),
+        seated.nectar,
+        { flown, row },
+        pick(seats, 'to'),
+      );
     poseLook(shown.look, moment, {
       middle,
       rotation: turn,
-      nectar:
-        seated?.nectar &&
-        drawnInsect(
-          this.view(),
-          seated.nectar,
-          { flown, row },
-          pick(seats, 'to'),
-        ),
+      // Where the nectar is to the body as the look draws it, unzoomed.
+      nectar: nectar && {
+        x: x + (nectar.x - x) / zoom,
+        y: y + (nectar.y - y) / zoom,
+      },
     });
   }
 

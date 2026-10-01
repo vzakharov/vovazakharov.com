@@ -44,11 +44,31 @@ commit 193d22e:
    - After, same measure: every first leg to a shown perch lands at 1500 ms
      on every screen and kind (each one's cruise was longer).
 
+2. Step 2 (next commit), both halves — flight scale needs no plane of
+   12b's: `ofLayout` already places a flying insect at its row's depth.
+   - `insect-away.ts`: `drawnAt` returns `Zoomed` (the point and its
+     `zoom`, 1 before the eye's first fit).
+   - `insect-seat.ts`: `drawnInsect` returns `Zoomed`: sitting, the host's
+     `stands.zoom`; flying, the row's zoom, carried onto the hosts by the
+     same weights as the place, so take-off and landing never jump in size.
+   - `insect-view.ts`: the container's scale is times that zoom; the hit
+     radius is `tapReach` of the drawn span over the zoom, so the tap circle
+     on the screen never falls under `TAP_RADIUS`; the nectar handed to the
+     look is unzoomed about the middle, so the proboscis still reaches it.
+   - Tests: `insect-seat.test.ts` (sitting zoom is the host's; no zoom jump
+     at either end; zoom 1 at the opening, > 1 a step in, sitting equal to
+     flying over the same row, the nearer foot larger).
+
 ## Left
 
-- Step 2: an insect drawn at its depth's scale.
+- `fliers.test.ts` once at the final HEAD (see the report).
+- Not looked at in a frame: a play of walking toward a perched butterfly.
 
 ## Decided
+
+- A far insect's tap circle keeps `TAP_RADIUS` on the screen however small
+  it is drawn (beds scale theirs with zoom); catching one is the child's
+  game. Near ones grow theirs with their drawing.
 
 - `ARRIVAL` is a ceiling, not a pace: a leg already shorter keeps its time,
   so a fly to a near perch still darts. Every measured first leg was longer.

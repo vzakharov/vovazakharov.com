@@ -5,7 +5,7 @@ import type { Point } from '../../model/geometry';
 import { type Ground, OPENING_EYE, project } from '../../model/ground';
 import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, type Host } from './bed-place';
-import { drawnAt } from './insect-away';
+import { drawnAt, type Zoomed } from './insect-away';
 import { drawnInsect } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
 import { type View, viewAt } from './view';
@@ -67,6 +67,7 @@ describe('drawnInsect', () => {
           y: stands.y + seat.y * stands.zoom,
         };
         assert.ok(drawn && apart(drawn, sprite) < 1e-9);
+        assert.equal(drawn.zoom, stands.zoom);
       }
     }
   });
@@ -100,7 +101,7 @@ describe('drawnInsect', () => {
       const start = plus(left.laidFoot, SEATS[1] ?? { x: 0, y: 0 });
       const end = plus(to.laidFoot, SEATS[2] ?? { x: 0, y: 0 });
       const rows = { from: left.laidFoot.y, to: to.laidFoot.y };
-      const at = (along: number): Point | undefined => {
+      const at = (along: number): Zoomed | undefined => {
         const point = {
           x: start.x + (end.x - start.x) * along,
           y: start.y + (end.y - start.y) * along,
@@ -115,7 +116,43 @@ describe('drawnInsect', () => {
         const sat = at(edge);
         const flying = at(near);
         assert.ok(sat && flying && apart(sat, flying) < 0.01);
+        assert.ok(Math.abs(sat.zoom - flying.zoom) < 1e-4);
       }
+    }
+  });
+
+  it('draws an insect at its depth: its own size at the opening, larger stepped toward it, sitting or flying', () => {
+    for (const [, width, height] of VIEWPORTS) {
+      const camera = meadowCamera(width, height);
+      const [opening, stepped] = [OPENING_EYE, { x: 0, y: 1, heading: 0 }].map(
+        (eye) => viewAt(camera, eye),
+      );
+      assert.ok(opening && stepped);
+      const sizes = FEET.map((foot) => {
+        const laid = project(opening, foot);
+        const point = plus(laid, SEATS[0] ?? { x: 0, y: 0 });
+        const along = { flown: 0.5, row: laid.y };
+        const zooms = [opening, stepped].map((view) => ({
+          sitting: drawnInsect(
+            view,
+            point,
+            { flown: 1, row: laid.y },
+            { to: hostOn(view, foot) },
+          )?.zoom,
+          flying: drawnInsect(view, point, along, {})?.zoom,
+        }));
+        const [before, after] = zooms;
+        assert.ok(
+          before && after?.sitting !== undefined && after.flying !== undefined,
+        );
+        assert.ok(Math.abs((before.sitting ?? 0) - 1) < 1e-9);
+        assert.ok(Math.abs((before.flying ?? 0) - 1) < 1e-9);
+        assert.ok(after.sitting > 1);
+        assert.ok(Math.abs(after.flying - after.sitting) < 1e-9);
+        return { row: laid.y, zoom: after.flying };
+      });
+      const [far, near] = sizes.toSorted((a, b) => a.row - b.row);
+      assert.ok(far && near && near.zoom > far.zoom);
     }
   });
 });

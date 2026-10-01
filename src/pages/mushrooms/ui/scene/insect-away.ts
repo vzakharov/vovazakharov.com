@@ -11,7 +11,15 @@ import type { Side } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import type { Camera } from '../../model/ground';
 import { layoutAtRow } from './eye-crop';
-import { buried, cull, ofLayout, onScreen, sunk, type View } from './view';
+import {
+  buried,
+  cull,
+  ofLayout,
+  onScreen,
+  type Placed,
+  sunk,
+  type View,
+} from './view';
 
 /**
  * The band of the screen's height an insect flies in from and out to off
@@ -37,21 +45,24 @@ export function awayDown(height: number, phase: number): number {
   return height * (AWAY_BAND[0] + (AWAY_BAND[1] - AWAY_BAND[0]) * share);
 }
 
+/** A point on the screen, and how many times its laid-out size a thing there is drawn. */
+export type Zoomed = Point & Pick<Placed, 'zoom'>;
+
 /**
  * Where the world's `point`, standing over `row`, is drawn on the screen
- * now; `undefined` too near the eye to be drawn. As laid out before the
- * eye's first fit.
+ * now, at the zoom of that row's depth there; `undefined` too near the eye
+ * to be drawn. As laid out, at its own size, before the eye's first fit.
  */
 export function drawnAt(
   view: View | undefined,
   point: Point,
   row: number,
-): Point | undefined {
-  if (!view) return point;
+): Zoomed | undefined {
+  if (!view) return { ...point, zoom: 1 };
   const placed = sunk(view, ofLayout(view, point, row));
   return cull(placed) || buried(view, placed)
     ? undefined
-    : pick(placed, 'x', 'y');
+    : pick(placed, 'x', 'y', 'zoom');
 }
 
 /** In the world, just past its `side` end, at the height `away` flies. */
