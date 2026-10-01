@@ -23,11 +23,12 @@ const BROW_SEED = 0xb7_0a;
  * The fringe grows in clumps with bare brow between them, as a meadow's far
  * edge does, all measured in the seam's reach at the screen's middle: how many
  * blades a clump holds (most clumps small, a few broad), how far apart its
- * blades stand, and the bare stretch from one clump to the next.
+ * blades stand, and the bare stretch from one clump to the next (most short,
+ * a few long).
  */
-const CLUMP_BLADES = [1, 11] as const;
+const CLUMP_BLADES = [3, 18] as const;
 const CLUMP_SPACING = [0.07, 0.16] as const;
-const CLUMP_GAP = [0.35, 2.4] as const;
+const CLUMP_GAP = [0.1, 1.7] as const;
 /** The fewest CSS px between blades in a clump, so a short screen's brow does not turn to felt. */
 const LEAST_SPACING = 1.4;
 /**
@@ -35,12 +36,12 @@ const LEAST_SPACING = 1.4;
  * blade's height strays from the clump's shape either way; the clump's edge
  * blades stand at `CLUMP_EDGE` of its crown, so a clump rounds over.
  */
-const CLUMP_TALL = [0.22, 0.62] as const;
-const BLADE_STRAY = 0.35;
+const CLUMP_TALL = [0.28, 0.6] as const;
+const BLADE_STRAY = 0.3;
 const CLUMP_EDGE = 0.45;
-/** The share of clumps that hold a tuft, a blade or two standing well over the rest. */
-const TUFT_SHARE = 0.14;
-const TUFT_TALL = [0.75, 0.95] as const;
+/** The share of clumps that hold a tuft, two blades standing well over the rest, and its height. */
+const TUFT_SHARE = 0.2;
+const TUFT_TALL = [0.82, 0.95] as const;
 /**
  * The tallest a blade stands, in the seam's reach: never so tall that its tip
  * reaches the ground's top row, where a thing crossing `D_SEE` has its foot,
@@ -57,7 +58,7 @@ const LEAN_STRAY = 0.1;
 const CLUMP_SPLAY = 0.16;
 const BLADE_LEAN = 0.3;
 /** Half a blade's width at its root, in the seam's reach, and the least in CSS px. */
-const BLADE_HALF = 0.07;
+const BLADE_HALF = 0.09;
 const LEAST_HALF = 0.6;
 /** How far below the cover row a blade is rooted, in the seam's reach, so its root sits in the crest. */
 const ROOT_DOWN = 0.1;
@@ -88,7 +89,11 @@ export function browBlades(camera: Camera): BrowBlade[] {
   const turn = (share: number): number => (share * reach) / focal;
   const least = LEAST_SPACING / focal;
   const blades: BrowBlade[] = [];
-  let azimuth = -Math.PI + turn(between(random, ...CLUMP_GAP));
+  const gap = (): number => {
+    const [shortest, longest] = CLUMP_GAP;
+    return turn(shortest + (longest - shortest) * random() ** 2);
+  };
+  let azimuth = -Math.PI + gap();
   while (azimuth < Math.PI) {
     const clump = clumpAt(random);
     const spacing = Math.max(least, turn(between(random, ...CLUMP_SPACING)));
@@ -97,7 +102,7 @@ export function browBlades(camera: Camera): BrowBlade[] {
       blades.push({ azimuth, ...blade });
       azimuth += spacing * between(random, 0.6, 1.4);
     }
-    azimuth += turn(between(random, ...CLUMP_GAP));
+    azimuth += gap();
   }
   return blades;
 }
@@ -109,16 +114,17 @@ export function browBlades(camera: Camera): BrowBlade[] {
  */
 function clumpAt(random: Random): Array<Omit<BrowBlade, 'azimuth'>> {
   const [fewest, most] = CLUMP_BLADES;
-  const count = Math.round(fewest + (most - fewest) * random() ** 2);
+  const count = Math.round(fewest + (most - fewest) * random() ** 1.5);
   const crown = between(random, ...CLUMP_TALL);
   const lean = between(random, -CLUMP_LEAN, CLUMP_LEAN);
-  const tuft = random() < TUFT_SHARE ? Math.floor(random() * count) : -1;
+  // The first of the tuft's two blades, or none.
+  const tuft = random() < TUFT_SHARE ? Math.floor(random() * (count - 1)) : -2;
   return Array.from({ length: count }, (_, index) => {
     // Where the blade stands across its clump, from −1 at the left edge to 1 at the right.
     const across = count === 1 ? 0 : (index / (count - 1)) * 2 - 1;
     const shape = 1 - (1 - CLUMP_EDGE) * across ** 2;
     const tall =
-      index === tuft
+      index === tuft || index === tuft + 1
         ? between(random, ...TUFT_TALL)
         : crown * shape * between(random, 1 - BLADE_STRAY, 1 + BLADE_STRAY);
     const tilt =

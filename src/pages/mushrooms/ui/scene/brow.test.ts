@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OPENING_EYE } from '../../model/ground';
+import { OPENING_EYE, pinholeOf } from '../../model/ground';
 import { browBlades, browShown } from './brow';
 import { meadowCamera } from './meadow-camera';
 import { seamReach } from './skyline';
@@ -46,27 +46,27 @@ describe('the brow', () => {
         const gaps = xs.slice(1).map((x, index) => x - (xs[index] ?? x));
         assert.ok(Math.max(...gaps) < reach * 3, `${heading}`);
       }
+      // Each blade's distance from the one before it, in CSS px at the screen's middle.
+      const { focal } = pinholeOf(camera);
       const gaps = blades
         .slice(1)
         .map(
-          ({ azimuth }, index) => azimuth - (blades[index]?.azimuth ?? azimuth),
+          ({ azimuth }, index) =>
+            (azimuth - (blades[index]?.azimuth ?? azimuth)) * focal,
         );
-      const mean = gaps.reduce((sum, gap) => sum + gap, 0) / gaps.length;
-      assert.ok(
-        gaps.filter((gap) => gap > mean * 3).length > gaps.length / 20,
-        'some blades stand well apart',
-      );
-      assert.ok(
-        gaps.filter((gap) => gap < mean / 2).length > gaps.length / 3,
-        'most stand close in clumps',
-      );
+      const close = gaps.filter(
+        (gap) => gap < Math.max(reach * 0.3, 2.1),
+      ).length;
+      const apart = gaps.filter((gap) => gap > reach).length;
+      assert.ok(close > gaps.length * 0.75, `${close} of ${gaps.length}`);
+      assert.ok(apart > gaps.length / 40, `${apart} of ${gaps.length}`);
     });
 
     it(`${name}: the blades stand at many heights, a few tufts over the rest`, () => {
       const talls = blades.map(({ tall }) => tall);
       assert.ok(Math.min(...talls) < 0.2);
-      assert.ok(Math.max(...talls) > 0.75);
-      const tufts = talls.filter((tall) => tall > 0.7).length;
+      assert.ok(Math.max(...talls) > 0.85);
+      const tufts = talls.filter((tall) => tall > 0.8).length;
       assert.ok(tufts > 0 && tufts < talls.length / 10, `${tufts}`);
     });
 
