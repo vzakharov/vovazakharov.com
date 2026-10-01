@@ -97,3 +97,75 @@ skip at the screen's ratio): phoneP 25 headings with a crossed band before
 (5°, 23°, 54°, 59°, 65.5°, … 339.5°), tabL 59; after, 0 on both.
 `frames/bite-12/phoneP-brow-round-band-{before,after}.png` (heading 23°):
 the flat slab across the sky and hills at y ≈ 615 is gone.
+
+## Done
+
+1. 3157cfb7 — the trace above.
+2. fa6dbe0a, 7b82014a — the pale band. fa6dbe0a's `pathDetailThreshold = 0`
+   was a no-op (see above); 7b82014a is the fix: `skyline.ts`
+   `PATH_SKIP`, `beforeCorner` in `hillBands`; `skyline.test.ts` sweeps 720
+   headings × 3 visits × 6 screens × ratios 1–3 through Phaser's own skip
+   and finds no band outline crossing itself (fails without the drop).
+3. The round brow (this commit):
+   - `view.ts`: `Placed.distance` (true distance on the plane);
+     `behindHills` keys on it; `browRow(camera, x)`, the `D_SEE` circle's
+     row at x (`groundTop` at the middle; phoneP 4.7 px lower at the edges,
+     tabL 33 px), `browLowest`; `sunk` reflects about `browRow` at the
+     thing's x; `buried`, `sunkAway` read the brow at its x. `coverRow` is
+     gone.
+   - `brow.ts`: `drawBrow` draws, along the curve, the ground from the brow
+     down to `browFloor` (where the ground picture now starts:
+     max(`groundTop + seamReach`, `browLowest`)) in the picture's own
+     tones (`backdrop-tones.ts` `groundRowAt`, `GROUND_BANDS`, which
+     `paintGround` now shares), over what sinks; the crest strips follow
+     the curve; each blade is rooted on the brow at its own x. Still drawn
+     only on a heading change; the curve itself is the same at every
+     heading.
+   - `paint-land.ts`: the ground picture starts at `browFloor`; the near
+     range's foot fill reaches to it, so the far ground beyond the brow
+     (between it and the hills, deepest at the screen's edges) is the near
+     range's foot colour, under what sinks.
+   - `bed-place.ts` carries `distance`; `repaint-queue.ts` `browPale` keys
+     on distance, `hazeAhead` takes `{ahead, distance}` (haze on `ahead`, as
+     the layout painted it; the paling on distance); `mushroom-bed.ts`
+     passes its place.
+   - `play-walk.ts` `checkPops` reads the brow at each thing's x (the trace
+     records it). Walk green: tabL 6 under the cover on ↓, at most 9.4 px
+     over it; phoneL 6, 4.5 px; frame JS median 10.7 / 9.9 ms.
+   - Tests: `view.test.ts` — the brow is the circle (every eye, five
+     angles), lower toward the edges; sinking per x with no jump; "no drawn
+     foot above the brow at its x" over 36 headings × 4 eyes × 29 angles ×
+     9 distances on 12 cameras; `sunkAway` per x. `brow.test.ts` — blades
+     rooted on the brow at their x. `bed-place`/`repaint-queue` opening
+     tests skip what stands past the brow (below).
+   - Frames: `tabL-brow-round-rim.png` (the rim: the brow a visible curve,
+     the blue flower right of the clump going under at the middle, the
+     pink flower at the left edge on the lowered brow),
+     `tabL-brow-round-side.png` (16° round: the blue flower near the left
+     edge going under there), `phoneP-brow-round-rim.png` (the blue and
+     purple flowers either side of the clump going under; the curve is ~5
+     px on a phone), `phoneL-brow-round-rim.png`.
+
+## Left
+
+- `brow-round-flower-pale.patch` (beside this note): `flower-bed.ts`
+  `stand` pales by `browPale(place.distance)` rather than `place.ahead`, so
+  a flower pales by the same distance it sinks by. One line; applied in the
+  frames' worktree. Until it lands a flower at the side pales a little less
+  than it sinks.
+
+## Decided
+
+- **The sink keys on distance**, as the plan meant (HEAD keyed it on
+  `ahead`, the plan's beaten option).
+- **At the opening, a thing laid past the `D_SEE` circle sinks.** The world
+  frame reaches past the circle toward the screen's sides: on 5 visits, 1
+  on-screen opening thing on phoneL (0.82 past, sunk 14.6 px) and 1 on
+  desktop (0.59, 28 px), none on tabL/tabP/phoneP/phoneS; off screen, 3–9
+  a screen. The opening-identity tests (`bed-place`, `repaint-queue`) now
+  skip what stands past the brow and check it sinks instead; such a
+  mushroom is repainted once (paler) at the opening.
+- **A thing crossing the brow passes behind the blades in one frame**
+  (from its row's depth to −3.5), as it passes the fringe's own distance;
+  the old "no tip reaches `groundTop`" rule is gone with the straight
+  brow.

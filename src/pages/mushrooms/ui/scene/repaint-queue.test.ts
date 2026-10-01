@@ -58,9 +58,12 @@ describe('the repaint queue', () => {
           const painted = placeIn(ground, { foot })?.haze;
           if (painted === undefined) continue;
           const where = `visit ${String(seed)}: ${id}`;
-          const there = hazeAhead(camera, bedPlace(opening, foot).ahead);
+          // Past the brow a thing pales further, by the side of the screen
+          // or off it, and is repainted once.
+          if (bedPlace(opening, foot).behind) continue;
+          const there = hazeAhead(camera, bedPlace(opening, foot));
           assert.ok(Math.abs(there - painted) < 1e-9, where);
-          const near = hazeAhead(camera, bedPlace(nearer, foot).ahead);
+          const near = hazeAhead(camera, bedPlace(nearer, foot));
           assert.ok(near <= painted, where);
         }
       }
@@ -69,11 +72,14 @@ describe('the repaint queue', () => {
     it(`pales a thing as it sinks behind the brow, more than the ground's haze rises, on a ${name} screen`, () => {
       const { camera } = opened(SEEDS[0] ?? 1, width, height, false).layout;
       const span = 1.2;
-      const before = hazeAhead(camera, D_SEE) - hazeAhead(camera, D_SEE - span);
-      const after = hazeAhead(camera, D_SEE + span) - hazeAhead(camera, D_SEE);
+      // Straight ahead, where the distance is the depth along the heading.
+      const at = (ahead: number) =>
+        hazeAhead(camera, { ahead, distance: ahead });
+      const before = at(D_SEE) - at(D_SEE - span);
+      const after = at(D_SEE + span) - at(D_SEE);
       assert.ok(after - before > 0.15, `${String(before)} → ${String(after)}`);
       const sinking = [0, 0.3, 0.6, 0.9, 1.2, 2].map((past) =>
-        hazeAhead(camera, D_SEE + past),
+        at(D_SEE + past),
       );
       assert.deepEqual(
         sinking,
@@ -90,11 +96,11 @@ describe('the repaint queue', () => {
         const painted = project(camera, foot).haze;
         const where = `across ${String(x)}`;
         assert.ok(painted >= MISTY, `${where}: painted ${String(painted)}`);
-        const opening = bedPlace(viewAt(camera, OPENING_EYE), foot).ahead;
+        const opening = bedPlace(viewAt(camera, OPENING_EYE), foot);
         assert.ok(Math.abs(hazeAhead(camera, opening) - painted) < 1e-9, where);
         const near = hazeAhead(
           camera,
-          bedPlace(viewAt(camera, STEPPED_IN), foot).ahead,
+          bedPlace(viewAt(camera, STEPPED_IN), foot),
         );
         assert.ok(painted - near >= HAZE_DRIFT, `${where}: to ${String(near)}`);
         const [due] = repaintsDue([{ ahead: 1, painted, haze: near }]);

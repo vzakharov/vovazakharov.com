@@ -22,8 +22,10 @@ import {
   STEP_LENGTH,
   STRIDE_CRUISE,
 } from '../../src/pages/mushrooms/model/stride.ts';
-import { seamReach } from '../../src/pages/mushrooms/ui/scene/skyline.ts';
-import { SHOWN_LEAST } from '../../src/pages/mushrooms/ui/scene/view.ts';
+import {
+  browRow,
+  SHOWN_LEAST,
+} from '../../src/pages/mushrooms/ui/scene/view.ts';
 import {
   type Arrow,
   type Controls,
@@ -47,16 +49,16 @@ const BOB_SHARE = 0.004;
 
 /**
  * How much more than the sliver a sunk thing is hidden at (`SHOWN_LEAST` of
- * its drawn height) may show over the ground's cover row, in CSS px, on the
+ * its drawn height) may show over the brow, in CSS px, on the
  * frame it starts or stops being drawn without that reading as a pop: a
  * frame's sink, and the play's reading of a top a little off the drawn one.
  */
 const SLIVER_SLACK = 2;
 
 /**
- * The eye, and how high on the screen each mushroom and flower drawn reaches
- * and how tall it is drawn, in CSS px, \`null\` where it is not drawn: what a
- * pop is read from. A flower's top is its head's, as laid out above its foot
+ * The eye, and how high on the screen each mushroom and flower drawn reaches,
+ * how tall it is drawn and where across it stands, in CSS px, \`null\` where
+ * it is not drawn: what a pop is read from. A flower's top is its head's, as laid out above its foot
  * and scaled with it.
  */
 const WALKING = `({
@@ -64,22 +66,22 @@ const WALKING = `({
   tops: Object.fromEntries([
     ...[...__probe.scene.bed.shown].map(([id, { graphics }]) => {
       if (!graphics.visible) return ['mushroom:' + id, null];
-      const { y, height } = __probe.bounds(id);
-      return ['mushroom:' + id, { top: y, height }];
+      const { x, y, width, height } = __probe.bounds(id);
+      return ['mushroom:' + id, { top: y, height, x: x + width / 2 }];
     }),
     ...[...__probe.scene.flowers.shown].map(([id, shown]) => {
       const { container, headR, headY } = shown;
       if (!container.visible) return ['flower:' + id, null];
       const height = (headR - headY) * container.scaleY;
-      const top = __probe.toScreen({ x: container.x, y: container.y - height }).y;
-      return ['flower:' + id, { top, height }];
+      const { x, y: top } = __probe.toScreen({ x: container.x, y: container.y - height });
+      return ['flower:' + id, { top, height, x }];
     }),
   ]),
 })`;
 const Walking = Eye.extend({
   tops: z.record(
     z.string(),
-    z.object({ top: z.number(), height: z.number() }).nullable(),
+    z.object({ top: z.number(), height: z.number(), x: z.number() }).nullable(),
   ),
 });
 
@@ -152,11 +154,19 @@ export async function playWalk(
 
   const opening = await eye();
   const bob = BOB_SHARE * opening.height;
-  const ground = await page.evaluate(
+  const camera = await page.evaluate(
     '__probe.scene.layout.camera',
-    z.object({ height: z.number(), groundTop: z.number() }),
+    z.object({
+      width: z.number(),
+      height: z.number(),
+      groundTop: z.number(),
+      ground: z.number(),
+      world: z.number(),
+      midline: z.number(),
+      unit: z.number(),
+    }),
   );
-  const cover = ground.groundTop + seamReach(ground);
+  const cover = (x: number) => browRow(camera, x);
   await shoot('opening');
   const tapsBefore = await taps();
 
@@ -384,13 +394,13 @@ function checkTurn(
 /**
  * Nothing pops while the eye walks: whatever stops or starts being drawn
  * between two frames, on the frame it was drawn, reached no higher than the
- * screen's foot, or showed over `cover`, the ground's top row
- * (`groundTop + seamReach`) under which the ground covers a thing sunk past
- * the seam, no more than the sliver the game hides it at (`SLIVER_SLACK`).
+ * screen's foot, or showed over `cover`, the brow's row at its x
+ * (`browRow`) under which the ground covers a thing sunk past it, no more
+ * than the sliver the game hides it at (`SLIVER_SLACK`).
  */
 function checkPops(
   seen: ReadonlyArray<z.infer<typeof Walking>>,
-  cover: number,
+  cover: (x: number) => number,
   by: Arrow,
   expect: Expect,
   note: (line: string) => void,
@@ -404,8 +414,8 @@ function checkPops(
       if ((before === null) === (after === null) || !drawn) return [];
       if (drawn.top >= now.height) return [];
       const drawnOn = before === null ? now : was;
-      // The tops are on the screen, which the bob scrolls; the cover row is not.
-      const shows = cover - drawnOn.bob - drawn.top;
+      // The tops are on the screen, which the bob scrolls; the brow is not.
+      const shows = cover(drawn.x) - drawnOn.bob - drawn.top;
       return [
         {
           line: `${id} ${before === null ? 'appeared' : 'vanished'} reaching ${drawn.top.toFixed(0)} px, ${shows.toFixed(1)} of its ${drawn.height.toFixed(1)} px over the cover`,

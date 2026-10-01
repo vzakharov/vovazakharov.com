@@ -2,7 +2,8 @@ import type * as Phaser from 'phaser';
 
 import { type Light, sunLight } from '../../model/light';
 import type { Random } from '../../model/random';
-import { groundAt, RANGES, ridgeTone } from './backdrop-tones';
+import { GROUND_BANDS, groundRowAt, RANGES, ridgeTone } from './backdrop-tones';
+import { browFloor } from './brow';
 import { mix } from './colour';
 import { type Band, grainPixels, grainStrips } from './grain';
 import type { MeadowLayout } from './layout';
@@ -22,7 +23,6 @@ import {
 import type { View } from './view';
 
 const HILL_BANDS = 16;
-const GROUND_BANDS = 32;
 const GRAIN_KEY = 'grain';
 const GRAIN_SIDE = 256;
 const GRAIN_ALPHA = 0.07;
@@ -30,7 +30,7 @@ const GRAIN_ALPHA = 0.07;
 const GRAIN_SCALE = 1;
 /** How far past either edge of the screen the hills are drawn, in CSS px, so no rim or band stops short of it. */
 const HILL_MARGIN = 4;
-/** How far past the seam's lowest point the near range's foot reaches, so no sliver of sky shows under it. */
+/** How far past the ground picture's top (`browFloor`) the near range's foot reaches, so no sliver of sky shows under it. */
 const FOOT_OVERLAP = 2;
 
 /** The two layers the hills are drawn into: the farthest and far ranges, and the near one under the far. */
@@ -88,7 +88,7 @@ export function hillsOf(layout: MeadowLayout, random: Random): Hills {
     seam: seamCrest(layout),
     floors: {
       far: layout.groundTop,
-      near: layout.groundTop + seamReach(layout) + FOOT_OVERLAP,
+      near: browFloor(layout.camera) + FOOT_OVERLAP,
     },
     light: sunLight(layout),
   };
@@ -130,20 +130,20 @@ export function drawHills(
 }
 
 /**
- * The ground as the screen shows it, from any heading: rows from where the
- * seam dips lowest to the bottom edge, lit far and deeper near, each toned
- * by how far down the ground it lies, as though the rows ran up to where the
- * seam rises highest. Above them the near range's foot fills the seam in the
- * same colour, so the ground meets it with no line. Returns the rows it
+ * The ground as the screen shows it, from any heading: rows from below the
+ * brow and the seam (`browFloor`) to the bottom edge, lit far and deeper
+ * near, each toned by how far down the ground it lies (`groundRowAt`). Above
+ * them the brow draws the ground on down from itself, and the near range's
+ * foot fills the seam and the far ground beyond the brow. Returns the rows it
  * covers.
  */
 export function paintGround(
   graphics: Phaser.GameObjects.Graphics,
   layout: MeadowLayout,
 ): Band {
-  const { width, height, groundTop } = layout;
-  const reach = seamReach(layout);
-  const [top, from] = [groundTop - reach, groundTop + reach];
+  const { width, height, groundTop, camera } = layout;
+  const top = groundTop - seamReach(layout);
+  const from = browFloor(camera);
   const step = (height - top) / GROUND_BANDS;
   for (let band = 0; band < GROUND_BANDS; band++) {
     const [y0, y1] = [
@@ -151,8 +151,7 @@ export function paintGround(
       top + (band + 1) * step,
     ];
     if (y1 <= y0) continue;
-    const y = top + (height - top) * (band / GROUND_BANDS);
-    graphics.fillStyle(groundAt((y - groundTop) / (height - groundTop)));
+    graphics.fillStyle(groundRowAt(layout, top + (band + 0.5) * step));
     graphics.fillRect(0, y0, width, y1 - y0);
   }
   return { top: from, bottom: height };

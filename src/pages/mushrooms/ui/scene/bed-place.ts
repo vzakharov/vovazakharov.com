@@ -3,7 +3,7 @@
  * everything out once at the opening eye and draw it at that size, and this
  * is what places it through the view (`ofGround`), scales it by `zoom`, sorts
  * it by the row it stands on, hides it near the eye (`cull`) and, past the
- * ground's top row (`behindHills`), sinks it under the ground (`sunk`) until
+ * brow (`behindHills`), sinks it under the brow (`sunk`) until
  * too little of it shows to draw (`sunkAway`).
  */
 
@@ -39,11 +39,14 @@ const BEHIND_SQUEEZE = 1e-4;
  * A thing's place on the screen this frame: where its foot is drawn, in CSS
  * px, the row it sorts by (`depth`, the screen row its foot stands on before
  * it sinks, so the farther sorts behind), whether it is drawn at all and
- * whether past the ground's top row, and how far ahead of the eye it stands:
- * `Infinity` while no view placed it.
+ * whether past the brow, and how far ahead of the eye it stands and how far
+ * from it: `Infinity` while no view placed it.
  */
 export type BedPlace = LayeredPoint &
-  Pick<Placed, 'zoom' | 'ahead'> & { drawn: boolean; behind: boolean };
+  Pick<Placed, 'zoom' | 'ahead' | 'distance'> & {
+    drawn: boolean;
+    behind: boolean;
+  };
 
 /** A bed object's place on the screen as last placed. */
 export type Standing = { stands: BedPlace };
@@ -59,7 +62,7 @@ export function bedPlace(view: View, foot: Ground, height?: number): BedPlace {
   const gone =
     height !== undefined && sunkAway(view, shown, height * shown.zoom);
   return {
-    ...pick(shown, 'x', 'y', 'zoom', 'ahead'),
+    ...pick(shown, 'x', 'y', 'zoom', 'ahead', 'distance'),
     depth: placed.y,
     drawn: !cull(placed) && !gone,
     behind: behindHills(placed),
@@ -73,6 +76,7 @@ export function layoutPlace({ x, y }: Point): BedPlace {
     y,
     zoom: 1,
     ahead: Infinity,
+    distance: Infinity,
     depth: y,
     drawn: true,
     behind: false,
@@ -85,6 +89,7 @@ export const UNPLACED: BedPlace = {
   y: 0,
   zoom: 1,
   ahead: Infinity,
+  distance: Infinity,
   depth: 0,
   drawn: false,
   behind: false,

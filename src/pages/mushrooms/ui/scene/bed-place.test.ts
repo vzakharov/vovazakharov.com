@@ -6,7 +6,7 @@ import { type Ground, OPENING_EYE, zAt } from '../../model/ground';
 import { bedPlace, depthOf } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingFlowers } from './flower-plots';
-import { viewAt } from './view';
+import { browRow, D_SEE, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 import { opened } from './visit-play';
 
@@ -42,6 +42,14 @@ describe('a bed object at the opening eye', () => {
         for (const { what, foot, at } of laid) {
           const place = bedPlace(view, foot);
           const where = `visit ${String(seed)}: ${what}`;
+          // Past the brow, which curves below the ground's top row toward
+          // the screen's edges, a thing laid by the screen's side, or off
+          // it, sinks under the brow from the opening on.
+          if (place.distance > D_SEE) {
+            assert.ok(place.behind, where);
+            assert.ok(place.y >= browRow(view, place.x) - 1e-6, where);
+            continue;
+          }
           assert.ok(Math.abs(place.x - (at.x - left)) < SAME_PX, where);
           assert.ok(Math.abs(place.y - at.y) < SAME_PX, where);
           assert.ok(Math.abs(place.zoom - 1) < 1e-6, where);

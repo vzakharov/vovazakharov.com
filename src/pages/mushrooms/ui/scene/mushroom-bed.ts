@@ -341,9 +341,7 @@ export class MushroomBed implements Following {
 
   /** The haze where the view stands `shown`; `undefined` with no view, or out of its sight. */
   private hazeHere({ stands }: Shown): number | undefined {
-    return this.view && stands.drawn
-      ? hazeAhead(this.view, stands.ahead)
-      : undefined;
+    return this.view && stands.drawn ? hazeAhead(this.view, stands) : undefined;
   }
 
   /**

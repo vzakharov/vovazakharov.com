@@ -19,17 +19,18 @@ import {
   viewOf,
   zAt,
 } from '../../model/ground';
-import { seamReach } from './skyline';
 
 /** The camera a frame is drawn through, and the eye it looks from. */
 export type View = Camera & { eye: Eye };
 
 /**
  * Something the view places each frame: how many times its opening size it
- * is drawn, its opening distance over its distance now. A flower's tap
- * circle is `TAP_RADIUS` times it, as its container is.
+ * is drawn, its opening distance over its distance now (a flower's tap
+ * circle is `TAP_RADIUS` times it, as its container is), and `distance`, how
+ * far from the eye it stands on the plane, in the clump's size, whichever
+ * way the eye looks.
  */
-export type Placed = Viewed & { zoom: number };
+export type Placed = Viewed & { zoom: number; distance: number };
 
 /** A bed that re-places what it holds through each frame's view. */
 export type Following = { follow: (view: View) => void };
@@ -42,9 +43,10 @@ export type Following = { follow: (view: View) => void };
 export const V_NEAR = 2;
 
 /**
- * How far ahead, in the clump's size, the ground meets the hills: the
- * ground's top row at the opening eye. A thing standing farther sinks behind
- * the ground's top row (`sunk`), which covers it from the foot up.
+ * How far from the eye, in the clump's size, the meadow's brow stands: the
+ * ground's top row straight ahead of the opening eye. A thing standing
+ * farther, whichever way, sinks behind the brow (`sunk`), which covers it
+ * from the foot up.
  */
 export const D_SEE = planeOf({ x: 0, z: zAt(0) }).y;
 
@@ -60,7 +62,11 @@ function placedAt(
   opening: number,
 ): Placed {
   const viewed = viewOf(view, view.eye, plane, height);
-  return { ...viewed, zoom: opening / viewed.ahead };
+  return {
+    ...viewed,
+    zoom: opening / viewed.ahead,
+    distance: Math.hypot(plane.x - view.eye.x, plane.y - view.eye.y),
+  };
 }
 
 /** Where `view` places a thing standing on `foot`, `height` above the ground in the clump's size. */
@@ -94,33 +100,51 @@ export function cull({ ahead }: Pick<Viewed, 'ahead'>): boolean {
   return ahead < V_NEAR;
 }
 
-/** Whether a thing `ahead` of the eye stands past the ground's top row, behind the near hills. */
-export function behindHills({ ahead }: Pick<Viewed, 'ahead'>): boolean {
-  return ahead > D_SEE;
+/** Whether a thing stands farther from the eye than the brow, and sinks behind it. */
+export function behindHills({ distance }: Pick<Placed, 'distance'>): boolean {
+  return distance > D_SEE;
 }
 
 /**
- * Where `view` draws `placed`: where it is placed, up to the ground's top
- * row; past it, sunk as far below that row as its foot would stand above it,
- * so its foot never stands on the hills above the ground, whatever their
- * crest does there. It sinks as it recedes and rises as it nears, with no
- * jump where it crosses the row, and whatever is drawn over the ground's top
- * rows covers it from the foot up (`depthOf`).
+ * The meadow's brow at `x` across `camera`'s screen: the row the circle
+ * `D_SEE` round the eye stands on there, the ground's top row at the
+ * screen's middle and lower toward its edges, since a screen row is a depth
+ * along the heading and the circle's depth falls off it. Where a thing goes
+ * under, at its own x, whichever way the eye looks; the same on every
+ * heading, so the brow stands still on the screen as the eye turns.
+ */
+export function browRow(camera: Camera, x: number): number {
+  const { x: middle, y: horizon, focal } = pinholeOf(camera);
+  return (
+    horizon + (camera.groundTop - horizon) * Math.hypot(1, (x - middle) / focal)
+  );
+}
+
+/** The brow's lowest row on `camera`'s screen, at its edges. */
+export function browLowest(camera: Camera): number {
+  return browRow(camera, 0);
+}
+
+/**
+ * Where `view` draws `placed`: where it is placed, up to the brow; past it,
+ * sunk as far below the brow at its own x (`browRow`) as its foot would stand
+ * above it, so its foot never stands above the brow, nor on the hills
+ * beyond. It sinks as it recedes and rises as it nears, with no jump where
+ * it crosses the brow, and the brow, drawn over it, covers it from the foot
+ * up (`depthOf`).
  */
 export function sunk(view: View, placed: Placed): Placed {
   if (!behindHills(placed)) return placed;
-  const { focal } = pinholeOf(view);
-  const lift = focal * EYE_HEIGHT * (1 / D_SEE - 1 / placed.ahead);
-  return { ...placed, y: placed.y + 2 * lift };
+  return { ...placed, y: 2 * browRow(view, placed.x) - placed.y };
 }
 
 /**
- * Whether `placed`, as `sunk` draws it, has sunk below the ground's top row:
- * hidden for a thing drawn over everything in the meadow, as an insect is,
- * which nothing would cover there.
+ * Whether `placed`, as `sunk` draws it, has sunk below the brow: hidden for
+ * a thing drawn over everything in the meadow, as an insect is, which
+ * nothing would cover there.
  */
 export function buried(view: View, placed: Placed): boolean {
-  return behindHills(placed) && placed.y > view.groundTop;
+  return behindHills(placed) && placed.y > browRow(view, placed.x);
 }
 
 /**
@@ -132,21 +156,12 @@ export function buried(view: View, placed: Placed): boolean {
 export const SHOWN_LEAST = 0.2;
 
 /**
- * The ground's cover row: the seam's lowest row (`seamReach`), where the
- * ground picture starts and covers a sunk thing from, and where the meadow's
- * brow is drawn.
- */
-export function coverRow(screen: Pick<View, 'height' | 'groundTop'>): number {
-  return screen.groundTop + seamReach(screen);
-}
-
-/**
  * Whether `placed`, as `sunk` draws it `height` CSS px tall, has sunk so far
- * that less than `SHOWN_LEAST` of it shows over the ground's cover row
- * (`coverRow`), and is better not drawn.
+ * that less than `SHOWN_LEAST` of it shows over the brow at its x, and is
+ * better not drawn.
  */
 export function sunkAway(view: View, placed: Placed, height: number): boolean {
-  const cover = coverRow(view);
+  const cover = browRow(view, placed.x);
   return (
     behindHills(placed) && cover - (placed.y - height) < SHOWN_LEAST * height
   );

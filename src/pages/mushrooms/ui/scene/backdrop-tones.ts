@@ -7,7 +7,7 @@
 import { channels, mix, packed } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
-import { SEAM_REACH } from './skyline';
+import { SEAM_REACH, seamReach } from './skyline';
 import { SUN_GLOW_REACH } from './sun-layout';
 
 /** A range's colours: `lit` at its highest crest, `foot` where the mist lies at its base. */
@@ -201,6 +201,28 @@ export const GROUND_STOPS: readonly Stop[] = [
 /** The ground's colour `down` of the way from its top to the bottom edge. */
 export function groundAt(down: number): number {
   return alongStops(GROUND_STOPS, down);
+}
+
+/** How many rows the ground's picture is toned in, from where the seam rises highest to the bottom edge. */
+export const GROUND_BANDS = 32;
+
+/**
+ * The tone the ground's picture gives row `y` on `screen`: its band's, each
+ * band toned at its top as though the bands ran up to where the seam rises
+ * highest.
+ */
+export function groundRowAt(
+  screen: Pick<MeadowLayout, 'height' | 'groundTop'>,
+  y: number,
+): number {
+  const { height, groundTop } = screen;
+  const top = groundTop - seamReach(screen);
+  const step = (height - top) / GROUND_BANDS;
+  const band = Math.min(
+    GROUND_BANDS - 1,
+    Math.max(0, Math.floor((y - top) / step)),
+  );
+  return groundAt((top + band * step - groundTop) / (height - groundTop));
 }
 
 /**

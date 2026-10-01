@@ -1,0 +1,13 @@
+diff --git a/src/pages/mushrooms/ui/scene/flower-bed.ts b/src/pages/mushrooms/ui/scene/flower-bed.ts
+index a890435a..5afb6c9a 100644
+--- a/src/pages/mushrooms/ui/scene/flower-bed.ts
++++ b/src/pages/mushrooms/ui/scene/flower-bed.ts
+@@ -207,7 +207,7 @@ export class FlowerBed implements Following {
+       : UNPLACED;
+     shown.stands = place;
+     standAt(container, place);
+-    const pale = this.view && place.behind ? browPale(place.ahead) : 0;
++    const pale = this.view && place.behind ? browPale(place.distance) : 0;
+     container.setAlpha(1 - BROW_FADE * pale);
+   }
+ 

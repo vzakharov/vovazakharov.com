@@ -13,19 +13,22 @@ import { speciesHeight } from '../../model/mushroom-pose';
 import { OPENING_FEET } from '../../model/placement';
 import { extremes, placeOf } from './clump-layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
-import { seamReach } from './skyline';
 import {
   behindHills,
+  browLowest,
+  browRow,
   buried,
   cull,
   D_SEE,
   ofGround,
   ofLayout,
   onScreen,
+  type Placed,
   SHOWN_LEAST,
   sunk,
   sunkAway,
   V_NEAR,
+  type View,
   viewAt,
 } from './view';
 import { VIEWPORTS } from './viewports';
@@ -46,6 +49,17 @@ const EYES: Eye[] = [
   { x: -1.5, y: 1, heading: 0.3 },
   { x: 2, y: -2, heading: -0.4 },
 ];
+
+/** A thing on the ground `distance` from `view`'s eye, `off` radians right of its heading, as the view places it. */
+function standing(view: View, distance: number, off: number): Placed {
+  const { eye } = view;
+  const toward = eye.heading + off;
+  const plane = {
+    x: eye.x + distance * Math.sin(toward),
+    y: eye.y + distance * Math.cos(toward),
+  };
+  return { ...viewOf(view, eye, plane, 0), zoom: 1, distance };
+}
 
 /** How near two screen positions count as one, in CSS px. */
 const SAME_PX = 1e-9;
@@ -126,69 +140,98 @@ describe('the view', () => {
     assert.equal(cull({ ahead: D_SEE }), false);
   });
 
-  it('puts behind the hills only what stands past D_SEE', () => {
-    assert.equal(behindHills({ ahead: V_NEAR }), false);
-    assert.equal(behindHills({ ahead: D_SEE }), false);
-    assert.equal(behindHills({ ahead: D_SEE + 1e-6 }), true);
+  it('puts behind the brow only what stands farther than D_SEE', () => {
+    assert.equal(behindHills({ distance: V_NEAR }), false);
+    assert.equal(behindHills({ distance: D_SEE }), false);
+    assert.equal(behindHills({ distance: D_SEE + 1e-6 }), true);
   });
 
   for (const { name, camera } of CAMERAS) {
-    it(`sinks what stands past D_SEE below the ground's top row, with no jump, on the ${name} camera`, () => {
+    it(`draws the brow along the D_SEE circle, highest at the middle, on the ${name} camera`, () => {
+      const { width, groundTop } = camera;
+      assert.ok(Math.abs(browRow(camera, width / 2) - groundTop) < 1e-9);
+      assert.equal(browLowest(camera), browRow(camera, width));
       for (const eye of EYES) {
         const view = viewAt(camera, eye);
-        const foot = (ahead: number) => {
-          const plane = {
-            x: eye.x + ahead * Math.sin(eye.heading),
-            y: eye.y + ahead * Math.cos(eye.heading),
-          };
-          const viewed = viewOf(view, eye, plane, 0);
-          return { ...viewed, zoom: 1 };
-        };
-        const crossing = foot(D_SEE);
-        assert.equal(sunk(view, crossing), crossing);
-        assert.ok(Math.abs(crossing.y - camera.groundTop) < 1e-6);
-        const past = sunk(view, foot(D_SEE + 1e-6));
-        assert.ok(Math.abs(past.y - crossing.y) < 1e-3, 'jumps at D_SEE');
-        let last = crossing.y;
-        for (const ahead of [13.5, 15, 20, 40, 400]) {
-          const drawn = sunk(view, foot(ahead));
-          assert.ok(
-            drawn.y > last,
-            `${String(ahead)}: does not sink as it recedes`,
-          );
-          assert.ok(buried(view, drawn), `${String(ahead)}: not buried`);
-          last = drawn.y;
+        for (const off of [-0.6, -0.3, 0, 0.2, 0.5]) {
+          const { x, y } = standing(view, D_SEE, off);
+          assert.ok(Math.abs(y - browRow(camera, x)) < 1e-6, String(off));
         }
-        for (const ahead of [V_NEAR, 9, D_SEE]) {
-          const placed = foot(ahead);
-          assert.equal(sunk(view, placed), placed);
-          assert.equal(buried(view, placed), false);
+      }
+      let last = browRow(camera, width / 2);
+      for (let x = width / 2; x <= width; x += 5) {
+        assert.ok(browRow(camera, x) >= last, 'not lower toward the edge');
+        last = browRow(camera, x);
+      }
+    });
+
+    it(`sinks what stands farther than D_SEE below the brow at its x, with no jump, on the ${name} camera`, () => {
+      for (const eye of EYES) {
+        const view = viewAt(camera, eye);
+        for (const off of [-0.5, 0, 0.3]) {
+          const crossing = standing(view, D_SEE, off);
+          assert.equal(sunk(view, crossing), crossing);
+          const past = sunk(view, standing(view, D_SEE + 1e-6, off));
+          assert.ok(Math.abs(past.y - crossing.y) < 1e-3, 'jumps at D_SEE');
+          let last = crossing.y;
+          for (const distance of [13.5, 15, 20, 40, 400]) {
+            const drawn = sunk(view, standing(view, distance, off));
+            const where = `${String(distance)} at ${String(off)}`;
+            assert.ok(drawn.y > last, `${where}: does not sink as it recedes`);
+            assert.ok(buried(view, drawn), `${where}: not buried`);
+            last = drawn.y;
+          }
+          for (const distance of [V_NEAR, 9, D_SEE]) {
+            const placed = standing(view, distance, off);
+            assert.equal(sunk(view, placed), placed);
+            assert.equal(buried(view, placed), false);
+          }
+        }
+      }
+    });
+
+    it(`stands no drawn foot above the brow at its x, from any heading, on the ${name} camera`, () => {
+      for (const eye of EYES) {
+        for (let turn = 0; turn < 36; turn++) {
+          const view = viewAt(camera, {
+            ...eye,
+            heading: (turn / 36) * Math.PI * 2,
+          });
+          for (let off = -0.7; off <= 0.7; off += 0.05) {
+            for (const distance of [3, 8, 12, 13, 13.3, 13.4, 14, 16, 30]) {
+              const placed = standing(view, distance, off);
+              if (cull(placed) || !onScreen(view, placed, -1)) continue;
+              const drawn = sunk(view, placed);
+              const brow = browRow(view, drawn.x);
+              const where = `turn ${String(turn)}, ${String(distance)} at ${off.toFixed(2)}`;
+              assert.ok(drawn.y >= brow - 1e-6, `${where}: above the brow`);
+            }
+          }
         }
       }
     });
   }
 
   for (const { name, camera } of CAMERAS) {
-    it(`stops drawing a sunk thing once less than SHOWN_LEAST of it shows, and only then, on the ${name} camera`, () => {
+    it(`stops drawing a sunk thing once less than SHOWN_LEAST of it shows over the brow, and only then, on the ${name} camera`, () => {
       const view = viewAt(camera, OPENING_EYE);
-      const cover = camera.groundTop + seamReach(camera);
-      for (const tall of [0.3, 1, 2]) {
-        let gone = false;
-        for (let ahead = V_NEAR; ahead < 400; ahead *= 1.01) {
-          const placed = sunk(view, {
-            ...viewOf(view, OPENING_EYE, { x: 0, y: ahead }, 0),
-            zoom: 1,
-          });
-          const height = tall * placed.scale;
-          const shows = Math.min(height, cover - (placed.y - height));
-          const away = sunkAway(view, placed, height);
-          const where = `${String(tall)} tall, ${ahead.toFixed(2)} ahead`;
-          const sinking = ahead > D_SEE;
-          assert.equal(away, sinking && shows < SHOWN_LEAST * height, where);
-          assert.ok(!gone || away, `${where}: comes back`);
-          gone = away;
+      for (const off of [0, 0.4]) {
+        for (const tall of [0.3, 1, 2]) {
+          let gone = false;
+          for (let distance = V_NEAR; distance < 400; distance *= 1.01) {
+            const placed = sunk(view, standing(view, distance, off));
+            const cover = browRow(view, placed.x);
+            const height = tall * placed.scale;
+            const shows = Math.min(height, cover - (placed.y - height));
+            const away = sunkAway(view, placed, height);
+            const where = `${String(tall)} tall, ${distance.toFixed(2)} at ${String(off)}`;
+            const sinking = distance > D_SEE;
+            assert.equal(away, sinking && shows < SHOWN_LEAST * height, where);
+            assert.ok(!gone || away, `${where}: comes back`);
+            gone = away;
+          }
+          assert.ok(gone, `${String(tall)} tall: never sinks away`);
         }
-        assert.ok(gone, `${String(tall)} tall: never sinks away`);
       }
     });
   }

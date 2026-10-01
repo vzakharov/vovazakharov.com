@@ -2,10 +2,10 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { OPENING_EYE, pinholeOf } from '../../model/ground';
-import { browBlades, browShown } from './brow';
+import { browBlades, browShown, type ShownBlade } from './brow';
 import { meadowCamera } from './meadow-camera';
 import { seamReach } from './skyline';
-import { coverRow, viewAt } from './view';
+import { browRow, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
 /** Each screen's camera, upright and turned. */
@@ -13,6 +13,9 @@ const CAMERAS = VIEWPORTS.flatMap(([name, width, height]) => [
   { name, camera: meadowCamera(width, height) },
   { name: `${name} turned`, camera: meadowCamera(height, width) },
 ]);
+
+/** How tall a shown blade stands, root to tip, in CSS px. */
+const standing = ({ root, tip }: ShownBlade) => root - tip.y;
 
 /** Headings round the circle, off the round numbers. */
 const HEADINGS = Array.from(
@@ -24,14 +27,19 @@ describe('the brow', () => {
   for (const { name, camera } of CAMERAS) {
     const blades = browBlades(camera);
 
-    it(`${name}: no blade reaches the ground's top row, where a thing crossing the seam has its foot`, () => {
+    it(`${name}: every blade is rooted on the brow at its own x, the fringe lower toward the screen's edges`, () => {
+      const reach = seamReach(camera);
       for (const heading of HEADINGS) {
         const view = viewAt(camera, { ...OPENING_EYE, heading });
         for (const blade of browShown(view, blades)) {
-          assert.ok(blade.tip.y > view.groundTop, `${blade.tip.y}`);
-          assert.ok(blade.root >= coverRow(view));
+          const brow = browRow(view, blade.x);
+          assert.ok(blade.root >= brow && blade.root < brow + reach * 0.2);
+          assert.ok(blade.tip.y >= blade.root - reach, `${blade.tip.y}`);
         }
       }
+      const middle = browRow(camera, camera.width / 2);
+      assert.ok(browRow(camera, 0) > middle);
+      assert.ok(browRow(camera, camera.width) > middle);
     });
 
     it(`${name}: every heading shows clumps of blades with bare brow between them, none bare for long`, () => {
@@ -79,7 +87,9 @@ describe('the brow', () => {
         (one, other) => Math.abs(one.x - middle) - Math.abs(other.x - middle),
       )[0];
       assert.ok(before);
-      const after = (to ?? []).find((blade) => blade.tip.y === before.tip.y);
+      const after = (to ?? []).find(
+        (blade) => Math.abs(standing(blade) - standing(before)) < 1e-9,
+      );
       assert.ok(after);
       assert.ok(after.x < before.x - 1, `${before.x} → ${after.x}`);
     });

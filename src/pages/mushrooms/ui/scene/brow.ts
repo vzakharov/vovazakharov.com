@@ -1,21 +1,24 @@
 /**
- * The meadow's brow: the ground rounding over its horizon along the cover row
- * (`groundTop + seamReach`), under which a thing past `D_SEE` sinks (`sunk`).
- * A lighter crest runs along that row and a fringe of blades stands on it,
- * drawn in front of whatever sinks, so a far thing goes down behind the brow
- * foot first, as a ship goes under a small planet's horizon, rather than
- * burying itself in a flat field.
+ * The meadow's brow: the ground rounding over its horizon along the `D_SEE`
+ * circle round the eye (`browRow`), highest at the screen's middle and lower
+ * toward its edges, under which a thing farther away sinks (`sunk`). The
+ * ground is drawn on over everything that sinks from the brow down, a
+ * lighter crest runs along it and a fringe of blades stands on it, so a far
+ * thing goes down behind the brow foot first, as a ship goes under a small
+ * planet's horizon, rather than burying itself in a flat field. Beyond the
+ * brow, up to the hills, lies the far ground, under what sinks.
  */
 
 import type * as Phaser from 'phaser';
 
+import { type Point, sample } from '../../model/geometry';
 import { type Camera, pinholeOf } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
-import { BROW, groundAt } from './backdrop-tones';
+import { BROW, groundRowAt } from './backdrop-tones';
 import { mix } from './colour';
 import { screenAt } from './panorama';
-import { seamReach } from './skyline';
-import { coverRow, type View } from './view';
+import { hillBands, seamReach } from './skyline';
+import { browLowest, browRow, type View } from './view';
 
 /** The brow's own stream, so growing its blades draws nothing from the backdrop's. */
 const BROW_SEED = 0xb7_0a;
@@ -42,11 +45,7 @@ const CLUMP_EDGE = 0.45;
 /** The share of clumps that hold a tuft, two blades standing well over the rest, and its height. */
 const TUFT_SHARE = 0.2;
 const TUFT_TALL = [0.82, 0.95] as const;
-/**
- * The tallest a blade stands, in the seam's reach: never so tall that its tip
- * reaches the ground's top row, where a thing crossing `D_SEE` has its foot,
- * so nothing goes behind the blades at once.
- */
+/** The tallest a blade stands, in the seam's reach. */
 const TALLEST = 0.95;
 /**
  * How far a blade's tip leans, in the seam's reach: a clump's own lean, each
@@ -60,13 +59,28 @@ const BLADE_LEAN = 0.3;
 /** Half a blade's width at its root, in the seam's reach, and the least in CSS px. */
 const BLADE_HALF = 0.09;
 const LEAST_HALF = 0.6;
-/** How far below the cover row a blade is rooted, in the seam's reach, so its root sits in the crest. */
+/** How far below the brow a blade is rooted, in the seam's reach, so its root sits in the crest. */
 const ROOT_DOWN = 0.1;
 /** The share of blades lit at the tip, the rest dark. */
 const LIT_SHARE = 0.35;
-/** How far down from the cover row the crest's light fades into the ground, in the seam's reach, and in how many rows. */
+/** How far down from the brow the crest's light fades into the ground, in the seam's reach, and in how many rows. */
 const CREST_DEPTH = 0.45;
 const CREST_ROWS = 4;
+/** The brow's points to a screen's width, and how far past either edge it runs, in CSS px. */
+const BROW_STEPS = 48;
+const BROW_MARGIN = 4;
+/** How many rows the ground over what sinks is toned in, from the brow down to the ground's picture. */
+const COVER_ROWS = 4;
+
+/**
+ * Where the ground's picture starts down the screen: below the brow
+ * everywhere on it and below the seam's lowest point, so the picture covers
+ * nothing that should show over the brow, and the brow's own ground covers
+ * what sinks above it.
+ */
+export function browFloor(camera: Camera): number {
+  return Math.max(camera.groundTop + seamReach(camera), browLowest(camera));
+}
 
 /** One blade of the brow: the azimuth it stands at, its height and lean as shares of the seam's reach, and whether its tip is lit. */
 export type BrowBlade = {
@@ -152,7 +166,6 @@ export function browShown(
   blades: readonly BrowBlade[],
 ): ShownBlade[] {
   const reach = seamReach(view);
-  const root = coverRow(view) + reach * ROOT_DOWN;
   const half = Math.max(LEAST_HALF, reach * BLADE_HALF);
   return blades.flatMap(({ azimuth, tall, lean, lit }) => {
     const x = screenAt(view, azimuth);
@@ -160,6 +173,7 @@ export function browShown(
     if (x === undefined || x < -overhang || x > view.width + overhang) {
       return [];
     }
+    const root = browRow(view, x) + reach * ROOT_DOWN;
     return [
       {
         x,
@@ -172,11 +186,34 @@ export function browShown(
   });
 }
 
+/** `points`' outline, filled, from plain points (`fillShape` needs Phaser's vectors, and so Phaser loaded). */
+function fillPolygon(
+  graphics: Phaser.GameObjects.Graphics,
+  points: readonly Point[],
+): void {
+  const [first, ...rest] = points;
+  if (!first) return;
+  graphics.beginPath();
+  graphics.moveTo(first.x, first.y);
+  for (const { x, y } of rest) graphics.lineTo(x, y);
+  graphics.closePath();
+  graphics.fillPath();
+}
+
+/** The brow across `view`'s screen, a little past either edge. */
+function browLine(view: View): Point[] {
+  return sample(-BROW_MARGIN, view.width + BROW_MARGIN, BROW_STEPS, (x) => ({
+    x,
+    y: browRow(view, x),
+  }));
+}
+
 /**
- * The brow as `view` shows it, into `graphics`, cleared first: the crest's
- * light fading down into the ground over a few rows from the cover row, then
- * the blades along it at the view's heading, so a turn slides them as it does
- * the hills.
+ * The brow as `view` shows it, into `graphics`, cleared first: the ground
+ * from the brow down to where the ground's picture starts (`browFloor`), in
+ * the picture's own tones, over whatever sinks; the crest's light along the
+ * brow, fading down into the ground over a few rows; then the blades along
+ * it at the view's heading, so a turn slides them as it does the hills.
  */
 export function drawBrow(
   graphics: Phaser.GameObjects.Graphics,
@@ -185,14 +222,27 @@ export function drawBrow(
 ): void {
   graphics.clear();
   const reach = seamReach(view);
-  const top = coverRow(view);
+  const line = browLine(view);
+  const floor = browFloor(view);
+  const top = Math.min(...line.map(({ y }) => y));
+  const tall = (floor - top) / COVER_ROWS;
+  for (const [row, { outline }] of hillBands(
+    line,
+    floor,
+    COVER_ROWS,
+  ).entries()) {
+    graphics.fillStyle(groundRowAt(view, top + (row + 0.5) * tall));
+    fillPolygon(graphics, outline);
+  }
   const step = (reach * CREST_DEPTH) / CREST_ROWS;
-  const { width, height, groundTop } = view;
+  const shifted = (by: number) => line.map(({ x, y }) => ({ x, y: y + by }));
   for (let row = 0; row < CREST_ROWS; row++) {
-    const y = top + row * step;
-    const under = groundAt((y - groundTop) / (height - groundTop));
+    const under = groundRowAt(view, view.groundTop + row * step);
     graphics.fillStyle(mix(BROW.crest, under, row / CREST_ROWS));
-    graphics.fillRect(0, y, width, step + 0.5);
+    fillPolygon(graphics, [
+      ...shifted(row * step),
+      ...shifted((row + 1) * step + 0.5).toReversed(),
+    ]);
   }
   for (const { x, root, half, tip, lit } of browShown(view, blades)) {
     graphics.fillStyle(lit ? BROW.bladeLit : BROW.blade);
