@@ -1,8 +1,13 @@
 import type { FlowerColour } from '../../model/flower-genes';
-import { type FlowerShape, shapeSeeds } from '../../model/flower-sounds';
+import {
+  type FlowerShape,
+  type FlowerSound,
+  shapeSeeds,
+} from '../../model/flower-sounds';
 import { type Action, type Meadow, sameFoot } from '../../model/game';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
+import { keyPlanting } from './keyed-flowers';
 import type { MeadowSound } from './sound';
 import type { Grass, Sprout } from './tufts';
 
@@ -17,7 +22,8 @@ export type Scened = {
  * The child planting flowers: a tap on a tuft opens the flower picker on it,
  * a colour picked draws the seeds its four shapes grow from, and a shape
  * picked plants that flower — while the tuft can take one (`takesFlower`),
- * refused otherwise the way a full forest refuses `+`.
+ * refused otherwise the way a full forest refuses `+`. A note or drum key
+ * picks both at once (`plantSounding`).
  */
 export class Planter {
   private readonly voice: MeadowSound;
@@ -50,6 +56,26 @@ export class Planter {
 
   readonly plant = (shape: FlowerShape): void => {
     this.scene.dispatch({ kind: 'plant', shape });
+  };
+
+  /**
+   * A key making `sound` while the flower picker is open: the picker's own
+   * pick of the flower that makes it (`keyPlanting`), refused as that pick
+   * would be where the picker cannot plant. Returns whether the picker was
+   * open to take it.
+   */
+  readonly plantSounding = (sound: FlowerSound): boolean => {
+    const meadow = this.scene.meadow();
+    const actions = keyPlanting(meadow?.planting, sound, (colour) =>
+      shapeSeeds(this.sowing, colour),
+    );
+    if (!meadow || !actions) return false;
+    if (!this.plantable(meadow)) {
+      this.voice.nuhUh();
+      return true;
+    }
+    for (const action of actions) this.scene.dispatch(action);
+    return true;
   };
 
   /**

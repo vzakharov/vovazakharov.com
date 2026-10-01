@@ -64,15 +64,17 @@ function listenForChords(
 /**
  * Lets `scene`'s flowers be played as an instrument beyond one finger's
  * taps: from the keyboard while the canvas holds focus (`listenForKeys`),
- * only through the flowers in front of the player (`playKey`), the held
- * arrows turning and walking `eye`; and with more fingers than one
- * (`listenForChords`). Returns what stops both.
+ * only through the flowers in front of the player, or planting through
+ * the open flower picker by `plant` (`playKey`), the held arrows turning and
+ * walking `eye`; and with more fingers than one (`listenForChords`). Returns
+ * what stops both.
  */
 export function playTheMeadow(
   scene: Phaser.Scene,
   instrument: Instrument,
   flowers: Pick<FlowerBed, 'chordTap' | 'inView' | 'answer'>,
   eye: EyeInput,
+  plant: KeyedPlay['plant'],
 ): () => void {
   const { canvas } = scene.game;
   const keyed: KeyedPlay = {
@@ -80,6 +82,7 @@ export function playTheMeadow(
     answer: (answering) => {
       flowers.answer(answering);
     },
+    plant,
   };
   takeFocus(canvas);
   const stopKeys = listenForKeys(

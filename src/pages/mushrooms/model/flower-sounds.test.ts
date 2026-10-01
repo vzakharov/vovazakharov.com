@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { FLOWER_COLOURS, flowerGenes } from './flower-genes';
 import {
+  classOf,
   DRUMS,
   firstFlowers,
   FLOWER_SHAPES,
@@ -79,6 +80,18 @@ describe('the flowers a bee brings', () => {
       ),
     );
     assert.equal(heard.size, 20);
+  });
+});
+
+describe('classOf', () => {
+  it('names the colour and shape of every sound’s flowers', () => {
+    for (const colour of FLOWER_COLOURS) {
+      for (const shape of FLOWER_SHAPES) {
+        const found = classOf(soundOf({ colour, ...shape }));
+        assert.equal(found.colour, colour);
+        assert.equal(found.shape, shape, 'the very shape the picker offers');
+      }
+    }
   });
 });
 

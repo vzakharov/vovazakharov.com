@@ -184,6 +184,7 @@ export class MeadowScene extends Phaser.Scene {
       this.instrument,
       this.flowers,
       this.eye,
+      this.planter.plantSounding,
     );
     const stopPanning = this.eye.listen(this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {

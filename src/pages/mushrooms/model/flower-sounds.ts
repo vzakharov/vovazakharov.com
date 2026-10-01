@@ -7,6 +7,7 @@
  */
 
 import {
+  type Coloured,
   type Flower,
   type FlowerColour,
   type FlowerGenes,
@@ -91,6 +92,18 @@ function at<Item>(items: readonly Item[], index: number): Item {
   const item = items[index];
   if (item === undefined) throw new Error(`No sound at ${String(index)}`);
   return item;
+}
+
+/** The colour and shape of the flowers that make `sound`: `soundOf` read backwards. */
+export function classOf(sound: FlowerSound): Coloured & { shape: FlowerShape } {
+  for (const colour of PICKED_COLOURS) {
+    for (const shape of FLOWER_SHAPES) {
+      if (sameSound(soundOf({ colour, ...shape }), sound)) {
+        return { colour, shape };
+      }
+    }
+  }
+  throw new Error('No flower makes the sound asked for');
 }
 
 export function sameSound(a: FlowerSound, b: FlowerSound): boolean {
