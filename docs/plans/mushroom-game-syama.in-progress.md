@@ -652,6 +652,16 @@ looked: «мне ок» — so that build is the next package (`lens-build.md`),
 and then the half-depth package's other carried items (the fliers'
 ground-point sink, `PAST_BROW`, the no-perch leg, the world's-end release,
 the insect cull by drawn extent, `V_NEAR`'s ceiling re-measured).
+Built (88c9357 → 0f4c63c5; `lens-land.md`, `lens-carry.md`): the lens with
+its tests, plays and frames (the opening the probe's to the pixel), the
+sink, `PAST_BROW`, the no-perch leg, the cull, `V_NEAR` kept (ceiling
+0.614). **Decided, from `lens-carry.md` round 2: a release whose brow start
+has no usable row sets off just past the screen's edge** (`offScreen` with
+the view), as before the first fit. The nearest column with any row sits at
+the no-row wedge's edge, where the row is near-infinite and the zoom near 0,
+so the butterfly never shows. Beaten: searching for a row within a bound
+(the bound is a guess at the layout's range), keeping the start in plane
+units (a larger change for a 0.76% case).
 
 **Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
 ground point, not its middle.** What sinks is keyed on distance along the
