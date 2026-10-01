@@ -51,6 +51,41 @@ the leg arrives. 28 779 legs.
    a fly or bee under 3 s. Not a lens matter (the timing is the model's), so
    nothing to re-measure on the screen. `flight.ts` stands at 461 lines.
 
+## Stopped by the subagent context budget, before item 4's source
+
+**Item 4, measured, not built.** `entry`'s fallback to `pastEnd` fires in
+two cases: no view (before the eye's first fit), and `groundAlong` finding
+no layout row (the brow's ground behind the opening eye's row,
+`gathered(plane).y ≤ 0`: a ±3.4° wedge straight behind the plane's origin,
+since `SPREAD` 1.96 takes ±176.6° to ±90°). Swept: eyes on a 2-unit grid
+over `GLADE`, headings every 0.02 rad, columns at 0.3 / 0.5 / 0.7 of the
+width, the start at `D_SEE + PAST_BROW`: **0.76 % of starts have no row on
+every screen**, and the nearest column whose brow ground has one is at most
+58 / 98 / 45 / 28 / 37 / 76 px off (tablet, tablet portrait, phone, phone
+sideways, small phone, desktop). Every case found a column with a row on
+the screen.
+
+The build the measure supports (not a choice the plan made; for the next
+agent or the orchestrator to confirm):
+
+- looking back: set off at the screen column nearest the wanted one whose
+  ground at that distance has a row (a 1 px outward search, release-time
+  only), for the start and for the no-perch `near` alike;
+- before the first fit: set off just past the opening crop's edge nearer the
+  perch (`offScreen` with no view, which is inside the world), not
+  `pastEnd`;
+- `offScreen`'s own `pastEnd` fallback is for a leaving insect, not a
+  release, and is outside this item.
+
+Scratch scripts (not committed, in the scratchpad's `lc/`):
+`release-hidden.mts` (the step 1–2 measure) and `no-row.mts` (the sweep
+above); each runs as `WT=<worktree> node --import tsx <script>` from the
+worktree.
+
 ## Left
 
-4–6 of the package, `fliers.test.ts`, the frames.
+4 (above), 5 (the insect cull by drawn extent), 6 (`V_NEAR`'s ceiling under
+the lens), `fliers.test.ts` alone (not run: this package changed `drawnAt`,
+the sink, and `firstFlight`'s no-perch leg), the tabL / phoneP release
+frames `lens-carry-*.png`. The `InsectView` docstring still says an insect is
+"hidden nearer the eye than `V_NEAR`", which item 5 changes.
