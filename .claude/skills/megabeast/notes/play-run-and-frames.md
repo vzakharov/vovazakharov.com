@@ -134,3 +134,10 @@
   the plan had recorded as beaten). Brief a fix from a play report as
   "measure the cause, stop if it differs", and sweep headings in small
   steps (720) for anything that shows "at some turns but not others".
+- **A play's own shortcuts show up in its measures.** Bite 12's `veer` play
+  set the heading in one frame (`face()`) and counted every insect drawn
+  across it as a 90 px jump; all 17 "jumps" on tabL were that or the
+  fly's designed dash. A trace at node level, with the eye moved only as
+  a held key moves it, cleared the game in one agent. A play that
+  teleports the eye, the clock or a creature breaks its per-frame records
+  there.

@@ -217,7 +217,15 @@
   cap in the right unit and reported it. Its report also showed the cap
   should be per screen, a second call. The skill should have the
   orchestrator read the function's units before it writes a number into
-  a decision.
+  a decision. A number taken from a hand-over note is the same risk: bite
+  12's dash bound came from `dash-cap.md`'s 60 sizes/s, a cap pace had
+  since removed, and the play failed both dashing kinds on it. A bound
+  goes into a brief as "derive it from `<file>`", not as a figure.
+- **An agent that writes a new play and runs it is two agents.** Bite 12's
+  `veer` play filled its first agent (185k) before one browser run; the
+  second, briefed "apply the patch, lint, commit, then run one screen",
+  finished at 124k. Brief writing and running as separate steps, the
+  write committed before any build.
 
 - **A shared tree bans `git stash`, `checkout -- <path>` and `restore` in
   the common brief from the start.** Bite 11's first flowers agent stashed

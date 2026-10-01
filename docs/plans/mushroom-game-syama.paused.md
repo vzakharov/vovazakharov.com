@@ -397,17 +397,18 @@ farthest heading with room (~1.8 rad on tabL, ~1.6 on phoneP).
 
 **Left, in order:**
 
-1. **Package C, the switch-over** (`insect-plane.md` § R3.3). The spec is
-   firm and step 0, the veer, A, B and pace are built (`ip-frame`, `ip-veer`,
-   `ip-A`, `ip-B`, `ip-pace`, `ip-dart` notes; pace's cruise set by the catch
-   test: fly 5, bee 4 sizes a second). C1 spent its context reading and left
-   the design in `ip-C1.md` with `ip-C1.patch`; its three calls are decided:
-   every leg not from away fades the veer in from its start (a startle or a
-   hover inside the band would jump ~0.22 · `CLUMP_DISTANCE`); `drawnFlier`
-   returns the veered point the next leg starts from; `Perched` is a union of
-   seat and air, `seatedZoom` taken at the seat's drawn point (1e-3).
-   Then C's play checks (tabL, phoneP: looking back, a walk into a hover, the
-   fly flick, the ~2.4× fade, the brow blink), the Artifact republished.
+1. **Package C's play, finished.** The switch is built (372543a, `ip-C2.md`;
+   `fliers.test.ts` 48/48) and the `veer` play (`scripts/lib/play-veer.ts`,
+   `veer-watch.ts`, `veer-report.ts`; `ip-Cplay3.md`) ran tabL and phoneP:
+   looking back drawn ≥ 98% of each flight, the walk into a hover ≤ 1.71×,
+   no blink, no game fault (`ip-jump.md` traced every jump to the play's own
+   one-frame `face()` or the designed dash). Left: the two bound changes
+   decided above — the dash bound at 1.1 × its curve's peak for fly and bee,
+   the looking-back landing at the farthest heading with room — then one
+   rerun per screen, frames to `frames/bite-12/insect-plane/`, and the
+   Artifact republished with what the operator should try.
+   C's step 2 (tests for `flowerLiftAt` and `seat`'s and `capTop`'s `drawn`)
+   rides with it.
 2. The five-screen play run at the final HEAD, one screen per call, its frames
    committed (`play-final.md`; ~9 min on tabL): spec §4's opening identity, the
    walk to a back-row mushroom and a tap on its drawn cap, an insect after
