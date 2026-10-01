@@ -244,11 +244,19 @@ The bites, each file its full contract:
 
 In order.
 
-**Bite 11's review (5373085053) is fixed in code and every thread is
-answered.** Its tail is not done yet: the play run over all five screens
-(play-pan's drag check now expects the slop lag), the frames worth showing
-to `docs/remove-before-merging/frames/bite-11/`, the Artifact republished,
-`/polish`, and `/pr`. After that comes item 12.
+**Bite 11's review (5373085053) is handled**: every thread answered, the
+play run green on all five screens, its frames in
+`docs/remove-before-merging/frames/bite-11/`, the Artifact at version 12.
+A held arrow on phoneL starts from the far end, since the opening crop
+leaves less room than the key's ease-in needs (`play-pan-keys.ts`). Item 12
+is next.
+
+**The rest of idea 1 has no item yet.** Bites 9 and 11 built its left half
+(the ground, the wide world, the pan, the keys, a turn as a crop); the step
+forward and back, the map in the mute's circle, far mushrooms tapped only
+where drawn and insects perching out of sight are written up in
+`docs/remove-before-merging/ideas/idea-1-walking-meadow.md` and wait for the
+operator's word on where they go.
 
 **Open:** review 5360733525 is handled, every thread answered; one miss it
 left stands: on phoneL, visit 12733755's clump back cap keeps a 22 px patch,
