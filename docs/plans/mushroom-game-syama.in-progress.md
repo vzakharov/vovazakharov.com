@@ -399,6 +399,18 @@ not explain is a defect to trace (`ip-Cplay5.md`: an `away` leg drawn toward
 a side point recomputed each frame; walking frames counted as steps), not a
 number to loosen. Beaten: binding to the measured peaks (writes the defect
 into the check).
+**Traced (`ip-Cplay5.md`, `scripts/lib/veer-away.ts`): an `away` leg is
+timed between one pair of points and drawn between another** — leaving, timed
+to `places`' away point past the world strip but drawn to just past the
+screen's edge (`offAloft`); a release's flight out of view, `outWay` with no
+depth factor where `apartIn` has one; its next leg timed from `shownOf`'s
+away point but drawn from the out point — so drawn/timed runs 0.4–2.1× and a
+fly dashes ~90 px. **Decided: an away leg is timed between the plane points
+it is drawn between** (the view's away points into `places`; `flight-in.ts`,
+`flight-timing.ts`, `perch-sight.ts`, `insect-away.ts`), the rule a leg's
+points are plane points already states. Beaten: leaving it (the cruise is
+then a lie on every away leg). The play counts a late frame at a 60 fps
+frame's share and leaves walked frames out.
 **Looking back the glade is bare by design** (12b makes the field endless),
 so nothing grows at π; the veer play lands its looking-back releases at the
 farthest heading with room (~1.8 rad on tabL, ~1.6 on phoneP).
