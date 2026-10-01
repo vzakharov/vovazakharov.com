@@ -47,8 +47,8 @@ import {
   type Reaching,
 } from './draw-insect';
 import type { Lighted, Lighting } from './ink';
-import type { Perched } from './insect-view';
 import type { Footing } from './layout';
+import type { Perched } from './perch-hosts';
 
 /** How far a butterfly's wings fold at the most closed, seen from above, as a share of open. */
 const FOLDED = 0.12;

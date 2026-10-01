@@ -5,9 +5,26 @@ import type { Flier } from '../../model/insects';
 import type { Host } from './bed-place';
 import type { FlowerBed } from './flower-bed';
 import type { Aloft } from './insect-frame';
-import type { Perched } from './insect-view';
 import type { MushroomBed } from './mushroom-bed';
 import { aloftOfLayout, perchSpot } from './perch-sight';
+
+/**
+ * Where an insect sits on a perch, in world px at the opening eye: at a
+ * flower the head's middle it drinks from; on a cap or a flower the host it
+ * sits on, which draws it, and the seat as the host draws it this frame
+ * (`drawn`, CSS px), its parts on the host at the host's zoom and its lift
+ * off the host at the sitter's own; in the air, the spot as a fixed point in
+ * the world.
+ */
+export type Perched = Point & {
+  nectar?: Point;
+  on?: Host;
+  drawn?: Point;
+  aloft?: Aloft;
+};
+
+/** Where a perch stands in the world this frame, `undefined` while it has nowhere to be. */
+export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
 
 /**
  * What the scene's perches stand on: the mushrooms' caps, the flowers' heads,
@@ -28,7 +45,7 @@ export type PerchHosts = {
  * it; or a spot in the open air.
  */
 export function perchedOn(
-  { bed, flowers, air }: PerchHosts,
+  { bed, flowers, air, alofts }: PerchHosts,
   perch: Perch,
   insect: Flier,
 ): Perched | undefined {
@@ -41,7 +58,8 @@ export function perchedOn(
       return flowers?.seat(perch.id, spot, insect.kind);
     }
     case 'air': {
-      return air.get(perch.id);
+      const [at, aloft] = [air.get(perch.id), alofts.get(perch.id)];
+      return at && (aloft ? { ...at, aloft } : at);
     }
     case 'away': {
       return undefined;

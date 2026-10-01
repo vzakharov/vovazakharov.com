@@ -98,21 +98,40 @@ export type HeadReach = Pick<Circle, 'r'> & Centred;
  * centre, and a bee on the lower rim, below the middle.
  */
 export function flowerLift(
-  { r, disc }: HeadReach,
+  reach: HeadReach,
   insectSize: number,
   kind: InsectKind = 'butterfly',
 ): number {
+  return flowerLiftAt(reach, insectSize, kind, { host: 1, insect: 1 });
+}
+
+/** The zooms a seat on a host is drawn at: the host's own, and the insect's sitting on it. */
+export type SeatZooms = Record<'host' | 'insect', number>;
+
+/**
+ * `flowerLift` as drawn, when the flower is drawn at `zoom.host` and the
+ * insect on it at `zoom.insect`: its head and centre at the flower's zoom,
+ * the insect's own offsets at its own, so its legs stay on the head when the
+ * two differ.
+ */
+export function flowerLiftAt(
+  { r, disc }: HeadReach,
+  insectSize: number,
+  kind: InsectKind,
+  zoom: SeatZooms,
+): number {
+  const own = insectSize * zoom.insect;
   switch (kind) {
     case 'butterfly': {
-      return disc + ABOVE_CENTRE * insectSize;
+      return disc * zoom.host + ABOVE_CENTRE * own;
     }
     case 'fly': {
-      return ON_CENTRE * insectSize;
+      return ON_CENTRE * own;
     }
     case 'bee': {
       return -Math.max(
-        r + PAST_RIM * insectSize,
-        (FACE_REACH + CRAWL_REACH.y) * insectSize,
+        r * zoom.host + PAST_RIM * own,
+        (FACE_REACH + CRAWL_REACH.y) * own,
       );
     }
     default: {

@@ -6,6 +6,7 @@ import { type Flower, flowerGenes } from '../../model/flower-genes';
 import { soundOf } from '../../model/flower-sounds';
 import type { Action, Meadow } from '../../model/game';
 import { placedAt } from '../../model/geometry';
+import { CLUMP_DISTANCE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Dip, drinkDip } from '../../model/insect-motion';
 import type { Flier } from '../../model/insects';
@@ -17,21 +18,26 @@ import {
   sway,
 } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
-import { bedPlace, layoutPlace, standAt, UNPLACED } from './bed-place';
+import { bedPlace, layoutPlace, onHost, standAt, UNPLACED } from './bed-place';
 import { drawFlower } from './draw-flower';
 import { FlowerHold } from './flower-hold';
 import { FLOWER_SWAY } from './flower-layout';
 import { type StandingFlower, standingFlowers } from './flower-plots';
 import { FlowerRing, type Ringed } from './flower-ring';
-import { type Centred, flowerLift, flowerTapReach } from './flower-sight';
+import {
+  type Centred,
+  flowerLift,
+  flowerLiftAt,
+  flowerTapReach,
+} from './flower-sight';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 import { containsFlower, type TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
-import type { Perched } from './insect-view';
 import type { Instrument } from './instrument';
 import type { FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
+import type { Perched } from './perch-hosts';
 import { browPale } from './repaint-queue';
 import { type Following, onScreen, type View } from './view';
 
@@ -240,21 +246,35 @@ export class FlowerBed implements Following {
    * Where an insect sits on the flower `id` this frame, `spot` of its head's
    * radius across (`perchSpot`), with the head's middle it drinks from, in
    * world px at the opening eye, where the insects fly, and the flower it
-   * sits on, which draws it; `undefined` while the screen has no room for the
-   * flower.
+   * sits on, which draws it, with the seat as it draws it this frame: the
+   * spot on the head at the flower's zoom, lifted off it at the insect's own
+   * (`flowerLiftAt`, `CLUMP_DISTANCE` over the flower's distance ahead);
+   * `undefined` while the screen has no room for the flower.
    */
   seat(id: string, spot: number, kind: InsectKind): Perched | undefined {
     const shown = this.shown.get(id);
     if (!shown?.laid) return undefined;
-    const { container, head, headR, disc, laid } = shown;
-    const lift = flowerLift({ r: headR, disc }, this.sizes[kind], kind);
-    const seat = placedAt(laid.place, container.rotation, {
-      x: head.x + spot * headR,
-      y: head.y - lift,
+    const { container, head, headR, disc, laid, stands } = shown;
+    const turn = container.rotation;
+    const reach = { r: headR, disc };
+    const lift = flowerLift(reach, this.sizes[kind], kind);
+    const across = { ...pick(head, 'y'), x: head.x + spot * headR };
+    const seat = placedAt(laid.place, turn, { ...across, y: head.y - lift });
+    const nectar = placedAt(laid.place, turn, head);
+    const on = { laidFoot: laid.place, stands };
+    const drawnLift = flowerLiftAt(reach, this.sizes[kind], kind, {
+      host: stands.zoom,
+      insect: CLUMP_DISTANCE / stands.ahead,
     });
-    const nectar = placedAt(laid.place, container.rotation, head);
-    const on = { laidFoot: laid.place, ...pick(shown, 'stands') };
-    return { ...seat, nectar, on };
+    const drawn = placedAt(
+      onHost(on, placedAt(laid.place, turn, across)),
+      turn,
+      {
+        x: 0,
+        y: -drawnLift,
+      },
+    );
+    return { ...seat, nectar, on, drawn };
   }
 
   /**

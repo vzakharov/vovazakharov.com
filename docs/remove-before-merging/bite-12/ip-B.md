@@ -39,4 +39,32 @@ live; package C switches the view over and deletes the old ones.
   than the veer (≥ `V_NEAR`), so the floor costs nothing on screen.
 - **`away` keeps the opening's distance**: its spot moves with the screen,
   it is not a world point.
-- `perch-sight.ts` is ~470 lines until C deletes `footRows`/`airSpots`.
+- `perch-sight.ts` is 482 lines until C deletes `footRows`/`airSpots`.
+
+## Step 2 — the seat as the host draws it (built; tests left)
+
+- `Perched` and `PerchAt` live in `perch-hosts.ts`; `insect-view.ts`,
+  `insect-look.ts` (one import line, not on B's list), the beds and
+  `perches.ts` import them there. `Perched` gains optional `drawn: Point`
+  (the seat in CSS px as the host draws it this frame) and `aloft: Aloft`
+  (an air perch's, from `perchedOn`). Both optional so today's paths stand.
+- `flower-sight.ts`: `flowerLiftAt(reach, insectSize, kind, zoom:
+SeatZooms)` — head/centre (`disc`, `r`) at `zoom.host`, the insect's own
+  offsets at `zoom.insect`; the bee's `max` takes the two scaled parts.
+  `flowerLift` is `flowerLiftAt` at `{ host: 1, insect: 1 }`, unchanged.
+- `flower-bed.ts` `seat`: `drawn` = the head spot through `onHost`, then the
+  lift drawn at `{ host: stands.zoom, insect: CD / stands.ahead }` turned by
+  the flower's rotation. `mushroom-bed.ts` `capTop`: `drawn = onHost(on,
+seat)` (a cap seat has no insect part).
+- Green: `pnpm typecheck`, `pnpm type-overlap`, eslint, `perch-sight`,
+  `flower-plots`, `tufts`. Nothing live reads `drawn`/`aloft`/`sightFrom`
+  yet, and `flowerLift` is numerically unchanged, so `fliers.test.ts` was
+  not run (its rates cannot move from B alone).
+
+## Left
+
+- A test of `flowerLiftAt` (equals `flowerLift` × zoom when both zooms are
+  equal; the head part follows the host zoom alone) and of `seat`'s/`capTop`'s
+  `drawn` (equals `onHost` of the seat at host zoom 1 = insect zoom) — the
+  beds need Phaser, so a pure helper for `drawn` may be the way.
+- `fliers.test.ts` once C wires `sightFrom` and `drawn`.

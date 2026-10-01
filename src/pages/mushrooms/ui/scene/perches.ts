@@ -3,9 +3,9 @@ import type { Point } from '../../model/geometry';
 import type { Flier } from '../../model/insects';
 import type { Stand } from './flower-sight';
 import type { Aloft } from './insect-frame';
-import type { Perched } from './insect-view';
 import {
   perchAloft,
+  type Perched,
   perchedOn,
   type PerchHosts,
   tapThrough,
