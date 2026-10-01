@@ -12,6 +12,7 @@ import {
   farSkyline,
   farthestRange,
   farthestSkyline,
+  HILL_DETAIL,
   HILL_STEPS,
   hillBands,
   litRidge,
@@ -92,6 +93,95 @@ describe('the hill bands', () => {
             }
             assert.equal(bands[0]?.down, 0);
             assert.equal(bands.at(-1)?.down, 1);
+          }
+        }
+      }
+    });
+  }
+});
+
+/**
+ * `outline` in device px at `ratio`, as Phaser's fill keeps it at `detail`:
+ * every point but the first and last within `detail` of the last one kept,
+ * both ways, is skipped (`FillPath.run`).
+ */
+function phaserKept(
+  outline: readonly Point[],
+  ratio: number,
+  detail: number,
+): Point[] {
+  const kept: Point[] = [];
+  for (const [index, point] of outline.entries()) {
+    const [x, y] = [point.x * ratio, point.y * ratio];
+    const last = kept.at(-1);
+    const inner = index > 0 && index < outline.length - 1;
+    if (
+      inner &&
+      last &&
+      Math.abs(x - last.x) <= detail &&
+      Math.abs(y - last.y) <= detail
+    ) {
+      continue;
+    }
+    kept.push({ x, y });
+  }
+  return kept;
+}
+
+/** Whether segments `a`–`b` and `c`–`d` cross at a point inside both. */
+function cross(a: Point, b: Point, c: Point, d: Point): boolean {
+  const side = (p: Point, q: Point, r: Point) =>
+    Math.sign((q.x - p.x) * (r.y - p.y) - (q.y - p.y) * (r.x - p.x));
+  return side(a, b, c) * side(a, b, d) < 0 && side(c, d, a) * side(c, d, b) < 0;
+}
+
+/** Two edges of the closed `outline`, not side by side, that cross: none for a simple polygon. */
+function crossedEdges(outline: readonly Point[]): [number, number] | undefined {
+  const count = outline.length;
+  const at = (index: number) => outline[index % count] ?? { x: 0, y: 0 };
+  for (let i = 0; i < count; i++) {
+    for (let j = i + 2; j < count; j++) {
+      if (i === 0 && j === count - 1) continue;
+      if (cross(at(i), at(i + 1), at(j), at(j + 1))) return [i, j];
+    }
+  }
+  return undefined;
+}
+
+describe('the hill bands as the hills fill them', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    it(`stay simple polygons through Phaser's path detail, from 720 headings, on a ${name} screen`, () => {
+      for (const seed of VISITS.slice(0, 3)) {
+        const layout = meadowLayout(width, height, seed);
+        const random = mulberry32(seed);
+        const crests = [
+          farthestSkyline(random, layout),
+          farSkyline(random, layout),
+          nearSkyline(random, layout),
+        ];
+        for (let step = 0; step < 720; step++) {
+          const view = turnedTo(layout.camera, (step / 720) * Math.PI * 2);
+          for (const [range, crest] of crests.entries()) {
+            const line = crestAcross(crest, view, HILL_STEPS, 4);
+            for (const [band, { outline }] of hillBands(
+              line,
+              layout.groundTop,
+              16,
+            ).entries()) {
+              for (const ratio of [1, 2, 3]) {
+                const kept = phaserKept(outline, ratio, HILL_DETAIL);
+                // Skipping only repeated points leaves the outline as it was.
+                const crossed =
+                  kept.length === phaserKept(outline, ratio, 0).length
+                    ? undefined
+                    : crossedEdges(kept);
+                assert.equal(
+                  crossed,
+                  undefined,
+                  `seed ${seed}, step ${step}, range ${range}, band ${band}, ×${ratio}`,
+                );
+              }
+            }
           }
         }
       }

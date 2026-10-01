@@ -306,6 +306,16 @@ function withoutLevelRuns(points: readonly Point[]): Point[] {
   );
 }
 
+/**
+ * The path detail, in device px, the hills' Graphics fill their outlines at
+ * (Phaser's `pathDetailThreshold`, which skips every point within it of the
+ * last one kept). None: a band's outline closes along its lower edge from a
+ * corner a px or less from the crest's last point, and skipping that corner
+ * slopes the closing edge across the band's own, which the fill then spills
+ * past as a flat slab over the range behind.
+ */
+export const HILL_DETAIL = 0;
+
 /** One of a range's bands: its outline, and how far down the range it lies, 0 at the crest and 1 at the foot. */
 export type HillBand = { outline: Point[]; down: number };
 
