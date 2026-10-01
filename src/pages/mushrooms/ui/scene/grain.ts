@@ -1,46 +1,12 @@
 /**
- * The land's texture, pure: the ground's mottling, and its grain — a tile of
- * seeded noise, each pixel white or black at its own alpha, so laid over a
+ * The land's grain, pure: a tile of seeded noise, each pixel white or black at its own alpha, so laid over a
  * fill it lifts some pixels and sinks others and leaves the fill's colour as
  * it was on the whole.
  */
 
-import type { Oval } from '../../model/bee-outline';
 import type { Topped } from '../../model/geometry';
-import { between, mulberry32, type Random } from '../../model/random';
-import { depthScale } from './flower-layout';
+import { mulberry32 } from '../../model/random';
 import type { MeadowLayout } from './layout';
-import { layerSpan, PARALLAX } from './parallax';
-
-/** The ground's patches to a screen's width. */
-const MOTTLES = 24;
-
-/** A flattened patch of the ground a little lighter or deeper than round it, so the meadow reads as rolling. */
-export type Mottle = Oval & { deep: boolean };
-
-/**
- * The ground's patches across the world, `MOTTLES` to a screen's width,
- * drawn from `random`, so the same source mottles it the same; smaller the
- * farther back they lie.
- */
-export function mottles(
-  random: Random,
-  { width, height, groundTop, camera }: MeadowLayout,
-): Mottle[] {
-  const depth = height - groundTop;
-  const { left, across } = layerSpan(camera, PARALLAX.ground);
-  return Array.from({ length: Math.round((MOTTLES * across) / width) }, () => {
-    const down = between(random, 0.06, 1) ** 1.3;
-    const rx = between(random, 0.05, 0.12) * width * depthScale(down) * 0.8;
-    return {
-      x: between(random, left, left + across),
-      y: groundTop + depth * down,
-      rx,
-      ry: rx * between(random, 0.18, 0.25),
-      deep: random() < 0.5,
-    };
-  });
-}
 
 /** Each pixel's own share against its four neighbours' in the blur, which softens noise into tooth. */
 const OWN = 0.5;

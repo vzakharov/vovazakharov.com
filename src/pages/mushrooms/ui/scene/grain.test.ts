@@ -1,10 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mulberry32 } from '../../model/random';
-import { grainPixels, grainStrips, mottles } from './grain';
+import { grainPixels, grainStrips } from './grain';
 import { meadowLayout } from './layout';
-import { groundSeam } from './skyline';
+import { seamReach } from './skyline';
 import { VIEWPORTS } from './viewports';
 
 describe('the grain', () => {
@@ -50,7 +49,7 @@ describe('the grain', () => {
   it('lies on the ground alone, from the seam’s highest point down, coming in by degrees', () => {
     for (const [, width, height] of VIEWPORTS) {
       const layout = meadowLayout(width, height, 3);
-      const top = Math.min(...groundSeam(layout).map(({ y }) => y));
+      const top = layout.groundTop - seamReach(layout);
       const strips = grainStrips(layout, top);
       assert.equal(strips[0]?.top, top);
       assert.equal(strips.at(-1)?.bottom, height);
@@ -64,28 +63,5 @@ describe('the grain', () => {
       assert.ok((strips.at(0)?.share ?? 1) < 0.2);
       assert.equal(strips.at(-1)?.share, 1);
     }
-  });
-});
-
-describe('the ground’s mottling', () => {
-  it('is the same from the same source, and smaller at the back', () => {
-    const layout = meadowLayout(1180, 820, 3);
-    const patches = mottles(mulberry32(9), layout);
-    assert.deepEqual(patches, mottles(mulberry32(9), layout));
-    const { groundTop, height } = layout;
-    for (const { y, rx, ry } of patches) {
-      assert.ok(y >= groundTop && y <= height);
-      assert.ok(ry / rx >= 0.18 && ry / rx <= 0.25);
-    }
-    const backs = patches.filter(
-      ({ y }) => y < groundTop + (height - groundTop) * 0.3,
-    );
-    const fronts = patches.filter(
-      ({ y }) => y > groundTop + (height - groundTop) * 0.7,
-    );
-    const mean = (list: typeof patches) =>
-      list.reduce((sum, { rx }) => sum + rx, 0) / list.length;
-    assert.ok(backs.length > 3 && fronts.length > 3);
-    assert.ok(mean(backs) < mean(fronts));
   });
 });

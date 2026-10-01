@@ -4,16 +4,13 @@ import { type Light, sunLight } from '../../model/light';
 import type { Random } from '../../model/random';
 import { groundAt, RANGES, ridgeTone } from './backdrop-tones';
 import { mix } from './colour';
-import { type Band, grainPixels, grainStrips, mottles } from './grain';
+import { type Band, grainPixels, grainStrips } from './grain';
 import type { MeadowLayout } from './layout';
-import { PALETTE } from './palette';
 import { type Crest, crestAcross } from './panorama';
-import { layerSpan, PARALLAX } from './parallax';
 import { fillShape } from './shapes';
 import {
   farSkyline,
   farthestSkyline,
-  groundSeam,
   HILL_STEPS,
   hillBands,
   litRidge,
@@ -26,9 +23,6 @@ import type { View } from './view';
 
 const HILL_BANDS = 16;
 const GROUND_BANDS = 32;
-const MOTTLE_ALPHA = 0.16;
-/** A mottle's share of the way from the ground toward the lit or the deep ground. */
-const MOTTLE_TONE = 0.3;
 const GRAIN_KEY = 'grain';
 const GRAIN_SIDE = 256;
 const GRAIN_ALPHA = 0.07;
@@ -136,44 +130,39 @@ export function drawHills(
 }
 
 /**
- * The ground across the world from its seam with the near hills to the
- * bottom edge, lit far and deeper near, mottled: bands under the seam, each
- * toned by how far down the ground it starts. Returns the rows it covers.
+ * The ground as the screen shows it, from any heading: rows from where the
+ * seam dips lowest to the bottom edge, lit far and deeper near, each toned
+ * by how far down the ground it lies, as though the rows ran up to where the
+ * seam rises highest. Above them the near range's foot fills the seam in the
+ * same colour, so the ground meets it with no line. Returns the rows it
+ * covers.
  */
 export function paintGround(
   graphics: Phaser.GameObjects.Graphics,
   layout: MeadowLayout,
-  random: Random,
 ): Band {
-  const { height, groundTop } = layout;
-  const seam = groundSeam(layout);
-  const top = Math.min(...seam.map(({ y }) => y));
-  for (const { outline, down } of hillBands(seam, height, GROUND_BANDS)) {
-    const y = top + (height - top) * down * ((GROUND_BANDS - 1) / GROUND_BANDS);
+  const { width, height, groundTop } = layout;
+  const reach = seamReach(layout);
+  const [top, from] = [groundTop - reach, groundTop + reach];
+  const step = (height - top) / GROUND_BANDS;
+  for (let band = 0; band < GROUND_BANDS; band++) {
+    const [y0, y1] = [
+      Math.max(from, top + band * step),
+      top + (band + 1) * step,
+    ];
+    if (y1 <= y0) continue;
+    const y = top + (height - top) * (band / GROUND_BANDS);
     graphics.fillStyle(groundAt((y - groundTop) / (height - groundTop)));
-    fillShape(graphics, outline);
+    graphics.fillRect(0, y0, width, y1 - y0);
   }
-  // Each patch twice, the outer at a wider reach, so its edge is soft.
-  for (const { x, y, rx, ry, deep } of mottles(random, layout)) {
-    graphics.fillStyle(
-      mix(
-        PALETTE.ground,
-        deep ? PALETTE.groundDeep : PALETTE.groundLit,
-        MOTTLE_TONE,
-      ),
-      MOTTLE_ALPHA / 2,
-    );
-    graphics.fillEllipse(x, y, rx * 2.6, ry * 2.6);
-    graphics.fillEllipse(x, y, rx * 2, ry * 2);
-  }
-  return { top, bottom: height };
+  return { top: from, bottom: height };
 }
 
 /**
- * The grain over the ground across the world, under the grass and every
- * creature, scrolling with the ground: one tile texture made from `seed` the
- * first time, then one sprite per strip of `grainStrips`, reused on every
- * repaint, the texture lying continuous across the strips.
+ * The grain over the ground, standing on the screen, under the grass and
+ * every creature: one tile texture made from `seed` the first time, then one
+ * sprite per strip of `grainStrips` from where the seam rises highest,
+ * reused on every repaint, the texture lying continuous across the strips.
  */
 export function paintGrain(
   scene: Phaser.Scene,
@@ -195,13 +184,14 @@ export function paintGrain(
     context.putImageData(image, 0, 0);
     texture.refresh();
   }
-  const { left, across } = layerSpan(layout.camera, PARALLAX.ground);
-  const top = Math.min(...groundSeam(layout).map(({ y }) => y));
+  const { width, groundTop } = layout;
+  const top = groundTop - seamReach(layout);
   return grainStrips(layout, top).map(({ top: from, bottom, share }, index) =>
-    (existing?.[index] ?? scene.add.tileSprite(0, 0, across, 1, GRAIN_KEY))
+    (existing?.[index] ?? scene.add.tileSprite(0, 0, width, 1, GRAIN_KEY))
       .setOrigin(0, 0)
-      .setPosition(left, from)
-      .setSize(across, bottom - from)
+      .setScrollFactor(0)
+      .setPosition(0, from)
+      .setSize(width, bottom - from)
       .setTileScale(GRAIN_SCALE)
       .setTilePosition(0, from / GRAIN_SCALE)
       .setAlpha(GRAIN_ALPHA * share),

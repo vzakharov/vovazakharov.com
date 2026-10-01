@@ -108,16 +108,18 @@ sun the far ranges differ by up to 24 px (tabL), 63 px (tabP), 33 (phone),
 gone, so the far hills near the sun stand at their own height rather than
 pressed down. Seam: ≤ 0.9 px.
 
-### Step 2 (not started in source)
+### Step 2: the land screen-fixed (fourth agent)
 
-Draft: `paintGround` as 32 flat full-width rects from `groundTop − reach`,
-each clipped to `y ≥ groundTop + reach` (today's band colours, seam fill
-above), no mottles; `paintGrain` screen-fixed (`setScrollFactor(0)`, x 0,
-width = screen) from `groundTop − reach`; then bakes are all factor 0, and
-`layerSpan` leaves `paint-backdrop.ts`/`grain.ts`/`paint-land.ts`.
-`parallax.ts` stays for `grass.ts` (`layerSpan`, `PARALLAX`) and
-`skyline.ts`'s `groundSeam` (grass's seam). Screenshot pair not taken; the
-0b32d8fb~ worktree was removed.
+`paintGround` is 32 full-width rows from `groundTop − reach`, toned as
+before, drawn only from `groundTop + reach` down (the near range's foot fill
+covers above it, `groundAt` = `near.foot` over the seam's reach), no mottles
+(`mottles`/`Mottle` and their test gone from `grain.ts`). `paintGrain` is
+screen-wide, `setScrollFactor(0)`, from `groundTop − reach`. Every bake is
+screen-fixed (`Bake.factor` gone), so `paint-backdrop.ts`, `paint-land.ts`
+and `grain.ts` no longer import `parallax.ts`. `skyline.ts` still does, for
+`groundSeam`, which `ground-seam.test.ts` (scene wiring's) still reads.
+Dropping the mottles' draws shifts the backdrop's `random` stream after the
+hills, so the grain tile's seed differs from before.
 
 ## Left
 

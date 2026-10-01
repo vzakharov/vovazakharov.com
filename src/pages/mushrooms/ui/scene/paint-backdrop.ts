@@ -28,7 +28,6 @@ import {
   paintWash,
 } from './paint-sky';
 import { driftedAzimuth, placedLeft, screenAt } from './panorama';
-import { layerSpan, PARALLAX } from './parallax';
 import { SUN_RAY_REACH } from './sun-layout';
 import { type Following, type View, viewAt } from './view';
 
@@ -57,7 +56,8 @@ type Turning = { columns: Picture; home: Span; offsets: number[] };
  * a picture of their own that `follow` slides to where the view shows the
  * sun, and the clouds go to their azimuths through the same view. The hills
  * are drawn live, as the view shows them, again only when its heading
- * changes; the ground and its grain move with the world. Stacked by `DEPTHS`, sky
+ * changes; the ground's rows and its grain stand on the screen, which a
+ * step or a turn leaves as they are. Stacked by `DEPTHS`, sky
  * at the back and the grain over the wash. `layers` are what the pictures
  * are baked from, off the display list, kept so a repaint paints into them
  * again; `view` is the view last followed and `drifted` how many seconds the
@@ -100,12 +100,11 @@ const DEPTHS = {
   grain: -1,
 } as const;
 
-/** What a picture is baked from and where it lies: its layer's stretch, the rows it covers, its scroll factor and its depth. */
+/** What a picture is baked from and where it lies: its stretch across the screen, the rows it covers and its depth. */
 type Bake = Layered & {
   sources: readonly Phaser.GameObjects.GameObject[];
   span: Span;
   rows: Band;
-  factor: number;
 };
 
 /**
@@ -113,13 +112,13 @@ type Bake = Layered & {
  * `rows` at `ratio` device pixels each, so a texel lands on one device
  * pixel, reusing `existing`'s columns: column by column, tile by tile, each
  * tile drawn into `scratch` at `SUPERSAMPLE` times that and shrunk into
- * place. The picture scrolls at `factor` and stacks at `depth`.
+ * place. The picture stands on the screen and stacks at `depth`.
  */
 function bake(
   scene: Phaser.Scene,
   existing: Picture | undefined,
   scratch: Phaser.GameObjects.RenderTexture,
-  { sources, span, rows, factor, depth }: Bake,
+  { sources, span, rows, depth }: Bake,
   ratio: number,
 ): Picture {
   const columns = pictureColumns(Math.ceil(span.across * ratio));
@@ -136,7 +135,7 @@ function bake(
     picture
       .setPosition(x, rows.top)
       .setScale(1 / ratio)
-      .setScrollFactor(factor)
+      .setScrollFactor(0)
       .setDepth(depth)
       .clear()
       .render();
@@ -221,7 +220,7 @@ export function paintBackdrop(
     near: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.nearHills),
   };
   const groundLayer = layer();
-  const groundRows = paintGround(groundLayer, layout, random);
+  const groundRows = paintGround(groundLayer, layout);
   const washLayer = layer();
   paintWash(washLayer, layout);
   const grain = paintGrain(
@@ -240,7 +239,8 @@ export function paintBackdrop(
   )
     .setOrigin(0, 0)
     .setScale(1 / SUPERSAMPLE);
-  const { camera, height, nearHills, sun, wash: rings } = layout;
+  const { camera, width, height, nearHills, sun, wash: rings } = layout;
+  const screen = { left: 0, across: width };
   const baked = (
     picture: keyof typeof DEPTHS,
     was: Picture | undefined,
@@ -248,22 +248,15 @@ export function paintBackdrop(
   ) => bake(scene, was, scratch, { ...how, depth: DEPTHS[picture] }, ratio);
   const turning = (
     picture: 'glow' | 'sun' | 'wash',
-    how: Omit<Bake, 'depth' | 'factor'>,
+    how: Omit<Bake, 'depth'>,
   ): Turning => {
-    const columns = baked(picture, existing?.[picture].columns, {
-      ...how,
-      factor: PARALLAX.fixed,
-    });
+    const columns = baked(picture, existing?.[picture].columns, how);
     return {
       columns,
       home: how.span,
       offsets: columns.map(({ x }) => x - how.span.left),
     };
   };
-  const layered = (factor: number) => ({
-    span: layerSpan(camera, factor),
-    factor,
-  });
   const [glowLeft, glowRight] = onPixels(
     glowSpan.left,
     glowSpan.left + glowSpan.across,
@@ -281,9 +274,8 @@ export function paintBackdrop(
   }
   const backdrop: Backdrop = {
     sky: baked('sky', existing?.sky, {
-      span: layerSpan(camera, PARALLAX.fixed),
+      span: screen,
       rows: { top: 0, bottom: height },
-      factor: PARALLAX.fixed,
       sources: [skyLayer],
     }),
     glow: turning('glow', {
@@ -299,7 +291,7 @@ export function paintBackdrop(
     hills: hillLayers,
     hillsFrom: undefined,
     ground: baked('ground', existing?.ground, {
-      ...layered(PARALLAX.ground),
+      span: screen,
       rows: groundRows,
       sources: [groundLayer],
     }),
