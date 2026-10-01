@@ -13,6 +13,7 @@ import { speciesHeight } from '../../model/mushroom-pose';
 import { OPENING_FEET } from '../../model/placement';
 import { extremes, placeOf } from './clump-layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
+import { seamReach } from './skyline';
 import {
   behindHills,
   buried,
@@ -21,7 +22,9 @@ import {
   ofGround,
   ofLayout,
   onScreen,
+  SHOWN_LEAST,
   sunk,
+  sunkAway,
   V_NEAR,
   viewAt,
 } from './view';
@@ -161,6 +164,31 @@ describe('the view', () => {
           assert.equal(sunk(view, placed), placed);
           assert.equal(buried(view, placed), false);
         }
+      }
+    });
+  }
+
+  for (const { name, camera } of CAMERAS) {
+    it(`stops drawing a sunk thing once less than SHOWN_LEAST of it shows, and only then, on the ${name} camera`, () => {
+      const view = viewAt(camera, OPENING_EYE);
+      const cover = camera.groundTop + seamReach(camera);
+      for (const tall of [0.3, 1, 2]) {
+        let gone = false;
+        for (let ahead = V_NEAR; ahead < 400; ahead *= 1.01) {
+          const placed = sunk(view, {
+            ...viewOf(view, OPENING_EYE, { x: 0, y: ahead }, 0),
+            zoom: 1,
+          });
+          const height = tall * placed.scale;
+          const shows = Math.min(height, cover - (placed.y - height));
+          const away = sunkAway(view, placed, height);
+          const where = `${String(tall)} tall, ${ahead.toFixed(2)} ahead`;
+          const sinking = ahead > D_SEE;
+          assert.equal(away, sinking && shows < SHOWN_LEAST * height, where);
+          assert.ok(!gone || away, `${where}: comes back`);
+          gone = away;
+        }
+        assert.ok(gone, `${String(tall)} tall: never sinks away`);
       }
     });
   }

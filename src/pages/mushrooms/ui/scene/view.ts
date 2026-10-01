@@ -19,6 +19,7 @@ import {
   viewOf,
   zAt,
 } from '../../model/ground';
+import { seamReach } from './skyline';
 
 /** The camera a frame is drawn through, and the eye it looks from. */
 export type View = Camera & { eye: Eye };
@@ -120,6 +121,26 @@ export function sunk(view: View, placed: Placed): Placed {
  */
 export function buried(view: View, placed: Placed): boolean {
   return behindHills(placed) && placed.y > view.groundTop;
+}
+
+/**
+ * The share of a sunk thing's drawn height that must still show over the
+ * ground for it to be drawn: under it, what pokes up is a sliver of petal
+ * tips or a cap's rim, less than a recognisable head, and reads as a speck.
+ * A thing that small is a few px at the seam, so hiding it does not pop.
+ */
+export const SHOWN_LEAST = 0.2;
+
+/**
+ * Whether `placed`, as `sunk` draws it `height` CSS px tall, has sunk so far
+ * that less than `SHOWN_LEAST` of it shows over the ground, which covers it
+ * from the seam's lowest row down (`seamReach`), and is better not drawn.
+ */
+export function sunkAway(view: View, placed: Placed, height: number): boolean {
+  const cover = view.groundTop + seamReach(view);
+  return (
+    behindHills(placed) && cover - (placed.y - height) < SHOWN_LEAST * height
+  );
 }
 
 /**

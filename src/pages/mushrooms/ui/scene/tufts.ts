@@ -46,7 +46,15 @@ import {
 } from './grass';
 import type { MeadowLayout } from './layout';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
-import { behindHills, cull, ofGround, onScreen, sunk, type View } from './view';
+import {
+  behindHills,
+  cull,
+  ofGround,
+  onScreen,
+  sunk,
+  sunkAway,
+  type View,
+} from './view';
 
 /**
  * How many tufts the ground grows per 1000 CSS px of its world across: a
@@ -74,6 +82,9 @@ const TUFT_BLADES = 1.4;
 const BARE_CORE = 0.25;
 /** How many points round the core a bare tuft is read at, beside its middle. */
 const CORE_RING = 8;
+
+/** How tall a tuft stands, in units of its size: its middle blade (`grass.ts`). */
+const TUFT_HEIGHT = 2;
 
 /** A tuft the child can plant on, and the foot on the ground a flower planted there stands on. */
 export type Sprout = Rooted & WithTuft;
@@ -235,7 +246,8 @@ export type ShownGrass = { near: ShownSprout[]; behind: ShownSprout[] };
  * Where `view` draws each of `sprouts`: at its foot, its size scaled by its
  * zoom and its colours toned by the screen row it stands on, as the ground's
  * bands are. A tuft too near the eye (`cull`), or off the screen, is not
- * drawn; one past the ground's top row sinks under the ground (`sunk`).
+ * drawn; one past the ground's top row sinks under the ground (`sunk`) until
+ * too little of it shows to draw (`sunkAway`).
  */
 export function shownSprouts(
   view: View,
@@ -248,6 +260,7 @@ export function shownSprouts(
     if (cull(placed)) continue;
     const size = sprout.tuft.size * placed.zoom;
     if (!onScreen(view, placed, -BLADE_OVERHANG * size)) continue;
+    if (sunkAway(view, placed, TUFT_HEIGHT * size)) continue;
     const down = Math.max(0, placed.y - view.groundTop) / depth;
     const tuft = {
       ...sprout.tuft,

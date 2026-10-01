@@ -3,7 +3,8 @@
  * everything out once at the opening eye and draw it at that size, and this
  * is what places it through the view (`ofGround`), scales it by `zoom`, sorts
  * it by the row it stands on, hides it near the eye (`cull`) and, past the
- * ground's top row (`behindHills`), sinks it under the ground (`sunk`).
+ * ground's top row (`behindHills`), sinks it under the ground (`sunk`) until
+ * too little of it shows to draw (`sunkAway`).
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -16,6 +17,7 @@ import {
   ofGround,
   type Placed,
   sunk,
+  sunkAway,
   type View,
 } from './view';
 
@@ -46,13 +48,20 @@ export type BedPlace = LayeredPoint &
 /** A bed object's place on the screen as last placed. */
 export type Standing = { stands: BedPlace };
 
-/** Where `view` draws a thing whose foot stands on `foot`. */
-export function bedPlace(view: View, foot: Ground): BedPlace {
+/**
+ * Where `view` draws a thing whose foot stands on `foot`, `height` world px
+ * tall as laid out: given a height, it is not drawn once it has sunk away
+ * (`sunkAway`).
+ */
+export function bedPlace(view: View, foot: Ground, height?: number): BedPlace {
   const placed = ofGround(view, foot);
+  const shown = sunk(view, placed);
+  const gone =
+    height !== undefined && sunkAway(view, shown, height * shown.zoom);
   return {
-    ...pick(sunk(view, placed), 'x', 'y', 'zoom', 'ahead'),
+    ...pick(shown, 'x', 'y', 'zoom', 'ahead'),
     depth: placed.y,
-    drawn: !cull(placed),
+    drawn: !cull(placed) && !gone,
     behind: behindHills(placed),
   };
 }

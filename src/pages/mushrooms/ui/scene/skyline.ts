@@ -221,7 +221,10 @@ const SEAM_WAVES: readonly Wave[] = [
 export const SEAM_STEPS = 128;
 
 /** How far the seam wanders either side of the ground's top, in CSS px. */
-export function seamReach({ height, groundTop }: MeadowLayout): number {
+export function seamReach({
+  height,
+  groundTop,
+}: Pick<MeadowLayout, 'height' | 'groundTop'>): number {
   return (height - groundTop) * SEAM_REACH;
 }
 

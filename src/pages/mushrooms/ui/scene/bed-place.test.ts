@@ -81,5 +81,15 @@ describe("a bed object past the ground's top row", () => {
         farther = body;
       }
     });
+
+    it(`stops drawing a thing of a given height once it has sunk away, and never one of none given, on a ${name} screen`, () => {
+      const { layout } = opened(1, width, height, false);
+      const view = viewAt(layout.camera, OPENING_EYE);
+      const tall = layout.camera.unit * 0.3;
+      assert.ok(bedPlace(view, { x: 0, z: zAt(-0.02) }, tall).drawn);
+      const far = { x: 0, z: zAt(-1) };
+      assert.equal(bedPlace(view, far, tall).drawn, false);
+      assert.ok(bedPlace(view, far).drawn);
+    });
   }
 });
