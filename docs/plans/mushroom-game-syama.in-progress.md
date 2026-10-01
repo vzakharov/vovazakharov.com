@@ -404,10 +404,18 @@ departures were taken):
 
 **Left, in order:**
 
-1. P1 step 2 (`p1c-grass-taps.md`): taps only where drawn (`fingerPad`
-   goes), `+` judged in the current view via `eye-crop.ts`, tests at two
-   eyes; then `visit-play.ts` and `mushroom-room.ts` off `Crop` and
-   `pan-input.ts` deleted; `fliers.test.ts` once.
+1. P1 step 2 is built (86503fb, 9d637ea; `p1d-taps.md`): taps only where
+   drawn, `+` judged in the current view, `pan-input.ts` gone. Left: the
+   phone growth it broke, `mushroom-patch`/`meadow-rules`/`layout`
+   re-run, `fliers.test.ts` once, `openingCrop` → `openingView`.
+   **Decided: a grown mushroom's own patch scales with the drawn size.**
+   With the pad gone, `GROWN_PATCH` 16 px of drawn body stops phones
+   growing past the clump (41/20/20 of 120 to six). The patch is 16 px at
+   a tablet's camera unit and shrinks in proportion to the screen's unit,
+   floored at 8 px. Beaten: 8 everywhere (restores phones, but lets
+   tablet forests crowd for no gain) and no growth on phones (breaks "the
+   meadow only gets fuller"). If the scaled floor leaves a phone short of
+   the old 120, the floor goes to 8 on that screen, measured.
 2. `meadow-scene.ts` (455) and `insect-view.ts` (479) back under ~450.
 3. P4: the long press, the flower picker with the cross, the ring
    (below).
