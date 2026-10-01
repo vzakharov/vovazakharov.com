@@ -515,6 +515,14 @@ depth's scale** — perched, at its host's drawn scale (the seat fix's
 `Host`); in flight, at the scale of the view's depth at its ground point.
 If flight scale needs 12b's plane, build the perched half here, stop, and
 report the rest as 12b's.
+Built, both halves (69d7c5f, 8cd4f07, `insect-arrive.md`): a release enters
+with its middle on the nearer edge and its first leg to a perch in view is
+cut to at most `ARRIVAL` 1500 ms (measured before: butterflies 4.3–8.8 s
+median, up to 15.3); in flight an insect's zoom blends between its two
+hosts' by the seat fix's weights, so nothing jumps at take-off or landing.
+Taken: a far insect's tap circle never shrinks under `TAP_RADIUS` (catching
+them is the child's game; caps and flowers do shrink theirs). Facing past
+the strip, a release still flies in unseen — 12b's accepted case below.
 **From the operator, after the relay at depth 8: «субъективно кажется что
 мухи и пчёлы стали перелетать слишком быстро».** Traced: 3ddb960 let
 insects perch anywhere in a world twice a sideways tablet's screen, and
