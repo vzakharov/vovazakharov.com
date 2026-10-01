@@ -160,3 +160,8 @@
   at the committed spec with every call decided — so the successor starts
   briefing step 0 at once. The skill should expect a structural bite to
   spend its first session this way when the operator is present.
+- **A turn woken by an agent's report or a check-in still answers in the
+  operator's language.** The reports arrive in English; two replies
+  followed them into English and the operator noticed («не понял почему мы
+  вдруг заговорили по-английски»). The relay summary's standing
+  constraints should carry the reply language with «ты».

@@ -570,6 +570,45 @@ screen's fastest dash back to 2.5–3.1 screens a second. Left for the
 review: `across` is optional and an absent one means no cap, which only
 test fixtures rely on; `flight.ts` stands at 454 lines.
 
+**Where the relay at 13:00 on 1 Oct left it.** Done: the subagent notice
+(8bf5044, `subagent-notice.md`), the arrival and depth scale, the dash cap.
+Running when it relayed, in that session's container, pushing here: `v-near`
+(the frame budget, `v-near.md`) and `drop-in` (the rise from behind the
+brow, `drop-in.md`) — read their notes and `git log` before briefing
+anything on their files. **Open with the operator: a full turn takes 16.5 s
+of a held key** (`TURN_CRUISE` 0.38 rad/s; the heading wraps, checked), and
+behind the meadow is bare grass, so the operator turned and saw «бесконечная
+поляна», never the circle closing. Their answer decides between a faster
+turn (an acceleration while held, or a higher cruise) and something to
+see behind. Left after that: the five-screen run with frames, the phoneL
+edge flower, the review subagent and its fixes, delete this section,
+`/polish`, vet, the Artifact, `/pr`.
+
+**Decided, from the operator's turn: the meadow is half as deep, so a full
+turn is half as many screens.** The operator's complaint is the length of the
+circle, not the slide («претензии не к тому с какой скоростью движутся
+цветы-грибы, это как раз ок, а к тому какой длины ощущается "полный
+поворот"»), and the opening stays as it is («выглядит как будто ты прямо
+посреди грибочков… и это хорошо»). Measured (`tmp/fov.ts`): a circle is
+`2π · focal` px, and `focal = unit · CLUMP_DISTANCE`, so it is 7.9 screens
+on tabL, 5.2 on phoneL and 18–19 on every portrait screen (a 19° view).
+The row form fixes only `EYE_HEIGHT` (a row's scale is `(row − horizon) /
+EYE_HEIGHT` whatever the focal length); `CLUMP_DISTANCE` is free. So
+`CLUMP_DISTANCE` halves (8.64 → 4.32), `EYE_HEIGHT` stays 4.15 by its own
+derivation from the row form, and `focal` halves with it: `viewOf` at
+`OPENING_EYE` is still `project`, every screen's opening frame identical to
+the pixel, and only depth along the plane halves — the clump stands nearer
+and what is beside it comes round sooner. A circle becomes 3.9 screens on
+tabL (77° across), 2.6 on phoneL, 9–9.5 on portrait. `TURN_CRUISE` comes out
+of the slide in px, which stays (`0.38 · old focal` → 0.76 rad/s, 8.3 s a
+circle). Everything else measured along the plane follows `CLUMP_DISTANCE`
+rather than being retuned by hand: `GLADE`, `STRIDE_CRUISE` (so the clump
+nears at the same pace on screen), `V_NEAR`, the brow, the repaint queue.
+Beaten: a faster `TURN_CRUISE` alone (the circle still 7.9 screens, the
+complaint stands); a cylindrical lens over a world spread sideways (the
+spread would have to differ per screen, and the world is one); a narrower
+crop (the clump shrinks, which the operator ruled out).
+
 **Left, in order:**
 
 1. P1 step 2 is built (86503fb, 9d637ea; `p1d-taps.md`): taps only where
