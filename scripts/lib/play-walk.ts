@@ -22,6 +22,8 @@ import {
   STEP_LENGTH,
   STRIDE_CRUISE,
 } from '../../src/pages/mushrooms/model/stride.ts';
+import { seamReach } from '../../src/pages/mushrooms/ui/scene/skyline.ts';
+import { SHOWN_LEAST } from '../../src/pages/mushrooms/ui/scene/view.ts';
 import {
   type Arrow,
   type Controls,
@@ -44,24 +46,41 @@ const SAME_PX = 0.5;
 const BOB_SHARE = 0.004;
 
 /**
- * The eye, and how high on the screen each mushroom and flower drawn reaches,
- * in CSS px, \`null\` where it is not drawn: what a pop is read from.
+ * How much more than the sliver a sunk thing is hidden at (`SHOWN_LEAST` of
+ * its drawn height) may show over the ground's cover row, in CSS px, on the
+ * frame it starts or stops being drawn without that reading as a pop: a
+ * frame's sink, and the play's reading of a top a little off the drawn one.
+ */
+const SLIVER_SLACK = 2;
+
+/**
+ * The eye, and how high on the screen each mushroom and flower drawn reaches
+ * and how tall it is drawn, in CSS px, \`null\` where it is not drawn: what a
+ * pop is read from. A flower's top is its head's, as laid out above its foot
+ * and scaled with it.
  */
 const WALKING = `({
   ...__probe.eye(),
   tops: Object.fromEntries([
-    ...[...__probe.scene.bed.shown].map(([id, { graphics }]) => [
-      'mushroom:' + id,
-      graphics.visible ? __probe.bounds(id).y : null,
-    ]),
-    ...[...__probe.scene.flowers.shown].map(([id, { container }]) => [
-      'flower:' + id,
-      container.visible ? __probe.toScreen(container.getBounds()).y : null,
-    ]),
+    ...[...__probe.scene.bed.shown].map(([id, { graphics }]) => {
+      if (!graphics.visible) return ['mushroom:' + id, null];
+      const { y, height } = __probe.bounds(id);
+      return ['mushroom:' + id, { top: y, height }];
+    }),
+    ...[...__probe.scene.flowers.shown].map(([id, shown]) => {
+      const { container, headR, headY } = shown;
+      if (!container.visible) return ['flower:' + id, null];
+      const height = (headR - headY) * container.scaleY;
+      const top = __probe.toScreen({ x: container.x, y: container.y - height }).y;
+      return ['flower:' + id, { top, height }];
+    }),
   ]),
 })`;
 const Walking = Eye.extend({
-  tops: z.record(z.string(), z.number().nullable()),
+  tops: z.record(
+    z.string(),
+    z.object({ top: z.number(), height: z.number() }).nullable(),
+  ),
 });
 
 type Seen = z.infer<typeof Eye>;
@@ -133,6 +152,11 @@ export async function playWalk(
 
   const opening = await eye();
   const bob = BOB_SHARE * opening.height;
+  const ground = await page.evaluate(
+    '__probe.scene.layout.camera',
+    z.object({ height: z.number(), groundTop: z.number() }),
+  );
+  const cover = ground.groundTop + seamReach(ground);
   await shoot('opening');
   const tapsBefore = await taps();
 
@@ -148,10 +172,10 @@ export async function playWalk(
   ahead.push(...(await page.trace(SETTLE_FRAMES, WALKING, Walking)));
   await shoot('near');
   checkWalk(opening, ahead, bob, 'ArrowUp', expect, note);
-  checkPops(ahead, 'ArrowUp', expect);
+  checkPops(ahead, cover, 'ArrowUp', expect, note);
   const back = await hold('ArrowDown', FPS * 12);
   const rim = back.at(-1) ?? opening;
-  checkPops(back, 'ArrowDown', expect);
+  checkPops(back, cover, 'ArrowDown', expect, note);
   await shoot('rim');
   checkWalk(ahead.at(-1) ?? opening, back, bob, 'ArrowDown', expect, note);
   expect(
@@ -359,30 +383,50 @@ function checkTurn(
 
 /**
  * Nothing pops while the eye walks: whatever stops or starts being drawn
- * between two frames reached no higher than the screen's foot on the frame
- * it was drawn.
+ * between two frames, on the frame it was drawn, reached no higher than the
+ * screen's foot, or showed over `cover`, the ground's top row
+ * (`groundTop + seamReach`) under which the ground covers a thing sunk past
+ * the seam, no more than the sliver the game hides it at (`SLIVER_SLACK`).
  */
 function checkPops(
   seen: ReadonlyArray<z.infer<typeof Walking>>,
+  cover: number,
   by: Arrow,
   expect: Expect,
+  note: (line: string) => void,
 ): void {
-  const popped = seen.slice(1).flatMap((now, index) => {
+  const changes = seen.slice(1).flatMap((now, index) => {
     const was = seen[index];
     if (!was) return [];
     return Object.keys({ ...was.tops, ...now.tops }).flatMap((id) => {
       const [before, after] = [was.tops[id] ?? null, now.tops[id] ?? null];
-      if ((before === null) === (after === null)) return [];
-      const top = before ?? after ?? Infinity;
-      return top < now.height
-        ? [
-            `${id} ${before === null ? 'appeared' : 'vanished'} reaching ${top.toFixed(0)} px`,
-          ]
-        : [];
+      const drawn = before ?? after;
+      if ((before === null) === (after === null) || !drawn) return [];
+      if (drawn.top >= now.height) return [];
+      const drawnOn = before === null ? now : was;
+      // The tops are on the screen, which the bob scrolls; the cover row is not.
+      const shows = cover - drawnOn.bob - drawn.top;
+      return [
+        {
+          line: `${id} ${before === null ? 'appeared' : 'vanished'} reaching ${drawn.top.toFixed(0)} px, ${shows.toFixed(1)} of its ${drawn.height.toFixed(1)} px over the cover`,
+          shows,
+          popped: shows > SHOWN_LEAST * drawn.height + SLIVER_SLACK,
+        },
+      ];
     });
   });
+  const covered = changes.filter(({ popped }) => !popped);
+  const popped = changes.filter(({ popped: is }) => is);
+  if (covered.length > 0) {
+    note(
+      `${by}: ${String(covered.length)} things came and went under the ground's cover, showing at most ${Math.max(...covered.map(({ shows }) => shows)).toFixed(1)} px over it`,
+    );
+  }
   expect(
     popped.length === 0,
-    `${by}: things popped on screen: ${popped.slice(0, 6).join('; ')}`,
+    `${by}: things popped on screen: ${popped
+      .slice(0, 6)
+      .map(({ line }) => line)
+      .join('; ')}`,
   );
 }

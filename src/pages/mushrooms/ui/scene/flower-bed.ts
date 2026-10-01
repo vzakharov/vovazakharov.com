@@ -162,10 +162,10 @@ export class FlowerBed implements Following {
 
   /** Stands `shown` where the view, or else the layout, puts its foot. */
   private stand(shown: Shown): void {
-    const { laid, container } = shown;
+    const { laid, container, headR, headY } = shown;
     const place = laid
       ? this.view
-        ? bedPlace(this.view, laid.foot)
+        ? bedPlace(this.view, laid.foot, headR - headY)
         : layoutPlace(laid.place)
       : UNPLACED;
     shown.stands = place;
