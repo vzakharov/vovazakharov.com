@@ -5,7 +5,7 @@ import { pick } from '@/shared/lib/collections';
 
 import { reduce } from '../../model/game';
 import { openingIndex } from '../../model/placement';
-import type { Sown } from '../../model/pollen';
+import { isBeeSown, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';
 import { standingPlaces } from './clump-layout';
 import {
@@ -14,7 +14,7 @@ import {
   FOOT_CLEARANCE,
   widestHead,
 } from './flower-layout';
-import { flowerFeet, standingFlowers } from './flower-plots';
+import { flowerFeet, flowersOf, standingFlowers } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { perchSight } from './perch-sight';
@@ -72,7 +72,7 @@ function plantedOut(
   const { mushrooms } = meadow;
   const { layout, flowers } = visit;
   const planted: Sown[] = [];
-  const stand = { layout, flowers, mushrooms, planted };
+  const stand = { layout, flowers, mushrooms, planted, pulled: [] };
   const random = mulberry32(seed ^ 0x50_1d);
   while (planted.length < PLANTINGS) {
     const [slot] = perchSight(stand).room;
@@ -115,6 +115,7 @@ function assertGrounded(
     stand.flowers,
     stand.planted,
     stand.mushrooms,
+    stand.pulled,
   );
   const feet = standingPlaces(screen.mushrooms, stand.mushrooms);
   const depth = screen.height - screen.groundTop;
@@ -197,6 +198,29 @@ describe('a planted flower', () => {
       });
     }
   }
+});
+
+describe('a flower pulled up', () => {
+  it('stands nowhere, the rest stand where they stood, and a bee’s flower ringed round it keeps its foot', () => {
+    let rung = 0;
+    for (const seed of VISITS.slice(0, PLANTED_VISITS)) {
+      const stand = plantedOut(seed, [1180, 820], 'clump');
+      const before = flowersOf(stand);
+      const parents = new Set(
+        stand.planted.flatMap((sown) => (isBeeSown(sown) ? [sown.parent] : [])),
+      );
+      const parent = stand.flowers.find(({ id }) => parents.has(id));
+      if (!parent) continue;
+      rung += 1;
+      const after = flowersOf({ ...stand, pulled: [parent.id] });
+      assert.deepEqual(
+        after,
+        before.filter(({ id }) => id !== parent.id),
+        `visit ${String(seed)}`,
+      );
+    }
+    assert.ok(rung > 0, 'no visit rings a flower round a seeded one');
+  });
 });
 
 describe('a tablet’s meadow', () => {

@@ -34,7 +34,7 @@ describe('a bed object at the opening eye', () => {
             const at = placeIn(ground, { foot });
             return at ? [{ what: id, foot, at }] : [];
           }),
-          ...standingFlowers(layout, flowers, [], meadow.mushrooms).map(
+          ...standingFlowers(layout, flowers, [], meadow.mushrooms, []).map(
             ({ id, foot, place }) => ({ what: id, foot, at: place }),
           ),
         ];

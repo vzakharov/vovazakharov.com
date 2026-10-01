@@ -31,7 +31,7 @@ import type { Splayed } from '../../model/mushroom-pose';
 import { openingIndex } from '../../model/placement';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
-import { standingFlowers } from './flower-plots';
+import { flowersOf } from './flower-plots';
 import { flowerTapReach, type Stand } from './flower-sight';
 import type { Placement } from './layout';
 import { meadowCamera } from './meadow-camera';
@@ -164,24 +164,17 @@ export function patchlessIn(
 }
 
 /** Every flower standing in `stand`, as a tap finds its head. */
-function flowerTaps({
-  layout,
-  flowers,
-  planted,
-  mushrooms,
-}: Stand): FlowerTap[] {
-  return standingFlowers(layout, flowers, planted, mushrooms).map(
-    ({ place, seed }) => {
-      const head = flowerHead(flowerGenes({ seed }), place.size);
-      return {
-        x: place.x + head.x,
-        y: place.y + head.y,
-        petals: head.r,
-        tap: flowerTapReach(head.r),
-        depth: place.y,
-      };
-    },
-  );
+function flowerTaps(stand: Stand): FlowerTap[] {
+  return flowersOf(stand).map(({ place, seed }) => {
+    const head = flowerHead(flowerGenes({ seed }), place.size);
+    return {
+      x: place.x + head.x,
+      y: place.y + head.y,
+      petals: head.r,
+      tap: flowerTapReach(head.r),
+      depth: place.y,
+    };
+  });
 }
 
 /** The box `r` either side of `point`, across and down. */

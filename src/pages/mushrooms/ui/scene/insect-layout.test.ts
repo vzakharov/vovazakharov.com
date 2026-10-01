@@ -95,13 +95,15 @@ const GRID = 28;
 function headsOn(width: number, height: number) {
   const standing = VISITS.slice(0, 200).flatMap((seed) => {
     const { layout, flowers, mushrooms } = opened(seed, width, height, false);
-    return standingFlowers(layout, flowers, [], mushrooms).map((flower) => ({
-      ...pick(flower.place, 'size'),
-      head: {
-        ...pick(sightingOf(flower, layout).head, 'r'),
-        disc: flowerGenes(flower).centre * flower.place.size,
-      },
-    }));
+    return standingFlowers(layout, flowers, [], mushrooms, []).map(
+      (flower) => ({
+        ...pick(flower.place, 'size'),
+        head: {
+          ...pick(sightingOf(flower, layout).head, 'r'),
+          disc: flowerGenes(flower).centre * flower.place.size,
+        },
+      }),
+    );
   });
   const sorted = standing.toSorted((a, b) => a.head.r - b.head.r);
   const middle = sorted[Math.floor(sorted.length / 2)];

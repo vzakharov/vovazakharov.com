@@ -29,7 +29,7 @@ import {
   headClear,
   standingOn,
 } from './flower-layout';
-import { standingFlowers } from './flower-plots';
+import { flowersOf } from './flower-plots';
 import { roomIn, sightingOf, type Stand } from './flower-sight';
 import {
   BLADE_OVERHANG,
@@ -146,13 +146,8 @@ function grownTuft(layout: MeadowLayout, random: Random): Sprout {
  * once, for every tuft asked after.
  */
 export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
-  const { layout, flowers, planted, mushrooms } = stand;
-  const heads: Circle[] = standingFlowers(
-    layout,
-    flowers,
-    planted,
-    mushrooms,
-  ).map((flower) => {
+  const { layout, mushrooms } = stand;
+  const heads: Circle[] = flowersOf(stand).map((flower) => {
     const { head } = sightingOf(flower, layout);
     const swayed = flower.place.size * Math.sin(FLOWER_SWAY);
     return { ...head, r: head.r + swayed };
@@ -192,12 +187,10 @@ export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
 export function plantableIn(stand: Stand): (sprout: Sprout) => boolean {
   const room = roomIn(stand);
   const bare = bareToTap(stand);
-  const standing = standingFlowers(
-    stand.layout,
-    stand.flowers,
-    stand.planted,
-    stand.mushrooms,
-  ).map((flower) => ({ ...pick(flower, 'foot'), genes: flowerGenes(flower) }));
+  const standing = flowersOf(stand).map((flower) => ({
+    ...pick(flower, 'foot'),
+    genes: flowerGenes(flower),
+  }));
   return ({ foot, tuft }) =>
     room(foot) && headClear(foot, standing) && bare(tuft);
 }

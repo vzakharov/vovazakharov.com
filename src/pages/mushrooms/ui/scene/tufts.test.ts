@@ -349,6 +349,7 @@ describe('the ground’s grass', () => {
             stand.flowers,
             stand.planted,
             stand.mushrooms,
+            stand.pulled,
           ).map(({ id, seed: grownFrom, place }) => {
             const head = flowerHead(
               flowerGenes({ seed: grownFrom }),
@@ -426,6 +427,7 @@ describe('the ground’s grass', () => {
           stand.flowers,
           stand.planted,
           stand.mushrooms,
+          stand.pulled,
         );
         for (const { id } of stand.planted) {
           const flower = standing.find((each) => each.id === id);

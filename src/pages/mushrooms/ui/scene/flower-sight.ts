@@ -33,13 +33,13 @@ import { placeIn } from './clump-layout';
 import { type Standing, standingAt } from './door-sight';
 import { FLOWER_SWAY, type FlowerFoot, standingOn } from './flower-layout';
 import {
+  flowersOf,
   groundFor,
   mushroomFeet,
   type Placed,
   RING_SLOTS,
   ringFoot,
   type StandingFlower,
-  standingFlowers,
 } from './flower-plots';
 import type { Footing, MeadowLayout } from './layout';
 import { tapReach } from './tap-reach';
@@ -123,9 +123,9 @@ export function flowerLift(
 
 /**
  * The meadow as the scene stands it: the layout, the visit's seeded flowers,
- * the planted ones, and the mushrooms standing.
+ * the planted ones, the ones the child pulled up, and the mushrooms standing.
  */
-export type Stand = Pick<Meadow, 'mushrooms' | 'planted'> & {
+export type Stand = Pick<Meadow, 'mushrooms' | 'planted' | 'pulled'> & {
   layout: MeadowLayout;
   flowers: readonly Flower[];
 };
@@ -309,9 +309,10 @@ function plantable(
 }
 
 /** The flowers standing in `stand`, and the mushrooms' feet a planting keeps off. */
-function groundIn({ layout, flowers, planted, mushrooms }: Stand): Ground {
+function groundIn(stand: Stand): Ground {
+  const { layout, mushrooms } = stand;
   return {
-    standing: standingFlowers(layout, flowers, planted, mushrooms),
+    standing: flowersOf(stand),
     claimed: mushroomFeet(layout, mushrooms),
   };
 }

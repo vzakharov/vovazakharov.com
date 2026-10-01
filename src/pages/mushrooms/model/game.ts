@@ -49,11 +49,15 @@ export type Planted = Mushroom & Housed & Footed;
 type Chosen = Coloured & { seeds: readonly number[] };
 
 /**
- * The tuft the child tapped to plant on, as its foot on the ground, while
- * the flower picker waits: for a colour while `chosen` is `undefined`, then
- * for a shape.
+ * Where the flower picker is open, as a foot on the ground, while it waits:
+ * for a colour while `chosen` is `undefined`, then for a shape. On a tuft the
+ * child tapped, `flower` is `undefined`; on a flower the child held, it is
+ * that flower's id, which a pick replaces and the cross pulls up.
  */
-export type Planting = Rooted & { chosen: Chosen | undefined };
+export type Planting = Rooted & {
+  chosen: Chosen | undefined;
+  flower: string | undefined;
+};
 
 export type Meadow = Swarm & {
   /** In the order they were planted, so the last is the newest. */
@@ -63,8 +67,14 @@ export type Meadow = Swarm & {
   picking: boolean;
   /** Whether the windows and the door are showing, waiting for a pick. */
   furnishing: boolean;
-  /** The flower picker, open on a tuft, `undefined` while closed. */
+  /** The flower picker, open on a tuft or a flower, `undefined` while closed. */
   planting: Planting | undefined;
+  /**
+   * The ids of the flowers the child pulled up or replaced, the visit's
+   * seeded ones and planted ones alike, in the order they went: none of them
+   * stands again, and a replacing flower is planted afresh in `planted`.
+   */
+  pulled: readonly string[];
   /** How many mushrooms the meadow has ever grown, so every id is new. */
   grown: number;
   /** How many insects the meadow has ever released, so every id is new. */
@@ -81,9 +91,13 @@ export type Action =
   | { kind: 'remove' }
   | { kind: 'house' }
   | { kind: 'furnish'; piece: Furnishing }
-  | { kind: 'tuft'; foot: FlowerFoot }
+  | ({ kind: 'tuft' } & Rooted)
+  // A long press on the flower `id`, standing at `foot`.
+  | ({ kind: 'flower' } & WithId & Rooted)
   | ({ kind: 'colour' } & Chosen)
   | { kind: 'plant'; shape: FlowerShape }
+  // The picker's cross: pulls up the flower it is open on.
+  | { kind: 'pull' }
   // A tap on a control that changes nothing here, the mute's: it closes
   // the flower picker, as any tap outside it does.
   | { kind: 'shut' }
@@ -110,6 +124,7 @@ export function firstMeadow(random: Random): Meadow {
     picking: false,
     furnishing: false,
     planting: undefined,
+    pulled: [],
     grown: mushrooms.length,
     insects: [],
     planted: [],
@@ -259,8 +274,29 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         ...PICKERS_SHUT,
         planting: again
           ? undefined
-          : { ...pick(action, 'foot'), chosen: undefined },
+          : { ...pick(action, 'foot'), chosen: undefined, flower: undefined },
         selected: undefined,
+      };
+    }
+    case 'flower': {
+      return {
+        ...meadow,
+        ...PICKERS_SHUT,
+        planting: {
+          ...pick(action, 'foot'),
+          chosen: undefined,
+          flower: action.id,
+        },
+        selected: undefined,
+      };
+    }
+    case 'pull': {
+      const flower = meadow.planting?.flower;
+      if (flower === undefined) return meadow;
+      return {
+        ...meadow,
+        pulled: [...meadow.pulled, flower],
+        planting: undefined,
       };
     }
     case 'colour': {
@@ -273,13 +309,15 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'plant': {
-      const { planting, planted } = meadow;
+      const { planting, planted, pulled } = meadow;
       const seed = shapeSeed(planting, action.shape);
       if (planting === undefined || seed === undefined) return meadow;
-      const { foot } = planting;
+      const { foot, flower } = planting;
       return {
         ...meadow,
         planted: [...planted, { id: plantedId(planted), seed, foot }],
+        // The flower picked over goes, and the new one opens in its place.
+        pulled: flower === undefined ? pulled : [...pulled, flower],
         planting: undefined,
       };
     }

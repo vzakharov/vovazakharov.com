@@ -291,7 +291,13 @@ type Found = Stand &
   Seeded & { foot: Ground | undefined; eye: Eye | undefined };
 
 /** What of a stand the room in it is found from. */
-const FOUND_FROM = ['layout', 'flowers', 'mushrooms', 'planted'] as const;
+const FOUND_FROM = [
+  'layout',
+  'flowers',
+  'mushrooms',
+  'planted',
+  'pulled',
+] as const;
 
 /** Whether two eyes, either absent for the whole world, stand and face alike. */
 const sameEye = (a: Eye | undefined, b: Eye | undefined) =>

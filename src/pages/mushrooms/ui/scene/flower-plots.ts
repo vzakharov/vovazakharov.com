@@ -130,17 +130,18 @@ export function mushroomFeet(
 }
 
 /**
- * Where on the ground `sown` would stand among the flowers of `standing`: on
- * its own foot, planted on a tuft, or in its ring slot round its parent; a
- * bee's flower whose parent stands nowhere stands nowhere either.
+ * Where on the ground `sown` would stand, `feet` holding the foot of every
+ * flower before it, pulled up or not: on its own foot, planted on a tuft, or
+ * in its ring slot round its parent; a bee's flower whose parent stands
+ * nowhere stands nowhere either.
  */
 function footOf(
   sown: Sown,
-  standing: readonly StandingFlower[],
+  feet: ReadonlyMap<string, FlowerFoot>,
 ): FlowerFoot | undefined {
   if (!isBeeSown(sown)) return sown.foot;
-  const parent = standing.find(({ id }) => id === sown.parent);
-  return parent && ringFoot(parent.foot, sown.ring);
+  const parent = feet.get(sown.parent);
+  return parent && ringFoot(parent, sown.ring);
 }
 
 /**
@@ -149,44 +150,56 @@ function footOf(
  * child's on its tuft, in the order they opened, so a parent always stands
  * before its children (`footOf`). A planted flower stands only where it has
  * ground (`groundFor`) off the feet of the mushrooms standing now, so a
- * mushroom grown on it hides it while that mushroom stands.
+ * mushroom grown on it hides it while that mushroom stands. A flower of
+ * `pulled` stands nowhere and takes no ground, but a bee's flower ringed
+ * round it keeps its slot round where it stood.
  */
 export function standingFlowers(
   layout: MeadowLayout,
   seeded: readonly Flower[],
   planted: readonly Sown[],
   mushrooms: Meadow['mushrooms'],
+  pulled: Meadow['pulled'],
 ): StandingFlower[] {
   const { camera, flowers } = layout;
-  const feet = mushroomFeet(layout, mushrooms);
-  const standing: StandingFlower[] = seeded.flatMap((flower, index) => {
+  const claimed = mushroomFeet(layout, mushrooms);
+  const up = new Set(pulled);
+  const feet = new Map<string, FlowerFoot>();
+  const standing: StandingFlower[] = [];
+  const stand = (flower: Flower, foot: FlowerFoot, place: Footing) => {
+    feet.set(flower.id, foot);
+    if (!up.has(flower.id)) {
+      standing.push({ ...pick(flower, 'id', 'seed'), foot, place });
+    }
+  };
+  for (const [index, flower] of seeded.entries()) {
     const place = flowers[index];
-    return place ? [{ ...flower, place, foot: groundOf(camera, place) }] : [];
-  });
+    if (place) stand(flower, groundOf(camera, place), place);
+  }
   for (const sown of planted) {
-    const foot = footOf(sown, standing);
-    if (foot && groundFor(foot, standing, feet)) {
-      standing.push({
-        ...pick(sown, 'id', 'seed'),
-        foot,
-        place: standingOn(camera, foot),
-      });
+    const foot = footOf(sown, feet);
+    if (foot && groundFor(foot, standing, claimed)) {
+      stand(sown, foot, standingOn(camera, foot));
     }
   }
   return standing;
+}
+
+/** Every flower standing in `stand` (`standingFlowers`). */
+export function flowersOf({
+  layout,
+  flowers,
+  planted,
+  mushrooms,
+  pulled,
+}: Stand): StandingFlower[] {
+  return standingFlowers(layout, flowers, planted, mushrooms, pulled);
 }
 
 /**
  * Every flower standing in `stand`, seeded and planted, as its foot on the
  * ground, for a mushroom's foot to keep off (`roomFor`).
  */
-export function flowerFeet({
-  layout,
-  flowers,
-  planted,
-  mushrooms,
-}: Stand): FlowerFoot[] {
-  return standingFlowers(layout, flowers, planted, mushrooms).map(
-    ({ foot }) => foot,
-  );
+export function flowerFeet(stand: Stand): FlowerFoot[] {
+  return flowersOf(stand).map(({ foot }) => foot);
 }

@@ -35,7 +35,7 @@ import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
 import { placeIn } from './clump-layout';
 import { layoutAtRow } from './eye-crop';
-import { type StandingFlower, standingFlowers } from './flower-plots';
+import { flowersOf, type StandingFlower } from './flower-plots';
 import {
   coversOn,
   flowerInSight,
@@ -117,11 +117,10 @@ function seaterOn(
   perch: Perch,
   standing?: readonly StandingFlower[],
 ): Seater | undefined {
-  const { layout, mushrooms, flowers, planted } = stand;
+  const { layout, mushrooms } = stand;
   switch (perch.kind) {
     case 'flower': {
-      const here =
-        standing ?? standingFlowers(layout, flowers, planted, mushrooms);
+      const here = standing ?? flowersOf(stand);
       const flower = flowerAt(stand, perch.id, here);
       if (!flower) return undefined;
       const { head, place, seed } = flower;
@@ -270,9 +269,9 @@ function trackOf(perch: Perch, seater: Seater, kind: InsectKind): Track {
  * overlap at all; and where each of them stands (`Places`).
  */
 export function perchSight(stand: Stand): Sight {
-  const { layout, flowers, mushrooms, planted } = stand;
+  const { layout, mushrooms } = stand;
   const covers = coversOn(layout, mushrooms);
-  const standing = standingFlowers(layout, flowers, planted, mushrooms);
+  const standing = flowersOf(stand);
   const inSightTo = (kind: InsectKind) =>
     standing
       .filter((flower) =>
@@ -352,7 +351,7 @@ export function clumpRow({ camera }: MeadowLayout): number {
 
 /** The ground row each cap's and standing flower's foot stands on in `stand`, and the clump's under every spot in the air. */
 export function footRows(stand: Stand): FootRows {
-  const { layout, flowers, mushrooms, planted } = stand;
+  const { layout, mushrooms } = stand;
   const caps = mushrooms.flatMap((mushroom) => {
     const place = placeIn(layout.mushrooms, mushroom);
     return place
@@ -364,7 +363,7 @@ export function footRows(stand: Stand): FootRows {
         ]
       : [];
   });
-  const heads = standingFlowers(layout, flowers, planted, mushrooms).map(
+  const heads = flowersOf(stand).map(
     ({ id, place }) => [perchName({ kind: 'flower', id }), place.y] as const,
   );
   const air = airSpots(layout).map(

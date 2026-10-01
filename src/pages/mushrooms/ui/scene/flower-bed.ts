@@ -74,6 +74,8 @@ export class FlowerBed implements Following {
   private readonly dispatch: (action: Action) => void;
   readonly seeded: readonly Flower[];
   private planted: readonly Sown[] = [];
+  /** The flowers the child pulled up or replaced as of the last `reconcile`, which stand nowhere. */
+  private pulled: Meadow['pulled'] = [];
   /** The mushrooms standing as of the last `reconcile`, whose feet a planted flower keeps off. */
   private mushrooms: Meadow['mushrooms'] = [];
   /** The screen's light as it last stood, which each flower takes from where it stands (`flowerLight`). */
@@ -107,6 +109,7 @@ export class FlowerBed implements Following {
       this.seeded,
       this.planted,
       this.mushrooms,
+      this.pulled,
     );
     for (const flower of [...this.seeded, ...this.planted]) {
       const shown = this.shown.get(flower.id) ?? this.show(flower, -Infinity);
@@ -132,18 +135,30 @@ export class FlowerBed implements Following {
   /**
    * Shows what `planted` holds as of `clock`, in seconds, among `mushrooms`:
    * each new flower grows up where `layout` stands it,
-   * blooming open with its sound, and each planted flower stands or hides as
-   * the mushrooms' feet leave it ground (`standingFlowers`).
+   * blooming open with its sound, each planted flower stands or hides as
+   * the mushrooms' feet leave it ground, and each of `pulled` hides
+   * (`standingFlowers`).
    */
   reconcile(
-    { planted, mushrooms }: Pick<Meadow, 'planted' | 'mushrooms'>,
+    {
+      planted,
+      mushrooms,
+      pulled,
+    }: Pick<Meadow, 'planted' | 'mushrooms' | 'pulled'>,
     layout: MeadowLayout,
     clock: number,
   ): void {
-    if (planted === this.planted && mushrooms === this.mushrooms) return;
+    if (
+      planted === this.planted &&
+      mushrooms === this.mushrooms &&
+      pulled === this.pulled
+    ) {
+      return;
+    }
     const fresh = planted.filter(({ id }) => !this.shown.has(id));
     this.planted = planted;
     this.mushrooms = mushrooms;
+    this.pulled = pulled;
     for (const flower of fresh) {
       const shown = this.show(flower, clock);
       shown.tappedAt = clock;

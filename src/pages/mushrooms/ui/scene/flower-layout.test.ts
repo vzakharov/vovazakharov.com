@@ -153,7 +153,7 @@ describe('the seeded flowers', () => {
     );
     for (const [index, visit] of visitsOn(1180, 820).slice(0, 200).entries()) {
       const { layout, flowers, mushrooms } = visit;
-      const standing = standingFlowers(layout, flowers, [], mushrooms);
+      const standing = standingFlowers(layout, flowers, [], mushrooms, []);
       const at = `visit ${String(VISITS[index])}`;
       assert.deepEqual(
         sounds(standing.filter(({ foot }) => foot.x < 0)),
@@ -255,6 +255,7 @@ describe('the seeded flowers', () => {
           visit.flowers,
           [],
           visit.mushrooms,
+          [],
         )) {
           for (const head of headsOf(flower)) {
             for (const control of controls) {
@@ -295,6 +296,7 @@ describe('the seeded flowers', () => {
           visit.flowers,
           [],
           visit.mushrooms,
+          [],
         );
         flowers += standing.length;
         for (const flower of standing) {

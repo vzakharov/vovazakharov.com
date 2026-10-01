@@ -272,7 +272,7 @@ export class MeadowScene extends Phaser.Scene {
     return {
       layout,
       flowers: flowers?.seeded ?? [],
-      ...pick(meadow, 'mushrooms', 'planted'),
+      ...pick(meadow, 'mushrooms', 'planted', 'pulled'),
     };
   }
 
@@ -292,7 +292,10 @@ export class MeadowScene extends Phaser.Scene {
     // A frame's tick with nothing due changes nothing, and costs nothing.
     if (meadow === this.meadow) return;
     const regrown = meadow.mushrooms !== this.meadow.mushrooms;
-    this.sown ||= regrown || meadow.planted !== this.meadow.planted;
+    this.sown ||=
+      regrown ||
+      meadow.planted !== this.meadow.planted ||
+      meadow.pulled !== this.meadow.pulled;
     this.meadow = meadow;
     if (regrown) this.see();
     this.bed?.reconcile(meadow, this.requireLayout(), this.clock);

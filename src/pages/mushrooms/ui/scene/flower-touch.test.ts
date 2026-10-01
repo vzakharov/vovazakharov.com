@@ -9,7 +9,11 @@ import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 const BUSY: Meadow = {
   ...firstMeadow(mulberry32(1)),
   selected: 'mushroom-1',
-  planting: { foot: { x: 0.4, z: 1.3, size: 0.28 }, chosen: undefined },
+  planting: {
+    foot: { x: 0.4, z: 1.3, size: 0.28 },
+    chosen: undefined,
+    flower: undefined,
+  },
 };
 
 function touched(touch: FlowerTouch): Meadow {

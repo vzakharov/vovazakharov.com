@@ -68,13 +68,17 @@ export function opened(
     const species =
       MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
     const own = nextSeed(growing);
-    const { mushrooms, planted } = meadow;
-    const foot = roomFor({ layout, flowers, mushrooms, planted }, own, view);
+    const { mushrooms, planted, pulled } = meadow;
+    const foot = roomFor(
+      { layout, flowers, mushrooms, planted, pulled },
+      own,
+      view,
+    );
     if (!foot) break;
     meadow = reduce(meadow, { kind: 'grow', species, seed: own, foot });
   }
-  const { mushrooms, planted } = meadow;
-  return { meadow, layout, flowers, mushrooms, planted };
+  const { mushrooms, planted, pulled } = meadow;
+  return { meadow, layout, flowers, mushrooms, planted, pulled };
 }
 
 /**
