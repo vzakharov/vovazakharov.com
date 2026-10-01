@@ -82,6 +82,9 @@ budget. Re-run alone to report.
 
 ## Left
 
+Done by `ip-spec3` (`insect-plane.md` § "Round 3"); item 4 skipped, the
+scripts staying a patch.
+
 1. Re-run `bench.ts` alone; run `back.ts` (bowed leg looking back).
 2. Write `insect-plane.md` `## Round 3` (R3.1 veer, R3.2 cost, R3.3
    packages firm), condense rounds 1–2, rewrite `## Left`; keep < ~450 lines.
