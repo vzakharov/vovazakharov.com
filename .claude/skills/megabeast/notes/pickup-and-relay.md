@@ -39,6 +39,13 @@
   from `origin/<branch>` with `git show`, then attach); until it does, the
   relaying session puts "never `reset --hard`; rename a stale ref aside" in
   the successor's prompt line itself, the one text read before the attach.
+- **A pasted pickup installs the trunk's dependencies, not the branch's.**
+  The SessionStart hook runs `pnpm install --frozen-lockfile` on the
+  harness's auto-branch, cut from `main`, whose lockfile has no `phaser` or
+  `esbuild`. So at bite 11's review handling every agent's `tsc` skipped
+  the scene files until the orchestrator re-ran the install after the
+  attach. The pickup should run `pnpm install --frozen-lockfile` right
+  after checking out the branch.
 - **Read files with `Read`, not `cat`/`sed -n`.** The refused read above was
   a Bash one, where CLAUDE.md asks for `Read`, and the operator asked why.
   `Read` also keeps each read one visible call a classifier weighs on its
