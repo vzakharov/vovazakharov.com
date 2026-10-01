@@ -421,16 +421,33 @@ into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
       слишком noisy… травинки были ок, и ок когда их было больше»). A bare
       tuft is drawn as a plain grass tuft, the seam's blades, and the
       ground carries plain tufts again at the density it had before bite
-      10, of which the planting spots are a subset; a tap on a planting
-      spot still opens the picker, and the one it is open on keeps its
-      cream glow. No bud anywhere.
+      10, **every one of them a planting spot** («ребёнок должен мочь
+      посадить цветок где хочет… сделать каждую травинку потенциальным
+      местом для цветка»): a tap nothing else takes lands on the nearest
+      tuft in reach, which opens the picker where a flower fits (bite 10's
+      fit rules) and shakes its head where none does — beside a flower,
+      under a cap. The tuft the picker is open on keeps its cream glow;
+      a planted flower takes its tuft's place. No bud anywhere.
     - **The keyboard plays only the flowers in front of you (P3).** A note
       or drum key sounds only through a flower in the current view with
-      that pitch class or drum, at that flower's own note, and that flower
-      answers as to a tap; with none in view the key is silent («"пианино"
-      с клавиатуры не должно играть, если перед тобой нет подходящего
-      цветка»). The octave keys go if nothing is left for them to do; the
-      agent reports it.
+      that pitch class or drum, and that flower answers as to a tap; with
+      none in view the key is silent («"пианино" с клавиатуры не должно
+      играть, если перед тобой нет подходящего цветка»). The note keeps
+      the keyboard's octave, and the octave keys stay («передо мной 12
+      цветков, по ноту на каждому, я хочу играть и переключать октавы»).
+    - **A retap restarts a flower's answer (P1b).** A tap on a flower
+      whose bounce is still playing starts it again from the top, as the
+      sound already does («если второе нажатие до завершения анимации,
+      анимация начинается заново»).
+    - **A flower can be changed or removed (P4, after P1b and P3).** A
+      tap on a flower plays it and opens the picker on it: the colour row
+      plus one button with a cross, then the shape row once a colour is
+      picked; the pick replaces the flower in place, the cross removes it,
+      its tuft coming back («при нажатии на цветок возникают снова кнопки
+      цвета… плюс к кнопкам цвета одна кнопка с крестиком»). Seeded
+      flowers too, so the model remembers the replaced and removed ones.
+      The picker follows the flower last tapped and shuts on a tap on the
+      meadow, as on a tuft; a chord of several fingers opens none.
 
     The decisions this rewrites — the one-drag pan, "every mushroom is a
     finger's target", the sight rule, bite 11's fixed sun, hill parallax,
