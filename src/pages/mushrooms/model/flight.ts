@@ -79,10 +79,10 @@ export type Crowding = readonly [Perch, Perch, readonly Pairing[]];
 
 /**
  * Where a perch stands, in units of a butterfly's size as the layout draws
- * one, and `q`, how far from the eye, in the clump's size: an insect there
- * is drawn `CLUMP_DISTANCE / q` of that size.
+ * one, and `fromEye`, how far from the eye, in the clump's size: an insect there
+ * is drawn `CLUMP_DISTANCE / fromEye` of that size.
  */
-export type Place = Point & { q: number };
+export type Place = Point & { fromEye: number };
 
 /**
  * Where each perch stands (`Place`), by its name (`perchName`), so a distance
@@ -287,7 +287,7 @@ export function firstFlight(
   const from: Perch = { kind: 'away', side };
   const leg = legTo(random, habits, { from, to }, { now, places });
   if (to === inView) return { leg, legs: 1 };
-  const out = (1000 * outWay(onscreen)) / habits.cruise;
+  const out = (1000 * outWay(onscreen)) / habits.cruising;
   return { leg: outFirst(leg, out), legs: 1 };
 }
 

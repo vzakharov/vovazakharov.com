@@ -274,7 +274,7 @@ describe('onscreenOf', () => {
       const rows = footRows(stand);
       const { places = {} } = perchSight(stand);
       const clump = rowAt(layout.camera, clumpRow(layout)).opening;
-      for (const [perch, { q }] of Object.entries(places)) {
+      for (const [perch, { fromEye: q }] of Object.entries(places)) {
         const row = rows.get(perch);
         const expected =
           row === undefined ? clump : rowAt(layout.camera, row).opening;

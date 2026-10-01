@@ -286,9 +286,9 @@ describe('flightAway', () => {
  * the perch `q` from the eye and the edges `edge` (`Place`).
  */
 const placesAt = (to: Perch, apart: number, q: number, edge: number) => {
-  const far = { x: apart, y: 0, q: edge };
+  const far = { x: apart, y: 0, fromEye: edge };
   return {
-    [perchName(to)]: { x: 0, y: 0, q },
+    [perchName(to)]: { x: 0, y: 0, fromEye: q },
     'away left': far,
     'away right': far,
   };
@@ -319,7 +319,7 @@ const APARTS = [0.2, 1, 3, 6, 11, 25, 45, 120];
 describe('a flight across the screen', () => {
   it('takes its length at its cruise, however long, never quicker than its flying time, every kind', () => {
     for (const kinded of INSECT_KINDS) {
-      const { flying, cruise } = FLIGHT_HABITS[kinded];
+      const { flying, cruising: cruise } = FLIGHT_HABITS[kinded];
       for (const apart of APARTS) {
         const atCruise = (1000 * apart) / cruise;
         for (const seed of SEEDS.slice(0, 20)) {
@@ -341,7 +341,7 @@ describe('a flight across the screen', () => {
 
   it('takes twice as long over twice the way, past its flying time, every kind', () => {
     for (const kinded of INSECT_KINDS) {
-      const { flying, cruise } = FLIGHT_HABITS[kinded];
+      const { flying, cruising: cruise } = FLIGHT_HABITS[kinded];
       const least = (flying[1] * cruise) / 1000;
       for (const apart of [least, 2 * least, 11, 25]) {
         for (const seed of SEEDS.slice(0, 20)) {
@@ -369,7 +369,7 @@ describe('a flight across the screen', () => {
     const depths = [0.9, 1, 1.2, 1.5].map((share) => share * CLUMP_DISTANCE);
     const [apart, steps] = [60, 1000];
     for (const kinded of INSECT_KINDS) {
-      const { cruise } = FLIGHT_HABITS[kinded];
+      const { cruising: cruise } = FLIGHT_HABITS[kinded];
       for (const q of depths) {
         for (const edge of depths) {
           // Drawn `CLUMP_DISTANCE / q` its size, with `1 / q` going evenly

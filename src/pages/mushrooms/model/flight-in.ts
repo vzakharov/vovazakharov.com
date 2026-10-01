@@ -94,8 +94,8 @@ export function shownOf(perches: Perches, onscreen: Onscreen): Perches {
 function edgesOf(places: Places, { left, right }: Onscreen): Places {
   const edge = (side: Side, x: number) => {
     const name = perchName({ kind: 'away', side });
-    const { y, q } = places[name] ?? { y: 0, q: CLUMP_DISTANCE };
-    return [name, { x, y, q }] as const;
+    const { y, fromEye } = places[name] ?? { y: 0, fromEye: CLUMP_DISTANCE };
+    return [name, { x, y, fromEye }] as const;
   };
   return Object.fromEntries([edge('left', left), edge('right', right)]);
 }

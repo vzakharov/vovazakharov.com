@@ -13,6 +13,7 @@ import {
 import { between, mulberry32 } from '../../model/random';
 import {
   type Aloft,
+  aloftAt,
   aloftFramed,
   centreOf,
   drawnAloft,
@@ -228,6 +229,35 @@ describe('insect-frame', () => {
   it('hides an aloft point at the eye', () => {
     const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
     assert.equal(drawnAloft(view, { x: 0, y: 0, h: 0.3 }), undefined);
+  });
+});
+
+describe('aloftAt', () => {
+  it('is drawn back where it was taken, on every screen and heading, short of the brow', () => {
+    let checked = 0;
+    for (const { name, camera } of CAMERAS) {
+      for (let turn = 0; turn < 8; turn++) {
+        for (const stand of [OPENING_EYE, { x: 2.5, y: -3 }]) {
+          const view = viewAt(camera, {
+            ...stand,
+            heading: -Math.PI + (turn * Math.PI) / 4,
+          });
+          for (const share of [0, 0.3, 0.5, 0.8, 1]) {
+            for (const down of [0, 0.4, 0.75, 1]) {
+              const at = { x: view.width * share, y: view.height * down };
+              for (const distance of [0.2, 1, 0.5 * D_SEE, 0.99 * D_SEE]) {
+                const drawn = drawnAloft(view, aloftAt(view, at, distance));
+                assert.ok(drawn, `${name}: ${at.x}, ${at.y} at ${distance}`);
+                near(drawn.x, at.x, 1e-9);
+                near(drawn.y, at.y, 1e-9);
+                checked++;
+              }
+            }
+          }
+        }
+      }
+    }
+    assert.ok(checked > 5000, String(checked));
   });
 });
 
