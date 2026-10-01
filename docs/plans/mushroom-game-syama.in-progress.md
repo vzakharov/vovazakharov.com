@@ -248,15 +248,15 @@ In order.
 play run green on all five screens, its frames in
 `docs/remove-before-merging/frames/bite-11/`, the Artifact at version 12.
 A held arrow on phoneL starts from the far end, since the opening crop
-leaves less room than the key's ease-in needs (`play-pan-keys.ts`). Item 12
-is next.
+leaves less room than the key's ease-in needs (`play-pan-keys.ts`).
 
-**The rest of idea 1 is items 14 and 15.** Bites 9 and 11 built its left
-half (the ground, the wide world, the pan, the keys, a turn as a crop); the
-operator placed the right half as two bites after the rain and before dusk,
-confirming the proposal to write it in that way («подтверждаю вот это»).
-`docs/remove-before-merging/ideas/idea-1-walking-meadow.md` is their spec,
-its «Что ты решил» section overriding the body.
+**The rest of idea 1 is bite 12 and item 15.** Bites 9 and 11 built its
+left half (the ground, the wide world, the pan, the keys, a turn as a
+crop). The operator wants walking now, ahead of the rain, and the map after
+the rain's aftermath («всё-таки я хочу чтобы шагать можно было уже сейчас…
+поставим 14 до 12. карту можно отложить до после после дождя»).
+`docs/remove-before-merging/ideas/idea-1-walking-meadow.md` is the spec of
+both, its «Что ты решил» section overriding the body.
 
 **Open:** review 5360733525 is handled, every thread answered; one miss it
 left stands: on phoneL, visit 12733755's clump back cap keeps a 22 px patch,
@@ -277,33 +277,7 @@ from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
 
-13. **After the rain.** While it rains, insects shelter under the nearest
-    cap (a perch in `flight-habits.ts`, in sight by the same rule); when it
-    stops, spores an old mushroom shed sprout into little mushrooms that
-    grow over the next minutes through `pickFoot` and `roomFor`, within
-    `MUSHROOM_SLOTS` — the first thing the reducer's `tick` grows.
-14. **A step forward and back.** A finger up and down, and `↑`/`↓`, step
-    the player into and out of the meadow at a natural pace, with soft
-    footsteps and a slight head bob — a large bite, since it moves the
-    camera, the tap areas and the insects' sight: a far mushroom is tapped
-    only where it is drawn, and insects perch where they like, out of frame
-    included, sight recomputed per step.
-15. **The map.** A map view and its button take the mute's circle, which
-    anchors the layout; the mute and its `localStorage` memory go with it
-    (sound off is the device's), `settle()` staying.
-16. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
-    glowing, fireflies waking, mice coming out of their doors, butterflies
-    folded on the caps and flowers closed for the night.
-17. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
-    (idle loops off, short tweens without overshoot); a visually hidden row
-    of HTML buttons beside the canvas dispatching the same actions, for
-    assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
-    carries side projects, none otherwise. Then, the Artifact republished,
-    `/relay /finalize`.
-
-## This bite
-
-12. **Rain** — the shower itself; what it leaves behind is item 13. Cut
+13. **Rain** — the shower itself; what it leaves behind is item 14. Cut
     there because item 12 as written was four packages (weather, the
     shower's look and sound, shelter, sprouting), and a bite past two runs
     into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
@@ -368,6 +342,28 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
     rings reuse `spores.ts`'s particle manner where it fits rather than a
     second particle helper. The rain's sound is built from `synth.ts`'s
     primitives; no new audio graph beside `MeadowSound`.
+
+14. **After the rain.** While it rains, insects shelter under the nearest
+    cap (a perch in `flight-habits.ts`, in sight by the same rule); when it
+    stops, spores an old mushroom shed sprout into little mushrooms that
+    grow over the next minutes through `pickFoot` and `roomFor`, within
+    `MUSHROOM_SLOTS` — the first thing the reducer's `tick` grows.
+15. **The map.** A map view and its button take the mute's circle, which
+    anchors the layout; the mute and its `localStorage` memory go with it
+    (sound off is the device's), `settle()` staying.
+16. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
+    glowing, fireflies waking, mice coming out of their doors, butterflies
+    folded on the caps and flowers closed for the night.
+17. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
+    (idle loops off, short tweens without overshoot); a visually hidden row
+    of HTML buttons beside the canvas dispatching the same actions, for
+    assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
+    carries side projects, none otherwise. Then, the Artifact republished,
+    `/relay /finalize`.
+
+## This bite
+
+12. **A step forward and back.** (being written)
 
 ## DRY notes
 
