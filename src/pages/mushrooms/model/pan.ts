@@ -3,8 +3,9 @@
  * world is laid out once per screen size and the screen pans across it, so
  * everything here is the crop's left edge as a function of the clock, in
  * seconds, and of the finger and keys that set it moving: a drag follows the
- * finger 1:1 once past `SLOP`, glides on from its release velocity and eases
- * to rest, soft at the world's ends; a held key turns it at a steady cruise,
+ * finger 1:1 once past `SLOP`, lagging it by the slop, stops dead at the
+ * world's ends, and glides on from its release velocity, easing to rest
+ * before an end; a held key turns it at a steady cruise,
  * eased in and out, stepped frame by frame through `tick`; a resize re-crops
  * it round the ground point at the screen's centre. Screen x and world x
  * convert through `worldOf` and `screenOf` alone.
@@ -26,14 +27,13 @@ export type View = Pick<Camera, 'width' | 'world' | 'unit'>;
 type Sample = Pick<Point, 'x'> & { sampledAt: number };
 
 /**
- * A finger on the screen: the crop at `base` since it pressed or crossed the
- * slop at `anchor`, its latest sample, and its velocity across in px per
- * second; `panning` once it has moved past `SLOP`.
+ * A finger on the screen, pressed at `downAt` across it: the crop at `left`
+ * as of its latest sample, and its velocity across in px per second;
+ * `panning` once it has moved past `SLOP`.
  */
-type Pressing = {
+type Pressing = Lefted & {
   kind: 'press';
-  base: number;
-  anchor: number;
+  downAt: number;
   last: Sample;
   velocity: number;
   panning: boolean;
@@ -142,15 +142,10 @@ function glideShare({ began, over }: Gliding, time: number): number {
 }
 
 /** The crop's left edge at `time`, in world px; a key's turn as of its last `tick`. */
-export function leftAt({ motion, ...view }: Pan, time: number): number {
-  if (motion.kind === 'rest' || motion.kind === 'keys') return motion.left;
-  if (motion.kind === 'glide') {
-    const { start, goal } = motion;
-    return start + (goal - start) * glided(glideShare(motion, time));
-  }
-  return motion.panning
-    ? clampLeft(view, motion.base - (motion.last.x - motion.anchor))
-    : motion.base;
+export function leftAt({ motion }: Pan, time: number): number {
+  if (motion.kind !== 'glide') return motion.left;
+  const { start, goal } = motion;
+  return start + (goal - start) * glided(glideShare(motion, time));
 }
 
 /** How fast the crop's left edge moves on its own at `time`, in px per second. */
@@ -174,26 +169,17 @@ export function screenOf(pan: Pan, time: number, x: number): number {
   return x - leftAt(pan, time);
 }
 
-/** Whether the crop moves on its own at `time`, or a finger pans it. */
-export function isMoving(pan: Pan, time: number): boolean {
-  const { motion } = pan;
-  if (motion.kind === 'glide') return time < motion.began + motion.over;
-  if (motion.kind === 'keys') return motion.pace !== 0 || heading(pan) !== 0;
-  return motion.kind === 'press' && motion.panning;
-}
-
 /**
  * A finger pressed at `x` at `time`: the crop stops where it stands, a
  * glide's or a key's turn with it; a held key turns it again after the lift.
  */
 export function press(pan: Pan, x: number, time: number): Pan {
-  const base = leftAt(pan, time);
   return {
     ...pan,
     motion: {
       kind: 'press',
-      base,
-      anchor: x,
+      left: leftAt(pan, time),
+      downAt: x,
       last: { x, sampledAt: time },
       velocity: 0,
       panning: false,
@@ -202,24 +188,31 @@ export function press(pan: Pan, x: number, time: number): Pan {
 }
 
 /**
- * The pressed finger moved to `x` at `time`: the crop follows it 1:1 from
- * where it first crossed `SLOP`, and not at all before.
+ * The pressed finger moved to `x` at `time`: once it is past `SLOP` from
+ * where it pressed, the crop follows it 1:1 from the slop's line, so the
+ * ground under the press lags the finger by the slop and no more, and not at
+ * all before. At a world's end the crop stops and the finger's overshoot is
+ * dropped, so the finger turning back moves the crop at once.
  */
 export function move(pan: Pan, x: number, time: number): Pan {
   const { motion } = pan;
   if (motion.kind !== 'press') return pan;
-  const { last, velocity: was, panning, anchor } = motion;
+  const { last, velocity: was, panning, downAt, left } = motion;
   const span = time - last.sampledAt;
   const velocity =
     span > 0
       ? was + ((x - last.x) / span - was) * Math.min(1, span / VELOCITY_WINDOW)
       : was;
-  const crossed = !panning && Math.abs(x - anchor) > SLOP;
+  const crossed = !panning && Math.abs(x - downAt) > SLOP;
+  const from = crossed ? downAt + Math.sign(x - downAt) * SLOP : last.x;
   return {
     ...pan,
     motion: {
       ...motion,
-      ...(crossed && { anchor: x, panning: true }),
+      ...((panning || crossed) && {
+        left: clampLeft(pan, left - (x - from)),
+        panning: true,
+      }),
       last: { x, sampledAt: time },
       velocity,
     },
@@ -390,7 +383,7 @@ export function recrop(pan: Pan, view: View, time: number): Pan {
     return {
       ...view,
       held,
-      motion: { ...motion, base: there, anchor: motion.last.x },
+      motion: { ...motion, left: there },
     };
   }
   if (motion.kind === 'keys') {

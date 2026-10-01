@@ -6,7 +6,6 @@ import {
   CRUISE_ACROSS,
   type Direction,
   holdKey,
-  isMoving,
   isPanning,
   KEY_EASE,
   leftAt,
@@ -26,6 +25,8 @@ import {
 
 /** A tablet held sideways over a world twice its width. */
 const TABLET: View = { width: 1180, world: 2360, unit: 100 };
+
+const FRAME = 1 / 60;
 
 /** `pan` pressed at `x` and dragged by `by` in `steps` moves over `seconds`, from `time`. */
 function dragged(
@@ -78,13 +79,31 @@ describe('a drag', () => {
     assert.equal(leftAt(lifted, 5), 590);
   });
 
-  it('follows the finger 1:1 from where it crossed the slop', () => {
+  it('follows the finger 1:1 past the slop, lagging it by the slop', () => {
     const start = openingPan(TABLET);
     const crossed = move(press(start, 600, 0), 600 - SLOP - 1, 0.01);
     assert.equal(isPanning(crossed), true);
-    assert.equal(leftAt(crossed, 0.01), 590);
+    assert.equal(leftAt(crossed, 0.01), 591);
     const on = move(crossed, 600 - SLOP - 1 - 200, 0.1);
-    assert.equal(leftAt(on, 0.1), 790);
+    assert.equal(leftAt(on, 0.1), 791);
+  });
+
+  it('keeps the ground under the press within the slop of the finger, whatever its first step', () => {
+    for (const step of [SLOP + 1, 25, 60, 200]) {
+      for (const way of [-1, 1]) {
+        let pan = press(openingPan(TABLET), 600, 0);
+        const ground = worldOf(pan, 0, 600);
+        for (let index = 1; index <= 8; index++) {
+          const x = 600 + way * (step + 20 * (index - 1));
+          pan = move(pan, x, index / 60);
+          const lag = Math.abs(screenOf(pan, index / 60, ground) - x);
+          assert.ok(
+            lag <= SLOP + 1e-9,
+            `a first step of ${String(step)} px lags ${String(lag)} px`,
+          );
+        }
+      }
+    }
   });
 
   it('stops at the world’s ends however far the finger goes', () => {
@@ -92,17 +111,32 @@ describe('a drag', () => {
     assert.equal(leftAt(pan, 0.2), 0);
   });
 
+  it('moves back within a frame of turning, however far it overshot an end', () => {
+    const wide: View = { width: 1024, world: 2048, unit: 100 };
+    for (const overshoot of [1, 100, 1000]) {
+      // Pressed at 10 and dragged right by the crop's room plus the slop's lag and `overshoot`.
+      const by = leftAt(openingPan(wide), 0) + SLOP + overshoot;
+      const over = dragged(openingPan(wide), 10, by);
+      assert.equal(leftAt(over, 0.2), 0);
+      const back = move(over, 10 + by - 5, 0.2 + FRAME);
+      assert.equal(
+        leftAt(back, 0.2 + FRAME),
+        5,
+        `overshot by ${String(overshoot)}`,
+      );
+    }
+  });
+
   it('glides on after a quick release, decaying to rest, and not after a still one', () => {
     const pan = dragged(openingPan(TABLET), 800, -200, { seconds: 0.1 });
     const at = leftAt(pan, 0.1);
     const gliding = release(pan, 0.1);
-    assert.equal(isMoving(gliding, 0.1), true);
     const soon = leftAt(gliding, 0.2);
     const later = leftAt(gliding, 0.3);
     const rest = leftAt(gliding, 5);
     assert.ok(at < soon && soon < later && later < rest);
     assert.ok(soon - at > later - soon, 'the glide slows');
-    assert.equal(isMoving(gliding, 5), false);
+    assert.equal(leftAt(gliding, 2.1), rest, 'it rests within two seconds');
     assert.equal(leftAt(gliding, 50), rest);
     const still = release(pan, 0.5);
     assert.equal(leftAt(still, 5), at);
@@ -167,7 +201,6 @@ function moves(lefts: readonly number[]): number[] {
   return lefts.slice(1).map((left, index) => left - (lefts[index] ?? 0));
 }
 
-const FRAME = 1 / 60;
 const CRUISE = CRUISE_ACROSS * TABLET.width;
 
 describe('a held key', () => {
@@ -206,7 +239,7 @@ describe('a held key', () => {
       'it never backs up',
     );
     assert.equal(rest.motion.kind, 'rest');
-    assert.equal(isMoving(rest, 0), false);
+    assert.equal(tick(rest, FRAME), rest, 'a rest is the same crop');
     const coasted = (after.at(-1) ?? 0) - (held.at(-1) ?? 0);
     assert.ok(
       Math.abs(coasted - (CRUISE * KEY_EASE) / 2) < 1,
