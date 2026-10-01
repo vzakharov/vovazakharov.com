@@ -323,6 +323,21 @@ install --offline` there; a symlinked `node_modules` fails Turbopack).
 - **A wrap-up and its cancel can cross.** An agent told to stop, then told
   to carry on, had already stopped; the cancel only resumed it. Settle with
   the operator before stopping an agent, not after.
+- **Additive packages, then one switch-over, needs the switch pre-mapped.**
+  Bite 12's insect-plane ran step 0, the veer, A, B and pace as additive
+  packages (new paths beside the live ones, five agents in ~1 hour, each
+  110–190k, never sharing a file), which kept every tree green; but the
+  switch-over agent spent its whole 178k reading six hand-over notes and the
+  view code and built nothing. The skill should give the switch a mapping
+  agent first — call sites, the files outside the list that read the old
+  shape (here a play probe), the design calls — and brief the build from
+  that map alone, one step.
+- **Ask a fix round for the baseline first.** The fly-catch red after pace
+  was briefed "test the measure against its rule, at the commit before";
+  the agent ran the baseline, found the measure sound and the guessed cause
+  backwards (darting only on long legs made it worse), and fixed it by
+  lowering two cruises the plan called "set by play". A guess in a report is
+  a hypothesis for the next brief, not its instruction.
 - **A fix that holds in tests but not in play is a cause one layer out.**
   The looking-back release passed its unit tests twice and stayed invisible
   in play; the third round traced it to insects flying in the opening

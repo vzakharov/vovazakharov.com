@@ -385,8 +385,17 @@ Beaten: keeping the 1.5 s cap (a release to a far flower races).
 
 **Left, in order:**
 
-1. The insect-plane spec (`docs/remove-before-merging/bite-12/insect-plane.md`),
-   then its build packages: the three decisions above.
+1. **Package C, the switch-over** (`insect-plane.md` § R3.3). The spec is
+   firm and step 0, the veer, A, B and pace are built (`ip-frame`, `ip-veer`,
+   `ip-A`, `ip-B`, `ip-pace`, `ip-dart` notes; pace's cruise set by the catch
+   test: fly 5, bee 4 sizes a second). C1 spent its context reading and left
+   the design in `ip-C1.md` with `ip-C1.patch`; its three calls are decided:
+   every leg not from away fades the veer in from its start (a startle or a
+   hover inside the band would jump ~0.22 · `CLUMP_DISTANCE`); `drawnFlier`
+   returns the veered point the next leg starts from; `Perched` is a union of
+   seat and air, `seatedZoom` taken at the seat's drawn point (1e-3).
+   Then C's play checks (tabL, phoneP: looking back, a walk into a hover, the
+   fly flick, the ~2.4× fade, the brow blink), the Artifact republished.
 2. The five-screen play run at the final HEAD, one screen per call, its frames
    committed (`play-final.md`; ~9 min on tabL): spec §4's opening identity, the
    walk to a back-row mushroom and a tap on its drawn cap, an insect after
