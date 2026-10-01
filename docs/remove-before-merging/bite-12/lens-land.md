@@ -124,7 +124,36 @@ time), `pnpm typecheck`, eslint and prettier clean. Fixed:
    (one `layoutAtRow` per insect flying in or out) and `layoutShown`
    (on a controls repaint) touch the search. Left as it is.
 
+## Round 4 — frames and plays
+
+Shot from a probe build of b2743b9, seed 12 345, 30 frames in, by a scratch
+copy of `play-mushrooms.ts` with one extra play (not committed).
+
+1. **The opening matches the probe to the pixel.** Against the probe half of
+   `lens-probe-opening-*-head-probe.png`, scaled to its size: 0 differing
+   pixels on tabL, phoneL and phoneP (exact, no fuzz), the clump included.
+   The only differing row is the top one of each crop, the probe
+   composite's own resampled edge (≤ 4.9 % grey). The clump boxes on tabL:
+   `mushroom-1` at 498.1, 568.0 (110.7 × 157.6), `mushroom-2` at 565.3,
+   567.3 (125.6 × 178.0).
+2. Turned on `→` from the opening (eye not moved), tabL: a quarter at
+   91.1° and a half at 181.5° (the key eases out past where it is let go).
+   The quarter is the probe's (90.8°) a few px over: the same hills, brow
+   and two flowers at the left edge, the clouds the same lane shifted by
+   the 0.3°. The half shows bare grass under sky and hills, as the
+   world's ±71° wedge says. Walked `↑` 1.2 s from the opening (eye
+   0, 1.92): things grow and spread outward, the clump's caps at the
+   bottom edge.
+3. Looked at every frame: no swimming, sinking, kinked brow, seam, cloud
+   fault or gap in the panorama.
+
+Committed: `lens-land-opening-{tabL,phoneL,phoneP}.png` (the build alone,
+being the probe's to the pixel), `lens-land-quarter-tabL-probe-head.png`
+(probe above, the build below), `lens-land-half-tabL.png`,
+`lens-land-forward-tabL-opening-forward.png` (opening above, after the
+walk below).
+
 ## Left
 
-1. Frames (`lens-land-*.png`), and playing `play-opening`'s restated
-   identity, `play-walk`'s drag and `play-approach`'s aim.
+1. Playing `play-opening`'s restated identity, `play-walk`'s drag and
+   `play-approach`'s aim.
