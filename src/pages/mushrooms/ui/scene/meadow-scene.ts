@@ -34,7 +34,7 @@ import {
   restingOn,
   tapThrough,
 } from './perch-hosts';
-import { airSpots, onscreenOf, perchSight } from './perch-sight';
+import { airSpots, footRows, onscreenOf, perchSight } from './perch-sight';
 import { Planter } from './planter';
 import { MeadowSound, readMuted } from './sound';
 import { Grass } from './tufts';
@@ -148,7 +148,7 @@ export class MeadowScene extends Phaser.Scene {
       (id) => {
         this.tapInsect(id);
       },
-      { ...pick(this.eye, 'toScreen'), ...pick(this.crop, 'toWorld') },
+      () => this.eye.view(),
     );
     this.controls = new Controls(
       this,
@@ -187,7 +187,7 @@ export class MeadowScene extends Phaser.Scene {
             seed: nextSeed(this.releasing),
             now: this.clock * 1000,
             ...this.sight,
-            onscreen: onscreenOf(this.requireLayout(), this.crop),
+            onscreen: onscreenOf(this.requireLayout(), this.eye.view()),
           });
         },
         ...pick(this.planter, 'colour', 'plant', 'plantable'),
@@ -447,6 +447,7 @@ export class MeadowScene extends Phaser.Scene {
     const stand = this.stand();
     if (!stand) return;
     this.sight = perchSight(stand);
+    this.insects?.see(footRows(stand));
     this.air = new Map(
       airSpots(stand.layout).map(({ id, x, y }) => [id, { x, y }]),
     );

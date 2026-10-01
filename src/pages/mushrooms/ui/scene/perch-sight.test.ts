@@ -3,24 +3,28 @@ import { describe, it } from 'node:test';
 
 import type { WithId } from '@/shared/typings';
 
-import { isSeat } from '../../model/flight';
-import { flowerGenes, flowerHead } from '../../model/flower-genes';
+import { isSeat, perchName } from '../../model/flight';
 import { type Meadow, reduce } from '../../model/game';
-import { containsPoint, type Point } from '../../model/geometry';
+import type { Point } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import { type Flier, INSECT_LIMITS } from '../../model/insects';
 import { mulberry32, nextSeed } from '../../model/random';
-import { coversOn, type Stand, WIDEST_SPAN } from './flower-sight';
+import { type Stand, WIDEST_SPAN } from './flower-sight';
 import { meadowLayout } from './layout';
 import {
   AIR_BELOW,
   airSpots,
+  clumpRow,
+  footRows,
   MOST_OVERLAP,
+  onscreenOf,
   perchSight,
   perchSpot,
   seatAt,
 } from './perch-sight';
+import { ofLayout, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
 
@@ -52,7 +56,6 @@ const COUNTS = [
   'covered',
   'drinks',
   'offEdge',
-  'behindCap',
 ] as const;
 type Count = (typeof COUNTS)[number];
 type Tally = Record<Count, number>;
@@ -64,50 +67,24 @@ const NOTHING: Tally = {
   covered: 0,
   drinks: 0,
   offEdge: 0,
-  behindCap: 0,
 };
 
 /** A butterfly drinking: at the flower `id`, sitting at `seat`, its wings `span` px wide. */
 type Drink = WithId & { seat: Point; span: number };
 
-/** Every standing mushroom as drawn, as the flowers' sight measured it. */
-type Covers = ReturnType<typeof coversOn>;
-
 /**
- * How a butterfly `span` px wide drinking at `seat` on the flower `id`
- * cannot be seen: its wings reaching past the world's edge, or the flower's
- * head centre inside a nearer mushroom of `covers` as drawn.
+ * How a butterfly `span` px wide drinking at `seat` cannot be seen: its
+ * wings reaching past the world's edge.
  */
-function hiddenHow(
-  stand: Stand,
-  covers: Covers,
-  { id, seat, span }: Drink,
-): Count[] {
-  const { layout, flowers } = stand;
+function hiddenHow({ layout }: Stand, { seat, span }: Drink): Count[] {
   const { camera, height } = layout;
-  const index = flowers.findIndex((flower) => flower.id === id);
-  const place = layout.flowers[index];
-  const flower = flowers[index];
-  if (!place || !flower) return [];
-  const top = flowerHead(flowerGenes(flower), place.size);
-  const head = { x: place.x + top.x, y: place.y + top.y };
   const half = span / 2;
-  const how: Count[] = [];
-  if (
-    seat.x - half < 0 ||
+  return seat.x - half < 0 ||
     seat.x + half > camera.world ||
     seat.y - half < 0 ||
     seat.y + half > height
-  ) {
-    how.push('offEdge');
-  }
-  const behind = covers.some(
-    ({ depth, drawn }) =>
-      depth > place.y &&
-      drawn.some(({ outline }) => containsPoint(outline, head)),
-  );
-  if (behind) how.push('behindCap');
-  return how;
+    ? ['offEdge']
+    : [];
 }
 
 /**
@@ -131,8 +108,7 @@ function watch(stand: Stand & { meadow: Meadow }, seed: number): Tally {
     return seat;
   };
   const hidden = new Map<string, Count[]>();
-  const { layout, meadow: opening, mushrooms } = stand;
-  const covers = coversOn(layout, mushrooms);
+  const { layout, meadow: opening } = stand;
   let meadow = opening;
   for (let now = 0; now <= VISIT; now += TICK) {
     if (now % RELEASE_GAP === 0 && now / RELEASE_GAP < BUTTERFLIES) {
@@ -162,8 +138,7 @@ function watch(stand: Stand & { meadow: Meadow }, seed: number): Tally {
       if (insect.leg.to.kind !== 'flower') continue;
       tally.drinks++;
       const key = `${insect.id} ${to}`;
-      const how =
-        hidden.get(key) ?? hiddenHow(stand, covers, { id: to, seat, span });
+      const how = hidden.get(key) ?? hiddenHow(stand, { id: to, seat, span });
       hidden.set(key, how);
       for (const each of how) tally[each]++;
     }
@@ -251,7 +226,7 @@ describe('the butterflies of a visit', () => {
   for (const [name, width, height] of VIEWPORTS) {
     for (const forest of [false, true]) {
       const standing = forest ? 'a full forest' : 'the opening clump';
-      it(`never leave, share a perch, cover each other or drink out of sight on a ${name} screen, with ${standing}`, () => {
+      it(`never leave, share a perch, cover each other or drink past the world's edge on a ${name} screen, with ${standing}`, () => {
         const tally = { ...NOTHING };
         for (const seed of forest ? IN_A_FOREST : WITH_THE_CLUMP) {
           const visit = watch(opened(seed, width, height, forest), seed);
@@ -266,4 +241,70 @@ describe('the butterflies of a visit', () => {
       });
     }
   }
+});
+
+describe('onscreenOf', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    it(`shows the opening crop at the opening eye, a turned stretch turned, and nothing facing away, on a ${name} screen`, () => {
+      const layout = meadowLayout(width, height, 7);
+      const { camera, insectSize: unit } = layout;
+      const left = (camera.world - width) / 2;
+      const opening = onscreenOf(layout, viewAt(camera, OPENING_EYE));
+      assert.ok(opening);
+      assert.ok(Math.abs(opening.left - left / unit) < 1e-6);
+      assert.ok(Math.abs(opening.right - (left + width) / unit) < 1e-6);
+      const turned = onscreenOf(
+        layout,
+        viewAt(camera, { ...OPENING_EYE, heading: -0.3 }),
+      );
+      assert.ok(turned && turned.right < opening.right);
+      const away = viewAt(camera, { ...OPENING_EYE, heading: Math.PI });
+      assert.equal(onscreenOf(layout, away), undefined);
+    });
+
+    it(`counts a perch shown only where the view draws its seat on the screen, stepped in and turned, on a ${name} screen`, () => {
+      const stand = opened(3, width, height, true);
+      const { layout } = stand;
+      const rows = footRows(stand);
+      const { places } = perchSight(stand);
+      for (const eye of [
+        { x: 0, y: 3, heading: 0 },
+        { x: 1.5, y: 2, heading: 0.35 },
+      ]) {
+        const view = viewAt(layout.camera, eye);
+        const onscreen = onscreenOf(layout, view);
+        assert.ok(onscreen);
+        for (const [perch, row] of rows) {
+          const place = places?.[perch];
+          if (!place) continue;
+          const x = place.x * layout.insectSize;
+          const shown =
+            place.x >= onscreen.left + onscreen.inset &&
+            place.x <= onscreen.right - onscreen.inset;
+          if (!shown) continue;
+          const drawn = ofLayout(view, { x, y: row }, row);
+          assert.ok(drawn.x >= 0 && drawn.x <= width, perch);
+        }
+      }
+    });
+  }
+});
+
+describe('footRows', () => {
+  it('stands every cap and flower over its own foot, and the air over the clump', () => {
+    const stand = opened(3, 1180, 820, true);
+    const rows = footRows(stand);
+    const { layout, mushrooms } = stand;
+    for (const { id } of airSpots(layout)) {
+      const name = perchName({ kind: 'air', id });
+      assert.equal(rows.get(name), clumpRow(layout));
+    }
+    const grounded = [...rows.entries()].filter(
+      ([name]) => !name.startsWith('air'),
+    );
+    assert.ok(grounded.length > mushrooms.length);
+    for (const [, row] of grounded) {
+      assert.ok(row >= layout.groundTop && row <= layout.height);
+    }
+  });
 });

@@ -1,8 +1,9 @@
 /**
  * What the scene sees of the perches (`Sight` in `model/flight.ts`), as a
  * pure function of the layout and what stands in it, and where on a perch an
- * insect sits. A flower is a perch only where an insect on it can be seen
- * (`flower-sight.ts`); a perch holds one insect at a time, and none goes to a
+ * insect sits. A flower is a perch only where an insect on it stays inside
+ * the world's edges (`flower-sight.ts`), whatever stands in front of it, so
+ * nothing is seen afresh as the eye walks; a perch holds one insect at a time, and none goes to a
  * perch crowded by a taken one for the two kinds' wings, so no two drawn
  * insects cover much of each other. An insect with no perch open roams
  * between spots in the open air over the whole world, inside its edges, as
@@ -24,6 +25,7 @@ import {
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
+import { project } from '../../model/ground';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { INSECT_LIMITS } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
@@ -32,6 +34,7 @@ import { toCanvas } from '../../model/mushroom-outline';
 import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
 import { placeIn } from './clump-layout';
+import { layoutAtRow } from './eye-crop';
 import { type StandingFlower, standingFlowers } from './flower-plots';
 import {
   coversOn,
@@ -46,13 +49,13 @@ import {
   WIDEST_SPAN,
 } from './flower-sight';
 import type { MeadowLayout } from './layout';
-import type { Crop } from './pan-input';
 import {
   crowdings,
   pointCrowdings,
   seatsWith,
   type Track,
 } from './perch-crowding';
+import type { View } from './view';
 
 /** How much of the narrower of two perched insects' spans the other may cover. */
 export const MOST_OVERLAP = 0.25;
@@ -259,7 +262,7 @@ function trackOf(perch: Perch, seater: Seater, kind: InsectKind): Track {
 
 /**
  * What the scene sees of the perches in `stand`: the flowers in sight
- * (`flowerInSight`) to a butterfly, and to a bee, whose seat and wings
+ * (`flowerInSight`, against no cover) to a butterfly, and to a bee, whose seat and wings
  * differ, the spots in the open air (`airSpots`), every two
  * perches on which two insects, the widest of their kinds, could cover more
  * than `MOST_OVERLAP` of the narrower wherever their spots put them, and
@@ -276,7 +279,7 @@ export function perchSight(stand: Stand): Sight {
         flowerInSight(
           layout,
           sightingOf(flower, layout, kind),
-          covers,
+          [],
           widestOn(layout, kind),
         ),
       )
@@ -339,21 +342,72 @@ export function perchSight(stand: Stand): Sight {
   };
 }
 
+/** The ground row, in world px down the screen, each perch stands over, by its name (`perchName`). */
+export type FootRows = ReadonlyMap<string, number>;
+
+/** The row the opening clump stands on, in world px: what an insect in the air is drawn standing over. */
+export function clumpRow({ camera }: MeadowLayout): number {
+  return project(camera, { x: 0, z: 0 }).y;
+}
+
+/** The ground row each cap's and standing flower's foot stands on in `stand`, and the clump's under every spot in the air. */
+export function footRows(stand: Stand): FootRows {
+  const { layout, flowers, mushrooms, planted } = stand;
+  const caps = mushrooms.flatMap((mushroom) => {
+    const place = placeIn(layout.mushrooms, mushroom);
+    return place
+      ? [
+          [
+            perchName({ kind: 'cap', ...pick(mushroom, 'id') }),
+            place.y,
+          ] as const,
+        ]
+      : [];
+  });
+  const heads = standingFlowers(layout, flowers, planted, mushrooms).map(
+    ({ id, place }) => [perchName({ kind: 'flower', id }), place.y] as const,
+  );
+  const air = airSpots(layout).map(
+    ({ id }) => [perchName({ kind: 'air', id }), clumpRow(layout)] as const,
+  );
+  return new Map([...caps, ...heads, ...air]);
+}
+
+/** How many columns across the screen `onscreenOf` follows to the ground's rows. */
+const COLUMNS = 32;
+
 /**
- * What the screen shows of the world on `layout` where `crop` stands now, in
- * the units of `Places`: a perch counts as shown half the widest
- * butterfly's wings inside either edge, so one seated there is wholly in
- * view.
+ * What `view` shows of the world on `layout`, in the units of `Places`: the
+ * stretch across the layout the screen's columns reach on both the screen's
+ * foot row and the seam's, the rows the perches' feet stand between, so a
+ * perch standing over any row between counts as shown only where it is; a
+ * perch counts as shown half the widest butterfly's wings inside either
+ * edge, so one seated there is wholly in view. Kept inside the world's
+ * strip; `undefined` where the screen shows none of it.
  */
 export function onscreenOf(
   layout: MeadowLayout,
-  crop: Pick<Crop, 'toWorld'>,
-): Onscreen {
-  const unit = layout.insectSize;
-  const across = (x: number) => crop.toWorld({ x, y: 0 }).x / unit;
+  view: View | undefined,
+): Onscreen | undefined {
+  if (!view) return undefined;
+  const { width, height, groundTop, camera, insectSize: unit } = layout;
+  const reaches = [height, groundTop].map((row) => {
+    const across = Array.from({ length: COLUMNS + 1 }, (_, column) =>
+      layoutAtRow(view, { x: (width * column) / COLUMNS, y: row }, row),
+    ).flatMap((point) => (point ? [point.x] : []));
+    return across.length > 0
+      ? { left: Math.min(...across), right: Math.max(...across) }
+      : undefined;
+  });
+  const left = Math.max(0, ...reaches.map((reach) => reach?.left ?? Infinity));
+  const right = Math.min(
+    camera.world,
+    ...reaches.map((reach) => reach?.right ?? -Infinity),
+  );
+  if (left >= right) return undefined;
   return {
-    left: across(0),
-    right: across(layout.width),
+    left: left / unit,
+    right: right / unit,
     inset: widestOn(layout, 'butterfly') / 2 / unit,
   };
 }
