@@ -38,9 +38,28 @@ fault (same flat drawing at the foot).
      screens × five headings × three feet; agrees with the old mapping at
      heading 0 and parts from it > 1 px turned; no jump at either end.
 
+2. Verified (probe built in a scratch worktree at 07f5d446):
+   - `fliers.test.ts` 48/48, plus perch-sight, insect-layout, insect-tap,
+     view, eye-crop, view-inverse, door-tap, mushroom-tap, flower-touch.
+   - **The opening play cannot see the fix as it stands.** Its `onSeat`
+     probe does not read where the insect is drawn: it recomputes
+     `scene.eye.toScreen(shown.at, shown.row)`, the old `ofLayout` mapping,
+     so it reports 7.70 px whatever the game draws. Rerun with
+     `seat-fix-probe.patch` (beside this note: reads the container's
+     position less its fidget at the perch's zoom): **tabL 0.00 px over 66
+     frames to heading 0.38; phoneP 0.00 px over 34 frames to 0.17.**
+     Frame: `frames/bite-12/tabL-seatfix-seat-turning.png`.
+   - `approach` otherwise as before (tabL `mushroom-6` 1.54×, haze
+     0.376 → 0.039; phoneP `mushroom-11` 1.54×, haze 0.386 → 0.006). Both
+     still fail only the frame budget (tabL 35.9 ms, phoneP 29.4 ms median;
+     load average ~3.4 with other agents building), untouched here.
+
 ## Left
 
-- `fliers.test.ts` run; the play on tabL then phoneP.
+- The play agent applies `seat-fix-probe.patch` (`scripts/` is not this
+  package's), or measures the seat its own way off the drawn container.
+- No play perches an insect on a flower through a turn; flowers take the
+  same `Host` path and the unit test covers it.
 
 ## Decided
 

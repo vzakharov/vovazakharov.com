@@ -1,0 +1,19 @@
+diff --git a/scripts/lib/play-opening.ts b/scripts/lib/play-opening.ts
+index b6ce64c2..59414d8d 100644
+--- a/scripts/lib/play-opening.ts
++++ b/scripts/lib/play-opening.ts
+@@ -103,7 +103,13 @@ const onSeat = (id: string) => `(() => {
+     ? scene.bed.shown.get(to.id)?.graphics
+     : to.kind === 'flower' ? scene.flowers.shown.get(to.id)?.container : undefined;
+   if (!perch || !perch.visible) return null;
+-  const at = scene.eye.toScreen(shown.at, shown.row);
++  // Where the insect is drawn, its fidget taken back off at its perch's zoom.
++  const host = to.kind === 'cap' ? scene.bed.shown.get(to.id) : scene.flowers.shown.get(to.id);
++  const zoom = host.stands.zoom;
++  const at = {
++    x: shown.container.x - shown.offset.x * zoom,
++    y: shown.container.y - shown.offset.y * zoom,
++  };
+   const matrix = perch.getWorldTransformMatrix();
+   const local = matrix.applyInverse(at.x, at.y, {});
+   const drawn = __probe.toScreen(perch);
