@@ -5,13 +5,6 @@
 
 import type { InsectKind } from './insect-genes';
 
-/**
- * How far a tablet held sideways shows across, in butterfly sizes (`Places`):
- * its 1180 CSS px over the 60 px a butterfly is drawn at there. The meadow's
- * world is about twice that.
- */
-export const TABLET_ACROSS = 1180 / 60;
-
 /** How one kind flies, stays and chooses; every time in ms. */
 export type Habits = {
   /** How long a flight takes, over a `stride` or less. */
@@ -24,13 +17,13 @@ export type Habits = {
   stride: number;
   /**
    * The most times its `flying` time a flight takes, so none drags — but for
-   * a dash longer than `TABLET_ACROSS`.
+   * a dash longer than the screen shows across (`Sight`).
    */
   slowest: number;
   /**
    * Past `slowest`, the share of its time a flight dashes before it flies its
-   * last strides at its pace, up to `TABLET_ACROSS`; `undefined` for a kind
-   * that simply flies faster.
+   * last strides at its pace, up to as far as the screen shows across;
+   * `undefined` for a kind that simply flies faster.
    */
   dashing: number | undefined;
   /** A stay at a flower. */
@@ -64,8 +57,8 @@ export type Habits = {
  * tablet's screen at twice a stride's time. A fly or a bee darts over most
  * of the way and comes in to its perch at its own pace, so each is a child's
  * finger's to catch most of the way; its dash is never faster than across
- * that tablet's screen (`TABLET_ACROSS`), so a longer flight takes longer
- * rather than darting the faster, while one no longer takes `slowest`.
+ * the screen it is flying on, so a longer flight takes longer rather than
+ * darting the faster, while one no longer takes `slowest`.
  */
 export const FLIGHT_HABITS = {
   butterfly: {

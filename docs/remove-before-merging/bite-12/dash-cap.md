@@ -1,18 +1,19 @@
-# dash-cap — a fly's or bee's dash no faster than across a tablet
+# dash-cap — a fly's or bee's dash no faster than across its own screen
 
 The plan's decision (§ "Rest of the bite", «мухи и пчёлы стали перелетать
-слишком быстро»): a dash is never faster than the kind's dash across a
-sideways tablet's screen; a longer leg takes longer, its last strides still
-at the kind's pace; shorter legs keep their timing exactly.
+слишком быстро», re-decided after f736ec2): a dash is never faster than the
+kind's dash across **the screen it is flying on**, the longest leg each
+screen allowed before 3ddb960; a longer leg takes longer, its last strides
+still at the kind's pace; shorter legs keep their timing exactly.
 
 ## Units — read this first
 
 `paced` reads `Places`, which are in **butterfly sizes** (`perch-sight.ts`
 divides screen px by `layout.insectSize`), not ground ("world") units. The
 plan's "≈6 world units" is the tablet's screen in ground units
-(`WORLD_ACROSS` 5.764). In butterfly sizes that screen is **1180 / 60 =
-19.67** (the tablet's butterfly sits at the 60 px floor). Measured legs
-(`perchSight` over 5 visits, butterfly sizes):
+(`WORLD_ACROSS` 5.764). In butterfly sizes a screen is
+`layout.width / layout.insectSize` — the tablet's **1180 / 60 = 19.67**.
+Measured legs (`perchSight` over 5 visits, butterfly sizes):
 
 | screen          | screen across | longest leg | median | p90  |
 | --------------- | ------------- | ----------- | ------ | ---- |
@@ -23,17 +24,51 @@ plan's "≈6 world units" is the tablet's screen in ground units
 | small phone     | 5.3           | 25.3        | 7.3    | 15.6 |
 | desktop         | 28.5          | 44.6        | 13.1   | 28.9 |
 
-The cap is built at the tablet's screen in butterfly sizes
-(`TABLET_ACROSS` in `flight-habits.ts`, pinned to `meadowLayout(1180, 820)`
-by a test). Read as 6 butterfly sizes instead, the cap would slow most legs
-on every screen (median legs are 10–13 sizes): a fly across the tablet's
-screen would take 2.85× its `flying` time instead of 1.8×.
+## How it reaches `paced`
 
-## Speeds before and after
+`perchSight` gives `Sight` an `across` beside `places` (one line in
+`perch-sight.ts`: `across: layout.width / unit`). `Sight` already flows
+whole into the reducer's actions and `Perches` (`game.ts` spreads it), so
+`game.ts` and `insects.ts` needed no change; `flight.ts` reads it with
+`places` (`Placed`) in `firstFlight`, `nextFlight` and `flightAway`. Without
+`across` (only tests, and the scene's empty sight, which has no `places`
+either) a dash is uncapped.
 
-Dash speed in butterfly sizes a second at the kind's mean `flying` time
-(fly 850 ms, bee 1450 ms), and the whole leg's time. Distances in ground
-units on the sideways tablet (× 3.41 sizes a unit):
+## Per screen, before and after
+
+The fastest dash on each screen's longest leg, at the kind's mean `flying`
+time, in butterfly sizes a second (screen widths a second in brackets).
+"Before 3ddb960" is the screen-wide world, where no leg outran the screen;
+"uncapped" is 3ddb960 to f736ec2; "tablet cap" is f736ec2. The cap now is
+each screen's own width, so "now" is "before 3ddb960" on every screen.
+
+| screen          | fly before / now | fly uncapped | fly tablet cap | bee before / now | bee uncapped | bee tablet cap |
+| --------------- | ---------------- | ------------ | -------------- | ---------------- | ------------ | -------------- |
+| tablet          | 60 (3.1)         | 122 (6.2)    | 60 (3.1)       | 36 (1.8)         | 74 (3.8)     | 36 (1.8)       |
+| tablet portrait | 27 (2.8)         | 141 (14.9)   | 60 (6.3)       | 15 (1.6)         | 86 (9.1)     | 36 (3.8)       |
+| phone           | 17 (2.6)         | 96 (14.7)    | 60 (9.2)       | 9 (1.4)          | 58 (9.0)     | 36 (5.5)       |
+| phone sideways  | 42 (3.0)         | 60 (4.3)     | 60 (4.3)       | 25 (1.8)         | 36 (2.6)     | 36 (2.6)       |
+| small phone     | 13 (2.5)         | 78 (14.7)    | 60 (11.3)      | 7 (1.3)          | 47 (8.9)     | 36 (6.8)       |
+| desktop         | 89 (3.1)         | 142 (5.0)    | 60 (2.1)       | 54 (1.9)         | 87 (3.0)     | 36 (1.3)       |
+
+The longest leg's whole time, uncapped / tablet cap / now, in seconds:
+
+| screen          | fly                | bee                |
+| --------------- | ------------------ | ------------------ |
+| tablet          | 1.53 / 1.84 / 1.84 | 2.46 / 2.99 / 2.99 |
+| tablet portrait | 1.53 / 1.94 / 2.84 | 2.46 / 3.15 / 4.75 |
+| phone           | 1.53 / 1.71 / 2.95 | 2.46 / 2.77 / 5.05 |
+| phone sideways  | 1.53 / 1.53 / 1.67 | 2.46 / 2.47 / 2.70 |
+| small phone     | 1.53 / 1.62 / 3.04 | 2.46 / 2.62 / 5.34 |
+| desktop         | 1.53 / 1.95 / 1.71 | 2.46 / 3.16 / 2.76 |
+
+On a narrow screen a world-crossing leg now takes 2–3.5× as long as it did
+uncapped, most of it off screen (the leg is 4–5 screens long); median legs
+(5.5–13 sizes) are under or near each screen's cap and barely change.
+
+## On the tablet
+
+Distances in ground units on the sideways tablet (× 3.41 sizes a unit):
 
 | kind | units | sizes | dash before | dash after | leg before | leg after |
 | ---- | ----- | ----- | ----------- | ---------- | ---------- | --------- |
@@ -46,24 +81,19 @@ units on the sideways tablet (× 3.41 sizes a unit):
 | bee  | 9     | 30.7  | 58.4        | 36.0       | 2.46 s     | 2.77 s    |
 | bee  | 12    | 40.9  | 79.2        | 36.0       | 2.46 s     | 3.06 s    |
 
-Taken as butterfly sizes, 3/6/9/12 are all under the cap and unchanged
-(fly 5.6/15.4/25.2/35.0, bee 2.2/8.3/14.4/20.5 sizes a second).
-
 ## Done
 
-- `paced` (`flight.ts`): past `TABLET_ACROSS` a dashing kind's dash time
-  grows with the leg at the dash speed it had across `TABLET_ACROSS`; its
-  last `(1 − dashing) × slowest` strides stay at its pace. At or under it the
-  stretch, dash share and way are the same numbers as before.
-- `FLIGHT_HABITS`, `slowest`, `dashing` docstrings state the contract.
-- `flight.test.ts`: the tablet constant pinned to the layout; the pace test
-  runs dashers up to a tablet across; the dash test checks the last strides'
-  pace at every length; a new test pins the cap (1.5×, 2×, 3× a tablet
-  across dash at the tablet's speed and take longer).
-- Green (f736ec2): `flight`, `flight-kinds`, `flight-in`, `insect-motion`,
-  `insects`; `pnpm typecheck`; `ui/scene/fliers.test.ts` 48/48 (6 min 10 s),
-  run after merging the branch at 87250a8.
+- f736ec2: the cap at one tablet-wide constant (`TABLET_ACROSS`).
+- The cap is each screen's own width: `Sight.across` from `perchSight`,
+  read by `paced`; `TABLET_ACROSS` retired. `FLIGHT_HABITS`, `slowest`,
+  `dashing` and `Sight` docstrings state it.
+- `flight.test.ts`: pace, dash and cap tests run on every `VIEWPORTS`
+  screen with its own `across` (`meadowLayout` width / `insectSize`); a new
+  test pins a phone's cap at its own width, slower than the tablet's over the
+  same way.
+- Green: `flight`, `flight-kinds`, `flight-in`, `insect-motion`, `insects`,
+  `perch-sight`; `pnpm typecheck`.
 
 ## Left
 
-Nothing.
+- `ui/scene/fliers.test.ts` once.
