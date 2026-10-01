@@ -11,7 +11,7 @@ ends, explicit cruise), `model/stride.ts`, and their tests.
   `pan.test.ts` untouched, 30/30 before and after. `Cruised`/`Paced`/`Placed`
   are the shared bases the type-overlap gate asked for;
   `scripts/lib/play-pan-keys.ts`'s `Turning` takes `Cruised`.
-- Step 2: `stride.ts` + `stride.test.ts` — keys, the glade room, the rim
+- Step 2 (00c7d22f): `stride.ts` + `stride.test.ts` — keys, the glade room, the rim
   slide, the drag's chase.
 
 ## Left
