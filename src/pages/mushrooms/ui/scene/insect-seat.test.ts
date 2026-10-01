@@ -2,11 +2,18 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Point } from '../../model/geometry';
-import { type Ground, OPENING_EYE, project } from '../../model/ground';
+import {
+  CLUMP_DISTANCE,
+  type Ground,
+  OPENING_EYE,
+  planeOf,
+  project,
+} from '../../model/ground';
 import { OPENING_FEET } from '../../model/placement';
-import { bedPlace, type Host } from './bed-place';
+import { bedPlace, type Host, onHost } from './bed-place';
 import { drawnAt, type Zoomed } from './insect-away';
-import { drawnInsect } from './insect-seat';
+import { aloftAt, veerOf } from './insect-frame';
+import { drawnFlier, drawnInsect, seatedZoom } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
 import { type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
@@ -160,6 +167,78 @@ describe('drawnInsect', () => {
       });
       const [far, near] = sizes.toSorted((a, b) => a.row - b.row);
       assert.ok(far && near && near.zoom > far.zoom);
+    }
+  });
+});
+
+/** Every case's view, and the eye stood in front of each foot facing it, near enough to veer a leg by it. */
+const NEAR_CASES = [
+  ...CASES,
+  ...VIEWPORTS.flatMap(([name, width, height]) =>
+    FEET.flatMap((foot) =>
+      [0.6, 0.8, 1.2].map((ahead) => {
+        const plane = planeOf(foot);
+        const eye = {
+          ...plane,
+          y: plane.y - ahead * CLUMP_DISTANCE,
+          heading: 0,
+        };
+        return { name, foot, view: viewAt(meadowCamera(width, height), eye) };
+      }),
+    ),
+  ),
+];
+
+describe('drawnFlier', () => {
+  it('lands at the zoom the sitter is drawn at, where its host draws the seat', () => {
+    let landed = 0;
+    let veered = 0;
+    for (const { name, view, foot } of NEAR_CASES) {
+      const host = hostOn(view, foot);
+      if (!host.stands.drawn || host.stands.behind) continue;
+      for (const offset of SEATS) {
+        const at = onHost(host, plus(host.laidFoot, offset));
+        const seat = aloftAt(view, at, host.stands.distance);
+        const drawn = drawnFlier(view, seat, 1, { to: seat });
+        assert.ok(drawn, name);
+        assert.ok(apart(drawn, at) < 1e-6, name);
+        // A seat toward a rim stands off the foot's x, where the screen
+        // bends a hair more or less than at the foot, by up to 1.2% on the
+        // sideways phone's edge.
+        const off = Math.abs(drawn.zoom / seatedZoom(host) - 1);
+        assert.ok(off < (offset.x === 0 ? 1e-3 : 0.015), `${name}: ${off}`);
+        const { near, width } = veerOf(view);
+        if (host.stands.distance < near + width) veered++;
+        landed++;
+      }
+    }
+    assert.ok(landed > 200 && veered > 20, `${landed}, ${veered}`);
+  });
+});
+
+describe('seatedZoom', () => {
+  it('draws a sitter at its own size over its host’s distance: larger the nearer, larger stepped toward it', () => {
+    for (const [, width, height] of VIEWPORTS) {
+      const camera = meadowCamera(width, height);
+      const [opening, stepped] = [OPENING_EYE, { x: 0, y: 1, heading: 0 }].map(
+        (eye) => viewAt(camera, eye),
+      );
+      assert.ok(opening && stepped);
+      const zooms = FEET.map((foot) => {
+        const before = hostOn(opening, foot);
+        const after = hostOn(stepped, foot);
+        assert.ok(seatedZoom(after) > seatedZoom(before));
+        // In scale with its cap wherever the eye stands.
+        const scale = seatedZoom(before) / before.stands.zoom;
+        assert.ok(
+          Math.abs(seatedZoom(after) / after.stands.zoom - scale) < 1e-12,
+        );
+        const { ahead } = before.stands;
+        return { ahead, zoom: seatedZoom(before) };
+      });
+      const byDistance = zooms.toSorted((a, b) => a.ahead - b.ahead);
+      const [nearest, farthest] = [byDistance[0], byDistance.at(-1)];
+      assert.ok(nearest && farthest && nearest.zoom > farthest.zoom);
     }
   });
 });
