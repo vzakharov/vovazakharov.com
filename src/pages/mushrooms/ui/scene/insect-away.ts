@@ -12,6 +12,7 @@ import type { Side } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import { alongSight, type Camera, pinholeOf } from '../../model/ground';
 import { layoutAtRow } from './eye-crop';
+import { type Aloft, aloftAt } from './insect-frame';
 import {
   buried,
   D_SEE,
@@ -222,6 +223,45 @@ export function entry(
     ...start,
     out: { at: offScreen(seen, exit, away, near.row), ...pick(near, 'row') },
   };
+}
+
+/**
+ * In the air just past `view`'s screen's `side` edge, at the height `away`
+ * flies, `distance` from the eye in the clump's size.
+ */
+export function offAloft(
+  view: View,
+  side: Side,
+  away: Away,
+  distance: number,
+): Aloft {
+  const x = side === 'left' ? -away.span : view.width + away.span;
+  return aloftAt(view, { x, y: away.drop }, distance);
+}
+
+/**
+ * Where an insect in from away sets off for its first perch, whose seat
+ * `seated` is drawn at on the screen, in CSS px, and, where it flies out of
+ * view first, the spot past the screen's side it flies out by (`out`). It
+ * sets off on the ground just past the brow (`PAST_BROW`), so it comes up
+ * over it: halfway across from the screen's middle to its seat where the
+ * screen shows the seat, else at the middle, flying out by the side of the
+ * middle its seat is drawn on, `OUT_AHEAD` of the brow's distance away. With
+ * no seat it goes out by `side`.
+ */
+export function entryAloft(
+  view: View,
+  side: Side,
+  away: Away,
+  seated?: Point,
+): { from: Aloft; out?: Aloft } {
+  const middle = pinholeOf(view).x;
+  const shown = seated !== undefined && onScreen(view, seated);
+  const x = shown ? (middle + seated.x) / 2 : middle;
+  const from = { ...alongSight(view, view.eye, x, D_SEE + PAST_BROW), h: 0 };
+  if (shown) return { from };
+  const exit = seated ? (seated.x < middle ? 'left' : 'right') : side;
+  return { from, out: offAloft(view, exit, away, OUT_AHEAD * D_SEE) };
 }
 
 /** A world point in ground units from the world's midline across, and as a fraction of the screen's height down. */

@@ -8,6 +8,7 @@
 
 import type { Point } from '../../model/geometry';
 import {
+  alongSight,
   bendAt,
   type Camera,
   CLUMP_DISTANCE,
@@ -116,6 +117,21 @@ export function drawnAloft(view: View, aloft: Aloft): Placed | undefined {
     placedAt(view, aloft, 0, CLUMP_DISTANCE),
   );
   return buried(view, drawn) ? undefined : drawn;
+}
+
+/**
+ * The `Aloft` `view` draws at the screen's `at`, in CSS px, `distance` from
+ * its eye in the clump's size: on the plane along the sight at `at.x`, at the
+ * height that draws it at `at.y`. `drawnAloft` takes it back to `at` wherever
+ * the ground under it has not sunk under the brow.
+ */
+export function aloftAt(view: View, at: Point, distance: number): Aloft {
+  const pinhole = pinholeOf(view);
+  const scale = (pinhole.focal * bendAt(pinhole, at.x)) / distance;
+  return {
+    ...alongSight(view, view.eye, at.x, distance),
+    h: EYE_HEIGHT - (at.y - pinhole.y) / scale,
+  };
 }
 
 /**
