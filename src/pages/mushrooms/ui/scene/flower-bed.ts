@@ -32,7 +32,15 @@ import type { Instrument } from './instrument';
 import type { FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
+import { browPale } from './repaint-queue';
 import { type Following, onScreen, type View } from './view';
+
+/**
+ * How much a flower sinking behind the brow fades for each share of haze it
+ * pales by (`browPale`): a flower is painted with no haze, so it pales by
+ * letting the hazy hills behind it through, at no repaint.
+ */
+const BROW_FADE = 1.5;
 
 /** `plantedAt`: `-Infinity` for a seeded flower, standing from the start. */
 type Shown = TappedFigure &
@@ -186,7 +194,10 @@ export class FlowerBed implements Following {
     for (const shown of this.shown.values()) this.stand(shown);
   }
 
-  /** Stands `shown` where the view, or else the layout, puts its foot. */
+  /**
+   * Stands `shown` where the view, or else the layout, puts its foot, fading
+   * as it sinks behind the brow.
+   */
   private stand(shown: Shown): void {
     const { laid, container, headR, headY } = shown;
     const place = laid
@@ -196,6 +207,8 @@ export class FlowerBed implements Following {
       : UNPLACED;
     shown.stands = place;
     standAt(container, place);
+    const pale = this.view && place.behind ? browPale(place.ahead) : 0;
+    container.setAlpha(1 - BROW_FADE * pale);
   }
 
   /**

@@ -56,9 +56,12 @@ given.
      to stand. With the sun moved off the cross no mushroom is under it
      there. Green at HEAD before this step (24/24).
 
+4. Flowers pale behind the brow: `brow-flower-pale.patch` re-placed by
+   hand in `ui/scene/flower-bed.ts` (the import, `BROW_FADE`, the two lines
+   at the end of `stand`, unchanged from the patch) and the patch deleted.
+
 ## Left
 
-4. `brow-flower-pale.patch`.
 5. Replays and frames.
 
 ## Decided
