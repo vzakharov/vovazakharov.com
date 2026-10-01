@@ -407,8 +407,13 @@ farthest heading with room (~1.8 rad on tabL, ~1.6 on phoneP).
    the looking-back landing at the farthest heading with room — then one
    rerun per screen, frames to `frames/bite-12/insect-plane/`, and the
    Artifact republished with what the operator should try.
-   C's step 2 (tests for `flowerLiftAt` and `seat`'s and `capTop`'s `drawn`)
-   rides with it.
+   C's step 2 is done as far as it goes (ea7573a, `ip-C3.md`):
+   `flowerLiftAt` is pinned; `seat`'s and `capTop`'s `drawn` stay untested,
+   their classes importing Phaser, which Node cannot load. **Decided: left
+   so** — their parts are tested (`flowerLiftAt`, `onHost`) and the veer play
+   drives both through the page. Beaten: extracting ~30 lines into pure
+   functions for the test's sake (production churn with no bug behind it);
+   a faked browser (fragile, reads private fields).
 2. The five-screen play run at the final HEAD, one screen per call, its frames
    committed (`play-final.md`; ~9 min on tabL): spec §4's opening identity, the
    walk to a back-row mushroom and a tap on its drawn cap, an insect after
