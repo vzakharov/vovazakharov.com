@@ -122,6 +122,15 @@ function paintBlades(
   }
 }
 
+/** A tuft's three blades: two flanking ones leaning apart round a taller middle one. */
+function bladesOf({ flank, middle }: Tuft): readonly Blade[] {
+  return [
+    [-0.5, 1.6, flank],
+    [0.45, 1.4, flank],
+    [0, 2, middle],
+  ];
+}
+
 /** The seam's grass as it bends at `time`, into `graphics` cleared for it. */
 export function paintTufts(
   graphics: Phaser.GameObjects.Graphics,
@@ -130,33 +139,23 @@ export function paintTufts(
 ): void {
   graphics.clear();
   for (const tuft of tufts) {
-    const { phase, flank, middle, crown } = tuft;
-    const blades = [
-      [-0.5, 1.6, flank],
-      [0.45, 1.4, flank],
-      [0, 2, middle],
-    ] as const;
-    paintBlades(graphics, tuft, sway(time, phase) * SWING, blades, crown);
+    const bend = sway(time, tuft.phase) * SWING;
+    paintBlades(graphics, tuft, bend, bladesOf(tuft), tuft.crown);
   }
 }
 
-/** How tall a sprout's bud stands on its stem, in units of the tuft's size. */
-const BUD_HEIGHT = 2.5;
-/** How wide a sprout's closed bud is round, in units of the tuft's size. */
-const BUD_R = 0.5;
 /** How much taller the tuft the picker is open on stands, and how fast its glow breathes, per second. */
 const MARKED_LIFT = 0.18;
 const GLOW_RATE = 2.4;
 
-/** What a sprout's painting marks: the tuft that last refused a flower, and the one the picker is open on. */
+/** What the ground's grass marks: the tuft that last refused a flower, and the one the picker is open on. */
 export type Sprouting = { refused?: Refusal; marked?: Tuft };
 
 /**
- * The tufts the child plants on as they bend at `time`, into `graphics`
- * over the seam's grass: five fresh blades round a stem holding up a closed
- * pink bud, the flower to come, so the grass that grows flowers reads apart
- * from the seam's. The tuft `marked` stands taller on a breathing glow; the
- * one of `refused` shakes its head.
+ * The ground's grass, every tuft a flower can be planted on, as it bends at
+ * `time`, into `graphics` over the seam's grass: plain tufts like the seam's.
+ * The tuft `marked` stands taller on a breathing glow; the one of `refused`
+ * shakes its head.
  */
 export function paintSprouts(
   graphics: Phaser.GameObjects.Graphics,
@@ -165,10 +164,9 @@ export function paintSprouts(
   { refused, marked }: Sprouting,
 ): void {
   for (const tuft of tufts) {
-    const { x, y, phase } = tuft;
+    const { x, y, phase, crown } = tuft;
     const open = tuft === marked;
     const size = tuft.size * (open ? 1 + MARKED_LIFT : 1);
-    const shown = { ...tuft, size };
     if (open) {
       const breath = 0.5 + 0.5 * Math.sin(time * GLOW_RATE * Math.PI);
       graphics.fillStyle(PALETTE.sproutGlow, 0.7 + 0.3 * breath);
@@ -176,42 +174,6 @@ export function paintSprouts(
     }
     const no = tuft === refused?.tuft ? shake(time - refused.shakenAt) : 0;
     const bend = sway(time, phase) * SWING + no * REFUSE_SWING;
-    const budX = x + bend * BUD_HEIGHT * size * 0.6;
-    const budY = y - BUD_HEIGHT * size;
-    graphics.lineStyle(Math.max(1.5, size * 0.16), PALETTE.sproutDark);
-    graphics.lineBetween(x, y, budX, budY);
-    graphics.fillStyle(PALETTE.bud);
-    graphics.fillEllipse(
-      budX,
-      budY - BUD_R * size * 0.4,
-      BUD_R * 2 * size,
-      BUD_R * 2.8 * size,
-    );
-    graphics.fillStyle(PALETTE.budLit);
-    graphics.fillCircle(
-      budX - BUD_R * size * 0.3,
-      budY - BUD_R * size * 0.8,
-      BUD_R * size * 0.35,
-    );
-    graphics.fillStyle(PALETTE.sproutDark);
-    for (const side of [-1, 1]) {
-      graphics.fillTriangle(
-        budX,
-        budY + BUD_R * size * 0.9,
-        budX + side * BUD_R * size * 1.1,
-        budY - BUD_R * size * 0.1,
-        budX + side * BUD_R * size * 0.2,
-        budY,
-      );
-    }
-    const crown = mix(PALETTE.sprout, PALETTE.groundLit, 0.5);
-    const blades = [
-      [-0.9, 1.1, PALETTE.sproutDark],
-      [0.85, 1.2, PALETTE.sproutDark],
-      [-0.4, 1.6, PALETTE.sprout],
-      [0.4, 1.5, PALETTE.sprout],
-      [0.05, 1.9, PALETTE.sprout],
-    ] as const;
-    paintBlades(graphics, shown, bend, blades, crown);
+    paintBlades(graphics, { ...tuft, size }, bend, bladesOf(tuft), crown);
   }
 }

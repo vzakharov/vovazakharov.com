@@ -27,9 +27,6 @@ export const BACKDROP = {
   /** The tufts the child plants on: a fresher green than the seam's grass. */
   sprout: 0x9c_e8_4e,
   sproutDark: 0x3c_9a_2a,
-  /** The closed bud each such tuft holds up, the flower to come. */
-  bud: 0xff_b8_d4,
-  budLit: 0xff_ea_f2,
   /** The glow on the ground under the tuft the flower picker is open on. */
   sproutGlow: 0xff_f8_d0,
 } as const;
