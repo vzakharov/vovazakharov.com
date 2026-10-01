@@ -315,3 +315,17 @@
 install --offline` there; a symlinked `node_modules` fails Turbopack).
   One step per agent and a ~10-minute check-in held every agent under
   ~190k with commits on origin; six packages ran in ~1¾ hours.
+- **A package briefed as five steps lands as two or three.** Bite 12's lens
+  went build → land ×3 → frames, each agent stopping at ~180k on its
+  budget notice with the rest as a patch and a note; the carried flight
+  items took three rounds. The skill should brief one to three steps per
+  agent and treat the hand-over note as the next brief's spine.
+- **A wrap-up and its cancel can cross.** An agent told to stop, then told
+  to carry on, had already stopped; the cancel only resumed it. Settle with
+  the operator before stopping an agent, not after.
+- **A fix that holds in tests but not in play is a cause one layer out.**
+  The looking-back release passed its unit tests twice and stayed invisible
+  in play; the third round traced it to insects flying in the opening
+  eye's layout, which the lens and walking had made wrong. Brief a play
+  check with every fix to what the child sees, and on a second miss send a
+  research agent for the layer below rather than a third fix.

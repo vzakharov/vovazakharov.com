@@ -1,7 +1,7 @@
 # Relay summary
 
-Relay depth: 2 → **the successor is depth 3**
-(`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
+Relay depth: 3 → **the successor is depth 4**
+(`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap", limit 8).
 
 ## 1. Standing constraints
 
@@ -50,6 +50,10 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > не понял почему мы вдруг заговорили по-английски
 
+New this session:
+
+> кажется у нас была планка 400 строк. что не влезает либо сокращать либо выносить в смежные доки по темам, как такой вариант?
+
 **Every reply to the operator is in Russian, «ты»**, including turns woken
 by an agent's report, a check-in or a cross-session message, which arrive in
 English. **Syama is a boy** (Салман, «Сяма»). The operator is Vova.
@@ -59,132 +63,160 @@ the operator nothing, except where they are present and the call is about
 how the game feels; **the context-budget notice's "offer `/compact` or
 `/relay`" does not apply — relay, unasked**. Fill
 `.claude/skills/megabeast/notes/` before every relay. No module past ~450
-lines. Each bite ends by committing its best frames to
-`docs/remove-before-merging/frames/bite-<n>/` and republishing the game
-Artifact at its one URL (https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG).
-Every session and subagent runs on Opus, named explicitly
-(`create_session` `model: "claude-opus-5-5"`, `Agent` `model: "opus"`).
-The review is a subagent in each bite's tail. Build agents work in their
-own `git worktree` (`docs/remove-before-merging/bite-12/brief-common.md`).
-Pass this section on verbatim.
+lines. **The plan file stays under 400 lines once cut (cut again past 450,
+per `.claude/skills/plan/elephant.md`); what doesn't fit is cut or moved to
+topic files under `docs/plans/mushroom-game-syama/`.** Each bite ends by
+committing its best frames to `docs/remove-before-merging/frames/bite-<n>/`
+and republishing the game Artifact at its one URL
+(https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG). Every session and
+subagent runs on Opus, named explicitly (`create_session` `model:
+"claude-opus-5-5"`, `Agent` `model: "opus"`). The review is a subagent in
+each bite's tail. Build agents work in their own `git worktree`
+(`docs/remove-before-merging/bite-12/brief-common.md`). Pass this section
+on verbatim.
 
 ## 2. The conversation
 
-Started from `/relay take`. The attach went like this: the clone was
-deepened; the stale local ref was renamed to `stale/mushroom-game-syama-e66b8e1`,
-since it had diverged; `pnpm install` ran. The session told the operator
-the turn question was open and waited on the depth-1 relaying session's two
-agents.
+Started from `/relay take`. Attach: the clone deepened; the local ref
+(e66b8e1) was an ancestor of origin's tip and was renamed to
+`stale/mushroom-game-syama-e66b8e1`; fresh tracking branch; `pnpm install`.
+The agent greeted the operator and said it was waiting on the lens probe.
 
-The relaying session (session_01UtZKz1KhUShxyTZXbZ24vD) then forwarded the
-operator's answer to the turn question, verbatim:
-
-- «а, всё, докрутил. но это заняло аж 16 секунд; по ощущениям (как если бы
-  я был реально человеком так вращающимся, судя по движению грибо и
-  цветов) это должно было бы произойти намного раньше»
-- «то есть претензии не к тому с какой скоростью движутся цветы-грибы, это
-  как раз ок, а к тому какой длины ощущается "полный поворот"»
-- «да, точно не через трубу. выглядит как будто ты прямо посреди
-  грибочков, стартовые грибы метрах в двух-трёх, и это хорошо»
-
-The agent measured the views (`tmp/fov.ts`, not committed): 7.9 screens a
-turn on tabL, 18–19 on portrait. It decided to halve `CLUMP_DISTANCE`, which
-it claimed would keep the opening pixel-identical (aba53f0). It then
-recorded `drop-in`'s and `v-near`'s leftovers as decisions and briefed
-`half-depth`. That agent stopped at step 1: the brow became a dome and side
-flowers sank, with 10–36% of the opening's pixels changed. The agent showed
-the operator the frames, admitted its claim was wrong, and offered four
-options, recommending a 0.7 cut.
-
-1. Operator: «не, это конечно выглядит не айс 🙂 а что нужно бы было
-   сделать чтобы сохранив текущую округлость горизонта, но сделать меньше
-   поворотов? законы оптики? :)» / «как-то в компьютерных играх-стрелялках
-   ж это работает?» Agent: a shooter's horizon is at infinity, so it stays
-   straight at any view. Ours is a near circle, which dips harder as the
-   view widens. Games with a round horizon (Animal Crossing) render wide
-   with a straight horizon and then bend the screen by a fixed curve. It
-   proposed a panoramic lens (linear in azimuth, rows by distance) plus
-   today's brow curve as a screen-space bend, probe first. It asked:
-   «Делаю?»
-2. Operator: «да, и 4 экрана как раз кажется правильным "ощущением", сейчас
-   проверил, грубо говоря если мы смотрим на "север", то каждый "экран"
-   направо это поворот: восток-юг-запад-опять север / про пробу -- ок».
-   Agent: wrote the decision (bac7c5a) and briefed `lens-probe`. The probe
-   landed (147a6c6) and its four frame pairs were sent to the operator.
-   **The operator has not yet answered on the probe.** The agent then
-   relayed, at ~200k of context.
+1. Operator: «слушай, ну выгялдит сверху и снизу идентично ж? мне ок, но я
+   если честно не очень понимаю на что мне смотреть». Agent: identical
+   openings are the point (half depth had broken them); flipped the plan to
+   in-progress quoting «мне ок», briefed `lens-build`.
+2. Operator (mid-turn): «а, вот в …lens-probe-quarter-tabL-head-probe.png
+   вижу разницу, на пробе видны цветы сбоку, на хеде нет. но что это значит
+   я тоже не до конца понимаю.» Agent: after a quarter turn the lens shows
+   the opening's right-side flowers at the left edge — one screen is one
+   compass quarter, the turn feels like turning a head.
+3. Operator: «давай напишем минимальный вариант, который мне можно будет
+   потестировать "поворотом", и оттуда решим». Agent built the probe as an
+   Artifact page (not published) and told `lens-build` to wrap up.
+4. Operator (mid-turn), quoting the agent's «Ты повернулся на экран и
+   видишь, откуда пришёл…»: «а, ну замечательно. тогда делаем и не
+   оглядываемся (пока)». Agent cancelled the wrap-up; the agent had already
+   stopped, so it was resumed; then a chain of agents built and landed the
+   lens (see § 6).
+5. (No operator message while the lens landed; the agent reported each
+   round in Russian.) After the frames, the agent republished the Artifact
+   (version 13) and sent `lens-land-quarter…` and `lens-land-forward…`.
+6. After lens-carry round 3, the agent explained insects live in the opening
+   eye's layout, decided "insects on the plane", briefed a spec. It asked the
+   operator Open 1: size by distance (a) or today's equal sizes (b),
+   recommending (a). Operator: «ну да, а звучит хорошо».
+7. Operator: «то есть грубо говоря вылетают малютками из-за горизонта и
+   летят к своему цветку? кстати, интересно, что будет, если цветок позади
+   ребёнка, и она "сквозь" него пролетит. насколько она на максимуме
+   увеличится?» Agent: 0.65× at the brow, not tiny; through the eye the zoom
+   is unbounded since the V_NEAR cull no longer applies to insects; offered
+   (1) veer round the head (recommended) or (2) a zoom cap.
+8. Operator: «да, 1 -- ок / > Хотя бабочка размером с экран для
+   шестилетки, может, и есть главная фишка игры :) / бесспорно) но пока
+   попробуем найти другие фишки / ещё, мухи и пчёлы до сих пор летают
+   неприлично быстро, если путь достаточно длинный. в какой-то момент это
+   правили, но, кажется, недоправили». Agent: decided to halve the dash cap.
+9. Operator: «а почему они вообще должны летать тем быстрее, чем больше
+   путь? вроде в жизни муха летит себе и летит :)». Agent: the cause is
+   `paced` saturating at `slowest`; re-decided: a leg's time is its length at
+   the kind's pace, no ceiling.
+10. Operator (mid-turn): «ещё, мне кажется, или файл плана опять раздуло?»
+    Agent: yes, 1002 lines; briefed a slimming agent (target 600).
+11. Operator: «кажется у нас была планка 400 строк…» (verbatim in § 1).
+    Agent retargeted under 400 by topic files; the plan came to 396.
+12. After the spec's round 2, the agent asked: `ARRIVAL` (1.5 s cap on a
+    tapped release's first leg) — (1) remove (recommended) or (2) keep.
+    Operator: «убрать».
 
 ## 3. Intent
 
-Unchanged: the whole game, built autonomously, beautiful and comfortable
-for a six-year-old boy; each bite reviewed by a subagent and its findings
-fixed; the Artifact playable after every bite; `/finalize` at the end, no
-merge. Bite 12: the child really walks, and now a full turn feels like a
-person's — **4 screens on tabL, one screen per compass quarter**. The
-opening stays as it is (the clump, the round brow).
+Unchanged: the whole game, autonomous, beautiful and comfortable for a
+six-year-old boy; reviewed per bite by a subagent; the Artifact playable
+after every bite; `/finalize` at the end, no merge. Bite 12: the child
+walks and turns like a person (4 screens a turn on tabL). Now: insects that
+live in the world, not in the opening's screen — seen from any heading,
+sized by distance, veering past the child's head, flying at their own calm
+cruise however long the way. The operator wants "other фишки" than a
+screen-sized butterfly.
 
-## 4. Decisions (all in the plan, just before `**Left, in order:**`)
+## 4. Decisions
 
-- **A panoramic lens with a bent screen.** Across, the screen is linear in
-  azimuth. Rows go by distance, so the `D_SEE` circle is one row and every
-  row is turn-invariant. The whole ground is then bent by today's brow curve
-  (`hypot(1, dx / focal)` at today's focal). The meadow's angles widen by
-  one factor (`SPREAD` 1.9617), giving 4 screens a turn on tabL; the other
-  screens take whatever that factor gives them. The slide in px stays.
-  - Beaten: the half-depth pinhole (a dome, side flowers sunk); a smaller
-    cut; a straight brow (a far flower vanishes as you turn toward it); a
-    brow drawn at the old focal over a wide pinhole (sinking things ride up
-    and down as the child turns).
-- **"Half depth" is the beaten attempt.** `half-depth.patch` is kept only as
-  a reference for which constants follow `CLUMP_DISTANCE`. Its rule that
-  plane constants follow `CLUMP_DISTANCE` rather than literals still holds
-  in spirit.
-- **A flier sinks under the brow by its ground point**, not its middle. This
-  fixes ~1% of releases that were hidden while in front of the brow.
-- **An insect is culled by its own drawn extent**, not by `V_NEAR`.
-- **`V_NEAR = 0.58 · CLUMP_DISTANCE`** (2c1ed70, by `v-near`). Its ceiling of
-  0.613 needs re-measuring after the lens changes.
-- **The release rises over the brow in front** (d290cd0, by `drop-in`).
-  Leftovers in `drop-in.md`: `PAST_BROW` as a share of `D_SEE`, the no-perch
-  first leg lengthened, no release past the world's end.
+All in the plan's `## Rest of the bite` (`docs/plans/mushroom-game-syama.paused.md`,
+the unbuilt ones verbatim) and bite 12's topic files
+(`docs/plans/mushroom-game-syama/bite-12/{lens,insects,progress,…}.md`):
+
+- **The panoramic lens is built** (accepted «мне ок»). Plus `rowRuns`
+  (a row seen from behind the meadow is not on screen), cloud lane offsets,
+  haze by `ahead`.
+- **Insects fly and are sized on the plane, not the layout** — the root
+  cause of the invisible looking-back release and insects shrinking toward
+  the middle looking back. Beaten: distance-only sizing, a zoom floor, the
+  past-the-edge patch.
+- **Size by distance at the opening too** (option (a), «ну да, а звучит
+  хорошо»): release 0.65× at the brow, perched 0.65×–1.5×.
+- **Legs veer round the eye** at the distance where zoom reaches ~1.7×
+  («да, 1 -- ок»). Beaten: a zoom cap.
+- **A leg's time is its length at the kind's own cruise**, set by play,
+  starting at today's median-leg speed (fly ≈ 7, bee ≈ 4.6 sizes/s on the
+  tablet), no ceiling, timed by drawn length. Beaten: halving the dash cap;
+  a stride per `flying` time (≈1 size/s, a fly 20 s across the tablet).
+- **`ARRIVAL` goes** («убрать»).
+- Terms: **"the layout"** — the opening eye's screen unrolled onto the
+  plane, where insects live today; **"the leg's frame"** (spec R2.1) — the
+  layout pinhole moved to the eye and turned to its heading at set-off,
+  which reproduces today's paths facing the clump.
 
 ## 5. Errors and dead ends
 
-- **The agent promised the operator a pixel-identical opening for half
-  depth, and it was wrong.** It checked one projection, not the brow, which
-  is a circle of plane distance. The operator saw the dome. The lesson is in
-  megabeast `quality.md` (last entry): a geometry call goes through a frame
-  probe before a build is briefed.
+- The agent told `lens-build` to wrap up for a test build, then the
+  operator said go on; the cancel arrived after the agent had stopped.
+- The looking-back release: a nearest-column search (round 2) landed at the
+  no-row wedge's edge (row ~1e6, zoom ~0); the past-the-edge start (round 3,
+  `lens-carry-round3.patch`, obsolete) was never seen with no perch shown.
+  Both passed unit tests. Lesson in megabeast `subagents.md` (last entry).
+- The agent first said the dash cap would halve, then that a leg flies "a
+  stride per flying time" — the spec measured that as ≈1 size/s for every
+  kind; replaced by a per-kind cruise.
+- The agent first targeted 600 lines for the plan; the operator recalled
+  the 400 rule.
+- **Live regression on the branch (not in the published Artifact):** a
+  release while the eye looks back is invisible; insects shrink toward the
+  screen's middle looking back. The insect-plane packages fix both.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
   **`CONFLICTING`** (reported, not fixed — `/finalize`'s job).
-- Plan `docs/plans/mushroom-game-syama.paused.md`.
-- No agent is running, here or in the depth-1 session (both reported). No
-  PR subscription, no scheduled check-in from this session.
-- The Artifact has not been republished this bite.
+- Last pushed commit: the one carrying this file (after 4a7f0d12).
+- Plan `docs/plans/mushroom-game-syama.paused.md` (402 lines).
+- No agent running. No PR subscription, no scheduled check-in.
+- The Artifact is version 13 (the landed lens, before lens-carry); not
+  republished since.
+- Built this session: the lens (88c9357), play scripts (96be619),
+  type-overlap (49b97a1), sink/PAST_BROW/no-perch leg (f8f3f4c5–e31be911),
+  looking-back nearest column (38664c44, to be replaced), insect cull by
+  drawn extent (edd93bf8), `flight-timing.ts` split (0f4c63c5).
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12/lens-probe.md` and `lens-probe.patch`:
-  the probe, its numbers, and what a real build must change.
-- `docs/remove-before-merging/frames/bite-12/lens-probe-*.png`: the frames
-  the operator was shown.
-- `docs/remove-before-merging/bite-12/half-depth.md` and `.patch`; also
-  `drop-in.md`, `v-near.md`, `brief-common.md`.
-- This session: https://claude.ai/code/session_01Hsurffgkik4M4cmidrfK6B
+- `docs/remove-before-merging/bite-12/insect-plane.md` — the spec, rounds
+  1–2, its `Left` current; scratch scripts were in this session's container
+  only (lost): `proto.mts`, `facing.mts` and round 2's `ip2/`.
+- `docs/remove-before-merging/bite-12/lens-land.md`, `lens-carry.md` — what
+  was built and measured; `brief-common.md` — the shared brief.
+- `docs/remove-before-merging/frames/bite-12/lens-land-*.png` — the lens
+  frames the operator saw.
+- This session: https://claude.ai/code/session_01Mdh48ie7FaMZAJtrtAjEFR
 
 ## 8. Next step
 
-**Wait for the operator's verdict on the lens probe**, the one open thing.
-If it is a yes (or anything short of a no), brief the lens build
-("on a yes, that build is the next package" in the plan): spread the ground
-itself (`planeOf`/`ofLayout`) rather than inside `viewOf`, the inverse
-projections and taps, the insects, the tests. Then the half-depth package's
-carried items, re-measured under the new lens: the fliers' ground-point
-sink, `PAST_BROW`, the no-perch leg, the world's-end release, the insect
-cull, and `V_NEAR`'s ceiling. Then continue bite 12 from the plan's
-«Where the relay at 13:00 on 1 Oct left it»: the five-screen run with
-frames, the phoneL edge flower, the review subagent and its fixes, delete
-`## Rest of the bite`, `/polish`, vet, the Artifact, `/pr`. Then 12b.
+Continue bite 12 from the plan's `**Left, in order:**`, item 1: finish the
+insect-plane spec's open measures (`insect-plane.md` "Left": legs past the
+eye with and without the veer, R2.5; the frame-cost benchmark, R2.6;
+firm packages, now with the pace package and `ARRIVAL` removed), then brief
+its build packages one to three steps per agent (step 0 the leg's frame and
+the veer; A away/seat; B perches; pace; C view, with play checks of what the
+child sees, including looking back). Republish the Artifact once it lands
+and tell the operator what to try (turn your back and release a bug; a fly
+on a long leg). Then items 2–5 of the Left list.
