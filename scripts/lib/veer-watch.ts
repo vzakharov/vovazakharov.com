@@ -10,7 +10,12 @@ import { z } from 'zod';
 
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
+import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import { SEAT_FADE } from '../../src/pages/mushrooms/ui/scene/insect-frame.ts';
+
+export const FPS = 60;
+/** The most a frame's heading moves under a held turn, with margin for the turn's own jolt. */
+const TURN_STEP = (1.5 * TURN_CRUISE) / FPS;
 
 /** Installs `window.__veer`, fed by the insect view every frame. */
 export const VEER = `(() => {
@@ -170,13 +175,22 @@ export function hiddenRuns(seen: readonly Sample[]): Hidden[] {
   return runs;
 }
 
-/** A frame's drawn step, in CSS px, for an insect drawn on both frames of the same leg. */
+/**
+ * A frame's drawn step, in CSS px, for an insect drawn on both frames of the
+ * same leg with the eye turned no more than a held turn turns it in a frame:
+ * a heading set outright (the play's `face`) slides every insect across the
+ * screen at once, which is the play's doing, not the insect's.
+ */
 export function steps(
   seen: readonly Sample[],
 ): Array<{ step: number; at: Sample }> {
   return seen.slice(1).flatMap((at, index) => {
     const was = seen[index];
     if (was?.visible !== true || !at.visible || was.legs !== at.legs) return [];
+    const turned = at.heading - was.heading;
+    if (Math.abs(Math.atan2(Math.sin(turned), Math.cos(turned))) > TURN_STEP) {
+      return [];
+    }
     return [{ step: Math.hypot(at.x - was.x, at.y - was.y), at }];
   });
 }
