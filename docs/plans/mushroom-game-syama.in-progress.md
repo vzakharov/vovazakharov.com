@@ -608,6 +608,16 @@ Beaten: a faster `TURN_CRUISE` alone (the circle still 7.9 screens, the
 complaint stands); a cylindrical lens over a world spread sideways (the
 spread would have to differ per screen, and the world is one); a narrower
 crop (the clump shrinks, which the operator ruled out).
+**On hold, measured (`half-depth.md`, `half-depth.patch`): the opening does
+not stay identical.** `viewOf` = `project` holds, so everything placed
+through `project` stays put, but the brow is the `D_SEE` circle, and with
+the view twice as wide its sides bend much lower (×1.07 → ×1.28 at tabL's
+edges) and far side flowers sink at the opening (11 shown against 15); 10–36%
+of the opening's pixels differ (`frames/bite-12/half-depth-opening-*`).
+That is a wider view itself, not the patch: at a wider angle the circle of
+equal distance dips harder at the sides. Put to the operator with the
+frames: accept the rounder brow, a smaller cut (`DEPTH_SHARE` 0.7–0.8), or
+a straight brow (beaten before, see "the brow is round").
 
 **Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
 ground point, not its middle.** What sinks is keyed on distance along the
