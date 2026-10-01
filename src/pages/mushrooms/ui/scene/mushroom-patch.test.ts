@@ -1,25 +1,59 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { restingAt } from '../../model/pan';
 import { openingIndex } from '../../model/placement';
-import { patchlessIn, takerAt, tappedIn } from './mushroom-patch';
+import {
+  patchlessIn,
+  type PatchTarget,
+  takerAt,
+  type Tapped,
+  tappedIn,
+} from './mushroom-patch';
 import { drawnHolds } from './mushroom-tap';
-import { VIEWPORTS, VISITS } from './viewports';
-import { opened } from './visit-play';
+import { type Screen, VIEWPORTS, VISITS } from './viewports';
+import { opened, openingCrop, stillCrop } from './visit-play';
 
 /** How many visits each screen grows a forest for, and tries at every size up to the cap. */
 const FORESTS = 40;
-/** The full forests each screen's taps are tried over: every tenth visit. */
-const SAMPLED = VISITS.filter((_, index) => index % 10 === 0);
 /** How far apart, in CSS px, the taps tried across a grown mushroom's head stand. */
 const HEAD_GRID = 3;
+/** Where each forest's `+` presses stand, as `opened` takes it: a crop, or anywhere in the world absent one. */
+type Cropping = Parameters<typeof opened>[4];
+/**
+ * Where a child grows a forest, each tried over every 40th visit from its
+ * own offset: anywhere in the world, as one who pans; on the opening crop,
+ * as one who never pans and so grows the densest forests; and on the crop
+ * held at either world end.
+ */
+const GROWN_ON: ReadonlyArray<readonly [string, Cropping]> = [
+  ['anywhere in the world', undefined],
+  ['on the opening crop', openingCrop],
+  [
+    'at the world’s left end',
+    (layout) => stillCrop(restingAt(layout.camera, 0)),
+  ],
+  [
+    'at the world’s right end',
+    (layout) => stillCrop(restingAt(layout.camera, Infinity)),
+  ],
+];
+/** How many visits apart the forests tried on each screen and crop stand. */
+const SAMPLE_STEP = 40;
+/** The visits measured worst, each on its screen and crop, tried beside the sample. */
+const WORST: ReadonlyArray<{ screen: Screen; crop: string; visit: number }> = [
+  { screen: 'tablet', crop: 'on the opening crop', visit: 2_051_024 },
+  { screen: 'phone', crop: 'at the world’s right end', visit: 1_282_881 },
+];
 /**
  * The least share of the taps on a grown mushroom's drawn cap and gills that
- * reach it: the rest land where a nearer mushroom is drawn in front, which
- * takes them by design. Set under the worst of all 2000 visits' full forests
- * on the tablet (76.5%), since the sample here holds that tail too.
+ * reach it, over every screen's forests grown on each of `GROWN_ON`: the rest
+ * land where something is drawn in front, which takes them by design. Set
+ * under the worst measured over each screen's first 400 visits on each crop,
+ * 73.0%, held both by visit 2051024's mushroom-10 on the tablet's opening crop
+ * and by visit 1282881's mushroom-4 at the phone's right end (`WORST`).
  */
-const LEAST_HEAD_SHARE = 0.75;
+const LEAST_HEAD_SHARE = 0.72;
 /** The mushrooms review 5360733525 found keeping no patch, each on its screen, where a full forest stands. */
 const REVIEWED = [
   ['phone held sideways', 1_005_716, 'mushroom-4'],
@@ -60,49 +94,84 @@ describe('a grown forest’s taps', () => {
       t.diagnostic(`${String(tried)} mushrooms each kept a patch`);
     });
 
-    // A child aims at a grown mushroom's head: a tap at its middle always
-    // reaches it, and a tap anywhere on its drawn cap and gills almost always.
-    it(`lands a tap on every grown mushroom of a full forest on a ${name} screen`, (t) => {
-      let grown = 0;
-      let missed = 0;
-      let worst = 1;
-      for (const seed of SAMPLED) {
-        const forest = opened(seed, width, height, true);
-        assert.deepEqual(patchlessIn(forest), [], `visit ${String(seed)}`);
-        const tapped = tappedIn(forest);
-        for (const target of tapped.targets) {
-          const mushroom = forest.mushrooms.find(({ id }) => id === target.id);
-          assert.ok(mushroom, `${target.id} stands in no meadow`);
-          if (openingIndex(mushroom.foot) !== undefined) continue;
-          grown += 1;
-          if (takerAt(target.middle, tapped) !== target.id) missed += 1;
-          const head = { ...target.area, stem: [] };
-          let on = 0;
-          let took = 0;
-          const { left, right, top, bottom } = target.box;
-          for (let x = left; x <= right; x += HEAD_GRID) {
-            for (let y = top; y <= bottom; y += HEAD_GRID) {
-              if (!drawnHolds(head, target.local({ x, y }))) continue;
-              on += 1;
-              if (takerAt({ x, y }, tapped) === target.id) took += 1;
+    // A child aims at a grown mushroom's head: a tap anywhere on its drawn
+    // cap and gills, its middle included, reaches it or what is drawn in
+    // front of it, and it keeps most of them.
+    for (const [offset, [crop, cropOf]] of GROWN_ON.entries()) {
+      const visits = [
+        ...VISITS.filter((_, index) => index % SAMPLE_STEP === offset * 10),
+        ...WORST.filter(
+          (each) => each.screen === name && each.crop === crop,
+        ).map(({ visit }) => visit),
+      ];
+      it(`lands a tap on every grown mushroom of a full forest grown ${crop} on a ${name} screen`, (t) => {
+        let grown = 0;
+        let covered = 0;
+        let worst = 1;
+        for (const seed of visits) {
+          const forest = opened(seed, width, height, true, cropOf);
+          assert.deepEqual(patchlessIn(forest), [], `visit ${String(seed)}`);
+          const tapped = tappedIn(forest);
+          for (const target of tapped.targets) {
+            const mushroom = forest.mushrooms.find(
+              ({ id }) => id === target.id,
+            );
+            assert.ok(mushroom, `${target.id} stands in no meadow`);
+            if (openingIndex(mushroom.foot) !== undefined) continue;
+            grown += 1;
+            const atMiddle = takerAt(target.middle, tapped);
+            if (atMiddle !== target.id) covered += 1;
+            assert.ok(
+              atMiddle === target.id || inFront(atMiddle, target, tapped),
+              `visit ${String(seed)}, ${target.id}'s middle goes to ${String(atMiddle)}`,
+            );
+            const head = { ...target.area, stem: [] };
+            let on = 0;
+            let took = 0;
+            const { left, right, top, bottom } = target.box;
+            for (let x = left; x <= right; x += HEAD_GRID) {
+              for (let y = top; y <= bottom; y += HEAD_GRID) {
+                if (!drawnHolds(head, target.local({ x, y }))) continue;
+                on += 1;
+                const taker = takerAt({ x, y }, tapped);
+                if (taker === target.id) took += 1;
+                else {
+                  assert.ok(
+                    inFront(taker, target, tapped),
+                    `visit ${String(seed)}, a tap on ${target.id}'s head goes to ${String(taker)}, behind it`,
+                  );
+                }
+              }
             }
+            assert.ok(
+              on > 0,
+              `visit ${String(seed)}, ${target.id} draws no head`,
+            );
+            const share = took / on;
+            worst = Math.min(worst, share);
+            assert.ok(
+              share >= LEAST_HEAD_SHARE,
+              `visit ${String(seed)}, ${target.id} keeps ${(share * 100).toFixed(1)}% of its head's taps`,
+            );
           }
-          assert.ok(
-            on > 0,
-            `visit ${String(seed)}, ${target.id} draws no head`,
-          );
-          const share = took / on;
-          worst = Math.min(worst, share);
-          assert.ok(
-            share >= LEAST_HEAD_SHARE,
-            `visit ${String(seed)}, ${target.id} keeps ${(share * 100).toFixed(1)}% of its head's taps`,
-          );
         }
-      }
-      t.diagnostic(
-        `${String(grown)} grown, ${String(missed)} missed at the head's middle, the worst keeps ${(worst * 100).toFixed(1)}% of its head's taps`,
-      );
-      assert.equal(missed, 0);
-    });
+        t.diagnostic(
+          `${String(grown)} grown, ${String(covered)} covered at the head's middle, the worst keeps ${(worst * 100).toFixed(1)}% of its head's taps`,
+        );
+      });
+    }
   }
 });
+
+/** Whether `taker`, taking a tap on `target`'s head, is something drawn in front of it. */
+function inFront(
+  taker: string | undefined,
+  target: PatchTarget,
+  { flowers, targets }: Tapped,
+): boolean {
+  if (taker === undefined) return false;
+  const at = targets.findIndex(({ id }) => id === taker);
+  return at === -1
+    ? flowers.some(({ depth }) => depth > target.depth)
+    : at > targets.indexOf(target);
+}
