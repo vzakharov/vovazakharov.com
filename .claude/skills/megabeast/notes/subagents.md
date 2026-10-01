@@ -44,6 +44,19 @@
 
 ## Handling a review
 
+- **The review is a fresh-eyed subagent in the bite's tail, not two
+  sessions.** By bite 12 the branch had cost $904 over 47 sessions, about
+  four per bite, two of them review and `/handle`, each paying ~100k of
+  baseline and plan reading and each a relay toward the depth cap. What
+  the reviews caught (bite 3's dead taps, bite 4's hidden door, bite 7's
+  lavender ring) came from fresh eyes on frames, and bite 12's best finds
+  came from the operator's play and a play agent beside the build. The
+  operator agreed to fold the review into the bite's tail: a reviewer
+  agent briefed with the diff, the plan's decisions and the frames and
+  nothing of the build, its findings fixed in the same session or first
+  thing in the next. The skill should default to that and keep a review
+  session only for a structural bite.
+
 - **The export's authorship label reads the loop's own review as
   answered.** `/handle` fires its review lane on a thread whose tail is
   `(human)`, but every review in this loop is an agent's, so all nine

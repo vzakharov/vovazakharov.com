@@ -23,25 +23,29 @@ The operator delegated the whole loop and does not step in until the end
 ("весь процесс должен пройти полностью автономно, без единого моего
 вмешательства"). Every session on this branch follows it:
 
-1. A session takes a bite (`/go`), builds it, folds it into `## Eaten so far`
+1. A session takes a bite (`/go`), builds it, and reviews it in its own
+   tail (step 2), then folds it into `## Eaten so far`
    as its own `mushroom-game-syama/bite-<nn>.md` and an index row, and
    rewrites the summary above the index rather than appending to it
    (`.claude/skills/plan/elephant.md` § "The plan's shape"; split at 1001
    lines on the operator's «ого его раздуло. надо разбивать»), runs `/polish` and `/pr`, publishes the Artifact (below), pauses the plan,
-   then runs `/relay оставь код ревью на последний кусок`.
-2. The review session reviews **that bite's commits** as the operator would —
-   `writing/notes/the-five-percent.md` is the reading list: the frame taken as
-   given, an account standing in for running it, reasoning written into the
-   artifact, the copy edited instead of the fact, the render checked against
-   intent rather than the page. It opens and plays the page (`/preview`,
-   screenshots and tap sequences at phone and tablet sizes) before judging
-   the look. It posts one PR review with inline comments, each specific enough
-   to act on, then runs `/relay /handle`.
-3. The `/handle` session answers every comment (reply on GitHub, never
-   resolve), pushes the fixes, then takes the next bite in the same session
-   when its context is still under ~140k tokens — otherwise it pauses and
-   runs `/relay /go`. Either way the bite ends at step 1.
-4. After the last bite and its review is handled: `/relay /finalize`. No
+   then relays `/go` for the next bite when its context is spent.
+2. **The review is a subagent in the bite's tail, not a session of its
+   own.** Separate review and `/handle` sessions cost about 40% of the
+   spend and doubled the relays, while what reviews caught came from fresh
+   eyes on frames, which a subagent has too (the operator, asked whether
+   review → handle earns its keep: «да»). A reviewer agent briefed with only
+   the bite's diff, the plan's decisions and the frames — nothing of the
+   build — reviews **that bite's commits** as the operator would:
+   `writing/notes/the-five-percent.md` is the reading list (the frame taken
+   as given, an account standing in for running it, reasoning written into
+   the artifact, the copy edited instead of the fact, the render checked
+   against intent rather than the page), and it plays the page before
+   judging the look. It posts one PR review with inline comments; the same
+   session fixes each finding and replies on GitHub (never resolving), or
+   hands them to the next bite's session as its first work when the budget
+   is spent. A structural bite (12b) keeps a review session of its own.
+3. After the last bite and its review is handled: `/relay /finalize`. No
    merge.
 
 **The relays stay relays.** A chain stops at eight sessions deep — about
