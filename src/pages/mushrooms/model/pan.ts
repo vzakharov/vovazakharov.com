@@ -238,11 +238,6 @@ export function move(pan: Pan, x: number, time: number): Pan {
   };
 }
 
-/** Whether the pressed finger has moved past `SLOP`, so its press pans rather than taps. */
-export function isPanning({ motion }: Pan): boolean {
-  return motion.kind === 'press' && motion.panning;
-}
-
 /**
  * The finger lifted at `time`: a tap leaves the crop where it stands, and a
  * pan glides on from the finger's velocity past the slop, easing to rest at the world's end

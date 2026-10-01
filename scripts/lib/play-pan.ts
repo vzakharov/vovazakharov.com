@@ -158,9 +158,8 @@ export async function playPan(
       DRAG_FRAMES,
     );
     const lifted = await crop();
-    // The crop follows 1:1 from the first move past the slop.
-    const perMove = travel / DRAG_FRAMES;
-    const crossedAt = (Math.floor(SLOP / perMove) + 1) * perMove;
+    // The crop follows 1:1 past the slop, lagging the finger by it.
+    const crossedAt = SLOP;
     const followed = toward * (lifted.left - from.left);
     expect(
       Math.abs(followed - (travel - crossedAt)) < SAME,

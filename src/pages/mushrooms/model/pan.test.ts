@@ -6,7 +6,6 @@ import {
   CRUISE_ACROSS,
   type Direction,
   holdKey,
-  isPanning,
   KEY_EASE,
   leftAt,
   letGoKey,
@@ -73,7 +72,6 @@ describe('a drag', () => {
   it('is a tap until the finger moves past the slop, and a tap never pans', () => {
     const start = openingPan(TABLET);
     const within = dragged(start, 600, SLOP);
-    assert.equal(isPanning(within), false);
     assert.equal(leftAt(within, 0.2), 590);
     const lifted = release(within, 0.2);
     assert.equal(leftAt(lifted, 5), 590);
@@ -82,7 +80,6 @@ describe('a drag', () => {
   it('follows the finger 1:1 past the slop, lagging it by the slop', () => {
     const start = openingPan(TABLET);
     const crossed = move(press(start, 600, 0), 600 - SLOP - 1, 0.01);
-    assert.equal(isPanning(crossed), true);
     assert.equal(leftAt(crossed, 0.01), 591);
     const on = move(crossed, 600 - SLOP - 1 - 200, 0.1);
     assert.equal(leftAt(on, 0.1), 791);
