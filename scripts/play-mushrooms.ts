@@ -5,7 +5,8 @@
  * the meadow is tapped the way a finger does, and the eye is turned and
  * walked by drag and by key and the screen turned — the steps are `lib/play-meadow.ts`,
  * `lib/play-house.ts`, `lib/play-insects.ts`, `lib/play-buzzers.ts`,
- * `lib/play-walk.ts`, `lib/play-species.ts` and `lib/play-tufts.ts` — and a
+ * `lib/play-walk.ts`, `lib/play-species.ts`, `lib/play-tufts.ts` and
+ * `lib/play-hold.ts` — and a
  * frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
@@ -43,6 +44,7 @@ import {
   seededRandom,
 } from './lib/mushroom-probe.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
+import { playHold } from './lib/play-hold.ts';
 import { playMeadow } from './lib/play-meadow.ts';
 import { playSpecies } from './lib/play-species.ts';
 import { playTufts } from './lib/play-tufts.ts';
@@ -72,6 +74,7 @@ const PLAYS = [
   ['planting', playPlanting],
   ['species', playSpecies],
   ['tufts', playTufts],
+  ['hold', playHold],
 ] as const;
 
 const TYPES: Record<string, string> = {
@@ -360,7 +363,8 @@ async function main(): Promise<void> {
     // A fresh meadow for each play, one after the other: every control on
     // the first, walked and turned on the next, the bees alone on the next,
     // every species grown on the next, the child planting flowers on the
-    // last. `--plays walk,tufts` plays only those.
+    // next, and changing one on the last. `--plays walk,tufts` plays only
+    // those.
     const only = flag('plays')?.split(',');
     const frames: number[] = [];
     await inTurn(

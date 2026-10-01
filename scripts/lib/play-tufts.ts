@@ -25,7 +25,7 @@ const Planting = z.object({
   planted: z.number(),
 });
 /** The newest planted flower: its seed, whether it stands on a tuft, and where its head shows. */
-const Newest = z
+export const Newest = z
   .object({
     seed: z.number(),
     onTuft: z.boolean(),
@@ -51,13 +51,13 @@ const PLANTING = `(() => {
  * reaches bare — no mushroom, flower, insect or button over it — the farthest
  * first.
  */
-const TUFTS = `__probe.scene.grass.shown.near
+export const TUFTS = `__probe.scene.grass.shown.near
   .map(({ tuft: { x, y, size } }) => __probe.toScreen({ x, y: y - size }))
   .filter(({ x, y }) => x >= 0 && x <= innerWidth && y >= 0 && y <= innerHeight)
   .filter((point) => __probe.topAt(point) === null)
   .sort((a, b) => a.y - b.y)`;
 
-const NEWEST = `(() => {
+export const NEWEST = `(() => {
   const sown = __probe.scene.meadow.planted.at(-1);
   if (!sown) return null;
   const shown = __probe.scene.flowers.shown.get(sown.id);
@@ -86,7 +86,7 @@ const tuftAt = (at: z.infer<typeof Point>) => `(() => {
 })()`;
 
 /** A stage's buttons where they stand. */
-const buttonsOf = (picker: 'colourPicker' | 'shapePicker') =>
+export const buttonsOf = (picker: 'colourPicker' | 'shapePicker') =>
   `__probe.scene.controls.${picker}.buttons.map(({ home }) => ({ x: home.x, y: home.y }))`;
 
 /** How many tufts are tried for one that takes a flower. */
