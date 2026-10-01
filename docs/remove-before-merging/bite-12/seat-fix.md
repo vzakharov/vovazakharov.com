@@ -22,8 +22,8 @@ fault (same flat drawing at the foot).
 1. The fix (this commit):
    - `bed-place.ts`: `Host` (`Standing` + `laidFoot`) and `onHost`, where a
      bed draws a point laid out on it.
-   - `mushroom-bed.ts`: `Shown` intersects `Host` (`laid` → `laidFoot`);
-     `capTop` returns `Perched` with `on`, the cap.
+   - `mushroom-bed.ts`: keeps `laid` (the probe reads it) and hands it on as
+     `laidFoot`; `capTop` returns `Perched` with `on`, the cap.
    - `flower-bed.ts`: `seat` returns `on`, the flower.
    - `insect-seat.ts` (new): `drawnInsect` — sitting, exactly where the host
      draws the seat (hidden when the host is not drawn or the point is under

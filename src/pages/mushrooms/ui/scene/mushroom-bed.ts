@@ -31,13 +31,7 @@ import {
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
 import type { Footed } from '../../model/placement';
-import {
-  bedPlace,
-  type Host,
-  layoutPlace,
-  standAt,
-  UNPLACED,
-} from './bed-place';
+import { bedPlace, layoutPlace, standAt, UNPLACED } from './bed-place';
 import { placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
 import { tappedDoor } from './door-tap';
@@ -71,7 +65,6 @@ type Shown = Tapped &
   Pick<MushroomGenes, 'spots'> &
   Footed &
   Selected &
-  Host &
   // How far its tap area reaches above its foot, in world px at the opening eye.
   Tall & {
     /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
@@ -80,6 +73,8 @@ type Shown = Tapped &
     house: HouseView;
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
     goneAt: number;
+    /** Where the layout stands its foot, in world px at the opening eye. */
+    laid: Point;
   };
 
 /**
@@ -269,11 +264,11 @@ export class MushroomBed implements Following {
   capTop(id: string, across: number): Perched | undefined {
     const shown = this.shown.get(id);
     if (!shown) return undefined;
-    const { genes, size, graphics, laidFoot, stands } = shown;
+    const { genes, size, graphics, laid, stands } = shown;
     const seat = toCanvas(size)(capSeat(genes, across));
-    const on = pick(shown, 'laidFoot', 'stands');
+    const on = { laidFoot: laid, ...pick(shown, 'stands') };
     return {
-      ...placedAt(laidFoot, graphics.rotation, {
+      ...placedAt(laid, graphics.rotation, {
         x: (seat.x * graphics.scaleX) / stands.zoom,
         y: (seat.y * graphics.scaleY) / stands.zoom,
       }),
@@ -334,7 +329,7 @@ export class MushroomBed implements Following {
     shown.tall = -Math.min(
       ...TAP_PARTS.flatMap((part) => shown.hit[part].map((point) => point.y)),
     );
-    shown.laidFoot = { x, y };
+    shown.laid = { x, y };
     this.stand(shown);
     shown.haze = this.hazeHere(shown) ?? haze;
     this.paintBody(shown);
@@ -362,7 +357,7 @@ export class MushroomBed implements Following {
   private stand(shown: Shown): void {
     const place = this.view
       ? bedPlace(this.view, shown.foot, shown.tall)
-      : layoutPlace(shown.laidFoot);
+      : layoutPlace(shown.laid);
     shown.stands = place;
     standAt(shown.graphics, place);
     standAt(shown.shadow, place, SHADOW_NEARER);
@@ -385,7 +380,7 @@ export class MushroomBed implements Following {
       graphics,
       shadow: this.scene.add.graphics(),
       ...pick(mushroom, 'foot'),
-      laidFoot: { x: 0, y: 0 },
+      laid: { x: 0, y: 0 },
       tall: 0,
       stands: UNPLACED,
       hit,
