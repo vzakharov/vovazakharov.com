@@ -202,3 +202,14 @@ export const GROUND_STOPS: readonly Stop[] = [
 export function groundAt(down: number): number {
   return alongStops(GROUND_STOPS, down);
 }
+
+/**
+ * The meadow's brow, along the ground's cover row: its crest a little lighter
+ * than the ground there, catching the light, and the blades standing along
+ * it, dark against what sinks behind them and lit at their tips.
+ */
+export const BROW = {
+  crest: mix(groundAt(SEAM_REACH), PALETTE.browLit, 0.5),
+  blade: mix(PALETTE.tuftDark, groundAt(SEAM_REACH), 0.45),
+  bladeLit: mix(PALETTE.tuft, PALETTE.browLit, 0.25),
+} as const;

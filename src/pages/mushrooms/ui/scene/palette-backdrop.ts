@@ -22,6 +22,8 @@ export const BACKDROP = {
   ground: 0x58_a8_48,
   /** The ground at the bottom edge, and the darkest it ever gets. */
   groundDeep: 0x3a_7e_46,
+  /** The light catching the meadow's brow, where the ground rounds over its horizon. */
+  browLit: 0xe8_f6_b4,
   tuft: 0x86_d0_62,
   tuftDark: 0x2e_6c_2c,
   /** The glow on the ground under the tuft the flower picker is open on. */

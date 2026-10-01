@@ -132,12 +132,21 @@ export function buried(view: View, placed: Placed): boolean {
 export const SHOWN_LEAST = 0.2;
 
 /**
+ * The ground's cover row: the seam's lowest row (`seamReach`), where the
+ * ground picture starts and covers a sunk thing from, and where the meadow's
+ * brow is drawn.
+ */
+export function coverRow(screen: Pick<View, 'height' | 'groundTop'>): number {
+  return screen.groundTop + seamReach(screen);
+}
+
+/**
  * Whether `placed`, as `sunk` draws it `height` CSS px tall, has sunk so far
- * that less than `SHOWN_LEAST` of it shows over the ground, which covers it
- * from the seam's lowest row down (`seamReach`), and is better not drawn.
+ * that less than `SHOWN_LEAST` of it shows over the ground's cover row
+ * (`coverRow`), and is better not drawn.
  */
 export function sunkAway(view: View, placed: Placed, height: number): boolean {
-  const cover = view.groundTop + seamReach(view);
+  const cover = coverRow(view);
   return (
     behindHills(placed) && cover - (placed.y - height) < SHOWN_LEAST * height
   );

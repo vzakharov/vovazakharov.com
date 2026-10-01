@@ -9,6 +9,7 @@ import {
   type Span,
   SUPERSAMPLE,
 } from './baking';
+import { type BrowBlade, browBlades, drawBrow } from './brow';
 import type { Band } from './grain';
 import type { MeadowLayout } from './layout';
 import {
@@ -55,8 +56,8 @@ type Turning = { columns: Picture; home: Span; offsets: number[] };
  * the sky's glow round the sun, the sun and its wash over the sky are each
  * a picture of their own that `follow` slides to where the view shows the
  * sun, and the clouds go to their azimuths through the same view. The hills
- * are drawn live, as the view shows them, again only when its heading
- * changes; the ground's rows and its grain stand on the screen, which a
+ * and the brow are drawn live, as the view shows them, again only when its
+ * heading changes; the ground's rows and its grain stand on the screen, which a
  * step or a turn leaves as they are. Stacked by `DEPTHS`, sky
  * at the back and the grain over the wash. `layers` are what the pictures
  * are baked from, off the display list, kept so a repaint paints into them
@@ -69,7 +70,9 @@ export type Backdrop = Following & {
   sun: Turning;
   clouds: Phaser.GameObjects.Graphics[];
   hills: HillLayers;
-  /** The heading the hills were last drawn from. */
+  /** The meadow's brow along the ground's cover row, in front of what sinks under it. */
+  brow: Phaser.GameObjects.Graphics;
+  /** The heading the hills and the brow were last drawn from. */
   hillsFrom: number | undefined;
   ground: Picture;
   wash: Turning;
@@ -96,6 +99,7 @@ const DEPTHS = {
   farHills: -5,
   nearHills: -4,
   ground: -3,
+  brow: -2.5,
   wash: -2,
   grain: -1,
 } as const;
@@ -169,7 +173,7 @@ function aboutTheSun(
 
 /**
  * Everything behind the grass: sky, its glow round the sun, the sun, clouds,
- * three hill ranges, the ground, the sun's wash over the sky and the ground's
+ * three hill ranges, the ground and its brow, the sun's wash over the sky and the ground's
  * grain. `random` shapes the opening screen's clouds, the hills, the ground's
  * mottling and the grain, so the same source repaints the same meadow. It
  * paints into `existing` and adds only what is missing, so a repaint keeps
@@ -214,11 +218,16 @@ export function paintBackdrop(
   paintSun(sunLayer, layout);
   const clouds = paintClouds(cloudLayer, layout, random);
   for (const spare of existing?.clouds.slice(cloudCount) ?? []) spare.destroy();
+  const { camera, width, height, nearHills, sun, wash: rings } = layout;
   const hills = hillsOf(layout, random);
   const hillLayers: HillLayers = existing?.hills ?? {
     far: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.farHills),
     near: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.nearHills),
   };
+  const brow =
+    existing?.brow ??
+    scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.brow);
+  const blades = browBlades(camera);
   const groundLayer = layer();
   const groundRows = paintGround(groundLayer, layout);
   const washLayer = layer();
@@ -239,7 +248,6 @@ export function paintBackdrop(
   )
     .setOrigin(0, 0)
     .setScale(1 / SUPERSAMPLE);
-  const { camera, width, height, nearHills, sun, wash: rings } = layout;
   const screen = { left: 0, across: width };
   const baked = (
     picture: keyof typeof DEPTHS,
@@ -289,6 +297,7 @@ export function paintBackdrop(
     }),
     clouds,
     hills: hillLayers,
+    brow,
     hillsFrom: undefined,
     ground: baked('ground', existing?.ground, {
       span: screen,
@@ -307,18 +316,24 @@ export function paintBackdrop(
         turn(picture, view, sun.x);
       }
       placeClouds(backdrop, layout);
-      raiseHills(backdrop, hills, view);
+      raiseHills(backdrop, hills, blades, view);
     },
   };
   backdrop.follow(backdrop.view);
   return backdrop;
 }
 
-/** Draws `backdrop`'s hills as `view` shows them, unless they were last drawn from its heading. */
-function raiseHills(backdrop: Backdrop, hills: Hills, view: View): void {
+/** Draws `backdrop`'s hills and its brow as `view` shows them, unless they were last drawn from its heading. */
+function raiseHills(
+  backdrop: Backdrop,
+  hills: Hills,
+  blades: readonly BrowBlade[],
+  view: View,
+): void {
   if (backdrop.hillsFrom === view.eye.heading) return;
   backdrop.hillsFrom = view.eye.heading;
   drawHills(backdrop.hills, hills, view);
+  drawBrow(backdrop.brow, blades, view);
 }
 
 /** Slides `picture`, baked round the opening x `at`, to where `view` shows `at`, or hides it. */
