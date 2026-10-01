@@ -424,9 +424,10 @@ into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
       10, **every one of them a planting spot** («ребёнок должен мочь
       посадить цветок где хочет… сделать каждую травинку потенциальным
       местом для цветка»): a tap nothing else takes lands on the nearest
-      tuft in reach, which opens the picker where a flower fits (bite 10's
-      fit rules) and shakes its head where none does — beside a flower,
-      under a cap. The tuft the picker is open on keeps its cream glow;
+      tuft in reach, which opens the picker. No tuft stands where no flower
+      fits by bite 10's rules — beside a flower, under a cap — and one goes
+      when something grows beside it («лучше просто убрать травинки где
+      нельзя»), so no tuft ever refuses. The tuft the picker is open on keeps its cream glow;
       a planted flower takes its tuft's place. No bud anywhere.
     - **The keyboard plays only the flowers in front of you (P3).** A note
       or drum key sounds only through a flower in the current view with
