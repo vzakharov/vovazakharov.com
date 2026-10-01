@@ -70,11 +70,15 @@ What bite 11 built, as `## Eaten so far` in `docs/plans/mushroom-game-syama.*.md
       screen. A released insect enters from the screen edge nearer its first
       perch and takes that perch in view (`model/flight-in.ts`,
       `onscreenOf`); every later leg roams the world.
-    - Every grown mushroom's tap lands — none missed at the head's middle,
-      at least 75% of the head's taps, the rest taken by a mushroom drawn
-      in front (worst 76.5% over all 2000 tablet forests, where a sampled
-      80% had missed the tail); a fingertip bound would fail every head
-      flatter than a fingertip is round.
+    - Every grown mushroom's tap lands, tried on forests grown anywhere, on
+      the opening crop and at either world end: every tap on its head, its
+      middle included, reaches it or a mushroom drawn in front, and it keeps
+      at least 72% of the head's taps (worst 73.0% over each screen's first
+      400 visits on each crop; a child who never pans grows the densest
+      forests). A fingertip bound would fail every head flatter than a
+      fingertip is round. Open: in visit 2193566 a chanterelle's middle
+      falls in a 0.09 px crack between its cap's and gills' hit polygons,
+      where a tap selects nothing.
       `fliers.test.ts` takes ~354 s and runs alone under a 590 s timeout.
     - The play run converts through the crop (`__probe.toScreen`,
       `toWorld`), drags with its frame clock as each touch's timestamp, and
