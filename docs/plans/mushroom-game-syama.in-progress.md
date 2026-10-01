@@ -23,8 +23,10 @@ The operator delegated the whole loop and does not step in until the end
 ("весь процесс должен пройти полностью автономно, без единого моего
 вмешательства"). Every session on this branch follows it:
 
-1. A session takes a bite (`/go`), builds it, folds it into `## Eaten so far`,
-   runs `/polish` and `/pr`, publishes the Artifact (below), pauses the plan,
+1. A session takes a bite (`/go`), builds it, folds it into `## Eaten so far`
+   as its own `mushroom-game-syama/bite-<nn>.md` and an index row
+   (`.claude/skills/plan/elephant.md` § "The plan's shape"; split at 1001
+   lines on the operator's «ого его раздуло. надо разбивать»), runs `/polish` and `/pr`, publishes the Artifact (below), pauses the plan,
    then runs `/relay оставь код ревью на последний кусок`.
 2. The review session reviews **that bite's commits** as the operator would —
    `writing/notes/the-five-percent.md` is the reading list: the frame taken as

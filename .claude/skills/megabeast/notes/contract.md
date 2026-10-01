@@ -4,6 +4,15 @@
   plan as its own section made every successor read it on attach, with no
   extra file to load. The skill should write that section itself, from its
   own template, rather than relying on the planning session to write it.
+- **The plan grows by a bite's worth of decisions per bite, and has to be
+  split before it is read whole.** Bites 1–11 plus their reviews' calls took
+  `## Eaten so far` to 1001 lines, about 20k tokens on every resume, until
+  the operator flagged it («ого его раздуло. надо разбивать»). The split
+  became `.claude/skills/plan/elephant.md`'s rule: past ~450 lines, an index
+  in the lifecycle-named file plus one file per bite and one for the
+  standing decisions. The skill should start a long run in that shape from
+  bite 1, and should record a structural change like this one as a decision
+  in the same commit, not leave it to be asked for.
 - **Standing constraints travel verbatim, or they stop applying.** The relay
   summary's § 1 carried the operator's rules (never merge, the frozen
   five-percent file, ask only about the unrecoverable) word for word, and the

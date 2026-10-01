@@ -33,6 +33,14 @@ the plan logs no departures from itself — each resume pays for every line the
 plan holds, and how the plan got to its current text is what git history and
 the PR's review are for.
 
+**A plan past ~450 lines splits into files beside it.** The lifecycle-named
+file stays the plan, since its name is the gate: it keeps the loop,
+`## Rest of the elephant`, `## This bite`, and `## Eaten so far` cut to an
+index, one row per bite pointing at `docs/plans/<slug>/bite-<nn>.md`. Standing
+decisions move to `docs/plans/<slug>/decisions.md` behind a pointer. A bite
+then folds itself in as a new file plus its row, and a resume opens only the
+files its slice touches. `/finalize` sweeps the directory with the plan.
+
 ## Taking a bite
 
 The session that claims the plan writes `## This bite` before building:

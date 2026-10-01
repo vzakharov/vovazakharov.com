@@ -14,41 +14,30 @@ What bite 11 built, as `## Eaten so far` in `docs/plans/mushroom-game-syama.*.md
       `→` turns the meadow like a shooter's keyboard turn, only slower —
       eased in, a steady cruise in screen widths a second, eased out on
       release — never in steps («курсорами -- как-то дёрганно. Должен быть
-      плавный, умеренно медленный поворот»). Decided at bite 11's review
-      (5373085053):
-      - **A press is a tap only if it never becomes a pan.** On the press
-        the thing under the finger answers only with what can be taken
-        back — it dips, and springs back if the finger pans. Everything
-        that cannot be taken back (selection, sound, spores, a picker, a
-        planting, a deselect) waits for the lift inside the slop, or for
-        150 ms of the finger resting inside it, whichever comes first; a
-        press that crosses the slop first never taps. Beat tapping on the
-        press and undoing on a pan, since a sound or a puff cannot be
-        undone. The operator asked whether every answer then comes late
-        («получается, каждая реакция при нажатии на что-то будет
-        "запоздалой"?»): only the part that cannot be undone, and a
-        child's tap (100–200 ms) lifts before the 150 ms mostly do.
-        **On hold, unbuilt:** the operator rejected any delay on the
-        flowers as an instrument («при игре 100мс это уже ощутимая (и
-        неприятная) задержка») and is playing the current build to judge
-        it. The candidate offered: flowers sound on the press, as keys do,
-        and only the rest waits — a pan begun on a flower plays its note.
+      плавный, умеренно медленный поворот»). `pan-input.ts`'s `Crop` is the
+      one screen↔world home. The layout is computed once per screen size for
+      the whole world and `cameras.main.scrollX` is the crop, so a pan never
+      makes a new `MeadowLayout`. The zoom is the screen's, capped to show
+      the opening clump; a turn changes the zoom and the crop, never the
+      ground. Decided at bite 11's review (5373085053):
+      - **A press taps on the press, and a pan begun on something taps it
+        too — accepted.** The review asked that only a press released
+        inside the slop tap; the operator played the build and kept the
+        press («текущая механика -- норм»), having first ruled out any
+        delay on the flowers as an instrument («при игре 100мс это уже
+        ощутимая (и неприятная) задержка»). Waiting for the lift, or for a
+        rest inside the slop, lost on that delay.
       - **The slop is a child's drift**, 24 px (the review measured taps
-        drifting 11–24 px), not 10: a wobbly tap still taps. Past it the
-        ground lags the finger by the slop, never by the first step's
-        size, and a release glides only on the velocity measured after
-        the crossing.
+        drifting 11–24 px), not 10, so a wobbly tap does not slide the
+        meadow. Past it the ground lags the finger by the slop, never by
+        the first step's size, and a release glides only on the velocity
+        measured after the crossing.
       - **Hard ends, not a rubber band.** A drag stops at a world end and
         drops the finger's overshoot, so reversing moves the crop at once.
       - **Keys and fingers add up.** Both arrows held cancel to a stand
         without dropping either; letting one go turns the other way, and a
         finger pressed and lifted while a key is held leaves the key
-        turning. `pan-input.ts`'s `Crop` is the one screen↔world
-        home. The layout is computed once per screen size for the whole
-        world and `cameras.main.scrollX` is the crop, so a pan never makes a
-        new `MeadowLayout`. The zoom is the screen's, capped to show the
-        opening clump; a turn changes the zoom and the crop, never the
-        ground.
+        turning.
     - Fixed on the screen: the sky, the sun, its wash, the clouds, every
       control and picker. The far and near hills scroll at 0.3 and 0.6
       (`parallax.ts`); everything else moves with the ground. Five baked
