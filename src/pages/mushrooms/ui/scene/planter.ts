@@ -7,7 +7,7 @@ import type { MeadowSound } from './sound';
 import type { Grass, Sprout } from './tufts';
 
 /** What the planter acts through: the scene's stand and reducer. */
-type Scened = {
+export type Scened = {
   stand: () => Stand | undefined;
   meadow: () => Meadow | undefined;
   dispatch: (action: Action) => void;

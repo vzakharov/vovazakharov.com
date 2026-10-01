@@ -2,7 +2,6 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import type { Perch, Sight } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-sounds';
 import {
   type Action,
@@ -10,31 +9,24 @@ import {
   type Meadow,
   reduce,
 } from '../../model/game';
-import type { Point } from '../../model/geometry';
-import type { Ground } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import { sunLight } from '../../model/light';
-import { mulberry32, nextSeed, type Random } from '../../model/random';
+import { mulberry32 } from '../../model/random';
+import { Arrivals } from './arrivals';
 import type { Opener } from './clump-shade';
 import { Controls } from './controls';
 import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
 import type { Stand } from './flower-sight';
-import { InsectView, type Perched } from './insect-view';
+import { InsectView } from './insect-view';
 import { Instrument } from './instrument';
 import { playTheMeadow } from './instrument-input';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
-import { keptRoom } from './mushroom-room';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
-import {
-  perchedOn,
-  type PerchHosts,
-  restingOn,
-  tapThrough,
-} from './perch-hosts';
-import { airSpots, footRows, onscreenOf, perchSight } from './perch-sight';
-import { Planter } from './planter';
+import { type PerchHosts, restingOn } from './perch-hosts';
+import { Perches } from './perches';
+import { Planter, type Scened } from './planter';
 import { MeadowSound, readMuted } from './sound';
 import { Grass } from './tufts';
 import { Gait } from './walking';
@@ -62,14 +54,6 @@ export class MeadowScene extends Phaser.Scene {
   private readonly visitSeed = Math.floor(Math.random() * 2 ** 32);
   /** What the player has made of the meadow; changed only by `dispatch`, which the screen follows. */
   private meadow: Meadow | undefined;
-  /** The seeds each grown mushroom takes, a stream of its own. */
-  private readonly growing: Random = mulberry32(this.visitSeed ^ 0x9e_0a);
-  /** The seed the next mushroom grows from, drawn before the tap so where it grows is known. */
-  private upcoming = nextSeed(this.growing);
-  /** Where the next mushroom grows (`roomFor`), found again once the stand changes. */
-  private readonly room = keptRoom();
-  /** The seeds each released insect takes. */
-  private readonly releasing: Random = mulberry32(this.visitSeed ^ 0xb7_7e_f1);
   private flowers: FlowerBed | undefined;
   private layout: MeadowLayout | undefined;
   /** The mushrooms the visit opened with, which place the flowers. */
@@ -79,15 +63,7 @@ export class MeadowScene extends Phaser.Scene {
   private bed: MushroomBed | undefined;
   private controls: Controls | undefined;
   private insects: InsectView | undefined;
-  /** What the insects see of the perches, as the screen and the mushrooms stand now. */
-  private sight: Sight = {
-    flowers: [],
-    air: [],
-    crowded: [],
-    room: [],
-  };
-  /** Where each spot in the open air stands, by id, as the screen stands now. */
-  private air = new Map<string, Point>();
+  private readonly perches: Perches;
   /**
    * Whether flowers were planted, or mushrooms grown or thinned, since the
    * flower bed last caught up: the bed draws them and the insects see them on
@@ -104,21 +80,35 @@ export class MeadowScene extends Phaser.Scene {
   /** The walk as the frames go by: the feet landing and the bob. */
   private readonly gait = new Gait();
   private readonly instrument = new Instrument(this.voice, this.now);
+  /** The stand and the reducer, as the planter and the arrivals act through them. */
+  private readonly scened: Scened = {
+    stand: () => this.stand(),
+    meadow: () => this.meadow,
+    dispatch: (action) => {
+      this.dispatch(action);
+    },
+  };
   private readonly planter = new Planter(
     this.voice,
     this.now,
-    {
-      stand: () => this.stand(),
-      meadow: () => this.meadow,
-      dispatch: (action) => {
-        this.dispatch(action);
-      },
-    },
+    this.scened,
     this.visitSeed ^ 0x7f_10_e5,
+  );
+  private readonly arrivals = new Arrivals(
+    this.voice,
+    this.now,
+    {
+      ...this.scened,
+      layout: () => this.requireLayout(),
+      view: () => this.eye.view(),
+      sight: () => this.perches.sight,
+    },
+    this.visitSeed,
   );
 
   constructor() {
     super('meadow');
+    this.perches = new Perches(() => this.beds());
   }
 
   create(): void {
@@ -162,12 +152,6 @@ export class MeadowScene extends Phaser.Scene {
         remove: () => {
           this.dispatch({ kind: 'remove' });
         },
-        grow: (species) => {
-          const foot = this.roomNow();
-          if (!foot) return;
-          this.dispatch({ kind: 'grow', species, seed: this.upcoming, foot });
-          this.upcoming = nextSeed(this.growing);
-        },
         house: () => {
           this.voice.pop();
           this.dispatch({ kind: 'house' });
@@ -175,19 +159,8 @@ export class MeadowScene extends Phaser.Scene {
         furnish: (piece) => {
           this.dispatch({ kind: 'furnish', piece });
         },
-        release: (insect) => {
-          this.voice.takeOff(insect);
-          this.dispatch({
-            kind: 'release',
-            insect,
-            seed: nextSeed(this.releasing),
-            now: this.clock * 1000,
-            ...this.sight,
-            onscreen: onscreenOf(this.requireLayout(), this.eye.view()),
-          });
-        },
+        ...pick(this.arrivals, 'grow', 'roomy', 'release'),
         ...pick(this.planter, 'colour', 'plant', 'plantable'),
-        roomy: () => this.roomNow() !== undefined,
         refuse: () => {
           this.voice.nuhUh();
         },
@@ -230,13 +203,12 @@ export class MeadowScene extends Phaser.Scene {
       bed,
       controls,
       insects,
-      perchAt,
-      sight,
+      perches,
       meadow,
     } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
-    this.dispatch({ kind: 'tick', now: time, ...sight });
+    this.dispatch({ kind: 'tick', now: time, ...perches.sight });
     driftClouds(backdrop, layout, t);
     grass?.update(t, meadow?.planting?.foot);
     bed?.update(t);
@@ -245,7 +217,7 @@ export class MeadowScene extends Phaser.Scene {
     flowers?.update(t, this.fliers());
     // Last, so every perch stands where this frame has put it, a sagging
     // head's included.
-    insects?.update(t, perchAt);
+    insects?.update(t, perches.at);
   }
 
   /**
@@ -304,14 +276,14 @@ export class MeadowScene extends Phaser.Scene {
     };
   }
 
-  /** Where the next mushroom grows as the meadow stands now: `undefined` where there is no room. */
-  private roomNow(): Ground | undefined {
-    const stand = this.stand();
-    return stand && this.room(stand, this.upcoming, this.eye.view());
-  }
-
   private fliers(): readonly Flier[] {
     return this.meadow?.insects ?? [];
+  }
+
+  /** The beds the perches stand on, as the scene holds them now. */
+  private beds(): Pick<PerchHosts, 'bed' | 'flowers'> {
+    const { bed, flowers } = this;
+    return { bed, flowers };
   }
 
   private dispatch(action: Action): void {
@@ -328,18 +300,6 @@ export class MeadowScene extends Phaser.Scene {
     this.repaintControls();
   }
 
-  /** What the perches stand on, as the scene holds it now. */
-  private hosts(): PerchHosts {
-    const { bed, flowers, air } = this;
-    return { bed, flowers, air };
-  }
-
-  /** Where `perch` stands this frame (`perchedOn`). */
-  private readonly perchAt = (
-    perch: Perch,
-    insect: Flier,
-  ): Perched | undefined => perchedOn(this.hosts(), perch, insect);
-
   /**
    * A tap on the insect `id` startles it; at rest, the tap goes on to
    * whatever it sits on, so a creature never costs the child the thing under
@@ -349,8 +309,8 @@ export class MeadowScene extends Phaser.Scene {
     const now = this.clock * 1000;
     const flier = this.meadow?.insects.find((each) => each.id === id);
     const under = restingOn(flier, now);
-    this.dispatch({ kind: 'startle', id, now, ...this.sight });
-    tapThrough(this.hosts(), under);
+    this.dispatch({ kind: 'startle', id, now, ...this.perches.sight });
+    this.perches.tapThrough(under);
   }
 
   /**
@@ -442,10 +402,7 @@ export class MeadowScene extends Phaser.Scene {
   private see(): void {
     const stand = this.stand();
     if (!stand) return;
-    this.sight = perchSight(stand);
-    this.insects?.see(footRows(stand));
-    this.air = new Map(
-      airSpots(stand.layout).map(({ id, x, y }) => [id, { x, y }]),
-    );
+    const feet = this.perches.see(stand);
+    this.insects?.see(feet);
   }
 }
