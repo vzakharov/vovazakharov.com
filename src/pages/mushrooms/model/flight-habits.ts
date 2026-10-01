@@ -5,27 +5,29 @@
 
 import type { InsectKind } from './insect-genes';
 
+/**
+ * How a flight that darts gets there: it dashes `way` of the way in the first
+ * `time` of its flight, both shares, and comes in the rest of the way slower.
+ */
+export type Dash = { time: number; way: number };
+
 /** How one kind flies, stays and chooses; every time in ms. */
 export type Habits = {
-  /** How long a flight takes, over a `stride` or less. */
+  /** How long a flight takes at the least, however short. */
   flying: readonly [number, number];
   /**
-   * The farthest a flight goes in its `flying` time, in butterfly sizes
-   * (`Places`); a farther one flies on at that speed, so a child's finger can
-   * follow it across a wide screen.
+   * How far off, in butterfly sizes (`Places`), a perch is half as likely to
+   * be flown to as one beside it.
    */
   stride: number;
   /**
-   * The most times its `flying` time a flight takes, so none drags — but for
-   * a dash longer than the screen shows across (`Sight`).
+   * How fast it flies, in butterfly sizes (`Places`) a second: a flight
+   * takes its length at this speed, however long, so a far perch is simply
+   * farther, never flown to faster.
    */
-  slowest: number;
-  /**
-   * Past `slowest`, the share of its time a flight dashes before it flies its
-   * last strides at its pace, up to as far as the screen shows across;
-   * `undefined` for a kind that simply flies faster.
-   */
-  dashing: number | undefined;
+  cruise: number;
+  /** How it darts over every flight, at its `cruise` on average; `undefined` for a kind that glides evenly. */
+  dashing: Dash | undefined;
   /** A stay at a flower. */
   drinking: readonly [number, number];
   /** A hover at a spot in the air. */
@@ -50,21 +52,17 @@ export type Habits = {
  * roaming the air while none is open — and never settling back on the
  * flower it is leaving, so bees as many as the flowers still take turns at
  * them and carry pollen between them. Hovers are long enough that on a
- * small screen few insects in the air move at once. Across the meadow's
- * world, twice what a tablet held sideways shows, a butterfly takes at most
- * four times as long as over a stride, flying the faster the farther it
- * goes, so crossing the world it flies no faster than it would across that
- * tablet's screen at twice a stride's time. A fly or a bee darts over most
- * of the way and comes in to its perch at its own pace, so each is a child's
- * finger's to catch most of the way; its dash is never faster than across
- * the screen it is flying on, so a longer flight takes longer rather than
- * darting the faster, while one no longer takes `slowest`.
+ * small screen few insects in the air move at once. Each cruises at its
+ * own speed whatever the way, a fly fastest and a butterfly slowest; a fly
+ * darts most of the way in a quarter of its flight and a bee more gently,
+ * each coming in to its perch slower, at a dash about a tablet's screen a
+ * second at most on average, so a child's finger can follow it.
  */
 export const FLIGHT_HABITS = {
   butterfly: {
     flying: [2400, 3900],
     stride: 3,
-    slowest: 4,
+    cruise: 0.95,
     dashing: undefined,
     drinking: [3000, 6000],
     hovering: [4000, 8000],
@@ -77,8 +75,8 @@ export const FLIGHT_HABITS = {
   fly: {
     flying: [600, 1100],
     stride: 0.9,
-    slowest: 1.8,
-    dashing: 0.2,
+    cruise: 7,
+    dashing: { time: 0.25, way: 0.7 },
     drinking: [1500, 4000],
     hovering: [2000, 4500],
     resting: [1500, 4000],
@@ -90,8 +88,8 @@ export const FLIGHT_HABITS = {
   bee: {
     flying: [1100, 1800],
     stride: 1.4,
-    slowest: 1.7,
-    dashing: 0.2,
+    cruise: 4.6,
+    dashing: { time: 0.3, way: 0.6 },
     drinking: [2000, 3500],
     hovering: [1500, 3000],
     resting: undefined,

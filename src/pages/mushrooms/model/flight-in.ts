@@ -1,21 +1,13 @@
 /**
  * Where a released insect first flies in: its first perch is one the screen
- * shows as it is released, its leg is timed in from the screen's edge nearer
- * that perch, and it lands there within `ARRIVAL`, so a tap on its button is
- * answered in view. Every later perch is drawn from the whole world
+ * shows as it is released, and its leg is timed in from the screen's edge
+ * nearer that perch at its kind's cruise, so a tap on its button is answered
+ * in view. Every later perch is drawn from the whole world
  * (`nextFlight`). Where it is drawn setting off is the view's
  * (`insect-away.ts`).
  */
 
-import type {
-  Leg,
-  Perch,
-  Perches,
-  PerchKind,
-  Places,
-  Side,
-  Span,
-} from './flight';
+import type { Leg, Perch, Perches, PerchKind, Places, Side } from './flight';
 import type { Lefted, Point } from './geometry';
 import { perchName } from './perch-room';
 
@@ -42,38 +34,34 @@ export function nearerSide({ left, right }: Onscreen, place: Point): Side {
 }
 
 /**
- * The longest a released insect's flight in to a perch the screen shows
- * takes, in ms: faster than any kind's cruise over the same way, so the
- * butterfly, slow for a finger to catch, still lands soon after its tap.
+ * How far a released insect with no open perch in view flies out of it
+ * first, in the units of `Places`: across `onscreen` from its middle and out
+ * by a side.
  */
-export const ARRIVAL = 1500;
-
-/** `leg` flown in no longer than `ARRIVAL`, its stay after it as long as it was. */
-export function arriving(leg: Leg): Leg {
-  const flown = leg.arrives - leg.departs;
-  const early = flown - Math.min(flown, ARRIVAL);
-  return { ...leg, arrives: leg.arrives - early, leaves: leg.leaves - early };
+export function outWay({ left, right }: Onscreen): number {
+  return (right - left) / 2;
 }
 
 /**
  * How long, in ms, a released insect with no open perch in view takes to
- * fly across it and out by its side, on a first leg `leg` (`outFirst`): as
- * long as an arrival at most, and half the leg, so the rest of the way is
- * still flown.
+ * fly across it and out by its side, on a first leg `leg`: the stretch
+ * `outFirst` lengthened it by, or half its flight for a leg it did not.
  */
-export function outOfView({ departs, arrives }: Span): number {
-  return Math.min(ARRIVAL, (arrives - departs) / 2);
+export function outOfView({
+  departs,
+  arrives,
+  out,
+}: Pick<Leg, 'departs' | 'arrives' | 'out'>): number {
+  return out ?? (arrives - departs) / 2;
 }
 
 /**
  * `leg`, timed from the screen's edge to a perch the screen does not show,
- * lengthened by the stretch flown out of view first, so `outOfView` of it is
- * that stretch and the rest of the way still takes as long as `leg` did, at
- * the kind's cruise; its stay after it as long as it was.
+ * lengthened by `out` ms flown out of view first, so the rest of the way
+ * still takes as long as `leg` did; its stay after it as long as it was.
  */
-export function outFirst(leg: Leg): Leg {
-  const out = Math.min(ARRIVAL, leg.arrives - leg.departs);
-  return { ...leg, arrives: leg.arrives + out, leaves: leg.leaves + out };
+export function outFirst(leg: Leg, out: number): Leg {
+  return { ...leg, arrives: leg.arrives + out, leaves: leg.leaves + out, out };
 }
 
 /**

@@ -12,13 +12,12 @@ import {
   type Places,
 } from './flight';
 import {
-  ARRIVAL,
-  arriving,
   isShown,
   nearerSide,
   type Onscreen,
   outFirst,
   outOfView,
+  outWay,
   shownOf,
 } from './flight-in';
 import { INSECT_KINDS } from './insect-genes';
@@ -109,11 +108,21 @@ describe('a released insect', () => {
   });
 
   for (const kind of INSECT_KINDS) {
-    it(`lands on its first perch in view within ARRIVAL, staying as long as its habits say, a ${kind}`, () => {
+    it(`flies in to its first perch in view at its cruise, staying as long as its habits say, a ${kind}`, () => {
       const habits = FLIGHT_HABITS[kind];
+      const edges = shownOf(PERCHES, ONSCREEN).places ?? {};
       for (const seed of SEEDS) {
         const { leg } = firstFlight({ seed, kind }, PERCHES, 0, [], ONSCREEN);
-        assert.ok(leg.arrives <= ARRIVAL, `${String(seed)} ${leg.arrives}`);
+        const [from, to] = [edges[perchName(leg.from)], placeOf(leg.to)];
+        assert.ok(from && to);
+        const apart = Math.hypot(to.x - from.x, to.y - from.y);
+        const atCruise = (1000 * apart) / habits.cruise;
+        const flown = leg.arrives - leg.departs;
+        assert.equal(leg.out, undefined);
+        assert.ok(flown >= atCruise - 1e-9, `${String(seed)} ${flown}`);
+        if (atCruise > habits.flying[1]) {
+          assert.ok(Math.abs(flown - atCruise) < 1e-9 * atCruise);
+        }
         const stays = {
           flower: habits.drinking,
           cap: habits.resting ?? [0, 0],
@@ -127,26 +136,16 @@ describe('a released insect', () => {
     });
   }
 
-  it('takes off and lands as `arriving` says: in ARRIVAL at most, its stay kept', () => {
+  it('flies out of view as long as `outFirst` lengthened its leg by, and half a leg it did not', () => {
     const leg = {
       from: { kind: 'away', side: 'left' },
       to: { kind: 'flower', id: 'flower-0' },
       departs: 1000,
-      arrives: 6000,
-      leaves: 9000,
+      arrives: 2000,
+      leaves: 5000,
     } as const;
-    assert.deepEqual(arriving(leg), {
-      ...leg,
-      arrives: 1000 + ARRIVAL,
-      leaves: 4000 + ARRIVAL,
-    });
-    const short = { ...leg, arrives: 1800, leaves: 4800 };
-    assert.deepEqual(arriving(short), short);
-  });
-
-  it('flies out of view, with no open perch in it, within ARRIVAL and half its leg', () => {
-    assert.equal(outOfView({ departs: 1000, arrives: 9000 }), ARRIVAL);
-    assert.equal(outOfView({ departs: 1000, arrives: 2000 }), 500);
+    assert.equal(outOfView(outFirst(leg, 700)), 700);
+    assert.equal(outOfView(leg), 500);
   });
 
   it('flies the rest of a first leg out of view first as long as the leg took', () => {
@@ -158,24 +157,11 @@ describe('a released insect', () => {
         arrives,
         leaves: arrives + 3000,
       } as const;
-      const lengthened = outFirst(leg);
+      const lengthened = outFirst(leg, 4000);
       const rest =
         lengthened.arrives - lengthened.departs - outOfView(lengthened);
       assert.equal(rest, arrives - 1000, String(arrives));
       assert.equal(lengthened.leaves - lengthened.arrives, 3000);
-    }
-  });
-
-  it('flies slower than its arrival once it has landed, a butterfly', () => {
-    for (const seed of SEEDS.slice(0, 50)) {
-      const insect = { seed, kind: 'butterfly' } as const;
-      const first = firstFlight(insect, PERCHES, 0, [], ONSCREEN);
-      const { leg } = nextFlight(
-        { ...insect, ...first },
-        PERCHES,
-        first.leg.leaves,
-      );
-      assert.ok(leg.arrives - leg.departs > ARRIVAL, String(seed));
     }
   });
 
@@ -199,20 +185,18 @@ describe('a released insect', () => {
     }
   });
 
-  it('still finds a perch in the world where the screen shows none, flying there at its cruise', () => {
-    const narrow: Onscreen = { left: 0, right: 1, inset: 1 };
-    for (const seed of SEEDS.slice(0, 50)) {
-      const { to, arrives } = firstFlight(
-        { seed, kind: 'butterfly' },
-        PERCHES,
-        0,
-        [],
-        narrow,
-      ).leg;
-      assert.notEqual(to.kind, 'away');
-      assert.ok(arrives > ARRIVAL, String(seed));
-    }
-  });
+  for (const kind of INSECT_KINDS) {
+    it(`still finds a perch in the world where the screen shows none, flying out of view first at its cruise, a ${kind}`, () => {
+      const narrow: Onscreen = { left: 0, right: 6, inset: 4 };
+      const out = (1000 * outWay(narrow)) / FLIGHT_HABITS[kind].cruise;
+      for (const seed of SEEDS.slice(0, 50)) {
+        const { leg } = firstFlight({ seed, kind }, PERCHES, 0, [], narrow);
+        assert.notEqual(leg.to.kind, 'away');
+        assert.equal(leg.out, out, String(seed));
+        assert.ok(leg.arrives - leg.departs > out, String(seed));
+      }
+    });
+  }
 
   it('takes its later perches anywhere in the world', () => {
     let unseen = 0;

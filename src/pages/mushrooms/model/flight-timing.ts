@@ -4,19 +4,12 @@
  */
 
 import type { Leg, Perch, Places, Sight, Timed } from './flight';
-import type { Habits } from './flight-habits';
+import type { Dash, Habits } from './flight-habits';
 import { perchName } from './perch-room';
 import { between, type Random } from './random';
 
-/** What of `Sight` times a leg: where the perches stand, and how far the screen shows across. */
-export type Placed = Pick<Sight, 'places' | 'across'>;
-
-/**
- * How a flight farther than its kind flies at its own pace gets there: it
- * dashes `way` of the way in the first `time` of its flight, both shares, and
- * flies the rest at its pace.
- */
-type Dash = { time: number; way: number };
+/** What of `Sight` times a leg: where the perches stand. */
+export type Placed = Pick<Sight, 'places'>;
 
 /**
  * When a leg's flight takes off and lands, in ms on the scene's clock, and
@@ -61,31 +54,22 @@ function stayAt(random: Random, habits: Habits, to: Perch): number {
 }
 
 /**
- * How a flight from `from` to `to` is timed, in times its `flying` time: 1 up
- * to a `stride`, in proportion past it up to `slowest`, and `slowest` past
- * that, where a kind that dashes (`dashing`) flies its last strides at its
- * own pace and dashes the rest, no faster than across the screen (`across`;
- * uncapped where it is not given), and any other simply flies faster.
+ * How long a flight from `from` to `to` takes, in ms, and how it dashes: its
+ * length at its kind's `cruise`, however long, but never quicker than
+ * `flown`, its draw of the kind's `flying` time; `flown` where `places` puts
+ * either perch nowhere. A kind that dashes darts the same share of every
+ * flight it has a length for, so a longer way is never flown faster.
  */
 function paced(
-  { stride, slowest, dashing }: Habits,
+  { cruise, dashing }: Habits,
   { from, to }: Pick<Leg, 'from' | 'to'>,
-  { places, across = Infinity }: Placed,
-): Pick<Span, 'dash'> & { stretch: number } {
+  { places }: Placed,
+  flown: number,
+): Pick<Span, 'dash'> & { flight: number } {
   const apart = apartIn(places, from, to);
-  if (apart === undefined) return { stretch: 1 };
-  const strides = apart / stride;
-  if (strides <= slowest || dashing === undefined) {
-    return { stretch: Math.min(slowest, Math.max(1, strides)) };
-  }
-  // The last strides at its pace, in as many strides as `flying` times.
-  const atPace = (1 - dashing) * slowest;
-  const slower = Math.max(1, (strides - atPace) / (across / stride - atPace));
-  const share = 1 - dashing + dashing * slower;
-  return {
-    stretch: slowest * share,
-    dash: { time: (dashing * slower) / share, way: 1 - atPace / strides },
-  };
+  if (apart === undefined) return { flight: flown };
+  const flight = Math.max(flown, (1000 * apart) / cruise);
+  return { flight, ...(dashing && { dash: dashing }) };
 }
 
 /** The leg along `route` departing `now`, its flight `paced` and its stay drawn off `random`. */
@@ -97,8 +81,8 @@ export function legTo(
 ): Leg {
   const { from, to } = route;
   const flown = between(random, ...habits.flying);
-  const { stretch, dash } = paced(habits, route, placed);
-  const arrives = now + flown * stretch;
+  const { flight, dash } = paced(habits, route, placed, flown);
+  const arrives = now + flight;
   return {
     from,
     to,
