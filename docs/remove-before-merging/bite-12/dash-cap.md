@@ -60,10 +60,10 @@ Taken as butterfly sizes, 3/6/9/12 are all under the cap and unchanged
   runs dashers up to a tablet across; the dash test checks the last strides'
   pace at every length; a new test pins the cap (1.5×, 2×, 3× a tablet
   across dash at the tablet's speed and take longer).
-- Green: `flight`, `flight-kinds`, `flight-in`, `insect-motion`, `insects`;
-  `pnpm typecheck`.
+- Green (f736ec2): `flight`, `flight-kinds`, `flight-in`, `insect-motion`,
+  `insects`; `pnpm typecheck`; `ui/scene/fliers.test.ts` 48/48 (6 min 10 s),
+  run after merging the branch at 87250a8.
 
 ## Left
 
-- `ui/scene/fliers.test.ts` run once (see the commit after this note's
-  first).
+Nothing.
