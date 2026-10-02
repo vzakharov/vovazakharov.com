@@ -17,6 +17,7 @@ import {
 } from '../../model/flower-genes';
 import {
   type Circle,
+  distanceBetween,
   distanceToSegment,
   type Point,
 } from '../../model/geometry';
@@ -78,7 +79,7 @@ export const FOOT_CLEARANCE = 0.45;
 /** A flower's lean at the breeze's strongest, in radians. */
 export const FLOWER_SWAY = 0.09;
 /** A flower's head reaches this far from its centre, per unit of its size. */
-const HEAD_REACH = FLOWER_RANGES.petalLength[1];
+export const HEAD_REACH = FLOWER_RANGES.petalLength[1];
 /**
  * How near two flowers' heads may come, as a share of the two heads' reach
  * together, each taken at its widest.
@@ -166,7 +167,7 @@ function leastRise(depth: number, low: number, high: number): number {
  * foot of `feet`, on every screen: the foot and its shadow, the one thing
  * Syama drew being two stems standing together.
  */
-export function clearOfFeet(
+function clearOnGround(
   flower: GroundFoot,
   feet: readonly GroundFoot[],
 ): boolean {
@@ -188,7 +189,7 @@ export function clearOfFeet(
  * Whether a flower at `place` keeps its head, at its widest, apart from the
  * head of every flower at `others`, on every screen.
  */
-export function headsApart(
+function apartOnGround(
   place: GroundFoot,
   others: readonly GroundFoot[],
 ): boolean {
@@ -203,6 +204,33 @@ export function headsApart(
       Math.hypot(across, down) >= FLOWERS_APART * HEAD_REACH * (own + size)
     );
   });
+}
+
+/**
+ * Whether a flower at `foot` keeps its head, at its widest, off every
+ * mushroom's foot of `feet`, by plane distance, which no eye's frame
+ * changes: the foot and its shadow, the one thing Syama drew being two stems
+ * standing together.
+ */
+export function clearOfFeet(foot: Footing, feet: readonly Footing[]): boolean {
+  const head = HEAD_REACH * foot.size;
+  return feet.every(
+    (mushroom) =>
+      distanceBetween(foot, mushroom) >= mushroom.size * FOOT_CLEARANCE + head,
+  );
+}
+
+/**
+ * Whether a flower at `foot` keeps its head, at its widest, apart from the
+ * head of every flower at `others`, by plane distance, which no eye's frame
+ * changes.
+ */
+export function headsApart(foot: Footing, others: readonly Footing[]): boolean {
+  return others.every(
+    (other) =>
+      distanceBetween(foot, other) >=
+      FLOWERS_APART * HEAD_REACH * (foot.size + other.size),
+  );
 }
 
 /**
@@ -347,8 +375,8 @@ function spotOn(
     };
     const flower = standingOnGround(camera, foot);
     if (
-      clearOfFeet(foot, feet) &&
-      headsApart(foot, placed) &&
+      clearOnGround(foot, feet) &&
+      apartOnGround(foot, placed) &&
       clearOfControls(flower, controls) &&
       shownPastClump(flower, clump)
     ) {
