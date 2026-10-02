@@ -365,13 +365,15 @@ with his words and what it beat: `bite-12/v14.md`.
    Holding the height or bending the path beaten. On `to-check.md`.
 1b'. ~~`v14-catch`~~ — built (2bd99a9, 9f96587); a new leg to another perch
    with a dart off it, not a burst on the current leg. On `to-check.md`.
-1c. The tablet reds `play-final2.md` found at 483be26, fixed in code from
-   that report, once `v14-aloft` lands (it owns the flight files): insects
-   flipping ~3 rad in one frame, facing off their way of flight and resting
-   crooked (a child sees that one); no butterfly resting on a cap; a faint
-   pale line across the sky at ~280–294 px on tabL. The play harness's own
-   reds (tabP's hold pressing an undrawn flower, tabL's size minimums) go
-   with the play run.
+1c. The tablet reds (`play-final2.md`). Built (02c0804): a new leg took its
+   starting turn from the rotation last drawn, stale while the insect was
+   hidden, so it swung off its way; it now sets off from the steering's
+   turn. The 3 rad flip and the crooked bee were the play watch judging
+   hidden insects (fixed there). Butterflies do rest on caps (16–40% of
+   legs, more in a forest); in the two-cap clump flies hold the caps first,
+   and that stays as designed. Left, package `v14-reds2`: the sky hairline
+   (a far-hill row over the sky, `paint-land.ts`) and `type-overlap`'s
+   `at` (`Steering`/`KeySown`).
 2. ~~The five-screen play run~~ — dropped for the operator's hand checks
    (§ "How this elephant is eaten"); what it would have judged is on
    `to-check.md`.
