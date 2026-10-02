@@ -9,6 +9,7 @@
 
 import type { WithId } from '@/shared/typings';
 
+import type { Pose } from './flight-frame';
 import { FLIGHT_HABITS, type Habits } from './flight-habits';
 import {
   enteringSide,
@@ -88,9 +89,11 @@ export type Crowding = readonly [Perch, Perch, readonly Pairing[]];
 /**
  * Where a perch stands, in units of a butterfly's size as the layout draws
  * one, and `fromEye`, how far from the eye, in the clump's size: an insect there
- * is drawn `CLUMP_DISTANCE / fromEye` of that size.
+ * is drawn `CLUMP_DISTANCE / fromEye` of that size; and, where the scene
+ * gives it, where it stands on the plane (`Pose`), so a leg is timed in the
+ * frame it is drawn in (`pairFramed`).
  */
-export type Place = Point & { fromEye: number };
+export type Place = Point & { fromEye: number; pose?: Pose };
 
 /**
  * Where each perch stands (`Place`), by its name (`perchName`), so a distance

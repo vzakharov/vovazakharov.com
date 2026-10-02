@@ -6,6 +6,9 @@
  * Turning the eye moves no framed point; walking moves them by true parallax.
  */
 
+import { pick } from '@/shared/lib/collections';
+
+import type { Place } from './flight';
 import type { Point } from './geometry';
 import { type Eye, EYE_HEIGHT, type Eyed, SPREAD } from './ground';
 import { wrap } from './insect-motion';
@@ -88,4 +91,89 @@ export function unframed(
     y: eye.y + distance * Math.cos(azimuth),
     h: EYE_HEIGHT - ((framed.y - y) * framed.forward) / focal,
   };
+}
+
+/**
+ * Where a `Place` stands on the plane, so a leg to or from it can be framed
+ * with its other end: the `aloft` it was placed from, the `frame` it was
+ * placed in, in the units of `Places`, and `near`, the least forward distance
+ * a place is measured at.
+ */
+export type Pose = { aloft: Aloft; frame: EyeFrame; near: number };
+
+/**
+ * `aloft` as the `Place` a leg to or from it is timed by, posed in `frame`:
+ * where the frame turned to the eye's heading stands it (`framedOf`), and
+ * its forward distance there, kept out at `near`, as the forward falls to
+ * nothing and below straight behind the eye. A point farther round than
+ * `FRAME_MARGIN` off the heading is placed at that margin, as far away, off
+ * the screen's side rather than where the frame's tangent blows up; a leg to
+ * it is framed with its other end (`pairFramed`).
+ */
+export function placeOf(frame: EyeFrame, near: number, aloft: Aloft): Place {
+  const { heading } = frame.eye;
+  const off = wrap(azimuthOf(frame.eye, aloft) - heading);
+  const kept = Math.min(Math.max(off, -FRAME_MARGIN), FRAME_MARGIN);
+  // Centred `off − kept` past the heading, the frame sees `aloft` `kept` off it.
+  const { x, y, forward } = framedOf(frame, heading + off - kept, aloft);
+  return {
+    x,
+    y,
+    fromEye: Math.max(near, forward),
+    pose: { aloft, frame, near },
+  };
+}
+
+/** `place`'s forward distance from its eye in the frame turned to the eye's heading, kept out at `near`. */
+function headingForward({ aloft, frame, near }: Pose): number {
+  return Math.max(near, framedOf(frame, frame.eye.heading, aloft).forward);
+}
+
+/**
+ * A leg's two posed ends as it is drawn: `ends`, both framed in the first's
+ * frame at the centre `centreOf` sets the leg, each forward kept out at
+ * `near`, and `placed`, a point in that frame placed afresh (`placeOf`).
+ */
+export type PairFrame = {
+  ends: readonly [Place, Place];
+  placed: (framed: Framed) => Place;
+};
+
+/**
+ * The frame the leg from `here` to `there` is drawn in (`PairFrame`);
+ * `undefined` unless both are posed. Where both stand within `FRAME_MARGIN`
+ * of the heading the centre is the heading, so they come back as placed.
+ */
+export function pairFramed(here: Place, there: Place): PairFrame | undefined {
+  const [from, to] = [here.pose, there.pose];
+  if (!from || !to) return undefined;
+  const { frame, near, aloft: start } = from;
+  const centre = centreOf(frame.eye, start, to.aloft);
+  const framed = (aloft: Aloft): Place => {
+    const { x, y, forward } = framedOf(frame, centre, aloft);
+    return { x, y, fromEye: Math.max(near, forward) };
+  };
+  return {
+    ends: [framed(start), framed(to.aloft)],
+    placed: (point) => placeOf(frame, near, unframed(frame, centre, point)),
+  };
+}
+
+/**
+ * `there`, an away spot, moved along its sight to stand as deep as `here`
+ * in the frame turned to the eye's heading, as a leg leaving from `here` is
+ * drawn to it: its height over the eye's scaled with its distance, so the
+ * screen draws it where it did. Unposed, its `fromEye` is `here`'s.
+ */
+export function levelWith(here: Place, there: Place): Place {
+  const [from, to] = [here.pose, there.pose];
+  if (!from || !to) return { ...there, ...pick(here, 'fromEye') };
+  const { aloft, frame, near } = to;
+  const { eye } = frame;
+  const scale = headingForward(from) / headingForward(to);
+  return placeOf(frame, near, {
+    x: eye.x + (aloft.x - eye.x) * scale,
+    y: eye.y + (aloft.y - eye.y) * scale,
+    h: EYE_HEIGHT - (EYE_HEIGHT - aloft.h) * scale,
+  });
 }

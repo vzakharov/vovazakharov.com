@@ -5,16 +5,10 @@
  */
 
 import type { Place } from '../../model/flight';
-import {
-  type Aloft,
-  azimuthOf,
-  FRAME_MARGIN,
-  framedOf,
-} from '../../model/flight-frame';
+import { type Aloft, framedOf, placeOf } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
 import { type Camera, spread } from '../../model/ground';
 import { eyeFrameOf } from './insect-frame';
-import { wrapAngle } from './panorama';
 import { middleOf, rowAt, V_NEAR, type View } from './view';
 
 /**
@@ -50,25 +44,12 @@ export function perchDistance(view: View, at: Aloft): number {
 }
 
 /**
- * `aloft` as the `Place` a leg to or from it is timed by: where the frame
- * turned to `view`'s eye's heading stands it (`framedOf`), in insect sizes of
- * `unit` px, and its forward distance there, kept out at `V_NEAR` as
+ * `aloft` as the `Place` a leg to or from it is timed by (`placeOf`), in
+ * `view`'s frame in insect sizes of `unit` px, kept out at `V_NEAR` as
  * `perchDistance` keeps it. At the opening eye that frame is the layout, so
- * this is `aloftOfLayout` run backwards; at any eye a leg drawn on the screen
- * is framed at the eye's heading (`centreOf`), so it is timed as long as it
- * is drawn. A point farther round than `FRAME_MARGIN` off the heading is
- * placed at that margin, as far away, off the screen's side rather than
- * where the frame's tangent blows up.
+ * this is `aloftOfLayout` run backwards; at any eye a leg is framed as it is
+ * drawn (`pairFramed`), so it is timed as long as it is drawn.
  */
 export function placeOfAloft(view: View, unit: number, aloft: Aloft): Place {
-  const { heading } = view.eye;
-  const off = wrapAngle(azimuthOf(view.eye, aloft) - heading);
-  const kept = Math.min(Math.max(off, -FRAME_MARGIN), FRAME_MARGIN);
-  // Centred `off − kept` past the heading, the frame sees `aloft` `kept` off it.
-  const { x, y, forward } = framedOf(
-    eyeFrameOf(view),
-    heading + off - kept,
-    aloft,
-  );
-  return { x: x / unit, y: y / unit, fromEye: Math.max(V_NEAR, forward) };
+  return placeOf(eyeFrameOf(view, unit), V_NEAR, aloft);
 }

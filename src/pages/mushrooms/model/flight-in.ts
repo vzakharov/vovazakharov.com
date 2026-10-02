@@ -7,6 +7,8 @@
  * (`nextFlight`).
  */
 
+import { pick } from '@/shared/lib/collections';
+
 import type {
   Leg,
   Perch,
@@ -73,6 +75,8 @@ export function outOf(
  * the screen shows, sets off: over the brow halfway across from the screen's
  * middle (`WayOut`'s `brow`) to `to`, as the screen draws it, so its leg is
  * timed as long as it is drawn. At `brow` where `places` puts `to` nowhere.
+ * Moved, it is unposed: `to` is shown, so the leg's frame is the heading's,
+ * where its place stands.
  */
 export function entryOf(
   places: Places | undefined,
@@ -81,7 +85,9 @@ export function entryOf(
   to: Perch,
 ): Places {
   const there = to.kind === 'away' ? undefined : places?.[perchName(to)];
-  const from = there ? { ...brow, x: (brow.x + there.x) / 2 } : brow;
+  const from = there
+    ? { ...pick(brow, 'y', 'fromEye'), x: (brow.x + there.x) / 2 }
+    : brow;
   return { ...places, [perchName({ kind: 'away', side })]: from };
 }
 
