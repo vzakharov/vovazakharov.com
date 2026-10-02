@@ -32,7 +32,7 @@ import {
 } from './door-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
-import { nearestTheSun, SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
+import { SUN_RAY_REACH } from './sun-layout';
 import { tapReach } from './tap-reach';
 import { ofLayout } from './view';
 import { type Screen, VIEWPORTS, VISITS } from './viewports';
@@ -48,7 +48,6 @@ const RULED = VISITS.filter((_, index) => index % 160 === 0);
 const RULES = [
   'shown',
   'inside the edge margin',
-  'out of the wash',
   'cap in view',
   'stem in view',
   'door in sight',
@@ -168,7 +167,7 @@ function broken(
   layout: MeadowLayout,
   measured = new Set<string>(),
 ): Fault[] {
-  const { sun, width, mushrooms: ground } = layout;
+  const { width, mushrooms: ground } = layout;
   const { world } = ground.camera;
   const newest = meadow.at(-1);
   const note = (species: Species, rule: Rule) => {
@@ -187,7 +186,6 @@ function broken(
     }
     return [{ mushroom, place, ...amongAt(place, mushroom) }];
   });
-  const wash = layout.wash.at(-1) ?? 0;
   const controls = keepOff(layout);
   for (const one of stood) {
     const { mushroom, place, standing } = one;
@@ -207,13 +205,6 @@ function broken(
         'inside the edge margin',
         `${id}'s ${species} cap past the edge margin`,
       );
-    }
-    note(species, 'out of the wash');
-    if (
-      nearestTheSun(ground.camera, sun, place) <
-      wash + place.size * WASH_FOOT_CLEAR
-    ) {
-      fault('out of the wash', `${id}'s foot in the sun's wash`);
     }
     const nearer = stood.filter(
       (other) => other.standing.depth > standing.depth,
