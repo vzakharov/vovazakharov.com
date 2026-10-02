@@ -88,13 +88,48 @@ export function playTheMeadow(
   const stopKeys = listenForKeys(
     canvas,
     (action) => {
-      if (action.kind === 'pan') eye.holdTurn(action.direction);
-      else if (action.kind === 'step') eye.holdWalk(action.direction);
-      else playKey(instrument, keyed, action);
+      switch (action.kind) {
+        case 'pan': {
+          eye.holdTurn(action.direction);
+          break;
+        }
+        case 'step': {
+          eye.holdWalk(action.direction);
+          break;
+        }
+        case 'strafe': {
+          eye.holdStrafe(action.direction);
+          break;
+        }
+        case 'note':
+        case 'drum':
+        case 'octave': {
+          playKey(instrument, keyed, action);
+          break;
+        }
+        default: {
+          action satisfies never;
+        }
+      }
     },
-    (key) => {
-      if (key.kind === 'pan') eye.letGoTurn(key.direction);
-      else eye.letGoWalk(key.direction);
+    ({ kind, direction }) => {
+      switch (kind) {
+        case 'pan': {
+          eye.letGoTurn(direction);
+          break;
+        }
+        case 'step': {
+          eye.letGoWalk(direction);
+          break;
+        }
+        case 'strafe': {
+          eye.letGoStrafe(direction);
+          break;
+        }
+        default: {
+          kind satisfies never;
+        }
+      }
     },
   );
   const stopChords = listenForChords(scene, flowers);

@@ -9,10 +9,13 @@ import {
   forwardOf,
   GLADE,
   holdStep,
+  holdStrafe,
   letGoStep,
+  letGoStrafe,
   liftChase,
   RIM_KEEP,
   roomAhead,
+  sidewaysOf,
   standingAt,
   type Stride,
   STRIDE_CRUISE,
@@ -135,6 +138,103 @@ describe('the stride on the keys', () => {
   it('keeps a stand put inside the glade', () => {
     const outside = standingAt({ x: 0, y: 30 });
     assert.ok(apart(outside.at, rimAlong(0)) < 1e-9);
+  });
+});
+
+describe('the stride on the strafing keys', () => {
+  it('eases up to its cruise over KEY_EASE and walks square to the heading, to the right on 1', () => {
+    const heading = 0.7;
+    const held = holdStrafe(standingAt(ORIGIN), 1);
+    assert.equal(holdStrafe(held, 1), held);
+    const [eased] = walked(held, heading, KEY_EASE);
+    assert.ok(Math.abs(eased.sidePace - STRIDE_CRUISE) < 1e-9);
+    assert.equal(eased.pace, 0);
+    const [later] = walked(eased, heading, 1);
+    const side = forwardOf(sidewaysOf(heading));
+    const across =
+      (later.at.x - eased.at.x) * side.x + (later.at.y - eased.at.y) * side.y;
+    assert.ok(Math.abs(across - STRIDE_CRUISE) < 1e-9);
+    assert.ok(Math.abs(apart(later.at, eased.at) - STRIDE_CRUISE) < 1e-9);
+    assert.ok(
+      Math.abs(later.walked - (STRIDE_CRUISE * KEY_EASE) / 2 - STRIDE_CRUISE) <
+        1e-9,
+      'the bob and the feet count it as a walk',
+    );
+    // At heading 0 the eye looks along +y, and its right is +x.
+    const [right] = walked(holdStrafe(standingAt(ORIGIN), 1), 0, 1);
+    assert.ok(right.at.x > 0 && Math.abs(right.at.y) < 1e-12);
+  });
+
+  it('eases to rest on letting go, and stands with both held', () => {
+    const [walking] = walked(holdStrafe(standingAt(ORIGIN), -1), 0, 1);
+    assert.ok(walking.at.x < 0);
+    const [rested] = walked(letGoStrafe(walking, -1), 0, KEY_EASE + FRAME);
+    assert.equal(rested.sidePace, 0);
+    assert.equal(tick(rested, 0, FRAME), rested);
+    const both = holdStrafe(holdStrafe(standingAt(ORIGIN), 1), -1);
+    assert.equal(tick(both, 0, FRAME), both);
+  });
+
+  it('walks the diagonal at the cruise with a step and a strafe held', () => {
+    const start = standingAt(ORIGIN);
+    const [eased] = walked(holdStrafe(holdStep(start, 1), 1), 0, 1);
+    const [later, seen] = walked(eased, 0, 1);
+    const steps = moves(eased.at, seen);
+    assert.ok(
+      steps.every((each) => Math.abs(each - STRIDE_CRUISE * FRAME) < 1e-9),
+    );
+    assert.ok(Math.abs(later.at.x - later.at.y) < 1e-9, 'at 45°');
+    assert.ok(Math.abs(later.walked - eased.walked - STRIDE_CRUISE) < 1e-9);
+  });
+
+  it('brakes to rest on the rim and slides along it, never out of the glade nor past the cruise', () => {
+    const start = standingAt({ x: 3, y: 5 });
+    const [rested, seen] = walked(holdStrafe(start, 1), 0, 20);
+    assert.equal(rested.sidePace, 0);
+    assert.ok(apart(rested.at, rimAlong(sidewaysOf(0))) < 1e-6);
+    assert.ok(seen.every((at) => apart(at, GLADE) <= REACH + 1e-9));
+    assert.ok(
+      moves(start.at, seen).every(
+        (each) => each <= STRIDE_CRUISE * FRAME + 1e-9,
+      ),
+    );
+    for (let index = 0; index < 12; index++) {
+      let stride = holdStep(
+        holdStrafe(
+          standingAt({
+            x: 8 * Math.cos(index),
+            y: 8 + 8 * Math.sin(index * 1.3),
+          }),
+          index % 2 === 0 ? 1 : -1,
+        ),
+        index % 3 === 0 ? -1 : 1,
+      );
+      let heading = index * 0.7;
+      const path: Point[] = [];
+      for (let frame = 0; frame < 900; frame++) {
+        heading += 0.005;
+        if (frame === 600)
+          stride = letGoStrafe(
+            letGoStrafe(letGoStep(letGoStep(stride, 1), -1), 1),
+            -1,
+          );
+        stride = tick(stride, heading, FRAME);
+        path.push(stride.at);
+      }
+      assert.ok(path.every((at) => apart(at, GLADE) <= REACH + 1e-9));
+      assert.equal(stride.pace, 0);
+      assert.equal(stride.sidePace, 0);
+    }
+  });
+
+  it('chases a drag square to the heading as it chases one along it', () => {
+    const heading = 0.3;
+    const sideways = sidewaysOf(heading);
+    const pressed = chaseTo(chaseFrom(standingAt(ORIGIN), sideways), -2);
+    const [lifted] = walked(liftChase(pressed), heading, 4);
+    const side = forwardOf(sideways);
+    assert.ok(apart(lifted.at, { x: -2 * side.x, y: -2 * side.y }) < 1e-9);
+    assert.equal(lifted.chase, undefined);
   });
 });
 

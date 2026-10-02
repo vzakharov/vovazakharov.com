@@ -15,9 +15,10 @@ import {
   type Perches,
   perchName,
 } from './flight';
-import { apartOf } from './flight-timing';
+import { apartOf, legTo } from './flight-timing';
 import { CLUMP_DISTANCE } from './ground';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
+import { mulberry32 } from './random';
 
 const kind = 'butterfly' as const;
 const {
@@ -424,5 +425,27 @@ describe('isAloft', () => {
     assert.ok(isAloft(flight, 100));
     assert.ok(isAloft(flight, leg.arrives - 1));
     assert.ok(!isAloft(flight, leg.arrives));
+  });
+});
+
+describe('a leg to a spot in the air', () => {
+  it('hops about it for a kind that never hangs still, and only to the air', () => {
+    const cap = { kind: 'cap', id: 'cap' } as const;
+    const air = { kind: 'air', id: 'air-1' } as const;
+    const legFor = (kinded: InsectKind, to: typeof cap | typeof air) =>
+      legTo(
+        mulberry32(5),
+        FLIGHT_HABITS[kinded],
+        { from: cap, to },
+        { now: 0 },
+      );
+    for (const kinded of INSECT_KINDS) {
+      assert.deepEqual(
+        legFor(kinded, air).hops,
+        FLIGHT_HABITS[kinded].hopping,
+        kinded,
+      );
+    }
+    assert.equal(legFor('fly', cap).hops, undefined);
   });
 });
