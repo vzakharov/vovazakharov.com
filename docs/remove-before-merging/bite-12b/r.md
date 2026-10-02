@@ -16,7 +16,16 @@
     so it type-checks. Its replacement check (§ 3, "walks back
     `STRIDE_CRUISE` × (12 − eased)") is left to the play package.
 
+- **R2, the wash rule** — `nearestTheSun`/`acrossFromSun` gone from
+  `ui/scene/sun-layout.ts`, with the "out of the wash" rule in
+  `meadow-rules.test.ts`. `washReach` is not exported, so its test in
+  `sun-layout.test.ts` goes through `layout.wash`: at 41 columns across the
+  outer ring, its lowest row stays at or above `browRow` there less the
+  farthest place's `WASH_FOOT_CLEAR` (each place's size scaled to the brow,
+  as `washReach` scales it). The spec named `browLowest`; `browRow` per
+  column is the tighter claim (the brow is highest, at `groundTop`, mid
+  screen), and still passes on every viewport.
+
 ## Left
 
-- R2 — the wash rule (§ 9).
 - R3 — `openingCrop`, `rebloom` (a later agent's).
