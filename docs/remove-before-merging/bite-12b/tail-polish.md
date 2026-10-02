@@ -72,14 +72,23 @@ at f680c86a; only the run's final commit is a bare `polish:`.
   `tending.ts` alphabetically, plus `air-spots`, `anchored-stand`,
   `clump-layout`, `insect-drawn`.
 
-## Left (tail-polish3 stopped at its 170k line)
+## tail-polish4
 
-- Restating one-liners found, not yet cut: `lawn.ts` `cellOf`, `cellTufts`;
+- Cut the five restating one-liners: `lawn.ts` `cellOf`, `cellTufts`;
   `mottles.ts` `MOTTLES_PER_CELL`; `perch-crowding.test.ts` `apartEvenly`;
   `draw-flower.ts` `drawIn`.
-- Blocks past ~4 lines still to tighten: `tuft-tap.ts` `bareToTap` (8),
-  `bed-place.ts` `SIDE_OVERHANG`/`offSides`, `mottles.ts` `shownMottles`
-  doc (6), `lawn.ts` `LIVE_REACH`, `tufts.ts` header and `follow` doc,
-  `flower-plots.ts` `ringFoot`, `flower-shown.ts` `Laid` member doc.
-- The run's last commit must be a bare `polish:` (or
-  `polish: nothing to change`) so the floor moves.
+- Tightened the eight blocks: `bareToTap` 8 → 5, `SIDE_OVERHANG` 5 → 3,
+  `offSides` 4 → 3, `shownMottles` 5 → 3, `LIVE_REACH` 4 → 2, `tufts.ts`
+  header 10 → 6, `follow` 4 → 3, `ringFoot` 5 → 3, `Laid` 4 → 3.
+  (fe9cdfef)
+- `ui/scene/` after `tending.ts`, added comment hunks: `tuft-tap.ts`
+  header 4 → 1, `TUFT_REACH` 3 → 1, `tuftReach`'s restating doc cut;
+  `tufts.ts` `shownSprouts` 4 → 3. `tufts.test.ts`, `view.ts`,
+  `widest-spans.ts` hold; `tuft-tap.test.ts`, `view-inverse.test.ts`,
+  `view.test.ts`, `visit-play.ts` add no comments.
+- The bare `polish:` closing the run lands with the last of these.
+
+## Left
+
+Nothing: the run is closed, and the next `/polish` floors at its bare
+`polish:` commit.

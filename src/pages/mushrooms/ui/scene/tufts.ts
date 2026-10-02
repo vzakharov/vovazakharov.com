@@ -1,14 +1,10 @@
 /**
- * The ground's grass as the child plants on it: where its tufts grow, which
- * one a tap lands on, and where on the ground a flower planted there stands.
- * Every tuft on the ground is a spot to plant on, grown by the lawn's cells
- * round the eye (`lawn.ts`) and kept on its foot whatever grows round it,
- * and drawn each frame where the view places that foot. Only a tap nothing
- * else takes reaches the grass (`MeadowScene.tapMeadow`); it lands on the
- * nearest tuft drawn bare to a finger (`bareToTap`), which opens the flower
- * picker where a flower fits (`plantableIn`) and shakes its head where none
- * does (`Planter.tapTuft`). A flower planted on a tuft takes its place, and
- * a flower pulled up leaves a tuft where it stood (`leaveTufts`).
+ * The ground's grass as the child plants on it. Every tuft is a spot to plant
+ * on, grown by the lawn's cells round the eye (`lawn.ts`) and kept on its foot
+ * whatever grows round it. Only a tap nothing else takes reaches the grass
+ * (`MeadowScene.tapMeadow`), landing on the nearest tuft drawn bare
+ * (`bareToTap`); a flower planted takes its tuft's place, and one pulled up
+ * leaves a tuft (`leaveTufts`).
  */
 
 import type * as Phaser from 'phaser';
@@ -98,10 +94,9 @@ type ShownSprout = WithTuft & { sprout: Sprout };
 export type ShownGrass = { near: ShownSprout[]; behind: ShownSprout[] };
 
 /**
- * Where `view` draws each of `sprouts`: its foot placed through the view,
- * hidden near the eye and sunk past the brow as a bed's things are
- * (`bed-place.ts`), and sized and toned by the screen row it stands on as
- * the ground's bands are (`tuftSizeAt`), wherever on the plane it stands.
+ * Where `view` draws each of `sprouts`: hidden near the eye and sunk past the
+ * brow as a bed's things are (`bed-place.ts`), sized and toned by its screen
+ * row as the ground's bands are (`tuftSizeAt`), wherever on the plane it stands.
  */
 export function shownSprouts(
   view: View,
@@ -184,10 +179,9 @@ export class Grass {
   }
 
   /**
-   * Draws the grass through `view` from the next frame on, and re-tends the
-   * tufts once its eye has stepped or turned past what the last tending
-   * covered (`strayed`), the lawn's cells following the eye: a slice a frame
-   * (`Tending`), the tufts last tended standing until every one is judged.
+   * Draws the grass through `view` from the next frame on; once its eye strays
+   * past the last tending (`strayed`), re-tends a slice a frame (`Tending`),
+   * the tufts last tended standing until every one is judged.
    */
   follow(view: View): void {
     this.view = view;

@@ -40,19 +40,16 @@ const BEHIND_HILLS = (DEPTHS.nearHills + DEPTHS.ground) / 2;
 const BEHIND_SQUEEZE = 1e-4;
 
 /**
- * How far past a side of the screen, in its drawn height, a thing's foot may
- * stand and the thing still be drawn: past what the widest of it reaches
- * sideways from its foot, a mushroom's cast shadow at about 0.81 of its
- * height and its cap at 0.66, with room for a squash's stretch. A tuft's 1.5
- * of its 2-size height is the 3 sizes its blades overhang (`BLADE_OVERHANG`).
+ * How far past a screen side, in drawn heights, a thing's foot may stand and
+ * still be drawn: past a mushroom's shadow (0.81) and cap (0.66) with a
+ * squash's stretch, and a tuft's blades (`BLADE_OVERHANG`, 3 of its 2 sizes).
  */
 export const SIDE_OVERHANG = 1.5;
 
 /**
- * Whether a thing whose foot `view` draws at `x`, `height` CSS px tall,
- * stands so far past a side of the screen (`SIDE_OVERHANG`) that none of it
- * shows. Phaser tessellates every visible Graphics each frame whether on the
- * screen or not, so one behind the eye is hidden rather than drawn off it.
+ * Whether a thing `height` CSS px tall, its foot drawn by `view` at `x`,
+ * stands more than `SIDE_OVERHANG` past a screen side. Phaser tessellates
+ * every visible Graphics, on screen or not, so one behind the eye is hidden.
  */
 function offSides(
   view: View,

@@ -1,8 +1,4 @@
-/**
- * Where a finger meets the grass: how far round its middle a tuft answers a
- * tap, which tuft a tap lands on, and whether a tuft is drawn bare to a
- * finger, nothing else on the screen taking a tap aimed at it.
- */
+/** Where a finger meets the grass: which tuft a tap lands on, and whether one is drawn bare to it. */
 
 import { type Circle, distanceBetween, type Point } from '../../model/geometry';
 import { placeIn } from './clump-layout';
@@ -13,10 +9,7 @@ import { sightingOf, type Stand } from './flower-sight';
 import type { Tuft, WithTuft } from './grass';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
 
-/**
- * How far round its middle a tuft answers a tap at the least, in CSS px: a
- * small finger's pad.
- */
+/** How far round its middle a tuft answers a tap at the least, in CSS px: a small finger's pad. */
 export const TUFT_REACH = 22;
 /** How far round its middle a tuft drawn larger than that answers, in units of its size: its blades. */
 const TUFT_BLADES = 1.4;
@@ -33,7 +26,6 @@ export function middleOf({ x, y, size }: Tuft): Point {
   return { x, y: y - size };
 }
 
-/** How far round its middle `tuft` answers a tap. */
 export function tuftReach({ size }: Tuft): number {
   return Math.max(TUFT_REACH, size * TUFT_BLADES);
 }
@@ -57,13 +49,11 @@ export function tuftAt<Tufted extends WithTuft>(
 }
 
 /**
- * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, seen
- * from the opening eye: no flower's petals as far as its sway takes them (past
- * them a flower yields to a bare tuft, `tuftUnder`) and no mushroom's drawn
- * parts (`tappedMushroom`) hold the tuft's middle or its core (`BARE_CORE`).
- * The controls stand on the screen, not the world, so a tuft a turn slides
- * under one is the control's to tap there. `stand` is read once, for every
- * tuft asked after.
+ * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, from
+ * the opening eye: no flower's petals at their widest sway (past it a flower
+ * yields, `tuftUnder`) nor mushroom's drawn parts (`tappedMushroom`) hold its
+ * middle or `BARE_CORE`. A tuft a turn slides under a control is the
+ * control's, the controls being the screen's. `stand` is read once.
  */
 export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
   const { layout, mushrooms } = stand;

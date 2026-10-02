@@ -24,7 +24,6 @@ import type { Translucent } from './ink';
 import { PALETTE } from './palette';
 import { V_NEAR, type View } from './view';
 
-/** How many mottles a cell of the lawn grows. */
 export const MOTTLES_PER_CELL = 3;
 
 /** How far across a mottle reaches from its middle, in the clump's size, and its reach along as a share of that. */
@@ -95,11 +94,9 @@ function ringOf(
 }
 
 /**
- * Where `view` draws each of `mottles`, flat on the ground: every point of
- * its rings through the view. One with any of its outer ring nearer ahead
- * than half `V_NEAR`, under the screen's bottom or behind the eye, is not
- * drawn, nor one standing wholly off the screen; one fades out as its far
- * edge nears `D_SEE`, gone by it.
+ * Where `view` draws `mottles`, flat on the ground. Dropped: one with any of
+ * its outer ring nearer ahead than half `V_NEAR` (under the screen or behind
+ * the eye), or wholly off it; one fades out as its far edge nears `D_SEE`.
  */
 export function shownMottles(
   view: View,

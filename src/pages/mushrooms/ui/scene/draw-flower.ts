@@ -194,7 +194,6 @@ export type FlowerPainting = {
    * it is painted in.
    */
   openingLight: Lighting;
-  /** Paints its stem and head in `lighting`. */
   drawIn: (lighting: Lighting) => void;
 } & Pick<Siding, 'paintedSunSide'>;
 
