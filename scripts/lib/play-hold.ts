@@ -180,18 +180,12 @@ async function holdAndPull(
   return pulled.tufts - open.tufts;
 }
 
-/**
- * How many tufts, nearest first, are tried for one that takes a flower: half
- * `play-tufts.ts`'s search, none taking one here being a note, not a failure.
- */
-const TRIES = 8;
-
 /** A flower planted on the nearest tuft that takes one, as `play-tufts.ts` plants it, with its head on screen. */
 async function plantOne(
   page: Page,
 ): Promise<NonNullable<z.infer<typeof Flower>> | undefined> {
   const tufts = await page.evaluate(TUFTS, z.array(Point));
-  if (!(await nearestOpening(page, tufts, TRIES))) {
+  if (!(await nearestOpening(page, tufts))) {
     return undefined;
   }
   const [colour] = await page.evaluate(
