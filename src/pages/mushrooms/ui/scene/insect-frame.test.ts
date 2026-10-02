@@ -9,7 +9,7 @@ import {
   framedOf,
   unframed,
 } from '../../model/flight-frame';
-import { wrap } from '../../model/geometry';
+import { alongAzimuth, type Point, wrap } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,
   type Eye,
@@ -57,6 +57,11 @@ function near(actual: number, expected: number, tolerance: number): void {
   );
 }
 
+function nearPoint(actual: Point, expected: Point, tolerance: number): void {
+  near(actual.x, expected.x, tolerance);
+  near(actual.y, expected.y, tolerance);
+}
+
 /**
  * The most a run of evenly spaced samples bends, per its step squared: a
  * smooth bend holds it as the samples thicken, a kink grows it with them.
@@ -87,6 +92,21 @@ function layoutPoints(view: View) {
   return points;
 }
 
+/** The ground under layout `x` on `footRow` of `view`, and that row's depth and metres per px. */
+function planeUnder(view: View, x: number, footRow: number) {
+  const { opening: q, perPx } = rowAt(view, footRow);
+  return { plane: spread({ x: (x - middleOf(view)) * perPx, y: q }), q, perPx };
+}
+
+/** `flown` of the way along the straight leg from `from` to `to`, at `from`'s height. */
+function straight(from: Aloft, to: Aloft, flown: number): Aloft {
+  return {
+    ...from,
+    x: from.x + (to.x - from.x) * flown,
+    y: from.y + (to.y - from.y) * flown,
+  };
+}
+
 /** Random eyes about the glade, looking every way. */
 function eyes(seed: number, count: number): Eye[] {
   const random = mulberry32(seed);
@@ -103,15 +123,10 @@ describe('insect-frame', () => {
 
     it(`is the opening layout at the opening eye on a ${name} screen`, () => {
       for (const { point, footRow } of layoutPoints(opening)) {
-        const { opening: q, perPx } = rowAt(opening, footRow);
-        const plane = spread({
-          x: (point.x - middleOf(opening)) * perPx,
-          y: q,
-        });
+        const { plane, q, perPx } = planeUnder(opening, point.x, footRow);
         const aloft = { ...plane, h: (footRow - point.y) * perPx };
         const framed = framedOf(eyeFrameOf(opening), 0, aloft);
-        near(framed.x, point.x, 1e-6);
-        near(framed.y, point.y, 1e-6);
+        nearPoint(framed, point, 1e-6);
         near(framed.forward, q, 1e-9);
         const drawn = drawnAloft(
           opening,
@@ -127,24 +142,18 @@ describe('insect-frame', () => {
           continue;
         }
         assert.ok(drawn);
-        near(drawn.x, today.x, 1e-6);
-        near(drawn.y, today.y, 1e-6);
+        nearPoint(drawn, today, 1e-6);
       }
     });
 
     it(`frames the ground where layoutOfPlane lays it on a ${name} screen`, () => {
       for (const { point, footRow } of layoutPoints(opening)) {
         if (point.y !== footRow) continue;
-        const { opening: q, perPx } = rowAt(opening, footRow);
-        const plane = spread({
-          x: (point.x - middleOf(opening)) * perPx,
-          y: q,
-        });
+        const { plane } = planeUnder(opening, point.x, footRow);
         const laid = layoutOfPlane(opening, plane);
         assert.ok(laid);
         const framed = framedOf(eyeFrameOf(opening), 0, { ...plane, h: 0 });
-        near(framed.x, laid.x, 1e-6);
-        near(framed.y, laid.y, 1e-6);
+        nearPoint(framed, laid, 1e-6);
       }
     });
 
@@ -177,14 +186,12 @@ describe('insect-frame', () => {
           const azimuth = centre + between(random, -FRAME_MARGIN, FRAME_MARGIN);
           const distance = between(random, 0.2, 8);
           const aloft: Aloft = {
-            x: eye.x + distance * Math.sin(azimuth),
-            y: eye.y + distance * Math.cos(azimuth),
+            ...alongAzimuth(eye, azimuth, distance),
             h: between(random, 0, 2),
           };
           const framed = framedOf(eyeFrameOf(view), centre, aloft);
           const back = unframed(eyeFrameOf(view), centre, framed);
-          near(back.x, aloft.x, 1e-9);
-          near(back.y, aloft.y, 1e-9);
+          nearPoint(back, aloft, 1e-9);
           near(back.h, aloft.h, 1e-9);
           if (aloft.h >= SKIM) {
             assert.deepEqual(aloftFramed(view, centre, framed), back);
@@ -194,8 +201,7 @@ describe('insect-frame', () => {
             centre,
             unframed(eyeFrameOf(view), centre, framed),
           );
-          near(again.x, framed.x, 1e-9);
-          near(again.y, framed.y, 1e-9);
+          nearPoint(again, framed, 1e-9);
           near(again.forward, framed.forward, 1e-9);
         }
       }
@@ -207,11 +213,7 @@ describe('insect-frame', () => {
     const random = mulberry32(11);
     for (const eye of eyes(5, 20)) {
       const centre = between(random, -Math.PI, Math.PI);
-      const aloft: Aloft = {
-        x: eye.x + 2 * Math.sin(centre + 0.3),
-        y: eye.y + 2 * Math.cos(centre + 0.3),
-        h: 0.4,
-      };
+      const aloft: Aloft = { ...alongAzimuth(eye, centre + 0.3, 2), h: 0.4 };
       const before = framedOf(eyeFrameOf(viewAt(camera, eye)), centre, aloft);
       const turned = { ...eye, heading: eye.heading + between(random, -3, 3) };
       assert.deepEqual(
@@ -238,8 +240,8 @@ describe('insect-frame', () => {
     for (const eye of eyes(17, 400)) {
       const start = between(random, -Math.PI, Math.PI);
       const end = start + between(random, -Math.PI, Math.PI);
-      const from = { x: eye.x + Math.sin(start), y: eye.y + Math.cos(start) };
-      const to = { x: eye.x + 3 * Math.sin(end), y: eye.y + 3 * Math.cos(end) };
+      const from = alongAzimuth(eye, start, 1);
+      const to = alongAzimuth(eye, end, 3);
       const centre = centreOf(eye, from, to);
       for (const azimuth of [start, end]) {
         assert.ok(Math.abs(wrap(azimuth - centre)) <= FRAME_MARGIN + 1e-12);
@@ -293,8 +295,7 @@ describe('aloftFramed', () => {
       const aloft = aloftFramed(view, 0, at);
       assert.ok(aloft.h > 0, `${aloft.h} at ${at.x}, ${at.y}`);
       const back = framedOf(eyeFrameOf(view), 0, aloft);
-      near(back.x, at.x, 1e-9);
-      near(back.y, at.y, 1e-9);
+      nearPoint(back, at, 1e-9);
     }
   });
 
@@ -328,8 +329,7 @@ describe('aloftAt', () => {
               for (const distance of [0.2, 1, 0.5 * D_SEE, 0.99 * D_SEE]) {
                 const drawn = drawnAloft(view, aloftAt(view, at, distance));
                 assert.ok(drawn, `${name}: ${at.x}, ${at.y} at ${distance}`);
-                near(drawn.x, at.x, 1e-9);
-                near(drawn.y, at.y, 1e-9);
+                nearPoint(drawn, at, 1e-9);
                 checked++;
               }
             }
@@ -366,17 +366,18 @@ describe('veered', () => {
 
   /** A point `distance` from `eye` along `toward`. */
   function outAt(distance: number): Aloft {
-    return {
-      x: eye.x + distance * Math.sin(toward),
-      y: eye.y + distance * Math.cos(toward),
-      h: 0.3,
-    };
+    return { ...alongAzimuth(eye, toward, distance), h: 0.3 };
+  }
+
+  /** How far `point` lies from `eye`, and at which plane azimuth. */
+  function fromEye(point: Point) {
+    const [x, y] = [point.x - eye.x, point.y - eye.y];
+    return { distance: Math.hypot(x, y), azimuth: Math.atan2(x, y) };
   }
 
   /** How far from `eye` `veered` leaves the point `distance` out. */
   function veeredAt(distance: number, veer: Veer): number {
-    const moved = veered(eye, outAt(distance), veer);
-    return Math.hypot(moved.x - eye.x, moved.y - eye.y);
+    return fromEye(veered(eye, outAt(distance), veer)).distance;
   }
 
   for (const veer of [TABLET_VEER, { near: 1, width: 0.2 }]) {
@@ -412,9 +413,9 @@ describe('veered', () => {
       for (let sample = 1; sample <= 200; sample++) {
         const point = outAt(((veer.near + veer.width) * sample) / 200);
         const moved = veered(eye, point, veer);
-        const distance = Math.hypot(moved.x - eye.x, moved.y - eye.y);
+        const { distance, azimuth } = fromEye(moved);
         assert.ok(distance >= veer.near - 1e-12);
-        near(Math.atan2(moved.x - eye.x, moved.y - eye.y), toward, 1e-9);
+        near(azimuth, toward, 1e-9);
         assert.equal(moved.h, point.h);
       }
     });
@@ -422,8 +423,9 @@ describe('veered', () => {
 
   it('pushes a point at the eye out along its heading', () => {
     const moved = veered(eye, { ...eye, h: 0 }, TABLET_VEER);
-    near(Math.atan2(moved.x - eye.x, moved.y - eye.y), eye.heading, 1e-12);
-    near(Math.hypot(moved.x - eye.x, moved.y - eye.y), TABLET_VEER.near, 1e-12);
+    const { distance, azimuth } = fromEye(moved);
+    near(azimuth, eye.heading, 1e-12);
+    near(distance, TABLET_VEER.near, 1e-12);
   });
 });
 
@@ -439,12 +441,7 @@ describe('veeredAlong', () => {
 
   /** `flown` of the way along the straight leg from `from` to `to`, veered. */
   function along(from: Aloft, to: Aloft, flown: number, ends: SeatEnds) {
-    const raw = {
-      ...from,
-      x: from.x + (to.x - from.x) * flown,
-      y: from.y + (to.y - from.y) * flown,
-    };
-    return veeredAlong(eye, raw, veer, flown, ends);
+    return veeredAlong(eye, straight(from, to, flown), veer, flown, ends);
   }
 
   const air = off(-1.5, 0.2);
@@ -468,12 +465,7 @@ describe('veeredAlong', () => {
     const random = mulberry32(5);
     for (let sample = 0; sample < 200; sample++) {
       const flown = random();
-      const raw = {
-        x: air.x + (outside.x - air.x) * flown,
-        y: air.y + (outside.y - air.y) * flown,
-        h: 0.2,
-      };
-      const plain = veered(eye, raw, veer);
+      const plain = veered(eye, straight(air, outside, flown), veer);
       assert.deepEqual(along(air, outside, flown, {}), plain);
       assert.deepEqual(
         along(air, outside, flown, { from: air, to: outside }),
@@ -515,7 +507,6 @@ describe('veeredAlong', () => {
     };
     const inside = legOf(edge - 1e-7);
     const outside = legOf(edge + 1e-7);
-    near(inside.x, outside.x, 1e-5);
-    near(inside.y, outside.y, 1e-5);
+    nearPoint(inside, outside, 1e-5);
   });
 });
