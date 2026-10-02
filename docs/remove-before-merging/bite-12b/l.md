@@ -171,10 +171,19 @@ RING_DEPTH)` on the stored plane, turned with the stand's anchor heading
   nothing there. Counted over the stand's standing flowers, plane feet
   (anchoring is rigid; the anchored stand reads to `STAND_REACH`).
 
+- **Step 5 — wiring, built.** `Scened` carries `view` (the scene's
+  `eye.view()`), so `Arriving` no longer declares its own; `Planter`
+  judges `plantable`/`sowSounding` at the view's eye (opening before any
+  view), `tapTuft` at `Grass.tendedAt()`. `Grass.tend` already tended
+  from its view's eye and now judges there too. `anchored-stand.ts`'s
+  `Seeded` is `Pick<Stand, …>` (type-overlap). Play on tabL, plays
+  `walk,tufts`: green, including the walk 19 units back.
+- **Step 4 not built** (flowers off the opening laid at `{x: 0, z: 0}`).
+
 ## Left
 
-- The rest of L3: rules from the anchor, the 48 cap, flowers off the
-  opening laid in their own frame, `meadow-scene.ts` wiring.
+- The rest of L3: flowers off the opening laid in their own frame (step 4,
+  design under § "L3b").
 - **Found, not settled — a bee's ring slot moves with the eye.** `ringFoot`
   lays `RING_SLOTS` (offsets in `Ground`) on the parent's ground in whatever
   frame its foot arrives in. In an anchored stand (`anchoredStand` keeps a

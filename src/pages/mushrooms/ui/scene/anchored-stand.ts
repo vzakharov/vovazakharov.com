@@ -68,7 +68,7 @@ function keptAt<Key extends object, Kept>(
 }
 
 /** The seeded flowers of an anchored stand, each with its place on the anchored layout. */
-type Seeded = { layout: MeadowLayout; flowers: readonly Flower[] };
+type Seeded = Pick<Stand, 'layout' | 'flowers'>;
 
 /** Each layout's anchored layout and seeded flowers, by the seeded flowers it lays (`seededAt`). */
 const anchoredLayouts = new WeakMap<
@@ -87,10 +87,7 @@ const mushroomsInReach = new WeakMap<
  * per layout while the anchor stays, so whatever a rule keeps per layout
  * (`perLayout`) holds until the anchor moves.
  */
-function seededAt(
-  { layout, flowers }: Pick<Stand, 'layout' | 'flowers'>,
-  anchor: Eye,
-): Seeded {
+function seededAt({ layout, flowers }: Seeded, anchor: Eye): Seeded {
   const known = anchoredLayouts.get(layout);
   if (known?.kept.from === flowers && sameAnchor(known.anchor, anchor)) {
     return known.kept;

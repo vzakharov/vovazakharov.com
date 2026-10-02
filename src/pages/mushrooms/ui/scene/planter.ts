@@ -8,20 +8,23 @@ import {
   shapeSeeds,
 } from '../../model/flower-sounds';
 import { type Action, type Meadow, sameFoot } from '../../model/game';
-import { OPENING_EYE } from '../../model/ground';
+import { type Eye, OPENING_EYE } from '../../model/ground';
 import { plantedId } from '../../model/pollen';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
 import { type FlowerInView, keyPlanting, sowingTuft } from './keyed-flowers';
 import type { MeadowSound } from './sound';
 import { type Grass, plantableIn, type Sprout } from './tufts';
+import type { View } from './view';
 
 /**
- * What the planter acts through: the scene's stand, reducer and the tufts in
- * sight, drawn on the screen with no nearer mushroom over them (`Grass.inView`).
+ * What the planter acts through: the scene's stand, reducer, what it sees
+ * now, and the tufts in sight, drawn on the screen with no nearer mushroom
+ * over them (`Grass.inView`).
  */
 export type Scened = {
   stand: () => Stand | undefined;
+  view: () => View | undefined;
   meadow: () => Meadow | undefined;
   dispatch: (action: Action) => void;
   tufts: () => readonly Sprout[];
@@ -110,7 +113,7 @@ export class Planter {
     const sprout = sowingTuft(
       this.sowing,
       this.scene.tufts(),
-      plantableIn(stand, OPENING_EYE),
+      plantableIn(stand, this.eye()),
     );
     if (!sprout) return undefined;
     const id = plantedId(meadow.planted);
@@ -122,6 +125,11 @@ export class Planter {
     };
     return id;
   };
+
+  /** The eye the scene sees from now, which the planter's rules judge at: the opening one before any view. */
+  private eye(): Eye {
+    return this.scene.view()?.eye ?? OPENING_EYE;
+  }
 
   /** The flowers keys sowed this frame, which count as in view before the bed draws them. */
   readonly sownInView = (): readonly FlowerInView[] =>
@@ -138,7 +146,7 @@ export class Planter {
     return (
       planting !== undefined &&
       stand !== undefined &&
-      takesFlower(stand, planting.foot, OPENING_EYE)
+      takesFlower(stand, planting.foot, this.eye())
     );
   };
 

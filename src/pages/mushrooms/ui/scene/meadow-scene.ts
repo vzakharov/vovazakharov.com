@@ -90,6 +90,7 @@ export class MeadowScene extends Phaser.Scene {
   /** The stand and the reducer, as the planter and the arrivals act through them. */
   private readonly scened: Scened = {
     stand: () => this.stand(),
+    view: () => this.eye.view(),
     meadow: () => this.meadow,
     dispatch: (action) => {
       this.dispatch(action);
@@ -108,7 +109,6 @@ export class MeadowScene extends Phaser.Scene {
     {
       ...this.scened,
       layout: () => this.requireLayout(),
-      view: () => this.eye.view(),
       sight: () => this.sightNow(),
     },
     this.visitSeed,

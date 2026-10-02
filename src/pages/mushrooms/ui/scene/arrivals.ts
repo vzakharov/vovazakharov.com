@@ -8,12 +8,10 @@ import { keptRoom } from './mushroom-room';
 import { onscreenOf } from './perch-sight';
 import type { Scened } from './planter';
 import type { MeadowSound } from './sound';
-import type { View } from './view';
 
 /** What the arrivals act through: the scene's stand and reducer, and what it sees now. */
 type Arriving = Scened & {
   layout: () => MeadowLayout;
-  view: () => View | undefined;
   sight: () => Sight;
 };
 
