@@ -150,6 +150,19 @@ RING_DEPTH)` on the stored plane, turned with the stand's anchor heading
   at that anchor; then the callers (`planter.ts`, tests) and a run of
   perches/mushroom-patch/mushroom-room tests, which now see the cut.
 
+## L3d (wave 6, `wt/l3d`)
+
+- **Step 2 — rules from the anchor, built.** The patch's `anchored-stand.ts`
+  / `flower-sight.ts` half, plus `plantableIn(stand, eye)` and
+  `tendTufts(stand, grown, eye)`: each sprout moved with `movedTo`, dropped
+  without `hasGround`, its tuft re-stood at the moved foot (`stoodAt`) unless
+  `movedTo` returned the foot itself; `room`/`headClear`/`bareToTap`/
+  `flowersOf` judged on the anchored stand. `Grass.tend` passes its eye and
+  `Grass.tendedAt()` exposes it; `Planter.tapTuft` judges there.
+  `Planter.plantable`/`sowSounding` judge at `OPENING_EYE` until step 5.
+  New test: tufts round two eyes far off the opening stand and each is
+  taken by `takesFlower` at that eye.
+
 ## Left
 
 - The rest of L3: rules from the anchor, the 48 cap, flowers off the

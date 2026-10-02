@@ -8,6 +8,7 @@ import {
   shapeSeeds,
 } from '../../model/flower-sounds';
 import { type Action, type Meadow, sameFoot } from '../../model/game';
+import { OPENING_EYE } from '../../model/ground';
 import { plantedId } from '../../model/pollen';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
@@ -109,7 +110,7 @@ export class Planter {
     const sprout = sowingTuft(
       this.sowing,
       this.scene.tufts(),
-      plantableIn(stand),
+      plantableIn(stand, OPENING_EYE),
     );
     if (!sprout) return undefined;
     const id = plantedId(meadow.planted);
@@ -137,7 +138,7 @@ export class Planter {
     return (
       planting !== undefined &&
       stand !== undefined &&
-      takesFlower(stand, planting.foot)
+      takesFlower(stand, planting.foot, OPENING_EYE)
     );
   };
 
@@ -145,7 +146,7 @@ export class Planter {
    * A tap on `tuft` of `grass` opens the flower picker on it, or closes it
    * when it is open there already; a tuft that cannot take a flower shakes
    * its head and lets go of the selection and any open picker, as any tap on
-   * the meadow does.
+   * the meadow does. The tuft is judged at the eye `grass` tended it from.
    */
   tapTuft({ tuft, foot }: Sprout, grass: Grass): void {
     const { stand, meadow, dispatch } = this.scene;
@@ -153,7 +154,7 @@ export class Planter {
     if (!standing) return;
     const open = meadow()?.planting?.foot;
     const again = open !== undefined && sameFoot(open, foot);
-    if (!again && !takesFlower(standing, foot)) {
+    if (!again && !takesFlower(standing, foot, grass.tendedAt())) {
       grass.refuse(tuft, this.now());
       this.voice.nuhUh();
       dispatch({ kind: 'deselect' });

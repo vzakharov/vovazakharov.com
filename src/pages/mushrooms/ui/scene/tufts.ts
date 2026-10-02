@@ -15,6 +15,7 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
+import { anchorOf } from '../../model/anchor';
 import { flowerGenes } from '../../model/flower-genes';
 import { sameFoot } from '../../model/game';
 import { distanceBetween, type Point, wrap } from '../../model/geometry';
@@ -28,9 +29,10 @@ import {
   pinholeOf,
 } from '../../model/ground';
 import type { Random } from '../../model/random';
+import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { depthOf, UNPLACED } from './bed-place';
 import { coversShown, inSightPast } from './flower-cover';
-import { FLOWER_SIZE, headClear } from './flower-layout';
+import { FLOWER_SIZE, headClear, standingOn } from './flower-layout';
 import { flowersOf, pulledFeet } from './flower-plots';
 import { roomIn, type Stand } from './flower-sight';
 import {
@@ -82,21 +84,41 @@ const TENDED_SCREENS = 1;
 const TEND_STEP = 0.5;
 const TEND_TURN = 0.5;
 
+/** `tuft` stood at `foot` on `layout`: its place and size there, the rest of it kept. */
+function stoodAt(layout: MeadowLayout, tuft: Tuft, foot: Footing): Tuft {
+  const { x, y } = standingOn(layout.camera, foot);
+  return { ...tuft, x, y, size: tuftSizeAt(layout, y) };
+}
+
 /**
- * Whether a tuft of `stand` stands there, a spot to plant on: it takes a
- * flower (`roomIn`) whose head, however it grows, meets no standing flower's
- * on any screen (`headClear`), and it is bare to a finger (`bareToTap`).
- * What `stand` holds is read once, for every tuft asked after.
+ * Whether a tuft of `stand` stands there, a spot to plant on, as the anchor
+ * of `eye` judges it (`anchoredStand`): its foot, moved with the anchor, has
+ * ground and takes a flower (`roomIn`) whose head, however it grows, meets
+ * no standing flower's on any screen (`headClear`), and its tuft, re-stood
+ * at the moved foot, is bare to a finger (`bareToTap`). What `stand` holds
+ * is read once, for every tuft asked after.
  */
-export function plantableIn(stand: Stand): (sprout: Sprout) => boolean {
-  const room = roomIn(stand);
-  const bare = bareToTap(stand);
-  const standing = flowersOf(stand).map((flower) => ({
+export function plantableIn(
+  stand: Stand,
+  eye: Eye,
+): (sprout: Sprout) => boolean {
+  const anchor = anchorOf(eye);
+  const judged = anchoredStand(stand, anchor);
+  const { layout } = judged;
+  const room = roomIn(judged);
+  const bare = bareToTap(judged);
+  const standing = flowersOf(judged).map((flower) => ({
     foot: groundFootOf(flower.foot),
     genes: flowerGenes(flower),
   }));
-  return ({ foot, tuft }) =>
-    room(foot) && headClear(groundFootOf(foot), standing) && bare(tuft);
+  return ({ foot, tuft }) => {
+    const moved = movedTo(anchor, foot);
+    if (moved !== foot && !hasGround(moved)) return false;
+    const stood = moved === foot ? tuft : stoodAt(layout, tuft, moved);
+    return (
+      room(moved) && headClear(groundFootOf(moved), standing) && bare(stood)
+    );
+  };
 }
 
 /**
@@ -147,12 +169,16 @@ export function tendedIn(view: View): (sprout: Sprout) => boolean {
 }
 
 /**
- * The tufts of `grown` that stand on `stand`, each a spot to plant on
- * (`plantableIn`): a tuft where no flower fits hides until what kept it away
- * goes.
+ * The tufts of `grown` that stand on `stand` as the anchor of `eye` judges
+ * it, each a spot to plant on (`plantableIn`): a tuft where no flower fits
+ * hides until what kept it away goes.
  */
-export function tendTufts(stand: Stand, grown: readonly Sprout[]): Sprout[] {
-  return grown.filter(plantableIn(stand));
+export function tendTufts(
+  stand: Stand,
+  grown: readonly Sprout[],
+  eye: Eye,
+): Sprout[] {
+  return grown.filter(plantableIn(stand, eye));
 }
 
 /** A tuft of the ground as a frame draws it: the tuft laid out, and where and how big the view draws it. */
@@ -294,8 +320,13 @@ export class Grass {
     const near = [...lawn.round(eye), ...left].filter((sprout) =>
       tended(sprout),
     );
-    this.tufts = tendTufts(stand, near);
+    this.tufts = tendTufts(stand, near, eye);
     this.tendedFrom = eye;
+  }
+
+  /** The eye the standing tufts were tended from, which a tap on one is judged at (`Planter.tapTuft`). */
+  tendedAt(): Eye {
+    return this.tendedFrom ?? OPENING_EYE;
   }
 
   /** Whether a tuft stands on `foot`: where the flower picker can stay open. */
