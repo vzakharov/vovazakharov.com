@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { pick } from '@/shared/lib/collections';
+
 import { FLIGHT_HABITS } from './flight';
 import type { Point } from './geometry';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
@@ -344,4 +346,54 @@ describe('steer', () => {
       }
     });
   }
+});
+
+describe('a fly hovering at a spot in the air', () => {
+  const hops = FLIGHT_HABITS.fly.hopping;
+  const motion: Fluttering = { kind: 'fly', phase: 1.3, flutter: 3 };
+  const start = { x: 40, y: 400 };
+  const end = { x: 300, y: 250 };
+  /** Where it is drawn and how it is turned every frame of its hover, its leg hopping or not. */
+  function hovered(hopping: boolean): Drawn[] {
+    const leg = {
+      departs: 0,
+      arrives: 700,
+      ...(hopping && { hops }),
+    };
+    const course = {
+      leg,
+      carried: { launch: 1, speed: 0, drink: 0 },
+      start,
+      end,
+      aim: end,
+      sat: undefined,
+      perched: false,
+      size: SIZE,
+      motion,
+    };
+    let steering = firstSteering({ facing: 0, turn: 0 });
+    const drawn: Drawn[] = [];
+    for (let now = 0; now < leg.arrives + 3000; now += FRAME) {
+      const step = steer(steering, course, now);
+      steering = step.steering;
+      if (now > leg.arrives + 300) {
+        drawn.push({ ...step.point, ...pick(steering, 'turn'), now });
+      }
+    }
+    return drawn;
+  }
+  const spread = (drawn: readonly Drawn[]) =>
+    Math.max(...drawn.map(({ x, y }) => Math.hypot(x - end.x, y - end.y)));
+
+  it('hops about its spot within its reach, never turning for a hop', () => {
+    const drawn = hovered(true);
+    assert.ok(spread(drawn) > 0.3 * SIZE);
+    assert.ok(spread(drawn) <= hops.range * SIZE + 1e-6);
+    const turns = drawn.map(({ turn }) => turn);
+    assert.ok(Math.max(...turns) - Math.min(...turns) < 1e-9);
+  });
+
+  it('hangs still there on a leg that does not hop', () => {
+    assert.ok(spread(hovered(false)) < 1e-6);
+  });
 });
