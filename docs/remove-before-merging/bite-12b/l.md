@@ -44,7 +44,45 @@
 - `leaveTufts` takes `grownAt(foot)` (the lawn's cell there) instead of the
   grown list, so a pulled flower on a cell not live leaves no duplicate.
 
+## L3 (in progress)
+
+- **L3a — the band only for the child; the bed re-stands.** `groundFor`
+  no longer holds a flower to the band; `inFlowerBand(foot)` does, and
+  only `roomIn`/`takesFlower` (the child's planting, so `plantableIn`) read
+  it. A bee's ring (`roomFor`) and a standing flower (`standingFlowers`)
+  keep to no depth band. At the opening nothing stored changes standing (a
+  planted flower was always planted in band). `FlowerBed.paint` stands
+  each flower again after `drawFlower` sizes the head (S1's note).
+  `flower-plots.test.ts`'s "off the ground" band assertion went: a bee's
+  flower may now stand with its foot past the screen's foot or the band.
+
 ## Left
 
-- **L3** — a later agent's: judge `plantableIn` from the current anchor
-  (`model/anchor.ts`), which is what makes far grass stand.
+- The rest of L3: rules from the anchor, the 48 cap, flowers off the
+  opening laid in their own frame, `meadow-scene.ts` wiring.
+- **Found, not settled — a bee's ring slot moves with the eye.** `ringFoot`
+  lays `RING_SLOTS` (offsets in `Ground`) on the parent's ground in whatever
+  frame its foot arrives in. In an anchored stand (`anchoredStand` keeps a
+  bee's flower as parent + slot and moves the parent) the slot's plane point
+  therefore depends on the anchor: across is plane-true (`SPREAD` × slot.x
+  at any distance), but depth scales by `y² / 74.6` per z (0.21 at 4 units,
+  1.0 at the clump, 2.37 at `D_SEE`). So bees judge a slot at one spot and
+  the bed (opening stand) draws it at another, and a ring re-judged from a
+  new anchor slides. Opening-frame rings are also unusable far off the
+  opening (behind the opening eye `Ground` is wildly stretched). Proposed:
+  lay each ring in the parent's own frame — `OPENING_EYE` while the parent
+  stands within the opening's flower ground (identity there), else the
+  rigid motion bringing it to the nearest point of that region — computed
+  from the parent's _stored_ foot, so it is eye-independent. That needs the
+  stand's anchor where bee feet are resolved (`plotted`): either
+  `anchoredStand` resolves bee feet in the plane before moving them (S3/I's
+  file), or plotted reads the anchor off `layout.mushrooms.anchor` once S3's
+  fold anchors the stand's ground there.
+- **Same root, the bed:** `standingFlowers` judges `headsApart`/
+  `clearOfFeet` in the opening's `Ground`, which shrinks distances far ahead
+  of the opening eye, so a flower planted at minimum spacing far off may not
+  stand in the bed. Judging each flower in its own frame (as the ring
+  above) fixes both; the 48 cap counts plane distance, which anchoring keeps.
+- **The cap:** `game.ts` has no plane feet for bee flowers (rings are UI
+  geometry), so the 48 is best a constant + counting helper there, enforced
+  in `roomFor`/`roomIn` where every standing foot is known.
