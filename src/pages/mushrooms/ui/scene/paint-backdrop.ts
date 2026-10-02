@@ -31,6 +31,7 @@ import {
 import { driftedAzimuth, placedLeft, screenAt } from './panorama';
 import { SUN_RAY_REACH } from './sun-layout';
 import { type Following, type View, viewAt } from './view';
+import { GROUND_BOB } from './walking';
 
 /** How far a cloud's puffs spread either side of its middle, in its radii. */
 const CLOUD_SPREAD = 4;
@@ -58,7 +59,8 @@ type Turning = { columns: Picture; home: Span; offsets: number[] };
  * sun, and the clouds go to their azimuths through the same view. The hills
  * and the brow are drawn live, as the view shows them, again only when its
  * heading changes; the ground's rows and its grain stand on the screen, which a
- * step or a turn leaves as they are. Stacked by `DEPTHS`, sky
+ * step or a turn leaves as they are. The ground's pictures, the brow's
+ * included, bob with the beds (`GROUND_BOB`); the rest stands still. Stacked by `DEPTHS`, sky
  * at the back and the grain over the wash. `layers` are what the pictures
  * are baked from, off the display list, kept so a repaint paints into them
  * again; `view` is the view last followed and `drifted` how many seconds the
@@ -104,11 +106,16 @@ const DEPTHS = {
   grain: -1,
 } as const;
 
-/** What a picture is baked from and where it lies: its stretch across the screen, the rows it covers and its depth. */
+/**
+ * What a picture is baked from and where it lies: its stretch across the
+ * screen, the rows it covers, its depth, and how much of the camera's bob it
+ * takes (`GROUND_BOB` for the ground's, none for the sky's).
+ */
 type Bake = Layered & {
   sources: readonly Phaser.GameObjects.GameObject[];
   span: Span;
   rows: Band;
+  bobbing?: number;
 };
 
 /**
@@ -116,13 +123,14 @@ type Bake = Layered & {
  * `rows` at `ratio` device pixels each, so a texel lands on one device
  * pixel, reusing `existing`'s columns: column by column, tile by tile, each
  * tile drawn into `scratch` at `SUPERSAMPLE` times that and shrunk into
- * place. The picture stands on the screen and stacks at `depth`.
+ * place. The picture stands on the screen, bobbing by `bobbing`, and stacks
+ * at `depth`.
  */
 function bake(
   scene: Phaser.Scene,
   existing: Picture | undefined,
   scratch: Phaser.GameObjects.RenderTexture,
-  { sources, span, rows, depth }: Bake,
+  { sources, span, rows, depth, bobbing = 0 }: Bake,
   ratio: number,
 ): Picture {
   const columns = pictureColumns(Math.ceil(span.across * ratio));
@@ -139,7 +147,7 @@ function bake(
     picture
       .setPosition(x, rows.top)
       .setScale(1 / ratio)
-      .setScrollFactor(0)
+      .setScrollFactor(0, bobbing)
       .setDepth(depth)
       .clear()
       .render();
@@ -226,7 +234,7 @@ export function paintBackdrop(
   };
   const brow =
     existing?.brow ??
-    scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.brow);
+    scene.add.graphics().setScrollFactor(0, GROUND_BOB).setDepth(DEPTHS.brow);
   const blades = browBlades(camera);
   const groundLayer = layer();
   const groundRows = paintGround(groundLayer, layout);
@@ -303,6 +311,7 @@ export function paintBackdrop(
       span: screen,
       rows: groundRows,
       sources: [groundLayer],
+      bobbing: GROUND_BOB,
     }),
     wash,
     grain,
