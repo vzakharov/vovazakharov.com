@@ -17,6 +17,7 @@ import {
 import { D_SEE, viewOf } from '../../model/ground';
 import { smooth } from '../../model/motion';
 import { between, type Random } from '../../model/random';
+import { forwardOf } from '../../model/stride';
 import { DEPTHS } from './backdrop-depths';
 import { mix } from './colour';
 import type { Translucent } from './ink';
@@ -105,7 +106,7 @@ export function shownMottles(
   mottles: readonly Mottle[],
 ): ShownMottle[] {
   const { eye, width, height } = view;
-  const forward = { x: Math.sin(eye.heading), y: Math.cos(eye.heading) };
+  const forward = forwardOf(eye.heading);
   return mottles.flatMap((mottle) => {
     const reach = mottle.across * SOFT_EDGE;
     const far = distanceBetween(eye, mottle.middle) + reach;

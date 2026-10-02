@@ -5,10 +5,15 @@ probe build of 0c67619c.
 
 ## Plays
 
-| Play    | Result | Time       | Notes                                                                      |
-| ------- | ------ | ---------- | -------------------------------------------------------------------------- |
-| opening | green  | 12 s       | 15 things at 0.000 px; cap perch held 0.00 px over 91 turn frames; 15.3 ms |
-| meadow  | red    | 1 min 54 s | two flight reds, both left for a trace (below); JS median 21.8 ms          |
+| Play     | Result | Time       | Notes                                                                                        |
+| -------- | ------ | ---------- | -------------------------------------------------------------------------------------------- |
+| opening  | green  | 12 s       | 15 things at 0.000 px; cap perch held 0.00 px over 91 turn frames; 15.3 ms                   |
+| meadow   | red    | 1 min 54 s | two flight reds, both left for a trace (below); JS median 21.8 ms                            |
+| walk     | green  | 40 s       | ↓ held 12 s walked back 19.000 (reckoned 19.000); 12 under the cover, at most 8.3 px over it |
+| approach | red    | 6 min 7 s  | frame budget: JS median 47.1 ms over 918, past 26 ms; left for a trace (below)               |
+| planting | green  | 13 s       | 1 flower planted; bees drank 7, pollinating 4                                                |
+| species  | green  | 2 min 30 s | all 6 tapped; a butterfly rested on a porcini; JS median 25.1 ms                             |
+| tufts    | green  | 12 s       | turned 0.559 rad, walked 0.80                                                                |
 
 ## Reds
 
@@ -33,6 +38,20 @@ facing over 0.3 off, bees drank 6 (3 pollinating). Over 5257 frames:
 
 Neither showed on phoneP.
 
+### approach — over the frame budget, left for a trace
+
+`walking into the forest and turning there: a rendered frame's JS takes
+47.1 ms at the median of 918, over the 26 ms budget`, and 44.8 ms over all 974. phoneP's median was 16.5 ms on the same play. The game's own measured work
+is small: lawn tending calls 180, median 1.7 ms (slowest 18.6); perch
+re-sights 25, median 7.1 ms (slowest 31.0). The frames carrying neither are as
+slow as the rest — 710, median 45.8 ms, slowest 4911.6 — so the cost sits
+outside both, in the frame's draw or in the container. The run took 6 min 7 s
+(phoneP 3 min 57 s); the load average stood at 4.45 on 4 cores right after it,
+with nothing but the play's own browser running. Not traced: whether the
+landscape phone draws enough more of the field to cost this, or the container
+was starved, needs a re-run on a quiet machine and a profile of a "neither"
+frame.
+
 ## Left
 
-- walk, approach, planting, species, tufts, hold, keys, veer.
+- hold, keys, veer.
