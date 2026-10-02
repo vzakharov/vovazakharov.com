@@ -2,8 +2,9 @@
  * The ground's lawn, laid by square cells of the plane the eye walks: each
  * cell grows its own tufts and mottles from its own stream (`cellLawn`), so
  * a cell's grass is a pure function of the visit and the cell, and a walk
- * back finds the grass it left. Only the cells round the eye live (`liveCells`), and
- * they change as the eye crosses a cell's edge (`LiveLawn`).
+ * back finds the grass it left. Only the cells round the eye live
+ * (`liveCells`), and they change as the eye crosses a cell's edge
+ * (`LiveLawn`).
  */
 
 import type { Point } from '../../model/geometry';

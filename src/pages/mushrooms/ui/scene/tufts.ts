@@ -151,7 +151,7 @@ export class Grass {
   private mottledFor: View | undefined;
   /** The stream every tuft a pulled flower leaves is drawn from, and the lawn's seed, so a replay grows the same. */
   private readonly growing: Random;
-  /** The seed every cell of the lawn is grown off (`cellTufts`). */
+  /** The seed every cell of the lawn is grown off (`cellLawn`). */
   private readonly seed: number;
   private layout: MeadowLayout | undefined;
   /** The lawn's tufts round the eye, laid out on `layout`. */

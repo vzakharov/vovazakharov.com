@@ -422,6 +422,7 @@ export const Eye = z.object({
 });
 /** `__probe.sun()`: the sun's middle across the screen, `null` while the view leaves it out. */
 export const Sun = z.number().nullable();
+/** `__probe.hitches()`: how long each lawn-tending call and each perch re-sight since the last call took, in ms. */
 export const Hitches = z.object({
   tend: z.array(z.number()),
   see: z.array(z.number()),

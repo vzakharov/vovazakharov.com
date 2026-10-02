@@ -2,13 +2,13 @@
  * The walk into the forest, `play-mushrooms.ts`'s run on a fresh meadow: the
  * forest at its densest, grown from `+` as a child grows it until `+`
  * refuses, then again `SOW_APART` s of `↓` back, the two clusters standing
- * as close as the per-area cap lets them, one behind the other; the eye turned onto its haziest
- * back-row mushroom and walked up to it on `↑` until it is drawn `CLOSE`
- * times the size it set off at, by when its painted haze has dropped; a tap on its
- * cap where it is painted (`paintedCap`, never the scene's own hit test)
- * selects it, and one `OUTSIDE` px outside its outline, where the
- * finger pad was, does not; then the eye turned all the way round there, at
- * the closest approach. Every frame of the walk and the turn is drawn and
+ * as close as the per-area cap lets them, one behind the other; the eye
+ * turned onto its haziest back-row mushroom and walked up to it on `↑` until
+ * it is drawn `CLOSE` times the size it set off at, by when its painted haze
+ * has dropped; a tap on its cap where it is painted (`paintedCap`, never the
+ * scene's own hit test) selects it, and one `OUTSIDE` px outside its
+ * outline, where the finger pad was, does not; then the eye turned all the
+ * way round there, at the closest approach. Every frame of the walk and the turn is drawn and
  * timed, and their median kept to the frame budget (`lib/frame-budget.ts`):
  * the fill rate's worst case, caps covering the screen and every mushroom
  * within sight drawn. The lawn's tending (a whole re-tend, or a sliced one's
@@ -75,7 +75,6 @@ const MOST_WALK = FPS * 12;
 /** Frames enough for a held key's ease to come to rest. */
 const SETTLE = 120;
 
-/** Every mushroom drawn: how many times its opening size, its painted haze, where on the screen its foot stands, and its depth. */
 /** The farthest apart any two mushrooms' feet stand, in plane units. */
 const SPREAD_OF = `(() => {
   const feet = __probe.scene.meadow.mushrooms.map(({ foot }) => foot);
@@ -84,6 +83,7 @@ const SPREAD_OF = `(() => {
   ));
 })()`;
 
+/** Every mushroom drawn: how many times its opening size, its painted haze, where on the screen its foot stands, and its depth. */
 const STANDS = `[...__probe.scene.bed.shown]
   .filter(([, { graphics }]) => graphics.visible)
   .map(([id, { graphics, stands, haze }]) => ({
