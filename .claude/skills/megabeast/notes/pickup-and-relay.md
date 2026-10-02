@@ -39,6 +39,11 @@
   from `origin/<branch>` with `git show`, then attach); until it does, the
   relaying session puts "never `reset --hard`; rename a stale ref aside" in
   the successor's prompt line itself, the one text read before the attach.
+- **The prompt-line rule held again at depth 8**: detached at the relay's
+  parent commit, a local ref that was no ancestor of `origin`'s tip,
+  `--deepen` then `git branch -m` aside and a fresh tracking branch, no
+  approval asked. Four small packages, one per agent, and the Artifact
+  fitted the cap-depth session before its 200k line.
 - **A pasted pickup installs the trunk's dependencies, not the branch's.**
   The SessionStart hook runs `pnpm install --frozen-lockfile` on the
   harness's auto-branch, cut from `main`, whose lockfile has no `phaser` or
