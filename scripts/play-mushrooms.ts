@@ -281,7 +281,7 @@ async function open(
       );
       await touch('touchEnd', []);
     },
-    key: async (key, type, repeat = false) => {
+    key: async (key, type, { repeat = false, shift = false } = {}) => {
       await send('Input.dispatchKeyEvent', {
         type,
         // A letter's DOM `key` is what it prints, its `code` where it sits.
@@ -291,6 +291,8 @@ async function open(
         code: key,
         windowsVirtualKeyCode: KEY_CODES[key],
         autoRepeat: repeat,
+        // CDP's modifier bit for Shift.
+        modifiers: shift ? 8 : 0,
       });
     },
     turn: async () => {

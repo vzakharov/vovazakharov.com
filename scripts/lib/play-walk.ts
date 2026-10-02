@@ -6,10 +6,12 @@
  * leaving the screen and coming back, and `←` held as long turns it back
  * onto every bed object as it stood; a sideways drag from bare ground turns
  * it with the ground under the finger and a drag down the screen walks it,
- * never faster than `STRIDE_CRUISE`, neither tapping anything; and the
- * screen turned keeps the eye where it stood and looking where it looked.
- * Frames of the opening, the walk, the rim, a quarter and a half turn land
- * as `walk-*.png`.
+ * never faster than `STRIDE_CRUISE`, neither tapping anything; a sideways
+ * drag from the sky, and `→` held under Shift, walk it square to its heading,
+ * never turning it and never past the cruise; and the screen turned keeps the
+ * eye where it stood and looking where it looked. Frames of the opening, the
+ * walk, the rim, a quarter and a half turn and the strafes land as
+ * `walk-*.png`.
  */
 
 import { z } from 'zod';
@@ -17,11 +19,14 @@ import { z } from 'zod';
 import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
 import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
+  forwardOf,
   GLADE,
   RIM_KEEP,
+  sidewaysOf,
   STEP_LENGTH,
   STRIDE_CRUISE,
 } from '../../src/pages/mushrooms/model/stride.ts';
+import { distanceOfRow } from '../../src/pages/mushrooms/model/walk.ts';
 import {
   browRow,
   SHOWN_LEAST,
@@ -105,6 +110,21 @@ const BEDS = `(() => {
   ]);
 })()`;
 const Beds = z.record(z.string(), Point);
+
+/** A point in the sky with nothing drawn over it, near the middle; `null` where none is. */
+const SKY_START = `(() => {
+  const { layout } = __probe.scene;
+  for (let row = 1; row <= 6; row++) {
+    for (let column = 0; column <= 8; column++) {
+      const point = {
+        x: layout.width * (0.4 + (0.3 * ((column * 5) % 9)) / 8),
+        y: layout.camera.groundTop * (row / 8),
+      };
+      if (__probe.topAt(point) === null) return point;
+    }
+  }
+  return null;
+})()`;
 
 /** The heading's change from `from` to `to`, the short way round. */
 function turned(from: number, to: number): number {
@@ -272,7 +292,11 @@ export async function playWalk(
       );
     }
   }
-  expect((await taps()) === tapsBefore, 'walking and turning tapped something');
+  await playStrafes(page, camera, bob, expect, note);
+  expect(
+    (await taps()) === tapsBefore,
+    'walking, turning and strafing tapped something',
+  );
 
   // The screen turned: the eye stands where it stood, looking where it looked.
   const unturned = await eye();
@@ -290,6 +314,96 @@ export async function playWalk(
 }
 
 /**
+ * A strafe: a 150 px swipe leftward from the sky, its far ground — the seam's,
+ * `distanceOfRow` of `groundTop` ahead — following the finger, then `→` held
+ * 1.5 s under Shift; each walks the eye square to a heading it never turns,
+ * and is shot mid-way.
+ */
+async function playStrafes(
+  page: Page,
+  camera: z.infer<typeof Camera>,
+  bob: number,
+  expect: Expect,
+  note: (line: string) => void,
+): Promise<void> {
+  const eye = async () => page.evaluate('__probe.eye()', Eye);
+  /** `seen` from `from`: square to the heading, which holds, and walked `by`'s way. */
+  const checkSquare = (from: Seen, seen: readonly Seen[], by: string) => {
+    const last = seen.at(-1) ?? from;
+    const [dx, dy] = [last.x - from.x, last.y - from.y];
+    const ahead = forwardOf(from.heading);
+    const across = forwardOf(sidewaysOf(from.heading));
+    const along = dx * ahead.x + dy * ahead.y;
+    const side = dx * across.x + dy * across.y;
+    const turnedMost = Math.max(
+      ...seen.map(({ heading }) => Math.abs(turned(from.heading, heading))),
+    );
+    expect(
+      turnedMost < 1e-9,
+      `${by}: strafing turned the eye ${turnedMost.toFixed(6)} rad`,
+    );
+    expect(
+      side > 0 && Math.abs(along) <= 0.02 * side,
+      `${by}: walked ${side.toFixed(3)} rightward and ${along.toFixed(3)} on, not square to the heading`,
+    );
+    return side;
+  };
+
+  const start = await page.evaluate(SKY_START, Point.nullable());
+  if (start === null) {
+    note('no bare sky to drag from: the strafing drag is not played');
+  } else {
+    const lens = pinholeOf(camera);
+    const azimuth = (x: number) => (x - lens.x) / lens.arc;
+    const reference = distanceOfRow(camera, camera.groundTop);
+    const to = { ...start, x: start.x - 150 };
+    /** How far the eye goes for the far ground under `from` to come to `to`'s x. */
+    const aimFrom = (from: number) =>
+      reference * (Math.tan(azimuth(from)) - Math.tan(azimuth(to.x)));
+    const pressed = await eye();
+    const frames = 12;
+    await page.drag(start, to, frames);
+    await page.step(1);
+    await page.shoot('walk-strafe-drag-lift');
+    const chase = await page.trace(FPS * 4, '__probe.eye()', Eye);
+    checkWalk(pressed, chase, bob, 'drag', expect, note);
+    const went = checkSquare(pressed, chase, 'a drag from the sky');
+    // The lock takes the far ground from where the finger crossed the slop,
+    // within a frame's move past it.
+    const [least, most] = [
+      aimFrom(start.x - SLOP - 150 / frames),
+      aimFrom(start.x),
+    ];
+    expect(
+      went >= least * 0.98 && went <= most * 1.02,
+      `a drag from the sky strafed ${went.toFixed(3)}, not the ${least.toFixed(3)}..${most.toFixed(3)} that brings the far ground under the finger`,
+    );
+    const across = forwardOf(sidewaysOf(pressed.heading));
+    const sideAt = ({ x, y }: Seen) =>
+      (x - pressed.x) * across.x + (y - pressed.y) * across.y;
+    const atLift = sideAt(chase[0] ?? pressed);
+    const caught = chase.findIndex((seen) => sideAt(seen) >= 0.9 * went);
+    note(
+      `a 150 px swipe from the sky (y ${start.y.toFixed(0)}, the far ground ${reference.toFixed(2)} ahead) strafed ${went.toFixed(3)}: ${atLift.toFixed(3)} by the lift, nine tenths ${(caught / FPS).toFixed(2)} s after it`,
+    );
+  }
+
+  const keyed = await eye();
+  await page.key('ArrowRight', 'keyDown', { shift: true });
+  const held = await page.trace(Math.round(FPS * 0.75), WALKING, Walking);
+  await page.step(1);
+  await page.shoot('walk-strafe-key');
+  held.push(
+    await page.evaluate(WALKING, Walking),
+    ...(await page.trace(Math.round(FPS * 0.75), WALKING, Walking)),
+  );
+  await page.key('ArrowRight', 'keyUp', { shift: true });
+  held.push(...(await page.trace(SETTLE_FRAMES, WALKING, Walking)));
+  checkWalk(keyed, held, bob, 'Shift+ArrowRight', expect, note);
+  checkSquare(keyed, held, 'Shift+→');
+}
+
+/**
  * A walk frame by frame, `seen`, from where it stood at `from`: never past
  * `STRIDE_CRUISE` (a drag's frames before `seen` are not traced), eased in
  * where a key starts it, the bob within `[−bob, 0]`, down while it walks and
@@ -299,7 +413,7 @@ function checkWalk(
   from: Seen,
   seen: readonly Seen[],
   bob: number,
-  by: Arrow | 'drag',
+  by: Arrow | 'drag' | `Shift+${Arrow}`,
   expect: Expect,
   note: (line: string) => void,
 ): void {
