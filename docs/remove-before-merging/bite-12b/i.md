@@ -39,57 +39,56 @@
 
 - **`fliers.test.ts` on I1 (8617f1e): green**, 48/48, 5 min 25 s.
 
-## I2 in progress: `i2-air-spots.patch` (not wired, not tested)
+- **`fliers.test.ts` on S3 (5e80fb4): green**, 48/48, 5 min 22 s.
 
-`git apply docs/remove-before-merging/bite-12b/i2-air-spots.patch` from the
-repo root. It holds:
+## I2 in progress
 
-- `ui/scene/air-spots.ts` (new): the plane lattice per spec § 2. Pitch and
-  height band cached per camera (`latticeOf`; pitch halved where the coarse
-  lattice cannot seat `EVERY_ONE` at the opening eye). Cells `air-<i>-<j>`,
-  offered `CLUMP_DISTANCE`–`AIR_FAR` (10.6) from the anchor within
-  `AIR_WEDGE` (1.2) of its heading, and drawn by the anchored layout a
-  butterfly's half span inside the world. `airOf(laid, anchor)` gives
-  `spots` (world px at the anchor), `alofts` (true plane), `places` and the
-  crowding (`pointCrowdings` on the screen points); it keeps the last 8
-  anchors per camera. `airAloftOf(laid, id)` gives any cell from its id, so
-  an insect still holding a cell the eye walked away from can be found.
-  `clumpRow`, `AIR_BELOW`, `EVERY_ONE`, `seatsEveryOne` moved here (from
-  `perch-sight.ts`; that file still has its copies).
-- `ui/scene/widest-spans.ts` (new): `WIDEST_SPANS`/`widestOn` moved out
-  of `perch-sight.ts` (still has its copies), for air-spots and perch-sight.
-- `ui/scene/perch-crowding.ts`: `pointCrowdings` sweeps along x and shares
-  the pairings arrays. It should give the same output in the same order.
-  **Not checked against the old version yet.**
+**Landed** (see `git log --grep "air round the eye"`): `ui/scene/air-spots.ts`
+(the plane lattice, `airOf`/`airSpots`/`airAlofts`/`airAloftOf`, `clumpRow`,
+`AIR_BELOW`, `EVERY_ONE`), `ui/scene/widest-spans.ts`, and `pointCrowdings`
+rewritten, with `perch-crowding.test.ts` checking it against every-two-asked
+(the old algorithm) — same pairs, same pairings, same order, 0 to 1200
+points. Not yet imported by anything: `perch-sight.ts` still has its own
+copies until the wiring lands.
 
-Measured (1180×820): 647–663 cells (spec says ≈650), 3,300 crowding pairs;
-`placeOfAloft` brings today's grid back exactly (error 0). **`airOf` costs
-≈ 8.5 ms an anchor**, 3 ms of it `pointCrowdings`, which is still that slow
-after the sweep. The rest is the lattice loop in `spotsAt`. That is over the
-4 ms budget before perch-sight's own share is counted. The next agent should
-profile `spotsAt` first (it walks ~6,600 cells; `placeOfAloft` for the 650
-offered takes only 0.3 ms).
+**`airOf` per anchor at 1180×820: median 2.4–3.0 ms** (walk in 2-unit
+steps 2.95, p90 4.9; turn by 0.3 rad 2.6; ~655 spots, ~3,400 pairs), from
+5.0 ms after the patch as handed over. Profiled, where the time went:
+`Object.fromEntries` of `places` with keys never seen before cost 2.4 ms of
+it (V8 interns each new key; a plain assign loop is 4× cheaper, and a
+spread into another object is as dear) — a 2-unit step renews ~85 % of the
+cells, so most keys are new. Fixes: `places` entered one by one; each cell's
+id and perch name kept from the last anchor and reused (`namedCell`; −0.5 ms
+median, p90 halved); `pointCrowdings` an x-sweep collecting pairs as
+`first·n + second` numbers and sorting them (1.07 ms, from 2.3). `spotsAt`
+itself is 0.65 ms. Under budget, so neither the plane crowding nor a coarser
+snap was measured.
 
-**Wiring left. Every piece of it is in `perch-sight.ts`, which is off limits
-for package I, so the orchestrator has to apply it or hand it over:**
+**Wiring: `i2-wiring.patch`** (`git apply` from the repo root; type-checks
+for source, tests not yet repointed, so `pnpm typecheck` fails with it):
 
-- `perchSight(stand, anchor = OPENING_EYE)` takes its air from
-  `airOf(layout, anchor)`: `air` ids, `aloft` crowding and the air `places`.
-  Drop perch-sight's `airOf`/`airGrid`/`airSpots`/`airAlofts`/`AIR_BELOW`/
-  `seatsEveryOne`/`EVERY_ONE`/`clumpRow`/`WIDEST_SPANS`/`widestOn` and
-  import them instead. `footRows` drops the air rows, and `seaterOn`'s air
-  case reads `airSpots(layout)`.
-- `perches.ts` (mine): `see` passes `anchor` to `perchSight`. Its `alofts`
-  become `airAlofts(layout, anchor)`, already on the plane, so no
-  `unanchored`. The air names in `placed` come from those alofts and are not
-  run back through `footRows`. `at` falls back to `airAloftOf` for an air
-  id that is no longer offered.
-- Callers to repoint: `perch-sight.test.ts`, `fliers.test.ts`
-  (`airSpots`, `EVERY_ONE`), `insect-away.test.ts`, `perches.test.ts`, and
-  `scripts/veer-away.ts` (`airAlofts`; scripts/ is off limits).
-- Then run `air-spots.test.ts` (not yet written: names stable across
-  anchors, cell count, heights inside the band, crowding on the screen),
-  `perch-sight.test.ts`, `perches.test.ts` and `fliers.test.ts`.
+- `perch-sight.ts`: own air code, `WIDEST_SPANS`/`widestOn`, `clumpRow`,
+  `AIR_BELOW`, `EVERY_ONE` dropped and imported. The anchor is read off the
+  stand (`layout.mushrooms.anchor`, which `anchoredStand` sets), so
+  `perchSight(stand)` keeps its signature (a departure from the old note's
+  `perchSight(stand, anchor)`). Air ids, crowding and places from
+  `airOf(layout, anchor)`; `seaterOn`'s air case `airSpots(layout, anchor)`;
+  `footRows` lost the air rows; `places` built by an assign loop (spreading
+  650 fresh keys costs ~3 ms).
+- `perches.ts`: `alofts = airAlofts(layout, anchor)` (plane already); air
+  names in `placed` from those alofts; `hosts(perch)` falls back to
+  `airAloftOf` for an air spot no longer offered.
+
+Left for the wiring: repoint `perch-sight.test.ts` (`AIR_BELOW`, `airAlofts`,
+`airSpots`, `clumpRow(layout)` → `clumpRow(layout.camera)`, the `footRows`
+air case, the old-grid checks, which describe the old grid and need
+rewriting against the lattice), `fliers.test.ts` (`airSpots`, `EVERY_ONE`
+→ `./air-spots`), `perches.test.ts`, `insect-away.test.ts`,
+`scripts/veer-away.ts` (`airAlofts` from `./air-spots`, now plane, so no
+`aloftOfLayout`); write `air-spots.test.ts` (names stable across anchors,
+cell count ≈650 at 1180×820, heights in the band, crowding on the screen,
+`airAloftOf` matches `airAlofts`); run it with perch-sight, perches,
+insect-away and fliers tests.
 
 ## Left
 
