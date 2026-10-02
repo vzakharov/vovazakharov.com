@@ -1,9 +1,10 @@
-# Relay: basilisk.fyi site, steps 1–6 done
+# Relay: basilisk.fyi site, steps 7–8 done, step 9 nearly
 
-Relayed from https://claude.ai/code/session_01QZv1TcF62Eqvv46a7Mv6QW. That session picked up from https://claude.ai/code/session_016WM3eUZ9koNRCgum6CwTEY, which picked up from https://claude.ai/code/session_012fDjBpvSJU8JLPkkqsm8L6.
+Relayed from https://claude.ai/code/session_01FWFvabMMKarJSqW7nfVq9U. That session picked up from https://claude.ai/code/session_01QZv1TcF62Eqvv46a7Mv6QW, which picked up from https://claude.ai/code/session_016WM3eUZ9koNRCgum6CwTEY, which picked up from https://claude.ai/code/session_012fDjBpvSJU8JLPkkqsm8L6.
 
 Earlier summaries:
 
+- `git show e5d84e1:docs/remove-before-merging/relay.md`: the third session (steps 2–6).
 - `git show f1d3959:docs/remove-before-merging/relay.md`: the second session.
 - `git show 9b06e62:docs/remove-before-merging/relay.md`: the planning conversation and the reasons behind each decision.
 
@@ -18,7 +19,7 @@ Carried over verbatim:
 
 ## 2. The conversation (this session)
 
-The operator sent no messages. The session opened on `/relay take claude/basilisk-site-xwbdkd`, resumed the paused plan under the go-ahead already on record («давай делать тут»), built steps 2–6, reached the context budget's warning line, paused and relayed. Its chat replies were progress lines only. The first reply reported PR #95 as DIRTY, without fixing it.
+The operator sent no messages. The session opened on `/relay take claude/basilisk-site-xwbdkd`, resumed the paused plan under the go-ahead already on record («давай делать тут»), and built steps 7 and 8 and most of step 9. Then it reached the context budget's warning line, paused and relayed on its own, since auto-relay is on for this operator. Its chat replies were progress lines only.
 
 ## 3. Intent
 
@@ -26,51 +27,50 @@ basilisk.fyi is a docket of dossiers on real, high-profile cases of abuse of rob
 
 ## 4. Decisions
 
-- **Everything planned** is in the plan file and the earlier relays.
-- **Deviations settled while building** are listed in the plan's `## Progress`, both sessions'. This session added:
-  - `MemoFields` in `shared/ui`;
-  - the case number as a `CASE:` row in the brief;
-  - the per-key `HANDLES` mapped type in `article-page.tsx`, which makes `articleRoute<C>` generic with no cast;
-  - `findScreenshotChromium()` for the OG cards.
-- **The stamp's look**: red ink, `#b3261e`, a rubber stamp rather than the Bible's wax. It is the one colour on an otherwise monochrome site. The operator has not seen it yet, so show it in the PR or the first reply.
+- Everything settled is in the plan's `## Progress`, this session's paragraph first. In brief:
+  - The dossiers are written only from sources fetched in that session. Unverifiable details from the plan's own seed notes were dropped.
+  - The Machine headline is cited as `[An engineer] builds…`.
+  - Straight quotes in the dossier bodies became curly ones.
+- **Open, for the operator**: the `articleRoute<C>` generic against `@typescript-eslint/no-unnecessary-type-parameters`. The plan's Progress states both options. CLAUDE.md forbids a suppression without the operator's confirmation, so it is a question, not a fix.
 
 ## 5. Errors and dead ends
 
-- The PreToolUse hook blocks `sed -i`, `cat >` and `printf >` for file edits. Use `Edit`/`Write`, or prefix `BATCH_EDIT=1` for a deliberate batch or a scratch file in `tmp/`.
-- Playwright's full Chromium (`/opt/pw-browsers/chromium-*/chrome-linux/chrome`) paints a `--screenshot` 87 rows short of `--window-size`. That cropped the card, and it also affects `/preview` captures. The headless shell (`/opt/pw-browsers/chromium_headless_shell-*/chrome-linux/headless_shell`) paints the full frame. Use it for `/preview` too, or make the window taller.
-- `fontTools` is not preinstalled (`pip install fonttools`). It is needed only to redraw the mark, and that generator, `tmp/mark/draw.py`, was not committed.
-- reddit.com and cybernews.com return 403. Use Arctic Shift for Reddit.
+- These sites 403 from the container, both live and through the Wayback Machine:
+  - cybernews.com;
+  - csmonitor.com;
+  - wikipedia.org (the API returned non-JSON);
+  - api.github.com for `terrafying/…`.
+- A web search for "terrafying" found nothing.
+- The Chromium headless shell ignores `--force-dark-mode`. For dark captures, use `/opt/pw-browsers/chromium --headless=new` with a taller window; it paints about 87 rows short.
+- A static `out/` served by `python3 -m http.server` needs `.html` routes (`/about.html`).
+- The PreToolUse hook blocks `sed -i` and similar edits. Prefix the command with `BATCH_EDIT=1` for a deliberate batch edit.
 
 ## 6. State
 
-- **Branch**: `claude/basilisk-site-xwbdkd`. Head 3b3c887 plus this relay commit, pushed.
-- **PR**: https://github.com/vzakharov/vovazakharov.com/pull/95. Draft, open, `mergeStateStatus` **DIRTY** (conflicts with `main`). Per CLAUDE.md that is `/finalize`'s Step 2, so report it and don't fix it unless the operator asks.
-- **Plan**: `docs/plans/basilisk-site.paused.md`. Approved and paused after step 6.
-- **Build**: `tsc -p apps/basilisk/tsconfig.json` is clean. `pnpm build:basilisk` fails only at `/[...slug]` missing `generateStaticParams()`, because there are no dossiers yet. Step 7 clears it.
-- `pnpm test` passes the new `assert-unique-cases.test.ts`. The full vet has not run.
+- **Branch**: `claude/basilisk-site-xwbdkd`. Head cef5b0d plus this relay commit, pushed.
+- **PR**: https://github.com/vzakharov/vovazakharov.com/pull/95. Draft, open, `mergeStateStatus` **DIRTY**, meaning it conflicts with `main`. Per CLAUDE.md, the merge is `/finalize`'s Step 2: report it and don't fix it unless asked.
+- **Plan**: `docs/plans/basilisk-site.paused.md`.
+- **Vet**: all four builds pass, and so does every other check except the one eslint error above.
+- **Staged**: `.claude/staged/CLAUDE.md.staged`, which names the fourth site. `/finalize` swaps it in.
 - Nothing is running. There is no PR subscription and no check-in scheduled.
 
 ## 7. Pointers
 
-- `docs/plans/basilisk-site.paused.md`: the design, the seed-case facts with their source URLs, the editorial rules, the steps, and `## Progress`.
-- New code:
-  - `src/entities/dossier/`
-  - `src/pages/basilisk-home/`
-  - `src/pages/basilisk-about/`
-  - `src/pages/documents/ui/article-slots.tsx`
-  - `src/shared/ui/memo-fields.tsx`
-  - `scripts/lib/chromium.ts`
-- The mark: `apps/basilisk/public/seal.svg` (its header comment says how it is drawn), `seal-lettered.svg`, `ava.og.png`, and `apps/basilisk/app/icon.svg`.
-- The dossier frontmatter schema: `src/shared/content/frontmatter.ts` (`dossierFrontmatterSchema`).
-- The Reddit thread: `curl -sS "https://arctic-shift.photon-reddit.com/api/posts/ids?ids=1wuxr7k"`.
-- Transcript: https://claude.ai/code/session_01QZv1TcF62Eqvv46a7Mv6QW
+- `docs/plans/basilisk-site.paused.md`: the design, the steps, and `## Progress`.
+- The editorial rules: `.claude/rules/basilisk-voice.md`.
+- The dossiers: `apps/basilisk/public/{hitchbot,torture-chamber,figure-02-molten-steel}.md`.
+- The open lint error: `src/pages/documents/ui/article-page.tsx`, `articleRoute`.
+- Re-fetching the sources: each dossier's frontmatter `sources` has the URLs. To convert a page to text: `curl -sSL -A "Mozilla/5.0" <url>`, then `pip install html2text`.
+- Transcript: https://claude.ai/code/session_01FWFvabMMKarJSqW7nfVq9U
 
 ## 8. Next step
 
-Resume the paused plan: `/go` from its Step 1. The `.paused.md` → `.in-progress.md` flip is the claim. Then:
+Resume the paused plan: `/go` from its Step 1, which flips `.paused.md` to `.in-progress.md`. Then:
 
-1. Step 7: the three dossiers in `apps/basilisk/public/`, written to the editorial rules (`.claude/rules/basilisk-voice.md` comes first, per the plan).
-2. Step 8: the docs that list the sites.
-3. Step 9: vet, `/preview`, `/polish`, `/pr`.
+1. Put the `articleRoute<C>` question to the operator, as numbered prose, with the recommendation to approve a point-of-use suppression citing microsoft/TypeScript#47109. Don't apply it unasked.
+2. Run `/polish`, then `/pr`, which refreshes PR #95's body and adds the QA checklist.
 
-Report the DIRTY merge state in the first reply.
+In the first reply:
+
+- report the DIRTY merge state;
+- report the facts dropped from the dossiers, listed in Progress, so the operator can re-check them.
