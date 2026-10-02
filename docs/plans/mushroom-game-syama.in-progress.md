@@ -358,11 +358,11 @@ with his words and what it beat: `bite-12/v14.md`.
    `v14-note-plant` (played, tabL), `v14-insect-depth` and `v14-fly`
    (played by `v14-insect-play.md`; any fix it left is the next work).
    Notes beside `brief-common.md`. The Artifact is still version 14.
-1a. **Insects fly under the ground** (`v14-insect-play.md`): a leg's drawn
-   height goes below 0 (to −1.76 sizes), a leg being mixed in screen space
-   and read back by `aloftFramed`. Decided: keep the height ≥ 0 in the
-   flight itself; fading the shadow beaten (hides it, leaves insects
-   underground). Package `v14-aloft`, building.
+1a. ~~Insects fly under the ground~~ — fixed (41d6ee7): a point the bow,
+   zigzag or hop swings below the ground line is read as nearer on its line
+   of sight, the height easing toward 0 under `SKIM`; the screen path is
+   unchanged, so a leg bowing down the screen swoops toward the viewer.
+   Holding the height or bending the path beaten. On `to-check.md`.
 1b'. ~~`v14-catch`~~ — built (2bd99a9, 9f96587); a new leg to another perch
    with a dart off it, not a burst on the current leg. On `to-check.md`.
 1c. The tablet reds `play-final2.md` found at 483be26, fixed in code from
