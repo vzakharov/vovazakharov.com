@@ -142,6 +142,8 @@ view. Tests: `flight-frame.test.ts` (`panOf` ±1 at the sides, 0 ahead and
 behind, from three eyes), `sound.test.ts` (a take-off and a shy build a
 panner at their pan; `shy` joins `askForEverything`).
 
+- **`fliers.test.ts` after I3–I5 (eb9c9d2e): green**, 48/48, 1 min 52 s.
+
 ## Left
 
-- `fliers.test.ts` after I3–I5.
+- Nothing in package I. The spec's play and hand checks (§ 3) not run.
