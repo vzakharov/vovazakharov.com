@@ -1,12 +1,18 @@
 /**
  * Where an insect away stands — one released, on the ground just past the
  * brow; one leaving, in the air just past the screen's edge where the view
- * stands now — and whether one drawn reaches the screen; and those same
- * points as the `Places` a leg to or from away is timed by, so it is timed
- * between the points it is drawn between.
+ * stood as its leg set off — and whether one drawn reaches the screen; and
+ * those same points as the `Places` a leg to or from away is timed by, so it
+ * is timed between the points it is drawn between.
  */
 
-import { perchName, type Places, type Side, SIDES } from '../../model/flight';
+import {
+  type Perch,
+  perchName,
+  type Places,
+  type Side,
+  SIDES,
+} from '../../model/flight';
 import type { WayOut } from '../../model/flight-in';
 import type { Point } from '../../model/geometry';
 import { alongSight, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
@@ -129,6 +135,32 @@ export function leavingAloft(
   from: Aloft,
 ): Aloft {
   return offAloft(view, side, away, perchDistance(view, from));
+}
+
+/** Where a leg set off. */
+export type SetOff = { from: Aloft };
+
+/** Where a leg set off, and where its end stood: `kept` as last frame drew it, `perch` where its perch stands now. */
+export type LegEnds = SetOff & { kept?: Aloft; perch?: Aloft };
+
+/**
+ * Where a leg to `to` ends this frame, on `view`. One to away ends where it
+ * was `kept` from its first frame, where `view` drew it leaving then
+ * (`leavingAloft`, standing away as `away` does): fixed on the plane, so a
+ * turn of the eye after it sees it fly off across the meadow at its own
+ * depth, its timing the timing of the path drawn. Any other ends where its
+ * perch stands now, else where it stood last, else where the leg set off.
+ */
+export function legEnd(
+  view: View,
+  to: Perch,
+  away: () => Away,
+  { from, kept, perch }: LegEnds,
+): Aloft {
+  if (to.kind === 'away') {
+    return kept ?? leavingAloft(view, to.side, away(), from);
+  }
+  return perch ?? kept ?? from;
 }
 
 /**

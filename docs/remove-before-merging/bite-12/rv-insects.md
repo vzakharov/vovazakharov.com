@@ -10,11 +10,14 @@ review 5391050029".
    and `wayOutOf` its `Away` (`releasedAway` → `ownAway`, the same one
    `InsectView.awayOf` now uses); without one it keeps the band-middle spot
    (`scripts/lib/veer-away.ts` calls it so). Test: `insect-away.test.ts`
-   "onscreenOf, for a release".
+   "onscreenOf, for a release". (0a60977)
+2. Finding 1 — a leaving flight's end is fixed on the plane on its leg's
+   first frame (`legEnd` in `insect-away.ts`, kept in `Shown.goal`, which
+   `legSetOff` clears). Test: `insect-away.test.ts` "legEnd" turns the eye
+   0→1.5 rad each way during the flight.
 
 ## Left
 
-2. Finding 1 — leaving end fixed on the plane at set-off.
 3. Finding 3 — `fly`'s leg-frame→screen chain out of `insect-view.ts`.
 
 ## Decided
