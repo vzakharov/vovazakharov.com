@@ -410,7 +410,17 @@ it is drawn between** (the view's away points into `places`; `flight-in.ts`,
 `flight-timing.ts`, `perch-sight.ts`, `insect-away.ts`), the rule a leg's
 points are plane points already states. Beaten: leaving it (the cruise is
 then a lie on every away leg). The play counts a late frame at a 60 fps
-frame's share and leaves walked frames out.
+frame's share and leaves walked frames out. **Built** (007a1ec,
+`ip-away.md`): leaving 0.95–1.12, out of view 0.91. **Decided: the release's
+leg on from the out point to a far air spot (0.5–2.6, `apartIn`'s straight
+layout measure) is accepted**, perch-to-perch legs in sight measuring
+0.99–1.00. Beaten: timing every leg on its drawn path (a rework of `places`
+for legs a child sees only as a speck going off). **The veer play's chase
+stops here** — the checks had begun finding the checks — and these stay
+known, for the review and the operator's play, not for another round: the
+tabL bee's 57.7 px step; phoneP's fly never perching in view; phoneP's frame
+median ~27.3 ms against 26; a release toward a shown perch timed from the
+screen's edge (`shownOf`) but drawn from over the brow.
 **Looking back the glade is bare by design** (12b makes the field endless),
 so nothing grows at π; the veer play lands its looking-back releases at the
 farthest heading with room (~1.8 rad on tabL, ~1.6 on phoneP).
