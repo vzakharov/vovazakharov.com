@@ -1,7 +1,7 @@
 import { type Perch, perchName, SIDES, type Sight } from '../../model/flight';
 import type { Flier } from '../../model/insects';
 import type { Stand } from './flower-sight';
-import { awayPlaces } from './insect-away';
+import { type Away, awayPlaces } from './insect-away';
 import type { Aloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import {
@@ -70,9 +70,14 @@ export class Perches {
    * What the insects see of the perches as last seen, every place where
    * `view`'s eye's frame stands it (`placeOfAloft`), with the away spots past
    * the screen's sides where `view` draws an insect leaving (`awayPlaces`),
-   * and each insect `drawn` where it was last drawn, by id, framed the same.
+   * each insect `drawn` where it was last drawn, by id, framed the same, and
+   * each insect's own away spots as it stands away (`aways`), by id.
    */
-  sightFrom(view: View, drawn: ReadonlyMap<string, Aloft> = new Map()): Sight {
+  sightFrom(
+    view: View,
+    drawn: ReadonlyMap<string, Aloft> = new Map(),
+    aways: ReadonlyMap<string, Away> = new Map(),
+  ): Sight {
     const { layout, sight, placed } = this;
     if (!sight.places || !layout) return sight;
     const unit = layout.insectSize;
@@ -87,6 +92,9 @@ export class Perches {
       ...sight,
       places: { ...framed(placed), ...awayPlaces(layout, view) },
       drawn: framed(drawn),
+      aways: Object.fromEntries(
+        [...aways].map(([id, away]) => [id, awayPlaces(layout, view, away)]),
+      ),
     };
   }
 

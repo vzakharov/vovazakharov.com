@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { FLIGHT_HABITS, flightAway, perchName, type Place } from './flight';
+import {
+  FLIGHT_HABITS,
+  flightAway,
+  perchName,
+  type Place,
+  type Places,
+} from './flight';
 import { legTo } from './flight-timing';
 import { CLUMP_DISTANCE } from './ground';
 import { mulberry32 } from './random';
@@ -28,9 +34,17 @@ const places = {
 };
 const insect = { id: 'fly-1', seed: 3, kind: fly, leg, legs: 1 };
 
-/** How long `flightAway` takes `insect` out from `now`, the scene having drawn it at `drawn`, by id. */
-function awayFlown(now: number, drawn?: Readonly<Record<string, Place>>) {
-  const away = flightAway(insect, now, { places, ...(drawn && { drawn }) });
+/** How long `flightAway` takes `insect` out from `now`, the scene having drawn it at `drawn`, by id, and its away spots at `aways`. */
+function awayFlown(
+  now: number,
+  drawn?: Readonly<Record<string, Place>>,
+  aways?: Readonly<Record<string, Places>>,
+) {
+  const away = flightAway(insect, now, {
+    places,
+    ...(drawn && { drawn }),
+    ...(aways && { aways }),
+  });
   return away.leg.arrives - away.leg.departs;
 }
 
@@ -55,5 +69,18 @@ describe('a leg set off mid-flight', () => {
 
   it('is timed from its perch once it has landed, wherever it was drawn', () => {
     atCruise(awayFlown(1500, { 'fly-1': across(90) }), 105);
+  });
+});
+
+describe('a leg to away', () => {
+  /** Both away spots 20 sizes past the leg's end. */
+  const farther = { 'away left': across(120), 'away right': across(120) };
+
+  it('is timed to where the scene draws that insect leaving, given its spots', () => {
+    atCruise(awayFlown(1500, undefined, { 'fly-1': farther }), 20);
+  });
+
+  it("is timed to the sight's away spots, given none for that insect", () => {
+    atCruise(awayFlown(1500, undefined, { 'fly-2': farther }), 105);
   });
 });

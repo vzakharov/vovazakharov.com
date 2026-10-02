@@ -113,11 +113,16 @@ function awayOn(layout: MeadowLayout, view: View): Away {
 
 /**
  * The away spots of `Places` as `view` stands them: where it draws an
- * insect leaving (`leavingAloft`), at the clump's depth, which a leg to one
- * is timed level with its start (`apartIn`).
+ * insect leaving (`leavingAloft`) that stands away as `away` does, a
+ * butterfly's widest wings at the band's middle unless given, at the
+ * clump's depth, which a leg to one is timed level with its start
+ * (`apartIn`).
  */
-export function awayPlaces(layout: MeadowLayout, view: View): Places {
-  const away = awayOn(layout, view);
+export function awayPlaces(
+  layout: MeadowLayout,
+  view: View,
+  away: Away = awayOn(layout, view),
+): Places {
   return Object.fromEntries(
     SIDES.map((side) => {
       const off = offAloft(view, side, away, CLUMP_DISTANCE);

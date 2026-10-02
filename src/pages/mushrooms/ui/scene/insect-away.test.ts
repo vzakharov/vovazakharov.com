@@ -3,10 +3,12 @@ import { describe, it } from 'node:test';
 
 import { type Perch, perchName } from '../../model/flight';
 import { entryOf, isShown, nearerSide } from '../../model/flight-in';
-import { apartIn } from '../../model/flight-timing';
+import { apartIn, placesSetOff } from '../../model/flight-timing';
 import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
 import {
+  awayDown,
   entryAloft,
+  leavingAloft,
   offAloft,
   PAST_BROW,
   reachesScreen,
@@ -183,6 +185,65 @@ function framedLength(view: View, from: Aloft, to: Aloft): number {
   }
   return length;
 }
+
+describe('leavingAloft', () => {
+  for (const [name, width, height] of [
+    ['tablet', 1180, 820],
+    ['phone', 390, 844],
+  ] as const) {
+    it(`is as far from every cap in view as a leg out to it is timed, at either end of the band, on a ${name} screen`, () => {
+      const stand = opened(3, width, height, true);
+      const { layout, mushrooms } = stand;
+      const perches = new Perches(() => ({
+        bed: undefined,
+        flowers: undefined,
+      }));
+      perches.see(stand);
+      const rows = footRows(stand);
+      let legs = 0;
+      // Phases sending it out at the band's top and its bottom.
+      for (const phase of [-Math.PI / 6, Math.PI / 6]) {
+        const away = { span: 30, drop: awayDown(height, phase) };
+        for (const eye of [OPENING_EYE, ...WALKED_EYES]) {
+          const view = viewAt(layout.camera, eye);
+          const sight = perches.sightFrom(
+            view,
+            new Map(),
+            new Map([['fly-1', away]]),
+          );
+          const onscreen = onscreenOf(layout, view);
+          assert.ok(onscreen);
+          for (const { id } of mushrooms) {
+            const cap: Perch = { kind: 'cap', id };
+            const [seat, row] = [
+              seatAt(stand, cap, 0),
+              rows.get(perchName(cap)),
+            ];
+            const landed = { from: cap, to: cap, departs: 0, arrives: 0 };
+            const places = placesSetOff(sight, landed, 1, 'fly-1');
+            const place = places?.[perchName(cap)];
+            if (!seat || row === undefined || !place) continue;
+            if (!isShown(onscreen, place)) continue;
+            const from = aloftOfLayout(layout.camera, seat, row);
+            for (const side of ['left', 'right'] as const) {
+              const to = leavingAloft(view, side, away, from);
+              const timed = apartIn(places, cap, { kind: 'away', side });
+              assert.ok(timed !== undefined, id);
+              const pace =
+                framedLength(view, from, to) / layout.insectSize / timed;
+              assert.ok(
+                pace > 0.95 && pace < 1.05,
+                `${id} ${side} from ${JSON.stringify(eye)} at drop ${away.drop.toFixed(0)}: drawn ×${pace.toFixed(2)} its timing`,
+              );
+              legs++;
+            }
+          }
+        }
+      }
+      assert.ok(legs > 10, `only ${String(legs)} legs out from a cap in view`);
+    });
+  }
+});
 
 describe('offAloft', () => {
   it('stands past either edge at the drop, the depth asked from the eye', () => {

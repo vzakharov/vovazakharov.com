@@ -378,9 +378,14 @@ export class MeadowScene extends Phaser.Scene {
     return this.eye.view() ?? viewAt(this.requireLayout().camera, OPENING_EYE);
   }
 
-  /** What the insects see now, each flier where it was last drawn among it. */
+  /** What the insects see now, each flier where it was last drawn among it and where it is drawn leaving. */
   private sightNow(): Sight {
-    return this.perches.sightFrom(this.viewNow(), this.insects?.drawnAlofts());
+    const view = this.viewNow();
+    return this.perches.sightFrom(
+      view,
+      this.insects?.drawnAlofts(),
+      this.insects?.awaysOf(view),
+    );
   }
 
   private repaintControls(): void {

@@ -189,6 +189,13 @@ export class InsectView {
     );
   }
 
+  /** How each insect drawn stands away as `view` stands it (`awayOf`), by id: what its leg out is drawn to. */
+  awaysOf(view: View): ReadonlyMap<string, Away> {
+    return new Map(
+      [...this.shown].map(([id, shown]) => [id, this.awayOf(shown, view)]),
+    );
+  }
+
   private sizeOf({ flier }: Shown): number {
     return this.sizes[flier.kind];
   }

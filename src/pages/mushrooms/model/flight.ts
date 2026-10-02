@@ -109,8 +109,10 @@ export type Places = Readonly<Record<string, Place>>;
  * them, the `places` of the perches, so a long flight takes longer than a
  * short one (`Habits`), and where it last drew each flier, by its id
  * (`drawn`), in the places' frame, since only the scene's steering knows
- * where a flier cut off mid-flight sets off from. With them, where a bee
- * could plant a flower (`Plot`).
+ * where a flier cut off mid-flight sets off from, and each flier's own away
+ * spots, by its id (`aways`), since the scene draws one leaving at its own
+ * height and span past the edge. With them, where a bee could plant a
+ * flower (`Plot`).
  */
 export type Sight = Plot & {
   flowers: readonly string[];
@@ -119,6 +121,7 @@ export type Sight = Plot & {
   crowded: readonly Crowding[];
   places?: Places;
   drawn?: Readonly<Record<string, Place>>;
+  aways?: Readonly<Record<string, Places>>;
 };
 
 /**
@@ -358,8 +361,12 @@ export function flightAway(
 }
 
 /** Of `sight`, only what times a leg (`Placed`). */
-function placedOf({ places, drawn }: Placed): Placed {
-  return { ...(places && { places }), ...(drawn && { drawn }) };
+function placedOf({ places, drawn, aways }: Placed): Placed {
+  return {
+    ...(places && { places }),
+    ...(drawn && { drawn }),
+    ...(aways && { aways }),
+  };
 }
 
 /** Whether `perches` still offers `perch` to an insect of `kind`; `away` always is. */

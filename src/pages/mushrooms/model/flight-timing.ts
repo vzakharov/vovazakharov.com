@@ -11,8 +11,8 @@ import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 import { between, type Random } from './random';
 
-/** What of `Sight` times a leg: where the perches stand, and where the scene drew each flier. */
-export type Placed = Pick<Sight, 'places' | 'drawn'>;
+/** What of `Sight` times a leg: where the perches stand, where the scene drew each flier, and where it draws each leaving. */
+export type Placed = Pick<Sight, 'places' | 'drawn' | 'aways'>;
 
 /** What of a leg says where an insect flying it is. */
 type Flown = Pick<Leg, 'from' | 'to' | 'departs' | 'arrives'>;
@@ -97,22 +97,25 @@ export function placesFlying(
 
 /**
  * `places` as a leg the insect called `id` sets off on at `now`, from the
- * perch of `leg`, is timed from: cut off before `leg` arrives, that perch
- * stands where the scene drew the insect (`drawn`), which steers every
- * flight, so neither share of the way nor of the time finds the point;
- * where the sight places it nowhere, where `placesFlying` reckons it.
+ * perch of `leg`, is timed from: its away spots its own (`aways`), where
+ * the sight gives them; cut off before `leg` arrives, that perch stands
+ * where the scene drew the insect (`drawn`), which steers every flight, so
+ * neither share of the way nor of the time finds the point; where the sight
+ * places it nowhere, where `placesFlying` reckons it.
  */
 export function placesSetOff(
-  { places, drawn }: Placed,
+  { places, drawn, aways }: Placed,
   leg: Flown,
   now: number,
   id?: string,
 ): Places | undefined {
+  const own = id === undefined ? undefined : aways?.[id];
+  const among = places && own ? { ...places, ...own } : places;
   const at = id === undefined ? undefined : drawn?.[id];
-  if (!places || !at || now >= leg.arrives) {
-    return placesFlying(places, leg, now);
+  if (!among || !at || now >= leg.arrives) {
+    return placesFlying(among, leg, now);
   }
-  return { ...places, [perchName(leg.to)]: at };
+  return { ...among, [perchName(leg.to)]: at };
 }
 
 function stayAt(random: Random, habits: Habits, to: Perch): number {
