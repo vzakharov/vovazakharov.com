@@ -224,3 +224,22 @@ In this order of launch; parallel where files are disjoint.
 4. **P1b** after S3 frees `mushroom-bed.ts` and L3 frees `flower-bed.ts` (steps in `p.md`); P2 (mottles from `lawn.ts` cells).
 5. **Play** (`scripts/` only, beside the waves): `play-walk.ts`'s "↓ held 12 s walks back STRIDE_CRUISE × (12 − eased) ±0.05" (R1 removed the rim check), the dense-forest approach (§ 6), measure L2's re-tend and I1's re-see hitches.
 6. The tail: fold, `/polish`, play run, frames to `frames/bite-12b/`, the Artifact, `/pr`; the review session.
+
+## The tail (session at relay depth 8)
+
+- **tail-play** — 25fae6b (planting's two reds were the harness's: a
+  planted flower's `scaleY` is growth × `stands.zoom`, so divide; the bee is
+  40.3 px at its own size, 29.1 px drawn on a far flower at depth 0.72 —
+  the floor held at own size, the drawn size in to-check.md), 98fe9dd
+  (`fliers.test.ts` whole: 48 × 1201 ticks to 300 s; faster because L3's
+  48-flower cap halves the bees' plantings and each re-see costs less),
+  dc8adaf (tabL full run, frames). **tabL reds left:** a butterfly never
+  rests on a cap to tap through (`play-insects.ts:343`); looking back, six
+  flies all take air (`play-veer.ts:270`, likely the one cap held by a
+  butterfly — a harness red); fly one-frame steps to 82.6 px against
+  38.1 near the end of an air→cap leg at the right edge (suspected seat
+  moving as I4's undrawn fallback flips — a game red if so); bee steps to
+  34.0 against 25.8. Four screens unplayed. **Orchestrator's call:** one
+  agent takes the four reds (game reds fixed, harness reds loosened into
+  to-check.md); the four screens after it, a play per call to stay under
+  the foreground limit.
