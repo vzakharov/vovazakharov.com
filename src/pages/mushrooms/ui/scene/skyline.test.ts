@@ -197,6 +197,72 @@ describe('the hill bands as the hills fill them', () => {
   }
 });
 
+/**
+ * The first point of the closed `outline` that Phaser's fill at `detail`
+ * skips although it lies on the band's top or bottom edge and the point kept
+ * before it does not: the band's edge would then set off from that earlier
+ * point, a sliver of the band sloping off its edge over whatever lies beyond.
+ */
+function edgeSkipped(
+  outline: readonly Point[],
+  ratio: number,
+  detail: number,
+): Point | undefined {
+  const ys = outline.map(({ y }) => y);
+  const edges = new Set([Math.min(...ys), Math.max(...ys)]);
+  const path = [...outline, ...outline.slice(0, 1)];
+  let last: Point | undefined;
+  for (const [index, point] of path.entries()) {
+    const inner = index > 0 && index < path.length - 1;
+    if (
+      inner &&
+      last &&
+      Math.abs(point.x - last.x) * ratio <= detail &&
+      Math.abs(point.y - last.y) * ratio <= detail
+    ) {
+      if (edges.has(point.y) && last.y !== point.y) return point;
+      continue;
+    }
+    last = point;
+  }
+  return undefined;
+}
+
+describe('the hill bands along their edges', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    it(`keep every point where a band's edge sets off through Phaser's path detail, from 720 headings, on a ${name} screen`, () => {
+      for (const seed of VISITS.slice(0, 5)) {
+        const layout = meadowLayout(width, height, seed);
+        const random = mulberry32(seed);
+        const crests = [
+          farthestSkyline(random, layout),
+          farSkyline(random, layout),
+          nearSkyline(random, layout),
+        ];
+        for (let step = 0; step < 720; step++) {
+          const view = turnedTo(layout.camera, (step / 720) * Math.PI * 2);
+          for (const [range, crest] of crests.entries()) {
+            const line = crestAcross(crest, view, HILL_STEPS, 4);
+            for (const [band, { outline }] of hillBands(
+              line,
+              layout.groundTop,
+              16,
+            ).entries()) {
+              for (const ratio of [1, 2, 3]) {
+                assert.equal(
+                  edgeSkipped(outline, ratio, PHASER_DETAIL),
+                  undefined,
+                  `seed ${seed}, step ${step}, range ${range}, band ${band}, ×${ratio}`,
+                );
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+});
+
 describe('the far hills under the sun', () => {
   for (const [name, width, height] of VIEWPORTS) {
     it(`stay under the sun's rays from every heading, on a ${name} screen`, () => {

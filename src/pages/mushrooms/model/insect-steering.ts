@@ -65,15 +65,15 @@ type SetOff = { bow: number; turns: Turns; meant: number; wound: number };
 
 /**
  * How a flier's body is held from one frame to the next: which way its
- * flight heads, in radians from +x; how its body was turned, and when, in ms
- * on the scene's clock, `-Infinity` before its first frame; what its leg
- * fixed as it set off, `undefined` until the leg's first frame; and where its
- * perch stood that frame, `undefined` until the leg's first frame and while
- * the screen it was measured on is gone.
+ * flight heads, in radians from +x; how its body was turned, and the frame
+ * it was held at, in ms on the scene's clock, `-Infinity` before its first
+ * frame; what its leg fixed as it set off, `undefined` until the leg's first
+ * frame; and where its perch stood that frame, `undefined` until the leg's
+ * first frame and while the screen it was measured on is gone.
  */
 export type Steering = Turned & {
   facing: number;
-  at: number;
+  heldAt: number;
   setOff: SetOff | undefined;
   perch: Point | undefined;
 };
@@ -102,7 +102,7 @@ export const firstSteering = ({
 }: Pick<Steering, 'facing' | 'turn'>): Steering => ({
   facing,
   turn,
-  at: -Infinity,
+  heldAt: -Infinity,
   setOff: undefined,
   perch: undefined,
 });
@@ -115,11 +115,11 @@ export const startLeg = (held: Steering): Steering => ({
 });
 
 /** How fast a perch standing at `end` now moves, in points a ms, from where `held` saw it last. */
-function drifting({ perch, at }: Steering, end: Point, now: number): Point {
-  if (!perch || !(now > at)) return { x: 0, y: 0 };
+function drifting({ perch, heldAt }: Steering, end: Point, now: number): Point {
+  if (!perch || !(now > heldAt)) return { x: 0, y: 0 };
   return {
-    x: (end.x - perch.x) / (now - at),
-    y: (end.y - perch.y) / (now - at),
+    x: (end.x - perch.x) / (now - heldAt),
+    y: (end.y - perch.y) / (now - heldAt),
   };
 }
 
@@ -284,7 +284,7 @@ export function steer(
       ? found
       : { ...found, landed: unwinding(found.landed, wound) };
   const wanted = bodyTurn(leg, now, flying, turns);
-  const most = (TURN_RATE[motion.kind] * Math.max(0, now - held.at)) / 1000;
+  const most = (TURN_RATE[motion.kind] * Math.max(0, now - held.heldAt)) / 1000;
   const turn = Number.isFinite(most)
     ? wrap(
         held.turn + Math.max(-most, Math.min(most, wrap(wanted - held.turn))),
@@ -294,7 +294,7 @@ export function steer(
     steering: {
       facing,
       turn,
-      at: now,
+      heldAt: now,
       setOff: {
         ...setOff,
         turns,

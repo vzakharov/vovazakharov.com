@@ -321,19 +321,33 @@ function withoutLevelRuns(points: readonly Point[]): Point[] {
 export const PATH_SKIP = 1;
 
 /**
- * `line` without the points at its end that stand within `PATH_SKIP` of
- * `corner`, the band's lower right corner that follows them. Phaser would skip
- * the corner after such a point instead, sloping the band's closing edge
- * across its own clamped edge, and its fill would spill past the band as a
- * flat slab over the range behind. Dropping the point moves the band's edge
- * by under `PATH_SKIP`.
+ * A band's closed `outline` as Phaser's fill keeps it, except that a point on
+ * the band's top or bottom edge (`edges`) is never the one skipped: the points
+ * off the edge within `PATH_SKIP` before it go instead. Phaser skipping the
+ * edge point would set the edge off from the point before, sloping the band
+ * off its own edge in a sliver as long as the edge: over the sky where the
+ * skyline dips below the band, or past the band's lower right corner as a flat
+ * slab over the range behind. Each point dropped moves the outline by under
+ * `PATH_SKIP`.
  */
-function beforeCorner(line: readonly Point[], corner: Point): Point[] {
-  const near = ({ x, y }: Point) =>
-    Math.abs(x - corner.x) <= PATH_SKIP && Math.abs(y - corner.y) <= PATH_SKIP;
-  let end = line.length;
-  while (end > 1 && near(line[end - 1] ?? corner)) end -= 1;
-  return line.slice(0, end);
+function keptOnEdges(outline: readonly Point[], edges: number[]): Point[] {
+  const onEdge = ({ y }: Point) => edges.includes(y);
+  const near = (a: Point, b: Point) =>
+    Math.abs(a.x - b.x) <= PATH_SKIP && Math.abs(a.y - b.y) <= PATH_SKIP;
+  const kept: Point[] = [];
+  const offEdgeNear = (point: Point) => {
+    const last = kept.at(-1);
+    return last !== undefined && !onEdge(last) && near(last, point);
+  };
+  for (const point of outline) {
+    const last = kept.at(-1);
+    if (last && near(last, point)) {
+      if (!onEdge(point) || onEdge(last)) continue;
+      while (offEdgeNear(point)) kept.pop();
+    }
+    kept.push(point);
+  }
+  return kept;
 }
 
 /** One of a range's bands: its outline, and how far down the range it lies, 0 at the crest and 1 at the foot. */
@@ -360,18 +374,17 @@ export function hillBands(
   const right = fine.at(-1)?.x ?? 0;
   return levels.slice(0, -1).map((y0, index) => {
     const y1 = levels[index + 1] ?? floor;
-    const corner = { x: right, y: y1 };
     return {
-      outline: [
-        ...beforeCorner(
-          withoutLevelRuns(
+      outline: keptOnEdges(
+        [
+          ...withoutLevelRuns(
             fine.map(({ x, y }) => ({ x, y: Math.min(y1, Math.max(y0, y)) })),
           ),
-          corner,
-        ),
-        corner,
-        { x: left, y: y1 },
-      ],
+          { x: right, y: y1 },
+          { x: left, y: y1 },
+        ],
+        [y0, y1],
+      ),
       down: bands === 1 ? 0 : index / (bands - 1),
     };
   });

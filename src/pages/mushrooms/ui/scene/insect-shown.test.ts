@@ -12,7 +12,7 @@ import { legSetOff } from './insect-shown';
 const hidden = {
   drawn: { x: 0, y: 0, h: 1 },
   bob: 0,
-  steering: { ...firstSteering({ facing: 0, turn: 3 }), at: 1000 },
+  steering: { ...firstSteering({ facing: 0, turn: 3 }), heldAt: 1000 },
 };
 
 describe('a new leg', () => {
