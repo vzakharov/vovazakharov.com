@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import { sunLight } from '../../model/light';
 import {
   MUSHROOM_SPECIES,
@@ -419,6 +420,74 @@ describe('the meadow’s light', () => {
         if (Math.abs(across) < size * 0.5) continue;
         const { toward } = flowerLight(light, genes, foot, sun);
         assert.ok(toward.x * across > 0, `flower ${String(index)}`);
+      }
+    });
+  }
+});
+
+/** A fly agaric of `seed` stood as `place` splays it. */
+const flyAgaricIn = (place: Placement, seed: number) =>
+  splayed(mushroomGenes({ seed, species: 'fly-agaric' }), place.splay);
+
+describe('the meadow’s light by heading', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    const layout = meadowLayout(width, height, VISITS[0] ?? 0);
+    const { sun, mushrooms, flowers } = layout;
+    const light = sunLight(layout);
+
+    it(`lights every thing at the opening eye from the sun as seen where it stands, on a ${name} screen`, () => {
+      for (const [slot, place] of everyPlace(mushrooms).entries()) {
+        const lights = mushroomLights(
+          light,
+          flyAgaricIn(place, slot),
+          place,
+          sun,
+        );
+        assert.deepEqual(
+          mushroomLights(
+            light,
+            flyAgaricIn(place, slot),
+            place,
+            sun,
+            OPENING_EYE.heading,
+          ),
+          lights,
+        );
+        const length = Math.hypot(sun.x - place.x, sun.y - place.y);
+        assert.deepEqual(lights.ground.toward, {
+          x: (sun.x - place.x) / length,
+          y: (sun.y - place.y) / length,
+        });
+      }
+      for (const [index, foot] of flowers.entries()) {
+        const genes = flowerGenes({ seed: index });
+        const head = flowerHead(genes, foot.size);
+        const [x, y] = [foot.x + head.x, foot.y + head.y];
+        const length = Math.hypot(sun.x - x, sun.y - y);
+        assert.deepEqual(flowerLight(light, genes, foot, sun).toward, {
+          x: (sun.x - x) / length,
+          y: (sun.y - y) / length,
+        });
+      }
+    });
+
+    it(`lights every thing from the other side with the eye turned round, on a ${name} screen`, () => {
+      for (const [slot, place] of everyPlace(mushrooms).entries()) {
+        const at = (facing: number) =>
+          mushroomLights(light, flyAgaricIn(place, slot), place, sun, facing)
+            .ground.toward;
+        const [opening, round] = [at(OPENING_EYE.heading), at(Math.PI)];
+        assert.ok(
+          Math.abs(opening.x + round.x) < 1e-12,
+          `place ${String(slot)}`,
+        );
+        assert.equal(round.y, opening.y);
+      }
+      for (const [index, foot] of flowers.entries()) {
+        const genes = flowerGenes({ seed: index });
+        const at = (facing: number) =>
+          flowerLight(light, genes, foot, sun, facing).toward.x;
+        assert.ok(Math.abs(at(0) + at(Math.PI)) < 1e-12);
       }
     });
   }

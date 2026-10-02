@@ -2,14 +2,19 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { FRAME_DEPTH, OPENING_EYE, planeOf, project } from '../../model/ground';
+import { sunLight } from '../../model/light';
+import { mushroomGenes } from '../../model/mushroom-genes';
+import { splayed } from '../../model/mushroom-pose';
 import { bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
+import { mushroomLights } from './mushroom-light';
 import {
   HAZE_DRIFT,
   hazeAhead,
   type Hazing,
   REPAINTS_PER_FRAME,
   repaintsDue,
+  SIDE_DRIFT,
 } from './repaint-queue';
 import { D_SEE, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
@@ -47,7 +52,93 @@ describe('the repaint queue', () => {
     );
   });
 
+  it(`repaints a thing whose sun side drifted ${String(SIDE_DRIFT)} or more, its haze or not`, () => {
+    const sided = (ahead: number, drifted: number): Hazing => ({
+      ...hazing(ahead, 0),
+      paintedSunSide: 0,
+      sunSide: drifted,
+    });
+    const things = [
+      sided(3, 0.099),
+      sided(5, -SIDE_DRIFT),
+      sided(7, 0.3),
+      hazing(9, 0),
+    ];
+    assert.deepEqual(
+      repaintsDue(things).map(({ ahead }) => ahead),
+      [5, 7],
+    );
+  });
+
   for (const [name, width, height] of VIEWPORTS) {
+    // A thing is painted in the light of the heading it was seen from; the
+    // eye turns round where it opened, a sixteenth of a turn a frame, then
+    // stands still.
+    it(`drifts every sun side on a full turn and clears them nearest first, ${String(REPAINTS_PER_FRAME)} a frame, on a ${name} screen`, () => {
+      const { meadow, layout } = opened(SEEDS[0] ?? 1, width, height, true);
+      const { camera, mushrooms: ground, sun } = layout;
+      const opening = viewAt(camera, OPENING_EYE);
+      const light = sunLight(layout);
+      const things = meadow.mushrooms.flatMap((mushroom) => {
+        const place = placeIn(ground, mushroom);
+        if (!place) return [];
+        const stood = splayed(mushroomGenes(mushroom), place.splay);
+        const sideAt = (heading: number) =>
+          mushroomLights(light, stood, place, sun, heading).ground.toward.x;
+        const { ahead } = bedPlace(opening, mushroom.foot);
+        const sunSide = sideAt(OPENING_EYE.heading);
+        return [
+          {
+            ahead,
+            haze: 0,
+            painted: 0,
+            sunSide,
+            paintedSunSide: sunSide,
+            sideAt,
+            opening: sunSide,
+            drift: 0,
+          },
+        ];
+      });
+      assert.ok(things.length > REPAINTS_PER_FRAME, 'too few to queue');
+      const frame = (heading: number) => {
+        for (const thing of things) {
+          thing.sunSide = thing.sideAt(heading);
+          thing.drift = Math.max(
+            thing.drift,
+            Math.abs(thing.sunSide - thing.opening),
+          );
+        }
+        const due = repaintsDue(things);
+        const drifted = things
+          .filter(
+            ({ sunSide, paintedSunSide }) =>
+              Math.abs(sunSide - paintedSunSide) >= SIDE_DRIFT,
+          )
+          .toSorted((one, other) => one.ahead - other.ahead);
+        assert.deepEqual(due, drifted.slice(0, REPAINTS_PER_FRAME));
+        for (const thing of due) thing.paintedSunSide = thing.sunSide;
+        return due.length;
+      };
+      const steps = 16;
+      for (let step = 1; step <= steps; step++) {
+        frame((step / steps) * 2 * Math.PI);
+      }
+      assert.ok(
+        things.every(({ drift }) => drift >= SIDE_DRIFT),
+        'a sun side never drifted',
+      );
+      let still = 0;
+      while (frame(2 * Math.PI) > 0) still++;
+      assert.ok(
+        still <= Math.ceil(things.length / REPAINTS_PER_FRAME),
+        `${String(still)} frames to clear`,
+      );
+      for (const { sunSide, paintedSunSide } of things) {
+        assert.ok(Math.abs(sunSide - paintedSunSide) < SIDE_DRIFT);
+      }
+    });
+
     // The bed paints a thing at the haze where the view stands it, so what
     // it painted at the opening is the opening's haze.
     it(`only clears a thing as the eye steps in from the opening, on a ${name} screen`, () => {
