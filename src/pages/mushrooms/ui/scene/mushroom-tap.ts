@@ -71,8 +71,8 @@ export function flowerTakes(
 
 /**
  * Which of `mushrooms`, listed back to front as they are painted, a tap at
- * `finger` on screen goes to: the front-most whose drawn parts hold it, a
- * mushroom answering only where it is drawn. `undefined` where none does.
+ * `finger` on screen goes to: the front-most whose drawn parts hold it;
+ * `undefined` where none does.
  */
 export function tappedMushroom<Target extends MushroomTarget>(
   finger: Point,

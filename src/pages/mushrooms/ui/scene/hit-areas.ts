@@ -19,9 +19,9 @@ export type TappedFigure = Tapped &
 
 /**
  * Hit tests, bound for use as an object's hit callback. A mushroom's area is
- * its `tapArea` in its graphics' own canvas frame, pixels with y down, and it
- * answers only where it is drawn, at whatever scale the view draws it; Phaser
- * hands a tap to the front-most object that answers.
+ * its `tapArea` in its graphics' own canvas frame, pixels with y down, at
+ * whatever scale the view draws it; Phaser hands a tap to the front-most
+ * object that answers.
  */
 export function containsMushroom(area: TapArea, x: number, y: number) {
   return drawnHolds(area, { x, y });

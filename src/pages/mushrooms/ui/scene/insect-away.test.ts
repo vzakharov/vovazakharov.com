@@ -7,6 +7,7 @@ import { entryOf, isShown, nearerSide, outWay } from '../../model/flight-in';
 import { apartIn, placesSetOff } from '../../model/flight-timing';
 import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
 import { INSECT_KINDS } from '../../model/insect-genes';
+import type { Stand } from './flower-sight';
 import {
   awayDown,
   entryAloft,
@@ -32,6 +33,37 @@ const AWAY = { span: 40, drop: 150 };
 
 /** `AWAY`, as `legEnd` asks for it. */
 const standsAway = () => AWAY;
+
+/** The screens the legs' timing is swept over: a whole visit's perches on each. */
+const LEG_SCREENS = VIEWPORTS.filter(
+  ([name]) => name === 'tablet' || name === 'phone',
+);
+
+/** `stand`'s perches, seen with no beds behind them, and each one's foot row. */
+function perchedOn(stand: Stand) {
+  const perches = new Perches(() => ({ bed: undefined, flowers: undefined }));
+  perches.see(stand);
+  return { perches, rows: footRows(stand) };
+}
+
+/**
+ * Asserts the leg from `from` to `to` is drawn within `slack` of `timed`, in
+ * insect sizes of `unit` px: the timing and the drawing agree.
+ */
+function assertPaced(
+  view: View,
+  [from, to]: readonly [Aloft, Aloft],
+  unit: number,
+  timed: number,
+  slack: number,
+  what: string,
+): void {
+  const pace = framedLength(view, from, to) / unit / timed;
+  assert.ok(
+    Math.abs(pace - 1) < slack,
+    `${what}: drawn ×${pace.toFixed(2)} its timing`,
+  );
+}
 
 describe('reachesScreen', () => {
   it('hides an insect only once a span each way round its middle has left the screen', () => {
@@ -121,19 +153,11 @@ describe('entryAloft', () => {
     }
   });
 
-  for (const [name, width, height] of [
-    ['tablet', 1180, 820],
-    ['phone', 390, 844],
-  ] as const) {
+  for (const [name, width, height] of LEG_SCREENS) {
     it(`sets a release off into every cap in view as far as its leg is timed (entryOf), from an eye walked and turned, on a ${name} screen`, () => {
       const stand = opened(3, width, height, true);
       const { layout, mushrooms } = stand;
-      const perches = new Perches(() => ({
-        bed: undefined,
-        flowers: undefined,
-      }));
-      perches.see(stand);
-      const rows = footRows(stand);
+      const { perches, rows } = perchedOn(stand);
       let legs = 0;
       for (const eye of [OPENING_EYE, ...WALKED_EYES]) {
         const view = viewAt(layout.camera, eye);
@@ -157,10 +181,13 @@ describe('entryAloft', () => {
             cap,
           );
           assert.ok(timed !== undefined, id);
-          const pace = framedLength(view, from, to) / layout.insectSize / timed;
-          assert.ok(
-            pace > 0.9 && pace < 1.1,
-            `${id} from ${JSON.stringify(eye)}: drawn ×${pace.toFixed(2)} its timing`,
+          assertPaced(
+            view,
+            [from, to],
+            layout.insectSize,
+            timed,
+            0.1,
+            `${id} from ${JSON.stringify(eye)}`,
           );
           legs++;
         }
@@ -187,19 +214,11 @@ function framedLength(view: View, from: Aloft, to: Aloft): number {
 }
 
 describe('leavingAloft', () => {
-  for (const [name, width, height] of [
-    ['tablet', 1180, 820],
-    ['phone', 390, 844],
-  ] as const) {
+  for (const [name, width, height] of LEG_SCREENS) {
     it(`is as far from every cap in view as a leg out to it is timed, at either end of the band, on a ${name} screen`, () => {
       const stand = opened(3, width, height, true);
       const { layout, mushrooms } = stand;
-      const perches = new Perches(() => ({
-        bed: undefined,
-        flowers: undefined,
-      }));
-      perches.see(stand);
-      const rows = footRows(stand);
+      const { perches, rows } = perchedOn(stand);
       let legs = 0;
       // Phases sending it out at the band's top and its bottom.
       for (const phase of [-Math.PI / 6, Math.PI / 6]) {
@@ -229,11 +248,13 @@ describe('leavingAloft', () => {
               const to = leavingAloft(view, side, away, from);
               const timed = apartIn(places, cap, { kind: 'away', side });
               assert.ok(timed !== undefined, id);
-              const pace =
-                framedLength(view, from, to) / layout.insectSize / timed;
-              assert.ok(
-                pace > 0.95 && pace < 1.05,
-                `${id} ${side} from ${JSON.stringify(eye)} at drop ${away.drop.toFixed(0)}: drawn ×${pace.toFixed(2)} its timing`,
+              assertPaced(
+                view,
+                [from, to],
+                layout.insectSize,
+                timed,
+                0.05,
+                `${id} ${side} from ${JSON.stringify(eye)} at drop ${away.drop.toFixed(0)}`,
               );
               legs++;
             }
@@ -289,10 +310,7 @@ describe('legEnd', () => {
 });
 
 describe('onscreenOf, for a release', () => {
-  for (const [name, width, height] of [
-    ['tablet', 1180, 820],
-    ['phone', 390, 844],
-  ] as const) {
+  for (const [name, width, height] of LEG_SCREENS) {
     it(`times a release's way out of view to where it flies out by, at its own span and height, on a ${name} screen`, () => {
       const { layout } = opened(3, width, height, true);
       const unit = layout.insectSize;
@@ -312,11 +330,13 @@ describe('onscreenOf, for a release', () => {
               assert.ok(out);
               const drawn = placeOfAloft(view, unit, out);
               assert.deepEqual(onscreen.outs[side], drawn);
-              const pace =
-                framedLength(view, from, out) / unit / outWay(onscreen, side);
-              assert.ok(
-                pace > 0.9 && pace < 1.1,
-                `${kind} ${String(seed)} ${side} from ${JSON.stringify(eye)}: drawn ×${pace.toFixed(2)} its timing`,
+              assertPaced(
+                view,
+                [from, out],
+                unit,
+                outWay(onscreen, side),
+                0.1,
+                `${kind} ${String(seed)} ${side} from ${JSON.stringify(eye)}`,
               );
               const { x, y } = middle.outs[side];
               if (Math.hypot(drawn.x - x, drawn.y - y) > 0.01) moved++;
