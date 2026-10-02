@@ -42,18 +42,53 @@ at f680c86a; only the run's final commit is a bare `polish:`.
   `paint-backdrop.ts` — a one-line fallback whose helper would save little;
   `insect-seat.ts`' sideways step is `forwardOf(sidewaysOf(sight))` only up
   to rounding, so it stays.
+- `/tend-prose`, the six named problems: `play-approach.ts` `STANDS` doc
+  back over `STANDS`, header rewrapped; `mottles.ts` (and `Grass.seed`)
+  name `cellLawn`; `lawn.ts` header rewrapped; `DASH_SLACK` states its
+  bound's reason, no plan-file pointer; `Hitches` gets its doc line.
+  `anchored-stand.ts` header holds: `grownOn` and `Perches.see` go back
+  through `unanchored`.
+
+- `/tend-prose`, swept by grep over every added prose line in `src/` and
+  `scripts/` (the range touches nothing else outside the off-limits
+  notes): narration tells (none; the three "no longer" hits are runtime
+  states), plan-file pointers (`play-veer.ts`' `to-check.md` dropped),
+  lens 4 (no removed identifier survives only in prose; every backticked
+  name in added prose names code), and the negator sweep (all constraints,
+  no residue).
+
+## tail-polish3 (existence and tightness, same scope)
+
+- `scripts/`: `veer-report.ts` states R3.1's two bounds in place (no
+  `insect-plane.md` citation) and `DASH_SLACK` tightened; `play-approach.ts`
+  header 15 → 9 lines; `checkWatch`, `checkPops`, `checkBack`, `REST_LOOK`
+  and the probe's hitch timing tightened; `play-walk.ts` header rewrapped.
+
+- `src/`: tightened `anchor.ts` header, `anchored`, `headedLight`,
+  `placesSetOff`, `tick` (rewrap); `anchoredStand` 12 → 7 lines,
+  `STAND_REACH`; `air-spots.ts` `latticeOf`, `namedCell`, `airOf`;
+  `laidOf`; `bentTurn`; `plantableIn`. Cut restating docs on `standingAt`
+  and `Stood`. Read so far: all of `model/`, and in `ui/scene/` up to
+  `tending.ts` alphabetically, plus `air-spots`, `anchored-stand`,
+  `clump-layout`, `insect-drawn`.
+
+## tail-polish4
+
+- Cut the five restating one-liners: `lawn.ts` `cellOf`, `cellTufts`;
+  `mottles.ts` `MOTTLES_PER_CELL`; `perch-crowding.test.ts` `apartEvenly`;
+  `draw-flower.ts` `drawIn`.
+- Tightened the eight blocks: `bareToTap` 8 → 5, `SIDE_OVERHANG` 5 → 3,
+  `offSides` 4 → 3, `shownMottles` 5 → 3, `LIVE_REACH` 4 → 2, `tufts.ts`
+  header 10 → 6, `follow` 4 → 3, `ringFoot` 5 → 3, `Laid` 4 → 3.
+  (fe9cdfef)
+- `ui/scene/` after `tending.ts`, added comment hunks: `tuft-tap.ts`
+  header 4 → 1, `TUFT_REACH` 3 → 1, `tuftReach`'s restating doc cut;
+  `tufts.ts` `shownSprouts` 4 → 3. `tufts.test.ts`, `view.ts`,
+  `widest-spans.ts` hold; `tuft-tap.test.ts`, `view-inverse.test.ts`,
+  `view.test.ts`, `visit-play.ts` add no comments.
+- The bare `polish:` closing the run lands with the last of these.
 
 ## Left
 
-- `/tend-prose` over the whole range. Already noted:
-  - `play-approach.ts`: the `STANDS` doc ("Every mushroom drawn: …") sits
-    above `SPREAD_OF` instead; the header has an over-long unwrapped line.
-  - `mottles.ts` header names `cellMottles`, which does not exist
-    (`cellLawn`); `lawn.ts` header line 5 over-long.
-  - `veer-report.ts` `DASH_SLACK` cites `to-check.md`, a plan file
-    (`docs/plans/`), from durable code.
-  - `anchored-stand.ts` header: check `unanchored` is still what a rule
-    goes back through.
-  - `mushroom-probe.ts` `Hitches` has no doc line, unlike its siblings.
-- The run's last commit must be a bare `polish:` (or
-  `polish: nothing to change`) so the floor moves.
+Nothing: the run is closed, and the next `/polish` floors at its bare
+`polish:` commit.

@@ -318,3 +318,19 @@ In this order of launch; parallel where files are disjoint.
   every frame kind (the container's, as on tabP); `veer`'s headings 0.00
   and 0.26 grow no tufts (the opening's forest and flowers cover the
   ground); a fly sat a whole 5.65 s cap→air leg out of view.
+- **tail-polish** — f78ca17 (`play-fliers.ts` out of `play-insects.ts`,
+  467 → 307), 1279998 (knip green: `judgedFrom` gone, eight exports
+  local), e3732d3 (`goneAlong` in `play-walk.ts`). Stopped at 170k mid
+  `/dry`, every commit a bare `polish:`, so the lookup's floor moved past
+  unreviewed work. **Orchestrator's call:** tail-polish2 takes the floor
+  f680c86a by hand, commits `polish(12b):` until a bare `polish:` last.
+- **tail-phoneL** (probe of 0c67619) — seven green. `veer`: a harness red,
+  the one planted flower held by butterflies on every try, so the bee check
+  notes rather than fails a bee kept off (a71ffcd), to-check.md.
+  `meadow`: butterfly-1 turned 24.01 rad/s in one frame (35217 ms, limit
+  10.81); bee-12 faced 1.52 rad off its flight at 80350 ms, its steering's
+  `heldAt`. `approach`: frame JS median 47.1 ms against 26, frames with no
+  game work 45.8, load 4.45 on 4 cores with tail-polish2's tests running.
+  **Orchestrator's call:** the meadow reds to tail-turn, baseline at
+  70fc342's parent first (both may be the new drawn rotation); `approach`
+  re-run on a quiet container with phoneS, not traced.

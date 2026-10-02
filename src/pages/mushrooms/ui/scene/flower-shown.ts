@@ -28,10 +28,9 @@ export type Shown = TappedFigure &
     /** Where the head stands on its stem as laid out, before a drinking insect sags it. */
     headY: number;
     /**
-     * Its foot on the plane, and where the bed lays it out to paint it, in
-     * world px at the opening eye: a seeded flower where the layout stands
-     * it, any other `opening` ahead in a frame of its own (`laidFlower`);
-     * `undefined` while the screen has no room for it.
+     * Its foot on the plane and where the bed lays it out to paint, in world
+     * px at the opening eye: a seeded flower where the layout stands it, any
+     * other `opening` ahead (`laidFlower`); `undefined` with no room on screen.
      */
     laid: Laid | undefined;
     /** How it was last painted; `undefined` before its first paint. */

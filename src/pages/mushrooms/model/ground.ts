@@ -298,10 +298,9 @@ export function planeFootOf({ size, ...ground }: GroundFoot): Footing {
 }
 
 /**
- * `point` as `eye` sees it, moved with the eye onto `OPENING_EYE`: `viewOf`
- * reads only the offset and the heading, so `OPENING_EYE` sees the anchored
- * point exactly as `eye` sees `point`, and every rule laid out at the opening
- * eye judges it as from `eye`. Anchored at `OPENING_EYE`, a point is itself.
+ * `point` moved with `eye` onto `OPENING_EYE`: `viewOf` reads only the offset
+ * and the heading, so every rule laid out at the opening eye judges it exactly
+ * as from `eye`. Anchored at `OPENING_EYE`, a point is itself.
  */
 export function anchored(eye: Eye, point: Point): Point {
   const dx = point.x - eye.x;

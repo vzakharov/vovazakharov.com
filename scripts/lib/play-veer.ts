@@ -298,7 +298,7 @@ export async function playVeer(
       const line = `looking back, none of ${String(BACK_TRIES)} ${kind} releases took a perch in view`;
       // The bee's one perch in view is the one flower grown, and the meadow's
       // butterflies roaming in hold it past every try: the game's choice, so
-      // a bee kept off it by them is noted, not failed (to-check.md).
+      // a bee kept off it by them is noted, not failed.
       if (!landed && kind === 'bee' && crowded === BACK_TRIES)
         note(`${line}: the flower held on every try`);
       else expect(landed, line);

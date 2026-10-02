@@ -99,11 +99,9 @@ const lattices = new WeakMap<Camera, Lattice>();
 
 /**
  * The lattice the air is laid on for `laid`'s camera: one narrowest kind's
- * widest span apart where the clump stands, or half that where the coarser
- * lattice offers the opening eye too few spots to seat every insect the
- * meadow can hold clear of each other (`seatsEveryOne`); its heights the band
- * from where a butterfly's widest wings stay under the world's top down over
- * the back of the ground by `AIR_BELOW`, as over the clump's row.
+ * widest span apart at the clump, halved where that seats too few insects at
+ * the opening eye (`seatsEveryOne`); its heights from a butterfly's widest
+ * wings under the world's top down to `AIR_BELOW` over the back of the ground.
  */
 function latticeOf(laid: AirLaid): Lattice {
   const { camera } = laid;
@@ -157,9 +155,8 @@ function namesOf(column: number, row: number): CellName {
 
 /**
  * The id and perch name of the cell at `column` and `row`, the very strings
- * `known` holds for it where it does, entered in `kept`. A fresh string keying
- * `Places` costs its interning each time, several times all the rest of
- * `airOf` together; the strings kept from the last anchor are interned already.
+ * `known` holds where it does, entered in `kept`: a fresh string keying
+ * `Places` costs its interning, several times all the rest of `airOf`.
  */
 function namedCell(
   known: Names,
@@ -223,12 +220,9 @@ const lastNamed = new WeakMap<Camera, Names>();
 const KEPT = 8;
 
 /**
- * The air `laid` offers round `anchor`: the spots in the open air a roaming
- * insect flies between (the lattice's cells round the eye, `spotsAt`) each
- * where the layout anchored at `anchor` draws it, in the world and as the
- * `Place` a leg to it is timed by in that layout's frame, and every two of
- * them on which two insects of their kinds would overlap where that layout
- * draws them, so hovering insects never overlap as the eye judges them.
+ * The air `laid` offers round `anchor` (`spotsAt`), its crowdings judged where
+ * the layout anchored there draws the spots, so hovering insects never overlap
+ * as the eye judges them; kept for the last `KEPT` anchors.
  */
 export function airOf(laid: AirLaid, anchor: Eye = OPENING_EYE): Air {
   const { camera, insectSize: unit } = laid;
