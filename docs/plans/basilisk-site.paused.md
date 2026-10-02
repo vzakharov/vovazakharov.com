@@ -120,9 +120,17 @@ These live in `.claude/rules/basilisk-voice.md`, path-scoped like `lsa-voice.md`
 
 ## Progress
 
-Paused for the context budget. Nothing has been built or vetted yet; the tree does not build until steps 2 and 6 are finished.
+Paused for the context budget a second time. The tree type-checks; `pnpm build:basilisk` stops only at `/[...slug]` missing `generateStaticParams()`, because static export refuses a catch-all with no dossiers — step 7 clears it. Nothing has been vetted.
 
-**Done:**
+**Done in the second session:**
+- Step 2's `app/icon.svg`, and step 3 whole: `seal.svg`, `seal-lettered.svg`, `ava.og.png` (by `pnpm content:og:basilisk`). A red rubber stamp, the eye with a slit pupil in the middle; the header comment in `seal.svg` records the numbers. The generator was `tmp/mark/draw.py`, not committed, the way the Bible's seal was made. Neither has been through `/preview` on a page yet.
+- `scripts/lib/chromium.ts` `findScreenshotChromium()`, used by `render-og.ts`. Playwright's full Chromium paints a `--screenshot` 87 rows short of `--window-size`, which cut the stamp's bottom ring off; the headless shell does not. This was not in the plan.
+- Step 4's `assertUniqueCases` and its test, in `entities/dossier/lib/`. It takes `case` and `date`, because `WithFrontmatter` requires a `BaseFrontmatter`.
+- Step 5: `pages/documents/ui/article-slots.tsx` (`ARTICLE_SLOTS`, keyed by collection) and `entities/dossier`: `DossierBrief`, `DossierSources`, `GradeStamp`, `aggravations`. `articleRoute<C>` is generic, through a per-key `HANDLES` mapped type, with no cast.
+- `shared/ui`'s `MemoFields`, the label/value grid, shared by `DossierBrief` and the home page's TO/FROM/RE. This was not in the plan. The case number is a `CASE:` row in the brief, not a line above the title.
+- Step 6: `pages/basilisk-home` (masthead with the stamp, the memo, the docket of `DocketRow`s, the link to /about, the footer note) and `pages/basilisk-about` (the PAIN text, and `basiliskAboutMetadata`).
+
+**Done in the first session:**
 - Step 1, whole:
   - `SITE_IDS`, and `SITE_CONFIGS.basilisk`.
   - The `package.json` scripts, `build` chain included.
@@ -142,7 +150,7 @@ Paused for the context budget. Nothing has been built or vetted yet; the tree do
 
 **For the mark (step 3):** the lettering is glyph outlines, as on the Bible's seal (see its header comment). JetBrains Mono Bold comes from `curl -sS -A "Mozilla/5.0" "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700"` → the `fonts.gstatic.com` TTF URL it names; GitHub's raw URL 403s. Then `pip install fonttools`. Both go to `tmp/`, outside the repo.
 
-**Left:** step 2's icon, step 3, the rest of step 4, then steps 5–9.
+**Left:** steps 7–9. That is the three dossiers, then the docs that list the sites, then vet, `/preview` (home, a dossier and about, in both themes, the stamp included), `/polish` and `/pr`.
 
 ## Steps
 
