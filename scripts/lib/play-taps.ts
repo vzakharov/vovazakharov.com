@@ -11,6 +11,7 @@ import { z } from 'zod';
 import {
   type Controls,
   type Expect,
+  grow,
   type Page,
   Point,
 } from './mushroom-probe.ts';
@@ -130,11 +131,7 @@ export async function playHeldDrags(
   // A mushroom selected: one grown from `+`, which selects it — where the
   // view leaves it room, which a view crowded with flowers may not, so it
   // comes first. Its drag walks a little in, keeping the tufts in view.
-  await page.tap(controls.plus);
-  await page.step(30);
-  const [button] = controls.picker;
-  if (button) await page.tap(button);
-  await page.step(90);
+  await grow(page, controls, controls.picker[0]);
   const { selected } = await grown();
   if (selected === null) {
     expect(false, 'a mushroom grown from `+` is not selected');

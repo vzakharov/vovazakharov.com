@@ -27,6 +27,7 @@ import {
   type Controls,
   type Expect,
   Eye,
+  grow,
   Insects,
   inTurn,
   type Page,
@@ -72,10 +73,7 @@ async function perchesBack(
   const mushrooms = async () =>
     page.evaluate('__probe.state().mushrooms.length', z.number());
   const grownFrom = await mushrooms();
-  await page.tap(controls.plus);
-  await page.step(30);
-  if (cap) await page.tap(cap);
-  await page.step(90);
+  await grow(page, controls, cap);
   const mushroom = (await mushrooms()) === grownFrom + 1 ? 1 : 0;
   expect(mushroom === 1, 'looking back, the + and a cap grew no mushroom');
   // The child's flowers alone: the bees in flight sow theirs meanwhile.
@@ -171,12 +169,9 @@ export async function playVeer(
   };
 
   // Something to sit on: four mushrooms, grown from the picker's first four caps.
-  await inTurn(controls.picker.slice(0, 4), async (cap) => {
-    await page.tap(controls.plus);
-    await page.step(30);
-    await page.tap(cap);
-    await page.step(90);
-  });
+  await inTurn(controls.picker.slice(0, 4), async (cap) =>
+    grow(page, controls, cap),
+  );
   await keep();
 
   // 2. Facing the clump: every kind released, each perched at its size.
