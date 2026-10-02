@@ -67,6 +67,7 @@ function parseSegments(
  * articles are this one page — the collection is the only thing that differs,
  * and it arrives from whichever router mounted the page.
  */
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- `C` correlates HANDLES[collection] with ARTICLE_SLOTS[collection] (microsoft/TypeScript#47109); without it `slots.brief` takes no document type
 export function articleRoute<C extends ArticleCollectionId>(collection: C) {
   const handle = HANDLES[collection];
   const slots = ARTICLE_SLOTS[collection];
