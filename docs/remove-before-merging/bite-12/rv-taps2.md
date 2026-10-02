@@ -37,8 +37,18 @@ Contract: `docs/plans/mushroom-game-syama/bite-12/review.md` § "taps-flowers-ha
     tap fell off the screen. It now keeps only heads on screen both ways;
     this reaches `play-meadow`'s flower tap and `play-hold`'s other presses
     too, which pass.
-  - `play-hold`'s `Flower` schema was a copy of `mushroom-probe`'s; it
-    imports that one.
+
+## Proof
+
+One tabL run, built, `--plays meadow,walk,tufts,hold,keys`: walk, tufts,
+hold and keys green; frame median 12.5 ms. `meadow` (run for the
+`__probe.flower()` change) passes its flower tap; its reds are the insects'
+already on record (v15, v18, v19, v20 notes): no butterfly resting on a cap
+to be tapped through, butterfly-1 facing 0.39 rad off its way, the least
+butterfly and fly spans.
+
+- `play-hold`'s `Flower` schema was a copy of `mushroom-probe`'s; it
+  imports that one.
 
 ## Left
 
