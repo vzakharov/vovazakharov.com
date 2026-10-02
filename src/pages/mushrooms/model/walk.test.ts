@@ -38,7 +38,6 @@ const CAMERAS = VIEWPORTS.flatMap(([name, width, height]) => [
 ]);
 const TABLET = meadowCamera(1180, 820);
 
-/** How far `one` is from `other`. */
 function apart(one: Point, other: Point): number {
   return Math.hypot(one.x - other.x, one.y - other.y);
 }
@@ -93,7 +92,6 @@ class Clock {
   }
 }
 
-/** `point` moved by `dx` and `dy`. */
 function shifted(point: Point, dx: number, dy: number): Point {
   return { x: point.x + dx, y: point.y + dy };
 }
@@ -114,7 +112,7 @@ describe('a drag on the walk', () => {
     const down = groundPress(TABLET);
     clock.press(down);
     const before = eyeAt(clock.walk, clock.time);
-    // 16 px on each axis is inside a per-axis slop of 24 but not inside the circle's 16·√2 ≈ 22.6.
+    // 16 px on each axis is 16·√2 ≈ 22.6 from the press, inside the slop of 24.
     clock.drag(down, shifted(down, 16, -16), 0.3);
     assert.deepEqual(eyeAt(clock.walk, clock.time), before);
     assert.ok(Math.abs((heldStill(clock.walk, clock.time) ?? 0) - 0.3) < 1e-6);

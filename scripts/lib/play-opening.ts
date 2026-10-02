@@ -3,9 +3,9 @@
  * eye every mushroom and flower is drawn where the lens stands its layout
  * place (`ofLayout`), within `SAME_PX` — but for a thing standing past the
  * brow, which sinks behind it by design and is measured instead, how much
- * of it shows over the brow; then a butterfly
- * released facing the clump perches in view, and a 180° turn on `→` raises
- * no page error while it stays on its seat within `ON_SEAT`.
+ * of it shows over the brow; then a butterfly released facing the clump
+ * perches in view, and a 180° turn on `→` raises no page error while it
+ * stays on its seat within `ON_SEAT`.
  */
 
 import { z } from 'zod';
@@ -39,9 +39,9 @@ const SEAT_SHOT = 60;
 
 /**
  * Every mushroom and flower drawn at the opening: where it is drawn, its
- * foot's place in the layout's world px, whether it
- * stands past the brow, and for a flower how tall it is drawn and how far its
- * head reaches up the screen.
+ * foot's place in the layout's world px, whether it stands past the brow,
+ * and for a flower how tall it is drawn and how far its head reaches up the
+ * screen.
  */
 const OPENING = `(() => {
   const scene = __probe.scene;
