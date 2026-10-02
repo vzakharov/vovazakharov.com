@@ -33,7 +33,9 @@ function hasGround(point: Point): boolean {
  * seeded flower's place on the layout re-stood at its anchored foot, and
  * every flower that then stands in the sliver straight behind the eye, which
  * the layout has no ground for, left out. A bee's flower stays in its ring
- * slot round its anchored parent. At `OPENING_EYE` it is `stand` itself.
+ * slot round its anchored parent, the slot turned with the anchor
+ * (`ringFoot`), so it stands on the same plane spot from every anchor. At
+ * `OPENING_EYE` it is `stand` itself.
  */
 export function anchoredStand(stand: Stand, anchor: Eye): Stand {
   if (sameAnchor(anchor, OPENING_EYE)) return stand;

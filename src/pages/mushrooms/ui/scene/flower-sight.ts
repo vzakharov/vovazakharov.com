@@ -27,7 +27,6 @@ import {
   containsPoint,
   type Point,
 } from '../../model/geometry';
-import type { GroundFoot } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Plot, slotTaken } from '../../model/pollen';
 import { placeIn } from './clump-layout';
@@ -319,7 +318,7 @@ export function coversOn(
 /** The flowers standing where a bee plants, and every foot on the ground a planting keeps off. */
 type Ground = {
   standing: readonly StandingFlower[];
-  claimed: readonly GroundFoot[];
+  claimed: readonly Footing[];
 };
 
 /**
@@ -389,7 +388,7 @@ export function roomFor(
     if (!parent) return [];
     const ring = RING_SLOTS.findIndex((_, slot) => {
       if (slotTaken(planted, id, slot)) return false;
-      const spot = ringFoot(parent.foot, slot);
+      const spot = ringFoot(parent.foot, slot, layout.mushrooms.anchor);
       return spot !== undefined && plantable(layout, spot, ground, covers);
     });
     return ring === -1 ? [] : [{ flower: id, ring }];

@@ -3,17 +3,33 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/shared/lib/collections';
 
+import { anchorOf } from '../../model/anchor';
 import { reduce } from '../../model/game';
-import { groundFootOf } from '../../model/ground';
+import { distanceBetween } from '../../model/geometry';
+import {
+  anchored,
+  CLUMP_DISTANCE,
+  groundFootOf,
+  OPENING_EYE,
+  unanchored,
+} from '../../model/ground';
 import { openingIndex } from '../../model/placement';
 import { isBeeSown, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';
-import { standingPlaces } from './clump-layout';
-import { FLOWERS_APART, FOOT_CLEARANCE, widestHead } from './flower-layout';
+import { anchoredStand } from './anchored-stand';
+import {
+  FLOWER_SIZE,
+  FLOWERS_APART,
+  FOOT_CLEARANCE,
+  HEAD_REACH,
+} from './flower-layout';
 import {
   flowerFeet,
   flowersOf,
+  mushroomFeet,
   pulledFeet,
+  RING_SLOTS,
+  ringFoot,
   standingFlowers,
 } from './flower-plots';
 import type { Stand } from './flower-sight';
@@ -119,33 +135,28 @@ function assertGrounded(
     stand.mushrooms,
     stand.pulled,
   );
-  const feet = standingPlaces(screen.mushrooms, stand.mushrooms);
+  const feet = mushroomFeet(screen, stand.mushrooms);
   for (const { id } of stand.planted) {
     const flower = placed.find((each) => each.id === id);
     assert.ok(flower, `visit ${String(seed)}: ${id} hidden on a turn`);
-    const { place } = flower;
+    const { place, foot } = flower;
     assert.ok(
       place.x >= 0 && place.x <= screen.camera.world,
       `visit ${String(seed)}: ${id} out of the world`,
     );
-    for (const foot of feet) {
-      const nearestY = Math.min(
-        place.y,
-        Math.max(place.y - place.size, foot.y),
-      );
+    const head = HEAD_REACH * foot.size;
+    for (const mushroom of feet) {
       assert.ok(
-        Math.hypot(foot.x - place.x, foot.y - nearestY) >=
-          foot.size * FOOT_CLEARANCE + widestHead(place).r,
+        distanceBetween(foot, mushroom) >=
+          mushroom.size * FOOT_CLEARANCE + head,
         `visit ${String(seed)}: ${id} on a foot`,
       );
     }
-    const head = widestHead(place);
     for (const other of placed) {
       if (other.id === id) continue;
-      const near = widestHead(other.place);
       assert.ok(
-        Math.hypot(head.x - near.x, head.y - near.y) >=
-          FLOWERS_APART * (head.r + near.r),
+        distanceBetween(foot, other.foot) >=
+          FLOWERS_APART * HEAD_REACH * (foot.size + other.foot.size),
         `visit ${String(seed)}: ${id} on ${other.id}`,
       );
     }
@@ -194,6 +205,61 @@ describe('a planted flower', () => {
       });
     }
   }
+});
+
+/** Eyes off the opening one, near and far, turned either way. */
+const WALKED = [
+  { x: 0.7, y: 1.3, heading: 0.2 },
+  { x: -3, y: 6, heading: -0.9 },
+  { x: 12, y: -20, heading: 2.6 },
+].map((eye) => anchorOf(eye));
+
+describe('a bee’s ring', () => {
+  it('is the same plane spots from any anchor', () => {
+    const parents = [
+      { x: 0, y: CLUMP_DISTANCE, size: FLOWER_SIZE },
+      { x: -4.2, y: 11.5, size: FLOWER_SIZE },
+      { x: 30, y: -17, size: FLOWER_SIZE },
+    ];
+    for (const parent of parents) {
+      for (const [ring] of RING_SLOTS.entries()) {
+        const spot = ringFoot(parent, ring, OPENING_EYE);
+        assert.ok(spot);
+        for (const anchor of WALKED) {
+          const moved = { ...parent, ...anchored(anchor, parent) };
+          const seen = ringFoot(moved, ring, anchor);
+          assert.ok(seen);
+          const back = unanchored(anchor, seen);
+          assert.ok(
+            distanceBetween(back, spot) < SAME_GROUND,
+            `slot ${String(ring)} slid ${String(distanceBetween(back, spot))}`,
+          );
+        }
+      }
+    }
+  });
+
+  it('stands its flowers on the same plane spots in a stand judged from any anchor', () => {
+    let compared = 0;
+    for (const seed of VISITS.slice(0, PLANTED_VISITS)) {
+      const stand = plantedOut(seed, [1180, 820], 'clump');
+      const opening = new Map(
+        flowersOf(stand).map(({ id, foot }) => [id, foot]),
+      );
+      for (const anchor of WALKED.slice(0, 2)) {
+        for (const { id, foot } of flowersOf(anchoredStand(stand, anchor))) {
+          const own = opening.get(id);
+          if (!own) continue;
+          compared += 1;
+          assert.ok(
+            distanceBetween(unanchored(anchor, foot), own) < SAME_GROUND,
+            `visit ${String(seed)}: ${id} moved`,
+          );
+        }
+      }
+    }
+    assert.ok(compared > 0);
+  });
 });
 
 describe('a flower pulled up', () => {

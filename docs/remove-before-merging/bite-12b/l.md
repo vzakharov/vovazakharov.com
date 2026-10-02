@@ -120,6 +120,18 @@ PALE_SPAN + 1` (≈ 29) for the count to be exact. A bee flower is kept
   - Tufts tended at one anchor may be refused by `takesFlower` at a
     nearby one (anchor turns 0.04 rad; re-tend waits half a screen).
 
+## L3c (wave 5, `wt/l3c`)
+
+- **Step 1 — rings on the plane (call (a), B = 1.5).** `ringFoot(parent,
+ring, anchor)`: the slot's step `(x · size · SPREAD, z · size ·
+RING_DEPTH)` on the stored plane, turned with the stand's anchor heading
+  (`layout.mushrooms.anchor`), so the same plane spot from any anchor
+  (`flower-plots.test.ts` § "a bee's ring" pins it, slot by slot and on
+  planted-out stands). `headsApart`/`clearOfFeet` are now plane distance
+  over `Footing`s (`mushroomFeet` returns plane feet); the seeded bed's
+  screen-true spacing stays, private in `flower-layout.ts`
+  (`apartOnGround`/`clearOnGround`). `assertGrounded` checks plane spacing.
+
 ## Left
 
 - The rest of L3: rules from the anchor, the 48 cap, flowers off the
