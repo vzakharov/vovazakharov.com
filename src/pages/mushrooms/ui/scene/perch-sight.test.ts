@@ -10,18 +10,15 @@ import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE, OPENING_EYE, pinholeOf } from '../../model/ground';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
-import { type Flier, INSECT_LIMITS } from '../../model/insects';
+import type { Flier } from '../../model/insects';
 import { mulberry32, nextSeed } from '../../model/random';
+import { airAlofts, airSpots, clumpRow } from './air-spots';
 import { bedPlace } from './bed-place';
 import { flowersOf } from './flower-plots';
 import { type Stand, WIDEST_SPAN } from './flower-sight';
 import { drawnAloft } from './insect-frame';
 import { meadowLayout } from './layout';
 import {
-  AIR_BELOW,
-  airAlofts,
-  airSpots,
-  clumpRow,
   footRows,
   MOST_OVERLAP,
   onscreenOf,
@@ -175,52 +172,6 @@ describe('WIDEST_SPAN', () => {
   });
 });
 
-describe('airSpots', () => {
-  for (const [name, width, height] of VIEWPORTS) {
-    it(`offers a spot for every butterfly and one more on a ${name} screen, inside the world by half a wingspan and across the whole of it`, () => {
-      for (const seed of VISITS.slice(0, 200)) {
-        const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
-        const spots = airSpots(layout);
-        assert.ok(spots.length > INSECT_LIMITS.butterfly);
-        const { insectSize, groundTop, camera } = layout;
-        const half = (WIDEST_SPAN * insectSize) / 2;
-        const bottom = groundTop + AIR_BELOW * (height - groundTop);
-        for (const { x, y } of spots) {
-          assert.ok(x >= half && x <= camera.world - half + 1e-9 && y >= half);
-          assert.ok(y <= Math.max(half, bottom) + 1e-9);
-        }
-        const across = spots.map(({ x }) => x);
-        assert.ok(Math.min(...across) < half + 1e-9);
-        assert.ok(Math.max(...across) > camera.world - half - 1e-9);
-      }
-    });
-  }
-});
-
-describe('the air', () => {
-  for (const [name, width, height] of VIEWPORTS) {
-    it(`crowds every two spots nearer than the widest wingspan, so no two hovering fliers overlap, on a ${name} screen`, () => {
-      const stand = opened(3, width, height, true);
-      const { crowded } = perchSight(stand);
-      const span = WIDEST_SPAN * stand.layout.insectSize;
-      const spots = airSpots(stand.layout);
-      for (const [index, spot] of spots.entries()) {
-        for (const other of spots.slice(index + 1)) {
-          const near = Math.hypot(spot.x - other.x, spot.y - other.y) < span;
-          const paired = crowded.some(
-            ([a, b]) =>
-              a.kind === 'air' &&
-              b.kind === 'air' &&
-              ((a.id === spot.id && b.id === other.id) ||
-                (a.id === other.id && b.id === spot.id)),
-          );
-          assert.equal(paired, near, `${spot.id} and ${other.id}`);
-        }
-      }
-    });
-  }
-});
-
 /**
  * The visits the butterflies are watched in, spread over `VISITS`: a
  * quarter of them with the opening clump, and one in twenty-five with a full
@@ -274,13 +225,15 @@ describe('onscreenOf', () => {
       assert.equal(onscreenOf(layout, undefined), undefined);
     });
 
-    it(`places every perch at its foot row's distance from the opening eye, the air and the edges at the clump's, on a ${name} screen`, () => {
+    it(`places every perch but the air's at its foot row's distance from the opening eye, the edges at the clump's, on a ${name} screen`, () => {
       const stand = opened(3, width, height, true);
       const { layout } = stand;
       const rows = footRows(stand);
-      const { places = {} } = perchSight(stand);
-      const clump = rowAt(layout.camera, clumpRow(layout)).opening;
+      const { places = {}, air } = perchSight(stand);
+      const inAir = new Set(air.map((id) => perchName({ kind: 'air', id })));
+      const clump = rowAt(layout.camera, clumpRow(layout.camera)).opening;
       for (const [perch, { fromEye: q }] of Object.entries(places)) {
+        if (inAir.has(perch)) continue;
         const row = rows.get(perch);
         const expected =
           row === undefined ? clump : rowAt(layout.camera, row).opening;
@@ -323,22 +276,6 @@ describe('onscreenOf', () => {
           assert.ok(Math.abs(drawn.x - placed.x) < 1e-6, id);
           assert.ok(Math.abs(drawn.y - placed.y) < 1e-6, id);
         }
-      }
-    });
-
-    it(`draws every spot in the air as a fixed point where the layout lays it out at the opening eye, on a ${name} screen`, () => {
-      const { layout } = opened(3, width, height, true);
-      const view = viewAt(layout.camera, OPENING_EYE);
-      const alofts = airAlofts(layout);
-      const row = clumpRow(layout);
-      for (const spot of airSpots(layout)) {
-        const aloft = alofts.get(spot.id);
-        assert.ok(aloft, spot.id);
-        const drawn = drawnAloft(view, aloft);
-        const laid = ofLayout(view, spot, row);
-        assert.ok(drawn, spot.id);
-        assert.ok(Math.abs(drawn.x - laid.x) < 0.1, spot.id);
-        assert.ok(Math.abs(drawn.y - laid.y) < 0.1, spot.id);
       }
     });
 
@@ -393,13 +330,12 @@ describe('onscreenOf', () => {
 });
 
 describe('footRows', () => {
-  it('stands every cap and flower over its own foot, and the air over the clump', () => {
+  it('stands every cap and flower over its own foot, and nothing in the air', () => {
     const stand = opened(3, 1180, 820, true);
     const rows = footRows(stand);
     const { layout, mushrooms } = stand;
     for (const { id } of airSpots(layout)) {
-      const name = perchName({ kind: 'air', id });
-      assert.equal(rows.get(name), clumpRow(layout));
+      assert.equal(rows.get(perchName({ kind: 'air', id })), undefined, id);
     }
     const grounded = [...rows.entries()].filter(
       ([name]) => !name.startsWith('air'),

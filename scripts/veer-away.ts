@@ -29,6 +29,7 @@ import {
   type InsectKind,
 } from '../src/pages/mushrooms/model/insect-genes.ts';
 import { wingspan } from '../src/pages/mushrooms/model/insect-outline.ts';
+import { airAlofts } from '../src/pages/mushrooms/ui/scene/air-spots.ts';
 import {
   type Away,
   awayDown,
@@ -40,7 +41,6 @@ import {
   mixD,
 } from '../src/pages/mushrooms/ui/scene/insect-frame.ts';
 import {
-  airAlofts,
   footRows,
   onscreenOf,
   perchSight,

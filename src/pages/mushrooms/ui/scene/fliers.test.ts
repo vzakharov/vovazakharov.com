@@ -22,15 +22,9 @@ import { type Carried, flightPoint } from '../../model/insect-paths';
 import type { Flier } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
 import { blockedFor, type Held } from '../../model/perch-room';
+import { airSpots, EVERY_ONE } from './air-spots';
 import type { MeadowLayout } from './layout';
-import {
-  airSpots,
-  EVERY_ONE,
-  MOST_OVERLAP,
-  perchSight,
-  perchSpot,
-  seatAt,
-} from './perch-sight';
+import { MOST_OVERLAP, perchSight, perchSpot, seatAt } from './perch-sight';
 import { tapReach } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
 import {

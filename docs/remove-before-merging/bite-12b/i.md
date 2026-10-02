@@ -41,15 +41,14 @@
 
 - **`fliers.test.ts` on S3 (5e80fb4): green**, 48/48, 5 min 22 s.
 
-## I2 in progress
+## I2
 
 **Landed** (see `git log --grep "air round the eye"`): `ui/scene/air-spots.ts`
 (the plane lattice, `airOf`/`airSpots`/`airAlofts`/`airAloftOf`, `clumpRow`,
 `AIR_BELOW`, `EVERY_ONE`), `ui/scene/widest-spans.ts`, and `pointCrowdings`
 rewritten, with `perch-crowding.test.ts` checking it against every-two-asked
 (the old algorithm) — same pairs, same pairings, same order, 0 to 1200
-points. Not yet imported by anything: `perch-sight.ts` still has its own
-copies until the wiring lands.
+points.
 
 **`airOf` per anchor at 1180×820: median 2.4–3.0 ms** (walk in 2-unit
 steps 2.95, p90 4.9; turn by 0.3 rad 2.6; ~655 spots, ~3,400 pairs), from
@@ -64,8 +63,7 @@ median, p90 halved); `pointCrowdings` an x-sweep collecting pairs as
 itself is 0.65 ms. Under budget, so neither the plane crowding nor a coarser
 snap was measured.
 
-**Wiring: `i2-wiring.patch`** (`git apply` from the repo root; type-checks
-for source, tests not yet repointed, so `pnpm typecheck` fails with it):
+**Wiring landed** (`git log --grep "wire the air lattice"`; the patch is gone):
 
 - `perch-sight.ts`: own air code, `WIDEST_SPANS`/`widestOn`, `clumpRow`,
   `AIR_BELOW`, `EVERY_ONE` dropped and imported. The anchor is read off the
@@ -78,19 +76,22 @@ for source, tests not yet repointed, so `pnpm typecheck` fails with it):
 - `perches.ts`: `alofts = airAlofts(layout, anchor)` (plane already); air
   names in `placed` from those alofts; `hosts(perch)` falls back to
   `airAloftOf` for an air spot no longer offered.
-
-Left for the wiring: repoint `perch-sight.test.ts` (`AIR_BELOW`, `airAlofts`,
-`airSpots`, `clumpRow(layout)` → `clumpRow(layout.camera)`, the `footRows`
-air case, the old-grid checks, which describe the old grid and need
-rewriting against the lattice), `fliers.test.ts` (`airSpots`, `EVERY_ONE`
-→ `./air-spots`), `perches.test.ts`, `insect-away.test.ts`,
-`scripts/veer-away.ts` (`airAlofts` from `./air-spots`, now plane, so no
-`aloftOfLayout`); write `air-spots.test.ts` (names stable across anchors,
-cell count ≈650 at 1180×820, heights in the band, crowding on the screen,
-`airAloftOf` matches `airAlofts`); run it with perch-sight, perches,
-insect-away and fliers tests.
+- Tests: the old grid's checks (`airSpots` across the whole width, the air
+  crowded by `WIDEST_SPAN`, drawn via `ofLayout` over the clump's row, the
+  air at the clump's distance) are gone from `perch-sight.test.ts`;
+  `air-spots.test.ts` checks the lattice instead: more spots than
+  butterflies, inside the world, from six eyes; 500–800 spots at 1180×820;
+  heights in the band; each spot at `placeOfAloft` of its aloft from the eye
+  it is offered round, drawn there, its `fromEye` the place's; names and
+  alofts kept between eyes; `airAloftOf` = `airAlofts`; air crowded iff
+  nearer on screen than a butterfly's widest wings. `fliers.test.ts` 48/48
+  (5 min 9 s), perch-sight 50/50, perches, insect-away, perch-crowding green.
+- `pnpm type-overlap` was red on `air-spots.ts` (I2's landing): `Spot`'s
+  `aloft` now `Pick<Pose, 'aloft'>`, `Air`'s `alofts` `Pick<PerchHosts,
+  'alofts'>`, the cell's `{ id, name }` now `WithId & { key }`, the
+  lattice's `pitch` renamed `spacing` (it collided with `Buzz`'s).
 
 ## Left
 
-- Finish I2 (above), then I3, I4 (S2's `seatAloft` fallback regression,
+- I3, I4 (S2's `seatAloft` fallback regression,
   `s.md` § "For package I"), I5.
