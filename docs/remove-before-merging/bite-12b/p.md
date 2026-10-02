@@ -63,7 +63,26 @@ heading`):
   `spores.ts` (`Puffing` carrying the drawn zoom), which this package did
   not own.
 - `mushroom-bed.ts` is 479 lines, past the ~450 rule of thumb.
-- P2 — mottles from the lawn's cells: needs `lawn.ts` (L's), not started.
+- **P2 — mottles from the lawn's cells: drafted, red, in
+  `p2-mottles.patch`** (`git apply` it from the repo root). It adds
+  `ui/scene/mottles.ts` (`Mottle` on the plane — `middle`, `across`,
+  `along`, `angle`, `deep`; `mottleIn`, `shownMottles` projecting two rings
+  of 16 plane points each through `viewOf`, fading to nothing as the far
+  edge nears `D_SEE`, skipped near/behind the eye or off screen;
+  `paintMottles` as a path, so the module loads under node;
+  `MOTTLE_DEPTH` between `DEPTHS.ground` and `.brow`; tone and alpha the
+  old bite-11 mottles' — `MOTTLE_TONE` 0.3, `MOTTLE_ALPHA` 0.16 over two
+  rings, outer 1.3× wider), `lawn.ts` `cellLawn` (3 mottles drawn from
+  the cell's stream **after** its tufts, so the tufts are unchanged) and
+  `LiveLawn.mottles`, and `tufts.ts`'s `Grass` drawing them in `update`
+  when the view changes (a graphics at `MOTTLE_DEPTH`) — `tufts.ts` was
+  not on the package's list. `mottles.test.ts`: 2 pass (cells, walk back),
+  7 fail — the "flat on the ground at every heading" test (likely the
+  `ahead < V_NEAR / 2` skip or the units of `across` against the plane,
+  not yet checked: is `V_NEAR` in the clump's size, and does any mottle
+  survive at every heading?) and the "none past the brow" test. Next: log
+  `shownMottles`' rejects for one viewport, fix, run `tufts.test.ts` too,
+  then look at it with `/preview`.
 
 ## Decided
 

@@ -175,6 +175,16 @@ I‴ (I4 with both beds' host builders, I5, `fliers.test.ts` once) and
 P1b's flower half with P2 (`flower-bed.ts` paint and follow, `lawn.ts`);
 the two share only `flower-bed.ts`, I‴ touching `seat` alone.
 
+- **P1b, flowers** — ae2b474d: `FlowerPainting` and `paintFlowerLit` in
+  `draw-flower.ts`, `follow` queues every drawn flower by heading; exact
+  at the opening (a test). P2 red as `p2-mottles.patch` (7 of 9
+  `mottles.test.ts` fail: flat at every heading, none past the brow).
+  **Calls:** the flowers' own repaint queue is kept (up to 2+2 repaints a
+  frame turning; the play run measures it, and only a hitch earns
+  `meadow-scene.ts` one shared queue); P2 editing `tufts.ts` (where
+  `Grass` lives) is fine; `flower-bed.ts` at 485 lines is split once I‴
+  is off its `seat`.
+
 ## Wave 5
 
 L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half
