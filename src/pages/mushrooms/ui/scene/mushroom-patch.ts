@@ -23,16 +23,14 @@ import {
 import {
   type Camera,
   type Ground,
-  groundOfPlane,
   type Layered,
   type LayeredPoint,
-  planeOf,
   scaleAt,
   type WithCamera,
 } from '../../model/ground';
 import type { Splayed } from '../../model/mushroom-pose';
 import { openingIndex } from '../../model/placement';
-import { placeIn } from './clump-layout';
+import { groundIn, type MushroomGround, placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { flowersOf } from './flower-plots';
 import { flowerTapReach, type Stand } from './flower-sight';
@@ -72,18 +70,28 @@ const TRY_STEP = 3;
 const RING_POINTS = 12;
 
 /**
- * The least radius of the patch the mushroom standing on `foot` keeps where
+ * The least radius of the patch a mushroom keeps standing on `ground`, the
+ * layout's ground under its foot, `opening` for one of the clump's, where
  * `camera` shows it: its patch on a tablet held sideways, shrunk with the
  * size the camera draws the clump at below a tablet's and with how much
  * smaller a mushroom stands drawn farther off than the clump's front foot,
  * down to `LEAST_PATCH`. Neither a bigger screen nor a nearer foot grows it.
  */
-function patchFloor(foot: Point, { unit }: Camera): number {
-  const tablet = openingIndex(foot) === undefined ? GROWN_PATCH : CLUMP_PATCH;
-  const { z } = groundOfPlane(foot);
+function patchFloor({ z }: Ground, opening: boolean, { unit }: Camera): number {
+  const tablet = opening ? CLUMP_PATCH : GROWN_PATCH;
   const shrunk =
     (Math.min(unit, TABLET_UNIT) / TABLET_UNIT) * Math.min(1, scaleAt(z));
   return Math.max(LEAST_PATCH, tablet * shrunk);
+}
+
+/**
+ * `patchFloor` of the mushroom on the stored `foot`, as `ground`'s anchor
+ * sees it; asked only of a mushroom `ground` stands (`placeIn`).
+ */
+function floorOn(ground: MushroomGround, foot: Point): number {
+  const at = groundIn(ground, foot);
+  if (!at) throw new Error('A patch asked of a mushroom with no ground');
+  return patchFloor(at, openingIndex(foot) !== undefined, ground.camera);
 }
 
 /** A flower's head as a tap finds it, on screen (`flowerTakes`), and how near the front it stands. */
@@ -157,7 +165,7 @@ export function tappedIn(stand: Stand): Tapped {
 export function patchlessIn(
   stand: Stand,
   least: (foot: Point) => number = (foot) =>
-    patchFloor(foot, stand.layout.camera),
+    floorOn(stand.layout.mushrooms, foot),
 ): string[] {
   const tapped = tappedIn(stand);
   return tapped.targets.flatMap((target) => {
@@ -309,16 +317,15 @@ export type Around = WithCamera & { tapped: Tapped; held: readonly Held[] };
 /** `stand` as a new mushroom is tried on it (`keepsPatches`). */
 export function patchesAround(stand: Stand): Around {
   const tapped = tappedIn(stand);
-  const { camera } = stand.layout;
-  const floors = new Map(
-    stand.mushrooms.map(({ id, foot }) => [id, patchFloor(foot, camera)]),
-  );
+  const { mushrooms: ground } = stand.layout;
+  const feet = new Map(stand.mushrooms.map(({ id, foot }) => [id, foot]));
   return {
     tapped,
-    camera,
+    ...pick(ground, 'camera'),
     held: tapped.targets.map((target) => {
-      const floor = floors.get(target.id);
-      if (floor === undefined) throw new Error(`${target.id} has no foot`);
+      const foot = feet.get(target.id);
+      if (!foot) throw new Error(`${target.id} has no foot`);
+      const floor = floorOn(ground, foot);
       return { target, floor, patch: patchOf(target, tapped, floor) };
     }),
   };
@@ -341,7 +348,7 @@ export function keepsPatches(
     targets: [...tapped.targets, own].toSorted((a, b) => a.depth - b.depth),
   };
   return (
-    patchOf(own, among, patchFloor(planeOf(foot), camera)) !== undefined &&
+    patchOf(own, among, patchFloor(foot, false, camera)) !== undefined &&
     held.every(
       ({ target, floor, patch }) =>
         !patch ||

@@ -2,8 +2,10 @@
  * Where the next mushroom may grow: a foot `pickFoot` draws over the stretch
  * of the world the screen shows now (`layoutShown`), kept only where the
  * mushroom grown there, of whichever species the child picks, keeps every
- * rule the meadow keeps. The meadow's rules are judged at the opening eye,
- * as the layout stands it: its cap inside `EDGE_MARGIN` of the world's
+ * rule the meadow keeps. The meadow's rules are judged at the view's eye's
+ * anchor (`anchorOf`), as the layout anchored there stands it
+ * (`anchoredStand`): no more than `MUSHROOM_SLOTS` within `D_SEE` of its
+ * foot (`isCrowdedAt`), its cap inside `EDGE_MARGIN` of the world's
  * edges, no cap or stem hidden behind the nearer ones past `MOST_HIDDEN`,
  * every door in sight (`doorInSight`), off every flower, and every mushroom
  * keeping a patch of its own a finger lands on (`keepsPatches`). The screen's
@@ -16,6 +18,8 @@
 
 import { pick } from '@/shared/lib/collections';
 
+import { anchorOf } from '../../model/anchor';
+import { isCrowdedAt } from '../../model/game';
 import {
   type Box,
   boxAround,
@@ -25,22 +29,26 @@ import {
   type Point,
 } from '../../model/geometry';
 import {
+  anchored,
   type Eye,
   type Ground,
   groundFootOf,
-  groundOfPlane,
+  OPENING_EYE,
 } from '../../model/ground';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
 import {
   apartOnScreen,
+  type Footed,
+  grownOn,
   pickFoot,
   type WithOptionalSpan,
 } from '../../model/placement';
 import type { Seeded } from '../../model/random';
+import { anchoredStand } from './anchored-stand';
 import { aboutFoot } from './bed-place';
 import { capBox } from './cap-cover';
-import { FOREST_SPLAY, placeOnGround } from './clump-layout';
+import { FOREST_SPLAY, groundIn, placeOnGround } from './clump-layout';
 import { type Standing, standingAs } from './door-sight';
 import { layoutShown } from './eye-crop';
 import { flowerFeet } from './flower-plots';
@@ -81,6 +89,24 @@ type Screen = WithOptionalSpan & {
   view?: View;
   keepOff: readonly Circle[];
 };
+
+/** The anchor a `+` pressed in `view` judges the meadow from: the opening eye absent a view. */
+function anchorIn(view: View | undefined): Eye {
+  return view ? anchorOf(view.eye) : OPENING_EYE;
+}
+
+/**
+ * `view` as the layout anchored at `anchor` holds it: its eye moved with the
+ * anchor onto `OPENING_EYE` (`anchored`), so it draws the anchored layout as
+ * `view` draws the plane.
+ */
+function viewFrom(anchor: Eye, view: View): View {
+  const { eye } = view;
+  return {
+    ...view,
+    eye: { ...anchored(anchor, eye), heading: eye.heading - anchor.heading },
+  };
+}
 
 /** `stage` as a new mushroom is held to on it, in `view`. */
 function screenOn(stage: MeadowLayout, view: View | undefined): Screen {
@@ -236,30 +262,36 @@ const TRIED = 'the tried mushroom';
 /**
  * Where the mushroom grown from `seed` grows in `stand`, as the scene and
  * the visit a sweep opens both find it, whichever species the child picks:
- * shown in `view`, or anywhere in the world absent one; `undefined` where
+ * shown in `view`, or anywhere in the world absent one, judged from the
+ * view's anchor (`anchorIn`) and grown there (`grownOn`); `undefined` where
  * there is no room left for one. It keeps off every flower standing there
- * (`flowerFeet`), and each foot is tried on the cheap rules first, then the
- * controls, then what it hides and what hides it, then the doors, then the
- * patches, the dearest to try.
+ * (`flowerFeet`), and each foot is tried on the area cap and the cheap rules
+ * first, then the controls, then what it hides and what hides it, then the
+ * doors, then the patches, the dearest to try.
  */
 export function roomFor(
   stand: Stand,
   seed: number,
   view?: View,
-): Ground | undefined {
-  const { layout, mushrooms } = stand;
-  const flowers = flowerFeet(stand).map((foot) => groundFootOf(foot));
-  const screen = screenOn(layout, view);
-  const others = standingOn(mushrooms, layout);
+): Footed | undefined {
+  const anchor = anchorIn(view);
+  const judged = anchoredStand(stand, anchor);
+  const { layout, mushrooms } = judged;
+  const flowers = flowerFeet(judged).map((foot) => groundFootOf(foot));
+  const screen = screenOn(layout, view && viewFrom(anchor, view));
+  const others = standingOn(mushrooms, layout.mushrooms);
   const splays = speciesOf(seed);
   let around: Around | undefined;
-  const aroundNow = (): Around => (around ??= patchesAround(stand));
-  return pickFoot(seed, {
+  const aroundNow = (): Around => (around ??= patchesAround(judged));
+  const found = pickFoot(seed, {
     ...pick(layout.mushrooms, 'frame'),
     ...pick(screen, 'within'),
-    feet: mushrooms.map(({ foot }) => groundOfPlane(foot)),
+    feet: mushrooms.flatMap(
+      ({ foot }) => groundIn(layout.mushrooms, foot) ?? [],
+    ),
     admits: (foot) => {
       if (
+        isCrowdedAt(stand, grownOn(anchor, foot).foot) ||
         flowers.some((flower) => apartOnScreen(foot, flower) < FLOWER_APART)
       ) {
         return false;
@@ -275,27 +307,36 @@ export function roomFor(
       );
     },
   });
+  return found && grownOn(anchor, found);
 }
 
 /**
- * Whether the mushroom grown from `seed` on `foot`, of every species, still
+ * Whether the mushroom grown from `seed` on `footed`, of every species, still
  * stands shown in `view` and off every control and the sun's rays on its
- * screen: all of `roomFor`'s rules that a turn or a step changes.
+ * screen, judged from the view's anchor: all of `roomFor`'s rules that a
+ * turn or a step changes.
  */
 export function fitsView(
   { layout }: Stand,
   seed: number,
-  foot: Ground,
+  { foot }: Footed,
   view?: View,
 ): boolean {
+  const anchor = anchorIn(view);
+  const ground = groundIn({ ...layout.mushrooms, anchor }, foot);
   return (
-    shownTrials(screenOn(layout, view), foot, speciesOf(seed)) !== undefined
+    ground !== undefined &&
+    shownTrials(
+      screenOn(layout, view && viewFrom(anchor, view)),
+      ground,
+      speciesOf(seed),
+    ) !== undefined
   );
 }
 
 /** What a room was found in, where, and the eye it was found from. */
 type Found = Stand &
-  Seeded & { foot: Ground | undefined; eye: Eye | undefined };
+  Seeded & { foot: Footed | undefined; eye: Eye | undefined };
 
 /** What of a stand the room in it is found from. */
 const FOUND_FROM = [

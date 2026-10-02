@@ -13,10 +13,9 @@ import {
   MUSHROOM_SLOTS,
   reduce,
 } from '../../model/game';
-import { OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
-import { grownOn, openingIndex } from '../../model/placement';
+import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
 import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
@@ -69,7 +68,7 @@ export function opened(
       kind: 'grow',
       species,
       seed: own,
-      ...grownOn(OPENING_EYE, foot),
+      ...foot,
     });
   }
   return { meadow, ...standOf(layout, flowers, meadow) };

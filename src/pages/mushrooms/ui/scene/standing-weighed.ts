@@ -21,9 +21,8 @@ import {
   pastMore,
   type Sighted,
 } from './cap-cover';
-import { placeOf } from './clump-layout';
+import { type MushroomGround, placeIn } from './clump-layout';
 import { doorInSight, IN_SIGHT, sightOf, type Standing } from './door-sight';
-import type { MeadowLayout } from './layout';
 
 /**
  * Whether `standing`'s door shows `IN_SIGHT` past every nearer one of
@@ -74,28 +73,29 @@ function weighed(one: Among, among: () => readonly Weighed[]): Weighed {
 }
 
 /**
- * Each of the meadow's mushrooms on `stage`, weighed once however many feet
- * are tried beside them, on whatever crop: the meadow's mushrooms are never
- * changed in place, only replaced.
+ * Each of the meadow's mushrooms that `ground` stands (`placeIn`), weighed
+ * once however many feet are tried beside them, for as long as the ground's
+ * anchor stays (`anchoredGround`): the meadow's mushrooms are never changed
+ * in place, only replaced.
  */
 const standings = new WeakMap<
   readonly Planted[],
-  WeakMap<MeadowLayout, Weighed[]>
+  WeakMap<MushroomGround, Weighed[]>
 >();
 export function standingOn(
   mushrooms: readonly Planted[],
-  stage: MeadowLayout,
+  ground: MushroomGround,
 ): Weighed[] {
-  const byStage = standings.get(mushrooms) ?? new WeakMap();
-  standings.set(mushrooms, byStage);
-  const known = byStage.get(stage);
+  const byGround = standings.get(mushrooms) ?? new WeakMap();
+  standings.set(mushrooms, byGround);
+  const known = byGround.get(ground);
   if (known) return known;
   const here: Weighed[] = [];
   for (const mushroom of mushrooms) {
-    const place = placeOf(stage.camera, mushroom);
-    here.push(weighed(amongAt(place, mushroom), () => here));
+    const place = placeIn(ground, mushroom);
+    if (place) here.push(weighed(amongAt(place, mushroom), () => here));
   }
-  byStage.set(stage, here);
+  byGround.set(ground, here);
   return here;
 }
 

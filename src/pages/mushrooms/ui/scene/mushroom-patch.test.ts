@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { anchorOf } from '../../model/anchor';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import { openingIndex } from '../../model/placement';
+import { anchoredStand } from './anchored-stand';
 import {
   patchlessIn,
   type PatchTarget,
@@ -19,24 +21,19 @@ import { opened } from './visit-play';
 const FORESTS = 40;
 /** How far apart, in CSS px, the taps tried across a grown mushroom's head stand. */
 const HEAD_GRID = 3;
-/** Where each forest's `+` presses stand, as `opened` takes it: a view, or anywhere in the world absent one. */
-type Viewing = Parameters<typeof opened>[4];
-/** The view `eye` sees each layout through. */
-const from =
-  (eye: Eye): NonNullable<Viewing> =>
-  (layout) =>
-    viewAt(layout.camera, eye);
 /**
  * Where a child grows a forest, each tried over every 40th visit from its
- * own offset: anywhere in the world, as one who walks about; in the opening
- * view, as one who never moves and so grows the densest forests; and turned
- * toward the wedge's side, and stepped 3 units in.
+ * own offset, by the eye its `+` presses stand at: anywhere in the world
+ * absent one, as one who walks about; in the opening view, as one who never
+ * moves and so grows the densest forests; and turned toward the wedge's
+ * side, and stepped 3 units in. Each forest's taps are judged from the eye
+ * it grew at, as `roomFor` judged them.
  */
-const GROWN_ON: ReadonlyArray<readonly [string, Viewing]> = [
+const GROWN_ON: ReadonlyArray<readonly [string, Eye | undefined]> = [
   ['anywhere in the world', undefined],
-  ['in the opening view', from(OPENING_EYE)],
-  ['turned', from({ ...OPENING_EYE, heading: 0.3 })],
-  ['stepped in', from({ ...OPENING_EYE, y: OPENING_EYE.y + 3 })],
+  ['in the opening view', OPENING_EYE],
+  ['turned', { ...OPENING_EYE, heading: 0.3 }],
+  ['stepped in', { ...OPENING_EYE, y: OPENING_EYE.y + 3 }],
 ];
 /** How many visits apart the forests tried on each screen and crop stand. */
 const SAMPLE_STEP = 40;
@@ -95,7 +92,7 @@ describe('a grown forest’s taps', () => {
     // A child aims at a grown mushroom's head: a tap anywhere on its drawn
     // cap and gills, its middle included, reaches it or what is drawn in
     // front of it, and it keeps most of them.
-    for (const [offset, [crop, viewIn]] of GROWN_ON.entries()) {
+    for (const [offset, [crop, eye]] of GROWN_ON.entries()) {
       const visits = [
         ...VISITS.filter((_, index) => index % SAMPLE_STEP === offset * 10),
         ...WORST.filter(
@@ -107,7 +104,16 @@ describe('a grown forest’s taps', () => {
         let covered = 0;
         let worst = 1;
         for (const seed of visits) {
-          const forest = opened(seed, width, height, true, viewIn);
+          const forest = anchoredStand(
+            opened(
+              seed,
+              width,
+              height,
+              true,
+              eye && ((layout) => viewAt(layout.camera, eye)),
+            ),
+            anchorOf(eye ?? OPENING_EYE),
+          );
           assert.deepEqual(patchlessIn(forest), [], `visit ${String(seed)}`);
           const tapped = tappedIn(forest);
           for (const target of tapped.targets) {
