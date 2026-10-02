@@ -152,3 +152,62 @@ screen's edge (`shownOf`) but drawn from over the brow.
 **Looking back the glade is bare by design** (12b makes the field endless),
 so nothing grows at π; the veer play lands its looking-back releases at the
 farthest heading with room (~1.8 rad on tabL, ~1.6 on phoneP).
+
+## The insect plane's decisions
+
+Moved from the plan's `## Rest of the bite`, where they were made.
+
+**Re-decided, from `lens-carry.md` round 3: insects fly and are sized on the
+plane, not in the layout.** The past-the-edge start did not hold: every leg
+is flown in the layout (the opening eye's screen), and looking back the
+screen shows only the layout's two far ends with the no-row wedge between,
+so a leg across the screen runs through the meadow in front of the opening
+eye and is drawn on 0 of 201 samples; and an insect is sized by its row's
+distance from the opening eye, which falls to 0 looking back, so every
+insect, a perched one too, shrinks toward the screen's middle (zoom 0.05–0.6
+at π) while its cap keeps its size. Both are the layout standing in for the
+world, which the lens and walking made wrong away from the opening; the
+0.76% release was the symptom. So a leg's points are plane points, and an
+insect's drawn size is its own size over its distance from the eye.
+Beaten: sizing by distance alone (fixes the size, not the legs through the
+meadow); a zoom floor (the bound beaten in `bite-12/insects.md`'s round-2 decision, a tenth-size insect); the
+past-the-edge patch alone (`lens-carry-round3.patch`, never seen with no
+perch shown). A spec first (`insect-plane.md`), then build packages.
+**Decided, with the operator: an insect's size at the opening goes by its
+distance too** («ну да, а звучит хорошо»), so the opening's equal sizes go:
+a release over the brow at 0.65× today's, perched insects 0.65× on the back
+caps to 1.1–1.5× near the front, each in scale with its cap and the brow.
+Beaten: sizing by distance from the plane's origin (today's sizes at the
+opening, but a perched and a flying insect at one distance differ, and
+sizes drift as the child turns).
+**Decided, with the operator: a leg veers round the eye** («да, 1 — ок»)
+at the distance where an insect's zoom reaches today's `V_NEAR` value
+(~1.7×), so a fly passes the child's ear rather than through his head and
+never fills the screen. Beaten: a zoom cap on a straight leg (a flat sticker
+sliding across the screen).
+**Open with the operator's play: flies and bees still fly «неприлично
+быстро» on a long leg.** `dash-cap.md` caps a dash at the kind's dash
+across the screen it flies on, which is still ~3 screens a second for a
+fly and ~1.8 for a bee on the tablet, and a long leg always reaches the
+cap. The cause is `paced` (`flight-timing.ts`): a leg's time is the kind's
+`flying` time stretched with its strides only up to `slowest`, so past that
+every longer leg takes the same time and flies faster. The operator: «а
+почему они вообще должны летать тем быстрее, чем больше путь? вроде в жизни
+муха летит себе и летит». **Decided: a leg's time is its length at the
+kind's own cruise**, a speed per kind set by play — to start, today's
+median-leg speed on the tablet (fly ≈ 7, bee ≈ 4.6 butterfly sizes a
+second; the butterfly as today) — with no ceiling, so a long leg simply
+takes longer; a fly's darting stays a fixed burst shape within that time,
+never a speed-up for distance. Timed by the leg's length as drawn
+(`Places` carry each perch's depth), so the seen speed holds at 1.0–1.1×
+the cruise at any depth (`insect-plane.md` R2.4). Beaten: a `stride` per
+`flying` time (≈ 1 size a second for every kind, a fly 20 s across the
+tablet); halving the dash cap (still faster the longer the way); leaving
+it (the complaint stands). **Decided, with the operator: `ARRIVAL` goes**
+(«убрать»): a tapped release's first leg to a perch on screen flies at the
+kind's cruise like any other, so a far flower may take 3–4 s, calmly.
+Beaten: keeping the 1.5 s cap (a release to a far flower races).
+**The veer play is closed** (`bite-12/insects.md` § "The veer play's
+bounds"): the dash bound is the curve's own peak, away legs are timed
+between the points they are drawn between (007a1ec), and four reds stay
+known for the review and the operator's play, not for another round.
