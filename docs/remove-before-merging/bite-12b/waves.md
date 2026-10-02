@@ -141,6 +141,17 @@ offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
   `takesFlower(stand, foot, eye)`); left in `l.md` § "L3c". Steps 3–5 not
   started.
 
+- **I″** — f83d06cb (I2 wired: perches on the air lattice; fliers 48/48,
+  `air-spots.test.ts` 27; `type-overlap` green again), 335641d9 (I3:
+  `Onscreen.downTo`/`far`, a perch counts as shown only above the bottom
+  edge and short of the brow). I4 blocked: `Host` needs `foot` and
+  `opening`, built in `mushroom-bed.ts` `capTop` and `flower-bed.ts`
+  `seat` (design in `i.md` § "I4"). I5 not started; `fliers.test.ts` not
+  rerun after I3. **Orchestrator's call:** I4 and I5 go to one I agent
+  after L‴ reports, holding both beds' host builders; meanwhile a tail
+  agent splits `mushroom-bed.ts` (479 lines) and fixes the door puff in
+  `spores.ts`, so I4 lands on the split bed.
+
 ## Wave 5
 
 L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half
