@@ -12,6 +12,7 @@ import { pick } from '@/shared/lib/collections';
 import type { Flower } from '../../model/flower-genes';
 import type { Meadow } from '../../model/game';
 import {
+  anchored,
   type Eye,
   type Ground,
   groundFootOf,
@@ -110,13 +111,8 @@ export function ringFoot(
   const { x, y, size } = parent;
   const across = slot.x * size * SPREAD;
   const ahead = slot.z * size * RING_DEPTH;
-  const cos = Math.cos(heading);
-  const sin = Math.sin(heading);
-  return {
-    x: x + across * cos - ahead * sin,
-    y: y + ahead * cos + across * sin,
-    size,
-  };
+  const step = anchored({ x: 0, y: 0, heading }, { x: across, y: ahead });
+  return { x: x + step.x, y: y + step.y, size };
 }
 
 /**
