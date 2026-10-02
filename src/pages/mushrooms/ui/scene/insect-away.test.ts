@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { type Perch, perchName } from '../../model/flight';
-import { entryOf, isShown, nearerSide } from '../../model/flight-in';
+import { entryOf, isShown, nearerSide, outWay } from '../../model/flight-in';
 import { apartIn, placesSetOff } from '../../model/flight-timing';
 import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
+import { INSECT_KINDS } from '../../model/insect-genes';
 import {
   awayDown,
   entryAloft,
@@ -12,6 +13,7 @@ import {
   offAloft,
   PAST_BROW,
   reachesScreen,
+  releasedAway,
   seenFor,
 } from './insect-away';
 import {
@@ -25,7 +27,7 @@ import {
 import { meadowCamera } from './meadow-camera';
 import { footRows, onscreenOf, seatAt } from './perch-sight';
 import { Perches } from './perches';
-import { aloftOfLayout, perchDistance } from './plane-place';
+import { aloftOfLayout, perchDistance, placeOfAloft } from './plane-place';
 import { D_SEE, onScreen, placedAt, type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 import { opened } from './visit-play';
@@ -241,6 +243,47 @@ describe('leavingAloft', () => {
         }
       }
       assert.ok(legs > 10, `only ${String(legs)} legs out from a cap in view`);
+    });
+  }
+});
+
+describe('onscreenOf, for a release', () => {
+  for (const [name, width, height] of [
+    ['tablet', 1180, 820],
+    ['phone', 390, 844],
+  ] as const) {
+    it(`times a release's way out of view to where it flies out by, at its own span and height, on a ${name} screen`, () => {
+      const { layout } = opened(3, width, height, true);
+      const unit = layout.insectSize;
+      let moved = 0;
+      for (const eye of [OPENING_EYE, ...WALKED_EYES]) {
+        const view = viewAt(layout.camera, eye);
+        const middle = onscreenOf(layout, view);
+        assert.ok(middle);
+        for (const kind of INSECT_KINDS) {
+          for (const seed of [7, 0x5e_ed, 0xc0_ff_ee_00]) {
+            const insect = { kind, seed };
+            const onscreen = onscreenOf(layout, view, insect);
+            assert.ok(onscreen);
+            const away = releasedAway(layout, view, insect);
+            for (const side of ['left', 'right'] as const) {
+              const { from, out } = entryAloft(view, side, away);
+              assert.ok(out);
+              const drawn = placeOfAloft(view, unit, out);
+              assert.deepEqual(onscreen.outs[side], drawn);
+              const pace =
+                framedLength(view, from, out) / unit / outWay(onscreen, side);
+              assert.ok(
+                pace > 0.9 && pace < 1.1,
+                `${kind} ${String(seed)} ${side} from ${JSON.stringify(eye)}: drawn ×${pace.toFixed(2)} its timing`,
+              );
+              const { x, y } = middle.outs[side];
+              if (Math.hypot(drawn.x - x, drawn.y - y) > 0.01) moved++;
+            }
+          }
+        }
+      }
+      assert.ok(moved > 0, 'no release flies out off the band-middle spot');
     });
   }
 });

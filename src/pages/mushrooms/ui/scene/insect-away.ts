@@ -10,6 +10,14 @@ import { perchName, type Places, type Side, SIDES } from '../../model/flight';
 import type { WayOut } from '../../model/flight-in';
 import type { Point } from '../../model/geometry';
 import { alongSight, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
+import {
+  type InsectGenes,
+  insectGenes,
+  type Kinded,
+} from '../../model/insect-genes';
+import { wingspan } from '../../model/insect-outline';
+import { phaseOf } from '../../model/motion';
+import type { Seeded } from '../../model/random';
 import { WIDEST_SPAN } from './flower-sight';
 import { type Aloft, aloftAt, azimuthOf, drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
@@ -33,6 +41,30 @@ export type Away = Spanned & { drop: number };
 export function awayDown(height: number, phase: number): number {
   const share = 0.5 + 0.5 * Math.sin(phase * 3);
   return height * (AWAY_BAND[0] + (AWAY_BAND[1] - AWAY_BAND[0]) * share);
+}
+
+/**
+ * How an insect stands away as `view` stands it: past an edge by its open
+ * wings' span, `genes` drawn at `size` px, at the height its `phase` picks
+ * (`awayDown`).
+ */
+export function ownAway(
+  view: View,
+  genes: InsectGenes,
+  size: number,
+  phase: number,
+): Away {
+  return { span: wingspan(genes) * size, drop: awayDown(view.height, phase) };
+}
+
+/** How the insect `insect`, about to be released on `layout`, stands away as `view` stands it (`ownAway`). */
+export function releasedAway(
+  layout: MeadowLayout,
+  view: View,
+  insect: Seeded & Kinded,
+): Away {
+  const size = layout.insectSizes[insect.kind];
+  return ownAway(view, insectGenes(insect), size, phaseOf(insect));
 }
 
 /** A point on the screen, and how many times its laid-out size a thing there is drawn. */
@@ -134,10 +166,16 @@ export function awayPlaces(
 
 /**
  * A release's way out of view as `view` draws it (`entryAloft`, with no
- * seat): where it sets off over the brow, and the out point past each side.
+ * seat): where it sets off over the brow, and the out point past each side,
+ * for an insect that stands away as `away` does — the released one's own
+ * (`releasedAway`), else a butterfly's widest wings at the band's middle.
  */
-export function wayOutOf(layout: MeadowLayout, view: View): WayOut {
-  const [away, unit] = [awayOn(layout, view), layout.insectSize];
+export function wayOutOf(
+  layout: MeadowLayout,
+  view: View,
+  away: Away = awayOn(layout, view),
+): WayOut {
+  const unit = layout.insectSize;
   const placed = (aloft: Aloft) => placeOfAloft(view, unit, aloft);
   const out = (side: Side) => placed(outAloft(view, side, away));
   return {
