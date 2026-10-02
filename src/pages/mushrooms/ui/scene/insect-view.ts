@@ -34,7 +34,9 @@ import {
 } from './insect-frame';
 import { drawLook, fidget, lookOf, newDrink, poseLook } from './insect-look';
 import { drawnFlier, drawnSitter, seatAloft } from './insect-seat';
+import { InsectShadows, shadowOf } from './insect-shadow';
 import { freshShown, type Shown } from './insect-shown';
+import { sinkingOf, type Under } from './insect-sink';
 import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
 import { isSeated, type PerchAt } from './perch-hosts';
@@ -48,6 +50,8 @@ const FLUTTER = 0.28;
 const JOLT = 0.7;
 /** How long a landing's bob cut short by a take-off takes to die away, in ms. */
 const BOB_FADE = 200;
+/** How long a shadow takes to fade out as its insect lands, and in as it takes off from a seat, in ms. */
+const SHADOW_FADE = 400;
 
 /** How far along from `start` to `end` `point` stands, from 0 to 1, by its distance to each. */
 function alongOf(point: Point, start: Point, end: Point): number {
@@ -72,7 +76,9 @@ function alongOf(point: Point, start: Point, end: Point): number {
  * (`drawnSitter`). It is hidden once its own drawn extent leaves the screen
  * (`reachesScreen`), however near the eye that is: an insect flies higher
  * than a cap, so the meadow's own cull by distance would drop one still on
- * the screen. One in from away comes up over the brow (`entryAloft`), and
+ * the screen. Past the brow it goes down behind it as a bed does
+ * (`insect-sink.ts`), and in flight it casts a round shadow on the ground
+ * under it (`insect-shadow.ts`). One in from away comes up over the brow (`entryAloft`), and
  * where the screen shows no open perch, flies out of view by the side its
  * perch stands to before the rest of its way; one leaving goes out just past
  * the screen's edge where the view stands now, by its seed's side, as deep
@@ -95,6 +101,7 @@ export class InsectView {
   private readonly onTap: (id: string) => void;
   /** The view the frame is drawn through now. */
   private readonly view: () => View;
+  private readonly shadows: InsectShadows;
 
   constructor(
     scene: Phaser.Scene,
@@ -110,6 +117,7 @@ export class InsectView {
     this.depth = depth;
     this.onTap = onTap;
     this.view = view;
+    this.shadows = new InsectShadows(scene);
   }
 
   /** Shows what `insects` holds: a new one set off from off screen, a gone one destroyed, a new leg started from where it was drawn. */
@@ -118,6 +126,7 @@ export class InsectView {
     for (const [id, shown] of this.shown) {
       if (ids.has(id)) continue;
       shown.container.destroy();
+      this.shadows.drop(id);
       this.shown.delete(id);
     }
     for (const flier of insects) {
@@ -192,7 +201,7 @@ export class InsectView {
 
   private fly(shown: Shown, view: View, t: number, perchAt: PerchAt): void {
     const now = t * 1000;
-    const { leg } = shown.flier;
+    const { leg, id } = shown.flier;
     const size = this.sizeOf(shown);
     const motion = {
       ...pick(shown, 'phase'),
@@ -281,16 +290,34 @@ export class InsectView {
       );
     const flying = lifted(0);
     shown.drawn = flying.aloft;
-    const middle =
-      sitting && seat
-        ? drawnSitter(view, seat, { ...offset, y: offset.y + bob })
-        : bob === 0
-          ? flying.drawn
-          : lifted(bob).drawn;
+    // Fading out as it lands, and in as it takes off from a seat.
+    const presence =
+      (perched ? smooth((leg.arrives - now) / SHADOW_FADE) : 1) *
+      (isSeat(leg.from) ? smooth((now - leg.departs) / SHADOW_FADE) : 1);
+    const ground = flying.sinking?.ground;
+    this.shadows.lay(
+      id,
+      ground && shadowOf(view, ground, shown.span, presence),
+    );
+    const sinking = bob === 0 ? flying.sinking : lifted(bob).sinking;
+    const sitter = sitting ? seat : undefined;
+    const middle = sitter
+      ? drawnSitter(view, sitter, { ...offset, y: offset.y + bob })
+      : sinking?.drawn;
+    const under: Under | undefined = sitter
+      ? sitter.on.stands
+      : sinking && { ...sinking.ground, depth: sinking.ground.y };
+    const sunk =
+      middle &&
+      under &&
+      sinkingOf(view, middle, shown.span * middle.zoom, under, this.depth);
     const visible =
-      middle !== undefined && reachesScreen(view, middle, shown.span);
+      middle !== undefined &&
+      sunk?.shown === true &&
+      reachesScreen(view, middle, shown.span);
     shown.container.setVisible(visible);
     if (!visible) return;
+    shown.container.setDepth(sunk.depth).setAlpha(sunk.alpha);
     const { x, y } = middle;
     const drawnZoom = middle.zoom;
     shown.container
