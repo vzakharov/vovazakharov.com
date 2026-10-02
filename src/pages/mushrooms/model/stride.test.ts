@@ -26,7 +26,6 @@ const FRAME = 1 / 60;
 const REACH = GLADE.r - RIM_KEEP;
 const ORIGIN: Point = { x: 0, y: 0 };
 
-/** How far `one` is from `other`. */
 function apart(one: Point, other: Point): number {
   return Math.hypot(one.x - other.x, one.y - other.y);
 }

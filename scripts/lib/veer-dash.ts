@@ -24,9 +24,10 @@ const LONG = 30;
 
 /**
  * The most one frame moves a `kind` on a straight leg, in butterfly sizes,
- * whether it set off from still or mid-flight and bowed either way; `undefined` for a kind that
- * never dashes. Without its flutter a leg's shape is the same at every
- * length, so the fastest of any leg is the fastest of the longest.
+ * whether it set off from still or mid-flight and bowed either way;
+ * `undefined` for a kind that never dashes. Without its flutter a leg's
+ * shape is the same at every length, so the fastest of any leg is the
+ * fastest of the longest.
  */
 export function dashPeak(kind: InsectKind): number | undefined {
   const { cruising, dashing } = FLIGHT_HABITS[kind];

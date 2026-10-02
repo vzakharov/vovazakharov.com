@@ -93,7 +93,6 @@ export type Pan = View &
     motion: Resting | Gliding | Pressing | Keying;
   };
 
-/** Which way a key turns the crop: -1 leftward, 1 rightward. */
 export type { Direction } from './cruise';
 
 /**
@@ -127,9 +126,9 @@ export const CRUISE_ACROSS = 0.5;
 export const KEY_EASE = 0.25;
 /**
  * A held key's turn of the heading, in radians a second, the same on every
- * screen: the meadow slides by as fast in px as it did at 0.38 a second
- * through the opening crop's pinhole, a tablet's half a screen width a
- * second, its angles `SPREAD` times as wide.
+ * screen: the meadow slides by as fast in px as 0.38 a second through the
+ * opening crop's pinhole would slide it, a tablet's half a screen width a
+ * second, the lens's angles being `SPREAD` times as wide.
  */
 export const TURN_CRUISE = 0.38 * SPREAD;
 

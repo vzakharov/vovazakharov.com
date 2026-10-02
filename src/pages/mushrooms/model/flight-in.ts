@@ -117,8 +117,8 @@ export function outFirst(leg: Leg, out: number): Leg {
  * `perches` cut down to those `onscreen` shows, with the away spots at the
  * screen's edges rather than past the world's, so a perch is the likelier
  * the nearer it stands to the edge a release is drawn from (`nextPerch`).
- * Without `places` nothing can be told shown, and `perches`
- * comes back as it is.
+ * Without `places` nothing can be told shown, and `perches` comes back as it
+ * is.
  */
 export function shownOf(perches: Perches, onscreen: Onscreen): Perches {
   const { places, flowers, beeFlowers, caps, spotted, air } = perches;

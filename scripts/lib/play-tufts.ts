@@ -48,10 +48,10 @@ const PLANTING = `(() => {
 })()`;
 
 /**
- * Every tuft's middle on screen — a tuft is drawn while its blades reach
- * over the edge, its middle past it — where the last frame drew it, that a tap
- * reaches bare — no mushroom, flower, insect or button over it — the farthest
- * first.
+ * Every tuft's middle on screen where the last frame drew it (a tuft is
+ * drawn while its blades reach over the edge, its middle past it) that a tap
+ * reaches bare — no mushroom, flower, insect or button over it — the
+ * farthest first.
  */
 export const TUFTS = `__probe.scene.grass.shown.near
   .map(({ tuft: { x, y, size } }) => __probe.toScreen({ x, y: y - size }))

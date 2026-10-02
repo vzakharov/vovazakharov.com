@@ -3,10 +3,10 @@
  * meadow: with the picker shut, a melody of notes no flower in view makes
  * grows a flower of each on the tufts in view, a note struck twice in one
  * frame once, and a note struck again plays the flower grown; with the
- * flower picker open on a tuft, still on its colours, a note
- * key plants the flower that makes its sound there and shuts the picker; with
- * it open on that flower, a press held, and a colour picked, another note key
- * replaces it with the flower of its own sound, the one it stood for pulled;
+ * flower picker open on a tuft, still on its colours, a note key plants the
+ * flower that makes its sound there and shuts the picker; with it open on
+ * that flower, a press held, and a colour picked, another note key replaces
+ * it with the flower of its own sound, the one it stood for pulled;
  * and, the eye turned and walked in, a tap on the nearest flower's head
  * drawn sounds it.
  */

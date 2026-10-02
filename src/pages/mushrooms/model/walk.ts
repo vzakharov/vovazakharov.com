@@ -192,7 +192,6 @@ function clampAzimuth(azimuth: number): number {
   return Math.max(-STRAFE_WIDEST, Math.min(STRAFE_WIDEST, azimuth));
 }
 
-/** The finger, locked to `lock`, moved to `point` at `time`. */
 function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
   const { lens, pan, stride } = walk;
   switch (lock.axis) {
@@ -221,9 +220,8 @@ function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
 
 /**
  * The axis a press that went down at `pressedAt` and crossed the slop at
- * `crossing`, `dx` and `dy` from where it went down, locks: within 45° of
- * horizontal it turns, or strafes if it went down above the ground's top
- * edge; else it steps. A strafe slides the farthest ground the screen shows.
+ * `crossing` locks: within 45° of horizontal it turns, or strafes if it went
+ * down above the ground's top edge; else it steps.
  */
 export function lockOf(
   camera: Camera,
@@ -236,7 +234,6 @@ export function lockOf(
   return pressedAt.y < camera.groundTop ? 'strafe' : 'turn';
 }
 
-/** The lock `axis` takes at `crossing`, the finger having crossed the slop there. */
 function lockAt(camera: Camera, axis: Lock['axis'], crossing: Point): Lock {
   switch (axis) {
     case 'turn': {
@@ -255,7 +252,6 @@ function lockAt(camera: Camera, axis: Lock['axis'], crossing: Point): Lock {
   }
 }
 
-/** `walk`, its drag locked to `lock` at the slop's `crossing` at `time`. */
 function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {
   const { drag, stride } = walk;
   const locked = { ...walk, drag: drag && { ...drag, lock } };

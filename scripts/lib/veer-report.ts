@@ -283,13 +283,12 @@ export function pace(
 
 /**
  * One-frame steps per kind: a dashing kind's, over its own size (`zoom`),
- * held to `DASH_SLACK` of its dash curve's fastest frame (`dashPeak`),
- * or past it by `pivotAllowance` on a leg its flier turned on its perch
- * first, by how far it turned; a butterfly's, which never dashes, as drawn, to a twentieth of the screen's
- * width. A step over a frame the browser ran late counts at a 60 fps frame's
- * share of it, so the bound stays the curve's per frame. The worst of each,
- * drawn and at its own size, is logged, and the worst steps past a bound
- * with them.
+ * held to `DASH_SLACK` of its dash curve's fastest frame (`dashPeak`), or
+ * past it by `pivotAllowance` on a leg its flier first turned on its perch;
+ * a butterfly's, which never dashes, as drawn, to a twentieth of the
+ * screen's width. A step over a frame the browser ran late counts at a
+ * 60 fps frame's share of it, so the bound stays the curve's per frame. The
+ * worst of each, and the worst past a bound, are logged.
  */
 export function flicks(
   samples: readonly Sample[],
@@ -301,7 +300,6 @@ export function flicks(
 ): void {
   const insects = [...byInsect(samples).values()];
   const frame = 1000 / FPS;
-  // A frame the browser ran late is held to the frames it spans.
   const all = insects.flatMap((frames) =>
     steps(frames, lens.arc).map(({ step, at, time }) => ({
       step: step * Math.min(1, frame / time),

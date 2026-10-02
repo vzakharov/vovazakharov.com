@@ -28,8 +28,7 @@ export type Habits = {
   stride: number;
   /**
    * How fast it flies, in butterfly sizes (`Places`) a second: a flight
-   * takes its length at this speed, however long, so a far perch is simply
-   * farther, never flown to faster.
+   * takes its length at this speed, however long.
    */
   cruising: number;
   /** How it darts over every flight, at its `cruising` speed on average; `undefined` for a kind that glides evenly. */

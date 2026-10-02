@@ -37,14 +37,14 @@ export const TAPS = `(() => {
   });
 })()`;
 
-/** Whether a press at \`point\` on screen lands on bare ground: nothing drawn over it and no tuft under it. */
+/** Whether a press at `point` on screen lands on bare ground: nothing drawn over it and no tuft under it. */
 const BARE = `(point) =>
   __probe.topAt(point) === null && !__probe.scene.grass?.at(__probe.toWorld(point))`;
 
 /**
  * A bare point on screen low in the meadow and near the middle, where a drag
- * can start; \`null\` where none is. Never above the ground's top row, where a
- * sideways drag strafes rather than turns (\`lockOf\`).
+ * can start; `null` where none is. Never above the ground's top row, where a
+ * sideways drag strafes rather than turns (`lockOf`).
  */
 export const BARE_START = `(() => {
   const bare = ${BARE};

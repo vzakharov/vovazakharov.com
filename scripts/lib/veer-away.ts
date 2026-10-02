@@ -3,11 +3,11 @@
  * the game times it (`apartIn` over the sight's `places`, or `outWay` for a
  * release's stretch out of view), against how long the insect view draws
  * it at its own size — the framed chord from its start to the end
- * `leavingAloft` gives, each stretch over its zoom there. The ratio scales the
- * dash curve's fastest frame (`dashPeak`) to the fastest one-frame step
- * the leg can draw; a ratio over the veer play's `DASH_SLACK` is a step
- * the curve does not explain. Also checks the leg's end stands still
- * frame to frame while the eye does.
+ * `leavingAloft` gives, each stretch over its zoom there. The ratio scales
+ * the dash curve's fastest frame (`dashPeak`) to the fastest one-frame step
+ * the leg can draw; a ratio over the veer play's `DASH_SLACK` is a step the
+ * curve does not explain. Also checks the leg's end stands still frame to
+ * frame while the eye does.
  *
  * Run: `node --import tsx scripts/lib/veer-away.ts`.
  */

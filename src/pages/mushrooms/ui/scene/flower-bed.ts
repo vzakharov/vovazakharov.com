@@ -18,7 +18,7 @@ import {
   sway,
 } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
-import { bedPlace, layoutPlace, onHost, standAt, UNPLACED } from './bed-place';
+import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
 import { drawFlower } from './draw-flower';
 import { coversShown, inSightPast } from './flower-cover';
 import { FlowerHold } from './flower-hold';
@@ -214,9 +214,7 @@ export class FlowerBed implements Following {
   private stand(shown: Shown): void {
     const { laid, container, headR, headY } = shown;
     const place = laid
-      ? this.view
-        ? bedPlace(this.view, laid.foot, headR - headY)
-        : layoutPlace(laid.place)
+      ? viewedOrLaid(this.view, laid.foot, laid.place, headR - headY)
       : UNPLACED;
     shown.stands = place;
     standAt(container, place);
