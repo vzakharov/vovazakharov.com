@@ -23,7 +23,7 @@ import {
   apartIn,
   legTo,
   type Placed,
-  placesFlying,
+  placesSetOff,
   type Span,
 } from './flight-timing';
 import type { Point } from './geometry';
@@ -107,7 +107,9 @@ export type Places = Readonly<Record<string, Place>>;
  * of perches standing too close for an insect on each (`Crowding`), so a
  * perch crowded by a taken one counts as taken; and, where the scene gives
  * them, the `places` of the perches, so a long flight takes longer than a
- * short one (`Habits`). With them, where a bee
+ * short one (`Habits`), and where it last drew each flier, by its id
+ * (`drawn`), in the places' frame, since only the scene's steering knows
+ * where a flier cut off mid-flight sets off from. With them, where a bee
  * could plant a flower (`Plot`).
  */
 export type Sight = Plot & {
@@ -116,6 +118,7 @@ export type Sight = Plot & {
   air: readonly string[];
   crowded: readonly Crowding[];
   places?: Places;
+  drawn?: Readonly<Record<string, Place>>;
 };
 
 /**
@@ -303,17 +306,23 @@ export function firstFlight(
   return { leg: outFirst(leg, out), legs: 1 };
 }
 
-/** The leg after the current one, from its perch to the one `choose` draws first off the leg's stream. */
+/** An insect on its flight, by its id where it has one, as the sight says where it was drawn (`drawn`). */
+type Flying = InsectSeed & Flight & Partial<WithId>;
+
+/**
+ * The leg after the current one, from its perch to the one `choose` draws
+ * first off the leg's stream, timed from where the insect sets off
+ * (`placesSetOff`).
+ */
 function onward(
-  { seed, kind, leg, legs }: InsectSeed & Flight,
-  moment: Timed & Placed,
+  { seed, kind, leg, legs, id }: Flying,
+  { now, ...placed }: Timed & Placed,
   choose: (random: Random, habits: Habits) => Perch,
 ): Flight {
   const random = legRandom(seed, legs);
   const habits = FLIGHT_HABITS[kind];
   const to = choose(random, habits);
-  const { now, places } = moment;
-  const flying = { now, places: placesFlying(places, leg, now) };
+  const flying = { now, places: placesSetOff(placed, leg, now, id) };
   return {
     leg: legTo(random, habits, { from: leg.to, to }, flying),
     legs: legs + 1,
@@ -325,14 +334,14 @@ function onward(
  * that one went to, to an open perch (`nextPerch`).
  */
 export function nextFlight(
-  insect: InsectSeed & Flight,
+  insect: Flying,
   perches: Perches,
   now: number,
   taken: readonly Held[] = [],
 ): Flight {
-  const [{ kind }, { places }] = [insect, perches];
-  return onward(insect, { now, places }, (random, habits) =>
-    nextPerch(random, { kind, habits }, insect.leg.to, perches, taken),
+  const { kind, leg } = insect;
+  return onward(insect, { now, ...placedOf(perches) }, (random, habits) =>
+    nextPerch(random, { kind, habits }, leg.to, perches, taken),
   );
 }
 
@@ -341,11 +350,16 @@ export function nextFlight(
  * gone, as long a flight as `places` puts the edge away.
  */
 export function flightAway(
-  insect: InsectSeed & Flight,
+  insect: Flying,
   now: number,
-  { places }: Placed = {},
+  placed: Placed = {},
 ): Flight {
-  return onward(insect, { now, places }, awayPerch);
+  return onward(insect, { now, ...placedOf(placed) }, awayPerch);
+}
+
+/** Of `sight`, only what times a leg (`Placed`). */
+function placedOf({ places, drawn }: Placed): Placed {
+  return { ...(places && { places }), ...(drawn && { drawn }) };
 }
 
 /** Whether `perches` still offers `perch` to an insect of `kind`; `away` always is. */

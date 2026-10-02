@@ -180,6 +180,15 @@ export class InsectView {
     );
   }
 
+  /** Where each insect was last drawn, by id: the point its next leg sets off from (`legSetOff`); none for one not yet flown in. */
+  drawnAlofts(): ReadonlyMap<string, Aloft> {
+    return new Map(
+      [...this.shown].flatMap(([id, { entering, drawn }]) =>
+        entering ? [] : [[id, drawn] as const],
+      ),
+    );
+  }
+
   private sizeOf({ flier }: Shown): number {
     return this.sizes[flier.kind];
   }
