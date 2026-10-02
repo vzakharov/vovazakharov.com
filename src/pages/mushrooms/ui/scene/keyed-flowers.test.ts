@@ -15,6 +15,7 @@ import {
   keyedFlowers,
   keyPlanting,
   playKey,
+  sowingTuft,
 } from './keyed-flowers';
 
 const IN_VIEW: FlowerInView[] = [
@@ -41,7 +42,7 @@ describe('the flowers a key plays through', () => {
     );
   });
 
-  it('are none for a sound no flower in view makes, so the key is silent', () => {
+  it('are none for a sound no flower in view makes', () => {
     assert.deepEqual(
       keyedFlowers({ kind: 'note', pitchClass: 7 }, IN_VIEW),
       [],
@@ -53,17 +54,20 @@ describe('the flowers a key plays through', () => {
 
 /**
  * The keys `played` played through `inView`, the flower picker open while
- * `picking`: what the instrument sounded, which flowers answered and which
- * sounds the picker planted.
+ * `picking`, the grass taking no sown flower while `full`: what the
+ * instrument sounded, which flowers answered, which sounds the picker
+ * planted and which the grass grew, each grown one in view from then on.
  */
 function played(
   keys: readonly PlayedKey[],
   inView: readonly FlowerInView[],
   picking = false,
+  full = false,
 ) {
   const sounded: PlayedKey[] = [];
   const answered: string[][] = [];
   const planted: FlowerSound[] = [];
+  const sown: FlowerInView[] = [];
   let woken = 0;
   const instrument = {
     wake: () => {
@@ -75,7 +79,7 @@ function played(
     },
   };
   const keyed = {
-    inView: () => inView,
+    inView: () => [...inView, ...sown],
     answer: (flowers: readonly FlowerInView[]) => {
       answered.push(flowers.map(({ id }) => id));
     },
@@ -83,32 +87,82 @@ function played(
       if (picking) planted.push(sound);
       return picking;
     },
+    sow: (sound: FlowerSound) => {
+      if (!full) sown.push({ id: `sown-${String(sown.length + 1)}`, sound });
+    },
   };
   for (const key of keys) playKey(instrument, keyed, key);
-  return { sounded, answered, planted, woken };
+  return { sounded, answered, planted, woken, sown };
 }
 
 describe('a played key', () => {
-  it('sounds through the flowers in view that make its sound, which answer it', () => {
-    const { sounded, answered } = played(
+  it('sounds through the flowers in view that make its sound, which answer it, and grows none', () => {
+    const { sounded, answered, sown } = played(
       [{ kind: 'note', pitchClass: 0 }],
       IN_VIEW,
     );
     assert.deepEqual(sounded, [{ kind: 'note', pitchClass: 0 }]);
     assert.deepEqual(answered, [['c', 'other c']]);
+    assert.deepEqual(sown, []);
   });
 
-  it('is silent with no such flower in view, and nothing answers', () => {
-    const { sounded, answered, woken } = played(
+  it('with no such flower in view, sounds and grows the flower that makes it', () => {
+    const { sounded, answered, woken, sown } = played(
       [
         { kind: 'note', pitchClass: 11 },
         { kind: 'drum', drum: 'snare' },
       ],
       IN_VIEW,
     );
-    assert.deepEqual(sounded, []);
+    assert.deepEqual(sounded, [
+      { kind: 'note', pitchClass: 11 },
+      { kind: 'drum', drum: 'snare' },
+    ]);
     assert.deepEqual(answered, []);
-    assert.equal(woken, 2, 'a key still lets the sound start');
+    assert.deepEqual(
+      sown.map(({ sound }) => sound),
+      [
+        { kind: 'note', pitchClass: 11 },
+        { kind: 'drum', drum: 'snare' },
+      ],
+    );
+    assert.equal(woken, 2);
+  });
+
+  it('on an empty view grows a meadow of a melody, each note once, a repeat playing the one grown', () => {
+    const F = { kind: 'note', pitchClass: 5 } as const;
+    const B = { kind: 'note', pitchClass: 11 } as const;
+    const { sounded, answered, sown } = played([F, B, F, F], []);
+    assert.deepEqual(sounded, [F, B, F, F]);
+    assert.deepEqual(
+      sown.map(({ id }) => id),
+      ['sown-1', 'sown-2'],
+    );
+    assert.deepEqual(answered, [['sown-1'], ['sown-1']]);
+  });
+
+  it('with no free tuft in view, still sounds, and nothing answers', () => {
+    const { sounded, answered, sown } = played(
+      [{ kind: 'note', pitchClass: 11 }],
+      [],
+      false,
+      true,
+    );
+    assert.deepEqual(sounded, [{ kind: 'note', pitchClass: 11 }]);
+    assert.deepEqual(answered, []);
+    assert.deepEqual(sown, []);
+  });
+
+  it('plays a flower in view of its pitch class at any octave, growing none', () => {
+    const { answered, sown } = played(
+      [
+        { kind: 'octave', step: 1 },
+        { kind: 'note', pitchClass: 4 },
+      ],
+      IN_VIEW,
+    );
+    assert.deepEqual(answered, [['e']]);
+    assert.deepEqual(sown, []);
   });
 
   it('shifts the octave whatever is in view', () => {
@@ -120,7 +174,7 @@ describe('a played key', () => {
 
 describe('a played key with the flower picker open', () => {
   it('plants its flower, in view of a matching one or not, and plays through none', () => {
-    const { sounded, answered, planted, woken } = played(
+    const { sounded, answered, planted, woken, sown } = played(
       [
         { kind: 'note', pitchClass: 0 },
         { kind: 'drum', drum: 'snare' },
@@ -134,6 +188,7 @@ describe('a played key with the flower picker open', () => {
     ]);
     assert.deepEqual(sounded, [], 'the planting sounds it, not the key');
     assert.deepEqual(answered, []);
+    assert.deepEqual(sown, [], 'the picker plants, not the grass');
     assert.equal(woken, 2);
   });
 
@@ -222,5 +277,53 @@ describe('the meadow a key asks of the flower picker', () => {
       meadow.planted.map(({ seed }) => seed),
       [PINK_SEEDS[2]],
     );
+  });
+});
+
+type Tuft = { name: string };
+const TUFTS: readonly Tuft[] = ['a', 'b', 'c', 'd', 'e'].map((name) => ({
+  name,
+}));
+const free = ({ name }: Tuft) => name !== 'b' && name !== 'd';
+
+/** Eight tufts drawn for sowing off a stream seeded `seed`. */
+function draws(seed: number) {
+  const random = mulberry32(seed);
+  return Array.from({ length: 8 }, () => sowingTuft(random, TUFTS, free));
+}
+
+describe('the tuft a key’s flower grows on', () => {
+  it('is a free one of those in view', () => {
+    const random = mulberry32(7);
+    for (let draw = 0; draw < 40; draw++) {
+      const tuft = sowingTuft(random, TUFTS, free);
+      assert.ok(tuft !== undefined && free(tuft), `drew ${String(tuft?.name)}`);
+    }
+  });
+
+  it('is the same on a replay of the same stream', () => {
+    assert.deepEqual(draws(3), draws(3));
+  });
+
+  it('is none where no tuft in view is free, or none is in view', () => {
+    const random = mulberry32(1);
+    assert.equal(
+      sowingTuft(random, TUFTS, () => false),
+      undefined,
+    );
+    assert.equal(sowingTuft(random, TUFTS.slice(0, 0), free), undefined);
+  });
+});
+
+describe('the meadow a key sows', () => {
+  it('has the flower planted on the tuft, the pickers and the selection as they were', () => {
+    const before = reduce(firstMeadow(mulberry32(1)), { kind: 'pick' });
+    const meadow = reduce(before, { kind: 'sow', seed: 42, foot: FOOT });
+    assert.deepEqual(meadow.planted, [
+      { id: 'planted-1', seed: 42, foot: FOOT },
+    ]);
+    assert.equal(meadow.picking, before.picking);
+    assert.equal(meadow.selected, before.selected);
+    assert.equal(meadow.planting, undefined);
   });
 });

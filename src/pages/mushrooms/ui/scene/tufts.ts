@@ -424,6 +424,11 @@ export class Grass {
     return tuftAt(this.shown.near, point)?.sprout;
   }
 
+  /** The standing tufts the last frame drew this side of the ground's top row, where a tap could land. */
+  inView(): Sprout[] {
+    return this.shown.near.map(({ sprout }) => sprout);
+  }
+
   /** Shakes `tuft`'s head from `now`, in seconds, as it refuses a flower. */
   refuse(tuft: Tuft, now: number): void {
     this.refused = { tuft, shakenAt: now };

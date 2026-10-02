@@ -6,6 +6,7 @@ import type { FlowerBed } from './flower-bed';
 import type { Instrument } from './instrument';
 import { listenForKeys } from './keyboard';
 import { type KeyedPlay, playKey } from './keyed-flowers';
+import type { Planter } from './planter';
 
 function ids(list: TouchList): number[] {
   return [...list].map(({ identifier }) => identifier);
@@ -64,25 +65,29 @@ function listenForChords(
 /**
  * Lets `scene`'s flowers be played as an instrument beyond one finger's
  * taps: from the keyboard while the canvas holds focus (`listenForKeys`),
- * only through the flowers in front of the player, or planting through
- * the open flower picker by `plant` (`playKey`), the held arrows turning and
- * walking `eye`; and with more fingers than one (`listenForChords`). Returns
+ * through the flowers in front of the player, `planter` planting through
+ * the open flower picker or growing the flower of a sound none in view makes
+ * (`playKey`), the held arrows turning and walking `eye`; and with more fingers than one (`listenForChords`). Returns
  * what stops both.
  */
 export function playTheMeadow(
   scene: Phaser.Scene,
   instrument: Instrument,
-  flowers: Pick<FlowerBed, 'chordTap' | 'inView' | 'answer'>,
+  flowers: Pick<FlowerBed, 'chordTap' | 'inView' | 'answer' | 'hush'>,
   eye: EyeInput,
-  plant: KeyedPlay['plant'],
+  planter: Pick<Planter, 'plantSounding' | 'sowSounding' | 'sownInView'>,
 ): () => void {
   const { canvas } = scene.game;
   const keyed: KeyedPlay = {
-    inView: () => flowers.inView(),
+    inView: () => [...flowers.inView(), ...planter.sownInView()],
     answer: (answering) => {
       flowers.answer(answering);
     },
-    plant,
+    plant: planter.plantSounding,
+    sow: (sound) => {
+      const sown = planter.sowSounding(sound);
+      if (sown !== undefined) flowers.hush(sown);
+    },
   };
   takeFocus(canvas);
   const stopKeys = listenForKeys(
