@@ -11,7 +11,12 @@ import { pick } from '@/shared/lib/collections';
 import type { Sized } from '@/shared/typings';
 
 import type { Box, Circle } from '../../model/geometry';
-import type { Camera, Hazed, WithCamera } from '../../model/ground';
+import {
+  type Camera,
+  type Hazed,
+  OPENING_EYE,
+  type WithCamera,
+} from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { openingPan, screenOf } from '../../model/pan';
 import { clumpCrowns, type MushroomGround } from './clump-layout';
@@ -85,7 +90,7 @@ export type MeadowLayout = Sized &
     /** The sun as the opening screen shows it; it stands at that azimuth (`azimuthAt`). */
     sun: Circle;
     clouds: readonly Cloud[];
-    /** How the mushrooms stand, each by its foot (`placeIn`). */
+    /** How the mushrooms stand, each by its foot (`placeIn`), as the opening eye judges them (`anchoredGround`). */
     mushrooms: MushroomGround;
     flowers: readonly Footing[];
     /** The unit a butterfly's genes are painted in. */
@@ -211,7 +216,7 @@ function standMeadow(width: number, height: number): Stood {
   const { groundTop, unit } = camera;
   const horizon = horizonAt(groundTop);
   const short = Math.min(width, height);
-  const mushrooms = { camera, frame: MEADOW_FRAME };
+  const mushrooms = { camera, frame: MEADOW_FRAME, anchor: OPENING_EYE };
   const controls = placeControls(width, height, groundTop);
   const insectSize = insectSizeFor(unit);
   const sun = placeSun(

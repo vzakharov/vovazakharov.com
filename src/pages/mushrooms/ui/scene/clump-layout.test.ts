@@ -4,15 +4,26 @@ import { describe, it } from 'node:test';
 import { pick } from '@/shared/lib/collections';
 
 import {
+  anchored as anchoredPoint,
+  type Eye,
   FRAME_DEPTH,
   groundOfPlane,
   OPENING_EYE,
   scaleAt,
 } from '../../model/ground';
 import { mushroomGenes } from '../../model/mushroom-genes';
-import { grownOn, openingIndex } from '../../model/placement';
-import { placeIn, placeOf } from './clump-layout';
-import { meadowCamera } from './meadow-camera';
+import { grownOn, OPENING_FOOTING, openingIndex } from '../../model/placement';
+import { bedPlace } from './bed-place';
+import {
+  anchoredGround,
+  extremes,
+  laidOf,
+  placeIn,
+  placeOf,
+} from './clump-layout';
+import { meadowLayout } from './layout';
+import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
+import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
 
@@ -86,4 +97,81 @@ describe('a forest mushroom', () => {
       assert.ok(share < MOST_FAR_WIDER, `${(share * 100).toFixed(0)}%`);
     });
   }
+});
+
+describe('the layout anchored at an eye', () => {
+  const camera = meadowCamera(1180, 820);
+  const opening = meadowLayout(1180, 820, VISITS[0] ?? 1).mushrooms;
+  /** An eye walked past the opening clump and turned round to face back the way it came. */
+  const BEHIND: Eye = { x: 0.3, y: -6, heading: Math.PI };
+  /** Forest mushrooms the eye at `BEHIND` sees ahead of it, behind the opening eye. */
+  const grownBehind = [-0.6, 0, 0.6].map((x) => grownOn(BEHIND, { x, z: 0.5 }));
+
+  it('is the opening layout itself at the opening eye', () => {
+    assert.equal(anchoredGround(opening, OPENING_EYE), opening);
+    for (const footed of [...OPENING_FOOTING, ...extremes(MEADOW_FRAME)]) {
+      const place = placeIn(opening, footed);
+      assert.ok(place, 'an extreme of the frame not placed');
+      assert.deepEqual(place, placeOf(camera, footed));
+    }
+  });
+
+  it('stays one object while its anchor stays', () => {
+    const anchored = anchoredGround(opening, BEHIND);
+    assert.equal(anchoredGround(opening, { ...BEHIND }), anchored);
+    assert.equal(anchoredGround(anchored, BEHIND), anchored);
+  });
+
+  it('places a mushroom behind the opening eye from an anchor facing it', () => {
+    const anchored = anchoredGround(opening, BEHIND);
+    for (const footed of grownBehind) {
+      assert.ok(footed.foot.y < 0, 'not behind the opening eye');
+      assert.equal(placeIn(opening, footed), undefined);
+      const place = placeIn(anchored, footed);
+      assert.ok(place, 'not placed from the anchor facing it');
+      const asOpening = placeOf(camera, {
+        ...footed,
+        foot: anchoredPoint(BEHIND, footed.foot),
+      });
+      for (const key of ['x', 'y', 'size', 'splay', 'haze'] as const) {
+        assert.ok(Math.abs(place[key] - asOpening[key]) < 1e-6, key);
+      }
+    }
+  });
+
+  it('lays a mushroom grown off the opening out once, drawn as the forest stood there', () => {
+    for (const footed of grownBehind) {
+      const laid = laidOf(camera, footed);
+      for (const eye of [BEHIND, { ...BEHIND, x: -0.4, heading: 3 }]) {
+        assert.deepEqual(laidOf(camera, footed), laid);
+        const drawn = bedPlace(
+          viewAt(camera, eye),
+          footed.foot,
+          0,
+          laid.opening,
+        );
+        const place = placeIn(anchoredGround(opening, eye), footed);
+        assert.ok(place);
+        const asOpening = bedPlace(
+          viewAt(camera, OPENING_EYE),
+          anchoredPoint(eye, footed.foot),
+        );
+        const size = laid.size * drawn.zoom;
+        assert.ok(
+          Math.abs(size - place.size * asOpening.zoom) < 1e-6 * size,
+          `${size.toFixed(3)} drawn`,
+        );
+      }
+    }
+  });
+
+  it('keeps the opening clump laid out as the opening eye stands it', () => {
+    for (const footed of OPENING_FOOTING) {
+      const laid = laidOf(camera, footed);
+      assert.deepEqual(
+        pick(laid, 'x', 'y', 'size', 'splay', 'haze'),
+        placeOf(camera, footed),
+      );
+    }
+  });
 });

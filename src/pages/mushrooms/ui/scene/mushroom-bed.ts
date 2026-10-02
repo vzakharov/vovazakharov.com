@@ -32,7 +32,7 @@ import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
 import type { Footed } from '../../model/placement';
 import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
-import { placeIn } from './clump-layout';
+import { type Laid, laidOf, placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
 import { tappedDoor } from './door-tap';
 import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
@@ -73,9 +73,9 @@ type Shown = Tapped &
     house: HouseView;
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
     goneAt: number;
-    /** Where the layout stands its foot, in world px at the opening eye. */
+    /** Where the bed lays its foot out to paint it (`laidOf`), in world px. */
     laid: Point;
-  };
+  } & Pick<Laid, 'opening'>;
 
 /**
  * The meadow's mushrooms on screen, reconciled with the state by id: a new
@@ -306,16 +306,16 @@ export class MushroomBed implements Following {
   }
 
   private place(shown: Shown, mushroom: Planted, layout: MeadowLayout): void {
-    const place = placeIn(layout.mushrooms, mushroom);
-    if (!place) return;
-    const { x, y, size, splay, haze } = place;
+    const laid = laidOf(layout.camera, mushroom);
+    const { x, y, size, splay, haze, opening } = laid;
     const stood = splayed(mushroomGenes(mushroom), splay);
     const { genes, turn } = stood;
     const spots = paintedSpots(genes, mushroom.house);
     const { body: lighting, ground } = mushroomLights(
       this.requireLighting(),
       stood,
-      place,
+      // Lit from where the layout stands it, toward the layout's sun.
+      placeIn(layout.mushrooms, mushroom) ?? laid,
       layout.sun,
     );
     Object.assign(shown, { genes, turn, size, spots, lighting });
@@ -328,7 +328,7 @@ export class MushroomBed implements Following {
     shown.tall = -Math.min(
       ...TAP_PARTS.flatMap((part) => shown.hit[part].map((point) => point.y)),
     );
-    shown.laid = { x, y };
+    Object.assign(shown, { laid: { x, y }, opening });
     this.stand(shown);
     shown.haze = this.hazeHere(shown) ?? haze;
     this.paintBody(shown);
@@ -354,7 +354,13 @@ export class MushroomBed implements Following {
    * layout, puts its foot: all three hidden together once it has sunk away.
    */
   private stand(shown: Shown): void {
-    const place = viewedOrLaid(this.view, shown.foot, shown.laid, shown.tall);
+    const place = viewedOrLaid(
+      this.view,
+      shown.foot,
+      shown.laid,
+      shown.tall,
+      shown.opening,
+    );
     shown.stands = place;
     standAt(shown.graphics, place);
     standAt(shown.shadow, place, SHADOW_NEARER);
@@ -378,6 +384,7 @@ export class MushroomBed implements Following {
       shadow: this.scene.add.graphics(),
       ...pick(mushroom, 'foot', 'lean'),
       laid: { x: 0, y: 0 },
+      opening: 0,
       tall: 0,
       stands: UNPLACED,
       hit,
