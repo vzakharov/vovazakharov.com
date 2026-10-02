@@ -40,12 +40,24 @@ headedLight(sunFrom, heading).toward.x`; every due one goes through
     read the drawn size (`size · stands.zoom`); the tap puff through a
     `Puffing` whose `size` is a getter, so it stays live as the eye walks.
 
+- **P1b, flower half** (`feat(mushrooms): turn the flowers' light with the
+heading`):
+  - `draw-flower.ts`: `FlowerPainting` (`openingLight`, `drawIn`,
+    `paintedSunSide`) and `paintFlowerLit(painting, heading)`, which paints
+    in `headedLight(openingLight, heading)` and keeps its `toward.x`.
+  - `flower-bed.ts`: `paint` keeps on each flower a `painting` whose
+    `openingLight` is `flowerLight` from `stood.place` (the opening's place,
+    so a planted flower laid at `laidFlower`'s {x:0,z:0} still lights from
+    where it stands) and paints it at the eye's heading (`OPENING_EYE`'s
+    before the first `follow`). `follow` hands every drawn flower to
+    `repaintsDue` with `haze`/`painted` 0 (flowers are painted with no
+    haze) and `sunSide: headedLight(openingLight, heading).toward.x`.
+  - Test (`mushroom-light.test.ts`): `headedLight` of a flower's opening
+    light equals `flowerLight` at any heading, bit for bit, and is the
+    opening light itself at the opening heading.
+
 ## Left
 
-- **P1b, flower half** — in `flower-bed.ts`: pass the heading as
-  `flowerLight`'s fifth argument, and join the flowers to the same queue
-  (spec § 8), carrying their `toward.x` as `paintedSunSide` (`Siding` is
-  required now, so a flower's `Hazing` must carry both).
 - `house-view.ts`'s door puff (`puffFrom(…, body, …)`) still reads the
   body's unzoomed `size`; the fix that serves both callers is in
   `spores.ts` (`Puffing` carrying the drawn zoom), which this package did
@@ -58,5 +70,15 @@ headedLight(sunFrom, heading).toward.x`; every due one goes through
 - `α` is per thing: each thing's opening light (from where it stands toward
   the screen's sun) gives its own azimuth, so at `OPENING_EYE` everything is
   lit exactly as today and turning shifts every azimuth by the heading.
+- The flowers run `repaintsDue` in their own bed, so a turning frame
+  repaints up to 2 mushrooms **and** 2 flowers: one queue across both beds
+  needs `meadow-scene.ts` (off limits) to gather both beds' `Hazing`. A
+  flower's repaint is a stem and a head, far under a mushroom's.
+- The flower's painting lives on its own `painting` record, not on `Shown`:
+  `Pick<Siding, 'paintedSunSide'> & Sprouted` on both beds' `Shown` trips
+  `pnpm type-overlap`'s combination floor, and `mushroom-shown.ts` was off
+  limits.
+- `flower-bed.ts` is 485 lines (443 before), past the ~450 rule of thumb;
+  the paint helpers went to `draw-flower.ts` to keep it there.
 - The sun counts as ahead of the opening eye (`cos α ≥ 0`); turned round
   (`heading = π`) every thing is lit from the mirrored side.
