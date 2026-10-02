@@ -74,7 +74,8 @@ const Planted = z.object({
 
 /**
  * How many flowers the bees have planted, and the one planted as `id` as
- * drawn, the newest where no id is given.
+ * drawn, the newest where no id is given: its `scale` how far it has grown,
+ * the depth it stands at aside.
  */
 const plantedAs = (id?: string) => `(() => {
   const scene = window.__game.scene.scenes[0];
@@ -87,7 +88,9 @@ const plantedAs = (id?: string) => `(() => {
       ? {
           id: newest.id,
           visible: shown.container.visible,
-          scale: shown.container.scaleY,
+          // The bed draws a flower at its growth times the zoom of the
+          // depth it stands at.
+          scale: shown.container.scaleY / shown.stands.zoom,
           ...__probe.toScreen(shown.container),
         }
       : null,
@@ -233,8 +236,11 @@ async function tapFlying(
  * its leg is `HEADING_AFTER` old, none turning round more than `MOST_SPIN`
  * over a leg, none settled more than
  * `MOST_REST_TURN` off facing up, no two hovering fliers overlapping while
- * the air had a spot open, and each of `kinds` drawn at least its
- * `LEAST_SPANS` across.
+ * the air had a spot open, and each of `kinds` at least its `LEAST_SPANS`
+ * across at its own size. A perch past the clump's distance draws it smaller
+ * by its depth, as it does the flower or cap it sits on; the tap still
+ * reaches it by a finger's width (`tapReach`), so the drawn least is noted,
+ * not held.
  */
 async function checkWatch(
   page: Page,
@@ -249,6 +255,7 @@ async function checkWatch(
     worstRest,
     worstHover,
     leastSpan,
+    leastOwnSpan,
     capRests,
     hoverOverlaps,
     hoverForced,
@@ -285,10 +292,10 @@ async function checkWatch(
     `${String(hoverOverlaps)} frames with two fliers overlapping hovering in the air while a spot stood open: ${JSON.stringify(worstHover)}`,
   );
   for (const kind of kinds) {
-    const span = leastSpan[kind];
+    const span = leastOwnSpan[kind];
     expect(
       span !== undefined && span >= LEAST_SPANS[kind],
-      `a ${kind} drawn ${String(span?.toFixed(1))} px across, under ${String(LEAST_SPANS[kind])}`,
+      `a ${kind} ${String(span?.toFixed(1))} px across at its own size, under ${String(LEAST_SPANS[kind])}`,
     );
   }
   note(
@@ -301,10 +308,11 @@ async function checkWatch(
       )
       .join(
         ', ',
-      )}, most turning round on one leg ${(worstSpin.spin / MOST_SPIN).toFixed(2)} times, worst rest ${worstRest.turn.toFixed(2)} rad, ${String(crossings)} frames with fliers crossing in flight, ${String(hoverForced)} with two hovering overlapped for want of an open spot, least spans ${Object.entries(
-      leastSpan,
-    )
-      .map(([kind, span]) => `${kind} ${span.toFixed(0)} px`)
+      )}, most turning round on one leg ${(worstSpin.spin / MOST_SPIN).toFixed(2)} times, worst rest ${worstRest.turn.toFixed(2)} rad, ${String(crossings)} frames with fliers crossing in flight, ${String(hoverForced)} with two hovering overlapped for want of an open spot, least spans at rest ${kinds
+      .map(
+        (kind) =>
+          `${kind} ${String(leastSpan[kind]?.toFixed(1))} px drawn, ${String(leastOwnSpan[kind]?.toFixed(1))} at its own size`,
+      )
       .join(
         ', ',
       )}; bees drank ${String(beeVisits)} times, ${String(pollinating)} pollinating; flies rested ${String(capRests.spotted)} times on fly agarics, ${String(capRests.other)} on other caps (pull ${String(FLIGHT_HABITS.fly.spottedPull)})`,
