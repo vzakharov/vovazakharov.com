@@ -339,6 +339,12 @@ bite 12 left go. Its contract:
     `SEE_ALSO` if that list carries side projects, none otherwise. Then, the Artifact republished,
     `/relay /finalize`.
 
+## Rest of the bite
+
+Bite 12 is built, reviewed, fixed and played (`bite-12.md`,
+`bite-12/review.md`, `bite-12/leg-timing.md` § 8). Left: `/polish`, vet,
+the Artifact republished, `/pr`; then delete this section.
+
 ## DRY notes
 
 The reuse calls the whole game stands on are in

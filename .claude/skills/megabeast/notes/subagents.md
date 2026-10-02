@@ -209,6 +209,15 @@
   brought frames and report at 158k. A player gets the 20-minute check-in
   by default; a reader rarely needs one.
 
+- **A three-step package ends at two; a tracing step ends the agent.**
+  Bite 12's review round ran seven agents at 140–183k: the three review
+  groups (three findings each) finished, a five-finding one stopped at
+  three, a three-step leg-frame build stopped after its pure move, and a
+  play agent with a trace in its tail stopped before the trace. Each
+  successor finished from the hand-over note in one go. So the skill briefs
+  at most two build steps, or one build step plus its tests, and a play
+  with no trace; a red needing a trace gets its own agent.
+
 - **The check-in timer is a backstop to the hook's subagent notice.**
   The operator asked why agents are not simply told, as the main session
   is («им нельзя говорить чтобы применяли ту же эвристику… вместо того

@@ -215,3 +215,12 @@
   how many of its last rounds found the game versus the script; once the
   script wins twice, record the remaining reds as known for the review and
   the operator's play, and move to the bite's next item.
+- **One quantity measured in two frames is a class, not a leg.** Bite 12's
+  review play showed one bee 1.71× fast after a snap turn; the trace found
+  the model framing each perch alone (clamped at the margin) while the view
+  framed a leg's two ends together — 31 of 49 bee legs off, 0.3–29×. The
+  same tail found the veer watch reading the held turn's 9.3 px slide as a
+  flier's step, which was § 7's "accepted" 2%. So a speed red is traced to
+  *which frame each side measures in*, model, view and watch, before it is
+  called noise or a residue; an "accepted residue" is re-asked whenever the
+  frame of anything it measured changes.
