@@ -11,6 +11,7 @@ import { pick } from '../../src/shared/lib/collections.ts';
 import {
   type Controls,
   type Expect,
+  grow,
   Insects,
   inTurn,
   type Page,
@@ -209,12 +210,9 @@ export async function playInsects(
       : `${String(await page.evaluate(`__probe.topAt(${JSON.stringify(point)})`, z.string().nullable()))} at (${point.x.toFixed(0)}, ${point.y.toFixed(0)})`;
 
   // Something to rest on: two mushrooms, grown from the picker's first two caps.
-  await inTurn(controls.picker.slice(0, 2), async (cap) => {
-    await page.tap(controls.plus);
-    await page.step(30);
-    await page.tap(cap);
-    await page.step(90);
-  });
+  await inTurn(controls.picker.slice(0, 2), async (cap) =>
+    grow(page, controls, cap),
+  );
   expect(
     (await state()).mushrooms.length === 2,
     'two picks grew no two mushrooms',

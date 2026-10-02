@@ -18,7 +18,13 @@ import {
   Point,
   walkAndTurn,
 } from './mushroom-probe.ts';
-import { buttonsOf, NEWEST, Newest, TUFTS } from './play-tufts.ts';
+import {
+  buttonsOf,
+  firstOpening,
+  NEWEST,
+  Newest,
+  TUFTS,
+} from './play-tufts.ts';
 
 /** The flower picker as the page holds it, and what stands of the flower `id`. */
 const Held = z.object({
@@ -181,18 +187,10 @@ const TRIES = 8;
 async function plantOne(
   page: Page,
 ): Promise<NonNullable<z.infer<typeof Flower>> | undefined> {
-  const open = async () =>
-    page.evaluate('__probe.scene.meadow.planting !== undefined', z.boolean());
   const tufts = await page.evaluate(TUFTS, z.array(Point));
-  const opening = async ([tuft, ...rest]: ReadonlyArray<
-    z.infer<typeof Point>
-  >): Promise<boolean> => {
-    if (!tuft) return false;
-    await page.tap(tuft);
-    await page.step(30);
-    return (await open()) || opening(rest);
-  };
-  if (!(await opening(tufts.toReversed().slice(0, TRIES)))) return undefined;
+  if (!(await firstOpening(page, tufts.toReversed().slice(0, TRIES)))) {
+    return undefined;
+  }
   const [colour] = await page.evaluate(
     buttonsOf('colourPicker'),
     z.array(Point),

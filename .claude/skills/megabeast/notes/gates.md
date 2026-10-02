@@ -24,7 +24,14 @@
   `/polish` from there to `/finalize` re-reads the whole branch. The skill
   should say which subject a bite's end writes; the bare `polish:` is the
   better choice, since the range since the last bite's end is exactly what
-  the lookup would otherwise compute.
+  the lookup would otherwise compute. **The lookup also needs the history
+  to reach the floor**: at bite 12's end a relayed session's shallow clone
+  listed 576 commits and no `polish:` among them, read the branch as
+  floorless and paused before a whole-branch run; deepened
+  (`git fetch --deepen=800`), the floor was bite 11's end, 1868 commits
+  down. The skill should deepen until `git merge-base origin/<base> HEAD`
+  resolves before trusting an empty lookup, and write the floor's sha into
+  the polish agents' brief rather than have each recompute it.
 - **Agents' scratch breaks `pnpm test`.** The test glob `**/*.test.ts`
   reaches into gitignored `tmp/`: a subagent's copy of the mushroom sources
   in `tmp/clump/` (to measure old constants), throwaway tests and a
