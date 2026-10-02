@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { framedOf } from '../../model/flight-frame';
+import { wrap } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,
   gathered,
@@ -41,8 +42,25 @@ function flightAt(x: number, y: number): LegFlight {
     presence: 1,
     above: 7,
     span: 40,
+    turn: 0,
+    airborne: 1,
   };
 }
+
+/** Where `flight` is drawn `along` its frame's px, its turn as given. */
+function drawnAlong(flight: LegFlight, along: number) {
+  const { turn, at } = flight;
+  const moved = {
+    ...flight,
+    at: { x: at.x + along * Math.sin(turn), y: at.y - along * Math.cos(turn) },
+  };
+  const middle = drawnInsect(view, moved).posed?.middle;
+  assert.ok(middle);
+  return middle;
+}
+
+/** The angle between two turns, either way round. */
+const apart = (a: number, b: number) => Math.abs(wrap(a - b));
 
 describe('drawnInsect', () => {
   it('draws a flier where it veers to, its shadow laid, a finger’s reach round it', () => {
@@ -97,5 +115,35 @@ describe('drawnInsect', () => {
       Math.abs(drawn.posed.nectar.x - (sat.x + (there.x - sat.x) / sat.zoom)) <
         1e-9,
     );
+  });
+
+  it('turns a flier at the screen’s middle as its frame turns it', () => {
+    const flight = { ...flightAt(590, 500), turn: -1.1 };
+    const posed = drawnInsect(view, flight).posed;
+    assert.ok(posed);
+    assert.ok(apart(posed.rotation, -1.1) < 0.01);
+  });
+
+  it('points a flier skimming the grass by the screen’s side the way a step its way in the frame is drawn, its seat’s facing kept', () => {
+    // Where tabL drew a butterfly leaving on the left facing 0.39 rad off
+    // its way: the frame stands it over the grass, which the screen eases
+    // it down onto, nearer (`aloftFramed`).
+    const forward = 13;
+    const flight: LegFlight = {
+      ...flightAt(590, 500),
+      at: { x: 608, y: 449.5 },
+      forward,
+      zoom: CLUMP_DISTANCE / forward,
+      turn: -1.1,
+    };
+    const posed = drawnInsect(view, flight).posed;
+    assert.ok(posed);
+    const [from, to] = [drawnAlong(flight, -10), drawnAlong(flight, 10)];
+    const drawnWay = Math.atan2(to.x - from.x, from.y - to.y);
+    // The screen's bend there is worth keeping: over a tenth of a radian.
+    assert.ok(apart(drawnWay, -1.1) > 0.1, String(drawnWay));
+    assert.ok(apart(posed.rotation, drawnWay) < 0.01);
+    const seated = drawnInsect(view, { ...flight, airborne: 0 }).posed;
+    assert.equal(seated?.rotation, -1.1);
   });
 });

@@ -9,9 +9,11 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Aloft, Framed } from '../../model/flight-frame';
+import { type Turned, wrap } from '../../model/geometry';
 import { onHost } from './bed-place';
 import { reachesScreen, type Spanned, type Zoomed } from './insect-away';
 import { aloftFramed, type SeatEnds } from './insect-frame';
+import type { Drinking } from './insect-look';
 import { drawnFlier, drawnSitter } from './insect-seat';
 import { shadowOf, type ShadowPlace } from './insect-shadow';
 import type { Shown } from './insect-shown';
@@ -27,12 +29,15 @@ import type { Placed, View } from './view';
  * its landing's bob sinks it (`sunk`), in px at its own size; how far along
  * its leg it is (`flown`), between the seats `ends`; its `seat`, which it
  * sits on once `sitting`; how dark its shadow is, as a share of its full
- * (`presence`); and the depth it is drawn at this side of the brow (`above`).
+ * (`presence`); the depth it is drawn at this side of the brow (`above`);
+ * its body's `turn` in the frame, in radians clockwise from up; and how far
+ * off its seat it is (`airborne`, `aloft` in `insect-motion.ts`).
  */
 export type LegFlight = Spanned &
   Pick<Shown, 'at' | 'offset' | 'flown'> &
   Pick<Framed, 'forward'> &
-  Pick<Placed, 'zoom'> & {
+  Pick<Placed, 'zoom'> &
+  Turned & {
     frameAt: number;
     sunk: number;
     ends: SeatEnds;
@@ -40,16 +45,18 @@ export type LegFlight = Spanned &
     sitting: boolean;
     presence: number;
     above: number;
+    airborne: number;
   };
 
 /**
  * An insect as the screen draws it: `middle`, at the zoom it is drawn at;
  * its depth and opacity among what the brow covers; how far a finger
- * reaches it, in px at its own size; and the nectar it drinks, where the
- * look draws it unzoomed about `middle`.
+ * reaches it, in px at its own size; the nectar it drinks, where the look
+ * draws it unzoomed about `middle`; and its body's `rotation` on the screen,
+ * in radians clockwise from up.
  */
 export type Posed = Pick<Sinking, 'depth' | 'alpha'> &
-  Pick<Seat, 'nectar'> & {
+  Pick<Drinking, 'nectar' | 'rotation'> & {
     middle: Zoomed;
     hit: number;
   };
@@ -65,13 +72,14 @@ export function drawnInsect(
   flight: LegFlight,
 ): { aloft: Aloft; shadow?: ShadowPlace; posed?: Posed } {
   const { frameAt, at, zoom, forward, offset, sunk, span, seat } = flight;
-  const { flown, ends, sitting, presence, above } = flight;
-  const lifted = (down: number) =>
+  const { flown, ends, sitting, presence, above, turn, airborne } = flight;
+  // `ahead`, frame px along its turn.
+  const lifted = (down: number, ahead = 0) =>
     drawnFlier(
       view,
       aloftFramed(view, frameAt, {
-        x: at.x + offset.x * zoom,
-        y: at.y + (offset.y + down) * zoom,
+        x: at.x + ahead * Math.sin(turn) + offset.x * zoom,
+        y: at.y - ahead * Math.cos(turn) + (offset.y + down) * zoom,
         forward,
       }),
       flown,
@@ -103,6 +111,11 @@ export function drawnInsect(
     ...pick(sinks, 'depth', 'alpha'),
     // A finger's reach on the screen, however small the insect is drawn.
     hit: tapReach((span * middle.zoom) / 2) / middle.zoom,
+    // Settled, it faces the screen's own way (`restTurn`), so the bend fades
+    // out as it lands and in as it takes off.
+    rotation: wrap(
+      turn + airborne * wrap(bentTurn(flying, turn, lifted) - turn),
+    ),
     ...(nectar && {
       nectar: {
         x: middle.x + (nectar.x - middle.x) / middle.zoom,
@@ -111,4 +124,25 @@ export function drawnInsect(
     }),
   };
   return { aloft, ...shaded, posed };
+}
+
+/**
+ * `turn`, a body's turn in its leg's frame, as the screen draws it from
+ * `flying`, where the frame point it is turned at is drawn: the way a px's
+ * step along it in the frame is drawn (`lifted`). The frame is a pinhole, the
+ * screen lays azimuth straight across and bends its rows down (`viewOf`),
+ * and a flight skimming the grass is eased down onto it (`aloftFramed`), so
+ * toward the screen's sides and low over the grass a body turned in the
+ * frame alone points off the way it is drawn flying. Where either end is not
+ * drawn, the frame's turn.
+ */
+function bentTurn(
+  flying: ReturnType<typeof drawnFlier>,
+  turn: number,
+  lifted: (down: number, ahead: number) => ReturnType<typeof drawnFlier>,
+): number {
+  const from = flying.sinking?.drawn;
+  const to = lifted(0, 1).sinking?.drawn;
+  if (!from || !to) return turn;
+  return Math.atan2(to.x - from.x, from.y - to.y);
 }
