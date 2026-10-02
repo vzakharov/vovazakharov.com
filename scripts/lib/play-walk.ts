@@ -193,11 +193,14 @@ export async function playWalk(
   await shoot('near');
   checkWalk(opening, ahead, bob, 'ArrowUp', expect, note);
   checkPops(ahead, cover, 'ArrowUp', expect, note);
+  // Strafed near the middle, where the rim leaves room on either side.
+  await playStrafes(page, camera, bob, expect, note);
+  const strafed = await eye();
   const back = await hold('ArrowDown', FPS * 12);
   const rim = back.at(-1) ?? opening;
   checkPops(back, cover, 'ArrowDown', expect, note);
   await shoot('rim');
-  checkWalk(ahead.at(-1) ?? opening, back, bob, 'ArrowDown', expect, note);
+  checkWalk(strafed, back, bob, 'ArrowDown', expect, note);
   expect(
     fromMiddle(rim) > GLADE.r - RIM_KEEP - 0.05 &&
       fromMiddle(rim) <= GLADE.r - RIM_KEEP + 1e-6,
@@ -292,7 +295,6 @@ export async function playWalk(
       );
     }
   }
-  await playStrafes(page, camera, bob, expect, note);
   expect(
     (await taps()) === tapsBefore,
     'walking, turning and strafing tapped something',
@@ -316,8 +318,8 @@ export async function playWalk(
 /**
  * A strafe: a 150 px swipe leftward from the sky, its far ground — the seam's,
  * `distanceOfRow` of `groundTop` ahead — following the finger, then `→` held
- * 1.5 s under Shift; each walks the eye square to a heading it never turns,
- * and is shot mid-way.
+ * 1.5 s under Shift; each walks the eye square to a heading it never turns.
+ * The swipe is shot at its lift and at rest, the key mid-way.
  */
 async function playStrafes(
   page: Page,
@@ -366,6 +368,8 @@ async function playStrafes(
     await page.step(1);
     await page.shoot('walk-strafe-drag-lift');
     const chase = await page.trace(FPS * 4, '__probe.eye()', Eye);
+    await page.step(1);
+    await page.shoot('walk-strafe-drag-rest');
     checkWalk(pressed, chase, bob, 'drag', expect, note);
     const went = checkSquare(pressed, chase, 'a drag from the sky');
     // The lock takes the far ground from where the finger crossed the slop,
