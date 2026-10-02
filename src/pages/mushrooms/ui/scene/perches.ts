@@ -2,6 +2,7 @@ import { type Perch, perchName, SIDES, type Sight } from '../../model/flight';
 import type { Aloft } from '../../model/flight-frame';
 import { type Eye, OPENING_EYE, unanchored } from '../../model/ground';
 import type { Flier } from '../../model/insects';
+import { airAloftOf, airAlofts, clumpRow } from './air-spots';
 import { anchoredStand } from './anchored-stand';
 import type { Stand } from './flower-sight';
 import { type Away, awayPlaces } from './insect-away';
@@ -12,7 +13,7 @@ import {
   type PerchHosts,
   tapThrough,
 } from './perch-hosts';
-import { airAlofts, clumpRow, footRows, perchSight } from './perch-sight';
+import { footRows, perchSight } from './perch-sight';
 import { aloftOfLayout, placeOfAloft } from './plane-place';
 import type { View } from './view';
 
@@ -42,7 +43,7 @@ function snapped(value: number, step: number): number {
 export class Perches {
   /** What the insects see of the perches, as last seen. */
   sight: Sight = { flowers: [], air: [], crowded: [], room: [] };
-  /** Each spot in the open air as a fixed point in the world, by id, as last seen. */
+  /** Each spot in the open air offered as last seen as a fixed point in the world, by id. */
   private alofts: ReadonlyMap<string, Aloft> = new Map();
   /** Every perch `sight` places but the away spots, as the fixed point in the world it is laid out at, by its name (`perchName`). */
   private placed: ReadonlyMap<string, Aloft> = new Map();
@@ -57,45 +58,37 @@ export class Perches {
 
   /**
    * Sees the perches afresh on `stand` as judged from `anchor`
-   * (`anchoredStand`), every place taken back to the plane (`unanchored`).
+   * (`anchoredStand`), every place on a bed taken back to the plane
+   * (`unanchored`), and the air's as the plane holds it (`airAlofts`).
    */
   see(stand: Stand, anchor: Eye = OPENING_EYE): void {
     const judged = anchoredStand(stand, anchor);
     const { layout } = judged;
     this.sight = perchSight(judged);
     this.layout = layout;
-    const onPlane = (aloft: Aloft): Aloft => ({
-      ...aloft,
-      ...unanchored(anchor, aloft),
-    });
-    this.alofts = new Map(
-      [...airAlofts(layout)].map(([id, aloft]) => [id, onPlane(aloft)]),
-    );
+    this.alofts = airAlofts(layout, anchor);
     const { places = {} } = this.sight;
-    const aways = new Set(
-      SIDES.map((side) => perchName({ kind: 'away', side })),
-    );
+    const skipped = new Set([
+      ...SIDES.map((side) => perchName({ kind: 'away', side })),
+      ...[...this.alofts.keys()].map((id) => perchName({ kind: 'air', id })),
+    ]);
     const rows = footRows(judged);
-    const [unit, aloftRow] = [layout.insectSize, clumpRow(layout)];
+    const [unit, aloftRow] = [layout.insectSize, clumpRow(layout.camera)];
     // `perchSight`'s layout run backwards, each place over its foot's row.
-    this.placed = new Map(
-      Object.entries(places).flatMap(([name, { x, y }]) =>
-        aways.has(name)
-          ? []
-          : [
-              [
-                name,
-                onPlane(
-                  aloftOfLayout(
-                    layout.camera,
-                    { x: x * unit, y: y * unit },
-                    rows.get(name) ?? aloftRow,
-                  ),
-                ),
-              ] as const,
-            ],
-      ),
+    const onBeds = Object.entries(places).flatMap(([name, { x, y }]) => {
+      if (skipped.has(name)) return [];
+      const point = { x: x * unit, y: y * unit };
+      const laid = aloftOfLayout(
+        layout.camera,
+        point,
+        rows.get(name) ?? aloftRow,
+      );
+      return [[name, { ...laid, ...unanchored(anchor, laid) }] as const];
+    });
+    const inAir = [...this.alofts].map(
+      ([id, aloft]) => [perchName({ kind: 'air', id }), aloft] as const,
     );
+    this.placed = new Map([...onBeds, ...inAir]);
   }
 
   /**
@@ -132,15 +125,29 @@ export class Perches {
 
   /** Where `perch` stands this frame (`perchedOn`). */
   readonly at = (perch: Perch, insect: Flier): Perched | undefined =>
-    perchedOn(this.hosts(), perch, insect);
+    perchedOn(this.hosts(perch), perch, insect);
 
   /** Passes a tap through an insect at rest on to `under` (`tapThrough`). */
   tapThrough(under: Perch | undefined): void {
     tapThrough(this.hosts(), under);
   }
 
-  private hosts(): PerchHosts {
-    const { alofts } = this;
-    return { ...this.beds(), alofts };
+  /**
+   * The beds, and the air offered as last seen; for a spot in the air
+   * `perch` names that is no longer offered, that spot alone (`airAloftOf`),
+   * so an insect still holding a spot the eye has walked away from hovers
+   * where it was.
+   */
+  private hosts(perch?: Perch): PerchHosts {
+    const { alofts, layout } = this;
+    const held =
+      perch?.kind === 'air' && layout && !alofts.has(perch.id)
+        ? airAloftOf(layout, perch.id)
+        : undefined;
+    return {
+      ...this.beds(),
+      alofts:
+        held && perch?.kind === 'air' ? new Map([[perch.id, held]]) : alofts,
+    };
   }
 }
