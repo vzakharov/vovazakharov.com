@@ -1,19 +1,13 @@
 /**
- * The walk into the forest, `play-mushrooms.ts`'s run on a fresh meadow: the
- * forest at its densest, grown from `+` as a child grows it until `+`
- * refuses, then again `SOW_APART` s of `↓` back, the two clusters standing
- * as close as the per-area cap lets them, one behind the other; the eye
- * turned onto its haziest back-row mushroom and walked up to it on `↑` until
- * it is drawn `CLOSE` times the size it set off at, by when its painted haze
- * has dropped; a tap on its cap where it is painted (`paintedCap`, never the
- * scene's own hit test) selects it, and one `OUTSIDE` px outside its
- * outline, where the finger pad was, does not; then the eye turned all the
- * way round there, at the closest approach. Every frame of the walk and the turn is drawn and
- * timed, and their median kept to the frame budget (`lib/frame-budget.ts`):
- * the fill rate's worst case, caps covering the screen and every mushroom
- * within sight drawn. The lawn's tending (a whole re-tend, or a sliced one's
- * gather and slices) and the perches' re-sights along them are timed too, and
- * the frames that carry one set beside those that carry none.
+ * The walk into the forest, `play-mushrooms.ts`'s run on a fresh meadow. The
+ * forest is grown at its densest, from `+` until it refuses, here and again
+ * `SOW_APART` s of `↓` back; the eye turns onto its haziest back-row mushroom
+ * and walks up on `↑` until it is drawn `CLOSE` times its starting size, by
+ * when its haze has dropped. A tap on its painted cap (`paintedCap`, never the
+ * scene's own hit test) selects it and one `OUTSIDE` px off its outline does
+ * not; the eye then turns all the way round. The frames' median is held to the
+ * frame budget (`lib/frame-budget.ts`), this being the fill rate's worst case,
+ * and the re-tends and re-sights along the way are timed beside it.
  */
 
 import { z } from 'zod';

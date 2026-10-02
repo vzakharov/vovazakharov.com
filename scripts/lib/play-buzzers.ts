@@ -231,16 +231,13 @@ async function tapFlying(
 }
 
 /**
- * Holds what `flier-watch.ts` saw over every frame of `page` to its bounds:
- * no body pointing more than `MOST_HEADING_OFF` off the way it travels once
- * its leg is `HEADING_AFTER` old, none turning round more than `MOST_SPIN`
- * over a leg, none settled more than
- * `MOST_REST_TURN` off facing up, no two hovering fliers overlapping while
- * the air had a spot open, and each of `kinds` at least its `LEAST_SPANS`
- * across at its own size. A perch past the clump's distance draws it smaller
- * by its depth, as it does the flower or cap it sits on; the tap still
- * reaches it by a finger's width (`tapReach`), so the drawn least is noted,
- * not held.
+ * Holds what `flier-watch.ts` saw over every frame of `page` to its bounds: no
+ * body more than `MOST_HEADING_OFF` off its way once its leg is
+ * `HEADING_AFTER` old, none spinning more than `MOST_SPIN` over a leg or
+ * settled more than `MOST_REST_TURN` off facing up, no two hovering fliers
+ * overlapping while the air had a spot open, and each of `kinds` at least its
+ * `LEAST_SPANS` across at its own size. The least drawn span is only noted: a
+ * far perch draws an insect smaller by depth, and `tapReach` still reaches it.
  */
 async function checkWatch(
   page: Page,
