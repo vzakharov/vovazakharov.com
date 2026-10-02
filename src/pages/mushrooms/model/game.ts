@@ -29,7 +29,7 @@ import {
   type Species,
 } from './mushroom-genes';
 import { type Footed, OPENING_FEET } from './placement';
-import { plantedId } from './pollen';
+import { plantedId, type Sown } from './pollen';
 import type { Random, Seeded } from './random';
 import { type Rain, RAIN_MS, raining } from './weather';
 
@@ -159,6 +159,14 @@ function withPiece(mushroom: Planted, piece: Furnishing): Planted | undefined {
     windowSlots(mushroomGenes(mushroom)).length,
   );
   return house && { ...mushroom, house };
+}
+
+/** `planted` with a flower grown from `seed` at `foot` after the rest, under the next free id. */
+function withSown(
+  planted: readonly Sown[],
+  { seed, foot }: Seeded & Rooted,
+): readonly Sown[] {
+  return [...planted, { id: plantedId(planted), seed, foot }];
 }
 
 function selectedMushroom({
@@ -319,7 +327,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       const { foot, flower } = planting;
       return {
         ...meadow,
-        planted: [...planted, { id: plantedId(planted), seed, foot }],
+        planted: withSown(planted, { seed, foot }),
         // The flower picked over goes, and the new one opens in its place.
         pulled: flower === undefined ? pulled : [...pulled, flower],
         planting: undefined,
@@ -330,7 +338,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       const { seed, foot } = action;
       return {
         ...meadow,
-        planted: [...planted, { id: plantedId(planted), seed, foot }],
+        planted: withSown(planted, { seed, foot }),
       };
     }
     case 'grow': {

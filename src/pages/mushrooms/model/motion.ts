@@ -306,7 +306,7 @@ const LOOK_PERIOD = 1.7;
  * Out and back once, `elapsed` into it: 0 before, up over `rise`, 1 for
  * `hold`, down over `duck`, and 0 after.
  */
-function outAndBack(
+export function outAndBack(
   elapsed: number,
   rise: number,
   hold: number,

@@ -17,6 +17,7 @@
 
 import { z } from 'zod';
 
+import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
 import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
 import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
@@ -129,8 +130,7 @@ const SKY_START = `(() => {
 
 /** The heading's change from `from` to `to`, the short way round. */
 function turned(from: number, to: number): number {
-  const turn = to - from;
-  return turn - 2 * Math.PI * Math.round(turn / (2 * Math.PI));
+  return wrap(to - from);
 }
 
 /** How far the eye stands from the glade's middle. */

@@ -23,6 +23,7 @@ import {
   fading,
   FPS,
   hiddenRuns,
+  inFlight,
   most,
   type Sample,
   sitting,
@@ -46,6 +47,12 @@ const BLINK_FRAMES = 8;
 const NEAR_BROW = 2;
 
 type Spot = z.infer<typeof Point>;
+
+/** The most zoom a flier clear of a perch's fade may show at screen `x`: the nearest mushroom's there, with `ZOOM_SLACK`. */
+function zoomBound(lens: Pinhole, x: number): number {
+  return (CLUMP_DISTANCE / V_NEAR) * bendAt(lens, x) * ZOOM_SLACK;
+}
+
 export type OnScreen = (point: Spot) => boolean;
 export type Note = (line: string) => void;
 
@@ -110,9 +117,7 @@ export function lookedBack(
     expect(false, `looking back, the ${kind} released left no frames`);
     return;
   }
-  const flight = leg.filter(
-    ({ now, departs, arrives }) => now >= departs && now < arrives,
-  );
+  const flight = leg.filter((sample) => inFlight(sample));
   // `out` holds while a release with no open perch in view flies out by the
   // side, and clears once it is past it: every frame after the last `out`
   // is flown off screen by design.
@@ -164,8 +169,7 @@ export function walkedIn(
     note(`the walk into ${target} never drew it`);
     return;
   }
-  const bound =
-    (CLUMP_DISTANCE / V_NEAR) * bendAt(lens, biggest.x) * ZOOM_SLACK;
+  const bound = zoomBound(lens, biggest.x);
   note(
     `walked into ${target} hovering: nearest ${fixed(nearest)} from the eye, zoom at most ${fixed(biggest.zoom)}× at x ${fixed(biggest.x, 0)} (bound ${fixed(bound)}, ${biggest.to} leg, flown ${fixed(biggest.flown)}), widest span ${fixed(widest, 0)} px of ${String(width)}`,
   );
@@ -186,12 +190,7 @@ export function zooms(
   expect: Expect,
   note: Note,
 ): void {
-  const flying = samples.filter(
-    (sample) =>
-      sample.visible &&
-      sample.now >= sample.departs &&
-      sample.now < sample.arrives,
-  );
+  const flying = samples.filter((sample) => sample.visible && inFlight(sample));
   const fade = most(
     flying.filter((sample) => fading(sample)),
     ({ zoom }) => zoom,
@@ -216,7 +215,7 @@ export function zooms(
     `a flier by a perch was drawn at ${fixed(fade?.zoom ?? 0)}×`,
   );
   if (free) {
-    const bound = (CLUMP_DISTANCE / V_NEAR) * bendAt(lens, free.x) * ZOOM_SLACK;
+    const bound = zoomBound(lens, free.x);
     expect(
       free.zoom <= bound,
       `a flier was drawn at ${fixed(free.zoom)}× at x ${fixed(free.x, 0)}, past ${fixed(bound)}`,
