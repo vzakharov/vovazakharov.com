@@ -54,7 +54,7 @@ export const SIDE_OVERHANG = 1.5;
  * shows. Phaser tessellates every visible Graphics each frame whether on the
  * screen or not, so one behind the eye is hidden rather than drawn off it.
  */
-export function offSides(
+function offSides(
   view: View,
   { x }: Pick<Point, 'x'>,
   height: number,
