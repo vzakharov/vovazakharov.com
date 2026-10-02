@@ -193,7 +193,7 @@ and clouds stand at azimuths (`panorama.ts`), the hills are live round 360°,
 the ground screen-fixed rows that, with the brow, take the walk's bob
 (bite-12.md).
 
-**Placement and taps.** A grown mushroom's foot is `pickFoot`'s best of 32
+**Placement and taps.** A grown mushroom's foot is `pickFoot`'s best of up to 32 rounds of 12
 candidates by its seed (`model/placement.ts`), which `roomFor` in
 `mushroom-room.ts` checks — the meadow's rules at the opening eye, cap and
 stem cover (`cap-cover.ts`), door in sight, and the screen's as the current
@@ -316,6 +316,19 @@ each beat in brackets):
 - **Insects on the plane**, perching where they like («садятся куда
   хотят»): air spots round the eye, entry from the view's edge, take-offs
   panned by azimuth; the layout-px adapter in `insect-view.ts` retires.
+- **Rules judged from the current eye keep their code**: the stored plane
+  points are moved into the eye's frame and converted to `Ground` (spec § 3;
+  exact within ±3.08 rad of the heading), `placeIn` and its callers
+  included, so a mushroom grown behind the opening eye still covers flowers
+  and tufts. A rule's answer may differ from another eye: accepted.
+- **A bee's ring has no depth band**: the band from the eye
+  (`flower-plots.ts`) holds for the child's planting, which is in view
+  anyway; a bee plants round a far flower by the plane's room and cover
+  rules alone. [The band from the current eye: a bee off in the field could
+  never plant.]
+- **A grown mushroom leans by the side of the eye it grew in front of**,
+  fixed for its life. [The opening plane's centre line: behind it, half
+  lean toward the child.]
 - **Clear-outs**: `GLADE` and the rim slide, `nearestTheSun`/`acrossFromSun`
   (the "out of the wash" rule restated against the sun's azimuth, or gone),
   `openingCrop`, `rebloom`.
