@@ -98,8 +98,8 @@ export class Planter {
   /**
    * A key making `sound` with the flower picker shut and no flower in view
    * making it: grows the flower that does on a tuft in sight that still
-   * takes one (`plantableIn`, which counts the flowers sown this
-   * frame), both drawn off the planter's stream. Returns the flower's id, or
+   * takes one (`plantableIn`, which counts the flowers sown this frame),
+   * both drawn off the planter's stream. Returns the flower's id, or
    * `undefined` where no tuft in view is free.
    */
   readonly sowSounding = (sound: FlowerSound): string | undefined => {

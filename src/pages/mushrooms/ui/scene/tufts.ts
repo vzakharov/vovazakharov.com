@@ -50,10 +50,7 @@ import type { MeadowLayout } from './layout';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
 import { ofGround, onScreen, type View } from './view';
 
-/**
- * How many tufts the ground grows per 1000 CSS px of its world across: a
- * lawn, as dense as the meadow's grass was before its tufts took flowers.
- */
+/** How many tufts the ground grows per 1000 CSS px of its world across: a lawn. */
 const TUFTS_PER_1000PX = 52;
 /**
  * Where down the ground the tufts grow, as shares of its depth, before
@@ -130,14 +127,13 @@ function grownTuft(layout: MeadowLayout, random: Random): Sprout {
 }
 
 /**
- * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, as
- * the scene hit-tests it seen from the opening eye: no flower's petals as far
- * as its sway takes them — past them a flower yields to a bare tuft
- * (`tuftUnder`) — and no mushroom's drawn parts (`tappedMushroom`) hold the tuft's middle, nor any point of the
- * core round it (`BARE_CORE`). The controls stand on the screen, not the
- * world, so none is tested: a tuft a turn slides under one is the control's
- * to tap there, and the grass's again a turn on. What `stand` holds is read
- * once, for every tuft asked after.
+ * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, seen
+ * from the opening eye: no flower's petals as far as its sway takes them (past
+ * them a flower yields to a bare tuft, `tuftUnder`) and no mushroom's drawn
+ * parts (`tappedMushroom`) hold the tuft's middle or its core (`BARE_CORE`).
+ * The controls stand on the screen, not the world, so a tuft a turn slides
+ * under one is the control's to tap there. `stand` is read once, for every
+ * tuft asked after.
  */
 export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
   const { layout, mushrooms } = stand;
@@ -232,10 +228,9 @@ export function regrowTufts(
 
 /**
  * The tufts the flowers pulled up in `stand` leave: `left`, then one from
- * `random` where each pulled flower stood that no tuft of `grown` or `left`
- * stands on already, in a planted flower's size — a seeded flower's spot, or
- * a bee's, the child can plant on again as on the tuft a planted one comes
- * back to. Each stays on its foot from then on, as the grown ones do.
+ * `random` at each pulled flower's foot no tuft of `grown` or `left` holds, so
+ * a seeded flower's spot, or a bee's, can be planted on again. Each stays on
+ * its foot from then on.
  */
 export function leaveTufts(
   stand: Stand,
@@ -257,8 +252,8 @@ export function leaveTufts(
 
 /**
  * The tufts of `grown` that stand on `stand`, each a spot to plant on
- * (`plantableIn`): a tuft where no flower fits is not there, and comes back
- * once what kept it away goes.
+ * (`plantableIn`): a tuft where no flower fits hides until what kept it away
+ * goes.
  */
 export function tendTufts(stand: Stand, grown: readonly Sprout[]): Sprout[] {
   return grown.filter(plantableIn(stand));
@@ -271,10 +266,9 @@ export type ShownSprout = WithTuft & { sprout: Sprout };
 export type ShownGrass = { near: ShownSprout[]; behind: ShownSprout[] };
 
 /**
- * Where `view` draws each of `sprouts`: at its foot, its size scaled by its
- * zoom and its colours toned by the screen row it stands on, as the ground's
- * bands are, placed as a bed places what stands on the ground (`bedPlace`).
- * A tuft that place does not draw, or off the screen, is not drawn.
+ * Where `view` draws each of `sprouts`: placed as a bed places what stands on
+ * the ground (`bedPlace`), its colours toned by its screen row as the
+ * ground's bands are.
  */
 export function shownSprouts(
   view: View,

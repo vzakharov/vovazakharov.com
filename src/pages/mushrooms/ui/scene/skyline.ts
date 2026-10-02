@@ -32,9 +32,8 @@ const HILL_WAVES = [
 ] as const;
 
 /**
- * How far into each range the opening view's middle stands, per CSS px the
- * world overhangs the screen either side: so the opening view shows each
- * range's crests where it always has.
+ * How far along each range's waves the opening view's middle stands, per CSS
+ * px the world overhangs the screen either side.
  */
 const OPENING_SLIDE = { far: 0.3, near: 0.6, seam: 1 } as const;
 
@@ -296,11 +295,9 @@ export const PATH_SKIP = 1;
 /**
  * A band's closed `outline` as Phaser's fill keeps it, except that a point on
  * the band's top or bottom edge (`edges`) is never the one skipped: the points
- * off the edge within `PATH_SKIP` before it go instead. Phaser skipping the
- * edge point would set the edge off from the point before, sloping the band
- * off its own edge in a sliver as long as the edge: over the sky where the
- * skyline dips below the band, or past the band's lower right corner as a flat
- * slab over the range behind. Each point dropped moves the outline by under
+ * off the edge within `PATH_SKIP` before it go instead. A skipped edge point
+ * slopes the band off its own edge in a sliver as long as the edge, over the
+ * sky or over the range behind. Each point dropped moves the outline by under
  * `PATH_SKIP`.
  */
 function keptOnEdges(outline: readonly Point[], edges: number[]): Point[] {

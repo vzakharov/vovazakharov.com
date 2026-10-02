@@ -184,13 +184,11 @@ function laneOffsets(shown: number): number[] {
 }
 
 /**
- * The sky's clouds: the opening screen's three where it has always shown
- * them, each leading a lane round the sky that drifts together at the
- * leader's pace (`laneOffsets`), the lane's clouds no farther apart than the
- * screen is wide in azimuth. So whatever the heading and however long the
- * visit, every lane has a cloud on the screen, and the opening screen shows
- * the three the visit opened on and no other. A lane's others stand as high
- * and as large as the opening three run, from `CLOUD_SEED`.
+ * The sky's clouds: the opening screen's three (`OPENING_CLOUDS`), each
+ * leading a lane round the sky that drifts at its pace, spaced by
+ * `laneOffsets` so every lane has a cloud on the screen whatever the heading
+ * and however long the visit, while the opening screen shows only the three.
+ * A lane's others are shaped from `CLOUD_SEED`.
  */
 export function skyClouds(camera: Camera): Cloud[] {
   const { width, height } = camera;

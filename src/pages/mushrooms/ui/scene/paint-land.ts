@@ -156,9 +156,10 @@ export function paintGround(
 
 /**
  * The grain over the ground, standing on the screen and bobbing with the
- * ground (`GROUND_BOB`), under the grass and every creature: one tile texture made from `seed` the first time, then one
- * sprite per strip of `grainStrips` from where the seam rises highest,
- * reused on every repaint, the texture lying continuous across the strips.
+ * ground (`GROUND_BOB`), under the grass and every creature: one tile texture
+ * made from `seed` the first time, then one sprite per strip of `grainStrips`
+ * from where the seam rises highest, reused on every repaint, the texture
+ * lying continuous across the strips.
  */
 export function paintGrain(
   scene: Phaser.Scene,

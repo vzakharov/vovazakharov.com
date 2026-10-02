@@ -41,12 +41,11 @@ export type Placed = Viewed & { zoom: number; distance: number };
 export type Following = { follow: (view: View) => void };
 
 /**
- * How near the eye, in the clump's size, a thing is no longer drawn: every
- * mushroom's head has sunk below the screen's foot by then, so hiding it
- * never pops. As far out as that holds (the tallest head leaves the foot at
- * about 0.61 of `CLUMP_DISTANCE`), because a mushroom below the foot still
- * costs the frame its drawing: walking into the forest under the software
- * rasterizer keeps the 26 ms budget only from about 0.58 on.
+ * How near the eye, in the clump's size, a thing is too near to draw: every
+ * mushroom's head has sunk below the screen's foot by then (the tallest
+ * leaves it at about 0.61 of `CLUMP_DISTANCE`), so hiding it never pops. As
+ * far out as that holds, because a mushroom below the foot still costs its
+ * drawing: the software rasterizer keeps the 26 ms budget only from 0.58 on.
  */
 export const V_NEAR = 0.58 * CLUMP_DISTANCE;
 
@@ -109,12 +108,10 @@ export function middleOf(camera: Camera): number {
 
 /**
  * Where `view` places `point`, in world px as the opening eye lays it out,
- * standing over the ground row `footRow`: the opening crop's pinhole stands
- * it at that row's distance, as high over it as it stands over the row, and
- * the plane has it `spread` from there. Exact for a thing whose foot is on
- * that row. A thing drawn round a foot is drawn about the foot's place
- * (`onHost`), not point by point through here: the spread widens a span
- * across the plane that the screen narrows back only at the opening eye.
+ * standing over the ground row `footRow`, `spread` across the plane. Exact
+ * only for a point on that row: a thing drawn round a foot goes about the
+ * foot's place (`onHost`), since the spread widens a span the screen narrows
+ * back only at the opening eye.
  */
 export function ofLayout(view: View, point: Point, footRow: number): Placed {
   const { opening, perPx } = rowAt(view, footRow);
@@ -156,9 +153,7 @@ export function behindHills({ distance }: Pick<Placed, 'distance'>): boolean {
  * The meadow's brow at `x` across `camera`'s screen: the row the circle
  * `D_SEE` round the eye stands on there, the ground's top row at the
  * screen's middle, bent lower toward its edges as every row is (`bendAt`).
- * Where a thing goes under, at its own x, whichever way the eye looks; the
- * same on every heading, so the brow stands still on the screen as the eye
- * turns.
+ * The same on every heading, so the brow stands still as the eye turns.
  */
 export function browRow(camera: Camera, x: number): number {
   const pinhole = pinholeOf(camera);
@@ -172,11 +167,9 @@ export function browLowest(camera: Camera): number {
 
 /**
  * Where `view` draws `placed`: where it is placed, up to the brow; past it,
- * sunk as far below the brow at its own x (`browRow`) as its foot would stand
- * above it, so its foot never stands above the brow, nor on the hills
- * beyond. It sinks as it recedes and rises as it nears, with no jump where
- * it crosses the brow, and the brow, drawn over it, covers it from the foot
- * up (`depthOf`).
+ * mirrored as far below the brow at its x (`browRow`) as its foot would stand
+ * above it, so it sinks with no jump as it crosses, and the brow, drawn over
+ * it, covers it from the foot up (`depthOf`).
  */
 export function sunk(view: View, placed: Placed): Placed {
   if (!behindHills(placed)) return placed;

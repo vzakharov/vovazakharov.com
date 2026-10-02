@@ -174,14 +174,11 @@ type Beside = Pick<Room, 'floor' | 'standing'> &
   Pick<Sized, 'width'> & { drawn: readonly Circle[] };
 
 /**
- * One more button with `row`, its size, the first of these that keeps inside
- * the room's width, above its floor, `PICK_CLEAR` clear of `row` and of the
- * room's standing buttons, and its reach out of what the room keeps it off:
- * a step past the row's last along its own row, a step before its first,
- * under its last, under its first, under each between from the last's side
- * in. Where none does, the first that keeps all of that but the floor, and
- * under its last where none does that either. The step along is the row's
- * own spacing, and down it is `stacked`'s.
+ * One more button with `row`, its size: the first spot, along the row's ends
+ * then under it, that keeps inside the room's width, above its floor,
+ * `PICK_CLEAR` clear of `row` and the standing buttons, and its reach out of
+ * `drawn`. Past the floor where no spot above it is clear, and under the
+ * row's last where none is.
  */
 export function beside(
   row: readonly Circle[],
