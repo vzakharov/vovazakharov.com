@@ -312,3 +312,9 @@ In this order of launch; parallel where files are disjoint.
   three phone screens after it are the run that follows the last source
   commit, and the flat butterfly goes to to-check.md (the fix bends at most
   0.15 rad, so a flat body is a sideways crossing or a fault to look at).
+- **tail-phoneP** — every play green on the first run (probe of 54a1643,
+  after 70fc342); no change. meadow 0 of 3464 butterfly flight frames off
+  by 0.3 rad. Seen, not traced: `approach`'s one multi-second stall in
+  every frame kind (the container's, as on tabP); `veer`'s headings 0.00
+  and 0.26 grow no tufts (the opening's forest and flowers cover the
+  ground); a fly sat a whole 5.65 s cap→air leg out of view.
