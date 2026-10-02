@@ -12,6 +12,7 @@ import {
   type Point,
   sample,
 } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import {
   doorStations,
   FURNISHINGS,
@@ -36,6 +37,7 @@ import { PICK_APART, PICK_CLEAR } from './picker-rows';
 import { flowerPicker, shownOverPickers, standingControls } from './sky-layout';
 import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 import { TAP_RADIUS, tapReach } from './tap-reach';
+import { viewAt } from './view';
 import {
   FLOOR_HELD,
   type Screen,
@@ -43,7 +45,7 @@ import {
   VIEWPORTS,
   VISITS,
 } from './viewports';
-import { capsSpan, opened, openingCrop } from './visit-play';
+import { capsSpan, opened } from './visit-play';
 
 /** Each control as its hit area, which the mute's small drawing reaches past. */
 const reach = (circles: readonly Circle[]) =>
@@ -100,7 +102,7 @@ function forestOf(
     width,
     height,
     true,
-    cropped ? openingCrop : undefined,
+    cropped ? (layout) => viewAt(layout.camera, OPENING_EYE) : undefined,
   );
   const forest = { grown: stand.mushrooms.length, span: capsSpan(stand) };
   forests.set(key, forest);

@@ -91,33 +91,6 @@ export function bloom(elapsed: number): number {
   return BLOOM_DEPTH * Math.sin(Math.PI * t ** 0.45) * (1 - t) ** 0.5 * 1.25;
 }
 
-/** When a bloom stands widest, in seconds: `bloom` rises until then and falls after. */
-const BLOOM_WIDEST = ((steps: number) => {
-  let widest = 0;
-  for (let step = 1; step < steps; step++) {
-    const at = (BLOOM_DURATION * step) / steps;
-    if (bloom(at) > bloom(widest)) widest = at;
-  }
-  return widest;
-})(1000);
-
-/**
- * How far into a fresh bloom a flower `elapsed` seconds into one stands: the
- * point on the way out as open as it is now, so a tap mid-bloom opens it on
- * from where it stands instead of snapping it shut first.
- */
-export function rebloom(elapsed: number): number {
-  const open = bloom(elapsed);
-  if (open === 0) return 0;
-  let [shut, wide] = [0, BLOOM_WIDEST];
-  for (let step = 0; step < 24; step++) {
-    const middle = (shut + wide) / 2;
-    if (bloom(middle) < open) shut = middle;
-    else wide = middle;
-  }
-  return wide;
-}
-
 /** `value` wrapped into `[0, span)`, negative values included. */
 const wrap = (value: number, span: number) => ((value % span) + span) % span;
 

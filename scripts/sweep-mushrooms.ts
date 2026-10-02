@@ -5,9 +5,9 @@
  * `MUSHROOM_SLOTS`, the most of any cap and stem the nearer mushrooms hide
  * (`hidersOf`, against `MOST_HIDDEN`), which mushrooms keep no patch of
  * their own as wide as their floor (`patchlessIn`), and how many keep one
- * narrower than a fingertip. On the crop the visit opens on
- * (`openingCrop`), grown as the child grows it: how many mushrooms the least
- * and the median visit hold, and how wide their caps span in the median
+ * narrower than a fingertip. On the view the visit opens on (the camera
+ * from `OPENING_EYE`), grown as the child grows it: how many mushrooms the
+ * least and the median visit hold, and how wide their caps span in the median
  * visit. The tests hold a floor over a share of these visits; the numbers a
  * plan quotes for the whole of them come from here.
  *
@@ -19,6 +19,7 @@
 import { z } from 'zod';
 
 import { MUSHROOM_SLOTS } from '../src/pages/mushrooms/model/game';
+import { OPENING_EYE } from '../src/pages/mushrooms/model/ground';
 import {
   hiddenOf,
   hidersOf,
@@ -27,11 +28,11 @@ import {
   partSighted,
 } from '../src/pages/mushrooms/ui/scene/cap-cover';
 import { patchlessIn } from '../src/pages/mushrooms/ui/scene/mushroom-patch';
+import { viewAt } from '../src/pages/mushrooms/ui/scene/view';
 import { VIEWPORTS, VISITS } from '../src/pages/mushrooms/ui/scene/viewports';
 import {
   capsSpan,
   opened,
-  openingCrop,
   standingIn,
 } from '../src/pages/mushrooms/ui/scene/visit-play';
 import { flag } from './lib/argv.ts';
@@ -84,7 +85,9 @@ for (const [name, width, height] of VIEWPORTS) {
     narrow += patchlessIn(stand, () => FINGERTIP).length;
     if (grown === MUSHROOM_SLOTS) full += 1;
     least = Math.min(least, grown);
-    const crop = opened(seed, width, height, true, openingCrop);
+    const crop = opened(seed, width, height, true, (layout) =>
+      viewAt(layout.camera, OPENING_EYE),
+    );
     cropped.push(crop.mushrooms.length);
     spans.push(capsSpan(crop));
     const among = standingIn(stand);

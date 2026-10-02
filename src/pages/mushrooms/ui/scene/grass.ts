@@ -56,16 +56,29 @@ export function tuftOn(
   y: number,
   random: Random,
 ): Tuft {
-  const { height, groundTop } = layout;
-  const depth = height - groundTop;
-  const down = Math.max(0, y - groundTop) / depth;
   return {
     x,
     y,
-    size: (0.6 + down) * depth * 0.03,
+    size: tuftSizeAt(layout, y),
     phase: -x * GUST_LAG * Math.PI * 2 + between(random, -0.4, 0.4),
-    ...tuftColours(down),
+    ...tuftColours(downAt(layout, y)),
   };
+}
+
+/** How far down the ground's band of `layout`, from its top to the bottom edge, the row `y` stands; none above its top. */
+export function downAt(
+  { height, groundTop }: Pick<MeadowLayout, 'height' | 'groundTop'>,
+  y: number,
+): number {
+  return Math.max(0, y - groundTop) / (height - groundTop);
+}
+
+/** How big a tuft rooted on the row `y` of `screen` stands: the nearer, lower on the screen, the bigger. */
+export function tuftSizeAt(
+  screen: Pick<MeadowLayout, 'height' | 'groundTop'>,
+  y: number,
+): number {
+  return (0.6 + downAt(screen, y)) * (screen.height - screen.groundTop) * 0.03;
 }
 
 /**

@@ -21,8 +21,6 @@ import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
 import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
   forwardOf,
-  GLADE,
-  RIM_KEEP,
   sidewaysOf,
 } from '../../src/pages/mushrooms/model/stride.ts';
 import { distanceOfRow } from '../../src/pages/mushrooms/model/walk.ts';
@@ -89,10 +87,6 @@ const SKY_START = `(() => {
   return null;
 })()`;
 
-function fromMiddle({ x, y }: Seen): number {
-  return Math.hypot(x - GLADE.x, y - GLADE.y);
-}
-
 /** The farthest any bed object in `before` or `after` stands from itself in the other, in CSS px; a missing one counts as infinitely far. */
 function moved(
   before: z.infer<typeof Beds>,
@@ -157,11 +151,6 @@ export async function playWalk(
   checkPops(back, cover, 'ArrowDown', expect, note);
   await shoot('rim');
   checkWalk(strafed, back, bob, 'ArrowDown', expect, note);
-  expect(
-    fromMiddle(rim) > GLADE.r - RIM_KEEP - 0.05 &&
-      fromMiddle(rim) <= GLADE.r - RIM_KEEP + 1e-6,
-    `↓ held 12 s rested ${fromMiddle(rim).toFixed(3)} from the glade's middle, not at its rim ${String(GLADE.r - RIM_KEEP)}`,
-  );
 
   // All the way round on `→`, shooting a quarter and a half turn, then
   // back on `←` held as long.

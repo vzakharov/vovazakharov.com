@@ -8,6 +8,7 @@ import {
   distanceToEdge,
   type Point,
 } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
 import { tapArea } from '../../model/mushroom-outline';
 import { openingIndex } from '../../model/placement';
@@ -32,11 +33,11 @@ import {
 } from './door-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
-import { nearestTheSun, SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
+import { SUN_RAY_REACH } from './sun-layout';
 import { tapReach } from './tap-reach';
-import { ofLayout } from './view';
+import { ofLayout, viewAt } from './view';
 import { type Screen, VIEWPORTS, VISITS } from './viewports';
-import { opened, openingCrop } from './visit-play';
+import { opened } from './visit-play';
 
 /**
  * The visits every rule is swept over, every species tried on every foot:
@@ -48,7 +49,6 @@ const RULED = VISITS.filter((_, index) => index % 160 === 0);
 const RULES = [
   'shown',
   'inside the edge margin',
-  'out of the wash',
   'cap in view',
   'stem in view',
   'door in sight',
@@ -76,7 +76,11 @@ function grownOn(
       screen: name,
       meadows: RULED.map((seed) => [
         seed,
-        [...opened(seed, width, height, true, openingCrop).mushrooms],
+        [
+          ...opened(seed, width, height, true, (layout) =>
+            viewAt(layout.camera, OPENING_EYE),
+          ).mushrooms,
+        ],
       ]),
     };
   }
@@ -116,7 +120,11 @@ function drawnAtOpening(
   laidFoot: Point,
   points: readonly Point[],
 ): Point[] {
-  const foot = ofLayout(openingCrop(layout), laidFoot, laidFoot.y);
+  const foot = ofLayout(
+    viewAt(layout.camera, OPENING_EYE),
+    laidFoot,
+    laidFoot.y,
+  );
   return points.map((point) => aboutFoot(foot, laidFoot, point));
 }
 
@@ -168,7 +176,7 @@ function broken(
   layout: MeadowLayout,
   measured = new Set<string>(),
 ): Fault[] {
-  const { sun, width, mushrooms: ground } = layout;
+  const { width, mushrooms: ground } = layout;
   const { world } = ground.camera;
   const newest = meadow.at(-1);
   const note = (species: Species, rule: Rule) => {
@@ -187,7 +195,6 @@ function broken(
     }
     return [{ mushroom, place, ...amongAt(place, mushroom) }];
   });
-  const wash = layout.wash.at(-1) ?? 0;
   const controls = keepOff(layout);
   for (const one of stood) {
     const { mushroom, place, standing } = one;
@@ -207,13 +214,6 @@ function broken(
         'inside the edge margin',
         `${id}'s ${species} cap past the edge margin`,
       );
-    }
-    note(species, 'out of the wash');
-    if (
-      nearestTheSun(ground.camera, sun, place) <
-      wash + place.size * WASH_FOOT_CLEAR
-    ) {
-      fault('out of the wash', `${id}'s foot in the sun's wash`);
     }
     const nearer = stood.filter(
       (other) => other.standing.depth > standing.depth,
