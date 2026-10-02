@@ -1,7 +1,7 @@
 /**
- * The land's grain, pure: a tile of seeded noise, each pixel white or black at its own alpha, so laid over a
- * fill it lifts some pixels and sinks others and leaves the fill's colour as
- * it was on the whole.
+ * The land's grain, pure: a tile of seeded noise, each pixel white or black
+ * at its own alpha, so laid over a fill it lifts some pixels and sinks others
+ * and leaves the fill's colour as it was on the whole.
  */
 
 import type { Topped } from '../../model/geometry';

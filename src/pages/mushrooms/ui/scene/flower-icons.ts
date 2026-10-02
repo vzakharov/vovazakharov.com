@@ -1,9 +1,9 @@
 /**
  * The flower picker's pictograms, no words on either stage: a swatch of each
- * colour, and on a flower a cross that pulls it up, then the very flower each shape grows in the colour picked, drawn
- * by the meadow's own flower drawing from the seed it will grow from — its
- * head large on a short stem, so its petals and rings read at a button's
- * size.
+ * colour, and on a flower a cross that pulls it up, then the very flower
+ * each shape grows in the colour picked, drawn by the meadow's own flower
+ * drawing from the seed it will grow from — its head large on a short stem,
+ * so its petals and rings read at a button's size.
  */
 
 import type * as Phaser from 'phaser';
