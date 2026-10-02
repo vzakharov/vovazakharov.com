@@ -28,11 +28,15 @@ const STEPPED_IN = { ...OPENING_EYE, y: 3 };
 /** The haze a back-row mushroom reads as misty at: the spec's «up to 0.39». */
 const MISTY = 0.3;
 
-/** A thing `ahead` of the eye, its haze `drifted` from its paint. */
+/** A thing's sun side, as it was painted. */
+const UNTURNED = { sunSide: 0.3, paintedSunSide: 0.3 };
+
+/** A thing `ahead` of the eye, its haze `drifted` from its paint, its sun side not. */
 const hazing = (ahead: number, drifted: number): Hazing => ({
   ahead,
   painted: 0.2,
   haze: 0.2 + drifted,
+  ...UNTURNED,
 });
 
 describe('the repaint queue', () => {
@@ -201,7 +205,9 @@ describe('the repaint queue', () => {
           bedPlace(viewAt(camera, STEPPED_IN), foot),
         );
         assert.ok(painted - near >= HAZE_DRIFT, `${where}: to ${String(near)}`);
-        const [due] = repaintsDue([{ ahead: 1, painted, haze: near }]);
+        const [due] = repaintsDue([
+          { ahead: 1, painted, haze: near, ...UNTURNED },
+        ]);
         assert.ok(due, where);
       }
     });

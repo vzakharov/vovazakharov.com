@@ -4,7 +4,9 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Meadow, Planted } from '../../model/game';
 import { placedAt, type Point, type Tall } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import { paintedSpots } from '../../model/house';
+import { headedLight, type Light } from '../../model/light';
 import {
   beckon,
   breath,
@@ -40,12 +42,12 @@ import { containsMushroom } from './hit-areas';
 import { type Body, HouseView } from './house-view';
 import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
-import { mushroomLights } from './mushroom-light';
+import { type MushroomLights, mushroomLights } from './mushroom-light';
 import { MushroomSelection, type Selected } from './mushroom-selection';
 import type { Seat } from './perch-hosts';
-import { hazeAhead, repaintsDue } from './repaint-queue';
+import { hazeAhead, repaintsDue, type Siding } from './repaint-queue';
 import type { MeadowSound } from './sound';
-import { puffFrom, puffSpores } from './spores';
+import { puffFrom, type Puffing, puffSpores } from './spores';
 import type { Following, View } from './view';
 
 /** Above everything in the meadow, whose depth is where its foot stands. */
@@ -75,7 +77,13 @@ type Shown = Tapped &
     goneAt: number;
     /** Where the bed lays its foot out to paint it (`laidOf`), in world px. */
     laid: Point;
-  } & Pick<Laid, 'opening'>;
+    /** The light it is painted in from an eye facing `heading` (`mushroomLights`). */
+    lightsAt: (heading: number) => MushroomLights<Lighting>;
+    /** Its shadow's light as the opening eye sees it, which `headedLight` turns by the heading. */
+    sunFrom: Light;
+  } & Pick<Laid, 'opening'> &
+  // Its shadow's sun side when last painted.
+  Pick<Siding, 'paintedSunSide'>;
 
 /**
  * The meadow's mushrooms on screen, reconciled with the state by id: a new
@@ -137,7 +145,10 @@ export class MushroomBed implements Following {
       if (!opening) {
         puffSpores(
           this.scene,
-          () => ({ ...pick(shown.graphics, 'x', 'y'), r: shown.size * 0.5 }),
+          () => ({
+            ...pick(shown.graphics, 'x', 'y'),
+            r: shown.size * shown.stands.zoom * 0.5,
+          }),
           SPORE_DEPTH,
         );
         this.voice.grow();
@@ -191,7 +202,8 @@ export class MushroomBed implements Following {
 
   /**
    * Stands every mushroom where `view` sees its foot, and repaints the
-   * nearest few whose haze there has drifted from their paint (`repaintsDue`).
+   * nearest few whose haze there, or whose sun side from its heading, has
+   * drifted from their paint (`repaintsDue`).
    */
   follow(view: View): void {
     this.view = view;
@@ -206,6 +218,8 @@ export class MushroomBed implements Following {
               haze,
               painted: shown.haze,
               ...pick(shown.stands, 'ahead'),
+              sunSide: headedLight(shown.sunFrom, view.eye.heading).toward.x,
+              ...pick(shown, 'paintedSunSide'),
             },
           ];
     });
@@ -213,7 +227,7 @@ export class MushroomBed implements Following {
     if (lit) this.selection.stand(lit);
     for (const { shown, haze } of repaintsDue(hazing)) {
       shown.haze = haze;
-      this.paintBody(shown);
+      this.paintLit(shown);
     }
   }
 
@@ -311,14 +325,14 @@ export class MushroomBed implements Following {
     const stood = splayed(mushroomGenes(mushroom), splay);
     const { genes, turn } = stood;
     const spots = paintedSpots(genes, mushroom.house);
-    const { body: lighting, ground } = mushroomLights(
-      this.requireLighting(),
-      stood,
-      // Lit from where the layout stands it, toward the layout's sun.
-      placeIn(layout.mushrooms, mushroom) ?? laid,
-      layout.sun,
-    );
-    Object.assign(shown, { genes, turn, size, spots, lighting });
+    const light = this.requireLighting();
+    // Lit from where the layout stands it, toward the layout's sun, as the
+    // opening eye sees it there, then turned by the heading.
+    const at = placeIn(layout.mushrooms, mushroom) ?? laid;
+    const lightsAt = (heading: number) =>
+      mushroomLights(light, stood, at, layout.sun, heading);
+    const sunFrom = lightsAt(OPENING_EYE.heading).ground;
+    Object.assign(shown, { genes, turn, size, spots, lightsAt, sunFrom });
     // Written into the hit area `show` registered, the object Phaser keeps testing.
     const canvas = toCanvas(size);
     const area = tapArea(genes, turn);
@@ -331,17 +345,25 @@ export class MushroomBed implements Following {
     Object.assign(shown, { laid: { x, y }, opening });
     this.stand(shown);
     shown.haze = this.hazeHere(shown) ?? haze;
-    this.paintBody(shown);
-    shown.shadow.clear();
-    drawMushroomShadow(shown.shadow, genes, size, ground, turn);
+    this.paintLit(shown);
   }
 
-  /** Paints `shown`'s body and its house as it now stands, at its haze and light. */
-  private paintBody(shown: Shown): void {
-    const { graphics, genes, spots, size, lighting, haze, turn, house } = shown;
+  /**
+   * Paints `shown`'s body, its house and its shadow at its haze, in its light
+   * from the heading the view looks along, the opening's while it stands as
+   * laid out.
+   */
+  private paintLit(shown: Shown): void {
+    const { graphics, shadow, genes, spots, size, haze, turn, house } = shown;
+    const { body, ground } = shown.lightsAt(
+      this.view?.eye.heading ?? OPENING_EYE.heading,
+    );
+    Object.assign(shown, { lighting: body, paintedSunSide: ground.toward.x });
     graphics.clear();
-    drawMushroom(graphics, { ...genes, spots }, size, lighting, { haze, turn });
+    drawMushroom(graphics, { ...genes, spots }, size, body, { haze, turn });
     house.repaint();
+    shadow.clear();
+    drawMushroomShadow(shadow, genes, size, ground, turn);
   }
 
   /** The haze where the view stands `shown`; `undefined` with no view, or out of its sight. */
@@ -379,6 +401,7 @@ export class MushroomBed implements Following {
     const graphics = this.scene.add
       .graphics()
       .setInteractive({ hitArea: hit, hitAreaCallback: containsMushroom });
+    const lighting = this.requireLighting();
     const shown: Shown = {
       graphics,
       shadow: this.scene.add.graphics(),
@@ -394,7 +417,10 @@ export class MushroomBed implements Following {
       spots: [],
       size: 0,
       haze: 0,
-      lighting: this.requireLighting(),
+      lighting,
+      lightsAt: () => ({ body: lighting, ground: lighting }),
+      sunFrom: lighting,
+      paintedSunSide: lighting.toward.x,
       house: new HouseView(
         this.scene,
         this.voice,
@@ -435,10 +461,19 @@ export class MushroomBed implements Following {
     const shown = this.shown.get(id);
     if (shown?.goneAt !== Infinity) return;
     shown.tappedAt = this.now();
-    const { genes, size } = shown;
-    const crown = capFrame(genes)({ x: 0, y: capSurface(genes, 0) * 0.9 });
-    puffFrom(this.scene, shown, crown, 0.75, SPORE_DEPTH);
-    this.voice.boing(Math.min(1.4, 180 / size));
+    const crown = capFrame(shown.genes)({
+      x: 0,
+      y: capSurface(shown.genes, 0) * 0.9,
+    });
+    // As big as it is drawn, read afresh as the puff drifts.
+    const drawn: Puffing = {
+      ...pick(shown, 'graphics', 'genes', 'turn'),
+      get size() {
+        return shown.size * shown.stands.zoom;
+      },
+    };
+    puffFrom(this.scene, drawn, crown, 0.75, SPORE_DEPTH);
+    this.voice.boing(Math.min(1.4, 180 / drawn.size));
     this.onTap(id);
   }
 }
