@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import type { WithId } from '@/shared/typings';
 
 import { isSeat, perchName } from '../../model/flight';
+import { isShown } from '../../model/flight-in';
 import { type Meadow, reduce } from '../../model/game';
 import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE, OPENING_EYE, pinholeOf } from '../../model/ground';
@@ -379,11 +380,7 @@ describe('onscreenOf', () => {
         const { places } = perches.sightFrom(view);
         for (const [perch, row] of rows) {
           const [place, at] = [places?.[perch], laid?.[perch]];
-          if (!place || !at) continue;
-          const shown =
-            place.x >= onscreen.left + onscreen.inset &&
-            place.x <= onscreen.right - onscreen.inset;
-          if (!shown) continue;
+          if (!at || !isShown(onscreen, place)) continue;
           shownAny = true;
           const x = at.x * layout.insectSize;
           const drawn = ofLayout(view, { x, y: at.y * layout.insectSize }, row);

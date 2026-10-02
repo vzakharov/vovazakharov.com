@@ -4,13 +4,18 @@ import { describe, it } from 'node:test';
 import { pick } from '@/shared/lib/collections';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
-import { MUSHROOM_SLOTS, reduce } from '../../model/game';
-import { type Eye, OPENING_EYE, pinholeOf } from '../../model/ground';
+import { type Action, MUSHROOM_SLOTS, reduce } from '../../model/game';
+import {
+  type Camera,
+  type Eye,
+  OPENING_EYE,
+  pinholeOf,
+} from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
-import { flowersOf, standingFlowers } from './flower-plots';
+import { flowersOf } from './flower-plots';
 import { type Stand, takesFlower } from './flower-sight';
 import type { Tuft } from './grass';
 import { meadowLayout } from './layout';
@@ -61,6 +66,12 @@ function plantedOn<Standing extends Stand>(
     { id: plantedId(stand.planted), seed, foot },
   ];
   return { ...stand, planted };
+}
+
+/** How far `sprout`'s tuft is drawn off the root of its foot, on `camera`. */
+function offFoot(camera: Camera, { foot, tuft }: Sprout): number {
+  const root = standingOn(camera, foot);
+  return Math.hypot(root.x - tuft.x, root.y - tuft.y);
 }
 
 const sprout = (x: number, y: number, size: number): Sprout => ({
@@ -182,8 +193,7 @@ function faultsOf(
     if (!takesFlower(stand, foot)) faults.push('a tuft refuses');
     if (!plantable(each)) faults.push('a tuft’s flower would meet a head');
     if (!bare(tuft)) faults.push('a tuft is covered');
-    const root = standingOn(stand.layout.camera, foot);
-    if (Math.hypot(root.x - tuft.x, root.y - tuft.y) > 1e-6) {
+    if (offFoot(stand.layout.camera, each) > 1e-6) {
       faults.push('a tuft stands off its foot');
     }
   }
@@ -221,6 +231,12 @@ class Barren {
   }
 }
 
+/** `stand` with `action` reduced into its meadow, its mushrooms following. */
+function actedOn(stand: Opened, action: Action): Opened {
+  const meadow = reduce(stand.meadow, action);
+  return { ...stand, meadow, ...pick(meadow, 'mushrooms') };
+}
+
 /** `stand` one turn on: a mushroom grown or thinned, or a flower planted by a bee or by the child. */
 function turned(
   stand: Opened,
@@ -229,21 +245,16 @@ function turned(
   growing: Random,
 ): Opened {
   const roll = random();
-  const { meadow } = stand;
   if (roll < 0.25) {
     const own = nextSeed(growing);
     const foot = roomFor(stand, own);
-    if (!foot || meadow.mushrooms.length >= MUSHROOM_SLOTS) return stand;
+    if (!foot || stand.mushrooms.length >= MUSHROOM_SLOTS) return stand;
     const species =
       MUSHROOM_SPECIES[Math.floor(random() * MUSHROOM_SPECIES.length)] ??
       'fly-agaric';
-    const grown = reduce(meadow, { kind: 'grow', species, seed: own, foot });
-    return { ...stand, meadow: grown, ...pick(grown, 'mushrooms') };
+    return actedOn(stand, { kind: 'grow', species, seed: own, foot });
   }
-  if (roll < 0.4) {
-    const thinned = reduce(meadow, { kind: 'remove' });
-    return { ...stand, meadow: thinned, ...pick(thinned, 'mushrooms') };
-  }
+  if (roll < 0.4) return actedOn(stand, { kind: 'remove' });
   if (roll < 0.65) {
     const { room } = perchSight(stand);
     const slot = room[Math.floor(random() * room.length)];
@@ -270,11 +281,11 @@ describe('the ground’s grass', () => {
       const grown = growTufts(stand.layout, [], tuftingOf(1));
       assert.equal(grown.length, mostTufts(camera));
       assert.ok(grown.length >= (world / 1000) * 52 - 0.5);
-      for (const { foot, tuft } of grown) {
+      for (const each of grown) {
+        const { tuft } = each;
         assert.ok(tuft.x >= 0 && tuft.x <= world);
         assert.ok(tuft.y >= groundTop && tuft.y <= groundTop + ground);
-        const root = standingOn(camera, foot);
-        assert.ok(Math.hypot(root.x - tuft.x, root.y - tuft.y) < 1e-6);
+        assert.ok(offFoot(camera, each) < 1e-6);
       }
       assert.deepEqual(growTufts(stand.layout, [], tuftingOf(1)), grown);
       const regrown = growTufts(stand.layout, grown, tuftingOf(2));
@@ -358,24 +369,20 @@ describe('the ground’s grass', () => {
           [height, width],
         ] as const) {
           const layout = relaidOn(stand, seed, across, down);
-          const heads = standingFlowers(
-            layout,
-            stand.flowers,
-            stand.planted,
-            stand.mushrooms,
-            stand.pulled,
-          ).map(({ id, seed: grownFrom, place }) => {
-            const head = flowerHead(
-              flowerGenes({ seed: grownFrom }),
-              place.size,
-            );
-            return {
-              id,
-              ...pick(head, 'r'),
-              x: place.x + head.x,
-              y: place.y + head.y,
-            };
-          });
+          const heads = flowersOf({ ...stand, layout }).map(
+            ({ id, seed: grownFrom, place }) => {
+              const head = flowerHead(
+                flowerGenes({ seed: grownFrom }),
+                place.size,
+              );
+              return {
+                id,
+                ...pick(head, 'r'),
+                x: place.x + head.x,
+                y: place.y + head.y,
+              };
+            },
+          );
           for (const head of heads.filter(({ id }) => own.has(id))) {
             for (const other of heads) {
               if (other === head) continue;
@@ -436,13 +443,7 @@ describe('the ground’s grass', () => {
         const drawn: Tuft[] = tendTufts({ ...stand, layout }, grown).map(
           ({ tuft }) => tuft,
         );
-        const standing = standingFlowers(
-          layout,
-          stand.flowers,
-          stand.planted,
-          stand.mushrooms,
-          stand.pulled,
-        );
+        const standing = flowersOf({ ...stand, layout });
         for (const { id } of stand.planted) {
           const flower = standing.find((each) => each.id === id);
           assert.ok(flower, `${id} gone on ${String(across)}×${String(down)}`);

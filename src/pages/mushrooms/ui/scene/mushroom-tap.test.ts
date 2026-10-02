@@ -8,7 +8,7 @@ import {
   mushroomGenes,
   type Species,
 } from '../../model/mushroom-genes';
-import { between, mulberry32 } from '../../model/random';
+import { between, mulberry32, nextSeed } from '../../model/random';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import {
@@ -91,7 +91,7 @@ describe('a mushroom’s tap area', () => {
           const mushroom = standing(
             'one',
             species,
-            Math.floor(random() * 2 ** 31),
+            nextSeed(random),
             size,
             { x: between(random, -50, 50), y: between(random, 200, 400) },
             between(random, -0.3, 0.3),
@@ -121,7 +121,7 @@ describe('a mushroom’s tap area', () => {
           const big = standing(
             'big',
             bigSpecies,
-            Math.floor(random() * 2 ** 31),
+            nextSeed(random),
             between(random, 90, 130),
             { x: 0, y: 0 },
             between(random, -0.2, 0.2),
@@ -134,7 +134,7 @@ describe('a mushroom’s tap area', () => {
           const small = standing(
             'small',
             smallSpecies,
-            Math.floor(random() * 2 ** 31),
+            nextSeed(random),
             between(random, 4, 20),
             {
               x: between(random, left, right),
@@ -186,23 +186,12 @@ describe('a mushroom’s tap area', () => {
               const at = ofGround(view, mushroom.foot);
               if (cull(at)) return [];
               const { turn } = standingAt(place, mushroom);
-              const laid = standing(
-                mushroom.id,
-                mushroom.species,
-                mushroom.seed,
-                place.size,
-                place,
-                turn,
-              );
+              const { id, species, seed: own } = mushroom;
+              const standsAt = (size: number, foot: Point) =>
+                standing(id, species, own, size, foot, turn);
+              const laid = standsAt(place.size, place);
               const { zoom, y: depth } = at;
-              const drawn = standing(
-                mushroom.id,
-                mushroom.species,
-                mushroom.seed,
-                place.size * zoom,
-                at,
-                turn,
-              );
+              const drawn = standsAt(place.size * zoom, at);
               return [{ laid, drawn, zoom, depth }];
             })
             .toSorted((a, b) => a.depth - b.depth);
