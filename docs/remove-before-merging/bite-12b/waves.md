@@ -299,3 +299,16 @@ In this order of launch; parallel where files are disjoint.
   18–31 ms, as slow with no game work as with it. **Orchestrator's call:**
   the stalls are the container's, not traced; the tilted butterfly in
   `tabP-veer-back-perched.png` handed to tail-face as a data point.
+- **tail-face** — 70fc342: the facing red was the game's. The body's turn
+  was right in the flight's frame but drawn unmapped; near the sides and
+  low over the grass (`aloftFramed`, `viewOf`/`bendAt`) the screen bends
+  the motion 0.14–0.15 rad from it. `drawnInsect` now returns
+  `posed.rotation`, the screen direction of a one-pixel step along the
+  turn (`bentTurn`, `insect-drawn.ts`), faded with `aloft` so a sitter
+  keeps its rest facing; three tests. tabL `meadow` green: worst heading
+  0.39 → 0.28, frames past 0.3 rad 74 → 0. **Orchestrator's call:**
+  accepted; the margin (0.285 against 0.3, nearly all of it the designed
+  `BANK_TURN` lean) stays as is. tabL and tabP played before 70fc342; the
+  three phone screens after it are the run that follows the last source
+  commit, and the flat butterfly goes to to-check.md (the fix bends at most
+  0.15 rad, so a flat body is a sideways crossing or a fault to look at).
