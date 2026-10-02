@@ -148,6 +148,10 @@ export function containsPoint(
   return inside;
 }
 
+/** How far apart `a` and `b` stand. */
+export const distanceBetween = (a: Point, b: Point) =>
+  Math.hypot(b.x - a.x, b.y - a.y);
+
 /** How far `point` is from the nearest point of the segment from `a` to `b`. */
 export function distanceToSegment(a: Point, b: Point, point: Point): number {
   const dx = b.x - a.x;

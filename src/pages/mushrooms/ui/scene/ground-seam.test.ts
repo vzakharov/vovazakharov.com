@@ -8,7 +8,7 @@ import { grainStrips } from './grain';
 import { seamGrass, seamShown } from './grass';
 import { meadowLayout } from './layout';
 import { crestAcross } from './panorama';
-import { SEAM_REACH, SEAM_STEPS, seamCrest, seamReach } from './skyline';
+import { SEAM_REACH, SEAM_STEPS, seamCrest, seamTop } from './skyline';
 import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
@@ -71,7 +71,7 @@ describe('the seam between the near hills and the ground', () => {
   it('fades the grain in over a band below the seam rather than along a line', () => {
     for (const [, width, height] of VIEWPORTS) {
       const layout = meadowLayout(width, height, 1);
-      const top = layout.groundTop - seamReach(layout);
+      const top = seamTop(layout);
       const strips = grainStrips(layout, top);
       assert.equal(strips[0]?.top, top);
       assert.equal(strips.at(-1)?.bottom, height);

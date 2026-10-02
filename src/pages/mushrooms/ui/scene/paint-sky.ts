@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 
+import { wrap } from '../../model/geometry';
 import { pinholeOf } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
 import { haloReach, litSkyAt, skyAt, skyGrid } from './backdrop-tones';
@@ -7,7 +8,7 @@ import type { Span } from './baking';
 import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
-import { azimuthAt, OPENING_CLOUD_COUNT, wrapAngle } from './panorama';
+import { azimuthAt, OPENING_CLOUD_COUNT } from './panorama';
 import { fillShape, petal } from './shapes';
 import { SUN_RAY_REACH } from './sun-layout';
 
@@ -146,7 +147,7 @@ export function paintClouds(
         ? mix(colour, PALETTE.skyTop, HIGH_CLOUD_HAZE)
         : colour;
     // The sun's way across the sky from the cloud, round the shorter side.
-    const across = arc * wrapAngle(sunAzimuth - azimuth);
+    const across = arc * wrap(sunAzimuth - azimuth);
     const toSun = Math.hypot(across, sun.y - y) || 1;
     const lean = {
       x: (across / toSun) * r * 0.08,

@@ -18,7 +18,12 @@ import {
   type Tall,
 } from '../../model/geometry';
 import { type Camera, pinholeOf } from '../../model/ground';
-import { between, mulberry32, type Random } from '../../model/random';
+import {
+  between,
+  mulberry32,
+  type Random,
+  skewedBetween,
+} from '../../model/random';
 import { BROW, groundRowAt } from './backdrop-tones';
 import { mix } from './colour';
 import { type Azimuthed, screenAt } from './panorama';
@@ -119,10 +124,7 @@ export function browBlades(camera: Camera): BrowBlade[] {
   const turn = (share: number): number => (share * reach) / arc;
   const least = LEAST_SPACING / arc;
   const blades: BrowBlade[] = [];
-  const gap = (): number => {
-    const [shortest, longest] = CLUMP_GAP;
-    return turn(shortest + (longest - shortest) * random() ** 2);
-  };
+  const gap = (): number => turn(skewedBetween(random, ...CLUMP_GAP, 2));
   let azimuth = -Math.PI + gap();
   while (azimuth < Math.PI) {
     const clump = clumpAt(random);
@@ -143,8 +145,7 @@ export function browBlades(camera: Camera): BrowBlade[] {
  * outward, and now and then a tuft over the rest.
  */
 function clumpAt(random: Random): Array<Omit<BrowBlade, 'azimuth'>> {
-  const [fewest, most] = CLUMP_BLADES;
-  const count = Math.round(fewest + (most - fewest) * random() ** 1.5);
+  const count = Math.round(skewedBetween(random, ...CLUMP_BLADES, 1.5));
   const crown = between(random, ...CLUMP_TALL);
   const lean = between(random, -CLUMP_LEAN, CLUMP_LEAN);
   // The first of the tuft's two blades, or none.
