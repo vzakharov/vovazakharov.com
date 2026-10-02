@@ -4,7 +4,7 @@
  * finger, nothing else on the screen taking a tap aimed at it.
  */
 
-import type { Circle, Point } from '../../model/geometry';
+import { type Circle, distanceBetween, type Point } from '../../model/geometry';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { FLOWER_SWAY } from './flower-layout';
@@ -47,7 +47,7 @@ export function tuftAt<Tufted extends WithTuft>(
   let least = Infinity;
   for (const sprout of sprouts) {
     const middle = middleOf(sprout.tuft);
-    const away = Math.hypot(middle.x - point.x, middle.y - point.y);
+    const away = distanceBetween(middle, point);
     if (away <= tuftReach(sprout.tuft) && away < least) {
       nearest = sprout;
       least = away;
@@ -82,7 +82,7 @@ export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
     const middle = middleOf(tuft);
     const core = BARE_CORE * tuftReach(tuft);
     const clear = heads.every(
-      ({ x, y, r }) => Math.hypot(x - middle.x, y - middle.y) > r + core,
+      (head) => distanceBetween(head, middle) > head.r + core,
     );
     if (!clear) return false;
     const ring = Array.from({ length: CORE_RING }, (_, step) => {

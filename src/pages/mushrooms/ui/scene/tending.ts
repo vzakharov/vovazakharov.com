@@ -6,6 +6,7 @@
  */
 
 import { anchorOf } from '../../model/anchor';
+import { azimuthOf } from '../../model/flight-frame';
 import { flowerGenes } from '../../model/flower-genes';
 import { distanceBetween, wrap } from '../../model/geometry';
 import {
@@ -100,8 +101,7 @@ export function tendedIn(view: View): (sprout: Sprout) => boolean {
     if (far || cull({ ahead: distance + TEND_STEP })) {
       return false;
     }
-    const azimuth = Math.atan2(foot.x - eye.x, foot.y - eye.y);
-    return Math.abs(wrap(azimuth - eye.heading)) <= most;
+    return Math.abs(wrap(azimuthOf(eye, foot) - eye.heading)) <= most;
   };
 }
 

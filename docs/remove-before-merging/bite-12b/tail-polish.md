@@ -28,14 +28,23 @@ at f680c86a; only the run's final commit is a bare `polish:`.
 
 - `/dry` applied: `mottles.ts` `shownMottles` takes `forwardOf` from
   `model/stride.ts`.
+- `/dry` applied: `tending.ts` `tendedIn` takes `azimuthOf`
+  (`model/flight-frame.ts`); `tuft-tap.ts` measures through
+  `distanceBetween`; `flower-plots.ts` `ringFoot` turns its slot step
+  through `anchored`, which its doc already named.
+- `/dry` read, nothing to apply: `flower-shown.ts`, `mushroom-shown.ts`
+  (the two `unplacedShown` build different shapes), `widest-spans.ts`,
+  `tufts.ts`, `perch-sight.ts`, `clump-layout.ts`.
+- `/dry` applied: `perch-crowding.ts` measures through `distanceBetween`.
+- `/dry` done over the rest of `ui/scene/` and its tests. Left as calls,
+  not applied: `view?.eye ?? OPENING_EYE` (or `.heading`) is spelled in
+  `flower-bed.ts`, `mushroom-bed.ts`, `tufts.ts`, `planter.ts` and
+  `paint-backdrop.ts` — a one-line fallback whose helper would save little;
+  `insect-seat.ts`' sideways step is `forwardOf(sidewaysOf(sight))` only up
+  to rounding, so it stays.
 
 ## Left
 
-- `/dry` over the rest of `ui/scene/` (non-test, then tests): `tending.ts`,
-  `tuft-tap.ts`, `flower-shown.ts`, `mushroom-shown.ts`, `widest-spans.ts`,
-  `tufts.ts`, `perch-sight.ts`, `clump-layout.ts`, `flower-bed.ts`,
-  `flower-plots.ts`, `flower-layout.ts`, `mushroom-bed.ts`,
-  `mushroom-room.ts`, `perches.ts`, `bed-place.ts`, and the smaller diffs.
 - `/tend-prose` over the whole range. Already noted:
   - `play-approach.ts`: the `STANDS` doc ("Every mushroom drawn: …") sits
     above `SPREAD_OF` instead; the header has an over-long unwrapped line.
