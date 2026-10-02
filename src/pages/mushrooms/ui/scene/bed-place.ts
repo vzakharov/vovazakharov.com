@@ -11,6 +11,7 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
 import type { Ground, LayeredPoint } from '../../model/ground';
+import { DEPTHS } from './backdrop-depths';
 import {
   behindHills,
   cull,
@@ -22,12 +23,11 @@ import {
 } from './view';
 
 /**
- * The depth a thing past the ground's top row is drawn about: between the
- * near hills (-4) and the ground (-3) of `paint-backdrop.ts`'s `DEPTHS`, so
- * it stands over the hills and the ground covers it from the foot up as it
- * sinks (`sunk`).
+ * The depth a thing past the ground's top row is drawn about: midway between
+ * the near hills and the ground, so it stands over the hills and the ground
+ * covers it from the foot up as it sinks (`sunk`).
  */
-const BEHIND_HILLS = -3.5;
+const BEHIND_HILLS = (DEPTHS.nearHills + DEPTHS.ground) / 2;
 /**
  * How much of a unit of depth a px down the screen, or a part's `nearer`,
  * is worth past the ground's top row: small enough that every row of the
