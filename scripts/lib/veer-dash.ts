@@ -66,9 +66,13 @@ export function dashPeak(kind: InsectKind): number | undefined {
  * How many times its dash curve's speed a leg may be drawn at, by how far
  * round the flier sat as it set off (`lifted`, `null` before it was
  * steered): a flier that turns on its perch first flies its leg's length in
- * what the pivot leaves of the leg's time, up to `1 − PIVOT_SHARE` of it,
- * while one that sets off at once flies the curve.
+ * what its pivot (`pivot`, `PIVOT_SHARE` of the leg per half turn) leaves of
+ * the leg's time, while one that sets off at once flies the curve. Not held
+ * at a half turn: near one, a leg may pivot the long way round, and `pivot`
+ * times that turn as it is.
  */
 export function pivotAllowance(lifted: number | null): number {
-  return lifted === null || lifted === 0 ? 1 : 1 / (1 - PIVOT_SHARE);
+  return lifted === null
+    ? 1
+    : 1 / (1 - (PIVOT_SHARE * Math.abs(lifted)) / Math.PI);
 }

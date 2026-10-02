@@ -65,28 +65,42 @@ describe('pivotAllowance', () => {
     assert.equal(pivotAllowance(null), 1);
   });
 
-  it('allows a pivoted leg what the pivot leaves of its time, either way round', () => {
-    assert.equal(pivotAllowance(0.4), 1 / (1 - PIVOT_SHARE));
+  it('allows a pivoted leg what its pivot leaves of its time, either way round', () => {
     assert.equal(pivotAllowance(-Math.PI), 1 / (1 - PIVOT_SHARE));
+    assert.equal(pivotAllowance(Math.PI / 2), 1 / (1 - PIVOT_SHARE / 2));
+    assert.equal(pivotAllowance(0.4), pivotAllowance(-0.4));
+  });
+
+  it('allows a pivot the long way round past a half turn its own time', () => {
+    const long = Math.PI + 0.3;
+    assert.equal(
+      pivotAllowance(long),
+      1 / (1 - (PIVOT_SHARE * long) / Math.PI),
+    );
+    assert.ok(pivotAllowance(long) > pivotAllowance(Math.PI));
   });
 });
 
 describe('flicks, a fly over its dash curve', () => {
   const curve = (dashPeak('fly') ?? 0) * BUTTERFLY * DASH_SLACK;
-  // Past the bound a leg that set off at once has, inside a pivoted leg's.
+  // Past the bound a leg that set off at once has, inside a half turn's.
   const fast = curve * (1 + 1 / (1 - PIVOT_SHARE)) * 0.5;
 
   it('fails a leg that set off at once', () => {
     assert.notEqual(flyOver(fly(fast, 0)), undefined);
   });
 
-  it('passes the same step on a leg its flier turned on its perch first', () => {
-    assert.equal(flyOver(fly(fast, 1.2)), undefined);
+  it('passes the same step on a leg its flier turned half round on its perch first', () => {
+    assert.equal(flyOver(fly(fast, Math.PI)), undefined);
+  });
+
+  it('fails it on a leg that turned too little to take that long', () => {
+    assert.notEqual(flyOver(fly(fast, 0.04)), undefined);
   });
 
   it('still fails a pivoted leg past what its pivot allows', () => {
     assert.notEqual(
-      flyOver(fly(curve / (1 - PIVOT_SHARE) + 1, 1.2)),
+      flyOver(fly(curve * pivotAllowance(1.2) + 1, 1.2)),
       undefined,
     );
   });
