@@ -30,6 +30,19 @@ Contract: `docs/plans/mushroom-game-syama/bite-12/review.md` § "taps-flowers-ha
   the frame budget (27.4 ms median vs 26), with other agents building on
   the machine at the same time — nothing this change runs per frame.
 
-## Left
+## Left (context ran out; a fresh agent continues)
 
-- Findings 3, 2.
+- Finding 3 (`play-walk.ts`): not started. Found while reading: the
+  reducer never holds a selection and an open flower picker at once —
+  `tuft` and `flower` set `selected: undefined`, and `select` sets
+  `planting: undefined` (`model/game.ts`). So "a mushroom selected and the
+  flower picker open" has to be two baselines (one drag with a mushroom
+  selected, one with the picker open on a tuft), or one of the two.
+  The check per the review: the drag grows, plants and selects nothing
+  (mushroom count, planted count, `selected` not set to a new id), while a
+  shut picker / dropped selection is allowed. `TAPS` (`play-taps.ts`) is
+  the current read; `BARE_START` the drag start.
+- Finding 2 (`play-tufts.ts`, `play-hold.ts`, `play-keys.ts`): not started.
+- Steps 3–5 each proven by one tabL `pnpm play:mushrooms --screens tabL
+--plays <touched>` under `flock /home/user/vovazakharov.com/tmp/site.lock`
+  (a build takes ~4 min).
