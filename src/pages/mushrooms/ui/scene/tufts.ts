@@ -51,6 +51,7 @@ import {
 } from './grass';
 import { LiveLawn, regrowTufts, type Sprout, sproutOn } from './lawn';
 import type { MeadowLayout } from './layout';
+import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
 import { PALE_SPAN } from './repaint-queue';
 import { bareToTap, middleOf, tuftAt } from './tuft-tap';
 import {
@@ -245,6 +246,10 @@ export class Grass {
   private readonly graphics: Phaser.GameObjects.Graphics;
   /** The ground's tufts past its top row, sinking under the ground as the beds' things there do (`depthOf`). */
   private readonly behind: Phaser.GameObjects.Graphics;
+  /** The lawn's mottles, flat on the ground under everything standing on it. */
+  private readonly mottled: Phaser.GameObjects.Graphics;
+  /** The view the mottles were last drawn through, which they stand still under. */
+  private mottledFor: View | undefined;
   /** The stream every tuft a pulled flower leaves is drawn from, and the lawn's seed, so a replay grows the same. */
   private readonly growing: Random;
   /** The seed every cell of the lawn is grown off (`cellTufts`). */
@@ -271,6 +276,7 @@ export class Grass {
     this.behind = scene.add
       .graphics()
       .setDepth(depthOf({ ...UNPLACED, behind: true }));
+    this.mottled = scene.add.graphics().setDepth(MOTTLE_DEPTH);
     this.growing = growing;
     this.seed = Math.floor(growing() * 2 ** 32);
     grassOf.set(scene, this);
@@ -336,11 +342,16 @@ export class Grass {
 
   /** The grass as it bends at `t` through the view last followed, the tuft on `open`, the flower picker's, marked. */
   update(t: number, open: Footing | undefined): void {
-    const { graphics, behind, view, refused, tufts, seam } = this;
+    const { graphics, behind, view, refused, tufts, seam, lawn } = this;
+    const { mottled, mottledFor } = this;
     behind.clear();
     if (!view) {
       graphics.clear();
       return;
+    }
+    if (lawn && view !== mottledFor) {
+      paintMottles(mottled, shownMottles(view, lawn.mottles));
+      this.mottledFor = view;
     }
     const shown = shownSprouts(view, tufts);
     this.shown = shown;

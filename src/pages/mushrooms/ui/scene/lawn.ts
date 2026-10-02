@@ -1,8 +1,8 @@
 /**
  * The ground's lawn, laid by square cells of the plane the eye walks: each
- * cell grows its own tufts from its own stream (`cellTufts`), so a cell's
- * grass is a pure function of the visit and the cell, and a walk back finds
- * the grass it left. Only the cells round the eye live (`liveCells`), and
+ * cell grows its own tufts and mottles from its own stream (`cellLawn`), so
+ * a cell's grass is a pure function of the visit and the cell, and a walk
+ * back finds the grass it left. Only the cells round the eye live (`liveCells`), and
  * they change as the eye crosses a cell's edge (`LiveLawn`).
  */
 
@@ -13,6 +13,7 @@ import { FLOWER_SIZE, standingOn } from './flower-layout';
 import type { Stand } from './flower-sight';
 import { tuftOn, type WithTuft } from './grass';
 import type { MeadowLayout } from './layout';
+import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';
 import { PALE_SPAN } from './repaint-queue';
 
 /** A tuft the child can plant on, and the foot on the plane a flower planted there stands on. */
@@ -89,10 +90,18 @@ export function regrowTufts(
 /** A lawn: the visit's `seed`, which every cell's stream is drawn off, laid out on `layout`. */
 export type Lawn = Seeded & Pick<Stand, 'layout'>;
 
-/** The `TUFTS_PER_CELL` tufts `cell` of `lawn` grows, anywhere in the cell, each in a flower's size. */
-export function cellTufts(lawn: Lawn, cell: Cell): Sprout[] {
+/** What a cell of the lawn grows: its tufts and its mottles. */
+export type CellLawn = { tufts: Sprout[]; mottles: Mottle[] };
+
+/**
+ * What `cell` of `lawn` grows, anywhere in the cell, from the cell's own
+ * stream: `TUFTS_PER_CELL` tufts, each in a flower's size, then
+ * `MOTTLES_PER_CELL` mottles, drawn after the tufts so they leave the tufts'
+ * draws as they are.
+ */
+export function cellLawn(lawn: Lawn, cell: Cell): CellLawn {
   const random = mulberry32(cellSeed(lawn.seed, cell));
-  return Array.from({ length: TUFTS_PER_CELL }, () => {
+  const tufts = Array.from({ length: TUFTS_PER_CELL }, () => {
     const foot = {
       x: (cell.i + random()) * CELL,
       y: (cell.j + random()) * CELL,
@@ -100,19 +109,30 @@ export function cellTufts(lawn: Lawn, cell: Cell): Sprout[] {
     };
     return sproutOn(lawn.layout, foot, random);
   });
+  const corner = { x: cell.i * CELL, y: cell.j * CELL };
+  const mottles = Array.from({ length: MOTTLES_PER_CELL }, () =>
+    mottleIn(random, corner, CELL),
+  );
+  return { tufts, mottles };
+}
+
+/** The tufts `cell` of `lawn` grows (`cellLawn`). */
+export function cellTufts(lawn: Lawn, cell: Cell): Sprout[] {
+  return cellLawn(lawn, cell).tufts;
 }
 
 const keyOf = ({ i, j }: Cell) => `${String(i)},${String(j)}`;
 
 /**
- * The lawn's live tufts as the eye walks: those of the cells live round the
- * eye's cell (`liveCells`), each cell grown once while it lives and grown
- * the same again when it comes back.
+ * The lawn's live tufts and mottles as the eye walks: those of the cells
+ * live round the eye's cell (`liveCells`), each cell grown once while it
+ * lives and grown the same again when it comes back.
  */
 export class LiveLawn {
-  private cells = new Map<string, readonly Sprout[]>();
+  private cells = new Map<string, CellLawn>();
   private at: Cell | undefined;
   private tufts: readonly Sprout[] = [];
+  private liveMottles: readonly Mottle[] = [];
 
   private readonly lawn: Lawn;
 
@@ -126,20 +146,27 @@ export class LiveLawn {
     if (this.at?.i === cell.i && this.at.j === cell.j) {
       return this.tufts;
     }
-    const cells = new Map<string, readonly Sprout[]>();
+    const cells = new Map<string, CellLawn>();
     for (const live of liveCells(cell)) {
       const key = keyOf(live);
-      cells.set(key, this.cells.get(key) ?? cellTufts(this.lawn, live));
+      cells.set(key, this.cells.get(key) ?? cellLawn(this.lawn, live));
     }
     this.cells = cells;
     this.at = cell;
-    this.tufts = [...cells.values()].flat();
+    const grown = [...cells.values()];
+    this.tufts = grown.flatMap(({ tufts }) => tufts);
+    this.liveMottles = grown.flatMap(({ mottles }) => mottles);
     return this.tufts;
+  }
+
+  /** The live cells' mottles as of the last `round`. */
+  get mottles(): readonly Mottle[] {
+    return this.liveMottles;
   }
 
   /** The tufts of the cell `foot` stands in, live or not. */
   of(foot: Point): readonly Sprout[] {
     const cell = cellOf(foot);
-    return this.cells.get(keyOf(cell)) ?? cellTufts(this.lawn, cell);
+    return this.cells.get(keyOf(cell))?.tufts ?? cellTufts(this.lawn, cell);
   }
 }
