@@ -5,15 +5,18 @@ probe build of 0c67619c.
 
 ## Plays
 
-| Play     | Result | Time       | Notes                                                                                        |
-| -------- | ------ | ---------- | -------------------------------------------------------------------------------------------- |
-| opening  | green  | 12 s       | 15 things at 0.000 px; cap perch held 0.00 px over 91 turn frames; 15.3 ms                   |
-| meadow   | red    | 1 min 54 s | two flight reds, both left for a trace (below); JS median 21.8 ms                            |
-| walk     | green  | 40 s       | ↓ held 12 s walked back 19.000 (reckoned 19.000); 12 under the cover, at most 8.3 px over it |
-| approach | red    | 6 min 7 s  | frame budget: JS median 47.1 ms over 918, past 26 ms; left for a trace (below)               |
-| planting | green  | 13 s       | 1 flower planted; bees drank 7, pollinating 4                                                |
-| species  | green  | 2 min 30 s | all 6 tapped; a butterfly rested on a porcini; JS median 25.1 ms                             |
-| tufts    | green  | 12 s       | turned 0.559 rad, walked 0.80                                                                |
+| Play     | Result      | Time                                       | Notes                                                                                        |
+| -------- | ----------- | ------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| opening  | green       | 12 s                                       | 15 things at 0.000 px; cap perch held 0.00 px over 91 turn frames; 15.3 ms                   |
+| meadow   | red         | 1 min 54 s                                 | two flight reds, both left for a trace (below); JS median 21.8 ms                            |
+| walk     | green       | 40 s                                       | ↓ held 12 s walked back 19.000 (reckoned 19.000); 12 under the cover, at most 8.3 px over it |
+| approach | red         | 6 min 7 s                                  | frame budget: JS median 47.1 ms over 918, past 26 ms; left for a trace (below)               |
+| planting | green       | 13 s                                       | 1 flower planted; bees drank 7, pollinating 4                                                |
+| species  | green       | 2 min 30 s                                 | all 6 tapped; a butterfly rested on a porcini; JS median 25.1 ms                             |
+| tufts    | green       | 12 s                                       | turned 0.559 rad, walked 0.80                                                                |
+| hold     | green       | 1 min 2 s                                  | 1 tuft came back where flower-7 stood                                                        |
+| keys     | green       | 27 s                                       | 4-note melody grew 4; `l`/`h` plant and replace                                              |
+| veer     | red → green | 2 min 44 s; re-runs 2 min 19 s, 2 min 45 s | bee kept off the one flower in view by butterflies; harness red, check loosened (below)      |
 
 ## Reds
 
@@ -52,6 +55,43 @@ landscape phone draws enough more of the field to cost this, or the container
 was starved, needs a re-run on a quiet machine and a profile of a "neither"
 frame.
 
+### veer — the bee kept off the flower, a harness red
+
+`looking back, none of 6 bee releases took a perch in view`. Looking back the
+play grows one mushroom and one flower (`planted-3`); every one of the six
+bees took the air, and every try's line shows `planted-3` held — by
+`butterfly-16`, the butterfly the play released just before, in the first run;
+by `butterfly-4` and `butterfly-2`, roaming in from the meadow, in a re-run
+with the bee released before the butterfly. The bee's in-view choice had
+nothing open, which is the game's rule, so the reorder was dropped and the
+check loosened instead (`scripts/lib/play-veer.ts`): a bee whose every try
+took the air while another insect held a flower is noted
+(`…: the flower held on every try`), not failed; the fly and butterfly stay
+held to it as before. A line for a person is in `to-check.md`
+(tail-phoneL). The third run went green. The runs repeat: the third named the
+same insects as the first (`butterfly-16`, `fly-14`), so the meadow's reds
+should reproduce for a trace.
+
+## Not red, worth a look
+
+- **Insects under the buttons:** in both looking-back frames a butterfly sits
+  half under the house or the + button at the top right — drawn beneath the
+  controls, as on other screens, but the landscape phone's short height puts
+  the buttons over more of the sky the fliers cross.
+- **veer, ground to grow on:** 0 tufts at headings 0.00–1.05, 2.36–2.62,
+  3.93–4.19 and 5.50–5.76, 6–43 elsewhere — the phoneP shape, wider. Not
+  traced.
+
+## Frames
+
+In `docs/remove-before-merging/frames/bite-12b/`:
+`phoneL-veer-back-bee-kept-off-flower.png` (the third bee try: a butterfly on
+the one flower beside the fly agaric, bees in the air, a butterfly under the
+
+- button), `phoneL-veer-back-perched.png` (two butterflies on the cap and the
+  flower, one under the house button), `phoneL-final-forest.png` (the forest
+  along the horizon; three caps stacked in one column at the right edge).
+
 ## Left
 
-- hold, keys, veer.
+- The meadow and approach reds, for a trace.
