@@ -1,9 +1,13 @@
 import { pick } from '@/shared/lib/collections';
 
-import type { Span } from '../../model/flight';
+import type { Leg, Span } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import type { CarryingOver } from '../../model/insect-paths';
-import { firstSteering, type Steering } from '../../model/insect-steering';
+import {
+  firstSteering,
+  startLeg,
+  type Steering,
+} from '../../model/insect-steering';
 import { type Bobbed, phaseOf } from '../../model/motion';
 import type { TappedFigure } from './hit-areas';
 import type { Spanned } from './insect-away';
@@ -100,4 +104,31 @@ export function freshShown(
     phase: phaseOf(parts.flier),
     tappedAt: -Infinity,
   };
+}
+
+/**
+ * What `shown` resets as its flier's new leg sets off: from where it was
+ * drawn, fidgets and all, so a startle never jumps, and turned as its
+ * steering holds it — never as its container was last drawn, which a flier
+ * hidden off the screen or behind the brow has turned on from unseen. One in
+ * from away picks its start on its first frame (`InsectView`'s `enter`).
+ */
+export function legSetOff(
+  shown: Pick<Shown, 'drawn' | 'bob' | 'steering'>,
+  { from, departs }: Pick<Leg, 'from' | 'departs'>,
+) {
+  return {
+    from: shown.drawn,
+    out: undefined,
+    departs,
+    centre: undefined,
+    flown: 0,
+    end: undefined,
+    goal: undefined,
+    entering: from.kind === 'away',
+    bobFrom: shown.bob,
+    steering: startLeg(shown.steering),
+    aim: undefined,
+    turnedFrom: from.kind === 'away' ? undefined : shown.steering.turn,
+  } satisfies Partial<Shown>;
 }

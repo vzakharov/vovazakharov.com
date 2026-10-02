@@ -36,7 +36,7 @@ import {
 import { drawLook, fidget, lookOf, newDrink, poseLook } from './insect-look';
 import { drawnFlier, drawnSitter, seatAloft } from './insect-seat';
 import { InsectShadows, shadowOf } from './insect-shadow';
-import { freshShown, type Shown } from './insect-shown';
+import { freshShown, legSetOff, type Shown } from './insect-shown';
 import { sinkingOf, type Under } from './insect-sink';
 import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
@@ -137,25 +137,9 @@ export class InsectView {
       const last = { ...shown.flier.leg, ...shown.carried };
       shown.flier = flier;
       if (!newLeg) continue;
-      const { from, to, departs } = flier.leg;
-      shown.carried = carriedFrom(last, departs);
-      // From where it was drawn, fidgets and all, so a startle never jumps;
-      // one in from away picks its start on its first frame (`enter`).
-      Object.assign(shown, {
-        from: shown.drawn,
-        out: undefined,
-        departs,
-        centre: undefined,
-        flown: 0,
-        end: undefined,
-        goal: undefined,
-        entering: from.kind === 'away',
-        bobFrom: shown.bob,
-        steering: startLeg(shown.steering),
-        aim: undefined,
-        turnedFrom: from.kind === 'away' ? undefined : shown.container.rotation,
-      });
-      if (to.kind === 'flower') newDrink(shown.look);
+      shown.carried = carriedFrom(last, flier.leg.departs);
+      Object.assign(shown, legSetOff(shown, flier.leg));
+      if (flier.leg.to.kind === 'flower') newDrink(shown.look);
     }
   }
 

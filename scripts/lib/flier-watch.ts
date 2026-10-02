@@ -116,6 +116,29 @@ export const WATCH = `(() => {
       const shown = view.shown.get(flier.id);
       if (!shown) continue;
       const { leg, kind, id } = flier;
+      if (kind === 'bee' && leg.to.kind === 'flower' && now >= leg.arrives) {
+        const key = id + ' ' + leg.departs;
+        if (!counted.has(key)) {
+          counted.add(key);
+          watch.beeVisits += 1;
+          if (flier.pollen.pollinates) watch.pollinating += 1;
+        }
+      }
+      if (kind === 'fly' && leg.to.kind === 'cap' && now >= leg.arrives) {
+        const key = id + ' ' + leg.departs;
+        if (!counted.has(key)) {
+          counted.add(key);
+          const cap = scene.meadow.mushrooms.find((each) => each.id === leg.to.id);
+          watch.capRests[cap?.species === 'fly-agaric' ? 'spotted' : 'other'] += 1;
+        }
+      }
+      // A hidden body keeps the turn and place it was last drawn at, which
+      // its flight has since left: only what is drawn is judged, and its
+      // trail starts afresh when it shows again.
+      if (!shown.container.visible) {
+        trails.delete(id);
+        continue;
+      }
       const turn = shown.container.rotation;
       const span = shown.span * shown.container.scaleX;
       const { x, y } = shown.container;
@@ -194,22 +217,6 @@ export const WATCH = `(() => {
         const off = Math.abs(wrap(turn));
         if (off > watch.worstRest.turn) {
           watch.worstRest = { id, kind, turn: off, at: now };
-        }
-      }
-      if (kind === 'bee' && leg.to.kind === 'flower' && now >= leg.arrives) {
-        const key = id + ' ' + leg.departs;
-        if (!counted.has(key)) {
-          counted.add(key);
-          watch.beeVisits += 1;
-          if (flier.pollen.pollinates) watch.pollinating += 1;
-        }
-      }
-      if (kind === 'fly' && leg.to.kind === 'cap' && now >= leg.arrives) {
-        const key = id + ' ' + leg.departs;
-        if (!counted.has(key)) {
-          counted.add(key);
-          const cap = scene.meadow.mushrooms.find((each) => each.id === leg.to.id);
-          watch.capRests[cap?.species === 'fly-agaric' ? 'spotted' : 'other'] += 1;
         }
       }
       const flying = now >= leg.departs && now < leg.arrives;
