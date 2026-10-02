@@ -381,10 +381,10 @@ with his words and what it beat: `bite-12/v14.md`.
    (`STEP_PEAK` 1.5, ~10 dB under a C5); it changes only on his word.
 4. The review — posted (three reviewers by area, reviews 5391045656,
    5391050029, 5391057365); every finding's call is in
-   `bite-12/review.md`. Left: the fixes, one wave per group by files
-   (insects; eye and world; taps and the harness, `scripts/lib/` its own),
-   the way-in's leaving spot riding the insects group, then a play of tabL
-   and phoneP, the frames to `frames/bite-12/review/`, a reply per thread.
+   `bite-12/review.md`. ~~The fixes~~ — built and replied on every thread
+   (notes `rv-eye-world`, `rv-insects`, `rv-taps`, `rv-taps2`). Left: the
+   play of tabL and phoneP (`rv-play`), the frames to
+   `frames/bite-12/review/`.
 5. Delete this section; `/polish`, vet, the Artifact, `/pr`.
 
 ## DRY notes
