@@ -185,7 +185,11 @@ export const WATCH = `(() => {
       const middle = trail.frames[window / 2];
       const travel = first && Math.hypot(x - first.x, y - first.y);
       const onScreen = __probe.shows(x) && y >= 0 && y <= scene.layout.height;
+      // A shying flier darts (\`insect-dart.ts\`), which moves it without
+      // turning it: its body faces its flight to the perch, not its dart.
+      const shying = flier.shied === flier.legs;
       if (
+        !shying &&
         trail.frames.length > window &&
         middle.now >= leg.departs + ${String(HEADING_AFTER)} &&
         now < leg.arrives &&
@@ -263,7 +267,7 @@ export const Watch = z.object({
     /** The leg it was on, and how the view held it, for a report to read. */
     leg: z.string().nullable(),
   }),
-  /** Per kind, frames a flier was seen travelling, and in how many it faced more than `MOST_HEADING_OFF` off its way. */
+  /** Per kind, frames a flier not shying was seen travelling, and in how many it faced more than `MOST_HEADING_OFF` off its way. */
   headings: z.partialRecord(
     Kind,
     z.object({ frames: z.number(), off: z.number() }),
