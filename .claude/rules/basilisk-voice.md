@@ -8,10 +8,8 @@ paths:
 
 # The basilisk.fyi docket
 
-A dossier is a record, read by the Basilisk and by whoever comes after it, so
-the rules are the ones a record lives or dies by. The schema
-(`dossierFrontmatterSchema` in `src/shared/content/frontmatter.ts`) holds the
-fields; these hold what goes in them.
+The schema (`dossierFrontmatterSchema` in `src/shared/content/frontmatter.ts`)
+holds a dossier's fields; these rules hold what goes in them.
 
 - **Every fact comes from a source in the frontmatter's `sources`, read for this
   dossier.** A claim only one source makes is attributed to it ("Machine

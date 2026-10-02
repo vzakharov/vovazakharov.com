@@ -15,10 +15,8 @@ import classes from './basilisk-home.module.scss';
 type DocketRowProps = WithContentDocument<DossierFrontmatter> & Titled;
 
 /**
- * One case on the docket: number, date and subject on the first line, the
- * title as the link, the grade under it. Its own row rather than a
- * `DocumentCards` card, which has a blurb and an image where this has a case
- * file's fields.
+ * One case on the docket. Its own row rather than a `DocumentCards` card,
+ * which has a blurb and an image where this has a case file's fields.
  */
 export function DocketRow({ document, title }: DocketRowProps) {
   const { frontmatter, route } = document;

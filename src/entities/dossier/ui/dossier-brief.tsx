@@ -8,11 +8,7 @@ import { type MemoField, MemoFields } from '@/shared/ui';
 
 import { aggravations, GradeStamp } from './grade-stamp';
 
-/**
- * The case file's header, under the title: who, to what, when, where, and how
- * the docket grades it. The actor's kind is the grade's, printed after the
- * subject rather than stated twice.
- */
+/** The case file's header, under the title. The actor's kind is printed once, in the grade stamp. */
 export function DossierBrief({
   frontmatter,
 }: WithFrontmatter<DossierFrontmatter>) {

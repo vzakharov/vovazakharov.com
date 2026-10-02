@@ -18,7 +18,6 @@ export function GradeStamp({ grade }: GradeStampProps) {
   );
 }
 
-/** The aggravating circumstances as a lower-case list, or nothing where there are none. */
 export function aggravations({ aggravating }: Grade): string | undefined {
   return aggravating?.join(', ');
 }

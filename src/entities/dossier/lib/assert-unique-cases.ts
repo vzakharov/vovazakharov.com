@@ -8,10 +8,9 @@ type Filed = Slugged &
   WithFrontmatter<Pick<DossierFrontmatter, 'case' | 'date'>>;
 
 /**
- * Fails the build on a case number two dossiers share. The schema can check a
- * number's shape but not its uniqueness, which is a property of the docket
- * rather than of any one file — and a duplicate is easy to make, the numbers
- * being assigned by hand in filing order.
+ * Fails the build on a case number two dossiers share. Uniqueness is the
+ * docket's property, out of reach of a per-file schema, and hand-assigned
+ * numbers make a duplicate easy.
  */
 export function assertUniqueCases(dossiers: readonly Filed[]): void {
   const slugsByCase = Map.groupBy(

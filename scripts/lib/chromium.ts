@@ -47,10 +47,9 @@ export function findChromium(): string {
 }
 
 /**
- * The browser a bare `--screenshot` is taken with. Playwright's full Chromium
- * paints the viewport some 87 rows short of `--window-size` and leaves the
- * rest of the image blank, cropping whatever reaches the bottom of a card; its
- * headless shell paints the whole window, so it goes first where it is there.
+ * The browser a bare `--screenshot` is taken with: Playwright's headless shell
+ * where installed, since its full Chromium paints some 87 rows short of
+ * `--window-size` and crops the bottom of a card.
  */
 export function findScreenshotChromium(): string {
   const shell = playwrightBuilds(

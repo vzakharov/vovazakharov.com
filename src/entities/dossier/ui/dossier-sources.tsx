@@ -9,10 +9,8 @@ import {
 import classes from './dossier.module.scss';
 
 /**
- * What the case file rests on, after the body. Every fact in a dossier comes
- * from one of these, so the list is part of the record rather than a footnote
- * to it — and it prints, the archived copy beside each, for the day the
- * original is gone.
+ * What the case file rests on, after the body. Part of the record, so it
+ * prints, each archived copy beside it for the day the original is gone.
  */
 export function DossierSources({
   frontmatter,
