@@ -166,6 +166,21 @@ describe('the seeded flowers', () => {
   });
 
   for (const [name, width, height] of VIEWPORTS) {
+    it(`come back to the same ground from the plane, for a visit opened on a ${name} screen`, () => {
+      for (const { layout } of visitsOn(width, height).slice(0, 40)) {
+        for (const place of layout.flowers) {
+          const ground = groundOf(layout.camera, place);
+          const back = groundFootOf(planeFootOf(ground));
+          assert.ok(
+            Math.abs(back.x - ground.x) < SAME_GROUND &&
+              Math.abs(back.z - ground.z) < SAME_GROUND &&
+              back.size === ground.size,
+            `${JSON.stringify(ground)} came back as ${JSON.stringify(back)}`,
+          );
+        }
+      }
+    });
+
     it(`stand on the same ground on every screen, by the visit, for a visit opened on a ${name} screen`, () => {
       const visits = visitsOn(width, height).slice(0, 40);
       let shown = 0;

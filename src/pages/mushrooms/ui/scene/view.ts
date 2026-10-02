@@ -11,16 +11,15 @@ import {
   bendAt,
   type Camera,
   CLUMP_DISTANCE,
+  D_SEE,
   type Eye,
   EYE_HEIGHT,
   type Eyed,
   gathered,
   pinholeOf,
-  planeOf,
   spread,
   type Viewed,
   viewOf,
-  zAt,
 } from '../../model/ground';
 
 /** The camera a frame is drawn through, and the eye it looks from. */
@@ -47,13 +46,7 @@ export type Following = { follow: (view: View) => void };
  */
 export const V_NEAR = 0.58 * CLUMP_DISTANCE;
 
-/**
- * How far from the eye, in the clump's size, the meadow's brow stands: the
- * ground's top row straight ahead of the opening eye. A thing standing
- * farther, whichever way, sinks behind the brow (`sunk`), which covers it
- * from the foot up.
- */
-export const D_SEE = planeOf({ x: 0, z: zAt(0) }).y;
+export { D_SEE } from '../../model/ground';
 
 export function viewAt(camera: Camera, eye: Eye): View {
   return { ...camera, eye };

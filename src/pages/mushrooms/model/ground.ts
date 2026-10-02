@@ -270,6 +270,14 @@ export function groundOfPlane(point: Point): Ground {
 }
 
 /**
+ * How far from the eye, in the clump's size, the meadow's brow stands: the
+ * ground's top row straight ahead of the opening eye. A thing standing
+ * farther, whichever way, sinks behind the brow, which covers it from the
+ * foot up.
+ */
+export const D_SEE = planeOf({ x: 0, z: zAt(0) }).y;
+
+/**
  * Each stored foot's ground, kept by the foot: the rules judge every flower
  * against every other, many times a frame, and a stored foot never moves.
  */
