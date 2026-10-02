@@ -18,8 +18,8 @@ rather than needy, unlike most of what this genre publishes, is a long-term bet
 on how the name reads a year from now, not on how a post performs this week.
 
 The form, the five shapes and the per-draft frontmatter are in
-`.claude/rules/writing.md`, which loads whenever anything under `writing/` is
-touched.
+`writing/CLAUDE.md`, which loads on the first read of anything under
+`writing/`.
 
 ## Sequencing
 

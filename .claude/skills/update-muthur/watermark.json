@@ -1,13 +1,15 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "fa21eb1a3c8b22406f1e63c3f8a76080c7df6c8f",
+  "lastSyncedSha": "b7805f2aac5334080d8dbe29a0356c823ce9b519",
   "lastSyncedAt": "2026-09-30",
   "adopted": [
     {
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
     },
-    ".claude/rules/README.md",
-    ".claude/rules/skills.md",
+    {
+      ".claude/rules/README.md": "taken with one paragraph of this repo's own: a directory whose files are served keeps its conventions in a rule file here, since a CLAUDE.md under apps/*/public/ would be published with the site. The source's README has no served directory to name, so a verbatim re-copy would drop it."
+    },
+    ".claude/skills/CLAUDE.md",
     {
       ".claude/rules/stack.md": "rewritten for this repo: this stack's vet roster and why each check is on it, plus the source's three sites a toolchain change wires. The source's clause on what vet.sh exits with no stack yet is the template's — this repo has a stack, and spinoff states the clause where it seeds one."
     },
@@ -18,6 +20,7 @@
     {
       ".claude/costs/": "sessions/ is each repo's own and never synced."
     },
+    ".claude/cold-cache/",
     ".claude/settings.json",
     {
       ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands. `file-tools-nudge.py` is verbatim but for its docstring's issue citation, written `vzakharov/muthur#118` so it does not resolve to this repo's own #118."
@@ -58,8 +61,11 @@
     },
     ".claude/skills/squash-message/",
     ".claude/skills/sync-branch/",
-    ".claude/skills/tend-prose/",
+    {
+      ".claude/skills/tend-prose/": "taken with one fix the source still lacks: § \"Rule or README?\" cites the two rule homes as 4 and 5, the rows the homes table gives them. The source's copy says \"homes 3 and 4\", a numbering its own table no longer has — vzakharov/muthur#133, whose fix retires this note."
+    },
     ".claude/skills/watch-ci/",
+    "scripts/check-claude-md-size.sh",
     "scripts/check-merge.sh",
     "scripts/check-skill-catalog.sh",
     "scripts/check-squash-message.sh",
@@ -91,7 +97,7 @@
     ".claude/skills/release/": "merging to main deploys automatically; there is no versioned release to cut",
     ".claude/skills/renumber-migration/": "no migrations",
     ".claude/skills/test-on-gh/": "nothing runs on pull requests here, and the whole suite is fast enough to sit in the vet fan-out, so there is no bucket too slow or too heavy for a local run to dispatch to CI. A test suite existing is not the condition — this is. Revisit if one appears that needs a browser, a service, or minutes rather than seconds",
-    ".claude/skills/update-muthur/catalog.md": "never — the source's own inventory of what it ships, describing the source's tree rather than this repo. Step 4a reads it from the clone, where it is current by construction; a vendored copy would only drift, and the source's own banner says to delete it wherever it turns up downstream. check-skill-catalog.sh reads it at this path and skips its catalog assertions when absent, which is the normal state here; .claude/rules/skills.md records that. Lived at docs/catalog.md until the source moved it off a path an adopter can own",
+    ".claude/skills/update-muthur/catalog.md": "never — the source's own inventory of what it ships, describing the source's tree rather than this repo. Step 4a reads it from the clone, where it is current by construction; a vendored copy would only drift, and the source's own banner says to delete it wherever it turns up downstream. check-skill-catalog.sh reads it at this path and skips its catalog assertions when absent, which is the normal state here; .claude/skills/CLAUDE.md records that. Lived at docs/catalog.md until the source moved it off a path an adopter can own",
     "ADOPTING.md": "the source's guide for a repo taking the template on, which this repo did once and will not do again. Revisit only if a repo ever adopts from here — it would need its own, not a copy of the source's",
     "README.md": "never — the source's README describes the source. This repo's is the site's own, written for a person who lands on the repository, and the two answer different questions",
     "scripts/check-muthur.sh": "never — the source's one vet line for the checks whose membership test is \"would the adopting repo run this?\": its repo-identity check and the `scripts/test_*.py` over code an adopter vendors and never edits. Its verdict is what this repo takes rather than the line itself — keyed on the catalog this repo declines, it exits 0 downstream, which is the source stating that an adopter runs none of it. Both of the rows it covers are declined below on that reading",
