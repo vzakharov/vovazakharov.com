@@ -27,6 +27,24 @@ Each agent's report lands here as it arrives, so a restart costs nothing.
 
 - S2 — after S1; note `s.md`. **Landed c0e804c**: `MushroomGround.anchor`; `placeIn` anchors each stored foot (identity at `OPENING_EYE`), `undefined` where no ground; `anchoredGround(ground, anchor)` (same object while the anchor stays) is how a caller judges from an eye; `laidOf` lays a non-clump mushroom at `{x:0,z:0}`, `FOREST_SIZE`, `opening = CLUMP_DISTANCE`, so it paints once; a mushroom grown behind the opening eye is now painted. Regression flagged for I4: `seatAloft`'s fallback for an undrawn host reads the paint frame as opening px. S2 missed I1's `anchored-stand.ts` (not on origin when it looked): **two anchoring paths now coexist**.
 
+## Wave 3 (launched together)
+
+S3, L3, I (fliers.test.ts first, then I2–I5) and Play launched at once
+from 233b3b6, each in its own worktree; P1b waits on S3 and L3. Reports
+land below as they arrive.
+
+- **I** — 240fcdc. `fliers.test.ts` green on I1 (48/48, 5 min 25 s). I2
+  half-built as `i2-air-spots.patch` (new `air-spots.ts` plane lattice,
+  `widest-spans.ts`, a swept `pointCrowdings` not yet checked against the
+  old one): 647–663 cells at 1180×820, but `airOf` costs ~8.5 ms per
+  anchor (3 ms crowding, the rest `spotsAt`'s ~6600-cell loop) against the
+  4 ms budget, and its wiring lies in `perch-sight.ts` (S3's). I3–I5 not
+  started. **Orchestrator's call:** a fresh I agent takes `perch-sight.ts`
+  once S3 reports, applies the patch, profiles `spotsAt` first, and only
+  if it stays over budget measures crowding on the plane against a coarser
+  snap and reports both before choosing; then I3, I4 (S2's `seatAloft`
+  fallback), I5.
+
 ## Next wave
 
 In this order of launch; parallel where files are disjoint.
