@@ -233,9 +233,11 @@ What bite 12 built, as `## Eaten so far` in `docs/plans/mushroom-game-syama.*.md
       under the brow's cover is not one). `scripts/lib/play-hold.ts`
       plays the long press, the cross and its tuft on a seeded and a
       planted flower. `--plays` picks plays, each on its own fresh meadow.
-    - **Left in the tree.** `parallax.ts` lives on only for
-      `skyline.ts`'s `groundSeam`, which only `ground-seam.test.ts` reads;
-      `nearestTheSun` (`sun-layout.ts`) only for `meadow-rules.test.ts`;
+    - **The tail's review.** Three reviewers by area; every finding's call
+      and fix in `bite-12/review.md`, the leg timing it led to in
+      `bite-12/leg-timing.md` § 8.
+    - **Left in the tree.** `nearestTheSun` (`sun-layout.ts`) lives on only
+      for `meadow-rules.test.ts`;
       `visit-play.ts`'s `openingCrop` returns the opening `View`;
       `rebloom` (`model/motion.ts`) is dead in production. A flower still
       drawn past the brow takes a tap on the covered part of its head, and

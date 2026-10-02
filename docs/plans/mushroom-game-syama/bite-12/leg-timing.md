@@ -57,11 +57,13 @@ and the hand-over note that holds its numbers (under
    an insect without one keeps the band-middle spots. The way in has the
    same mismatch unmeasured (`wayOutOf` → `awayOn` band-middle, `entryAloft`
    the insect's own), fixed with the review's round.
-7. **What is left is accepted**: phoneP fly-26 3% over and tabL fly-3 2%
-   (cap→cap) at 3a0b29d, the size of the flutter `dashPeak` leaves out; no
-   bee over on either screen. Beaten: tracing a 2–3% residue, which no
-   child sees.
-8. **A leg is timed in the frame it is drawn in** (`rv-bee8.md`). § 1
+7. **What is left is accepted**: phoneP fly-26 under 3% over (1.6% at
+   3aaf95a), the size of the flutter `dashPeak` leaves out. Beaten: tracing
+   a 2–3% residue, which no child sees. tabL fly-3's 2% was the held turn's
+   slide (9.3 px a frame on tabL) read as the flier's step; the veer watch
+   takes it out (3aaf95a, `rv-veer2.md`).
+8. **A leg is timed in the frame it is drawn in** (34788c22, `rv-bee8.md`,
+   `rv-legframe2.md`; tabL and phoneP veer with no bee over, `rv-veer2.md`). § 1
    frames each place alone at the eye's heading, its azimuth clamped to
    `±FRAME_MARGIN`; the view frames a leg's two ends together (`centreOf`),
    so a leg with an end past ~101° of the heading is drawn at 0.3–29× its

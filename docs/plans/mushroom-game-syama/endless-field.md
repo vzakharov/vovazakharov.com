@@ -32,8 +32,7 @@ What it takes:
   adapter in `insect-view.ts` retires, and with it bite 12's accepted cases
   (a leg ending behind the eye hidden for that stretch, a release facing
   away flying in unseen, `onscreenOf`'s x-only test).
-- **Clear-outs bite 12 left:** `parallax.ts` and `skyline.ts`'s
-  `groundSeam`, alive only for `ground-seam.test.ts`; `sun-layout.ts`'s
+- **Clear-outs bite 12 left:** `sun-layout.ts`'s
   `nearestTheSun`, alive only for `meadow-rules.test.ts`; `visit-play.ts`'s
   `openingCrop`, which returns a `View`; `model/motion.ts`'s `rebloom`, dead
   since a retap restarts.

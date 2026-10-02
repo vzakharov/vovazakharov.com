@@ -190,7 +190,8 @@ nearer than `V_NEAR`; the camera's `scrollY` is only the walk's bob. Past
 `D_SEE` a thing sinks under a round brow by its distance (`brow.ts`) and
 pales; haze follows distance through `repaint-queue.ts`. The sun, glow, wash
 and clouds stand at azimuths (`panorama.ts`), the hills are live round 360°,
-the ground screen-fixed rows (bite-12.md).
+the ground screen-fixed rows that, with the brow, take the walk's bob
+(bite-12.md).
 
 **Placement and taps.** A grown mushroom's foot is `pickFoot`'s best of 32
 candidates by its seed (`model/placement.ts`), which `roomFor` in
@@ -207,8 +208,9 @@ G A, a kick and a hat (`flower-layout.ts`); bees and the child plant through
 `flower-plots.ts` and `flower-sight.ts`; a long press opens the picker on a
 flower (`flower-hold.ts`, `flower-ring.ts`). The grass is a lawn of tufts,
 every one a planting spot, none standing where no flower fits (`tufts.ts`,
-`grass.ts`). Insects fly in the opening eye's layout px and are drawn
-through the view at a foot row; an insect perches only clear of the world's
+`grass.ts`); a note key sows and plays only what no nearer cap covers
+(`flower-cover.ts`). Insects fly on the plane, each leg timed in the frame
+it is drawn in (`model/flight-frame.ts`); an insect perches only clear of the world's
 edge (`perch-sight.ts`), never two to a perch (`perch-room.ts`), its first
 perch on screen (`model/flight-in.ts`), each kind's habits in
 `model/flight-habits.ts`. Pickers unfold from their button (`picker.ts`) in
@@ -336,57 +338,6 @@ bite 12 left go. Its contract:
     same actions, for assistive tech; a home-page link in the footer's
     `SEE_ALSO` if that list carries side projects, none otherwise. Then, the Artifact republished,
     `/relay /finalize`.
-
-## Rest of the bite
-
-Everything else bite 12 decided is built; its shas, notes and what each
-beat are in `mushroom-game-syama/bite-12/` by topic — `progress.md`,
-`insects.md`, `lens.md`, `taps-and-flowers.md`, `seam-and-brow.md`,
-`walking.md`. Build agents work in their own `git worktree` (`brief-common.md`).
-
-**Insects fly and are sized on the plane**, a leg veering round the eye,
-timed by its length at the kind's own cruise, with no `ARRIVAL` cap; the
-veer play is closed with four reds known. Every call and what it beat:
-`bite-12/insects.md` § "The insect plane's decisions".
-
-**The operator's play of version 14** — shadows, the brow sink, fly hops,
-the softer dash, strafing, bees' random slot, notes that plant, and a flier
-caught in the air shying away with its own voice (`v14-catch`). Every call,
-with his words and what it beat: `bite-12/v14.md`.
-
-**Left, in order:**
-
-1. ~~Package C's play~~ — done: the veer play (`ip-Cplay4`, `ip-Cplay5`,
-   `ip-plant`, `ip-away`), C's step 2 (ea7573a; `seat`/`capTop` left
-   untested, their classes importing Phaser), the Artifact at version 14.
-   1b. ~~The version-14 packages~~ — built: `v14-strafe` (played, tabL),
-   `v14-note-plant` (played, tabL), `v14-insect-depth` and `v14-fly`
-   (played by `v14-insect-play.md`; any fix it left is the next work).
-   Notes beside `brief-common.md`. The Artifact is still version 14.
-   1a–1c. ~~Insects under the ground, the catch, the tablet reds~~ — built
-   (41d6ee7, 9f96587, 02c0804, be202aa); each call and what it beat in
-   `bite-12/v14.md` § "Built at depth 8", the hand checks on `to-check.md`.
-2. The play run at the final HEAD under § "How this elephant is eaten"'s
-   rule. tabL and phoneP `meadow`,`veer` ran at f584982 (`v15-play.md`,
-   frames in `v15/`); its harness reds went to `to-check.md`. Three fixes
-   since time a leg by its drawn length — the eye's frame, the way in, a
-   leg cut mid-flight — and the watch skips a shying flier; every call, its
-   numbers and what it beat: `bite-12/leg-timing.md`. The frame median is
-   noise in this container (same file). Left:
-   - ~~Build `leg-timing.md` § 4~~ — built (47d3a06, e66e719).
-   - ~~The play and the surviving classes~~ — done (v18–v21): the pivot
-     allowance, the own leaving spot, the residue accepted
-     (`leg-timing.md` § 5–7). The way-in's leaving spot rides item 4's fixes.
-3. ~~The footstep level~~ — put to the operator's ear with Artifact version 14
-   (`STEP_PEAK` 1.5, ~10 dB under a C5); it changes only on his word.
-4. The review — posted (three reviewers by area, reviews 5391045656,
-   5391050029, 5391057365); every finding's call is in
-   `bite-12/review.md`. ~~The fixes~~ — built and replied on every thread
-   (notes `rv-eye-world`, `rv-insects`, `rv-taps`, `rv-taps2`); played on
-   tabL and phoneP (`rv-play`, frames in `frames/bite-12/review/`). Left:
-   `leg-timing.md` § 8, a leg timed in its drawn frame (`rv-legframe`),
-   and a tabL and phoneP `veer` after it.
-5. Delete this section; `/polish`, vet, the Artifact, `/pr`.
 
 ## DRY notes
 
