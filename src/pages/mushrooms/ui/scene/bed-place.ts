@@ -12,7 +12,9 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
 import type { LayeredPoint } from '../../model/ground';
+import type { Footed } from '../../model/placement';
 import { DEPTHS } from './backdrop-depths';
+import type { Laid } from './clump-layout';
 import {
   behindHills,
   cull,
@@ -111,9 +113,13 @@ export function bedPlace(
  * A bed object as something to sit on: where the layout stands its foot, in
  * world px at the opening eye, and its place on the screen this frame. A bed
  * draws it flat at its foot, so a point laid out on it is drawn where
- * `onHost` puts it.
+ * `onHost` puts it. `foot` is where it stands on the plane, and `opening`
+ * how far ahead of the eye, in the clump's size, it is laid out, so a world
+ * px laid out on it spans `opening / focal` of the clump's size.
  */
-export type Host = Standing & { laidFoot: Point };
+export type Host = Standing &
+  Pick<Footed, 'foot'> &
+  Pick<Laid, 'opening'> & { laidFoot: Point };
 
 /**
  * Where `host` draws `point`, laid out on it in world px at the opening eye:

@@ -4,9 +4,9 @@
  * under it draws its seat, at the zoom that landing gave it.
  */
 
-import type { Aloft } from '../../model/flight-frame';
+import { type Aloft, azimuthOf } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
-import { bendAt, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
+import { bendAt, CLUMP_DISTANCE, pinholeOf, SPREAD } from '../../model/ground';
 import type { Standing } from './bed-place';
 import type { Zoomed } from './insect-away';
 import {
@@ -17,7 +17,6 @@ import {
   veerOf,
 } from './insect-frame';
 import type { Seat } from './perch-hosts';
-import { aloftOfLayout } from './plane-place';
 import type { View } from './view';
 
 /**
@@ -53,13 +52,23 @@ export function seatedZoom(view: View, host: Standing, drawn: Point): number {
 /**
  * The seat `seat` as a point in the world `view` sees: where its host draws
  * it, at the host's distance, so a flight lands on it exactly; where the host
- * is not drawn, the seat as the layout lays it out (`aloftOfLayout`).
+ * is not drawn, where that would put it: off the host's plane foot by the
+ * seat's laid-out offset, a px of it `opening / focal` of the clump's size
+ * (`Host`), up, and across the eye's sight to the foot, `SPREAD` times as
+ * wide, as the screen narrows the plane's azimuth.
  */
 export function seatAloft(view: View, seat: Seat): Aloft {
-  const { on, drawn } = seat;
-  return on.stands.drawn
-    ? aloftAt(view, drawn, on.stands.distance)
-    : aloftOfLayout(view, seat, on.laidFoot.y);
+  const { on, drawn, x, y } = seat;
+  const { stands, foot, laidFoot, opening } = on;
+  if (stands.drawn) return aloftAt(view, drawn, stands.distance);
+  const perPx = opening / pinholeOf(view).focal;
+  const across = (x - laidFoot.x) * perPx * SPREAD;
+  const sight = azimuthOf(view.eye, foot);
+  return {
+    x: foot.x + across * Math.cos(sight),
+    y: foot.y - across * Math.sin(sight),
+    h: (laidFoot.y - y) * perPx,
+  };
 }
 
 /**

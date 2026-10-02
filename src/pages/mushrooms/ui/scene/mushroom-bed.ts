@@ -250,7 +250,7 @@ export class MushroomBed implements Following {
     if (!shown) return undefined;
     const { genes, size, graphics, laid, stands } = shown;
     const seat = toCanvas(size)(capSeat(genes, across));
-    const on = { laidFoot: laid, ...pick(shown, 'stands') };
+    const on = { laidFoot: laid, ...pick(shown, 'stands', 'foot', 'opening') };
     const at = placedAt(laid, graphics.rotation, {
       x: (seat.x * graphics.scaleX) / stands.zoom,
       y: (seat.y * graphics.scaleY) / stands.zoom,
