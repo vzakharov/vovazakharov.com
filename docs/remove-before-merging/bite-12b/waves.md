@@ -157,6 +157,24 @@ offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
   I4), f262b748 (`Puffing` carries `stands`, `drawnSize` in `spores.ts`;
   door and window puffs at the drawn size). Done; note `bed.md`.
 
+- **L‴** — 1cebd29d (tufts and planting judged from the anchor,
+  `Grass.tendedAt()`), 56a1df46 (`FLOWER_SLOTS` 48, `flowersCrowdAt`),
+  9253ea69 (`Scened.view`; play `walk,tufts` green on tabL, both reds
+  cleared), 89df10e1 (planted flowers laid in their own frame,
+  `laidFlower`). **Package L done.** Kept: `view` moved from `Arriving` to
+  `Scened`; `tapTuft` judges at the tended eye, the picker and keys at the
+  view's. Handed on to the tail's play agent: `play-buzzers.ts:90` reads
+  `scaleY`, now growth × `stands.zoom` (divide by it), and a bee drawn
+  29.1 px under 30 on tabL `planting`, red before step 4 too. For I4:
+  `FlowerBed.seat` reads `laid.place`, so an undrawn host's
+  `seatAloft` fallback puts a planted flower's seat at the clump's spot.
+
+## Wave 6 (launched together)
+
+I‴ (I4 with both beds' host builders, I5, `fliers.test.ts` once) and
+P1b's flower half with P2 (`flower-bed.ts` paint and follow, `lawn.ts`);
+the two share only `flower-bed.ts`, I‴ touching `seat` alone.
+
 ## Wave 5
 
 L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half
