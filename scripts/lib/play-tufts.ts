@@ -24,7 +24,7 @@ const Planting = z.object({
   seeds: z.array(z.number()),
   planted: z.number(),
 });
-/** The newest planted flower: its seed, whether it stands on a tuft, and where its head shows. */
+/** The child's newest planted flower: its seed, whether it stands on a tuft, and where its head shows. */
 export const Newest = z
   .object({
     seed: z.number(),
@@ -41,7 +41,7 @@ const PLANTING = `(() => {
     open: planting !== undefined,
     chosen: planting?.chosen !== undefined,
     seeds: [...(planting?.chosen?.seeds ?? [])],
-    planted: meadow.planted.length,
+    planted: meadow.planted.filter((sown) => !('parent' in sown)).length,
   };
 })()`;
 
@@ -58,7 +58,7 @@ export const TUFTS = `__probe.scene.grass.shown.near
   .sort((a, b) => a.y - b.y)`;
 
 export const NEWEST = `(() => {
-  const sown = __probe.scene.meadow.planted.at(-1);
+  const sown = __probe.scene.meadow.planted.findLast((each) => !('parent' in each));
   if (!sown) return null;
   const shown = __probe.scene.flowers.shown.get(sown.id);
   const at = shown.head.getWorldTransformMatrix();
