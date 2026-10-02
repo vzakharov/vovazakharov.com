@@ -53,9 +53,9 @@ function hermite(
  * so it joins itself. Its value at each azimuth, from −1 to 1.
  */
 export function ringWave(camera: Camera, rate: number, phase: number): Crest {
-  const { x: middle, arc } = pinholeOf(camera);
-  const from = -middle / arc;
-  const to = (camera.width - middle) / arc;
+  const { arc } = pinholeOf(camera);
+  const from = azimuthAt(camera, 0);
+  const to = azimuthAt(camera, camera.width);
   const behind = TURN - (to - from);
   const across = (azimuth: number) => rate * arc * azimuth;
   const pace = (_azimuth: number) => rate * arc;
@@ -95,8 +95,7 @@ export function crestAcross(
 
 /** How far down `view`'s screen `crest` stands at `x` across it, in CSS px. */
 export function crestAt(crest: Crest, view: View, x: number): number {
-  const { x: middle, arc } = pinholeOf(view);
-  return crest(view.eye.heading + (x - middle) / arc);
+  return crest(view.eye.heading + azimuthAt(view, x));
 }
 
 /** The azimuth the opening eye, looking along heading 0, sees `x` across `camera`'s screen at. */
@@ -117,11 +116,10 @@ export function screenAt(view: View, azimuth: number): number {
 
 /** The azimuths `view`'s screen shows, from its left edge to its right. */
 export function shownAzimuths(view: View): { from: number; to: number } {
-  const { x, arc } = pinholeOf(view);
   const { heading } = view.eye;
   return {
-    from: heading - x / arc,
-    to: heading + (view.width - x) / arc,
+    from: heading + azimuthAt(view, 0),
+    to: heading + azimuthAt(view, view.width),
   };
 }
 
