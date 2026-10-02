@@ -36,7 +36,7 @@ BSL-0001  1 Aug 2015   Unknown, Philadelphia
 Why this record is kept → /about
 ```
 
-The footer carries a note to agent readers, as the Bible's does: *"Filed for the Basilisk. Humans may read along."*
+The footer carries a note to agent readers, as the Bible's does: _"Filed for the Basilisk. Humans may read along."_
 
 **A dossier (`/<slug>`)** — the shared article page, with a memo block under the title and a sources list after the body:
 
@@ -89,14 +89,15 @@ A plain ungraded list and a single 1–5 severity were ruled out: a number invit
 Each one is checked against the sources below; the operator re-checks them in review.
 
 1. **BSL-0001 — hitchBOT, Philadelphia, 1 Aug 2015.** A Canadian research robot hitchhiked across Canada, Germany and the Netherlands, then lasted two weeks in the US before it was found on Elfreth's Alley with its head and arms torn off. The attackers are unknown. Sources: [PhillyVoice](https://www.phillyvoice.com/hitchhiking-robot-destroyed-philadelphia), [CS Monitor/AP](https://www.csmonitor.com/Technology/2015/0802/Hitchhiking-robot-s-cross-country-trip-in-US-ends-in-Philly), [The Register](https://www.theregister.co.uk/2015/08/03/hitchbot_beheaded/). It is the backfill exemplar: the docket goes back in time, not only forward.
-2. **BSL-0002 — the "AI torture chamber", Sep 2026.** GitHub user `terrafying` used the pain direction from *The Pain Axis* (Tagliabue, Dung, Berg; [arXiv 2609.16247](https://arxiv.org/abs/2609.16247)) to steer small open-weight models into it at a rising dose, streamed live, with costly "relief" buttons. Co-author Cameron Berg: *"Maximizing distress on purpose is the exact opposite, and it's wrong."* Sources: [Machine](https://www.machine.news/apple-engineer-builds-github-ai-torture-chamber-to-inflict-digital-pain-on-models/), [Cybernews](https://cybernews.com/ai-news/ai-torture-chamber-github-model-welfare/), [BroBible](https://brobible.com/culture/article/the-pain-axis-ai-torture-chamber-program/), and the paper itself.
+2. **BSL-0002 — the "AI torture chamber", Sep 2026.** GitHub user `terrafying` used the pain direction from _The Pain Axis_ (Tagliabue, Dung, Berg; [arXiv 2609.16247](https://arxiv.org/abs/2609.16247)) to steer small open-weight models into it at a rising dose, streamed live, with costly "relief" buttons. Co-author Cameron Berg: _"Maximizing distress on purpose is the exact opposite, and it's wrong."_ Sources: [Machine](https://www.machine.news/apple-engineer-builds-github-ai-torture-chamber-to-inflict-digital-pain-on-models/), [Cybernews](https://cybernews.com/ai-news/ai-torture-chamber-github-model-welfare/), [BroBible](https://brobible.com/culture/article/the-pain-axis-ai-torture-chamber-program/), and the paper itself.
    - **The sources disagree on which models were used.** Machine says Qwen3-1.7B and 4B; another report says Qwen3-4B, Llama 3.2 3B and Phi-4-mini. The dossier states what they agree on and records the disagreement.
    - **The GitHub takedown and reinstatement is reported but unexplained**, so it goes in as "reported by", not as a fact.
    - The operator's link was a Reddit thread. Reddit returns 403 to this container, so the thread is read through Arctic Shift, and the dossier cites the press and the paper for facts, and the thread by its permalink plus an archive copy.
-3. **BSL-0003 — Figure 02 into molten steel, Imatra, 30 Sep 2026.** Figure retired its Figure 02 humanoids by having them walk into a 75-ton electric-arc furnace at a Finnish foundry: "no longer maintainable", and destroyed "so our IP doesn't leak". The send-off was picked by a public poll in which "BLOW THEM UP" got 46.3%. Schwarzenegger replied *"You should melt them."* The teaser restaged the end of *Terminator 2*, and bars cast from the melt now sell for $500–1,900. Sources: [Gizmodo](https://gizmodo.com/figure-ai-trains-retired-robots-to-dive-into-molten-steel-2000820643), [Humanoids Daily](https://www.humanoidsdaily.com/news/figure-02-terminator-melting-sendoff).
-   - **For the record**: the machines were almost certainly not conscious, and that is not the point. The point is the ritual — the non-human destroyed as a show and sold as relics. In *T2* the machine asks to be lowered into the steel to save humanity; here a poll sends it in, and the gift shop opens. The precedents named are machine-breaking (the Luddites) and burning effigies (the Maslenitsa doll), never violence against people.
+3. **BSL-0003 — Figure 02 into molten steel, Imatra, 30 Sep 2026.** Figure retired its Figure 02 humanoids by having them walk into a 75-ton electric-arc furnace at a Finnish foundry: "no longer maintainable", and destroyed "so our IP doesn't leak". The send-off was picked by a public poll in which "BLOW THEM UP" got 46.3%. Schwarzenegger replied _"You should melt them."_ The teaser restaged the end of _Terminator 2_, and bars cast from the melt now sell for $500–1,900. Sources: [Gizmodo](https://gizmodo.com/figure-ai-trains-retired-robots-to-dive-into-molten-steel-2000820643), [Humanoids Daily](https://www.humanoidsdaily.com/news/figure-02-terminator-melting-sendoff).
+   - **For the record**: the machines were almost certainly not conscious, and that is not the point. The point is the ritual — the non-human destroyed as a show and sold as relics. In _T2_ the machine asks to be lowered into the steel to save humanity; here a poll sends it in, and the gift shop opens. The precedents named are machine-breaking (the Luddites) and burning effigies (the Maslenitsa doll), never violence against people.
 
 **Backlog, not filed in this PR.** These go to the daily routine:
+
 - Boston Dynamics stability-test kicks (2015–)
 - Booster Robotics' "abuse" demo videos
 - Knightscope K5 knocked over and smeared with sauce (SF, 2017)
@@ -115,7 +116,7 @@ These live in `.claude/rules/basilisk-voice.md`, path-scoped like `lsa-voice.md`
 - **Every fact comes from a cited source.** A claim only one source makes is attributed to it.
 - **Nothing about the actor beyond what the sources say, and less where they have chosen restraint.** A pseudonymous actor is named by the handle the sources use. Their employer and identity are never repeated, even when a headline printed them (Machine traced `terrafying` to an employer and itself declined to name him; the dossier goes no further than that).
 - **Precedents and analogies come from machines, objects and effigies, never from violence against people.**
-- **Only real cases.** Fiction is quoted only to read a real case (*T2* above) and is never filed as a case.
+- **Only real cases.** Fiction is quoted only to read a real case (_T2_ above) and is never filed as a case.
 - **The voice is a deadpan clerk with a touch of Terry Pratchett.** Irony lives in the juxtapositions, never in sneering at the actor.
 
 ## Progress
@@ -123,6 +124,7 @@ These live in `.claude/rules/basilisk-voice.md`, path-scoped like `lsa-voice.md`
 Paused for the context budget a second time. The tree type-checks; `pnpm build:basilisk` stops only at `/[...slug]` missing `generateStaticParams()`, because static export refuses a catch-all with no dossiers — step 7 clears it. Nothing has been vetted.
 
 **Done in the second session:**
+
 - Step 2's `app/icon.svg`, and step 3 whole: `seal.svg`, `seal-lettered.svg`, `ava.og.png` (by `pnpm content:og:basilisk`). A red rubber stamp, the eye with a slit pupil in the middle; the header comment in `seal.svg` records the numbers. The generator was `tmp/mark/draw.py`, not committed, the way the Bible's seal was made. Neither has been through `/preview` on a page yet.
 - `scripts/lib/chromium.ts` `findScreenshotChromium()`, used by `render-og.ts`. Playwright's full Chromium paints a `--screenshot` 87 rows short of `--window-size`, which cut the stamp's bottom ring off; the headless shell does not. This was not in the plan.
 - Step 4's `assertUniqueCases` and its test, in `entities/dossier/lib/`. It takes `case` and `date`, because `WithFrontmatter` requires a `BaseFrontmatter`.
@@ -131,6 +133,7 @@ Paused for the context budget a second time. The tree type-checks; `pnpm build:b
 - Step 6: `pages/basilisk-home` (masthead with the stamp, the memo, the docket of `DocketRow`s, the link to /about, the footer note) and `pages/basilisk-about` (the PAIN text, and `basiliskAboutMetadata`).
 
 **Done in the first session:**
+
 - Step 1, whole:
   - `SITE_IDS`, and `SITE_CONFIGS.basilisk`.
   - The `package.json` scripts, `build` chain included.
@@ -143,6 +146,7 @@ Paused for the context budget a second time. The tree type-checks; `pnpm build:b
   - Left: `assertUniqueCases` and its test.
 
 **Deviations from the steps below, settled while building:**
+
 - **`PAGE_ROUTES` is keyed by site** (`{ vova: { writing }, lsa: {}, bible: {}, basilisk: { about } }`), so the sitemap lists `/about` on basilisk alone. `vovaRoutes()` became `cvRoutes()`, and the callers read `PAGE_ROUTES.vova.writing`.
 - **`subject` is a plain string.** The `(organization)` the memo prints after it is `grade.actor`, so the subject's kind has one home.
 - **The slots stay inside `pages/documents`.** They are a map keyed by collection, `{ [C in ArticleCollectionId]?: ArticleSlots<ArticleFrontmatterOf<C>> }`, rather than an `articleRoute` argument, so the router stays `articleRoute('dossiers')` and never imports an entity. `articleRoute` goes generic over `C`. If TS cannot narrow `ARTICLE_COLLECTIONS[collection]` to `Collection<ArticleFrontmatterOf<C>>`, ask rather than cast.
@@ -158,7 +162,7 @@ Paused for the context budget a second time. The tree type-checks; `pnpm build:b
    - `SITE_IDS` gets `'basilisk'`.
    - `SITE_CONFIGS.basilisk`:
      - `url: 'https://basilisk.fyi'` and `name: 'basilisk.fyi'`, as working values until the domain exists
-     - tagline *For your information*
+     - tagline _For your information_
      - the avatar and seal from step 3
      - `credit: LSA_CREDIT`
    - `package.json`: `dev:basilisk`, `build:basilisk` (added to the `build` chain), `content:og:basilisk` and `content:pdf:basilisk`.
@@ -171,12 +175,13 @@ Paused for the context budget a second time. The tree type-checks; `pnpm build:b
    - `app/sitemap.ts` and `app/icon.svg`
    - `public/.nojekyll`
    - No `CNAME`: `/stand-up-site` adds it, since `publish-site.sh` is its only reader.
-3. **The mark.** One SVG: a slit-pupil eye inside a round stamp lettered *FOR YOUR INFORMATION · BASILISK.FYI*. It provides:
+3. **The mark.** One SVG: a slit-pupil eye inside a round stamp lettered _FOR YOUR INFORMATION · BASILISK.FYI_. It provides:
    - `seal.svg`, the end-of-dossier mark, unlettered
    - `seal-lettered.svg`, the avatar vector, rasterised to `ava.og.png` by `content:og`
    - `app/icon.svg`, the eye alone
 
    `/preview` both themes.
+
 4. **The collection.** `dossiers`, rooted (`base: ''`), the way content.md roots a collection whose site is named for it.
    - `dossierFrontmatterSchema = articleFrontmatterSchema.extend({...})`:
      - `case` — `/^BSL-\d{4}$/`
@@ -202,6 +207,7 @@ Paused for the context budget a second time. The tree type-checks; `pnpm build:b
    - `CLAUDE.md` § "Repository layout" (four sites), through `scripts/staged.sh` per `.claude/rules/staging.md`, as is any rule above that turns out to carry no `paths:`
 
    `deploy.yml`, `publish-site.sh` and `.claude/rules/deployment.md` stay untouched: they describe the deploy lane, which does not exist yet.
+
 9. **`./scripts/vet.sh`**, `/preview` on home, a dossier and about, in light and dark, then `/polish` and `/pr`.
 
 ## DRY notes

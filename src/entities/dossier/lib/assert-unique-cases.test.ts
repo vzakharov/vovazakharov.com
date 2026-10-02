@@ -10,27 +10,27 @@ const filed = (slug: string, number: string) => ({
 
 describe('assertUniqueCases', () => {
   it('passes a docket whose numbers differ', () => {
-    assert.doesNotThrow(() =>
+    assert.doesNotThrow(() => {
       assertUniqueCases([
         filed('hitchbot', 'BSL-0001'),
         filed('torture-chamber', 'BSL-0002'),
-      ]),
-    );
+      ]);
+    });
   });
 
   it('passes an empty docket', () => {
-    assert.doesNotThrow(() => assertUniqueCases([]));
+    assert.doesNotThrow(() => {
+      assertUniqueCases([]);
+    });
   });
 
   it('names every slug filed under a shared number', () => {
-    assert.throws(
-      () =>
-        assertUniqueCases([
-          filed('hitchbot', 'BSL-0001'),
-          filed('torture-chamber', 'BSL-0002'),
-          filed('figure-02-molten-steel', 'BSL-0001'),
-        ]),
-      /BSL-0001: hitchbot, figure-02-molten-steel/,
-    );
+    assert.throws(() => {
+      assertUniqueCases([
+        filed('hitchbot', 'BSL-0001'),
+        filed('torture-chamber', 'BSL-0002'),
+        filed('figure-02-molten-steel', 'BSL-0001'),
+      ]);
+    }, /BSL-0001: hitchbot, figure-02-molten-steel/);
   });
 });

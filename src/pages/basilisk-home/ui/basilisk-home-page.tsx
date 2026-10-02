@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
 import { ARTICLE_COLLECTIONS, renderPrimaryDocuments } from '@/shared/content';
+import { pick } from '@/shared/lib/collections';
 import { hoverDim, InternalLink, MemoFields, PageShell } from '@/shared/ui';
 
 import { assertUniqueCases } from '@/entities/dossier';
@@ -68,7 +69,7 @@ export async function BasiliskHomePage() {
               <DocketRow
                 key={document.slug}
                 {...{ document }}
-                title={rendered.title}
+                {...pick(rendered, 'title')}
               />
             ))}
           </ol>

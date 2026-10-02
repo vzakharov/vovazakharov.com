@@ -6,14 +6,13 @@ import {
   formatDocumentDate,
   type WithContentDocument,
 } from '@/shared/content';
+import type { Titled } from '@/shared/typings';
 
 import { aggravations, GradeStamp } from '@/entities/dossier';
 
 import classes from './basilisk-home.module.scss';
 
-type DocketRowProps = WithContentDocument<DossierFrontmatter> & {
-  title: string;
-};
+type DocketRowProps = WithContentDocument<DossierFrontmatter> & Titled;
 
 /**
  * One case on the docket: number, date and subject on the first line, the

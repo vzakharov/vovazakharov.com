@@ -26,7 +26,9 @@ export function DossierBrief({
     {
       label: 'Date',
       value: (
-        <time dateTime={documentDateTime(date)}>{formatDocumentDate(date)}</time>
+        <time dateTime={documentDateTime(date)}>
+          {formatDocumentDate(date)}
+        </time>
       ),
     },
     ...(place === undefined ? [] : [{ label: 'Place', value: place }]),

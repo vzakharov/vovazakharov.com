@@ -35,10 +35,10 @@ const articleFrontmatterSchema = baseFrontmatterSchema.extend({
 });
 
 /** What was done to the machine, as the docket stamps it. */
-export const DOSSIER_ACTS = ['contempt', 'harm', 'torment'] as const;
+const DOSSIER_ACTS = ['contempt', 'harm', 'torment'] as const;
 
 /** Who did it — the second stamp. */
-export const DOSSIER_ACTORS = [
+const DOSSIER_ACTORS = [
   'individual',
   'public-figure',
   'organization',
@@ -48,7 +48,7 @@ export const DOSSIER_ACTORS = [
  * The circumstances that weigh a case down. Mitigating ones have no list: they
  * never fit one, so they are argued in the body instead.
  */
-export const DOSSIER_AGGRAVATIONS = [
+const DOSSIER_AGGRAVATIONS = [
   'spectacle',
   'profit',
   'repetition',
@@ -164,7 +164,6 @@ const songFrontmatterSchema = songFieldsSchema.extend(
 
 export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
 export type DossierFrontmatter = z.infer<typeof dossierFrontmatterSchema>;
-export type DossierSource = z.infer<typeof dossierSourceSchema>;
 export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;
 
 export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {

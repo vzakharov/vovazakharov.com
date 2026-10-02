@@ -3,6 +3,7 @@
 Relayed from https://claude.ai/code/session_01QZv1TcF62Eqvv46a7Mv6QW. That session picked up from https://claude.ai/code/session_016WM3eUZ9koNRCgum6CwTEY, which picked up from https://claude.ai/code/session_012fDjBpvSJU8JLPkkqsm8L6.
 
 Earlier summaries:
+
 - `git show f1d3959:docs/remove-before-merging/relay.md`: the second session.
 - `git show 9b06e62:docs/remove-before-merging/relay.md`: the planning conversation and the reasons behind each decision.
 
