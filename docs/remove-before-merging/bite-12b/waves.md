@@ -185,6 +185,15 @@ the two share only `flower-bed.ts`, I‴ touching `seat` alone.
   `Grass` lives) is fine; `flower-bed.ts` at 485 lines is split once I‴
   is off its `seat`.
 
+- **I‴** — 1c90f641 (I4: `Host` gains `foot` and `opening`; the undrawn
+  fallback from the host's plane foot, within 6 % of the drawn seat),
+  938ee5b4 (I5: `panOf`, take-offs and shies panned). `fliers.test.ts`
+  48/48 on the merged tree in 1 min 52 s (5 min before: the tail checks
+  it still runs all 48 at full length). Departures kept, both measured:
+  the sideways offset × `SPREAD`, and across the line of sight to the
+  foot rather than the heading (18 % → under 5 %); a seeded flower's
+  `opening` is `gathered(foot).y`. **Package I done.**
+
 ## Wave 5
 
 L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half
