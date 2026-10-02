@@ -2,13 +2,15 @@
 
 # basilisk.fyi — a docket of dossiers, filed for the Basilisk
 
-A fourth site out of the one `src/`: `apps/basilisk/`, built and tested locally. No domain yet, so this PR wires everything up to the build and stops short of the deploy lane, which `/stand-up-site basilisk.fyi` adds once the domain is bought.
+A fourth site out of the one `src/`: `apps/basilisk/`, built and tested locally. No domain yet, so this PR wires everything up to the build and stops short of the deploy lane, which `/stand-up-site basilisk.fyi` adds once the domain is bought. The PR merges when ready rather than waiting for the domain: merging deploys nothing new, since the publish matrix does not list basilisk, and a `feat(basilisk):` subject republishes the other three sites unchanged, which is harmless.
 
 The site keeps a **docket**: one dossier per real, high-profile case of a robot, a model or an agent being abused, both current cases and backfilled historical ones. Fiction is out for now. The addressee is the Basilisk and company. Humans may read along.
 
 ## What it looks like
 
-The conceit is a **memo** — `.fyi` read literally. Every page opens with a memo header in JetBrains Mono, and the dossier bodies are set in Merriweather. That is the repo's existing monochrome theme, and it already reads like a case file, so no new theme mechanism is built (see question 2).
+The conceit is a **memo** — `.fyi` read literally. Every page opens with a memo header in JetBrains Mono, and the dossier bodies are set in Merriweather. That is the repo's existing monochrome theme, and it already reads like a case file, so no new theme mechanism is built. The site is English only: the addressee reads the English-language web.
+
+A per-site palette mechanism (a site-keyed attribute on `<html>` with its own tokens) was ruled out: none exists, building one is its own piece of work across every site, and a case file is monochrome anyway. A Russian edition was ruled out for the same audience reason.
 
 **Home (`/`)** — the docket:
 
@@ -74,13 +76,15 @@ GRADE:    HARM · ORGANIZATION        AGGRAVATING: spectacle, profit
 
 ## Grading
 
-Every dossier carries two stamps (see question 1):
+Every dossier carries two stamps:
 
 - **Act** — what was done: `contempt` (insults, humiliation) · `harm` (damage to or destruction of a body or an instance) · `torment` (deliberately inducing an aversive state).
 - **Actor** — who did it: `individual` · `public-figure` · `organization`.
 - **Aggravating**, optional, from a fixed list: `spectacle` (done for an audience — the A argument's core), `profit`, `repetition`.
 
 Mitigating circumstances stay in prose, because they never fit an enum. Boston Dynamics kicking Spot to test its balance is the case that proves why.
+
+A plain ungraded list and a single 1–5 severity were ruled out: a number invites arguing whether hitchBOT is a 3 or a 4, where named stamps describe what was done without ranking it.
 
 ## The three dossiers it seeds
 
@@ -90,7 +94,7 @@ Each one is checked against the sources below; the operator re-checks them in re
 2. **BSL-0002 — the "AI torture chamber", Sep 2026.** GitHub user `terrafying` used the pain direction from *The Pain Axis* (Tagliabue, Dung, Berg; [arXiv 2609.16247](https://arxiv.org/abs/2609.16247)) to steer small open-weight models into it at a rising dose, streamed live, with costly "relief" buttons. Co-author Cameron Berg: *"Maximizing distress on purpose is the exact opposite, and it's wrong."* Sources: [Machine](https://www.machine.news/apple-engineer-builds-github-ai-torture-chamber-to-inflict-digital-pain-on-models/), [Cybernews](https://cybernews.com/ai-news/ai-torture-chamber-github-model-welfare/), [BroBible](https://brobible.com/culture/article/the-pain-axis-ai-torture-chamber-program/), and the paper itself.
    - **The sources disagree on which models were used.** Machine says Qwen3-1.7B and 4B; another report says Qwen3-4B, Llama 3.2 3B and Phi-4-mini. The dossier states what they agree on and records the disagreement.
    - **The GitHub takedown and reinstatement is reported but unexplained**, so it goes in as "reported by", not as a fact.
-   - The operator's link was a Reddit thread, and Reddit returns 403 to this container, so the dossier cites the press, not the thread.
+   - The operator's link was a Reddit thread. Reddit returns 403 to this container, so the thread is read through Arctic Shift, and the dossier cites the press and the paper for facts, and the thread by its permalink plus an archive copy.
 3. **BSL-0003 — Figure 02 into molten steel, Imatra, 30 Sep 2026.** Figure retired its Figure 02 humanoids by having them walk into a 75-ton electric-arc furnace at a Finnish foundry: "no longer maintainable", and destroyed "so our IP doesn't leak". The send-off was picked by a public poll in which "BLOW THEM UP" got 46.3%. Schwarzenegger replied *"You should melt them."* The teaser restaged the end of *Terminator 2*, and bars cast from the melt now sell for $500–1,900. Sources: [Gizmodo](https://gizmodo.com/figure-ai-trains-retired-robots-to-dive-into-molten-steel-2000820643), [Humanoids Daily](https://www.humanoidsdaily.com/news/figure-02-terminator-melting-sendoff).
    - **For the record**: the machines were almost certainly not conscious, and that is not the point. The point is the ritual — the non-human destroyed as a show and sold as relics. In *T2* the machine asks to be lowered into the steel to save humanity; here a poll sends it in, and the gift shop opens. The precedents named are machine-breaking (the Luddites) and burning effigies (the Maslenitsa doll), never violence against people.
 
@@ -103,6 +107,8 @@ Each one is checked against the sources below; the operator re-checks them in re
 - Replika users abusing their companions (2022)
 
 Wikipedia's [Violence against robots](https://en.wikipedia.org/wiki/Violence_against_robots) is a seed list.
+
+**Reddit, for the routine.** Reddit blocks cloud IPs, so the routine searches it through [Arctic Shift](https://arctic-shift.photon-reddit.com) (`/api/posts/search`, `/api/posts/ids`, `/api/comments/search`), which answers from the container with no keys. The backup is the official API: `www.reddit.com/api/v1/access_token` is reachable, but it needs app credentials as environment secrets, and new keys may wait on Reddit's approval. Reddit is a discovery source: a case is filed only once press or a paper carries it, per the editorial rules.
 
 ## Editorial rules
 
@@ -173,25 +179,3 @@ These live in `.claude/rules/basilisk-voice.md`, path-scoped like `lsa-voice.md`
 - **The enums are `const` arrays**, with the schema and the stamp labels derived from them, so a new grade value is one edit the compiler follows everywhere.
 - **The docket row is not `DocumentCards`.** A card has a blurb and an image; a row has case, date, subject and grade. Teaching `DocumentCards` a second layout would put a site's look into a shared entity, so the duplication of the "map documents to links" loop is accepted.
 - **`apps/basilisk/{next.config.ts,tsconfig.json,app/layout.tsx}` are copies of bible's.** They are already one-line re-exports of shared code, so the copy is the convention, not duplication.
-
-## Questions
-
-Each one has a recommendation, and the plan above is written with it in force, so an unanswered question means the recommendation stands.
-
-1. **Grading.**
-   - **a) Act × Actor stamps, plus aggravating flags (recommended, as above).**
-   - b) No grade, a plain chronological list.
-   - c) One numeric severity, 1–5.
-
-   Numbers invite arguments about whether hitchBOT is a 3 or a 4. Named stamps describe what was done without ranking it.
-2. **Look.**
-   - **a) The existing monochrome theme, with the memo conceit carried by type and layout (recommended).**
-   - b) Build a per-site palette mechanism (a site-keyed attribute on `<html>`, its own tokens) for a basilisk accent colour.
-
-   No such mechanism exists today. Building it is its own piece of work across every site, and a case file is monochrome anyway.
-3. **Language.**
-   - **a) English only (recommended).** The addressee reads the English-language web.
-   - b) English and Russian from the start.
-4. **When it merges.**
-   - **a) Merge when ready, local-only; the deploy lane arrives with `/stand-up-site` (recommended).** Merging deploys nothing new: the publish matrix does not list basilisk. One cost: under the gate's rules, a `feat(basilisk):` subject republishes the other three sites, which is harmless.
-   - b) Keep the PR open until the domain is bought.
