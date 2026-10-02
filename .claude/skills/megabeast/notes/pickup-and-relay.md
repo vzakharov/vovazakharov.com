@@ -76,6 +76,13 @@
 
 ## The context budget
 
+- **The orchestrator's pickup reads the notes by index, not whole.** Bite
+  12's depth-1 session read three note files (~38k) and the plan (~20k)
+  before its first brief, and crossed 200k after five agents' reports with
+  the tail still ahead. The notes are written for the future skill, not for
+  each successor: a pickup reads `README.md` and opens a file only when a
+  step meets its theme.
+
 - **The ~140k threshold is not measurable from inside a session, and one
   bite fills the budget anyway.** The loop said a `/handle` session takes
   the next bite "when its context is still under ~140k tokens", but only the

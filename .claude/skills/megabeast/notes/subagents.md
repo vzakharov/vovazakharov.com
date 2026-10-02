@@ -44,6 +44,22 @@
 
 ## Handling a review
 
+- **A tail review of a big bite is three reviewers by area, posting
+  early.** Bite 12's diff (162 files, ~16k lines) went to three reviewers
+  at once (insects; eye and world; taps, flowers and the harness) from one
+  committed `review-brief.md` — the reading list, "post before you are long
+  into it", the marker line, never fix. Two reported within five minutes at
+  155–181k with three findings each, both posted, neither having played;
+  "post early" is what made a full context still yield a review. The
+  orchestrator writes each finding's call into a topic file
+  (`bite-12/review.md`) as the report lands, before any fix brief.
+- **A play → trace → decide chain converges one class per agent.** The
+  leg-timing reds went 88 → 43 → 0 → 4 → 2 over four agents (a fix, a
+  play, a watch allowance, a trace), each report naming the next class
+  with numbers; every call went into `leg-timing.md` before the next brief.
+  A residue the size of the bound's own slack is accepted in writing, not
+  traced.
+
 - **The review is a fresh-eyed subagent in the bite's tail, not two
   sessions.** By bite 12 the branch had cost $904 over 47 sessions, about
   four per bite, two of them review and `/handle`, each paying ~100k of
