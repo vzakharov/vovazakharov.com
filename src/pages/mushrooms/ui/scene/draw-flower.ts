@@ -2,10 +2,12 @@ import type * as Phaser from 'phaser';
 
 import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Point, sample } from '../../model/geometry';
+import { headedLight } from '../../model/light';
 import { mix } from './colour';
 import { petalColour } from './flower-tints';
 import { facingArc, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
+import type { Siding } from './repaint-queue';
 import {
   crescent,
   fillShape,
@@ -182,4 +184,29 @@ export function drawFlower(
     lighting,
   );
   return top.r;
+}
+
+/** A flower's paint: its light, how to draw it, and the sun side it was last painted at. */
+export type FlowerPainting = {
+  /**
+   * Its light as the opening eye sees it from where it stands
+   * (`flowerLight`), which `headedLight` turns by the heading into the light
+   * it is painted in.
+   */
+  openingLight: Lighting;
+  /** Paints its stem and head in `lighting`. */
+  drawIn: (lighting: Lighting) => void;
+} & Pick<Siding, 'paintedSunSide'>;
+
+/**
+ * Paints a flower as `painting` holds it, in its light from an eye facing
+ * `heading`, and keeps the sun side it painted.
+ */
+export function paintFlowerLit(
+  painting: FlowerPainting,
+  heading: number,
+): void {
+  const lighting = headedLight(painting.openingLight, heading);
+  painting.paintedSunSide = lighting.toward.x;
+  painting.drawIn(lighting);
 }

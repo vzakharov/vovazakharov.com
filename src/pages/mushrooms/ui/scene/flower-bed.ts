@@ -6,10 +6,11 @@ import { type Flower, flowerGenes } from '../../model/flower-genes';
 import { soundOf } from '../../model/flower-sounds';
 import type { Action, Meadow } from '../../model/game';
 import { placedAt } from '../../model/geometry';
-import { CLUMP_DISTANCE } from '../../model/ground';
+import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Dip, drinkDip } from '../../model/insect-motion';
 import type { Flier } from '../../model/insects';
+import { headedLight } from '../../model/light';
 import {
   bloom,
   emerge,
@@ -19,7 +20,7 @@ import {
 } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
 import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
-import { drawFlower } from './draw-flower';
+import { drawFlower, type FlowerPainting, paintFlowerLit } from './draw-flower';
 import { coversShown, inSightPast } from './flower-cover';
 import { FlowerHold } from './flower-hold';
 import { FLOWER_SWAY, laidFlower } from './flower-layout';
@@ -39,7 +40,7 @@ import type { FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
 import type { Seat } from './perch-hosts';
-import { browPale } from './repaint-queue';
+import { browPale, repaintsDue } from './repaint-queue';
 import { type Following, onScreen, type View } from './view';
 
 /**
@@ -88,6 +89,8 @@ type Shown = TappedFigure &
      * `undefined` while the screen has no room for it.
      */
     laid: (Pick<StandingFlower, 'foot' | 'place'> & LaidAhead) | undefined;
+    /** How it was last painted; `undefined` before its first paint. */
+    painting: FlowerPainting | undefined;
   };
 
 /**
@@ -177,13 +180,22 @@ export class FlowerBed implements Following {
       if (!stood || !shown.laid) continue;
       const { place } = shown.laid;
       const genes = flowerGenes(flower);
-      // Lit from where the layout stands it, as the opening eye sees it.
-      shown.headR = drawFlower(
-        shown,
+      // Lit from where the layout stands it, as the opening eye sees it,
+      // then turned by the heading.
+      const openingLight = flowerLight(
+        lighting,
         genes,
-        place.size,
-        flowerLight(lighting, genes, stood.place, layout.sun),
+        stood.place,
+        layout.sun,
       );
+      shown.painting = {
+        openingLight,
+        drawIn: (lit) => {
+          shown.headR = drawFlower(shown, genes, place.size, lit);
+        },
+        paintedSunSide: openingLight.toward.x,
+      };
+      paintFlowerLit(shown.painting, this.heading);
       shown.headY = shown.head.y;
       shown.disc = genes.centre * place.size;
       shown.hit.setTo(0, 0, flowerTapReach(shown.headR));
@@ -231,9 +243,37 @@ export class FlowerBed implements Following {
     this.paint(layout, this.lighting);
   }
 
+  /**
+   * Stands every flower where `view` sees its foot, and repaints the nearest
+   * few whose sun side from its heading has drifted from their paint
+   * (`repaintsDue`); a flower is painted with no haze, so its haze never does.
+   */
   follow(view: View): void {
     this.view = view;
-    for (const shown of this.shown.values()) this.stand(shown);
+    const hazing = [...this.shown.values()].flatMap((shown) => {
+      this.stand(shown);
+      const { laid, painting, stands } = shown;
+      return laid && painting && stands.drawn
+        ? [
+            {
+              painting,
+              haze: 0,
+              painted: 0,
+              ...pick(stands, 'ahead'),
+              sunSide: headedLight(painting.openingLight, view.eye.heading)
+                .toward.x,
+              ...pick(painting, 'paintedSunSide'),
+            },
+          ]
+        : [];
+    });
+    for (const { painting } of repaintsDue(hazing))
+      paintFlowerLit(painting, this.heading);
+  }
+
+  /** The heading the view looks along, which the flowers are lit from; the opening's while they stand as laid out. */
+  private get heading(): number {
+    return this.view?.eye.heading ?? OPENING_EYE.heading;
   }
 
   /**
@@ -409,6 +449,7 @@ export class FlowerBed implements Following {
       headR: 0,
       headY: 0,
       laid: undefined,
+      painting: undefined,
       stands: UNPLACED,
       disc: 0,
       plantedAt,

@@ -504,5 +504,20 @@ describe('the meadow’s light by heading', () => {
         }
       }
     });
+
+    // The flower bed keeps a flower's opening light and paints it turned by
+    // the heading: at the opening heading it is the light it always had.
+    it(`turns a flower's opening light by the heading into the light it paints, on a ${name} screen`, () => {
+      for (const [index, foot] of flowers.entries()) {
+        const genes = flowerGenes({ seed: index });
+        const at = (facing?: number) =>
+          flowerLight(light, genes, foot, sun, facing);
+        const opening = at();
+        assert.deepEqual(headedLight(opening, OPENING_EYE.heading), opening);
+        for (const facing of [0.3, -1.2, Math.PI / 2, Math.PI, 5]) {
+          assert.deepEqual(headedLight(opening, facing), at(facing));
+        }
+      }
+    });
   }
 });
