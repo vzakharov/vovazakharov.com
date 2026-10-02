@@ -17,9 +17,6 @@ import {
 import { roundAt, smooth, wave } from './motion';
 import { mulberry32 } from './random';
 
-// `scripts/lib` imports `wrap` from here; its home is `geometry.ts`.
-export { wrap } from './geometry';
-
 /** A leg with its stay: where it goes and when it leaves. */
 export type Stay = Launched & Pick<Leg, 'to' | 'leaves'>;
 
