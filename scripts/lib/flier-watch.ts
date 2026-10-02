@@ -75,6 +75,7 @@ export const WATCH = `(() => {
     worstHover: { a: null, b: null, apart: 0, need: 0 },
     crossings: 0,
     leastSpan: {},
+    leastOwnSpan: {},
     capRests: { spotted: 0, other: 0 },
     turnSteps: {},
     worstTurn: { id: null, kind: null, rate: 0, at: 0 },
@@ -215,6 +216,7 @@ export const WATCH = `(() => {
       }
       if (leg.to.kind !== 'away' && now > leg.arrives) {
         watch.leastSpan[kind] = Math.min(watch.leastSpan[kind] ?? Infinity, span);
+        watch.leastOwnSpan[kind] = Math.min(watch.leastOwnSpan[kind] ?? Infinity, shown.span);
       }
       const seat = leg.to.kind === 'cap' || leg.to.kind === 'flower';
       if (seat && now >= leg.arrives + ${String(SETTLED_AFTER)} && now < leg.leaves - 50) {
@@ -297,7 +299,10 @@ export const Watch = z.object({
     need: z.number(),
   }),
   crossings: z.number(),
+  /** Per kind, the narrowest wings drawn at rest, in px, a far perch's depth included. */
   leastSpan: z.partialRecord(Kind, z.number()),
+  /** Per kind, the narrowest wings at rest at the insect's own size, the depth it sits at aside, in px. */
+  leastOwnSpan: z.partialRecord(Kind, z.number()),
   capRests: z.object({ spotted: z.number(), other: z.number() }),
   /** Per kind, frame-to-frame turns of its body, how many were over 0.2 rad, and the largest, in radians. */
   turnSteps: z.partialRecord(
