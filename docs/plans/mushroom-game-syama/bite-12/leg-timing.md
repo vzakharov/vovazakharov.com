@@ -37,6 +37,19 @@ and the hand-over note that holds its numbers (under
    accepting the overs (a fly streaking across the screen is what a child
    sees).
 
+5. **A flier that turns on its perch first darts its leg faster, and the
+   watch allows it** (`v18-play.md`). `steer` flies the path from
+   `departs + pivot` to `arrives`, so a leg that pivots for a share `s` of
+   its time is drawn up to `1/(1 − s)` its cruise (1.33× at `PIVOT_SHARE`
+   0.25); every surviving fly over at c52a36e is such a leg. The watch's
+   speed bound for a leg that pivoted is divided by `1 − PIVOT_SHARE`,
+   derived from the constant, and stays as it is for a leg that sets off at
+   once. A fly darting off after it turns is a fly; the operator judges the
+   look on `to-check.md` ("Из прогона v18"). Beaten: a pivot timed outside
+   the flight (moves every landing, and the model does not know the turn,
+   which the scene takes from how the flier sat); the path moving during the
+   pivot (changes every take-off's look for a 25% peak).
+
 **Where it stood at 300f3c0** (`v17-play.md`, tabL `veer,meadow`): units
 green (`fliers.test.ts` 48/48); fly overs 88, worst 71 px against 38 — 58
 from cut legs, 9 cap→away from rest, 14 whole cap→cap, 5 air→cap; bees 21,
