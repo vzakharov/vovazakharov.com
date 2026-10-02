@@ -31,19 +31,34 @@ import { perchName } from './perch-room';
 export type WayOut = { brow: Place; outs: Readonly<Record<Side, Place>> };
 
 /**
- * The stretch of the world the screen shows as an insect is released,
- * across in the units of `Places`; `inset`, how far inside either edge a
- * perch stands to count as shown; and the release's way out of view.
+ * The stretch of the world the screen shows as an insect is released: across
+ * and down to `downTo`, the screen's foot, in the units of `Places`, and out
+ * to `far`, the brow (the farthest the ground shows), in a place's
+ * `fromEye`; `inset`, how far inside either edge and the foot a perch
+ * stands to count as shown; and the release's way out of view.
  */
-export type Onscreen = Lefted & { right: number; inset: number } & WayOut;
+export type Onscreen = Lefted & {
+  right: number;
+  downTo: number;
+  far: number;
+  inset: number;
+} & WayOut;
 
-/** Whether `onscreen` shows `place`, `inset` clear of either edge; never for a perch placed nowhere. */
+/**
+ * Whether `onscreen` shows `place`: `inset` clear of either edge and of the
+ * screen's foot, and no farther than the brow; never for a perch placed
+ * nowhere.
+ */
 export function isShown(
-  { left, right, inset }: Onscreen,
-  place: Point | undefined,
+  { left, right, downTo, far, inset }: Onscreen,
+  place: Place | undefined,
 ): boolean {
   return (
-    place !== undefined && place.x >= left + inset && place.x <= right - inset
+    place !== undefined &&
+    place.x >= left + inset &&
+    place.x <= right - inset &&
+    place.y <= downTo - inset &&
+    place.fromEye <= far
   );
 }
 

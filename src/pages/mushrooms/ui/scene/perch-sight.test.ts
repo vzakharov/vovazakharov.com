@@ -7,7 +7,12 @@ import { isSeat, perchName } from '../../model/flight';
 import { isShown } from '../../model/flight-in';
 import { type Meadow, reduce } from '../../model/game';
 import type { Point } from '../../model/geometry';
-import { CLUMP_DISTANCE, OPENING_EYE, pinholeOf } from '../../model/ground';
+import {
+  CLUMP_DISTANCE,
+  D_SEE,
+  OPENING_EYE,
+  pinholeOf,
+} from '../../model/ground';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
@@ -322,9 +327,37 @@ describe('onscreenOf', () => {
           const x = at.x * layout.insectSize;
           const drawn = ofLayout(view, { x, y: at.y * layout.insectSize }, row);
           assert.ok(drawn.x >= 0 && drawn.x <= width, perch);
+          assert.ok(drawn.y <= height + 1e-6, perch);
         }
       }
       assert.ok(shownAny);
+    });
+
+    it(`counts no perch shown past the brow, though the screen's edges hold it, from an eye stepped back off the clump, on a ${name} screen`, () => {
+      const stand = opened(3, width, height, true);
+      const { layout } = stand;
+      const perches = new Perches(() => ({
+        bed: undefined,
+        flowers: undefined,
+      }));
+      perches.see(stand);
+      let pastBrow = 0;
+      for (const back of [6, 10, 14]) {
+        const view = viewAt(layout.camera, { ...OPENING_EYE, y: -back });
+        const onscreen = onscreenOf(layout, view);
+        assert.ok(onscreen);
+        const { places = {} } = perches.sightFrom(view);
+        for (const [perch, place] of Object.entries(places)) {
+          if (perch.startsWith('away')) continue;
+          const across =
+            place.x >= onscreen.left + onscreen.inset &&
+            place.x <= onscreen.right - onscreen.inset;
+          if (!across || place.fromEye <= D_SEE) continue;
+          pastBrow++;
+          assert.equal(isShown(onscreen, place), false, perch);
+        }
+      }
+      assert.ok(pastBrow > 0);
     });
   }
 });

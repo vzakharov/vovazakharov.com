@@ -91,7 +91,42 @@ snap was measured.
   'alofts'>`, the cell's `{ id, name }` now `WithId & { key }`, the
   lattice's `pitch` renamed `spacing` (it collided with `Buzz`'s).
 
+## I3 — shown by the view
+
+Landed (`git log --grep "shown by the view"`). `Onscreen` gains `downTo`
+(the screen's foot, `view.height / insectSize`) and `far` (`D_SEE`), and
+`isShown` asks `x` inside the edges, `y ≤ downTo − inset`, `fromEye ≤ far`.
+Departure: the spec's names `bottom`/`brow` — `brow` is `WayOut`'s place
+already, and `bottom`, `foot`, `lowest` each collide with another type's
+member in `pnpm type-overlap`. Tests: `flight-in.test.ts` (`isShown` past
+each edge, the foot and the brow; a release whose every perch is past the
+brow or under the foot flies out of view first), `perch-sight.test.ts`
+(a shown perch drawn above the screen's foot; from eyes stepped back 6–14
+units, perches the edges hold past the brow are not shown). flight,
+flight-kinds, insect-away, game, perch-sight green.
+
+## I4 — scoped, not built
+
+Blocked on the plane foot on `Host` ("Needs: the beds package's plane foot
+on `Host`"): `Host` (`bed-place.ts`) is still `Standing & { laidFoot }`, and
+both places that build one, `mushroom-bed.ts` `capTop` (`{ laidFoot: laid,
+stands }`) and `flower-bed.ts` `seat` (`{ laidFoot: laid.place, stands }`),
+are off limits to I (P1b and L″ hold them). Design for whoever builds it:
+
+- `Host = Standing & { laidFoot: Point; foot: Point; opening: number }` —
+  `foot` the plane foot (mushroom `Shown`'s `Footed` foot, flower
+  `laid.foot`), `opening` the distance it is laid at (`Shown.opening`;
+  `CLUMP_DISTANCE` for a flower laid off the opening, per L's `laidOf`).
+- `seatAloft`'s fallback: px off the laid foot to clump units by
+  `opening / focal` (s.md); `across = (seat.x − laidFoot.x)·k`,
+  `h = (laidFoot.y − seat.y)·k`; aloft `{ x: foot.x + across·cos(heading),
+  y: foot.y − across·sin(heading), h }` (the eye frame's x on the plane, as
+  `unanchored` turns it).
+- Test in `insect-seat.test.ts`: a grown mushroom's seat, its host undrawn
+  (off a side, too near), lands at the seat the drawn path gives one frame
+  earlier, not at the clump's distance ahead of the opening eye.
+
 ## Left
 
-- I3, I4 (S2's `seatAloft` fallback regression,
+- I4 (blocked, above) (S2's `seatAloft` fallback regression,
   `s.md` § "For package I"), I5.

@@ -36,7 +36,15 @@ const WAY_OUT = {
     right: { x: 62, y: 7, fromEye: 1.2 * CLUMP_DISTANCE },
   },
 };
-const ONSCREEN: Onscreen = { left: 30, right: 60, inset: 1, ...WAY_OUT };
+/** The screen's foot, and the brow, past every perch in `PLACES`. */
+const DOWN_TO = { downTo: 20, far: 2 * CLUMP_DISTANCE };
+const ONSCREEN: Onscreen = {
+  left: 30,
+  right: 60,
+  inset: 1,
+  ...DOWN_TO,
+  ...WAY_OUT,
+};
 const SEEDS = Array.from({ length: 200 }, (_, index) => index * 7919 + 1);
 
 /** `count` ids of `kind`, spread evenly across the world, and where each stands. */
@@ -75,6 +83,29 @@ const PERCHES: Perches = {
 };
 
 const placeOf = (perch: Perch) => PLACES[perchName(perch)];
+
+describe('isShown', () => {
+  const inView = { x: 45, y: 10, fromEye: CLUMP_DISTANCE };
+  it('shows a perch inside the edges, above the foot and nearer than the brow', () => {
+    assert.ok(isShown(ONSCREEN, inView));
+    assert.ok(
+      isShown(ONSCREEN, { ...inView, y: 19, fromEye: 2 * CLUMP_DISTANCE }),
+    );
+  });
+
+  it('shows no perch past an edge, the brow or under the foot, nor one placed nowhere', () => {
+    for (const place of [
+      { ...inView, x: 30.5 },
+      { ...inView, x: 59.5 },
+      { ...inView, y: 19.5 },
+      { ...inView, y: 30 },
+      { ...inView, fromEye: 2 * CLUMP_DISTANCE + 0.01 },
+      undefined,
+    ]) {
+      assert.equal(isShown(ONSCREEN, place), false, JSON.stringify(place));
+    }
+  });
+});
 
 describe('a released insect', () => {
   for (const kind of INSECT_KINDS) {
@@ -225,7 +256,13 @@ describe('a released insect', () => {
 
   for (const kind of INSECT_KINDS) {
     it(`still finds a perch in the world where the screen shows none, flying out of view first at its cruise, a ${kind}`, () => {
-      const narrow: Onscreen = { left: 0, right: 6, inset: 4, ...WAY_OUT };
+      const narrow: Onscreen = {
+        left: 0,
+        right: 6,
+        inset: 4,
+        ...DOWN_TO,
+        ...WAY_OUT,
+      };
       const { cruising } = FLIGHT_HABITS[kind];
       for (const seed of SEEDS.slice(0, 50)) {
         const { leg } = firstFlight({ seed, kind }, PERCHES, 0, [], narrow);
@@ -240,6 +277,24 @@ describe('a released insect', () => {
       }
     });
   }
+
+  it('flies out of view first where every perch between the edges stands past the brow or under the foot', () => {
+    for (const hidden of [
+      { ...ONSCREEN, far: CLUMP_DISTANCE - 1 },
+      { ...ONSCREEN, downTo: 5 },
+    ]) {
+      for (const seed of SEEDS.slice(0, 50)) {
+        const { leg } = firstFlight(
+          { seed, kind: 'butterfly' },
+          PERCHES,
+          0,
+          [],
+          hidden,
+        );
+        assert.equal(leg.from.kind, 'away', String(seed));
+      }
+    }
+  });
 
   it('takes its later perches anywhere in the world', () => {
     let unseen = 0;
