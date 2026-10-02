@@ -96,6 +96,18 @@ profiled, then I3–I5), L′ (`anchored-stand.ts` handed over: plane ring
 offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
 (`mushroom-bed.ts`; the flower half waits on L′).
 
+- **P1b, mushrooms** — 132c6eaf: `Shown.lightsAt(heading)` and `sunFrom`,
+  `paintLit` (body, house, shadow) at the eye's heading, `follow` feeds
+  `sunSide`/`paintedSunSide`; `Siding` now required in `Hazing`; exact at
+  the opening heading (a test pins `headedLight` against the ground light).
+  S3's leftover fixed in the bed (puff reach and boing pitch from the drawn
+  size). Departures kept: a closure on `Shown` instead of p.md's stored
+  `toward.x` (`turnedLight` and `headedLight` don't commute); a haze-only
+  repaint relights too. **Left for the tail:** `mushroom-bed.ts` is 479
+  lines — split along a seam; the door puff (`house-view.ts`) reads the
+  unzoomed size — `spores.ts`'s `Puffing` carries the drawn zoom. P1b's
+  flower half and P2 (`lawn.ts`) after L′.
+
 ## Next wave
 
 In this order of launch; parallel where files are disjoint.
