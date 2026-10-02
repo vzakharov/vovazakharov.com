@@ -152,6 +152,11 @@ offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
   agent splits `mushroom-bed.ts` (479 lines) and fixes the door puff in
   `spores.ts`, so I4 lands on the split bed.
 
+- **Bed** — c7def3f0 (`mushroom-shown.ts` split out: `Shown`,
+  `unplacedShown`, `paintLit`; the bed 407 lines, `capTop` stays there for
+  I4), f262b748 (`Puffing` carries `stands`, `drawnSize` in `spores.ts`;
+  door and window puffs at the drawn size). Done; note `bed.md`.
+
 ## Wave 5
 
 L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half

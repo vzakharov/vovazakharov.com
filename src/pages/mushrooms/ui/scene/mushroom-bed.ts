@@ -42,7 +42,7 @@ import { paintLit, type Shown, unplacedShown } from './mushroom-shown';
 import type { Seat } from './perch-hosts';
 import { hazeAhead, repaintsDue } from './repaint-queue';
 import type { MeadowSound } from './sound';
-import { puffFrom, type Puffing, puffSpores } from './spores';
+import { drawnSize, puffFrom, puffSpores } from './spores';
 import type { Following, View } from './view';
 
 /** Above everything in the meadow, whose depth is where its foot stands. */
@@ -116,7 +116,7 @@ export class MushroomBed implements Following {
           this.scene,
           () => ({
             ...pick(shown.graphics, 'x', 'y'),
-            r: shown.size * shown.stands.zoom * 0.5,
+            r: drawnSize(shown) * 0.5,
           }),
           SPORE_DEPTH,
         );
@@ -400,15 +400,8 @@ export class MushroomBed implements Following {
       x: 0,
       y: capSurface(shown.genes, 0) * 0.9,
     });
-    // As big as it is drawn, read afresh as the puff drifts.
-    const drawn: Puffing = {
-      ...pick(shown, 'graphics', 'genes', 'turn'),
-      get size() {
-        return shown.size * shown.stands.zoom;
-      },
-    };
-    puffFrom(this.scene, drawn, crown, 0.75, SPORE_DEPTH);
-    this.voice.boing(Math.min(1.4, 180 / drawn.size));
+    puffFrom(this.scene, shown, crown, 0.75, SPORE_DEPTH);
+    this.voice.boing(Math.min(1.4, 180 / drawnSize(shown)));
     this.onTap(id);
   }
 }
