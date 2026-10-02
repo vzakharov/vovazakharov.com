@@ -13,31 +13,15 @@ import { wingspan } from '../../model/insect-outline';
 import { startLeg, steer } from '../../model/insect-steering';
 import { caughtAloft, type Flier, isShying } from '../../model/insects';
 import { smooth, wobble } from '../../model/motion';
-import { onHost } from './bed-place';
 import { containsCircle } from './hit-areas';
 import type { Lighting } from './ink';
-import {
-  type Away,
-  entryAloft,
-  legEnd,
-  ownAway,
-  reachesScreen,
-  seenFor,
-} from './insect-away';
-import {
-  type Aloft,
-  aloftAt,
-  aloftFramed,
-  centreOf,
-  framedOf,
-  mixD,
-  type SeatEnds,
-} from './insect-frame';
+import { type Away, entryAloft, legEnd, ownAway, seenFor } from './insect-away';
+import { drawnInsect } from './insect-drawn';
+import { type Aloft, aloftAt, centreOf, framedOf, mixD } from './insect-frame';
 import { drawLook, fidget, lookOf, newDrink, poseLook } from './insect-look';
-import { drawnFlier, drawnSitter, seatAloft } from './insect-seat';
-import { InsectShadows, shadowOf } from './insect-shadow';
+import { seatAloft } from './insect-seat';
+import { InsectShadows } from './insect-shadow';
 import { freshShown, legSetOff, type Shown } from './insect-shown';
-import { sinkingOf, type Under } from './insect-sink';
 import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
 import { isSeated, type PerchAt } from './perch-hosts';
@@ -281,69 +265,45 @@ export class InsectView {
       bob: bob / size,
       flown,
     });
-    const ends: SeatEnds = {
-      ...(leg.from.kind === 'away' ? {} : pick(shown, 'from')),
-      ...(perched ? { to: end } : {}),
-    };
-    const forward = mixD(start.forward, framedEnd.forward, flown);
-    const lifted = (down: number) =>
-      drawnFlier(
-        view,
-        aloftFramed(view, centre, {
-          x: point.x + offset.x * zoom,
-          y: point.y + (offset.y + down) * zoom,
-          forward,
-        }),
-        flown,
-        ends,
-      );
-    const flying = lifted(0);
-    shown.drawn = flying.aloft;
     // Fading out as it lands, and in as it takes off from a seat.
     const presence =
       (perched ? smooth((leg.arrives - now) / SHADOW_FADE) : 1) *
       (isSeat(leg.from) ? smooth((now - leg.departs) / SHADOW_FADE) : 1);
-    const ground = flying.sinking?.ground;
-    this.shadows.lay(
-      id,
-      ground && shadowOf(view, ground, shown.span, presence),
-    );
-    const sinking = bob === 0 ? flying.sinking : lifted(bob).sinking;
-    const sitter = sitting ? seat : undefined;
-    const middle = sitter
-      ? drawnSitter(view, sitter, { ...offset, y: offset.y + bob })
-      : sinking?.drawn;
-    const under: Under | undefined = sitter
-      ? sitter.on.stands
-      : sinking && { ...sinking.ground, depth: sinking.ground.y };
-    const sunk =
-      middle &&
-      under &&
-      sinkingOf(view, middle, shown.span * middle.zoom, under, this.depth);
-    const visible =
-      middle !== undefined &&
-      sunk?.shown === true &&
-      reachesScreen(view, middle, shown.span);
-    shown.container.setVisible(visible);
-    if (!visible) return;
-    shown.container.setDepth(sunk.depth).setAlpha(sunk.alpha);
-    const { x, y } = middle;
-    const drawnZoom = middle.zoom;
+    const drawn = drawnInsect(view, {
+      frameAt: centre,
+      at: point,
+      zoom,
+      forward: mixD(start.forward, framedEnd.forward, flown),
+      offset,
+      sunk: bob,
+      flown,
+      ends: {
+        ...(leg.from.kind === 'away' ? {} : pick(shown, 'from')),
+        ...(perched ? { to: end } : {}),
+      },
+      ...(seat && { seat }),
+      sitting,
+      presence,
+      above: this.depth,
+      ...pick(shown, 'span'),
+    });
+    shown.drawn = drawn.aloft;
+    this.shadows.lay(id, drawn.shadow);
+    const { posed } = drawn;
+    shown.container.setVisible(posed !== undefined);
+    if (!posed) return;
+    const { middle, depth, alpha, hit, nectar } = posed;
     shown.container
-      .setPosition(x, y)
+      .setDepth(depth)
+      .setAlpha(alpha)
+      .setPosition(middle.x, middle.y)
       .setRotation(turn)
-      .setScale(jolt * (1 - bob / size / 2) * drawnZoom);
-    // A finger's reach on the screen, however small the insect is drawn.
-    shown.hit.setTo(0, 0, tapReach((shown.span * drawnZoom) / 2) / drawnZoom);
-    const nectar = seat?.nectar && onHost(seat.on, seat.nectar);
+      .setScale(jolt * (1 - bob / size / 2) * middle.zoom);
+    shown.hit.setTo(0, 0, hit);
     poseLook(shown.look, moment, {
       middle,
       rotation: turn,
-      // Where the nectar is to the body as the look draws it, unzoomed.
-      nectar: nectar && {
-        x: x + (nectar.x - x) / drawnZoom,
-        y: y + (nectar.y - y) / drawnZoom,
-      },
+      ...(nectar && { nectar }),
     });
   }
 
