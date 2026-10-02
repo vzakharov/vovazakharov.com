@@ -369,14 +369,20 @@ with his words and what it beat: `bite-12/v14.md`.
 2. The play run at the final HEAD under § "How this elephant is eaten"'s
    rule. tabL and phoneP `meadow`,`veer` ran at f584982 (`v15-play.md`,
    frames in `v15/`); its harness reds went to `to-check.md`. Left:
-   - **A game red, traced, not fixed:** a fly leaving a mushroom the veer
-     play grew flies ~2.2× its cruise (fly-22, tabL, ~138 s; phoneP's
-     fly-25 likewise while the eye walks). Suspect `Perches.sightFrom`
-     correcting only `fromEye` and keeping `perchSight`'s laid-out x, y,
-     while the away place comes from the current view; the note has the
-     next probe. Fix with a unit test that fails before.
-   - The watch's one-line loosening: skip shying fliers in the heading
-     check (a dart moves without turning, by design).
+   - **A leg timed off its drawn length, traced** (`v15-flyspeed.md`):
+     every `Place` `sightFrom` gives is in the opening layout's frame, only
+     `fromEye` following the eye, so once the eye walks or turns a leg is
+     drawn at 0.3–1.5× (2.2× seen) its cruise — fly-22 had walked.
+     **Decided: every place, and `onscreenOf`, is measured in the eye's
+     frame** (`framedOf` at the eye's heading, the azimuth clamped to
+     `±FRAME_MARGIN`), which at the opening eye is the layout, so a leg
+     drawn on screen is timed by its drawn length. This overrides
+     `insects.md`'s ip-away call that kept places in the layout frame,
+     exact only at the opening eye. Beaten: correcting `x, y` per perch
+     after the fact (two frames still meet in `apartOf`). Facing away, a
+     release then flies out by the side, timed with `outFirst`.
+   - ~~The watch's one-line loosening~~ (293ea93): the heading check skips
+     a shying flier.
    - `--no-build --screens tabL --plays walk,planting,hold`.
 3. ~~The footstep level~~ — put to the operator's ear with Artifact version 14
    (`STEP_PEAK` 1.5, ~10 dB under a C5); it changes only on his word.
