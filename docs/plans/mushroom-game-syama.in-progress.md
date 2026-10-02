@@ -86,7 +86,10 @@ Standing rules for every session in the chain:
   package ends at its unit tests and gates, and adds to
   [to-check.md](mushroom-game-syama/to-check.md) what a person should look
   at to confirm it — kept from session to session, checked when he gets to
-  it, not on any schedule. `pnpm play:mushrooms` stays in the tree, unrun.
+  it, not on any schedule. A screenshot looked at by eye is still in
+  bounds; a scripted multi-step scenario is not («что-то оставить можно —
+  типа там, сделать скриншот, посмотреть на глаз — но не трёхэтажные
+  сценарии»). `pnpm play:mushrooms` stays in the tree, unrun.
 - **Every bite ends by committing the frames worth showing** — picked from
   `tmp/play/`, not the whole run — to
   `docs/remove-before-merging/frames/bite-<n>/`, so the operator can look in
