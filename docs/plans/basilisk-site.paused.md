@@ -121,6 +121,13 @@ These live in `.claude/rules/basilisk-voice.md`, path-scoped like `lsa-voice.md`
 
 ## Progress
 
+**Third session — paused for the context budget after steps 7–8 and most of 9.** Left: settle the one vet failure below, then `/polish` and `/pr`.
+
+- Step 7: `.claude/rules/basilisk-voice.md`, and the three dossiers, written only from sources fetched in that session. Left out because no reachable source carries them: the handle `terrafying`, a live stream, the Llama/Phi model list (Cybernews 403s with no archive copy), and hitchBOT's arms and its Germany/Netherlands trips (CS Monitor 403s, archive too). The Machine headline's "Apple engineer" is cited as `[An engineer]`, per the rule against repeating an employer. Gizmodo and Humanoids Daily have no Wayback copy yet, so those sources carry no `archive:`.
+- Step 8: README, `content.md` paths, `fsd.md` tables, `/preview`'s site list, and CLAUDE.md through `.claude/staged/CLAUDE.md.staged`. `stack.md` already said four builds.
+- Step 9: `./scripts/vet.sh` passes but for **one eslint error**: `@typescript-eslint/no-unnecessary-type-parameters` on `articleRoute<C>` in `src/pages/documents/ui/article-page.tsx`. The generic is the correlated-union pattern (microsoft/TypeScript#47109) that types `HANDLES[collection]` and `ARTICLE_SLOTS[collection]` together; removing it breaks `slots?.brief?.(document)`. It goes to the operator, since the alternatives are a suppression (theirs to approve) or a per-key route table that restates every collection. The other findings are fixed, in 416db12: named prop types, `Labeled`/`Titled`, `pick`, `currentcolor`, and the dossier enums and `DossierSource` no longer exported.
+- `/preview` is done: home, about and a dossier, light and dark. Fine but for straight quotes drawn as double primes, now curly. The GRADE stamp is monochrome; the red is the seal's alone.
+
 Paused for the context budget a second time. The tree type-checks; `pnpm build:basilisk` stops only at `/[...slug]` missing `generateStaticParams()`, because static export refuses a catch-all with no dossiers — step 7 clears it. Nothing has been vetted.
 
 **Done in the second session:**
