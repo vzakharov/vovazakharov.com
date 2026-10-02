@@ -116,16 +116,24 @@ export function layoutPlace({ x, y }: Point): BedPlace {
   };
 }
 
+/**
+ * Where a thing standing on `foot`, laid out at `laid`, is drawn: through
+ * `view` (`bedPlace`), or where the layout stands it while a bed has
+ * followed no view yet.
+ */
+export function viewedOrLaid(
+  view: View | undefined,
+  foot: Ground,
+  laid: Point,
+  height?: number,
+): BedPlace {
+  return view ? bedPlace(view, foot, height) : layoutPlace(laid);
+}
+
 /** A thing not drawn, as it waits for a place. */
 export const UNPLACED: BedPlace = {
-  x: 0,
-  y: 0,
-  zoom: 1,
-  ahead: Infinity,
-  distance: Infinity,
-  depth: 0,
+  ...layoutPlace({ x: 0, y: 0 }),
   drawn: false,
-  behind: false,
 };
 
 /** What a bed object takes its place through. */

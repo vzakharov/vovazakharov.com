@@ -31,7 +31,7 @@ import {
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
 import type { Footed } from '../../model/placement';
-import { bedPlace, layoutPlace, onHost, standAt, UNPLACED } from './bed-place';
+import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
 import { placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
 import { tappedDoor } from './door-tap';
@@ -354,9 +354,7 @@ export class MushroomBed implements Following {
    * layout, puts its foot: all three hidden together once it has sunk away.
    */
   private stand(shown: Shown): void {
-    const place = this.view
-      ? bedPlace(this.view, shown.foot, shown.tall)
-      : layoutPlace(shown.laid);
+    const place = viewedOrLaid(this.view, shown.foot, shown.laid, shown.tall);
     shown.stands = place;
     standAt(shown.graphics, place);
     standAt(shown.shadow, place, SHADOW_NEARER);

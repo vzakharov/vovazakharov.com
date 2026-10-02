@@ -20,7 +20,7 @@ import { sameFoot } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import type { Camera, FlowerFoot, Rooted } from '../../model/ground';
 import { between, type Random } from '../../model/random';
-import { depthOf, UNPLACED } from './bed-place';
+import { bedPlace, depthOf, UNPLACED } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { coversShown, inSightPast } from './flower-cover';
@@ -48,15 +48,7 @@ import {
 } from './grass';
 import type { MeadowLayout } from './layout';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
-import {
-  behindHills,
-  cull,
-  ofGround,
-  onScreen,
-  sunk,
-  sunkAway,
-  type View,
-} from './view';
+import { ofGround, onScreen, type View } from './view';
 
 /**
  * How many tufts the ground grows per 1000 CSS px of its world across: a
@@ -281,9 +273,8 @@ export type ShownGrass = { near: ShownSprout[]; behind: ShownSprout[] };
 /**
  * Where `view` draws each of `sprouts`: at its foot, its size scaled by its
  * zoom and its colours toned by the screen row it stands on, as the ground's
- * bands are. A tuft too near the eye (`cull`), or off the screen, is not
- * drawn; one past the ground's top row sinks under the ground (`sunk`) until
- * too little of it shows to draw (`sunkAway`).
+ * bands are, placed as a bed places what stands on the ground (`bedPlace`).
+ * A tuft that place does not draw, or off the screen, is not drawn.
  */
 export function shownSprouts(
   view: View,
@@ -292,11 +283,10 @@ export function shownSprouts(
   const shown: ShownGrass = { near: [], behind: [] };
   const depth = view.height - view.groundTop;
   for (const sprout of sprouts) {
-    const placed = sunk(view, ofGround(view, sprout.foot));
-    if (cull(placed)) continue;
+    const placed = bedPlace(view, sprout.foot, TUFT_HEIGHT * sprout.tuft.size);
+    if (!placed.drawn) continue;
     const size = sprout.tuft.size * placed.zoom;
     if (!onScreen(view, placed, -BLADE_OVERHANG * size)) continue;
-    if (sunkAway(view, placed, TUFT_HEIGHT * size)) continue;
     const down = Math.max(0, placed.y - view.groundTop) / depth;
     const tuft = {
       ...sprout.tuft,
@@ -304,7 +294,7 @@ export function shownSprouts(
       ...pick(placed, 'x', 'y'),
       size,
     };
-    (behindHills(placed) ? shown.behind : shown.near).push({ tuft, sprout });
+    (placed.behind ? shown.behind : shown.near).push({ tuft, sprout });
   }
   return shown;
 }
