@@ -62,7 +62,7 @@
     ".claude/skills/squash-message/",
     ".claude/skills/sync-branch/",
     {
-      ".claude/skills/tend-prose/": "taken with one fix the source still lacks: § \"Rule or README?\" cites the two rule homes as 4 and 5, the rows the homes table gives them. The source's copy says \"homes 3 and 4\", a numbering its own table no longer has."
+      ".claude/skills/tend-prose/": "taken with one fix the source still lacks: § \"Rule or README?\" cites the two rule homes as 4 and 5, the rows the homes table gives them. The source's copy says \"homes 3 and 4\", a numbering its own table no longer has — vzakharov/muthur#133, whose fix retires this note."
     },
     ".claude/skills/watch-ci/",
     "scripts/check-claude-md-size.sh",
