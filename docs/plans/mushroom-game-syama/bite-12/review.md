@@ -47,6 +47,10 @@ the diff from dd3503d2. Each finding's call, and what it beat.
    it with a mushroom selected and the flower picker open. A touch outside
    an open picker shuts it, a drag included (the game's call, as every
    picker); the check is that the drag grows, plants and selects nothing.
+   The game never holds both at once (`game.ts`: `tuft`/`flower` clear
+   `selected`, `select` clears `planting`), so it is **two drags**: one
+   with a mushroom selected, one with the picker open on a tuft. Beaten:
+   one of the two (leaves the other state unread).
 4. **A note key sows behind a mushroom** (`planter.ts`, `FlowerBed.inView`):
    a key plants on, and plays, only a tuft or flower the child can see —
    on screen and not covered by a nearer cap (`cap-cover.ts`'s cover, as
