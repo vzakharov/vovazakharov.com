@@ -178,12 +178,27 @@ RING_DEPTH)` on the stored plane, turned with the stand's anchor heading
   from its view's eye and now judges there too. `anchored-stand.ts`'s
   `Seeded` is `Pick<Stand, …>` (type-overlap). Play on tabL, plays
   `walk,tufts`: green, including the walk 19 units back.
-- **Step 4 not built** (flowers off the opening laid at `{x: 0, z: 0}`).
+- **Step 4 — planted flowers laid in their own frame, built.**
+  `laidFlower(camera, foot)` (`flower-layout.ts`) lays a flower at the
+  clump's front foot straight ahead at its plane size; `FlowerBed.paint`
+  lays every planted flower (child's and bee's) there with `opening:
+CLUMP_DISTANCE`, a seeded one where the layout stands it, and lights it
+  from its opening place (`stood.place`). Drawn size is today's
+  (`flower-layout.test.ts` § "laidFlower"). `seat` reads `laid.place`, so
+  its seat/nectar are in the laid frame and `drawn`/`onHost` stay true —
+  the same frame `MushroomBed.capTop` gives a mushroom off the opening;
+  `seatAloft`'s undrawn path (`aloftOfLayout(view, seat, laidFoot.y)`)
+  therefore puts an undrawn planted flower's seat at the clump's spot, as
+  it does an undrawn off-opening mushroom's (I's call).
+- **Play red this makes, a harness line (scripts/, not mine):**
+  `play-buzzers.ts`'s "the planted flower is not drawn full grown" reads
+  `shown.container.scaleY`, now `emerge × stands.zoom` (0.70 on tabL for a
+  flower ~10.6 ahead). Fix at `scripts/lib/play-buzzers.ts:90`:
+  `scale: shown.container.scaleY / shown.stands.zoom`. "a bee drawn 29.1 px
+  across, under 30" on tabL `planting` is red without step 4 too.
 
 ## Left
 
-- The rest of L3: flowers off the opening laid in their own frame (step 4,
-  design under § "L3b").
 - **Found, not settled — a bee's ring slot moves with the eye.** `ringFoot`
   lays `RING_SLOTS` (offsets in `Ground`) on the parent's ground in whatever
   frame its foot arrives in. In an anchored stand (`anchoredStand` keeps a

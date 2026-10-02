@@ -14,7 +14,12 @@ import {
   containsPoint,
   type Point,
 } from '../../model/geometry';
-import { groundFootOf, planeFootOf } from '../../model/ground';
+import {
+  CLUMP_DISTANCE,
+  gathered,
+  groundFootOf,
+  planeFootOf,
+} from '../../model/ground';
 import { geneBounds } from '../../model/mushroom-genes';
 import { mulberry32 } from '../../model/random';
 import { placeIn } from './clump-layout';
@@ -25,6 +30,7 @@ import {
   FOOT_CLEARANCE,
   type Footing,
   groundOf,
+  laidFlower,
   MOST_SHADED,
   standingOn,
   widestHead,
@@ -137,6 +143,28 @@ function sounds(flowers: readonly StandingFlower[]): string[] {
     .map((flower) => JSON.stringify(soundOf(flowerGenes(flower))))
     .toSorted();
 }
+
+describe('laidFlower', () => {
+  it('lays a flower out so that, drawn as far ahead as it stands, it is the size the opening eye stands it at', () => {
+    const { layout } = opened(1, 1180, 820, false);
+    for (const [x, y] of [
+      [0, 5],
+      [-3, 7.5],
+      [4, 12],
+      [1, 18],
+    ] as const) {
+      const foot = { x, y, size: 0.4 };
+      const drawn =
+        (laidFlower(layout.camera, foot).size * CLUMP_DISTANCE) /
+        gathered(foot).y;
+      const stood = standingOn(layout.camera, foot).size;
+      assert.ok(
+        Math.abs(drawn - stood) < 1e-9 * stood,
+        `${String(x)}, ${String(y)}`,
+      );
+    }
+  });
+});
 
 describe('the seeded flowers', () => {
   it('sound each seeded sound once in each half of the world', () => {

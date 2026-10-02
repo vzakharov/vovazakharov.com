@@ -22,7 +22,7 @@ import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
 import { drawFlower } from './draw-flower';
 import { coversShown, inSightPast } from './flower-cover';
 import { FlowerHold } from './flower-hold';
-import { FLOWER_SWAY } from './flower-layout';
+import { FLOWER_SWAY, laidFlower } from './flower-layout';
 import { type StandingFlower, standingFlowers } from './flower-plots';
 import { FlowerRing, type Ringed } from './flower-ring';
 import {
@@ -50,6 +50,29 @@ import { type Following, onScreen, type View } from './view';
 const BROW_FADE = 1.5;
 
 /** `plantedAt`: `-Infinity` for a seeded flower, standing from the start. */
+/** How far ahead of the eye a thing is laid out at, where it is not where the layout stands it (`viewedOrLaid`). */
+type LaidAhead = { opening?: number };
+
+/**
+ * Where the bed lays `stood` out to paint it on `layout`: where the layout
+ * stands it for one of the visit's `seeded` flowers, any other at
+ * `CLUMP_DISTANCE` in a frame of its own (`laidFlower`).
+ */
+function laidOut(
+  layout: MeadowLayout,
+  stood: StandingFlower,
+  seeded: boolean,
+): Pick<StandingFlower, 'foot' | 'place'> & LaidAhead {
+  const { foot, place } = stood;
+  return seeded
+    ? { foot, place }
+    : {
+        foot,
+        place: laidFlower(layout.camera, foot),
+        opening: CLUMP_DISTANCE,
+      };
+}
+
 type Shown = TappedFigure &
   Sprouted &
   Centred &
@@ -59,10 +82,12 @@ type Shown = TappedFigure &
     /** Where the head stands on its stem as laid out, before a drinking insect sags it. */
     headY: number;
     /**
-     * Where the layout stands its foot, on the ground and in world px at the
-     * opening eye; `undefined` while the screen has no room for it.
+     * Its foot on the plane, and where the bed lays it out to paint it, in
+     * world px at the opening eye: a seeded flower where the layout stands
+     * it, any other `opening` ahead in a frame of its own (`laidFlower`);
+     * `undefined` while the screen has no room for it.
      */
-    laid: Pick<StandingFlower, 'foot' | 'place'> | undefined;
+    laid: (Pick<StandingFlower, 'foot' | 'place'> & LaidAhead) | undefined;
   };
 
 /**
@@ -142,20 +167,22 @@ export class FlowerBed implements Following {
       this.mushrooms,
       this.pulled,
     );
+    const seededIds = new Set(this.seeded.map(({ id }) => id));
     for (const flower of [...this.seeded, ...this.planted]) {
       const shown = this.shown.get(flower.id) ?? this.show(flower, -Infinity);
       const stood = standing.find(({ id }) => id === flower.id);
       // A screen may have no room for some; they wait, hidden.
-      shown.laid = stood && pick(stood, 'foot', 'place');
+      shown.laid = stood && laidOut(layout, stood, seededIds.has(flower.id));
       this.stand(shown);
-      if (!stood) continue;
-      const { place } = stood;
+      if (!stood || !shown.laid) continue;
+      const { place } = shown.laid;
       const genes = flowerGenes(flower);
+      // Lit from where the layout stands it, as the opening eye sees it.
       shown.headR = drawFlower(
         shown,
         genes,
         place.size,
-        flowerLight(lighting, genes, place, layout.sun),
+        flowerLight(lighting, genes, stood.place, layout.sun),
       );
       shown.headY = shown.head.y;
       shown.disc = genes.centre * place.size;
@@ -216,7 +243,13 @@ export class FlowerBed implements Following {
   private stand(shown: Shown): void {
     const { laid, container, headR, headY } = shown;
     const place = laid
-      ? viewedOrLaid(this.view, laid.foot, laid.place, headR - headY)
+      ? viewedOrLaid(
+          this.view,
+          laid.foot,
+          laid.place,
+          headR - headY,
+          laid.opening,
+        )
       : UNPLACED;
     shown.stands = place;
     standAt(container, place);

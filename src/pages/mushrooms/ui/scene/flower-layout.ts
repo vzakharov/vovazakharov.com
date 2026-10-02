@@ -130,6 +130,16 @@ function standingOnGround(camera: Camera, foot: GroundFoot): Footing {
   return { x, y, size: foot.size * scale };
 }
 
+/**
+ * Where a bed lays a flower grown off the opening out to paint it: at the
+ * clump's front foot straight ahead, `CLUMP_DISTANCE` from the eye, at
+ * `foot`'s size, so it is painted once wherever it stands, the view drawing
+ * it smaller the farther it is (`laidOf`, for a mushroom).
+ */
+export function laidFlower(camera: Camera, { size }: Footing): Footing {
+  return standingOnGround(camera, { x: 0, z: 0, size });
+}
+
 /** Where `foot` stands on the screen `camera` shows, and how big. */
 export function standingOn(camera: Camera, foot: Footing): Footing {
   return standingOnGround(camera, groundFootOf(foot));
