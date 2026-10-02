@@ -8,8 +8,9 @@
 
 import type { Point } from '../../model/geometry';
 import { D_SEE, type Eye, type Footing, type Rooted } from '../../model/ground';
-import { mulberry32, type Random } from '../../model/random';
+import { mulberry32, type Random, type Seeded } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
+import type { Stand } from './flower-sight';
 import { tuftOn, type WithTuft } from './grass';
 import type { MeadowLayout } from './layout';
 import { PALE_SPAN } from './repaint-queue';
@@ -86,7 +87,7 @@ export function regrowTufts(
 }
 
 /** A lawn: the visit's `seed`, which every cell's stream is drawn off, laid out on `layout`. */
-export type Lawn = { seed: number; layout: MeadowLayout };
+export type Lawn = Seeded & Pick<Stand, 'layout'>;
 
 /** The `TUFTS_PER_CELL` tufts `cell` of `lawn` grows, anywhere in the cell, each in a flower's size. */
 export function cellTufts(lawn: Lawn, cell: Cell): Sprout[] {
