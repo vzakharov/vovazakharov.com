@@ -67,6 +67,8 @@ export type Shown = TappedFigure &
     aim: Point | undefined;
     /** How it was turned as its leg set off, which it turns from into its heading; `undefined` flying in. */
     turnedFrom: number | undefined;
+    /** The way it darts on a leg it shies on (`dartWay`), from where the finger that caught it last landed. */
+    dartWay: Point;
   };
 
 /** An insect just shown, before its first paint and its first frame: still, untapped, at `from`. */
@@ -93,6 +95,7 @@ export function freshShown(
     steering: firstSteering({ facing: 0, turn: 0 }),
     aim: undefined,
     turnedFrom: undefined,
+    dartWay: { x: 0, y: -1 },
     carried: { launch: 0, speed: 0, drink: 0 },
     phase: phaseOf(parts.flier),
     tappedAt: -Infinity,

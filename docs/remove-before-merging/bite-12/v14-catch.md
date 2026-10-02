@@ -14,12 +14,22 @@
   `insects.test.ts`; `game.test.ts`'s startle test now expects a leg from a
   catch in the air.
 
+- **Step 2, the scene** — the tap handler in `insect-view.ts` checks
+  `caughtAloft` at the tap: caught in the air, it stores `dartWay` from the
+  finger to the insect's drawn middle (`Shown.dartWay`) and plays
+  `MeadowSound.shy(kind)`; otherwise the take-off voice as before. Each frame
+  of a leg `isShying` lays `dartAt × dartWay` (in the insect's size in its
+  frame) over the steered point, before the plane mapping, so the drawn
+  point, the hit circle and the next leg's start all carry it. `SHY` voices
+  in `insect-voices.ts`: a butterfly's trill tumbling down an octave higher
+  and quicker; a fly's high, thin whine sliding up; a bee's buzz pitched up
+  and sharpened, sliding up.
+
 ## Left
 
-- Step 2, the scene: lay `dartAt × dartWay` over the flight in
-  `insect-view.ts` while `isShying`, the way computed at the tap; shy voices
-  per kind in `insect-voices.ts`, played in place of the take-off voice on a
-  catch in the air.
+- The play run, for the flier watch's bounds with a catch in the air (the
+  play run does not tap fliers in flight today, so it will not exercise the
+  dart unless taught to).
 
 ## Decided
 
@@ -30,3 +40,7 @@
   do, so the turn-rate bound is untouched; its step is under a third of a size
   per frame on the shortest leg any kind flies.
 - A hover at a spot in the air counts as caught in the air.
+- A buzz's beat oscillator now slides with the wing's (`glide`), where it
+  stayed put before: the take-off buzz's tail beats at its 1.3% detune
+  instead of drifting ~10% off.
+- `insect-view.ts` stands at 456 lines.
