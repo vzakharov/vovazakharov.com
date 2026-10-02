@@ -37,5 +37,5 @@
 - Out of view 0.91: the brow-to-out chord's logMean against the drawn mix.
 - Per-insect span/drop are drawn but timed at the reference insect (veer-away
   measures phase 0, the reference's drop).
-- `fliers.test.ts` run; a released insect facing a shown perch is still timed
+- `fliers.test.ts` passes (48/48). A released insect facing a shown perch is still timed
   from `shownOf`'s screen edge but drawn from the brow (not in this package).
