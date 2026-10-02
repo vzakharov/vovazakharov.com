@@ -16,6 +16,20 @@
   holds the own-size floor and notes the drawn one. The drawn size is a
   look call: `to-check.md` § "Хвост 12b, прогон". Green on tabL.
 
+- **Step 2, `fliers.test.ts` runs at full length; the speed-up is real.**
+  48 cases (6 viewports × 8: the air, 2 × 2 all-ten, the bees, the flies,
+  the catch), 48/48 green in 2 min 0 s here. The file changed only in
+  f83d06c (an import), `LASTING` 5 min / `TICK` 250 untouched, and
+  `visit-play.ts`'s `play` loops `now` to `lasting` with no exit. Probe
+  over the all-ten visits (6 × 2 × 3) at f83d06c (I2, the 5 min 9 s run)
+  and at this tip: 1201 ticks to 300 000 ms in every visit on both; the
+  bees plant 66–81 flowers a visit now against 109–171 then, and each
+  `perchSight` rerun after a planting costs 3.2–5.3 ms against 5.8–14.2
+  (fewer flowers to place), so those visits take 33 s against 106 s. The
+  drop came with L3's 48-flowers-within-sight cap (56a1df4, "bee rings no
+  longer sow the endless field without bound") and the planter's rules
+  from the eye between I2 and I3–I5's run, not from the test.
+
 ## Left
 
-- Step 2 (`fliers.test.ts` at full length), step 3 (full play run, frames).
+- Step 3 (full play run, frames).
