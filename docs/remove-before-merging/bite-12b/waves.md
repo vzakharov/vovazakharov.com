@@ -194,6 +194,10 @@ the two share only `flower-bed.ts`, I‴ touching `seat` alone.
   foot rather than the heading (18 % → under 5 %); a seeded flower's
   `opening` is `gathered(foot).y`. **Package I done.**
 
+- **Flower bed** — ab236a5e: `flower-shown.ts` split out (`Shown`,
+  `laidOut`, `unplacedShown`, `paintShown`), the bed 422 lines, `seat`
+  stays. Done; note `fbed.md`.
+
 ## Wave 5
 
 L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half
