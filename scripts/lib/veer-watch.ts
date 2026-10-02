@@ -9,7 +9,10 @@
 import { z } from 'zod';
 
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
-import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
+import {
+  LANDING,
+  wrap,
+} from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import { SEAT_FADE } from '../../src/pages/mushrooms/ui/scene/insect-frame.ts';
 
@@ -211,17 +214,23 @@ function drawnPairs(seen: readonly Sample[]) {
  * A frame's drawn step, in CSS px, for an insect drawn on both frames of the
  * same leg with the eye standing or turning no more than a held turn does
  * (`eyeMoved`), and how long the frame took, in ms: a frame the browser ran
- * late moves it as far as the time it spans.
+ * late moves it as far as the time it spans. A held turn slides everything
+ * drawn across by `arc` px to the radian it turns (`ground.ts`'s `viewOf`),
+ * so that slide is taken out and the step is the insect's own.
  */
 export function steps(
   seen: readonly Sample[],
+  arc: number,
 ): Array<{ step: number; at: Sample; time: number }> {
   return drawnPairs(seen).flatMap(({ was, at, eye }) =>
     eye
       ? []
       : [
           {
-            step: Math.hypot(at.x - was.x, at.y - was.y),
+            step: Math.hypot(
+              at.x - was.x + arc * wrap(at.heading - was.heading),
+              at.y - was.y,
+            ),
             at,
             time: at.now - was.now,
           },

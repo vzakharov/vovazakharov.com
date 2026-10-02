@@ -343,8 +343,8 @@ export async function playVeer(
 
   // 3 and 4 over the whole run: zoom, the fly's pace, flicks.
   zooms(seen, lens, expect, note);
-  pace(seen, butterfly, note);
-  flicks(seen, width, butterfly, expect, note);
+  pace(seen, lens, butterfly, note);
+  flicks(seen, lens, width, butterfly, expect, note);
 
   // Where round the eye a child can grow a perch: the `+` has room and a tuft
   // a tap reaches bare is drawn. Last, its snaps past every measure.

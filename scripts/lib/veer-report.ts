@@ -227,6 +227,7 @@ export function zooms(
 /** Each fly leg flown whole: its pace in butterfly sizes a second as drawn, and how far it had flown a fifth of the way in. */
 export function pace(
   samples: readonly Sample[],
+  lens: Pinhole,
   butterfly: number,
   note: Note,
 ): void {
@@ -247,7 +248,7 @@ export function pace(
     ) {
       return [];
     }
-    const moves = steps(flight);
+    const moves = steps(flight, lens.arc);
     let sizes = 0;
     for (const { step, at } of moves) sizes += step / (butterfly * at.zoom);
     const fastest = Math.max(
@@ -293,6 +294,7 @@ export function pace(
  */
 export function flicks(
   samples: readonly Sample[],
+  lens: Pinhole,
   width: number,
   butterfly: number,
   expect: Expect,
@@ -302,7 +304,7 @@ export function flicks(
   const frame = 1000 / FPS;
   // A frame the browser ran late is held to the frames it spans.
   const all = insects.flatMap((frames) =>
-    steps(frames).map(({ step, at, time }) => ({
+    steps(frames, lens.arc).map(({ step, at, time }) => ({
       step: step * Math.min(1, frame / time),
       at,
       time,
