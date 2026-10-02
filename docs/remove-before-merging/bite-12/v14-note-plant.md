@@ -41,4 +41,9 @@ no free tuft, octave; `sowingTuft`; the `sow` reduction).
 view, F struck twice in one frame, grows four flowers on tufts each of its
 note, and F struck again grows none.
 
-**Left**: see the commits below for the probe run and the frame.
+**Probe** (tabL, `--plays keys`, after acefe5b): green — the melody grew
+planted-1…4, F struck again grew 0; the picker-open key checks held; frame
+median 10.0 ms. Frames `frames/bite-12/v14/tabL-keys-melody-{before,meadow}.png`.
+
+**Commits**: acefe5b (the rule, the play check). **Left**: nothing; the
+other four screens not run.
