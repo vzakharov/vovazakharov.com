@@ -44,9 +44,9 @@ Contract: the plan's § "Rest of the bite" → "The operator's play of version
      scale the hop by.
    - The play's watches leave it alone: the heading check and the hover
      overlap check read only frames before arrival; a hop's fastest frame,
-     0.36 fly sizes = 0.20 butterfly sizes, is under the veer bound
-     (1.1 × 0.46).
+     0.50 fly sizes = 0.28 butterfly sizes, is under the veer bound
+     (1.1 × 0.577).
 
 ## Left
 
-3. The tabL play and its frames. (`fliers.test.ts`: 48/48 at the settled dash.)
+3. The tabL play (`pnpm play:mushrooms --screens tabL --plays meadow` releases the buzzers — `play-buzzers.ts` runs inside `meadow`; `veer` too) and a frame or two of a fly mid-hop to `docs/remove-before-merging/frames/bite-12/v14/`. Not run: the context budget ran out first. `fliers.test.ts`: 48/48 at the settled dash.
