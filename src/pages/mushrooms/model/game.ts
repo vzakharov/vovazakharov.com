@@ -96,6 +96,8 @@ export type Action =
   | ({ kind: 'flower' } & WithId & Rooted)
   | ({ kind: 'colour' } & Chosen)
   | { kind: 'plant'; shape: FlowerShape }
+  // A key's flower grown on a tuft, the picker shut: none in view sounded it.
+  | ({ kind: 'sow' } & Seeded & Rooted)
   // The picker's cross: pulls up the flower it is open on.
   | { kind: 'pull' }
   // A tap on a control that changes nothing here, the mute's: it closes
@@ -321,6 +323,14 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         // The flower picked over goes, and the new one opens in its place.
         pulled: flower === undefined ? pulled : [...pulled, flower],
         planting: undefined,
+      };
+    }
+    case 'sow': {
+      const { planted } = meadow;
+      const { seed, foot } = action;
+      return {
+        ...meadow,
+        planted: [...planted, { id: plantedId(planted), seed, foot }],
       };
     }
     case 'grow': {
