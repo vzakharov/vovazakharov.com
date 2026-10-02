@@ -51,6 +51,17 @@ and the hand-over note that holds its numbers (under
    which the scene takes from how the flier sat); the path moving during the
    pivot (changes every take-off's look for a 25% peak).
 
+6. **A leg to away is timed to the flier's own leaving spot** (3a0b29d,
+   `v21-fly18.md`): its own wingspan past the edge, at the height its phase
+   picks in the band, carried in the sight as `Sight.aways` beside `drawn`;
+   an insect without one keeps the band-middle spots. The way in has the
+   same mismatch unmeasured (`wayOutOf` → `awayOn` band-middle, `entryAloft`
+   the insect's own), fixed with the review's round.
+7. **What is left is accepted**: phoneP fly-26 3% over and tabL fly-3 2%
+   (cap→cap) at 3a0b29d, the size of the flutter `dashPeak` leaves out; no
+   bee over on either screen. Beaten: tracing a 2–3% residue, which no
+   child sees.
+
 **Where it stood at 300f3c0** (`v17-play.md`, tabL `veer,meadow`): units
 green (`fliers.test.ts` 48/48); fly overs 88, worst 71 px against 38 — 58
 from cut legs, 9 cap→away from rest, 14 whole cap→cap, 5 air→cap; bees 21,

@@ -374,9 +374,9 @@ with his words and what it beat: `bite-12/v14.md`.
    numbers and what it beat: `bite-12/leg-timing.md`. The frame median is
    noise in this container (same file). Left:
    - ~~Build `leg-timing.md` § 4~~ — built (47d3a06, e66e719).
-   - A play agent, tabL `veer`: tally the fly overs by leg kind again.
-     The cap→away-from-rest and whole cap→cap classes are traced only if
-     they survive; what a person cannot see goes to `to-check.md`.
+   - ~~The play and the surviving classes~~ — done (v18–v21): the pivot
+     allowance, the own leaving spot, the residue accepted
+     (`leg-timing.md` § 5–7). The way-in's leaving spot rides item 4's fixes.
 3. ~~The footstep level~~ — put to the operator's ear with Artifact version 14
    (`STEP_PEAK` 1.5, ~10 dB under a C5); it changes only on his word.
 4. The review subagent (§ "How this elephant is eaten" step 2) and its fixes.
