@@ -9,53 +9,63 @@
   "url": "https://claude.ai/code/session_01LEDXTiB87LW9A59svUQpYu",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-02T20:58:44.546Z",
-  "lastResponseAt": "2026-10-02T21:46:14.864Z",
+  "lastResponseAt": "2026-10-02T21:47:34.083Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 1883,
-    "cacheWrite5mTokens": 1143198,
-    "cacheWrite1hTokens": 105758,
-    "cacheReadTokens": 20178615,
-    "outputTokens": 19718,
-    "thinkingTokens": 2398,
-    "responses": 181,
-    "costUsd": 11.002903000000003
+    "inputTokens": 12436,
+    "cacheWrite5mTokens": 1167552,
+    "cacheWrite1hTokens": 118309,
+    "cacheReadTokens": 21998697,
+    "outputTokens": 21396,
+    "thinkingTokens": 2573,
+    "responses": 195,
+    "costUsd": 11.663801400000006
   },
   "ownTurns": {
-    "inputTokens": 63,
+    "inputTokens": 67,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 105758,
-    "cacheReadTokens": 3690058,
-    "outputTokens": 17432,
-    "thinkingTokens": 2308,
-    "responses": 29,
-    "costUsd": 1.9329676
+    "cacheWrite1hTokens": 118309,
+    "cacheReadTokens": 4012197,
+    "outputTokens": 18957,
+    "thinkingTokens": 2483,
+    "responses": 31,
+    "costUsd": 2.1283194
   },
   "subagents": {
-    "inputTokens": 302,
-    "cacheWrite5mTokens": 1142120,
+    "inputTokens": 320,
+    "cacheWrite5mTokens": 1165825,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 16023125,
-    "outputTokens": 2162,
+    "cacheReadTokens": 17199080,
+    "outputTokens": 2216,
     "thinkingTokens": 90,
-    "responses": 149,
-    "costUsd": 8.959672999999997
+    "responses": 158,
+    "costUsd": 9.314540999999997
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1883,
-      "cacheWrite5mTokens": 1143198,
-      "cacheWrite1hTokens": 105758,
-      "cacheReadTokens": 20178615,
-      "outputTokens": 19718,
-      "thinkingTokens": 2398,
-      "responses": 181,
-      "costUsd": 11.002903000000003
+      "inputTokens": 11516,
+      "cacheWrite5mTokens": 1167552,
+      "cacheWrite1hTokens": 118309,
+      "cacheReadTokens": 21998697,
+      "outputTokens": 21379,
+      "thinkingTokens": 2573,
+      "responses": 194,
+      "costUsd": 11.662796400000007
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 920,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 17,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.001005
     }
   },
   "warnings": [
-    "prices.json priced the 176 responses the events also priced at $10.7854, against the events' $12.2613: a rate in the table is likely out of date"
+    "prices.json priced the 188 responses the events also priced at $11.3729, against the events' $12.9511: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "Edit",
@@ -75,20 +85,30 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 179,
-    "matched": 176,
-    "matchedTableUsd": 10.785350200000003,
-    "matchedEventUsd": 12.261270200000002,
+    "events": 194,
+    "matched": 188,
+    "matchedTableUsd": 11.372934200000005,
+    "matchedEventUsd": 12.951094200000004,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 1518,
-        "cacheWrite5mTokens": 1078,
+        "inputTokens": 11129,
+        "cacheWrite5mTokens": 1727,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 465432,
-        "outputTokens": 124,
+        "cacheReadTokens": 787420,
+        "outputTokens": 206,
         "thinkingTokens": 0,
-        "responses": 3,
-        "costUsd": 0.11026240000000001
+        "responses": 5,
+        "costUsd": 0.21993600000000002
+      },
+      "generate_session_title": {
+        "inputTokens": 920,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 17,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.001005
       }
     }
   }
