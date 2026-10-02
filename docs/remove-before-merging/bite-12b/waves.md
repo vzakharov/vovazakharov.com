@@ -76,6 +76,19 @@ land below as they arrive.
   first); spore puffs and the boing read `shown.size` unzoomed;
   `pnpm type-overlap` red on two groups in `lawn.ts` (the next L agent's).
 
+- **Play** — 9e89d44, bbdd458 (note `play.md`; tabL only). `checkBack`:
+  ↓ 12 s lands 19.000 at let-go, 19.200 at rest, as expected. The
+  dense-forest approach is two clusters walked through (4 s of ↓ apart).
+  Probe `__probe.hitches()`: lawn re-tend 17 ms median / 151 ms worst, its
+  frames 49 ms against 19 ms plain — **a real hitch past the 26 ms
+  budget**; perch re-see +6 ms. Harness red loosened (to-check.md): the
+  walk-up stops at `CLOSE` × the size it set off at. Reds handed on: `+`
+  19 units out judged from the opening eye (S3 landed it; the scene wiring
+  is L′'s), no tufts far from the start (L′'s L3). **Orchestrator's call:**
+  the re-tend hitch is the tail's — spread the re-tend over frames or
+  shrink its sector — after L′ reports; the tail's play run covers the
+  other four screens on a quieter machine.
+
 ## Wave 4 (launched together)
 
 I′ (`perch-sight.ts` handed over: fliers on S3, I2's patch wired and
