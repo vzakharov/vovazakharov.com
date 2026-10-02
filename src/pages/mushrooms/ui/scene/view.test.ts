@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from '../../model/geometry';
+import { alongAzimuth, type Point } from '../../model/geometry';
 import {
   type Eye,
   EYE_HEIGHT,
@@ -49,11 +49,7 @@ const EYES: Eye[] = [
 /** A thing on the ground `distance` from `view`'s eye, `off` radians right of its heading, as the view places it. */
 function standing(view: View, distance: number, off: number): Placed {
   const { eye } = view;
-  const toward = eye.heading + off;
-  const plane = {
-    x: eye.x + distance * Math.sin(toward),
-    y: eye.y + distance * Math.cos(toward),
-  };
+  const plane = alongAzimuth(eye, eye.heading + off, distance);
   return { ...viewOf(view, eye, plane, 0), zoom: 1, distance };
 }
 
@@ -63,7 +59,7 @@ function standing(view: View, distance: number, off: number): Placed {
  * height below the horizon bent as the brow is, and drawn `zoom` times its
  * laid-out size.
  */
-function lensed(view: View, layout: Point): Point & { zoom: number } {
+function lensed(view: View, layout: Point): Zoomed {
   const { x: middle, y: horizon, focal } = pinholeOf(view);
   const left = (view.world - view.width) / 2;
   const azimuth = Math.atan((layout.x - left - middle) / focal);
@@ -77,6 +73,20 @@ function lensed(view: View, layout: Point): Point & { zoom: number } {
 
 /** How near two screen positions count as one, in CSS px. */
 const SAME_PX = 1e-9;
+
+type Zoomed = Point & { zoom: number };
+
+/** Asserts `placed` stands where `expected` does, within `across` px across and 1e-6 px down, at its zoom. */
+function assertPlacedAt(
+  placed: Zoomed,
+  expected: Zoomed,
+  at: string,
+  across = 1e-6,
+): void {
+  assert.ok(Math.abs(placed.x - expected.x) < across, `${at}: across`);
+  assert.ok(Math.abs(placed.y - expected.y) < 1e-6, `${at}: down`);
+  assert.ok(Math.abs(placed.zoom - expected.zoom) < 1e-9, `${at}: zoom`);
+}
 
 describe('the view', () => {
   for (const { name, camera } of CAMERAS) {
@@ -92,10 +102,12 @@ describe('the view', () => {
       for (const foot of FEET) {
         const placed = ofGround(view, foot);
         const expected = lensed(view, project(camera, foot));
-        const at = `foot ${JSON.stringify(foot)}`;
-        assert.ok(Math.abs(placed.x - expected.x) < SAME_PX, `${at}: across`);
-        assert.ok(Math.abs(placed.y - expected.y) < 1e-6, `${at}: down`);
-        assert.ok(Math.abs(placed.zoom - expected.zoom) < 1e-9, `${at}: zoom`);
+        assertPlacedAt(
+          placed,
+          expected,
+          `foot ${JSON.stringify(foot)}`,
+          SAME_PX,
+        );
       }
     });
 
@@ -110,12 +122,10 @@ describe('the view', () => {
         ]) {
           const placed = ofLayout(view, point, row);
           const expected = lensed(view, point);
-          const at = `foot ${JSON.stringify(foot)}, ${JSON.stringify(point)}`;
-          assert.ok(Math.abs(placed.x - expected.x) < 1e-6, `${at}: across`);
-          assert.ok(Math.abs(placed.y - expected.y) < 1e-6, `${at}: down`);
-          assert.ok(
-            Math.abs(placed.zoom - expected.zoom) < 1e-9,
-            `${at}: zoom`,
+          assertPlacedAt(
+            placed,
+            expected,
+            `foot ${JSON.stringify(foot)}, ${JSON.stringify(point)}`,
           );
         }
       }
@@ -129,10 +139,11 @@ describe('the view', () => {
           const { x, y, scale } = project(camera, foot);
           const perched = ofLayout(view, { x, y: y - lift * scale }, y);
           const stood = ofGround(view, foot, lift);
-          const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
-          assert.ok(Math.abs(perched.x - stood.x) < 1e-6, `${at}: across`);
-          assert.ok(Math.abs(perched.y - stood.y) < 1e-6, `${at}: down`);
-          assert.ok(Math.abs(perched.zoom - stood.zoom) < 1e-9, `${at}: zoom`);
+          assertPlacedAt(
+            perched,
+            stood,
+            `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`,
+          );
         }
       }
     });
