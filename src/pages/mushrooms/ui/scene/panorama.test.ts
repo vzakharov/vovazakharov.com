@@ -13,7 +13,6 @@ import {
   screenAt,
   shiftOf,
   shownAzimuths,
-  wrapAngle,
 } from './panorama';
 import { type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
@@ -107,9 +106,4 @@ describe('the panorama', () => {
       assert.ok(Math.abs(shiftOf(full, sun.x)) < 1e-6);
     });
   }
-
-  it('wraps an angle into a half turn either way', () => {
-    assert.ok(Math.abs(wrapAngle(Math.PI * 3.5) + Math.PI / 2) < 1e-12);
-    assert.equal(wrapAngle(0), 0);
-  });
 });

@@ -313,7 +313,11 @@ flier holding an air spot is drawn still, with no hover bob.
 wherever the child walks, nothing on it but grass until he plants it; the
 store, the light and the insects move onto the plane, and the clear-outs
 bite 12 left go. Its contract:
-[endless-field.md](mushroom-game-syama/endless-field.md).
+[endless-field.md](mushroom-game-syama/endless-field.md). Its § "The
+insects on the plane" predates bite 12's insect work — legs already carry
+height and plane poses (`model/flight-frame.ts`), and its unseen release
+facing away no longer matches `model/flight-in.ts` — so 12b reconciles it
+with the code before building from it.
 
 13. **Rain** — the shower itself; what it leaves behind is item 14. Its
     contract, the model already built (5c9f2e9):

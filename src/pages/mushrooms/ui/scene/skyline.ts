@@ -4,18 +4,12 @@
  * from any heading without painting.
  */
 
-import type { Point } from '../../model/geometry';
+import { type Point, wrap } from '../../model/geometry';
 import { type Camera, pinholeOf } from '../../model/ground';
 import type { Light } from '../../model/light';
 import { between, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
-import {
-  azimuthAt,
-  type Crest,
-  ringWave,
-  type WithCrest,
-  wrapAngle,
-} from './panorama';
+import { azimuthAt, type Crest, ringWave, type WithCrest } from './panorama';
 import { SUN_RAY_REACH } from './sun-layout';
 
 /** A skyline's points to a screen's width. */
@@ -131,7 +125,7 @@ function sunBowl({ sun, camera }: MeadowLayout): Crest {
   const depth = sun.r * PARTED_DEPTH;
   const spread = sun.r * Math.max(PARTED_SPREAD, SUN_RAY_REACH);
   return (azimuth) => {
-    const off = arc * wrapAngle(azimuth - middle);
+    const off = arc * wrap(azimuth - middle);
     return sun.y + depth - (depth * off ** 2) / (2 * spread ** 2);
   };
 }
@@ -235,6 +229,13 @@ export function seamReach({
   groundTop,
 }: Pick<MeadowLayout, 'height' | 'groundTop'>): number {
   return (height - groundTop) * SEAM_REACH;
+}
+
+/** The highest the seam rises, in CSS px down the screen. */
+export function seamTop(
+  layout: Pick<MeadowLayout, 'height' | 'groundTop'>,
+): number {
+  return layout.groundTop - seamReach(layout);
 }
 
 /**

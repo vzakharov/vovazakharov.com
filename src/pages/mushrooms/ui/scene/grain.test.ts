@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { grainPixels, grainStrips } from './grain';
 import { meadowLayout } from './layout';
-import { seamReach } from './skyline';
+import { seamTop } from './skyline';
 import { VIEWPORTS } from './viewports';
 
 describe('the grain', () => {
@@ -49,7 +49,7 @@ describe('the grain', () => {
   it('lies on the ground alone, from the seam’s highest point down, coming in by degrees', () => {
     for (const [, width, height] of VIEWPORTS) {
       const layout = meadowLayout(width, height, 3);
-      const top = layout.groundTop - seamReach(layout);
+      const top = seamTop(layout);
       const strips = grainStrips(layout, top);
       assert.equal(strips[0]?.top, top);
       assert.equal(strips.at(-1)?.bottom, height);

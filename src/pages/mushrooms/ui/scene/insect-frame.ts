@@ -14,7 +14,11 @@ import {
   type Framed,
   unframed,
 } from '../../model/flight-frame';
-import type { Point } from '../../model/geometry';
+import {
+  alongAzimuth,
+  distanceBetween,
+  type Point,
+} from '../../model/geometry';
 import {
   alongSight,
   bendAt,
@@ -149,18 +153,14 @@ export function veerOf(camera: Camera): Veer {
  */
 export function veered(eye: Eye, aloft: Aloft, veer: Veer): Aloft {
   const { near, width } = veer;
-  const distance = Math.hypot(aloft.x - eye.x, aloft.y - eye.y);
+  const distance = distanceBetween(eye, aloft);
   if (distance >= near + width) return aloft;
   const pushed =
     distance <= near - width
       ? near
       : near + (distance - near + width) ** 2 / (4 * width);
   const azimuth = distance > 0 ? azimuthOf(eye, aloft) : eye.heading;
-  return {
-    ...aloft,
-    x: eye.x + pushed * Math.sin(azimuth),
-    y: eye.y + pushed * Math.cos(azimuth),
-  };
+  return { ...aloft, ...alongAzimuth(eye, azimuth, pushed) };
 }
 
 /**
@@ -181,7 +181,7 @@ export const SEAT_FADE = 0.3;
  * less, so the keep is continuous as the eye walks a seat out of the band.
  */
 function keptBy(eye: Eye, seat: Point, veer: Veer, toward: number): number {
-  const distance = Math.hypot(seat.x - eye.x, seat.y - eye.y);
+  const distance = distanceBetween(eye, seat);
   const depth = smooth((veer.near + veer.width - distance) / veer.width);
   if (depth === 0) return 1;
   return smooth(toward / (SEAT_FADE * depth));

@@ -161,20 +161,24 @@ export function standingFlowers(
   mushrooms: Meadow['mushrooms'],
   pulled: Meadow['pulled'],
 ): StandingFlower[] {
-  return plotted(layout, seeded, planted, mushrooms, pulled).standing;
+  return plotted({ layout, flowers: seeded, planted, mushrooms, pulled })
+    .standing;
 }
 
 /**
  * `standingFlowers`, and the foot on the ground of every flower that stands
  * or would but for `pulled`, by id.
  */
-function plotted(
-  layout: MeadowLayout,
-  seeded: readonly Flower[],
-  planted: readonly Sown[],
-  mushrooms: Meadow['mushrooms'],
-  pulled: Meadow['pulled'],
-): { standing: StandingFlower[]; feet: ReadonlyMap<string, FlowerFoot> } {
+function plotted({
+  layout,
+  flowers: seeded,
+  planted,
+  mushrooms,
+  pulled,
+}: Stand): {
+  standing: StandingFlower[];
+  feet: ReadonlyMap<string, FlowerFoot>;
+} {
   const { camera, flowers } = layout;
   const claimed = mushroomFeet(layout, mushrooms);
   const up = new Set(pulled);
@@ -200,14 +204,8 @@ function plotted(
 }
 
 /** Every flower standing in `stand` (`standingFlowers`). */
-export function flowersOf({
-  layout,
-  flowers,
-  planted,
-  mushrooms,
-  pulled,
-}: Stand): StandingFlower[] {
-  return standingFlowers(layout, flowers, planted, mushrooms, pulled);
+export function flowersOf(stand: Stand): StandingFlower[] {
+  return plotted(stand).standing;
 }
 
 /**
@@ -215,15 +213,9 @@ export function flowersOf({
  * they went: the spot it leaves the child to plant on again. A flower that
  * never stood on this layout, pulled or not, has none.
  */
-export function pulledFeet({
-  layout,
-  flowers,
-  planted,
-  mushrooms,
-  pulled,
-}: Stand): FlowerFoot[] {
-  const { feet } = plotted(layout, flowers, planted, mushrooms, pulled);
-  return pulled.flatMap((id) => {
+export function pulledFeet(stand: Stand): FlowerFoot[] {
+  const { feet } = plotted(stand);
+  return stand.pulled.flatMap((id) => {
     const foot = feet.get(id);
     return foot ? [foot] : [];
   });

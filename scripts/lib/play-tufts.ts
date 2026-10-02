@@ -91,7 +91,7 @@ const tuftAt = (at: z.infer<typeof Point>) => `(() => {
  * `tufts` tapped in turn till one opens the flower picker: that tuft, or
  * `undefined` where none does.
  */
-export async function firstOpening(
+async function firstOpening(
   page: Page,
   [tuft, ...rest]: ReadonlyArray<z.infer<typeof Point>>,
 ): Promise<z.infer<typeof Point> | undefined> {
@@ -105,12 +105,27 @@ export async function firstOpening(
   return open ? tuft : firstOpening(page, rest);
 }
 
+/** How many tufts, nearest first, are tried for one that takes a flower. */
+const TRIES = 16;
+
+/** The `tries` nearest of `tufts`, nearest first, `TUFTS` listing them farthest first. */
+const nearestOf = (
+  tufts: ReadonlyArray<z.infer<typeof Point>>,
+  tries = TRIES,
+): ReadonlyArray<z.infer<typeof Point>> => tufts.toReversed().slice(0, tries);
+
+/** Of the `tries` nearest of `tufts`, the nearest that opens the flower picker. */
+export const nearestOpening = async (
+  page: Page,
+  tufts: ReadonlyArray<z.infer<typeof Point>>,
+  tries = TRIES,
+): Promise<z.infer<typeof Point> | undefined> =>
+  firstOpening(page, nearestOf(tufts, tries));
+
 /** A stage's buttons where they stand. */
 export const buttonsOf = (picker: 'colourPicker' | 'shapePicker') =>
   `__probe.scene.controls.${picker}.buttons.map(({ home }) => ({ x: home.x, y: home.y }))`;
 
-/** How many tufts are tried for one that takes a flower. */
-const TRIES = 16;
 /** A close-up's side round the grown flower, in CSS px. */
 const CLOSE = 200;
 
@@ -140,7 +155,7 @@ export async function playTufts(
   }
 
   // The nearest first, till one opens the picker: the nearest itself.
-  const near = tufts.toReversed().slice(0, TRIES);
+  const near = nearestOf(tufts);
   const opened = await firstOpening(page, near);
   if (!opened) {
     expect(false, `none of ${String(near.length)} tufts opened the picker`);

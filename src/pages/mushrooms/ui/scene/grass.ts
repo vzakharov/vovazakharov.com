@@ -2,7 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { pinholeOf } from '../../model/ground';
 import { type Phased, shake, sway } from '../../model/motion';
-import { between, type Random } from '../../model/random';
+import { between, type Random, skewedBetween } from '../../model/random';
 import { groundAt } from './backdrop-tones';
 import { mix } from './colour';
 import type { Footing, MeadowLayout } from './layout';
@@ -58,13 +58,13 @@ export function tuftOn(
 ): Tuft {
   const { height, groundTop } = layout;
   const depth = height - groundTop;
-  const nearness = 0.6 + Math.max(0, y - groundTop) / depth;
+  const down = Math.max(0, y - groundTop) / depth;
   return {
     x,
     y,
-    size: nearness * depth * 0.03,
+    size: (0.6 + down) * depth * 0.03,
     phase: -x * GUST_LAG * Math.PI * 2 + between(random, -0.4, 0.4),
-    ...tuftColours(Math.max(0, y - groundTop) / depth),
+    ...tuftColours(down),
   };
 }
 
@@ -95,8 +95,7 @@ export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
   const share = (Math.PI * 2) / count;
   return Array.from({ length: count }, (_, index) => {
     const azimuth = -Math.PI + share * (index + random());
-    const below =
-      SEAM_SCATTER[0] + (SEAM_SCATTER[1] - SEAM_SCATTER[0]) * random() ** 1.6;
+    const below = skewedBetween(random, ...SEAM_SCATTER, 1.6);
     const y = seam(azimuth) + depth * below;
     return { ...tuftOn(layout, arc * azimuth, y, random), azimuth };
   });

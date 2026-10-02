@@ -9,6 +9,7 @@ import {
   framedOf,
   unframed,
 } from '../../model/flight-frame';
+import { wrap } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,
   type Eye,
@@ -35,7 +36,6 @@ import {
   veerOf,
 } from './insect-frame';
 import { meadowCamera } from './meadow-camera';
-import { wrapAngle } from './panorama';
 import {
   buried,
   D_SEE,
@@ -247,9 +247,7 @@ describe('insect-frame', () => {
       const to = { x: eye.x + 3 * Math.sin(end), y: eye.y + 3 * Math.cos(end) };
       const centre = centreOf(eye, from, to);
       for (const azimuth of [start, end]) {
-        assert.ok(
-          Math.abs(wrapAngle(azimuth - centre)) <= FRAME_MARGIN + 1e-12,
-        );
+        assert.ok(Math.abs(wrap(azimuth - centre)) <= FRAME_MARGIN + 1e-12);
       }
       assert.ok(FRAME_MARGIN < (SPREAD * Math.PI) / 2);
     }

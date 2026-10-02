@@ -20,7 +20,7 @@ import {
 } from './mushroom-probe.ts';
 import {
   buttonsOf,
-  firstOpening,
+  nearestOpening,
   NEWEST,
   Newest,
   TUFTS,
@@ -180,15 +180,12 @@ async function holdAndPull(
   return pulled.tufts - open.tufts;
 }
 
-/** How many tufts, nearest first, are tried for one that takes a flower. */
-const TRIES = 8;
-
 /** A flower planted on the nearest tuft that takes one, as `play-tufts.ts` plants it, with its head on screen. */
 async function plantOne(
   page: Page,
 ): Promise<NonNullable<z.infer<typeof Flower>> | undefined> {
   const tufts = await page.evaluate(TUFTS, z.array(Point));
-  if (!(await firstOpening(page, tufts.toReversed().slice(0, TRIES)))) {
+  if (!(await nearestOpening(page, tufts))) {
     return undefined;
   }
   const [colour] = await page.evaluate(

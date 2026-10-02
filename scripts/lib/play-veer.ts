@@ -33,7 +33,7 @@ import {
   type Page,
   Point,
 } from './mushroom-probe.ts';
-import { buttonsOf, firstOpening, TUFTS } from './play-tufts.ts';
+import { buttonsOf, nearestOpening, TUFTS } from './play-tufts.ts';
 import {
   blinks,
   flicks,
@@ -83,8 +83,8 @@ async function perchesBack(
       z.number(),
     );
   const sownFrom = await planted();
-  const tufts = (await page.evaluate(TUFTS, z.array(Point))).toReversed();
-  if (!(await firstOpening(page, tufts.slice(0, 16)))) {
+  const tufts = await page.evaluate(TUFTS, z.array(Point));
+  if (!(await nearestOpening(page, tufts))) {
     expect(
       false,
       `looking back, none of ${String(tufts.length)} tufts in view opened the flower picker`,

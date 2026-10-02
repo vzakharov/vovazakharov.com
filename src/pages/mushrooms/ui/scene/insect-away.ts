@@ -15,7 +15,7 @@ import {
 } from '../../model/flight';
 import { type Aloft, azimuthOf } from '../../model/flight-frame';
 import type { WayOut } from '../../model/flight-in';
-import type { Point } from '../../model/geometry';
+import { type Point, wrap } from '../../model/geometry';
 import { alongSight, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
 import {
   type InsectGenes,
@@ -28,7 +28,6 @@ import type { Seeded } from '../../model/random';
 import { WIDEST_SPAN } from './flower-sight';
 import { aloftAt, drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
-import { wrapAngle } from './panorama';
 import { perchDistance, placeOfAloft } from './plane-place';
 import { D_SEE, onScreen, type Placed, type View } from './view';
 
@@ -255,6 +254,6 @@ export function entryAloft(
 export function seenFor(view: View, aloft: Aloft): Point {
   const drawn = drawnAloft(view, aloft);
   if (drawn) return drawn;
-  const left = wrapAngle(azimuthOf(view.eye, aloft) - view.eye.heading) < 0;
+  const left = wrap(azimuthOf(view.eye, aloft) - view.eye.heading) < 0;
   return { x: left ? -1 : view.width + 1, y: 0 };
 }
