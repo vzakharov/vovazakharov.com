@@ -379,7 +379,12 @@ with his words and what it beat: `bite-12/v14.md`.
      (`leg-timing.md` § 5–7). The way-in's leaving spot rides item 4's fixes.
 3. ~~The footstep level~~ — put to the operator's ear with Artifact version 14
    (`STEP_PEAK` 1.5, ~10 dB under a C5); it changes only on his word.
-4. The review subagent (§ "How this elephant is eaten" step 2) and its fixes.
+4. The review — posted (three reviewers by area, reviews 5391045656,
+   5391050029, 5391057365); every finding's call is in
+   `bite-12/review.md`. Left: the fixes, one wave per group by files
+   (insects; eye and world; taps and the harness, `scripts/lib/` its own),
+   the way-in's leaving spot riding the insects group, then a play of tabL
+   and phoneP, the frames to `frames/bite-12/review/`, a reply per thread.
 5. Delete this section; `/polish`, vet, the Artifact, `/pr`.
 
 ## DRY notes

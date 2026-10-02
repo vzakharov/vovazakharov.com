@@ -32,3 +32,27 @@ the diff from dd3503d2. Each finding's call, and what it beat.
 3. **`insect-view.ts` past 450 lines**: move `fly`'s leg-frame→screen chain
    (veer, shadow, sink, cull, pose, hit circle) to a helper beside
    `insect-seat.ts`, unit-tested.
+
+## taps-flowers-harness — review 5391057365
+
+1. **The walked-up cap tap is circular** (`play-approach.ts`): the tap
+   point comes from where the cap is painted — the outline the painter
+   fills (`model/mushroom-outline.ts`) through the drawn transform — never
+   from the scene's own hit test.
+2. **No flower, tuft or long press is tapped after walking or turning**
+   (`play-tufts.ts`, `play-hold`, `play-keys`): one walk-and-turn, then a
+   tuft tap, a flower-head tap and a long press, in the plays that own
+   them. Short: one of each.
+3. **The "drag taps nothing" baseline cannot change** (`play-walk.ts`): read
+   it with a mushroom selected and the flower picker open. A touch outside
+   an open picker shuts it, a drag included (the game's call, as every
+   picker); the check is that the drag grows, plants and selects nothing.
+4. **A note key sows behind a mushroom** (`planter.ts`, `FlowerBed.inView`):
+   a key plants on, and plays, only a tuft or flower the child can see —
+   on screen and not covered by a nearer cap (`cap-cover.ts`'s cover, as
+   `roomFor` uses).
+5. **`HouseView.follow` is dead**: delete it and the `foot` parameter only
+   it reads.
+
+Every finding gets a reply on its thread once its fix is pushed (sha bare),
+never a resolve.
