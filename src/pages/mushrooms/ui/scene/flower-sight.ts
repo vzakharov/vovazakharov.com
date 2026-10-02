@@ -140,14 +140,23 @@ export function flowerLiftAt(
   }
 }
 
-/**
- * The meadow as the scene stands it: the layout, the visit's seeded flowers,
- * the planted ones, the ones the child pulled up, and the mushrooms standing.
- */
-export type Stand = Pick<Meadow, 'mushrooms' | 'planted' | 'pulled'> & {
+/** What of the meadow a `Stand` reads: the mushrooms standing, the planted flowers, and the ones the child pulled up. */
+const STOOD = ['mushrooms', 'planted', 'pulled'] as const;
+
+/** The meadow as the scene stands it: the layout, the visit's seeded flowers, and what of the meadow `STOOD` names. */
+export type Stand = Pick<Meadow, (typeof STOOD)[number]> & {
   layout: MeadowLayout;
   flowers: readonly Flower[];
 };
+
+/** `meadow` as it stands on `layout` among the visit's seeded `flowers`. */
+export function standOf(
+  layout: MeadowLayout,
+  flowers: readonly Flower[],
+  meadow: Meadow,
+): Stand {
+  return { layout, flowers, ...pick(meadow, ...STOOD) };
+}
 
 /**
  * A flower as the sight reads it: its place, its head on screen, and how far
