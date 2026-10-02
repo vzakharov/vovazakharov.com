@@ -5,15 +5,18 @@ probe build of e6fc863b.
 
 ## Plays
 
-| Play     | Result      | Time         | Notes                                                                   |
-| -------- | ----------- | ------------ | ----------------------------------------------------------------------- |
-| opening  | green       | 15 s         | cap perch held 0.00 px over 33 turn frames                              |
-| meadow   | green       | 1 min 50 s   | 4/4 butterflies perched, 10/10 fly taps; JS median 16.6 ms              |
-| walk     | red → green | 1 min / 46 s | harness red, see below                                                  |
-| approach | green       | 6 min 21 s   | frame JS median 18.4 ms over 914; slowest frames 8.1–10.6 s (see below) |
-| planting | green       | 20 s         | 1 flower planted; bees drank 5, pollinating 2                           |
-| species  | green       | 3 min 19 s   | all 6 tapped; a butterfly rested on a porcini; JS median 21.8 ms        |
-| tufts    | green       | 2 min 1 s    | turned 0.559 rad, walked 0.80                                           |
+| Play     | Result      | Time         | Notes                                                                                     |
+| -------- | ----------- | ------------ | ----------------------------------------------------------------------------------------- |
+| opening  | green       | 15 s         | cap perch held 0.00 px over 33 turn frames                                                |
+| meadow   | green       | 1 min 50 s   | 4/4 butterflies perched, 10/10 fly taps; JS median 16.6 ms                                |
+| walk     | red → green | 1 min / 46 s | harness red, see below                                                                    |
+| approach | green       | 6 min 21 s   | frame JS median 18.4 ms over 914; slowest frames 8.1–10.6 s (see below)                   |
+| planting | green       | 20 s         | 1 flower planted; bees drank 5, pollinating 2                                             |
+| species  | green       | 3 min 19 s   | all 6 tapped; a butterfly rested on a porcini; JS median 21.8 ms                          |
+| tufts    | green       | 2 min 1 s    | turned 0.559 rad, walked 0.80                                                             |
+| hold     | green       | 1 min 11 s   | 1 tuft came back where flower-5 stood                                                     |
+| keys     | green       | 37 s         | 4-note melody grew 4; `l`/`h` plant and replace                                           |
+| veer     | green       | 2 min 47 s   | every looking-back release played; 11 sitters at ratio 1.00; 0 one-frame steps over bound |
 
 ## Reds
 
@@ -34,6 +37,14 @@ probe build of e6fc863b.
   so it reads as the container stalling (the run took 6 min 21 s) rather
   than the game; not traced.
 
+## Frames
+
+In `docs/remove-before-merging/frames/bite-12b/`: `tabP-veer-back-perched.png`
+(looking back in portrait: a fly on the cap, a near butterfly cut by the
+left side, one butterfly over the flowers drawn banked almost flat),
+`tabP-approach-forest.png`, `tabP-species-butterfly-on-porcini.png`.
+
 ## Left
 
-- hold, keys, veer.
+- Nothing on tabP. The "no butterfly ever rested on a cap" red did not
+  show here.
