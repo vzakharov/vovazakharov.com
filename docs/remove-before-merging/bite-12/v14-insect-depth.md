@@ -43,7 +43,23 @@ the bite", its first two bullets).
 - `insect-frame.ts`, `insect-seat.ts` and `view.ts` were touched though
   the prompt did not list them: the cull lived in them.
 
+Commit: 9052072 (`feat(mushrooms): insects sink behind the brow and cast
+round shadows`). Tests: `insect-sink.test.ts`, `insect-shadow.test.ts` new;
+`insect-seat`, `insect-frame`, `insect-away`, `perch-sight`, `view`,
+`bed-place`, `tufts`, `repaint-queue`, `insect-layout`, `insect-tap` green;
+`fliers.test.ts` not run (flight untouched). `pnpm type-overlap` clean.
+
 ## Left
 
-- The play (tabL, phoneP) and its frames under
+- **The play is not run** (the agent's context ran out first). Build the
+  probe and play tabL and phoneP, one screen per call, under the site lock:
+  `flock /home/user/vovazakharov.com/tmp/site.lock pnpm play:mushrooms
+--screens tabL --plays insects,veer` (then `--no-build --screens phoneP`).
+  No existing play aims at an insect crossing the brow; the releases (which
+  rise from just past `D_SEE`) in `insects`/`veer` frames are the likeliest
+  to catch one going up over it. Commit the frames showing an insect half
+  behind the brow and shadows near and far to
   `docs/remove-before-merging/frames/bite-12/v14/`.
+- Watch in the play: the walk play's `checkPops` and the veer play's
+  per-frame checks read insect visibility; a sinking insect now stays
+  visible longer, which should not trip them but has not been seen.
