@@ -14,6 +14,15 @@
   the last source commit. The skill should order it: quick gates
   (`pnpm format:check`, `pnpm knip`, which the scene agent had skipped),
   `/polish`, vet, the play run, then `/pr`.
+- **A bite's end retires the last bite's leftovers, or the branch drowns
+  in them.** By bite 12b PR #57 carried 966 files, about 600 of them earlier
+  bites' briefs, hand-over notes and frames that no session opened again.
+  The operator asked for a habit: retire them, leaving a tombstone that
+  names the last commit holding them, and retire a bite's frames once the
+  next bite's land («не храня всё это в живой ветке»). The skill should put
+  "retire the previous bite's notes and frames" in the bite-end order,
+  after the new frames are committed, with one row per directory in
+  `docs/remove-before-merging/retired.md` or `frames/retired.md`.
 - **`tsc -p apps/<site>/tsconfig.json` skips the tests.** It passed while a
   test had an implicit-`any` index that the root `tsconfig.json` (and vet)
   rejected. The quick check between commits should be the root project, or

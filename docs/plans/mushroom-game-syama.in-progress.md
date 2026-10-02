@@ -99,6 +99,13 @@ Standing rules for every session in the chain:
   вместо tmp, хочу периодически на них посматривать"; "в конце каждого куска
   выбирать те что достойны показать"). A handled review's fixes count as
   their bite's, and land in the same directory. `/finalize` sweeps it.
+- **A bite's end retires what the bite before it left**: its frames, once
+  the new ones are committed, and its working notes under
+  `docs/remove-before-merging/` (briefs, hand-over notes, specs, review
+  logs), once folded into its `bite-<nn>.md` — each a row in
+  `retired.md` / `frames/retired.md` there, naming the last commit that held
+  it («давай введём в привычку их ретайрить — оставляя thombstones … но не
+  храня всё это в живой ветке. То же относится к скриншотам»).
 - **Every bite ends with the game published as an Artifact**, updated in
   place at one URL posted on the PR, so the operator can play each bite
   without installing anything ("атефакт в конце каждого байта, чтобы по ходу
