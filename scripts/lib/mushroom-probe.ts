@@ -62,8 +62,11 @@ export const PROBE = `(() => {
     steps += 1;
     step(foot);
   };
-  // Every re-tend of the lawn (\`Grass.tend\`) and re-sight of the perches
-  // (the scene's \`see\`), timed, as \`hitches()\` hands them over.
+  // Every call that tends the lawn — a whole re-tend (\`Grass.tend\`), the
+  // gather that starts a sliced one (\`retend\`) and each slice of it
+  // (\`tendOn\`) — and every re-sight of the perches (the scene's \`see\`),
+  // timed, as \`hitches()\` hands them over. The private methods are timed
+  // on the instance, which \`follow\`'s \`this.\` calls reach first.
   const hitches = { tend: [], see: [] };
   const timing = (owner, name, into) => {
     const run = owner[name].bind(owner);
@@ -74,7 +77,9 @@ export const PROBE = `(() => {
       return result;
     };
   };
-  timing(scene.grass, 'tend', hitches.tend);
+  for (const name of ['tend', 'retend', 'tendOn']) {
+    timing(scene.grass, name, hitches.tend);
+  }
   timing(scene, 'see', hitches.see);
   /** The middle of \`points\`, in \`graphics\`' frame, on screen. */
   const onScreen = (graphics, points) => {
@@ -163,7 +168,7 @@ export const PROBE = `(() => {
         unit: scene.layout.camera.unit,
       };
     },
-    /** The re-tends and re-sights timed since the last call, in ms, and forgotten. */
+    /** The lawn's tending calls and the re-sights timed since the last call, in ms, and forgotten. */
     hitches: () => {
       const taken = { tend: hitches.tend.splice(0), see: hitches.see.splice(0) };
       return taken;

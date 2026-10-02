@@ -11,9 +11,9 @@
  * the closest approach. Every frame of the walk and the turn is drawn and
  * timed, and their median kept to the frame budget (`lib/frame-budget.ts`):
  * the fill rate's worst case, caps covering the screen and every mushroom
- * within sight drawn. The lawn's re-tends and the perches' re-sights along
- * them are timed too, and the frames that carry one set beside those that
- * carry none.
+ * within sight drawn. The lawn's tending (a whole re-tend, or a sliced one's
+ * gather and slices) and the perches' re-sights along them are timed too, and
+ * the frames that carry one set beside those that carry none.
  */
 
 import { z } from 'zod';
@@ -409,7 +409,7 @@ function noteHitches(
   for (const kind of ['tend', 'see'] as const) {
     const on = carried.filter((frame) => frame[kind].length > 0);
     note(
-      `${kind === 'tend' ? "the lawn's re-tends" : "the perches' re-sights"} on the walk and the turn: ${timings(on.flatMap((frame) => frame[kind]))}; the frames carrying one ${timings(on.map(({ ms }) => ms))}`,
+      `${kind === 'tend' ? "the lawn's tending calls (whole re-tends, gathers, slices)" : "the perches' re-sights"} on the walk and the turn: ${timings(on.flatMap((frame) => frame[kind]))}; the frames carrying one ${timings(on.map(({ ms }) => ms))}`,
     );
   }
   note(`the frames carrying neither: ${timings(plain.map(({ ms }) => ms))}`);
