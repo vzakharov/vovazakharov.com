@@ -133,7 +133,7 @@ offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
   shared pairings arrays. I3–I5 not started.
 
 - **L″** — 9a7d9116: a bee's ring on the plane (`ringFoot(parent, ring,
-  anchor)`, `RING_DEPTH` 1.5, turned by the anchor's heading), planted
+anchor)`, `RING_DEPTH` 1.5, turned by the anchor's heading), planted
   flowers spaced by plane distance; the seeded bed keeps its screen
   spacing (`apartOnGround`/`clearOnGround`, private) so the opening is
   unchanged — kept. Step 2 half-built as `l3c-step2.patch` (the cut stand
