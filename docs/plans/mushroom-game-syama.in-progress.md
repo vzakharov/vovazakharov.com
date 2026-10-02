@@ -313,9 +313,18 @@ each beat in brackets):
   cost grows without bound.]
 - **Light by heading** through the repaint queue, side component
   `sin(heading − α_sun)`, at most `REPAINTS_PER_FRAME` a frame.
-- **Insects on the plane**, perching where they like («садятся куда
-  хотят»): air spots round the eye, entry from the view's edge, take-offs
-  panned by azimuth; the layout-px adapter in `insect-view.ts` retires.
+- **Insects on the plane** (`bite-12b/spec-insects.md`), perching where
+  they like («садятся куда хотят») **within `D_SEE` of the snapped eye**, so
+  they follow the child and a far mushroom gets them once he walks there.
+  [Any perch on the field: an insect flies off for minutes and the meadow
+  empties; 2·`D_SEE`: they live behind the brow.] Perch seats and crowding
+  stay in layout px, re-anchored at the snapped eye like every rule [plane
+  units: ~200 lines duplicating the beds' geometry]. A release still comes
+  up over the brow, which already works at any heading [entry from the
+  view's edge, which bite 12 replaced]; "shown" also checks depth and the
+  screen's foot. Air spots are a plane lattice round the eye; two hovering
+  may overlap briefly after a step, being apart only as seen from the
+  anchor. Take-offs and shies pan by azimuth.
 - **Rules judged from the current eye keep their code**: the stored plane
   points are moved into the eye's frame and converted to `Ground` (spec § 3;
   exact within ±3.08 rad of the heading), `placeIn` and its callers
