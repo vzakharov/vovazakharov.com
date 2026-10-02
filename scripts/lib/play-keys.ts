@@ -6,7 +6,9 @@
  * flower picker open on a tuft, still on its colours, a note
  * key plants the flower that makes its sound there and shuts the picker; with
  * it open on that flower, a press held, and a colour picked, another note key
- * replaces it with the flower of its own sound, the one it stood for pulled.
+ * replaces it with the flower of its own sound, the one it stood for pulled;
+ * and, the eye turned and walked in, a tap on the nearest flower's head
+ * drawn sounds it.
  */
 
 import { z } from 'zod';
@@ -20,10 +22,12 @@ import {
 import {
   type Controls,
   type Expect,
+  Flower,
   inTurn,
   type Letter,
   type Page,
   Point,
+  walkAndTurn,
 } from './mushroom-probe.ts';
 import { buttonsOf, NEWEST, Newest, TUFTS } from './play-tufts.ts';
 
@@ -232,4 +236,24 @@ export async function playKeys(
   note(
     `\`l\` planted ${sown.newest.id} on a tuft; \`h\` replaced it with ${String(after.newest?.id)}, ${shown ? 'one the shape row showed' : 'not one the shape row showed (another colour was picked)'}`,
   );
+
+  // Turned and walked in, a tap on the nearest flower's head drawn sounds it.
+  note(`keys: ${await walkAndTurn(page)}`);
+  const flower = await page.evaluate('__probe.flower()', Flower);
+  if (!flower) {
+    expect(false, 'no flower on screen to tap after turning and walking');
+    return;
+  }
+  const { id, ...head } = flower;
+  await page.tap(head);
+  await page.step(20);
+  const [clock, tappedAt] = await page.evaluate(
+    `[__probe.scene.clock, __probe.flowerTappedAt(${JSON.stringify(id)})]`,
+    z.tuple([z.number(), z.number().nullable()]),
+  );
+  expect(
+    tappedAt !== null && clock - tappedAt < 1,
+    `after turning and walking, a tap on flower ${id}'s head at (${head.x.toFixed(0)}, ${head.y.toFixed(0)}) did not sound it`,
+  );
+  await page.shoot('keys-walked-tap');
 }

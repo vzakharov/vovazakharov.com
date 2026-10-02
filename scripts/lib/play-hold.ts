@@ -3,8 +3,9 @@
  * a tap on a flower opens no picker; a press held on it opens the picker
  * there, ringed, its colours with the cross; the cross pulls the flower up,
  * the picker shutting and a tuft coming back where it stood — a seeded
- * flower's, then one the child planted on a tuft; and
- * a press on another flower that turns the eye opens nothing.
+ * flower's, then one the child planted on a tuft; a press on another
+ * flower that turns the eye opens nothing; and, the eye turned and walked
+ * in, a press held on the nearest flower drawn opens the picker on it.
  */
 
 import { z } from 'zod';
@@ -12,13 +13,12 @@ import { z } from 'zod';
 import {
   type Controls,
   type Expect,
+  Flower,
   type Page,
   Point,
+  walkAndTurn,
 } from './mushroom-probe.ts';
 import { buttonsOf, NEWEST, Newest, TUFTS } from './play-tufts.ts';
-
-/** The nearest flower's head on screen (`__probe.flower`). */
-const Flower = Point.extend({ id: z.string() }).nullable();
 
 /** The flower picker as the page holds it, and what stands of the flower `id`. */
 const Held = z.object({
@@ -97,17 +97,35 @@ export async function playHold(
 
   // A press that turns the eye is no long press.
   const other = await page.evaluate('__probe.flower()', Flower);
-  if (!other) {
+  if (other) {
+    const { id: otherId, ...from } = other;
+    await page.drag(from, { ...from, x: from.x + TURN }, HOLD_FRAMES);
+    await page.step(30);
+    expect(
+      !(await page.evaluate(held(otherId), Held)).open,
+      'a press that turned the eye opened the picker',
+    );
+  } else {
     note('no second flower on screen; no turned-press step');
+  }
+
+  // Turned and walked in, a press held on the nearest flower's head drawn
+  // opens the picker on it.
+  note(`hold: ${await walkAndTurn(page)}`);
+  const slid = await page.evaluate('__probe.flower()', Flower);
+  if (!slid) {
+    expect(false, 'no flower on screen to hold after turning and walking');
     return;
   }
-  const { id: otherId, ...from } = other;
-  await page.drag(from, { ...from, x: from.x + TURN }, HOLD_FRAMES);
+  const { id: slidId, ...slidHead } = slid;
+  await page.drag(slidHead, slidHead, HOLD_FRAMES);
   await page.step(30);
+  const walked = await page.evaluate(held(slidId), Held);
   expect(
-    !(await page.evaluate(held(otherId), Held)).open,
-    'a press that turned the eye opened the picker',
+    walked.open && walked.flower === slidId,
+    `after turning and walking, a held press on flower ${slidId}'s head at (${slidHead.x.toFixed(0)}, ${slidHead.y.toFixed(0)}) did not open the picker on it`,
   );
+  await page.shoot('p4-walked-held');
 }
 
 /**

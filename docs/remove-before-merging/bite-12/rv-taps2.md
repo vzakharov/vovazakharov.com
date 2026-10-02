@@ -25,6 +25,21 @@ Contract: `docs/plans/mushroom-game-syama/bite-12/review.md` § "taps-flowers-ha
     short drag down (it walks in a little), which keeps the tufts in view
     for the picker drag after it (a sideways one).
 
+- Finding 2: `walkAndTurn` (`mushroom-probe.ts`): `→` held ¾ s, then `↑`
+  held ½ s, each left to rest (tabL: 0.559 rad, 0.80 units). After it, each
+  play taps what was drawn: `play-tufts` the nearest tuft drawn (opens the
+  picker), `play-keys` the nearest flower's head (sounds it, `tappedAt`),
+  `play-hold` a press held on the nearest flower's head (opens the picker
+  on it). Shots `tuft-6-walked`, `keys-walked-tap`, `p4-walked-held`.
+  - Found by the play, a harness bug, not the game's: `__probe.flower()`
+    kept a head only by its x on screen, so after the walk it picked a
+    flower whose head stood below the screen's foot (y 828 of 820) and the
+    tap fell off the screen. It now keeps only heads on screen both ways;
+    this reaches `play-meadow`'s flower tap and `play-hold`'s other presses
+    too, which pass.
+  - `play-hold`'s `Flower` schema was a copy of `mushroom-probe`'s; it
+    imports that one.
+
 ## Left
 
-- Finding 2.
+Nothing.

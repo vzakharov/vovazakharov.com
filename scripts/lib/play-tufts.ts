@@ -4,7 +4,8 @@
  * every tuft of a meadow not yet full; a colour picked, a shape picked, and
  * that very flower grown on the tuft; the tuft it grew on opening no picker
  * again; and the picker opened on another tuft, then closed,
- * planting nothing, by a second tap on it.
+ * planting nothing, by a second tap on it; and, the eye turned and walked
+ * in, the nearest tuft drawn opening the picker.
  */
 
 import { z } from 'zod';
@@ -14,6 +15,7 @@ import {
   type Expect,
   type Page,
   Point,
+  walkAndTurn,
 } from './mushroom-probe.ts';
 
 /** The meadow's planting as the page holds it. */
@@ -214,15 +216,31 @@ export async function playTufts(
 
   // A second tap on a tuft with the picker open closes it, planting nothing.
   const other = await firstOpening(near.filter((tuft) => tuft !== opened));
-  if (!other) {
+  if (other) {
+    await page.tap(other);
+    await page.step(30);
+    const closed = await planting();
+    expect(
+      !closed.open && closed.planted === grown.planted,
+      'a tap outside the open picker did not close it without planting',
+    );
+  } else {
     note('no other tuft took a flower; no close-without-planting step');
+  }
+
+  // Turned and walked in, the nearest tuft drawn still opens the picker.
+  note(`tufts: ${await walkAndTurn(page)}`);
+  const [walked] = (await page.evaluate(TUFTS, z.array(Point))).toReversed();
+  if (!walked) {
+    expect(false, 'no tuft a tap reaches bare after turning and walking');
     return;
   }
-  await page.tap(other);
+  await page.tap(walked);
   await page.step(30);
-  const closed = await planting();
+  const landed = await page.evaluate(tuftAt(walked), z.string());
   expect(
-    !closed.open && closed.planted === grown.planted,
-    'a tap outside the open picker did not close it without planting',
+    (await planting()).open,
+    `after turning and walking, the nearest tuft, at (${walked.x.toFixed(0)}, ${walked.y.toFixed(0)}), opened no picker: the tap reached ${landed}`,
   );
+  await page.shoot('tuft-6-walked');
 }

@@ -278,7 +278,7 @@ export const PROBE = `(() => {
         head: house.drawnHead,
       };
     },
-    /** The nearest shown flower's head on screen, the one least likely to be covered. */
+    /** The nearest shown flower whose head is on screen, the one least likely to be covered. */
     flower: () => {
       const shown = [...scene.flowers.shown.entries()]
         .filter(([, flower]) => flower.container.visible)
@@ -286,7 +286,10 @@ export const PROBE = `(() => {
           const at = flower.head.getWorldTransformMatrix();
           return { id, depth: flower.container.depth, x: at.tx, y: at.ty };
         })
-        .filter(({ x }) => shows(x))
+        .filter(({ x, y }) => {
+          const head = toScreen({ x, y });
+          return head.x >= 0 && head.x <= scene.layout.width && head.y >= 0 && head.y <= scene.layout.height;
+        })
         .sort((a, b) => b.depth - a.depth)[0];
       if (!shown) return null;
       const { id, x, y } = shown;
@@ -478,6 +481,28 @@ export type Page = {
 };
 
 export type Expect = (holds: boolean, message: string) => void;
+
+/**
+ * The eye turned and walked in, as a child looks round before tapping: `→`
+ * held ¾ s, the meadow sliding across the screen, then `↑` held ½ s, each
+ * let go and left to come to rest. Returns a line saying how far it turned
+ * and walked.
+ */
+export async function walkAndTurn(page: Page): Promise<string> {
+  const eye = async () => page.evaluate('__probe.eye()', Eye);
+  const holdFor = async (key: Arrow, frames: number) => {
+    await page.key(key, 'keyDown');
+    await page.step(frames);
+    await page.key(key, 'keyUp');
+    await page.step(150);
+  };
+  const from = await eye();
+  await holdFor('ArrowRight', 45);
+  await holdFor('ArrowUp', 30);
+  const to = await eye();
+  const turn = to.heading - from.heading;
+  return `the eye turned ${(turn - 2 * Math.PI * Math.round(turn / (2 * Math.PI))).toFixed(3)} rad and walked ${(to.walked - from.walked).toFixed(2)} units`;
+}
 
 /** Runs `each` over `items` one after another, as taps on one page must. */
 export async function inTurn<Item>(
