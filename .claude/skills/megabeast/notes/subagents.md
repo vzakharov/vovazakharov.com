@@ -44,35 +44,32 @@
 
 ## Handling a review
 
-- **A tail review of a big bite is three reviewers by area, posting
-  early.** Bite 12's diff (162 files, ~16k lines) went to three reviewers
-  at once (insects; eye and world; taps, flowers and the harness) from one
-  committed `review-brief.md` — the reading list, "post before you are long
-  into it", the marker line, never fix. Two reported within five minutes at
-  155–181k with three findings each, both posted, neither having played;
-  "post early" is what made a full context still yield a review. The
-  orchestrator writes each finding's call into a topic file
-  (`bite-12/review.md`) as the report lands, before any fix brief.
+- **The review is fresh-eyed subagents in the bite's tail, not two
+  sessions; a big bite gets three by area, told to post early.** By bite 12
+  the branch had cost $904 over 47 sessions, about four per bite, two of
+  them review and `/handle`, each paying ~100k of baseline and plan reading
+  and each a relay toward the depth cap. What the reviews caught (bite 3's
+  dead taps, bite 4's hidden door, bite 7's lavender ring) came from fresh
+  eyes on frames, and bite 12's best finds from the operator's play and a
+  play agent beside the build. The operator agreed to fold the review into
+  the tail: reviewer agents briefed with the diff, the plan's decisions and
+  the frames and nothing of the build, their findings fixed in the same
+  session or first thing in the next. Bite 12's diff (162 files, ~16k
+  lines) went to three at once (insects; eye and world; taps, flowers and
+  the harness) from one committed `review-brief.md` — the reading list,
+  "post before you are long into it", the marker line, never fix. Two
+  posted within five minutes at 155–181k with three findings each, neither
+  having played; posting early is what got a review out of a full context.
+  The orchestrator writes each finding's call into a topic file
+  (`bite-12/review.md`) as the report lands, before any fix brief. The skill
+  should default to this and keep a review session only for a structural
+  bite.
 - **A play → trace → decide chain converges one class per agent.** The
   leg-timing reds went 88 → 43 → 0 → 4 → 2 over four agents (a fix, a
   play, a watch allowance, a trace), each report naming the next class
   with numbers; every call went into `leg-timing.md` before the next brief.
   A residue the size of the bound's own slack is accepted in writing, not
   traced.
-
-- **The review is a fresh-eyed subagent in the bite's tail, not two
-  sessions.** By bite 12 the branch had cost $904 over 47 sessions, about
-  four per bite, two of them review and `/handle`, each paying ~100k of
-  baseline and plan reading and each a relay toward the depth cap. What
-  the reviews caught (bite 3's dead taps, bite 4's hidden door, bite 7's
-  lavender ring) came from fresh eyes on frames, and bite 12's best finds
-  came from the operator's play and a play agent beside the build. The
-  operator agreed to fold the review into the bite's tail: a reviewer
-  agent briefed with the diff, the plan's decisions and the frames and
-  nothing of the build, its findings fixed in the same session or first
-  thing in the next. The skill should default to that and keep a review
-  session only for a structural bite.
-
 - **The export's authorship label reads the loop's own review as
   answered.** `/handle` fires its review lane on a thread whose tail is
   `(human)`, but every review in this loop is an agent's, so all nine
@@ -139,9 +136,37 @@
   common brief named the drawing under `docs/remove-before-merging/`; it had
   moved to `src/pages/mushrooms/reference/`, and every agent spent a search
   on it. The skill's template should fill paths from the tree.
-- **A brief holds two or three threads.** Bite 6's perch brief held six,
-  too many for one context; bite 10's twelve threads ran well on three
-  agents at once.
+- **A brief's numbers carry their unit, checked against the code.** The
+  orchestrator wrote a dash cap as "≈6 world units"; the model reads
+  places in butterfly sizes, and the agent found the mix-up, built the
+  cap in the right unit and reported it (and that the cap should be per
+  screen, a second call). A number taken from a hand-over note is the same
+  risk: bite 12's dash bound came from `dash-cap.md`'s 60 sizes/s, a cap
+  pace had since removed, and the play failed both dashing kinds on it.
+  The orchestrator reads the function's units before it writes a number
+  into a decision, and a bound goes into a brief as "derive it from
+  `<file>`", not as a figure.
+- **An agent lands one step, maybe two, whatever the brief lists; writing
+  a play, running it and tracing a red are each an agent of their own.**
+  Every round measured the same thing. Bite 6's perch brief held six
+  threads, too many (bite 10's twelve ran well split over three agents).
+  Bite 11's seven package agents reached 160–220k after two or three steps
+  of five. In bite 12 the eleven build agents briefed with two or three
+  steps reached ~170k in 12–20 minutes having landed one, four of them
+  committing only after the nudge; the lens's five steps took three rounds;
+  in the review round a three-step build stopped after its pure move and a
+  play agent stopped before the trace in its tail; three of three "build,
+  then play once" agents ran out after the unit tests, leaving every
+  package unplayed; and the `veer` play filled its writer (185k) before one
+  browser run, where a second agent briefed "apply the patch, lint, commit,
+  then run one screen" finished at 124k. Agents that read four or five
+  hand-over notes before starting filled fastest. So the skill briefs one
+  step — one build step plus its tests — with a second only "if context
+  allows", names the step that ends the brief, commits a written play
+  before any build, gives the play a second, cheap agent over the pushed
+  build, and gives a red needing a trace its own agent. Each successor
+  finished from the hand-over note in one go, so that note is the next
+  brief's spine.
 
 ## Waves over files
 
@@ -167,13 +192,19 @@
   constant tuned to today's clump. The skill's wave planner should ask of
   each pair "does one measure what the other draws?" and brief the earlier
   one that way.
-- **A migration does not parallelise.** Bite 9's flowers and placement
-  agents each needed the other's uncommitted renames to type-check, so
-  neither could test, and both paused with patches that only worked
-  stacked. Two groups run at once only when each builds on the other's
-  _committed_ API. A sibling's half-written module also fails `tsc` at the
-  shared HEAD; agents that must build meanwhile do so from a clean
-  `git worktree` at a known commit and commit their fixes in the main tree.
+- **A migration does not parallelise, and a half-landed one blocks the
+  whole tree.** Bite 9's flowers and placement agents each needed the
+  other's uncommitted renames to type-check, so neither could test, and
+  both paused with patches that only worked stacked. Two groups run at once
+  only when each builds on the other's _committed_ API. A step that breaks
+  a shared type lands first and alone: bite 11's flowers step 2 sat
+  uncommitted at 137k while the other two agents' typechecks went red on
+  it, and a nudge to "land step 2 within ~40k" did not bite; bite 12's P2c
+  paused with its hills both as a patch and in the tree, and P3b's and
+  P1c's typechecks stayed red until the next agent, told first to "confirm
+  the tree equals the patch, land it within ~50k", cleared it in one
+  commit. When a pause leaves a patch in the tree, that package relaunches
+  first.
 - **A refactor is cut into steps that each type-check, run one agent at a
   time.** All four of bite 9's parallel agents on the ground refactor
   reached 186–254k with three of them having nothing on origin; a nudge at
@@ -183,6 +214,36 @@
   step), a first commit due within ~60k, a self-pause at ~170k, and the test
   file a later step rewrites named off limits until then. All three
   finished inside ~195k with 3–8 commits on origin each.
+- **Additive packages, then one switch-over, needs the switch pre-mapped.**
+  Bite 12's insect-plane ran step 0, the veer, A, B and pace as additive
+  packages (new paths beside the live ones, five agents in ~1 hour, each
+  110–190k, never sharing a file), which kept every tree green; but the
+  switch-over agent spent its whole 178k reading six hand-over notes and the
+  view code and built nothing. The skill should give the switch a mapping
+  agent first — call sites, the files outside the list that read the old
+  shape (here a play probe), the design calls — and brief the build from
+  that map alone, one step.
+- **Each agent works in its own scratchpad worktree; the shared checkout
+  is the orchestrator's.** Bite 12 ran five agents so with no collision:
+  each pulled with `--no-rebase` before its push, the merges resolved
+  themselves but for one import line in `flight.ts`, which the agent
+  settled, and the Stop hook flagged only the orchestrator's own cost row.
+  In a shared tree a sibling's half-written module fails `tsc` and can make
+  the page throw on load, and `git stash`, `checkout -- <path>` and
+  `restore` sweep up siblings' edits — bite 11's first flowers agent
+  stashed for a test baseline, the pop conflicted, and the owners rewrote
+  by hand — so where a tree is shared the common brief bans all three from
+  the start. A production build fails in a worktree inside the repo
+  (Turbopack symlinks, Google Fonts) and works from one in the scratchpad
+  after `pnpm install --offline`, with no symlinked `node_modules`.
+- **The play run goes beside the source work, not after it, once its
+  probe builds from a commit.** Bite 12's rest ran a `scripts/`-only play
+  agent alongside each `src/` wave, its probe built in its own worktree at
+  HEAD: the walk frames found the far-hill flower before P4 was built on
+  it, and the reports caught a game fault (a portrait phone's `+` refusing
+  after one mushroom). One step per agent and a ~10-minute check-in held
+  every agent under ~190k with commits on origin; six packages ran in ~1¾
+  hours.
 - **A test that can fail fails the run it lands in.** The play run's
   stricter turn watch landed before the flight fix and turned
   `pnpm play:mushrooms` red across two sessions. The handling order should
@@ -191,93 +252,31 @@
 
 ## A subagent's context
 
-- **A subagent cannot see its own context, so the orchestrator reads it
-  off the transcript on a timer.** Asked for its usage, one answered 115k
-  while its transcript held 220k.
-  `jq -c 'select(.message.usage) | .message.usage | (.input_tokens + (.cache_read_input_tokens//0) + (.cache_creation_input_tokens//0))' <output_file> | tail -1`
-  prints the last call's context without reading any content (or
-  `tac | grep -m1` for the last `cache_read_input_tokens`). Agents reach
-  ~230k in about twenty-five minutes, often before their first commit (four
-  of bite 8's five), and bite 10's ended at 188–244k past the ~170k line
-  their brief set. So the skill should arm a `send_later` check-in every
-  ~15–30 minutes with each spawn, reading the usage and the branch's new
-  commits, pause an agent from outside past ~200k, and start a fresh one on
-  the same brief from its hand-over note — rather than trusting the agent
-  to stop. Bite 11's review shows the split: the reader finished at 124k in
-  9 minutes, the player read 149k at the 20-minute check-in with nothing
-  committed, and one nudge ("wrap up within ~25k, commit the frames")
-  brought frames and report at 158k. A player gets the 20-minute check-in
-  by default; a reader rarely needs one.
-
-- **A three-step package ends at two; a tracing step ends the agent.**
-  Bite 12's review round ran seven agents at 140–183k: the three review
-  groups (three findings each) finished, a five-finding one stopped at
-  three, a three-step leg-frame build stopped after its pure move, and a
-  play agent with a trace in its tail stopped before the trace. Each
-  successor finished from the hand-over note in one go. So the skill briefs
-  at most two build steps, or one build step plus its tests, and a play
-  with no trace; a red needing a trace gets its own agent.
-
-- **The check-in timer is a backstop to the hook's subagent notice.**
-  The operator asked why agents are not simply told, as the main session
-  is («им нельзя говорить чтобы применяли ту же эвристику… вместо того
-  чтобы проверять каждые эндцать минут?»), so the context-budget
+- **A subagent cannot see its own context: the hook tells it at 170k, and
+  the orchestrator's timer is the backstop.** Asked for its usage, one
+  answered 115k while its transcript held 220k. Agents reach ~230k in about
+  twenty-five minutes, often before their first commit (four of bite 8's
+  five), and bite 10's ended at 188–244k past the ~170k line their brief
+  set. The operator asked why agents are not simply told, as the main
+  session is («им нельзя говорить чтобы применяли ту же эвристику… вместо
+  того чтобы проверять каждые эндцать минут?»), so the context-budget
   `PostToolUse` hook gives a subagent its own notice at 170k of its own
   context — commit what passes, bring the note current, report, leave the
-  plan file alone (`.claude/context-budget/CLAUDE.md`). The timer stays for
-  an agent stuck in one long command, which makes no tool call to fire on.
-  A subagent's call carries the parent's `transcript_path` and its own
-  `agent_id`, so the hook reads
-  `<transcript_path minus .jsonl>/subagents/agent-<agent_id>.jsonl`.
-  Its first live run (bite 12, `insect-arrive`) fired at 170k, and the
-  agent finished step 2 and reported at 184k with no nudge.
-- **Per-agent worktrees ran five agents with no collision.** Each pulled
-  with `--no-rebase` before its push; the merges resolved themselves but
-  for one import line in `flight.ts`, which the agent settled. The shared
-  checkout stayed the orchestrator's, so the Stop hook flagged only its
-  own cost row.
-- **A brief's numbers carry their unit, checked against the code.** The
-  orchestrator wrote a dash cap as "≈6 world units"; the model reads
-  places in butterfly sizes, and the agent found the mix-up, built the
-  cap in the right unit and reported it. Its report also showed the cap
-  should be per screen, a second call. The skill should have the
-  orchestrator read the function's units before it writes a number into
-  a decision. A number taken from a hand-over note is the same risk: bite
-  12's dash bound came from `dash-cap.md`'s 60 sizes/s, a cap pace had
-  since removed, and the play failed both dashing kinds on it. A bound
-  goes into a brief as "derive it from `<file>`", not as a figure.
-- **An agent that writes a new play and runs it is two agents.** Bite 12's
-  `veer` play filled its first agent (185k) before one browser run; the
-  second, briefed "apply the patch, lint, commit, then run one screen",
-  finished at 124k. Brief writing and running as separate steps, the
-  write committed before any build.
-
-- **A shared tree bans `git stash`, `checkout -- <path>` and `restore` in
-  the common brief from the start.** Bite 11's first flowers agent stashed
-  for a test baseline and swept up two siblings' uncommitted edits; the
-  pop then conflicted and the owners rewrote by hand. A throwaway
-  `git worktree` gives the same baseline. (A production build fails in a
-  worktree inside the repo — Turbopack symlinks, Google Fonts — and works
-  from one in the scratchpad after `pnpm install --offline`.)
-- **An agent does two or three steps, not five.** Bite 11's seven package
-  agents each reached 160–220k after two to three steps of a five-step
-  list, so every package took two or three agents. Brief two or three
-  steps, and name the step that ends the brief.
-- **A half-landed migration blocks the whole tree.** Flowers' step 2 sat
-  uncommitted at 137k while the other two agents' typechecks went red on
-  it; a nudge to "land step 2 within ~40k" did not bite. A step that
-  breaks a shared type lands first and alone, or in a worktree.
-- **A fix round's first answer can be "the measure is wrong".** Bite 11's
-  room fix found both reds were proxies — a fingertip disc too round for
-  flat caps while every tap landed, a wash kept off feet it is drawn
-  beneath — and changed no source. Brief a fix round to test the measure
-  against the rule it stands for before tuning the code to it.
-
-- **Build and play are two agents, briefed apart.** At bite 12's depth 7,
-  three of three build agents ran out of context after the unit tests and
-  before the probe build, so "build, then play tabL once" left every
-  package unplayed. The play is a second, cheap agent over the pushed
-  build, briefed with the build's note; the skill should brief them so.
+  plan file alone (`.claude/context-budget/CLAUDE.md`). A subagent's call
+  carries the parent's `transcript_path` and its own `agent_id`, so the
+  hook reads `<transcript_path minus .jsonl>/subagents/agent-<agent_id>.jsonl`;
+  its first live run (bite 12, `insect-arrive`) fired at 170k, and the
+  agent finished step 2 and reported at 184k with no nudge. The timer stays
+  for an agent stuck in one long command, which makes no tool call to fire
+  on: the skill arms a `send_later` check-in with each spawn — ~10–12
+  minutes for a build or play agent, while a reader rarely needs one (bite
+  11's finished at 124k in 9 minutes) — that reads the branch's new commits
+  and the usage off the transcript without reading any content:
+  `jq -c 'select(.message.usage) | .message.usage | (.input_tokens + (.cache_read_input_tokens//0) + (.cache_creation_input_tokens//0))' <output_file> | tail -1`
+  (or `tac | grep -m1` for the last `cache_read_input_tokens`). A nudge
+  near 170k ("wrap up within ~25k, commit the frames") landed a commit or a
+  patch every time; past ~200k the orchestrator pauses the agent from
+  outside and starts a fresh one on the same brief from its hand-over note.
 
 ## Pauses, restarts and the Stop hook
 
@@ -320,6 +319,18 @@
   main session owns, and a stop; committing the agent's half-done files
   would collide with its own commit. The skill should say so, so the hook
   does not read as an order.
+- **A usage limit kills subagents mid-edit, and `SendMessage` revives
+  them whole.** At bite 12's depth 6 the account's weekly limit stopped
+  both running agents with their edits uncommitted in their worktrees.
+  The operator raised the quota and asked to recover them; a
+  `SendMessage` to each agent id resumed it from its own transcript, told
+  where it stopped and that its worktree was intact, and both finished.
+  So the orchestrator keeps each agent's id until its report lands, lists
+  `git worktree list` and each tree's `status` before deciding anything,
+  and never removes a dead agent's worktree before trying to resume it.
+- **A wrap-up and its cancel can cross.** An agent told to stop, then told
+  to carry on, had already stopped; the cancel only resumed it. Settle with
+  the operator before stopping an agent, not after.
 
 ## The tail
 
@@ -331,64 +342,18 @@
   nothing in common and run side by side. The orchestrator keeps the
   replies where it can, the Artifact publish (its tool is the
   orchestrator's) and the relay.
-- **A scene package fits one step, not three.** Bite 12's build ran
-  eleven agents; every one briefed with two or three steps reached
-  ~170k in 12–20 minutes having landed one, and four of them first
-  committed only after the nudge. Agents reading four or five hand-over
-  notes before starting were the fastest to fill. Brief one step, the
-  second as "if context allows", and arm the check-in at ~12 minutes;
-  the wrap-up nudge at ~170k landed a commit or a patch every time.
-- **A pause that leaves a shared type half-migrated blocks every other
-  agent's typecheck.** P2c paused with its hills as a patch and the same
-  edits in the tree, so P3b's and P1c's `pnpm typecheck` went red on it;
-  the next agent's first instruction was "confirm the tree equals the
-  patch, land it within ~50k", and the blockage cleared in one commit.
-  When a pause leaves a patch in the tree, relaunch that package first.
-- **The play run goes beside the source work, not after it, once its
-  probe builds from a commit.** Bite 12's rest ran a `scripts/`-only play
-  agent alongside each `src/` wave: the walk frames found the far-hill
-  flower before P4 was built on it, and the play agents' reports caught a
-  game fault (a portrait phone's `+` refusing after one mushroom). A
-  sibling's uncommitted edit in the shared tree made the page throw on
-  load, so the probe is built in a scratchpad worktree at HEAD (`pnpm
-install --offline` there; a symlinked `node_modules` fails Turbopack).
-  One step per agent and a ~10-minute check-in held every agent under
-  ~190k with commits on origin; six packages ran in ~1¾ hours.
-- **A package briefed as five steps lands as two or three.** Bite 12's lens
-  went build → land ×3 → frames, each agent stopping at ~180k on its
-  budget notice with the rest as a patch and a note; the carried flight
-  items took three rounds. The skill should brief one to three steps per
-  agent and treat the hand-over note as the next brief's spine.
-- **A wrap-up and its cancel can cross.** An agent told to stop, then told
-  to carry on, had already stopped; the cancel only resumed it. Settle with
-  the operator before stopping an agent, not after.
-- **Additive packages, then one switch-over, needs the switch pre-mapped.**
-  Bite 12's insect-plane ran step 0, the veer, A, B and pace as additive
-  packages (new paths beside the live ones, five agents in ~1 hour, each
-  110–190k, never sharing a file), which kept every tree green; but the
-  switch-over agent spent its whole 178k reading six hand-over notes and the
-  view code and built nothing. The skill should give the switch a mapping
-  agent first — call sites, the files outside the list that read the old
-  shape (here a play probe), the design calls — and brief the build from
-  that map alone, one step.
-- **Ask a fix round for the baseline first.** The fly-catch red after pace
-  was briefed "test the measure against its rule, at the commit before";
-  the agent ran the baseline, found the measure sound and the guessed cause
-  backwards (darting only on long legs made it worse), and fixed it by
-  lowering two cruises the plan called "set by play". A guess in a report is
-  a hypothesis for the next brief, not its instruction.
+- **A fix round first tests the measure against its rule, at the commit
+  before, and only then tunes the code.** Bite 11's room fix found both
+  reds were proxies — a fingertip disc too round for flat caps while every
+  tap landed, a wash kept off feet it is drawn beneath — and changed no
+  source. Bite 12's fly-catch red after pace, briefed this way, ran the
+  baseline, found the measure sound and the guessed cause backwards
+  (darting only on long legs made it worse), and was fixed by lowering two
+  cruises the plan called "set by play". A guess in a report is a
+  hypothesis for the next brief, not its instruction.
 - **A fix that holds in tests but not in play is a cause one layer out.**
   The looking-back release passed its unit tests twice and stayed invisible
   in play; the third round traced it to insects flying in the opening
   eye's layout, which the lens and walking had made wrong. Brief a play
   check with every fix to what the child sees, and on a second miss send a
   research agent for the layer below rather than a third fix.
-- **A usage limit kills subagents mid-edit, and `SendMessage` revives
-  them whole.** At bite 12's depth 6 the account's weekly limit stopped
-  both running agents with their edits uncommitted in their worktrees.
-  The operator raised the quota and asked to recover them; a
-  `SendMessage` to each agent id resumed it from its own transcript, told
-  where it stopped and that its worktree was intact, and both finished.
-  So the orchestrator keeps each agent's id until its report lands, lists
-  `git worktree list` and each tree's `status` before deciding anything,
-  and never removes a dead agent's worktree before trying to resume it.
