@@ -243,3 +243,13 @@ In this order of launch; parallel where files are disjoint.
   agent takes the four reds (game reds fixed, harness reds loosened into
   to-check.md); the four screens after it, a play per call to stay under
   the foreground limit.
+
+- **tail-lawn** — 838b087 (the re-tend spread: `tending.ts`, the tuft
+  rules moved out of `tufts.ts`, `TEND_SLICE` 60 tufts a frame after a
+  0.3 ms gather; a scene-asked `Grass.tend` stays whole and cancels a
+  slice run), 4605c4a (mottles `MOTTLE_TONE` 0.7, `MOTTLE_ALPHA` 0.4; at
+  0.8/0.5 overlaps smudge far out). tabL approach: frames carrying lawn
+  work 43.3 → 26.7 ms median against 23.7 without; call median 18.2 →
+  1.2 ms. **Kept:** spreading over shrinking the sector. **Handed on:** the
+  probe times only `Grass.tend`, so `tendOn`/`retend` go into
+  `hitches.tend` — given to tail-fliers, which owns `mushroom-probe.ts`.
