@@ -16,6 +16,11 @@ import {
   type Perch,
   perchName,
 } from '../../src/pages/mushrooms/model/flight.ts';
+import {
+  type Aloft,
+  centreOf,
+  framedOf,
+} from '../../src/pages/mushrooms/model/flight-frame.ts';
 import { outOf, outWay } from '../../src/pages/mushrooms/model/flight-in.ts';
 import { apartIn } from '../../src/pages/mushrooms/model/flight-timing.ts';
 import {
@@ -34,9 +39,7 @@ import {
   leavingAloft,
 } from '../../src/pages/mushrooms/ui/scene/insect-away.ts';
 import {
-  type Aloft,
-  centreOf,
-  framedOf,
+  eyeFrameOf,
   mixD,
 } from '../../src/pages/mushrooms/ui/scene/insect-frame.ts';
 import {
@@ -64,8 +67,8 @@ const KINDS = ['fly', 'bee'] as const satisfies readonly InsectKind[];
 function drawnLength(view: View, from: Aloft, to: Aloft, unit: number): number {
   const centre = centreOf(view.eye, from, to);
   const [start, end] = [
-    framedOf(view, centre, from),
-    framedOf(view, centre, to),
+    framedOf(eyeFrameOf(view), centre, from),
+    framedOf(eyeFrameOf(view), centre, to),
   ];
   let length = 0;
   for (let cut = 0; cut < CUTS; cut += 1) {

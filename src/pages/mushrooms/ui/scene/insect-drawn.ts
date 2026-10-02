@@ -8,14 +8,10 @@
 
 import { pick } from '@/shared/lib/collections';
 
+import type { Aloft, Framed } from '../../model/flight-frame';
 import { onHost } from './bed-place';
 import { reachesScreen, type Spanned, type Zoomed } from './insect-away';
-import {
-  type Aloft,
-  aloftFramed,
-  type Framed,
-  type SeatEnds,
-} from './insect-frame';
+import { aloftFramed, type SeatEnds } from './insect-frame';
 import { drawnFlier, drawnSitter } from './insect-seat';
 import { shadowOf, type ShadowPlace } from './insect-shadow';
 import type { Shown } from './insect-shown';

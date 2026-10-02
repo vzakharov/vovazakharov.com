@@ -1,8 +1,8 @@
 import { type Perch, perchName, SIDES, type Sight } from '../../model/flight';
+import type { Aloft } from '../../model/flight-frame';
 import type { Flier } from '../../model/insects';
 import type { Stand } from './flower-sight';
 import { type Away, awayPlaces } from './insect-away';
-import type { Aloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import {
   type Perched,

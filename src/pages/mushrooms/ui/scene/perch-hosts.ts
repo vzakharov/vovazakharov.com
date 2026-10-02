@@ -1,10 +1,10 @@
 import { isAloft, isLeaving, type Perch } from '../../model/flight';
+import type { Aloft } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
 import type { Camera } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import type { Host } from './bed-place';
 import type { FlowerBed } from './flower-bed';
-import type { Aloft } from './insect-frame';
 import type { MushroomBed } from './mushroom-bed';
 import { perchSpot } from './perch-sight';
 import { aloftOfLayout } from './plane-place';

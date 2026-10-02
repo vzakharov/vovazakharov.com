@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { type Perch, perchName } from '../../model/flight';
+import { type Aloft, centreOf, framedOf } from '../../model/flight-frame';
 import { entryOf, isShown, nearerSide, outWay } from '../../model/flight-in';
 import { apartIn, placesSetOff } from '../../model/flight-timing';
 import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
@@ -17,14 +18,7 @@ import {
   releasedAway,
   seenFor,
 } from './insect-away';
-import {
-  type Aloft,
-  aloftAt,
-  centreOf,
-  drawnAloft,
-  framedOf,
-  mixD,
-} from './insect-frame';
+import { aloftAt, drawnAloft, eyeFrameOf, mixD } from './insect-frame';
 import { meadowCamera } from './meadow-camera';
 import { footRows, onscreenOf, seatAt } from './perch-sight';
 import { Perches } from './perches';
@@ -180,8 +174,8 @@ describe('entryAloft', () => {
 function framedLength(view: View, from: Aloft, to: Aloft): number {
   const centre = centreOf(view.eye, from, to);
   const [start, end] = [
-    framedOf(view, centre, from),
-    framedOf(view, centre, to),
+    framedOf(eyeFrameOf(view), centre, from),
+    framedOf(eyeFrameOf(view), centre, to),
   ];
   const [cuts, chord] = [100, Math.hypot(end.x - start.x, end.y - start.y)];
   let length = 0;

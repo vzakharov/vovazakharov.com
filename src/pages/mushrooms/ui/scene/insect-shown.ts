@@ -1,6 +1,7 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Leg, Span } from '../../model/flight';
+import type { Aloft, Framed } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
 import type { CarryingOver } from '../../model/insect-paths';
 import {
@@ -11,7 +12,6 @@ import {
 import { type Bobbed, phaseOf } from '../../model/motion';
 import type { TappedFigure } from './hit-areas';
 import type { SetOff, Spanned } from './insect-away';
-import type { Aloft, Framed } from './insect-frame';
 import type { Flying, Look } from './insect-look';
 
 /** An insect on screen (`InsectView`): its look, and where and how it flies. */

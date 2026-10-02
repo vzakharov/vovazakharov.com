@@ -2,6 +2,14 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  type Aloft,
+  centreOf,
+  FRAME_MARGIN,
+  type Framed,
+  framedOf,
+  unframed,
+} from '../../model/flight-frame';
+import {
   CLUMP_DISTANCE,
   type Eye,
   EYE_HEIGHT,
@@ -13,19 +21,14 @@ import {
 import { flightPoint } from '../../model/insect-paths';
 import { between, mulberry32 } from '../../model/random';
 import {
-  type Aloft,
   aloftAt,
   aloftFramed,
-  centreOf,
   drawnAloft,
-  FRAME_MARGIN,
-  type Framed,
-  framedOf,
+  eyeFrameOf,
   mixD,
   SEAT_FADE,
   type SeatEnds,
   SKIM,
-  unframed,
   type Veer,
   veered,
   veeredAlong,
@@ -111,11 +114,14 @@ describe('insect-frame', () => {
           y: q,
         });
         const aloft = { ...plane, h: (footRow - point.y) * perPx };
-        const framed = framedOf(opening, 0, aloft);
+        const framed = framedOf(eyeFrameOf(opening), 0, aloft);
         near(framed.x, point.x, 1e-6);
         near(framed.y, point.y, 1e-6);
         near(framed.forward, q, 1e-9);
-        const drawn = drawnAloft(opening, unframed(opening, 0, framed));
+        const drawn = drawnAloft(
+          opening,
+          unframed(eyeFrameOf(opening), 0, framed),
+        );
         const today = sunkOver(
           opening,
           ofLayout(opening, point, footRow),
@@ -141,7 +147,7 @@ describe('insect-frame', () => {
         });
         const laid = layoutOfPlane(opening, plane);
         assert.ok(laid);
-        const framed = framedOf(opening, 0, { ...plane, h: 0 });
+        const framed = framedOf(eyeFrameOf(opening), 0, { ...plane, h: 0 });
         near(framed.x, laid.x, 1e-6);
         near(framed.y, laid.y, 1e-6);
       }
@@ -180,15 +186,19 @@ describe('insect-frame', () => {
             y: eye.y + distance * Math.cos(azimuth),
             h: between(random, 0, 2),
           };
-          const framed = framedOf(view, centre, aloft);
-          const back = unframed(view, centre, framed);
+          const framed = framedOf(eyeFrameOf(view), centre, aloft);
+          const back = unframed(eyeFrameOf(view), centre, framed);
           near(back.x, aloft.x, 1e-9);
           near(back.y, aloft.y, 1e-9);
           near(back.h, aloft.h, 1e-9);
           if (aloft.h >= SKIM) {
             assert.deepEqual(aloftFramed(view, centre, framed), back);
           }
-          const again = framedOf(view, centre, unframed(view, centre, framed));
+          const again = framedOf(
+            eyeFrameOf(view),
+            centre,
+            unframed(eyeFrameOf(view), centre, framed),
+          );
           near(again.x, framed.x, 1e-9);
           near(again.y, framed.y, 1e-9);
           near(again.forward, framed.forward, 1e-9);
@@ -207,9 +217,12 @@ describe('insect-frame', () => {
         y: eye.y + 2 * Math.cos(centre + 0.3),
         h: 0.4,
       };
-      const before = framedOf(viewAt(camera, eye), centre, aloft);
+      const before = framedOf(eyeFrameOf(viewAt(camera, eye)), centre, aloft);
       const turned = { ...eye, heading: eye.heading + between(random, -3, 3) };
-      assert.deepEqual(framedOf(viewAt(camera, turned), centre, aloft), before);
+      assert.deepEqual(
+        framedOf(eyeFrameOf(viewAt(camera, turned)), centre, aloft),
+        before,
+      );
     }
   });
 
@@ -253,8 +266,8 @@ describe('aloftFramed', () => {
   // the screen, mixed as the scene mixes it: its forward along the chord.
   const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
   const depth = 0.6 * CLUMP_DISTANCE;
-  const start = framedOf(view, 0, { x: -3.5, y: depth, h: 0.3 });
-  const end = framedOf(view, 0, { x: 3.5, y: depth, h: 0.3 });
+  const start = framedOf(eyeFrameOf(view), 0, { x: -3.5, y: depth, h: 0.3 });
+  const end = framedOf(eyeFrameOf(view), 0, { x: 3.5, y: depth, h: 0.3 });
   const path = {
     start,
     end,
@@ -276,7 +289,9 @@ describe('aloftFramed', () => {
     });
 
   it('reads that leg as dipping underground unframed', () => {
-    const lowest = Math.min(...leg(400).map((at) => unframed(view, 0, at).h));
+    const lowest = Math.min(
+      ...leg(400).map((at) => unframed(eyeFrameOf(view), 0, at).h),
+    );
     assert.ok(lowest < -0.4, String(lowest));
   });
 
@@ -284,7 +299,7 @@ describe('aloftFramed', () => {
     for (const at of leg(400)) {
       const aloft = aloftFramed(view, 0, at);
       assert.ok(aloft.h > 0, `${aloft.h} at ${at.x}, ${at.y}`);
-      const back = framedOf(view, 0, aloft);
+      const back = framedOf(eyeFrameOf(view), 0, aloft);
       near(back.x, at.x, 1e-9);
       near(back.y, at.y, 1e-9);
     }

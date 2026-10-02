@@ -1,11 +1,19 @@
 /**
- * The leg's frame: the space an insect's leg is steered in. It is the opening
- * layout's pinhole stood at the eye and turned to a centre azimuth fixed as
- * the leg sets off, so at the opening eye facing the clump it is the layout
- * itself, in world px, and the leg is flown as the layout flies it. Turning
- * the eye moves no framed point; walking moves them by true parallax.
+ * The leg's frame (`flight-frame.ts`) on the screen: `view`'s pinhole as the
+ * frame, in world px, so at the opening eye facing the clump a leg is flown
+ * as the layout flies it; where a framed flight stands in the air, never
+ * under the ground; and how a leg veers round the eye.
  */
 
+import { pick } from '@/shared/lib/collections';
+
+import {
+  type Aloft,
+  azimuthOf,
+  type EyeFrame,
+  type Framed,
+  unframed,
+} from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
 import {
   alongSight,
@@ -15,10 +23,8 @@ import {
   type Eye,
   EYE_HEIGHT,
   pinholeOf,
-  SPREAD,
 } from '../../model/ground';
 import { smooth } from '../../model/motion';
-import { wrapAngle } from './panorama';
 import {
   buried,
   middleOf,
@@ -29,68 +35,14 @@ import {
   type View,
 } from './view';
 
-/** A point in the air: a plane point and its height over the plane, both in the clump's size. */
-export type Aloft = Point & { h: number };
-
-/** An `Aloft` in a leg's frame: world px across and down, and `forward`, its distance ahead of the eye along the frame’s centre, in the clump's size. */
-export type Framed = Point & { forward: number };
-
-/**
- * How far off a leg's centre, in plane azimuth, either end may stand:
- * `tan 0.9` (1.26 focal lengths) at the frame's edge, well inside its one
- * singular line at `SPREAD · π/2`. Twice it exceeds π, so any chord fits.
- */
-export const FRAME_MARGIN = SPREAD * 0.9;
-
-/** The plane azimuth of `point` from `eye`, turned from its `+y` toward its `+x`. */
-export function azimuthOf(eye: Point, point: Point): number {
-  return Math.atan2(point.x - eye.x, point.y - eye.y);
-}
-
-/**
- * The centre azimuth of a leg from `from` to `to` as `eye` sets it off: the
- * eye's heading, clamped so both ends, taken the short way round, lie within
- * `FRAME_MARGIN` of it. Facing anything on the screen the clamp does not
- * bite, so the leg's frame is the screen's own crop; only the eye's heading
- * reproduces the layout's bow sides, a chord-derived centre does not.
- */
-export function centreOf(eye: Eye, from: Point, to: Point): number {
-  const start = azimuthOf(eye, from);
-  const end = start + wrapAngle(azimuthOf(eye, to) - start);
-  const low = Math.min(start, end);
-  const high = Math.max(start, end);
-  const middle = (low + high) / 2;
-  const heading = middle + wrapAngle(eye.heading - middle);
-  return Math.min(Math.max(heading, high - FRAME_MARGIN), low + FRAME_MARGIN);
-}
-
-/**
- * `aloft` in the frame `centre` stands at `view`'s eye: across by the tangent
- * of its gathered azimuth off `centre`, down by its height over its forward
- * distance. Defined only within `SPREAD · π/2` of `centre`.
- */
-export function framedOf(view: View, centre: number, aloft: Aloft): Framed {
+/** `view`'s pinhole as the frame a leg is drawn in (`EyeFrame`), in px of `unit` CSS px: the world px of the opening layout at 1. */
+export function eyeFrameOf(view: View, unit = 1): EyeFrame {
   const pinhole = pinholeOf(view);
-  const distance = Math.hypot(aloft.x - view.eye.x, aloft.y - view.eye.y);
-  const theta = wrapAngle(azimuthOf(view.eye, aloft) - centre) / SPREAD;
-  const forward = distance * Math.cos(theta);
   return {
-    x: middleOf(view) + pinhole.focal * Math.tan(theta),
-    y: pinhole.y + ((EYE_HEIGHT - aloft.h) * pinhole.focal) / forward,
-    forward,
-  };
-}
-
-/** `framedOf` run backwards: the `Aloft` the frame `centre` at `view`'s eye stands at `framed`. */
-export function unframed(view: View, centre: number, framed: Framed): Aloft {
-  const pinhole = pinholeOf(view);
-  const theta = Math.atan((framed.x - middleOf(view)) / pinhole.focal);
-  const azimuth = centre + SPREAD * theta;
-  const distance = framed.forward / Math.cos(theta);
-  return {
-    x: view.eye.x + distance * Math.sin(azimuth),
-    y: view.eye.y + distance * Math.cos(azimuth),
-    h: EYE_HEIGHT - ((framed.y - pinhole.y) * framed.forward) / pinhole.focal,
+    x: middleOf(view) / unit,
+    y: pinhole.y / unit,
+    focal: pinhole.focal / unit,
+    ...pick(view, 'eye'),
   };
 }
 
@@ -110,12 +62,13 @@ export const SKIM = 0.1;
  * a swoop toward the grass bends its height and size with no kink.
  */
 export function aloftFramed(view: View, centre: number, framed: Framed): Aloft {
-  const exact = unframed(view, centre, framed);
+  const frame = eyeFrameOf(view);
+  const exact = unframed(frame, centre, framed);
   if (exact.h >= SKIM) return exact;
   const h = SKIM * Math.exp((exact.h - SKIM) / SKIM);
   // Below the horizon the sight drops `EYE_HEIGHT − h` over `forward`.
   const forward = (framed.forward * (EYE_HEIGHT - h)) / (EYE_HEIGHT - exact.h);
-  return { ...unframed(view, centre, { ...framed, forward }), h };
+  return { ...unframed(frame, centre, { ...framed, forward }), h };
 }
 
 /**
