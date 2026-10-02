@@ -362,6 +362,16 @@ Decided from it, each built as its own package:
   horizon (the hills or the sky) strafes — the hand holding the far world
   slides it. Vertical drags step as today.
 
+- **Bees no longer sow lines** («пчела всегда сажает цветок в одну и ту же
+  сторону … сплошные диагональные полосы»): a planting takes any free ring
+  slot off the bee's stream, not the first (8e2af24).
+- **A note with no flower in view plants one** («если на пустом экране
+  сыграть мелодию, достаточно быстро вырастет поляна цветков-нот»): with the
+  picker shut, a note or drum key whose sound no flower in view makes sounds
+  at once and grows that flower — its colour and shape — on a free tuft in
+  view picked off the meadow's stream; a key some flower in view already
+  makes plays it as before and plants nothing. Package `v14-note-plant`.
+
 The footstep level held in the operator's earlier play («когда играл вчера
 было хорошо»).
 
