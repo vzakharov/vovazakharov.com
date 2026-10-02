@@ -8,14 +8,18 @@ import { FPS, type Sample } from './veer-watch.ts';
 
 const BUTTERFLY = 40;
 const WIDTH = 1000;
+const LENS = { x: WIDTH / 2, y: 400, focal: 900, arc: 750 };
 const frame = 1000 / FPS;
 
-/** Two frames of one fly on one leg, the eye standing, a `step` apart in CSS px at zoom 1. */
-function fly(step: number, lifted: number | null): Sample[] {
+/**
+ * Two frames of one fly on one leg, a `step` apart in CSS px at zoom 1, the
+ * eye turning `turn` radians between them as a held key turns it.
+ */
+function fly(step: number, lifted: number | null, turn = 0): Sample[] {
   const at = (index: number): Sample => ({
     frame: index,
     now: index * frame,
-    heading: 0,
+    heading: index * turn,
     eyeX: 0,
     eyeY: 0,
     id: 'fly-1',
@@ -45,6 +49,7 @@ function flyOver(samples: readonly Sample[]): string | undefined {
   const noted: string[] = [];
   flicks(
     samples,
+    LENS,
     WIDTH,
     BUTTERFLY,
     (holds, message) => {
@@ -103,5 +108,20 @@ describe('flicks, a fly over its dash curve', () => {
       flyOver(fly(curve * pivotAllowance(1.2) + 1, 1.2)),
       undefined,
     );
+  });
+});
+
+describe('flicks, the eye turning under a held key', () => {
+  const curve = (dashPeak('fly') ?? 0) * BUTTERFLY * DASH_SLACK;
+  // Turning left slides everything drawn right, the way the fly flies.
+  const turn = -0.0124;
+  const slide = -LENS.arc * turn;
+
+  it('passes a fly within its curve that the slide carries past it', () => {
+    assert.equal(flyOver(fly(curve - 1 + slide, 0, turn)), undefined);
+  });
+
+  it('still fails a fly past its curve once the slide is out', () => {
+    assert.notEqual(flyOver(fly(curve + 1 + slide, 0, turn)), undefined);
   });
 });
