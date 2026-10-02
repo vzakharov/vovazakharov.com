@@ -1,0 +1,68 @@
+// Probe: each cap's leg to away as timed (`apartIn` on `perchSight`'s places, distance corrected as `sightFrom` does) against as drawn.
+import { perchName } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/model/flight';
+import { apartIn } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/model/flight-timing';
+import { CLUMP_DISTANCE, OPENING_EYE } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/model/ground';
+import { placeIn } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/ui/scene/clump-layout';
+import { awayDown, awayPlaces, leavingAloft } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/ui/scene/insect-away';
+import { drawnAloft } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/ui/scene/insect-frame';
+import { WIDEST_SPAN } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/ui/scene/flower-sight';
+import { perchSight } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/ui/scene/perch-sight';
+import { aloftOfLayout, perchDistance, placeOfAloft } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/ui/scene/plane-place';
+import { viewAt } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/ui/scene/view';
+import { opened } from '/tmp/claude-0/-home-user-vovazakharov-com/7e6f06d9-ae49-594d-86c2-0463b398cc7f/scratchpad/wt-v15-flyspeed/src/pages/mushrooms/ui/scene/visit-play';
+
+const heading = Number(process.argv[2] ?? '0');
+const eye = { x: Number(process.argv[3] ?? '0'), y: Number(process.argv[4] ?? '0'), heading: Number(process.argv[5] ?? '0') };
+for (const seed of [3]) {
+  const stand = opened(seed, 1180, 820, true, (layout) =>
+    viewAt(layout.camera, { ...OPENING_EYE, heading }),
+  );
+  const { layout } = stand;
+  const unit = layout.insectSize;
+  const view = viewAt(layout.camera, eye);
+  const sight = perchSight(stand);
+  const places = sight.places ?? {};
+  const away = awayPlaces(layout, view);
+  for (const mushroom of stand.mushrooms) {
+    const name = perchName({ kind: 'cap', id: mushroom.id });
+    const place = places[name];
+    const laid = placeIn(layout.mushrooms, mushroom);
+    if (!place || !laid) {
+      console.log(seed, mushroom.id, `foot ${mushroom.foot.x.toFixed(2)},${mushroom.foot.z.toFixed(2)}`, 'NO PLACE', place, laid);
+      continue;
+    }
+    const seat = { x: place.x * unit, y: place.y * unit };
+    const at = aloftOfLayout(layout.camera, seat, laid.y);
+    const corrected = { ...place, fromEye: perchDistance(view, at) };
+    const whole = placeOfAloft(view, unit, at);
+    const drawnFrom = drawnAloft(view, at);
+    const out = leavingAloft(
+      view,
+      'right',
+      { span: WIDEST_SPAN * layout.insectSizes.butterfly, drop: awayDown(view.height, 0) },
+      at,
+    );
+    const drawnTo = drawnAloft(view, out);
+    const timed = apartIn(
+      { [name]: corrected, ...away },
+      { kind: 'cap', id: mushroom.id },
+      { kind: 'away', side: 'right' },
+    );
+    const drawn =
+      drawnFrom && drawnTo
+        ? Math.hypot(drawnTo.x - drawnFrom.x, drawnTo.y - drawnFrom.y) /
+          (unit * drawnFrom.zoom)
+        : undefined;
+    console.log(
+      seed,
+      mushroom.id,
+      `foot ${mushroom.foot.x.toFixed(2)},${mushroom.foot.z.toFixed(2)}`,
+      `place ${place.x.toFixed(2)},${place.y.toFixed(2)} fe ${place.fromEye.toFixed(2)}→${corrected.fromEye.toFixed(2)}`,
+      `whole ${whole?.x.toFixed(2)},${whole?.y.toFixed(2)}`,
+      `drawnFrom ${drawnFrom?.x.toFixed(0)},${drawnFrom?.y.toFixed(0)} z${drawnFrom?.zoom.toFixed(2)}`,
+      `away ${away['away right']?.x.toFixed(2)},${away['away right']?.y.toFixed(2)} drawnTo ${drawnTo?.x.toFixed(0)},${drawnTo?.y.toFixed(0)}`,
+      `timed ${timed?.toFixed(2)} drawn ${drawn?.toFixed(2)} ratio ${drawn && timed ? (drawn / timed).toFixed(2) : '-'}`,
+    );
+  }
+  console.log('CLUMP', CLUMP_DISTANCE, 'unit', unit, 'world', layout.camera.world);
+}
