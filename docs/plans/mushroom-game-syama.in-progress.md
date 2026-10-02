@@ -359,11 +359,11 @@ with his words and what it beat: `bite-12/v14.md`.
 1. ~~Package C's play~~ — done: the veer play (`ip-Cplay4`, `ip-Cplay5`,
    `ip-plant`, `ip-away`), C's step 2 (ea7573a; `seat`/`capTop` left
    untested, their classes importing Phaser), the Artifact at version 14.
-1b. ~~The version-14 packages~~ — built: `v14-strafe` (played, tabL),
+   1b. ~~The version-14 packages~~ — built: `v14-strafe` (played, tabL),
    `v14-note-plant` (played, tabL), `v14-insect-depth` and `v14-fly`
    (played by `v14-insect-play.md`; any fix it left is the next work).
    Notes beside `brief-common.md`. The Artifact is still version 14.
-1a–1c. ~~Insects under the ground, the catch, the tablet reds~~ — built
+   1a–1c. ~~Insects under the ground, the catch, the tablet reds~~ — built
    (41d6ee7, 9f96587, 02c0804, be202aa); each call and what it beat in
    `bite-12/v14.md` § "Built at depth 8", the hand checks on `to-check.md`.
 2. The play run at the final HEAD under § "How this elephant is eaten"'s
@@ -373,10 +373,8 @@ with his words and what it beat: `bite-12/v14.md`.
    leg cut mid-flight — and the watch skips a shying flier; every call, its
    numbers and what it beat: `bite-12/leg-timing.md`. The frame median is
    noise in this container (same file). Left:
-   - **Build** `leg-timing.md` § 4, decided: the sight the scene sends with
-     each tick carries each drawn flier's place, and `onward` times a leg
-     cut mid-flight from it. A unit test that fails before.
-   - Then a play agent, tabL `veer`: tally the fly overs by leg kind again.
+   - ~~Build `leg-timing.md` § 4~~ — built (47d3a06, e66e719).
+   - A play agent, tabL `veer`: tally the fly overs by leg kind again.
      The cap→away-from-rest and whole cap→cap classes are traced only if
      they survive; what a person cannot see goes to `to-check.md`.
 3. ~~The footstep level~~ — put to the operator's ear with Artifact version 14

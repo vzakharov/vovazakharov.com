@@ -23,7 +23,10 @@ and the hand-over note that holds its numbers (under
    `v16-capaway.md`, `placesFlying` in `model/flight-timing.ts`), not from
    the perch it never reached. A leg in from away keeps the old timing.
 4. **The scene tells the model where it drew a flier cut mid-flight**
-   (decided, not built; `v17-play.md`). The scene steers every flight
+   (47d3a06, e66e719, `v18-drawn-place.md`; `Sight.drawn`, `placesSetOff`).
+   It applies only while the cut leg is still in the air, and to a leg in
+   from away too, which with a drawn place no longer needs item 3's old
+   timing. The scene steers every flight
    (`steer` in `insect-view.ts`), so neither the time share nor the dash
    curve finds the drawn point (0.05 of the way at 0.21 of the time, 0.92 at
    0.57; the dash-curve try made it worse, 162.6 px). The sight the scene
