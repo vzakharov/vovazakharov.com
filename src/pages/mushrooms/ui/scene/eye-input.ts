@@ -6,8 +6,10 @@ import type { Camera, Eye } from '../../model/ground';
 import {
   eyeAt,
   heldStill,
+  holdStrafe,
   holdTurn,
   holdWalk,
+  letGoStrafe,
   letGoTurn,
   letGoWalk,
   liftAt,
@@ -28,9 +30,9 @@ function isFixed(object: Phaser.GameObjects.GameObject): boolean {
 
 /**
  * The eye the scene's frames are seen from (`walk.ts`), and what moves it:
- * Phaser's one pointer, pressed anywhere but on a control, turns or walks
- * it, its axis locked once it leaves the slop; held arrow keys turn it and
- * walk it, ticked by the scene's clock whenever the eye is read. A press
+ * Phaser's one pointer, pressed anywhere but on a control, turns, walks or
+ * strafes it, its axis locked once it leaves the slop; held arrow keys turn
+ * it and walk it, and strafe it under Shift, ticked by the scene's clock whenever the eye is read. A press
  * still taps whatever it lands on, since the meadow answers taps on the
  * press. Every other finger plays a chord and never reaches Phaser
  * (`instrument-input.ts`), and any pointer but the one that pressed first is
@@ -140,6 +142,17 @@ export class EyeInput {
   letGoWalk(direction: Direction): void {
     const walk = this.current();
     if (walk) this.walk = letGoWalk(walk, direction);
+  }
+
+  /** Shift with `←` or `→` went down; its repeats change nothing. */
+  holdStrafe(direction: Direction): void {
+    const walk = this.current();
+    if (walk) this.walk = holdStrafe(walk, direction);
+  }
+
+  letGoStrafe(direction: Direction): void {
+    const walk = this.current();
+    if (walk) this.walk = letGoStrafe(walk, direction);
   }
 
   /** Lets `scene`'s pointer turn and walk the eye. Returns what stops it. */

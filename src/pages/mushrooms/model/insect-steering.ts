@@ -9,6 +9,7 @@ import type { InsectKind } from './insect-genes';
 import {
   bodyTurn,
   flyingTurn,
+  hopAt,
   pivot,
   restTurn,
   turned,
@@ -234,7 +235,8 @@ function facingWay(
  * of a take-off, a curve and a landing ever spins it. It heads the way its
  * flight to its perch as it stands and moves this frame takes it, so a perch
  * bobbing under it as it comes in never has it flying one way and facing
- * another.
+ * another. A leg that hops about its spot in the air (`hopAt`) jerks it
+ * there without turning it.
  */
 export function steer(
   held: Steering,
@@ -264,7 +266,9 @@ export function steer(
         ? carried.speed * Math.max(0, Math.cos(setOff.turns.lifted))
         : carried.speed,
   };
-  const point = flightPoint(path, now, motion);
+  const flown = flightPoint(path, now, motion);
+  const hop = hopAt(leg, now, motion.phase);
+  const point = { x: flown.x + hop.x * size, y: flown.y + hop.y * size };
   const meant = still
     ? setOff.meant
     : heading({ ...path, end: aim }, now, motion);

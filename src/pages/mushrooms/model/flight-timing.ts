@@ -6,7 +6,7 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Leg, Perch, Place, Places, Sight, Timed } from './flight';
-import type { Dash, Habits } from './flight-habits';
+import type { Dash, Habits, Hops } from './flight-habits';
 import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 import { between, type Random } from './random';
@@ -15,10 +15,16 @@ import { between, type Random } from './random';
 export type Placed = Pick<Sight, 'places'>;
 
 /**
- * When a leg's flight takes off and lands, in ms on the scene's clock, and
- * how it dashes, if it does.
+ * When a leg's flight takes off and lands, in ms on the scene's clock, how
+ * it dashes, if it does, and how it hops about the spot in the air it comes
+ * to, if it does.
  */
-export type Span = { departs: number; arrives: number; dash?: Dash };
+export type Span = {
+  departs: number;
+  arrives: number;
+  dash?: Dash;
+  hops?: Hops;
+};
 
 /**
  * The logarithmic mean of two distances: a touch over the mean of `q` along
@@ -100,7 +106,10 @@ function paced(
   return { flight, ...(dashing && { dash: dashing }) };
 }
 
-/** The leg along `route` departing `now`, its flight `paced` and its stay drawn off `random`. */
+/**
+ * The leg along `route` departing `now`, its flight `paced`, its stay drawn
+ * off `random`, and to a spot in the air its kind's `hopping` there.
+ */
 export function legTo(
   random: Random,
   habits: Habits,
@@ -111,12 +120,14 @@ export function legTo(
   const flown = between(random, ...habits.flying);
   const { flight, dash } = paced(habits, route, placed, flown);
   const arrives = now + flight;
+  const hops = to.kind === 'air' ? habits.hopping : undefined;
   return {
     from,
     to,
     departs: now,
     arrives,
     ...(dash && { dash }),
+    ...(hops && { hops }),
     leaves: arrives + stayAt(random, habits, to),
   };
 }

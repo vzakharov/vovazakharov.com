@@ -9,6 +9,7 @@ import {
   drinkDip,
   drinking,
   flyingTurn,
+  hopAt,
   LANDING,
   landingBob,
   proboscis,
@@ -371,5 +372,52 @@ describe('drinkDip', () => {
     );
     assert.ok(most > 0.05);
     assert.ok(largestStep(flicker, next.departs, next.departs + 1300) < 0.01);
+  });
+});
+
+/** How far `point` stands off the origin. */
+const far = ({ x, y }: Point) => Math.hypot(x, y);
+
+describe('hopAt', () => {
+  const hops = FLIGHT_HABITS.fly.hopping;
+  const span = { departs: 0, arrives: 1000, hops };
+  const off = (phase: number) => (now: number) => hopAt(span, now, phase);
+
+  it('stays on its spot until it arrives, and on a leg with no hops', () => {
+    for (const phase of PHASES) {
+      assert.deepEqual(off(phase)(span.arrives), { x: 0, y: 0 });
+      assert.deepEqual(hopAt({ departs: 0, arrives: 1000 }, 3000, phase), {
+        x: 0,
+        y: 0,
+      });
+    }
+  });
+
+  it('hops within its reach without a jump, the same every time it is asked', () => {
+    for (const phase of PHASES) {
+      const at = off(phase);
+      for (const now of times(span.arrives, span.arrives + 8000, 1)) {
+        const [here, next] = [at(now), at(now + 1)];
+        assert.ok(far(here) <= hops.range + 1e-9);
+        // A whole hop across its reach, at the steepest of its jerk.
+        const step = Math.hypot(next.x - here.x, next.y - here.y);
+        assert.ok(step < (2 * hops.range * 1.5) / 70 + 1e-9);
+      }
+      assert.deepEqual(at(4321), off(phase)(4321));
+    }
+  });
+
+  it('never hangs still for long: it jerks somewhere new every round or two', () => {
+    for (const phase of PHASES) {
+      const at = off(phase);
+      for (const from of times(span.arrives, span.arrives + 8000, 50)) {
+        const moved = times(from, from + 2 * hops.every, 10).some(
+          (now) =>
+            far({ x: at(now).x - at(from).x, y: at(now).y - at(from).y }) >
+            0.05,
+        );
+        assert.ok(moved, String(from));
+      }
+    }
   });
 });
