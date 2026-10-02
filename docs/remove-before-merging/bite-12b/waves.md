@@ -291,3 +291,11 @@ In this order of launch; parallel where files are disjoint.
   0.39 rad off its flight at 24733 ms, past its leg's first 150 ms.
   **Orchestrator's call:** that red gets its own trace agent (tail-face),
   measure first; `play-insects.ts` at 467 lines is split at `/polish`.
+- **tail-tabP** — every play green on tabP (probe of e6fc863). One harness
+  red: `walk`'s pop check flagged a flower appearing 111 px past the left
+  side, exactly `SIDE_OVERHANG` 1.5 × its height; `checkPops` now passes
+  over a change more than its drawn height past a side (d437a49),
+  to-check.md. `approach`'s worst frames 8–11 s while typical ones are
+  18–31 ms, as slow with no game work as with it. **Orchestrator's call:**
+  the stalls are the container's, not traced; the tilted butterfly in
+  `tabP-veer-back-perched.png` handed to tail-face as a data point.
