@@ -7,18 +7,13 @@
  * (`pinholeOf`).
  */
 
-import { type Circle, type Point, sample } from '../../model/geometry';
+import { type Circle, type Point, sample, wrap } from '../../model/geometry';
 import { type Camera, pinholeOf } from '../../model/ground';
 import { between, mulberry32 } from '../../model/random';
 import type { Span } from './baking';
 import type { View } from './view';
 
 const TURN = Math.PI * 2;
-
-/** `angle` wrapped into `[−π, π)`. */
-export function wrapAngle(angle: number): number {
-  return angle - TURN * Math.floor((angle + Math.PI) / TURN);
-}
 
 /** A line round the panorama: its height down the screen, in CSS px, at each azimuth. */
 export type Crest = (azimuth: number) => number;
@@ -109,7 +104,7 @@ export function azimuthAt(camera: Camera, x: number): number {
  * round from the heading: behind the eye is off the screen's side.
  */
 export function screenAt(view: View, azimuth: number): number {
-  const off = wrapAngle(azimuth - view.eye.heading);
+  const off = wrap(azimuth - view.eye.heading);
   const { x, arc } = pinholeOf(view);
   return x + arc * off;
 }
@@ -211,7 +206,7 @@ export function skyClouds(camera: Camera): Cloud[] {
   }));
   const followers = leaders.flatMap(({ azimuth, drift }) =>
     offsets.map((offset) => ({
-      azimuth: wrapAngle(azimuth + offset),
+      azimuth: wrap(azimuth + offset),
       drift,
       y: height * between(random, ...CLOUD_ROWS),
       r: short * between(random, ...CLOUD_SIZES),
@@ -222,5 +217,5 @@ export function skyClouds(camera: Camera): Cloud[] {
 
 /** Where `cloud` has drifted round the sky by `t`, in seconds, as its azimuth. */
 export function driftedAzimuth({ azimuth, drift }: Cloud, t: number): number {
-  return wrapAngle(azimuth + drift * t);
+  return wrap(azimuth + drift * t);
 }

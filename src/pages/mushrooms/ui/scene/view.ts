@@ -6,7 +6,7 @@
  * rebakes nothing.
  */
 
-import type { Point } from '../../model/geometry';
+import { distanceBetween, type Point } from '../../model/geometry';
 import {
   bendAt,
   type Camera,
@@ -73,7 +73,7 @@ export function placedAt(
   return {
     ...viewed,
     zoom: opening / viewed.ahead,
-    distance: Math.hypot(plane.x - view.eye.x, plane.y - view.eye.y),
+    distance: distanceBetween(view.eye, plane),
   };
 }
 

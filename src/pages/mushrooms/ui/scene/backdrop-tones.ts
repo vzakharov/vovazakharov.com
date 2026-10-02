@@ -7,7 +7,7 @@
 import { channels, mix, packed } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
-import { SEAM_REACH, seamReach } from './skyline';
+import { SEAM_REACH, seamTop } from './skyline';
 import { SUN_GLOW_REACH } from './sun-layout';
 
 /** A range's colours: `lit` at its highest crest, `foot` where the mist lies at its base. */
@@ -216,7 +216,7 @@ export function groundRowAt(
   y: number,
 ): number {
   const { height, groundTop } = screen;
-  const top = groundTop - seamReach(screen);
+  const top = seamTop(screen);
   const step = (height - top) / GROUND_BANDS;
   const band = Math.min(
     GROUND_BANDS - 1,

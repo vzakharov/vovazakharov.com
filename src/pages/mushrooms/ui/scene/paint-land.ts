@@ -18,7 +18,7 @@ import {
   nearSkyline,
   SEAM_STEPS,
   seamCrest,
-  seamReach,
+  seamTop,
 } from './skyline';
 import type { View } from './view';
 import { GROUND_BOB } from './walking';
@@ -138,8 +138,8 @@ export function paintGround(
   graphics: Phaser.GameObjects.Graphics,
   layout: MeadowLayout,
 ): Band {
-  const { width, height, groundTop, camera } = layout;
-  const top = groundTop - seamReach(layout);
+  const { width, height, camera } = layout;
+  const top = seamTop(layout);
   const from = browFloor(camera);
   const step = (height - top) / GROUND_BANDS;
   for (let band = 0; band < GROUND_BANDS; band++) {
@@ -180,8 +180,8 @@ export function paintGrain(
     context.putImageData(image, 0, 0);
     texture.refresh();
   }
-  const { width, groundTop } = layout;
-  const top = groundTop - seamReach(layout);
+  const { width } = layout;
+  const top = seamTop(layout);
   return grainStrips(layout, top).map(({ top: from, bottom, share }, index) =>
     (existing?.[index] ?? scene.add.tileSprite(0, 0, width, 1, GRAIN_KEY))
       .setOrigin(0, 0)
