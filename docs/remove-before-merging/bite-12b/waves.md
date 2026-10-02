@@ -198,6 +198,17 @@ the two share only `flower-bed.ts`, I‴ touching `seat` alone.
   `laidOut`, `unplacedShown`, `paintShown`), the bed 422 lines, `seat`
   stays. Done; note `fbed.md`.
 
+- **P2** — de93f382: mottles on the plane from the lawn's cells
+  (`mottles.ts`, `cellLawn`, `LiveLawn.mottles`); the code was right, two
+  assertions were not (this lens draws a ground patch 8.15/d as deep as
+  wide, so "wider than deep" fails near; a mottle 5 ahead is below tabL's
+  bottom edge). Fields renamed for `type-overlap`. **At the planned
+  strength (tone 0.3, alpha 0.16) the mottles are all but invisible** — a
+  look call for the tail, from a frame at the opening and one far out.
+
+**The build is done**: every package of 12b has landed. Left is the tail
+(below).
+
 ## Wave 5
 
 L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half

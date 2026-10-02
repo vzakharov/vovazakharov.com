@@ -298,12 +298,24 @@ are plane points (`Footing`), `Planted` carries its `lean`, the converters
 the anchor (`model/anchor.ts`, 743fa2c), R whole (the rim, the wash rule,
 `openingCrop`, `rebloom`), S1 (the side cull), S2 (the mushrooms' ground
 anchored at an eye, paint laid off the opening), L1–L2 (`tuft-tap.ts`, the
-lawn by plane cells in `lawn.ts`), P1 (light by heading, not yet wired into
-the beds), I1 (perches at the anchor, `anchored-stand.ts`). Each package's
-commits, departures and the calls the orchestrator took on them:
-`docs/remove-before-merging/bite-12b/waves.md`. **Left**, in the order
-`waves.md` § "Next wave" gives: S3, L3, P1b, P2, I2–I5 (`fliers.test.ts`
-first), the play package; the tail; the review session.
+lawn by plane cells in `lawn.ts`), I1 (perches at the anchor,
+`anchored-stand.ts`). Then every package to its end: S3 (one anchoring
+path, `roomFor` from the eye, 12 per `D_SEE` and 96 on the field), L3
+(bee rings on the plane, planting judged from the anchor, 48 flowers per
+sight, planted flowers in their own frame, the scene wired to the view),
+P1b and P2 (light turning with the heading in both beds, mottles from the
+lawn's cells), I2–I5 (the air on a plane lattice, perches only above the
+bottom edge and short of the brow, the undrawn seat from the host's foot,
+take-offs panned), the play package (walk back without a rim, the
+dense-forest approach, the re-tend and re-see timed), and both beds split
+(`mushroom-shown.ts`, `flower-shown.ts`). Each package's commits,
+departures and the calls the orchestrator took on them:
+`docs/remove-before-merging/bite-12b/waves.md`. **Left: the tail** —
+the lawn re-tend hitch (+30 ms, past the budget), the mottles' strength
+(all but invisible as planned), the play red at `play-buzzers.ts:90` and
+the 29.1 px bee, whether `fliers.test.ts`'s 1 min 52 s still runs all 48;
+then fold, `/polish`, the play run on all five screens, frames, the
+Artifact, `/pr`; then the review session.
 
 ## Rest of the elephant
 

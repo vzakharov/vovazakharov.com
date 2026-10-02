@@ -280,6 +280,14 @@
   land a watch and its fix in the same wave, or say in the pause note that
   red is expected.
 
+- **Own a type's builders, not only its files.** Bite 12b's I4 blocked
+  because `Host` is built in `capTop` (mushroom bed) and `seat` (flower
+  bed), each another package's file that wave. Handing the next I agent
+  "only the host builders" in both beds while P edited the same flower bed's
+  paint and follow merged with one conflicted import line. The skill should
+  list, per package, the functions that build the types it changes, and
+  grant those by name when they sit in a file someone else holds.
+
 ## A subagent's context
 
 - **A subagent cannot see its own context: the hook tells it at 170k, and
@@ -307,6 +315,20 @@
   near 170k ("wrap up within ~25k, commit the frames") landed a commit or a
   patch every time; past ~200k the orchestrator pauses the agent from
   outside and starts a fresh one on the same brief from its hand-over note.
+- **On a structural bite an agent lands about one step, so its note should
+  end with the next step designed.** Bite 12b's L package took four agents:
+  three each built one step and spent the rest reading and measuring; the
+  fourth, briefed "l.md § L3c is your design: build it, don't re-derive or
+  re-measure; keep your reading small", landed four steps. The skill's
+  brief should ask every agent to leave the next step as a buildable design
+  in its note, and the successor's brief should say "build it" and name the
+  sections to open, nothing wider.
+- **A numeric bar in an orchestrator's call names what it protects.** The
+  call "a bee's ring lands within half a tuft of today's" cost an agent its
+  whole context proving no geometry met it, and the bar guarded nothing a
+  child sees — a ring is laid fresh each visit. Before a call carries a
+  tolerance, the skill should state the visible thing it keeps; one with no
+  such thing is not written.
 
 ## Pauses, restarts and the Stop hook
 
