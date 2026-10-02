@@ -1,9 +1,9 @@
 # Relay summary
 
 Relay depth: **8**, the cap (`.claude/skills/megabeast/notes/pickup-and-relay.md`
-§ "The depth cap"). The successor cannot `create_session`: at its end it
-writes its summary with depth reset to 1 and hands the operator the one
-line to paste into a fresh session, on Opus.
+§ "The depth cap"). If the successor's `create_session` is refused for depth, it writes its
+summary with depth reset to 1 and hands the operator the one line to paste
+into a fresh session, on Opus.
 
 ## 1. Standing constraints
 
