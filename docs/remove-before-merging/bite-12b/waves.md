@@ -253,3 +253,14 @@ In this order of launch; parallel where files are disjoint.
   1.2 ms. **Kept:** spreading over shrinking the sector. **Handed on:** the
   probe times only `Grass.tend`, so `tendOn`/`retend` go into
   `hitches.tend` — given to tail-fliers, which owns `mushroom-probe.ts`.
+
+- **tail-fliers** — 3c7d9b6: the fly's 82.6 px steps were the game's, not
+  I4's seat (steady to ±0.3 px): a leg setting off from a perch the sight
+  no longer places (after any turn) fell back to the random flight time,
+  613 ms to cross from behind the eye; `placesSetOff` now times it from
+  where the insect was last drawn (a test). Worst fly step 45.3 against
+  50.8. Bee darts after a half-turn: a harness red, `DASH_SLACK` 1.1 →
+  1.15, to-check.md. Looking back releases the fly first. **Left:**
+  `fliers.test.ts` after `placesSetOff`, one tabL `veer` to confirm, red 3
+  (`play-insects.ts:343`), the probe's `tendOn`/`retend`, four screens.
+  **Orchestrator's call:** one agent takes them in that order.
