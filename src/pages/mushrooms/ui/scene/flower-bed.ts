@@ -11,29 +11,19 @@ import type { InsectKind } from '../../model/insect-genes';
 import { type Dip, drinkDip } from '../../model/insect-motion';
 import type { Flier } from '../../model/insects';
 import { headedLight } from '../../model/light';
-import {
-  bloom,
-  emerge,
-  phaseOf,
-  type Sprouted,
-  sway,
-} from '../../model/motion';
+import { bloom, emerge, sway } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
 import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
-import { drawFlower, type FlowerPainting, paintFlowerLit } from './draw-flower';
+import { paintFlowerLit } from './draw-flower';
 import { coversShown, inSightPast } from './flower-cover';
 import { FlowerHold } from './flower-hold';
-import { FLOWER_SWAY, laidFlower } from './flower-layout';
-import { type StandingFlower, standingFlowers } from './flower-plots';
-import { FlowerRing, type Ringed } from './flower-ring';
-import {
-  type Centred,
-  flowerLift,
-  flowerLiftAt,
-  flowerTapReach,
-} from './flower-sight';
+import { FLOWER_SWAY } from './flower-layout';
+import { standingFlowers } from './flower-plots';
+import { FlowerRing } from './flower-ring';
+import { laidOut, paintShown, type Shown, unplacedShown } from './flower-shown';
+import { flowerLift, flowerLiftAt } from './flower-sight';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
-import { containsFlower, type TappedFigure } from './hit-areas';
+import { containsFlower } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Instrument } from './instrument';
 import type { FlowerInView } from './keyed-flowers';
@@ -49,49 +39,6 @@ import { type Following, onScreen, type View } from './view';
  * letting the hazy hills behind it through, at no repaint.
  */
 const BROW_FADE = 1.5;
-
-/** `plantedAt`: `-Infinity` for a seeded flower, standing from the start. */
-/** How far ahead of the eye a thing is laid out at, where it is not where the layout stands it (`viewedOrLaid`). */
-type LaidAhead = { opening?: number };
-
-/**
- * Where the bed lays `stood` out to paint it on `layout`: where the layout
- * stands it for one of the visit's `seeded` flowers, any other at
- * `CLUMP_DISTANCE` in a frame of its own (`laidFlower`).
- */
-function laidOut(
-  layout: MeadowLayout,
-  stood: StandingFlower,
-  seeded: boolean,
-): Pick<StandingFlower, 'foot' | 'place'> & LaidAhead {
-  const { foot, place } = stood;
-  return seeded
-    ? { foot, place }
-    : {
-        foot,
-        place: laidFlower(layout.camera, foot),
-        opening: CLUMP_DISTANCE,
-      };
-}
-
-type Shown = TappedFigure &
-  Sprouted &
-  Centred &
-  Ringed & {
-    stem: Phaser.GameObjects.Graphics;
-    head: Phaser.GameObjects.Graphics;
-    /** Where the head stands on its stem as laid out, before a drinking insect sags it. */
-    headY: number;
-    /**
-     * Its foot on the plane, and where the bed lays it out to paint it, in
-     * world px at the opening eye: a seeded flower where the layout stands
-     * it, any other `opening` ahead in a frame of its own (`laidFlower`);
-     * `undefined` while the screen has no room for it.
-     */
-    laid: (Pick<StandingFlower, 'foot' | 'place'> & LaidAhead) | undefined;
-    /** How it was last painted; `undefined` before its first paint. */
-    painting: FlowerPainting | undefined;
-  };
 
 /**
  * The meadow's flowers on screen, kept by id, the visit's seeded ones and the
@@ -178,7 +125,6 @@ export class FlowerBed implements Following {
       shown.laid = stood && laidOut(layout, stood, seededIds.has(flower.id));
       this.stand(shown);
       if (!stood || !shown.laid) continue;
-      const { place } = shown.laid;
       const genes = flowerGenes(flower);
       // Lit from where the layout stands it, as the opening eye sees it,
       // then turned by the heading.
@@ -188,17 +134,13 @@ export class FlowerBed implements Following {
         stood.place,
         layout.sun,
       );
-      shown.painting = {
+      paintShown(
+        shown,
+        genes,
+        shown.laid.place.size,
         openingLight,
-        drawIn: (lit) => {
-          shown.headR = drawFlower(shown, genes, place.size, lit);
-        },
-        paintedSunSide: openingLight.toward.x,
-      };
-      paintFlowerLit(shown.painting, this.heading);
-      shown.headY = shown.head.y;
-      shown.disc = genes.centre * place.size;
-      shown.hit.setTo(0, 0, flowerTapReach(shown.headR));
+        this.heading,
+      );
       // Stood again at its drawn height, which the view's cull reads.
       this.stand(shown);
     }
@@ -446,21 +388,12 @@ export class FlowerBed implements Following {
     const hit = new Phaser.Geom.Circle();
     const stem = this.scene.add.graphics();
     const head = this.scene.add.graphics();
-    const shown: Shown = {
+    const shown = unplacedShown(flower, plantedAt, {
       container: this.scene.add.container(0, 0, [stem, head]),
       stem,
       head,
       hit,
-      headR: 0,
-      headY: 0,
-      laid: undefined,
-      painting: undefined,
-      stands: UNPLACED,
-      disc: 0,
-      plantedAt,
-      phase: phaseOf(flower),
-      tappedAt: -Infinity,
-    };
+    });
     head.setInteractive(
       hit,
       containsFlower(() => shown.headR),
