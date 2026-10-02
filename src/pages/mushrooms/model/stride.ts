@@ -18,6 +18,7 @@ import {
   type Cruising,
   type Direction,
   type Placed,
+  wayOf,
 } from './cruise';
 import type { Circle, Point } from './geometry';
 import { type Held, KEY_EASE } from './pan';
@@ -301,7 +302,7 @@ function keyed(
         at: landed,
         covered: length,
         ended,
-      } = walk(at, way(by > 0 ? 1 : -1), Math.abs(by));
+      } = walk(at, way(wayOf(by)), Math.abs(by));
       covered(length);
       return { at: landed, stopped: ended };
     },
@@ -321,7 +322,7 @@ function chased(
     room: (at, direction) => chaseRoom(chase, at, direction),
     step: (at, by) => {
       if (by === 0) return { at, stopped: false };
-      const direction: Direction = by > 0 ? 1 : -1;
+      const direction = wayOf(by);
       const most = chaseRoom(chase, at, direction);
       const {
         at: landed,

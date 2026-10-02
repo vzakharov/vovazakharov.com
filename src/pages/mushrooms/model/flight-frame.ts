@@ -9,9 +9,8 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Place } from './flight';
-import type { Point } from './geometry';
+import { alongAzimuth, type Point, wrap } from './geometry';
 import { type Eye, EYE_HEIGHT, type Eyed, SPREAD } from './ground';
-import { wrap } from './insect-motion';
 
 /** A point in the air: a plane point and its height over the plane, both in the clump's size. */
 export type Aloft = Point & { h: number };
@@ -87,8 +86,7 @@ export function unframed(
   const azimuth = centre + SPREAD * theta;
   const distance = framed.forward / Math.cos(theta);
   return {
-    x: eye.x + distance * Math.sin(azimuth),
-    y: eye.y + distance * Math.cos(azimuth),
+    ...alongAzimuth(eye, azimuth, distance),
     h: EYE_HEIGHT - ((framed.y - y) * framed.forward) / focal,
   };
 }

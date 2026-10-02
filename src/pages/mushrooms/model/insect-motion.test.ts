@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { firstFlight, type Flight, FLIGHT_HABITS, flightAway } from './flight';
-import type { Point } from './geometry';
+import { type Point, wrap } from './geometry';
 import {
   bodyTurn,
   carriedFrom,
@@ -19,7 +19,6 @@ import {
   turned,
   type Turns,
   wingBeat,
-  wrap,
 } from './insect-motion';
 import { flightPoint, heading, type Path } from './insect-paths';
 import { ticked } from './insects';
