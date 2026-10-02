@@ -11,12 +11,16 @@ Each agent's report lands here as it arrives, so a restart costs nothing.
 
 ## Wave 1 (launched together)
 
-| Package | Step(s)           | Note   | Report |
-| ------- | ----------------- | ------ | ------ |
-| R       | R1, R2 if context | `r.md` |        |
-| S       | S1                | `s.md` |        |
-| L       | L1, L2 if context | `l.md` |        |
-| I       | I1                | `i.md` |        |
+| Package | Step(s)           | Note   | Report                                                                                                                             |
+| ------- | ----------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| R       | R1, R2 if context | `r.md` |                                                                                                                                    |
+| S       | S1                | `s.md` |                                                                                                                                    |
+| L       | L1, L2 if context | `l.md` | L1 299d871: `tuft-tap.ts` split out (99 lines), `tufts.ts` 345; `middleOf` exported; no behaviour change; L2 not started (context) |
+| I       | I1                | `i.md` |                                                                                                                                    |
+
+## Wave 2 (launched as inputs free up)
+
+- L2 — after L1's report; note `l.md`.
 
 ## Queued
 

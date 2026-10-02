@@ -17,7 +17,7 @@ import { pick } from '@/shared/lib/collections';
 
 import { flowerGenes } from '../../model/flower-genes';
 import { sameFoot } from '../../model/game';
-import type { Circle, Point } from '../../model/geometry';
+import type { Point } from '../../model/geometry';
 import {
   type Camera,
   type Footing,
@@ -27,18 +27,10 @@ import {
 } from '../../model/ground';
 import { between, type Random } from '../../model/random';
 import { bedPlace, depthOf, UNPLACED } from './bed-place';
-import { placeIn } from './clump-layout';
-import { standingAt } from './door-sight';
 import { coversShown, inSightPast } from './flower-cover';
-import {
-  FLOWER_SIZE,
-  FLOWER_SWAY,
-  groundOf,
-  headClear,
-  standingOn,
-} from './flower-layout';
+import { FLOWER_SIZE, groundOf, headClear, standingOn } from './flower-layout';
 import { flowersOf, pulledFeet } from './flower-plots';
-import { roomIn, sightingOf, type Stand } from './flower-sight';
+import { roomIn, type Stand } from './flower-sight';
 import {
   BLADE_OVERHANG,
   paintSprouts,
@@ -53,7 +45,7 @@ import {
   type WithTuft,
 } from './grass';
 import type { MeadowLayout } from './layout';
-import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
+import { bareToTap, middleOf, tuftAt } from './tuft-tap';
 import { ofGround, onScreen, type View } from './view';
 
 /** How many tufts the ground grows per 1000 CSS px of its world across: a lawn. */
@@ -65,54 +57,11 @@ const TUFTS_PER_1000PX = 52;
 const GROWN_DOWN = [0.1, 0.98] as const;
 const BACK_BUNCH = 1.4;
 
-/**
- * How far round its middle a tuft answers a tap at the least, in CSS px: a
- * small finger's pad.
- */
-export const TUFT_REACH = 22;
-/** How far round its middle a tuft drawn larger than that answers, in units of its size: its blades. */
-const TUFT_BLADES = 1.4;
-/**
- * How far round a tuft's middle a finger lands bare, nothing but the tuft
- * taking it, as a share of its reach: where a tap is aimed at it.
- */
-const BARE_CORE = 0.25;
-/** How many points round the core a bare tuft is read at, beside its middle. */
-const CORE_RING = 8;
-
 /** How tall a tuft stands, in units of its size: its middle blade (`grass.ts`). */
 const TUFT_HEIGHT = 2;
 
 /** A tuft the child can plant on, and the foot on the ground a flower planted there stands on. */
 export type Sprout = Rooted & WithTuft;
-
-/** Where a tuft's blades stand thickest: halfway up the middle blade. */
-function middleOf({ x, y, size }: Tuft): Point {
-  return { x, y: y - size };
-}
-
-/** How far round its middle `tuft` answers a tap. */
-export function tuftReach({ size }: Tuft): number {
-  return Math.max(TUFT_REACH, size * TUFT_BLADES);
-}
-
-/** The tuft of `sprouts` a tap at `point` lands on: the nearest whose reach holds it. */
-export function tuftAt<Tufted extends WithTuft>(
-  sprouts: readonly Tufted[],
-  point: Point,
-): Tufted | undefined {
-  let nearest: Tufted | undefined;
-  let least = Infinity;
-  for (const sprout of sprouts) {
-    const middle = middleOf(sprout.tuft);
-    const away = Math.hypot(middle.x - point.x, middle.y - point.y);
-    if (away <= tuftReach(sprout.tuft) && away < least) {
-      nearest = sprout;
-      least = away;
-    }
-  }
-  return nearest;
-}
 
 /**
  * The foot on the ground a flower planted on `tuft` stands on, as `camera`
@@ -133,48 +82,6 @@ function grownTuft(layout: MeadowLayout, random: Random): Sprout {
   const down = between(random, ...GROWN_DOWN) ** BACK_BUNCH;
   const tuft = tuftOn(layout, x, groundTop + ground * down, random);
   return { tuft, foot: tuftFoot(camera, tuft) };
-}
-
-/**
- * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, seen
- * from the opening eye: no flower's petals as far as its sway takes them (past
- * them a flower yields to a bare tuft, `tuftUnder`) and no mushroom's drawn
- * parts (`tappedMushroom`) hold the tuft's middle or its core (`BARE_CORE`).
- * The controls stand on the screen, not the world, so a tuft a turn slides
- * under one is the control's to tap there. `stand` is read once, for every
- * tuft asked after.
- */
-export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
-  const { layout, mushrooms } = stand;
-  const heads: Circle[] = flowersOf(stand).map((flower) => {
-    const { head } = sightingOf(flower, layout);
-    const swayed = flower.place.size * Math.sin(FLOWER_SWAY);
-    return { ...head, r: head.r + swayed };
-  });
-  const targets: MushroomTarget[] = mushrooms.flatMap((mushroom) => {
-    const place = placeIn(layout.mushrooms, mushroom);
-    if (!place) return [];
-    const { genes, turn } = standingAt(place, mushroom);
-    return [tapTarget(genes, place.size, place, turn)];
-  });
-  return (tuft) => {
-    const middle = middleOf(tuft);
-    const core = BARE_CORE * tuftReach(tuft);
-    const clear = heads.every(
-      ({ x, y, r }) => Math.hypot(x - middle.x, y - middle.y) > r + core,
-    );
-    if (!clear) return false;
-    const ring = Array.from({ length: CORE_RING }, (_, step) => {
-      const angle = (step * Math.PI * 2) / CORE_RING;
-      return {
-        x: middle.x + core * Math.cos(angle),
-        y: middle.y + core * Math.sin(angle),
-      };
-    });
-    return [middle, ...ring].every(
-      (point) => tappedMushroom(point, targets) === undefined,
-    );
-  };
 }
 
 /**
