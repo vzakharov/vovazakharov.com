@@ -55,6 +55,7 @@ export const VEER = `(() => {
         zoom: container.scaleX,
         span: shown.span * container.scaleX,
         flown: shown.flown,
+        lifted: shown.steering.setOff?.turns.lifted ?? null,
         distance: Math.hypot(drawn.x - eye.x, drawn.y - eye.y),
         out: shown.out !== undefined,
         seat: seat
@@ -100,6 +101,8 @@ export const Sample = z.object({
   zoom: z.number(),
   span: z.number(),
   flown: z.number(),
+  /** How far round from its heading it sat as its leg set off, in radians (`Turns.lifted`): `null` before its leg's first steered frame. */
+  lifted: z.number().nullable(),
   /** How far its drawn point stands from the eye on the plane, in the clump's size. */
   distance: z.number(),
   /** Whether it is flying out of view past the side, hidden by design. */

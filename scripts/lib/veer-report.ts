@@ -16,7 +16,7 @@ import {
 } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { D_SEE, V_NEAR } from '../../src/pages/mushrooms/ui/scene/view.ts';
 import type { Expect, Point } from './mushroom-probe.ts';
-import { dashPeak } from './veer-dash.ts';
+import { dashPeak, pivotAllowance } from './veer-dash.ts';
 import {
   byInsect,
   byLeg,
@@ -31,7 +31,7 @@ import {
 } from './veer-watch.ts';
 
 /** How far past its dash curve's fastest frame a dashing kind's step at its own size may run: its flutter, and the frame's own jitter. */
-const DASH_SLACK = 1.1;
+export const DASH_SLACK = 1.1;
 /** The least share of its flight in a release looking back is drawn on (`insect-plane.md` R3.1). */
 const DRAWN_SHARE = 0.95;
 /** The most zoom a flier shows standing by a perch, through the veer's fade (R3.1's accepted ~2.4×). */
@@ -283,7 +283,9 @@ export function pace(
 
 /**
  * One-frame steps per kind: a dashing kind's, over its own size (`zoom`),
- * held to `DASH_SLACK` of its dash curve's fastest frame (`dashPeak`); a
+ * held to `DASH_SLACK` of its dash curve's fastest frame (`dashPeak`),
+ * or past it by `pivotAllowance` on a leg its flier turned on its perch
+ * first; a
  * butterfly's, which never dashes, as drawn, to a twentieth of the screen's
  * width. A step over a frame the browser ran late counts at a 60 fps frame's
  * share of it, so the bound stays the curve's per frame. The worst of each,
@@ -313,23 +315,29 @@ export function flicks(
     `one-frame steps: ${String(walked)} left out as the eye walked; ${String(late)} of ${String(all.length)} over frames longer than 1.5 × ${fixed(frame, 1)} ms, held to a frame's share`,
   );
   const leg = ({ at, time }: (typeof all)[number]) =>
-    `${at.id} ${at.from}→${at.to} flown ${fixed(at.flown)} d ${fixed(at.distance)} zoom ${fixed(at.zoom)} heading ${fixed(at.heading)}, ${fixed(time, 0)} ms`;
+    `${at.id} ${at.from}→${at.to} flown ${fixed(at.flown)} d ${fixed(at.distance)} zoom ${fixed(at.zoom)} heading ${fixed(at.heading)} lifted ${at.lifted === null ? '–' : fixed(at.lifted)}, ${fixed(time, 0)} ms`;
   for (const kind of INSECT_KINDS) {
     const own = all.filter(({ at }) => at.kind === kind);
     const peak = dashPeak(kind);
     const dash = peak === undefined ? undefined : peak * butterfly;
     const drawnBound = dash === undefined ? width / 20 : undefined;
     const ownBound = dash === undefined ? undefined : dash * DASH_SLACK;
+    const bounds =
+      ownBound === undefined
+        ? ''
+        : `${fixed(ownBound, 1)} px (${fixed(ownBound * pivotAllowance(Math.PI), 1)} after a pivot)`;
     const pastDrawn = own.filter(
       ({ step }) => drawnBound !== undefined && step > drawnBound,
     );
     const pastOwn = own.filter(
-      ({ step, at }) => ownBound !== undefined && step / at.zoom > ownBound,
+      ({ step, at }) =>
+        ownBound !== undefined &&
+        step / at.zoom > ownBound * pivotAllowance(at.lifted),
     );
     const drawn = most(own, ({ step }) => step);
     const sized = most(own, ({ step, at }) => step / at.zoom);
     note(
-      `one-frame steps, ${kind}: ${String(own.length)} measured; ${drawnBound === undefined ? '' : `${String(pastDrawn.length)} over ${fixed(drawnBound, 0)} px drawn; `}${ownBound === undefined ? '' : `${String(pastOwn.length)} over ${fixed(ownBound, 1)} px at its own size (dash ${fixed(dash ?? 0, 1)} px a frame); `}most drawn ${drawn ? `${fixed(drawn.step, 0)} px (${leg(drawn)})` : 'none'}; most at its own size ${sized ? `${fixed(sized.step / sized.at.zoom, 1)} px (${leg(sized)})` : 'none'}`,
+      `one-frame steps, ${kind}: ${String(own.length)} measured; ${drawnBound === undefined ? '' : `${String(pastDrawn.length)} over ${fixed(drawnBound, 0)} px drawn; `}${ownBound === undefined ? '' : `${String(pastOwn.length)} over ${bounds} at its own size (dash ${fixed(dash ?? 0, 1)} px a frame); `}most drawn ${drawn ? `${fixed(drawn.step, 0)} px (${leg(drawn)})` : 'none'}; most at its own size ${sized ? `${fixed(sized.step / sized.at.zoom, 1)} px (${leg(sized)})` : 'none'}`,
     );
     const worst = [...pastDrawn, ...pastOwn]
       .toSorted((a, b) => b.step / b.at.zoom - a.step / a.at.zoom)
@@ -345,7 +353,7 @@ export function flicks(
     );
     expect(
       pastOwn.length === 0,
-      `${String(pastOwn.length)} ${kind} one-frame steps over ${fixed(ownBound ?? 0, 1)} px at its own size, the most ${fixed(Math.max(0, ...pastOwn.map(({ step, at }) => step / at.zoom)), 1)} px`,
+      `${String(pastOwn.length)} ${kind} one-frame steps over ${bounds} at its own size, the most ${fixed(Math.max(0, ...pastOwn.map(({ step, at }) => step / at.zoom)), 1)} px`,
     );
   }
 }

@@ -1,0 +1,93 @@
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
+
+import { PIVOT_SHARE } from '../../src/pages/mushrooms/model/insect-motion.ts';
+import { dashPeak, pivotAllowance } from './veer-dash.ts';
+import { DASH_SLACK, flicks } from './veer-report.ts';
+import { FPS, type Sample } from './veer-watch.ts';
+
+const BUTTERFLY = 40;
+const WIDTH = 1000;
+const frame = 1000 / FPS;
+
+/** Two frames of one fly on one leg, the eye standing, a `step` apart in CSS px at zoom 1. */
+function fly(step: number, lifted: number | null): Sample[] {
+  const at = (index: number): Sample => ({
+    frame: index,
+    now: index * frame,
+    heading: 0,
+    eyeX: 0,
+    eyeY: 0,
+    id: 'fly-1',
+    kind: 'fly',
+    legs: 1,
+    from: 'cap',
+    to: 'cap',
+    departs: 0,
+    arrives: 1000,
+    visible: true,
+    x: index * step,
+    y: 100,
+    zoom: 1,
+    span: 30,
+    flown: 0.5,
+    lifted,
+    distance: 1,
+    out: false,
+    seat: null,
+  });
+  return [at(0), at(1)];
+}
+
+/** The fly's own-size bound's failure from `flicks` over `samples`, `undefined` when it holds. */
+function flyOver(samples: readonly Sample[]): string | undefined {
+  const failed: string[] = [];
+  const noted: string[] = [];
+  flicks(
+    samples,
+    WIDTH,
+    BUTTERFLY,
+    (holds, message) => {
+      if (!holds) failed.push(message);
+    },
+    (line) => {
+      noted.push(line);
+    },
+  );
+  return failed.find((message) =>
+    /fly one-frame steps over .* own size/.test(message),
+  );
+}
+
+describe('pivotAllowance', () => {
+  it('keeps the curve for a leg that set off at once or was never steered', () => {
+    assert.equal(pivotAllowance(0), 1);
+    assert.equal(pivotAllowance(null), 1);
+  });
+
+  it('allows a pivoted leg what the pivot leaves of its time, either way round', () => {
+    assert.equal(pivotAllowance(0.4), 1 / (1 - PIVOT_SHARE));
+    assert.equal(pivotAllowance(-Math.PI), 1 / (1 - PIVOT_SHARE));
+  });
+});
+
+describe('flicks, a fly over its dash curve', () => {
+  const curve = (dashPeak('fly') ?? 0) * BUTTERFLY * DASH_SLACK;
+  // Past the bound a leg that set off at once has, inside a pivoted leg's.
+  const fast = curve * (1 + 1 / (1 - PIVOT_SHARE)) * 0.5;
+
+  it('fails a leg that set off at once', () => {
+    assert.notEqual(flyOver(fly(fast, 0)), undefined);
+  });
+
+  it('passes the same step on a leg its flier turned on its perch first', () => {
+    assert.equal(flyOver(fly(fast, 1.2)), undefined);
+  });
+
+  it('still fails a pivoted leg past what its pivot allows', () => {
+    assert.notEqual(
+      flyOver(fly(curve / (1 - PIVOT_SHARE) + 1, 1.2)),
+      undefined,
+    );
+  });
+});
