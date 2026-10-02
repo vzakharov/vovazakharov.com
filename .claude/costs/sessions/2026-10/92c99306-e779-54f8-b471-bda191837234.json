@@ -9,53 +9,63 @@
   "url": "https://claude.ai/code/session_01SX3cadYy4ZA3dEsrsX75td",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-02T14:12:04.136Z",
-  "lastResponseAt": "2026-10-02T15:28:48.138Z",
+  "lastResponseAt": "2026-10-02T15:32:28.025Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 45280,
-    "cacheWrite5mTokens": 2195101,
-    "cacheWrite1hTokens": 163544,
-    "cacheReadTokens": 83868879,
-    "outputTokens": 40828,
-    "thinkingTokens": 5263,
-    "responses": 718,
-    "costUsd": 30.065416800000044
+    "inputTokens": 55798,
+    "cacheWrite5mTokens": 2202333,
+    "cacheWrite1hTokens": 170286,
+    "cacheReadTokens": 85233526,
+    "outputTokens": 42744,
+    "thinkingTokens": 5532,
+    "responses": 728,
+    "costUsd": 30.50735220000004
   },
   "ownTurns": {
-    "inputTokens": 208,
+    "inputTokens": 214,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 163544,
-    "cacheReadTokens": 12369980,
-    "outputTokens": 32745,
-    "thinkingTokens": 5263,
-    "responses": 78,
-    "costUsd": 4.438080000000001
+    "cacheWrite1hTokens": 170286,
+    "cacheReadTokens": 13032490,
+    "outputTokens": 34476,
+    "thinkingTokens": 5532,
+    "responses": 81,
+    "costUsd": 4.659162000000001
   },
   "subagents": {
-    "inputTokens": 1242,
-    "cacheWrite5mTokens": 2191733,
+    "inputTokens": 1250,
+    "cacheWrite5mTokens": 2198377,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 68265639,
-    "outputTokens": 7450,
+    "cacheReadTokens": 68530086,
+    "outputTokens": 7529,
     "thinkingTokens": 0,
-    "responses": 621,
-    "costUsd": 24.765760799999992
+    "responses": 625,
+    "costUsd": 24.85348219999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 45280,
-      "cacheWrite5mTokens": 2195101,
-      "cacheWrite1hTokens": 163544,
-      "cacheReadTokens": 83868879,
-      "outputTokens": 40828,
-      "thinkingTokens": 5263,
-      "responses": 718,
-      "costUsd": 30.065416800000044
+      "inputTokens": 54836,
+      "cacheWrite5mTokens": 2202333,
+      "cacheWrite1hTokens": 170286,
+      "cacheReadTokens": 85233526,
+      "outputTokens": 42720,
+      "thinkingTokens": 5532,
+      "responses": 727,
+      "costUsd": 30.50627020000004
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 962,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 24,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.001082
     }
   },
   "warnings": [
-    "prices.json priced the 698 responses the events also priced at $29.1879, against the events' $35.5346: a rate in the table is likely out of date"
+    "prices.json priced the 706 responses the events also priced at $29.5126, against the events' $35.9196: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "Write",
@@ -75,20 +85,30 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 717,
-    "matched": 698,
-    "matchedTableUsd": 29.18794580000004,
-    "matchedEventUsd": 35.53464580000003,
+    "events": 728,
+    "matched": 706,
+    "matchedTableUsd": 29.512644200000036,
+    "matchedEventUsd": 35.91960420000002,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 43830,
-        "cacheWrite5mTokens": 3368,
+        "inputTokens": 53372,
+        "cacheWrite5mTokens": 3956,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 3233260,
-        "outputTokens": 633,
+        "cacheReadTokens": 3670950,
+        "outputTokens": 715,
         "thinkingTokens": 0,
-        "responses": 19,
-        "costUsd": 0.8615760000000001
+        "responses": 21,
+        "costUsd": 0.9936260000000001
+      },
+      "generate_session_title": {
+        "inputTokens": 962,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 24,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.001082
       }
     }
   }
