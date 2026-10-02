@@ -11,8 +11,11 @@ import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 import { between, type Random } from './random';
 
-/** What of `Sight` times a leg: where the perches stand. */
-export type Placed = Pick<Sight, 'places'>;
+/** What of `Sight` times a leg: where the perches stand, and where the scene drew each flier. */
+export type Placed = Pick<Sight, 'places' | 'drawn'>;
+
+/** What of a leg says where an insect flying it is. */
+type Flown = Pick<Leg, 'from' | 'to' | 'departs' | 'arrives'>;
 
 /**
  * When a leg's flight takes off and lands, in ms on the scene's clock, how
@@ -74,7 +77,7 @@ export function apartIn(
  */
 export function placesFlying(
   places: Places | undefined,
-  leg: Pick<Leg, 'from' | 'to' | 'departs' | 'arrives'>,
+  leg: Flown,
   now: number,
 ): Places | undefined {
   const { from, to, departs, arrives } = leg;
@@ -90,6 +93,26 @@ export function placesFlying(
     fromEye: 1 / along(1 / here.fromEye, 1 / there.fromEye),
   };
   return { ...places, [perchName(to)]: at };
+}
+
+/**
+ * `places` as a leg the insect called `id` sets off on at `now`, from the
+ * perch of `leg`, is timed from: cut off before `leg` arrives, that perch
+ * stands where the scene drew the insect (`drawn`), which steers every
+ * flight, so neither share of the way nor of the time finds the point;
+ * where the sight places it nowhere, where `placesFlying` reckons it.
+ */
+export function placesSetOff(
+  { places, drawn }: Placed,
+  leg: Flown,
+  now: number,
+  id?: string,
+): Places | undefined {
+  const at = id === undefined ? undefined : drawn?.[id];
+  if (!places || !at || now >= leg.arrives) {
+    return placesFlying(places, leg, now);
+  }
+  return { ...places, [perchName(leg.to)]: at };
 }
 
 function stayAt(random: Random, habits: Habits, to: Perch): number {
