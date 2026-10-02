@@ -19,13 +19,12 @@ import {
   type Perch,
   perchName,
   type Places,
-  SIDES,
   type Sight,
 } from '../../model/flight';
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
-import { type Camera, project, spread } from '../../model/ground';
+import { OPENING_EYE, project } from '../../model/ground';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { INSECT_LIMITS } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
@@ -48,7 +47,8 @@ import {
   type Stand,
   WIDEST_SPAN,
 } from './flower-sight';
-import { type Aloft, framedOf } from './insect-frame';
+import { awayPlaces, wayOutOf } from './insect-away';
+import type { Aloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import {
   crowdings,
@@ -56,7 +56,8 @@ import {
   seatsWith,
   type Track,
 } from './perch-crowding';
-import { middleOf, rowAt, V_NEAR, type View } from './view';
+import { aloftOfLayout } from './plane-place';
+import { rowAt, type View, viewAt } from './view';
 
 /** How much of the narrower of two perched insects' spans the other may cover. */
 export const MOST_OVERLAP = 0.25;
@@ -78,13 +79,6 @@ function widestOn(layout: MeadowLayout, kind: InsectKind): number {
 
 /** How far the open air reaches down over the back of the ground, as a share of the ground's depth. */
 export const AIR_BELOW = 0.15;
-
-/**
- * How far down the screen, as a share of its height, an insect flies in from
- * past the world's side and out to, about: the middle of the view's band for
- * it.
- */
-const AWAY_DOWN = 0.34;
 
 /** Where on its perch `insect` sits, from -`PERCH_SPREAD` to `PERCH_SPREAD` of the way out. */
 export function perchSpot(insect: Seeded): number {
@@ -309,37 +303,29 @@ export function perchSight(stand: Stand): Sight {
   });
   const { spots: air, aloft } = airOf(layout);
   const unit = layout.insectSize;
-  const reach = widestOn(layout, 'butterfly');
   const rows = footRows(stand, standing);
   const aloftRow = clumpRow(layout);
-  const places: Places = Object.fromEntries(
-    [
-      ...seaters.map(
-        ({ perch, seater }) =>
-          [perchName(perch), seater(0, 'butterfly')] as const,
-      ),
-      ...air.map(
-        (spot) =>
-          [perchName({ kind: 'air', ...pick(spot, 'id') }), spot] as const,
-      ),
-      ...SIDES.map(
-        (side) =>
-          [
-            perchName({ kind: 'away', side }),
-            {
-              x: side === 'left' ? -reach : layout.camera.world + reach,
-              y: layout.height * AWAY_DOWN,
-            },
-          ] as const,
-      ),
-    ].map(([name, { x, y }]) => {
-      const fromEye = perchDistanceAtOpening(
-        layout,
-        rows.get(name) ?? aloftRow,
-      );
-      return [name, { x: x / unit, y: y / unit, fromEye }];
-    }),
-  );
+  const places: Places = {
+    ...Object.fromEntries(
+      [
+        ...seaters.map(
+          ({ perch, seater }) =>
+            [perchName(perch), seater(0, 'butterfly')] as const,
+        ),
+        ...air.map(
+          (spot) =>
+            [perchName({ kind: 'air', ...pick(spot, 'id') }), spot] as const,
+        ),
+      ].map(([name, { x, y }]) => {
+        const fromEye = perchDistanceAtOpening(
+          layout,
+          rows.get(name) ?? aloftRow,
+        );
+        return [name, { x: x / unit, y: y / unit, fromEye }];
+      }),
+    ),
+    ...awayPlaces(layout, viewAt(layout.camera, OPENING_EYE)),
+  };
   return {
     flowers: shown,
     beeFlowers,
@@ -368,24 +354,6 @@ function perchDistanceAtOpening(layout: MeadowLayout, row: number): number {
   return rowAt(layout.camera, row).opening;
 }
 
-/**
- * `point`, in world px as `camera`'s layout lays it out over the ground row
- * `footRow`, as a fixed point in the world: `ofLayout`'s own construction, so
- * the opening eye draws it where the layout does, and a thing whose foot is
- * on that row stands on the plane where its bed places it.
- */
-export function aloftOfLayout(
-  camera: Camera,
-  point: Point,
-  footRow: number,
-): Aloft {
-  const { opening, perPx } = rowAt(camera, footRow);
-  return {
-    ...spread({ x: (point.x - middleOf(camera)) * perPx, y: opening }),
-    h: (footRow - point.y) * perPx,
-  };
-}
-
 /** Each spot in the open air (`airSpots`) as a fixed point in the world over the clump's row (`aloftOfLayout`), by id. */
 export const airAlofts = perLayout(
   (layout): ReadonlyMap<string, Aloft> =>
@@ -396,17 +364,6 @@ export const airAlofts = perLayout(
       ]),
     ),
 );
-
-/**
- * How far from `view`'s eye a perch at `at` is, in the clump's size (`Place`'s
- * `fromEye`), the one seam a perch's distance enters `Places` by: its forward
- * distance in the frame turned to the eye's heading (`framedOf`), which at the
- * opening eye is its foot row's opening distance; kept out at `V_NEAR`, as
- * the frame's forward falls to nothing and below straight behind the eye.
- */
-export function perchDistance(view: View, at: Aloft): number {
-  return Math.max(V_NEAR, framedOf(view, view.eye.heading, at).forward);
-}
 
 /** The ground row each cap's and standing flower's foot stands on in `stand`, among its `standing` flowers, and the clump's under every spot in the air. */
 export function footRows(
@@ -443,8 +400,10 @@ const COLUMNS = 32;
  * foot row and the seam's, the rows the perches' feet stand between, so a
  * perch standing over any row between counts as shown only where it is; a
  * perch counts as shown half the widest butterfly's wings inside either
- * edge, so one seated there is wholly in view. Kept inside the world's
- * strip; `undefined` where the screen shows none of it.
+ * edge, so one seated there is wholly in view; and the release's way out of
+ * view as `view` draws it (`wayOutOf`). Kept inside the world's strip;
+ * `undefined` where the screen shows none of it, or the layout lays that way
+ * out nowhere.
  */
 export function onscreenOf(
   layout: MeadowLayout,
@@ -473,10 +432,12 @@ export function onscreenOf(
     camera.world,
     ...reaches.map((reach) => reach?.right ?? -Infinity),
   );
-  if (left >= right) return undefined;
+  const wayOut = wayOutOf(layout, view);
+  if (left >= right || !wayOut) return undefined;
   return {
     left: left / unit,
     right: right / unit,
     inset: widestOn(layout, 'butterfly') / 2 / unit,
+    ...wayOut,
   };
 }

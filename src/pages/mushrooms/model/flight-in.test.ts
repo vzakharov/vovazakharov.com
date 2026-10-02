@@ -16,16 +16,26 @@ import {
   nearerSide,
   type Onscreen,
   outFirst,
+  outOf,
   outOfView,
   outWay,
   shownOf,
 } from './flight-in';
+import { apartIn, apartOf } from './flight-timing';
 import { CLUMP_DISTANCE } from './ground';
 import { INSECT_KINDS } from './insect-genes';
 
 /** A world 100 units across, the screen showing 30 to 60 of it. */
 const WORLD = 100;
-const ONSCREEN: Onscreen = { left: 30, right: 60, inset: 1 };
+/** A release's way out of view: over the brow at 45, out past either edge, deeper than the clump. */
+const WAY_OUT = {
+  brow: { x: 45, y: 6, fromEye: 2 * CLUMP_DISTANCE },
+  outs: {
+    left: { x: 28, y: 7, fromEye: 1.2 * CLUMP_DISTANCE },
+    right: { x: 62, y: 7, fromEye: 1.2 * CLUMP_DISTANCE },
+  },
+};
+const ONSCREEN: Onscreen = { left: 30, right: 60, inset: 1, ...WAY_OUT };
 const SEEDS = Array.from({ length: 200 }, (_, index) => index * 7919 + 1);
 
 /** `count` ids of `kind`, spread evenly across the world, and where each stands. */
@@ -196,13 +206,18 @@ describe('a released insect', () => {
 
   for (const kind of INSECT_KINDS) {
     it(`still finds a perch in the world where the screen shows none, flying out of view first at its cruise, a ${kind}`, () => {
-      const narrow: Onscreen = { left: 0, right: 6, inset: 4 };
-      const out = (1000 * outWay(narrow)) / FLIGHT_HABITS[kind].cruising;
+      const narrow: Onscreen = { left: 0, right: 6, inset: 4, ...WAY_OUT };
+      const { cruising } = FLIGHT_HABITS[kind];
       for (const seed of SEEDS.slice(0, 50)) {
         const { leg } = firstFlight({ seed, kind }, PERCHES, 0, [], narrow);
-        assert.notEqual(leg.to.kind, 'away');
+        assert.ok(leg.from.kind === 'away' && leg.to.kind !== 'away');
+        const out = (1000 * outWay(narrow, leg.from.side)) / cruising;
         assert.equal(leg.out, out, String(seed));
-        assert.ok(leg.arrives - leg.departs > out, String(seed));
+        // The rest of the way is timed from the out point it flies out by.
+        const places = outOf(PLACES, narrow, leg.from.side);
+        const rest = apartIn(places, leg.from, leg.to) ?? 0;
+        const flown = leg.arrives - leg.departs - out;
+        assert.ok(flown >= (1000 * rest) / cruising - 1e-6, String(seed));
       }
     });
   }
@@ -227,5 +242,14 @@ describe('a released insect', () => {
       }
     }
     assert.ok(unseen > 0);
+  });
+
+  it('flies out of view between the brow and the out point it leaves by, at their depths', () => {
+    for (const side of ['left', 'right'] as const) {
+      assert.equal(
+        outWay(WAY_OUT, side),
+        apartOf(WAY_OUT.brow, WAY_OUT.outs[side]),
+      );
+    }
   });
 });

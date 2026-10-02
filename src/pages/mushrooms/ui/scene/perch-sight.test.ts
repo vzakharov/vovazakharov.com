@@ -20,16 +20,15 @@ import {
   AIR_BELOW,
   airAlofts,
   airSpots,
-  aloftOfLayout,
   clumpRow,
   footRows,
   MOST_OVERLAP,
   onscreenOf,
-  perchDistance,
   perchSight,
   perchSpot,
   seatAt,
 } from './perch-sight';
+import { aloftOfLayout, perchDistance } from './plane-place';
 import { middleOf, ofLayout, rowAt, V_NEAR, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
