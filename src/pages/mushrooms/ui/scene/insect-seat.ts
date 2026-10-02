@@ -4,12 +4,12 @@
  * under it draws its seat, at the zoom that landing gave it.
  */
 
+import type { Aloft } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
 import { bendAt, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
 import type { Standing } from './bed-place';
 import type { Zoomed } from './insect-away';
 import {
-  type Aloft,
   aloftAt,
   type SeatEnds,
   sinkingAloft,

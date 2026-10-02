@@ -13,6 +13,7 @@ import {
   type Side,
   SIDES,
 } from '../../model/flight';
+import { type Aloft, azimuthOf } from '../../model/flight-frame';
 import type { WayOut } from '../../model/flight-in';
 import type { Point } from '../../model/geometry';
 import { alongSight, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
@@ -25,7 +26,7 @@ import { wingspan } from '../../model/insect-outline';
 import { phaseOf } from '../../model/motion';
 import type { Seeded } from '../../model/random';
 import { WIDEST_SPAN } from './flower-sight';
-import { type Aloft, aloftAt, azimuthOf, drawnAloft } from './insect-frame';
+import { aloftAt, drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import { wrapAngle } from './panorama';
 import { perchDistance, placeOfAloft } from './plane-place';

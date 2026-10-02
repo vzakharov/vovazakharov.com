@@ -5,9 +5,15 @@
  */
 
 import type { Place } from '../../model/flight';
+import {
+  type Aloft,
+  azimuthOf,
+  FRAME_MARGIN,
+  framedOf,
+} from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
 import { type Camera, spread } from '../../model/ground';
-import { type Aloft, azimuthOf, FRAME_MARGIN, framedOf } from './insect-frame';
+import { eyeFrameOf } from './insect-frame';
 import { wrapAngle } from './panorama';
 import { middleOf, rowAt, V_NEAR, type View } from './view';
 
@@ -37,7 +43,10 @@ export function aloftOfLayout(
  * the frame's forward falls to nothing and below straight behind the eye.
  */
 export function perchDistance(view: View, at: Aloft): number {
-  return Math.max(V_NEAR, framedOf(view, view.eye.heading, at).forward);
+  return Math.max(
+    V_NEAR,
+    framedOf(eyeFrameOf(view), view.eye.heading, at).forward,
+  );
 }
 
 /**
@@ -56,6 +65,10 @@ export function placeOfAloft(view: View, unit: number, aloft: Aloft): Place {
   const off = wrapAngle(azimuthOf(view.eye, aloft) - heading);
   const kept = Math.min(Math.max(off, -FRAME_MARGIN), FRAME_MARGIN);
   // Centred `off − kept` past the heading, the frame sees `aloft` `kept` off it.
-  const { x, y, forward } = framedOf(view, heading + off - kept, aloft);
+  const { x, y, forward } = framedOf(
+    eyeFrameOf(view),
+    heading + off - kept,
+    aloft,
+  );
   return { x: x / unit, y: y / unit, fromEye: Math.max(V_NEAR, forward) };
 }

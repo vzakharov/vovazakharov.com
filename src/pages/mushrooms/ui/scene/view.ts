@@ -13,6 +13,7 @@ import {
   CLUMP_DISTANCE,
   type Eye,
   EYE_HEIGHT,
+  type Eyed,
   gathered,
   type Ground,
   pinholeOf,
@@ -25,7 +26,7 @@ import {
 } from '../../model/ground';
 
 /** The camera a frame is drawn through, and the eye it looks from. */
-export type View = Camera & { eye: Eye };
+export type View = Camera & Eyed;
 
 /**
  * Something the view places each frame: how many times its opening size it

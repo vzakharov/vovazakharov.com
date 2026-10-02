@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { framedOf } from '../../model/flight-frame';
 import { CLUMP_DISTANCE, OPENING_EYE, project } from '../../model/ground';
 import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, onHost } from './bed-place';
 import { drawnInsect, type LegFlight } from './insect-drawn';
-import { aloftAt, framedOf } from './insect-frame';
+import { aloftAt, eyeFrameOf } from './insect-frame';
 import { drawnFlier, drawnSitter } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
 import { tapReach } from './tap-reach';
@@ -17,7 +18,7 @@ const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
 function flightAt(x: number, y: number): LegFlight {
   const frameAt = view.eye.heading;
   const { forward, ...at } = framedOf(
-    view,
+    eyeFrameOf(view),
     frameAt,
     aloftAt(view, { x, y }, CLUMP_DISTANCE),
   );

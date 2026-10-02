@@ -201,6 +201,9 @@ export const EYE_HEIGHT = CLUMP_DISTANCE * UP_PER_Z;
  */
 export type Eye = Point & { heading: number };
 
+/** Something seen from an eye: the eye it is seen from. */
+export type Eyed = { eye: Eye };
+
 /** The eye a visit opens on: it sees what `project` shows on the opening crop. */
 export const OPENING_EYE: Eye = { x: 0, y: 0, heading: 0 };
 

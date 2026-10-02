@@ -3,6 +3,7 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { isSeat, type Span } from '../../model/flight';
+import { type Aloft, centreOf, framedOf } from '../../model/flight-frame';
 import { outOfView } from '../../model/flight-in';
 import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE } from '../../model/ground';
@@ -17,7 +18,7 @@ import { containsCircle } from './hit-areas';
 import type { Lighting } from './ink';
 import { type Away, entryAloft, legEnd, ownAway, seenFor } from './insect-away';
 import { drawnInsect } from './insect-drawn';
-import { type Aloft, aloftAt, centreOf, framedOf, mixD } from './insect-frame';
+import { aloftAt, eyeFrameOf, mixD } from './insect-frame';
 import { drawLook, fidget, lookOf, newDrink, poseLook } from './insect-look';
 import { seatAloft } from './insect-seat';
 import { InsectShadows } from './insect-shadow';
@@ -210,8 +211,9 @@ export class InsectView {
     shown.goal = end;
     const centre = shown.centre ?? centreOf(view.eye, shown.from, end);
     shown.centre = centre;
-    const start = framedOf(view, centre, shown.from);
-    const framedEnd = framedOf(view, centre, end);
+    const frame = eyeFrameOf(view);
+    const start = framedOf(frame, centre, shown.from);
+    const framedEnd = framedOf(frame, centre, end);
     // Its size in its frame, where it was last frame.
     const zoom =
       CLUMP_DISTANCE / mixD(start.forward, framedEnd.forward, shown.flown);

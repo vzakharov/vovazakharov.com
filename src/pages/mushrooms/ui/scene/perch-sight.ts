@@ -21,6 +21,7 @@ import {
   type Places,
   type Sight,
 } from '../../model/flight';
+import type { Aloft } from '../../model/flight-frame';
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
@@ -51,7 +52,6 @@ import {
   WIDEST_SPAN,
 } from './flower-sight';
 import { awayPlaces, releasedAway, wayOutOf } from './insect-away';
-import type { Aloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import {
   crowdings,
