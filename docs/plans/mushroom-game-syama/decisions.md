@@ -25,8 +25,9 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   only as an injected seeded generator, so every test is deterministic.
 - **Made for a six-year-old's hands.** Every target at least ~64 CSS px, one
   finger's taps and one drag — past a radial 24 px slop it locks its axis,
-  within 45° of horizontal turning the child on the spot and otherwise
-  stepping along the heading, and nothing else drags — no double taps,
+  within 45° of horizontal turning the child on the spot (or strafing, when
+  it starts on the hills or the sky) and otherwise stepping along the
+  heading, and nothing else drags — no double taps,
   nothing to lose, nothing to read. The one long press (~0.45 s inside the
   slop) is on a flower, which a tap only plays: it opens the picker to
   change or pull that flower, its note sounding at the press as a tap's
@@ -40,8 +41,8 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   the sky alone, and the hills are drawn live from one 360° crest, with no
   parallax. The far edge is a horizon: a brow drawn along the projection of
   the `D_SEE` circle round the eye, a thing beyond it sinking under it foot
-  first by its distance — so it does not ride up or down as the child
-  turns — and paling into haze as it goes.
+  first by its distance — so it stays put on the brow as the child turns —
+  and paling into haze as it goes.
 - **Juice is the product.** Squash and stretch on every arrival, `Back.Out`
   overshoot, a puff of particles on pop-in, idle motion everywhere (grass
   sway, mushroom breathing, drifting clouds, wing beats), depth from layered
@@ -138,7 +139,7 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
 
 ## DRY notes
 
-The reuse calls the whole game stands on, moved from the plan.
+The reuse calls the whole game stands on.
 
 - **Metadata reuses `constructMetadata` wholesale**, as the music page does;
   with no locale there is no `hreflang` map to build.
@@ -150,11 +151,10 @@ The reuse calls the whole game stands on, moved from the plan.
   Steiger's `insignificant-slice`; `Mushroom` and `Insect` are not
   `entities/` slices for the same reason.
 - **Genes and drawing are two modules per creature** — one is tested, the
-  other looked at. `random.ts` is shared by every generator, which is why it
-  is its own module from bite 1.
+  other looked at. `random.ts` is shared by every generator, so it is its own
+  module.
 - **`Seeded = { seed: number }` and `WithId` are the bases** `Mushroom` and
-  `Insect` both intersect, so `pnpm type-overlap` holds as the second
-  creature arrives.
+  `Insect` both intersect, so `pnpm type-overlap` holds.
 - **Numbers and colours have one home each**: `layout.ts` positions and sizes
   everything, `palette.ts` holds every base hue; a per-instance nudge is a
   gene.

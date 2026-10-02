@@ -122,52 +122,53 @@ export class EyeInput {
     return layout && { ...point, ...layout };
   };
 
+  /** Moves the walk as of now on by `next`; nothing before the first `fit`. */
+  private change(next: (walk: Walk) => Walk): void {
+    const walk = this.current();
+    if (walk) this.walk = next(walk);
+  }
+
   /** `←` or `→` went down; its repeats change nothing. */
   holdTurn(direction: Direction): void {
-    const walk = this.current();
-    if (walk) this.walk = holdTurn(walk, direction, this.now());
+    this.change((walk) => holdTurn(walk, direction, this.now()));
   }
 
   letGoTurn(direction: Direction): void {
-    const walk = this.current();
-    if (walk) this.walk = letGoTurn(walk, direction);
+    this.change((walk) => letGoTurn(walk, direction));
   }
 
   /** `↑` or `↓` went down; its repeats change nothing. */
   holdWalk(direction: Direction): void {
-    const walk = this.current();
-    if (walk) this.walk = holdWalk(walk, direction);
+    this.change((walk) => holdWalk(walk, direction));
   }
 
   letGoWalk(direction: Direction): void {
-    const walk = this.current();
-    if (walk) this.walk = letGoWalk(walk, direction);
+    this.change((walk) => letGoWalk(walk, direction));
   }
 
   /** Shift with `←` or `→` went down; its repeats change nothing. */
   holdStrafe(direction: Direction): void {
-    const walk = this.current();
-    if (walk) this.walk = holdStrafe(walk, direction);
+    this.change((walk) => holdStrafe(walk, direction));
   }
 
   letGoStrafe(direction: Direction): void {
-    const walk = this.current();
-    if (walk) this.walk = letGoStrafe(walk, direction);
+    this.change((walk) => letGoStrafe(walk, direction));
   }
 
   /** Lets `scene`'s pointer turn and walk the eye. Returns what stops it. */
   listen(scene: Phaser.Scene): () => void {
     const { input, cameras } = scene;
     this.camera = cameras.main;
-    input.on(Phaser.Input.Events.POINTER_DOWN, this.pressed, this);
-    input.on(Phaser.Input.Events.POINTER_MOVE, this.moved, this);
-    input.on(Phaser.Input.Events.POINTER_UP, this.lifted, this);
-    input.on(Phaser.Input.Events.POINTER_UP_OUTSIDE, this.lifted, this);
+    const { Events } = Phaser.Input;
+    const handlers = [
+      [Events.POINTER_DOWN, this.pressed],
+      [Events.POINTER_MOVE, this.moved],
+      [Events.POINTER_UP, this.lifted],
+      [Events.POINTER_UP_OUTSIDE, this.lifted],
+    ] as const;
+    for (const [event, handler] of handlers) input.on(event, handler, this);
     return () => {
-      input.off(Phaser.Input.Events.POINTER_DOWN, this.pressed, this);
-      input.off(Phaser.Input.Events.POINTER_MOVE, this.moved, this);
-      input.off(Phaser.Input.Events.POINTER_UP, this.lifted, this);
-      input.off(Phaser.Input.Events.POINTER_UP_OUTSIDE, this.lifted, this);
+      for (const [event, handler] of handlers) input.off(event, handler, this);
     };
   }
 

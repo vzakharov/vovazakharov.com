@@ -170,7 +170,8 @@ world, which the lens and walking made wrong away from the opening; the
 0.76% release was the symptom. So a leg's points are plane points, and an
 insect's drawn size is its own size over its distance from the eye.
 Beaten: sizing by distance alone (fixes the size, not the legs through the
-meadow); a zoom floor (the bound beaten in `bite-12/insects.md`'s round-2 decision, a tenth-size insect); the
+meadow); a zoom floor (a tenth-size insect, the bound beaten in the
+round-2 decision above); the
 past-the-edge patch alone (`lens-carry-round3.patch`, never seen with no
 perch shown). A spec first (`insect-plane.md`), then build packages.
 **Decided, with the operator: an insect's size at the opening goes by its
@@ -207,7 +208,6 @@ it (the complaint stands). **Decided, with the operator: `ARRIVAL` goes**
 («убрать»): a tapped release's first leg to a perch on screen flies at the
 kind's cruise like any other, so a far flower may take 3–4 s, calmly.
 Beaten: keeping the 1.5 s cap (a release to a far flower races).
-**The veer play is closed** (`bite-12/insects.md` § "The veer play's
-bounds"): the dash bound is the curve's own peak, away legs are timed
+**The veer play is closed** (§ "The veer play's bounds" above): the dash bound is the curve's own peak, away legs are timed
 between the points they are drawn between (007a1ec), and four reds stay
 known for the review and the operator's play, not for another round.
