@@ -3,7 +3,7 @@ import type * as Phaser from 'phaser';
 import { type Light, sunLight } from '../../model/light';
 import type { Random } from '../../model/random';
 import { GROUND_BANDS, groundRowAt, RANGES, ridgeTone } from './backdrop-tones';
-import { browFloor } from './brow';
+import { browFloor, nearFoot } from './brow';
 import { mix } from './colour';
 import { type Band, grainPixels, grainStrips } from './grain';
 import type { MeadowLayout } from './layout';
@@ -21,6 +21,7 @@ import {
   seamReach,
 } from './skyline';
 import type { View } from './view';
+import { GROUND_BOB } from './walking';
 
 const HILL_BANDS = 16;
 const GRAIN_KEY = 'grain';
@@ -30,9 +31,6 @@ const GRAIN_ALPHA = 0.07;
 const GRAIN_SCALE = 1;
 /** How far past either edge of the screen the hills are drawn, in CSS px, so no rim or band stops short of it. */
 const HILL_MARGIN = 4;
-/** How far past the ground picture's top (`browFloor`) the near range's foot reaches, so no sliver of sky shows under it. */
-const FOOT_OVERLAP = 2;
-
 /** The two layers the hills are drawn into: the farthest and far ranges, and the near one under the far. */
 export type HillLayers = Record<'far' | 'near', Phaser.GameObjects.Graphics>;
 
@@ -87,7 +85,7 @@ export function hillsOf(layout: MeadowLayout, random: Random): Hills {
     seam: seamCrest(layout),
     floors: {
       far: layout.groundTop,
-      near: browFloor(layout.camera) + FOOT_OVERLAP,
+      near: nearFoot(layout.camera),
     },
     light: sunLight(layout),
   };
@@ -157,8 +155,8 @@ export function paintGround(
 }
 
 /**
- * The grain over the ground, standing on the screen, under the grass and
- * every creature: one tile texture made from `seed` the first time, then one
+ * The grain over the ground, standing on the screen and bobbing with the
+ * ground (`GROUND_BOB`), under the grass and every creature: one tile texture made from `seed` the first time, then one
  * sprite per strip of `grainStrips` from where the seam rises highest,
  * reused on every repaint, the texture lying continuous across the strips.
  */
@@ -187,7 +185,7 @@ export function paintGrain(
   return grainStrips(layout, top).map(({ top: from, bottom, share }, index) =>
     (existing?.[index] ?? scene.add.tileSprite(0, 0, width, 1, GRAIN_KEY))
       .setOrigin(0, 0)
-      .setScrollFactor(0)
+      .setScrollFactor(0, GROUND_BOB)
       .setPosition(0, from)
       .setSize(width, bottom - from)
       .setTileScale(GRAIN_SCALE)
