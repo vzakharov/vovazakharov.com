@@ -456,12 +456,13 @@ export type Page = {
   ) => Promise<void>;
   /**
    * A key going down or up, by its DOM `code`, as `ArrowLeft`; a `repeat` is
-   * the browser's own repeat of a held key's press.
+   * the browser's own repeat of a held key's press, and `shift` has Shift
+   * down under it.
    */
   key: (
     key: Arrow | Letter,
     type: 'keyDown' | 'keyUp',
-    repeat?: boolean,
+    held?: { repeat?: boolean; shift?: boolean },
   ) => Promise<void>;
   /** The screen turned: its width and height swapped. */
   turn: () => Promise<void>;
