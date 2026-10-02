@@ -5,7 +5,7 @@
 - **A** (2b9942c) — `model/ground.ts`: `groundOfPlane`, `anchored`,
   `unanchored`; round-trip tests in `model/ground.test.ts` ("the lens").
   Anchoring at `OPENING_EYE` is the identity bit for bit.
-- **B** (this commit) — the store holds plane points: `FlowerFoot =
+- **B** (8312d9b) — the store holds plane points: `FlowerFoot =
   Point & Scaled`, `Footed = { foot: Point; lean }`, the rules on
   `GroundFoot`. The test fixtures are converted mechanically (`planeOf`/
   `planeFootOf`, leans from `OPENING_FOOTING` or `grownOn(OPENING_EYE, g)`);
@@ -55,7 +55,6 @@
   comparison reads a converted value (`openingIndex`, `sameFoot` compare
   stored numbers), so nothing a person sees changes; a test asserting
   exact equality of converted feet will need a 1e-9 tolerance.
-
 - The private placer in `clump-layout.ts` is `placedAs` (eslint's
   `no-shadow` against `standingPlaces`'s `standing` parameter).
 
