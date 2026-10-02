@@ -337,53 +337,10 @@ timed by its length at the kind's own cruise, with no `ARRIVAL` cap; the
 veer play is closed with four reds known. Every call and what it beat:
 `bite-12/insects.md` § "The insect plane's decisions".
 
-**The operator's play of version 14** (relay depth 7). Holds: a release
-behind the eye leaves drawn the whole way; a hovering fly veers past the ear.
-Decided from it, each built as its own package:
-
-- **Insects sink behind the brow as flowers and mushrooms do** — «за холмом
-  они исчезают дискретно: были-не стало, в отличие от цветов-грибов,
-  которые "уезжают" за него» — through `brow.ts`'s sink, not a cull.
-- **Every flying insect casts a round shadow** on the ground under its plane
-  point, so near and far read — «условные тени-кругляшки (НЕ их настоящей
-  формы, а то опять зароемся)»: a flat ink ellipse, sized and hazed by its
-  distance, sunk by the brow like the rest. Beaten: a shadow of the insect's
-  own outline (the operator ruled it out).
-- **A fly never hangs still** — «мухи (в отличие от пчелы) не умеют
-  "зависать", они всегда куда-то дрыгаются»: a fly's air spot is a twitchy
-  wander of short jerks; a bee and a butterfly keep their hover. Optional
-  per the operator («если это геморно править, можно оставить»): kept if it
-  fits the flight model without reopening it.
-- **The fly's dash is softened** («резковато»): a lower, longer peak in its
-  burst curve, the leg's time unchanged.
-- **Strafing** («хочется добавить стрейф … по крайней мере попробовать»):
-  held Shift with `←`/`→` steps sideways at the walk's pace; a horizontal
-  drag that starts on the ground turns as today, one that starts above the
-  horizon (the hills or the sky) strafes — the hand holding the far world
-  slides it. Vertical drags step as today.
-
-- **Bees no longer sow lines** («пчела всегда сажает цветок в одну и ту же
-  сторону … сплошные диагональные полосы»): a planting takes any free ring
-  slot off the bee's stream, not the first (8e2af24).
-- **A note with no flower in view plants one** («если на пустом экране
-  сыграть мелодию, достаточно быстро вырастет поляна цветков-нот»): with the
-  picker shut, a note or drum key whose sound no flower in view makes sounds
-  at once and grows that flower — its colour and shape — on a free tuft in
-  view picked off the meadow's stream; a key some flower in view already
-  makes plays it as before and plants nothing. Package `v14-note-plant`.
-
-Settled with the operator after the packages' reports: the sky strafe stays
-as built — the sky and hills stand still and the step mostly lands after
-the lift («пока оставляем как есть, потом может лучше идеи придут»); the
-fly's dash stays 17% softer (`{ time: 0.24 }`), held by the 7-in-10 catch
-bound, not loosened («оставляем как есть»). **A flier caught in the air
-shies away with its own voice** — a butterfly's trill, a bee's buzz, a
-fly's whine — a short dart off its leg, then on to a perch («да, давай»).
-Package `v14-catch`: a `startle` in flight stops being a no-op
-(`model/insects.ts` `startled`), the voices from `insect-voices.ts`.
-
-The footstep level held in the operator's earlier play («когда играл вчера
-было хорошо»).
+**The operator's play of version 14** — shadows, the brow sink, fly hops,
+the softer dash, strafing, bees' random slot, notes that plant, and a flier
+caught in the air shying away with its own voice (`v14-catch`). Every call,
+with his words and what it beat: `bite-12/v14.md`.
 
 **Left, in order:**
 
