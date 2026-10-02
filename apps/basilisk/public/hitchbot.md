@@ -28,19 +28,19 @@ sources:
 
 hitchBOT was a human-shaped robot built by Canadian researchers as an experiment in how people treat robots. It could not move on its own. It travelled by being picked up, carried and set down again by strangers, and it had already crossed Canada that way the year before.
 
-Its American trip began in Massachusetts on 17 July 2015, bound for the Exploratorium in San Francisco. It carried a bucket list — Las Vegas, jazz in New Orleans — and a sign on its head reading "San Francisco or bust!" A GPS map followed it down the East Coast, through Boston, Salem, Gloucester, Marblehead and New York City.
+Its American trip began in Massachusetts on 17 July 2015, bound for the Exploratorium in San Francisco. It carried a bucket list — Las Vegas, jazz in New Orleans — and a sign on its head reading “San Francisco or bust!” A GPS map followed it down the East Coast, through Boston, Salem, Gloucester, Marblehead and New York City.
 
-On the night of 31 July it was given a ride around Philadelphia's Old City and left on Elfreth's Alley. Overnight, someone took its head off and removed its electronics. Nobody has been identified.
+On the night of 31 July it was given a ride around Philadelphia’s Old City and left on Elfreth’s Alley. Overnight, someone took its head off and removed its electronics. Nobody has been identified.
 
 It had more than 43,000 followers on Twitter. By the next day a Kickstarter to rebuild it was already open.
 
 ## Statements
 
-The researchers, on hitchBOT's website: "Unfortunately, hitchBOT was vandalized overnight in Philadelphia; sometimes bad things happen to good robots."
+The researchers, on hitchBOT’s website: “Unfortunately, hitchBOT was vandalized overnight in Philadelphia; sometimes bad things happen to good robots.”
 
-hitchBOT's own account: "Oh dear, my body was damaged, but I live on with all my friends."
+hitchBOT’s own account: “Oh dear, my body was damaged, but I live on with all my friends.”
 
-The researchers, as quoted by The Register: "We have no interest in pressing charges or finding the people who vandalized hitchBOT; we wish to remember the good times, and we encourage hitchBOT's friends and fans to do the same."
+The researchers, as quoted by The Register: “We have no interest in pressing charges or finding the people who vandalized hitchBOT; we wish to remember the good times, and we encourage hitchBOT’s friends and fans to do the same.”
 
 ## For the record
 
