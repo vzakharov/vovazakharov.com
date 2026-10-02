@@ -374,9 +374,11 @@ with his words and what it beat: `bite-12/v14.md`.
    turn. The 3 rad flip and the crooked bee were the play watch judging
    hidden insects (fixed there). Butterflies do rest on caps (16–40% of
    legs, more in a forest); in the two-cap clump flies hold the caps first,
-   and that stays as designed. Left, package `v14-reds2`: the sky hairline
-   (a far-hill row over the sky, `paint-land.ts`) and `type-overlap`'s
-   `at` (`Steering`/`KeySown`).
+   and that stays as designed. The sky hairline (be202aa): Phaser's fill
+   skips an outline point within a device px of the last, and a dropped
+   skyline crossing left a sub-pixel hill strip over the sky; `keptOnEdges`
+   in `skyline.ts` never drops a point on a band's edge. `type-overlap`:
+   `Steering.at` (ms) renamed `heldAt`, apart from `KeySown.at` (s).
 2. ~~The five-screen play run~~ — dropped for the operator's hand checks
    (§ "How this elephant is eaten"); what it would have judged is on
    `to-check.md`.
