@@ -6,7 +6,8 @@
  * leaving the screen and coming back, and `←` held as long turns it back
  * onto every bed object as it stood; a sideways drag from bare ground turns
  * it with the ground under the finger and a drag down the screen walks it,
- * never faster than `STRIDE_CRUISE`, neither tapping anything; a sideways
+ * never faster than `STRIDE_CRUISE`, neither tapping anything, nor a drag
+ * with a mushroom selected or the flower picker open on a tuft; a sideways
  * drag from the sky, and `→` held under Shift, walk it square to its heading,
  * never turning it and never past the cruise; and the screen turned keeps the
  * eye where it stood and looking where it looked. Frames of the opening, the
@@ -41,7 +42,7 @@ import {
   Point,
   Sun,
 } from './mushroom-probe.ts';
-import { BARE_START, TAPS } from './play-taps.ts';
+import { BARE_START, playHeldDrags, TAPS } from './play-taps.ts';
 
 const FPS = 60;
 /** Frames enough for a held key's ease and a glide to come to rest. */
@@ -154,7 +155,7 @@ function moved(
 
 export async function playWalk(
   page: Page,
-  _controls: z.infer<typeof Controls>,
+  controls: z.infer<typeof Controls>,
   expect: Expect,
   note: (line: string) => void,
 ): Promise<void> {
@@ -299,6 +300,7 @@ export async function playWalk(
     (await taps()) === tapsBefore,
     'walking, turning and strafing tapped something',
   );
+  await playHeldDrags(page, controls, expect, note);
 
   // The screen turned: the eye stands where it stood, looking where it looked.
   const unturned = await eye();

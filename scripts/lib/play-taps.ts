@@ -1,7 +1,20 @@
 /**
- * Page-side reads a drag that must tap nothing is checked by: what every tap
- * leaves behind, and bare ground to press on.
+ * A drag that must tap nothing: what every tap leaves behind, bare ground to
+ * press on, and the two drags from a held state — a mushroom selected, the
+ * flower picker open on a tuft — that may shut the picker or drop the
+ * selection, as any touch outside them does, but grow, plant and select
+ * nothing.
  */
+
+import { z } from 'zod';
+
+import {
+  type Controls,
+  type Expect,
+  type Page,
+  Point,
+} from './mushroom-probe.ts';
+import { TUFTS } from './play-tufts.ts';
 
 /**
  * Everything a tap anywhere in the meadow leaves behind: the selection, the
@@ -42,3 +55,104 @@ export const BARE_START = `(() => {
   }
   return null;
 })()`;
+
+/** What a drag may not change: how many mushrooms and plantings stand, and which mushroom is selected. */
+const GROWN = `(() => {
+  const { meadow } = __probe.scene;
+  return {
+    mushrooms: meadow.mushrooms.length,
+    planted: meadow.planted.length,
+    selected: meadow.selected ?? null,
+    planting: meadow.planting !== undefined,
+  };
+})()`;
+const Grown = z.object({
+  mushrooms: z.number(),
+  planted: z.number(),
+  selected: z.string().nullable(),
+  planting: z.boolean(),
+});
+
+/** How many tufts, nearest first, are tried for one that opens the picker. */
+const TRIES = 16;
+/** Frames a drag's glide takes to come to rest. */
+const SETTLE_FRAMES = 150;
+
+/**
+ * Two drags from bare ground, one with a mushroom selected and one
+ * with the flower picker open on a tuft — the game never holds both — each
+ * growing, planting and selecting nothing.
+ */
+export async function playHeldDrags(
+  page: Page,
+  controls: z.infer<typeof Controls>,
+  expect: Expect,
+  note: (line: string) => void,
+): Promise<void> {
+  const grown = async () => page.evaluate(GROWN, Grown);
+  /**
+   * A drag from bare ground `by` the screen's width and height, `held` the
+   * state it starts from.
+   */
+  const dragFrom = async (held: string, by: z.infer<typeof Point>) => {
+    const start = await page.evaluate(BARE_START, Point.nullable());
+    if (start === null) {
+      note(`no bare ground to drag from with ${held}: that drag is not played`);
+      return;
+    }
+    const before = await grown();
+    const { width, height } = await page.evaluate(
+      '__probe.eye()',
+      z.object({ width: z.number(), height: z.number() }),
+    );
+    const to = { x: start.x + by.x * width, y: start.y + by.y * height };
+    await page.drag(start, to, 12);
+    await page.step(SETTLE_FRAMES);
+    const after = await grown();
+    expect(
+      after.mushrooms === before.mushrooms && after.planted === before.planted,
+      `a drag with ${held} grew or planted something: ${String(before.mushrooms)} mushrooms and ${String(before.planted)} plantings before, ${String(after.mushrooms)} and ${String(after.planted)} after`,
+    );
+    expect(
+      after.selected === null || after.selected === before.selected,
+      `a drag with ${held} selected mushroom ${String(after.selected)}`,
+    );
+    note(
+      `a drag with ${held}: ${before.planting && !after.planting ? 'the picker shut' : after.planting ? 'the picker stayed open' : 'no picker'}, ${before.selected !== null && after.selected === null ? 'the selection dropped' : `selected ${String(after.selected)}`}`,
+    );
+  };
+
+  // A mushroom selected: one grown from `+`, which selects it — where the
+  // view leaves it room, which a view crowded with flowers may not, so it
+  // comes first. Its drag walks a little in, keeping the tufts in view.
+  await page.tap(controls.plus);
+  await page.step(30);
+  const [button] = controls.picker;
+  if (button) await page.tap(button);
+  await page.step(90);
+  const { selected } = await grown();
+  if (selected === null) {
+    expect(false, 'a mushroom grown from `+` is not selected');
+  } else {
+    await dragFrom(`mushroom ${selected} selected`, { x: 0, y: 0.08 });
+  }
+
+  // The flower picker open on a tuft: the nearest that opens it.
+  const tufts = await page.evaluate(TUFTS, z.array(Point));
+  const opening = async ([tuft, ...rest]: ReadonlyArray<
+    z.infer<typeof Point>
+  >): Promise<boolean> => {
+    if (!tuft) return false;
+    await page.tap(tuft);
+    await page.step(30);
+    return (await grown()).planting || opening(rest);
+  };
+  if (await opening(tufts.toReversed().slice(0, TRIES))) {
+    await dragFrom('the flower picker open on a tuft', { x: -0.15, y: 0 });
+  } else {
+    expect(
+      false,
+      `none of ${String(tufts.length)} tufts a tap reaches opened the picker, to drag with it open`,
+    );
+  }
+}
