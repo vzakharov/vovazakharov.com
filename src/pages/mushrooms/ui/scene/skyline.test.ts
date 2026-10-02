@@ -5,8 +5,14 @@ import type { Point } from '../../model/geometry';
 import { type Camera, OPENING_EYE } from '../../model/ground';
 import { sunLight } from '../../model/light';
 import { mulberry32 } from '../../model/random';
-import { meadowLayout } from './layout';
-import { azimuthAt, crestAcross, crestAt, screenAt } from './panorama';
+import { type MeadowLayout, meadowLayout } from './layout';
+import {
+  azimuthAt,
+  type Crest,
+  crestAcross,
+  crestAt,
+  screenAt,
+} from './panorama';
 import {
   farRange,
   farSkyline,
@@ -60,17 +66,22 @@ const HEADINGS = Array.from(
 const turnedTo = (camera: Camera, heading: number) =>
   viewAt(camera, { ...OPENING_EYE, heading });
 
+/** The crests of `layout`'s three ranges, farthest first, as a visit of `seed` draws them. */
+function crestsOf(layout: MeadowLayout, seed: number): Crest[] {
+  const random = mulberry32(seed);
+  return [
+    farthestSkyline(random, layout),
+    farSkyline(random, layout),
+    nearSkyline(random, layout),
+  ];
+}
+
 describe('the hill bands', () => {
   for (const [name, width, height] of VIEWPORTS) {
     it(`tile each range exactly and never rise above its skyline, from every heading, on a ${name} screen`, () => {
       for (const seed of VISITS.slice(0, 20)) {
         const layout = meadowLayout(width, height, seed);
-        const random = mulberry32(seed);
-        const crests = [
-          farthestSkyline(random, layout),
-          farSkyline(random, layout),
-          nearSkyline(random, layout),
-        ];
+        const crests = crestsOf(layout, seed);
         for (const heading of HEADINGS.slice(0, 6)) {
           const view = turnedTo(layout.camera, heading);
           for (const crest of crests) {
@@ -154,44 +165,44 @@ function crossedEdges(outline: readonly Point[]): [number, number] | undefined {
   return undefined;
 }
 
+/**
+ * Each band outline of the first `visits` visits' ranges on a `width` by
+ * `height` screen, from 720 headings, at each device px ratio Phaser fills it
+ * at, and where it was drawn.
+ */
+function* filledBands(width: number, height: number, visits: number) {
+  for (const seed of VISITS.slice(0, visits)) {
+    const layout = meadowLayout(width, height, seed);
+    const crests = crestsOf(layout, seed);
+    for (let step = 0; step < 720; step++) {
+      const view = turnedTo(layout.camera, (step / 720) * Math.PI * 2);
+      for (const [range, crest] of crests.entries()) {
+        const line = crestAcross(crest, view, HILL_STEPS, 4);
+        const bands = hillBands(line, layout.groundTop, 16);
+        for (const [band, { outline }] of bands.entries()) {
+          for (const ratio of [1, 2, 3]) {
+            const at = `seed ${seed}, step ${step}, range ${range}, band ${band}, ×${ratio}`;
+            yield { outline, ratio, at };
+          }
+        }
+      }
+    }
+  }
+}
+
 describe('the hill bands as the hills fill them', () => {
   for (const [name, width, height] of VIEWPORTS) {
     it(`stay simple polygons through Phaser's path detail, from 720 headings, on a ${name} screen`, () => {
-      for (const seed of VISITS.slice(0, 3)) {
-        const layout = meadowLayout(width, height, seed);
-        const random = mulberry32(seed);
-        const crests = [
-          farthestSkyline(random, layout),
-          farSkyline(random, layout),
-          nearSkyline(random, layout),
-        ];
-        for (let step = 0; step < 720; step++) {
-          const view = turnedTo(layout.camera, (step / 720) * Math.PI * 2);
-          for (const [range, crest] of crests.entries()) {
-            const line = crestAcross(crest, view, HILL_STEPS, 4);
-            for (const [band, { outline }] of hillBands(
-              line,
-              layout.groundTop,
-              16,
-            ).entries()) {
-              for (const ratio of [1, 2, 3]) {
-                // As `fillPoints` closes it, back to its first point.
-                const path = [...outline, ...outline.slice(0, 1)];
-                const kept = phaserKept(path, ratio, PHASER_DETAIL);
-                // Skipping only repeated points leaves the outline as it was.
-                const crossed =
-                  kept.length === phaserKept(path, ratio, 0).length
-                    ? undefined
-                    : crossedEdges(kept);
-                assert.equal(
-                  crossed,
-                  undefined,
-                  `seed ${seed}, step ${step}, range ${range}, band ${band}, ×${ratio}`,
-                );
-              }
-            }
-          }
-        }
+      for (const { outline, ratio, at } of filledBands(width, height, 3)) {
+        // As `fillPoints` closes it, back to its first point.
+        const path = [...outline, ...outline.slice(0, 1)];
+        const kept = phaserKept(path, ratio, PHASER_DETAIL);
+        // Skipping only repeated points leaves the outline as it was.
+        const crossed =
+          kept.length === phaserKept(path, ratio, 0).length
+            ? undefined
+            : crossedEdges(kept);
+        assert.equal(crossed, undefined, at);
       }
     });
   }
@@ -231,33 +242,8 @@ function edgeSkipped(
 describe('the hill bands along their edges', () => {
   for (const [name, width, height] of VIEWPORTS) {
     it(`keep every point where a band's edge sets off through Phaser's path detail, from 720 headings, on a ${name} screen`, () => {
-      for (const seed of VISITS.slice(0, 5)) {
-        const layout = meadowLayout(width, height, seed);
-        const random = mulberry32(seed);
-        const crests = [
-          farthestSkyline(random, layout),
-          farSkyline(random, layout),
-          nearSkyline(random, layout),
-        ];
-        for (let step = 0; step < 720; step++) {
-          const view = turnedTo(layout.camera, (step / 720) * Math.PI * 2);
-          for (const [range, crest] of crests.entries()) {
-            const line = crestAcross(crest, view, HILL_STEPS, 4);
-            for (const [band, { outline }] of hillBands(
-              line,
-              layout.groundTop,
-              16,
-            ).entries()) {
-              for (const ratio of [1, 2, 3]) {
-                assert.equal(
-                  edgeSkipped(outline, ratio, PHASER_DETAIL),
-                  undefined,
-                  `seed ${seed}, step ${step}, range ${range}, band ${band}, ×${ratio}`,
-                );
-              }
-            }
-          }
-        }
+      for (const { outline, ratio, at } of filledBands(width, height, 5)) {
+        assert.equal(edgeSkipped(outline, ratio, PHASER_DETAIL), undefined, at);
       }
     });
   }
@@ -270,11 +256,7 @@ describe('the far hills under the sun', () => {
         const layout = meadowLayout(width, height, seed);
         const { sun, camera } = layout;
         const rays = sun.r * SUN_RAY_REACH;
-        const random = mulberry32(seed);
-        const crests = [
-          farthestSkyline(random, layout),
-          farSkyline(random, layout),
-        ];
+        const crests = crestsOf(layout, seed).slice(0, 2);
         for (const heading of HEADINGS) {
           const view = turnedTo(camera, heading);
           const x = screenAt(view, azimuthAt(camera, sun.x));
