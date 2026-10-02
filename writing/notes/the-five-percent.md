@@ -136,6 +136,44 @@ Lyric notes, section markers and per-locale song reading went to
 `pages/music` imported them; asked why not a higher layer, they moved up with
 no upward import in the way. One grep said so; nobody ran it.
 
+## It edits the copy in front of it, not the fact behind it (×14)
+
+A change the agent is told to make, it makes where it was raised. One fact
+rendered in three places gets one rendering updated; a rule fixed in the repo
+that adopted it leaves the source carrying the cause. Nothing catches the split —
+every site reads correctly alone, and the divergence exists only between them.
+
+**8 September — one stack, three spellings.** Playgram's tech line renders in
+three places, all the agent's own work in the same branch; told to add Supabase
+and Railway, it edited one. No screenshot shows it: each page was right alone.
+
+**9 September — the rule fixed in the copy, not in the source.** Told a squash
+body has no business carrying a "things to know when editing here" paragraph, the
+agent wrote two rules into `squash-message/SKILL.md` and closed the round — a
+skill adopted from a repo whose copy still asks for it. _Let's file an issue._
+
+**21 September — the argument left standing when its reason moved out.** The
+Bible's articles moved to their own site and latestageagentic.com's long opening
+stayed, no sentence of it made false. _far too much now that the articles are
+elsewhere_ — the diff was checked for what it broke, not what it stranded.
+
+**22 September — the anchored clause cut, the premise behind it kept.** On a
+_медведь?_ thread the agent cut the rider and defended keeping `/feedback` among
+what follows a transcript, since the plan had settled it. _вопрос "ой, а я
+должен высказать своё мнение про это?" в принципе нигде в процессе "диктовки"
+возникнуть не должен._ The smallest edit satisfying the anchor kept its premise.
+
+**23 September — a name clash settled by renaming the side that was right.** The
+song list destructured `explicit` as `marked`, the translated label being
+`explicit` too. The operator asked why the data was renamed: the catalogue was
+the one to yield, as `messages`. The rename landed where the clash surfaced.
+
+**2 October — the source's bug fixed here, its absence there written down.**
+Syncing from muthur, the agent fixed a tend-prose cross-reference citing "homes 3
+and 4" for a table numbering them 4 and 5, and noted in the watermark "a fix the
+source still lacks". _оставь в muthur тикет_ — the 9 September bump, with the
+gap recorded this time: a divergence nothing upstream would ever close.
+
 ## It writes its reasoning into the artifact (×13)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
@@ -167,38 +205,6 @@ why `ContentVideo` lives in `pages/documents/ui/`, the agent wrote a
 `content.md` bullet — a `server-only` wall, future islands — and, when both
 fell, rewrote it around FSD import direction. _the bullet is a polar bear_:
 `fsd.md` says where a component goes and Steiger fails the wrong move unread.
-
-## It edits the copy in front of it, not the fact behind it (×13)
-
-A change the agent is told to make, it makes where it was raised. One fact
-rendered in three places gets one rendering updated; a rule fixed in the repo
-that adopted it leaves the source carrying the cause. Nothing catches the split —
-every site reads correctly alone, and the divergence exists only between them.
-
-**8 September — one stack, three spellings.** Playgram's tech line renders in
-three places, all the agent's own work in the same branch; told to add Supabase
-and Railway, it edited one. No screenshot shows it: each page was right alone.
-
-**9 September — the rule fixed in the copy, not in the source.** Told a squash
-body has no business carrying a "things to know when editing here" paragraph, the
-agent wrote two rules into `squash-message/SKILL.md` and closed the round — a
-skill adopted from a repo whose copy still asks for it. _Let's file an issue._
-
-**21 September — the argument left standing when its reason moved out.** The
-Bible's articles moved to their own site and latestageagentic.com's long opening
-stayed, no sentence of it made false. _far too much now that the articles are
-elsewhere_ — the diff was checked for what it broke, not what it stranded.
-
-**22 September — the anchored clause cut, the premise behind it kept.** On a
-_медведь?_ thread the agent cut the rider and defended keeping `/feedback` among
-what follows a transcript, since the plan had settled it. _вопрос "ой, а я
-должен высказать своё мнение про это?" в принципе нигде в процессе "диктовки"
-возникнуть не должен._ The smallest edit satisfying the anchor kept its premise.
-
-**23 September — a name clash settled by renaming the side that was right.** The
-song list destructured `explicit` as `marked`, the translated label being
-`explicit` too. The operator asked why the data was renamed: the catalogue was
-the one to yield, as `messages`. The rename landed where the clash surfaced.
 
 ## Asked for a source, it supplies its own version (×9)
 
