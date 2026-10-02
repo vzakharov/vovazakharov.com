@@ -3,27 +3,23 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import type { Meadow, Planted } from '../../model/game';
-import { placedAt, type Point, type Tall } from '../../model/geometry';
+import { placedAt, type Point } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
 import { paintedSpots } from '../../model/house';
-import { headedLight, type Light } from '../../model/light';
+import { headedLight } from '../../model/light';
 import {
   beckon,
   breath,
   emerge,
   letGo,
   lightUp,
-  type Lit,
   phaseOf,
   sink,
   SINK_DURATION,
-  type Sprouted,
-  type Tapped,
-  UNLIT,
   widthFor,
   wobble,
 } from '../../model/motion';
-import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
+import { mushroomGenes } from '../../model/mushroom-genes';
 import {
   TAP_PARTS,
   type TapArea,
@@ -32,20 +28,19 @@ import {
 } from '../../model/mushroom-outline';
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
-import type { Footed } from '../../model/placement';
-import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
-import { type Laid, laidOf, placeIn } from './clump-layout';
+import { onHost, standAt, viewedOrLaid } from './bed-place';
+import { laidOf, placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
 import { tappedDoor } from './door-tap';
-import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
 import { containsMushroom } from './hit-areas';
-import { type Body, HouseView } from './house-view';
+import { HouseView } from './house-view';
 import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
-import { type MushroomLights, mushroomLights } from './mushroom-light';
-import { MushroomSelection, type Selected } from './mushroom-selection';
+import { mushroomLights } from './mushroom-light';
+import { MushroomSelection } from './mushroom-selection';
+import { paintLit, type Shown, unplacedShown } from './mushroom-shown';
 import type { Seat } from './perch-hosts';
-import { hazeAhead, repaintsDue, type Siding } from './repaint-queue';
+import { hazeAhead, repaintsDue } from './repaint-queue';
 import type { MeadowSound } from './sound';
 import { puffFrom, type Puffing, puffSpores } from './spores';
 import type { Following, View } from './view';
@@ -58,32 +53,6 @@ const WOBBLE_ROCK = 0.35;
 const SHADOW_SPREAD = 0.6;
 /** How much nearer than its mushroom its shadow is drawn: just behind it, before anything standing behind it. */
 const SHADOW_NEARER = -0.5;
-
-/** `spots`: those its house left painted (`paintedSpots`) when it was last drawn. */
-type Shown = Tapped &
-  Sprouted &
-  Lit &
-  Body &
-  Pick<MushroomGenes, 'spots'> &
-  Footed &
-  Selected &
-  // How far its tap area reaches above its foot, in world px at the opening eye.
-  Tall & {
-    /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
-    shadow: Phaser.GameObjects.Graphics;
-    /** Its windows and door, which follow it. */
-    house: HouseView;
-    /** When it was removed, and starts sinking; `Infinity` while it stands. */
-    goneAt: number;
-    /** Where the bed lays its foot out to paint it (`laidOf`), in world px. */
-    laid: Point;
-    /** The light it is painted in from an eye facing `heading` (`mushroomLights`). */
-    lightsAt: (heading: number) => MushroomLights<Lighting>;
-    /** Its shadow's light as the opening eye sees it, which `headedLight` turns by the heading. */
-    sunFrom: Light;
-  } & Pick<Laid, 'opening'> &
-  // Its shadow's sun side when last painted.
-  Pick<Siding, 'paintedSunSide'>;
 
 /**
  * The meadow's mushrooms on screen, reconciled with the state by id: a new
@@ -227,7 +196,7 @@ export class MushroomBed implements Following {
     if (lit) this.selection.stand(lit);
     for (const { shown, haze } of repaintsDue(hazing)) {
       shown.haze = haze;
-      this.paintLit(shown);
+      paintLit(shown, this.heading);
     }
   }
 
@@ -345,25 +314,12 @@ export class MushroomBed implements Following {
     Object.assign(shown, { laid: { x, y }, opening });
     this.stand(shown);
     shown.haze = this.hazeHere(shown) ?? haze;
-    this.paintLit(shown);
+    paintLit(shown, this.heading);
   }
 
-  /**
-   * Paints `shown`'s body, its house and its shadow at its haze, in its light
-   * from the heading the view looks along, the opening's while it stands as
-   * laid out.
-   */
-  private paintLit(shown: Shown): void {
-    const { graphics, shadow, genes, spots, size, haze, turn, house } = shown;
-    const { body, ground } = shown.lightsAt(
-      this.view?.eye.heading ?? OPENING_EYE.heading,
-    );
-    Object.assign(shown, { lighting: body, paintedSunSide: ground.toward.x });
-    graphics.clear();
-    drawMushroom(graphics, { ...genes, spots }, size, body, { haze, turn });
-    house.repaint();
-    shadow.clear();
-    drawMushroomShadow(shadow, genes, size, ground, turn);
+  /** The heading the view looks along, which the mushrooms are lit from; the opening's while they stand as laid out. */
+  private get heading(): number {
+    return this.view?.eye.heading ?? OPENING_EYE.heading;
   }
 
   /** The haze where the view stands `shown`; `undefined` with no view, or out of its sight. */
@@ -401,26 +357,10 @@ export class MushroomBed implements Following {
     const graphics = this.scene.add
       .graphics()
       .setInteractive({ hitArea: hit, hitAreaCallback: containsMushroom });
-    const lighting = this.requireLighting();
-    const shown: Shown = {
+    const shown = unplacedShown(mushroom, plantedAt, this.requireLighting(), {
       graphics,
-      shadow: this.scene.add.graphics(),
-      ...pick(mushroom, 'foot', 'lean'),
-      laid: { x: 0, y: 0 },
-      opening: 0,
-      tall: 0,
-      stands: UNPLACED,
       hit,
-      genes: mushroomGenes(mushroom),
-      turn: 0,
-      door: undefined,
-      spots: [],
-      size: 0,
-      haze: 0,
-      lighting,
-      lightsAt: () => ({ body: lighting, ground: lighting }),
-      sunFrom: lighting,
-      paintedSunSide: lighting.toward.x,
+      shadow: this.scene.add.graphics(),
       house: new HouseView(
         this.scene,
         this.voice,
@@ -429,12 +369,7 @@ export class MushroomBed implements Following {
         SPORE_DEPTH,
         this.nearestDoor,
       ),
-      phase: phaseOf(mushroom),
-      tappedAt: -Infinity,
-      ...UNLIT,
-      plantedAt,
-      goneAt: Infinity,
-    };
+    });
     graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
       this.tap(mushroom.id);
     });
