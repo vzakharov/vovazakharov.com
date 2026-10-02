@@ -15,26 +15,20 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import { anchorOf } from '../../model/anchor';
-import { flowerGenes } from '../../model/flower-genes';
 import { sameFoot } from '../../model/game';
-import { distanceBetween, type Point, wrap } from '../../model/geometry';
+import type { Point } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,
-  D_SEE,
   type Eye,
   type Footing,
-  groundFootOf,
   OPENING_EYE,
-  pinholeOf,
 } from '../../model/ground';
 import type { Random } from '../../model/random';
-import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { depthOf, UNPLACED } from './bed-place';
 import { coversShown, inSightPast } from './flower-cover';
-import { FLOWER_SIZE, headClear, standingOn } from './flower-layout';
-import { flowersOf, pulledFeet } from './flower-plots';
-import { roomIn, type Stand } from './flower-sight';
+import { FLOWER_SIZE } from './flower-layout';
+import { pulledFeet } from './flower-plots';
+import type { Stand } from './flower-sight';
 import {
   BLADE_OVERHANG,
   downAt,
@@ -52,8 +46,8 @@ import {
 import { LiveLawn, regrowTufts, type Sprout, sproutOn } from './lawn';
 import type { MeadowLayout } from './layout';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
-import { PALE_SPAN } from './repaint-queue';
-import { bareToTap, middleOf, tuftAt } from './tuft-tap';
+import { strayed, tendedIn, Tending, tendTufts } from './tending';
+import { middleOf, tuftAt } from './tuft-tap';
 import {
   behindHills,
   cull,
@@ -67,60 +61,10 @@ import {
 } from './view';
 
 export type { Sprout } from './lawn';
+export { plantableIn, tendedIn, tendTufts } from './tending';
 
 /** How tall a tuft stands, in units of its size: its middle blade (`grass.ts`). */
 const TUFT_HEIGHT = 2;
-
-/**
- * How many screens either side of the view a tuft is tended in: judging a
- * tuft costs tens of µs, so only those a turn or a step soon brings into
- * sight are judged, never every live one (`tendedIn`).
- */
-const TENDED_SCREENS = 1;
-/**
- * How far, in the clump's size, the eye steps, and in screens turns, from
- * where the tufts were last tended before they are tended again: within it,
- * every tuft in sight stands in the tended sector (`TENDED_SCREENS`).
- */
-const TEND_STEP = 0.5;
-const TEND_TURN = 0.5;
-
-/** `tuft` stood at `foot` on `layout`: its place and size there, the rest of it kept. */
-function stoodAt(layout: MeadowLayout, tuft: Tuft, foot: Footing): Tuft {
-  const { x, y } = standingOn(layout.camera, foot);
-  return { ...tuft, x, y, size: tuftSizeAt(layout, y) };
-}
-
-/**
- * Whether a tuft of `stand` stands there, a spot to plant on, as the anchor
- * of `eye` judges it (`anchoredStand`): its foot, moved with the anchor, has
- * ground and takes a flower (`roomIn`) whose head, however it grows, meets
- * no standing flower's on any screen (`headClear`), and its tuft, re-stood
- * at the moved foot, is bare to a finger (`bareToTap`). What `stand` holds
- * is read once, for every tuft asked after.
- */
-export function plantableIn(
-  stand: Stand,
-  eye: Eye,
-): (sprout: Sprout) => boolean {
-  const anchor = anchorOf(eye);
-  const judged = anchoredStand(stand, anchor);
-  const { layout } = judged;
-  const room = roomIn(judged);
-  const bare = bareToTap(judged);
-  const standing = flowersOf(judged).map((flower) => ({
-    foot: groundFootOf(flower.foot),
-    genes: flowerGenes(flower),
-  }));
-  return ({ foot, tuft }) => {
-    const moved = movedTo(anchor, foot);
-    if (moved !== foot && !hasGround(moved)) return false;
-    const stood = moved === foot ? tuft : stoodAt(layout, tuft, moved);
-    return (
-      room(moved) && headClear(groundFootOf(moved), standing) && bare(stood)
-    );
-  };
-}
 
 /**
  * The tufts the flowers pulled up in `stand` leave: `left`, then one from
@@ -145,41 +89,6 @@ export function leaveTufts(
     added.push(sprout);
   }
   return added.length === 0 ? left : [...left, ...added];
-}
-
-/**
- * Whether a tuft is one `view` tends: within the reach a tuft is drawn at
- * (`D_SEE` and `PALE_SPAN`), past the near ones the view never draws, each
- * with `TEND_STEP` to spare, and
- * at an azimuth off the heading no farther than the screen's side and
- * `TENDED_SCREENS` screens more.
- */
-export function tendedIn(view: View): (sprout: Sprout) => boolean {
-  const { eye, width } = view;
-  const { arc } = pinholeOf(view);
-  const most = ((0.5 + TENDED_SCREENS) * width) / arc;
-  return ({ foot }) => {
-    const distance = distanceBetween(eye, foot);
-    const far = distance - TEND_STEP > D_SEE + PALE_SPAN;
-    if (far || cull({ ahead: distance + TEND_STEP })) {
-      return false;
-    }
-    const azimuth = Math.atan2(foot.x - eye.x, foot.y - eye.y);
-    return Math.abs(wrap(azimuth - eye.heading)) <= most;
-  };
-}
-
-/**
- * The tufts of `grown` that stand on `stand` as the anchor of `eye` judges
- * it, each a spot to plant on (`plantableIn`): a tuft where no flower fits
- * hides until what kept it away goes.
- */
-export function tendTufts(
-  stand: Stand,
-  grown: readonly Sprout[],
-  eye: Eye,
-): Sprout[] {
-  return grown.filter(plantableIn(stand, eye));
 }
 
 /** A tuft of the ground as a frame draws it: the tuft laid out, and where and how big the view draws it. */
@@ -215,16 +124,6 @@ export function shownSprouts(
     (behindHills(placed) ? shown.behind : shown.near).push({ tuft, sprout });
   }
   return shown;
-}
-
-/**
- * Whether `view`'s eye has stepped `TEND_STEP` or turned `TEND_TURN` of a
- * screen from `from`, so a tuft in sight may stand outside what was tended.
- */
-function strayed(view: View, from: Eye): boolean {
-  const { eye, width } = view;
-  const turn = Math.abs(wrap(eye.heading - from.heading)) * pinholeOf(view).arc;
-  return distanceBetween(eye, from) > TEND_STEP || turn > TEND_TURN * width;
 }
 
 /** Each scene's grass, for the flowers' hit tests to yield to (`tuftUnder`). */
@@ -269,6 +168,8 @@ export class Grass {
   private stand: Stand | undefined;
   /** The eye the tufts were last tended from (`tendedIn`). */
   private tendedFrom: Eye | undefined;
+  /** The re-tend under way, a slice a frame, once the eye has strayed. */
+  private tending: Tending | undefined;
   private refused: Refusal | undefined;
 
   constructor(scene: Phaser.Scene, growing: Random) {
@@ -283,14 +184,34 @@ export class Grass {
   }
 
   /**
-   * Draws the grass through `view` from the next frame on, and tends the
-   * tufts again once its eye has stepped or turned past what the last tending
-   * covered (`TEND_STEP`, `TEND_TURN`), the lawn's cells following the eye.
+   * Draws the grass through `view` from the next frame on, and re-tends the
+   * tufts once its eye has stepped or turned past what the last tending
+   * covered (`strayed`), the lawn's cells following the eye: a slice a frame
+   * (`Tending`), the tufts last tended standing until every one is judged.
    */
   follow(view: View): void {
     this.view = view;
-    const { stand, tendedFrom } = this;
-    if (stand && tendedFrom && strayed(view, tendedFrom)) this.tend(stand);
+    const { stand, tendedFrom, tending } = this;
+    if (tending) {
+      this.tendOn();
+    } else if (stand && tendedFrom && strayed(view, tendedFrom)) {
+      this.retend(stand, view.eye);
+    }
+  }
+
+  /** Starts a re-tend of `stand` from `eye`, its tufts gathered now and judged from the next frame on (`tendOn`). */
+  private retend(stand: Stand, eye: Eye): void {
+    this.tending = new Tending(stand, this.grownRound(stand, eye), eye);
+  }
+
+  /** Judges the re-tend under way a slice further, and stands its tufts once it has judged them all. */
+  private tendOn(): void {
+    const { tending } = this;
+    const standing = tending?.step();
+    if (!tending || !standing) return;
+    this.tufts = standing;
+    this.tendedFrom = tending.eye;
+    this.tending = undefined;
   }
 
   /**
@@ -311,23 +232,30 @@ export class Grass {
   }
 
   /**
-   * Tends the tufts to `stand` as it now stands: those of the lawn round the
-   * eye and those its pulled flowers left, as many as the view tends
-   * (`tendedIn`), that take a flower (`tendTufts`).
+   * Tends the tufts to `stand` as it now stands, at once, in place of any
+   * re-tend under way: those the view's eye tends that take a flower
+   * (`grownRound`, `tendTufts`).
    */
   tend(stand: Stand): void {
-    const { lawn, growing, view } = this;
     this.stand = stand;
-    if (!lawn) return;
-    const eye = view?.eye ?? OPENING_EYE;
+    this.tending = undefined;
+    const eye = this.view?.eye ?? OPENING_EYE;
+    this.tufts = tendTufts(stand, this.grownRound(stand, eye), eye);
+    this.tendedFrom = eye;
+  }
+
+  /**
+   * The tufts to judge for `stand` from `eye`: those of the lawn round it and
+   * those its pulled flowers left (`leaveTufts`), as many as the view from
+   * `eye` tends (`tendedIn`).
+   */
+  private grownRound(stand: Stand, eye: Eye): Sprout[] {
+    const { lawn, growing } = this;
+    if (!lawn) return [];
     const left = leaveTufts(stand, (foot) => lawn.of(foot), this.left, growing);
     this.left = left;
     const tended = tendedIn(viewAt(stand.layout.camera, eye));
-    const near = [...lawn.round(eye), ...left].filter((sprout) =>
-      tended(sprout),
-    );
-    this.tufts = tendTufts(stand, near, eye);
-    this.tendedFrom = eye;
+    return [...lawn.round(eye), ...left].filter((sprout) => tended(sprout));
   }
 
   /** The eye the standing tufts were tended from, which a tap on one is judged at (`Planter.tapTuft`). */
