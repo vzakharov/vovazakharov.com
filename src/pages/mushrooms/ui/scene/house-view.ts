@@ -10,18 +10,17 @@ import {
   mouseOut,
   type Tapped,
 } from '../../model/motion';
-import { capFrame, type Splayed } from '../../model/mushroom-pose';
+import { capFrame } from '../../model/mushroom-pose';
 import { type BedPlace, standAt } from './bed-place';
 import { mix } from './colour';
 import { doorHitArea, mouseHead } from './door-reach';
 import { paintHouse } from './draw-house';
 import { containsOutline } from './hit-areas';
 import type { Lighted } from './ink';
-import type { Footing } from './layout';
 import type { HazedGraphics } from './mushroom-paint';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
-import { puffFrom } from './spores';
+import { puffFrom, type Puffing } from './spores';
 
 /** How much sooner than its mouse's head a door swings all the way open. */
 const DOOR_LEAD = 2;
@@ -40,9 +39,8 @@ function seated({ door }: Body): DoorPlace {
  * one.
  */
 export type Body = HazedGraphics &
-  Pick<Footing, 'size'> &
   Lighted &
-  Splayed & {
+  Puffing & {
     door: DoorPlace | undefined;
   };
 

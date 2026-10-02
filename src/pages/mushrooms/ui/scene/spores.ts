@@ -8,6 +8,7 @@ import {
 } from '../../model/geometry';
 import { toCanvas } from '../../model/mushroom-outline';
 import type { Splayed } from '../../model/mushroom-pose';
+import type { Standing } from './bed-place';
 import type { WithGraphics } from './hit-areas';
 import { PALETTE } from './palette';
 
@@ -21,12 +22,20 @@ const PUFF_SECONDS = 0.9;
  */
 type Anchor = () => Circle;
 
-/** A mushroom as the bed last stood it, which the bed moves in place on a refit. */
-export type Puffing = WithGraphics & Splayed & Scaled;
+/**
+ * A mushroom as the bed last stood it, which the bed moves in place on a
+ * refit: `size` as laid out, drawn at its `stands`' zoom.
+ */
+export type Puffing = WithGraphics & Splayed & Scaled & Standing;
+
+/** How big `body` is drawn as it stands now, in screen px. */
+export function drawnSize({ size, stands }: Scaled & Standing): number {
+  return size * stands.zoom;
+}
 
 /**
  * A puff of spores from `point`, in `body`'s frame, opening to `share` of its
- * cap's width, wherever the bed stands `body` as the puff drifts.
+ * cap's width, wherever and as big as the bed draws `body` as the puff drifts.
  */
 export function puffFrom(
   scene: Phaser.Scene,
@@ -37,10 +46,13 @@ export function puffFrom(
 ): void {
   puffSpores(
     scene,
-    () => ({
-      ...placedAt(body.graphics, body.turn, toCanvas(body.size)(point)),
-      r: body.genes.capWidth * body.size * share,
-    }),
+    () => {
+      const size = drawnSize(body);
+      return {
+        ...placedAt(body.graphics, body.turn, toCanvas(size)(point)),
+        r: body.genes.capWidth * size * share,
+      };
+    },
     depth,
   );
 }
