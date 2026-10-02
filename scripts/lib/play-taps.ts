@@ -14,7 +14,7 @@ import {
   type Page,
   Point,
 } from './mushroom-probe.ts';
-import { TUFTS } from './play-tufts.ts';
+import { firstOpening, TUFTS } from './play-tufts.ts';
 
 /**
  * Everything a tap anywhere in the meadow leaves behind: the selection, the
@@ -144,15 +144,7 @@ export async function playHeldDrags(
 
   // The flower picker open on a tuft: the nearest that opens it.
   const tufts = await page.evaluate(TUFTS, z.array(Point));
-  const opening = async ([tuft, ...rest]: ReadonlyArray<
-    z.infer<typeof Point>
-  >): Promise<boolean> => {
-    if (!tuft) return false;
-    await page.tap(tuft);
-    await page.step(30);
-    return (await grown()).planting || opening(rest);
-  };
-  if (await opening(tufts.toReversed().slice(0, TRIES))) {
+  if (await firstOpening(page, tufts.toReversed().slice(0, TRIES))) {
     await dragFrom('the flower picker open on a tuft', { x: -0.15, y: 0 });
   } else {
     expect(

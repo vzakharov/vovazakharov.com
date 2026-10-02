@@ -87,6 +87,24 @@ const tuftAt = (at: z.infer<typeof Point>) => `(() => {
       (refused?.tuft === sprout.tuft ? ', which shook its head' : '');
 })()`;
 
+/**
+ * `tufts` tapped in turn till one opens the flower picker: that tuft, or
+ * `undefined` where none does.
+ */
+export async function firstOpening(
+  page: Page,
+  [tuft, ...rest]: ReadonlyArray<z.infer<typeof Point>>,
+): Promise<z.infer<typeof Point> | undefined> {
+  if (!tuft) return undefined;
+  await page.tap(tuft);
+  await page.step(30);
+  const open = await page.evaluate(
+    '__probe.scene.meadow.planting !== undefined',
+    z.boolean(),
+  );
+  return open ? tuft : firstOpening(page, rest);
+}
+
 /** A stage's buttons where they stand. */
 export const buttonsOf = (picker: 'colourPicker' | 'shapePicker') =>
   `__probe.scene.controls.${picker}.buttons.map(({ home }) => ({ x: home.x, y: home.y }))`;
@@ -123,15 +141,7 @@ export async function playTufts(
 
   // The nearest first, till one opens the picker: the nearest itself.
   const near = tufts.toReversed().slice(0, TRIES);
-  const firstOpening = async ([tuft, ...rest]: ReadonlyArray<
-    z.infer<typeof Point>
-  >): Promise<z.infer<typeof Point> | undefined> => {
-    if (!tuft) return undefined;
-    await page.tap(tuft);
-    await page.step(30);
-    return (await planting()).open ? tuft : firstOpening(rest);
-  };
-  const opened = await firstOpening(near);
+  const opened = await firstOpening(page, near);
   if (!opened) {
     expect(false, `none of ${String(near.length)} tufts opened the picker`);
     return;
@@ -215,7 +225,10 @@ export async function playTufts(
   }
 
   // A second tap on a tuft with the picker open closes it, planting nothing.
-  const other = await firstOpening(near.filter((tuft) => tuft !== opened));
+  const other = await firstOpening(
+    page,
+    near.filter((tuft) => tuft !== opened),
+  );
   if (other) {
     await page.tap(other);
     await page.step(30);
