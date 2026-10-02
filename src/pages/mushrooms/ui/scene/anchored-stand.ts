@@ -6,7 +6,7 @@
  * a rule finds there goes back to the plane through `unanchored`.
  */
 
-import { anchorOf, sameAnchor } from '../../model/anchor';
+import { sameAnchor } from '../../model/anchor';
 import type { Flower } from '../../model/flower-genes';
 import { distanceBetween, type Point } from '../../model/geometry';
 import {
@@ -32,7 +32,7 @@ import { PALE_SPAN } from './repaint-queue';
  * `MUSHROOM_SLOTS`) reaches `D_SEE` past it, so nothing a rule reads stands
  * farther.
  */
-export const STAND_REACH = 2 * D_SEE + PALE_SPAN + 1;
+const STAND_REACH = 2 * D_SEE + PALE_SPAN + 1;
 
 /** Whether `point` has ground on the layout (`groundOfPlane`): anywhere but a sliver straight behind `OPENING_EYE`. */
 export function hasGround(point: Point): boolean {
@@ -153,9 +153,4 @@ export function anchoredStand(stand: Stand, anchor: Eye): Stand {
     ),
     planted: reached,
   };
-}
-
-/** `stand` as the anchor of `eye` sees it (`anchoredStand`, `anchorOf`). */
-export function judgedFrom(stand: Stand, eye: Eye): Stand {
-  return anchoredStand(stand, anchorOf(eye));
 }

@@ -1,6 +1,6 @@
 /** The butterflies' part of `play-mushrooms.ts`'s tap sequence, played once the meadow is bare. */
 
-import { z } from 'zod';
+import type { z } from 'zod';
 
 import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
@@ -53,7 +53,7 @@ export async function playInsects(
   const reaches = async (point: z.infer<typeof Point> | null) =>
     point === null
       ? 'nothing: it is not drawn'
-      : `${String(await page.evaluate(`__probe.topAt(${JSON.stringify(point)})`, z.string().nullable()))} at (${point.x.toFixed(0)}, ${point.y.toFixed(0)})`;
+      : `${String((await topsAt([point]))[0])} at (${point.x.toFixed(0)}, ${point.y.toFixed(0)})`;
 
   // Something to rest on: two mushrooms, grown from the picker's first two caps.
   await inTurn(controls.picker.slice(0, 2), async (cap) =>
