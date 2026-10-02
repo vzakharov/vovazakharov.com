@@ -40,9 +40,15 @@ Contract: `docs/plans/mushroom-game-syama/bite-12/review.md` § "eye-and-world �
   A foot slid 3.28 px (tabL) / 3.38 px (phoneP) against the ground's rows
   mid-step; it now slides none. No play run: the numbers settle it.
 
+- Finding 3 — the `Controls` callbacks live in `control-actions.ts`
+  (`controlActions(scene)`, 54 lines), the scene handing it its voice, the
+  arrivals, the planter, `dispatch` and the controls' repaint
+  (`controlScene()`); `repaintControls` became an arrow property so it can
+  be handed on unbound. `meadow-scene.ts` is 440 lines (was 457).
+
 ## Left
 
-- Finding 3 — `Controls` callbacks out of `meadow-scene.ts`.
+Nothing.
 
 ## Departures
 

@@ -20,6 +20,7 @@ import {
 import { isBeeSown, type Sown } from '../../model/pollen';
 import { bedPlace, layoutPlace, onHost, standAt, UNPLACED } from './bed-place';
 import { drawFlower } from './draw-flower';
+import { coversShown, inSightPast } from './flower-cover';
 import { FlowerHold } from './flower-hold';
 import { FLOWER_SWAY } from './flower-layout';
 import { type StandingFlower, standingFlowers } from './flower-plots';
@@ -89,6 +90,8 @@ export class FlowerBed implements Following {
   private pulled: Meadow['pulled'] = [];
   /** The mushrooms standing as of the last `reconcile`, whose feet a planted flower keeps off. */
   private mushrooms: Meadow['mushrooms'] = [];
+  /** The layout it last painted on; `undefined` before its first paint. */
+  private layout: MeadowLayout | undefined;
   /** The screen's light as it last stood, which each flower takes from where it stands (`flowerLight`). */
   private lighting: Lighting | undefined;
   private sizes: Readonly<Record<InsectKind, number>> = {
@@ -129,6 +132,7 @@ export class FlowerBed implements Following {
 
   /** Stands every flower where `layout` puts it, into the objects it has. */
   paint(layout: MeadowLayout, lighting: Lighting): void {
+    this.layout = layout;
     this.lighting = lighting;
     this.sizes = layout.insectSizes;
     const standing = standingFlowers(
@@ -319,18 +323,22 @@ export class FlowerBed implements Following {
 
   /**
    * The flowers the view last followed shows, and the sound each makes: drawn,
-   * not hidden near the eye, with the head on the screen.
+   * not hidden near the eye, with the head's middle on the screen and no
+   * nearer mushroom drawn over it (`inSightPast`).
    */
   inView(): FlowerInView[] {
-    const { view, seeded, planted, shown: shownById } = this;
-    if (!view) return [];
+    const { view, layout, mushrooms, seeded, planted, shown: shownById } = this;
+    if (!view || !layout) return [];
+    const covers = coversShown(view, layout, mushrooms);
     return [...seeded, ...planted].flatMap((flower) => {
       const shown = shownById.get(flower.id);
       if (!shown?.laid) return [];
       const { stands, head, headR, headY } = shown;
-      const { x, y, zoom, drawn } = stands;
+      const { x, y, zoom, drawn, distance } = stands;
       const middle = { x: x + head.x * zoom, y: y + headY * zoom };
-      return drawn && onScreen(view, middle, -headR * zoom)
+      return drawn &&
+        onScreen(view, middle, -headR * zoom) &&
+        inSightPast(covers, middle, distance)
         ? [{ ...pick(flower, 'id'), sound: soundOf(flowerGenes(flower)) }]
         : [];
     });
