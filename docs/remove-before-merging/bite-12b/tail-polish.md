@@ -21,11 +21,16 @@ and `ui/scene/` `air-spots.ts`, `anchored-stand.ts`, `lawn.ts`, `mottles.ts`,
 `visit-play.ts`, `layout.test.ts`. `openingCrop`'s inlined lambda (sweep +
 layout.test) is the plan's call (`endless-field.md`), not a finding.
 
+## tail-polish2 (continuing, same scope `f680c86a..HEAD`)
+
+Commits before the last are `polish(12b):`, so a stop midway leaves the floor
+at f680c86a; only the run's final commit is a bare `polish:`.
+
+- `/dry` applied: `mottles.ts` `shownMottles` takes `forwardOf` from
+  `model/stride.ts`.
+
 ## Left
 
-- `/dry` apply: `mottles.ts` `shownMottles` spells
-  `{ x: Math.sin(eye.heading), y: Math.cos(eye.heading) }`; use
-  `forwardOf` from `model/stride.ts`.
 - `/dry` over the rest of `ui/scene/` (non-test, then tests): `tending.ts`,
   `tuft-tap.ts`, `flower-shown.ts`, `mushroom-shown.ts`, `widest-spans.ts`,
   `tufts.ts`, `perch-sight.ts`, `clump-layout.ts`, `flower-bed.ts`,
