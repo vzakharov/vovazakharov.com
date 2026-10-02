@@ -60,7 +60,7 @@ const held = (id: string) => `(() => {
 })()`;
 
 /** How many frames a held press lasts: past `LONG_PRESS`'s 0.45 s at 60 frames a second. */
-const HOLD_FRAMES = 36;
+export const HOLD_FRAMES = 36;
 /** How far a press that turns the eye drags, in CSS px: well past the slop. */
 const TURN = 120;
 
