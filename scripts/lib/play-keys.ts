@@ -29,6 +29,7 @@ import {
   Point,
   walkAndTurn,
 } from './mushroom-probe.ts';
+import { HOLD_FRAMES } from './play-hold.ts';
 import {
   buttonsOf,
   firstOpening,
@@ -96,8 +97,6 @@ const BEAT = 4;
 
 /** How many tufts, nearest first, are tried for one that takes a flower. */
 const TRIES = 16;
-/** How many frames a held press lasts: past `LONG_PRESS`'s 0.45 s. */
-const HOLD_FRAMES = 36;
 /** Frames from a key into its planting, the flower coming up. */
 const RISING = 12;
 /** Frames enough for a planting to settle. */

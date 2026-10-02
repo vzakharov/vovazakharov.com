@@ -8,11 +8,9 @@
 
 import { z } from 'zod';
 
+import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
-import {
-  LANDING,
-  wrap,
-} from '../../src/pages/mushrooms/model/insect-motion.ts';
+import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import { SEAT_FADE } from '../../src/pages/mushrooms/ui/scene/insect-frame.ts';
 
@@ -194,8 +192,7 @@ export function hiddenRuns(seen: readonly Sample[]): Hidden[] {
  * motion. `undefined` where the eye stood or only turned as a held key does.
  */
 function eyeMoved(was: Sample, at: Sample): 'turned' | 'walked' | undefined {
-  const turned = at.heading - was.heading;
-  if (Math.abs(Math.atan2(Math.sin(turned), Math.cos(turned))) > TURN_STEP) {
+  if (Math.abs(wrap(at.heading - was.heading)) > TURN_STEP) {
     return 'turned';
   }
   return at.eyeX === was.eyeX && at.eyeY === was.eyeY ? undefined : 'walked';
