@@ -3,9 +3,8 @@
  * its glow on screen and its rays off every button.
  */
 
-import type { Box, Circle, Point } from '../../model/geometry';
-import { type Camera, pinholeOf } from '../../model/ground';
-import { restingAt, screenOf } from '../../model/pan';
+import type { Box, Circle } from '../../model/geometry';
+import { pinholeOf } from '../../model/ground';
 import { everyPlace } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import { type Controls, standingControls } from './sky-layout';
@@ -214,37 +213,6 @@ const WASH_REACH = [4, 14] as const;
 
 /** What the sun's wash is laid out over. */
 type Washed = Pick<MeadowLayout, 'sun' | 'groundTop' | 'mushrooms'>;
-
-/**
- * How far across the screen from the sun's middle the nearest of the world's
- * stretch `left..right` comes on any crop a pan can take: the sun stands on
- * the screen and the world pans under it, so the stretch reaches from where
- * its left end stands on the crop at the world's right end to where its
- * right end stands on the crop at the world's left end.
- */
-function acrossFromSun(
-  camera: Camera,
-  sun: Point,
-  left: number,
-  right: number,
-): number {
-  const cropped = (crop: number, x: number) =>
-    screenOf(restingAt(camera, crop), 0, x);
-  return Math.max(
-    0,
-    cropped(camera.world, left) - sun.x,
-    sun.x - cropped(0, right),
-  );
-}
-
-/** How near `point`, in the world, comes to the sun's middle on any crop a pan can take. */
-export function nearestTheSun(
-  camera: Camera,
-  sun: Point,
-  { x, y }: Point,
-): number {
-  return Math.hypot(acrossFromSun(camera, sun, x, x), y - sun.y);
-}
 
 /**
  * The farthest the sun's wash reaches from its middle: it stays on the sky,

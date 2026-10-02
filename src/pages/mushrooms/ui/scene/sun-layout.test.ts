@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Circle, Point } from '../../model/geometry';
-import { OPENING_EYE } from '../../model/ground';
+import { OPENING_EYE, pinholeOf } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import { clumpCrowns, everyPlace } from './clump-layout';
 import { meadowLayout } from './layout';
@@ -15,9 +15,14 @@ import {
   HILL_STEPS,
   nearSkyline,
 } from './skyline';
-import { raysClear, SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
+import {
+  raysClear,
+  SUN_GLOW_REACH,
+  SUN_RAY_REACH,
+  WASH_FOOT_CLEAR,
+} from './sun-layout';
 import { tapReach } from './tap-reach';
-import { viewAt } from './view';
+import { browRow, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How many points across a disc its showing share is measured at. */
@@ -214,6 +219,34 @@ describe('the sun', () => {
             );
             assert.ok(point.y < layout.nearHills, `${at}: sky`);
           }
+        }
+      }
+    });
+
+    it(`keeps the wash above the brow, short of the farthest foot's clearance, on a ${name} screen`, () => {
+      for (const seed of VISITS.slice(0, 20)) {
+        const layout = meadowLayout(width, height, seed);
+        const { camera, sun, mushrooms, wash } = layout;
+        const outer = Math.max(...wash);
+        // A place's size shrinks toward the horizon in step with its foot's
+        // height above it, so the farthest foot the eye sees, on the brow, is
+        // each place's size scaled to the brow's row.
+        const horizon = pinholeOf(mushrooms.camera).y;
+        const farthest = Math.max(
+          ...everyPlace(mushrooms).map(
+            ({ y, size }) =>
+              (size * (camera.groundTop - horizon)) / (y - horizon),
+          ),
+        );
+        const clear = farthest * WASH_FOOT_CLEAR;
+        for (let step = 0; step <= 40; step++) {
+          const x = sun.x + outer * (step / 20 - 1);
+          const lowest =
+            sun.y + Math.sqrt(Math.max(0, outer ** 2 - (x - sun.x) ** 2));
+          assert.ok(
+            lowest <= browRow(camera, x) - clear + 1e-6,
+            `visit ${String(seed)}: the wash ${(lowest - browRow(camera, x) + clear).toFixed(1)} px too low at x ${x.toFixed(0)}`,
+          );
         }
       }
     });

@@ -7,14 +7,11 @@ import {
   chaseFrom,
   chaseTo,
   forwardOf,
-  GLADE,
   holdStep,
   holdStrafe,
   letGoStep,
   letGoStrafe,
   liftChase,
-  RIM_KEEP,
-  roomAhead,
   sidewaysOf,
   standingAt,
   type Stride,
@@ -23,7 +20,6 @@ import {
 } from './stride';
 
 const FRAME = 1 / 60;
-const REACH = GLADE.r - RIM_KEEP;
 const ORIGIN: Point = { x: 0, y: 0 };
 
 function apart(one: Point, other: Point): number {
@@ -48,12 +44,6 @@ function walked(
 /** Every frame's move along `seen` from `from`. */
 function moves(from: Point, seen: Point[]): number[] {
   return seen.map((at, index) => apart(at, seen[index - 1] ?? from));
-}
-
-/** The eye's own rim point straight along `heading` from the glade's centre. */
-function rimAlong(heading: number): Point {
-  const way = forwardOf(heading);
-  return { x: GLADE.x + way.x * REACH, y: GLADE.y + way.y * REACH };
 }
 
 describe('the stride on the keys', () => {
@@ -92,27 +82,7 @@ describe('the stride on the keys', () => {
     assert.equal(tick(rested, 0, FRAME), rested);
   });
 
-  it('brakes head-on to rest exactly on its rim', () => {
-    const [rested] = walked(holdStep(standingAt(ORIGIN), 1), 0, 20);
-    assert.equal(rested.pace, 0);
-    assert.ok(apart(rested.at, rimAlong(0)) < 1e-9);
-  });
-
-  it('slides along the rim when it meets it slanting, to where the rim turns square to it', () => {
-    const heading = 1.1;
-    const start = standingAt({ x: 0, y: 4 });
-    const [, seen] = walked(holdStep(start, 1), heading, 30);
-    const contact = seen.findIndex((at) => apart(at, GLADE) > REACH - 1e-9);
-    assert.ok(contact > 0, 'it reaches the rim');
-    const after = moves(start.at, seen).slice(contact, contact + 30);
-    assert.ok(
-      after.every((each) => each > 1e-4),
-      'it never stops dead',
-    );
-    assert.ok(apart(seen.at(-1) ?? ORIGIN, rimAlong(heading)) < 1e-6);
-  });
-
-  it('never walks faster than its cruise, nor out of the glade', () => {
+  it('never walks faster than its cruise', () => {
     for (let index = 0; index < 24; index++) {
       const start = standingAt({
         x: 9 * Math.cos(index * 2.4),
@@ -129,14 +99,19 @@ describe('the stride on the keys', () => {
       }
       const steps = moves(start.at, seen);
       assert.ok(steps.every((each) => each <= STRIDE_CRUISE * FRAME + 1e-9));
-      assert.ok(seen.every((at) => apart(at, GLADE) <= REACH + 1e-9));
       assert.equal(stride.pace, 0, 'at rest after the keys are up');
     }
   });
 
-  it('keeps a stand put inside the glade', () => {
-    const outside = standingAt({ x: 0, y: 30 });
-    assert.ok(apart(outside.at, rimAlong(0)) < 1e-9);
+  it('walks on with no end while the key is held', () => {
+    const [far] = walked(holdStep(standingAt(ORIGIN), 1), 0, 40);
+    assert.equal(far.pace, STRIDE_CRUISE);
+    assert.ok(Math.abs(far.at.y - STRIDE_CRUISE * (40 - KEY_EASE / 2)) < 1e-6);
+  });
+
+  it('stands where it is asked to, however far out', () => {
+    const far = { x: -300, y: 4000 };
+    assert.deepEqual(standingAt(far).at, far);
   });
 });
 
@@ -186,26 +161,14 @@ describe('the stride on the strafing keys', () => {
     assert.ok(Math.abs(later.walked - eased.walked - STRIDE_CRUISE) < 1e-9);
   });
 
-  it('brakes to rest on the rim and slides along it, never out of the glade nor past the cruise', () => {
-    const start = standingAt({ x: 3, y: 5 });
-    const [rested, seen] = walked(holdStrafe(start, 1), 0, 20);
-    assert.equal(rested.sidePace, 0);
-    assert.ok(apart(rested.at, rimAlong(sidewaysOf(0))) < 1e-6);
-    assert.ok(seen.every((at) => apart(at, GLADE) <= REACH + 1e-9));
-    assert.ok(
-      moves(start.at, seen).every(
-        (each) => each <= STRIDE_CRUISE * FRAME + 1e-9,
-      ),
-    );
+  it('never walks past the cruise with a step and a strafe held, and rests once let go', () => {
     for (let index = 0; index < 12; index++) {
+      const start = standingAt({
+        x: 8 * Math.cos(index),
+        y: 8 + 8 * Math.sin(index * 1.3),
+      });
       let stride = holdStep(
-        holdStrafe(
-          standingAt({
-            x: 8 * Math.cos(index),
-            y: 8 + 8 * Math.sin(index * 1.3),
-          }),
-          index % 2 === 0 ? 1 : -1,
-        ),
+        holdStrafe(start, index % 2 === 0 ? 1 : -1),
         index % 3 === 0 ? -1 : 1,
       );
       let heading = index * 0.7;
@@ -220,7 +183,11 @@ describe('the stride on the strafing keys', () => {
         stride = tick(stride, heading, FRAME);
         path.push(stride.at);
       }
-      assert.ok(path.every((at) => apart(at, GLADE) <= REACH + 1e-9));
+      assert.ok(
+        moves(start.at, path).every(
+          (each) => each <= STRIDE_CRUISE * FRAME + 1e-9,
+        ),
+      );
       assert.equal(stride.pace, 0);
       assert.equal(stride.sidePace, 0);
     }
@@ -270,38 +237,5 @@ describe('the stride on a drag', () => {
       lifted.at.y < 1.2,
       'the held key walks it back once the chase is done',
     );
-  });
-
-  it('stops on the rim when the target lies past it', () => {
-    const pressed = chaseTo(chaseFrom(standingAt({ x: 0, y: 15 }), 0), 10);
-    const [lifted] = walked(liftChase(pressed), 0, 6);
-    assert.ok(apart(lifted.at, rimAlong(0)) < 1e-9);
-    assert.equal(lifted.chase, undefined);
-  });
-
-  it('slides to its target when the rim stands between, if the target is on the slide', () => {
-    const heading = 1.2;
-    const from = standingAt({ x: 9, y: 8 });
-    const pressed = chaseTo(chaseFrom(from, heading), 2.9);
-    const [lifted] = walked(liftChase(pressed), heading, 6);
-    const way = forwardOf(heading);
-    const gained = (lifted.at.x - 9) * way.x + (lifted.at.y - 8) * way.y;
-    assert.ok(Math.abs(apart(lifted.at, GLADE) - REACH) < 1e-9, 'on the rim');
-    assert.ok(Math.abs(gained - 2.9) < 1e-6, 'as far on as the target');
-  });
-});
-
-describe('the room ahead', () => {
-  it('runs from the centre to the rim, square to it', () => {
-    for (const heading of [0, 1, 2.5, -2]) {
-      assert.ok(Math.abs(roomAhead(GLADE, forwardOf(heading)) - REACH) < 1e-9);
-    }
-  });
-
-  it('adds the slide along the rim to the ray', () => {
-    const at = { x: 6, y: 8 };
-    const ray = Math.sqrt(REACH ** 2 - 36);
-    const slide = REACH * Math.acos(ray / REACH);
-    assert.ok(Math.abs(roomAhead(at, forwardOf(0)) - ray - slide) < 1e-9);
   });
 });

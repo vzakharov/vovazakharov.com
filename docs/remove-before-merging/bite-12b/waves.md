@@ -11,12 +11,17 @@ Each agent's report lands here as it arrives, so a restart costs nothing.
 
 ## Wave 1 (launched together)
 
-| Package | Step(s)           | Note   | Report |
-| ------- | ----------------- | ------ | ------ |
-| R       | R1, R2 if context | `r.md` |        |
-| S       | S1                | `s.md` |        |
-| L       | L1, L2 if context | `l.md` |        |
-| I       | I1                | `i.md` |        |
+| Package | Step(s)           | Note   | Report                                                                                                                                                                                                                                                                                              |
+| ------- | ----------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R       | R1, R2 if context | `r.md` | R1 1d54062: rim gone, `roomAhead` removed outright; R2 8fd62de: wash rule → `sun-layout.test.ts` against `browRow` (stricter). Touched `scripts/lib/play-walk.ts` to type-check: rim check removed, its replacement (↓ 12 s walks back STRIDE_CRUISE × (12 − eased) ±0.05) left to the play package |
+| S       | S1                | `s.md` |                                                                                                                                                                                                                                                                                                     |
+| L       | L1, L2 if context | `l.md` | L1 299d871: `tuft-tap.ts` split out (99 lines), `tufts.ts` 345; `middleOf` exported; no behaviour change; L2 not started (context)                                                                                                                                                                  |
+| I       | I1                | `i.md` |                                                                                                                                                                                                                                                                                                     |
+
+## Wave 2 (launched as inputs free up)
+
+- L2 — after L1's report; note `l.md`.
+- R3 — after R2; note `r.md`.
 
 ## Queued
 

@@ -6,10 +6,9 @@
  * sideways, square to the heading, on a second pace eased the same way, the
  * two sharing the cruise when both are held. A drag sets a point on a line —
  * the heading, or square to it — for it to chase, no faster than the cruise,
- * and on the lift it finishes the chase and rests, a step having no glide. It
- * never leaves the glade: walked into the rim it slides along it, braking to
- * rest where the rim turns square to the walk. The heading is the turn's,
- * passed in.
+ * and on the lift it finishes the chase and rests, a step having no glide. The
+ * plane has no end, so nothing but a chase's target stops the walk. The
+ * heading is the turn's, passed in.
  */
 
 import {
@@ -17,23 +16,15 @@ import {
   cruise,
   type Cruising,
   type Direction,
-  type Placed,
   wayOf,
 } from './cruise';
-import type { Circle, Point } from './geometry';
+import type { Point } from './geometry';
 import { type Held, KEY_EASE } from './pan';
 
 /** A held key's walk, in the clump's size a second. */
 export const STRIDE_CRUISE = 1.6;
 /** How far one step carries the eye: two a second at the cruise. */
 export const STEP_LENGTH = 0.8;
-/** The ground the eye may walk: it holds the whole opening view, with room to step back. */
-export const GLADE: Circle = { x: 0, y: 8, r: 12 };
-/** How far inside the glade's rim the eye keeps. */
-export const RIM_KEEP = 0.5;
-
-/** The radius of the disc the eye's own point keeps to. */
-const REACH = GLADE.r - RIM_KEEP;
 
 /** Which of the stepping and strafing keys are held, the strafe's as the turn's are. */
 type Steps = Held & { forward: boolean; back: boolean };
@@ -74,9 +65,6 @@ export type Stride = Cruising<Point> & {
   chase: Chase | undefined;
 };
 
-/** A walk's landing, how far along its path it came, and whether the rim ended it. */
-type Walked = Placed<Point> & { covered: number; ended: boolean };
-
 /** The unit step straight along `heading`: `+y` at 0, turning toward `+x`. */
 export function forwardOf(heading: number): Point {
   return { x: Math.sin(heading), y: Math.cos(heading) };
@@ -95,92 +83,10 @@ function dot(one: Point, other: Point): number {
   return one.x * other.x + one.y * other.y;
 }
 
-/** How far `other` stands turned from `one`, positive turning from `+x` toward `+y`. */
-function cross(one: Point, other: Point): number {
-  return one.x * other.y - one.y * other.x;
-}
-
-function fromCentre(at: Point): Point {
-  return { x: at.x - GLADE.x, y: at.y - GLADE.y };
-}
-
-/** The point on the eye's rim at unit `normal` from the glade's centre. */
-function onRim(normal: Point): Point {
-  return plus(GLADE, normal, REACH);
-}
-
-/** How far the ray from `at` along unit `way` runs before it meets the eye's rim. */
-function toRim(at: Point, way: Point): number {
-  const off = fromCentre(at);
-  const along = dot(off, way);
-  const past = dot(off, off) - REACH ** 2;
-  return Math.max(0, -along + Math.sqrt(Math.max(0, along ** 2 - past)));
-}
-
-/**
- * Where the ray from `at` along unit `way` meets the rim, as the unit normal
- * there, and the angle the slide along the rim then turns through before the
- * rim stands square to `way`.
- */
-function meeting(
-  at: Point,
-  way: Point,
-): { ray: number; normal: Point; slide: number } {
-  const ray = toRim(at, way);
-  const off = fromCentre(plus(at, way, ray));
-  const length = Math.hypot(off.x, off.y);
-  const normal = { x: off.x / length, y: off.y / length };
-  // `atan2` keeps a head-on slide's near-zero angle exact, where `acos` loses it.
-  const slide = Math.atan2(Math.abs(cross(normal, way)), dot(normal, way));
-  return { ray, normal, slide };
-}
-
-/**
- * How far the eye at `at` can walk along unit `way` before it must rest, in
- * the clump's size: the ray's distance to the rim, then the slide along it
- * to where the rim stands square to the walk.
- */
-export function roomAhead(at: Point, way: Point): number {
-  const { ray, slide } = meeting(at, way);
-  return ray + REACH * slide;
-}
-
-/**
- * The eye walked `length` from `at` along unit `way`: straight to the rim,
- * then sliding along it, the move projected onto its tangent, no farther
- * than where the rim stands square to the walk, which ends it.
- */
-function walk(at: Point, way: Point, length: number): Walked {
-  const { ray, normal, slide } = meeting(at, way);
-  if (length <= ray) {
-    return { at: plus(at, way, length), covered: length, ended: false };
-  }
-  const turned = (length - ray) / REACH;
-  if (turned >= slide) {
-    return { at: onRim(way), covered: ray + REACH * slide, ended: true };
-  }
-  const sense = Math.sign(cross(normal, way));
-  const cos = Math.cos(sense * turned);
-  const sin = Math.sin(sense * turned);
-  const swung = {
-    x: normal.x * cos - normal.y * sin,
-    y: normal.x * sin + normal.y * cos,
-  };
-  return { at: onRim(swung), covered: length, ended: false };
-}
-
-/** `at`, or the nearest point to it the eye may stand on. */
-function inGlade(at: Point): Point {
-  const off = fromCentre(at);
-  const length = Math.hypot(off.x, off.y);
-  if (length <= REACH) return at;
-  return onRim({ x: off.x / length, y: off.y / length });
-}
-
-/** The eye standing at `at`, or the nearest point of the glade to it. */
+/** The eye standing at `at`, at rest. */
 export function standingAt(at: Point): Stride {
   return {
-    at: inGlade(at),
+    at,
     pace: 0,
     sidePace: 0,
     walked: 0,
@@ -263,21 +169,11 @@ function progress({ origin, bearing }: Chase, at: Point): number {
 
 /**
  * How far the eye at `at` can walk `direction` along a chase's heading before
- * it must rest: at its target, or where the rim stops it short of it.
+ * it must rest: at its target, or with no end when the target lies behind.
  */
 function chaseRoom(chase: Chase, at: Point, direction: Direction): number {
-  const way = facing(forwardOf(chase.bearing), direction);
-  const rim = roomAhead(at, way);
   const left = (chase.aim - progress(chase, at)) * direction;
-  if (left <= 0) return rim;
-  const { ray, slide } = meeting(at, way);
-  if (left <= ray) return left;
-  // Past the ray the eye slides, and its progress along the way is the rim
-  // point's: the target's progress names the normal the slide stops at.
-  const square =
-    (left - ray + dot(fromCentre(plus(at, way, ray)), way)) / REACH;
-  if (square >= 1) return rim;
-  return ray + REACH * Math.max(0, slide - Math.acos(Math.max(-1, square)));
+  return left > 0 ? left : Infinity;
 }
 
 /** The course a held key walks along `heading`, asking `toward`. */
@@ -287,21 +183,15 @@ function keyed(
   covered: (length: number) => void,
 ): Course<Point> {
   const ahead = forwardOf(heading);
-  const way = (direction: Direction): Point => facing(ahead, direction);
   return {
     cruise: STRIDE_CRUISE,
     ease: KEY_EASE,
     toward: () => toward,
-    room: (at, direction) => roomAhead(at, way(direction)),
+    room: () => Infinity,
     step: (at, by) => {
       if (by === 0) return { at, stopped: false };
-      const {
-        at: landed,
-        covered: length,
-        ended,
-      } = walk(at, way(wayOf(by)), Math.abs(by));
-      covered(length);
-      return { at: landed, stopped: ended };
+      covered(Math.abs(by));
+      return { at: plus(at, ahead, by), stopped: false };
     },
   };
 }
@@ -321,13 +211,12 @@ function chased(
       if (by === 0) return { at, stopped: false };
       const direction = wayOf(by);
       const most = chaseRoom(chase, at, direction);
-      const {
-        at: landed,
-        covered: length,
-        ended,
-      } = walk(at, facing(ahead, direction), Math.min(Math.abs(by), most));
+      const length = Math.min(Math.abs(by), most);
       covered(length);
-      return { at: landed, stopped: ended || Math.abs(by) >= most };
+      return {
+        at: plus(at, facing(ahead, direction), length),
+        stopped: Math.abs(by) >= most,
+      };
     },
   };
 }
@@ -360,8 +249,7 @@ function chasing(stride: Stride, chase: Chase, seconds: number): Stride {
  * The walk `seconds` on, by `cruise`, the keys' along `heading` and square to
  * it, or a drag's along its own line: each pace eases toward the cruise the
  * held keys ask, or toward the chase's target, and brakes to rest exactly at
- * the target or the rim's end of the slide. A lifted chase that has come to
- * rest is over. A stride that stands still is returned as the same object.
+ * a chase's target. A lifted chase that has come to rest is over. A stride that stands still is returned as the same object.
  */
 export function tick(stride: Stride, heading: number, seconds: number): Stride {
   const { at: setOff, chase, held, pace, sidePace, walked } = stride;
