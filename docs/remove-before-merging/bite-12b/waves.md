@@ -123,6 +123,15 @@ offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
   designed. A tuft's tap is judged at the anchor the grass last tended at,
   so a shown tuft never shakes its head.
 
+- **I′** — 138d9cbc: `fliers.test.ts` green on S3 (48/48); the air
+  lattice (`air-spots.ts`, `widest-spans.ts`) and a swept
+  `pointCrowdings` pinned against the old one by `perch-crowding.test.ts`;
+  `airOf` 2.4–3.0 ms median per anchor (budget 4), so the fallbacks went
+  unmeasured. Wiring as `i2-wiring.patch` (source type-checks, tests not
+  repointed). Kept: `perchSight(stand)` reads the anchor off
+  `layout.mushrooms.anchor`; air `fromEye` from the anchored view;
+  shared pairings arrays. I3–I5 not started.
+
 ## Wave 5
 
 L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half

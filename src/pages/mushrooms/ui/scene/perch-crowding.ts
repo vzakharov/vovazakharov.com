@@ -184,21 +184,50 @@ export function pointCrowdings(
   apart: Apart,
 ): Crowding[] {
   const { needs, farthest } = needsOf(apart);
-  const found: Crowding[] = [];
-  for (let index = 0; index < points.length; index++) {
-    const here = points[index];
-    if (!here) continue;
-    for (let next = index + 1; next < points.length; next++) {
-      const there = points[next];
-      if (!there) continue;
-      const [dx, dy] = [here.x - there.x, here.y - there.y];
-      if (dx * dx + dy * dy > farthest * farthest * (1 + 1e-9)) continue;
-      const between = Math.hypot(dx, dy);
-      const pairings = needs
-        .filter(({ need }) => between < need)
-        .map(({ pairing }) => pairing);
-      if (pairings.length > 0) found.push([here.perch, there.perch, pairings]);
+  const reach = farthest * farthest * (1 + 1e-9);
+  // The pairings two points crowd for, by the least need they fall short of:
+  // one array for every pair at that distance, widest need first.
+  const within = [...new Set(needs.map(({ need }) => need))]
+    .toSorted((a, b) => b - a)
+    .map((need) => ({
+      need,
+      pairings: needs
+        .filter((each) => each.need >= need)
+        .map(({ pairing }) => pairing),
+    }));
+  // Swept in order across, so each point meets only those within reach of
+  // it across; each pair found is kept as one number, first index by second,
+  // so sorting them brings the pairs back in the points' order.
+  const count = points.length;
+  const xs = Float64Array.from(points, ({ x }) => x);
+  const ys = Float64Array.from(points, ({ y }) => y);
+  const order = Uint32Array.from(points.keys()).toSorted(
+    (a, b) => (xs[a] ?? 0) - (xs[b] ?? 0),
+  );
+  const pairs: number[] = [];
+  for (let first = 0; first < count; first++) {
+    const here = order[first] ?? 0;
+    const hx = xs[here] ?? 0;
+    const hy = ys[here] ?? 0;
+    for (let next = first + 1; next < count; next++) {
+      const there = order[next] ?? 0;
+      const dx = (xs[there] ?? 0) - hx;
+      if (dx * dx > reach) break;
+      const dy = (ys[there] ?? 0) - hy;
+      if (dx * dx + dy * dy > reach) continue;
+      pairs.push(Math.min(here, there) * count + Math.max(here, there));
     }
+  }
+  const found: Crowding[] = [];
+  for (const pair of Float64Array.from(pairs).toSorted()) {
+    const [a, b] = [Math.floor(pair / count), pair % count];
+    const [onA, onB] = [points[a], points[b]];
+    if (!onA || !onB) continue;
+    const between = Math.hypot(onB.x - onA.x, onB.y - onA.y);
+    let pairings: readonly Pairing[] | undefined;
+    for (const each of within)
+      if (between < each.need) pairings = each.pairings;
+    if (pairings) found.push([onA.perch, onB.perch, pairings]);
   }
   return found;
 }
