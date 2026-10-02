@@ -7,7 +7,7 @@
 
 import type { Sized } from '@/shared/typings';
 
-import type { Point, Scaled } from './geometry';
+import { alongAzimuth, type Point, type Scaled, wrap } from './geometry';
 
 /**
  * A point on the ground, in the clump's size: `x` across from the middle of
@@ -225,12 +225,7 @@ export const SPREAD = (2 * Math.PI * 170.56 * CLUMP_DISTANCE) / (4 * 1180);
  * heading `SPREAD` times as wide, its distance kept.
  */
 export function spread(point: Point): Point {
-  const distance = Math.hypot(point.x, point.y);
-  const azimuth = SPREAD * Math.atan2(point.x, point.y);
-  return {
-    x: distance * Math.sin(azimuth),
-    y: distance * Math.cos(azimuth),
-  };
+  return widened(point, SPREAD);
 }
 
 /**
@@ -239,12 +234,13 @@ export function spread(point: Point): Point {
  * has none there, and comes back at or behind the opening eye (`y` ≤ 0).
  */
 export function gathered(point: Point): Point {
-  const distance = Math.hypot(point.x, point.y);
-  const azimuth = Math.atan2(point.x, point.y) / SPREAD;
-  return {
-    x: distance * Math.sin(azimuth),
-    y: distance * Math.cos(azimuth),
-  };
+  return widened(point, 1 / SPREAD);
+}
+
+/** `point`'s azimuth from `OPENING_EYE`'s opening heading `factor` times as wide, its distance kept. */
+function widened(point: Point, factor: number): Point {
+  const azimuth = factor * Math.atan2(point.x, point.y);
+  return alongAzimuth(OPENING_EYE, azimuth, Math.hypot(point.x, point.y));
 }
 
 /**
@@ -273,11 +269,6 @@ export function pinholeOf({ width, groundTop, ground, unit }: Camera): Pinhole {
     focal,
     arc: focal / SPREAD,
   };
-}
-
-/** `angle` wrapped into `[−π, π)`. */
-function wrapped(angle: number): number {
-  return angle - 2 * Math.PI * Math.floor((angle + Math.PI) / (2 * Math.PI));
 }
 
 /**
@@ -315,7 +306,7 @@ export function viewOf(
   const dx = point.x - eye.x;
   const dy = point.y - eye.y;
   const distance = Math.hypot(dx, dy);
-  const x = pinhole.x + pinhole.arc * wrapped(Math.atan2(dx, dy) - eye.heading);
+  const x = pinhole.x + pinhole.arc * wrap(Math.atan2(dx, dy) - eye.heading);
   const bend = bendAt(pinhole, x);
   const scale = (pinhole.focal * bend) / distance;
   return {
@@ -352,10 +343,7 @@ export function alongSight(
 ): Point {
   const pinhole = pinholeOf(camera);
   const azimuth = eye.heading + (x - pinhole.x) / pinhole.arc;
-  return {
-    x: eye.x + distance * Math.sin(azimuth),
-    y: eye.y + distance * Math.cos(azimuth),
-  };
+  return alongAzimuth(eye, azimuth, distance);
 }
 
 /**

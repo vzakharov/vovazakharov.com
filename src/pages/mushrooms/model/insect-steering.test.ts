@@ -4,9 +4,9 @@ import { describe, it } from 'node:test';
 import { pick } from '@/shared/lib/collections';
 
 import { FLIGHT_HABITS } from './flight';
-import type { Point } from './geometry';
+import { type Point, wrap } from './geometry';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
-import { carriedFrom, wrap } from './insect-motion';
+import { carriedFrom } from './insect-motion';
 import { type Carried, type Fluttering, PATH_SHAPES } from './insect-paths';
 import { firstSteering, startLeg, steer } from './insect-steering';
 import {

@@ -26,6 +26,22 @@ export type Turned = { turn: number };
  */
 export type Bent = { stemBend: number };
 
+/** `angle` brought round into `[−π, π)`. */
+export const wrap = (angle: number) =>
+  angle - Math.PI * 2 * Math.round(angle / (Math.PI * 2));
+
+/** The point `distance` from `from` at plane azimuth `azimuth`, turned from its `+y` toward its `+x`. */
+export function alongAzimuth(
+  from: Point,
+  azimuth: number,
+  distance: number,
+): Point {
+  return {
+    x: from.x + distance * Math.sin(azimuth),
+    y: from.y + distance * Math.cos(azimuth),
+  };
+}
+
 /** `point` at `steps + 1` evenly spaced values from `from` to `to`, both ends included. */
 export function sample<Sampled>(
   from: number,

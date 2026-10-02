@@ -4,7 +4,7 @@
  */
 
 import type { Span } from './flight';
-import type { Point, Scaled, Turned } from './geometry';
+import { type Point, type Scaled, type Turned, wrap } from './geometry';
 import type { InsectKind } from './insect-genes';
 import {
   bodyTurn,
@@ -14,7 +14,6 @@ import {
   restTurn,
   turned,
   type Turns,
-  wrap,
 } from './insect-motion';
 import {
   type CarryingOver,

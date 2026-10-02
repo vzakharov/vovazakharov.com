@@ -5,8 +5,7 @@
  * stay at most that far off the sun in between.
  */
 
-import type { Point } from './geometry';
-import { wrap } from './insect-motion';
+import { type Point, wrap } from './geometry';
 
 /** How far a body turns before its lit parts are painted afresh, in radians. */
 export const LIGHT_STEP = Math.PI / 8;
