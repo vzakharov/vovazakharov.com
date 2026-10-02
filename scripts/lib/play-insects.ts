@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight-habits.ts';
 import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
+import { isSamePerch } from '../../src/pages/mushrooms/model/perch-room.ts';
 import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
 import { pick } from '../../src/shared/lib/collections.ts';
 import {
@@ -302,8 +303,9 @@ export async function playInsects(
   await page.step(12);
   await page.shoot('b4-startled');
 
-  // In the air, a tap jolts it, leaves its flight as it was, and goes no
-  // further: the picker and the selection stay as they were.
+  // In the air, a tap jolts it and it shies off on a new leg from the tap to
+  // a perch other than the one it was heading to, and goes no further: the
+  // picker and the selection stay as they were.
   await page.tap(controls.plus);
   await page.step(2);
   const before = await state();
@@ -311,13 +313,17 @@ export async function playInsects(
   const flying = await shown(resting.id);
   const flyingTop = await reaches(flying);
   if (flying) await page.tap(flying);
+  const caughtAt = await now();
   await page.step(2);
-  const still = await byId(resting.id);
+  const shied = await byId(resting.id);
   const jolted = await shown(resting.id);
   const after = await state();
   expect(
-    still?.legs === startled?.legs && still?.departs === startled?.departs,
-    `a tap on ${resting.id} in the air changed its flight`,
+    startled !== undefined &&
+      shied?.legs === startled.legs + 1 &&
+      Math.abs(shied.departs - caughtAt) < 100 &&
+      !isSamePerch(shied.to, startled.to),
+    `a tap on ${resting.id} in the air did not send it off on a new leg away from where it was heading`,
   );
   expect(
     typeof jolted?.tappedAt === 'number' &&

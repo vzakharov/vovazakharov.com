@@ -18,6 +18,18 @@ Builds `leg-timing.md` § 5 (proportional) and v14-catch's tap in the air.
   a quarter, either sign, and past a half turn; `flicks` passes a step
   between the bounds after a half turn and fails it after a 0.04 rad turn.
 
+## Step 2 — the tap in the air (done)
+
+- `scripts/lib/play-insects.ts`: a tap on the butterfly in the air is now
+  checked for what v14-catch decided — `legs` one more than the leg it was
+  on, `departs` within 100 ms of the tap, and `to` not the perch it was
+  heading to (`isSamePerch`, the model's own; `nextFlight` picks a perch
+  other than that one). The probe does not expose `shied`, and the probe is
+  `src/`, so the dart itself is not checked; its look stays v14-catch's own
+  `to-check.md` entry.
+- The "Из прогона v19" entry in `to-check.md` is removed: its only line was
+  this stale check.
+
 ## Left
 
-- Step 2, the tap-in-the-air check; step 3, the play run.
+- Step 3, the play run.
