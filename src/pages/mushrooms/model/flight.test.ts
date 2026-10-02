@@ -270,6 +270,9 @@ describe('nextFlight', () => {
   });
 });
 
+/** A place `x` sizes across, at the clump's distance. */
+const across = (x: number) => ({ x, y: 0, fromEye: CLUMP_DISTANCE });
+
 describe('flightAway', () => {
   it('leaves off screen from its perch, and is gone as it arrives', () => {
     const first = firstFlight({ seed: 3, kind }, PERCHES, 0);
@@ -280,6 +283,33 @@ describe('flightAway', () => {
     assert.equal(away.leg.departs, 500);
     assert.equal(away.leg.leaves, away.leg.arrives);
     assert.equal(away.legs, 2);
+  });
+
+  it('is timed from where it flies when it sets off mid-flight, not from the perch it was heading to', () => {
+    const fly = 'fly' as const;
+    const [from, to] = [
+      { kind: 'cap', id: 'mushroom-1' } as const,
+      { kind: 'cap', id: 'mushroom-2' } as const,
+    ];
+    const leg = {
+      ...legTo(mulberry32(1), FLIGHT_HABITS[fly], { from, to }, { now: 0 }),
+      departs: 0,
+      arrives: 1000,
+    };
+    const places = {
+      [perchName(from)]: across(0),
+      [perchName(to)]: across(100),
+      'away left': across(-5),
+      'away right': across(-5),
+    };
+    const insect = { seed: 3, kind: fly, leg, legs: 1 };
+    const away = flightAway(insect, 100, { places }).leg;
+    const atCruise = (1000 * 15) / FLIGHT_HABITS[fly].cruising;
+    const flown = away.arrives - away.departs;
+    assert.ok(
+      flown < atCruise * 1.01,
+      `took ${String(flown)} ms, its 15 sizes at cruise ${String(atCruise)}`,
+    );
   });
 });
 

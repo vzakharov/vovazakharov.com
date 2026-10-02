@@ -19,7 +19,13 @@ import {
   outWay,
   shownOf,
 } from './flight-in';
-import { apartIn, legTo, type Placed, type Span } from './flight-timing';
+import {
+  apartIn,
+  legTo,
+  type Placed,
+  placesFlying,
+  type Span,
+} from './flight-timing';
 import type { Point } from './geometry';
 import type { InsectKind, InsectSeed, Kinded } from './insect-genes';
 import {
@@ -306,8 +312,10 @@ function onward(
   const random = legRandom(seed, legs);
   const habits = FLIGHT_HABITS[kind];
   const to = choose(random, habits);
+  const { now, places } = moment;
+  const flying = { now, places: placesFlying(places, leg, now) };
   return {
-    leg: legTo(random, habits, { from: leg.to, to }, moment),
+    leg: legTo(random, habits, { from: leg.to, to }, flying),
     legs: legs + 1,
   };
 }
