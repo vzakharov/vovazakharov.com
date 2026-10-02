@@ -49,26 +49,17 @@ function alongOf(point: Point, start: Point, end: Point): number {
 /**
  * The meadow's insects, reconciled with the state by id: each a container of
  * its kind's parts (`insect-look.ts`), above everything in the meadow and
- * under the buttons, flown along its leg every frame. A leg's start is where
- * it was last drawn, a fixed point in the world; its end is wherever its
- * perch stands that frame, so it lands on a breathing cap or a swaying
- * flower.
+ * under the buttons, flown along its leg every frame. A leg starts where it
+ * was last drawn, a fixed point in the world, and ends wherever its perch
+ * stands that frame, so it lands on a breathing cap or a swaying flower.
  *
- * Every leg is flown on the plane, steered in its frame (`insect-frame.ts`):
- * the opening layout's pinhole stood at the eye, turned to a centre fixed as
- * the leg sets off, its size there its own over its distance. It is drawn at
- * its own size over its distance, veered round the eye (`drawnFlier`); one
- * sitting on a cap or a flower, where that host draws its seat
- * (`drawnSitter`). It is hidden once its own drawn extent leaves the screen
- * (`reachesScreen`), however near the eye that is: an insect flies higher
- * than a cap, so the meadow's own cull by distance would drop one still on
- * the screen. Past the brow it goes down behind it as a bed does
- * (`insect-sink.ts`), and in flight it casts a round shadow on the ground
- * under it (`insect-shadow.ts`). One in from away comes up over the brow (`entryAloft`), and
- * where the screen shows no open perch, flies out of view by the side its
- * perch stands to before the rest of its way; one leaving goes out just past
- * the screen's edge where the view stood as it set off, by its seed's side,
- * as deep as it set off, a point fixed on the plane (`legEnd`).
+ * Each leg is steered in its own frame on the plane (`insect-frame.ts`) and
+ * drawn at its size over its distance (`insect-drawn.ts`). It hides once its
+ * drawn extent leaves the screen (`reachesScreen`), never by distance: an
+ * insect flies higher than a cap, so the meadow's cull by distance would drop
+ * one still on screen. One in from away comes up over the brow
+ * (`entryAloft`); one leaving goes out past the screen's edge where the view
+ * stood as it set off, by its seed's side (`legEnd`).
  */
 export class InsectView {
   private readonly shown = new Map<string, Shown>();

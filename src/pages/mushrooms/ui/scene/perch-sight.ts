@@ -3,13 +3,12 @@
  * pure function of the layout and what stands in it, and where on a perch an
  * insect sits. A flower is a perch only where an insect on it stays inside
  * the world's edges (`flower-sight.ts`), whatever stands in front of it, so
- * nothing is seen afresh as the eye walks; a perch holds one insect at a time, and none goes to a
- * perch crowded by a taken one for the two kinds' wings, so no two drawn
- * insects cover much of each other. An insect with no perch open roams
- * between spots in the open air over the whole world, inside its edges, as
- * many as the meadow holds insects on every screen,
- * and no two spots nearer than the two kinds' wingspans are held at once, so
- * hovering insects never overlap while the air has room.
+ * nothing is seen afresh as the eye walks. A perch holds one insect at a
+ * time, and none goes to a perch crowded by a taken one for the two kinds'
+ * wings, so no two drawn insects cover much of each other. An insect with no
+ * perch open roams between spots in the open air over the whole world, as
+ * many as the meadow holds insects, no two held at once nearer than the two
+ * kinds' wingspans, so hovering insects never overlap while the air has room.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -259,8 +258,8 @@ function trackOf(perch: Perch, seater: Seater, kind: InsectKind): Track {
 
 /**
  * What the scene sees of the perches in `stand`: the flowers in sight
- * (`flowerInSight`, against no cover) to a butterfly, and to a bee, whose seat and wings
- * differ, the spots in the open air (`airSpots`), every two
+ * (`flowerInSight`, against no cover) to a butterfly, and to a bee, whose
+ * seat and wings differ, the spots in the open air (`airSpots`), every two
  * perches on which two insects, the widest of their kinds, could cover more
  * than `MOST_OVERLAP` of the narrower wherever their spots put them, and
  * every two spots in the air on which two insects of their kinds would
@@ -397,14 +396,12 @@ export function footRows(
 /**
  * What `view` shows of the world on `layout`, in the units of `Places`, which
  * stand every perch in the frame turned to the eye's heading
- * (`placeOfAloft`): the stretch across that frame between the screen's
- * edges, the screen being linear in azimuth and the frame its tangent, so a
- * perch counts as shown just where the screen draws it, at whatever row; a
- * perch counts as shown half the widest butterfly's wings inside either
- * edge, so one seated there is wholly in view; and the release's way out of
- * view as `view` draws it (`wayOutOf`), past the edge where it draws the
- * `released` insect standing away (`releasedAway`) where one is given.
- * `undefined` only with no view.
+ * (`placeOfAloft`): the stretch of that frame between the screen's edges
+ * (the screen is linear in azimuth and the frame its tangent, so a perch
+ * counts as shown just where the screen draws it), inset half the widest
+ * butterfly's wings so one seated there is wholly in view; and the release's
+ * way out of view (`wayOutOf`), past the edge where `view` draws the
+ * `released` insect standing away (`releasedAway`).
  */
 export function onscreenOf(
   layout: MeadowLayout,

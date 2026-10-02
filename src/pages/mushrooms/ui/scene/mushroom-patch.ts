@@ -55,9 +55,9 @@ const CLUMP_PATCH = 12;
 /**
  * The least radius, in CSS px, of the disc the patch of each mushroom the
  * forest grows holds on a tablet held sideways, standing as far off as the
- * clump's front foot or nearer, which growth keeps
- * (`roomFor`): the most that still leaves room for six mushrooms in almost
- * every visit (`LEAST_FULL`).
+ * clump's front foot or nearer, which growth keeps (`roomFor`): the most
+ * that still leaves room for six mushrooms in almost every visit
+ * (`LEAST_FULL`).
  */
 const GROWN_PATCH = 16;
 /** The least patch on any screen, at any depth. */
@@ -324,9 +324,9 @@ export function patchesAround(stand: Stand): Around {
 /**
  * Whether `own`, grown on `foot` among what takes a tap `around` it, keeps a
  * patch of its own as wide as one there keeps (`patchFloor`), and leaves
- * every mushroom there the patch it kept. A new mushroom takes a tap only within its
- * `reach`, so a patch clear of it is kept as it was, and one that kept none
- * before is not asked for one.
+ * every mushroom there the patch it kept. A new mushroom takes a tap only
+ * within its `reach`, so a patch clear of it is kept as it was, and one that
+ * kept none before is not asked for one.
  */
 export function keepsPatches(
   own: PatchTarget,

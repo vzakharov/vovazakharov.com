@@ -105,10 +105,9 @@ export function nearFoot(camera: Camera): number {
   return browFloor(camera) + deepestBob(camera.height) + FOOT_OVERLAP;
 }
 
-/** Whether a blade's tip is lit. */
 type WhetherLit = { lit: boolean };
 
-/** One blade of the brow: the azimuth it stands at, its height and lean as shares of the seam's reach, and whether its tip is lit. */
+/** One blade of the brow, its height and lean in shares of the seam's reach. */
 export type BrowBlade = Azimuthed & Tall & Leaning & WhetherLit;
 
 /**

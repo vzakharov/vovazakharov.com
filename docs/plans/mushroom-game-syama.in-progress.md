@@ -317,7 +317,11 @@ bite 12 left go. Its contract:
 insects on the plane" predates bite 12's insect work — legs already carry
 height and plane poses (`model/flight-frame.ts`), and its unseen release
 facing away no longer matches `model/flight-in.ts` — so 12b reconciles it
-with the code before building from it.
+with the code before building from it. Among the clear-outs:
+`sun-layout.ts`'s `nearestTheSun`/`acrossFromSun` still model a world
+panning under a screen-fixed sun, and only `meadow-rules.test.ts`'s "out of
+the wash" rule calls them — that rule is restated against the sun at its
+azimuth, or goes.
 
 13. **Rain** — the shower itself; what it leaves behind is item 14. Its
     contract, the model already built (5c9f2e9):

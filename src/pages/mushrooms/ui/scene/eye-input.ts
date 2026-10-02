@@ -32,9 +32,9 @@ function isFixed(object: Phaser.GameObjects.GameObject): boolean {
  * The eye the scene's frames are seen from (`walk.ts`), and what moves it:
  * Phaser's one pointer, pressed anywhere but on a control, turns, walks or
  * strafes it, its axis locked once it leaves the slop; held arrow keys turn
- * it and walk it, and strafe it under Shift, ticked by the scene's clock whenever the eye is read. A press
- * still taps whatever it lands on, since the meadow answers taps on the
- * press. Every other finger plays a chord and never reaches Phaser
+ * it and walk it, and strafe it under Shift, ticked by the scene's clock
+ * whenever the eye is read. A press still taps whatever it lands on, since
+ * the meadow answers taps on the press. Every other finger plays a chord and never reaches Phaser
  * (`instrument-input.ts`), and any pointer but the one that pressed first is
  * ignored until it lifts. The screen and the layout convert here.
  */

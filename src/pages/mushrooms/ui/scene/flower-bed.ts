@@ -105,7 +105,7 @@ export class FlowerBed implements Following {
   private readonly ring: FlowerRing;
   /** The flower the picker is open on as of the last frame, which a tap on it leaves open. */
   private held: string | undefined;
-  /** The planted flowers whose sound was played already, as the key that sowed them, which open silent. */
+  /** The flowers a key sowed, sounding them as it did, which open silent once planted. */
   private readonly hushed = new Set<string>();
 
   /** `heldStill` is how long the pressed finger has stood inside the slop (`EyeInput.heldStill`). */
@@ -249,12 +249,10 @@ export class FlowerBed implements Following {
 
   /**
    * Where an insect sits on the flower `id` this frame, `spot` of its head's
-   * radius across (`perchSpot`), with the head's middle it drinks from, in
-   * world px at the opening eye, where the insects fly, and the flower it
-   * sits on, which draws it, with the seat as it draws it this frame: the
-   * spot on the head at the flower's zoom, lifted off it at the insect's own
-   * (`flowerLiftAt`, `CLUMP_DISTANCE` over the flower's distance ahead);
-   * `undefined` while the screen has no room for the flower.
+   * radius across (`perchSpot`), and the head's middle it drinks from, both in
+   * world px at the opening eye, where the insects fly; with the seat as the
+   * flower draws it, the spot at the flower's zoom lifted at the insect's own
+   * (`flowerLiftAt`); `undefined` while the screen has no room for the flower.
    */
   seat(id: string, spot: number, kind: InsectKind): Seat | undefined {
     const shown = this.shown.get(id);
@@ -342,7 +340,7 @@ export class FlowerBed implements Following {
     });
   }
 
-  /** Opens the flower `id`, planted after this, without its sound: the key that sowed it sounded it. */
+  /** Opens the flower `id` silent once it is planted: the key that sows it sounds it. */
   hush(id: string): void {
     this.hushed.add(id);
   }
