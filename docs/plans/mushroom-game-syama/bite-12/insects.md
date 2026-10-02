@@ -105,3 +105,50 @@ smaller insect `V_NEAR` (still a guess at where an insect leaves the
 screen). The half-depth package carries it, and re-measures `V_NEAR`'s
 ceiling (0.613 today, where the fly agaric's cap leaves the screen) once
 the focal length halves.
+
+## The veer play's bounds, and where the chase stopped
+
+Moved from the plan's `## Rest of the bite`.
+
+**Decided, from C's tabL play (`ip-jump.md`): a fly's one-frame step is
+held to its own size**, and so is a bee's: `step / zoom` ≤ 1.1 × the dash
+curve's own peak, derived from `insect-motion.ts` (a fly peaks ~65 butterfly
+px a frame on tabL, a bee ~48), so a dash near the eye flicks up to ~100 px
+drawn by perspective alone; only the butterfly, which never dashes, keeps
+the width/20 drawn bound. The bound catches a discontinuity, not the design.
+Beaten: a lower dash (every fly leg slower, against the catch test's
+tuning); a drawn dash slowed by the zoom (the view re-timing legs the model
+sets). Whether the dash reads too fast is the operator's play to judge.
+**Corrected, from `ip-Cplay4.md`:** the ~65 / ~48 were the play's measured
+peaks; the curve's own (`scripts/lib/veer-dash.ts`, sampling `flightPoint`)
+is 41.6 / 23.5, and measured steps reach ~90 / ~58 on `away` legs and walking
+frames. **Decided: the bound stays the curve's**, and a step the curve does
+not explain is a defect to trace (`ip-Cplay5.md`: an `away` leg drawn toward
+a side point recomputed each frame; walking frames counted as steps), not a
+number to loosen. Beaten: binding to the measured peaks (writes the defect
+into the check).
+**Traced (`ip-Cplay5.md`, `scripts/lib/veer-away.ts`): an `away` leg is
+timed between one pair of points and drawn between another** — leaving, timed
+to `places`' away point past the world strip but drawn to just past the
+screen's edge (`offAloft`); a release's flight out of view, `outWay` with no
+depth factor where `apartIn` has one; its next leg timed from `shownOf`'s
+away point but drawn from the out point — so drawn/timed runs 0.4–2.1× and a
+fly dashes ~90 px. **Decided: an away leg is timed between the plane points
+it is drawn between** (the view's away points into `places`; `flight-in.ts`,
+`flight-timing.ts`, `perch-sight.ts`, `insect-away.ts`), the rule a leg's
+points are plane points already states. Beaten: leaving it (the cruise is
+then a lie on every away leg). The play counts a late frame at a 60 fps
+frame's share and leaves walked frames out. **Built** (007a1ec,
+`ip-away.md`): leaving 0.95–1.12, out of view 0.91. **Decided: the release's
+leg on from the out point to a far air spot (0.5–2.6, `apartIn`'s straight
+layout measure) is accepted**, perch-to-perch legs in sight measuring
+0.99–1.00. Beaten: timing every leg on its drawn path (a rework of `places`
+for legs a child sees only as a speck going off). **The veer play's chase
+stops here** — the checks had begun finding the checks — and these stay
+known, for the review and the operator's play, not for another round: the
+tabL bee's 57.7 px step; phoneP's fly never perching in view; phoneP's frame
+median ~27.3 ms against 26; a release toward a shown perch timed from the
+screen's edge (`shownOf`) but drawn from over the brow.
+**Looking back the glade is bare by design** (12b makes the field endless),
+so nothing grows at π; the veer play lands its looking-back releases at the
+farthest heading with room (~1.8 rad on tabL, ~1.6 on phoneP).

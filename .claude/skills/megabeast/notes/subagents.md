@@ -352,3 +352,12 @@ install --offline` there; a symlinked `node_modules` fails Turbopack).
   eye's layout, which the lens and walking had made wrong. Brief a play
   check with every fix to what the child sees, and on a second miss send a
   research agent for the layer below rather than a third fix.
+- **A usage limit kills subagents mid-edit, and `SendMessage` revives
+  them whole.** At bite 12's depth 6 the account's weekly limit stopped
+  both running agents with their edits uncommitted in their worktrees.
+  The operator raised the quota and asked to recover them; a
+  `SendMessage` to each agent id resumed it from its own transcript, told
+  where it stopped and that its worktree was intact, and both finished.
+  So the orchestrator keeps each agent's id until its report lands, lists
+  `git worktree list` and each tree's `status` before deciding anything,
+  and never removes a dead agent's worktree before trying to resume it.

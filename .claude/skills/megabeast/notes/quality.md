@@ -206,3 +206,12 @@
   through a frame probe (a patch plus HEAD-vs-probe pairs) before a build
   agent is briefed: the second probe settled in ten minutes what the first
   build spent half an hour finding.
+- **When the checks start finding the checks, stop the chase.** At bite
+  12's depth 6 the veer play's red rows took four rounds: one found a real
+  game defect (away legs timed and drawn between different points), two
+  were the play's own errors (a bound copied from a measurement, a count a
+  bee's sowing broke), and each fix surfaced the next row. The operator
+  asked whether anyone had spiralled. The skill should count, per play,
+  how many of its last rounds found the game versus the script; once the
+  script wins twice, record the remaining reds as known for the review and
+  the operator's play, and move to the bite's next item.
