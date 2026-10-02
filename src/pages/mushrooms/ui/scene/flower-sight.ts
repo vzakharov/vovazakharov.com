@@ -10,6 +10,7 @@
 
 import { pick } from '@/shared/lib/collections';
 
+import { anchorOf } from '../../model/anchor';
 import { FACE_REACH } from '../../model/bee-outline';
 import { CRAWL_REACH } from '../../model/buzz-rest';
 import {
@@ -27,8 +28,10 @@ import {
   containsPoint,
   type Point,
 } from '../../model/geometry';
+import type { Eye } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Plot, slotTaken } from '../../model/pollen';
+import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { placeIn } from './clump-layout';
 import { type Standing, standingAt } from './door-sight';
 import { FLOWER_SWAY, type Footing, standingOn } from './flower-layout';
@@ -350,12 +353,27 @@ function groundIn(stand: Stand): Ground {
 }
 
 /**
- * Whether the child can plant a flower at `foot` on `stand`: it is
- * `plantable` as a bee's planting would be, and in the flowers' band, so the
- * flower stands and is in sight on every screen (`roomIn`, for one foot).
+ * Whether the child can plant a flower at `foot`, on the plane, on `stand`
+ * as the anchor of `eye` judges it: it is `plantable` as a bee's planting
+ * would be, and in the flowers' band, so the flower stands and is in sight
+ * on every screen (`roomFrom`, for one foot).
  */
-export function takesFlower(stand: Stand, foot: Footing): boolean {
-  return roomIn(stand)(foot);
+export function takesFlower(stand: Stand, foot: Footing, eye: Eye): boolean {
+  return roomFrom(stand, eye)(foot);
+}
+
+/**
+ * `roomIn` on `stand` as the anchor of `eye` judges it (`anchoredStand`),
+ * for a foot on the plane: moved with the anchor, and taking no flower in
+ * the sliver straight behind it, which has no ground.
+ */
+export function roomFrom(stand: Stand, eye: Eye): (foot: Footing) => boolean {
+  const anchor = anchorOf(eye);
+  const room = roomIn(anchoredStand(stand, anchor));
+  return (foot) => {
+    const moved = movedTo(anchor, foot);
+    return hasGround(moved) && room(moved);
+  };
 }
 
 /**
