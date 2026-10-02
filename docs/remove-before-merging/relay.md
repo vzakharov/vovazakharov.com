@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **5** (the cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
+Relay depth: **6** (the cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
 § "The depth cap").
 
 ## 1. Standing constraints
@@ -89,86 +89,74 @@ Pass this section on verbatim.
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
-The relay's launch line. Reply (Russian): attached (local ref e66b8e1
-renamed to `stale/mushroom-game-syama-lbirv7-e66b8e1`), installed, plan
-flipped (e8f7194). Then the whole of bite 12's tail, woken by agents and the
-Stop hook, reported in short Russian lines: the polish floor found by
-deepening (083a13df), brief 14630218, fifteen polish agents, vet, play run,
-Artifact v16, PR refresh.
-
-> так, что мне там проверить надо было? сейчас проверил: громкости -- ок; скорости -- порой странно, но не будем заморачиваться пока; движения когда тыкаешь по насекомым -- шикарно
-
-Reply: recorded in `to-check.md` § Checked (cf96a734) — catch closed,
-volumes closed, speeds deferred in his words (items kept in Open); listed
-the open items, numbered 1–8.
-
-> [screenshot: a butterfly over the grass near the brow, no shadow visible]
-> 1 звук взлёта шикарный
->
-> 2 тень: в принципе кажется ок, но когда запускаешь бабочку, показалось она какое-то время как будто летит без тени. перепроверил, оказывается тень таки под ней (просто не было видно), что немного странно выглядит учитывая взаимное положение бабочки, земли и солнца -- но спишем пока на плоский билборд бабочки, не будем уходить вглубь
->
-> 7 влёт на поляну кажется ок, не углубляемся
->
-> 8 ну, когда я развернулся спиной, я насекомых не вижу 🙂 но когда сделал оборот на 360, муха осталась на мухоморе. считаем что ок
->
-> остальное пока не перепроверил
-
-Reply: all four moved to Checked (e2a15072), the screenshot committed as
-`frames/bite-12/operator/butterfly-shadow-unseen.webp` (3b1071f3); listed
-what is still open (takeoff facing, butterflies on caps, the sky stripe,
-small far insects, v15–v18 speed items).
+The relay's launch line, the only operator-shaped turn this session. Reply
+(Russian): attached (local ref e66b8e1 renamed to
+`stale/mushroom-game-syama-lbirv7-e66b8e1`), installed, plan flipped
+(82320f3), bite 12b taken with its calls decided; then short Russian status
+lines as the spec agents, step 0 and step 0 B reported. No operator message
+followed; nothing awaits his answer.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
-playable after every bite; `/finalize` at the end, no merge. Bite 12 is
-closed. Next: bite 12b, the endless field — a structural bite, which keeps a
-review session of its own (plan § "How this elephant is eaten", step 2).
-The operator deferred flight speeds ("не будем заморачиваться пока") and the
-unseen-shadow look ("не будем уходить вглубь"): neither is work.
+playable after every bite; `/finalize` at the end, no merge. Bite 12b, the
+endless field, is open: a structural bite, so after its build and tail it
+gets **a review session of its own** (plan § "How this elephant is eaten",
+step 2), then `/relay /handle`.
 
 ## 4. Decisions
 
-- `/polish`'s floor is 083a13df (bite 11's end); the earlier "no floor" was
-  a shallow clone (`megabeast/notes/gates.md`).
-- `play-hold.ts`'s tuft search uses the shared 16 rather than 8: the 8 had
-  no recorded reason (0ef9d40e).
-- `sun-layout.ts`'s `nearestTheSun` models the dead pan and only a test
-  calls it — carried into 12b's clear-outs in the plan (98a4a56f), as is
-  `endless-field.md`'s stale insect section.
-- New harness red, heading 1.83 on tabL shows no tufts so the veer play's
-  look-back plants nothing — red before the polish too; in `to-check.md`.
+All of 12b's calls, each with what it beat, are in
+`docs/plans/mushroom-game-syama/bite-12b.md` — read it, don't re-litigate.
+In short: the store is the plane; nothing sown past the opening; the lawn by
+4×4-unit plane cells; 12 mushrooms within `D_SEE` of a new foot and 96 on the
+field, the frame bounded by a **side cull** in `bedPlace` (package S1);
+flowers 48 within `D_SEE`; rules re-anchored at a snapped eye and reading
+only what stands near it; things off the opening laid out in their own
+frame; a bee's ring has no depth band; lean by the growing eye; insects
+perch within `D_SEE` of the snapped eye, release still over the brow,
+take-offs panned. Step 0's two accepted departures: `ofGround`'s opening
+distance is `gathered(foot).y`; round trips compare within 1e-9. The
+`FlowerFoot`/`Footing` overlap was settled as one name, `Footing`, in
+`model/ground.ts` (5358d5b).
 
 ## 5. Errors and dead ends
 
-- Every `/dry` agent ran out at ~2–4k changed lines; successors applied its
-  judged-but-unapplied findings without re-reading
-  (`megabeast/notes/gates.md`, the polish-wave note).
-- The Artifact publish is refused until the live version is read; reading
-  its non-bundle lines (offset/limit) and resending passed.
+- Every spec/step agent filled at ~180–194k; the first spec agent mapped
+  only the store (megabeast `subagents.md`, the structural-spec note).
+- Step 0 B landed only after a nudge at 127k; the first step-0 agent left
+  it as a patch.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, head a8d2affb (Stop-hook cost
-  rows may follow); PR #57 draft, base `main`, **`CONFLICTING`** (reported,
-  `/finalize`'s job). Body refreshed for bite 12; squash comment 5712237909.
-- Plan `docs/plans/mushroom-game-syama.paused.md`; no `## This bite` or
-  `## Rest of the bite`; next is 12b under `## Rest of the elephant`.
-- Vet green at b1a4e15c. Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG
-  at **version 16** (from d32e7b92).
+- Branch `claude/mushroom-game-syama-lbirv7`, head ea745ec (Stop-hook cost
+  rows may follow); PR #57 draft, base `main`, `CONFLICTING` at last read
+  (reported, `/finalize`'s job).
+- Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`
+  holding what is built and left.
+- Typecheck and type-overlap clean at 5358d5b; vet not run this session.
+  Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG still at
+  version 16 (bite 12).
 - No agent running, no worktree but the shared one, no check-in pending, no
   PR subscription.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12/brief-polish.md` — the polish brief.
-- `docs/remove-before-merging/frames/bite-12/final-polish/`, `operator/`.
-- `docs/plans/mushroom-game-syama/to-check.md` — the operator's list.
-- This session: https://claude.ai/code/session_01SX3cadYy4ZA3dEsrsX75td
+- `docs/plans/mushroom-game-syama/bite-12b.md` — the calls.
+- `docs/remove-before-merging/bite-12b/spec.md` § 10 — the package cut
+  (R, S, L, P, play) and the Russian hand checks for `to-check.md`;
+  § 6 the measured cost; § 3 the re-anchoring.
+- `docs/remove-before-merging/bite-12b/spec-insects.md` — package I, steps
+  I0–I5.
+- `docs/remove-before-merging/bite-12b/step0.md` — step 0's API and the one
+  test left (seeded-bed round trip).
+- `docs/remove-before-merging/bite-12b/brief-common.md` — every agent's brief.
+- This session: https://claude.ai/code/session_0148YSsuujRBSdRJ5YqpkKLA
 
 ## 8. Next step
 
-`/go` — the next bite, 12b (the endless field,
-`docs/plans/mushroom-game-syama/endless-field.md`), taken by the plan's
-§ "How this elephant is eaten"; its review is a session of its own. Reply to
-the operator in Russian, «ты».
+`/go` — continue bite 12b from `## Rest of the bite`: the step-0 round-trip
+test, then spec § 10's packages in waves (R, S, L, I in parallel on disjoint
+files, P after S and L2, the play package beside them), one step per agent,
+then the tail (fold, `/polish`, play run, frames, Artifact, `/pr`), then
+`/relay` to 12b's own review session. Reply to the operator in Russian, «ты».
