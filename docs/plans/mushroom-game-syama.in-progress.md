@@ -368,22 +368,17 @@ with his words and what it beat: `bite-12/v14.md`.
    `bite-12/v14.md` § "Built at depth 8", the hand checks on `to-check.md`.
 2. The play run at the final HEAD under § "How this elephant is eaten"'s
    rule. tabL and phoneP `meadow`,`veer` ran at f584982 (`v15-play.md`,
-   frames in `v15/`); its harness reds went to `to-check.md`. Left:
-   - **A leg timed off its drawn length, traced** (`v15-flyspeed.md`):
-     every `Place` `sightFrom` gives is in the opening layout's frame, only
-     `fromEye` following the eye, so once the eye walks or turns a leg is
-     drawn at 0.3–1.5× (2.2× seen) its cruise — fly-22 had walked.
-     **Decided: every place, and `onscreenOf`, is measured in the eye's
-     frame** (`framedOf` at the eye's heading, the azimuth clamped to
-     `±FRAME_MARGIN`), which at the opening eye is the layout, so a leg
-     drawn on screen is timed by its drawn length. This overrides
-     `insects.md`'s ip-away call that kept places in the layout frame,
-     exact only at the opening eye. Beaten: correcting `x, y` per perch
-     after the fact (two frames still meet in `apartOf`). Facing away, a
-     release then flies out by the side, timed with `outFirst`.
-   - ~~The watch's one-line loosening~~ (293ea93): the heading check skips
-     a shying flier.
-   - `--no-build --screens tabL --plays walk,planting,hold`.
+   frames in `v15/`); its harness reds went to `to-check.md`. Three fixes
+   since time a leg by its drawn length — the eye's frame, the way in, a
+   leg cut mid-flight — and the watch skips a shying flier; every call, its
+   numbers and what it beat: `bite-12/leg-timing.md`. The frame median is
+   noise in this container (same file). Left:
+   - **Build** `leg-timing.md` § 4, decided: the sight the scene sends with
+     each tick carries each drawn flier's place, and `onward` times a leg
+     cut mid-flight from it. A unit test that fails before.
+   - Then a play agent, tabL `veer`: tally the fly overs by leg kind again.
+     The cap→away-from-rest and whole cap→cap classes are traced only if
+     they survive; what a person cannot see goes to `to-check.md`.
 3. ~~The footstep level~~ — put to the operator's ear with Artifact version 14
    (`STEP_PEAK` 1.5, ~10 dB under a C5); it changes only on his word.
 4. The review subagent (§ "How this elephant is eaten" step 2) and its fixes.

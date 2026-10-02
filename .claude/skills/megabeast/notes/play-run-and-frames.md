@@ -164,3 +164,17 @@
   a held key moves it, cleared the game in one agent. A play that
   teleports the eye, the clock or a creature breaks its per-frame records
   there.
+- **A frame-budget red is checked against an old commit before it is
+  traced.** At bite 12's v17 the median climbed from 22.9 to 29–33 ms over
+  four fix rounds, which read like a regression; f584982, built in its own
+  worktree and run back to back, gave 32.1 — the container (load 3–4.6 on
+  4 cores), not the code. The skill should keep one baseline build per
+  bite and run it beside HEAD whenever the frame check goes red.
+- **One red class can hide three causes.** The fly "dash-bound" overs took
+  four agents: the eye's frame (v15-eyeframe), the way in over the brow
+  (found by v16-play as a side red), a leg cut mid-flight (v16-capaway,
+  after the orchestrator's guess was measured wrong), then the scene's
+  steering. Each round fixed a real cause and the count barely moved. The
+  play's per-leg-kind tally (from `veer-report.ts`) is what separated
+  them; the skill should make that tally the play report's default, not
+  a local widening each agent re-writes.

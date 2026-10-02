@@ -44,6 +44,11 @@
   `--deepen` then `git branch -m` aside and a fresh tracking branch, no
   approval asked. Four small packages, one per agent, and the Artifact
   fitted the cap-depth session before its 200k line.
+- **The auto-branch's deletion is refused at pickup.** At depth 1 of the
+  third chain, `git branch -D` plus `git push --delete` of the empty
+  harness branch was blocked by auto mode as destructive, so it lingers
+  and the operator is asked. The skill should leave the auto-branch alone
+  in the loop (it costs nothing) rather than spend a refusal on it.
 - **A pasted pickup installs the trunk's dependencies, not the branch's.**
   The SessionStart hook runs `pnpm install --frozen-lockfile` on the
   harness's auto-branch, cut from `main`, whose lockfile has no `phaser` or
