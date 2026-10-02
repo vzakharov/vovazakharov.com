@@ -20,7 +20,7 @@ Each agent's report lands here as it arrives, so a restart costs nothing.
 
 ## Wave 2 (launched as inputs free up)
 
-- L2 — after L1's report; note `l.md`.
+- L2 — after L1's report; note `l.md`. **Landed 6524db4**: new `lawn.ts` (CELL 4, 14 tufts/cell, `liveCells` ~80 cells/~1100 tufts since D_SEE is 13.33, `LiveLawn.round` regrows on a cell crossing); `Grass` tends only `tendedIn(view)` (half a screen + one screen of heading, re-tend on 0.5 units / half a screen; ~370 tufts on tabL, est. 15–35 ms per re-tend, unmeasured — the play run measures it); tufts placed by `placedAt` and sized by screen row (`tuftSizeAt`), not `bedPlace`'s zoom; `leaveTufts(grownAt)`; `PALE_SPAN` exported from `repaint-queue.ts`. Until L3, far from the start the grass mostly vanishes (rules still at the opening eye).
 - R3 — after R2; note `r.md`.
 - S2 — after S1; note `s.md`.
 - P1 — after S1; note `p.md` (beds' wiring left as P1b).

@@ -38,7 +38,7 @@ export const REPAINTS_PER_FRAME = 2;
  * as it goes under rather than after.
  */
 const BROW_PALE = 0.2;
-const PALE_SPAN = 1.2;
+export const PALE_SPAN = 1.2;
 
 /** How much paler a thing `distance` from the eye stands for sinking behind the brow: none up to `D_SEE`, easing up to `BROW_PALE`. */
 export function browPale(distance: number): number {
