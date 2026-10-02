@@ -372,6 +372,13 @@ Decided from it, each built as its own package:
   view picked off the meadow's stream; a key some flower in view already
   makes plays it as before and plants nothing. Package `v14-note-plant`.
 
+Settled with the operator after the packages' reports: the sky strafe stays
+as built — the sky and hills stand still and the step mostly lands after
+the lift («пока оставляем как есть, потом может лучше идеи придут»); the
+fly's dash stays 17% softer (`{ time: 0.24 }`), held by the 7-in-10 catch
+bound, not loosened («оставляем как есть»). A flier in the air takes a tap
+and shows nothing; a reaction there is open for later.
+
 The footstep level held in the operator's earlier play («когда играл вчера
 было хорошо»).
 
