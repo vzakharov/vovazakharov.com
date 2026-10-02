@@ -386,14 +386,13 @@ export class InsectView {
     container.on(
       Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN,
       (pointer: Phaser.Input.Pointer) => {
-        const id =
-          this.reached({ x: pointer.worldX, y: pointer.worldY }) ?? flier.id;
+        const finger = { x: pointer.worldX, y: pointer.worldY };
+        const id = this.reached(finger) ?? flier.id;
         const tapped = this.shown.get(id) ?? shown;
         tapped.tappedAt = this.now();
         const { kind } = tapped.flier;
         // Caught in the air it shies away from the finger, in its own voice.
         if (caughtAloft(tapped.flier, tapped.tappedAt * 1000)) {
-          const finger = { x: pointer.worldX, y: pointer.worldY };
           tapped.dartWay = dartWay(finger, tapped.container, tapped.phase);
           this.voice.shy(kind);
         } else {
