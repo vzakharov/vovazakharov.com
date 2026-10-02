@@ -80,7 +80,7 @@ const SETTLE_TURN = 700;
  * at take-off, for a turn right round: a smaller turn takes its share of
  * that, so a butterfly turns lazily and a fly snaps round.
  */
-const PIVOT_SHARE = 0.25;
+export const PIVOT_SHARE = 0.25;
 /** How far through its pivot a flier has turned into its heading: it hangs there a moment before it flies. */
 const TURNED_BY = 0.75;
 

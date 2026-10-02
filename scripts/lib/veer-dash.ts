@@ -9,6 +9,7 @@
 
 import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight-habits.ts';
 import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
+import { PIVOT_SHARE } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { flightPoint } from '../../src/pages/mushrooms/model/insect-paths.ts';
 import { FPS } from './veer-watch.ts';
 
@@ -59,4 +60,15 @@ export function dashPeak(kind: InsectKind): number | undefined {
     }
   }
   return peak;
+}
+
+/**
+ * How many times its dash curve's speed a leg may be drawn at, by how far
+ * round the flier sat as it set off (`lifted`, `null` before it was
+ * steered): a flier that turns on its perch first flies its leg's length in
+ * what the pivot leaves of the leg's time, up to `1 − PIVOT_SHARE` of it,
+ * while one that sets off at once flies the curve.
+ */
+export function pivotAllowance(lifted: number | null): number {
+  return lifted === null || lifted === 0 ? 1 : 1 / (1 - PIVOT_SHARE);
 }
