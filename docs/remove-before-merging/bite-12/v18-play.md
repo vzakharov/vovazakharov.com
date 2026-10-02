@@ -43,8 +43,73 @@ step.
 `tabL-veer-back-fly-in`, `tabL-veer-turning` and `tabL-veer-walk-in-5` are
 byte-identical to v17's, kept so the set compares one to one.
 
+## Step 2 — what the surviving overs are: the pivot shortens the flight
+
+Taken up although 13 cut-leg overs remain, because what remains of that
+class has the from-rest class's size (46–47.6 against fly-21's 45.8), so
+the drawn place's fix did its part and one cause looks to be left under
+both. Traced by reading, one hypothesis, measured; no fix built.
+
+**Hypothesis.** `steer` (`model/insect-steering.ts`) flies a leg's path
+from `departs: leg.departs + turning` to the leg's own `arrives`, where
+`turning` is `pivot(leg, setOff.turns)` (`model/insect-motion.ts`):
+`PIVOT_SHARE` (0.25) of the flight times `|lifted| / π`, how far round the
+flier sat from its heading. But `legTo`/`paced` (`model/flight-timing.ts`)
+time the flight as the leg's length at `cruising` over the **whole**
+`arrives − departs`. So a flier that turns on its perch first flies the
+same length in `1 − share` of the time: every frame of its dash is
+`1 / (1 − share)` faster than the curve, up to 1.33× for a turn right
+round. The harness's bound (`dashPeak`, `veer-dash.ts`) is the curve's
+fastest frame with no pivot, × 1.1.
+
+**Measured** (local scripts over the run's samples, not committed): the
+share of its time each leg sat still before it moved (`flown` > 0.01),
+against its fastest drawn frame over `dashPeak`.
+
+| leg (class)              | still for | 1 / (1 − still) | peak / dashPeak |
+| ------------------------ | --------: | --------------: | --------------: |
+| fly-29#2 cap→cap whole   |     0.191 |            1.24 |            1.28 |
+| fly-3#2 cap→cap whole    |     0.187 |            1.23 |            1.24 |
+| fly-26#2 cap→cap whole   |     0.156 |            1.19 |            1.23 |
+| fly-31#2 cap→cap whole   |     0.161 |            1.19 |            1.17 |
+| fly-7#2 cap→air          |     0.119 |            1.14 |            1.22 |
+| fly-20#2 air→cap         |     0.241 |            1.32 |            1.24 |
+| fly-33#3 air→cap         |     0.258 |            1.35 |            1.23 |
+| fly-30#3 cap→away (rest) |     0.074 |            1.08 |            1.13 |
+| fly-7#19 cap→away, none  |     0.006 |            1.01 |            0.86 |
+| fly-22#3 cap→away, none  |     0.053 |            1.06 |            0.88 |
+
+Every leg with an over sat still 0.09–0.26 of its time; the legs that set
+off at once peak under the curve. The drawn lengths are right — over the
+whole leg, path drawn over length timed is 1.01–1.04 for the long legs
+(fly-21#3, 24#3, 29#2, 29#3) — so the excess is time, not distance. The
+three long away legs that carry 19 of the 43 (fly-21#3, 24#3, 29#3) set off
+from a cap off the screen's right edge and are hidden for their first
+0.27–0.30 of their time, so their still share is not measurable; their
+peaks, 1.32–1.37× the curve, are a fly turning about right round (≤ 1.33)
+plus the flutter `dashPeak` leaves out. That is inferred, not measured.
+
+**Why not built.** It is the game's — the leg is timed for a flight it
+does not get — but no fix is small: `legTo` does not know `lifted` (the
+scene decides it from how the flier sat, `setOffFor`), so the model cannot
+add the pivot to the flight; and because `pivot` is a share of the flight,
+lengthening the flight lengthens the pivot with it. The options, for the
+next agent or the orchestrator:
+
+1. The pivot stops being a share of the flight: a time of its own by the
+   kind and the turn (a fly "snaps round"), which `steer` takes from before
+   `departs` or adds after `arrives` — changes when every leg lands.
+2. `steer` keeps the pivot inside the flight but lets the path start
+   moving during it (the turn overlapping the lift-off), so the curve keeps
+   its whole time — changes how a take-off looks.
+3. The harness's bound allows `1 / (1 − PIVOT_SHARE)` — makes the check
+   pass and leaves the fly's dart up to a third faster after a turn.
+
+A person can judge whether the dart after a turn reads as a jolt: in
+`to-check.md` under v18.
+
 ## Left
 
-- Step 2 (below, once written): the surviving classes.
+- The pivot call above (options 1–3).
 - butterfly-1's 0.38 rad heading.
 - phoneP veer, not run.
