@@ -1,0 +1,93 @@
+@use '../../../../styles/mantine' as mantine;
+
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.name {
+  font-family: var(--mantine-font-family-monospace);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.docketHeading {
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid currentColor;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: var(--mantine-font-size-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.docket {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid currentColor;
+}
+
+// Number and date in the left column on a wide screen, the case's own lines
+// beside them; stacked on a narrow one.
+.row {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px 16px;
+  padding-block: 16px;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: var(--mantine-font-size-sm);
+
+  & + & {
+    border-top: 1px solid var(--color-border-hairline);
+  }
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.number {
+  font-weight: 700;
+}
+
+.date,
+.grade {
+  opacity: 0.7;
+}
+
+.subject,
+.title,
+.grade {
+  grid-column: 2;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-column: 1;
+  }
+}
+
+.date {
+  grid-column: 2;
+  grid-row: 1;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+.subject {
+  grid-row: 2;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-row: auto;
+  }
+}
+
+.title {
+  font-family: var(--mantine-font-family);
+  font-size: var(--mantine-font-size-lg);
+  color: inherit;
+}
