@@ -13,6 +13,7 @@ import {
 import { FLOOR_HELD, VIEWPORTS, VISITS } from '../ui/scene/viewports';
 import { opened, relaidOn } from '../ui/scene/visit-play';
 import {
+  anchored,
   bendAt,
   CLUMP_DISTANCE,
   type Eye,
@@ -20,6 +21,7 @@ import {
   type Frame,
   gathered,
   type Ground,
+  groundOfPlane,
   OPENING_EYE,
   pinholeOf,
   planeOf,
@@ -28,6 +30,7 @@ import {
   scaleAt,
   seen,
   spread,
+  unanchored,
   type Viewed,
   viewOf,
 } from './ground';
@@ -316,6 +319,50 @@ describe('the lens', () => {
       );
     }
   });
+
+  it('lays every foot it stands on the plane back out on the same ground', () => {
+    for (const foot of feetOver(MEADOW_FRAME)) {
+      const back = groundOfPlane(planeOf(foot));
+      assert.ok(
+        Math.abs(back.x - foot.x) < 1e-9 && Math.abs(back.z - foot.z) < 1e-9,
+        `foot ${JSON.stringify(foot)}: ${JSON.stringify(back)}`,
+      );
+    }
+  });
+
+  it('anchors at the opening eye on the point itself, bit for bit', () => {
+    for (const foot of feetOver(MEADOW_FRAME)) {
+      const point = planeOf(foot);
+      assert.deepEqual(anchored(OPENING_EYE, point), point);
+      assert.deepEqual(unanchored(OPENING_EYE, point), point);
+    }
+  });
+
+  for (const { name, width, height } of SCREENS) {
+    it(`anchors every point where the opening eye sees it as the eye does, and back, on the ${name} camera`, () => {
+      const camera = meadowCamera(width, height);
+      for (const eye of EYES) {
+        for (const foot of feetOver(MEADOW_FRAME)) {
+          const point = planeOf(foot);
+          const moved = anchored(eye, point);
+          const back = unanchored(eye, moved);
+          const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
+          assert.deepEqual(
+            apart(
+              viewOf(camera, OPENING_EYE, moved, 1),
+              viewOf(camera, eye, point, 1),
+            ),
+            [],
+            at,
+          );
+          assert.ok(
+            Math.hypot(back.x - point.x, back.y - point.y) < 1e-9,
+            `${at}: back`,
+          );
+        }
+      }
+    });
+  }
 
   for (const { name, width, height } of SCREENS) {
     it(`finds the ground under every point it shows on the ground, on the ${name} camera`, () => {

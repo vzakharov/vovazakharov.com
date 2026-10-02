@@ -1,0 +1,908 @@
+diff --git a/scripts/lib/play-approach.ts b/scripts/lib/play-approach.ts
+index 5b7e782..da26a44 100644
+--- a/scripts/lib/play-approach.ts
++++ b/scripts/lib/play-approach.ts
+@@ -113,7 +113,7 @@ const outsides = (id: string) => `(() => {
+ const painting = (id: string) => `(() => {
+   const id = ${JSON.stringify(id)};
+   const { graphics, size, turn } = __probe.scene.bed.shown.get(id);
+-  const { seed, species, foot } = __probe.scene.meadow.mushrooms.find(
++  const { seed, species, foot, lean } = __probe.scene.meadow.mushrooms.find(
+     (mushroom) => mushroom.id === id,
+   );
+   const { a, b, c, d, tx, ty } = graphics.getWorldTransformMatrix();
+@@ -121,7 +121,8 @@ const painting = (id: string) => `(() => {
+   return {
+     seed,
+     species,
+-    foot: { x: foot.x, z: foot.z },
++    foot: { x: foot.x, y: foot.y },
++    lean,
+     size,
+     turn,
+     matrix: { a, b, c, d, tx: tx - scrollX, ty: ty - scrollY },
+@@ -130,7 +131,8 @@ const painting = (id: string) => `(() => {
+ const Painting = z.object({
+   seed: z.number(),
+   species: z.enum(MUSHROOM_SPECIES),
+-  foot: z.object({ x: z.number(), z: z.number() }),
++  foot: z.object({ x: z.number(), y: z.number() }),
++  lean: z.union([z.literal(-1), z.literal(1)]),
+   size: z.number(),
+   turn: z.number(),
+   matrix: z.object({
+@@ -157,7 +159,7 @@ function paintedCap(
+   painted: z.infer<typeof Painting>,
+   camera: z.infer<typeof Camera>,
+ ): { at: z.infer<typeof Point>; turn: number } {
+-  const { splay } = placeOf(camera, painted.foot);
++  const { splay } = placeOf(camera, painted);
+   const { genes, turn } = splayed(mushroomGenes(painted), splay);
+   const cap = capFrame(genes);
+   const canvas = toCanvas(painted.size);
+diff --git a/src/pages/mushrooms/model/game.ts b/src/pages/mushrooms/model/game.ts
+index e6138d7..abedb71 100644
+--- a/src/pages/mushrooms/model/game.ts
++++ b/src/pages/mushrooms/model/game.ts
+@@ -28,7 +28,7 @@ import {
+   mushroomGenes,
+   type Species,
+ } from './mushroom-genes';
+-import { type Footed, OPENING_FEET } from './placement';
++import { type Footed, OPENING_FOOTING } from './placement';
+ import { plantedId, type Sown } from './pollen';
+ import type { Random, Seeded } from './random';
+ import { type Rain, RAIN_MS, raining } from './weather';
+@@ -49,7 +49,7 @@ export type Planted = Mushroom & Housed & Footed;
+ type Chosen = Coloured & { seeds: readonly number[] };
+ 
+ /**
+- * Where the flower picker is open, as a foot on the ground, while it waits:
++ * Where the flower picker is open, as a foot on the plane, while it waits:
+  * for a colour while `chosen` is `undefined`, then for a shape. On a tuft the
+  * child tapped, `flower` is `undefined`; on a flower the child held, it is
+  * that flower's id, which a pick replaces and the cross pulls up.
+@@ -118,7 +118,7 @@ export function firstMeadow(random: Random): Meadow {
+   const mushrooms = firstMushrooms(random).map((mushroom, index) => ({
+     ...mushroom,
+     house: EMPTY_HOUSE,
+-    foot: OPENING_FEET[index] ?? OPENING_FEET[0],
++    ...(OPENING_FOOTING[index] ?? OPENING_FOOTING[0]),
+   }));
+   return {
+     mushrooms,
+@@ -233,9 +233,9 @@ const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>
+ const flowersShut = (meadow: Meadow): Meadow =>
+   meadow.planting === undefined ? meadow : { ...meadow, planting: undefined };
+ 
+-/** Whether `a` and `b` are the one foot on the ground. */
++/** Whether `a` and `b` are the one foot on the plane, by the stored numbers. */
+ export const sameFoot = (a: FlowerFoot, b: FlowerFoot): boolean =>
+-  a.x === b.x && a.z === b.z && a.size === b.size;
++  a.x === b.x && a.y === b.y && a.size === b.size;
+ 
+ /** Every picker shut: the mushrooms', the house's and the flowers'. */
+ const PICKERS_SHUT = {
+@@ -346,12 +346,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
+       if (isFull(meadow)) return { ...meadow, picking: false };
+       const grown = meadow.grown + 1;
+       const id = `mushroom-${grown}`;
+-      const { species, seed, foot } = action;
++      const { species, seed, foot, lean } = action;
+       return {
+         ...meadow,
+         mushrooms: [
+           ...meadow.mushrooms,
+-          { id, seed, species, house: EMPTY_HOUSE, foot },
++          { id, seed, species, house: EMPTY_HOUSE, foot, lean },
+         ],
+         selected: id,
+         picking: false,
+diff --git a/src/pages/mushrooms/model/ground.ts b/src/pages/mushrooms/model/ground.ts
+index 159c398..bc61e83 100644
+--- a/src/pages/mushrooms/model/ground.ts
++++ b/src/pages/mushrooms/model/ground.ts
+@@ -17,11 +17,14 @@ import { alongAzimuth, type Point, type Scaled, wrap } from './geometry';
+ export type Ground = Pick<Point, 'x'> & { z: number };
+ 
+ /**
+- * A foot on the ground (`Ground`) and its size in the clump's before depth
+- * scales it: a flower's height to its head, a mushroom's unit.
+- */
+-export type FlowerFoot = Ground & Scaled;
+-/** Where a thing stands on the ground. */
++ * A foot on the plane the eye walks and its size in the clump's before depth
++ * scales it: a flower's height to its head, a mushroom's unit. What the
++ * meadow stores; a rule reads it as the layout's `Ground` (`groundOfPlane`).
++ */
++export type FlowerFoot = Point & Scaled;
++/** A foot on the layout's ground and its size: a `FlowerFoot` as the rules judge it. */
++export type GroundFoot = Ground & Scaled;
++/** Where a thing stands on the plane. */
+ export type Rooted = { foot: FlowerFoot };
+ 
+ /** How far toward the sky's haze a thing's colours go, from 0 to 1. */
+@@ -265,6 +268,26 @@ export function groundOfPlane(point: Point): Ground {
+   return { x, z: zAt(down) };
+ }
+ 
++/**
++ * Each stored foot's ground, kept by the foot: the rules judge every flower
++ * against every other, many times a frame, and a stored foot never moves.
++ */
++const groundFeet = new WeakMap<FlowerFoot, GroundFoot>();
++
++/** `foot` on the layout's ground (`groundOfPlane`), its size kept. */
++export function groundFootOf(foot: FlowerFoot): GroundFoot {
++  const kept = groundFeet.get(foot);
++  if (kept) return kept;
++  const ground = { ...groundOfPlane(foot), size: foot.size };
++  groundFeet.set(foot, ground);
++  return ground;
++}
++
++/** `foot` on the plane (`planeOf`), its size kept. */
++export function planeFootOf(foot: GroundFoot): FlowerFoot {
++  return { ...planeOf(foot), size: foot.size };
++}
++
+ /**
+  * `point` as `eye` sees it, moved with the eye onto `OPENING_EYE`: `viewOf`
+  * reads only the offset and the heading, so `OPENING_EYE` sees the anchored
+diff --git a/src/pages/mushrooms/model/placement.ts b/src/pages/mushrooms/model/placement.ts
+index ec2f18e..5882528 100644
+--- a/src/pages/mushrooms/model/placement.ts
++++ b/src/pages/mushrooms/model/placement.ts
+@@ -7,25 +7,64 @@
+  * is the scene's to judge (`admits`); nothing here knows how it is drawn.
+  */
+ 
+-import { type Frame, type Framed, type Ground, scaleAt, seen } from './ground';
++import type { Point } from './geometry';
++import {
++  type Eye,
++  type Frame,
++  type Framed,
++  type Ground,
++  planeOf,
++  scaleAt,
++  seen,
++  unanchored,
++} from './ground';
+ import { mulberry32, type Random } from './random';
+ 
+ /**
+- * Where the opening clump's two fly agarics stand, back foot then front:
+- * close together, the back one a step farther off, as in the drawing.
++ * Where the opening clump's two fly agarics stand on the plane, back foot
++ * then front: close together, the back one a step farther off, as in the
++ * drawing, which lays them out at these feet on the ground.
+  */
+-export const OPENING_FEET = [
++const OPENING_GROUND = [
+   { x: 0, z: 0.24 },
+   { x: -0.03, z: 0 },
+ ] as const satisfies readonly [Ground, Ground];
++export const OPENING_FEET: readonly [Point, Point] = [
++  planeOf(OPENING_GROUND[0]),
++  planeOf(OPENING_GROUND[1]),
++];
+ 
+-/** Where a mushroom stands for its whole life, on the ground. */
+-export type Footed = { foot: Ground };
++/** Which way a mushroom leans for its whole life: its splay's sign. */
++export type Lean = -1 | 1;
+ 
+-/** Which of `OPENING_FEET` `foot` is, or `undefined` for one the forest grew on. */
+-export function openingIndex(foot: Ground): number | undefined {
++/** Where a mushroom stands for its whole life, on the plane, and which way it leans. */
++export type Footed = { foot: Point; lean: Lean };
++
++/** The opening pair as they stand, their stems crossing: the back one leaning left, the front one right. */
++export const OPENING_FOOTING: readonly [Footed, Footed] = [
++  { foot: OPENING_FEET[0], lean: -1 },
++  { foot: OPENING_FEET[1], lean: 1 },
++];
++
++/**
++ * A mushroom grown at `ground` in the layout anchored at `eye` (`anchored`):
++ * its foot on the plane, and its lean by the side of that eye's line of
++ * sight it grew on, fixed whichever eye later sees it.
++ */
++export function grownOn(eye: Eye, ground: Ground): Footed {
++  return {
++    foot: unanchored(eye, planeOf(ground)),
++    lean: ground.x < 0 ? 1 : -1,
++  };
++}
++
++/**
++ * Which of `OPENING_FEET` `foot` is, or `undefined` for one the forest grew
++ * on: by the stored numbers, which no conversion has rounded.
++ */
++export function openingIndex(foot: Point): number | undefined {
+   const index = OPENING_FEET.findIndex(
+-    ({ x, z }) => x === foot.x && z === foot.z,
++    ({ x, y }) => x === foot.x && y === foot.y,
+   );
+   return index === -1 ? undefined : index;
+ }
+diff --git a/src/pages/mushrooms/ui/scene/arrivals.ts b/src/pages/mushrooms/ui/scene/arrivals.ts
+index b59fcd7..f882b2b 100644
+--- a/src/pages/mushrooms/ui/scene/arrivals.ts
++++ b/src/pages/mushrooms/ui/scene/arrivals.ts
+@@ -1,5 +1,6 @@
+ import type { Sight } from '../../model/flight';
+-import type { Ground } from '../../model/ground';
++import { type Ground, OPENING_EYE } from '../../model/ground';
++import { grownOn } from '../../model/placement';
+ import type { InsectKind } from '../../model/insect-genes';
+ import type { Species } from '../../model/mushroom-genes';
+ import { mulberry32, nextSeed, type Random } from '../../model/random';
+@@ -54,7 +55,12 @@ export class Arrivals {
+   readonly grow = (species: Species): void => {
+     const foot = this.roomNow();
+     if (!foot) return;
+-    this.scene.dispatch({ kind: 'grow', species, seed: this.upcoming, foot });
++    this.scene.dispatch({
++      kind: 'grow',
++      species,
++      seed: this.upcoming,
++      ...grownOn(OPENING_EYE, foot),
++    });
+     this.upcoming = nextSeed(this.growing);
+   };
+ 
+diff --git a/src/pages/mushrooms/ui/scene/bed-place.ts b/src/pages/mushrooms/ui/scene/bed-place.ts
+index 8f04eea..ff599ec 100644
+--- a/src/pages/mushrooms/ui/scene/bed-place.ts
++++ b/src/pages/mushrooms/ui/scene/bed-place.ts
+@@ -10,7 +10,7 @@
+ import { pick } from '@/shared/lib/collections';
+ 
+ import type { Point } from '../../model/geometry';
+-import type { Ground, LayeredPoint } from '../../model/ground';
++import type { LayeredPoint } from '../../model/ground';
+ import { DEPTHS } from './backdrop-depths';
+ import {
+   behindHills,
+@@ -56,7 +56,7 @@ export type Standing = { stands: BedPlace };
+  * tall as laid out: given a height, it is not drawn once it has sunk away
+  * (`sunkAway`).
+  */
+-export function bedPlace(view: View, foot: Ground, height?: number): BedPlace {
++export function bedPlace(view: View, foot: Point, height?: number): BedPlace {
+   const placed = ofGround(view, foot);
+   const shown = sunk(view, placed);
+   const gone =
+@@ -123,7 +123,7 @@ function layoutPlace({ x, y }: Point): BedPlace {
+  */
+ export function viewedOrLaid(
+   view: View | undefined,
+-  foot: Ground,
++  foot: Point,
+   laid: Point,
+   height?: number,
+ ): BedPlace {
+diff --git a/src/pages/mushrooms/ui/scene/clump-layout.ts b/src/pages/mushrooms/ui/scene/clump-layout.ts
+index 2c02058..8ff96ae 100644
+--- a/src/pages/mushrooms/ui/scene/clump-layout.ts
++++ b/src/pages/mushrooms/ui/scene/clump-layout.ts
+@@ -11,12 +11,20 @@ import {
+   type Camera,
+   type Frame,
+   type Ground,
++  groundOfPlane,
++  OPENING_EYE,
+   project,
+   scaleAt,
+ } from '../../model/ground';
+ import { OPENING_SPECIES } from '../../model/mushroom-genes';
+ import { speciesHeight, speciesReach } from '../../model/mushroom-pose';
+-import { type Footed, OPENING_FEET, openingIndex } from '../../model/placement';
++import {
++  type Footed,
++  grownOn,
++  type Lean,
++  OPENING_FOOTING,
++  openingIndex,
++} from '../../model/placement';
+ import type { Placement } from './layout';
+ 
+ /**
+@@ -60,29 +68,36 @@ function standOn(
+ }
+ 
+ /**
+- * How big a mushroom standing on `foot` is on the ground, in the clump's
+- * size before depth scales it: an opening foot's as the clump's, any other
+- * `FOREST_SIZE`.
++ * Where `camera` stands a mushroom leaning `lean` on `ground`, the layout's
++ * ground under its foot: as the clump's `opening`th, its splay the clump's;
++ * else as the forest, `FOREST_SIZE` of the clump's size.
++ */
++function standing(
++  camera: Camera,
++  ground: Ground,
++  lean: Lean,
++  opening: number | undefined,
++): Placement {
++  return opening === undefined
++    ? standOn(camera, ground, FOREST_SIZE, lean * FOREST_SPLAY)
++    : standOn(camera, ground, CLUMP_SIZES[opening] ?? 1, lean * CLUMP_SPLAY);
++}
++
++/**
++ * Where `camera` stands a mushroom on `foot`, leaning `lean`: on an opening
++ * foot as the clump's, their stems crossing; anywhere else as the forest,
++ * `FOREST_SIZE` of the clump's size.
+  */
+-function sizeOn(foot: Ground): number {
+-  const opening = openingIndex(foot);
+-  if (opening !== undefined) return CLUMP_SIZES[opening] ?? 1;
+-  return FOREST_SIZE;
++export function placeOf(camera: Camera, { foot, lean }: Footed): Placement {
++  return standing(camera, groundOfPlane(foot), lean, openingIndex(foot));
+ }
+ 
+ /**
+- * Where `camera` stands a mushroom on `foot`: on an opening foot as the
+- * clump's, the back one leaning left and the front one right, their stems
+- * crossing; anywhere else as the forest, `FOREST_SIZE` of the clump's size
+- * and turned away from the middle.
++ * Where `camera` would stand a forest mushroom grown at `ground` in front of
++ * the eye the layout is anchored at (`grownOn`).
+  */
+-export function placeOf(camera: Camera, foot: Ground): Placement {
+-  const opening = openingIndex(foot);
+-  const splay =
+-    opening === undefined
+-      ? (foot.x < 0 ? 1 : -1) * FOREST_SPLAY
+-      : (opening === 0 ? -1 : 1) * CLUMP_SPLAY;
+-  return standOn(camera, foot, sizeOn(foot), splay);
++export function placeOnGround(camera: Camera, ground: Ground): Placement {
++  return standing(camera, ground, grownOn(OPENING_EYE, ground).lean, undefined);
+ }
+ 
+ /**
+@@ -91,8 +106,8 @@ export function placeOf(camera: Camera, foot: Ground): Placement {
+  * as wide as its cap reaches to either side once splayed.
+  */
+ export function clumpCrowns(camera: Camera): Box[] {
+-  return OPENING_FEET.map((foot) => {
+-    const { x, y, size, splay } = placeOf(camera, foot);
++  return OPENING_FOOTING.map((footed) => {
++    const { x, y, size, splay } = placeOf(camera, footed);
+     const { toward, away } = speciesReach(OPENING_SPECIES, splay);
+     const [left, right] = splay < 0 ? [toward, away] : [away, toward];
+     return {
+@@ -110,9 +125,9 @@ export function clumpCrowns(camera: Camera): Box[] {
+  */
+ export function placeIn(
+   { camera }: MushroomGround,
+-  { foot }: Footed,
++  footed: Footed,
+ ): Placement | undefined {
+-  const place = placeOf(camera, foot);
++  const place = placeOf(camera, footed);
+   const shown =
+     place.x >= 0 &&
+     place.x <= camera.world &&
+@@ -126,11 +141,13 @@ export function placeIn(
+  * foot, and at each of its corners and the middle of each of its edges, the
+  * forest's farthest, nearest and widest.
+  */
+-export function extremes({ across, near, far }: Frame): Ground[] {
++export function extremes({ across, near, far }: Frame): Footed[] {
+   return [
+-    ...OPENING_FEET,
++    ...OPENING_FOOTING,
+     ...[-1, 0, 1].flatMap((side) =>
+-      [near, far].map((z) => ({ x: (side * across) / scaleAt(z), z })),
++      [near, far].map((z) =>
++        grownOn(OPENING_EYE, { x: (side * across) / scaleAt(z), z }),
++      ),
+     ),
+   ];
+ }
+diff --git a/src/pages/mushrooms/ui/scene/clump-shade.ts b/src/pages/mushrooms/ui/scene/clump-shade.ts
+index 7dd4d77..9d06344 100644
+--- a/src/pages/mushrooms/ui/scene/clump-shade.ts
++++ b/src/pages/mushrooms/ui/scene/clump-shade.ts
+@@ -17,7 +17,7 @@ import { standingWith } from './door-sight';
+ import type { Placement } from './layout';
+ 
+ /** A mushroom standing as a visit opens: its seed, and the foot it stands on. */
+-export type Opener = Pick<Planted, 'seed' | 'species' | 'foot'>;
++export type Opener = Pick<Planted, 'seed' | 'species' | 'foot' | 'lean'>;
+ 
+ /** A silhouette's cell, in units of the mushroom's size. */
+ const CELL = 0.02;
+diff --git a/src/pages/mushrooms/ui/scene/flower-layout.ts b/src/pages/mushrooms/ui/scene/flower-layout.ts
+index 8017095..d49e287 100644
+--- a/src/pages/mushrooms/ui/scene/flower-layout.ts
++++ b/src/pages/mushrooms/ui/scene/flower-layout.ts
+@@ -24,6 +24,9 @@ import {
+   type Camera,
+   type FlowerFoot,
+   type Framed,
++  groundFootOf,
++  type GroundFoot,
++  planeFootOf,
+   project,
+   scaleAt,
+   UP_PER_Z,
+@@ -121,14 +124,19 @@ function cameraOf({
+   return { width, height, groundTop, ground, world, midline: world / 2, unit };
+ }
+ 
+-/** Where `foot` stands on the screen `camera` shows, and how big. */
+-export function standingOn(camera: Camera, foot: FlowerFoot): Footing {
++/** Where the layout's `foot` stands on the screen `camera` shows, and how big. */
++function standingOnGround(camera: Camera, foot: GroundFoot): Footing {
+   const { x, y, scale } = project(camera, foot);
+   return { x, y, size: foot.size * scale };
+ }
+ 
+-/** The ground a screen's footing stands on through `camera`: `standingOn` undone. */
+-export function groundOf(camera: Camera, { x, y, size }: Footing): FlowerFoot {
++/** Where `foot` stands on the screen `camera` shows, and how big. */
++export function standingOn(camera: Camera, foot: FlowerFoot): Footing {
++  return standingOnGround(camera, groundFootOf(foot));
++}
++
++/** The layout's ground a screen's footing stands on through `camera`: `standingOn` undone. */
++export function groundOf(camera: Camera, { x, y, size }: Footing): GroundFoot {
+   const near = project(camera, { x: 0, z: 0 });
+   const far = project(camera, { x: 0, z: 1 });
+   const z = (y - near.y) / (far.y - near.y);
+@@ -163,8 +171,8 @@ function leastRise(depth: number, low: number, high: number): number {
+  * Syama drew being two stems standing together.
+  */
+ export function clearOfFeet(
+-  flower: FlowerFoot,
+-  feet: readonly FlowerFoot[],
++  flower: GroundFoot,
++  feet: readonly GroundFoot[],
+ ): boolean {
+   const own = scaleAt(flower.z);
+   const stem = flower.size * own;
+@@ -185,8 +193,8 @@ export function clearOfFeet(
+  * head of every flower at `others`, on every screen.
+  */
+ export function headsApart(
+-  place: FlowerFoot,
+-  others: readonly FlowerFoot[],
++  place: GroundFoot,
++  others: readonly GroundFoot[],
+ ): boolean {
+   const own = place.size * scaleAt(place.z);
+   return others.every((other) => {
+@@ -207,8 +215,8 @@ export function headsApart(
+  * screen: however far its stem bends toward one, and its head at its widest.
+  */
+ export function headClear(
+-  place: FlowerFoot,
+-  others: ReadonlyArray<{ foot: FlowerFoot; genes: FlowerGenes }>,
++  place: GroundFoot,
++  others: ReadonlyArray<{ foot: GroundFoot; genes: FlowerGenes }>,
+ ): boolean {
+   const own = place.size * scaleAt(place.z);
+   const bend = FLOWER_RANGES.stemBend[1] * own;
+@@ -324,8 +332,8 @@ function spotOn(
+   half: number,
+   [index, [across, down]]: readonly [number, Spot],
+   seed: number,
+-  placed: readonly FlowerFoot[],
+-): FlowerFoot | undefined {
++  placed: readonly GroundFoot[],
++): GroundFoot | undefined {
+   const { frame, controls, clump } = opening;
+   const camera = cameraOf(opening);
+   const feet = clump.map(({ place }) => groundOf(camera, place));
+@@ -341,7 +349,7 @@ function spotOn(
+       z,
+       size: FLOWER_SIZE,
+     };
+-    const flower = standingOn(camera, foot);
++    const flower = standingOnGround(camera, foot);
+     if (
+       clearOfFeet(foot, feet) &&
+       headsApart(foot, placed) &&
+@@ -355,17 +363,17 @@ function spotOn(
+ }
+ 
+ /**
+- * The visit's seeded flowers on the ground, placed once on `opening`: the
++ * The visit's seeded flowers' feet on the plane, laid out once on `opening`'s ground: the
+  * left half's slots, then the right's, each flower at its slot's first spot
+  * there that a child sees (`spotOn`), left out when it has none.
+  */
+ export function seededBed(opening: FlowerGround, seed: number): FlowerFoot[] {
+-  const bed: FlowerFoot[] = [];
++  const bed: GroundFoot[] = [];
+   for (let half = 0; half < BED_HALVES; half++) {
+     for (const slot of FLOWER_SPOTS.entries()) {
+       const foot = spotOn(opening, half, slot, seed, bed);
+       if (foot) bed.push(foot);
+     }
+   }
+-  return bed;
++  return bed.map(planeFootOf);
+ }
+diff --git a/src/pages/mushrooms/ui/scene/flower-plots.ts b/src/pages/mushrooms/ui/scene/flower-plots.ts
+index 9a66e2f..31d2ba3 100644
+--- a/src/pages/mushrooms/ui/scene/flower-plots.ts
++++ b/src/pages/mushrooms/ui/scene/flower-plots.ts
+@@ -11,7 +11,14 @@ import { pick } from '@/shared/lib/collections';
+ 
+ import type { Flower } from '../../model/flower-genes';
+ import type { Meadow } from '../../model/game';
+-import { type Ground, type Rooted, zAt } from '../../model/ground';
++import {
++  type Ground,
++  groundFootOf,
++  type GroundFoot,
++  planeFootOf,
++  type Rooted,
++  zAt,
++} from '../../model/ground';
+ import { isBeeSown, type RootedFlower, type Sown } from '../../model/pollen';
+ import { standingPlaces } from './clump-layout';
+ import {
+@@ -27,8 +34,8 @@ import type { Footing, MeadowLayout } from './layout';
+ 
+ /**
+  * Each ring slot round a parent, a bee's planting taking any free one
+- * (`sown`): across and into the distance on the ground from the parent's
+- * foot, in the parent's size. A near ring, then a ring twice as far out,
++ * (`sown`): across and into the distance on the layout's ground from the
++ * parent's foot there, in the parent's size. A near ring, then a ring twice as far out,
+  * which reaches past a mushroom standing beside the parent, so a full forest
+  * still leaves the bees ground to plant on; in each ring beside it either
+  * way, before it and behind it, so the bed grows round and each head stands
+@@ -88,8 +95,8 @@ export function ringFoot(
+ ): FlowerFoot | undefined {
+   const slot = RING_SLOTS[ring];
+   if (!slot) return undefined;
+-  const { x, z, size } = parent;
+-  return { x: x + slot.x * size, z: z + slot.z * size, size };
++  const { x, z, size } = groundFootOf(parent);
++  return planeFootOf({ x: x + slot.x * size, z: z + slot.z * size, size });
+ }
+ 
+ /**
+@@ -101,16 +108,17 @@ export function ringFoot(
+ export function groundFor(
+   foot: FlowerFoot,
+   standing: readonly Rooted[],
+-  feet: readonly FlowerFoot[],
++  feet: readonly GroundFoot[],
+ ): boolean {
+   const [near = 0, far = 0] = FLOWER_DEPTH;
++  const ground = groundFootOf(foot);
+   return (
+-    foot.z >= near - ON_THE_BAND &&
+-    foot.z <= far + ON_THE_BAND &&
+-    clearOfFeet(foot, feet) &&
++    ground.z >= near - ON_THE_BAND &&
++    ground.z <= far + ON_THE_BAND &&
++    clearOfFeet(ground, feet) &&
+     headsApart(
+-      foot,
+-      standing.map((flower) => flower.foot),
++      ground,
++      standing.map((flower) => groundFootOf(flower.foot)),
+     )
+   );
+ }
+@@ -123,7 +131,7 @@ export function groundFor(
+ export function mushroomFeet(
+   layout: MeadowLayout,
+   mushrooms: Meadow['mushrooms'],
+-): FlowerFoot[] {
++): GroundFoot[] {
+   return standingPlaces(layout.mushrooms, mushrooms).map((place) =>
+     groundOf(layout.camera, place),
+   );
+@@ -192,7 +200,7 @@ function plotted({
+   };
+   for (const [index, flower] of seeded.entries()) {
+     const place = flowers[index];
+-    if (place) stand(flower, groundOf(camera, place), place);
++    if (place) stand(flower, planeFootOf(groundOf(camera, place)), place);
+   }
+   for (const sown of planted) {
+     const foot = footOf(sown, feet);
+diff --git a/src/pages/mushrooms/ui/scene/flower-sight.ts b/src/pages/mushrooms/ui/scene/flower-sight.ts
+index 778fc3a..48098c3 100644
+--- a/src/pages/mushrooms/ui/scene/flower-sight.ts
++++ b/src/pages/mushrooms/ui/scene/flower-sight.ts
+@@ -27,6 +27,7 @@ import {
+   containsPoint,
+   type Point,
+ } from '../../model/geometry';
++import type { GroundFoot } from '../../model/ground';
+ import type { InsectKind } from '../../model/insect-genes';
+ import { type Plot, slotTaken } from '../../model/pollen';
+ import { placeIn } from './clump-layout';
+@@ -317,7 +318,7 @@ export function coversOn(
+ /** The flowers standing where a bee plants, and every foot on the ground a planting keeps off. */
+ type Ground = {
+   standing: readonly StandingFlower[];
+-  claimed: readonly FlowerFoot[];
++  claimed: readonly GroundFoot[];
+ };
+ 
+ /**
+diff --git a/src/pages/mushrooms/ui/scene/layout.ts b/src/pages/mushrooms/ui/scene/layout.ts
+index 2abb102..4225fbf 100644
+--- a/src/pages/mushrooms/ui/scene/layout.ts
++++ b/src/pages/mushrooms/ui/scene/layout.ts
+@@ -165,8 +165,8 @@ function keptBed(seed: number, openers: readonly Opener[]): FlowerFoot[] {
+   const key = [
+     String(seed),
+     ...openers.map(
+-      ({ foot, species, seed: own }) =>
+-        `${String(foot.x)} ${String(foot.z)} ${species} ${String(own)}`,
++      ({ foot, lean, species, seed: own }) =>
++        `${String(foot.x)} ${String(foot.y)} ${String(lean)} ${species} ${String(own)}`,
+     ),
+   ].join(' ');
+   return keptIn(beds, key, () => {
+diff --git a/src/pages/mushrooms/ui/scene/mushroom-bed.ts b/src/pages/mushrooms/ui/scene/mushroom-bed.ts
+index a807aea..11a264b 100644
+--- a/src/pages/mushrooms/ui/scene/mushroom-bed.ts
++++ b/src/pages/mushrooms/ui/scene/mushroom-bed.ts
+@@ -376,7 +376,7 @@ export class MushroomBed implements Following {
+     const shown: Shown = {
+       graphics,
+       shadow: this.scene.add.graphics(),
+-      ...pick(mushroom, 'foot'),
++      ...pick(mushroom, 'foot', 'lean'),
+       laid: { x: 0, y: 0 },
+       tall: 0,
+       stands: UNPLACED,
+diff --git a/src/pages/mushrooms/ui/scene/mushroom-patch.ts b/src/pages/mushrooms/ui/scene/mushroom-patch.ts
+index 888fa53..5205201 100644
+--- a/src/pages/mushrooms/ui/scene/mushroom-patch.ts
++++ b/src/pages/mushrooms/ui/scene/mushroom-patch.ts
+@@ -23,8 +23,10 @@ import {
+ import {
+   type Camera,
+   type Ground,
++  groundOfPlane,
+   type Layered,
+   type LayeredPoint,
++  planeOf,
+   scaleAt,
+   type WithCamera,
+ } from '../../model/ground';
+@@ -76,10 +78,11 @@ const RING_POINTS = 12;
+  * smaller a mushroom stands drawn farther off than the clump's front foot,
+  * down to `LEAST_PATCH`. Neither a bigger screen nor a nearer foot grows it.
+  */
+-function patchFloor(foot: Ground, { unit }: Camera): number {
++function patchFloor(foot: Point, { unit }: Camera): number {
+   const tablet = openingIndex(foot) === undefined ? GROWN_PATCH : CLUMP_PATCH;
++  const { z } = groundOfPlane(foot);
+   const shrunk =
+-    (Math.min(unit, TABLET_UNIT) / TABLET_UNIT) * Math.min(1, scaleAt(foot.z));
++    (Math.min(unit, TABLET_UNIT) / TABLET_UNIT) * Math.min(1, scaleAt(z));
+   return Math.max(LEAST_PATCH, tablet * shrunk);
+ }
+ 
+@@ -153,7 +156,7 @@ export function tappedIn(stand: Stand): Tapped {
+  */
+ export function patchlessIn(
+   stand: Stand,
+-  least: (foot: Ground) => number = (foot) =>
++  least: (foot: Point) => number = (foot) =>
+     patchFloor(foot, stand.layout.camera),
+ ): string[] {
+   const tapped = tappedIn(stand);
+@@ -338,7 +341,7 @@ export function keepsPatches(
+     targets: [...tapped.targets, own].toSorted((a, b) => a.depth - b.depth),
+   };
+   return (
+-    patchOf(own, among, patchFloor(foot, camera)) !== undefined &&
++    patchOf(own, among, patchFloor(planeOf(foot), camera)) !== undefined &&
+     held.every(
+       ({ target, floor, patch }) =>
+         !patch ||
+diff --git a/src/pages/mushrooms/ui/scene/mushroom-room.ts b/src/pages/mushrooms/ui/scene/mushroom-room.ts
+index 7bd563a..279ec22 100644
+--- a/src/pages/mushrooms/ui/scene/mushroom-room.ts
++++ b/src/pages/mushrooms/ui/scene/mushroom-room.ts
+@@ -24,7 +24,12 @@ import {
+   distanceToEdge,
+   type Point,
+ } from '../../model/geometry';
+-import type { Eye, Ground } from '../../model/ground';
++import {
++  type Eye,
++  type Ground,
++  groundFootOf,
++  groundOfPlane,
++} from '../../model/ground';
+ import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
+ import { type Splayed, splayed } from '../../model/mushroom-pose';
+ import {
+@@ -35,7 +40,7 @@ import {
+ import type { Seeded } from '../../model/random';
+ import { aboutFoot } from './bed-place';
+ import { capBox } from './cap-cover';
+-import { FOREST_SPLAY, placeOf } from './clump-layout';
++import { FOREST_SPLAY, placeOnGround } from './clump-layout';
+ import { type Standing, standingAs } from './door-sight';
+ import { layoutShown } from './eye-crop';
+ import { flowerFeet } from './flower-plots';
+@@ -174,7 +179,7 @@ function trialOn(
+   foot: Ground,
+   grown: Splayed,
+ ): Trial | undefined {
+-  const place = placeOf(screen.stage.camera, foot);
++  const place = placeOnGround(screen.stage.camera, foot);
+   const own = standingAs(place, grown);
+   const cap = capBox(own);
+   if (cap.left < screen.edges.left || cap.right > screen.edges.right) {
+@@ -207,7 +212,7 @@ function shownTrials(
+   foot: Ground,
+   splays: ReadonlyMap<number, readonly Splayed[]>,
+ ): Trial[] | undefined {
+-  const { splay } = placeOf(screen.stage.camera, foot);
++  const { splay } = placeOnGround(screen.stage.camera, foot);
+   const species = splays.get(splay);
+   if (!species) {
+     throw new Error(`A forest mushroom stood with splay ${String(splay)}`);
+@@ -243,7 +248,7 @@ export function roomFor(
+   view?: View,
+ ): Ground | undefined {
+   const { layout, mushrooms } = stand;
+-  const flowers = flowerFeet(stand);
++  const flowers = flowerFeet(stand).map(groundFootOf);
+   const screen = screenOn(layout, view);
+   const others = standingOn(mushrooms, layout);
+   const splays = speciesOf(seed);
+@@ -252,7 +257,7 @@ export function roomFor(
+   return pickFoot(seed, {
+     ...pick(layout.mushrooms, 'frame'),
+     ...pick(screen, 'within'),
+-    feet: mushrooms.map(({ foot }) => foot),
++    feet: mushrooms.map(({ foot }) => groundOfPlane(foot)),
+     admits: (foot) => {
+       if (
+         flowers.some((flower) => apartOnScreen(foot, flower) < FLOWER_APART)
+diff --git a/src/pages/mushrooms/ui/scene/standing-weighed.ts b/src/pages/mushrooms/ui/scene/standing-weighed.ts
+index 1d0bf45..9d81a18 100644
+--- a/src/pages/mushrooms/ui/scene/standing-weighed.ts
++++ b/src/pages/mushrooms/ui/scene/standing-weighed.ts
+@@ -92,7 +92,7 @@ export function standingOn(
+   if (known) return known;
+   const here: Weighed[] = [];
+   for (const mushroom of mushrooms) {
+-    const place = placeOf(stage.camera, mushroom.foot);
++    const place = placeOf(stage.camera, mushroom);
+     here.push(weighed(amongAt(place, mushroom), () => here));
+   }
+   byStage.set(stage, here);
+diff --git a/src/pages/mushrooms/ui/scene/tufts.ts b/src/pages/mushrooms/ui/scene/tufts.ts
+index 68e631b..f96baf8 100644
+--- a/src/pages/mushrooms/ui/scene/tufts.ts
++++ b/src/pages/mushrooms/ui/scene/tufts.ts
+@@ -18,7 +18,13 @@ import { pick } from '@/shared/lib/collections';
+ import { flowerGenes } from '../../model/flower-genes';
+ import { sameFoot } from '../../model/game';
+ import type { Circle, Point } from '../../model/geometry';
+-import type { Camera, FlowerFoot, Rooted } from '../../model/ground';
++import {
++  type Camera,
++  type FlowerFoot,
++  groundFootOf,
++  planeFootOf,
++  type Rooted,
++} from '../../model/ground';
+ import { between, type Random } from '../../model/random';
+ import { bedPlace, depthOf, UNPLACED } from './bed-place';
+ import { placeIn } from './clump-layout';
+@@ -113,7 +119,10 @@ export function tuftAt<Tufted extends WithTuft>(
+  * shows the tuft: at its root, in a seeded flower's size.
+  */
+ function tuftFoot(camera: Camera, { x, y }: Tuft): FlowerFoot {
+-  return { ...groundOf(camera, { x, y, size: 0 }), size: FLOWER_SIZE };
++  return planeFootOf({
++    ...groundOf(camera, { x, y, size: 0 }),
++    size: FLOWER_SIZE,
++  });
+ }
+ 
+ /** A tuft grown on `layout` from `random`, anywhere across the world. */
+@@ -178,11 +187,11 @@ export function plantableIn(stand: Stand): (sprout: Sprout) => boolean {
+   const room = roomIn(stand);
+   const bare = bareToTap(stand);
+   const standing = flowersOf(stand).map((flower) => ({
+-    ...pick(flower, 'foot'),
++    foot: groundFootOf(flower.foot),
+     genes: flowerGenes(flower),
+   }));
+   return ({ foot, tuft }) =>
+-    room(foot) && headClear(foot, standing) && bare(tuft);
++    room(foot) && headClear(groundFootOf(foot), standing) && bare(tuft);
+ }
+ 
+ /** How many tufts the ground of a meadow seen through `camera` grows (`TUFTS_PER_1000PX`). */
+@@ -240,8 +249,8 @@ export function leaveTufts(
+ ): readonly Sprout[] {
+   const tufts = [...grown, ...left];
+   const added: Sprout[] = [];
+-  for (const { x, z } of pulledFeet(stand)) {
+-    const foot = { x, z, size: FLOWER_SIZE };
++  for (const { x, y } of pulledFeet(stand)) {
++    const foot = { x, y, size: FLOWER_SIZE };
+     if (tufts.some((sprout) => sameFoot(sprout.foot, foot))) continue;
+     const sprout = sproutOn(stand.layout, foot, random);
+     tufts.push(sprout);
+diff --git a/src/pages/mushrooms/ui/scene/view.ts b/src/pages/mushrooms/ui/scene/view.ts
+index eb6d7ea..580d4e5 100644
+--- a/src/pages/mushrooms/ui/scene/view.ts
++++ b/src/pages/mushrooms/ui/scene/view.ts
+@@ -15,10 +15,8 @@ import {
+   EYE_HEIGHT,
+   type Eyed,
+   gathered,
+-  type Ground,
+   pinholeOf,
+   planeOf,
+-  scaleAt,
+   spread,
+   type Viewed,
+   viewOf,
+@@ -76,14 +74,13 @@ export function placedAt(
+   };
+ }
+ 
+-/** Where `view` places a thing standing on `foot`, `height` above the ground in the clump's size. */
+-export function ofGround(view: View, foot: Ground, height = 0): Placed {
+-  return placedAt(
+-    view,
+-    planeOf(foot),
+-    height,
+-    CLUMP_DISTANCE / scaleAt(foot.z),
+-  );
++/**
++ * Where `view` places a thing standing on `foot`, on the plane, `height`
++ * above the ground in the clump's size, laid out where the opening crop's
++ * pinhole stands it.
++ */
++export function ofGround(view: View, foot: Point, height = 0): Placed {
++  return placedAt(view, foot, height, gathered(foot).y);
+ }
+ 
+ /**
+diff --git a/src/pages/mushrooms/ui/scene/visit-play.ts b/src/pages/mushrooms/ui/scene/visit-play.ts
+index ae02963..a4b5221 100644
+--- a/src/pages/mushrooms/ui/scene/visit-play.ts
++++ b/src/pages/mushrooms/ui/scene/visit-play.ts
+@@ -16,7 +16,7 @@ import {
+ import { OPENING_EYE } from '../../model/ground';
+ import type { InsectKind } from '../../model/insect-genes';
+ import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
+-import { openingIndex } from '../../model/placement';
++import { grownOn, openingIndex } from '../../model/placement';
+ import { mulberry32, nextSeed } from '../../model/random';
+ import { type Among, amongAt, capBox } from './cap-cover';
+ import { placeIn } from './clump-layout';
+@@ -70,7 +70,12 @@ export function opened(
+     const own = nextSeed(growing);
+     const foot = roomFor(standOf(layout, flowers, meadow), own, view);
+     if (!foot) break;
+-    meadow = reduce(meadow, { kind: 'grow', species, seed: own, foot });
++    meadow = reduce(meadow, {
++      kind: 'grow',
++      species,
++      seed: own,
++      ...grownOn(OPENING_EYE, foot),
++    });
+   }
+   return { meadow, ...standOf(layout, flowers, meadow) };
+ }

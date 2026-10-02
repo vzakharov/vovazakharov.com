@@ -253,6 +253,43 @@ export function planeOf({ x, z }: Ground): Point {
 }
 
 /**
+ * `planeOf` run backwards: the layout's ground at a plane point, as
+ * `OPENING_EYE` lays it out. Defined while `gathered` keeps the point ahead
+ * of the eye (`y` > 0), everything but a sliver straight behind it.
+ */
+export function groundOfPlane(point: Point): Ground {
+  const { x, y } = gathered(point);
+  const scale = CLUMP_DISTANCE / y;
+  const down =
+    (scale * depthScale(CLUMP_DOWN) - depthScale(0)) / SCALE_PER_DOWN;
+  return { x, z: zAt(down) };
+}
+
+/**
+ * `point` as `eye` sees it, moved with the eye onto `OPENING_EYE`: `viewOf`
+ * reads only the offset and the heading, so `OPENING_EYE` sees the anchored
+ * point exactly as `eye` sees `point`, and every rule laid out at the opening
+ * eye judges it as from `eye`. Anchored at `OPENING_EYE`, a point is itself.
+ */
+export function anchored(eye: Eye, point: Point): Point {
+  const dx = point.x - eye.x;
+  const dy = point.y - eye.y;
+  const cos = Math.cos(eye.heading);
+  const sin = Math.sin(eye.heading);
+  return { x: dx * cos - dy * sin, y: dy * cos + dx * sin };
+}
+
+/** `anchored` run backwards: the plane point `eye` sees as `OPENING_EYE` sees `point`. */
+export function unanchored(eye: Eye, point: Point): Point {
+  const cos = Math.cos(eye.heading);
+  const sin = Math.sin(eye.heading);
+  return {
+    x: eye.x + point.x * cos + point.y * sin,
+    y: eye.y + point.y * cos - point.x * sin,
+  };
+}
+
+/**
  * The lens `camera` is, in CSS px: the screen point straight ahead on the
  * horizon (`x` the screen's middle, `y` the horizon's row); `focal`, the
  * opening crop's pinhole's focal length, which the ground's bend and a
