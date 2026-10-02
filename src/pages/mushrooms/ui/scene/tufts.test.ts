@@ -5,6 +5,7 @@ import { pick } from '@/shared/lib/collections';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Action, MUSHROOM_SLOTS, reduce } from '../../model/game';
+import type { Point } from '../../model/geometry';
 import {
   type Camera,
   type Eye,
@@ -18,18 +19,25 @@ import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
 import { flowersOf } from './flower-plots';
 import { type Stand, takesFlower } from './flower-sight';
-import type { Tuft } from './grass';
-import { meadowLayout } from './layout';
+import { type Tuft, tuftSizeAt } from './grass';
+import {
+  CELL,
+  cellOf,
+  cellTufts,
+  type Lawn,
+  LiveLawn,
+  TUFTS_PER_CELL,
+} from './lawn';
+import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
 import { bareToTap, tuftAt } from './tuft-tap';
 import {
-  growTufts,
   leaveTufts,
-  mostTufts,
   plantableIn,
   shownSprouts,
   type Sprout,
+  tendedIn,
   tendTufts,
 } from './tufts';
 import { behindHills, cull, ofGround, viewAt } from './view';
@@ -47,11 +55,25 @@ const PULLED_VISITS = 6;
 
 const seedOf = (visit: number) => visit * 7919 + 3;
 const tuftingOf = (seed: number): Random => mulberry32(seed ^ 0x70_f7_5e);
-/** The ground's tufts of `stand` as a visit of `seed` grows them, and those that stand. */
+/** The lawn a visit of `seed` grows on `layout`, as `Grass` seeds it. */
+const lawnOf = (layout: MeadowLayout, seed: number): Lawn => ({
+  seed: Math.floor(tuftingOf(seed)() * 2 ** 32),
+  layout,
+});
+/** The live tufts of a visit of `seed` on `layout` the opening eye tends (`tendedIn`). */
+function tendedOn(layout: MeadowLayout, seed: number): Sprout[] {
+  return new LiveLawn(lawnOf(layout, seed))
+    .round(OPENING_EYE)
+    .filter(tendedIn(viewAt(layout.camera, OPENING_EYE)));
+}
+/** The tufts of `stand` the opening eye tends as a visit of `seed` grows them, and those that stand. */
 function grassOf(stand: Stand, seed: number): [Sprout[], Sprout[]] {
-  const grown = growTufts(stand.layout, [], tuftingOf(seed));
+  const grown = tendedOn(stand.layout, seed);
   return [grown, tendTufts(stand, grown)];
 }
+/** Each pulled flower's cell's tufts, on a visit of `seed`'s lawn on `layout`. */
+const grownAtOf = (layout: MeadowLayout, seed: number) => (foot: Point) =>
+  cellTufts(lawnOf(layout, seed), cellOf(foot));
 
 /** `stand` with a flower planted on `sprout`, as the scene plants it. */
 function plantedOn<Standing extends Stand>(
@@ -81,7 +103,9 @@ describe('shownSprouts', () => {
 
   for (const [name, width, height] of VIEWPORTS) {
     const layout = meadowLayout(width, height, seedOf(1));
-    const grown = growTufts(layout, [], tuftingOf(seedOf(1)));
+    const grown = [
+      ...new LiveLawn(lawnOf(layout, seedOf(1))).round(OPENING_EYE),
+    ];
     const left = (layout.camera.world - width) / 2;
 
     it(`draws every tuft at the opening at the azimuth its layout is seen at, bent, on a ${name} screen`, () => {
@@ -106,7 +130,6 @@ describe('shownSprouts', () => {
         assert.ok(
           Math.abs(tuft.y - (horizon + (laid.y - horizon) * bend)) < 0.5,
         );
-        assert.ok(Math.abs(tuft.size - laid.size * bend) < 1e-6 * laid.size);
       }
     });
 
@@ -116,15 +139,14 @@ describe('shownSprouts', () => {
         const { near } = shownSprouts(view, grown);
         for (const {
           tuft,
-          sprout: { foot, tuft: laid },
+          sprout: { foot },
         } of near) {
           const placed = ofGround(view, foot);
           assert.ok(!cull(placed));
           assert.ok(Math.abs(tuft.x - placed.x) < 1e-6);
           assert.ok(Math.abs(tuft.y - placed.y) < 1e-6);
-          assert.ok(
-            Math.abs(tuft.size - laid.size * placed.zoom) < 1e-6 * tuft.size,
-          );
+          // Sized by the row its foot stands on, wherever on the plane.
+          assert.ok(Math.abs(tuft.size - tuftSizeAt(view, placed.y)) < 1e-6);
           // The nearest drawn tuft takes it, this one or one drawn over it.
           const { x, y, size } = tuft;
           assert.ok(tuftAt(near, { x, y: y - size }));
@@ -240,25 +262,30 @@ function turned(
 
 describe('the ground’s grass', () => {
   for (const [name, width, height] of SCREENS) {
-    it(`grows on the ${name} a lawn of \`mostTufts\` over the world, each on its own foot, the same from the same stream`, () => {
+    it(`grows on the ${name} a lawn by cells, each a pure function of its index, the same walking away and back`, () => {
       const stand = opened(seedOf(0), width, height, false);
-      const { camera } = stand.layout;
-      const { world, groundTop, ground } = camera;
-      const grown = growTufts(stand.layout, [], tuftingOf(1));
-      assert.equal(grown.length, mostTufts(camera));
-      assert.ok(grown.length >= (world / 1000) * 52 - 0.5);
-      for (const each of grown) {
-        const { tuft } = each;
-        assert.ok(tuft.x >= 0 && tuft.x <= world);
-        assert.ok(tuft.y >= groundTop && tuft.y <= groundTop + ground);
-        assert.ok(offFoot(camera, each) < 1e-6);
+      const lawn = lawnOf(stand.layout, seedOf(0));
+      for (const cell of [
+        { i: 0, j: 2 },
+        { i: -3, j: -1 },
+        { i: 40, j: -25 },
+      ]) {
+        const tufts = cellTufts(lawn, cell);
+        assert.equal(tufts.length, TUFTS_PER_CELL);
+        for (const { foot } of tufts) assert.deepEqual(cellOf(foot), cell);
+        assert.deepEqual(cellTufts(lawn, cell), tufts);
       }
-      assert.deepEqual(growTufts(stand.layout, [], tuftingOf(1)), grown);
-      const regrown = growTufts(stand.layout, grown, tuftingOf(2));
-      assert.deepEqual(
-        regrown.map(({ foot }) => foot),
-        grown.map(({ foot }) => foot),
+      assert.notDeepEqual(
+        cellTufts(lawn, { i: 0, j: 0 }).map(({ foot }) => foot),
+        cellTufts(lawn, { i: 1, j: 0 }).map(({ foot }) => foot),
       );
+      const live = new LiveLawn(lawn);
+      const here = [...live.round(OPENING_EYE)];
+      const away = { ...OPENING_EYE, x: 30 * CELL, y: -12 * CELL };
+      const there = live.round(away);
+      assert.ok(there.every(({ foot }) => !here.some((h) => h.foot === foot)));
+      // Every cell of `here` left the live lawn, so coming back grows it anew.
+      assert.deepEqual(live.round(OPENING_EYE), here);
     });
   }
 
@@ -389,8 +416,7 @@ describe('the ground’s grass', () => {
     for (const [, width, height] of SCREENS) {
       const seed = 17;
       let stand: Stand = opened(seed, width, height, false);
-      const tufting = tuftingOf(seed);
-      let grown = growTufts(stand.layout, [], tufting);
+      let grown = tendedOn(stand.layout, seed);
       let sprouts = tendTufts(stand, grown);
       for (let planting = 0; planting < 4; planting++) {
         const [next] = sprouts;
@@ -405,7 +431,7 @@ describe('the ground’s grass', () => {
         [width, height],
       ] as const) {
         const layout = relaidOn(stand, seed, across, down);
-        grown = growTufts(layout, grown, tufting);
+        grown = tendedOn(layout, seed);
         const drawn: Tuft[] = tendTufts({ ...stand, layout }, grown).map(
           ({ tuft }) => tuft,
         );
@@ -438,7 +464,8 @@ describe('the ground’s grass', () => {
           const at = `${name}, visit ${String(seed)}, ${flower.id}`;
           const pulled = { ...stand, pulled: [flower.id] };
           const tufting = tuftingOf(seed + 1);
-          const leaving = leaveTufts(pulled, grown, [], tufting);
+          const grownAt = grownAtOf(stand.layout, seed);
+          const leaving = leaveTufts(pulled, grownAt, [], tufting);
           assert.equal(leaving.length, 1, at);
           const [spot] = leaving;
           assert.ok(spot);
@@ -453,7 +480,7 @@ describe('the ground’s grass', () => {
           assert.ok(back.length > standing.length, at);
           const replanted = plantedOn(pulled, spot, seed + 2);
           assert.equal(
-            leaveTufts(replanted, grown, leaving, tufting),
+            leaveTufts(replanted, grownAt, leaving, tufting),
             leaving,
             at,
           );
@@ -468,7 +495,7 @@ describe('the ground’s grass', () => {
             pulled: [...replanted.pulled, newest.id],
           };
           assert.equal(
-            leaveTufts(repulled, grown, leaving, tufting),
+            leaveTufts(repulled, grownAt, leaving, tufting),
             leaving,
             at,
           );
