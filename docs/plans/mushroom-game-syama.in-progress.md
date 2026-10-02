@@ -387,9 +387,10 @@ The footstep level held in the operator's earlier play («когда играл 
 1. ~~Package C's play~~ — done: the veer play (`ip-Cplay4`, `ip-Cplay5`,
    `ip-plant`, `ip-away`), C's step 2 (ea7573a; `seat`/`capTop` left
    untested, their classes importing Phaser), the Artifact at version 14.
-1b. The version-14 packages above: `v14-strafe`, `v14-insect-depth` (brow
-   sink and shadows), `v14-fly` (no hover, softer dash). Notes beside
-   `brief-common.md`.
+1b. ~~The version-14 packages~~ — built: `v14-strafe` (played, tabL),
+   `v14-note-plant` (played, tabL), `v14-insect-depth` and `v14-fly`
+   (played by `v14-insect-play.md`; any fix it left is the next work).
+   Notes beside `brief-common.md`. The Artifact is still version 14.
 1c. The new reds `play-final2.md` found on the tablets at 483be26, once 1b's
    insect packages land (they own the files): insects flipping ~3 rad in
    one frame, facing off their way of flight and resting crooked (a child
