@@ -92,6 +92,10 @@ laidFoot.y)`, host not drawn) reads it as opening world px, which for a
   test (`inReach`) measures the stored foot from the ground's anchor (equal,
   the anchoring being rigid, to the anchored foot from `OPENING_EYE`).
   Seeded and planted flowers are still moved as before.
+- **The cap** (`model/game.ts`): `MUSHROOM_SLOTS` (12) now counts the
+  mushrooms within `D_SEE` of a new foot (`isCrowdedAt(meadow, foot)`);
+  `FIELD_MUSHROOMS` (96) bounds the field (`isFull`, which the picker and
+  `controls.ts`'s `growable` read). `grow` refuses at either.
 
 ## Left
 
