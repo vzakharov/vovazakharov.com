@@ -58,7 +58,7 @@ function drawnLength(frame: EyeFrame, from: Aloft, to: Aloft): number {
   return length / CLUMP_DISTANCE;
 }
 
-/** A leg past the margin: the eye's heading, its two ends, and how far off its drawn length the per-place timing was. */
+/** A leg past the margin: the eye's heading, its two ends, and how far off its drawn length timing each place alone comes out. */
 const PAST: ReadonlyArray<
   readonly [string, number, Aloft, Aloft, (ratio: number) => boolean]
 > = [

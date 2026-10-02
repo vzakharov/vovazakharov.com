@@ -10,7 +10,7 @@ import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 import { between, type Random } from './random';
 
-/** What of `Sight` times a leg: where the perches stand, where the scene drew each flier, and where it draws each leaving. */
+/** What of `Sight` times a leg. */
 export type Placed = Pick<Sight, 'places' | 'drawn' | 'aways'>;
 
 /** What of a leg says where an insect flying it is. */
@@ -68,14 +68,11 @@ export function apartIn(
 
 /**
  * `places` with the perch `leg` flies to standing where an insect flying it
- * is at `now`: the time flown's share of the way from its `from`, across
- * straight and `1 / fromEye` mixed straight, as its frame flies it — both
- * ends framed together where both are posed (`pairFramed`), the point then
- * placed afresh (`placeOf`). A leg set off then, from that perch, is drawn
- * from where the insect was (`legSetOff`), so it is timed from there too, not
- * from the perch it never reached. As given at or past arrival, for a leg in
- * from away, whose way in the sight's away spot does not stand at, and where
- * either end has no place.
+ * is at `now`, as its frame flies it. A leg set off then, from that perch, is
+ * drawn from where the insect was (`legSetOff`), so it is timed from there
+ * too, not from the perch it never reached. As given at or past arrival, for
+ * a leg in from away, whose way in the sight's away spot does not stand at,
+ * and where either end has no place.
  */
 export function placesFlying(
   places: Places | undefined,

@@ -122,7 +122,7 @@ export function placeOf(frame: EyeFrame, near: number, aloft: Aloft): Place {
   };
 }
 
-/** `place`'s forward distance from its eye in the frame turned to the eye's heading, kept out at `near`. */
+/** A pose's forward distance in the frame turned to its eye's heading, kept out at `near`. */
 function headingForward({ aloft, frame, near }: Pose): number {
   return Math.max(near, framedOf(frame, frame.eye.heading, aloft).forward);
 }

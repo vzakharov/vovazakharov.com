@@ -110,27 +110,26 @@ export type Place = Point & { fromEye: number; pose?: Pose };
 export type Places = Readonly<Record<string, Place>>;
 
 /**
- * What the scene sees of the perches, which only the screen can say: the
- * flowers in sight, by id, the only ones an insect is sent to, and where the
- * scene gives them the more a bee's narrower wings see (`flowersFor`); the spots in
- * the open air an insect with nowhere to sit roams between, by id; the pairs
- * of perches standing too close for an insect on each (`Crowding`), so a
- * perch crowded by a taken one counts as taken; and, where the scene gives
- * them, the `places` of the perches, so a long flight takes longer than a
- * short one (`Habits`), and where it last drew each flier, by its id
- * (`drawn`), in the places' frame, since only the scene's steering knows
- * where a flier cut off mid-flight sets off from, and each flier's own away
- * spots, by its id (`aways`), since the scene draws one leaving at its own
- * height and span past the edge. With them, where a bee could plant a
- * flower (`Plot`).
+ * What the scene sees of the perches, which only the screen can say, and
+ * where a bee could plant a flower (`Plot`).
  */
 export type Sight = Plot & {
+  /** The flowers in sight, by id: the only ones an insect is sent to. */
   flowers: readonly string[];
+  /** The more of them a bee's narrower wings see (`flowersFor`). */
   beeFlowers?: readonly string[];
+  /** The spots in the open air, by id, an insect with nowhere to sit roams between. */
   air: readonly string[];
+  /** A perch crowded by a taken one counts as taken. */
   crowded: readonly Crowding[];
+  /** Where the perches stand, so a long flight takes longer than a short one (`Habits`). */
   places?: Places;
+  /**
+   * Where the scene last drew each flier, by its id, in the places' frame:
+   * only its steering knows where a flier cut off mid-flight sets off from.
+   */
   drawn?: Readonly<Record<string, Place>>;
+  /** Each flier's own away spots, by its id: the scene draws one leaving at its own height and span past the edge. */
   aways?: Readonly<Record<string, Places>>;
 };
 
@@ -279,10 +278,10 @@ function awayPerch(random: Random): Extract<Perch, { kind: 'away' }> {
  * A new insect's first flight, in from off screen to an open perch
  * (`nextPerch`), departing `now`. Given what the screen shows, the perch is
  * one it shows while any is open there, and the insect enters by the
- * screen's edge nearer it, timed from over the brow (`entryOf`), and with
- * none open there its leg
- * is lengthened by the stretch it flies out of view first at its cruise
- * (`outFirst`); otherwise by a side its seed picks.
+ * screen's edge nearer it, timed from over the brow (`entryOf`); with none
+ * open there, its leg is lengthened by the stretch it flies out of view first
+ * at its cruise (`outFirst`). Without the screen, it enters by a side its
+ * seed picks.
  */
 export function firstFlight(
   { seed, kind }: InsectSeed,
@@ -319,7 +318,7 @@ export function firstFlight(
   return { leg: outFirst(leg, out), legs: 1 };
 }
 
-/** An insect on its flight, by its id where it has one, as the sight says where it was drawn (`drawn`). */
+/** An insect on its flight, with the id the sight's `drawn` knows it by, where it has one. */
 type Flying = InsectSeed & Flight & Partial<WithId>;
 
 /**
