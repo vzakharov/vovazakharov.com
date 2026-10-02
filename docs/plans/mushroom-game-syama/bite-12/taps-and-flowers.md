@@ -28,7 +28,8 @@ Bite 12's settled decisions on what takes a tap and how a flower is planted, cha
    of a front one and could not hold the screen's one patch size. The
    patch now also shrinks with depth (`× min(1, scaleAt(z))`): tablet,
    phone and small phone grow behind the clump again (70/67/59 → 131/
-   129/120 of the first 20 visits), clump-layout's tablet pairs 589 → 303. **Set (45d9cce4): `LEAST_PATCH` 8 → 6.** The sideways phone's scaled
+   129/120 of the first 20 visits), clump-layout's tablet pairs 589 → 303.
+   **Set (45d9cce4): `LEAST_PATCH` 8 → 6.** The sideways phone's scaled
    patch is 7.6–4.9 px, so the 8 floor kept its back rows shut and both
    reds red; at 6, `layout` "grows 12" 200/200, clump-layout 358/2250,
    57% behind the clump (pads: 66%). Beaten: 5 (66%, but the farthest
