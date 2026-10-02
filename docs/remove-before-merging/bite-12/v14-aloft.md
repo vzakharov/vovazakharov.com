@@ -39,12 +39,19 @@ catches a hard floor (grows 3.7× as samples thicken; the knee 1.1×).
 
 ## Commits
 
-- step 1: see `git log -- src/pages/mushrooms/ui/scene/insect-frame.ts`
+- 41d6ee7 fix(mushrooms): keep a flying insect over the ground, nearer on
+  its own sight
 
-## Left
+## Step 2 — dropped by the operator
 
-- Step 2: play tabL meadow and confirm no shadow above its insect / no
-  orphan shadow; frames to `docs/remove-before-merging/frames/bite-12/v14/`.
+Step 2 (the play and its frames) was taken out of scope; the operator
+checks by hand. One tabL `meadow` run had already gone before the word
+came, with a temporary per-frame dump (reverted, not committed): over 3910
+frames and 9668 visible shadows, the lowest drawn `h` was 0.00005, none
+under 0, no shadow drawn above its insect, no shadow on screen with its
+insect hidden (the v14-insect-play run had 15 of 52 shadows over insects
+underground). The play's other reds were the ones v14-insect-play listed,
+unchanged. No frames committed.
 
 ## Noted
 
