@@ -42,6 +42,7 @@ import {
   Camera,
   type Controls,
   type Expect,
+  grow,
   inTurn,
   type Page,
   Point,
@@ -195,13 +196,9 @@ export async function playApproach(
   const { arc } = pinholeOf(screen);
 
   // The forest, grown from `+` and the picker's buttons in turn.
-  await inTurn([...Array.from({ length: GROWN }).keys()], async (index) => {
-    await page.tap(controls.plus);
-    await page.step(30);
-    const button = controls.picker[index % controls.picker.length];
-    if (button) await page.tap(button);
-    await page.step(90);
-  });
+  await inTurn([...Array.from({ length: GROWN }).keys()], async (index) =>
+    grow(page, controls, controls.picker[index % controls.picker.length]),
+  );
   const grown = await state();
   note(`the forest stands ${String(grown.mushrooms.length)} mushrooms`);
 

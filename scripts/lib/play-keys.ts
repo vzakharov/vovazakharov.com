@@ -29,7 +29,13 @@ import {
   Point,
   walkAndTurn,
 } from './mushroom-probe.ts';
-import { buttonsOf, NEWEST, Newest, TUFTS } from './play-tufts.ts';
+import {
+  buttonsOf,
+  firstOpening,
+  NEWEST,
+  Newest,
+  TUFTS,
+} from './play-tufts.ts';
 
 /** The flower picker and the newest planting, as the page holds them. */
 const Keyed = z.object({
@@ -166,15 +172,7 @@ export async function playKeys(
 
   // Open on a tuft, at its colours: `l` plants G there.
   const tufts = await page.evaluate(TUFTS, z.array(Point));
-  const opening = async ([tuft, ...rest]: ReadonlyArray<
-    z.infer<typeof Point>
-  >): Promise<boolean> => {
-    if (!tuft) return false;
-    await page.tap(tuft);
-    await page.step(30);
-    return (await read()).open || opening(rest);
-  };
-  if (!(await opening(tufts.toReversed().slice(0, TRIES)))) {
+  if (!(await firstOpening(page, tufts.toReversed().slice(0, TRIES)))) {
     expect(false, 'no tuft opened the picker for a key to plant through');
     return;
   }

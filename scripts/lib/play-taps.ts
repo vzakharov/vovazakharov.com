@@ -11,10 +11,11 @@ import { z } from 'zod';
 import {
   type Controls,
   type Expect,
+  grow,
   type Page,
   Point,
 } from './mushroom-probe.ts';
-import { TUFTS } from './play-tufts.ts';
+import { firstOpening, TUFTS } from './play-tufts.ts';
 
 /**
  * Everything a tap anywhere in the meadow leaves behind: the selection, the
@@ -130,11 +131,7 @@ export async function playHeldDrags(
   // A mushroom selected: one grown from `+`, which selects it — where the
   // view leaves it room, which a view crowded with flowers may not, so it
   // comes first. Its drag walks a little in, keeping the tufts in view.
-  await page.tap(controls.plus);
-  await page.step(30);
-  const [button] = controls.picker;
-  if (button) await page.tap(button);
-  await page.step(90);
+  await grow(page, controls, controls.picker[0]);
   const { selected } = await grown();
   if (selected === null) {
     expect(false, 'a mushroom grown from `+` is not selected');
@@ -144,15 +141,7 @@ export async function playHeldDrags(
 
   // The flower picker open on a tuft: the nearest that opens it.
   const tufts = await page.evaluate(TUFTS, z.array(Point));
-  const opening = async ([tuft, ...rest]: ReadonlyArray<
-    z.infer<typeof Point>
-  >): Promise<boolean> => {
-    if (!tuft) return false;
-    await page.tap(tuft);
-    await page.step(30);
-    return (await grown()).planting || opening(rest);
-  };
-  if (await opening(tufts.toReversed().slice(0, TRIES))) {
+  if (await firstOpening(page, tufts.toReversed().slice(0, TRIES))) {
     await dragFrom('the flower picker open on a tuft', { x: -0.15, y: 0 });
   } else {
     expect(
