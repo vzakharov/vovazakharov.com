@@ -33,6 +33,18 @@ S3, L3, I (fliers.test.ts first, then I2–I5) and Play launched at once
 from 233b3b6, each in its own worktree; P1b waits on S3 and L3. Reports
 land below as they arrive.
 
+- **I** — 240fcdc. `fliers.test.ts` green on I1 (48/48, 5 min 25 s). I2
+  half-built as `i2-air-spots.patch` (new `air-spots.ts` plane lattice,
+  `widest-spans.ts`, a swept `pointCrowdings` not yet checked against the
+  old one): 647–663 cells at 1180×820, but `airOf` costs ~8.5 ms per
+  anchor (3 ms crowding, the rest `spotsAt`'s ~6600-cell loop) against the
+  4 ms budget, and its wiring lies in `perch-sight.ts` (S3's). I3–I5 not
+  started. **Orchestrator's call:** a fresh I agent takes `perch-sight.ts`
+  once S3 reports, applies the patch, profiles `spotsAt` first, and only
+  if it stays over budget measures crowding on the plane against a coarser
+  snap and reports both before choosing; then I3, I4 (S2's `seatAloft`
+  fallback), I5.
+
 ## Next wave
 
 In this order of launch; parallel where files are disjoint.
