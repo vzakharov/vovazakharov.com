@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { firstMeadow, type Meadow, reduce } from '../../model/game';
+import { planeFootOf } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 
@@ -10,7 +11,7 @@ const BUSY: Meadow = {
   ...firstMeadow(mulberry32(1)),
   selected: 'mushroom-1',
   planting: {
-    foot: { x: 0.4, z: 1.3, size: 0.28 },
+    foot: planeFootOf({ x: 0.4, z: 1.3, size: 0.28 }),
     chosen: undefined,
     flower: undefined,
   },

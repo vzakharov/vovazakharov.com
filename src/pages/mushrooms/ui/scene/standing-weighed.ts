@@ -92,7 +92,7 @@ export function standingOn(
   if (known) return known;
   const here: Weighed[] = [];
   for (const mushroom of mushrooms) {
-    const place = placeOf(stage.camera, mushroom.foot);
+    const place = placeOf(stage.camera, mushroom);
     here.push(weighed(amongAt(place, mushroom), () => here));
   }
   byStage.set(stage, here);

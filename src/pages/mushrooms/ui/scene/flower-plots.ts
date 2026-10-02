@@ -11,7 +11,14 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Flower } from '../../model/flower-genes';
 import type { Meadow } from '../../model/game';
-import { type Ground, type Rooted, zAt } from '../../model/ground';
+import {
+  type Ground,
+  type GroundFoot,
+  groundFootOf,
+  planeFootOf,
+  type Rooted,
+  zAt,
+} from '../../model/ground';
 import { isBeeSown, type RootedFlower, type Sown } from '../../model/pollen';
 import { standingPlaces } from './clump-layout';
 import {
@@ -27,8 +34,8 @@ import type { Footing, MeadowLayout } from './layout';
 
 /**
  * Each ring slot round a parent, a bee's planting taking any free one
- * (`sown`): across and into the distance on the ground from the parent's
- * foot, in the parent's size. A near ring, then a ring twice as far out,
+ * (`sown`): across and into the distance on the layout's ground from the
+ * parent's foot there, in the parent's size. A near ring, then a ring twice as far out,
  * which reaches past a mushroom standing beside the parent, so a full forest
  * still leaves the bees ground to plant on; in each ring beside it either
  * way, before it and behind it, so the bed grows round and each head stands
@@ -88,8 +95,8 @@ export function ringFoot(
 ): FlowerFoot | undefined {
   const slot = RING_SLOTS[ring];
   if (!slot) return undefined;
-  const { x, z, size } = parent;
-  return { x: x + slot.x * size, z: z + slot.z * size, size };
+  const { x, z, size } = groundFootOf(parent);
+  return planeFootOf({ x: x + slot.x * size, z: z + slot.z * size, size });
 }
 
 /**
@@ -101,16 +108,17 @@ export function ringFoot(
 export function groundFor(
   foot: FlowerFoot,
   standing: readonly Rooted[],
-  feet: readonly FlowerFoot[],
+  feet: readonly GroundFoot[],
 ): boolean {
   const [near = 0, far = 0] = FLOWER_DEPTH;
+  const ground = groundFootOf(foot);
   return (
-    foot.z >= near - ON_THE_BAND &&
-    foot.z <= far + ON_THE_BAND &&
-    clearOfFeet(foot, feet) &&
+    ground.z >= near - ON_THE_BAND &&
+    ground.z <= far + ON_THE_BAND &&
+    clearOfFeet(ground, feet) &&
     headsApart(
-      foot,
-      standing.map((flower) => flower.foot),
+      ground,
+      standing.map((flower) => groundFootOf(flower.foot)),
     )
   );
 }
@@ -123,7 +131,7 @@ export function groundFor(
 export function mushroomFeet(
   layout: MeadowLayout,
   mushrooms: Meadow['mushrooms'],
-): FlowerFoot[] {
+): GroundFoot[] {
   return standingPlaces(layout.mushrooms, mushrooms).map((place) =>
     groundOf(layout.camera, place),
   );
@@ -192,7 +200,7 @@ function plotted({
   };
   for (const [index, flower] of seeded.entries()) {
     const place = flowers[index];
-    if (place) stand(flower, groundOf(camera, place), place);
+    if (place) stand(flower, planeFootOf(groundOf(camera, place)), place);
   }
   for (const sown of planted) {
     const foot = footOf(sown, feet);

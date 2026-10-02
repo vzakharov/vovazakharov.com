@@ -5,29 +5,28 @@
 - **A** (2b9942c) — `model/ground.ts`: `groundOfPlane`, `anchored`,
   `unanchored`; round-trip tests in `model/ground.test.ts` ("the lens").
   Anchoring at `OPENING_EYE` is the identity bit for bit.
-- **B, source half** — `step0-b.patch` beside this note (`git apply` from the
-  repo root). Every non-test source type-checks with it applied; the tests
-  do not yet (87 errors, all in `*.test.ts`), so it is not committed as
-  source. Not run: no test has been run against it.
+- **B** (this commit) — the store holds plane points: `FlowerFoot =
+  Point & Scaled`, `Footed = { foot: Point; lean }`, the rules on
+  `GroundFoot`. The test fixtures are converted mechanically (`planeOf`/
+  `planeFootOf`, leans from `OPENING_FOOTING` or `grownOn(OPENING_EYE, g)`);
+  no assertion changed except `game.test.ts`'s grown mushroom, which now
+  also carries the `lean` the action gives it. Every touched test file plus
+  `layout`, `meadow-rules`, `mushroom-room` passes; typecheck, prettier and
+  eslint are clean on the touched files.
 
 ## Left
 
-1. Apply `step0-b.patch`; fix the test fixtures (87 `tsc` errors): feet
-   built as `{x, z}` become `planeOf(...)`/`planeFootOf(...)`; `placeOf`/
-   `placeIn` take a `Footed` (`{ foot, lean }`), so a bare `{ foot }`
-   fixture needs `grownOn(OPENING_EYE, ground)` or `OPENING_FOOTING[i]`;
-   `extremes` returns `Footed[]`; the `grow` action carries `lean`; rules
-   (`clearOfFeet`, `headsApart`, `headClear`, `groundOf`) speak
-   `GroundFoot`. Files: `model/{game,ground,planting,mushroom-genes}.test.ts`,
-   `ui/scene/{bed-place,clump-layout,flower-cover,flower-hold,flower-layout,
-flower-plots,flower-touch,insect-drawn,insect-seat,keyed-flowers,
-mushroom-tap,perch-sight,repaint-queue,tufts,view-inverse,view}.test.ts`.
-2. Run every touched test file plus `layout`, `flower-layout`, `bed-place`,
-   `view`, `insect-seat`, `meadow-rules`; `pnpm type-overlap`;
-   `pnpm typecheck`; prettier + eslint.
-3. Add the spec's check that `layout.test.ts`/`flower-layout.test.ts`'s
-   seeded beds are the same feet after the round trip (within 1e-9; the
-   conversion rounds at ~1e-15, so not bit for bit — see below).
+1. **`pnpm type-overlap` fails**: `FlowerFoot` (`model/ground.ts`) and
+   `Footing` (`ui/scene/layout.ts`) both spell `Point & Scaled`. Naming the
+   combination once (`ScaledPoint` in `geometry.ts`) trips
+   `vova/no-redundant-type-alias` on both, so the only fix both gates accept
+   is one name for the two: either `FlowerFoot` → `Footing` everywhere
+   (11 files) or `Footing` → a shared name (8 files). That merges the plane
+   foot with the screen footing, which is a naming call for the
+   orchestrator, so it is not taken here.
+2. The spec's seeded-bed round-trip test: `layout.test.ts`/
+   `flower-layout.test.ts`'s seeded beds are the same feet after
+   `groundOfPlane(planeOf(g))`, within 1e-9.
 
 ## Decided
 
@@ -56,6 +55,9 @@ mushroom-tap,perch-sight,repaint-queue,tufts,view-inverse,view}.test.ts`.
   comparison reads a converted value (`openingIndex`, `sameFoot` compare
   stored numbers), so nothing a person sees changes; a test asserting
   exact equality of converted feet will need a 1e-9 tolerance.
+
+- The private placer in `clump-layout.ts` is `placedAs` (eslint's
+  `no-shadow` against `standingPlaces`'s `standing` parameter).
 
 ## Outside the owned files (B needs them to type-check)
 

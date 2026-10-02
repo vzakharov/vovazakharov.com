@@ -23,8 +23,10 @@ import {
 import {
   type Camera,
   type Ground,
+  groundOfPlane,
   type Layered,
   type LayeredPoint,
+  planeOf,
   scaleAt,
   type WithCamera,
 } from '../../model/ground';
@@ -76,10 +78,11 @@ const RING_POINTS = 12;
  * smaller a mushroom stands drawn farther off than the clump's front foot,
  * down to `LEAST_PATCH`. Neither a bigger screen nor a nearer foot grows it.
  */
-function patchFloor(foot: Ground, { unit }: Camera): number {
+function patchFloor(foot: Point, { unit }: Camera): number {
   const tablet = openingIndex(foot) === undefined ? GROWN_PATCH : CLUMP_PATCH;
+  const { z } = groundOfPlane(foot);
   const shrunk =
-    (Math.min(unit, TABLET_UNIT) / TABLET_UNIT) * Math.min(1, scaleAt(foot.z));
+    (Math.min(unit, TABLET_UNIT) / TABLET_UNIT) * Math.min(1, scaleAt(z));
   return Math.max(LEAST_PATCH, tablet * shrunk);
 }
 
@@ -153,7 +156,7 @@ export function tappedIn(stand: Stand): Tapped {
  */
 export function patchlessIn(
   stand: Stand,
-  least: (foot: Ground) => number = (foot) =>
+  least: (foot: Point) => number = (foot) =>
     patchFloor(foot, stand.layout.camera),
 ): string[] {
   const tapped = tappedIn(stand);
@@ -338,7 +341,7 @@ export function keepsPatches(
     targets: [...tapped.targets, own].toSorted((a, b) => a.depth - b.depth),
   };
   return (
-    patchOf(own, among, patchFloor(foot, camera)) !== undefined &&
+    patchOf(own, among, patchFloor(planeOf(foot), camera)) !== undefined &&
     held.every(
       ({ target, floor, patch }) =>
         !patch ||

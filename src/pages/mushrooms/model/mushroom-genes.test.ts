@@ -22,7 +22,7 @@ import {
 import { capOutlines, headOutlines } from './mushroom-outline';
 import { stemAt } from './mushroom-pose';
 import { stemHalfWidth } from './mushroom-profile';
-import { OPENING_FEET } from './placement';
+import { OPENING_FOOTING } from './placement';
 import { mulberry32 } from './random';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
@@ -145,7 +145,7 @@ describe('mushroomGenes', () => {
       if (camera.unit < ZOOM_FLOOR - 1e-9) continue;
       if (camera.unit - ZOOM_FLOOR < 1e-9) held.push(name);
       const smallest = Math.min(
-        ...OPENING_FEET.map((foot) => placeOf(camera, foot).size),
+        ...OPENING_FOOTING.map((footed) => placeOf(camera, footed).size),
       );
       const across = narrowest * smallest;
       drawn.push(`${name} ${across.toFixed(0)} px`);

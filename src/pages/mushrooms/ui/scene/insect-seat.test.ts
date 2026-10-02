@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import type { Point } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,
-  type Ground,
+  groundOfPlane,
   OPENING_EYE,
   planeOf,
   project,
@@ -21,7 +21,7 @@ import { VIEWPORTS } from './viewports';
 const HEADINGS = [0, 0.085, 0.21, 0.345, -0.3];
 
 /** Feet a host stands on: the opening clump's, and one off to the side and back. */
-const FEET: readonly Ground[] = [...OPENING_FEET, { x: 1.2, z: 0.6 }];
+const FEET: readonly Point[] = [...OPENING_FEET, planeOf({ x: 1.2, z: 0.6 })];
 
 /** Seats off a host's foot, in world px at the opening eye: over it, and toward either rim. */
 const SEATS: readonly Point[] = [
@@ -31,8 +31,8 @@ const SEATS: readonly Point[] = [
 ];
 
 /** A host standing on `foot` as `view` draws it, as its bed stands it. */
-function hostOn(view: View, foot: Ground): Host {
-  const { x, y } = project(view, foot);
+function hostOn(view: View, foot: Point): Host {
+  const { x, y } = project(view, groundOfPlane(foot));
   return { laidFoot: { x, y }, stands: bedPlace(view, foot) };
 }
 
@@ -64,10 +64,9 @@ const NEAR_CASES = [
   ...VIEWPORTS.flatMap(([name, width, height]) =>
     FEET.flatMap((foot) =>
       [0.6, 0.8, 1.2].map((ahead) => {
-        const plane = planeOf(foot);
         const eye = {
-          ...plane,
-          y: plane.y - ahead * CLUMP_DISTANCE,
+          ...foot,
+          y: foot.y - ahead * CLUMP_DISTANCE,
           heading: 0,
         };
         return { name, foot, view: viewAt(meadowCamera(width, height), eye) };

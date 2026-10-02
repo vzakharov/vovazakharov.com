@@ -113,7 +113,7 @@ const outsides = (id: string) => `(() => {
 const painting = (id: string) => `(() => {
   const id = ${JSON.stringify(id)};
   const { graphics, size, turn } = __probe.scene.bed.shown.get(id);
-  const { seed, species, foot } = __probe.scene.meadow.mushrooms.find(
+  const { seed, species, foot, lean } = __probe.scene.meadow.mushrooms.find(
     (mushroom) => mushroom.id === id,
   );
   const { a, b, c, d, tx, ty } = graphics.getWorldTransformMatrix();
@@ -121,7 +121,8 @@ const painting = (id: string) => `(() => {
   return {
     seed,
     species,
-    foot: { x: foot.x, z: foot.z },
+    foot: { x: foot.x, y: foot.y },
+    lean,
     size,
     turn,
     matrix: { a, b, c, d, tx: tx - scrollX, ty: ty - scrollY },
@@ -130,7 +131,8 @@ const painting = (id: string) => `(() => {
 const Painting = z.object({
   seed: z.number(),
   species: z.enum(MUSHROOM_SPECIES),
-  foot: z.object({ x: z.number(), z: z.number() }),
+  foot: z.object({ x: z.number(), y: z.number() }),
+  lean: z.union([z.literal(-1), z.literal(1)]),
   size: z.number(),
   turn: z.number(),
   matrix: z.object({
@@ -157,7 +159,7 @@ function paintedCap(
   painted: z.infer<typeof Painting>,
   camera: z.infer<typeof Camera>,
 ): { at: z.infer<typeof Point>; turn: number } {
-  const { splay } = placeOf(camera, painted.foot);
+  const { splay } = placeOf(camera, painted);
   const { genes, turn } = splayed(mushroomGenes(painted), splay);
   const cap = capFrame(genes);
   const canvas = toCanvas(painted.size);

@@ -376,7 +376,7 @@ export class MushroomBed implements Following {
     const shown: Shown = {
       graphics,
       shadow: this.scene.add.graphics(),
-      ...pick(mushroom, 'foot'),
+      ...pick(mushroom, 'foot', 'lean'),
       laid: { x: 0, y: 0 },
       tall: 0,
       stands: UNPLACED,

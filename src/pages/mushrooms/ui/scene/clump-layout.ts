@@ -11,12 +11,20 @@ import {
   type Camera,
   type Frame,
   type Ground,
+  groundOfPlane,
+  OPENING_EYE,
   project,
   scaleAt,
 } from '../../model/ground';
 import { OPENING_SPECIES } from '../../model/mushroom-genes';
 import { speciesHeight, speciesReach } from '../../model/mushroom-pose';
-import { type Footed, OPENING_FEET, openingIndex } from '../../model/placement';
+import {
+  type Footed,
+  grownOn,
+  type Lean,
+  OPENING_FOOTING,
+  openingIndex,
+} from '../../model/placement';
 import type { Placement } from './layout';
 
 /**
@@ -60,29 +68,36 @@ function standOn(
 }
 
 /**
- * How big a mushroom standing on `foot` is on the ground, in the clump's
- * size before depth scales it: an opening foot's as the clump's, any other
- * `FOREST_SIZE`.
+ * Where `camera` stands a mushroom leaning `lean` on `ground`, the layout's
+ * ground under its foot: as the clump's `opening`th, its splay the clump's;
+ * else as the forest, `FOREST_SIZE` of the clump's size.
  */
-function sizeOn(foot: Ground): number {
-  const opening = openingIndex(foot);
-  if (opening !== undefined) return CLUMP_SIZES[opening] ?? 1;
-  return FOREST_SIZE;
+function placedAs(
+  camera: Camera,
+  ground: Ground,
+  lean: Lean,
+  opening: number | undefined,
+): Placement {
+  return opening === undefined
+    ? standOn(camera, ground, FOREST_SIZE, lean * FOREST_SPLAY)
+    : standOn(camera, ground, CLUMP_SIZES[opening] ?? 1, lean * CLUMP_SPLAY);
 }
 
 /**
- * Where `camera` stands a mushroom on `foot`: on an opening foot as the
- * clump's, the back one leaning left and the front one right, their stems
- * crossing; anywhere else as the forest, `FOREST_SIZE` of the clump's size
- * and turned away from the middle.
+ * Where `camera` stands a mushroom on `foot`, leaning `lean`: on an opening
+ * foot as the clump's, their stems crossing; anywhere else as the forest,
+ * `FOREST_SIZE` of the clump's size.
  */
-export function placeOf(camera: Camera, foot: Ground): Placement {
-  const opening = openingIndex(foot);
-  const splay =
-    opening === undefined
-      ? (foot.x < 0 ? 1 : -1) * FOREST_SPLAY
-      : (opening === 0 ? -1 : 1) * CLUMP_SPLAY;
-  return standOn(camera, foot, sizeOn(foot), splay);
+export function placeOf(camera: Camera, { foot, lean }: Footed): Placement {
+  return placedAs(camera, groundOfPlane(foot), lean, openingIndex(foot));
+}
+
+/**
+ * Where `camera` would stand a forest mushroom grown at `ground` in front of
+ * the eye the layout is anchored at (`grownOn`).
+ */
+export function placeOnGround(camera: Camera, ground: Ground): Placement {
+  return placedAs(camera, ground, grownOn(OPENING_EYE, ground).lean, undefined);
 }
 
 /**
@@ -91,8 +106,8 @@ export function placeOf(camera: Camera, foot: Ground): Placement {
  * as wide as its cap reaches to either side once splayed.
  */
 export function clumpCrowns(camera: Camera): Box[] {
-  return OPENING_FEET.map((foot) => {
-    const { x, y, size, splay } = placeOf(camera, foot);
+  return OPENING_FOOTING.map((footed) => {
+    const { x, y, size, splay } = placeOf(camera, footed);
     const { toward, away } = speciesReach(OPENING_SPECIES, splay);
     const [left, right] = splay < 0 ? [toward, away] : [away, toward];
     return {
@@ -110,9 +125,9 @@ export function clumpCrowns(camera: Camera): Box[] {
  */
 export function placeIn(
   { camera }: MushroomGround,
-  { foot }: Footed,
+  footed: Footed,
 ): Placement | undefined {
-  const place = placeOf(camera, foot);
+  const place = placeOf(camera, footed);
   const shown =
     place.x >= 0 &&
     place.x <= camera.world &&
@@ -126,11 +141,13 @@ export function placeIn(
  * foot, and at each of its corners and the middle of each of its edges, the
  * forest's farthest, nearest and widest.
  */
-export function extremes({ across, near, far }: Frame): Ground[] {
+export function extremes({ across, near, far }: Frame): Footed[] {
   return [
-    ...OPENING_FEET,
+    ...OPENING_FOOTING,
     ...[-1, 0, 1].flatMap((side) =>
-      [near, far].map((z) => ({ x: (side * across) / scaleAt(z), z })),
+      [near, far].map((z) =>
+        grownOn(OPENING_EYE, { x: (side * across) / scaleAt(z), z }),
+      ),
     ),
   ];
 }

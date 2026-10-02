@@ -10,7 +10,7 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
-import type { Ground, LayeredPoint } from '../../model/ground';
+import type { LayeredPoint } from '../../model/ground';
 import { DEPTHS } from './backdrop-depths';
 import {
   behindHills,
@@ -56,7 +56,7 @@ export type Standing = { stands: BedPlace };
  * tall as laid out: given a height, it is not drawn once it has sunk away
  * (`sunkAway`).
  */
-export function bedPlace(view: View, foot: Ground, height?: number): BedPlace {
+export function bedPlace(view: View, foot: Point, height?: number): BedPlace {
   const placed = ofGround(view, foot);
   const shown = sunk(view, placed);
   const gone =
@@ -123,7 +123,7 @@ function layoutPlace({ x, y }: Point): BedPlace {
  */
 export function viewedOrLaid(
   view: View | undefined,
-  foot: Ground,
+  foot: Point,
   laid: Point,
   height?: number,
 ): BedPlace {

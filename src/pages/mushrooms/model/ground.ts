@@ -5,6 +5,7 @@
  * resizing the screen fits a new camera and moves nothing on the ground.
  */
 
+import { pick } from '@/shared/lib/collections';
 import type { Sized } from '@/shared/typings';
 
 import { alongAzimuth, type Point, type Scaled, wrap } from './geometry';
@@ -17,11 +18,14 @@ import { alongAzimuth, type Point, type Scaled, wrap } from './geometry';
 export type Ground = Pick<Point, 'x'> & { z: number };
 
 /**
- * A foot on the ground (`Ground`) and its size in the clump's before depth
- * scales it: a flower's height to its head, a mushroom's unit.
+ * A foot on the plane the eye walks and its size in the clump's before depth
+ * scales it: a flower's height to its head, a mushroom's unit. What the
+ * meadow stores; a rule reads it as the layout's `Ground` (`groundOfPlane`).
  */
-export type FlowerFoot = Ground & Scaled;
-/** Where a thing stands on the ground. */
+export type FlowerFoot = Point & Scaled;
+/** A foot on the layout's ground and its size: a `FlowerFoot` as the rules judge it. */
+export type GroundFoot = Ground & Scaled;
+/** Where a thing stands on the plane. */
 export type Rooted = { foot: FlowerFoot };
 
 /** How far toward the sky's haze a thing's colours go, from 0 to 1. */
@@ -263,6 +267,26 @@ export function groundOfPlane(point: Point): Ground {
   const down =
     (scale * depthScale(CLUMP_DOWN) - depthScale(0)) / SCALE_PER_DOWN;
   return { x, z: zAt(down) };
+}
+
+/**
+ * Each stored foot's ground, kept by the foot: the rules judge every flower
+ * against every other, many times a frame, and a stored foot never moves.
+ */
+const groundFeet = new WeakMap<FlowerFoot, GroundFoot>();
+
+/** `foot` on the layout's ground (`groundOfPlane`), its size kept. */
+export function groundFootOf(foot: FlowerFoot): GroundFoot {
+  const kept = groundFeet.get(foot);
+  if (kept) return kept;
+  const ground = { ...groundOfPlane(foot), ...pick(foot, 'size') };
+  groundFeet.set(foot, ground);
+  return ground;
+}
+
+/** `foot` on the plane (`planeOf`), its size kept. */
+export function planeFootOf({ size, ...ground }: GroundFoot): FlowerFoot {
+  return { ...planeOf(ground), size };
 }
 
 /**

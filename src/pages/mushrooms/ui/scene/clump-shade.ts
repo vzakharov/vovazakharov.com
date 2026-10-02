@@ -17,7 +17,7 @@ import { standingWith } from './door-sight';
 import type { Placement } from './layout';
 
 /** A mushroom standing as a visit opens: its seed, and the foot it stands on. */
-export type Opener = Pick<Planted, 'seed' | 'species' | 'foot'>;
+export type Opener = Pick<Planted, 'seed' | 'species' | 'foot' | 'lean'>;
 
 /** A silhouette's cell, in units of the mushroom's size. */
 const CELL = 0.02;

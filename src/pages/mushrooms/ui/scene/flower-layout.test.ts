@@ -14,6 +14,7 @@ import {
   containsPoint,
   type Point,
 } from '../../model/geometry';
+import { groundFootOf, planeFootOf } from '../../model/ground';
 import { geneBounds } from '../../model/mushroom-genes';
 import { mulberry32 } from '../../model/random';
 import { placeIn } from './clump-layout';
@@ -65,9 +66,11 @@ function visitsOn(width: number, height: number): Opened[] {
   return known;
 }
 
-/** The visit's seeded bed on the ground, read back off the screen it opened on. */
+/** The visit's seeded bed on the plane, read back off the screen it opened on. */
 function bedOf({ layout }: Opened): FlowerFoot[] {
-  return layout.flowers.map((place) => groundOf(layout.camera, place));
+  return layout.flowers.map((place) =>
+    planeFootOf(groundOf(layout.camera, place)),
+  );
 }
 
 /** Every head of `flower` as drawn: at rest, and leant either way by the breeze. */
@@ -141,7 +144,7 @@ describe('the seeded flowers', () => {
       SEEDED_SOUNDS.map((sound, index) => ({
         id: String(index),
         seed: seedSounding(mulberry32(index), sound),
-        foot: { x: 0, z: 0, size: 0 },
+        foot: { x: 0, y: 0, size: 0 },
         place: { x: 0, y: 0, size: 0 },
       })),
     );
@@ -179,7 +182,7 @@ describe('the seeded flowers', () => {
           assert.equal(there.flowers.length, bed.length);
           for (const [at, place] of there.flowers.entries()) {
             const foot = groundOf(there.camera, place);
-            const own = bed[at];
+            const own = bed[at] && groundFootOf(bed[at]);
             assert.ok(own);
             shown += 1;
             assert.ok(
@@ -197,7 +200,7 @@ describe('the seeded flowers', () => {
     it(`differ from visit to visit, opened on a ${name} screen`, () => {
       const beds = visitsOn(width, height).map((visit) =>
         bedOf(visit)
-          .map(({ x, z }) => `${x.toFixed(6)} ${z.toFixed(6)}`)
+          .map(({ x, y }) => `${x.toFixed(6)} ${y.toFixed(6)}`)
           .join(' '),
       );
       const alike = beds.length - new Set(beds).size;
@@ -335,9 +338,10 @@ describe('the seeded flowers', () => {
             `visit ${String(VISITS[index])}: a flower past the turned world's side`,
           );
           const back = groundOf(turned.camera, { x, y, size });
+          const own = groundFootOf(foot);
           assert.ok(
-            Math.abs(back.x - foot.x) < SAME_GROUND &&
-              Math.abs(back.z - foot.z) < SAME_GROUND,
+            Math.abs(back.x - own.x) < SAME_GROUND &&
+              Math.abs(back.z - own.z) < SAME_GROUND,
             `visit ${String(VISITS[index])}: a flower moved on the ground`,
           );
         }

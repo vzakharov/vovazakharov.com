@@ -1,7 +1,8 @@
 import type { Sight } from '../../model/flight';
-import type { Ground } from '../../model/ground';
+import { type Ground, OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import type { Species } from '../../model/mushroom-genes';
+import { grownOn } from '../../model/placement';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
 import { keptRoom } from './mushroom-room';
@@ -54,7 +55,12 @@ export class Arrivals {
   readonly grow = (species: Species): void => {
     const foot = this.roomNow();
     if (!foot) return;
-    this.scene.dispatch({ kind: 'grow', species, seed: this.upcoming, foot });
+    this.scene.dispatch({
+      kind: 'grow',
+      species,
+      seed: this.upcoming,
+      ...grownOn(OPENING_EYE, foot),
+    });
     this.upcoming = nextSeed(this.growing);
   };
 

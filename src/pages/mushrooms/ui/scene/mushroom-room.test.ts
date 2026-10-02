@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { firstMeadow } from '../../model/game';
 import { type Eye, OPENING_EYE } from '../../model/ground';
+import { grownOn } from '../../model/placement';
 import { mulberry32 } from '../../model/random';
 import { standOf } from './flower-sight';
 import { meadowLayout } from './layout';
@@ -97,7 +98,7 @@ describe('the room a `+` finds', () => {
       for (const seed of [3, 11, 29, 47]) {
         const foot = roomFor(stand, seed, view);
         assert.ok(foot, `${name}: seed ${String(seed)} found no room`);
-        const { x } = ofGround(view, foot);
+        const { x } = ofGround(view, grownOn(OPENING_EYE, foot).foot);
         assert.ok(
           x > 0 && x < layout.width,
           `${name}: seed ${String(seed)}'s foot at ${x.toFixed(0)} px across a ${String(layout.width)} px screen`,

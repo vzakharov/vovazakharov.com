@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { FRAME_DEPTH, OPENING_EYE, project } from '../../model/ground';
+import { FRAME_DEPTH, OPENING_EYE, planeOf, project } from '../../model/ground';
 import { bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
 import {
@@ -56,8 +56,9 @@ describe('the repaint queue', () => {
         const { camera, mushrooms: ground } = layout;
         const opening = viewAt(camera, OPENING_EYE);
         const nearer = viewAt(camera, STEPPED_IN);
-        for (const { id, foot } of meadow.mushrooms) {
-          if (placeIn(ground, { foot }) === undefined) continue;
+        for (const mushroom of meadow.mushrooms) {
+          const { id, foot } = mushroom;
+          if (placeIn(ground, mushroom) === undefined) continue;
           const where = `visit ${String(seed)}: ${id}`;
           // Past the brow a thing pales further, by the side of the screen
           // or off it, and is repainted once.
@@ -92,13 +93,14 @@ describe('the repaint queue', () => {
     it(`clears a misty mushroom on the back row as the eye steps in, on a ${name} screen`, () => {
       const { camera } = opened(SEEDS[0] ?? 1, width, height, false).layout;
       for (const x of [-1, 0, 1]) {
-        const foot = { x, z: FRAME_DEPTH.far };
+        const ground = { x, z: FRAME_DEPTH.far };
+        const foot = planeOf(ground);
         const opening = bedPlace(viewAt(camera, OPENING_EYE), foot);
         const painted = hazeAhead(camera, opening);
         const where = `across ${String(x)}`;
         assert.ok(painted >= MISTY, `${where}: painted ${String(painted)}`);
         // Near the middle the lens draws the row where the layout lays it.
-        const laid = project(camera, foot).haze;
+        const laid = project(camera, ground).haze;
         assert.ok(
           Math.abs(painted - laid) < 1e-3,
           `${where}: laid ${String(laid)}`,

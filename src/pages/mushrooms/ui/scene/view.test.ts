@@ -5,6 +5,7 @@ import { alongAzimuth, type Point } from '../../model/geometry';
 import {
   type Eye,
   EYE_HEIGHT,
+  groundOfPlane,
   OPENING_EYE,
   pinholeOf,
   project,
@@ -12,7 +13,7 @@ import {
 } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { speciesHeight } from '../../model/mushroom-pose';
-import { OPENING_FEET } from '../../model/placement';
+import { type Footed, OPENING_FOOTING } from '../../model/placement';
 import { extremes, placeOf } from './clump-layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
 import {
@@ -36,7 +37,7 @@ import {
 import { CAMERAS, VIEWPORTS } from './viewports';
 
 /** Feet at the opening clump's and at the world frame's extremes. */
-const FEET = [...OPENING_FEET, ...extremes(MEADOW_FRAME)];
+const FEET: readonly Footed[] = [...OPENING_FOOTING, ...extremes(MEADOW_FRAME)];
 
 /** Eyes about the glade, each looking its own way, every foot ahead of them. */
 const EYES: Eye[] = [
@@ -99,9 +100,9 @@ describe('the view', () => {
 
     it(`places every foot at the opening at the azimuth the ${name} camera's opening crop sees it at, bent`, () => {
       const view = viewAt(camera, OPENING_EYE);
-      for (const foot of FEET) {
+      for (const { foot } of FEET) {
         const placed = ofGround(view, foot);
-        const expected = lensed(view, project(camera, foot));
+        const expected = lensed(view, project(camera, groundOfPlane(foot)));
         assertPlacedAt(
           placed,
           expected,
@@ -113,8 +114,8 @@ describe('the view', () => {
 
     it(`places a layout point at the opening at the azimuth the ${name} camera's opening crop sees it at, bent`, () => {
       const view = viewAt(camera, OPENING_EYE);
-      for (const foot of FEET) {
-        const row = project(camera, foot).y;
+      for (const { foot } of FEET) {
+        const row = project(camera, groundOfPlane(foot)).y;
         for (const point of [
           { x: left + 10, y: row - 40 },
           { x: camera.world / 2, y: row },
@@ -135,8 +136,8 @@ describe('the view', () => {
       const lift = 0.8;
       for (const eye of EYES) {
         const view = viewAt(camera, eye);
-        for (const foot of FEET) {
-          const { x, y, scale } = project(camera, foot);
+        for (const { foot } of FEET) {
+          const { x, y, scale } = project(camera, groundOfPlane(foot));
           const perched = ofLayout(view, { x, y: y - lift * scale }, y);
           const stood = ofGround(view, foot, lift);
           assertPlacedAt(
@@ -150,9 +151,9 @@ describe('the view', () => {
 
     it(`hides every mushroom's tallest head below the ${name} screen's foot by the time the eye is V_NEAR from it`, () => {
       const largest = Math.max(
-        ...FEET.map((foot) => {
-          const { size } = placeOf(camera, foot);
-          return size / project(camera, foot).scale;
+        ...FEET.map((footed) => {
+          const { size } = placeOf(camera, footed);
+          return size / project(camera, groundOfPlane(footed.foot)).scale;
         }),
       );
       for (const species of MUSHROOM_SPECIES) {

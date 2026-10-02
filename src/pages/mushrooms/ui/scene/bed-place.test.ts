@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Point } from '../../model/geometry';
-import { type Ground, OPENING_EYE, pinholeOf, zAt } from '../../model/ground';
+import { OPENING_EYE, pinholeOf, planeOf, zAt } from '../../model/ground';
 import { bedPlace, depthOf } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingFlowers } from './flower-plots';
@@ -23,9 +23,10 @@ describe('a bed object at the opening eye', () => {
         const { camera, mushrooms: ground } = layout;
         const view = viewAt(camera, OPENING_EYE);
         const left = (camera.world - camera.width) / 2;
-        const laid: Array<{ what: string; foot: Ground; at: Point }> = [
-          ...meadow.mushrooms.flatMap(({ id, foot }) => {
-            const at = placeIn(ground, { foot });
+        const laid: Array<{ what: string; foot: Point; at: Point }> = [
+          ...meadow.mushrooms.flatMap((mushroom) => {
+            const { id, foot } = mushroom;
+            const at = placeIn(ground, mushroom);
             return at ? [{ what: id, foot, at }] : [];
           }),
           ...standingFlowers(layout, flowers, [], meadow.mushrooms, []).map(
@@ -72,11 +73,11 @@ describe("a bed object past the ground's top row", () => {
     it(`stands its foot below that row, under the ground and over the near hills, the farther behind, its parts in order, on a ${name} screen`, () => {
       const { layout } = opened(1, width, height, false);
       const view = viewAt(layout.camera, OPENING_EYE);
-      const near = bedPlace(view, { x: 0, z: zAt(0.02) });
+      const near = bedPlace(view, planeOf({ x: 0, z: zAt(0.02) }));
       assert.equal(near.behind, false);
       let farther = Infinity;
       for (const down of [-0.02, -0.3, -0.6, -1]) {
-        const place = bedPlace(view, { x: 0.4, z: zAt(down) });
+        const place = bedPlace(view, planeOf({ x: 0.4, z: zAt(down) }));
         const where = `down ${String(down)}`;
         assert.ok(place.drawn && place.behind, where);
         assert.ok(place.y > layout.camera.groundTop, where);
@@ -99,8 +100,8 @@ describe("a bed object past the ground's top row", () => {
       const { layout } = opened(1, width, height, false);
       const view = viewAt(layout.camera, OPENING_EYE);
       const tall = layout.camera.unit * 0.3;
-      assert.ok(bedPlace(view, { x: 0, z: zAt(-0.02) }, tall).drawn);
-      const far = { x: 0, z: zAt(-1) };
+      assert.ok(bedPlace(view, planeOf({ x: 0, z: zAt(-0.02) }), tall).drawn);
+      const far = planeOf({ x: 0, z: zAt(-1) });
       assert.equal(bedPlace(view, far, tall).drawn, false);
       assert.ok(bedPlace(view, far).drawn);
     });

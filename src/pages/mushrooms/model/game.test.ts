@@ -11,21 +11,23 @@ import {
   MUSHROOM_SLOTS,
   reduce,
 } from './game';
+import { OPENING_EYE, planeFootOf } from './ground';
 import { EMPTY_HOUSE, type Furnishing, windowSlots } from './house';
 import { INSECT_LIMITS } from './insects';
 import { mushroomGenes } from './mushroom-genes';
-import { OPENING_FEET } from './placement';
+import { grownOn, OPENING_FEET } from './placement';
 import { mulberry32 } from './random';
 import { RAIN_MS } from './weather';
 
 const opening = () => firstMeadow(mulberry32(1));
 /** Where the scene picked the foot of the mushroom grown from `seed`, as these tests have it. */
-const footOf = (seed: number) => ({ x: seed / 10, z: 1 });
+const footedOf = (seed: number) => grownOn(OPENING_EYE, { x: seed / 10, z: 1 });
+const footOf = (seed: number) => footedOf(seed).foot;
 const grow = (seed: number): Action => ({
   kind: 'grow',
   species: 'porcini',
   seed,
-  foot: footOf(seed),
+  ...footedOf(seed),
 });
 const feetOf = (meadow: Meadow) =>
   meadow.mushrooms.map(({ id, foot }) => [id, foot]);
@@ -62,7 +64,7 @@ describe('reduce', () => {
       seed: 42,
       species: 'porcini',
       house: EMPTY_HOUSE,
-      foot: footOf(42),
+      ...footedOf(42),
     });
     assert.equal(meadow.selected, 'mushroom-3');
     assert.equal(meadow.picking, false);
@@ -511,7 +513,7 @@ describe('the rain', () => {
   it('shuts the flower picker and changes nothing else', () => {
     const meadow = run(opening(), [
       { kind: 'select', id: 'mushroom-1' },
-      { kind: 'tuft', foot: { x: 0.4, z: 1.3, size: 0.28 } },
+      { kind: 'tuft', foot: planeFootOf({ x: 0.4, z: 1.3, size: 0.28 }) },
     ]);
     assert.ok(meadow.planting);
     const { rain: shower, ...after } = reduce(meadow, rain(1000));

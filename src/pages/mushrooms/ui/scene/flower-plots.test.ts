@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { pick } from '@/shared/lib/collections';
 
 import { reduce } from '../../model/game';
+import { groundFootOf } from '../../model/ground';
 import { openingIndex } from '../../model/placement';
 import { isBeeSown, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';
@@ -184,8 +185,9 @@ describe('a planted flower', () => {
             assertGrounded(seed, stand, there);
             const moved = flowerFeet({ ...stand, layout: there });
             assert.equal(moved.length, feet.length);
-            for (const [at, foot] of moved.entries()) {
-              const own = feet[at];
+            for (const [at, moving] of moved.entries()) {
+              const foot = groundFootOf(moving);
+              const own = feet[at] && groundFootOf(feet[at]);
               assert.ok(
                 own &&
                   Math.abs(foot.x - own.x) < SAME_GROUND &&

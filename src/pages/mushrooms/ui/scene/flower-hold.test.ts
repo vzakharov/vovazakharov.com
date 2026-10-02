@@ -5,7 +5,7 @@ import type { Action } from '../../model/game';
 import type { FlowerFoot } from '../../model/ground';
 import { FlowerHold, LONG_PRESS } from './flower-hold';
 
-const FOOT: FlowerFoot = { x: 10, z: 20, size: 1 };
+const FOOT: FlowerFoot = { x: 10, y: 20, size: 1 };
 
 /** A hold whose finger has stood still for `still()`, with the flower `id` standing at `FOOT`. */
 function holding(still: () => number | undefined) {

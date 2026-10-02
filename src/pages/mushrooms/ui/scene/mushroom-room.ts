@@ -24,7 +24,12 @@ import {
   distanceToEdge,
   type Point,
 } from '../../model/geometry';
-import type { Eye, Ground } from '../../model/ground';
+import {
+  type Eye,
+  type Ground,
+  groundFootOf,
+  groundOfPlane,
+} from '../../model/ground';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
 import {
@@ -35,7 +40,7 @@ import {
 import type { Seeded } from '../../model/random';
 import { aboutFoot } from './bed-place';
 import { capBox } from './cap-cover';
-import { FOREST_SPLAY, placeOf } from './clump-layout';
+import { FOREST_SPLAY, placeOnGround } from './clump-layout';
 import { type Standing, standingAs } from './door-sight';
 import { layoutShown } from './eye-crop';
 import { flowerFeet } from './flower-plots';
@@ -174,7 +179,7 @@ function trialOn(
   foot: Ground,
   grown: Splayed,
 ): Trial | undefined {
-  const place = placeOf(screen.stage.camera, foot);
+  const place = placeOnGround(screen.stage.camera, foot);
   const own = standingAs(place, grown);
   const cap = capBox(own);
   if (cap.left < screen.edges.left || cap.right > screen.edges.right) {
@@ -207,7 +212,7 @@ function shownTrials(
   foot: Ground,
   splays: ReadonlyMap<number, readonly Splayed[]>,
 ): Trial[] | undefined {
-  const { splay } = placeOf(screen.stage.camera, foot);
+  const { splay } = placeOnGround(screen.stage.camera, foot);
   const species = splays.get(splay);
   if (!species) {
     throw new Error(`A forest mushroom stood with splay ${String(splay)}`);
@@ -243,7 +248,7 @@ export function roomFor(
   view?: View,
 ): Ground | undefined {
   const { layout, mushrooms } = stand;
-  const flowers = flowerFeet(stand);
+  const flowers = flowerFeet(stand).map((foot) => groundFootOf(foot));
   const screen = screenOn(layout, view);
   const others = standingOn(mushrooms, layout);
   const splays = speciesOf(seed);
@@ -252,7 +257,7 @@ export function roomFor(
   return pickFoot(seed, {
     ...pick(layout.mushrooms, 'frame'),
     ...pick(screen, 'within'),
-    feet: mushrooms.map(({ foot }) => foot),
+    feet: mushrooms.map(({ foot }) => groundOfPlane(foot)),
     admits: (foot) => {
       if (
         flowers.some((flower) => apartOnScreen(foot, flower) < FLOWER_APART)

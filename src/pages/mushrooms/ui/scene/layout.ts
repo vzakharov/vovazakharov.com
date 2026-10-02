@@ -165,8 +165,8 @@ function keptBed(seed: number, openers: readonly Opener[]): FlowerFoot[] {
   const key = [
     String(seed),
     ...openers.map(
-      ({ foot, species, seed: own }) =>
-        `${String(foot.x)} ${String(foot.z)} ${species} ${String(own)}`,
+      ({ foot, lean, species, seed: own }) =>
+        `${String(foot.x)} ${String(foot.y)} ${String(lean)} ${species} ${String(own)}`,
     ),
   ].join(' ');
   return keptIn(beds, key, () => {

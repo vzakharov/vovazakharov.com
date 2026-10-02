@@ -16,7 +16,7 @@ import {
 import { OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
-import { openingIndex } from '../../model/placement';
+import { grownOn, openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
 import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
@@ -70,7 +70,12 @@ export function opened(
     const own = nextSeed(growing);
     const foot = roomFor(standOf(layout, flowers, meadow), own, view);
     if (!foot) break;
-    meadow = reduce(meadow, { kind: 'grow', species, seed: own, foot });
+    meadow = reduce(meadow, {
+      kind: 'grow',
+      species,
+      seed: own,
+      ...grownOn(OPENING_EYE, foot),
+    });
   }
   return { meadow, ...standOf(layout, flowers, meadow) };
 }

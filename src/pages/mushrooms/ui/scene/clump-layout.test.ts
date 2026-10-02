@@ -3,9 +3,14 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/shared/lib/collections';
 
-import { FRAME_DEPTH, scaleAt } from '../../model/ground';
+import {
+  FRAME_DEPTH,
+  groundOfPlane,
+  OPENING_EYE,
+  scaleAt,
+} from '../../model/ground';
 import { mushroomGenes } from '../../model/mushroom-genes';
-import { openingIndex } from '../../model/placement';
+import { grownOn, openingIndex } from '../../model/placement';
 import { placeIn, placeOf } from './clump-layout';
 import { meadowCamera } from './meadow-camera';
 import { VIEWPORTS, VISITS } from './viewports';
@@ -39,7 +44,7 @@ describe('a forest mushroom', () => {
       const nearer = depths[step - 1];
       if (nearer === undefined) continue;
       const [far, near] = [z, nearer].map((depth) =>
-        placeOf(camera, { x: 0.5, z: depth }),
+        placeOf(camera, grownOn(OPENING_EYE, { x: 0.5, z: depth })),
       );
       assert.ok(far && near);
       assert.ok(far.size < near.size, `z ${z.toFixed(2)}: no smaller`);
@@ -61,7 +66,7 @@ describe('a forest mushroom', () => {
           return place && openingIndex(mushroom.foot) === undefined
             ? [
                 {
-                  ...pick(mushroom.foot, 'z'),
+                  ...pick(groundOfPlane(mushroom.foot), 'z'),
                   cap: mushroomGenes(mushroom).capWidth * place.size,
                 },
               ]

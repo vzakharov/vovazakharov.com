@@ -8,6 +8,7 @@ import {
   type Planting,
   reduce,
 } from '../../model/game';
+import { planeFootOf } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import type { PlayedKey } from './keyboard';
 import {
@@ -203,7 +204,7 @@ describe('a played key with the flower picker open', () => {
   });
 });
 
-const FOOT = { x: 0.3, z: 0.5, size: 1 };
+const FOOT = planeFootOf({ x: 0.3, z: 0.5, size: 1 });
 const F_SHARP: FlowerSound = { kind: 'note', pitchClass: 6 };
 /** Pink's four shapes, standing in for the seeds a colour pick draws. */
 const PINK_SEEDS = [101, 102, 103, 104];

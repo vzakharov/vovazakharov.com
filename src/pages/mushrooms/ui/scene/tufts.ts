@@ -18,7 +18,13 @@ import { pick } from '@/shared/lib/collections';
 import { flowerGenes } from '../../model/flower-genes';
 import { sameFoot } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
-import type { Camera, FlowerFoot, Rooted } from '../../model/ground';
+import {
+  type Camera,
+  type FlowerFoot,
+  groundFootOf,
+  planeFootOf,
+  type Rooted,
+} from '../../model/ground';
 import { between, type Random } from '../../model/random';
 import { bedPlace, depthOf, UNPLACED } from './bed-place';
 import { placeIn } from './clump-layout';
@@ -113,7 +119,10 @@ export function tuftAt<Tufted extends WithTuft>(
  * shows the tuft: at its root, in a seeded flower's size.
  */
 function tuftFoot(camera: Camera, { x, y }: Tuft): FlowerFoot {
-  return { ...groundOf(camera, { x, y, size: 0 }), size: FLOWER_SIZE };
+  return planeFootOf({
+    ...groundOf(camera, { x, y, size: 0 }),
+    size: FLOWER_SIZE,
+  });
 }
 
 /** A tuft grown on `layout` from `random`, anywhere across the world. */
@@ -178,11 +187,11 @@ export function plantableIn(stand: Stand): (sprout: Sprout) => boolean {
   const room = roomIn(stand);
   const bare = bareToTap(stand);
   const standing = flowersOf(stand).map((flower) => ({
-    ...pick(flower, 'foot'),
+    foot: groundFootOf(flower.foot),
     genes: flowerGenes(flower),
   }));
   return ({ foot, tuft }) =>
-    room(foot) && headClear(foot, standing) && bare(tuft);
+    room(foot) && headClear(groundFootOf(foot), standing) && bare(tuft);
 }
 
 /** How many tufts the ground of a meadow seen through `camera` grows (`TUFTS_PER_1000PX`). */
@@ -240,8 +249,8 @@ export function leaveTufts(
 ): readonly Sprout[] {
   const tufts = [...grown, ...left];
   const added: Sprout[] = [];
-  for (const { x, z } of pulledFeet(stand)) {
-    const foot = { x, z, size: FLOWER_SIZE };
+  for (const { x, y } of pulledFeet(stand)) {
+    const foot = { x, y, size: FLOWER_SIZE };
     if (tufts.some((sprout) => sameFoot(sprout.foot, foot))) continue;
     const sprout = sproutOn(stand.layout, foot, random);
     tufts.push(sprout);

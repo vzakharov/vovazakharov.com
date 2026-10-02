@@ -37,24 +37,38 @@ import {
 import { MUSHROOM_SPECIES } from './mushroom-genes';
 import { maxReach, speciesHeight } from './mushroom-pose';
 import { leftAt, openingPan } from './pan';
-import { OPENING_FEET } from './placement';
+import {
+  type Footed,
+  grownOn,
+  OPENING_FEET,
+  OPENING_FOOTING,
+} from './placement';
 
 /** How many steps across and into the distance the frame is walked in. */
 const STEPS = 12;
 
-/** The opening feet, and a grid of feet over `frame` from edge to edge. */
-function feetOver({ across, near, far }: Frame): Ground[] {
+/** A grid of feet over `frame` from edge to edge. */
+function gridOver({ across, near, far }: Frame): Ground[] {
   const steps = Array.from({ length: STEPS + 1 }, (_, step) => step / STEPS);
-  return [
-    ...OPENING_FEET,
-    ...steps.flatMap((down) =>
-      steps.map((side) => {
-        const z = near + down * (far - near);
-        return { x: ((side * 2 - 1) * across) / scaleAt(z), z };
-      }),
-    ),
-  ];
+  return steps.flatMap((down) =>
+    steps.map((side) => {
+      const z = near + down * (far - near);
+      return { x: ((side * 2 - 1) * across) / scaleAt(z), z };
+    }),
+  );
 }
+
+/** The opening feet, and a grid of feet over `frame` from edge to edge. */
+const feetOver = (frame: Frame): Ground[] => [
+  ...OPENING_FEET.map((foot) => groundOfPlane(foot)),
+  ...gridOver(frame),
+];
+
+/** `feetOver` as mushrooms stand on them, grown at the opening eye. */
+const footedOver = (frame: Frame): Footed[] => [
+  ...OPENING_FOOTING,
+  ...gridOver(frame).map((ground) => grownOn(OPENING_EYE, ground)),
+];
 
 /** Each screen as its name and size, and turned. */
 const SCREENS = VIEWPORTS.flatMap(([name, width, height]) => [
@@ -109,8 +123,9 @@ describe('the world', () => {
     it(`stands on a ${name} screen's world, every cap on its frame inside the world's edge margin`, () => {
       const camera = meadowCamera(width, height);
       const past: string[] = [];
-      for (const foot of feetOver(MEADOW_FRAME)) {
-        const { x, y, size, splay } = placeOf(camera, foot);
+      for (const footed of footedOver(MEADOW_FRAME)) {
+        const foot = groundOfPlane(footed.foot);
+        const { x, y, size, splay } = placeOf(camera, footed);
         const { toward, away } = maxReach(splay);
         const [left, right] = splay < 0 ? [toward, away] : [away, toward];
         const at = `foot ${foot.x.toFixed(2)}, ${foot.z.toFixed(2)}`;
@@ -400,11 +415,12 @@ describe('a turn', () => {
         const stand = opened(seed, width, height, true);
         const turned = relaidOn(stand, seed, height, width);
         const at = `visit ${String(seed)}`;
-        for (const { id, foot } of stand.mushrooms) {
-          const place = placeIn(turned.mushrooms, { foot });
+        for (const mushroom of stand.mushrooms) {
+          const { id, foot } = mushroom;
+          const place = placeIn(turned.mushrooms, mushroom);
           assert.ok(place, `${at}: ${id} off the turned world`);
           assert.ok(
-            same(groundOf(turned.camera, place), foot),
+            same(groundOf(turned.camera, place), groundOfPlane(foot)),
             `${at}: ${id} moved`,
           );
         }
@@ -414,7 +430,7 @@ describe('a turn', () => {
         for (const [index, foot] of moved.entries()) {
           const own = feet[index];
           assert.ok(
-            own && same(foot, own),
+            own && same(groundOfPlane(foot), groundOfPlane(own)),
             `${at}: flower ${String(index)} moved`,
           );
         }

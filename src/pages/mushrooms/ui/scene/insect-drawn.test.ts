@@ -2,7 +2,12 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { framedOf } from '../../model/flight-frame';
-import { CLUMP_DISTANCE, OPENING_EYE, project } from '../../model/ground';
+import {
+  CLUMP_DISTANCE,
+  groundOfPlane,
+  OPENING_EYE,
+  project,
+} from '../../model/ground';
 import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, onHost } from './bed-place';
 import { drawnInsect, type LegFlight } from './insect-drawn';
@@ -70,7 +75,7 @@ describe('drawnInsect', () => {
 
   it('draws a sitter where its host draws its seat, sunk by its bob, its nectar unzoomed about it', () => {
     const foot = OPENING_FEET[0];
-    const { x, y } = project(view, foot);
+    const { x, y } = project(view, groundOfPlane(foot));
     const on = { laidFoot: { x, y }, stands: bedPlace(view, foot) };
     const laid = { x, y: y - 60 };
     const nectar = { x: x + 10, y: y - 55 };

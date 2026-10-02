@@ -28,7 +28,7 @@ import {
   mushroomGenes,
   type Species,
 } from './mushroom-genes';
-import { type Footed, OPENING_FEET } from './placement';
+import { type Footed, OPENING_FOOTING } from './placement';
 import { plantedId, type Sown } from './pollen';
 import type { Random, Seeded } from './random';
 import { type Rain, RAIN_MS, raining } from './weather';
@@ -49,7 +49,7 @@ export type Planted = Mushroom & Housed & Footed;
 type Chosen = Coloured & { seeds: readonly number[] };
 
 /**
- * Where the flower picker is open, as a foot on the ground, while it waits:
+ * Where the flower picker is open, as a foot on the plane, while it waits:
  * for a colour while `chosen` is `undefined`, then for a shape. On a tuft the
  * child tapped, `flower` is `undefined`; on a flower the child held, it is
  * that flower's id, which a pick replaces and the cross pulls up.
@@ -118,7 +118,7 @@ export function firstMeadow(random: Random): Meadow {
   const mushrooms = firstMushrooms(random).map((mushroom, index) => ({
     ...mushroom,
     house: EMPTY_HOUSE,
-    foot: OPENING_FEET[index] ?? OPENING_FEET[0],
+    ...(OPENING_FOOTING[index] ?? OPENING_FOOTING[0]),
   }));
   return {
     mushrooms,
@@ -233,9 +233,9 @@ const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>
 const flowersShut = (meadow: Meadow): Meadow =>
   meadow.planting === undefined ? meadow : { ...meadow, planting: undefined };
 
-/** Whether `a` and `b` are the one foot on the ground. */
+/** Whether `a` and `b` are the one foot on the plane, by the stored numbers. */
 export const sameFoot = (a: FlowerFoot, b: FlowerFoot): boolean =>
-  a.x === b.x && a.z === b.z && a.size === b.size;
+  a.x === b.x && a.y === b.y && a.size === b.size;
 
 /** Every picker shut: the mushrooms', the house's and the flowers'. */
 const PICKERS_SHUT = {
@@ -346,12 +346,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       if (isFull(meadow)) return { ...meadow, picking: false };
       const grown = meadow.grown + 1;
       const id = `mushroom-${grown}`;
-      const { species, seed, foot } = action;
+      const { species, seed, foot, lean } = action;
       return {
         ...meadow,
         mushrooms: [
           ...meadow.mushrooms,
-          { id, seed, species, house: EMPTY_HOUSE, foot },
+          { id, seed, species, house: EMPTY_HOUSE, foot, lean },
         ],
         selected: id,
         picking: false,

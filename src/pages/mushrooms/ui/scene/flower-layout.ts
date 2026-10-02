@@ -24,6 +24,9 @@ import {
   type Camera,
   type FlowerFoot,
   type Framed,
+  type GroundFoot,
+  groundFootOf,
+  planeFootOf,
   project,
   scaleAt,
   UP_PER_Z,
@@ -121,14 +124,19 @@ function cameraOf({
   return { width, height, groundTop, ground, world, midline: world / 2, unit };
 }
 
-/** Where `foot` stands on the screen `camera` shows, and how big. */
-export function standingOn(camera: Camera, foot: FlowerFoot): Footing {
+/** Where the layout's `foot` stands on the screen `camera` shows, and how big. */
+function standingOnGround(camera: Camera, foot: GroundFoot): Footing {
   const { x, y, scale } = project(camera, foot);
   return { x, y, size: foot.size * scale };
 }
 
-/** The ground a screen's footing stands on through `camera`: `standingOn` undone. */
-export function groundOf(camera: Camera, { x, y, size }: Footing): FlowerFoot {
+/** Where `foot` stands on the screen `camera` shows, and how big. */
+export function standingOn(camera: Camera, foot: FlowerFoot): Footing {
+  return standingOnGround(camera, groundFootOf(foot));
+}
+
+/** The layout's ground a screen's footing stands on through `camera`: `standingOn` undone. */
+export function groundOf(camera: Camera, { x, y, size }: Footing): GroundFoot {
   const near = project(camera, { x: 0, z: 0 });
   const far = project(camera, { x: 0, z: 1 });
   const z = (y - near.y) / (far.y - near.y);
@@ -163,8 +171,8 @@ function leastRise(depth: number, low: number, high: number): number {
  * Syama drew being two stems standing together.
  */
 export function clearOfFeet(
-  flower: FlowerFoot,
-  feet: readonly FlowerFoot[],
+  flower: GroundFoot,
+  feet: readonly GroundFoot[],
 ): boolean {
   const own = scaleAt(flower.z);
   const stem = flower.size * own;
@@ -185,8 +193,8 @@ export function clearOfFeet(
  * head of every flower at `others`, on every screen.
  */
 export function headsApart(
-  place: FlowerFoot,
-  others: readonly FlowerFoot[],
+  place: GroundFoot,
+  others: readonly GroundFoot[],
 ): boolean {
   const own = place.size * scaleAt(place.z);
   return others.every((other) => {
@@ -207,8 +215,8 @@ export function headsApart(
  * screen: however far its stem bends toward one, and its head at its widest.
  */
 export function headClear(
-  place: FlowerFoot,
-  others: ReadonlyArray<{ foot: FlowerFoot; genes: FlowerGenes }>,
+  place: GroundFoot,
+  others: ReadonlyArray<{ foot: GroundFoot; genes: FlowerGenes }>,
 ): boolean {
   const own = place.size * scaleAt(place.z);
   const bend = FLOWER_RANGES.stemBend[1] * own;
@@ -324,8 +332,8 @@ function spotOn(
   half: number,
   [index, [across, down]]: readonly [number, Spot],
   seed: number,
-  placed: readonly FlowerFoot[],
-): FlowerFoot | undefined {
+  placed: readonly GroundFoot[],
+): GroundFoot | undefined {
   const { frame, controls, clump } = opening;
   const camera = cameraOf(opening);
   const feet = clump.map(({ place }) => groundOf(camera, place));
@@ -341,7 +349,7 @@ function spotOn(
       z,
       size: FLOWER_SIZE,
     };
-    const flower = standingOn(camera, foot);
+    const flower = standingOnGround(camera, foot);
     if (
       clearOfFeet(foot, feet) &&
       headsApart(foot, placed) &&
@@ -355,17 +363,17 @@ function spotOn(
 }
 
 /**
- * The visit's seeded flowers on the ground, placed once on `opening`: the
+ * The visit's seeded flowers' feet on the plane, laid out once on `opening`'s ground: the
  * left half's slots, then the right's, each flower at its slot's first spot
  * there that a child sees (`spotOn`), left out when it has none.
  */
 export function seededBed(opening: FlowerGround, seed: number): FlowerFoot[] {
-  const bed: FlowerFoot[] = [];
+  const bed: GroundFoot[] = [];
   for (let half = 0; half < BED_HALVES; half++) {
     for (const slot of FLOWER_SPOTS.entries()) {
       const foot = spotOn(opening, half, slot, seed, bed);
       if (foot) bed.push(foot);
     }
   }
-  return bed;
+  return bed.map((foot) => planeFootOf(foot));
 }

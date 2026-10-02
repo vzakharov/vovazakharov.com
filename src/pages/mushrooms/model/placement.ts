@@ -7,25 +7,64 @@
  * is the scene's to judge (`admits`); nothing here knows how it is drawn.
  */
 
-import { type Frame, type Framed, type Ground, scaleAt, seen } from './ground';
+import type { Point } from './geometry';
+import {
+  type Eye,
+  type Frame,
+  type Framed,
+  type Ground,
+  planeOf,
+  scaleAt,
+  seen,
+  unanchored,
+} from './ground';
 import { mulberry32, type Random } from './random';
 
 /**
- * Where the opening clump's two fly agarics stand, back foot then front:
- * close together, the back one a step farther off, as in the drawing.
+ * Where the opening clump's two fly agarics stand on the plane, back foot
+ * then front: close together, the back one a step farther off, as in the
+ * drawing, which lays them out at these feet on the ground.
  */
-export const OPENING_FEET = [
+const OPENING_GROUND = [
   { x: 0, z: 0.24 },
   { x: -0.03, z: 0 },
 ] as const satisfies readonly [Ground, Ground];
+export const OPENING_FEET: readonly [Point, Point] = [
+  planeOf(OPENING_GROUND[0]),
+  planeOf(OPENING_GROUND[1]),
+];
 
-/** Where a mushroom stands for its whole life, on the ground. */
-export type Footed = { foot: Ground };
+/** Which way a mushroom leans for its whole life: its splay's sign. */
+export type Lean = -1 | 1;
 
-/** Which of `OPENING_FEET` `foot` is, or `undefined` for one the forest grew on. */
-export function openingIndex(foot: Ground): number | undefined {
+/** Where a mushroom stands for its whole life, on the plane, and which way it leans. */
+export type Footed = { foot: Point; lean: Lean };
+
+/** The opening pair as they stand, their stems crossing: the back one leaning left, the front one right. */
+export const OPENING_FOOTING: readonly [Footed, Footed] = [
+  { foot: OPENING_FEET[0], lean: -1 },
+  { foot: OPENING_FEET[1], lean: 1 },
+];
+
+/**
+ * A mushroom grown at `ground` in the layout anchored at `eye` (`anchored`):
+ * its foot on the plane, and its lean by the side of that eye's line of
+ * sight it grew on, fixed whichever eye later sees it.
+ */
+export function grownOn(eye: Eye, ground: Ground): Footed {
+  return {
+    foot: unanchored(eye, planeOf(ground)),
+    lean: ground.x < 0 ? 1 : -1,
+  };
+}
+
+/**
+ * Which of `OPENING_FEET` `foot` is, or `undefined` for one the forest grew
+ * on: by the stored numbers, which no conversion has rounded.
+ */
+export function openingIndex(foot: Point): number | undefined {
   const index = OPENING_FEET.findIndex(
-    ({ x, z }) => x === foot.x && z === foot.z,
+    ({ x, y }) => x === foot.x && y === foot.y,
   );
   return index === -1 ? undefined : index;
 }

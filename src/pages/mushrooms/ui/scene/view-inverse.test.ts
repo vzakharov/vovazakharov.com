@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Eye, OPENING_EYE, project } from '../../model/ground';
+import {
+  type Eye,
+  groundOfPlane,
+  OPENING_EYE,
+  project,
+} from '../../model/ground';
 import { OPENING_FEET } from '../../model/placement';
 import { meadowCamera } from './meadow-camera';
 import { ofLayout, viewAt } from './view';
@@ -46,7 +51,8 @@ describe('the view run backwards', () => {
     it(`finds each opening foot where the opening crop shows it on ${name}`, () => {
       const view = viewAt(camera, OPENING_EYE);
       const left = (camera.world - camera.width) / 2;
-      for (const foot of OPENING_FEET) {
+      for (const plane of OPENING_FEET) {
+        const foot = groundOfPlane(plane);
         const shown = project(camera, foot);
         const ground = groundUnder(view, { ...shown, x: shown.x - left });
         assert.ok(ground);

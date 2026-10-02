@@ -10,8 +10,10 @@ import {
   type Eye,
   OPENING_EYE,
   pinholeOf,
+  planeFootOf,
 } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
+import { grownOn } from '../../model/placement';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
@@ -75,7 +77,7 @@ function offFoot(camera: Camera, { foot, tuft }: Sprout): number {
 }
 
 const sprout = (x: number, y: number, size: number): Sprout => ({
-  foot: { x, z: 0, size: FLOWER_SIZE },
+  foot: planeFootOf({ x, z: 0, size: FLOWER_SIZE }),
   tuft: { x, y, size, phase: 0, flank: 0, middle: 0, crown: 0 },
 });
 
@@ -252,7 +254,12 @@ function turned(
     const species =
       MUSHROOM_SPECIES[Math.floor(random() * MUSHROOM_SPECIES.length)] ??
       'fly-agaric';
-    return actedOn(stand, { kind: 'grow', species, seed: own, foot });
+    return actedOn(stand, {
+      kind: 'grow',
+      species,
+      seed: own,
+      ...grownOn(OPENING_EYE, foot),
+    });
   }
   if (roll < 0.4) return actedOn(stand, { kind: 'remove' });
   if (roll < 0.65) {
@@ -477,7 +484,7 @@ describe('the ground’s grass', () => {
           const [spot] = leaving;
           assert.ok(spot);
           assert.deepEqual(spot.foot, {
-            ...pick(flower.foot, 'x', 'z'),
+            ...pick(flower.foot, 'x', 'y'),
             size: FLOWER_SIZE,
           });
           const back = tendTufts(pulled, [...grown, ...leaving]);

@@ -15,10 +15,8 @@ import {
   EYE_HEIGHT,
   type Eyed,
   gathered,
-  type Ground,
   pinholeOf,
   planeOf,
-  scaleAt,
   spread,
   type Viewed,
   viewOf,
@@ -76,14 +74,13 @@ export function placedAt(
   };
 }
 
-/** Where `view` places a thing standing on `foot`, `height` above the ground in the clump's size. */
-export function ofGround(view: View, foot: Ground, height = 0): Placed {
-  return placedAt(
-    view,
-    planeOf(foot),
-    height,
-    CLUMP_DISTANCE / scaleAt(foot.z),
-  );
+/**
+ * Where `view` places a thing standing on `foot`, on the plane, `height`
+ * above the ground in the clump's size, laid out where the opening crop's
+ * pinhole stands it.
+ */
+export function ofGround(view: View, foot: Point, height = 0): Placed {
+  return placedAt(view, foot, height, gathered(foot).y);
 }
 
 /**

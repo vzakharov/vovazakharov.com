@@ -10,11 +10,11 @@ import {
   type Planting,
   reduce,
 } from './game';
-import type { FlowerFoot } from './ground';
+import { type FlowerFoot, planeFootOf } from './ground';
 import { mulberry32 } from './random';
 
-const TUFT = { x: 0.4, z: 1.3, size: 0.28 };
-const OTHER_TUFT = { x: -0.6, z: 0.8, size: 0.28 };
+const TUFT = planeFootOf({ x: 0.4, z: 1.3, size: 0.28 });
+const OTHER_TUFT = planeFootOf({ x: -0.6, z: 0.8, size: 0.28 });
 const seeds = shapeSeeds(mulberry32(7), 'blue');
 const [roundOne, , pointedOne] = FLOWER_SHAPES;
 const SIGHT = { flowers: [], air: [], crowded: [], room: [] };
@@ -94,7 +94,7 @@ describe('the flower picker', () => {
     const planted = Array.from({ length: 40 }, (_, index) => ({
       id: `planted-${String(index + 1)}`,
       seed: index,
-      foot: { x: index, z: 1, size: 0.28 },
+      foot: planeFootOf({ x: index, z: 1, size: 0.28 }),
     }));
     const open = run(
       [
