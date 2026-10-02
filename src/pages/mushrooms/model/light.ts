@@ -28,10 +28,9 @@ export function sunLight({
 }
 
 /**
- * `light`, as the opening eye sees it, seen from an eye facing `heading`
- * (`Eye`'s): its across share is the sun's azimuth off the heading,
- * `sin(α − heading)`, `α` the azimuth the opening eye sees it at, ahead of
- * it; its height stays. At the opening heading it is `light` exactly.
+ * `light`, as the opening eye sees it, seen from an eye facing `heading`: its
+ * across share `sin(α − heading)`, `α` the sun's azimuth as the opening eye
+ * sees it, its height kept. At the opening heading it is `light` exactly.
  */
 export function headedLight<Headed extends Light>(
   light: Headed,

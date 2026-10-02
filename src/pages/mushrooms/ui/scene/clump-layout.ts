@@ -198,11 +198,9 @@ export type Laid = Placement & { opening: number };
 const LAID_GROUND: Ground = { x: 0, z: 0 };
 
 /**
- * Where a bed lays `footed` out to paint it (`Laid`): one of the opening
- * clump as the opening eye stands it; any other at the clump's distance in
- * a frame of its own, `FOREST_SIZE` of the clump's size, so it is painted
- * once wherever it stands, the view drawing it smaller the farther it is,
- * and no anchor it is later judged from repaints it.
+ * Where a bed lays `footed` out to paint it (`Laid`): one of the opening clump
+ * as the opening eye stands it; any other at the clump's distance in a frame
+ * of its own, so it is painted once wherever it stands and the view scales it.
  */
 export function laidOf(camera: Camera, footed: Footed): Laid {
   const opening = openingIndex(footed.foot);

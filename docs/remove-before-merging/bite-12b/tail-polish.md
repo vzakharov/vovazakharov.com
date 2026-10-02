@@ -64,8 +64,22 @@ at f680c86a; only the run's final commit is a bare `polish:`.
   header 15 → 9 lines; `checkWatch`, `checkPops`, `checkBack`, `REST_LOOK`
   and the probe's hitch timing tightened; `play-walk.ts` header rewrapped.
 
-## Left
+- `src/`: tightened `anchor.ts` header, `anchored`, `headedLight`,
+  `placesSetOff`, `tick` (rewrap); `anchoredStand` 12 → 7 lines,
+  `STAND_REACH`; `air-spots.ts` `latticeOf`, `namedCell`, `airOf`;
+  `laidOf`; `bentTurn`; `plantableIn`. Cut restating docs on `standingAt`
+  and `Stood`. Read so far: all of `model/`, and in `ui/scene/` up to
+  `tending.ts` alphabetically, plus `air-spots`, `anchored-stand`,
+  `clump-layout`, `insect-drawn`.
 
-- `/tend-prose` existence and tightness over `src/` added doc blocks.
+## Left (tail-polish3 stopped at its 170k line)
+
+- Restating one-liners found, not yet cut: `lawn.ts` `cellOf`, `cellTufts`;
+  `mottles.ts` `MOTTLES_PER_CELL`; `perch-crowding.test.ts` `apartEvenly`;
+  `draw-flower.ts` `drawIn`.
+- Blocks past ~4 lines still to tighten: `tuft-tap.ts` `bareToTap` (8),
+  `bed-place.ts` `SIDE_OVERHANG`/`offSides`, `mottles.ts` `shownMottles`
+  doc (6), `lawn.ts` `LIVE_REACH`, `tufts.ts` header and `follow` doc,
+  `flower-plots.ts` `ringFoot`, `flower-shown.ts` `Laid` member doc.
 - The run's last commit must be a bare `polish:` (or
   `polish: nothing to change`) so the floor moves.

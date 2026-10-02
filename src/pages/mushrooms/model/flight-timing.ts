@@ -98,14 +98,11 @@ export function placesFlying(
 
 /**
  * `places` as a leg the insect called `id` sets off on at `now`, from the
- * perch of `leg`, is timed from: its away spots its own (`aways`), where
- * the sight gives them; cut off before `leg` arrives, that perch stands
- * where the scene drew the insect (`drawn`), which steers every flight, so
- * neither share of the way nor of the time finds the point; landed on a
- * perch the sight no longer places (the eye turned off it), that perch
- * stands where the scene drew the insect too, so the way it is drawn
- * from is the way it is timed over; where the sight places the insect
- * nowhere, where `placesFlying` reckons it.
+ * perch of `leg`, is timed from: its away spots its own (`aways`), where the
+ * sight gives them. Cut off before `leg` arrives (`drawn` steers every
+ * flight, so no share of the way or the time finds the point), or landed on a
+ * perch the sight no longer places, that perch stands where the scene drew
+ * the insect; placed nowhere by the sight, where `placesFlying` reckons it.
  */
 export function placesSetOff(
   { places, drawn, aways }: Placed,

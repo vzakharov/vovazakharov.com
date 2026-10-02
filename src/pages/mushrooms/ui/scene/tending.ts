@@ -55,12 +55,10 @@ function stoodAt(layout: MeadowLayout, tuft: Tuft, foot: Footing): Tuft {
 }
 
 /**
- * Whether a tuft of `stand` stands there, a spot to plant on, as the anchor
- * of `eye` judges it (`anchoredStand`): its foot, moved with the anchor, has
- * ground and takes a flower (`roomIn`) whose head, however it grows, meets
- * no standing flower's on any screen (`headClear`), and its tuft, re-stood
- * at the moved foot, is bare to a finger (`bareToTap`). What `stand` holds
- * is read once, for every tuft asked after.
+ * Whether a tuft of `stand` is a spot to plant on, as the anchor of `eye`
+ * judges it (`anchoredStand`): its moved foot has ground and room (`roomIn`)
+ * for a flower whose head never meets a standing one's (`headClear`), and its
+ * re-stood tuft is bare to a finger (`bareToTap`). `stand` is read once.
  */
 export function plantableIn(
   stand: Stand,
