@@ -3,9 +3,9 @@
 The rain bite's contract, written ahead of it and moved verbatim out of the plan's `## Rest of the elephant`.
 
 13. **Rain** — the shower itself; what it leaves behind is item 14. Cut
-    there because item 12 as written was four packages (weather, the
-    shower's look and sound, shelter, sprouting), and a bite past two runs
-    into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
+    there because the whole of it is four packages (weather, the shower's
+    look and sound, shelter, sprouting), and a bite past two runs into the
+    budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
 
     **Behaviour.**
     - **A tap on any cloud starts the rain.** The tapped cloud darkens
@@ -35,28 +35,29 @@ The rain bite's contract, written ahead of it and moved verbatim out of the plan
       centre over ~1.5 s, reopening as it stops — and stays playable as an
       instrument; every mushroom's cap swells ~6% and settles back. Both
       are clock functions of the shower, so a resize or a walk never
-      interrupts them. Insects carry on as before this bite.
+      interrupts them. Insects carry on through the shower; sheltering is
+      item 14.
     - **When it stops** the wash lifts and a rainbow fades in over the sky
       opposite the sun (at `α_sun + π`, so the child turns her back to the
       sun to see it), as concentric bands, holds ~8 s and fades over ~3 s. A
       new tap on a cloud while the rainbow shows starts a new shower and
       fades it out.
 
-    **Model — built (5c9f2e9), before walking took bite 12.** `Meadow`
-    has `rain: Rain | undefined`, `{ startedAt, stopsAt }` in the insects'
-    ms clock (not `start`, which `pan.ts` holds as a position);
+    **Model — built (5c9f2e9).** `Meadow` has `rain: Rain | undefined`,
+    `{ startedAt, stopsAt }` in the insects' ms clock (not `start`, which
+    `pan.ts` holds as a position);
     `{ kind: 'rain' } & Timed` starts it or pushes `stopsAt` to
     `now + RAIN_MS` and shuts the flower picker. `model/weather.ts` gives
     `raining`, `wetness`, `downpour` (drops, on over 0.6 s, off at
     `stopsAt`) and `rainbow` as pure functions of the span and the clock;
-    `tick` is untouched. Left to the scene: the rainbow a new shower
+    `tick` reads none of it. Left to the scene: the rainbow a new shower
     starts under drops to 0 at once, so its fade-out is the scene's to
     hold; drops in the air finish falling after `stopsAt`.
 
     **Scene.** A rain bed module (`rain-view.ts` and what it needs beside it)
     owns the cloud hit areas, the darkening, the wash, the drops, the
-    splashes and the rainbow; `meadow-scene.ts` (429 lines) only wires it,
-    staying under ~450. Cloud hit areas are the cloud's circle where the
+    splashes and the rainbow; `meadow-scene.ts`, at ~450 lines, only wires
+    it. Cloud hit areas are the cloud's circle where the
     view draws it, at least `TAP_RADIUS`, the lowest priority: a control, a
     mushroom, a flower or an insect over a cloud takes the tap. Closing petals in `draw-flower.ts`,
     the swell where the caps are scaled; colours in `palette-backdrop.ts`

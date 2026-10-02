@@ -66,8 +66,9 @@ Bite 12's contract as the plan first wrote it, built: walking, the spec's settle
      tuft in reach, which opens the picker. No tuft stands where no flower
      fits by bite 10's rules — beside a flower, under a cap — and one goes
      when something grows beside it («лучше просто убрать травинки где
-     нельзя»), so no tuft ever refuses. The tuft the picker is open on keeps its cream glow;
-     a planted flower takes its tuft's place. No bud anywhere.
+     нельзя»), so no tuft ever refuses. The tuft the picker is open on
+     keeps its cream glow; a planted flower takes its tuft's place. No bud
+     anywhere.
    - **The keyboard plays only the flowers in front of you (P3).** A note
      or drum key sounds only through a flower in the current view with
      that pitch class or drum, and that flower answers as to a tap; with

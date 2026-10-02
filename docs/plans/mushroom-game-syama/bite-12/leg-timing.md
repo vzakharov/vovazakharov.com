@@ -45,8 +45,9 @@ and the hand-over note that holds its numbers (under
    speed bound for a leg is divided by `1 − s`, `s = PIVOT_SHARE·|lifted|/π`
    the share its own turn takes, derived from the constant (1fdf65a built it
    all-or-nothing; `v19-pivot-watch.md` found that hid phoneP fly-18, a
-   1.27× dart after a 0.04 rad turn, so it goes proportional). A fly darting off after it turns is a fly; the operator judges the
-   look on `to-check.md` ("Из прогона v18"). Beaten: a pivot timed outside
+   1.27× dart after a 0.04 rad turn, so it goes proportional). A fly
+   darting off after it turns is a fly; the operator judges the look on
+   `to-check.md` ("Из прогона v18"). Beaten: a pivot timed outside
    the flight (moves every landing, and the model does not know the turn,
    which the scene takes from how the flier sat); the path moving during the
    pivot (changes every take-off's look for a 25% peak).

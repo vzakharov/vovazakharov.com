@@ -24,9 +24,8 @@ What it takes:
   of the child (`roomFor` already judges the screen by the view), and the
   patch and room rules judged at the opening eye move to the current one.
 - **Light by heading** through bite 12's repaint queue (a high sun, side
-  component `sin(heading − α_sun)`), and the ground's **mottles back as
-  objects on the plane**, gone since bite 12 made the ground screen-fixed
-  rows.
+  component `sin(heading − α_sun)`), and the ground's **mottles as objects
+  on the plane**, over bite 12's screen-fixed rows.
 - **The insects on the plane.** Legs with height, air spots round the eye,
   entry from the view's edge, take-offs panned by azimuth; the layout-px
   adapter in `insect-view.ts` retires, and with it bite 12's accepted cases
