@@ -3,6 +3,7 @@ description: How long-form markdown under apps/<site>/public/<collection>/ becom
 paths:
   - apps/*/public/case-studies/**
   - apps/bible/public/**
+  - apps/basilisk/public/**
   - apps/*/public/music/**
   - src/pages/music/**
   - apps/*/app/music/**
@@ -12,6 +13,7 @@ paths:
   - src/pages/cv/**
   - apps/*/app/case-studies/**
   - apps/bible/app/**
+  - apps/basilisk/app/**
   - scripts/render-mermaid.ts
   - scripts/render-og.ts
   - scripts/render-pdf.ts
