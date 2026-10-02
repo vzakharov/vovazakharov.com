@@ -6,15 +6,23 @@ Contract: the plan's § "Rest of the bite" → "The operator's play of version
 ## Done
 
 1. **The dash softened** — the fly's `dashing` in `model/flight-habits.ts`
-   goes from `{ time: 0.2, way: 0.85 }` to `{ time: 0.3, way: 0.85 }`: the
-   same 85% of the way, over half as long again, so the burst's peak drops
-   by a third. A leg's time is untouched (its length at `cruising` 5). The
-   curve's own fastest frame (`scripts/lib/veer-dash.ts`'s `dashPeak`,
-   which samples `flightPoint` and so moves with the habit by itself) goes
-   0.694 → 0.460 butterfly sizes a frame (41.6 → 27.6 px at 60 px a size);
-   the bee's stays 0.391. The coming-in, `cruising · (1 − way) / (1 − time)`,
-   goes 0.94 → 1.07 sizes a second — still near the size a second the catch
-   bound wants, under the bee's 1.25.
+   goes from `{ time: 0.2, way: 0.85 }` to `{ time: 0.24, way: 0.85 }`: the
+   same 85% of the way over a fifth longer, so the burst's peak drops by
+   17%. A leg's time is untouched (its length at `cruising` 5). The curve's
+   own fastest frame (`scripts/lib/veer-dash.ts`'s `dashPeak`, which samples
+   `flightPoint` and so moves with the habit by itself — nothing there
+   needed editing) goes 0.694 → 0.577 butterfly sizes a frame (41.6 →
+   34.6 px at 60 px a size); the bee's stays 0.391. The coming-in goes
+   0.94 → 0.99 sizes a second.
+   - **Why not lower: the catch test bounds it.** `fliers.test.ts`' "caught
+     by a tap … seven times in ten" fails for the fly once its dash takes
+     more than ~0.24 of the flight, since a tap 200 ms late never catches it
+     mid-dash. Measured (fly's catch share, five screens): `0.3/0.85` →
+     0.66–0.69 on all five (peak 0.460, −34%); `0.3/0.9` and `0.3/0.92` the
+     same (peaks 0.493, 0.506); `0.28/0.9` fails two (0.674, 0.697);
+     `0.25/0.85` and `0.24/0.82` fail one; `0.24/0.8`, `0.23/0.8` fail one;
+     `0.24/0.85` passes all. A softer dash than this means loosening the
+     catch bound (to ~0.65 for `0.3`), which is the operator's call.
 
 2. **A fly never hangs still** — it fit the flight model without reopening
    it. A kind's habits carry `hopping: Hops | undefined`
@@ -41,4 +49,4 @@ Contract: the plan's § "Rest of the bite" → "The operator's play of version
 
 ## Left
 
-3. `fliers.test.ts`, the tabL play and its frames.
+3. The tabL play and its frames. (`fliers.test.ts`: 48/48 at the settled dash.)

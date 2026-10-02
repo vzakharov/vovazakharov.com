@@ -63,13 +63,14 @@ export type Habits = {
  * them and carry pollen between them. Hovers are long enough that on a
  * small screen few insects in the air move at once. Each cruises at its
  * own speed whatever the way, a fly fastest and a butterfly slowest; a fly
- * darts most of the way in three tenths of its flight, a dash long and low
- * enough not to read as a jerk, and a bee a little less of it in a fifth,
- * each coming in to its perch slower, so a finger can catch it most of the
- * time. That catch bounds both numbers: the coming-in, `cruising` times
- * `(1 - way) / (1 - time)`, stays near a size a second, or on a screen with
- * big insects (a tablet held upright) a tap 200 ms late misses, and the
- * dash's own speed, `cruising` times `way / time`, is what reads as fast.
+ * darts most of the way in a little under a quarter of its flight and a bee
+ * a little less of it in a fifth, each coming in to its perch slower, so a
+ * finger can catch it most of the time. That catch bounds both numbers: the
+ * coming-in, `cruising` times `(1 - way) / (1 - time)`, stays near a size a
+ * second, or on a screen with big insects (a tablet held upright) a tap
+ * 200 ms late misses; and no flier is caught mid-dash, so a dash longer than
+ * the fly's drops its catch under seven in ten. The dash's own speed,
+ * `cruising` times `way / time`, is what reads as fast, or as sharp.
  */
 export const FLIGHT_HABITS = {
   butterfly: {
@@ -90,7 +91,7 @@ export const FLIGHT_HABITS = {
     flying: [600, 1100],
     stride: 0.9,
     cruising: 5,
-    dashing: { time: 0.3, way: 0.85 },
+    dashing: { time: 0.24, way: 0.85 },
     drinking: [1500, 4000],
     hovering: [2000, 4500],
     hopping: { every: 280, range: 0.7 },

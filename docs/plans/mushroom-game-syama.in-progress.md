@@ -373,7 +373,14 @@ The footstep level held in the operator's earlier play («когда играл 
 1b. The version-14 packages above: `v14-strafe`, `v14-insect-depth` (brow
    sink and shadows), `v14-fly` (no hover, softer dash). Notes beside
    `brief-common.md`.
-2. The five-screen play run at the final HEAD, after 1b, one screen per call, its frames
+1c. The new reds `play-final2.md` found on the tablets at 483be26, once 1b's
+   insect packages land (they own the files): insects flipping ~3 rad in
+   one frame, facing off their way of flight and resting crooked (a child
+   sees that one); no butterfly resting on a cap on tabL; tabP's hold play
+   pressing a flower not drawn; a faint pale line across the sky at
+   ~280–294 px. The tabL size minimums predate sizing by distance: update
+   the check, not the game.
+2. The five-screen play run at the final HEAD, after 1b and 1c, one screen per call, its frames
    committed (`play-final.md`; ~9 min on tabL): spec §4's opening identity, the
    walk to a back-row mushroom and a tap on its drawn cap, an insect after
    180°, the frame budget walking into the forest; the phoneL edge flower
