@@ -2,10 +2,10 @@
  * Walking, `play-mushrooms.ts`'s run on a fresh meadow: `↑` held walks the
  * eye toward the clump and `↓` held 12 s walks it back `STRIDE_CRUISE` a
  * second, eased in and out, the field having no edge to stop it, the camera
- * bobbing only while it walks and a footstep per step; `→` held
- * turns it one way, never past `TURN_CRUISE`, all the way round, the sun
- * leaving the screen and coming back, and `←` held as long turns it back
- * onto every bed object as it stood; a sideways drag from bare ground turns
+ * bobbing only while it walks and a footstep per step; `→` held turns it one
+ * way, never past `TURN_CRUISE`, all the way round, the sun leaving the screen
+ * and coming back, and `←` held as long turns it back onto every bed object
+ * as it stood; a sideways drag from bare ground turns
  * it with the ground under the finger and a drag down the screen walks it,
  * never faster than `STRIDE_CRUISE`, neither tapping anything, nor a drag
  * with a mushroom selected or the flower picker open on a tuft; a sideways
@@ -284,11 +284,9 @@ function goneAlong(from: Seen, to: Seen, heading: number): number {
 }
 
 /**
- * `↓` held `BACK_HELD` s from `from`, `seen` frame by frame through its
- * glide to rest: straight back along the heading, by the let-go
- * `STRIDE_CRUISE` × (`BACK_HELD` − the half of `KEY_EASE` the ease in
- * costs), and at rest the full `STRIDE_CRUISE` × `BACK_HELD`, the glide out
- * giving that half back — no edge to stop it short, `BACK_SLACK` either way.
+ * `↓` held `BACK_HELD` s from `from`, `seen` frame by frame to rest: straight
+ * back, short at the let-go by the half of `KEY_EASE` the ease in costs and
+ * full at rest, the glide out giving it back, `BACK_SLACK` either way.
  */
 function checkBack(
   from: Seen,

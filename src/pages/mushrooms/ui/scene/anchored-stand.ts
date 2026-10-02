@@ -26,11 +26,9 @@ import type { MeadowLayout } from './layout';
 import { PALE_SPAN } from './repaint-queue';
 
 /**
- * How far from the anchor, on the plane, an anchored stand reads the meadow:
- * a foot the rules judge stands within `D_SEE` and `PALE_SPAN` of the eye
- * and a step more, and the most a rule counts round it (`FLOWER_SLOTS`,
- * `MUSHROOM_SLOTS`) reaches `D_SEE` past it, so nothing a rule reads stands
- * farther.
+ * How far from the anchor an anchored stand reads the meadow: a foot the rules
+ * judge stands within `D_SEE` and `PALE_SPAN` of the eye and a step more, and
+ * a rule counts round it (`FLOWER_SLOTS`, `MUSHROOM_SLOTS`) `D_SEE` further.
  */
 const STAND_REACH = 2 * D_SEE + PALE_SPAN + 1;
 
@@ -115,18 +113,13 @@ function seededAt({ layout, flowers }: Seeded, anchor: Eye): Seeded {
 }
 
 /**
- * `stand` as `anchor` sees it, read out to `STAND_REACH` of it: the
- * mushrooms in reach, by their stored feet, stood on their ground anchored
- * at it (`anchoredGround`), each where `placeIn` stands it there; every
- * planted flower in reach moved with it onto `OPENING_EYE` (`anchored`),
- * each seeded flower in reach re-stood at its anchored foot, and every
- * flower that then stands in the sliver straight behind the eye, which the
- * layout has no ground for, left out. A bee's flower is kept while its
- * parent is, and stays in its ring slot round its anchored parent, the slot
- * turned with the anchor (`ringFoot`), so it stands on the same plane spot
- * from every anchor. The layout and the mushrooms are the same objects while
- * the anchor stays, so a rule's caches by them hold (`coversOn`). At
- * `OPENING_EYE` it is `stand` itself.
+ * `stand` as `anchor` sees it, out to `STAND_REACH`: its mushrooms on their
+ * ground anchored there (`anchoredGround`), its flowers moved with it onto
+ * `OPENING_EYE` (`anchored`), none kept in the sliver behind the eye that has
+ * no ground. A bee's flower is kept unmoved while its parent is, `ringFoot`
+ * turning its slot with the anchor. The layout and the mushrooms are the same
+ * objects while the anchor stays, so a rule's caches by them hold
+ * (`coversOn`). At `OPENING_EYE` it is `stand` itself.
  */
 export function anchoredStand(stand: Stand, anchor: Eye): Stand {
   if (sameAnchor(anchor, OPENING_EYE)) return stand;

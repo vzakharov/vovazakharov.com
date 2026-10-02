@@ -83,7 +83,6 @@ function dot(one: Point, other: Point): number {
   return one.x * other.x + one.y * other.y;
 }
 
-/** The eye standing at `at`, at rest. */
 export function standingAt(at: Point): Stride {
   return {
     at,
@@ -249,7 +248,8 @@ function chasing(stride: Stride, chase: Chase, seconds: number): Stride {
  * The walk `seconds` on, by `cruise`, the keys' along `heading` and square to
  * it, or a drag's along its own line: each pace eases toward the cruise the
  * held keys ask, or toward the chase's target, and brakes to rest exactly at
- * a chase's target. A lifted chase that has come to rest is over. A stride that stands still is returned as the same object.
+ * a chase's target. A lifted chase that has come to rest is over. A stride
+ * that stands still is returned as the same object.
  */
 export function tick(stride: Stride, heading: number, seconds: number): Stride {
   const { at: setOff, chase, held, pace, sidePace, walked } = stride;

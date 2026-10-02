@@ -23,10 +23,8 @@ export const MOST_LOOKS = 80;
 /** How long, in ms, a butterfly found at rest has still to stay there. */
 const STAYS_MS = 1500;
 /**
- * The most frames a look waiting on a rest may step: a butterfly rests at
- * least `FLIGHT_HABITS.butterfly.resting[0]` from its arrival, is seen at
- * rest once its `LANDING` is done, and must have `STAYS_MS` left, so every
- * rest is seen by looks this far apart.
+ * The most frames a look waiting on a rest may step: a butterfly's shortest
+ * rest, less its landing and `STAYS_MS`, so looks this far apart miss none.
  */
 export const REST_LOOK = Math.floor(
   ((FLIGHT_HABITS.butterfly.resting[0] - LANDING - STAYS_MS) * 60) / 1000,

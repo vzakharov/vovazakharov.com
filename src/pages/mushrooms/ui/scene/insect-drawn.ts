@@ -127,14 +127,12 @@ export function drawnInsect(
 }
 
 /**
- * `turn`, a body's turn in its leg's frame, as the screen draws it from
- * `flying`, where the frame point it is turned at is drawn: the way a px's
- * step along it in the frame is drawn (`lifted`). The frame is a pinhole, the
- * screen lays azimuth straight across and bends its rows down (`viewOf`),
- * and a flight skimming the grass is eased down onto it (`aloftFramed`), so
- * toward the screen's sides and low over the grass a body turned in the
- * frame alone points off the way it is drawn flying. Where either end is not
- * drawn, the frame's turn.
+ * `turn`, a body's turn in its leg's frame, as the screen draws it at
+ * `flying`: the way a px's step along it in the frame is drawn (`lifted`).
+ * The screen bends the pinhole's rows (`viewOf`) and eases a flight skimming
+ * the grass down onto it (`aloftFramed`), so the frame's turn alone points off
+ * the drawn way at the sides and low down; it stands where either end is not
+ * drawn.
  */
 function bentTurn(
   flying: ReturnType<typeof drawnFlier>,

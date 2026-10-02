@@ -1,8 +1,7 @@
 /**
  * The eye the meadow's rules are judged from: the walking eye snapped to a
- * coarse lattice, so the layout anchored at it — and every rule cached on
- * that layout — changes a few times a second while the child walks, not
- * every frame.
+ * coarse lattice, so the layout anchored at it, and every rule cached on it,
+ * changes a few times a second while the child walks, not every frame.
  */
 
 import { D_SEE, type Eye } from './ground';

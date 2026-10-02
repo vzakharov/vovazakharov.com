@@ -56,13 +56,30 @@ at f680c86a; only the run's final commit is a bare `polish:`.
   lens 4 (no removed identifier survives only in prose; every backticked
   name in added prose names code), and the negator sweep (all constraints,
   no residue).
-- Seen outside the range, not changed: `veer-report.ts` lines 43–45 cite
-  `insect-plane.md` R3.1, a file that exists nowhere in the tree.
 
-## Left
+## tail-polish3 (existence and tightness, same scope)
 
-- `/tend-prose` existence and tightness lenses: a read of the range's
-  added doc blocks for bloat (signature restated, >4-line blocks). Not
-  grep-able; tail-polish2 stopped at its 170k line before it.
+- `scripts/`: `veer-report.ts` states R3.1's two bounds in place (no
+  `insect-plane.md` citation) and `DASH_SLACK` tightened; `play-approach.ts`
+  header 15 → 9 lines; `checkWatch`, `checkPops`, `checkBack`, `REST_LOOK`
+  and the probe's hitch timing tightened; `play-walk.ts` header rewrapped.
+
+- `src/`: tightened `anchor.ts` header, `anchored`, `headedLight`,
+  `placesSetOff`, `tick` (rewrap); `anchoredStand` 12 → 7 lines,
+  `STAND_REACH`; `air-spots.ts` `latticeOf`, `namedCell`, `airOf`;
+  `laidOf`; `bentTurn`; `plantableIn`. Cut restating docs on `standingAt`
+  and `Stood`. Read so far: all of `model/`, and in `ui/scene/` up to
+  `tending.ts` alphabetically, plus `air-spots`, `anchored-stand`,
+  `clump-layout`, `insect-drawn`.
+
+## Left (tail-polish3 stopped at its 170k line)
+
+- Restating one-liners found, not yet cut: `lawn.ts` `cellOf`, `cellTufts`;
+  `mottles.ts` `MOTTLES_PER_CELL`; `perch-crowding.test.ts` `apartEvenly`;
+  `draw-flower.ts` `drawIn`.
+- Blocks past ~4 lines still to tighten: `tuft-tap.ts` `bareToTap` (8),
+  `bed-place.ts` `SIDE_OVERHANG`/`offSides`, `mottles.ts` `shownMottles`
+  doc (6), `lawn.ts` `LIVE_REACH`, `tufts.ts` header and `follow` doc,
+  `flower-plots.ts` `ringFoot`, `flower-shown.ts` `Laid` member doc.
 - The run's last commit must be a bare `polish:` (or
   `polish: nothing to change`) so the floor moves.

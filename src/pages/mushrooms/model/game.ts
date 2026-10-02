@@ -157,7 +157,6 @@ export function isFull({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
   return mushrooms.length >= FIELD_MUSHROOMS;
 }
 
-/** Anything that stands on a foot of the plane. */
 type Stood = Pick<Footed, 'foot'>;
 
 /** Whether `slots` of `standing` already stand within `D_SEE` of `foot`, on the plane. */

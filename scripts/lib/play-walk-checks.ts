@@ -152,14 +152,11 @@ export function checkTurn(
 }
 
 /**
- * Nothing pops while the eye walks: whatever stops or starts being drawn
- * between two frames, on the frame it was drawn, reached no higher than the
- * screen's foot, stood past a side of the screen by its drawn height (by
- * `SIDE_OVERHANG`'s reckoning, nothing of a mushroom or flower reaches that
- * far sideways, so none of it shows), or showed over `cover`, the
- * brow's row at its x (`browRow`) under which the ground covers a thing
- * sunk past it, no more than the sliver the game hides it at
- * (`SLIVER_SLACK`).
+ * Nothing pops while the eye walks: whatever starts or stops being drawn
+ * between two frames reached, on the frame it was drawn, no higher than the
+ * screen's foot, stood a drawn height past a side (`SIDE_OVERHANG`), or showed
+ * over `cover`, the brow's row at its x (`browRow`), no more than the sliver
+ * the game hides it at (`SLIVER_SLACK`).
  */
 export function checkPops(
   seen: ReadonlyArray<z.infer<typeof Walking>>,
