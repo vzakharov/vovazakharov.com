@@ -14,6 +14,14 @@
   the last source commit. The skill should order it: quick gates
   (`pnpm format:check`, `pnpm knip`, which the scene agent had skipped),
   `/polish`, vet, the play run, then `/pr`.
+- **On a structural bite `/polish` is several agents, and only the last
+  writes the bare subject.** 12b's range took four agents, each stopping at
+  170k: the first mid `/dry` with three bare `polish:` commits, which moved
+  the lookup's floor past unreviewed work; the next two by hand from the
+  floor f680c86a, committing `polish(12b):`. The skill should brief `/polish`
+  over a big range as named slices (`/dry` by directory, then `/tend-prose`
+  by lens), every commit scoped but the last, and the closing agent told to
+  land the bare `polish:` by ~150k with any short remainder listed in it.
 - **A bite's end retires the last bite's leftovers, or the branch drowns
   in them.** By bite 12b PR #57 carried 966 files, about 600 of them earlier
   bites' briefs, hand-over notes and frames that no session opened again.
