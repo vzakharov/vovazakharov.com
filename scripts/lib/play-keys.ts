@@ -32,7 +32,7 @@ import {
 import { HOLD_FRAMES } from './play-hold.ts';
 import {
   buttonsOf,
-  firstOpening,
+  nearestOpening,
   NEWEST,
   Newest,
   TUFTS,
@@ -95,8 +95,6 @@ const Sown = z.array(
 /** Frames between a melody's notes: a quick tune. */
 const BEAT = 4;
 
-/** How many tufts, nearest first, are tried for one that takes a flower. */
-const TRIES = 16;
 /** Frames from a key into its planting, the flower coming up. */
 const RISING = 12;
 /** Frames enough for a planting to settle. */
@@ -171,7 +169,7 @@ export async function playKeys(
 
   // Open on a tuft, at its colours: `l` plants G there.
   const tufts = await page.evaluate(TUFTS, z.array(Point));
-  if (!(await firstOpening(page, tufts.toReversed().slice(0, TRIES)))) {
+  if (!(await nearestOpening(page, tufts))) {
     expect(false, 'no tuft opened the picker for a key to plant through');
     return;
   }
