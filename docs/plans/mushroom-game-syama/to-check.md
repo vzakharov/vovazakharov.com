@@ -1,11 +1,10 @@
 # To check by hand
 
-The operator checks the game himself, when he gets to it, in place of play
-runs («давай я буду сам при случае проверять, а то эти прогоны занимают
-больше времени (и токенов) чем собственно написание игры. Просто держи
-копилочку того что нужно проверить из сессии в сессию»). Every package adds
-what a person should look at to confirm it; a line he reports on moves to
-"Checked" with his words, or becomes work if it fails.
+What the operator checks himself, when he gets to it («просто держи
+копилочку того что нужно проверить из сессии в сессию»): what every package
+says a person should look at to confirm it, and what a play run found too
+hard to check in code (the plan's § "How this elephant is eaten"). A line he
+reports on moves to "Checked" with his words, or becomes work if it fails.
 
 Written in Russian, for him.
 

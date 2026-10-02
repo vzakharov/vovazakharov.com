@@ -42,8 +42,8 @@ The operator delegated the whole loop and does not step in until the end
    `writing/notes/the-five-percent.md` is the reading list (the frame taken
    as given, an account standing in for running it, reasoning written into
    the artifact, the copy edited instead of the fact, the render checked
-   against intent rather than the page); it reads the diff and the
-   frames, and does not play the page. It posts one PR review with inline comments; the same
+   against intent rather than the page), and it plays the page before
+   judging the look. It posts one PR review with inline comments; the same
    session fixes each finding and replies on GitHub (never resolving), or
    hands them to the next bite's session as its first work when the budget
    is spent. A structural bite (12b) keeps a review session of its own.
@@ -80,16 +80,18 @@ Standing rules for every session in the chain:
 - **Stop and ask only for the unrecoverable** — the operator's line is
   "взломать весь интернет, стереть мой локальный диск". Everything else is
   decided, written into this plan as the decision, and carried on.
-- **No play runs; the operator plays by hand.** Play agents and the
-  five-screen run cost more than building the game («эти прогоны занимают
-  больше времени (и токенов) чем собственно написание игры»), so every
-  package ends at its unit tests and gates, and adds to
-  [to-check.md](mushroom-game-syama/to-check.md) what a person should look
-  at to confirm it — kept from session to session, checked when he gets to
-  it, not on any schedule. A screenshot looked at by eye is still in
-  bounds; a scripted multi-step scenario is not («что-то оставить можно —
-  типа там, сделать скриншот, посмотреть на глаз — но не трёхэтажные
-  сценарии»). `pnpm play:mushrooms` stays in the tree, unrun.
+- **A play run fixes the game, and hands the operator what it cannot
+  check.** «если прогон находит баг в игре, он чинит баг. Если прогон
+  находит баг в самом себе — проверить какое-то место очень сложно
+  программно — он передаёт оператору (через тебя)». So a red that is the
+  game's is fixed in the same run; a red that is the harness's own — a
+  check too hard to make right in code — is not engineered further: it goes
+  to [to-check.md](mushroom-game-syama/to-check.md), in Russian, as what a
+  person should look at, and the check is dropped or loosened. Every
+  package also adds its own hand checks there, kept from session to
+  session and checked when the operator gets to it. The scenarios stay
+  short: a screenshot looked at by eye is the model, not a three-storey
+  script («не трёхэтажные сценарии»).
 - **Every bite ends by committing the frames worth showing** — picked from
   `tmp/play/`, not the whole run — to
   `docs/remove-before-merging/frames/bite-<n>/`, so the operator can look in
@@ -379,9 +381,9 @@ with his words and what it beat: `bite-12/v14.md`.
    skyline crossing left a sub-pixel hill strip over the sky; `keptOnEdges`
    in `skyline.ts` never drops a point on a band's edge. `type-overlap`:
    `Steering.at` (ms) renamed `heldAt`, apart from `KeySown.at` (s).
-2. ~~The five-screen play run~~ — dropped for the operator's hand checks
-   (§ "How this elephant is eaten"); what it would have judged is on
-   `to-check.md`.
+2. The play run at the final HEAD under § "How this elephant is eaten"'s
+   rule (game reds fixed, harness reds to `to-check.md`): tabL and phoneP,
+   `meadow` and `veer` first, then the rest as budget allows.
 3. ~~The footstep level~~ — put to the operator's ear with Artifact version 14
    (`STEP_PEAK` 1.5, ~10 dB under a C5); it changes only on his word.
 4. The review subagent (§ "How this elephant is eaten" step 2) and its fixes.

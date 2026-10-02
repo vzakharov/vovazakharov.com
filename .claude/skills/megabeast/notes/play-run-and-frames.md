@@ -13,7 +13,15 @@
   person cannot see (a page error, a frame budget). The line he drew is
   the scenario, not the looking: a screenshot checked by eye stays, a
   scripted multi-step play does not («что-то оставить можно — типа там,
-  сделать скриншот, посмотреть на глаз — но не трёхэтажные сценарии»).
+  сделать скриншот, посмотреть на глаз — но не трёхэтажные сценарии»). He
+  then brought the runs back with the split that settles it: a red that is
+  the game's is fixed by the run, a red that is the harness's own goes to
+  the operator's checklist instead of another round of harness work («если
+  прогон находит баг в самом себе … он передаёт оператору»). Most of bite
+  12's play cost was the second kind — watches judging hidden insects, size
+  minimums predating depth — so the skill should brief every play agent
+  with that split, and count a harness fix as the exception it must argue
+  for.
 
 ## The play script
 
