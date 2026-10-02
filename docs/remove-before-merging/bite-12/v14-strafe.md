@@ -34,7 +34,18 @@ version 14").
 
 ## Left
 
-- The probe on tabL and strafe frames under `frames/bite-12/v14/`.
+The context budget ran out before the play run. What remains:
+
+- A strafe line in `scripts/lib/play-walk.ts`: a horizontal drag from the
+  sky (`y < camera.groundTop`) — the eye moves square to the heading, the
+  heading unchanged, no faster than `STRIDE_CRUISE` (`checkWalk(..., 'drag')`
+  fits it as it stands) — and Shift+`→` held, shot mid-way as
+  `walk-strafe-*.png`. `page.key` (`mushroom-probe.ts` ~l. 461) sends no
+  modifiers yet: Shift needs CDP's `modifiers: 8` on the arrow's
+  `keyDown`, or a `Shift` key of its own in `ARROWS`, which
+  `listenForKeys` hands over on.
+- `pnpm play:mushrooms --screens tabL --plays walk` under the site lock, and
+  a frame or two of a strafe mid-way into `frames/bite-12/v14/`.
 
 ## Decided
 
