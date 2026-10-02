@@ -5,6 +5,7 @@
  */
 
 import type { Leg, Perch, Span } from './flight';
+import type { Point } from './geometry';
 import type { InsectKind } from './insect-genes';
 import {
   type Airborne,
@@ -14,6 +15,7 @@ import {
   tilt,
 } from './insect-paths';
 import { roundAt, smooth, wave } from './motion';
+import { mulberry32 } from './random';
 
 /** A leg with its stay: where it goes and when it leaves. */
 export type Stay = Launched & Pick<Leg, 'to' | 'leaves'>;
@@ -189,6 +191,57 @@ export function landingBob({ arrives }: Span, now: number): number {
   if (elapsed < 0 || elapsed >= LANDING) return 0;
   const t = elapsed / LANDING;
   return LANDING_DEPTH * Math.sin(Math.PI * 2 * t) * (1 - t) ** 2;
+}
+
+/** How long one hop about a spot in the air takes, in ms: a jerk, over in a few frames. */
+const JERK = 70;
+
+/** The draws hop `index` of an insect with `phase` makes, the same every frame. */
+const hopDraws = (index: number, phase: number) =>
+  mulberry32(Math.floor(phase * 2 ** 20) + index * 7919);
+
+/**
+ * Where hop `index` about a spot in the air lands, in the insect's sizes off
+ * the spot: anywhere within `range`, drawn off the insect's phase so every
+ * insect hops its own way; the 0th is the spot itself.
+ */
+function hopSpot(index: number, phase: number, range: number): Point {
+  if (index === 0) return { x: 0, y: 0 };
+  const random = hopDraws(index, phase);
+  const [way, out] = [random() * Math.PI * 2, Math.sqrt(random())];
+  return { x: range * out * Math.cos(way), y: range * out * Math.sin(way) };
+}
+
+/**
+ * How far a leg's hops (`Hops`) have moved its flier off the spot in the air
+ * it came to at `now`, in its sizes: none before it arrives, then in every
+ * round of `every` ms one jerk from the last hop's spot to the next, its
+ * moment within the round drawn as the spot is, so the rhythm never ticks
+ * evenly and the flier never hangs still for long. None on a leg without hops.
+ */
+export function hopAt(
+  { arrives, hops }: Span,
+  now: number,
+  phase: number,
+): Point {
+  if (!hops || now <= arrives) return { x: 0, y: 0 };
+  const { every, range } = hops;
+  const since = now - arrives;
+  const index = Math.floor(since / every);
+  // The third draw of the hop it jerks to, after the two its spot takes.
+  const draws = hopDraws(index + 1, phase);
+  draws();
+  draws();
+  const jerks = draws() * (every - JERK);
+  const [here, there] = [
+    hopSpot(index, phase, range),
+    hopSpot(index + 1, phase, range),
+  ];
+  const t = smooth((since - index * every - jerks) / JERK);
+  return {
+    x: here.x + (there.x - here.x) * t,
+    y: here.y + (there.y - here.y) * t,
+  };
 }
 
 /** `angle` brought round into (-π, π]. */
