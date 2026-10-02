@@ -1,7 +1,6 @@
 # Relay summary
 
-Relay depth: **2** (this chain began at the session that wrote depth 1's
-summary's successor; the cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
+Relay depth: **3** (the cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
 § "The depth cap").
 
 ## 1. Standing constraints
@@ -87,74 +86,88 @@ Pass this section on verbatim.
 
 ## 2. The conversation
 
-> /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); after attaching, run pnpm install --frozen-lockfile.
+> /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile.
 
 The only operator message this session. Reply (and every turn after, all
-woken by agents and check-ins): attached (no stale ref), installed, plan
-flipped to in-progress (561b356), item 2 resumed by agents —
-`v15-watch` (293ea93, the watch skips shying fliers), `v15-flyspeed` (traced
-the fast leg to places in the opening frame; ran out before fixing),
-`v15-eyeframe` (30e4919, places in the eye's frame), `v16-play` (9d1ba38,
-the way-in timing; the cap→away red came back), `v16-capaway` (74ed8ec, a
-leg cut mid-flight; the orchestrator's hypothesis measured wrong),
-`v17-play` (units green, overs down to 88/worst 71, frame median is the
-container). Told the operator, in two asks still unanswered: the empty
-auto-branch `claude/mushroom-game-4npgfs` could not be deleted (auto mode
-refused) — delete it or allow it; and the muthur sync claimed 34 h ago by
-https://claude.ai/code/session_014y4ugppjSmJiuUotQyWuhe has not landed —
-`scripts/muthur-sync.sh claim --takeover` then `/update-muthur claimed` only
-on their word that it is dead.
+woken by agents and check-ins, in Russian): attached (the local ref e66b8e1
+had diverged from origin and was renamed to
+`stale/claude/mushroom-game-syama-lbirv7-e66b8e1`), installed, plan flipped
+to in-progress (d3c6a35). Then, one agent at a time:
+`v18-drawn-place` built `leg-timing.md` § 4 (47d3a06, e66e719);
+`v18-play` measured fly overs 88 → 43, all from legs that pivot first;
+the orchestrator decided the watch allows a pivoted leg's dart (§ 5);
+`v19-pivot-watch` built it all-or-nothing (1fdf65a) and found that hid
+phoneP fly-18; the orchestrator made it proportional (ee84a7e);
+`v20-watch-fixes` built that (77fcf75) and fixed the stale tap-in-the-air
+check to v14-catch's shy (852a2df), 4 overs left; `v21-fly18` traced them
+to a leg to away timed to the band-middle spot and fixed it (3a0b29d),
+2–3% left and accepted (§ 6–7). Item 2 closed (4519021). Then three
+reviewers by area posted reviews 5391045656, 5391050029, 5391057365; the
+calls are in `bite-12/review.md`. The 200k notice came after the second
+review; the session waited for the third, paused the plan and relayed.
+No question was put to the operator.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
 playable after every bite; `/finalize` at the end, no merge. Now: close
-bite 12 — the last fly-timing fix, its play, the review subagent, polish,
-vet, the Artifact, `/pr`.
+bite 12 — the review's fixes, the play, the replies, then item 5 (delete
+`## Rest of the bite`, `/polish`, vet, the Artifact, `/pr`).
 
 ## 4. Decisions
 
-All in `docs/plans/mushroom-game-syama/bite-12/leg-timing.md` (§ 1–4 with
-what each beat) and the plan's § "Rest of the bite" item 2. The open one:
-**§ 4, the scene tells the model where it drew a flier cut mid-flight** —
-the sight sent with each tick carries each drawn flier's place, `onward`
-times the new leg from it, `placesFlying` the fallback. The frame median is
-noise in this container (f584982 measures 32.1 ms now).
+- Leg timing, every call with what it beat:
+  `docs/plans/mushroom-game-syama/bite-12/leg-timing.md` § 4–7.
+- The review's calls, one per finding:
+  `docs/plans/mushroom-game-syama/bite-12/review.md`. They are decided;
+  brief from them.
+- The tail review is three reviewers by area (agreed by the plan's
+  step 2; recorded in `megabeast/notes/subagents.md`).
 
 ## 5. Errors and dead ends
 
-- The orchestrator's hypothesis for the cap→away red (`aloftOfLayout`
-  inverting the opening layout wrongly for caps grown turned) was measured
-  wrong by `v16-capaway`: feet and seats agree with the drawn caps.
-- `v17-play` tried placing a cut leg by the dash curve (`progress` in
-  `insect-paths.ts`): worse (162.6 px), reverted.
-- `v15-flyspeed`, `v15-eyeframe`, `v16-capaway` each filled ~180k; one
-  step per agent, check-ins every ~12 min, a nudge at ~160–178k worked.
+- An all-or-nothing pivot allowance (1fdf65a) hid a real dart (fly-18);
+  replaced by a proportional one.
+- Two of three reviewers filled their context (155–181k) without a play
+  run; their findings rest on reading and probes. The eye-and-world
+  reviewer left `geometry.ts`, `motion.ts`, `weather.ts`, `game.ts`,
+  `paint-land.ts`, `paint-sky.ts`, `grain.ts`, `backdrop-tones.ts`,
+  `sky-layout.ts`, `layout.ts`, `footsteps.ts`, `keyboard.ts`, `baking.ts`,
+  `parallax.ts` unread — not a call to review them again.
+- This session read three megabeast note files whole at pickup (~38k);
+  read the notes' `README.md` only.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, last pushed e252fd4e; PR #57
-  draft, base `main`, **`CONFLICTING`** (reported, `/finalize`'s job).
-- Plan `docs/plans/mushroom-game-syama.paused.md`, 391 lines.
+- Branch `claude/mushroom-game-syama-lbirv7`, last pushed 70871b42 (the
+  Stop hook's cost rows may follow); PR #57 draft, base `main`,
+  **`CONFLICTING`** (reported, `/finalize`'s job).
+- Plan `docs/plans/mushroom-game-syama.paused.md`, 394 lines.
 - Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG still at
-  **version 15** (not republished this session).
-- No agent running, no worktree, no check-in pending, no PR subscription.
+  **version 15** (not republished since).
+- No agent running, no worktree but the shared one, no check-in pending,
+  no PR subscription.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-12/leg-timing.md` — the fly-timing
+- `docs/plans/mushroom-game-syama/bite-12/review.md` — the fixes to brief.
+- `docs/plans/mushroom-game-syama/bite-12/leg-timing.md` — the timing
   calls.
-- `docs/remove-before-merging/bite-12/v17-play.md` (latest numbers, the
-  cut-leg samples), `v16-capaway.md`, `v16-play.md`, `v15-eyeframe.md`,
-  `brief-common.md`.
+- `docs/remove-before-merging/bite-12/review-brief.md`,
+  `brief-common.md` (build agents), and the latest notes `v18-*` to
+  `v21-fly18.md`.
+- The reviews:
+  `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/<id>/comments`
+  for 5391045656, 5391050029, 5391057365.
 - `docs/plans/mushroom-game-syama/to-check.md` — the operator's list.
-- Frames: `docs/remove-before-merging/frames/bite-12/v16/`, `v17/`.
-- This session: https://claude.ai/code/session_01M3eYAhJUzVwJKpLsB92S5Z
+- This session: https://claude.ai/code/session_01UfB8AnjgikX3hw17euejxu
 
 ## 8. Next step
 
-Resume the plan (`/go`) at item 2's "Left": a build agent for
-`leg-timing.md` § 4 (unit test first), then a play agent on tabL `veer`
-tallying fly overs by leg kind; then items 4–5 (review subagent, `/polish`,
-vet, the Artifact republished, `/pr`). Reply to the operator in Russian,
-«ты».
+Resume the plan (`/go`) at item 4's "Left": brief the fixes from
+`bite-12/review.md` as three disjoint groups by files — insects (with the
+way-in's leaving spot), eye and world, taps and the harness — each in its
+own worktree, one or two steps per agent, a check-in at ~12 minutes; then
+a tabL and phoneP play, the frames to `frames/bite-12/review/`, a reply on
+each review thread with the fixing sha bare (never resolve); then item 5.
+Reply to the operator in Russian, «ты».
