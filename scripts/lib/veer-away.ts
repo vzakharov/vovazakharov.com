@@ -3,7 +3,7 @@
  * the game times it (`apartIn` over the sight's `places`, or `outWay` for a
  * release's stretch out of view), against how long the insect view draws
  * it at its own size — the framed chord from its start to the end
- * `offAloft` gives, each stretch over its zoom there. The ratio scales the
+ * `leavingAloft` gives, each stretch over its zoom there. The ratio scales the
  * dash curve's fastest frame (`dashPeak`) to the fastest one-frame step
  * the leg can draw; a ratio over the veer play's `DASH_SLACK` is a step
  * the curve does not explain. Also checks the leg's end stands still
@@ -16,7 +16,7 @@ import {
   type Perch,
   perchName,
 } from '../../src/pages/mushrooms/model/flight.ts';
-import { outWay } from '../../src/pages/mushrooms/model/flight-in.ts';
+import { outOf, outWay } from '../../src/pages/mushrooms/model/flight-in.ts';
 import { apartIn } from '../../src/pages/mushrooms/model/flight-timing.ts';
 import {
   CLUMP_DISTANCE,
@@ -31,7 +31,7 @@ import {
   type Away,
   awayDown,
   entryAloft,
-  offAloft,
+  leavingAloft,
 } from '../../src/pages/mushrooms/ui/scene/insect-away.ts';
 import {
   type Aloft,
@@ -41,12 +41,12 @@ import {
 } from '../../src/pages/mushrooms/ui/scene/insect-frame.ts';
 import {
   airAlofts,
-  aloftOfLayout,
   footRows,
   onscreenOf,
   perchSight,
   seatAt,
 } from '../../src/pages/mushrooms/ui/scene/perch-sight.ts';
+import { aloftOfLayout } from '../../src/pages/mushrooms/ui/scene/plane-place.ts';
 import { type View, viewAt } from '../../src/pages/mushrooms/ui/scene/view.ts';
 import { opened } from '../../src/pages/mushrooms/ui/scene/visit-play.ts';
 import { dashPeak } from './veer-dash.ts';
@@ -59,11 +59,6 @@ const SCREENS = [
 /** How finely a leg's chord is cut to sum its length at its own size. */
 const CUTS = 400;
 const KINDS = ['fly', 'bee'] as const satisfies readonly InsectKind[];
-
-/** How far from `view`'s eye `aloft` stands on the plane, as `InsectView` measures it. */
-function fromEye(view: View, aloft: Aloft): number {
-  return Math.hypot(aloft.x - view.eye.x, aloft.y - view.eye.y);
-}
 
 /** The length, in butterfly sizes at its own size, of the framed chord from `from` to `to`, each cut over its zoom there. */
 function drawnLength(view: View, from: Aloft, to: Aloft, unit: number): number {
@@ -112,9 +107,9 @@ for (const [screen, width, height] of SCREENS) {
       for (const side of ['left', 'right'] as const) {
         const timed = apartIn(sight.places, perch, { kind: 'away', side });
         if (timed === undefined) continue;
-        const end = offAloft(view, side, away, fromEye(view, from));
+        const end = leavingAloft(view, side, away, from);
         // The next frame's end, the eye where it stood.
-        const again = offAloft(view, side, away, fromEye(view, from));
+        const again = leavingAloft(view, side, away, from);
         still = Math.max(still, Math.hypot(again.x - end.x, again.y - end.y));
         const drawn = drawnLength(view, from, end, unit);
         ratios.push(
@@ -130,13 +125,10 @@ for (const [screen, width, height] of SCREENS) {
     const outs = (['left', 'right'] as const).map((side) => {
       const set = entryAloft(view, side, away);
       if (!set.out) return `${side}: no way out`;
-      const timed = outWay(onscreen);
+      const timed = outWay(onscreen, side);
       const drawn = drawnLength(view, set.from, set.out, unit);
-      // The rest of the way is timed from the screen's edge (`shownOf`).
-      const name = perchName({ kind: 'away', side });
-      const edge = sight.places?.[name];
-      const x = side === 'left' ? onscreen.left : onscreen.right;
-      const shown = edge && { ...sight.places, [name]: { ...edge, x } };
+      // The rest of the way is timed from the out point (`outOf`).
+      const shown = outOf(sight.places, onscreen, side);
       const air = [...airAlofts(layout).entries()].map(([id, aloft]) => {
         const to = { kind: 'air', id } as const;
         const rest = apartIn(shown, { kind: 'away', side }, to) ?? Number.NaN;

@@ -3,7 +3,9 @@
  * apart its perches stand, and the stay after it.
  */
 
-import type { Leg, Perch, Places, Sight, Timed } from './flight';
+import { pick } from '@/shared/lib/collections';
+
+import type { Leg, Perch, Place, Places, Sight, Timed } from './flight';
 import type { Dash, Habits } from './flight-habits';
 import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
@@ -29,10 +31,20 @@ function logMean(a: number, b: number): number {
 }
 
 /**
- * How far apart `places` puts two perches as an insect flying between them
- * is drawn, in butterfly sizes where it is: the length across the layout,
- * the more the farther from the eye the way runs (`Place`); `undefined`
- * where it places either nowhere.
+ * How far apart two places are as an insect flying between them is drawn,
+ * in butterfly sizes where it is: the length across the layout, the more
+ * the farther from the eye the way runs (`Place`).
+ */
+export function apartOf(here: Place, there: Place): number {
+  const across = Math.hypot(there.x - here.x, there.y - here.y);
+  return (across * logMean(here.fromEye, there.fromEye)) / CLUMP_DISTANCE;
+}
+
+/**
+ * How far apart `places` puts two perches as an insect flying from `a` to
+ * `b` is drawn (`apartOf`); `undefined` where it places either nowhere. A leg
+ * to away is drawn to just past the screen's side as deep as it sets off,
+ * so it is measured with its away spot level with `a`.
  */
 export function apartIn(
   places: Places | undefined,
@@ -41,8 +53,8 @@ export function apartIn(
 ): number | undefined {
   const [here, there] = [places?.[perchName(a)], places?.[perchName(b)]];
   if (!here || !there) return undefined;
-  const across = Math.hypot(there.x - here.x, there.y - here.y);
-  return (across * logMean(here.fromEye, there.fromEye)) / CLUMP_DISTANCE;
+  const level = b.kind === 'away' ? pick(here, 'fromEye') : {};
+  return apartOf(here, { ...there, ...level });
 }
 
 function stayAt(random: Random, habits: Habits, to: Perch): number {

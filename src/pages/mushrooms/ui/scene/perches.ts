@@ -1,7 +1,9 @@
 import { type Perch, perchName, SIDES, type Sight } from '../../model/flight';
 import type { Flier } from '../../model/insects';
 import type { Stand } from './flower-sight';
+import { awayPlaces } from './insect-away';
 import type { Aloft } from './insect-frame';
+import type { MeadowLayout } from './layout';
 import {
   perchAloft,
   type Perched,
@@ -9,7 +11,8 @@ import {
   type PerchHosts,
   tapThrough,
 } from './perch-hosts';
-import { airAlofts, perchDistance, perchSight } from './perch-sight';
+import { airAlofts, perchSight } from './perch-sight';
+import { perchDistance } from './plane-place';
 import type { View } from './view';
 
 /**
@@ -24,6 +27,8 @@ export class Perches {
   private alofts: ReadonlyMap<string, Aloft> = new Map();
   /** Every perch `sight` places, by its name (`perchName`). */
   private named = new Map<string, Perch>();
+  /** The layout the perches were last seen on. */
+  private layout: MeadowLayout | undefined;
   /** The beds the perches stand on, as the scene holds them now. */
   private readonly beds: () => Pick<PerchHosts, 'bed' | 'flowers'>;
 
@@ -35,6 +40,7 @@ export class Perches {
   see(stand: Stand): void {
     const { layout, mushrooms } = stand;
     this.sight = perchSight(stand);
+    this.layout = layout;
     this.alofts = airAlofts(layout);
     const { flowers, beeFlowers = [], air } = this.sight;
     const perches: Perch[] = [
@@ -50,8 +56,8 @@ export class Perches {
 
   /**
    * What the insects see of the perches as last seen, each place's distance
-   * measured from `view`'s eye (`perchDistance`); a place past the screen's
-   * side, which moves with the screen, keeps the opening eye's.
+   * measured from `view`'s eye (`perchDistance`), and the away spots past the
+   * screen's sides where `view` draws an insect leaving (`awayPlaces`).
    */
   sightFrom(view: View): Sight {
     const { places } = this.sight;
@@ -65,7 +71,11 @@ export class Perches {
         at ? { ...place, fromEye: perchDistance(view, at) } : place,
       ] as const;
     });
-    return { ...this.sight, places: Object.fromEntries(measured) };
+    const away = this.layout ? awayPlaces(this.layout, view) : {};
+    return {
+      ...this.sight,
+      places: { ...Object.fromEntries(measured), ...away },
+    };
   }
 
   /** Where `perch` stands this frame (`perchedOn`). */

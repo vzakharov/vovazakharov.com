@@ -6,7 +6,8 @@ import type { Host } from './bed-place';
 import type { FlowerBed } from './flower-bed';
 import type { Aloft } from './insect-frame';
 import type { MushroomBed } from './mushroom-bed';
-import { aloftOfLayout, perchSpot } from './perch-sight';
+import { perchSpot } from './perch-sight';
+import { aloftOfLayout } from './plane-place';
 
 /**
  * Where an insect sits on a cap or a flower, in world px at the opening eye,

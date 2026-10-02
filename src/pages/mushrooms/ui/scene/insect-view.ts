@@ -19,7 +19,7 @@ import {
   type Away,
   awayDown,
   entryAloft,
-  offAloft,
+  leavingAloft,
   reachesScreen,
   seenFor,
 } from './insect-away';
@@ -56,11 +56,6 @@ function alongOf(point: Point, start: Point, end: Point): number {
   return gone + left > 0 ? gone / (gone + left) : 1;
 }
 
-/** How far `aloft` stands from `view`'s eye on the plane, in the clump's size. */
-function fromEye(view: View, aloft: Aloft): number {
-  return Math.hypot(aloft.x - view.eye.x, aloft.y - view.eye.y);
-}
-
 /**
  * The meadow's insects, reconciled with the state by id: each a container of
  * its kind's parts (`insect-look.ts`), above everything in the meadow and
@@ -80,7 +75,8 @@ function fromEye(view: View, aloft: Aloft): number {
  * the screen. One in from away comes up over the brow (`entryAloft`), and
  * where the screen shows no open perch, flies out of view by the side its
  * perch stands to before the rest of its way; one leaving goes out just past
- * the screen's edge where the view stands now, by its seed's side.
+ * the screen's edge where the view stands now, by its seed's side, as deep
+ * as it set off (`leavingAloft`).
  */
 export class InsectView {
   private readonly shown = new Map<string, Shown>();
@@ -213,12 +209,7 @@ export class InsectView {
     const end =
       stretch.out ??
       (leg.to.kind === 'away'
-        ? offAloft(
-            view,
-            leg.to.side,
-            this.awayOf(shown, view),
-            fromEye(view, shown.from),
-          )
+        ? leavingAloft(view, leg.to.side, this.awayOf(shown, view), shown.from)
         : goal) ??
       shown.goal ??
       shown.from;

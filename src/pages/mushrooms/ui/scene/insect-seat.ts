@@ -17,7 +17,7 @@ import {
   veerOf,
 } from './insect-frame';
 import type { Seat } from './perch-hosts';
-import { aloftOfLayout } from './perch-sight';
+import { aloftOfLayout } from './plane-place';
 import { browRow, type Placed, type View } from './view';
 
 /**

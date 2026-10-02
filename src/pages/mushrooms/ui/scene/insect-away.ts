@@ -1,14 +1,20 @@
 /**
  * Where an insect away stands — one released, on the ground just past the
  * brow; one leaving, in the air just past the screen's edge where the view
- * stands now — and whether one drawn reaches the screen.
+ * stands now — and whether one drawn reaches the screen; and those same
+ * points as the `Places` a leg to or from away is timed by, so it is timed
+ * between the points it is drawn between.
  */
 
-import type { Side } from '../../model/flight';
+import { perchName, type Places, type Side,SIDES } from '../../model/flight';
+import type { WayOut } from '../../model/flight-in';
 import type { Point } from '../../model/geometry';
-import { alongSight, pinholeOf } from '../../model/ground';
+import { alongSight, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
+import { WIDEST_SPAN } from './flower-sight';
 import { type Aloft, aloftAt, azimuthOf, drawnAloft } from './insect-frame';
+import type { MeadowLayout } from './layout';
 import { wrapAngle } from './panorama';
+import { perchDistance, placeOfAloft } from './plane-place';
 import { D_SEE, onScreen, type Placed, type View } from './view';
 
 /**
@@ -62,16 +68,79 @@ const OUT_AHEAD = 0.5;
 
 /**
  * In the air just past `view`'s screen's `side` edge, at the height `away`
- * flies, `distance` from the eye in the clump's size.
+ * flies, `depth` from the eye in the clump's size as `perchDistance`
+ * measures it: forward in the frame turned to the eye's heading.
  */
 export function offAloft(
   view: View,
   side: Side,
   away: Away,
-  distance: number,
+  depth: number,
 ): Aloft {
+  const pinhole = pinholeOf(view);
   const x = side === 'left' ? -away.span : view.width + away.span;
+  // The frame's forward along the sight at `x` (`framedOf`).
+  const distance = depth / Math.cos((x - pinhole.x) / pinhole.focal);
   return aloftAt(view, { x, y: away.drop }, distance);
+}
+
+/**
+ * Where an insect leaving from `from` flies to: just past `view`'s screen's
+ * `side` edge (`offAloft`) as deep as it sets off, so it flies out across
+ * the screen rather than into or out of it. Its leg is timed level with
+ * where it sets off (`apartIn`), from the away spot `awayPlaces` gives.
+ */
+export function leavingAloft(
+  view: View,
+  side: Side,
+  away: Away,
+  from: Aloft,
+): Aloft {
+  return offAloft(view, side, away, perchDistance(view, from));
+}
+
+/**
+ * How `view` stands any insect away, for timing a leg to or from there: past
+ * an edge by a butterfly's widest wings on `layout`, at the middle of
+ * `AWAY_BAND`.
+ */
+function awayOn(layout: MeadowLayout, view: View): Away {
+  return {
+    span: WIDEST_SPAN * layout.insectSizes.butterfly,
+    drop: awayDown(view.height, 0),
+  };
+}
+
+/**
+ * The away spots of `Places` as `view` stands them: where it draws an
+ * insect leaving (`leavingAloft`), at the clump's depth, which a leg to one
+ * is timed level with its start (`apartIn`). A side the layout lays out
+ * nowhere is left out.
+ */
+export function awayPlaces(layout: MeadowLayout, view: View): Places {
+  const away = awayOn(layout, view);
+  return Object.fromEntries(
+    SIDES.flatMap((side) => {
+      const off = offAloft(view, side, away, CLUMP_DISTANCE);
+      const place = placeOfAloft(view, layout.insectSize, off);
+      return place ? [[perchName({ kind: 'away', side }), place] as const] : [];
+    }),
+  );
+}
+
+/**
+ * A release's way out of view as `view` draws it (`entryAloft`, with no
+ * seat): where it sets off over the brow, and the out point past each side;
+ * `undefined` where the layout lays any of them out nowhere.
+ */
+export function wayOutOf(layout: MeadowLayout, view: View): WayOut | undefined {
+  const [away, unit] = [awayOn(layout, view), layout.insectSize];
+  const brow = placeOfAloft(view, unit, entryAloft(view, 'left', away).from);
+  const [left, right] = SIDES.map((side) => {
+    const { out } = entryAloft(view, side, away);
+    return out && placeOfAloft(view, unit, out);
+  });
+  return brow && left && right ? { brow, outs: { left, right } } : undefined;
 }
 
 /**
@@ -81,7 +150,7 @@ export function offAloft(
  * sets off on the ground just past the brow (`PAST_BROW`), so it comes up
  * over it: halfway across from the screen's middle to its seat where the
  * screen shows the seat, else at the middle, flying out by the side of the
- * middle its seat is drawn on, `OUT_AHEAD` of the brow's distance away. With
+ * middle its seat is drawn on, `OUT_AHEAD` of the brow's distance deep. With
  * no seat it goes out by `side`.
  */
 export function entryAloft(

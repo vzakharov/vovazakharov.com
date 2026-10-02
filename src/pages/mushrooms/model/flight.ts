@@ -14,6 +14,7 @@ import {
   enteringSide,
   type Onscreen,
   outFirst,
+  outOf,
   outWay,
   shownOf,
 } from './flight-in';
@@ -282,12 +283,13 @@ export function firstFlight(
   const shown = shownOf(perches, onscreen);
   const inView = choose(shown);
   const to = inView.kind === 'away' ? choose(perches) : inView;
-  const { places } = shown;
-  const side = enteringSide(onscreen, places, to, drawn.side);
+  const side = enteringSide(onscreen, shown.places, to, drawn.side);
   const from: Perch = { kind: 'away', side };
+  const outside = to !== inView;
+  const places = outside ? outOf(shown.places, onscreen, side) : shown.places;
   const leg = legTo(random, habits, { from, to }, { now, places });
-  if (to === inView) return { leg, legs: 1 };
-  const out = (1000 * outWay(onscreen)) / habits.cruising;
+  if (!outside) return { leg, legs: 1 };
+  const out = (1000 * outWay(onscreen, side)) / habits.cruising;
   return { leg: outFirst(leg, out), legs: 1 };
 }
 

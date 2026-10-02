@@ -11,6 +11,7 @@ import {
 } from './insect-away';
 import { aloftAt, drawnAloft } from './insect-frame';
 import { meadowCamera } from './meadow-camera';
+import { perchDistance } from './plane-place';
 import { D_SEE, onScreen, placedAt, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
@@ -100,11 +101,11 @@ describe('entryAloft', () => {
 });
 
 describe('offAloft', () => {
-  it('stands past either edge at the drop, the distance asked from the eye', () => {
+  it('stands past either edge at the drop, the depth asked from the eye', () => {
     const view = viewAt(meadowCamera(1180, 820), { x: 0, y: 18, heading: 3 });
     for (const side of ['left', 'right'] as const) {
-      const off = offAloft(view, side, AWAY, 4);
-      assert.ok(Math.abs(Math.hypot(off.x, off.y - 18) - 4) < 1e-9);
+      const off = offAloft(view, side, AWAY, 6);
+      assert.ok(Math.abs(perchDistance(view, off) - 6) < 1e-9);
       const drawn = drawnAloft(view, off);
       assert.ok(drawn);
       assert.ok(side === 'left' ? drawn.x < 0 : drawn.x > 1180);

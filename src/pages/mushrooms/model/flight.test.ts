@@ -15,6 +15,7 @@ import {
   type Perches,
   perchName,
 } from './flight';
+import { apartOf } from './flight-timing';
 import { CLUMP_DISTANCE } from './ground';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 
@@ -364,27 +365,43 @@ describe('a flight across the screen', () => {
     }
   });
 
-  it('flies at its cruise as drawn where it is over a straight way at one depth, and a little under it between the depths perches stand at, every kind', () => {
+  it('flies to away at its cruise as drawn level with where it sets off, whatever depth its away spot stands at, every kind', () => {
     // The perches' distances from the opening eye run 0.9 to 1.5 of the clump's.
     const depths = [0.9, 1, 1.2, 1.5].map((share) => share * CLUMP_DISTANCE);
-    const [apart, steps] = [60, 1000];
+    const apart = 60;
     for (const kinded of INSECT_KINDS) {
       const { cruising: cruise } = FLIGHT_HABITS[kinded];
       for (const q of depths) {
         for (const edge of depths) {
-          // Drawn `CLUMP_DISTANCE / q` its size, with `1 / q` going evenly
-          // along the way, as a straight way across the ground's rows does.
-          let seen = 0;
-          for (let step = 0; step < steps; step++) {
-            const t = (step + 0.5) / steps;
-            seen += apart / steps / ((1 - t) / q + t / edge) / CLUMP_DISTANCE;
-          }
+          // Drawn `CLUMP_DISTANCE / q` its size the whole way.
+          const seen = (apart * q) / CLUMP_DISTANCE;
           const { departs, arrives } = legOver(kinded, apart, 3, q, edge);
           const share = seen / ((arrives - departs) / 1000) / cruise;
-          const at = `${kinded} from ${q.toFixed(1)} to ${edge.toFixed(1)}: ${share.toFixed(4)}`;
-          if (q === edge) assert.ok(Math.abs(share - 1) < 1e-6, at);
-          else assert.ok(share > 0.97 && share < 1, at);
+          const at = `${kinded} from ${q.toFixed(1)}, edge ${edge.toFixed(1)}: ${share.toFixed(4)}`;
+          assert.ok(Math.abs(share - 1) < 1e-6, at);
         }
+      }
+    }
+  });
+
+  it('times a way between two depths a little over its mean, as a straight way across the ground rows is drawn', () => {
+    const depths = [0.9, 1, 1.2, 1.5].map((share) => share * CLUMP_DISTANCE);
+    const [apart, steps] = [60, 1000];
+    for (const q of depths) {
+      for (const edge of depths) {
+        let seen = 0;
+        for (let step = 0; step < steps; step++) {
+          const t = (step + 0.5) / steps;
+          seen += apart / steps / ((1 - t) / q + t / edge) / CLUMP_DISTANCE;
+        }
+        const timed = apartOf(
+          { x: 0, y: 0, fromEye: q },
+          { x: apart, y: 0, fromEye: edge },
+        );
+        const share = seen / timed;
+        const at = `${q.toFixed(1)} to ${edge.toFixed(1)}: ${share.toFixed(4)}`;
+        if (q === edge) assert.ok(Math.abs(share - 1) < 1e-6, at);
+        else assert.ok(share > 0.97 && share < 1, at);
       }
     }
   });

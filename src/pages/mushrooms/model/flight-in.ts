@@ -7,17 +7,33 @@
  * (`insect-away.ts`).
  */
 
-import type { Leg, Perch, Perches, PerchKind, Places, Side } from './flight';
+import type {
+  Leg,
+  Perch,
+  Perches,
+  PerchKind,
+  Place,
+  Places,
+  Side,
+} from './flight';
+import { apartOf } from './flight-timing';
 import type { Lefted, Point } from './geometry';
 import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 
 /**
- * The stretch of the world the screen shows as an insect is released,
- * across in the units of `Places`, and `inset`: how far inside either edge a
- * perch stands to count as shown.
+ * A release's way out of view as the screen draws it, in the units of
+ * `Places`: `brow`, where it sets off, and `outs`, the point past each side
+ * it flies out by before the rest of its way.
  */
-export type Onscreen = Lefted & { right: number; inset: number };
+export type WayOut = { brow: Place; outs: Readonly<Record<Side, Place>> };
+
+/**
+ * The stretch of the world the screen shows as an insect is released,
+ * across in the units of `Places`; `inset`, how far inside either edge a
+ * perch stands to count as shown; and the release's way out of view.
+ */
+export type Onscreen = Lefted & { right: number; inset: number } & WayOut;
 
 /** Whether `onscreen` shows `place`, `inset` clear of either edge; never for a perch placed nowhere. */
 export function isShown(
@@ -36,11 +52,20 @@ export function nearerSide({ left, right }: Onscreen, place: Point): Side {
 
 /**
  * How far a released insect with no open perch in view flies out of it
- * first, in the units of `Places`: across `onscreen` from its middle and out
- * by a side.
+ * first by `side`, in butterfly sizes where it is (`apartOf`): from over the
+ * brow to past that side, as the screen draws it (`WayOut`).
  */
-export function outWay({ left, right }: Onscreen): number {
-  return (right - left) / 2;
+export function outWay({ brow, outs }: WayOut, side: Side): number {
+  return apartOf(brow, outs[side]);
+}
+
+/** `places` with the away spot by `side` where a release flying out of view by it sets off again (`WayOut`), so the rest of its way is timed from there. */
+export function outOf(
+  places: Places | undefined,
+  { outs }: WayOut,
+  side: Side,
+): Places {
+  return { ...places, [perchName({ kind: 'away', side })]: outs[side] };
 }
 
 /**
