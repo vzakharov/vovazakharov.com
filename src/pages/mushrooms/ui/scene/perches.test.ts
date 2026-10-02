@@ -3,10 +3,13 @@ import { describe, it } from 'node:test';
 
 import { type Perch, perchName } from '../../model/flight';
 import { apartIn } from '../../model/flight-timing';
-import { WIDEST_SPAN } from './flower-sight';
+import type { Point } from '../../model/geometry';
+import { type Eye, OPENING_EYE } from '../../model/ground';
+import { anchoredStand } from './anchored-stand';
+import { type Stand, WIDEST_SPAN } from './flower-sight';
 import { awayDown, leavingAloft } from './insect-away';
 import { drawnAloft } from './insect-frame';
-import { footRows, seatAt } from './perch-sight';
+import { footRows, PERCH_REACH, perchSight, seatAt } from './perch-sight';
 import { Perches } from './perches';
 import { aloftOfLayout } from './plane-place';
 import { viewAt } from './view';
@@ -72,4 +75,61 @@ describe('Perches.sightFrom', () => {
       assert.ok(legs > 10, `only ${String(legs)} legs in view`);
     });
   }
+});
+
+/** `stand` with one more mushroom, `lone`, like its first, its foot at `at` on the plane. */
+function withLone(stand: Stand, at: Point): Stand {
+  const [first] = stand.mushrooms;
+  assert.ok(first);
+  return {
+    ...stand,
+    mushrooms: [
+      ...stand.mushrooms,
+      { ...first, id: 'lone', foot: { ...first.foot, ...at } },
+    ],
+  };
+}
+
+const LONE = perchName({ kind: 'cap', id: 'lone' });
+
+describe('perches judged at an anchor', () => {
+  it('are the opening sight itself at the opening eye', () => {
+    const stand = opened(3, 1180, 820, true);
+    assert.equal(anchoredStand(stand, OPENING_EYE), stand);
+    const [plain, anchored] = [undefined, OPENING_EYE].map((anchor) => {
+      const perches = new Perches(() => ({
+        bed: undefined,
+        flowers: undefined,
+      }));
+      perches.see(stand, anchor);
+      return perches.sightFrom(viewAt(stand.layout.camera, OPENING_EYE));
+    });
+    assert.deepEqual(anchored, plain);
+  });
+
+  it('offer no cap past PERCH_REACH of the anchor', () => {
+    const stand = withLone(opened(3, 1180, 820, true), { x: 0, y: 10 });
+    const near: Eye = { x: 0, y: 0, heading: 0 };
+    const far: Eye = { x: 0, y: 10 - PERCH_REACH - 1, heading: 0 };
+    assert.ok(perchSight(anchoredStand(stand, near)).places?.[LONE]);
+    assert.equal(
+      perchSight(anchoredStand(stand, far)).places?.[LONE],
+      undefined,
+    );
+  });
+
+  it('place a cap behind the opening eye from an anchor facing it, where it stands', () => {
+    const stand = withLone(opened(3, 1180, 820, true), { x: 0.3, y: -10 });
+    assert.equal(perchSight(stand).places?.[LONE], undefined);
+    const anchor: Eye = { x: 0, y: 0, heading: Math.PI };
+    const perches = new Perches(() => ({ bed: undefined, flowers: undefined }));
+    perches.see(stand, anchor);
+    const place = perches.sightFrom(viewAt(stand.layout.camera, anchor))
+      .places?.[LONE];
+    assert.ok(place);
+    assert.ok(
+      Math.abs(place.fromEye - Math.hypot(0.3, 10)) < 0.5,
+      String(place.fromEye),
+    );
+  });
 });
