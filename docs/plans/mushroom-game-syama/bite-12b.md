@@ -1,9 +1,10 @@
-# Bite 12b — the endless field (open)
+# Bite 12b — the endless field
 
-The bite's calls, decided before its build, as `## This bite` in
-`docs/plans/mushroom-game-syama.*.md` points at them; its contract is
-[endless-field.md](endless-field.md). Each call's rejected alternative is in
-brackets.
+The bite's contract is [endless-field.md](endless-field.md); below, its calls
+as decided before the build, then what the build added to them. Each call's
+rejected alternative is in brackets.
+
+## The calls
 
 - **Spec first, by a mapping agent** (`docs/remove-before-merging/bite-12b/spec.md`):
   every reader of layout `Ground {x, z}` and of `GLADE`, endless-field.md's
@@ -70,3 +71,45 @@ brackets.
 - **Clear-outs**: `GLADE` and the rim slide, `nearestTheSun`/`acrossFromSun`
   (the "out of the wash" rule restated against the sun's azimuth, or gone),
   `openingCrop`, `rebloom`.
+
+## What the build settled
+
+Paths under `src/pages/mushrooms/ui/scene/` unless they say otherwise.
+
+- **One anchoring path.** `model/anchor.ts`'s `anchorOf(eye)` snaps the eye
+  (`ANCHOR_STEP` 0.5, `ANCHOR_TURN` 0.5/`D_SEE`); `anchoredGround(ground,
+anchor)` moves the stored plane feet into that eye's frame, the same
+  object while the anchor stays, and `placeIn` and every rule read it.
+  Perches snap coarser (`perchAnchorOf`, 2 units / 0.3 rad), a re-see costing
+  more than a frame's share.
+- **The caps.** `MUSHROOM_SLOTS` 12 within `D_SEE` of a new foot
+  (`isCrowdedAt`), `FIELD_MUSHROOMS` 96 in all (`isFull`), `FLOWER_SLOTS` 48
+  (`flowersCrowdAt`); `roomFor` returns a plane `Footed` and reads no `D_SEE`
+  cut, since opening caps stand to 15.9.
+- **A bee's ring on the plane**: `ringFoot(parent, ring, anchor)`, a fixed
+  offset of `RING_DEPTH` 1.5 round the parent's plane foot, turned by the
+  anchor's heading [layout offsets from the stored foot: wild off the
+  opening; a ring within half a tuft of bite 12's: no fixed offset gets
+  there, and a ring is laid fresh each visit, so none moves before anyone's
+  eyes]. Planted flowers are spaced by plane distance, the seeded bed by its
+  screen spacing, so the opening is unchanged.
+- **The lawn** (`lawn.ts`): cells of 4 units, 14 tufts a cell, live within
+  `D_SEE`; `Grass` tends only the view's sector (`tendedIn`), a tuft's tap
+  judged at the eye it was tended at, so a shown tuft never shakes its head.
+  Mottles grow from the same cells (`mottles.ts`).
+- **Light by heading**: `headedLight(light, heading)`, `SIDE_DRIFT` 0.1,
+  exact at the opening heading; each bed relights what it shows through its
+  own repaint queue (`Shown.lightsAt`, `paintFlowerLit`), up to two mushrooms
+  and two flowers a frame while turning [one shared queue in
+  `meadow-scene.ts`: only if the play run shows a hitch from it].
+- **Insects**: air spots on a plane lattice round the eye (`air-spots.ts`,
+  `widest-spans.ts`), a perch counted as shown only above the bottom edge and
+  short of the brow (`Onscreen.downTo`/`far`), an undrawn host's seat from
+  its plane foot (`Host.foot`, `opening`) with the sideways offset × `SPREAD`
+  across the line of sight to the foot, take-offs and shies panned
+  (`panOf`).
+- **Splits**: `mushroom-shown.ts` and `flower-shown.ts` out of the beds;
+  `tuft-tap.ts` out of `tufts.ts`.
+- **The play run** walks back with no rim (`checkBack`), walks a dense
+  forest of two clusters (`play-approach.ts`) and times the lawn's re-tend
+  and the perches' re-see (`__probe.hitches()`).
