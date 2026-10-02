@@ -24,7 +24,7 @@ import {
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
-import { OPENING_EYE, project } from '../../model/ground';
+import { OPENING_EYE, pinholeOf, project } from '../../model/ground';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { INSECT_LIMITS } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
@@ -33,7 +33,6 @@ import { toCanvas } from '../../model/mushroom-outline';
 import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
 import { placeIn } from './clump-layout';
-import { rowRuns } from './eye-crop';
 import { flowersOf, type StandingFlower } from './flower-plots';
 import {
   coversOn,
@@ -57,7 +56,7 @@ import {
   type Track,
 } from './perch-crowding';
 import { aloftOfLayout } from './plane-place';
-import { rowAt, type View, viewAt } from './view';
+import { middleOf, rowAt, type View, viewAt } from './view';
 
 /** How much of the narrower of two perched insects' spans the other may cover. */
 export const MOST_OVERLAP = 0.25;
@@ -391,53 +390,28 @@ export function footRows(
   return new Map([...caps, ...heads, ...air]);
 }
 
-/** How many columns across the screen `onscreenOf` follows to the ground's rows. */
-const COLUMNS = 32;
-
 /**
- * What `view` shows of the world on `layout`, in the units of `Places`: the
- * stretch across the layout the screen's columns reach on both the screen's
- * foot row and the seam's, the rows the perches' feet stand between, so a
- * perch standing over any row between counts as shown only where it is; a
+ * What `view` shows of the world on `layout`, in the units of `Places`, which
+ * stand every perch in the frame turned to the eye's heading
+ * (`placeOfAloft`): the stretch across that frame between the screen's
+ * edges, the screen being linear in azimuth and the frame its tangent, so a
+ * perch counts as shown just where the screen draws it, at whatever row; a
  * perch counts as shown half the widest butterfly's wings inside either
  * edge, so one seated there is wholly in view; and the release's way out of
- * view as `view` draws it (`wayOutOf`). Kept inside the world's strip;
- * `undefined` where the screen shows none of it, or the layout lays that way
- * out nowhere.
+ * view as `view` draws it (`wayOutOf`). `undefined` only with no view.
  */
 export function onscreenOf(
   layout: MeadowLayout,
   view: View | undefined,
 ): Onscreen | undefined {
   if (!view) return undefined;
-  const { width, height, groundTop, camera, insectSize: unit } = layout;
-  const columns = Array.from(
-    { length: COLUMNS + 1 },
-    (_, column) => (width * column) / COLUMNS,
-  );
-  const reaches = [height, groundTop].map((row) => {
-    // Each run kept to the world's strip, so a screen facing the plane's
-    // back, which meets the row's far ends out of order, shows none of it.
-    const across = rowRuns(view, columns, row).flatMap((run) => {
-      const left = Math.max(0, run[0] ?? Infinity);
-      const right = Math.min(camera.world, run.at(-1) ?? -Infinity);
-      return left <= right ? [left, right] : [];
-    });
-    return across.length > 0
-      ? { left: Math.min(...across), right: Math.max(...across) }
-      : undefined;
-  });
-  const left = Math.max(0, ...reaches.map((reach) => reach?.left ?? Infinity));
-  const right = Math.min(
-    camera.world,
-    ...reaches.map((reach) => reach?.right ?? -Infinity),
-  );
-  const wayOut = wayOutOf(layout, view);
-  if (left >= right || !wayOut) return undefined;
+  const unit = layout.insectSize;
+  const { x, focal } = pinholeOf(view);
+  const half = focal * Math.tan(x / focal);
   return {
-    left: left / unit,
-    right: right / unit,
+    left: (middleOf(view) - half) / unit,
+    right: (middleOf(view) + half) / unit,
     inset: widestOn(layout, 'butterfly') / 2 / unit,
-    ...wayOut,
+    ...wayOutOf(layout, view),
   };
 }

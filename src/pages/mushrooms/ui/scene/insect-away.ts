@@ -6,7 +6,7 @@
  * between the points it is drawn between.
  */
 
-import { perchName, type Places, type Side,SIDES } from '../../model/flight';
+import { perchName, type Places, type Side, SIDES } from '../../model/flight';
 import type { WayOut } from '../../model/flight-in';
 import type { Point } from '../../model/geometry';
 import { alongSight, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
@@ -114,33 +114,36 @@ function awayOn(layout: MeadowLayout, view: View): Away {
 /**
  * The away spots of `Places` as `view` stands them: where it draws an
  * insect leaving (`leavingAloft`), at the clump's depth, which a leg to one
- * is timed level with its start (`apartIn`). A side the layout lays out
- * nowhere is left out.
+ * is timed level with its start (`apartIn`).
  */
 export function awayPlaces(layout: MeadowLayout, view: View): Places {
   const away = awayOn(layout, view);
   return Object.fromEntries(
-    SIDES.flatMap((side) => {
+    SIDES.map((side) => {
       const off = offAloft(view, side, away, CLUMP_DISTANCE);
       const place = placeOfAloft(view, layout.insectSize, off);
-      return place ? [[perchName({ kind: 'away', side }), place] as const] : [];
+      return [perchName({ kind: 'away', side }), place] as const;
     }),
   );
 }
 
 /**
  * A release's way out of view as `view` draws it (`entryAloft`, with no
- * seat): where it sets off over the brow, and the out point past each side;
- * `undefined` where the layout lays any of them out nowhere.
+ * seat): where it sets off over the brow, and the out point past each side.
  */
-export function wayOutOf(layout: MeadowLayout, view: View): WayOut | undefined {
+export function wayOutOf(layout: MeadowLayout, view: View): WayOut {
   const [away, unit] = [awayOn(layout, view), layout.insectSize];
-  const brow = placeOfAloft(view, unit, entryAloft(view, 'left', away).from);
-  const [left, right] = SIDES.map((side) => {
-    const { out } = entryAloft(view, side, away);
-    return out && placeOfAloft(view, unit, out);
-  });
-  return brow && left && right ? { brow, outs: { left, right } } : undefined;
+  const placed = (aloft: Aloft) => placeOfAloft(view, unit, aloft);
+  const out = (side: Side) => placed(outAloft(view, side, away));
+  return {
+    brow: placed(entryAloft(view, 'left', away).from),
+    outs: { left: out('left'), right: out('right') },
+  };
+}
+
+/** The spot past `view`'s screen's `side` a release flies out of view by (`entryAloft`). */
+function outAloft(view: View, side: Side, away: Away): Aloft {
+  return offAloft(view, side, away, OUT_AHEAD * D_SEE);
 }
 
 /**
@@ -165,7 +168,7 @@ export function entryAloft(
   const from = { ...alongSight(view, view.eye, x, D_SEE + PAST_BROW), h: 0 };
   if (shown) return { from };
   const exit = seated ? (seated.x < middle ? 'left' : 'right') : side;
-  return { from, out: offAloft(view, exit, away, OUT_AHEAD * D_SEE) };
+  return { from, out: outAloft(view, exit, away) };
 }
 
 /**

@@ -28,6 +28,7 @@ import {
   perchSpot,
   seatAt,
 } from './perch-sight';
+import { Perches } from './perches';
 import { aloftOfLayout, perchDistance } from './plane-place';
 import { middleOf, ofLayout, rowAt, V_NEAR, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
@@ -250,27 +251,26 @@ describe('the butterflies of a visit', () => {
 
 describe('onscreenOf', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`shows at the opening eye the layout out to the azimuth of the screen's edges, a turned stretch turned, and nothing facing away, on a ${name} screen`, () => {
+    it(`shows the eye's frame out to the azimuth of the screen's edges from an eye walked or turned any way, facing away too, on a ${name} screen`, () => {
       const layout = meadowLayout(width, height, 7);
       const { camera, insectSize: unit } = layout;
-      // The lens draws the layout at the azimuth the opening crop's pinhole
-      // sees it at, so the screen's edge shows it `focal · tan` out.
+      // The screen is linear in azimuth and the frame its tangent, so the
+      // screen's edge shows the frame `focal · tan` out.
       const { x: half, focal } = pinholeOf(camera);
       const reach = focal * Math.tan(half / focal);
       const middle = middleOf(camera);
-      const opening = onscreenOf(layout, viewAt(camera, OPENING_EYE));
-      assert.ok(opening);
-      const left = Math.max(0, middle - reach) / unit;
-      const right = Math.min(camera.world, middle + reach) / unit;
-      assert.ok(Math.abs(opening.left - left) < 1e-6);
-      assert.ok(Math.abs(opening.right - right) < 1e-6);
-      const turned = onscreenOf(
-        layout,
-        viewAt(camera, { ...OPENING_EYE, heading: -0.3 }),
-      );
-      assert.ok(turned && turned.right < opening.right);
-      const away = viewAt(camera, { ...OPENING_EYE, heading: Math.PI });
-      assert.equal(onscreenOf(layout, away), undefined);
+      for (const eye of [
+        OPENING_EYE,
+        { ...OPENING_EYE, heading: -0.3 },
+        { ...OPENING_EYE, heading: Math.PI },
+        { x: 1.5, y: 2, heading: 2.5 },
+      ]) {
+        const onscreen = onscreenOf(layout, viewAt(camera, eye));
+        assert.ok(onscreen);
+        assert.ok(Math.abs(onscreen.left - (middle - reach) / unit) < 1e-6);
+        assert.ok(Math.abs(onscreen.right - (middle + reach) / unit) < 1e-6);
+      }
+      assert.equal(onscreenOf(layout, undefined), undefined);
     });
 
     it(`places every perch at its foot row's distance from the opening eye, the air and the edges at the clump's, on a ${name} screen`, () => {
@@ -356,30 +356,41 @@ describe('onscreenOf', () => {
       }
     });
 
-    it(`counts a perch shown only where the view draws its seat on the screen, stepped in and turned, on a ${name} screen`, () => {
+    it(`counts a perch shown only where the view draws it on the screen, stepped in, turned and facing away, on a ${name} screen`, () => {
       const stand = opened(3, width, height, true);
       const { layout } = stand;
       const rows = footRows(stand);
-      const { places } = perchSight(stand);
+      const { places: laid } = perchSight(stand);
+      const perches = new Perches(() => ({
+        bed: undefined,
+        flowers: undefined,
+      }));
+      perches.see(stand);
+      let shownAny = false;
       for (const eye of [
         { x: 0, y: 3, heading: 0 },
         { x: 1.5, y: 2, heading: 0.35 },
+        { x: 0, y: 0, heading: Math.PI },
+        { x: 1.5, y: 2, heading: 2.5 },
       ]) {
         const view = viewAt(layout.camera, eye);
         const onscreen = onscreenOf(layout, view);
         assert.ok(onscreen);
+        const { places } = perches.sightFrom(view);
         for (const [perch, row] of rows) {
-          const place = places?.[perch];
-          if (!place) continue;
-          const x = place.x * layout.insectSize;
+          const [place, at] = [places?.[perch], laid?.[perch]];
+          if (!place || !at) continue;
           const shown =
             place.x >= onscreen.left + onscreen.inset &&
             place.x <= onscreen.right - onscreen.inset;
           if (!shown) continue;
-          const drawn = ofLayout(view, { x, y: row }, row);
+          shownAny = true;
+          const x = at.x * layout.insectSize;
+          const drawn = ofLayout(view, { x, y: at.y * layout.insectSize }, row);
           assert.ok(drawn.x >= 0 && drawn.x <= width, perch);
         }
       }
+      assert.ok(shownAny);
     });
   }
 });

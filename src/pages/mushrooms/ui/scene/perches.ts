@@ -5,14 +5,13 @@ import { awayPlaces } from './insect-away';
 import type { Aloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import {
-  perchAloft,
   type Perched,
   perchedOn,
   type PerchHosts,
   tapThrough,
 } from './perch-hosts';
-import { airAlofts, perchSight } from './perch-sight';
-import { perchDistance } from './plane-place';
+import { airAlofts, clumpRow, footRows, perchSight } from './perch-sight';
+import { aloftOfLayout, placeOfAloft } from './plane-place';
 import type { View } from './view';
 
 /**
@@ -25,8 +24,8 @@ export class Perches {
   sight: Sight = { flowers: [], air: [], crowded: [], room: [] };
   /** Each spot in the open air as a fixed point in the world, by id, as last seen. */
   private alofts: ReadonlyMap<string, Aloft> = new Map();
-  /** Every perch `sight` places, by its name (`perchName`). */
-  private named = new Map<string, Perch>();
+  /** Every perch `sight` places but the away spots, as the fixed point in the world it is laid out at, by its name (`perchName`). */
+  private placed: ReadonlyMap<string, Aloft> = new Map();
   /** The layout the perches were last seen on. */
   private layout: MeadowLayout | undefined;
   /** The beds the perches stand on, as the scene holds them now. */
@@ -38,43 +37,50 @@ export class Perches {
 
   /** Sees the perches afresh on `stand`. */
   see(stand: Stand): void {
-    const { layout, mushrooms } = stand;
+    const { layout } = stand;
     this.sight = perchSight(stand);
     this.layout = layout;
     this.alofts = airAlofts(layout);
-    const { flowers, beeFlowers = [], air } = this.sight;
-    const perches: Perch[] = [
-      ...mushrooms.map(({ id }) => ({ kind: 'cap', id }) as const),
-      ...[...flowers, ...beeFlowers].map(
-        (id) => ({ kind: 'flower', id }) as const,
+    const { places = {} } = this.sight;
+    const aways = new Set(
+      SIDES.map((side) => perchName({ kind: 'away', side })),
+    );
+    const rows = footRows(stand);
+    const [unit, aloftRow] = [layout.insectSize, clumpRow(layout)];
+    // `perchSight`'s layout run backwards, each place over its foot's row.
+    this.placed = new Map(
+      Object.entries(places).flatMap(([name, { x, y }]) =>
+        aways.has(name)
+          ? []
+          : [
+              [
+                name,
+                aloftOfLayout(
+                  layout.camera,
+                  { x: x * unit, y: y * unit },
+                  rows.get(name) ?? aloftRow,
+                ),
+              ] as const,
+            ],
       ),
-      ...air.map((id) => ({ kind: 'air', id }) as const),
-      ...SIDES.map((side) => ({ kind: 'away', side }) as const),
-    ];
-    this.named = new Map(perches.map((perch) => [perchName(perch), perch]));
+    );
   }
 
   /**
-   * What the insects see of the perches as last seen, each place's distance
-   * measured from `view`'s eye (`perchDistance`), and the away spots past the
-   * screen's sides where `view` draws an insect leaving (`awayPlaces`).
+   * What the insects see of the perches as last seen, every place where
+   * `view`'s eye's frame stands it (`placeOfAloft`), with the away spots past
+   * the screen's sides where `view` draws an insect leaving (`awayPlaces`).
    */
   sightFrom(view: View): Sight {
-    const { places } = this.sight;
-    if (!places) return this.sight;
-    const hosts = this.hosts();
-    const measured = Object.entries(places).map(([name, place]) => {
-      const perch = this.named.get(name);
-      const at = perch && perchAloft(hosts, view, perch);
-      return [
-        name,
-        at ? { ...place, fromEye: perchDistance(view, at) } : place,
-      ] as const;
-    });
-    const away = this.layout ? awayPlaces(this.layout, view) : {};
+    const { layout, sight, placed } = this;
+    if (!sight.places || !layout) return sight;
+    const unit = layout.insectSize;
+    const seen = [...placed].map(
+      ([name, aloft]) => [name, placeOfAloft(view, unit, aloft)] as const,
+    );
     return {
-      ...this.sight,
-      places: { ...Object.fromEntries(measured), ...away },
+      ...sight,
+      places: { ...Object.fromEntries(seen), ...awayPlaces(layout, view) },
     };
   }
 

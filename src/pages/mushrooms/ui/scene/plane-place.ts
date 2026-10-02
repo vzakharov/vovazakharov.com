@@ -6,14 +6,9 @@
 
 import type { Place } from '../../model/flight';
 import type { Point } from '../../model/geometry';
-import {
-  type Camera,
-  EYE_HEIGHT,
-  gathered,
-  pinholeOf,
-  spread,
-} from '../../model/ground';
-import { type Aloft, framedOf } from './insect-frame';
+import { type Camera, spread } from '../../model/ground';
+import { type Aloft, azimuthOf, FRAME_MARGIN, framedOf } from './insect-frame';
+import { wrapAngle } from './panorama';
 import { middleOf, rowAt, V_NEAR, type View } from './view';
 
 /**
@@ -46,25 +41,21 @@ export function perchDistance(view: View, at: Aloft): number {
 }
 
 /**
- * `aloft` as the `Place` a leg to or from it is timed by: where the layout
- * lays it out (`aloftOfLayout` run backwards), in insect sizes of `unit` px,
- * and its distance from `view`'s eye (`perchDistance`). `undefined` for a
- * point the opening crop's pinhole has at or behind the opening eye, which
- * the layout lays out nowhere.
+ * `aloft` as the `Place` a leg to or from it is timed by: where the frame
+ * turned to `view`'s eye's heading stands it (`framedOf`), in insect sizes of
+ * `unit` px, and its forward distance there, kept out at `V_NEAR` as
+ * `perchDistance` keeps it. At the opening eye that frame is the layout, so
+ * this is `aloftOfLayout` run backwards; at any eye a leg drawn on the screen
+ * is framed at the eye's heading (`centreOf`), so it is timed as long as it
+ * is drawn. A point farther round than `FRAME_MARGIN` off the heading is
+ * placed at that margin, as far away, off the screen's side rather than
+ * where the frame's tangent blows up.
  */
-export function placeOfAloft(
-  view: View,
-  unit: number,
-  aloft: Aloft,
-): Place | undefined {
-  const { x, y } = gathered(aloft);
-  if (!(y > 0)) return undefined;
-  const pinhole = pinholeOf(view);
-  const footRow = pinhole.y + (pinhole.focal * EYE_HEIGHT) / y;
-  const { perPx } = rowAt(view, footRow);
-  return {
-    x: (middleOf(view) + x / perPx) / unit,
-    y: (footRow - aloft.h / perPx) / unit,
-    fromEye: perchDistance(view, aloft),
-  };
+export function placeOfAloft(view: View, unit: number, aloft: Aloft): Place {
+  const { heading } = view.eye;
+  const off = wrapAngle(azimuthOf(view.eye, aloft) - heading);
+  const kept = Math.min(Math.max(off, -FRAME_MARGIN), FRAME_MARGIN);
+  // Centred `off − kept` past the heading, the frame sees `aloft` `kept` off it.
+  const { x, y, forward } = framedOf(view, heading + off - kept, aloft);
+  return { x: x / unit, y: y / unit, fromEye: Math.max(V_NEAR, forward) };
 }
