@@ -1,4 +1,4 @@
-import type { FlowerFoot } from '../../model/ground';
+import type { Footing } from '../../model/ground';
 import type { Scened } from './planter';
 
 /**
@@ -13,7 +13,7 @@ type Holding = Pick<Scened, 'dispatch'> & {
   /** How long the pressed finger has stood inside the slop (`EyeInput.heldStill`); none once it turned or stepped, or lifted. */
   heldStill: () => number | undefined;
   /** Where the flower `id` stands on the ground; none while the screen has no room for it. */
-  footOf: (id: string) => FlowerFoot | undefined;
+  footOf: (id: string) => Footing | undefined;
 };
 
 /**

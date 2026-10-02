@@ -22,7 +22,7 @@ import {
 } from '../../model/geometry';
 import {
   type Camera,
-  type FlowerFoot,
+  type Footing,
   type Framed,
   type GroundFoot,
   groundFootOf,
@@ -34,7 +34,6 @@ import {
 } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
 import { type ClumpShade, mostShaded } from './clump-shade';
-import type { Footing } from './layout';
 
 /**
  * The slots the flowers grow around in each half of the world, as a fraction
@@ -110,7 +109,7 @@ export type FlowerGround = Pick<
     clump: ClumpShade;
   };
 
-export { type FlowerFoot } from '../../model/ground';
+export { type Footing } from '../../model/ground';
 
 /** The camera a visit's opening screen shows its ground through. */
 function cameraOf({
@@ -131,7 +130,7 @@ function standingOnGround(camera: Camera, foot: GroundFoot): Footing {
 }
 
 /** Where `foot` stands on the screen `camera` shows, and how big. */
-export function standingOn(camera: Camera, foot: FlowerFoot): Footing {
+export function standingOn(camera: Camera, foot: Footing): Footing {
   return standingOnGround(camera, groundFootOf(foot));
 }
 
@@ -145,10 +144,7 @@ export function groundOf(camera: Camera, { x, y, size }: Footing): GroundFoot {
 }
 
 /** Each foot of `bed` as `camera` shows it. */
-export function flowersOn(
-  camera: Camera,
-  bed: readonly FlowerFoot[],
-): Footing[] {
+export function flowersOn(camera: Camera, bed: readonly Footing[]): Footing[] {
   return bed.map((foot) => standingOn(camera, foot));
 }
 
@@ -367,7 +363,7 @@ function spotOn(
  * left half's slots, then the right's, each flower at its slot's first spot
  * there that a child sees (`spotOn`), left out when it has none.
  */
-export function seededBed(opening: FlowerGround, seed: number): FlowerFoot[] {
+export function seededBed(opening: FlowerGround, seed: number): Footing[] {
   const bed: GroundFoot[] = [];
   for (let half = 0; half < BED_HALVES; half++) {
     for (const slot of FLOWER_SPOTS.entries()) {

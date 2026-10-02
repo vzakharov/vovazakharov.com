@@ -22,11 +22,11 @@ export type Ground = Pick<Point, 'x'> & { z: number };
  * scales it: a flower's height to its head, a mushroom's unit. What the
  * meadow stores; a rule reads it as the layout's `Ground` (`groundOfPlane`).
  */
-export type FlowerFoot = Point & Scaled;
-/** A foot on the layout's ground and its size: a `FlowerFoot` as the rules judge it. */
+export type Footing = Point & Scaled;
+/** A foot on the layout's ground and its size: a `Footing` as the rules judge it. */
 export type GroundFoot = Ground & Scaled;
 /** Where a thing stands on the plane. */
-export type Rooted = { foot: FlowerFoot };
+export type Rooted = { foot: Footing };
 
 /** How far toward the sky's haze a thing's colours go, from 0 to 1. */
 export type Hazed = { haze: number };
@@ -273,10 +273,10 @@ export function groundOfPlane(point: Point): Ground {
  * Each stored foot's ground, kept by the foot: the rules judge every flower
  * against every other, many times a frame, and a stored foot never moves.
  */
-const groundFeet = new WeakMap<FlowerFoot, GroundFoot>();
+const groundFeet = new WeakMap<Footing, GroundFoot>();
 
 /** `foot` on the layout's ground (`groundOfPlane`), its size kept. */
-export function groundFootOf(foot: FlowerFoot): GroundFoot {
+export function groundFootOf(foot: Footing): GroundFoot {
   const kept = groundFeet.get(foot);
   if (kept) return kept;
   const ground = { ...groundOfPlane(foot), ...pick(foot, 'size') };
@@ -285,7 +285,7 @@ export function groundFootOf(foot: FlowerFoot): GroundFoot {
 }
 
 /** `foot` on the plane (`planeOf`), its size kept. */
-export function planeFootOf({ size, ...ground }: GroundFoot): FlowerFoot {
+export function planeFootOf({ size, ...ground }: GroundFoot): Footing {
   return { ...planeOf(ground), size };
 }
 

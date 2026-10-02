@@ -10,7 +10,7 @@ import {
   type Planting,
   reduce,
 } from './game';
-import { type FlowerFoot, planeFootOf } from './ground';
+import { type Footing, planeFootOf } from './ground';
 import { mulberry32 } from './random';
 
 const TUFT = planeFootOf({ x: 0.4, z: 1.3, size: 0.28 });
@@ -26,7 +26,7 @@ function run(actions: readonly Action[], from = firstMeadow(mulberry32(1))) {
 }
 
 /** The picker as it opens on the tuft at `foot`, waiting for a colour. */
-const onTuft = (foot: FlowerFoot): Planting => ({
+const onTuft = (foot: Footing): Planting => ({
   foot,
   chosen: undefined,
   flower: undefined,

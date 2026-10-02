@@ -20,7 +20,7 @@ import { sameFoot } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import {
   type Camera,
-  type FlowerFoot,
+  type Footing,
   groundFootOf,
   planeFootOf,
   type Rooted,
@@ -118,7 +118,7 @@ export function tuftAt<Tufted extends WithTuft>(
  * The foot on the ground a flower planted on `tuft` stands on, as `camera`
  * shows the tuft: at its root, in a seeded flower's size.
  */
-function tuftFoot(camera: Camera, { x, y }: Tuft): FlowerFoot {
+function tuftFoot(camera: Camera, { x, y }: Tuft): Footing {
   return planeFootOf({
     ...groundOf(camera, { x, y, size: 0 }),
     size: FLOWER_SIZE,
@@ -217,11 +217,7 @@ export function growTufts(
 }
 
 /** A tuft on `foot`, drawn from `random` where `layout` shows it. */
-function sproutOn(
-  layout: MeadowLayout,
-  foot: FlowerFoot,
-  random: Random,
-): Sprout {
+function sproutOn(layout: MeadowLayout, foot: Footing, random: Random): Sprout {
   const { x, y } = standingOn(layout.camera, foot);
   return { foot, tuft: tuftOn(layout, x, y, random) };
 }
@@ -377,12 +373,12 @@ export class Grass {
   }
 
   /** Whether a tuft stands on `foot`: where the flower picker can stay open. */
-  holds(foot: FlowerFoot): boolean {
+  holds(foot: Footing): boolean {
     return this.tufts.some((sprout) => sameFoot(sprout.foot, foot));
   }
 
   /** The grass as it bends at `t` through the view last followed, the tuft on `open`, the flower picker's, marked. */
-  update(t: number, open: FlowerFoot | undefined): void {
+  update(t: number, open: Footing | undefined): void {
     const { graphics, behind, view, refused, tufts, seam } = this;
     behind.clear();
     if (!view) {

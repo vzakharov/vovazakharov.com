@@ -11,7 +11,7 @@ import type { Perches, Sight, Timed } from './flight';
 import type { Onscreen } from './flight-in';
 import type { Coloured } from './flower-genes';
 import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
-import type { FlowerFoot, Rooted } from './ground';
+import type { Footing, Rooted } from './ground';
 import {
   EMPTY_HOUSE,
   furnished,
@@ -234,7 +234,7 @@ const flowersShut = (meadow: Meadow): Meadow =>
   meadow.planting === undefined ? meadow : { ...meadow, planting: undefined };
 
 /** Whether `a` and `b` are the one foot on the plane, by the stored numbers. */
-export const sameFoot = (a: FlowerFoot, b: FlowerFoot): boolean =>
+export const sameFoot = (a: Footing, b: Footing): boolean =>
   a.x === b.x && a.y === b.y && a.size === b.size;
 
 /** Every picker shut: the mushrooms', the house's and the flowers'. */

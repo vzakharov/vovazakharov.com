@@ -24,13 +24,13 @@ import { standingPlaces } from './clump-layout';
 import {
   clearOfFeet,
   FLOWER_DOWN,
-  type FlowerFoot,
+  type Footing,
   groundOf,
   headsApart,
   standingOn,
 } from './flower-layout';
 import type { Stand } from './flower-sight';
-import type { Footing, MeadowLayout } from './layout';
+import type { MeadowLayout } from './layout';
 
 /**
  * Each ring slot round a parent, a bee's planting taking any free one
@@ -89,10 +89,7 @@ const ON_THE_BAND = 1e-9;
  * its foot the slot's step off the parent's; `undefined` for a slot past the
  * ring.
  */
-export function ringFoot(
-  parent: FlowerFoot,
-  ring: number,
-): FlowerFoot | undefined {
+export function ringFoot(parent: Footing, ring: number): Footing | undefined {
   const slot = RING_SLOTS[ring];
   if (!slot) return undefined;
   const { x, z, size } = groundFootOf(parent);
@@ -106,7 +103,7 @@ export function ringFoot(
  * the ground, so the answer is the same on every screen.
  */
 export function groundFor(
-  foot: FlowerFoot,
+  foot: Footing,
   standing: readonly Rooted[],
   feet: readonly GroundFoot[],
 ): boolean {
@@ -145,8 +142,8 @@ export function mushroomFeet(
  */
 function footOf(
   sown: Sown,
-  feet: ReadonlyMap<string, FlowerFoot>,
-): FlowerFoot | undefined {
+  feet: ReadonlyMap<string, Footing>,
+): Footing | undefined {
   if (!isBeeSown(sown)) return sown.foot;
   const parent = feet.get(sown.parent);
   return parent && ringFoot(parent, sown.ring);
@@ -185,14 +182,14 @@ function plotted({
   pulled,
 }: Stand): {
   standing: StandingFlower[];
-  feet: ReadonlyMap<string, FlowerFoot>;
+  feet: ReadonlyMap<string, Footing>;
 } {
   const { camera, flowers } = layout;
   const claimed = mushroomFeet(layout, mushrooms);
   const up = new Set(pulled);
-  const feet = new Map<string, FlowerFoot>();
+  const feet = new Map<string, Footing>();
   const standing: StandingFlower[] = [];
-  const stand = (flower: Flower, foot: FlowerFoot, place: Footing) => {
+  const stand = (flower: Flower, foot: Footing, place: Footing) => {
     feet.set(flower.id, foot);
     if (!up.has(flower.id)) {
       standing.push({ ...pick(flower, 'id', 'seed'), foot, place });
@@ -221,7 +218,7 @@ export function flowersOf(stand: Stand): StandingFlower[] {
  * they went: the spot it leaves the child to plant on again. A flower that
  * never stood on this layout, pulled or not, has none.
  */
-export function pulledFeet(stand: Stand): FlowerFoot[] {
+export function pulledFeet(stand: Stand): Footing[] {
   const { feet } = plotted(stand);
   return stand.pulled.flatMap((id) => {
     const foot = feet.get(id);
@@ -233,6 +230,6 @@ export function pulledFeet(stand: Stand): FlowerFoot[] {
  * Every flower standing in `stand`, seeded and planted, as its foot on the
  * ground, for a mushroom's foot to keep off (`roomFor`).
  */
-export function flowerFeet(stand: Stand): FlowerFoot[] {
+export function flowerFeet(stand: Stand): Footing[] {
   return flowersOf(stand).map(({ foot }) => foot);
 }

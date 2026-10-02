@@ -21,16 +21,16 @@ import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import {
   FLOWER_SWAY,
-  type FlowerFoot,
   FLOWERS_APART,
   FOOT_CLEARANCE,
+  type Footing,
   groundOf,
   MOST_SHADED,
   standingOn,
   widestHead,
 } from './flower-layout';
 import { type StandingFlower, standingFlowers } from './flower-plots';
-import { type Footing, type MeadowLayout, meadowLayout } from './layout';
+import { type MeadowLayout, meadowLayout } from './layout';
 import { standingControls } from './sky-layout';
 import { EITHER_WAY, VIEWPORTS, VISITS } from './viewports';
 import { type Opened, opened, relaidOn } from './visit-play';
@@ -67,7 +67,7 @@ function visitsOn(width: number, height: number): Opened[] {
 }
 
 /** The visit's seeded bed on the plane, read back off the screen it opened on. */
-function bedOf({ layout }: Opened): FlowerFoot[] {
+function bedOf({ layout }: Opened): Footing[] {
   return layout.flowers.map((place) =>
     planeFootOf(groundOf(layout.camera, place)),
   );

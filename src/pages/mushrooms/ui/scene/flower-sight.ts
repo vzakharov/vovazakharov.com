@@ -32,7 +32,7 @@ import type { InsectKind } from '../../model/insect-genes';
 import { type Plot, slotTaken } from '../../model/pollen';
 import { placeIn } from './clump-layout';
 import { type Standing, standingAt } from './door-sight';
-import { FLOWER_SWAY, type FlowerFoot, standingOn } from './flower-layout';
+import { FLOWER_SWAY, type Footing, standingOn } from './flower-layout';
 import {
   flowersOf,
   groundFor,
@@ -42,7 +42,7 @@ import {
   ringFoot,
   type StandingFlower,
 } from './flower-plots';
-import type { Footing, MeadowLayout } from './layout';
+import type { MeadowLayout } from './layout';
 import { tapReach } from './tap-reach';
 
 /**
@@ -328,7 +328,7 @@ type Ground = {
  */
 function plantable(
   layout: MeadowLayout,
-  foot: FlowerFoot,
+  foot: Footing,
   { standing, claimed }: Ground,
   covers: readonly Cover[],
 ): boolean {
@@ -354,7 +354,7 @@ function groundIn(stand: Stand): Ground {
  * `plantable` as a bee's planting would be, so the flower stands and is in
  * sight on every screen (`roomIn`, for one foot).
  */
-export function takesFlower(stand: Stand, foot: FlowerFoot): boolean {
+export function takesFlower(stand: Stand, foot: Footing): boolean {
   return roomIn(stand)(foot);
 }
 
@@ -363,7 +363,7 @@ export function takesFlower(stand: Stand, foot: FlowerFoot): boolean {
  * sight (`plantable`): what `stand` holds read once, for every foot asked
  * after.
  */
-export function roomIn(stand: Stand): (foot: FlowerFoot) => boolean {
+export function roomIn(stand: Stand): (foot: Footing) => boolean {
   const { layout, mushrooms } = stand;
   const ground = groundIn(stand);
   const covers = coversOn(layout, mushrooms);

@@ -10,13 +10,13 @@
 import { pick } from '@/shared/lib/collections';
 import type { Sized } from '@/shared/typings';
 
-import type { Box, Circle, Point, Scaled } from '../../model/geometry';
+import type { Box, Circle } from '../../model/geometry';
 import type { Camera, Hazed, WithCamera } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { openingPan, screenOf } from '../../model/pan';
 import { clumpCrowns, type MushroomGround } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
-import { type FlowerFoot, flowersOn, seededBed } from './flower-layout';
+import { flowersOn, type Footing, seededBed } from './flower-layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
 import { type Cloud, skyClouds } from './panorama';
 import {
@@ -37,7 +37,7 @@ export type { Hazed } from '../../model/ground';
  * Where a thing's foot stands, and its size: the unit its genes are in, a
  * flower's height to its head.
  */
-export type Footing = Point & Scaled;
+export { type Footing } from './flower-layout';
 
 /**
  * A butterfly's size, the unit its genes are in, as a share of the clump's,
@@ -127,7 +127,7 @@ export function meadowLayout(
  */
 const KEPT = 8;
 const stood = new Map<string, Stood>();
-const beds = new Map<string, FlowerFoot[]>();
+const beds = new Map<string, Footing[]>();
 
 /** `make()`, kept in `store` under `key` among the latest `KEPT`. */
 function keptIn<Kept>(
@@ -161,7 +161,7 @@ function stoodMeadow(width: number, height: number): Stood {
 const BED_SCREEN = { width: 1180, height: 820 } as const;
 
 /** `seededBed` on the world against `openers`, kept for the visits placed last. */
-function keptBed(seed: number, openers: readonly Opener[]): FlowerFoot[] {
+function keptBed(seed: number, openers: readonly Opener[]): Footing[] {
   const key = [
     String(seed),
     ...openers.map(
