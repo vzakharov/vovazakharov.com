@@ -10,6 +10,7 @@ import {
   SPREAD,
   spread,
 } from '../../model/ground';
+import { flightPoint } from '../../model/insect-paths';
 import { between, mulberry32 } from '../../model/random';
 import {
   type Aloft,
@@ -18,10 +19,13 @@ import {
   centreOf,
   drawnAloft,
   FRAME_MARGIN,
+  type Framed,
   framedOf,
   mixD,
   SEAT_FADE,
   type SeatEnds,
+  SKIM,
+  unframed,
   type Veer,
   veered,
   veeredAlong,
@@ -53,6 +57,19 @@ function near(actual: number, expected: number, tolerance: number): void {
     Math.abs(actual - expected) <= tolerance,
     `${actual} is not within ${tolerance} of ${expected}`,
   );
+}
+
+/**
+ * The most a run of evenly spaced samples bends, per its step squared: a
+ * smooth bend holds it as the samples thicken, a kink grows it with them.
+ */
+function bending(values: number[]): number {
+  const turns = values
+    .slice(2)
+    .map((value, i) =>
+      Math.abs(value - 2 * (values[i + 1] ?? 0) + (values[i] ?? 0)),
+    );
+  return Math.max(...turns) * (values.length - 1) ** 2;
 }
 
 /** Layout points across `view`'s opening crop, each over a ground row below the brow's middle. */
@@ -98,7 +115,7 @@ describe('insect-frame', () => {
         near(framed.x, point.x, 1e-6);
         near(framed.y, point.y, 1e-6);
         near(framed.forward, q, 1e-9);
-        const drawn = drawnAloft(opening, aloftFramed(opening, 0, framed));
+        const drawn = drawnAloft(opening, unframed(opening, 0, framed));
         const today = sunkOver(
           opening,
           ofLayout(opening, point, footRow),
@@ -163,16 +180,15 @@ describe('insect-frame', () => {
             y: eye.y + distance * Math.cos(azimuth),
             h: between(random, 0, 2),
           };
-          const back = aloftFramed(view, centre, framedOf(view, centre, aloft));
+          const framed = framedOf(view, centre, aloft);
+          const back = unframed(view, centre, framed);
           near(back.x, aloft.x, 1e-9);
           near(back.y, aloft.y, 1e-9);
           near(back.h, aloft.h, 1e-9);
-          const framed = framedOf(view, centre, aloft);
-          const again = framedOf(
-            view,
-            centre,
-            aloftFramed(view, centre, framed),
-          );
+          if (aloft.h >= SKIM) {
+            assert.deepEqual(aloftFramed(view, centre, framed), back);
+          }
+          const again = framedOf(view, centre, unframed(view, centre, framed));
           near(again.x, framed.x, 1e-9);
           near(again.y, framed.y, 1e-9);
           near(again.forward, framed.forward, 1e-9);
@@ -229,6 +245,62 @@ describe('insect-frame', () => {
   it('hides an aloft point at the eye', () => {
     const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
     assert.equal(drawnAloft(view, { x: 0, y: 0, h: 0.3 }), undefined);
+  });
+});
+
+describe('aloftFramed', () => {
+  // A butterfly's leg across the screen between two caps 0.3 up, bowed down
+  // the screen, mixed as the scene mixes it: its forward along the chord.
+  const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
+  const depth = 0.6 * CLUMP_DISTANCE;
+  const start = framedOf(view, 0, { x: -3.5, y: depth, h: 0.3 });
+  const end = framedOf(view, 0, { x: 3.5, y: depth, h: 0.3 });
+  const path = {
+    start,
+    end,
+    bow: 1,
+    departs: 0,
+    arrives: 1000,
+    launch: 1,
+    speed: 1,
+    drink: 0,
+  };
+  const motion = { phase: 0, kind: 'butterfly', flutter: 0 } as const;
+  const leg = (samples: number): Framed[] =>
+    Array.from({ length: samples + 1 }, (_, step) => {
+      const point = flightPoint(path, (step * path.arrives) / samples, motion);
+      const gone = Math.hypot(point.x - start.x, point.y - start.y);
+      const left = Math.hypot(point.x - end.x, point.y - end.y);
+      const flown = gone / (gone + left);
+      return { ...point, forward: mixD(start.forward, end.forward, flown) };
+    });
+
+  it('reads that leg as dipping underground unframed', () => {
+    const lowest = Math.min(...leg(400).map((at) => unframed(view, 0, at).h));
+    assert.ok(lowest < -0.4, String(lowest));
+  });
+
+  it('keeps that leg over the ground, on the screen point it was framed at', () => {
+    for (const at of leg(400)) {
+      const aloft = aloftFramed(view, 0, at);
+      assert.ok(aloft.h > 0, `${aloft.h} at ${at.x}, ${at.y}`);
+      const back = framedOf(view, 0, aloft);
+      near(back.x, at.x, 1e-9);
+      near(back.y, at.y, 1e-9);
+    }
+  });
+
+  it('bends that leg’s height and distance with no kink', () => {
+    const reads = [
+      (aloft: Aloft) => aloft.h,
+      (aloft: Aloft) => Math.hypot(aloft.x, aloft.y),
+    ];
+    for (const read of reads) {
+      const bent = (samples: number) =>
+        bending(leg(samples).map((at) => read(aloftFramed(view, 0, at))));
+      const [coarse, fine] = [bent(400), bent(1600)];
+      assert.ok(fine < 1.5 * coarse, `${fine} against ${coarse}`);
+    }
   });
 });
 

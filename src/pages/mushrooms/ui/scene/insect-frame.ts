@@ -82,7 +82,7 @@ export function framedOf(view: View, centre: number, aloft: Aloft): Framed {
 }
 
 /** `framedOf` run backwards: the `Aloft` the frame `centre` at `view`'s eye stands at `framed`. */
-export function aloftFramed(view: View, centre: number, framed: Framed): Aloft {
+export function unframed(view: View, centre: number, framed: Framed): Aloft {
   const pinhole = pinholeOf(view);
   const theta = Math.atan((framed.x - middleOf(view)) / pinhole.focal);
   const azimuth = centre + SPREAD * theta;
@@ -92,6 +92,30 @@ export function aloftFramed(view: View, centre: number, framed: Framed): Aloft {
     y: view.eye.y + distance * Math.cos(azimuth),
     h: EYE_HEIGHT - ((framed.y - pinhole.y) * framed.forward) / pinhole.focal,
   };
+}
+
+/**
+ * The height, in the clump's size, under which a flight's height eases
+ * toward the ground instead of going under it (`aloftFramed`).
+ */
+export const SKIM = 0.1;
+
+/**
+ * The `Aloft` a flight framed at `framed` stands at: `unframed`, but never
+ * under the ground. A leg mixes its forward distance along its chord, so a
+ * point its bow, zigzag or flutter swings below the chord's ground line
+ * would read back under the ground; it is nearer instead, on the same sight,
+ * so the screen point is kept. Its height is `unframed`'s from `SKIM` up and
+ * below it eases toward 0 on an exponential matched in value and slope, so
+ * a swoop toward the grass bends its height and size with no kink.
+ */
+export function aloftFramed(view: View, centre: number, framed: Framed): Aloft {
+  const exact = unframed(view, centre, framed);
+  if (exact.h >= SKIM) return exact;
+  const h = SKIM * Math.exp((exact.h - SKIM) / SKIM);
+  // Below the horizon the sight drops `EYE_HEIGHT − h` over `forward`.
+  const forward = (framed.forward * (EYE_HEIGHT - h)) / (EYE_HEIGHT - exact.h);
+  return { ...unframed(view, centre, { ...framed, forward }), h };
 }
 
 /**
