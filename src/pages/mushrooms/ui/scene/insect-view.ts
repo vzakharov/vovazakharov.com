@@ -18,9 +18,9 @@ import { containsCircle } from './hit-areas';
 import type { Lighting } from './ink';
 import {
   type Away,
-  awayDown,
   entryAloft,
   leavingAloft,
+  ownAway,
   reachesScreen,
   seenFor,
 } from './insect-away';
@@ -396,15 +396,11 @@ export class InsectView {
   }
 
   /**
-   * How an insect stands away (`insect-away.ts`): past an edge by its open
-   * wings' span at its size now — measured afresh, since a new one stands
-   * away before its first `draw` — at a height its phase picks.
+   * How an insect stands away (`ownAway`), at its size now — measured
+   * afresh, since a new one stands away before its first `draw`.
    */
   private awayOf(shown: Shown, view: View): Away {
-    return {
-      span: wingspan(shown.look.genes) * this.sizeOf(shown),
-      drop: awayDown(view.height, shown.phase),
-    };
+    return ownAway(view, shown.look.genes, this.sizeOf(shown), shown.phase);
   }
 
   private show(flier: Flier): Shown {

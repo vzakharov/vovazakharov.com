@@ -64,13 +64,14 @@ export class Arrivals {
   readonly release = (insect: InsectKind): void => {
     const { dispatch, layout, view, sight } = this.scene;
     this.voice.takeOff(insect);
+    const seed = nextSeed(this.releasing);
     dispatch({
       kind: 'release',
       insect,
-      seed: nextSeed(this.releasing),
+      seed,
       now: this.now() * 1000,
       ...sight(),
-      onscreen: onscreenOf(layout(), view()),
+      onscreen: onscreenOf(layout(), view(), { kind: insect, seed }),
     });
   };
 
