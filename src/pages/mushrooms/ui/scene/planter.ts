@@ -15,7 +15,10 @@ import { type FlowerInView, keyPlanting, sowingTuft } from './keyed-flowers';
 import type { MeadowSound } from './sound';
 import { type Grass, plantableIn, type Sprout } from './tufts';
 
-/** What the planter acts through: the scene's stand, reducer and the tufts its view draws. */
+/**
+ * What the planter acts through: the scene's stand, reducer and the tufts in
+ * sight, drawn on the screen with no nearer mushroom over them (`Grass.inView`).
+ */
 export type Scened = {
   stand: () => Stand | undefined;
   meadow: () => Meadow | undefined;
@@ -94,8 +97,8 @@ export class Planter {
 
   /**
    * A key making `sound` with the flower picker shut and no flower in view
-   * making it: grows the flower that does on a tuft the view draws that
-   * still takes one (`plantableIn`, which counts the flowers sown this
+   * making it: grows the flower that does on a tuft in sight that still
+   * takes one (`plantableIn`, which counts the flowers sown this
    * frame), both drawn off the planter's stream. Returns the flower's id, or
    * `undefined` where no tuft in view is free.
    */

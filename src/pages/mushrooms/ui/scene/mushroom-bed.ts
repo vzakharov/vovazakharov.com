@@ -396,7 +396,6 @@ export class MushroomBed implements Following {
         this.now,
         phaseOf(mushroom),
         SPORE_DEPTH,
-        mushroom.foot,
         this.nearestDoor,
       ),
       phase: phaseOf(mushroom),

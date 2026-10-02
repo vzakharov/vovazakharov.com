@@ -16,6 +16,7 @@ import { sunLight } from '../../model/light';
 import { mulberry32 } from '../../model/random';
 import { Arrivals } from './arrivals';
 import type { Opener } from './clump-shade';
+import { controlActions, type ControlScene } from './control-actions';
 import { Controls } from './controls';
 import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
@@ -143,37 +144,7 @@ export class MeadowScene extends Phaser.Scene {
     );
     this.controls = new Controls(
       this,
-      {
-        mute: () => {
-          this.voice.toggleMuted();
-          this.voice.pop();
-          this.dispatch({ kind: 'shut' });
-          this.repaintControls();
-        },
-        pick: () => {
-          this.voice.pop();
-          this.dispatch({ kind: 'pick' });
-        },
-        remove: () => {
-          this.dispatch({ kind: 'remove' });
-        },
-        house: () => {
-          this.voice.pop();
-          this.dispatch({ kind: 'house' });
-        },
-        furnish: (piece) => {
-          this.dispatch({ kind: 'furnish', piece });
-        },
-        ...pick(this.arrivals, 'grow', 'roomy', 'release'),
-        ...pick(this.planter, 'colour', 'plant', 'plantable'),
-        pull: () => {
-          this.voice.pop();
-          this.dispatch({ kind: 'pull' });
-        },
-        refuse: () => {
-          this.voice.nuhUh();
-        },
-      },
+      controlActions(this.controlScene()),
       this.now,
       HUD_DEPTH,
     );
@@ -388,7 +359,7 @@ export class MeadowScene extends Phaser.Scene {
     );
   }
 
-  private repaintControls(): void {
+  private readonly repaintControls = (): void => {
     if (this.layout && this.meadow) {
       this.controls?.paint(
         this.layout,
@@ -398,6 +369,18 @@ export class MeadowScene extends Phaser.Scene {
         this.eye.toScreen,
       );
     }
+  };
+
+  /** What the buttons over the meadow act through (`controlActions`). */
+  private controlScene(): ControlScene {
+    const { voice, arrivals, planter, scened, repaintControls } = this;
+    return {
+      voice,
+      arrivals,
+      planter,
+      ...pick(scened, 'dispatch'),
+      repaint: repaintControls,
+    };
   }
 
   private pixelRatio(): number {

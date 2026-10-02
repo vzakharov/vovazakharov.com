@@ -221,10 +221,13 @@ export function flowerTapReach(r: number): number {
   return tapReach(r * 1.2);
 }
 
-/** A standing mushroom as the flowers' sight reads it: how near the front it stands, and its outlines as drawn. */
-export type Cover = Pick<Standing, 'depth'> & {
+/** A mushroom's outlines as drawn, each with the box round it. */
+export type BoxedOutlines = {
   drawn: ReadonlyArray<{ outline: readonly Point[]; box: Box }>;
 };
+
+/** A standing mushroom as the flowers' sight reads it: how near the front it stands, and its outlines as drawn. */
+export type Cover = Pick<Standing, 'depth'> & BoxedOutlines;
 
 /**
  * Whether an insect on `flower` can be seen there, on `layout`: its seat

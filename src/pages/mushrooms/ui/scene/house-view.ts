@@ -1,7 +1,6 @@
 import * as Phaser from 'phaser';
 
 import type { Point } from '../../model/geometry';
-import type { Ground } from '../../model/ground';
 import { type DoorPlace, type House, windowSlots } from '../../model/house';
 import {
   blink,
@@ -12,7 +11,7 @@ import {
   type Tapped,
 } from '../../model/motion';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
-import { type BedPlace, bedPlace, standAt } from './bed-place';
+import { type BedPlace, standAt } from './bed-place';
 import { mix } from './colour';
 import { doorHitArea, mouseHead } from './door-reach';
 import { paintHouse } from './draw-house';
@@ -23,7 +22,6 @@ import type { HazedGraphics } from './mushroom-paint';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
 import { puffFrom } from './spores';
-import type { Following, View } from './view';
 
 /** How much sooner than its mouse's head a door swings all the way open. */
 const DOOR_LEAD = 2;
@@ -54,7 +52,7 @@ export type Body = HazedGraphics &
  * they grow, wobble and sink with it. The door is this graphics' hit area and
  * the windows are not, so a tap on a window falls through to the mushroom.
  */
-export class HouseView implements Following {
+export class HouseView {
   readonly graphics: Phaser.GameObjects.Graphics;
   /** When each window was put in, in `House.windows`' order. */
   private readonly windowsAt: number[] = [];
@@ -74,8 +72,6 @@ export class HouseView implements Following {
   private readonly voice: MeadowSound;
   private readonly now: () => number;
   private readonly puffDepth: number;
-  /** Where its mushroom's foot stands on the ground. */
-  private readonly foot: Ground;
 
   constructor(
     scene: Phaser.Scene,
@@ -83,11 +79,9 @@ export class HouseView implements Following {
     now: () => number,
     phase: number,
     puffDepth: number,
-    foot: Ground,
     nearest: (house: HouseView, at: Point) => boolean,
   ) {
     this.scene = scene;
-    this.foot = foot;
     this.voice = voice;
     this.now = now;
     this.puffDepth = puffDepth;
@@ -188,10 +182,6 @@ export class HouseView implements Following {
   /** How far the mouse is out of its door at `t`: 0 with no door. */
   out(t: number): number {
     return this.doorAt === undefined ? 0 : mouseOut(t, this.mouse);
-  }
-
-  follow(view: View): void {
-    this.stand(bedPlace(view, this.foot));
   }
 
   /** Stands the house at `place`, its mushroom's. */
