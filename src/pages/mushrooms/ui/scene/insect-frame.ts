@@ -105,18 +105,27 @@ export function mixD(from: number, to: number, flown: number): number {
 
 /**
  * Where `view` draws `aloft`, sized by its own distance (`CLUMP_DISTANCE /
- * ahead`) and sunk under the brow by the ground under it; none at or behind
- * the eye, nor once it has sunk below the brow.
+ * ahead`) and sunk under the brow by the ground under it (`drawn`), sunk or
+ * not, and that ground as the view places it before it sinks (`ground`);
+ * none at or behind the eye.
  */
-export function drawnAloft(view: View, aloft: Aloft): Placed | undefined {
+export function sinkingAloft(
+  view: View,
+  aloft: Aloft,
+): { drawn: Placed; ground: Placed } | undefined {
   const placed = placedAt(view, aloft, aloft.h, CLUMP_DISTANCE);
   if (!(placed.ahead > 0)) return undefined;
-  const drawn = sunkOver(
-    view,
-    placed,
-    placedAt(view, aloft, 0, CLUMP_DISTANCE),
-  );
-  return buried(view, drawn) ? undefined : drawn;
+  const ground = placedAt(view, aloft, 0, CLUMP_DISTANCE);
+  return { drawn: sunkOver(view, placed, ground), ground };
+}
+
+/**
+ * Where `view` draws `aloft` (`sinkingAloft`); none at or behind the eye,
+ * nor once it has sunk below the brow.
+ */
+export function drawnAloft(view: View, aloft: Aloft): Placed | undefined {
+  const drawn = sinkingAloft(view, aloft)?.drawn;
+  return drawn && !buried(view, drawn) ? drawn : undefined;
 }
 
 /**

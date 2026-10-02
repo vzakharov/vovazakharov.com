@@ -10,16 +10,19 @@ import { VIEWPORTS } from '../ui/scene/viewports';
 import type { Point } from './geometry';
 import { type Camera, pinholeOf, viewOf } from './ground';
 import { SLOP, TURN_CRUISE } from './pan';
-import { STRIDE_CRUISE } from './stride';
+import { forwardOf, sidewaysOf, STRIDE_CRUISE } from './stride';
 import {
   distanceOfRow,
   eyeAt,
   headingAt,
   heldStill,
+  holdStrafe,
   holdTurn,
   holdWalk,
+  letGoStrafe,
   letGoTurn,
   liftAt,
+  lockOf,
   moveTo,
   openingWalk,
   pressAt,
@@ -268,6 +271,95 @@ describe('a drag on the walk', () => {
     const at = clock.walk.stride.at;
     clock.run(1);
     assert.deepEqual(clock.walk.stride.at, at);
+  });
+});
+
+describe('a strafe on the walk', () => {
+  it('locks a horizontal drag that went down above the ground to the strafe, a vertical one to the step', () => {
+    const sky = { x: TABLET.width * 0.4, y: TABLET.groundTop - 40 };
+    const ground = { x: TABLET.width * 0.4, y: TABLET.groundTop + 40 };
+    for (const [down, dx, dy, axis] of [
+      [sky, 30, 0, 'strafe'],
+      [sky, -25, 25, 'strafe'],
+      [sky, 10, 30, 'step'],
+      [ground, 30, 0, 'turn'],
+      [ground, 10, -30, 'step'],
+    ] as const) {
+      assert.equal(lockOf(TABLET, down, shifted(down, dx, dy)), axis);
+      const clock = new Clock(openingWalk(TABLET));
+      clock.press(down);
+      clock.move(shifted(down, dx, dy));
+      assert.equal(axisOf(clock.walk), axis, `${dx}, ${dy}`);
+    }
+  });
+
+  it('slides the far ground with the finger, square to the heading, no faster than a step and never turning', () => {
+    for (const { name, camera } of CAMERAS) {
+      const clock = new Clock(openingWalk(camera));
+      clock.walk = holdTurn(clock.walk, 1, clock.time);
+      clock.run(0.3 / TURN_CRUISE);
+      clock.walk = letGoTurn(clock.walk, 1);
+      clock.run(1);
+      const heading = headingAt(clock.walk, clock.time);
+      const start = clock.walk.stride.at;
+      const down = { x: camera.width * 0.4, y: camera.groundTop * 0.6 };
+      const reference = distanceOfRow(camera, camera.groundTop);
+      const ahead = forwardOf(heading);
+      const side = forwardOf(sidewaysOf(heading));
+      const crossing = shifted(down, SLOP, 0);
+      const lift = shifted(crossing, 150, 0);
+      const { arc, x: middle } = pinholeOf(camera);
+      // The far ground under the crossing: `reference` ahead, at its azimuth.
+      const offset = reference * Math.tan((crossing.x - middle) / arc);
+      const far = {
+        x: start.x + ahead.x * reference + side.x * offset,
+        y: start.y + ahead.y * reference + side.y * offset,
+      };
+      clock.press(down);
+      let last = start;
+      const fastest = (walk: Walk) => {
+        const step = apart(walk.stride.at, last);
+        assert.ok(step <= STRIDE_CRUISE * FRAME + 1e-9, `${name}: ${step}`);
+        last = walk.stride.at;
+      };
+      for (let frame = 1; frame <= 12; frame++) {
+        clock.run(FRAME, fastest);
+        clock.move(shifted(down, ((lift.x - down.x) * frame) / 12, 0));
+      }
+      clock.lift();
+      clock.run(12, fastest);
+      assert.equal(clock.walk.stride.chase, undefined, name);
+      assert.equal(headingAt(clock.walk, clock.time), heading, name);
+      const moved = {
+        x: clock.walk.stride.at.x - start.x,
+        y: clock.walk.stride.at.y - start.y,
+      };
+      assert.ok(
+        moved.x * side.x + moved.y * side.y < -0.5,
+        `${name}: the eye went left as the finger went right`,
+      );
+      assert.ok(
+        Math.abs(moved.x * ahead.x + moved.y * ahead.y) < 1e-9,
+        `${name}: square to the heading`,
+      );
+      const before = viewOf(camera, { ...start, heading }, far, 0).x;
+      assert.ok(Math.abs(before - crossing.x) < 1e-6, `${name}: ${before}`);
+      const after = viewOf(camera, eyeAt(clock.walk, clock.time), far, 0).x;
+      assert.ok(Math.abs(after - lift.x) < 1e-6, `${name}: ${after}`);
+    }
+  });
+
+  it('strafes on held Shift-arrows square to the heading at the walk’s pace, and eases to rest', () => {
+    const clock = new Clock(holdStrafe(openingWalk(TABLET), -1));
+    clock.run(2);
+    const { at, sidePace, walked } = clock.walk.stride;
+    assert.ok(Math.abs(sidePace + STRIDE_CRUISE) < 1e-9, 'leftward');
+    assert.ok(at.x < -2 && Math.abs(at.y) < 1e-9, `${at.x}, ${at.y}`);
+    assert.ok(walked > 2, 'the footsteps count it');
+    clock.walk = letGoStrafe(clock.walk, -1);
+    clock.run(1);
+    const { sidePace: rested } = clock.walk.stride;
+    assert.equal(rested, 0);
   });
 });
 

@@ -45,7 +45,54 @@ Reds:
   hills' left to past the sun — a flat hairline at this heading, kin to the
   pale band `brow-round.md` fixed, much fainter.
 
-Frames: `tabL-opening`, `tabL-brow` (walked back: flowers going under the
+Frames (tabL): `tabL-opening`, `tabL-brow` (walked back: flowers going under the
 round brow by the clump), `tabL-perched-turned` (the butterfly still on its
 cap after the turn), `tabL-back-row-tap` (the russula selected from the back
 row), `tabL-key-planting` (the pink flower `l` planted on a tuft, bottom).
+
+## tabP (820×1180 @2) — A 4m31s, B 8m00s
+
+Spec §4's checks — **all pass**:
+
+- Opening identity: 15 things within 0.000 px. `flower-1` past the brow,
+  sunk 6.8 px, 77.1 of 80.5 px showing, off the screen at x −975.
+- Insect after the turn: seat held within 0.00 px over 33 frames, to
+  heading 0.32.
+- Walk to the back row: `mushroom-3`, 1.00 → 1.54×, 12.31 → 8.00 ahead,
+  haze 0.268 → 0.016; outside tap and cap tap pass.
+- Frame budget into the forest: **19.7 ms median over 646 frames** (slowest
+  4752). Screen medians 17.4 (A), 22.4 (B).
+- Walk: ↓ 5 under the cover, at most 15.3 px over it. Keys: `l` planted,
+  `h` replaced. Walking into a hovering fly: zoom 1.70× (bound 1.78).
+
+Reds:
+
+- **Known class** — the dash bound: 8 fly steps over 66.2 px at its own
+  size (most 112.4, 179 px drawn, fly-28 air→cap at zoom 1.59 while walked
+  into), 133 bee steps over 37.3 (most 56.3).
+- **New, the flier watch** (same family as tabL's): butterfly-3 turned
+  188.18 rad/s in one frame (bound 10.81) at 18 383 ms; bee-3 174.57 rad/s
+  (bound 21.62) at 10 417 ms and faced 2.87 rad off its way; butterfly-4
+  1.83 rad off its way, and sat 1.93 rad off facing up; bee-3 sat 1.54 rad
+  off. Spans pass here (butterfly 58, fly 39, bee 51).
+- **New, `hold`**: a held press on the planted flower `planted-1` opened no
+  picker (no ring, 0 colours, no cross), so it was not pulled and no tuft
+  came back. `tabP-hold-no-picker.png` shows the frame: no planted flower
+  anywhere on the screen, so the press likely landed where the flower is not
+  drawn (a bee-planted or off-screen flower picked by the play), not a dead
+  picker; unsettled — the seeded flower's hold on the same screen passed.
+  Did not fail on tabL.
+- **The sky hairline again**: `tabP-brow.png` and `tabP-hold-no-picker.png`
+  carry the same faint flat line, at ~280 CSS px from the left edge to
+  ~x 425, over the far hills' sky — so it is not one heading on one screen.
+
+Frames (tabP): `tabP-brow` (walked back: the clump and flowers on the round
+brow; the hairline at top left), `tabP-back-row-tap` (a fly agaric selected
+from the back row), `tabP-hold-no-picker`.
+
+## Stopped here
+
+The orchestrator stopped the run after tabP: the operator asked for game
+changes (insects sinking behind the brow, insect shadows, fly motion,
+strafing), and the five-screen run is to be redone after they land.
+phoneP, phoneL, phoneS and the phoneL edge-flower judgement were not run.

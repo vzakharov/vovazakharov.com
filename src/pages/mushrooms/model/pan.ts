@@ -77,8 +77,8 @@ type Keying = Lefted & Paced & { kind: 'keys' };
 
 type Resting = Lefted & { kind: 'rest' };
 
-/** Which of the two arrow keys are held. */
-type Held = { leftward: boolean; rightward: boolean };
+/** Which of the two sideways keys are held. */
+export type Held = { leftward: boolean; rightward: boolean };
 
 const NONE_HELD: Held = { leftward: false, rightward: false };
 

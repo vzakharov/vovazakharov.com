@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { DRUMS, PITCH_CLASSES } from '../../model/flower-sounds';
-import { type KeyAction, keyAction, KEYS, letGoMove } from './keyboard';
+import { type KeyAction, keyAction, KEYS, letGoMoves } from './keyboard';
 
 const press = (code: string, held: Partial<KeyboardEvent> = {}) =>
   keyAction({
@@ -11,6 +11,7 @@ const press = (code: string, held: Partial<KeyboardEvent> = {}) =>
     altKey: false,
     ctrlKey: false,
     metaKey: false,
+    shiftKey: false,
     ...held,
   });
 
@@ -52,15 +53,27 @@ describe('the keyboard', () => {
     assert.deepEqual(press('ArrowRight'), { kind: 'pan', direction: 1 });
     assert.deepEqual(press('ArrowUp'), { kind: 'step', direction: 1 });
     assert.deepEqual(press('ArrowDown'), { kind: 'step', direction: -1 });
-    assert.deepEqual(letGoMove({ code: 'ArrowRight' }), {
-      kind: 'pan',
-      direction: 1,
-    });
-    assert.deepEqual(letGoMove({ code: 'ArrowDown' }), {
-      kind: 'step',
+    assert.deepEqual(letGoMoves({ code: 'ArrowRight' }), [
+      { kind: 'pan', direction: 1 },
+      { kind: 'strafe', direction: 1 },
+    ]);
+    assert.deepEqual(letGoMoves({ code: 'ArrowDown' }), [
+      { kind: 'step', direction: -1 },
+    ]);
+    assert.deepEqual(letGoMoves({ code: 'KeyG' }), []);
+  });
+
+  it('strafes on ← → under Shift, and walks as ever on ↑ ↓ under it', () => {
+    const shift = { shiftKey: true };
+    assert.deepEqual(press('ArrowLeft', shift), {
+      kind: 'strafe',
       direction: -1,
     });
-    assert.equal(letGoMove({ code: 'KeyG' }), undefined);
+    assert.deepEqual(press('ArrowRight', shift), {
+      kind: 'strafe',
+      direction: 1,
+    });
+    assert.deepEqual(press('ArrowUp', shift), { kind: 'step', direction: 1 });
   });
 
   it('ignores a held key’s repeats, a shortcut and a key it has no use for', () => {
