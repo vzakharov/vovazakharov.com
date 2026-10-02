@@ -28,7 +28,7 @@ import {
   Point,
   Top,
 } from './mushroom-probe.ts';
-import { fliersOn, type Insect, landed } from './play-insects.ts';
+import { fliersOn, type Insect, landed } from './play-fliers.ts';
 
 /** How many taps are aimed at a fly in flight, and how many must reach it. */
 const FLYING_TAPS = 10;

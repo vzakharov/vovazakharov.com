@@ -17,7 +17,7 @@ export type Cruised = { cruise: number };
 export type Paced = { pace: number };
 
 /** Where on its axis a drive stands. */
-export type Placed<P> = { at: P };
+type Placed<P> = { at: P };
 
 /** Where a drive stands, and its pace. */
 export type Cruising<P> = Placed<P> & Paced;

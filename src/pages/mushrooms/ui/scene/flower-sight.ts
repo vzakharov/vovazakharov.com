@@ -216,7 +216,7 @@ function sightingsAt(place: Footing, { insectSize }: MeadowLayout): Sighting[] {
  * `measure` of a layout, measured once a layout: a layout is never changed
  * once laid out, so what the sight reads off it alone is read once.
  */
-export function perLayout<Measured extends object>(
+function perLayout<Measured extends object>(
   measure: (layout: MeadowLayout) => Measured,
 ): (layout: MeadowLayout) => Measured {
   const measured = new WeakMap<MeadowLayout, Measured>();
@@ -369,7 +369,7 @@ export function takesFlower(stand: Stand, foot: Footing, eye: Eye): boolean {
  * for a foot on the plane: moved with the anchor, and taking no flower in
  * the sliver straight behind it, which has no ground.
  */
-export function roomFrom(stand: Stand, eye: Eye): (foot: Footing) => boolean {
+function roomFrom(stand: Stand, eye: Eye): (foot: Footing) => boolean {
   const anchor = anchorOf(eye);
   const room = roomIn(anchoredStand(stand, anchor));
   return (foot) => {

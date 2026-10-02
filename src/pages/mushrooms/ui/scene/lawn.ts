@@ -45,7 +45,7 @@ export function cellOf({ x, y }: Point): Cell {
 }
 
 /** The cells that live while the eye stands in `cell`, by `LIVE_REACH`. */
-export function liveCells(cell: Cell): Cell[] {
+function liveCells(cell: Cell): Cell[] {
   const span = Math.ceil(LIVE_REACH / CELL);
   const cells: Cell[] = [];
   for (let di = -span; di <= span; di++) {

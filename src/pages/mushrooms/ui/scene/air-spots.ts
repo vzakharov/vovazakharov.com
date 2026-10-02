@@ -39,10 +39,10 @@ import { widestOn } from './widest-spans';
 export const AIR_BELOW = 0.15;
 
 /** How far from the eye, in the clump's size, the farthest spot in the air stands: the far side of the opening's air. */
-export const AIR_FAR = 10.6;
+const AIR_FAR = 10.6;
 
 /** How far, in radians, either side of the eye's heading the air is offered. */
-export const AIR_WEDGE = 1.2;
+const AIR_WEDGE = 1.2;
 
 /** Every insect the meadow can hold. */
 export const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
