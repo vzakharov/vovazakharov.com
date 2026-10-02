@@ -39,13 +39,37 @@ computed in the leg's frame; the drawn path is that frame bent by the
 screen's edge, veered round the eye and sunk under the brow, so near those a
 heading in the frame can sit off the path on the screen.
 
+## 3 — no butterfly on a cap: no code fault found, nothing changed
+
+Measured off `visit-play`'s `play` (the real reducer and `perchSight`),
+four visits, all ten fliers, two minutes: butterflies land on caps on every
+screen — tablet 18 of 108 legs in the opening clump, 43 of 105 in a forest;
+every other screen alike (16–40%). Nothing rejects every cap. In the clump
+there are only two caps a visit, and on 54 of 92 butterfly legs every cap
+was already held — by the flies, which want caps (`spottedPull`, `fussy`,
+`settles`). Over the meadow play's ~70 s four butterflies finding the
+clump's caps held is the habit working, not a reject; play-final2's own
+`tabL-perched-turned` shows a butterfly on `mushroom-1`'s cap. Raising the
+share in a small clump would mean flies giving way, or a higher
+`flowerShare` complement: a design call, for the orchestrator.
+
+## 4 — the sky hairline: located, not fixed
+
+In `final/tabL-back-row-tap.png` the line is device row 588 (CSS 294): the
+sky there is mixed ~25% toward the far hills' colour (212,236,250 →
+196,226,228; hill 147,198,160), and the hills' own fill steps by one unit at
+the same row. So it is a row of the far-hill layer leaking over the sky,
+not a seam in the sky's own bands (`paint-sky.ts`'s `fillRect` grid would
+mix sky with sky). Next: `paint-land.ts` lines ~110–125 (the ranges'
+`fillStyle(mix(...))` rows and `layers.near.fillStyle(RANGES.near.foot)`),
+looking for a band or base rect whose top edge reaches above the ridge.
+
 ## Done
 
-- Step 1: see commits below.
+- Step 1 (02c0804).
 
 ## Left
 
-- 3: no butterfly rests on a cap.
-- 4: the pale line across the sky at ~280–294 px.
+- 4: fix the hairline at its cause (above).
 - 5: `pnpm type-overlap` on `at: number` (`Steering`, `KeySown`).
-- 6: `insect-view.ts` is 442 lines after step 1.
+- 6: done in passing — `insect-view.ts` is 442 lines.
