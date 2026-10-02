@@ -30,6 +30,38 @@
   longer sow the endless field without bound") and the planter's rules
   from the eye between I2 and I3–I5's run, not from the test.
 
+- **Step 3, started: tabL played in full** (all plays, build at 98fe9dd,
+  18 min 55 s). Four reds, none fixed yet:
+  1. `play-insects.ts:343` "no butterfly ever rested on a cap to be tapped
+     through" (the butterflies-on-caps tap-through; not looked into).
+  2. `play-veer.ts:270` "looking back, none of 6 fly releases took a perch
+     in view": the back view grows one fly agaric (`perchesBack` grows
+     exactly one), and all six flies choose `air`. Frame
+     `frames/bite-12b/tabL-looking-back-cap-free-flies-take-air.png`
+     shows the cap drawn free while a fly comes in;
+     `…-one-cap-held-by-butterfly.png` shows a butterfly on it later.
+     Likely reading (not proven): the only cap in view is held (`taken`)
+     by a butterfly's leg the whole time, so `firstFlight`'s in-view
+     choice has nothing but air, which would make it a harness red (one
+     cap and roaming butterflies). To settle: in-page, at each fly
+     release, dump `perches.sight.places` for the cap, `shownOf`, and every
+     insect's `leg.to`. If held: grow a second mushroom or release the
+     flies before the butterflies.
+  3. `veer-report.ts:354` fly one-frame steps: 7 over 38.1 px at own
+     size, the most 82.6 (fly-19 air→cap, flown 0.79–0.89, zoom 1.25,
+     heading 0, x 1137, the right edge, lifted −1.27): several frames
+     running 2× the dash peak near the leg's end. Suspect the seat end
+     moving as the cap near the edge flips drawn/undrawn (I4's
+     `seatAloft` fallback) or a re-see; not measured.
+  4. Same, bee: 6 steps over 25.8 px, the most 34.0 (bee-5/bee-11
+     air→flower at flown 0.41–0.48, heading π). Mild (1.3×).
+     Also noted, not red: frames up to 6.5 s while walking into the forest
+     (machine shared with other agents' play runs; median 25.6 ms), re-tend
+     median 16.7 ms, re-sight 11.7 ms.
+
 ## Left
 
-- Step 3 (full play run, frames).
+- Reds 1–4 above, then tabP, phoneP, phoneL, phoneS (each ~19 min; run
+  one screen per call, `--no-build` after the first build, under the
+  lock — a run past 10 min gets moved to the background by the harness).
+- Frames kept so far: three, under `frames/bite-12b/`.
