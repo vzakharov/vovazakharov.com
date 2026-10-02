@@ -1,9 +1,9 @@
 # Relay summary
 
-Relay depth: **7** (the cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
-§ "The depth cap"). The next session is the last before the cap: it relays
-once more, and the session at depth 8 hands the operator the line to paste
-into a fresh session, on Opus.
+Relay depth: **8**, the cap (`.claude/skills/megabeast/notes/pickup-and-relay.md`
+§ "The depth cap"). The successor cannot `create_session`: at its end it
+writes its summary with depth reset to 1 and hands the operator the one
+line to paste into a fresh session, on Opus.
 
 ## 1. Standing constraints
 
@@ -92,65 +92,80 @@ Pass this section on verbatim.
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
 The relay's launch line, the only operator-shaped turn this session. Reply
-(Russian): attached (local ref e66b8e1, not an ancestor of origin, renamed
-to `claude/mushroom-game-syama-lbirv7.stale-e66b8e1`), installed, plan
-flipped (8ac7b6a); then short Russian status lines as each agent reported.
-No operator message followed; nothing awaits his answer.
+(Russian): attached (local ref e66b8e1 stale, renamed to
+`stale/mushroom-game-syama-lbirv7-e66b8e1`), installed, plan flipped
+(233b3b6); then short Russian status lines as each of fourteen agents
+reported. No operator message followed; nothing awaits his answer.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
 playable after every bite; `/finalize` at the end, no merge. Bite 12b, the
-endless field, is open and mid-build: a structural bite, so after its build
-and tail it gets **a review session of its own**, then `/relay /handle`.
+endless field, is **built**: every package landed. What is left is its
+tail, then **a review session of its own** (a structural bite), then
+`/relay /handle`.
 
 ## 4. Decisions
 
-12b's calls are in `docs/plans/mushroom-game-syama/bite-12b.md`. This
-session's, each with what it beat, are in
-`docs/remove-before-merging/bite-12b/waves.md` — read it before launching
-anything. In short: the snap is `model/anchor.ts` (0.5 units, `0.5/D_SEE`
-rad), written by the orchestrator so every package shares it; `D_SEE` lives
-in `model/ground.ts`. I1's `PERCH_REACH` is 15.91 (opening caps stand to
-15.21), and the perches re-see on their own coarser snap (`perchAnchorOf`,
-2 units / 0.3 rad) since a re-see costs 17–28 ms at 96. P1 keeps each
-thing's own sun azimuth from its opening light. L2's live lawn is ~80 cells
-/ ~1100 tufts, tended only in the view's sector.
+Every call this session took, with what it beat, is in
+`docs/remove-before-merging/bite-12b/waves.md` under the agents' rows —
+read it before the tail. The ones a successor would most likely
+re-litigate:
+
+- **Bee rings are fixed offsets on the plane**, `(slot.x·size·SPREAD,
+  slot.z·size·1.5)`, turned by the anchor's heading (option (a)). It beat
+  laying rings in the parent's own frame and the opening-frame layout
+  offsets; the "within half a tuft of today's ring" bar was dropped
+  because a ring is laid fresh each visit, so no child sees it move.
+- **The flowers keep their own repaint queue** (up to 2 mushrooms + 2
+  flowers repainted a frame when turning); one shared queue through
+  `meadow-scene.ts` only if the play run shows a hitch from it.
+- **S3's departures kept**: `roomFor` returns a plane `Footed`; it reads
+  no `D_SEE` cut (opening caps stand to 15.9 units).
+- **I4's departures kept**: the undrawn seat's sideways offset × `SPREAD`,
+  across the line of sight to the foot rather than the heading.
 
 ## 5. Errors and dead ends
 
-- S2 checked origin for I1's anchoring helper before I1 had pushed, so two
-  anchoring paths coexist (`anchoredGround` in `clump-layout.ts`,
-  `anchoredStand`/`placeAnchored` in `anchored-stand.ts`); S3 folds them
-  (waves.md § "Next wave", item 1).
-- `fliers.test.ts` has not run since I1 (it was nudged to wrap up).
+- Agents on this structural bite landed about one step each before their
+  170k hook (L took four agents, I three); briefs that said "the design is
+  in the note: build it, keep your reading small" did better
+  (megabeast `subagents.md`).
+- I4 blocked once on file ownership (`Host` is built in both beds); solved
+  by granting the builder functions by name.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, head 35b1dfc (Stop-hook cost
-  rows may follow); PR #57 draft, base `main`, `CONFLICTING` (reported,
-  `/finalize`'s job). Typecheck clean at the last pull.
+- Branch `claude/mushroom-game-syama-lbirv7`, head 06c1a128 plus this
+  summary's commit (Stop-hook cost rows may follow); PR #57 draft, base
+  `main`, `CONFLICTING` (reported, `/finalize`'s job).
 - Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`
-  current.
+  lists only the tail.
 - Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG still at bite
   12's version.
 - No agent running, no worktree but the shared one, no check-in pending, no
-  PR subscription. A stale local ref `…stale-e66b8e1` is left in this
+  PR subscription. A stale local ref `stale/…-e66b8e1` exists in this
   container only.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12b/waves.md` — every report, the calls
-  on departures, and **§ "Next wave"**, the launch order.
-- The package notes beside it: `r.md`, `s.md`, `l.md`, `p.md` (P1b's
-  steps), `i.md`; `spec.md` § 10, `spec-insects.md` § 3, `brief-common.md`.
-- This session: https://claude.ai/code/session_01KCELqwfAPke2XAmrDws1t4
+- `docs/remove-before-merging/bite-12b/waves.md` — every report and call;
+  the P2 row ends "The build is done".
+- Package notes beside it: `s.md`, `l.md` (§ L3d last), `p.md`, `i.md`,
+  `play.md`, `bed.md`, `fbed.md`; `to-check.md` under
+  `docs/plans/mushroom-game-syama/` for the operator's hand checks.
+- This session: https://claude.ai/code/session_01H6aVtKBqmFpVSQrEE4exnw
 
 ## 8. Next step
 
-`/go` — continue bite 12b from `## Rest of the bite`, launching
-`waves.md` § "Next wave" in its order (S3 and L3 and the fliers run
-together; P1b after S3 and L3; the play package beside them), one step per
-agent, then the tail (fold, `/polish`, play run, frames, Artifact, `/pr`),
-then `/relay` to 12b's own review session. Reply to the operator in
+`/go` — bite 12b's tail, from the plan's `## Rest of the bite` "Left":
+first the four loose ends (the lawn re-tend hitch, +30 ms on its frame —
+spread it over frames or shrink its sector; the mottles' strength, judged
+from a frame at the opening and one far out; `scripts/lib/play-buzzers.ts:90`
+dividing `scaleY` by `stands.zoom` and the 29.1 px bee on tabL `planting`;
+whether `fliers.test.ts` at 1 min 52 s still runs all 48 at full length),
+then fold 12b into `## Eaten so far` as `bite-12b.md`'s contract and an
+index row, `/polish`, the play run on all five screens, frames to
+`docs/remove-before-merging/frames/bite-12b/`, the Artifact republished,
+`/pr`; then `/relay` to 12b's own review session. Reply to the operator in
 Russian, «ты».
