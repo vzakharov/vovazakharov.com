@@ -131,6 +131,24 @@ RING_DEPTH)` on the stored plane, turned with the stand's anchor heading
   over `Footing`s (`mushroomFeet` returns plane feet); the seeded bed's
   screen-true spacing stays, private in `flower-layout.ts`
   (`apartOnGround`/`clearOnGround`). `assertGrounded` checks plane spacing.
+  Commit 9a7d9116.
+- **Step 2 — half built, in `l3c-step2.patch`** (`git apply` from the
+  repo root; does not type-check yet). Done in it: `anchored-stand.ts`
+  cuts to `STAND_REACH` (2·D_SEE + PALE_SPAN + 1) by stored foot, a bee
+  flower kept while its parent is; the anchored layout (with seeded
+  flowers) cached per (layout, anchor) and the cut mushrooms per
+  (mushrooms, anchor), so `coversOn`/`perLayout` hit; exports `hasGround`,
+  `movedTo` (identity at `OPENING_EYE`), `judgedFrom(stand, eye)`.
+  `flower-sight.ts`: `takesFlower(stand, foot, eye)` over new
+  `roomFrom(stand, eye)`. **Left in step 2:** `plantableIn(stand, eye)` and
+  `tendTufts(stand, grown, eye)` in `tufts.ts` — move each sprout with
+  `movedTo`, drop it without `hasGround`, re-stand its tuft at the moved
+  foot (`standingOn` x/y, `tuftSizeAt(layout, y)`; keep the tuft itself
+  when `movedTo` returned the foot) before `bare`, and judge `room`,
+  `headClear`, `bareToTap`, `flowersOf` on the anchored stand; `Grass`
+  keeps the eye it tended at and exposes it, so `Planter.tapTuft` judges
+  at that anchor; then the callers (`planter.ts`, tests) and a run of
+  perches/mushroom-patch/mushroom-room tests, which now see the cut.
 
 ## Left
 
