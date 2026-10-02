@@ -69,18 +69,24 @@ export class Perches {
   /**
    * What the insects see of the perches as last seen, every place where
    * `view`'s eye's frame stands it (`placeOfAloft`), with the away spots past
-   * the screen's sides where `view` draws an insect leaving (`awayPlaces`).
+   * the screen's sides where `view` draws an insect leaving (`awayPlaces`),
+   * and each insect `drawn` where it was last drawn, by id, framed the same.
    */
-  sightFrom(view: View): Sight {
+  sightFrom(view: View, drawn: ReadonlyMap<string, Aloft> = new Map()): Sight {
     const { layout, sight, placed } = this;
     if (!sight.places || !layout) return sight;
     const unit = layout.insectSize;
-    const seen = [...placed].map(
-      ([name, aloft]) => [name, placeOfAloft(view, unit, aloft)] as const,
-    );
+    const framed = (alofts: ReadonlyMap<string, Aloft>) =>
+      Object.fromEntries(
+        [...alofts].map(([key, aloft]) => [
+          key,
+          placeOfAloft(view, unit, aloft),
+        ]),
+      );
     return {
       ...sight,
-      places: { ...Object.fromEntries(seen), ...awayPlaces(layout, view) },
+      places: { ...framed(placed), ...awayPlaces(layout, view) },
+      drawn: framed(drawn),
     };
   }
 

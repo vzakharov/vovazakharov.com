@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
+import type { Sight } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-sounds';
 import {
   type Action,
@@ -104,7 +105,7 @@ export class MeadowScene extends Phaser.Scene {
       ...this.scened,
       layout: () => this.requireLayout(),
       view: () => this.eye.view(),
-      sight: () => this.perches.sightFrom(this.viewNow()),
+      sight: () => this.sightNow(),
     },
     this.visitSeed,
   );
@@ -220,7 +221,7 @@ export class MeadowScene extends Phaser.Scene {
     this.dispatch({
       kind: 'tick',
       now: time,
-      ...perches.sightFrom(this.viewNow()),
+      ...this.sightNow(),
     });
     driftClouds(backdrop, layout, t);
     const planting = meadow?.planting;
@@ -342,7 +343,7 @@ export class MeadowScene extends Phaser.Scene {
       kind: 'startle',
       id,
       now,
-      ...this.perches.sightFrom(this.viewNow()),
+      ...this.sightNow(),
     });
     this.perches.tapThrough(under);
   }
@@ -375,6 +376,11 @@ export class MeadowScene extends Phaser.Scene {
   /** The view the frame is drawn through now: the opening eye's before the eye's first fit. */
   private viewNow(): View {
     return this.eye.view() ?? viewAt(this.requireLayout().camera, OPENING_EYE);
+  }
+
+  /** What the insects see now, each flier where it was last drawn among it. */
+  private sightNow(): Sight {
+    return this.perches.sightFrom(this.viewNow(), this.insects?.drawnAlofts());
   }
 
   private repaintControls(): void {
