@@ -1,0 +1,30 @@
+.stamp {
+  font-family: var(--mantine-font-family-monospace);
+  letter-spacing: 0.04em;
+}
+
+.sources {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid currentColor;
+  font-size: var(--mantine-font-size-sm);
+  line-height: 1.6;
+}
+
+.sourcesHeading {
+  margin: 0 0 12px;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sourcesList {
+  margin: 0;
+  padding-inline-start: 1.5em;
+
+  li + li {
+    margin-top: 6px;
+  }
+}

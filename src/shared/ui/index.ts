@@ -5,6 +5,7 @@ export { cssColor } from './css-color';
 export { FileLink } from './file-link';
 export { hoverDim } from './hover-dim';
 export { InternalButton, InternalLink } from './internal-link';
+export { type MemoField, MemoFields } from './memo-fields';
 export { PageShell } from './page-shell';
 export { Section, Subheading, SUBHEADING_GAP } from './section';
 export { SiteAvatar } from './site-avatar';

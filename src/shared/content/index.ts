@@ -35,6 +35,7 @@ export {
   type ArticleFrontmatter,
   type ArticleFrontmatterOf,
   type BaseFrontmatter,
+  type Collection,
   DOSSIER_ACTORS,
   DOSSIER_ACTS,
   DOSSIER_AGGRAVATIONS,

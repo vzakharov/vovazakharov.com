@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import {
   ARTICLE_COLLECTIONS,
   type ArticleCollectionId,
+  type ArticleFrontmatterOf,
+  type Collection,
   collectionRoute,
   COLLECTIONS,
   documentName,
@@ -21,9 +23,19 @@ import { BackToHome, hoverDim, InternalLink } from '@/shared/ui';
 import { ProseContent } from '@/entities/document';
 
 import { ArticleHeader } from './article-header';
+import { ARTICLE_SLOTS } from './article-slots';
 import classes from './documents.module.scss';
 import { PrintSheet } from './print-sheet';
 import { TableOfContents } from './table-of-contents';
+
+/**
+ * The registry restated per key, which the compiler checks entry by entry; a
+ * lookup by a generic id then reads as that collection's own frontmatter,
+ * where one on `ARTICLE_COLLECTIONS` widens to the union of all three.
+ */
+const HANDLES: {
+  [C in ArticleCollectionId]: Collection<ArticleFrontmatterOf<C>>;
+} = ARTICLE_COLLECTIONS;
 
 /** The catch-all's own segment: `<slug>[.<variant>]`, still to be split. */
 type WithSlugSegments = { slug: string[] };
@@ -55,8 +67,9 @@ function parseSegments(
  * articles are this one page — the collection is the only thing that differs,
  * and it arrives from whichever router mounted the page.
  */
-export function articleRoute(collection: ArticleCollectionId) {
-  const handle = ARTICLE_COLLECTIONS[collection];
+export function articleRoute<C extends ArticleCollectionId>(collection: C) {
+  const handle = HANDLES[collection];
+  const slots = ARTICLE_SLOTS[collection];
 
   async function resolve(params: Props['params']) {
     const parsed = parseSegments((await params).slug);
@@ -116,6 +129,7 @@ export function articleRoute(collection: ArticleCollectionId) {
                     {...{ document, title, readingMinutes }}
                     availableVariants={siblingVariants(collection, slug)}
                   />
+                  {slots?.brief?.(document)}
                 </Box>
 
                 <Box component="aside" className={classes['articleAside']}>
@@ -124,6 +138,7 @@ export function articleRoute(collection: ArticleCollectionId) {
 
                 <Box className={classes['articleBody']}>
                   <ProseContent {...{ tree }} />
+                  {slots?.coda?.(document)}
                 </Box>
               </Box>
             </PrintSheet>
