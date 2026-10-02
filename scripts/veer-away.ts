@@ -9,50 +9,47 @@
  * curve does not explain. Also checks the leg's end stands still frame to
  * frame while the eye does.
  *
- * Run: `node --import tsx scripts/lib/veer-away.ts`.
+ * Run: `node --import tsx scripts/veer-away.ts`.
  */
 
-import {
-  type Perch,
-  perchName,
-} from '../../src/pages/mushrooms/model/flight.ts';
+import { type Perch, perchName } from '../src/pages/mushrooms/model/flight.ts';
 import {
   type Aloft,
   centreOf,
   framedOf,
-} from '../../src/pages/mushrooms/model/flight-frame.ts';
-import { outOf, outWay } from '../../src/pages/mushrooms/model/flight-in.ts';
-import { apartIn } from '../../src/pages/mushrooms/model/flight-timing.ts';
+} from '../src/pages/mushrooms/model/flight-frame.ts';
+import { outOf, outWay } from '../src/pages/mushrooms/model/flight-in.ts';
+import { apartIn } from '../src/pages/mushrooms/model/flight-timing.ts';
 import {
   CLUMP_DISTANCE,
   OPENING_EYE,
-} from '../../src/pages/mushrooms/model/ground.ts';
+} from '../src/pages/mushrooms/model/ground.ts';
 import {
   insectGenes,
   type InsectKind,
-} from '../../src/pages/mushrooms/model/insect-genes.ts';
-import { wingspan } from '../../src/pages/mushrooms/model/insect-outline.ts';
+} from '../src/pages/mushrooms/model/insect-genes.ts';
+import { wingspan } from '../src/pages/mushrooms/model/insect-outline.ts';
 import {
   type Away,
   awayDown,
   entryAloft,
   leavingAloft,
-} from '../../src/pages/mushrooms/ui/scene/insect-away.ts';
+} from '../src/pages/mushrooms/ui/scene/insect-away.ts';
 import {
   eyeFrameOf,
   mixD,
-} from '../../src/pages/mushrooms/ui/scene/insect-frame.ts';
+} from '../src/pages/mushrooms/ui/scene/insect-frame.ts';
 import {
   airAlofts,
   footRows,
   onscreenOf,
   perchSight,
   seatAt,
-} from '../../src/pages/mushrooms/ui/scene/perch-sight.ts';
-import { aloftOfLayout } from '../../src/pages/mushrooms/ui/scene/plane-place.ts';
-import { type View, viewAt } from '../../src/pages/mushrooms/ui/scene/view.ts';
-import { opened } from '../../src/pages/mushrooms/ui/scene/visit-play.ts';
-import { dashPeak } from './veer-dash.ts';
+} from '../src/pages/mushrooms/ui/scene/perch-sight.ts';
+import { aloftOfLayout } from '../src/pages/mushrooms/ui/scene/plane-place.ts';
+import { type View, viewAt } from '../src/pages/mushrooms/ui/scene/view.ts';
+import { opened } from '../src/pages/mushrooms/ui/scene/visit-play.ts';
+import { dashPeak } from './lib/veer-dash.ts';
 
 /** The screens the veer play runs, by its names for them. */
 const SCREENS = [

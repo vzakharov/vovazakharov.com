@@ -127,7 +127,7 @@ not explain is a defect to trace (`ip-Cplay5.md`: an `away` leg drawn toward
 a side point recomputed each frame; walking frames counted as steps), not a
 number to loosen. Beaten: binding to the measured peaks (writes the defect
 into the check).
-**Traced (`ip-Cplay5.md`, `scripts/lib/veer-away.ts`): an `away` leg is
+**Traced (`ip-Cplay5.md`, `scripts/veer-away.ts`): an `away` leg is
 timed between one pair of points and drawn between another** — leaving, timed
 to `places`' away point past the world strip but drawn to just past the
 screen's edge (`offAloft`); a release's flight out of view, `outWay` with no

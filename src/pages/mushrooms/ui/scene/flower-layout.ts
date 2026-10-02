@@ -107,7 +107,7 @@ export type FlowerGround = Pick<
     clump: ClumpShade;
   };
 
-export { depthScale, type FlowerFoot } from '../../model/ground';
+export { type FlowerFoot } from '../../model/ground';
 
 /** The camera a visit's opening screen shows its ground through. */
 function cameraOf({

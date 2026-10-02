@@ -218,7 +218,7 @@ function sproutOn(
 }
 
 /** Each of `kept` on its own foot, its tuft drawn afresh for `layout` (`sproutOn`). */
-export function regrowTufts(
+function regrowTufts(
   layout: MeadowLayout,
   kept: readonly Sprout[],
   random: Random,
@@ -260,7 +260,7 @@ export function tendTufts(stand: Stand, grown: readonly Sprout[]): Sprout[] {
 }
 
 /** A tuft of the ground as a frame draws it: the tuft laid out, and where and how big the view draws it. */
-export type ShownSprout = WithTuft & { sprout: Sprout };
+type ShownSprout = WithTuft & { sprout: Sprout };
 
 /** The ground's tufts a frame draws: those this side of the ground's top row, and those past it, sinking. */
 export type ShownGrass = { near: ShownSprout[]; behind: ShownSprout[] };

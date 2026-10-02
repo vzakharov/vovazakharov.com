@@ -39,7 +39,7 @@ const along = (a: number, b: number) => a + (b - a) * 0.4;
 /**
  * The length the view draws the leg from `from` to `to` at, in insect sizes
  * at its own size: its chord framed at `centreOf`, each cut over its zoom,
- * `1 / forward` mixed straight along it, as `scripts/lib/veer-away.ts`
+ * `1 / forward` mixed straight along it, as `scripts/veer-away.ts`
  * measures it.
  */
 function drawnLength(frame: EyeFrame, from: Aloft, to: Aloft): number {

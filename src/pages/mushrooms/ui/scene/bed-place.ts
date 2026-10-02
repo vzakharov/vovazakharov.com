@@ -103,7 +103,7 @@ export function aboutFoot(
 }
 
 /** A thing drawn where the layout stands it, as no view has placed it yet. */
-export function layoutPlace({ x, y }: Point): BedPlace {
+function layoutPlace({ x, y }: Point): BedPlace {
   return {
     x,
     y,
