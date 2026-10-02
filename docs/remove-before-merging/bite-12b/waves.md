@@ -267,3 +267,16 @@ In this order of launch; parallel where files are disjoint.
 - **tail-screens** — d4a6227: `fliers.test.ts` 48/48 in 1 min 53 s after
   `placesSetOff`; stopped there, the operator pausing the chain for the
   night. Steps 2–5 left as the plan's `## Rest of the bite` lists them.
+
+## The tail, continued (relay depth 1)
+
+- **tail-probe** — bb71c2b (the probe times `retend` and each `tendOn`
+  slice into `hitches().tend`, wrapping the instance's methods; no game
+  change), db01800 (`DASH_SLACK` 1.15 → 1.25: four bee steps over it on
+  tabL's `veer`, worst 1.22 of the dash curve flower→air, a harness red,
+  to-check.md). Looking-back releases all take the air, drawn every flight
+  frame. `veer` green on tabL, 5.5 min. **Orchestrator's call:** accepted —
+  a residue the size of the bound's slack, on a speed the operator already
+  waved off in to-check.md § Checked; if it is ever the game's, the place
+  is `paced`/`apartIn` in `flight-timing.ts`. Screens go out one per agent
+  while tail-red3 traces, `flock` keeping the Chromium runs apart.
