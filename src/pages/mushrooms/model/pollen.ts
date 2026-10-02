@@ -9,7 +9,7 @@
 import type { Flight, Leg } from './flight';
 import type { Flower } from './flower-genes';
 import type { Rooted } from './ground';
-import { mulberry32, nextSeed, type Seeded } from './random';
+import { mulberry32, nextSeed, pick, type Seeded } from './random';
 
 /** How many specks of pollen a bee's baskets hold at most. */
 export const POLLEN_MOST = 3;
@@ -78,6 +78,8 @@ export const NO_POLLEN: Pollen = {
 
 /** Keeps a planting's stream apart from the legs and genes grown off the same seed. */
 const SOW_SALT = 0x2f_6a_c3_17;
+/** Keeps the pick of a planting's slot apart from its flower's seed. */
+const SLOT_SALT = 0x5b_e1_09_d4;
 
 /** The flower `leg` has the insect at by `now`, when it went to one and landed. */
 function landedAt({ to, arrives }: Leg, now: number): string | undefined {
@@ -130,8 +132,10 @@ export function specksAt(
 /**
  * The flower planted as `bee` leaves its current leg at `now`: beside the
  * flower that leg took it to, when it landed there and pollinated it and
- * `plot` offers a slot there no planted flower already takes. Its seed comes off
- * the bee's own stream, so a replay plants the same flowers.
+ * `plot` offers a slot there no planted flower already takes — any such
+ * slot as likely as the next, since a fixed first choice sends every
+ * planting the same way off its parent and the bees sow a line. Slot and
+ * seed come off the bee's own stream, so a replay plants the same flowers.
  */
 export function sown(
   { seed, leg, legs, pollen }: Seeded & Flight & Carrying,
@@ -141,12 +145,15 @@ export function sown(
 ): BeeSown | undefined {
   const parent = landedAt(leg, now);
   if (!pollen.pollinates || parent === undefined) return undefined;
-  const slot = room.find(
+  const [first, ...rest] = room.filter(
     ({ flower, ring }) =>
       flower === parent && !slotTaken(planted, parent, ring),
   );
-  if (slot === undefined) return undefined;
-  const { ring } = slot;
+  if (first === undefined) return undefined;
+  const { ring } = pick(mulberry32(((seed ^ SLOT_SALT) + legs) >>> 0), [
+    first,
+    ...rest,
+  ]);
   return {
     id: plantedId(planted),
     seed: nextSeed(mulberry32(((seed ^ SOW_SALT) + legs) >>> 0)),

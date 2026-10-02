@@ -26,13 +26,13 @@ import type { Stand } from './flower-sight';
 import type { Footing, MeadowLayout } from './layout';
 
 /**
- * Each ring slot round a parent, in the order a bee's plantings take them:
- * across and into the distance on the ground from the parent's foot, in the
- * parent's size. The near ring first, then a ring twice as far out, which
- * reaches past a mushroom standing beside the parent, so a full forest
+ * Each ring slot round a parent, a bee's planting taking any free one
+ * (`sown`): across and into the distance on the ground from the parent's
+ * foot, in the parent's size. A near ring, then a ring twice as far out,
+ * which reaches past a mushroom standing beside the parent, so a full forest
  * still leaves the bees ground to plant on; in each ring beside it either
- * way, then before it, then behind it, so the bed grows round and each head
- * stands clear of its neighbours' however foreshortened the screen shows the
+ * way, before it and behind it, so the bed grows round and each head stands
+ * clear of its neighbours' however foreshortened the screen shows the
  * ground.
  */
 export const RING_SLOTS: readonly Ground[] = [

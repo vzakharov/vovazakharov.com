@@ -121,6 +121,22 @@ describe('sown', () => {
     );
   });
 
+  it('spreads its plantings over the free slots rather than always the first', () => {
+    const open: Plot = {
+      room: Array.from({ length: 18 }, (_, ring) => ({
+        flower: 'flower-2',
+        ring,
+      })),
+    };
+    const rings = new Set(
+      Array.from(
+        { length: 60 },
+        (_, legs) => sown({ ...bee, legs }, 3000, open, [])?.ring,
+      ),
+    );
+    assert.ok(rings.size >= 12, `only rings ${[...rings].join(', ')}`);
+  });
+
   it('plants nothing without a pollination, before landing, or without room there', () => {
     const unpollinated = {
       ...bee,
