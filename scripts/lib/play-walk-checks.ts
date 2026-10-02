@@ -154,9 +154,12 @@ export function checkTurn(
 /**
  * Nothing pops while the eye walks: whatever stops or starts being drawn
  * between two frames, on the frame it was drawn, reached no higher than the
- * screen's foot, or showed over `cover`, the brow's row at its x
- * (`browRow`) under which the ground covers a thing sunk past it, no more
- * than the sliver the game hides it at (`SLIVER_SLACK`).
+ * screen's foot, stood past a side of the screen by its drawn height (by
+ * `SIDE_OVERHANG`'s reckoning, nothing of a mushroom or flower reaches that
+ * far sideways, so none of it shows), or showed over `cover`, the
+ * brow's row at its x (`browRow`) under which the ground covers a thing
+ * sunk past it, no more than the sliver the game hides it at
+ * (`SLIVER_SLACK`).
  */
 export function checkPops(
   seen: ReadonlyArray<z.infer<typeof Walking>>,
@@ -173,12 +176,15 @@ export function checkPops(
       const drawn = before ?? after;
       if ((before === null) === (after === null) || !drawn) return [];
       if (drawn.top >= now.height) return [];
+      if (drawn.x < -drawn.height || drawn.x > now.width + drawn.height) {
+        return [];
+      }
       const drawnOn = before === null ? now : was;
       // The tops are on the screen, which the bob scrolls; the brow is not.
       const shows = cover(drawn.x) - drawnOn.bob - drawn.top;
       return [
         {
-          line: `${id} ${before === null ? 'appeared' : 'vanished'} reaching ${drawn.top.toFixed(0)} px, ${shows.toFixed(1)} of its ${drawn.height.toFixed(1)} px over the cover`,
+          line: `${id} ${before === null ? 'appeared' : 'vanished'} reaching ${drawn.top.toFixed(0)} px at x ${drawn.x.toFixed(0)}, ${shows.toFixed(1)} of its ${drawn.height.toFixed(1)} px over the cover`,
           shows,
           popped: shows > SHOWN_LEAST * drawn.height + SLIVER_SLACK,
         },
