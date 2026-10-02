@@ -130,6 +130,18 @@ misses most by more than the reach: red on the old fallback); walking toward
 a grown mushroom, the first undrawn frame's seat within 6 % of the last drawn
 one's.
 
+## I5 — take-offs panned
+
+Landed (`git log --grep "take-offs panned"`). `panOf(eye, point)` in
+`model/flight-frame.ts` (`sin` of the azimuth off the heading; no `wrap`,
+`sin` being periodic); `MeadowSound.takeOff(kind, pan)`/`shy(kind, pan)`
+through `panned`. A tap pans by the tapped insect's `drawn`; a release plays
+after its dispatch, by the pose of `places[perchName(leg.to)]` in the sight
+it was released with, the flier found by its seed, 0 with no pose or no
+view. Tests: `flight-frame.test.ts` (`panOf` ±1 at the sides, 0 ahead and
+behind, from three eyes), `sound.test.ts` (a take-off and a shy build a
+panner at their pan; `shy` joins `askForEverything`).
+
 ## Left
 
-- I5.
+- `fliers.test.ts` after I3–I5.

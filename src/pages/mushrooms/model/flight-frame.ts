@@ -38,6 +38,15 @@ export function azimuthOf(eye: Point, point: Point): number {
 }
 
 /**
+ * Where `point` sounds across the stereo field heard from `eye`: -1 straight
+ * to its left, 1 straight to its right, 0 ahead and behind alike, stereo
+ * telling front from back no better.
+ */
+export function panOf(eye: Eye, point: Point): number {
+  return Math.sin(azimuthOf(eye, point) - eye.heading);
+}
+
+/**
  * The centre azimuth of a leg from `from` to `to` as `eye` sets it off: the
  * eye's heading, clamped so both ends, taken the short way round, lie within
  * `FRAME_MARGIN` of it. Facing anything on the screen the clamp does not

@@ -265,14 +265,14 @@ export class MeadowSound {
     if (this.context) this.play(panned(footstep, FOOT_PAN[foot]));
   }
 
-  /** An insect of `kind` taking wing: a butterfly's trill, a fly's or a bee's buzz. */
-  takeOff(kind: InsectKind): void {
-    this.play(TAKE_OFF[kind]);
+  /** An insect of `kind` taking wing at `pan` (`panOf`): a butterfly's trill, a fly's or a bee's buzz. */
+  takeOff(kind: InsectKind, pan: number): void {
+    this.play(panned(TAKE_OFF[kind], pan));
   }
 
-  /** An insect of `kind` caught in the air, shying away: a butterfly's tumbling trill, a fly's whine, a bee's sharp buzz. */
-  shy(kind: InsectKind): void {
-    this.play(SHY[kind]);
+  /** An insect of `kind` caught in the air at `pan` (`panOf`), shying away: a butterfly's tumbling trill, a fly's whine, a bee's sharp buzz. */
+  shy(kind: InsectKind, pan: number): void {
+    this.play(panned(SHY[kind], pan));
   }
 
   stop(): void {

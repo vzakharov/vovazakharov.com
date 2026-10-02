@@ -1,6 +1,8 @@
 import type { Sight } from '../../model/flight';
+import { panOf } from '../../model/flight-frame';
 import type { InsectKind } from '../../model/insect-genes';
 import type { Species } from '../../model/mushroom-genes';
+import { perchName } from '../../model/perch-room';
 import type { Footed } from '../../model/placement';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
@@ -64,18 +66,28 @@ export class Arrivals {
   /** Whether the meadow has room for another mushroom as it stands now. */
   readonly roomy = (): boolean => this.roomNow() !== undefined;
 
+  /**
+   * Releases an insect of kind `insect`, its take-off sounding where its
+   * first perch stands (`panOf`), in the middle where it has none placed.
+   */
   readonly release = (insect: InsectKind): void => {
-    const { dispatch, layout, view, sight } = this.scene;
-    this.voice.takeOff(insect);
+    const { dispatch, layout, view, sight, meadow } = this.scene;
     const seed = nextSeed(this.releasing);
+    const seen = sight();
     dispatch({
       kind: 'release',
       insect,
       seed,
       now: this.now() * 1000,
-      ...sight(),
+      ...seen,
       onscreen: onscreenOf(layout(), view(), { kind: insect, seed }),
     });
+    const flier = meadow()?.insects.findLast(
+      (released) => released.seed === seed && released.kind === insect,
+    );
+    const first = flier && seen.places?.[perchName(flier.leg.to)]?.pose;
+    const eye = view()?.eye;
+    this.voice.takeOff(insect, first && eye ? panOf(eye, first.aloft) : 0);
   };
 
   /** Where the next mushroom grows as the meadow stands now: `undefined` where there is no room. */

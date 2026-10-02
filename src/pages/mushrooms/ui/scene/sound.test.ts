@@ -46,6 +46,16 @@ class FakeNode {
   }
 }
 
+/** The pans every stereo panner was built at, in order. */
+const pans: number[] = [];
+
+class FakePanner extends FakeNode {
+  constructor(context: FakeContext, { pan }: StereoPannerOptions) {
+    super(context);
+    pans.push(pan ?? 0);
+  }
+}
+
 class FakeContext {
   state: AudioContextState = 'running';
   readonly currentTime = 0;
@@ -104,7 +114,7 @@ const globals = {
   AudioBufferSourceNode: FakeNode,
   BiquadFilterNode: FakeNode,
   DynamicsCompressorNode: FakeNode,
-  StereoPannerNode: FakeNode,
+  StereoPannerNode: FakePanner,
   document: page,
   localStorage: { getItem: () => null, setItem: () => null },
 };
@@ -116,6 +126,7 @@ beforeEach(() => {
   mock.timers.enable({ apis: ['setTimeout'] });
   built.nodes = 0;
   built.queued = 0;
+  pans.length = 0;
   page.hidden = false;
   reported.length = 0;
 });
@@ -137,9 +148,10 @@ function askForEverything(sound: MeadowSound): void {
   sound.nuhUh();
   sound.knock();
   sound.squeak();
-  sound.takeOff('butterfly');
-  sound.takeOff('fly');
-  sound.takeOff('bee');
+  sound.takeOff('butterfly', 0);
+  sound.takeOff('fly', -1);
+  sound.takeOff('bee', 1);
+  sound.shy('butterfly', 0.5);
   sound.step('left');
   sound.step('right');
 }
@@ -234,6 +246,14 @@ describe('MeadowSound', () => {
       }),
       0,
     );
+  });
+
+  it('a take-off and a shy sound where the insect is, across the stereo field', () => {
+    const sound = started();
+    sound.takeOff('fly', -0.75);
+    sound.shy('bee', 0.4);
+    assert.deepEqual(pans, [-0.75, 0.4]);
+    sound.stop();
   });
 
   it('a browser with no Web Audio stays silent without throwing', () => {

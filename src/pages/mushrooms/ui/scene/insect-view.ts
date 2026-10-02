@@ -3,7 +3,12 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { isSeat, type Span } from '../../model/flight';
-import { type Aloft, centreOf, framedOf } from '../../model/flight-frame';
+import {
+  type Aloft,
+  centreOf,
+  framedOf,
+  panOf,
+} from '../../model/flight-frame';
 import { outOfView } from '../../model/flight-in';
 import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE } from '../../model/ground';
@@ -382,12 +387,13 @@ export class InsectView {
         const tapped = this.shown.get(id) ?? shown;
         tapped.tappedAt = this.now();
         const { kind } = tapped.flier;
+        const pan = panOf(this.view().eye, tapped.drawn);
         // Caught in the air it shies away from the finger, in its own voice.
         if (caughtAloft(tapped.flier, tapped.tappedAt * 1000)) {
           tapped.dartWay = dartWay(finger, tapped.container, tapped.phase);
-          this.voice.shy(kind);
+          this.voice.shy(kind, pan);
         } else {
-          this.voice.takeOff(kind);
+          this.voice.takeOff(kind, pan);
         }
         this.onTap(tapped.flier.id);
       },
