@@ -10,7 +10,7 @@ import {
 } from '../../model/insect-steering';
 import { type Bobbed, phaseOf } from '../../model/motion';
 import type { TappedFigure } from './hit-areas';
-import type { Spanned } from './insect-away';
+import type { SetOff, Spanned } from './insect-away';
 import type { Aloft, Framed } from './insect-frame';
 import type { Flying, Look } from './insect-look';
 
@@ -22,12 +22,12 @@ export type Shown = TappedFigure &
   Spanned &
   // How far its landing's bob sank it last frame, in units of its size.
   Bobbed &
+  // Where its current leg set off.
+  SetOff &
   // When the stretch of its leg drawn now set off: the leg's departure, or
   // once it is `out`, when it flew out of view.
   Pick<Span, 'departs'> & {
     look: Look;
-    /** Where its current leg set off. */
-    from: Aloft;
     /**
      * Where it was drawn last frame, veered round the eye and fidgets and
      * all, its bob aside, hidden or not: where a new leg sets off.
@@ -44,7 +44,11 @@ export type Shown = TappedFigure &
     at: Point;
     /** Where its perch stood last frame, in its leg's frame; `undefined` before its leg's first frame. */
     end: Framed | undefined;
-    /** Where its perch stood last frame, which it keeps to while the perch has nowhere to be. */
+    /**
+     * Where its leg ended last frame (`legEnd`): where its perch stood, which
+     * it keeps to while the perch has nowhere to be; on a leg to away, where
+     * it leaves by, fixed on the leg's first frame.
+     */
     goal: Aloft | undefined;
     /**
      * Whether its leg in from away has yet to pick where it sets off

@@ -19,7 +19,7 @@ import type { Lighting } from './ink';
 import {
   type Away,
   entryAloft,
-  leavingAloft,
+  legEnd,
   ownAway,
   reachesScreen,
   seenFor,
@@ -82,8 +82,8 @@ function alongOf(point: Point, start: Point, end: Point): number {
  * under it (`insect-shadow.ts`). One in from away comes up over the brow (`entryAloft`), and
  * where the screen shows no open perch, flies out of view by the side its
  * perch stands to before the rest of its way; one leaving goes out just past
- * the screen's edge where the view stands now, by its seed's side, as deep
- * as it set off (`leavingAloft`).
+ * the screen's edge where the view stood as it set off, by its seed's side,
+ * as deep as it set off, a point fixed on the plane (`legEnd`).
  */
 export class InsectView {
   private readonly shown = new Map<string, Shown>();
@@ -218,11 +218,11 @@ export class InsectView {
     const stretch = this.stretch(shown, now);
     const end =
       stretch.out ??
-      (leg.to.kind === 'away'
-        ? leavingAloft(view, leg.to.side, this.awayOf(shown, view), shown.from)
-        : goal) ??
-      shown.goal ??
-      shown.from;
+      legEnd(view, leg.to, () => this.awayOf(shown, view), {
+        ...pick(shown, 'from'),
+        kept: shown.goal,
+        perch: goal,
+      });
     shown.goal = end;
     const centre = shown.centre ?? centreOf(view.eye, shown.from, end);
     shown.centre = centre;
