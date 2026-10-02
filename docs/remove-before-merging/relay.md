@@ -1,7 +1,9 @@
 # Relay summary
 
-Relay depth: 5 → **the successor is depth 6**
+Relay depth: 6 → **the successor is depth 7**
 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap", limit 8).
+Depth 8 is the next session's successor: whoever reaches the cap ends at a
+natural stop and hands the operator the paste line, on Opus.
 
 ## 1. Standing constraints
 
@@ -75,78 +77,84 @@ on verbatim.
 
 ## 2. The conversation
 
-Started from `/relay take`. Attach: deepened; the local ref (e66b8e1, an
-older relay commit) was not an ancestor of origin's tip, renamed to
-`stale/claude/mushroom-game-syama-lbirv7-e66b8e1`; fresh tracking branch;
-`pnpm install`. Plan flipped paused → in-progress (06e4457).
+Started from `/relay take`. Attach: deepened; the local ref (e66b8e1) was not
+an ancestor of origin's tip, renamed to `stale/mushroom-game-local`; fresh
+tracking branch; `pnpm install`. Plan flipped paused → in-progress (05babd4).
 
-No operator message this session. Every turn was the orchestrator, agent
-reports and check-ins; each was answered to the operator in Russian.
+Agents ran item 1 (veer play bounds, C's step 2 tests, then the dash trace,
+the flower planting, the away-leg fix). Mid-run the account's weekly usage
+limit killed two agents with uncommitted work.
+
+> обновил квоту -- попробуешь восстановить работу субагента? транскрипт наверное сможешь найти
+
+Reply: both resumed with `SendMessage` to their agent ids, worktrees intact;
+both finished and pushed.
+
+> так, вопросик, а у нас всё по плану, никто не spiraled? а то такое ощущение что мы примерно вечность на этом байте. я не тороплю, простопытаюсь убедиться что всё ок
+
+Reply: not a spiral, but borderline — of the veer play's rounds, one found a
+real game defect (away legs) and two were the play's own errors; so the chase
+stops: remaining reds recorded as known, Artifact next, then items 2–5. No
+more "the check found a problem in the check" rounds. Offered to ship the
+Artifact before the away fix; did not wait for an answer, since the fix
+landed first and the Artifact went out with it.
 
 ## 3. Intent
 
-Unchanged: the whole game, autonomous, beautiful and comfortable for a
-six-year-old boy; reviewed per bite by a subagent; the Artifact playable
-after every bite; `/finalize` at the end, no merge. Bite 12 now: insects
-that live in the world, sized by distance, veering past the child's head,
-flying at their own calm cruise. The operator is waiting to *see* the
-sizing (asked at depth 4: «у нас же пока ещё в том что на ветке не
-масштабируются насекомые?») — the Artifact is still version 13, without it.
+Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
+playable after every bite; `/finalize` at the end, no merge. Now: **finish
+bite 12 without further test-harness rounds** — the operator noticed the
+bite is taking forever.
 
-## 4. Decisions (all in the plan's `## Rest of the bite`)
+## 4. Decisions (in the plan and `docs/plans/mushroom-game-syama/bite-12/insects.md` § "The veer play's bounds")
 
-- ip-C1's three calls built as recommended (veer fades in from every leg not
-  from away; `drawnFlier` returns the veered aloft; `Perched` a union).
-- **The insect view has no jump bug** (`ip-jump.md`): every butterfly/bee
-  jump was the play's one-frame `face()`; the fly's are its designed dash
-  magnified near the eye.
-- **Dash bound**: `step / zoom ≤ 1.1 ×` the dash curve's own peak, derived
-  from `insect-motion.ts` (fly ~65, bee ~48 butterfly px a frame on tabL),
-  fly and bee; the width/20 drawn bound for the butterfly only. Beaten: a
-  lower dash; slowing the drawn dash by zoom. `dash-cap.md`'s 60/36
-  sizes/s figure is stale (pace removed `across`) — do not use it.
-- **Looking back is bare by design** (12b makes the field endless): the
-  veer play lands its looking-back releases at the farthest heading with
-  room (~1.8 rad tabL, ~1.6 phoneP; `15d6d8b`'s sweep logs it).
-- Whether the dash reads too fast is for the operator's play.
+- C's step 2: `seat`/`capTop` `drawn` left untested (Phaser cannot load in
+  Node); extracting pure functions beaten as churn without a bug.
+- Dash bound is the curve's own peak (`scripts/lib/veer-dash.ts`, 41.6/23.5
+  butterfly px a frame); binding to measured peaks beaten.
+- Away legs timed between the plane points they are drawn between — built
+  (007a1ec, `ip-away.md`). The release's leg on to a far air spot (0.5–2.6)
+  accepted.
+- **The veer play's chase is closed.** Known, for the review and the
+  operator's play: tabL bee 57.7 px step; phoneP fly never perches in view;
+  phoneP frame median ~27.3 ms vs 26; a release toward a shown perch timed
+  from the screen edge but drawn from over the brow.
+- The flower "not planted" was the script counting bee-sown flowers; both
+  the veer and tufts plays now count only the child's (3c7de13, 07c5b07).
 
 ## 5. Errors and dead ends
 
-- The first switch agent hit 174k with nothing pushed; one nudge landed it.
-- `ip-Cplay` filled (185k) writing the play, never ran it; lesson in
-  megabeast `subagents.md` ("two agents").
-- The orchestrator briefed a 66 px fly bound from `dash-cap.md`; the code's
-  dash is different and both kinds failed it. Lesson in `subagents.md`.
-- A worker restart killed a foreground `fliers.test.ts`; rerun passed.
+- The 65/48 px dash bound in the plan was a measurement, not the curve.
+- The ip-Cplay5 lead (`offAloft` moving) was wrong; the cause was timing vs
+  drawing endpoints.
+- The usage limit (see § 2). Lesson in megabeast `subagents.md`.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
   **`CONFLICTING`** (reported, `/finalize`'s job).
-- Last pushed commit: the one carrying this file (after c9a2aa5).
-- Plan `docs/plans/mushroom-game-syama.paused.md` (425 lines).
+- Last pushed: the commit carrying this file (after 31cb5db).
+- Plan `docs/plans/mushroom-game-syama.paused.md`, 408 lines (target < 400;
+  trim when next touched).
 - No agent running, no worktree, no pending check-in, no PR subscription.
-- Artifact: version 13, not republished.
-- `pnpm knip` reports 11 unused exports, none in C's files; not checked
-  against the base — `/finalize`'s vet will show it.
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 14
+  (built after 007a1ec, with the away fix). The operator has not yet been
+  told what to try on it beyond earlier messages.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12/ip-C2.md` (the switch), `ip-Cplay3.md`
-  (the play as it stands, per-screen numbers), `ip-jump.md` (the trace;
-  its repro script was in this session's scratchpad, gone — recipe in the
-  note).
+- Notes: `docs/remove-before-merging/bite-12/ip-Cplay4.md`, `ip-Cplay5.md`,
+  `ip-plant.md`, `ip-away.md`, `ip-C3.md`.
 - Frames: `docs/remove-before-merging/frames/bite-12/insect-plane/`.
-- Play: `flock tmp/site.lock env NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`,
-  then `flock tmp/site.lock pnpm play:mushrooms --no-build --screens <one> --plays veer`.
-- This session: https://claude.ai/code/session_016QmYmqofLgheYYYYgU827x
+- `scripts/lib/veer-away.ts` (drawn/timed per away leg, eye still).
+- This session: https://claude.ai/code/session_01Skp8FPGWyG3RgtW8yeTLyF
 
 ## 8. Next step
 
-Continue bite 12 from the plan's `**Left, in order:**`, item 1: one agent
-(scripts only) makes the two veer-play bound changes and reruns tabL then
-phoneP, committing frames; C's step 2 tests in parallel in `src/`. Then
-build and republish the Artifact and tell the operator, in Russian, what to
-try: turn your back and release a bug (it flies out by the side, drawn the
-whole way); insects smaller over the back caps, bigger near; walk at a
-hovering fly — it veers past; is the fly's dash too fast? Then items 2–5.
+Continue bite 12 from the plan's `**Left, in order:**` item 2 (the
+five-screen final play, one screen per call, frames committed), then 3
+(footstep level), 4 (the review subagent and its fixes), 5 (`/polish`, vet,
+Artifact, `/pr`). Tell the operator, in Russian, what to try on Artifact
+version 14: turn your back and release a bug (it leaves by the side, drawn
+the whole way); insects smaller over the back caps, bigger near; walk at a
+hovering fly — it veers past; is the fly's dash too fast?
