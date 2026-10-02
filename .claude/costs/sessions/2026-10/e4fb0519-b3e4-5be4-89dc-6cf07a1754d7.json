@@ -9,53 +9,53 @@
   "url": "https://claude.ai/code/session_01UfB8AnjgikX3hw17euejxu",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-02T09:34:35.010Z",
-  "lastResponseAt": "2026-10-02T10:51:13.681Z",
+  "lastResponseAt": "2026-10-02T11:00:24.340Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 22281,
-    "cacheWrite5mTokens": 759313,
-    "cacheWrite1hTokens": 134310,
-    "cacheReadTokens": 30192512,
-    "outputTokens": 23600,
-    "thinkingTokens": 2884,
-    "responses": 268,
-    "costUsd": 11.479191400000001
+    "inputTokens": 32000,
+    "cacheWrite5mTokens": 854113,
+    "cacheWrite1hTokens": 150870,
+    "cacheReadTokens": 34118234,
+    "outputTokens": 32004,
+    "thinkingTokens": 4334,
+    "responses": 295,
+    "costUsd": 13.079475799999994
   },
   "ownTurns": {
-    "inputTokens": 139,
+    "inputTokens": 162,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 134310,
-    "cacheReadTokens": 8644821,
-    "outputTokens": 20609,
-    "thinkingTokens": 2884,
-    "responses": 59,
-    "costUsd": 3.2161801999999997
+    "cacheWrite1hTokens": 150870,
+    "cacheReadTokens": 10900973,
+    "outputTokens": 28703,
+    "thinkingTokens": 4334,
+    "responses": 71,
+    "costUsd": 3.9618626000000003
   },
   "subagents": {
-    "inputTokens": 400,
-    "cacheWrite5mTokens": 756473,
+    "inputTokens": 426,
+    "cacheWrite5mTokens": 850705,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 20120471,
-    "outputTokens": 2729,
+    "cacheReadTokens": 21429287,
+    "outputTokens": 2941,
     "thinkingTokens": 0,
-    "responses": 200,
-    "costUsd": 7.862639200000002
+    "responses": 213,
+    "costUsd": 8.5999064
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 22281,
-      "cacheWrite5mTokens": 759313,
-      "cacheWrite1hTokens": 134310,
-      "cacheReadTokens": 30192512,
-      "outputTokens": 23600,
-      "thinkingTokens": 2884,
-      "responses": 268,
-      "costUsd": 11.479191400000001
+      "inputTokens": 32000,
+      "cacheWrite5mTokens": 854113,
+      "cacheWrite1hTokens": 150870,
+      "cacheReadTokens": 34118234,
+      "outputTokens": 32004,
+      "thinkingTokens": 4334,
+      "responses": 295,
+      "costUsd": 13.079475799999994
     }
   },
   "warnings": [
-    "prices.json priced the 258 responses the events also priced at $11.0408, against the events' $13.5663: a rate in the table is likely out of date"
+    "prices.json priced the 283 responses the events also priced at $12.5326, against the events' $15.1832: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "end_turn",
@@ -75,20 +75,20 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 267,
-    "matched": 258,
-    "matchedTableUsd": 11.040819400000002,
-    "matchedEventUsd": 13.566339399999999,
+    "events": 294,
+    "matched": 283,
+    "matchedTableUsd": 12.532575399999992,
+    "matchedEventUsd": 15.183175399999994,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 21742,
-        "cacheWrite5mTokens": 2840,
+        "inputTokens": 31412,
+        "cacheWrite5mTokens": 3408,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1427220,
-        "outputTokens": 262,
+        "cacheReadTokens": 1787974,
+        "outputTokens": 360,
         "thinkingTokens": 0,
-        "responses": 9,
-        "costUsd": 0.400372
+        "responses": 11,
+        "costUsd": 0.5177068
       }
     }
   }
