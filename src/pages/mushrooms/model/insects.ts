@@ -35,7 +35,13 @@ import {
 type Visitor = OfKind<Exclude<InsectKind, 'bee'>>;
 /** A bee, and the pollen it carries: only a bee has any. */
 type Pollinator = OfKind<'bee'> & Carrying;
-export type Flier = Insect & Flight & (Visitor | Pollinator);
+/**
+ * `shied`, the leg, by its count in `legs`, a catch in the air set the flier
+ * shying on (`insect-dart.ts`): it darts on that leg alone, so a later leg
+ * carrying the count on never darts.
+ */
+type Shying = { shied?: number };
+export type Flier = Insect & Flight & Shying & (Visitor | Pollinator);
 
 /**
  * What the insects make of the meadow: the fliers, in the order they were
@@ -135,9 +141,21 @@ export function released(
 }
 
 /**
- * `swarm` with the insect called `id` taking off from `now`, when it is at
- * rest; an insect in the air, or none by that id, leaves the swarm as it
- * was, the same object.
+ * Whether a tap at `now` catches `flier` in the air: flying a leg, or
+ * hovering at a spot in the air it came to, and not on its way away.
+ */
+export function caughtAloft(flier: Flight, now: number): boolean {
+  return (
+    !isLeaving(flier) && (isAloft(flier, now) || flier.leg.to.kind === 'air')
+  );
+}
+
+/**
+ * `swarm` with the insect called `id` taking its next leg from `now`, to a
+ * perch other than the one it sat on or was heading to (`nextFlight`): at
+ * rest it takes off; caught in the air (`caughtAloft`) it shies, darting off
+ * as the leg sets off (`shied`). One flying away, or none by that id, leaves
+ * the swarm as it was, the same object.
  */
 export function startled(
   swarm: Swarm,
@@ -147,17 +165,25 @@ export function startled(
 ): Swarm {
   const { insects } = swarm;
   const insect = insects.find((each) => each.id === id);
-  if (insect === undefined || isAloft(insect, now)) return swarm;
+  if (insect === undefined) return swarm;
+  const shies = caughtAloft(insect, now);
+  if (!shies && isAloft(insect, now)) return swarm;
   const taken = takenBy(insects, insect);
   const planted = [...swarm.planted];
   const flight = nextFlight(insect, perches, now, taken);
+  const shied = shies ? { shied: flight.legs } : {};
   return {
     insects: insects.map((each) =>
-      each === insect ? tookOff(each, flight, now, perches, planted) : each,
+      each === insect
+        ? { ...tookOff(each, flight, now, perches, planted), ...shied }
+        : each,
     ),
     planted: plantedOnto(swarm.planted, planted),
   };
 }
+
+/** Whether `flier` is darting on its current leg, the one a catch in the air set it on. */
+export const isShying = ({ shied, legs }: Flier): boolean => shied === legs;
 
 /**
  * Whether `insect`'s next leg is due at `now`, among `insects`: its stay is

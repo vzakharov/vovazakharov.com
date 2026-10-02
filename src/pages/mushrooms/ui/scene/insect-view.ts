@@ -6,11 +6,12 @@ import { isSeat, type Span } from '../../model/flight';
 import { outOfView } from '../../model/flight-in';
 import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE } from '../../model/ground';
+import { dartAt, dartWay } from '../../model/insect-dart';
 import type { InsectKind } from '../../model/insect-genes';
 import { carriedFrom, landingBob } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
 import { startLeg, steer } from '../../model/insect-steering';
-import type { Flier } from '../../model/insects';
+import { caughtAloft, type Flier, isShying } from '../../model/insects';
 import { smooth, wobble } from '../../model/motion';
 import { onHost } from './bed-place';
 import { containsCircle } from './hit-areas';
@@ -238,7 +239,7 @@ export class InsectView {
     shown.aim = aim;
     // Settled on its perch, it turns to face up the screen, give or take,
     // as Syama drew it on the caps.
-    const { steering, point } = steer(
+    const { steering, point: flight } = steer(
       shown.steering,
       {
         leg: stretch.span,
@@ -255,6 +256,14 @@ export class InsectView {
     );
     shown.steering = steering;
     const { turn } = steering;
+    // Shying, it darts off its flight without turning (`insect-dart.ts`).
+    const dart = isShying(shown.flier)
+      ? dartAt(leg, now, motion.kind) * size * zoom
+      : 0;
+    const point = {
+      x: flight.x + shown.dartWay.x * dart,
+      y: flight.y + shown.dartWay.y * dart,
+    };
     // A bob cut short by a take-off dies away rather than jumping.
     const bob =
       ((perched ? landingBob(leg, now) : 0) +
@@ -423,7 +432,15 @@ export class InsectView {
           this.reached({ x: pointer.worldX, y: pointer.worldY }) ?? flier.id;
         const tapped = this.shown.get(id) ?? shown;
         tapped.tappedAt = this.now();
-        this.voice.takeOff(tapped.flier.kind);
+        const { kind } = tapped.flier;
+        // Caught in the air it shies away from the finger, in its own voice.
+        if (caughtAloft(tapped.flier, tapped.tappedAt * 1000)) {
+          const finger = { x: pointer.worldX, y: pointer.worldY };
+          tapped.dartWay = dartWay(finger, tapped.container, tapped.phase);
+          this.voice.shy(kind);
+        } else {
+          this.voice.takeOff(kind);
+        }
         this.onTap(tapped.flier.id);
       },
     );

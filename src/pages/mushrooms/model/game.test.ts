@@ -391,16 +391,17 @@ describe('the butterflies', () => {
     assert.deepEqual(next.leg.from, to);
   });
 
-  it('startles one at rest into a leg from now, and leaves one in the air be', () => {
+  it('startles one into a leg from now, at rest or caught in the air', () => {
     const meadow = reduce(opening(), release(1, 0));
     const [butterfly] = meadow.insects;
     assert.ok(butterfly);
     const { arrives } = butterfly.leg;
-    assert.equal(reduce(meadow, startle(arrives - 1)), meadow);
-    const [startled] = reduce(meadow, startle(arrives + 1)).insects;
-    assert.ok(startled);
-    assert.equal(startled.leg.departs, arrives + 1);
-    assert.equal(startled.legs, 2);
+    for (const now of [arrives - 1, arrives + 1]) {
+      const [startled] = reduce(meadow, startle(now)).insects;
+      assert.ok(startled);
+      assert.equal(startled.leg.departs, now);
+      assert.equal(startled.legs, 2);
+    }
     assert.equal(reduce(meadow, startle(0, 'butterfly-9')), meadow);
   });
 
