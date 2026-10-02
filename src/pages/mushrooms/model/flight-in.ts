@@ -84,7 +84,7 @@ export function entryOf(
   side: Side,
   to: Perch,
 ): Places {
-  const there = to.kind === 'away' ? undefined : places?.[perchName(to)];
+  const there = placeOf(places, to);
   const from = there
     ? { ...pick(brow, 'y', 'fromEye'), x: (brow.x + there.x) / 2 }
     : brow;
@@ -156,6 +156,11 @@ export function enteringSide(
   to: Perch,
   drawn: Side,
 ): Side {
-  const place = to.kind === 'away' ? undefined : places?.[perchName(to)];
+  const place = placeOf(places, to);
   return place ? nearerSide(onscreen, place) : drawn;
+}
+
+/** Where `places` puts `to`, a shown perch; never an away spot, which stands past the screen. */
+function placeOf(places: Places | undefined, to: Perch): Place | undefined {
+  return to.kind === 'away' ? undefined : places?.[perchName(to)];
 }

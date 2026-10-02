@@ -4,7 +4,7 @@
  * the clock and nothing has to end a shower.
  */
 
-import { smooth } from './motion';
+import { outAndBack, smooth } from './motion';
 
 /** A shower, from its first drop to the moment it stops. */
 export type Rain = { startedAt: number; stopsAt: number };
@@ -54,9 +54,10 @@ export function downpour(rain: Rain | undefined, now: number): number {
  */
 export function rainbow(rain: Rain | undefined, now: number): number {
   if (rain === undefined || now < rain.stopsAt) return 0;
-  const since = now - rain.stopsAt;
-  return (
-    smooth(since / RAINBOW_RISE_MS) *
-    (1 - smooth((since - RAINBOW_RISE_MS - RAINBOW_HOLD_MS) / RAINBOW_FADE_MS))
+  return outAndBack(
+    now - rain.stopsAt,
+    RAINBOW_RISE_MS,
+    RAINBOW_HOLD_MS,
+    RAINBOW_FADE_MS,
   );
 }

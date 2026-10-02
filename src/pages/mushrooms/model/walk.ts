@@ -179,18 +179,7 @@ function crossingOf(from: Point, to: Point): Point {
  * there and the crossing counts toward no glide.
  */
 function turningFrom(walk: Walk, x: number, time: number): Pan {
-  const arc = arcOf(pinholeOf(walk.lens), x);
-  return {
-    ...walk.pan,
-    motion: {
-      kind: 'press',
-      left: leftAt(walk.pan, time),
-      downAt: arc,
-      last: { x: arc, sampledAt: time },
-      velocity: undefined,
-      panning: true,
-    },
-  };
+  return press(walk.pan, arcOf(pinholeOf(walk.lens), x), time, true);
 }
 
 /**
