@@ -25,7 +25,7 @@ import {
   type Page,
   Point,
 } from './mushroom-probe.ts';
-import { fliersOn } from './play-insects.ts';
+import { fliersOn } from './play-fliers.ts';
 
 const FPS = 60;
 /** How near, in CSS px, a thing drawn at the opening counts as where the lens stands it. */

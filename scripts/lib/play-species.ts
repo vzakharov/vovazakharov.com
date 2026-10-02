@@ -23,7 +23,7 @@ import {
   State,
 } from './mushroom-probe.ts';
 import { bandGaps } from './play-band.ts';
-import { fliersOn, REST_LOOK } from './play-insects.ts';
+import { fliersOn, REST_LOOK } from './play-fliers.ts';
 
 /** How much room a close-up leaves round its mushroom, in the mushroom's own height, and its least side, in CSS px. */
 const MARGIN = 0.25;
