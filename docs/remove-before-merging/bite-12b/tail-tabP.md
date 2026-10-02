@@ -5,11 +5,15 @@ probe build of e6fc863b.
 
 ## Plays
 
-| Play    | Result      | Time         | Notes                                                      |
-| ------- | ----------- | ------------ | ---------------------------------------------------------- |
-| opening | green       | 15 s         | cap perch held 0.00 px over 33 turn frames                 |
-| meadow  | green       | 1 min 50 s   | 4/4 butterflies perched, 10/10 fly taps; JS median 16.6 ms |
-| walk    | red → green | 1 min / 46 s | harness red, see below                                     |
+| Play     | Result      | Time         | Notes                                                                   |
+| -------- | ----------- | ------------ | ----------------------------------------------------------------------- |
+| opening  | green       | 15 s         | cap perch held 0.00 px over 33 turn frames                              |
+| meadow   | green       | 1 min 50 s   | 4/4 butterflies perched, 10/10 fly taps; JS median 16.6 ms              |
+| walk     | red → green | 1 min / 46 s | harness red, see below                                                  |
+| approach | green       | 6 min 21 s   | frame JS median 18.4 ms over 914; slowest frames 8.1–10.6 s (see below) |
+| planting | green       | 20 s         | 1 flower planted; bees drank 5, pollinating 2                           |
+| species  | green       | 3 min 19 s   | all 6 tapped; a butterfly rested on a porcini; JS median 21.8 ms        |
+| tufts    | green       | 2 min 1 s    | turned 0.559 rad, walked 0.80                                           |
 
 ## Reds
 
@@ -21,6 +25,15 @@ probe build of e6fc863b.
   past a side by the thing's drawn height, and its line names the x. Hand
   check in `to-check.md` § "Хвост 12b, планшет в портретной".
 
+## Not red, worth a look
+
+- **approach's slowest frames:** green, but the slowest frame of each
+  class runs 8–11 s: with a lawn call 8137 ms (148 frames, median 19.8),
+  with a perch re-sight 10637 ms (25, median 31.1), with neither 8849 ms
+  (745, median 18.1). The medians are fine and all three classes carry one,
+  so it reads as the container stalling (the run took 6 min 21 s) rather
+  than the game; not traced.
+
 ## Left
 
-- approach, planting, species, tufts, hold, keys, veer.
+- hold, keys, veer.
