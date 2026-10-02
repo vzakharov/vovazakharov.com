@@ -264,3 +264,6 @@ In this order of launch; parallel where files are disjoint.
   `fliers.test.ts` after `placesSetOff`, one tabL `veer` to confirm, red 3
   (`play-insects.ts:343`), the probe's `tendOn`/`retend`, four screens.
   **Orchestrator's call:** one agent takes them in that order.
+- **tail-screens** — d4a6227: `fliers.test.ts` 48/48 in 1 min 53 s after
+  `placesSetOff`; stopped there, the operator pausing the chain for the
+  night. Steps 2–5 left as the plan's `## Rest of the bite` lists them.

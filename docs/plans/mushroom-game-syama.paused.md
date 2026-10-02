@@ -296,12 +296,18 @@ The bites, each file its full contract:
 
 ## Rest of the bite
 
-12b's tail: the lawn re-tend hitch (+30 ms on its frame, past the budget),
-the mottles' strength, the play red at `play-buzzers.ts` and the 29.1 px
-bee, whether `fliers.test.ts`'s 1 min 52 s still runs all 48; then
-`/polish`, the play run on all five screens, frames, the Artifact, `/pr`;
-then 12b's own review session. Each package's commits, departures and the
-orchestrator's calls on them: `docs/remove-before-merging/bite-12b/waves.md`.
+12b's tail. **Done:** the lawn re-tend spread a slice a frame (838b087),
+the mottles at tone 0.7 / alpha 0.4 (4605c4a), the planting play's two
+harness reds (25fae6b), a take-off from a perch out of sight timed from
+where it was drawn (3c7d9b6), `fliers.test.ts` whole and green after it.
+**Left**, in order (`docs/remove-before-merging/bite-12b/tail-screens.md`):
+the probe timing `retend`/`tendOn` into `hitches.tend`; one tabL `veer` to
+confirm the reordered releases and `DASH_SLACK` 1.15; tabL's red
+`play-insects.ts:343` (no butterfly rests on a cap to tap through); every
+play on tabP, phoneP, phoneL and phoneS, **one screen per agent and one
+play per call**; then `/polish`, frames, the Artifact, `/pr`, and 12b's
+own review session. Each package's commits and the orchestrator's calls:
+`docs/remove-before-merging/bite-12b/waves.md`.
 
 ## Rest of the elephant
 
