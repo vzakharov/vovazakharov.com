@@ -36,7 +36,7 @@ import { OG_CARD_SUFFIX } from '@/shared/seo';
 import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
 
-import { findChromium } from './lib/chromium.ts';
+import { findScreenshotChromium } from './lib/chromium.ts';
 import {
   CONTENT_DIRS,
   contentFiles,
@@ -234,7 +234,7 @@ await runRenderJob(
     ],
     entries: [...chartCards(), ...siteEntries, ...cvCards()],
     render: (stale) => {
-      const chromium = findChromium();
+      const chromium = findScreenshotChromium();
       for (const card of stale) renderCard(card, chromium);
     },
   },
