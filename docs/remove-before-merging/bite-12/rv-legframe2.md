@@ -5,7 +5,8 @@ continues `rv-legframe.md` (step 1), whose planned shape this builds.
 
 ## Done
 
-- Step 2 — places carry their plane pose; `apartOf` frames a leg's pair by
+- Step 2 (34788c22; units green: `fliers.test.ts` 48/48 and every other
+  model/scene test file, one at a time) — places carry their plane pose; `apartOf` frames a leg's pair by
   `centreOf`'s rule (all in `model/flight-frame.ts`):
   - `Place.pose?: Pose` (`{ aloft, frame, near }`, `frame` in insect sizes).
     `placeOf(frame, near, aloft)` is the per-place rule, moved from
