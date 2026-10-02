@@ -32,6 +32,63 @@
   pre-existing shape as the sunk-away cull; one frame at most. Standing it
   again after `drawFlower` would close it.
 
+## Done — S2, the anchored layout (`clump-layout.ts`, `layout.ts`, `bed-place.ts`, `mushroom-bed.ts`)
+
+- `MushroomGround` carries `anchor: Eye` (`OPENING_EYE` in `standMeadow`).
+  `placeIn` moves the stored foot onto `OPENING_EYE` with `anchored` (skipped,
+  so bit-exact, at `OPENING_EYE`), returns `undefined` where `gathered` has no
+  ground, and keeps the clump's size/splay by `openingIndex` of the *stored*
+  foot. So `coversOn`, `mushroomFeet`, tuft-tap, perch-sight and every other
+  `placeIn` caller judge from an eye by being handed
+  `{ ...layout, mushrooms: anchoredGround(layout.mushrooms, anchor) }`.
+- `anchoredGround(ground, anchor)` returns the same object while the anchor
+  stays (`sameAnchor`), `ground` itself at its own anchor, so a cache keyed
+  per ground (e.g. `coversOn`'s) holds until the anchor snaps.
+- `laidOf(camera, footed): Laid` (`Placement & { opening }`): the bed's paint.
+  Opening clump as the opening eye stands it; every other mushroom at
+  `{x: 0, z: 0}` (the clump's distance, straight ahead), `FOREST_SIZE`.
+  `bedPlace`/`viewedOrLaid` take an optional `opening`, and the bed passes
+  it, so drawn size = laid size · `opening / ahead` — the same size the
+  forest's opening layout gave (tested). Painted once, never per anchor.
+  A mushroom grown behind the opening eye is now painted (before, `place`
+  returned early).
+- Tests (`clump-layout.test.ts`): identity at `OPENING_EYE`; `anchoredGround`
+  stays one object; a mushroom behind the opening eye is unplaced at the
+  opening, placed from an anchor facing it exactly as `placeOf` places its
+  anchored foot; a grown mushroom's laid placement is the same whatever eye,
+  and it draws at the forest's size from two anchors; the clump keeps its
+  opening layout.
+
+## Decided (S2)
+
+- The anchor rides on `MushroomGround`, not on moved feet. I1's uncommitted
+  `anchored-stand.ts` (in `wt-i`) moves feet and keeps the clump's size via a
+  WeakMap (`placeAnchored`); with S2, `placeIn` on an anchored ground does
+  that, so `placeAnchored` can collapse to `placeIn` and the mushrooms need
+  not be moved. Its flowers still need moving (the layout's `flowers` stays
+  as the opening laid it — that is L's/I's).
+- Light: the bed lights a mushroom from `placeIn(layout.mushrooms, …)`
+  (the opening's place, as before) and falls back to its laid place only
+  where the layout has none. P1's light by heading replaces this.
+
+## For package I
+
+- `capTop`'s seat point and `on.laidFoot` are in the bed's **paint** frame
+  now. `onHost(on, at)` stays exact (drawn = stands + offset · zoom, both of
+  one frame), but `seatAloft`'s fallback (`aloftOfLayout(view, seat,
+  laidFoot.y)`, host not drawn) reads it as opening world px, which for a
+  grown mushroom is wrong: an insect sat on a grown mushroom that goes
+  undrawn (off a side, too near) is put aloft at the clump's distance
+  straight ahead of the opening eye. I4 (seat fallback from the host's plane
+  foot) fixes it; `Shown.opening` is the scale it needs (laid px per clump
+  unit = `opening / focal`).
+
 ## Left
 
-- S2, S3: later agents.
+- S3 (roomFor / patches from the current eye, the per-area cap): a later
+  agent. `roomFor` still uses `placeOnGround`/`placeOf` at the opening.
+- Nobody yet hands the rules an anchored ground: meadow-scene (I1) / L3
+  wire `anchoredGround(layout.mushrooms, anchorOf(eye))`.
+- Spore puffs (`puffSpores`, `puffFrom`) and the boing's pitch read
+  `shown.size` unzoomed, so for a grown mushroom they follow the paint size
+  (the clump's distance), not its drawn size.

@@ -6,10 +6,15 @@
  * other stands as the forest does.
  */
 
-import type { Box } from '../../model/geometry';
+import { sameAnchor } from '../../model/anchor';
+import type { Box, Point } from '../../model/geometry';
 import {
+  anchored,
   type Camera,
+  CLUMP_DISTANCE,
+  type Eye,
   type Frame,
+  gathered,
   type Ground,
   groundOfPlane,
   OPENING_EYE,
@@ -49,9 +54,34 @@ export const FOREST_SPLAY = 0.1;
 
 /**
  * How a screen stands the meadow's mushrooms: through its camera, their feet
- * in the world's frame (`MEADOW_FRAME`).
+ * in the world's frame (`MEADOW_FRAME`), as `anchor` judges them, every foot
+ * moved with it onto `OPENING_EYE` (`anchored`).
  */
-export type MushroomGround = Readonly<{ camera: Camera; frame: Frame }>;
+export type MushroomGround = Readonly<{
+  camera: Camera;
+  frame: Frame;
+  anchor: Eye;
+}>;
+
+/** The ground `anchoredGround` last anchored each ground at. */
+const anchoredGrounds = new WeakMap<MushroomGround, MushroomGround>();
+
+/**
+ * `ground` as `anchor` judges it: `ground` itself at its own anchor, and the
+ * same object for as long as the anchor stays (`sameAnchor`), so whatever a
+ * rule keeps per ground holds until the anchor moves.
+ */
+export function anchoredGround(
+  ground: MushroomGround,
+  anchor: Eye,
+): MushroomGround {
+  if (sameAnchor(anchor, ground.anchor)) return ground;
+  const kept = anchoredGrounds.get(ground);
+  if (kept && sameAnchor(anchor, kept.anchor)) return kept;
+  const made = { ...ground, anchor };
+  anchoredGrounds.set(ground, made);
+  return made;
+}
 
 /**
  * A foot of `size`, in the clump's, stood at `foot` with `splay` as `camera`
@@ -120,20 +150,69 @@ export function clumpCrowns(camera: Camera): Box[] {
 }
 
 /**
- * Where `mushroom` stands in the world `ground` lays out, or `undefined`
- * where its foot stands outside it.
+ * Where `mushroom` stands in the world `ground` lays out, as its anchor sees
+ * it, or `undefined` where its foot stands outside that world: one of the
+ * opening clump at the clump's size and splay wherever it stands, the rest as
+ * the forest.
  */
 export function placeIn(
-  { camera }: MushroomGround,
+  { camera, anchor }: MushroomGround,
   footed: Footed,
 ): Placement | undefined {
-  const place = placeOf(camera, footed);
+  const foot = sameAnchor(anchor, OPENING_EYE)
+    ? footed.foot
+    : anchored(anchor, footed.foot);
+  if (!hasGround(foot)) return undefined;
+  const place = placedAs(
+    camera,
+    groundOfPlane(foot),
+    footed.lean,
+    openingIndex(footed.foot),
+  );
   const shown =
     place.x >= 0 &&
     place.x <= camera.world &&
     place.y >= camera.groundTop &&
     place.y <= camera.height;
   return shown ? place : undefined;
+}
+
+/** Whether `point` has ground on the layout (`groundOfPlane`): anywhere but a sliver straight behind `OPENING_EYE`. */
+function hasGround(point: Point): boolean {
+  return gathered(point).y > 0;
+}
+
+/**
+ * Where a bed lays a mushroom out to paint it, once, and `opening`, how far
+ * ahead of the eye, in the clump's size, it is laid, which the view scales
+ * it from (`bedPlace`).
+ */
+export type Laid = Placement & { opening: number };
+
+/**
+ * The ground a mushroom grown off the opening clump is laid out on: the
+ * clump's front foot's depth, straight ahead, in a frame of its own.
+ */
+const LAID_GROUND: Ground = { x: 0, z: 0 };
+
+/**
+ * Where a bed lays `footed` out to paint it (`Laid`): one of the opening
+ * clump as the opening eye stands it; any other at the clump's distance in
+ * a frame of its own, `FOREST_SIZE` of the clump's size, so it is painted
+ * once wherever it stands, the view drawing it smaller the farther it is,
+ * and no anchor it is later judged from repaints it.
+ */
+export function laidOf(camera: Camera, footed: Footed): Laid {
+  const opening = openingIndex(footed.foot);
+  return opening === undefined
+    ? {
+        ...placedAs(camera, LAID_GROUND, footed.lean, undefined),
+        opening: CLUMP_DISTANCE,
+      }
+    : {
+        ...placedAs(camera, groundOfPlane(footed.foot), footed.lean, opening),
+        opening: gathered(footed.foot).y,
+      };
 }
 
 /**

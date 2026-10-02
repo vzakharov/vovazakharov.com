@@ -18,6 +18,7 @@ import {
   cull,
   ofGround,
   type Placed,
+  placedAt,
   sunk,
   sunkAway,
   type View,
@@ -78,11 +79,21 @@ export type Standing = { stands: BedPlace };
 
 /**
  * Where `view` draws a thing whose foot stands on `foot`, `height` world px
- * tall as laid out: given a height, it is not drawn once it has sunk away
- * (`sunkAway`) or while it stands off the screen's sides (`offSides`).
+ * tall as laid out `opening` ahead of the eye, in the clump's size, or else
+ * where the opening crop's pinhole stands it (`ofGround`): given a height, it
+ * is not drawn once it has sunk away (`sunkAway`) or while it stands off the
+ * screen's sides (`offSides`).
  */
-export function bedPlace(view: View, foot: Point, height?: number): BedPlace {
-  const placed = ofGround(view, foot);
+export function bedPlace(
+  view: View,
+  foot: Point,
+  height?: number,
+  opening?: number,
+): BedPlace {
+  const placed =
+    opening === undefined
+      ? ofGround(view, foot)
+      : placedAt(view, foot, 0, opening);
   const shown = sunk(view, placed);
   const drawnHeight = height === undefined ? undefined : height * shown.zoom;
   const gone =
@@ -144,17 +155,18 @@ function layoutPlace({ x, y }: Point): BedPlace {
 }
 
 /**
- * Where a thing standing on `foot`, laid out at `laid`, is drawn: through
- * `view` (`bedPlace`), or where the layout stands it while a bed has
- * followed no view yet.
+ * Where a thing standing on `foot`, laid out at `laid` (`opening` ahead of
+ * the eye, as `bedPlace` takes it), is drawn: through `view`, or where the
+ * layout stands it while a bed has followed no view yet.
  */
 export function viewedOrLaid(
   view: View | undefined,
   foot: Point,
   laid: Point,
   height?: number,
+  opening?: number,
 ): BedPlace {
-  return view ? bedPlace(view, foot, height) : layoutPlace(laid);
+  return view ? bedPlace(view, foot, height, opening) : layoutPlace(laid);
 }
 
 /** A thing not drawn, as it waits for a place. */
