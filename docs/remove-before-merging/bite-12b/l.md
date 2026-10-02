@@ -93,6 +93,33 @@ slot.z · size · B)`:
   `standingFlowers`' plane-distance spacing waits on the same call (it is
   sized against the ring).
 
+- **Steps 2–5 designed, not built** (context ran out). For the next agent:
+  - Rules from the anchor: `plantableIn(stand, eye)` and
+    `takesFlower(stand, foot, eye)` judge on `anchoredStand(stand,
+anchorOf(eye))`; each sprout's foot is moved with `anchored` (left out
+    in the sliver, as `hasGround`) and its tuft's `x`/`y`/`size` re-stood
+    at the moved foot (`standingOn` + `tuftSizeAt`), identity at
+    `OPENING_EYE`. `Grass.tend` passes its `eye`; `Planter` gets the view
+    through `Scened` (add `view: () => View | undefined`).
+  - The read cut: a cut at `D_SEE` cannot hold beside the 48 cap, which
+    counts within `D_SEE` of a new foot up to `D_SEE + PALE_SPAN +
+TEND_STEP` from the eye, so the stand read must reach ~`2·D_SEE +
+PALE_SPAN + 1` (≈ 29) for the count to be exact. A bee flower is kept
+    when its parent is; mushrooms are cut by stored foot, and the cut stand
+    must be cached per (`mushrooms`, anchor) or `coversOn`'s per-array
+    cache misses every call.
+  - The 48: `FLOWER_SLOTS` + a counter over plane feet in `game.ts`;
+    anchoring is rigid, so counting anchored feet in `roomIn`/`roomFor`
+    equals counting on the plane.
+  - Flowers off the opening (every planted one): laid at `{x: 0, z: 0}`
+    in the flower's ground size, `viewedOrLaid(…, CLUMP_DISTANCE)` as S2's
+    `laidOf`; the drawn size equals today's at the opening (laid size ·
+    `opening / ahead` cancels `scaleAt`). Light from the opening place
+    where it has ground, else the laid one. `seat`/`onHost` read
+    `laid.place` and need the same frame.
+  - Tufts tended at one anchor may be refused by `takesFlower` at a
+    nearby one (anchor turns 0.04 rad; re-tend waits half a screen).
+
 ## Left
 
 - The rest of L3: rules from the anchor, the 48 cap, flowers off the
