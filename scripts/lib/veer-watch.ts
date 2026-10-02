@@ -129,11 +129,15 @@ export function sitting(sample: Sample): boolean {
   return SEATS.has(sample.to) && sample.now >= sample.arrives + LANDING;
 }
 
+/** Whether `sample` falls within its leg's flight: departed, not yet arrived. */
+export function inFlight({ now, departs, arrives }: Sample): boolean {
+  return now >= departs && now < arrives;
+}
+
 /** Whether `sample` flies the stretch by a seat its veer fades out over. */
 export function fading(sample: Sample): boolean {
-  const flying = sample.now >= sample.departs && sample.now < sample.arrives;
   return (
-    flying &&
+    inFlight(sample) &&
     ((SEATS.has(sample.to) && sample.flown >= 1 - SEAT_FADE) ||
       (SEATS.has(sample.from) && sample.flown <= SEAT_FADE))
   );
