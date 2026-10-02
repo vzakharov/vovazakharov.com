@@ -8,6 +8,7 @@ import {
   distanceToEdge,
   type Point,
 } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
 import { tapArea } from '../../model/mushroom-outline';
 import { openingIndex } from '../../model/placement';
@@ -34,9 +35,9 @@ import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import { SUN_RAY_REACH } from './sun-layout';
 import { tapReach } from './tap-reach';
-import { ofLayout } from './view';
+import { ofLayout, viewAt } from './view';
 import { type Screen, VIEWPORTS, VISITS } from './viewports';
-import { opened, openingCrop } from './visit-play';
+import { opened } from './visit-play';
 
 /**
  * The visits every rule is swept over, every species tried on every foot:
@@ -75,7 +76,11 @@ function grownOn(
       screen: name,
       meadows: RULED.map((seed) => [
         seed,
-        [...opened(seed, width, height, true, openingCrop).mushrooms],
+        [
+          ...opened(seed, width, height, true, (layout) =>
+            viewAt(layout.camera, OPENING_EYE),
+          ).mushrooms,
+        ],
       ]),
     };
   }
@@ -115,7 +120,11 @@ function drawnAtOpening(
   laidFoot: Point,
   points: readonly Point[],
 ): Point[] {
-  const foot = ofLayout(openingCrop(layout), laidFoot, laidFoot.y);
+  const foot = ofLayout(
+    viewAt(layout.camera, OPENING_EYE),
+    laidFoot,
+    laidFoot.y,
+  );
   return points.map((point) => aboutFoot(foot, laidFoot, point));
 }
 

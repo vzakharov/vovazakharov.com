@@ -24,7 +24,7 @@ import { type Stand, standOf } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
-import { type View, viewAt } from './view';
+import type { View } from './view';
 
 export { tapTarget } from './mushroom-tap';
 
@@ -33,11 +33,6 @@ type Meadowed = { meadow: Meadow };
 
 /** A stand, and the meadow it stands. */
 export type Opened = Stand & Meadowed;
-
-/** The view the visit opens on: the layout's camera, from the opening eye. */
-export function openingCrop(layout: MeadowLayout): View {
-  return viewAt(layout.camera, OPENING_EYE);
-}
 
 /**
  * A meadow as the scene opens it for the visit `seed`, drawing from the

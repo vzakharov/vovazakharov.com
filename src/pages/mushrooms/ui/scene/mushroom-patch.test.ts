@@ -13,7 +13,7 @@ import {
 import { drawnHolds } from './mushroom-tap';
 import { viewAt } from './view';
 import { type Screen, VIEWPORTS, VISITS } from './viewports';
-import { opened, openingCrop } from './visit-play';
+import { opened } from './visit-play';
 
 /** How many visits each screen grows a forest for, and tries at every size up to the cap. */
 const FORESTS = 40;
@@ -34,7 +34,7 @@ const from =
  */
 const GROWN_ON: ReadonlyArray<readonly [string, Viewing]> = [
   ['anywhere in the world', undefined],
-  ['in the opening view', openingCrop],
+  ['in the opening view', from(OPENING_EYE)],
   ['turned', from({ ...OPENING_EYE, heading: 0.3 })],
   ['stepped in', from({ ...OPENING_EYE, y: OPENING_EYE.y + 3 })],
 ];
