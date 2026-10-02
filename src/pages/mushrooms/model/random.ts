@@ -47,6 +47,16 @@ export function between(random: Random, min: number, max: number): number {
   return min + random() * (max - min);
 }
 
+/** A number from `min` to `max` drawn nearer `min` the higher `skew` is: `between` where it is 1. */
+export function skewedBetween(
+  random: Random,
+  min: number,
+  max: number,
+  skew: number,
+): number {
+  return min + random() ** skew * (max - min);
+}
+
 /** A whole number from `least` to `most`, each as likely. */
 export function countFrom(
   random: Random,
