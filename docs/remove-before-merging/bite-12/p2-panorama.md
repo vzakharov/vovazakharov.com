@@ -57,7 +57,7 @@ F·tan(α − heading)`, `undefined` behind the eye), `shownAzimuths(view)`,
 The patch is now source (the `.patch` is gone). What it does:
 
 - `panorama.ts`: `Crest` (azimuth → screen y), `ringWave(camera, rate,
-  phase)` — a sine that is exactly `rate·(x − cx) + phase` over the opening
+phase)` — a sine that is exactly `rate·(x − cx) + phase` over the opening
   screen (via `F·tan α`), then a C1 Hermite in azimuth round the rest of the
   circle at the middle's pace, a whole number of turns round 360°;
   `crestAcross(crest, view, steps, margin)` samples a crest across a view.
@@ -71,7 +71,7 @@ The patch is now source (the `.patch` is gone). What it does:
 - `paint-land.ts`: `hillsOf(layout, random)` (same `random` order), and
   `drawHills(layers, hills, view)` live into two screen-fixed Graphics, the
   seam filled `RANGES.near.foot` in the near layer down to `groundTop +
-  reach + 2`. Ground/grain painters still the old ones.
+reach + 2`. Ground/grain painters still the old ones.
 - `paint-backdrop.ts`: `Backdrop.hills: {far, near}` Graphics +
   `hillsFrom`; `follow(view)` redraws them only when `view.eye.heading`
   changed. No change to the per-frame or resize API.
@@ -86,13 +86,13 @@ sun.x))`, skipped where its rays are wholly off the screen.
 
 ### Measured (tabL 1180×820 @2, play run's SwiftShader Chromium, 80 frames, medians, 3 runs)
 
-| | `game.step` JS | step + `readPixels` sync |
-| --- | --- | --- |
-| live hills, static | 7.9–8.3 ms | 237–313 ms |
-| live hills, turning (redraw each frame) | 7.8–8.0 ms + 0.6 ms `follow` | 245–255 ms |
-| hills hidden | 7.3–7.8 ms | 212–290 ms |
-| baked strip (1.5 screens, 3540×615 texels), static | 7.3–7.6 ms | 244–270 ms |
-| re-baking that strip | 95–137 ms per bake, every ~0.5 s at `TURN_CRUISE` | |
+|                                                    | `game.step` JS                                    | step + `readPixels` sync |
+| -------------------------------------------------- | ------------------------------------------------- | ------------------------ |
+| live hills, static                                 | 7.9–8.3 ms                                        | 237–313 ms               |
+| live hills, turning (redraw each frame)            | 7.8–8.0 ms + 0.6 ms `follow`                      | 245–255 ms               |
+| hills hidden                                       | 7.3–7.8 ms                                        | 212–290 ms               |
+| baked strip (1.5 screens, 3540×615 texels), static | 7.3–7.6 ms                                        | 244–270 ms               |
+| re-baking that strip                               | 95–137 ms per bake, every ~0.5 s at `TURN_CRUISE` |                          |
 
 **Call: live.** The live hills cost ≈ 0.5 ms of JS a frame (Phaser
 re-tessellating ~4.1k commands), static or turning; the synced raster cost is
