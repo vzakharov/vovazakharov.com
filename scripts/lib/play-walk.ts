@@ -277,6 +277,12 @@ export async function playWalk(
   await page.step(2);
 }
 
+/** How far the eye went from `from` to `to` along `heading`, in plane units. */
+function goneAlong(from: Seen, to: Seen, heading: number): number {
+  const way = forwardOf(heading);
+  return (to.x - from.x) * way.x + (to.y - from.y) * way.y;
+}
+
 /**
  * `↓` held `BACK_HELD` s from `from`, `seen` frame by frame through its
  * glide to rest: straight back along the heading, by the let-go
@@ -290,9 +296,7 @@ function checkBack(
   expect: Expect,
   note: (line: string) => void,
 ): void {
-  const behind = forwardOf(from.heading + Math.PI);
-  const backOf = ({ x, y }: Seen) =>
-    (x - from.x) * behind.x + (y - from.y) * behind.y;
+  const backOf = (to: Seen) => goneAlong(from, to, from.heading + Math.PI);
   const [letGo, rest] = [seen[FPS * BACK_HELD - 1], seen.at(-1)];
   if (!letGo || !rest) return;
   const eased = KEY_EASE / 2;
@@ -306,10 +310,7 @@ function checkBack(
       `↓ held ${String(BACK_HELD)} s walked back ${went.toFixed(3)} units ${when}, not ${want.toFixed(3)} ±${String(BACK_SLACK)}`,
     );
   }
-  const across = forwardOf(sidewaysOf(from.heading));
-  const off = Math.abs(
-    (rest.x - from.x) * across.x + (rest.y - from.y) * across.y,
-  );
+  const off = Math.abs(goneAlong(from, rest, sidewaysOf(from.heading)));
   expect(
     off <= BACK_SLACK,
     `↓ held ${String(BACK_HELD)} s strayed ${off.toFixed(3)} units off straight back`,
@@ -336,11 +337,8 @@ async function playStrafes(
   /** `seen` from `from`: square to the heading, which holds, and walked `by`'s way. */
   const checkSquare = (from: Seen, seen: readonly Seen[], by: string) => {
     const last = seen.at(-1) ?? from;
-    const [dx, dy] = [last.x - from.x, last.y - from.y];
-    const ahead = forwardOf(from.heading);
-    const across = forwardOf(sidewaysOf(from.heading));
-    const along = dx * ahead.x + dy * ahead.y;
-    const side = dx * across.x + dy * across.y;
+    const along = goneAlong(from, last, from.heading);
+    const side = goneAlong(from, last, sidewaysOf(from.heading));
     const turnedMost = Math.max(
       ...seen.map(({ heading }) => Math.abs(turned(from.heading, heading))),
     );
@@ -386,9 +384,8 @@ async function playStrafes(
       went >= least * 0.98 && went <= most * 1.02,
       `a drag from the sky strafed ${went.toFixed(3)}, not the ${least.toFixed(3)}..${most.toFixed(3)} that brings the far ground under the finger`,
     );
-    const across = forwardOf(sidewaysOf(pressed.heading));
-    const sideAt = ({ x, y }: Seen) =>
-      (x - pressed.x) * across.x + (y - pressed.y) * across.y;
+    const sideAt = (seen: Seen) =>
+      goneAlong(pressed, seen, sidewaysOf(pressed.heading));
     const atLift = sideAt(chase[0] ?? pressed);
     const caught = chase.findIndex((seen) => sideAt(seen) >= 0.9 * went);
     note(
