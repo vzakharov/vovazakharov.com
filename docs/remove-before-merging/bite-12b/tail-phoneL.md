@@ -72,6 +72,26 @@ held to it as before. A line for a person is in `to-check.md`
 same insects as the first (`butterfly-16`, `fly-14`), so the meadow's reds
 should reproduce for a trace.
 
+## Not red, worth a look
+
+- **Insects under the buttons:** in both looking-back frames a butterfly sits
+  half under the house or the + button at the top right — drawn beneath the
+  controls, as on other screens, but the landscape phone's short height puts
+  the buttons over more of the sky the fliers cross.
+- **veer, ground to grow on:** 0 tufts at headings 0.00–1.05, 2.36–2.62,
+  3.93–4.19 and 5.50–5.76, 6–43 elsewhere — the phoneP shape, wider. Not
+  traced.
+
+## Frames
+
+In `docs/remove-before-merging/frames/bite-12b/`:
+`phoneL-veer-back-bee-kept-off-flower.png` (the third bee try: a butterfly on
+the one flower beside the fly agaric, bees in the air, a butterfly under the
+
+- button), `phoneL-veer-back-perched.png` (two butterflies on the cap and the
+  flower, one under the house button), `phoneL-final-forest.png` (the forest
+  along the horizon; three caps stacked in one column at the right edge).
+
 ## Left
 
 - The meadow and approach reds, for a trace.
