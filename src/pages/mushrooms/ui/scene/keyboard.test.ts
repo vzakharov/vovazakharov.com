@@ -63,7 +63,7 @@ describe('the keyboard', () => {
     assert.deepEqual(letGoMoves({ code: 'KeyG' }), []);
   });
 
-  it('strafes on ← → under Shift, and walks as ever on ↑ ↓ under it', () => {
+  it('strafes on ← → under Shift, and walks on ↑ ↓ under it as without', () => {
     const shift = { shiftKey: true };
     assert.deepEqual(press('ArrowLeft', shift), {
       kind: 'strafe',

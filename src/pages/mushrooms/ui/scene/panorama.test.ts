@@ -31,7 +31,7 @@ describe('the panorama', () => {
     const { camera, sun, clouds, nearHills } = layout;
     const opening = viewAt(camera, OPENING_EYE);
 
-    it(`shows the sun and the opening clouds where the opening screen always has, on a ${name} screen`, () => {
+    it(`shows the sun and the opening clouds at the opening where the layout lays them, on a ${name} screen`, () => {
       assert.ok(
         Math.abs(screenAt(opening, azimuthAt(camera, sun.x)) - sun.x) < 1e-9,
       );
