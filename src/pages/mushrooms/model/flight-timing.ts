@@ -63,6 +63,35 @@ export function apartIn(
   return apartOf(here, { ...there, ...level });
 }
 
+/**
+ * `places` with the perch `leg` flies to standing where an insect flying it
+ * is at `now`: the time flown's share of the way from its `from`, across
+ * straight and `1 / fromEye` mixed straight, as its frame flies it. A leg
+ * set off then, from that perch, is drawn from where the insect was
+ * (`legSetOff`), so it is timed from there too, not from the perch it never
+ * reached. As given at or past arrival, for a leg in from away, whose way in
+ * the sight's away spot does not stand at, and where either end has no place.
+ */
+export function placesFlying(
+  places: Places | undefined,
+  leg: Pick<Leg, 'from' | 'to' | 'departs' | 'arrives'>,
+  now: number,
+): Places | undefined {
+  const { from, to, departs, arrives } = leg;
+  const [here, there] = [places?.[perchName(from)], places?.[perchName(to)]];
+  if (!places || !here || !there || from.kind === 'away' || now >= arrives) {
+    return places;
+  }
+  const flown = Math.max(0, (now - departs) / (arrives - departs));
+  const along = (a: number, b: number) => a + (b - a) * flown;
+  const at: Place = {
+    x: along(here.x, there.x),
+    y: along(here.y, there.y),
+    fromEye: 1 / along(1 / here.fromEye, 1 / there.fromEye),
+  };
+  return { ...places, [perchName(to)]: at };
+}
+
 function stayAt(random: Random, habits: Habits, to: Perch): number {
   switch (to.kind) {
     case 'flower': {
