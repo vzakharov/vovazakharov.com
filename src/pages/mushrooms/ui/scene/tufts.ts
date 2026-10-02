@@ -94,10 +94,9 @@ type ShownSprout = WithTuft & { sprout: Sprout };
 export type ShownGrass = { near: ShownSprout[]; behind: ShownSprout[] };
 
 /**
- * Where `view` draws each of `sprouts`: its foot placed through the view,
- * hidden near the eye and sunk past the brow as a bed's things are
- * (`bed-place.ts`), and sized and toned by the screen row it stands on as
- * the ground's bands are (`tuftSizeAt`), wherever on the plane it stands.
+ * Where `view` draws each of `sprouts`: hidden near the eye and sunk past the
+ * brow as a bed's things are (`bed-place.ts`), sized and toned by its screen
+ * row as the ground's bands are (`tuftSizeAt`), wherever on the plane it stands.
  */
 export function shownSprouts(
   view: View,

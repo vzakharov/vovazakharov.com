@@ -80,9 +80,15 @@ at f680c86a; only the run's final commit is a bare `polish:`.
 - Tightened the eight blocks: `bareToTap` 8 → 5, `SIDE_OVERHANG` 5 → 3,
   `offSides` 4 → 3, `shownMottles` 5 → 3, `LIVE_REACH` 4 → 2, `tufts.ts`
   header 10 → 6, `follow` 4 → 3, `ringFoot` 5 → 3, `Laid` 4 → 3.
+  (fe9cdfef)
+- `ui/scene/` after `tending.ts`, added comment hunks: `tuft-tap.ts`
+  header 4 → 1, `TUFT_REACH` 3 → 1, `tuftReach`'s restating doc cut;
+  `tufts.ts` `shownSprouts` 4 → 3. `tufts.test.ts`, `view.ts`,
+  `widest-spans.ts` hold; `tuft-tap.test.ts`, `view-inverse.test.ts`,
+  `view.test.ts`, `visit-play.ts` add no comments.
+- The bare `polish:` closing the run lands with the last of these.
 
 ## Left
 
-- `ui/scene/` after `tending.ts` alphabetically, added comment hunks only.
-- The run's last commit must be a bare `polish:` (or
-  `polish: nothing to change`) so the floor moves.
+Nothing: the run is closed, and the next `/polish` floors at its bare
+`polish:` commit.
