@@ -4,14 +4,17 @@ import { describe, it } from 'node:test';
 import {
   type Action,
   canFurnish,
+  FIELD_MUSHROOMS,
   firstMeadow,
+  isCrowdedAt,
   isEmpty,
   isFull,
   type Meadow,
   MUSHROOM_SLOTS,
   reduce,
 } from './game';
-import { OPENING_EYE, planeFootOf } from './ground';
+import type { Point } from './geometry';
+import { D_SEE, OPENING_EYE, planeFootOf } from './ground';
 import { EMPTY_HOUSE, type Furnishing, windowSlots } from './house';
 import { INSECT_LIMITS } from './insects';
 import { mushroomGenes } from './mushroom-genes';
@@ -28,6 +31,14 @@ const grow = (seed: number): Action => ({
   species: 'porcini',
   seed,
   ...footedOf(seed),
+});
+/** A mushroom grown from `seed` on the plane at `foot`. */
+const growAt = (seed: number, foot: Point): Action => ({
+  kind: 'grow',
+  species: 'porcini',
+  seed,
+  foot,
+  lean: 1,
 });
 const feetOf = (meadow: Meadow) =>
   meadow.mushrooms.map(({ id, foot }) => [id, foot]);
@@ -124,12 +135,28 @@ describe('reduce', () => {
     assert.deepEqual(reduce(bare, { kind: 'remove' }).mushrooms, []);
   });
 
-  it('holds at MUSHROOM_SLOTS, and a full meadow opens no picker', () => {
-    const full = run(
+  it('holds at MUSHROOM_SLOTS within D_SEE of a new foot, and grows past them farther out', () => {
+    const crowded = run(
       opening(),
       Array.from({ length: MUSHROOM_SLOTS + 3 }, (_, seed) => grow(seed)),
     );
-    assert.equal(full.mushrooms.length, MUSHROOM_SLOTS);
+    assert.equal(crowded.mushrooms.length, MUSHROOM_SLOTS);
+    assert.ok(isCrowdedAt(crowded, footOf(1)));
+    assert.ok(!isFull(crowded));
+    const far = { x: 0, y: 2 * D_SEE + 1 };
+    assert.ok(!isCrowdedAt(crowded, far));
+    const grown = reduce(crowded, growAt(99, far));
+    assert.equal(grown.mushrooms.length, MUSHROOM_SLOTS + 1);
+  });
+
+  it('holds at FIELD_MUSHROOMS on the whole field, and a full field opens no picker', () => {
+    const full = run(
+      opening(),
+      Array.from({ length: FIELD_MUSHROOMS + 3 }, (_, index) =>
+        growAt(index, { x: (index + 1) * 2 * D_SEE, y: 0 }),
+      ),
+    );
+    assert.equal(full.mushrooms.length, FIELD_MUSHROOMS);
     assert.ok(isFull(full));
     assert.equal(reduce(full, { kind: 'pick' }).picking, false);
   });
