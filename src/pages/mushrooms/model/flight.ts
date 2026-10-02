@@ -12,6 +12,7 @@ import type { WithId } from '@/shared/typings';
 import { FLIGHT_HABITS, type Habits } from './flight-habits';
 import {
   enteringSide,
+  entryOf,
   type Onscreen,
   outFirst,
   outOf,
@@ -255,8 +256,9 @@ function awayPerch(random: Random): Extract<Perch, { kind: 'away' }> {
 /**
  * A new insect's first flight, in from off screen to an open perch
  * (`nextPerch`), departing `now`. Given what the screen shows, the perch is
- * one it shows while any is open there, and the insect enters at the
- * screen's edge nearer it (`flight-in.ts`), and with none open there its leg
+ * one it shows while any is open there, and the insect enters by the
+ * screen's edge nearer it, timed from over the brow (`entryOf`), and with
+ * none open there its leg
  * is lengthened by the stretch it flies out of view first at its cruise
  * (`outFirst`); otherwise by a side its seed picks.
  */
@@ -286,7 +288,9 @@ export function firstFlight(
   const side = enteringSide(onscreen, shown.places, to, drawn.side);
   const from: Perch = { kind: 'away', side };
   const outside = to !== inView;
-  const places = outside ? outOf(shown.places, onscreen, side) : shown.places;
+  const places = outside
+    ? outOf(shown.places, onscreen, side)
+    : entryOf(shown.places, onscreen, side, to);
   const leg = legTo(random, habits, { from, to }, { now, places });
   if (!outside) return { leg, legs: 1 };
   const out = (1000 * outWay(onscreen, side)) / habits.cruising;

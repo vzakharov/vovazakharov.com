@@ -12,6 +12,7 @@ import {
   type Places,
 } from './flight';
 import {
+  entryOf,
   isShown,
   nearerSide,
   type Onscreen,
@@ -112,7 +113,7 @@ describe('a released insect', () => {
     assert.equal(sides.size, 2);
   });
 
-  it('is timed in from the screen edge, not the world edge', () => {
+  it('weighs its first perch from the screen edge, not the world edge', () => {
     const places = shownOf(PERCHES, ONSCREEN).places ?? {};
     assert.deepEqual(places['away left'], {
       x: 30,
@@ -126,16 +127,34 @@ describe('a released insect', () => {
     });
   });
 
+  it('is timed in from over the brow, halfway across from the screen middle to its perch', () => {
+    const cap: Perch = { kind: 'cap', id: 'cap-4' };
+    const there = placeOf(cap);
+    assert.ok(there);
+    for (const side of ['left', 'right'] as const) {
+      const name = perchName({ kind: 'away', side });
+      assert.deepEqual(entryOf(PLACES, WAY_OUT, side, cap)[name], {
+        ...WAY_OUT.brow,
+        x: (WAY_OUT.brow.x + there.x) / 2,
+      });
+      const nowhere: Perch = { kind: 'cap', id: 'gone' };
+      assert.deepEqual(
+        entryOf(PLACES, WAY_OUT, side, nowhere)[name],
+        WAY_OUT.brow,
+      );
+    }
+  });
+
   for (const kind of INSECT_KINDS) {
     it(`flies in to its first perch in view at its cruise, staying as long as its habits say, a ${kind}`, () => {
       const habits = FLIGHT_HABITS[kind];
-      const edges = shownOf(PERCHES, ONSCREEN).places ?? {};
       for (const seed of SEEDS) {
         const { leg } = firstFlight({ seed, kind }, PERCHES, 0, [], ONSCREEN);
-        const [from, to] = [edges[perchName(leg.from)], placeOf(leg.to)];
+        assert.ok(leg.from.kind === 'away');
+        const entry = entryOf(PLACES, WAY_OUT, leg.from.side, leg.to);
+        const [from, to] = [entry[perchName(leg.from)], placeOf(leg.to)];
         assert.ok(from && to);
-        const apart = Math.hypot(to.x - from.x, to.y - from.y);
-        const atCruise = (1000 * apart) / habits.cruising;
+        const atCruise = (1000 * apartOf(from, to)) / habits.cruising;
         const flown = leg.arrives - leg.departs;
         assert.equal(leg.out, undefined);
         assert.ok(flown >= atCruise - 1e-9, `${String(seed)} ${flown}`);

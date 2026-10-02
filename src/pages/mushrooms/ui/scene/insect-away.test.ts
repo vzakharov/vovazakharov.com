@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { type Perch, perchName } from '../../model/flight';
+import { entryOf, isShown, nearerSide } from '../../model/flight-in';
+import { apartIn } from '../../model/flight-timing';
 import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
 import {
   entryAloft,
@@ -9,11 +12,21 @@ import {
   reachesScreen,
   seenFor,
 } from './insect-away';
-import { aloftAt, drawnAloft } from './insect-frame';
+import {
+  type Aloft,
+  aloftAt,
+  centreOf,
+  drawnAloft,
+  framedOf,
+  mixD,
+} from './insect-frame';
 import { meadowCamera } from './meadow-camera';
-import { perchDistance } from './plane-place';
-import { D_SEE, onScreen, placedAt, viewAt } from './view';
+import { footRows, onscreenOf, seatAt } from './perch-sight';
+import { Perches } from './perches';
+import { aloftOfLayout, perchDistance } from './plane-place';
+import { D_SEE, onScreen, placedAt, type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
+import { opened } from './visit-play';
 
 /** How an insect stands away: its span past an edge, and the height it flies at. */
 const AWAY = { span: 40, drop: 150 };
@@ -51,6 +64,13 @@ const ENTRY_EYES = [0, 0.3, Math.PI, Math.PI - 0.035, Math.PI + 0.035].flatMap(
     { x: 0, y: 18, heading },
   ],
 );
+
+/** Eyes walked into the forest and turned, from which the screen still shows caps. */
+const WALKED_EYES = [
+  { x: 0, y: 3, heading: 0 },
+  { x: 1.5, y: 2, heading: 0.3 },
+  { x: -1, y: 1, heading: -0.6 },
+];
 
 describe('entryAloft', () => {
   it('sets off on the ground just past the brow, halfway to a seat the screen shows, with no way out', () => {
@@ -98,7 +118,71 @@ describe('entryAloft', () => {
       }
     }
   });
+
+  for (const [name, width, height] of [
+    ['tablet', 1180, 820],
+    ['phone', 390, 844],
+  ] as const) {
+    it(`sets a release off into every cap in view as far as its leg is timed (entryOf), from an eye walked and turned, on a ${name} screen`, () => {
+      const stand = opened(3, width, height, true);
+      const { layout, mushrooms } = stand;
+      const perches = new Perches(() => ({
+        bed: undefined,
+        flowers: undefined,
+      }));
+      perches.see(stand);
+      const rows = footRows(stand);
+      let legs = 0;
+      for (const eye of [OPENING_EYE, ...WALKED_EYES]) {
+        const view = viewAt(layout.camera, eye);
+        const { places } = perches.sightFrom(view);
+        const onscreen = onscreenOf(layout, view);
+        assert.ok(places && onscreen);
+        for (const { id } of mushrooms) {
+          const cap: Perch = { kind: 'cap', id };
+          const [seat, row] = [seatAt(stand, cap, 0), rows.get(perchName(cap))];
+          const place = places[perchName(cap)];
+          if (!seat || row === undefined || !place) continue;
+          if (!isShown(onscreen, place)) continue;
+          const to = aloftOfLayout(layout.camera, seat, row);
+          const side = nearerSide(onscreen, place);
+          const { from, out } = entryAloft(view, side, AWAY, seenFor(view, to));
+          if (out) continue;
+          const away: Perch = { kind: 'away', side };
+          const timed = apartIn(
+            entryOf(places, onscreen, side, cap),
+            away,
+            cap,
+          );
+          assert.ok(timed !== undefined, id);
+          const pace = framedLength(view, from, to) / layout.insectSize / timed;
+          assert.ok(
+            pace > 0.9 && pace < 1.1,
+            `${id} from ${JSON.stringify(eye)}: drawn ×${pace.toFixed(2)} its timing`,
+          );
+          legs++;
+        }
+      }
+      assert.ok(legs > 5, `only ${String(legs)} releases into a cap in view`);
+    });
+  }
 });
+
+/** The framed chord from `from` to `to` as the view draws it, in px at its own size: each cut over its zoom there. */
+function framedLength(view: View, from: Aloft, to: Aloft): number {
+  const centre = centreOf(view.eye, from, to);
+  const [start, end] = [
+    framedOf(view, centre, from),
+    framedOf(view, centre, to),
+  ];
+  const [cuts, chord] = [100, Math.hypot(end.x - start.x, end.y - start.y)];
+  let length = 0;
+  for (let cut = 0; cut < cuts; cut++) {
+    const forward = mixD(start.forward, end.forward, (cut + 0.5) / cuts);
+    length += ((chord / cuts) * forward) / CLUMP_DISTANCE;
+  }
+  return length;
+}
 
 describe('offAloft', () => {
   it('stands past either edge at the drop, the depth asked from the eye', () => {

@@ -1,10 +1,10 @@
 /**
  * Where a released insect first flies in: its first perch is one the screen
- * shows as it is released, and its leg is timed in from the screen's edge
- * nearer that perch at its kind's cruise, so a tap on its button is answered
- * in view. Every later perch is drawn from the whole world
- * (`nextFlight`). Where it is drawn setting off is the view's
- * (`insect-away.ts`).
+ * shows as it is released, so a tap on its button is answered in view; it
+ * enters by the screen's edge nearer that perch, its leg timed at its kind's
+ * cruise from over the brow, where the screen draws it setting off (`WayOut`,
+ * `insect-away.ts`). Every later perch is drawn from the whole world
+ * (`nextFlight`).
  */
 
 import type {
@@ -69,6 +69,23 @@ export function outOf(
 }
 
 /**
+ * `places` with the away spot by `side` where a release into `to`, a perch
+ * the screen shows, sets off: over the brow halfway across from the screen's
+ * middle (`WayOut`'s `brow`) to `to`, as the screen draws it, so its leg is
+ * timed as long as it is drawn. At `brow` where `places` puts `to` nowhere.
+ */
+export function entryOf(
+  places: Places | undefined,
+  { brow }: WayOut,
+  side: Side,
+  to: Perch,
+): Places {
+  const there = to.kind === 'away' ? undefined : places?.[perchName(to)];
+  const from = there ? { ...brow, x: (brow.x + there.x) / 2 } : brow;
+  return { ...places, [perchName({ kind: 'away', side })]: from };
+}
+
+/**
  * How long, in ms, a released insect with no open perch in view takes to
  * fly across it and out by its side, on a first leg `leg`: the stretch
  * `outFirst` lengthened it by, or half its flight for a leg it did not.
@@ -92,8 +109,9 @@ export function outFirst(leg: Leg, out: number): Leg {
 
 /**
  * `perches` cut down to those `onscreen` shows, with the away spots at the
- * screen's edges rather than past the world's, so a flight in is timed from
- * where it enters. Without `places` nothing can be told shown, and `perches`
+ * screen's edges rather than past the world's, so a perch is the likelier
+ * the nearer it stands to the edge a release is drawn from (`nextPerch`).
+ * Without `places` nothing can be told shown, and `perches`
  * comes back as it is.
  */
 export function shownOf(perches: Perches, onscreen: Onscreen): Perches {
