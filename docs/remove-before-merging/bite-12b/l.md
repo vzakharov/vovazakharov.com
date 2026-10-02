@@ -163,6 +163,14 @@ RING_DEPTH)` on the stored plane, turned with the stand's anchor heading
   New test: tufts round two eyes far off the opening stand and each is
   taken by `takesFlower` at that eye.
 
+- **Step 3 — the 48 cap, built.** `FLOWER_SLOTS = 48` and
+  `flowersCrowdAt(standing, foot)` in `game.ts`, sharing a counter
+  (`fullRound`) with `isCrowdedAt`; enforced in `flower-sight.ts`'s
+  `plantable`, which both `roomIn` (the child, tufts) and `roomFor` (bee
+  rings) go through, so a crowded tuft is not drawn and a bee plants
+  nothing there. Counted over the stand's standing flowers, plane feet
+  (anchoring is rigid; the anchored stand reads to `STAND_REACH`).
+
 ## Left
 
 - The rest of L3: rules from the anchor, the 48 cap, flowers off the

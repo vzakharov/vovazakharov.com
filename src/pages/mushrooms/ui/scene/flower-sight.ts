@@ -19,7 +19,7 @@ import {
   flowerGenes,
   flowerHead,
 } from '../../model/flower-genes';
-import type { Meadow } from '../../model/game';
+import { flowersCrowdAt, type Meadow } from '../../model/game';
 import {
   type Box,
   boxAround,
@@ -327,7 +327,8 @@ type Ground = {
 /**
  * Whether a flower planted at `foot` would have ground there among the
  * flowers of `standing`, off every foot of `claimed` (`groundFor`), and be
- * in sight on `layout` (`flowerInSight`), whatever its genes.
+ * in sight on `layout` (`flowerInSight`), whatever its genes, and fewer than
+ * `FLOWER_SLOTS` of `standing` stand round it (`flowersCrowdAt`).
  */
 function plantable(
   layout: MeadowLayout,
@@ -336,6 +337,7 @@ function plantable(
   covers: readonly Cover[],
 ): boolean {
   return (
+    !flowersCrowdAt(standing, foot) &&
     groundFor(foot, standing, claimed) &&
     sightingsAt(standingOn(layout.camera, foot), layout).every((sighting) =>
       flowerInSight(layout, sighting, covers),

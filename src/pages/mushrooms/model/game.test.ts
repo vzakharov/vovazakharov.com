@@ -6,6 +6,8 @@ import {
   canFurnish,
   FIELD_MUSHROOMS,
   firstMeadow,
+  FLOWER_SLOTS,
+  flowersCrowdAt,
   isCrowdedAt,
   isEmpty,
   isFull,
@@ -48,6 +50,14 @@ function run(meadow: Meadow, actions: readonly Action[]): Meadow {
   let state = meadow;
   for (const action of actions) state = reduce(state, action);
   return state;
+}
+
+/** `count` feet evenly round the plane's origin, `away` from it. */
+function round(count: number, away: number) {
+  return Array.from({ length: count }, (_, at) => {
+    const turn = (at / count) * 2 * Math.PI;
+    return { foot: { x: away * Math.sin(turn), y: away * Math.cos(turn) } };
+  });
 }
 
 describe('reduce', () => {
@@ -133,6 +143,13 @@ describe('reduce', () => {
     assert.ok(isEmpty(bare));
     assert.ok(!isEmpty(opening()));
     assert.deepEqual(reduce(bare, { kind: 'remove' }).mushrooms, []);
+  });
+
+  it('counts FLOWER_SLOTS flowers within D_SEE of a foot as crowded, and none farther out', () => {
+    const middle = { x: 0, y: 0 };
+    assert.ok(flowersCrowdAt(round(FLOWER_SLOTS, D_SEE - 0.01), middle));
+    assert.ok(!flowersCrowdAt(round(FLOWER_SLOTS - 1, D_SEE - 0.01), middle));
+    assert.ok(!flowersCrowdAt(round(FLOWER_SLOTS * 2, D_SEE + 0.01), middle));
   });
 
   it('holds at MUSHROOM_SLOTS within D_SEE of a new foot, and grows past them farther out', () => {

@@ -40,6 +40,12 @@ import { type Rain, RAIN_MS, raining } from './weather';
  * apart.
  */
 export const MUSHROOM_SLOTS = 12;
+/**
+ * How many flowers stand at most within `D_SEE` of a new one's foot: past
+ * it a bee plants nothing and no tuft takes the child's flower, so bee
+ * rings cannot sow the endless field without bound.
+ */
+export const FLOWER_SLOTS = 48;
 /** How many mushrooms the whole field holds at most. */
 export const FIELD_MUSHROOMS = 96;
 
@@ -151,15 +157,38 @@ export function isFull({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
   return mushrooms.length >= FIELD_MUSHROOMS;
 }
 
+/** Anything that stands on a foot of the plane. */
+type Stood = Pick<Footed, 'foot'>;
+
+/** Whether `slots` of `standing` already stand within `D_SEE` of `foot`, on the plane. */
+function fullRound(
+  standing: readonly Stood[],
+  foot: Point,
+  slots: number,
+): boolean {
+  let near = 0;
+  for (const each of standing) {
+    if (distanceBetween(each.foot, foot) <= D_SEE && ++near >= slots) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /** Whether `MUSHROOM_SLOTS` of the meadow's mushrooms already stand within `D_SEE` of `foot`, so none grows there. */
 export function isCrowdedAt(
   { mushrooms }: Pick<Meadow, 'mushrooms'>,
   foot: Point,
 ): boolean {
-  const near = mushrooms.filter(
-    (mushroom) => distanceBetween(mushroom.foot, foot) <= D_SEE,
-  );
-  return near.length >= MUSHROOM_SLOTS;
+  return fullRound(mushrooms, foot, MUSHROOM_SLOTS);
+}
+
+/** Whether `FLOWER_SLOTS` of the flowers `standing` already stand within `D_SEE` of `foot`, so none is planted there. */
+export function flowersCrowdAt(
+  standing: readonly Stood[],
+  foot: Point,
+): boolean {
+  return fullRound(standing, foot, FLOWER_SLOTS);
 }
 
 export function isEmpty({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
