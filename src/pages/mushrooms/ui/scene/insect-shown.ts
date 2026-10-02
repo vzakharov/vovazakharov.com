@@ -79,6 +79,16 @@ export type Shown = TappedFigure &
     dartWay: Point;
   };
 
+/** What a leg holds before its first frame, for a fresh insect and on each new leg alike. */
+const LEG_UNSET = {
+  out: undefined,
+  centre: undefined,
+  flown: 0,
+  end: undefined,
+  goal: undefined,
+  aim: undefined,
+} as const satisfies Partial<Shown>;
+
 /** An insect just shown, before its first paint and its first frame: still, untapped, at `from`. */
 export function freshShown(
   parts: Pick<Shown, 'container' | 'hit' | 'look' | 'flier'>,
@@ -89,19 +99,14 @@ export function freshShown(
     span: 0,
     from,
     drawn: from,
-    centre: undefined,
-    flown: 0,
+    ...LEG_UNSET,
     entering: false,
-    out: undefined,
     ...pick(parts.flier.leg, 'departs'),
     at: { x: 0, y: 0 },
-    end: undefined,
-    goal: undefined,
     offset: { x: 0, y: 0 },
     bob: 0,
     bobFrom: 0,
     steering: firstSteering({ facing: 0, turn: 0 }),
-    aim: undefined,
     turnedFrom: undefined,
     dartWay: { x: 0, y: -1 },
     carried: { launch: 0, speed: 0, drink: 0 },
@@ -123,16 +128,11 @@ export function legSetOff(
 ) {
   return {
     from: shown.drawn,
-    out: undefined,
+    ...LEG_UNSET,
     departs,
-    centre: undefined,
-    flown: 0,
-    end: undefined,
-    goal: undefined,
     entering: from.kind === 'away',
     bobFrom: shown.bob,
     steering: startLeg(shown.steering),
-    aim: undefined,
     turnedFrom: from.kind === 'away' ? undefined : shown.steering.turn,
   } satisfies Partial<Shown>;
 }

@@ -58,13 +58,13 @@ export function tuftOn(
 ): Tuft {
   const { height, groundTop } = layout;
   const depth = height - groundTop;
-  const nearness = 0.6 + Math.max(0, y - groundTop) / depth;
+  const down = Math.max(0, y - groundTop) / depth;
   return {
     x,
     y,
-    size: nearness * depth * 0.03,
+    size: (0.6 + down) * depth * 0.03,
     phase: -x * GUST_LAG * Math.PI * 2 + between(random, -0.4, 0.4),
-    ...tuftColours(Math.max(0, y - groundTop) / depth),
+    ...tuftColours(down),
   };
 }
 

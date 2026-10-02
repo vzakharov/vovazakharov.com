@@ -115,9 +115,10 @@ export class Planter {
     const id = plantedId(meadow.planted);
     const seed = seedSounding(this.sowing, sound);
     this.scene.dispatch({ kind: 'sow', seed, ...pick(sprout, 'foot') });
-    const at = this.now();
-    const earlier = this.keySown.at === at ? this.keySown.flowers : [];
-    this.keySown = { at, flowers: [...earlier, { id, sound }] };
+    this.keySown = {
+      at: this.now(),
+      flowers: [...this.sownInView(), { id, sound }],
+    };
     return id;
   };
 
