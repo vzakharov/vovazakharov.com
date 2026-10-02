@@ -18,9 +18,10 @@ your package names. Read, before anything else:
   module's job) and `bite-12b.md`. Those calls are made: build them, don't
   reopen them. Where one cannot hold as written, stop and report which and
   why, with the options measured, rather than picking another. What bite 12
-  built and why is in `docs/plans/mushroom-game-syama/bite-12.md`; open a
-  topic file under `docs/remove-before-merging/bite-12/` only when your
-  package needs it.
+  built and why is in `docs/plans/mushroom-game-syama/bite-12.md`; bite 12's
+  working notes are retired (`docs/remove-before-merging/retired.md` gives
+  the commit to `git show` them from), opened only when your package needs
+  one.
 - `docs/plans/mushroom-game-syama/decisions.md` — the standing design (taps
   for a six-year-old, juice, no text, palette files hold every colour).
 
