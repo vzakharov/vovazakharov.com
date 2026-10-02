@@ -5,14 +5,14 @@
  * over its distance, in scale with its cap; the eye turned to look back, each
  * kind released with no perch in view flies out by the side, and, turned
  * as far round as there is room to grow on, with a mushroom and a flower
- * grown in view lands drawn, seen on nearly every frame
- * of its flight in, and sits at no smaller a size in the screen's middle than
- * its distance gives; walked into one hovering in the air, it veers off round
- * the eye, never past the nearest mushroom's zoom at its x; and no one frame
- * steps a dashing kind past its dash curve's fastest frame at its own size,
- * or a butterfly past a twentieth of the screen as drawn. A fly's pace and the blinks at the
- * brow as the eye turns are measured and logged, not failed. Frames land as
- * `veer-*.png`.
+ * grown in view lands drawn, seen on nearly every frame of its flight in,
+ * and sits at no smaller a size in the screen's middle than its distance
+ * gives; walked into one hovering in the air, it veers off round the eye,
+ * never past the nearest mushroom's zoom at its x; and no one frame steps a
+ * dashing kind past its dash curve's fastest frame at its own size, or a
+ * butterfly past a twentieth of the screen as drawn. A fly's pace and the
+ * blinks at the brow as the eye turns are logged, not failed. Frames land
+ * as `veer-*.png`.
  */
 
 import { z } from 'zod';
@@ -174,7 +174,7 @@ export async function playVeer(
   );
   await keep();
 
-  // 2. Facing the clump: every kind released, each perched at its size.
+  // Facing the clump: every kind released, each perched at its size.
   const releases: InsectKind[] = [
     'butterfly',
     'butterfly',
@@ -195,7 +195,7 @@ export async function playVeer(
   await page.shoot('veer-opening-perched');
   sizesAt('opening', seen, note);
 
-  // 5. The brow blink: the eye turned to look back, on `→` held.
+  // The brow blink: the eye turned to look back, on `→` held.
   const turnFrames = Math.round((Math.PI / TURN_CRUISE) * FPS);
   await page.key('ArrowRight', 'keyDown');
   await run(Math.round(turnFrames / 2), 3);
@@ -208,11 +208,10 @@ export async function playVeer(
   await face(Math.PI);
   await page.step(2);
 
-  // 1. Looking back: each kind released, drawn in, landed on a drawn perch —
-  // first at π with none in view, so it flies out by the side, then, at the
+  // Looking back: each kind released, drawn in, landed on a drawn perch —
+  // first at π with none in view, so it flies out by the side, then at the
   // heading farthest round with room to grow on (the glade is bare behind
-  // the eye), with a mushroom and a flower grown in view as a child grows
-  // them.
+  // the eye), with a mushroom and a flower grown in view.
   const kinds: InsectKind[] = ['butterfly', 'fly', 'bee'];
   /** One `kind` released and watched till it lands; whether it flew in to a perch in view, not out by the side. */
   const releaseBack = async (kind: InsectKind, shot: string) => {
@@ -280,7 +279,7 @@ export async function playVeer(
   sizesAt('looking back', back, note);
   satBack(back, onScreen, lens, expect);
 
-  // 3. A walk into a hover: the eye turned to face one in the air, and walked.
+  // A walk into a hover: the eye turned to face one in the air, and walked.
   await face(0);
   await page.step(2);
   const hovering = async (looks: number): Promise<string | undefined> => {
@@ -318,7 +317,7 @@ export async function playVeer(
     walkedIn(target, seen.slice(from), lens, width, expect, note);
   }
 
-  // 5 again, the other way: back round on `←` held, to the clump.
+  // The brow blink the other way: back round on `←` held, to the clump.
   const backFrom = seen.length;
   await page.key('ArrowLeft', 'keyDown');
   await run(turnFrames, 3);
@@ -326,7 +325,7 @@ export async function playVeer(
   await run(90, 3);
   blinks(seen.slice(backFrom), onScreen, note);
 
-  // 3 and 4 over the whole run: zoom, the fly's pace, flicks.
+  // Over the whole run: zoom, the fly's pace, flicks.
   zooms(seen, lens, expect, note);
   pace(seen, lens, butterfly, note);
   flicks(seen, lens, width, butterfly, expect, note);
