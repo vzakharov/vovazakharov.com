@@ -218,7 +218,19 @@ export async function playVeer(
     const before = new Set((await insects()).map(({ id }) => id));
     await page.tap(controls.releases[kind]);
     await page.step(2);
-    const released = (await insects()).find(({ id }) => !before.has(id));
+    const meadow = await insects();
+    const released = meadow.find(({ id }) => !before.has(id));
+    if (released?.to.kind === 'air') {
+      // Its in-view choice had nothing open: what every other insect held.
+      const held = meadow.flatMap(({ id, to }) =>
+        id !== released.id && (to.kind === 'cap' || to.kind === 'flower')
+          ? [`${id}→${to.id}`]
+          : [],
+      );
+      note(
+        `looking back, the ${kind} released took the air; held: ${held.join(', ') || 'nothing'}`,
+      );
+    }
     if (!released) {
       expect(
         false,
@@ -256,7 +268,9 @@ export async function playVeer(
   const grown = await perchesBack(page, controls, expect, note);
   await page.shoot('veer-back-grown');
   if (grown > 0) {
-    await inTurn(kinds, async (kind) => {
+    // The fly first: a fussy kind roams the air while no fly agaric is open,
+    // and a butterfly resting on the one grown holds it for seconds.
+    await inTurn(['fly', 'butterfly', 'bee'] as const, async (kind) => {
       const perched = async (tries: number): Promise<boolean> => {
         if (tries === 0) return false;
         const landed = await releaseBack(

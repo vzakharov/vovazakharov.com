@@ -101,8 +101,11 @@ export function placesFlying(
  * perch of `leg`, is timed from: its away spots its own (`aways`), where
  * the sight gives them; cut off before `leg` arrives, that perch stands
  * where the scene drew the insect (`drawn`), which steers every flight, so
- * neither share of the way nor of the time finds the point; where the sight
- * places it nowhere, where `placesFlying` reckons it.
+ * neither share of the way nor of the time finds the point; landed on a
+ * perch the sight no longer places (the eye turned off it), that perch
+ * stands where the scene drew the insect too, so the way it is drawn
+ * from is the way it is timed over; where the sight places the insect
+ * nowhere, where `placesFlying` reckons it.
  */
 export function placesSetOff(
   { places, drawn, aways }: Placed,
@@ -113,10 +116,12 @@ export function placesSetOff(
   const own = id === undefined ? undefined : aways?.[id];
   const among = places && own ? { ...places, ...own } : places;
   const at = id === undefined ? undefined : drawn?.[id];
-  if (!among || !at || now >= leg.arrives) {
-    return placesFlying(among, leg, now);
+  const name = perchName(leg.to);
+  if (!among || !at) return placesFlying(among, leg, now);
+  if (now >= leg.arrives) {
+    return name in among ? among : { ...among, [name]: at };
   }
-  return { ...among, [perchName(leg.to)]: at };
+  return { ...among, [name]: at };
 }
 
 function stayAt(random: Random, habits: Habits, to: Perch): number {

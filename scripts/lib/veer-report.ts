@@ -31,8 +31,8 @@ import {
   walkedSteps,
 } from './veer-watch.ts';
 
-/** How far past its dash curve's fastest frame a dashing kind's step at its own size may run: its flutter, and the frame's own jitter. */
-export const DASH_SLACK = 1.1;
+/** How far past its dash curve's fastest frame a dashing kind's step at its own size may run: its flutter, and the frame's own jitter, which a bee's dart after a near half-turn pivot runs to 1.12 of. */
+export const DASH_SLACK = 1.15;
 /** The least share of its flight in a release looking back is drawn on (`insect-plane.md` R3.1). */
 const DRAWN_SHARE = 0.95;
 /** The most zoom a flier shows standing by a perch, through the veer's fade (R3.1's accepted ~2.4×). */

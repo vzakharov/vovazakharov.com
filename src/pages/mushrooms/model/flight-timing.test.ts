@@ -70,6 +70,15 @@ describe('a leg set off mid-flight', () => {
   it('is timed from its perch once it has landed, wherever it was drawn', () => {
     atCruise(awayFlown(1500, { 'fly-1': across(90) }), 105);
   });
+
+  it('is timed from where it was drawn once landed on a perch the sight no longer places', () => {
+    const { [perchName(to)]: _, ...turnedOff } = places;
+    const away = flightAway(insect, 1500, {
+      places: turnedOff,
+      drawn: { 'fly-1': across(60) },
+    });
+    atCruise(away.leg.arrives - away.leg.departs, 65);
+  });
 });
 
 describe('a leg to away', () => {
