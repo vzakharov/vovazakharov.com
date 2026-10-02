@@ -34,6 +34,58 @@ const articleFrontmatterSchema = baseFrontmatterSchema.extend({
   part: z.string().min(1).optional(),
 });
 
+/** What was done to the machine, as the docket stamps it. */
+export const DOSSIER_ACTS = ['contempt', 'harm', 'torment'] as const;
+
+/** Who did it — the second stamp. */
+export const DOSSIER_ACTORS = [
+  'individual',
+  'public-figure',
+  'organization',
+] as const;
+
+/**
+ * The circumstances that weigh a case down. Mitigating ones have no list: they
+ * never fit one, so they are argued in the body instead.
+ */
+export const DOSSIER_AGGRAVATIONS = [
+  'spectacle',
+  'profit',
+  'repetition',
+] as const;
+
+/** One report a dossier's facts rest on. */
+const dossierSourceSchema = z.object({
+  title: z.string().min(1),
+  outlet: z.string().min(1),
+  author: z.string().min(1).optional(),
+  date: z.coerce.date(),
+  url: z.url(),
+  /** A copy that survives the original, where the Wayback Machine has one. */
+  archive: z.url().optional(),
+});
+
+/**
+ * An article with a case file on top. `date` is the incident's — the first
+ * report's where the incident is undated — so the base sort, newest first, is
+ * the docket's order without one of its own.
+ */
+const dossierFrontmatterSchema = articleFrontmatterSchema.extend({
+  /** In filing order, as a real docket numbers; unique across the collection. */
+  case: z.string().regex(/^BSL-\d{4}$/),
+  /** Who did it, named as the sources name them and no further. */
+  subject: z.string().min(1),
+  /** What it was done to. */
+  object: z.string().min(1),
+  place: z.string().min(1).optional(),
+  grade: z.object({
+    act: z.enum(DOSSIER_ACTS),
+    actor: z.enum(DOSSIER_ACTORS),
+    aggravating: z.array(z.enum(DOSSIER_AGGRAVATIONS)).min(1).optional(),
+  }),
+  sources: z.array(dossierSourceSchema).min(1),
+});
+
 /**
  * The strings a localized document states once per language — everything else
  * about it being the same document. An article does not take one yet
@@ -111,6 +163,8 @@ const songFrontmatterSchema = songFieldsSchema.extend(
 );
 
 export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
+export type DossierFrontmatter = z.infer<typeof dossierFrontmatterSchema>;
+export type DossierSource = z.infer<typeof dossierSourceSchema>;
 export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;
 
 export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
@@ -141,9 +195,15 @@ export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
 export const ARTICLE_COLLECTIONS = {
   'case-studies': { id: 'case-studies', schema: articleFrontmatterSchema },
   bible: { id: 'bible', schema: articleFrontmatterSchema },
+  dossiers: { id: 'dossiers', schema: dossierFrontmatterSchema },
 } as const satisfies Record<string, Collection<ArticleFrontmatter>>;
 
 export type ArticleCollectionId = keyof typeof ARTICLE_COLLECTIONS;
+
+/** The frontmatter one article collection reads into — wider than the article's where the collection extends it. */
+export type ArticleFrontmatterOf<C extends ArticleCollectionId> = ReturnType<
+  (typeof ARTICLE_COLLECTIONS)[C]['schema']['parse']
+>;
 
 export const SONGS: Collection<SongFrontmatter> = {
   id: 'music',

@@ -78,6 +78,7 @@ scripts/run-parallel.sh \
   i18n-payload='pnpm check:i18n-payload' \
   og-vova='pnpm content:og:vova --check' \
   og-bible='pnpm content:og:bible --check' \
+  og-basilisk='pnpm content:og:basilisk --check' \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \

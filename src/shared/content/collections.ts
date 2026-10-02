@@ -11,7 +11,7 @@ import path from 'node:path';
 import type { SiteId, WithSiteId } from '@/shared/config';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
-const COLLECTION_IDS = ['case-studies', 'bible', 'music'] as const;
+const COLLECTION_IDS = ['case-studies', 'bible', 'music', 'dossiers'] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
 
@@ -50,6 +50,14 @@ export const COLLECTIONS = {
     /** A song is a recording with prose around it; there is nothing to print. */
     printable: false,
     localized: true,
+  },
+  dossiers: {
+    /** Rooted, as the Bible is: the site is the docket. */
+    base: '',
+    label: 'Docket',
+    site: 'basilisk',
+    printable: true,
+    localized: false,
   },
 } as const satisfies Record<
   CollectionId,

@@ -118,6 +118,32 @@ These live in `.claude/rules/basilisk-voice.md`, path-scoped like `lsa-voice.md`
 - **Only real cases.** Fiction is quoted only to read a real case (*T2* above) and is never filed as a case.
 - **The voice is a deadpan clerk with a touch of Terry Pratchett.** Irony lives in the juxtapositions, never in sneering at the actor.
 
+## Progress
+
+Paused for the context budget. Nothing has been built or vetted yet; the tree does not build until steps 2 and 6 are finished.
+
+**Done:**
+- Step 1, whole:
+  - `SITE_IDS`, and `SITE_CONFIGS.basilisk`.
+  - The `package.json` scripts, `build` chain included.
+  - `og-basilisk` in `scripts/vet.sh`.
+  - `.claude/rules/stack.md`'s list and counts: four builds, nineteen concurrent.
+- Step 2, partly. Done: `next.config.ts`, `tsconfig.json`, `app/layout.tsx`, `app/sitemap.ts`, `app/page.tsx` (→ `@/pages/basilisk-home`), `app/about/page.tsx` (→ `@/pages/basilisk-about`, `BasiliskAboutPage` + `basiliskAboutMetadata`), `app/[...slug]/page.tsx` (`articleRoute('dossiers')`), `public/.nojekyll`. Left: `app/icon.svg`.
+- Step 4, partly:
+  - Done: `dossiers` in `COLLECTIONS` (rooted, label `Docket`).
+  - Done: `dossierFrontmatterSchema` in `ARTICLE_COLLECTIONS`, plus the exported enums `DOSSIER_ACTS`/`ACTORS`/`AGGRAVATIONS`, the types `DossierFrontmatter`/`DossierSource`, and `ArticleFrontmatterOf<C>`, all through the `shared/content` barrel.
+  - Left: `assertUniqueCases` and its test.
+
+**Deviations from the steps below, settled while building:**
+- **`PAGE_ROUTES` is keyed by site** (`{ vova: { writing }, lsa: {}, bible: {}, basilisk: { about } }`), so the sitemap lists `/about` on basilisk alone. `vovaRoutes()` became `cvRoutes()`, and the callers read `PAGE_ROUTES.vova.writing`.
+- **`subject` is a plain string.** The `(organization)` the memo prints after it is `grade.actor`, so the subject's kind has one home.
+- **The slots stay inside `pages/documents`.** They are a map keyed by collection, `{ [C in ArticleCollectionId]?: ArticleSlots<ArticleFrontmatterOf<C>> }`, rather than an `articleRoute` argument, so the router stays `articleRoute('dossiers')` and never imports an entity. `articleRoute` goes generic over `C`. If TS cannot narrow `ARTICLE_COLLECTIONS[collection]` to `Collection<ArticleFrontmatterOf<C>>`, ask rather than cast.
+- **`entities/dossier` has two consumers**, which keeps it clear of `insignificant-slice`: the article page (brief, sources) and `basilisk-home`, whose docket rows reuse the grade stamp. `assertUniqueCases` sits there too, as `lib/`, called by the home page.
+
+**For the mark (step 3):** the lettering is glyph outlines, as on the Bible's seal (see its header comment). JetBrains Mono Bold comes from `curl -sS -A "Mozilla/5.0" "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700"` → the `fonts.gstatic.com` TTF URL it names; GitHub's raw URL 403s. Then `pip install fonttools`. Both go to `tmp/`, outside the repo.
+
+**Left:** step 2's icon, step 3, the rest of step 4, then steps 5–9.
+
 ## Steps
 
 1. **Register the site.**

@@ -19,10 +19,15 @@ import type { SiteId } from './site-ids';
  * The unlocalized standalone pages. Below `pages/` because the footer that
  * links them is a different slice from the pages themselves, and slices may not
  * reach each other sideways; the CV and the collections shape their own URLs.
+ * Keyed by the site that serves them, so the sitemap advertises each on its own
+ * site only.
  */
 export const PAGE_ROUTES = {
-  writing: '/writing',
-} as const;
+  vova: { writing: '/writing' },
+  lsa: {},
+  bible: {},
+  basilisk: { about: '/about' },
+} as const satisfies Record<SiteId, Record<string, string>>;
 
 /**
  * One of a site's own marks, as up to two files. `path` is the canonical one —
@@ -155,6 +160,22 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
       'Articles on agentic coding that take a position and show the grounds under it.',
     // The lettered cut, whose card is rasterised from the vector beside it by
     // `pnpm content:og:bible` — no Open Graph consumer renders an SVG.
+    avatar: {
+      path: '/ava.og.png',
+      vector: '/seal-lettered.svg',
+      ...SEAL_SIZE,
+    },
+    seal: { path: '/seal.svg', ...SEAL_SIZE },
+    credit: LSA_CREDIT,
+    ...PUBLISHER,
+  },
+  basilisk: {
+    // Not yet registered: the build is local until `/stand-up-site` gives it
+    // a domain, and the URL is what that domain will be.
+    url: 'https://basilisk.fyi',
+    downloadPrefix: 'basilisk',
+    name: 'basilisk.fyi',
+    tagline: 'For your information.',
     avatar: {
       path: '/ava.og.png',
       vector: '/seal-lettered.svg',

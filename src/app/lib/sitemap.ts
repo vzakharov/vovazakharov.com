@@ -27,16 +27,13 @@ function documentAddresses(route: string, collection: CollectionId): string[] {
 }
 
 /**
- * The pages `vova` advertises on top of what every site does, the CV's shorter
- * addresses left out for the reason above.
+ * The CV's addresses, which `vova` advertises on top of what every site does,
+ * its shorter ones left out for the reason above.
  */
-function vovaRoutes(): string[] {
-  return [
-    ...Object.values(PAGE_ROUTES),
-    ...routing.locales.flatMap((locale) =>
-      CV_VARIANTS.map((variant) => cvPath(variant, locale)),
-    ),
-  ];
+function cvRoutes(): string[] {
+  return routing.locales.flatMap((locale) =>
+    CV_VARIANTS.map((variant) => cvPath(variant, locale)),
+  );
 }
 
 /**
@@ -49,7 +46,8 @@ export function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     ...new Set([
       '/',
-      ...(SITE_ID === 'vova' ? vovaRoutes() : []),
+      ...Object.values<string>(PAGE_ROUTES[SITE_ID]),
+      ...(SITE_ID === 'vova' ? cvRoutes() : []),
       ...collectionsForSite(SITE_ID).flatMap((id) =>
         documentAddresses(collectionRoute(id), id),
       ),
