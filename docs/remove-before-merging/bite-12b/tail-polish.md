@@ -28,6 +28,13 @@ at f680c86a; only the run's final commit is a bare `polish:`.
 
 - `/dry` applied: `mottles.ts` `shownMottles` takes `forwardOf` from
   `model/stride.ts`.
+- `/dry` applied: `tending.ts` `tendedIn` takes `azimuthOf`
+  (`model/flight-frame.ts`); `tuft-tap.ts` measures through
+  `distanceBetween`; `flower-plots.ts` `ringFoot` turns its slot step
+  through `anchored`, which its doc already named.
+- `/dry` read, nothing to apply: `flower-shown.ts`, `mushroom-shown.ts`
+  (the two `unplacedShown` build different shapes), `widest-spans.ts`,
+  `tufts.ts`, `perch-sight.ts`, `clump-layout.ts`.
 
 ## Left
 
