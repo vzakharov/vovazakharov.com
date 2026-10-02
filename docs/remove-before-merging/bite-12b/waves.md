@@ -280,3 +280,14 @@ In this order of launch; parallel where files are disjoint.
   waved off in to-check.md § Checked; if it is ever the game's, the place
   is `paced`/`apartIn` in `flight-timing.ts`. Screens go out one per agent
   while tail-red3 traces, `flock` keeping the Chromium runs apart.
+- **tail-red3** — c274649: red 3 was the harness's. The any-cap wait was
+  20 s against butterfly legs of 5.0–30.3 s (median ~13) on tabL; measured
+  over 90 s, 8 of 22 flights ended on a cap, the first rest at 20.3 s,
+  14 ms after the wait gave up. The wait now looks every `CAP_LOOK` 45
+  frames (a minute), the one-cap wait every `REST_LOOK` (~164 s);
+  `play-species.ts` shares it. to-check.md asks whether the wait and a
+  30 s crossing feel long to a child. **New red on tabL `meadow`**, the same
+  on three runs: butterfly-1, the one sent away (turn −1.07), faced
+  0.39 rad off its flight at 24733 ms, past its leg's first 150 ms.
+  **Orchestrator's call:** that red gets its own trace agent (tail-face),
+  measure first; `play-insects.ts` at 467 lines is split at `/polish`.
