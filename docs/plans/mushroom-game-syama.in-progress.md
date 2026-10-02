@@ -382,9 +382,10 @@ with his words and what it beat: `bite-12/v14.md`.
 4. The review — posted (three reviewers by area, reviews 5391045656,
    5391050029, 5391057365); every finding's call is in
    `bite-12/review.md`. ~~The fixes~~ — built and replied on every thread
-   (notes `rv-eye-world`, `rv-insects`, `rv-taps`, `rv-taps2`). Left: the
-   play of tabL and phoneP (`rv-play`), the frames to
-   `frames/bite-12/review/`.
+   (notes `rv-eye-world`, `rv-insects`, `rv-taps`, `rv-taps2`); played on
+   tabL and phoneP (`rv-play`, frames in `frames/bite-12/review/`). Left:
+   `leg-timing.md` § 8, a leg timed in its drawn frame (`rv-legframe`),
+   and a tabL and phoneP `veer` after it.
 5. Delete this section; `/polish`, vet, the Artifact, `/pr`.
 
 ## DRY notes

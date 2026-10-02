@@ -61,6 +61,16 @@ and the hand-over note that holds its numbers (under
    (cap→cap) at 3a0b29d, the size of the flutter `dashPeak` leaves out; no
    bee over on either screen. Beaten: tracing a 2–3% residue, which no
    child sees.
+8. **A leg is timed in the frame it is drawn in** (`rv-bee8.md`). § 1
+   frames each place alone at the eye's heading, its azimuth clamped to
+   `±FRAME_MARGIN`; the view frames a leg's two ends together (`centreOf`),
+   so a leg with an end past ~101° of the heading is drawn at 0.3–29× its
+   timing (31 of 49 bee legs in the review's tabL veer; bee-8 1.71×, seen
+   once the child turns to it). `centreOf`/`framedOf` move to the model,
+   each `Place` carries its plane pose, and `apartOf` frames the pair by
+   that one rule. Beaten: extending the clamp straight per perch (pairs
+   both behind the eye still ~2.5× off); accepting it (a bee streaking
+   across the screen is what a child sees, as in § 4).
 
 **Where it stood at 300f3c0** (`v17-play.md`, tabL `veer,meadow`): units
 green (`fliers.test.ts` 48/48); fly overs 88, worst 71 px against 38 — 58
