@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { firstMeadow } from '../../model/game';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
+import { standOf } from './flower-sight';
 import { meadowLayout } from './layout';
 import { keptRoom, roomFor } from './mushroom-room';
 import { ofGround, viewAt } from './view';
@@ -26,9 +27,8 @@ function counted() {
 }
 
 describe('the room kept for the next mushroom', () => {
-  const { mushrooms, planted, pulled } = firstMeadow(mulberry32(1));
   const layout = meadowLayout(1180, 820, 1);
-  const stand = { layout, flowers: [], mushrooms, planted, pulled };
+  const stand = standOf(layout, [], firstMeadow(mulberry32(1)));
   const from = (eye: Eye) => viewAt(layout.camera, eye);
   const opening = from(OPENING_EYE);
   const turned = from({ ...OPENING_EYE, heading: 0.1 });
@@ -50,8 +50,8 @@ describe('the room kept for the next mushroom', () => {
   it('finds the room again once the mushrooms, the plantings or the seed change', () => {
     const { asked, room } = counted();
     room(stand, 7);
-    room({ ...stand, mushrooms: [...mushrooms] }, 7);
-    room({ ...stand, planted: [...planted] }, 7);
+    room({ ...stand, mushrooms: [...stand.mushrooms] }, 7);
+    room({ ...stand, planted: [...stand.planted] }, 7);
     room(stand, 8);
     assert.equal(asked.times, 4);
   });
@@ -83,9 +83,8 @@ describe('the room kept for the next mushroom', () => {
 });
 
 describe('the room a `+` finds', () => {
-  const { mushrooms, planted, pulled } = firstMeadow(mulberry32(1));
   const layout = meadowLayout(1180, 820, 1);
-  const stand = { layout, flowers: [], mushrooms, planted, pulled };
+  const stand = standOf(layout, [], firstMeadow(mulberry32(1)));
   const eyes: ReadonlyArray<readonly [string, Eye]> = [
     ['the opening eye', OPENING_EYE],
     ['an eye turned', { ...OPENING_EYE, heading: 0.3 }],

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
+import { DEPTHS } from './backdrop-depths';
 import { shadowOf } from './insect-shadow';
 import { meadowCamera } from './meadow-camera';
 import { D_SEE, type Placed, placedAt, type View, viewAt } from './view';
@@ -9,8 +10,6 @@ import { VIEWPORTS } from './viewports';
 
 /** An insect's open wings, in CSS px at its own size. */
 const SPAN = 40;
-/** The depths of `paint-backdrop.ts`'s near hills and ground, which what sinks stands between. */
-const [NEAR_HILLS, GROUND] = [-4, -3];
 
 /** The ground `distance` straight ahead of `view`'s eye, a little off the middle. */
 function groundOf(view: View, distance: number): Placed {
@@ -42,7 +41,7 @@ describe('an insect’s shadow', () => {
     it(`${name}: sinks behind the brow with the beds, and is none once under it`, () => {
       const past = shadowOf(view, groundOf(view, D_SEE + 0.02), SPAN, 1);
       assert.ok(past);
-      assert.ok(past.depth > NEAR_HILLS && past.depth < GROUND);
+      assert.ok(past.depth > DEPTHS.nearHills && past.depth < DEPTHS.ground);
       assert.equal(
         shadowOf(view, groundOf(view, D_SEE + 3), SPAN, 1),
         undefined,
