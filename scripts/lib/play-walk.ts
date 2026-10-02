@@ -1,7 +1,8 @@
 /**
  * Walking, `play-mushrooms.ts`'s run on a fresh meadow: `↑` held walks the
- * eye toward the clump and `↓` back to the glade's rim, eased in and out,
- * the camera bobbing only while it walks and a footstep per step; `→` held
+ * eye toward the clump and `↓` held 12 s walks it back `STRIDE_CRUISE` a
+ * second, eased in and out, the field having no edge to stop it, the camera
+ * bobbing only while it walks and a footstep per step; `→` held
  * turns it one way, never past `TURN_CRUISE`, all the way round, the sun
  * leaving the screen and coming back, and `←` held as long turns it back
  * onto every bed object as it stood; a sideways drag from bare ground turns
@@ -11,17 +12,22 @@
  * drag from the sky, and `→` held under Shift, walk it square to its heading,
  * never turning it and never past the cruise; and the screen turned keeps the
  * eye where it stood and looking where it looked. Frames of the opening, the
- * walk, the rim, a quarter and a half turn and the strafes land as
+ * walk, the walk back, a quarter and a half turn and the strafes land as
  * `walk-*.png`.
  */
 
 import { z } from 'zod';
 
 import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
-import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
+import {
+  KEY_EASE,
+  SLOP,
+  TURN_CRUISE,
+} from '../../src/pages/mushrooms/model/pan.ts';
 import {
   forwardOf,
   sidewaysOf,
+  STRIDE_CRUISE,
 } from '../../src/pages/mushrooms/model/stride.ts';
 import { distanceOfRow } from '../../src/pages/mushrooms/model/walk.ts';
 import { browRow } from '../../src/pages/mushrooms/ui/scene/view.ts';
@@ -53,6 +59,10 @@ const SETTLE_FRAMES = 150;
 const SAME_PX = 0.5;
 /** The bob's depth as a share of the screen's height (`walking.ts`). */
 const BOB_SHARE = 0.004;
+/** How long `↓` is held walking back, in seconds. */
+const BACK_HELD = 12;
+/** How far off its cruise's reckoning, in units, the walk back may land. */
+const BACK_SLACK = 0.05;
 
 /** Every bed object drawn, mushrooms and flowers, where it stands on the screen. */
 const BEDS = `(() => {
@@ -130,7 +140,7 @@ export async function playWalk(
   await shoot('opening');
   const tapsBefore = await taps();
 
-  // Toward the clump, then back to the rim.
+  // Toward the clump, then back.
   await page.key('ArrowUp', 'keyDown');
   const ahead = await page.trace(Math.round(FPS * 1.2), WALKING, Walking);
   await shoot('forward');
@@ -143,14 +153,15 @@ export async function playWalk(
   await shoot('near');
   checkWalk(opening, ahead, bob, 'ArrowUp', expect, note);
   checkPops(ahead, cover, 'ArrowUp', expect, note);
-  // Strafed near the middle, where the rim leaves room on either side.
+  // Strafed near the clump.
   await playStrafes(page, camera, bob, expect, note);
   const strafed = await eye();
-  const back = await hold('ArrowDown', FPS * 12);
-  const rim = back.at(-1) ?? opening;
+  const back = await hold('ArrowDown', FPS * BACK_HELD);
+  const rested = back.at(-1) ?? opening;
   checkPops(back, cover, 'ArrowDown', expect, note);
-  await shoot('rim');
+  await shoot('back');
   checkWalk(strafed, back, bob, 'ArrowDown', expect, note);
+  checkBack(strafed, back, expect, note);
 
   // All the way round on `→`, shooting a quarter and a half turn, then
   // back on `←` held as long.
@@ -174,7 +185,11 @@ export async function playWalk(
   ];
   await page.key('ArrowRight', 'keyUp');
   round.push(...(await page.trace(SETTLE_FRAMES, TURNING, Turning)));
-  checkTurn([rim.heading, ...round.map(([heading]) => heading)], expect, note);
+  checkTurn(
+    [rested.heading, ...round.map(([heading]) => heading)],
+    expect,
+    note,
+  );
   // The turn runs a little past a full one, which on a narrow view can carry
   // the sun off again: it has only to come back once.
   const sunGone = round.findIndex(([, sun]) => sun === null);
@@ -260,6 +275,48 @@ export async function playWalk(
   await shoot('turned-screen');
   await page.turn();
   await page.step(2);
+}
+
+/**
+ * `↓` held `BACK_HELD` s from `from`, `seen` frame by frame through its
+ * glide to rest: straight back along the heading, by the let-go
+ * `STRIDE_CRUISE` × (`BACK_HELD` − the half of `KEY_EASE` the ease in
+ * costs), and at rest the full `STRIDE_CRUISE` × `BACK_HELD`, the glide out
+ * giving that half back — no edge to stop it short, `BACK_SLACK` either way.
+ */
+function checkBack(
+  from: Seen,
+  seen: readonly Seen[],
+  expect: Expect,
+  note: (line: string) => void,
+): void {
+  const behind = forwardOf(from.heading + Math.PI);
+  const backOf = ({ x, y }: Seen) =>
+    (x - from.x) * behind.x + (y - from.y) * behind.y;
+  const [letGo, rest] = [seen[FPS * BACK_HELD - 1], seen.at(-1)];
+  if (!letGo || !rest) return;
+  const eased = KEY_EASE / 2;
+  const reckoned = [
+    ['at the let-go', backOf(letGo), STRIDE_CRUISE * (BACK_HELD - eased)],
+    ['at rest', backOf(rest), STRIDE_CRUISE * BACK_HELD],
+  ] as const;
+  for (const [when, went, want] of reckoned) {
+    expect(
+      Math.abs(went - want) <= BACK_SLACK,
+      `↓ held ${String(BACK_HELD)} s walked back ${went.toFixed(3)} units ${when}, not ${want.toFixed(3)} ±${String(BACK_SLACK)}`,
+    );
+  }
+  const across = forwardOf(sidewaysOf(from.heading));
+  const off = Math.abs(
+    (rest.x - from.x) * across.x + (rest.y - from.y) * across.y,
+  );
+  expect(
+    off <= BACK_SLACK,
+    `↓ held ${String(BACK_HELD)} s strayed ${off.toFixed(3)} units off straight back`,
+  );
+  note(
+    `↓ held ${String(BACK_HELD)} s walked back ${reckoned.map(([when, went, want]) => `${went.toFixed(3)} ${when} (reckoned ${want.toFixed(3)})`).join(', ')}`,
+  );
 }
 
 /**
