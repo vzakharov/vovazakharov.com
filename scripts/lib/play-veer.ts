@@ -78,8 +78,12 @@ async function perchesBack(
   await page.step(90);
   const mushroom = (await mushrooms()) === grownFrom + 1 ? 1 : 0;
   expect(mushroom === 1, 'looking back, the + and a cap grew no mushroom');
+  // The child's flowers alone: the bees in flight sow theirs meanwhile.
   const planted = async () =>
-    page.evaluate('__probe.scene.meadow.planted.length', z.number());
+    page.evaluate(
+      `__probe.scene.meadow.planted.filter((sown) => !('parent' in sown)).length`,
+      z.number(),
+    );
   const open = async () =>
     page.evaluate('__probe.scene.meadow.planting !== undefined', z.boolean());
   const sownFrom = await planted();
