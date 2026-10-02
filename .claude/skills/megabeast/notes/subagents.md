@@ -260,6 +260,20 @@
   after one mushroom). One step per agent and a ~10-minute check-in held
   every agent under ~190k with commits on origin; six packages ran in ~1¾
   hours.
+- **A helper two parallel packages need is the orchestrator's, landed
+  before the wave.** Bite 12b's orchestrator wrote the snap (`anchor.ts`)
+  in ~15k before launching four agents, and all four built on it. The
+  anchoring of a whole layout it left to "whoever needs it first, the other
+  reuses": I1 wrote `anchored-stand.ts`, S2 looked on origin before I1 had
+  pushed, found nothing and wrote `anchoredGround`, and the branch carries
+  two anchoring paths for the next wave to fold. "Reuse it if it's there"
+  is a race; the skill names one owner, or lands the helper itself.
+- **Six agents of one step each, nudged at ~120–145k, all landed.** Bite
+  12b's first waves ran R1+R2, R3, S1, S2, L1, L2, P1, I1 (85–166k, 7–33
+  minutes each); the three nudged at ~120–145k with nothing on origin
+  committed within ~25k. The orchestrator's own context, not the agents',
+  bounded the session: ~12 reports and launches took it from ~190k to past
+  220k, so a relay belongs after a wave, not mid-wave.
 - **A test that can fail fails the run it lands in.** The play run's
   stricter turn watch landed before the flight fix and turned
   `pnpm play:mushrooms` red across two sessions. The handling order should

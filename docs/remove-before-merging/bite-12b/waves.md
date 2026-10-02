@@ -25,8 +25,15 @@ Each agent's report lands here as it arrives, so a restart costs nothing.
 - S2 — after S1; note `s.md`.
 - P1 — after S1; note `p.md` (beds' wiring left as P1b). **Landed f499e9f**: `headedLight(light, heading)` (exact at heading 0), `mushroomLights`/`flowerLight` take `heading` (defaults to the opening's), `SIDE_DRIFT` 0.1, optional `Siding` (`sunSide`, `paintedSunSide`) on `Hazing`. Each thing keeps its own α from its opening light; facing away lights the mirrored side. **Nothing shows until P1b** (mushroom-bed.ts and flower-bed.ts wiring, step by step in `p.md`) — launch after S2 frees mushroom-bed.ts.
 
-## Queued
+- S2 — after S1; note `s.md`. **Landed c0e804c**: `MushroomGround.anchor`; `placeIn` anchors each stored foot (identity at `OPENING_EYE`), `undefined` where no ground; `anchoredGround(ground, anchor)` (same object while the anchor stays) is how a caller judges from an eye; `laidOf` lays a non-clump mushroom at `{x:0,z:0}`, `FOREST_SIZE`, `opening = CLUMP_DISTANCE`, so it paints once; a mushroom grown behind the opening eye is now painted. Regression flagged for I4: `seatAloft`'s fallback for an undrawn host reads the paint frame as opening px. S2 missed I1's `anchored-stand.ts` (not on origin when it looked): **two anchoring paths now coexist**.
 
-- S2, S3 (after S1); L2/L3 (after L1; L3 after S2's anchored layout);
-  P1 (after S1), P2 (after L2); I2, I3 (after I1), I4, I5 (after S);
-  R3; the play package (play-walk after R1, the dense approach after S).
+## Next wave
+
+In this order of launch; parallel where files are disjoint.
+
+1. **S3** — `roomFor`/patches from the current eye (`anchoredGround(layout.mushrooms, anchorOf(eye))`), the per-area cap (12 within `D_SEE`, 96 on the field) in `model/game.ts`. First: fold I1's `placeAnchored` into `placeIn` on an anchored ground (perch-sight's two call sites) so one anchoring path remains; `anchoredStand`'s seeded-flower re-standing stays.
+2. **L3** (beside S3, disjoint files) — `plantableIn`/`bareToTap`/`groundFor`/`flowerInSight` judged from the anchor via `anchoredStand`/`anchoredGround`, reading only what stands within `D_SEE`; the bee ring with no band; the 48-flower area cap; `FlowerBed.paint` re-places after `drawFlower` (S1's note); flowers off the opening laid in their own frame like S2's mushrooms. Wire the anchored ground into `meadow-scene.ts`'s rule calls.
+3. **I-fliers** — run `fliers.test.ts` on I1 alone first (a red is fixed by its own agent); then I2 (air spots, air grid cached by camera), I3, I4 (fixes S2's seat fallback regression), I5.
+4. **P1b** after S3 frees `mushroom-bed.ts` and L3 frees `flower-bed.ts` (steps in `p.md`); P2 (mottles from `lawn.ts` cells).
+5. **Play** (`scripts/` only, beside the waves): `play-walk.ts`'s "↓ held 12 s walks back STRIDE_CRUISE × (12 − eased) ±0.05" (R1 removed the rim check), the dense-forest approach (§ 6), measure L2's re-tend and I1's re-see hitches.
+6. The tail: fold, `/polish`, play run, frames to `frames/bite-12b/`, the Artifact, `/pr`; the review session.

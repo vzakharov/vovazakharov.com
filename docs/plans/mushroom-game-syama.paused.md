@@ -294,10 +294,16 @@ structural bite, with a review session of its own.
 **Built:** the spec (`spec.md`, `spec-insects.md`) and step 0 — stored feet
 are plane points (`Footing`), `Planted` carries its `lean`, the converters
 `groundOfPlane`/`anchored`/`unanchored`/`grownOn` (2b9942c, 8312d9b,
-5358d5b; API in `bite-12b/step0.md`), the opening drawn as before. **Left:**
-the seeded-bed round-trip test (step0.md), then spec § 10's packages R, S,
-L, P, I (`spec-insects.md`) and the play package, in its waves; the tail;
-the review session.
+5358d5b; API in `bite-12b/step0.md`), the opening drawn as before. Then
+the anchor (`model/anchor.ts`, 743fa2c), R whole (the rim, the wash rule,
+`openingCrop`, `rebloom`), S1 (the side cull), S2 (the mushrooms' ground
+anchored at an eye, paint laid off the opening), L1–L2 (`tuft-tap.ts`, the
+lawn by plane cells in `lawn.ts`), P1 (light by heading, not yet wired into
+the beds), I1 (perches at the anchor, `anchored-stand.ts`). Each package's
+commits, departures and the calls the orchestrator took on them:
+`docs/remove-before-merging/bite-12b/waves.md`. **Left**, in the order
+`waves.md` § "Next wave" gives: S3, L3, P1b, P2, I2–I5 (`fliers.test.ts`
+first), the play package; the tail; the review session.
 
 ## Rest of the elephant
 
