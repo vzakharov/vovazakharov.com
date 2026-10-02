@@ -63,6 +63,25 @@ land below as they arrive.
   geometry to keep right forever. The 48 cap: a constant and a counting
   helper in `game.ts`, enforced in `roomFor`/`roomIn`, as L proposed. The
   next L agent gets `anchored-stand.ts` once S3 reports.
+- **S3** — 0fd8923 (one anchoring path: `placeAnchored` gone, `placeIn`
+  on `anchoredGround`), f790400 (`MUSHROOM_SLOTS` 12 within `D_SEE` of the
+  new foot via `isCrowdedAt`, `FIELD_MUSHROOMS` 96 for `isFull`), 90f77f7
+  (`roomFor`/patches from `anchorOf(view.eye)`, `groundIn`, `viewFrom`).
+  **Package S done.** Its departures, all kept: `roomFor` returns a plane
+  `Footed`, re-grounded by `fitsView` (one-line edits in `arrivals.ts`,
+  `visit-play.ts`, `tufts.test.ts`); `standing-weighed.ts` edited;
+  `roomFor` reads no `D_SEE` cut (opening caps stand to 15.9);
+  `mushroom-patch.test.ts` judges each forest from the eye it grew at.
+  Left over: `fliers.test.ts` not run on S3 (the next I agent runs it
+  first); spore puffs and the boing read `shown.size` unzoomed;
+  `pnpm type-overlap` red on two groups in `lawn.ts` (the next L agent's).
+
+## Wave 4 (launched together)
+
+I′ (`perch-sight.ts` handed over: fliers on S3, I2's patch wired and
+profiled, then I3–I5), L′ (`anchored-stand.ts` handed over: plane ring
+offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
+(`mushroom-bed.ts`; the flower half waits on L′).
 
 ## Next wave
 
