@@ -20,12 +20,32 @@ it flew at 24733 ms" (flight watch, `MOST_HEADING_OFF` 0.3).
   side the two disagree on directions by ~0.15 rad. A game red: what a
   child sees is the body pointing that much further off its way.
 
+- Static check of the mapping at the run's frame point (608, 449.5),
+  forward 13: drawn at (131.8, 471.1) — the trace drew (131.8, 472.8) — and
+  a frame turn of −1.07 drawn −1.19: 0.12 rad of bend, most of it the skim
+  easing the flight down onto the grass (`aloftFramed`), the rest the
+  screen's azimuth-straight lay.
+
 ## Done
 
-- (nothing committed yet beyond this note)
+- `fix(mushrooms): draw an insect's body turned as the screen draws its
+  frame turn` — `drawnInsect` gives `posed.rotation`: the way a px's step
+  along the frame turn is drawn, through the same pipeline that draws the
+  body (`bentTurn`), faded by `aloft` (0 sitting, so a seat's rest facing
+  stays the screen's own; it fades in over the take-off and out over the
+  settle). `InsectView` sets and poses by it. Tests in
+  `insect-drawn.test.ts`: the middle of the screen keeps the frame's turn;
+  the run's point is drawn the way a step is drawn, >0.1 rad off the frame's
+  turn; sitting keeps the turn.
+- tabL `meadow` after: green. Watch: worst heading 0.28 (was 0.39);
+  butterfly frames facing over 0.3 off: 0 of 6260 (was 74); butterfly-1's
+  own worst 0.285 at 25.4 s — the rest is the bank into its curve (0.16, by
+  design) and a small facing lag. Turn rate, light (0.393, the same) and
+  worst rest (0.45, the same) unchanged.
+- `fliers.test.ts` not run: the fix touches neither flight nor perches,
+  only the drawn rotation, which that suite does not read.
 
 ## Left
 
-- Draw the body's turn as the screen's image of its frame turn, faded out
-  as it sits (its own rest facing is the screen's), with a unit test; re-run
-  tabL `meadow`.
+- Nothing of this red. The heading margin left is thin (0.285 against 0.3):
+  a curvier leaving leg could cross it again by bank alone.

@@ -14,7 +14,7 @@ import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE } from '../../model/ground';
 import { dartAt, dartWay } from '../../model/insect-dart';
 import type { InsectKind } from '../../model/insect-genes';
-import { carriedFrom, landingBob } from '../../model/insect-motion';
+import { aloft, carriedFrom, landingBob } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
 import { startLeg, steer } from '../../model/insect-steering';
 import { caughtAloft, type Flier, isShying } from '../../model/insects';
@@ -284,23 +284,25 @@ export class InsectView {
       presence,
       above: this.depth,
       ...pick(shown, 'span'),
+      turn,
+      airborne: aloft(stay, now),
     });
     shown.drawn = drawn.aloft;
     this.shadows.lay(id, drawn.shadow);
     const { posed } = drawn;
     shown.container.setVisible(posed !== undefined);
     if (!posed) return;
-    const { middle, depth, alpha, hit, nectar } = posed;
+    const { middle, depth, alpha, hit, nectar, rotation } = posed;
     shown.container
       .setDepth(depth)
       .setAlpha(alpha)
       .setPosition(middle.x, middle.y)
-      .setRotation(turn)
+      .setRotation(rotation)
       .setScale(jolt * (1 - bob / size / 2) * middle.zoom);
     shown.hit.setTo(0, 0, hit);
     poseLook(shown.look, moment, {
       middle,
-      rotation: turn,
+      rotation,
       ...(nectar && { nectar }),
     });
   }
