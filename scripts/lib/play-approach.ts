@@ -1,14 +1,19 @@
 /**
  * The walk into the forest, `play-mushrooms.ts`'s run on a fresh meadow: the
- * forest grown from `+` as a child grows it; the eye turned onto its haziest
+ * forest at its densest, grown from `+` as a child grows it until `+`
+ * refuses, then again `SOW_APART` s of `↓` back, the two clusters standing
+ * as close as the per-area cap lets them, one behind the other; the eye turned onto its haziest
  * back-row mushroom and walked up to it on `↑` until it is drawn `CLOSE`
  * times its opening size, by when its painted haze has dropped; a tap on its
  * cap where it is painted (`paintedCap`, never the scene's own hit test)
  * selects it, and one `OUTSIDE` px outside its outline, where the
- * finger pad was, does not; then the eye turned there, at the closest
- * approach. Every frame of the walk and the turn is drawn and timed, and
- * their median kept to the frame budget (`lib/frame-budget.ts`): the fill
- * rate's worst case, caps covering the screen.
+ * finger pad was, does not; then the eye turned all the way round there, at
+ * the closest approach. Every frame of the walk and the turn is drawn and
+ * timed, and their median kept to the frame budget (`lib/frame-budget.ts`):
+ * the fill rate's worst case, caps covering the screen and every mushroom
+ * within sight drawn. The lawn's re-tends and the perches' re-sights along
+ * them are timed too, and the frames that carry one set beside those that
+ * carry none.
  */
 
 import { z } from 'zod';
@@ -43,7 +48,7 @@ import {
   type Controls,
   type Expect,
   Eye,
-  grow,
+  Hitches,
   inTurn,
   type Page,
   Point,
@@ -55,8 +60,10 @@ const FPS = 60;
 const CLOSE = 1.5;
 /** How far outside the walked-up mushroom's outline, in CSS px, a tap must not take it. */
 const OUTSIDE = 4;
-/** How many mushrooms the forest is grown by, the slots past the clump's two. */
-const GROWN = 10;
+/** How long `↓` is held between the two clusters the forest is grown in, in seconds. */
+const SOW_APART = 4;
+/** The most `+` taps one cluster is grown by, should `+` never refuse. */
+const MOST_GROWN = 30;
 /** How near the screen's middle, as a share of its width, the eye is turned onto its mushroom. */
 const AIMED = 0.04;
 /** The most `↑` frames the walk up may take before it is called short. */
@@ -65,6 +72,14 @@ const MOST_WALK = FPS * 12;
 const SETTLE = 120;
 
 /** Every mushroom drawn: how many times its opening size, its painted haze, where on the screen its foot stands, and its depth. */
+/** The farthest apart any two mushrooms' feet stand, in plane units. */
+const SPREAD_OF = `(() => {
+  const feet = __probe.scene.meadow.mushrooms.map(({ foot }) => foot);
+  return Math.max(0, ...feet.flatMap((one) =>
+    feet.map((other) => Math.hypot(one.x - other.x, one.y - other.y)),
+  ));
+})()`;
+
 const STANDS = `[...__probe.scene.bed.shown]
   .filter(([, { graphics }]) => graphics.visible)
   .map(([id, { graphics, stands, haze }]) => ({
@@ -197,18 +212,42 @@ export async function playApproach(
     (await stands()).find((stand) => stand.id === id);
   const screen = await page.evaluate('__probe.scene.layout.camera', Camera);
   const { arc } = pinholeOf(screen);
-  // A frame at a time, since `page.step(n)` draws and times only its last.
+  // A frame at a time, since `page.step(n)` draws and times only its last,
+  // each with the re-tends and re-sights it ran.
+  const carried: Carried[] = [];
+  const stepOne = async () => {
+    await page.step(1);
+    const hitches = await page.evaluate('__probe.hitches()', Hitches);
+    carried.push({ ...hitches, ms: page.rendered.at(-1) ?? 0 });
+  };
   const stepEach = async (frames: number) =>
-    inTurn([...Array.from({ length: frames }).keys()], async () =>
-      page.step(1),
-    );
+    inTurn([...Array.from({ length: frames }).keys()], stepOne);
 
-  // The forest, grown from `+` and the picker's buttons in turn.
-  await inTurn([...Array.from({ length: GROWN }).keys()], async (index) =>
-    grow(page, controls, controls.picker[index % controls.picker.length]),
-  );
+  // The forest, grown from `+` and the picker's buttons in turn until `+`
+  // refuses, here and again `SOW_APART` s back, so the walk up goes through
+  // the near cluster into the far one.
+  const sow = async (tries: number): Promise<void> => {
+    if (tries === MOST_GROWN) return;
+    await page.tap(controls.plus);
+    await page.step(30);
+    if (!(await state()).picking) return;
+    const cap = controls.picker[tries % controls.picker.length];
+    if (cap) await page.tap(cap);
+    await page.step(90);
+    return sow(tries + 1);
+  };
+  await sow(0);
+  const first = (await state()).mushrooms.length;
+  await page.key('ArrowDown', 'keyDown');
+  await page.step(FPS * SOW_APART);
+  await page.key('ArrowDown', 'keyUp');
+  await page.step(SETTLE);
+  await sow(0);
   const grown = await state();
-  note(`the forest stands ${String(grown.mushrooms.length)} mushrooms`);
+  const spread = await page.evaluate(SPREAD_OF, z.number());
+  note(
+    `the forest stands ${String(grown.mushrooms.length)} mushrooms, ${String(first)} grown at the opening and the rest ${String(SOW_APART)} s of ↓ back, their feet at most ${spread.toFixed(2)} units apart`,
+  );
 
   // Its haziest mushroom on the screen, away from the controls and not the
   // one selected, is the back row the walk goes up to.
@@ -254,11 +293,12 @@ export async function playApproach(
   const timed = page.rendered.length;
   await page.key('ArrowUp', 'keyDown');
   const walkUp = async (frames: number): Promise<Stand | undefined> => {
-    await page.step(1);
+    await stepOne();
     const now = await standOf(target.id);
     if (!now || now.zoom >= CLOSE || frames >= MOST_WALK) return now;
     return walkUp(frames + 1);
   };
+  await page.evaluate('__probe.hitches()', Hitches);
   const reached = await walkUp(0);
   await page.key('ArrowUp', 'keyUp');
   await stepEach(SETTLE);
@@ -319,14 +359,15 @@ export async function playApproach(
   await page.step(40);
   await page.shoot('final-tap');
 
-  // Turned there, at the closest approach, one way and back.
-  await inTurn(['ArrowRight', 'ArrowLeft'] as const, async (key) => {
-    await page.key(key, 'keyDown');
-    await stepEach(FPS * 2);
-    if (key === 'ArrowRight') await page.shoot('final-close-turn');
-    await page.key(key, 'keyUp');
-    await stepEach(FPS);
-  });
+  // Turned all the way round there, at the closest approach.
+  const half = Math.round((Math.PI / TURN_CRUISE) * FPS);
+  await page.key('ArrowRight', 'keyDown');
+  await stepEach(half);
+  await page.shoot('final-close-turn');
+  await stepEach(half + 30);
+  await page.key('ArrowRight', 'keyUp');
+  await stepEach(FPS);
+  noteHitches(carried, note);
   const frames = page.rendered.slice(timed);
   const slow = overBudget(frames);
   expect(
@@ -336,6 +377,37 @@ export async function playApproach(
   note(
     `walking into the forest and turning there: rendered-frame JS median ${median(frames).toFixed(1)} ms over ${String(frames.length)} frames, the slowest ${Math.max(...frames).toFixed(1)}`,
   );
+}
+
+/** A frame drawn on the walk or the turn: its JS time, and the re-tends and re-sights it ran, in ms. */
+type Carried = z.infer<typeof Hitches> & { ms: number };
+
+/** How many of `values` there are, their median and their slowest, in ms. */
+function timings(values: readonly number[]): string {
+  return values.length === 0
+    ? 'none'
+    : `${String(values.length)}, median ${median(values).toFixed(1)} ms, slowest ${Math.max(...values).toFixed(1)}`;
+}
+
+/**
+ * The hitches `carried` shows: how long each re-tend and re-sight took, and
+ * the frames that ran one against those that ran neither, at the median and
+ * the slowest. Measured, not judged: the frame budget holds the median.
+ */
+function noteHitches(
+  carried: readonly Carried[],
+  note: (line: string) => void,
+): void {
+  const plain = carried.filter(
+    ({ tend, see }) => tend.length + see.length === 0,
+  );
+  for (const kind of ['tend', 'see'] as const) {
+    const on = carried.filter((frame) => frame[kind].length > 0);
+    note(
+      `${kind === 'tend' ? "the lawn's re-tends" : "the perches' re-sights"} on the walk and the turn: ${timings(on.flatMap((frame) => frame[kind]))}; the frames carrying one ${timings(on.map(({ ms }) => ms))}`,
+    );
+  }
+  note(`the frames carrying neither: ${timings(plain.map(({ ms }) => ms))}`);
 }
 
 /** Whether a finger at `point` reaches the meadow: on the screen and off every control's tap reach. */

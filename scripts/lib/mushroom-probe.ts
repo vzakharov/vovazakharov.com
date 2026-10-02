@@ -62,6 +62,20 @@ export const PROBE = `(() => {
     steps += 1;
     step(foot);
   };
+  // Every re-tend of the lawn (\`Grass.tend\`) and re-sight of the perches
+  // (the scene's \`see\`), timed, as \`hitches()\` hands them over.
+  const hitches = { tend: [], see: [] };
+  const timing = (owner, name, into) => {
+    const run = owner[name].bind(owner);
+    owner[name] = (...args) => {
+      const started = performance.now();
+      const result = run(...args);
+      into.push(performance.now() - started);
+      return result;
+    };
+  };
+  timing(scene.grass, 'tend', hitches.tend);
+  timing(scene, 'see', hitches.see);
   /** The middle of \`points\`, in \`graphics\`' frame, on screen. */
   const onScreen = (graphics, points) => {
     const x = points.reduce((sum, point) => sum + point.x, 0) / points.length;
@@ -148,6 +162,11 @@ export const PROBE = `(() => {
         height: scene.layout.height,
         unit: scene.layout.camera.unit,
       };
+    },
+    /** The re-tends and re-sights timed since the last call, in ms, and forgotten. */
+    hitches: () => {
+      const taken = { tend: hitches.tend.splice(0), see: hitches.see.splice(0) };
+      return taken;
     },
     /** Where the sun's picture stands across the screen, in CSS px; \`null\` while the view leaves it out. */
     sun: () => {
@@ -398,6 +417,10 @@ export const Eye = z.object({
 });
 /** `__probe.sun()`: the sun's middle across the screen, `null` while the view leaves it out. */
 export const Sun = z.number().nullable();
+export const Hitches = z.object({
+  tend: z.array(z.number()),
+  see: z.array(z.number()),
+});
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),
   out: z.number(),

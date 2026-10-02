@@ -33,6 +33,37 @@ S3, L3, I (fliers.test.ts first, then I2–I5) and Play launched at once
 from 233b3b6, each in its own worktree; P1b waits on S3 and L3. Reports
 land below as they arrive.
 
+- **I** — 240fcdc. `fliers.test.ts` green on I1 (48/48, 5 min 25 s). I2
+  half-built as `i2-air-spots.patch` (new `air-spots.ts` plane lattice,
+  `widest-spans.ts`, a swept `pointCrowdings` not yet checked against the
+  old one): 647–663 cells at 1180×820, but `airOf` costs ~8.5 ms per
+  anchor (3 ms crowding, the rest `spotsAt`'s ~6600-cell loop) against the
+  4 ms budget, and its wiring lies in `perch-sight.ts` (S3's). I3–I5 not
+  started. **Orchestrator's call:** a fresh I agent takes `perch-sight.ts`
+  once S3 reports, applies the patch, profiles `spotsAt` first, and only
+  if it stays over budget measures crowding on the plane against a coarser
+  snap and reports both before choosing; then I3, I4 (S2's `seatAloft`
+  fallback), I5.
+- **L** — f58cfef (L3a): the depth band is the child's planting only
+  (`inFlowerBand`), bees' rings and `standingFlowers` keep to none;
+  `FlowerBed.paint` re-stands at drawn height. Departure taken: a bee's
+  flower may stand with its foot below the screen where its head is in
+  sight. Found (l.md): a ring slot is parent + offset in whatever frame
+  the parent arrives in, so from another anchor it lands elsewhere (depth
+  ×y²/74.6), and `standingFlowers` judges spacing in the opening's frame.
+  **Orchestrator's call, over L's "parent's own frame" proposal:** a ring
+  slot is an offset **on the plane**, in ground units round the parent's
+  plane foot, so no frame enters it and no anchor moves it — step 0's rule
+  that a stored foot is a plane point, extended to bee flowers. The
+  offsets are sized so that at the opening a ring lands within half a
+  tuft of where it does today (a test pins it); spacing (`headsApart`,
+  `clearOfFeet`) is judged in plane distance, which anchoring keeps. It
+  beat the proposal because the proposal keeps a frame per parent and a
+  clamp to "the nearest point of the opening's flower ground", a second
+  geometry to keep right forever. The 48 cap: a constant and a counting
+  helper in `game.ts`, enforced in `roomFor`/`roomIn`, as L proposed. The
+  next L agent gets `anchored-stand.ts` once S3 reports.
+
 ## Next wave
 
 In this order of launch; parallel where files are disjoint.
