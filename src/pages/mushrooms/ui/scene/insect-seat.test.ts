@@ -1,19 +1,24 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import type { Aloft } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,
+  gathered,
   groundOfPlane,
   OPENING_EYE,
   planeOf,
   project,
+  unanchored,
 } from '../../model/ground';
 import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, type Host, onHost } from './bed-place';
+import { laidOf } from './clump-layout';
 import { aloftAt, drawnAloft, veerOf } from './insect-frame';
 import { drawnFlier, drawnSitter, seatAloft, seatedZoom } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
+import { aloftOfLayout } from './plane-place';
 import { type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
@@ -33,7 +38,12 @@ const SEATS: readonly Point[] = [
 /** A host standing on `foot` as `view` draws it, as its bed stands it. */
 function hostOn(view: View, foot: Point): Host {
   const { x, y } = project(view, groundOfPlane(foot));
-  return { laidFoot: { x, y }, stands: bedPlace(view, foot) };
+  return {
+    laidFoot: { x, y },
+    foot,
+    opening: gathered(foot).y,
+    stands: bedPlace(view, foot),
+  };
 }
 
 /** How near the opening's zoom stands to 1 anywhere on the screen. */
@@ -156,7 +166,7 @@ describe('drawnSitter', () => {
 });
 
 describe('seatAloft', () => {
-  it('is where a flight lands on the seat its host draws, and the seat as laid out where the host is not drawn', () => {
+  it('is where a flight lands on the seat its host draws', () => {
     for (const { name, view, foot } of CASES) {
       const on = hostOn(view, foot);
       const laid = plus(on.laidFoot, SEATS[0] ?? { x: 0, y: 0 });
@@ -172,6 +182,114 @@ describe('seatAloft', () => {
         ) < 1e-9,
         name,
       );
+    }
+  });
+});
+
+/** Eyes walked and turned away from the opening. */
+const WALKED = [
+  OPENING_EYE,
+  { x: 3, y: 8, heading: 0.7 },
+  { x: -10, y: -4, heading: -2.4 },
+  { x: 20, y: 15, heading: 3 },
+];
+
+/** A mushroom on `foot` as its bed lays it out (`laidOf`) and `view` stands it, leaning right. */
+function laidHost(view: View, foot: Point): Host {
+  const { x, y, opening } = laidOf(view, { foot, lean: 1 });
+  return {
+    laidFoot: { x, y },
+    foot,
+    opening,
+    stands: bedPlace(view, foot, undefined, opening),
+  };
+}
+
+/** `seat` on `host`, as its bed hands it over, `drawn` or not. */
+function seatOn(host: Host, seat: Point, drawn: boolean) {
+  return {
+    ...seat,
+    on: { ...host, stands: { ...host.stands, drawn } },
+    drawn: onHost(host, seat),
+  };
+}
+
+function apart3(a: Aloft, b: Aloft): number {
+  return Math.hypot(a.x - b.x, a.y - b.y, a.h - b.h);
+}
+
+/** How far off the drawn path an undrawn host's seat may be, of the seat's own reach off its foot. */
+const NEAR_DRAWN = 0.06;
+
+describe('seatAloft, its host not drawn', () => {
+  it('is where the drawn path puts the seat, off the host’s plane foot, wherever the eye has walked', () => {
+    let checked = 0;
+    let movedOff = 0;
+    for (const [name, width, height] of VIEWPORTS) {
+      const camera = meadowCamera(width, height);
+      for (const eye of WALKED) {
+        const view = viewAt(camera, eye);
+        const feet = [0.5, 1, 1.6].flatMap((ahead) =>
+          [-1.5, -0.5, 0, 0.5, 1.5].map((side) =>
+            unanchored(eye, { x: side * ahead, y: ahead * CLUMP_DISTANCE }),
+          ),
+        );
+        for (const foot of [...OPENING_FEET, ...feet]) {
+          const host = laidHost(view, foot);
+          if (!host.stands.drawn || host.stands.behind) continue;
+          for (const offset of SEATS) {
+            const laid = plus(host.laidFoot, offset);
+            const drawn = seatAloft(view, seatOn(host, laid, true));
+            const fallback = seatAloft(view, seatOn(host, laid, false));
+            const reach = Math.hypot(
+              drawn.x - foot.x,
+              drawn.y - foot.y,
+              drawn.h,
+            );
+            const off = apart3(drawn, fallback);
+            assert.ok(off < NEAR_DRAWN * reach, `${name}: ${off} of ${reach}`);
+            const asLaid = aloftOfLayout(view, laid, host.laidFoot.y);
+            if (apart3(drawn, asLaid) > reach) movedOff++;
+            checked++;
+          }
+        }
+      }
+    }
+    // The layout's reading, laid out at the opening eye, misses most of them.
+    assert.ok(
+      checked > 300 && movedOff > checked / 2,
+      `${checked}, ${movedOff}`,
+    );
+  });
+
+  it('lands a grown mushroom’s seat where it was drawn a step before the eye walked too near to draw it', () => {
+    for (const [name, width, height] of VIEWPORTS) {
+      const camera = meadowCamera(width, height);
+      for (const start of WALKED) {
+        const foot = unanchored(start, { x: 0.4, y: 2 * CLUMP_DISTANCE });
+        const toward = { x: foot.x - start.x, y: foot.y - start.y };
+        const steps = 400;
+        let last: Aloft | undefined;
+        let landed: Aloft | undefined;
+        for (let step = 0; step < steps && !landed; step++) {
+          const along = step / steps;
+          const eye = {
+            ...start,
+            x: start.x + toward.x * along,
+            y: start.y + toward.y * along,
+          };
+          const view = viewAt(camera, eye);
+          const host = laidHost(view, foot);
+          const at = plus(host.laidFoot, SEATS[1] ?? { x: 0, y: 0 });
+          const seat = seatAloft(view, seatOn(host, at, host.stands.drawn));
+          if (host.stands.drawn) last = seat;
+          else if (last) landed = seat;
+        }
+        assert.ok(last && landed, name);
+        const reach = Math.hypot(last.x - foot.x, last.y - foot.y, last.h);
+        const off = apart3(last, landed);
+        assert.ok(off < NEAR_DRAWN * reach, `${name}: ${off} of ${reach}`);
+      }
     }
   });
 });

@@ -88,7 +88,7 @@ snap was measured.
   (5 min 9 s), perch-sight 50/50, perches, insect-away, perch-crowding green.
 - `pnpm type-overlap` was red on `air-spots.ts` (I2's landing): `Spot`'s
   `aloft` now `Pick<Pose, 'aloft'>`, `Air`'s `alofts` `Pick<PerchHosts,
-  'alofts'>`, the cell's `{ id, name }` now `WithId & { key }`, the
+'alofts'>`, the cell's `{ id, name }` now `WithId & { key }`, the
   lattice's `pitch` renamed `spacing` (it collided with `Buzz`'s).
 
 ## I3 — shown by the view
@@ -105,28 +105,31 @@ brow or under the foot flies out of view first), `perch-sight.test.ts`
 units, perches the edges hold past the brow are not shown). flight,
 flight-kinds, insect-away, game, perch-sight green.
 
-## I4 — scoped, not built
+## I4 — the seat fallback
 
-Blocked on the plane foot on `Host` ("Needs: the beds package's plane foot
-on `Host`"): `Host` (`bed-place.ts`) is still `Standing & { laidFoot }`, and
-both places that build one, `mushroom-bed.ts` `capTop` (`{ laidFoot: laid,
-stands }`) and `flower-bed.ts` `seat` (`{ laidFoot: laid.place, stands }`),
-are off limits to I (P1b and L″ hold them). Design for whoever builds it:
+Landed (`git log --grep "seat fallback"`). `Host` (`bed-place.ts`) is
+`Standing & Pick<Footed, 'foot'> & Pick<Laid, 'opening'> & { laidFoot }`;
+`capTop` hands the mushroom's `foot`/`opening`, `seat` the flower's
+`laid.foot` and `laid.opening ?? gathered(foot).y` (a seeded flower is laid
+where the opening pinhole stands it, as `ofGround` takes it). `seatAloft`'s
+undrawn fallback: px off `laidFoot` × `opening / focal`; `h` from it, and
+`across` × `SPREAD` along the sideways **of the eye's sight to the foot**
+(`azimuthOf(eye, foot)`), not of the heading.
 
-- `Host = Standing & { laidFoot: Point; foot: Point; opening: number }` —
-  `foot` the plane foot (mushroom `Shown`'s `Footed` foot, flower
-  `laid.foot`), `opening` the distance it is laid at (`Shown.opening`;
-  `CLUMP_DISTANCE` for a flower laid off the opening, per L's `laidOf`).
-- `seatAloft`'s fallback: px off the laid foot to clump units by
-  `opening / focal` (s.md); `across = (seat.x − laidFoot.x)·k`,
-  `h = (laidFoot.y − seat.y)·k`; aloft `{ x: foot.x + across·cos(heading),
-  y: foot.y − across·sin(heading), h }` (the eye frame's x on the plane, as
-  `unanchored` turns it).
-- Test in `insect-seat.test.ts`: a grown mushroom's seat, its host undrawn
-  (off a side, too near), lands at the seat the drawn path gives one frame
-  earlier, not at the clump's distance ahead of the opening eye.
+Departures from the scoped design, both measured against the drawn path
+(`aloftAt` of the drawn seat) over 6 viewports × 4 eyes × 18 feet × 3
+seats: without `SPREAD` the fallback sits half as far across as the drawn
+seat (the screen narrows the plane's azimuth by it); along the heading's
+sideways instead of the sight's it is up to 18 % of the seat's reach off for
+a host near a screen side. As built: under 5 %, the rest the drawn path's
+bend and its distance-vs-ahead `h`.
+
+Tests (`insect-seat.test.ts`): the fallback within 6 % of the seat's reach
+of the drawn path from walked and turned eyes (the old layout reading
+misses most by more than the reach: red on the old fallback); walking toward
+a grown mushroom, the first undrawn frame's seat within 6 % of the last drawn
+one's.
 
 ## Left
 
-- I4 (blocked, above) (S2's `seatAloft` fallback regression,
-  `s.md` § "For package I"), I5.
+- I5.

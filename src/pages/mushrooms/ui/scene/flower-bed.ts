@@ -6,7 +6,7 @@ import { type Flower, flowerGenes } from '../../model/flower-genes';
 import { soundOf } from '../../model/flower-sounds';
 import type { Action, Meadow } from '../../model/game';
 import { placedAt } from '../../model/geometry';
-import { CLUMP_DISTANCE } from '../../model/ground';
+import { CLUMP_DISTANCE, gathered } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Dip, drinkDip } from '../../model/insect-motion';
 import type { Flier } from '../../model/insects';
@@ -299,7 +299,12 @@ export class FlowerBed implements Following {
     const across = { ...pick(head, 'y'), x: head.x + spot * headR };
     const seat = placedAt(laid.place, turn, { ...across, y: head.y - lift });
     const nectar = placedAt(laid.place, turn, head);
-    const on = { laidFoot: laid.place, stands };
+    const on = {
+      ...pick(laid, 'foot'),
+      laidFoot: laid.place,
+      opening: laid.opening ?? gathered(laid.foot).y,
+      stands,
+    };
     const drawnLift = flowerLiftAt(reach, this.sizes[kind], kind, {
       host: stands.zoom,
       insect: CLUMP_DISTANCE / stands.ahead,
