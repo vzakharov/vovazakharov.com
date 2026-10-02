@@ -53,16 +53,25 @@
   review session folded it into the plan, replied on each thread with that
   commit, and left the code for the bites it named, which is what they asked
   for ("действовать по нему пока не надо").
-- **An operator playing the Artifact mid-bite is the richest input the loop
-  gets.** Bite 12's depth-7 session put five things to try on version 14;
+- **An operator playing the build mid-bite is the richest input the loop
+  gets; it arrives as a stream, and each note is a plan edit, never a
+  queue.** Bite 12's depth-7 session put five things to try on version 14;
   the answer brought four changes and two new asks in three messages
-  (shadows, brow sinking, fly hops, strafe; bee stripes; notes that plant).
-  What worked: each became a plan bullet with his words, then one
-  file-disjoint package per agent in parallel, and the feel questions the
+  (shadows, brow sinking, fly hops, strafe; bee stripes; notes that plant),
+  and its build session got nine notes, each refining the last (tufts as
+  grass, then every tuft a spot, then no tuft where none fits; octave keys
+  stay; a long press; an endless field, then "only grass until he plants").
+  What worked: each note went into the plan in a commit of its own with his
+  words quoted, never held for "after this bite"; the new work ran as one
+  file-disjoint package per agent in parallel; and the feel questions the
   packages raised (strafe lag, a catch bound) went back to him as a short
-  lettered choice — he answered in one line each. A defect with an obvious
-  cause (the bees' first-free slot) was cheaper fixed by the orchestrator
-  than briefed.
+  lettered choice laid out from the player's side — what a child could no
+  longer do — with the agent supplying the costs, so he answered in one
+  line each. A defect with an obvious cause (the bees' first-free slot) was
+  cheaper fixed by the orchestrator than briefed. A "why?" is answered with
+  the old rule's reason and whether it still holds: two of the notes asked
+  "почему?" of a call the agent had made without a reason the operator
+  would accept.
 - **An operator review that asks for a document, not a change, is kept
   verbatim and scheduled.** Mid-handling, the operator posted two game ideas
   and asked for a Russian document on each, weighing them against the code
@@ -88,15 +97,20 @@
   with the subagents still working, cost two short turns and broke nothing.
   A question is not a contract change, so it goes to the plan only when it
   changes what is built.
-- **Operator input lands while an agent holds the code.** The review of
-  idea 1 came in with the gates-and-polish agent busy on `src/`; the
-  orchestrator answered it (a document under `ideas/`, eight replies, one
-  plan line after the agent finished) and the paths never met. The skill
-  should let the orchestrator take operator comments inline, pushing with a
-  pull-then-push, never waiting. An ask about files an agent already holds
-  goes to that agent: a tuft drawn under a planted flower, seen while the
-  last agent worked in `tufts.ts`, went to it through `SendMessage` and came
-  back as its own commit.
+- **Operator input lands while an agent holds the code, and goes to that
+  agent when it touches its work.** The review of idea 1 came in with the
+  gates-and-polish agent busy on `src/`; the orchestrator answered it (a
+  document under `ideas/`, eight replies, one plan line after the agent
+  finished) and the paths never met. The skill should let the orchestrator
+  take operator comments inline, pushing with a pull-then-push, never
+  waiting. An ask about work an agent already holds goes to that agent by
+  `SendMessage`, superseding any earlier message by name, rather than to a
+  fresh one: a tuft drawn under a planted flower, seen while the last agent
+  worked in `tufts.ts`, came back as its own commit; three walking forks
+  (whether left-right turns full circle, the sun as the compass, then real
+  walking) went to the running spec agent and were answered in the one spec
+  it was already writing (2ace9d5); and in bite 12's build the agent built
+  the latest of a chain of notes.
 - **"Pause, I'll take it manually" is a relay with a reset depth.** The
   operator stopped the chain at depth 6 for the night and takes it up by
   hand, which starts a new chain at depth 1. The running agent was told to
@@ -137,24 +151,3 @@
   rain bite starts with its model done. The skill should treat a reorder
   as: wrap up the running agents to a pushed step, move the open bite's
   text into the rest of the elephant whole, and write which part is built.
-- **A design fork the operator raises mid-spec goes to the running spec
-  agent, not a fresh one.** While the walking spec was being written the
-  operator asked whether left-right turns full circle, then that the sun
-  should be the compass, then chose real walking — three `SendMessage`s
-  to the same agent, each answered in the one spec it was already
-  writing (2ace9d5). The orchestrator laid the forks out for the operator
-  from the player's side (what a child could no longer do), which is what
-  let them decide in one line; the agent supplied the costs.
-- **An operator playing mid-bite sends design notes in a stream, each
-  refining the last, and a running agent can take them on the fly.**
-  Bite 12's build session got nine (tufts as grass, then every tuft a
-  spot, then no tuft where none fits; octave keys stay; a long press;
-  an endless field, then "only grass until he plants"). Each went into
-  the plan in a commit of its own with the operator's words quoted, and
-  the one that touched a running agent's step went to it by
-  `SendMessage` at once, superseding the previous message by name; the
-  agent built the latest. The skill should treat a mid-run note as a
-  plan edit plus a forward, never a queue for "after this bite", and
-  answer a "why?" by naming the old rule's reason and whether it still
-  holds: two of the notes asked "почему?" of a call the agent had made
-  without a reason the operator would accept.
