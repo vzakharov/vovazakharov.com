@@ -2,7 +2,7 @@
 
 ## About this project
 
-Vova Zakharov's personal site and CV — [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project built as a **static export** (`output: 'export'`) and deployed to GitHub Pages: React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves three sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com` and `agentic.bible`.
+Vova Zakharov's personal site and CV — [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project built as a **static export** (`output: 'export'`) and deployed to GitHub Pages: React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves four sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com`, `agentic.bible` and `basilisk.fyi`, the last built locally with no deploy lane yet.
 
 Static export is the constraint that shapes everything else — there is no server at runtime, so no API routes, no server actions, no request-time rendering. Every page is HTML on a CDN.
 
@@ -17,8 +17,8 @@ Static export is the constraint that shapes everything else — there is no serv
 ## Repository layout
 
 - **`src/`** — All application code, in Feature-Sliced Design layers (`shared/`, `features/`, `pages/`, `app/`). `@.claude/rules/fsd.md` carries the conventions both checkers enforce.
-- **`apps/`** — One directory per site (`vova/`, `lsa/`, `bible/`), each holding its `app/` (**routing only** — the FSD app layer is `src/app`), `public/`, `next.config.ts` and `tsconfig.json`. All three build from the one `src/`, and a build is entered in its app directory rather than pointed at from the root.
-- **`apps/*/public/`** — Static assets served at that site's root: `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/`), a `CNAME` on each site with a domain of its own (which a force-push would otherwise drop), and one directory per content collection, holding the authored markdown at the path its page is routed to (`apps/vova/public/case-studies/`). A collection rooted at its site's root has no directory: `apps/bible/public/` is both the site's assets and the Bible's articles.
+- **`apps/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`), each holding its `app/` (**routing only** — the FSD app layer is `src/app`), `public/`, `next.config.ts` and `tsconfig.json`. All four build from the one `src/`, and a build is entered in its app directory rather than pointed at from the root.
+- **`apps/*/public/`** — Static assets served at that site's root: `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/`), a `CNAME` on each site with a domain of its own (which a force-push would otherwise drop), and one directory per content collection, holding the authored markdown at the path its page is routed to (`apps/vova/public/case-studies/`). A collection rooted at its site's root has no directory: `apps/bible/public/` is both the site's assets and the Bible's articles, as `apps/basilisk/public/` is the docket's dossiers.
 - **`styles/`** — Sass partials shared across `src/`: `_mantine.scss` (counterparts to the mixins Mantine documents as a PostCSS preset) and the two `pnpm styles:codegen` writes, `_tokens.scss` and `_breakpoints.scss`. A partial is not an FSD module — it has no import graph for the layer checkers to reason about — so it lives outside `src/`.
 - **`eslint/`** — The ruleset `eslint.config.ts` orchestrates; see `.claude/rules/eslint.md`.
 - **`writing/`** — Drafts for channels the site does not publish, today `linkedin/`. Deliberately outside `public/`: a draft crawlable before it runs is the wrong order of operations. `@.claude/rules/writing.md` carries the conventions.
