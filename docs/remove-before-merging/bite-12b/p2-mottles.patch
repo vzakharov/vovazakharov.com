@@ -1,0 +1,415 @@
+diff --git a/src/pages/mushrooms/ui/scene/lawn.ts b/src/pages/mushrooms/ui/scene/lawn.ts
+index a880bc57..3a4b73ef 100644
+--- a/src/pages/mushrooms/ui/scene/lawn.ts
++++ b/src/pages/mushrooms/ui/scene/lawn.ts
+@@ -1,8 +1,8 @@
+ /**
+  * The ground's lawn, laid by square cells of the plane the eye walks: each
+- * cell grows its own tufts from its own stream (`cellTufts`), so a cell's
+- * grass is a pure function of the visit and the cell, and a walk back finds
+- * the grass it left. Only the cells round the eye live (`liveCells`), and
++ * cell grows its own tufts and mottles from its own stream (`cellLawn`), so
++ * a cell's grass is a pure function of the visit and the cell, and a walk
++ * back finds the grass it left. Only the cells round the eye live (`liveCells`), and
+  * they change as the eye crosses a cell's edge (`LiveLawn`).
+  */
+ 
+@@ -13,6 +13,7 @@ import { FLOWER_SIZE, standingOn } from './flower-layout';
+ import type { Stand } from './flower-sight';
+ import { tuftOn, type WithTuft } from './grass';
+ import type { MeadowLayout } from './layout';
++import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';
+ import { PALE_SPAN } from './repaint-queue';
+ 
+ /** A tuft the child can plant on, and the foot on the plane a flower planted there stands on. */
+@@ -89,10 +90,18 @@ export function regrowTufts(
+ /** A lawn: the visit's `seed`, which every cell's stream is drawn off, laid out on `layout`. */
+ export type Lawn = Seeded & Pick<Stand, 'layout'>;
+ 
+-/** The `TUFTS_PER_CELL` tufts `cell` of `lawn` grows, anywhere in the cell, each in a flower's size. */
+-export function cellTufts(lawn: Lawn, cell: Cell): Sprout[] {
++/** What a cell of the lawn grows: its tufts and its mottles. */
++export type CellLawn = { tufts: Sprout[]; mottles: Mottle[] };
++
++/**
++ * What `cell` of `lawn` grows, anywhere in the cell, from the cell's own
++ * stream: `TUFTS_PER_CELL` tufts, each in a flower's size, then
++ * `MOTTLES_PER_CELL` mottles, drawn after the tufts so they leave the tufts'
++ * draws as they are.
++ */
++export function cellLawn(lawn: Lawn, cell: Cell): CellLawn {
+   const random = mulberry32(cellSeed(lawn.seed, cell));
+-  return Array.from({ length: TUFTS_PER_CELL }, () => {
++  const tufts = Array.from({ length: TUFTS_PER_CELL }, () => {
+     const foot = {
+       x: (cell.i + random()) * CELL,
+       y: (cell.j + random()) * CELL,
+@@ -100,19 +109,30 @@ export function cellTufts(lawn: Lawn, cell: Cell): Sprout[] {
+     };
+     return sproutOn(lawn.layout, foot, random);
+   });
++  const corner = { x: cell.i * CELL, y: cell.j * CELL };
++  const mottles = Array.from({ length: MOTTLES_PER_CELL }, () =>
++    mottleIn(random, corner, CELL),
++  );
++  return { tufts, mottles };
++}
++
++/** The tufts `cell` of `lawn` grows (`cellLawn`). */
++export function cellTufts(lawn: Lawn, cell: Cell): Sprout[] {
++  return cellLawn(lawn, cell).tufts;
+ }
+ 
+ const keyOf = ({ i, j }: Cell) => `${String(i)},${String(j)}`;
+ 
+ /**
+- * The lawn's live tufts as the eye walks: those of the cells live round the
+- * eye's cell (`liveCells`), each cell grown once while it lives and grown
+- * the same again when it comes back.
++ * The lawn's live tufts and mottles as the eye walks: those of the cells
++ * live round the eye's cell (`liveCells`), each cell grown once while it
++ * lives and grown the same again when it comes back.
+  */
+ export class LiveLawn {
+-  private cells = new Map<string, readonly Sprout[]>();
++  private cells = new Map<string, CellLawn>();
+   private at: Cell | undefined;
+   private tufts: readonly Sprout[] = [];
++  private liveMottles: readonly Mottle[] = [];
+ 
+   private readonly lawn: Lawn;
+ 
+@@ -126,20 +146,27 @@ export class LiveLawn {
+     if (this.at?.i === cell.i && this.at.j === cell.j) {
+       return this.tufts;
+     }
+-    const cells = new Map<string, readonly Sprout[]>();
++    const cells = new Map<string, CellLawn>();
+     for (const live of liveCells(cell)) {
+       const key = keyOf(live);
+-      cells.set(key, this.cells.get(key) ?? cellTufts(this.lawn, live));
++      cells.set(key, this.cells.get(key) ?? cellLawn(this.lawn, live));
+     }
+     this.cells = cells;
+     this.at = cell;
+-    this.tufts = [...cells.values()].flat();
++    const grown = [...cells.values()];
++    this.tufts = grown.flatMap(({ tufts }) => tufts);
++    this.liveMottles = grown.flatMap(({ mottles }) => mottles);
+     return this.tufts;
+   }
+ 
++  /** The live cells' mottles as of the last `round`. */
++  get mottles(): readonly Mottle[] {
++    return this.liveMottles;
++  }
++
+   /** The tufts of the cell `foot` stands in, live or not. */
+   of(foot: Point): readonly Sprout[] {
+     const cell = cellOf(foot);
+-    return this.cells.get(keyOf(cell)) ?? cellTufts(this.lawn, cell);
++    return this.cells.get(keyOf(cell))?.tufts ?? cellTufts(this.lawn, cell);
+   }
+ }
+diff --git a/src/pages/mushrooms/ui/scene/mottles.test.ts b/src/pages/mushrooms/ui/scene/mottles.test.ts
+new file mode 100644
+index 00000000..f034151d
+--- /dev/null
++++ b/src/pages/mushrooms/ui/scene/mottles.test.ts
+@@ -0,0 +1,88 @@
++import assert from 'node:assert/strict';
++import { describe, it } from 'node:test';
++
++import { distanceBetween } from '../../model/geometry';
++import { D_SEE, OPENING_EYE } from '../../model/ground';
++import { CELL, cellLawn, cellOf, cellTufts, type Lawn, LiveLawn } from './lawn';
++import { type Mottle, MOTTLES_PER_CELL, shownMottles } from './mottles';
++import { viewAt } from './view';
++import { VIEWPORTS } from './viewports';
++import { opened } from './visit-play';
++
++const lawnOn = (width: number, height: number, seed = 7): Lawn => ({
++  seed,
++  layout: opened(seed, width, height, false).layout,
++});
++
++describe('the lawn’s mottles', () => {
++  it('grows each cell’s mottles in the cell, the same every time, its tufts as they were', () => {
++    const lawn = lawnOn(1180, 820);
++    for (const cell of [
++      { i: 0, j: 2 },
++      { i: -3, j: -1 },
++      { i: 40, j: -25 },
++    ]) {
++      const { tufts, mottles } = cellLawn(lawn, cell);
++      assert.equal(mottles.length, MOTTLES_PER_CELL);
++      for (const { middle } of mottles) assert.deepEqual(cellOf(middle), cell);
++      assert.deepEqual(cellLawn(lawn, cell).mottles, mottles);
++      assert.deepEqual(cellTufts(lawn, cell), tufts);
++    }
++  });
++
++  it('finds the same mottles walking away and back', () => {
++    const live = new LiveLawn(lawnOn(1180, 820));
++    live.round(OPENING_EYE);
++    const here = live.mottles;
++    assert.ok(here.length > 0);
++    live.round({ ...OPENING_EYE, x: 30 * CELL, y: -12 * CELL });
++    assert.notDeepEqual(live.mottles, here);
++    live.round(OPENING_EYE);
++    assert.deepEqual(live.mottles, here);
++  });
++
++  for (const [name, width, height] of VIEWPORTS) {
++    it(`lies flat on the ground of the ${name}, short of the brow, at every heading`, () => {
++      const lawn = lawnOn(width, height);
++      const live = new LiveLawn(lawn);
++      live.round(OPENING_EYE);
++      const { camera } = lawn.layout;
++      for (const heading of [0, 1, Math.PI, -2.4]) {
++        const view = viewAt(camera, { ...OPENING_EYE, heading });
++        const shown = shownMottles(view, live.mottles);
++        assert.ok(shown.length > 0, `heading ${String(heading)}`);
++        for (const { rings, alpha } of shown) {
++          assert.ok(alpha > 0);
++          const [outer, inner] = rings;
++          const span = (ring: typeof inner, axis: 'x' | 'y') =>
++            Math.max(...ring.map((point) => point[axis])) -
++            Math.min(...ring.map((point) => point[axis]));
++          // Seen from a child's height, a patch on the ground is wider than deep.
++          assert.ok(span(inner, 'y') < span(inner, 'x'));
++          assert.ok(span(outer, 'x') > span(inner, 'x'));
++        }
++      }
++    });
++  }
++
++  it('draws none past the brow, nor behind the eye', () => {
++    const { layout } = { layout: lawnOn(1180, 820).layout };
++    const at = (y: number): Mottle => ({
++      middle: { x: 0, y },
++      across: 1,
++      along: 0.6,
++      angle: 0,
++      deep: true,
++    });
++    const view = viewAt(layout.camera, OPENING_EYE);
++    assert.equal(shownMottles(view, [at(5)]).length, 1);
++    assert.equal(shownMottles(view, [at(D_SEE)]).length, 0);
++    assert.equal(shownMottles(view, [at(-5)]).length, 0);
++    const far = at(D_SEE - 1.6);
++    const near = at(D_SEE - 6);
++    const [fading] = shownMottles(view, [far]);
++    const [whole] = shownMottles(view, [near]);
++    assert.ok(fading && whole && fading.alpha < whole.alpha);
++    assert.ok(distanceBetween(OPENING_EYE, far.middle) < D_SEE);
++  });
++});
+diff --git a/src/pages/mushrooms/ui/scene/mottles.ts b/src/pages/mushrooms/ui/scene/mottles.ts
+new file mode 100644
+index 00000000..308e7a1f
+--- /dev/null
++++ b/src/pages/mushrooms/ui/scene/mottles.ts
+@@ -0,0 +1,153 @@
++/**
++ * The ground's mottles: flattened patches a little lighter or deeper than the
++ * ground round them, so the meadow reads as rolling. Each lies on the plane,
++ * grown by a cell of the lawn (`cellMottles`), so a walk back finds the same
++ * ones, and is drawn flat on the ground through each frame's view, fading
++ * out before the brow, where the ground goes under.
++ */
++
++import type * as Phaser from 'phaser';
++
++import { distanceBetween, type Point } from '../../model/geometry';
++import { D_SEE, viewOf } from '../../model/ground';
++import { smooth } from '../../model/motion';
++import { between, type Random } from '../../model/random';
++import { DEPTHS } from './backdrop-depths';
++import { mix } from './colour';
++import { PALETTE } from './palette';
++import { V_NEAR, type View } from './view';
++
++/** How many mottles a cell of the lawn grows. */
++export const MOTTLES_PER_CELL = 3;
++
++/** How far across a mottle reaches from its middle, in the clump's size, and its reach along as a share of that. */
++const ACROSS = [0.6, 1.4] as const;
++const ALONG = [0.45, 0.85] as const;
++
++/** A mottle's alpha, split over its two rings, and its share of the way from the ground toward the lit or the deep ground. */
++const MOTTLE_ALPHA = 0.16;
++const MOTTLE_TONE = 0.3;
++/** How much wider a mottle's outer ring reaches than its inner one, so its edge is soft. */
++const SOFT_EDGE = 1.3;
++/** How many points round a ring. */
++const RING_STEPS = 16;
++/** How far short of `D_SEE` a mottle's far edge, in the clump's size, starts fading out. */
++const FADE_SPAN = 2;
++
++/** The depth mottles are drawn at: over the ground's rows, under the brow that covers the ground past `D_SEE`. */
++export const MOTTLE_DEPTH = (DEPTHS.ground + DEPTHS.brow) / 2;
++
++/**
++ * A mottle on the plane: its middle, how far it reaches across and along
++ * from it, in the clump's size, turned `angle` radians on the plane, and
++ * whether it is deeper than the ground or lighter.
++ */
++export type Mottle = {
++  middle: Point;
++  across: number;
++  along: number;
++  angle: number;
++  deep: boolean;
++};
++
++/** A mottle drawn from `random` anywhere in the square `side` wide from `corner`, on the plane. */
++export function mottleIn(random: Random, corner: Point, side: number): Mottle {
++  const middle = {
++    x: corner.x + random() * side,
++    y: corner.y + random() * side,
++  };
++  const across = between(random, ...ACROSS);
++  return {
++    middle,
++    across,
++    along: across * between(random, ...ALONG),
++    angle: random() * Math.PI,
++    deep: random() < 0.5,
++  };
++}
++
++/** A mottle as a frame draws it: its two rings on the screen, outer first, its colour and each ring's alpha. */
++export type ShownMottle = {
++  rings: readonly [Point[], Point[]];
++  colour: number;
++  alpha: number;
++};
++
++/** `mottle`'s outline `reach` times its size, on the plane. */
++function ringOf(
++  { middle, across, along, angle }: Mottle,
++  reach: number,
++): Point[] {
++  const [cos, sin] = [Math.cos(angle), Math.sin(angle)];
++  return Array.from({ length: RING_STEPS }, (_, step) => {
++    const turn = (step / RING_STEPS) * Math.PI * 2;
++    const [u, v] = [
++      across * reach * Math.cos(turn),
++      along * reach * Math.sin(turn),
++    ];
++    return { x: middle.x + u * cos - v * sin, y: middle.y + u * sin + v * cos };
++  });
++}
++
++/**
++ * Where `view` draws each of `mottles`, flat on the ground: every point of
++ * its rings through the view. One with any of its outer ring nearer ahead
++ * than half `V_NEAR`, under the screen's bottom or behind the eye, is not
++ * drawn, nor one standing wholly off the screen; one fades out as its far
++ * edge nears `D_SEE`, gone by it.
++ */
++export function shownMottles(
++  view: View,
++  mottles: readonly Mottle[],
++): ShownMottle[] {
++  const { eye, width, height } = view;
++  const forward = { x: Math.sin(eye.heading), y: Math.cos(eye.heading) };
++  return mottles.flatMap((mottle) => {
++    const reach = mottle.across * SOFT_EDGE;
++    const far = distanceBetween(eye, mottle.middle) + reach;
++    const fade = 1 - smooth((far - (D_SEE - FADE_SPAN)) / FADE_SPAN);
++    if (fade <= 0) return [];
++    const outer = ringOf(mottle, SOFT_EDGE);
++    const ahead = ({ x, y }: Point) =>
++      (x - eye.x) * forward.x + (y - eye.y) * forward.y;
++    if (outer.some((point) => ahead(point) < V_NEAR / 2)) return [];
++    const onScreen = (plane: readonly Point[]) =>
++      plane.map((point) => viewOf(view, eye, point, 0));
++    const drawn = onScreen(outer);
++    const xs = drawn.map(({ x }) => x);
++    const ys = drawn.map(({ y }) => y);
++    const off =
++      Math.max(...xs) < 0 ||
++      Math.min(...xs) > width ||
++      Math.max(...ys) < 0 ||
++      Math.min(...ys) > height;
++    if (off) return [];
++    const tone = mottle.deep ? PALETTE.groundDeep : PALETTE.groundLit;
++    return [
++      {
++        rings: [drawn, onScreen(ringOf(mottle, 1))],
++        colour: mix(PALETTE.ground, tone, MOTTLE_TONE),
++        alpha: (MOTTLE_ALPHA / 2) * fade,
++      },
++    ];
++  });
++}
++
++/** `shown` into `graphics` cleared for them, each ring over the last. */
++export function paintMottles(
++  graphics: Phaser.GameObjects.Graphics,
++  shown: readonly ShownMottle[],
++): void {
++  graphics.clear();
++  for (const { rings, colour, alpha } of shown) {
++    graphics.fillStyle(colour, alpha);
++    for (const ring of rings) {
++      // A path rather than `fillShape`, whose Phaser vectors would keep this
++      // module from loading outside the browser.
++      graphics.beginPath();
++      for (const { x, y } of ring) graphics.lineTo(x, y);
++      graphics.closePath();
++      graphics.fillPath();
++    }
++  }
++}
+diff --git a/src/pages/mushrooms/ui/scene/tufts.ts b/src/pages/mushrooms/ui/scene/tufts.ts
+index 2e3fd6a6..ea70bfca 100644
+--- a/src/pages/mushrooms/ui/scene/tufts.ts
++++ b/src/pages/mushrooms/ui/scene/tufts.ts
+@@ -51,6 +51,7 @@ import {
+ } from './grass';
+ import { LiveLawn, regrowTufts, type Sprout, sproutOn } from './lawn';
+ import type { MeadowLayout } from './layout';
++import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
+ import { PALE_SPAN } from './repaint-queue';
+ import { bareToTap, middleOf, tuftAt } from './tuft-tap';
+ import {
+@@ -245,6 +246,10 @@ export class Grass {
+   private readonly graphics: Phaser.GameObjects.Graphics;
+   /** The ground's tufts past its top row, sinking under the ground as the beds' things there do (`depthOf`). */
+   private readonly behind: Phaser.GameObjects.Graphics;
++  /** The lawn's mottles, flat on the ground under everything standing on it. */
++  private readonly mottled: Phaser.GameObjects.Graphics;
++  /** The view the mottles were last drawn through, which they stand still under. */
++  private mottledFor: View | undefined;
+   /** The stream every tuft a pulled flower leaves is drawn from, and the lawn's seed, so a replay grows the same. */
+   private readonly growing: Random;
+   /** The seed every cell of the lawn is grown off (`cellTufts`). */
+@@ -271,6 +276,7 @@ export class Grass {
+     this.behind = scene.add
+       .graphics()
+       .setDepth(depthOf({ ...UNPLACED, behind: true }));
++    this.mottled = scene.add.graphics().setDepth(MOTTLE_DEPTH);
+     this.growing = growing;
+     this.seed = Math.floor(growing() * 2 ** 32);
+     grassOf.set(scene, this);
+@@ -336,12 +342,16 @@ export class Grass {
+ 
+   /** The grass as it bends at `t` through the view last followed, the tuft on `open`, the flower picker's, marked. */
+   update(t: number, open: Footing | undefined): void {
+-    const { graphics, behind, view, refused, tufts, seam } = this;
++    const { graphics, behind, view, refused, tufts, seam, lawn } = this;
+     behind.clear();
+     if (!view) {
+       graphics.clear();
+       return;
+     }
++    if (lawn && view !== this.mottledFor) {
++      paintMottles(this.mottled, shownMottles(view, lawn.mottles));
++      this.mottledFor = view;
++    }
+     const shown = shownSprouts(view, tufts);
+     this.shown = shown;
+     const drawn = [...shown.near, ...shown.behind];
