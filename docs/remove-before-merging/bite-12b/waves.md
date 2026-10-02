@@ -132,6 +132,15 @@ offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
   `layout.mushrooms.anchor`; air `fromEye` from the anchored view;
   shared pairings arrays. I3–I5 not started.
 
+- **L″** — 9a7d9116: a bee's ring on the plane (`ringFoot(parent, ring,
+  anchor)`, `RING_DEPTH` 1.5, turned by the anchor's heading), planted
+  flowers spaced by plane distance; the seeded bed keeps its screen
+  spacing (`apartOnGround`/`clearOnGround`, private) so the opening is
+  unchanged — kept. Step 2 half-built as `l3c-step2.patch` (the cut stand
+  inside `anchoredStand`, `STAND_REACH`, caches, `judgedFrom`,
+  `takesFlower(stand, foot, eye)`); left in `l.md` § "L3c". Steps 3–5 not
+  started.
+
 ## Wave 5
 
 L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half
