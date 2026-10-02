@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 
 import { type Layered, OPENING_EYE } from '../../model/ground';
 import type { Random } from '../../model/random';
+import { DEPTHS } from './backdrop-depths';
 import {
   bakeTiles,
   onPixels,
@@ -88,23 +89,6 @@ export type Backdrop = Following & {
 
 /** The side of a finished picture's square baked at a time, in texels, so the supersampled scratch stays 2048² whatever the screen. */
 const TILE = 1024;
-
-/**
- * Each part of the backdrop's depth, back to front, all under everything in
- * the meadow, so a column a repaint adds stacks where its picture does.
- */
-const DEPTHS = {
-  sky: -9,
-  glow: -8,
-  sun: -7,
-  clouds: -6,
-  farHills: -5,
-  nearHills: -4,
-  ground: -3,
-  brow: -2.5,
-  wash: -2,
-  grain: -1,
-} as const;
 
 /**
  * What a picture is baked from and where it lies: its stretch across the

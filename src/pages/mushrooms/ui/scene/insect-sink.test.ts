@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { EYE_HEIGHT, OPENING_EYE } from '../../model/ground';
+import { DEPTHS } from './backdrop-depths';
 import { sinkingAloft } from './insect-frame';
 import { sinkingOf } from './insect-sink';
 import { meadowCamera } from './meadow-camera';
@@ -10,8 +11,6 @@ import { VIEWPORTS } from './viewports';
 
 /** Where the insects are drawn this side of the brow. */
 const ABOVE = 1.5e5;
-/** The depths of `paint-backdrop.ts`'s near hills and ground, which what sinks stands between. */
-const [NEAR_HILLS, GROUND] = [-4, -3];
 /** An insect's open wings, in CSS px at its own size. */
 const SPAN = 40;
 
@@ -40,7 +39,9 @@ describe('an insect behind the brow', () => {
             assert.deepEqual(sunk, { depth: ABOVE, alpha: 1, shown: true });
             continue;
           }
-          assert.ok(sunk.depth > NEAR_HILLS && sunk.depth < GROUND);
+          assert.ok(
+            sunk.depth > DEPTHS.nearHills && sunk.depth < DEPTHS.ground,
+          );
           assert.ok(sunk.alpha < 1 && sunk.alpha >= 0.8);
           // Lower against the brow the farther it stands.
           const below = drawn.y - browRow(view, drawn.x);

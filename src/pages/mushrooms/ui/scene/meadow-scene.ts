@@ -20,7 +20,7 @@ import { controlActions, type ControlScene } from './control-actions';
 import { Controls } from './controls';
 import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
-import type { Stand } from './flower-sight';
+import { type Stand, standOf } from './flower-sight';
 import { InsectView } from './insect-view';
 import { Instrument } from './instrument';
 import { playTheMeadow } from './instrument-input';
@@ -267,11 +267,7 @@ export class MeadowScene extends Phaser.Scene {
   private stand(): Stand | undefined {
     const { layout, flowers, meadow } = this;
     if (!layout || !meadow) return undefined;
-    return {
-      layout,
-      flowers: flowers?.seeded ?? [],
-      ...pick(meadow, 'mushrooms', 'planted', 'pulled'),
-    };
+    return standOf(layout, flowers?.seeded ?? [], meadow);
   }
 
   private fliers(): readonly Flier[] {
