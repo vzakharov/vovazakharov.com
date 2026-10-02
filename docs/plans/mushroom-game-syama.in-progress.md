@@ -42,8 +42,8 @@ The operator delegated the whole loop and does not step in until the end
    `writing/notes/the-five-percent.md` is the reading list (the frame taken
    as given, an account standing in for running it, reasoning written into
    the artifact, the copy edited instead of the fact, the render checked
-   against intent rather than the page), and it plays the page before
-   judging the look. It posts one PR review with inline comments; the same
+   against intent rather than the page); it reads the diff and the
+   frames, and does not play the page. It posts one PR review with inline comments; the same
    session fixes each finding and replies on GitHub (never resolving), or
    hands them to the next bite's session as its first work when the budget
    is spent. A structural bite (12b) keeps a review session of its own.
@@ -80,6 +80,13 @@ Standing rules for every session in the chain:
 - **Stop and ask only for the unrecoverable** — the operator's line is
   "взломать весь интернет, стереть мой локальный диск". Everything else is
   decided, written into this plan as the decision, and carried on.
+- **No play runs; the operator plays by hand.** Play agents and the
+  five-screen run cost more than building the game («эти прогоны занимают
+  больше времени (и токенов) чем собственно написание игры»), so every
+  package ends at its unit tests and gates, and adds to
+  [to-check.md](mushroom-game-syama/to-check.md) what a person should look
+  at to confirm it — kept from session to session, checked when he gets to
+  it, not on any schedule. `pnpm play:mushrooms` stays in the tree, unrun.
 - **Every bite ends by committing the frames worth showing** — picked from
   `tmp/play/`, not the whole run — to
   `docs/remove-before-merging/frames/bite-<n>/`, so the operator can look in
@@ -351,26 +358,23 @@ with his words and what it beat: `bite-12/v14.md`.
    `v14-note-plant` (played, tabL), `v14-insect-depth` and `v14-fly`
    (played by `v14-insect-play.md`; any fix it left is the next work).
    Notes beside `brief-common.md`. The Artifact is still version 14.
-1a. **Insects fly under the ground** (`v14-insect-play.md`): the shadows
-   show a leg's drawn height going below 0 (to −1.76 sizes) in ~29% of
-   tabL's meadow frames, a leg being mixed in screen space and read back
-   by `aloftFramed`. Decided: keep the height ≥ 0 in the flight itself;
-   fading the shadow beaten (hides it, leaves insects underground). Then
-   phoneP's insect play and a fly mid-hop (a play holding a fly past
-   arrival).
-1b'. `v14-catch` (above), built then played by a second agent.
-1c. The new reds `play-final2.md` found on the tablets at 483be26, once 1b's
-   insect packages land (they own the files): insects flipping ~3 rad in
-   one frame, facing off their way of flight and resting crooked (a child
-   sees that one); no butterfly resting on a cap on tabL; tabP's hold play
-   pressing a flower not drawn; a faint pale line across the sky at
-   ~280–294 px. The tabL size minimums predate sizing by distance: update
-   the check, not the game.
-2. The five-screen play run at the final HEAD, after 1b and 1c, one screen per call, its frames
-   committed (`play-final.md`; ~9 min on tabL): spec §4's opening identity, the
-   walk to a back-row mushroom and a tap on its drawn cap, an insect after
-   180°, the frame budget walking into the forest; the phoneL edge flower
-   judged (`brow-round.md`).
+1a. **Insects fly under the ground** (`v14-insect-play.md`): a leg's drawn
+   height goes below 0 (to −1.76 sizes), a leg being mixed in screen space
+   and read back by `aloftFramed`. Decided: keep the height ≥ 0 in the
+   flight itself; fading the shadow beaten (hides it, leaves insects
+   underground). Package `v14-aloft`, building.
+1b'. ~~`v14-catch`~~ — built (2bd99a9, 9f96587); a new leg to another perch
+   with a dart off it, not a burst on the current leg. On `to-check.md`.
+1c. The tablet reds `play-final2.md` found at 483be26, fixed in code from
+   that report, once `v14-aloft` lands (it owns the flight files): insects
+   flipping ~3 rad in one frame, facing off their way of flight and resting
+   crooked (a child sees that one); no butterfly resting on a cap; a faint
+   pale line across the sky at ~280–294 px on tabL. The play harness's own
+   reds (tabP's hold pressing an undrawn flower, tabL's size minimums) go
+   with the play run.
+2. ~~The five-screen play run~~ — dropped for the operator's hand checks
+   (§ "How this elephant is eaten"); what it would have judged is on
+   `to-check.md`.
 3. ~~The footstep level~~ — put to the operator's ear with Artifact version 14
    (`STEP_PEAK` 1.5, ~10 dB under a C5); it changes only on his word.
 4. The review subagent (§ "How this elephant is eaten" step 2) and its fixes.

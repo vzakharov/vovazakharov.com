@@ -1,5 +1,17 @@
 # The play run and frames
 
+- **The play run's cost can outgrow the build, and then the operator's own
+  hands replace it.** By bite 12 the play agents, the five-screen run and
+  their fixes to the harness cost more time and tokens than the game code
+  they checked, and the operator stopped them («эти прогоны занимают больше
+  времени (и токенов) чем собственно написание игры»): each package now
+  ends at its unit tests and adds what a person should look at to a
+  standing `to-check.md`, carried across sessions and checked whenever he
+  gets to it. The skill should weigh the run against the build it guards
+  from the start, and offer the hand checklist as the default once a
+  playable Artifact exists, keeping the scripted run for regressions a
+  person cannot see (a page error, a frame budget).
+
 ## The play script
 
 - **Looking at a canvas page needs its own recipe, committed as a script,
