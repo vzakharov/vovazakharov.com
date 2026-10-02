@@ -285,8 +285,7 @@ export function pace(
  * One-frame steps per kind: a dashing kind's, over its own size (`zoom`),
  * held to `DASH_SLACK` of its dash curve's fastest frame (`dashPeak`),
  * or past it by `pivotAllowance` on a leg its flier turned on its perch
- * first; a
- * butterfly's, which never dashes, as drawn, to a twentieth of the screen's
+ * first, by how far it turned; a butterfly's, which never dashes, as drawn, to a twentieth of the screen's
  * width. A step over a frame the browser ran late counts at a 60 fps frame's
  * share of it, so the bound stays the curve's per frame. The worst of each,
  * drawn and at its own size, is logged, and the worst steps past a bound
@@ -325,7 +324,7 @@ export function flicks(
     const bounds =
       ownBound === undefined
         ? ''
-        : `${fixed(ownBound, 1)} px (${fixed(ownBound * pivotAllowance(Math.PI), 1)} after a pivot)`;
+        : `${fixed(ownBound, 1)} px (${fixed(ownBound * pivotAllowance(Math.PI), 1)} after a half-turn pivot)`;
     const pastDrawn = own.filter(
       ({ step }) => drawnBound !== undefined && step > drawnBound,
     );
