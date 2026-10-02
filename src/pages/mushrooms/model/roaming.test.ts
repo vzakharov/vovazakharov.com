@@ -10,14 +10,13 @@ import {
   type Perch,
   type Perches,
 } from './flight';
-import type { Point } from './geometry';
+import { type Point, wrap } from './geometry';
 import {
   bodyTurn,
   carriedFrom,
   flyingTurn,
   turned,
   type Turns,
-  wrap,
 } from './insect-motion';
 import { type Carried, flightPoint, heading, type Path } from './insect-paths';
 import { between, mulberry32 } from './random';

@@ -9,7 +9,7 @@
 import type { Flight, Leg } from './flight';
 import type { Flower } from './flower-genes';
 import type { Rooted } from './ground';
-import { mulberry32, nextSeed, pick, type Seeded } from './random';
+import { nextSeed, pick, saltedStream, type Seeded } from './random';
 
 /** How many specks of pollen a bee's baskets hold at most. */
 export const POLLEN_MOST = 3;
@@ -150,13 +150,10 @@ export function sown(
       flower === parent && !slotTaken(planted, parent, ring),
   );
   if (first === undefined) return undefined;
-  const { ring } = pick(mulberry32(((seed ^ SLOT_SALT) + legs) >>> 0), [
-    first,
-    ...rest,
-  ]);
+  const { ring } = pick(saltedStream(seed, SLOT_SALT, legs), [first, ...rest]);
   return {
     id: plantedId(planted),
-    seed: nextSeed(mulberry32(((seed ^ SOW_SALT) + legs) >>> 0)),
+    seed: nextSeed(saltedStream(seed, SOW_SALT, legs)),
     parent,
     ring,
   };

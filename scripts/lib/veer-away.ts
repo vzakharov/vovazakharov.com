@@ -81,6 +81,10 @@ function drawnLength(view: View, from: Aloft, to: Aloft, unit: number): number {
 
 const fixed = (value: number, digits = 2) => value.toFixed(digits);
 
+/** A way's timed and drawn lengths, in sizes, and the fastest step a `peak` px dash takes over it. */
+const ratio = (peak: number, timed: number, drawn: number) =>
+  `timed ${fixed(timed)} drawn ${fixed(drawn)} sizes, ×${fixed(drawn / timed)} → fastest ${fixed((peak * drawn) / timed, 1)} px`;
+
 for (const [screen, width, height] of SCREENS) {
   const stand = opened(3, width, height, false);
   const { layout, mushrooms } = stand;
@@ -115,9 +119,7 @@ for (const [screen, width, height] of SCREENS) {
         const again = leavingAloft(view, side, away, from);
         still = Math.max(still, Math.hypot(again.x - end.x, again.y - end.y));
         const drawn = drawnLength(view, from, end, unit);
-        ratios.push(
-          `${name}→away ${side}: timed ${fixed(timed)} drawn ${fixed(drawn)} sizes, ×${fixed(drawn / timed)} → fastest ${fixed((peak * drawn) / timed, 1)} px`,
-        );
+        ratios.push(`${name}→away ${side}: ${ratio(peak, timed, drawn)}`);
       }
     }
     process.stdout.write(
@@ -137,7 +139,7 @@ for (const [screen, width, height] of SCREENS) {
         const rest = apartIn(shown, { kind: 'away', side }, to) ?? Number.NaN;
         return drawnLength(view, set.out ?? set.from, aloft, unit) / rest;
       });
-      return `${side}: out timed ${fixed(timed)} drawn ${fixed(drawn)} sizes, ×${fixed(drawn / timed)} → fastest ${fixed((peak * drawn) / timed, 1)} px; on to the air ×${fixed(Math.min(...air))}–${fixed(Math.max(...air))}`;
+      return `${side}: out ${ratio(peak, timed, drawn)}; on to the air ×${fixed(Math.min(...air))}–${fixed(Math.max(...air))}`;
     });
     process.stdout.write(
       `${screen} ${kind}, released out of view:\n  ${outs.join('\n  ')}\n`,

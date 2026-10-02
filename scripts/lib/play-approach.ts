@@ -42,6 +42,8 @@ import {
   Camera,
   type Controls,
   type Expect,
+  Eye,
+  grow,
   inTurn,
   type Page,
   Point,
@@ -193,15 +195,16 @@ export async function playApproach(
     (await stands()).find((stand) => stand.id === id);
   const screen = await page.evaluate('__probe.scene.layout.camera', Camera);
   const { arc } = pinholeOf(screen);
+  // A frame at a time, since `page.step(n)` draws and times only its last.
+  const stepEach = async (frames: number) =>
+    inTurn([...Array.from({ length: frames }).keys()], async () =>
+      page.step(1),
+    );
 
   // The forest, grown from `+` and the picker's buttons in turn.
-  await inTurn([...Array.from({ length: GROWN }).keys()], async (index) => {
-    await page.tap(controls.plus);
-    await page.step(30);
-    const button = controls.picker[index % controls.picker.length];
-    if (button) await page.tap(button);
-    await page.step(90);
-  });
+  await inTurn([...Array.from({ length: GROWN }).keys()], async (index) =>
+    grow(page, controls, controls.picker[index % controls.picker.length]),
+  );
   const grown = await state();
   note(`the forest stands ${String(grown.mushrooms.length)} mushrooms`);
 
@@ -256,14 +259,9 @@ export async function playApproach(
   };
   const reached = await walkUp(0);
   await page.key('ArrowUp', 'keyUp');
-  await inTurn([...Array.from({ length: SETTLE }).keys()], async () =>
-    page.step(1),
-  );
+  await stepEach(SETTLE);
   const close = await standOf(target.id);
-  const eye = await page.evaluate(
-    '__probe.eye()',
-    z.object({ x: z.number(), y: z.number() }),
-  );
+  const eye = await page.evaluate('__probe.eye()', Eye);
   expect(
     close !== undefined && close.zoom >= CLOSE,
     `↑ walked up to ${target.id} until it was drawn ${String(reached?.zoom.toFixed(2))} times its opening size, short of ${String(CLOSE)} (the eye at ${eye.x.toFixed(2)}, ${eye.y.toFixed(2)})`,
@@ -322,14 +320,10 @@ export async function playApproach(
   // Turned there, at the closest approach, one way and back.
   await inTurn(['ArrowRight', 'ArrowLeft'] as const, async (key) => {
     await page.key(key, 'keyDown');
-    await inTurn([...Array.from({ length: FPS * 2 }).keys()], async () =>
-      page.step(1),
-    );
+    await stepEach(FPS * 2);
     if (key === 'ArrowRight') await page.shoot('final-close-turn');
     await page.key(key, 'keyUp');
-    await inTurn([...Array.from({ length: FPS }).keys()], async () =>
-      page.step(1),
-    );
+    await stepEach(FPS);
   });
   const frames = page.rendered.slice(timed);
   const slow = overBudget(frames);

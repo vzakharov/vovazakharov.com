@@ -31,6 +31,18 @@ export function mulberry32(seed: number): Random {
   };
 }
 
+/**
+ * The source for the `index`th draw of one stream off `seed`, `salt` keeping
+ * that stream apart from every other grown off the same seed.
+ */
+export function saltedStream(
+  seed: number,
+  salt: number,
+  index: number,
+): Random {
+  return mulberry32(((seed ^ salt) + index) >>> 0);
+}
+
 export function between(random: Random, min: number, max: number): number {
   return min + random() * (max - min);
 }

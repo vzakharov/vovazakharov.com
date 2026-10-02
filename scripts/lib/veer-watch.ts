@@ -8,11 +8,9 @@
 
 import { z } from 'zod';
 
+import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
-import {
-  LANDING,
-  wrap,
-} from '../../src/pages/mushrooms/model/insect-motion.ts';
+import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import { SEAT_FADE } from '../../src/pages/mushrooms/ui/scene/insect-frame.ts';
 
@@ -131,11 +129,15 @@ export function sitting(sample: Sample): boolean {
   return SEATS.has(sample.to) && sample.now >= sample.arrives + LANDING;
 }
 
+/** Whether `sample` falls within its leg's flight: departed, not yet arrived. */
+export function inFlight({ now, departs, arrives }: Sample): boolean {
+  return now >= departs && now < arrives;
+}
+
 /** Whether `sample` flies the stretch by a seat its veer fades out over. */
 export function fading(sample: Sample): boolean {
-  const flying = sample.now >= sample.departs && sample.now < sample.arrives;
   return (
-    flying &&
+    inFlight(sample) &&
     ((SEATS.has(sample.to) && sample.flown >= 1 - SEAT_FADE) ||
       (SEATS.has(sample.from) && sample.flown <= SEAT_FADE))
   );
@@ -194,8 +196,7 @@ export function hiddenRuns(seen: readonly Sample[]): Hidden[] {
  * motion. `undefined` where the eye stood or only turned as a held key does.
  */
 function eyeMoved(was: Sample, at: Sample): 'turned' | 'walked' | undefined {
-  const turned = at.heading - was.heading;
-  if (Math.abs(Math.atan2(Math.sin(turned), Math.cos(turned))) > TURN_STEP) {
+  if (Math.abs(wrap(at.heading - was.heading)) > TURN_STEP) {
     return 'turned';
   }
   return at.eyeX === was.eyeX && at.eyeY === was.eyeY ? undefined : 'walked';

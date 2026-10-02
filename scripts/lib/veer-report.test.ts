@@ -10,6 +10,8 @@ const BUTTERFLY = 40;
 const WIDTH = 1000;
 const LENS = { x: WIDTH / 2, y: 400, focal: 900, arc: 750 };
 const frame = 1000 / FPS;
+/** The fastest one-frame step a fly's dash curve allows it at `BUTTERFLY`'s size. */
+const curve = (dashPeak('fly') ?? 0) * BUTTERFLY * DASH_SLACK;
 
 /**
  * Two frames of one fly on one leg, a `step` apart in CSS px at zoom 1, the
@@ -87,7 +89,6 @@ describe('pivotAllowance', () => {
 });
 
 describe('flicks, a fly over its dash curve', () => {
-  const curve = (dashPeak('fly') ?? 0) * BUTTERFLY * DASH_SLACK;
   // Past the bound a leg that set off at once has, inside a half turn's.
   const fast = curve * (1 + 1 / (1 - PIVOT_SHARE)) * 0.5;
 
@@ -112,7 +113,6 @@ describe('flicks, a fly over its dash curve', () => {
 });
 
 describe('flicks, the eye turning under a held key', () => {
-  const curve = (dashPeak('fly') ?? 0) * BUTTERFLY * DASH_SLACK;
   // Turning left slides everything drawn right, the way the fly flies.
   const turn = -0.0124;
   const slide = -LENS.arc * turn;

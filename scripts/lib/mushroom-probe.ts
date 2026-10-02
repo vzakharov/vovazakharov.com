@@ -13,6 +13,7 @@ import {
   type PerchKind,
   SIDES,
 } from '../../src/pages/mushrooms/model/flight.ts';
+import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
 import type { Camera as ModelCamera } from '../../src/pages/mushrooms/model/ground.ts';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
@@ -500,8 +501,19 @@ export async function walkAndTurn(page: Page): Promise<string> {
   await holdFor('ArrowRight', 45);
   await holdFor('ArrowUp', 30);
   const to = await eye();
-  const turn = to.heading - from.heading;
-  return `the eye turned ${(turn - 2 * Math.PI * Math.round(turn / (2 * Math.PI))).toFixed(3)} rad and walked ${(to.walked - from.walked).toFixed(2)} units`;
+  return `the eye turned ${wrap(to.heading - from.heading).toFixed(3)} rad and walked ${(to.walked - from.walked).toFixed(2)} units`;
+}
+
+/** A mushroom grown as a child grows one: `+` tapped, then `cap` of the picker, each left to settle. */
+export async function grow(
+  page: Page,
+  controls: z.infer<typeof Controls>,
+  cap: z.infer<typeof Point> | undefined,
+): Promise<void> {
+  await page.tap(controls.plus);
+  await page.step(30);
+  if (cap) await page.tap(cap);
+  await page.step(90);
 }
 
 /** Runs `each` over `items` one after another, as taps on one page must. */

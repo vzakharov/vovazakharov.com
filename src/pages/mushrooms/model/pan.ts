@@ -210,8 +210,9 @@ export function screenOf(pan: Pan, time: number, x: number): number {
 /**
  * A finger pressed at `x` at `time`: the crop stops where it stands, a
  * glide's or a key's turn with it; a held key turns it again after the lift.
+ * `panning` presses it already past `SLOP`, turning 1:1 from `x`.
  */
-export function press(pan: Pan, x: number, time: number): Pan {
+export function press(pan: Pan, x: number, time: number, panning = false): Pan {
   return {
     ...pan,
     motion: {
@@ -220,7 +221,7 @@ export function press(pan: Pan, x: number, time: number): Pan {
       downAt: x,
       last: { x, sampledAt: time },
       velocity: undefined,
-      panning: false,
+      panning,
     },
   };
 }

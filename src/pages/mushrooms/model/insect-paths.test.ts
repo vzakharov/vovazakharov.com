@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { FLIGHT_HABITS } from './flight';
-import type { Point } from './geometry';
+import { type Point, wrap } from './geometry';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
-import { flyingTurn, wrap } from './insect-motion';
+import { flyingTurn } from './insect-motion';
 import {
   flightPoint,
   heading,

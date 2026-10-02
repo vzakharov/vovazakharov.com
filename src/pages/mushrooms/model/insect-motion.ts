@@ -5,7 +5,7 @@
  */
 
 import type { Leg, Perch, Span } from './flight';
-import type { Point } from './geometry';
+import { type Point, wrap } from './geometry';
 import type { InsectKind } from './insect-genes';
 import {
   type Airborne,
@@ -243,10 +243,6 @@ export function hopAt(
     y: here.y + (there.y - here.y) * t,
   };
 }
-
-/** `angle` brought round into (-π, π]. */
-export const wrap = (angle: number) =>
-  angle - Math.PI * 2 * Math.round(angle / (Math.PI * 2));
 
 /**
  * The way a flier's body points in flight, in radians clockwise from up the

@@ -39,7 +39,14 @@ import {
   perchName,
 } from './perch-room';
 import type { Plot } from './pollen';
-import { mulberry32, nextSeed, pick, type Random, weighted } from './random';
+import {
+  mulberry32,
+  nextSeed,
+  pick,
+  type Random,
+  saltedStream,
+  weighted,
+} from './random';
 
 export { FLIGHT_HABITS } from './flight-habits';
 export type { Span } from './flight-timing';
@@ -160,7 +167,7 @@ export type Flight = { leg: Leg; legs: number };
 const LEG_SALT = 0x5b_d1_e9_95;
 
 function legRandom(seed: number, legs: number): Random {
-  return mulberry32(nextSeed(mulberry32(((seed ^ LEG_SALT) + legs) >>> 0)));
+  return mulberry32(nextSeed(saltedStream(seed, LEG_SALT, legs)));
 }
 
 /** What `nextPerch` weighs a choice by: where the insect is, what it cannot take, and the kind and habits choosing. */

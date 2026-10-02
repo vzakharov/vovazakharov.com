@@ -18,21 +18,22 @@
 import { z } from 'zod';
 
 import { azimuthOf } from '../../src/pages/mushrooms/model/flight-frame.ts';
+import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
 import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
 import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
-import { wrap } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
   Camera,
   type Controls,
   type Expect,
   Eye,
+  grow,
   Insects,
   inTurn,
   type Page,
   Point,
 } from './mushroom-probe.ts';
-import { buttonsOf, TUFTS } from './play-tufts.ts';
+import { buttonsOf, firstOpening, TUFTS } from './play-tufts.ts';
 import {
   blinks,
   flicks,
@@ -72,10 +73,7 @@ async function perchesBack(
   const mushrooms = async () =>
     page.evaluate('__probe.state().mushrooms.length', z.number());
   const grownFrom = await mushrooms();
-  await page.tap(controls.plus);
-  await page.step(30);
-  if (cap) await page.tap(cap);
-  await page.step(90);
+  await grow(page, controls, cap);
   const mushroom = (await mushrooms()) === grownFrom + 1 ? 1 : 0;
   expect(mushroom === 1, 'looking back, the + and a cap grew no mushroom');
   // The child's flowers alone: the bees in flight sow theirs meanwhile.
@@ -84,19 +82,9 @@ async function perchesBack(
       `__probe.scene.meadow.planted.filter((sown) => !('parent' in sown)).length`,
       z.number(),
     );
-  const open = async () =>
-    page.evaluate('__probe.scene.meadow.planting !== undefined', z.boolean());
   const sownFrom = await planted();
   const tufts = (await page.evaluate(TUFTS, z.array(Point))).toReversed();
-  const opening = async ([tuft, ...rest]: ReadonlyArray<
-    z.infer<typeof Point>
-  >): Promise<boolean> => {
-    if (!tuft) return false;
-    await page.tap(tuft);
-    await page.step(30);
-    return (await open()) || opening(rest);
-  };
-  if (!(await opening(tufts.slice(0, 16)))) {
+  if (!(await firstOpening(page, tufts.slice(0, 16)))) {
     expect(
       false,
       `looking back, none of ${String(tufts.length)} tufts in view opened the flower picker`,
@@ -181,12 +169,9 @@ export async function playVeer(
   };
 
   // Something to sit on: four mushrooms, grown from the picker's first four caps.
-  await inTurn(controls.picker.slice(0, 4), async (cap) => {
-    await page.tap(controls.plus);
-    await page.step(30);
-    await page.tap(cap);
-    await page.step(90);
-  });
+  await inTurn(controls.picker.slice(0, 4), async (cap) =>
+    grow(page, controls, cap),
+  );
   await keep();
 
   // 2. Facing the clump: every kind released, each perched at its size.

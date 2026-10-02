@@ -4,9 +4,8 @@ import { describe, it } from 'node:test';
 import { outwardNormals, weightedOutline } from '../ui/scene/ink';
 import { meadowLayout } from '../ui/scene/layout';
 import { VIEWPORTS, VISITS } from '../ui/scene/viewports';
-import { ellipse, placedAt, type Point, ROUND_STEPS } from './geometry';
+import { ellipse, placedAt, type Point, ROUND_STEPS, wrap } from './geometry';
 import { LIGHT_STEP, litCrest, litTurn } from './insect-light';
-import { wrap } from './insect-motion';
 import { type Light, sunLight, turnedLight } from './light';
 import { between, mulberry32 } from './random';
 
