@@ -10,7 +10,10 @@
   gets to it. The skill should weigh the run against the build it guards
   from the start, and offer the hand checklist as the default once a
   playable Artifact exists, keeping the scripted run for regressions a
-  person cannot see (a page error, a frame budget).
+  person cannot see (a page error, a frame budget). The line he drew is
+  the scenario, not the looking: a screenshot checked by eye stays, a
+  scripted multi-step play does not («что-то оставить можно — типа там,
+  сделать скриншот, посмотреть на глаз — но не трёхэтажные сценарии»).
 
 ## The play script
 
