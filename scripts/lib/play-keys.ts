@@ -1,6 +1,9 @@
 /**
  * The child planting from the keyboard, `play-mushrooms.ts`'s run on a fresh
- * meadow: with the flower picker open on a tuft, still on its colours, a note
+ * meadow: with the picker shut, a melody of notes no flower in view makes
+ * grows a flower of each on the tufts in view, a note struck twice in one
+ * frame once, and a note struck again plays the flower grown; with the
+ * flower picker open on a tuft, still on its colours, a note
  * key plants the flower that makes its sound there and shuts the picker; with
  * it open on that flower, a press held, and a colour picked, another note key
  * replaces it with the flower of its own sound, the one it stood for pulled.
@@ -17,6 +20,7 @@ import {
 import {
   type Controls,
   type Expect,
+  inTurn,
   type Letter,
   type Page,
   Point,
@@ -47,11 +51,38 @@ const KEYED = `(() => {
   };
 })()`;
 
-/** The two note keys and the sounds `keyboard.ts` gives them. */
+/** The note keys and the sounds `keyboard.ts` gives them. */
 const NOTES = {
   KeyL: { kind: 'note', pitchClass: 7 },
   KeyH: { kind: 'note', pitchClass: 2 },
+  KeyK: { kind: 'note', pitchClass: 5 },
+  KeyO: { kind: 'note', pitchClass: 6 },
+  KeyP: { kind: 'note', pitchClass: 8 },
+  KeyY: { kind: 'note', pitchClass: 1 },
 } as const satisfies Record<Letter, FlowerSound>;
+
+/** A melody of the notes the visit's seeded flowers never make, so none is in view. */
+const MELODY = ['KeyK', 'KeyO', 'KeyP', 'KeyY'] as const satisfies Letter[];
+
+/** The child's own plantings, a bee's left out, and whether each is drawn. */
+const SOWN = `__probe.scene.meadow.planted
+  .filter((each) => !('parent' in each))
+  .map((each) => ({
+    id: each.id,
+    seed: each.seed,
+    onTuft: 'foot' in each,
+    shown: __probe.scene.flowers.shown.get(each.id)?.container.visible ?? false,
+  }))`;
+const Sown = z.array(
+  z.object({
+    id: z.string(),
+    seed: z.number(),
+    onTuft: z.boolean(),
+    shown: z.boolean(),
+  }),
+);
+/** Frames between a melody's notes: a quick tune. */
+const BEAT = 4;
 
 /** How many tufts, nearest first, are tried for one that takes a flower. */
 const TRIES = 16;
@@ -66,6 +97,60 @@ const SETTLE = 80;
 const sounds = (seed: number | undefined, key: Letter) =>
   seed !== undefined && sameSound(soundOf(flowerGenes({ seed })), NOTES[key]);
 
+/** A key struck: down and up, with no frame between. */
+async function press(page: Page, key: Letter): Promise<void> {
+  await page.key(key, 'keyDown');
+  await page.key(key, 'keyUp');
+}
+
+/**
+ * With the picker shut, `MELODY` played on the opening view, its first note
+ * struck twice in one frame: one flower grows on a tuft for each note, each
+ * sounding its note, and the first note struck again plays it, growing none.
+ */
+async function playMelody(
+  page: Page,
+  expect: Expect,
+  note: (line: string) => void,
+): Promise<void> {
+  const before = await page.evaluate(SOWN, Sown);
+  await page.shoot('keys-melody-before');
+  const [first] = MELODY;
+  await press(page, first);
+  await inTurn(MELODY, async (key) => {
+    await press(page, key);
+    await page.step(BEAT);
+  });
+  await page.step(SETTLE);
+  const grown = (await page.evaluate(SOWN, Sown)).slice(before.length);
+  await page.shoot('keys-melody-meadow');
+  expect(
+    grown.length === MELODY.length,
+    `a melody of ${String(MELODY.length)} notes none in view makes grew ${String(grown.length)} flowers`,
+  );
+  for (const [index, key] of MELODY.entries()) {
+    const flower = grown[index];
+    expect(
+      flower !== undefined && sounds(flower.seed, key),
+      `the flower grown for note ${String(index + 1)} does not sound it (seed ${String(flower?.seed)})`,
+    );
+  }
+  expect(
+    grown.every(({ onTuft, shown }) => onTuft && shown),
+    'a flower a melody grew is not on a tuft, or not shown',
+  );
+  await press(page, first);
+  await page.step(SETTLE);
+  const again = await page.evaluate(SOWN, Sown);
+  expect(
+    again.length === before.length + grown.length,
+    'a note struck again over the flower it grew grew another',
+  );
+  note(
+    `a melody of ${String(MELODY.length)} notes grew ${grown.map(({ id }) => id).join(', ')}; struck again, its first grew ${String(again.length - before.length - grown.length)}`,
+  );
+}
+
 export async function playKeys(
   page: Page,
   _controls: z.infer<typeof Controls>,
@@ -73,10 +158,7 @@ export async function playKeys(
   note: (line: string) => void,
 ): Promise<void> {
   const read = async () => page.evaluate(KEYED, Keyed);
-  const press = async (key: Letter) => {
-    await page.key(key, 'keyDown');
-    await page.key(key, 'keyUp');
-  };
+  await playMelody(page, expect, note);
 
   // Open on a tuft, at its colours: `l` plants G there.
   const tufts = await page.evaluate(TUFTS, z.array(Point));
@@ -94,7 +176,7 @@ export async function playKeys(
   }
   const before = await read();
   await page.shoot('keys-tuft-open');
-  await press('KeyL');
+  await press(page, 'KeyL');
   await page.step(RISING);
   await page.shoot('keys-tuft-planting');
   await page.step(SETTLE);
@@ -130,7 +212,7 @@ export async function playKeys(
   await page.step(30);
   const coloured = await read();
   await page.shoot('keys-flower-shapes');
-  await press('KeyH');
+  await press(page, 'KeyH');
   await page.step(RISING);
   await page.shoot('keys-flower-planting');
   await page.step(SETTLE);

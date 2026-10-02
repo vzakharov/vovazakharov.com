@@ -89,6 +89,7 @@ export class MeadowScene extends Phaser.Scene {
     dispatch: (action) => {
       this.dispatch(action);
     },
+    tufts: () => this.grass?.inView() ?? [],
   };
   private readonly planter = new Planter(
     this.voice,
@@ -186,7 +187,7 @@ export class MeadowScene extends Phaser.Scene {
       this.instrument,
       this.flowers,
       this.eye,
-      this.planter.plantSounding,
+      this.planter,
     );
     const stopPanning = this.eye.listen(this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {

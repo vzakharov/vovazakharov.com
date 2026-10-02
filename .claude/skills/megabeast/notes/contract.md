@@ -53,6 +53,16 @@
   review session folded it into the plan, replied on each thread with that
   commit, and left the code for the bites it named, which is what they asked
   for ("действовать по нему пока не надо").
+- **An operator playing the Artifact mid-bite is the richest input the loop
+  gets.** Bite 12's depth-7 session put five things to try on version 14;
+  the answer brought four changes and two new asks in three messages
+  (shadows, brow sinking, fly hops, strafe; bee stripes; notes that plant).
+  What worked: each became a plan bullet with his words, then one
+  file-disjoint package per agent in parallel, and the feel questions the
+  packages raised (strafe lag, a catch bound) went back to him as a short
+  lettered choice — he answered in one line each. A defect with an obvious
+  cause (the bees' first-free slot) was cheaper fixed by the orchestrator
+  than briefed.
 - **An operator review that asks for a document, not a change, is kept
   verbatim and scheduled.** Mid-handling, the operator posted two game ideas
   and asked for a Russian document on each, weighing them against the code

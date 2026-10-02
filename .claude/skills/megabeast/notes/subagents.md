@@ -248,6 +248,12 @@
   beneath — and changed no source. Brief a fix round to test the measure
   against the rule it stands for before tuning the code to it.
 
+- **Build and play are two agents, briefed apart.** At bite 12's depth 7,
+  three of three build agents ran out of context after the unit tests and
+  before the probe build, so "build, then play tabL once" left every
+  package unplayed. The play is a second, cheap agent over the pushed
+  build, briefed with the build's note; the skill should brief them so.
+
 ## Pauses, restarts and the Stop hook
 
 - **A pause is a hand-over, and never a reset.** Bite 6's handling hit the

@@ -102,6 +102,8 @@ export class FlowerBed implements Following {
   private readonly ring: FlowerRing;
   /** The flower the picker is open on as of the last frame, which a tap on it leaves open. */
   private held: string | undefined;
+  /** The planted flowers whose sound was played already, as the key that sowed them, which open silent. */
+  private readonly hushed = new Set<string>();
 
   /** `heldStill` is how long the pressed finger has stood inside the slop (`EyeInput.heldStill`). */
   constructor(
@@ -189,7 +191,8 @@ export class FlowerBed implements Following {
       shown.tappedAt = clock;
       // The child's own flower leads the melody, as a tap does; a bee's
       // plays from it without moving it.
-      this.sound(flower, !isBeeSown(flower));
+      if (!this.hushed.delete(flower.id))
+        this.sound(flower, !isBeeSown(flower));
     }
     if (!this.lighting) throw new Error('A flower is planted before its paint');
     this.paint(layout, this.lighting);
@@ -331,6 +334,11 @@ export class FlowerBed implements Following {
         ? [{ ...pick(flower, 'id'), sound: soundOf(flowerGenes(flower)) }]
         : [];
     });
+  }
+
+  /** Opens the flower `id`, planted after this, without its sound: the key that sowed it sounded it. */
+  hush(id: string): void {
+    this.hushed.add(id);
   }
 
   /** Opens each of `flowers`, as a played key's sound answers through it. */

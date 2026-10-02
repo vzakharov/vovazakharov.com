@@ -7,6 +7,7 @@ import {
   sameSound,
 } from '../../model/flower-sounds';
 import type { Action, Planting } from '../../model/game';
+import { pick, type Random } from '../../model/random';
 import type { Instrument } from './instrument';
 import type { PlayedKey } from './keyboard';
 
@@ -18,8 +19,7 @@ export type FlowerInView = WithId & { sound: FlowerSound };
 
 /**
  * The flowers in view a key making `sound` plays through: every one that
- * makes it. None means the key stays silent, there being no flower before
- * the player to play it.
+ * makes it, whatever octave the keyboard stands at.
  */
 export function keyedFlowers(
   sound: FlowerSound,
@@ -49,23 +49,41 @@ export function keyPlanting(
 }
 
 /**
+ * The tuft a key's flower grows on with the picker shut and none of its sound
+ * in view: one of `tufts`, those the view draws, that is still `free` to take
+ * a flower, drawn off `random` so a replay grows the same; `undefined` where
+ * none is.
+ */
+export function sowingTuft<Tuft extends object>(
+  random: Random,
+  tufts: readonly Tuft[],
+  free: (tuft: Tuft) => boolean,
+): Tuft | undefined {
+  const [first, ...rest] = tufts.filter((tuft) => free(tuft));
+  return first === undefined ? undefined : pick(random, [first, ...rest]);
+}
+
+/**
  * What a key plays through: the flowers the current view shows, on the
- * screen and not culled, as of the key's press; how the ones it plays
- * answer, as each would a tap; and the flower picker, which a key making
- * `sound` plants through while it is open, returning whether it was.
+ * screen and not culled, as of the key's press, the ones keys sowed since
+ * the last frame among them; how the ones it plays answer, as each would a
+ * tap; the flower picker, which a key making `sound` plants through while it
+ * is open, returning whether it was; and the grass in view, which grows the
+ * flower of a sound no flower in view makes (`sow`), where a tuft is free.
  */
 export type KeyedPlay = {
   inView: () => readonly FlowerInView[];
   answer: (flowers: readonly FlowerInView[]) => void;
   plant: (sound: FlowerSound) => boolean;
+  sow: (sound: FlowerSound) => void;
 };
 
 /**
  * A played key through `keyed`: an octave key shifts the keyboard's octave;
  * a note or drum key plants its flower where the flower picker is open, which
- * sounds as a planting does, and otherwise sounds, at that octave, only
- * through the flowers in view that make its sound, which answer it as a tap,
- * and with none in view stays silent.
+ * sounds as a planting does, and otherwise sounds at that octave, through the
+ * flowers in view that make its sound, which answer it as a tap, or with none
+ * in view grows one that does.
  */
 export function playKey(
   instrument: Pick<Instrument, 'wake' | 'key'>,
@@ -78,8 +96,8 @@ export function playKey(
     return;
   }
   if (keyed.plant(action)) return;
-  const answering = keyedFlowers(action, keyed.inView());
-  if (answering.length === 0) return;
   instrument.key(action);
-  keyed.answer(answering);
+  const answering = keyedFlowers(action, keyed.inView());
+  if (answering.length === 0) keyed.sow(action);
+  else keyed.answer(answering);
 }

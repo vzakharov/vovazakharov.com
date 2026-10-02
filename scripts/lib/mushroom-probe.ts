@@ -417,9 +417,16 @@ export type Arrow = keyof typeof ARROWS;
 
 /**
  * The letter keys a play presses, by their DOM `code`, and the key code each
- * goes down with: `l` the note G, `h` the note D.
+ * goes down with: `l` the note G, `h` D, `k` F, `o` F♯, `p` G♯, `y` C♯.
  */
-const LETTERS = { KeyL: 76, KeyH: 72 } as const;
+const LETTERS = {
+  KeyL: 76,
+  KeyH: 72,
+  KeyK: 75,
+  KeyO: 79,
+  KeyP: 80,
+  KeyY: 89,
+} as const;
 export type Letter = keyof typeof LETTERS;
 
 /** Every key a play presses, and the key code it goes down with. */
