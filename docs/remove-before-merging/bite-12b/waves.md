@@ -334,3 +334,25 @@ In this order of launch; parallel where files are disjoint.
   **Orchestrator's call:** the meadow reds to tail-turn, baseline at
   70fc342's parent first (both may be the new drawn rotation); `approach`
   re-run on a quiet container with phoneS, not traced.
+- **tail-polish2–4** — `/dry` over all of `ui/scene/` (`forwardOf`,
+  `azimuthOf`, `distanceBetween`, `anchored` reused), `/tend-prose`'s six
+  named slips, ~30 doc blocks cut or tightened; closed by the bare
+  `polish:` 385453f. Each stopped at 170k; the floor held because every
+  commit before the last was `polish(12b):`.
+- **tail-turn** (stopped by a container restart, resumed whole by
+  `SendMessage`) — 638420d, note and `tail-turn.patch`, nothing in source
+  yet. Baseline at 70fc342 reverted: red 1 gone, red 2 still there.
+  **Red 1 (butterfly 24.01 rad/s) is 70fc342's**: `bentTurn` measures its
+  1 px step after the brow's sink, which past `D_SEE` mirrors the flier's
+  rows; the drawn turn jumps −1.226 → −1.626 as the step's ends cross
+  13.330, and a flier going straight away over the brow mid-screen would
+  flip 0 → π in a frame. 70fc342's tabL gain was that same mirror, not the
+  skim and lay `tail-face.md` credits. **Red 2 (bee 1.52 rad) is the
+  harness's**: the watch judges the window's middle frame (off screen,
+  x −43.7, half-span 27) while checking only the current one is in view.
+  **Orchestrator's call:** the body does not face the sinking slide — a
+  one-frame spin is worse than a far, small, sinking flier pointing along
+  its flight. `bentTurn` steps between the unsunk `placed` points; the
+  watch skips heading frames past the brow and judges one only when its
+  first, middle and current frames are all in view; both loosenings to
+  to-check.md. tail-turn2 builds the patch.
