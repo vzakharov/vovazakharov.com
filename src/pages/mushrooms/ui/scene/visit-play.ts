@@ -20,7 +20,7 @@ import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
 import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
-import type { Stand } from './flower-sight';
+import { type Stand, standOf } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
@@ -68,17 +68,11 @@ export function opened(
     const species =
       MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
     const own = nextSeed(growing);
-    const { mushrooms, planted, pulled } = meadow;
-    const foot = roomFor(
-      { layout, flowers, mushrooms, planted, pulled },
-      own,
-      view,
-    );
+    const foot = roomFor(standOf(layout, flowers, meadow), own, view);
     if (!foot) break;
     meadow = reduce(meadow, { kind: 'grow', species, seed: own, foot });
   }
-  const { mushrooms, planted, pulled } = meadow;
-  return { meadow, layout, flowers, mushrooms, planted, pulled };
+  return { meadow, ...standOf(layout, flowers, meadow) };
 }
 
 /**

@@ -6,13 +6,7 @@ import { browBlades, browShown, type ShownBlade } from './brow';
 import { meadowCamera } from './meadow-camera';
 import { seamReach } from './skyline';
 import { browRow, viewAt } from './view';
-import { VIEWPORTS } from './viewports';
-
-/** Each screen's camera, upright and turned. */
-const CAMERAS = VIEWPORTS.flatMap(([name, width, height]) => [
-  { name, camera: meadowCamera(width, height) },
-  { name: `${name} turned`, camera: meadowCamera(height, width) },
-]);
+import { CAMERAS } from './viewports';
 
 /** How tall a shown blade stands, root to tip, in CSS px. */
 const standing = ({ root, tip }: ShownBlade) => root - tip.y;

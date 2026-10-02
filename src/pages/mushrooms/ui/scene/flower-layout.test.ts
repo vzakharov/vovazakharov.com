@@ -31,7 +31,7 @@ import {
 import { type StandingFlower, standingFlowers } from './flower-plots';
 import { type Footing, type MeadowLayout, meadowLayout } from './layout';
 import { standingControls } from './sky-layout';
-import { VIEWPORTS, VISITS } from './viewports';
+import { EITHER_WAY, VIEWPORTS, VISITS } from './viewports';
 import { type Opened, opened, relaidOn } from './visit-play';
 
 /** The least number of seeded flowers the average visit keeps, on every screen. */
@@ -41,15 +41,9 @@ const HEAD_STEPS = 9;
 /** How near two ground points count as the same one, in the clump's size. */
 const SAME_GROUND = 1e-9;
 
-/** Every screen a visit may be shown on: each of `VIEWPORTS`, as named and turned. */
-const SCREENS = VIEWPORTS.flatMap(([name, width, height]) => [
-  [name, width, height] as const,
-  [`${name} turned`, height, width] as const,
-]);
-
 /** Each screen's layout for a visit that opened elsewhere, but for its flowers. */
 const screenLayouts = new Map(
-  SCREENS.map(([name, width, height]) => [
+  EITHER_WAY.map(([name, width, height]) => [
     name,
     meadowLayout(width, height, 1),
   ]),
@@ -175,7 +169,7 @@ describe('the seeded flowers', () => {
       for (const [index, visit] of visits.entries()) {
         const seed = (VISITS[index] ?? 0) ^ 0xf1_0e_25;
         const bed = bedOf(visit);
-        for (const [screen, across, down] of SCREENS) {
+        for (const [screen, across, down] of EITHER_WAY) {
           const there = meadowLayout(
             across,
             down,
@@ -217,7 +211,7 @@ describe('the seeded flowers', () => {
       for (const [index, visit] of visitsOn(width, height).entries()) {
         const bed = bedOf(visit);
         placed += bed.length;
-        for (const [screen] of SCREENS) {
+        for (const [screen] of EITHER_WAY) {
           const there = screenLayouts.get(screen);
           assert.ok(there);
           const flowers = bed.map((foot) => standingOn(there.camera, foot));

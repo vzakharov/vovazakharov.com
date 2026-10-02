@@ -33,13 +33,7 @@ import {
   type View,
   viewAt,
 } from './view';
-import { VIEWPORTS } from './viewports';
-
-/** Each screen's camera, upright and turned. */
-const CAMERAS = VIEWPORTS.flatMap(([name, width, height]) => [
-  { name, camera: meadowCamera(width, height) },
-  { name: `${name} turned`, camera: meadowCamera(height, width) },
-]);
+import { CAMERAS, VIEWPORTS } from './viewports';
 
 /** Feet at the opening clump's and at the world frame's extremes. */
 const FEET = [...OPENING_FEET, ...extremes(MEADOW_FRAME)];
