@@ -4,7 +4,8 @@
  * is what places it through the view (`ofGround`), scales it by `zoom`, sorts
  * it by the row it stands on, hides it near the eye (`cull`) and, past the
  * brow (`behindHills`), sinks it under the brow (`sunk`) until too little of
- * it shows to draw (`sunkAway`).
+ * it shows to draw (`sunkAway`), and hides what stands off the screen's sides
+ * (`offSides`).
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -36,6 +37,30 @@ const BEHIND_HILLS = (DEPTHS.nearHills + DEPTHS.ground) / 2;
 const BEHIND_SQUEEZE = 1e-4;
 
 /**
+ * How far past a side of the screen, in its drawn height, a thing's foot may
+ * stand and the thing still be drawn: past what the widest of it reaches
+ * sideways from its foot, a mushroom's cast shadow at about 0.81 of its
+ * height and its cap at 0.66, with room for a squash's stretch. A tuft's 1.5
+ * of its 2-size height is the 3 sizes its blades overhang (`BLADE_OVERHANG`).
+ */
+export const SIDE_OVERHANG = 1.5;
+
+/**
+ * Whether a thing whose foot `view` draws at `x`, `height` CSS px tall,
+ * stands so far past a side of the screen (`SIDE_OVERHANG`) that none of it
+ * shows. Phaser tessellates every visible Graphics each frame whether on the
+ * screen or not, so one behind the eye is hidden rather than drawn off it.
+ */
+export function offSides(
+  view: View,
+  { x }: Pick<Point, 'x'>,
+  height: number,
+): boolean {
+  const overhang = SIDE_OVERHANG * height;
+  return x < -overhang || x > view.width + overhang;
+}
+
+/**
  * A thing's place on the screen this frame: where its foot is drawn, in CSS
  * px, the row it sorts by (`depth`, the screen row its foot stands on before
  * it sinks, so the farther sorts behind), whether it is drawn at all and
@@ -54,13 +79,15 @@ export type Standing = { stands: BedPlace };
 /**
  * Where `view` draws a thing whose foot stands on `foot`, `height` world px
  * tall as laid out: given a height, it is not drawn once it has sunk away
- * (`sunkAway`).
+ * (`sunkAway`) or while it stands off the screen's sides (`offSides`).
  */
 export function bedPlace(view: View, foot: Point, height?: number): BedPlace {
   const placed = ofGround(view, foot);
   const shown = sunk(view, placed);
+  const drawnHeight = height === undefined ? undefined : height * shown.zoom;
   const gone =
-    height !== undefined && sunkAway(view, shown, height * shown.zoom);
+    drawnHeight !== undefined &&
+    (sunkAway(view, shown, drawnHeight) || offSides(view, shown, drawnHeight));
   return {
     ...pick(shown, 'x', 'y', 'zoom', 'ahead', 'distance'),
     depth: placed.y,
