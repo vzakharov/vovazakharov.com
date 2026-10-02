@@ -38,21 +38,13 @@ const articleFrontmatterSchema = baseFrontmatterSchema.extend({
 const DOSSIER_ACTS = ['contempt', 'harm', 'torment'] as const;
 
 /** Who did it — the second stamp. */
-const DOSSIER_ACTORS = [
-  'individual',
-  'public-figure',
-  'organization',
-] as const;
+const DOSSIER_ACTORS = ['individual', 'public-figure', 'organization'] as const;
 
 /**
  * The circumstances that weigh a case down. Mitigating ones have no list: they
  * never fit one, so they are argued in the body instead.
  */
-const DOSSIER_AGGRAVATIONS = [
-  'spectacle',
-  'profit',
-  'repetition',
-] as const;
+const DOSSIER_AGGRAVATIONS = ['spectacle', 'profit', 'repetition'] as const;
 
 /** One report a dossier's facts rest on. */
 const dossierSourceSchema = z.object({
