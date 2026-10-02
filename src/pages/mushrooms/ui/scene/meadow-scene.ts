@@ -213,8 +213,7 @@ export class MeadowScene extends Phaser.Scene {
   /**
    * Sees the frame from where the eye stands now: everything on the ground
    * and the sky's turning parts through its view, the camera bobbing with
-   * the walk (`Gait`) and a footstep for each foot that lands. The camera
-   * never scrolls across: the view places everything.
+   * the walk (`Gait`) and a footstep for each foot that lands.
    */
   private walk(height: number): void {
     const { eye, backdrop, grass, bed, flowers, voice, gait, clock, cameras } =

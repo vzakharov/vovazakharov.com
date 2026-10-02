@@ -335,10 +335,10 @@ describe('onscreenOf', () => {
         const aloft = alofts.get(spot.id);
         assert.ok(aloft, spot.id);
         const drawn = drawnAloft(view, aloft);
-        const today = ofLayout(view, spot, row);
+        const laid = ofLayout(view, spot, row);
         assert.ok(drawn, spot.id);
-        assert.ok(Math.abs(drawn.x - today.x) < 0.1, spot.id);
-        assert.ok(Math.abs(drawn.y - today.y) < 0.1, spot.id);
+        assert.ok(Math.abs(drawn.x - laid.x) < 0.1, spot.id);
+        assert.ok(Math.abs(drawn.y - laid.y) < 0.1, spot.id);
       }
     });
 

@@ -53,19 +53,14 @@ type Picture = Phaser.GameObjects.RenderTexture[];
 type Turning = { columns: Picture; home: Span; offsets: number[] };
 
 /**
- * The backdrop as the screen shows it: pictures baked once a paint, and the
- * clouds live, since they drift. The bare sky stands fixed on the screen;
- * the sky's glow round the sun, the sun and its wash over the sky are each
- * a picture of their own that `follow` slides to where the view shows the
- * sun, and the clouds go to their azimuths through the same view. The hills
- * and the brow are drawn live, as the view shows them, again only when its
- * heading changes; the ground's rows and its grain stand on the screen, which a
- * step or a turn leaves as they are. The ground's pictures, the brow's
- * included, bob with the beds (`GROUND_BOB`); the rest stands still. Stacked by `DEPTHS`, sky
- * at the back and the grain over the wash. `layers` are what the pictures
- * are baked from, off the display list, kept so a repaint paints into them
- * again; `view` is the view last followed and `drifted` how many seconds the
- * clouds have drifted, both kept across a repaint.
+ * The backdrop as the screen shows it. The bare sky and the ground's rows and
+ * grain stand fixed on the screen, which a step or a turn leaves as they are;
+ * the glow, the sun and its wash are pictures `follow` slides to where the
+ * view shows the sun; the clouds go to their azimuths through the view, and
+ * the hills and the brow are redrawn through it whenever its heading changes.
+ * The ground's pictures, the brow's included, bob with the beds
+ * (`GROUND_BOB`). `layers`, the off-list graphics the pictures are baked from,
+ * `view` and `drifted` (the clouds' seconds) are kept for a repaint.
  */
 export type Backdrop = Following & {
   sky: Picture;
@@ -169,9 +164,8 @@ function aboutTheSun(
  * mottling and the grain, so the same source repaints the same meadow. It
  * paints into `existing` and adds only what is missing, so a repaint keeps
  * the objects — and whatever is moving them — and the view and the drift
- * they were placed by. The clouds are drawn afresh each frame and the hills
- * at each new heading; the rest is baked here and costs a frame a few
- * textured quads and the grain's strips.
+ * they were placed by. All but the clouds, the hills and the brow is baked
+ * here, and costs a frame a few textured quads and the grain's strips.
  */
 export function paintBackdrop(
   scene: Phaser.Scene,

@@ -132,17 +132,17 @@ describe('insect-frame', () => {
           opening,
           unframed(eyeFrameOf(opening), 0, framed),
         );
-        const today = sunkOver(
+        const sunkDrawn = sunkOver(
           opening,
           ofLayout(opening, point, footRow),
           ofLayout(opening, { ...point, y: footRow }, footRow),
         );
-        if (buried(opening, today)) {
+        if (buried(opening, sunkDrawn)) {
           assert.equal(drawn, undefined);
           continue;
         }
         assert.ok(drawn);
-        nearPoint(drawn, today, 1e-6);
+        nearPoint(drawn, sunkDrawn, 1e-6);
       }
     });
 
@@ -157,7 +157,7 @@ describe('insect-frame', () => {
       }
     });
 
-    it(`mixes depth as today's rows mix on a ${name} screen`, () => {
+    it(`mixes depth so the screen row runs evenly between the ends on a ${name} screen`, () => {
       const pinhole = pinholeOf(camera);
       const rowOf = (q: number) => pinhole.y + (pinhole.focal * EYE_HEIGHT) / q;
       const ends: Array<[number, number]> = [

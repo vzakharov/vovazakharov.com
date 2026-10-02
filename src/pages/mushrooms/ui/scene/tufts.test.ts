@@ -206,8 +206,8 @@ function faultsOf(
 /**
  * The share of meadows a screen may show with no tuft standing,
  * none unless named: on the 280 px phone, a grown forest and a full band of
- * flowers can leave no spot a flower can stand in sight off every cap and
- * finger pad, its head clear of every other.
+ * flowers can leave no spot in sight where a flower can stand clear of every
+ * drawn cap, its head clear of every other.
  */
 const BARELESS_MOST: Partial<Record<(typeof SCREENS)[number][0], number>> = {
   '280×600': 0.16,
@@ -398,7 +398,7 @@ describe('the ground’s grass', () => {
     }
   });
 
-  it('takes no second flower on a tuft planted, and stands nowhere once the world has no room, past the fourteen flowers a screen once held', () => {
+  it('takes no second flower on a tuft planted, and stands nowhere once the world has no room, well past fourteen flowers', () => {
     const seed = 3;
     let stand: Stand = opened(seed, 1180, 820, false);
     const [grown, first] = grassOf(stand, seed);
