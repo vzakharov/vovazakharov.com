@@ -40,15 +40,20 @@ export const TAPS = `(() => {
 const BARE = `(point) =>
   __probe.topAt(point) === null && !__probe.scene.grass?.at(__probe.toWorld(point))`;
 
-/** A bare point on screen low in the meadow and near the middle, where a drag can start; \`null\` where none is. */
+/**
+ * A bare point on screen low in the meadow and near the middle, where a drag
+ * can start; \`null\` where none is. Never above the ground's top row, where a
+ * sideways drag strafes rather than turns (\`lockOf\`).
+ */
 export const BARE_START = `(() => {
   const bare = ${BARE};
-  const { width, height } = __probe.scene.layout;
+  const { width, height, camera } = __probe.scene.layout;
+  const top = Math.max(0.6 * height, camera.groundTop + 1);
   for (let row = 0; row <= 8; row++) {
     for (let column = 0; column <= 8; column++) {
       const point = {
         x: width * (0.3 + (0.4 * ((column * 5) % 9)) / 8),
-        y: height * (0.6 + (0.3 * row) / 8),
+        y: top + ((0.9 * height - top) * row) / 8,
       };
       if (bare(point)) return point;
     }

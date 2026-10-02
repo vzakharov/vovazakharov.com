@@ -288,7 +288,8 @@ export async function playWalk(
       };
       const pressed = await eye();
       await page.drag(from, down, 12);
-      const chase = await page.trace(SETTLE_FRAMES, '__probe.eye()', Eye);
+      // Twice the settle: a drag from the ground's top row walks over 4 units, past 2.5 s at cruise.
+      const chase = await page.trace(2 * SETTLE_FRAMES, '__probe.eye()', Eye);
       checkWalk(pressed, chase, bob, 'drag', expect, note);
       expect(
         turned(pressed.heading, chase.at(-1)?.heading ?? 0) === 0,
