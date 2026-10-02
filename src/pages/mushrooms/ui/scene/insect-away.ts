@@ -137,10 +137,9 @@ export function leavingAloft(
   return offAloft(view, side, away, perchDistance(view, from));
 }
 
-/** Where a leg set off. */
 export type SetOff = { from: Aloft };
 
-/** Where a leg set off, and where its end stood: `kept` as last frame drew it, `perch` where its perch stands now. */
+/** Where a leg's end stood: `kept` as last frame drew it, `perch` where its perch stands now. */
 export type LegEnds = SetOff & { kept?: Aloft; perch?: Aloft };
 
 /**

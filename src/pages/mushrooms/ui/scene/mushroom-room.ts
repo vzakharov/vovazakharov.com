@@ -308,8 +308,8 @@ const sameEye = (a: Eye | undefined, b: Eye | undefined) =>
 
 /**
  * `find` answered again only once the stand it answered for, or the seed,
- * changes — a new layout after any resize, the mushrooms, the plantings or
- * the seeded flowers — or a turn or a step leaves it wanting: a foot found
+ * changes — a new layout after any resize, the mushrooms, the plantings,
+ * the flowers pulled up or the seeded flowers — or a turn or a step leaves it wanting: a foot found
  * stays while it `fits` the view it is asked for, and no room found stays
  * while the eye stands where it did. A turn or a step never makes a new
  * layout, so it never costs a search while the room found stays in sight.

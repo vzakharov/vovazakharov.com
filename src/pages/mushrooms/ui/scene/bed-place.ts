@@ -3,8 +3,8 @@
  * everything out once at the opening eye and draw it at that size, and this
  * is what places it through the view (`ofGround`), scales it by `zoom`, sorts
  * it by the row it stands on, hides it near the eye (`cull`) and, past the
- * brow (`behindHills`), sinks it under the brow (`sunk`) until
- * too little of it shows to draw (`sunkAway`).
+ * brow (`behindHills`), sinks it under the brow (`sunk`) until too little of
+ * it shows to draw (`sunkAway`).
  */
 
 import { pick } from '@/shared/lib/collections';

@@ -67,8 +67,8 @@ function listenForChords(
  * taps: from the keyboard while the canvas holds focus (`listenForKeys`),
  * through the flowers in front of the player, `planter` planting through
  * the open flower picker or growing the flower of a sound none in view makes
- * (`playKey`), the held arrows turning and walking `eye`; and with more fingers than one (`listenForChords`). Returns
- * what stops both.
+ * (`playKey`), the held arrows turning and walking `eye`; and with more
+ * fingers than one (`listenForChords`). Returns what stops both.
  */
 export function playTheMeadow(
   scene: Phaser.Scene,
