@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **3** (the cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
+Relay depth: **4** (the cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
 § "The depth cap").
 
 ## 1. Standing constraints
@@ -13,7 +13,8 @@ branch. **After the attach, run `pnpm install --frozen-lockfile`** (the
 SessionStart hook installs the trunk's lockfile, which has no `phaser` or
 `esbuild`). Read files with `Read`, not `cat`/`sed` (CLAUDE.md). **Leave the
 harness auto-branch alone**: deleting it is refused by auto mode as
-destructive, and it costs nothing.
+destructive, and it costs nothing. **At pickup, read the megabeast notes by
+their `README.md` index only.**
 
 Carried from earlier sessions, the operator's words verbatim (Russian):
 
@@ -86,88 +87,82 @@ Pass this section on verbatim.
 
 ## 2. The conversation
 
-> /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile.
+> /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
-The only operator message this session. Reply (and every turn after, all
-woken by agents and check-ins, in Russian): attached (the local ref e66b8e1
-had diverged from origin and was renamed to
-`stale/claude/mushroom-game-syama-lbirv7-e66b8e1`), installed, plan flipped
-to in-progress (d3c6a35). Then, one agent at a time:
-`v18-drawn-place` built `leg-timing.md` § 4 (47d3a06, e66e719);
-`v18-play` measured fly overs 88 → 43, all from legs that pivot first;
-the orchestrator decided the watch allows a pivoted leg's dart (§ 5);
-`v19-pivot-watch` built it all-or-nothing (1fdf65a) and found that hid
-phoneP fly-18; the orchestrator made it proportional (ee84a7e);
-`v20-watch-fixes` built that (77fcf75) and fixed the stale tap-in-the-air
-check to v14-catch's shy (852a2df), 4 overs left; `v21-fly18` traced them
-to a leg to away timed to the band-middle spot and fixed it (3a0b29d),
-2–3% left and accepted (§ 6–7). Item 2 closed (4519021). Then three
-reviewers by area posted reviews 5391045656, 5391050029, 5391057365; the
-calls are in `bite-12/review.md`. The 200k notice came after the second
-review; the session waited for the third, paused the plan and relayed.
-No question was put to the operator.
+The only operator message this session (it came as the relay's launch
+line). Reply, and every turn after (all woken by agents, check-ins and the
+Stop hook), in Russian: attached (local ref e66b8e1 renamed to
+`stale/mushroom-game-syama-lbirv7-e66b8e1`), installed, plan flipped
+(39583b9). Then, agent by agent: `rv-eye-world` (279060f, d66ad69, 66e0188),
+`rv-insects` (0a60977, ed5b34e, 8b1c551), `rv-taps` (ae6bf31, 116f588,
+aec937c; out of context at 3 of 5), the orchestrator's call on the drag
+baseline — two drags (df4e24d), `rv-taps2` (c512639, 11777c9), every
+review thread replied with its sha; `rv-play` (ef174a5, frames) found a
+bee over; `rv-bee8` traced it to the model and view framing a leg
+differently; the orchestrator chose to time a leg in its drawn frame
+(`leg-timing.md` § 8, 05fe0d2); `rv-legframe` (cbfce09, out of context
+after its move), `rv-legframe2` (34788c2), `rv-veer2` (3aaf95a: no bee
+over; a veer-watch harness fix for the held turn's slide). Then the
+orchestrator retired the dead `parallax.ts`, updated `Eaten so far`,
+`bite-12.md`, `leg-timing.md` § 7–8, the megabeast notes, and paused the
+plan at the 200k notice. No question was put to the operator.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
 playable after every bite; `/finalize` at the end, no merge. Now: close
-bite 12 — the review's fixes, the play, the replies, then item 5 (delete
-`## Rest of the bite`, `/polish`, vet, the Artifact, `/pr`).
+bite 12 — `/polish`, vet, the Artifact, `/pr` — then the elephant's next
+item (12b, the endless field, `endless-field.md`).
 
 ## 4. Decisions
 
-- Leg timing, every call with what it beat:
-  `docs/plans/mushroom-game-syama/bite-12/leg-timing.md` § 4–7.
-- The review's calls, one per finding:
-  `docs/plans/mushroom-game-syama/bite-12/review.md`. They are decided;
-  brief from them.
-- The tail review is three reviewers by area (agreed by the plan's
-  step 2; recorded in `megabeast/notes/subagents.md`).
+- The review's calls, one per finding, with the drag-baseline call:
+  `docs/plans/mushroom-game-syama/bite-12/review.md`.
+- A leg timed in the frame it is drawn in, what it beat:
+  `bite-12/leg-timing.md` § 8; § 7 rewritten (tabL fly-3's 2% was the
+  turn's slide).
+- Agents went outside their file lists in small, reported ways
+  (`walking.ts`, `arrivals.ts`, `mushroom-bed.ts`, `ground.ts`'s `Eyed`,
+  harness imports); all accepted.
 
 ## 5. Errors and dead ends
 
-- An all-or-nothing pivot allowance (1fdf65a) hid a real dart (fly-18);
-  replaced by a proportional one.
-- Two of three reviewers filled their context (155–181k) without a play
-  run; their findings rest on reading and probes. The eye-and-world
-  reviewer left `geometry.ts`, `motion.ts`, `weather.ts`, `game.ts`,
-  `paint-land.ts`, `paint-sky.ts`, `grain.ts`, `backdrop-tones.ts`,
-  `sky-layout.ts`, `layout.ts`, `footsteps.ts`, `keyboard.ts`, `baking.ts`,
-  `parallax.ts` unread — not a call to review them again.
-- This session read three megabeast note files whole at pickup (~38k);
-  read the notes' `README.md` only.
+- Three agents ran out of context mid-package (5 steps, 3 steps with a
+  trace, a play with a trace); successors finished from hand-over notes.
+  Brief at most two steps (`megabeast/notes/subagents.md`).
+- **`/polish` found no floor**: `git log origin/main..HEAD` holds no
+  `polish:` subject (576 commits listed in the shallow clone), so by the
+  skill it is a `full` run over the whole branch — huge. Check first
+  whether the clone is too shallow for the merge base, and how earlier
+  bites' tails polished (`megabeast/notes/gates.md` § on `/polish`'s
+  scope), before running it.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, last pushed 70871b42 (the
-  Stop hook's cost rows may follow); PR #57 draft, base `main`,
-  **`CONFLICTING`** (reported, `/finalize`'s job).
-- Plan `docs/plans/mushroom-game-syama.paused.md`, 394 lines.
+- Branch `claude/mushroom-game-syama-lbirv7`, last pushed 36e59b8d (Stop
+  hook cost rows may follow); PR #57 draft, base `main`, **`CONFLICTING`**
+  (reported, `/finalize`'s job).
+- Plan `docs/plans/mushroom-game-syama.paused.md`, 352 lines; its
+  `## Rest of the bite` lists what is left.
 - Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG still at
-  **version 15** (not republished since).
+  **version 15**.
 - No agent running, no worktree but the shared one, no check-in pending,
-  no PR subscription.
+  no PR subscription. All 13 review threads have a reply.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-12/review.md` — the fixes to brief.
-- `docs/plans/mushroom-game-syama/bite-12/leg-timing.md` — the timing
-  calls.
-- `docs/remove-before-merging/bite-12/review-brief.md`,
-  `brief-common.md` (build agents), and the latest notes `v18-*` to
-  `v21-fly18.md`.
-- The reviews:
-  `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/<id>/comments`
-  for 5391045656, 5391050029, 5391057365.
-- `docs/plans/mushroom-game-syama/to-check.md` — the operator's list.
-- This session: https://claude.ai/code/session_01UfB8AnjgikX3hw17euejxu
+- `docs/remove-before-merging/bite-12/rv-*.md` — this round's notes.
+- `docs/remove-before-merging/frames/bite-12/review/` — the frames
+  (`legframe-*` after § 8).
+- `docs/plans/mushroom-game-syama/to-check.md` — the operator's list
+  (nothing added this round).
+- This session: https://claude.ai/code/session_016xbr7x4apK8DQ38aF8ctLg
 
 ## 8. Next step
 
-Resume the plan (`/go`) at item 4's "Left": brief the fixes from
-`bite-12/review.md` as three disjoint groups by files — insects (with the
-way-in's leaving spot), eye and world, taps and the harness — each in its
-own worktree, one or two steps per agent, a check-in at ~12 minutes; then
-a tabL and phoneP play, the frames to `frames/bite-12/review/`, a reply on
-each review thread with the fixing sha bare (never resolve); then item 5.
-Reply to the operator in Russian, «ты».
+Resume the plan (`/go`) at `## Rest of the bite`: `/polish` (settle its
+scope first, § 5), vet, the frames chosen for the bite, the Artifact
+republished at its one URL, `/pr`; delete the section, and per Step 4 of
+`/go` the bite pauses for the next one, which then starts by the plan's
+§ "How this elephant is eaten" (the next bite being 12b). Reply to the
+operator in Russian, «ты».
