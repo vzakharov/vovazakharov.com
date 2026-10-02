@@ -44,6 +44,12 @@ const STAYS_MS = 1500;
 export const REST_LOOK = Math.floor(
   ((FLIGHT_HABITS.butterfly.resting[0] - LANDING - STAYS_MS) * 60) / 1000,
 );
+/**
+ * Frames per look waiting for a rest on a cap, within `REST_LOOK`: `MOST_LOOKS`
+ * span a minute, as one leg across a wide screen runs up to half that and most
+ * legs end on a flower.
+ */
+const CAP_LOOK = LOOK * 3;
 
 export type Insect = z.infer<typeof Insects>[number];
 
@@ -136,7 +142,7 @@ export function fliersOn(page: Page, expect: Expect) {
    * Steps until a butterfly is resting on a cap, on mushroom `on` when given,
    * with time to stay, looking every `every` frames, at most `REST_LOOK`.
    */
-  const waitForCapRest = async (on?: string, every = LOOK) =>
+  const waitForCapRest = async (on?: string, every = CAP_LOOK) =>
     waitFor(
       (all, at) =>
         all.find(
@@ -436,9 +442,9 @@ export async function playInsects(
     (await state()).selected === capId,
     `a tap on ${capId} did not select it`,
   );
-  // Looked for three times as long: with the world's flowers and caps to
-  // choose from, a butterfly comes to one given cap seldom.
-  const onCap = await waitForCapRest(capId, LOOK * 3);
+  // Looked for as long as a look may step: with the world's flowers and caps
+  // to choose from, a butterfly comes to one given cap seldom.
+  const onCap = await waitForCapRest(capId, REST_LOOK);
   if (onCap === undefined) {
     expect(false, `no butterfly came to rest on the selected ${capId}`);
     return;
