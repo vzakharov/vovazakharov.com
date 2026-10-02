@@ -20,6 +20,16 @@ Contract: `docs/plans/mushroom-game-syama/bite-12/review.md` § "taps-flowers-ha
   `BoxedOutlines` (type-overlap).
   - Decided: a mushroom still growing in covers with its full-grown outline.
 
+- Finding 1: `play-approach.ts`'s cap tap point is `paintedCap`: the
+  dome outline the painter fills (`headOutlines` → `capFrame` →
+  `toCanvas(size)`), its genes grown Node-side from the mushroom's seed and
+  species and splayed as `placeOf` stands its foot, through the graphics'
+  world transform read off the page; the deepest grid point of it. A check
+  that the Node-side turn equals the bed's guards the genes. tabL
+  `--plays approach`: the cap tap and the outside tap pass; the only red is
+  the frame budget (27.4 ms median vs 26), with other agents building on
+  the machine at the same time — nothing this change runs per frame.
+
 ## Left
 
-- Findings 1, 3, 2.
+- Findings 3, 2.

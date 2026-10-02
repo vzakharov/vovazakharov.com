@@ -3,7 +3,8 @@
  * forest grown from `+` as a child grows it; the eye turned onto its haziest
  * back-row mushroom and walked up to it on `↑` until it is drawn `CLOSE`
  * times its opening size, by when its painted haze has dropped; a tap on its
- * drawn cap selects it, and one `OUTSIDE` px outside its outline, where the
+ * cap where it is painted (`paintedCap`, never the scene's own hit test)
+ * selects it, and one `OUTSIDE` px outside its outline, where the
  * finger pad was, does not; then the eye turned there, at the closest
  * approach. Every frame of the walk and the turn is drawn and timed, and
  * their median kept to the frame budget (`lib/frame-budget.ts`): the fill
@@ -12,8 +13,26 @@
 
 import { z } from 'zod';
 
+import {
+  boxAround,
+  containsPoint,
+  distanceToEdge,
+} from '../../src/pages/mushrooms/model/geometry.ts';
 import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
+import {
+  MUSHROOM_SPECIES,
+  mushroomGenes,
+} from '../../src/pages/mushrooms/model/mushroom-genes.ts';
+import {
+  headOutlines,
+  toCanvas,
+} from '../../src/pages/mushrooms/model/mushroom-outline.ts';
+import {
+  capFrame,
+  splayed,
+} from '../../src/pages/mushrooms/model/mushroom-pose.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
+import { placeOf } from '../../src/pages/mushrooms/ui/scene/clump-layout.ts';
 import { HAZE_DRIFT } from '../../src/pages/mushrooms/ui/scene/repaint-queue.ts';
 import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
 import type { Sized } from '../../src/shared/typings/index.ts';
@@ -83,6 +102,84 @@ const outsides = (id: string) => `(() => {
     })
     .toSorted((a, b) => a.y - b.y);
 })()`;
+
+/**
+ * What the painter draws `id`'s dome from, as the page holds it: the
+ * mushroom's seed, species and foot, the size it is painted at, the turn the
+ * bed stood it at, and its graphics' transform onto the screen.
+ */
+const painting = (id: string) => `(() => {
+  const id = ${JSON.stringify(id)};
+  const { graphics, size, turn } = __probe.scene.bed.shown.get(id);
+  const { seed, species, foot } = __probe.scene.meadow.mushrooms.find(
+    (mushroom) => mushroom.id === id,
+  );
+  const { a, b, c, d, tx, ty } = graphics.getWorldTransformMatrix();
+  const { scrollX, scrollY } = __probe.scene.cameras.main;
+  return {
+    seed,
+    species,
+    foot: { x: foot.x, z: foot.z },
+    size,
+    turn,
+    matrix: { a, b, c, d, tx: tx - scrollX, ty: ty - scrollY },
+  };
+})()`;
+const Painting = z.object({
+  seed: z.number(),
+  species: z.enum(MUSHROOM_SPECIES),
+  foot: z.object({ x: z.number(), z: z.number() }),
+  size: z.number(),
+  turn: z.number(),
+  matrix: z.object({
+    a: z.number(),
+    b: z.number(),
+    c: z.number(),
+    d: z.number(),
+    tx: z.number(),
+    ty: z.number(),
+  }),
+});
+
+/** How many steps across its box the painted dome is searched for its deepest point. */
+const DOME_GRID = 16;
+
+/**
+ * Where the painter fills `painted`'s dome on the screen, from the outline it
+ * fills (`headOutlines` through `capFrame` and `toCanvas`, as
+ * `mushroom-paint.ts` maps it) through the graphics' drawn transform: the
+ * point of it farthest in from its edge, where a finger aimed at the cap
+ * lands. Also the turn its genes stand at, to check against the bed's.
+ */
+function paintedCap(
+  painted: z.infer<typeof Painting>,
+  camera: z.infer<typeof Camera>,
+): { at: z.infer<typeof Point>; turn: number } {
+  const { splay } = placeOf(camera, painted.foot);
+  const { genes, turn } = splayed(mushroomGenes(painted), splay);
+  const cap = capFrame(genes);
+  const canvas = toCanvas(painted.size);
+  const { a, b, c, d, tx, ty } = painted.matrix;
+  const [dome] = headOutlines(genes);
+  const outline = dome
+    .map((point) => canvas(cap(point)))
+    .map(({ x, y }) => ({ x: a * x + c * y + tx, y: b * x + d * y + ty }));
+  const { left, right, top, bottom } = boxAround(outline);
+  let at = outline[0] ?? { x: 0, y: 0 };
+  let deepest = -Infinity;
+  for (let i = 0; i <= DOME_GRID; i++) {
+    for (let j = 0; j <= DOME_GRID; j++) {
+      const point = {
+        x: left + ((right - left) * i) / DOME_GRID,
+        y: top + ((bottom - top) * j) / DOME_GRID,
+      };
+      if (!containsPoint(outline, point)) continue;
+      const depth = distanceToEdge(outline, point);
+      if (depth > deepest) [at, deepest] = [point, depth];
+    }
+  }
+  return { at, turn };
+}
 
 export async function playApproach(
   page: Page,
@@ -207,22 +304,20 @@ export async function playApproach(
       `a tap ${String(OUTSIDE)} px outside ${target.id}'s outline at (${outside.x.toFixed(0)}, ${outside.y.toFixed(0)}) selected it`,
     );
   }
-  const cap = await page.evaluate(
-    `__probe.mushroom(${JSON.stringify(target.id)})`,
-    Point.nullable(),
+  const painted = await page.evaluate(painting(target.id), Painting);
+  const { at: cap, turn } = paintedCap(painted, screen);
+  expect(
+    Math.abs(turn - painted.turn) < 1e-9,
+    `${target.id}'s genes, splayed as its foot stands it, turn ${turn.toFixed(4)}, not the ${painted.turn.toFixed(4)} the bed stood it at: the painted cap is read off the wrong outline`,
   );
-  if (cap === null) {
-    expect(false, `walked up to, ${target.id} shows no cap a tap reaches`);
-  } else {
-    await page.tap(cap);
-    await page.step(2);
-    expect(
-      (await state()).selected === target.id,
-      `a tap on ${target.id}'s drawn cap at (${cap.x.toFixed(0)}, ${cap.y.toFixed(0)}) reached ${String(await reachedThere(cap))}, not it`,
-    );
-    await page.step(40);
-    await page.shoot('final-tap');
-  }
+  await page.tap(cap);
+  await page.step(2);
+  expect(
+    (await state()).selected === target.id,
+    `a tap on ${target.id}'s painted cap at (${cap.x.toFixed(0)}, ${cap.y.toFixed(0)}) reached ${String(await reachedThere(cap))}, not it`,
+  );
+  await page.step(40);
+  await page.shoot('final-tap');
 
   // Turned there, at the closest approach, one way and back.
   await inTurn(['ArrowRight', 'ArrowLeft'] as const, async (key) => {
