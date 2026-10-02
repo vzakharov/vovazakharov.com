@@ -1,8 +1,7 @@
 import type { Sight } from '../../model/flight';
-import { type Ground, OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import type { Species } from '../../model/mushroom-genes';
-import { grownOn } from '../../model/placement';
+import type { Footed } from '../../model/placement';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
 import { keptRoom } from './mushroom-room';
@@ -59,7 +58,7 @@ export class Arrivals {
       kind: 'grow',
       species,
       seed: this.upcoming,
-      ...grownOn(OPENING_EYE, foot),
+      ...foot,
     });
     this.upcoming = nextSeed(this.growing);
   };
@@ -82,7 +81,7 @@ export class Arrivals {
   };
 
   /** Where the next mushroom grows as the meadow stands now: `undefined` where there is no room. */
-  private roomNow(): Ground | undefined {
+  private roomNow(): Footed | undefined {
     const stand = this.scene.stand();
     return stand && this.room(stand, this.upcoming, this.scene.view());
   }

@@ -97,12 +97,37 @@ laidFoot.y)`, host not drawn) reads it as opening world px, which for a
   `FIELD_MUSHROOMS` (96) bounds the field (`isFull`, which the picker and
   `controls.ts`'s `growable` read). `grow` refuses at either.
 
+- **`roomFor` / patches from the current eye** (`mushroom-room.ts`): judged
+  on `anchoredStand(stand, anchorOf(view.eye))` (opening eye absent a view),
+  the view re-expressed in the anchored frame (`viewFrom`), and the found
+  ground grown back to the plane with `grownOn(anchor, …)`. **`roomFor` now
+  returns `Footed`** (plane foot + lean), not a layout `Ground`, so a room
+  kept across an anchor move stays the same plane point; `fitsView` takes it
+  and re-grounds it at the current anchor. Callers dispatch `...foot`:
+  `arrivals.ts`, `visit-play.ts`, `tufts.test.ts` (one line each).
+  `roomFor` also refuses a foot `isCrowdedAt` (the area cap, so `+` shakes
+  its head).
+- `clump-layout.ts`: `groundIn(ground, foot)` — the anchored layout ground
+  of a stored foot — shared by `placeIn`, `roomFor`, the patches.
+- `standing-weighed.ts` (`standingOn`): stands mushrooms by `placeIn` on a
+  `MushroomGround`, skipping unplaced ones, cached per ground (survives
+  `anchoredStand`'s fresh layouts while the anchor stays). Was `placeOf`.
+- `mushroom-patch.ts`: `patchFloor` reads the depth of the anchored ground
+  (`floorOn`), so a far grown mushroom's floor follows the eye.
+- Tests: `mushroom-patch.test.ts` judges each forest from the eye it grew
+  at (`anchoredStand`); `mushroom-room.test.ts`'s "no room facing away"
+  became "grows behind the opening eye facing away, on screen".
+
+## Decided (S3)
+
+- No `D_SEE` filter on what `roomFor` reads: opening-frame mushrooms stand
+  up to 15.9 out (PERCH_REACH's reason), so a D_SEE cut would drop
+  occluders; `placeIn`'s world bounds already limit it to the anchored crop.
+- The area cap counts within `D_SEE` of the **new foot** (bite-12b.md),
+  over the whole stored field, not of the eye.
+
 ## Left
 
-- S3 (roomFor / patches from the current eye, the per-area cap): see the
-  S3 section. `roomFor` still uses `placeOnGround`/`placeOf` at the opening.
-- Nobody yet hands the rules an anchored ground: meadow-scene (I1) / L3
-  wire `anchoredGround(layout.mushrooms, anchorOf(eye))`.
-- Spore puffs (`puffSpores`, `puffFrom`) and the boing's pitch read
-  `shown.size` unzoomed, so for a grown mushroom they follow the paint size
-  (the clump's distance), not its drawn size.
+- `fliers.test.ts` not run on S3 (perch-sight changed; ~6 min).
+- `pnpm type-overlap` reports two groups in `lawn.ts` (L2's), not S3's.
+- Spore puffs / boing pitch read `shown.size` unzoomed (S2's note).

@@ -44,6 +44,44 @@ land below as they arrive.
   if it stays over budget measures crowding on the plane against a coarser
   snap and reports both before choosing; then I3, I4 (S2's `seatAloft`
   fallback), I5.
+- **L** — f58cfef (L3a): the depth band is the child's planting only
+  (`inFlowerBand`), bees' rings and `standingFlowers` keep to none;
+  `FlowerBed.paint` re-stands at drawn height. Departure taken: a bee's
+  flower may stand with its foot below the screen where its head is in
+  sight. Found (l.md): a ring slot is parent + offset in whatever frame
+  the parent arrives in, so from another anchor it lands elsewhere (depth
+  ×y²/74.6), and `standingFlowers` judges spacing in the opening's frame.
+  **Orchestrator's call, over L's "parent's own frame" proposal:** a ring
+  slot is an offset **on the plane**, in ground units round the parent's
+  plane foot, so no frame enters it and no anchor moves it — step 0's rule
+  that a stored foot is a plane point, extended to bee flowers. The
+  offsets are sized so that at the opening a ring lands within half a
+  tuft of where it does today (a test pins it); spacing (`headsApart`,
+  `clearOfFeet`) is judged in plane distance, which anchoring keeps. It
+  beat the proposal because the proposal keeps a frame per parent and a
+  clamp to "the nearest point of the opening's flower ground", a second
+  geometry to keep right forever. The 48 cap: a constant and a counting
+  helper in `game.ts`, enforced in `roomFor`/`roomIn`, as L proposed. The
+  next L agent gets `anchored-stand.ts` once S3 reports.
+- **S3** — 0fd8923 (one anchoring path: `placeAnchored` gone, `placeIn`
+  on `anchoredGround`), f790400 (`MUSHROOM_SLOTS` 12 within `D_SEE` of the
+  new foot via `isCrowdedAt`, `FIELD_MUSHROOMS` 96 for `isFull`), 90f77f7
+  (`roomFor`/patches from `anchorOf(view.eye)`, `groundIn`, `viewFrom`).
+  **Package S done.** Its departures, all kept: `roomFor` returns a plane
+  `Footed`, re-grounded by `fitsView` (one-line edits in `arrivals.ts`,
+  `visit-play.ts`, `tufts.test.ts`); `standing-weighed.ts` edited;
+  `roomFor` reads no `D_SEE` cut (opening caps stand to 15.9);
+  `mushroom-patch.test.ts` judges each forest from the eye it grew at.
+  Left over: `fliers.test.ts` not run on S3 (the next I agent runs it
+  first); spore puffs and the boing read `shown.size` unzoomed;
+  `pnpm type-overlap` red on two groups in `lawn.ts` (the next L agent's).
+
+## Wave 4 (launched together)
+
+I′ (`perch-sight.ts` handed over: fliers on S3, I2's patch wired and
+profiled, then I3–I5), L′ (`anchored-stand.ts` handed over: plane ring
+offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
+(`mushroom-bed.ts`; the flower half waits on L′).
 
 ## Next wave
 

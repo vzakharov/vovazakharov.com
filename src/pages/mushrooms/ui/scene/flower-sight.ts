@@ -36,6 +36,7 @@ import { FLOWER_SWAY, type Footing, standingOn } from './flower-layout';
 import {
   flowersOf,
   groundFor,
+  inFlowerBand,
   mushroomFeet,
   type Placed,
   RING_SLOTS,
@@ -351,29 +352,30 @@ function groundIn(stand: Stand): Ground {
 
 /**
  * Whether the child can plant a flower at `foot` on `stand`: it is
- * `plantable` as a bee's planting would be, so the flower stands and is in
- * sight on every screen (`roomIn`, for one foot).
+ * `plantable` as a bee's planting would be, and in the flowers' band, so the
+ * flower stands and is in sight on every screen (`roomIn`, for one foot).
  */
 export function takesFlower(stand: Stand, foot: Footing): boolean {
   return roomIn(stand)(foot);
 }
 
 /**
- * Whether a flower planted at a foot on `stand` would stand there and be in
- * sight (`plantable`): what `stand` holds read once, for every foot asked
- * after.
+ * Whether the child's flower planted at a foot on `stand` would stand there
+ * and be in sight (`plantable`), in the flowers' band (`inFlowerBand`): what
+ * `stand` holds read once, for every foot asked after.
  */
 export function roomIn(stand: Stand): (foot: Footing) => boolean {
   const { layout, mushrooms } = stand;
   const ground = groundIn(stand);
   const covers = coversOn(layout, mushrooms);
-  return (foot) => plantable(layout, foot, ground, covers);
+  return (foot) =>
+    inFlowerBand(foot) && plantable(layout, foot, ground, covers);
 }
 
 /**
  * Where a bee could plant round each flower of `shown`: the first ring slot
- * no planted flower takes that is `plantable`, in sight, off
- * the foot of every mushroom standing (`mushroomFeet`).
+ * no planted flower takes that is `plantable`, in sight, off the foot of
+ * every mushroom standing (`mushroomFeet`), at any depth.
  */
 export function roomFor(
   stand: Stand,

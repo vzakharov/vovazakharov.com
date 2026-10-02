@@ -160,6 +160,8 @@ export class FlowerBed implements Following {
       shown.headY = shown.head.y;
       shown.disc = genes.centre * place.size;
       shown.hit.setTo(0, 0, flowerTapReach(shown.headR));
+      // Stood again at its drawn height, which the view's cull reads.
+      this.stand(shown);
     }
   }
 

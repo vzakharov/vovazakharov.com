@@ -97,21 +97,29 @@ export function ringFoot(parent: Footing, ring: number): Footing | undefined {
 }
 
 /**
- * Whether a flower at `foot` has ground to stand on: in the flowers' band of
- * the meadow's depth, clear of every mushroom's foot of `feet`, and its head
- * at its widest apart from the head of every flower of `standing`, all on
- * the ground, so the answer is the same on every screen.
+ * Whether a flower at `foot` stands in the flowers' band of the meadow's
+ * depth from the eye the layout is anchored at: where the child plants, and
+ * nowhere a bee's ring or a standing flower is held to.
+ */
+export function inFlowerBand(foot: Footing): boolean {
+  const [near = 0, far = 0] = FLOWER_DEPTH;
+  const { z } = groundFootOf(foot);
+  return z >= near - ON_THE_BAND && z <= far + ON_THE_BAND;
+}
+
+/**
+ * Whether a flower at `foot` has ground to stand on: clear of every
+ * mushroom's foot of `feet`, and its head at its widest apart from the head
+ * of every flower of `standing`, all on the ground, so the answer is the
+ * same on every screen.
  */
 export function groundFor(
   foot: Footing,
   standing: readonly Rooted[],
   feet: readonly GroundFoot[],
 ): boolean {
-  const [near = 0, far = 0] = FLOWER_DEPTH;
   const ground = groundFootOf(foot);
   return (
-    ground.z >= near - ON_THE_BAND &&
-    ground.z <= far + ON_THE_BAND &&
     clearOfFeet(ground, feet) &&
     headsApart(
       ground,

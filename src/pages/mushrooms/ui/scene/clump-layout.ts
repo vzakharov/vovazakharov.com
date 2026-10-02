@@ -150,36 +150,38 @@ export function clumpCrowns(camera: Camera): Box[] {
 }
 
 /**
+ * The ground under the stored `foot` in the world `ground` lays out, as its
+ * anchor sees it, or `undefined` in the sliver straight behind the anchor,
+ * which the layout has no ground for.
+ */
+export function groundIn(
+  { anchor }: MushroomGround,
+  foot: Point,
+): Ground | undefined {
+  const seen = sameAnchor(anchor, OPENING_EYE) ? foot : anchored(anchor, foot);
+  return gathered(seen).y > 0 ? groundOfPlane(seen) : undefined;
+}
+
+/**
  * Where `mushroom` stands in the world `ground` lays out, as its anchor sees
  * it, or `undefined` where its foot stands outside that world: one of the
  * opening clump at the clump's size and splay wherever it stands, the rest as
  * the forest.
  */
 export function placeIn(
-  { camera, anchor }: MushroomGround,
+  ground: MushroomGround,
   footed: Footed,
 ): Placement | undefined {
-  const foot = sameAnchor(anchor, OPENING_EYE)
-    ? footed.foot
-    : anchored(anchor, footed.foot);
-  if (!hasGround(foot)) return undefined;
-  const place = placedAs(
-    camera,
-    groundOfPlane(foot),
-    footed.lean,
-    openingIndex(footed.foot),
-  );
+  const at = groundIn(ground, footed.foot);
+  if (!at) return undefined;
+  const { camera } = ground;
+  const place = placedAs(camera, at, footed.lean, openingIndex(footed.foot));
   const shown =
     place.x >= 0 &&
     place.x <= camera.world &&
     place.y >= camera.groundTop &&
     place.y <= camera.height;
   return shown ? place : undefined;
-}
-
-/** Whether `point` has ground on the layout (`groundOfPlane`): anywhere but a sliver straight behind `OPENING_EYE`. */
-function hasGround(point: Point): boolean {
-  return gathered(point).y > 0;
 }
 
 /**

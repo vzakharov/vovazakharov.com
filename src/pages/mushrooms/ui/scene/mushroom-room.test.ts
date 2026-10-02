@@ -20,7 +20,7 @@ function counted() {
   const room = keptRoom(
     () => {
       asked.times += 1;
-      return { x: asked.times, z: 0 };
+      return grownOn(OPENING_EYE, { x: asked.times, z: 0 });
     },
     () => fitting.now,
   );
@@ -36,8 +36,9 @@ describe('the room kept for the next mushroom', () => {
 
   it('answers again from what it found while nothing changes', () => {
     const { asked, room } = counted();
-    assert.deepEqual(room(stand, 7), { x: 1, z: 0 });
-    assert.deepEqual(room({ ...stand }, 7), { x: 1, z: 0 });
+    const first = grownOn(OPENING_EYE, { x: 1, z: 0 });
+    assert.deepEqual(room(stand, 7), first);
+    assert.deepEqual(room({ ...stand }, 7), first);
     assert.equal(asked.times, 1);
   });
 
@@ -98,7 +99,7 @@ describe('the room a `+` finds', () => {
       for (const seed of [3, 11, 29, 47]) {
         const foot = roomFor(stand, seed, view);
         assert.ok(foot, `${name}: seed ${String(seed)} found no room`);
-        const { x } = ofGround(view, grownOn(OPENING_EYE, foot).foot);
+        const { x } = ofGround(view, foot.foot);
         assert.ok(
           x > 0 && x < layout.width,
           `${name}: seed ${String(seed)}'s foot at ${x.toFixed(0)} px across a ${String(layout.width)} px screen`,
@@ -107,8 +108,12 @@ describe('the room a `+` finds', () => {
     }
   });
 
-  it('finds no room facing away from the wedge, whose ground is bare', () => {
+  it('grows behind the opening eye facing away from it, on the screen the view shows', () => {
     const view = viewAt(layout.camera, { ...OPENING_EYE, heading: Math.PI });
-    assert.equal(roomFor(stand, 3, view), undefined);
+    const found = roomFor(stand, 3, view);
+    assert.ok(found);
+    assert.ok(found.foot.y < 0);
+    const { x } = ofGround(view, found.foot);
+    assert.ok(x > 0 && x < layout.width);
   });
 });

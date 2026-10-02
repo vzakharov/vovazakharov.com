@@ -9,12 +9,7 @@ import { openingIndex } from '../../model/placement';
 import { isBeeSown, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';
 import { standingPlaces } from './clump-layout';
-import {
-  FLOWER_DOWN,
-  FLOWERS_APART,
-  FOOT_CLEARANCE,
-  widestHead,
-} from './flower-layout';
+import { FLOWERS_APART, FOOT_CLEARANCE, widestHead } from './flower-layout';
 import {
   flowerFeet,
   flowersOf,
@@ -108,8 +103,9 @@ function median(counts: readonly number[]): number {
 
 /**
  * Asserts that every planted flower of `stand` stands in `screen`'s world
- * where it stands on the ground, in the flowers' band of the ground, off every
- * standing mushroom's foot and its head apart from every other flower's.
+ * where it stands on the ground, at whatever depth a bee's ring took it, off
+ * every standing mushroom's foot and its head apart from every other
+ * flower's.
  */
 function assertGrounded(
   seed: number,
@@ -124,7 +120,6 @@ function assertGrounded(
     stand.pulled,
   );
   const feet = standingPlaces(screen.mushrooms, stand.mushrooms);
-  const depth = screen.height - screen.groundTop;
   for (const { id } of stand.planted) {
     const flower = placed.find((each) => each.id === id);
     assert.ok(flower, `visit ${String(seed)}: ${id} hidden on a turn`);
@@ -132,12 +127,6 @@ function assertGrounded(
     assert.ok(
       place.x >= 0 && place.x <= screen.camera.world,
       `visit ${String(seed)}: ${id} out of the world`,
-    );
-    const down = (place.y - screen.groundTop) / depth;
-    assert.ok(
-      down >= FLOWER_DOWN[0] - SAME_GROUND &&
-        down <= FLOWER_DOWN[1] + SAME_GROUND,
-      `visit ${String(seed)}: ${id} off the ground`,
     );
     for (const foot of feet) {
       const nearestY = Math.min(

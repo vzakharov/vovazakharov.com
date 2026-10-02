@@ -13,7 +13,6 @@ import {
   pinholeOf,
 } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
-import { grownOn } from '../../model/placement';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
@@ -239,7 +238,7 @@ function turned(
       kind: 'grow',
       species,
       seed: own,
-      ...grownOn(OPENING_EYE, foot),
+      ...foot,
     });
   }
   if (roll < 0.4) return actedOn(stand, { kind: 'remove' });
