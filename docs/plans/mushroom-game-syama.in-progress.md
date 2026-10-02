@@ -363,27 +363,21 @@ with his words and what it beat: `bite-12/v14.md`.
    `v14-note-plant` (played, tabL), `v14-insect-depth` and `v14-fly`
    (played by `v14-insect-play.md`; any fix it left is the next work).
    Notes beside `brief-common.md`. The Artifact is still version 14.
-1a. ~~Insects fly under the ground~~ — fixed (41d6ee7): a point the bow,
-   zigzag or hop swings below the ground line is read as nearer on its line
-   of sight, the height easing toward 0 under `SKIM`; the screen path is
-   unchanged, so a leg bowing down the screen swoops toward the viewer.
-   Holding the height or bending the path beaten. On `to-check.md`.
-1b'. ~~`v14-catch`~~ — built (2bd99a9, 9f96587); a new leg to another perch
-   with a dart off it, not a burst on the current leg. On `to-check.md`.
-1c. The tablet reds (`play-final2.md`). Built (02c0804): a new leg took its
-   starting turn from the rotation last drawn, stale while the insect was
-   hidden, so it swung off its way; it now sets off from the steering's
-   turn. The 3 rad flip and the crooked bee were the play watch judging
-   hidden insects (fixed there). Butterflies do rest on caps (16–40% of
-   legs, more in a forest); in the two-cap clump flies hold the caps first,
-   and that stays as designed. The sky hairline (be202aa): Phaser's fill
-   skips an outline point within a device px of the last, and a dropped
-   skyline crossing left a sub-pixel hill strip over the sky; `keptOnEdges`
-   in `skyline.ts` never drops a point on a band's edge. `type-overlap`:
-   `Steering.at` (ms) renamed `heldAt`, apart from `KeySown.at` (s).
+1a–1c. ~~Insects under the ground, the catch, the tablet reds~~ — built
+   (41d6ee7, 9f96587, 02c0804, be202aa); each call and what it beat in
+   `bite-12/v14.md` § "Built at depth 8", the hand checks on `to-check.md`.
 2. The play run at the final HEAD under § "How this elephant is eaten"'s
-   rule (game reds fixed, harness reds to `to-check.md`): tabL and phoneP,
-   `meadow` and `veer` first, then the rest as budget allows.
+   rule. tabL and phoneP `meadow`,`veer` ran at f584982 (`v15-play.md`,
+   frames in `v15/`); its harness reds went to `to-check.md`. Left:
+   - **A game red, traced, not fixed:** a fly leaving a mushroom the veer
+     play grew flies ~2.2× its cruise (fly-22, tabL, ~138 s; phoneP's
+     fly-25 likewise while the eye walks). Suspect `Perches.sightFrom`
+     correcting only `fromEye` and keeping `perchSight`'s laid-out x, y,
+     while the away place comes from the current view; the note has the
+     next probe. Fix with a unit test that fails before.
+   - The watch's one-line loosening: skip shying fliers in the heading
+     check (a dart moves without turning, by design).
+   - `--no-build --screens tabL --plays walk,planting,hold`.
 3. ~~The footstep level~~ — put to the operator's ear with Artifact version 14
    (`STEP_PEAK` 1.5, ~10 dB under a C5); it changes only on his word.
 4. The review subagent (§ "How this elephant is eaten" step 2) and its fixes.
