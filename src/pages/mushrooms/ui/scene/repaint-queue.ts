@@ -1,9 +1,10 @@
 /**
- * Which hazy things a frame repaints. A thing is painted at the haze of where
- * it stood when last drawn, and walking up to a misty back-row mushroom must
- * clear it, but a repaint costs up to a millisecond: so a frame repaints only
- * the few nearest whose haze has drifted far enough from their paint to see.
- * Light stays as painted.
+ * Which things a frame repaints. A thing is painted at the haze of where it
+ * stood and in the light of the heading it was seen from when last drawn;
+ * walking up to a misty back-row mushroom must clear it, and turning round
+ * must move its lit side, but a repaint costs up to a millisecond: so a frame
+ * repaints only the few nearest whose haze or sun side has drifted far enough
+ * from their paint to see.
  */
 
 import {
@@ -20,6 +21,13 @@ import { D_SEE, type Placed } from './view';
 /** How far a thing's haze drifts from its paint before it is repainted. */
 export const HAZE_DRIFT = 0.04;
 
+/**
+ * How far a thing's sun side, its light's across share (`Light`'s `toward.x`),
+ * drifts from its paint before it is repainted: a sixth of the full side
+ * shade's (`sideways`), a step the eye sees.
+ */
+export const SIDE_DRIFT = 0.1;
+
 /** How many things a frame repaints at the most. */
 export const REPAINTS_PER_FRAME = 2;
 
@@ -30,7 +38,7 @@ export const REPAINTS_PER_FRAME = 2;
  * as it goes under rather than after.
  */
 const BROW_PALE = 0.2;
-const PALE_SPAN = 1.2;
+export const PALE_SPAN = 1.2;
 
 /** How much paler a thing `distance` from the eye stands for sinking behind the brow: none up to `D_SEE`, easing up to `BROW_PALE`. */
 export function browPale(distance: number): number {
@@ -54,19 +62,36 @@ export function hazeAhead(
   return Math.min(1, project(camera, { x: 0, z }).haze + browPale(distance));
 }
 
-/** A thing's haze now, as it was `painted`, and how far `ahead` it stands. */
-export type Hazing = Hazed & Pick<Viewed, 'ahead'> & { painted: number };
+/** A thing's sun side now, as its light from the heading gives it, and as it was painted. */
+export type Siding = { sunSide: number; paintedSunSide: number };
+
+/**
+ * A thing's haze now, as it was `painted`, and how far `ahead` it stands;
+ * and its sun side, unless its light never turns.
+ */
+export type Hazing = Hazed &
+  Pick<Viewed, 'ahead'> & { painted: number } & Partial<Siding>;
+
+/** Whether `thing`'s haze or sun side has drifted far enough from its paint to repaint. */
+function drifted({ haze, painted, sunSide, paintedSunSide }: Hazing): boolean {
+  return (
+    Math.abs(haze - painted) >= HAZE_DRIFT ||
+    (sunSide !== undefined &&
+      paintedSunSide !== undefined &&
+      Math.abs(sunSide - paintedSunSide) >= SIDE_DRIFT)
+  );
+}
 
 /**
  * Those of `things` a frame repaints: the `most` nearest whose haze has
- * drifted `HAZE_DRIFT` or more from their paint.
+ * drifted `HAZE_DRIFT` or more from their paint, or whose sun side `SIDE_DRIFT`.
  */
 export function repaintsDue<Thing extends Hazing>(
   things: readonly Thing[],
   most = REPAINTS_PER_FRAME,
 ): Thing[] {
   return things
-    .filter(({ haze, painted }) => Math.abs(haze - painted) >= HAZE_DRIFT)
+    .filter((thing) => drifted(thing))
     .toSorted((one, other) => one.ahead - other.ahead)
     .slice(0, most);
 }

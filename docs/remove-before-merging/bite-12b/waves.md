@@ -14,14 +14,16 @@ Each agent's report lands here as it arrives, so a restart costs nothing.
 | Package | Step(s)           | Note   | Report                                                                                                                                                                                                                                                                                              |
 | ------- | ----------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | R       | R1, R2 if context | `r.md` | R1 1d54062: rim gone, `roomAhead` removed outright; R2 8fd62de: wash rule → `sun-layout.test.ts` against `browRow` (stricter). Touched `scripts/lib/play-walk.ts` to type-check: rim check removed, its replacement (↓ 12 s walks back STRIDE_CRUISE × (12 − eased) ±0.05) left to the play package |
-| S       | S1                | `s.md` |                                                                                                                                                                                                                                                                                                     |
+| S       | S1                | `s.md` | S1 d4ad46f: `offSides` in `bedPlace`, overhang `SIDE_OVERHANG` 1.5 × drawn height (= a tuft's), no bed edit needed; for L: `FlowerBed.paint` places before `drawFlower` sizes the head, so a new flower off a side shows a frame late (re-place after drawing)                                      |
 | L       | L1, L2 if context | `l.md` | L1 299d871: `tuft-tap.ts` split out (99 lines), `tufts.ts` 345; `middleOf` exported; no behaviour change; L2 not started (context)                                                                                                                                                                  |
 | I       | I1                | `i.md` |                                                                                                                                                                                                                                                                                                     |
 
 ## Wave 2 (launched as inputs free up)
 
-- L2 — after L1's report; note `l.md`.
+- L2 — after L1's report; note `l.md`. **Landed 6524db4**: new `lawn.ts` (CELL 4, 14 tufts/cell, `liveCells` ~80 cells/~1100 tufts since D_SEE is 13.33, `LiveLawn.round` regrows on a cell crossing); `Grass` tends only `tendedIn(view)` (half a screen + one screen of heading, re-tend on 0.5 units / half a screen; ~370 tufts on tabL, est. 15–35 ms per re-tend, unmeasured — the play run measures it); tufts placed by `placedAt` and sized by screen row (`tuftSizeAt`), not `bedPlace`'s zoom; `leaveTufts(grownAt)`; `PALE_SPAN` exported from `repaint-queue.ts`. Until L3, far from the start the grass mostly vanishes (rules still at the opening eye).
 - R3 — after R2; note `r.md`.
+- S2 — after S1; note `s.md`.
+- P1 — after S1; note `p.md` (beds' wiring left as P1b). **Landed f499e9f**: `headedLight(light, heading)` (exact at heading 0), `mushroomLights`/`flowerLight` take `heading` (defaults to the opening's), `SIDE_DRIFT` 0.1, optional `Siding` (`sunSide`, `paintedSunSide`) on `Hazing`. Each thing keeps its own α from its opening light; facing away lights the mirrored side. **Nothing shows until P1b** (mushroom-bed.ts and flower-bed.ts wiring, step by step in `p.md`) — launch after S2 frees mushroom-bed.ts.
 
 ## Queued
 
