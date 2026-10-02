@@ -23,6 +23,7 @@ import { between, type Random } from '../../model/random';
 import { depthOf, UNPLACED } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
+import { coversShown, inSightPast } from './flower-cover';
 import {
   FLOWER_SIZE,
   FLOWER_SWAY,
@@ -342,6 +343,8 @@ export class Grass {
   /** The standing tufts as the last frame drew them, which a tap is judged on. */
   private shown: ShownGrass = { near: [], behind: [] };
   private view: View | undefined;
+  /** The stand the tufts were last tended to, whose mushrooms hide the tufts behind them. */
+  private stand: Stand | undefined;
   private refused: Refusal | undefined;
 
   constructor(scene: Phaser.Scene, growing: Random) {
@@ -376,6 +379,7 @@ export class Grass {
   /** Tends the tufts to `stand` as it now stands, with those its pulled flowers left (`tendTufts`). */
   tend(stand: Stand): void {
     const { grown, growing } = this;
+    this.stand = stand;
     const left = leaveTufts(stand, grown, this.left, growing);
     this.left = left;
     this.tufts = tendTufts(stand, [...grown, ...left]);
@@ -424,9 +428,20 @@ export class Grass {
     return tuftAt(this.shown.near, point)?.sprout;
   }
 
-  /** The standing tufts the last frame drew this side of the ground's top row, where a tap could land. */
+  /**
+   * The standing tufts the last frame drew this side of the ground's top
+   * row with no nearer mushroom drawn over their middle (`inSightPast`):
+   * those the child sees.
+   */
   inView(): Sprout[] {
-    return this.shown.near.map(({ sprout }) => sprout);
+    const { view, stand, shown } = this;
+    if (!view || !stand) return [];
+    const covers = coversShown(view, stand.layout, stand.mushrooms);
+    return shown.near.flatMap(({ tuft, sprout }) =>
+      inSightPast(covers, middleOf(tuft), ofGround(view, sprout.foot).distance)
+        ? [sprout]
+        : [],
+    );
   }
 
   /** Shakes `tuft`'s head from `now`, in seconds, as it refuses a flower. */
