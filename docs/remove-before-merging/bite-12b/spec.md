@@ -1,4 +1,7 @@
-# Bite 12b — the endless field (spec, partial)
+# Bite 12b — the endless field (spec)
+
+§§ 6–11 below were added by the second spec agent (`spec-rest`); its
+numbers are measured at c396659 by a Node benchmark that is not committed.
 
 **Status: partial.** The mapping agent hit its context budget after the
 store, the rim and the opening-eye rules were mapped. Done here: § 1 (the
@@ -210,18 +213,200 @@ Point & Scaled`; `Rooted` unchanged in name. `Ground {x, z}` stays as the
 - **Exact identity across conversion** (`openingIndex`, `sameFoot`): any
   `planeOf`/`groundOfPlane` round trip before an `===` breaks it silently.
 
-## What is left
+§ 2 (the insects) is `spec-insects.md`'s, written in parallel.
 
-1. § 2, the insects: read `ui/scene/insect-view.ts`, `insect-away.ts`,
-   `insect-shown.ts`, `perch-sight.ts`, `perches.ts`, `model/flight-frame.ts`,
-   `model/flight-in.ts` and state what endless-field.md § "The insects on the
-   plane" already has.
-2. `follow`'s per-frame cost at 96 mushrooms plus flowers, from
-   `mushroom-bed.ts`/`flower-bed.ts`/`bed-place.ts`, against the 26 ms median.
-3. The lawn's cell size, seed per cell, live cells (derive from
-   `mostTufts`' density and `D_SEE` ≈ 13.33), and `tendTufts`' cost on an
-   anchored layout.
-4. Light by heading (`repaint-queue.ts`, `model/light.ts`), mottles
-   (`grain.ts`), `nearestTheSun`/`acrossFromSun`, `openingCrop`, `rebloom`.
-5. The package cut checked file by file, the play package, and the
-   `to-check.md` hand checks.
+## 6. `follow`'s cost at 96 (measured)
+
+Node micro-benchmark at c396659 (tabL 1180×820, unit 170.56 px, world
+2163 px; Phaser stubbed; median of 400 runs; not committed):
+
+| What                                                     | Per thing                    | At 96 / 112 / 400                     |
+| -------------------------------------------------------- | ---------------------------- | ------------------------------------- |
+| a mushroom's `bedPlace` + `hazeAhead` (`follow`'s math)  | 0.46 µs                      | 0.045 ms at 96                        |
+| a flower's `bedPlace`                                    | 0.39 µs                      | 0.15 ms at 400                        |
+| `shownSprouts` (today's 112 tufts)                       | 0.40 µs                      | 0.044 ms                              |
+| `drawMushroom` recorded (= one repaint's JS)             | 0.71 ms                      | 2 a frame: 1.4 ms                     |
+| Earcut of one mushroom's 39 fills, 2715 pts, 1 px detail | 0.23–0.52 ms (zoom 0.35–1.5) | **every drawn mushroom, every frame** |
+
+**`follow` itself is not the risk: 0.05 ms at 96.** The risk is Phaser 4
+re-tessellating every _visible_ Graphics every frame
+(`GraphicsWebGLRenderer.js` → `FillPath.js` runs `Earcut` per fill path; no
+bounds culling, `GameObject.willRender` reads only flags). `bedPlace`'s
+`drawn` hides only `cull` (`ahead < V_NEAR`) and `sunkAway`, so **a mushroom
+behind the eye within D_SEE is drawn off the screen**: at azimuth π,
+`bend = hypot(1, π/SPREAD)` = 1.89, `ahead` = 13.33/1.89 = 7.07 > `V_NEAR`
+5.01. Today the 12 all stand in front, so it never showed.
+
+How many are drawn: a Monte Carlo of 96 feet sown under the area cap (≤ 12
+within `D_SEE` of a new foot, feet ≥ 1.0 apart) in squares 15–60 units wide,
+400 eyes each: **at most 36 drawn, at most 19 on a tabL screen** (± 45°
+plus a cap's overhang). Uncapped random 96 in a 14.5 disc: 77 drawn, 33 on
+screen. The densest case is the small square (two clusters of 12); the
+field-wide 96 never bounds it — a 60-unit square gives at most 22 drawn.
+
+Against the budget: the 12-mushroom walk measured 19.7 ms median
+(`bite-12/play-final2.md`), of which ~12 × 0.45 ≈ 5.4 ms is Earcut. At 36
+drawn: +24 × 0.45 ≈ **+11 ms → ~31 ms, over 26**. With the off-screen ones
+hidden, 19 on screen: +7 × 0.45 ≈ **+3 ms → ~23 ms, inside**.
+
+**Verdict: keep 96; the median holds only if `bedPlace` hides what stands
+off the screen's sides** (azimuth past the half-screen plus `BLADE_OVERHANG`-
+style overhang by the thing's drawn size, as `shownSprouts` already does) —
+a step in package S. A lower field ceiling buys nothing: what the screen
+draws is bounded by the per-area cap, not the field's. The play package's
+approach run is re-aimed at the dense case (24 sown within 15 units, walked
+into and turned at) to measure it. Flowers carry the same per-frame Earcut
+(stem and head Graphics per `Container`) and have **no cap at all**: the
+side cull bounds what is drawn, and `follow`/`update` iterate every flower
+on the field (0.39 µs each, fine to ~10⁴).
+
+## 7. The lawn by plane cells
+
+**`tufts.ts` splits first** (433 lines), no behaviour change: `tuft-tap.ts`
+(`TUFT_REACH`, `tuftReach`, `tuftAt`, `bareToTap`, `middleOf`) and
+`tufts.ts` (growth, `plantableIn`, `tendTufts`, `leaveTufts`,
+`shownSprouts`, `Grass`). Tests follow their functions.
+
+- **Density, from today:** 112 tufts (`mostTufts`, world 2163 px) on the
+  opening world's ground: azimuth ± 1.24 rad (half-world 1081 px over focal
+  1473.6 px, × SPREAD), distance 7.87–12.96 (`GROWN_DOWN` ^ `BACK_BUNCH`) →
+  131.7 unit² → **0.85 tufts per unit²**. Today's lawn is ~1.75× denser
+  per plane area near (8 units) than far (12.9); a plane-uniform lawn shows
+  the near grass a little sparser than today's opening.
+- **Cell: a 4 × 4 square of the plane**, ~13.6 tufts each (Poisson-free:
+  exactly `round(0.85 × 16)` = 14, positions uniform in the cell), drawn
+  from `mulberry32(hash(visitSeed, i, j))` — a cell's grass is a pure
+  function of its index, so a walk back finds it. 2-unit cells mean ~200
+  live cells of 3–4 tufts; 4 units means ~60 of 14.
+- **Live cells:** those within `D_SEE` + `PALE_SPAN` (1.2) + a cell's
+  diagonal (5.66) of the eye: ~60 cells, **~800 tufts**; a frame draws
+  those `shownSprouts` passes (~70 on tabL, as today). Cells enter and leave
+  by the eye's cell, so the set changes when the eye crosses a cell line.
+- **Opening identity breaks for tufts** (not for the clump or the seeded
+  flowers): the opening lawn is no longer `growTufts`' stream. Accepted by
+  the plan's "the grass is the field's"; `tufts.test.ts`' stream-identity
+  cases are rewritten against cells.
+- **Judged from the current eye:** `plantableIn(stand)` is built on the
+  anchored layout (§ 3) and asked only of tufts the eye can see (live cells
+  inside ± 3.08 rad); `leaveTufts` stores plane feet.
+- **Cost (measured):** `tendTufts` over today's 112 takes **4.5 ms** on the
+  opening, **10.6 ms** in a 12-mushroom forest (40–95 µs a tuft, mostly
+  `bareToTap`'s 9 tap points per mushroom target and `headClear` over every
+  standing flower); `roomFor` 4.0 / 12.8 ms. Over 800 live tufts that is
+  **32–76 ms per tend — a dropped frame or four each time.** So: tend only
+  the tufts in the view's sector plus one screen either side (~3 × 70), on
+  a cell entering it or a change near it (a flower, a mushroom); and
+  `plantableIn`'s `standing` flowers and mushroom targets are those within
+  `D_SEE` + reach of the eye, never the whole field (otherwise O(field ×
+  tufts)).
+
+## 8. Light by heading, and mottles
+
+- Today's light is screen-fixed: `sunLight` (`model/light.ts:18-28`) from
+  the ground's middle to the sun's layout point, and `lightAt`
+  (`ui/scene/mushroom-light.ts:35-40`) per thing at paint. By heading, the
+  `toward.x` a thing is painted with becomes `sin(α_sun − heading)` (the
+  sun's azimuth off the heading; the plan's `sin(heading − α_sun)` with the
+  sign `toward` uses), `toward.y` from the sun's height, unchanged.
+- **Through the queue:** `Hazing` (`repaint-queue.ts:58`) gains the light it
+  was painted at; `repaintsDue` takes a thing whose haze **or** side drifts
+  past its threshold (side: 0.1 of `sideways`' `FULL_SIDE` 0.6 is a visible
+  step), nearest first, `REPAINTS_PER_FRAME` 2. A full turn drifts every
+  mushroom's side at once: 19 on screen at 2 a frame clear in 10 frames
+  (0.17 s); 36 drawn in 18. Flowers carry their light in `flowerLight`
+  (`mushroom-light.ts:69`) and join the same queue. 2 × 0.71 ms repaint =
+  1.4 ms a frame while turning, inside the estimate above.
+- **Mottles as plane objects, from the lawn's cells:** each cell's seed also
+  draws its mottles (a few per cell), stored as plane points and drawn by
+  `bedPlace` like tufts, flat on the ground under them. `grain.ts` (63
+  lines) keeps the screen-fixed grain.
+
+## 9. The clear-outs
+
+- **`GLADE` and the rim:** § 3 "The rim goes".
+- **`nearestTheSun`/`acrossFromSun`** (`sun-layout.ts:225-247`): their only
+  reader is `meadow-rules.test.ts:35,213` ("out of the wash"), which asks
+  whether any pan of the opening world brings a foot under the wash. On the
+  endless field the sun stands at its azimuth on the sky and every foot
+  stands on the ground below the brow; `washReach` (`:259-268`) already
+  bounds the wash above the farthest foot from every eye. **Recommend: both
+  go and the rule goes**, replaced by `washReach`'s own test that the wash's
+  outer ring stays above `browLowest` less the farthest place's
+  `WASH_FOOT_CLEAR` (`sun-layout.test.ts`).
+- **`openingCrop`** (`visit-play.ts:38-40`): readers
+  `mushroom-patch.test.ts:16,37`, `layout.test.ts:46,103`,
+  `meadow-rules.test.ts:39,79,119`, `scripts/sweep-mushrooms.ts:34,87`.
+  Each becomes `viewAt(layout.camera, OPENING_EYE)` inline.
+- **`rebloom`** (`model/motion.ts:109-121`, `BLOOM_WIDEST` `:95-102` if
+  nothing else reads it): reader only `motion.test.ts:28,77-85`. Both go.
+
+## 10. The package cut
+
+**Step 0, alone:** as § 3 "Step 0", files: `model/ground.ts`,
+`model/placement.ts`, `model/game.ts`, `model/pollen.ts`, § 1's table's
+`ui/scene/` readers, `scripts/lib/play-approach.ts`, and their tests. It
+also adds `lean: -1 | 1` to `Planted` (the side of the growing eye, the
+plan's lean call; the opening pair keeps `CLUMP_SPLAY`'s), since it changes
+the store.
+
+After step 0, these lists are disjoint (checked by name; a file not listed
+is no package's):
+
+- **R — rim and clear-outs:** `model/stride.ts`, `model/stride.test.ts`,
+  `model/motion.ts`, `model/motion.test.ts`, `ui/scene/sun-layout.ts`,
+  `ui/scene/sun-layout.test.ts`, `ui/scene/meadow-rules.test.ts`,
+  `ui/scene/visit-play.ts`, `ui/scene/mushroom-patch.test.ts`,
+  `ui/scene/layout.test.ts`. Steps: R1 rim; R2 wash rule; R3 `openingCrop`
+  and `rebloom`.
+- **S — sowing anywhere and the bed's cull:** `ui/scene/mushroom-room.ts`,
+  `ui/scene/eye-crop.ts`, `ui/scene/mushroom-patch.ts`,
+  `ui/scene/clump-layout.ts`, `ui/scene/arrivals.ts`,
+  `ui/scene/bed-place.ts`, `ui/scene/mushroom-bed.ts`, `ui/scene/view.ts`
+  and their tests. Steps: S1 the side cull (§ 6); S2 the anchored layout
+  and `placeIn` on it; S3 `roomFor`/patches from the current eye and the
+  per-area cap. **`model/game.ts` (the 96 cap) is S's** — no other package
+  touches it after step 0.
+- **L — the lawn:** `ui/scene/tufts.ts` (+ the new `tuft-tap.ts`),
+  `ui/scene/grass.ts`, `ui/scene/flower-plots.ts`, `ui/scene/flower-sight.ts`,
+  `ui/scene/flower-bed.ts`, their tests. Steps: L1 split; L2 cells; L3
+  judged from the current eye and the bee ring with no band. Needs S2's
+  anchoring helper: it lives in `model/ground.ts` from step 0, so L runs
+  beside S.
+- **P — light and mottles:** `model/light.ts`, `ui/scene/mushroom-light.ts`,
+  `ui/scene/repaint-queue.ts`, `ui/scene/grain.ts`, their tests. P2
+  (mottles from cells) waits for L2. **Conflict:** P's queue change is read
+  by `mushroom-bed.ts` (S); P adds the light to `Hazing` and S1 lands
+  first, then P edits `mushroom-bed.ts` in a step of its own after S.
+- **I — insects:** `spec-insects.md`'s. Expected to own
+  `ui/scene/insect-*.ts`, `ui/scene/perch-*.ts`, `ui/scene/perches.ts`,
+  `model/flight*.ts`, `model/insect-*.ts`; others avoid them.
+- **Play (scripts/ only, beside the waves):** `scripts/lib/play-walk.ts`
+  (§ 3), `scripts/lib/play-approach.ts` after step 0 (the dense-forest
+  approach, § 6), `scripts/sweep-mushrooms.ts` (R3's `openingCrop`).
+
+Hand checks for `to-check.md`:
+
+1. Уйди далеко от стартовых грибов — трава есть везде, а вернёшься — та же.
+2. Посади гриб за спиной у стартового места — цветы и трава его обходят.
+3. Повернись кругом — грибы светятся с той стороны, где солнце.
+4. Посади 12 грибов в одном месте — 13-й не растёт, а дальше в поле растёт.
+5. Иди в густой лес и крутись — картинка не тормозит.
+
+## 11. Where the calls cannot hold as written
+
+- **"Laid out once at the opening eye" has no layout behind it.**
+  `layoutOfPlane`/`gathered` return nothing at `y ≤ 0`, so a mushroom or
+  flower grown behind the opening eye has no laid px to paint at. Options:
+  lay each thing out at the clump's distance in its own frame
+  (`opening = CLUMP_DISTANCE`, size by genes) — one paint, no repaint on a
+  re-anchor; or lay out at the current anchor — a re-anchor repaints all
+  (0.71 ms × 36 = 26 ms spike). Recommend the first; the opening clump and
+  seeded flowers keep their opening layout.
+- **The 96 ceiling does not bound the frame** (§ 6); the side cull does.
+- **"Rules from the current eye" are O(field)** unless `plantableIn` and
+  `roomFor` read only what stands within reach of the eye (§ 7).
+- **Flowers have no cap**; with the side cull none is needed for the frame,
+  but bee rings keep planting on an endless field. Unmeasured past 400.
+- **Unmeasured:** the anchor's snap (§ 3) — `roomFor` 4–13 ms and a tend
+  of ~210 tufts 9–20 ms per snap say a snap a few times a second while
+  walking costs no median, only an occasional long frame.
