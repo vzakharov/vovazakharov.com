@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **4** (the cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
+Relay depth: **5** (the cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
 § "The depth cap").
 
 ## 1. Standing constraints
@@ -89,80 +89,86 @@ Pass this section on verbatim.
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
-The only operator message this session (it came as the relay's launch
-line). Reply, and every turn after (all woken by agents, check-ins and the
-Stop hook), in Russian: attached (local ref e66b8e1 renamed to
-`stale/mushroom-game-syama-lbirv7-e66b8e1`), installed, plan flipped
-(39583b9). Then, agent by agent: `rv-eye-world` (279060f, d66ad69, 66e0188),
-`rv-insects` (0a60977, ed5b34e, 8b1c551), `rv-taps` (ae6bf31, 116f588,
-aec937c; out of context at 3 of 5), the orchestrator's call on the drag
-baseline — two drags (df4e24d), `rv-taps2` (c512639, 11777c9), every
-review thread replied with its sha; `rv-play` (ef174a5, frames) found a
-bee over; `rv-bee8` traced it to the model and view framing a leg
-differently; the orchestrator chose to time a leg in its drawn frame
-(`leg-timing.md` § 8, 05fe0d2); `rv-legframe` (cbfce09, out of context
-after its move), `rv-legframe2` (34788c2), `rv-veer2` (3aaf95a: no bee
-over; a veer-watch harness fix for the held turn's slide). Then the
-orchestrator retired the dead `parallax.ts`, updated `Eaten so far`,
-`bite-12.md`, `leg-timing.md` § 7–8, the megabeast notes, and paused the
-plan at the 200k notice. No question was put to the operator.
+The relay's launch line. Reply (Russian): attached (local ref e66b8e1
+renamed to `stale/mushroom-game-syama-lbirv7-e66b8e1`), installed, plan
+flipped (e8f7194). Then the whole of bite 12's tail, woken by agents and the
+Stop hook, reported in short Russian lines: the polish floor found by
+deepening (083a13df), brief 14630218, fifteen polish agents, vet, play run,
+Artifact v16, PR refresh.
+
+> так, что мне там проверить надо было? сейчас проверил: громкости -- ок; скорости -- порой странно, но не будем заморачиваться пока; движения когда тыкаешь по насекомым -- шикарно
+
+Reply: recorded in `to-check.md` § Checked (cf96a734) — catch closed,
+volumes closed, speeds deferred in his words (items kept in Open); listed
+the open items, numbered 1–8.
+
+> [screenshot: a butterfly over the grass near the brow, no shadow visible]
+> 1 звук взлёта шикарный
+>
+> 2 тень: в принципе кажется ок, но когда запускаешь бабочку, показалось она какое-то время как будто летит без тени. перепроверил, оказывается тень таки под ней (просто не было видно), что немного странно выглядит учитывая взаимное положение бабочки, земли и солнца -- но спишем пока на плоский билборд бабочки, не будем уходить вглубь
+>
+> 7 влёт на поляну кажется ок, не углубляемся
+>
+> 8 ну, когда я развернулся спиной, я насекомых не вижу 🙂 но когда сделал оборот на 360, муха осталась на мухоморе. считаем что ок
+>
+> остальное пока не перепроверил
+
+Reply: all four moved to Checked (e2a15072), the screenshot committed as
+`frames/bite-12/operator/butterfly-shadow-unseen.webp` (3b1071f3); listed
+what is still open (takeoff facing, butterflies on caps, the sky stripe,
+small far insects, v15–v18 speed items).
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
-playable after every bite; `/finalize` at the end, no merge. Now: close
-bite 12 — `/polish`, vet, the Artifact, `/pr` — then the elephant's next
-item (12b, the endless field, `endless-field.md`).
+playable after every bite; `/finalize` at the end, no merge. Bite 12 is
+closed. Next: bite 12b, the endless field — a structural bite, which keeps a
+review session of its own (plan § "How this elephant is eaten", step 2).
+The operator deferred flight speeds ("не будем заморачиваться пока") and the
+unseen-shadow look ("не будем уходить вглубь"): neither is work.
 
 ## 4. Decisions
 
-- The review's calls, one per finding, with the drag-baseline call:
-  `docs/plans/mushroom-game-syama/bite-12/review.md`.
-- A leg timed in the frame it is drawn in, what it beat:
-  `bite-12/leg-timing.md` § 8; § 7 rewritten (tabL fly-3's 2% was the
-  turn's slide).
-- Agents went outside their file lists in small, reported ways
-  (`walking.ts`, `arrivals.ts`, `mushroom-bed.ts`, `ground.ts`'s `Eyed`,
-  harness imports); all accepted.
+- `/polish`'s floor is 083a13df (bite 11's end); the earlier "no floor" was
+  a shallow clone (`megabeast/notes/gates.md`).
+- `play-hold.ts`'s tuft search uses the shared 16 rather than 8: the 8 had
+  no recorded reason (0ef9d40e).
+- `sun-layout.ts`'s `nearestTheSun` models the dead pan and only a test
+  calls it — carried into 12b's clear-outs in the plan (98a4a56f), as is
+  `endless-field.md`'s stale insect section.
+- New harness red, heading 1.83 on tabL shows no tufts so the veer play's
+  look-back plants nothing — red before the polish too; in `to-check.md`.
 
 ## 5. Errors and dead ends
 
-- Three agents ran out of context mid-package (5 steps, 3 steps with a
-  trace, a play with a trace); successors finished from hand-over notes.
-  Brief at most two steps (`megabeast/notes/subagents.md`).
-- **`/polish` found no floor**: `git log origin/main..HEAD` holds no
-  `polish:` subject (576 commits listed in the shallow clone), so by the
-  skill it is a `full` run over the whole branch — huge. Check first
-  whether the clone is too shallow for the merge base, and how earlier
-  bites' tails polished (`megabeast/notes/gates.md` § on `/polish`'s
-  scope), before running it.
+- Every `/dry` agent ran out at ~2–4k changed lines; successors applied its
+  judged-but-unapplied findings without re-reading
+  (`megabeast/notes/gates.md`, the polish-wave note).
+- The Artifact publish is refused until the live version is read; reading
+  its non-bundle lines (offset/limit) and resending passed.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, last pushed 36e59b8d (Stop
-  hook cost rows may follow); PR #57 draft, base `main`, **`CONFLICTING`**
-  (reported, `/finalize`'s job).
-- Plan `docs/plans/mushroom-game-syama.paused.md`, 352 lines; its
-  `## Rest of the bite` lists what is left.
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG still at
-  **version 15**.
-- No agent running, no worktree but the shared one, no check-in pending,
-  no PR subscription. All 13 review threads have a reply.
+- Branch `claude/mushroom-game-syama-lbirv7`, head a8d2affb (Stop-hook cost
+  rows may follow); PR #57 draft, base `main`, **`CONFLICTING`** (reported,
+  `/finalize`'s job). Body refreshed for bite 12; squash comment 5712237909.
+- Plan `docs/plans/mushroom-game-syama.paused.md`; no `## This bite` or
+  `## Rest of the bite`; next is 12b under `## Rest of the elephant`.
+- Vet green at b1a4e15c. Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG
+  at **version 16** (from d32e7b92).
+- No agent running, no worktree but the shared one, no check-in pending, no
+  PR subscription.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12/rv-*.md` — this round's notes.
-- `docs/remove-before-merging/frames/bite-12/review/` — the frames
-  (`legframe-*` after § 8).
-- `docs/plans/mushroom-game-syama/to-check.md` — the operator's list
-  (nothing added this round).
-- This session: https://claude.ai/code/session_016xbr7x4apK8DQ38aF8ctLg
+- `docs/remove-before-merging/bite-12/brief-polish.md` — the polish brief.
+- `docs/remove-before-merging/frames/bite-12/final-polish/`, `operator/`.
+- `docs/plans/mushroom-game-syama/to-check.md` — the operator's list.
+- This session: https://claude.ai/code/session_01SX3cadYy4ZA3dEsrsX75td
 
 ## 8. Next step
 
-Resume the plan (`/go`) at `## Rest of the bite`: `/polish` (settle its
-scope first, § 5), vet, the frames chosen for the bite, the Artifact
-republished at its one URL, `/pr`; delete the section, and per Step 4 of
-`/go` the bite pauses for the next one, which then starts by the plan's
-§ "How this elephant is eaten" (the next bite being 12b). Reply to the
-operator in Russian, «ты».
+`/go` — the next bite, 12b (the endless field,
+`docs/plans/mushroom-game-syama/endless-field.md`), taken by the plan's
+§ "How this elephant is eaten"; its review is a session of its own. Reply to
+the operator in Russian, «ты».
