@@ -14,11 +14,14 @@ review 5391050029".
 2. Finding 1 — a leaving flight's end is fixed on the plane on its leg's
    first frame (`legEnd` in `insect-away.ts`, kept in `Shown.goal`, which
    `legSetOff` clears). Test: `insect-away.test.ts` "legEnd" turns the eye
-   0→1.5 rad each way during the flight.
+   0→1.5 rad each way during the flight. (ed5b34e)
+3. Finding 3 — `fly`'s leg-frame→screen chain (veer, shadow, sink, cull,
+   pose inputs, hit circle) is `drawnInsect` in `insect-drawn.ts`, tested in
+   `insect-drawn.test.ts`; `insect-view.ts` is 414 lines.
 
 ## Left
 
-3. Finding 3 — `fly`'s leg-frame→screen chain out of `insect-view.ts`.
+Nothing of the three findings.
 
 ## Decided
 
