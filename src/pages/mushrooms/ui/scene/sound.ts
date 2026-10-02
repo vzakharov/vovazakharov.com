@@ -8,7 +8,7 @@
 import type { Drum } from '../../model/flower-sounds';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Foot, FOOT_PAN, footstep } from './footsteps';
-import { TAKE_OFF } from './insect-voices';
+import { SHY, TAKE_OFF } from './insect-voices';
 import { drumVoice, noteVoice } from './instrument-voices';
 import { brownNoise, panned, tone, type Voice } from './synth';
 
@@ -268,6 +268,11 @@ export class MeadowSound {
   /** An insect of `kind` taking wing: a butterfly's trill, a fly's or a bee's buzz. */
   takeOff(kind: InsectKind): void {
     this.play(TAKE_OFF[kind]);
+  }
+
+  /** An insect of `kind` caught in the air, shying away: a butterfly's tumbling trill, a fly's whine, a bee's sharp buzz. */
+  shy(kind: InsectKind): void {
+    this.play(SHY[kind]);
   }
 
   stop(): void {
