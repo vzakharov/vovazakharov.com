@@ -37,11 +37,8 @@ model.
   cannot rewrite the prompt it is given, so it passes `!` with context telling
   the model to act on the stored one verbatim. A new response and a new gap
   re-arm it.
-- **What always passes:** `/compact`, `/clear` and its aliases, `/relay`, and
-  every built-in command that makes no model request — `PASSES`, taken from
-  code.claude.com/docs/en/commands. Skills and the built-ins that prompt the
-  model (`/go`, `/btw`, `/init`, `/plan`) are prompts like any other. Also
-  passing: a session whose re-cache costs under `COLD_CACHE_MIN_USD` (default
+- **What always passes:** the commands `PASSES` lists, whose comment says
+  which, and a session whose re-cache costs under `COLD_CACHE_MIN_USD` (default
   `0.30`), where the stop costs more attention than it saves. An unpriced model
   is still stopped, with the times and token counts and no dollars.
 

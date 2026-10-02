@@ -34,7 +34,7 @@ python3 .claude/context-budget/test_context_budget.py         # │
 python3 .claude/cold-cache/test_cold_cache.py                 # ┘
 ```
 
-Seventeen things about that list are deliberate:
+Sixteen things about that list are deliberate:
 
 - **`pnpm build` is the only check that covers the app itself.** The suite reaches no page (CLAUDE.md § "Testing"), so the static-export build is what catches a broken page, route or import. It is what CI runs on `main` too — bar the PDF render each lane does after it, the one step of a deploy no local check stands in for. It is **three** builds, one per site, run in sequence and none cached — so a change to any one site's text pays for all of them. That is the accepted cost of three sites out of one repository, and the first thing to revisit if the run becomes annoying.
 - **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, and a fix it picks is a judgment about source someone wrote — vet is not the place to have that made silently. `pnpm exec eslint .` is the checking form, and `pnpm lint:css` is stylelint's. `pnpm styles:codegen` is the one exception below, and it is one because a generated partial has no judgment in it: exactly one content is correct.

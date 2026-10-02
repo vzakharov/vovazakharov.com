@@ -29,16 +29,14 @@ plan".
     boundary, per token of growth; the `REQUESTS_PER_TOKEN` estimate stands in
     until it has grown `MIN_GROWTH`.
   - **The successor's reorientation** is `.claude/costs/lib/orientation.py`'s
-    measure — the ledger's definition of acting — from the first source that
-    has one: this session's own, when `/relay take` opened it; the mean over the
-    ledger's rows opened that way; this session's own orientation; the
-    `RAMP_UP*` estimate. The notice names which.
+    measure — the ledger's definition of acting — from the first source
+    `restart.py`'s `reorientation_of` finds one in. The notice names which.
   - **The lines are cached** in `tmp/context-budget/<session_id>.line` and
     recomputed per 10k of growth, since a Python start-up per tool call is what
     this bash hook avoids.
-  - **Without the ledger's lib, on an unpriced model, or under
-    `CONTEXT_BUDGET_LINES=fixed`**, the lines are 200k and 300k and the hook
-    runs no Python.
+  - **Without the ledger's lib, or under `CONTEXT_BUDGET_LINES=fixed`**, the
+    hook runs no Python; those and an unpriced model leave the lines at 200k
+    and 300k.
 - **The main chain only.** A tool call carrying `agent_id` is a subagent's and
   is skipped, as are `isSidechain` records and the `<synthetic>` placeholder
   Claude Code writes for a turn no model served — whose zeroed usage would read

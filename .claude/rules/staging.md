@@ -45,9 +45,8 @@ only the next session.
 **`scripts/check-claude-md-size.sh` caps the CLAUDE.md a branch lands, with
 everything it `@`-imports**, each file's staged copy where there is one: a
 branch that takes the total past the ceiling lands it back at the lower target,
-and moving text into an import cuts nothing. The trim is a subagent's — it is never the PR's own
-work, and its cut-and-remeasure loop would spend the session's context — briefed
-with the target and CLAUDE.md § "About this file" as the test for what moves.
+and moving text into an import cuts nothing. Its failure says how to hand the
+trim off.
 
 The PR's file view shows a staged copy as a new file; its diff against the
 original is the range from the staging commit to the head.
