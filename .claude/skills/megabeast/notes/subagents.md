@@ -34,6 +34,22 @@
   "the scene is B's; A comes through `paintBackdrop`'s layer contract". The
   skill should make "research → spec → step 0 → parallel groups by file" the
   shape of any bite whose subject is the look rather than behaviour.
+- **A structural bite's spec is three agents by theme from the start.**
+  Bite 12b's one spec agent filled at 194k having only mapped the store, the
+  rim and the opening-eye rules; two successors, one on the insects in its
+  own file (`spec-insects.md`) and one on cost, lawn, light and the cut,
+  each finished at ~185k. Every report ended with calls "the plan gets
+  wrong"; settling each in the plan's calls file before the next brief kept
+  every later brief a pointer. The skill should brief the map, each
+  subsystem and the measured cost as separate spec agents, each writing its
+  own file, and have the orchestrator cut the packages from them.
+- **A migration step goes as additive-then-patch.** Bite 12b's step 0
+  landed its converters as a green commit, then the switch as a `.patch`
+  when its context ran out with the fixtures red; a second agent briefed
+  "apply, fix the fixtures, never change an assertion" landed it at 149k
+  after one nudge at 127k. A shape change that makes two type names equal
+  trips `pnpm type-overlap`, and the agent stops on it as a naming call:
+  the orchestrator settles it in one rename (`Footing`).
 - **Parallel groups are followed by a fix round, and the fix round owns the
   final gates.** Bite 7's two groups each reported their own work right,
   and the orchestrator's frames still found three defects at the seams

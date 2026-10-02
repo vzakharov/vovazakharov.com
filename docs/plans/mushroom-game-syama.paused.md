@@ -283,13 +283,21 @@ The bites, each file its full contract:
 11. **A wider meadow, panned** — [bite-11.md](mushroom-game-syama/bite-11.md)
 12. **Walking the meadow** — [bite-12.md](mushroom-game-syama/bite-12.md)
 
-## This bite
+## Rest of the bite
 
 12b. **The meadow has no edge** — its contract is
 [endless-field.md](mushroom-game-syama/endless-field.md), its calls decided in
 [bite-12b.md](mushroom-game-syama/bite-12b.md), its spec in
 `docs/remove-before-merging/bite-12b/spec.md` and `spec-insects.md`. A
 structural bite, with a review session of its own.
+
+**Built:** the spec (`spec.md`, `spec-insects.md`) and step 0 — stored feet
+are plane points (`Footing`), `Planted` carries its `lean`, the converters
+`groundOfPlane`/`anchored`/`unanchored`/`grownOn` (2b9942c, 8312d9b,
+5358d5b; API in `bite-12b/step0.md`), the opening drawn as before. **Left:**
+the seeded-bed round-trip test (step0.md), then spec § 10's packages R, S,
+L, P, I (`spec-insects.md`) and the play package, in its waves; the tail;
+the review session.
 
 ## Rest of the elephant
 

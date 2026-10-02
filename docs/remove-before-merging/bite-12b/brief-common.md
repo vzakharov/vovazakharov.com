@@ -4,7 +4,7 @@ You work on one package of bite 12b of the mushroom game
 (`src/pages/mushrooms/`): the endless field — the glade rim goes, stored
 positions become plane points, the lawn is laid by plane cells, light turns
 with the heading and the insects live on the plane. The bite's calls are made
-in `docs/plans/mushroom-game-syama.in-progress.md` § "This bite"; its contract
+in `docs/plans/mushroom-game-syama/bite-12b.md`; its contract
 is `docs/plans/mushroom-game-syama/endless-field.md`, and its spec, once
 written, is `docs/remove-before-merging/bite-12b/spec.md` — read the sections
 your package names. Read, before anything else:
@@ -15,7 +15,7 @@ your package names. Read, before anything else:
   lines; types derived, never hand-duplicated (`pnpm type-overlap`); comments
   state the code's lasting contract, never the change.
 - The plan's § "Eaten so far" (the summary above the index names each
-  module's job) and § "This bite". Those calls are made: build them, don't
+  module's job) and `bite-12b.md`. Those calls are made: build them, don't
   reopen them. Where one cannot hold as written, stop and report which and
   why, with the options measured, rather than picking another. What bite 12
   built and why is in `docs/plans/mushroom-game-syama/bite-12.md`; open a
