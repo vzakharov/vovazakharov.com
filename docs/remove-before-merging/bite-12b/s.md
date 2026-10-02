@@ -37,7 +37,7 @@
 - `MushroomGround` carries `anchor: Eye` (`OPENING_EYE` in `standMeadow`).
   `placeIn` moves the stored foot onto `OPENING_EYE` with `anchored` (skipped,
   so bit-exact, at `OPENING_EYE`), returns `undefined` where `gathered` has no
-  ground, and keeps the clump's size/splay by `openingIndex` of the *stored*
+  ground, and keeps the clump's size/splay by `openingIndex` of the _stored_
   foot. So `coversOn`, `mushroomFeet`, tuft-tap, perch-sight and every other
   `placeIn` caller judge from an eye by being handed
   `{ ...layout, mushrooms: anchoredGround(layout.mushrooms, anchor) }`.
@@ -76,17 +76,31 @@
 - `capTop`'s seat point and `on.laidFoot` are in the bed's **paint** frame
   now. `onHost(on, at)` stays exact (drawn = stands + offset · zoom, both of
   one frame), but `seatAloft`'s fallback (`aloftOfLayout(view, seat,
-  laidFoot.y)`, host not drawn) reads it as opening world px, which for a
+laidFoot.y)`, host not drawn) reads it as opening world px, which for a
   grown mushroom is wrong: an insect sat on a grown mushroom that goes
   undrawn (off a side, too near) is put aloft at the clump's distance
   straight ahead of the opening eye. I4 (seat fallback from the host's plane
   foot) fixes it; `Shown.opening` is the scale it needs (laid px per clump
   unit = `opening / focal`).
 
+## S3 — in progress (`wt/s3`)
+
+- **One anchoring path**: `placeAnchored` is gone. `anchoredStand` no longer
+  moves mushroom feet; it hands the stand's layout
+  `anchoredGround(layout.mushrooms, anchor)`, and perch-sight's two call
+  sites (`seaterOn`'s cap, `footRows`) call `placeIn` on it. A cap's reach
+  test (`inReach`) measures the stored foot from the ground's anchor (equal,
+  the anchoring being rigid, to the anchored foot from `OPENING_EYE`).
+  Seeded and planted flowers are still moved as before.
+- **The cap** (`model/game.ts`): `MUSHROOM_SLOTS` (12) now counts the
+  mushrooms within `D_SEE` of a new foot (`isCrowdedAt(meadow, foot)`);
+  `FIELD_MUSHROOMS` (96) bounds the field (`isFull`, which the picker and
+  `controls.ts`'s `growable` read). `grow` refuses at either.
+
 ## Left
 
-- S3 (roomFor / patches from the current eye, the per-area cap): a later
-  agent. `roomFor` still uses `placeOnGround`/`placeOf` at the opening.
+- S3 (roomFor / patches from the current eye, the per-area cap): see the
+  S3 section. `roomFor` still uses `placeOnGround`/`placeOf` at the opening.
 - Nobody yet hands the rules an anchored ground: meadow-scene (I1) / L3
   wire `anchoredGround(layout.mushrooms, anchorOf(eye))`.
 - Spore puffs (`puffSpores`, `puffFrom`) and the boing's pitch read

@@ -11,7 +11,8 @@ import { type Perches, perchName, type Sight, type Timed } from './flight';
 import type { Onscreen } from './flight-in';
 import type { Coloured } from './flower-genes';
 import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
-import type { Footing, Rooted } from './ground';
+import { distanceBetween, type Point } from './geometry';
+import { D_SEE, type Footing, type Rooted } from './ground';
 import {
   EMPTY_HOUSE,
   furnished,
@@ -34,10 +35,13 @@ import type { Random, Seeded } from './random';
 import { type Rain, RAIN_MS, raining } from './weather';
 
 /**
- * How many mushrooms the meadow holds at most, room permitting: a world two
- * tablet screens wide holds twice the six one screen reads apart.
+ * How many mushrooms stand at most within `D_SEE` of a new one's foot, room
+ * permitting: as far as the eye sees holds twice the six one screen reads
+ * apart.
  */
 export const MUSHROOM_SLOTS = 12;
+/** How many mushrooms the whole field holds at most. */
+export const FIELD_MUSHROOMS = 96;
 
 export type Planted = Mushroom & Housed & Footed;
 
@@ -144,7 +148,18 @@ export function shapeSeed(
 }
 
 export function isFull({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
-  return mushrooms.length >= MUSHROOM_SLOTS;
+  return mushrooms.length >= FIELD_MUSHROOMS;
+}
+
+/** Whether `MUSHROOM_SLOTS` of the meadow's mushrooms already stand within `D_SEE` of `foot`, so none grows there. */
+export function isCrowdedAt(
+  { mushrooms }: Pick<Meadow, 'mushrooms'>,
+  foot: Point,
+): boolean {
+  const near = mushrooms.filter(
+    (mushroom) => distanceBetween(mushroom.foot, foot) <= D_SEE,
+  );
+  return near.length >= MUSHROOM_SLOTS;
 }
 
 export function isEmpty({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
@@ -354,10 +369,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
     }
     case 'grow': {
       // Where it grows is the scene's pick (`pickFoot`), made before the tap.
-      if (isFull(meadow)) return { ...meadow, picking: false };
+      const { species, seed, foot, lean } = action;
+      if (isFull(meadow) || isCrowdedAt(meadow, foot)) {
+        return { ...meadow, picking: false };
+      }
       const grown = meadow.grown + 1;
       const id = `mushroom-${grown}`;
-      const { species, seed, foot, lean } = action;
       return {
         ...meadow,
         mushrooms: [

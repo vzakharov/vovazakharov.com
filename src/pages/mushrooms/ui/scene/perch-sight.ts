@@ -43,7 +43,7 @@ import { mushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
-import { placeAnchored } from './anchored-stand';
+import { placeIn } from './clump-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';
 import {
   coversOn,
@@ -104,9 +104,9 @@ export const PERCH_REACH = Math.max(
   ),
 );
 
-/** Whether `foot`, on the plane of a stand judged at `OPENING_EYE`, stands within `PERCH_REACH` of the eye. */
-function inReach(foot: Point): boolean {
-  return distanceBetween(OPENING_EYE, foot) <= PERCH_REACH;
+/** Whether `foot`, on the plane of a stand judged at `eye`, stands within `PERCH_REACH` of it: a flower's at `OPENING_EYE`, its foot moved there (`anchoredStand`), a mushroom's at its ground's anchor, its foot stored. */
+function inReach(foot: Point, eye: Point = OPENING_EYE): boolean {
+  return distanceBetween(eye, foot) <= PERCH_REACH;
 }
 
 /** How far the open air reaches down over the back of the ground, as a share of the ground's depth. */
@@ -160,7 +160,7 @@ function seaterOn(
     }
     case 'cap': {
       const mushroom = mushrooms.find(({ id }) => id === perch.id);
-      const place = mushroom && placeAnchored(layout.mushrooms, mushroom);
+      const place = mushroom && placeIn(layout.mushrooms, mushroom);
       if (!mushroom || !place) return undefined;
       const { genes, turn } = splayed(mushroomGenes(mushroom), place.splay);
       const toPlace = toCanvas(place.size);
@@ -318,7 +318,7 @@ export function perchSight(stand: Stand): Sight {
   const seen = [...new Set([...shown, ...beeFlowers])];
   const perches: Perch[] = [
     ...mushrooms
-      .filter(({ foot }) => inReach(foot))
+      .filter(({ foot }) => inReach(foot, layout.mushrooms.anchor))
       .map(({ id }) => ({ kind: 'cap', id }) as const),
     ...seen.map((id) => ({ kind: 'flower', id }) as const),
   ];
@@ -410,7 +410,7 @@ export function footRows(
 ): FootRows {
   const { layout, mushrooms } = stand;
   const caps = mushrooms.flatMap((mushroom) => {
-    const place = placeAnchored(layout.mushrooms, mushroom);
+    const place = placeIn(layout.mushrooms, mushroom);
     return place
       ? [
           [
