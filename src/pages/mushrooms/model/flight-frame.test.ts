@@ -9,10 +9,11 @@ import {
   FRAME_MARGIN,
   framedOf,
   levelWith,
+  panOf,
   placeOf,
 } from './flight-frame';
 import { apartOf, placesFlying } from './flight-timing';
-import { CLUMP_DISTANCE, SPREAD } from './ground';
+import { CLUMP_DISTANCE, SPREAD, unanchored } from './ground';
 
 /** A sideways tablet's frame in insect sizes of 40 px: 1180 px across, four screens to a turn. */
 const UNIT = 40;
@@ -174,5 +175,30 @@ describe('a leg timed in the frame it is drawn in', () => {
     assert.ok(Math.abs(level.fromEye - ahead.fromEye) < 1e-9);
     assert.ok(Math.abs(level.x - away.x) < 1e-9);
     assert.ok(Math.abs(level.y - away.y) < 1e-9);
+  });
+});
+
+function near(a: number, b: number): boolean {
+  return Math.abs(a - b) < 1e-12;
+}
+
+describe('panOf', () => {
+  it('sounds a point at the eye’s side on that side, and one ahead or behind in the middle, however the eye stands', () => {
+    const eyes = [
+      { x: 0, y: 0, heading: 0 },
+      { x: 4, y: -7, heading: 1.1 },
+      { x: -12, y: 30, heading: -2.8 },
+    ];
+    for (const eye of eyes) {
+      const at = (x: number, y: number) =>
+        panOf(eye, unanchored(eye, { x, y }));
+      assert.ok(near(at(5, 0), 1));
+      assert.ok(near(at(-5, 0), -1));
+      assert.ok(near(at(0, 5), 0));
+      assert.ok(near(at(0, -5), 0));
+      assert.ok(at(3, 4) > 0 && at(3, 4) < 1);
+      assert.ok(near(at(3, 4), at(3, -4)));
+      assert.ok(near(at(-3, 4), -at(3, 4)));
+    }
   });
 });
