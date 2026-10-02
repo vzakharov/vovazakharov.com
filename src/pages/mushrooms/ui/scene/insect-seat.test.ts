@@ -86,7 +86,7 @@ describe('drawnFlier', () => {
       for (const offset of SEATS) {
         const at = onHost(host, plus(host.laidFoot, offset));
         const seat = aloftAt(view, at, host.stands.distance);
-        const { drawn } = drawnFlier(view, seat, 1, { to: seat });
+        const drawn = drawnFlier(view, seat, 1, { to: seat }).sinking?.drawn;
         assert.ok(drawn, name);
         assert.ok(apart(drawn, at) < 1e-6, name);
         const off = Math.abs(drawn.zoom / seatedZoom(view, host, at) - 1);

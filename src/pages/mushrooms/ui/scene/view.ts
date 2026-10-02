@@ -217,7 +217,11 @@ export const SHOWN_LEAST = 0.2;
  * that less than `SHOWN_LEAST` of it shows over the brow at its x, and is
  * better not drawn.
  */
-export function sunkAway(view: View, placed: Placed, height: number): boolean {
+export function sunkAway(
+  view: View,
+  placed: Pick<Placed, 'x' | 'y' | 'distance'>,
+  height: number,
+): boolean {
   const cover = browRow(view, placed.x);
   return (
     behindHills(placed) && cover - (placed.y - height) < SHOWN_LEAST * height

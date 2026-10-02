@@ -11,30 +11,32 @@ import type { Zoomed } from './insect-away';
 import {
   type Aloft,
   aloftAt,
-  drawnAloft,
   type SeatEnds,
+  sinkingAloft,
   veeredAlong,
   veerOf,
 } from './insect-frame';
 import type { Seat } from './perch-hosts';
 import { aloftOfLayout } from './plane-place';
-import { browRow, type Placed, type View } from './view';
+import type { View } from './view';
 
 /**
  * Where `view` draws an insect flying at `raw`, `flown` of the way along its
  * leg between the seats `ends`, at its own size over its distance: veered
  * round the eye (`veeredAlong`), the veer faded out toward a seat it would
- * move; `drawn` is `undefined` where it is hidden. `aloft` is the veered
- * point, drawn or not, which a leg cut short sets off again from.
+ * move; `sinking` is where it is drawn, sunk under the brow or not, and the
+ * ground under it (`sinkingAloft`), `undefined` at or behind the eye.
+ * `aloft` is the veered point, drawn or not, which a leg cut short sets off
+ * again from.
  */
 export function drawnFlier(
   view: View,
   raw: Aloft,
   flown: number,
   ends: SeatEnds,
-): { aloft: Aloft; drawn: Placed | undefined } {
+): { aloft: Aloft; sinking: ReturnType<typeof sinkingAloft> } {
   const aloft = veeredAlong(view.eye, raw, veerOf(view), flown, ends);
-  return { aloft, drawn: drawnAloft(view, aloft) };
+  return { aloft, sinking: sinkingAloft(view, aloft) };
 }
 
 /**
@@ -63,8 +65,8 @@ export function seatAloft(view: View, seat: Seat): Aloft {
 /**
  * Where `view` draws an insect sitting on `seat`, `off` px off it at its own
  * size, and at what zoom (`seatedZoom`): `undefined` where the host is not
- * drawn, or where the seat has sunk below the brow, which an insect, drawn
- * over everything, would otherwise stand on.
+ * drawn. A seat sunk under the brow is drawn where its host sinks it, for
+ * the brow to cover (`insect-sink.ts`).
  */
 export function drawnSitter(
   view: View,
@@ -72,7 +74,6 @@ export function drawnSitter(
   off: Point,
 ): Zoomed | undefined {
   if (!on.stands.drawn) return undefined;
-  if (on.stands.behind && drawn.y > browRow(view, drawn.x)) return undefined;
   const zoom = seatedZoom(view, on, drawn);
   return { x: drawn.x + off.x * zoom, y: drawn.y + off.y * zoom, zoom };
 }
