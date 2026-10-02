@@ -23,7 +23,7 @@ from typing import Optional
 COSTS = Path(__file__).resolve().parents[2] / "costs"
 sys.path.insert(0, str(COSTS))
 
-from lib.pricing import parse_prices
+from lib.pricing import load_prices
 from lib.restart import Session, line_for, read_history, saving_over, session_of, verdict
 
 
@@ -31,9 +31,8 @@ def priced(transcript: Path, context: Optional[int]) -> Optional[Session]:
     history = read_history(transcript)
     if history is None:
         return None
-    prices = parse_prices((COSTS / "prices.json").read_text(encoding="utf-8"))
     project = Path(os.environ.get("CLAUDE_PROJECT_DIR") or COSTS.parents[1])
-    return session_of(transcript, history, context or 0, prices, project, relay=True)
+    return session_of(transcript, history, context or 0, load_prices(), project, relay=True)
 
 
 def main() -> None:

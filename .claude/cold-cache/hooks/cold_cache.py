@@ -21,10 +21,9 @@ from typing import Any, Dict, Optional
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / ".claude" / "costs"))
 
-from lib.pricing import parse_prices
+from lib.pricing import load_prices
 from lib.restart import History, Session, context_of, epoch, read_history, recache, session_of
 
-PRICES = ROOT / ".claude" / "costs" / "prices.json"
 RESEND = "!"
 DEFAULT_MIN_USD = 0.30
 
@@ -131,8 +130,7 @@ def reason(idle: float, context: int, priced: Optional[Session], claude_code_usd
 
 
 def price(transcript: Path, history: History, context: int, project: Path) -> Optional[Session]:
-    prices = parse_prices(PRICES.read_text(encoding="utf-8"))
-    return session_of(transcript, history, context, prices, project, relay=False)
+    return session_of(transcript, history, context, load_prices(), project, relay=False)
 
 
 @dataclass(frozen=True)

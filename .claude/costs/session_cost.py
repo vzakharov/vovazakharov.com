@@ -31,7 +31,7 @@ from lib.billed import Event, parse_events
 from lib.pricing import (
     TranscriptSources,
     is_unwritten_tail,
-    parse_prices,
+    load_prices,
     subagents_of,
     summarise_transcript,
 )
@@ -84,7 +84,7 @@ def main() -> int:
     transcript: Path = args.transcript
     session_id: str = args.session_id or transcript.stem
     events = events_at(args.events or ROOT / "tmp" / "telemetry" / f"{session_id}.jsonl")
-    prices = parse_prices((COSTS / "prices.json").read_text(encoding="utf-8"))
+    prices = load_prices()
     cost = summarise_transcript(
         TranscriptSources(
             main=transcript.read_text(encoding="utf-8"),

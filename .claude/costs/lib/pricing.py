@@ -87,6 +87,10 @@ def parse_prices(text: str) -> PriceTable:
     return PriceTable(as_of=required(read_string, table, "as_of", "prices.json"), rates=rates)
 
 
+def load_prices() -> PriceTable:
+    return parse_prices((Path(__file__).resolve().parents[1] / "prices.json").read_text(encoding="utf-8"))
+
+
 def rate_key(model: str, speed: Optional[str]) -> str:
     """`<model>/<speed>`, the pair a response is billed under."""
     return f"{model}/{speed if speed is not None else 'standard'}"

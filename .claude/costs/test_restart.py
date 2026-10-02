@@ -17,9 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-HERE = Path(__file__).resolve().parent
-
-from lib.pricing import parse_prices
+from lib.pricing import load_prices
 from lib.restart import (
     Reorientation,
     Session,
@@ -31,7 +29,7 @@ from lib.restart import (
     saving_over,
 )
 
-PRICES = parse_prices((HERE / "prices.json").read_text())
+PRICES = load_prices()
 MODEL = "claude-opus-5-5"
 OPUS = PRICES.rates[f"{MODEL}/standard"]
 HOUR = 3600
