@@ -57,13 +57,11 @@ export function tuftAt<Tufted extends WithTuft>(
 }
 
 /**
- * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, seen
- * from the opening eye: no flower's petals as far as its sway takes them (past
- * them a flower yields to a bare tuft, `tuftUnder`) and no mushroom's drawn
- * parts (`tappedMushroom`) hold the tuft's middle or its core (`BARE_CORE`).
- * The controls stand on the screen, not the world, so a tuft a turn slides
- * under one is the control's to tap there. `stand` is read once, for every
- * tuft asked after.
+ * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, from
+ * the opening eye: no flower's petals at their widest sway (past it a flower
+ * yields, `tuftUnder`) nor mushroom's drawn parts (`tappedMushroom`) hold its
+ * middle or `BARE_CORE`. A tuft a turn slides under a control is the
+ * control's, the controls being the screen's. `stand` is read once.
  */
 export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
   const { layout, mushrooms } = stand;

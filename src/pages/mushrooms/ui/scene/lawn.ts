@@ -30,17 +30,14 @@ export const CELL = 4;
 export const TUFTS_PER_CELL = Math.round(0.85 * CELL * CELL);
 
 /**
- * How far from the eye's cell's middle a cell's middle stands at the most
- * to live: as far as a tuft is drawn before it sinks away behind the brow,
- * and a cell's diagonal, so every point that far from the eye anywhere in
- * its cell has its cell alive.
+ * The farthest a live cell's middle stands from the eye's cell's: a tuft's
+ * reach before the brow hides it, plus a diagonal for where in its cell the eye is.
  */
 const LIVE_REACH = D_SEE + PALE_SPAN + CELL * Math.SQRT2;
 
 /** A cell of the lawn: `i` across, `j` into the distance, each `CELL` wide. */
 export type Cell = Record<'i' | 'j', number>;
 
-/** The cell `point` stands in. */
 export function cellOf({ x, y }: Point): Cell {
   return { i: Math.floor(x / CELL), j: Math.floor(y / CELL) };
 }
@@ -117,7 +114,6 @@ export function cellLawn(lawn: Lawn, cell: Cell): CellLawn {
   return { tufts, mottles };
 }
 
-/** The tufts `cell` of `lawn` grows (`cellLawn`). */
 export function cellTufts(lawn: Lawn, cell: Cell): Sprout[] {
   return cellLawn(lawn, cell).tufts;
 }

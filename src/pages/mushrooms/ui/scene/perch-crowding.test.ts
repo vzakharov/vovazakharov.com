@@ -49,7 +49,6 @@ const SPANS: Record<InsectKind, number> = { butterfly: 73, fly: 45, bee: 47 };
 const apartBySpan: Apart = (first, second) =>
   SPANS[first] * 0.6 + SPANS[second] * 0.4;
 
-/** One need for every pairing. */
 const apartEvenly: Apart = () => 45;
 
 describe('pointCrowdings', () => {

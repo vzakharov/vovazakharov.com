@@ -72,14 +72,17 @@ at f680c86a; only the run's final commit is a bare `polish:`.
   `tending.ts` alphabetically, plus `air-spots`, `anchored-stand`,
   `clump-layout`, `insect-drawn`.
 
-## Left (tail-polish3 stopped at its 170k line)
+## tail-polish4
 
-- Restating one-liners found, not yet cut: `lawn.ts` `cellOf`, `cellTufts`;
+- Cut the five restating one-liners: `lawn.ts` `cellOf`, `cellTufts`;
   `mottles.ts` `MOTTLES_PER_CELL`; `perch-crowding.test.ts` `apartEvenly`;
   `draw-flower.ts` `drawIn`.
-- Blocks past ~4 lines still to tighten: `tuft-tap.ts` `bareToTap` (8),
-  `bed-place.ts` `SIDE_OVERHANG`/`offSides`, `mottles.ts` `shownMottles`
-  doc (6), `lawn.ts` `LIVE_REACH`, `tufts.ts` header and `follow` doc,
-  `flower-plots.ts` `ringFoot`, `flower-shown.ts` `Laid` member doc.
+- Tightened the eight blocks: `bareToTap` 8 → 5, `SIDE_OVERHANG` 5 → 3,
+  `offSides` 4 → 3, `shownMottles` 5 → 3, `LIVE_REACH` 4 → 2, `tufts.ts`
+  header 10 → 6, `follow` 4 → 3, `ringFoot` 5 → 3, `Laid` 4 → 3.
+
+## Left
+
+- `ui/scene/` after `tending.ts` alphabetically, added comment hunks only.
 - The run's last commit must be a bare `polish:` (or
   `polish: nothing to change`) so the floor moves.

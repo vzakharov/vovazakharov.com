@@ -95,11 +95,9 @@ const ON_THE_BAND = 1e-9;
 const RING_DEPTH = 1.5;
 
 /**
- * Where a flower in ring slot `ring` round `parent` stands on the plane of a
- * stand anchored at `anchor`: its foot the slot's step off the parent's on
- * the stored plane, turned with the anchor (`anchored`), so a ring is the
- * same plane spots whichever eye judges it; `undefined` for a slot past the
- * ring.
+ * The foot of ring slot `ring` round `parent` on a stand anchored at `anchor`:
+ * the slot's stored step turned with the anchor (`anchored`), so a ring is the
+ * same plane spots whichever eye judges it; `undefined` past the ring.
  */
 export function ringFoot(
   parent: Footing,
