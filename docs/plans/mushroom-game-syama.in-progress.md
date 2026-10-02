@@ -376,8 +376,11 @@ Settled with the operator after the packages' reports: the sky strafe stays
 as built — the sky and hills stand still and the step mostly lands after
 the lift («пока оставляем как есть, потом может лучше идеи придут»); the
 fly's dash stays 17% softer (`{ time: 0.24 }`), held by the 7-in-10 catch
-bound, not loosened («оставляем как есть»). A flier in the air takes a tap
-and shows nothing; a reaction there is open for later.
+bound, not loosened («оставляем как есть»). **A flier caught in the air
+shies away with its own voice** — a butterfly's trill, a bee's buzz, a
+fly's whine — a short dart off its leg, then on to a perch («да, давай»).
+Package `v14-catch`: a `startle` in flight stops being a no-op
+(`model/insects.ts` `startled`), the voices from `insect-voices.ts`.
 
 The footstep level held in the operator's earlier play («когда играл вчера
 было хорошо»).
@@ -391,6 +394,7 @@ The footstep level held in the operator's earlier play («когда играл 
    `v14-note-plant` (played, tabL), `v14-insect-depth` and `v14-fly`
    (played by `v14-insect-play.md`; any fix it left is the next work).
    Notes beside `brief-common.md`. The Artifact is still version 14.
+1b'. `v14-catch` (above), built then played by a second agent.
 1c. The new reds `play-final2.md` found on the tablets at 483be26, once 1b's
    insect packages land (they own the files): insects flipping ~3 rad in
    one frame, facing off their way of flight and resting crooked (a child
