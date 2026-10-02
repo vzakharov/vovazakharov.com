@@ -1,7 +1,7 @@
 /**
  * The ground's mottles: flattened patches a little lighter or deeper than the
  * ground round them, so the meadow reads as rolling. Each lies on the plane,
- * grown by a cell of the lawn (`cellMottles`), so a walk back finds the same
+ * grown by a cell of the lawn (`cellLawn`), so a walk back finds the same
  * ones, and is drawn flat on the ground through each frame's view, fading
  * out before the brow, where the ground goes under.
  */

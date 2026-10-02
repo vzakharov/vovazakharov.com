@@ -35,9 +35,9 @@ import {
  * How far past its dash curve's fastest frame a dashing kind's step at its
  * own size may run: its flutter, the frame's own jitter, and the leg drawn
  * across the depth it is timed over as one framed length (`apartOf`), none
- * of which the curve models. A bee darting off a flower looking back on tabL
- * runs to 1.22 of it; whether that reads as a jump is a hand check
- * (`to-check.md`).
+ * of which the curve models. The bound sits just over the worst a play
+ * measures, a bee darting off a flower looking back on tabL at 1.22 of it,
+ * so a step past it is one the slack does not account for.
  */
 export const DASH_SLACK = 1.25;
 /** The least share of its flight in a release looking back is drawn on (`insect-plane.md` R3.1). */

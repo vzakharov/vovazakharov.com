@@ -42,18 +42,15 @@ at f680c86a; only the run's final commit is a bare `polish:`.
   `paint-backdrop.ts` — a one-line fallback whose helper would save little;
   `insect-seat.ts`' sideways step is `forwardOf(sidewaysOf(sight))` only up
   to rounding, so it stays.
+- `/tend-prose`, the six named problems: `play-approach.ts` `STANDS` doc
+  back over `STANDS`, header rewrapped; `mottles.ts` (and `Grass.seed`)
+  name `cellLawn`; `lawn.ts` header rewrapped; `DASH_SLACK` states its
+  bound's reason, no plan-file pointer; `Hitches` gets its doc line.
+  `anchored-stand.ts` header holds: `grownOn` and `Perches.see` go back
+  through `unanchored`.
 
 ## Left
 
-- `/tend-prose` over the whole range. Already noted:
-  - `play-approach.ts`: the `STANDS` doc ("Every mushroom drawn: …") sits
-    above `SPREAD_OF` instead; the header has an over-long unwrapped line.
-  - `mottles.ts` header names `cellMottles`, which does not exist
-    (`cellLawn`); `lawn.ts` header line 5 over-long.
-  - `veer-report.ts` `DASH_SLACK` cites `to-check.md`, a plan file
-    (`docs/plans/`), from durable code.
-  - `anchored-stand.ts` header: check `unanchored` is still what a rule
-    goes back through.
-  - `mushroom-probe.ts` `Hitches` has no doc line, unlike its siblings.
+- `/tend-prose` over the rest of the range.
 - The run's last commit must be a bare `polish:` (or
   `polish: nothing to change`) so the floor moves.
