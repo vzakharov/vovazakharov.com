@@ -31,8 +31,8 @@ const ACROSS = [0.6, 1.4] as const;
 const ALONG = [0.45, 0.85] as const;
 
 /** A mottle's alpha, split over its two rings, and its share of the way from the ground toward the lit or the deep ground. */
-const MOTTLE_ALPHA = 0.16;
-const MOTTLE_TONE = 0.3;
+const MOTTLE_ALPHA = 0.4;
+const MOTTLE_TONE = 0.7;
 /** How much wider a mottle's outer ring reaches than its inner one, so its edge is soft. */
 const SOFT_EDGE = 1.3;
 /** How many points round a ring. */
