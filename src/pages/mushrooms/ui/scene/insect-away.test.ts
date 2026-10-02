@@ -2,16 +2,19 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { type Perch, perchName } from '../../model/flight';
-import { entryOf, isShown, nearerSide } from '../../model/flight-in';
+import { entryOf, isShown, nearerSide, outWay } from '../../model/flight-in';
 import { apartIn, placesSetOff } from '../../model/flight-timing';
 import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
+import { INSECT_KINDS } from '../../model/insect-genes';
 import {
   awayDown,
   entryAloft,
   leavingAloft,
+  legEnd,
   offAloft,
   PAST_BROW,
   reachesScreen,
+  releasedAway,
   seenFor,
 } from './insect-away';
 import {
@@ -25,13 +28,16 @@ import {
 import { meadowCamera } from './meadow-camera';
 import { footRows, onscreenOf, seatAt } from './perch-sight';
 import { Perches } from './perches';
-import { aloftOfLayout, perchDistance } from './plane-place';
-import { D_SEE, onScreen, placedAt, type View, viewAt } from './view';
+import { aloftOfLayout, perchDistance, placeOfAloft } from './plane-place';
+import { D_SEE, onScreen, placedAt, V_NEAR, type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 import { opened } from './visit-play';
 
 /** How an insect stands away: its span past an edge, and the height it flies at. */
 const AWAY = { span: 40, drop: 150 };
+
+/** `AWAY`, as `legEnd` asks for it. */
+const standsAway = () => AWAY;
 
 describe('reachesScreen', () => {
   it('hides an insect only once a span each way round its middle has left the screen', () => {
@@ -241,6 +247,90 @@ describe('leavingAloft', () => {
         }
       }
       assert.ok(legs > 10, `only ${String(legs)} legs out from a cap in view`);
+    });
+  }
+});
+
+describe('legEnd', () => {
+  it('keeps a leaving flight’s end where it was fixed as it set off, however the eye turns after it', () => {
+    const camera = meadowCamera(1180, 820);
+    const setOff = viewAt(camera, OPENING_EYE);
+    const from = aloftAt(setOff, { x: 760, y: 520 }, CLUMP_DISTANCE);
+    for (const [side, turn] of [
+      ['right', 1],
+      ['left', -1],
+    ] as const) {
+      const to: Perch = { kind: 'away', side };
+      // Frame by frame, as `InsectView` flies it: last frame's end is kept.
+      let kept: Aloft | undefined;
+      let first: Aloft | undefined;
+      for (const heading of [0, 0.3, 0.6, 0.9, 1.2, 1.5]) {
+        const view = viewAt(camera, {
+          ...OPENING_EYE,
+          heading: turn * heading,
+        });
+        const end = legEnd(view, to, standsAway, { from, kept });
+        first ??= end;
+        kept = end;
+        assert.deepEqual(end, first, `${side} at ${String(heading)}`);
+        const depth = perchDistance(view, end);
+        assert.ok(
+          depth > perchDistance(setOff, end) - 1e-9 && depth > V_NEAR * 1.5,
+          `${side} turned ${String(heading)}: depth ${depth.toFixed(2)}`,
+        );
+      }
+      assert.deepEqual(first, leavingAloft(setOff, side, AWAY, from));
+    }
+  });
+
+  it('ends a leg to a perch where the perch stands now, else where it stood last, else where it set off', () => {
+    const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
+    const at = (x: number) => aloftAt(view, { x, y: 400 }, CLUMP_DISTANCE);
+    const [from, kept, perch] = [at(100), at(300), at(500)];
+    const cap: Perch = { kind: 'cap', id: 'm' };
+    assert.equal(legEnd(view, cap, standsAway, { from, kept, perch }), perch);
+    assert.equal(legEnd(view, cap, standsAway, { from, kept }), kept);
+    assert.equal(legEnd(view, cap, standsAway, { from }), from);
+  });
+});
+
+describe('onscreenOf, for a release', () => {
+  for (const [name, width, height] of [
+    ['tablet', 1180, 820],
+    ['phone', 390, 844],
+  ] as const) {
+    it(`times a release's way out of view to where it flies out by, at its own span and height, on a ${name} screen`, () => {
+      const { layout } = opened(3, width, height, true);
+      const unit = layout.insectSize;
+      let moved = 0;
+      for (const eye of [OPENING_EYE, ...WALKED_EYES]) {
+        const view = viewAt(layout.camera, eye);
+        const middle = onscreenOf(layout, view);
+        assert.ok(middle);
+        for (const kind of INSECT_KINDS) {
+          for (const seed of [7, 0x5e_ed, 0xc0_ff_ee_00]) {
+            const insect = { kind, seed };
+            const onscreen = onscreenOf(layout, view, insect);
+            assert.ok(onscreen);
+            const away = releasedAway(layout, view, insect);
+            for (const side of ['left', 'right'] as const) {
+              const { from, out } = entryAloft(view, side, away);
+              assert.ok(out);
+              const drawn = placeOfAloft(view, unit, out);
+              assert.deepEqual(onscreen.outs[side], drawn);
+              const pace =
+                framedLength(view, from, out) / unit / outWay(onscreen, side);
+              assert.ok(
+                pace > 0.9 && pace < 1.1,
+                `${kind} ${String(seed)} ${side} from ${JSON.stringify(eye)}: drawn ×${pace.toFixed(2)} its timing`,
+              );
+              const { x, y } = middle.outs[side];
+              if (Math.hypot(drawn.x - x, drawn.y - y) > 0.01) moved++;
+            }
+          }
+        }
+      }
+      assert.ok(moved > 0, 'no release flies out off the band-middle spot');
     });
   }
 });

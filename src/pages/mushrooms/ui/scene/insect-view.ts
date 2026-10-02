@@ -18,9 +18,9 @@ import { containsCircle } from './hit-areas';
 import type { Lighting } from './ink';
 import {
   type Away,
-  awayDown,
   entryAloft,
-  leavingAloft,
+  legEnd,
+  ownAway,
   reachesScreen,
   seenFor,
 } from './insect-away';
@@ -82,8 +82,8 @@ function alongOf(point: Point, start: Point, end: Point): number {
  * under it (`insect-shadow.ts`). One in from away comes up over the brow (`entryAloft`), and
  * where the screen shows no open perch, flies out of view by the side its
  * perch stands to before the rest of its way; one leaving goes out just past
- * the screen's edge where the view stands now, by its seed's side, as deep
- * as it set off (`leavingAloft`).
+ * the screen's edge where the view stood as it set off, by its seed's side,
+ * as deep as it set off, a point fixed on the plane (`legEnd`).
  */
 export class InsectView {
   private readonly shown = new Map<string, Shown>();
@@ -218,11 +218,11 @@ export class InsectView {
     const stretch = this.stretch(shown, now);
     const end =
       stretch.out ??
-      (leg.to.kind === 'away'
-        ? leavingAloft(view, leg.to.side, this.awayOf(shown, view), shown.from)
-        : goal) ??
-      shown.goal ??
-      shown.from;
+      legEnd(view, leg.to, () => this.awayOf(shown, view), {
+        ...pick(shown, 'from'),
+        kept: shown.goal,
+        perch: goal,
+      });
     shown.goal = end;
     const centre = shown.centre ?? centreOf(view.eye, shown.from, end);
     shown.centre = centre;
@@ -396,15 +396,11 @@ export class InsectView {
   }
 
   /**
-   * How an insect stands away (`insect-away.ts`): past an edge by its open
-   * wings' span at its size now — measured afresh, since a new one stands
-   * away before its first `draw` — at a height its phase picks.
+   * How an insect stands away (`ownAway`), at its size now — measured
+   * afresh, since a new one stands away before its first `draw`.
    */
   private awayOf(shown: Shown, view: View): Away {
-    return {
-      span: wingspan(shown.look.genes) * this.sizeOf(shown),
-      drop: awayDown(view.height, shown.phase),
-    };
+    return ownAway(view, shown.look.genes, this.sizeOf(shown), shown.phase);
   }
 
   private show(flier: Flier): Shown {

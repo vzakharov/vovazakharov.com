@@ -12,6 +12,21 @@ import { type Foot, footfalls } from './footsteps';
 export const BOB_SHARE = 0.004;
 
 /**
+ * How much of the camera's bob the ground's own pictures take (its rows, its
+ * grain and the brow over what sinks): all of it, as every bed object does at
+ * Phaser's default scroll factor, so a foot stays on its ground row and a far
+ * thing shows over the brow as much mid-step as at rest. The hills and the
+ * sky take none, and the near range's foot reaches under the ground's top by
+ * the deepest bob (`deepestBob`), so no strip of sky opens between them.
+ */
+export const GROUND_BOB = 1;
+
+/** The farthest the bob moves the meadow down, in CSS px, on a screen `height` px tall. */
+export function deepestBob(height: number): number {
+  return BOB_SHARE * height;
+}
+
+/**
  * How far up the camera scrolls, in CSS px, `walked` in the clump's size into
  * the visit on a screen `height` px tall, at `gait` of a walking pace: never
  * below zero, so the meadow only ever moves down and no strip under the land
@@ -20,7 +35,7 @@ export const BOB_SHARE = 0.004;
 export function bobAt(walked: number, height: number, gait: number): number {
   const swing = Math.abs(Math.sin((Math.PI * walked) / STEP_LENGTH));
   // `+ 0` so a still eye's bob is 0, never -0.
-  return -BOB_SHARE * height * gait * swing + 0;
+  return -deepestBob(height) * gait * swing + 0;
 }
 
 /**

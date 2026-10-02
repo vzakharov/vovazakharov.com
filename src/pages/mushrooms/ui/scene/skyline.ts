@@ -1,11 +1,10 @@
 /**
- * The hills' skylines and the ground's seam, pure: the hills as crests round
- * the panorama, by azimuth, so a sweep can check what stands in front of the
- * sun from any heading without painting; the seam also as points across the
- * world, which the grass along it is laid on.
+ * The hills' skylines and the ground's seam, pure: each a crest round the
+ * panorama, by azimuth, so a sweep can check what stands in front of the sun
+ * from any heading without painting.
  */
 
-import { type Point, sample } from '../../model/geometry';
+import type { Point } from '../../model/geometry';
 import { type Camera, pinholeOf } from '../../model/ground';
 import type { Light } from '../../model/light';
 import { between, type Random } from '../../model/random';
@@ -17,7 +16,6 @@ import {
   type WithCrest,
   wrapAngle,
 } from './panorama';
-import { layerSpan, PARALLAX } from './parallax';
 import { SUN_RAY_REACH } from './sun-layout';
 
 /** A skyline's points to a screen's width. */
@@ -237,8 +235,8 @@ export function seamReach({
 /**
  * Where the ground meets the near hills' foot, round the panorama: a line
  * wavering about the ground's top by `SEAM_REACH`, so the meadow's far edge
- * has no straight line in it. The opening view shows it where `groundSeam`
- * lays it across the world.
+ * has no straight line in it; the hills' foot and the grass along it both
+ * read it.
  */
 export function seamCrest(layout: MeadowLayout): Crest {
   const { groundTop, camera } = layout;
@@ -250,37 +248,6 @@ export function seamCrest(layout: MeadowLayout): Crest {
     openingMiddle(camera, OPENING_SLIDE.seam),
   );
   return (azimuth) => groundTop + reach * swell(azimuth);
-}
-
-/**
- * The seam across the world, as the opening eye lays it out: it depends on
- * the screen's size alone, so the grass that lines it reads the same seam.
- */
-export function groundSeam(layout: MeadowLayout): Point[] {
-  const { width, groundTop, camera } = layout;
-  const { left, across } = layerSpan(camera, PARALLAX.ground);
-  const reach = seamReach(layout);
-  const rate = (Math.PI * 2) / SEAM_WAVELENGTH;
-  return sample(0, 1, Math.ceil((SEAM_STEPS * across) / width), (t) => {
-    const swell = SEAM_WAVES.reduce(
-      (sum, [weight, pace, phase]) =>
-        sum + weight * Math.sin(rate * pace * t * across + phase),
-      0,
-    );
-    return { x: left + t * across, y: groundTop + reach * swell };
-  });
-}
-
-/** The seam's height at `x`, between the two points either side; level past either end. */
-export function seamAt(seam: readonly Point[], x: number): number {
-  const after = seam.findIndex((point) => point.x >= x);
-  const right = after === -1 ? seam.at(-1) : seam[after];
-  const left = seam[after - 1] ?? right;
-  if (!left || !right) return 0;
-  const span = right.x - left.x;
-  return span === 0
-    ? right.y
-    : left.y + ((right.y - left.y) * (x - left.x)) / span;
 }
 
 /**

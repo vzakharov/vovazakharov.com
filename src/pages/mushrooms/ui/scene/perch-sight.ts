@@ -25,7 +25,11 @@ import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
 import { OPENING_EYE, pinholeOf, project } from '../../model/ground';
-import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import {
+  INSECT_KINDS,
+  type InsectKind,
+  type Kinded,
+} from '../../model/insect-genes';
 import { INSECT_LIMITS } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
 import { mushroomGenes } from '../../model/mushroom-genes';
@@ -46,7 +50,7 @@ import {
   type Stand,
   WIDEST_SPAN,
 } from './flower-sight';
-import { awayPlaces, wayOutOf } from './insect-away';
+import { awayPlaces, releasedAway, wayOutOf } from './insect-away';
 import type { Aloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import {
@@ -398,11 +402,14 @@ export function footRows(
  * perch counts as shown just where the screen draws it, at whatever row; a
  * perch counts as shown half the widest butterfly's wings inside either
  * edge, so one seated there is wholly in view; and the release's way out of
- * view as `view` draws it (`wayOutOf`). `undefined` only with no view.
+ * view as `view` draws it (`wayOutOf`), past the edge where it draws the
+ * `released` insect standing away (`releasedAway`) where one is given.
+ * `undefined` only with no view.
  */
 export function onscreenOf(
   layout: MeadowLayout,
   view: View | undefined,
+  released?: Seeded & Kinded,
 ): Onscreen | undefined {
   if (!view) return undefined;
   const unit = layout.insectSize;
@@ -412,6 +419,6 @@ export function onscreenOf(
     left: (middleOf(view) - half) / unit,
     right: (middleOf(view) + half) / unit,
     inset: widestOn(layout, 'butterfly') / 2 / unit,
-    ...wayOutOf(layout, view),
+    ...wayOutOf(layout, view, released && releasedAway(layout, view, released)),
   };
 }

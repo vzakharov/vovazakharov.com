@@ -7,7 +7,8 @@ import { groundAt, RANGES } from './backdrop-tones';
 import { grainStrips } from './grain';
 import { seamGrass, seamShown } from './grass';
 import { meadowLayout } from './layout';
-import { groundSeam, SEAM_REACH, seamCrest } from './skyline';
+import { crestAcross } from './panorama';
+import { SEAM_REACH, SEAM_STEPS, seamCrest, seamReach } from './skyline';
 import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
@@ -27,7 +28,11 @@ describe('the seam between the near hills and the ground', () => {
   for (const [name, width, height] of VIEWPORTS) {
     it(`wavers, never running level for long, on a ${name} screen`, () => {
       const layout = meadowLayout(width, height, 1);
-      const seam = groundSeam(layout);
+      const seam = crestAcross(
+        seamCrest(layout),
+        viewAt(layout.camera, OPENING_EYE),
+        SEAM_STEPS,
+      );
       const reach = (height - layout.groundTop) * SEAM_REACH;
       for (const { y } of seam) {
         assert.ok(Math.abs(y - layout.groundTop) <= reach + 1e-9);
@@ -66,7 +71,7 @@ describe('the seam between the near hills and the ground', () => {
   it('fades the grain in over a band below the seam rather than along a line', () => {
     for (const [, width, height] of VIEWPORTS) {
       const layout = meadowLayout(width, height, 1);
-      const top = Math.min(...groundSeam(layout).map(({ y }) => y));
+      const top = layout.groundTop - seamReach(layout);
       const strips = grainStrips(layout, top);
       assert.equal(strips[0]?.top, top);
       assert.equal(strips.at(-1)?.bottom, height);

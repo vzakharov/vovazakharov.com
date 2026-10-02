@@ -24,6 +24,7 @@ import { mix } from './colour';
 import { type Azimuthed, screenAt } from './panorama';
 import { hillBands, seamReach } from './skyline';
 import { browLowest, browRow, type View } from './view';
+import { deepestBob } from './walking';
 
 /** The brow's own stream, so growing its blades draws nothing from the backdrop's. */
 const BROW_SEED = 0xb7_0a;
@@ -85,6 +86,18 @@ const COVER_ROWS = 4;
  */
 export function browFloor(camera: Camera): number {
   return Math.max(camera.groundTop + seamReach(camera), browLowest(camera));
+}
+
+/** How far past the ground picture's top the near range's foot reaches below the deepest bob, in CSS px. */
+const FOOT_OVERLAP = 2;
+
+/**
+ * How far down the near range's foot reaches: past the ground picture's top
+ * (`browFloor`) bobbed at its deepest (`GROUND_BOB`), so no sliver of sky
+ * shows under the ground or the brow mid-step.
+ */
+export function nearFoot(camera: Camera): number {
+  return browFloor(camera) + deepestBob(camera.height) + FOOT_OVERLAP;
 }
 
 /** Whether a blade's tip is lit. */
