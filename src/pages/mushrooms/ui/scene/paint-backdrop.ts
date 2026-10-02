@@ -163,17 +163,16 @@ function bake(
   });
 }
 
-/** The stretch across and the rows `from` to `to` either way of the sun's middle, on whole device pixels, never above the screen's top. */
+/** The square `reach` either way of the sun's middle, across and down, on whole device pixels, never above the screen's top. */
 function aboutTheSun(
   { sun }: MeadowLayout,
-  across: readonly [number, number],
-  down: readonly [number, number],
+  reach: number,
   ratio: number,
 ): Pick<Bake, 'span' | 'rows'> {
-  const [left, right] = onPixels(sun.x + across[0], sun.x + across[1], ratio);
+  const [left, right] = onPixels(sun.x - reach, sun.x + reach, ratio);
   const [top, bottom] = onPixels(
-    Math.max(0, sun.y + down[0]),
-    sun.y + down[1],
+    Math.max(0, sun.y - reach),
+    sun.y + reach,
     ratio,
   );
   return { span: { left, across: right - left }, rows: { top, bottom } };
@@ -208,11 +207,13 @@ export function paintBackdrop(
     painted.push(graphics);
     return graphics;
   };
+  /** A graphics standing fixed on the screen at `part`'s depth. */
+  const fixedAt = (part: keyof typeof DEPTHS) =>
+    scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS[part]);
   let cloudCount = 0;
   const cloudLayer: Layer = () => {
     const graphics = (
-      existing?.clouds[cloudCount] ??
-      scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.clouds)
+      existing?.clouds[cloudCount] ?? fixedAt('clouds')
     ).clear();
     cloudCount += 1;
     return graphics;
@@ -229,8 +230,8 @@ export function paintBackdrop(
   const { camera, width, height, nearHills, sun, wash: rings } = layout;
   const hills = hillsOf(layout, random);
   const hillLayers: HillLayers = existing?.hills ?? {
-    far: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.farHills),
-    near: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.nearHills),
+    far: fixedAt('farHills'),
+    near: fixedAt('nearHills'),
   };
   const brow =
     existing?.brow ??
@@ -282,7 +283,7 @@ export function paintBackdrop(
   const rays = sun.r * SUN_RAY_REACH + SUN_MARGIN;
   const outer = Math.max(...rings);
   const wash = turning('wash', {
-    ...aboutTheSun(layout, [-outer, outer], [-outer, outer], ratio),
+    ...aboutTheSun(layout, outer, ratio),
     sources: [washLayer],
   });
   for (const column of wash.columns) {
@@ -300,7 +301,7 @@ export function paintBackdrop(
       sources: [glowLayer],
     }),
     sun: turning('sun', {
-      ...aboutTheSun(layout, [-rays, rays], [-rays, rays], ratio),
+      ...aboutTheSun(layout, rays, ratio),
       sources: [sunLayer],
     }),
     clouds,

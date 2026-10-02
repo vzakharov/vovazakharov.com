@@ -214,9 +214,7 @@ export function growTufts(
   random: Random,
 ): Sprout[] {
   const most = mostTufts(layout.camera);
-  const tufts = kept
-    .slice(0, most)
-    .map(({ foot }) => sproutOn(layout, foot, random));
+  const tufts = regrowTufts(layout, kept.slice(0, most), random);
   while (tufts.length < most) tufts.push(grownTuft(layout, random));
   return tufts;
 }

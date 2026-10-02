@@ -159,14 +159,23 @@ export function partedUnderSun(
   };
 }
 
+/** A far range rolling from `foot` up to `rise` above it (`hillCrest`), its highest crest there. */
+function farRangeOn(
+  random: Random,
+  camera: Camera,
+  foot: number,
+  rise: number,
+): FarRange {
+  return {
+    crest: hillCrest(random, camera, OPENING_SLIDE.far, foot, rise),
+    highest: foot - rise,
+  };
+}
+
 /** The far hills' range: a rolling crest rising from the horizon. */
 export function farRange(random: Random, layout: MeadowLayout): FarRange {
   const { horizon, groundTop, camera } = layout;
-  const rise = (groundTop - horizon) * FAR_RISE;
-  return {
-    crest: hillCrest(random, camera, OPENING_SLIDE.far, horizon, rise),
-    highest: horizon - rise,
-  };
+  return farRangeOn(random, camera, horizon, (groundTop - horizon) * FAR_RISE);
 }
 
 /**
@@ -177,11 +186,7 @@ export function farthestRange(random: Random, layout: MeadowLayout): FarRange {
   const { horizon, groundTop, camera } = layout;
   const rise = groundTop - horizon;
   const foot = horizon - rise * FARTHEST_LIFT;
-  const height = rise * FAR_RISE * FARTHEST_RISE;
-  return {
-    crest: hillCrest(random, camera, OPENING_SLIDE.far, foot, height),
-    highest: foot - height,
-  };
+  return farRangeOn(random, camera, foot, rise * FAR_RISE * FARTHEST_RISE);
 }
 
 /** The far hills' skyline, parted under the sun. */
