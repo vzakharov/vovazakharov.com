@@ -8,6 +8,7 @@ import type { Crowding, Held, Pairing, Perch } from '../../model/flight';
 import {
   boxAround,
   type Circle,
+  distanceBetween,
   distanceToSegment,
   type Point,
 } from '../../model/geometry';
@@ -85,9 +86,7 @@ export function seatsWith(
     x: (box.left + box.right) / 2,
     y: (box.top + box.bottom) / 2,
   };
-  const r = Math.max(
-    ...points.map(({ x, y }) => Math.hypot(x - centre.x, y - centre.y)),
-  );
+  const r = Math.max(...points.map((point) => distanceBetween(centre, point)));
   // Kinds seated on one track share its segments, which `crowdings` then
   // measures once.
   const cut = new Map<Track, readonly Segment[]>();
@@ -223,7 +222,7 @@ export function pointCrowdings(
     const [a, b] = [Math.floor(pair / count), pair % count];
     const [onA, onB] = [points[a], points[b]];
     if (!onA || !onB) continue;
-    const between = Math.hypot(onB.x - onA.x, onB.y - onA.y);
+    const between = distanceBetween(onA, onB);
     let pairings: readonly Pairing[] | undefined;
     for (const each of within)
       if (between < each.need) pairings = each.pairings;
