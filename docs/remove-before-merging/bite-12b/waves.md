@@ -27,6 +27,12 @@ Each agent's report lands here as it arrives, so a restart costs nothing.
 
 - S2 — after S1; note `s.md`. **Landed c0e804c**: `MushroomGround.anchor`; `placeIn` anchors each stored foot (identity at `OPENING_EYE`), `undefined` where no ground; `anchoredGround(ground, anchor)` (same object while the anchor stays) is how a caller judges from an eye; `laidOf` lays a non-clump mushroom at `{x:0,z:0}`, `FOREST_SIZE`, `opening = CLUMP_DISTANCE`, so it paints once; a mushroom grown behind the opening eye is now painted. Regression flagged for I4: `seatAloft`'s fallback for an undrawn host reads the paint frame as opening px. S2 missed I1's `anchored-stand.ts` (not on origin when it looked): **two anchoring paths now coexist**.
 
+## Wave 3 (launched together)
+
+S3, L3, I (fliers.test.ts first, then I2–I5) and Play launched at once
+from 233b3b6, each in its own worktree; P1b waits on S3 and L3. Reports
+land below as they arrive.
+
 ## Next wave
 
 In this order of launch; parallel where files are disjoint.
