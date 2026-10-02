@@ -18,13 +18,13 @@ export type PlayedKey = FlowerSound | { kind: 'octave'; step: -1 | 1 };
 type Directed = { direction: Direction };
 
 /** A key that turns the eye while held, leftward or rightward. */
-export type PanKey = Directed & { kind: 'pan' };
+type PanKey = Directed & { kind: 'pan' };
 
 /** A key that walks the eye while held, on along its heading or back. */
-export type StepKey = Directed & { kind: 'step' };
+type StepKey = Directed & { kind: 'step' };
 
 /** A turning key held under Shift: it walks the eye sideways, to its left or right. */
-export type StrafeKey = Directed & { kind: 'strafe' };
+type StrafeKey = Directed & { kind: 'strafe' };
 
 /** A key that moves the eye while held, and so must be let go. */
 export type MoveKey = PanKey | StepKey | StrafeKey;

@@ -55,7 +55,7 @@ export type LayeredPoint = Point & Layered;
 export type Framed = { frame: Frame };
 
 /** How big, in px, one of the clump's size stands where a point is shown. */
-export type Scaling = { scale: number };
+type Scaling = { scale: number };
 
 /**
  * A ground point as a camera shows it: where on the screen, how big one of
@@ -142,7 +142,7 @@ export function seen({ x, z }: Ground): Point {
  * than at its top, before its own size: nearer things, lower on the screen,
  * are bigger.
  */
-export function depthScale(down: number): number {
+function depthScale(down: number): number {
   return 0.7 + down * 0.5;
 }
 

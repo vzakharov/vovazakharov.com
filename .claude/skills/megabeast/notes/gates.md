@@ -32,6 +32,19 @@
   down. The skill should deepen until `git merge-base origin/<base> HEAD`
   resolves before trusting an empty lookup, and write the floor's sha into
   the polish agents' brief rather than have each recompute it.
+- **A bite's `/polish` is a wave of agents, sized by changed lines.** Bite
+  12's ~18k changed lines took fifteen agents over one committed brief
+  (`docs/remove-before-merging/bite-12/brief-polish.md`): every `/dry`
+  agent spent its context at ~2–4k changed lines and handed back findings
+  it had judged but not applied, which a second agent then applied without
+  re-reading; `/tend-prose` agents covered ~4–5k lines each. The skill
+  should cut `/dry` by area at ~3k lines and `/tend-prose` at ~5k, run all
+  `/dry` before any `/tend-prose` on the same files, let a finished area's
+  prose start while another's `/dry` runs, and hand cross-area findings to
+  whichever agent next owns those files. It also caught two things only a
+  wave reading everything finds: topic files stale against the build
+  (`bite-12.md` still described the pinhole), and a test rule standing on
+  code that production no longer calls.
 - **Agents' scratch breaks `pnpm test`.** The test glob `**/*.test.ts`
   reaches into gitignored `tmp/`: a subagent's copy of the mushroom sources
   in `tmp/clump/` (to measure old constants), throwaway tests and a

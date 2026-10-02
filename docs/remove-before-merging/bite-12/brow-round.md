@@ -41,15 +41,15 @@ screen x's, through HEAD's `sunk` (foot row in CSS px; "brow" is the drawn
 straight brow, `coverRow`; "circle" is the row of the `D_SEE` circle at that
 x, `y_h + (groundTop − y_h)/cos θ`):
 
-| screen | r | x mid | x ¾ | x edge |
-| --- | --- | --- | --- | --- |
-| phoneP (brow 597.3) | D_SEE − 0.6 | 605.3 / circle 588.4 | 606.6 / 589.7 | 610.2 / 593.1 |
-| | D_SEE | **588.4** / 588.4 | **589.7** / 589.7 | **593.1** / 593.1 |
-| | D_SEE + 0.3 (sunk) | **596.3** / 588.4 | **595.0** / 589.7 | **591.7** / 593.1 |
-| | D_SEE + 0.8 (sunk) | 608.7 | 607.4 | 604.2 |
-| tabL (brow 503.5) | D_SEE | **492.0** / 492.0 | **501.1** / 501.1 | 524.8 / 524.8 |
-| | D_SEE + 0.3 | **502.1** sunk | **493.2** sunk | 513.9 not sunk |
-| | D_SEE + 0.8 | 518.0 sunk | 509.4 sunk | **496.9 not sunk** |
+| screen              | r                  | x mid                | x ¾               | x edge             |
+| ------------------- | ------------------ | -------------------- | ----------------- | ------------------ |
+| phoneP (brow 597.3) | D_SEE − 0.6        | 605.3 / circle 588.4 | 606.6 / 589.7     | 610.2 / 593.1      |
+|                     | D_SEE              | **588.4** / 588.4    | **589.7** / 589.7 | **593.1** / 593.1  |
+|                     | D_SEE + 0.3 (sunk) | **596.3** / 588.4    | **595.0** / 589.7 | **591.7** / 593.1  |
+|                     | D_SEE + 0.8 (sunk) | 608.7                | 607.4             | 604.2              |
+| tabL (brow 503.5)   | D_SEE              | **492.0** / 492.0    | **501.1** / 501.1 | 524.8 / 524.8      |
+|                     | D_SEE + 0.3        | **502.1** sunk       | **493.2** sunk    | 513.9 not sunk     |
+|                     | D_SEE + 0.8        | 518.0 sunk           | 509.4 sunk        | **496.9 not sunk** |
 
 What it shows:
 
@@ -60,7 +60,7 @@ What it shows:
 - **The sink is keyed on `ahead`, the depth along the heading, not on the
   distance** (`behindHills` reads `placed.ahead`), so the plan's "keyed on
   the distance along the ground (kept)" does not describe HEAD: HEAD is the
-  plan's *beaten* option. A thing at a fixed distance sinks at the middle
+  plan's _beaten_ option. A thing at a fixed distance sinks at the middle
   and stands unsunk at the side (tabL, `D_SEE + 0.8` at the edge: foot at
   496.9, 6.6 px above the brow, not sunk), and turning toward it sinks it.
 - **The row of a fixed distance falls toward the edges** (the `D_SEE`

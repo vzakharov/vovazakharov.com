@@ -59,7 +59,7 @@ type Pressing = Lefted & {
 };
 
 /** How long something takes, in seconds. */
-export type Lasting = { over: number };
+type Lasting = { over: number };
 
 /** A glide from `start` to `goal`, beginning at `began` and taking `over` seconds. */
 type Gliding = Lasting & {

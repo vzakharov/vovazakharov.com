@@ -29,7 +29,7 @@ as a speck at the seam. Paths under `src/pages/mushrooms/ui/scene/`.
 
 - **Flowers (the speck itself): `seam-tail-flowers.patch`**, one line in
   `flower-bed.ts` (off limits here): `bedPlace(this.view, laid.foot,
-  shown.headR - shown.headY)`. Played in a scratch worktree on tabL and
+shown.headR - shown.headY)`. Played in a scratch worktree on tabL and
   phoneL: the tabL speck at ≈(240, 850) and two on phoneL go, and nothing
   else in the rim frames changes (diffs 25×6 and 379×6 device px, the
   specks only). The committed rim frames are not replaced, since the tree

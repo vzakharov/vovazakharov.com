@@ -83,7 +83,7 @@ export function layoutAtRow(
  * two far ends out of order, its right end at the screen's left; a column
  * that meets the row nowhere also ends a run.
  */
-export function rowRuns(
+function rowRuns(
   view: View,
   xs: readonly number[],
   footRow: number,

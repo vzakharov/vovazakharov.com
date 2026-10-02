@@ -29,7 +29,7 @@ export const REPAINTS_PER_FRAME = 2;
  * there: about as far as a back-row mushroom takes to sink away, so it pales
  * as it goes under rather than after.
  */
-export const BROW_PALE = 0.2;
+const BROW_PALE = 0.2;
 const PALE_SPAN = 1.2;
 
 /** How much paler a thing `distance` from the eye stands for sinking behind the brow: none up to `D_SEE`, easing up to `BROW_PALE`. */
