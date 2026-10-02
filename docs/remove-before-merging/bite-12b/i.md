@@ -91,7 +91,21 @@ snap was measured.
   'alofts'>`, the cell's `{ id, name }` now `WithId & { key }`, the
   lattice's `pitch` renamed `spacing` (it collided with `Buzz`'s).
 
+## I3 — shown by the view
+
+Landed (`git log --grep "shown by the view"`). `Onscreen` gains `downTo`
+(the screen's foot, `view.height / insectSize`) and `far` (`D_SEE`), and
+`isShown` asks `x` inside the edges, `y ≤ downTo − inset`, `fromEye ≤ far`.
+Departure: the spec's names `bottom`/`brow` — `brow` is `WayOut`'s place
+already, and `bottom`, `foot`, `lowest` each collide with another type's
+member in `pnpm type-overlap`. Tests: `flight-in.test.ts` (`isShown` past
+each edge, the foot and the brow; a release whose every perch is past the
+brow or under the foot flies out of view first), `perch-sight.test.ts`
+(a shown perch drawn above the screen's foot; from eyes stepped back 6–14
+units, perches the edges hold past the brow are not shown). flight,
+flight-kinds, insect-away, game, perch-sight green.
+
 ## Left
 
-- I3, I4 (S2's `seatAloft` fallback regression,
+- I4 (S2's `seatAloft` fallback regression,
   `s.md` § "For package I"), I5.

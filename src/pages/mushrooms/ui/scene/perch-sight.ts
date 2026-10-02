@@ -294,8 +294,9 @@ export function footRows(
  * stand every perch in the frame turned to the eye's heading
  * (`placeOfAloft`): the stretch of that frame between the screen's edges
  * (the screen is linear in azimuth and the frame its tangent, so a perch
- * counts as shown just where the screen draws it), inset half the widest
- * butterfly's wings so one seated there is wholly in view; and the release's
+ * counts as shown just where the screen draws it) and above its foot, out to
+ * the brow (`D_SEE`), inset half the widest butterfly's wings so one seated
+ * there is wholly in view; and the release's
  * way out of view (`wayOutOf`), past the edge where `view` draws the
  * `released` insect standing away (`releasedAway`).
  */
@@ -311,6 +312,8 @@ export function onscreenOf(
   return {
     left: (middleOf(view) - half) / unit,
     right: (middleOf(view) + half) / unit,
+    downTo: view.height / unit,
+    far: D_SEE,
     inset: widestOn(layout, 'butterfly') / 2 / unit,
     ...wayOutOf(layout, view, released && releasedAway(layout, view, released)),
   };
