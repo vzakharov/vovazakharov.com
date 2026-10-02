@@ -1,19 +1,21 @@
 # Relay summary
 
-Relay depth: 6 → **the successor is depth 7**
-(`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap", limit 8).
-Depth 8 is the next session's successor: whoever reaches the cap ends at a
-natural stop and hands the operator the paste line, on Opus.
+Relay depth: 7 → **the successor is depth 8, the cap**
+(`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
+`create_session` will refuse from depth 8: the successor ends at a natural
+stop, writes its own relay with depth reset to 1, and hands the operator the
+line `/relay take claude/mushroom-game-syama-lbirv7` to paste into a fresh
+session **on Opus**.
 
 ## 1. Standing constraints
 
-**Never issue `git reset --hard` on pickup.** If the local ref is stale,
-first `git fetch --deepen=300 origin <branch>` (the clone is shallow),
-check `git merge-base --is-ancestor`, and rename a genuinely stale ref
-aside (`git branch -m <branch> stale/<n>`) before checking out a fresh
-tracking branch. **After the attach, run `pnpm install --frozen-lockfile`**
-(the SessionStart hook installs the trunk's lockfile, which has no
-`phaser` or `esbuild`). Read files with `Read`, not `cat`/`sed` (CLAUDE.md).
+**Never issue `git reset --hard` on pickup.** The clone is shallow: deepen
+first (`git fetch --deepen=300 origin <branch>`), check
+`git merge-base --is-ancestor`, and rename a genuinely stale ref aside
+(`git branch -m <branch> stale/<n>`) before checking out a fresh tracking
+branch. **After the attach, run `pnpm install --frozen-lockfile`** (the
+SessionStart hook installs the trunk's lockfile, which has no `phaser` or
+`esbuild`). Read files with `Read`, not `cat`/`sed` (CLAUDE.md).
 
 Carried from earlier sessions, the operator's words verbatim (Russian):
 
@@ -72,89 +74,110 @@ and republishing the game Artifact at its one URL
 subagent runs on Opus, named explicitly (`create_session` `model:
 "claude-opus-5-5"`, `Agent` `model: "opus"`). The review is a subagent in
 each bite's tail. Build agents work in their own `git worktree`
-(`docs/remove-before-merging/bite-12/brief-common.md`). Pass this section
-on verbatim.
+(`docs/remove-before-merging/bite-12/brief-common.md`); **a build agent and
+the agent that plays its build are briefed apart** (megabeast
+`subagents.md`: three of three build agents ran out before the play). Pass
+this section on verbatim.
 
 ## 2. The conversation
 
-Started from `/relay take`. Attach: deepened; the local ref (e66b8e1) was not
-an ancestor of origin's tip, renamed to `stale/mushroom-game-local`; fresh
-tracking branch; `pnpm install`. Plan flipped paused → in-progress (05babd4).
+Started from `/relay take`; attached (local ref renamed to
+`stale/mushroom-game-local-2`), `pnpm install`, plan flipped to in-progress.
+Told the operator what to try on Artifact v14; a play agent began the
+five-screen final run (tablets done: spec §4 green, frame budget ~19 ms; new
+reds — insects flipping ~3 rad a frame, crooked rests, tabP hold, faint sky
+line — recorded as plan item 1c).
 
-Agents ran item 1 (veer play bounds, C's step 2 tests, then the dash trace,
-the flower planting, the away-leg fix). Mid-run the account's weekly usage
-limit killed two agents with uncommitted work.
+> 1 вроде да
+> 2 да, "за холмом" они исчезают дисректно: были-не стало, в отличие от цветов-грибо, которые "уезжают" за него. И как-то не очень ощущается их положение в пространстве по оси (дальше-ближе). Может попробовать добавить им условные тени-кругляшки (НЕ их настоящей формы, а то опять зароемся).
+> 3 ну точно не скажу, но вроде ок. единственное что мне кажется что мухи (в отличие от пчелы и подобного) не умеют "зависать", они всегда куда-то дрыгаются. если это геморно править, можно оставить как есть пока
+> 4 резковато
+> 5 звук пока не могу проверить; но когда играл вчера было хорошо
+>
+> дополнительно: хочется добавить стрейф. на клавиатуре, понятно, с зажатым шифтом. Перетаскиванием думаю так: перетаскиваешь держась за землю -- поворот; перетаскиваешь держась за холмы вдалеке (ну или небо) -- стрейф. по крайней мере попробовать.
 
-> обновил квоту -- попробуешь восстановить работу субагента? транскрипт наверное сможешь найти
+Reply: recorded in the plan; three packages in parallel (insect brow sink +
+shadows, fly hops + softer dash, strafe); final run stopped, to redo after.
 
-Reply: both resumed with `SendMessage` to their agent ids, worktrees intact;
-both finished and pushed.
+> а, ещё вот такое заметил: пчела всегда сажает цветок в одну и ту же сторону от имеющегося цветка, в результате через какое-то время сплошные диагональные полосы цветов
 
-> так, вопросик, а у нас всё по плану, никто не spiraled? а то такое ощущение что мы примерно вечность на этом байте. я не тороплю, простопытаюсь убедиться что всё ок
+Reply: cause — `sown` took the first free ring slot; fixed by the
+orchestrator (random free slot off the bee's stream, 8e2af24).
 
-Reply: not a spiral, but borderline — of the veer play's rounds, one found a
-real game defect (away legs) and two were the play's own errors; so the chase
-stops: remaining reds recorded as known, Artifact next, then items 2–5. No
-more "the check found a problem in the check" rounds. Offered to ship the
-Artifact before the away fix; did not wait for an answer, since the fix
-landed first and the Artifact went out with it.
+> и ещё, давай таки сделаем чтобы при "игре" по ноте, которой ещё нет, она звучала, *и* при этом появлялся (в случайном месте) цветок нужного цвета-формы. то есть если на пустом экране сыграть мелодию, достаточно быстро вырастет поляна цветков-нот. если цветок нужной ноты уже в текущем экране есть, то он играет как прежде -- нового не появляется
+
+Reply: package `v14-note-plant` launched (built and played on tabL since).
+Also put two feel questions: sky strafe (stays still, lag after lift: keep /
+faster / keys only) and fly dash (only −17%, held by a 7-in-10 catch bound).
+
+> 1 - мне всё норм, пока оставляем как есть, потом может лучше идеи придут
+> 2 - а я даже не знал что по ней можно "попадать". что в этом случае происходит? в любом случае пока не углубляемся в это, оставляем как есть
+
+Reply: a tap on a flier in the air only swallows the tap; recorded.
+
+> > Пояснил, что сейчас попадание по насекомому просто гасит тап
+>
+> а как планировалось-то, что должно было произойти если "попасть" по насекомому?
+
+Reply: nothing was ever planned (bite 5: "in flight takes the tap alone");
+butterflies were slowed so a finger could catch one, but no catch was
+designed. Proposed: a caught insect shies away with its own voice.
+
+> > Например, пойманное насекомое шарахается в сторону со своим звуком: трель у бабочки, жужжание у пчелы, зудение у мухи
+>
+> да, давай
+
+Reply: recorded as package `v14-catch`, left to the successor.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
-playable after every bite; `/finalize` at the end, no merge. Now: **finish
-bite 12 without further test-harness rounds** — the operator noticed the
-bite is taking forever.
+playable after every bite; `/finalize` at the end, no merge. Now: land the
+operator's v14 asks, republish the Artifact so he can play them, then close
+bite 12 (final run, review, polish, `/pr`).
 
-## 4. Decisions (in the plan and `docs/plans/mushroom-game-syama/bite-12/insects.md` § "The veer play's bounds")
+## 4. Decisions
 
-- C's step 2: `seat`/`capTop` `drawn` left untested (Phaser cannot load in
-  Node); extracting pure functions beaten as churn without a bug.
-- Dash bound is the curve's own peak (`scripts/lib/veer-dash.ts`, 41.6/23.5
-  butterfly px a frame); binding to measured peaks beaten.
-- Away legs timed between the plane points they are drawn between — built
-  (007a1ec, `ip-away.md`). The release's leg on to a far air spot (0.5–2.6)
-  accepted.
-- **The veer play's chase is closed.** Known, for the review and the
-  operator's play: tabL bee 57.7 px step; phoneP fly never perches in view;
-  phoneP frame median ~27.3 ms vs 26; a release toward a shown perch timed
-  from the screen edge but drawn from over the brow.
-- The flower "not planted" was the script counting bee-sown flowers; both
-  the veer and tufts plays now count only the child's (3c7de13, 07c5b07).
+All in the plan's § "Rest of the bite" → "The operator's play of version
+14", with his words: brow sinking, round shadows (not the outline), fly
+hops, fly dash 0.24 (catch bound held), strafe as built (sky stands still),
+bees' random slot, notes that plant (pitch class, ignoring octave; the grown
+flower hushed so the key sounds once), the catch reaction, and item 1a's
+call: **insects flying underground are fixed in the flight (height ≥ 0),
+not by fading the shadow.**
 
 ## 5. Errors and dead ends
 
-- The 65/48 px dash bound in the plan was a measurement, not the curve.
-- The ip-Cplay5 lead (`offAloft` moving) was wrong; the cause was timing vs
-  drawing endpoints.
-- The usage limit (see § 2). Lesson in megabeast `subagents.md`.
+- Build agents ran out of context before playing (all three) — play is a
+  separate agent now.
+- A `for` loop over every mushroom test file in one Bash call hit the
+  10-minute ceiling; run test files a few at a time.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
   **`CONFLICTING`** (reported, `/finalize`'s job).
-- Last pushed: the commit carrying this file (after 31cb5db).
-- Plan `docs/plans/mushroom-game-syama.paused.md`, 408 lines (target < 400;
-  trim when next touched).
-- No agent running, no worktree, no pending check-in, no PR subscription.
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 14
-  (built after 007a1ec, with the away fix). The operator has not yet been
-  told what to try on it beyond earlier messages.
+- Plan `docs/plans/mushroom-game-syama.paused.md`, **426 lines — trim
+  under 400 first** (move settled v14 history to
+  `mushroom-game-syama/bite-12/` topic files).
+- No agent running, no worktree, no check-in, no PR subscription.
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG still at
+  **version 14** — none of the v14 changes are in it yet.
 
 ## 7. Pointers
 
-- Notes: `docs/remove-before-merging/bite-12/ip-Cplay4.md`, `ip-Cplay5.md`,
-  `ip-plant.md`, `ip-away.md`, `ip-C3.md`.
-- Frames: `docs/remove-before-merging/frames/bite-12/insect-plane/`.
-- `scripts/lib/veer-away.ts` (drawn/timed per away leg, eye still).
-- This session: https://claude.ai/code/session_01Skp8FPGWyG3RgtW8yeTLyF
+- Notes: `docs/remove-before-merging/bite-12/v14-strafe.md`,
+  `v14-insect-depth.md`, `v14-fly.md`, `v14-note-plant.md`,
+  `v14-insect-play.md`, `play-final2.md`.
+- Frames: `docs/remove-before-merging/frames/bite-12/v14/`, `final/`.
+- This session: https://claude.ai/code/session_01E7w4UhdWvsuAyuZX15wqPx
 
 ## 8. Next step
 
-Continue bite 12 from the plan's `**Left, in order:**` item 2 (the
-five-screen final play, one screen per call, frames committed), then 3
-(footstep level), 4 (the review subagent and its fixes), 5 (`/polish`, vet,
-Artifact, `/pr`). Tell the operator, in Russian, what to try on Artifact
-version 14: turn your back and release a bug (it leaves by the side, drawn
-the whole way); insects smaller over the back caps, bigger near; walk at a
-hovering fly — it veers past; is the fly's dash too fast?
+Resume the plan (`/go`): trim it under 400, then its `**Left, in order:**`
+from 1a (insects underground — the flight's height ≥ 0; phoneP's insect
+play), 1b' (`v14-catch`, «да, давай»), 1c (the tablet reds), then
+**republish the Artifact** and tell the operator, in Russian, what is new to
+try (shadows, brow sinking, fly hops, strafe, melodies that grow flowers,
+catching a flier). Then 2–5 as written. At depth 8, stop at a natural stop
+(after the Artifact is a good one) and hand the operator the paste line.

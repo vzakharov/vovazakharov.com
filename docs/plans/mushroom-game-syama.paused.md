@@ -394,6 +394,13 @@ The footstep level held in the operator's earlier play («когда играл 
    `v14-note-plant` (played, tabL), `v14-insect-depth` and `v14-fly`
    (played by `v14-insect-play.md`; any fix it left is the next work).
    Notes beside `brief-common.md`. The Artifact is still version 14.
+1a. **Insects fly under the ground** (`v14-insect-play.md`): the shadows
+   show a leg's drawn height going below 0 (to −1.76 sizes) in ~29% of
+   tabL's meadow frames, a leg being mixed in screen space and read back
+   by `aloftFramed`. Decided: keep the height ≥ 0 in the flight itself;
+   fading the shadow beaten (hides it, leaves insects underground). Then
+   phoneP's insect play and a fly mid-hop (a play holding a fly past
+   arrival).
 1b'. `v14-catch` (above), built then played by a second agent.
 1c. The new reds `play-final2.md` found on the tablets at 483be26, once 1b's
    insect packages land (they own the files): insects flipping ~3 rad in
