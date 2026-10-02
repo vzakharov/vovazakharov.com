@@ -65,20 +65,15 @@ export function hazeAhead(
 /** A thing's sun side now, as its light from the heading gives it, and as it was painted. */
 export type Siding = { sunSide: number; paintedSunSide: number };
 
-/**
- * A thing's haze now, as it was `painted`, and how far `ahead` it stands;
- * and its sun side, unless its light never turns.
- */
+/** A thing's haze now, as it was `painted`, how far `ahead` it stands, and its sun side. */
 export type Hazing = Hazed &
-  Pick<Viewed, 'ahead'> & { painted: number } & Partial<Siding>;
+  Pick<Viewed, 'ahead'> & { painted: number } & Siding;
 
 /** Whether `thing`'s haze or sun side has drifted far enough from its paint to repaint. */
 function drifted({ haze, painted, sunSide, paintedSunSide }: Hazing): boolean {
   return (
     Math.abs(haze - painted) >= HAZE_DRIFT ||
-    (sunSide !== undefined &&
-      paintedSunSide !== undefined &&
-      Math.abs(sunSide - paintedSunSide) >= SIDE_DRIFT)
+    Math.abs(sunSide - paintedSunSide) >= SIDE_DRIFT
   );
 }
 

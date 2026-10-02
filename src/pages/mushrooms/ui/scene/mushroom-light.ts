@@ -59,6 +59,9 @@ export function sideways({ x }: Point): number {
   return Math.min(1, Math.abs(x) / FULL_SIDE);
 }
 
+/** The light a mushroom's body is painted in, and its shadow's. */
+export type MushroomLights<Lit extends Light> = Record<'body' | 'ground', Lit>;
+
 /**
  * The light a mushroom standing at `foot`, `size` its unit, is painted in,
  * the eye facing `heading`: its body's from its cap's middle toward the sun,
@@ -71,7 +74,7 @@ export function mushroomLights<Lit extends Light>(
   foot: Point & Scaled,
   sun: Point,
   heading = OPENING_EYE.heading,
-): Record<'body' | 'ground', Lit> {
+): MushroomLights<Lit> {
   const middle = capFrame(genes)({ x: 0, y: genes.capHeight / 2 });
   const at = placedAt(foot, turn, toCanvas(foot.size)(middle));
   return {

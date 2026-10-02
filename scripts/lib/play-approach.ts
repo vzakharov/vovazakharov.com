@@ -4,7 +4,7 @@
  * refuses, then again `SOW_APART` s of `↓` back, the two clusters standing
  * as close as the per-area cap lets them, one behind the other; the eye turned onto its haziest
  * back-row mushroom and walked up to it on `↑` until it is drawn `CLOSE`
- * times its opening size, by when its painted haze has dropped; a tap on its
+ * times the size it set off at, by when its painted haze has dropped; a tap on its
  * cap where it is painted (`paintedCap`, never the scene's own hit test)
  * selects it, and one `OUTSIDE` px outside its outline, where the
  * finger pad was, does not; then the eye turned all the way round there, at
@@ -56,7 +56,11 @@ import {
 } from './mushroom-probe.ts';
 
 const FPS = 60;
-/** How many times its opening size the walked-up mushroom is drawn at the least. */
+/**
+ * How many times the size it set off at the walked-up mushroom is drawn at
+ * the least. Not its opening size: one walked up to from behind the opening
+ * is drawn below the screen's foot by the time it is half as big again.
+ */
 const CLOSE = 1.5;
 /** How far outside the walked-up mushroom's outline, in CSS px, a tap must not take it. */
 const OUTSIDE = 4;
@@ -291,11 +295,12 @@ export async function playApproach(
 
   // Up to it on `↑`, every frame drawn and timed.
   const timed = page.rendered.length;
+  const closeAt = CLOSE * aimed.zoom;
   await page.key('ArrowUp', 'keyDown');
   const walkUp = async (frames: number): Promise<Stand | undefined> => {
     await stepOne();
     const now = await standOf(target.id);
-    if (!now || now.zoom >= CLOSE || frames >= MOST_WALK) return now;
+    if (!now || now.zoom >= closeAt || frames >= MOST_WALK) return now;
     return walkUp(frames + 1);
   };
   await page.evaluate('__probe.hitches()', Hitches);
@@ -305,8 +310,8 @@ export async function playApproach(
   const close = await standOf(target.id);
   const eye = await page.evaluate('__probe.eye()', Eye);
   expect(
-    close !== undefined && close.zoom >= CLOSE,
-    `↑ walked up to ${target.id} until it was drawn ${String(reached?.zoom.toFixed(2))} times its opening size, short of ${String(CLOSE)} (the eye at ${eye.x.toFixed(2)}, ${eye.y.toFixed(2)})`,
+    close !== undefined && close.zoom >= closeAt,
+    `↑ walked up to ${target.id} until it was drawn ${String(reached?.zoom.toFixed(2))} times its opening size, short of ${closeAt.toFixed(2)} (the eye at ${eye.x.toFixed(2)}, ${eye.y.toFixed(2)})`,
   );
   if (close === undefined) return;
   expect(

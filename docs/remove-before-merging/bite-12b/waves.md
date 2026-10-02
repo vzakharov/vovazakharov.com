@@ -76,12 +76,57 @@ land below as they arrive.
   first); spore puffs and the boing read `shown.size` unzoomed;
   `pnpm type-overlap` red on two groups in `lawn.ts` (the next L agent's).
 
+- **Play** — 9e89d44, bbdd458 (note `play.md`; tabL only). `checkBack`:
+  ↓ 12 s lands 19.000 at let-go, 19.200 at rest, as expected. The
+  dense-forest approach is two clusters walked through (4 s of ↓ apart).
+  Probe `__probe.hitches()`: lawn re-tend 17 ms median / 151 ms worst, its
+  frames 49 ms against 19 ms plain — **a real hitch past the 26 ms
+  budget**; perch re-see +6 ms. Harness red loosened (to-check.md): the
+  walk-up stops at `CLOSE` × the size it set off at. Reds handed on: `+`
+  19 units out judged from the opening eye (S3 landed it; the scene wiring
+  is L′'s), no tufts far from the start (L′'s L3). **Orchestrator's call:**
+  the re-tend hitch is the tail's — spread the re-tend over frames or
+  shrink its sector — after L′ reports; the tail's play run covers the
+  other four screens on a quieter machine.
+
 ## Wave 4 (launched together)
 
 I′ (`perch-sight.ts` handed over: fliers on S3, I2's patch wired and
 profiled, then I3–I5), L′ (`anchored-stand.ts` handed over: plane ring
 offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
 (`mushroom-bed.ts`; the flower half waits on L′).
+
+- **P1b, mushrooms** — 132c6eaf: `Shown.lightsAt(heading)` and `sunFrom`,
+  `paintLit` (body, house, shadow) at the eye's heading, `follow` feeds
+  `sunSide`/`paintedSunSide`; `Siding` now required in `Hazing`; exact at
+  the opening heading (a test pins `headedLight` against the ground light).
+  S3's leftover fixed in the bed (puff reach and boing pitch from the drawn
+  size). Departures kept: a closure on `Shown` instead of p.md's stored
+  `toward.x` (`turnedLight` and `headedLight` don't commute); a haze-only
+  repaint relights too. **Left for the tail:** `mushroom-bed.ts` is 479
+  lines — split along a seam; the door puff (`house-view.ts`) reads the
+  unzoomed size — `spores.ts`'s `Puffing` carries the drawn zoom. P1b's
+  flower half and P2 (`lawn.ts`) after L′.
+- **L′** — 72d4d4b3 (`Lawn = Seeded & Pick<Stand, 'layout'>`, the overlap
+  gate green), eee8f5ce (steps 2–5 designed in `l.md` § "L3b", not
+  built). Measured the ring call: no fixed plane offset lands within half
+  a tuft of today's ring (p50 ~1.8 tufts, worst 8–14), options (a) plane
+  offsets, bar dropped, (b) layout offsets from the stored foot, (c) both
+  with a seam. **Orchestrator's call: (a), B = 1.5** (its best fit). The
+  half-tuft bar was mine and guarded nothing a player sees: a bee's ring
+  is laid fresh each visit, so there is no ring anyone remembers for it to
+  move from; (a) is right in perspective everywhere and keeps one
+  geometry, where (b) goes wild off the opening and (c) adds a seam.
+  `standingFlowers`' spacing goes to plane distance with it. On step 2:
+  the rules read out to ~2·`D_SEE` + `PALE_SPAN` + 1 so the 48 count is
+  exact, the cut stand cached per mushrooms list and anchor, as L′
+  designed. A tuft's tap is judged at the anchor the grass last tended at,
+  so a shown tuft never shakes its head.
+
+## Wave 5
+
+L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half
+and P2, which share `flower-bed.ts` and `lawn.ts` with it.
 
 ## Next wave
 

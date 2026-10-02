@@ -56,6 +56,70 @@
   `flower-plots.test.ts`'s "off the ground" band assertion went: a bee's
   flower may now stand with its foot past the screen's foot or the band.
 
+## L3b (wave 4, `wt/l3b`)
+
+- **`lawn.ts`'s overlap**: `Lawn = Seeded & Pick<Stand, 'layout'>`;
+  `pnpm type-overlap` clean.
+- **Ring slots on the plane — cannot hold as written; not built.** Measured
+  over the seeded beds of the first 40 visits at 1180 × 820 (348 parents,
+  plane distance 5.1–12.0 from the opening eye, every one of the 18 slots),
+  today's ring foot against a fixed plane offset `(slot.x · size · A,
+slot.z · size · B)`:
+
+  | Offset                          | screen error, tufts (`tuftSizeAt`) p50 / p90 / worst | plane error, units p50 / p90 / worst |
+  | ------------------------------- | ---------------------------------------------------- | ------------------------------------ |
+  | A = `SPREAD`, B = 1             | 1.9 / 5.4 / 10.5                                     | 0.31 / 0.83 / 1.28                   |
+  | A = `SPREAD`, B = 1.5 (best B)  | 1.8 / 4.7 / 7.9                                      | 0.28 / 0.72 / 1.12                   |
+  | rotated to the parent's azimuth | 2.1 / 6.2 / 14.1                                     | 0.31 / 0.74 / 1.35                   |
+  | rotated, depth × (\|p\| / CD)²  | 1.9 / 5.7 / 13.5                                     | 0.28 / 0.70 / 1.39                   |
+
+  Half a tuft is 0.5 on the first scale, ~0.54 units (half the lawn's
+  tuft spacing, 1 / √0.85) on the second. Two causes, both of today's ring
+  being laid in the opening's `Ground`: depth on the plane is
+  `(y / CLUMP_DISTANCE)²` per `z` (0.35 at the bed's nearest parent, 1.93
+  at its farthest — no one B fits both), and across is `Ground` x, which
+  for a parent off the opening axis (the seeded bed spans the whole world,
+  gathered azimuth to ~±0.5) is skewed into depth on the plane. Near-axis
+  parents alone (|azimuth| < 0.15): 1.2 / 2.5 / 4.6 tufts fixed, 0.5 / 1.0 /
+  1.8 with the exact depth factor. Options for the orchestrator:
+  (a) build the plane offsets with B ≈ 1.2–1.5 and drop the bar — rings
+  round today's seeded flowers move by ~2 tufts typically (up to ~8), so the
+  bees' beds look different from bite 12's at the opening, perspective-true
+  (a near ring reads shallower on screen, a far one deeper);
+  (b) keep `Ground` offsets but lay them from the parent's **stored** foot
+  (`ringFoot` before anchoring, then anchor the result): exact at the
+  opening and eye-independent, wild far from the opening (L's original
+  concern); (c) (b) near the opening, (a) far, with a seam between.
+  `standingFlowers`' plane-distance spacing waits on the same call (it is
+  sized against the ring).
+
+- **Steps 2–5 designed, not built** (context ran out). For the next agent:
+  - Rules from the anchor: `plantableIn(stand, eye)` and
+    `takesFlower(stand, foot, eye)` judge on `anchoredStand(stand,
+anchorOf(eye))`; each sprout's foot is moved with `anchored` (left out
+    in the sliver, as `hasGround`) and its tuft's `x`/`y`/`size` re-stood
+    at the moved foot (`standingOn` + `tuftSizeAt`), identity at
+    `OPENING_EYE`. `Grass.tend` passes its `eye`; `Planter` gets the view
+    through `Scened` (add `view: () => View | undefined`).
+  - The read cut: a cut at `D_SEE` cannot hold beside the 48 cap, which
+    counts within `D_SEE` of a new foot up to `D_SEE + PALE_SPAN +
+TEND_STEP` from the eye, so the stand read must reach ~`2·D_SEE +
+PALE_SPAN + 1` (≈ 29) for the count to be exact. A bee flower is kept
+    when its parent is; mushrooms are cut by stored foot, and the cut stand
+    must be cached per (`mushrooms`, anchor) or `coversOn`'s per-array
+    cache misses every call.
+  - The 48: `FLOWER_SLOTS` + a counter over plane feet in `game.ts`;
+    anchoring is rigid, so counting anchored feet in `roomIn`/`roomFor`
+    equals counting on the plane.
+  - Flowers off the opening (every planted one): laid at `{x: 0, z: 0}`
+    in the flower's ground size, `viewedOrLaid(…, CLUMP_DISTANCE)` as S2's
+    `laidOf`; the drawn size equals today's at the opening (laid size ·
+    `opening / ahead` cancels `scaleAt`). Light from the opening place
+    where it has ground, else the laid one. `seat`/`onHost` read
+    `laid.place` and need the same frame.
+  - Tufts tended at one anchor may be refused by `takesFlower` at a
+    nearby one (anchor turns 0.04 rad; re-tend waits half a screen).
+
 ## Left
 
 - The rest of L3: rules from the anchor, the 48 cap, flowers off the

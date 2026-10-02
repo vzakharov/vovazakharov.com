@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
-import { sunLight } from '../../model/light';
+import { headedLight, sunLight } from '../../model/light';
 import {
   MUSHROOM_SPECIES,
   type MushroomGenes,
@@ -488,6 +488,20 @@ describe('the meadow’s light by heading', () => {
         const at = (facing: number) =>
           flowerLight(light, genes, foot, sun, facing).toward.x;
         assert.ok(Math.abs(at(0) + at(Math.PI)) < 1e-12);
+      }
+    });
+
+    // The bed judges a mushroom's sun side drifted by turning its opening
+    // ground light, and repaints it in the light of the new heading.
+    it(`turns the opening's ground light by the heading into the ground light it paints, on a ${name} screen`, () => {
+      for (const [slot, place] of everyPlace(mushrooms).entries()) {
+        const at = (facing: number) =>
+          mushroomLights(light, flyAgaricIn(place, slot), place, sun, facing)
+            .ground;
+        const opening = at(OPENING_EYE.heading);
+        for (const facing of [0.3, -1.2, Math.PI / 2, Math.PI, 5]) {
+          assert.deepEqual(headedLight(opening, facing), at(facing));
+        }
       }
     });
   }
