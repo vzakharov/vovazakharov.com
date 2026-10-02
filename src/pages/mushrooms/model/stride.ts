@@ -62,10 +62,9 @@ export function sidewaysOf(heading: number): number {
 type Chase = { origin: Point; bearing: number; aim: number; lifted: boolean };
 
 /**
- * The eye's place on the plane and its pace along the way it walks — along
- * the heading, or a chase's line while a drag walks it — and its `sidePace`
- * square to the heading, how far it has walked in all, in the clump's size,
- * the keys held, and the drag that walks it, if one does; while one does, the
+ * The eye's place on the plane and its pace along the way it walks — the
+ * heading, or a chase's line while a drag walks it — with `sidePace` square
+ * to the heading and `walked` in the clump's size. While a drag walks it, the
  * keys wait for it to finish.
  */
 export type Stride = Cruising<Point> & {
@@ -101,7 +100,6 @@ function cross(one: Point, other: Point): number {
   return one.x * other.y - one.y * other.x;
 }
 
-/** `at` from the glade's centre. */
 function fromCentre(at: Point): Point {
   return { x: at.x - GLADE.x, y: at.y - GLADE.y };
 }
@@ -191,7 +189,6 @@ export function standingAt(at: Point): Stride {
   };
 }
 
-/** The held-key flag `direction` names on `axis`. */
 function heldFlag(axis: Axis, direction: Direction): keyof Steps {
   if (axis === 'strafe') return direction < 0 ? 'leftward' : 'rightward';
   return direction < 0 ? 'back' : 'forward';

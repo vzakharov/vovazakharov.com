@@ -6,7 +6,7 @@
  * walked by drag and by key and the screen turned — the steps are
  * `lib/play-opening.ts`, `lib/play-meadow.ts`, `lib/play-house.ts`,
  * `lib/play-insects.ts`, `lib/play-buzzers.ts`, `lib/play-walk.ts`,
- * `lib/play-approach.ts`, `lib/play-species.ts`, `lib/play-tufts.ts` and
+ * `lib/play-approach.ts`, `lib/play-species.ts`, `lib/play-tufts.ts`,
  * `lib/play-hold.ts`, `lib/play-keys.ts` and `lib/play-veer.ts` — and a
  * frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
  *
@@ -374,11 +374,7 @@ async function main(): Promise<void> {
     const expect: Expect = (holds, message) => {
       if (!holds) fail(message);
     };
-    // A fresh meadow for each play, one after the other: every control on
-    // the first, walked and turned on the next, the bees alone on the next,
-    // every species grown on the next, the child planting flowers on the
-    // next, and changing one on the last. `--plays walk,tufts` plays only
-    // those.
+    // A fresh meadow for each play, in `PLAYS`' order.
     const only = flag('plays')?.split(',');
     const frames: number[] = [];
     await inTurn(

@@ -57,17 +57,16 @@ const BOB_SHARE = 0.004;
 
 /**
  * How much more than the sliver a sunk thing is hidden at (`SHOWN_LEAST` of
- * its drawn height) may show over the brow, in CSS px, on the
- * frame it starts or stops being drawn without that reading as a pop: a
- * frame's sink, and the play's reading of a top a little off the drawn one.
+ * its drawn height) may show over the brow, in CSS px, on the frame it
+ * starts or stops being drawn without reading as a pop: a frame's sink, and
+ * the play's reading of a top a little off the drawn one.
  */
 const SLIVER_SLACK = 2;
 
 /**
  * The eye, and how high on the screen each mushroom and flower drawn reaches,
- * how tall it is drawn and where across it stands, in CSS px, \`null\` where
- * it is not drawn: what a pop is read from. A flower's top is its head's, as laid out above its foot
- * and scaled with it.
+ * how tall it is drawn and where across it stands, in CSS px, `null` where
+ * it is not drawn: what a pop is read from. A flower's top is its head's.
  */
 const WALKING = `({
   ...__probe.eye(),
@@ -133,7 +132,6 @@ function turned(from: number, to: number): number {
   return wrap(to - from);
 }
 
-/** How far the eye stands from the glade's middle. */
 function fromMiddle({ x, y }: Seen): number {
   return Math.hypot(x - GLADE.x, y - GLADE.y);
 }
