@@ -107,6 +107,26 @@ offsets, the rest of L3, `lawn.ts`'s overlap) and P1b's mushroom half
   lines — split along a seam; the door puff (`house-view.ts`) reads the
   unzoomed size — `spores.ts`'s `Puffing` carries the drawn zoom. P1b's
   flower half and P2 (`lawn.ts`) after L′.
+- **L′** — 72d4d4b3 (`Lawn = Seeded & Pick<Stand, 'layout'>`, the overlap
+  gate green), eee8f5ce (steps 2–5 designed in `l.md` § "L3b", not
+  built). Measured the ring call: no fixed plane offset lands within half
+  a tuft of today's ring (p50 ~1.8 tufts, worst 8–14), options (a) plane
+  offsets, bar dropped, (b) layout offsets from the stored foot, (c) both
+  with a seam. **Orchestrator's call: (a), B = 1.5** (its best fit). The
+  half-tuft bar was mine and guarded nothing a player sees: a bee's ring
+  is laid fresh each visit, so there is no ring anyone remembers for it to
+  move from; (a) is right in perspective everywhere and keeps one
+  geometry, where (b) goes wild off the opening and (c) adds a seam.
+  `standingFlowers`' spacing goes to plane distance with it. On step 2:
+  the rules read out to ~2·`D_SEE` + `PALE_SPAN` + 1 so the 48 count is
+  exact, the cut stand cached per mushrooms list and anchor, as L′
+  designed. A tuft's tap is judged at the anchor the grass last tended at,
+  so a shown tuft never shakes its head.
+
+## Wave 5
+
+L″ builds `l.md` § "L3b" steps 1 (call (a)) to 5; then P1b's flower half
+and P2, which share `flower-bed.ts` and `lawn.ts` with it.
 
 ## Next wave
 
