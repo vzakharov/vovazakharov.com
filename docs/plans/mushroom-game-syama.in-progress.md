@@ -306,11 +306,25 @@ each beat in brackets):
   flower fits is not drawn, judged from where the child stands. [Tufts
   grown round the eye per frame: the grass would reshuffle on every step.]
 - **The cap per area: at most `MUSHROOM_SLOTS` (12) mushrooms within
-  `D_SEE` of a new foot, and 96 on the whole field** for the frame budget,
-  `+` shaking its head at either. The spec measures `follow`'s cost at 96
-  and lowers the ceiling if the 26 ms median fails. [One cap for the field:
-  sowing would stop after twelve on an endless field; no ceiling: per-frame
-  cost grows without bound.]
+  `D_SEE` of a new foot, and 96 on the whole field**, `+` shaking its head
+  at either. The frame is bounded by the area cap and **a side cull**:
+  `bedPlace` hides what stands off the screen's sides, since Phaser
+  re-triangulates every visible Graphics a frame (0.23–0.52 ms a mushroom)
+  and one behind the eye was drawn (spec § 6: 36 drawn fails 26 ms, 19
+  passes). The 96 bounds the stored field, not the frame. [One cap for the
+  field: sowing stops after twelve; a lower ceiling: buys nothing.]
+- **Flowers per area too: at most 48 within `D_SEE`** of a new one; a bee
+  past it plants nothing, and a tuft there is not drawn, so no tuft ever
+  refuses. [No flower cap: bee rings sow an endless field without bound.]
+- **A thing grown off the opening is laid out at the clump's distance in
+  its own frame**, sized by its genes, so nothing repaints on a re-anchor.
+  [Laid out at the current anchor: every re-anchor repaints all, a ~26 ms
+  spike.]
+- **Rules read only what stands near the eye**: `plantableIn`/`roomFor`
+  within `D_SEE`, the tufts tended over the view's sector and a screen
+  either side (spec § 11: 800 live tufts tended whole cost 32–76 ms). The
+  lawn is even on the plane, so near grass reads a little sparser than
+  bite 12's opening: accepted.
 - **Light by heading** through the repaint queue, side component
   `sin(heading − α_sun)`, at most `REPAINTS_PER_FRAME` a frame.
 - **Insects on the plane** (`bite-12b/spec-insects.md`), perching where
