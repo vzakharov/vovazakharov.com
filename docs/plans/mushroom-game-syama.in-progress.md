@@ -283,6 +283,43 @@ The bites, each file its full contract:
 11. **A wider meadow, panned** — [bite-11.md](mushroom-game-syama/bite-11.md)
 12. **Walking the meadow** — [bite-12.md](mushroom-game-syama/bite-12.md)
 
+## This bite
+
+12b. **The meadow has no edge** — its contract is
+[endless-field.md](mushroom-game-syama/endless-field.md), a structural bite
+with a review session of its own. Its calls, decided here (the alternative
+each beat in brackets):
+
+- **Spec first, by a mapping agent** (`docs/remove-before-merging/bite-12b/spec.md`):
+  every reader of layout `Ground {x, z}` and of `GLADE`, endless-field.md's
+  insect section reconciled with `model/flight-frame.ts` and
+  `model/flight-in.ts`, a step 0 that changes the store's shape alone, then
+  packages by disjoint files. [Building from the sketch in
+  `bite-12/step-spec.md` § 3, which predates bite 12's insect work.]
+- **The store is the plane.** Stored feet are plane points; the layout
+  keeps the opening frame for the opening clump and its seeded flowers only.
+- **Nothing is sown but the opening.** No seeded flowers or mushrooms round
+  the glade: the operator's «пустое поле пока он туда что-то не посадит»
+  overrides the step-spec's "seeded flowers round the glade".
+- **The lawn is laid by plane cells**, each cell's tufts and mottles grown
+  from its own seed, so a walk back finds the same grass; a tuft where no
+  flower fits is not drawn, judged from where the child stands. [Tufts
+  grown round the eye per frame: the grass would reshuffle on every step.]
+- **The cap per area: at most `MUSHROOM_SLOTS` (12) mushrooms within
+  `D_SEE` of a new foot, and 96 on the whole field** for the frame budget,
+  `+` shaking its head at either. The spec measures `follow`'s cost at 96
+  and lowers the ceiling if the 26 ms median fails. [One cap for the field:
+  sowing would stop after twelve on an endless field; no ceiling: per-frame
+  cost grows without bound.]
+- **Light by heading** through the repaint queue, side component
+  `sin(heading − α_sun)`, at most `REPAINTS_PER_FRAME` a frame.
+- **Insects on the plane**, perching where they like («садятся куда
+  хотят»): air spots round the eye, entry from the view's edge, take-offs
+  panned by azimuth; the layout-px adapter in `insect-view.ts` retires.
+- **Clear-outs**: `GLADE` and the rim slide, `nearestTheSun`/`acrossFromSun`
+  (the "out of the wash" rule restated against the sun's azimuth, or gone),
+  `openingCrop`, `rebloom`.
+
 ## Rest of the elephant
 
 In order.
@@ -308,20 +345,6 @@ straight over one seated on a cap (frame
 `phoneL-butterfly-crosses-one-on-a-cap.png`); a butterfly making way for a bee
 leaves its flower moments after landing, which may read as a twitch; a
 flier holding an air spot is drawn still, with no hover bob.
-
-12b. **The meadow has no edge**: the glade rim goes and the field runs on
-wherever the child walks, nothing on it but grass until he plants it; the
-store, the light and the insects move onto the plane, and the clear-outs
-bite 12 left go. Its contract:
-[endless-field.md](mushroom-game-syama/endless-field.md). Its § "The
-insects on the plane" predates bite 12's insect work — legs already carry
-height and plane poses (`model/flight-frame.ts`), and its unseen release
-facing away no longer matches `model/flight-in.ts` — so 12b reconciles it
-with the code before building from it. Among the clear-outs:
-`sun-layout.ts`'s `nearestTheSun`/`acrossFromSun` still model a world
-panning under a screen-fixed sun, and only `meadow-rules.test.ts`'s "out of
-the wash" rule calls them — that rule is restated against the sun at its
-azimuth, or goes.
 
 13. **Rain** — the shower itself; what it leaves behind is item 14. Its
     contract, the model already built (5c9f2e9):
