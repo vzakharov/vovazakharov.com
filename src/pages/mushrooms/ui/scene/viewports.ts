@@ -4,6 +4,8 @@
  * `scripts/sweep-mushrooms.ts` read it.
  */
 
+import { meadowCamera } from './meadow-camera';
+
 /** Each screen as its name, width and height in CSS px. */
 export const VIEWPORTS = [
   ['tablet', 1180, 820],
@@ -16,6 +18,18 @@ export const VIEWPORTS = [
 
 /** A screen of `VIEWPORTS`, by name. */
 export type Screen = (typeof VIEWPORTS)[number][0];
+
+/** Each of `VIEWPORTS` as named, then the same screen turned a quarter. */
+export const EITHER_WAY = VIEWPORTS.flatMap(([name, width, height]) => [
+  [name, width, height] as const,
+  [`${name} turned`, height, width] as const,
+]);
+
+/** The meadow's camera on each screen of `EITHER_WAY`, by its name there. */
+export const CAMERAS = EITHER_WAY.map(([name, width, height]) => ({
+  name,
+  camera: meadowCamera(width, height),
+}));
 
 /** A phone narrower than any of `VIEWPORTS`, whose camera the zoom floor holds. */
 export const FLOOR_HELD = ['280×600', 280, 600] as const;

@@ -7,7 +7,7 @@ import { bedPlace, depthOf } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingFlowers } from './flower-plots';
 import { browRow, D_SEE, viewAt } from './view';
-import { VIEWPORTS } from './viewports';
+import { EITHER_WAY } from './viewports';
 import { opened } from './visit-play';
 
 /** How near the opening placement stands to the layout's, in CSS px. */
@@ -15,14 +15,8 @@ const SAME_PX = 0.5;
 
 const SEEDS = [1, 42];
 
-/** Every screen, upright and turned. */
-const SCREENS = VIEWPORTS.flatMap(([name, width, height]) => [
-  { name, width, height },
-  { name: `${name} turned`, width: height, height: width },
-]);
-
 describe('a bed object at the opening eye', () => {
-  for (const { name, width, height } of SCREENS) {
+  for (const [name, width, height] of EITHER_WAY) {
     it(`stands where the layout stands it, less the opening crop's left, on a ${name} screen`, () => {
       for (const seed of SEEDS) {
         const { meadow, layout, flowers } = opened(seed, width, height, true);
@@ -74,7 +68,7 @@ describe('a bed object at the opening eye', () => {
 });
 
 describe("a bed object past the ground's top row", () => {
-  for (const { name, width, height } of SCREENS) {
+  for (const [name, width, height] of EITHER_WAY) {
     it(`stands its foot below that row, under the ground and over the near hills, the farther behind, its parts in order, on a ${name} screen`, () => {
       const { layout } = opened(1, width, height, false);
       const view = viewAt(layout.camera, OPENING_EYE);

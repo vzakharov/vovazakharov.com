@@ -11,12 +11,7 @@ import {
   layoutUnder,
   planeUnder,
 } from './view-inverse';
-import { VIEWPORTS } from './viewports';
-
-const CAMERAS = VIEWPORTS.flatMap(([name, width, height]) => [
-  { name, camera: meadowCamera(width, height) },
-  { name: `${name} turned`, camera: meadowCamera(height, width) },
-]);
+import { CAMERAS } from './viewports';
 
 const EYES: Eye[] = [
   OPENING_EYE,

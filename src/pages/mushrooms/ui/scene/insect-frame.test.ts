@@ -48,12 +48,7 @@ import {
   type View,
   viewAt,
 } from './view';
-import { VIEWPORTS } from './viewports';
-
-const CAMERAS = VIEWPORTS.flatMap(([name, width, height]) => [
-  { name, camera: meadowCamera(width, height) },
-  { name: `${name} turned`, camera: meadowCamera(height, width) },
-]);
+import { CAMERAS } from './viewports';
 
 function near(actual: number, expected: number, tolerance: number): void {
   assert.ok(
