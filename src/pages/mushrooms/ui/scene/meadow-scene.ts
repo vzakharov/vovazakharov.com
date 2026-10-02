@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
+import { sameAnchor } from '../../model/anchor';
 import type { Sight } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-sounds';
 import {
@@ -10,7 +11,7 @@ import {
   type Meadow,
   reduce,
 } from '../../model/game';
-import { OPENING_EYE } from '../../model/ground';
+import { type Eye, OPENING_EYE } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import { sunLight } from '../../model/light';
 import { mulberry32 } from '../../model/random';
@@ -28,7 +29,7 @@ import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
 import { type PerchHosts, restingOn } from './perch-hosts';
-import { Perches } from './perches';
+import { perchAnchorOf, Perches } from './perches';
 import { Planter, type Scened } from './planter';
 import { MeadowSound, readMuted } from './sound';
 import { Grass } from './tufts';
@@ -68,6 +69,8 @@ export class MeadowScene extends Phaser.Scene {
   private controls: Controls | undefined;
   private insects: InsectView | undefined;
   private readonly perches: Perches;
+  /** The anchor the perches were last seen from (`perchAnchorOf`). */
+  private seenFrom: Eye | undefined;
   /**
    * Whether flowers were planted, or mushrooms grown or thinned, since the
    * flower bed last caught up: the bed draws them and the insects see them on
@@ -216,8 +219,18 @@ export class MeadowScene extends Phaser.Scene {
    * the walk (`Gait`) and a footstep for each foot that lands.
    */
   private walk(height: number): void {
-    const { eye, backdrop, grass, bed, flowers, voice, gait, clock, cameras } =
-      this;
+    const {
+      eye,
+      backdrop,
+      grass,
+      bed,
+      flowers,
+      voice,
+      gait,
+      clock,
+      cameras,
+      seenFrom,
+    } = this;
     const view = eye.view();
     if (!view) return;
     backdrop?.follow(view);
@@ -227,6 +240,12 @@ export class MeadowScene extends Phaser.Scene {
     const { feet, bob } = gait.step(eye.walked(), clock, height);
     for (const foot of feet) voice.step(foot);
     cameras.main.setScroll(0, bob);
+    if (seenFrom && !sameAnchor(seenFrom, this.anchor())) this.see();
+  }
+
+  /** The anchor the perches are judged from: where the eye stands now, snapped (`perchAnchorOf`). */
+  private anchor(): Eye {
+    return perchAnchorOf(this.eye.eye() ?? OPENING_EYE);
   }
 
   /** Draws the flowers as the plantings and the mushrooms now stand, and sees the perches with them. */
@@ -426,10 +445,12 @@ export class MeadowScene extends Phaser.Scene {
     this.repaintControls();
   };
 
-  /** Sees the perches afresh, as the screen and the mushrooms now stand. */
+  /** Sees the perches afresh, as the screen and the mushrooms now stand, from where the eye stands. */
   private see(): void {
     const stand = this.stand();
     if (!stand) return;
-    this.perches.see(stand);
+    const anchor = this.anchor();
+    this.perches.see(stand, anchor);
+    this.seenFrom = anchor;
   }
 }

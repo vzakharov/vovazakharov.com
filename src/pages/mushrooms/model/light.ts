@@ -28,6 +28,24 @@ export function sunLight({
 }
 
 /**
+ * `light`, as the opening eye sees it, seen from an eye facing `heading`
+ * (`Eye`'s): its across share is the sun's azimuth off the heading,
+ * `sin(α − heading)`, `α` the azimuth the opening eye sees it at, ahead of
+ * it; its height stays. At the opening heading it is `light` exactly.
+ */
+export function headedLight<Headed extends Light>(
+  light: Headed,
+  heading: number,
+): Headed {
+  const { x, y } = light.toward;
+  const ahead = Math.sqrt(Math.max(0, 1 - x * x));
+  return {
+    ...light,
+    toward: { x: x * Math.cos(heading) - ahead * Math.sin(heading), y },
+  };
+}
+
+/**
  * `light` as a body turned `turn` radians clockwise on screen sees it, in
  * its own frame: what a painter drawing that body before it is turned has
  * to be handed, so the body shows the light where the light is.

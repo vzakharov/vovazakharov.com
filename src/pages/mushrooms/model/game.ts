@@ -7,7 +7,7 @@
 import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
-import type { Perches, Sight, Timed } from './flight';
+import { type Perches, perchName, type Sight, type Timed } from './flight';
 import type { Onscreen } from './flight-in';
 import type { Coloured } from './flower-genes';
 import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
@@ -216,14 +216,25 @@ export function canFurnish(meadow: Meadow, piece: Furnishing): boolean {
   return furnishedTarget(meadow, piece) !== undefined;
 }
 
-/** Every perch an insect can go to: the mushrooms still standing, and what the scene sees. */
-const perchesOf = ({ mushrooms }: Meadow, sight: Sight): Perches => ({
-  ...sight,
-  caps: mushrooms.map(({ id }) => id),
-  spotted: mushrooms
-    .filter(({ species }) => species === 'fly-agaric')
-    .map(({ id }) => id),
-});
+/**
+ * Every perch an insect can go to: the mushrooms still standing that the
+ * scene places (all of them where it places none), and what the scene sees.
+ */
+const perchesOf = ({ mushrooms }: Meadow, sight: Sight): Perches => {
+  const { places } = sight;
+  const offered = places
+    ? mushrooms.filter(({ id }) =>
+        Object.hasOwn(places, perchName({ kind: 'cap', id })),
+      )
+    : mushrooms;
+  return {
+    ...sight,
+    caps: offered.map(({ id }) => id),
+    spotted: offered
+      .filter(({ species }) => species === 'fly-agaric')
+      .map(({ id }) => id),
+  };
+};
 
 /** `meadow` with what the insects made of it, the same object when they changed nothing. */
 const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>

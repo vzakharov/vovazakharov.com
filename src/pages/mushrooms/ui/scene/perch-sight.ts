@@ -23,8 +23,15 @@ import {
 import type { Aloft } from '../../model/flight-frame';
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
-import { placedAt, type Point } from '../../model/geometry';
-import { OPENING_EYE, pinholeOf, project } from '../../model/ground';
+import { distanceBetween, placedAt, type Point } from '../../model/geometry';
+import {
+  D_SEE,
+  OPENING_EYE,
+  pinholeOf,
+  planeOf,
+  project,
+  scaleAt,
+} from '../../model/ground';
 import {
   INSECT_KINDS,
   type InsectKind,
@@ -36,7 +43,7 @@ import { mushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
-import { placeIn } from './clump-layout';
+import { placeAnchored } from './anchored-stand';
 import { flowersOf, type StandingFlower } from './flower-plots';
 import {
   coversOn,
@@ -52,6 +59,7 @@ import {
 } from './flower-sight';
 import { awayPlaces, releasedAway, wayOutOf } from './insect-away';
 import type { MeadowLayout } from './layout';
+import { MEADOW_FRAME } from './meadow-camera';
 import {
   crowdings,
   pointCrowdings,
@@ -77,6 +85,28 @@ const WIDEST_SPANS = {
 /** The widest an insect of `kind` spans on `layout`, in CSS px. */
 function widestOn(layout: MeadowLayout, kind: InsectKind): number {
   return WIDEST_SPANS[kind] * layout.insectSizes[kind];
+}
+
+/**
+ * How far on the plane from the eye the stand is judged at a perch may stand
+ * and still be offered: as far as the brow, what the child sees by turning
+ * round where he stands, or the world's frame's far corner where that stands
+ * farther, so every perch the opening eye offers is offered.
+ */
+export const PERCH_REACH = Math.max(
+  D_SEE,
+  distanceBetween(
+    OPENING_EYE,
+    planeOf({
+      x: MEADOW_FRAME.across / scaleAt(MEADOW_FRAME.far),
+      z: MEADOW_FRAME.far,
+    }),
+  ),
+);
+
+/** Whether `foot`, on the plane of a stand judged at `OPENING_EYE`, stands within `PERCH_REACH` of the eye. */
+function inReach(foot: Point): boolean {
+  return distanceBetween(OPENING_EYE, foot) <= PERCH_REACH;
 }
 
 /** How far the open air reaches down over the back of the ground, as a share of the ground's depth. */
@@ -130,7 +160,7 @@ function seaterOn(
     }
     case 'cap': {
       const mushroom = mushrooms.find(({ id }) => id === perch.id);
-      const place = mushroom && placeIn(layout.mushrooms, mushroom);
+      const place = mushroom && placeAnchored(layout.mushrooms, mushroom);
       if (!mushroom || !place) return undefined;
       const { genes, turn } = splayed(mushroomGenes(mushroom), place.splay);
       const toPlace = toCanvas(place.size);
@@ -257,7 +287,9 @@ function trackOf(perch: Perch, seater: Seater, kind: InsectKind): Track {
 }
 
 /**
- * What the scene sees of the perches in `stand`: the flowers in sight
+ * What the scene sees of the perches in `stand`, judged from `OPENING_EYE`
+ * (a stand anchored at the eye, `anchoredStand`): the caps and the flowers
+ * within `PERCH_REACH`, the flowers among them in sight
  * (`flowerInSight`, against no cover) to a butterfly, and to a bee, whose
  * seat and wings differ, the spots in the open air (`airSpots`), every two
  * perches on which two insects, the widest of their kinds, could cover more
@@ -271,19 +303,23 @@ export function perchSight(stand: Stand): Sight {
   const standing = flowersOf(stand);
   const inSightTo = (kind: InsectKind) =>
     standing
-      .filter((flower) =>
-        flowerInSight(
-          layout,
-          sightingOf(flower, layout, kind),
-          [],
-          widestOn(layout, kind),
-        ),
+      .filter(
+        (flower) =>
+          inReach(flower.foot) &&
+          flowerInSight(
+            layout,
+            sightingOf(flower, layout, kind),
+            [],
+            widestOn(layout, kind),
+          ),
       )
       .map(({ id }) => id);
   const [shown, beeFlowers] = [inSightTo('butterfly'), inSightTo('bee')];
   const seen = [...new Set([...shown, ...beeFlowers])];
   const perches: Perch[] = [
-    ...mushrooms.map(({ id }) => ({ kind: 'cap', id }) as const),
+    ...mushrooms
+      .filter(({ foot }) => inReach(foot))
+      .map(({ id }) => ({ kind: 'cap', id }) as const),
     ...seen.map((id) => ({ kind: 'flower', id }) as const),
   ];
   const seaters = perches.flatMap((perch) => {
@@ -374,7 +410,7 @@ export function footRows(
 ): FootRows {
   const { layout, mushrooms } = stand;
   const caps = mushrooms.flatMap((mushroom) => {
-    const place = placeIn(layout.mushrooms, mushroom);
+    const place = placeAnchored(layout.mushrooms, mushroom);
     return place
       ? [
           [

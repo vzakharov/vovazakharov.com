@@ -16,7 +16,8 @@ import {
   type Tall,
   type Wide,
 } from '../../model/geometry';
-import { type Light, turnedLight } from '../../model/light';
+import { OPENING_EYE } from '../../model/ground';
+import { headedLight, type Light, turnedLight } from '../../model/light';
 import {
   type ChanterelleGenes,
   hasTrumpet,
@@ -31,11 +32,23 @@ import { PALETTE } from './palette';
 /** How sideways a light, as its across share, gives a full side shade: about 37° off straight above. */
 const FULL_SIDE = 0.6;
 
-/** `light` as a thing at `at` on screen has it: pointing from there at the sun. */
-function lightAt<Lit extends Light>(light: Lit, at: Point, sun: Point): Lit {
+/**
+ * `light` as a thing at `at` on screen has it, the eye facing `heading`:
+ * pointing from there at the sun as the opening eye sees it, then turned off
+ * the heading (`headedLight`).
+ */
+function lightAt<Lit extends Light>(
+  light: Lit,
+  at: Point,
+  sun: Point,
+  heading: number,
+): Lit {
   const [dx, dy] = [sun.x - at.x, sun.y - at.y];
   const length = Math.hypot(dx, dy) || 1;
-  return { ...light, toward: { x: dx / length, y: dy / length } };
+  return headedLight(
+    { ...light, toward: { x: dx / length, y: dy / length } },
+    heading,
+  );
 }
 
 /**
@@ -47,33 +60,44 @@ export function sideways({ x }: Point): number {
 }
 
 /**
- * The light a mushroom standing at `foot`, `size` its unit, is painted in:
- * its body's from its cap's middle toward the sun, in the frame its turn
- * paints it in (`turnedLight`), and its shadow's, on the ground at its foot.
+ * The light a mushroom standing at `foot`, `size` its unit, is painted in,
+ * the eye facing `heading`: its body's from its cap's middle toward the sun,
+ * in the frame its turn paints it in (`turnedLight`), and its shadow's, on
+ * the ground at its foot.
  */
 export function mushroomLights<Lit extends Light>(
   light: Lit,
   { genes, turn }: Splayed,
   foot: Point & Scaled,
   sun: Point,
+  heading = OPENING_EYE.heading,
 ): Record<'body' | 'ground', Lit> {
   const middle = capFrame(genes)({ x: 0, y: genes.capHeight / 2 });
   const at = placedAt(foot, turn, toCanvas(foot.size)(middle));
   return {
-    body: turnedLight(lightAt(light, at, sun), turn),
-    ground: lightAt(light, foot, sun),
+    body: turnedLight(lightAt(light, at, sun, heading), turn),
+    ground: lightAt(light, foot, sun, heading),
   };
 }
 
-/** The light a flower standing at `foot`, `size` tall, is painted in: from its head toward the sun. */
+/**
+ * The light a flower standing at `foot`, `size` tall, is painted in, the eye
+ * facing `heading`: from its head toward the sun.
+ */
 export function flowerLight<Lit extends Light>(
   light: Lit,
   genes: FlowerGenes,
   foot: Point & Scaled,
   sun: Point,
+  heading = OPENING_EYE.heading,
 ): Lit {
   const head = flowerHead(genes, foot.size);
-  return lightAt(light, { x: foot.x + head.x, y: foot.y + head.y }, sun);
+  return lightAt(
+    light,
+    { x: foot.x + head.x, y: foot.y + head.y },
+    sun,
+    heading,
+  );
 }
 
 /** The dome's arc from `from` past its crown to the rim, on `side`. */

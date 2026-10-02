@@ -26,6 +26,15 @@
   column is the tighter claim (the brow is highest, at `groundTop`, mid
   screen), and still passes on every viewport.
 
+- **R3, `openingCrop` and `rebloom`** — `openingCrop` gone from
+  `ui/scene/visit-play.ts` (its `viewAt` import with it). `layout.test.ts`,
+  `meadow-rules.test.ts` and `scripts/sweep-mushrooms.ts` pass
+  `(layout) => viewAt(layout.camera, OPENING_EYE)` inline;
+  `mushroom-patch.test.ts` already had `from(eye)`, which is exactly that, so
+  its row reads `from(OPENING_EYE)` beside its `turned`/`stepped in` rows.
+  `rebloom`, `BLOOM_WIDEST` (nothing else read it) and their `motion.test.ts`
+  case gone from `model/motion.ts`. No off-limits file read either.
+
 ## Left
 
-- R3 — `openingCrop`, `rebloom` (a later agent's).
+- Nothing: R1–R3 are the whole package.
