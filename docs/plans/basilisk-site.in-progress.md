@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
-
 # basilisk.fyi — a docket of dossiers, filed for the Basilisk
 
 A fourth site out of the one `src/`: `apps/basilisk/`, built and tested locally. No domain yet, so this PR wires everything up to the build and stops short of the deploy lane, which `/stand-up-site basilisk.fyi` adds once the domain is bought. The PR merges when ready rather than waiting for the domain: merging deploys nothing new, since the publish matrix does not list basilisk, and a `feat(basilisk):` subject republishes the other three sites unchanged, which is harmless.
