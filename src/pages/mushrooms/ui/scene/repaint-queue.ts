@@ -14,6 +14,7 @@ import {
   scaleAt,
   type Viewed,
 } from '../../model/ground';
+import { smooth } from '../../model/motion';
 import { D_SEE, type Placed } from './view';
 
 /** How far a thing's haze drifts from its paint before it is repainted. */
@@ -33,8 +34,7 @@ const PALE_SPAN = 1.2;
 
 /** How much paler a thing `distance` from the eye stands for sinking behind the brow: none up to `D_SEE`, easing up to `BROW_PALE`. */
 export function browPale(distance: number): number {
-  const past = Math.min(1, Math.max(0, (distance - D_SEE) / PALE_SPAN));
-  return BROW_PALE * past * past * (3 - 2 * past);
+  return BROW_PALE * smooth((distance - D_SEE) / PALE_SPAN);
 }
 
 /**
