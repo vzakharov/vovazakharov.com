@@ -20,6 +20,11 @@ const RAINBOW_RISE_MS = 1500;
 const RAINBOW_HOLD_MS = 8000;
 const RAINBOW_FADE_MS = 3000;
 
+/** When the dark of `rain` sets in: the moment the meadow is wet through. */
+export function darkAt(rain: Rain): number {
+  return rain.startedAt + WET_MS;
+}
+
 /** Whether `rain` is falling at `now`. */
 export function raining(rain: Rain | undefined, now: number): boolean {
   return rain !== undefined && rain.startedAt <= now && now < rain.stopsAt;

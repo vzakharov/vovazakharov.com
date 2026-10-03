@@ -24,11 +24,14 @@ export const FIELD_MUSHROOMS = 96;
 
 type Stood = Pick<Footed, 'foot'>;
 
-/** The mushrooms a count reads, each by its foot. */
-type Stand = { mushrooms: readonly Stood[] };
+/**
+ * What a mushroom count reads, each by its foot: the mushrooms, and the
+ * spores, each holding the place of the sprout it will be.
+ */
+type Stand = { mushrooms: readonly Stood[]; spores: readonly Stood[] };
 
-export function isFull({ mushrooms }: Stand): boolean {
-  return mushrooms.length >= FIELD_MUSHROOMS;
+export function isFull({ mushrooms, spores }: Stand): boolean {
+  return mushrooms.length + spores.length >= FIELD_MUSHROOMS;
 }
 
 /** Whether `slots` of `standing` already stand within `D_SEE` of `foot`, on the plane. */
@@ -47,20 +50,22 @@ function fullRound(
 }
 
 /**
- * Whether `MUSHROOM_SLOTS` of the meadow's mushrooms already stand within
- * `D_SEE` of `foot`, or of the anchor `from` it grows from, so none grows
- * there. Counting round the anchor holds every screen's opening to the same
- * count: a wide screen shows more ground than one foot's circle, and what it
- * grew past `MUSHROOM_SLOTS` would leave the screen when the phone is turned.
+ * Whether `MUSHROOM_SLOTS` of the meadow's mushrooms and spores already stand
+ * within `D_SEE` of `foot`, or of the anchor `from` it grows from, so none
+ * grows there. Counting round the anchor holds every screen's opening to the
+ * same count: a wide screen shows more ground than one foot's circle, and
+ * what it grew past `MUSHROOM_SLOTS` would leave the screen when the phone is
+ * turned.
  */
 export function isCrowdedAt(
-  { mushrooms }: Stand,
+  { mushrooms, spores }: Stand,
   foot: Point,
   from: Point = foot,
 ): boolean {
+  const standing = [...mushrooms, ...spores];
   return (
-    fullRound(mushrooms, foot, MUSHROOM_SLOTS) ||
-    fullRound(mushrooms, from, MUSHROOM_SLOTS)
+    fullRound(standing, foot, MUSHROOM_SLOTS) ||
+    fullRound(standing, from, MUSHROOM_SLOTS)
   );
 }
 

@@ -7,8 +7,8 @@ import {
   type FlowerShape,
   PICKED_COLOURS,
 } from '../../model/flower-sounds';
+import { canFurnish } from '../../model/furnishing';
 import {
-  canFurnish,
   isEmpty,
   type Meadow,
   type Planted,

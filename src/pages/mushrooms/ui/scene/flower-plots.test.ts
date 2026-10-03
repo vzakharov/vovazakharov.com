@@ -89,7 +89,7 @@ function plantedOut(
   const { mushrooms } = meadow;
   const { layout, flowers } = visit;
   const planted: Sown[] = [];
-  const stand = { layout, flowers, mushrooms, planted, pulled: [] };
+  const stand = { layout, flowers, mushrooms, spores: [], planted, pulled: [] };
   const random = mulberry32(seed ^ 0x50_1d);
   while (planted.length < PLANTINGS) {
     const [slot] = perchSight(stand).room;

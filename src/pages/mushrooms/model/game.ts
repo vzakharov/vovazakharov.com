@@ -12,35 +12,39 @@ import { type Perches, perchName, type Sight, type Timed } from './flight';
 import type { Onscreen } from './flight-in';
 import type { Coloured } from './flower-genes';
 import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
+import {
+  furnishedTarget,
+  newestWithRoom,
+  selectedMushroom,
+} from './furnishing';
 import type { Footing, Rooted } from './ground';
 import {
   EMPTY_HOUSE,
-  furnished,
   type Furnishing,
   FURNISHINGS,
   type Housed,
-  windowSlots,
 } from './house';
 import type { InsectKind } from './insect-genes';
 import { released, startled, type Swarm, ticked } from './insects';
-import {
-  firstMushrooms,
-  type Mushroom,
-  mushroomGenes,
-  type Species,
-} from './mushroom-genes';
+import { firstMushrooms, type Species } from './mushroom-genes';
 import { type Footed, OPENING_FOOTING } from './placement';
 import { plantedId, type Sown } from './pollen';
 import type { Random, Seeded, Seeds } from './random';
 import {
+  type Placed,
   type Shed,
   type Shedding,
+  sown,
+  type Spored,
+  type SporeTap,
   sprouted,
+  sproutedInRain,
   type Sprouting,
+  unsown,
 } from './sprouting';
 import { type Rain, RAIN_MS, raining } from './weather';
 
-export type Planted = Mushroom & Housed & Footed & Sprouting;
+export type Planted = Placed & Housed & Sprouting;
 
 /**
  * A colour the child picked to plant, and the seed each of `FLOWER_SHAPES`
@@ -82,12 +86,15 @@ export type Meadow = Swarm & {
   released: number;
   /** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
   rain: Rain | undefined;
-} & Shed;
+} & Shed &
+  Spored;
 
 export type Action =
   | { kind: 'pick' }
   | ({ kind: 'grow'; species: Species } & Seeded & Footed)
-  | ({ kind: 'select' } & WithId)
+  | ({ kind: 'select' } & WithId & SporeTap)
+  // A tap on a spore: picks it up.
+  | ({ kind: 'unsow' } & WithId)
   | { kind: 'deselect' }
   | { kind: 'remove' }
   | { kind: 'house' }
@@ -134,6 +141,8 @@ export function firstMeadow(random: Random): Meadow {
     released: 0,
     rain: undefined,
     shed: undefined,
+    spores: [],
+    scattered: 0,
   };
 }
 
@@ -149,69 +158,12 @@ export function isEmpty({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
   return mushrooms.length === 0;
 }
 
-/** `mushroom` with `piece` put into its house, or `undefined` when it has no room for it. */
-function withPiece(mushroom: Planted, piece: Furnishing): Planted | undefined {
-  const house = furnished(
-    mushroom.house,
-    piece,
-    windowSlots(mushroomGenes(mushroom)).length,
-  );
-  return house && { ...mushroom, house };
-}
-
 /** `planted` with a flower grown from `seed` at `foot` after the rest, under the next free id. */
 function withSown(
   planted: readonly Sown[],
   { seed, foot }: Seeded & Rooted,
 ): readonly Sown[] {
   return [...planted, { id: plantedId(planted), seed, foot }];
-}
-
-function selectedMushroom({
-  mushrooms,
-  selected,
-}: Meadow): Planted | undefined {
-  return mushrooms.find(({ id }) => id === selected);
-}
-
-/**
- * The newest mushroom with room for any of `pieces`, or with none that has
- * room the newest: the one a house tap acts on while nothing is selected, so
- * a full mushroom never greys the picker out while another still has room.
- */
-function newestWithRoom(
-  { mushrooms }: Meadow,
-  pieces: readonly Furnishing[],
-): Planted | undefined {
-  return (
-    mushrooms.findLast((mushroom) =>
-      pieces.some((piece) => withPiece(mushroom, piece) !== undefined),
-    ) ?? mushrooms.at(-1)
-  );
-}
-
-/**
- * The selected mushroom with `piece` put into its house, or with none
- * selected the newest that has room for it; `undefined` when that one has no
- * room.
- */
-function furnishedTarget(
-  meadow: Meadow,
-  piece: Furnishing,
-): Planted | undefined {
-  const mushroom =
-    meadow.selected === undefined
-      ? newestWithRoom(meadow, [piece])
-      : selectedMushroom(meadow);
-  return mushroom && withPiece(mushroom, piece);
-}
-
-/**
- * Whether a pick of `piece` would furnish anything: not on an empty meadow,
- * not into a full row of windows, not a second door.
- */
-export function canFurnish(meadow: Meadow, piece: Furnishing): boolean {
-  return furnishedTarget(meadow, piece) !== undefined;
 }
 
 /**
@@ -374,12 +326,15 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       const known = meadow.mushrooms.some(({ id }) => id === action.id);
       return known
         ? {
-            ...meadow,
+            ...sown(meadow, action),
             selected: action.id,
             picking: false,
             planting: undefined,
           }
         : meadow;
+    }
+    case 'unsow': {
+      return unsown(meadow, action);
     }
     case 'deselect': {
       return { ...meadow, ...PICKERS_SHUT, selected: undefined };
@@ -433,7 +388,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'tick': {
-      const shed = sprouted(meadow, action);
+      const shed = sproutedInRain(sprouted(meadow, action), action.now);
       return swarmed(shed, ticked(shed, perchesOf(shed, action), action.now));
     }
     default: {
