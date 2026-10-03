@@ -238,6 +238,13 @@ holds its detail and the next step's API.
   and slower: girth 0.35 pane, floor 6 px, length 4.5 girths, pace 0.25,
   crawl 1.4–3.5 s (a three-window trip ~2.3 s), inch 0.4 s. Meadow green
   on tabL and phoneP.
+- **R7** 72b5b69a, def40bb2, ff5d2108 — the bow sideways first, then
+  toward the eye: on the opening clump the run is a loop out to one side
+  and back, sweeping 63 px on tabL and 49 on phoneP, turning once at the
+  loop's far end (`facingAlong`). `RUN_BOW` 1, `RUN_LEAST` 2.4 s (a whole
+  run ~4 s), `RUN_PACE` 0.6. Runs from one door start `FLEE_EVERY` 0.8 s
+  apart (W4's two mice on one spot were the back house's two, 0.4 s
+  apart). Call 25's clearance at `RUN_BOW` 1 is unmeasured.
 
 Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
 `Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's
