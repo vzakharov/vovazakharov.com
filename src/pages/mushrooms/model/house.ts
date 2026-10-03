@@ -108,7 +108,7 @@ function paneFits(genes: MushroomGenes, slot: Point): boolean {
  * just under its front rim, so they ring the funnel as the rim does and dip
  * at the middle with it — the rim's sag alone, which is the same either side.
  */
-function slotLevel(genes: MushroomGenes, x: number): number {
+export function slotLevel(genes: MushroomGenes, x: number): number {
   if (!hasTrumpet(genes)) {
     return Math.max(genes.capHeight * ROW_LEVEL, PANE / 2 + PANE_MARGIN);
   }
