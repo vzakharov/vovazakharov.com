@@ -161,6 +161,15 @@ plain ink cross**, not the flower picker's coloured one («кнопка закр
 выглядит аляписто»), and **Escape closes the map** («закрываться должна по
 эскейпу тоже»).
 
+20\. **A window opens for the worm.** Windows were only ever painted shut
+(`paintWindow` has no open state), so the worm crawled from a shut window
+into a shut one — «логично, конечно, чтобы червячок лез не из закрытого
+окна в закрытое». The tapped window swings open before the worm comes out
+and shuts behind it; the target opens as the worm nears and shuts once it
+is in; a peek opens and shuts its one window. Open is a dark inside behind
+the pane swung aside, each of Syama's window kinds in its own way, timed
+off the worm's trip clock (`model/worm.ts`), as `open` is for a door.
+
 ## Built
 
 Each package's hand-over note under `docs/remove-before-merging/bite-16/`
