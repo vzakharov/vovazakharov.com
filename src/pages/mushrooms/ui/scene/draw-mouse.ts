@@ -2,6 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { clipToConvex, ellipse, type Point } from '../../model/geometry';
 import type { Looking } from '../../model/motion';
+import { RUNNER_REACH } from '../../model/mouse-run-course';
 import { MOUSE_HEAD_R } from './door-reach';
 import { inkFor, TAPER, taperedLine, upward, weightedOutline } from './ink';
 import { PALETTE } from './palette';
@@ -203,7 +204,12 @@ export function paintRunner(
   leg(0.2, turn, PALETTE.mouse, dark);
   fill(
     taperedLine(
-      [at(-0.4, 0.3), at(-0.6, 0.24), at(-0.78, 0.3), at(-0.9, 0.44)],
+      [
+        at(-0.4, 0.3),
+        at(-0.6, 0.24),
+        at(-0.78, 0.3),
+        at(-RUNNER_REACH.back, 0.44),
+      ],
       [0.06, 0.06 * TAPER],
       hairline,
     ),
@@ -220,7 +226,8 @@ export function paintRunner(
     PALETTE.mousePink,
   );
   fill(ellipse(at(0.55, 0.34), 0.12, 0.09), PALETTE.mouseLight);
-  const nose = at(0.66, 0.36);
+  // The middle whisker ends at the runner's reach ahead.
+  const nose = at(RUNNER_REACH.ahead - WHISKER_LENGTH, 0.36);
   for (const tilt of [-0.28, 0, 0.28]) {
     const angle = (facing > 0 ? 0 : Math.PI) + facing * tilt;
     fill(

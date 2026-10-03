@@ -9,10 +9,21 @@
 import { distanceBetween, type Point } from './geometry';
 
 /**
- * How much nearer the eye than the nearer door's front a course's middle
- * runs, in the wider end's door widths: enough for the runner to clear the
- * nearer stem's foot without the course dipping far down the screen, where
- * the aside bow already carries it out from behind the stem.
+ * How far a running mouse is drawn behind its middle, to its tail's tip, and
+ * ahead of it, to its whiskers' tips, in its door's widths: `paintRunner`
+ * draws its tail and whiskers to these.
+ */
+export const RUNNER_REACH = { back: 0.9, ahead: 0.92 } as const;
+
+/** How long a running mouse is drawn, tail tip to whisker tips, in its door's widths. */
+export const RUNNER_SPAN = RUNNER_REACH.back + RUNNER_REACH.ahead;
+
+/**
+ * How much nearer the eye than the nearer stem's foot a course's middle
+ * runs, in drawn runners (`RUNNER_SPAN`) of the wider end's door: a whole
+ * runner clears that stem, and no more keeps the course from dipping far
+ * down the screen, where the aside bow already carries it out from behind
+ * the stem.
  */
 export const RUN_BOW = 1;
 
@@ -97,14 +108,14 @@ const HALVINGS = 30;
  * square to its chord on `side` (`sideOf`) until, so bowed alone, it would be
  * `least` long — across the screen where the two doors stand one behind the
  * other, which a bow toward the eye shows only as a dip — and then toward the
- * eye until its middle is at least `clearance` nearer it than the nearer of
- * the two, never past half the way from it to the eye.
+ * eye until its middle is no farther from it than `reach`, never past half
+ * the way from the nearer of the two to the eye.
  */
 export function bowedPath(
   from: Point,
   to: Point,
   eye: Point,
-  clearance: number,
+  reach: number,
   least: number,
   side: number,
 ): RunPath {
@@ -134,7 +145,7 @@ export function bowedPath(
   const nearer = Math.min(distanceBetween(eye, from), distanceBetween(eye, to));
   const near = Math.min(
     Math.max(0, off - nearer / 2),
-    Math.max(0, off - nearer + clearance),
+    Math.max(0, off - reach),
   );
   return through({ x: top.x + toward.x * near, y: top.y + toward.y * near });
 }

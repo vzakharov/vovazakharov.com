@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { distanceBetween, type Point } from './geometry';
 import { doorStations } from './house';
 import {
   endOf,
@@ -16,7 +17,13 @@ import {
   runnerAt,
   widthAlong,
 } from './mouse-run-clock';
-import { alongPath, RUN_BOW, type RunPath, sideOf } from './mouse-run-course';
+import {
+  alongPath,
+  RUN_BOW,
+  RUNNER_SPAN,
+  type RunPath,
+  sideOf,
+} from './mouse-run-course';
 import { mushroomGenes } from './mushroom-genes';
 
 const FRAME = 1 / 60;
@@ -207,27 +214,72 @@ describe('runnerAt', () => {
   });
 });
 
+/** Where a course's curve is halfway along its own parameter: the middle its bow is held by. */
+const middleOf = ({ from, bend, to }: RunPath) => ({
+  x: (from.x + 2 * bend.x + to.x) / 4,
+  y: (from.y + 2 * bend.y + to.y) / 4,
+});
+
 describe('pathBetween', () => {
-  it('bows the course between two ends toward the eye and faces the runner along it', () => {
-    const from: RunEnd = {
-      front: { x: -0.1, y: 10 },
-      across: 0.05,
+  const eye = { x: 0, y: 0 };
+  /** A door `across` wide whose stem stands at `foot`, its front 0.11 nearer the eye, as the opening clump's stands. */
+  const doorAt = (foot: Point, across: number): RunEnd => {
+    const off = distanceBetween(eye, foot);
+    return {
+      foot,
+      front: { x: foot.x * (1 - 0.11 / off), y: foot.y * (1 - 0.11 / off) },
+      across,
+      sillHeight: 0.02,
+    };
+  };
+  const reach = (from: RunEnd, to: RunEnd) =>
+    Math.min(
+      distanceBetween(eye, from.foot ?? from.front),
+      distanceBetween(eye, to.foot ?? to.front),
+    ) -
+    RUN_BOW * RUNNER_SPAN * Math.max(from.across, to.across);
+
+  it('runs its middle a drawn runner of the wider door nearer the eye than the nearer foot', () => {
+    const back = doorAt({ x: -0.08, y: 10.4 }, 0.15);
+    const front = doorAt({ x: 0.06, y: 10.1 }, 0.14);
+    const aside = doorAt({ x: 1.2, y: 10.2 }, 0.1);
+    // A run re-targeted from the ground: no stem, its foot its front.
+    const ground: RunEnd = {
+      front: { x: 0.5, y: 9.5 },
+      across: 0.12,
       sillHeight: 0,
     };
-    const to: RunEnd = {
-      front: { x: 0.1, y: 9.6 },
-      across: 0.06,
-      sillHeight: 0,
-    };
-    const eye = { x: 0, y: 0 };
-    // Bowed out to the far side of its chord, still clear of the nearer front.
-    const path = pathBetween(from, to, eye, -sideOf(from.front, to.front, eye));
-    let nearest = Infinity;
-    for (let step = 0; step <= 100; step++) {
-      const { x, y } = alongPath(path, step / 100).point;
-      nearest = Math.min(nearest, Math.hypot(x, y));
+    for (const [from, to] of [
+      [back, front],
+      [front, back],
+      [front, aside],
+      [ground, back],
+    ] as const) {
+      for (const side of [1, -1]) {
+        const path = pathBetween(from, to, eye, side);
+        const middle = distanceBetween(eye, middleOf(path));
+        assert.ok(middle <= reach(from, to) + 1e-9, `${middle}`);
+      }
     }
-    assert.ok(nearest < Math.hypot(0.1, 9.6) - RUN_BOW * 0.06);
+    // The bow is held to the foot, not the nearer front.
+    const toFront = pathBetween(
+      { ...back, foot: back.front },
+      { ...front, foot: front.front },
+      eye,
+      1,
+    );
+    assert.ok(
+      distanceBetween(eye, middleOf(toFront)) <
+        distanceBetween(eye, middleOf(pathBetween(back, front, eye, 1))),
+    );
+  });
+
+  it('bows the course between two ends toward the eye and faces the runner along it', () => {
+    const from = doorAt({ x: -0.1, y: 10.1 }, 0.05);
+    const to = doorAt({ x: 0.1, y: 9.7 }, 0.06);
+    // Bowed out to the far side of its chord, still clear of the nearer foot.
+    const path = pathBetween(from, to, eye, -sideOf(from.front, to.front, eye));
+    assert.ok(distanceBetween(eye, middleOf(path)) <= reach(from, to) + 1e-9);
     const moment = runAt(1.1, course(1));
     const runner = runnerAt({ ...moment, progress: 0.2 }, from, to, path);
     assert.deepEqual(runner, {
@@ -247,6 +299,12 @@ describe('endOf', () => {
     assert.equal(end.across, lowest.width * 0.5);
     assert.ok(end.sillHeight > 0);
     assert.ok(end.sillHeight < lowest.y * 0.5);
+    assert.equal(end.foot, undefined);
+    const foot = { x: 0, y: 9.1 };
+    assert.deepEqual(endOf({ x: 0, y: 9 }, lowest, 0.5, foot), {
+      ...end,
+      foot,
+    });
   });
 });
 

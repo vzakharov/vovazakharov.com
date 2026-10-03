@@ -6,15 +6,17 @@
  * seconds.
  */
 
-import type { Point, Wide } from './geometry';
+import { distanceBetween, type Point, type Wide } from './geometry';
 import { type DoorPlace, onStem } from './house';
 import { PEEK_DUCK, PEEK_RISE, smooth } from './motion';
 import {
   alongPath,
   bowedPath,
   RUN_BOW,
+  RUNNER_SPAN,
   type RunPath,
 } from './mouse-run-course';
+import type { Footed } from './placement';
 
 /** How fast a mouse runs along the plane, at full pace. */
 export const RUN_PACE = 0.6;
@@ -194,16 +196,29 @@ export function runAt(elapsed: number, course: RunCourse): RunMoment {
 
 /**
  * One end of a run: the plane point in front of its door the runner leaves
- * or reaches, its door's width, and how high its sill stands off the ground,
- * both in the clump's size. A run re-targeted from the ground starts at its
- * runner's point with its width there and no sill.
+ * or reaches, its stem's `foot` behind that, its door's width, and how high
+ * its sill stands off the ground, both in the clump's size. A run
+ * re-targeted from the ground starts at its runner's point with its width
+ * there, no sill and no stem, its foot its front.
  */
-export type RunEnd = Wide & { front: Point; sillHeight: number };
+export type RunEnd = Wide &
+  Partial<Pick<Footed, 'foot'>> & { front: Point; sillHeight: number };
 
-/** The run's end at a door seated at `door` on a mushroom of `size` in the clump's, with its `front` on the plane. */
-export function endOf(front: Point, door: DoorPlace, size: number): RunEnd {
+/**
+ * The run's end at a door seated at `door` on a mushroom of `size` in the
+ * clump's, with its `front` on the plane and its stem's `foot`; with none
+ * given, its course is held clear of its front instead, which stands nearer
+ * the eye, so the course bows deeper than it needs.
+ */
+export function endOf(
+  front: Point,
+  door: DoorPlace,
+  size: number,
+  foot?: Point,
+): RunEnd {
   return {
     front,
+    ...(foot && { foot }),
     across: door.width * size,
     sillHeight: onStem(door)({ x: 0, y: 0 }).y * size,
   };
@@ -229,24 +244,27 @@ export const widthAlong = (from: Wide, to: Wide, progress: number): number =>
 
 /**
  * The course from `from`'s front to `to`'s as an eye at `eye` sees it, its
- * middle `RUN_BOW` of the wider door nearer the eye than either, bowed out
- * to `side` far enough that, bowed so alone, it would last `RUN_LEAST` at
- * `RUN_PACE`.
+ * middle `RUN_BOW` drawn runners of the wider door nearer the eye than either
+ * foot, bowed out to `side` far enough that, bowed so alone, it would last
+ * `RUN_LEAST` at `RUN_PACE`.
  */
-export const pathBetween = (
+export function pathBetween(
   from: RunEnd,
   to: RunEnd,
   eye: Point,
   side: number,
-): RunPath =>
-  bowedPath(
+): RunPath {
+  const back = ({ foot, front }: RunEnd) => distanceBetween(eye, foot ?? front);
+  const runner = RUNNER_SPAN * Math.max(from.across, to.across);
+  return bowedPath(
     from.front,
     to.front,
     eye,
-    RUN_BOW * Math.max(from.across, to.across),
+    Math.min(back(from), back(to)) - RUN_BOW * runner,
     RUN_PACE * RUN_LEAST,
     side,
   );
+}
 
 /**
  * Where a runner stands for `moment` between `from` and `to` along `path`,
