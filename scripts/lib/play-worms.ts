@@ -136,6 +136,10 @@ export async function playWorms(
     'a lone window did not peek',
   );
   await page.step(34);
+  expect(
+    (await read('worm', back, Worm)).head !== null,
+    'the peeking worm lost its head as it looked about',
+  );
   await shootClose('w4-worm-peek', back);
   await page.step(60);
   expect(
