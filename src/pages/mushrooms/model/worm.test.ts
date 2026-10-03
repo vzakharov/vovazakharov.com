@@ -16,6 +16,7 @@ import { capBase, capSurface } from './mushroom-profile';
 import {
   crawlDuration,
   INCH_PERIOD,
+  INCH_SQUEEZE,
   pathLength,
   peekPath,
   tripDuration,
@@ -241,7 +242,7 @@ describe('wormBody', () => {
   ];
   const length = pathLength(path);
 
-  it('draws five segments on the way, the tail first, the head largest and foremost', () => {
+  it('draws every segment on the way, the tail first, the head largest and foremost', () => {
     const { segments, head } = wormBody(path, { head: 0.5, tail: 0.38 });
     assert.equal(segments.length, WORM_SEGMENTS);
     assert.ok(head);
@@ -255,23 +256,31 @@ describe('wormBody', () => {
   });
 
   it('leaves out the segments still in either window', () => {
+    /** How many of the segments spaced evenly from `head` back a body's length lie on the way. */
+    const onTheWay = (head: number) =>
+      Array.from(
+        { length: WORM_SEGMENTS },
+        (_, index) => head - (WORM_LENGTH * index) / (WORM_SEGMENTS - 1),
+      ).filter((along) => along >= 0 && along <= length).length;
     assert.equal(
       wormBody(path, { head: 0, tail: -WORM_LENGTH }).segments.length,
       1,
     );
     const growing = wormBody(path, { head: 0.05, tail: 0.05 - WORM_LENGTH });
-    assert.equal(growing.segments.length, 2);
+    assert.equal(growing.segments.length, onTheWay(0.05));
+    assert.ok(growing.segments.length < WORM_SEGMENTS);
     assert.ok(growing.head);
     const going = wormBody(path, {
       head: length + 0.05,
       tail: length + 0.05 - WORM_LENGTH,
     });
     assert.equal(going.head, undefined);
-    assert.equal(going.segments.length, 3);
+    assert.equal(going.segments.length, onTheWay(length + 0.05));
+    assert.ok(going.segments.length > 0);
   });
 
   it('swings sideways while it wriggles, and lies on the way after', () => {
-    const pose = { head: 0.3, tail: 0.18 };
+    const pose = { head: 0.3, tail: 0.3 - WORM_LENGTH };
     const still = wormBody(path, pose);
     const swung = wormBody(path, pose, WORM_GIRTH, WRIGGLE_DURATION / 2 + 0.02);
     const after = wormBody(path, pose, WORM_GIRTH, WRIGGLE_DURATION);
@@ -286,6 +295,28 @@ describe('wormBody', () => {
           WORM_GIRTH / 10,
       ),
     );
+  });
+
+  it('stays one body, each segment overlapping the next, stretched out and at every moment of a wriggle', () => {
+    const poses = [
+      { head: 0.3, tail: 0.3 - WORM_LENGTH },
+      { head: 0.3, tail: 0.3 - WORM_LENGTH * (1 - INCH_SQUEEZE) },
+    ];
+    for (const pose of poses) {
+      for (let since = 0; since <= WRIGGLE_DURATION; since += 0.002) {
+        const { segments } = wormBody(path, pose, WORM_GIRTH, since);
+        assert.equal(segments.length, WORM_SEGMENTS);
+        for (let index = 1; index < segments.length; index++) {
+          const [a, b] = [segments[index - 1], segments[index]];
+          assert.ok(a && b);
+          const gap = Math.hypot(b.x - a.x, b.y - a.y);
+          assert.ok(
+            gap < (a.r + b.r) * 0.95,
+            JSON.stringify({ pose, since, index, gap, reach: a.r + b.r }),
+          );
+        }
+      }
+    }
   });
 
   it('peeks straight up out of its window', () => {
