@@ -306,15 +306,18 @@ The bites, each file its full contract:
 12b's tail. **Done:** the lawn re-tend spread a slice a frame (838b087),
 the mottles at tone 0.7 / alpha 0.4 (4605c4a), the planting play's two
 harness reds (25fae6b), a take-off from a perch out of sight timed from
-where it was drawn (3c7d9b6), `fliers.test.ts` whole and green after it.
-**Left**, in order (`docs/remove-before-merging/bite-12b/tail-screens.md`):
-the probe timing `retend`/`tendOn` into `hitches.tend`; one tabL `veer` to
-confirm the reordered releases and `DASH_SLACK` 1.15; tabL's red
-`play-insects.ts:343` (no butterfly rests on a cap to tap through); every
-play on tabP, phoneP, phoneL and phoneS, **one screen per agent and one
-play per call**; then `/polish`, frames, the Artifact, `/pr`, and 12b's
-own review session. Each package's commits and the orchestrator's calls:
-`docs/remove-before-merging/bite-12b/waves.md`.
+where it was drawn (3c7d9b6), `fliers.test.ts` whole and green after it;
+the probe timing the sliced re-tend (bb71c2b); tabL `veer` green at
+`DASH_SLACK` 1.25; the cap-rest wait a minute (c274649); a flier's body
+turned by its drawn, unsunk step (70fc342, 2d5283a); every play green on
+tabL, tabP and phoneP; `/polish` closed (385453f).
+**Left**, in order: the turn-rate watch judging a frame only while the
+body's middle is on screen (bee-12 on phoneL, `tail-turn.md` § Left), then
+phoneL `meadow` once; phoneL `approach` once on a quiet container (its
+47 ms median ran beside the polish agents' tests); every play on phoneS,
+**one agent, one play per call**; then the Artifact republished, `/pr`,
+and 12b's own review session. Each package's commits and the
+orchestrator's calls: `docs/remove-before-merging/bite-12b/waves.md`.
 
 ## Rest of the elephant
 

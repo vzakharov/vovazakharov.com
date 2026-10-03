@@ -356,3 +356,15 @@ In this order of launch; parallel where files are disjoint.
   watch skips heading frames past the brow and judges one only when its
   first, middle and current frames are all in view; both loosenings to
   to-check.md. tail-turn2 builds the patch.
+- **tail-turn2** — 2d5283a (`bentTurn` by the unsunk step; the tabL test
+  asks the body follow `placed` within 0.01 and miss the slide by > 0.1),
+  aa3d810 (to-check.md lines for both loosenings), ee95444. `meadow`: tabL
+  green (worst heading 0.25, 0 of 5914 butterfly frames over 0.3), phoneP
+  green (0.23), phoneL red on a new count: bee-12 turned 31.74 rad/s at
+  80217 ms against 21.62, mid U-turn (80133–80267) while x −43.7 with
+  half-span 27 at 80200, in view from 80283; `reachesScreen` draws a body
+  until a whole span is past the edge, and the unsunk step bends a turn up
+  to 1.47× toward the sides. **Orchestrator's call:** the turn-rate watch
+  judges a frame only while the body's middle is on screen, as the heading
+  watch does, with a to-check.md line; if phoneL stays red on an on-screen
+  U-turn at a side, that is the game's and is traced.
