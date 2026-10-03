@@ -471,7 +471,7 @@ export const PROBE = `(() => {
         ({ ...toScreen(matrix.transformPoint(x, y, {})), r: r * house.graphics.scaleX }));
       return { reaches, capLeft: own / Math.max(1, own + taken) };
     },
-    /** A mushroom's worm: its trip, its phase, and its head and girth as painted, on screen. */
+    /** A mushroom's worm: its trip, its phase, how open its two windows are, and its head and girth as painted, on screen. */
     worm: (id) => {
       const { worm, graphics } = scene.bed.shown.get(id).house;
       const { trip, trips, painted } = worm;
@@ -480,6 +480,8 @@ export const PROBE = `(() => {
         tappedAt: trip?.tappedAt ?? null, from: trip?.source ?? null, to: trip?.target ?? null,
         trips, phase: worm.at(scene.clock)?.phase ?? null, head: head ? toScreen(head) : null,
         girth: painted ? painted.girth * graphics.scaleX : null,
+        fromOpen: trip ? worm.window(scene.clock, trip.source).open : 0,
+        toOpen: trip?.target === undefined ? 0 : worm.window(scene.clock, trip.target).open,
       };
     },
     /** A mushroom's mouse: when a tap on its door called it, how far out it is, and how far across its head and its door are drawn. */
@@ -760,6 +762,9 @@ export const Worm = z.object({
   phase: z.enum(['out', 'crawl', 'in', 'peek']).nullable(),
   head: Point.nullable(),
   girth: Maybe,
+  /** How open the tapped window and the one it crawls to are, 0 shut to 1. */
+  fromOpen: z.number(),
+  toOpen: z.number(),
 });
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),

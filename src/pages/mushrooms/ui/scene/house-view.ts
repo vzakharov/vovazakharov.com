@@ -281,6 +281,7 @@ export class HouseView {
     const windows = house.windows.map((kind, index) => ({
       kind,
       popped: emerge(t - (this.windowsAt[index] ?? -Infinity)),
+      swing: this.worm.window(t, index),
     }));
     const door =
       this.doorAt === undefined || !shown

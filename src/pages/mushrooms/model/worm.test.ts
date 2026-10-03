@@ -18,9 +18,14 @@ import {
   INCH_PERIOD,
   INCH_SQUEEZE,
   pathLength,
+  PEEK_SPAN,
   peekPath,
+  peekWindow,
   tripDuration,
   type TripPhase,
+  tripSpan,
+  tripWindows,
+  WINDOW_SWING,
   WORM_CRAWL,
   WORM_GIRTH,
   WORM_GIRTH_LEAST,
@@ -31,6 +36,7 @@ import {
   WORM_PEEK_DURATION,
   WORM_SEGMENTS,
   wormBody,
+  wormClock,
   wormGirth,
   wormPath,
   wormPeek,
@@ -409,5 +415,85 @@ describe('wormBody', () => {
         }
       }
     }
+  });
+});
+
+describe('tripWindows and peekWindow', () => {
+  /** Every trip a worm takes from a window to its target, on a few of every species. */
+  const travels = everyMushroom
+    .filter((_, index) => index % 15 === 0)
+    .flatMap((genes) => {
+      const slots = windowSlots(genes);
+      return slots.flatMap((from, index) => {
+        const to = slots[wormTarget(slots, slots.length, index, 0) ?? -1];
+        return to ? [pathLength(wormPath(genes, from, to))] : [];
+      });
+    });
+  const STEP = 0.005;
+
+  it('opens the tapped window before the worm comes out, and keeps it open while any of it is in there', () => {
+    assert.ok(travels.length > 0);
+    for (const travel of travels) {
+      assert.equal(tripWindows(0, travel).tapped, 0);
+      assert.equal(wormTrip(wormClock(WINDOW_SWING * 0.99), travel), undefined);
+      for (let t = WINDOW_SWING; t < tripSpan(travel); t += STEP) {
+        const pose = wormTrip(wormClock(t), travel);
+        if (pose && pose.tail <= 0) {
+          assert.equal(
+            tripWindows(t, travel).tapped,
+            1,
+            `${String(travel)} at ${String(t)}`,
+          );
+        }
+      }
+    }
+  });
+
+  it('has the other window open as the worm goes in, and shut while it is far', () => {
+    for (const travel of travels) {
+      let opened = false;
+      for (let t = 0; t < tripSpan(travel); t += STEP) {
+        const pose = wormTrip(wormClock(t), travel);
+        const { reached: target } = tripWindows(t, travel);
+        if (pose && pose.head >= travel) {
+          assert.equal(target, 1, `${String(travel)} at ${String(t)}`);
+          opened = true;
+        }
+        // Far: more than the swing at its fastest crawl short of the pane.
+        if (pose && pose.head < travel - PANE - WORM_LENGTH) {
+          assert.equal(target, 0, `${String(travel)} at ${String(t)}`);
+        }
+      }
+      assert.ok(opened);
+    }
+  });
+
+  it('shuts the tapped window once the worm is clear of it, and both once it is in', () => {
+    for (const travel of travels) {
+      const shut = tripWindows(tripSpan(travel), travel);
+      assert.deepEqual(shut, { tapped: 0, reached: 0 });
+      assert.equal(tripWindows(tripSpan(travel) + 1, travel).reached, 0);
+      // A trip long enough that the tail is clear before the worm goes in.
+      if (travel - WORM_LENGTH > PANE) {
+        const crawled = WINDOW_SWING + WORM_OUT + crawlDuration(travel);
+        assert.equal(tripWindows(crawled, travel).tapped, 0);
+      }
+      for (let t = -0.1; t < tripSpan(travel) + 0.1; t += STEP) {
+        for (const open of Object.values(tripWindows(t, travel))) {
+          assert.ok(open >= 0 && open <= 1);
+        }
+      }
+    }
+  });
+
+  it('opens a lone window before the worm peeks, keeps it open while it is out, and shuts it after', () => {
+    assert.equal(peekWindow(0), 0);
+    assert.equal(peekWindow(WINDOW_SWING), 1);
+    for (let t = 0; t < PEEK_SPAN; t += STEP) {
+      const pose = wormPeek(wormClock(t));
+      if (pose && pose.head > 0) assert.equal(peekWindow(t), 1);
+    }
+    assert.equal(peekWindow(PEEK_SPAN), 0);
+    assert.equal(peekWindow(-1), 0);
   });
 });

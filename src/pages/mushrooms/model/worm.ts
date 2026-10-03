@@ -242,6 +242,74 @@ export function wormPeek(
   return { head, tail: head - length, look: lookAbout(elapsed, phase) };
 }
 
+/** How long a window takes to swing open, and to swing shut. */
+export const WINDOW_SWING = 0.2;
+/** How far along its path a worm's end is clear of a window: past the pane's half by a tail's round. */
+const WINDOW_CLEAR = (PANE + WORM_GIRTH) / 2;
+
+/**
+ * Where a worm tapped `sinceTap` ago is on its own clock, the one `wormTrip`
+ * and `wormPeek` run on: it sets off once its window has swung open.
+ */
+export function wormClock(sinceTap: number): number {
+  return sinceTap - WINDOW_SWING;
+}
+
+/** How long after the tap a trip `length` long has its windows shut again, its worm in. */
+export function tripSpan(length: number): number {
+  return WINDOW_SWING + tripDuration(length) + WINDOW_SWING;
+}
+export const PEEK_SPAN = WINDOW_SWING + WORM_PEEK_DURATION + WINDOW_SWING;
+
+/** How open a window is at `time` on the worm's clock, swinging open from `opens` and shut from `shuts`. */
+function swung(time: number, opens: number, shuts: number): number {
+  const hold = Math.max(0, shuts - opens - WINDOW_SWING);
+  return outAndBack(time - opens, WINDOW_SWING, hold, WINDOW_SWING);
+}
+
+/**
+ * The earliest time on the worm's clock at which `end` of a trip `length`
+ * long is `past` along its path, the trip's end if never: both ends only
+ * ever go forward, so a halving search finds it.
+ */
+function whenPast(length: number, end: 'head' | 'tail', past: number): number {
+  let [early, late] = [0, tripDuration(length)];
+  for (let halving = 0; halving < 40; halving++) {
+    const middle = (early + late) / 2;
+    const pose = wormTrip(middle, length);
+    if (!pose || pose[end] >= past) late = middle;
+    else early = middle;
+  }
+  return late;
+}
+
+/** How open a trip's two windows are, from 0 (shut) to 1: the tapped one, and the one it crawls to. */
+export type TripWindows = { tapped: number; reached: number };
+
+/**
+ * How open the windows of a trip `length` long are `sinceTap` after the tap:
+ * the tapped one swings open before the worm comes out and shuts once its
+ * tail is clear of it; the other is open by the time the head reaches its
+ * pane and shuts once the worm is in.
+ */
+export function tripWindows(sinceTap: number, length: number): TripWindows {
+  const time = wormClock(sinceTap);
+  const nearing = whenPast(length, 'head', length - WINDOW_CLEAR);
+  return {
+    tapped: swung(time, -WINDOW_SWING, whenPast(length, 'tail', WINDOW_CLEAR)),
+    reached: swung(
+      time,
+      Math.max(-WINDOW_SWING, nearing - WINDOW_SWING),
+      tripDuration(length),
+    ),
+  };
+}
+
+/** How open a lone window is `sinceTap` after the tap: open before the worm peeks out, shut once it is back in. */
+export function peekWindow(sinceTap: number): number {
+  return swung(wormClock(sinceTap), -WINDOW_SWING, WORM_PEEK_DURATION);
+}
+
 /**
  * How far sideways segment `index` (0 the head) of a worm tapped `elapsed`
  * before swings, in girths: a wave running from the head to the tail, each

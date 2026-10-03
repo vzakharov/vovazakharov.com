@@ -5,9 +5,15 @@ import type { MushroomGenes } from '../../model/mushroom-genes';
 import { capOnCanvas } from '../../model/mushroom-outline';
 import {
   pathLength,
+  PEEK_SPAN,
   peekPath,
+  peekWindow,
   type TripPhase,
+  tripSpan,
+  tripWindows,
+  WINDOW_SWING,
   wormBody,
+  wormClock,
   wormGirth,
   wormPath,
   wormPeek,
@@ -15,6 +21,7 @@ import {
   wormTarget,
   wormTrip,
 } from '../../model/worm';
+import { SHUT_WINDOW, type WindowSwing } from './draw-house';
 import type { ShownWorm } from './draw-worm';
 import type { MeadowSound } from './sound';
 
@@ -30,6 +37,8 @@ type Trip = TapTimed & {
   travel: number;
   girth: number;
   wriggledAt: number;
+  /** The sides its windows' panes swing to, the tapped one's first (`sidesOf`). */
+  sides: [number, number];
 };
 /** Where the worm is on its trip or peek, and which way a peeking one looks. */
 export type WormOut = WormPose & Looking & { phase: TripPhase | 'peek' };
@@ -42,6 +51,8 @@ export type WormOut = WormPose & Looking & { phase: TripPhase | 'peek' };
 export class HouseWorm {
   /** The last trip or peek; `undefined` before the first tap. */
   trip: Trip | undefined;
+  /** The trip before it, whose windows may still be shutting. */
+  private previous: Trip | undefined;
   /** How many trips it has made, which way from the middle window the next goes (`wormTarget`). */
   trips = 0;
   private readonly voice: MeadowSound;
@@ -61,7 +72,7 @@ export class HouseWorm {
 
   /** A tap at `t` on window `from` of the `count` put in, on the cap it was last painted on. */
   tap(t: number, from: number, count: number): void {
-    if (this.trip && this.at(t)) {
+    if (this.trip && this.setOut(t)) {
       this.trip.wriggledAt = t;
       this.voice.wriggle(0.5);
       return;
@@ -81,10 +92,12 @@ export class HouseWorm {
         ? peekPath(genes, slot(from), girth)
         : wormPath(genes, slot(from), slot(to), girth);
     if (to !== undefined) this.trips += 1;
+    this.previous = this.trip;
     this.trip = {
       tappedAt: t,
       source: from,
       target: to,
+      sides: sidesOf(slot(from), to === undefined ? undefined : slot(to)),
       path,
       travel: pathLength(path),
       girth,
@@ -93,10 +106,18 @@ export class HouseWorm {
     this.voice.wriggle();
   }
 
+  /** Whether the worm called at the last tap has yet to go back in at `t`: its window swinging open, or it out. */
+  private setOut(t: number): boolean {
+    const trip = this.trip;
+    if (!trip) return false;
+    const since = t - trip.tappedAt;
+    return since >= 0 && (since < WINDOW_SWING || this.at(t) !== undefined);
+  }
+
   /** Where the worm is at `t`: `undefined` while it is in. */
   at(t: number): WormOut | undefined {
     if (!this.trip) return undefined;
-    const elapsed = t - this.trip.tappedAt;
+    const elapsed = wormClock(t - this.trip.tappedAt);
     if (this.trip.target !== undefined) {
       const pose = wormTrip(elapsed, this.trip.travel);
       return pose && { ...pose, look: 0 };
@@ -105,9 +126,28 @@ export class HouseWorm {
     return peek && { ...peek, phase: 'peek' };
   }
 
-  /** Whether its house has it to paint at `t`: out, or out at the last paint and to be wiped. */
+  /** Whether its house has it to paint at `t`: out or a window of its open, or so at the last paint and to be wiped. */
   stirring(t: number): boolean {
-    return this.showed || this.at(t) !== undefined;
+    return this.showed || this.swinging(t);
+  }
+
+  /** Window `index` as the worm's trips leave it at `t`: open on their way, shut otherwise. */
+  window(t: number, index: number): WindowSwing {
+    const [now, before] = [this.trip, this.previous].map((trip) =>
+      trip ? windowOf(trip, t, index) : SHUT_WINDOW,
+    );
+    return before && now && before.open > now.open
+      ? before
+      : (now ?? SHUT_WINDOW);
+  }
+
+  /** Whether the last trip's worm is out or a window of it not yet shut at `t`. */
+  private swinging(t: number): boolean {
+    const trip = this.trip;
+    if (!trip) return false;
+    const since = t - trip.tappedAt;
+    const span = trip.target === undefined ? PEEK_SPAN : tripSpan(trip.travel);
+    return since >= 0 && since < span;
   }
 
   /** The worm as `paintHouse` paints it at `t` on a cap of `genes` drawn `size` px to its unit, its house's graphics at `zoom`; `undefined` while it is in. */
@@ -120,7 +160,7 @@ export class HouseWorm {
     this.drawn = { genes, size, zoom };
     const pose = this.at(t);
     const { trip } = this;
-    this.showed = pose !== undefined;
+    this.showed = this.swinging(t);
     this.painted = undefined;
     if (!pose || !trip) return undefined;
     const { look } = pose;
@@ -132,4 +172,30 @@ export class HouseWorm {
     };
     return { ...body, look };
   }
+}
+
+/**
+ * The sides a trip's windows' panes swing to, the tapped one's first: each
+ * away from the way the worm crawls, so neither lies under it; a lone
+ * window's to the left.
+ */
+function sidesOf(from: Point, to: Point | undefined): [number, number] {
+  if (!to) return [-1, -1];
+  const way = Math.sign(to.x - from.x) || 1;
+  return [-way, way];
+}
+
+/** Window `index` as `trip` leaves it at `t`. */
+function windowOf(trip: Trip, t: number, index: number): WindowSwing {
+  const since = t - trip.tappedAt;
+  const [fromSide, toSide] = trip.sides;
+  if (trip.target === undefined) {
+    return index === trip.source
+      ? { open: peekWindow(since), swingsTo: fromSide }
+      : SHUT_WINDOW;
+  }
+  const { tapped, reached } = tripWindows(since, trip.travel);
+  if (index === trip.source) return { open: tapped, swingsTo: fromSide };
+  if (index === trip.target) return { open: reached, swingsTo: toSide };
+  return SHUT_WINDOW;
 }

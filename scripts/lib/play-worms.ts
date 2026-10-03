@@ -1,8 +1,9 @@
 /**
  * The worms' part of `play-house.ts`, on the clump it furnished: the front
- * cap's outermost window tapped, its worm crawling to the far end of the row
- * and a second tap leaving its course; the back cap's one window tapped, its
- * worm peeking. Each screen's window reach, the worm's girth and the cap its
+ * cap's outermost window tapped, swinging open before its worm comes out,
+ * the worm crawling to the far end of the row, a second tap leaving its
+ * course, the far window open as it goes in and both shut after; the back
+ * cap's one window tapped, its worm peeking and the window shut after. Each screen's window reach, the worm's girth and the cap its
  * mushroom keeps are printed with the mushroom they were taken on, for the
  * eye that looks at the frames.
  */
@@ -10,12 +11,16 @@
 import type { z } from 'zod';
 
 import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
-import { WORM_GIRTH_LEAST } from '../../src/pages/mushrooms/model/worm.ts';
+import {
+  WINDOW_SWING,
+  WORM_GIRTH_LEAST,
+} from '../../src/pages/mushrooms/model/worm.ts';
 import {
   backToFront,
   Box,
   type Controls,
   type Expect,
+  FRAME_MS,
   type Page,
   Pose,
   State,
@@ -25,6 +30,8 @@ import {
 } from './mushroom-probe.ts';
 
 const ROUND = FURNISHINGS.indexOf('round');
+/** The frames a window takes to swing open, less the two a tap steps. */
+const SWINGING = Math.ceil((WINDOW_SWING * 1000) / FRAME_MS) - 1;
 
 export async function playWorms(
   page: Page,
@@ -76,8 +83,23 @@ export async function playWorms(
 
   const { reaches, capLeft } = await read('windows', front, Windows);
   const outermost = reaches.length - 1;
+  /** The worm of `id` just tapped: still in, its window swinging open; then, once open, out. */
+  const swingOut = async (id: string) => {
+    const opening = await read('worm', id, Worm);
+    expect(
+      opening.phase === null && opening.fromOpen > 0 && opening.fromOpen < 1,
+      `a tapped window ${opening.fromOpen.toFixed(2)} open, its worm ` +
+        `${String(opening.phase)}, before it comes out`,
+    );
+    await page.step(SWINGING);
+    const out = await read('worm', id, Worm);
+    expect(out.fromOpen === 1, `the window ${out.fromOpen.toFixed(2)} open`);
+    return out;
+  };
+
   await tapWindow(front, outermost);
-  const set = await read('worm', front, Worm);
+  const set = await swingOut(front);
+  await shootClose('w0-window-open', front);
   const { mushrooms: ids, species } = await state();
   const pose = await read('pose', front, Pose);
   note(
@@ -102,8 +124,36 @@ export async function playWorms(
   await page.step(8);
   await shootClose('w3-worm-wriggle', front);
   const target = set.to === null ? undefined : reaches[set.to];
+  /** Steps until `id`'s worm has its far window open, `frames` frames at the most. */
+  const farOpen = async (
+    id: string,
+    frames: number,
+  ): Promise<z.infer<typeof Worm>> => {
+    const worm = await read('worm', id, Worm);
+    if (worm.toOpen === 1 || frames <= 0) return worm;
+    await page.step(1);
+    return farOpen(id, frames - 1);
+  };
+  const nearing = await farOpen(front, 150);
+  expect(
+    nearing.toOpen === 1 && nearing.phase === 'crawl',
+    `the far window ${nearing.toOpen.toFixed(2)} open as the worm is ${String(
+      nearing.phase,
+    )}`,
+  );
+  await shootClose('w5-window-target', front);
   const trace = await page.trace(120, `__probe.worm("${front}")`, Worm);
   const last = trace.flatMap(({ head }) => (head ? [head] : [])).at(-1);
+  expect(
+    trace.every(({ phase, toOpen }) => phase !== 'in' || toOpen === 1),
+    'the worm went in at a window not open',
+  );
+  const after = trace.at(-1);
+  expect(
+    after?.fromOpen === 0 && after.toOpen === 0,
+    `the windows left ${String(after?.fromOpen.toFixed(2))} and ` +
+      `${String(after?.toOpen.toFixed(2))} open after the worm went in`,
+  );
   expect(
     trace.at(-1)?.phase === null &&
       last !== undefined &&
@@ -130,10 +180,7 @@ export async function playWorms(
     return;
   }
   await tapWindow(back, 0);
-  expect(
-    (await read('worm', back, Worm)).phase === 'peek',
-    'a lone window did not peek',
-  );
+  expect((await swingOut(back)).phase === 'peek', 'a lone window did not peek');
   await page.step(34);
   expect(
     (await read('worm', back, Worm)).head !== null,
@@ -144,5 +191,10 @@ export async function playWorms(
   expect(
     (await read('worm', back, Worm)).phase === null,
     'the peeking worm stayed out',
+  );
+  await page.step(10);
+  expect(
+    (await read('worm', back, Worm)).fromOpen === 0,
+    'the peek left its window open',
   );
 }

@@ -96,16 +96,101 @@ function paintCross(
   );
 }
 
+/** How open a door or window is, from 0 (shut) to 1. */
+type Opened = { open: number };
+/** How open a window is, and the side its pane swings out to: -1 left, 1 right. */
+export type WindowSwing = Opened & { swingsTo: number };
+export const SHUT_WINDOW: WindowSwing = { open: 0, swingsTo: -1 };
+
+/** How far a window's pane turns on its hinge, fully open: past square, so it lies out beside its opening. */
+const PANE_SWING = (2 * Math.PI) / 3;
+
+/**
+ * Where a pane hinged at `hinge` across its window and turned `open` of the
+ * way out lands, seen face-on: narrowed toward the hinge, and past square
+ * folded out beyond it.
+ */
+function swungPlace(place: Place, hinge: number, open: number): Place {
+  const across = Math.cos(PANE_SWING * open);
+  return ({ x, y }) => place({ x: hinge + (x - hinge) * across, y });
+}
+
+/**
+ * A window's glass on `place`, `outline` with its glint at `shine`; while
+ * `open`, the dark inside showing through `outline` and the glass swung out
+ * on its hinge at the side `swingsTo`, `reach` across.
+ */
+function paintPane(
+  graphics: Phaser.GameObjects.Graphics,
+  place: Place,
+  outline: readonly Point[],
+  reach: number,
+  shine: Point & { r: number },
+  brush: Brush,
+  { open, swingsTo }: WindowSwing,
+): Place {
+  const glass = open > 0 ? swungPlace(place, swingsTo * reach, open) : place;
+  if (open > 0) paint(graphics, place, outline, PALETTE.doorway, brush, true);
+  paint(graphics, glass, outline, PALETTE.windowPane, brush);
+  paintShine(graphics, glass, shine, shine.r, brush);
+  return glass;
+}
+
+/**
+ * A square window's four panes swung open as two casements, each its half
+ * of the cross, hinged at its side of the frame `pane` out from the middle:
+ * the dark inside between them.
+ */
+function paintCasements(
+  graphics: Phaser.GameObjects.Graphics,
+  place: Place,
+  pane: number,
+  open: number,
+  brush: Brush,
+): void {
+  paint(
+    graphics,
+    place,
+    box(-pane, -pane, pane, pane),
+    PALETTE.doorway,
+    brush,
+    true,
+  );
+  const bar = FRAME * 0.8;
+  for (const side of [-1, 1]) {
+    const casement = swungPlace(place, side * pane, open);
+    const [inside, outside] = [0, side * pane].toSorted((a, b) => a - b);
+    const edge = [0, (side * bar) / 2].toSorted((a, b) => a - b);
+    paint(
+      graphics,
+      casement,
+      box(inside ?? 0, -pane, outside ?? 0, pane),
+      PALETTE.windowPane,
+      brush,
+    );
+    paintShine(graphics, casement, { x: side * 0.2, y: 0.2 }, 0.09, brush);
+    // Its half of the cross bar, and its half of the upright where the two meet.
+    for (const piece of [
+      box(inside ?? 0, -bar / 2, outside ?? 0, bar / 2),
+      box(edge[0] ?? 0, -pane, edge[1] ?? 0, pane),
+    ]) {
+      paint(graphics, casement, piece, PALETTE.wood, brush, true);
+    }
+  }
+}
+
 /**
  * One window of `kind` in its frame, as Syama drew them: a round pane with a
  * cross, a porthole with a thick rim, a square of four panes, a tall arched
- * one.
+ * one. Open (`swing`), the dark inside shows and the glass stands swung out
+ * on its hinge — the square's two casements one to each side.
  */
 export function paintWindow(
   graphics: Phaser.GameObjects.Graphics,
   kind: WindowKind,
   place: Place,
   brush: HouseBrush,
+  swing: WindowSwing = SHUT_WINDOW,
 ): void {
   // Only a window's outer edge takes the halo.
   const inner = { ...brush, halo: undefined };
@@ -114,15 +199,29 @@ export function paintWindow(
     case 'cross': {
       const pane = 0.5 - FRAME;
       paint(graphics, place, ellipse(middle, 0.5), PALETTE.wood, brush);
-      paint(graphics, place, ellipse(middle, pane), PALETTE.windowPane, inner);
-      paintShine(graphics, place, { x: -0.18, y: 0.2 }, 0.1, inner);
-      paintCross(graphics, place, pane, inner);
+      const glass = paintPane(
+        graphics,
+        place,
+        ellipse(middle, pane),
+        pane,
+        { x: -0.18, y: 0.2, r: 0.1 },
+        inner,
+        swing,
+      );
+      paintCross(graphics, glass, pane, inner);
       return;
     }
     case 'round': {
       paint(graphics, place, ellipse(middle, 0.5), PALETTE.wood, brush);
-      paint(graphics, place, ellipse(middle, 0.3), PALETTE.windowPane, inner);
-      paintShine(graphics, place, { x: -0.1, y: 0.11 }, 0.08, inner);
+      paintPane(
+        graphics,
+        place,
+        ellipse(middle, 0.3),
+        0.3,
+        { x: -0.1, y: 0.11, r: 0.08 },
+        inner,
+        swing,
+      );
       // Rivets round the rim, a porthole's.
       for (const angle of sample(0, Math.PI * 2, 6, (turn) => turn).slice(
         0,
@@ -143,28 +242,35 @@ export function paintWindow(
     case 'square': {
       const pane = 0.5 - FRAME;
       paint(graphics, place, box(-0.5, -0.5, 0.5, 0.5), PALETTE.wood, brush);
-      paint(
-        graphics,
-        place,
-        box(-pane, -pane, pane, pane),
-        PALETTE.windowPane,
-        inner,
-      );
-      paintShine(graphics, place, { x: -0.2, y: 0.2 }, 0.09, inner);
-      paintCross(graphics, place, pane, inner);
+      if (swing.open <= 0) {
+        paintPane(
+          graphics,
+          place,
+          box(-pane, -pane, pane, pane),
+          pane,
+          { x: -0.2, y: 0.2, r: 0.09 },
+          inner,
+          swing,
+        );
+        paintCross(graphics, place, pane, inner);
+        return;
+      }
+      paintCasements(graphics, place, pane, swing.open, inner);
       return;
     }
     case 'tall': {
       const inset = FRAME * 0.9;
+      const width = TALL_WIDTH - inset * 2;
       paint(graphics, place, arch(TALL_WIDTH, 1, -0.5), PALETTE.wood, brush);
-      paint(
+      paintPane(
         graphics,
         place,
-        arch(TALL_WIDTH - inset * 2, 1 - inset * 2, -0.5 + inset),
-        PALETTE.windowPane,
+        arch(width, 1 - inset * 2, -0.5 + inset),
+        width / 2,
+        { x: -0.08, y: 0.22, r: 0.07 },
         inner,
+        swing,
       );
-      paintShine(graphics, place, { x: -0.08, y: 0.22 }, 0.07, inner);
       // A sill under it, a little wider than the window.
       const sill = TALL_WIDTH / 2 + 0.07;
       paint(
@@ -258,10 +364,10 @@ function doorFrame(
 
 /** How far a piece has popped in: from 0, past its size, and back to 1. */
 type Popped = { popped: number };
-/** A window as the house paints it. */
-export type ShownWindow = Popped & { kind: WindowKind };
+/** A window as the house paints it, and how far a worm's trip has it open. */
+export type ShownWindow = Popped & { kind: WindowKind; swing?: WindowSwing };
 /** A door as the house paints it: where on the stem it stands, and how open. */
-export type ShownDoor = Popped & Peeking & { station: DoorPlace; open: number };
+export type ShownDoor = Popped & Peeking & Opened & { station: DoorPlace };
 
 /**
  * A mushroom's windows and door, painted into `graphics` in the frame
@@ -286,10 +392,11 @@ export function paintHouse(
     ...brush,
     halo: haloFor(PALETTE.wood, brush.tone(tints.cap)),
   };
-  for (const [index, { kind, popped }] of windows.entries()) {
+  for (const [index, { kind, popped, swing }] of windows.entries()) {
     const slot = slots[index];
     if (!slot || popped <= 0) continue;
-    paintWindow(graphics, kind, windowPlace(genes, size, slot, popped), onCap);
+    const place = windowPlace(genes, size, slot, popped);
+    paintWindow(graphics, kind, place, onCap, swing);
   }
   if (worm) paintWorm(graphics, genes, size, worm, brush);
   if (!door || door.popped <= 0) return;
