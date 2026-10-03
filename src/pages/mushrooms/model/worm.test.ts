@@ -329,4 +329,21 @@ describe('wormBody', () => {
     assert.ok(head);
     assert.ok(Math.abs(head.tangent - Math.PI / 2) < EPSILON);
   });
+
+  it('keeps a peeking worm’s head whenever it is out, its look about included, out of every window', () => {
+    for (const genes of everyMushroom) {
+      for (const slot of windowSlots(genes)) {
+        const peek = peekPath(slot);
+        for (let t = 0; t < WORM_PEEK_DURATION; t += 0.01) {
+          const pose = wormPeek(t);
+          assert.ok(pose);
+          if (pose.head <= EPSILON) continue;
+          assert.ok(
+            wormBody(peek, pose).head,
+            JSON.stringify({ genes, slot, t }),
+          );
+        }
+      }
+    }
+  });
 });

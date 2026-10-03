@@ -41,6 +41,8 @@ export const INCH_SQUEEZE = 0.4;
 
 /** How near two windows' distances count as the same, against the sums that place the slots. */
 const TIE = 1e-9;
+/** How far past either end of its path a segment still counts as on it: a path's length rounds, a pose's ends are set to it exactly. */
+const END_SLACK = 1e-9;
 
 /** The highest a dome's arch climbs from the row toward the cap's top, on the longest trip. */
 export const WORM_LIFT = 0.8;
@@ -271,8 +273,11 @@ export function wormBody(
   let shownHead: WormBody['head'];
   for (let index = last; index >= 0; index--) {
     const along = head - ((head - tail) * index) / last;
-    if (along < 0 || along > length) continue;
-    const { x, y, tangent } = pointAlong(path, along);
+    if (along < -END_SLACK || along > length + END_SLACK) continue;
+    const { x, y, tangent } = pointAlong(
+      path,
+      Math.min(length, Math.max(0, along)),
+    );
     const aside = wriggle(sinceWriggle, index) * girth;
     const segment = {
       x: x - Math.sin(tangent) * aside,
