@@ -26,6 +26,7 @@ import {
   WORM_IN,
   WORM_LENGTH,
   WORM_OUT,
+  WORM_PACE,
   WORM_PEEK_DURATION,
   WORM_SEGMENTS,
   wormBody,
@@ -158,7 +159,7 @@ describe('wormTrip', () => {
       assert.ok(crawl >= WORM_CRAWL[0] && crawl <= WORM_CRAWL[1]);
       assert.equal(tripDuration(length), WORM_OUT + crawl + WORM_IN);
     }
-    assert.equal(crawlDuration(0.7), 0.7 / 0.35);
+    assert.equal(crawlDuration(0.7), 0.7 / WORM_PACE);
   });
 
   it('comes out, crawls, and goes in without a jump, the head ahead and neither end slipping back', () => {
@@ -181,7 +182,8 @@ describe('wormTrip', () => {
         assert.ok(now.tail >= last.tail - EPSILON, where);
         const stretch = now.head - now.tail;
         assert.ok(
-          stretch <= body + EPSILON && stretch >= body * 0.65 - EPSILON,
+          stretch <= body + EPSILON &&
+            stretch >= body * (1 - INCH_SQUEEZE) - EPSILON,
         );
         if (phases.at(-1) !== now.phase) phases.push(now.phase);
         last = now;

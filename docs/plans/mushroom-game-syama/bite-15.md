@@ -203,6 +203,20 @@ holds its detail and the next step's API.
   cap on tabL and 40% on phoneP. The worm reads, arches on the face, the
   target is plain; a wriggle splays the segments like beads (W4 fixes).
   The meadow play is red at `playHouse`'s door taps (a tap now runs; R6).
+- **R6** 298d75e, 15a82e8, cd4b7ad — call 25 in `model/mouse-run-course.ts`
+  (a curve between the door fronts, its middle a runner's length nearer
+  than the nearer front, a sideways bow on a side fixed at the start;
+  `RUN_LEAST` 1 s, `RUN_BOW` 1.8); `play-house`'s door taps accept a call
+  home, meadow green on tabL. The flee frame's head is the front's own
+  mouse, allowed by call 5. On the opening clump the runner still only dips
+  ~22 px below the door with ~5 px across: the toward-eye push makes the
+  length, so the sideways bow never starts (R7 makes the bow carry it).
+- **W4** 357c94e, 1ba4f4d8 — the worm one body: 8 overlapping segments,
+  inks laid before fills, the band a collar; the wriggle a small wave
+  running head to tail (`WRIGGLE_DEPTH` 0.2, `WRIGGLE_LAG` π/4). Thicker
+  and slower: girth 0.35 pane, floor 6 px, length 4.5 girths, pace 0.25,
+  crawl 1.4–3.5 s (a three-window trip ~2.3 s), inch 0.4 s. Meadow green
+  on tabL and phoneP.
 
 Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
 `Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's
