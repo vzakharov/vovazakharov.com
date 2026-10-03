@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **3** (cap 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
+Relay depth: **4** (cap 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
 § "The depth cap").
 
 ## 1. Standing constraints
@@ -100,135 +100,98 @@ Added this session, the operator's words verbatim:
 So: no reduced-motion, assistive-tech, way-home or footer-link work in this
 PR; the play's frame budget reports and never fails (to be built, below).
 
+Added this session, the operator's words verbatim:
+
+> ещё один тап -- ещё одну точку, и так далее, пока не кончатся "посадочные места"*. нажатие на точку её убирает (мало ли, может именно там ребёнок не хочет, чтобы появлялся новый гриб).
+>
+> *у нас дискретное поле, то есть вокруг каждого, грубо говоря, 6 посадочных мест -- или можно случайно выбирать любую по каким-то критериям "близости" и "нет-толпы-шности"?
+
+(Taken as calls 31 and 38; see § 4.)
+
 ## 2. The conversation
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (…); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
 Reply: attached (deepened; stale local ref e66b8e1 renamed to
-`stale/mushroom-game-syama-e66b8e1`), installed, plan flipped; wave A
-launched (A1 pivot, A2 covered seats, A3 stepped tweens), then P3a/P3b.
-Reports summarised in Russian as they came (calls 25–27).
+`claude/mushroom-game-syama-lbirv7-stale-e66b8e1`), installed, plan
+flipped; launched M (spores map), C37 (chase on lift), FB (frame budget
+report-only) in parallel.
 
-> поиграл чуть-чуть. вообще крутяк. вопрос -- а после дождя растут только новые мухоморы? не заметил чтобы другие тоже появились. какая там механика?
+> ещё один тап -- ещё одну точку, и так далее, пока не кончатся "посадочные места"*. нажатие на точку её убирает (…)
 >
-> и ещё, про стрейф и поворот, давай сделаем наоборот: тащишь по небу -- поворот (потому что как раз при повороте небо двигается). тащишь по земле - стрейф
+> *у нас дискретное поле, (…) 6 посадочных мест -- или можно случайно выбирать (…) "близости" и "нет-толпы-шности"?
 
-Reply: explained oldest-first always names the opening fly agarics; calls
-28 (parents by draw, new species first) and 29 (swap); B1, B2 launched.
+Reply: the field is continuous, so the second — each spore's foot found by
+`roomFor`'s `near` by the tap's seed, clear of everything, capped at six;
+a tap on a dot picks it up (mushroom outline > spore > grass tuft). Six
+proposed as the number, "скажи, если хочешь другое". Then put to him, after
+C37's report, **an open question** — a quick ground swipe now moves ~0.2
+units (was 2–3): (1) as built, stop on the lift; (2, recommended) glide on
+at the finger's speed and fade in ~1 s, as the sky turn does; (3) run to
+the lift point, a tap or key stopping it. **No answer yet.** Every later
+reply repeated the question.
 
-> мне кажется было бы прикольно вот как: когда "тыкаешь по грибу", из него ж вылетают споры. Можно сделать, чтобы часть из них "оседала" на землю. Не обязательно чтобы анимация прям делала "из вылетающих в землю" -- достаточно просто если рядом с грибом будут малюсенькие белые кружочки. Количество ограниченно количеством "посадочных мест" около гриба. Когда идёт дождь, эти споры прорастают.
-
-Reply: taken as calls 30–35 with four recommendations stated (one spore a
-tap, 3 seats; a spore reserves room; the dot arcs down and stays;
-sprouting in the shower's first ~6 s, everywhere). No objection came.
-
-> ещё замеил небольшой баг: если свайпишь достаточно далеко, стрейф идёт до этого места и не останавливается только если нажмёшь или прострейфишь ещё раз мышкой. Если нажмёшь в это время шифт стрелка в другую сторону -- не останавливается. и если поворачиваешься клавиатурой, тоже не останавливается
-
-Reply: call 37 (a chase eases out on lift, any key cancels it).
-
-> > Дождь сейчас начинается в момент нажатия на облако, а не по тыку
->
-> это норм, так он и обнаружит, что есть дождь
-
-Reply: call 36 rewritten — a press on a cloud rains, kept.
-
-> [the performance note, quoted in § 1]
-
-Reply: frame budget to become report-only; perf deferred.
-
-> [the reduced-motion note, quoted in § 1]
-
-Reply: item 17's a11y parts cut.
-
-> [the way-home note, quoted in § 1]
-
-Reply: item 17 dropped entirely.
-
-> [a screenshot of P3b's running command] вот натд чем сейчас работает подагент, если тебе это нужно. не уверен что его нужно останавливать
-
-Reply: not stopped; it was finishing a 200-visit sweep.
-
-> а пока вот ещё пара вещей для обсуждения (контекст раздувается, но переживём):
->
-> 1- мышки: я мельком увидел, что они должны бегать? это хорошо. но предлагаю так: мышка бежит, только если есть другая дверца, и бежит к этой дверце
->
-> 2- на маленьких грибах отрисовка мышки оставляет желать лучшего. наверное, нужно делать мини-мышек, несмотря на то что это против биологии :)
->
-> 3- есть ли какая-то интерактивность с окошками? если нет, предлагаю червячков -- бегут из одного окошка в (если есть) другое на том же грибе. если нет -- как и мышка выглядывают и прячутся обратно
-
-(with a frame: a chanterelle's mouse as wide as its stem —
-`docs/remove-before-merging/frames/bite-14/operator-chanterelle-mouse.png`.)
-Reply: all three taken as a new plan item 15, "the house's dwellers"; map
-and dusk renumbered 16, 17.
+(No other operator message. The rest of the session was agent reports,
+summarised to him in Russian as they came.)
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for Syama; the Artifact playable
-after every bite; `/finalize` at the end, no merge. The operator is now
-playing between messages and steering by feel; scope is shrinking toward
-"a toy for one child". Bite 14's rest is `bite-14.md` § "Left, in order".
+after every bite; `/finalize` at the end, no merge. The operator plays
+between messages and steers by feel.
 
 ## 4. Decisions
 
-All in `docs/plans/mushroom-game-syama/bite-14.md`, calls 22–37. Worth naming:
+All in `docs/plans/mushroom-game-syama/bite-14.md`. New this session:
 
-- **Calls 30–35 replace the after-the-rain shed** with spores the child
-  sows: a tap on a full-grown mushroom settles one spore (a white dot) on
-  one of its 3 seats; a spore is `Meadow.spores` state, reserves room as a
-  sprout at start size, counts against the caps; rain sprouts every spore
-  in its first ~6 s. 12, 14, 15, 18, 19, 28 retire; 13, 16, 17, 20, 21
-  stand. B1's and P3b's work on the old shed is scaffolding to rework.
-- **Call 27**: a shelter dash's pivot is floored (`Sheltering.pivoting`);
-  a 0.8 % one-frame overshoot at a mid-flight re-target accepted.
-- **Call 26**: the front cap's inner seat stays offered (reads as tucked).
-- **Call 29**: sky drag turns, ground drag strafes (built).
-- **Call 36**: a press on a cloud rains, drag or not (kept).
-- **Call 37**: chase ends on lift, keys cancel it (not built).
-- **Plan item 15 (new)**: the house's dwellers — mice door to door, sized
-  to the door, worms in windows. Item 17 is gone.
+- **Call 31 (revised)**: up to `SPORE_SEATS` 6 spores a mushroom, no
+  fixed seats. **Call 38**: a tap picks a spore up. **Call 39**: the map's
+  readings (sprout moment `darkAt` + seed × 6 s; dot a shadow's step
+  nearer; pick-up touches no selection). **Call 40**: a spore sown in rain
+  sprouts that shower, ≥ `SPORE_DWELL_MS` 2 s after landing. **Call 41**:
+  a lying spore holds its place against everything laid after it (ST's
+  `risen`).
+- FB kept two fails that test the measurer, not the game (no frames timed;
+  bees planted with no tending frame).
+- C37: a key cancels a chase even mid-press; the chase's speed is handed to
+  the key's axis. Pan unchanged (a sky turn has a fling, not a chase).
+- SD: `DOT` 0.05 (cap-spot size); orchestrator looked at
+  `frames/bite-14/sd-1-sown.png` — three dots a step or so from the stem.
 
 ## 5. Errors and dead ends
 
-- A2 built call 24 and found S3's "insect on the rim" was the front cap's
-  own inner seat — the call aimed at the wrong cause (hence call 26).
-- Raising the butterfly's shelter pace could not fix the turn (8π / flight
-  time); the pivot floor did.
-- P3b ran an hour-long detached sweep against the no-background rule; a
-  brief must cap run sizes (megabeast note added).
-- Frame-budget reds (~30 ms vs 26) in every play this session, under the
-  agents' parallel load — never measured on a quiet base; now moot (§ 1).
+- SC's first sweep found the clump buried after a shower (caps 91 % hidden):
+  `roomFor` counted lying spores in spacing but not in cover/door/patch
+  rules; ST fixed it (`risen`), numbers in `st.md`.
+- SC ran out of context before the play run; SD ran it.
 
 ## 6. State
 
-Checked at the time of writing (the commit carrying this file):
+Checked with commands at the commit before this file (70b361b9):
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  mergeability `UNKNOWN` (was `CONFLICTING` — `/finalize`'s job).
+  `CONFLICTING` (`/finalize`'s job).
 - Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`
-  item 14 → `bite-14.md` § "Left, in order".
-- Frames this bite: `docs/remove-before-merging/frames/bite-14/` (s3, a2,
-  a3, p3a, the operator's chanterelle). Bite 13's still there — retire at
-  the bite's end.
-- Artifact still at bite 13 (version 19), not republished this session.
-- No agent running, no worktree but the main one, no PR subscription; all
-  `send_later` check-ins have fired except possibly one (P3b wrap-up,
-  09:53) which is harmless. Megabeast notes filled (81ab8cd).
+  item 14 → `bite-14.md` § "Left, in order" (5 items).
+- No agent running, one worktree (the main one), no PR subscription, no
+  `send_later` pending (all cancelled or fired).
+- Artifact still at bite 13 (version 19). Megabeast notes filled (70b361b9).
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-14.md` — calls 1–37, § "Built",
+- `docs/plans/mushroom-game-syama/bite-14.md` — calls 1–41, § "Built",
   § "Left, in order": the work list.
-- `docs/remove-before-merging/bite-14/` — the common brief, specs, every
-  agent's note (s1–s4, p1, p2, p2b, a1–a3, p3a, p3b, b1, b2), scratch
-  plays (`look-sprouts.ts.txt`, `a3-look-shed.patch`, `play-zzshower.ts.txt`
-  with `zzshower-plays.patch`).
-- `docs/plans/mushroom-game-syama/to-check.md` — the operator's hand checks.
-- The previous session: https://claude.ai/code/session_01A3pqkHnqyZGwpBC7q689s8
+- `docs/remove-before-merging/bite-14/` — `brief-common.md`, `map-spores.md`,
+  and every agent's note (this session: m via map, c37, fb, sa, sb, sc, sd,
+  st).
+- `docs/remove-before-merging/frames/bite-14/sd-*.png` — the spores' frames.
+- The previous session: https://claude.ai/code/session_01JMENF5NxqFU3456RVTuvG9
 
 ## 8. Next step
 
 /go
 
-(Bite 14's rest, `bite-14.md` § "Left, in order" from item 1: the spores'
-mapping agent, with call 37 and the report-only frame budget beside it.
-Reply to the operator in Russian, «ты».)
+(Bite 14's rest, `bite-14.md` § "Left, in order": the ground-swipe answer
+if the operator has given one — else take option 2 only if he still hasn't
+answered by the tail, saying so — then the sprouts rerun, the fly red, the
+narrow clump, and the tail. Reply to the operator in Russian, «ты».)
