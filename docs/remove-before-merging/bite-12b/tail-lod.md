@@ -86,3 +86,15 @@ steps about half.
 - `stemLight` test in `mushroom-light.test.ts`: full chords give
   `STEM_LIGHT`; 8, 14, 20 chords keep fewer layers per side with the same
   combined opacity over the edge and the same depth span.
+
+### Step 2 — measured on 567702f, one play per call, alone on the container
+
+| screen, play      | frame-JS median                                    | before (tail-phoneS) |
+| ----------------- | -------------------------------------------------- | -------------------- |
+| phoneL `approach` | **18.4 ms** over 918 (bar 26), neither-frames 17.8 | 31.1 / 30.7          |
+| phoneP `approach` | 11.1 ms over 918                                   | 12.2                 |
+| tabL `species`    | 17.4 ms over 445, green                            | —                    |
+
+Load 0.5 before the phoneL run (its own build included), ~4 during each play.
+The multi-second single stalls (slowest 3.5 s phoneL, 4.4 s phoneP) are the
+container's, as on every earlier run.
