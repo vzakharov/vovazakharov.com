@@ -9,7 +9,7 @@
 import type { Point } from '../../model/geometry';
 import { bedPlace } from './bed-place';
 import { inSightPast, type ShownCover } from './flower-cover';
-import type { View } from './view';
+import { onScreen, type View } from './view';
 
 /**
  * Where on `view`'s screen the dot of a spore lying on `foot`, on the plane,
@@ -25,10 +25,7 @@ export function dotInSight(
   const at = { x, y };
   return drawn &&
     !behind &&
-    x >= 0 &&
-    x <= view.width &&
-    y >= 0 &&
-    y <= view.height &&
+    onScreen(view, at) &&
     inSightPast(covers, at, distance)
     ? at
     : undefined;
