@@ -13,8 +13,7 @@ import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
 import { panOf } from '../../model/flight-frame';
-import { CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
-import { onStem } from '../../model/house';
+import { CLUMP_DISTANCE } from '../../model/ground';
 import {
   mouseOut,
   outingOf,
@@ -37,33 +36,29 @@ import {
   scattered,
 } from '../../model/mouse-run';
 import {
-  endOf,
-  hop,
   pathBetween,
   runAt,
   type RunCourse,
-  type RunEnd,
   runnerAt,
   type RunOpening,
 } from '../../model/mouse-run-clock';
 import { facingAlong, pathLength, sideOf } from '../../model/mouse-run-course';
-import { stemHalfWidth } from '../../model/mushroom-profile';
 import type { Seeded } from '../../model/random';
-import { type BedPlace, bedPlace, standAt } from './bed-place';
-import { mix } from './colour';
+import type { BedPlace } from './bed-place';
 import type { ShownDoor } from './draw-house';
-import { paintRunner } from './draw-mouse';
 import {
   containsCircle,
   type WithCircleHit,
   type WithGraphics,
 } from './hit-areas';
 import type { Shown } from './mushroom-shown';
-import { PALETTE } from './palette';
-import { hazeAhead } from './repaint-queue';
-import { doorFront } from './run-front';
+import {
+  doorEnd,
+  drawRunner,
+  type PaintedEnd,
+  type ShownRunner,
+} from './runner-shown';
 import type { MeadowSound } from './sound';
-import { tapReach } from './tap-reach';
 import type { View } from './view';
 
 /**
@@ -82,10 +77,11 @@ export type MouseDoor = {
 
 /**
  * A run under way, from `from`'s door to `to`'s: when its clock began and
- * what it is fixed at; its ends as last stood, the start kept once its door
- * sinks or `fixed` where a re-target began on the ground; its runner, the
- * circle it takes a tap in, when it was last tapped, and its patter's last
- * tick.
+ * what it is fixed at; its ends as last stood with their houses' paint,
+ * each kept once its door sinks and the start `fixed` where a re-target
+ * began on the ground, so the runner is drawn whatever its houses do; its
+ * runner, the circle it takes a tap in, when it was last tapped, and its
+ * patter's last tick.
  */
 export type MouseRun = Pick<Flee, 'to'> &
   Pick<Tapped, 'tappedAt'> &
@@ -94,8 +90,8 @@ export type MouseRun = Pick<Flee, 'to'> &
     from: string;
     beganAt: number;
     course: RunCourse;
-    start: RunEnd | undefined;
-    end: RunEnd | undefined;
+    start: PaintedEnd | undefined;
+    end: PaintedEnd | undefined;
     fixed: boolean;
     pattered: number;
   };
@@ -107,8 +103,6 @@ type Kept = Seeded & {
   knockedAt: number;
 };
 
-/** How high a runner's body's middle stands over its feet, in its width: where its tap circle centres. */
-const RUNNER_MIDDLE = 0.3;
 /** How often a runner's patter ticks while it runs, in seconds: a quick, light patter at any pace. */
 const PATTER_EVERY = 0.08;
 
@@ -210,7 +204,12 @@ export class MouseRuns {
       if (to === undefined) continue;
       // With no view to place it by, its mouse is counted in there at once.
       if (at) {
-        const start = { ...pick(at, 'across'), front: at.point, sillHeight: 0 };
+        const start = {
+          ...pick(at, 'across'),
+          front: at.point,
+          sillHeight: 0,
+          ...pick(at.house, 'size', 'lighting'),
+        };
         this.start(run.from, to, clock, 'run', false, start);
       } else {
         this.counts = entered(this.counts, to);
@@ -321,7 +320,7 @@ export class MouseRuns {
     beganAt: number,
     opening: RunOpening,
     calling: boolean,
-    fixedStart?: RunEnd,
+    fixedStart?: PaintedEnd,
   ): void {
     const start = fixedStart ?? this.endAt(from);
     const after = this.under
@@ -362,19 +361,9 @@ export class MouseRuns {
   }
 
   /** The run's end at `id`'s door as the view stands it now; `undefined` with no view or no door. */
-  private endAt(id: string): RunEnd | undefined {
+  private endAt(id: string): PaintedEnd | undefined {
     const shown = this.shown().get(id);
-    const view = this.view;
-    if (!shown?.door || !view) return undefined;
-    const size = (shown.size * shown.opening) / pinholeOf(view).focal;
-    const sill = onStem(shown.door)({ x: 0, y: 0 });
-    const front = doorFront(
-      shown.foot,
-      view.eye,
-      stemHalfWidth(shown.genes, 0) * size,
-      sill.x * size,
-    );
-    return endOf(front, shown.door, size);
+    return shown && this.view ? doorEnd(shown, this.view) : undefined;
   }
 
   /** Moves `run` to `t`: its ends stood afresh while their doors stand, its runner drawn, and its mouse counted in once it is over. */
@@ -391,31 +380,11 @@ export class MouseRuns {
     const at =
       elapsed >= 0 && moment.runner ? this.runnerPoint(run, t) : undefined;
     const view = this.view;
-    const shown = this.shown().get(moment.progress < 0.5 ? run.from : run.to);
-    if (!at || !view || !shown || !run.start || !run.end) {
+    if (!at || !view) {
       run.graphics.setVisible(false);
       return;
     }
-    const place = bedPlace(view, at.point);
-    standAt(run.graphics, place);
-    const scale = (at.across * pinholeOf(view).focal) / place.ahead;
-    const haze = hazeAhead(view, place);
-    const raised = at.up / at.across + hop(t - run.tappedAt);
-    run.hit.setTo(0, -(raised + RUNNER_MIDDLE) * scale, tapReach(scale / 2));
-    paintRunner(
-      run.graphics.clear(),
-      ({ x, y }) => ({ x: x * scale, y: -y * scale }),
-      {
-        ran: moment.travelled / at.across,
-        heads: facingAlong(at.path, moment.progress, view.eye),
-        raised,
-      },
-      {
-        ink: Math.max(1.5, shown.size * 0.01 * place.zoom),
-        tone: (colour) => mix(colour, PALETTE.air, haze),
-        ...pick(shown, 'lighting'),
-      },
-    );
+    const place = drawRunner(run, view, at, moment, t);
     const tick = Math.floor(elapsed / PATTER_EVERY);
     if (moment.leg === 'run' && place.drawn && tick !== run.pattered) {
       run.pattered = tick;
@@ -425,14 +394,14 @@ export class MouseRuns {
   }
 
   /** The run's end at `id`'s door while it stands. */
-  private standing(id: string): RunEnd | undefined {
+  private standing(id: string): PaintedEnd | undefined {
     return this.shown().get(id)?.goneAt === Infinity
       ? this.endAt(id)
       : undefined;
   }
 
-  /** Where `run`'s runner stands at `t` along its course, and the course; `undefined` before its ends are known or with no view. */
-  private runnerPoint(run: MouseRun, t: number) {
+  /** Where `run`'s runner stands at `t` along its course, the course, and the paint of the end it is nearer; `undefined` before its ends are known or with no view. */
+  private runnerPoint(run: MouseRun, t: number): ShownRunner | undefined {
     if (!run.start || !run.end || !this.view) return;
     const moment = runAt(Math.max(0, t - run.beganAt), run.course);
     const path = pathBetween(
@@ -441,7 +410,11 @@ export class MouseRuns {
       this.view.eye,
       run.course.bowSign,
     );
-    return { ...runnerAt(moment, run.start, run.end, path), path };
+    return {
+      ...runnerAt(moment, run.start, run.end, path),
+      path,
+      house: moment.progress < 0.5 ? run.start : run.end,
+    };
   }
 
   private drop(run: MouseRun): void {

@@ -1,23 +1,35 @@
 /**
  * The mice's runs, on a fresh opening clump: a door on each mushroom, a tap
  * on the front door running its mouse to the back house, a tap on the
- * emptied door calling one home, `−` on the back mushroom sending its mouse
- * out to the front, and last a chanterelle grown alone, whose door tap peeks
+ * emptied door calling one home, `−` on the back mushroom while the front's
+ * mouse runs to it sending its own mouse out to the front and turning the
+ * runner home, and last a chanterelle grown alone, whose door tap peeks
  * with no run. Fails on a tap with a door in reach starting no run, a run
- * started with none, a count that changes the total, and a runner drawn in
- * front of a mushroom whose foot is nearer; prints the heads against their
- * doors and the runners' widths.
+ * started with none, a count that changes the total, a runner hidden
+ * between its hop down and its hop in, and a runner drawn in front of a
+ * mushroom whose foot is nearer; prints the heads against their doors and
+ * the runners' widths.
  */
 
 import { z } from 'zod';
 
-import { RUN_LEAST } from '../../src/pages/mushrooms/model/mouse-run-clock.ts';
+import type { Stamped } from '../../src/pages/mushrooms/model/motion.ts';
+import {
+  RUN_LEAST,
+  runAt,
+  type RunCourse,
+  runDuration,
+  type RunOpening,
+} from '../../src/pages/mushrooms/model/mouse-run-clock.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
+import type { Named } from '../../src/shared/typings/index.ts';
 import {
   Box,
   type Controls,
   type Expect,
+  FRAME_MS,
   grow,
+  inTurn,
   Mice,
   Mouse,
   type Page,
@@ -38,40 +50,69 @@ const LONGEST_RUN = 360;
  * course, which the clump's close doors bow out to about `RUN_LEAST`.
  */
 const PEEKED_MID = 0.85 + 0.25 + RUN_LEAST / 2;
-/** When a fleeing run, which opens on the hop, has turned back toward its door on the last stretch of its loop. */
+/** When a fleeing run, which opens on the hop, has turned back toward its door on the last stretch of its loop, its house sunk and gone. */
 const FLED_LATE = 0.25 + RUN_LEAST * 0.85;
+/** When `−` sinks a run's target, in seconds from the tap that started it: its runner on the ground, short of halfway. */
+const SINK_MID_RUN = 1.7;
+/** When a runner turned home from the ground is on its way. */
+const TURNED_MID = 0.5;
 /** CSS px of meadow kept round the clump in its close frames. */
 const PAD = 60;
 /** How far below a runner's foot, in CSS px, a mushroom's foot is nearer for sure. */
 const NEARER_BY = 4;
 
+/** How far either side of its hop down and hop in a runner may lag its run's clock, in seconds: two of a track's two-frame steps. */
+const LAG = (2 * 2 * FRAME_MS) / 1000;
+
 /**
- * A run followed from `from`'s door to `to`'s, its `mid` frame due once
- * `midAt` seconds have run: the frames still to shoot and what was sighted
- * of its runner — its widths and where across the screen it was drawn.
+ * When a runner is out on the ground in a run opening with `opening`, as
+ * the run's own clock has it: from `out` seconds after it starts until
+ * `shut` seconds before it ends, the door shutting behind it.
  */
-type Watch = Pick<z.infer<typeof Runs>[number], 'from' | 'to'> & {
-  midAt: number;
-  mid: string | undefined;
-  inn: string | undefined;
-  sighted: boolean;
-  widths: number[];
-  xs: number[];
-};
+function runnerSpan(opening: RunOpening): { out: number; shut: number } {
+  const course = { runLength: 0, bowSign: 1, opening, calling: false };
+  const whole = runDuration(course);
+  const step = FRAME_MS / 1000;
+  const times = Array.from(
+    { length: Math.ceil(whole / step) },
+    (_, index) => index * step,
+  ).filter((elapsed) => runAt(elapsed, course).runner);
+  return { out: times[0] ?? 0, shut: whole - (times.at(-1) ?? whole) };
+}
+
+/** A frame to shoot of a run once `at` seconds have run and its runner is drawn. */
+type Shot = Stamped & Named;
+
+/**
+ * A run followed from `from`'s door to `to`'s, opening with `opening`: the
+ * frames still to shoot, `inn` once it has gone in, whether it is over, and
+ * each tracked frame's time with whether its runner was drawn, its width and
+ * where across the screen.
+ */
+type Watch = Pick<z.infer<typeof Runs>[number], 'from' | 'to'> &
+  Pick<RunCourse, 'opening'> & {
+    shots: Shot[];
+    inn: string | undefined;
+    over: boolean;
+    seen: Array<{ elapsed: number; shown: boolean }>;
+    widths: number[];
+    xs: number[];
+  };
 
 const watching = (
   from: string,
   to: string,
-  midAt: number,
-  mid: string,
+  opening: RunOpening,
+  shots: Shot[],
   inn?: string,
 ): Watch => ({
   from,
   to,
-  midAt,
-  mid,
+  opening,
+  shots,
   inn,
-  sighted: false,
+  over: false,
+  seen: [],
   widths: [],
   xs: [],
 });
@@ -150,54 +191,90 @@ export async function playRuns(
     for (const { id, box, depth } of standing) {
       expect(
         !(box.y + box.height > run.y + NEARER_BY && run.depth > depth),
-        `the runner at (${run.x.toFixed(0)}, ${run.y.toFixed(0)}) is drawn in front of ${id}, whose foot is nearer`,
+        `the runner ${run.from}→${run.to} at (${run.x.toFixed(0)}, ${run.y.toFixed(0)}), ${run.elapsed.toFixed(2)} s in, is drawn in front of ${id}, whose foot (${(box.y + box.height).toFixed(0)}) is nearer`,
       );
     }
   };
 
-  /**
-   * Follows `watch`'s run to its end, two frames at a time: the runner never
-   * in front of a nearer mushroom, its `mid` frame shot once it is halfway
-   * across, its `inn` frame once it has gone in.
-   */
-  const track = async (watch: Watch, frames: number): Promise<Watch> => {
-    const { from, midAt, mid, inn, sighted, widths, xs } = watch;
-    const run = (await runs()).find((each) => each.from === from);
-    if (!run || frames <= 0) return watch;
-    const half = run.shown && run.elapsed >= midAt;
-    const gone = sighted && !run.shown;
-    if (run.shown) await nearerCheck(run);
-    if (half && mid !== undefined) await close(mid);
+  /** `watch` one frame on, `run` being its run now: its frames shot and its runner sighted. */
+  const watchFrame = async (
+    watch: Watch,
+    run: z.infer<typeof Runs>[number] | undefined,
+  ): Promise<Watch> => {
+    if (!run) return { ...watch, over: true };
+    const { shots, inn, seen, widths, xs } = watch;
+    const { elapsed, shown, width, x } = run;
+    const due = shown ? shots.filter((shot) => elapsed >= shot.at) : [];
+    const gone = seen.some((frame) => frame.shown) && !shown;
+    if (shown) await nearerCheck(run);
+    await inTurn(due, async ({ name }) => close(name));
     if (gone && inn !== undefined) await close(inn);
-    await page.step(2);
-    return track(
-      {
-        ...watch,
-        mid: half ? undefined : mid,
-        inn: gone ? undefined : inn,
-        sighted: sighted || run.shown,
-        widths:
-          run.shown && run.width !== null ? [...widths, run.width] : widths,
-        xs: run.shown ? [...xs, run.x] : xs,
-      },
-      frames - 2,
-    );
+    return {
+      ...watch,
+      shots: shots.filter((shot) => !due.includes(shot)),
+      inn: gone ? undefined : inn,
+      seen: [...seen, { elapsed, shown }],
+      widths: shown && width !== null ? [...widths, width] : widths,
+      xs: shown ? [...xs, x] : xs,
+    };
   };
-  const follow = async (start: Watch) => {
-    const { from, to, sighted, widths, xs } = await track(start, LONGEST_RUN);
-    expect(sighted, `the run from ${from} to ${to} drew no runner`);
-    expect(
-      (await runs()).every((run) => run.from !== from),
-      `the run from ${from} to ${to} never ended`,
-    );
-    if (widths.length > 0)
-      note(
-        `runner ${from}→${to}: ${Math.max(...widths).toFixed(1)} to ${Math.min(...widths).toFixed(1)} px wide`,
+  /**
+   * Follows `watches`' runs, each by its start's door, to their ends, two
+   * frames at a time: each runner never in front of a nearer mushroom, its
+   * shots taken once their time has run, its `inn` frame once it has gone in.
+   */
+  const track = async (watches: Watch[], frames: number): Promise<Watch[]> => {
+    if (frames <= 0 || watches.every(({ over }) => over)) return watches;
+    const under = await runs();
+    const next: Watch[] = [];
+    await inTurn(watches, async (watch) => {
+      next.push(
+        watch.over
+          ? watch
+          : await watchFrame(
+              watch,
+              under.find((each) => each.from === watch.from),
+            ),
       );
-    if (xs.length > 0)
-      note(
-        `runner ${from}→${to}: drawn from x ${Math.min(...xs).toFixed(0)} to ${Math.max(...xs).toFixed(0)} px, a ${(Math.max(...xs) - Math.min(...xs)).toFixed(0)} px sweep`,
+    });
+    await page.step(2);
+    return track(next, frames - 2);
+  };
+  /**
+   * Follows `watches` to their ends: each run ends, and draws its runner on
+   * every tracked frame from its hop down to its hop in.
+   */
+  const follow = async (...watches: Watch[]) => {
+    const followed = await track(watches, LONGEST_RUN);
+    const left = await runs();
+    for (const { from, to, opening, seen, widths, xs } of followed) {
+      const { out, shut } = runnerSpan(opening);
+      const last = seen.at(-1)?.elapsed ?? 0;
+      const hidden = seen.filter(
+        ({ elapsed, shown }) =>
+          !shown && elapsed >= out + LAG && elapsed <= last - shut - LAG,
       );
+      expect(
+        seen.some(({ shown }) => shown),
+        `the run from ${from} to ${to} drew no runner`,
+      );
+      expect(
+        hidden.length === 0,
+        `the runner from ${from} to ${to} was hidden mid-run on ${String(hidden.length)} frames, ${(hidden[0]?.elapsed ?? 0).toFixed(2)} to ${(hidden.at(-1)?.elapsed ?? 0).toFixed(2)} s in`,
+      );
+      expect(
+        left.every((run) => run.from !== from),
+        `the run from ${from} to ${to} never ended`,
+      );
+      if (widths.length > 0)
+        note(
+          `runner ${from}→${to}: ${Math.max(...widths).toFixed(1)} to ${Math.min(...widths).toFixed(1)} px wide`,
+        );
+      if (xs.length > 0)
+        note(
+          `runner ${from}→${to}: drawn from x ${Math.min(...xs).toFixed(0)} to ${Math.max(...xs).toFixed(0)} px, a ${(Math.max(...xs) - Math.min(...xs)).toFixed(0)} px sweep`,
+        );
+    }
   };
   /** Whether a run from `from` to `to` began on the tap just made. */
   const started = async (from: string, to: string) => {
@@ -251,7 +328,15 @@ export async function playRuns(
   await close('r1-peek');
   await page.step(27);
   await close('r2-leave');
-  await follow(watching(front, back, PEEKED_MID, 'r3-running', 'r4-in'));
+  await follow(
+    watching(
+      front,
+      back,
+      'peek',
+      [{ at: PEEKED_MID, name: 'r3-running' }],
+      'r4-in',
+    ),
+  );
   const ran = await mice();
   expect(
     ran[front] === 0 && ran[back] === 2,
@@ -264,22 +349,39 @@ export async function playRuns(
     await started(back, front),
     'a tap on the empty front door called no mouse',
   );
-  await follow(watching(back, front, PEEKED_MID, 'r5-called-home'));
+  await follow(
+    watching(back, front, 'peek', [{ at: PEEKED_MID, name: 'r5-called-home' }]),
+  );
   const home = await mice();
   expect(
     home[front] === 1 && home[back] === 1,
     `after the call home the houses hold ${JSON.stringify(home)}`,
   );
 
-  // 4. `−` on the back mushroom: its mouse flees to the front door.
+  // 4. The back mushroom selected, the front door tapped, and `−` while its
+  // mouse runs: the back house's mouse flees to the front door and the
+  // runner turns home from the ground, each drawn after its house has gone.
   await tapAt('mushroom', back);
   await page.step(6);
+  await tapAt('door', front);
+  expect(
+    await started(front, back),
+    'a front door tap with the back door in reach started no run',
+  );
+  await page.step(Math.round((SINK_MID_RUN * 1000) / FRAME_MS) - 2);
   await page.tap(controls.minus);
   expect(
     await started(back, front),
     'the sinking back house sent no mouse out',
   );
-  await follow(watching(back, front, FLED_LATE, 'r6-flee-turned'));
+  expect(
+    (await runs()).some((run) => run.from === front && run.to === front),
+    'the front runner did not turn home when its target sank',
+  );
+  await follow(
+    watching(back, front, 'leave', [{ at: FLED_LATE, name: 'r6-flee-turned' }]),
+    watching(front, front, 'run', [{ at: TURNED_MID, name: 'r6-turned-home' }]),
+  );
   expect(
     (await mice())[front] === 2 && (await total()) === 2,
     `after the flight the houses hold ${JSON.stringify(await mice())}`,
