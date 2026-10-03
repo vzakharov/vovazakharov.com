@@ -18,7 +18,6 @@ import {
   CURVE_STEPS,
   curveSteps,
 } from '../../model/mushroom-profile';
-import { SPORE_FALL_MS } from '../../model/sprouting';
 import { UNPLACED } from './bed-place';
 import type { Laid } from './clump-layout';
 import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
@@ -95,7 +94,7 @@ export function unplacedShown(
     tappedAt: -Infinity,
     ...UNLIT,
     // The sprout's clock is the insects' ms, the bed's its seconds.
-    plantedAt: sprout ? (sprout.at + SPORE_FALL_MS) / 1000 : plantedAt,
+    plantedAt: sprout ? sprout.at / 1000 : plantedAt,
     goneAt: Infinity,
   };
 }

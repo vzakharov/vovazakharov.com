@@ -234,7 +234,6 @@ export class MushroomBed implements Following {
         sprout,
         stands: { zoom, drawn },
       } = shown;
-      // A sprout stands hidden while its spores fall.
       const young = sproutScale(sprout, t * 1000);
       const grown =
         Math.min(emerge(t - plantedAt), sink(t - goneAt)) * swell * young;
@@ -253,14 +252,14 @@ export class MushroomBed implements Following {
           (1 + stretch) * grown * zoom,
         )
         .setRotation(turn + bounce * WOBBLE_ROCK)
-        .setVisible(drawn && young > 0);
+        .setVisible(drawn);
       house.update(t, shown);
       shadow
         .setScale(
           (1 + Math.max(0, -stretch) * SHADOW_SPREAD) * grown * zoom,
           grown * zoom,
         )
-        .setVisible(drawn && young > 0);
+        .setVisible(drawn);
       if (id === this.selected) this.selection.pose(shown);
     }
   }

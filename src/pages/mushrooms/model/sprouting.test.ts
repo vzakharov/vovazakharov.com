@@ -13,7 +13,6 @@ import {
   sowable,
   type Spore,
   SPORE_DWELL_MS,
-  SPORE_FALL_MS,
   SPORE_SEATS,
   SPROUT_MS,
   SPROUT_START,
@@ -44,8 +43,7 @@ const newOnes = (before: Meadow, after: Meadow) =>
 
 const SPROUT = { at: 1000, parent: 'mushroom-1' };
 /** `SPROUT`'s scale `ms` after it comes up. */
-const upFor = (ms: number) =>
-  sproutScale(SPROUT, SPROUT.at + SPORE_FALL_MS + ms);
+const upFor = (ms: number) => sproutScale(SPROUT, SPROUT.at + ms);
 
 describe('sproutScale', () => {
   const sprout = SPROUT;
@@ -54,10 +52,8 @@ describe('sproutScale', () => {
     assert.equal(sproutScale(undefined, 0), 1);
   });
 
-  it('hides a sprout while its spores fall, then shows it at its start size', () => {
-    assert.equal(sproutScale(sprout, 1000), 0);
-    assert.equal(sproutScale(sprout, 1000 + SPORE_FALL_MS - 1), 0);
-    assert.equal(sproutScale(sprout, 1000 + SPORE_FALL_MS), SPROUT_START);
+  it('shows a sprout at its start size from its first moment', () => {
+    assert.equal(sproutScale(sprout, 1000), SPROUT_START);
   });
 
   it('grows quickest first, past half its growth by 20 s, full at the end and after', () => {
@@ -74,7 +70,7 @@ describe('sproutScale', () => {
 describe('isOld', () => {
   it('holds every mushroom not still sprouting', () => {
     const sprout = { at: 0, parent: 'mushroom-1' };
-    const grown = SPORE_FALL_MS + SPROUT_MS;
+    const grown = SPROUT_MS;
     assert.equal(isOld({}, 0), true);
     assert.equal(isOld({ sprout }, grown - 1), false);
     assert.equal(isOld({ sprout }, grown), true);
@@ -137,9 +133,9 @@ describe('sowing', () => {
         sprout: { at: 0, parent: 'mushroom-0' },
       })),
     };
-    assert.equal(sowable(growing, 'mushroom-1', SPROUT_MS), undefined);
+    assert.equal(sowable(growing, 'mushroom-1', SPROUT_MS - 1), undefined);
     assert.equal(
-      reduce(growing, sowTap('mushroom-1', 0, SPROUT_MS)).spores.length,
+      reduce(growing, sowTap('mushroom-1', 0, SPROUT_MS - 1)).spores.length,
       0,
     );
     const lying = sporeOf(reduce(meadow, sowTap('mushroom-2', 0)));
@@ -242,7 +238,7 @@ describe('sprouting in the rain', () => {
       assert.equal(sprout.species, spore.species);
       assert.deepEqual(sprout.foot, spore.foot);
       assert.deepEqual(sprout.sprout, {
-        at: moment - SPORE_FALL_MS,
+        at: moment,
         parent: 'mushroom-1',
       });
       assert.equal(sproutScale(sprout.sprout, moment), SPROUT_START);

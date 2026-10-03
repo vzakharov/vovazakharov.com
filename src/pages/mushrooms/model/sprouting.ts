@@ -24,7 +24,7 @@ import { darkAt, type Rain } from './weather';
 export const SPROUT_START = 0.4;
 /** How long a sprout takes from coming up to its full size. */
 export const SPROUT_MS = 120_000;
-/** How long the spores take to fall from the parent's crown before a sprout comes up. */
+/** How long a tap's spore takes to fall from its parent's cap to its foot. */
 export const SPORE_FALL_MS = 700;
 /** How many spores lie round one mushroom at most. */
 export const SPORE_SEATS = 6;
@@ -57,19 +57,16 @@ export type SporeTap = { spore?: Footed & Timed };
 
 /** Whether `mushroom` is full-grown: grown by the child or the opening, or a sprout that has finished growing. */
 export function isOld({ sprout }: Sprouting, now: number): boolean {
-  return sprout === undefined || now >= sprout.at + SPORE_FALL_MS + SPROUT_MS;
+  return sprout === undefined || now >= sprout.at + SPROUT_MS;
 }
 
 /**
- * How big a mushroom stands of its full size at `now`: 0 while its spores
- * fall, then from `SPROUT_START` eased out to 1 over `SPROUT_MS`; 1 for one
- * that never sprouted.
+ * How big a mushroom stands of its full size at `now`: from `SPROUT_START`
+ * eased out to 1 over `SPROUT_MS`; 1 for one that never sprouted.
  */
 export function sproutScale(sprout: Sprout | undefined, now: number): number {
   if (sprout === undefined) return 1;
-  const since = now - sprout.at - SPORE_FALL_MS;
-  if (since < 0) return 0;
-  const left = 1 - Math.min(1, since / SPROUT_MS);
+  const left = 1 - Math.min(1, Math.max(0, now - sprout.at) / SPROUT_MS);
   return SPROUT_START + (1 - SPROUT_START) * (1 - left ** 2);
 }
 
@@ -142,9 +139,8 @@ export function sproutMoment(spore: Spore, rain: Rain): number | undefined {
  * `meadow` with every spore whose moment in the latest shower has come by
  * `now` grown into a sprout of its parent's species where it lay, wherever
  * that is and whether or not its parent still stands. The sprout's clock
- * starts `SPORE_FALL_MS` before the moment, so it comes up as the spore goes;
- * the spore already held its place in every count. The same object when none
- * sprouts.
+ * starts at the moment, so it comes up as the spore goes; the spore already
+ * held its place in every count. The same object when none sprouts.
  */
 export function sproutedInRain(meadow: Meadow, now: number): Meadow {
   const { spores, rain } = meadow;
@@ -166,7 +162,7 @@ export function sproutedInRain(meadow: Meadow, now: number): Meadow {
       house: EMPTY_HOUSE,
       foot,
       lean,
-      sprout: { at: moment - SPORE_FALL_MS, parent },
+      sprout: { at: moment, parent },
     };
     mushrooms = [...mushrooms, sprout];
   }

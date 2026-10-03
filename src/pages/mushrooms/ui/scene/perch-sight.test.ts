@@ -20,7 +20,7 @@ import type { Flier } from '../../model/insects';
 import { hasTrumpet, mushroomGenes } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
 import { SHELTER_SEATS, type ShelterSeat } from '../../model/shelter';
-import { SPORE_FALL_MS, SPROUT_MS } from '../../model/sprouting';
+import { SPROUT_MS } from '../../model/sprouting';
 import { airAlofts, airSpots, clumpRow } from './air-spots';
 import { bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
@@ -450,9 +450,8 @@ describe('the shelters', () => {
     };
     const full = perchSight(stand).shelters ?? [];
     assert.ok(full.length > 0);
-    assert.deepEqual(perchSight(sprouted, SPORE_FALL_MS).shelters, []);
-    const grown = SPORE_FALL_MS + SPROUT_MS;
-    assert.deepEqual(perchSight(sprouted, grown).shelters, full);
+    assert.deepEqual(perchSight(sprouted, 0).shelters, []);
+    assert.deepEqual(perchSight(sprouted, SPROUT_MS).shelters, full);
   });
 
   it('withhold the seat of the back cap a nearer one is drawn over', () => {
