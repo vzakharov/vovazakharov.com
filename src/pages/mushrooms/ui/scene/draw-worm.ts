@@ -5,12 +5,14 @@ import type { Looking } from '../../model/motion';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
-import { WORM_GIRTH, WORM_SEGMENTS, type WormBody } from '../../model/worm';
+import {
+  WORM_GIRTH,
+  WORM_GIRTH_LEAST,
+  WORM_SEGMENTS,
+  type WormBody,
+} from '../../model/worm';
 import { PALETTE } from './palette';
 import { type Brush, fillShape, inkedFill } from './shapes';
-
-/** The thinnest a worm is drawn, in the pixels its house paints in: what an eye on it still reads at. */
-export const WORM_GIRTH_LEAST = 5;
 
 /** How thick a worm is on a mushroom drawn `size` px to its unit, in that mushroom's units: its window's share, or the least an eye reads. */
 export function wormGirth(size: number): number {

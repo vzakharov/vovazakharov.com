@@ -214,8 +214,8 @@ export const PROBE = `(() => {
     }
     for (const [id, shown] of scene.bed.shown) {
       if (top === shown.house.graphics) {
-        const { x: wx, y: wy } = toWorld(pointer);
-        const part = shown.house.takes(top.getWorldTransformMatrix().applyInverse(wx, wy));
+        // The hit test leaves the point in the graphics' own frame on its input.
+        const part = shown.house.takes({ x: top.input.localX, y: top.input.localY });
         return part === 'door' ? 'door:' + id : 'window:' + id + ':' + part;
       }
       if (top === shown.graphics) return 'mushroom:' + id;

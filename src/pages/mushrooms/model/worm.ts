@@ -14,6 +14,8 @@ import { capBase, capSurface } from './mushroom-profile';
 
 /** How thick a worm is drawn: sized to its window, as a mouse is to its door. */
 export const WORM_GIRTH = 0.3 * PANE;
+/** The thinnest a worm is drawn, in the pixels its house paints in: what an eye on it still reads at. */
+export const WORM_GIRTH_LEAST = 5;
 /** From a worm's head to its tail, stretched out. */
 export const WORM_LENGTH = 4 * WORM_GIRTH;
 /** How many round segments a worm is drawn as, from its head to its tail. */

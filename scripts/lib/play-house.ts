@@ -18,6 +18,7 @@ import {
   State,
   Top,
 } from './mushroom-probe.ts';
+import { playWorms } from './play-worms.ts';
 
 /** The house picker's buttons, in `FURNISHINGS`' order. */
 const PIECES = ['cross', 'round', 'square', 'tall', 'door'] as const;
@@ -193,4 +194,5 @@ export async function playHouse(
   await page.tap(controls.house);
   await page.step(6);
   expect(!(await state()).furnishing, 'the house did not close its picker');
+  await playWorms(page, controls, expect, note);
 }
