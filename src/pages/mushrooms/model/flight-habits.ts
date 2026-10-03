@@ -17,15 +17,10 @@ export type Dash = { time: number; way: number };
  */
 export type Hops = { every: number; range: number };
 
-/** How one kind flies, stays and chooses; every time in ms. */
-export type Habits = {
+/** How fast one kind flies a leg; every time in ms. */
+export type Pace = {
   /** How long a flight takes at the least, however short. */
   flying: readonly [number, number];
-  /**
-   * How far off, in butterfly sizes (`Places`), a perch is half as likely to
-   * be flown to as one beside it.
-   */
-  stride: number;
   /**
    * How fast it flies, in butterfly sizes (`Places`) a second: a flight
    * takes its length at this speed, however long.
@@ -33,6 +28,17 @@ export type Habits = {
   cruising: number;
   /** How it darts over every flight, at its `cruising` speed on average; `undefined` for a kind that glides evenly. */
   dashing: Dash | undefined;
+};
+
+/** How one kind flies, stays and chooses; every time in ms. */
+export type Habits = Pace & {
+  /**
+   * How far off, in butterfly sizes (`Places`), a perch is half as likely to
+   * be flown to as one beside it.
+   */
+  stride: number;
+  /** Its pace to a shelter from the rain; `undefined` for a kind whose own is quick enough. */
+  sheltering: Pace | undefined;
   /** A stay at a flower. */
   drinking: readonly [number, number];
   /** A hover at a spot in the air. */
@@ -69,7 +75,10 @@ export type Habits = {
  * second, or on a screen with big insects (a tablet held upright) a tap
  * 200 ms late misses; and no flier is caught mid-dash, so a dash longer than
  * the fly's drops its catch under seven in ten. The dash's own speed,
- * `cruising` times `way / time`, is what reads as fast, or as sharp.
+ * `cruising` times `way / time`, is what reads as fast, or as sharp. To
+ * shelter from the rain a butterfly doubles its pace and darts, under cover
+ * in about two seconds, its coming-in still near a size a second; a fly and
+ * a bee keep their own.
  */
 export const FLIGHT_HABITS = {
   butterfly: {
@@ -77,6 +86,11 @@ export const FLIGHT_HABITS = {
     stride: 3,
     cruising: 0.95,
     dashing: undefined,
+    sheltering: {
+      flying: [1200, 1900],
+      cruising: 1.9,
+      dashing: { time: 0.3, way: 0.6 },
+    },
     drinking: [3000, 6000],
     hovering: [4000, 8000],
     hopping: undefined,
@@ -91,6 +105,7 @@ export const FLIGHT_HABITS = {
     stride: 0.9,
     cruising: 5,
     dashing: { time: 0.24, way: 0.85 },
+    sheltering: undefined,
     drinking: [1500, 4000],
     hovering: [2000, 4500],
     hopping: { every: 280, range: 0.7 },
@@ -105,6 +120,7 @@ export const FLIGHT_HABITS = {
     stride: 1.4,
     cruising: 4,
     dashing: { time: 0.2, way: 0.75 },
+    sheltering: undefined,
     drinking: [2000, 3500],
     hovering: [1500, 3000],
     hopping: undefined,

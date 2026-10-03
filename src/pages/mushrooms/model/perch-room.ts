@@ -9,12 +9,12 @@ import type { Pairing, Perch, Perches, Sight } from './flight';
 import type { InsectKind, Kinded } from './insect-genes';
 
 /** A perch an insect sits on. */
-type Seat = Extract<Perch, { kind: 'flower' | 'cap' }>;
+type Seat = Extract<Perch, { kind: 'flower' | 'cap' | 'shelter' }>;
 
 export function isSamePerch(a: Perch, b: Perch): boolean {
-  return a.kind === 'away' || b.kind === 'away'
-    ? false
-    : a.kind === b.kind && a.id === b.id;
+  if (a.kind === 'away' || b.kind === 'away') return false;
+  if (a.kind !== b.kind || a.id !== b.id) return false;
+  return a.kind !== 'shelter' || b.kind !== 'shelter' || a.seat === b.seat;
 }
 
 /** A perch another insect sits on or is heading to, and that insect's kind. */
@@ -22,9 +22,9 @@ export type Held = Kinded & { perch: Perch };
 
 /** A perch's name, the same for the same perch, as `Places` keys it. */
 export function perchName(perch: Perch): string {
-  return perch.kind === 'away'
-    ? `away ${perch.side}`
-    : `${perch.kind} ${perch.id}`;
+  if (perch.kind === 'away') return `away ${perch.side}`;
+  if (perch.kind === 'shelter') return `shelter ${perch.id} ${perch.seat}`;
+  return `${perch.kind} ${perch.id}`;
 }
 
 const hasPairing = (pairings: readonly Pairing[], [a, b]: Pairing) =>
@@ -130,7 +130,9 @@ export function flowerFreed(
   return isWaitingBee(held) && openToBees(taken, perches).length > 0;
 }
 
-/** Whether `perch` is one an insect sits on, rather than the air or away. */
+/** Whether `perch` is one an insect sits on, on top or under a cap, rather than the air or away. */
 export function isSeat(perch: Perch): perch is Seat {
-  return perch.kind === 'flower' || perch.kind === 'cap';
+  return (
+    perch.kind === 'flower' || perch.kind === 'cap' || perch.kind === 'shelter'
+  );
 }

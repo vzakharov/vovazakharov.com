@@ -5,7 +5,7 @@
 
 import type { Leg, Perch, Place, Places, Sight, Timed } from './flight';
 import { levelWith, pairFramed } from './flight-frame';
-import type { Dash, Habits, Hops } from './flight-habits';
+import type { Dash, Habits, Hops, Pace } from './flight-habits';
 import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 import { between, type Random } from './random';
@@ -136,6 +136,8 @@ function stayAt(random: Random, habits: Habits, to: Perch): number {
     case 'air': {
       return between(random, ...habits.hovering);
     }
+    // A shelter holds a flier until the shower stops (`stayingDry`).
+    case 'shelter':
     case 'away': {
       return 0;
     }
@@ -147,13 +149,13 @@ function stayAt(random: Random, habits: Habits, to: Perch): number {
 
 /**
  * How long a flight from `from` to `to` takes, in ms, and how it dashes: its
- * length at its kind's `cruising` speed, however long, but never quicker than
- * `flown`, its draw of the kind's `flying` time; `flown` where `places` puts
- * either perch nowhere. A kind that dashes darts the same share of every
+ * length at its `cruising` speed, however long, but never quicker than
+ * `flown`, its draw of the `flying` time; `flown` where `places` puts
+ * either perch nowhere. A pace that dashes darts the same share of every
  * flight it has a length for, so a longer way is never flown faster.
  */
 function paced(
-  { cruising, dashing }: Habits,
+  { cruising, dashing }: Pace,
   { from, to }: Pick<Leg, 'from' | 'to'>,
   { places }: Placed,
   flown: number,
@@ -165,8 +167,9 @@ function paced(
 }
 
 /**
- * The leg along `route` departing `now`, its flight `paced`, its stay drawn
- * off `random`, and to a spot in the air its kind's `hopping` there.
+ * The leg along `route` departing `now`, its flight `paced` — to a shelter at
+ * its kind's `sheltering` pace, where it has one — its stay drawn off
+ * `random`, and to a spot in the air its kind's `hopping` there.
  */
 export function legTo(
   random: Random,
@@ -175,8 +178,10 @@ export function legTo(
   { now, ...placed }: Timed & Placed,
 ): Leg {
   const { from, to } = route;
-  const flown = between(random, ...habits.flying);
-  const { flight, dash } = paced(habits, route, placed, flown);
+  const pace =
+    (to.kind === 'shelter' ? habits.sheltering : undefined) ?? habits;
+  const flown = between(random, ...pace.flying);
+  const { flight, dash } = paced(pace, route, placed, flown);
   const arrives = now + flight;
   const hops = to.kind === 'air' ? habits.hopping : undefined;
   return {
