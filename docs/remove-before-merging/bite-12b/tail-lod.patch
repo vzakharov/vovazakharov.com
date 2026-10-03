@@ -1,0 +1,1011 @@
+diff --git a/src/pages/mushrooms/model/chanterelle-outline.ts b/src/pages/mushrooms/model/chanterelle-outline.ts
+index 7b920cf..6ed977e 100644
+--- a/src/pages/mushrooms/model/chanterelle-outline.ts
++++ b/src/pages/mushrooms/model/chanterelle-outline.ts
+@@ -22,13 +22,13 @@ import {
+ 
+ /** How far down the stem a ridge runs from the funnel, to `t` from its foot. */
+ const RIDGE_END = 0.55;
+-/** How many chords the lip's waving top is drawn with. */
+-const LIP_STEPS = CURVE_STEPS * 1.5;
++/** How many more chords the lip's waving top is drawn with than any other curve. */
++const LIP_STEPS = 1.5;
+ 
+ /** The front rim from right to left, its two ends left out: where the lip and the funnel meet. */
+-function frontRim(genes: ChanterelleGenes): Point[] {
++function frontRim(genes: ChanterelleGenes, steps: number): Point[] {
+   const half = genes.capWidth / 2;
+-  return sample(half, -half, CURVE_STEPS, (x) => ({
++  return sample(half, -half, steps, (x) => ({
+     x,
+     y: capBase(genes, x),
+   })).slice(1, -1);
+@@ -48,8 +48,12 @@ function funnelAt(
+ }
+ 
+ /** The funnel's side on `sign`'s side, from the stem's top up to the rim: its rise sampled evenly. */
+-function funnelSide(genes: ChanterelleGenes, sign: -1 | 1): Point[] {
+-  return sample(0, 1, CURVE_STEPS, (q) => {
++function funnelSide(
++  genes: ChanterelleGenes,
++  sign: -1 | 1,
++  steps: number,
++): Point[] {
++  return sample(0, 1, steps, (q) => {
+     const x = sign * funnelAt(genes, q).r;
+     return { x, y: funnelEdge(genes, x) };
+   });
+@@ -61,19 +65,22 @@ function funnelSide(genes: ChanterelleGenes, sign: -1 | 1): Point[] {
+  * dipping at its middle, and back along the front rim; the funnel up from
+  * the stem's top on either side to the rim, closed along that same front rim.
+  */
+-export function trumpetOutlines(genes: ChanterelleGenes): [Point[], Point[]] {
++export function trumpetOutlines(
++  genes: ChanterelleGenes,
++  steps = CURVE_STEPS,
++): [Point[], Point[]] {
+   const half = genes.capWidth / 2;
+-  const rim = frontRim(genes);
++  const rim = frontRim(genes, steps);
+   // Half by angle, crowding the samples toward the rim where the lip turns
+   // down, and half evenly, so every lobe of the wave across it is drawn round.
+-  const top = sample(-1, 1, LIP_STEPS, (along) => {
++  const top = sample(-1, 1, Math.round(steps * LIP_STEPS), (along) => {
+     const x = (half * (along + Math.sin((along * Math.PI) / 2))) / 2;
+     return { x, y: capSurface(genes, x) };
+   });
+   const lip = rounded([...top, ...rim], RIM_ROUNDS);
+   const funnel = [
+-    ...funnelSide(genes, -1).toReversed(),
+-    ...funnelSide(genes, 1),
++    ...funnelSide(genes, -1, steps).toReversed(),
++    ...funnelSide(genes, 1, steps),
+     ...rim,
+   ];
+   return [lip, funnel];
+@@ -99,13 +106,16 @@ export const MOUTH_LINE = { near: 0.5, far: 0.3 };
+  * left, over the near rim. Closed, the two are the opening the painter
+  * shades.
+  */
+-export function mouthEdges(genes: ChanterelleGenes): {
++export function mouthEdges(
++  genes: ChanterelleGenes,
++  steps = CURVE_STEPS,
++): {
+   far: Point[];
+   near: Point[];
+ } {
+   const half = genes.capWidth / 2;
+   const edge = (share: number, from: number, to: number) =>
+-    sample(from, to, CURVE_STEPS, (angle) => {
++    sample(from, to, steps, (angle) => {
+       const x = MOUTH_ACROSS * half * Math.cos(angle);
+       const base = capBase(genes, x);
+       const depth = capSurface(genes, x) - base;
+@@ -129,14 +139,17 @@ export function mouthEdges(genes: ChanterelleGenes): {
+  * shows — so the painter strokes them and a test measures them from one
+  * place.
+  */
+-export function ridgeLines(genes: ChanterelleGenes): Point[][] {
++export function ridgeLines(
++  genes: ChanterelleGenes,
++  steps = CURVE_STEPS,
++): Point[][] {
+   const cap = capFrame(genes);
+   return Array.from({ length: genes.ridges }, (_, index) => {
+     const round = -Math.PI / 2 + (Math.PI * (index + 0.5)) / genes.ridges;
+     const side = Math.sin(round);
+     const rimX = (side * genes.capWidth) / 2;
+     const sag = frontSag(genes, rimX);
+-    const overFunnel = sample(1, 0, CURVE_STEPS, (q) => {
++    const overFunnel = sample(1, 0, steps, (q) => {
+       const { r, out } = funnelAt(genes, q);
+       const x = r * side;
+       const wave = rimWave(genes, x);
+@@ -151,7 +164,7 @@ export function ridgeLines(genes: ChanterelleGenes): Point[][] {
+     });
+     // Its first point is the funnel's last: the funnel's foot is the stem's
+     // top, the cap turning with the stem.
+-    const downStem = sample(1, RIDGE_END, CURVE_STEPS, (t) => {
++    const downStem = sample(1, RIDGE_END, steps, (t) => {
+       const station = stemAt(genes, t);
+       const across = stemHalfWidth(genes, t) * side;
+       return {
+diff --git a/src/pages/mushrooms/model/geometry.ts b/src/pages/mushrooms/model/geometry.ts
+index 0d293fe..8006f1b 100644
+--- a/src/pages/mushrooms/model/geometry.ts
++++ b/src/pages/mushrooms/model/geometry.ts
+@@ -57,9 +57,14 @@ export function sample<Sampled>(
+ /** How many chords a round shape's curve is drawn with. */
+ export const ROUND_STEPS = 28;
+ 
+-/** An ellipse round `(x, y)` with half-axes `rx` and `ry`: a circle when `ry` is left out. */
+-export function ellipse({ x, y }: Point, rx: number, ry: number = rx): Point[] {
+-  return sample(0, Math.PI * 2, ROUND_STEPS, (angle) => ({
++/** An ellipse round `(x, y)` with half-axes `rx` and `ry`, `steps` chords round: a circle when `ry` is left out. */
++export function ellipse(
++  { x, y }: Point,
++  rx: number,
++  ry: number = rx,
++  steps = ROUND_STEPS,
++): Point[] {
++  return sample(0, Math.PI * 2, steps, (angle) => ({
+     x: x + rx * Math.cos(angle),
+     y: y + ry * Math.sin(angle),
+   })).slice(0, -1);
+diff --git a/src/pages/mushrooms/model/mushroom-outline.ts b/src/pages/mushrooms/model/mushroom-outline.ts
+index b2b39ce..c006888 100644
+--- a/src/pages/mushrooms/model/mushroom-outline.ts
++++ b/src/pages/mushrooms/model/mushroom-outline.ts
+@@ -53,7 +53,11 @@ const FOOT_SAG = 0.22;
+  * about its foot (`placedAt`): up its right side, down its left, and along
+  * its foot back to the start.
+  */
+-export function stemOutline(genes: MushroomGenes, turn = 0): Point[] {
++export function stemOutline(
++  genes: MushroomGenes,
++  turn = 0,
++  steps = CURVE_STEPS,
++): Point[] {
+   // A point `x` across the foot is level with it on screen at `x * slope` up.
+   const slope = Math.tan(turn);
+   const side = (t: number, sign: number): Point => {
+@@ -66,13 +70,13 @@ export function stemOutline(genes: MushroomGenes, turn = 0): Point[] {
+       y: station.y - sign * half * Math.sin(station.tilt) + x * slope * level,
+     };
+   };
+-  const right = sample(0, 1, CURVE_STEPS, (t) => side(t, 1));
+-  const left = sample(1, 0, CURVE_STEPS, (t) => side(t, -1));
++  const right = sample(0, 1, steps, (t) => side(t, 1));
++  const left = sample(1, 0, steps, (t) => side(t, -1));
+   const [from, to] = [left.at(-1) ?? side(0, -1), right[0] ?? side(0, 1)];
+   // Straight down on screen, in this frame.
+   const down = { x: Math.sin(turn), y: -Math.cos(turn) };
+   const sag = FOOT_SAG * stemHalfWidth(genes, 0);
+-  const foot = sample(0, 1, CURVE_STEPS, (u) => {
++  const foot = sample(0, 1, steps, (u) => {
+     const dip = sag * 4 * u * (1 - u);
+     return {
+       x: from.x + (to.x - from.x) * u + down.x * dip,
+@@ -97,8 +101,9 @@ export function domeArc(
+   half: number,
+   [from, to]: readonly [number, number],
+   floor = 0,
++  steps = CURVE_STEPS,
+ ): Point[] {
+-  return sample(from, to, CURVE_STEPS, (angle) => {
++  return sample(from, to, steps, (angle) => {
+     const x = half * Math.sin(angle);
+     return { x, y: Math.max(floor, capSurface(genes, x)) };
+   });
+@@ -108,10 +113,10 @@ export function domeArc(
+ const UNDER_SAG = 0.1;
+ 
+ /** A domed cap, its rim rounded into the underside, in the cap's frame. */
+-function domeOutline(genes: MushroomGenes): Point[] {
++function domeOutline(genes: MushroomGenes, steps: number): Point[] {
+   const half = genes.capWidth / 2;
+-  const arc = domeArc(genes, half, [Math.PI / 2, -Math.PI / 2]);
+-  const underside = sample(-half, half, CURVE_STEPS, (x) => ({
++  const arc = domeArc(genes, half, [Math.PI / 2, -Math.PI / 2], 0, steps);
++  const underside = sample(-half, half, steps, (x) => ({
+     x,
+     y: undersideAt(genes, x),
+   })).slice(1, -1);
+@@ -172,16 +177,16 @@ function bandBottom(genes: Banded, x: number): number {
+  * oval that shows only just below its rim, or the thick band of a porcini's
+  * sponge or a russula's gills, its top tucked up inside the dome.
+  */
+-function gillsOutline(genes: DomeGenes): Point[] {
++function gillsOutline(genes: DomeGenes, steps: number): Point[] {
+   if (genes.species === 'fly-agaric')
+-    return sample(0, Math.PI * 2, CURVE_STEPS, (angle) => ({
++    return sample(0, Math.PI * 2, steps, (angle) => ({
+       x: Math.cos(angle) * genes.capWidth * 0.44,
+       y: Math.sin(angle) * genes.capHeight * 0.14,
+     }));
+   const across = genes.capWidth * BAND_ACROSS;
+   const tuck = genes.capHeight * UNDER_SAG * 2;
+   // By angle, crowding the samples toward the band's ends, where it rounds.
+-  return sample(0, Math.PI * 2, CURVE_STEPS * 2, (angle) => {
++  return sample(0, Math.PI * 2, steps * 2, (angle) => {
+     const x = Math.cos(angle) * across;
+     const y = Math.sin(angle);
+     return { x, y: y < 0 ? bandBottom(genes, x) : tuck * y };
+@@ -208,12 +213,16 @@ export function gillLines(genes: RussulaGenes): Point[][] {
+ 
+ /**
+  * The cap and what shows under it as they are filled, in the cap's frame: a
+- * dome and its gills, or a chanterelle's lip and its ridged funnel.
++ * dome and its gills, or a chanterelle's lip and its ridged funnel, each
++ * curve `steps` chords.
+  */
+-export function headOutlines(genes: MushroomGenes): [Point[], Point[]] {
++export function headOutlines(
++  genes: MushroomGenes,
++  steps = CURVE_STEPS,
++): [Point[], Point[]] {
+   return hasTrumpet(genes)
+-    ? trumpetOutlines(genes)
+-    : [domeOutline(genes), gillsOutline(genes)];
++    ? trumpetOutlines(genes, steps)
++    : [domeOutline(genes, steps), gillsOutline(genes, steps)];
+ }
+ 
+ /** `headOutlines`, in the mushroom's frame. */
+diff --git a/src/pages/mushrooms/model/mushroom-profile.test.ts b/src/pages/mushrooms/model/mushroom-profile.test.ts
+new file mode 100644
+index 0000000..64d506b
+--- /dev/null
++++ b/src/pages/mushrooms/model/mushroom-profile.test.ts
+@@ -0,0 +1,74 @@
++import assert from 'node:assert/strict';
++import { describe, it } from 'node:test';
++
++import type { Point } from './geometry';
++import { MUSHROOM_SPECIES, mushroomGenes } from './mushroom-genes';
++import { headOutlines, stemOutline } from './mushroom-outline';
++import { CURVE_STEPS, curveSteps, detailed } from './mushroom-profile';
++
++/** Drawn sizes from a far, tiny mushroom to a near one, in px to its unit. */
++const DRAWN = Array.from({ length: 60 }, (_, index) => 4 + index * 4);
++
++/** How far `point` stands from the closed polygon `outline`'s edge. */
++function offEdge(point: Point, outline: readonly Point[]): number {
++  return Math.min(
++    ...outline.map((from, index) => {
++      const to = outline[(index + 1) % outline.length] ?? from;
++      const [dx, dy] = [to.x - from.x, to.y - from.y];
++      const length = dx * dx + dy * dy || 1;
++      const t = Math.min(
++        1,
++        Math.max(0, ((point.x - from.x) * dx + (point.y - from.y) * dy) / length),
++      );
++      return Math.hypot(point.x - from.x - t * dx, point.y - from.y - t * dy);
++    }),
++  );
++}
++
++/** Each outline a mushroom is painted with, as a curve gets `steps` chords. */
++function outlines(seed: number, steps: number): Point[][] {
++  return MUSHROOM_SPECIES.flatMap((species) => {
++    const genes = mushroomGenes({ seed, species });
++    return [...headOutlines(genes, steps), stemOutline(genes, 0.1, steps)];
++  });
++}
++
++describe('curveSteps', () => {
++  it('gives a near mushroom every chord, a far one fewer, never under a floor', () => {
++    const steps = DRAWN.map((drawn) => curveSteps(drawn));
++    assert.equal(curveSteps(1000), CURVE_STEPS);
++    assert.ok((steps[0] ?? 0) < CURVE_STEPS / 2);
++    assert.ok(Math.min(...steps) >= 6);
++    for (const [index, each] of steps.entries()) {
++      assert.ok(Number.isInteger(each));
++      assert.ok(each >= (steps[index - 1] ?? 0), 'grows with the size');
++    }
++  });
++
++  it('paints every outline within a pixel of its tap area at any size, so a tap lands on it and a change of chords shows no step', () => {
++    for (const seed of [3, 7922, 15841]) {
++      const full = outlines(seed, CURVE_STEPS);
++      for (const drawn of DRAWN) {
++        const painted = outlines(seed, curveSteps(drawn));
++        for (const [index, outline] of full.entries()) {
++          const coarse = painted[index] ?? [];
++          const worst = Math.max(
++            ...outline.map((point) => offEdge(point, coarse)),
++          );
++          assert.ok(
++            worst * drawn < 1,
++            `seed ${seed}, ${drawn} px: ${(worst * drawn).toFixed(2)} px off`,
++          );
++        }
++      }
++    }
++  });
++});
++
++describe('detailed', () => {
++  it('keeps a near count, scales a far one with the chords, and floors it', () => {
++    assert.equal(detailed(12, CURVE_STEPS, 2), 12);
++    assert.equal(detailed(12, CURVE_STEPS / 2, 2), 6);
++    assert.equal(detailed(12, 1, 2), 2);
++  });
++});
+diff --git a/src/pages/mushrooms/model/mushroom-profile.ts b/src/pages/mushrooms/model/mushroom-profile.ts
+index 1ceb9fb..3ef0a22 100644
+--- a/src/pages/mushrooms/model/mushroom-profile.ts
++++ b/src/pages/mushrooms/model/mushroom-profile.ts
+@@ -15,8 +15,38 @@ import {
+   type MushroomShape,
+ } from './mushroom-genes';
+ 
+-/** How many chords each curve of a mushroom's outline is drawn with. */
++/**
++ * How many chords each curve of a mushroom's outline is drawn with, near; its
++ * tap area is always built with these.
++ */
+ export const CURVE_STEPS = 28;
++/**
++ * The longest chord a curve is painted with on screen, in px per unit of the
++ * mushroom's size it is drawn at (each curve runs about a unit), and the
++ * fewest chords any curve is painted with: a far cap still reads as round.
++ */
++const CHORD_PX = 3;
++const LEAST_STEPS = 8;
++
++/**
++ * How many chords each curve of a mushroom drawn `drawn` px to its unit of
++ * size is painted with: fewer the smaller it stands, down to `LEAST_STEPS`,
++ * so a far cap costs the renderer a fraction of a near one's points. One
++ * chord more or less is under a pixel wherever it changes, so a mushroom
++ * walked toward gains its detail with no step to see.
++ */
++export function curveSteps(drawn: number): number {
++  const steps = Math.ceil(drawn / CHORD_PX);
++  return Math.min(CURVE_STEPS, Math.max(LEAST_STEPS, steps));
++}
++
++/**
++ * A count a near mushroom is painted with, `full`, for one painted with
++ * `steps` chords to a curve: scaled as the chords are, never under `least`.
++ */
++export function detailed(full: number, steps: number, least = 1): number {
++  return Math.max(least, Math.round((full * steps) / CURVE_STEPS));
++}
+ /** How many times a cap outline's corners are cut, rounding its rim. */
+ export const RIM_ROUNDS = 2;
+ 
+diff --git a/src/pages/mushrooms/ui/scene/draw-mushroom.ts b/src/pages/mushrooms/ui/scene/draw-mushroom.ts
+index 0548e3a..7cfbfe3 100644
+--- a/src/pages/mushrooms/ui/scene/draw-mushroom.ts
++++ b/src/pages/mushrooms/ui/scene/draw-mushroom.ts
+@@ -9,7 +9,7 @@ import {
+ } from '../../model/mushroom-genes';
+ import { footWidth, type TapArea } from '../../model/mushroom-outline';
+ import { stemAt } from '../../model/mushroom-pose';
+-import { stemHalfWidth } from '../../model/mushroom-profile';
++import { CURVE_STEPS, stemHalfWidth } from '../../model/mushroom-profile';
+ import type { Lighting } from './ink';
+ import { mushroomShadow } from './mushroom-light';
+ import {
+@@ -47,8 +47,9 @@ export function drawMushroomShadow(
+  * whose rotation is the lean, `turn` — so the scene squashes and rocks it from
+  * the ground, the foot kept level with it — lit from where `lighting`, in
+  * that turned frame, says (`mushroomLights`). `haze`, from 0 to 1, takes
+- * every colour toward the air's, as distance does. A chanterelle is one
+- * trumpet (`paintTrumpet`); every other species a stem under a dome
++ * every colour toward the air's, as distance does; `steps`, the chords to a
++ * curve, follows how big the scene draws it (`curveSteps`). A chanterelle is
++ * one trumpet (`paintTrumpet`); every other species a stem under a dome
+  * (`paintDome`).
+  */
+ export function drawMushroom(
+@@ -56,9 +57,9 @@ export function drawMushroom(
+   genes: MushroomGenes,
+   size: number,
+   lighting: Lighting,
+-  { haze = 0, turn = 0 } = {},
++  { haze = 0, turn = 0, steps = CURVE_STEPS } = {},
+ ): void {
+-  const brush = mushroomBrush(graphics, genes, size, lighting, haze);
++  const brush = mushroomBrush(graphics, genes, size, lighting, haze, steps);
+   const stem = stemPoints(brush, turn);
+   if (hasTrumpet(genes)) {
+     paintTrumpet({ ...brush, genes }, stem);
+diff --git a/src/pages/mushrooms/ui/scene/mushroom-bed.ts b/src/pages/mushrooms/ui/scene/mushroom-bed.ts
+index edc3da6..5c353cf 100644
+--- a/src/pages/mushrooms/ui/scene/mushroom-bed.ts
++++ b/src/pages/mushrooms/ui/scene/mushroom-bed.ts
+@@ -38,7 +38,12 @@ import type { Lighting } from './ink';
+ import type { MeadowLayout } from './layout';
+ import { mushroomLights } from './mushroom-light';
+ import { MushroomSelection } from './mushroom-selection';
+-import { paintLit, type Shown, unplacedShown } from './mushroom-shown';
++import {
++  paintLit,
++  type Shown,
++  stepsHere,
++  unplacedShown,
++} from './mushroom-shown';
+ import type { Seat } from './perch-hosts';
+ import { hazeAhead, repaintsDue } from './repaint-queue';
+ import type { MeadowSound } from './sound';
+@@ -171,8 +176,8 @@ export class MushroomBed implements Following {
+ 
+   /**
+    * Stands every mushroom where `view` sees its foot, and repaints the
+-   * nearest few whose haze there, or whose sun side from its heading, has
+-   * drifted from their paint (`repaintsDue`).
++   * nearest few whose haze there, sun side from its heading, or chords to a
++   * curve for its size there have drifted from their paint (`repaintsDue`).
+    */
+   follow(view: View): void {
+     this.view = view;
+@@ -189,6 +194,8 @@ export class MushroomBed implements Following {
+               ...pick(shown.stands, 'ahead'),
+               sunSide: headedLight(shown.sunFrom, view.eye.heading).toward.x,
+               ...pick(shown, 'paintedSunSide'),
++              steps: stepsHere(shown),
++              paintedSteps: shown.steps,
+             },
+           ];
+     });
+diff --git a/src/pages/mushrooms/ui/scene/mushroom-light.ts b/src/pages/mushrooms/ui/scene/mushroom-light.ts
+index 66c3b44..0426d61 100644
+--- a/src/pages/mushrooms/ui/scene/mushroom-light.ts
++++ b/src/pages/mushrooms/ui/scene/mushroom-light.ts
+@@ -25,7 +25,11 @@ import {
+ } from '../../model/mushroom-genes';
+ import { domeArc, footWidth, toCanvas } from '../../model/mushroom-outline';
+ import { capFrame, type Splayed } from '../../model/mushroom-pose';
+-import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
++import {
++  capSurface,
++  CURVE_STEPS,
++  detailed,
++} from '../../model/mushroom-profile';
+ import { awayAngle, litSide, shadowFall, type Translucent } from './ink';
+ import { PALETTE } from './palette';
+ 
+@@ -107,23 +111,33 @@ export function flowerLight<Lit extends Light>(
+ function sideArc(
+   genes: MushroomGenes,
+   side: -1 | 1,
+-  from: number,
+-  to = Math.PI / 2,
++  [from, to]: readonly [number, number],
++  steps: number,
+ ): Point[] {
+-  return domeArc(genes, genes.capWidth / 2, [from, to]).map(({ x, y }) => ({
++  const half = genes.capWidth / 2;
++  return domeArc(genes, half, [from, to], 0, steps).map(({ x, y }) => ({
+     x: x * side,
+     y,
+   }));
+ }
+ 
+ /** The dome's arc on the side turned from the light: where the shade lies. */
+-export function capShadeArc(genes: MushroomGenes, toward: Point): Point[] {
+-  return sideArc(genes, litSide(toward) === 1 ? -1 : 1, 0.3);
++export function capShadeArc(
++  genes: MushroomGenes,
++  toward: Point,
++  steps = CURVE_STEPS,
++): Point[] {
++  const side = litSide(toward) === 1 ? -1 : 1;
++  return sideArc(genes, side, [0.3, Math.PI / 2], steps);
+ }
+ 
+ /** The dome's arc on the light's side, from near its crown to the rim: where the rim light lies. */
+-export function capRimArc(genes: MushroomGenes, toward: Point): Point[] {
+-  return sideArc(genes, litSide(toward), 0.12, Math.PI / 2 - 0.08);
++export function capRimArc(
++  genes: MushroomGenes,
++  toward: Point,
++  steps = CURVE_STEPS,
++): Point[] {
++  return sideArc(genes, litSide(toward), [0.12, Math.PI / 2 - 0.08], steps);
+ }
+ 
+ /** The shine's middle on the cap, over toward the light. */
+@@ -149,17 +163,22 @@ export type CapLight =
+   | { kind: 'spot'; spot: Circle };
+ 
+ /**
+- * The cap's light in the order it is painted, first to last. The shade, the
+- * rim light and the shine are light on the cap's own skin, so every spot goes
+- * on after them and stays its own white wherever they reach. The shade and
+- * the rim light are `strength` of their full alpha (`sideways`).
++ * The cap's light in the order it is painted, first to last, its arcs
++ * `steps` chords. The shade, the rim light and the shine are light on the
++ * cap's own skin, so every spot goes on after them and stays its own white
++ * wherever they reach. The shade and the rim light are `strength` of their
++ * full alpha (`sideways`).
+  */
+-export function capLight(genes: MushroomGenes, toward: Point): CapLight[] {
+-  if (hasTrumpet(genes)) return lipLight(genes, toward);
++export function capLight(
++  genes: MushroomGenes,
++  toward: Point,
++  steps = CURVE_STEPS,
++): CapLight[] {
++  if (hasTrumpet(genes)) return lipLight(genes, toward, steps);
+   const strength = sideways(toward);
+   return [
+-    { kind: 'shade', arc: capShadeArc(genes, toward), strength },
+-    { kind: 'rim', arc: capRimArc(genes, toward), strength },
++    { kind: 'shade', arc: capShadeArc(genes, toward, steps), strength },
++    { kind: 'rim', arc: capRimArc(genes, toward, steps), strength },
+     {
+       kind: 'shine',
+       centre: capShine(genes, toward),
+@@ -173,9 +192,10 @@ export function capLight(genes: MushroomGenes, toward: Point): CapLight[] {
+ function lipArc(
+   genes: ChanterelleGenes,
+   [from, to]: readonly [number, number],
++  steps: number,
+ ): Point[] {
+   const half = genes.capWidth / 2;
+-  return sample(from * half, to * half, CURVE_STEPS, (x) => ({
++  return sample(from * half, to * half, steps, (x) => ({
+     x,
+     y: capSurface(genes, x),
+   }));
+@@ -200,12 +220,16 @@ function mouthArc(
+  * shaded on the sun's side and lit on the other, the shine on it, and the
+  * near rim's shadow along the mouth's near edge.
+  */
+-function lipLight(genes: ChanterelleGenes, toward: Point): CapLight[] {
++function lipLight(
++  genes: ChanterelleGenes,
++  toward: Point,
++  steps: number,
++): CapLight[] {
+   const strength = sideways(toward);
+   const sun = litSide(toward);
+   const arc = (from: number, to: number) =>
+-    lipArc(genes, [from * sun, to * sun]);
+-  const { far, near } = mouthEdges(genes);
++    lipArc(genes, [from * sun, to * sun], steps);
++  const { far, near } = mouthEdges(genes, steps);
+   const wall = (from: number, to: number) =>
+     mouthArc(far, [from * sun, to * sun]);
+   const { x, y } = wall(-0.3, -0.5)[0] ?? { x: 0, y: capSurface(genes, 0) };
+@@ -231,17 +255,17 @@ function lipLight(genes: ChanterelleGenes, toward: Point): CapLight[] {
+  * The half of a circle round `centre` turned from the light, in the canvas's
+  * frame (y down, as `toward` is): a spot's shade, an eye's.
+  */
+-export function shadedHalf(centre: Point, r: number, toward: Point): Point[] {
++export function shadedHalf(
++  centre: Point,
++  r: number,
++  toward: Point,
++  steps = CURVE_STEPS,
++): Point[] {
+   const away = awayAngle(toward);
+-  return sample(
+-    away - Math.PI / 2,
+-    away + Math.PI / 2,
+-    CURVE_STEPS,
+-    (angle) => ({
+-      x: centre.x + r * Math.cos(angle),
+-      y: centre.y + r * Math.sin(angle),
+-    }),
+-  );
++  return sample(away - Math.PI / 2, away + Math.PI / 2, steps, (angle) => ({
++    x: centre.x + r * Math.cos(angle),
++    y: centre.y + r * Math.sin(angle),
++  }));
+ }
+ 
+ /**
+@@ -255,18 +279,25 @@ export type StemLayer = readonly [
+   side: 'sun' | 'shade',
+ ];
+ 
+-/** `count` layers of `colour` on `side`, each at `alpha`, from `deepest` in to `shallowest`. */
++/**
++ * `count` layers of `colour` on `side`, each at `alpha`, from `deepest` in to
++ * `shallowest` — fewer on a stem painted with fewer than `CURVE_STEPS` chords
++ * to a curve (`detailed`), each the more opaque, so the edge stands as dark
++ * under them all as under the full stack.
++ */
+ function layers(
+   colour: number,
+   side: StemLayer[3],
+-  count: number,
+-  alpha: number,
++  [count, alpha]: readonly [number, number],
+   [deepest, shallowest]: readonly [number, number],
++  steps: number,
+ ): StemLayer[] {
+-  return Array.from({ length: count }, (_, index) => [
++  const kept = detailed(count, steps, 2);
++  const each = kept === count ? alpha : 1 - (1 - alpha) ** (count / kept);
++  return Array.from({ length: kept }, (_, index) => [
+     colour,
+-    alpha,
+-    deepest + ((shallowest - deepest) * index) / (count - 1),
++    each,
++    deepest + ((shallowest - deepest) * index) / (kept - 1),
+     side,
+   ]);
+ }
+@@ -278,10 +309,10 @@ function layers(
+  * with no band of its own; and a pale line just inside the lit edge. It
+  * stays light enough that the stem still reads as pale.
+  */
+-export function stemLight(lit: number): StemLayer[] {
++export function stemLight(lit: number, steps = CURVE_STEPS): StemLayer[] {
+   return [
+-    ...layers(PALETTE.shadeCool, 'shade', 12, 0.024, [0.6, 0.08]),
+-    ...layers(lit, 'sun', 8, 0.08, [0.34, 0.06]),
++    ...layers(PALETTE.shadeCool, 'shade', [12, 0.024], [0.6, 0.08], steps),
++    ...layers(lit, 'sun', [8, 0.08], [0.34, 0.06], steps),
+     [PALETTE.rimLight, 0.6, 0.04, 'sun'],
+   ];
+ }
+diff --git a/src/pages/mushrooms/ui/scene/mushroom-paint.ts b/src/pages/mushrooms/ui/scene/mushroom-paint.ts
+index 3ea6cb2..515eaeb 100644
+--- a/src/pages/mushrooms/ui/scene/mushroom-paint.ts
++++ b/src/pages/mushrooms/ui/scene/mushroom-paint.ts
+@@ -6,11 +6,16 @@
+ 
+ import type * as Phaser from 'phaser';
+ 
+-import type { Point, Scaled } from '../../model/geometry';
++import {
++  ellipse,
++  type Point,
++  ROUND_STEPS,
++  type Scaled,
++} from '../../model/geometry';
+ import type { MushroomGenes } from '../../model/mushroom-genes';
+ import { inkWidth, stemOutline, toCanvas } from '../../model/mushroom-outline';
+ import { capFrame, stemAt } from '../../model/mushroom-pose';
+-import { CURVE_STEPS } from '../../model/mushroom-profile';
++import { CURVE_STEPS, detailed } from '../../model/mushroom-profile';
+ import { mix } from './colour';
+ import type { WithGraphics } from './hit-areas';
+ import { inkFor, type Lighting, litSide } from './ink';
+@@ -30,6 +35,9 @@ const SPOT_SHADE_ALPHA = 0.13;
+ /** A rim light's warm band and the pale line inside it, each one's width as a share of its layer's depth, and alpha. */
+ const RIM = { width: 1, alpha: 0.6 };
+ const RIM_FINE = { width: 0.42, alpha: 0.4 };
++/** The fewest chords a spot or the shine is painted round with, and Phaser's own count for an ellipse, which a near shine keeps. */
++const LEAST_ROUND = 6;
++const PHASER_ELLIPSE = 32;
+ 
+ /** Something painted into its graphics through a haze. */
+ export type HazedGraphics = WithGraphics & Hazed;
+@@ -37,7 +45,8 @@ export type HazedGraphics = WithGraphics & Hazed;
+ /**
+  * One mushroom's brush: its graphics, genes and fills, the light it is lit
+  * by, its size and ink line in pixels, `tone` taking a colour through its
+- * haze, and the maps from its own frame and its cap's to the canvas.
++ * haze, the maps from its own frame and its cap's to the canvas, and how
++ * many chords each of its curves is painted with (`curveSteps`).
+  */
+ export type MushroomBrush = Brush &
+   HazedGraphics &
+@@ -46,6 +55,7 @@ export type MushroomBrush = Brush &
+     tints: MushroomTints;
+     canvas: (point: Point) => Point;
+     toMushroom: (point: Point) => Point;
++    steps: number;
+   };
+ 
+ export function mushroomBrush(
+@@ -54,6 +64,7 @@ export function mushroomBrush(
+   size: number,
+   lighting: Lighting,
+   haze: number,
++  steps = CURVE_STEPS,
+ ): MushroomBrush {
+   const canvas = toCanvas(size);
+   const cap = capFrame(genes);
+@@ -69,6 +80,7 @@ export function mushroomBrush(
+     tone: (colour) => mix(colour, PALETTE.air, held),
+     canvas,
+     toMushroom: (point) => canvas(cap(point)),
++    steps,
+   };
+ }
+ 
+@@ -88,7 +100,8 @@ export function lightWith(
+ 
+ /** The stem's outline on the canvas, as it stands turned `turn`. */
+ export function stemPoints(brush: MushroomBrush, turn: number): Point[] {
+-  return stemOutline(brush.genes, turn).map((point) => brush.canvas(point));
++  const { genes, steps, canvas } = brush;
++  return stemOutline(genes, turn, steps).map((point) => canvas(point));
+ }
+ 
+ /**
+@@ -101,19 +114,19 @@ export function paintStem(
+   stem: readonly Point[],
+   { inkLaid = false } = {},
+ ): void {
+-  const { graphics, genes, tints, lighting, tone, size, haze } = brush;
++  const { graphics, genes, tints, lighting, tone, size, haze, steps } = brush;
+   if (!inkLaid) inkStem(brush, stem);
+   graphics.fillStyle(tone(tints.stem));
+   fillShape(graphics, stem);
+   // The outline runs up the stem's right side and back down its left.
+   const [right, left] = [
+-    stem.slice(0, CURVE_STEPS + 1),
+-    stem.slice(CURVE_STEPS + 1, (CURVE_STEPS + 1) * 2),
++    stem.slice(0, steps + 1),
++    stem.slice(steps + 1, (steps + 1) * 2),
+   ];
+   const [sunSide, shadeSide] = bySun(lighting.toward, [left, right]);
+   const middle = brush.canvas(stemAt(genes, 0.5));
+   const stemWidth = genes.stemWidth * size;
+-  for (const [colour, alpha, depth, side] of stemLight(tints.stemLit)) {
++  for (const [colour, alpha, depth, side] of stemLight(tints.stemLit, steps)) {
+     // Shade is laid over the fill's own haze, as the cap's is.
+     graphics.fillStyle(
+       side === 'shade' ? colour : tone(colour),
+@@ -153,7 +166,8 @@ export function paintCapLight(
+   depth: (kind: Exclude<CapLight['kind'], 'shine' | 'spot'>) => number,
+   shadeAlpha: number,
+ ): void {
+-  const { graphics, toMushroom, size, tints, tone, lighting } = brush;
++  const { graphics, toMushroom, size, tints, tone, lighting, steps } = brush;
++  const near = steps === CURVE_STEPS;
+   const along = (arc: readonly Point[]) =>
+     arc.map((point) => toMushroom(point));
+   for (const layer of layers) {
+@@ -186,19 +200,28 @@ export function paintCapLight(
+         const centre = toMushroom(layer.centre);
+         const [rx, ry] = layer.radii;
+         lightWith(brush, PALETTE.rimLight, SHINE_ALPHA);
+-        graphics.fillEllipse(centre.x, centre.y, rx * size * 2, ry * size * 2);
++        graphics.fillEllipse(
++          centre.x,
++          centre.y,
++          rx * size * 2,
++          ry * size * 2,
++          detailed(PHASER_ELLIPSE, steps, LEAST_ROUND),
++        );
+         break;
+       }
+       case 'spot': {
+         const centre = toMushroom(layer.spot);
+         const r = layer.spot.r * size;
+         graphics.fillStyle(tone(PALETTE.spot));
+-        graphics.fillCircle(centre.x, centre.y, r);
++        // Phaser rounds a circle with a hundred points whatever its size.
++        if (near) graphics.fillCircle(centre.x, centre.y, r);
++        else {
++          const round = detailed(ROUND_STEPS, steps, LEAST_ROUND);
++          fillShape(graphics, ellipse(centre, r, r, round));
++        }
+         shadeWith(brush, SPOT_SHADE_ALPHA);
+-        fillShape(
+-          graphics,
+-          crescent(shadedHalf(centre, r, lighting.toward), centre, r * 0.4),
+-        );
++        const half = shadedHalf(centre, r, lighting.toward, steps);
++        fillShape(graphics, crescent(half, centre, r * 0.4));
+         break;
+       }
+       default: {
+diff --git a/src/pages/mushrooms/ui/scene/mushroom-shown.ts b/src/pages/mushrooms/ui/scene/mushroom-shown.ts
+index 3f0848e..eafb67f 100644
+--- a/src/pages/mushrooms/ui/scene/mushroom-shown.ts
++++ b/src/pages/mushrooms/ui/scene/mushroom-shown.ts
+@@ -13,6 +13,7 @@ import {
+   UNLIT,
+ } from '../../model/motion';
+ import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
++import { CURVE_STEPS, curveSteps } from '../../model/mushroom-profile';
+ import type { Footed } from '../../model/placement';
+ import { UNPLACED } from './bed-place';
+ import type { Laid } from './clump-layout';
+@@ -45,6 +46,8 @@ export type Shown = Tapped &
+     lightsAt: (heading: number) => MushroomLights<Lighting>;
+     /** Its shadow's light as the opening eye sees it, which `headedLight` turns by the heading. */
+     sunFrom: Light;
++    /** The chords to a curve it was last painted with (`curveSteps`). */
++    steps: number;
+   } & Pick<Laid, 'opening'> &
+   // Its shadow's sun side when last painted.
+   Pick<Siding, 'paintedSunSide'>;
+@@ -77,6 +80,7 @@ export function unplacedShown(
+     lightsAt: () => ({ body: lighting, ground: lighting }),
+     sunFrom: lighting,
+     paintedSunSide: lighting.toward.x,
++    steps: CURVE_STEPS,
+     phase: phaseOf(mushroom),
+     tappedAt: -Infinity,
+     ...UNLIT,
+@@ -85,16 +89,29 @@ export function unplacedShown(
+   };
+ }
+ 
++/** The chords to a curve `shown` is painted with as the view now draws it: by its size there, `size` scaled by its `zoom`. */
++export function stepsHere({ size, stands }: Shown): number {
++  return curveSteps(size * stands.zoom);
++}
++
+ /**
+  * Paints `shown`'s body, its house and its shadow at its haze, in its light
+- * from an eye facing `heading`, and keeps the light and sun side it painted.
++ * from an eye facing `heading` and with as many chords to a curve as its
++ * size on screen asks (`stepsHere`), and keeps the light, sun side and
++ * chords it painted.
+  */
+ export function paintLit(shown: Shown, heading: number): void {
+   const { graphics, shadow, genes, spots, size, haze, turn, house } = shown;
+   const { body, ground } = shown.lightsAt(heading);
+-  Object.assign(shown, { lighting: body, paintedSunSide: ground.toward.x });
++  const steps = stepsHere(shown);
++  Object.assign(shown, {
++    lighting: body,
++    paintedSunSide: ground.toward.x,
++    steps,
++  });
+   graphics.clear();
+-  drawMushroom(graphics, { ...genes, spots }, size, body, { haze, turn });
++  const options = { haze, turn, steps };
++  drawMushroom(graphics, { ...genes, spots }, size, body, options);
+   house.repaint();
+   shadow.clear();
+   drawMushroomShadow(shadow, genes, size, ground, turn);
+diff --git a/src/pages/mushrooms/ui/scene/paint-dome.ts b/src/pages/mushrooms/ui/scene/paint-dome.ts
+index 91700ff..4c4ad86 100644
+--- a/src/pages/mushrooms/ui/scene/paint-dome.ts
++++ b/src/pages/mushrooms/ui/scene/paint-dome.ts
+@@ -11,7 +11,7 @@ import type {
+   RussulaGenes,
+ } from '../../model/mushroom-genes';
+ import { domeArc, gillLines, headOutlines } from '../../model/mushroom-outline';
+-import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
++import { capSurface } from '../../model/mushroom-profile';
+ import { inkFor } from './ink';
+ import { capLight } from './mushroom-light';
+ import { type MushroomBrush, paintCapLight, shadeWith } from './mushroom-paint';
+@@ -35,7 +35,7 @@ const GILL_ALPHA = 0.55;
+ export function paintDome(brush: MushroomBrush & { genes: DomeGenes }): void {
+   const { graphics, genes, tints, toMushroom, ink, lighting, tone, size } =
+     brush;
+-  const [top, under] = headOutlines(genes);
++  const [top, under] = headOutlines(genes, brush.steps);
+   const band = under.map((point) => toMushroom(point));
+   if (genes.species === 'fly-agaric') {
+     graphics.fillStyle(tone(tints.under));
+@@ -51,7 +51,7 @@ export function paintDome(brush: MushroomBrush & { genes: DomeGenes }): void {
+   const capHeight = genes.capHeight * size;
+   paintCapLight(
+     brush,
+-    capLight(genes, lighting.toward),
++    capLight(genes, lighting.toward, brush.steps),
+     toMushroom({ x: 0, y: genes.capHeight * 0.3 }),
+     (kind) => capHeight * DEPTHS[kind],
+     SHADE_ALPHA,
+@@ -67,7 +67,7 @@ function paintBand(brush: MushroomBrush, band: readonly Point[]): void {
+     brush;
+   inkedFill(graphics, band, tints.under, ink, lighting, tone);
+   const half = genes.capWidth / 2;
+-  const rim = sample(-half, half, CURVE_STEPS, (x) => toMushroom({ x, y: 0 }));
++  const rim = sample(-half, half, brush.steps, (x) => toMushroom({ x, y: 0 }));
+   shadeWith(brush, UNDER_SHADE.alpha);
+   fillShape(
+     graphics,
+@@ -98,12 +98,14 @@ function paintGills(brush: MushroomBrush, genes: RussulaGenes): void {
+  * rim, round it and along the underside, reaching into the cap from there.
+  */
+ function paintMargin(brush: MushroomBrush, genes: PorciniGenes): void {
+-  const { graphics, toMushroom, tone, size } = brush;
++  const { graphics, toMushroom, tone, size, steps } = brush;
+   const half = genes.capWidth / 2;
++  const climb = (from: number, to: number) =>
++    domeArc(genes, half, [from, to], 0, steps);
+   const arc = [
+-    ...domeArc(genes, half, [-Math.PI / 2 + MARGIN_CLIMB, -Math.PI / 2]),
+-    ...sample(-half, half, CURVE_STEPS, (x) => ({ x, y: 0 })).slice(1, -1),
+-    ...domeArc(genes, half, [Math.PI / 2, Math.PI / 2 - MARGIN_CLIMB]),
++    ...climb(-Math.PI / 2 + MARGIN_CLIMB, -Math.PI / 2),
++    ...sample(-half, half, steps, (x) => ({ x, y: 0 })).slice(1, -1),
++    ...climb(Math.PI / 2, Math.PI / 2 - MARGIN_CLIMB),
+   ].map((point) => toMushroom(point));
+   graphics.fillStyle(tone(porciniMargin(genes)));
+   fillShape(
+diff --git a/src/pages/mushrooms/ui/scene/paint-trumpet.ts b/src/pages/mushrooms/ui/scene/paint-trumpet.ts
+index 4e6c851..5105f0d 100644
+--- a/src/pages/mushrooms/ui/scene/paint-trumpet.ts
++++ b/src/pages/mushrooms/ui/scene/paint-trumpet.ts
+@@ -13,7 +13,6 @@ import {
+ import type { Point } from '../../model/geometry';
+ import type { ChanterelleGenes } from '../../model/mushroom-genes';
+ import { headOutlines } from '../../model/mushroom-outline';
+-import { CURVE_STEPS } from '../../model/mushroom-profile';
+ import { inkFor } from './ink';
+ import { type CapLight, capLight, sideways } from './mushroom-light';
+ import {
+@@ -56,7 +55,7 @@ export function paintTrumpet(
+ ): void {
+   const { graphics, genes, tints, toMushroom, ink, lighting, tone, size } =
+     brush;
+-  const [lip, funnel] = headOutlines(genes).map((outline) =>
++  const [lip, funnel] = headOutlines(genes, brush.steps).map((outline) =>
+     outline.map((point) => toMushroom(point)),
+   );
+   if (!lip || !funnel) return;
+@@ -69,7 +68,7 @@ export function paintTrumpet(
+   paintFunnelLight(brush, funnel);
+ 
+   graphics.fillStyle(tone(PALETTE.chanterelle.ridge));
+-  for (const ridge of ridgeLines(genes)) {
++  for (const ridge of ridgeLines(genes, brush.steps)) {
+     strokeTapered(
+       graphics,
+       ridge.map((point) => brush.canvas(point)),
+@@ -82,7 +81,7 @@ export function paintTrumpet(
+   graphics.fillStyle(tone(tints.cap));
+   fillShape(graphics, lip);
+   const thick = genes.lip * size;
+-  const layers = capLight(genes, lighting.toward);
++  const layers = capLight(genes, lighting.toward, brush.steps);
+   paintCapLight(
+     brush,
+     layers.filter(({ kind }) => !inMouth(kind)),
+@@ -109,7 +108,7 @@ function paintMouth(
+   layers: readonly CapLight[],
+ ): void {
+   const { graphics, genes, tints, toMushroom, ink, lighting, tone } = brush;
+-  const { far, near } = mouthEdges(genes);
++  const { far, near } = mouthEdges(genes, brush.steps);
+   const [farEdge, nearEdge] = [far, near].map((edge) =>
+     edge.map((point) => toMushroom(point)),
+   );
+@@ -145,7 +144,7 @@ function paintFunnelLight(
+   funnel: readonly Point[],
+ ): void {
+   const { graphics, genes, lighting, tints, size, toMushroom } = brush;
+-  const side = CURVE_STEPS + 1;
++  const side = brush.steps + 1;
+   // Up from the rim to the stem's top on the left, then out to the rim on the right, then the front rim.
+   const [left, right, rim] = [
+     funnel.slice(0, side),
+diff --git a/src/pages/mushrooms/ui/scene/repaint-queue.ts b/src/pages/mushrooms/ui/scene/repaint-queue.ts
+index b581f04..4657eea 100644
+--- a/src/pages/mushrooms/ui/scene/repaint-queue.ts
++++ b/src/pages/mushrooms/ui/scene/repaint-queue.ts
+@@ -1,10 +1,11 @@
+ /**
+  * Which things a frame repaints. A thing is painted at the haze of where it
+- * stood and in the light of the heading it was seen from when last drawn;
+- * walking up to a misty back-row mushroom must clear it, and turning round
+- * must move its lit side, but a repaint costs up to a millisecond: so a frame
+- * repaints only the few nearest whose haze or sun side has drifted far enough
+- * from their paint to see.
++ * stood and in the light of the heading it was seen from when last drawn, and
++ * a mushroom with as many chords to a curve as its size there asked;
++ * walking up to a misty back-row mushroom must clear it and round it out,
++ * and turning round must move its lit side, but a repaint costs up to a
++ * millisecond: so a frame repaints only the few nearest whose haze, sun side
++ * or chords have drifted far enough from their paint to see.
+  */
+ 
+ import {
+@@ -69,19 +70,31 @@ export type Siding = { sunSide: number; paintedSunSide: number };
+ export type Hazing = Hazed &
+   Pick<Viewed, 'ahead'> & { painted: number } & Siding;
+ 
+-/** Whether `thing`'s haze or sun side has drifted far enough from its paint to repaint. */
+-function drifted({ haze, painted, sunSide, paintedSunSide }: Hazing): boolean {
++/** How many chords to a curve a mushroom's size now asks (`curveSteps`), and how many it was painted with. */
++export type Detailing = { steps: number; paintedSteps: number };
++
++/** Whether `thing`'s haze, sun side or chords have drifted far enough from its paint to repaint. */
++function drifted({
++  haze,
++  painted,
++  sunSide,
++  paintedSunSide,
++  steps,
++  paintedSteps,
++}: Hazing & Partial<Detailing>): boolean {
+   return (
+     Math.abs(haze - painted) >= HAZE_DRIFT ||
+-    Math.abs(sunSide - paintedSunSide) >= SIDE_DRIFT
++    Math.abs(sunSide - paintedSunSide) >= SIDE_DRIFT ||
++    steps !== paintedSteps
+   );
+ }
+ 
+ /**
+  * Those of `things` a frame repaints: the `most` nearest whose haze has
+- * drifted `HAZE_DRIFT` or more from their paint, or whose sun side `SIDE_DRIFT`.
++ * drifted `HAZE_DRIFT` or more from their paint, whose sun side
++ * `SIDE_DRIFT`, or whose chords to a curve by any.
+  */
+-export function repaintsDue<Thing extends Hazing>(
++export function repaintsDue<Thing extends Hazing & Partial<Detailing>>(
+   things: readonly Thing[],
+   most = REPAINTS_PER_FRAME,
+ ): Thing[] {
