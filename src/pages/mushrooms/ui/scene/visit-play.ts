@@ -126,12 +126,13 @@ export const ALL_TEN: readonly InsectKind[] = [
   'butterfly',
 ];
 
-/** How a visit is played: which kinds fly in, how far apart, for how long and how often ticked, in ms. */
+/** How a visit is played: which kinds fly in, how far apart, for how long and how often ticked, and when a cloud is tapped, in ms. */
 export type Playing = {
   kinds: readonly InsectKind[];
   gap: number;
   lasting: number;
   tick: number;
+  rains?: readonly number[];
 };
 
 /** One tick of a played visit: the meadow after it, when, and what the scene saw. */
@@ -139,12 +140,13 @@ export type Played = Meadowed & Timed & { sight: Sight };
 
 /**
  * `stand` played for the visit `seed`: `kinds` released `gap` apart, then
- * ticked every `tick` ms up to `lasting`, `each` seeing every tick.
+ * ticked every `tick` ms up to `lasting`, a cloud tapped on the first tick
+ * at or after each of `rains`, `each` seeing every tick.
  */
 export function play(
   stand: Opened,
   seed: number,
-  { kinds, gap, lasting, tick }: Playing,
+  { kinds, gap, lasting, tick, rains = [] }: Playing,
   each: (played: Played) => void,
 ): void {
   const releasing = mulberry32(seed ^ 0xb7_7e_f1);
@@ -152,7 +154,11 @@ export function play(
   let sight = perchSight(stand);
   let seen = meadow.planted;
   let released = 0;
+  let rained = 0;
   for (let now = 0; now <= lasting; now += tick) {
+    for (; rained < rains.length && (rains[rained] ?? 0) <= now; rained++) {
+      meadow = reduce(meadow, { kind: 'rain', now });
+    }
     for (; released < kinds.length && released * gap <= now; released++) {
       const insect = kinds[released] ?? 'butterfly';
       const seeded = nextSeed(releasing);
