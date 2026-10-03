@@ -45,18 +45,18 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     between the packages. A sprout's cap top stays a perch as any cap's
     (sprouting C11).
 
-22. **The rain's take-off turn is slowed, not the watch loosened** (S4,
+12. **The rain's take-off turn is slowed, not the watch loosened** (S4,
     `s4.md`): a butterfly drawn turning 11.35 rad/s against 10.81 at the
     start on tabL comes from the shelter pace halving the flight. The fix
     raises the butterfly's shelter-pace `flying` lower end from 1200 toward
     ~1500 ms and re-measures; a minimum take-off turn on shelter legs only if
     that does not hold.
-23. **Call 9's ~2 s holds for a near shelter only**: a butterfly 13–16 sizes
+13. **Call 9's ~2 s holds for a near shelter only**: a butterfly 13–16 sizes
     from the nearest open seat takes 6–8 s at the shelter pace. Accepted —
     a faster far leg would break call 22 — and the play's frames judge
     whether it still reads as hiding; a line in `to-check.md`.
 
-24. **A shelter seat a nearer cap covers is not offered** — S3's frames
+14. **A shelter seat a nearer cap covers is not offered** — S3's frames
     showed an insect under the opening clump's back cap drawn over the
     front one, reading as sitting on its rim. Withholding the seat
     (judged on the drawn outlines, as `mushroom-tap.ts` judges a tap) beat
@@ -106,20 +106,20 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     a shed, against 20 of 20 at ~30 ms without — so a sprout may come up
     half behind a stem until it grows; a hand check in `to-check.md`.
 
-25. **The falling spores stay the crown puff's dots** (A3, `a3.md`): for
+22. **The falling spores stay the crown puff's dots** (A3, `a3.md`): for
     the first ~20 frames they are lost in the puff, then read clearly along
     their arcs to the feet. Accepted — the cause is still seen leaving the
     parent, and a second spore ink would add a colour for one moment. A
     sprout ~20 px from the crown has its fall inside the puff; same answer.
 
-26. **A seat drawn over a mushroom behind it stays offered** (A2, `a2.md`):
+23. **A seat drawn over a mushroom behind it stays offered** (A2, `a2.md`):
     S3's "fly on the rim" was the front cap's own inner seat with the back
     cap's dome behind it, not a covered seat. In the frame the fly reads as
     tucked into the nook between the two caps. Withholding these too would
     leave the opening pair two seats of four on every seed; the to-check.md
     line keeps it for the operator's eye.
 
-27. **The take-off pivot of a shelter dash is floored, not the pace raised
+24. **The take-off pivot of a shelter dash is floored, not the pace raised
     alone** (A1, `a1.md`): the pivot's peak turn is 8π over its time, so
     no pace short of the dry one held; legs to a shelter time their pivot
     as at least `Sheltering.pivoting` (2700 ms for the butterfly), the
@@ -129,7 +129,7 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     and no committed play measures it: accepted, not traced. A1's scratch
     play is `play-zzshower.ts.txt` beside the notes.
 
-28. **Each shower picks its parents by its own seed, a new species first**
+25. **Each shower picks its parents by its own seed, a new species first**
     (the operator, playing: «а после дождя растут только новые мухоморы?
     не заметил чтобы другие тоже появились»). Oldest-first always named
     the opening clump's fly agarics. Now the old mushrooms in sight are
@@ -138,7 +138,7 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     still up to `PARENTS` tried in order. Beat: one sprout per species in
     sight, which scatters a shed across the view and weakens "this one
     puffed, these came up".
-29. **A drag on the sky turns, a drag on the ground strafes** (the
+26. **A drag on the sky turns, a drag on the ground strafes** (the
     operator: «тащишь по небу — поворот (потому что как раз при повороте
     небо двигается). тащишь по земле — стрейф») — the axis lock's
     horizontal branch swapped (`model/walk.ts`); a vertical drag steps
@@ -197,7 +197,7 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     probe's `sprouts()`, the `sprouts` play and the sweep's `--showers`
     follow the new source (tap to sow, rain to sprout).
 
-38. **A tap on a spore picks it up** (the operator: «нажатие на точку её
+36. **A tap on a spore picks it up** (the operator: «нажатие на точку её
     убирает (мало ли, может именно там ребёнок не хочет, чтобы появлялся
     новый гриб)»): the dot pops with a tiny puff and a soft sound, the
     spore leaves `Meadow.spores`, and its parent may sow there again. A
@@ -206,25 +206,25 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     (so a tap beside a dot never opens the flower picker by surprise).
     This revises call 33's "it takes no tap".
 
-39. **The map's readings are taken** (`map-spores.md` § 7, M, a17bb175):
+37. **The map's readings are taken** (`map-spores.md` § 7, M, a17bb175):
     a spore sprouts at `darkAt(rain)` (start + `WET_MS`) plus its seed's
     draw of 6 s, the sprout's clock started `SPORE_FALL_MS` earlier so it
     pops as the dot goes; the dot sorts a shadow's step nearer than its
     foot's row; a spore pick-up changes neither the selection nor a
     picker; the tap routing tries a spore in `tapMeadow` between the cloud
     and the tuft, not as an interactive object.
-40. **A spore sown while it rains sprouts in that shower**, at the later of
+38. **A spore sown while it rains sprouts in that shower**, at the later of
     its seed's moment and `SPORE_DWELL_MS` (~2 s) after it settles — the
     child sees the dot land, then come up, which shows the rain's cause
     best. Beat: waiting for the next shower, which reads as the rain not
     working on this dot.
 
-36. **A cloud rains on a press, a drag starting on it included** (B2,
+39. **A cloud rains on a press, a drag starting on it included** (B2,
     `b2.md`, found a sky drag over a cloud starts a shower). Kept: the
     operator, «это норм, так он и обнаружит, что есть дождь» — the child
     finds the rain by turning. The walk play's sky drag skips clouds.
 
-37. **A chase ends when the finger lifts, and any key cancels it** (the
+40. **A chase ends when the finger lifts, and any key cancels it** (the
     operator: «если свайпишь достаточно далеко, стрейф идёт до этого места
     и не останавливается только если нажмёшь или прострейфишь ещё раз
     мышкой. Если нажмёшь в это время шифт стрелка в другую сторону — не
@@ -313,6 +313,19 @@ holds its detail.
     flowers replotted off the spores' feet. Beat: judging the meadow as
     drawn, which let six spores round a cap bury each other once grown.
 
+42. **The fly's landing turn drawn 0.5 % past its cap is accepted** (R,
+    `r.md`): the model steps exactly `TURN_RATE.fly` (36.00 rad/s), and the
+    screen's bend draws that step at a slope of ~1.005 where fly-8 lands, so
+    the watch, judging the drawn turn, reads 36.18 for one frame. Same cause
+    and answer as call 27's butterfly. Beat: a second limiter on the drawn
+    rotation (state the model's `wound` does not see, moving the light and
+    nectar pose) and headroom in the model's clamp (a margin with no bound,
+    the bend's slope varying across the screen). The meadow play's red
+    stays until the watch allows the bend's slope.
+
+- **R** f5f5f71 — `sprouts` passes after `risen` (tabL: 3 sown, 1 picked,
+  2 sprouts, 0 left; 14.3 ms median); fly-8 traced (call 42).
+
 ## Left, in order
 
 1. **Call 37's ground swipe, the operator's call** (asked, no answer yet):
@@ -321,13 +334,12 @@ holds its detail.
    finger's speed and fade in ~1 s, as the sky turn does; (3) run to the
    lift point, a tap or key stopping it. Then fix `scripts/lib/play-walk.ts`
    ~405–422's strafing-drag check (expects 2.34–3.07) to match.
-2. **Rerun the `sprouts` play** after ST's `risen` (SD ran it before).
-3. **meadow's fly-8 turn red**, 36.18 vs 36.04 rad/s, recurring on tabL —
-   0.4 % over; decide in the review (accept in writing, or trace).
-4. **The phone's narrow clump**: after a showered clump 62 % of its
-   mushrooms are narrower than a fingertip (47.8 % under the old shed); no
-   bound in the sweep. A line in `to-check.md`, or a review finding.
-5. The tail: the review (two reviewer agents — shelter+walk, spores), its
+2. **The meadow play's fly-8 red** (call 42): the watch's turn check
+   allows the bend's slope (judge the model's turn, or the drawn one with a
+   ~1 % margin), so the play goes green; in the tail's fixes.
+3. The phone's narrow clump is a `to-check.md` line (62 % narrower than a
+   fingertip after a shower, 47.8 % under the old shed).
+4. The tail: the review (two reviewer agents — shelter+walk, spores), its
    fixes, the fold, bite 13's frames and this bite's working notes retired,
    the Artifact, `/polish`, `/pr`. `model/shelter.ts` carries a prettier
    warning (`saltedStream,type`). The megabeast note
