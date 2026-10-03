@@ -64,7 +64,7 @@ export const PROBE = `(() => {
   };
   // Every lawn-tending call and perch re-sight, timed for \`hitches()\`. The
   // private methods are timed on the instance, which \`follow\`'s \`this.\`
-  // calls reach first.
+  // calls reach first, and the tending on the grass's \`Tended\`.
   const hitches = { tend: [], see: [] };
   const timing = (owner, name, into) => {
     const run = owner[name].bind(owner);
@@ -75,8 +75,8 @@ export const PROBE = `(() => {
       return result;
     };
   };
-  for (const name of ['tend', 'retend', 'tendOn']) {
-    timing(scene.grass, name, hitches.tend);
+  for (const name of ['whole', 'change', 'retend', 'tendOn']) {
+    timing(scene.grass.tended, name, hitches.tend);
   }
   timing(scene, 'see', hitches.see);
   /** The middle of \`points\`, in \`graphics\`' frame, on screen. */

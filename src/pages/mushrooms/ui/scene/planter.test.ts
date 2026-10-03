@@ -11,7 +11,7 @@ import { mulberry32, nextSeed } from '../../model/random';
 import { takesFlower } from './flower-sight';
 import { LiveLawn } from './lawn';
 import { Planter } from './planter';
-import { strayed } from './tending';
+import { strayed, Tended } from './tending';
 import { type Sprout, tendedIn, tendTufts } from './tufts';
 import { viewAt } from './view';
 import { type Opened, opened } from './visit-play';
@@ -140,5 +140,47 @@ describe('Planter', () => {
     // Judged at the eye walked to, some of these tufts refuse: the walks move
     // the anchor far enough for a planter judging there to fail this test.
     assert.ok(driftRefused > 0);
+  });
+
+  it('opens the picker on every tuft the grass holds and plants there mid-re-tend, after the child plants and the eye walks', () => {
+    for (let visit = 0; visit < VISITS; visit++) {
+      const seed = visit * 7919 + 3;
+      const [stand, grown] = plantedVisit(seed, visit % 2 === 1);
+      const { layout } = stand;
+      const lawn = new LiveLawn({ seed, layout });
+      const tended = new Tended((_, eye) =>
+        eye === OPENING_EYE
+          ? grown
+          : lawn.round(eye).filter(tendedIn(viewAt(layout.camera, eye))),
+      );
+      tended.whole(stand, OPENING_EYE);
+      const [first] = tended.standing();
+      assert.ok(first);
+      const { meadow } = stand;
+      const sown: Sown = {
+        id: plantedId(stand.planted),
+        seed: nextSeed(mulberry32(seed)),
+        ...pick(first, 'foot'),
+      };
+      const planted = [...stand.planted, sown];
+      const now = { ...stand, planted, meadow: { ...meadow, planted } };
+      for (const eye of WALKS) {
+        const at = `visit ${String(seed)}, eye ${JSON.stringify(eye)}`;
+        tended.change(now, eye);
+        tended.follow(viewAt(layout.camera, eye));
+        tended.follow(viewAt(layout.camera, eye));
+        // Still re-tending: the tufts stand as tended from the opening.
+        assert.equal(tended.tendedAt(), OPENING_EYE, at);
+        const held = tended.standing();
+        assert.ok(held.length > 0, at);
+        for (const sprout of held) {
+          assert.deepEqual(
+            tapAndKey(now, held, sprout, tended.tendedAt(), eye),
+            { opened: true, plantable: true, keyed: true, heard: [] },
+            at,
+          );
+        }
+      }
+    }
   });
 });
