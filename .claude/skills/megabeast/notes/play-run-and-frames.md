@@ -41,7 +41,11 @@
   broken. What works: expose the game (`window.__game`), `loop.sleep()`,
   drive `step(t, 1000 / 60)` on a clock the script advances, and shoot
   between steps. The game should ship a dev-only hook for it rather than a
-  line each session adds and reverts.
+  line each session adds and reverts. Phaser tweens run on the wall clock,
+  not the stepped one, so a tweened effect (bite 14's spore drift) is out of
+  step in stepped frames and cannot be judged from them: a play that judges
+  a tween drives the tween clock from the stepped one, or the effect is
+  clock-driven ([quality.md](quality.md), "Drive motion from the clock").
 - **Render only what it shoots, and split the build from the run.** With
   the house the run took ~8 minutes, near the tool's ten-minute ceiling,
   most of it the probe build: `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`

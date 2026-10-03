@@ -21,6 +21,12 @@
   `startle` hand back the input `Meadow` untouched when no leg turned over,
   and the scene skips reconciling on reference equality. A brief for any
   clock-driven action asks for that property and a test of it.
+- **A call whose bar is unmeasured carries its fallback, written.** Bite
+  14's call to judge a sprout's placement at its start size (0.4) as well
+  found room in 0 of 20 visits at ~3.5 s per search, against 20/20 at
+  ~30 ms without; the call named the fallback, so the agent dropped back to
+  it without a re-brief and saved a round. Without one the agent stops and
+  reports ([subagents.md](subagents.md), "decided on paper").
 
 ## Review practice
 

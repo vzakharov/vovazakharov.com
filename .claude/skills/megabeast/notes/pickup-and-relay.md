@@ -124,7 +124,13 @@
   area, two fix agents and the tail ran in about an hour from one session
   at the depth cap, nine agents at 90–175k, the orchestrator ending near
   ~220k — reviewers launched while fix agents still held the same files,
-  since a reviewer only reads.
+  since a reviewer only reads. Bite 14 (two packages) put a number on it:
+  its orchestrator crossed 200k after two spec and six build reports, each
+  report ~2–4k plus its ~1.5k brief, on top of ~15k reading the specs, as
+  bite 12b's had crossed at the fourth report of its review wave. A session
+  orchestrates about one bite's specs and two build waves, so a
+  two-package bite relays mid-bite, after its build waves and before its
+  review.
 - **Reading an Artifact before republishing it costs ~40k tokens** when the
   page is a 135 KB bundle: the read hands its head back inline. The
   republish needs only the version header and the writer check. The skill
