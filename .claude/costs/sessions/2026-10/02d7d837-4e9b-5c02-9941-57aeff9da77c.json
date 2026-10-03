@@ -1,0 +1,115 @@
+{
+  "sessionId": "02d7d837-4e9b-5c02-9941-57aeff9da77c",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside wit…",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_01JMENF5NxqFU3456RVTuvG9",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-03T09:54:17.389Z",
+  "lastResponseAt": "2026-10-03T10:00:20.302Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 1751,
+    "cacheWrite5mTokens": 258761,
+    "cacheWrite1hTokens": 102707,
+    "cacheReadTokens": 9120558,
+    "outputTokens": 13459,
+    "thinkingTokens": 2107,
+    "responses": 90,
+    "costUsd": 4.2136836
+  },
+  "ownTurns": {
+    "inputTokens": 42,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 102707,
+    "cacheReadTokens": 2415024,
+    "outputTokens": 12241,
+    "thinkingTokens": 2107,
+    "responses": 20,
+    "costUsd": 1.5496488000000002
+  },
+  "subagents": {
+    "inputTokens": 136,
+    "cacheWrite5mTokens": 258295,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 6560128,
+    "outputTokens": 1193,
+    "thinkingTokens": 0,
+    "responses": 68,
+    "costUsd": 2.6279046
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 684,
+      "cacheWrite5mTokens": 258761,
+      "cacheWrite1hTokens": 102707,
+      "cacheReadTokens": 9120558,
+      "outputTokens": 13441,
+      "thinkingTokens": 2107,
+      "responses": 89,
+      "costUsd": 4.2125266
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 1067,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 18,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.001157
+    }
+  },
+  "warnings": [
+    "prices.json priced the 88 responses the events also priced at $4.1776, against the events' $5.1286: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-03T09:55:53.976Z",
+    "contextTokens": 145408,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 90844,
+      "cacheWrite1hTokens": 90893,
+      "cacheReadTokens": 1620909,
+      "outputTokens": 6747,
+      "thinkingTokens": 1090,
+      "responses": 20,
+      "costUsd": 1.6406458
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 90,
+    "matched": 88,
+    "matchedTableUsd": 4.177553400000001,
+    "matchedEventUsd": 5.128613400000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 466,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 145406,
+        "outputTokens": 7,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0349732
+      },
+      "generate_session_title": {
+        "inputTokens": 1067,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 18,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.001157
+      }
+    }
+  }
+}
