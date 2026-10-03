@@ -178,8 +178,8 @@ function fullRound(
  * Whether `MUSHROOM_SLOTS` of the meadow's mushrooms already stand within
  * `D_SEE` of `foot`, or of the anchor `from` it grows from, so none grows
  * there. Counting round the anchor holds every screen's opening to the same
- * twelve: a wide screen shows more ground than one foot's circle, and what
- * it grew past twelve would leave the screen when the phone is turned.
+ * count: a wide screen shows more ground than one foot's circle, and what it
+ * grew past `MUSHROOM_SLOTS` would leave the screen when the phone is turned.
  */
 export function isCrowdedAt(
   { mushrooms }: Pick<Meadow, 'mushrooms'>,

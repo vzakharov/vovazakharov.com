@@ -522,13 +522,13 @@ export const Hitches = z.object({
   tend: z.array(z.number()),
   see: z.array(z.number()),
 });
-/** `__probe.tendFrames()`: each frame since the last call whose update ran a lawn-tending call, its update ms and the tending calls' share. */
-/** \`__probe.costs()\`: frames updated since the last call, the ms summed by part, and what the scene holds now, by name. */
+/** `__probe.costs()`: frames updated since the last call, the ms summed by part, and what the scene holds now, by name. */
 export const Costs = z.object({
   frames: z.number(),
   ms: z.record(z.string(), z.number()),
   counts: z.record(z.string(), z.number()),
 });
+/** `__probe.tendFrames()`: each frame since the last call whose update ran a lawn-tending call, its update ms and the tending calls' share. */
 export const TendFrames = z.array(
   z.object({ ms: z.number(), tend: z.number() }),
 );
