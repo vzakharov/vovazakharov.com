@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { perchName } from '../../model/flight';
 import { OPENING_EYE } from '../../model/ground';
+import { INSECT_KINDS } from '../../model/insect-genes';
 import { INSECT_LIMITS } from '../../model/insects';
 import {
   AIR_BELOW,
@@ -127,11 +128,17 @@ describe('airAloftOf', () => {
 
 describe('airOf', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`crowds every two spots nearer on the screen than a butterfly's widest wings, and no others, from any eye, on a ${name} screen`, () => {
+    it(`crowds every two spots nearer as the eye draws them than two butterflies' widest wings drawn there, and no others, from any eye, on a ${name} screen`, () => {
       const layout = meadowLayout(width, height, 3);
       const span = widestOn(layout, 'butterfly');
       for (const eye of EYES) {
-        const { spots, aloft } = airOf(layout, eye);
+        const view = viewAt(layout.camera, eye);
+        const { alofts, aloft } = airOf(layout, eye);
+        const spots = [...alofts].map(([id, at]) => {
+          const drawn = drawnAloft(view, at);
+          assert.ok(drawn, id);
+          return { id, ...drawn };
+        });
         const paired = new Set(
           aloft.flatMap(([a, b, pairings]) =>
             a.kind === 'air' &&
@@ -143,12 +150,59 @@ describe('airOf', () => {
         );
         for (const [index, spot] of spots.entries()) {
           for (const other of spots.slice(index + 1)) {
-            const near = Math.hypot(spot.x - other.x, spot.y - other.y) < span;
+            const near =
+              Math.hypot(spot.x - other.x, spot.y - other.y) <
+              (span * (spot.zoom + other.zoom)) / 2;
             const key = `${spot.id} ${other.id}`;
             assert.equal(paired.has(key), near, key);
           }
         }
       }
+    });
+  }
+
+  for (const [width, height] of [
+    [844, 390],
+    [1180, 820],
+    [1920, 1080],
+  ] as const) {
+    it(`leaves no two spots uncrowded on which two insects drawn hovering at the opening overlap on the screen, on a ${String(width)}×${String(height)} screen`, () => {
+      const layout = meadowLayout(width, height, 3);
+      const { camera } = layout;
+      const view = viewAt(camera, OPENING_EYE);
+      const { alofts, aloft } = airOf(layout, OPENING_EYE);
+      const crowded = new Set(
+        aloft.flatMap(([a, b, pairings]) =>
+          a.kind === 'air' && b.kind === 'air'
+            ? pairings.map(([p, q]) => `${a.id} ${p} ${b.id} ${q}`)
+            : [],
+        ),
+      );
+      const left = (camera.world - camera.width) / 2;
+      const drawn = [...alofts].flatMap(([id, at]) => {
+        const placed = drawnAloft(view, at);
+        assert.ok(placed, id);
+        const shown = placed.x >= left && placed.x <= left + camera.width;
+        return shown ? [{ id, ...placed }] : [];
+      });
+      const overlapping: string[] = [];
+      for (const [index, a] of drawn.entries()) {
+        for (const b of drawn.slice(index + 1)) {
+          const between = Math.hypot(a.x - b.x, a.y - b.y);
+          for (const p of INSECT_KINDS) {
+            for (const q of INSECT_KINDS) {
+              if (crowded.has(`${a.id} ${p} ${b.id} ${q}`)) continue;
+              const wings =
+                (widestOn(layout, p) * a.zoom + widestOn(layout, q) * b.zoom) /
+                2;
+              if (between < wings - 1e-9) {
+                overlapping.push(`${a.id}/${b.id} ${p}/${q}`);
+              }
+            }
+          }
+        }
+      }
+      assert.deepEqual(overlapping, []);
     });
   }
 });

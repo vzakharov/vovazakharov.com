@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OPENING_EYE } from '../../model/ground';
+import { alongAzimuth } from '../../model/geometry';
+import { D_SEE, OPENING_EYE } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
+import { hasGround } from './anchored-stand';
 import { groundAt, RANGES } from './backdrop-tones';
 import { grainStrips } from './grain';
 import { seamGrass, seamShown } from './grass';
@@ -149,6 +151,19 @@ describe('the seam between the near hills and the ground', () => {
     assert.equal(round.length, opening.length);
     for (const [index, tuft] of round.entries()) {
       assert.ok(Math.abs(tuft.x - (opening[index]?.x ?? Number.NaN)) < 1e-6);
+    }
+  });
+});
+
+describe('the seam behind the opening eye', () => {
+  it('has ground round the opening eye to 3.08 rad off its heading either way, and none from 3.09, near and far', () => {
+    for (const away of [0.5, 3, D_SEE, 40]) {
+      for (const side of [1, -1]) {
+        const at = (off: number) =>
+          hasGround(alongAzimuth(OPENING_EYE, side * off, away));
+        assert.ok(at(0) && at(1.5) && at(3.08), `${away}, ${side}`);
+        assert.ok(!at(3.09) && !at(Math.PI), `${away}, ${side}`);
+      }
     }
   });
 });

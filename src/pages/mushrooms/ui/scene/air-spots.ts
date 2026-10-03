@@ -11,6 +11,7 @@ import type { WithId } from '@/shared/typings';
 
 import {
   type Crowding,
+  type Perch,
   perchName,
   type Place,
   type Places,
@@ -28,6 +29,8 @@ import {
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { INSECT_LIMITS } from '../../model/insects';
 import { mulberry32 } from '../../model/random';
+import type { Zoomed } from './insect-away';
+import { drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import { pointCrowdings } from './perch-crowding';
 import type { PerchHosts } from './perch-hosts';
@@ -52,8 +55,14 @@ export const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
 /** What of a layout the air is laid by: the insects' sizes are the camera's. */
 type AirLaid = Pick<MeadowLayout, 'camera' | 'insectSize' | 'insectSizes'>;
 
-/** One spot in the air: its id, where on the layout's screen it is drawn, and where in the world it stands. */
-type Spot = CellName & Pick<Place, 'x' | 'y' | 'fromEye'> & Pick<Pose, 'aloft'>;
+/**
+ * One spot in the air: its id, where on the layout's screen it is laid out
+ * (`x`, `y`, `fromEye`, what a leg is timed by), where in the world it stands,
+ * and where the eye it is offered round draws it (`drawn`).
+ */
+type Spot = CellName &
+  Pick<Place, 'x' | 'y' | 'fromEye'> &
+  Pick<Pose, 'aloft'> & { drawn: Zoomed };
 
 /**
  * The air offered round an eye: its spots by id where the eye's anchored
@@ -76,23 +85,61 @@ export function clumpRow(camera: Camera): number {
 
 /**
  * Whether `spots` seat every insect the meadow can hold at once, each clear
- * of the others by their kinds' widest spans, taken widest first.
+ * of the others as drawn, by their kinds' widest spans zoomed where each
+ * hovers, taken widest first.
  */
-function seatsEveryOne(laid: AirLaid, spots: readonly Point[]): boolean {
+function seatsEveryOne(laid: AirLaid, spots: readonly Spot[]): boolean {
   const spans = EVERY_ONE.map((kind) => widestOn(laid, kind)).toSorted(
     (a, b) => b - a,
   );
   const held: Array<Point & { span: number }> = [];
   return spans.every((span) => {
-    const spot = spots.find(({ x, y }) =>
+    const spot = spots.find(({ drawn: { x, y, zoom } }) =>
       held.every(
         (other) =>
-          Math.hypot(x - other.x, y - other.y) >= (span + other.span) / 2,
+          Math.hypot(x - other.x, y - other.y) >=
+          (span * zoom + other.span) / 2,
       ),
     );
-    if (spot) held.push({ ...pick(spot, 'x', 'y'), span });
+    if (spot) {
+      const { drawn } = spot;
+      held.push({ ...pick(drawn, 'x', 'y'), span: span * drawn.zoom });
+    }
     return spot !== undefined;
   });
+}
+
+/**
+ * Every two of `spots` on which two insects of a pairing's kinds, hovering
+ * where the eye they are offered round draws them, would overlap: nearer
+ * than half their widest spans, each zoomed where it hovers.
+ */
+function crowdingsAsDrawn(laid: AirLaid, spots: readonly Spot[]): Crowding[] {
+  const drawnOn = new Map<Perch, Zoomed>();
+  const points = spots.map(({ id, drawn }) => {
+    const perch: Perch = { kind: 'air', id };
+    drawnOn.set(perch, drawn);
+    return { perch, ...pick(drawn, 'x', 'y') };
+  });
+  // Every pair crowded at the largest zoom any spot has may crowd at its
+  // own two, and is judged there; no pair crowds that is not one of them.
+  const largest = Math.max(1, ...spots.map(({ drawn }) => drawn.zoom));
+  const span = (kind: InsectKind) => widestOn(laid, kind);
+  const found: Crowding[] = [];
+  for (const [a, b, may] of pointCrowdings(
+    points,
+    (first, second) => (largest * (span(first) + span(second))) / 2,
+  )) {
+    const [onA, onB] = [drawnOn.get(a), drawnOn.get(b)];
+    if (!onA || !onB) continue;
+    const between = distanceBetween(onA, onB);
+    const pairings = may.filter(
+      ([first, second]) =>
+        between < (span(first) * onA.zoom + span(second) * onB.zoom) / 2,
+    );
+    if (pairings.length > 0) found.push([a, b, pairings]);
+  }
+  return found;
 }
 
 const lattices = new WeakMap<Camera, Lattice>();
@@ -174,8 +221,9 @@ function namedCell(
 /**
  * The cells of `lattice` offered round `anchor`: those `CLUMP_DISTANCE` to
  * `AIR_FAR` from it within `AIR_WEDGE` of its heading, where the anchored
- * layout draws them a butterfly's widest wings inside the world, named as
- * `known` names them where it does (`namedCell`), entered in `kept`.
+ * layout lays them out a butterfly's widest wings inside the world and
+ * `anchor` draws them (`drawnAloft`), named as `known` names them where it
+ * does (`namedCell`), entered in `kept`.
  */
 function spotsAt(
   laid: AirLaid,
@@ -186,6 +234,7 @@ function spotsAt(
 ): Spot[] {
   const { camera } = laid;
   const view = viewAt(camera, OPENING_EYE);
+  const drawnBy = viewAt(camera, anchor);
   const half = widestOn(laid, 'butterfly') / 2;
   const { spacing } = lattice;
   const cells = (at: number) => ({
@@ -205,8 +254,17 @@ function spotsAt(
       const seen = { ...aloft, ...anchored(anchor, aloft) };
       const { x, y, fromEye } = placeOfAloft(view, 1, seen);
       if (x < half || x > camera.world - half || y < half) continue;
+      const drawn = drawnAloft(drawnBy, aloft);
+      if (!drawn) continue;
       const named = namedCell(known, kept, column, row);
-      spots.push({ ...named, x, y, fromEye, aloft });
+      spots.push({
+        ...named,
+        x,
+        y,
+        fromEye,
+        aloft,
+        drawn: pick(drawn, 'x', 'y', 'zoom'),
+      });
     }
   }
   return spots;
@@ -221,8 +279,9 @@ const KEPT = 8;
 
 /**
  * The air `laid` offers round `anchor` (`spotsAt`), its crowdings judged where
- * the layout anchored there draws the spots, so hovering insects never overlap
- * as the eye judges them; kept for the last `KEPT` anchors.
+ * `anchor` draws the spots and at the size it draws an insect hovering at
+ * each (`crowdingsAsDrawn`), so hovering insects never overlap on the screen
+ * while the eye stands there; kept for the last `KEPT` anchors.
  */
 export function airOf(laid: AirLaid, anchor: Eye = OPENING_EYE): Air {
   const { camera, insectSize: unit } = laid;
@@ -240,13 +299,7 @@ export function airOf(laid: AirLaid, anchor: Eye = OPENING_EYE): Air {
     named,
   );
   lastNamed.set(camera, named);
-  const crowded = pointCrowdings(
-    spots.map((spot) => ({
-      perch: { kind: 'air', ...pick(spot, 'id') } as const,
-      ...pick(spot, 'x', 'y'),
-    })),
-    (first, second) => (widestOn(laid, first) + widestOn(laid, second)) / 2,
-  );
+  const crowded = crowdingsAsDrawn(laid, spots);
   // Entered one by one: `Object.fromEntries` and spreads cost several times
   // as much on as many keys never seen before, as most are a step later.
   const places: Record<string, Place> = {};

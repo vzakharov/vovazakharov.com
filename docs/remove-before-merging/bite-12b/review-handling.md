@@ -79,3 +79,21 @@ a call cannot hold stops and reports with the options measured.
 ## Reports
 
 Filled in as each lands.
+
+- **C1 (T143, unit)**: the game already followed — the case was green
+  before any change. 2ad466a (`perch-follow.test.ts`, through the real
+  `reduce`: fly and butterfly take far caps after the eye moves 40 up, the
+  bee an air spot, the far copy having no flowers; red with `isDue`'s
+  `!isOffered` removed), 1afd77a (the reach case on a cap at (15.5, 5.5),
+  16.45 out, placed by `placeIn` and refused only by `inReach`; the strip
+  past the reach is thin, so a change to `MEADOW_FRAME` or `PERCH_REACH` may
+  move it). C2 launched on the play half.
+- **F (T145–T147)**: 91ad7b8 (T145: `isShown` judges a place's plane
+  distance round the eye against `D_SEE`, as the brow does; a place without
+  a plane point keeps `fromEye`), eef972b (T146: at turn −1.1, not +1.1 —
+  facing inward at x 20 bends only 0.06–0.12, short of the 0.15 bar;
+  accepted), 22b4b8f (T147: the seam, the clump layout by eye-moved foot,
+  the light by closed form). The bed-repaint test is not written: the beds
+  are Phaser classes no test builds, and the one pure piece (`laidOf`) is
+  now covered — accepted. Its fliers run found three reds from B's d43c203;
+  B is told to settle them before it reports.
