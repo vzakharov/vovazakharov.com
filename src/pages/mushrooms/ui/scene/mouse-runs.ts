@@ -24,23 +24,25 @@ import {
 } from '../../model/motion';
 import {
   answerTap,
-  endOf,
   entered,
   type Flee,
   left,
   type Mice,
   miceAt,
   retarget,
-  runAt,
-  type RunCourse,
   type RunDoor,
-  type RunEnd,
-  runnerAt,
-  type RunOpening,
   runsOuting,
   runTarget,
   scattered,
 } from '../../model/mouse-run';
+import {
+  endOf,
+  runAt,
+  type RunCourse,
+  type RunEnd,
+  runnerAt,
+  type RunOpening,
+} from '../../model/mouse-run-clock';
 import { stemHalfWidth } from '../../model/mushroom-profile';
 import type { Seeded } from '../../model/random';
 import { type BedPlace, bedPlace, standAt } from './bed-place';
