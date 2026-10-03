@@ -56,6 +56,17 @@ export const PROBE = `(() => {
     const across = toScreen({ x, y: 0 }).x;
     return across >= 0 && across <= scene.layout.width;
   };
+  /** The middle of a turning picture's shown columns across the screen, \`null\` while the view leaves it out. */
+  const middleShown = ({ columns }) => {
+    const shown = columns.filter((column) => column.visible);
+    if (shown.length === 0) return null;
+    const left = Math.min(...shown.map((column) => column.x));
+    const right = Math.max(
+      ...shown.map((column) => column.x + column.displayWidth),
+    );
+    const middle = toScreen({ x: (left + right) / 2, y: 0 }).x;
+    return middle >= 0 && middle <= scene.layout.width ? middle : null;
+  };
   // Every footstep the walk sounds, counted whether or not the sound is on.
   const step = scene.voice.step.bind(scene.voice);
   let steps = 0;
@@ -254,18 +265,9 @@ export const PROBE = `(() => {
     beePlanted: () =>
       scene.meadow.planted.filter((sown) => 'parent' in sown).length,
     /** Where the sun's picture stands across the screen, in CSS px; \`null\` while the view leaves it out. */
-    sun: () => {
-      const columns = scene.backdrop.sun.columns.filter(
-        (column) => column.visible,
-      );
-      if (columns.length === 0) return null;
-      const left = Math.min(...columns.map((column) => column.x));
-      const right = Math.max(
-        ...columns.map((column) => column.x + column.displayWidth),
-      );
-      const middle = toScreen({ x: (left + right) / 2, y: 0 }).x;
-      return middle >= 0 && middle <= scene.layout.width ? middle : null;
-    },
+    sun: () => middleShown(scene.backdrop.sun),
+    /** Where the rainbow's picture stands across the screen, as \`sun\`. */
+    rainbowAt: () => middleShown(scene.backdrop.rainbow),
     state: () => ({
       picking: scene.meadow.picking,
       furnishing: scene.meadow.furnishing,
