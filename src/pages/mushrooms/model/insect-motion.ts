@@ -301,10 +301,15 @@ export function turned(
 /**
  * How long a leg's flier turns on the spot as it sets off, in ms, before its
  * flight moves it: in proportion to how far off its heading it sat, so it
- * flies off already facing the way it goes.
+ * flies off already facing the way it goes, timed as for a flight of at
+ * least the leg's `pivots`.
  */
-export function pivot({ departs, arrives }: Span, { lifted }: Turns): number {
-  return (PIVOT_SHARE * (arrives - departs) * Math.abs(lifted)) / Math.PI;
+export function pivot(
+  { departs, arrives, pivots = 0 }: Span,
+  { lifted }: Turns,
+): number {
+  const flight = Math.max(arrives - departs, pivots);
+  return (PIVOT_SHARE * flight * Math.abs(lifted)) / Math.PI;
 }
 
 /**

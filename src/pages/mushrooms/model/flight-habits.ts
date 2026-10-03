@@ -30,6 +30,16 @@ export type Pace = {
   dashing: Dash | undefined;
 };
 
+/** A kind's quicker pace to a shelter from the rain; every time in ms. */
+export type Sheltering = Pace & {
+  /**
+   * The flight its take-off pivot is timed as at the least (`Span`'s
+   * `pivots`), long enough that the pivot turns its body well under its
+   * `TURN_RATE` however short the dash.
+   */
+  pivoting: number;
+};
+
 /** How one kind flies, stays and chooses; every time in ms. */
 export type Habits = Pace & {
   /**
@@ -38,7 +48,7 @@ export type Habits = Pace & {
    */
   stride: number;
   /** Its pace to a shelter from the rain; `undefined` for a kind whose own is quick enough. */
-  sheltering: Pace | undefined;
+  sheltering: Sheltering | undefined;
   /** A stay at a flower. */
   drinking: readonly [number, number];
   /** A hover at a spot in the air. */
@@ -77,8 +87,8 @@ export type Habits = Pace & {
  * the fly's drops its catch under seven in ten. The dash's own speed,
  * `cruising` times `way / time`, is what reads as fast, or as sharp. To
  * shelter from the rain a butterfly doubles its pace and darts, under cover
- * in about two seconds, its coming-in still near a size a second; a fly and
- * a bee keep their own.
+ * in about two seconds, its coming-in still near a size a second, but turns
+ * to set off as lazily as ever; a fly and a bee keep their own.
  */
 export const FLIGHT_HABITS = {
   butterfly: {
@@ -87,9 +97,10 @@ export const FLIGHT_HABITS = {
     cruising: 0.95,
     dashing: undefined,
     sheltering: {
-      flying: [1200, 1900],
+      flying: [1500, 1900],
       cruising: 1.9,
       dashing: { time: 0.3, way: 0.6 },
+      pivoting: 2700,
     },
     drinking: [3000, 6000],
     hovering: [4000, 8000],

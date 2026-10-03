@@ -26,6 +26,13 @@ export type Span = {
   arrives: number;
   dash?: Dash;
   hops?: Hops;
+  /**
+   * The flight, in ms, its take-off `pivot` is timed as at the least, on a
+   * leg to a shelter: the pivot turns quickest at `8π` over the flight
+   * however far it turns, so timed off a dash it would ask more than the
+   * body's `TURN_RATE`, and the screen's bend draws it past that.
+   */
+  pivots?: number;
 };
 
 /**
@@ -178,8 +185,8 @@ export function legTo(
   { now, ...placed }: Timed & Placed,
 ): Leg {
   const { from, to } = route;
-  const pace =
-    (to.kind === 'shelter' ? habits.sheltering : undefined) ?? habits;
+  const sheltering = to.kind === 'shelter' ? habits.sheltering : undefined;
+  const pace = sheltering ?? habits;
   const flown = between(random, ...pace.flying);
   const { flight, dash } = paced(pace, route, placed, flown);
   const arrives = now + flight;
@@ -191,6 +198,7 @@ export function legTo(
     arrives,
     ...(dash && { dash }),
     ...(hops && { hops }),
+    ...(sheltering && { pivots: sheltering.pivoting }),
     leaves: arrives + stayAt(random, habits, to),
   };
 }

@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { firstFlight, type Flight, FLIGHT_HABITS, flightAway } from './flight';
+import { legTo } from './flight-timing';
 import { type Point, wrap } from './geometry';
+import { INSECT_KINDS } from './insect-genes';
 import {
   bodyTurn,
   carriedFrom,
@@ -21,6 +23,7 @@ import {
   wingBeat,
 } from './insect-motion';
 import { flightPoint, heading, type Path } from './insect-paths';
+import { TURN_RATE } from './insect-steering';
 import { ticked } from './insects';
 import { between, mulberry32, type Random } from './random';
 
@@ -190,6 +193,36 @@ describe('bodyTurn', () => {
       const settled = bodyTurn(span, 5000, landing, turns);
       assert.ok(Math.abs(settled) <= REST_LEAN + 1e-9);
       assert.ok(Math.abs(wrap(settled - restTurn(landing))) < 1e-9);
+    }
+  });
+
+  it('turns well under its TURN_RATE setting off on a dash to shelter, however short', () => {
+    for (const shelterer of INSECT_KINDS) {
+      const habits = FLIGHT_HABITS[shelterer];
+      if (!habits.sheltering) continue;
+      for (const seed of [1, 2, 3, 4, 5]) {
+        const leg = legTo(
+          mulberry32(seed),
+          habits,
+          {
+            from: { kind: 'cap', id: 'mushroom-1' },
+            to: { kind: 'shelter', id: 'mushroom-1', seat: 0 },
+          },
+          { now: 0 },
+        );
+        assert.ok(leg.arrives - leg.departs < habits.sheltering.pivoting);
+        const turns = turned(undefined, 3.1, leg, 0, 0, true);
+        let last = bodyTurn(leg, 0, 0, turns);
+        for (let now = 1; now < leg.arrives; now += 1) {
+          const turn = bodyTurn(leg, now, 0, turns);
+          const rate = Math.abs(wrap(turn - last)) * 1000;
+          assert.ok(
+            rate <= 0.9 * TURN_RATE[shelterer],
+            `${shelterer} seed ${String(seed)}: ${rate.toFixed(2)} rad/s at ${String(now)} ms`,
+          );
+          last = turn;
+        }
+      }
     }
   });
 
