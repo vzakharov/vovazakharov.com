@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mulberry32 } from '../../model/random';
+import { between, mulberry32 } from '../../model/random';
+import { cloudBox } from './cloud-puffs';
 import {
   cloudSpan,
   dropColumn,
@@ -10,6 +11,7 @@ import {
   gushToStart,
   lerpPoint,
   MOST_DROPS,
+  shownFrom,
   STEADY_DROPS,
   steadyToStart,
   UNDER_CLOUD,
@@ -63,6 +65,52 @@ describe('dropColumn', () => {
     assert.ok(span);
     const wide = (span[1] - span[0]) / WIDTH;
     assert.ok(Math.abs(shareIn(columns(undefined), span) - wide) < 0.03);
+  });
+});
+
+describe('shownFrom', () => {
+  const SLANT = 0.22;
+  const box = cloudBox(cloud);
+
+  it('shows a drop under a cloud from its underside', () => {
+    const to = { x: cloud.x + SLANT * (600 - box.bottom), y: 600 };
+    assert.equal(shownFrom(to, 700, SLANT, [cloud]), 600 - box.bottom);
+  });
+
+  it('shows a drop clear of every cloud from where it starts', () => {
+    assert.equal(shownFrom({ x: 50, y: 600 }, 700, SLANT, [cloud]), 700);
+    assert.equal(shownFrom({ x: 500, y: 600 }, 700, SLANT, [undefined]), 700);
+  });
+
+  it('never shows a streak head inside a drawn cloud', () => {
+    const random = mulberry32(11);
+    const clouds = Array.from({ length: 4 }, () => ({
+      x: random() * WIDTH,
+      y: between(random, 30, 200),
+      r: between(random, 15, 45),
+    }));
+    const boxes = clouds.map((each) => cloudBox(each));
+    let under = 0;
+    for (let drop = 0; drop < 2000; drop++) {
+      const to = { x: random() * WIDTH, y: between(random, 250, 800) };
+      const fall = to.y + between(random, 20, 500);
+      const shown = shownFrom(to, fall, SLANT, clouds);
+      if (shown < fall) under++;
+      for (let step = 0; step <= 200; step++) {
+        const up = (shown * step) / 200;
+        const head = { x: to.x - SLANT * up, y: to.y - up };
+        // A hair inside the box, so a head on its underside is not counted.
+        for (const { left, right, top, bottom } of boxes) {
+          const inside =
+            head.x > left &&
+            head.x < right &&
+            head.y > top &&
+            head.y < bottom - 1e-6;
+          assert.ok(!inside, `a drop to ${String(to.x)} shows inside a cloud`);
+        }
+      }
+    }
+    assert.ok(under > 0);
   });
 });
 

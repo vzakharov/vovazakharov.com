@@ -1,13 +1,13 @@
 /**
  * How many drops fall and where, as pure functions of a random stream and
  * the screen: the steady and the gushed counts, the column a drop falls
- * down, densest under the tapped cloud, and the first point of its path a
- * drawn outline stops it at.
+ * down, densest under the tapped cloud, how far up its path it shows, and
+ * the first point of its path a drawn outline stops it at.
  */
 
 import type { Circle, Point } from '../../model/geometry';
 import { between, type Random } from '../../model/random';
-import { CLOUD_SPREAD } from './rain-sky';
+import { cloudBox } from './cloud-puffs';
 
 /** The share of the drops that fall in the tapped cloud's span while it shows. */
 export const UNDER_CLOUD = 0.5;
@@ -46,9 +46,38 @@ export function cloudSpan(
   under: Circle | undefined,
 ): [number, number] | undefined {
   if (!under) return undefined;
-  const left = Math.max(0, under.x - CLOUD_SPREAD * under.r);
-  const right = Math.min(width, under.x + CLOUD_SPREAD * under.r);
+  const box = cloudBox(under);
+  const left = Math.max(0, box.left);
+  const right = Math.min(width, box.right);
   return left < right ? [left, right] : undefined;
+}
+
+/**
+ * How far above `to` a drop falling `fall` px down to it, drifting rightward
+ * `slant` px (more than 0) for each px down, first shows: below the lowest of `clouds` (each where
+ * the screen shows it, `undefined` while off it) whose drawn puffs its path
+ * passes behind, so rain falls out of a cloud's underside and never over
+ * it; all of `fall` where the path passes behind none, and 0 where it is
+ * behind one all the way down.
+ */
+export function shownFrom(
+  to: Point,
+  fall: number,
+  slant: number,
+  clouds: ReadonlyArray<Circle | undefined>,
+): number {
+  let shown = fall;
+  for (const cloud of clouds) {
+    if (!cloud) continue;
+    const { left, right, top, bottom } = cloudBox(cloud);
+    // The heights above `to` between which the path stands within the box:
+    // within its span across, which a path slanting rightward down crosses
+    // from its right edge up to its left one, and between its top and foot.
+    const low = Math.max(to.y - bottom, (to.x - right) / slant);
+    const high = Math.min(to.y - top, (to.x - left) / slant, fall);
+    if (low <= high) shown = Math.min(shown, Math.max(0, low));
+  }
+  return shown;
 }
 
 /**

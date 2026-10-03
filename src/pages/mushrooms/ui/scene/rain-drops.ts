@@ -14,6 +14,7 @@ import {
   gushToStart,
   lerpPoint,
   MOST_DROPS,
+  shownFrom,
   steadyToStart,
 } from './rain-fall';
 import { browRow, ofGround, type View } from './view';
@@ -38,6 +39,12 @@ const FAR_SIZE = 0.45;
 const STREAK = { key: 'rain-streak', wide: 6, long: 56 } as const;
 const RING = { key: 'rain-ring', wide: 64, tall: 24, line: 5 } as const;
 
+/** The clouds on the screen, `undefined` while off it, and the tapped one among them the drops fall densest under. */
+type Sky = {
+  clouds: ReadonlyArray<Circle | undefined>;
+  under: Circle | undefined;
+};
+
 /** Where a drop lands: a foot on the plane, or a point on a cap in its graphics' own frame. */
 type CapLanding = { cap: Phaser.GameObjects.Graphics; local: Point };
 type Landing = { foot: Point } | CapLanding;
@@ -49,6 +56,8 @@ type Slot = {
   landing: Landing | undefined;
   /** How far above its landing the drop started, in px, and when, in seconds. */
   fall: number;
+  /** How far above its landing it first shows, out from under any cloud it starts behind, in px. */
+  shown: number;
   droppedAt: number;
   /** When it landed and its ring began, in seconds; `undefined` while it falls. */
   splashedAt: number | undefined;
@@ -89,7 +98,8 @@ function bake(scene: Phaser.Scene): void {
  * The shower's drops and their splashes: at most `MOST_DROPS` images of
  * one baked streak in the air, each falling, slanted, to a landing picked
  * when it starts — the top of the first drawn cap its path crosses, else
- * the ground — and splashing there as a ring that widens and fades. A
+ * the ground — and splashing there as a ring that widens and fades. One
+ * whose path passes behind a cloud shows only once out from under it. A
  * landing is kept as a foot on the plane or a point on its cap and placed
  * afresh each frame, so a splash stays put as the child turns and walks.
  * A drop in the air finishes its fall whatever the downpour does.
@@ -111,29 +121,25 @@ export class RainDrops {
 
   /**
    * Starts as many drops as `downpour` (0 to 1) asks for at `t`, in
-   * seconds, densest under the tapped cloud `under` while it shows, and
-   * moves every drop and splash to where `view` puts its landing now.
+   * seconds, densest under the tapped cloud `under` while it shows, each
+   * out from under the `clouds` on the screen, and moves every drop and
+   * splash to where `view` puts its landing now.
    */
-  update(
-    t: number,
-    downpour: number,
-    under: Circle | undefined,
-    view: View,
-  ): void {
+  update(t: number, downpour: number, sky: Sky, view: View): void {
     this.caps = undefined;
     const wanted = steadyToStart(downpour, this.air());
     for (let index = 0; index < wanted; index++) {
-      if (!this.start(t, view, under, LEAD_IN, false)) break;
+      if (!this.start(t, view, sky, LEAD_IN, false)) break;
     }
     for (const slot of this.slots) this.drive(slot, t, view);
   }
 
-  /** Starts a gush of drops under the cloud `under` just tapped while it rains. */
-  gush(t: number, under: Circle | undefined, view: View): void {
+  /** Starts a gush of drops under the cloud `sky.under` just tapped while it rains. */
+  gush(t: number, sky: Sky, view: View): void {
     this.caps = undefined;
     const wanted = gushToStart(this.inAir());
     for (let index = 0; index < wanted; index++) {
-      if (!this.start(t, view, under, LEAD_IN / 3, true, 1)) break;
+      if (!this.start(t, view, sky, LEAD_IN / 3, true, 1)) break;
     }
   }
 
@@ -156,7 +162,7 @@ export class RainDrops {
   private start(
     t: number,
     view: View,
-    under: Circle | undefined,
+    { under, clouds }: Sky,
     lead: number,
     gushed: boolean,
     share?: number,
@@ -174,9 +180,20 @@ export class RainDrops {
     const fall = ground.y + (STREAK_LONG + Math.random() * lead) * view.height;
     const from = { x: ground.x - SLANT * fall, y: ground.y - fall };
     const cap = this.capOn(from, ground);
+    const along = cap?.along ?? 1;
+    // The clouds stand on the screen, which the camera's bob scrolls the
+    // world past.
+    const bob = this.scene.cameras.main.scrollY;
+    const shown = shownFrom(
+      lerpPoint(from, ground, along),
+      fall * along,
+      SLANT,
+      clouds.map((cloud) => cloud && { ...cloud, y: cloud.y + bob }),
+    );
     Object.assign(slot, {
       landing: cap ? pick(cap, 'cap', 'local') : { foot },
-      fall: fall * (cap?.along ?? 1),
+      fall: fall * along,
+      shown,
       droppedAt: t,
       splashedAt: undefined,
       gushed,
@@ -223,6 +240,7 @@ export class RainDrops {
       ring: scene.add.image(0, 0, RING.key).setDepth(depth).setVisible(false),
       landing: undefined,
       fall: 0,
+      shown: 0,
       droppedAt: 0,
       splashedAt: undefined,
       gushed: false,
@@ -256,7 +274,7 @@ export class RainDrops {
       slot.drop
         .setPosition(at.x - SLANT * left, at.y - left)
         .setScale((scale * STREAK_LONG) / STREAK.long)
-        .setVisible(true);
+        .setVisible(left <= slot.shown);
       return;
     }
     slot.drop.setVisible(false);
