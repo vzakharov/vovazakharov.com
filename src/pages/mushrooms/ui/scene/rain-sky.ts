@@ -9,14 +9,13 @@ import { type Circle, type Point, wrap } from '../../model/geometry';
 import { pinholeOf } from '../../model/ground';
 import { smooth } from '../../model/motion';
 import { type Rain, rainbow, wetness } from '../../model/weather';
+import { PUFF_REACH } from './cloud-puffs';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { TAP_RADIUS } from './tap-reach';
 
-/** How far a cloud's puffs spread either side of its middle, in its radii. */
-export const CLOUD_SPREAD = 4;
-/** How far below its middle line a cloud's puffs reach, in its radii, its shaded underside included. */
-const CLOUD_BELOW = 1.15;
+/** How far a cloud's drawn puffs spread either side of its middle, in its radii. */
+export const CLOUD_SPREAD = PUFF_REACH.across;
 /** How long after the tapped cloud the one opposite it round the sky starts to darken. */
 export const DARKEN_LAG_MS = 600;
 /** How long a rainbow takes to fade once a new shower starts under it. */
@@ -143,9 +142,9 @@ export function rainbowShown(
 
 /**
  * Which of `clouds`, each where the screen shows it now (`undefined` while
- * off it), a tap at `at` lands on: within its drawn puffs across, and at
- * least `TAP_RADIUS` up and down from its middle line; of several, the one
- * whose middle is nearest across.
+ * off it), a tap at `at` lands on: within its drawn puffs across, and up and
+ * down within them but never short of `TAP_RADIUS` from its middle line; of
+ * several, the one whose middle is nearest across.
  */
 export function cloudAt(
   at: Point,
@@ -158,8 +157,8 @@ export function cloudAt(
     const { x, y, r } = cloud;
     const across = Math.abs(at.x - x);
     const down = at.y - y;
-    const reach = Math.max(TAP_RADIUS, r);
-    const below = Math.max(TAP_RADIUS, r * CLOUD_BELOW);
+    const reach = Math.max(TAP_RADIUS, r * PUFF_REACH.above);
+    const below = Math.max(TAP_RADIUS, r * PUFF_REACH.below);
     if (across > r * CLOUD_SPREAD || down < -reach || down > below) continue;
     if (across < nearest) {
       nearest = across;

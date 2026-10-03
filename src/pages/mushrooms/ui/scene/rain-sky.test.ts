@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { RAIN_MS, rainbow, wetness } from '../../model/weather';
+import { PUFF_REACH } from './cloud-puffs';
 import { meadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { azimuthAt } from './panorama';
@@ -134,16 +135,27 @@ describe('cloudAt', () => {
   ];
 
   it('takes a tap across the drawn puffs, the nearest middle winning', () => {
-    assert.equal(cloudAt({ x: 30, y: 60 }, clouds), 0);
     assert.equal(cloudAt({ x: 120, y: 60 }, clouds), 0);
     assert.equal(cloudAt({ x: 130, y: 60 }, clouds), 2);
-    assert.equal(cloudAt({ x: 19, y: 60 }, clouds), undefined);
+  });
+
+  it('takes a tap on the outer puffs and not the blue sky past them', () => {
+    assert.equal(cloudAt({ x: 100 - 2.4 * 20, y: 60 }, clouds), 0);
+    assert.equal(cloudAt({ x: 100 - 3.5 * 20, y: 60 }, clouds), undefined);
   });
 
   it('reaches at least TAP_RADIUS up and down', () => {
     assert.equal(cloudAt({ x: 100, y: 60 - TAP_RADIUS }, clouds), 0);
     assert.equal(cloudAt({ x: 100, y: 60 + TAP_RADIUS }, clouds), 0);
     assert.equal(cloudAt({ x: 100, y: 61 + TAP_RADIUS }, clouds), undefined);
+  });
+
+  it('reaches a big cloud down to its shaded underside and no further', () => {
+    const big = [{ x: 100, y: 60, r: 50 }];
+    const underside = 60 + PUFF_REACH.below * 50;
+    assert.ok(underside - 60 > TAP_RADIUS);
+    assert.equal(cloudAt({ x: 100, y: underside - 1 }, big), 0);
+    assert.equal(cloudAt({ x: 100, y: underside + 1 }, big), undefined);
   });
 
   it('leaves a cloud off the screen alone', () => {

@@ -5,6 +5,7 @@ import { pinholeOf } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
 import { haloReach, litSkyAt, skyAt, skyGrid } from './backdrop-tones';
 import type { Span } from './baking';
+import { PUFFS } from './cloud-puffs';
 import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
@@ -142,6 +143,8 @@ export function paintClouds(
   const { arc } = pinholeOf(camera);
   const sunAzimuth = azimuthAt(camera, sun.x);
   const round = mulberry32(PUFF_SEED);
+  const { count, step, side, lean: leaning, sink, scale: scales } = PUFFS;
+  const middle = (count - 1) / 2;
   return clouds.map(({ azimuth, y, r }, place) => {
     const graphics = layer().setPosition(0, y);
     const shaping = place < OPENING_CLOUD_COUNT ? random : round;
@@ -153,12 +156,12 @@ export function paintClouds(
     const across = arc * wrap(sunAzimuth - azimuth);
     const toSun = Math.hypot(across, sun.y - y) || 1;
     const lean = {
-      x: (across / toSun) * r * 0.08,
-      y: ((sun.y - y) / toSun) * r * 0.08,
+      x: (across / toSun) * r * leaning,
+      y: ((sun.y - y) / toSun) * r * leaning,
     };
-    const puffs = Array.from({ length: 5 }, (_, index) => ({
-      x: (index - 2) * r * between(shaping, 0.75, 0.95),
-      r: r * (index === 2 ? 1 : between(shaping, 0.55, 0.8)),
+    const puffs = Array.from({ length: count }, (_, index) => ({
+      x: (index - middle) * r * between(shaping, ...step),
+      r: r * (index === middle ? 1 : between(shaping, ...side)),
     }));
     const dark = twin().setPosition(0, y);
     for (const [colour, rainy, dx, dy, scale] of [
@@ -166,11 +169,11 @@ export function paintClouds(
         PALETTE.cloudShade,
         PALETTE.rainCloudShade,
         -lean.x,
-        r * 0.14 - lean.y,
-        1,
+        r * sink - lean.y,
+        scales.shade,
       ],
-      [PALETTE.cloudLit, PALETTE.rainCloudLit, lean.x, lean.y, 0.96],
-      [PALETTE.cloud, PALETTE.rainCloud, 0, 0, 0.9],
+      [PALETTE.cloudLit, PALETTE.rainCloudLit, lean.x, lean.y, scales.lit],
+      [PALETTE.cloud, PALETTE.rainCloud, 0, 0, scales.face],
     ] as const) {
       graphics.fillStyle(tone(colour));
       dark.fillStyle(tone(rainy));
