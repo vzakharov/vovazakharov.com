@@ -195,6 +195,17 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     shower on phoneP. A cloud's shower starts when the press lifts inside
     the slop, as a mushroom's tap does; a drag over a cloud only turns.
 
+37. **A chase ends when the finger lifts, and any key cancels it** (the
+    operator: «если свайпишь достаточно далеко, стрейф идёт до этого места
+    и не останавливается только если нажмёшь или прострейфишь ещё раз
+    мышкой. Если нажмёшь в это время шифт стрелка в другую сторону — не
+    останавливается. и если поворачиваешься клавиатурой, тоже не
+    останавливается»). The stride's chase (a step's or a strafe's, capped at
+    the cruise) runs on toward a target the finger left far behind. On the
+    lift it eases to a stop over the cruise's own ease rather than running
+    to the target; a held walk, strafe or turn key cancels it at once and
+    takes over (`model/stride.ts`, `model/walk.ts`).
+
 ## Packages and waves
 
 - **Wave 1, in parallel: S1** shelter's model (spec-shelter § 5 step 1) and
