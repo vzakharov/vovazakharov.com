@@ -97,3 +97,41 @@ Filled in as each lands.
   are Phaser classes no test builds, and the one pure piece (`laidOf`) is
   now covered — accepted. Its fliers run found three reds from B's d43c203;
   B is told to settle them before it reports.
+- **A1 (T140, T147 tap)**: e4e8c72 (`Scened.tendedAt`; `plantable`,
+  `plantSounding`, `tapTuft` and `sowSounding` — the last beyond the call,
+  it picks among tufts judged there — read it), c7f4db61 (`planter.test.ts`
+  drives the real `Planter` through five walks short of a re-tend, red with
+  the walked eye; `tufts.test.ts`'s faults measured on planted heads, not
+  the rule that chose them). One line outside its files: `meadow-scene.ts`
+  wires `tendedAt`. A2 launched on T141.
+- **B (T142)**: d43c203 (spots carry where the anchor draws them;
+  crowding on drawn points, wings × zoom; red at fb82ca1 on all three
+  screens, green now; spots offered unchanged on every screen, ten of ten
+  insects seated), 65a68ecd (`fliers.test.ts`: the air-apart check moved to
+  the drawn measure, tolerance still 0, red at fb82ca1 on phone sideways;
+  the fly's tap rate on tabP was sample noise — 0.704 before, 0.705 after
+  over 8 visits — so `TAP_SEEDS` 8, bar 0.7 unchanged). fliers 48/48.
+- **D (T144)**: 1da1a918 (`roomFor` offers a ring slot only where every
+  head the flower's genes could grow, with its sway, stays between
+  `screenSides(camera)` as the anchor sees it). Births in a 40 s bee play:
+  phoneS 21 → 9, phoneP 19 → 6, tabL 20 → 15, none off screen after (17,
+  14 and 3 before). Halving on phones is accepted: the call traded count
+  for sight, and every screen still plants. Loose end for `/polish`:
+  `onscreenOf` in `perch-sight.ts` repeats `screenSides`' half-width.
+- **A2 (T141)**: no source change; filled at 170k and pushed its design as
+  `rh-a2.patch` (b2a16cd8): `lostOn(was, now, eye)` — the tufts a sow must
+  hide in its own frame, exact rather than a radius round the foot, since
+  the flower count reaches `D_SEE` and mushroom covers work in screen space
+  (accepted) — and `Tended`, the standing-tuft bookkeeping out of `Grass`.
+  `paint` still tends whole (a resize lays everything anew: accepted).
+  A2b launched to apply, wire and test it from `rh-a2.md`.
+- **C2 (T143, play)**: d33f10e1 (`playFollow` last in the meadow play: ↑
+  20 s, 31.8 units, four of ten insects left past `PERCH_REACH`; green on
+  tabL, every insect in reach 30.3 s after the walk, and phoneP, 19.5 s).
+  The 30 s window became 30 s heading-in plus 90 s settled: a butterfly on
+  a 64 s flight to an air spot was following, slowly — the harness's red,
+  so a line went to `to-check.md` (accepted, per the play-run rule).
+  **Open lead for the tail:** drawing the 30–90 s wait raised tabL's frame
+  median from ~17 to 27.4 ms, so frames after a long walk may cost far more
+  than at the opening; the wait now steps without drawing, so no play
+  watches those frames. Trace it with its own agent before bite 13.

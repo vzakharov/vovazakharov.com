@@ -241,6 +241,20 @@ export const PROBE = `(() => {
         tappedAt: finite(shown.tappedAt),
       };
     },
+    /** Where each insect was last drawn on the plane, by id (\`drawnAlofts\`); none for one still flying in. */
+    drawnAt: () => Object.fromEntries(scene.insects.drawnAlofts()),
+    /**
+     * Where the perch each insect is bound for stands on the plane, by id, as
+     * the perches were last seen; none for one bound away or for a perch no
+     * longer placed. The key is \`perchName\`'s.
+     */
+    boundAt: () =>
+      Object.fromEntries(
+        scene.meadow.insects.flatMap(({ id, leg: { to } }) => {
+          const at = to.kind === 'away' ? undefined : scene.perches.placed.get(to.kind + ' ' + to.id);
+          return at ? [[id, at]] : [];
+        }),
+      ),
     /** The middle of a mushroom's cap as its hit area has it, on screen, whatever stands over it. */
     capMiddle: (id) => {
       const shown = scene.bed.shown.get(id);
@@ -395,6 +409,8 @@ export const ShownInsect = Point.extend({
   span: z.number(),
   tappedAt: z.number().nullable(),
 }).nullable();
+/** `__probe.drawnAt()` and `__probe.boundAt()`: a plane point per insect, in the clump's size, by id. */
+export const InsectPoints = z.record(z.string(), Point);
 export const Controls = z.object({
   plus: Point,
   minus: Point,
