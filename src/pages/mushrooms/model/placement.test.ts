@@ -88,6 +88,82 @@ describe('pickFoot', () => {
   });
 });
 
+describe('pickFoot without near', () => {
+  it('draws the feet it always has', () => {
+    let asked = 0;
+    const feet = [
+      { x: 0, z: 0.24 },
+      { x: -0.03, z: 0 },
+    ];
+    const picks = [1, 2, 3].map((seed) =>
+      pickFoot(seed, {
+        frame: MEADOW_FRAME,
+        feet,
+        within: { left: -1, right: 1.5 },
+        admits: () => asked++ % 5 === 4,
+      }),
+    );
+    assert.deepEqual(picks, [
+      { x: 1.229_470_438_103_484_9, z: 0.232_838_607_565_499_8 },
+      { x: 0.908_076_693_222_960_7, z: 1.487_470_301_422_290_3 },
+      { x: 0.114_874_278_939_894_71, z: 1.983_268_376_234_919 },
+    ]);
+  });
+});
+
+describe('pickFoot near a parent', () => {
+  const frame = MEADOW_FRAME;
+  const within = { left: -2, right: 2 };
+  const reach = 1;
+  /** Parents in the middle, at the span's edges and at the frame's near and far edges. */
+  const parents: readonly Ground[] = [
+    { x: 0, z: 0.24 },
+    { x: 1.9, z: 1 },
+    { x: -1.9, z: 0 },
+    { x: 0.5, z: frame.near },
+    { x: -0.2, z: frame.far },
+  ];
+
+  it('stands every foot within reach of the parent, clear of it, on the frame and within the span', () => {
+    for (const ground of parents) {
+      for (const seed of VISITS.slice(0, 40)) {
+        const foot = pickFoot(seed, {
+          frame,
+          feet: [ground],
+          within,
+          admits: () => true,
+          near: { ground, reach },
+        });
+        assert.ok(foot, `no foot round ${JSON.stringify(ground)}`);
+        const apart = apartOnScreen(foot, ground);
+        assert.ok(apart <= reach + 1e-9, `${String(apart)} from the parent`);
+        assert.ok(apart >= 0.3, `${String(apart)} from the parent`);
+        assert.ok(foot.z >= frame.near && foot.z <= frame.far);
+        const across = seen(foot).x;
+        assert.ok(across >= within.left && across <= within.right);
+      }
+    }
+  });
+
+  it('spreads the feet round the parent rather than to one side', () => {
+    const [ground] = parents;
+    assert.ok(ground);
+    const sides = new Set(
+      VISITS.slice(0, 40).map((seed) => {
+        const foot = pickFoot(seed, {
+          frame,
+          feet: [ground],
+          admits: () => true,
+          near: { ground, reach },
+        });
+        assert.ok(foot);
+        return Math.sign(seen(foot).x - seen(ground).x);
+      }),
+    );
+    assert.ok(sides.has(1) && sides.has(-1));
+  });
+});
+
 describe('a meadow grown to six', () => {
   const [, width, height] = VIEWPORTS[2];
   const seeds = VISITS.slice(0, 12);
