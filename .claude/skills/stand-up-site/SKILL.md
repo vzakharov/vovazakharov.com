@@ -41,6 +41,12 @@ gh secret set <SITE>_PAGES_DEPLOY_KEY --repo <owner>/<source repo> < tmp/deploy-
 rm tmp/deploy-key tmp/deploy-key.pub
 ```
 
+**The web container has no `ssh-keygen`.** Python's `cryptography` writes the
+same pair: `Ed25519PrivateKey.generate()`, its `private_bytes` in
+`Encoding.PEM` / `PrivateFormat.OpenSSH` / `NoEncryption()` to `tmp/deploy-key`
+under `umask 077`, and its public key in `Encoding.OpenSSH` /
+`PublicFormat.OpenSSH`, plus the comment, to `tmp/deploy-key.pub`.
+
 Print nothing and keep nothing: once the private half is in the secret, rotation
 is the only way back, and the publish script's own header carries that contract
 (`scripts/publish-site.sh` takes the site id and maps it to its receiver).
