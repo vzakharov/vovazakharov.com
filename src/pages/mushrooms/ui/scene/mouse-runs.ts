@@ -36,7 +36,7 @@ import {
   scattered,
 } from '../../model/mouse-run';
 import {
-  pathBetween,
+  courseOf,
   runAt,
   type RunCourse,
   runnerAt,
@@ -195,15 +195,17 @@ export class MouseRuns {
     for (const run of this.under.filter((each) => each.to === id)) {
       this.drop(run);
       const at = this.runnerPoint(run, clock);
-      const to = retarget(
+      const bound = retarget(
         this.counts,
         at?.point ?? sinking.foot,
         run.from,
         doors,
       );
-      if (to === undefined) continue;
-      // With no view to place it by, its mouse is counted in there at once.
-      if (at) {
+      if (bound === undefined) continue;
+      const { to, runs } = bound;
+      // With no view to place it by, or no door in reach, its mouse is
+      // counted in there at once.
+      if (at && runs) {
         const start = {
           ...pick(at, 'across'),
           front: at.point,
@@ -301,11 +303,7 @@ export class MouseRuns {
   private lookOf(run: MouseRun): number | undefined {
     if (!this.view || !run.start || !run.end) return undefined;
     const { eye } = this.view;
-    return facingAlong(
-      pathBetween(run.start, run.end, eye, run.course.bowSign),
-      0,
-      eye,
-    );
+    return facingAlong(courseOf(run.start, run.end, eye, run.course), 0, eye);
   }
 
   /**
@@ -334,7 +332,7 @@ export class MouseRuns {
       start && end && eye ? sideOf(start.front, end.front, eye) : 1;
     const runLength =
       start && end && eye
-        ? pathLength(pathBetween(start, end, eye, bowSign))
+        ? pathLength(courseOf(start, end, eye, { bowSign, opening }))
         : 0;
     const hit = new Phaser.Geom.Circle();
     const run: MouseRun = {
@@ -404,12 +402,7 @@ export class MouseRuns {
   private runnerPoint(run: MouseRun, t: number): ShownRunner | undefined {
     if (!run.start || !run.end || !this.view) return;
     const moment = runAt(Math.max(0, t - run.beganAt), run.course);
-    const path = pathBetween(
-      run.start,
-      run.end,
-      this.view.eye,
-      run.course.bowSign,
-    );
+    const path = courseOf(run.start, run.end, this.view.eye, run.course);
     return {
       ...runnerAt(moment, run.start, run.end, path),
       path,

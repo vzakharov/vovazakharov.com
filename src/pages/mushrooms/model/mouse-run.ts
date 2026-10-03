@@ -224,21 +224,26 @@ export function scattered(
   return { mice: after, fleeing };
 }
 
+/** Where a re-targeted mouse goes, and whether it runs there or is counted in at once. */
+export type Retarget = Pick<Flee, 'to'> & { runs: boolean };
+
 /**
  * Where a run whose target sank goes from `at`, its runner's point, `doors`
- * being every door still standing: by `emptiestNear` from there, else back
- * to `start` while it stands, else the nearest door on the field;
- * `undefined` with no door standing.
+ * being every door still standing: running, by `emptiestNear` from there,
+ * else back to `start` while it stands; else counted in at once at the
+ * nearest door on the field, as `scattered` counts a mouse with no door in
+ * reach, rather than running off screen; `undefined` with no door standing.
  */
 export function retarget(
   mice: Mice,
   at: Point,
   start: string,
   doors: readonly RunDoor[],
-): string | undefined {
-  return (
+): Retarget | undefined {
+  const near =
     emptiestNear(mice, at, doors) ??
-    (doors.some((door) => door.id === start) ? start : undefined) ??
-    nearestOf(at, doors)
-  );
+    (doors.some((door) => door.id === start) ? start : undefined);
+  if (near !== undefined) return { to: near, runs: true };
+  const to = nearestOf(at, doors);
+  return to === undefined ? undefined : { to, runs: false };
 }

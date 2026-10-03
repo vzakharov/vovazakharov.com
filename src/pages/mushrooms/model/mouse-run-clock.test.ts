@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { distanceBetween, type Point } from './geometry';
 import { doorStations } from './house';
 import {
+  courseOf,
   endOf,
   hop,
   pathBetween,
@@ -19,6 +20,7 @@ import {
 } from './mouse-run-clock';
 import {
   alongPath,
+  pathLength,
   RUN_BOW,
   RUNNER_SPAN,
   type RunPath,
@@ -77,6 +79,16 @@ describe('runAt', () => {
     const tiny = legStarts(course(0.01));
     assert.ok(
       (tiny.get('enter') ?? 0) - (tiny.get('run') ?? 0) >= RUN_LEAST - FRAME,
+    );
+  });
+
+  it('runs a re-targeted course from the ground at its own length over RUN_PACE, under its least span', () => {
+    const regrounded = legStarts(course(0.2, { opening: 'run' }));
+    assert.ok(
+      near(
+        (regrounded.get('enter') ?? 0) - (regrounded.get('run') ?? 0),
+        0.2 / RUN_PACE,
+      ),
     );
   });
 
@@ -287,6 +299,39 @@ describe('pathBetween', () => {
       up: 0,
       across: widthAlong(from, to, 0.2),
     });
+  });
+});
+
+describe('courseOf', () => {
+  const eye = { x: 0, y: 0 };
+  const door: RunEnd = {
+    foot: { x: 0.1, y: 10.11 },
+    front: { x: 0.1, y: 10 },
+    across: 0.12,
+    sillHeight: 0.02,
+  };
+  // A runner turned back a fifth of the clump's size from its new door.
+  const ground: RunEnd = {
+    front: { x: -0.1, y: 10 },
+    across: 0.12,
+    sillHeight: 0,
+  };
+
+  it('runs a course re-targeted from the ground straight, in under a second', () => {
+    const path = courseOf(ground, door, eye, { bowSign: 1, opening: 'run' });
+    assert.deepEqual(path.bend, { x: 0, y: 10 });
+    const runLength = pathLength(path);
+    assert.ok(Math.abs(runLength - 0.2) < 1e-9, `${runLength}`);
+    assert.ok(runDuration(course(runLength, { opening: 'run' })) < 1);
+  });
+
+  it('bows a course from a door as pathBetween does', () => {
+    for (const opening of ['peek', 'leave'] as const) {
+      assert.deepEqual(
+        courseOf(door, ground, eye, { bowSign: -1, opening }),
+        pathBetween(door, ground, eye, -1),
+      );
+    }
   });
 });
 

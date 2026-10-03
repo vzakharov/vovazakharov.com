@@ -218,16 +218,22 @@ describe('retarget', () => {
 
   it('picks by emptiest then nearest from where the runner is', () => {
     const doors = [door('start', -2, 10), door('a', 0.5, 10), door('b', 1, 10)];
-    assert.equal(retarget(miceOf({ a: 1 }), at, 'start', doors), 'b');
+    assert.deepEqual(retarget(miceOf({ a: 1 }), at, 'start', doors), {
+      to: 'b',
+      runs: true,
+    });
   });
 
-  it('turns back to its start when nothing is in reach, else the nearest door', () => {
+  it('turns back to its start when nothing is in reach, else counts it in at the nearest door', () => {
     const far = door('far', 10, 10);
-    assert.equal(
+    assert.deepEqual(
       retarget(miceOf({}), at, 'start', [far, door('start', -9, 10)]),
-      'start',
+      { to: 'start', runs: true },
     );
-    assert.equal(retarget(miceOf({}), at, 'start', [far]), 'far');
+    assert.deepEqual(retarget(miceOf({}), at, 'start', [far]), {
+      to: 'far',
+      runs: false,
+    });
     assert.equal(retarget(miceOf({}), at, 'start', []), undefined);
   });
 });

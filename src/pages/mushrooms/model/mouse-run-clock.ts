@@ -15,6 +15,7 @@ import {
   RUN_BOW,
   RUNNER_SPAN,
   type RunPath,
+  straightPath,
 } from './mouse-run-course';
 import type { Footed } from './placement';
 
@@ -58,10 +59,12 @@ const HOP_UP = 0.25;
 /** How long the target door takes to shut behind the mouse. */
 const RUN_SHUT = 0.3;
 /**
- * The run's shortest span, long enough for a child to follow it: a course
- * is bowed aside until it is at least this long at `RUN_PACE`
+ * The shortest span of a run from a door, long enough for a child to follow
+ * it: a course is bowed aside until it is at least this long at `RUN_PACE`
  * (`pathBetween`), which on the opening clump sweeps the runner ~60 px
- * across a tablet's screen, and a run shorter still is slowed to it.
+ * across a tablet's screen, and a run shorter still is slowed to it. A run
+ * re-targeted from the ground is already being followed, and runs straight
+ * in at its own length (`courseOf`).
  */
 export const RUN_LEAST = 2.4;
 /** How long a run takes to reach full pace and to slow from it. */
@@ -76,7 +79,10 @@ function spans({ runLength, opening }: RunCourse): Record<RunLeg, number> {
   return {
     peek: opening === 'peek' ? PEEK_RISE + RUN_LOOK : 0,
     leave: opening === 'run' ? 0 : HOP_DOWN,
-    run: Math.max(RUN_LEAST, runLength / RUN_PACE),
+    run:
+      opening === 'run'
+        ? runLength / RUN_PACE
+        : Math.max(RUN_LEAST, runLength / RUN_PACE),
     enter: HOP_UP,
     close: RUN_SHUT,
     over: Infinity,
@@ -265,6 +271,22 @@ export function pathBetween(
     side,
   );
 }
+
+/**
+ * The course `course` runs from `from` to `to` as an eye at `eye` sees it:
+ * from a door, bowed as `pathBetween` has it; re-targeted from the ground,
+ * straight, so a mouse turned back near its new door goes in rather than
+ * round a second loop.
+ */
+export const courseOf = (
+  from: RunEnd,
+  to: RunEnd,
+  eye: Point,
+  { bowSign, opening }: Pick<RunCourse, 'bowSign' | 'opening'>,
+): RunPath =>
+  opening === 'run'
+    ? straightPath(from.front, to.front)
+    : pathBetween(from, to, eye, bowSign);
 
 /**
  * Where a runner stands for `moment` between `from` and `to` along `path`,

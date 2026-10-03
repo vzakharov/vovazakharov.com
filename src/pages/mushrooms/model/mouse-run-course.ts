@@ -33,6 +33,13 @@ export const RUN_BOW = 1;
  */
 export type RunPath = { from: Point; bend: Point; to: Point };
 
+/** The course straight from `from` to `to`, its bend at their middle. */
+export const straightPath = (from: Point, to: Point): RunPath => ({
+  from,
+  bend: { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 },
+  to,
+});
+
 /** Where a run's course is at `s` of its curve's own parameter, 0 to 1. */
 function curveAt({ from, bend, to }: RunPath, s: number): Point {
   const [a, b, c] = [(1 - s) ** 2, 2 * s * (1 - s), s * s];
