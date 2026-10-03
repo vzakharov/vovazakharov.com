@@ -431,7 +431,7 @@ export const PROBE = `(() => {
         span: span ? { startedAt: span.startedAt, stopsAt: span.stopsAt } : null,
         ...scene.rain.shown,
         drops: scene.rain.dropsInAir(),
-        closing: scene.flowers.meanClosing?.() ?? 0,
+        closing: scene.flowers.closing(),
         tapped: scene.rain.tapped ?? null,
       };
     },

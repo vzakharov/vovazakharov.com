@@ -7,8 +7,9 @@
  * `lib/play-opening.ts`, `lib/play-meadow.ts`, `lib/play-house.ts`,
  * `lib/play-insects.ts`, `lib/play-buzzers.ts`, `lib/play-walk.ts`,
  * `lib/play-approach.ts`, `lib/play-species.ts`, `lib/play-tufts.ts`,
- * `lib/play-hold.ts`, `lib/play-keys.ts` and `lib/play-veer.ts` — and a
- * frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
+ * `lib/play-hold.ts`, `lib/play-keys.ts`, `lib/play-veer.ts` and
+ * `lib/play-rain.ts` — and a frame of each lands in
+ * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
  *   pnpm play:mushrooms --no-build  # play the one already in apps/vova/out
@@ -50,6 +51,7 @@ import { playHold } from './lib/play-hold.ts';
 import { playKeys } from './lib/play-keys.ts';
 import { playMeadow } from './lib/play-meadow.ts';
 import { playOpening } from './lib/play-opening.ts';
+import { playRain } from './lib/play-rain.ts';
 import { playSpecies } from './lib/play-species.ts';
 import { playTufts } from './lib/play-tufts.ts';
 import { playVeer } from './lib/play-veer.ts';
@@ -84,6 +86,7 @@ const PLAYS = [
   ['hold', playHold],
   ['keys', playKeys],
   ['veer', playVeer],
+  ['rain', playRain],
 ] as const;
 
 const TYPES: Record<string, string> = {
