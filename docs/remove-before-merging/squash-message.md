@@ -27,9 +27,11 @@ a russula — on a foot of its own in view, up to twelve in sight, and
 minus sinks one; the house button furnishes any of them with Syama's
 windows and a door a mouse peeks from. Butterflies drink at flowers,
 flies zigzag to the fly agarics, and bees plant new flowers round those
-they pollinate. A tapped cloud starts a ten-second shower: the clouds
-darken, drops splash on caps and grass, flowers fold into buds and caps
-swell, and a rainbow stands opposite the sun when it stops. A control
+they pollinate. A tap on a mushroom leaves a spore on the ground beside
+it. A tapped cloud starts a ten-second shower: the clouds darken, drops
+splash on caps and grass, flowers fold into buds, caps swell, the
+insects shelter under them, and every spore comes up as a little
+mushroom; a rainbow stands opposite the sun when it stops. A control
 that cannot act shakes its head.
 
 Every flower is a note or a drum by its colour and shape, darker
