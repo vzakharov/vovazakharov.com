@@ -11,7 +11,7 @@ import type { WithId } from '@/shared/typings';
 import type { Choosing, Flight, Leg, Perch, Perches } from './flight';
 import { apartIn } from './flight-timing';
 import { isSamePerch, perchName } from './perch-room';
-import { between, saltedStream,type Seeded } from './random';
+import { between, saltedStream, type Seeded } from './random';
 import { type Rain, raining } from './weather';
 
 /** A cap's two seats underneath, left and right of its stem. */
