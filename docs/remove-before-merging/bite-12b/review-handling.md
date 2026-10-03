@@ -104,3 +104,10 @@ Filled in as each lands.
   the walked eye; `tufts.test.ts`'s faults measured on planted heads, not
   the rule that chose them). One line outside its files: `meadow-scene.ts`
   wires `tendedAt`. A2 launched on T141.
+- **B (T142)**: d43c203 (spots carry where the anchor draws them;
+  crowding on drawn points, wings × zoom; red at fb82ca1 on all three
+  screens, green now; spots offered unchanged on every screen, ten of ten
+  insects seated), 65a68ecd (`fliers.test.ts`: the air-apart check moved to
+  the drawn measure, tolerance still 0, red at fb82ca1 on phone sideways;
+  the fly's tap rate on tabP was sample noise — 0.704 before, 0.705 after
+  over 8 visits — so `TAP_SEEDS` 8, bar 0.7 unchanged). fliers 48/48.
