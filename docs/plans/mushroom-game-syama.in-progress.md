@@ -324,10 +324,17 @@ republished at the tail's head.
 Its handling: all nine threads fixed or decided and replied to, each
 call and package report in `docs/remove-before-merging/bite-12b/review-handling.md`
 (the twelve on a turned screen decided in `decisions.md`).
-**Left:** the play's expect on the lawn's share of a sow frame (≤ 26 ms,
-`__probe.tendFrames()`); one trace of the two frame-cost leads in
-review-handling.md (frames after a long walk, the perches' `see` on a sow
-frame); then the bite's end — `/polish` (`screenSides` vs `onscreenOf`),
+The approach play holds the lawn's share of a sow frame to
+`FRAME_BUDGET_MS` (e06b84c; tabL slowest 20.4 ms). The two frame-cost leads
+traced (`__probe.costs()`, b1a0178): frames after a long walk do not grow —
+every count flat, 6–12 ms, C2's 27.4 ms a loaded machine; the sow frame's
+`see` was `roomFor` re-judging every ring slot, now `sightAt` memoised per
+foot and `see` walking only bed perches (964e6da: tabL's slowest sow frame
+79.5 → 43.1 ms, no answer changed). The approach's median sits at 26.0 ms on
+a loaded container, the drawn forest's render, not the lawn or `see`:
+accepted. The walk's re-sights are now mostly `airOf`'s crowdings, a design
+in `bite-12b/tail-cost.md`, carried to Rest of the elephant.
+**Left:** the bite's end — `/polish` (`screenSides` vs `onscreenOf`),
 the fold into `bite-12b.md` and `## Eaten so far`, retiring 12b's working
 notes and frames, the Artifact republished, `/pr`. Each package's commits:
 `docs/remove-before-merging/bite-12b/waves.md`.
@@ -355,7 +362,10 @@ they sit and hover, not in flight, so a flier crossing the meadow is drawn
 straight over one seated on a cap (frame
 `phoneL-butterfly-crosses-one-on-a-cap.png`); a butterfly making way for a bee
 leaves its flower moments after landing, which may read as a twitch; a
-flier holding an air spot is drawn still, with no hover bob.
+flier holding an air spot is drawn still, with no hover bob. A walk's
+re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
+`airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
+anchors, or slice it as `Tended` slices the lawn).
 
 13. **Rain** — the shower itself; what it leaves behind is item 14. Its
     contract, the model already built (5c9f2e9):
