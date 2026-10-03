@@ -56,3 +56,35 @@ new layout and its covers, so the memo goes with them). `Perches.see` walks
 the beds' rows (`footRows`) instead of every place. Exact: no answer
 changes. Node, warm: `see` 7.5 → 2.8 ms at the opening anchor, 3.35 → 1.2 ms
 at a walked one; `roomFor` 5.55 → 0.9 ms. `fliers.test.ts` 93 s.
+
+In the browser, tabL approach play, the commit before (b) and 964e6da (a),
+both at load 3–4 with another worktree's play running: the slowest frame
+running a tend (a sow's frame) 79.5 → 43.1 ms (median 3.0 both); the perches'
+re-sights on the walk median 25.6 → 18.2 ms, slowest 63.9 → 44.9; the frames
+carrying one median 63.9 → 50.5. Approach and meadow plays green on tabL.
+
+## Approach's median frame (asked by the orchestrator)
+
+26.0 ms over 918 frames in both runs, on the budget, not over it; the
+frames carrying neither a tend nor a re-sight have the same median
+(24.3–24.5 ms), so the median is the forest's drawn frame (render), which
+neither `see` nor the lawn moves. No quiet machine was had: load 3–4 on both
+runs, so whether a quiet run sits well under 26 is not settled; the meadow
+play at load ~3 gave 10.2 ms, which says the render of twelve mushrooms is
+most of it.
+
+## Left: the walk's re-sights are the air's crowdings
+
+Once `roomFor` is cheap, a re-sight at a fresh anchor (the eye crossing
+`PERCH_STEP`/`PERCH_TURN`) is `airOf` — 8.1 ms of ~9 in Node, fresh at every
+anchor (cached for `KEPT` anchors only), and 70 % of that is
+`crowdingsAsDrawn`: every pair of ~650 air spots near enough at the largest
+zoom, re-judged where the new anchor draws them. Design to build: the pairs
+`pointCrowdings` finds between lattice cells hardly change between adjacent
+anchors (spots keep their names, `lastNamed`), so judge only the pairs
+touching spots new to this anchor and carry the rest from the last anchor's
+`Air` where both ends are still offered and their drawn zooms moved less than
+a set share — or spread `airOf` over frames as `Tended` spreads the lawn,
+the old air offered until the new is whole. Either keeps "never two per
+perch" (the crowdings stay exact or conservative); measure with the approach
+play's "perches' re-sights" line.
