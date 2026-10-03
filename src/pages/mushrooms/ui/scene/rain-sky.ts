@@ -14,8 +14,6 @@ import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { TAP_RADIUS } from './tap-reach';
 
-/** How far a cloud's drawn puffs spread either side of its middle, in its radii. */
-export const CLOUD_SPREAD = PUFF_REACH.across;
 /** How long after the tapped cloud the one opposite it round the sky starts to darken. */
 export const DARKEN_LAG_MS = 600;
 /** How long a rainbow takes to fade once a new shower starts under it. */
@@ -159,7 +157,8 @@ export function cloudAt(
     const down = at.y - y;
     const reach = Math.max(TAP_RADIUS, r * PUFF_REACH.above);
     const below = Math.max(TAP_RADIUS, r * PUFF_REACH.below);
-    if (across > r * CLOUD_SPREAD || down < -reach || down > below) continue;
+    if (across > r * PUFF_REACH.across || down < -reach || down > below)
+      continue;
     if (across < nearest) {
       nearest = across;
       found = index;

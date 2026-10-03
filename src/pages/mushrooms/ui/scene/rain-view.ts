@@ -157,8 +157,9 @@ export class RainView {
     this.showers = nextShowers(this.showers, rain, ms);
     const { showers, lead, sound, backdrop, layout, wash } = this;
     const wetness = wetnessShown(showers, ms);
+    const pour = downpour(rain, ms);
     // Heard before the sky is painted, so the shower sounds from its start.
-    sound.shower(downpour(rain, ms), wetness);
+    sound.shower(pour, wetness);
     if (!backdrop || !layout) return;
     wash.setAlpha(WASH_DEEPEST * wetness).setVisible(wetness > 0);
     const azimuthOf = (index: number) => {
@@ -185,7 +186,7 @@ export class RainView {
     const clouds = this.placed();
     drops.update(
       t,
-      downpour(rain, ms),
+      pour,
       { clouds, under: tapped === undefined ? undefined : clouds[tapped] },
       backdrop.view,
     );

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { between, mulberry32 } from '../../model/random';
-import { cloudBox } from './cloud-puffs';
+import { cloudBox, PUFF_REACH } from './cloud-puffs';
 import {
   cloudSpan,
   dropColumn,
@@ -16,7 +16,6 @@ import {
   steadyToStart,
   UNDER_CLOUD,
 } from './rain-fall';
-import { CLOUD_SPREAD } from './rain-sky';
 
 const WIDTH = 1000;
 const cloud = { x: 500, y: 80, r: 25 };
@@ -24,13 +23,16 @@ const span = cloudSpan(WIDTH, cloud);
 
 describe('cloudSpan', () => {
   it('is the cloud drawn spread either side of its middle', () => {
-    assert.deepEqual(span, [500 - CLOUD_SPREAD * 25, 500 + CLOUD_SPREAD * 25]);
+    assert.deepEqual(span, [
+      500 - PUFF_REACH.across * 25,
+      500 + PUFF_REACH.across * 25,
+    ]);
   });
 
   it('is clipped to the screen', () => {
     assert.deepEqual(cloudSpan(WIDTH, { ...cloud, x: 20 }), [
       0,
-      20 + CLOUD_SPREAD * 25,
+      20 + PUFF_REACH.across * 25,
     ]);
   });
 

@@ -11,6 +11,7 @@ import {
   SUPERSAMPLE,
 } from './baking';
 import { type BrowBlade, browBlades, drawBrow } from './brow';
+import { PUFF_REACH } from './cloud-puffs';
 import type { Band } from './grain';
 import type { MeadowLayout } from './layout';
 import {
@@ -31,7 +32,6 @@ import {
   paintWash,
 } from './paint-sky';
 import { driftedAzimuth, placedLeft, screenAt } from './panorama';
-import { CLOUD_SPREAD } from './rain-sky';
 import { SUN_RAY_REACH } from './sun-layout';
 import { type Following, type View, viewAt } from './view';
 import { GROUND_BOB } from './walking';
@@ -387,7 +387,7 @@ function placeClouds(
     const cloud = clouds[index];
     if (!cloud) continue;
     const x = screenAt(view, driftedAzimuth(cloud, drifted));
-    const spread = cloud.r * CLOUD_SPREAD;
+    const spread = cloud.r * PUFF_REACH.across;
     const shown = x > -spread && x < width + spread;
     for (const each of [graphics, rainClouds[index]]) {
       each?.setVisible(shown);

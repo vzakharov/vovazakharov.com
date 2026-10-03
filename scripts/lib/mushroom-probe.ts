@@ -17,7 +17,7 @@ import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
 import type { Camera as ModelCamera } from '../../src/pages/mushrooms/model/ground.ts';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
-import { CLOUD_SPREAD } from '../../src/pages/mushrooms/ui/scene/rain-sky.ts';
+import { PUFF_REACH } from '../../src/pages/mushrooms/ui/scene/cloud-puffs.ts';
 
 /** Swaps `Math.random` for a mulberry32 seeded with `seed` before the page's own code runs. */
 export function seededRandom(seed: number): string {
@@ -447,7 +447,7 @@ export const PROBE = `(() => {
       scene.rain.placed().map((cloud) => {
         if (!cloud) return null;
         const x = Math.min(Math.max(cloud.x, 1), scene.layout.width - 1);
-        if (Math.abs(x - cloud.x) > cloud.r * ${String(CLOUD_SPREAD)}) return null;
+        if (Math.abs(x - cloud.x) > cloud.r * ${String(PUFF_REACH.across)}) return null;
         const point = { x, y: cloud.y };
         return topAt(point) === null ? point : null;
       }),
