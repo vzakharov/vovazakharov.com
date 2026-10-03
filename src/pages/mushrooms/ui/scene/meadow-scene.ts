@@ -26,6 +26,7 @@ import { InsectView } from './insect-view';
 import { Instrument } from './instrument';
 import { playTheMeadow } from './instrument-input';
 import { type MeadowLayout, meadowLayout } from './layout';
+import { listenOnMeadow } from './meadow-listeners';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
 import { type PerchHosts, restingOn } from './perch-hosts';
@@ -163,26 +164,24 @@ export class MeadowScene extends Phaser.Scene {
     );
     this.paint();
     this.bed.reconcile(this.meadow, this.requireLayout(), this.clock, true);
-    this.scale.on(Phaser.Scale.Events.RESIZE, this.paint, this);
-    this.input.on(Phaser.Input.Events.POINTER_DOWN, this.tapMeadow, this);
-    // A browser lets sound start only on a tap's release.
-    this.input.on(Phaser.Input.Events.POINTER_UP, this.startSound, this);
-    const stopPlaying = playTheMeadow(
+    const { instrument, flowers, eye, planter, voice, paint, tapMeadow } = this;
+    listenOnMeadow(
       this,
-      this.instrument,
-      this.flowers,
-      this.eye,
-      this.planter,
+      {
+        resize: paint,
+        tap: tapMeadow,
+        release: () => {
+          voice.start();
+        },
+      },
+      [
+        playTheMeadow(this, instrument, flowers, eye, planter),
+        eye.listen(this),
+        () => {
+          voice.stop();
+        },
+      ],
     );
-    const stopPanning = this.eye.listen(this);
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      stopPlaying();
-      stopPanning();
-      this.scale.off(Phaser.Scale.Events.RESIZE, this.paint, this);
-      this.input.off(Phaser.Input.Events.POINTER_DOWN, this.tapMeadow, this);
-      this.input.off(Phaser.Input.Events.POINTER_UP, this.startSound, this);
-      this.voice.stop();
-    });
   }
 
   override update(time: number): void {
@@ -341,10 +340,6 @@ export class MeadowScene extends Phaser.Scene {
     const tuft = grass?.at(at);
     if (grass && tuft) planter.tapTuft(tuft, grass);
     else this.dispatch({ kind: 'deselect' });
-  };
-
-  private readonly startSound = (): void => {
-    this.voice.start();
   };
 
   private requireLayout(): MeadowLayout {
