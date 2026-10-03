@@ -28,6 +28,7 @@ import {
 } from '../../model/mushroom-outline';
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
+import { type Rain, wetness } from '../../model/weather';
 import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
@@ -58,6 +59,13 @@ const WOBBLE_ROCK = 0.35;
 const SHADOW_SPREAD = 0.6;
 /** How much nearer than its mushroom its shadow is drawn: just behind it, before anything standing behind it. */
 const SHADOW_NEARER = -0.5;
+/**
+ * How much larger a mushroom is drawn in a wet meadow, scaled about its foot.
+ * Its hit area, in its drawing's frame, grows with it; the outline read off
+ * its genes (`mushroom-outline`) does not, the 6 % being inside the tap
+ * patch's slack.
+ */
+const RAIN_SWELL = 0.06;
 
 /**
  * The meadow's mushrooms on screen, reconciled with the state by id: a new
@@ -207,7 +215,13 @@ export class MushroomBed implements Following {
     }
   }
 
-  update(t: number): void {
+  /**
+   * Breathes, wobbles and grows every mushroom at `t`, in seconds, each
+   * swollen about its foot as `rain` wets the meadow (`RAIN_SWELL`), its
+   * house, ring and the seats on its cap following its drawing.
+   */
+  update(t: number, rain: Rain | undefined): void {
+    const swell = 1 + RAIN_SWELL * wetness(rain, t * 1000);
     for (const [id, shown] of this.shown) {
       const {
         graphics,
@@ -220,7 +234,7 @@ export class MushroomBed implements Following {
         turn,
         stands: { zoom },
       } = shown;
-      const grown = Math.min(emerge(t - plantedAt), sink(t - goneAt));
+      const grown = Math.min(emerge(t - plantedAt), sink(t - goneAt)) * swell;
       if (t - goneAt >= SINK_DURATION) {
         graphics.destroy();
         shadow.destroy();
