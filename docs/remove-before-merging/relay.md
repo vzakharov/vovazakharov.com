@@ -1,13 +1,13 @@
 # Relay summary
 
-Relay depth: **1** — a fresh chain. The session before this one stood at
-depth 8, the cap (`.claude/skills/megabeast/notes/pickup-and-relay.md`
-§ "The depth cap"), so the operator starts this one by hand.
+Relay depth: **2** (the chain restarted by hand at depth 1 last session; the
+cap is 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
+§ "The depth cap").
 
 ## 1. Standing constraints
 
 **Never issue `git reset --hard` on pickup.** The clone is shallow: deepen
-first (`git fetch --deepen=300 origin <branch>`), check
+first (`git fetch --deepen=300 origin <branch>`, or `--unshallow`), check
 `git merge-base --is-ancestor`, and rename a genuinely stale ref aside
 (`git branch -m <branch> stale/<n>`) before checking out a fresh tracking
 branch. **After the attach, run `pnpm install --frozen-lockfile`** (the
@@ -84,9 +84,8 @@ tombstones `docs/remove-before-merging/retired.md` and `frames/retired.md`
 explicitly (`create_session` `model: "claude-opus-5-5"`, `Agent`
 `model: "opus"`). The review is a subagent in each bite's tail (two by area
 for a bite of bite 13's size). Build agents work in their own
-`git worktree` in the scratchpad (bite 13's common brief, retired: its row
-in `docs/remove-before-merging/retired.md` gives the recipe to read it;
-write the next bite's own `brief-common.md` from it). **Play runs: a game
+`git worktree` in the scratchpad (bite 14's common brief,
+`docs/remove-before-merging/bite-14/brief-common.md`). **Play runs: a game
 red is fixed by the run, a harness red goes to
 `docs/plans/mushroom-game-syama/to-check.md` (Russian, for the operator);
 scenarios stay short.** Pass this section on verbatim.
@@ -95,74 +94,84 @@ scenarios stay short.** Pass this section on verbatim.
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
-The relay's launch line, the only operator-shaped turn this session. Reply
-(Russian): attached (HEAD was detached; the stale local ref renamed to
-`stale/mushroom-game-syama-lbirv7-e66b8e1`, no auto-branch), installed,
-plan flipped; then bite 13's rest through nine agents, each report
-summarised in a short Russian line: R5's play, F's small fixes plus call 15,
-T's type-overlap fix, reviewers A and B, the review posted, X1 and X2's
-fixes with every thread replied to, the fold and retirement, the Artifact
-republished, `/polish` and `/pr`, the plan paused, this relay. No further
-operator message.
+Reply (Russian): attached (clone unshallowed, no stale local ref, auto-branch
+`claude/tender-babbage-w93pf3` left alone), installed, plan flipped; two spec
+agents, then the calls; build waves S1∥P1, P2∥S2, P2b∥S3∥S4, each report
+summarised in a short Russian line.
+
+> продуктивная ночь 🙂 сколько по твоим прикидкам нам осталось?
+
+Reply: four bites (14–17) plus `/finalize`; about a day at the recent pace
+(12b+13 took ~14 h), roughly $500–800 more on top of $1634 so far; one
+depth-cap restart by the operator around bite 16–17. Dusk (16) the heaviest,
+17 the lightest. No further operator message.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
-playable after every bite; `/finalize` at the end, no merge. **Bite 13
-(rain) is done**, review handled; next is item 14, after the rain.
+playable after every bite; `/finalize` at the end, no merge. **Bite 14 (after
+the rain) is built but not finished**: its rest is in
+`docs/plans/mushroom-game-syama/bite-14.md` § "Left, in order".
 
 ## 4. Decisions
 
-All of bite 13's are in `docs/plans/mushroom-game-syama/bite-13.md` (calls
-1–15, § "Built") and its review's in
-`docs/plans/mushroom-game-syama/bite-13/review.md`. Worth naming:
+All in `bite-14.md`, calls 1–24. Worth naming:
 
-- **Call 14: the rainbow stays opposite the sun**, so it is behind the child
-  on the opening view, as rain.md asks; `to-check.md` asks the operator
-  whether a child finds it.
-- **Call 15: the sun dims to half while it rains** (`sunShown` in
-  `rain-sky.ts`).
-- **`headR` is the open head's size; a closed flower's folded reach is
-  `shown.perch`**, read only by perching; the probe's closing reads the
-  fold the paint drew (`shown.painted`).
-- **A cloud's tap and the drops' span derive from the puff table**
-  (`cloud-puffs.ts`); rain shows from under each cloud's drawn box.
+- **Shelter is a perch kind**, two seats under each dome cap wide enough;
+  the model learns the rain from the meadow, `game.ts` untouched by shelter.
+- **Sprouting: the scene finds room, the model decides** (`shedding` →
+  `shedIn` → the tick's `shed`), three sprouts of the oldest mushroom in
+  sight, 0.4 → full over 120 s as a clock function.
+- **Call 21 dropped back**: a sprout is not judged at its start size (0/20
+  visits found room so); it may come up half behind a stem.
+- **Calls 22–24, written this session from the reports**: slow the rain's
+  take-off turn rather than loosen the watch; a far shelter's 6–8 s dash
+  accepted; a shelter seat a nearer cap covers is not offered.
 
 ## 5. Errors and dead ends
 
-- An orchestrator nudge from a stale `git log origin` view told X1 it had
-  nothing pushed when it had: fetch right before a nudge.
-- Republishing the Artifact took two refusals then a third identical publish,
-  as the megabeast note predicts.
+- Every scene agent briefed "build, then look" ran out before or during the
+  look (S2 took no frames; P2b never saw its spore dots). Brief build and
+  look as separate agents.
+- The play steps the game clock while Phaser tweens run on the wall clock,
+  so a tweened effect cannot be judged from stepped frames until the tween
+  clock is driven from the stepped one.
+- The orchestrator crossed 200k at the sixth report; it waited out the
+  running wave before relaying (megabeast notes, 4d553c87).
 
 ## 6. State
 
 Checked at the time of writing (see the commit carrying this file):
 
-- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `CONFLICTING` (reported, `/finalize`'s job).
-- Plan `docs/plans/mushroom-game-syama.paused.md`, no `## This bite` or
-  `## Rest of the bite`; `## Rest of the elephant` opens at item 14.
-- Artifact at version 19 (bite 13, rain).
-- PR #57's bite-13 review: five threads, every one replied to with its fix
-  commit; none resolved (CLAUDE.md: never resolve).
-- No agent running, no worktree but the main checkout, no check-in armed, no
-  PR subscription. Megabeast notes filled.
+- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`
+  (mergeability `UNKNOWN` at the check; it was `CONFLICTING` last session —
+  `/finalize`'s job, reported, not fixed).
+- Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`
+  holding item 14 and pointing at `bite-14.md`.
+- Bite 14's frames so far: `docs/remove-before-merging/frames/bite-14/`
+  (S3's five). Bite 13's frames are still on the branch — retire them at
+  this bite's end.
+- Artifact still at bite 13 (version 19); not republished this session.
+- No agent running, no worktree but the main checkout, no PR subscription.
+  The `send_later` check-ins armed this session have all fired. Megabeast
+  notes filled (4d553c87).
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama.paused.md` — the plan; item 14 in
-  `## Rest of the elephant`.
-- `docs/plans/mushroom-game-syama/bite-13.md`, `bite-13/review.md` — the
-  last bite's contract.
-- `docs/plans/mushroom-game-syama/to-check.md` — the operator's hand checks.
-- `docs/remove-before-merging/frames/bite-13/` — the bite's frames.
-- The previous session: https://claude.ai/code/session_01GzypzaK9UdeqBziZG4E7gx
+- `docs/plans/mushroom-game-syama/bite-14.md` — calls, packages, § "Built",
+  § "Left, in order": the successor's work list.
+- `docs/remove-before-merging/bite-14/` — the common brief, both specs, each
+  agent's hand-over note (`s1`–`s4`, `p1`, `p2`, `p2b`), and
+  `look-sprouts.ts.txt` (P2b's scratch play driver with a tween-clock patch,
+  saved because the scratchpad does not survive the relay).
+- `docs/plans/mushroom-game-syama/to-check.md` — the operator's hand checks,
+  with this bite's lines.
+- The previous session: https://claude.ai/code/session_01KnTCLCBZfoZTSwttNkgDpi
 
 ## 8. Next step
 
 /go
 
-(Item 14, after the rain: insects shelter under caps while it rains, spores
-sprout after — the loop's own words in § 1, «так по циклу, пока не дойдёшь
-до конца». Reply to the operator in Russian, «ты».)
+(Bite 14's rest, `bite-14.md` § "Left, in order" from item 1; the loop's own
+words in § 1, «так по циклу, пока не дойдёшь до конца». Reply to the
+operator in Russian, «ты».)
