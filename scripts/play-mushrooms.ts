@@ -57,6 +57,7 @@ import { playKeys } from './lib/play-keys.ts';
 import { playMeadow } from './lib/play-meadow.ts';
 import { playOpening } from './lib/play-opening.ts';
 import { playRain } from './lib/play-rain.ts';
+import { playRuns } from './lib/play-runs.ts';
 import { playSpecies } from './lib/play-species.ts';
 import { playSprouts } from './lib/play-sprouts.ts';
 import { playTufts } from './lib/play-tufts.ts';
@@ -83,6 +84,7 @@ type Screen = (typeof SCREENS)[number];
 const PLAYS = [
   ['opening', playOpening],
   ['meadow', playMeadow],
+  ['runs', playRuns],
   ['walk', playWalk],
   ['approach', playApproach],
   ['planting', playPlanting],
