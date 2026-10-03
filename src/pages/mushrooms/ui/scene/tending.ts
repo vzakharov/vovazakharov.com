@@ -29,7 +29,7 @@ import {
   coversOn,
   roomIn,
   type Stand,
-  WIDEST_SPAN,
+  widestSpanOn,
 } from './flower-sight';
 import { type Tuft, tuftSizeAt } from './grass';
 import type { Sprout } from './lawn';
@@ -224,10 +224,11 @@ export function strayed(view: View, from: Eye, slack: number): boolean {
 /**
  * How near, in px, a tuft's foot on `layout` stands to the world's side at
  * the most while its flower's sighting reaches it (`flowerInSight`): the
- * widest insect's span and a near flower's head and sway, with room over.
+ * widest insect's span (`widestSpanOn`) and a near flower's head and sway,
+ * with room over.
  */
-export function sightSlack({ insectSize, camera }: MeadowLayout): number {
-  return 2 * WIDEST_SPAN * insectSize + camera.unit;
+export function sightSlack(layout: MeadowLayout): number {
+  return 2 * widestSpanOn(layout) + layout.camera.unit;
 }
 
 /**

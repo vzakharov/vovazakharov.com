@@ -1,6 +1,12 @@
 import type * as Phaser from 'phaser';
 
-import { arch, ellipse, type Point, sample } from '../../model/geometry';
+import {
+  arch,
+  type Circle,
+  ellipse,
+  type Point,
+  sample,
+} from '../../model/geometry';
 import {
   type DoorPlace,
   doorway,
@@ -32,6 +38,8 @@ const HALO = 2.6;
 const FRAME = 0.1;
 /** A tall window's width, in its square's side. */
 const TALL_WIDTH = 0.62;
+/** A square window's glint, on its left pane: an open one's right casement has it mirrored. */
+const SQUARE_SHINE: Circle = { x: -0.2, y: 0.2, r: 0.09 };
 /** How far an open door's leaf folds back towards its hinge. */
 const LEAF_FOLD = 0.8;
 
@@ -125,7 +133,7 @@ function paintPane(
   place: Place,
   outline: readonly Point[],
   reach: number,
-  shine: Point & { r: number },
+  shine: Circle,
   brush: Brush,
   { open, swingsTo }: WindowSwing,
 ): Place {
@@ -168,7 +176,8 @@ function paintCasements(
       PALETTE.windowPane,
       brush,
     );
-    paintShine(graphics, casement, { x: side * 0.2, y: 0.2 }, 0.09, brush);
+    const shine = { ...SQUARE_SHINE, x: -side * SQUARE_SHINE.x };
+    paintShine(graphics, casement, shine, shine.r, brush);
     // Its half of the cross bar, and its half of the upright where the two meet.
     for (const piece of [
       box(inside ?? 0, -bar / 2, outside ?? 0, bar / 2),
@@ -248,7 +257,7 @@ export function paintWindow(
           place,
           box(-pane, -pane, pane, pane),
           pane,
-          { x: -0.2, y: 0.2, r: 0.09 },
+          SQUARE_SHINE,
           inner,
           swing,
         );

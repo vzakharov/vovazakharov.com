@@ -58,6 +58,11 @@ import { middleOf } from './view';
 export const PERCH_SPREAD = 0.3;
 /** The widest a butterfly's open wings span, in units of its size, whatever its genes. */
 export const WIDEST_SPAN = 1.22;
+
+/** The widest a butterfly's wings span on `layout`, in px: the span `flowerInSight` judges by unless told. */
+export function widestSpanOn({ insectSize }: MeadowLayout): number {
+  return WIDEST_SPAN * insectSize;
+}
 /**
  * How much of a flower's head, out from its centre as a share of its reach,
  * has to show past the mushrooms in front of it, and at how many points
@@ -175,7 +180,7 @@ export function flowerInSight(
   layout: MeadowLayout,
   { place, head, lift }: Sighting,
   covers: readonly Cover[],
-  span: number = WIDEST_SPAN * layout.insectSize,
+  span: number = widestSpanOn(layout),
 ): boolean {
   const centre = pick(head, 'x', 'y');
   const seat = { ...centre, y: centre.y - lift };

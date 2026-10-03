@@ -255,11 +255,19 @@ export function wormClock(sinceTap: number): number {
   return sinceTap - WINDOW_SWING;
 }
 
+/** The tap, on the worm's clock: when its window starts to swing open. */
+const TAP = wormClock(0);
+
+/** How long after the tap a worm out `duration` on its clock has its windows shut again, it in. */
+function shutAfter(duration: number): number {
+  return WINDOW_SWING + duration + WINDOW_SWING;
+}
+
 /** How long after the tap a trip `length` long has its windows shut again, its worm in. */
 export function tripSpan(length: number): number {
-  return WINDOW_SWING + tripDuration(length) + WINDOW_SWING;
+  return shutAfter(tripDuration(length));
 }
-export const PEEK_SPAN = WINDOW_SWING + WORM_PEEK_DURATION + WINDOW_SWING;
+export const PEEK_SPAN = shutAfter(WORM_PEEK_DURATION);
 
 /** How open a window is at `time` on the worm's clock, swinging open from `opens` and shut from `shuts`. */
 function swung(time: number, opens: number, shuts: number): number {
@@ -296,10 +304,10 @@ export function tripWindows(sinceTap: number, length: number): TripWindows {
   const time = wormClock(sinceTap);
   const nearing = whenPast(length, 'head', length - WINDOW_CLEAR);
   return {
-    tapped: swung(time, -WINDOW_SWING, whenPast(length, 'tail', WINDOW_CLEAR)),
+    tapped: swung(time, TAP, whenPast(length, 'tail', WINDOW_CLEAR)),
     reached: swung(
       time,
-      Math.max(-WINDOW_SWING, nearing - WINDOW_SWING),
+      Math.max(TAP, nearing - WINDOW_SWING),
       tripDuration(length),
     ),
   };
@@ -307,7 +315,7 @@ export function tripWindows(sinceTap: number, length: number): TripWindows {
 
 /** How open a lone window is `sinceTap` after the tap: open before the worm peeks out, shut once it is back in. */
 export function peekWindow(sinceTap: number): number {
-  return swung(wormClock(sinceTap), -WINDOW_SWING, WORM_PEEK_DURATION);
+  return swung(wormClock(sinceTap), TAP, WORM_PEEK_DURATION);
 }
 
 /**
