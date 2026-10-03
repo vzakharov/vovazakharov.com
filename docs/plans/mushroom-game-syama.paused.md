@@ -321,7 +321,15 @@ frame), green at 18.4 ms once a far mushroom paints fewer chords
 republished at the tail's head.
 `/polish` closed again (a772d94), the PR body refreshed.
 12b's review posted (https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5398479115: six blocking, three nits; frames under `docs/remove-before-merging/frames/bite-12b/review/`, brief `bite-12b/review-brief.md`).
-**Left:** its handling. Each package's commits and the orchestrator's calls:
+Its handling: all nine threads fixed or decided and replied to, each
+call and package report in `docs/remove-before-merging/bite-12b/review-handling.md`
+(the twelve on a turned screen decided in `decisions.md`).
+**Left:** the play's expect on the lawn's share of a sow frame (≤ 26 ms,
+`__probe.tendFrames()`); one trace of the two frame-cost leads in
+review-handling.md (frames after a long walk, the perches' `see` on a sow
+frame); then the bite's end — `/polish` (`screenSides` vs `onscreenOf`),
+the fold into `bite-12b.md` and `## Eaten so far`, retiring 12b's working
+notes and frames, the Artifact republished, `/pr`. Each package's commits:
 `docs/remove-before-merging/bite-12b/waves.md`.
 
 ## Rest of the elephant
