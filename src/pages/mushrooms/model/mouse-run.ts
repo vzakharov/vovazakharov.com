@@ -52,7 +52,7 @@ export const moved = (mice: Mice, from: string, to: string): Mice =>
   entered(left(mice, from), to);
 
 /** Whether two feet stand near enough for a mouse to run between them. */
-export const inReach = (a: Point, b: Point): boolean =>
+const inReach = (a: Point, b: Point): boolean =>
   distanceBetween(a, b) <= RUN_REACH;
 
 /** Of `doors` other than `except`, the ones drawn now within reach of `origin`. */
@@ -156,7 +156,7 @@ export type RunInLeg = RunEnds & Pick<RunMoment, 'leg'>;
  * Which of `runs` has its mouse in `id`'s doorway: peeking out of it to
  * run, or going in at it until its door has shut; -1 with none.
  */
-export const inDoorway = (runs: readonly RunInLeg[], id: string): number =>
+const inDoorway = (runs: readonly RunInLeg[], id: string): number =>
   runs.findIndex(
     ({ from, to, leg }) =>
       (from === id && leg === 'peek') ||

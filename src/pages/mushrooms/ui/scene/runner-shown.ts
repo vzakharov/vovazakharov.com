@@ -32,7 +32,7 @@ import type { View } from './view';
 const RUNNER_MIDDLE = 0.3;
 
 /** What a house lends a runner near its door to paint it in: its mushroom's size, for the ink, and its light. */
-export type RunnerPaint = Pick<Shown, 'size' | 'lighting'>;
+type RunnerPaint = Pick<Shown, 'size' | 'lighting'>;
 
 /**
  * A run's end at a door, with its house's paint taken along, so the runner

@@ -43,14 +43,6 @@ export function curveSteps(drawn: number): number {
 export type Chorded = { steps: number };
 
 /**
- * The chords a porcini's or russula's band is painted with at any size: its
- * collar, a notch round the stem narrower than a far chord where sampling by
- * angle is sparsest, moves by over a pixel at ~30 to ~80 px a unit with any
- * fewer than its tap area's.
- */
-export const BAND_STEPS = CURVE_STEPS;
-
-/**
  * A count a near mushroom is painted with, `full`, for one painted with
  * `steps` chords to a curve: scaled as the chords are, never under `least`.
  */

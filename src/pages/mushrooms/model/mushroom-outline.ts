@@ -15,7 +15,6 @@ import {
 } from './mushroom-genes';
 import { capFrame, stemAt } from './mushroom-pose';
 import {
-  BAND_STEPS,
   capSurface,
   CURVE_STEPS,
   RIM_ROUNDS,
@@ -24,6 +23,14 @@ import {
 import type { ShelterSeat } from './shelter';
 /** A mushroom's ink line, in units of its size, wherever it is painted big enough to leave its pixel floor. */
 export const MUSHROOM_INK = 0.014;
+
+/**
+ * The chords a porcini's or russula's band is painted with at any size: its
+ * collar, a notch round the stem narrower than a far chord where sampling by
+ * angle is sparsest, moves by over a pixel at ~30 to ~80 px a unit with any
+ * fewer than its tap area's.
+ */
+const BAND_STEPS = CURVE_STEPS;
 
 /** A mushroom's ink line in pixels, painted `size` px to its unit: `MUSHROOM_INK`, never under two pixels. */
 export function inkWidth(size: number): number {

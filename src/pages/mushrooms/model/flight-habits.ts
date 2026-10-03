@@ -31,7 +31,7 @@ export type Pace = {
 };
 
 /** A kind's quicker pace to a shelter from the rain; every time in ms. */
-export type Sheltering = Pace & {
+type Sheltering = Pace & {
   /**
    * The flight its take-off pivot is timed as at the least (`Span`'s
    * `pivots`), long enough that the pivot turns its body well under its

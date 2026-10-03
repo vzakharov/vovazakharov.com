@@ -48,7 +48,7 @@ const LONGEST_TICK = 0.1;
 const SUBSTEP = 1 / 240;
 
 /** The way a signed amount points, a zero counting as back. */
-export function wayOf(amount: number): Direction {
+function wayOf(amount: number): Direction {
   return amount > 0 ? 1 : -1;
 }
 

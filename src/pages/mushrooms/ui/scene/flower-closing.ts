@@ -101,7 +101,7 @@ export function petalPose(
  * How many heads a frame repaints for the closing at the most: a step's
  * repaints spread over a few frames rather than landing on one.
  */
-export const CLOSINGS_PER_FRAME = 6;
+const CLOSINGS_PER_FRAME = 6;
 
 /** How far shut a flower was last painted, a step of `closingStep`. */
 export type Shut = { closing: number };

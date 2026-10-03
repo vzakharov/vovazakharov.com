@@ -109,7 +109,7 @@ function drawnFoot(
 }
 
 /** A disc round `ground`, `reach` across as a camera lays it out (`seen`), in the clump's size. */
-export type Near = Reach & { ground: Ground };
+type Near = Reach & { ground: Ground };
 
 /**
  * A ground point drawn evenly over `near`'s disc as a camera lays it out, or

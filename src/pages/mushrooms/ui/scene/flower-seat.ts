@@ -37,7 +37,7 @@ const ON_CENTRE = 0.12;
 const PAST_RIM = 0.05;
 
 /** How far a flower's centre reaches from the head's middle, in CSS px. */
-export type Centred = { disc: number };
+type Centred = { disc: number };
 
 /** How far a flower's head reaches, and its centre (`Centred`). */
 export type HeadReach = Pick<Circle, 'r'> & Centred;

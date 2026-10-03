@@ -62,7 +62,7 @@ const TIE = 1e-9;
 const END_SLACK = 1e-9;
 
 /** The highest a dome's arch climbs from the row toward the cap's top, on the longest trip. */
-export const WORM_LIFT = 0.8;
+const WORM_LIFT = 0.8;
 /** How far a chanterelle's worm humps over its row. */
 const RIM_HUMP = PANE / 2;
 /** How many chords a trip's path is sampled with. */
@@ -86,7 +86,7 @@ export type WormPose = { head: number; tail: number };
 export type TripPhase = 'out' | 'crawl' | 'in';
 export type WormTrip = WormPose & { phase: TripPhase };
 /** The way a worm's head points, in radians from the cap's x axis. */
-export type Running = { tangent: number };
+type Running = { tangent: number };
 export type WormBody = {
   /** The segments showing, outside both windows, in paint order: the tail first. */
   segments: Circle[];
