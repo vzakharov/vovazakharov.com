@@ -18,7 +18,7 @@ import { TAP_RADIUS } from './tap-reach';
 import type { View } from './view';
 
 /** A resting spore's radius, of the size a mushroom standing on its foot is laid out at. */
-const DOT = 0.02;
+const DOT = 0.05;
 /** The least radius a spore is drawn at, in px, so a far one still shows. */
 const LEAST_DOT = 1.2;
 /** How far a picked-up spore's puff opens, of its radius. */
