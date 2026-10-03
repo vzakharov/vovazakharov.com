@@ -142,6 +142,11 @@ function arcOf(pinhole: Pinhole, x: number): number {
   return x - pinhole.x;
 }
 
+/** A screen x's azimuth off the heading, in radians. */
+function azimuthOf(pinhole: Pinhole, x: number): number {
+  return arcOf(pinhole, x) / pinhole.arc;
+}
+
 /**
  * How far from the eye, in the clump's size, the ground under screen row
  * `y` stands at the screen's middle, a row above the seam counting as the
@@ -249,8 +254,8 @@ function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
       // `reference · tan` of it across; the eye goes against the finger so
       // that ground comes to the finger's azimuth.
       const pinhole = pinholeOf(lens);
-      const from = arcOf(pinhole, lock.from) / pinhole.arc;
-      const to = clampAzimuth(arcOf(pinhole, point.x) / pinhole.arc);
+      const from = azimuthOf(pinhole, lock.from);
+      const to = clampAzimuth(azimuthOf(pinhole, point.x));
       const aim = lock.reference * (Math.tan(from) - Math.tan(to));
       return { ...walk, stride: chaseTo(stride, aim, time) };
     }
@@ -283,7 +288,7 @@ function lockAt(camera: Camera, axis: Lock['axis'], crossing: Point): Lock {
   // screen's bend there from the eye, along its azimuth: this far straight
   // ahead and across.
   const pinhole = pinholeOf(camera);
-  const azimuth = arcOf(pinhole, crossing.x) / pinhole.arc;
+  const azimuth = azimuthOf(pinhole, crossing.x);
   const distance =
     distanceOfRow(camera, crossing.y) * bendAt(pinhole, crossing.x);
   const reference = distance * Math.cos(azimuth);
