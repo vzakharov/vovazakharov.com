@@ -45,12 +45,27 @@ You work in a `git worktree` of your own, never in the shared checkout at
   A symlinked `node_modules` fails Turbopack; install there.
 
 - **Commit and push after every step that passes** its tests and
-  `pnpm typecheck`, with a descriptive conventional-commit message ending in
-  the two attribution lines your prompt gives; then
-  `git pull --no-rebase origin claude/mushroom-game-syama-lbirv7` and
-  `git push origin HEAD:claude/mushroom-game-syama-lbirv7`. On a rejected
-  push, pull again and push. The container can restart without warning; what
-  is not pushed is lost.
+  `pnpm typecheck` — to your own branch, `git push -u origin wt/<package>`,
+  never to the shared one mid-package. The container can restart without
+  warning; what is not pushed is lost.
+- **Land the package as one commit** when you are done (or told to wrap
+  up), so the shared branch gains one commit per agent rather than one per
+  step plus a merge each:
+
+  ```
+  git fetch origin claude/mushroom-game-syama-lbirv7
+  git checkout -B land-<package> origin/claude/mushroom-game-syama-lbirv7
+  git merge --squash wt/<package>
+  git commit        # one conventional subject for the package, a body listing what each step did, the attribution lines
+  git push origin HEAD:claude/mushroom-game-syama-lbirv7
+  ```
+
+  On a rejected push, repeat from the fetch. A squash that conflicts is
+  settled keeping both sides' intent, never by dropping the other agent's
+  lines. Once it is on the shared branch, `git push origin --delete
+wt/<package>`. Report the landed commit's SHA: it is what review replies
+  cite.
+
 - Touch only the files your package owns; your prompt names them and what is
   off limits. The plan file and `bite-15.md` are the orchestrator's alone:
   never edit them.
@@ -63,8 +78,8 @@ You work in a `git worktree` of your own, never in the shared checkout at
   `git stash`, never force-push.
 - Before you report, remove the worktree:
   `git -C /home/user/vovazakharov.com worktree remove --force <path>` and
-  `git -C /home/user/vovazakharov.com branch -D wt/<package>` — only after
-  everything in it is pushed.
+  `git -C /home/user/vovazakharov.com branch -D wt/<package> land-<package>`
+  — only after the package has landed on the shared branch.
 
 ## Checks
 
