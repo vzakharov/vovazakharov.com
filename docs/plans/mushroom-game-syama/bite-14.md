@@ -233,7 +233,8 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     the cruise) runs on toward a target the finger left far behind. On the
     lift it eases to a stop over the cruise's own ease rather than running
     to the target; a held walk, strafe or turn key cancels it at once and
-    takes over (`model/stride.ts`, `model/walk.ts`).
+    takes over (`model/stride.ts`, `model/walk.ts`). A finger still moving
+    at the lift glides on instead (call 43).
 
 ## From the operator's play — for item 15
 
@@ -320,28 +321,34 @@ holds its detail.
     and answer as call 27's butterfly. Beat: a second limiter on the drawn
     rotation (state the model's `wound` does not see, moving the light and
     nectar pose) and headroom in the model's clamp (a margin with no bound,
-    the bend's slope varying across the screen). The meadow play's red
-    stays until the watch allows the bend's slope.
+    the bend's slope varying across the screen). The flier watch allows
+    the bend as `BEND_SLOPE` 1.01 over the model's cap (W): judging the
+    model's turn instead would stop it catching a turn the screen snaps.
+
+43. **A quick ground swipe glides on, as a sky turn does** (option 2 of
+    three put to the operator after call 37; unanswered by the tail, so the
+    recommended one, G). On the lift a finger still moving flings the eye
+    on along the chase's line at its speed, capped at
+    `STRIDE_FLING_FASTEST` (5 × cruise, 8 units/s), slowing on the sky
+    turn's curve: ~2.7 units, nine tenths within 1 s. A finger at rest
+    before the lift, or a walking key held at it, keeps call 37's ease to
+    rest; a key or a press ends the glide, a key taking over its pace held
+    to the cruise. The curve and the finger-speed sampling are one module,
+    `model/glide.ts`, that `pan.ts` and `stride.ts` share. Beat: (1) stop
+    on the lift, which moved a quick swipe ~0.2 units; (3) run to the lift
+    point, which a quick swipe barely moves either.
 
 - **R** f5f5f71 — `sprouts` passes after `risen` (tabL: 3 sown, 1 picked,
-  2 sprouts, 0 left; 14.3 ms median); fly-8 traced (call 42).
+  2 sprouts, 0 left; 14.3 ms median); fly-8 traced (call 42). **W**
+  dacec89b — the watch allows the bend; meadow green on tabL. **G**
+  eae780e, 3855aad — the ground fling (call 43), merged 6c786971; the
+  walk play green on tabL.
+- The phone's narrow clump (62 % narrower than a fingertip after a shower,
+  47.8 % under the old shed) is a `to-check.md` line.
 
 ## Left, in order
 
-1. **Call 37's ground swipe, the operator's call** (asked, no answer yet):
-   C37 makes a quick ground swipe move ~0.2 units (was 2–3). Options put to
-   him: (1) as built, stop on the lift; (2, recommended) glide on at the
-   finger's speed and fade in ~1 s, as the sky turn does; (3) run to the
-   lift point, a tap or key stopping it. Then fix `scripts/lib/play-walk.ts`
-   ~405–422's strafing-drag check (expects 2.34–3.07) to match.
-2. **The meadow play's fly-8 red** (call 42): the watch's turn check
-   allows the bend's slope (judge the model's turn, or the drawn one with a
-   ~1 % margin), so the play goes green; in the tail's fixes.
-3. The phone's narrow clump is a `to-check.md` line (62 % narrower than a
-   fingertip after a shower, 47.8 % under the old shed).
-4. The tail: the review (two reviewer agents — shelter+walk, spores), its
+1. The tail: the review (two reviewer agents — shelter+walk, spores), its
    fixes, the fold, bite 13's frames and this bite's working notes retired,
    the Artifact, `/polish`, `/pr`. `model/shelter.ts` carries a prettier
-   warning (`saltedStream,type`). The megabeast note
-   `play-run-and-frames.md` still describes the budget as failing (lines
-   ~89, ~140, ~178–190); `rain.md:67` too.
+   warning (`saltedStream,type`).
