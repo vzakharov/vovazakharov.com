@@ -31,6 +31,18 @@
   "retire the previous bite's notes and frames" in the bite-end order,
   after the new frames are committed, with one row per directory in
   `docs/remove-before-merging/retired.md` or `frames/retired.md`.
+- **The ~450-line rule needs its own check at a bite's end.** `/polish`
+  reads only what changed, so modules that crept past the line over
+  several bites went unflagged until 12b's end found four (`game.ts` 498,
+  `flower-sight.ts` 484); one split agent brought both logic modules under
+  in ~115k. The skill should list `src/` files past ~450 lines in the
+  bite-end order and brief a split for each logic module.
+- **A frame median on the shared container measures the machine too.**
+  12b's "frames after a long walk" lead (27.4 ms against ~17) was a loaded
+  container: traced with `__probe.costs()`, every count stayed flat and the
+  frames ran 6–12 ms; the approach's 26.2 ms red sat at load 3–4. The skill
+  should have every frame measure log the load average beside it, and read
+  a median within a few ms of the budget at load > 2 as unsettled, not red.
 - **`tsc -p apps/<site>/tsconfig.json` skips the tests.** It passed while a
   test had an implicit-`any` index that the root `tsconfig.json` (and vet)
   rejected. The quick check between commits should be the root project, or

@@ -122,7 +122,9 @@
   refusal save the live source to a file; `Read` every line of it but the
   one bundle line (the refusal names it), confirm the rest is the build
   script's shell plus the publish wrapper, and publish the same file again.
-  A second unchanged publish without that `Read` is refused as a resend.
+  A second unchanged publish without that `Read` is refused as a resend;
+  at 12b's end one sent right after the `Read` was refused that way too,
+  and a third, identical, went through — so expect two refusals.
 
 - **The budget notice's "offer `/compact` or `/relay`" does not apply in
   the loop: it relays, unasked.** Bite 12's last session met the 200k
