@@ -11,10 +11,10 @@ import { perchAnchorOf } from '../../src/pages/mushrooms/ui/scene/perches.ts';
 import { pick } from '../../src/shared/lib/collections.ts';
 import {
   type Controls,
-  InsectPoints,
   type Expect,
   Eye,
   grow,
+  InsectPoints,
   Insects,
   inTurn,
   type Page,
