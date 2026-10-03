@@ -196,6 +196,20 @@ export function endOf(front: Point, door: DoorPlace, size: number): RunEnd {
   };
 }
 
+/** How long a tapped runner's jump lasts, and how high it goes, in the runner's width. */
+const TAP_HOP = 0.3;
+const TAP_HOP_HEIGHT = 0.5;
+
+/**
+ * How high a runner jumps `since` seconds after a tap, in its width, on top
+ * of where its run has it: a single arc over `TAP_HOP`, nothing before the
+ * tap or after it lands. The run's own clock never reads it.
+ */
+export const hop = (since: number): number =>
+  since >= 0 && since < TAP_HOP
+    ? TAP_HOP_HEIGHT * Math.sin((Math.PI * since) / TAP_HOP)
+    : 0;
+
 /** The runner's width `progress` of the way from `from` to `to`: its own door's, easing into the target's. */
 export const widthAlong = (from: Wide, to: Wide, progress: number): number =>
   from.across + (to.across - from.across) * progress;
