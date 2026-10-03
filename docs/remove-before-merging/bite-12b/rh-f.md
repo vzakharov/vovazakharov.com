@@ -28,6 +28,15 @@
   the view). The one pure part, `laidOf` taking no anchor, is the
   clump-layout case above.
 
+## Seen, not mine
+
+- `fliers.test.ts` at 22b4b8f: 45 pass, 3 fail — "hold spots in the air
+  apart" on tabP and phoneL (overlapping aloft 0.0033 / 0.0014) and "caught
+  by a tap … seven times in ten" on tabP (fly 0.69). The same three fail with
+  `flight-in.ts` put back as it was, and all pass with `air-spots.ts` put
+  back to before d43c203 (rh-b's "crowd the air on the points as drawn at the
+  anchor").
+
 ## Decided
 
 - An unposed `Place` (hand-built in tests, away spots) keeps `fromEye`: it
