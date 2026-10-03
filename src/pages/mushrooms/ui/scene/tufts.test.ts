@@ -5,19 +5,25 @@ import { pick } from '@/shared/lib/collections';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Action, MUSHROOM_SLOTS, reduce } from '../../model/game';
-import type { Point } from '../../model/geometry';
+import { type Circle, distanceBetween, type Point } from '../../model/geometry';
 import {
   type Camera,
   type Eye,
+  groundFootOf,
   OPENING_EYE,
   pinholeOf,
 } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
-import { FLOWER_SIZE, standingOn } from './flower-layout';
+import {
+  FLOWER_SIZE,
+  type Footing,
+  headClear,
+  standingOn,
+} from './flower-layout';
 import { flowersOf } from './flower-plots';
-import { type Stand, takesFlower } from './flower-sight';
+import { roomIn, type Stand, takesFlower } from './flower-sight';
 import { type Tuft, tuftSizeAt } from './grass';
 import {
   CELL,
@@ -33,7 +39,6 @@ import { perchSight } from './perch-sight';
 import { bareToTap, tuftAt } from './tuft-tap';
 import {
   leaveTufts,
-  plantableIn,
   shownSprouts,
   type Sprout,
   tendedIn,
@@ -155,11 +160,19 @@ describe('shownSprouts', () => {
   }
 });
 
+/** The head of a flower grown from `seed` standing at `place` on the layout, at rest. */
+function headAt(seed: number, place: Footing): Circle {
+  const head = flowerHead(flowerGenes({ seed }), place.size);
+  return { x: place.x + head.x, y: place.y + head.y, ...pick(head, 'r') };
+}
+
 /**
  * What is wrong with `standing` as the tufts that stand on `stand` out of
- * `grown`: a tuft that refuses a flower, whose flower would meet a head, or
- * that is not bare to a finger; one off its foot or not of `grown`; or a
- * tuft of `grown` fit to plant on that does not stand.
+ * `grown`, seen from the opening eye: a tuft that refuses a flower, that is
+ * not bare to a finger, or whose flower, planted, would draw its head over
+ * another's; one off its foot or not of `grown`; or a tuft of `grown` that
+ * has room, is bare, and keeps any flower's head clear (`headClear`), yet
+ * does not stand.
  */
 function faultsOf(
   stand: Stand,
@@ -167,21 +180,37 @@ function faultsOf(
   standing: readonly Sprout[],
 ): string[] {
   const faults: string[] = [];
+  const { camera } = stand.layout;
   const bare = bareToTap(stand);
-  const plantable = plantableIn(stand, OPENING_EYE);
-  for (const each of standing) {
+  const room = roomIn(stand);
+  const flowers = flowersOf(stand);
+  const heads = flowers.map(({ seed, place }) => headAt(seed, place));
+  const others = flowers.map((flower) => ({
+    foot: groundFootOf(flower.foot),
+    genes: flowerGenes(flower),
+  }));
+  for (const [index, each] of standing.entries()) {
     const { foot, tuft } = each;
     if (!grown.includes(each)) faults.push('a tuft stands that never grew');
     if (!takesFlower(stand, foot, OPENING_EYE)) faults.push('a tuft refuses');
-    if (!plantable(each)) faults.push('a tuft’s flower would meet a head');
     if (!bare(tuft)) faults.push('a tuft is covered');
-    if (offFoot(stand.layout.camera, each) > 1e-6) {
+    if (offFoot(camera, each) > 1e-6) {
       faults.push('a tuft stands off its foot');
     }
+    const own = headAt(index + 1, standingOn(camera, foot));
+    if (heads.some((head) => distanceBetween(head, own) < head.r + own.r)) {
+      faults.push('a tuft’s flower would meet a head');
+    }
   }
-  if (grown.some((each) => plantable(each) && !standing.includes(each))) {
-    faults.push('a tuft fit to plant on is missing');
-  }
+  const stood = new Set(standing);
+  const missing = grown.some(
+    (each) =>
+      !stood.has(each) &&
+      room(each.foot) &&
+      bare(each.tuft) &&
+      headClear(groundFootOf(each.foot), others),
+  );
+  if (missing) faults.push('a tuft fit to plant on is missing');
   return faults;
 }
 

@@ -79,3 +79,49 @@ a call cannot hold stops and reports with the options measured.
 ## Reports
 
 Filled in as each lands.
+
+- **C1 (T143, unit)**: the game already followed — the case was green
+  before any change. 2ad466a (`perch-follow.test.ts`, through the real
+  `reduce`: fly and butterfly take far caps after the eye moves 40 up, the
+  bee an air spot, the far copy having no flowers; red with `isDue`'s
+  `!isOffered` removed), 1afd77a (the reach case on a cap at (15.5, 5.5),
+  16.45 out, placed by `placeIn` and refused only by `inReach`; the strip
+  past the reach is thin, so a change to `MEADOW_FRAME` or `PERCH_REACH` may
+  move it). C2 launched on the play half.
+- **F (T145–T147)**: 91ad7b8 (T145: `isShown` judges a place's plane
+  distance round the eye against `D_SEE`, as the brow does; a place without
+  a plane point keeps `fromEye`), eef972b (T146: at turn −1.1, not +1.1 —
+  facing inward at x 20 bends only 0.06–0.12, short of the 0.15 bar;
+  accepted), 22b4b8f (T147: the seam, the clump layout by eye-moved foot,
+  the light by closed form). The bed-repaint test is not written: the beds
+  are Phaser classes no test builds, and the one pure piece (`laidOf`) is
+  now covered — accepted. Its fliers run found three reds from B's d43c203;
+  B is told to settle them before it reports.
+- **A1 (T140, T147 tap)**: e4e8c72 (`Scened.tendedAt`; `plantable`,
+  `plantSounding`, `tapTuft` and `sowSounding` — the last beyond the call,
+  it picks among tufts judged there — read it), c7f4db61 (`planter.test.ts`
+  drives the real `Planter` through five walks short of a re-tend, red with
+  the walked eye; `tufts.test.ts`'s faults measured on planted heads, not
+  the rule that chose them). One line outside its files: `meadow-scene.ts`
+  wires `tendedAt`. A2 launched on T141.
+- **B (T142)**: d43c203 (spots carry where the anchor draws them;
+  crowding on drawn points, wings × zoom; red at fb82ca1 on all three
+  screens, green now; spots offered unchanged on every screen, ten of ten
+  insects seated), 65a68ecd (`fliers.test.ts`: the air-apart check moved to
+  the drawn measure, tolerance still 0, red at fb82ca1 on phone sideways;
+  the fly's tap rate on tabP was sample noise — 0.704 before, 0.705 after
+  over 8 visits — so `TAP_SEEDS` 8, bar 0.7 unchanged). fliers 48/48.
+- **D (T144)**: 1da1a918 (`roomFor` offers a ring slot only where every
+  head the flower's genes could grow, with its sway, stays between
+  `screenSides(camera)` as the anchor sees it). Births in a 40 s bee play:
+  phoneS 21 → 9, phoneP 19 → 6, tabL 20 → 15, none off screen after (17,
+  14 and 3 before). Halving on phones is accepted: the call traded count
+  for sight, and every screen still plants. Loose end for `/polish`:
+  `onscreenOf` in `perch-sight.ts` repeats `screenSides`' half-width.
+- **A2 (T141)**: no source change; filled at 170k and pushed its design as
+  `rh-a2.patch` (b2a16cd8): `lostOn(was, now, eye)` — the tufts a sow must
+  hide in its own frame, exact rather than a radius round the foot, since
+  the flower count reaches `D_SEE` and mushroom covers work in screen space
+  (accepted) — and `Tended`, the standing-tuft bookkeeping out of `Grass`.
+  `paint` still tends whole (a resize lays everything anew: accepted).
+  A2b launched to apply, wire and test it from `rh-a2.md`.

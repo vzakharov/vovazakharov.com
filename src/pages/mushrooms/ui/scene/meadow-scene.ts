@@ -96,6 +96,7 @@ export class MeadowScene extends Phaser.Scene {
       this.dispatch(action);
     },
     tufts: () => this.grass?.inView() ?? [],
+    tendedAt: () => this.grass?.tendedAt() ?? OPENING_EYE,
   };
   private readonly planter = new Planter(
     this.voice,
