@@ -9,7 +9,6 @@ import {
   emerge,
   EMERGE_DURATION,
   lookAbout,
-  mouseOut,
   type Tapped,
 } from '../../model/motion';
 import { capFrame } from '../../model/mushroom-pose';
@@ -20,6 +19,7 @@ import { paintHouse } from './draw-house';
 import { containsOutline } from './hit-areas';
 import { HouseWorm } from './house-worm';
 import type { Lighted } from './ink';
+import type { DoorShown, MouseDoor } from './mouse-runs';
 import type { HazedGraphics } from './mushroom-paint';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
@@ -86,6 +86,8 @@ export class HouseView {
   private readonly now: () => number;
   private readonly puffDepth: number;
   private readonly nearest: (house: HouseView, at: Point) => boolean;
+  /** Its door as the mice's runs show it and answer a tap on it. */
+  private readonly onDoor: MouseDoor;
 
   constructor(
     scene: Phaser.Scene,
@@ -94,12 +96,14 @@ export class HouseView {
     phase: number,
     puffDepth: number,
     nearest: (house: HouseView, at: Point) => boolean,
+    onDoor: MouseDoor,
   ) {
     this.scene = scene;
     this.voice = voice;
     this.now = now;
     this.puffDepth = puffDepth;
     this.nearest = nearest;
+    this.onDoor = onDoor;
     this.mouse = { phase, tappedAt: -Infinity };
     this.worm = new HouseWorm(voice, phase);
     this.graphics = scene.add.graphics().setInteractive({
@@ -135,8 +139,7 @@ export class HouseView {
   }
 
   private tapDoor(): void {
-    this.mouse.tappedAt = this.now();
-    this.voice.squeak();
+    this.onDoor.tap(this.mouse);
   }
 
   /** The worm out of window `from`, or a wriggle of it while it is out (`HouseWorm`). */
@@ -224,9 +227,15 @@ export class HouseView {
     this.graphics.destroy();
   }
 
-  /** How far the mouse is out of its door at `t`: 0 with no door. */
+  /** How far a mouse is out of its door at `t`, peeking or setting off on a run: 0 with no door. */
   out(t: number): number {
-    return this.doorAt === undefined ? 0 : mouseOut(t, this.mouse);
+    return this.doorShown(t)?.out ?? 0;
+  }
+
+  private doorShown(t: number): DoorShown | undefined {
+    return this.doorAt === undefined
+      ? undefined
+      : this.onDoor.at(t, this.mouse);
   }
 
   /** Stands the house at `place`, its mushroom's. */
@@ -240,7 +249,8 @@ export class HouseView {
     this.graphics
       .setScale(graphics.scaleX, graphics.scaleY)
       .setRotation(graphics.rotation);
-    const out = this.out(t);
+    const door = this.doorShown(t);
+    const out = Math.max(door?.out ?? 0, door?.open ?? 0);
     const popping = [...this.windowsAt, this.doorAt ?? -Infinity].some(
       (at) => t - at < EMERGE_DURATION,
     );
@@ -249,10 +259,10 @@ export class HouseView {
       return;
     this.stale = false;
     this.shownOut = out;
-    this.paint(t, body, out);
+    this.paint(t, body, door);
   }
 
-  private paint(t: number, body: Body, out: number): void {
+  private paint(t: number, body: Body, shown: DoorShown | undefined): void {
     const { genes, size, haze, lighting } = body;
     const house = this.house;
     this.graphics.clear();
@@ -269,14 +279,14 @@ export class HouseView {
       popped: emerge(t - (this.windowsAt[index] ?? -Infinity)),
     }));
     const door =
-      this.doorAt === undefined
+      this.doorAt === undefined || !shown
         ? undefined
         : {
             station: seated(body),
             popped: emerge(t - this.doorAt),
-            open: Math.min(1, out * DOOR_LEAD),
-            out,
-            look: lookAbout(t, this.mouse.phase),
+            ...pick(shown, 'out'),
+            open: Math.max(shown.open, Math.min(1, shown.out * DOOR_LEAD)),
+            look: shown.look ?? lookAbout(t, this.mouse.phase),
             shut: blink(t, this.mouse.phase),
           };
     this.reaches = windowReaches(genes, size, windows.length, brush.ink);

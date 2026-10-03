@@ -36,6 +36,7 @@ import { containsMushroom } from './hit-areas';
 import { HouseView } from './house-view';
 import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
+import { MouseRuns } from './mouse-runs';
 import { mushroomLights } from './mushroom-light';
 import { MushroomSelection } from './mushroom-selection';
 import {
@@ -83,6 +84,8 @@ export class MushroomBed implements Following {
   private selected: string | undefined;
   /** The screen's light as it last stood, which each mushroom takes from where it stands (`mushroomLights`). */
   private lighting: Lighting | undefined;
+  /** How many mice each house holds, and their runs between the houses. */
+  readonly runs: MouseRuns;
 
   private readonly scene: Phaser.Scene;
   private readonly voice: MeadowSound;
@@ -102,6 +105,7 @@ export class MushroomBed implements Following {
     this.now = now;
     this.selection = new MushroomSelection(scene);
     this.spores = new SporeBed(scene, voice, SPORE_DEPTH, SHADOW_NEARER);
+    this.runs = new MouseRuns(scene, voice, now, () => this.shown);
   }
 
   /**
@@ -120,6 +124,7 @@ export class MushroomBed implements Following {
       shown.goneAt = clock;
       shown.graphics.disableInteractive();
       shown.house.disable();
+      this.runs.sink(id, clock);
       this.voice.sink();
     }
     const planted = new Set<string>();
@@ -262,6 +267,7 @@ export class MushroomBed implements Following {
         .setVisible(drawn);
       if (id === this.selected) this.selection.pose(shown);
     }
+    this.runs.update(t, this.view);
   }
 
   /**
@@ -394,6 +400,7 @@ export class MushroomBed implements Following {
         phaseOf(mushroom),
         SPORE_DEPTH,
         this.nearestDoor,
+        this.runs.doorOf(mushroom),
       ),
     });
     graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {

@@ -34,6 +34,48 @@ function whisker(
 }
 
 /**
+ * How a mouse's parts are painted in its own frame (door widths, y up), as
+ * `place` puts that frame on the graphics: `fill` lays a shape in a colour,
+ * kept inside `clip` when given, and `inked` an ellipse with its ink grown
+ * behind it, heavier on its shade side, so a clipped edge shows no ink.
+ */
+function mouseInks(
+  graphics: Phaser.GameObjects.Graphics,
+  place: Place,
+  { ink, tone, lighting }: Brush,
+  clip?: readonly Point[],
+) {
+  // The pixels a door width spans, the mouse's unit.
+  const origin = place({ x: 0, y: 0 });
+  const across = place({ x: 1, y: 0 });
+  const unit = Math.hypot(across.x - origin.x, across.y - origin.y) || 1;
+  const line = ink / unit;
+  const toward = upward(lighting.toward);
+  const hairline = lighting.hairline / unit;
+  const fill = (
+    outline: readonly Point[],
+    colour: number,
+    shown: (colour: number) => number = tone,
+  ) => {
+    const seen = clip ? clipToConvex(outline, clip) : outline;
+    if (seen.length < 3) return;
+    graphics.fillStyle(shown(colour));
+    fillShape(
+      graphics,
+      seen.map((point) => place(point)),
+    );
+  };
+  const inked = (at: Point, rx: number, ry: number, colour: number) => {
+    const shape = ellipse(at, rx, ry);
+    fill(weightedOutline(shape, line, toward, hairline), colour, (part) =>
+      inkFor(tone(part)),
+    );
+    fill(shape, colour);
+  };
+  return { fill, inked, hairline };
+}
+
+/**
  * A mouse coming up out of a doorway, in the door's frame (door widths, the
  * sill's middle at the origin, y up), at the door's own scale however small
  * it is. Every part is clipped to `opening`, so the mouse comes from inside
@@ -45,43 +87,14 @@ export function paintMouse(
   place: Place,
   opening: readonly Point[],
   { out, look, shut }: Peeking,
-  { ink, tone, lighting }: Brush,
+  brush: Brush,
 ): void {
-  // The pixels a door width spans, the mouse's unit.
-  const origin = place({ x: 0, y: 0 });
-  const across = place({ x: 1, y: 0 });
-  const unit = Math.hypot(across.x - origin.x, across.y - origin.y) || 1;
-  const line = ink / unit;
-  // The light and the hairline in the mouse's own frame, y up and in door widths.
-  const toward = upward(lighting.toward);
-  const hairline = lighting.hairline / unit;
+  const { fill, inked, hairline } = mouseInks(graphics, place, brush, opening);
   const head = {
     x: 0.1 + look * 0.05,
     y: HEAD_LOW + (HEAD_HIGH - HEAD_LOW) * out,
   };
   const faceX = head.x + look * 0.1;
-  const fill = (
-    outline: readonly Point[],
-    colour: number,
-    shown: (colour: number) => number = tone,
-  ) => {
-    const seen = clipToConvex(outline, opening);
-    if (seen.length < 3) return;
-    graphics.fillStyle(shown(colour));
-    fillShape(
-      graphics,
-      seen.map((point) => place(point)),
-    );
-  };
-  // Inked by a shape grown behind each fill, heavier on its shade side, so
-  // a clipped edge shows no ink.
-  const inked = (at: Point, rx: number, ry: number, colour: number) => {
-    const shape = ellipse(at, rx, ry);
-    fill(weightedOutline(shape, line, toward, hairline), colour, (part) =>
-      inkFor(tone(part)),
-    );
-    fill(shape, colour);
-  };
 
   // A body under the head, so a mouse up in its doorway is not a floating head.
   inked(
@@ -128,4 +141,97 @@ export function paintMouse(
       PALETTE.highlight,
     );
   }
+}
+
+/**
+ * A mouse running, seen side-on: `ran`, how far it has run in its own
+ * widths, sets its legs' swing and its bob; `heads` 1 runs it toward +x and
+ * -1 toward -x; `raised` lifts it off the ground, in its widths, as it hops.
+ */
+export type Running = { ran: number; heads: number; raised: number };
+
+/** How far a mouse runs in one round of its legs, in its widths. */
+const STRIDE = 0.55;
+/** How far a leg swings either way at a run, and how high a stepping foot lifts, in widths. */
+const LEG_SWING = 0.13;
+const FOOT_LIFT = 0.06;
+const BOB = 0.035;
+const SHADOW_ALPHA = 0.3;
+
+/**
+ * A running mouse in its own frame (its door's widths, the ground under its
+ * middle at the origin, y up), as `place` puts it on the graphics: a body,
+ * the head forward with one ear, an eye and whiskers, a curved tail, four
+ * legs scissoring in step with how far it has run, a bob, and a shadow on the ground.
+ */
+export function paintRunner(
+  graphics: Phaser.GameObjects.Graphics,
+  place: Place,
+  { ran: stride, heads: facing, raised: lift }: Running,
+  brush: Brush,
+): void {
+  const { fill, inked, hairline } = mouseInks(graphics, place, brush);
+  const turn = (Math.PI * 2 * stride) / STRIDE;
+  const up = lift + BOB * Math.abs(Math.sin(turn));
+  const at = (x: number, y: number) => ({ x: x * facing, y: y + up });
+  graphics.fillStyle(PALETTE.shadowCool, SHADOW_ALPHA);
+  fillShape(
+    graphics,
+    ellipse({ x: 0, y: 0 }, 0.42, 0.07).map((point) => place(point)),
+  );
+  const dark = (colour: number) => inkFor(brush.tone(colour));
+  const leg = (
+    hip: number,
+    swing: number,
+    colour: number,
+    shown = brush.tone,
+  ) => {
+    const foot = {
+      x: (hip + Math.sin(swing) * LEG_SWING) * facing,
+      // The feet keep to the ground under the bob, one lifting as it swings forward.
+      y: lift + Math.max(0, Math.cos(swing)) * FOOT_LIFT,
+    };
+    fill(
+      taperedLine([at(hip, 0.2), foot], [0.09, 0.06], hairline),
+      colour,
+      shown,
+    );
+  };
+  // The far legs, half a step behind the near ones and in shade.
+  leg(-0.24, turn + Math.PI, PALETTE.mouse, dark);
+  leg(0.2, turn, PALETTE.mouse, dark);
+  fill(
+    taperedLine(
+      [at(-0.4, 0.3), at(-0.6, 0.24), at(-0.78, 0.3), at(-0.9, 0.44)],
+      [0.06, 0.06 * TAPER],
+      hairline,
+    ),
+    PALETTE.mousePink,
+  );
+  inked(at(-0.04, 0.3), 0.42, 0.24, PALETTE.mouse);
+  leg(-0.24, turn, PALETTE.mousePink);
+  leg(0.2, turn + Math.PI, PALETTE.mousePink);
+  inked(at(0.36, 0.38), MOUSE_HEAD_R * 0.8, MOUSE_HEAD_R * 0.72, PALETTE.mouse);
+  const ear = at(0.26, 0.6);
+  inked(ear, 0.14, 0.14, PALETTE.mouse);
+  fill(
+    ellipse({ x: ear.x + 0.02 * facing, y: ear.y - 0.01 }, 0.08),
+    PALETTE.mousePink,
+  );
+  fill(ellipse(at(0.55, 0.34), 0.12, 0.09), PALETTE.mouseLight);
+  const nose = at(0.66, 0.36);
+  for (const tilt of [-0.28, 0, 0.28]) {
+    const angle = (facing > 0 ? 0 : Math.PI) + facing * tilt;
+    fill(
+      whisker(nose, angle, [WHISKER_LENGTH, WHISKER_WIDTH], hairline),
+      PALETTE.ink,
+    );
+  }
+  inked(nose, 0.045, 0.038, PALETTE.mousePink);
+  const eye = at(0.45, 0.44);
+  fill(ellipse(eye, 0.045, 0.052), PALETTE.mouseEye);
+  fill(
+    ellipse({ x: eye.x + 0.015 * facing, y: eye.y + 0.018 }, 0.016),
+    PALETTE.highlight,
+  );
 }
