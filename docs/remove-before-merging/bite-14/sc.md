@@ -25,6 +25,17 @@ Built `map-spores.md` § 5 (c) and (d) with § 4, on SA's model and SB's scene.
   up, the share of the standing mushrooms that found all six seats every
   round, and the clump checks as before.
 
+- **(d)** the shed retired: `ui/scene/shedding.ts` and its test deleted;
+  `sprouting.ts` loses `SPROUTS`, `PARENTS`, `SHED_WINDOW_MS`, `SHED_SALT`,
+  `PARENT_SALT`, `Shed`, `Shedding`, `Shedder`, `dueShed`,
+  `lastShedSpecies`, `shedding`, `sprouted` (299 → 176); `game.ts` loses
+  `Meadow.shed` and the tick's `Shedding`, the tick runs `sproutedInRain`
+  alone (398 → 396); `MushroomBed.inSight` and its `footShown` import out
+  (436 → 430); `sprouting.test.ts` loses the shed cases (533 → 304). `pnpm
+knip` reports nothing from these files (its 7 findings predate them).
+- Left for its owner: `mushroom-room.ts:276`'s doc still says "A sprout
+  shed round the stored foot `near`" — a spore is laid there now.
+
 ## Decisions the map did not take
 
 - **Three frames, no grown step**: the brief asked for three frames, so the
@@ -42,4 +53,4 @@ Built `map-spores.md` § 5 (c) and (d) with § 4, on SA's model and SB's scene.
 
 ## Left
 
-- (d), the shed retired — see below once built.
+- The play run (`sprouts,meadow` on tabL) and the look at the dots.
