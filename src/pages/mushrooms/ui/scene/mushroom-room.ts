@@ -5,7 +5,7 @@
  * rule the meadow keeps. The meadow's rules are judged at the view's eye's
  * anchor (`anchorOf`), as the layout anchored there stands it
  * (`anchoredStand`): no more than `MUSHROOM_SLOTS` within `D_SEE` of its
- * foot (`isCrowdedAt`), its cap inside `EDGE_MARGIN` of the world's
+ * foot or of the anchor (`isCrowdedAt`), its cap inside `EDGE_MARGIN` of the world's
  * edges, no cap or stem hidden behind the nearer ones past `MOST_HIDDEN`,
  * every door in sight (`doorInSight`), off every flower, and every mushroom
  * keeping a patch of its own a finger lands on (`keepsPatches`). The screen's
@@ -291,7 +291,7 @@ export function roomFor(
     ),
     admits: (foot) => {
       if (
-        isCrowdedAt(stand, grownOn(anchor, foot).foot) ||
+        isCrowdedAt(stand, grownOn(anchor, foot).foot, anchor) ||
         flowers.some((flower) => apartOnScreen(foot, flower) < FLOWER_APART)
       ) {
         return false;

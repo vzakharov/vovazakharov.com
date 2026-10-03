@@ -15,6 +15,16 @@
   shakes or says "nuh-uh". It also asserts that some held tuft refuses at
   the walked eye, so the test can fail; judged at the walked eye, it does.
 
+- **T147, `tufts.test.ts`.** `faultsOf` no longer checks the standing tufts
+  against `plantableIn`, which is how they were chosen. "A tuft's flower
+  would meet a head" now plants a flower on each standing tuft and measures
+  its drawn head against every standing flower's. "A tuft fit to plant on
+  is missing" now asks whether a tuft that does not stand passes `roomIn`,
+  `bareToTap` and `headClear`, the rules `plantableIn` is documented to
+  combine. Mutated, each fires: tufts standing without the head rule meet a
+  head, every other standing tuft dropped is missing. The file runs in ~4 min
+  where it ran in ~6, since the rule is no longer rebuilt per stand.
+
 ## Left
 
-- `tufts.test.ts`'s self-comparing `faultsOf` checks (step two).
+Nothing.

@@ -88,3 +88,19 @@ Filled in as each lands.
   16.45 out, placed by `placeIn` and refused only by `inReach`; the strip
   past the reach is thin, so a change to `MEADOW_FRAME` or `PERCH_REACH` may
   move it). C2 launched on the play half.
+- **F (T145–T147)**: 91ad7b8 (T145: `isShown` judges a place's plane
+  distance round the eye against `D_SEE`, as the brow does; a place without
+  a plane point keeps `fromEye`), eef972b (T146: at turn −1.1, not +1.1 —
+  facing inward at x 20 bends only 0.06–0.12, short of the 0.15 bar;
+  accepted), 22b4b8f (T147: the seam, the clump layout by eye-moved foot,
+  the light by closed form). The bed-repaint test is not written: the beds
+  are Phaser classes no test builds, and the one pure piece (`laidOf`) is
+  now covered — accepted. Its fliers run found three reds from B's d43c203;
+  B is told to settle them before it reports.
+- **A1 (T140, T147 tap)**: e4e8c72 (`Scened.tendedAt`; `plantable`,
+  `plantSounding`, `tapTuft` and `sowSounding` — the last beyond the call,
+  it picks among tufts judged there — read it), c7f4db61 (`planter.test.ts`
+  drives the real `Planter` through five walks short of a re-tend, red with
+  the walked eye; `tufts.test.ts`'s faults measured on planted heads, not
+  the rule that chose them). One line outside its files: `meadow-scene.ts`
+  wires `tendedAt`. A2 launched on T141.

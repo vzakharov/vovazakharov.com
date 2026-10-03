@@ -143,7 +143,10 @@ describe('the layout anchored at an eye', () => {
     for (const footed of grownBehind) {
       const laid = laidOf(camera, footed);
       for (const eye of [BEHIND, { ...BEHIND, x: -0.4, heading: 3 }]) {
-        assert.deepEqual(laidOf(camera, footed), laid);
+        // Laid alike wherever it stands, even where `eye` moves it to.
+        const moved = { ...footed, foot: anchoredPoint(eye, footed.foot) };
+        assert.notDeepEqual(moved.foot, footed.foot);
+        assert.deepEqual(laidOf(camera, moved), laid);
         const drawn = bedPlace(
           viewAt(camera, eye),
           footed.foot,
