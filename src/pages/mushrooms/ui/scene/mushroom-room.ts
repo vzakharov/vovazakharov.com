@@ -260,6 +260,12 @@ function shownTrials(
 const TRIED = 'the tried mushroom';
 
 /**
+ * How far round its parent's foot a sprout's is drawn (`Near`), in the
+ * clump's size as a camera lays the ground out.
+ */
+export const SPROUT_REACH = 1;
+
+/**
  * Where the mushroom grown from `seed` grows in `stand`, as the scene and
  * the visit a sweep opens both find it, whichever species the child picks:
  * shown in `view`, or anywhere in the world absent one, judged from the
@@ -267,16 +273,21 @@ const TRIED = 'the tried mushroom';
  * there is no room left for one. It keeps off every flower standing there
  * (`flowerFeet`), and each foot is tried on the area cap and the cheap rules
  * first, then the controls, then what it hides and what hides it, then the
- * doors, then the patches, the dearest to try.
+ * doors, then the patches, the dearest to try. A sprout shed round the
+ * stored foot `near` stands within `SPROUT_REACH` of it, judged at its full
+ * size alone; `undefined` where the anchor has no ground under `near`.
  */
 export function roomFor(
   stand: Stand,
   seed: number,
   view?: View,
+  near?: Point,
 ): Footed | undefined {
   const anchor = anchorIn(view);
   const judged = anchoredStand(stand, anchor);
   const { layout, mushrooms } = judged;
+  const parent = near && groundIn(layout.mushrooms, near);
+  if (near && !parent) return undefined;
   const flowers = flowerFeet(judged).map((foot) => groundFootOf(foot));
   const screen = screenOn(layout, view && viewFrom(anchor, view));
   const others = standingOn(mushrooms, layout.mushrooms);
@@ -286,6 +297,7 @@ export function roomFor(
   const found = pickFoot(seed, {
     ...pick(layout.mushrooms, 'frame'),
     ...pick(screen, 'within'),
+    ...(parent && { near: { ground: parent, reach: SPROUT_REACH } }),
     feet: mushrooms.flatMap(
       ({ foot }) => groundIn(layout.mushrooms, foot) ?? [],
     ),
