@@ -148,7 +148,8 @@ when it is vertical; within 45° of horizontal it turns her on the sky and
 strafes her on the ground, the ground staying under the finger, and a quick
 swipe glides on after the lift (`model/glide.ts`); held `←`/`→` turn, `↑`/`↓`
 walk and `z`/`c` strafe, any two at once, eased, with a bob and soft alternating
-footsteps; `.`/`/` step the keyboard's octave. A tap wobbles a
+footsteps; a note key sounds nearest the melody's last, as a flower does, and
+`.`/`/` move the melody an octave. A tap wobbles a
 mushroom, puffs spores and selects it; a full-grown one also drops a spore, a
 tiny white dot, on free ground near it, up to six, and a tap on a dot picks it
 up (bite-14.md). `+` opens a picker of four species — fly agaric, porcini,
@@ -159,9 +160,9 @@ the newest. The house button furnishes a cap with windows from Syama's row and
 its stem with a door and a mouse sized to it. A tap on a door calls a mouse:
 when another house's door is near enough to be seen, one runs out of the
 fuller house in a loop across the grass and in at the emptier one, squeaking
-and hopping at a tap; else it peeks and hides. A tap on a window brings a worm
-that crawls over the cap to another window of the house, or peeks and hides
-(bite-15.md). The butterfly, fly and bee buttons fly one in over the brow
+and hopping at a tap; else it peeks and hides. A tap on a window swings it open
+for a worm that crawls over the cap into another window of the house, opening
+as it nears and shutting behind it, or peeks and hides (bite-15.md). The butterfly, fly and bee buttons fly one in over the brow
 (4/3/3 at most, the oldest leaving): butterflies drink at flowers and rest on
 caps, flies favour the fly agarics, bees carry pollen and plant a flower in a
 ring round one they visited. A tap on a resting insect sends it off and goes
@@ -181,8 +182,9 @@ up as a little mushroom of its parent's kind that grows over two minutes. When
 it stops the insects come out one by one and a rainbow stands opposite the sun,
 behind her on the opening view. Top left, a folded map in ink: a press
 unfolds the map over the meadow (bite-16.md), sun-up, framing every
-mushroom, flower and spore in its own side picture and the child as a dot,
-arrow and view wedge; the meadow waits under it, and any tap folds it away.
+mushroom, flower and spore in its own side picture on grass seen from above,
+and the child as a dot, arrow and view wedge; the meadow waits under it, and
+any tap, the button's ink cross or Escape folds it away.
 Sound off is the device's.
 
 **Pure model, reconciling scene.** `model/` is Phaser-free and under
@@ -318,8 +320,8 @@ runs a file at a time, `fliers.test.ts` alone (~354 s).
 republished in place at the URL on the PR.
 
 **The house's dwellers.** Mouse counts, targets and taps are
-`model/mouse-run.ts`; a door's seat is `door-seats.ts`'s, from the opening
-view, else the current one, else alone; a run's course and clock (`mouse-run-course.ts`,
+`model/mouse-run.ts`; a door's seat is `door-seats.ts`'s, as the current eye
+sees its mushroom, else alone, and stays where it was seated; a run's course and clock (`mouse-run-course.ts`,
 `mouse-run-clock.ts`) bow in drawn runners (`RUNNER_SPAN`), straight from the
 ground; `mouse-runs.ts` and `runner-shown.ts` draw them. A worm is
 `model/worm.ts`, `house-worm.ts`, `draw-worm.ts`.
@@ -355,8 +357,7 @@ The bites, each file its full contract:
 
 ## Rest of the bite
 
-**16's tail** — built and fixed through calls 1–20, Artifact v23; what is
-left is [bite-16.md](mushroom-game-syama/bite-16.md) § "Left".
+**16's tail** — calls 1–22 built, Artifact v24; the rest is [bite-16.md](mushroom-game-syama/bite-16.md) § "Left".
 
 ## Rest of the elephant
 

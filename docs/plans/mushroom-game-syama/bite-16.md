@@ -245,13 +245,17 @@ Each package's hand-over note under `docs/remove-before-merging/bite-16/`
   a door at the station nearest its seat's height. `play-map` shuts by
   Escape and shoots `m5-open-door`; `Blade` in `brow.ts` the brow's and
   the tufts' base. `meadow-scene.ts` 452 lines.
+- **G** 11b26dd — calls 21–22: `strayed(view, from, slack)` in `tending.ts`
+  strays at `turnInWorld` less `sightSlack(layout)` too; the note keys
+  `strike` nearest the melody's last, `shiftMelody` (`model/notes.ts`)
+  moving it with `.`/`/`. Frames `tufts-turned-before`/`-after`.
 
 Open: the cross window never opened in a play (the play taps the
 outermost window). On a phone the map's mottles read large beside the
 things. On phoneP the planted meadow fills the sheet's width but only a
 middle band of its height (call 14 as written, on a tall sheet); the house
 at map scale reads as a dot and a smudge; `emerge`'s overshoot makes the
-sheet briefly larger than the screen mid-unfold — all three in
+sheet briefly larger than the screen mid-unfold — all five in
 `to-check.md`.
 
 ## Left
