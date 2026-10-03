@@ -31,15 +31,24 @@ const DOOR = 4;
 const SETTLE = 45;
 /** Frames a run is followed for at most: its longest is ~4 s on the plane. */
 const LONGEST_RUN = 360;
+/**
+ * When a run between the clump's two doors is halfway across, in seconds
+ * from its start: 0.85 s of peek and 0.25 s of hop down, then half its
+ * shortest run (0.4 s); a fleeing run opens on the hop.
+ */
+const PEEKED_MID = 1.3;
+const FLED_MID = 0.45;
+/** CSS px of meadow kept round the clump in its close frames. */
+const PAD = 60;
 /** How far below a runner's foot, in CSS px, a mushroom's foot is nearer for sure. */
 const NEARER_BY = 4;
 
 /**
- * A run followed from `from`'s door to `to`'s, whose doors stand `across` on
- * screen: the frames still to shoot and what was sighted of its runner.
+ * A run followed from `from`'s door to `to`'s, its `mid` frame due once
+ * `midAt` seconds have run: the frames still to shoot and what was sighted of its runner.
  */
 type Watch = Pick<z.infer<typeof Runs>[number], 'from' | 'to'> & {
-  across: readonly [number, number];
+  midAt: number;
   mid: string | undefined;
   inn: string | undefined;
   sighted: boolean;
@@ -49,10 +58,10 @@ type Watch = Pick<z.infer<typeof Runs>[number], 'from' | 'to'> & {
 const watching = (
   from: string,
   to: string,
-  across: readonly [number, number],
+  midAt: number,
   mid: string,
   inn?: string,
-): Watch => ({ from, to, across, mid, inn, sighted: false, widths: [] });
+): Watch => ({ from, to, midAt, mid, inn, sighted: false, widths: [] });
 
 export async function playRuns(
   page: Page,
@@ -87,6 +96,31 @@ export async function playRuns(
     );
     return mouse;
   };
+  /** A frame of the standing mushrooms and the runners alone, `PAD` round them: a mouse is a few px of a whole screen. */
+  const close = async (name: string) => {
+    const { mushrooms } = await state();
+    const boxes = await Promise.all(
+      mushrooms.map(async (id) =>
+        page.evaluate(`__probe.bounds(${JSON.stringify(id)})`, Box),
+      ),
+    );
+    const points = [
+      ...boxes.flatMap(({ x, y, width, height }) => [
+        { x, y },
+        { x: x + width, y: y + height },
+      ]),
+      ...(await runs()).filter(({ shown }) => shown),
+    ];
+    const xs = points.map(({ x }) => x);
+    const ys = points.map(({ y }) => y);
+    const [x, y] = [Math.min(...xs) - PAD, Math.min(...ys) - PAD];
+    await page.shoot(name, {
+      x: Math.max(0, x),
+      y: Math.max(0, y),
+      width: Math.max(...xs) + PAD - x,
+      height: Math.max(...ys) + PAD - y,
+    });
+  };
 
   const nearerCheck = async (run: z.infer<typeof Runs>[number]) => {
     const { mushrooms } = await state();
@@ -114,15 +148,14 @@ export async function playRuns(
    * across, its `inn` frame once it has gone in.
    */
   const track = async (watch: Watch, frames: number): Promise<Watch> => {
-    const { from, across, mid, inn, sighted, widths } = watch;
+    const { from, midAt, mid, inn, sighted, widths } = watch;
     const run = (await runs()).find((each) => each.from === from);
     if (!run || frames <= 0) return watch;
-    const [x0, x1] = across;
-    const half = run.shown && (run.x - x0) / (x1 - x0) >= 0.5;
+    const half = run.shown && run.elapsed >= midAt;
     const gone = sighted && !run.shown;
     if (run.shown) await nearerCheck(run);
-    if (half && mid !== undefined) await page.shoot(mid);
-    if (gone && inn !== undefined) await page.shoot(inn);
+    if (half && mid !== undefined) await close(mid);
+    if (gone && inn !== undefined) await close(inn);
     await page.step(2);
     return track(
       {
@@ -184,8 +217,6 @@ export async function playRuns(
   );
   await noteHead(back, 'back');
   await noteHead(front, 'front');
-  const doorX = async (id: string) => (await at('door', id))?.x ?? 0;
-  const [backX, frontX] = [await doorX(back), await doorX(front)];
 
   // 2. The front door tapped: its mouse peeks, hops down, runs, goes in.
   await tapAt('door', front);
@@ -199,10 +230,10 @@ export async function playRuns(
   );
   expect(peeking.out > 0, 'the front door did not open on the tap');
   await page.step(28);
-  await page.shoot('r1-peek');
+  await close('r1-peek');
   await page.step(27);
-  await page.shoot('r2-leave');
-  await follow(watching(front, back, [frontX, backX], 'r3-running', 'r4-in'));
+  await close('r2-leave');
+  await follow(watching(front, back, PEEKED_MID, 'r3-running', 'r4-in'));
   const ran = await mice();
   expect(
     ran[front] === 0 && ran[back] === 2,
@@ -215,7 +246,7 @@ export async function playRuns(
     await started(back, front),
     'a tap on the empty front door called no mouse',
   );
-  await follow(watching(back, front, [backX, frontX], 'r5-called-home'));
+  await follow(watching(back, front, PEEKED_MID, 'r5-called-home'));
   const home = await mice();
   expect(
     home[front] === 1 && home[back] === 1,
@@ -230,7 +261,7 @@ export async function playRuns(
     await started(back, front),
     'the sinking back house sent no mouse out',
   );
-  await follow(watching(back, front, [backX, frontX], 'r6-flee'));
+  await follow(watching(back, front, FLED_MID, 'r6-flee'));
   expect(
     (await mice())[front] === 2 && (await total()) === 2,
     `after the flight the houses hold ${JSON.stringify(await mice())}`,
@@ -259,5 +290,5 @@ export async function playRuns(
   expect((await runs()).length === 0, 'a lone door tap started a run');
   const mini = await noteHead(selected, 'chanterelle');
   expect(mini.out > 0.9, `the lone mouse is only ${mini.out.toFixed(2)} out`);
-  await page.shoot('r7-mini-mouse');
+  await close('r7-mini-mouse');
 }
