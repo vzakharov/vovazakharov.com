@@ -309,6 +309,11 @@ holds its detail and the next step's API.
   `mouse-runs.ts` passes `shown.foot` (handed to X1) the bow is a stem's
   half width deeper than the rule: the runner ~20 px lower on tabL, the
   sweep 63 px as R7's.
+- **K** 509a1e7e — call 34 in `ui/scene/keyboard.ts`: one `MOVES` map,
+  each key letting go its own move (`letGoMove`); Shift unread. The model
+  already held a turn (`walk.pan`) and a strafe (`walk.stride.held`)
+  apart; `walk.test.ts` holds both 2 s. The plays press `KeyC`. The
+  fold's "What a child can do" names `z`/`c` and `.`/`/`.
 
 Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
 `Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's
