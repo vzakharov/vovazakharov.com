@@ -11,7 +11,7 @@ import {
   MUSHROOM_SPECIES,
   mushroomGenes,
 } from './mushroom-genes';
-import { headOutlines } from './mushroom-outline';
+import { headOutlines, MUSHROOM_INK } from './mushroom-outline';
 import { capBase, capSurface } from './mushroom-profile';
 import {
   crawlDuration,
@@ -234,6 +234,14 @@ describe('wormPeek', () => {
     assert.ok(looks.has(-1) && looks.has(1));
     assert.ok((wormPeek(WORM_PEEK_DURATION - 0.01)?.head ?? 1) < 0.01);
   });
+
+  it('draws its body in to a shorter peek', () => {
+    const short = WORM_LENGTH / 2;
+    const out = wormPeek(0.6, short);
+    assert.ok(out);
+    assert.ok(Math.abs(out.head - short) < EPSILON);
+    assert.ok(Math.abs(out.tail) < EPSILON);
+  });
 });
 
 describe('wormBody', () => {
@@ -321,12 +329,70 @@ describe('wormBody', () => {
     }
   });
 
-  it('peeks straight up out of its window', () => {
-    const from = { x: 0.1, y: 0.2 };
-    const peek = peekPath(from);
-    assert.ok(Math.abs(pathLength(peek) - WORM_LENGTH) < EPSILON);
-    const { head } = wormBody(peek, { head: WORM_LENGTH, tail: 0 });
-    assert.ok(head);
-    assert.ok(Math.abs(head.tangent - Math.PI / 2) < EPSILON);
+  it('peeks straight up out of its window, a body’s length out of a dome', () => {
+    for (const genes of everyMushroom) {
+      if (genes.species !== 'fly-agaric' && genes.species !== 'porcini') {
+        continue;
+      }
+      const [from] = windowSlots(genes);
+      assert.ok(from);
+      const peek = peekPath(genes, from);
+      assert.ok(Math.abs(pathLength(peek) - WORM_LENGTH) < EPSILON);
+      const { head } = wormBody(peek, { head: WORM_LENGTH, tail: 0 });
+      assert.ok(head);
+      assert.ok(Math.abs(head.tangent - Math.PI / 2) < EPSILON);
+    }
+  });
+
+  it('peeks no higher than its cap: every segment’s top inside the cap and under its ink line', () => {
+    for (const genes of everyMushroom) {
+      const outlines = headOutlines(genes);
+      for (const girth of [WORM_GIRTH, WORM_GIRTH * 2]) {
+        for (const slot of windowSlots(genes)) {
+          const peek = peekPath(genes, slot, girth);
+          const travel = pathLength(peek);
+          assert.ok(travel > 0 && travel <= WORM_LENGTH + EPSILON);
+          const pose = wormPeek(0.6, travel);
+          assert.ok(pose);
+          const { segments } = wormBody(peek, pose, girth);
+          assert.equal(segments.length, WORM_SEGMENTS);
+          for (const { x, y, r } of segments) {
+            const top = { x, y: y + r };
+            const where = JSON.stringify({ genes, girth, slot, top });
+            assert.ok(
+              top.y <= capSurface(genes, x) - MUSHROOM_INK + EPSILON,
+              where,
+            );
+            // A chanterelle's lip is rounded off its front rim and its funnel
+            // is not, which leaves a sliver between them under the rim's ink.
+            const onRim =
+              hasTrumpet(genes) &&
+              Math.abs(top.y - capBase(genes, x)) <= MUSHROOM_INK;
+            assert.ok(
+              onRim || outlines.some((outline) => containsPoint(outline, top)),
+              where,
+            );
+          }
+        }
+      }
+    }
+  });
+
+  it('keeps a peeking worm’s head whenever it is out, its look about included, out of every window', () => {
+    for (const genes of everyMushroom) {
+      for (const slot of windowSlots(genes)) {
+        const peek = peekPath(genes, slot);
+        const travel = pathLength(peek);
+        for (let t = 0; t < WORM_PEEK_DURATION; t += 0.01) {
+          const pose = wormPeek(t, travel);
+          assert.ok(pose);
+          if (pose.head <= EPSILON) continue;
+          assert.ok(
+            wormBody(peek, pose).head,
+            JSON.stringify({ genes, slot, t }),
+          );
+        }
+      }
+    }
   });
 });

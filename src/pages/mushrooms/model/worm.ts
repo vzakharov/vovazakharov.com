@@ -41,6 +41,8 @@ export const INCH_SQUEEZE = 0.4;
 
 /** How near two windows' distances count as the same, against the sums that place the slots. */
 const TIE = 1e-9;
+/** How far past either end of its path a segment still counts as on it: a path's length rounds, a pose's ends are set to it exactly. */
+const END_SLACK = 1e-9;
 
 /** The highest a dome's arch climbs from the row toward the cap's top, on the longest trip. */
 export const WORM_LIFT = 0.8;
@@ -134,10 +136,19 @@ export function wormPath(
   return [from, ...path.slice(1, -1), to];
 }
 
-/** The straight way up out of a lone window, a body's length, that a peeking worm takes. */
-export function peekPath(from: Point): Point[] {
+/**
+ * The straight way up out of a lone window that a peeking worm takes: a
+ * body's length, or less where the cap's top comes lower (a russula's
+ * hollow), so a head `girth` thick stays under its ink line.
+ */
+export function peekPath(
+  genes: MushroomGenes,
+  from: Point,
+  girth = WORM_GIRTH,
+): Point[] {
   const { x, y } = from;
-  return [from, { x, y: y + WORM_LENGTH }];
+  const room = capSurface(genes, x) - MUSHROOM_INK - girth / 2 - y;
+  return [from, { x, y: y + Math.max(0, Math.min(WORM_LENGTH, room)) }];
 }
 
 /** How long a polyline is, end to end along it. */
@@ -201,18 +212,19 @@ export function wormTrip(
 }
 
 /**
- * A worm peeking out of a lone window, `elapsed` after the tap, along
- * `peekPath`: up, a look about (`look`, from -1 left to 1 right), and back
- * in — the mouse's own peek. `undefined` before the tap and once it is in.
+ * A worm peeking out of a lone window, `elapsed` after the tap, along a
+ * `peekPath` `length` long, its body drawn in to that length: up, a look
+ * about (`look`, from -1 left to 1 right), and back in — the mouse's own
+ * peek. `undefined` before the tap and once it is in.
  */
 export function wormPeek(
   elapsed: number,
+  length = WORM_LENGTH,
   phase = 0,
 ): (WormPose & { look: number }) | undefined {
   if (elapsed < 0 || elapsed >= WORM_PEEK_DURATION) return undefined;
-  const head =
-    WORM_LENGTH * outAndBack(elapsed, PEEK_RISE, PEEK_HOLD, PEEK_DUCK);
-  return { head, tail: head - WORM_LENGTH, look: lookAbout(elapsed, phase) };
+  const head = length * outAndBack(elapsed, PEEK_RISE, PEEK_HOLD, PEEK_DUCK);
+  return { head, tail: head - length, look: lookAbout(elapsed, phase) };
 }
 
 /**
@@ -271,8 +283,11 @@ export function wormBody(
   let shownHead: WormBody['head'];
   for (let index = last; index >= 0; index--) {
     const along = head - ((head - tail) * index) / last;
-    if (along < 0 || along > length) continue;
-    const { x, y, tangent } = pointAlong(path, along);
+    if (along < -END_SLACK || along > length + END_SLACK) continue;
+    const { x, y, tangent } = pointAlong(
+      path,
+      Math.min(length, Math.max(0, along)),
+    );
     const aside = wriggle(sinceWriggle, index) * girth;
     const segment = {
       x: x - Math.sin(tangent) * aside,

@@ -76,7 +76,7 @@ export class HouseWorm {
     const girth = wormGirth(size);
     const path =
       to === undefined
-        ? peekPath(slot(from))
+        ? peekPath(genes, slot(from), girth)
         : wormPath(genes, slot(from), slot(to), girth);
     if (to !== undefined) this.trips += 1;
     this.trip = {
@@ -99,7 +99,7 @@ export class HouseWorm {
       const pose = wormTrip(elapsed, this.trip.travel);
       return pose && { ...pose, look: 0 };
     }
-    const peek = wormPeek(elapsed, this.phase);
+    const peek = wormPeek(elapsed, this.trip.travel, this.phase);
     return peek && { ...peek, phase: 'peek' };
   }
 
