@@ -1,6 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import { clipToConvex, ellipse, type Point } from '../../model/geometry';
+import type { Looking } from '../../model/motion';
 import { MOUSE_HEAD_R } from './door-reach';
 import { inkFor, TAPER, taperedLine, upward, weightedOutline } from './ink';
 import { PALETTE } from './palette';
@@ -11,7 +12,7 @@ import { box, type Brush, fillShape, type Place } from './shapes';
  * head up in the doorway), `look` its head's turn from -1 to 1, and whether
  * its eyes are `shut` in a blink.
  */
-export type Peeking = { out: number; look: number; shut: boolean };
+export type Peeking = Looking & { out: number; shut: boolean };
 
 /** Where the head's middle stands in the doorway, in door widths up from the sill: hidden, and all the way out. */
 const HEAD_LOW = -0.5;

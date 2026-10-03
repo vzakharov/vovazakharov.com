@@ -7,8 +7,12 @@ import type { Seeded } from './random';
 
 /** A thing's own offset into an idle loop, so no two move in step. */
 export type Phased = { phase: number };
-/** A thing a tap sets moving, and when that tap came, on the scene's clock. */
-export type Tapped = Phased & { tappedAt: number };
+/** When the tap that set a thing moving came, on the scene's clock. */
+export type TapTimed = { tappedAt: number };
+/** A thing a tap sets moving, with its own idle offset. */
+export type Tapped = Phased & TapTimed;
+/** Which way a thing's head is turned, from -1 left to 1 right. */
+export type Looking = { look: number };
 /** A thing that grows up out of the ground (`emerge`), and when it began to, on the scene's clock. */
 export type Sprouted = { plantedAt: number };
 /** When a thing happened, on its module's clock. */
