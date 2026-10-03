@@ -190,10 +190,10 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     probe's `sprouts()`, the `sprouts` play and the sweep's `--showers`
     follow the new source (tap to sow, rain to sprout).
 
-36. **A cloud rains on a tap, not on a press** (B2, `b2.md`): with the sky
-    now the turning surface, a drag that starts on a cloud started a
-    shower on phoneP. A cloud's shower starts when the press lifts inside
-    the slop, as a mushroom's tap does; a drag over a cloud only turns.
+36. **A cloud rains on a press, a drag starting on it included** (B2,
+    `b2.md`, found a sky drag over a cloud starts a shower). Kept: the
+    operator, «это норм, так он и обнаружит, что есть дождь» — the child
+    finds the rain by turning. The walk play's sky drag skips clouds.
 
 37. **A chase ends when the finger lifts, and any key cancels it** (the
     operator: «если свайпишь достаточно далеко, стрейф идёт до этого места
