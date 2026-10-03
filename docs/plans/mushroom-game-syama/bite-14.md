@@ -383,10 +383,26 @@ sky under the same hand.
   walk play green on tabL.
 - The phone's narrow clump (62 % narrower than a fingertip after a shower,
   47.8 % under the old shed) is a `to-check.md` line.
+- **The review** (PR #57 review 5400519622, RA shelter+walk, RB spores; 11
+  inline findings, each replied to with its commit): **FS** 769aeec0 — a
+  spore's foot only where its dot is seen and reachable (`spore-sight.ts`;
+  covered dots 59/52 → 0 over 50 visits, clump median 7 → 6 sprouts).
+  **FW** 08c78ffa, ccfff90d — `shelter.ts` formatted; the ground tracks
+  the finger, no cruise cap (call 44; call 37's ease after the lift is
+  gone, a finger at rest leaving the eye standing). **FS2** 9feaef7d,
+  d47139d3 — a sprout's clock starts at its moment, the dead hidden phase
+  gone; `SPORE_REACH`; the fall arc swings toward its foot. **FW2**
+  a0fa1095, 03288494 — the walk play checks the ground under the finger
+  (found and fixed a step drag drifting 6 % off-centre, the bend ignored);
+  the rain play expects every flier sheltering and a staggered way out.
+  All plays named green on tabL and phoneP. The plan's call numbers,
+  renumbered by prettier, restored (7de3ca4c).
 
 ## Left, in order
 
-1. The tail: the review (two reviewer agents — shelter+walk, spores), its
-   fixes, the fold, bite 13's frames and this bite's working notes retired,
-   the Artifact, `/polish`, `/pr`. `model/shelter.ts` carries a prettier
-   warning (`saltedStream,type`).
+1. The rest of the tail: the fold (this file's calls at the plan's
+   altitude into `## Eaten so far`, `decisions.md:61`'s "spores an old
+   mushroom shed" corrected), this bite's working notes under
+   `docs/remove-before-merging/bite-14/` retired into `retired.md`, the
+   Artifact republished, `/polish`, `/pr`; then the plan paused for the
+   next bite (item 15).
