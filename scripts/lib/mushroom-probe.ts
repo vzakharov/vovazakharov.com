@@ -100,6 +100,37 @@ export const PROBE = `(() => {
       tendFrames.push({ ms, tend });
     }
   };
+  // Every frame's update and render, and the parts of the update by
+  // \`owner.name\`, summed for \`costs()\`; a part called inside another
+  // counts in both.
+  const costs = { frames: 0, ms: {} };
+  // Called on whatever \`this\` its caller gives: Phaser calls the scene's
+  // update on the scene, not on \`sys\`, which holds it.
+  const costing = (owner, label, name) => {
+    const run = owner[name];
+    owner[name] = function (...args) {
+      const started = performance.now();
+      const result = run.apply(this, args);
+      costs.ms[label] = (costs.ms[label] ?? 0) + performance.now() - started;
+      return result;
+    };
+  };
+  costing(scene.sys, 'update', 'sceneUpdate');
+  costing(window.__game.scene, 'render', 'render');
+  for (const name of ['walk', 'sow', 'see', 'dispatch', 'sightNow']) {
+    costing(scene, name, name);
+  }
+  for (const part of ['grass', 'bed', 'flowers', 'insects', 'controls']) {
+    for (const name of ['follow', 'update']) {
+      if (scene[part][name]) costing(scene[part], part + '.' + name, name);
+    }
+  }
+  costing(scene.perches, 'perches.sightFrom', 'sightFrom');
+  const counted = scene.sys.sceneUpdate;
+  scene.sys.sceneUpdate = function (...args) {
+    costs.frames += 1;
+    counted.apply(this, args);
+  };
   /** The middle of \`points\`, in \`graphics\`' frame, on screen. */
   const onScreen = (graphics, points) => {
     const x = points.reduce((sum, point) => sum + point.x, 0) / points.length;
@@ -194,6 +225,30 @@ export const PROBE = `(() => {
     },
     /** Each frame since the last call whose update ran a lawn-tending call, forgotten: its update ms and the tending's share. */
     tendFrames: () => tendFrames.splice(0),
+    /**
+     * The frames updated since the last call, forgotten, the ms their
+     * updates, renders and the update's parts took in all, and how many
+     * things the scene holds now.
+     */
+    costs: () => {
+      const taken = { frames: costs.frames, ms: costs.ms };
+      costs.frames = 0;
+      costs.ms = {};
+      const size = (held) => (held ? (held.size ?? held.length ?? 0) : 0);
+      const counts = {
+        objects: scene.children.list.length,
+        visible: scene.children.list.filter((one) => one.visible).length,
+        insects: size(scene.insects.shown),
+        flowers: size(scene.flowers.shown),
+        mushrooms: size(scene.bed.shown),
+        tufts: size(scene.grass.tended.standing()),
+        mottles: size(scene.grass.lawn?.mottles),
+        placed: size(scene.perches.placed),
+        air: size(scene.perches.sight.air),
+        planted: size(scene.meadow.planted),
+      };
+      return { ...taken, counts };
+    },
     /** How many flowers bees have planted on the meadow. */
     beePlanted: () =>
       scene.meadow.planted.filter((sown) => 'parent' in sown).length,
@@ -468,6 +523,12 @@ export const Hitches = z.object({
   see: z.array(z.number()),
 });
 /** `__probe.tendFrames()`: each frame since the last call whose update ran a lawn-tending call, its update ms and the tending calls' share. */
+/** \`__probe.costs()\`: frames updated since the last call, the ms summed by part, and what the scene holds now, by name. */
+export const Costs = z.object({
+  frames: z.number(),
+  ms: z.record(z.string(), z.number()),
+  counts: z.record(z.string(), z.number()),
+});
 export const TendFrames = z.array(
   z.object({ ms: z.number(), tend: z.number() }),
 );
