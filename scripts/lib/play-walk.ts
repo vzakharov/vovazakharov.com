@@ -6,15 +6,14 @@
  * way, never past `TURN_CRUISE`, all the way round, the sun leaving the screen
  * and coming back, and `←` held as long turns it back onto every bed object
  * as it stood; a sideways drag from the sky turns it with the azimuth under
- * the finger and a drag down the screen walks it, never faster than
- * `STRIDE_CRUISE`, neither tapping anything, nor a drag with a mushroom
- * selected or the flower picker open on a tuft; a sideways drag from bare
- * ground, and `→` held under Shift, walk it square to its heading, the drag
- * with the ground under the finger, never turning it and never past the
- * cruise; and the screen turned keeps the
- * eye where it stood and looking where it looked. Frames of the opening, the
- * walk, the walk back, a quarter and a half turn and the strafes land as
- * `walk-*.png`.
+ * the finger and a drag down the screen walks it, the ground under the
+ * finger while it is down and flung on past the lift, neither tapping
+ * anything, nor a drag with a mushroom selected or the flower picker open on
+ * a tuft; a sideways drag from bare ground, the same way, and `→` held under
+ * Shift, never past the cruise, walk it square to its heading, never turning
+ * it; and the screen turned keeps the eye where it stood and looking where it
+ * looked. Frames of the opening, the walk, the walk back, a quarter and a
+ * half turn and the strafes land as `walk-*.png`.
  */
 
 import { z } from 'zod';
@@ -24,15 +23,9 @@ import {
   pinholeOf,
   planeSeen,
 } from '../../src/pages/mushrooms/model/ground.ts';
+import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
-  KEY_EASE,
-  SLOP,
-  TURN_CRUISE,
-} from '../../src/pages/mushrooms/model/pan.ts';
-import {
-  forwardOf,
   sidewaysOf,
-  STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
 } from '../../src/pages/mushrooms/model/stride.ts';
 import { cloudAt } from '../../src/pages/mushrooms/ui/scene/rain-sky.ts';
@@ -41,6 +34,7 @@ import {
   type Arrow,
   Camera,
   type Controls,
+  dragMoves,
   type Expect,
   Eye,
   type Page,
@@ -49,10 +43,14 @@ import {
 } from './mushroom-probe.ts';
 import { BARE_START, playHeldDrags, TAPS } from './play-taps.ts';
 import {
+  BACK_HELD,
+  checkBack,
   checkPops,
   checkTurn,
+  checkUnderFinger,
   checkWalk,
   FPS,
+  goneAlong,
   type Seen,
   turned,
   WALKING,
@@ -65,10 +63,6 @@ const SETTLE_FRAMES = 150;
 const SAME_PX = 0.5;
 /** The bob's depth as a share of the screen's height (`walking.ts`). */
 const BOB_SHARE = 0.004;
-/** How long `↓` is held walking back, in seconds. */
-const BACK_HELD = 12;
-/** How far off its cruise's reckoning, in units, the walk back may land. */
-const BACK_SLACK = 0.05;
 
 /** Every bed object drawn, mushrooms and flowers, where it stands on the screen. */
 const BEDS = `(() => {
@@ -272,10 +266,22 @@ export async function playWalk(
         y: Math.min(before.height - 4, from.y + 0.25 * before.height),
       };
       const pressed = await eye();
-      await page.drag(from, down, 12);
-      // Twice the settle: a drag from the ground's top row walks over 4 units, past 2.5 s at cruise.
-      const chase = await page.trace(2 * SETTLE_FRAMES, '__probe.eye()', Eye);
-      checkWalk(pressed, chase, bob, 'drag', expect, note);
+      const held = await page.dragTraced(from, down, 12, '__probe.eye()', Eye);
+      const offFinger = checkUnderFinger(
+        camera,
+        pressed,
+        from,
+        dragMoves(from, down, 12),
+        held,
+        'step',
+        expect,
+        note,
+      );
+      const chase = await page.trace(SETTLE_FRAMES, '__probe.eye()', Eye);
+      checkWalk(pressed, [...held, ...chase], bob, 'drag', expect, note, 12);
+      note(
+        `a drag down the screen: its ground ${offFinger(held.at(-1) ?? pressed).toFixed(1)} px down from the finger at the lift, ${offFinger(chase.at(-1) ?? pressed).toFixed(1)} at rest`,
+      );
       expect(
         turned(pressed.heading, chase.at(-1)?.heading ?? 0) === 0,
         'a drag down the screen turned the eye',
@@ -301,51 +307,6 @@ export async function playWalk(
   await shoot('turned-screen');
   await page.turn();
   await page.step(2);
-}
-
-/** How far the eye went from `from` to `to` along `heading`, in plane units. */
-function goneAlong(
-  from: z.infer<typeof Point>,
-  to: z.infer<typeof Point>,
-  heading: number,
-): number {
-  const way = forwardOf(heading);
-  return (to.x - from.x) * way.x + (to.y - from.y) * way.y;
-}
-
-/**
- * `↓` held `BACK_HELD` s from `from`, `seen` frame by frame to rest: straight
- * back, short at the let-go by the half of `KEY_EASE` the ease in costs and
- * full at rest, the glide out giving it back, `BACK_SLACK` either way.
- */
-function checkBack(
-  from: Seen,
-  seen: readonly Seen[],
-  expect: Expect,
-  note: (line: string) => void,
-): void {
-  const backOf = (to: Seen) => goneAlong(from, to, from.heading + Math.PI);
-  const [letGo, rest] = [seen[FPS * BACK_HELD - 1], seen.at(-1)];
-  if (!letGo || !rest) return;
-  const eased = KEY_EASE / 2;
-  const reckoned = [
-    ['at the let-go', backOf(letGo), STRIDE_CRUISE * (BACK_HELD - eased)],
-    ['at rest', backOf(rest), STRIDE_CRUISE * BACK_HELD],
-  ] as const;
-  for (const [when, went, want] of reckoned) {
-    expect(
-      Math.abs(went - want) <= BACK_SLACK,
-      `↓ held ${String(BACK_HELD)} s walked back ${went.toFixed(3)} units ${when}, not ${want.toFixed(3)} ±${String(BACK_SLACK)}`,
-    );
-  }
-  const off = Math.abs(goneAlong(from, rest, sidewaysOf(from.heading)));
-  expect(
-    off <= BACK_SLACK,
-    `↓ held ${String(BACK_HELD)} s strayed ${off.toFixed(3)} units off straight back`,
-  );
-  note(
-    `↓ held ${String(BACK_HELD)} s walked back ${reckoned.map(([when, went, want]) => `${went.toFixed(3)} ${when} (reckoned ${want.toFixed(3)})`).join(', ')}`,
-  );
 }
 
 /**
@@ -401,21 +362,35 @@ async function playStrafes(
       return goneAlong(pressed, under, pressed.heading);
     };
     const frames = 12;
-    await page.drag(start, to, frames);
+    const down = await page.dragTraced(start, to, frames, '__probe.eye()', Eye);
+    const offFinger = checkUnderFinger(
+      camera,
+      pressed,
+      start,
+      dragMoves(start, to, frames),
+      down,
+      'strafe',
+      expect,
+      note,
+    );
     await page.step(1);
     await page.shoot('walk-strafe-drag-lift');
     const chase = await page.trace(FPS * 4, '__probe.eye()', Eye);
     await page.step(1);
     await page.shoot('walk-strafe-drag-rest');
-    checkWalk(pressed, chase, bob, 'drag', expect, note);
-    const went = checkSquare(pressed, chase, 'a drag from the ground');
+    checkWalk(pressed, [...down, ...chase], bob, 'drag', expect, note, frames);
+    const went = checkSquare(
+      pressed,
+      [...down, ...chase],
+      'a drag from the ground',
+    );
     const sideAt = (seen: Seen) =>
       goneAlong(pressed, seen, sidewaysOf(pressed.heading));
-    const atLift = sideAt(chase[0] ?? pressed);
+    const lifted = down.at(-1) ?? pressed;
+    const atLift = sideAt(lifted);
     // The lift flings the eye on from the finger's last frame, the lock
     // measuring the ground from where it crossed the slop, no faster than the
-    // fling's most; the first traced frame already carries a frame or two of
-    // the glide.
+    // fling's most.
     const ahead = aheadOf(start.x - SLOP);
     const finger =
       ahead *
@@ -433,7 +408,7 @@ async function playStrafes(
       `a quick swipe from the ground took ${(caught / FPS).toFixed(2)} s to glide nine tenths of its way`,
     );
     note(
-      `a ${swipe.toFixed(0)} px swipe from the ground (y ${start.y.toFixed(0)}, ${ahead.toFixed(2)} ahead, the finger at ${finger.toFixed(2)} units/s) strafed ${went.toFixed(3)}: ${atLift.toFixed(3)} by the lift, ${flung.toFixed(3)} flung, nine tenths ${(caught / FPS).toFixed(2)} s after it`,
+      `a ${swipe.toFixed(0)} px swipe from the ground (y ${start.y.toFixed(0)}, ${ahead.toFixed(2)} ahead, the finger at ${finger.toFixed(2)} units/s) strafed ${went.toFixed(3)}: ${atLift.toFixed(3)} by the lift, ${flung.toFixed(3)} flung, nine tenths ${(caught / FPS).toFixed(2)} s after it; its ground ${offFinger(lifted).toFixed(1)} px across from the finger at the lift, ${offFinger(chase.at(-1) ?? lifted).toFixed(1)} at rest`,
     );
   }
 

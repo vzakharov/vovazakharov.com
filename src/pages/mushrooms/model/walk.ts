@@ -60,14 +60,15 @@ import {
 
 /**
  * Which axis a press moves once it has crossed the slop: the heading; the
- * place along it, chasing the finger's row from `reference`, the distance
- * ahead the crossing's row stood at; or the place square to it, sliding the
- * ground `reference` straight ahead, the ground under the crossing's, as far
- * across as the finger has come from `from`, the crossing's screen x.
+ * place along it, bringing the ground under the crossing, `reference`
+ * straight ahead and `across` to the side, to the finger's row; or the place
+ * square to it, sliding the ground `reference` straight ahead, the ground
+ * under the crossing's, as far across as the finger has come from `from`,
+ * the crossing's screen x.
  */
 type Lock =
   | { axis: 'turn' }
-  | { axis: 'step'; reference: number }
+  | { axis: 'step'; reference: number; across: number }
   | { axis: 'strafe'; reference: number; from: number };
 
 /**
@@ -169,7 +170,7 @@ export function pressAt(walk: Walk, point: Point, time: number): Walk {
 }
 
 /** Where on the slop's circle round `from` the way to `to` crosses it. */
-function crossingOf(from: Point, to: Point): Point {
+export function crossingOf(from: Point, to: Point): Point {
   const reach = Math.hypot(to.x - from.x, to.y - from.y);
   return {
     x: from.x + ((to.x - from.x) * SLOP) / reach,
@@ -196,6 +197,43 @@ function clampAzimuth(azimuth: number): number {
   return Math.max(-STRAFE_WIDEST, Math.min(STRAFE_WIDEST, azimuth));
 }
 
+/** Halvings enough to pin a step's aim far below a pixel's worth of ground. */
+const STEP_HALVINGS = 48;
+
+/**
+ * How far along the heading from the crossing a step brings `lock`'s ground
+ * to screen row `y`. That ground is drawn at the row of its distance less
+ * the screen's bend where it is drawn (`viewOf`), which only shrinks as the
+ * eye steps toward it, so the aim is found by halving; never so far that
+ * the ground stands more than `STRAFE_WIDEST` off the heading.
+ */
+function stepAim(
+  lens: Camera,
+  { reference, across }: Extract<Lock, { axis: 'step' }>,
+  y: number,
+): number {
+  const pinhole = pinholeOf(lens);
+  const want = distanceOfRow(lens, y);
+  const aheadAt = (aim: number) => {
+    const azimuth = Math.atan2(across, reference - aim);
+    return (
+      Math.hypot(across, reference - aim) /
+      bendAt(pinhole, pinhole.x + pinhole.arc * azimuth)
+    );
+  };
+  const farthest = reference - Math.abs(across) / Math.tan(STRAFE_WIDEST);
+  // No bend past a quarter turn's: from here back the ground stands at
+  // least `want` off.
+  const bentMost = bendAt(pinhole, pinhole.x + (pinhole.arc * Math.PI) / 2);
+  let [back, on] = [Math.min(farthest, reference - want * bentMost), farthest];
+  for (let halving = 0; halving < STEP_HALVINGS; halving++) {
+    const mid = (back + on) / 2;
+    if (aheadAt(mid) > want) back = mid;
+    else on = mid;
+  }
+  return (back + on) / 2;
+}
+
 function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
   const { lens, pan, stride } = walk;
   switch (lock.axis) {
@@ -203,7 +241,7 @@ function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
       return { ...walk, pan: move(pan, arcOf(pinholeOf(lens), point.x), time) };
     }
     case 'step': {
-      const aim = lock.reference - distanceOfRow(lens, point.y);
+      const aim = stepAim(lens, lock, point.y);
       return { ...walk, stride: chaseTo(stride, aim, time) };
     }
     case 'strafe': {
@@ -241,18 +279,18 @@ export function lockOf(
 
 function lockAt(camera: Camera, axis: Lock['axis'], crossing: Point): Lock {
   if (axis === 'turn') return { axis };
-  const ahead = distanceOfRow(camera, crossing.y);
-  if (axis === 'step') return { axis, reference: ahead };
-  // The ground under the crossing stands `ahead` times the screen's bend
-  // there from the eye, along its azimuth: this far straight ahead.
+  // The ground under the crossing stands its row's distance times the
+  // screen's bend there from the eye, along its azimuth: this far straight
+  // ahead and across.
   const pinhole = pinholeOf(camera);
   const azimuth = arcOf(pinhole, crossing.x) / pinhole.arc;
-  const distance = ahead * bendAt(pinhole, crossing.x);
-  return {
-    axis,
-    reference: distance * Math.cos(azimuth),
-    from: crossing.x,
-  };
+  const distance =
+    distanceOfRow(camera, crossing.y) * bendAt(pinhole, crossing.x);
+  const reference = distance * Math.cos(azimuth);
+  if (axis === 'step') {
+    return { axis, reference, across: distance * Math.sin(azimuth) };
+  }
+  return { axis, reference, from: crossing.x };
 }
 
 function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {

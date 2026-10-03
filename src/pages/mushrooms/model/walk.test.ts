@@ -210,15 +210,17 @@ describe('a drag on the walk', () => {
     assert.equal(headingAt(still.walk, still.time), rested);
   });
 
-  it('steps with the finger, the crossing’s row under it frame by frame, never turning, and glides on from a moving lift', () => {
-    for (const { name, camera } of CAMERAS) {
+  it('steps with the finger, the crossing’s ground on its row frame by frame at the middle and off it, never turning, and glides on from a moving lift', () => {
+    for (const [{ name, camera }, across] of CAMERAS.flatMap((seen) =>
+      [0.5, 0.8].map((share) => [seen, share] as const),
+    )) {
       const clock = new Clock(openingWalk(camera));
       clock.walk = holdTurn(clock.walk, 1, clock.time);
       clock.run(0.4 / TURN_CRUISE);
       clock.walk = letGoTurn(clock.walk, 1);
       clock.run(1);
       const turned = headingAt(clock.walk, clock.time);
-      const down = { x: camera.width / 2, y: camera.groundTop + 10 };
+      const down = { x: camera.width * across, y: camera.groundTop + 10 };
       clock.press(down);
       const crossing = shifted(down, 0, SLOP);
       const lift = { ...down, y: camera.height - 5 };
@@ -239,7 +241,7 @@ describe('a drag on the walk', () => {
         const seen = viewOf(camera, eyeAt(clock.walk, clock.time), under, 0);
         assert.ok(
           Math.abs(seen.y - finger.y) < 0.05,
-          `${name}, frame ${String(frame)}: ${seen.y} under ${finger.y}`,
+          `${name} at ${String(across)}, frame ${String(frame)}: ${seen.y} under ${finger.y}`,
         );
       }
       const lifted = clock.walk.stride.at;

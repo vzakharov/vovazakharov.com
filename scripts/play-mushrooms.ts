@@ -39,6 +39,7 @@ import { WATCH } from './lib/flier-watch.ts';
 import { budgetReport } from './lib/frame-budget.ts';
 import {
   Controls,
+  dragMoves,
   type Expect,
   inTurn,
   KEY_CODES,
@@ -264,6 +265,23 @@ async function open(
       z.array(schema),
     );
   };
+  const dragTraced: Page['dragTraced'] = async (
+    from,
+    to,
+    frames,
+    expression,
+    schema,
+  ) => {
+    const seen: Array<z.infer<typeof schema>> = [];
+    await touch('touchStart', [from]);
+    await inTurn(dragMoves(from, to, frames), async (finger) => {
+      await step(1);
+      await touch('touchMove', [finger]);
+      seen.push(await evaluate(expression, schema));
+    });
+    await touch('touchEnd', []);
+    return seen;
+  };
   return {
     evaluate,
     rendered,
@@ -274,21 +292,9 @@ async function open(
       await touch('touchEnd', []);
     },
     drag: async (from, to, frames) => {
-      await touch('touchStart', [from]);
-      await inTurn(
-        Array.from({ length: frames }, (_, index) => (index + 1) / frames),
-        async (along) => {
-          await step(1);
-          await touch('touchMove', [
-            {
-              x: from.x + (to.x - from.x) * along,
-              y: from.y + (to.y - from.y) * along,
-            },
-          ]);
-        },
-      );
-      await touch('touchEnd', []);
+      await dragTraced(from, to, frames, 'true', z.boolean());
     },
+    dragTraced,
     key: async (key, type, { repeat = false, shift = false } = {}) => {
       await send('Input.dispatchKeyEvent', {
         type,

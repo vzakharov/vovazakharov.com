@@ -763,6 +763,17 @@ export type Page = {
     frames: number,
   ) => Promise<void>;
   /**
+   * `drag`, with `expression` read after each move and parsed by `schema`:
+   * what the finger moved, move by move, up to its lift.
+   */
+  dragTraced: <Parsed>(
+    from: z.infer<typeof Point>,
+    to: z.infer<typeof Point>,
+    frames: number,
+    expression: string,
+    schema: z.ZodType<Parsed>,
+  ) => Promise<Parsed[]>;
+  /**
    * A key going down or up, by its DOM `code`, as `ArrowLeft`; a `repeat` is
    * the browser's own repeat of a held key's press, and `shift` has Shift
    * down under it.
@@ -811,6 +822,21 @@ export async function grow(
   await page.step(30);
   if (cap) await page.tap(cap);
   await page.step(90);
+}
+
+/** Where `Page.drag`'s finger stands after each of its `frames` moves from `from` to `to`. */
+export function dragMoves(
+  from: z.infer<typeof Point>,
+  to: z.infer<typeof Point>,
+  frames: number,
+): Array<z.infer<typeof Point>> {
+  return Array.from({ length: frames }, (_, index) => {
+    const along = (index + 1) / frames;
+    return {
+      x: from.x + (to.x - from.x) * along,
+      y: from.y + (to.y - from.y) * along,
+    };
+  });
 }
 
 /** Runs `each` over `items` one after another, as taps on one page must. */

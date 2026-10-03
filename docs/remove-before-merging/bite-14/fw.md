@@ -34,7 +34,27 @@ Review: PR 57, review 5400519622.
    finger is down (17–77 px) is under the already shipped glide's first
    frames (29–129 px) in every case.
 
-## Left
+## FW2
+
+1. The walk play (this commit). `Page.dragTraced` + `dragMoves`
+   (`mushroom-probe.ts`, `play-mushrooms.ts`); `checkUnderFinger` in
+   `play-walk-checks.ts` (the ground under the crossing at the finger on the
+   drag's axis, every move past the slop and at the lift, within 3 % of the
+   swipe); `checkWalk` takes the finger-down frame count and bounds/slows
+   from the lift on only. `checkBack`/`goneAlong` moved to the checks file
+   (`play-walk.ts` 429 lines). The patch is deleted.
+   **Game fix**: the step drag left the ground 12.1 px (6 % of a 205 px
+   swipe) off the finger at an off-centre x on tabL — `follow`'s step aimed
+   by unbent row distance. `walk.ts`: the step lock holds the crossing's
+   ground (`reference` ahead, `across`) and `stepAim` halves for the step
+   that draws it on the finger's row (bend included), capped at
+   `STRAFE_WIDEST`. `walk.test.ts`'s step test also runs at 0.8 width.
+   Play: tabL and phoneP green — strafe and step 0.0 px off the finger on
+   every move and at the lift; at rest the glide carries the ground on
+   (strafe −106.5 / −96.7 px, step 228.6 / 249.0 px). Frames
+   `frames/bite-14/fw-tabL-strafe-{lift,rest}.png`.
+
+## Left (as FW wrote it; FW2's step 1 built the first item)
 
 - **The walk play** (`scripts/lib/play-walk.ts`, `play-walk-checks.ts`) —
   not yet run against the change, not yet extended. Designed:
