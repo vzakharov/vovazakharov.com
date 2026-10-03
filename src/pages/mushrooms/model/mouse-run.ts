@@ -179,8 +179,12 @@ const nearestOf = (origin: Point, doors: readonly RunDoor[], except?: string) =>
     () => 0,
   )?.id;
 
-/** How long after a sinking begins each of its mice after the first runs out. */
-export const FLEE_EVERY = 0.3;
+/**
+ * How long after one mouse runs out of a door the next may follow it, a
+ * sinking house's mice included: over a runner's length at `RUN_PACE`, so
+ * two mice from one house run one behind the other, not one on the other.
+ */
+export const FLEE_EVERY = 0.8;
 
 /** A mouse running out of a sinking house: to which door, and how long after the sinking begins. */
 export type Flee = { to: string; wait: number };

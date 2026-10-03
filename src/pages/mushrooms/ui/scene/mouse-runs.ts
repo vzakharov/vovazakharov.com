@@ -26,6 +26,7 @@ import {
   answerTap,
   entered,
   type Flee,
+  FLEE_EVERY,
   left,
   type Mice,
   miceAt,
@@ -309,7 +310,8 @@ export class MouseRuns {
   }
 
   /**
-   * Starts a run from `from` to `to` at `beganAt`, opening with
+   * Starts a run from `from` to `to` at `beganAt`, or `FLEE_EVERY` after
+   * the last run from `from` began if that is later, opening with
    * `opening`: one from a door at rest takes its mouse off `from`'s count
    * now; one from a sinking house or the ground has none to take.
    */
@@ -322,6 +324,10 @@ export class MouseRuns {
     fixedStart?: RunEnd,
   ): void {
     const start = fixedStart ?? this.endAt(from);
+    const after = this.under
+      .filter((run) => run.from === from)
+      .map((run) => run.beganAt + FLEE_EVERY);
+    const begins = Math.max(beganAt, ...after);
     const end = this.endAt(to);
     if (opening === 'peek') this.counts = left(this.counts, from);
     const eye = this.view?.eye;
@@ -332,7 +338,7 @@ export class MouseRuns {
     const run: MouseRun = {
       from,
       to,
-      beganAt,
+      beganAt: begins,
       course: { runLength, side, opening, calling },
       start,
       end,
