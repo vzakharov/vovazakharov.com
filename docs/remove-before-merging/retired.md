@@ -24,6 +24,7 @@ git show <sha>:docs/remove-before-merging/<dir>/<file>
 | `bite-13/`       | 13    | 4d1112afaa                | bite 13's briefs (packages, review) and hand-over notes                         |
 | `bite-14/`       | 34    | 8fcde14a2e                | bite 14's specs, briefs, map, scratch plays, hand-over notes                    |
 | `bite-15/`       | 23    | acfb76a783                | bite 15's specs, briefs, hand-over notes (`c.md` moved to `cost-hook-issue.md`) |
+| `bite-16/`       | 5     | fba5c91503                | bite 16's common brief and hand-over notes (A–D)                                |
 | `handle-bite4/`  | 1     | 6f1e193a9f                | bite 4's review handling                                                        |
 | `handle-bite6/`  | 4     | 6f1e193a9f                | bite 6's review handling                                                        |
 | `handle-bite7/`  | 4     | 6f1e193a9f                | bite 7's review handling (`brief-common.md`)                                    |
