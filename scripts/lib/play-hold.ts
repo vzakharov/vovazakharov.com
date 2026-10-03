@@ -4,7 +4,7 @@
  * there, ringed, its colours with the cross; the cross pulls the flower up,
  * the picker shutting and a tuft coming back where it stood — a seeded
  * flower's, then one the child planted on a tuft; a press on another
- * flower that turns the eye opens nothing; and, the eye turned and walked
+ * flower that moves the eye opens nothing; and, the eye turned and walked
  * in, a press held on the nearest flower drawn opens the picker on it.
  */
 
@@ -61,8 +61,8 @@ const held = (id: string) => `(() => {
 
 /** How many frames a held press lasts: past `LONG_PRESS`'s 0.45 s at 60 frames a second. */
 export const HOLD_FRAMES = 36;
-/** How far a press that turns the eye drags, in CSS px: well past the slop. */
-const TURN = 120;
+/** How far a press that moves the eye drags sideways, in CSS px: well past the slop. */
+const SIDEWAYS = 120;
 
 export async function playHold(
   page: Page,
@@ -101,18 +101,18 @@ export async function playHold(
     note('no tuft took a flower; no planted flower pulled');
   }
 
-  // A press that turns the eye is no long press.
+  // A press that moves the eye is no long press.
   const other = await page.evaluate('__probe.flower()', Flower);
   if (other) {
     const { id: otherId, ...from } = other;
-    await page.drag(from, { ...from, x: from.x + TURN }, HOLD_FRAMES);
+    await page.drag(from, { ...from, x: from.x + SIDEWAYS }, HOLD_FRAMES);
     await page.step(30);
     expect(
       !(await page.evaluate(held(otherId), Held)).open,
-      'a press that turned the eye opened the picker',
+      'a press that moved the eye opened the picker',
     );
   } else {
-    note('no second flower on screen; no turned-press step');
+    note('no second flower on screen; no moving-press step');
   }
 
   // Turned and walked in, a press held on the nearest flower's head drawn
