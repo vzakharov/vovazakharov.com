@@ -143,3 +143,17 @@ Each step is one agent, its files as its spec names them.
   each ≤ +45 after the mouse's reader; `play-runs.ts`, `play-worms.ts`).
 - **Wave 4: R6 and W4**, an agent each looking at the frames and tuning
   constants only; then the tail.
+
+## Calls from the build
+
+22\. **A mid-run mouse left with no door on the field sinks with the last
+one** (R2's open case), as call 10's "else they sink with it".
+
+23\. **`model/mouse-run.ts` is split before it grows**: at 459 lines after R2,
+the run's clock (`runAt`, `runDuration`, `runnerAt`, `endOf`, `widthAlong`)
+moves to `model/mouse-run-clock.ts` in R4, before `hop` lands.
+
+24\. **A window worm inches with its holding end creeping** at about a third
+of the leading end's pace on a long crawl (W1: an inch's step outruns the
+body's squeeze at 0.35 units/s); W4 tunes pace, length or inch from frames.
+A chanterelle has one window, so its worm only peeks.

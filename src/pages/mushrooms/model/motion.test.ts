@@ -22,6 +22,8 @@ import {
   lookAbout,
   mouseOut,
   NARROWEST_STANDING,
+  outingOf,
+  outingStart,
   peek,
   PEEK_PERIOD,
   peekAfterTap,
@@ -279,6 +281,38 @@ describe('peek', () => {
 
   it('keeps each mushroom’s own rhythm', () => {
     assert.notDeepEqual(outAt(phases[1] ?? 0), outAt(phases[7] ?? 0));
+  });
+});
+
+describe('outingOf', () => {
+  it('holds each peek whole inside one outing, begun as the mouse starts out', () => {
+    for (const phase of phases) {
+      const span = frames(0, PEEK_PERIOD[1] * 4);
+      for (const [index, t] of span.entries()) {
+        const before = span[index - 1];
+        if (
+          before !== undefined &&
+          outingOf(t, phase) !== outingOf(before, phase)
+        )
+          assert.equal(outingOf(t, phase), outingOf(before, phase) + 1);
+        if (peek(t, phase) === 0) continue;
+        const since = t - outingStart(outingOf(t, phase), phase);
+        // A peek of its own is out, holds 1.6 s, and is back in 2.25 s after it began.
+        assert.ok(since >= 0 && since < 2.25, `${since}`);
+      }
+    }
+  });
+
+  it('places each outing’s start where `outingOf` turns to it, the mouse still in', () => {
+    for (const phase of phases) {
+      for (const outing of [-1, 0, 1, 5]) {
+        const start = outingStart(outing, phase);
+        assert.equal(outingOf(start + 1e-9, phase), outing);
+        assert.equal(outingOf(start - 1e-9, phase), outing - 1);
+        assert.ok(peek(start, phase) < 1e-9);
+        assert.ok(peek(start + 0.35, phase) > 0.99);
+      }
+    }
   });
 });
 
