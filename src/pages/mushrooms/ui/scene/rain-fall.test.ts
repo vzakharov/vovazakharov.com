@@ -6,7 +6,12 @@ import {
   cloudSpan,
   dropColumn,
   firstCrossing,
+  GUSH_DROPS,
+  gushToStart,
   lerpPoint,
+  MOST_DROPS,
+  STEADY_DROPS,
+  steadyToStart,
   UNDER_CLOUD,
 } from './rain-fall';
 import { CLOUD_SPREAD } from './rain-sky';
@@ -58,6 +63,35 @@ describe('dropColumn', () => {
     assert.ok(span);
     const wide = (span[1] - span[0]) / WIDTH;
     assert.ok(Math.abs(shareIn(columns(undefined), span) - wide) < 0.03);
+  });
+});
+
+describe('steadyToStart', () => {
+  it('fills a full downpour up to the steady count', () => {
+    assert.equal(steadyToStart(1, { all: 0, gushed: 0 }), STEADY_DROPS);
+    assert.equal(steadyToStart(1, { all: 90, gushed: 0 }), STEADY_DROPS - 90);
+    assert.equal(steadyToStart(0.5, { all: 60, gushed: 0 }), 0);
+  });
+
+  it('does not count a gush against the steady rain', () => {
+    const air = { all: STEADY_DROPS - 10 + GUSH_DROPS, gushed: GUSH_DROPS };
+    assert.equal(steadyToStart(1, air), 10);
+  });
+
+  it('never takes the drops in the air past the most', () => {
+    assert.equal(steadyToStart(1, { all: MOST_DROPS - 2, gushed: 40 }), 2);
+    assert.equal(steadyToStart(1, { all: MOST_DROPS, gushed: 40 }), 0);
+  });
+});
+
+describe('gushToStart', () => {
+  it('adds the whole gush on top of a full downpour', () => {
+    assert.equal(gushToStart(STEADY_DROPS), GUSH_DROPS);
+  });
+
+  it('is cut to the room left under the most', () => {
+    assert.equal(gushToStart(MOST_DROPS - 5), 5);
+    assert.equal(gushToStart(MOST_DROPS), 0);
   });
 });
 
