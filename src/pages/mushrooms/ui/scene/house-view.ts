@@ -1,6 +1,8 @@
 import * as Phaser from 'phaser';
 
-import type { Point } from '../../model/geometry';
+import { pick } from '@/shared/lib/collections';
+
+import type { Circle, Point } from '../../model/geometry';
 import { type DoorPlace, type House, windowSlots } from '../../model/house';
 import {
   blink,
@@ -16,11 +18,18 @@ import { mix } from './colour';
 import { doorHitArea, mouseHead } from './door-reach';
 import { paintHouse } from './draw-house';
 import { containsOutline } from './hit-areas';
+import { HouseWorm } from './house-worm';
 import type { Lighted } from './ink';
 import type { HazedGraphics } from './mushroom-paint';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
 import { puffFrom, type Puffing } from './spores';
+import {
+  type HousePart,
+  tappedPart,
+  windowFace,
+  windowReaches,
+} from './window-reach';
 
 /** How much sooner than its mouse's head a door swings all the way open. */
 const DOOR_LEAD = 2;
@@ -47,8 +56,9 @@ export type Body = HazedGraphics &
 /**
  * One mushroom's windows and door, in a graphics of their own that stands on
  * the mushroom's foot, just in front of it, and takes its pose every frame, so
- * they grow, wobble and sink with it. The door is this graphics' hit area and
- * the windows are not, so a tap on a window falls through to the mushroom.
+ * they grow, wobble and sink with it. The door and the windows take a tap,
+ * the nearest of them where their reaches overlap (`tappedPart`); a tap off
+ * them falls through to the mushroom.
  */
 export class HouseView {
   readonly graphics: Phaser.GameObjects.Graphics;
@@ -66,10 +76,16 @@ export class HouseView {
   /** How far out the mouse was at the last paint, so a still house is left be. */
   private shownOut = 0;
   private stale = true;
+  /** Where each window answers a tap (`windowReaches`) and the face that cuts them (`windowFace`), in the graphics' own frame. */
+  private reaches: Circle[] = [];
+  private face: Point[] = [];
+  /** Its worm, which a tap on a window calls out. */
+  readonly worm: HouseWorm;
   private readonly scene: Phaser.Scene;
   private readonly voice: MeadowSound;
   private readonly now: () => number;
   private readonly puffDepth: number;
+  private readonly nearest: (house: HouseView, at: Point) => boolean;
 
   constructor(
     scene: Phaser.Scene,
@@ -83,18 +99,49 @@ export class HouseView {
     this.voice = voice;
     this.now = now;
     this.puffDepth = puffDepth;
+    this.nearest = nearest;
     this.mouse = { phase, tappedAt: -Infinity };
+    this.worm = new HouseWorm(voice, phase);
     this.graphics = scene.add.graphics().setInteractive({
       hitArea: this.hit,
-      // Where two doors' tap areas overlap, the bed hands the tap to one (`tappedDoor`).
-      hitAreaCallback: (area: readonly Point[], x: number, y: number) =>
-        containsOutline(area, x, y) && nearest(this, this.onScreen({ x, y })),
+      hitAreaCallback: (_area: readonly Point[], x: number, y: number) =>
+        this.takes({ x, y }) !== undefined,
     });
-    // A door is part of its mushroom, not the meadow: its tap leaves an open picker open.
-    this.graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-      this.mouse.tappedAt = this.now();
-      this.voice.squeak();
-    });
+    // A house is part of its mushroom, not the meadow: its tap leaves an open picker open.
+    this.graphics.on(
+      Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN,
+      (_pointer: Phaser.Input.Pointer, x: number, y: number) => {
+        const part = this.takes({ x, y });
+        if (part === 'door') this.tapDoor();
+        else if (part !== undefined) this.tapWindow(part);
+      },
+    );
+  }
+
+  /** Which part takes a tap at `at`, in the graphics' own frame; where two doors' tap areas overlap, the bed hands the tap to one (`tappedDoor`). */
+  private takes(at: Point): HousePart | undefined {
+    const middle = this.doorMiddle();
+    const local =
+      middle &&
+      this.graphics.getWorldTransformMatrix().applyInverse(middle.x, middle.y);
+    const door = local && {
+      ...pick(local, 'x', 'y'),
+      holds: ({ x, y }: Point) => containsOutline(this.hit, x, y),
+    };
+    const part = tappedPart(at, door, this.reaches, this.face);
+    return part === 'door' && !this.nearest(this, this.onScreen(at))
+      ? undefined
+      : part;
+  }
+
+  private tapDoor(): void {
+    this.mouse.tappedAt = this.now();
+    this.voice.squeak();
+  }
+
+  /** The worm out of window `from`, or a wriggle of it while it is out (`HouseWorm`). */
+  private tapWindow(from: number): void {
+    this.worm.tap(this.now(), from, this.house?.windows.length ?? 0);
   }
 
   /** The middle of the door's tap area on screen; `undefined` with no door. */
@@ -197,7 +244,9 @@ export class HouseView {
     const popping = [...this.windowsAt, this.doorAt ?? -Infinity].some(
       (at) => t - at < EMERGE_DURATION,
     );
-    if (!this.stale && !popping && out === 0 && this.shownOut === 0) return;
+    const worm = this.worm.stirring(t);
+    if (!this.stale && !popping && out === 0 && this.shownOut === 0 && !worm)
+      return;
     this.stale = false;
     this.shownOut = out;
     this.paint(t, body, out);
@@ -230,7 +279,10 @@ export class HouseView {
             look: lookAbout(t, this.mouse.phase),
             shut: blink(t, this.mouse.phase),
           };
-    paintHouse(this.graphics, genes, size, windows, door, brush);
+    this.reaches = windowReaches(genes, size, windows.length, brush.ink);
+    this.face = windowFace(genes, size);
+    const worm = this.worm.shown(t, genes, size);
+    paintHouse(this.graphics, genes, size, windows, door, brush, worm);
     if (!door) return;
     this.hit.push(...doorHitArea(door.station, size));
     this.shownHead = mouseHead(door.station.width * size * door.popped);

@@ -98,6 +98,14 @@ const knock: Voice = (context, out) => {
   }
 };
 
+/** A worm's pip-pip, two soft blips rising, `level` of its full loudness. */
+const wriggle =
+  (level: number): Voice =>
+  (context, out) => {
+    tone(context, out, 'sine', [700, 850], 0.06, 0.1 * level);
+    tone(context, out, 'sine', [850, 1000], 0.06, 0.1 * level, 0.09);
+  };
+
 /** A mouse's squeak, twice: high and quick, rising and falling back. */
 const squeak: Voice = (context, out) => {
   tone(context, out, 'sine', [1900, 2700, 2200], 0.16, 0.11);
@@ -252,6 +260,11 @@ export class MeadowSound {
 
   knock(): void {
     this.play(knock);
+  }
+
+  /** A worm answering a tap on its window: `level` 1 as it sets out, lower as it is tapped on its way. */
+  wriggle(level = 1): void {
+    this.play(wriggle(level));
   }
 
   squeak(): void {

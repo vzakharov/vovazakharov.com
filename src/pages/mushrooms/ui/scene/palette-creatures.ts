@@ -101,6 +101,9 @@ export const CREATURES = {
   mouseLight: 0xd2_d0_da,
   mousePink: 0xff_a2_b4,
   mouseEye: 0x1e_12_12,
+  /** An earthworm's pale pink, off the caps' reds and apricot by its paleness and its dark ink, and the deeper band round its middle. */
+  worm: 0xf4_b0_a8,
+  wormBand: 0xd8_80_84,
   /** One per `BUTTERFLY_COLOURS` name: a butterfly's wings and its eyes' rings. */
   butterflies: {
     coral: 0xff_87_63,
