@@ -129,6 +129,22 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     and no committed play measures it: accepted, not traced. A1's scratch
     play is `play-zzshower.ts.txt` beside the notes.
 
+28. **Each shower picks its parents by its own seed, a new species first**
+    (the operator, playing: «а после дождя растут только новые мухоморы?
+    не заметил чтобы другие тоже появились»). Oldest-first always named
+    the opening clump's fly agarics. Now the old mushrooms in sight are
+    ordered by a stream salted from the shower (its `stopsAt`), those of a
+    species the last shed did not use first; still the parent's species,
+    still up to `PARENTS` tried in order. Beat: one sprout per species in
+    sight, which scatters a shed across the view and weakens "this one
+    puffed, these came up".
+29. **A drag on the sky turns, a drag on the ground strafes** (the
+    operator: «тащишь по небу — поворот (потому что как раз при повороте
+    небо двигается). тащишь по земле — стрейф») — the axis lock's
+    horizontal branch swapped (`model/walk.ts`); a vertical drag steps
+    wherever it starts, as before. A ground strafe slides the ground under
+    the finger with it.
+
 ## Packages and waves
 
 - **Wave 1, in parallel: S1** shelter's model (spec-shelter § 5 step 1) and
