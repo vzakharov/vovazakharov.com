@@ -21,6 +21,7 @@ import {
   runTarget,
   scattered,
 } from './mouse-run';
+import { runAt, type RunCourse, type RunLeg } from './mouse-run-clock';
 
 const door = (id: string, x: number, y: number, hidden = false): RunDoor => ({
   id,
@@ -29,6 +30,17 @@ const door = (id: string, x: number, y: number, hidden = false): RunDoor => ({
 });
 const miceOf = (counts: Record<string, number>): Mice =>
   new Map(Object.entries(counts));
+
+const course: RunCourse = {
+  runLength: 0.5,
+  bowSign: 1,
+  opening: 'peek',
+  calling: false,
+};
+/** The leg a run from a door at rest is in `elapsed` after it began. */
+const legAt = (elapsed: number): RunLeg => runAt(elapsed, course).leg;
+/** A run from b going in at a, in `leg`. */
+const into = (leg: RunLeg) => [{ from: 'b', to: 'a', leg }];
 
 describe('counts', () => {
   it('moves one mouse and keeps the total', () => {
@@ -126,23 +138,56 @@ describe('answerTap', () => {
   const other = door('b', 0.5, 10);
 
   it('runs a mouse home to a door in reach, else peeks', () => {
-    assert.deepEqual(answerTap(miceOf({ a: 1 }), tapped, [tapped, other]), {
+    assert.deepEqual(answerTap(miceOf({ a: 1 }), tapped, [tapped, other], []), {
       answer: 'run',
       to: 'b',
     });
-    assert.deepEqual(answerTap(miceOf({ a: 1 }), tapped, [tapped]), {
+    assert.deepEqual(answerTap(miceOf({ a: 1 }), tapped, [tapped], []), {
       answer: 'peek',
     });
   });
 
   it('calls a mouse to an empty door, else knocks', () => {
-    assert.deepEqual(answerTap(miceOf({ b: 1 }), tapped, [tapped, other]), {
+    assert.deepEqual(answerTap(miceOf({ b: 1 }), tapped, [tapped, other], []), {
       answer: 'call',
       from: 'b',
     });
-    assert.deepEqual(answerTap(miceOf({}), tapped, [tapped, other]), {
+    assert.deepEqual(answerTap(miceOf({}), tapped, [tapped, other], []), {
       answer: 'knock',
     });
+  });
+  it('squeaks a mouse peeking out to run, on a door tapped twice 0.2 s apart', () => {
+    const doors = [tapped, other];
+    assert.deepEqual(answerTap(miceOf({ a: 1 }), tapped, doors, []), {
+      answer: 'run',
+      to: 'b',
+    });
+    // The run takes its mouse off a's count as it begins, its head still in a's doorway.
+    const runs = [{ from: 'a', to: 'b', leg: legAt(0.2) }];
+    const squeak = { answer: 'squeak', run: 0 };
+    // Not a second mouse called home from b, nor a knock with b empty.
+    assert.deepEqual(answerTap(miceOf({ b: 1 }), tapped, doors, runs), squeak);
+    assert.deepEqual(answerTap(miceOf({}), tapped, doors, runs), squeak);
+  });
+
+  it('squeaks a mouse going in at the door, until its door has shut', () => {
+    for (const leg of ['enter', 'close'] as const) {
+      assert.deepEqual(answerTap(miceOf({}), tapped, [tapped], into(leg)), {
+        answer: 'squeak',
+        run: 0,
+      });
+    }
+    assert.deepEqual(answerTap(miceOf({}), tapped, [tapped], into('run')), {
+      answer: 'knock',
+    });
+  });
+
+  it('answers as ever once the mouse has left the doorway', () => {
+    const away = [{ from: 'a', to: 'b', leg: legAt(1) }];
+    assert.deepEqual(
+      answerTap(miceOf({ b: 1 }), tapped, [tapped, other], away),
+      { answer: 'call', from: 'b' },
+    );
   });
 });
 

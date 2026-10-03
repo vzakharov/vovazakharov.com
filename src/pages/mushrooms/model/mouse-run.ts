@@ -10,6 +10,7 @@
 import type { WithId } from '@/shared/typings';
 
 import { distanceBetween, type Point } from './geometry';
+import type { RunMoment } from './mouse-run-clock';
 import type { Footed } from './placement';
 import { saltedStream, type Seeded } from './random';
 
@@ -146,23 +147,47 @@ export function runsOuting(
   return count >= 2 || saltedStream(seed, RUN_SALT, outing)() < RUN_SHARE;
 }
 
-/** What a door does when tapped: which run it starts, or which of its peeks it makes. */
+/** A run's two houses, by their mushrooms' ids: the one it leaves and the one it goes in at. */
+export type RunEnds = Pick<Flee, 'to'> & { from: string };
+
+/** A run under way as a tap on a door sees it: its two houses and the leg it is in now. */
+export type RunInLeg = RunEnds & Pick<RunMoment, 'leg'>;
+
+/**
+ * Which of `runs` has its mouse in `id`'s doorway: peeking out of it to
+ * run, or going in at it until its door has shut; -1 with none.
+ */
+export const inDoorway = (runs: readonly RunInLeg[], id: string): number =>
+  runs.findIndex(
+    ({ from, to, leg }) =>
+      (from === id && leg === 'peek') ||
+      (to === id && (leg === 'enter' || leg === 'close')),
+  );
+
+/** What a door does when tapped: which run it starts, which of its peeks it makes, or which run's mouse in its doorway squeaks. */
 export type DoorAnswer =
   | { answer: 'run'; to: string }
   | { answer: 'call'; from: string }
   | { answer: 'peek' }
-  | { answer: 'knock' };
+  | { answer: 'knock' }
+  | { answer: 'squeak'; run: number };
 
 /**
- * What a tap on `tapped`'s door does: its mouse runs to a door in reach, or
- * peeks with none; an empty house calls one home from the fullest in reach,
- * or opens on its empty doorway with none and shuts with a knock.
+ * What a tap on `tapped`'s door does: a run's mouse in its doorway
+ * (`inDoorway`) squeaks, whatever the counts say, since a run counts its
+ * mouse out as it peeks and in only once its door has shut; else its mouse
+ * runs to a door in reach, or peeks with none; an empty house calls one home
+ * from the fullest in reach, or opens on its empty doorway with none and
+ * shuts with a knock.
  */
 export function answerTap(
   mice: Mice,
   tapped: RunDoor,
   doors: readonly RunDoor[],
+  runs: readonly RunInLeg[],
 ): DoorAnswer {
+  const run = inDoorway(runs, tapped.id);
+  if (run >= 0) return { answer: 'squeak', run };
   if (miceAt(mice, tapped.id) > 0) {
     const to = runTarget(mice, tapped, doors);
     return to === undefined ? { answer: 'peek' } : { answer: 'run', to };

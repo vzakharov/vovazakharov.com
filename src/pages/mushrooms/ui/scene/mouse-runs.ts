@@ -24,13 +24,13 @@ import {
 import {
   answerTap,
   entered,
-  type Flee,
   FLEE_EVERY,
   left,
   type Mice,
   miceAt,
   retarget,
   type RunDoor,
+  type RunEnds,
   runsOuting,
   runTarget,
   scattered,
@@ -83,11 +83,10 @@ export type MouseDoor = {
  * runner, the circle it takes a tap in, when it was last tapped, and its
  * patter's last tick.
  */
-export type MouseRun = Pick<Flee, 'to'> &
+export type MouseRun = RunEnds &
   Pick<Tapped, 'tappedAt'> &
   WithCircleHit &
   WithGraphics & {
-    from: string;
     beganAt: number;
     course: RunCourse;
     start: PaintedEnd | undefined;
@@ -244,13 +243,20 @@ export class MouseRuns {
     this.start(door.id, to, outingStart(outing, phase), 'peek', false);
   }
 
-  /** A tap on `id`'s door: a run out or a call home, else a peek or a knock on an empty doorway. */
+  /**
+   * A tap on `id`'s door: a squeak from a run's mouse in its doorway, else a
+   * run out or a call home, else a peek or a knock on an empty doorway.
+   */
   private tap(id: string, mouse: Tapped): void {
     const now = this.now();
     const doors = this.doors();
     const tapped = doors.find((door) => door.id === id);
+    const runs = this.under.map((run) => ({
+      ...pick(run, 'from', 'to'),
+      ...pick(runAt(Math.max(0, now - run.beganAt), run.course), 'leg'),
+    }));
     const answer = tapped
-      ? answerTap(this.counts, tapped, doors)
+      ? answerTap(this.counts, tapped, doors, runs)
       : { answer: 'peek' as const };
     if (answer.answer === 'knock') {
       const kept = this.kept.get(id);
@@ -259,6 +265,11 @@ export class MouseRuns {
       return;
     }
     this.voice.squeak();
+    if (answer.answer === 'squeak') {
+      const run = this.under[answer.run];
+      if (run) run.tappedAt = now;
+      return;
+    }
     if (answer.answer === 'run') this.start(id, answer.to, now, 'peek', false);
     else if (answer.answer === 'call') {
       this.start(answer.from, id, now, 'peek', true);
