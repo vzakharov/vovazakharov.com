@@ -1,8 +1,8 @@
 /**
  * Where a flower's or a key's pitch class sounds: the nearest note of that
- * class to the last note played, within the game's three octaves, so a run of taps walks
- * up and down as a melody does instead of jumping by octaves. Notes are MIDI
- * numbers.
+ * class to the last note played, within the game's three octaves, so a run
+ * of taps walks up and down as a melody does instead of jumping by octaves.
+ * Notes are MIDI numbers.
  */
 
 import type { PitchClass } from './flower-sounds';
