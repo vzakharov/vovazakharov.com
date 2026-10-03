@@ -50,11 +50,10 @@ const TRAVEL_FRAMES = Object.fromEntries(
 const MOVING = 1;
 
 /**
- * How much faster the screen may draw a turn than the flight makes it: the
- * bend of the pinhole's rows (`bentTurn` in `insect-drawn.ts`) maps the
- * frame's turn to the screen's at a local slope a little over 1 (~1.005 where
- * meadow's flies land), with room for rounding. Its slope varies with place
- * and pose, so it is bounded here rather than derived.
+ * How much faster the screen may draw a turn than the flight makes it:
+ * `bentTurn` (`insect-drawn.ts`) maps the frame's turn to the screen's at a
+ * slope a little over 1 (~1.005 where meadow's flies land) that varies with
+ * place and pose, so it is bounded here, with room for rounding.
  */
 const BEND_SLOPE = 1.01;
 /** How fast a body shown on screen may turn, in radians a second: its kind's `TURN_RATE`, as the bend draws it. */

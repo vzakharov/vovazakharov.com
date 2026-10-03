@@ -63,6 +63,8 @@ const SETTLE_FRAMES = 150;
 const SAME_PX = 0.5;
 /** The bob's depth as a share of the screen's height (`walking.ts`). */
 const BOB_SHARE = 0.004;
+/** Moves a drag's finger makes, a frame each, from its press to its lift. */
+const DRAG_MOVES = 12;
 
 /** Every bed object drawn, mushrooms and flowers, where it stands on the screen. */
 const BEDS = `(() => {
@@ -240,7 +242,7 @@ export async function playWalk(
   } else {
     const before = await eye();
     const to = { ...start, x: start.x - 0.3 * before.width };
-    await page.drag(start, to, 12);
+    await page.drag(start, to, DRAG_MOVES);
     const lifted = await eye();
     const want = azimuth(start.x) - azimuth(to.x);
     const got = turned(before.heading, lifted.heading);
@@ -266,19 +268,33 @@ export async function playWalk(
         y: Math.min(before.height - 4, from.y + 0.25 * before.height),
       };
       const pressed = await eye();
-      const held = await page.dragTraced(from, down, 12, '__probe.eye()', Eye);
+      const held = await page.dragTraced(
+        from,
+        down,
+        DRAG_MOVES,
+        '__probe.eye()',
+        Eye,
+      );
       const offFinger = checkUnderFinger(
         camera,
         pressed,
         from,
-        dragMoves(from, down, 12),
+        dragMoves(from, down, DRAG_MOVES),
         held,
         'step',
         expect,
         note,
       );
       const chase = await page.trace(SETTLE_FRAMES, '__probe.eye()', Eye);
-      checkWalk(pressed, [...held, ...chase], bob, 'drag', expect, note, 12);
+      checkWalk(
+        pressed,
+        [...held, ...chase],
+        bob,
+        'drag',
+        expect,
+        note,
+        DRAG_MOVES,
+      );
       note(
         `a drag down the screen: its ground ${offFinger(held.at(-1) ?? pressed).toFixed(1)} px down from the finger at the lift, ${offFinger(chase.at(-1) ?? pressed).toFixed(1)} at rest`,
       );
@@ -311,10 +327,10 @@ export async function playWalk(
 
 /**
  * A strafe: a swipe leftward from bare ground, 150 px or to the screen's
- * edge, whichever is nearer — a finger off the screen is no longer read —
- * the ground under the finger following it and flung on from its lift, then `→` held 1.5 s under
- * Shift; each walks the eye square to a heading it never turns. The swipe
- * is shot at its lift and at rest, the key mid-way.
+ * edge, whichever is nearer, since a finger past the edge goes unread — the
+ * ground under the finger following it and flung on from its lift — then
+ * `→` held 1.5 s under Shift; each walks the eye square to a heading it never
+ * turns. The swipe is shot at its lift and at rest, the key mid-way.
  */
 async function playStrafes(
   page: Page,
@@ -361,7 +377,7 @@ async function playStrafes(
         );
       return goneAlong(pressed, under, pressed.heading);
     };
-    const frames = 12;
+    const frames = DRAG_MOVES;
     const down = await page.dragTraced(start, to, frames, '__probe.eye()', Eye);
     const offFinger = checkUnderFinger(
       camera,

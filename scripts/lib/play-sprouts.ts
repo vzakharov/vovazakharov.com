@@ -2,10 +2,10 @@
  * Spores sown and sprouted, `play-mushrooms.ts`'s run on a fresh meadow: the
  * opening clump's front cap tapped three times, one of its dots picked up,
  * and a cloud tapped. It fails where a tap leaves no dot, one off its
- * parent or one no tap reaches, where a pick-up leaves the dot or opens the flower picker, where a
- * spore sprouts before the dark sets in, or where one is still lying, or its
- * sprout is not up or not its parent's species, once the window has passed;
- * how they look is for the eye, in the frames.
+ * parent or one no tap reaches; where a pick-up leaves the dot or opens the
+ * flower picker; where a spore sprouts before the dark sets in; or, once the
+ * window has passed, where one is still lying or its sprout is not up or not
+ * of its parent's species. How they look is for the eye, in the frames.
  */
 
 import { z } from 'zod';
@@ -14,18 +14,19 @@ import { SPROUT_WINDOW_MS } from '../../src/pages/mushrooms/model/sprouting.ts';
 import { darkAt } from '../../src/pages/mushrooms/model/weather.ts';
 import { SPORE_REACH } from '../../src/pages/mushrooms/ui/scene/mushroom-room.ts';
 import {
-  Clouds,
   type Controls,
   type Expect,
+  FRAME_MS,
   inTurn,
   type Page,
   Point,
   Shower,
   Sprouts,
   State,
+  tapCloud,
+  timedSteps,
 } from './mushroom-probe.ts';
 
-const FRAME_MS = 1000 / 60;
 /** How many spores the play sows. */
 const TAPS = 3;
 /** Frames between two taps on the cap, a puff's worth. */
@@ -107,14 +108,7 @@ export async function playSprouts(
   expect(!left.planting, `a tap on ${picked.id} opened the flower picker`);
   await page.shoot('sprouts-2-picked');
 
-  const cloud = (await page.evaluate('__probe.clouds()', Clouds)).find(
-    (point) => point !== null,
-  );
-  if (!cloud) {
-    expect(false, 'no cloud a tap reaches on the screen');
-    return;
-  }
-  await page.tap(cloud);
+  if ((await tapCloud(page, expect)) === undefined) return;
   const { span } = await page.evaluate('__probe.rain()', Shower);
   if (span === null) {
     expect(false, 'a tap on a cloud started no shower');
@@ -150,10 +144,6 @@ export async function playSprouts(
   }
   await page.shoot('sprouts-3-up');
 
-  // The frames after the sprouts are up drawn one by one, for the run's
-  // frame budget: the long steps around them each draw a single frame.
-  await inTurn(
-    Array.from({ length: TIMED }, (_, index) => index),
-    async () => page.step(1),
-  );
+  // For the run's frame budget: the long steps above each draw a single frame.
+  await timedSteps(page, TIMED);
 }
