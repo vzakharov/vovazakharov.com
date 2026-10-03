@@ -222,6 +222,20 @@
   how many of its last rounds found the game versus the script; once the
   script wins twice, record the remaining reds as known for the review and
   the operator's play, and move to the bite's next item.
+- **A field given a new meaning keeps its old readers.** Bite 13's fold
+  wrote a closed bud's foot radius into `headR`, right for the one reader
+  it was meant for (perching) and wrong for four others — the held
+  flower's ring shrank to a dot in the rain, and the tap zone over a cap
+  with it. The build's own frames never held a flower in the rain; a
+  reviewer grepping the field's readers found it. A review greps every
+  reader of each field a bite starts writing differently, and the fix gives
+  the new meaning a field of its own.
+- **A number copied from a call's prose is a hunch in the code.** Call 1
+  said a cloud spreads "`CLOUD_SPREAD` (4) radii"; the puffs reach 2.4–2.8,
+  so blue sky beside a cloud started the rain and the drops' densest band
+  was 60% too wide. Measured against the drawn pixels, the number became a
+  derivation from the puff table. A call states its numbers as "derive it
+  from `<file>`".
 - **One quantity measured in two frames is a class, not a leg.** Bite 12's
   review play showed one bee 1.71× fast after a snap turn; the trace found
   the model framing each perch alone (clamped at the margin) while the view

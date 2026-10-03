@@ -119,7 +119,12 @@
   wave reported — every package built, the play, review and tail left. So
   the skill plans an orchestrator relay after the build waves, with the
   play, review and tail as the successor's first work, and keeps the frames
-  it opens to the one per report that decides a call.
+  it opens to the one per report that decides a call. The successor bore
+  that out: the play, a small-fixes agent, a gate fix, two reviewers by
+  area, two fix agents and the tail ran in about an hour from one session
+  at the depth cap, nine agents at 90–175k, the orchestrator ending near
+  ~220k — reviewers launched while fix agents still held the same files,
+  since a reviewer only reads.
 - **Reading an Artifact before republishing it costs ~40k tokens** when the
   page is a 135 KB bundle: the read hands its head back inline. The
   republish needs only the version header and the writer check. The skill
