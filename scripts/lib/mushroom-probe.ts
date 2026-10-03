@@ -424,8 +424,9 @@ export const PROBE = `(() => {
     /**
      * The shower as the sky shows it: the meadow's span, whether it rains,
      * how wet the sky is, how strongly the rainbow shows, the drops in the
-     * air, the flowers' mean closing (0 while the flower bed reports none)
-     * and the cloud tapped last.
+     * air, how far shut the flowers' heads were painted on average, as the
+     * paint reports it (0 while the flower bed reports none), and the cloud
+     * tapped last.
      */
     rain: () => {
       const span = scene.meadow.rain;

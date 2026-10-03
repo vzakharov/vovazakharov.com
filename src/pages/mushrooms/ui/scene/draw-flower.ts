@@ -4,8 +4,7 @@ import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Point, sample } from '../../model/geometry';
 import { headedLight } from '../../model/light';
 import { mix } from './colour';
-import { BUD, type Folding, OPEN, petalPose } from './flower-closing';
-import type { HeadReach } from './flower-seat';
+import { type Folding, OPEN, petalPose } from './flower-closing';
 import { petalColour } from './flower-tints';
 import { facingArc, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
@@ -142,14 +141,17 @@ export function paintFlowerStem(
   strokeLine(graphics, line);
 }
 
-/** Paints a flower's head into `graphics`, its middle at the origin, `folded` as far shut as that holds. */
+/**
+ * Paints a flower's head into `graphics`, its middle at the origin, `folded`
+ * as far shut as that holds, and returns the fold its petals were painted at.
+ */
 export function paintFlowerHead(
   graphics: Phaser.GameObjects.Graphics,
   genes: FlowerGenes,
   size: number,
   lighting: Lighting,
   folded: Folding = OPEN,
-): void {
+): Folding {
   const ink = inkAt(size);
   const outer = petalColour(genes);
   const rings: Ring[] = [[1, 0, outer]];
@@ -166,7 +168,7 @@ export function paintFlowerHead(
   for (const ring of rings)
     paintRing(graphics, genes, size, ring, ink, lighting, folded);
   const centre = genes.centre * size * folded.disc;
-  if (centre <= 0) return;
+  if (centre <= 0) return folded;
   const { toward } = lighting;
   inkedDisc(
     graphics,
@@ -182,12 +184,14 @@ export function paintFlowerHead(
     toward.y * centre * 0.2,
     centre * 0.75,
   );
+  return folded;
 }
 
 /**
  * Paints a flower into its two parts: `stem`, whose origin is the foot, and
  * `head`, which this moves to the stem's top so opening it scales the head
- * about its own centre, `folded` as far shut as that holds.
+ * about its own centre, `folded` as far shut as that holds; returns the fold
+ * the head was painted at (`paintFlowerHead`).
  */
 export function drawFlower(
   { stem, head }: Record<'stem' | 'head', Phaser.GameObjects.Graphics>,
@@ -195,34 +199,16 @@ export function drawFlower(
   size: number,
   lighting: Lighting,
   folded: Folding,
-): void {
+): Folding {
   const top = flowerHead(genes, size);
   paintFlowerStem(stem.clear(), genes, size, lighting);
-  paintFlowerHead(
+  return paintFlowerHead(
     head.clear().setPosition(top.x, top.y),
     genes,
     size,
     lighting,
     folded,
   );
-}
-
-/**
- * Where insects perch on the head of a flower `folded` as far shut as that
- * holds, as `paintFlowerHead` draws it: its rim, below the middle, closing up
- * to the bud's foot, and its centre, above it, rising to the bud's tip.
- */
-export function foldedHead(
-  genes: FlowerGenes,
-  size: number,
-  { closing }: Folding,
-): HeadReach {
-  const { r } = flowerHead(genes, size);
-  const along = (one: number, other: number) => one + (other - one) * closing;
-  return {
-    r: along(r, r * BUD.foot),
-    disc: along(genes.centre * size, r * BUD.tip),
-  };
 }
 
 /** A flower's paint: its light, how to draw it, and the sun side it was last painted at. */

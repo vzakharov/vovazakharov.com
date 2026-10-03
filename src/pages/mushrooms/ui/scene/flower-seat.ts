@@ -6,8 +6,10 @@
 
 import { FACE_REACH } from '../../model/bee-outline';
 import { CRAWL_REACH } from '../../model/buzz-rest';
+import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import type { Circle } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
+import { BUD, type Folding } from './flower-closing';
 
 /**
  * How far above a flower's centre a drinking butterfly's middle sits, past
@@ -39,6 +41,26 @@ export type Centred = { disc: number };
 
 /** How far a flower's head reaches, and its centre (`Centred`). */
 export type HeadReach = Pick<Circle, 'r'> & Centred;
+
+/**
+ * Where insects perch on the head of a flower `folded` as far shut as that
+ * holds, as `paintFlowerHead` draws it: its rim, below the middle, closing up
+ * to the bud's foot, and its centre, above it, rising to the bud's tip. Only
+ * perching reads it; the head's size, which the ring, the tap and the cull
+ * read, stays the open head's (`flowerHead`).
+ */
+export function foldedHead(
+  genes: FlowerGenes,
+  size: number,
+  { closing }: Folding,
+): HeadReach {
+  const { r } = flowerHead(genes, size);
+  const along = (one: number, other: number) => one + (other - one) * closing;
+  return {
+    r: along(r, r * BUD.foot),
+    disc: along(genes.centre * size, r * BUD.tip),
+  };
+}
 
 /**
  * How far above the middle of a flower whose head reaches `r` and whose

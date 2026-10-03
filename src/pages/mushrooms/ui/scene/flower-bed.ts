@@ -282,7 +282,8 @@ export class FlowerBed implements Following {
 
   /**
    * Where an insect sits on the flower `id` this frame, `spot` of its head's
-   * radius across (`perchSpot`), and the head's middle it drinks from, both in
+   * radius across as last painted, folded or open (`perch`, `perchSpot`), and
+   * the head's middle it drinks from, both in
    * world px at the opening eye, where the insects fly; with the seat as the
    * flower draws it, the spot at the flower's zoom lifted at the insect's own
    * (`flowerLiftAt`); `undefined` while the screen has no room for the flower.
@@ -290,11 +291,10 @@ export class FlowerBed implements Following {
   seat(id: string, spot: number, kind: InsectKind): Seat | undefined {
     const shown = this.shown.get(id);
     if (!shown?.laid) return undefined;
-    const { container, head, headR, disc, laid, stands } = shown;
+    const { container, head, perch, laid, stands } = shown;
     const turn = container.rotation;
-    const reach = { r: headR, disc };
-    const lift = flowerLift(reach, this.sizes[kind], kind);
-    const across = { ...pick(head, 'y'), x: head.x + spot * headR };
+    const lift = flowerLift(perch, this.sizes[kind], kind);
+    const across = { ...pick(head, 'y'), x: head.x + spot * perch.r };
     const seat = placedAt(laid.place, turn, { ...across, y: head.y - lift });
     const nectar = placedAt(laid.place, turn, head);
     const on = {
@@ -303,7 +303,7 @@ export class FlowerBed implements Following {
       opening: laid.opening ?? gathered(laid.foot).y,
       stands,
     };
-    const drawnLift = flowerLiftAt(reach, this.sizes[kind], kind, {
+    const drawnLift = flowerLiftAt(perch, this.sizes[kind], kind, {
       host: stands.zoom,
       insect: CLUMP_DISTANCE / stands.ahead,
     });
@@ -378,9 +378,16 @@ export class FlowerBed implements Following {
     });
   }
 
-  /** How far shut the flowers with room on screen are painted, on average (`meanClosing`). */
+  /**
+   * How far shut the flowers with room on screen are painted, on average
+   * (`meanClosing`), as their paint reports it (`Shown.painted`).
+   */
   closing(): number {
-    return meanClosing([...this.shown.values()].filter(({ laid }) => laid));
+    return meanClosing(
+      [...this.shown.values()].flatMap(({ laid, painted }) =>
+        laid ? [painted] : [],
+      ),
+    );
   }
 
   /** Opens the flower `id` silent once it is planted: the key that sows it sounds it. */
