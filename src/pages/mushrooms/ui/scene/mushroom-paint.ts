@@ -13,8 +13,13 @@ import {
   type Scaled,
 } from '../../model/geometry';
 import type { MushroomGenes } from '../../model/mushroom-genes';
-import { inkWidth, stemOutline, toCanvas } from '../../model/mushroom-outline';
-import { capFrame, stemAt } from '../../model/mushroom-pose';
+import {
+  capOnCanvas,
+  inkWidth,
+  stemOutline,
+  toCanvas,
+} from '../../model/mushroom-outline';
+import { stemAt } from '../../model/mushroom-pose';
 import {
   type Chorded,
   CURVE_STEPS,
@@ -71,7 +76,6 @@ export function mushroomBrush(
   steps = CURVE_STEPS,
 ): MushroomBrush {
   const canvas = toCanvas(size);
-  const cap = capFrame(genes);
   const held = heldHaze(genes, haze);
   return {
     graphics,
@@ -83,7 +87,7 @@ export function mushroomBrush(
     haze: held,
     tone: (colour) => mix(colour, PALETTE.air, held),
     canvas,
-    toMushroom: (point) => canvas(cap(point)),
+    toMushroom: capOnCanvas(genes, size),
     steps,
   };
 }

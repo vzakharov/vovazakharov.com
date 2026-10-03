@@ -31,7 +31,7 @@ export type MoveKey = PanKey | StepKey | StrafeKey;
 
 export type KeyAction = PlayedKey | MoveKey;
 
-/** The keys that move the eye while held, any of them at once. */
+/** The move keys, by `event.code`. */
 const MOVES: ReadonlyMap<string, MoveKey> = new Map<string, MoveKey>([
   ['ArrowLeft', { kind: 'pan', direction: -1 }],
   ['ArrowRight', { kind: 'pan', direction: 1 }],
@@ -92,7 +92,7 @@ type Pressed = Pick<
 
 /**
  * What a key press does; nothing for a held key's repeats or a shortcut with
- * a modifier. Shift changes nothing.
+ * a modifier.
  */
 export function keyAction(event: Pressed): KeyAction | undefined {
   if (event.repeat || event.altKey || event.ctrlKey || event.metaKey) {

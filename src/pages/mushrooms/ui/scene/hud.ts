@@ -10,8 +10,7 @@ import {
 import { buzzRoot, buzzTurn, wingspan } from '../../model/insect-outline';
 import { PICTOGRAM_LIGHT } from '../../model/light';
 import type { MushroomGenes, Species } from '../../model/mushroom-genes';
-import { toCanvas } from '../../model/mushroom-outline';
-import { capFrame } from '../../model/mushroom-pose';
+import { capOnCanvas, toCanvas } from '../../model/mushroom-outline';
 import { BEE_VEINS, paintBeeBody, paintBeeLegs } from './draw-bee';
 import { paintWing, SIDES } from './draw-buzz';
 import { paintFlyBody, paintFlyLegs } from './draw-fly';
@@ -104,7 +103,7 @@ export function drawHouseButton(
   const genes = { ...iconGenes('fly-agaric'), spots: [], stemWidth: 0.28 };
   const brush = iconBrush(r * 0.8, hairline);
   drawIcon(graphics, genes, r * 1.35, 0, 0, hairline, (size) => {
-    const cap = capFrame(genes);
+    const place = capOnCanvas(genes, size);
     const canvas = toCanvas(size);
     for (const { kind, x } of ICON_WINDOWS) {
       const middle = { x, y: genes.capHeight * 0.3 };
@@ -112,12 +111,10 @@ export function drawHouseButton(
         graphics,
         kind,
         (point) =>
-          canvas(
-            cap({
-              x: middle.x + point.x * ICON_PANE,
-              y: middle.y + point.y * ICON_PANE,
-            }),
-          ),
+          place({
+            x: middle.x + point.x * ICON_PANE,
+            y: middle.y + point.y * ICON_PANE,
+          }),
         brush,
       );
     }

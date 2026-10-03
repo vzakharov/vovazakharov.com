@@ -79,9 +79,9 @@ function mouseInks(
 
 /**
  * A mouse coming up out of a doorway, in the door's frame (door widths, the
- * sill's middle at the origin, y up), at the door's own scale however small
- * it is. Every part is clipped to `opening`, so the mouse comes from inside
- * rather than over the door. The ears turn with `look` less than the eyes, so the head reads as
+ * sill's middle at the origin, y up), at the door's own scale. Every part is
+ * clipped to `opening`, so the mouse comes from inside rather than over the
+ * door. The ears turn with `look` less than the eyes, so the head reads as
  * turning rather than sliding.
  */
 export function paintMouse(
@@ -164,7 +164,8 @@ const SHADOW_ALPHA = 0.3;
  * A running mouse in its own frame (its door's widths, the ground under its
  * middle at the origin, y up), as `place` puts it on the graphics: a body,
  * the head forward with one ear, an eye and whiskers, a curved tail, four
- * legs scissoring in step with how far it has run, a bob, and a shadow on the ground.
+ * legs scissoring in step with how far it has run, a bob, and a shadow on
+ * the ground.
  */
 export function paintRunner(
   graphics: Phaser.GameObjects.Graphics,

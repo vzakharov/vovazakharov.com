@@ -2,8 +2,7 @@ import type { Point } from '../../model/geometry';
 import { windowSlots } from '../../model/house';
 import type { Looking, TapTimed } from '../../model/motion';
 import type { MushroomGenes } from '../../model/mushroom-genes';
-import { toCanvas } from '../../model/mushroom-outline';
-import { capFrame } from '../../model/mushroom-pose';
+import { capOnCanvas } from '../../model/mushroom-outline';
 import {
   pathLength,
   peekPath,
@@ -126,7 +125,7 @@ export class HouseWorm {
     if (!pose || !trip) return undefined;
     const { look } = pose;
     const body = wormBody(trip.path, pose, trip.girth, t - trip.wriggledAt);
-    const place = (point: Point) => toCanvas(size)(capFrame(genes)(point));
+    const place = capOnCanvas(genes, size);
     this.painted = {
       head: body.head && place(body.head),
       girth: trip.girth * size,

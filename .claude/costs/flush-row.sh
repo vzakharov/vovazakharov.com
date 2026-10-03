@@ -1,7 +1,7 @@
 #!/bin/bash
-# Commit and push this session's cost row now, whoever started the turn: the run
-# a session makes before its last turn, which an agent often starts and the
-# `Stop` hook then skips. `.claude/costs/CLAUDE.md` § "When a row is committed".
+# Commit and push this session's cost row now, whoever started the turn, for a
+# session whose last turn an agent starts and the `Stop` hook therefore skips.
+# `.claude/costs/CLAUDE.md` § "When a row is committed".
 #
 # Exits 0 once the row is on origin, and otherwise says what is outstanding.
 

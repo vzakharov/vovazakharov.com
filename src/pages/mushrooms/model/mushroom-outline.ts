@@ -44,6 +44,16 @@ export function toCanvas(size: number): (point: Point) => Point {
   return ({ x, y }) => ({ x: x * size, y: -y * size });
 }
 
+/** From the cap's own frame (`capFrame`'s) to the canvas's, drawn `size` px to its unit. */
+export function capOnCanvas(
+  genes: Parameters<typeof capFrame>[0],
+  size: number,
+): (point: Point) => Point {
+  const canvas = toCanvas(size);
+  const cap = capFrame(genes);
+  return (point) => canvas(cap(point));
+}
+
 /** How far up the stem, `t` from its foot, the foot's levelling against the lean reaches. */
 const FOOT_LEVELS = 0.3;
 /** How far the foot's bottom rounds down into the grass, in its half-width. */

@@ -172,8 +172,8 @@ it.
 - **The operator wrote** where a record's `origin.kind` or
   `attachment.origin.kind` is `human` — the latter a message queued mid-turn,
   which starts no turn of its own. `hooks/last_operator_record.py` reads it,
-  and counts a prompt with no `origin` and a line that does not parse as the
-  operator's too: the hook skips only on a positive reading.
+  counting whatever it cannot place as the operator's: the hook skips only on
+  a positive reading.
 - **The marker is `tmp/costs/<session-id>.human`**, the id of the last such
   record a committed row covered, kept out of the row so its shape does not
   change. A missing marker — a fresh container, a relayed session — commits, as

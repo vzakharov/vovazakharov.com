@@ -10,8 +10,12 @@ import {
   type MushroomGenes,
   mushroomGenes,
 } from '../../model/mushroom-genes';
-import { stemOutline, toCanvas } from '../../model/mushroom-outline';
-import { capFrame, splayed } from '../../model/mushroom-pose';
+import {
+  capOnCanvas,
+  stemOutline,
+  toCanvas,
+} from '../../model/mushroom-outline';
+import { splayed } from '../../model/mushroom-pose';
 import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
 import { everyPlace } from './clump-layout';
 import { luminance, mix, toHsv } from './colour';
@@ -403,7 +407,7 @@ function flanks(layout: MeadowLayout, place: Placement, seed: number) {
   const { genes, turn } = stood;
   const { body } = mushroomLights(sunLight(layout), stood, place, layout.sun);
   const onScreen = (point: Point) =>
-    placedAt(place, turn, toCanvas(place.size)(capFrame(genes)(point)));
+    placedAt(place, turn, capOnCanvas(genes, place.size)(point));
   const middle = onScreen({ x: 0, y: genes.capHeight / 2 });
   const toSun = heading(middle, layout.sun);
   const up = { x: Math.sin(turn), y: -Math.cos(turn) };

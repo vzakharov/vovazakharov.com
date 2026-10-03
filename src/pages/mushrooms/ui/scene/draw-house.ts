@@ -11,8 +11,7 @@ import {
   windowSlots,
 } from '../../model/house';
 import type { MushroomGenes } from '../../model/mushroom-genes';
-import { toCanvas } from '../../model/mushroom-outline';
-import { capFrame } from '../../model/mushroom-pose';
+import { capOnCanvas, toCanvas } from '../../model/mushroom-outline';
 import { paintMouse, type Peeking } from './draw-mouse';
 import { paintWorm, type ShownWorm } from './draw-worm';
 import { inkFor, innerInk } from './ink';
@@ -238,11 +237,9 @@ function windowPlace(
   slot: Point,
   grown: number,
 ): Place {
-  const canvas = toCanvas(size);
-  const cap = capFrame(genes);
+  const place = capOnCanvas(genes, size);
   const side = PANE * grown;
-  return ({ x, y }) =>
-    canvas(cap({ x: slot.x + x * side, y: slot.y + y * side }));
+  return ({ x, y }) => place({ x: slot.x + x * side, y: slot.y + y * side });
 }
 
 /** `door`'s frame on its mushroom's stem, `grown` of its size round its middle; and its aspect. */

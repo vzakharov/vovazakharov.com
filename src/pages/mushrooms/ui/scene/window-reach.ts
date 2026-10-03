@@ -6,8 +6,11 @@
 import { type Circle, containsPoint, type Point } from '../../model/geometry';
 import { PANE, windowSlots } from '../../model/house';
 import { hasTrumpet, type MushroomGenes } from '../../model/mushroom-genes';
-import { capOutlines, toCanvas } from '../../model/mushroom-outline';
-import { capFrame } from '../../model/mushroom-pose';
+import {
+  capOnCanvas,
+  capOutlines,
+  toCanvas,
+} from '../../model/mushroom-outline';
 import { type DoorTarget, tappedDoor } from './door-tap';
 import { TAP_RADIUS } from './tap-reach';
 
@@ -34,12 +37,11 @@ export function windowReaches(
   ink: number,
   zoom: number,
 ): Circle[] {
-  const canvas = toCanvas(size);
-  const cap = capFrame(genes);
+  const place = capOnCanvas(genes, size);
   const r = Math.max((PANE * size) / Math.SQRT2 + ink, WINDOW_REACH / zoom);
   return windowSlots(genes)
     .slice(0, count)
-    .map((slot) => ({ ...canvas(cap(slot)), r }));
+    .map((slot) => ({ ...place(slot), r }));
 }
 
 /**

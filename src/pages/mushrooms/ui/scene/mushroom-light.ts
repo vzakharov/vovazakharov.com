@@ -23,8 +23,8 @@ import {
   hasTrumpet,
   type MushroomGenes,
 } from '../../model/mushroom-genes';
-import { domeArc, footWidth, toCanvas } from '../../model/mushroom-outline';
-import { capFrame, type Splayed } from '../../model/mushroom-pose';
+import { capOnCanvas, domeArc, footWidth } from '../../model/mushroom-outline';
+import type { Splayed } from '../../model/mushroom-pose';
 import {
   capSurface,
   CURVE_STEPS,
@@ -79,8 +79,11 @@ export function mushroomLights<Lit extends Light>(
   sun: Point,
   heading = OPENING_EYE.heading,
 ): MushroomLights<Lit> {
-  const middle = capFrame(genes)({ x: 0, y: genes.capHeight / 2 });
-  const at = placedAt(foot, turn, toCanvas(foot.size)(middle));
+  const middle = capOnCanvas(
+    genes,
+    foot.size,
+  )({ x: 0, y: genes.capHeight / 2 });
+  const at = placedAt(foot, turn, middle);
   return {
     body: turnedLight(lightAt(light, at, sun, heading), turn),
     ground: lightAt(light, foot, sun, heading),

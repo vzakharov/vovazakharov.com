@@ -31,7 +31,7 @@ export function doorHitArea(door: DoorPlace, size: number): Point[] {
   );
 }
 
-/** The mouse's head radius, in door widths: it is drawn at its door's own scale, whatever that door's size. */
+/** The mouse's head radius, in door widths, drawn at its door's own scale. */
 export const MOUSE_HEAD_R = 0.3;
 
 /** How far across, in pixels, the mouse's head is drawn at a door `doorWidth` pixels wide. */

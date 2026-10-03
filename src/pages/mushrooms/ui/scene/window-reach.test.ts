@@ -3,13 +3,8 @@ import { describe, it } from 'node:test';
 
 import { containsPoint, type Point } from '../../model/geometry';
 import { PANE, windowSlots } from '../../model/house';
-import {
-  MUSHROOM_SPECIES,
-  type MushroomGenes,
-  mushroomGenes,
-} from '../../model/mushroom-genes';
-import { toCanvas } from '../../model/mushroom-outline';
-import { capFrame } from '../../model/mushroom-pose';
+import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
+import { capOnCanvas } from '../../model/mushroom-outline';
 import {
   tappedPart,
   WINDOW_REACH,
@@ -19,17 +14,12 @@ import {
 
 const INK = 2;
 
-/** A rectangle's corners, from `left`, `bottom` to `right`, `top`. */
 const box = (left: number, bottom: number, right: number, top: number) => [
   { x: left, y: bottom },
   { x: right, y: bottom },
   { x: right, y: top },
   { x: left, y: top },
 ];
-/** From a cap's own frame to the canvas, on a cap of `genes` drawn `size` px to its unit. */
-const placeOn = (genes: MushroomGenes, size: number) => (point: Point) =>
-  toCanvas(size)(capFrame(genes)(point));
-
 /** A door `below` px under a window row, its tap area a 32 px circle. */
 const door = (below: number) => ({
   x: 0,
@@ -50,7 +40,7 @@ describe('a window’s tap reach', () => {
         assert.equal(reaches.length, slots.length);
         for (const [index, reach] of reaches.entries()) {
           const slot = slots[index] ?? { x: 0, y: 0 };
-          const place = placeOn(genes, size);
+          const place = capOnCanvas(genes, size);
           for (const corner of box(-0.5, -0.5, 0.5, 0.5)) {
             const at = place({
               x: slot.x + corner.x * PANE,

@@ -1,10 +1,9 @@
 import type * as Phaser from 'phaser';
 
-import { ellipse, type Point } from '../../model/geometry';
+import { ellipse } from '../../model/geometry';
 import type { Looking } from '../../model/motion';
 import type { MushroomGenes } from '../../model/mushroom-genes';
-import { toCanvas } from '../../model/mushroom-outline';
-import { capFrame } from '../../model/mushroom-pose';
+import { capOnCanvas } from '../../model/mushroom-outline';
 import { WORM_SEGMENTS, type WormBody } from '../../model/worm';
 import { inkFor } from './ink';
 import { PALETTE } from './palette';
@@ -16,8 +15,8 @@ export type ShownWorm = WormBody & Looking;
 /**
  * A worm on a mushroom's cap, in the frame `paintHouse` paints in: its
  * segments tail first over one ink round them all, the second from the head
- * in the band's deeper pink, and an eye on the
- * head looking the way it crawls, or about as it peeks.
+ * in the band's deeper pink, and an eye on the head looking the way it
+ * crawls, or about as it peeks.
  */
 export function paintWorm(
   graphics: Phaser.GameObjects.Graphics,
@@ -26,9 +25,7 @@ export function paintWorm(
   { segments, head, look }: ShownWorm,
   { ink, tone, lighting }: Brush,
 ): void {
-  const canvas = toCanvas(size);
-  const cap = capFrame(genes);
-  const place = (point: Point) => canvas(cap(point));
+  const place = capOnCanvas(genes, size);
   // In paint order the head is last, so the band sits next to it; with the
   // head gone into its window the tail still leads the list.
   const band = head ? segments.length - 2 : WORM_SEGMENTS - 2;
