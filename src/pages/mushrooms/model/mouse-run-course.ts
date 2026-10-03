@@ -33,10 +33,16 @@ export const RUN_BOW = 1;
  */
 export type RunPath = { from: Point; bend: Point; to: Point };
 
+/** The point halfway from `from` to `to`. */
+const middleOf = (from: Point, to: Point): Point => ({
+  x: (from.x + to.x) / 2,
+  y: (from.y + to.y) / 2,
+});
+
 /** The course straight from `from` to `to`, its bend at their middle. */
 export const straightPath = (from: Point, to: Point): RunPath => ({
   from,
-  bend: { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 },
+  bend: middleOf(from, to),
   to,
 });
 
@@ -87,7 +93,7 @@ function towardEye(point: Point, eye: Point): { off: number; toward: Point } {
  * `aside`, square to the run's chord.
  */
 function waysOf(from: Point, to: Point) {
-  const middle = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
+  const middle = middleOf(from, to);
   const chord = distanceBetween(from, to) || 1;
   const aside = {
     x: -(to.y - from.y) / chord,

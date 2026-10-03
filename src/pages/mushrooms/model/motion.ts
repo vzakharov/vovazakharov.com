@@ -259,13 +259,15 @@ export function launch(elapsed: number): { scale: number; travel: number } {
 export const wave = (time: number, period: number, phase: number) =>
   0.5 - 0.5 * Math.cos((Math.PI * 2 * time) / period + phase);
 
+/** How much of a whole turn `phase`, in radians, is. */
+const turnOf = (phase: number): number => phase / (Math.PI * 2);
+
 /**
  * How far into its round of `period` `time` is, from 0 up to `period`, the
  * round starting `phase` of a turn early; `time` in the same unit.
  */
 export function roundAt(time: number, period: number, phase: number): number {
-  const shifted = time + (phase / (Math.PI * 2)) * period;
-  return ((shifted % period) + period) % period;
+  return wrap(time + turnOf(phase) * period, period);
 }
 
 /** How long a mouse takes to come out of its door, and to duck back in. */
@@ -306,9 +308,7 @@ export function peek(time: number, phase: number): number {
 }
 
 function peekPeriod(phase: number): number {
-  return (
-    PEEK_PERIOD[0] + ((PEEK_PERIOD[1] - PEEK_PERIOD[0]) * phase) / (Math.PI * 2)
-  );
+  return PEEK_PERIOD[0] + (PEEK_PERIOD[1] - PEEK_PERIOD[0]) * turnOf(phase);
 }
 
 /**
@@ -316,11 +316,11 @@ function peekPeriod(phase: number): number {
  * begins as the mouse starts out, so a run replaces exactly one peek.
  */
 export const outingOf = (time: number, phase: number): number =>
-  Math.floor(time / peekPeriod(phase) + phase / (Math.PI * 2));
+  Math.floor(time / peekPeriod(phase) + turnOf(phase));
 
 /** When `outing` (`outingOf`) of a door with `phase` begins. */
 export const outingStart = (outing: number, phase: number): number =>
-  (outing - phase / (Math.PI * 2)) * peekPeriod(phase);
+  (outing - turnOf(phase)) * peekPeriod(phase);
 
 /**
  * The mouse called out by a tap on its door `elapsed` seconds before: out at
@@ -351,7 +351,5 @@ export const BLINK_SHUT = 0.14;
 
 /** Whether a mouse's eyes are shut at `time`: briefly, once a period, `phase` setting when. */
 export function blink(time: number, phase: number): boolean {
-  const offset = (phase / (Math.PI * 2)) * BLINK_PERIOD;
-  const into = wrap(time + offset, BLINK_PERIOD);
-  return into < BLINK_SHUT;
+  return roundAt(time, BLINK_PERIOD, phase) < BLINK_SHUT;
 }

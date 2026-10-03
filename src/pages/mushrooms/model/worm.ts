@@ -5,9 +5,9 @@
  * cap's own frame (`capFrame`'s, y up), times in seconds.
  */
 
-import { type Circle, type Point, sample } from './geometry';
+import { type Circle, distanceBetween, type Point, sample } from './geometry';
 import { PANE, slotLevel } from './house';
-import { lookAbout, outAndBack, smooth } from './motion';
+import { lookAbout, type Looking, outAndBack, smooth } from './motion';
 import { hasTrumpet, type MushroomGenes } from './mushroom-genes';
 import { MUSHROOM_INK } from './mushroom-outline';
 import { capBase, capSurface } from './mushroom-profile';
@@ -166,7 +166,7 @@ export function pathLength(path: readonly Point[]): number {
   let length = 0;
   for (let index = 1; index < path.length; index++) {
     const [a, b] = [path[index - 1], path[index]];
-    if (a && b) length += Math.hypot(b.x - a.x, b.y - a.y);
+    if (a && b) length += distanceBetween(a, b);
   }
   return length;
 }
@@ -231,7 +231,7 @@ export function wormPeek(
   elapsed: number,
   length = WORM_LENGTH,
   phase = 0,
-): (WormPose & { look: number }) | undefined {
+): (WormPose & Looking) | undefined {
   if (elapsed < 0 || elapsed >= WORM_PEEK_DURATION) return undefined;
   const head = length * outAndBack(elapsed, PEEK_RISE, PEEK_HOLD, PEEK_DUCK);
   return { head, tail: head - length, look: lookAbout(elapsed, phase) };
@@ -258,7 +258,7 @@ function pointAlong(path: readonly Point[], along: number): Point & Running {
   for (let index = 1; index < path.length; index++) {
     const [a, b] = [path[index - 1], path[index]];
     if (!a || !b) continue;
-    const chord = Math.hypot(b.x - a.x, b.y - a.y);
+    const chord = distanceBetween(a, b);
     const tangent = Math.atan2(b.y - a.y, b.x - a.x);
     if (left <= chord || index === path.length - 1) {
       const share = chord > 0 ? Math.min(1, left / chord) : 0;
