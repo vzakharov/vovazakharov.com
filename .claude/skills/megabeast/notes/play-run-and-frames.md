@@ -94,6 +94,13 @@
   улучшениям вернёмся когда и если это станет критичным»), a red that
   stopped the run for container load cost more than it caught. A spec's
   cost column is a claim to measure.
+- **"Drawn" is not "seen".** Bite 14's `sprouts` play passed on phoneP
+  with a sown spore under its parent's stem, because the probe's `shown`
+  read the dot's `visible` flag; one reviewer counted two dots in the
+  frame against three in the log. A play asserting a thing the child must
+  find asserts it is reachable — the probe's tap point not `null`, the
+  same test the game's tap routing makes — and the sweep counts the
+  covered ones.
 
 ## Frames
 

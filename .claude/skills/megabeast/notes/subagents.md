@@ -353,6 +353,13 @@
   child sees — a ring is laid fresh each visit. Before a call carries a
   tolerance, the skill should state the visible thing it keeps; one with no
   such thing is not written.
+- **A fix brief holds one finding with a play run, or a few without.**
+  Bite 14's two review-fix agents were each handed three findings, one of
+  them a behaviour change with its play check; both hit 170k having landed
+  the first and designed the rest, and two successors finished from the
+  notes. A finding that changes behaviour and needs a play run (measure,
+  build, test, play two screens, look) is a brief of its own; nits and
+  wording batch together.
 
 ## Pauses, restarts and the Stop hook
 

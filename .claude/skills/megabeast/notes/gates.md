@@ -105,3 +105,10 @@
 - **`gh pr edit` fails** on GitHub's Projects-classic GraphQL deprecation;
   `gh api -X PATCH repos/<o>/<r>/pulls/<n> -F body=@<file>` works. The
   skill's PR steps should use the REST form directly.
+- **`prettier --write` renumbers a plan's calls.** Calls are numbered in
+  the order they were made, not the order they sit in, so a run of them
+  reads to prettier as one ordered list: bite 14's two formatting runs
+  turned 22–24 into 12–14 and 36–40 into a sequence, and both reviewers
+  found every "call N" pointing at the wrong call. Each call is a
+  paragraph of its own with an escaped number (`22\. **…**`), which
+  prettier leaves alone. The skill's plan template should start that way.
