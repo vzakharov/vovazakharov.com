@@ -442,7 +442,7 @@ export class MeadowScene extends Phaser.Scene {
     const stand = this.stand();
     if (!stand) return;
     const anchor = this.anchor();
-    this.perches.see(stand, anchor);
+    this.perches.see(stand, anchor, this.clock * 1000);
     this.seenFrom = anchor;
   }
 }
