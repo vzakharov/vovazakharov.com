@@ -83,7 +83,10 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
 21. **A sprout is judged at its start size too** (`partsInView`,
     `keepsPatches` at 0.4, for `near` searches only), so none is born hidden
     behind a stem. If the stop frame's cost rules it out, it drops back to
-    accepting the risk, in the report.
+    accepting the risk, in the report. **Dropped back** (P2, 3aad2f45):
+    judged at 0.4 too, a shed found a foot in 0 of 20 tabL visits at ~3.5 s
+    a shed, against 20 of 20 at ~30 ms without — so a sprout may come up
+    half behind a stem until it grows; a hand check in `to-check.md`.
 
 ## Packages and waves
 
