@@ -31,6 +31,7 @@ const course = (
   extra: Partial<RunCourse> = {},
 ): RunCourse => ({
   runLength,
+  side: 1,
   opening: 'peek',
   calling: false,
   ...extra,
@@ -219,7 +220,7 @@ describe('pathBetween', () => {
       sillHeight: 0,
     };
     const eye = { x: 0, y: 0 };
-    const path = pathBetween(from, to, eye);
+    const path = pathBetween(from, to, eye, 1);
     let nearest = Infinity;
     for (let step = 0; step <= 100; step++) {
       const { x, y } = alongPath(path, step / 100).point;

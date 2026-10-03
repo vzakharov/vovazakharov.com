@@ -165,27 +165,30 @@ export async function playHouse(
     );
     await page.tap(at);
     await page.step(24);
+    const now = await state();
+    // With the other door in reach the tap starts a run — its mouse out, or,
+    // its house emptied by a run of its own, the other's called home — whose
+    // peek leg brings a mouse out; where it goes next is `play-runs.ts`' to check.
+    const run = (await page.evaluate('__probe.runs()', Runs)).find(
+      (each) => (each.from === id || each.to === id) && each.elapsed < 1,
+    );
+    const out = run?.from ?? id;
     const mouse = await page.evaluate(
-      `__probe.mouse(${JSON.stringify(id)})`,
+      `__probe.mouse(${JSON.stringify(out)})`,
       Mouse,
     );
-    const now = await state();
-    // With the other door in reach the tap starts a run, whose peek leg
-    // brings the mouse out; where it goes next is `play-runs.ts`' to check.
-    const ran = (await page.evaluate('__probe.runs()', Runs)).some(
-      (run) => run.from === id && run.elapsed < 1,
-    );
     expect(
-      ran || (mouse.tappedAt !== null && now.clock - mouse.tappedAt < 1),
+      run !== undefined ||
+        (mouse.tappedAt !== null && now.clock - mouse.tappedAt < 1),
       `a tap on the ${side} door did not call its mouse`,
     );
     expect(
       mouse.out > 0.9,
-      `the ${side} mouse is only ${mouse.out.toFixed(2)} out`,
+      `the ${side} door's tap brought a mouse only ${mouse.out.toFixed(2)} out`,
     );
     expect(now.selected === selected, 'a tap on a door changed the selection');
     note(
-      `${side} mouse's head ${mouse.head.toFixed(1)} px, ${(mouse.head / mouse.door).toFixed(2)} of its door's ${mouse.door.toFixed(1)} px`,
+      `${side} door's tap: ${out === id ? 'its own' : 'a called'} mouse's head ${mouse.head.toFixed(1)} px, ${(mouse.head / mouse.door).toFixed(2)} of its door's ${mouse.door.toFixed(1)} px`,
     );
     await page.shoot(`h3-mouse-${side}`);
   });
