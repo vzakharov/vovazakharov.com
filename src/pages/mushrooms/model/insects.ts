@@ -206,7 +206,8 @@ export const isShying = ({ shied, legs }: Flier): boolean => shied === legs;
  * Whether `insect`'s next leg is due at `now`, among `insects`: its stay is
  * over, the meadow no longer offers its perch, `rain` has just started
  * (`dashesForCover`), or it sits where a waiting bee is owed room
- * (`givesWay`).
+ * (`givesWay`) — other than under a cap, which it leaves at its own linger
+ * after the shower (`stayingDry`), whatever bee waits.
  */
 function isDue(
   insect: Flier,
@@ -217,7 +218,7 @@ function isDue(
   const { kind, leg } = insect;
   if (now >= leg.leaves || !isOffered(leg.to, perches, kind)) return true;
   if (dashesForCover(leg, rain, perches)) return true;
-  if (now < leg.arrives) return false;
+  if (now < leg.arrives || leg.to.kind === 'shelter') return false;
   const [held, taken] = [{ kind, perch: leg.to }, takenBy(insects, insect)];
   return givesWay(held, taken, perches) || flowerFreed(held, taken, perches);
 }

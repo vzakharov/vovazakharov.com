@@ -18,7 +18,7 @@ import {
   CURVE_STEPS,
   curveSteps,
 } from '../../model/mushroom-profile';
-import type { Footed } from '../../model/placement';
+import { SPORE_FALL_MS } from '../../model/sprouting';
 import { UNPLACED } from './bed-place';
 import type { Laid } from './clump-layout';
 import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
@@ -28,13 +28,17 @@ import type { MushroomLights } from './mushroom-light';
 import type { Selected } from './mushroom-selection';
 import type { Siding } from './repaint-queue';
 
+/** What a shown mushroom keeps of its mushroom as planted. */
+const SHOWN_OF = ['foot', 'lean', 'sprout'] as const;
+type ShownOf = (typeof SHOWN_OF)[number];
+
 /** `spots`: those its house left painted (`paintedSpots`) when it was last drawn. */
 export type Shown = Tapped &
   Sprouted &
   Lit &
   Body &
   Pick<MushroomGenes, 'spots'> &
-  Footed &
+  Pick<Planted, ShownOf> &
   Selected &
   // How far its tap area reaches above its foot, in world px at the opening eye.
   Tall & {
@@ -57,9 +61,10 @@ export type Shown = Tapped &
   Pick<Siding, 'paintedSunSide'>;
 
 /**
- * `mushroom` as shown before the bed first places it, planted at `plantedAt`,
- * in the objects the bed made for it: unshaped, unplaced and painted in
- * `lighting` alone until `place` shapes and lights it.
+ * `mushroom` as shown before the bed first places it, planted at `plantedAt`
+ * in seconds — a sprout as its spores land, whenever it is shown — in the
+ * objects the bed made for it: unshaped, unplaced and painted in `lighting`
+ * alone until `place` shapes and lights it.
  */
 export function unplacedShown(
   mushroom: Planted,
@@ -67,9 +72,10 @@ export function unplacedShown(
   lighting: Lighting,
   objects: Pick<Shown, 'graphics' | 'shadow' | 'house' | 'hit'>,
 ): Shown {
+  const { sprout } = mushroom;
   return {
     ...objects,
-    ...pick(mushroom, 'foot', 'lean'),
+    ...pick(mushroom, ...SHOWN_OF),
     laid: { x: 0, y: 0 },
     opening: 0,
     tall: 0,
@@ -88,7 +94,8 @@ export function unplacedShown(
     phase: phaseOf(mushroom),
     tappedAt: -Infinity,
     ...UNLIT,
-    plantedAt,
+    // The sprout's clock is the insects' ms, the bed's its seconds.
+    plantedAt: sprout ? (sprout.at + SPORE_FALL_MS) / 1000 : plantedAt,
     goneAt: Infinity,
   };
 }

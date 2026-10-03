@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
+import { isDeepStrictEqual } from 'node:util';
 
 import { pick } from '@/shared/lib/collections';
 
@@ -22,6 +23,8 @@ import { type Carried, flightPoint } from '../../model/insect-paths';
 import type { Flier } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
 import { blockedFor, type Held } from '../../model/perch-room';
+import { LINGER_MS, lingerOf } from '../../model/shelter';
+import { raining } from '../../model/weather';
 import { airAlofts, EVERY_ONE } from './air-spots';
 import type { Zoomed } from './insect-away';
 import { drawnAloft } from './insect-frame';
@@ -292,6 +295,106 @@ describe('the flies in a full forest', () => {
       const agaricShare = share(count.spotted, count.landings);
       assert.ok(agaricShare >= 0.6, `on agarics ${String(agaricShare)}`);
     });
+  }
+});
+
+/** When a shower's visit taps a cloud, how long the visit is played, and by when after the tap most fliers are under a cap, in ms. */
+const RAIN_AT = 10_000;
+const SHOWERED = 30_000;
+const UNDER_COVER = 4000;
+/** The screens a shower is played on: a tablet held sideways and a phone held upright. */
+const SHOWER_SCREENS = VIEWPORTS.filter(
+  ([name]) => name === 'tablet' || name === 'phone',
+);
+
+/** Whether `perch` is one the rain offers: a seat under a cap, or a spot in the air. */
+const isShelterOrAir = ({ kind }: Flight['leg']['to']) =>
+  kind === 'shelter' || kind === 'air';
+
+/** Whether `flier` is under a cap or heading there. */
+const isSheltered = ({ leg }: Flier) => leg.to.kind === 'shelter';
+
+/**
+ * What breaks first, if anything, when all ten fliers of the visit `seed`
+ * are caught by a shower at `RAIN_AT`: before it, a flight other than the
+ * dry visit's; any flier leaving, or two sitting crowded (`seatedClash`);
+ * while it falls, one heading anywhere but a shelter or the air, one coming
+ * out, or `UNDER_COVER` after the tap under half of the most that shelter
+ * together sitting under a cap; once it stops, one coming out on any tick
+ * but the first at or after its own linger (`lingerOf`), so they come out
+ * one by one, or one still under a cap past the longest.
+ */
+function showerBreaks(
+  seed: number,
+  width: number,
+  height: number,
+  forest: boolean,
+): string | undefined {
+  const stand = opened(seed, width, height, forest);
+  const playing = { ...playingOf(ALL_TEN), lasting: SHOWERED };
+  const dry: Array<readonly Flier[]> = [];
+  play(stand, seed, { ...playing, lasting: RAIN_AT - TICK }, ({ meadow }) => {
+    dry.push(meadow.insects);
+  });
+  const seats = new Map<string, Point | undefined>();
+  const under = { covered: 0, most: 0 };
+  let broken: string | undefined;
+  play(stand, seed, { ...playing, rains: [RAIN_AT] }, ({ meadow, now }) => {
+    const { insects, rain } = meadow;
+    const at = String(now);
+    const sitting = insects.filter(
+      (flier) => isSheltered(flier) && now >= flier.leg.arrives,
+    ).length;
+    const coming = insects.filter(
+      ({ leg }) => leg.from.kind === 'shelter' && leg.departs === now,
+    );
+    const standing = { ...stand, ...pick(meadow, 'planted') };
+    if (now < RAIN_AT && !isDeepStrictEqual(insects, dry[now / TICK])) {
+      broken ??= `flown otherwise than dry at ${at}`;
+    }
+    if (insects.some(({ leg }) => leg.to.kind === 'away')) {
+      broken ??= `one leaving at ${at}`;
+    }
+    broken ??= seatedClash(standing, insects, now, seats);
+    if (rain === undefined) return;
+    if (raining(rain, now)) {
+      const astray = insects.find(({ leg }) => !isShelterOrAir(leg.to));
+      if (astray) {
+        broken ??= `${astray.id} to ${perchName(astray.leg.to)} at ${at}`;
+      }
+      if (coming.length > 0) broken ??= `out in the rain at ${at}`;
+      under.most = Math.max(under.most, sitting);
+      if (now === RAIN_AT + UNDER_COVER) under.covered = sitting;
+      return;
+    }
+    for (const flier of coming) {
+      const late = now - rain.stopsAt - lingerOf(flier);
+      if (late < 0 || late >= TICK) {
+        broken ??= `${flier.id} out ${String(late)} ms off its linger`;
+      }
+    }
+    const past = now - rain.stopsAt > LINGER_MS[1] + TICK;
+    if (past && insects.some((flier) => isSheltered(flier))) {
+      broken ??= `still under a cap at ${at}`;
+    }
+  });
+  if (2 * under.covered <= under.most) {
+    broken ??= `${String(under.covered)} of ${String(under.most)} under cover`;
+  }
+  return broken;
+}
+
+describe('a shower', () => {
+  for (const [name, width, height] of SHOWER_SCREENS) {
+    for (const forest of [false, true]) {
+      const grown = forest ? 'a full forest' : 'the opening clump';
+      it(`sends all ten fliers under the caps it can, none crowded, and lets them out one by one, on a ${name} screen with ${grown}`, () => {
+        for (const seed of SEEDS) {
+          const broken = showerBreaks(seed, width, height, forest);
+          assert.equal(broken, undefined, `visit ${String(seed)}`);
+        }
+      });
+    }
   }
 });
 

@@ -33,6 +33,11 @@ export function drawnSize({ size, stands }: Scaled & Standing): number {
   return size * stands.zoom;
 }
 
+/** Where `point`, in `body`'s frame, stands on screen as the bed draws `body` now. */
+export function drawnAt(body: Puffing, point: Point): Point {
+  return placedAt(body.graphics, body.turn, toCanvas(drawnSize(body))(point));
+}
+
 /**
  * A puff of spores from `point`, in `body`'s frame, opening to `share` of its
  * cap's width, wherever and as big as the bed draws `body` as the puff drifts.
@@ -46,13 +51,10 @@ export function puffFrom(
 ): void {
   puffSpores(
     scene,
-    () => {
-      const size = drawnSize(body);
-      return {
-        ...placedAt(body.graphics, body.turn, toCanvas(size)(point)),
-        r: body.genes.capWidth * size * share,
-      };
-    },
+    () => ({
+      ...drawnAt(body, point),
+      r: body.genes.capWidth * drawnSize(body) * share,
+    }),
     depth,
   );
 }

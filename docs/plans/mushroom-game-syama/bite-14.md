@@ -45,6 +45,17 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     between the packages. A sprout's cap top stays a perch as any cap's
     (sprouting C11).
 
+22. **The rain's take-off turn is slowed, not the watch loosened** (S4,
+    `s4.md`): a butterfly drawn turning 11.35 rad/s against 10.81 at the
+    start on tabL comes from the shelter pace halving the flight. The fix
+    raises the butterfly's shelter-pace `flying` lower end from 1200 toward
+    ~1500 ms and re-measures; a minimum take-off turn on shelter legs only if
+    that does not hold.
+23. **Call 9's ~2 s holds for a near shelter only**: a butterfly 13–16 sizes
+    from the nearest open seat takes 6–8 s at the shelter pace. Accepted —
+    a faster far leg would break call 22 — and the play's frames judge
+    whether it still reads as hiding; a line in `to-check.md`.
+
 ## Calls — sprouting
 
 12. **Old is full-grown**: every mushroom not still sprouting. The parent is
