@@ -78,7 +78,7 @@
   having played; posting early is what got a review out of a full context.
   The orchestrator writes each finding's call, with the alternative it
   beat, into one committed calls file before any fix brief: bite 12b's nine
-  threads (six blocking) ran from `bite-12b/review-handling.md` as six
+  threads (six blocking) ran from `bite-12b/review-handling.md` (retired: `docs/remove-before-merging/retired.md`; its calls now `docs/plans/mushroom-game-syama/bite-12b/review.md`) as six
   parallel one-step agents on disjoint file lists. The skill should default
   to this and keep a review session only for a structural bite.
 - **A play → trace → decide chain converges one class per agent.** The

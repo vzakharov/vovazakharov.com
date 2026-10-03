@@ -6,7 +6,8 @@ rejected alternative is in brackets.
 
 ## The calls
 
-- **Spec first, by a mapping agent** (`docs/remove-before-merging/bite-12b/spec.md`):
+- **Spec first, by a mapping agent** (`spec.md`, retired with 12b's notes:
+  `docs/remove-before-merging/retired.md`):
   every reader of layout `Ground {x, z}` and of `GLADE`, endless-field.md's
   insect section reconciled with `model/flight-frame.ts` and
   `model/flight-in.ts`, a step 0 that changes the store's shape alone, then
@@ -43,7 +44,7 @@ rejected alternative is in brackets.
   bite 12's opening: accepted.
 - **Light by heading** through the repaint queue, side component
   `sin(heading − α_sun)`, at most `REPAINTS_PER_FRAME` a frame.
-- **Insects on the plane** (`bite-12b/spec-insects.md`), perching where
+- **Insects on the plane** (`spec-insects.md`, retired likewise), perching where
   they like («садятся куда хотят») **within `PERCH_REACH` of the snapped
   eye** (`perch-sight.ts`: `D_SEE`, or the opening frame's far corner where
   that stands farther, 15.9), so they follow the child and a far mushroom
@@ -83,7 +84,13 @@ Paths under `src/pages/mushrooms/ui/scene/` unless they say otherwise.
 anchor)` moves the stored plane feet into that eye's frame, the same
   object while the anchor stays, and `placeIn` and every rule read it.
   Perches snap coarser (`perchAnchorOf`, 2 units / 0.3 rad), a re-see costing
-  more than a frame's share.
+  more than a frame's share. It holds because `viewOf` reads only the eye's
+  offset and heading, so a point is seen from an eye exactly as its
+  eye-moved copy is from `OPENING_EYE`.
+- **Identity by the stored numbers.** `openingIndex` and `sameFoot` compare
+  stored plane points with `===`; a `planeOf`/`groundOfPlane` round trip
+  before the comparison breaks it silently, so they never compare a
+  converted pair.
 - **The caps.** `MUSHROOM_SLOTS` 12 within `D_SEE` of a new foot
   (`isCrowdedAt`), `FIELD_MUSHROOMS` 96 in all (`isFull`), `FLOWER_SLOTS` 48
   (`flowersCrowdAt`); `roomFor` returns a plane `Footed` and reads no `D_SEE`
@@ -105,13 +112,51 @@ anchor)` moves the stored plane feet into that eye's frame, the same
   and two flowers a frame while turning [one shared queue in
   `meadow-scene.ts`: only if the play run shows a hitch from it].
 - **Insects**: air spots on a plane lattice round the eye (`air-spots.ts`,
-  `widest-spans.ts`), a perch counted as shown only above the bottom edge and
+  `widest-spans.ts`), each named by its cell (`air-<i>-<j>`) so walking
+  never renames one, offered from `CLUMP_DISTANCE` to `AIR_FAR` within
+  `AIR_WEDGE` of the heading; a perch counted as shown only above the bottom edge and
   short of the brow (`Onscreen.downTo`/`far`), an undrawn host's seat from
   its plane foot (`Host.foot`, `opening`) with the sideways offset × `SPREAD`
   across the line of sight to the foot, take-offs and shies panned
-  (`panOf`).
+  (`panOf`, `sin` of the azimuth off the heading: stereo cannot tell front
+  from back, accepted).
+- **The wash rule** went with `nearestTheSun`/`acrossFromSun`: the sun
+  stands at its azimuth and every foot below the brow, so
+  `sun-layout.test.ts` holds the wash's outer ring at or above `browRow`
+  less the farthest place's `WASH_FOOT_CLEAR`, column by column.
 - **Splits**: `mushroom-shown.ts` and `flower-shown.ts` out of the beds;
   `tuft-tap.ts` out of `tufts.ts`.
 - **The play run** walks back with no rim (`checkBack`), walks a dense
   forest of two clusters (`play-approach.ts`) and times the lawn's re-tend
   and the perches' re-see (`__probe.hitches()`).
+
+## What the tail settled
+
+The frame's costs and the calls that hold it to 26 ms — the side cull,
+detail by drawn size, the lawn and the sow spread over frames, and the
+air's crowdings still to spread — are [bite-12b/frame-cost.md](bite-12b/frame-cost.md);
+the review's nine calls are [bite-12b/review.md](bite-12b/review.md).
+
+- **The mottles read at `MOTTLE_TONE` 0.7, `MOTTLE_ALPHA` 0.4**: the
+  planned 0.3/0.16 was all but invisible, 0.8/0.5 smudges where they
+  overlap far out.
+- **A leg setting off from a perch the sight no longer places** (after any
+  turn) is timed from where the insect was last drawn (`placesSetOff`),
+  not by the random flight time, which crossed from behind the eye in
+  ~0.6 s.
+- **A flier's body faces its drawn flight**: `drawnInsect`'s rotation is the
+  screen direction of a one-pixel step along its turn (`bentTurn`,
+  `insect-drawn.ts`), faded with `aloft` so a sitter keeps its rest facing.
+  The step is taken between the unsunk `placed` points, so a flier sinking
+  past the brow points along its flight rather than along the slide.
+  [The sunk step: past `D_SEE` the sink mirrors the rows, so a flier going
+  straight away over the brow flips 0 → π in one frame.]
+- **The plays judge what is on screen.** The heading and turn-rate watches
+  judge a frame only while the body's middle is on screen; the pop check
+  passes over a change more than its drawn height past a side; the wait for
+  a butterfly on a cap looks every minute (`CAP_LOOK`); the bee's dash bound
+  is `DASH_SLACK` 1.25; a bee kept off the one planted flower by
+  butterflies is noted, not failed. Each loosening has its line in
+  [to-check.md](to-check.md). `play-fliers.ts` is out of `play-insects.ts`.
+- **Every play green on every screen**: tabL, tabP, phoneP, phoneS, and
+  phoneL once far mushrooms paint fewer chords.
