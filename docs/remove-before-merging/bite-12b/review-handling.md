@@ -79,3 +79,12 @@ a call cannot hold stops and reports with the options measured.
 ## Reports
 
 Filled in as each lands.
+
+- **C1 (T143, unit)**: the game already followed — the case was green
+  before any change. 2ad466a (`perch-follow.test.ts`, through the real
+  `reduce`: fly and butterfly take far caps after the eye moves 40 up, the
+  bee an air spot, the far copy having no flowers; red with `isDue`'s
+  `!isOffered` removed), 1afd77a (the reach case on a cap at (15.5, 5.5),
+  16.45 out, placed by `placeIn` and refused only by `inReach`; the strip
+  past the reach is thin, so a change to `MEADOW_FRAME` or `PERCH_REACH` may
+  move it). C2 launched on the play half.
