@@ -265,8 +265,8 @@ export function roundAt(time: number, period: number, phase: number): number {
 }
 
 /** How long a mouse takes to come out of its door, and to duck back in. */
-const PEEK_RISE = 0.35;
-const PEEK_DUCK = 0.3;
+export const PEEK_RISE = 0.35;
+export const PEEK_DUCK = 0.3;
 /** How long a mouse looks about on its own, and when a tap has called it out. */
 const PEEK_HOLD = 1.6;
 const TAP_PEEK_HOLD = 1.4;
@@ -297,11 +297,26 @@ export function outAndBack(
  * back, and 0 the rest of the time.
  */
 export function peek(time: number, phase: number): number {
-  const turn = phase / (Math.PI * 2);
-  const period = PEEK_PERIOD[0] + (PEEK_PERIOD[1] - PEEK_PERIOD[0]) * turn;
-  const into = wrap(time + turn * period, period);
+  const into = roundAt(time, peekPeriod(phase), phase);
   return outAndBack(into, PEEK_RISE, PEEK_HOLD, PEEK_DUCK);
 }
+
+function peekPeriod(phase: number): number {
+  return (
+    PEEK_PERIOD[0] + ((PEEK_PERIOD[1] - PEEK_PERIOD[0]) * phase) / (Math.PI * 2)
+  );
+}
+
+/**
+ * Which of its door's outings `peek` is in at `time`, by whole rounds: one
+ * begins as the mouse starts out, so a run replaces exactly one peek.
+ */
+export const outingOf = (time: number, phase: number): number =>
+  Math.floor(time / peekPeriod(phase) + phase / (Math.PI * 2));
+
+/** When `outing` (`outingOf`) of a door with `phase` begins. */
+export const outingStart = (outing: number, phase: number): number =>
+  (outing - phase / (Math.PI * 2)) * peekPeriod(phase);
 
 /**
  * The mouse called out by a tap on its door `elapsed` seconds before: out at
