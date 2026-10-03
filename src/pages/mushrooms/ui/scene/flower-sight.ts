@@ -28,7 +28,7 @@ import {
   containsPoint,
   type Point,
 } from '../../model/geometry';
-import type { Eye } from '../../model/ground';
+import { type Camera, type Eye, pinholeOf } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Plot, slotTaken } from '../../model/pollen';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
@@ -47,6 +47,7 @@ import {
 } from './flower-plots';
 import type { MeadowLayout } from './layout';
 import { tapReach } from './tap-reach';
+import { middleOf } from './view';
 
 /**
  * How far off a cap's crown toward its rims, or off a flower's centre toward
@@ -318,6 +319,31 @@ export function coversOn(
   return covers;
 }
 
+/**
+ * The screen's sides, in world px across `camera`'s layout, as the opening
+ * crop shows them: the screen is linear in azimuth and the layout its
+ * tangent, so a thing stands on the screen just where it stands between them.
+ */
+export function screenSides(camera: Camera): Record<'left' | 'right', number> {
+  const { x, focal } = pinholeOf(camera);
+  const half = focal * Math.tan(x / focal);
+  const middle = middleOf(camera);
+  return { left: middle - half, right: middle + half };
+}
+
+/**
+ * Whether `sighting`'s whole head, as far as the sway moves it, stands
+ * between the screen's sides on `layout` (`screenSides`).
+ */
+function headOnScreen(
+  { camera }: MeadowLayout,
+  { place, head }: Sighting,
+): boolean {
+  const { left, right } = screenSides(camera);
+  const reach = head.r + place.size * Math.sin(FLOWER_SWAY);
+  return head.x - reach >= left && head.x + reach <= right;
+}
+
 /** The flowers standing where a bee plants, and every foot on the ground a planting keeps off. */
 type Ground = {
   standing: readonly StandingFlower[];
@@ -392,9 +418,12 @@ export function roomIn(stand: Stand): (foot: Footing) => boolean {
 }
 
 /**
- * Where a bee could plant round each flower of `shown`: the first ring slot
- * no planted flower takes that is `plantable`, in sight, off the foot of
- * every mushroom standing (`mushroomFeet`), at any depth.
+ * Where a bee could plant round each flower of `shown`, on `stand` as judged
+ * from the anchor: the first ring slot no planted flower takes that is
+ * `plantable`, in sight, off the foot of every mushroom standing
+ * (`mushroomFeet`), at any depth, and whose head, whatever its genes, stands
+ * whole on the screen (`headOnScreen`), so the child sees every flower a bee
+ * plants come up. A flower whose ring has no such slot takes none.
  */
 export function roomFor(
   stand: Stand,
@@ -409,7 +438,13 @@ export function roomFor(
     const ring = RING_SLOTS.findIndex((_, slot) => {
       if (slotTaken(planted, id, slot)) return false;
       const spot = ringFoot(parent.foot, slot, layout.mushrooms.anchor);
-      return spot !== undefined && plantable(layout, spot, ground, covers);
+      return (
+        spot !== undefined &&
+        plantable(layout, spot, ground, covers) &&
+        sightingsAt(standingOn(layout.camera, spot), layout).every((sighting) =>
+          headOnScreen(layout, sighting),
+        )
+      );
     });
     return ring === -1 ? [] : [{ flower: id, ring }];
   });
