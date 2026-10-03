@@ -314,6 +314,15 @@ holds its detail and the next step's API.
   already held a turn (`walk.pan`) and a strafe (`walk.stride.held`)
   apart; `walk.test.ts` holds both 2 s. The plays press `KeyC`. The
   fold's "What a child can do" names `z`/`c` and `.`/`/`.
+- **D** 52a334ec — call 35's cause was ccfff90d (bite 14's call 44), not
+  call 37: a ground drag added each finger move to `walked`, so the bob and
+  the footsteps ran at the finger's pace (10 steps/s at 600 px/s, the bob
+  snapping 3.3 px on frames with no sample). `model/stride.ts`'s chase
+  keeps the move as `unstepped` and the feet step every frame at the
+  finger's pace capped at `STRIDE_CRUISE`, a fling's too; the eye still
+  stands where each sample puts it. Left: the eye's own step follows the
+  samples one to one and can stutter where they straddle frames
+  (`to-check.md`).
 
 Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
 `Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's
