@@ -1,0 +1,80 @@
+{
+  "sessionId": "28d9897d-3e1e-5314-b569-39e846cb6ed1",
+  "branch": "claude/zealous-dirac-rj69mk",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01Xag3kMUXkAmDihnvx6LQ6L",
+  "operator": null,
+  "firstResponseAt": "2026-10-03T20:54:29.969Z",
+  "lastResponseAt": "2026-10-03T20:55:27.200Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 47922,
+    "cacheReadTokens": 487766,
+    "outputTokens": 2199,
+    "thinkingTokens": 597,
+    "responses": 6,
+    "costUsd": 0.5249572
+  },
+  "ownTurns": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 47922,
+    "cacheReadTokens": 487766,
+    "outputTokens": 2199,
+    "thinkingTokens": 597,
+    "responses": 6,
+    "costUsd": 0.5249572
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47922,
+      "cacheReadTokens": 487766,
+      "outputTokens": 2199,
+      "thinkingTokens": 597,
+      "responses": 6,
+      "costUsd": 0.5249572
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-03T20:55:27.200Z",
+    "contextTokens": 92220,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 46941,
+      "cacheReadTokens": 396529,
+      "outputTokens": 1435,
+      "thinkingTokens": 418,
+      "responses": 5,
+      "costUsd": 0.4835738
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 5,
+    "matched": 5,
+    "matchedTableUsd": 0.4835738,
+    "matchedEventUsd": 0.4835738,
+    "unseen": {}
+  }
+}
