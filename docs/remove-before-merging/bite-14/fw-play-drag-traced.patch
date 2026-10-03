@@ -1,0 +1,81 @@
+diff --git a/scripts/lib/mushroom-probe.ts b/scripts/lib/mushroom-probe.ts
+index cd477c12..5edb7a0d 100644
+--- a/scripts/lib/mushroom-probe.ts
++++ b/scripts/lib/mushroom-probe.ts
+@@ -762,6 +762,17 @@ export type Page = {
+     to: z.infer<typeof Point>,
+     frames: number,
+   ) => Promise<void>;
++  /**
++   * `drag`, with `expression` read after each move and parsed by `schema`:
++   * what the finger moved, move by move, up to its lift.
++   */
++  dragTraced: <Parsed>(
++    from: z.infer<typeof Point>,
++    to: z.infer<typeof Point>,
++    frames: number,
++    expression: string,
++    schema: z.ZodType<Parsed>,
++  ) => Promise<Parsed[]>;
+   /**
+    * A key going down or up, by its DOM `code`, as `ArrowLeft`; a `repeat` is
+    * the browser's own repeat of a held key's press, and `shift` has Shift
+diff --git a/scripts/play-mushrooms.ts b/scripts/play-mushrooms.ts
+index 4f00fda4..96ac8cb2 100644
+--- a/scripts/play-mushrooms.ts
++++ b/scripts/play-mushrooms.ts
+@@ -264,6 +264,30 @@ async function open(
+       z.array(schema),
+     );
+   };
++  const dragTraced: Page['dragTraced'] = async (
++    from,
++    to,
++    frames,
++    expression,
++    schema,
++  ) => {
++    await touch('touchStart', [from]);
++    const seen = await inTurn(
++      Array.from({ length: frames }, (_, index) => (index + 1) / frames),
++      async (along) => {
++        await step(1);
++        await touch('touchMove', [
++          {
++            x: from.x + (to.x - from.x) * along,
++            y: from.y + (to.y - from.y) * along,
++          },
++        ]);
++        return evaluate(expression, schema);
++      },
++    );
++    await touch('touchEnd', []);
++    return seen;
++  };
+   return {
+     evaluate,
+     rendered,
+@@ -274,21 +298,9 @@ async function open(
+       await touch('touchEnd', []);
+     },
+     drag: async (from, to, frames) => {
+-      await touch('touchStart', [from]);
+-      await inTurn(
+-        Array.from({ length: frames }, (_, index) => (index + 1) / frames),
+-        async (along) => {
+-          await step(1);
+-          await touch('touchMove', [
+-            {
+-              x: from.x + (to.x - from.x) * along,
+-              y: from.y + (to.y - from.y) * along,
+-            },
+-          ]);
+-        },
+-      );
+-      await touch('touchEnd', []);
++      await dragTraced(from, to, frames, 'true', z.boolean());
+     },
++    dragTraced,
+     key: async (key, type, { repeat = false, shift = false } = {}) => {
+       await send('Input.dispatchKeyEvent', {
+         type,
