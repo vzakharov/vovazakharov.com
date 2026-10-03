@@ -1,0 +1,82 @@
+{
+  "sessionId": "ec356d92-890c-5995-ac8a-1efa92ce0cfe",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside wit…",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_016pbMDts3gGENqQCpRr4T3P",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-03T00:09:58.640Z",
+  "lastResponseAt": "2026-10-03T00:10:55.890Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 26,
+    "cacheWrite5mTokens": 59809,
+    "cacheWrite1hTokens": 84468,
+    "cacheReadTokens": 1187839,
+    "outputTokens": 3885,
+    "thinkingTokens": 722,
+    "responses": 13,
+    "costUsd": 1.2901607999999998
+  },
+  "ownTurns": {
+    "inputTokens": 24,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 84468,
+    "cacheReadTokens": 1187839,
+    "outputTokens": 3864,
+    "thinkingTokens": 722,
+    "responses": 12,
+    "costUsd": 0.9906877999999999
+  },
+  "subagents": {
+    "inputTokens": 2,
+    "cacheWrite5mTokens": 59809,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 21,
+    "thinkingTokens": 0,
+    "responses": 1,
+    "costUsd": 0.299473
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 59809,
+      "cacheWrite1hTokens": 84468,
+      "cacheReadTokens": 1187839,
+      "outputTokens": 3885,
+      "thinkingTokens": 722,
+      "responses": 13,
+      "costUsd": 1.2901607999999998
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-03T00:10:55.890Z",
+    "contextTokens": 128796,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 59809,
+      "cacheWrite1hTokens": 82821,
+      "cacheReadTokens": 1060692,
+      "outputTokens": 3517,
+      "thinkingTokens": 655,
+      "responses": 12,
+      "costUsd": 1.2441874
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 12,
+    "matched": 12,
+    "matchedTableUsd": 1.2441874,
+    "matchedEventUsd": 1.2470274,
+    "unseen": {}
+  }
+}
