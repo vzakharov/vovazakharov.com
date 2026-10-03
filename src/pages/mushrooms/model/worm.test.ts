@@ -23,6 +23,7 @@ import {
   type TripPhase,
   WORM_CRAWL,
   WORM_GIRTH,
+  WORM_GIRTH_LEAST,
   WORM_IN,
   WORM_LENGTH,
   WORM_OUT,
@@ -30,6 +31,7 @@ import {
   WORM_PEEK_DURATION,
   WORM_SEGMENTS,
   wormBody,
+  wormGirth,
   wormPath,
   wormPeek,
   wormTarget,
@@ -51,6 +53,19 @@ const highest = (path: readonly Point[]) => Math.max(...path.map(({ y }) => y));
 const fiveSlots = everyMushroom
   .map((genes) => windowSlots(genes))
   .find((slots) => slots.length === 5);
+
+describe('wormGirth', () => {
+  it('is never under `WORM_GIRTH_LEAST` on the screen, at any zoom, and its window’s share on a big cap', () => {
+    for (const zoom of [0.3, 0.6, 1, 1.5]) {
+      for (const size of [40, 120, 400]) {
+        assert.ok(wormGirth(size, zoom) * size * zoom >= WORM_GIRTH_LEAST);
+      }
+      const least = WORM_GIRTH_LEAST / WORM_GIRTH / zoom;
+      assert.ok(Math.abs(wormGirth(least, zoom) - WORM_GIRTH) < EPSILON);
+    }
+    assert.equal(wormGirth(2000, 1), WORM_GIRTH);
+  });
+});
 
 describe('wormTarget', () => {
   it('peeks from a lone window, and otherwise goes to the farthest one put in', () => {

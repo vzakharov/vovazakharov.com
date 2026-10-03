@@ -22,7 +22,20 @@ PR #57 review 5401128817, three inline comments on `model/worm.ts`.
   girth long, a stubby nub). The play's peek step checks
   `__probe.worm(id).head !== null` mid-hold.
 
+- **Call 28** — `wormGirth(size, zoom)` (moved to `model/worm.ts`, beside
+  the constants it reads; `draw-worm.ts` pulls Phaser at runtime and could
+  not be tested) floors the girth at `WORM_GIRTH_LEAST / (size · zoom)`;
+  `windowReaches(…, ink, zoom)` floors the reach at `WINDOW_REACH / zoom`.
+  The zoom is the mushroom's `stands.zoom` (the perspective zoom the bed's
+  `setScale(… * grown * zoom)` multiplies in), which `HouseView.stand`
+  keeps and repaints on change; the mushroom's own emerge, swell and breath
+  stay out of it. Tests: both floors hold on the screen at zooms 0.3–1.5.
+  The play's worm note names the mushroom and its house's scale. Plays,
+  meadow: tabL and phoneP both on the opening clump's front fly agaric,
+  house at 0.99×: reach 16.1 px, worm 6.0 px, cap kept 61% (tabL) / 40%
+  (phoneP); `to-check.md` says so.
+
 ## Left
 
-- **Call 28** — girth floor and `WINDOW_REACH` in screen px over the zoom.
-- Replies on GitHub.
+- Replies on GitHub to comments 4173454291 (call 26), 4173454293 (27),
+  4173454296 (28).

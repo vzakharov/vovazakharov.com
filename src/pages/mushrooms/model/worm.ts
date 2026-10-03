@@ -14,8 +14,18 @@ import { capBase, capSurface } from './mushroom-profile';
 
 /** How thick a worm is drawn: sized to its window, as a mouse is to its door. */
 export const WORM_GIRTH = 0.35 * PANE;
-/** The thinnest a worm is drawn, in the pixels its house paints in: what an eye on it still reads at. */
+/** The thinnest a worm is drawn, in screen pixels: what an eye on it still reads at. */
 export const WORM_GIRTH_LEAST = 6;
+
+/**
+ * How thick a worm is on a mushroom drawn `size` px to its unit by a house
+ * graphics `zoom` scales onto the screen, in that mushroom's units: its
+ * window's share, or the least an eye reads on the screen.
+ */
+export function wormGirth(size: number, zoom: number): number {
+  return Math.max(WORM_GIRTH, WORM_GIRTH_LEAST / (size * zoom));
+}
+
 /** From a worm's head to its tail, stretched out. */
 export const WORM_LENGTH = 4.5 * WORM_GIRTH;
 /** How many round segments a worm is drawn as, from its head to its tail: enough that each overlaps the next, stretched out and wriggling. */

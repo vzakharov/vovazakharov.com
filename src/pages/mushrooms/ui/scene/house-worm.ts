@@ -9,13 +9,14 @@ import {
   peekPath,
   type TripPhase,
   wormBody,
+  wormGirth,
   wormPath,
   wormPeek,
   type WormPose,
   wormTarget,
   wormTrip,
 } from '../../model/worm';
-import { type ShownWorm, wormGirth } from './draw-worm';
+import type { ShownWorm } from './draw-worm';
 import type { MeadowSound } from './sound';
 
 /**
@@ -46,8 +47,10 @@ export class HouseWorm {
   trips = 0;
   private readonly voice: MeadowSound;
   private readonly phase: number;
-  /** The cap it was last painted on, which a trip's way is laid on, and whether it showed there. */
-  private drawn: { genes: MushroomGenes; size: number } | undefined;
+  /** The cap it was last painted on and the zoom that put it on the screen, which a trip's way is laid on, and whether it showed there. */
+  private drawn:
+    | { genes: MushroomGenes; size: number; zoom: number }
+    | undefined;
   private showed = false;
   /** Its head's middle and its girth as last painted, in its house's graphics' pixels, as the probe reads them: `undefined` while it is in, the head while it is behind a pane. */
   painted: { head: Point | undefined; girth: number } | undefined;
@@ -65,7 +68,7 @@ export class HouseWorm {
       return;
     }
     if (!this.drawn) throw new Error('A window tapped before it was painted');
-    const { genes, size } = this.drawn;
+    const { genes, size, zoom } = this.drawn;
     const slots = windowSlots(genes);
     const slot = (index: number) => {
       const found = slots[index];
@@ -73,7 +76,7 @@ export class HouseWorm {
       return found;
     };
     const to = wormTarget(slots, count, from, this.trips);
-    const girth = wormGirth(size);
+    const girth = wormGirth(size, zoom);
     const path =
       to === undefined
         ? peekPath(genes, slot(from), girth)
@@ -108,9 +111,14 @@ export class HouseWorm {
     return this.showed || this.at(t) !== undefined;
   }
 
-  /** The worm as `paintHouse` paints it at `t` on a cap of `genes` drawn `size` px to its unit; `undefined` while it is in. */
-  shown(t: number, genes: MushroomGenes, size: number): ShownWorm | undefined {
-    this.drawn = { genes, size };
+  /** The worm as `paintHouse` paints it at `t` on a cap of `genes` drawn `size` px to its unit, its house's graphics at `zoom`; `undefined` while it is in. */
+  shown(
+    t: number,
+    genes: MushroomGenes,
+    size: number,
+    zoom: number,
+  ): ShownWorm | undefined {
+    this.drawn = { genes, size, zoom };
     const pose = this.at(t);
     const { trip } = this;
     this.showed = pose !== undefined;

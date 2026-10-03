@@ -46,7 +46,7 @@ describe('a window’s tap reach', () => {
     for (const genes of everyMushroom) {
       for (const size of [60, 200, 600]) {
         const slots = windowSlots(genes);
-        const reaches = windowReaches(genes, size, slots.length, INK);
+        const reaches = windowReaches(genes, size, slots.length, INK, 1);
         assert.equal(reaches.length, slots.length);
         for (const [index, reach] of reaches.entries()) {
           const slot = slots[index] ?? { x: 0, y: 0 };
@@ -63,13 +63,15 @@ describe('a window’s tap reach', () => {
     }
   });
 
-  it('is never under `WINDOW_REACH`, and no more than it round a small pane', () => {
+  it('is never under `WINDOW_REACH` on the screen, and no more than it round a small pane, at any zoom', () => {
     for (const genes of everyMushroom) {
-      for (const reach of windowReaches(genes, 60, 5, INK)) {
-        assert.equal(reach.r, WINDOW_REACH);
-      }
-      for (const reach of windowReaches(genes, 600, 5, INK)) {
-        assert.ok(reach.r > WINDOW_REACH);
+      for (const zoom of [0.4, 1, 1.5]) {
+        for (const reach of windowReaches(genes, 60 / zoom, 5, INK, zoom)) {
+          assert.ok(Math.abs(reach.r * zoom - WINDOW_REACH) < 1e-9);
+        }
+        for (const reach of windowReaches(genes, 600, 5, INK, zoom)) {
+          assert.ok(reach.r * zoom > WINDOW_REACH);
+        }
       }
     }
   });
@@ -77,14 +79,14 @@ describe('a window’s tap reach', () => {
   it('holds only as many windows as are put in', () => {
     const genes = everyMushroom[0];
     assert.ok(genes);
-    assert.equal(windowReaches(genes, 200, 2, INK).length, 2);
-    assert.equal(windowReaches(genes, 200, 0, INK).length, 0);
+    assert.equal(windowReaches(genes, 200, 2, INK, 1).length, 2);
+    assert.equal(windowReaches(genes, 200, 0, INK, 1).length, 0);
   });
 
   it('keeps every window’s middle on the face it is cut to', () => {
     for (const genes of everyMushroom) {
       const face = windowFace(genes, 200);
-      for (const reach of windowReaches(genes, 200, 5, INK)) {
+      for (const reach of windowReaches(genes, 200, 5, INK, 1)) {
         assert.ok(containsPoint(face, reach));
       }
     }

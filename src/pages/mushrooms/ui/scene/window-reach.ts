@@ -1,6 +1,6 @@
 /**
  * A house's windows as a finger's targets, beside its door: in the pixels its
- * house's graphics paints in, which at rest are CSS pixels.
+ * house's graphics paints in, which its zoom scales onto the screen.
  */
 
 import { type Circle, containsPoint, type Point } from '../../model/geometry';
@@ -12,9 +12,9 @@ import { type DoorTarget, tappedDoor } from './door-tap';
 import { TAP_RADIUS } from './tap-reach';
 
 /**
- * The least a window reaches round its middle: half a door's, so a row of
- * them leaves a small cap's face to its mushroom — a window is a detail of
- * the cap, which stays a whole finger's target.
+ * The least a window reaches round its middle, in screen pixels: half a
+ * door's, so a row of them leaves a small cap's face to its mushroom — a
+ * window is a detail of the cap, which stays a whole finger's target.
  */
 export const WINDOW_REACH = TAP_RADIUS / 2;
 
@@ -24,17 +24,19 @@ export type HousePart = 'door' | number;
 /**
  * Where each of the first `count` windows of `genes` drawn `size` px to its
  * unit answers a tap: a circle round its slot's middle taking in its whole
- * painted pane and its `ink` line, never under `WINDOW_REACH`.
+ * painted pane and its `ink` line, never under `WINDOW_REACH` on a screen
+ * the house's graphics is scaled onto by `zoom`.
  */
 export function windowReaches(
   genes: MushroomGenes,
   size: number,
   count: number,
   ink: number,
+  zoom: number,
 ): Circle[] {
   const canvas = toCanvas(size);
   const cap = capFrame(genes);
-  const r = Math.max((PANE * size) / Math.SQRT2 + ink, WINDOW_REACH);
+  const r = Math.max((PANE * size) / Math.SQRT2 + ink, WINDOW_REACH / zoom);
   return windowSlots(genes)
     .slice(0, count)
     .map((slot) => ({ ...canvas(cap(slot)), r }));

@@ -79,6 +79,8 @@ export class HouseView {
   /** Where each window answers a tap (`windowReaches`) and the face that cuts them (`windowFace`), in the graphics' own frame. */
   private reaches: Circle[] = [];
   private face: Point[] = [];
+  /** The zoom its mushroom stands at, as last stood: what scales its graphics onto the screen, bar the mushroom's own swell and breath. */
+  private zoom = 1;
   /** Its worm, which a tap on a window calls out. */
   readonly worm: HouseWorm;
   private readonly scene: Phaser.Scene;
@@ -238,9 +240,11 @@ export class HouseView {
       : this.onDoor.at(t, this.mouse);
   }
 
-  /** Stands the house at `place`, its mushroom's. */
+  /** Stands the house at `place`, its mushroom's: repainted at a new zoom, as its windows' reach and its worm's girth are floored on the screen. */
   stand(place: BedPlace): void {
     standAt(this.graphics, place, HOUSE_NEARER);
+    if (place.zoom !== this.zoom) this.stale = true;
+    this.zoom = place.zoom;
   }
 
   /** Takes `body`'s pose as of `t`, and repaints what has moved. */
@@ -289,9 +293,15 @@ export class HouseView {
             look: shown.look ?? lookAbout(t, this.mouse.phase),
             shut: blink(t, this.mouse.phase),
           };
-    this.reaches = windowReaches(genes, size, windows.length, brush.ink);
+    this.reaches = windowReaches(
+      genes,
+      size,
+      windows.length,
+      brush.ink,
+      this.zoom,
+    );
     this.face = windowFace(genes, size);
-    const worm = this.worm.shown(t, genes, size);
+    const worm = this.worm.shown(t, genes, size, this.zoom);
     paintHouse(this.graphics, genes, size, windows, door, brush, worm);
     if (!door) return;
     this.hit.push(...doorHitArea(door.station, size));

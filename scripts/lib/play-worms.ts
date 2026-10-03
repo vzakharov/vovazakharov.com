@@ -2,8 +2,9 @@
  * The worms' part of `play-house.ts`, on the clump it furnished: the front
  * cap's outermost window tapped, its worm crawling to the far end of the row
  * and a second tap leaving its course; the back cap's one window tapped, its
- * worm peeking. Each screen's window reach and the cap its mushroom keeps
- * are printed for the eye that looks at the frames.
+ * worm peeking. Each screen's window reach, the worm's girth and the cap its
+ * mushroom keeps are printed with the mushroom they were taken on, for the
+ * eye that looks at the frames.
  */
 
 import { z } from 'zod';
@@ -14,6 +15,7 @@ import {
   type Controls,
   type Expect,
   type Page,
+  Pose,
   State,
   Top,
   Windows,
@@ -83,8 +85,12 @@ export async function playWorms(
   const outermost = reaches.length - 1;
   await tapWindow(front, outermost);
   const set = await read('worm', front, Worm);
+  const { mushrooms: ids, species } = await state();
+  const pose = await read('pose', front, Pose);
   note(
-    `window reach ${reaches[0]?.r.toFixed(1) ?? '-'} px, ` +
+    `on the front ${String(species[ids.indexOf(front)])}, its house at ` +
+      `${String(pose?.house.toFixed(2))}x: ` +
+      `window reach ${reaches[0]?.r.toFixed(1) ?? '-'} px, ` +
       `the front cap keeps ${(capLeft * 100).toFixed(0)}%, ` +
       `its worm ${String(set.girth?.toFixed(1))} px thick`,
   );

@@ -5,20 +5,10 @@ import type { Looking } from '../../model/motion';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
-import {
-  WORM_GIRTH,
-  WORM_GIRTH_LEAST,
-  WORM_SEGMENTS,
-  type WormBody,
-} from '../../model/worm';
+import { WORM_SEGMENTS, type WormBody } from '../../model/worm';
 import { inkFor } from './ink';
 import { PALETTE } from './palette';
 import { type Brush, fillShape, inkUnder } from './shapes';
-
-/** How thick a worm is on a mushroom drawn `size` px to its unit, in that mushroom's units: its window's share, or the least an eye reads. */
-export function wormGirth(size: number): number {
-  return Math.max(WORM_GIRTH, WORM_GIRTH_LEAST / size);
-}
 
 /** A worm as its house paints it: its body, and which way a peeking worm looks (`wormPeek`). */
 export type ShownWorm = WormBody & Looking;
