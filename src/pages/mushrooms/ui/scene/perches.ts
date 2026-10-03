@@ -1,8 +1,8 @@
-import { type Perch, perchName, SIDES, type Sight } from '../../model/flight';
+import { type Perch, perchName, type Sight } from '../../model/flight';
 import type { Aloft } from '../../model/flight-frame';
 import { type Eye, OPENING_EYE, unanchored } from '../../model/ground';
 import type { Flier } from '../../model/insects';
-import { airAloftOf, airAlofts, clumpRow } from './air-spots';
+import { airAloftOf, airAlofts } from './air-spots';
 import { anchoredStand } from './anchored-stand';
 import type { Stand } from './flower-sight';
 import { type Away, awayPlaces } from './insect-away';
@@ -68,21 +68,15 @@ export class Perches {
     this.layout = layout;
     this.alofts = airAlofts(layout, anchor);
     const { places = {} } = this.sight;
-    const skipped = new Set([
-      ...SIDES.map((side) => perchName({ kind: 'away', side })),
-      ...[...this.alofts.keys()].map((id) => perchName({ kind: 'air', id })),
-    ]);
-    const rows = footRows(judged);
-    const [unit, aloftRow] = [layout.insectSize, clumpRow(layout.camera)];
-    // `perchSight`'s layout run backwards, each place over its foot's row.
-    const onBeds = Object.entries(places).flatMap(([name, { x, y }]) => {
-      if (skipped.has(name)) return [];
-      const point = { x: x * unit, y: y * unit };
-      const laid = aloftOfLayout(
-        layout.camera,
-        point,
-        rows.get(name) ?? aloftRow,
-      );
+    const unit = layout.insectSize;
+    // `perchSight`'s layout run backwards, each place over its foot's row:
+    // a perch on a bed is a cap or a flower, each with a row, so the air's
+    // hundreds of places are never walked.
+    const onBeds = [...footRows(judged)].flatMap(([name, row]) => {
+      const place = places[name];
+      if (!place) return [];
+      const point = { x: place.x * unit, y: place.y * unit };
+      const laid = aloftOfLayout(layout.camera, point, row);
       return [[name, { ...laid, ...unanchored(anchor, laid) }] as const];
     });
     const inAir = [...this.alofts].map(

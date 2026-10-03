@@ -37,6 +37,22 @@ tracks what is visible — insects on screen — not distance or time. C2's
 27.4 ms (against a ~17 ms baseline, itself 1.7× today's) reads as a loaded
 machine, not the game.
 
-## Lead 2 — the perches' `see` on a sow frame
+## Lead 2 — the perches' `see` on a sow frame: `roomFor`, now judged once a foot
 
-In progress: why `sow` sees afresh and what in `perchSight` costs.
+A sow sees afresh because a planting changes what the perches are (a new
+flower is one) and where a bee may plant next (`Sight.room`). Profiled in
+Node on a forest stand (12 mushrooms, 34 flowers, 20 bee plantings, a
+scratch script under `tmp/`): `Perches.see` 7.5 ms, of which `perchSight`
+5.8 and of that `roomFor` 5.55 — every flower's ring slots tried, each slot's
+12 sightings (`sightingsAt`) built and tested against every mushroom's
+outlines (`flowerInSight`). The rest of `see` (~1.7 ms) walked the air's
+~650 places to skip them.
+
+What a slot's sight reads is the layout, the covers and the foot alone, and
+the ring feet a sow re-tries are the same floats every time, so
+`sightAt(layout, covers, foot)` (`flower-sight.ts`) judges a foot once per
+layout and covers (`perLayout` → `WeakMap` by covers; a new anchor brings a
+new layout and its covers, so the memo goes with them). `Perches.see` walks
+the beds' rows (`footRows`) instead of every place. Exact: no answer
+changes. Node, warm: `see` 7.5 → 2.8 ms at the opening anchor, 3.35 → 1.2 ms
+at a walked one; `roomFor` 5.55 → 0.9 ms. `fliers.test.ts` 93 s.
