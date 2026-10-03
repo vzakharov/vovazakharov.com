@@ -4,6 +4,8 @@ import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Point, sample } from '../../model/geometry';
 import { headedLight } from '../../model/light';
 import { mix } from './colour';
+import { type Folding, OPEN } from './flower-closing';
+import type { HeadReach } from './flower-seat';
 import { petalColour } from './flower-tints';
 import { facingArc, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
@@ -59,13 +61,15 @@ function paintRing(
   [reach, turn, colour]: readonly [number, number, number],
   ink: number,
   lighting: Lighting,
+  folded: Folding,
 ): void {
   const { toward } = lighting;
   const away = { x: -toward.x, y: -toward.y };
-  const length = genes.petalLength * size * reach;
-  const span = [genes.centre * size * 0.5, length] as const;
+  const open = genes.petalLength * size * reach;
+  const length = open * folded.reach;
+  const span = [genes.centre * size * 0.5 * folded.inner, length] as const;
   const outline = genes.petal === 'pointed' ? petal : paddle;
-  const width = length * genes.petalWidth;
+  const width = open * genes.petalWidth * folded.width;
   for (let index = 0; index < genes.fold; index++) {
     const angle = genes.twist + turn + (index * Math.PI * 2) / genes.fold;
     const shape = outline({ x: 0, y: 0 }, angle, span, width);
@@ -126,16 +130,17 @@ export function paintFlowerStem(
   strokeLine(graphics, line);
 }
 
-/** Paints a flower's head into `graphics`, its middle at the origin. */
+/** Paints a flower's head into `graphics`, its middle at the origin, `folded` as far shut as that holds. */
 export function paintFlowerHead(
   graphics: Phaser.GameObjects.Graphics,
   genes: FlowerGenes,
   size: number,
   lighting: Lighting,
+  folded: Folding = OPEN,
 ): void {
   const ink = inkAt(size);
   const outer = petalColour(genes);
-  paintRing(graphics, genes, size, [1, 0, outer], ink, lighting);
+  paintRing(graphics, genes, size, [1, 0, outer], ink, lighting, folded);
   if (genes.rings === 2) {
     paintRing(
       graphics,
@@ -144,9 +149,10 @@ export function paintFlowerHead(
       [0.62, Math.PI / genes.fold, mix(outer, PALETTE.highlight, INNER_PALE)],
       ink,
       lighting,
+      folded,
     );
   }
-  const centre = genes.centre * size;
+  const centre = genes.centre * size * folded.disc;
   const { toward } = lighting;
   inkedDisc(
     graphics,
@@ -167,14 +173,15 @@ export function paintFlowerHead(
 /**
  * Paints a flower into its two parts: `stem`, whose origin is the foot, and
  * `head`, which this moves to the stem's top so opening it scales the head
- * about its own centre. Returns the head's radius.
+ * about its own centre, `folded` as far shut as that holds.
  */
 export function drawFlower(
   { stem, head }: Record<'stem' | 'head', Phaser.GameObjects.Graphics>,
   genes: FlowerGenes,
   size: number,
   lighting: Lighting,
-): number {
+  folded: Folding,
+): void {
   const top = flowerHead(genes, size);
   paintFlowerStem(stem.clear(), genes, size, lighting);
   paintFlowerHead(
@@ -182,8 +189,20 @@ export function drawFlower(
     genes,
     size,
     lighting,
+    folded,
   );
-  return top.r;
+}
+
+/** How far the head of a flower `folded` as far shut as that holds reaches, and its centre, as `paintFlowerHead` draws them. */
+export function foldedHead(
+  genes: FlowerGenes,
+  size: number,
+  folded: Folding,
+): HeadReach {
+  return {
+    r: flowerHead(genes, size).r * folded.reach,
+    disc: genes.centre * size * folded.disc,
+  };
 }
 
 /** A flower's paint: its light, how to draw it, and the sun side it was last painted at. */

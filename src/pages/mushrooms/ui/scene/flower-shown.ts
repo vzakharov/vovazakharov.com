@@ -1,10 +1,21 @@
 import type * as Phaser from 'phaser';
 
-import type { Flower, FlowerGenes } from '../../model/flower-genes';
+import {
+  type Flower,
+  type FlowerGenes,
+  flowerHead,
+} from '../../model/flower-genes';
 import { CLUMP_DISTANCE } from '../../model/ground';
 import { phaseOf, type Sprouted } from '../../model/motion';
 import { UNPLACED } from './bed-place';
-import { drawFlower, type FlowerPainting, paintFlowerLit } from './draw-flower';
+import {
+  drawFlower,
+  type FlowerPainting,
+  foldedHead,
+  paintFlowerHead,
+  paintFlowerLit,
+} from './draw-flower';
+import { folding, type Shut } from './flower-closing';
 import { laidFlower } from './flower-layout';
 import type { StandingFlower } from './flower-plots';
 import type { Ringed } from './flower-ring';
@@ -34,9 +45,9 @@ export type Shown = TappedFigure &
      * other `opening` ahead (`laidFlower`); `undefined` with no room on screen.
      */
     laid: Laid | undefined;
-    /** How it was last painted; `undefined` before its first paint. */
-    painting: FlowerPainting | undefined;
-  };
+    /** How it was last painted, and how to repaint its head alone; `undefined` before its first paint. */
+    painting: (FlowerPainting & { drawHead: () => void }) | undefined;
+  } & Shut;
 
 /**
  * Where the bed lays `stood` out to paint it on `layout`: where the layout
@@ -74,6 +85,7 @@ export function unplacedShown(
     headY: 0,
     laid: undefined,
     painting: undefined,
+    closing: 0,
     stands: UNPLACED,
     disc: 0,
     plantedAt,
@@ -84,8 +96,9 @@ export function unplacedShown(
 
 /**
  * Paints `shown` at `size` in `openingLight`, its light as the opening eye
- * sees it, turned by `heading`, and keeps how it painted it; its head, centre
- * and tap reach follow the paint.
+ * sees it, turned by `heading`, as far shut as its `closing`, and keeps how it
+ * painted it; its head and centre follow the paint, and its tap reach the
+ * open head's, so a closed flower takes the taps an open one does.
  */
 export function paintShown(
   shown: Shown,
@@ -94,15 +107,30 @@ export function paintShown(
   openingLight: Lighting,
   heading: number,
 ): void {
+  let lastLit = openingLight;
+  const fold = () => {
+    const folded = folding(shown.closing);
+    ({ r: shown.headR, disc: shown.disc } = foldedHead(genes, size, folded));
+    return folded;
+  };
   shown.painting = {
     openingLight,
     drawIn: (lit) => {
-      shown.headR = drawFlower(shown, genes, size, lit);
+      lastLit = lit;
+      drawFlower(shown, genes, size, lit, fold());
+    },
+    drawHead: () => {
+      paintFlowerHead(shown.head.clear(), genes, size, lastLit, fold());
     },
     paintedSunSide: openingLight.toward.x,
   };
   paintFlowerLit(shown.painting, heading);
   shown.headY = shown.head.y;
-  shown.disc = genes.centre * size;
-  shown.hit.setTo(0, 0, flowerTapReach(shown.headR));
+  shown.hit.setTo(0, 0, flowerTapReach(flowerHead(genes, size).r));
+}
+
+/** Repaints `shown`'s head `closing` of the way shut, a step of `closingStep`, in the light it was last painted in. */
+export function closeShown(shown: Shown, closing: number): void {
+  shown.closing = closing;
+  shown.painting?.drawHead();
 }

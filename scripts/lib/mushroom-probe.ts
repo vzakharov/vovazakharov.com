@@ -17,6 +17,7 @@ import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
 import type { Camera as ModelCamera } from '../../src/pages/mushrooms/model/ground.ts';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
+import { CLOUD_SPREAD } from '../../src/pages/mushrooms/ui/scene/rain-sky.ts';
 
 /** Swaps `Math.random` for a mulberry32 seeded with `seed` before the page's own code runs. */
 export function seededRandom(seed: number): string {
@@ -120,7 +121,7 @@ export const PROBE = `(() => {
   for (const name of ['walk', 'sow', 'see', 'dispatch', 'sightNow']) {
     costing(scene, name, name);
   }
-  for (const part of ['grass', 'bed', 'flowers', 'insects', 'controls']) {
+  for (const part of ['grass', 'bed', 'flowers', 'insects', 'controls', 'rain']) {
     for (const name of ['follow', 'update']) {
       if (scene[part][name]) costing(scene[part], part + '.' + name, name);
     }
@@ -418,6 +419,35 @@ export const PROBE = `(() => {
       const { tappedAt } = scene.flowers.shown.get(id);
       return Number.isFinite(tappedAt) ? tappedAt : null;
     },
+    /**
+     * The shower as the sky shows it: the meadow's span, whether it rains,
+     * how wet the sky is, how strongly the rainbow shows, the drops in the
+     * air, the flowers' mean closing (0 while the flower bed reports none)
+     * and the cloud tapped last.
+     */
+    rain: () => {
+      const span = scene.meadow.rain;
+      return {
+        span: span ? { startedAt: span.startedAt, stopsAt: span.stopsAt } : null,
+        ...scene.rain.shown,
+        drops: scene.rain.dropsInAir(),
+        closing: scene.flowers.meanClosing?.() ?? 0,
+        tapped: scene.rain.tapped ?? null,
+      };
+    },
+    /**
+     * Where a tap reaches each cloud on the screen now, in CSS px: its
+     * middle, brought onto the screen while its puffs still reach there;
+     * \`null\` while it is off the screen or something over it takes the tap.
+     */
+    clouds: () =>
+      scene.rain.placed().map((cloud) => {
+        if (!cloud) return null;
+        const x = Math.min(Math.max(cloud.x, 1), scene.layout.width - 1);
+        if (Math.abs(x - cloud.x) > cloud.r * ${String(CLOUD_SPREAD)}) return null;
+        const point = { x, y: cloud.y };
+        return topAt(point) === null ? point : null;
+      }),
     /** When \`−\` last shook its head, \`null\` if never. */
     minusRefusedAt: () => finite(scene.controls.minus.refusedAt),
     /** When the house, or the house picker's \`index\`th button, last shook its head. */
@@ -543,6 +573,16 @@ export const Pose = z
   .object({ mushroom: z.number(), house: z.number(), shown: z.boolean() })
   .nullable();
 export const Flower = Point.extend({ id: z.string() }).nullable();
+export const Shower = z.object({
+  span: z.object({ startedAt: z.number(), stopsAt: z.number() }).nullable(),
+  raining: z.boolean(),
+  wetness: z.number(),
+  rainbow: z.number(),
+  drops: z.number(),
+  closing: z.number(),
+  tapped: z.number().nullable(),
+});
+export const Clouds = z.array(Point.nullable());
 
 /** The arrow keys, by their DOM `key`, and the key code each goes down with. */
 const ARROWS = {

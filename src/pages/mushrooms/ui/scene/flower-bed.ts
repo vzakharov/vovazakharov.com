@@ -13,15 +13,23 @@ import type { Flier } from '../../model/insects';
 import { headedLight } from '../../model/light';
 import { bloom, emerge, sway } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
+import { type Rain, wetness } from '../../model/weather';
 import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
 import { paintFlowerLit } from './draw-flower';
+import { closingsDue, closingStep, meanClosing } from './flower-closing';
 import { coversShown, inSightPast } from './flower-cover';
 import { FlowerHold } from './flower-hold';
 import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
 import { FlowerRing } from './flower-ring';
 import { flowerLift, flowerLiftAt } from './flower-seat';
-import { laidOut, paintShown, type Shown, unplacedShown } from './flower-shown';
+import {
+  closeShown,
+  laidOut,
+  paintShown,
+  type Shown,
+  unplacedShown,
+} from './flower-shown';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 import { containsFlower } from './hit-areas';
 import type { Lighting } from './ink';
@@ -241,13 +249,22 @@ export class FlowerBed implements Following {
 
   /**
    * Sways and blooms every flower at `t`, in seconds, each sagging under
-   * whatever of `insects` drinks at it, and rings the one `held` names, the
-   * flower picker's, where it stands; a press on a head held long enough
-   * opens the picker there.
+   * whatever of `insects` drinks at it and closing as `rain` wets the meadow
+   * (`closingsDue`), and rings the one `held` names, the flower picker's,
+   * where it stands; a press on a head held long enough opens the picker
+   * there.
    */
-  update(t: number, insects: readonly Flier[], held: string | undefined): void {
+  update(
+    t: number,
+    rain: Rain | undefined,
+    insects: readonly Flier[],
+    held: string | undefined,
+  ): void {
     this.held = held;
     this.hold.update();
+    const step = closingStep(wetness(rain, t * 1000));
+    for (const shown of closingsDue(this.shown.values(), step))
+      closeShown(shown, step);
     const ringed = held === undefined ? undefined : this.shown.get(held);
     this.ring.stand(ringed?.laid && ringed);
     const drunk = drinkingAt(insects, t * 1000);
@@ -360,6 +377,11 @@ export class FlowerBed implements Following {
         ? [{ ...pick(flower, 'id'), sound: soundOf(flowerGenes(flower)) }]
         : [];
     });
+  }
+
+  /** How far shut the flowers with room on screen are painted, on average (`meanClosing`). */
+  closing(): number {
+    return meanClosing([...this.shown.values()].filter(({ laid }) => laid));
   }
 
   /** Opens the flower `id` silent once it is planted: the key that sows it sounds it. */
