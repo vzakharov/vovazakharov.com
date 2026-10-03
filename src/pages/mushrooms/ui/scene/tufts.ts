@@ -42,7 +42,7 @@ import {
 import { LiveLawn, regrowTufts, type Sprout, sproutOn } from './lawn';
 import type { MeadowLayout } from './layout';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
-import { strayed, tendedIn, Tending, tendTufts } from './tending';
+import { Tended, tendedIn } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
 import {
   behindHills,
@@ -154,17 +154,11 @@ export class Grass {
   private seam: readonly SeamTuft[] = [];
   /** Every tuft a pulled flower left, standing or not (`leaveTufts`). */
   private left: readonly Sprout[] = [];
-  /** The tufts that stand, each taking a flower. */
-  private tufts: readonly Sprout[] = [];
+  /** The tufts that stand and the stand and eye they were tended to. */
+  private readonly tended = new Tended(this.grownRound.bind(this));
   /** The standing tufts as the last frame drew them, which a tap is judged on. */
   private shown: ShownGrass = { near: [], behind: [] };
   private view: View | undefined;
-  /** The stand the tufts were last tended to, whose mushrooms hide the tufts behind them. */
-  private stand: Stand | undefined;
-  /** The eye the tufts were last tended from (`tendedIn`). */
-  private tendedFrom: Eye | undefined;
-  /** The re-tend under way, a slice a frame, once the eye has strayed. */
-  private tending: Tending | undefined;
   private refused: Refusal | undefined;
 
   constructor(scene: Phaser.Scene, growing: Random) {
@@ -179,33 +173,13 @@ export class Grass {
   }
 
   /**
-   * Draws the grass through `view` from the next frame on; once its eye strays
-   * past the last tending (`strayed`), re-tends a slice a frame (`Tending`),
-   * the tufts last tended standing until every one is judged.
+   * Draws the grass through `view` from the next frame on, and judges the
+   * re-tend under way a slice further, or starts one once its eye strays
+   * (`Tended.follow`).
    */
   follow(view: View): void {
     this.view = view;
-    const { stand, tendedFrom, tending } = this;
-    if (tending) {
-      this.tendOn();
-    } else if (stand && tendedFrom && strayed(view, tendedFrom)) {
-      this.retend(stand, view.eye);
-    }
-  }
-
-  /** Starts a re-tend of `stand` from `eye`, its tufts gathered now and judged from the next frame on (`tendOn`). */
-  private retend(stand: Stand, eye: Eye): void {
-    this.tending = new Tending(stand, this.grownRound(stand, eye), eye);
-  }
-
-  /** Judges the re-tend under way a slice further, and stands its tufts once it has judged them all. */
-  private tendOn(): void {
-    const { tending } = this;
-    const standing = tending?.step();
-    if (!tending || !standing) return;
-    this.tufts = standing;
-    this.tendedFrom = tending.eye;
-    this.tending = undefined;
+    this.tended.follow(view);
   }
 
   /**
@@ -215,27 +189,23 @@ export class Grass {
    */
   paint(stand: Stand, random: Random): void {
     const { layout } = stand;
-    const { seed, left, growing } = this;
+    const { seed, left, growing, view, tended } = this;
     this.seam = seamGrass(layout, random);
     if (this.layout !== layout) {
       this.lawn = new LiveLawn({ seed, layout });
       this.left = regrowTufts(layout, left, growing);
       this.layout = layout;
     }
-    this.tend(stand);
+    tended.whole(stand, view?.eye ?? OPENING_EYE);
   }
 
   /**
-   * Tends the tufts to `stand` as it now stands, at once, in place of any
-   * re-tend under way: those the view's eye tends that take a flower
-   * (`grownRound`, `tendTufts`).
+   * Re-tends the tufts to `stand` as it now stands, a slice a frame from the
+   * view's eye, in place of any re-tend under way; the standing tufts it
+   * covers go at once (`Tended.change`), so none shown shakes its head.
    */
   tend(stand: Stand): void {
-    this.stand = stand;
-    this.tending = undefined;
-    const eye = this.view?.eye ?? OPENING_EYE;
-    this.tufts = tendTufts(stand, this.grownRound(stand, eye), eye);
-    this.tendedFrom = eye;
+    this.tended.change(stand, this.view?.eye ?? OPENING_EYE);
   }
 
   /**
@@ -254,17 +224,17 @@ export class Grass {
 
   /** The eye the standing tufts were tended from, which a tap on one is judged at (`Planter.tapTuft`). */
   tendedAt(): Eye {
-    return this.tendedFrom ?? OPENING_EYE;
+    return this.tended.tendedAt();
   }
 
   /** Whether a tuft stands on `foot`: where the flower picker can stay open. */
   holds(foot: Footing): boolean {
-    return this.tufts.some((sprout) => sameFoot(sprout.foot, foot));
+    return this.tended.standing().some((sprout) => sameFoot(sprout.foot, foot));
   }
 
   /** The grass as it bends at `t` through the view last followed, the tuft on `open`, the flower picker's, marked. */
   update(t: number, open: Footing | undefined): void {
-    const { graphics, behind, view, refused, tufts, seam, lawn } = this;
+    const { graphics, behind, view, refused, seam, lawn, tended } = this;
     const { mottled, mottledFor } = this;
     behind.clear();
     if (!view) {
@@ -275,7 +245,7 @@ export class Grass {
       paintMottles(mottled, shownMottles(view, lawn.mottles));
       this.mottledFor = view;
     }
-    const shown = shownSprouts(view, tufts);
+    const shown = shownSprouts(view, tended.standing());
     this.shown = shown;
     const drawn = [...shown.near, ...shown.behind];
     const drawnOf = (holds: (sprout: Sprout) => boolean) =>
@@ -311,7 +281,8 @@ export class Grass {
    * those the child sees.
    */
   inView(): Sprout[] {
-    const { view, stand, shown } = this;
+    const { view, shown, tended } = this;
+    const stand = tended.stand();
     if (!view || !stand) return [];
     const covers = coversShown(view, stand.layout, stand.mushrooms);
     return shown.near.flatMap(({ tuft, sprout }) =>

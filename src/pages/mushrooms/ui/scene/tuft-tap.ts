@@ -4,9 +4,10 @@ import { type Circle, distanceBetween, type Point } from '../../model/geometry';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { FLOWER_SWAY } from './flower-layout';
-import { flowersOf } from './flower-plots';
+import { flowersOf, type StandingFlower } from './flower-plots';
 import { sightingOf, type Stand } from './flower-sight';
 import type { Tuft, WithTuft } from './grass';
+import type { MeadowLayout } from './layout';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
 
 /** How far round its middle a tuft answers a tap at the least, in CSS px: a small finger's pad. */
@@ -56,8 +57,20 @@ export function tuftAt<Tufted extends WithTuft>(
  * control's, the controls being the screen's. `stand` is read once.
  */
 export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
-  const { layout, mushrooms } = stand;
-  const heads: Circle[] = flowersOf(stand).map((flower) => {
+  return bareAmong(stand.layout, flowersOf(stand), stand.mushrooms);
+}
+
+/**
+ * `bareToTap` among `flowers` and `mushrooms` alone, on `layout`: a tuft
+ * bare among a stand's things is bare among each of them, so the newcomers
+ * alone tell which tufts a change covers (`lostOn`).
+ */
+export function bareAmong(
+  layout: MeadowLayout,
+  flowers: readonly StandingFlower[],
+  mushrooms: Stand['mushrooms'],
+): (tuft: Tuft) => boolean {
+  const heads: Circle[] = flowers.map((flower) => {
     const { head } = sightingOf(flower, layout);
     const swayed = flower.place.size * Math.sin(FLOWER_SWAY);
     return { ...head, r: head.r + swayed };

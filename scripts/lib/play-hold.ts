@@ -55,7 +55,7 @@ const held = (id: string) => `(() => {
     cross: cross ? { x: cross.home.x, y: cross.home.y } : null,
     shown: flowers.shown.get(${JSON.stringify(id)})?.container.visible ?? false,
     pulled: pulled.includes(${JSON.stringify(id)}),
-    tufts: grass.tufts.length,
+    tufts: grass.tended.standing().length,
   };
 })()`;
 
