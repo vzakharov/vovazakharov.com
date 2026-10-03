@@ -356,3 +356,23 @@ export function drawMapButton(
   graphics.lineBetween(-arm, arm, arm, -arm);
   graphics.restore();
 }
+
+/** The close cross's arm from its middle, and its bars' width, in its button's radius. */
+const CLOSE_ARM = 0.36;
+const CLOSE_BAR = 0.1;
+
+/** The open map's button: the map button's disc, a plain cross over it in the map's ink. */
+export function drawCloseButton(
+  graphics: Phaser.GameObjects.Graphics,
+  r: number,
+): void {
+  drawDisc(graphics, r);
+  const arm = r * CLOSE_ARM;
+  const bar = Math.max(2, r * CLOSE_BAR);
+  graphics.save();
+  graphics.rotateCanvas(Math.PI / 4);
+  graphics.fillStyle(PALETTE.inkCool);
+  graphics.fillRect(-arm, -bar / 2, arm * 2, bar);
+  graphics.fillRect(-bar / 2, -arm, bar, arm * 2);
+  graphics.restore();
+}

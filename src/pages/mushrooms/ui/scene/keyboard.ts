@@ -3,7 +3,7 @@
  * keys C to B, `y u o p [` the sharps above them, `a s d f` violet's drums and
  * `q w e r` white's, `.`/`/` the octave down and up; while held, `←`/`→`
  * turn the eye, `↑`/`↓` walk it on and back, and `z`/`c` walk it sideways
- * to its left and right, any of them together. Keys are read by
+ * to its left and right, any of them together; `Esc` closes the map. Keys are read by
  * `event.code`, where they sit rather than what they print, so a Russian
  * layout plays the same.
  */
@@ -29,7 +29,10 @@ type StrafeKey = Directed & { kind: 'strafe' };
 /** A key that moves the eye while held, and so must be let go. */
 export type MoveKey = PanKey | StepKey | StrafeKey;
 
-export type KeyAction = PlayedKey | MoveKey;
+/** The key that closes the open map. */
+type CloseKey = { kind: 'close' };
+
+export type KeyAction = PlayedKey | MoveKey | CloseKey;
 
 /** The move keys, by `event.code`. */
 const MOVES: ReadonlyMap<string, MoveKey> = new Map<string, MoveKey>([
@@ -82,6 +85,7 @@ export const KEYS: ReadonlyMap<string, KeyAction> = new Map([
   ...DRUM_KEYS.map(([code, drum]): Bound => [code, { kind: 'drum', drum }]),
   ['Period', { kind: 'octave', step: -1 }],
   ['Slash', { kind: 'octave', step: 1 }],
+  ['Escape', { kind: 'close' }],
   ...MOVES,
 ] satisfies Bound[]);
 

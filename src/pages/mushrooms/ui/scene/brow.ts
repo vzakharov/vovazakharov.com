@@ -107,8 +107,11 @@ export function nearFoot(camera: Camera): number {
 
 type WhetherLit = { lit: boolean };
 
+/** A blade of grass, or a tuft of them: how tall, its lean, and whether it catches the light. */
+export type Blade = Tall & Leaning & WhetherLit;
+
 /** One blade of the brow, its height and lean in shares of the seam's reach. */
-export type BrowBlade = Azimuthed & Tall & Leaning & WhetherLit;
+export type BrowBlade = Azimuthed & Blade;
 
 /**
  * The brow's blades round the whole panorama for `camera`, clump by clump

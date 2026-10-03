@@ -81,6 +81,19 @@ export function onMap(
   return { x: middle.x + scale * across, y: middle.y - scale * along };
 }
 
+/** The plane point that shows at `at` on the map, in screen px: `onMap` undone. */
+export function fromMap(
+  { centre, sunward, middle, scale }: MapFrame,
+  at: Point,
+): Point {
+  const across = (at.x - middle.x) / scale;
+  const along = (middle.y - at.y) / scale;
+  return {
+    x: centre.x + across * Math.cos(sunward) + along * Math.sin(sunward),
+    y: centre.y - across * Math.sin(sunward) + along * Math.cos(sunward),
+  };
+}
+
 /** The screen direction, as a unit vector, that a plane heading points on the map. */
 export function headingOnMap({ sunward }: MapFrame, heading: number): Point {
   return { x: Math.sin(heading - sunward), y: -Math.cos(heading - sunward) };

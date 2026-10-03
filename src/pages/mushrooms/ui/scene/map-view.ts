@@ -11,7 +11,7 @@ import {
   type Eyed,
   OPENING_EYE,
 } from '../../model/ground';
-import { doorStations, paintedSpots } from '../../model/house';
+import { type DoorPlace, doorStations, paintedSpots } from '../../model/house';
 import {
   headingOnMap,
   type MapFrame,
@@ -27,22 +27,31 @@ import {
 } from '../../model/motion';
 import { mushroomGenes } from '../../model/mushroom-genes';
 import { OPENING_FEET } from '../../model/placement';
+import type { Seeded } from '../../model/random';
 import type { AtRatio } from './baking';
 import { sizeOn } from './clump-layout';
 import { paintFlowerHead, paintFlowerStem } from './draw-flower';
 import { paintHouse } from './draw-house';
+import { drawMapGround } from './draw-map-ground';
 import { drawMushroom } from './draw-mushroom';
 import { flowersOf } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { iconLighting } from './hud';
 import type { Lighting } from './ink';
+import type { MushroomBed } from './mushroom-bed';
 import { PALETTE } from './palette';
 import { azimuthAt } from './panorama';
-import { fillShape } from './shapes';
+import { fillShape, strokeShape } from './shapes';
 import { BUTTON_INSET } from './tap-reach';
 
-/** What the map is drawn from as it opens: the meadow as it stands, the eye, and the screen's pixel ratio. */
-export type MapSnapshot = Eyed & AtRatio & { stand: Stand };
+/**
+ * What the map is drawn from as it opens: the meadow as it stands, the eye,
+ * the screen's pixel ratio, the seed its ground grows from, and where the
+ * meadow seated each door.
+ */
+export type MapSnapshot = Eyed &
+  AtRatio &
+  Seeded & { stand: Stand; doors: Pick<MushroomBed, 'seatedDoor'> };
 
 /** How long the map takes to unfold out of its button, and to fold back, in seconds. */
 const UNFOLD = 0.3;
@@ -66,7 +75,9 @@ const SUN_RADIUS = 7;
 const SUN_RAYS = 8;
 const CHILD_RADIUS = 5;
 const ARROW = 16;
-const WEDGE_ALPHA = 0.14;
+/** The wedge on the grass: a pale veil, edged in faint indigo. */
+const WEDGE_ALPHA = 0.32;
+const WEDGE_EDGE_ALPHA = 0.55;
 /** How many rays the wedge's arc is sampled at. */
 const WEDGE_RAYS = 48;
 
@@ -180,7 +191,7 @@ export class MapView {
 }
 
 function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
-  const { stand, eye, ratio } = shot;
+  const { stand, eye, ratio, seed, doors } = shot;
   const { width, height, camera, sun } = stand.layout;
   const hairline = 1 / ratio;
   const sheet = {
@@ -189,27 +200,7 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
     width: width - 2 * BUTTON_INSET,
     height: height - 2 * BUTTON_INSET,
   };
-  pen
-    .fillStyle(PALETTE.paper)
-    .fillRoundedRect(sheet.left, sheet.top, sheet.width, sheet.height, CORNER)
-    .lineStyle(EDGE, PALETTE.paperEdge)
-    .strokeRoundedRect(
-      sheet.left + EDGE,
-      sheet.top + EDGE,
-      sheet.width - 2 * EDGE,
-      sheet.height - 2 * EDGE,
-      CORNER - EDGE,
-    )
-    .lineStyle(2, PALETTE.ink)
-    .strokeRoundedRect(
-      sheet.left,
-      sheet.top,
-      sheet.width,
-      sheet.height,
-      CORNER,
-    );
   const middle = { x: width / 2, y: height / 2 };
-  drawSun(pen, { ...pick(middle, 'x'), y: sheet.top + MARGIN / 2 + 2 });
   const flowers = flowersOf(stand);
   // The meadow a visit opens on: its clump, its seeded flowers, the eye.
   const fresh = [
@@ -232,14 +223,38 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
       height: sheet.height - 2 * MARGIN,
     },
   );
-  // Inside the paper's pale edge line, so the wedge never reaches the sky.
+  // The ground, and the wedge over it, keep inside the paper's pale edge line.
   const inner = EDGE + EDGE / 2;
-  drawView(pen, frame, eye, camera, {
+  const ground = {
     left: sheet.left + inner,
     right: sheet.left + sheet.width - inner,
     top: sheet.top + inner,
     bottom: sheet.top + sheet.height - inner,
-  });
+    corner: CORNER - inner,
+  };
+  pen
+    .fillStyle(PALETTE.paper)
+    .fillRoundedRect(sheet.left, sheet.top, sheet.width, sheet.height, CORNER);
+  drawMapGround(pen, frame, ground, seed);
+  pen
+    .lineStyle(EDGE, PALETTE.paperEdge)
+    .strokeRoundedRect(
+      sheet.left + EDGE,
+      sheet.top + EDGE,
+      sheet.width - 2 * EDGE,
+      sheet.height - 2 * EDGE,
+      CORNER - EDGE,
+    )
+    .lineStyle(2, PALETTE.ink)
+    .strokeRoundedRect(
+      sheet.left,
+      sheet.top,
+      sheet.width,
+      sheet.height,
+      CORNER,
+    );
+  drawSun(pen, { ...pick(middle, 'x'), y: sheet.top + MARGIN / 2 + 2 });
+  drawView(pen, frame, eye, camera, ground);
   const lighting = iconLighting(hairline);
   // A thing standing on `foot`, painted by `paint` round the origin, moved to
   // where it shows on the map.
@@ -287,7 +302,8 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
         const least = LEAST_CAP / genes.capWidth;
         const size = thingScale(frame, sizeOn(mushroom.foot), least);
         drawMushroom(pen, genes, size, lighting);
-        paintHome(pen, genes, size, mushroom.house, lighting);
+        const seat = doors.seatedDoor(mushroom.id);
+        paintHome(pen, genes, size, mushroom.house, seat, lighting);
       }),
     ),
   ];
@@ -305,15 +321,24 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
 
 type Genes = Parameters<typeof paintHouse>[1];
 
+/**
+ * A mushroom's windows and door as the map draws it. The meadow seats a door
+ * on the stem it splays, which the map does not; its station here is the one
+ * at the height of `seat`, or the lowest while the meadow has seated none.
+ */
 function paintHome(
   pen: Phaser.GameObjects.Graphics,
   genes: Genes,
   size: number,
   house: Parameters<typeof paintedSpots>[1],
+  seat: DoorPlace | undefined,
   lighting: Lighting,
 ): void {
   if (house.windows.length === 0 && !house.door) return;
-  const station = house.door ? doorStations(genes)[0] : undefined;
+  const stations = house.door ? doorStations(genes) : [];
+  // Stations run up the stem, so with no seat the first is the lowest.
+  const off = ({ y }: DoorPlace) => (seat ? Math.abs(y - seat.y) : 0);
+  const station = stations.toSorted((a, b) => off(a) - off(b))[0];
   const door = station && {
     station,
     popped: 1,
@@ -389,7 +414,9 @@ function drawView(
     );
     return { x: at.x + dx * reach, y: at.y + dy * reach };
   });
-  fillShape(pen.fillStyle(PALETTE.inkCool, WEDGE_ALPHA), [at, ...rim]);
+  const wedge = [at, ...rim];
+  fillShape(pen.fillStyle(PALETTE.hud, WEDGE_ALPHA), wedge);
+  strokeShape(pen.lineStyle(1.5, PALETTE.inkCool, WEDGE_EDGE_ALPHA), wedge);
 }
 
 /** The child: an indigo dot where he stands, an arrow on his heading. */

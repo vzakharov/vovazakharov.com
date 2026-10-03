@@ -856,8 +856,17 @@ export type Letter = keyof typeof LETTERS;
 const STRAFES = { KeyC: 67 } as const;
 export type Strafe = keyof typeof STRAFES;
 
+/** The key that closes the open map. */
+const CLOSES = { Escape: 27 } as const;
+type Close = keyof typeof CLOSES;
+
 /** Every key a play presses, and the key code it goes down with. */
-export const KEY_CODES = { ...ARROWS, ...LETTERS, ...STRAFES } as const;
+export const KEY_CODES = {
+  ...ARROWS,
+  ...LETTERS,
+  ...STRAFES,
+  ...CLOSES,
+} as const;
 
 /** A stepped frame's game time, in ms. */
 export const FRAME_MS = 1000 / 60;
@@ -907,7 +916,7 @@ export type Page = {
    * the browser's own repeat of a held key's press.
    */
   key: (
-    key: Arrow | Letter | Strafe,
+    key: Arrow | Letter | Strafe | Close,
     type: 'keyDown' | 'keyUp',
     held?: { repeat?: boolean },
   ) => Promise<void>;

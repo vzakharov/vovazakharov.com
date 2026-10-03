@@ -34,7 +34,7 @@ const ALONG = [0.45, 0.85] as const;
 const MOTTLE_ALPHA = 0.4;
 const MOTTLE_TONE = 0.7;
 /** How much wider a mottle's outer ring reaches than its inner one, so its edge is soft. */
-const SOFT_EDGE = 1.3;
+export const SOFT_EDGE = 1.3;
 /** How many points round a ring. */
 const RING_STEPS = 16;
 /** How far short of `D_SEE` a mottle's far edge, in the clump's size, starts fading out. */
@@ -78,7 +78,7 @@ export type ShownMottle = Translucent & {
 };
 
 /** `mottle`'s outline `reach` times its size, on the plane. */
-function ringOf(
+export function ringOf(
   { middle, across, lengthways, angle }: Mottle,
   reach: number,
 ): Point[] {
@@ -124,23 +124,40 @@ export function shownMottles(
       Math.max(...ys) < 0 ||
       Math.min(...ys) > height;
     if (off) return [];
-    const tone = mottle.deep ? PALETTE.groundDeep : PALETTE.groundLit;
-    return [
-      {
-        rings: [drawn, onScreen(ringOf(mottle, 1))],
-        tint: mix(PALETTE.ground, tone, MOTTLE_TONE),
-        alpha: (MOTTLE_ALPHA / 2) * fade,
-      },
-    ];
+    return [shownAs(mottle, [drawn, onScreen(ringOf(mottle, 1))], fade)];
   });
 }
 
-/** `shown` into `graphics` cleared for them, each ring over the last. */
+/**
+ * `mottle` drawn as `rings`, its outer ring and its inner one wherever they
+ * show: tinted toward the lit or the deep ground, at `fade` of its alpha.
+ */
+export function shownAs(
+  { deep }: Pick<Mottle, 'deep'>,
+  rings: ShownMottle['rings'],
+  fade = 1,
+): ShownMottle {
+  const tone = deep ? PALETTE.groundDeep : PALETTE.groundLit;
+  return {
+    rings,
+    tint: mix(PALETTE.ground, tone, MOTTLE_TONE),
+    alpha: (MOTTLE_ALPHA / 2) * fade,
+  };
+}
+
+/** `shown` into `graphics` cleared for them (`fillMottles`). */
 export function paintMottles(
   graphics: Phaser.GameObjects.Graphics,
   shown: readonly ShownMottle[],
 ): void {
-  graphics.clear();
+  fillMottles(graphics.clear(), shown);
+}
+
+/** `shown` into `graphics` over what it holds, each ring over the last. */
+export function fillMottles(
+  graphics: Phaser.GameObjects.Graphics,
+  shown: readonly ShownMottle[],
+): void {
   for (const { rings, tint, alpha } of shown) {
     graphics.fillStyle(tint, alpha);
     for (const ring of rings) {

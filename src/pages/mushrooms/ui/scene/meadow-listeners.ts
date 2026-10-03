@@ -22,6 +22,8 @@ type MeadowPieces = {
   voice: Pick<MeadowSound, 'start' | 'stop'>;
   /** The meadow's keys wait while it is open. */
   map: Pick<MapView, 'open'>;
+  /** The map button's press, which `Esc` makes while the map is open. */
+  fold: () => void;
 };
 
 /**
@@ -31,14 +33,17 @@ type MeadowPieces = {
  */
 export function listenOnMeadow(
   scene: Phaser.Scene,
-  { resize, tap, instrument, flowers, eye, planter, voice, map }: MeadowPieces,
+  pieces: MeadowPieces,
 ): void {
+  const { resize, tap, instrument, flowers, eye, planter, voice } = pieces;
+  const { map, fold } = pieces;
   const { scale, input, events } = scene;
   const release = () => {
     voice.start();
   };
+  const waiting = () => map.open;
   const stops = [
-    playTheMeadow(scene, instrument, flowers, eye, planter, () => map.open),
+    playTheMeadow(scene, instrument, flowers, eye, planter, waiting, fold),
     eye.listen(scene),
   ];
   scale.on(Phaser.Scale.Events.RESIZE, resize);

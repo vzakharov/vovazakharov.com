@@ -34,6 +34,7 @@ import {
 } from './flower-icons';
 import { standingOn } from './flower-layout';
 import {
+  drawCloseButton,
   drawFurnishButton,
   drawGrowButton,
   drawHouseButton,
@@ -201,11 +202,11 @@ export class Controls {
   ): void {
     this.meadow = meadow;
     this.mapOpen = mapOpen;
-    // Open, it shows the flower picker's cross, so a press visibly closes.
+    // Open, it shows a cross, so a press visibly closes.
     placeButton(this.map, layout.map, ratio, {
       look: mapOpen ? 'open' : 'shut',
       draw: (graphics) => {
-        (mapOpen ? drawPullButton : drawMapButton)(graphics, layout.map.r);
+        (mapOpen ? drawCloseButton : drawMapButton)(graphics, layout.map.r);
       },
     });
     for (const [button, home, sign] of [

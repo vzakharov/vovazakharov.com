@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { headingOnMap, mapFrame, onMap, thingScale } from './map-frame';
+import {
+  fromMap,
+  headingOnMap,
+  mapFrame,
+  onMap,
+  thingScale,
+} from './map-frame';
 
 const panel = { middle: { x: 200, y: 150 }, width: 400, height: 300 };
 const ORIGIN = [{ x: 0, y: 0 }];
@@ -69,6 +75,16 @@ describe('onMap', () => {
     const right = onMap(frame, { x: Math.cos(up), y: -Math.sin(up) });
     near(right.x, 200 + frame.scale);
     near(right.y, 150);
+  });
+});
+
+describe('fromMap', () => {
+  it('finds the plane point a screen point shows', () => {
+    const frame = mapFrame(2.3, [{ x: 3, y: -2 }], ORIGIN, panel);
+    const point = { x: -4.5, y: 7.25 };
+    const back = fromMap(frame, onMap(frame, point));
+    near(back.x, point.x);
+    near(back.y, point.y);
   });
 });
 

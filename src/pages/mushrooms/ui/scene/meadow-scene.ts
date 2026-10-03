@@ -89,8 +89,9 @@ export class MeadowScene extends Phaser.Scene {
   /** Where the frames are seen from, and what turns and walks it. */
   private readonly eye = new EyeInput(this.now);
   private readonly mapShot = (): MapSnapshot | undefined => {
-    const [stand, eye] = [this.stand(), this.eye.eye()];
-    return stand && eye && { stand, eye, ratio: this.pixelRatio() };
+    const [stand, eye, seed] = [this.stand(), this.eye.eye(), this.visitSeed];
+    const [ratio, bed] = [this.pixelRatio(), this.bed];
+    return stand && eye && bed && { stand, eye, seed, ratio, doors: bed };
   };
   private readonly map = new MapView(this.now, this.mapShot, this.eye.halt);
   /** The walk as the frames go by: the feet landing and the bob. */
@@ -174,6 +175,7 @@ export class MeadowScene extends Phaser.Scene {
     listenOnMeadow(this, {
       resize,
       tap,
+      fold: actions.map,
       instrument,
       flowers,
       eye,

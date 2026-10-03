@@ -57,7 +57,7 @@ function liveCells(cell: Cell): Cell[] {
 }
 
 /** The seed of `cell`'s stream off the lawn's `seed`: well spread for neighbouring cells. */
-function cellSeed(seed: number, { i, j }: Cell): number {
+export function cellSeed(seed: number, { i, j }: Cell): number {
   let mixed = seed >>> 0;
   for (const index of [i, j]) {
     mixed = Math.imul(mixed ^ Math.trunc(index), 0x9e_37_79_b1);

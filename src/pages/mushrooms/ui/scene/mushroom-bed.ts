@@ -5,7 +5,7 @@ import { pick } from '@/shared/lib/collections';
 import type { Meadow, Planted } from '../../model/game';
 import { placedAt, type Point } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
-import { paintedSpots } from '../../model/house';
+import { type DoorPlace, paintedSpots } from '../../model/house';
 import { headedLight } from '../../model/light';
 import {
   beckon,
@@ -171,8 +171,9 @@ export class MushroomBed implements Following {
   }
 
   /**
-   * Stands every mushroom where `layout` stands its foot, into the objects it has,
-   * and seats every door afresh among them as they now stand.
+   * Stands every mushroom where `layout` stands its foot, into the objects it
+   * has. A door keeps the station it was seated at, which is in its
+   * mushroom's own frame and so grows and shrinks with it.
    */
   paint(meadow: Meadow, layout: MeadowLayout, lighting: Lighting): void {
     this.lighting = lighting;
@@ -180,7 +181,6 @@ export class MushroomBed implements Following {
       const shown = this.shown.get(mushroom.id);
       if (shown) this.place(shown, mushroom, layout);
     }
-    this.seatDoors(meadow.mushrooms, layout, (shown) => shown.house.doored);
     this.spores.reconcile(meadow.spores, this.shown, layout, false);
     this.selection.paint(this.lit());
   }
@@ -268,6 +268,11 @@ export class MushroomBed implements Following {
       if (id === this.selected) this.selection.pose(shown);
     }
     this.runs.update(t, this.view);
+  }
+
+  /** Where on its stem the bed seated `id`'s door: `undefined` while it has none. */
+  seatedDoor(id: string): DoorPlace | undefined {
+    return this.shown.get(id)?.door;
   }
 
   /**

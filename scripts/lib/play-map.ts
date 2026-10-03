@@ -3,8 +3,10 @@
  * pressed, the sheet shot mid-unfold and open, and shut; then mushrooms
  * grown, the newest furnished, a flower planted on a tuft, the eye turned
  * and walked a little, and the map opened again on what the meadow holds
- * now; the `+` picker open as the map opens, and a flick just before it;
- * then a russula grown where the flick left the eye, and given a door.
+ * now; the `+` picker open as the map opens, and a flick just before it,
+ * the map then shut by Escape, which a second press leaves shut; then a
+ * russula grown where the flick left the eye, given a door, and the map
+ * opened on it.
  * Fails on a map that does not open or shut, one that leaves the child or a
  * flower off the sheet, mirrors the view, or draws fewer things than the
  * meadow holds; on a picker left open over it, or an eye that moves under
@@ -62,6 +64,13 @@ export async function playMap(
       !(await map()).open,
       `a tap on the open map did not shut it (${open})`,
     );
+  };
+  /** Escape shuts the open map, and leaves a shut one shut. */
+  const escape = async (when: string) => {
+    await page.key('Escape', 'keyDown');
+    await page.key('Escape', 'keyUp');
+    await page.step(UNFOLDED);
+    expect(!(await map()).open, `Escape left the map open (${when})`);
   };
   /** Opens the map, shooting it mid-unfold when `half` names the shot, then open as `open`; checks it, and shuts it. */
   const look = async (open: string, half?: string) => {
@@ -158,7 +167,8 @@ export async function playMap(
       stopped.y === later.y,
     `the eye moved under the open map: ${String(stopped.heading)} → ${String(later.heading)}`,
   );
-  await shut(screen, 'after a flick');
+  await escape('after a flick');
+  await escape('while shut');
 
   // A russula grown with the eye turned far off the opening world, as the
   // flick left it, takes a door.
@@ -173,6 +183,7 @@ export async function playMap(
     `the picker grew a ${String(grown.species.at(-1))}, not a russula`,
   );
   await furnishNewest(page, controls, expect, [DOOR]);
+  await look('m5-open-door');
 }
 
 /** Furnishes the selected mushroom, the newest, with the house picker's `pieces`, and fails unless it holds them after. */

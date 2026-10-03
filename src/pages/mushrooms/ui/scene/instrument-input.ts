@@ -67,8 +67,9 @@ function listenForChords(
  * taps: from the keyboard while the canvas holds focus (`listenForKeys`),
  * through the flowers in front of the player, `planter` planting through
  * the open flower picker or growing the flower of a sound none in view makes
- * (`playKey`), the held move keys turning, walking and strafing `eye`; and with more
- * fingers than one (`listenForChords`). Returns what stops both.
+ * (`playKey`), the held move keys turning, walking and strafing `eye`, all of
+ * it `waiting` while the map is open, which `Esc` then shuts through `close`;
+ * and with more fingers than one (`listenForChords`). Returns what stops both.
  */
 export function playTheMeadow(
   scene: Phaser.Scene,
@@ -77,6 +78,7 @@ export function playTheMeadow(
   eye: EyeInput,
   planter: Pick<Planter, 'plantSounding' | 'sowSounding' | 'sownInView'>,
   waiting: () => boolean,
+  close: () => void,
 ): () => void {
   const { canvas } = scene.game;
   const keyed: KeyedPlay = {
@@ -94,7 +96,12 @@ export function playTheMeadow(
   const stopKeys = listenForKeys(
     canvas,
     (action) => {
-      // The meadow waits under the map: a key's press does nothing, its release still lets go.
+      // The meadow waits under the map: a key's press does nothing but close
+      // it, its release still lets go.
+      if (action.kind === 'close') {
+        if (waiting()) close();
+        return;
+      }
       if (waiting()) return;
       switch (action.kind) {
         case 'pan': {

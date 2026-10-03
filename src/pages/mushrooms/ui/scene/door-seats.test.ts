@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { OPENING_EYE } from '../../model/ground';
-import { anchoredGround, placeIn } from './clump-layout';
+import { anchoredGround, laidOf, placeIn } from './clump-layout';
 import { doorSeats } from './door-seats';
+import { doorInSight, standingAt } from './door-sight';
 import { opened } from './visit-play';
 
 const stand = opened(1, 1180, 820, true);
@@ -32,7 +33,23 @@ describe('door seats', () => {
     for (const { id } of meadow) assert.ok(seats.get(id), id);
   });
 
-  it('seat a door neither world stands, its mushroom alone', () => {
+  it('seat a door from the eye as it stands now, never from the opening view', () => {
+    assert.ok(placeIn(ground, first));
+    assert.equal(placeIn(anchoredGround(ground, turned), first), undefined);
+    const seats = doorSeats(
+      ground,
+      turned,
+      meadow,
+      ({ id }) => id === first.id,
+    );
+    const alone = doorInSight(
+      standingAt(laidOf(ground.camera, first), first),
+      [],
+    );
+    assert.deepEqual(seats.get(first.id), alone);
+  });
+
+  it('seat a door the eye does not see, its mushroom alone', () => {
     const seats = doorSeats(
       ground,
       OPENING_EYE,
