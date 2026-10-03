@@ -23,6 +23,18 @@ desktop 897 → 897 (the lattice picks the same spacing everywhere). Greedy
 seating of all 10 insects, widest first, against the crowdings: 10 of 10 on
 every screen, before and after.
 
+## fliers.test.ts
+
+- "hold spots in the air apart" measured layout px against unzoomed wings,
+  the spacing T142 replaced; it now measures the drawn points at the
+  layout's anchor, each wingspan × zoom. With that measure it is red at
+  fb82ca1 (phone sideways, overlap 0.0017) and green after.
+- "caught by a tap … seven times in ten" had fly on tablet portrait at 0.704
+  at fb82ca1 and 0.691 after, over 2 visits. Over 8 visits it is 0.704 before
+  and 0.705 after, so the game did not get worse; the sample is now 8 visits
+  (`TAP_SEEDS`), the 0.7 bar unchanged. It still sits only just above the bar
+  on tablet portrait, before and after.
+
 ## Left
 
 Nothing in this package.

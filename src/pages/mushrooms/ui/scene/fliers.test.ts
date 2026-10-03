@@ -22,10 +22,13 @@ import { type Carried, flightPoint } from '../../model/insect-paths';
 import type { Flier } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
 import { blockedFor, type Held } from '../../model/perch-room';
-import { airSpots, EVERY_ONE } from './air-spots';
+import { airAlofts, EVERY_ONE } from './air-spots';
+import type { Zoomed } from './insect-away';
+import { drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import { MOST_OVERLAP, perchSight, perchSpot, seatAt } from './perch-sight';
 import { tapReach } from './tap-reach';
+import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import {
   ALL_TEN,
@@ -48,6 +51,8 @@ const playingOf = (kinds: readonly InsectKind[]): Playing => ({
   lasting: LASTING,
   tick: TICK,
 });
+/** Enough visits that the share of taps catching a fly, the hardest kind to catch, holds steady on every screen. */
+const TAP_SEEDS = VISITS.slice(0, 8);
 /** Enough visits that the flies' share of landings on spotted caps holds steady on every screen. */
 const LANDING_SEEDS = VISITS.slice(0, 20);
 /** Four butterflies and three bees, released in turn. */
@@ -81,19 +86,26 @@ const pairsOf = <Item>(items: readonly Item[]): Array<readonly [Item, Item]> =>
     items.slice(index + 1).map((other) => [item, other] as const),
   );
 
-/** Each layout's spots in the air by id, found once a layout. */
-const spotted = new WeakMap<MeadowLayout, Map<string, Point>>();
-function spotsOn(layout: MeadowLayout): Map<string, Point> {
+/** Each layout's spots in the air by id, where its anchor draws each, found once a layout. */
+const spotted = new WeakMap<MeadowLayout, Map<string, Zoomed>>();
+function spotsOn(layout: MeadowLayout): Map<string, Zoomed> {
+  const { anchor } = layout.mushrooms;
+  const view = viewAt(layout.camera, anchor);
   const spots =
     spotted.get(layout) ??
-    new Map(airSpots(layout).map((spot) => [spot.id, spot]));
+    new Map(
+      [...airAlofts(layout, anchor)].flatMap(([id, aloft]) => {
+        const drawn = drawnAloft(view, aloft);
+        return drawn ? [[id, drawn] as const] : [];
+      }),
+    );
   spotted.set(layout, spots);
   return spots;
 }
 
 /**
  * Whether two of `fliers` hold spots in the air (sit there or are heading
- * there) on which their own wings would overlap.
+ * there) on which their own wings, drawn hovering there, would overlap.
  */
 function overlapAloft({ layout }: Opened, fliers: readonly Flier[]): boolean {
   const air = spotsOn(layout);
@@ -104,7 +116,10 @@ function overlapAloft({ layout }: Opened, fliers: readonly Flier[]): boolean {
   });
   return pairsOf(held).some(([a, b]) => {
     const apart = Math.hypot(a.spot.x - b.spot.x, a.spot.y - b.spot.y);
-    return apart < (spanOn(layout, a.flier) + spanOn(layout, b.flier)) / 2;
+    const wings =
+      spanOn(layout, a.flier) * a.spot.zoom +
+      spanOn(layout, b.flier) * b.spot.zoom;
+    return apart < wings / 2;
   });
 }
 
@@ -309,7 +324,7 @@ describe('a flier in flight', () => {
       ];
       const add = (counts: Map<InsectKind, number>, kind: InsectKind) =>
         counts.set(kind, (counts.get(kind) ?? 0) + 1);
-      for (const seed of SEEDS.slice(0, 2)) {
+      for (const seed of TAP_SEEDS) {
         const stand = opened(seed, width, height, false);
         const { layout } = stand;
         const drawn = new Map<string, Drawn>();
