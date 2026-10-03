@@ -2,10 +2,10 @@
  * Spores sown and sprouted, `play-mushrooms.ts`'s run on a fresh meadow: the
  * opening clump's front cap tapped three times, one of its dots picked up,
  * and a cloud tapped. It fails where a tap leaves no dot, one off its
- * parent or one no tap reaches, where a pick-up leaves the dot or opens the flower picker, where a
- * spore sprouts before the dark sets in, or where one is still lying, or its
- * sprout is not up or not its parent's species, once the window has passed;
- * how they look is for the eye, in the frames.
+ * parent or one no tap reaches; where a pick-up leaves the dot or opens the
+ * flower picker; where a spore sprouts before the dark sets in; or, once the
+ * window has passed, where one is still lying or its sprout is not up or not
+ * of its parent's species. How they look is for the eye, in the frames.
  */
 
 import { z } from 'zod';
@@ -144,7 +144,6 @@ export async function playSprouts(
   }
   await page.shoot('sprouts-3-up');
 
-  // The frames after the sprouts are up drawn one by one, for the run's
-  // frame budget: the long steps around them each draw a single frame.
+  // For the run's frame budget: the long steps above each draw a single frame.
   await timedSteps(page, TIMED);
 }

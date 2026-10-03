@@ -327,10 +327,10 @@ export async function playWalk(
 
 /**
  * A strafe: a swipe leftward from bare ground, 150 px or to the screen's
- * edge, whichever is nearer — a finger off the screen is no longer read —
- * the ground under the finger following it and flung on from its lift, then `→` held 1.5 s under
- * Shift; each walks the eye square to a heading it never turns. The swipe
- * is shot at its lift and at rest, the key mid-way.
+ * edge, whichever is nearer, since a finger past the edge goes unread — the
+ * ground under the finger following it and flung on from its lift — then
+ * `→` held 1.5 s under Shift; each walks the eye square to a heading it never
+ * turns. The swipe is shot at its lift and at rest, the key mid-way.
  */
 async function playStrafes(
   page: Page,

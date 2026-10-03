@@ -38,8 +38,7 @@ export function seededRandom(seed: number): string {
  * Puts every scene's tweens on the stepped game clock, installed once the game
  * is up. Phaser times tweens by `Date.now()` with a lag skip, so under a
  * stepped loop a frame would show a puff or a drift wherever the wall clock
- * left it; here each step hands the tweens the game time it stepped since the
- * last, and a tween in a frame is where it is at that frame's game time.
+ * left it rather than where that frame's game time puts it.
  */
 export const STEPPED_TWEENS = `(() => {
   const game = window.__game;

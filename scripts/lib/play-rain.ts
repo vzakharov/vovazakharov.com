@@ -1,17 +1,17 @@
 /**
  * A shower, `play-mushrooms.ts`'s run on a fresh meadow: a porcini and a
  * russula grown beside the opening's fly agarics, so a flier can shelter
- * under each dome's underside, a butterfly, a fly and a bee released and
- * settled, a cloud tapped starts the rain and sends
- * them dashing under the caps; mid-shower the flowers are shut, drops fall
- * and every flier shelters while the seats under the caps wide enough last;
- * mid-way through the time they take to come out after the stop, some are
- * out and some still under; dry, the flowers are open again; and the eye
- * turned round, the rainbow shows opposite the sun. The frames the heads close over, the mid-shower ones and
- * those they reopen over are each timed against the frame budget. Every
- * moment is found on `model/weather.ts`'s own clock functions and the
- * closing's steps (`closingStep`), so the play follows the shower's timing
- * as it changes.
+ * under each dome; a butterfly, a fly and a bee released and settled; a
+ * cloud tapped starts the rain and sends them dashing under the caps;
+ * mid-shower the flowers are shut, drops fall and every flier shelters
+ * while the seats under the caps wide enough last; mid-way through the time
+ * they take to come out after the stop, some are out and some still under;
+ * dry, the flowers are open again; and the eye turned round, the rainbow
+ * shows opposite the sun. The frames the heads close over, the mid-shower
+ * ones and those they reopen over are each reported against the frame
+ * budget. Every moment is found on `model/weather.ts`'s own clock functions
+ * and the closing's steps (`closingStep`), so the play follows the shower's
+ * timing as it changes.
  */
 
 import { z } from 'zod';
