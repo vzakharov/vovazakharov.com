@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
-import { headedLight, sunLight } from '../../model/light';
+import { sunLight } from '../../model/light';
 import {
   MUSHROOM_SPECIES,
   type MushroomGenes,
@@ -32,6 +32,25 @@ import {
 } from './mushroom-light';
 import { PALETTE } from './palette';
 import { VIEWPORTS, VISITS } from './viewports';
+
+/**
+ * Asserts that `at`, a light toward the sun seen facing a heading, stands
+ * across by `sin(α − heading)`, `α` the sun's azimuth as `opening`, the light
+ * at the opening heading, gives it — so none facing the sun — its height kept.
+ */
+function assertTurnsBy(
+  opening: Point,
+  at: (facing: number) => Point,
+  what: string,
+): void {
+  const azimuth = Math.asin(opening.x);
+  assert.ok(Math.abs(at(azimuth).x) < 1e-12, `${what} facing the sun`);
+  for (const facing of [0.3, -1.2, Math.PI / 2, Math.PI, 5]) {
+    const { x, y } = at(facing);
+    assert.ok(Math.abs(x - Math.sin(azimuth - facing)) < 1e-12, what);
+    assert.equal(y, opening.y, what);
+  }
+}
 
 /** How far round the wheel a colour's hue stands from orange's. */
 function towardOrange(colour: number): number {
@@ -523,30 +542,23 @@ describe('the meadow’s light by heading', () => {
 
     // The bed judges a mushroom's sun side drifted by turning its opening
     // ground light, and repaints it in the light of the new heading.
-    it(`turns the opening's ground light by the heading into the ground light it paints, on a ${name} screen`, () => {
+    it(`paints a mushroom's ground light across by the sun's azimuth off the heading, none facing the sun, on a ${name} screen`, () => {
       for (const [slot, place] of everyPlace(mushrooms).entries()) {
         const at = (facing: number) =>
           mushroomLights(light, flyAgaricIn(place, slot), place, sun, facing)
-            .ground;
-        const opening = at(OPENING_EYE.heading);
-        for (const facing of [0.3, -1.2, Math.PI / 2, Math.PI, 5]) {
-          assert.deepEqual(headedLight(opening, facing), at(facing));
-        }
+            .ground.toward;
+        assertTurnsBy(at(OPENING_EYE.heading), at, `place ${String(slot)}`);
       }
     });
 
     // The flower bed keeps a flower's opening light and paints it turned by
-    // the heading: at the opening heading it is the light it always had.
-    it(`turns a flower's opening light by the heading into the light it paints, on a ${name} screen`, () => {
+    // the heading.
+    it(`paints a flower's light across by the sun's azimuth off the heading, none facing the sun, on a ${name} screen`, () => {
       for (const [index, foot] of flowers.entries()) {
         const genes = flowerGenes({ seed: index });
         const at = (facing?: number) =>
-          flowerLight(light, genes, foot, sun, facing);
-        const opening = at();
-        assert.deepEqual(headedLight(opening, OPENING_EYE.heading), opening);
-        for (const facing of [0.3, -1.2, Math.PI / 2, Math.PI, 5]) {
-          assert.deepEqual(headedLight(opening, facing), at(facing));
-        }
+          flowerLight(light, genes, foot, sun, facing).toward;
+        assertTurnsBy(at(), at, `flower ${String(index)}`);
       }
     });
   }
