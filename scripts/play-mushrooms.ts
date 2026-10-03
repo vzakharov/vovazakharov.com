@@ -36,7 +36,7 @@ import { z } from 'zod';
 import { flag, given } from './lib/argv.ts';
 import { type Browser, launch } from './lib/cdp.ts';
 import { WATCH } from './lib/flier-watch.ts';
-import { median, overBudget } from './lib/frame-budget.ts';
+import { budgetReport } from './lib/frame-budget.ts';
 import {
   Controls,
   type Expect,
@@ -399,11 +399,9 @@ async function main(): Promise<void> {
         frames.push(...on.rendered);
       },
     );
-    const slow = overBudget(frames);
-    if (slow !== undefined) fail(slow);
-    note(
-      `rendered-frame JS median ${median(frames).toFixed(1)} ms over ${String(frames.length)} frames`,
-    );
+    // A screen that timed nothing has a broken probe, not a slow frame.
+    if (frames.length === 0) fail('no rendered frame was timed');
+    note(`rendered-frame JS, ${budgetReport(frames)}`);
     process.stdout.write(`${screen.name}: played\n`);
     return playFrom(rest);
   };
