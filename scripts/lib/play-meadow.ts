@@ -5,7 +5,7 @@
  * house and then taking the newest, the last, and shaking its head on an
  * empty meadow, a tap on a flower closing the picker and opening the flower,
  * and the mute toggling — with the house, the insects and the buzzers played
- * between.
+ * between, and last the insects following the eye walked away from them.
  */
 
 import { z } from 'zod';
@@ -21,7 +21,7 @@ import {
 } from './mushroom-probe.ts';
 import { playBuzzers } from './play-buzzers.ts';
 import { playHouse } from './play-house.ts';
-import { playInsects } from './play-insects.ts';
+import { playFollow, playInsects } from './play-insects.ts';
 
 export async function playMeadow(
   page: Page,
@@ -159,4 +159,5 @@ export async function playMeadow(
 
   await playInsects(page, controls, expect, note);
   await playBuzzers(page, controls, expect, note);
+  await playFollow(page, expect, note);
 }
