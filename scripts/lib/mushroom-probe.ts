@@ -34,6 +34,35 @@ export function seededRandom(seed: number): string {
 })();`;
 }
 
+/**
+ * Puts every scene's tweens on the stepped game clock, installed once the game
+ * is up. Phaser times tweens by `Date.now()` with a lag skip, so under a
+ * stepped loop a frame would show a puff or a drift wherever the wall clock
+ * left it; here each step hands the tweens the game time it stepped since the
+ * last, and a tween in a frame is where it is at that frame's game time.
+ */
+export const STEPPED_TWEENS = `(() => {
+  const game = window.__game;
+  let stepped;
+  for (const name of ['headlessStep', 'step']) {
+    const run = game[name].bind(game);
+    game[name] = (time, delta) => {
+      stepped = time;
+      return run(time, delta);
+    };
+  }
+  for (const { tweens } of game.scene.scenes) {
+    let last = stepped;
+    tweens.getDelta = () => {
+      const delta = last === undefined || stepped === undefined ? 0 : stepped - last;
+      last = stepped;
+      tweens.time = (stepped ?? 0) / 1000;
+      return delta;
+    };
+  }
+  return true;
+})()`;
+
 /** Page-side helpers, installed as `window.__probe` once the game is up. */
 export const PROBE = `(() => {
   const scene = window.__game.scene.scenes[0];

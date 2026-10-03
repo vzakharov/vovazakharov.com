@@ -20,8 +20,10 @@
  * `NEXT_PUBLIC_MUSHROOM_PROBE` set, which this builds; the game loop is put to
  * sleep and stepped a frame at a time, since a screenshot under the software
  * rasterizer takes about a second and a clock left running would move on
- * between a tap and its frame. `Math.random` is seeded, so every run and every
- * build plays the same meadow. What runs in the page is `lib/mushroom-probe.ts`.
+ * between a tap and its frame. Its tweens are stepped on the same clock, so a
+ * puff in a frame is where it is at that frame's game time. `Math.random` is
+ * seeded, so every run and every build plays the same meadow. What runs in
+ * the page is `lib/mushroom-probe.ts`.
  */
 
 import { spawnSync } from 'node:child_process';
@@ -44,6 +46,7 @@ import {
   type Point,
   PROBE,
   seededRandom,
+  STEPPED_TWEENS,
 } from './lib/mushroom-probe.ts';
 import { playApproach } from './lib/play-approach.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
@@ -217,7 +220,7 @@ async function open(
   };
   await awaitGame();
   await evaluate(
-    `${PROBE}; ${WATCH}; window.__game.loop.sleep(); true`,
+    `${PROBE}; ${WATCH}; ${STEPPED_TWEENS}; window.__game.loop.sleep(); true`,
     z.boolean(),
   );
 
