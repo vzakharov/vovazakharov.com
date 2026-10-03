@@ -239,3 +239,14 @@
   to read its frames and log a moving thing's screen track, and has the
   orchestrator open two frames before deciding a report's "for a person"
   line.
+- **A "things pop in" report is diagnosed by forcing the cache fresh in the
+  page and diffing.** Bite 16's tufts appeared in batches after a turn on
+  the operator's wide window and never on the play's tabL. The probe can
+  reach a class's private state at runtime, so a throwaway play (a copy of
+  `play-mushrooms.ts` under `tmp/exp/`, one extra `PLAYS` row) counted the
+  tufts drawn, forced `tended.whole(...)` from the current eye, counted
+  again and restored: 75 drawn against 92 fresh at one turn, on a 1900 px
+  screen only. Two lessons for the skill: add an operator-sized wide screen
+  to a play whenever the report came from their desktop, since every screen
+  in `SCREENS` is a device; and prove a fix with the same fresh-versus-drawn
+  count, which a frame pair then illustrates.
