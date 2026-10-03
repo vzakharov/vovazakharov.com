@@ -1,4 +1,4 @@
-/** Where a run meets a door on the plane, and which way its runner faces on screen: pure, for `MouseRuns`. */
+/** Where a run meets a door on the plane: pure, for `MouseRuns`. */
 
 import type { Point } from '../../model/geometry';
 
@@ -21,11 +21,4 @@ export function doorFront(
     x: foot.x + (-dx * toward + dy * sideways) / away,
     y: foot.y + (-dy * toward - dx * sideways) / away,
   };
-}
-
-/** Which way a runner at `point` heading along `heading` on the plane runs on the screen of an eye at `eye`: 1 right, -1 left. */
-export function facingOn(heading: Point, point: Point, eye: Point): number {
-  const dx = point.x - eye.x;
-  const dy = point.y - eye.y;
-  return heading.x * dy - heading.y * dx >= 0 ? 1 : -1;
 }

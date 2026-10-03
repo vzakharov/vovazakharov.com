@@ -47,7 +47,8 @@ const NEARER_BY = 4;
 
 /**
  * A run followed from `from`'s door to `to`'s, its `mid` frame due once
- * `midAt` seconds have run: the frames still to shoot and what was sighted of its runner.
+ * `midAt` seconds have run: the frames still to shoot and what was sighted
+ * of its runner — its widths and where across the screen it was drawn.
  */
 type Watch = Pick<z.infer<typeof Runs>[number], 'from' | 'to'> & {
   midAt: number;
@@ -55,6 +56,7 @@ type Watch = Pick<z.infer<typeof Runs>[number], 'from' | 'to'> & {
   inn: string | undefined;
   sighted: boolean;
   widths: number[];
+  xs: number[];
 };
 
 const watching = (
@@ -63,7 +65,16 @@ const watching = (
   midAt: number,
   mid: string,
   inn?: string,
-): Watch => ({ from, to, midAt, mid, inn, sighted: false, widths: [] });
+): Watch => ({
+  from,
+  to,
+  midAt,
+  mid,
+  inn,
+  sighted: false,
+  widths: [],
+  xs: [],
+});
 
 export async function playRuns(
   page: Page,
@@ -150,7 +161,7 @@ export async function playRuns(
    * across, its `inn` frame once it has gone in.
    */
   const track = async (watch: Watch, frames: number): Promise<Watch> => {
-    const { from, midAt, mid, inn, sighted, widths } = watch;
+    const { from, midAt, mid, inn, sighted, widths, xs } = watch;
     const run = (await runs()).find((each) => each.from === from);
     if (!run || frames <= 0) return watch;
     const half = run.shown && run.elapsed >= midAt;
@@ -167,12 +178,13 @@ export async function playRuns(
         sighted: sighted || run.shown,
         widths:
           run.shown && run.width !== null ? [...widths, run.width] : widths,
+        xs: run.shown ? [...xs, run.x] : xs,
       },
       frames - 2,
     );
   };
   const follow = async (start: Watch) => {
-    const { from, to, sighted, widths } = await track(start, LONGEST_RUN);
+    const { from, to, sighted, widths, xs } = await track(start, LONGEST_RUN);
     expect(sighted, `the run from ${from} to ${to} drew no runner`);
     expect(
       (await runs()).every((run) => run.from !== from),
@@ -181,6 +193,10 @@ export async function playRuns(
     if (widths.length > 0)
       note(
         `runner ${from}→${to}: ${Math.max(...widths).toFixed(1)} to ${Math.min(...widths).toFixed(1)} px wide`,
+      );
+    if (xs.length > 0)
+      note(
+        `runner ${from}→${to}: drawn from x ${Math.min(...xs).toFixed(0)} to ${Math.max(...xs).toFixed(0)} px, a ${(Math.max(...xs) - Math.min(...xs)).toFixed(0)} px sweep`,
       );
   };
   /** Whether a run from `from` to `to` began on the tap just made. */

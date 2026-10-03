@@ -45,7 +45,7 @@ import {
   runnerAt,
   type RunOpening,
 } from '../../model/mouse-run-clock';
-import { alongPath, pathLength, sideOf } from '../../model/mouse-run-course';
+import { facingAlong, pathLength, sideOf } from '../../model/mouse-run-course';
 import { stemHalfWidth } from '../../model/mushroom-profile';
 import type { Seeded } from '../../model/random';
 import { type BedPlace, bedPlace, standAt } from './bed-place';
@@ -60,7 +60,7 @@ import {
 import type { Shown } from './mushroom-shown';
 import { PALETTE } from './palette';
 import { hazeAhead } from './repaint-queue';
-import { doorFront, facingOn } from './run-front';
+import { doorFront } from './run-front';
 import type { MeadowSound } from './sound';
 import { tapReach } from './tap-reach';
 import type { View } from './view';
@@ -301,9 +301,11 @@ export class MouseRuns {
   private lookOf(run: MouseRun): number | undefined {
     if (!this.view || !run.start || !run.end) return undefined;
     const { eye } = this.view;
-    const path = pathBetween(run.start, run.end, eye, run.course.side);
-    const { heading } = alongPath(path, 0);
-    return facingOn(heading, run.start.front, eye);
+    return facingAlong(
+      pathBetween(run.start, run.end, eye, run.course.side),
+      0,
+      eye,
+    );
   }
 
   /**
@@ -396,7 +398,7 @@ export class MouseRuns {
       ({ x, y }) => ({ x: x * scale, y: -y * scale }),
       {
         ran: moment.travelled / at.across,
-        heads: facingOn(at.heading, at.point, view.eye),
+        heads: facingAlong(at.path, moment.progress, view.eye),
         raised,
       },
       {
@@ -420,7 +422,7 @@ export class MouseRuns {
       : undefined;
   }
 
-  /** Where `run`'s runner stands at `t` along its course; `undefined` before its ends are known or with no view. */
+  /** Where `run`'s runner stands at `t` along its course, and the course; `undefined` before its ends are known or with no view. */
   private runnerPoint(run: MouseRun, t: number) {
     if (!run.start || !run.end || !this.view) return;
     const moment = runAt(Math.max(0, t - run.beganAt), run.course);
@@ -430,7 +432,7 @@ export class MouseRuns {
       this.view.eye,
       run.course.side,
     );
-    return runnerAt(moment, run.start, run.end, path);
+    return { ...runnerAt(moment, run.start, run.end, path), path };
   }
 
   private drop(run: MouseRun): void {

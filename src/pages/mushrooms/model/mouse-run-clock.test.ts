@@ -16,7 +16,7 @@ import {
   runnerAt,
   widthAlong,
 } from './mouse-run-clock';
-import { alongPath, type RunPath } from './mouse-run-course';
+import { alongPath, RUN_BOW, type RunPath, sideOf } from './mouse-run-course';
 import { mushroomGenes } from './mushroom-genes';
 
 const FRAME = 1 / 60;
@@ -220,13 +220,14 @@ describe('pathBetween', () => {
       sillHeight: 0,
     };
     const eye = { x: 0, y: 0 };
-    const path = pathBetween(from, to, eye, 1);
+    // Bowed out to the far side of its chord, still clear of the nearer front.
+    const path = pathBetween(from, to, eye, -sideOf(from.front, to.front, eye));
     let nearest = Infinity;
     for (let step = 0; step <= 100; step++) {
       const { x, y } = alongPath(path, step / 100).point;
       nearest = Math.min(nearest, Math.hypot(x, y));
     }
-    assert.ok(nearest < Math.hypot(0.1, 9.6) - 1.8 * 0.06);
+    assert.ok(nearest < Math.hypot(0.1, 9.6) - RUN_BOW * 0.06);
     const moment = runAt(1.1, course(1));
     const runner = runnerAt({ ...moment, progress: 0.2 }, from, to, path);
     assert.deepEqual(runner, {

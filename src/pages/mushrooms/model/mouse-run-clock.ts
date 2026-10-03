@@ -229,7 +229,8 @@ export const widthAlong = (from: Wide, to: Wide, progress: number): number =>
 /**
  * The course from `from`'s front to `to`'s as an eye at `eye` sees it, its
  * middle `RUN_BOW` of the wider door nearer the eye than either, bowed out
- * to `side` until it lasts `RUN_LEAST` at `RUN_PACE`.
+ * to `side` far enough that, bowed so alone, it would last `RUN_LEAST` at
+ * `RUN_PACE`.
  */
 export const pathBetween = (
   from: RunEnd,
