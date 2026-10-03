@@ -7,9 +7,9 @@ import { MeadowSound } from './sound';
  * A stand-in for Web Audio that counts the nodes built — every voice builds at
  * least one, so a count that holds still is a voice that was never made — and
  * the ones started on a suspended clock, which would all sound together the
- * moment it resumes.
+ * moment it resumes; the levels set by a held voice, and the nodes stopped.
  */
-const built = { nodes: 0, queued: 0 };
+const built = { nodes: 0, queued: 0, levels: 0, stopped: 0 };
 
 class FakeParam {
   value = 0;
@@ -23,6 +23,7 @@ class FakeParam {
     return this;
   }
   setTargetAtTime(): this {
+    built.levels++;
     return this;
   }
 }
@@ -42,7 +43,7 @@ class FakeNode {
     if (this.context.state !== 'running') built.queued++;
   }
   stop(): void {
-    // A fake node makes no sound.
+    built.stopped++;
   }
 }
 
@@ -126,6 +127,8 @@ beforeEach(() => {
   mock.timers.enable({ apis: ['setTimeout'] });
   built.nodes = 0;
   built.queued = 0;
+  built.levels = 0;
+  built.stopped = 0;
   pans.length = 0;
   page.hidden = false;
   reported.length = 0;
@@ -154,6 +157,8 @@ function askForEverything(sound: MeadowSound): void {
   sound.shy('butterfly', 0.5);
   sound.step('left');
   sound.step('right');
+  sound.whoosh();
+  sound.shower(1, 1);
 }
 
 function started(): MeadowSound {
@@ -308,6 +313,62 @@ describe('MeadowSound', () => {
     setHidden(false);
     await aTurn();
     assert.equal(built.queued, 0, 'nothing queued plays on showing');
+    sound.stop();
+  });
+
+  it('a shower is built once, and a frame at the same level builds and sets nothing', () => {
+    const sound = started();
+    const before = built.nodes;
+    sound.shower(0.5, 0.5);
+    const shower = built.nodes;
+    assert.ok(shower > before);
+    const levels = built.levels;
+    sound.shower(0.5, 0.5);
+    sound.shower(0.5, 0.5);
+    assert.equal(built.nodes, shower);
+    assert.equal(built.levels, levels);
+    sound.shower(1, 1);
+    assert.equal(built.nodes, shower, 'a new level builds nothing');
+    assert.ok(built.levels > levels, 'a new level is set');
+    sound.stop();
+  });
+
+  it('a dry meadow lets the shower go, and the next shower is built anew', () => {
+    const sound = started();
+    sound.shower(1, 1);
+    const shower = built.nodes;
+    const stopped = built.stopped;
+    sound.shower(0, 0);
+    assert.ok(built.stopped > stopped, 'its loops are stopped');
+    const dry = built.nodes;
+    sound.shower(0, 0);
+    assert.equal(built.nodes, dry, 'a dry frame costs nothing');
+    sound.shower(0.2, 0.2);
+    assert.ok(built.nodes > shower);
+    sound.stop();
+  });
+
+  it('a shower before the synth exists is not kept for it', () => {
+    assert.equal(
+      builtOnStart((early) => {
+        early.shower(1, 1);
+      }),
+      0,
+    );
+  });
+
+  it('a shower comes in on unmute while it still rains', async () => {
+    const sound = started();
+    sound.toggleMuted();
+    mock.timers.tick(1000);
+    await aTurn();
+    const muted = built.nodes;
+    sound.shower(1, 1);
+    assert.equal(built.nodes, muted);
+    sound.toggleMuted();
+    await aTurn();
+    sound.shower(1, 1);
+    assert.ok(built.nodes > muted);
     sound.stop();
   });
 
