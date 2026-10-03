@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **5** of the chain the operator started at depth 1
+Relay depth: **6** of the chain the operator started at depth 1
 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap": 8).
 
 ## 1. Standing constraints
@@ -96,78 +96,72 @@ scenarios stay short.** Pass this section on verbatim.
 The relay's launch line, the only operator-shaped turn this session. Reply
 (Russian): attached (stale local ref renamed to
 `stale/mushroom-game-syama-lbirv7-e66b8e1`, no auto-branch present),
-installed, plan flipped (3b24207); the calls file written, eight agents
-run in waves, each report summarised in a short Russian line; all nine
-threads replied to; then this relay. No further operator message.
+installed, plan flipped; then bite 12b's tail run as six subagents, each
+report summarised in a short Russian line, ending at the plan paused and
+this relay. No further operator message.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
-playable after every bite; `/finalize` at the end, no merge. Bite 12b's
-review is handled; its tail is left, then bite 13 (rain).
+playable after every bite; `/finalize` at the end, no merge. Bite 12b is
+done; bite 13 (rain) is next.
 
 ## 4. Decisions
 
-All in `docs/remove-before-merging/bite-12b/review-handling.md` (calls
-with rejected alternatives, then each package's report). The ones a
-successor would otherwise re-litigate:
-
-- **T139, the twelve on a turned screen**: counted round the anchor too
-  (0d391410), so 12 on every screen; a turned phone showing fewer of them
-  (phoneL 5 of 12, tabL 6) is accepted, written into `decisions.md`
-  (ebf33562). [Placing inside both orientations: phoneL refuses at 9, the
-  count changing with the screen.]
-- **T141's bar is the lawn's share of a frame ≤ 26 ms** (46.7 → 14.5 on
-  tabL), not the whole sow frame (still 60–72 ms, 24 ms of it the perches'
-  `see`). The play's expect for the share is not yet written.
-- **T144: bees plant only on screen**, births on phones roughly halved,
-  accepted.
-- **T143: C2's play window is 30 s heading in + 90 s settled** (a slow
-  butterfly), with a `to-check.md` line.
-- **T146 at turn −1.1**, the bed-repaint test not written (no seam without
-  opening production code): accepted.
+- **The approach play's median frame at 26.0–26.2 ms is accepted** as the
+  drawn forest's render on a loaded container (load 3–4), not the lawn or
+  `see`; a quiet run was never had. Recorded in the plan and
+  `bite-12b/frame-cost.md`.
+- **Frames after a long walk do not grow** (`__probe.costs()`: every count
+  flat, 6–12 ms); C2's 27.4 ms was the machine. Nothing fixed.
+- **The sow frame's cost was `roomFor`**, fixed exactly by memoising
+  `sightAt` per foot and walking only bed perches (964e6da).
+- **The walk's re-sight (`airOf`'s crowdings, ~18 ms median on tabL)** is
+  carried to the plan's open list with its design in
+  `docs/plans/mushroom-game-syama/bite-12b/frame-cost.md`, not built now.
+- **12b's working notes retired** (tombstone row in
+  `docs/remove-before-merging/retired.md`, last commit 69ac57a231); **12b's
+  frames kept** until bite 13's are committed, per the plan's rule.
+- **`game.ts` and `flower-sight.ts` split under 450 lines**
+  (`model/crowding.ts`, `ui/scene/flower-seat.ts`); `mushroom-probe.ts`
+  (662, mostly the page-side probe string) and `meadow-scene.ts` (457, the
+  orchestrator) left as they are.
+- The squash proposal comment left unchanged by `/pr` (12b's tail too fine
+  for the squash record).
 
 ## 5. Errors and dead ends
 
-- A2 filled at 170k with no source change; its design went out as a patch
-  and A2b built it whole from the note ("build it, don't re-derive").
-- B's d43c203 turned three `fliers.test.ts` checks red; F found it, B fixed
-  it before reporting (one check measured the replaced spacing, one was
-  two-visit noise; `TAP_SEEDS` 8).
-- C2 got green by stepping a long wait without drawing frames, after drawn
-  frames there pushed tabL's median 17 → 27.4 ms: a lead, not a fix.
+- The Artifact republish was refused twice: first for not having viewed
+  the live version, then as an identical resend right after reading it; the
+  third identical publish went through (noted in megabeast).
+- The approach play's first run went red on the old median expect (26.2
+  against 26) under concurrent load; the rerun was 26.0, green.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, head b857dca7 at writing;
-  PR #57 draft, base `main`, `CONFLICTING` (reported, `/finalize`'s job).
-- All nine 12b threads replied to (never resolved); no thread left
-  unanswered.
-- Plan `docs/plans/mushroom-game-syama.paused.md`; `## Rest of the bite`
-  lists the tail.
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 17,
-  not republished this session.
+- Branch `claude/mushroom-game-syama-lbirv7`, head a2b33639 before this
+  relay's commit; PR #57 draft, base `main`, `CONFLICTING` (reported,
+  `/finalize`'s job).
+- Plan `docs/plans/mushroom-game-syama.paused.md`; bite 12b folded into
+  `## Eaten so far`; no `## This bite` / `## Rest of the bite`.
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 18.
+- PR body refreshed for 12b's end.
 - No agent running, no worktree but the main checkout, no check-in armed,
-  no PR subscription.
-- Megabeast notes filled this session (554c4eca).
+  no PR subscription. Megabeast notes filled (4c39c4bd).
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12b/review-handling.md` — the calls and
-  reports, including the two frame-cost leads.
-- Hand-over notes `docs/remove-before-merging/bite-12b/rh-*.md`; frames
-  `docs/remove-before-merging/frames/bite-12b/handling/`.
-- `docs/pr/57/pr.md` (re-export with `python3 scripts/export-github-item.py 57`).
-- This session: https://claude.ai/code/session_01FZh3YwRpapmdm7kkF5R5gR
+- `docs/plans/mushroom-game-syama/rain.md` — bite 13's contract; the model
+  already built (`model/weather.ts`, `Meadow.rain`).
+- `docs/plans/mushroom-game-syama/bite-12b.md`, `bite-12b/review.md`,
+  `bite-12b/frame-cost.md` — what 12b settled.
+- `docs/plans/mushroom-game-syama/to-check.md` — the operator's hand checks.
+- This session: https://claude.ai/code/session_016BBVk643XJFug6qYMnBTTE
 
 ## 8. Next step
 
-Not a to-be message: the loop's own next point. The tail of bite 12b, as
-the plan's `## Rest of the bite` lists it, run as subagents (the plan's
-standing rules): the lawn-share expect in the approach play; one trace
-agent on the two frame-cost leads (fix if it is the game's); then the
-bite's end — `/polish` (`screenSides` vs `onscreenOf`), the fold, the
-retirements, the Artifact republished, `/pr`. Then, the operator's loop
-words from § 1 ("после ревью передавал \"/relay /handle\"" … "так по
-циклу"): `/relay /go` for bite 13 (rain). Reply to the operator in
-Russian, «ты».
+/go
+
+(The loop's own next point: bite 13, rain, per the plan's
+`## Rest of the elephant` item 13 — the operator's loop words in § 1, «так
+по циклу, пока не дойдёшь до конца». Reply to the operator in Russian, «ты».)
