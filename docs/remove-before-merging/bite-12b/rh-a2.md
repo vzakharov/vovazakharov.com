@@ -1,7 +1,7 @@
 # rh-a2 — T141, a scene-asked tend in slices
 
-Step one (the patch, Left 1 and 3) landed as source; Left 2 and 4 remain,
-designed below.
+All four of the note's items are done (06920038, 89244ebd). One bar is open,
+for the orchestrator: § "Open".
 
 ## Done
 
@@ -58,29 +58,42 @@ setup takes 0.5–3 ms. A forest has 12 mushrooms and about 420 grown tufts,
 of which 69–73 stand; judging them costs 30–57 µs a tuft (12–24 ms a sector).
 A clump costs 12–26 µs a tuft.
 
-## Left
+- **The sow frame** (89244ebd): `Tended` passes the `follow` right after a
+  `change`, so a re-tend's rules (0.3–5 ms) land on the next frame rather
+  than on the sow's, which `MeadowScene.update` runs before the walk. The
+  `Tended` test counts the follows, so it fails without the skip.
+- **Probe and play** (89244ebd): the probe's `tendFrames()` gives each frame
+  whose update ran a tending call, as `{ ms, tend }`: the update's ms and the
+  tending calls' share of it. A call made inside another timed one, such as
+  `change` → `retend`, counts once. `beePlanted()` counts bee plantings.
+  `play-approach.ts` releases `INSECT_LIMITS.bee` bees before growing the
+  forest, and notes those frames across the whole approach.
 
-2. **Watch the sow frame.** `MeadowScene.update` runs `sow()` before
-   `walk()`, so the `Tending` that `change` starts takes its first step,
-   which reads the rules (`plantableIn`, 0.5–3 ms), in the sow's own frame.
-   Either skip one `follow` after `change`, or hand the lazy judge from
-   `lostOn` to the `Tending` when `sameAnchor(anchorOf(tendedAt),
-anchorOf(view.eye))`. Decide after timing.
-3. **Probe and play** (`scripts/lib/`):
-   - `mushroom-probe.ts`: the tend timing is on `scene.grass.tended`
-     already (Done). Still to add: record the
-     scene's `update` ms for each frame that ran a tend, since headless
-     frames have no rendered ms.
-   - `play-approach.ts`: release bees to `INSECT_LIMITS.bee` before growing
-     the forest, so plantings land during the timed run. Read `hitches()`
-     across the whole approach, note the bee plantings, and expect the
-     slowest frame carrying a tend to be ≤ 26 ms. Export `FRAME_BUDGET_MS`
-     from `frame-budget.ts` for that.
-   - Measure **before** on `src/` at 5cc0bb58 (before this package) with
-     only the probe and play changes, timing `tend`, `retend` and `tendOn`
-     on `scene.grass` there, then after. Run under
-     `flock /home/user/vovazakharov.com/tmp/site.lock pnpm play:mushrooms
---screens tabL --plays approach`.
+## Timing, tabL approach, 20 bee plantings
+
+This machine was loaded during these runs: frames with no tending or
+re-sight took a 26–28 ms median, against 14–20 ms when it is quiet.
+
+|                                          | before (5cc0bb58 `src/`)       | after                                                     |
+| ---------------------------------------- | ------------------------------ | --------------------------------------------------------- |
+| a sow's tending call                     | 10–47 ms (`Grass.tend`, whole) | `change` 1–8 ms, plus `tendOn` 0.3–5 ms on the next frame |
+| the tending's share of a frame, slowest  | 46.7 ms                        | 14.5 ms (a walk slice; median 1.3)                        |
+| a frame that ran a tending call, slowest | 174 ms                         | 60–72 ms                                                  |
+
+## Open
+
+**The bar "the slowest frame that runs a tend ≤ 26 ms" cannot hold as
+written.** The frames that stay slow after the change are slow for
+other reasons. The perches' re-sight (`see`, 20–90 ms) runs in the same
+frames, along with the sow's own work. In the slowest after-frame, 68 ms in
+all, the tending took 12 ms and `see` took 24 ms. So the play notes the
+numbers and does not judge them. The options, measured above:
+
+- (a) Judge the tending's share of a frame against the budget. That holds
+  after (14.5 ms on a loaded machine) and fails before (46.7 ms).
+- (b) Keep the frame bar, and take `see` off the sow frame. The perches
+  belong to another package.
+- (c) Keep the frame bar and leave it red.
 
 ## Decided
 
