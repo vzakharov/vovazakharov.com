@@ -323,6 +323,21 @@ holds its detail and the next step's API.
   stands where each sample puts it. Left: the eye's own step follows the
   samples one to one and can stutter where they straddle frames
   (`to-check.md`).
+- **X1** 1b6c5093 — `ui/scene/runner-shown.ts` takes `doorEnd` and
+  `drawRunner` out of `mouse-runs.ts` (451 → 424); call 29: each end a
+  `PaintedEnd` (the `RunEnd` plus the house's size and lighting), taken at
+  the start and a re-target and refreshed while its door stands, so
+  `move()` reads no `shown`; `doorEnd` passes `shown.foot` (call 31).
+  `play-runs.ts` follows several runs, expecting each shown every frame
+  from hop down to hop in, and its step 4 is the review's scenario (red on
+  the old lookup, green on tabL and phoneP). A fleeing runner keeps the
+  light its house had when it sank. Replied on 4173549169 and 4173549179.
+- **Squash landing** from here on: each agent pushes its steps to
+  `wt/<package>` and lands one commit (`brief-common.md`); the operator
+  asked why the branch carried ~2900 commits (990 cost rows, 423 pull
+  merges). The cost hook commits a row only after the operator writes
+  (52f6bf0b), dogfooded here before an issue on vzakharov/muthur (draft in
+  `docs/remove-before-merging/bite-15/c.md`).
 
 Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
 `Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's

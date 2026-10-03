@@ -118,3 +118,18 @@
   found every "call N" pointing at the wrong call. Each call is a
   paragraph of its own with an escaped number (`22\. **…**`), which
   prettier leaves alone. The skill's plan template should start that way.
+- **A branch's commit count is mostly the loop's own noise, and both
+  sources are cut at the root.** By bite 15 PR #57 carried 2896 commits:
+  990 cost rows (the `Stop` hook committed one at every turn's end, and an
+  orchestrator's turns end at every agent report and check-in) and 423
+  `pull --no-rebase` merges, one per agent push; code was under a quarter.
+  The operator asked («откуда стока?»). Each agent now pushes its steps to
+  its own `wt/<package>` (restarts still lose nothing) and lands one squash
+  commit on the shared branch; the cost hook commits only when an
+  operator record (`origin.kind` or a queued attachment's
+  `attachment.origin.kind` `"human"`) follows the last row's marker, with
+  `/relay` and `/finalize` flushing (52f6bf0b), dogfooded on the branch
+  before an upstream issue. Four agents in a row landed one commit each.
+  `git push --delete` hangs at the proxy; `gh api -X DELETE
+repos/<o>/<r>/git/refs/heads/wt/<package>` works. The skill's common
+  brief carries the squash landing from the template.

@@ -340,10 +340,14 @@ Item 15, **the house's dwellers** (the operator's asks in
 only to another door, a mouse is sized to its door, a window answers a tap
 with a worm. Calls, waves, build log: [bite-15.md](mushroom-game-syama/bite-15.md);
 briefs: `docs/remove-before-merging/bite-15/`. Built: every package
-(R1–R7, W1–W4), both reviews posted, the worms' fixed and replied to.
-Left: the runs' review fixes (calls 29–33, review 5401240514: two
-blocking, two nits, the `type-overlap` red), each finding replied to with
-its commit; then the tail — fold into `## Eaten so far` and a
+(R1–R7, W1–W4), both reviews posted, the worms' fixed and replied to; of
+the runs' review, calls 29 (X1), 31 (X3) and 33, each replied to; the
+operator's calls 34 (K, keys) and 35 (D, the drag strafe). Left: call 30
+(a tap on a doorway holding a run's mouse, `mouse-runs.ts` tap handling
+and `model/mouse-run.ts`'s `answerTap`, thread 4173549175) and call 32
+(a re-target straight, and `retarget`'s far fallback, thread 4173549183) — one agent each, their functions granted by name since both
+touch `mouse-runs.ts` and `mouse-run.ts`; each replied to with its
+landed SHA. Then the tail — fold into `## Eaten so far` and a
 `bite-15.md` rewrite at its altitude, retire bite 14's frames and bite
 15's working notes (keep `frames/bite-15/`), republish the Artifact,
 `/polish` sized by changed lines (~3.7k since 9096cfb8), vet, `/pr`.
