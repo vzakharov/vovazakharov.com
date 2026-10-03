@@ -8,6 +8,7 @@ import {
   drawnUnder,
   flowerTakes,
   type MushroomTarget,
+  type WithTapArea,
 } from './mushroom-tap';
 import { tuftUnder } from './tufts';
 
@@ -57,9 +58,8 @@ export function containsFlower(petals: () => number) {
 }
 
 /** A shown mushroom's graphics and its tap area, in that graphics' own frame. */
-export type DrawnMushroom = {
+export type DrawnMushroom = WithTapArea & {
   object: Phaser.GameObjects.Graphics;
-  area: TapArea;
 };
 
 /** The scene's mushrooms that take a tap, in the scene's display order. */

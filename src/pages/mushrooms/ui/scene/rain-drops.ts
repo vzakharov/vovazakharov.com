@@ -42,19 +42,20 @@ const RING = { key: 'rain-ring', wide: 64, tall: 24, line: 5 } as const;
 type CapLanding = { cap: Phaser.GameObjects.Graphics; local: Point };
 type Landing = { foot: Point } | CapLanding;
 
-/** One of the pool's drops: falling while it has a `landing` and has not `landed`, then splashing. */
+/** One of the pool's drops: falling while it has a `landing` and has not splashed, then splashing. */
 type Slot = {
   drop: Phaser.GameObjects.Image;
   ring: Phaser.GameObjects.Image;
   landing: Landing | undefined;
   /** How far above its landing the drop started, in px, and when, in seconds. */
   fall: number;
-  at: number;
-  landed: number | undefined;
+  droppedAt: number;
+  /** When it landed and its ring began, in seconds; `undefined` while it falls. */
+  splashedAt: number | undefined;
   /** Whether a gush started it, so it falls outside the steady count. */
   gushed: boolean;
-  /** How big it is drawn, from `FAR_SIZE` at the brow to 1 at the screen's foot. */
-  size: number;
+  /** How big it is drawn, as a factor from `FAR_SIZE` at the brow to 1 at the screen's foot. */
+  nearness: number;
 };
 
 function bake(scene: Phaser.Scene): void {
@@ -176,10 +177,11 @@ export class RainDrops {
     Object.assign(slot, {
       landing: cap ? pick(cap, 'cap', 'local') : { foot },
       fall: fall * (cap?.along ?? 1),
-      at: t,
-      landed: undefined,
+      droppedAt: t,
+      splashedAt: undefined,
       gushed,
-      size: FAR_SIZE + (1 - FAR_SIZE) * ((row - brow) / (view.height - brow)),
+      nearness:
+        FAR_SIZE + (1 - FAR_SIZE) * ((row - brow) / (view.height - brow)),
     });
     return true;
   }
@@ -207,7 +209,7 @@ export class RainDrops {
     const idle = this.slots.find(
       (slot) =>
         !falling(slot) &&
-        (slot.landed === undefined || t - slot.landed >= SPLASH_S),
+        (slot.splashedAt === undefined || t - slot.splashedAt >= SPLASH_S),
     );
     if (idle || this.slots.length >= SLOTS) return idle;
     const { scene, depth, slots } = this;
@@ -221,10 +223,10 @@ export class RainDrops {
       ring: scene.add.image(0, 0, RING.key).setDepth(depth).setVisible(false),
       landing: undefined,
       fall: 0,
-      at: 0,
-      landed: undefined,
+      droppedAt: 0,
+      splashedAt: undefined,
       gushed: false,
-      size: 1,
+      nearness: 1,
     };
     slots.push(slot);
     return slot;
@@ -248,9 +250,9 @@ export class RainDrops {
       slot.ring.setVisible(false);
       return;
     }
-    const scale = slot.size * view.height;
-    const left = slot.fall - FALL_SPEED * view.height * (t - slot.at);
-    if (slot.landed === undefined && left > 0) {
+    const scale = slot.nearness * view.height;
+    const left = slot.fall - FALL_SPEED * view.height * (t - slot.droppedAt);
+    if (slot.splashedAt === undefined && left > 0) {
       slot.drop
         .setPosition(at.x - SLANT * left, at.y - left)
         .setScale((scale * STREAK_LONG) / STREAK.long)
@@ -258,8 +260,8 @@ export class RainDrops {
       return;
     }
     slot.drop.setVisible(false);
-    slot.landed ??= t;
-    const age = (t - slot.landed) / SPLASH_S;
+    slot.splashedAt ??= t;
+    const age = (t - slot.splashedAt) / SPLASH_S;
     if (age >= 1) {
       slot.landing = undefined;
       slot.ring.setVisible(false);
@@ -275,5 +277,5 @@ export class RainDrops {
 }
 
 function falling(slot: Slot): boolean {
-  return slot.landing !== undefined && slot.landed === undefined;
+  return slot.landing !== undefined && slot.splashedAt === undefined;
 }

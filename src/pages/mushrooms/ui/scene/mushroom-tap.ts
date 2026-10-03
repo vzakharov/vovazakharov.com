@@ -12,11 +12,11 @@ export function drawnHolds(area: TapArea, at: Point): boolean {
   return TAP_PARTS.some((part) => containsPoint(area[part], at));
 }
 
+/** A mushroom's tap area: the parts a tap or a drop lands on, in its own frame. */
+export type WithTapArea = { area: TapArea };
+
 /** A mushroom as a tap finds it: its tap area, and a point on screen in that area's frame. */
-export type MushroomTarget = {
-  area: TapArea;
-  local: (at: Point) => Point;
-};
+export type MushroomTarget = WithTapArea & { local: (at: Point) => Point };
 
 /**
  * A mushroom of `genes` drawn `size` px to its unit, its foot at `foot` and
