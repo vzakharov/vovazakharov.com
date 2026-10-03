@@ -244,7 +244,9 @@ The scene paints with `draw-*.ts`, `paint-dome.ts`, `paint-trumpet.ts` and
 `paint-backdrop.ts` (`paint-sky.ts`, `paint-land.ts`, `skyline.ts`): the sky
 rows, the ground rows and one grain texture baked once a paint (`baking.ts`)
 in bands, the glow, sun and wash small bakes slid by azimuth, the hills and
-the brow live Graphics redrawn on a turn; no filters or gradient fills. One light, `sunLight` (`model/light.ts`),
+the brow live Graphics redrawn on a turn; no filters or gradient fills. A
+mushroom's chords follow its drawn size (`curveSteps`), since Phaser
+re-triangulates every Graphics each frame; its tap outline keeps full detail. One light, `sunLight` (`model/light.ts`),
 reaches every bed and painter; every ink comes from `inkFor` (`ink.ts`);
 `palette.ts`, `palette-backdrop.ts` and `palette-creatures.ts` hold every
 colour literal (bite-07.md, bite-08.md).
@@ -310,14 +312,16 @@ where it was drawn (3c7d9b6), `fliers.test.ts` whole and green after it;
 the probe timing the sliced re-tend (bb71c2b); tabL `veer` green at
 `DASH_SLACK` 1.25; the cap-rest wait a minute (c274649); a flier's body
 turned by its drawn, unsunk step (70fc342, 2d5283a); every play green on
-tabL, tabP and phoneP; `/polish` closed (385453f).
-**Left**, in order: the turn-rate watch judging a frame only while the
-body's middle is on screen (bee-12 on phoneL, `tail-turn.md` § Left), then
-phoneL `meadow` once; phoneL `approach` once on a quiet container (its
-47 ms median ran beside the polish agents' tests); every play on phoneS,
-**one agent, one play per call**; then the Artifact republished, `/pr`,
-and 12b's own review session. Each package's commits and the
-orchestrator's calls: `docs/remove-before-merging/bite-12b/waves.md`.
+tabL, tabP and phoneP; `/polish` closed (385453f); the turn-rate watch judging a frame only while
+the body's middle is on screen (74574f4), phoneL `meadow` green; every
+play green on phoneS; phoneL `approach`, red on a quiet container too
+(31 ms against 26, Phaser re-triangulating every mushroom's Graphics each
+frame), green at 18.4 ms once a far mushroom paints fewer chords
+(`curveSteps` in `model/mushroom-profile.ts`, 567702f); the Artifact
+republished at the tail's head.
+**Left:** `/polish` over the tail since 385453f, `/pr`, then 12b's own
+review session. Each package's commits and the orchestrator's calls:
+`docs/remove-before-merging/bite-12b/waves.md`.
 
 ## Rest of the elephant
 
