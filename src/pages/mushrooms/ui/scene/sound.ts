@@ -112,6 +112,14 @@ const squeak: Voice = (context, out) => {
   tone(context, out, 'sine', [2100, 2900], 0.1, 0.09, 0.2);
 };
 
+/** One tick of a running mouse's patter, a little different each time, `level` of its full loudness. */
+const patter =
+  (level: number): Voice =>
+  (context, out) => {
+    const high = 1500 + Math.random() * 500;
+    tone(context, out, 'triangle', [high, high * 0.6], 0.03, 0.05 * level);
+  };
+
 const bird: Voice = (context, out) => {
   const notes = 2 + Math.floor(Math.random() * 3);
   const high = 2600 + Math.random() * 900;
@@ -269,6 +277,11 @@ export class MeadowSound {
 
   squeak(): void {
     this.play(squeak);
+  }
+
+  /** A running mouse's patter tick at `pan` (-1 left to 1 right), `level` of its full loudness; dropped before `start`, as a step is. */
+  patter(pan: number, level: number): void {
+    if (this.context) this.play(panned(patter(level), pan));
   }
 
   /**

@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { doorStations } from './house';
 import {
   endOf,
+  hop,
   RUN_LEGS,
   RUN_PACE,
   runAt,
@@ -185,8 +186,8 @@ describe('runnerAt', () => {
 
   it('arcs over the line between sill and ground as it hops', () => {
     const start = legStarts(run).get('leave') ?? 0;
-    const hop = runnerAt(runAt(start + 0.125, run), from, to);
-    assert.ok(hop.up > from.sillHeight / 2);
+    const hopping = runnerAt(runAt(start + 0.125, run), from, to);
+    assert.ok(hopping.up > from.sillHeight / 2);
   });
 });
 
@@ -199,5 +200,24 @@ describe('endOf', () => {
     assert.equal(end.across, lowest.width * 0.5);
     assert.ok(end.sillHeight > 0);
     assert.ok(end.sillHeight < lowest.y * 0.5);
+  });
+});
+
+describe('hop', () => {
+  it('jumps once from the ground and lands, nothing before the tap or after', () => {
+    assert.equal(hop(-0.1), 0);
+    assert.equal(hop(-Infinity), 0);
+    assert.equal(hop(0), 0);
+    assert.ok(hop(0.15) > 0.4);
+    assert.ok(hop(0.05) < hop(0.15) && hop(0.25) < hop(0.15));
+    assert.ok(hop(0.3 - 1e-9) < 1e-6);
+    assert.equal(hop(0.3), 0);
+    assert.equal(hop(Infinity), 0);
+  });
+
+  it('rises and falls by no more than a little between frames', () => {
+    for (let t = 0; t < 0.4; t += FRAME) {
+      assert.ok(Math.abs(hop(t + FRAME) - hop(t)) < 0.1, `at ${t}`);
+    }
   });
 });
