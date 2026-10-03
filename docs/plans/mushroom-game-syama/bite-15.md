@@ -218,6 +218,24 @@ second loop from 30 px away.
 `FaceFrame`) is a coincidence of names: the course's member is renamed for
 what it means (the bow's sign).
 
+## Calls from the operator's play
+
+34\. **`z`/`c` strafe left/right while held, `.`/`/` step the octave down
+/up, and Shift does nothing to the arrows** (the operator: «переключение
+октав сделаем `.` и `/` … а `z` и `c` переделаем для стрейфа (убрав для
+него шифт+стрелки) — тогда можно будет одновременно стрейфиться и
+поворачивать, как в компьютерных играх»). A strafe key and a turning
+arrow held together strafe and turn at once. `x` is left unbound. Read by
+`event.code` as every key is (`KeyZ`, `KeyC`, `Period`, `Slash`).
+
+35\. **A strafe by drag moves the ground smoothly under the finger** (the
+operator: «при стрейфе перетаскиванием как-то дёргано всё идёт (с
+клавиатуры нормально)», suspecting call 37 of bite 14, 7d0b6871; ccfff90d
+"the ground stays under a moving finger" landed the same day). A defect:
+the cause is traced against the commit before each suspect, then fixed;
+no call 37 behaviour (the chase easing on the lift, a key cancelling it)
+is given up for it.
+
 ## Built
 
 Each package's hand-over note under `docs/remove-before-merging/bite-15/`
