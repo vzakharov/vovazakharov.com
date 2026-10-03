@@ -4,7 +4,7 @@ import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Point, sample } from '../../model/geometry';
 import { headedLight } from '../../model/light';
 import { mix } from './colour';
-import { type Folding, OPEN } from './flower-closing';
+import { BUD, type Folding, OPEN, petalPose } from './flower-closing';
 import type { HeadReach } from './flower-seat';
 import { petalColour } from './flower-tints';
 import { facingArc, inkFor, type Lighting, TAPER } from './ink';
@@ -54,11 +54,14 @@ function paddle(
   }).slice(0, -1);
 }
 
+/** A ring of petals: its reach as a share of the outer ring's, its turn from it, and its colour. */
+type Ring = readonly [number, number, number];
+
 function paintRing(
   graphics: Phaser.GameObjects.Graphics,
   genes: FlowerGenes,
   size: number,
-  [reach, turn, colour]: readonly [number, number, number],
+  [reach, turn, colour]: Ring,
   ink: number,
   lighting: Lighting,
   folded: Folding,
@@ -66,17 +69,26 @@ function paintRing(
   const { toward } = lighting;
   const away = { x: -toward.x, y: -toward.y };
   const open = genes.petalLength * size * reach;
-  const length = open * folded.reach;
-  const span = [genes.centre * size * 0.5 * folded.inner, length] as const;
+  const span = [genes.centre * size * 0.5, open] as const;
   const outline = genes.petal === 'pointed' ? petal : paddle;
   const width = open * genes.petalWidth * folded.width;
-  for (let index = 0; index < genes.fold; index++) {
-    const angle = genes.twist + turn + (index * Math.PI * 2) / genes.fold;
-    const shape = outline({ x: 0, y: 0 }, angle, span, width);
+  const angles = Array.from(
+    { length: genes.fold },
+    (_, index) => genes.twist + turn + (index * Math.PI * 2) / genes.fold,
+  );
+  // Past halfway shut the petals overlap as a bud's do, the lower ones in front.
+  const order =
+    folded.closing < 0.5
+      ? angles
+      : angles.toSorted((one, other) => Math.sin(one) - Math.sin(other));
+  for (const openAngle of order) {
+    const pose = petalPose(openAngle, span, folded.closing);
+    const shape = outline(...pose, width);
     inkedFill(graphics, shape, colour, ink, lighting);
+    const [foot, angle, [, length]] = pose;
     const middle = {
-      x: Math.cos(angle) * (span[0] + span[1]) * 0.5,
-      y: Math.sin(angle) * (span[0] + span[1]) * 0.5,
+      x: foot.x + Math.cos(angle) * length * 0.5,
+      y: foot.y + Math.sin(angle) * length * 0.5,
     };
     for (const [facing, fill, alpha] of [
       [toward, PALETTE.rimLight, PETAL_RIM_ALPHA],
@@ -140,19 +152,21 @@ export function paintFlowerHead(
 ): void {
   const ink = inkAt(size);
   const outer = petalColour(genes);
-  paintRing(graphics, genes, size, [1, 0, outer], ink, lighting, folded);
+  const rings: Ring[] = [[1, 0, outer]];
   if (genes.rings === 2) {
-    paintRing(
-      graphics,
-      genes,
-      size,
-      [0.62, Math.PI / genes.fold, mix(outer, PALETTE.highlight, INNER_PALE)],
-      ink,
-      lighting,
-      folded,
-    );
+    const inner: Ring = [
+      0.62,
+      Math.PI / genes.fold,
+      mix(outer, PALETTE.highlight, INNER_PALE),
+    ] as const;
+    // A bud's outer petals wrap its inner ones.
+    if (folded.closing < 0.5) rings.push(inner);
+    else rings.unshift(inner);
   }
+  for (const ring of rings)
+    paintRing(graphics, genes, size, ring, ink, lighting, folded);
   const centre = genes.centre * size * folded.disc;
+  if (centre <= 0) return;
   const { toward } = lighting;
   inkedDisc(
     graphics,
@@ -193,15 +207,21 @@ export function drawFlower(
   );
 }
 
-/** How far the head of a flower `folded` as far shut as that holds reaches, and its centre, as `paintFlowerHead` draws them. */
+/**
+ * Where insects perch on the head of a flower `folded` as far shut as that
+ * holds, as `paintFlowerHead` draws it: its rim, below the middle, closing up
+ * to the bud's foot, and its centre, above it, rising to the bud's tip.
+ */
 export function foldedHead(
   genes: FlowerGenes,
   size: number,
-  folded: Folding,
+  { closing }: Folding,
 ): HeadReach {
+  const { r } = flowerHead(genes, size);
+  const along = (one: number, other: number) => one + (other - one) * closing;
   return {
-    r: flowerHead(genes, size).r * folded.reach,
-    disc: genes.centre * size * folded.disc,
+    r: along(r, r * BUD.foot),
+    disc: along(genes.centre * size, r * BUD.tip),
   };
 }
 
