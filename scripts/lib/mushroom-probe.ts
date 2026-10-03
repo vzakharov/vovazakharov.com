@@ -18,6 +18,10 @@ import type { Camera as ModelCamera } from '../../src/pages/mushrooms/model/grou
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 import { SHELTER_SEATS } from '../../src/pages/mushrooms/model/shelter.ts';
+import {
+  SPORE_FALL_MS,
+  SPROUT_MS,
+} from '../../src/pages/mushrooms/model/sprouting.ts';
 import { PUFF_REACH } from '../../src/pages/mushrooms/ui/scene/cloud-puffs.ts';
 
 /** Swaps `Math.random` for a mulberry32 seeded with `seed` before the page's own code runs. */
@@ -33,6 +37,35 @@ export function seededRandom(seed: number): string {
   };
 })();`;
 }
+
+/**
+ * Puts every scene's tweens on the stepped game clock, installed once the game
+ * is up. Phaser times tweens by `Date.now()` with a lag skip, so under a
+ * stepped loop a frame would show a puff or a drift wherever the wall clock
+ * left it; here each step hands the tweens the game time it stepped since the
+ * last, and a tween in a frame is where it is at that frame's game time.
+ */
+export const STEPPED_TWEENS = `(() => {
+  const game = window.__game;
+  let stepped;
+  for (const name of ['headlessStep', 'step']) {
+    const run = game[name].bind(game);
+    game[name] = (time, delta) => {
+      stepped = time;
+      return run(time, delta);
+    };
+  }
+  for (const { tweens } of game.scene.scenes) {
+    let last = stepped;
+    tweens.getDelta = () => {
+      const delta = last === undefined || stepped === undefined ? 0 : stepped - last;
+      last = stepped;
+      tweens.time = (stepped ?? 0) / 1000;
+      return delta;
+    };
+  }
+  return true;
+})()`;
 
 /** Page-side helpers, installed as `window.__probe` once the game is up. */
 export const PROBE = `(() => {
@@ -446,6 +479,43 @@ export const PROBE = `(() => {
       };
     },
     /**
+     * A shower's sprouts as the bed draws them: the \`stopsAt\` of the last
+     * shower that shed (\`null\` before one), how many full-grown mushrooms
+     * have their foot on the screen, and each sprout's parent, whether it is
+     * of the parent's species, when it was shed, whether it is drawn, how big
+     * of its full size (its zoom taken out, its breath left in), and how far
+     * its foot stands from its parent's on the screen, in the clump's size
+     * at the parent's zoom.
+     */
+    sprouts: () => {
+      const { mushrooms, shed } = scene.meadow;
+      const now = scene.clock * 1000;
+      const unit = scene.layout.camera.unit;
+      const grown = ({ sprout }) => !sprout || now >= sprout.at + ${String(SPORE_FALL_MS + SPROUT_MS)};
+      return {
+        shed: shed ?? null,
+        oldInSight: mushrooms.filter((one) => grown(one) && scene.bed.inSight(one.id)).length,
+        sprouts: mushrooms
+          .filter(({ sprout }) => sprout)
+          .map(({ id, species, sprout }) => {
+            const { graphics, stands } = scene.bed.shown.get(id);
+            const parent = mushrooms.find((one) => one.id === sprout.parent);
+            const from = scene.bed.shown.get(sprout.parent)?.stands;
+            return {
+              id,
+              parent: sprout.parent,
+              ofParent: parent?.species === species,
+              at: sprout.at,
+              shown: graphics.visible,
+              scale: graphics.scaleY / stands.zoom,
+              apart: from
+                ? Math.hypot(stands.x - from.x, stands.y - from.y) / (unit * from.zoom)
+                : null,
+            };
+          }),
+      };
+    },
+    /**
      * Where a tap reaches each cloud on the screen now, in CSS px: its
      * middle, brought onto the screen while its puffs still reach there;
      * \`null\` while it is off the screen or something over it takes the tap.
@@ -603,6 +673,21 @@ export const Shower = z.object({
   shelters: z.number(),
 });
 export const Clouds = z.array(Point.nullable());
+export const Sprouts = z.object({
+  shed: z.number().nullable(),
+  oldInSight: z.number(),
+  sprouts: z.array(
+    z.object({
+      id: z.string(),
+      parent: z.string(),
+      ofParent: z.boolean(),
+      at: z.number(),
+      shown: z.boolean(),
+      scale: z.number(),
+      apart: z.number().nullable(),
+    }),
+  ),
+});
 
 /** The arrow keys, by their DOM `key`, and the key code each goes down with. */
 const ARROWS = {
