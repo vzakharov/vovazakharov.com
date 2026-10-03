@@ -18,10 +18,10 @@ export const WORM_GIRTH = 0.3 * PANE;
 export const WORM_GIRTH_LEAST = 5;
 /** From a worm's head to its tail, stretched out. */
 export const WORM_LENGTH = 4 * WORM_GIRTH;
-/** How many round segments a worm is drawn as, from its head to its tail. */
-export const WORM_SEGMENTS = 5;
+/** How many round segments a worm is drawn as, from its head to its tail: enough that each overlaps the next, stretched out and wriggling. */
+export const WORM_SEGMENTS = 8;
 /** The tail's segment's size, as a share of the head's. */
-const TAIL_TAPER = 0.65;
+const TAIL_TAPER = 0.7;
 
 /** How long a worm takes to come out of its window, and to go into the other. */
 export const WORM_OUT = 0.25;
@@ -33,7 +33,7 @@ export const WORM_CRAWL = [1.2, 3] as const;
 /** About how long one inch takes: the head going forward, then the tail catching up. */
 export const INCH_PERIOD = 0.45;
 /** How much of its length a worm draws in at the middle of an inch. */
-const INCH_SQUEEZE = 0.35;
+export const INCH_SQUEEZE = 0.35;
 
 /** How near two windows' distances count as the same, against the sums that place the slots. */
 const TIE = 1e-9;
@@ -53,9 +53,11 @@ export const WORM_PEEK_DURATION = PEEK_RISE + PEEK_HOLD + PEEK_DUCK;
 
 /** How long a tapped worm wriggles, and how far sideways, in girths. */
 export const WRIGGLE_DURATION = 0.3;
-const WRIGGLE_DEPTH = 0.5;
-/** How many times a second a wriggle swings from side to side. */
-const WRIGGLE_RATE = 10;
+const WRIGGLE_DEPTH = 0.2;
+/** How many times a second a wriggle's wave sets off from the head. */
+const WRIGGLE_RATE = 8;
+/** How far behind its neighbour toward the head a segment swings, in radians of the wave. */
+const WRIGGLE_LAG = Math.PI / 4;
 
 /** Where a worm's head and tail are, as lengths along its path from the window it came out of. */
 export type WormPose = { head: number; tail: number };
@@ -209,13 +211,18 @@ export function wormPeek(
   return { head, tail: head - WORM_LENGTH, look: lookAbout(elapsed, phase) };
 }
 
-/** How far sideways a worm tapped `elapsed` before swings, in girths: 0 outside `WRIGGLE_DURATION`. */
-function wriggle(elapsed: number): number {
+/**
+ * How far sideways segment `index` (0 the head) of a worm tapped `elapsed`
+ * before swings, in girths: a wave running from the head to the tail, each
+ * segment a little behind the one before so the body bends rather than
+ * coming apart. 0 outside `WRIGGLE_DURATION`.
+ */
+function wriggle(elapsed: number, index: number): number {
   if (!(elapsed >= 0 && elapsed < WRIGGLE_DURATION)) return 0;
   return (
     WRIGGLE_DEPTH *
     Math.sin((Math.PI * elapsed) / WRIGGLE_DURATION) *
-    Math.sin(Math.PI * 2 * WRIGGLE_RATE * elapsed)
+    Math.sin(Math.PI * 2 * WRIGGLE_RATE * elapsed - WRIGGLE_LAG * index)
   );
 }
 
@@ -255,7 +262,6 @@ export function wormBody(
   sinceWriggle = Number.POSITIVE_INFINITY,
 ): WormBody {
   const length = pathLength(path);
-  const swing = wriggle(sinceWriggle) * girth;
   const last = WORM_SEGMENTS - 1;
   const segments: Circle[] = [];
   let shownHead: WormBody['head'];
@@ -263,7 +269,7 @@ export function wormBody(
     const along = head - ((head - tail) * index) / last;
     if (along < 0 || along > length) continue;
     const { x, y, tangent } = pointAlong(path, along);
-    const aside = swing * (index % 2 === 0 ? 1 : -1);
+    const aside = wriggle(sinceWriggle, index) * girth;
     const segment = {
       x: x - Math.sin(tangent) * aside,
       y: y + Math.cos(tangent) * aside,
