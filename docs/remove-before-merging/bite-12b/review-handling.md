@@ -125,3 +125,13 @@ Filled in as each lands.
   (accepted) — and `Tended`, the standing-tuft bookkeeping out of `Grass`.
   `paint` still tends whole (a resize lays everything anew: accepted).
   A2b launched to apply, wire and test it from `rh-a2.md`.
+- **C2 (T143, play)**: d33f10e1 (`playFollow` last in the meadow play: ↑
+  20 s, 31.8 units, four of ten insects left past `PERCH_REACH`; green on
+  tabL, every insect in reach 30.3 s after the walk, and phoneP, 19.5 s).
+  The 30 s window became 30 s heading-in plus 90 s settled: a butterfly on
+  a 64 s flight to an air spot was following, slowly — the harness's red,
+  so a line went to `to-check.md` (accepted, per the play-run rule).
+  **Open lead for the tail:** drawing the 30–90 s wait raised tabL's frame
+  median from ~17 to 27.4 ms, so frames after a long walk may cost far more
+  than at the opening; the wait now steps without drawing, so no play
+  watches those frames. Trace it with its own agent before bite 13.
