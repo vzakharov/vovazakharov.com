@@ -320,9 +320,9 @@ frame), green at 18.4 ms once a far mushroom paints fewer chords
 (`curveSteps` in `model/mushroom-profile.ts`, 567702f); the Artifact
 republished at the tail's head.
 `/polish` closed again (a772d94), the PR body refreshed.
-12b's review posted (https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5398479115: six blocking, three nits; frames under `docs/remove-before-merging/frames/bite-12b/review/`, brief `bite-12b/review-brief.md`).
+12b's review posted (https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5398479115: six blocking, three nits; frames under `docs/remove-before-merging/frames/bite-12b/review/`, brief retired, `docs/remove-before-merging/retired.md`).
 Its handling: all nine threads fixed or decided and replied to, each
-call and package report in `docs/remove-before-merging/bite-12b/review-handling.md`
+call and package report in [bite-12b/review.md](mushroom-game-syama/bite-12b/review.md)
 (the twelve on a turned screen decided in `decisions.md`).
 The approach play holds the lawn's share of a sow frame to
 `FRAME_BUDGET_MS` (e06b84c; tabL slowest 20.4 ms). The two frame-cost leads
@@ -333,11 +333,11 @@ foot and `see` walking only bed perches (964e6da: tabL's slowest sow frame
 79.5 → 43.1 ms, no answer changed). The approach's median sits at 26.0 ms on
 a loaded container, the drawn forest's render, not the lawn or `see`:
 accepted. The walk's re-sights are now mostly `airOf`'s crowdings, a design
-in `bite-12b/tail-cost.md`, carried to Rest of the elephant.
+in [bite-12b/frame-cost.md](mushroom-game-syama/bite-12b/frame-cost.md), carried to Rest of the elephant.
 **Left:** the bite's end — `/polish` (`screenSides` vs `onscreenOf`),
 the fold into `bite-12b.md` and `## Eaten so far`, retiring 12b's working
 notes and frames, the Artifact republished, `/pr`. Each package's commits:
-`docs/remove-before-merging/bite-12b/waves.md`.
+`waves.md`, retired (`docs/remove-before-merging/retired.md`).
 
 ## Rest of the elephant
 

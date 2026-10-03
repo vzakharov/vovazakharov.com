@@ -6,7 +6,8 @@ rejected alternative is in brackets.
 
 ## The calls
 
-- **Spec first, by a mapping agent** (`docs/remove-before-merging/bite-12b/spec.md`):
+- **Spec first, by a mapping agent** (`spec.md`, retired with 12b's notes:
+  `docs/remove-before-merging/retired.md`):
   every reader of layout `Ground {x, z}` and of `GLADE`, endless-field.md's
   insect section reconciled with `model/flight-frame.ts` and
   `model/flight-in.ts`, a step 0 that changes the store's shape alone, then
@@ -43,7 +44,7 @@ rejected alternative is in brackets.
   bite 12's opening: accepted.
 - **Light by heading** through the repaint queue, side component
   `sin(heading − α_sun)`, at most `REPAINTS_PER_FRAME` a frame.
-- **Insects on the plane** (`bite-12b/spec-insects.md`), perching where
+- **Insects on the plane** (`spec-insects.md`, retired likewise), perching where
   they like («садятся куда хотят») **within `PERCH_REACH` of the snapped
   eye** (`perch-sight.ts`: `D_SEE`, or the opening frame's far corner where
   that stands farther, 15.9), so they follow the child and a far mushroom
