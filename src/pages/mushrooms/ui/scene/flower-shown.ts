@@ -109,9 +109,8 @@ export function unplacedShown(
 /**
  * Paints `shown` at `size` in `openingLight`, its light as the opening eye
  * sees it, turned by `heading`, as far shut as its `closing`, and keeps how it
- * painted it; its perch follows the paint, and its head's size and tap reach
- * stay the open head's, so a closed flower is ringed, culled and tapped as an
- * open one is.
+ * painted it; its perch follows the paint, its head's size and tap reach stay
+ * the open head's (`perch`).
  */
 export function paintShown(
   shown: Shown,

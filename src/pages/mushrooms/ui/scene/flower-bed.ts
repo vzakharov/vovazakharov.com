@@ -248,10 +248,10 @@ export class FlowerBed implements Following {
 
   /**
    * Sways and blooms every flower at `t`, in seconds, each sagging under
-   * whatever of `insects` drinks at it and closing by the meadow's `wetness`, 0 to
-   * 1 (`closingsDue`), and rings the one `held` names, the flower picker's,
-   * where it stands; a press on a head held long enough opens the picker
-   * there.
+   * whatever of `insects` drinks at it and closing by the meadow's
+   * `wetness`, 0 to 1 (`closingsDue`), and rings the one `held` names, the
+   * flower picker's, where it stands; a press on a head held long enough
+   * opens the picker there.
    */
   update(
     t: number,
@@ -283,9 +283,8 @@ export class FlowerBed implements Following {
   /**
    * Where an insect sits on the flower `id` this frame, `spot` of its head's
    * radius across as last painted, folded or open (`perch`, `perchSpot`), and
-   * the head's middle it drinks from, both in
-   * world px at the opening eye, where the insects fly; with the seat as the
-   * flower draws it, the spot at the flower's zoom lifted at the insect's own
+   * the head's middle it drinks from, both in world px at the opening eye,
+   * where the insects fly; with the seat as the flower draws it, the spot at the flower's zoom lifted at the insect's own
    * (`flowerLiftAt`); `undefined` while the screen has no room for the flower.
    */
   seat(id: string, spot: number, kind: InsectKind): Seat | undefined {

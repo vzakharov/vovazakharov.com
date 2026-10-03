@@ -48,8 +48,9 @@ type RainSound = Pick<MeadowSound, 'shower' | 'whoosh'>;
 /**
  * The rain over the meadow: the cloud taps that start a shower, each cloud's
  * dark twin crossfaded in, the tapped cloud first, the slate wash over
- * everything under the HUD, the sun dimmed, and the rainbow after. Every level is set each frame from the clock and
- * the meadow's span (`rain-sky.ts`), so a repaint never interrupts a shower.
+ * everything under the HUD, the sun dimmed, and the rainbow after. Every
+ * level is set each frame from the clock and the meadow's span
+ * (`rain-sky.ts`), so a repaint never interrupts a shower.
  * Which cloud was tapped is the scene's alone: the model has no clouds.
  */
 export class RainView {

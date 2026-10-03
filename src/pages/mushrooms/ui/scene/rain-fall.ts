@@ -54,11 +54,11 @@ export function cloudSpan(
 
 /**
  * How far above `to` a drop falling `fall` px down to it, drifting rightward
- * `slant` px (more than 0) for each px down, first shows: below the lowest of `clouds` (each where
- * the screen shows it, `undefined` while off it) whose drawn puffs its path
- * passes behind, so rain falls out of a cloud's underside and never over
- * it; all of `fall` where the path passes behind none, and 0 where it is
- * behind one all the way down.
+ * `slant` px (more than 0) for each px down, first shows: below the lowest
+ * of `clouds` (each where the screen shows it, `undefined` while off it)
+ * whose drawn puffs its path passes behind, so rain falls out of a cloud's
+ * underside and never over it; all of `fall` where the path passes behind
+ * none, and 0 where it is behind one all the way down.
  */
 export function shownFrom(
   to: Point,

@@ -56,8 +56,9 @@ type Turning = { columns: Picture; home: Span; offsets: number[] };
  * The backdrop as the screen shows it. The bare sky and the ground's rows and
  * grain stand fixed on the screen, which a step or a turn leaves as they are;
  * the glow, the sun and its wash are pictures `follow` slides to where the
- * view shows the sun, and the rainbow to where it shows the sky opposite; the clouds go to their azimuths through the view, and
- * the hills and the brow are redrawn through it whenever its heading changes.
+ * view shows the sun, and the rainbow to where it shows the sky opposite;
+ * the clouds go to their azimuths through the view, and the hills and the
+ * brow are redrawn through it whenever its heading changes.
  * The ground's pictures, the brow's included, bob with the beds
  * (`GROUND_BOB`). `layers`, the off-list graphics the pictures are baked from,
  * `view` and `drifted` (the clouds' seconds) are kept for a repaint.
@@ -164,8 +165,8 @@ function aboutTheSun(
 /**
  * Everything behind the grass: sky, its glow round the sun, the sun, clouds,
  * the rainbow opposite the sun, three hill ranges, the ground and its brow,
- * the sun's wash over the sky and the ground's grain. `random` shapes the opening screen's clouds, the hills, the ground's
- * mottling and the grain, so the same source repaints the same meadow. It
+ * the sun's wash over the sky and the ground's grain. `random` shapes the
+ * opening screen's clouds, the hills, the ground's mottling and the grain, so the same source repaints the same meadow. It
  * paints into `existing` and adds only what is missing, so a repaint keeps
  * the objects — and whatever is moving them — and the view and the drift
  * they were placed by. All but the clouds, the hills and the brow is baked

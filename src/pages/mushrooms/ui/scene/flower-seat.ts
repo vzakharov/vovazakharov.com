@@ -45,9 +45,7 @@ export type HeadReach = Pick<Circle, 'r'> & Centred;
 /**
  * Where insects perch on the head of a flower `folded` as far shut as that
  * holds, as `paintFlowerHead` draws it: its rim, below the middle, closing up
- * to the bud's foot, and its centre, above it, rising to the bud's tip. Only
- * perching reads it; the head's size, which the ring, the tap and the cull
- * read, stays the open head's (`flowerHead`).
+ * to the bud's foot, and its centre, above it, rising to the bud's tip.
  */
 export function foldedHead(
   genes: FlowerGenes,

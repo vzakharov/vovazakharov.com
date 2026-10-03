@@ -216,8 +216,8 @@ export class MushroomBed implements Following {
 
   /**
    * Breathes, wobbles and grows every mushroom at `t`, in seconds, each
-   * swollen about its foot by the meadow's `wetness`, 0 to 1 (`RAIN_SWELL`), its
-   * house, ring and the seats on its cap following its drawing.
+   * swollen about its foot by the meadow's `wetness`, 0 to 1 (`RAIN_SWELL`),
+   * its house, ring and the seats on its cap following its drawing.
    */
   update(t: number, wetness: number): void {
     const swell = 1 + RAIN_SWELL * wetness;

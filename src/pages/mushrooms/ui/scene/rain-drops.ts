@@ -54,10 +54,11 @@ type Slot = {
   drop: Phaser.GameObjects.Image;
   ring: Phaser.GameObjects.Image;
   landing: Landing | undefined;
-  /** How far above its landing the drop started, in px, and when, in seconds. */
+  /** How far above its landing the drop started, in px. */
   fall: number;
   /** How far above its landing it first shows, out from under any cloud it starts behind, in px. */
   shown: number;
+  /** When it started, in seconds. */
   droppedAt: number;
   /** When it landed and its ring began, in seconds; `undefined` while it falls. */
   splashedAt: number | undefined;
