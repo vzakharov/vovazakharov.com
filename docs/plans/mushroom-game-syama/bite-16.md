@@ -90,7 +90,7 @@ pushes it past ~450 moves into a neighbour rather than growing it.
 
 Two packages, one after the other, each an Opus agent in its own worktree
 landing one squash commit (`brief-common.md` under
-`docs/remove-before-merging/bite-16/`):
+`docs/remove-before-merging/bite-16/`, retired with the bite's notes):
 
 - **A — the button** (calls 1–3): the mute out, `drawMapButton`, the
   renames, its press toggling an `open`/`shut` the scene holds (the map
