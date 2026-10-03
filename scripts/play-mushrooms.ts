@@ -7,8 +7,8 @@
  * `lib/play-opening.ts`, `lib/play-meadow.ts`, `lib/play-house.ts`,
  * `lib/play-insects.ts`, `lib/play-buzzers.ts`, `lib/play-walk.ts`,
  * `lib/play-approach.ts`, `lib/play-species.ts`, `lib/play-tufts.ts`,
- * `lib/play-hold.ts`, `lib/play-keys.ts`, `lib/play-veer.ts` and
- * `lib/play-rain.ts` — and a frame of each lands in
+ * `lib/play-hold.ts`, `lib/play-keys.ts`, `lib/play-veer.ts`,
+ * `lib/play-rain.ts` and `lib/play-sprouts.ts` — and a frame of each lands in
  * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
@@ -56,6 +56,7 @@ import { playMeadow } from './lib/play-meadow.ts';
 import { playOpening } from './lib/play-opening.ts';
 import { playRain } from './lib/play-rain.ts';
 import { playSpecies } from './lib/play-species.ts';
+import { playSprouts } from './lib/play-sprouts.ts';
 import { playTufts } from './lib/play-tufts.ts';
 import { playVeer } from './lib/play-veer.ts';
 import { playWalk } from './lib/play-walk.ts';
@@ -90,6 +91,7 @@ const PLAYS = [
   ['keys', playKeys],
   ['veer', playVeer],
   ['rain', playRain],
+  ['sprouts', playSprouts],
 ] as const;
 
 const TYPES: Record<string, string> = {
