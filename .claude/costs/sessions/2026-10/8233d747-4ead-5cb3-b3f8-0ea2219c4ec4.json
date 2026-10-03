@@ -1,0 +1,82 @@
+{
+  "sessionId": "8233d747-4ead-5cb3-b3f8-0ea2219c4ec4",
+  "branch": "claude/basilisk-site-xwbdkd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/basilisk-site-xwbdkd домен я купил; код и тексты ещё не сморел. давай опубликуем (PORKBUN_API_KEY/PORKBUN_SECRET_API_KEY у тебя есть), чтобы…",
+  "prs": [
+    95
+  ],
+  "url": "https://claude.ai/code/session_01Anjk4xiZNkDPdP6fP55LFg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-03T08:34:26.746Z",
+  "lastResponseAt": "2026-10-03T08:37:06.448Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 85952,
+    "cacheReadTokens": 2068191,
+    "outputTokens": 8164,
+    "thinkingTokens": 1671,
+    "responses": 19,
+    "costUsd": 1.2646861999999999
+  },
+  "ownTurns": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 85952,
+    "cacheReadTokens": 2068191,
+    "outputTokens": 8164,
+    "thinkingTokens": 1671,
+    "responses": 19,
+    "costUsd": 1.2646861999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 85952,
+      "cacheReadTokens": 2068191,
+      "outputTokens": 8164,
+      "thinkingTokens": 1671,
+      "responses": 19,
+      "costUsd": 1.2646861999999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": ".github/workflows/deploy.yml",
+    "endedAt": "2026-10-03T08:35:18.744Z",
+    "contextTokens": 110050,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 62623,
+      "cacheReadTokens": 719498,
+      "outputTokens": 2952,
+      "thinkingTokens": 1151,
+      "responses": 8,
+      "costUsd": 0.7039875999999999
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 19,
+    "matched": 19,
+    "matchedTableUsd": 1.2646861999999999,
+    "matchedEventUsd": 1.2646861999999999,
+    "unseen": {}
+  }
+}
