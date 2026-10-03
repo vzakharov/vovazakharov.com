@@ -339,11 +339,14 @@ Item 15, **the house's dwellers** (the operator's asks in
 `mushroom-game-syama/bite-14.md` § "From the operator's play"): a mouse runs
 only to another door, a mouse is sized to its door, a window answers a tap
 with a worm. Calls, waves, build log: [bite-15.md](mushroom-game-syama/bite-15.md);
-briefs: `docs/remove-before-merging/bite-15/`. Built: R1 (mouse sized
-to its door), R2 + R3 (runs' rules and scene), W1 + W2 (worm's model and
-scene). Left: wave 3 — R4 (a tap on a runner, the patter, call 23's split)
-∥ R5 + W3 (probe and plays) — then wave 4's look agents, and the tail:
-frames, review agent, fixes, fold, Artifact, `/polish`, `/pr`.
+briefs: `docs/remove-before-merging/bite-15/`. Built: every package
+(R1–R7, W1–W4), both reviews posted, the worms' fixed and replied to.
+Left: the runs' review fixes (calls 29–33, review 5401240514: two
+blocking, two nits, the `type-overlap` red), each finding replied to with
+its commit; then the tail — fold into `## Eaten so far` and a
+`bite-15.md` rewrite at its altitude, retire bite 14's frames and bite
+15's working notes (keep `frames/bite-15/`), republish the Artifact,
+`/polish` sized by changed lines (~3.7k since 9096cfb8), vet, `/pr`.
 
 ## Rest of the elephant
 

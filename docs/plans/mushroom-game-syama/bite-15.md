@@ -189,6 +189,35 @@ say which mushroom they were taken on. The door's `TAP_RADIUS` floor,
 older than this bite, keeps its unit. Beat: measuring a far mushroom and
 leaving the floors, which ships a 4 px worm.
 
+The runs' review is PR #57 review 5401240514.
+
+29\. **A run is drawn from its own state, not from its houses'**: its
+start and end placements are taken when it starts (and on a re-target),
+so a sunk start house never hides the runner; the play expects `shown` on
+every frame between the hop down and the hop in. Beat: keeping a sunk
+mushroom in `shown` until its runs end, which leaks bed state into runs.
+
+30\. **A doorway with a run's mouse in it answers a tap with that mouse's
+squeak**: during a run's peek out of a door, or its enter/close into it,
+a tap on that door starts no run and never knocks. Beat: counting the
+mouse home until it leaves the doorway, which moves call 5's count timing
+and R3's two-starts-in-one-frame guard.
+
+31\. **`RUN_BOW` is measured from the nearer foot in drawn runner
+lengths**: a shared constant for the runner's span in door widths, the
+course's middle at least one such length nearer than the nearer foot, a
+`mouse-run-clock` test holding it. Beat: the arbitrary `CLEARANCE` 0.12.
+
+32\. **A run re-targeted from the ground is straight**: no bow and no
+`RUN_LEAST`, taking its straight distance at `RUN_PACE` plus the hop; and
+`retarget`'s last fallback (a door at any distance) counts the mouse
+straight in, as `scattered` does, rather than running off screen. Beat: a
+second loop from 30 px away.
+
+33\. **`pnpm type-overlap`'s `side`** (`RunCourse` against `baking.ts`'s
+`FaceFrame`) is a coincidence of names: the course's member is renamed for
+what it means (the bow's sign).
+
 ## Built
 
 Each package's hand-over note under `docs/remove-before-merging/bite-15/`
