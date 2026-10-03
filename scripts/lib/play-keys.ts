@@ -25,6 +25,7 @@ import {
   inTurn,
   type Letter,
   type Page,
+  press,
   walkAndTurn,
 } from './mushroom-probe-drive.ts';
 import { HOLD_FRAMES } from './play-hold.ts';
@@ -101,12 +102,6 @@ const SETTLE = 80;
 /** Whether the flower grown from `seed` makes the sound `key` plays. */
 const sounds = (seed: number | undefined, key: Letter) =>
   seed !== undefined && sameSound(soundOf(flowerGenes({ seed })), NOTES[key]);
-
-/** A key struck: down and up, with no frame between. */
-async function press(page: Page, key: Letter): Promise<void> {
-  await page.key(key, 'keyDown');
-  await page.key(key, 'keyUp');
-}
 
 /**
  * With the picker shut, `MELODY` played on the opening view, its first note

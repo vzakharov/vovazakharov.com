@@ -157,7 +157,7 @@ export async function playWorms(
       `${String(after?.toOpen.toFixed(2))} open after the worm went in`,
   );
   expect(
-    trace.at(-1)?.phase === null &&
+    after?.phase === null &&
       last !== undefined &&
       target !== undefined &&
       Math.hypot(last.x - target.x, last.y - target.y) < target.r,

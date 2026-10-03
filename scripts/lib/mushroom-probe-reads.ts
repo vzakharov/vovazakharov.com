@@ -275,10 +275,7 @@ export const PROBE_READS = `
       return { id, ...toScreen({ x, y }) };
     },
     /** When a flower was last tapped, \`null\` if never: JSON has no -Infinity. */
-    flowerTappedAt: (id) => {
-      const { tappedAt } = scene.flowers.shown.get(id);
-      return Number.isFinite(tappedAt) ? tappedAt : null;
-    },
+    flowerTappedAt: (id) => finite(scene.flowers.shown.get(id).tappedAt),
     /**
      * The shower as the sky shows it: the meadow's span, whether it rains,
      * how wet the sky is, how strongly the rainbow shows, the drops in the

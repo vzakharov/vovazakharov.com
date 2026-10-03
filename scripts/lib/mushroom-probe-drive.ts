@@ -131,6 +131,15 @@ export async function walkAndTurn(page: Page): Promise<string> {
   return `the eye turned ${wrap(to.heading - from.heading).toFixed(3)} rad and walked ${(to.walked - from.walked).toFixed(2)} units`;
 }
 
+/** A key struck: down and up, with no frame between. */
+export async function press(
+  page: Page,
+  key: Parameters<Page['key']>[0],
+): Promise<void> {
+  await page.key(key, 'keyDown');
+  await page.key(key, 'keyUp');
+}
+
 /** A mushroom grown as a child grows one: `+` tapped, then `cap` of the picker, each left to settle. */
 export async function grow(
   page: Page,

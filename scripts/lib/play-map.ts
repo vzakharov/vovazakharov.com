@@ -30,6 +30,7 @@ import {
   grow,
   inTurn,
   type Page,
+  press,
   walkAndTurn,
 } from './mushroom-probe-drive.ts';
 import { plantNearest } from './play-tufts.ts';
@@ -69,8 +70,7 @@ export async function playMap(
   };
   /** Escape shuts the open map, and leaves a shut one shut. */
   const escape = async (when: string) => {
-    await page.key('Escape', 'keyDown');
-    await page.key('Escape', 'keyUp');
+    await press(page, 'Escape');
     await page.step(UNFOLDED);
     expect(!(await map()).open, `Escape left the map open (${when})`);
   };
