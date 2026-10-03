@@ -146,12 +146,13 @@ export function outFirst(leg: Leg, out: number): Leg {
  * is.
  */
 export function shownOf(perches: Perches, onscreen: Onscreen): Perches {
-  const { places, flowers, beeFlowers, caps, spotted, air } = perches;
+  const { places, flowers, beeFlowers, caps, spotted, air, shelters } = perches;
   if (!places) return perches;
+  const shown = (perch: Perch) => isShown(onscreen, places[perchName(perch)]);
   const within =
-    (kind: Exclude<PerchKind, 'away'>) =>
+    (kind: Exclude<PerchKind, 'away' | 'shelter'>) =>
     (ids: readonly string[]): string[] =>
-      ids.filter((id) => isShown(onscreen, places[perchName({ kind, id })]));
+      ids.filter((id) => shown({ kind, id }));
   const [flowersIn, capsIn] = [within('flower'), within('cap')];
   return {
     ...perches,
@@ -160,6 +161,9 @@ export function shownOf(perches: Perches, onscreen: Onscreen): Perches {
     caps: capsIn(caps),
     spotted: capsIn(spotted),
     air: within('air')(air),
+    ...(shelters && {
+      shelters: shelters.filter((seat) => shown({ kind: 'shelter', ...seat })),
+    }),
     places: { ...places, ...edgesOf(places, onscreen) },
   };
 }

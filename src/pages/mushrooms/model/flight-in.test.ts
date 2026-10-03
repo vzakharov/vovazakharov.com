@@ -231,6 +231,7 @@ describe('a released insect', () => {
           flower: habits.drinking,
           cap: habits.resting ?? [0, 0],
           air: habits.hovering,
+          shelter: [0, 0],
           away: [0, 0],
         } as const;
         const [least, most] = stays[leg.to.kind];

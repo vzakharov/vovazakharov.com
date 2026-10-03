@@ -135,6 +135,7 @@ function seaterOn(
       const found = air.find(({ id }) => id === perch.id);
       return found && (() => pick(found, 'x', 'y'));
     }
+    case 'shelter':
     case 'away': {
       return undefined;
     }
