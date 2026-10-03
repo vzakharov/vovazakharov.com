@@ -368,3 +368,11 @@ In this order of launch; parallel where files are disjoint.
   judges a frame only while the body's middle is on screen, as the heading
   watch does, with a to-check.md line; if phoneL stays red on an on-screen
   U-turn at a side, that is the game's and is traced.
+- **tail-turn3** (relay depth 3) — 74574f4 (the turn-rate watch judges a
+  frame only while the body's middle is on screen; one `onScreen` test
+  shared with the heading watch, to-check.md line), 4c21cfb. phoneL
+  `meadow` green over 5257 frames: fastest turn 34.80 rad/s (fly, within
+  its limit), worst heading 0.25, 0 frames over 0.3. **Orchestrator's
+  call:** accepted; tabL and phoneP not re-run, the change only judges
+  fewer frames. Next: phoneL `approach` on a quiet container, then every
+  play on phoneS, one agent, one play per call.
