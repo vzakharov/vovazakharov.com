@@ -349,14 +349,10 @@ The bites, each file its full contract:
 **16. The map** — the mute's circle becomes a map button; the map unfolds
 from it over the meadow, fixed to the sun, every mushroom and flower in its
 own side picture, the child a marker with a view wedge. Calls and packages:
-[bite-16.md](mushroom-game-syama/bite-16.md). Built, reviewed (5402118795,
-all six threads replied) and fixed: 18e3ad6, 49725da, 80bd380, 28a6277 (the
-last also the door crash the operator hit: a door's seat was only sought in
-the opening view). Frames committed, bite 15's retired, Artifact v22
-published. Left, the bite's tail: fill `bite-16.md` § "Built", fold the bite
-into `## Eaten so far` (the mute's lines there are stale) with its index
-row, retire `docs/remove-before-merging/bite-16/` notes into `retired.md`,
-`/polish` by slice, vet, `/pr` refresh, megabeast notes, pause, relay.
+[bite-16.md](mushroom-game-syama/bite-16.md). Built, reviewed and fixed
+(18e3ad6..28a6277, the door crash too), frames and Artifact v22 done. Left:
+§ "Built", the fold into `## Eaten so far` (its mute lines are stale), the
+notes' retirement, `/polish`, vet, `/pr`, megabeast notes, pause, relay.
 
 ## Rest of the elephant
 
