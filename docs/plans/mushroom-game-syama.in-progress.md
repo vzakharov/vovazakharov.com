@@ -227,8 +227,8 @@ a planting spot, none standing where no flower fits (`tufts.ts`,
 `grass.ts`, `tuft-tap.ts`); a note key sows and plays only what no nearer cap covers
 (`flower-cover.ts`). Insects fly on the plane, each leg timed in the frame
 it is drawn in (`model/flight-frame.ts`), hovering at air spots on a plane
-lattice round the eye (`air-spots.ts`); an insect perches within `D_SEE` of
-the snapped eye, so it follows the child (`perch-sight.ts`), never two to a perch (`perch-room.ts`), its first
+lattice round the eye (`air-spots.ts`); an insect perches within
+`PERCH_REACH` of the snapped eye, so it follows the child (`perch-sight.ts`), never two to a perch (`perch-room.ts`), its first
 perch on screen (`model/flight-in.ts`), each kind's habits in
 `model/flight-habits.ts`. Pickers unfold from their button (`picker.ts`) in
 finger-sized rows (`picker-rows.ts`), hiding the buttons they cover where
