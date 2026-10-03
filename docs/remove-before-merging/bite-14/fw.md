@@ -54,6 +54,16 @@ Review: PR 57, review 5400519622.
    (strafe −106.5 / −96.7 px, step 228.6 / 249.0 px). Frames
    `frames/bite-14/fw-tabL-strafe-{lift,rest}.png`.
 
+2. The rain play (this commit). The probe's `rain()` reads `fliers` too.
+   Mid-shower: every flier sheltering up to the seats offered
+   (`sheltering === min(fliers, seats)`). After the stop: the look moved
+   from a fixed 1500 ms to the middle of `LINGER_MS` (1400 ms), and with two
+   or more sheltering, some must be out and some still under. tabL: 3 of 3
+   under, 7 seats; 2 of 3 still under at 1400 ms. phoneP: 3 of 3 under, 3
+   seats; 2 of 3 at 1400 ms. Both green.
+
+Nothing left of FW's list.
+
 ## Left (as FW wrote it; FW2's step 1 built the first item)
 
 - **The walk play** (`scripts/lib/play-walk.ts`, `play-walk-checks.ts`) —

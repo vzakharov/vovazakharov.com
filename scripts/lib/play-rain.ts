@@ -4,8 +4,9 @@
  * under each dome's underside, a butterfly, a fly and a bee released and
  * settled, a cloud tapped starts the rain and sends
  * them dashing under the caps; mid-shower the flowers are shut, drops fall
- * and a flier shelters wherever a cap is wide enough; just after the stop
- * they come out one by one; dry, the flowers are open again; and the eye
+ * and every flier shelters while the seats under the caps wide enough last;
+ * mid-way through the time they take to come out after the stop, some are
+ * out and some still under; dry, the flowers are open again; and the eye
  * turned round, the rainbow shows opposite the sun. The frames the heads close over, the mid-shower ones and
  * those they reopen over are each timed against the frame budget. Every
  * moment is found on `model/weather.ts`'s own clock functions and the
@@ -18,6 +19,7 @@ import { z } from 'zod';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
+import { LINGER_MS } from '../../src/pages/mushrooms/model/shelter.ts';
 import {
   RAIN_MS,
   rainbow,
@@ -75,8 +77,12 @@ const RELEASE_GAP = 20;
 const SETTLE_FLIERS = 300;
 /** Frames from the tap to the look at the fliers dashing for cover. */
 const DASH = 30;
-/** Frames from the stop to the look at the fliers coming out (`LINGER_MS`). */
-const OUT = Math.round(1500 / FRAME_MS);
+/**
+ * Frames from the stop to the look at the fliers coming out: the middle of
+ * `LINGER_MS`, the spread each flier's own seed picks its time from, so of
+ * several sheltering some are out by then and some not yet.
+ */
+const OUT = Math.round((LINGER_MS[0] + LINGER_MS[1]) / 2 / FRAME_MS);
 
 /** Frames a released `→` is left to glide to rest, the harness's slack. */
 const SETTLE = 60;
@@ -169,11 +175,11 @@ export async function playRain(
     `mid-shower, the flowers are shut only ${mid.closing.toFixed(2)} on average`,
   );
   note(
-    `mid-shower: ${String(mid.sheltering)} fliers under a cap, ${String(mid.shelters)} seats offered`,
+    `mid-shower: ${String(mid.sheltering)} of ${String(mid.fliers)} fliers under a cap, ${String(mid.shelters)} seats offered`,
   );
   expect(
-    mid.sheltering > 0 || mid.shelters === 0,
-    `mid-shower, no flier shelters under the ${String(mid.shelters / 2)} caps wide enough`,
+    mid.sheltering === Math.min(mid.fliers, mid.shelters),
+    `mid-shower, ${String(mid.sheltering)} of ${String(mid.fliers)} fliers shelter with ${String(mid.shelters)} seats offered`,
   );
   await page.shoot('rain-2-mid');
 
@@ -182,7 +188,14 @@ export async function playRain(
   await page.step(STOP - MID);
   const leaving = await timedSteps(page, Math.min(OUT, OPEN_BY - STOP));
   const out = await shower();
-  note(`${String(out.sheltering)} fliers still under a cap after the stop`);
+  note(
+    `${String(out.sheltering)} of ${String(mid.sheltering)} fliers still under a cap ${String(Math.round(OUT * FRAME_MS))} ms after the stop`,
+  );
+  expect(
+    mid.sheltering < 2 ||
+      (out.sheltering > 0 && out.sheltering < mid.sheltering),
+    `${String(Math.round(OUT * FRAME_MS))} ms after the stop, ${String(out.sheltering)} of ${String(mid.sheltering)} fliers are still under a cap: they did not come out one by one`,
+  );
   await page.shoot('rain-3-out');
   const reopening = [
     ...leaving,

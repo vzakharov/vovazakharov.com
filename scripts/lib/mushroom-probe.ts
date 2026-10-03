@@ -468,6 +468,7 @@ export const PROBE = `(() => {
         drops: scene.rain.dropsInAir(),
         closing: scene.flowers.closing(),
         tapped: scene.rain.tapped ?? null,
+        fliers: scene.meadow.insects.length,
         sheltering: scene.meadow.insects.filter(
           ({ leg }) => leg.to.kind === 'shelter' && leg.arrives <= now,
         ).length,
@@ -676,7 +677,8 @@ export const Shower = z.object({
   drops: z.number(),
   closing: z.number(),
   tapped: z.number().nullable(),
-  /** Fliers seated under a cap. */
+  /** Fliers on the meadow, and those seated under a cap. */
+  fliers: z.number(),
   sheltering: z.number(),
   /** Seats under the caps in reach, two a cap wide enough. */
   shelters: z.number(),
