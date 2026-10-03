@@ -10,9 +10,12 @@
   slot `gushed`, so a restart tap adds its 24 on top of the steady rain
   instead of pausing it.
 
+- **Step 2 — the shower's sound reads the scene's wetness.** `RainView.update`
+  steps its showers before the backdrop check and passes `wetnessShown` to
+  `sound.shower`, so a restart while the last shower dries keeps the hiss.
+
 ## Left
 
-2. `rain-view.ts` passes `wetnessShown` to `sound.shower`.
 3. Rainbow below the clouds (depth), frames on tabL and phoneP.
 4. `meadow-scene.ts` under 450 lines by a real seam.
 

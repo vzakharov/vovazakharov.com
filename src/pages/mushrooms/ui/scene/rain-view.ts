@@ -5,12 +5,7 @@ import { pick } from '@/shared/lib/collections';
 import type { Action } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import { widthFor, wobble } from '../../model/motion';
-import {
-  downpour,
-  type Rain,
-  raining,
-  wetness as wetnessOf,
-} from '../../model/weather';
+import { downpour, type Rain, raining } from '../../model/weather';
 import type { MeadowLayout } from './layout';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
@@ -155,14 +150,14 @@ export class RainView {
 
   /** Sets the sky for the frame at the scene's clock, under the meadow's span `rain`. */
   update(rain: Rain | undefined): void {
-    this.hear(rain);
-    const { backdrop, layout, wash, now } = this;
-    if (!backdrop || !layout) return;
-    const t = now();
+    const t = this.now();
     const ms = t * 1000;
     this.showers = nextShowers(this.showers, rain, ms);
-    const { showers, lead } = this;
+    const { showers, lead, sound, backdrop, layout, wash } = this;
     const wetness = wetnessShown(showers, ms);
+    // Heard before the sky is painted, so the shower sounds from its start.
+    sound.shower(downpour(rain, ms), wetness);
+    if (!backdrop || !layout) return;
     wash.setAlpha(WASH_DEEPEST * wetness).setVisible(wetness > 0);
     const azimuthOf = (index: number) => {
       const cloud = layout.clouds[index];
@@ -192,7 +187,8 @@ export class RainView {
 
   /**
    * How wet the meadow shows this frame, 0 to 1 (`wetnessShown`): the one
-   * value the wash, the twins, the flowers' closing and the caps' swell read.
+   * value the wash, the twins, the flowers' closing, the caps' swell and the
+   * shower's sound read.
    */
   get wetness(): number {
     return this.shown.wetness;
@@ -201,12 +197,6 @@ export class RainView {
   /** How many drops are falling now. */
   dropsInAir(): number {
     return this.drops.inAir();
-  }
-
-  /** Sets the shower's sound for the frame, rain or not, under the meadow's span `rain`. */
-  private hear(rain: Rain | undefined): void {
-    const ms = this.now() * 1000;
-    this.sound.shower(downpour(rain, ms), wetnessOf(rain, ms));
   }
 
   private wobble(index: number, t: number): void {
