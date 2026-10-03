@@ -13,7 +13,7 @@ Built `map-spores.md` § 5 (b) with § 3 "Scene", on SA's model (aacbd7f4).
   `fall`, then rests; opening or parent not shown: rests at once; gone id
   destroyed), `follow(view)`, `pickUp(at)`. A dot is `PALETTE.spore` mixed
   toward `PALETTE.air` by the haze, an ink rim fading with it, radius
-  `0.012` of the laid size × zoom (≥ 1.2 px), stood with `standAt(…,
+  `0.02` of the laid size × zoom (≥ 1.2 px), stood with `standAt(…,
 SHADOW_NEARER)`.
 - `ui/scene/spore-drift.ts`: `fall` exported, one dot, `to: () => Point`;
   `driftSpores` pops every newborn at its own foot (a sprout's puff ×
@@ -32,8 +32,9 @@ SHADOW_NEARER)`.
   the two-call shape put `meadow-scene.ts` at 453 and the bed past +8.
 - **`fall` lost its `DOTS` count rather than taking it as a parameter**: no
   four-dot caller is left once the shed's drift goes.
-- **A dot's size**: 0.012 of the size its foot is laid out at — a few px at
-  the clump. Look at the frames before calling it right.
+- **A dot's size**: 0.02 of the size its foot is laid out at. The meadow
+  play's tabL frame at 0.012 showed the dots as 2–3 px specks a child would
+  miss, so it went up; the frames agent judges it again.
 
 ## Left
 
