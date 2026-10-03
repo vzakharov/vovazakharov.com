@@ -138,6 +138,7 @@ export class SporeBed {
       () => pick(circle, 'x', 'y'),
       circle.radius,
       this.flying,
+      spore.seed,
       () => {
         dot.landed = true;
         this.stand(dot);

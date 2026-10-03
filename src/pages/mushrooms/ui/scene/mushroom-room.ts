@@ -290,10 +290,10 @@ function risen(stand: Stand): Stand {
 }
 
 /**
- * How far round its parent's foot a sprout's is drawn (`Near`), in the
+ * How far round its parent's foot a spore's is drawn (`Near`), in the
  * clump's size as a camera lays the ground out.
  */
-export const SPROUT_REACH = 1;
+export const SPORE_REACH = 1;
 
 /**
  * Where the mushroom grown from `seed` grows in `stand`, as the scene and
@@ -305,7 +305,7 @@ export const SPROUT_REACH = 1;
  * (`flowerFeet`), and each foot is tried on the area cap and the cheap rules
  * first, then the controls, then what it hides and what hides it, then the
  * doors, then the patches, the dearest to try. A spore laid round the stored
- * foot `near` stands within `SPROUT_REACH` of it, judged at its full size
+ * foot `near` stands within `SPORE_REACH` of it, judged at its full size
  * alone, and in `view` its dot is drawn in sight (`dotInSight`) and off
  * every control and the sun's rays; `undefined` where the anchor has no
  * ground under `near`.
@@ -342,7 +342,7 @@ export function roomFor(
   const found = pickFoot(seed, {
     ...pick(layout.mushrooms, 'frame'),
     ...pick(screen, 'within'),
-    ...(parent && { near: { ground: parent, reach: SPROUT_REACH } }),
+    ...(parent && { near: { ground: parent, reach: SPORE_REACH } }),
     feet: mushrooms.flatMap(
       ({ foot }) => groundIn(layout.mushrooms, foot) ?? [],
     ),

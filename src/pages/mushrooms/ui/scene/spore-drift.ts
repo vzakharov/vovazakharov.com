@@ -22,7 +22,7 @@ import { drawnSize, puffSpores } from './spores';
 
 /** How far over the higher end the arc rises, of the distance it spans. */
 const RISE = 0.3;
-/** How far the arc swings aside, of the distance it spans. */
+/** How far the arc swings out toward its foot's side, of the distance it spans. */
 const SWING = 0.2;
 /** How far a newborn's puff opens, of its size as drawn. */
 const BIRTH_PUFF = 0.5;
@@ -69,7 +69,9 @@ function puffAt(
 /**
  * A spore of radius `r` falling from wherever `from` stands to wherever `to`
  * does, along an arc, over `SPORE_FALL_MS`; `landed` runs as it lands. Both
- * ends are read every frame, so the dot follows a turn or a walk.
+ * ends are read every frame, so the dot follows a turn or a walk. The arc
+ * swings out on the side its foot lies when it sets off, a foot straight
+ * under the crown on the side `seed` picks.
  */
 export function fall(
   scene: Phaser.Scene,
@@ -77,8 +79,10 @@ export function fall(
   to: () => Point,
   r: number,
   depth: number,
+  seed: number,
   landed: () => void,
 ): void {
+  const swing = SWING * sideOf(from(), to(), seed);
   const dot = scene.add
     .circle(0, 0, r, PALETTE.spore)
     // An inked rim, as a puff's dots have, so a pale spore reads against the sky.
@@ -91,13 +95,18 @@ export function fall(
     duration: SPORE_FALL_MS,
     onUpdate: (tween) => {
       const along = Phaser.Math.Easing.Sine.In(tween.getValue() ?? 0);
-      dot.setVisible(true).setPosition(...arcAt(from(), to(), SWING)(along));
+      dot.setVisible(true).setPosition(...arcAt(from(), to(), swing)(along));
     },
     onComplete: () => {
       dot.destroy();
       landed();
     },
   });
+}
+
+/** Which way, -1 or 1, a fall from `start` to `end` swings: toward `end`, or by `seed` straight under. */
+function sideOf(start: Point, end: Point, seed: number): number {
+  return Math.sign(end.x - start.x) || (seed % 2 === 0 ? -1 : 1);
 }
 
 /** The point `t` of the way along an arc from `start` to `end`, rising over both and swung `swing` aside. */

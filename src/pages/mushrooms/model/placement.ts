@@ -1,7 +1,7 @@
 /**
  * Where a new mushroom's foot goes on the ground: Mitchell's best of a few
  * candidates, each drawn at random over the world's frame or the stretch of
- * it the screen shows (or round a sprout's parent), the one farthest
+ * it the screen shows (or round a spore's parent), the one farthest
  * from every foot already standing — so a meadow fills evenly, never on a
  * grid, and each visit's differently. What a foot must keep to on the screen
  * is the scene's to judge (`admits`); nothing here knows how it is drawn.
@@ -140,7 +140,7 @@ export type Picking = Framed &
      * whatever else the ground alone cannot tell.
      */
     admits: (foot: Ground) => boolean;
-    /** Where the foot is drawn round instead of across the whole frame: a sprout's parent. */
+    /** Where the foot is drawn round instead of across the whole frame: a spore's parent. */
     near?: Near;
   };
 
