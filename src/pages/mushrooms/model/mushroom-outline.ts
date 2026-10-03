@@ -21,6 +21,7 @@ import {
   RIM_ROUNDS,
   stemHalfWidth,
 } from './mushroom-profile';
+import type { ShelterSeat } from './shelter';
 /** A mushroom's ink line, in units of its size, wherever it is painted big enough to leave its pixel floor. */
 export const MUSHROOM_INK = 0.014;
 
@@ -173,6 +174,41 @@ function bandBottom(genes: Banded, x: number): number {
   );
 }
 
+/** A fly agaric's gills: an oval round the rim's line, its half-width in the cap's width and its half-height in the cap's height. */
+const RIM_GILLS = { across: 0.44, down: 0.14 };
+
+/**
+ * The lowest edge a dome draws under itself at `x`, in the cap's frame: a
+ * porcini's or a russula's band, or the lower of a fly agaric's underside and
+ * its gills.
+ */
+function underEdgeAt(genes: DomeGenes, x: number): number {
+  if (genes.species !== 'fly-agaric') return bandBottom(genes, x);
+  const across = Math.min(1, Math.abs(x) / (genes.capWidth * RIM_GILLS.across));
+  const gills = -genes.capHeight * RIM_GILLS.down * Math.sqrt(1 - across ** 2);
+  return Math.min(undersideAt(genes, x), gills);
+}
+
+/** How far out from the middle of a dome's underside, of the way to its rim, a seat under it is: clear of the stem, under the cap. */
+const UNDER_OUT = 0.55;
+
+/**
+ * Where an insect shelters under a dome, `seat` 0 left of the stem and 1
+ * right: on the lowest edge the dome draws there (`underEdgeAt`), the
+ * insect's own drop below it left to its seater, which knows its size. A
+ * trumpet offers no shelter; asked of one, its rim's line.
+ */
+export function capUnder(
+  genes: MushroomGenes,
+  seat: ShelterSeat['seat'],
+): Point {
+  const x = ((seat === 0 ? -1 : 1) * UNDER_OUT * genes.capWidth) / 2;
+  return capFrame(genes)({
+    x,
+    y: hasTrumpet(genes) ? 0 : underEdgeAt(genes, x),
+  });
+}
+
 /**
  * What shows under the dome, in the cap's frame: a fly agaric's gills, an
  * oval that shows only just below its rim, or the thick band of a porcini's
@@ -181,8 +217,8 @@ function bandBottom(genes: Banded, x: number): number {
 function gillsOutline(genes: DomeGenes, steps: number): Point[] {
   if (genes.species === 'fly-agaric')
     return sample(0, Math.PI * 2, steps, (angle) => ({
-      x: Math.cos(angle) * genes.capWidth * 0.44,
-      y: Math.sin(angle) * genes.capHeight * 0.14,
+      x: Math.cos(angle) * genes.capWidth * RIM_GILLS.across,
+      y: Math.sin(angle) * genes.capHeight * RIM_GILLS.down,
     }));
   const across = genes.capWidth * BAND_ACROSS;
   const tuck = genes.capHeight * UNDER_SAG * 2;

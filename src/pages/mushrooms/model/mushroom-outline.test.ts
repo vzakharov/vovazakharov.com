@@ -5,8 +5,16 @@ import { everyPlace } from '../ui/scene/clump-layout';
 import { meadowLayout } from '../ui/scene/layout';
 import { VIEWPORTS } from '../ui/scene/viewports';
 import { containsPoint, type Point } from './geometry';
-import { MUSHROOM_SPECIES, mushroomGenes } from './mushroom-genes';
-import { gillLines, headOutlines } from './mushroom-outline';
+import { HEAD_KIND, MUSHROOM_SPECIES, mushroomGenes } from './mushroom-genes';
+import {
+  capOutlines,
+  capUnder,
+  gillLines,
+  headOutlines,
+  stemOutline,
+} from './mushroom-outline';
+import { capSeat, stemAt } from './mushroom-pose';
+import { SHELTER_SEATS } from './shelter';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 
@@ -156,6 +164,38 @@ describe('every head but the fly agaric’s', () => {
       for (const point of gillLines(genes).flat()) {
         if (!containsPoint(band, point))
           assert.fail(`seed ${seed}: a gill off at ${JSON.stringify(point)}`);
+      }
+    }
+  });
+});
+
+describe('capUnder', () => {
+  it('seats a sheltering insect on the lowest edge under every dome, clear of its stem, one to either side', () => {
+    for (const species of MUSHROOM_SPECIES.filter(
+      (each) => HEAD_KIND[each] === 'dome',
+    )) {
+      for (const seed of SEEDS.slice(0, 400)) {
+        const genes = mushroomGenes({ seed, species });
+        const under = capOutlines(genes);
+        const [left, right] = SHELTER_SEATS.map((seat) =>
+          capUnder(genes, seat),
+        );
+        assert.ok(left && right && left.x < right.x, `${species} ${seed}`);
+        for (const [seat, across] of [
+          [left, -0.55],
+          [right, 0.55],
+        ] as const) {
+          const name = `${species} ${seed} ${String(across)}`;
+          const drawn = (dy: number) =>
+            under.some((outline) =>
+              containsPoint(outline, { ...seat, y: seat.y + dy }),
+            );
+          assert.ok(!containsPoint(stemOutline(genes), seat), name);
+          assert.ok(drawn(genes.capHeight * 0.03), name);
+          assert.ok(!drawn(-genes.capHeight * 0.03), name);
+          assert.ok(seat.y < capSeat(genes, across).y, name);
+          assert.ok(seat.y > stemAt(genes, 0.5).y, name);
+        }
       }
     }
   });

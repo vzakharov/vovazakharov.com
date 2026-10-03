@@ -32,8 +32,8 @@ import {
   type MushroomGenes,
   mushroomGenes,
 } from '../../model/mushroom-genes';
-import { toCanvas } from '../../model/mushroom-outline';
-import { capSeat, capUnder, splayed } from '../../model/mushroom-pose';
+import { capUnder, toCanvas } from '../../model/mushroom-outline';
+import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
 import { SHELTER_SEATS, type ShelterSeat } from '../../model/shelter';
 import { sproutScale } from '../../model/sprouting';
@@ -106,8 +106,10 @@ function flowerAt(
 type Seater = (spot: number, kind: InsectKind) => Point;
 
 /**
- * How far below a cap's underside a sheltering insect's middle hangs, in its
- * own size: about half its painted height, so its top meets the gills.
+ * How far below the lowest edge a cap draws under itself (`capUnder`) a
+ * sheltering insect's middle hangs, in its own size: about half its painted
+ * height, so its head touches the gills or the band and it reads as hanging
+ * from them.
  */
 const UNDER_DROP = {
   butterfly: 0.45,
@@ -115,7 +117,7 @@ const UNDER_DROP = {
   bee: 0.4,
 } as const satisfies Record<InsectKind, number>;
 
-/** How far below a cap's underside an insect of `kind`, `sizes` to its unit drawn at `zoom`, hangs sheltering there, in px. */
+/** How far below a cap's lowest edge an insect of `kind`, `sizes` to its unit drawn at `zoom`, hangs sheltering there, in px. */
 export function shelterDrop(
   sizes: Readonly<Record<InsectKind, number>>,
   kind: InsectKind,

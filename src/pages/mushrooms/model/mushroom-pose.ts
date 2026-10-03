@@ -14,7 +14,6 @@ import {
   TRUMPET_RANGES,
 } from './mushroom-genes';
 import { capBase, capSurface } from './mushroom-profile';
-import type { ShelterSeat } from './shelter';
 
 /** How far along the stem its bend's control point sits. */
 const BEND_FROM = 0.55;
@@ -90,22 +89,6 @@ export function capSeat(genes: MushroomGenes, across: number): Point {
   const x = (across * genes.capWidth) / 2;
   const base = capBase(genes, x);
   return capFrame(genes)({ x, y: base + (capSurface(genes, x) - base) * 0.8 });
-}
-
-/** How far out from the middle of a dome's underside, of the way to its rim, a seat under it is: clear of the stem, under the cap. */
-const UNDER_OUT = 0.55;
-
-/**
- * Where an insect shelters under a dome, `seat` 0 left of the stem and 1
- * right: on the underside, the insect's own drop below it left to its
- * seater, which knows its size.
- */
-export function capUnder(
-  genes: MushroomGenes,
-  seat: ShelterSeat['seat'],
-): Point {
-  const side = seat === 0 ? -1 : 1;
-  return capFrame(genes)({ x: (side * UNDER_OUT * genes.capWidth) / 2, y: 0 });
 }
 
 /** The tallest any of `species`' caps stands over the middle of its underside. */
