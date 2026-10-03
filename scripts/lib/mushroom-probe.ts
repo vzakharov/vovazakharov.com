@@ -330,6 +330,22 @@ export const PROBE = `(() => {
       mapOpen: scene.map.open,
       clock: scene.clock,
     }),
+    /** The map: whether it is open, and as last drawn its frame and how many things stand on it; \`null\` before it first opens. */
+    map: () => {
+      const last = scene.map.last;
+      return {
+        open: scene.map.open,
+        drawn: last
+          ? {
+              centre: last.frame.centre,
+              middle: last.frame.middle,
+              reach: last.frame.reach,
+              scale: last.frame.scale,
+              things: last.things,
+            }
+          : null,
+      };
+    },
     controls: () => ({
       plus: centre(scene.layout.plus),
       minus: centre(scene.layout.minus),
@@ -620,6 +636,19 @@ export const State = z.object({
   clock: z.number(),
 });
 export const Point = z.object({ x: z.number(), y: z.number() });
+/** `__probe.map()`: the map's centre (plane, clump sizes) and middle (CSS px), its reach in clump sizes and scale in CSS px per clump size, as last drawn. */
+export const MapShown = z.object({
+  open: z.boolean(),
+  drawn: z
+    .object({
+      centre: Point,
+      middle: Point,
+      reach: z.number(),
+      scale: z.number(),
+      things: z.number(),
+    })
+    .nullable(),
+});
 /** `__probe.scene.layout.camera`, parsing to the model's camera. */
 export const Camera = z.object({
   width: z.number(),

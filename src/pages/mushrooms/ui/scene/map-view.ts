@@ -56,6 +56,9 @@ const WEDGE_ALPHA = 0.14;
 /** A thing on the map: where it stands there, and how it is painted at that point. */
 type Mark = Point & { paint: () => void };
 
+/** The map as last drawn: its frame, and how many things stand on it. */
+type Drawn = { frame: MapFrame; things: number };
+
 /**
  * The map: a sheet of paper over the meadow that unfolds out of the map
  * button and folds back into it, drawn once as it opens from a snapshot —
@@ -70,6 +73,7 @@ export class MapView {
   private sheet: Phaser.GameObjects.Container | undefined;
   private pen: Phaser.GameObjects.Graphics | undefined;
   private catcher: Phaser.GameObjects.Zone | undefined;
+  private drawn: Drawn | undefined;
 
   private readonly now: () => number;
   private readonly snapshot: () => MapSnapshot | undefined;
@@ -88,6 +92,11 @@ export class MapView {
 
   get open(): boolean {
     return this.isOpen;
+  }
+
+  /** The map as it was last drawn, `undefined` before it first opens. */
+  get last(): Drawn | undefined {
+    return this.drawn;
   }
 
   /** Makes the sheet and the catch for taps over everything at `depth` but the map button. */
@@ -127,7 +136,7 @@ export class MapView {
     const { width, height, map } = shot.stand.layout;
     sheet.setPosition(map.x, map.y);
     pen.clear().setPosition(-map.x, -map.y);
-    drawMap(pen, shot);
+    this.drawn = drawMap(pen, shot);
     // Afresh, so the catch takes the screen's size as it is now.
     catcher.removeInteractive().setSize(width, height).setInteractive();
   }
@@ -144,7 +153,7 @@ export class MapView {
   }
 }
 
-function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): void {
+function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
   const { stand, eye, ratio } = shot;
   const { width, height, camera, sun } = stand.layout;
   const hairline = 1 / ratio;
@@ -182,7 +191,7 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): void {
     [
       ...stand.mushrooms.map(({ foot }) => foot),
       ...stand.spores.map(({ foot }) => foot),
-      ...flowers.map(({ place }) => place),
+      ...flowers.map(({ foot }) => foot),
     ],
     {
       middle,
@@ -208,12 +217,12 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): void {
       };
     }),
     ...flowers.map((flower) => {
-      const at = onMap(frame, flower.place);
+      const at = onMap(frame, flower.foot);
       return {
         ...at,
         paint: () => {
           const genes = flowerGenes(flower);
-          const size = thingScale(frame, flower.place.size, LEAST_FLOWER);
+          const size = thingScale(frame, flower.foot.size, LEAST_FLOWER);
           const head = flowerHead(genes, size);
           pen.save();
           pen.translateCanvas(at.x, at.y);
@@ -248,6 +257,7 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): void {
   // Farther up the map first, so the nearer the bottom draws over it.
   for (const mark of marks.toSorted((a, b) => a.y - b.y)) mark.paint();
   drawChild(pen, frame, eye);
+  return { frame, things: marks.length };
 }
 
 type Genes = Parameters<typeof paintHouse>[1];

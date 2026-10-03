@@ -54,6 +54,7 @@ import { playApproach } from './lib/play-approach.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
 import { playHold } from './lib/play-hold.ts';
 import { playKeys } from './lib/play-keys.ts';
+import { playMap } from './lib/play-map.ts';
 import { playMeadow } from './lib/play-meadow.ts';
 import { playOpening } from './lib/play-opening.ts';
 import { playRain } from './lib/play-rain.ts';
@@ -95,6 +96,7 @@ const PLAYS = [
   ['veer', playVeer],
   ['rain', playRain],
   ['sprouts', playSprouts],
+  ['map', playMap],
 ] as const;
 
 const TYPES: Record<string, string> = {
