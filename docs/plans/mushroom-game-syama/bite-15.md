@@ -195,6 +195,14 @@ holds its detail and the next step's API.
   the opening clump hides behind the front stem (call 25); in the flee
   frame a head peeks from the front door while the runner is hidden,
   unexplained. `play-house`'s change not yet run.
+- **W3** f089806, 099c778, 4cb519f — `type-overlap` green (`TapTimed` and
+  `Looking` bases in `motion.ts`; the trip's `source`/`target`/`travel`);
+  the probe's `windows(id)`, `worm(id)`, `topAt`'s `window:<id>:<i>`;
+  `play-worms.ts` from `playHouse`'s end, worm checks green. Window reach
+  and girth at their floors (16.1 px, ~5 px); the mushroom keeps 61% of its
+  cap on tabL and 40% on phoneP. The worm reads, arches on the face, the
+  target is plain; a wriggle splays the segments like beads (W4 fixes).
+  The meadow play is red at `playHouse`'s door taps (a tap now runs; R6).
 
 Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
 `Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's
