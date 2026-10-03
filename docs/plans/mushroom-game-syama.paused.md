@@ -333,28 +333,17 @@ The bites, each file its full contract:
 15. **After the rain** — shelter, spores the child sows, sprouts, and the
     ground under the finger — [bite-14.md](mushroom-game-syama/bite-14.md)
 
-## This bite
+## Rest of the bite
 
-Item 15, **the house's dwellers** — the operator's three asks after playing
-bite 14 (`mushroom-game-syama/bite-14.md` § "From the operator's play"):
-
-1. **A mouse runs only to another door**: out of its door, along the ground
-   and in at another house's door, when one is near enough to be seen;
-   with none, it peeks and hides as today.
-2. **A mouse is sized to its door** — a small house has a small mouse
-   («мини-мышек, несмотря на то что это против биологии»); his frame shows a
-   chanterelle's mouse as wide as the stem, its door hidden.
-3. **A window answers a tap with a worm**: it crawls over the cap to another
-   window of the same house when there is one, else peeks out and hides.
-
-Two packages, each mapped by a spec agent first (`runs` for 1–2, `worms` for
-3), each spec ending with its steps cut to one agent apiece and its
-collision list with the other. The calls go into
-[bite-15.md](mushroom-game-syama/bite-15.md) before any build brief; build
-agents work in their own worktrees from
-`docs/remove-before-merging/bite-15/brief-common.md`. Then the tail: the
-play run's frames, a review agent, its fixes, the fold, the Artifact,
-`/polish` sized by changed lines, `/pr`.
+Item 15, **the house's dwellers** (the operator's asks in
+`mushroom-game-syama/bite-14.md` § "From the operator's play"): a mouse runs
+only to another door, a mouse is sized to its door, a window answers a tap
+with a worm. Calls, waves, build log: [bite-15.md](mushroom-game-syama/bite-15.md);
+briefs: `docs/remove-before-merging/bite-15/`. Built: R1 (mouse sized
+to its door), R2 + R3 (runs' rules and scene), W1 + W2 (worm's model and
+scene). Left: wave 3 — R4 (a tap on a runner, the patter, call 23's split)
+∥ R5 + W3 (probe and plays) — then wave 4's look agents, and the tail:
+frames, review agent, fixes, fold, Artifact, `/polish`, `/pr`.
 
 ## Rest of the elephant
 

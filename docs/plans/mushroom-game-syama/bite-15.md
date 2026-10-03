@@ -157,3 +157,26 @@ moves to `model/mouse-run-clock.ts` in R4, before `hop` lands.
 of the leading end's pace on a long crawl (W1: an inch's step outruns the
 body's squeeze at 0.35 units/s); W4 tunes pace, length or inch from frames.
 A chanterelle has one window, so its worm only peeks.
+
+## Built
+
+Each package's hand-over note under `docs/remove-before-merging/bite-15/`
+holds its detail and the next step's API.
+
+- **R1** 305c2cbf — a mouse sized to its door, clipped to the doorway
+  (`door-reach.ts`, `draw-mouse.ts`); its head 0.6 of the door's width
+  (`MOUSE_HEAD_R` 0.3 is the radius), 10.9 px at the smallest on phoneP.
+  `layout.test.ts`'s 28 px floor test went with the floor.
+- **W1** df1924d3 — `model/worm.ts`: target, path, trip clock, body.
+- **R2** 2d7c2994 — `model/mouse-run.ts`: counts, reach, target, outings,
+  taps, sinking, the run's clock; `outingOf` in `motion.ts`.
+- **W2** 078286cd — window taps and the worm on screen (`window-reach.ts`,
+  `draw-worm.ts`, `house-worm.ts`, `wriggle`, the inks).
+- **R3** 2eceec8f — `mouse-runs.ts` holds the mice and runs, `run-front.ts`,
+  `paintRunner`; `house.mouse.tappedAt` is set only by a tap that peeks.
+  No one has yet looked at a runner or a worm on screen.
+
+Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
+`Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's
+phoneP fly-7 turn at 36.46 rad/s against 36.36 (call 42's bend allowance),
+seen by R1 and not this bite's.
