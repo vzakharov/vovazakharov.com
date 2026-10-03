@@ -1,8 +1,12 @@
 /**
- * A shower, `play-mushrooms.ts`'s run on a fresh meadow: a cloud tapped
- * starts the rain; mid-shower the flowers are shut and drops fall; dry, the
- * flowers are open again; and the eye turned round, the rainbow shows
- * opposite the sun. The frames the heads close over, the mid-shower ones and
+ * A shower, `play-mushrooms.ts`'s run on a fresh meadow: a porcini and a
+ * russula grown beside the opening's fly agarics, so a flier can shelter
+ * under each dome's underside, a butterfly, a fly and a bee released and
+ * settled, a cloud tapped starts the rain and sends
+ * them dashing under the caps; mid-shower the flowers are shut, drops fall
+ * and a flier shelters wherever a cap is wide enough; just after the stop
+ * they come out one by one; dry, the flowers are open again; and the eye
+ * turned round, the rainbow shows opposite the sun. The frames the heads close over, the mid-shower ones and
  * those they reopen over are each timed against the frame budget. Every
  * moment is found on `model/weather.ts`'s own clock functions and the
  * closing's steps (`closingStep`), so the play follows the shower's timing
@@ -11,6 +15,8 @@
 
 import { z } from 'zod';
 
+import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
+import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
   RAIN_MS,
@@ -23,6 +29,7 @@ import {
   Clouds,
   type Controls,
   type Expect,
+  grow,
   inTurn,
   type Page,
   Shower,
@@ -58,6 +65,18 @@ const OPEN_BY = frameWhen(STOP, (ms) => closingAt(ms) === 0) + REPAINT;
 const SHUT = 0.5;
 /** How far open again, dry. */
 const OPEN = 0.05;
+
+/** The species grown beside the opening's fly agarics: the banded domes. */
+const GROWN = ['porcini', 'russula'] as const;
+
+/** Frames between one flier's release and the next. */
+const RELEASE_GAP = 20;
+/** Frames the released fliers are left to find a perch before the tap. */
+const SETTLE_FLIERS = 300;
+/** Frames from the tap to the look at the fliers dashing for cover. */
+const DASH = 30;
+/** Frames from the stop to the look at the fliers coming out (`LINGER_MS`). */
+const OUT = Math.round(1500 / FRAME_MS);
 
 /** Frames a released `→` is left to glide to rest, the harness's slack. */
 const SETTLE = 60;
@@ -98,11 +117,20 @@ async function timedSteps(page: Page, frames: number): Promise<number[]> {
 
 export async function playRain(
   page: Page,
-  _controls: z.infer<typeof Controls>,
+  controls: z.infer<typeof Controls>,
   expect: Expect,
   note: (line: string) => void,
 ): Promise<void> {
   const shower = async () => page.evaluate('__probe.rain()', Shower);
+  await inTurn(GROWN, async (species) =>
+    grow(page, controls, controls.picker[MUSHROOM_SPECIES.indexOf(species)]),
+  );
+  await inTurn(INSECT_KINDS, async (kind) => {
+    await page.tap(controls.releases[kind]);
+    await page.step(RELEASE_GAP);
+  });
+  await page.step(SETTLE_FLIERS);
+  await page.shoot('rain-0-settled');
   const cloud = (await page.evaluate('__probe.clouds()', Clouds)).find(
     (point) => point !== null,
   );
@@ -125,7 +153,13 @@ export async function playRain(
   if (!started.raining) return;
 
   // The heads repaint as they close: frames 1 to `SHUT_BY` from the tap.
-  const closingFrames = [...first, ...(await timedSteps(page, SHUT_BY - 1))];
+  const dashing = await timedSteps(page, DASH - 1);
+  await page.shoot('rain-1-dash');
+  const closingFrames = [
+    ...first,
+    ...dashing,
+    ...(await timedSteps(page, SHUT_BY - DASH)),
+  ];
   note(`closing: ${budget('closing', closingFrames)}`);
 
   await page.step(MID - TIMED - SHUT_BY);
@@ -139,15 +173,30 @@ export async function playRain(
     mid.closing >= SHUT,
     `mid-shower, the flowers are shut only ${mid.closing.toFixed(2)} on average`,
   );
-  await page.shoot('rain-1-mid');
+  note(
+    `mid-shower: ${String(mid.sheltering)} fliers under a cap, ${String(mid.shelters)} seats offered`,
+  );
+  expect(
+    mid.sheltering > 0 || mid.shelters === 0,
+    `mid-shower, no flier shelters under the ${String(mid.shelters / 2)} caps wide enough`,
+  );
+  await page.shoot('rain-2-mid');
 
-  // The heads repaint as they reopen: from the rain's stop to `OPEN_BY`.
+  // The heads repaint as they reopen: from the rain's stop to `OPEN_BY`,
+  // the fliers coming out under them one by one.
   await page.step(STOP - MID);
-  const reopening = await timedSteps(page, OPEN_BY - STOP);
+  const leaving = await timedSteps(page, Math.min(OUT, OPEN_BY - STOP));
+  const out = await shower();
+  note(`${String(out.sheltering)} fliers still under a cap after the stop`);
+  await page.shoot('rain-3-out');
+  const reopening = [
+    ...leaving,
+    ...(await timedSteps(page, Math.max(OPEN_BY - STOP - OUT, 0))),
+  ];
   note(`reopening: ${budget('reopening', reopening)}`);
 
   // Dry, in the opening view, where the flowers stand.
-  await page.step(Math.max(DRY + REPAINT - OPEN_BY, 1));
+  await page.step(Math.max(DRY + REPAINT - Math.max(OPEN_BY, STOP + OUT), 1));
   const dry = await shower();
   expect(!dry.raining, 'the rain did not stop at its end');
   expect(
@@ -158,7 +207,7 @@ export async function playRain(
     dry.closing <= OPEN,
     `dry, the flowers are still shut ${dry.closing.toFixed(2)} on average`,
   );
-  await page.shoot('rain-2-dry');
+  await page.shoot('rain-4-dry');
 
   // The rainbow stands opposite the sun, mostly behind the opening view:
   // the eye is turned on `→` till it stands in the middle third.
@@ -176,5 +225,5 @@ export async function playRain(
   note(
     `rainbow ${after.rainbow.toFixed(2)} at ${rainbowAt?.toFixed(0) ?? 'no'} px after ${String(turnedFor)} frames of →`,
   );
-  await page.shoot('rain-3-rainbow');
+  await page.shoot('rain-5-rainbow');
 }
