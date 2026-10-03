@@ -127,4 +127,53 @@ sheet on both axes, still sun-up, its scale capped at 2.5× the fresh
 meadow's so two mushrooms do not fill a tablet. Beat: keeping the child
 centred, which the child's own marker and wedge make unnecessary.
 
+15\. **A door is seated among the mushrooms as the eye now stands them,
+when the opening view cannot place its house.** The bed sought a door's
+seat only in the opening eye's world (`layout.mushrooms`), so a mushroom
+grown behind it, past its sides or its far edge — after any walk or turn —
+had none, and `furnish` threw (the operator's crash on a russula, after two
+doors that seated). `doorSeats` (`door-seats.ts`) tries the opening view,
+then the current one, then the mushroom alone, so every grown mushroom has
+a seat the moment its door goes in.
+
+16\. **The view wedge stays on the sheet.** `drawView` samples the wedge's
+arc and cuts each ray at the paper's inner edge, so a child near the
+frame's side draws no wedge over the margin or the meadow.
+
 ## Built
+
+Each package's hand-over note under `docs/remove-before-merging/bite-16/`
+(retired, `docs/remove-before-merging/retired.md`) holds its detail.
+
+- **A** 18e3ad6 — calls 1–3: the mute gone whole from `sound.ts`
+  (`settle()` and the hidden-tab suspend kept, its tests turned to the
+  hidden tab); `WithMap`, `Controls.map`, the `map` handler;
+  `drawMapButton` in `hud.ts`, the flower picker's cross (`drawPullButton`)
+  while open; every other button hidden while it is open; the probe's
+  `state().mapOpen`, `play-meadow`'s `7-map`; decisions.md's sound lines.
+- **B** 49725da — calls 4–12: `model/map-frame.ts` (`mapFrame`, `onMap`,
+  `headingOnMap`, `thingScale`) under `node:test`; `map-view.ts`'s
+  `MapView`, one Graphics in a Container pivoted on the button, scaled and
+  faded by `emerge`/`sink` paced to 0.3 s, redrawn on open and on a paint
+  while open, lit by `iconLighting`; a full-screen `Zone`, interactive only
+  while open, closing it; `PALETTE.paper`/`paperEdge`; the note keys
+  dropped and the held keys let go while open. `meadow-scene.ts` back to
+  450 lines by `listenOnMeadow` taking the scene's pieces.
+- **C** 80bd380 — `__probe.map()` and `play-map.ts` (`m0`–`m4`: closed,
+  unfolding, open fresh, walked and planted, open again) on tabL and
+  phoneP; call 13 is its one red, fixed.
+- **The review** (5402118795, six findings, each replied to citing
+  28a6277, none resolved) and **D** 28a6277 — the pickers shut by a
+  `{ kind: 'map' }` action (`PICKERS_SHUT`); a glide stopped dead under the
+  map (`haltAt` in `model/walk.ts`, `stoodStill` in `model/stride.ts`,
+  `EyeInput.halt`); call 14's frame; flower heads floored at `LEAST_HEAD`
+  9 px; the probe's `map()` giving `flowers`, `child`, `ahead`, and
+  `play-map` asserting nothing off the sheet, left on the map left of the
+  heading, the `+` picker shut and a flick stopped under it; calls 15–16.
+  Map on tabL and phoneP, meadow on tabL, green.
+
+Open: on phoneP the planted meadow fills the sheet's width but only a
+middle band of its height (call 14 as written, on a tall sheet); the house
+at map scale reads as a dot and a smudge; `emerge`'s overshoot makes the
+sheet briefly larger than the screen mid-unfold — all three in
+`to-check.md`.

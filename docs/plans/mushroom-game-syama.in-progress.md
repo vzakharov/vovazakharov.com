@@ -179,7 +179,11 @@ play, caps swell, and it hisses and patters; a tap while it rains adds a gush
 and lengthens it. The insects dash under the nearest caps, and every spore comes
 up as a little mushroom of its parent's kind that grows over two minutes. When
 it stops the insects come out one by one and a rainbow stands opposite the sun,
-behind her on the opening view. A mute pictogram sits top left.
+behind her on the opening view. Top left, a folded map in ink: a press
+unfolds the map over the meadow (bite-16.md), sun-up, framing every
+mushroom, flower and spore in its own side picture and the child as a dot,
+arrow and view wedge; the meadow waits under it, and any tap folds it away.
+Sound off is the device's.
 
 **Pure model, reconciling scene.** `model/` is Phaser-free and under
 `node:test`. `game.ts`'s `reduce` over the `Meadow` (growing, selecting,
@@ -195,7 +199,8 @@ mushrooms within `D_SEE` of a new one and `FIELD_MUSHROOMS` (96) the field,
 only orchestrates the beds — `mushroom-bed.ts`, `flower-bed.ts`,
 `insect-view.ts`, `house-view.ts`, `controls.ts`, `hud.ts`, `rain-view.ts` —
 with `arrivals.ts`, `perches.ts` and `meadow-listeners.ts` (its event wiring)
-beside it.
+beside it, and holds `map-view.ts`'s `MapView`, which gates the input while
+open and frames through `model/map-frame.ts`.
 
 **Rain.** The shower is model state (`model/weather.ts`, `Meadow.rain`, the
 `rain` action: `wetness`, `downpour`, `rainbow` as functions of the clock);
@@ -285,8 +290,8 @@ every bed and painter; every ink comes from `inkFor` (`ink.ts`); `palette.ts`,
 
 **Sound.** All synthesized: `sound.ts`'s `MeadowSound`, built on the first tap's
 release and playing what was asked before it, with `synth.ts` and
-`insect-voices.ts`, the footsteps (`footsteps.ts`) panned side to side; the mute
-is remembered in `localStorage`. `instrument.ts`'s `Instrument` plays
+`insect-voices.ts`, the footsteps (`footsteps.ts`) panned side to side,
+asleep on a hidden tab. `instrument.ts`'s `Instrument` plays
 `instrument-voices.ts`'s twenty voices (`model/flower-sounds.ts`,
 `model/notes.ts`) through a compressor on master, levelled by `part-loudness.ts`
 (bite-10.md).
@@ -297,7 +302,7 @@ protocol on tabL, tabP, phoneP, phoneL and phoneS (`scripts/lib/play-*.ts`, the
 probe and its schema in `scripts/lib/mushroom-probe.ts`, which reads the eye:
 `__probe.eye()`, `sun()`, `toScreen`/`toWorld`, `rain()`, `clouds()`,
 `rainbowAt()`). Its plays — meadow, walk, planting, species, tufts, hold,
-approach, rain, sprouts — each start on a fresh meadow (`--plays` picks them).
+approach, rain, sprouts, map — each start on a fresh meadow (`--plays` picks them).
 It fails on a page error, a wrong effect, a flier turning or relit too fast
 (`flier-watch.ts`) or a pop while walking (`play-walk.ts`); the median frame
 against 26 ms (`frame-budget.ts`), and the approach's lawn share of a sow frame
@@ -313,7 +318,8 @@ runs a file at a time, `fliers.test.ts` alone (~354 s).
 republished in place at the URL on the PR.
 
 **The house's dwellers.** Mouse counts, targets and taps are
-`model/mouse-run.ts`; a run's course and clock (`mouse-run-course.ts`,
+`model/mouse-run.ts`; a door's seat is `door-seats.ts`'s, from the opening
+view, else the current one, else alone; a run's course and clock (`mouse-run-course.ts`,
 `mouse-run-clock.ts`) bow in drawn runners (`RUNNER_SPAN`), straight from the
 ground; `mouse-runs.ts` and `runner-shown.ts` draw them. A worm is
 `model/worm.ts`, `house-worm.ts`, `draw-worm.ts`.
@@ -343,16 +349,9 @@ The bites, each file its full contract:
 16. **The house's dwellers** — mice run between doors, a mouse sized to its
     door, worms between windows, keys that strafe while turning —
     [bite-15.md](mushroom-game-syama/bite-15.md)
-
-## Rest of the bite
-
-**16. The map** — the mute's circle becomes a map button; the map unfolds
-from it over the meadow, fixed to the sun, every mushroom and flower in its
-own side picture, the child a marker with a view wedge. Calls and packages:
-[bite-16.md](mushroom-game-syama/bite-16.md). Built, reviewed and fixed
-(18e3ad6..28a6277, the door crash too), frames and Artifact v22 done. Left:
-§ "Built", the fold into `## Eaten so far` (its mute lines are stale), the
-notes' retirement, `/polish`, vet, `/pr`, megabeast notes, pause, relay.
+17. **The map** — the mute's circle a map button, the map unfolding from
+    it, sun-up, every foot in its own side picture —
+    [bite-16.md](mushroom-game-syama/bite-16.md)
 
 ## Rest of the elephant
 
