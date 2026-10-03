@@ -23,17 +23,6 @@ the orchestrator lands `wt/g37` at the bite's tail if he does.
   - A step's chase now starts afresh at the slop's crossing, as a strafe's
     did, so the crossing's jump counts toward no fling (the pan's rule).
 
-## Shared with the pan's fling
-
-`model/glide.ts` is the one copy, `pan.ts` and `stride.ts` both import it:
-the curve (`GLIDE_TAU`, `GLIDE_OVER`, `glided(u)`, and `glidePace(u)` — the
-pan's `paceAt` slope), the finger's velocity sampling (`blended`,
-`VELOCITY_WINDOW`) and the still-finger rule (`flung`, `STILL_AFTER`), with
-the types `Sampled` and `Flinging`. Each axis keeps its own cap and floor
-(px/s for the crop, units/s for the ground) and its own state: the pan
-stores a closed-form glide from `began`, the stride integrates `spent`
-seconds frame by frame, since it is ticked.
-
 - Step 2, the walk play (`scripts/lib/play-walk.ts`,
   `scripts/lib/play-walk-checks.ts`): green on tabL.
   - `checkWalk` lets a drag's frames, traced from its lift, run up to
@@ -49,6 +38,17 @@ seconds frame by frame, since it is ticked.
     (capped to 8), strafed 2.689 in all — 0.343 by the first traced frame,
     2.346 flung — nine tenths 0.70 s after the lift, at most 7.06 units/s;
     the vertical step drag walked 2.69 at most 7.43 units/s. C37 had 0.18.
+
+## Shared with the pan's fling
+
+`model/glide.ts` is the one copy, `pan.ts` and `stride.ts` both import it:
+the curve (`GLIDE_TAU`, `GLIDE_OVER`, `glided(u)`, and `glidePace(u)` — the
+pan's `paceAt` slope), the finger's velocity sampling (`blended`,
+`VELOCITY_WINDOW`) and the still-finger rule (`flung`, `STILL_AFTER`), with
+the types `Sampled` and `Flinging`. Each axis keeps its own cap and floor
+(px/s for the crop, units/s for the ground) and its own state: the pan
+stores a closed-form glide from `began`, the stride integrates `spent`
+seconds frame by frame, since it is ticked.
 
 ## Left
 
