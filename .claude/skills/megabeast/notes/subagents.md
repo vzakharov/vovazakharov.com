@@ -76,10 +76,11 @@
   "post before you are long into it", the marker line, never fix. Two
   posted within five minutes at 155–181k with three findings each, neither
   having played; posting early is what got a review out of a full context.
-  The orchestrator writes each finding's call into a topic file
-  (`bite-12/review.md`) as the report lands, before any fix brief. The skill
-  should default to this and keep a review session only for a structural
-  bite.
+  The orchestrator writes each finding's call, with the alternative it
+  beat, into one committed calls file before any fix brief: bite 12b's nine
+  threads (six blocking) ran from `bite-12b/review-handling.md` as six
+  parallel one-step agents on disjoint file lists. The skill should default
+  to this and keep a review session only for a structural bite.
 - **A play → trace → decide chain converges one class per agent.** The
   leg-timing reds went 88 → 43 → 0 → 4 → 2 over four agents (a fix, a
   play, a watch allowance, a trace), each report naming the next class
@@ -87,19 +88,14 @@
   A residue the size of the bound's own slack is accepted in writing, not
   traced.
 - **The export's authorship label reads the loop's own review as
-  answered.** `/handle` fires its review lane on a thread whose tail is
-  `(human)`, but every review in this loop is an agent's, so all nine
-  threads of bite 1's review came out `@vzakharov (agent)`, the label
-  `/handle` treats as the agent's own reply; the session worked them anyway
-  because the plan's loop says to. The skill should make a loop review
-  recognisable on its own, for example with a marker line the review
-  session writes and `/handle` reads as guidance whatever the label.
-- **A review's fixes can be a bite of their own.** Bite 4's review raised
-  eight findings, three geometric (occlusion, tap size, mouse size), each
-  needing sweeps. The skill should let a handle session split the fixes
-  across relays, carried by a
-  `docs/remove-before-merging/handle-bite<n>/progress.md` that holds the
-  design decided and the measurements.
+  answered.** Every loop review is an agent's, so bite 1's nine threads came
+  out `@vzakharov (agent)`, which `/handle` treats as its own reply. The
+  skill should mark a loop review with a marker line `/handle` reads as
+  guidance whatever the label.
+- **A review's fixes can be a bite of their own.** Bite 4's eight findings,
+  three needing geometric sweeps, split across relays carried by a
+  `handle-bite<n>/progress.md` holding the design decided and the
+  measurements.
 - **A review's design calls are decided on paper before the brief, and the
   proof can reopen them.** Writing each choice into the plan's decisions
   and committing it first gives the implementing subagent a rule to build
@@ -111,7 +107,10 @@
   Each call went into the plan with the numbers that forced it. The skill
   should expect a layout review to take calls in a chain like this, and
   brief each agent to stop and report at the first rule it cannot keep,
-  with the options measured, rather than pick one. A call made from a
+  with the options measured, rather than pick one: on 12b's T139 both
+  fixes the agent measured broke a standing decision (the count changing
+  by screen), which only the orchestrator could weigh, and the call went
+  into `decisions.md` instead of code. A call made from a
   report's numbers can still be wrong about the cause: 12b's gill band got
   "a chord floor of its own", and the agent measured that no floor under
   full detail held the bound (the error sat in where angle samples fall,
@@ -170,18 +169,18 @@
 - **An agent lands one step, maybe two, whatever the brief lists; writing
   a play, running it and tracing a red are each an agent of their own.**
   Every round measured the same thing. Bite 6's perch brief held six
-  threads, too many (bite 10's twelve ran well split over three agents).
-  Bite 11's seven package agents reached 160–220k after two or three steps
-  of five. In bite 12 the eleven build agents briefed with two or three
-  steps reached ~170k in 12–20 minutes having landed one, four of them
-  committing only after the nudge; the lens's five steps took three rounds;
-  in the review round a three-step build stopped after its pure move and a
-  play agent stopped before the trace in its tail; three of three "build,
-  then play once" agents ran out after the unit tests, leaving every
-  package unplayed; and the `veer` play filled its writer (185k) before one
-  browser run, where a second agent briefed "apply the patch, lint, commit,
-  then run one screen" finished at 124k. Agents that read four or five
-  hand-over notes before starting filled fastest. So the skill briefs one
+  threads, too many; bite 11's package agents reached 160–220k after two or
+  three steps of five; bite 12's eleven build agents briefed with two or
+  three steps reached ~170k in 12–20 minutes having landed one; three of
+  three "build, then play once" agents ran out after the unit tests; the
+  `veer` play filled its writer (185k) before one browser run, where a
+  second agent briefed "apply the patch, lint, commit, then run one screen"
+  finished at 124k. Briefed one step each, bite 12b's six review agents
+  landed five inside 5–35 minutes at 110–160k; the sixth (A2, a re-tend
+  sliced through `Tending`) filled at 170k having only designed it, pushed
+  the design as a `.patch` plus note, and its successor was briefed "the
+  note is your design, build it". Agents that read four or five hand-over
+  notes before starting filled fastest. So the skill briefs one
   step — one build step plus its tests — with a second only "if context
   allows", names the step that ends the brief, commits a written play
   before any build, gives the play a second, cheap agent over the pushed
@@ -277,14 +276,25 @@
   12b's first waves ran R1+R2, R3, S1, S2, L1, L2, P1, I1 (85–166k, 7–33
   minutes each); the three nudged at ~120–145k with nothing on origin
   committed within ~25k. The orchestrator's own context, not the agents',
-  bounded the session: ~12 reports and launches took it from ~190k to past
-  220k, so a relay belongs after a wave, not mid-wave.
+  bounds the session: ~12 reports and launches took it from ~190k to past
+  220k, and the review wave's six agents brought the 200k notice at the
+  fourth report (~10 reports and nudges in). A relay then would orphan the
+  running agents, so the orchestrator waits out the wave and relays after
+  it; the skill should size a wave so its reports fit the orchestrator's
+  room left, not only the agents'.
 - **A test that can fail fails the run it lands in.** The play run's
   stricter turn watch landed before the flight fix and turned
   `pnpm play:mushrooms` red across two sessions. The handling order should
   land a watch and its fix in the same wave, or say in the pause note that
   red is expected.
-
+- **A sibling's red goes to its owner while the owner still runs.** Bite
+  12b's F ran the slow shared `fliers.test.ts`, found three reds, and traced
+  them by reverting one file to B's commit while B still ran; the
+  orchestrator forwarded them with `SendMessage`, and B settled them before
+  reporting — one check had measured the very spacing B replaced, one was
+  two-sample noise. The skill routes such a red to its owner at once, and
+  the owner asks "is this test measuring what I replaced?" before loosening
+  anything.
 - **Own a type's builders, not only its files.** Bite 12b's I4 blocked
   because `Host` is built in `capTop` (mushroom bed) and `seat` (flower
   bed), each another package's file that wave. Handing the next I agent
@@ -388,9 +398,8 @@
   and patch at once. So the orchestrator keeps each agent's id until its
   report lands, lists `git worktree list` and each tree's `status` before
   deciding anything, and never removes a dead agent's worktree before trying to resume it.
-- **A wrap-up and its cancel can cross.** An agent told to stop, then told
-  to carry on, had already stopped; the cancel only resumed it. Settle with
-  the operator before stopping an agent, not after.
+- **A wrap-up and its cancel can cross**: the agent had already stopped.
+  Settle with the operator before stopping an agent, not after.
 
 ## The tail
 

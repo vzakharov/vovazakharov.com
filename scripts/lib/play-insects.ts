@@ -1,15 +1,21 @@
 /** The butterflies' part of `play-mushrooms.ts`'s tap sequence, played once the meadow is bare. */
 
-import type { z } from 'zod';
+import { z } from 'zod';
 
+import { distanceBetween } from '../../src/pages/mushrooms/model/geometry.ts';
 import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
 import { isSamePerch } from '../../src/pages/mushrooms/model/perch-room.ts';
+import { PERCH_REACH } from '../../src/pages/mushrooms/ui/scene/perch-sight.ts';
+import { perchAnchorOf } from '../../src/pages/mushrooms/ui/scene/perches.ts';
 import { pick } from '../../src/shared/lib/collections.ts';
 import {
   type Controls,
+  InsectPoints,
   type Expect,
+  Eye,
   grow,
+  Insects,
   inTurn,
   type Page,
   Point,
@@ -21,6 +27,7 @@ import {
   MOST_LOOKS,
   REST_LOOK,
 } from './play-fliers.ts';
+import { FPS } from './play-walk-checks.ts';
 
 /** How many butterflies are released: one past their limit, so the oldest leaves. */
 const RELEASES = INSECT_LIMITS.butterfly + 1;
@@ -304,4 +311,101 @@ export async function playInsects(
   );
   await page.step(12);
   await page.shoot('b7-takeoff');
+}
+
+/**
+ * How long `↑` is held walking off the insects; how long after it every one
+ * has to be drawn within `PERCH_REACH` of the eye or bound for a perch there;
+ * and how long after it every one has to be drawn there, in seconds. A
+ * butterfly, the slowest, left the walk's length behind takes about half a
+ * minute just to cross back into reach.
+ */
+const FOLLOW_WALK = 20;
+const FOLLOW_WAIT = 30;
+const GATHER_WAIT = 90;
+
+/**
+ * The insects follow the child: with insects settled on the meadow, `↑` held
+ * `FOLLOW_WALK` s walks the eye off their perches; `FOLLOW_WAIT` s later every
+ * insect drawn, but one leaving, is drawn within `PERCH_REACH` of the anchor
+ * the perches are judged from (`perchAnchorOf`) or flies to a perch within it,
+ * and `GATHER_WAIT` s later every one sits or hovers within it. Frames of the
+ * walk's end and of the insects gathered land as `follow-*.png`.
+ */
+export async function playFollow(
+  page: Page,
+  expect: Expect,
+  note: (line: string) => void,
+): Promise<void> {
+  const eye = async () => page.evaluate('__probe.eye()', Eye);
+  /** Every insect drawn, but one leaving: how far from the anchor it is drawn, and how far its perch stands (`Infinity` for a perch no longer placed). */
+  const reaches = async () => {
+    const anchor = perchAnchorOf(await eye());
+    const insects = await page.evaluate('__probe.insects()', Insects);
+    const drawn = await page.evaluate('__probe.drawnAt()', InsectPoints);
+    const bound = await page.evaluate('__probe.boundAt()', InsectPoints);
+    return insects.flatMap(({ id, to }) => {
+      const [at, perch] = [drawn[id], bound[id]];
+      if (!at || to.kind === 'away') return [];
+      const away = distanceBetween(anchor, at);
+      const perchAway = perch ? distanceBetween(anchor, perch) : Infinity;
+      return [{ id, away, perchAway, to: `${to.kind} ${to.id}` }];
+    });
+  };
+  type Reach = Awaited<ReturnType<typeof reaches>>[number];
+  const strays = (all: readonly Reach[]) =>
+    all.filter(({ away }) => away > PERCH_REACH);
+  const named = (all: readonly Reach[]) =>
+    all
+      .map(
+        ({ id, away, perchAway, to }) =>
+          `${id} at ${away.toFixed(2)}, bound for ${to} at ${perchAway.toFixed(2)}`,
+      )
+      .join('; ');
+
+  const from = await eye();
+  await page.key('ArrowUp', 'keyDown');
+  await page.step(FPS * FOLLOW_WALK);
+  await page.key('ArrowUp', 'keyUp');
+  const walked = (await eye()).walked - from.walked;
+  expect(
+    walked > PERCH_REACH,
+    `↑ held ${String(FOLLOW_WALK)} s walked ${walked.toFixed(2)} units, not past PERCH_REACH ${PERCH_REACH.toFixed(2)}`,
+  );
+  const atWalkEnd = await reaches();
+  await page.shoot('follow-walked');
+
+  /** Looks every `LOOK` frames from look `looks` until every insect is drawn within reach or look `until`. */
+  const gather = async (
+    looks: number,
+    until: number,
+  ): Promise<{ looks: number; all: Reach[] }> => {
+    const all = await reaches();
+    if (strays(all).length === 0 || looks >= until) return { looks, all };
+    // Not drawn: the frames' budget is the meadow's, not this wait's.
+    await page.trace(LOOK, '0', z.number());
+    return gather(looks + 1, until);
+  };
+  const lookAt = (seconds: number) => Math.ceil((FPS * seconds) / LOOK);
+  const soon = await gather(0, lookAt(FOLLOW_WAIT));
+  const lagging = strays(soon.all).filter(
+    ({ perchAway }) => perchAway > PERCH_REACH,
+  );
+  expect(soon.all.length > 0, 'no insect was drawn to follow the walk');
+  expect(
+    lagging.length === 0,
+    `${String(FOLLOW_WAIT)} s after the walk, ${named(lagging)}: drawn past PERCH_REACH ${PERCH_REACH.toFixed(2)} of the eye and not flying back into it`,
+  );
+  const { looks, all } = await gather(soon.looks, lookAt(GATHER_WAIT));
+  const left = strays(all);
+  expect(
+    left.length === 0,
+    `${String(GATHER_WAIT)} s after the walk, ${named(left)}: still drawn past PERCH_REACH ${PERCH_REACH.toFixed(2)} of the eye`,
+  );
+  const farthest = Math.max(...all.map(({ away }) => away)).toFixed(2);
+  note(
+    `↑ ${String(FOLLOW_WALK)} s walked ${walked.toFixed(2)} units, leaving ${String(strays(atWalkEnd).length)} of ${String(atWalkEnd.length)} insects past PERCH_REACH; ${String(strays(soon.all).length)} still past it, flying back, ${String(FOLLOW_WAIT)} s later; ${String(all.length - left.length)} of ${String(all.length)} within it ${((looks * LOOK) / FPS).toFixed(1)} s after the walk, the farthest at ${farthest}`,
+  );
+  await page.step(1);
+  await page.shoot('follow-gathered');
 }

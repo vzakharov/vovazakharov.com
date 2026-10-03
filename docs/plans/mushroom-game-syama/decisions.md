@@ -70,10 +70,15 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
 - **A mushroom is tapped where it is drawn, on every screen.** The opening
   zoom never falls below the floor at which the narrowest cap the genes
   allow is `2 × TAP_RADIUS` wide, and every screen holds the same twelve
-  (`MUSHROOM_SLOTS`) in one world, rather than fewer on a small one: a count
-  that changed with the screen would strand a mushroom whenever a phone is
-  turned. A mushroom grows clear of the controls where they stand and of the
-  sun's wash.
+  (`MUSHROOM_SLOTS`, counted round the new foot and round the anchor) in one
+  world, rather than fewer on a small one: a count that changed with the
+  screen would make a turned phone refuse or overfill. A turned phone may
+  show fewer of the twelve than a landscape one laid out — phoneL keeps 5 of
+  12 on screen, tabL 6 — and that is accepted: the field turns and walks, so
+  a drag brings every one back. [Placing the opening inside the turned
+  screen too: phoneL would refuse at 9, the count changing with the screen.]
+  A mushroom grows clear of the controls where they stand and of the sun's
+  wash.
 - **No tap is ever answered with a shrug.** `−` with nothing selected sinks
   the newest mushroom, so `−` always takes something away and a selection
   only chooses which. A control that truly cannot act — `+` on a full meadow,

@@ -125,3 +125,24 @@ Filled in as each lands.
   (accepted) — and `Tended`, the standing-tuft bookkeeping out of `Grass`.
   `paint` still tends whole (a resize lays everything anew: accepted).
   A2b launched to apply, wire and test it from `rh-a2.md`.
+- **C2 (T143, play)**: d33f10e1 (`playFollow` last in the meadow play: ↑
+  20 s, 31.8 units, four of ten insects left past `PERCH_REACH`; green on
+  tabL, every insect in reach 30.3 s after the walk, and phoneP, 19.5 s).
+  The 30 s window became 30 s heading-in plus 90 s settled: a butterfly on
+  a 64 s flight to an air spot was following, slowly — the harness's red,
+  so a line went to `to-check.md` (accepted, per the play-run rule).
+  **Open lead for the tail:** drawing the 30–90 s wait raised tabL's frame
+  median from ~17 to 27.4 ms, so frames after a long walk may cost far more
+  than at the opening; the wait now steps without drawing, so no play
+  watches those frames. Trace it with its own agent before bite 13.
+- **E (T139)**: 0d391410 (`isCrowdedAt(meadow, foot, from)`, `roomFor`
+  passing its anchor; phoneL and tabL now stop at 12, from 22 and 15).
+  Turned, phoneL still shows 5 of 12 tappable and tabL 6 of 12; options
+  measured — placing the opening inside the turned screen too, on every
+  screen or landscape only — strand none but make phoneL refuse at 9.
+  **Call: the twelve stays the same on every screen, and a turned phone
+  showing fewer of them is accepted**, since the field turns and walks and a
+  drag brings each one back; the count changing with the screen is what
+  decisions.md rules out (written there). The reducer's `grow` still counts
+  round the foot alone: the scene's `roomFor` already applies the anchor
+  rule before every grow it sends — accepted.
