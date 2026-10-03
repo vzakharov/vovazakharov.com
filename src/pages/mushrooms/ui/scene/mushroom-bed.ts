@@ -30,7 +30,7 @@ import { splayed } from '../../model/mushroom-pose';
 import { sproutScale } from '../../model/sprouting';
 import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
-import { doorInSight, standingAt } from './door-sight';
+import { doorSeats } from './door-seats';
 import { tappedDoor } from './door-tap';
 import { containsMushroom } from './hit-areas';
 import { HouseView } from './house-view';
@@ -290,27 +290,25 @@ export class MushroomBed implements Following {
     return { ...at, on, drawn: onHost(on, at) };
   }
 
-  /**
-   * Seats the door of each of `mushrooms` that `due` picks where the ones in
-   * front of it, as `layout` stands them, leave it in sight (`doorInSight`).
-   */
+  /** Seats the door of each of `mushrooms` shown that `due` picks, as the eye stands now (`doorSeats`). */
   private seatDoors(
     mushrooms: readonly Planted[],
     layout: MeadowLayout,
     due: (shown: Shown, mushroom: Planted) => boolean,
   ): void {
-    const standing = mushrooms.flatMap((mushroom) => {
-      const shown = this.shown.get(mushroom.id);
-      const place = placeIn(layout.mushrooms, mushroom);
-      return shown && place
-        ? [{ mushroom, shown, standing: standingAt(place, mushroom) }]
-        : [];
+    const shown = mushrooms.flatMap((mushroom) => {
+      const each = this.shown.get(mushroom.id);
+      return each ? [{ ...mushroom, shown: each }] : [];
     });
-    const everyone = standing.map((each) => each.standing);
-    for (const { mushroom, shown, standing: self } of standing) {
-      if (!due(shown, mushroom)) continue;
-      shown.door = doorInSight(self, everyone);
-      shown.house.repaint();
+    const eye = this.view?.eye ?? OPENING_EYE;
+    const seats = doorSeats(layout.mushrooms, eye, shown, (mushroom) =>
+      due(mushroom.shown, mushroom),
+    );
+    for (const { id, shown: each } of shown) {
+      const seat = seats.get(id);
+      if (!seat) continue;
+      each.door = seat;
+      each.house.repaint();
     }
   }
 

@@ -87,7 +87,10 @@ const squeak: Voice = (context, out) => {
   tone(context, out, 'sine', [2100, 2900], 0.1, 0.09, 0.2);
 };
 
-/** One tick of a running mouse's patter, a little different each time, `level` of its full loudness. */
+/**
+ * One tick of a running mouse's patter, a little different each time, `level`
+ * of its full loudness.
+ */
 const patter =
   (level: number): Voice =>
   (context, out) => {
@@ -208,7 +211,10 @@ export class MeadowSound {
     this.play(knock);
   }
 
-  /** A worm answering a tap on its window: `level` 1 as it sets out, lower as it is tapped on its way. */
+  /**
+   * A worm answering a tap on its window: `level` 1 as it sets out, lower as it
+   * is tapped on its way.
+   */
   wriggle(level = 1): void {
     this.play(wriggle(level));
   }
@@ -217,7 +223,10 @@ export class MeadowSound {
     this.play(squeak);
   }
 
-  /** A running mouse's patter tick at `pan` (-1 left to 1 right), `level` of its full loudness; dropped before `start`, as a step is. */
+  /**
+   * A running mouse's patter tick at `pan` (-1 left to 1 right), `level` of its
+   * full loudness; dropped before `start`, as a step is.
+   */
   patter(pan: number, level: number): void {
     if (this.context) this.play(panned(patter(level), pan));
   }
@@ -231,12 +240,18 @@ export class MeadowSound {
     if (this.context) this.play(panned(footstep, FOOT_PAN[foot]));
   }
 
-  /** An insect of `kind` taking wing at `pan` (`panOf`): a butterfly's trill, a fly's or a bee's buzz. */
+  /**
+   * An insect of `kind` taking wing at `pan` (`panOf`): a butterfly's trill, a
+   * fly's or a bee's buzz.
+   */
   takeOff(kind: InsectKind, pan: number): void {
     this.play(panned(TAKE_OFF[kind], pan));
   }
 
-  /** An insect of `kind` caught in the air at `pan` (`panOf`), shying away: a butterfly's tumbling trill, a fly's whine, a bee's sharp buzz. */
+  /**
+   * An insect of `kind` caught in the air at `pan` (`panOf`), shying away: a
+   * butterfly's tumbling trill, a fly's whine, a bee's sharp buzz.
+   */
   shy(kind: InsectKind, pan: number): void {
     this.play(panned(SHY[kind], pan));
   }
@@ -244,8 +259,9 @@ export class MeadowSound {
   /**
    * The shower's sound at this frame, `downpour` and `wetness` as
    * `model/weather.ts` gives them; called every frame, and free while neither
-   * has moved. Built when a shower is first heard — never while hidden, and not waiting for `start`, since a shower is a state the next
-   * frame asks for again — and let go once the meadow is dry.
+   * has moved. Built when a shower is first heard — never while hidden, and not
+   * waiting for `start`, since a shower is a state the next frame asks for
+   * again — and let go once the meadow is dry.
    */
   shower(downpour: number, wetness: number): void {
     if (downpour <= 0 && wetness <= 0) {

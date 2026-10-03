@@ -53,6 +53,7 @@ import {
   letGoStrafe as letGoStrafeKey,
   liftChase,
   standingAt,
+  stoodStill,
   type Stride,
   tick as tickStride,
   yieldChase,
@@ -357,6 +358,19 @@ export function liftAt(walk: Walk, time: number): Walk {
  */
 export function heldStill({ drag }: Walk, time: number): number | undefined {
   return drag && !drag.lock ? time - drag.since : undefined;
+}
+
+/**
+ * The heading and the eye stopped dead at `time`, where they stand: a glide,
+ * a fling, a finger's chase and every held key ended at once, not eased out.
+ */
+export function haltAt(walk: Walk, time: number): Walk {
+  return {
+    ...walk,
+    pan: restingAt(walk.pan, leftAt(walk.pan, time)),
+    stride: stoodStill(walk.stride),
+    drag: undefined,
+  };
 }
 
 /**

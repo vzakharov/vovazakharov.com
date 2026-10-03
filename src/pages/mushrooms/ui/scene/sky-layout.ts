@@ -157,23 +157,23 @@ export function flowerCross(
 }
 
 /**
- * The map button in the top left; the two pickers across the top, one at a time, as
- * each closes the other; and `+`, `−` and the house down the right, where
- * Syama drew them: at `PLUS_HEIGHT`, raised where that would bring the house
- * down onto the ground, but never onto a picker's row or off the screen.
+ * The map button in the top left; the two pickers across the top, one at a
+ * time, as each closes the other; and `+`, `−` and the house down the right,
+ * where Syama drew them: at `PLUS_HEIGHT`, raised where that would bring the
+ * house down onto the ground, but never onto a picker's row or off the screen.
  *
- * A sky too short for three down the right stands the house left of `+`,
- * and a picker's row that would push them onto the ground moves instead.
- * Where the rows, dropped below the map button, push the house under the ground's
- * edge, it takes the top right corner, opposite the map button, instead. A picker
- * too long for one row at a finger's size — only ever on a screen narrow
- * enough to drop the row below the map button — puts the rest in the band that
- * leaves free beside the map button, or in rows under its own where that band is
- * too narrow to hold them (`completed`).
+ * A sky too short for three down the right stands the house left of `+`, and a
+ * picker's row that would push them onto the ground moves instead. Where the
+ * rows, dropped below the map button, push the house under the ground's edge,
+ * it takes the top right corner, opposite the map button, instead. A picker too
+ * long for one row at a finger's size — only ever on a screen narrow enough to
+ * drop the row below the map button — puts the rest in the band that leaves
+ * free beside the map button, or in rows under its own where that band is too
+ * narrow to hold them (`completed`).
  *
  * The insects' buttons, butterfly, fly and bee, stand down the left as Syama
- * drew the insects, or beside the map button where the sky is too short for that
- * (`placeReleases`).
+ * drew the insects, or beside the map button where the sky is too short for
+ * that (`placeReleases`).
  */
 export function placeControls(
   width: number,
@@ -270,7 +270,10 @@ export function placeControls(
 /** The insects' buttons, each a finger's size and `GROW_GAP` from the next. */
 const RELEASE_STEP = TAP_RADIUS * 2 + GROW_GAP;
 
-/** What the insects' buttons are placed among: the screen, the map button, the pickers' rows, the other buttons, and how far down the column may reach. */
+/**
+ * What the insects' buttons are placed among: the screen, the map button, the
+ * pickers' rows, the other buttons, and how far down the column may reach.
+ */
 type PlaceReleasesParams = Sized &
   Pick<Controls, 'map'> & {
     rows: readonly [Circle[], Circle[]];
@@ -279,15 +282,15 @@ type PlaceReleasesParams = Sized &
   };
 
 /**
- * The insects' buttons, as the sky has room for them, the first that fits:
- * a column down the left under the map button and any picker's row over it, while
- * it ends above `lowest`; a row beside the map button, the pickers' rows moved right
- * of it when they stand in the top row too, clear of the `grow` buttons; that
- * row where a sky too short for a picker's row anywhere else has the rows
- * stand over it, from the map button to `+`, and whichever of the insects and the
- * house they meet give way to them; or, on a screen too narrow for the row,
- * the butterfly beside the map button and the fly and the bee in the band a picker
- * opens in, which they give way to.
+ * The insects' buttons, as the sky has room for them, the first that fits: a
+ * column down the left under the map button and any picker's row over it, while
+ * it ends above `lowest`; a row beside the map button, the pickers' rows moved
+ * right of it when they stand in the top row too, clear of the `grow` buttons;
+ * that row where a sky too short for a picker's row anywhere else has the rows
+ * stand over it, from the map button to `+`, and whichever of the insects and
+ * the house they meet give way to them; or, on a screen too narrow for the row,
+ * the butterfly beside the map button and the fly and the bee in the band a
+ * picker opens in, which they give way to.
  */
 function placeReleases({
   map,

@@ -1,7 +1,7 @@
 /**
  * The pickers' rows across the top of the sky, in CSS pixels: as many of a
- * picker's buttons abreast as keep a finger's size, the rest beside the map button
- * or under the row, each held `PICK_CLEAR` off every other button.
+ * picker's buttons abreast as keep a finger's size, the rest beside the map
+ * button or under the row, each held `PICK_CLEAR` off every other button.
  */
 
 import type { Sized } from '@/shared/typings';
@@ -42,7 +42,10 @@ export const PICK_CLEAR = (PICK_SPACING - 2) * TAP_RADIUS;
  */
 export const PICK_APART = GROW_GAP * 2;
 
-/** `count` buttons standing as `row` does, as many abreast as it holds, the rest in rows under it. */
+/**
+ * `count` buttons standing as `row` does, as many abreast as it holds, the rest
+ * in rows under it.
+ */
 export function stacked(row: readonly Circle[], count: number): Circle[] {
   const step = (row[0] ? tapReach(row[0].r) * 2 : 0) + GROW_GAP;
   return Array.from({ length: count }, (_, index) => {
@@ -111,9 +114,9 @@ function rowAcross(
 }
 
 /**
- * The room a picker's rest may take: the band beside the map button, from `from`
- * to `to` across the top, or rows under the picker's own down to `floor`,
- * clear of every button of `standing` still shown while it is open.
+ * The room a picker's rest may take: the band beside the map button, from
+ * `from` to `to` across the top, or rows under the picker's own down to
+ * `floor`, clear of every button of `standing` still shown while it is open.
  */
 type Room = Record<'from' | 'to' | 'floor', number> & {
   standing: readonly Circle[];
@@ -121,8 +124,8 @@ type Room = Record<'from' | 'to' | 'floor', number> & {
 
 /**
  * A picker of `count` buttons whose `row` holds only some of them: the rest
- * spread across the band of `room` where it holds them `PICK_CLEAR` apart
- * from each other and from `row`, its ends' reach `PICK_CLEAR` inside the band's;
+ * spread across the band of `room` where it holds them `PICK_CLEAR` apart from
+ * each other and from `row`, its ends' reach `PICK_CLEAR` inside the band's;
  * otherwise in rows under `row` (`stacked`) where those keep above the room's
  * floor and `PICK_CLEAR` from its standing buttons; and on a screen too small
  * for either, in the band as it falls.

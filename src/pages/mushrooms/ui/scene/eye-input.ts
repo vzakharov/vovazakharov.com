@@ -5,6 +5,7 @@ import type { Point } from '../../model/geometry';
 import type { Camera, Eye } from '../../model/ground';
 import {
   eyeAt,
+  haltAt,
   heldStill,
   holdStrafe,
   holdTurn,
@@ -155,13 +156,9 @@ export class EyeInput {
     this.change((walk) => letGoStrafe(walk, direction));
   }
 
-  /** Lets go of every turn, walk and strafe the keys hold. */
-  readonly letGo = (): void => {
-    for (const direction of [-1, 1] as const) {
-      this.letGoTurn(direction);
-      this.letGoWalk(direction);
-      this.letGoStrafe(direction);
-    }
+  /** Stops the eye dead where it stands: every held key, glide and fling ended. */
+  readonly halt = (): void => {
+    this.change((walk) => haltAt(walk, this.now()));
   };
 
   /** Lets `scene`'s pointer turn and walk the eye. Returns what stops it. */

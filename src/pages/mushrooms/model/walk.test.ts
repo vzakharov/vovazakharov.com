@@ -15,6 +15,7 @@ import { forwardOf, sidewaysOf, STRIDE_CRUISE } from './stride';
 import {
   distanceOfRow,
   eyeAt,
+  haltAt,
   headingAt,
   heldStill,
   holdStrafe,
@@ -208,6 +209,33 @@ describe('a drag on the walk', () => {
     const rested = headingAt(still.walk, still.time);
     still.run(2.5);
     assert.equal(headingAt(still.walk, still.time), rested);
+  });
+
+  it('stops dead on a halt, a turn’s glide, a step’s fling and a held key all', () => {
+    const down = skyPress(TABLET);
+    const turning = new Clock(openingWalk(TABLET));
+    turning.press(down);
+    turning.drag(down, shifted(down, -300, 0), 0.15);
+    turning.lift();
+    turning.run(0.1);
+    turning.walk = haltAt(turning.walk, turning.time);
+    const halted = headingAt(turning.walk, turning.time);
+    turning.run(2.5);
+    assert.equal(headingAt(turning.walk, turning.time), halted);
+
+    const ground = groundPress(TABLET);
+    const flung = new Clock(openingWalk(TABLET));
+    flung.walk = holdWalk(flung.walk, 1);
+    flung.walk = holdTurn(flung.walk, 1, flung.time);
+    flung.run(0.3);
+    flung.press(ground);
+    flung.drag(ground, shifted(ground, 0, 200), 0.15);
+    flung.lift();
+    flung.run(0.1);
+    flung.walk = haltAt(flung.walk, flung.time);
+    const at = eyeAt(flung.walk, flung.time);
+    flung.run(2.5);
+    assert.deepEqual(eyeAt(flung.walk, flung.time), at);
   });
 
   it('steps with the finger, the crossing’s ground on its row frame by frame at the middle and off it, never turning, and glides on from a moving lift', () => {

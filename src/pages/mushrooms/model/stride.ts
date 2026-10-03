@@ -183,6 +183,18 @@ export function holdStrafe(stride: Stride, direction: Direction): Stride {
   return holding(stride, 'strafe', direction, true);
 }
 
+/** The eye stopped dead where it stands: no key held, no chase, no fling. */
+export function stoodStill(stride: Stride): Stride {
+  return {
+    ...stride,
+    pace: 0,
+    sidePace: 0,
+    held: NONE_HELD,
+    chase: undefined,
+    glide: undefined,
+  };
+}
+
 /** A strafing key came up: the strafe eases to rest unless the other is held. */
 export function letGoStrafe(stride: Stride, direction: Direction): Stride {
   return holding(stride, 'strafe', direction, false);

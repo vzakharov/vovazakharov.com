@@ -26,7 +26,7 @@ export function controlActions(scene: ControlScene): ControlHandlers {
     map: () => {
       map.flip();
       voice.pop();
-      dispatch({ kind: 'shut' });
+      dispatch({ kind: 'map' });
       repaint();
     },
     pick: () => {

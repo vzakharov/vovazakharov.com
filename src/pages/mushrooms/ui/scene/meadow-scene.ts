@@ -92,7 +92,7 @@ export class MeadowScene extends Phaser.Scene {
     const [stand, eye] = [this.stand(), this.eye.eye()];
     return stand && eye && { stand, eye, ratio: this.pixelRatio() };
   };
-  private readonly map = new MapView(this.now, this.mapShot, this.eye.letGo);
+  private readonly map = new MapView(this.now, this.mapShot, this.eye.halt);
   /** The walk as the frames go by: the feet landing and the bob. */
   private readonly gait = new Gait();
   private readonly instrument = new Instrument(this.voice, this.now);

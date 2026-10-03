@@ -213,6 +213,18 @@ describe('reduce', () => {
     assert.equal(meadow.selected, undefined);
     assert.equal(meadow.picking, false);
   });
+
+  it('shuts every picker on the map button, and keeps the selection', () => {
+    const picking = run(opening(), [{ kind: 'pick' }, { kind: 'map' }]);
+    assert.equal(picking.picking, false);
+    const furnishing = run(opening(), [
+      { kind: 'select', id: 'mushroom-1' },
+      { kind: 'house' },
+      { kind: 'map' },
+    ]);
+    assert.equal(furnishing.furnishing, false);
+    assert.equal(furnishing.selected, 'mushroom-1');
+  });
 });
 
 const furnish = (piece: Furnishing): Action => ({ kind: 'furnish', piece });

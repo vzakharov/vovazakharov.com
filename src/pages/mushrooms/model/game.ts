@@ -104,9 +104,11 @@ export type Action =
   | ({ kind: 'sow' } & Seeded & Rooted)
   // The picker's cross: pulls up the flower it is open on.
   | { kind: 'pull' }
-  // A tap on a control that changes nothing here, the map button's: it closes
-  // the flower picker, as any tap outside it does.
+  // The flower picker shut, its tuft gone from under it.
   | { kind: 'shut' }
+  // The map button's press: every picker shut, so nothing but that button
+  // stands above the open map.
+  | { kind: 'map' }
   // A tap on a cloud: starts a shower, or while one falls restarts its time.
   | ({ kind: 'rain' } & Timed)
   | ({ kind: 'release'; insect: InsectKind; onscreen?: Onscreen } & Seeded &
@@ -372,6 +374,9 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
     }
     case 'shut': {
       return flowersShut(meadow);
+    }
+    case 'map': {
+      return { ...meadow, ...PICKERS_SHUT };
     }
     case 'rain': {
       const { rain } = meadow;

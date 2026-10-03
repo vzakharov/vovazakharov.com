@@ -1,48 +1,71 @@
+import { pick } from '@/shared/lib/collections';
 import type { Sized } from '@/shared/typings';
 
-import {
-  distanceBetween,
-  type Point,
-  type Reach,
-  type WithMiddle,
-} from './geometry';
-import { D_SEE, type Scaling } from './ground';
+import type { Point, WithMiddle } from './geometry';
+import type { Scaling } from './ground';
 
 /**
- * How the map lays the meadow's plane on the screen: `centre` (the eye's
- * plane point) shows at `middle`, the sun's azimuth `sunward` points to the
- * screen's top, and `reach` clump sizes span the panel's shorter half-side
- * at `scale` px each.
+ * How the map lays the meadow's plane on the screen: `centre`, a plane
+ * point, shows at `middle`, the sun's azimuth `sunward` points to the
+ * screen's top, at `scale` px a clump size.
  */
 export type MapFrame = WithMiddle &
-  Reach &
   Scaling & { centre: Point; sunward: number };
 
 /** The panel the map is drawn into, in screen px. */
 type Panel = WithMiddle & Sized;
 
+/** The most a map zooms in on a few things, against the fresh meadow's scale. */
+const MOST_ZOOM = 2.5;
+
+/** A plane point turned sun-up: `across` to the map's right, `along` up it. */
+function sunUp(sunward: number, { x, y }: Point) {
+  return {
+    across: x * Math.cos(sunward) - y * Math.sin(sunward),
+    along: x * Math.sin(sunward) + y * Math.cos(sunward),
+  };
+}
+
 /**
- * Frames every foot around `centre`: the reach is the farthest foot, floored
- * at `D_SEE` so a fresh meadow keeps its opening clump readable, padded by
- * one clump size.
+ * The box round `points`, sun-up and padded by one clump size: its middle
+ * on the plane, and the scale that fits it to `panel` on both axes.
+ */
+function boxed(sunward: number, points: readonly Point[], panel: Panel) {
+  const turned = points.map((point) => sunUp(sunward, point));
+  const acrosses = turned.map(({ across }) => across);
+  const alongs = turned.map(({ along }) => along);
+  const [left, right] = [Math.min(...acrosses) - 1, Math.max(...acrosses) + 1];
+  const [low, high] = [Math.min(...alongs) - 1, Math.max(...alongs) + 1];
+  const across = (left + right) / 2;
+  const along = (low + high) / 2;
+  return {
+    centre: {
+      x: across * Math.cos(sunward) + along * Math.sin(sunward),
+      y: -across * Math.sin(sunward) + along * Math.cos(sunward),
+    },
+    scale: Math.min(panel.width / (right - left), panel.height / (high - low)),
+  };
+}
+
+/**
+ * Frames `points` — every foot and the eye — in the box round them, sun-up,
+ * padded by one clump size and fitted to `panel` on both axes; zoomed in at
+ * most `MOST_ZOOM` times the scale that frames `fresh`, the fresh meadow's
+ * points, so a few things do not fill the sheet.
  */
 export function mapFrame(
-  centre: Point,
   sunward: number,
-  feet: readonly Point[],
-  { middle, width, height }: Panel,
+  points: readonly Point[],
+  fresh: readonly Point[],
+  panel: Panel,
 ): MapFrame {
-  const farthest = Math.max(
-    D_SEE,
-    ...feet.map((foot) => distanceBetween(centre, foot)),
-  );
-  const reach = farthest + 1;
+  const { centre, scale } = boxed(sunward, points, panel);
+  const most = MOST_ZOOM * boxed(sunward, fresh, panel).scale;
   return {
+    ...pick(panel, 'middle'),
     centre,
     sunward,
-    middle,
-    reach,
-    scale: Math.min(width, height) / 2 / reach,
+    scale: Math.min(scale, most),
   };
 }
 
@@ -51,10 +74,10 @@ export function onMap(
   { centre, sunward, middle, scale }: MapFrame,
   point: Point,
 ): Point {
-  const dx = point.x - centre.x;
-  const dy = point.y - centre.y;
-  const along = dx * Math.sin(sunward) + dy * Math.cos(sunward);
-  const across = dx * Math.cos(sunward) - dy * Math.sin(sunward);
+  const { across, along } = sunUp(sunward, {
+    x: point.x - centre.x,
+    y: point.y - centre.y,
+  });
   return { x: middle.x + scale * across, y: middle.y - scale * along };
 }
 

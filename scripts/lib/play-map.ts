@@ -3,14 +3,18 @@
  * pressed, the sheet shot mid-unfold and open, and shut; then mushrooms
  * grown, the newest furnished, a flower planted on a tuft, the eye turned
  * and walked a little, and the map opened again on what the meadow holds
- * now. Fails on a map that does not open or shut, one not centred on the
- * eye, or one drawing fewer things than the meadow holds; prints its reach
- * and scale.
+ * now; the `+` picker open as the map opens, and a flick just before it;
+ * then a russula grown where the flick left the eye, and given a door.
+ * Fails on a map that does not open or shut, one that leaves the child or a
+ * flower off the sheet, mirrors the view, or draws fewer things than the
+ * meadow holds; on a picker left open over it, or an eye that moves under
+ * it; prints its scale.
  */
 
 import { z } from 'zod';
 
 import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
+import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 import {
   type Controls,
   type Expect,
@@ -29,8 +33,16 @@ import { buttonsOf, nearestOpening, TUFTS } from './play-tufts.ts';
 const MID_UNFOLD = 3;
 /** Frames for the map to unfold, or fold, all the way. */
 const UNFOLDED = 30;
-/** How far the map's centre may stand from the eye, in clump sizes. */
-const CENTRED = 1e-6;
+/** How far from the screen's middle, in CSS px, a flower is read as left or right of the heading. */
+const OFF_MIDDLE = 20;
+/** Every flower the meadow shows, by id, where its container stands on the screen. */
+const FLOWERS_SEEN = `[...__probe.scene.flowers.shown]
+  .filter(([, { container }]) => container.visible)
+  .map(([id, { container }]) => ({ id, ...__probe.toScreen(container) }))`;
+/** Where the door stands in the house picker. */
+const DOOR = FURNISHINGS.indexOf('door');
+
+const Seen = z.array(Point.extend({ id: z.string() }));
 
 export async function playMap(
   page: Page,
@@ -39,6 +51,15 @@ export async function playMap(
   note: (line: string) => void,
 ): Promise<void> {
   const map = async () => page.evaluate('__probe.map()', MapShown);
+  /** A tap on the sheet, away from the button, shuts it as the button does. */
+  const shut = async (screen: z.infer<typeof Eye>, open: string) => {
+    await page.tap({ x: screen.width / 2, y: screen.height / 2 });
+    await page.step(UNFOLDED);
+    expect(
+      !(await map()).open,
+      `a tap on the open map did not shut it (${open})`,
+    );
+  };
   /** Opens the map, shooting it mid-unfold when `half` names the shot, then open as `open`; checks it, and shuts it. */
   const look = async (open: string, half?: string) => {
     await page.tap(controls.map);
@@ -50,30 +71,43 @@ export async function playMap(
       await page.step(UNFOLDED - MID_UNFOLD);
     }
     await page.shoot(open);
-    const [shown, eye] = await Promise.all([
+    const [shown, eye, seen] = await Promise.all([
       map(),
       page.evaluate('__probe.eye()', Eye),
+      page.evaluate(FLOWERS_SEEN, Seen),
     ]);
     expect(shown.open, `the map button did not open the map (${open})`);
     const { drawn } = shown;
     if (drawn) {
+      const { child, ahead, flowers, things, scale } = drawn;
+      const onSheet = ({ x, y }: z.infer<typeof Point>) =>
+        x > 0 && x < eye.width && y > 0 && y < eye.height;
+      const off = [child, ...flowers].filter((at) => !onSheet(at));
       expect(
-        Math.hypot(drawn.centre.x - eye.x, drawn.centre.y - eye.y) < CENTRED,
-        `the map is not centred on the eye (${open}): ${JSON.stringify(drawn.centre)} against (${String(eye.x)}, ${String(eye.y)})`,
+        off.length === 0,
+        `the map leaves ${String(off.length)} thing(s) off the screen (${open}): ${JSON.stringify(off)}`,
+      );
+      // Left of the screen's middle is left of the heading on the map.
+      const mirrored = seen.filter(({ id, x }) => {
+        const across = x - eye.width / 2;
+        const at = flowers.find((flower) => flower.id === id);
+        if (!at || Math.abs(across) < OFF_MIDDLE || x < 0 || x > eye.width) {
+          return false;
+        }
+        const side = ahead.x * (at.y - child.y) - ahead.y * (at.x - child.x);
+        return Math.sign(side) !== Math.sign(across);
+      });
+      expect(
+        mirrored.length === 0,
+        `the map mirrors the view (${open}): ${mirrored.map(({ id }) => id).join(', ')}`,
       );
       note(
-        `${open}: ${String(drawn.things)} things drawn, reach ${drawn.reach.toFixed(2)} clump sizes at ${drawn.scale.toFixed(1)} px each`,
+        `${open}: ${String(things)} things drawn at ${scale.toFixed(1)} px a clump size`,
       );
     } else {
       expect(false, `the open map was never drawn (${open})`);
     }
-    // A tap on the sheet, away from the button, shuts it as the button does.
-    await page.tap({ x: eye.width / 2, y: eye.height / 2 });
-    await page.step(UNFOLDED);
-    expect(
-      !(await map()).open,
-      `a tap on the open map did not shut it (${open})`,
-    );
+    await shut(eye, open);
     return drawn;
   };
 
@@ -81,25 +115,21 @@ export async function playMap(
   await page.shoot('m0-closed');
   const fresh = await look('m2-open-fresh', 'm1-unfolding');
 
+  // Only the map button stands over the open map: the `+` picker shuts.
+  await page.tap(controls.plus);
+  await page.step(30);
+  const picking = (await page.evaluate('__probe.state()', State)).picking;
+  await page.tap(controls.map);
+  await page.step(UNFOLDED);
+  const shutUnder = !(await page.evaluate('__probe.state()', State)).picking;
+  expect(picking && shutUnder, 'the + picker stayed open over the map');
+  await shut(await page.evaluate('__probe.eye()', Eye), 'over the picker');
+
   await inTurn([0, 1, 2], async (index) =>
     grow(page, controls, controls.picker[index]),
   );
   // The newest, selected as it grew, gets a window and a door.
-  await page.tap(controls.house);
-  await page.step(30);
-  await inTurn([0, FURNISHINGS.indexOf('door')], async (index) => {
-    const piece = controls.housePicker[index];
-    if (piece) await page.tap(piece);
-    await page.step(30);
-  });
-  await page.tap(controls.house);
-  await page.step(30);
-  const furnished = await page.evaluate('__probe.state()', State);
-  expect(
-    furnished.houses.at(-1)?.door === true &&
-      furnished.houses.at(-1)?.windows.length === 1,
-    `the newest mushroom was not furnished: ${JSON.stringify(furnished.houses)}`,
-  );
+  await furnishNewest(page, controls, expect, [0, DOOR]);
 
   const tuft = await nearestOpening(
     page,
@@ -127,5 +157,59 @@ export async function playMap(
   expect(
     fresh !== null && planted !== null && planted.things >= fresh.things + 4,
     `the map after growing three and planting one draws ${String(planted?.things)} things, against ${String(fresh?.things)} fresh`,
+  );
+
+  // A flick's glide stops dead as the map opens over it.
+  const screen = await page.evaluate('__probe.eye()', Eye);
+  const sky = { x: screen.width * 0.7, y: screen.height * 0.15 };
+  await page.drag(sky, { ...sky, x: screen.width * 0.3 }, 4);
+  await page.tap(controls.map);
+  const stopped = await page.evaluate('__probe.eye()', Eye);
+  await page.step(60);
+  const later = await page.evaluate('__probe.eye()', Eye);
+  expect(
+    stopped.heading === later.heading &&
+      stopped.x === later.x &&
+      stopped.y === later.y,
+    `the eye moved under the open map: ${String(stopped.heading)} → ${String(later.heading)}`,
+  );
+  await shut(screen, 'after a flick');
+
+  // A russula grown with the eye turned far off the opening world, as the
+  // flick left it, takes a door.
+  await grow(
+    page,
+    controls,
+    controls.picker[MUSHROOM_SPECIES.indexOf('russula')],
+  );
+  const grown = await page.evaluate('__probe.state()', State);
+  expect(
+    grown.species.at(-1) === 'russula',
+    `the picker grew a ${String(grown.species.at(-1))}, not a russula`,
+  );
+  await furnishNewest(page, controls, expect, [DOOR]);
+}
+
+/** Furnishes the selected mushroom, the newest, with the house picker's `pieces`, and fails unless it holds them after. */
+async function furnishNewest(
+  page: Page,
+  controls: z.infer<typeof Controls>,
+  expect: Expect,
+  pieces: readonly number[],
+): Promise<void> {
+  await page.tap(controls.house);
+  await page.step(30);
+  await inTurn(pieces, async (index) => {
+    const piece = controls.housePicker[index];
+    if (piece) await page.tap(piece);
+    await page.step(30);
+  });
+  await page.tap(controls.house);
+  await page.step(30);
+  const house = (await page.evaluate('__probe.state()', State)).houses.at(-1);
+  expect(
+    house?.door === pieces.includes(DOOR) &&
+      house.windows.length === pieces.filter((piece) => piece !== DOOR).length,
+    `the newest mushroom was not furnished: ${JSON.stringify(house)}`,
   );
 }

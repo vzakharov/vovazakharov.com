@@ -10,9 +10,8 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   lean, spots, wing shape, a hue nudge) plus a routine that paints the genes
   with Phaser `Graphics`: outline, flat fill, a highlight, a shade — cartoon
   shading as layered shapes. The seed is the state; the genes are derived.
-  Sound is synthesized with Web Audio, no files. Sound off is the device's:
-  the game keeps no switch and stores nothing, and the top-left circle is
-  the map's.
+  Sound is synthesized with Web Audio, no files. Sound off is the device's;
+  the top-left circle is the map's.
 - **Phaser 4**, loaded on this route alone: dynamic import inside a
   `'use client'` component's `useEffect`, the game destroyed on unmount.
   `Scale.NONE` with the host sizing the buffer in device pixels, since

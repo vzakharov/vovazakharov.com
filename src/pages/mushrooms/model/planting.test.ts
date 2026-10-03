@@ -72,6 +72,7 @@ describe('the flower picker', () => {
       { kind: 'pick' },
       { kind: 'house' },
       { kind: 'shut' },
+      { kind: 'map' },
       { kind: 'release', insect: 'bee', seed: 5, now: 0, ...SIGHT },
       { kind: 'startle', id: 'bee-1', now: 10, ...SIGHT },
     ] as const satisfies readonly Action[]) {

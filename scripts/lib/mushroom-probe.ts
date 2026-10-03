@@ -339,9 +339,11 @@ export const PROBE = `(() => {
           ? {
               centre: last.frame.centre,
               middle: last.frame.middle,
-              reach: last.frame.reach,
               scale: last.frame.scale,
               things: last.things,
+              flowers: last.flowers,
+              child: last.child,
+              ahead: last.ahead,
             }
           : null,
       };
@@ -636,16 +638,18 @@ export const State = z.object({
   clock: z.number(),
 });
 export const Point = z.object({ x: z.number(), y: z.number() });
-/** `__probe.map()`: the map's centre (plane, clump sizes) and middle (CSS px), its reach in clump sizes and scale in CSS px per clump size, as last drawn. */
+/** `__probe.map()`: as last drawn, the map's centre (plane, clump sizes), middle and scale (CSS px, a clump size), and where its flowers, the child and his heading show (CSS px). */
 export const MapShown = z.object({
   open: z.boolean(),
   drawn: z
     .object({
       centre: Point,
       middle: Point,
-      reach: z.number(),
       scale: z.number(),
       things: z.number(),
+      flowers: z.array(Point.extend({ id: z.string() })),
+      child: Point,
+      ahead: Point,
     })
     .nullable(),
 });

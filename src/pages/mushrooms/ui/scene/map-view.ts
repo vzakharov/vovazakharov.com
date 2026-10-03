@@ -3,8 +3,14 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
-import type { Point } from '../../model/geometry';
-import { type Camera, D_SEE, type Eye, type Eyed } from '../../model/ground';
+import type { Box, Point } from '../../model/geometry';
+import {
+  type Camera,
+  D_SEE,
+  type Eye,
+  type Eyed,
+  OPENING_EYE,
+} from '../../model/ground';
 import { doorStations, paintedSpots } from '../../model/house';
 import {
   headingOnMap,
@@ -20,6 +26,7 @@ import {
   SINK_DURATION,
 } from '../../model/motion';
 import { mushroomGenes } from '../../model/mushroom-genes';
+import { OPENING_FEET } from '../../model/placement';
 import type { AtRatio } from './baking';
 import { sizeOn } from './clump-layout';
 import { paintFlowerHead, paintFlowerStem } from './draw-flower';
@@ -31,6 +38,7 @@ import { iconLighting } from './hud';
 import type { Lighting } from './ink';
 import { PALETTE } from './palette';
 import { azimuthAt } from './panorama';
+import { fillShape } from './shapes';
 import { BUTTON_INSET } from './tap-reach';
 
 /** What the map is drawn from as it opens: the meadow as it stands, the eye, and the screen's pixel ratio. */
@@ -41,9 +49,14 @@ const UNFOLD = 0.3;
 /** How far in from the sheet's edge the meadow is framed, in CSS px: room for the sun at the top. */
 const MARGIN = 26;
 const CORNER = 14;
-/** The least a mushroom's cap stands across on the map, in CSS px, and a flower's height. */
+/**
+ * The least a mushroom's cap stands across on the map, in CSS px, a flower's
+ * height, and its head across: floored apart, so the head's colour shows
+ * past its ink on a stem that stays short.
+ */
 const LEAST_CAP = 12;
 const LEAST_FLOWER = 9;
+const LEAST_HEAD = 9;
 /** The spore's dot against the clump's size, and its least radius in CSS px. */
 const SPORE_RADIUS = 0.06;
 const LEAST_SPORE = 2;
@@ -52,12 +65,23 @@ const SUN_RAYS = 8;
 const CHILD_RADIUS = 5;
 const ARROW = 16;
 const WEDGE_ALPHA = 0.14;
+/** How many rays the wedge's arc is sampled at. */
+const WEDGE_RAYS = 48;
 
 /** A thing on the map: where it stands there, and how it is painted at that point. */
 type Mark = Point & { paint: () => void };
 
-/** The map as last drawn: its frame, and how many things stand on it. */
-type Drawn = { frame: MapFrame; things: number };
+/**
+ * The map as last drawn: its frame, how many things stand on it, every
+ * flower where it shows, and the child's dot and the way he faces.
+ */
+type Drawn = {
+  frame: MapFrame;
+  things: number;
+  flowers: Array<Point & { id: string }>;
+  child: Point;
+  ahead: Point;
+};
 
 /**
  * The map: a sheet of paper over the meadow that unfolds out of the map
@@ -77,17 +101,17 @@ export class MapView {
 
   private readonly now: () => number;
   private readonly snapshot: () => MapSnapshot | undefined;
-  /** What the meadow lets go of as the map opens over it: the moves the keys hold. */
-  private readonly letGo: () => void;
+  /** Stops the meadow dead as the map opens over it: held keys, a glide, a fling. */
+  private readonly halt: () => void;
 
   constructor(
     now: () => number,
     snapshot: () => MapSnapshot | undefined,
-    letGo: () => void,
+    halt: () => void,
   ) {
     this.now = now;
     this.snapshot = snapshot;
-    this.letGo = letGo;
+    this.halt = halt;
   }
 
   get open(): boolean {
@@ -120,7 +144,7 @@ export class MapView {
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
       this.openedAt = this.now();
-      this.letGo();
+      this.halt();
       this.redraw();
     } else {
       this.closedAt = this.now();
@@ -185,21 +209,35 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
   const middle = { x: width / 2, y: height / 2 };
   drawSun(pen, { ...pick(middle, 'x'), y: sheet.top + MARGIN / 2 + 2 });
   const flowers = flowersOf(stand);
+  // The meadow a visit opens on: its clump, its seeded flowers, the eye.
+  const fresh = [
+    OPENING_EYE,
+    ...OPENING_FEET,
+    ...flowersOf({ ...stand, planted: [], pulled: [] }).map(({ foot }) => foot),
+  ];
   const frame = mapFrame(
-    eye,
     azimuthAt(camera, sun.x),
     [
+      eye,
       ...stand.mushrooms.map(({ foot }) => foot),
       ...stand.spores.map(({ foot }) => foot),
       ...flowers.map(({ foot }) => foot),
     ],
+    fresh,
     {
       middle,
       width: sheet.width - 2 * MARGIN,
       height: sheet.height - 2 * MARGIN,
     },
   );
-  drawView(pen, frame, eye, camera);
+  // Inside the paper's pale edge line, so the wedge never reaches the sky.
+  const inner = 3 + 3 / 2;
+  drawView(pen, frame, eye, camera, {
+    left: sheet.left + inner,
+    right: sheet.left + sheet.width - inner,
+    top: sheet.top + inner,
+    bottom: sheet.top + sheet.height - inner,
+  });
   const lighting = iconLighting(hairline);
   const marks: Mark[] = [
     ...stand.spores.map(({ foot }) => {
@@ -224,11 +262,12 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
           const genes = flowerGenes(flower);
           const size = thingScale(frame, flower.foot.size, LEAST_FLOWER);
           const head = flowerHead(genes, size);
+          const headSize = Math.max(size, LEAST_HEAD / (2 * genes.petalLength));
           pen.save();
           pen.translateCanvas(at.x, at.y);
           paintFlowerStem(pen, genes, size, lighting);
           pen.translateCanvas(head.x, head.y);
-          paintFlowerHead(pen, genes, size, lighting);
+          paintFlowerHead(pen, genes, headSize, lighting);
           pen.restore();
         },
       };
@@ -257,7 +296,13 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
   // Farther up the map first, so the nearer the bottom draws over it.
   for (const mark of marks.toSorted((a, b) => a.y - b.y)) mark.paint();
   drawChild(pen, frame, eye);
-  return { frame, things: marks.length };
+  return {
+    frame,
+    things: marks.length,
+    flowers: flowers.map(({ id, foot }) => ({ id, ...onMap(frame, foot) })),
+    child: onMap(frame, eye),
+    ahead: headingOnMap(frame, eye.heading),
+  };
 }
 
 type Genes = Parameters<typeof paintHouse>[1];
@@ -309,12 +354,17 @@ function drawSun(pen: Phaser.GameObjects.Graphics, { x, y }: Point): void {
     .strokeCircle(x, y, SUN_RADIUS);
 }
 
-/** The pale wedge of what the child sees: the view's half-angle either side of his heading, `D_SEE` deep. */
+/**
+ * The pale wedge of what the child sees: the view's half-angle either side of
+ * his heading, `D_SEE` deep, cut off at `paper`. The eye stands inside it, so
+ * the fan is star-shaped from there and cutting each ray clips it exactly.
+ */
 function drawView(
   pen: Phaser.GameObjects.Graphics,
   frame: MapFrame,
   eye: Eye,
   camera: Camera,
+  paper: Box,
 ): void {
   const at = onMap(frame, eye);
   const half = (azimuthAt(camera, camera.width) - azimuthAt(camera, 0)) / 2;
@@ -322,17 +372,30 @@ function drawView(
     const along = headingOnMap(frame, heading);
     return Math.atan2(along.y, along.x);
   };
-  pen
-    .fillStyle(PALETTE.inkCool, WEDGE_ALPHA)
-    .slice(
-      at.x,
-      at.y,
-      D_SEE * frame.scale,
-      angle(eye.heading - half),
-      angle(eye.heading + half),
-      false,
-    )
-    .fillPath();
+  const from = angle(eye.heading - half);
+  const to = angle(eye.heading + half);
+  const sweep = (to - from + 2 * Math.PI) % (2 * Math.PI);
+  const deep = D_SEE * frame.scale;
+  const rim = Array.from({ length: WEDGE_RAYS + 1 }, (_, i) => {
+    const a = from + (sweep * i) / WEDGE_RAYS;
+    const dx = Math.cos(a);
+    const dy = Math.sin(a);
+    const reach = Math.min(
+      deep,
+      dx > 0
+        ? (paper.right - at.x) / dx
+        : dx < 0
+          ? (paper.left - at.x) / dx
+          : deep,
+      dy > 0
+        ? (paper.bottom - at.y) / dy
+        : dy < 0
+          ? (paper.top - at.y) / dy
+          : deep,
+    );
+    return { x: at.x + dx * reach, y: at.y + dy * reach };
+  });
+  fillShape(pen.fillStyle(PALETTE.inkCool, WEDGE_ALPHA), [at, ...rim]);
 }
 
 /** The child: an indigo dot where he stands, an arrow on his heading. */
