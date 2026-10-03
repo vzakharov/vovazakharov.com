@@ -344,15 +344,16 @@ The bites, each file its full contract:
     door, worms between windows, keys that strafe while turning —
     [bite-15.md](mushroom-game-syama/bite-15.md)
 
+## This bite
+
+**16. The map** — the mute's circle becomes a map button; the map unfolds
+from it over the meadow, fixed to the sun, every mushroom and flower in its
+own side picture, the child a marker with a view wedge. Calls and packages:
+[bite-16.md](mushroom-game-syama/bite-16.md).
+
 ## Rest of the elephant
 
 In order.
-
-**The rest of idea 1 is item 16.** Bites 9, 11, 12 and 12b built the
-ground, the wide world, walking it and its endlessness; the map comes
-after the rain's aftermath («карту можно отложить до после после дождя»).
-`docs/remove-before-merging/ideas/idea-1-walking-meadow.md` is its spec,
-its «Что ты решил» section overriding the body.
 
 **Open:** near-square windows of ~320–360 px each way (no phone has one)
 fit no finger-sized picker row: it overlaps `−`, and `+` stands below the
@@ -372,10 +373,6 @@ re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
 `airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
 anchors, or slice it as `Tended` slices the lawn).
 
-16. **The map.** A map view and its button take the mute's circle, which
-    anchors the layout; the mute and its `localStorage` memory go with it
-    (sound off is the device's), `settle()` staying. It reads where the
-    child stands and faces from `EyeInput`.
 17. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
     glowing, fireflies waking, mice coming out of their doors, butterflies
     folded on the caps and flowers closed for the night.
