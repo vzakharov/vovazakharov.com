@@ -11,6 +11,7 @@ import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
   STEP_LENGTH,
   STRIDE_CRUISE,
+  STRIDE_FLING_FASTEST,
 } from '../../src/pages/mushrooms/model/stride.ts';
 import { SHOWN_LEAST } from '../../src/pages/mushrooms/ui/scene/view.ts';
 import { type Arrow, type Expect, Eye } from './mushroom-probe.ts';
@@ -65,8 +66,9 @@ export function turned(from: number, to: number): number {
 
 /**
  * A walk frame by frame, `seen`, from where it stood at `from`: never past
- * `STRIDE_CRUISE` (a drag's frames before `seen` are not traced), eased in
- * where a key starts it, the bob within `[−bob, 0]`, down while it walks and
+ * `STRIDE_CRUISE`, eased in where a key starts it; a drag's, traced from its
+ * lift, never past `STRIDE_FLING_FASTEST` and only ever slowing, as its
+ * fling or its ease to rest does; the bob within `[−bob, 0]`, down while it walks and
  * 0 once it rests, and a footstep per `STEP_LENGTH` walked, ±1.
  */
 export function checkWalk(
@@ -84,11 +86,20 @@ export function checkWalk(
     return Math.hypot(now.x - was.x, now.y - was.y) * FPS;
   });
   const fastest = Math.max(...(by === 'drag' ? paces.slice(1) : paces));
+  const most = by === 'drag' ? STRIDE_FLING_FASTEST : STRIDE_CRUISE;
   expect(
-    fastest <= STRIDE_CRUISE * OVER,
-    `${by}: walked at ${fastest.toFixed(3)} units/s, past the cruise ${String(STRIDE_CRUISE)}`,
+    fastest <= most * OVER,
+    `${by}: walked at ${fastest.toFixed(3)} units/s, past the ${by === 'drag' ? 'fling' : 'cruise'} ${String(most)}`,
   );
-  if (by !== 'drag') {
+  if (by === 'drag') {
+    const rose = paces
+      .slice(2)
+      .findIndex((pace, index) => pace > (paces[index + 1] ?? 0) * OVER + 1e-6);
+    expect(
+      rose === -1,
+      `${by}: sped up ${String(rose + 2)} frames after the lift, on its fling or its ease to rest`,
+    );
+  } else {
     expect(
       (paces[0] ?? 0) < STRIDE_CRUISE * 0.5,
       `${by}: set off at ${(paces[0] ?? 0).toFixed(3)} units/s, not eased in`,

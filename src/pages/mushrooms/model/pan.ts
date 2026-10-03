@@ -21,6 +21,16 @@ import {
   type Paced,
 } from './cruise';
 import type { Lefted, Point } from './geometry';
+import {
+  blended,
+  type Flinging,
+  flung,
+  GLIDE_OVER,
+  GLIDE_TAU,
+  glided,
+  glidePace,
+  type Sampled,
+} from './glide';
 import { type Camera, SPREAD } from './ground';
 
 /**
@@ -42,7 +52,7 @@ type Turned = { turn?: Turn };
  * A finger at `x` across the screen, in CSS px, at `sampledAt` on the scene's
  * clock, in seconds.
  */
-type Sample = Pick<Point, 'x'> & { sampledAt: number };
+type Sample = Pick<Point, 'x'> & Sampled;
 
 /**
  * A finger on the screen, pressed at `downAt` across it: the crop at `left`
@@ -50,13 +60,13 @@ type Sample = Pick<Point, 'x'> & { sampledAt: number };
  * velocity across in px per second, measured only from the samples after
  * that, so none until the first of them.
  */
-type Pressing = Lefted & {
-  kind: 'press';
-  downAt: number;
-  last: Sample;
-  velocity: number | undefined;
-  panning: boolean;
-};
+type Pressing = Lefted &
+  Flinging & {
+    kind: 'press';
+    downAt: number;
+    last: Sample;
+    panning: boolean;
+  };
 
 /** How long something takes, in seconds. */
 type Lasting = { over: number };
@@ -101,21 +111,9 @@ export type { Direction } from './cruise';
  */
 export const SLOP = 24;
 
-/**
- * A glide's time constant, in seconds: it carries the crop on by its release
- * velocity times this, decaying, and rests after `GLIDE_SPANS` of them.
- */
-const GLIDE_TAU = 0.325;
-const GLIDE_SPANS = 6;
 /** The fastest a glide sets off, and the slowest a release that still glides, in px per second. */
 const GLIDE_FASTEST = 5000;
 const GLIDE_SLOWEST = 40;
-/**
- * How long a finger's velocity is averaged over, in seconds, and how long it
- * may rest before its release, which then glides no farther.
- */
-const VELOCITY_WINDOW = 0.05;
-const STILL_AFTER = 0.1;
 
 /**
  * A held key's cruise, in screen widths a second, and how long, in seconds,
@@ -167,11 +165,6 @@ export function openingPan(view: View): Pan {
   return restingAt(view, (view.world - view.width) / 2);
 }
 
-/** How far along its way a glide is `u` of its time in, from 0 to 1. */
-function glided(u: number): number {
-  return (1 - Math.exp(-GLIDE_SPANS * u)) / (1 - Math.exp(-GLIDE_SPANS));
-}
-
 /** How far along a glide `time` is, from 0 to 1. */
 function glideShare({ began, over }: Gliding, time: number): number {
   return Math.min(1, Math.max(0, (time - began) / over));
@@ -189,11 +182,7 @@ export function leftAt(pan: Pan, time: number): number {
 function paceAt({ motion }: Pan, time: number): number {
   if (motion.kind === 'keys') return motion.pace;
   if (motion.kind !== 'glide') return 0;
-  const u = glideShare(motion, time);
-  if (u >= 1) return 0;
-  const slope =
-    (GLIDE_SPANS * Math.exp(-GLIDE_SPANS * u)) / (1 - Math.exp(-GLIDE_SPANS));
-  return ((motion.goal - motion.start) * slope) / motion.over;
+  return (motion.goal - motion.start) * glidePace(glideShare(motion, time));
 }
 
 /** Where the world has `x`, across the screen in CSS px, under the crop at `time`. */
@@ -223,22 +212,6 @@ export function press(pan: Pan, x: number, time: number, panning = false): Pan {
       panning,
     },
   };
-}
-
-/**
- * A panning finger's velocity, as it `was`, with a step of `across` px over
- * `span` seconds: the first step past the slop sets it, and each later one
- * blends in by its share of `VELOCITY_WINDOW`.
- */
-function blended(
-  was: number | undefined,
-  across: number,
-  span: number,
-): number | undefined {
-  if (span <= 0) return was;
-  const now = across / span;
-  if (was === undefined) return now;
-  return was + (now - was) * Math.min(1, span / VELOCITY_WINDOW);
 }
 
 /**
@@ -282,8 +255,7 @@ export function release(pan: Pan, time: number): Pan {
   const { motion, turn } = pan;
   if (motion.kind !== 'press') return pan;
   const start = leftAt(pan, time);
-  const still = time - motion.last.sampledAt > STILL_AFTER;
-  const velocity = still ? 0 : -(motion.velocity ?? 0);
+  const velocity = -flung(motion.velocity, motion.last.sampledAt, time);
   if (isHeld(pan)) return keyedFrom(pan, start, velocity);
   if (Math.abs(velocity) < GLIDE_SLOWEST) return restingAt(pan, start);
   const fastest =
@@ -298,7 +270,7 @@ export function release(pan: Pan, time: number): Pan {
       start,
       goal,
       began: time,
-      over: GLIDE_TAU * GLIDE_SPANS,
+      over: GLIDE_OVER,
     },
   };
 }

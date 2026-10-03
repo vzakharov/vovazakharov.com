@@ -6,11 +6,13 @@
  * sideways, square to the heading, on a second pace eased the same way, the
  * two sharing the cruise when both are held. A drag sets a point on a line —
  * the heading, or square to it — for it to chase, no faster than the cruise,
- * braking into it; on the lift the chase eases to rest over the cruise's own
- * ease wherever the finger left it, a step having no glide, and a walking,
- * strafing or turning key going down ends it at once, its pace handed on to
- * the keys. The plane has no end, so nothing but a chase's target stops the
- * walk. The heading is the turn's, passed in.
+ * braking into it. On the lift a quick finger flings the eye on along that
+ * line, gliding from the finger's speed to rest as the sky's turn does
+ * (`glide.ts`), and a finger lifted at rest leaves the chase to ease to rest
+ * over the cruise's own ease; a walking, strafing or turning key going down,
+ * or a new press, ends either at once, its pace handed on to the keys. The
+ * plane has no end, so nothing but a chase's target stops the walk. The
+ * heading is the turn's, passed in.
  */
 
 import {
@@ -21,12 +23,30 @@ import {
   wayOf,
 } from './cruise';
 import type { Point } from './geometry';
+import {
+  blended,
+  type Flinging,
+  flung,
+  GLIDE_OVER,
+  GLIDE_TAU,
+  glided,
+  glidePace,
+  type Sampled,
+} from './glide';
 import { type Held, KEY_EASE } from './pan';
 
 /** A held key's walk, in the clump's size a second. */
 export const STRIDE_CRUISE = 1.6;
 /** How far one step carries the eye: two a second at the cruise. */
 export const STEP_LENGTH = 0.8;
+/**
+ * The fastest a fling sets the eye off, and the slowest that still flings it,
+ * in the clump's size a second: a quick swipe carries it on by at most
+ * `STRIDE_FLING_FASTEST · GLIDE_TAU`, 2.6, about as far as a swipe across a
+ * third of the screen lays its ground.
+ */
+export const STRIDE_FLING_FASTEST = 5 * STRIDE_CRUISE;
+const STRIDE_FLING_SLOWEST = STRIDE_CRUISE / 8;
 
 /** Which of the stepping and strafing keys are held, the strafe's as the turn's are. */
 type Steps = Held & { forward: boolean; back: boolean };
@@ -46,31 +66,43 @@ export function sidewaysOf(heading: number): number {
   return heading + Math.PI / 2;
 }
 
+/** The line a finger walks the eye along: its `axis`, and its heading, its `bearing`. */
+type Line = { axis: Axis; bearing: number };
+
 /**
- * A drag walking the eye: the point it stood at, its `origin`, when the
- * finger took it, the `axis` it walks and the heading it chases along, its
- * `bearing`, and its `aim`, the target that many units on from the origin
- * along it (back for less than 0); `lifted` once the finger is up.
+ * A drag walking the eye along its line: the point it stood at, its
+ * `origin`, when the finger took it, and its `aim`, the target that many
+ * units on from the origin along it (back for less than 0); the aim's
+ * velocity as of its latest sample, and `lifted` once the finger is up.
  */
-type Chase = {
-  origin: Point;
-  axis: Axis;
-  bearing: number;
-  aim: number;
-  lifted: boolean;
-};
+type Chase = Line &
+  Sampled &
+  Flinging & {
+    origin: Point;
+    aim: number;
+    lifted: boolean;
+  };
+
+/**
+ * A fling gliding the eye on along its line after a quick lift: it carries
+ * the eye `carry` units in all (back for less than 0), `spent` seconds into its
+ * `GLIDE_OVER`.
+ */
+type Glide = Line & { carry: number; spent: number };
 
 /**
  * The eye's place on the plane and its pace along the way it walks — the
  * heading, or a chase's line while a drag walks it — with `sidePace` square
- * to the heading and `walked` in the clump's size. Keys already held when a
- * drag takes the walk wait for its chase to end.
+ * to the heading and `walked` in the clump's size; a fling's `glide` while
+ * one carries it. Keys already held when a drag takes the walk wait for its
+ * chase to end, and such a lift flings nothing.
  */
 export type Stride = Cruising<Point> & {
   sidePace: number;
   walked: number;
   held: Steps;
   chase: Chase | undefined;
+  glide: Glide | undefined;
 };
 
 /** The unit step straight along `heading`: `+y` at 0, turning toward `+x`. */
@@ -99,6 +131,7 @@ export function standingAt(at: Point): Stride {
     walked: 0,
     held: NONE_HELD,
     chase: undefined,
+    glide: undefined,
   };
 }
 
@@ -120,19 +153,21 @@ function holding(
 }
 
 /**
- * A key took the walk from a chase, lifted or not: the chase ends where the
- * eye stands, its pace carried on along its axis for the keys to ease from,
- * so the take-over has no jolt.
+ * A key took the walk from a chase, lifted or not, or from a fling: it ends
+ * where the eye stands, its pace carried on along its axis, no faster than
+ * the cruise, for the keys to ease from, so the take-over has no jolt.
  */
 export function yieldChase(stride: Stride): Stride {
-  const { chase, pace } = stride;
-  if (!chase) return stride;
-  const strafing = chase.axis === 'strafe';
+  const line = stride.chase ?? stride.glide;
+  if (!line) return stride;
+  const pace = Math.max(-STRIDE_CRUISE, Math.min(STRIDE_CRUISE, stride.pace));
+  const strafing = line.axis === 'strafe';
   return {
     ...stride,
     pace: strafing ? 0 : pace,
     sidePace: strafing ? pace : 0,
     chase: undefined,
+    glide: undefined,
   };
 }
 
@@ -161,35 +196,79 @@ export function letGoStrafe(stride: Stride, direction: Direction): Stride {
 }
 
 /**
- * A finger takes the walk along `axis` of `heading` — along it, or
- * `sidewaysOf` it: the eye stops where it stands, as a press stops the crop,
- * and chases a target that starts there.
+ * A finger takes the walk along `axis` of `heading` at `time` — along it, or
+ * `sidewaysOf` it: the eye stops where it stands, a fling with it, as a press
+ * stops the crop, and chases a target that starts there.
  */
-export function chaseFrom(stride: Stride, heading: number, axis: Axis): Stride {
+export function chaseFrom(
+  stride: Stride,
+  heading: number,
+  axis: Axis,
+  time: number,
+): Stride {
   const bearing = axis === 'strafe' ? sidewaysOf(heading) : heading;
-  const chase = { origin: stride.at, axis, bearing, aim: 0, lifted: false };
-  return { ...stride, pace: 0, sidePace: 0, chase };
+  const chase: Chase = {
+    origin: stride.at,
+    axis,
+    bearing,
+    aim: 0,
+    lifted: false,
+    sampledAt: time,
+    velocity: undefined,
+  };
+  return { ...stride, pace: 0, sidePace: 0, chase, glide: undefined };
 }
 
 /**
  * The finger moved the chase's target to `aim` units along its heading
- * from where the chase began, back for less than 0.
+ * from where the chase began, back for less than 0, at `time`: a sample of
+ * the target's velocity, which a lift flings the eye on by.
  */
-export function chaseTo(stride: Stride, aim: number): Stride {
+export function chaseTo(stride: Stride, aim: number, time: number): Stride {
   const { chase } = stride;
-  if (!chase || chase.lifted || chase.aim === aim) return stride;
-  return { ...stride, chase: { ...chase, aim } };
+  if (!chase || chase.lifted) return stride;
+  if (chase.aim === aim && chase.sampledAt === time) return stride;
+  const span = time - chase.sampledAt;
+  const velocity = blended(chase.velocity, aim - chase.aim, span);
+  return {
+    ...stride,
+    chase: {
+      ...chase,
+      aim,
+      velocity,
+      sampledAt: Math.max(time, chase.sampledAt),
+    },
+  };
 }
 
 /**
- * The finger lifted: the chase eases to rest over the cruise's ease, braking
+ * The finger lifted at `time`. A quick finger flings the eye on along the
+ * chase's line from the faster of its own pace and the target's velocity
+ * that way, no faster than `STRIDE_FLING_FASTEST`. Otherwise, or with a
+ * walking key held, the chase eases to rest over the cruise's ease, braking
  * short of its target rather than running on to it, then the eye rests or
  * walks on by the keys held.
  */
-export function liftChase(stride: Stride): Stride {
-  const { chase } = stride;
+export function liftChase(stride: Stride, time: number): Stride {
+  const { chase, held, pace } = stride;
   if (!chase || chase.lifted) return stride;
-  return { ...stride, chase: { ...chase, lifted: true } };
+  const lifted = { ...stride, chase: { ...chase, lifted: true } };
+  if (Object.values(held).some(Boolean)) return lifted;
+  const finger = flung(chase.velocity, chase.sampledAt, time);
+  const faster =
+    Math.sign(pace) === Math.sign(finger) && Math.abs(pace) > Math.abs(finger);
+  const launch = faster ? pace : finger;
+  if (Math.abs(launch) < STRIDE_FLING_SLOWEST) return lifted;
+  const speed =
+    Math.sign(launch) * Math.min(STRIDE_FLING_FASTEST, Math.abs(launch));
+  const { axis, bearing } = chase;
+  const carry = speed * GLIDE_TAU;
+  return {
+    ...stride,
+    pace: speed,
+    chase: undefined,
+    glide: { axis, bearing, carry, spent: 0 },
+  };
 }
 
 /** How far the eye has come along a chase's heading from where it began. */
@@ -276,17 +355,34 @@ function chasing(stride: Stride, chase: Chase, seconds: number): Stride {
   return { ...stride, at, pace, walked, chase: over ? undefined : chase };
 }
 
+/** A fling's glide `seconds` on along its line, over and at rest once its time is up. */
+function gliding(stride: Stride, glide: Glide, seconds: number): Stride {
+  const { bearing, carry, spent } = glide;
+  const later = Math.min(GLIDE_OVER, spent + seconds);
+  const by = carry * (glided(later / GLIDE_OVER) - glided(spent / GLIDE_OVER));
+  const over = later >= GLIDE_OVER;
+  return {
+    ...stride,
+    at: plus(stride.at, forwardOf(bearing), by),
+    pace: carry * glidePace(later / GLIDE_OVER),
+    walked: stride.walked + Math.abs(by),
+    glide: over ? undefined : { ...glide, spent: later },
+  };
+}
+
 /**
  * The walk `seconds` on, by `cruise`, the keys' along `heading` and square to
  * it, or a drag's along its own line: each pace eases toward the cruise the
  * held keys ask, or toward the chase's target, and brakes to rest exactly at
- * a chase's target; a lifted chase eases to rest, and once there is over. A stride
+ * a chase's target; a lifted chase eases to rest, and once there is over; a
+ * fling glides on along its line. A stride
  * that stands still is returned as the same object.
  */
 export function tick(stride: Stride, heading: number, seconds: number): Stride {
-  const { at: setOff, chase, held, pace, sidePace, walked } = stride;
+  const { at: setOff, chase, glide, held, pace, sidePace, walked } = stride;
   if (seconds <= 0) return stride;
   if (chase) return chasing(stride, chase, seconds);
+  if (glide) return gliding(stride, glide, seconds);
   const toward = asked(held);
   const stepping = toward.step !== 0 || pace !== 0;
   const strafing = toward.strafe !== 0 || sidePace !== 0;
