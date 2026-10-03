@@ -112,6 +112,100 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     parent, and a second spore ink would add a colour for one moment. A
     sprout ~20 px from the crown has its fall inside the puff; same answer.
 
+26. **A seat drawn over a mushroom behind it stays offered** (A2, `a2.md`):
+    S3's "fly on the rim" was the front cap's own inner seat with the back
+    cap's dome behind it, not a covered seat. In the frame the fly reads as
+    tucked into the nook between the two caps. Withholding these too would
+    leave the opening pair two seats of four on every seed; the to-check.md
+    line keeps it for the operator's eye.
+
+27. **The take-off pivot of a shelter dash is floored, not the pace raised
+    alone** (A1, `a1.md`): the pivot's peak turn is 8π over its time, so
+    no pace short of the dry one held; legs to a shelter time their pivot
+    as at least `Sheltering.pivoting` (2700 ms for the butterfly), the
+    `flying` low end raised to 1500 too. tabL's take-off now peaks 8.72.
+    One frame of a mid-flight re-target at the rain's start (call 8) draws
+    10.90 against 10.81 — 0.8 % over for one frame, nothing a child sees,
+    and no committed play measures it: accepted, not traced. A1's scratch
+    play is `play-zzshower.ts.txt` beside the notes.
+
+28. **Each shower picks its parents by its own seed, a new species first**
+    (the operator, playing: «а после дождя растут только новые мухоморы?
+    не заметил чтобы другие тоже появились»). Oldest-first always named
+    the opening clump's fly agarics. Now the old mushrooms in sight are
+    ordered by a stream salted from the shower (its `stopsAt`), those of a
+    species the last shed did not use first; still the parent's species,
+    still up to `PARENTS` tried in order. Beat: one sprout per species in
+    sight, which scatters a shed across the view and weakens "this one
+    puffed, these came up".
+29. **A drag on the sky turns, a drag on the ground strafes** (the
+    operator: «тащишь по небу — поворот (потому что как раз при повороте
+    небо двигается). тащишь по земле — стрейф») — the axis lock's
+    horizontal branch swapped (`model/walk.ts`); a vertical drag steps
+    wherever it starts, as before. A ground strafe slides the ground under
+    the finger with it.
+
+## Calls — spores the child sows (the operator, playing)
+
+> мне кажется было бы прикольно вот как: когда "тыкаешь по грибу", из него
+> ж вылетают споры. Можно сделать, чтобы часть из них "оседала" на землю.
+> Не обязательно чтобы анимация прям делала "из вылетающих в землю" --
+> достаточно просто если рядом с грибом будут малюсенькие белые кружочки.
+> Количество ограниченно количеством "посадочных мест" около гриба. Когда
+> идёт дождь, эти споры прорастают.
+
+These replace the after-the-rain shed: calls 12, 14, 15, 18, 19 and 28 go
+as written; 13 (`near`), 16 (a sprout's clock), 17 (the parent's species
+and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
+
+30. **A tap on a full-grown mushroom settles one spore** on the ground near
+    it, beside the puff it already makes, while it has a free seat; a
+    sprout still growing settles none. Each tap one, so the child sees
+    each tap leave a dot.
+31. **A mushroom has `SPROUTS` (3) seats**: feet the scene finds round it
+    with `roomFor`'s `near`, as `shedIn` does; a spore takes one. A spore
+    is laid as a sprout at its start size would be, and counts against
+    `MUSHROOM_SLOTS` and `FIELD_MUSHROOMS`, so it always has room to
+    sprout. No seat or full caps: the tap puffs as today, no dot, no
+    refusal.
+32. **A spore is model state**, `Meadow.spores`: its foot, parent, seed
+    and when it settled — the reducer records it from the tap with the
+    feet the scene found, re-checked as `grow` re-checks. Nothing happens
+    to a spore while dry: it stays until rain, a walk away and back finds
+    it.
+33. **A spore is drawn as a tiny white dot on the ground** at its foot
+    (`PALETTE.spore` or a white of its own in the palette), a few px at
+    the clump's depth, scaled by depth like any foot thing, hazed and sunk
+    by the brow, under every mushroom and insect. It takes no tap and is
+    no perch. The tap's dot drops from the puff along `spore-drift.ts`'s
+    arc to its foot (reused), then stays.
+34. **When it rains, every spore sprouts** at a moment its seed picks in
+    the shower's first ~6 s after the dark sets in, wherever it lies —
+    out of sight too — becoming a sprout of its parent's species and
+    seed stream (17), growing on call 16's clock with the grow sound; the
+    dot is gone as the sprout pops. A spore whose parent was sunk since
+    still sprouts (the species is on the spore).
+35. **The after-the-rain shed is retired**: `shedding`, `Meadow.shed`,
+    the tick's `shed`, `shedIn`, `shedNow` and the stop's search go; the
+    probe's `sprouts()`, the `sprouts` play and the sweep's `--showers`
+    follow the new source (tap to sow, rain to sprout).
+
+36. **A cloud rains on a press, a drag starting on it included** (B2,
+    `b2.md`, found a sky drag over a cloud starts a shower). Kept: the
+    operator, «это норм, так он и обнаружит, что есть дождь» — the child
+    finds the rain by turning. The walk play's sky drag skips clouds.
+
+37. **A chase ends when the finger lifts, and any key cancels it** (the
+    operator: «если свайпишь достаточно далеко, стрейф идёт до этого места
+    и не останавливается только если нажмёшь или прострейфишь ещё раз
+    мышкой. Если нажмёшь в это время шифт стрелка в другую сторону — не
+    останавливается. и если поворачиваешься клавиатурой, тоже не
+    останавливается»). The stride's chase (a step's or a strafe's, capped at
+    the cruise) runs on toward a target the finger left far behind. On the
+    lift it eases to a stop over the cruise's own ease rather than running
+    to the target; a held walk, strafe or turn key cancels it at once and
+    takes over (`model/stride.ts`, `model/walk.ts`).
+
 ## Packages and waves
 
 - **Wave 1, in parallel: S1** shelter's model (spec-shelter § 5 step 1) and
@@ -147,10 +241,10 @@ holds its detail.
 
 ## Left, in order
 
-1. **Call 22**: slow the butterfly's rain take-off and re-measure with
+1. **Done** (A1 addafa1, 46ca7fc; call 27). Was: **call 22**: slow the butterfly's rain take-off and re-measure with
    S4's play (`s4.md` says how to rebuild it); then the full
    `fliers.test.ts` once.
-2. **Call 24**: withhold covered shelter seats; re-shoot `--plays rain`.
+2. **Done** (A2 e671c74, 2b47ed9; call 26). Was: **call 24**: withhold covered shelter seats; re-shoot `--plays rain`.
 3. **Done** (A3 f07b50c, bad0688: the play's tweens step on the game
    clock; the dots fall and land, frames `a3-*`). Was: **the spore dots were never seen** (`p2b.md`'s next step): Phaser's
    tweens run on the wall clock, the play steps the game's; drive the tween

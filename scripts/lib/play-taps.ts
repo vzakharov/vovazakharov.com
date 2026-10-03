@@ -44,7 +44,7 @@ const BARE = `(point) =>
 /**
  * A bare point on screen low in the meadow and near the middle, where a drag
  * can start; `null` where none is. Never above the ground's top row, where a
- * sideways drag strafes rather than turns (`lockOf`).
+ * sideways drag turns rather than strafes (`lockOf`).
  */
 export const BARE_START = `(() => {
   const bare = ${BARE};

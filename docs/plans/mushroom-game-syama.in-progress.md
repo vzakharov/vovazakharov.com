@@ -307,10 +307,7 @@ picks it, `perch-sight.ts` and `perch-room.ts` keep it near the eye and
 single. Dusk is a
 second set of `palette*.ts` colours through the baked backdrop and
 `sunLight`, lit windows in `draw-house.ts`, mice from the house's peek
-motion, fireflies a fourth `INSECT_KINDS` entry. Around the canvas, reduced
-motion switches the clock functions' idle loops and the walk's bob off, the
-hidden buttons dispatch from `ui/meadow-canvas.tsx`, and the home pictogram
-is a `hud.ts` drawing placed by `layout.ts`.
+motion, fireflies a fourth `INSECT_KINDS` entry.
 
 The bites, each file its full contract:
 
@@ -375,12 +372,17 @@ anchors, or slice it as `Tended` slices the lawn).
 16. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
     glowing, fireflies waking, mice coming out of their doors, butterflies
     folded on the caps and flowers closed for the night.
-17. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
-    (idle loops off, the walk's bob off, short tweens without overshoot); a
-    visually hidden row of HTML buttons beside the canvas dispatching the
-    same actions, for assistive tech; a home-page link in the footer's
-    `SEE_ALSO` if that list carries side projects, none otherwise. Then, the Artifact republished,
-    `/relay /finalize`.
+Then, the Artifact republished, `/relay /finalize`. Nothing goes around
+the canvas — no way home, no footer link, no reduced-motion or
+assistive-tech layer: the game opens straight on the meadow for one child,
+not a store product («сейчас это развлечение для одного ребёнка, а не
+продукт для апстора»), until the operator widens it.
+
+**Performance waits.** The play's 26 ms frame budget fails at ~30 ms under
+the agents' parallel load; the operator plays on a computer and finds it
+fine («к перформанс улучшениям вернёмся когда и если это станет
+критичным»). The budget's red is reported, not chased: the play prints it
+and does not fail on it, until the operator asks.
 
 ## DRY notes
 

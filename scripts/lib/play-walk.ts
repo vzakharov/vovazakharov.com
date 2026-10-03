@@ -5,12 +5,13 @@
  * bobbing only while it walks and a footstep per step; `→` held turns it one
  * way, never past `TURN_CRUISE`, all the way round, the sun leaving the screen
  * and coming back, and `←` held as long turns it back onto every bed object
- * as it stood; a sideways drag from bare ground turns
- * it with the ground under the finger and a drag down the screen walks it,
- * never faster than `STRIDE_CRUISE`, neither tapping anything, nor a drag
- * with a mushroom selected or the flower picker open on a tuft; a sideways
- * drag from the sky, and `→` held under Shift, walk it square to its heading,
- * never turning it and never past the cruise; and the screen turned keeps the
+ * as it stood; a sideways drag from the sky turns it with the azimuth under
+ * the finger and a drag down the screen walks it, never faster than
+ * `STRIDE_CRUISE`, neither tapping anything, nor a drag with a mushroom
+ * selected or the flower picker open on a tuft; a sideways drag from bare
+ * ground, and `→` held under Shift, walk it square to its heading, the drag
+ * with the ground under the finger, never turning it and never past the
+ * cruise; and the screen turned keeps the
  * eye where it stood and looking where it looked. Frames of the opening, the
  * walk, the walk back, a quarter and a half turn and the strafes land as
  * `walk-*.png`.
@@ -18,7 +19,10 @@
 
 import { z } from 'zod';
 
-import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
+import {
+  pinholeOf,
+  planeSeen,
+} from '../../src/pages/mushrooms/model/ground.ts';
 import {
   KEY_EASE,
   SLOP,
@@ -29,7 +33,7 @@ import {
   sidewaysOf,
   STRIDE_CRUISE,
 } from '../../src/pages/mushrooms/model/stride.ts';
-import { distanceOfRow } from '../../src/pages/mushrooms/model/walk.ts';
+import { cloudAt } from '../../src/pages/mushrooms/ui/scene/rain-sky.ts';
 import { browRow } from '../../src/pages/mushrooms/ui/scene/view.ts';
 import {
   type Arrow,
@@ -82,20 +86,40 @@ const BEDS = `(() => {
 })()`;
 const Beds = z.record(z.string(), Point);
 
-/** A point in the sky with nothing drawn over it, near the middle; `null` where none is. */
-const SKY_START = `(() => {
-  const { layout } = __probe.scene;
+/**
+ * The points in the sky with nothing drawn over them, near the middle, in
+ * the order a drag would try them, and the clouds as a tap finds them.
+ */
+const SKY = `(() => {
+  const { layout, rain } = __probe.scene;
+  const points = [];
   for (let row = 1; row <= 6; row++) {
     for (let column = 0; column <= 8; column++) {
       const point = {
         x: layout.width * (0.4 + (0.3 * ((column * 5) % 9)) / 8),
         y: layout.camera.groundTop * (row / 8),
       };
-      if (__probe.topAt(point) === null) return point;
+      if (__probe.topAt(point) === null) points.push(point);
     }
   }
-  return null;
+  return { points, clouds: rain.placed().map((cloud) => cloud ?? null) };
 })()`;
+const Sky = z.object({
+  points: z.array(Point),
+  clouds: z.array(Point.extend({ r: z.number() }).nullable()),
+});
+
+/**
+ * A point in the sky a drag can start from: nothing drawn over it and no
+ * cloud, whose tap would start a shower; `undefined` where none is.
+ */
+async function skyStart(
+  page: Page,
+): Promise<z.infer<typeof Point> | undefined> {
+  const { points, clouds } = await page.evaluate(SKY, Sky);
+  const placed = clouds.map((cloud) => cloud ?? undefined);
+  return points.find((point) => cloudAt(point, placed) === undefined);
+}
 
 /** The farthest any bed object in `before` or `after` stands from itself in the other, in CSS px; a missing one counts as infinitely far. */
 function moved(
@@ -210,13 +234,13 @@ export async function playWalk(
     `→ then ← held as long left a bed object ${returned.toFixed(2)} px from where it stood`,
   );
 
-  // A sideways drag from bare ground turns the eye with the ground under
-  // the finger, and steps nowhere.
+  // A sideways drag from the sky turns the eye with the azimuth under the
+  // finger, and steps nowhere.
   const lens = pinholeOf(camera);
   const azimuth = (x: number) => (x - lens.x) / lens.arc;
-  const start = await page.evaluate(BARE_START, Point.nullable());
-  if (start === null) {
-    note('no bare ground to drag from: the drags are not played');
+  const start = await skyStart(page);
+  if (start === undefined) {
+    note('no bare sky to drag from: the drags are not played');
   } else {
     const before = await eye();
     const to = { ...start, x: start.x - 0.3 * before.width };
@@ -227,15 +251,15 @@ export async function playWalk(
     const slack = azimuth(lens.x + SLOP) * 1.5;
     expect(
       Math.abs(got - want) <= slack,
-      `a sideways drag turned the eye ${got.toFixed(4)} rad, not the ${want.toFixed(4)} that keeps the ground under the finger`,
+      `a sideways drag from the sky turned the eye ${got.toFixed(4)} rad, not the ${want.toFixed(4)} that keeps the azimuth under the finger`,
     );
     expect(
       lifted.x === before.x && lifted.y === before.y,
-      `a sideways drag stepped the eye from (${before.x.toFixed(3)}, ${before.y.toFixed(3)}) to (${lifted.x.toFixed(3)}, ${lifted.y.toFixed(3)})`,
+      `a sideways drag from the sky stepped the eye from (${before.x.toFixed(3)}, ${before.y.toFixed(3)}) to (${lifted.x.toFixed(3)}, ${lifted.y.toFixed(3)})`,
     );
     await page.step(SETTLE_FRAMES);
     note(
-      `a sideways drag turned ${got.toFixed(3)} rad at the lift (${want.toFixed(3)} keeps the ground), ${turned(before.heading, (await eye()).heading).toFixed(3)} after its glide`,
+      `a sideways drag from the sky turned ${got.toFixed(3)} rad at the lift (${want.toFixed(3)} keeps the azimuth), ${turned(before.heading, (await eye()).heading).toFixed(3)} after its glide`,
     );
 
     // A drag down the screen pulls the ground toward the eye: it walks.
@@ -278,7 +302,11 @@ export async function playWalk(
 }
 
 /** How far the eye went from `from` to `to` along `heading`, in plane units. */
-function goneAlong(from: Seen, to: Seen, heading: number): number {
+function goneAlong(
+  from: z.infer<typeof Point>,
+  to: z.infer<typeof Point>,
+  heading: number,
+): number {
   const way = forwardOf(heading);
   return (to.x - from.x) * way.x + (to.y - from.y) * way.y;
 }
@@ -319,10 +347,11 @@ function checkBack(
 }
 
 /**
- * A strafe: a 150 px swipe leftward from the sky, its far ground — the seam's,
- * `distanceOfRow` of `groundTop` ahead — following the finger, then `→` held
- * 1.5 s under Shift; each walks the eye square to a heading it never turns.
- * The swipe is shot at its lift and at rest, the key mid-way.
+ * A strafe: a swipe leftward from bare ground, 150 px or to the screen's
+ * edge, whichever is nearer — a finger off the screen is no longer read —
+ * the ground under the finger following it, then `→` held 1.5 s under
+ * Shift; each walks the eye square to a heading it never turns. The swipe
+ * is shot at its lift and at rest, the key mid-way.
  */
 async function playStrafes(
   page: Page,
@@ -351,18 +380,27 @@ async function playStrafes(
     return side;
   };
 
-  const start = await page.evaluate(SKY_START, Point.nullable());
+  const start = await page.evaluate(BARE_START, Point.nullable());
   if (start === null) {
-    note('no bare sky to drag from: the strafing drag is not played');
+    note('no bare ground to drag from: the strafing drag is not played');
   } else {
     const lens = pinholeOf(camera);
     const azimuth = (x: number) => (x - lens.x) / lens.arc;
-    const reference = distanceOfRow(camera, camera.groundTop);
-    const to = { ...start, x: start.x - 150 };
-    /** How far the eye goes for the far ground under `from` to come to `to`'s x. */
-    const aimFrom = (from: number) =>
-      reference * (Math.tan(azimuth(from)) - Math.tan(azimuth(to.x)));
+    const swipe = Math.min(150, start.x - 1);
+    const to = { ...start, x: start.x - swipe };
     const pressed = await eye();
+    /** How far straight ahead the ground under the finger at `from` stands. */
+    const aheadOf = (from: number) => {
+      const under = planeSeen(camera, pressed, { ...start, x: from });
+      if (!under)
+        throw new Error(
+          `no ground under (${String(from)}, ${String(start.y)})`,
+        );
+      return goneAlong(pressed, under, pressed.heading);
+    };
+    /** How far the eye goes for the ground under `from` to come to `to`'s x. */
+    const aimFrom = (from: number) =>
+      aheadOf(from) * (Math.tan(azimuth(from)) - Math.tan(azimuth(to.x)));
     const frames = 12;
     await page.drag(start, to, frames);
     await page.step(1);
@@ -371,23 +409,23 @@ async function playStrafes(
     await page.step(1);
     await page.shoot('walk-strafe-drag-rest');
     checkWalk(pressed, chase, bob, 'drag', expect, note);
-    const went = checkSquare(pressed, chase, 'a drag from the sky');
-    // The lock takes the far ground from where the finger crossed the slop,
+    const went = checkSquare(pressed, chase, 'a drag from the ground');
+    // The lock takes the ground from where the finger crossed the slop,
     // within a frame's move past it.
     const [least, most] = [
-      aimFrom(start.x - SLOP - 150 / frames),
+      aimFrom(start.x - SLOP - swipe / frames),
       aimFrom(start.x),
     ];
     expect(
       went >= least * 0.98 && went <= most * 1.02,
-      `a drag from the sky strafed ${went.toFixed(3)}, not the ${least.toFixed(3)}..${most.toFixed(3)} that brings the far ground under the finger`,
+      `a drag from the ground strafed ${went.toFixed(3)}, not the ${least.toFixed(3)}..${most.toFixed(3)} that keeps the ground under the finger`,
     );
     const sideAt = (seen: Seen) =>
       goneAlong(pressed, seen, sidewaysOf(pressed.heading));
     const atLift = sideAt(chase[0] ?? pressed);
     const caught = chase.findIndex((seen) => sideAt(seen) >= 0.9 * went);
     note(
-      `a 150 px swipe from the sky (y ${start.y.toFixed(0)}, the far ground ${reference.toFixed(2)} ahead) strafed ${went.toFixed(3)}: ${atLift.toFixed(3)} by the lift, nine tenths ${(caught / FPS).toFixed(2)} s after it`,
+      `a ${swipe.toFixed(0)} px swipe from the ground (y ${start.y.toFixed(0)}, ${aheadOf(start.x - SLOP).toFixed(2)} ahead) strafed ${went.toFixed(3)}: ${atLift.toFixed(3)} by the lift, nine tenths ${(caught / FPS).toFixed(2)} s after it`,
     );
   }
 

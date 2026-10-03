@@ -1,5 +1,5 @@
 /**
- * After a shower: the oldest full-grown mushroom in sight sheds its spores,
+ * After a shower: a full-grown mushroom in sight sheds its spores,
  * and up to `SPROUTS` little ones of its species come up round it and grow to
  * full size on the clock. The scene finds where they stand (`roomFor`'s
  * `near`); this decides when, from whom and from which seeds, and checks the
@@ -15,6 +15,7 @@ import type { Timed } from './flight';
 import type { Meadow, Planted } from './game';
 import { EMPTY_HOUSE } from './house';
 import type { Stamped } from './motion';
+import type { Species } from './mushroom-genes';
 import type { Footed } from './placement';
 import {
   nextSeed,
@@ -26,7 +27,7 @@ import {
 
 /** How many sprouts a shower sheds at most. */
 export const SPROUTS = 3;
-/** How many old mushrooms in sight a shed tries, oldest first, before it sheds nothing. */
+/** How many old mushrooms in sight a shed tries, in `shedding`'s order, before it sheds nothing. */
 const PARENTS = 2;
 /** How big a sprout comes up, of its full size. */
 export const SPROUT_START = 0.4;
@@ -38,6 +39,8 @@ export const SPORE_FALL_MS = 700;
 export const SHED_WINDOW_MS = 12_000;
 /** Keeps the sprouts' seeds apart from every other stream grown off a parent's seed. */
 const SHED_SALT = 0x3c_9e_51_a7;
+/** Keeps the draws that order a shower's parents apart from every other stream grown off a mushroom's seed. */
+const PARENT_SALT = 0x71_d4_2b_e9;
 
 /** A sprout's start: the moment its parent shed it, and that parent. */
 export type Sprout = Parented & Stamped;
@@ -85,20 +88,46 @@ function dueShed({ rain, shed }: Meadow, now: number): number | undefined {
 }
 
 /**
- * Who sheds at `now`, oldest first among the old mushrooms `inSight`, with
- * the seeds each would shed: `undefined` while no shed is due or none old is
- * in sight. The scene tries them in order and passes the first that finds
- * room for any sprout. One meadow, one answer.
+ * The species the meadow's latest shed grew, read off its sprouts (each of
+ * its parent's species): none before the first shed that grew any.
+ */
+function lastShedSpecies({ mushrooms }: Meadow): ReadonlySet<Species> {
+  const at = Math.max(
+    ...mushrooms.map(({ sprout }) => sprout?.at ?? -Infinity),
+  );
+  return new Set(
+    mushrooms
+      .filter(({ sprout }) => sprout?.at === at)
+      .map(({ species }) => species),
+  );
+}
+
+/**
+ * Who sheds at `now` among the old mushrooms `inSight`, with the seeds each
+ * would shed: `undefined` while no shed is due or none old is in sight. Each
+ * shower orders them by its own draw, those of a species its last shed did
+ * not grow first, so every species in sight gets its turn. The scene tries
+ * them in order and passes the first that finds room for any sprout. One
+ * meadow, one answer.
  */
 export function shedding(
   meadow: Meadow,
   now: number,
   inSight: (id: string) => boolean,
 ): readonly Shedder[] | undefined {
-  if (dueShed(meadow, now) === undefined) return undefined;
+  const stopsAt = dueShed(meadow, now);
+  if (stopsAt === undefined) return undefined;
+  const last = lastShedSpecies(meadow);
   const parents = meadow.mushrooms
     .filter((mushroom) => isOld(mushroom, now) && inSight(mushroom.id))
-    .slice(0, PARENTS);
+    .map((mushroom) => ({
+      mushroom,
+      repeat: last.has(mushroom.species) ? 1 : 0,
+      draw: saltedStream(mushroom.seed, PARENT_SALT, stopsAt)(),
+    }))
+    .toSorted((a, b) => a.repeat - b.repeat || a.draw - b.draw)
+    .slice(0, PARENTS)
+    .map(({ mushroom }) => mushroom);
   if (parents.length === 0) return undefined;
   return parents.map(({ id, seed }) => ({
     id,

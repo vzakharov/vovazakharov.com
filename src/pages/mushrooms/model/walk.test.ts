@@ -106,6 +106,11 @@ function groundPress(camera: Camera): Point {
   return { x: camera.width * 0.6, y: camera.height * 0.85 };
 }
 
+/** A finger's start on the sky, right of the middle, on `camera`. */
+function skyPress(camera: Camera): Point {
+  return { x: camera.width * 0.6, y: camera.groundTop * 0.5 };
+}
+
 describe('a drag on the walk', () => {
   it('moves nothing while it stays inside the radial slop, a long press while it lasts', () => {
     const clock = new Clock(openingWalk(TABLET));
@@ -137,7 +142,7 @@ describe('a drag on the walk', () => {
       [0, 30, 'step'],
     ] as const) {
       const clock = new Clock(openingWalk(TABLET));
-      const down = groundPress(TABLET);
+      const down = skyPress(TABLET);
       clock.press(down);
       clock.move(shifted(down, dx, dy));
       assert.equal(axisOf(clock.walk), axis, `${dx}, ${dy}`);
@@ -150,7 +155,7 @@ describe('a drag on the walk', () => {
   it('a drag within 45° of horizontal moves no eye with no key held', () => {
     for (const { name, camera } of CAMERAS) {
       const clock = new Clock(openingWalk(camera));
-      const down = groundPress(camera);
+      const down = skyPress(camera);
       clock.press(down);
       clock.drag(down, shifted(down, 300, -280), 0.4);
       clock.lift();
@@ -159,16 +164,16 @@ describe('a drag on the walk', () => {
     }
   });
 
-  it('turns 1:1 in angle: the ground under the crossing stays under the finger', () => {
+  it('turns 1:1 in angle: the ground below the crossing stays below the finger', () => {
     for (const { name, camera } of CAMERAS) {
       const clock = new Clock(openingWalk(camera));
-      const down = groundPress(camera);
+      const down = skyPress(camera);
       clock.press(down);
       const crossing = shifted(down, -SLOP, 0);
-      const under = planeUnder(
-        viewAt(camera, eyeAt(clock.walk, clock.time)),
-        crossing,
-      );
+      const under = planeUnder(viewAt(camera, eyeAt(clock.walk, clock.time)), {
+        ...crossing,
+        y: camera.height * 0.85,
+      });
       clock.move(shifted(crossing, -1, 0));
       assert.ok(under, name);
       for (const x of [down.x - 100, 10, camera.width - 10, down.x + 40]) {
@@ -186,7 +191,7 @@ describe('a drag on the walk', () => {
 
   it('glides on from a quick lift and rests from a still one', () => {
     const clock = new Clock(openingWalk(TABLET));
-    const down = groundPress(TABLET);
+    const down = skyPress(TABLET);
     clock.press(down);
     clock.drag(down, shifted(down, -300, 0), 0.15);
     clock.lift();
@@ -273,15 +278,15 @@ describe('a drag on the walk', () => {
 });
 
 describe('a strafe on the walk', () => {
-  it('locks a horizontal drag that went down above the ground to the strafe, a vertical one to the step', () => {
+  it('locks a horizontal drag that went down on the ground to the strafe, above it to the turn, a vertical one to the step', () => {
     const sky = { x: TABLET.width * 0.4, y: TABLET.groundTop - 40 };
     const ground = { x: TABLET.width * 0.4, y: TABLET.groundTop + 40 };
     for (const [down, dx, dy, axis] of [
-      [sky, 30, 0, 'strafe'],
-      [sky, -25, 25, 'strafe'],
-      [sky, 10, 30, 'step'],
-      [ground, 30, 0, 'turn'],
+      [ground, 30, 0, 'strafe'],
+      [ground, -25, 25, 'strafe'],
       [ground, 10, -30, 'step'],
+      [sky, 30, 0, 'turn'],
+      [sky, 10, 30, 'step'],
     ] as const) {
       assert.equal(lockOf(TABLET, down, shifted(down, dx, dy)), axis);
       const clock = new Clock(openingWalk(TABLET));
@@ -291,7 +296,7 @@ describe('a strafe on the walk', () => {
     }
   });
 
-  it('slides the far ground with the finger, square to the heading, no faster than a step and never turning', () => {
+  it('slides the ground under the finger with it, square to the heading, no faster than a step and never turning', () => {
     for (const { name, camera } of CAMERAS) {
       const clock = new Clock(openingWalk(camera));
       clock.walk = holdTurn(clock.walk, 1, clock.time);
@@ -300,14 +305,17 @@ describe('a strafe on the walk', () => {
       clock.run(1);
       const heading = headingAt(clock.walk, clock.time);
       const start = clock.walk.stride.at;
-      const down = { x: camera.width * 0.4, y: camera.groundTop * 0.6 };
-      const reference = distanceOfRow(camera, camera.groundTop);
-      const ahead = forwardOf(heading);
-      const side = forwardOf(sidewaysOf(heading));
+      const down = { x: camera.width * 0.4, y: camera.height * 0.8 };
+      const { arc, x: middle } = pinholeOf(camera);
       const crossing = shifted(down, SLOP, 0);
       const lift = shifted(crossing, 150, 0);
-      const { arc, x: middle } = pinholeOf(camera);
-      // The far ground under the crossing: `reference` ahead, at its azimuth.
+      const ahead = forwardOf(heading);
+      const side = forwardOf(sidewaysOf(heading));
+      // The ground under the crossing: `reference` straight ahead, at its azimuth.
+      const under = planeUnder(viewAt(camera, { ...start, heading }), crossing);
+      assert.ok(under, name);
+      const reference =
+        (under.x - start.x) * ahead.x + (under.y - start.y) * ahead.y;
       const offset = reference * Math.tan((crossing.x - middle) / arc);
       const far = {
         x: start.x + ahead.x * reference + side.x * offset,
@@ -340,6 +348,7 @@ describe('a strafe on the walk', () => {
         Math.abs(moved.x * ahead.x + moved.y * ahead.y) < 1e-9,
         `${name}: square to the heading`,
       );
+      assert.ok(apart(far, under) < 1e-6, `${name}: under the crossing`);
       const before = viewOf(camera, { ...start, heading }, far, 0).x;
       assert.ok(Math.abs(before - crossing.x) < 1e-6, `${name}: ${before}`);
       const after = viewOf(camera, eyeAt(clock.walk, clock.time), far, 0).x;
