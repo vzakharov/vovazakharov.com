@@ -6,39 +6,38 @@ feat(vova): #65 Syama's mushroom meadow: houses, insects, flower music (pr #57)
 
 ```
 A six-year-old drew a game on squared paper and explained it in two
-voice notes: fly agarics with a mouse house in each, a plus and a
-minus for mushrooms, buttons that fly in a butterfly, a fly or a bee.
-There is no goal and no text — the point is to watch and to play.
-Issue #65 holds the spec; every control in the drawing works.
+voice notes: fly agarics with a mouse house in each, a plus and a minus
+for mushrooms, buttons that fly in a butterfly, a fly or a bee. There is
+no goal and no text — the point is to watch and to play. Issue #65 holds
+the spec; every control in the drawing works.
 
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
 route alone. Every mushroom, flower and insect is grown from its own
-seed by a pure, tested generator, and every motion is a pure function of
-the clock. The meadow is a field with no edge that the child walks,
-seen from an eye through a panoramic lens: a drag or the arrow keys turn
-it through 360° and step across it, far things sinking under a round
-brow and mist clearing as she walks up, and a walk back finds the same
-grass. It is painted in one light: shade, shine and
-shadows fall from the sun as each thing sees it, and every creature is
-inked in a dark of its own colour. A pure reducer in model/game.ts owns
-the state, and pnpm play:mushrooms plays every control, the walk
-included, in headless Chromium, failing on a page error, a wrong result
-or a slow frame.
+seed by a pure, tested generator, every motion is a pure function of the
+clock, and one sun shades and inks it all. The meadow is a field with no
+edge seen through a panoramic lens: a drag or the arrow keys turn the
+child through 360° and walk her across it, far things sinking under a
+round brow, and a walk back finds the same grass. A pure reducer in
+model/game.ts owns the state, and pnpm play:mushrooms plays every
+control in headless Chromium, failing on a page error, a wrong result or
+a slow frame.
 
-Plus grows one of four species — a fly agaric, a porcini, a
-chanterelle, a russula — on a foot of its own in view, up to twelve
-in sight, and minus sinks one; the house button furnishes any
-of them with Syama's windows and a door a mouse peeks from.
-Butterflies drink at flowers, flies zigzag to the fly agarics, and
-bees carry pollen and plant new flowers round those they pollinate.
-A control that cannot act shakes its head.
+Plus grows one of four species — a fly agaric, a porcini, a chanterelle,
+a russula — on a foot of its own in view, up to twelve in sight, and
+minus sinks one; the house button furnishes any of them with Syama's
+windows and a door a mouse peeks from. Butterflies drink at flowers,
+flies zigzag to the fly agarics, and bees plant new flowers round those
+they pollinate. A tapped cloud starts a ten-second shower: the clouds
+darken, drops splash on caps and grass, flowers fold into buds and caps
+swell, and a rainbow stands opposite the sun when it stops. A control
+that cannot act shakes its head.
 
 Every flower is a note or a drum by its colour and shape, darker
 sounding lower, so the meadow is an instrument: a tap plays a flower,
 several fingers play a chord, and a keyboard plays it too. A tap on a
 grass tuft opens a two-stage picker, colour then shape, and that very
-flower grows there; a long press changes or pulls one. Sound is a
-Web Audio synth with a remembered mute.
+flower grows there; a long press changes or pulls one. Sound, the rain's
+included, is a Web Audio synth with a remembered mute.
 
 Closes #65
 
