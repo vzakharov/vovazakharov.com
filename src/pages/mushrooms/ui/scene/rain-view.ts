@@ -144,7 +144,8 @@ export class RainView {
     this.dispatch({ kind: 'rain', now: ms });
     this.sound.whoosh();
     if (restart && this.backdrop) {
-      this.drops.gush(t, this.placed()[index], this.backdrop.view);
+      const clouds = this.placed();
+      this.drops.gush(t, { clouds, under: clouds[index] }, this.backdrop.view);
     }
     return true;
   }
@@ -181,10 +182,11 @@ export class RainView {
     }
     this.sway(t);
     const { tapped, drops } = this;
+    const clouds = this.placed();
     drops.update(
       t,
       downpour(rain, ms),
-      tapped === undefined ? undefined : this.placed()[tapped],
+      { clouds, under: tapped === undefined ? undefined : clouds[tapped] },
       backdrop.view,
     );
     this.shown = { raining: raining(showers.span, ms), wetness, rainbow };

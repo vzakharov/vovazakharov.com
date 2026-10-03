@@ -4,6 +4,8 @@
  * drawn. Every length is in the cloud's radii.
  */
 
+import type { Circle } from '../../model/geometry';
+
 export const PUFFS = {
   /** How many puffs stand in a row; the middle one is a full radius. */
   count: 5,
@@ -36,3 +38,18 @@ export const PUFF_REACH = {
   ),
   below: PUFFS.scale.shade + PUFFS.sink + PUFFS.lean,
 } as const;
+
+/** The box `cloud`'s drawn puffs lie in (`PUFF_REACH`). */
+export function cloudBox({ x, y, r }: Circle): {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+} {
+  return {
+    left: x - PUFF_REACH.across * r,
+    right: x + PUFF_REACH.across * r,
+    top: y - PUFF_REACH.above * r,
+    bottom: y + PUFF_REACH.below * r,
+  };
+}
