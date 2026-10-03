@@ -9,8 +9,9 @@ import { planeUnder } from '../ui/scene/view-inverse';
 import { VIEWPORTS } from '../ui/scene/viewports';
 import type { Point } from './geometry';
 import { GLIDE_OVER } from './glide';
-import { type Camera, pinholeOf, viewOf } from './ground';
+import type { Camera } from './ground';
 import { KEY_EASE, SLOP, TURN_CRUISE } from './pan';
+import { pinholeOf, viewOf } from './pinhole';
 import { forwardOf, sidewaysOf, STRIDE_CRUISE } from './stride';
 import {
   distanceOfRow,

@@ -1,7 +1,7 @@
 import type * as Phaser from 'phaser';
 
-import { pinholeOf } from '../../model/ground';
 import { type Phased, shake, sway } from '../../model/motion';
+import { pinholeOf } from '../../model/pinhole';
 import { between, type Random, skewedBetween } from '../../model/random';
 import { groundAt } from './backdrop-tones';
 import { mix } from './colour';

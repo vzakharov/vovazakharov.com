@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OPENING_EYE, pinholeOf } from '../../model/ground';
+import { OPENING_EYE } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { browBlades, browShown, type ShownBlade } from './brow';
 import { meadowCamera } from './meadow-camera';
 import { seamReach } from './skyline';

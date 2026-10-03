@@ -27,8 +27,9 @@ import {
   containsPoint,
   type Point,
 } from '../../model/geometry';
-import { type Camera, type Eye, pinholeOf } from '../../model/ground';
+import type { Camera, Eye } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
+import { pinholeOf } from '../../model/pinhole';
 import { type Plot, slotTaken } from '../../model/pollen';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { placeIn } from './clump-layout';

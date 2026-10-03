@@ -16,7 +16,7 @@ import {
 import { type Aloft, azimuthOf } from '../../model/flight-frame';
 import type { WayOut } from '../../model/flight-in';
 import { type Point, wrap } from '../../model/geometry';
-import { alongSight, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
+import { CLUMP_DISTANCE } from '../../model/ground';
 import {
   type InsectGenes,
   insectGenes,
@@ -24,6 +24,7 @@ import {
 } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import { phaseOf } from '../../model/motion';
+import { alongSight, pinholeOf } from '../../model/pinhole';
 import type { Seeded } from '../../model/random';
 import { WIDEST_SPAN } from './flower-sight';
 import { aloftAt, drawnAloft } from './insect-frame';

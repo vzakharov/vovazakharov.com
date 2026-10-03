@@ -12,9 +12,9 @@
 
 import { z } from 'zod';
 
-import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
+import { pinholeOf } from '../../src/pages/mushrooms/model/pinhole.ts';
 import { HAZE_DRIFT } from '../../src/pages/mushrooms/ui/scene/repaint-queue.ts';
 import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
 import type { Sized } from '../../src/shared/typings/index.ts';

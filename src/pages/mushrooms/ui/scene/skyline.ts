@@ -5,8 +5,9 @@
  */
 
 import { type Point, wrap } from '../../model/geometry';
-import { type Camera, pinholeOf } from '../../model/ground';
+import type { Camera } from '../../model/ground';
 import type { Light } from '../../model/light';
+import { pinholeOf } from '../../model/pinhole';
 import { between, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
 import { azimuthAt, type Crest, ringWave, type WithCrest } from './panorama';

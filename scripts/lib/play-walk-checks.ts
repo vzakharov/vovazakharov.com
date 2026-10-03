@@ -7,12 +7,12 @@
 import { z } from 'zod';
 
 import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
-import { planeSeen, viewOf } from '../../src/pages/mushrooms/model/ground.ts';
 import {
   KEY_EASE,
   SLOP,
   TURN_CRUISE,
 } from '../../src/pages/mushrooms/model/pan.ts';
+import { planeSeen, viewOf } from '../../src/pages/mushrooms/model/pinhole.ts';
 import {
   forwardOf,
   sidewaysOf,

@@ -4,7 +4,7 @@
  */
 
 import type { Box, Circle } from '../../model/geometry';
-import { pinholeOf } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { everyPlace } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import { type Controls, standingControls } from './sky-layout';

@@ -8,7 +8,6 @@
 
 import { distanceBetween, type Point } from '../../model/geometry';
 import {
-  bendAt,
   type Camera,
   CLUMP_DISTANCE,
   D_SEE,
@@ -16,11 +15,9 @@ import {
   EYE_HEIGHT,
   type Eyed,
   gathered,
-  pinholeOf,
   spread,
-  type Viewed,
-  viewOf,
 } from '../../model/ground';
+import { bendAt, pinholeOf, type Viewed, viewOf } from '../../model/pinhole';
 
 /** The camera a frame is drawn through, and the eye it looks from. */
 export type View = Camera & Eyed;

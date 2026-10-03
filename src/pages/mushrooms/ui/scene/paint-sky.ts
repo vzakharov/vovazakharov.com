@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
 import { wrap } from '../../model/geometry';
-import { pinholeOf } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { between, mulberry32, type Random } from '../../model/random';
 import { haloReach, litSkyAt, skyAt, skyGrid } from './backdrop-tones';
 import type { Span } from './baking';

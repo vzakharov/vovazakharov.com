@@ -6,7 +6,8 @@
 
 import { type Aloft, azimuthOf } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
-import { bendAt, CLUMP_DISTANCE, pinholeOf, SPREAD } from '../../model/ground';
+import { CLUMP_DISTANCE, SPREAD } from '../../model/ground';
+import { bendAt, pinholeOf } from '../../model/pinhole';
 import type { Standing } from './bed-place';
 import type { Zoomed } from './insect-away';
 import {

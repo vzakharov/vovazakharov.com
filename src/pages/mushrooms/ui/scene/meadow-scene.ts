@@ -27,9 +27,10 @@ import { Instrument } from './instrument';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { type MapSnapshot, MapView } from './map-view';
 import { listenOnMeadow } from './meadow-listeners';
+import { tapInsect, tapMeadow } from './meadow-taps';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
-import { type PerchHosts, restingOn } from './perch-hosts';
+import type { PerchHosts } from './perch-hosts';
 import { perchAnchorOf, Perches } from './perches';
 import { Planter, type Scened } from './planter';
 import { RainView } from './rain-view';
@@ -114,14 +115,16 @@ export class MeadowScene extends Phaser.Scene {
     this.scened,
     this.visitSeed ^ 0x7f_10_e5,
   );
+  /** `scened` with the layout and what the insects see, as the arrivals and a tap on an insect act through it. */
+  private readonly sighted = {
+    ...this.scened,
+    layout: () => this.requireLayout(),
+    sight: () => this.sightNow(),
+  };
   private readonly arrivals = new Arrivals(
     this.voice,
     this.now,
-    {
-      ...this.scened,
-      layout: () => this.requireLayout(),
-      sight: () => this.sightNow(),
-    },
+    this.sighted,
     this.visitSeed,
   );
 
@@ -153,7 +156,7 @@ export class MeadowScene extends Phaser.Scene {
       this.now,
       INSECT_DEPTH,
       (id) => {
-        this.tapInsect(id);
+        tapInsect(this.sighted, this.perches, id, this.clock * 1000);
       },
       () => this.viewNow(),
     );
@@ -308,42 +311,14 @@ export class MeadowScene extends Phaser.Scene {
     this.repaintControls();
   }
 
-  /**
-   * A tap on the insect `id` startles it; at rest, the tap goes on to
-   * whatever it sits on, so a creature never costs the child the thing under
-   * it. In flight it takes the tap alone.
-   */
-  private tapInsect(id: string): void {
-    const now = this.clock * 1000;
-    const flier = this.meadow?.insects.find((each) => each.id === id);
-    const under = restingOn(flier, now);
-    this.dispatch({
-      kind: 'startle',
-      id,
-      now,
-      ...this.sightNow(),
-    });
-    this.perches.tapThrough(under);
-  }
-
-  /**
-   * A tap that lands on nothing else lands on a cloud, which starts the rain,
-   * or on a tuft or the bare meadow, either of which lets go of the
-   * selection.
-   */
   private readonly tapMeadow = (
     pointer: Phaser.Input.Pointer,
     over: readonly Phaser.GameObjects.GameObject[],
   ): void => {
-    if (over.length > 0) return;
-    const { grass, cameras, planter, rain, bed } = this;
-    const at = cameras.main.getWorldPoint(pointer.x, pointer.y);
-    if (rain?.tap(at, cameras.main.scrollY) === true) return;
-    const spore = bed?.spores.pickUp(at);
-    const tuft = grass?.at(at);
-    if (spore !== undefined) this.dispatch({ kind: 'unsow', id: spore });
-    else if (grass && tuft) planter.tapTuft(tuft, grass);
-    else this.dispatch({ kind: 'deselect' });
+    const { grass, cameras, planter, rain, bed, scened } = this;
+    const { dispatch } = scened;
+    const camera = cameras.main;
+    tapMeadow({ camera, planter, grass, rain, bed, dispatch }, pointer, over);
   };
 
   private requireLayout(): MeadowLayout {

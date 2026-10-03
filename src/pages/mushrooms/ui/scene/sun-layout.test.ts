@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Circle, Point } from '../../model/geometry';
-import { OPENING_EYE, pinholeOf } from '../../model/ground';
+import { OPENING_EYE } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { mulberry32 } from '../../model/random';
 import { clumpCrowns, everyPlace } from './clump-layout';
 import { meadowLayout } from './layout';

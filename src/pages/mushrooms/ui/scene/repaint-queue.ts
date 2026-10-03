@@ -14,10 +14,10 @@ import {
   type Hazed,
   project,
   scaleAt,
-  type Viewed,
 } from '../../model/ground';
 import { smooth } from '../../model/motion';
 import type { Chorded } from '../../model/mushroom-profile';
+import type { Viewed } from '../../model/pinhole';
 import { D_SEE, type Placed } from './view';
 
 /** How far a thing's haze drifts from its paint before it is repainted. */

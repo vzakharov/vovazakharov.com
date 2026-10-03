@@ -19,8 +19,8 @@ import {
   type Footing,
   groundFootOf,
   OPENING_EYE,
-  pinholeOf,
 } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { headClear, standingOn } from './flower-layout';
 import { flowersOf, groundFor, mushroomFeet } from './flower-plots';

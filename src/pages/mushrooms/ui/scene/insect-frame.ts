@@ -20,15 +20,13 @@ import {
   type Point,
 } from '../../model/geometry';
 import {
-  alongSight,
-  bendAt,
   type Camera,
   CLUMP_DISTANCE,
   type Eye,
   EYE_HEIGHT,
-  pinholeOf,
 } from '../../model/ground';
 import { smooth } from '../../model/motion';
+import { alongSight, bendAt, pinholeOf } from '../../model/pinhole';
 import {
   buried,
   middleOf,

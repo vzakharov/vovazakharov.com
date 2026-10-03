@@ -19,9 +19,9 @@ import { z } from 'zod';
 
 import { azimuthOf } from '../../src/pages/mushrooms/model/flight-frame.ts';
 import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
-import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
 import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
+import { pinholeOf } from '../../src/pages/mushrooms/model/pinhole.ts';
 import {
   Camera,
   type Controls,

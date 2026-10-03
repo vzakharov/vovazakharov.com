@@ -14,8 +14,9 @@ import {
   type Wide,
   type WithMiddle,
 } from '../../model/geometry';
-import { D_SEE, viewOf } from '../../model/ground';
+import { D_SEE } from '../../model/ground';
 import { smooth } from '../../model/motion';
+import { viewOf } from '../../model/pinhole';
 import { between, type Random } from '../../model/random';
 import { forwardOf } from '../../model/stride';
 import { DEPTHS } from './backdrop-depths';

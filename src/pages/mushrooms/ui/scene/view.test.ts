@@ -7,12 +7,11 @@ import {
   EYE_HEIGHT,
   groundOfPlane,
   OPENING_EYE,
-  pinholeOf,
   project,
-  viewOf,
 } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { speciesHeight } from '../../model/mushroom-pose';
+import { pinholeOf, viewOf } from '../../model/pinhole';
 import { type Footed, OPENING_FOOTING } from '../../model/placement';
 import { extremes, placeOf } from './clump-layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';

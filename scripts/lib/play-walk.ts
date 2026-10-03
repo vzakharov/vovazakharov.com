@@ -19,11 +19,11 @@
 import { z } from 'zod';
 
 import { GLIDE_TAU } from '../../src/pages/mushrooms/model/glide.ts';
+import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
   pinholeOf,
   planeSeen,
-} from '../../src/pages/mushrooms/model/ground.ts';
-import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
+} from '../../src/pages/mushrooms/model/pinhole.ts';
 import {
   sidewaysOf,
   STRIDE_FLING_FASTEST,

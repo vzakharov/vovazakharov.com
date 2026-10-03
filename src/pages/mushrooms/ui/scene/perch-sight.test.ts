@@ -8,16 +8,12 @@ import { isSeat, perchName } from '../../model/flight';
 import { isShown } from '../../model/flight-in';
 import { type Meadow, reduce } from '../../model/game';
 import type { Point } from '../../model/geometry';
-import {
-  CLUMP_DISTANCE,
-  D_SEE,
-  OPENING_EYE,
-  pinholeOf,
-} from '../../model/ground';
+import { CLUMP_DISTANCE, D_SEE, OPENING_EYE } from '../../model/ground';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
 import { hasTrumpet, mushroomGenes } from '../../model/mushroom-genes';
+import { pinholeOf } from '../../model/pinhole';
 import { mulberry32, nextSeed } from '../../model/random';
 import { SHELTER_SEATS, type ShelterSeat } from '../../model/shelter';
 import { SPROUT_MS } from '../../model/sprouting';

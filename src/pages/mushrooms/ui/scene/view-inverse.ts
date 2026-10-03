@@ -7,13 +7,8 @@
  */
 
 import type { Point } from '../../model/geometry';
-import {
-  type Camera,
-  type Ground,
-  planeSeen,
-  scaleAt,
-  zAt,
-} from '../../model/ground';
+import { type Camera, type Ground, scaleAt, zAt } from '../../model/ground';
+import { planeSeen } from '../../model/pinhole';
 import { layoutOfPlane, type View } from './view';
 
 /** The plane point the ground under `screen`, in CSS px, stands at, seen through `view`. */

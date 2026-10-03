@@ -17,7 +17,8 @@ import {
   sample,
   type Tall,
 } from '../../model/geometry';
-import { type Camera, pinholeOf } from '../../model/ground';
+import type { Camera } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import {
   between,
   mulberry32,

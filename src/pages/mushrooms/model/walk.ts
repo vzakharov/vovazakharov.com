@@ -19,15 +19,7 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Direction } from './cruise';
 import type { Point } from './geometry';
-import {
-  bendAt,
-  type Camera,
-  type Eye,
-  EYE_HEIGHT,
-  OPENING_EYE,
-  type Pinhole,
-  pinholeOf,
-} from './ground';
+import { type Camera, type Eye, EYE_HEIGHT, OPENING_EYE } from './ground';
 import {
   holdKey,
   leftAt,
@@ -44,6 +36,7 @@ import {
   turnOf,
   type View,
 } from './pan';
+import { bendAt, type Pinhole, pinholeOf } from './pinhole';
 import {
   chaseFrom,
   chaseTo,

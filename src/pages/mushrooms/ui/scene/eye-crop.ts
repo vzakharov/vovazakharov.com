@@ -1,11 +1,6 @@
 import type { Point } from '../../model/geometry';
-import {
-  alongSight,
-  bendAt,
-  EYE_HEIGHT,
-  gathered,
-  pinholeOf,
-} from '../../model/ground';
+import { EYE_HEIGHT, gathered } from '../../model/ground';
+import { alongSight, bendAt, pinholeOf } from '../../model/pinhole';
 import { middleOf, rowAt, type View } from './view';
 
 /**

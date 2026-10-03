@@ -3,10 +3,11 @@ import { describe, it } from 'node:test';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import type { Point } from '../../model/geometry';
-import { OPENING_EYE, pinholeOf, planeOf, zAt } from '../../model/ground';
+import { OPENING_EYE, planeOf, zAt } from '../../model/ground';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { TAP_PARTS, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { splayed } from '../../model/mushroom-pose';
+import { pinholeOf } from '../../model/pinhole';
 import { bedPlace, depthOf, SIDE_OVERHANG } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingFlowers } from './flower-plots';

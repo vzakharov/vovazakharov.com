@@ -12,9 +12,9 @@ import {
   type Eye,
   groundFootOf,
   OPENING_EYE,
-  pinholeOf,
 } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
+import { pinholeOf } from '../../model/pinhole';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import {

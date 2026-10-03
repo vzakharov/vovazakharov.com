@@ -8,7 +8,8 @@
  */
 
 import { type Circle, type Point, sample, wrap } from '../../model/geometry';
-import { type Camera, pinholeOf } from '../../model/ground';
+import type { Camera } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { between, mulberry32 } from '../../model/random';
 import type { Span } from './baking';
 import type { View } from './view';

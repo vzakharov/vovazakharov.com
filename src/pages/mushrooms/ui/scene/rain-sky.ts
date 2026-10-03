@@ -6,8 +6,8 @@
  */
 
 import { type Circle, type Point, wrap } from '../../model/geometry';
-import { pinholeOf } from '../../model/ground';
 import { smooth } from '../../model/motion';
+import { pinholeOf } from '../../model/pinhole';
 import { type Rain, rainbow, wetness } from '../../model/weather';
 import { PUFF_REACH } from './cloud-puffs';
 import type { MeadowLayout } from './layout';

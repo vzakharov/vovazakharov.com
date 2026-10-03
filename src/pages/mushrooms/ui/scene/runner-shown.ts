@@ -5,7 +5,6 @@
 
 import { pick } from '@/shared/lib/collections';
 
-import { pinholeOf } from '../../model/ground';
 import { onStem } from '../../model/house';
 import type { Tapped } from '../../model/motion';
 import {
@@ -17,6 +16,7 @@ import {
 } from '../../model/mouse-run-clock';
 import { facingAlong, type RunPath } from '../../model/mouse-run-course';
 import { stemHalfWidth } from '../../model/mushroom-profile';
+import { pinholeOf } from '../../model/pinhole';
 import { type BedPlace, bedPlace, standAt } from './bed-place';
 import { mix } from './colour';
 import { paintRunner } from './draw-mouse';
