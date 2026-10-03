@@ -918,6 +918,23 @@ export async function grow(
   await page.step(90);
 }
 
+/** `ids`, the mushrooms', from the one drawn furthest back to the one in front. */
+export async function backToFront(
+  page: Page,
+  ids: readonly string[],
+): Promise<string[]> {
+  const depths = await Promise.all(
+    ids.map(async (id) => ({
+      id,
+      depth: await page.evaluate(
+        `__probe.depth(${JSON.stringify(id)})`,
+        z.number(),
+      ),
+    })),
+  );
+  return depths.toSorted((a, b) => a.depth - b.depth).map(({ id }) => id);
+}
+
 /** Where `Page.drag`'s finger stands after each of its `frames` moves from `from` to `to`. */
 export function dragMoves(
   from: z.infer<typeof Point>,

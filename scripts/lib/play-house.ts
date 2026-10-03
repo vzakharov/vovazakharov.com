@@ -8,7 +8,9 @@
 
 import { z } from 'zod';
 
+import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
 import {
+  backToFront,
   type Controls,
   type Expect,
   inTurn,
@@ -21,9 +23,7 @@ import {
 } from './mushroom-probe.ts';
 import { playWorms } from './play-worms.ts';
 
-/** The house picker's buttons, in `FURNISHINGS`' order. */
-const PIECES = ['cross', 'round', 'square', 'tall', 'door'] as const;
-const DOOR = PIECES.indexOf('door');
+const DOOR = FURNISHINGS.indexOf('door');
 /** More taps than any cap has windows for, so a row always fills. */
 const MOST_TAPS = 8;
 /** Frames for a pop to settle, and for a shake to be seen. */
@@ -65,9 +65,9 @@ export async function playHouse(
   } = await state();
   const target = 1;
   const left: number[] = [];
-  const windows = [...PIECES.keys()].filter((index) => index !== DOOR);
+  const windows = [...FURNISHINGS.keys()].filter((index) => index !== DOOR);
   await inTurn(windows, async (index) => {
-    const piece = PIECES[index];
+    const piece = FURNISHINGS[index];
     const before = (await house(target))?.windows.length ?? 0;
     await tapPiece(index);
     const after = await house(target);
@@ -122,7 +122,7 @@ export async function playHouse(
     const other = await house(0);
     expect(
       left.every(
-        (index) => other?.windows.includes(PIECES[index] ?? '') === true,
+        (index) => other?.windows.includes(FURNISHINGS[index] ?? '') === true,
       ) && other?.door === true,
       'the other mushroom did not take what the first had no room for',
     );
@@ -132,20 +132,12 @@ export async function playHouse(
 
   // Each door tapped at its middle on screen, back one first: a tap there
   // must reach the door by the scene's own hit test, not the stem before it.
-  const doors = await Promise.all(
-    [older, newest]
-      .filter((id) => id !== undefined)
-      .map(async (id) => ({
-        id,
-        depth: await page.evaluate(
-          `__probe.depth(${JSON.stringify(id)})`,
-          z.number(),
-        ),
-      })),
+  const byDepth = await backToFront(
+    page,
+    [older, newest].filter((id) => id !== undefined),
   );
-  const byDepth = doors.toSorted((a, b) => a.depth - b.depth);
-  await inTurn(byDepth, async ({ id }) => {
-    const side = id === byDepth.at(-1)?.id ? 'front' : 'back';
+  await inTurn(byDepth, async (id) => {
+    const side = id === byDepth.at(-1) ? 'front' : 'back';
     const { selected } = await state();
     const at = await page.evaluate(
       `__probe.door(${JSON.stringify(id)})`,

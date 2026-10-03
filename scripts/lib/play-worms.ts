@@ -7,10 +7,12 @@
  * eye that looks at the frames.
  */
 
-import { z } from 'zod';
+import type { z } from 'zod';
 
+import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
 import { WORM_GIRTH_LEAST } from '../../src/pages/mushrooms/model/worm.ts';
 import {
+  backToFront,
   Box,
   type Controls,
   type Expect,
@@ -22,8 +24,7 @@ import {
   Worm,
 } from './mushroom-probe.ts';
 
-/** The house picker's round window, in `FURNISHINGS`' order. */
-const ROUND = 1;
+const ROUND = FURNISHINGS.indexOf('round');
 
 export async function playWorms(
   page: Page,
@@ -38,15 +39,7 @@ export async function playWorms(
     schema: z.ZodType<Parsed>,
   ) => page.evaluate(`__probe.${reader}(${JSON.stringify(id)})`, schema);
   const { mushrooms } = await state();
-  const depths = await Promise.all(
-    mushrooms.map(async (id) => ({
-      id,
-      depth: await read('depth', id, z.number()),
-    })),
-  );
-  const [back, front] = depths
-    .toSorted((a, b) => a.depth - b.depth)
-    .map(({ id }) => id);
+  const [back, front] = await backToFront(page, mushrooms);
   if (front === undefined) return;
 
   /** A frame of `id` and a third of its width round it, where a worm a few px thick can be seen. */

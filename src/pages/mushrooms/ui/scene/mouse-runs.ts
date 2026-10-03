@@ -39,6 +39,7 @@ import {
   courseOf,
   runAt,
   type RunCourse,
+  type RunMoment,
   runnerAt,
   type RunOpening,
 } from '../../model/mouse-run-clock';
@@ -107,6 +108,10 @@ const PATTER_EVERY = 0.08;
 
 /** Whether a house's door is drawn now, for a run to start at it: on screen and short of the brow. */
 const seenAt = ({ drawn, behind }: BedPlace): boolean => drawn && !behind;
+
+/** Where `run` stands at `t` on its clock: at its start until it begins. */
+const momentOf = (run: MouseRun, t: number): RunMoment =>
+  runAt(Math.max(0, t - run.beganAt), run.course);
 
 export class MouseRuns {
   private counts: Mice = new Map();
@@ -253,7 +258,7 @@ export class MouseRuns {
     const tapped = doors.find((door) => door.id === id);
     const runs = this.under.map((run) => ({
       ...pick(run, 'from', 'to'),
-      ...pick(runAt(Math.max(0, now - run.beganAt), run.course), 'leg'),
+      ...pick(momentOf(run, now), 'leg'),
     }));
     const answer = tapped
       ? answerTap(this.counts, tapped, doors, runs)
@@ -380,7 +385,7 @@ export class MouseRuns {
     const elapsed = t - run.beganAt;
     if (!run.fixed) run.start = this.standing(run.from) ?? run.start;
     run.end = this.standing(run.to) ?? run.end;
-    const moment = runAt(Math.max(0, elapsed), run.course);
+    const moment = momentOf(run, t);
     if (moment.leg === 'over') {
       this.counts = entered(this.counts, run.to);
       this.drop(run);
@@ -412,7 +417,7 @@ export class MouseRuns {
   /** Where `run`'s runner stands at `t` along its course, the course, and the paint of the end it is nearer; `undefined` before its ends are known or with no view. */
   private runnerPoint(run: MouseRun, t: number): ShownRunner | undefined {
     if (!run.start || !run.end || !this.view) return;
-    const moment = runAt(Math.max(0, t - run.beganAt), run.course);
+    const moment = momentOf(run, t);
     const path = courseOf(run.start, run.end, this.view.eye, run.course);
     return {
       ...runnerAt(moment, run.start, run.end, path),

@@ -13,6 +13,7 @@
 
 import { z } from 'zod';
 
+import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
 import type { Stamped } from '../../src/pages/mushrooms/model/motion.ts';
 import {
   RUN_LEAST,
@@ -24,6 +25,7 @@ import {
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 import type { Named } from '../../src/shared/typings/index.ts';
 import {
+  backToFront,
   Box,
   type Controls,
   type Expect,
@@ -38,8 +40,7 @@ import {
   State,
 } from './mushroom-probe.ts';
 
-/** The house picker's door button, last of `FURNISHINGS`. */
-const DOOR = 4;
+const DOOR = FURNISHINGS.indexOf('door');
 /** Frames for a pop to settle. */
 const SETTLE = 45;
 /** Frames a run is followed for at most: its longest is ~4 s from peek to shut door. */
@@ -284,15 +285,7 @@ export async function playRuns(
 
   // 1. A door on each mushroom, the newest first, then the other selected.
   const { mushrooms } = await state();
-  const depths = await Promise.all(
-    mushrooms.map(async (id) =>
-      page.evaluate(`__probe.depth(${JSON.stringify(id)})`, z.number()),
-    ),
-  );
-  const [back, front] = mushrooms
-    .map((id, index) => ({ id, depth: depths[index] ?? 0 }))
-    .toSorted((a, b) => a.depth - b.depth)
-    .map(({ id }) => id);
+  const [back, front] = await backToFront(page, mushrooms);
   if (back === undefined || front === undefined) {
     expect(false, `the opening clump stands ${String(mushrooms.length)}`);
     return;
