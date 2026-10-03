@@ -1,6 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import { ellipse, type Point } from '../../model/geometry';
+import type { Looking } from '../../model/motion';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
@@ -16,8 +17,8 @@ export function wormGirth(size: number): number {
   return Math.max(WORM_GIRTH, WORM_GIRTH_LEAST / size);
 }
 
-/** A worm as its house paints it: its body, and which way a peeking worm looks (`wormPeek`), -1 left to 1 right. */
-export type ShownWorm = WormBody & { look: number };
+/** A worm as its house paints it: its body, and which way a peeking worm looks (`wormPeek`). */
+export type ShownWorm = WormBody & Looking;
 
 /**
  * A worm on a mushroom's cap, in the frame `paintHouse` paints in: its
