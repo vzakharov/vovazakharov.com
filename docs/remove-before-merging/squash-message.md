@@ -33,15 +33,14 @@ they pollinate. A tap on a mushroom leaves a spore on the ground beside
 it. A tapped cloud starts a ten-second shower: the clouds darken, drops
 splash on caps and grass, flowers fold into buds, caps swell, the
 insects shelter under them, and every spore comes up as a little
-mushroom; a rainbow stands opposite the sun when it stops. A control
-that cannot act shakes its head.
+mushroom; a rainbow stands opposite the sun when it stops.
 
 Every flower is a note or a drum by its colour and shape, darker
 sounding lower, so the meadow is an instrument: a tap plays a flower,
 several fingers play a chord, and a keyboard plays it too. A tap on a
 grass tuft opens a two-stage picker, colour then shape, and that very
-flower grows there; a long press changes or pulls one. Sound, the rain's
-included, is a Web Audio synth with a remembered mute.
+flower grows there; a long press changes or pulls one. A folded map
+shows the whole meadow from above, sun-up. Sound is a Web Audio synth.
 
 Closes #65
 
