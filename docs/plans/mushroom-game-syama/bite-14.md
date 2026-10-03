@@ -106,6 +106,12 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     a shed, against 20 of 20 at ~30 ms without — so a sprout may come up
     half behind a stem until it grows; a hand check in `to-check.md`.
 
+25. **The falling spores stay the crown puff's dots** (A3, `a3.md`): for
+    the first ~20 frames they are lost in the puff, then read clearly along
+    their arcs to the feet. Accepted — the cause is still seen leaving the
+    parent, and a second spore ink would add a colour for one moment. A
+    sprout ~20 px from the crown has its fall inside the puff; same answer.
+
 ## Packages and waves
 
 - **Wave 1, in parallel: S1** shelter's model (spec-shelter § 5 step 1) and
@@ -145,7 +151,8 @@ holds its detail.
    S4's play (`s4.md` says how to rebuild it); then the full
    `fliers.test.ts` once.
 2. **Call 24**: withhold covered shelter seats; re-shoot `--plays rain`.
-3. **The spore dots were never seen** (`p2b.md`'s next step): Phaser's
+3. **Done** (A3 f07b50c, bad0688: the play's tweens step on the game
+   clock; the dots fall and land, frames `a3-*`). Was: **the spore dots were never seen** (`p2b.md`'s next step): Phaser's
    tweens run on the wall clock, the play steps the game's; drive the tween
    clock from the stepped one, then confirm the dots fall from the parent.
    P2b's scratch driver is `look-sprouts.ts.txt` beside the notes.
