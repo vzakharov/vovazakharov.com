@@ -9,52 +9,54 @@
   "url": "https://claude.ai/code/session_011GETHBy7o14dPrRJxMvqRq",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-03T15:36:26.621Z",
-  "lastResponseAt": "2026-10-03T15:41:20.370Z",
+  "lastResponseAt": "2026-10-03T15:52:05.346Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 64,
-    "cacheWrite5mTokens": 124020,
-    "cacheWrite1hTokens": 128902,
-    "cacheReadTokens": 3557225,
-    "outputTokens": 17765,
-    "thinkingTokens": 5338,
-    "responses": 32,
-    "costUsd": 2.7183170000000003
+    "inputTokens": 750,
+    "cacheWrite5mTokens": 341716,
+    "cacheWrite1hTokens": 150909,
+    "cacheReadTokens": 13758709,
+    "outputTokens": 27721,
+    "thinkingTokens": 8398,
+    "responses": 123,
+    "costUsd": 6.2269008
   },
   "ownTurns": {
-    "inputTokens": 52,
+    "inputTokens": 68,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 128902,
-    "cacheReadTokens": 3320377,
-    "outputTokens": 17697,
-    "thinkingTokens": 5338,
-    "responses": 26,
-    "costUsd": 2.0494394000000002
+    "cacheWrite1hTokens": 150909,
+    "cacheReadTokens": 4785007,
+    "outputTokens": 26666,
+    "thinkingTokens": 8398,
+    "responses": 34,
+    "costUsd": 2.6978654000000004
   },
   "subagents": {
-    "inputTokens": 12,
-    "cacheWrite5mTokens": 124020,
+    "inputTokens": 176,
+    "cacheWrite5mTokens": 341087,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 236848,
-    "outputTokens": 68,
+    "cacheReadTokens": 8800531,
+    "outputTokens": 1035,
     "thinkingTokens": 0,
-    "responses": 6,
-    "costUsd": 0.6688776
+    "responses": 88,
+    "costUsd": 3.486945200000001
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 64,
-      "cacheWrite5mTokens": 124020,
-      "cacheWrite1hTokens": 128902,
-      "cacheReadTokens": 3557225,
-      "outputTokens": 17765,
-      "thinkingTokens": 5338,
-      "responses": 32,
-      "costUsd": 2.7183170000000003
+      "inputTokens": 750,
+      "cacheWrite5mTokens": 341716,
+      "cacheWrite1hTokens": 150909,
+      "cacheReadTokens": 13758709,
+      "outputTokens": 27721,
+      "thinkingTokens": 8398,
+      "responses": 123,
+      "costUsd": 6.2269008
     }
   },
-  "warnings": [],
+  "warnings": [
+    "prices.json priced the 122 responses the events also priced at $6.1848, against the events' $7.7145: a rate in the table is likely out of date"
+  ],
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "src/pages/mushrooms/model/mouse-run-clock.ts",
@@ -73,10 +75,21 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 30,
-    "matched": 30,
-    "matchedTableUsd": 2.6851818000000005,
-    "matchedEventUsd": 2.7059417999999997,
-    "unseen": {}
+    "events": 123,
+    "matched": 122,
+    "matchedTableUsd": 6.1848106000000005,
+    "matchedEventUsd": 7.7145106,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 629,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 173171,
+        "outputTokens": 20,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0420902
+      }
+    }
   }
 }
