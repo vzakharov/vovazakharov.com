@@ -48,7 +48,14 @@
   third chain, `git branch -D` plus `git push --delete` of the empty
   harness branch was blocked by auto mode as destructive, so it lingers
   and the operator is asked. The skill should leave the auto-branch alone
-  in the loop (it costs nothing) rather than spend a refusal on it.
+  in the loop (it costs nothing) rather than spend a refusal on it. A
+  pickup the operator types by hand (`/relay take <branch>`, at night,
+  past the depth cap) carries no prompt-line rule, so at depth 7 the
+  delete went out in the same command as the checkout: refused, and the
+  refusal then covered the bare checkout too, as the same outcome, until
+  the operator allowed both. The skill's pickup should check out first,
+  in a command of its own, and say in `/relay take` itself never to
+  delete the auto-branch.
 - **A pasted pickup installs the trunk's dependencies, not the branch's.**
   The SessionStart hook runs `pnpm install --frozen-lockfile` on the
   harness's auto-branch, cut from `main`, whose lockfile has no `phaser` or

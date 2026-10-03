@@ -140,15 +140,25 @@
   `git push --delete` hangs at the proxy; `gh api -X DELETE
 repos/<o>/<r>/git/refs/heads/wt/<package>` works. The skill's common
   brief carries the squash landing from the template.
-- **The agents' gates miss knip, and vet nearly misses its clock.** A
-  package's brief runs typecheck, eslint, prettier and `type-overlap`, not
-  knip, so bite 15's vet went red on thirteen exports nothing read (an
-  agent's new helper exported for a test it never wrote, aliases, schemas
-  no play parses), some of them bites old. The skill should put
-  `pnpm knip` in every package's checks. Vet itself took ~9 min 20 s
-  under `flock`, just inside a foreground call's 600 s cap with
-  `timeout 590`; the day it passes that, it needs splitting (the build,
-  then the gates) rather than a background run.
+- **The agents' gates miss knip.** A package's brief runs typecheck,
+  eslint, prettier and `type-overlap`, not knip, so bite 15's vet went red
+  on thirteen exports nothing read (an agent's new helper exported for a
+  test it never wrote, aliases, schemas no play parses), some of them
+  bites old. The skill should put `pnpm knip` in every package's checks.
+- **Vet no longer fits one foreground call; run the suite on its own.**
+  Bite 15's vet took ~9 min 20 s under `timeout 590`; bite 16's end hit
+  the timeout with only `test` still running, and under the gates'
+  parallel load `tufts.test.ts` came back cancelled ("Promise resolution
+  is still pending but the event loop has already resolved") with all its
+  tests passed so far — green alone (180 s) and in a full `pnpm test`
+  rerun (512 s). The skill's bite end should run vet's gates and the
+  suite as two foreground calls, and read the gate statuses from
+  `tmp/run-parallel/<n>.status` rather than vet's last line.
+- **The squash proposal goes stale with the game.** Bite 16 removed the
+  mute and added the map; the proposal still promised "a remembered
+  mute", and only the squash gate's line cap caught it, by luck. The
+  bite end should re-read the proposal against the bite's calls and
+  re-sync the PR comment from the file (`/squash-message`).
 - **A new session's Artifact publish is refused once.** The URL's live
   copy was never read in this session, so the first publish saves it and
   refuses, and an unchanged resend is refused again until a `Read` of the
