@@ -208,7 +208,7 @@ export class MeadowScene extends Phaser.Scene {
     bed?.update(t);
     controls?.update(t);
     // As the tick just left them.
-    flowers?.update(t, this.fliers(), planting?.flower);
+    flowers?.update(t, meadow?.rain, this.fliers(), planting?.flower);
     // Last, so every perch stands where this frame has put it, a sagging
     // head's included.
     insects?.update(t, perches.at);
