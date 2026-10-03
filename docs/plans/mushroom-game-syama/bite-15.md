@@ -168,6 +168,27 @@ still sorts the runner against stems at both ends. Beat: path planning
 round stems (call 7's own beat), and leaving it to `to-check.md`, which
 ships a run nobody can see.
 
+## Calls from the review
+
+The worms' review is PR #57 review 5401128817.
+
+26\. **A peek rises no higher than its cap allows**: its length is the
+lesser of `WORM_LENGTH` and the room under `capSurface − MUSHROOM_INK`
+above the slot (a russula's hollow), the body shrinking with it. Beat:
+tilting the peek, which reads as the worm leaving for a window that is not
+there.
+
+27\. **The head is never dropped by rounding**: a segment at the path's end
+is kept within an epsilon of its length (or `along` clamped), so the peek's
+look always shows. Beat: none; it is a defect.
+
+28\. **The worm's girth floor and `WINDOW_REACH` are screen pixels**,
+divided by the house graphics' zoom, so a far mushroom's worm reads and its
+windows take a finger as the opening clump's do; `to-check.md`'s numbers
+say which mushroom they were taken on. The door's `TAP_RADIUS` floor,
+older than this bite, keeps its unit. Beat: measuring a far mushroom and
+leaving the floors, which ships a 4 px worm.
+
 ## Built
 
 Each package's hand-over note under `docs/remove-before-merging/bite-15/`
