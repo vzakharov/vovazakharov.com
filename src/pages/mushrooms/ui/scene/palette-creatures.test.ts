@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { toHsv } from './colour';
+import { contrast, luminance, toHsv } from './colour';
+import { inkFor } from './ink';
 import { CREATURES } from './palette-creatures';
 
 /** Under this saturation a colour is a white, and has no hue to keep apart. */
@@ -39,5 +40,29 @@ describe('the flowers and butterflies', () => {
     for (const colour of families.flat()) {
       assert.ok(toHsv(colour).v >= LEAST_VALUE, colour.toString(16));
     }
+  });
+});
+
+/** How far apart two colours' hues stand round the wheel, in degrees. */
+function hueApart(a: number, b: number): number {
+  const gap = Math.abs(toHsv(a).h - toHsv(b).h) * 360;
+  return Math.min(gap, 360 - gap);
+}
+
+describe('the worm', () => {
+  const { worm, wormBand, capRed, chanterelle } = CREATURES;
+
+  it('is a pale pink, half as saturated as the reds and apricot it crawls over, and inked darkly off them', () => {
+    for (const cap of [capRed, chanterelle.flesh]) {
+      assert.ok(toHsv(worm).s <= toHsv(cap).s / 2, cap.toString(16));
+    }
+    assert.ok(hueApart(worm, capRed) <= 15);
+    assert.ok(contrast(worm, inkFor(worm)) >= 4.5);
+  });
+
+  it('wears a band of its own pink, deeper, its ink still standing off it', () => {
+    assert.ok(luminance(wormBand) < luminance(worm));
+    assert.ok(hueApart(wormBand, worm) <= 15);
+    assert.ok(contrast(wormBand, inkFor(wormBand)) >= 3);
   });
 });

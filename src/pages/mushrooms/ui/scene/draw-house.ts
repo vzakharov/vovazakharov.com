@@ -14,6 +14,7 @@ import type { MushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
 import { paintMouse, type Peeking } from './draw-mouse';
+import { paintWorm, type ShownWorm } from './draw-worm';
 import { inkFor, innerInk } from './ink';
 import { haloFor, mushroomTints } from './mushroom-tints';
 import { PALETTE } from './palette';
@@ -270,7 +271,8 @@ export type ShownDoor = Popped & Peeking & { station: DoorPlace; open: number };
  * `drawMushroom` paints it in — the foot at the graphics' own position — so
  * they go wherever the mushroom does. Each window in its slot of
  * `windowSlots`, in the order it was put in; the door at its station on the
- * stem, with the mouse in its doorway while it is open.
+ * stem, with the mouse in its doorway while it is open; and `worm`, out of
+ * a window, over the windows.
  */
 export function paintHouse(
   graphics: Phaser.GameObjects.Graphics,
@@ -279,6 +281,7 @@ export function paintHouse(
   windows: readonly ShownWindow[],
   door: ShownDoor | undefined,
   brush: Brush,
+  worm?: ShownWorm,
 ): void {
   const slots = windowSlots(genes);
   const tints = mushroomTints(genes);
@@ -291,6 +294,7 @@ export function paintHouse(
     if (!slot || popped <= 0) continue;
     paintWindow(graphics, kind, windowPlace(genes, size, slot, popped), onCap);
   }
+  if (worm) paintWorm(graphics, genes, size, worm, brush);
   if (!door || door.popped <= 0) return;
   const { place, aspect } = doorFrame(door.station, size, door.popped);
   const onItsStem = {
