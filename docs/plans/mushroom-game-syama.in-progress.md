@@ -268,7 +268,9 @@ DevTools protocol on tabL, tabP, phoneP, phoneL and phoneS
 species, tufts, hold, approach — each start on a fresh meadow (`--plays` picks them).
 It fails on a page error, a wrong effect, a flier turning or relit too fast
 (`flier-watch.ts`), a pop while walking (`play-walk.ts`) or a median frame
-past 26 ms (`frame-budget.ts`); frames land in `tmp/play/`, one screen per
+past 26 ms (`frame-budget.ts`), the approach also holding the lawn's share of
+a sow frame to that budget (`__probe.tendFrames()`); `__probe.costs()` sums a
+span's frames by part and counts what the scene holds; frames land in `tmp/play/`, one screen per
 call (`--screens`, `--no-build`). `pnpm sweep:mushrooms` grows all 2000
 visits on every `VIEWPORTS` screen. The suite runs a file at a time,
 `fliers.test.ts` alone (~354 s).
@@ -301,43 +303,7 @@ The bites, each file its full contract:
 10. **The flowers as an instrument, and the child plants them** — [bite-10.md](mushroom-game-syama/bite-10.md)
 11. **A wider meadow, panned** — [bite-11.md](mushroom-game-syama/bite-11.md)
 12. **Walking the meadow** — [bite-12.md](mushroom-game-syama/bite-12.md)
-13. **The meadow has no edge** (12b) — [bite-12b.md](mushroom-game-syama/bite-12b.md), contract [endless-field.md](mushroom-game-syama/endless-field.md)
-
-## Rest of the bite
-
-12b's tail. **Done:** the lawn re-tend spread a slice a frame (838b087),
-the mottles at tone 0.7 / alpha 0.4 (4605c4a), the planting play's two
-harness reds (25fae6b), a take-off from a perch out of sight timed from
-where it was drawn (3c7d9b6), `fliers.test.ts` whole and green after it;
-the probe timing the sliced re-tend (bb71c2b); tabL `veer` green at
-`DASH_SLACK` 1.25; the cap-rest wait a minute (c274649); a flier's body
-turned by its drawn, unsunk step (70fc342, 2d5283a); every play green on
-tabL, tabP and phoneP; `/polish` closed (385453f); the turn-rate watch judging a frame only while
-the body's middle is on screen (74574f4), phoneL `meadow` green; every
-play green on phoneS; phoneL `approach`, red on a quiet container too
-(31 ms against 26, Phaser re-triangulating every mushroom's Graphics each
-frame), green at 18.4 ms once a far mushroom paints fewer chords
-(`curveSteps` in `model/mushroom-profile.ts`, 567702f); the Artifact
-republished at the tail's head.
-`/polish` closed again (a772d94), the PR body refreshed.
-12b's review posted (https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5398479115: six blocking, three nits; frames under `docs/remove-before-merging/frames/bite-12b/review/`, brief retired, `docs/remove-before-merging/retired.md`).
-Its handling: all nine threads fixed or decided and replied to, each
-call and package report in [bite-12b/review.md](mushroom-game-syama/bite-12b/review.md)
-(the twelve on a turned screen decided in `decisions.md`).
-The approach play holds the lawn's share of a sow frame to
-`FRAME_BUDGET_MS` (e06b84c; tabL slowest 20.4 ms). The two frame-cost leads
-traced (`__probe.costs()`, b1a0178): frames after a long walk do not grow —
-every count flat, 6–12 ms, C2's 27.4 ms a loaded machine; the sow frame's
-`see` was `roomFor` re-judging every ring slot, now `sightAt` memoised per
-foot and `see` walking only bed perches (964e6da: tabL's slowest sow frame
-79.5 → 43.1 ms, no answer changed). The approach's median sits at 26.0 ms on
-a loaded container, the drawn forest's render, not the lawn or `see`:
-accepted. The walk's re-sights are now mostly `airOf`'s crowdings, a design
-in [bite-12b/frame-cost.md](mushroom-game-syama/bite-12b/frame-cost.md), carried to Rest of the elephant.
-**Left:** the bite's end — `/polish` (`screenSides` vs `onscreenOf`),
-the fold into `bite-12b.md` and `## Eaten so far`, retiring 12b's working
-notes and frames, the Artifact republished, `/pr`. Each package's commits:
-`waves.md`, retired (`docs/remove-before-merging/retired.md`).
+13. **The meadow has no edge** (12b) — [bite-12b.md](mushroom-game-syama/bite-12b.md), contract [endless-field.md](mushroom-game-syama/endless-field.md), its review [bite-12b/review.md](mushroom-game-syama/bite-12b/review.md), frame cost [bite-12b/frame-cost.md](mushroom-game-syama/bite-12b/frame-cost.md)
 
 ## Rest of the elephant
 
