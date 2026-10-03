@@ -333,6 +333,29 @@ The bites, each file its full contract:
 15. **After the rain** — shelter, spores the child sows, sprouts, and the
     ground under the finger — [bite-14.md](mushroom-game-syama/bite-14.md)
 
+## This bite
+
+Item 15, **the house's dwellers** — the operator's three asks after playing
+bite 14 (`mushroom-game-syama/bite-14.md` § "From the operator's play"):
+
+1. **A mouse runs only to another door**: out of its door, along the ground
+   and in at another house's door, when one is near enough to be seen;
+   with none, it peeks and hides as today.
+2. **A mouse is sized to its door** — a small house has a small mouse
+   («мини-мышек, несмотря на то что это против биологии»); his frame shows a
+   chanterelle's mouse as wide as the stem, its door hidden.
+3. **A window answers a tap with a worm**: it crawls over the cap to another
+   window of the same house when there is one, else peeks out and hides.
+
+Two packages, each mapped by a spec agent first (`runs` for 1–2, `worms` for
+3), each spec ending with its steps cut to one agent apiece and its
+collision list with the other. The calls go into
+[bite-15.md](mushroom-game-syama/bite-15.md) before any build brief; build
+agents work in their own worktrees from
+`docs/remove-before-merging/bite-15/brief-common.md`. Then the tail: the
+play run's frames, a review agent, its fixes, the fold, the Artifact,
+`/polish` sized by changed lines, `/pr`.
+
 ## Rest of the elephant
 
 In order.
@@ -361,16 +384,6 @@ re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
 `airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
 anchors, or slice it as `Tended` slices the lawn).
 
-15. **The house's dwellers** (the operator, playing; his words in
-    `mushroom-game-syama/bite-14.md` § "From the operator's play"). A mouse
-    runs only to another door: out of its door, along the ground, in at the
-    other house's door, when there is one near enough to be seen; with none
-    it peeks and hides as today. A mouse is sized to its door, so a small
-    house has a small mouse («мини-мышек, несмотря на то что это против
-    биологии»). A window answers a tap with a worm: it crawls over the cap
-    to another window of the same house when there is one, else it peeks
-    out and hides again. Dusk's "mice coming out of their doors" is this
-    run.
 16. **The map.** A map view and its button take the mute's circle, which
     anchors the layout; the mute and its `localStorage` memory go with it
     (sound off is the device's), `settle()` staying. It reads where the
