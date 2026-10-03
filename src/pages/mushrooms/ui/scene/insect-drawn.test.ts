@@ -18,17 +18,17 @@ import { aloftAt, aloftFramed, eyeFrameOf } from './insect-frame';
 import { drawnFlier, drawnSitter } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
 import { tapReach } from './tap-reach';
-import { behindHills, viewAt } from './view';
+import { behindHills, type View, viewAt } from './view';
 
 const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
 
-/** A flight at `x, y` on the screen, at the clump's depth, in a frame centred on the eye's heading. */
-function flightAt(x: number, y: number): LegFlight {
-  const frameAt = view.eye.heading;
+/** A flight at `x, y` on `on`'s screen, at the clump's depth, in a frame centred on the eye's heading. */
+function flightAt(x: number, y: number, on: View = view): LegFlight {
+  const frameAt = on.eye.heading;
   const { forward, ...at } = framedOf(
-    eyeFrameOf(view),
+    eyeFrameOf(on),
     frameAt,
-    aloftAt(view, { x, y }, CLUMP_DISTANCE),
+    aloftAt(on, { x, y }, CLUMP_DISTANCE),
   );
   return {
     frameAt,
@@ -60,12 +60,12 @@ function drawnAlong(flight: LegFlight, along: number) {
   return middle;
 }
 
-/** Where `view` places `flight` `along` its frame's px, before the brow sinks it. */
-function placedAlong(flight: LegFlight, along: number) {
+/** Where `on` places `flight` `along` its frame's px, before the brow sinks it. */
+function placedAlong(flight: LegFlight, along: number, on: View = view) {
   const { turn, at, frameAt, forward, flown, ends } = flight;
   const placed = drawnFlier(
-    view,
-    aloftFramed(view, frameAt, {
+    on,
+    aloftFramed(on, frameAt, {
       x: at.x + along * Math.sin(turn),
       y: at.y - along * Math.cos(turn),
       forward,
@@ -144,6 +144,20 @@ describe('drawnInsect', () => {
     const posed = drawnInsect(view, flight).posed;
     assert.ok(posed);
     assert.ok(apart(posed.rotation, -1.1) < 0.01);
+  });
+
+  it('turns a flier at a wide screen’s side the way a step its way is drawn, bent off its frame’s turn', () => {
+    const phoneL = viewAt(meadowCamera(844, 390), OPENING_EYE);
+    // Facing out past the side it is at, where phoneL bends the most.
+    const flight = { ...flightAt(20, 300, phoneL), turn: -1.1 };
+    const posed = drawnInsect(phoneL, flight).posed;
+    assert.ok(posed);
+    const drawnWay = wayOf(
+      placedAlong(flight, -10, phoneL),
+      placedAlong(flight, 10, phoneL),
+    );
+    assert.ok(apart(posed.rotation, drawnWay) < 0.01, String(drawnWay));
+    assert.ok(apart(posed.rotation, -1.1) >= 0.15, String(posed.rotation));
   });
 
   it('points a flier skimming the grass past the brow the way a step its way is placed, not its sinking slide, its seat’s facing kept', () => {

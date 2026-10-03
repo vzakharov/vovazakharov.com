@@ -166,6 +166,25 @@ describe('reduce', () => {
     assert.equal(grown.mushrooms.length, MUSHROOM_SLOTS + 1);
   });
 
+  it('counts MUSHROOM_SLOTS round the anchor a new foot grows from, as well as round the foot', () => {
+    const ringOf = (count: number) =>
+      run(
+        { ...opening(), mushrooms: [] },
+        round(count, 0.9 * D_SEE).map(({ foot }, seed) => growAt(seed, foot)),
+      );
+    const ring = ringOf(MUSHROOM_SLOTS);
+    assert.equal(ring.mushrooms.length, MUSHROOM_SLOTS);
+    const turn = Math.PI / MUSHROOM_SLOTS;
+    const gap = {
+      x: 0.9 * D_SEE * Math.sin(turn),
+      y: 0.9 * D_SEE * Math.cos(turn),
+    };
+    const middle = { x: 0, y: 0 };
+    assert.ok(!isCrowdedAt(ring, gap));
+    assert.ok(isCrowdedAt(ring, gap, middle));
+    assert.ok(!isCrowdedAt(ringOf(MUSHROOM_SLOTS - 1), gap, middle));
+  });
+
   it('holds at FIELD_MUSHROOMS on the whole field, and a full field opens no picker', () => {
     const full = run(
       opening(),

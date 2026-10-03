@@ -19,7 +19,7 @@ import type {
   Side,
 } from './flight';
 import { apartOf } from './flight-timing';
-import type { Lefted, Point } from './geometry';
+import { distanceBetween, type Lefted, type Point } from './geometry';
 import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 
@@ -33,8 +33,8 @@ export type WayOut = { brow: Place; outs: Readonly<Record<Side, Place>> };
 /**
  * The stretch of the world the screen shows as an insect is released: across
  * and down to `downTo`, the screen's foot, in the units of `Places`, and out
- * to `far`, the brow (the farthest the ground shows), in a place's
- * `fromEye`; `inset`, how far inside either edge and the foot a perch
+ * to `far`, the brow (the farthest the ground shows), round the eye;
+ * `inset`, how far inside either edge and the foot a perch
  * stands to count as shown; and the release's way out of view.
  */
 export type Onscreen = Lefted & {
@@ -58,8 +58,18 @@ export function isShown(
     place.x >= left + inset &&
     place.x <= right - inset &&
     place.y <= downTo - inset &&
-    place.fromEye <= far
+    roundFromEye(place) <= far
   );
+}
+
+/**
+ * How far round the eye `place` stands, as the brow is measured
+ * (`behindHills`): a posed place's plane distance from its eye, so one off
+ * the heading is judged past the brow where it sinks; an unposed one's
+ * `fromEye`.
+ */
+function roundFromEye({ fromEye, pose }: Place): number {
+  return pose ? distanceBetween(pose.frame.eye, pose.aloft) : fromEye;
 }
 
 /** The screen's edge nearer `place`. */

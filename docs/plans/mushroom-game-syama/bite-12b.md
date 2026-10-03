@@ -44,8 +44,10 @@ rejected alternative is in brackets.
 - **Light by heading** through the repaint queue, side component
   `sin(heading − α_sun)`, at most `REPAINTS_PER_FRAME` a frame.
 - **Insects on the plane** (`bite-12b/spec-insects.md`), perching where
-  they like («садятся куда хотят») **within `D_SEE` of the snapped eye**, so
-  they follow the child and a far mushroom gets them once he walks there.
+  they like («садятся куда хотят») **within `PERCH_REACH` of the snapped
+  eye** (`perch-sight.ts`: `D_SEE`, or the opening frame's far corner where
+  that stands farther, 15.9), so they follow the child and a far mushroom
+  gets them once he walks there.
   [Any perch on the field: an insect flies off for minutes and the meadow
   empties; 2·`D_SEE`: they live behind the brow.] Perch seats and crowding
   stay in layout px, re-anchored at the snapped eye like every rule [plane

@@ -8,7 +8,7 @@ import {
   shapeSeeds,
 } from '../../model/flower-sounds';
 import { type Action, type Meadow, sameFoot } from '../../model/game';
-import { type Eye, OPENING_EYE } from '../../model/ground';
+import type { Eye } from '../../model/ground';
 import { plantedId } from '../../model/pollen';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
@@ -19,8 +19,10 @@ import type { View } from './view';
 
 /**
  * What the planter acts through: the scene's stand, reducer, what it sees
- * now, and the tufts in sight, drawn on the screen with no nearer mushroom
- * over them (`Grass.inView`).
+ * now, the tufts in sight, drawn on the screen with no nearer mushroom over
+ * them (`Grass.inView`), and the eye those tufts were tended from
+ * (`Grass.tendedAt`), which every rule of the planter judges at, so a tuft
+ * shown takes the flower it is tapped for until the grass is tended again.
  */
 export type Scened = {
   stand: () => Stand | undefined;
@@ -28,7 +30,11 @@ export type Scened = {
   meadow: () => Meadow | undefined;
   dispatch: (action: Action) => void;
   tufts: () => readonly Sprout[];
+  tendedAt: () => Eye;
 };
+
+/** What the planter plays: a pop for a colour picked, a "nuh-uh" for a flower refused. */
+type PlanterVoice = Pick<MeadowSound, 'pop' | 'nuhUh'>;
 
 /** The flowers keys sowed at one moment of the scene's clock. */
 type KeySown = { at: number; flowers: readonly FlowerInView[] };
@@ -42,7 +48,7 @@ type KeySown = { at: number; flowers: readonly FlowerInView[] };
  * flower of a sound none in view makes on a tuft in view (`sowSounding`).
  */
 export class Planter {
-  private readonly voice: MeadowSound;
+  private readonly voice: PlanterVoice;
   /** Seconds on the scene's clock. */
   private readonly now: () => number;
   private readonly scene: Scened;
@@ -55,7 +61,7 @@ export class Planter {
   private keySown: KeySown = { at: Number.NaN, flowers: [] };
 
   constructor(
-    voice: MeadowSound,
+    voice: PlanterVoice,
     now: () => number,
     scene: Scened,
     seed: number,
@@ -113,7 +119,7 @@ export class Planter {
     const sprout = sowingTuft(
       this.sowing,
       this.scene.tufts(),
-      plantableIn(stand, this.eye()),
+      plantableIn(stand, this.scene.tendedAt()),
     );
     if (!sprout) return undefined;
     const id = plantedId(meadow.planted);
@@ -125,11 +131,6 @@ export class Planter {
     };
     return id;
   };
-
-  /** The eye the scene sees from now, which the planter's rules judge at: the opening one before any view. */
-  private eye(): Eye {
-    return this.scene.view()?.eye ?? OPENING_EYE;
-  }
 
   /** The flowers keys sowed this frame, which count as in view before the bed draws them. */
   readonly sownInView = (): readonly FlowerInView[] =>
@@ -146,7 +147,7 @@ export class Planter {
     return (
       planting !== undefined &&
       stand !== undefined &&
-      takesFlower(stand, planting.foot, this.eye())
+      takesFlower(stand, planting.foot, this.scene.tendedAt())
     );
   };
 
@@ -154,15 +155,15 @@ export class Planter {
    * A tap on `tuft` of `grass` opens the flower picker on it, or closes it
    * when it is open there already; a tuft that cannot take a flower shakes
    * its head and lets go of the selection and any open picker, as any tap on
-   * the meadow does. The tuft is judged at the eye `grass` tended it from.
+   * the meadow does.
    */
-  tapTuft({ tuft, foot }: Sprout, grass: Grass): void {
-    const { stand, meadow, dispatch } = this.scene;
+  tapTuft({ tuft, foot }: Sprout, grass: Pick<Grass, 'refuse'>): void {
+    const { stand, meadow, dispatch, tendedAt } = this.scene;
     const standing = stand();
     if (!standing) return;
     const open = meadow()?.planting?.foot;
     const again = open !== undefined && sameFoot(open, foot);
-    if (!again && !takesFlower(standing, foot, grass.tendedAt())) {
+    if (!again && !takesFlower(standing, foot, tendedAt())) {
       grass.refuse(tuft, this.now());
       this.voice.nuhUh();
       dispatch({ kind: 'deselect' });
