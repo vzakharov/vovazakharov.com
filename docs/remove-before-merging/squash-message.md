@@ -25,7 +25,9 @@ a slow frame.
 Plus grows one of four species — a fly agaric, a porcini, a chanterelle,
 a russula — on a foot of its own in view, up to twelve in sight, and
 minus sinks one; the house button furnishes any of them with Syama's
-windows and a door a mouse peeks from. Butterflies drink at flowers,
+windows and a door. A tapped door sends a mouse running across the grass
+to another house in sight, or it peeks and hides; a tapped window brings
+a worm over the cap to another window. Butterflies drink at flowers,
 flies zigzag to the fly agarics, and bees plant new flowers round those
 they pollinate. A tap on a mushroom leaves a spore on the ground beside
 it. A tapped cloud starts a ten-second shower: the clouds darken, drops
