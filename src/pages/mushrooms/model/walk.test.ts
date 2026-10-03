@@ -8,6 +8,7 @@ import { viewAt } from '../ui/scene/view';
 import { planeUnder } from '../ui/scene/view-inverse';
 import { VIEWPORTS } from '../ui/scene/viewports';
 import type { Point } from './geometry';
+import { GLIDE_OVER } from './glide';
 import { type Camera, pinholeOf, viewOf } from './ground';
 import { KEY_EASE, SLOP, TURN_CRUISE } from './pan';
 import { forwardOf, sidewaysOf, STRIDE_CRUISE } from './stride';
@@ -209,7 +210,7 @@ describe('a drag on the walk', () => {
     assert.equal(headingAt(still.walk, still.time), rested);
   });
 
-  it('steps no faster than the stride’s cruise, never turns, and settles the crossing’s row under a held finger', () => {
+  it('steps with the finger, the crossing’s row under it frame by frame, never turning, and glides on from a moving lift', () => {
     for (const { name, camera } of CAMERAS) {
       const clock = new Clock(openingWalk(camera));
       clock.walk = holdTurn(clock.walk, 1, clock.time);
@@ -221,33 +222,38 @@ describe('a drag on the walk', () => {
       clock.press(down);
       const crossing = shifted(down, 0, SLOP);
       const lift = { ...down, y: camera.height - 5 };
-      let last = clock.walk.stride.at;
-      const fastest = (walk: Walk) => {
-        const step = apart(walk.stride.at, last);
-        assert.ok(
-          step <= STRIDE_CRUISE * FRAME + 1e-9,
-          `${name}: ${step / FRAME}`,
-        );
-        last = walk.stride.at;
-      };
       const under = planeUnder(
         viewAt(camera, eyeAt(clock.walk, clock.time)),
         crossing,
       );
-      clock.move(shifted(crossing, 0, 1));
       assert.ok(under);
+      clock.move(shifted(crossing, 0, 1));
       for (let frame = 1; frame <= 6; frame++) {
-        clock.run(FRAME, fastest);
-        clock.move(shifted(crossing, 0, ((lift.y - crossing.y) * frame) / 6));
+        clock.run(FRAME);
+        const finger = shifted(
+          crossing,
+          0,
+          ((lift.y - crossing.y) * frame) / 6,
+        );
+        clock.move(finger);
+        const seen = viewOf(camera, eyeAt(clock.walk, clock.time), under, 0);
+        assert.ok(
+          Math.abs(seen.y - finger.y) < 0.05,
+          `${name}, frame ${String(frame)}: ${seen.y} under ${finger.y}`,
+        );
       }
-      clock.run(12, fastest);
+      const lifted = clock.walk.stride.at;
       clock.lift();
-      clock.run(1, fastest);
-      assert.equal(clock.walk.stride.pace, 0, name);
-      assert.equal(clock.walk.stride.chase, undefined, name);
+      assert.ok(clock.walk.stride.glide, `${name}: a moving lift glides`);
+      clock.run(GLIDE_OVER + FRAME);
+      const { stride } = clock.walk;
+      assert.equal(stride.glide, undefined, name);
+      assert.equal(stride.pace, 0, name);
       assert.equal(headingAt(clock.walk, clock.time), turned, name);
-      const seen = viewOf(camera, eyeAt(clock.walk, clock.time), under, 0);
-      assert.ok(Math.abs(seen.y - lift.y) < 0.05, `${name}: ${seen.y}`);
+      const way = forwardOf(turned);
+      const on =
+        (stride.at.x - lifted.x) * way.x + (stride.at.y - lifted.y) * way.y;
+      assert.ok(on > 0.5, `${name}: glided on ${on}`);
     }
   });
 
@@ -297,7 +303,7 @@ describe('a strafe on the walk', () => {
     }
   });
 
-  it('slides the ground under the finger with it, square to the heading, no faster than a step and never turning', () => {
+  it('slides the ground under the finger with it frame by frame, square to the heading and never turning, and glides on from a moving lift', () => {
     for (const { name, camera } of CAMERAS) {
       const clock = new Clock(openingWalk(camera));
       clock.walk = holdTurn(clock.walk, 1, clock.time);
@@ -322,39 +328,44 @@ describe('a strafe on the walk', () => {
         x: start.x + ahead.x * reference + side.x * offset,
         y: start.y + ahead.y * reference + side.y * offset,
       };
+      assert.ok(apart(far, under) < 1e-6, `${name}: under the crossing`);
+      const before = viewOf(camera, { ...start, heading }, far, 0).x;
+      assert.ok(Math.abs(before - crossing.x) < 1e-6, `${name}: ${before}`);
       clock.press(down);
-      let last = start;
-      const fastest = (walk: Walk) => {
-        const step = apart(walk.stride.at, last);
-        assert.ok(step <= STRIDE_CRUISE * FRAME + 1e-9, `${name}: ${step}`);
-        last = walk.stride.at;
-      };
+      clock.move(shifted(crossing, 1, 0));
       for (let frame = 1; frame <= 12; frame++) {
-        clock.run(FRAME, fastest);
-        clock.move(shifted(down, ((lift.x - down.x) * frame) / 12, 0));
+        clock.run(FRAME);
+        const finger = shifted(
+          crossing,
+          ((lift.x - crossing.x) * frame) / 12,
+          0,
+        );
+        clock.move(finger);
+        const seen = viewOf(camera, eyeAt(clock.walk, clock.time), far, 0).x;
+        assert.ok(
+          Math.abs(seen - finger.x) < 1e-6,
+          `${name}, frame ${String(frame)}: ${seen} under ${finger.x}`,
+        );
       }
-      clock.run(12, fastest);
+      const lifted = clock.walk.stride.at;
       clock.lift();
-      clock.run(1, fastest);
-      assert.equal(clock.walk.stride.chase, undefined, name);
+      assert.ok(clock.walk.stride.glide, `${name}: a moving lift glides`);
+      clock.run(GLIDE_OVER + FRAME);
+      assert.equal(clock.walk.stride.glide, undefined, name);
       assert.equal(headingAt(clock.walk, clock.time), heading, name);
       const moved = {
         x: clock.walk.stride.at.x - start.x,
         y: clock.walk.stride.at.y - start.y,
       };
       assert.ok(
-        moved.x * side.x + moved.y * side.y < -0.5,
-        `${name}: the eye went left as the finger went right`,
+        moved.x * side.x + moved.y * side.y <
+          (lifted.x - start.x) * side.x + (lifted.y - start.y) * side.y - 0.5,
+        `${name}: the eye glided on left as the finger went right`,
       );
       assert.ok(
         Math.abs(moved.x * ahead.x + moved.y * ahead.y) < 1e-9,
         `${name}: square to the heading`,
       );
-      assert.ok(apart(far, under) < 1e-6, `${name}: under the crossing`);
-      const before = viewOf(camera, { ...start, heading }, far, 0).x;
-      assert.ok(Math.abs(before - crossing.x) < 1e-6, `${name}: ${before}`);
-      const after = viewOf(camera, eyeAt(clock.walk, clock.time), far, 0).x;
-      assert.ok(Math.abs(after - lift.x) < 1e-6, `${name}: ${after}`);
     }
   });
 
@@ -372,7 +383,7 @@ describe('a strafe on the walk', () => {
   });
 });
 
-/** A long strafe drag across `camera`'s ground, held while the eye runs at the cruise toward a target far off. */
+/** A long strafe drag across `camera`'s ground, the finger then held still. */
 function strafing(camera: Camera): Clock {
   const clock = new Clock(openingWalk(camera));
   const down = { x: camera.width * 0.15, y: camera.height * 0.8 };
@@ -382,51 +393,28 @@ function strafing(camera: Camera): Clock {
   return clock;
 }
 
-/** How far the eye has to go to its strafe's target, in the clump's size. */
-function left({ stride }: Walk): number {
-  const { chase, at } = stride;
-  assert.ok(chase);
-  const way = forwardOf(chase.bearing);
-  const come =
-    (at.x - chase.origin.x) * way.x + (at.y - chase.origin.y) * way.y;
-  return Math.abs(chase.aim - come);
-}
-
 describe('a chase’s end', () => {
-  it('eases a strafe to rest over the cruise’s ease on the lift, short of the far target', () => {
-    for (const { name, camera } of CAMERAS) {
-      const clock = strafing(camera);
-      assert.ok(left(clock.walk) > 1, `${name}: the target is far`);
-      const { at: lifted, pace: running } = clock.walk.stride;
-      assert.equal(Math.abs(running), STRIDE_CRUISE, name);
+  it('leaves a strafe or a step standing where a finger at rest lifts', () => {
+    const stepping = new Clock(openingWalk(TABLET));
+    const down = { x: TABLET.width / 2, y: TABLET.groundTop + 10 };
+    stepping.press(down);
+    stepping.drag(down, { ...down, y: TABLET.height - 5 }, 0.1);
+    stepping.run(0.5);
+    for (const [name, clock] of [
+      ...CAMERAS.map((each) => [each.name, strafing(each.camera)] as const),
+      ['a step', stepping] as const,
+    ]) {
+      const lifted = clock.walk.stride.at;
       clock.lift();
-      clock.run(KEY_EASE + 2 * FRAME);
-      const { at, chase, pace } = clock.walk.stride;
-      assert.equal(chase, undefined, name);
-      assert.equal(pace, 0, name);
-      const coasted = apart(at, lifted);
-      assert.ok(
-        Math.abs(coasted - (STRIDE_CRUISE * KEY_EASE) / 2) < 0.02,
-        `${name}: ${coasted}`,
-      );
+      const { stride } = clock.walk;
+      assert.equal(stride.chase, undefined, name);
+      assert.equal(stride.glide, undefined, name);
+      assert.equal(stride.pace, 0, name);
+      assert.deepEqual(stride.at, lifted, name);
       clock.run(2);
       const { stride: after } = clock.walk;
-      assert.deepEqual(after.at, at, `${name}: and stays`);
+      assert.equal(after, stride, `${name}: and stays`);
     }
-  });
-
-  it('eases a step to rest on the lift, short of the far target', () => {
-    const clock = new Clock(openingWalk(TABLET));
-    const down = { x: TABLET.width / 2, y: TABLET.groundTop + 10 };
-    clock.press(down);
-    clock.drag(down, { ...down, y: TABLET.height - 5 }, 0.1);
-    clock.run(0.5);
-    const lifted = clock.walk.stride.at;
-    assert.ok(left(clock.walk) > 1);
-    clock.lift();
-    clock.run(2);
-    assert.equal(clock.walk.stride.chase, undefined);
-    assert.ok(apart(clock.walk.stride.at, lifted) < STRIDE_CRUISE * KEY_EASE);
   });
 
   it('ends a strafe’s chase at once on a walk, strafe or turn key going down, lifted or not, the key taking over', () => {

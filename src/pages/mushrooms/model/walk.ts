@@ -7,12 +7,12 @@
  * its axis locks for the rest of the press — within 45° of horizontal it
  * turns if it went down above the ground, on the hills or the sky, and
  * strafes if it went down on the ground; else it steps. A turn keeps the
- * azimuth under the finger 1:1 and glides on from the lift; a step chases
- * the finger's row, and a strafe slides the ground under the finger with
- * it, both no faster than the stride's cruise, and on the lift fling on from
- * the finger's speed as a turn glides (`glide.ts`), or, the finger lifted at
- * rest, ease to rest; any arrow key going down ends a step's or a strafe's
- * chase or fling and takes over.
+ * azimuth under the finger 1:1 and glides on from the lift; a step keeps the
+ * ground row under the finger and a strafe slides the ground under the
+ * finger with it, as fast as the finger moves, and on the lift both fling on
+ * from the finger's speed as a turn glides (`glide.ts`), or, the finger
+ * lifted at rest, stand where it left them; any arrow key going down ends a
+ * step's or a strafe's chase or fling and takes over.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -293,8 +293,9 @@ export function moveTo(walk: Walk, point: Point, time: number): Walk {
 
 /**
  * The finger lifted at `time`: a turn glides on from the finger's velocity, a
- * step or a strafe flings on from it, or eases to rest where the finger left
- * it at rest; the keys held take over after either.
+ * step or a strafe flings on from it, or stands where a finger at rest left
+ * it; keys held at the lift take over either at once, from the finger's
+ * pace.
  */
 export function liftAt(walk: Walk, time: number): Walk {
   if (!walk.drag) return walk;

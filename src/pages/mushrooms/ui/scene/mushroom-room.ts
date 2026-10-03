@@ -52,6 +52,7 @@ import { capBox } from './cap-cover';
 import { FOREST_SPLAY, groundIn, placeOnGround } from './clump-layout';
 import { type Standing, standingAs } from './door-sight';
 import { layoutShown } from './eye-crop';
+import { coversShown, type ShownCover } from './flower-cover';
 import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
 import type { MeadowLayout, Placement } from './layout';
@@ -63,6 +64,7 @@ import {
   patchTarget,
 } from './mushroom-patch';
 import { standingControls } from './sky-layout';
+import { dotInSight } from './spore-sight';
 import { doorsKept, partsInView, standingOn } from './standing-weighed';
 import { SUN_RAY_REACH } from './sun-layout';
 import { tapReach } from './tap-reach';
@@ -304,7 +306,9 @@ export const SPROUT_REACH = 1;
  * first, then the controls, then what it hides and what hides it, then the
  * doors, then the patches, the dearest to try. A spore laid round the stored
  * foot `near` stands within `SPROUT_REACH` of it, judged at its full size
- * alone; `undefined` where the anchor has no ground under `near`.
+ * alone, and in `view` its dot is drawn in sight (`dotInSight`) and off
+ * every control and the sun's rays; `undefined` where the anchor has no
+ * ground under `near`.
  */
 export function roomFor(
   stand: Stand,
@@ -323,6 +327,18 @@ export function roomFor(
   const splays = speciesOf(seed);
   let around: Around | undefined;
   const aroundNow = (): Around => (around ??= patchesAround(judged));
+  let covers: ShownCover[] | undefined;
+  const dotShown = (foot: Ground): boolean => {
+    if (!parent || !view) return true;
+    covers ??= coversShown(view, stand.layout, stand.mushrooms);
+    const at = dotInSight(view, covers, grownOn(anchor, foot).foot);
+    return (
+      at !== undefined &&
+      screen.keepOff.every(
+        (circle) => Math.hypot(at.x - circle.x, at.y - circle.y) >= circle.r,
+      )
+    );
+  };
   const found = pickFoot(seed, {
     ...pick(layout.mushrooms, 'frame'),
     ...pick(screen, 'within'),
@@ -333,7 +349,8 @@ export function roomFor(
     admits: (foot) => {
       if (
         isCrowdedAt(stand, grownOn(anchor, foot).foot, anchor) ||
-        flowers.some((flower) => apartOnScreen(foot, flower) < FLOWER_APART)
+        flowers.some((flower) => apartOnScreen(foot, flower) < FLOWER_APART) ||
+        !dotShown(foot)
       ) {
         return false;
       }

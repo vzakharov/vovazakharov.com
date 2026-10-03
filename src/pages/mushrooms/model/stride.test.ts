@@ -212,116 +212,105 @@ describe('the stride on the strafing keys', () => {
   });
 });
 
+/**
+ * A finger that takes the walk along `axis` at heading 0 and moves the eye on
+ * at `speed` units a second for `seconds`, the stride ticked a frame at a
+ * time: the stride with the finger still down, and the time it last moved.
+ */
+function dragged(
+  axis: 'step' | 'strafe',
+  speed: number,
+  seconds: number,
+  stride = standingAt(ORIGIN),
+): [Stride, number] {
+  let dragging = chaseFrom(stride, 0, axis, 0);
+  let time = 0;
+  for (; time < seconds - 1e-9; ) {
+    time += FRAME;
+    dragging = tick(chaseTo(dragging, speed * time, time), 0, FRAME);
+  }
+  return [dragging, time];
+}
+
+/** `dragged`, then, `rest` seconds still, lifted: the stride as it lifts. */
+function swiped(
+  axis: 'step' | 'strafe',
+  speed: number,
+  seconds: number,
+  rest = 0,
+): Stride {
+  const [stride, time] = dragged(axis, speed, seconds);
+  const [still] = walked(stride, 0, rest);
+  return liftChase(still, time + rest);
+}
+
 describe('the stride on a drag', () => {
-  it('settles on its target while held and rests after the lift, with no glide', () => {
+  it('stands where the finger sets it while held and rests after the lift, with no glide', () => {
     const heading = -0.4;
     const start = standingAt({ x: 1, y: 2 });
     const pressed = chaseTo(chaseFrom(start, heading, 'step', 0), 3, 0);
-    const [held] = walked(pressed, heading, 4);
-    const [lifted] = walked(liftChase(held, LATE), heading, 1);
     const way = forwardOf(heading);
     const target = { x: 1 + 3 * way.x, y: 2 + 3 * way.y };
+    assert.ok(apart(pressed.at, target) < 1e-9);
+    const [held] = walked(pressed, heading, 4);
+    assert.equal(held, pressed, 'the ticks move nothing while it is held');
+    const [lifted] = walked(liftChase(held, LATE), heading, 1);
     assert.ok(apart(lifted.at, target) < 1e-9);
     assert.equal(lifted.chase, undefined);
+    assert.equal(lifted.pace, 0);
     assert.equal(tick(lifted, heading, FRAME), lifted);
   });
 
-  it('chases no faster than its cruise, however far the finger runs', () => {
-    const start = standingAt(ORIGIN);
-    const pressed = chaseTo(chaseFrom(start, 0, 'step', 0), -3.5, 0);
-    const [, seen] = walked(pressed, 0, 4);
-    const steps = moves(start.at, seen);
-    assert.ok(steps.every((each) => each <= STRIDE_CRUISE * FRAME + 1e-9));
-    assert.ok(Math.abs((seen.at(-1)?.y ?? 0) + 3.5) < 1e-9);
-  });
-
-  it('follows a moving target, a key held before the press waiting for the lift', () => {
-    let stride = chaseFrom(holdStep(standingAt(ORIGIN), -1), 0, 'step', 0);
-    for (let frame = 1; frame <= 60; frame++) {
-      stride = tick(chaseTo(stride, frame * 0.02, frame * FRAME), 0, FRAME);
-    }
-    assert.ok(stride.at.y > 0.8, 'it follows the finger on, not the key back');
-    const [lifted] = walked(liftChase(stride, 1), 0, 3);
-    assert.equal(lifted.chase, undefined);
-    assert.ok(
-      lifted.at.y < 1.2,
-      'the held key walks it back once the chase is done',
-    );
-  });
-
-  it('eases to rest over the cruise’s ease on a lift mid-chase, short of a far target', () => {
+  it('keeps up with the finger however fast it moves, counting the way walked', () => {
     for (const axis of ['step', 'strafe'] as const) {
-      const heading = 0.7;
-      const pressed = chaseTo(
-        chaseFrom(standingAt(ORIGIN), heading, axis, 0),
-        6,
-        0,
-      );
-      const [running] = walked(pressed, heading, 1);
-      assert.equal(running.pace, STRIDE_CRUISE, axis);
-      const [lifted, seen] = walked(liftChase(running, LATE), heading, 2);
-      const steps = moves(running.at, seen);
-      const still = steps.indexOf(0);
-      assert.ok(
-        still > 0 && still * FRAME <= KEY_EASE + FRAME,
-        `${axis}: ${still}`,
-      );
-      // A steady ease from the cruise covers half the cruise over the ease.
-      const coasted = apart(lifted.at, running.at);
-      assert.ok(
-        Math.abs(coasted - (STRIDE_CRUISE * KEY_EASE) / 2) < 0.01,
-        `${axis}: ${coasted}`,
-      );
-      assert.equal(lifted.chase, undefined, axis);
-      assert.equal(lifted.pace, 0, axis);
-      assert.equal(tick(lifted, heading, FRAME), lifted, axis);
+      // 30 units a second, many times the cruise and the fling's most.
+      const [stride] = dragged(axis, 30, 0.2);
+      const way = axis === 'step' ? stride.at.y : stride.at.x;
+      assert.ok(Math.abs(way - 6) < 1e-9, `${axis}: ${way}`);
+      assert.ok(Math.abs(stride.walked - 6) < 1e-9, `${axis}: walked`);
+      assert.ok(Math.abs(stride.pace - 30) < 1e-6, `${axis}: ${stride.pace}`);
     }
   });
 
-  it('brakes short of a target nearer than its ease on the lift', () => {
-    const pressed = chaseTo(chaseFrom(standingAt(ORIGIN), 0, 'step', 0), 2, 0);
-    const [near] = walked(pressed, 0, 1.3);
-    assert.ok(2 - near.at.y < (STRIDE_CRUISE * KEY_EASE) / 2, `${near.at.y}`);
-    const [lifted] = walked(liftChase(near, LATE), 0, 1);
-    assert.ok(lifted.at.y <= 2 + 1e-9, `${lifted.at.y}`);
+  it('follows a moving finger, a key held before the press waiting for the lift and taking over from its pace', () => {
+    const [stride, time] = dragged(
+      'step',
+      1.2,
+      1,
+      holdStep(standingAt(ORIGIN), -1),
+    );
+    assert.ok(Math.abs(stride.at.y - 1.2) < 1e-9, 'it follows the finger on');
+    const lifted = liftChase(stride, time);
     assert.equal(lifted.chase, undefined);
+    assert.equal(lifted.glide, undefined, 'a held key flings nothing');
+    assert.ok(Math.abs(lifted.pace - 1.2) < 1e-6, `${lifted.pace}`);
+    const [later] = walked(lifted, 0, 3);
+    assert.ok(later.at.y < 1.2, 'the held key walks it back');
   });
 
-  it('ends a chase at once on a walking or strafing key going down, lifted or not, and hands the keys its pace', () => {
-    for (const lifted of [false, true]) {
-      for (const [axis, hold, other] of [
-        ['step', holdStep, 'sidePace'],
-        ['strafe', holdStrafe, 'pace'],
-      ] as const) {
-        const pressed = chaseTo(
-          chaseFrom(standingAt(ORIGIN), 0, axis, 0),
-          8,
-          0,
-        );
-        const [running] = walked(pressed, 0, 1);
-        const pace = axis === 'step' ? 'pace' : 'sidePace';
-        // The other way, so the key turns it back: shift+← against a rightward strafe.
-        const taken = hold(lifted ? liftChase(running, LATE) : running, -1);
-        const name = `${axis}${lifted ? ' lifted' : ''}`;
-        assert.equal(taken.chase, undefined, name);
-        assert.equal(taken[pace], STRIDE_CRUISE, name);
-        assert.equal(taken[other], 0, name);
-        const [back] = walked(taken, 0, 1);
-        assert.ok(
-          Math.abs(back[pace] + STRIDE_CRUISE) < 1e-9,
-          `${name}: walks back`,
-        );
-      }
+  it('ends a chase at once on a walking or strafing key going down, and hands the keys its pace held to the cruise', () => {
+    for (const [axis, hold, other] of [
+      ['step', holdStep, 'sidePace'],
+      ['strafe', holdStrafe, 'pace'],
+    ] as const) {
+      const [running] = dragged(axis, 8, 0.5);
+      const pace = axis === 'step' ? 'pace' : 'sidePace';
+      // The other way, so the key turns it back: shift+← against a rightward strafe.
+      const taken = hold(running, -1);
+      assert.equal(taken.chase, undefined, axis);
+      assert.equal(taken[pace], STRIDE_CRUISE, axis);
+      assert.equal(taken[other], 0, axis);
+      assert.equal(chaseTo(taken, 9, 1), taken, `${axis}: moved no more`);
+      const [back] = walked(taken, 0, 1);
+      assert.ok(
+        Math.abs(back[pace] + STRIDE_CRUISE) < 1e-9,
+        `${axis}: walks back`,
+      );
     }
   });
 
   it('ends a chase where it stands on yielding to a turn, easing its pace to rest', () => {
-    const pressed = chaseTo(
-      chaseFrom(standingAt(ORIGIN), 0, 'strafe', 0),
-      8,
-      0,
-    );
-    const [running] = walked(pressed, 0, 1);
+    const [running] = dragged('strafe', 8, 0.5);
     const taken = yieldChase(running);
     assert.equal(taken.chase, undefined);
     assert.equal(taken.sidePace, STRIDE_CRUISE);
@@ -334,28 +323,6 @@ describe('the stride on a drag', () => {
     assert.equal(yieldChase(rested), rested);
   });
 });
-
-/**
- * A finger that takes the walk along `axis` at heading 0 and moves its target
- * on at `speed` units a second for `seconds`, the stride ticked a frame at a
- * time; then, `rest` seconds still, it lifts. The stride as it lifts, and the
- * eye where the finger lifted.
- */
-function swiped(
-  axis: 'step' | 'strafe',
-  speed: number,
-  seconds: number,
-  rest = 0,
-): Stride {
-  let stride = chaseFrom(standingAt(ORIGIN), 0, axis, 0);
-  let time = 0;
-  for (; time < seconds - 1e-9; ) {
-    time += FRAME;
-    stride = tick(chaseTo(stride, speed * time, time), 0, FRAME);
-  }
-  const [still] = walked(stride, 0, rest);
-  return liftChase(still, time + rest);
-}
 
 describe('the stride on a fling', () => {
   it('glides on from a quick swipe some two to three units, nearly all within a second, then rests', () => {
@@ -385,8 +352,7 @@ describe('the stride on a fling', () => {
   it('flings back on a swipe the other way, and at the finger’s own speed below the most', () => {
     const flung = swiped('strafe', -3, 0.3);
     const [rested] = walked(flung, 0, GLIDE_OVER + FRAME);
-    // The eye keeps up with 3 units a second no better than its cruise, so it
-    // sets off at the finger's speed, which carries it on by 3 · GLIDE_TAU.
+    // 3 units a second, under the fling's most, carries it on by 3 · GLIDE_TAU.
     assert.ok(
       Math.abs(rested.at.x - flung.at.x + 3 * 0.325) < 1e-6,
       `${rested.at.x - flung.at.x}`,

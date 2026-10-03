@@ -15,8 +15,9 @@
  * rain (`opened`'s `showers`), and the line adds how many spores were sown
  * and came up, what share of the mushrooms standing before the first round
  * found all `SPORE_SEATS` seats every round, how often the opening clump
- * alone sowed one on its opening crop, and the same checks over those
- * showered clumps.
+ * alone sowed one on its opening crop, how many of the dots lying on those
+ * clumps as the last round's rain fell were out of sight (`dotInSight`), and
+ * the same checks over those showered clumps.
  *
  *   pnpm sweep:mushrooms                            # all 2000 visits
  *   pnpm sweep:mushrooms --visits 200               # 200 spread over them
@@ -36,8 +37,10 @@ import {
   PARTS,
   partSighted,
 } from '../src/pages/mushrooms/ui/scene/cap-cover';
+import { coversShown } from '../src/pages/mushrooms/ui/scene/flower-cover';
 import type { MeadowLayout } from '../src/pages/mushrooms/ui/scene/layout';
 import { patchlessIn } from '../src/pages/mushrooms/ui/scene/mushroom-patch';
+import { dotInSight } from '../src/pages/mushrooms/ui/scene/spore-sight';
 import { viewAt } from '../src/pages/mushrooms/ui/scene/view';
 import { VIEWPORTS, VISITS } from '../src/pages/mushrooms/ui/scene/viewports';
 import {
@@ -123,6 +126,18 @@ function checker() {
 /** The view a visit opens on. */
 const atOpening = (layout: MeadowLayout) => viewAt(layout.camera, OPENING_EYE);
 
+/** How many dots lay in `stand`'s last rain, and how many of them out of sight on the view it opens on. */
+function dotsOf({ layout, sowed }: Opened): { lying: number; covered: number } {
+  const view = atOpening(layout);
+  const covers = coversShown(view, layout, sowed.mushrooms);
+  return {
+    lying: sowed.spores.length,
+    covered: sowed.spores.filter(
+      ({ foot }) => dotInSight(view, covers, foot) === undefined,
+    ).length,
+  };
+}
+
 /** How many of `stand`'s mushrooms came up from spores. */
 const sproutsOf = ({ mushrooms }: Opened) =>
   mushrooms.filter(({ sprout }) => sprout !== undefined).length;
@@ -153,6 +168,7 @@ for (const [name, width, height] of VIEWPORTS) {
   const sown = { forest: 0, crop: 0, clumps: 0, clumpVisits: 0 };
   const seats = { standing: 0, full: 0 };
   const clumpSprouts: number[] = [];
+  const dots = { lying: 0, covered: 0 };
   for (const seed of seeds) {
     const stand = opened(seed, width, height, true, undefined, showers);
     const grown = stand.mushrooms.length - sproutsOf(stand);
@@ -169,6 +185,9 @@ for (const [name, width, height] of VIEWPORTS) {
     sown.crop += sproutsOf(crop);
     if (showers === 0) continue;
     const clump = opened(seed, width, height, false, atOpening, showers);
+    const laid = dotsOf(clump);
+    dots.lying += laid.lying;
+    dots.covered += laid.covered;
     clumps.check(seed, clump);
     const sprouts = sproutsOf(clump);
     clumpSprouts.push(sprouts);
@@ -182,6 +201,7 @@ for (const [name, width, height] of VIEWPORTS) {
       : [
           `${String(showers)} rounds sowed and sprouted ${String(sown.forest)} spores over the forests, ${String(sown.crop)} over the opening crops`,
           `all ${String(SPORE_SEATS)} seats every round for ${percent(seats.full / seats.standing)} of the forests' mushrooms`,
+          `${String(dots.covered)} of ${String(dots.lying)} dots on the opening clumps out of sight`,
           `on the opening clump a sprout in ${String(sown.clumpVisits)} of ${String(visited)} visits (${percent(sown.clumpVisits / visited)}), ${String(sown.clumps)} sprouts, median ${String(median(clumpSprouts))}`,
           `the clumps showered: ${clumps.report().join(', ')}`,
         ];
