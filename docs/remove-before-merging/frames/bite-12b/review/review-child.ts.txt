@@ -1,0 +1,242 @@
+import fs from 'node:fs';
+
+import { z } from 'zod';
+
+import type { Controls, Expect, Page } from './mushroom-probe.ts';
+
+type Note = (line: string) => void;
+type Arrow = 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight';
+
+const OUT = 'tmp/review';
+const FPS = 60;
+
+const SNAP = `(() => {
+  const s = __probe.scene;
+  const cam = s.cameras.main;
+  const W = s.layout.width, H = s.layout.height;
+  const eye = s.eye.eye();
+  const mush = s.meadow.mushrooms.map(({ id, foot }) => {
+    const sh = s.bed.shown.get(id);
+    const vis = Boolean(sh && sh.graphics.visible);
+    let b = null, reach = null;
+    if (vis) { b = __probe.bounds(id); reach = __probe.mushroom(id); }
+    const onScreen = b && b.x + b.width > 0 && b.x < W && b.y < H && b.y + b.height > 0;
+    return { id, foot, vis, b, reach, onScreen };
+  });
+  const flowers = [...s.flowers.shown.entries()].map(([id, f]) => {
+    const m = f.head.getWorldTransformMatrix();
+    return { id, vis: f.container.visible, hx: m.tx - cam.scrollX, hy: m.ty - cam.scrollY,
+      x: f.container.x - cam.scrollX, foot: f.laid ? f.laid.foot : null, headR: f.headR * f.container.scaleX };
+  });
+  const tufts = s.grass.shown.near.map(({ tuft, sprout }) => ({ fx: sprout.foot.x, fy: sprout.foot.y, sx: tuft.x - cam.scrollX, sy: tuft.y - cam.scrollY, size: tuft.size }));
+  const planted = s.meadow.planted.map(({ id, foot }) => ({ id, foot }));
+  return JSON.stringify({ clock: s.clock, W, H, world: s.layout.camera.world, horizon: s.layout.horizon, groundTop: s.layout.groundTop, eye: { x: eye.x, y: eye.y, heading: eye.heading },
+    picking: s.meadow.picking, mushrooms: mush, flowers, tufts, planted,
+    plusRefusedAt: Number.isFinite(s.controls.plus.refusedAt) ? s.controls.plus.refusedAt : null,
+    insects: s.meadow.insects.map(({ id, kind, leg }) => ({ id, kind, to: leg.to })),
+    buttons: { plus: s.layout.plus, minus: s.layout.minus, house: s.layout.house, mute: s.layout.mute, ...s.layout.releases } });
+})()`;
+
+const Snap = z
+  .string()
+  .transform((text) => JSON.parse(text) as Record<string, unknown>);
+
+export async function playChild(
+  page: Page,
+  controls: z.infer<typeof Controls>,
+  _expect: Expect,
+  note: Note,
+): Promise<void> {
+  const name = await page.evaluate(
+    `(() => { const w = __probe.scene.layout.width; return ({1180:'tabL',820:'tabP',390:'phoneP',844:'phoneL',320:'phoneS'})[w]; })()`,
+    z.string(),
+  );
+  const snaps: Record<string, unknown> = {};
+  const snap = async (label: string) => {
+    snaps[label] = await page.evaluate(SNAP, Snap);
+  };
+  const shoot = async (label: string) => {
+    await page.shoot(`child-${label}`);
+  };
+  const state = async () =>
+    page.evaluate(
+      `({ picking: __probe.scene.meadow.picking, n: __probe.scene.meadow.mushrooms.length, refused: Number.isFinite(__probe.scene.controls.plus.refusedAt) ? __probe.scene.controls.plus.refusedAt : null, clock: __probe.scene.clock })`,
+      z.object({
+        picking: z.boolean(),
+        n: z.number(),
+        refused: z.number().nullable(),
+        clock: z.number(),
+      }),
+    );
+  const hold = async (key: Arrow, frames: number) => {
+    await page.key(key, 'keyDown');
+    await page.step(frames);
+    await page.key(key, 'keyUp');
+    await page.step(60);
+  };
+  const log: string[] = [];
+  const births: unknown[] = [];
+  const grownSnaps: Record<string, unknown> = {};
+  const say = (line: string) => {
+    log.push(line);
+    note(line);
+  };
+
+  const watchBees = async (label: string, released: number, seconds: number) => {
+    for (let i = 0; i < released; i += 1) {
+      await page.tap(controls.releases.bee);
+      await page.step(20);
+    }
+    const start = await page.evaluate(SNAP, Snap);
+    const seen = new Set<string>(
+      (start.flowers as { id: string }[]).map(({ id }) => id),
+    );
+    for (let second = 0; second < seconds; second += 1) {
+      await page.step(FPS);
+      const now = await page.evaluate(SNAP, Snap);
+      const flowers = now.flowers as { id: string }[];
+      const fresh = flowers.filter(({ id }) => !seen.has(id));
+      for (const flower of fresh) {
+        seen.add(flower.id);
+        births.push({ label, second, ...flower, W: now.W, eye: now.eye });
+      }
+      if (fresh.length > 0)
+        await shoot(`${label}-bees-${String(second).padStart(2, '0')}s`);
+    }
+    // Where each newborn stands once grown, two seconds on.
+    await page.step(FPS * 2);
+    const grownUp = await page.evaluate(SNAP, Snap);
+    grownSnaps[label] = grownUp;
+    await shoot(`${label}-bees-end`);
+  };
+  const plantFlowers = async (label: string, count: number) => {
+    let planted = 0;
+    for (let attempt = 0; attempt < 12 && planted < count; attempt += 1) {
+      const tufts = await page.evaluate(
+        `JSON.stringify((() => { const s = __probe.scene; const cam = s.cameras.main; const b = [s.layout.plus, s.layout.minus, s.layout.house, s.layout.mute, ...Object.values(s.layout.releases)];
+          return s.grass.inView().map(() => 0) && s.grass.shown.near.map(({ tuft }) => ({ x: tuft.x - cam.scrollX, y: tuft.y - cam.scrollY - tuft.size * 0.5 }))
+            .filter(({ x, y }) => x > 20 && x < s.layout.width - 20 && y < s.layout.height - 10 && b.every((c) => Math.hypot(c.x - x, c.y - y) > c.r + 40))
+            .sort((p, q) => q.y - p.y); })())`,
+        z.string(),
+      );
+      const list = JSON.parse(tufts) as { x: number; y: number }[];
+      const tuft = list[attempt % Math.max(1, list.length)];
+      if (!tuft) break;
+      await page.tap(tuft);
+      await page.step(30);
+      const open = await page.evaluate('__probe.scene.meadow.planting !== undefined', z.boolean());
+      if (!open) continue;
+      const colours = JSON.parse(await page.evaluate(`JSON.stringify(__probe.scene.controls.colourPicker.buttons.map(({ home }) => ({ x: home.x, y: home.y })))`, z.string())) as { x: number; y: number }[];
+      const colour = colours[planted % colours.length];
+      if (colour) await page.tap(colour);
+      await page.step(30);
+      const shapes = JSON.parse(await page.evaluate(`JSON.stringify(__probe.scene.controls.shapePicker.buttons.map(({ home }) => ({ x: home.x, y: home.y })))`, z.string())) as { x: number; y: number }[];
+      const shape = shapes[planted % shapes.length];
+      if (shape) await page.tap(shape);
+      await page.step(90);
+      planted += 1;
+    }
+    say(`${label}: planted ${String(planted)} flowers by tufts`);
+  };
+
+  /** `+` then a species, until `+` shakes its head; the shake is shot. */
+  const plantUntilRefused = async (label: string): Promise<void> => {
+    const tries: string[] = [];
+    for (let i = 0; i < 30; i += 1) {
+      const before = await state();
+      await page.tap(controls.plus);
+      await page.step(30);
+      const after = await state();
+      if (!after.picking) {
+        const shook = after.refused !== null && after.refused !== before.refused;
+        tries.push(`try ${String(i)}: no picker, shook=${String(shook)}`);
+        await shoot(`${label}-plus-refused`);
+        await page.step(60);
+        break;
+      }
+      const cap = controls.picker[i % controls.picker.length];
+      if (cap) await page.tap(cap);
+      await page.step(90);
+      const grown = await state();
+      tries.push(`try ${String(i)}: ${String(before.n)}->${String(grown.n)}`);
+      if (grown.n === before.n) {
+        await shoot(`${label}-grow-silent`);
+      }
+    }
+    say(`${label}: ${tries.join('; ')}`);
+  };
+
+  await page.step(30);
+  await snap('A0');
+  await shoot('00-opening');
+  await plantUntilRefused('A');
+  await snap('A1');
+  await shoot('01-opening-full');
+  if (process.env.TURN) {
+    await page.turn();
+    await page.step(60);
+    await snap('T');
+    await shoot('08-screen-turned');
+    fs.writeFileSync(`${OUT}/${name}-turn.json`, JSON.stringify({ log, snaps }, null, 1));
+    return;
+  }
+  await watchBees('A', 3, 30);
+  await snap('A2');
+
+  // Walk out into the field: ↓ held 8 s.
+  await hold('ArrowDown', FPS * 8);
+  await page.step(30);
+  await snap('B0');
+  await shoot('02-out');
+  await plantUntilRefused('B');
+  await snap('B1');
+  await shoot('03-out-full');
+
+  await plantFlowers('B', 2);
+  await snap('B1f');
+  await watchBees('B', 4, 40);
+  await snap('B2');
+
+  // Turn round: → held until the heading has moved by π.
+  const heading = async () =>
+    page.evaluate('__probe.scene.eye.eye().heading', z.number());
+  const h0 = await heading();
+  await page.key('ArrowRight', 'keyDown');
+  let turnedFrames = 0;
+  for (; turnedFrames < FPS * 30; turnedFrames += 10) {
+    await page.step(10);
+    const delta = Math.abs(
+      Math.atan2(Math.sin((await heading()) - h0), Math.cos((await heading()) - h0)),
+    );
+    if (delta > Math.PI - 0.15) break;
+  }
+  await page.key('ArrowRight', 'keyUp');
+  await page.step(60);
+  await snap('C0');
+  await shoot('05-turned-round');
+  // Turn back the same way round, then walk back in: ↑ held 8 s.
+  for (let round = 0; round < 6; round += 1) {
+    const off = Math.atan2(Math.sin((await heading()) - h0), Math.cos((await heading()) - h0));
+    if (Math.abs(off) < 0.004) break;
+    const key = off > 0 ? 'ArrowLeft' : 'ArrowRight';
+    await page.key(key, 'keyDown');
+    for (let f = 0; f < FPS * 30; f += 1) {
+      await page.step(1);
+      const now = Math.atan2(Math.sin((await heading()) - h0), Math.cos((await heading()) - h0));
+      if (Math.abs(now) < Math.abs(off) * 0.35 || Math.sign(now) !== Math.sign(off)) break;
+    }
+    await page.key(key, 'keyUp');
+    await page.step(60);
+  }
+  await snap('C1');
+  await shoot('06-turned-back');
+  await hold('ArrowUp', FPS * 8);
+  await page.step(30);
+  await snap('D0');
+  await shoot('07-walked-back');
+
+  fs.writeFileSync(
+    `${OUT}/${name}-child.json`,
+    JSON.stringify({ log, snaps, births, grownSnaps, turnedFrames }, null, 1),
+  );
+}
