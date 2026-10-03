@@ -1,19 +1,17 @@
 /**
- * After a shower, `play-mushrooms.ts`'s run on a fresh meadow: a cloud tapped,
- * the shower left to stop, and the frame the shed lands on found; the spores
- * caught mid-fall, the sprouts as they pop up, and again grown a while. It
- * fails where an old mushroom stands in sight and nothing sprouts, where a
- * sprout shows before its spores land, or stands off its parent; how they
- * look is for the eye, in the frames.
+ * Spores sown and sprouted, `play-mushrooms.ts`'s run on a fresh meadow: the
+ * opening clump's front cap tapped three times, one of its dots picked up,
+ * and a cloud tapped. It fails where a tap leaves no dot or one off its
+ * parent, where a pick-up leaves the dot or opens the flower picker, where a
+ * spore sprouts before the dark sets in, or where one is still lying, or its
+ * sprout is not up or not its parent's species, once the window has passed;
+ * how they look is for the eye, in the frames.
  */
 
-import type { z } from 'zod';
+import { z } from 'zod';
 
-import {
-  SPORE_FALL_MS,
-  SPROUTS,
-} from '../../src/pages/mushrooms/model/sprouting.ts';
-import { RAIN_MS } from '../../src/pages/mushrooms/model/weather.ts';
+import { SPROUT_WINDOW_MS } from '../../src/pages/mushrooms/model/sprouting.ts';
+import { darkAt } from '../../src/pages/mushrooms/model/weather.ts';
 import { SPROUT_REACH } from '../../src/pages/mushrooms/ui/scene/mushroom-room.ts';
 import {
   Clouds,
@@ -21,24 +19,26 @@ import {
   type Expect,
   inTurn,
   type Page,
+  Point,
+  Shower,
   Sprouts,
+  State,
 } from './mushroom-probe.ts';
 
 const FRAME_MS = 1000 / 60;
-const STOP = Math.ceil(RAIN_MS / FRAME_MS);
-/** Frames past the stop the shed is looked for in, the harness's slack. */
+/** How many spores the play sows. */
+const TAPS = 3;
+/** Frames between two taps on the cap, a puff's worth. */
+const BETWEEN = 12;
+/** Frames from the last tap to the look at the dots, the falls landed. */
+const LANDED = 60;
+/** Frames the harness's clock may run past a moment, its slack. */
 const SEEK = 30;
-/** Frames from the shed to the look at the spores mid-fall. */
-const FALLING = 30;
-/** Frames from the shed to the look at the sprouts just up, their pop played. */
-const POPPED = Math.ceil(SPORE_FALL_MS / FRAME_MS) + 18;
-/** Frames from the pop to the look at the sprouts grown: 20 s. */
-const GROWING = 1200;
-/** Frames after the pop drawn one by one. */
+/** Frames after the sprouts are up drawn one by one. */
 const TIMED = 24;
 /**
- * How far off its parent's foot, in `SPROUT_REACH`es, a sprout's may stand
- * on the screen: the reach is laid out at the clump's front foot, and the
+ * How far off its parent's foot, in `SPROUT_REACH`es, a spore may lie on
+ * the screen: the reach is laid out at the clump's front foot, and the
  * ground nearer the eye stands larger.
  */
 const SLACK = 1.5;
@@ -50,6 +50,62 @@ export async function playSprouts(
   note: (line: string) => void,
 ): Promise<void> {
   const read = async () => page.evaluate('__probe.sprouts()', Sprouts);
+  const front = await page.evaluate(
+    `__probe.state().mushrooms.reduce((front, id) => (__probe.depth(id) > __probe.depth(front) ? id : front))`,
+    z.string().optional(),
+  );
+  const cap =
+    front === undefined
+      ? null
+      : await page.evaluate(
+          `__probe.mushroom(${JSON.stringify(front)})`,
+          Point.nullable(),
+        );
+  if (front === undefined || cap === null) {
+    expect(false, 'no tap reaches the front cap');
+    return;
+  }
+
+  await inTurn(
+    Array.from({ length: TAPS }, (_, index) => index),
+    async () => {
+      await page.tap(cap);
+      await page.step(BETWEEN);
+    },
+  );
+  await page.step(LANDED);
+  const sown = await read();
+  expect(
+    sown.spores.length === TAPS,
+    `${String(TAPS)} taps on ${front} sowed ${String(sown.spores.length)} spores`,
+  );
+  for (const { id, parent, shown, apart } of sown.spores) {
+    note(`${id} of ${parent}: ${apart?.toFixed(2) ?? 'no parent'} apart`);
+    expect(parent === front, `${id} is of ${parent}, not ${front}`);
+    expect(shown, `${id} is not drawn once landed`);
+    expect(
+      apart !== null && apart <= SPROUT_REACH * SLACK,
+      `${id} lies ${apart?.toFixed(2) ?? 'with no parent'} clump sizes off ${parent}`,
+    );
+  }
+  await page.shoot('sprouts-1-sown');
+
+  const picked = sown.spores.find(({ at }) => at !== null);
+  if (!picked?.at) {
+    expect(false, 'no tap reaches a spore');
+    return;
+  }
+  await page.tap(picked.at);
+  await page.step(BETWEEN);
+  const left = await read();
+  expect(
+    left.spores.length === sown.spores.length - 1 &&
+      left.spores.every(({ id }) => id !== picked.id),
+    `a tap on ${picked.id} did not pick it up`,
+  );
+  expect(!left.planting, `a tap on ${picked.id} opened the flower picker`);
+  await page.shoot('sprouts-2-picked');
+
   const cloud = (await page.evaluate('__probe.clouds()', Clouds)).find(
     (point) => point !== null,
   );
@@ -58,69 +114,45 @@ export async function playSprouts(
     return;
   }
   await page.tap(cloud);
-  await page.step(STOP - 1);
-  const seek = async (left: number): Promise<boolean> => {
-    if ((await read()).shed !== null) return true;
-    if (left === 0) return false;
-    await page.step(1);
-    return seek(left - 1);
+  const { span } = await page.evaluate('__probe.rain()', Shower);
+  if (span === null) {
+    expect(false, 'a tap on a cloud started no shower');
+    return;
+  }
+  const framesTo = async (moment: number) => {
+    const { clock } = await page.evaluate('__probe.state()', State);
+    return Math.max(0, Math.floor((moment - clock * 1000) / FRAME_MS));
   };
-  const shedFound = await seek(SEEK);
-  expect(shedFound, `no shed within ${String(SEEK)} frames of the stop`);
-  if (!shedFound) return;
-  const shed = await read();
+  await page.step((await framesTo(darkAt(span))) - 1);
+  const dry = await read();
+  expect(
+    dry.spores.length === left.spores.length,
+    `${String(left.spores.length - dry.spores.length)} spores sprouted before the dark set in`,
+  );
+  await page.step((await framesTo(darkAt(span) + SPROUT_WINDOW_MS)) + SEEK);
+  const up = await read();
   const cost = page.rendered.at(-1) ?? Number.NaN;
   note(
-    `shed: ${String(shed.sprouts.length)} sprouts, ${String(shed.oldInSight)} old in sight, its frame ${cost.toFixed(1)} ms`,
+    `rain: ${String(up.sprouts.length)} sprouts, ${String(up.spores.length)} spores left, its frame ${cost.toFixed(1)} ms`,
   );
   expect(
-    shed.oldInSight === 0 || shed.sprouts.length > 0,
-    `${String(shed.oldInSight)} old mushrooms in sight, and nothing sprouted`,
+    up.spores.length === 0,
+    `${String(up.spores.length)} spores still lying past the window`,
   );
   expect(
-    shed.sprouts.length <= SPROUTS,
-    `${String(shed.sprouts.length)} sprouts, over ${String(SPROUTS)}`,
+    up.sprouts.length === left.spores.length,
+    `${String(left.spores.length)} spores came up as ${String(up.sprouts.length)} sprouts`,
   );
-  for (const { id, parent, ofParent, apart } of shed.sprouts) {
-    note(`${id} of ${parent}: ${apart?.toFixed(2) ?? 'no parent'} apart`);
+  for (const { id, parent, ofParent, shown } of up.sprouts) {
     expect(ofParent, `${id} is not of ${parent}'s species`);
-    expect(
-      apart !== null && apart <= SPROUT_REACH * SLACK,
-      `${id} stands ${apart?.toFixed(2) ?? 'with no parent'} clump sizes off ${parent}`,
-    );
+    expect(shown, `${id} is not up past the window`);
   }
+  await page.shoot('sprouts-3-up');
 
-  await page.step(FALLING);
-  const falling = await read();
-  for (const { id, shown } of falling.sprouts) {
-    expect(!shown, `${id} shows while its spores fall`);
-  }
-  await page.shoot('sprouts-1-fall');
-
-  await page.step(POPPED - FALLING);
-  const popped = await read();
-  for (const { id, shown } of popped.sprouts) {
-    expect(shown, `${id} not up once its spores landed`);
-  }
-  await page.shoot('sprouts-2-pop');
-
-  // The frames after the pop drawn one by one, for the run's frame budget:
-  // the long steps around them each draw a single frame.
+  // The frames after the sprouts are up drawn one by one, for the run's
+  // frame budget: the long steps around them each draw a single frame.
   await inTurn(
     Array.from({ length: TIMED }, (_, index) => index),
     async () => page.step(1),
   );
-  await page.step(GROWING - TIMED);
-  const grown = await read();
-  for (const { id, scale } of grown.sprouts) {
-    const before = popped.sprouts.find((sprout) => sprout.id === id);
-    note(
-      `${id}: ${before?.scale.toFixed(2) ?? '?'} popped, ${scale.toFixed(2)} 20 s on`,
-    );
-    expect(
-      before !== undefined && scale > before.scale,
-      `${id} did not grow in 20 s`,
-    );
-  }
-  await page.shoot('sprouts-3-grown');
 }

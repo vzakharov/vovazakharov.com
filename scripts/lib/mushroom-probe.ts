@@ -18,10 +18,6 @@ import type { Camera as ModelCamera } from '../../src/pages/mushrooms/model/grou
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 import { SHELTER_SEATS } from '../../src/pages/mushrooms/model/shelter.ts';
-import {
-  SPORE_FALL_MS,
-  SPROUT_MS,
-} from '../../src/pages/mushrooms/model/sprouting.ts';
 import { PUFF_REACH } from '../../src/pages/mushrooms/ui/scene/cloud-puffs.ts';
 
 /** Swaps `Math.random` for a mulberry32 seeded with `seed` before the page's own code runs. */
@@ -479,28 +475,43 @@ export const PROBE = `(() => {
       };
     },
     /**
-     * A shower's sprouts as the bed draws them: the \`stopsAt\` of the last
-     * shower that shed (\`null\` before one), how many full-grown mushrooms
-     * have their foot on the screen, and each sprout's parent, whether it is
-     * of the parent's species, when it was shed, whether it is drawn, how big
+     * The spores and sprouts as the bed draws them. Each spore's parent,
+     * whether its dot is drawn, where a tap on the screen reaches it (\`null\`
+     * while it is not drawn or something over it takes the tap), and how far
+     * it lies from its parent. Each sprout's parent, whether it is of the
+     * parent's species, when its clock started, whether it is drawn, how big
      * of its full size (its zoom taken out, its breath left in), and how far
-     * its foot stands from its parent's on the screen, in the clump's size
-     * at the parent's zoom.
+     * it stands from its parent. Whether the flower picker is open. Apart is
+     * on the screen, in the clump's size at the parent's zoom.
      */
     sprouts: () => {
-      const { mushrooms, shed } = scene.meadow;
-      const now = scene.clock * 1000;
+      const { mushrooms } = scene.meadow;
       const unit = scene.layout.camera.unit;
-      const grown = ({ sprout }) => !sprout || now >= sprout.at + ${String(SPORE_FALL_MS + SPROUT_MS)};
+      const apart = (stands, parent) => {
+        const from = scene.bed.shown.get(parent)?.stands;
+        return from ? Math.hypot(stands.x - from.x, stands.y - from.y) / (unit * from.zoom) : null;
+      };
+      // The bed's dots, a private field: a rename breaks this at play time.
+      const dots = scene.bed.spores.dots;
       return {
-        shed: shed ?? null,
-        oldInSight: mushrooms.filter((one) => grown(one) && scene.bed.inSight(one.id)).length,
+        planting: scene.meadow.planting !== undefined,
+        spores: scene.meadow.spores.map(({ id, parent }) => {
+          const dot = dots.get(id);
+          const shown = dot !== undefined && dot.circle.visible;
+          const point = shown ? toScreen({ x: dot.circle.x, y: dot.circle.y }) : null;
+          return {
+            id,
+            parent,
+            shown,
+            at: point && topAt(point) === null ? point : null,
+            apart: dot ? apart(dot.stands, parent) : null,
+          };
+        }),
         sprouts: mushrooms
           .filter(({ sprout }) => sprout)
           .map(({ id, species, sprout }) => {
             const { graphics, stands } = scene.bed.shown.get(id);
             const parent = mushrooms.find((one) => one.id === sprout.parent);
-            const from = scene.bed.shown.get(sprout.parent)?.stands;
             return {
               id,
               parent: sprout.parent,
@@ -508,9 +519,7 @@ export const PROBE = `(() => {
               at: sprout.at,
               shown: graphics.visible,
               scale: graphics.scaleY / stands.zoom,
-              apart: from
-                ? Math.hypot(stands.x - from.x, stands.y - from.y) / (unit * from.zoom)
-                : null,
+              apart: apart(stands, sprout.parent),
             };
           }),
       };
@@ -674,8 +683,17 @@ export const Shower = z.object({
 });
 export const Clouds = z.array(Point.nullable());
 export const Sprouts = z.object({
-  shed: z.number().nullable(),
-  oldInSight: z.number(),
+  /** Whether the flower picker is open. */
+  planting: z.boolean(),
+  spores: z.array(
+    z.object({
+      id: z.string(),
+      parent: z.string(),
+      shown: z.boolean(),
+      at: Point.nullable(),
+      apart: z.number().nullable(),
+    }),
+  ),
   sprouts: z.array(
     z.object({
       id: z.string(),
