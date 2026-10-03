@@ -9,7 +9,9 @@
  * strafes if it went down on the ground; else it steps. A turn keeps the
  * azimuth under the finger 1:1 and glides on from the lift; a step chases
  * the finger's row, and a strafe slides the ground under the finger with
- * it, both no faster than the stride's cruise and with no glide.
+ * it, both no faster than the stride's cruise, easing to rest on the lift
+ * with no glide; any arrow key going down ends a step's or a strafe's chase
+ * and takes over.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -49,10 +51,10 @@ import {
   letGoStep,
   letGoStrafe as letGoStrafeKey,
   liftChase,
-  sidewaysOf,
   standingAt,
   type Stride,
   tick as tickStride,
+  yieldChase,
 } from './stride';
 
 /**
@@ -160,7 +162,7 @@ export function pressAt(walk: Walk, point: Point, time: number): Walk {
   return {
     ...walk,
     pan: press(walk.pan, arcOf(pinhole, point.x), time),
-    stride: chaseFrom(walk.stride, heading),
+    stride: chaseFrom(walk.stride, heading, 'step'),
     drag: { pressedAt: point, since: time, lock: undefined },
   };
 }
@@ -261,7 +263,7 @@ function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {
   if (lock.axis === 'strafe') {
     return {
       ...locked,
-      stride: chaseFrom(stride, sidewaysOf(headingAt(walk, time))),
+      stride: chaseFrom(stride, headingAt(walk, time), 'strafe'),
     };
   }
   return locked;
@@ -291,7 +293,8 @@ export function moveTo(walk: Walk, point: Point, time: number): Walk {
 
 /**
  * The finger lifted at `time`: a turn glides on from the finger's velocity, a
- * step finishes its chase and rests; the keys held take over after either.
+ * step's or a strafe's chase eases to rest where the finger left it; the keys
+ * held take over after either.
  */
 export function liftAt(walk: Walk, time: number): Walk {
   if (!walk.drag) return walk;
@@ -312,9 +315,14 @@ export function heldStill({ drag }: Walk, time: number): number | undefined {
   return drag && !drag.lock ? time - drag.since : undefined;
 }
 
-/** `←` or `→` went down: the heading turns leftward or rightward while it is held. */
+/**
+ * `←` or `→` went down: the heading turns leftward or rightward while it is
+ * held, and the stride's chase, if any, ends where it stands.
+ */
 export function holdTurn(walk: Walk, direction: Direction, time: number): Walk {
-  return { ...walk, pan: holdKey(walk.pan, direction, time) };
+  const pan = holdKey(walk.pan, direction, time);
+  if (pan === walk.pan) return walk;
+  return { ...walk, pan, stride: yieldChase(walk.stride) };
 }
 
 export function letGoTurn(walk: Walk, direction: Direction): Walk {

@@ -9,7 +9,7 @@ import { planeUnder } from '../ui/scene/view-inverse';
 import { VIEWPORTS } from '../ui/scene/viewports';
 import type { Point } from './geometry';
 import { type Camera, pinholeOf, viewOf } from './ground';
-import { SLOP, TURN_CRUISE } from './pan';
+import { KEY_EASE, SLOP, TURN_CRUISE } from './pan';
 import { forwardOf, sidewaysOf, STRIDE_CRUISE } from './stride';
 import {
   distanceOfRow,
@@ -209,7 +209,7 @@ describe('a drag on the walk', () => {
     assert.equal(headingAt(still.walk, still.time), rested);
   });
 
-  it('steps no faster than the stride’s cruise, never turns, and settles the crossing’s row under the lift', () => {
+  it('steps no faster than the stride’s cruise, never turns, and settles the crossing’s row under a held finger', () => {
     for (const { name, camera } of CAMERAS) {
       const clock = new Clock(openingWalk(camera));
       clock.walk = holdTurn(clock.walk, 1, clock.time);
@@ -240,8 +240,9 @@ describe('a drag on the walk', () => {
         clock.run(FRAME, fastest);
         clock.move(shifted(crossing, 0, ((lift.y - crossing.y) * frame) / 6));
       }
-      clock.lift();
       clock.run(12, fastest);
+      clock.lift();
+      clock.run(1, fastest);
       assert.equal(clock.walk.stride.pace, 0, name);
       assert.equal(clock.walk.stride.chase, undefined, name);
       assert.equal(headingAt(clock.walk, clock.time), turned, name);
@@ -259,8 +260,8 @@ describe('a drag on the walk', () => {
     const down = { x: TABLET.width / 2, y: TABLET.groundTop + 60 };
     clock.press(down);
     clock.move({ ...down, y: TABLET.groundTop - 400 });
-    clock.lift();
     clock.run(12);
+    clock.lift();
     const back =
       distanceOfRow(TABLET, TABLET.groundTop + 60 - SLOP) -
       distanceOfRow(TABLET, TABLET.groundTop);
@@ -332,8 +333,9 @@ describe('a strafe on the walk', () => {
         clock.run(FRAME, fastest);
         clock.move(shifted(down, ((lift.x - down.x) * frame) / 12, 0));
       }
-      clock.lift();
       clock.run(12, fastest);
+      clock.lift();
+      clock.run(1, fastest);
       assert.equal(clock.walk.stride.chase, undefined, name);
       assert.equal(headingAt(clock.walk, clock.time), heading, name);
       const moved = {
@@ -367,6 +369,106 @@ describe('a strafe on the walk', () => {
     clock.run(1);
     const { sidePace: rested } = clock.walk.stride;
     assert.equal(rested, 0);
+  });
+});
+
+/** A long strafe drag across `camera`'s ground, held while the eye runs at the cruise toward a target far off. */
+function strafing(camera: Camera): Clock {
+  const clock = new Clock(openingWalk(camera));
+  const down = { x: camera.width * 0.15, y: camera.height * 0.8 };
+  clock.press(down);
+  clock.drag(down, { ...down, x: camera.width * 0.9 }, 0.2);
+  clock.run(0.5);
+  return clock;
+}
+
+/** How far the eye has to go to its strafe's target, in the clump's size. */
+function left({ stride }: Walk): number {
+  const { chase, at } = stride;
+  assert.ok(chase);
+  const way = forwardOf(chase.bearing);
+  const come =
+    (at.x - chase.origin.x) * way.x + (at.y - chase.origin.y) * way.y;
+  return Math.abs(chase.aim - come);
+}
+
+describe('a chase’s end', () => {
+  it('eases a strafe to rest over the cruise’s ease on the lift, short of the far target', () => {
+    for (const { name, camera } of CAMERAS) {
+      const clock = strafing(camera);
+      assert.ok(left(clock.walk) > 1, `${name}: the target is far`);
+      const { at: lifted, pace: running } = clock.walk.stride;
+      assert.equal(Math.abs(running), STRIDE_CRUISE, name);
+      clock.lift();
+      clock.run(KEY_EASE + 2 * FRAME);
+      const { at, chase, pace } = clock.walk.stride;
+      assert.equal(chase, undefined, name);
+      assert.equal(pace, 0, name);
+      const coasted = apart(at, lifted);
+      assert.ok(
+        Math.abs(coasted - (STRIDE_CRUISE * KEY_EASE) / 2) < 0.02,
+        `${name}: ${coasted}`,
+      );
+      clock.run(2);
+      const { stride: after } = clock.walk;
+      assert.deepEqual(after.at, at, `${name}: and stays`);
+    }
+  });
+
+  it('eases a step to rest on the lift, short of the far target', () => {
+    const clock = new Clock(openingWalk(TABLET));
+    const down = { x: TABLET.width / 2, y: TABLET.groundTop + 10 };
+    clock.press(down);
+    clock.drag(down, { ...down, y: TABLET.height - 5 }, 0.1);
+    clock.run(0.5);
+    const lifted = clock.walk.stride.at;
+    assert.ok(left(clock.walk) > 1);
+    clock.lift();
+    clock.run(2);
+    assert.equal(clock.walk.stride.chase, undefined);
+    assert.ok(apart(clock.walk.stride.at, lifted) < STRIDE_CRUISE * KEY_EASE);
+  });
+
+  it('ends a strafe’s chase at once on a walk, strafe or turn key going down, lifted or not, the key taking over', () => {
+    const keys = [
+      ['walk', (walk: Walk) => holdWalk(walk, 1)],
+      ['strafe back', (walk: Walk) => holdStrafe(walk, 1)],
+      ['turn', (walk: Walk, time: number) => holdTurn(walk, 1, time)],
+    ] as const;
+    for (const lifting of [false, true]) {
+      for (const [key, hold] of keys) {
+        const name = `${key}${lifting ? ' after the lift' : ' under the finger'}`;
+        const clock = strafing(TABLET);
+        if (lifting) clock.lift();
+        const heading = headingAt(clock.walk, clock.time);
+        clock.walk = hold(clock.walk, clock.time);
+        assert.equal(clock.walk.stride.chase, undefined, name);
+        const at = clock.walk.stride.at;
+        clock.run(2);
+        const { stride } = clock.walk;
+        const side = forwardOf(sidewaysOf(heading));
+        const across =
+          (stride.at.x - at.x) * side.x + (stride.at.y - at.y) * side.y;
+        if (key === 'strafe back') {
+          assert.ok(Math.abs(stride.sidePace - STRIDE_CRUISE) < 1e-9, name);
+          assert.ok(across > 2, `${name}: ${across}`);
+        } else {
+          assert.equal(stride.sidePace, 0, name);
+          assert.ok(
+            Math.abs(across) < STRIDE_CRUISE * KEY_EASE,
+            `${name}: ${across}`,
+          );
+        }
+        if (key === 'walk') assert.equal(stride.pace, STRIDE_CRUISE, name);
+        // The pan takes a turn key over once the finger is up.
+        if (key === 'turn' && lifting) {
+          assert.ok(
+            turnedBy(heading, headingAt(clock.walk, clock.time)) > 0.5,
+            name,
+          );
+        }
+      }
+    }
   });
 });
 

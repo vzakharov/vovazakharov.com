@@ -287,9 +287,9 @@ DevTools protocol on tabL, tabP, phoneP, phoneL and phoneS
 plays — meadow, walk, planting, species, tufts, hold, approach, rain — each
 start on a fresh meadow (`--plays` picks them).
 It fails on a page error, a wrong effect, a flier turning or relit too fast
-(`flier-watch.ts`), a pop while walking (`play-walk.ts`) or a median frame
-past 26 ms (`frame-budget.ts`), the approach also holding the lawn's share of
-a sow frame to that budget (`__probe.tendFrames()`); `__probe.costs()` sums a
+(`flier-watch.ts`) or a pop while walking (`play-walk.ts`); the median frame
+against 26 ms (`frame-budget.ts`), and the approach's lawn share of a sow
+frame (`__probe.tendFrames()`), are printed, never failed; `__probe.costs()` sums a
 span's frames by part and counts what the scene holds; frames land in `tmp/play/`, one screen per
 call (`--screens`, `--no-build`). `pnpm sweep:mushrooms` grows all 2000
 visits on every `VIEWPORTS` screen. The suite runs a file at a time,
@@ -388,11 +388,11 @@ assistive-tech layer: the game opens straight on the meadow for one child,
 not a store product («сейчас это развлечение для одного ребёнка, а не
 продукт для апстора»), until the operator widens it.
 
-**Performance waits.** The play's 26 ms frame budget fails at ~30 ms under
-the agents' parallel load; the operator plays on a computer and finds it
-fine («к перформанс улучшениям вернёмся когда и если это станет
-критичным»). The budget's red is reported, not chased: the play prints it
-and does not fail on it, until the operator asks.
+**Performance waits.** The play's median ran ~30 ms against its 26 ms
+budget under the agents' parallel load; the operator plays on a computer
+and finds it fine («к перформанс улучшениям вернёмся когда и если это
+станет критичным»). The play prints the budget line and does not fail on
+it (1946a63), until the operator asks.
 
 ## DRY notes
 

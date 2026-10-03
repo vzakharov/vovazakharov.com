@@ -6,9 +6,11 @@
  * sideways, square to the heading, on a second pace eased the same way, the
  * two sharing the cruise when both are held. A drag sets a point on a line —
  * the heading, or square to it — for it to chase, no faster than the cruise,
- * and on the lift it finishes the chase and rests, a step having no glide. The
- * plane has no end, so nothing but a chase's target stops the walk. The
- * heading is the turn's, passed in.
+ * braking into it; on the lift the chase eases to rest over the cruise's own
+ * ease wherever the finger left it, a step having no glide, and a walking,
+ * strafing or turning key going down ends it at once, its pace handed on to
+ * the keys. The plane has no end, so nothing but a chase's target stops the
+ * walk. The heading is the turn's, passed in.
  */
 
 import {
@@ -46,17 +48,23 @@ export function sidewaysOf(heading: number): number {
 
 /**
  * A drag walking the eye: the point it stood at, its `origin`, when the
- * finger took it, the heading it chases along, its `bearing`, and its `aim`,
- * the target that many units on from the origin along it (back for less
- * than 0); `lifted` once the finger is up.
+ * finger took it, the `axis` it walks and the heading it chases along, its
+ * `bearing`, and its `aim`, the target that many units on from the origin
+ * along it (back for less than 0); `lifted` once the finger is up.
  */
-type Chase = { origin: Point; bearing: number; aim: number; lifted: boolean };
+type Chase = {
+  origin: Point;
+  axis: Axis;
+  bearing: number;
+  aim: number;
+  lifted: boolean;
+};
 
 /**
  * The eye's place on the plane and its pace along the way it walks — the
  * heading, or a chase's line while a drag walks it — with `sidePace` square
- * to the heading and `walked` in the clump's size. While a drag walks it, the
- * keys wait for it to finish.
+ * to the heading and `walked` in the clump's size. Keys already held when a
+ * drag takes the walk wait for its chase to end.
  */
 export type Stride = Cruising<Point> & {
   sidePace: number;
@@ -107,13 +115,31 @@ function holding(
 ): Stride {
   const flag = heldFlag(axis, direction);
   if (stride.held[flag] === held) return stride;
-  return { ...stride, held: { ...stride.held, [flag]: held } };
+  const taken = held ? yieldChase(stride) : stride;
+  return { ...taken, held: { ...taken.held, [flag]: held } };
+}
+
+/**
+ * A key took the walk from a chase, lifted or not: the chase ends where the
+ * eye stands, its pace carried on along its axis for the keys to ease from,
+ * so the take-over has no jolt.
+ */
+export function yieldChase(stride: Stride): Stride {
+  const { chase, pace } = stride;
+  if (!chase) return stride;
+  const strafing = chase.axis === 'strafe';
+  return {
+    ...stride,
+    pace: strafing ? 0 : pace,
+    sidePace: strafing ? pace : 0,
+    chase: undefined,
+  };
 }
 
 /**
  * The stepping key for `direction` went down: `1` for `↑`, walking on, `-1`
- * for `↓`, walking back. A key already held changes nothing, so its repeats
- * do not restart the walk.
+ * for `↓`, walking back, taking the walk from any chase. A key already held
+ * changes nothing, so its repeats do not restart the walk.
  */
 export function holdStep(stride: Stride, direction: Direction): Stride {
   return holding(stride, 'step', direction, true);
@@ -124,7 +150,7 @@ export function letGoStep(stride: Stride, direction: Direction): Stride {
   return holding(stride, 'step', direction, false);
 }
 
-/** A strafing key went down: `1` walks the eye to its right, `-1` to its left. Its repeats change nothing. */
+/** A strafing key went down: `1` walks the eye to its right, `-1` to its left, taking the walk from any chase. Its repeats change nothing. */
 export function holdStrafe(stride: Stride, direction: Direction): Stride {
   return holding(stride, 'strafe', direction, true);
 }
@@ -135,12 +161,13 @@ export function letGoStrafe(stride: Stride, direction: Direction): Stride {
 }
 
 /**
- * A finger takes the walk along `bearing`, the heading or `sidewaysOf` it:
- * the eye stops where it stands, as a press stops the crop, and chases a
- * target that starts there.
+ * A finger takes the walk along `axis` of `heading` — along it, or
+ * `sidewaysOf` it: the eye stops where it stands, as a press stops the crop,
+ * and chases a target that starts there.
  */
-export function chaseFrom(stride: Stride, bearing: number): Stride {
-  const chase = { origin: stride.at, bearing, aim: 0, lifted: false };
+export function chaseFrom(stride: Stride, heading: number, axis: Axis): Stride {
+  const bearing = axis === 'strafe' ? sidewaysOf(heading) : heading;
+  const chase = { origin: stride.at, axis, bearing, aim: 0, lifted: false };
   return { ...stride, pace: 0, sidePace: 0, chase };
 }
 
@@ -154,7 +181,11 @@ export function chaseTo(stride: Stride, aim: number): Stride {
   return { ...stride, chase: { ...chase, aim } };
 }
 
-/** The finger lifted: the eye finishes its chase, then rests or walks on by the keys held. */
+/**
+ * The finger lifted: the chase eases to rest over the cruise's ease, braking
+ * short of its target rather than running on to it, then the eye rests or
+ * walks on by the keys held.
+ */
 export function liftChase(stride: Stride): Stride {
   const { chase } = stride;
   if (!chase || chase.lifted) return stride;
@@ -195,7 +226,7 @@ function keyed(
   };
 }
 
-/** The course a drag's `chase` walks, braking into its target. */
+/** The course a drag's `chase` walks, braking into its target; once lifted it asks for rest. */
 function chased(
   chase: Chase,
   covered: (length: number) => void,
@@ -204,7 +235,8 @@ function chased(
   return {
     cruise: STRIDE_CRUISE,
     ease: KEY_EASE,
-    toward: (at) => Math.sign(chase.aim - progress(chase, at)),
+    toward: (at) =>
+      chase.lifted ? 0 : Math.sign(chase.aim - progress(chase, at)),
     room: (at, direction) => chaseRoom(chase, at, direction),
     step: (at, by) => {
       if (by === 0) return { at, stopped: false };
@@ -232,7 +264,7 @@ function asked(held: Steps): Record<Axis, number> {
   return { step: step * share, strafe: strafe * share };
 }
 
-/** A drag's walk `seconds` on, braking into its target; over once lifted and at rest. */
+/** A drag's walk `seconds` on, braking into its target or, lifted, to rest; over once lifted and at rest. */
 function chasing(stride: Stride, chase: Chase, seconds: number): Stride {
   let { walked } = stride;
   const covered = (length: number): void => {
@@ -248,7 +280,7 @@ function chasing(stride: Stride, chase: Chase, seconds: number): Stride {
  * The walk `seconds` on, by `cruise`, the keys' along `heading` and square to
  * it, or a drag's along its own line: each pace eases toward the cruise the
  * held keys ask, or toward the chase's target, and brakes to rest exactly at
- * a chase's target. A lifted chase that has come to rest is over. A stride
+ * a chase's target; a lifted chase eases to rest, and once there is over. A stride
  * that stands still is returned as the same object.
  */
 export function tick(stride: Stride, heading: number, seconds: number): Stride {

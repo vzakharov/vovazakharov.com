@@ -17,6 +17,7 @@ import {
   type Stride,
   STRIDE_CRUISE,
   tick,
+  yieldChase,
 } from './stride';
 
 const FRAME = 1 / 60;
@@ -195,20 +196,25 @@ describe('the stride on the strafing keys', () => {
 
   it('chases a drag square to the heading as it chases one along it', () => {
     const heading = 0.3;
-    const sideways = sidewaysOf(heading);
-    const pressed = chaseTo(chaseFrom(standingAt(ORIGIN), sideways), -2);
-    const [lifted] = walked(liftChase(pressed), heading, 4);
-    const side = forwardOf(sideways);
+    const pressed = chaseTo(
+      chaseFrom(standingAt(ORIGIN), heading, 'strafe'),
+      -2,
+    );
+    const [held] = walked(pressed, heading, 4);
+    const [lifted] = walked(liftChase(held), heading, 1);
+    const side = forwardOf(sidewaysOf(heading));
     assert.ok(apart(lifted.at, { x: -2 * side.x, y: -2 * side.y }) < 1e-9);
     assert.equal(lifted.chase, undefined);
   });
 });
 
 describe('the stride on a drag', () => {
-  it('settles on its target and rests after the lift, with no glide', () => {
+  it('settles on its target while held and rests after the lift, with no glide', () => {
     const heading = -0.4;
-    const pressed = chaseTo(chaseFrom(standingAt({ x: 1, y: 2 }), heading), 3);
-    const [lifted] = walked(liftChase(pressed), heading, 4);
+    const start = standingAt({ x: 1, y: 2 });
+    const pressed = chaseTo(chaseFrom(start, heading, 'step'), 3);
+    const [held] = walked(pressed, heading, 4);
+    const [lifted] = walked(liftChase(held), heading, 1);
     const way = forwardOf(heading);
     const target = { x: 1 + 3 * way.x, y: 2 + 3 * way.y };
     assert.ok(apart(lifted.at, target) < 1e-9);
@@ -218,15 +224,15 @@ describe('the stride on a drag', () => {
 
   it('chases no faster than its cruise, however far the finger runs', () => {
     const start = standingAt(ORIGIN);
-    const pressed = chaseTo(chaseFrom(start, 0), -3.5);
+    const pressed = chaseTo(chaseFrom(start, 0, 'step'), -3.5);
     const [, seen] = walked(pressed, 0, 4);
     const steps = moves(start.at, seen);
     assert.ok(steps.every((each) => each <= STRIDE_CRUISE * FRAME + 1e-9));
     assert.ok(Math.abs((seen.at(-1)?.y ?? 0) + 3.5) < 1e-9);
   });
 
-  it('follows a moving target, the keys waiting for the lift', () => {
-    let stride = holdStep(chaseFrom(standingAt(ORIGIN), 0), -1);
+  it('follows a moving target, a key held before the press waiting for the lift', () => {
+    let stride = chaseFrom(holdStep(standingAt(ORIGIN), -1), 0, 'step');
     for (let frame = 1; frame <= 60; frame++) {
       stride = tick(chaseTo(stride, frame * 0.02), 0, FRAME);
     }
@@ -237,5 +243,78 @@ describe('the stride on a drag', () => {
       lifted.at.y < 1.2,
       'the held key walks it back once the chase is done',
     );
+  });
+
+  it('eases to rest over the cruise’s ease on a lift mid-chase, short of a far target', () => {
+    for (const axis of ['step', 'strafe'] as const) {
+      const heading = 0.7;
+      const pressed = chaseTo(chaseFrom(standingAt(ORIGIN), heading, axis), 6);
+      const [running] = walked(pressed, heading, 1);
+      assert.equal(running.pace, STRIDE_CRUISE, axis);
+      const [lifted, seen] = walked(liftChase(running), heading, 2);
+      const steps = moves(running.at, seen);
+      const still = steps.indexOf(0);
+      assert.ok(
+        still > 0 && still * FRAME <= KEY_EASE + FRAME,
+        `${axis}: ${still}`,
+      );
+      // A steady ease from the cruise covers half the cruise over the ease.
+      const coasted = apart(lifted.at, running.at);
+      assert.ok(
+        Math.abs(coasted - (STRIDE_CRUISE * KEY_EASE) / 2) < 0.01,
+        `${axis}: ${coasted}`,
+      );
+      assert.equal(lifted.chase, undefined, axis);
+      assert.equal(lifted.pace, 0, axis);
+      assert.equal(tick(lifted, heading, FRAME), lifted, axis);
+    }
+  });
+
+  it('brakes short of a target nearer than its ease on the lift', () => {
+    const pressed = chaseTo(chaseFrom(standingAt(ORIGIN), 0, 'step'), 2);
+    const [near] = walked(pressed, 0, 1.3);
+    assert.ok(2 - near.at.y < (STRIDE_CRUISE * KEY_EASE) / 2, `${near.at.y}`);
+    const [lifted] = walked(liftChase(near), 0, 1);
+    assert.ok(lifted.at.y <= 2 + 1e-9, `${lifted.at.y}`);
+    assert.equal(lifted.chase, undefined);
+  });
+
+  it('ends a chase at once on a walking or strafing key going down, lifted or not, and hands the keys its pace', () => {
+    for (const lifted of [false, true]) {
+      for (const [axis, hold, other] of [
+        ['step', holdStep, 'sidePace'],
+        ['strafe', holdStrafe, 'pace'],
+      ] as const) {
+        const pressed = chaseTo(chaseFrom(standingAt(ORIGIN), 0, axis), 8);
+        const [running] = walked(pressed, 0, 1);
+        const pace = axis === 'step' ? 'pace' : 'sidePace';
+        // The other way, so the key turns it back: shift+← against a rightward strafe.
+        const taken = hold(lifted ? liftChase(running) : running, -1);
+        const name = `${axis}${lifted ? ' lifted' : ''}`;
+        assert.equal(taken.chase, undefined, name);
+        assert.equal(taken[pace], STRIDE_CRUISE, name);
+        assert.equal(taken[other], 0, name);
+        const [back] = walked(taken, 0, 1);
+        assert.ok(
+          Math.abs(back[pace] + STRIDE_CRUISE) < 1e-9,
+          `${name}: walks back`,
+        );
+      }
+    }
+  });
+
+  it('ends a chase where it stands on yielding to a turn, easing its pace to rest', () => {
+    const pressed = chaseTo(chaseFrom(standingAt(ORIGIN), 0, 'strafe'), 8);
+    const [running] = walked(pressed, 0, 1);
+    const taken = yieldChase(running);
+    assert.equal(taken.chase, undefined);
+    assert.equal(taken.sidePace, STRIDE_CRUISE);
+    const [rested] = walked(taken, 0, 1);
+    assert.equal(rested.sidePace, 0);
+    assert.ok(
+      rested.at.x < running.at.x + STRIDE_CRUISE * KEY_EASE,
+      `${rested.at.x}`,
+    );
+    assert.equal(yieldChase(rested), rested);
   });
 });
