@@ -56,20 +56,30 @@ export function containsFlower(petals: () => number) {
     );
 }
 
+/** A shown mushroom's graphics and its tap area, in that graphics' own frame. */
+export type DrawnMushroom = {
+  object: Phaser.GameObjects.Graphics;
+  area: TapArea;
+};
+
+/** The scene's mushrooms that take a tap, in the scene's display order. */
+export function drawnMushrooms(scene: Phaser.Scene): DrawnMushroom[] {
+  return scene.children.list.flatMap((object) => {
+    const input = object.input;
+    const area: unknown = input?.hitArea;
+    return object instanceof Phaser.GameObjects.Graphics &&
+      object.visible &&
+      input?.enabled === true &&
+      input.hitAreaCallback === containsMushroom &&
+      isTapArea(area)
+      ? [{ object, area }]
+      : [];
+  });
+}
+
 /** The scene's mushrooms that take a tap, back to front as they are painted. */
 function shownMushrooms(scene: Phaser.Scene): MushroomTarget[] {
-  return scene.children.list
-    .flatMap((object) => {
-      const input = object.input;
-      const area: unknown = input?.hitArea;
-      return object instanceof Phaser.GameObjects.Graphics &&
-        object.visible &&
-        input?.enabled === true &&
-        input.hitAreaCallback === containsMushroom &&
-        isTapArea(area)
-        ? [{ object, area }]
-        : [];
-    })
+  return drawnMushrooms(scene)
     .toSorted((a, b) => a.object.depth - b.object.depth)
     .map(({ object, area }) => ({
       area,

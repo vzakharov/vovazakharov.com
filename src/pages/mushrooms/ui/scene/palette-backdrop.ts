@@ -21,6 +21,10 @@ export const BACKDROP = {
   rainCloudLit: 0xa6_aa_be,
   /** The slate wash over the meadow while it rains. */
   rainWash: 0x2e_36_4e,
+  /** A falling drop's streak, pale against the darkened sky and the wash. */
+  rainDrop: 0xd6_ea_ff,
+  /** The ring a drop splashes where it lands. */
+  rainSplash: 0xe8_f4_ff,
   /** The rainbow's bands, outermost first. */
   rainbow: [
     0xff_5e_5e, 0xff_a6_4a, 0xff_e6_5a, 0x7c_d0_6a, 0x5a_b0_e8, 0x6e_72_d8,

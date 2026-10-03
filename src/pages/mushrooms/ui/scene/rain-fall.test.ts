@@ -1,0 +1,99 @@
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
+
+import { mulberry32 } from '../../model/random';
+import {
+  cloudSpan,
+  dropColumn,
+  firstCrossing,
+  lerpPoint,
+  UNDER_CLOUD,
+} from './rain-fall';
+import { CLOUD_SPREAD } from './rain-sky';
+
+const WIDTH = 1000;
+const cloud = { x: 500, y: 80, r: 25 };
+const span = cloudSpan(WIDTH, cloud);
+
+describe('cloudSpan', () => {
+  it('is the cloud drawn spread either side of its middle', () => {
+    assert.deepEqual(span, [500 - CLOUD_SPREAD * 25, 500 + CLOUD_SPREAD * 25]);
+  });
+
+  it('is clipped to the screen', () => {
+    assert.deepEqual(cloudSpan(WIDTH, { ...cloud, x: 20 }), [
+      0,
+      20 + CLOUD_SPREAD * 25,
+    ]);
+  });
+
+  it('is none for a cloud off the screen or wholly past its edge', () => {
+    assert.equal(cloudSpan(WIDTH, undefined), undefined);
+    assert.equal(cloudSpan(WIDTH, { ...cloud, x: -200 }), undefined);
+  });
+});
+
+function columns(under: typeof cloud | undefined): number[] {
+  const random = mulberry32(7);
+  return Array.from({ length: 4000 }, () => dropColumn(random, WIDTH, under));
+}
+
+function shareIn(xs: number[], [left, right]: [number, number]): number {
+  return xs.filter((x) => x >= left && x <= right).length / xs.length;
+}
+
+describe('dropColumn', () => {
+  it('stays on the screen', () => {
+    for (const x of columns(cloud)) assert.ok(x >= 0 && x <= WIDTH);
+  });
+
+  it('falls densest under the tapped cloud: about half there, the rest anywhere', () => {
+    assert.ok(span);
+    const wide = (span[1] - span[0]) / WIDTH;
+    const expected = UNDER_CLOUD + (1 - UNDER_CLOUD) * wide;
+    assert.ok(Math.abs(shareIn(columns(cloud), span) - expected) < 0.03);
+  });
+
+  it('spreads evenly across the screen while the cloud is off it', () => {
+    assert.ok(span);
+    const wide = (span[1] - span[0]) / WIDTH;
+    assert.ok(Math.abs(shareIn(columns(undefined), span) - wide) < 0.03);
+  });
+});
+
+describe('firstCrossing', () => {
+  const square = [
+    { x: 0, y: 0 },
+    { x: 10, y: 0 },
+    { x: 10, y: 10 },
+    { x: 0, y: 10 },
+  ];
+
+  it('is where a path falling onto the outline first meets its top', () => {
+    const from = { x: 5, y: -10 };
+    const to = { x: 5, y: 30 };
+    const along = firstCrossing(square, from, to);
+    assert.equal(along, 0.25);
+    assert.deepEqual(lerpPoint(from, to, 0.25), { x: 5, y: 0 });
+  });
+
+  it('meets a slanted path where it enters, not where it leaves', () => {
+    const along = firstCrossing(square, { x: 0, y: -5 }, { x: 10, y: 15 });
+    assert.ok(along !== undefined);
+    assert.deepEqual(lerpPoint({ x: 0, y: -5 }, { x: 10, y: 15 }, along), {
+      x: 2.5,
+      y: 0,
+    });
+  });
+
+  it('is none for a path that passes the outline by or stops short of it', () => {
+    assert.equal(
+      firstCrossing(square, { x: 20, y: -10 }, { x: 20, y: 30 }),
+      undefined,
+    );
+    assert.equal(
+      firstCrossing(square, { x: 5, y: -10 }, { x: 5, y: -1 }),
+      undefined,
+    );
+  });
+});
