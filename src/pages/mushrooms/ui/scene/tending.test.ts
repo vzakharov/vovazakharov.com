@@ -200,14 +200,24 @@ describe('Tended', () => {
         !tended.standing().some((sprout) => sameFoot(sprout.foot, foot)),
       );
       const view = viewAt(stand.layout.camera, AWAY);
-      let follows = 0;
-      while (tended.tendedAt() !== AWAY) {
+      /** How many tufts a `follow` judges. */
+      const judgedInFollow = (): number => {
         touched.clear();
         tended.follow(view);
+        return touched.size;
+      };
+      // The change's own frame judges nothing, not even the rules.
+      assert.equal(judgedInFollow(), 0);
+      let follows = 0;
+      while (tended.tendedAt() !== AWAY) {
+        const judged = judgedInFollow();
         follows += 1;
-        assert.ok(touched.size <= TEND_SLICE, String(touched.size));
+        assert.ok(judged <= TEND_SLICE, String(judged));
         assert.ok(follows < 100);
       }
+      // The rules on the first, then `TEND_SLICE` tufts a follow.
+      const grown = gather(now, AWAY).length;
+      assert.equal(follows, 1 + Math.ceil(grown / TEND_SLICE));
       assert.ok(follows > 2);
       assert.equal(tended.stand(), now);
       assert.deepEqual(
