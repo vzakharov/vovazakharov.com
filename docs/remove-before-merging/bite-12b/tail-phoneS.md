@@ -54,4 +54,48 @@ small change removes it. Options, for a call:
 
 ## Step 2 — phoneS, every play
 
-Pending.
+Every play green on the first run, on a probe build of 4495abc (the step 1
+commit, a note only). Nothing in code or in `to-check.md` changed.
+
+| Play     | Result | Time              | Notes                                                                                     |
+| -------- | ------ | ----------------- | ----------------------------------------------------------------------------------------- |
+| opening  | green  | 25 s (with build) | 7 things at 0.000 px; cap perch held 0.00 px over 34 turn frames; 6.5 ms                  |
+| meadow   | green  | 22 s              | 2/4 butterflies perched, 10/10 fly taps; 0 frames facing off; light ≤ 0.393 rad; 10.7 ms  |
+| walk     | green  | 12 s              | ↓ held 12 s walked back 19.000 (reckoned 19.000); 9 under the cover, at most 11.7 px over |
+| approach | green  | 1 min 6 s         | forest of 12; frame JS median 10.6 ms over 915; neither-frames 10.6 ms                    |
+| planting | green  | 5 s               | 1 flower planted; bees drank 6, pollinating 3                                             |
+| species  | green  | 41 s              | all 6 tapped; a butterfly rested on a porcini; 12.1 ms                                    |
+| tufts    | green  | 5 s               | turned 0.559 rad, walked 0.80                                                             |
+| hold     | green  | 14 s              | 1 tuft came back where flower-5 stood                                                     |
+| keys     | green  | 8 s               | 4-note melody grew 4; `l`/`h` plant and replace                                           |
+| veer     | green  | 36 s              | every looking-back release played; 11 sitters at ratio 1.00; 0 one-frame steps over bound |
+
+### Not red, worth a look
+
+- **The buttons over the sky.** On 320×568 the release buttons, the house
+  and + / − stand over nearly all the sky down to the hills; the species
+  picker spans the whole width. Insects cross under them (a fly beside the bee
+  button in `phoneS-veer-back-crowded.png`).
+- **planting, the flower at the edge.** The bees' planted flower stood at
+  (351, 482) — past the 320 px right edge, so `p1-planted-growing` and
+  `p2-planted-open` show no new flower (the pink one at the edge is a seeded
+  one). The play checks it full grown, not on screen. Not traced.
+- **approach, a thin forest.** 12 mushrooms, all grown at the opening, none
+  from the 4 s walking back (phoneL had 27, 5 of them from the walk back); in
+  the forest frame they sit as a small far clump at the horizon. Not traced.
+- **veer, ground to grow on:** 0 tufts at headings 0.00 and 0.26, 4 at 3.40,
+  10–31 elsewhere — the phoneP shape.
+
+## Frames
+
+In `docs/remove-before-merging/frames/bite-12b/`:
+`phoneS-veer-back-crowded.png` (looking back: three butterflies and four bees
+on the flower patch filling the bottom, a fly beside the bee button),
+`phoneS-approach-forest.png` (the forest as a small clump at the horizon, the
+
+- greyed), `phoneS-species-picker-over-sky.png` (the four species across the
+  whole width, the buttons over the sky).
+
+## Left
+
+- phoneL's `approach` red, for a call between the options above.
