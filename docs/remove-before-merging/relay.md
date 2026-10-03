@@ -1,7 +1,7 @@
 # Relay summary
 
-Relay depth: **4** (cap 8, `.claude/skills/megabeast/notes/pickup-and-relay.md`
-§ "The depth cap").
+Relay depth: **6** for the successor (this session was 5; cap 8,
+`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
 
 ## 1. Standing constraints
 
@@ -63,6 +63,16 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > мета-замечания: на ветке накопилось неприлично много (966!) файлов, многие из которых -- это какие-то промежуточные замечания прошлых байтов ит.д. Давай введём в привычку их ретайрить -- оставляя thombstones (SHA последних содержащих коммитов) если вдруг кому-то понадобится археология, но не храня всё это в живой ветке. То же относится к скриншотам -- скриншоты прошедших байтов нужно ретайрить когда появляются новые.
 
+> субъективно, на компе, играется ок. на телефоне не перепроверял но основной медиум будет комп, поэтому к перформанс улучшениям вернёмся когда и если это станет критичным.
+
+> а, еще увидел в плане там всякие фишки типа ограничения анимации и прочего -- не надо вот этого пока, игру делаем для конкретного ребёнка, он не дальтоник и (тьфу тьфу тьфу) не эпилептик. Если когда-то решим это расширять,тогда и задумаемся
+
+> а это нам зачем? ты хочешь что-то вроде сплеш-скрина? давай это тоже из первого пиара уберём, игра начинается сразу с поляны. по тем же соображениям: сейчас это развлечение для одного ребёнка, а не продукт для апстора
+
+> ещё один тап -- ещё одну точку, и так далее, пока не кончатся "посадочные места"*. нажатие на точку её убирает (мало ли, может именно там ребёнок не хочет, чтобы появлялся новый гриб).
+>
+> *у нас дискретное поле, то есть вокруг каждого, грубо говоря, 6 посадочных мест -- или можно случайно выбирать любую по каким-то критериям "близости" и "нет-толпы-шности"?
+
 **Every reply to the operator is in Russian, «ты»**, including turns woken
 by an agent's report, a check-in or a cross-session message, which arrive in
 English. **Syama is a boy** (Салман, «Сяма»). The operator is Vova.
@@ -82,116 +92,92 @@ tombstones `docs/remove-before-merging/retired.md` and `frames/retired.md`
 (the plan's standing rules). Every session and subagent runs on Opus, named
 explicitly (`create_session` `model: "claude-opus-5-5"`, `Agent`
 `model: "opus"`). The review is a subagent in each bite's tail (two by area
-for a bite of bite 13's size). Build agents work in their own
-`git worktree` in the scratchpad (bite 14's common brief,
-`docs/remove-before-merging/bite-14/brief-common.md`). **Play runs: a game
-red is fixed by the run, a harness red goes to
+for a big bite). Build agents work in their own `git worktree` in the
+scratchpad (`docs/remove-before-merging/bite-14/brief-common.md`). **Play
+runs: a game red is fixed by the run, a harness red goes to
 `docs/plans/mushroom-game-syama/to-check.md` (Russian, for the operator);
-scenarios stay short.** Pass this section on verbatim.
-
-Added this session, the operator's words verbatim:
-
-> субъективно, на компе, играется ок. на телефоне не перепроверял но основной медиум будет комп, поэтому к перформанс улучшениям вернёмся когда и если это станет критичным.
-
-> а, еще увидел в плане там всякие фишки типа ограничения анимации и прочего -- не надо вот этого пока, игру делаем для конкретного ребёнка, он не дальтоник и (тьфу тьфу тьфу) не эпилептик. Если когда-то решим это расширять,тогда и задумаемся
-
-> а это нам зачем? ты хочешь что-то вроде сплеш-скрина? давай это тоже из первого пиара уберём, игра начинается сразу с поляны. по тем же соображениям: сейчас это развлечение для одного ребёнка, а не продукт для апстора
-
-So: no reduced-motion, assistive-tech, way-home or footer-link work in this
-PR; the play's frame budget reports and never fails (to be built, below).
-
-Added this session, the operator's words verbatim:
-
-> ещё один тап -- ещё одну точку, и так далее, пока не кончатся "посадочные места"*. нажатие на точку её убирает (мало ли, может именно там ребёнок не хочет, чтобы появлялся новый гриб).
->
-> *у нас дискретное поле, то есть вокруг каждого, грубо говоря, 6 посадочных мест -- или можно случайно выбирать любую по каким-то критериям "близости" и "нет-толпы-шности"?
-
-(Taken as calls 31 and 38; see § 4.)
+scenarios stay short.** No reduced-motion, assistive-tech, way-home or
+footer-link work. **Never `prettier --write` a plan file without checking
+its call numbers after** (`grep -c '^[0-9]*\\\.'`): calls are escaped
+paragraphs (`22\. **…**`) because prettier renumbered them as a list once.
+Pass this section on verbatim.
 
 ## 2. The conversation
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (…); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
 Reply: attached (deepened; stale local ref e66b8e1 renamed to
-`claude/mushroom-game-syama-lbirv7-stale-e66b8e1`), installed, plan
-flipped; launched M (spores map), C37 (chase on lift), FB (frame budget
-report-only) in parallel.
+`stale/claude/mushroom-game-syama-lbirv7-e66b8e1`), installed, plan
+flipped; launched R (sprouts rerun + fly-8 trace) and G (option 2 for the
+ground swipe, on side branch `wt/g37`), re-asked the swipe question
+(options 1–3, 2 recommended, taken at the tail if unanswered).
 
-> ещё один тап -- ещё одну точку, и так далее, пока не кончатся "посадочные места"*. нажатие на точку её убирает (…)
->
-> *у нас дискретное поле, (…) 6 посадочных мест -- или можно случайно выбирать (…) "близости" и "нет-толпы-шности"?
-
-Reply: the field is continuous, so the second — each spore's foot found by
-`roomFor`'s `near` by the tap's seed, clear of everything, capped at six;
-a tap on a dot picks it up (mushroom outline > spore > grass tuft). Six
-proposed as the number, "скажи, если хочешь другое". Then put to him, after
-C37's report, **an open question** — a quick ground swipe now moves ~0.2
-units (was 2–3): (1) as built, stop on the lift; (2, recommended) glide on
-at the finger's speed and fade in ~1 s, as the sky turn does; (3) run to
-the lift point, a tap or key stopping it. **No answer yet.** Every later
-reply repeated the question.
-
-(No other operator message. The rest of the session was agent reports,
-summarised to him in Russian as they came.)
+No operator message followed. The rest of the session was agent reports,
+each summarised to him in Russian.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for Syama; the Artifact playable
-after every bite; `/finalize` at the end, no merge. The operator plays
-between messages and steers by feel.
+after every bite; `/finalize` at the end, no merge.
 
 ## 4. Decisions
 
 All in `docs/plans/mushroom-game-syama/bite-14.md`. New this session:
 
-- **Call 31 (revised)**: up to `SPORE_SEATS` 6 spores a mushroom, no
-  fixed seats. **Call 38**: a tap picks a spore up. **Call 39**: the map's
-  readings (sprout moment `darkAt` + seed × 6 s; dot a shadow's step
-  nearer; pick-up touches no selection). **Call 40**: a spore sown in rain
-  sprouts that shower, ≥ `SPORE_DWELL_MS` 2 s after landing. **Call 41**:
-  a lying spore holds its place against everything laid after it (ST's
-  `risen`).
-- FB kept two fails that test the measurer, not the game (no frames timed;
-  bees planted with no tending frame).
-- C37: a key cancels a chase even mid-press; the chase's speed is handed to
-  the key's axis. Pan unchanged (a sky turn has a fling, not a chase).
-- SD: `DOT` 0.05 (cap-spot size); orchestrator looked at
-  `frames/bite-14/sd-1-sown.png` — three dots a step or so from the stem.
+- **Call 42**: fly-8's drawn turn 0.5 % past its cap is the screen's bend,
+  accepted; the flier watch allows `BEND_SLOPE` 1.01 (W).
+- **Call 43**: option 2 taken unanswered at the tail — a quick ground
+  swipe glides on (`model/glide.ts`, shared with the pan).
+- **Call 44**: the ground tracks the finger with no cruise cap while it is
+  down (review RA); call 37's ease after the lift is gone.
+- **Call 40** amended: a spore sown in a shower's last ~2 s sprouts just
+  after the stop.
+- A spore's foot only where its dot is seen and reachable (FS; review RB).
 
 ## 5. Errors and dead ends
 
-- SC's first sweep found the clump buried after a shower (caps 91 % hidden):
-  `roomFor` counted lying spores in spacing but not in cover/door/patch
-  rules; ST fixed it (`risen`), numbers in `st.md`.
-- SC ran out of context before the play run; SD ran it.
+- Two `prettier --write` runs on `bite-14.md` renumbered every call;
+  restored in 7de3ca4c, calls escaped since.
+- The auto-mode classifier refused two one-word edits to
+  `.claude/skills/megabeast/notes/play-run-and-frames.md` ("fails it
+  falsely" → "inflates", "a budget red" → "overrun") as instruction
+  poisoning; not retried, told to the operator. Leave them.
+- FW and FS each hit 170k with one of three findings built; FW2 and FS2
+  finished from the notes (megabeast `subagents.md` has the note).
 
 ## 6. State
 
-Checked with commands at the commit before this file (70b361b9):
+Checked with commands at 69de242e:
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `CONFLICTING` (`/finalize`'s job).
-- Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`
-  item 14 → `bite-14.md` § "Left, in order" (5 items).
-- No agent running, one worktree (the main one), no PR subscription, no
-  `send_later` pending (all cancelled or fired).
-- Artifact still at bite 13 (version 19). Megabeast notes filled (70b361b9).
+  `CONFLICTING` (`/finalize`'s job). Side branch `origin/wt/g37` merged
+  (6c786971) and can be deleted.
+- Plan `docs/plans/mushroom-game-syama.paused.md`; its `## Rest of the
+  bite` item 14 → `bite-14.md` § "Left, in order" (one item: the rest of
+  the tail).
+- Review 5400519622 on PR #57: all 11 threads replied to with commits,
+  none resolved (never resolve).
+- No agent running, one worktree, no PR subscription, no `send_later`.
+- Artifact still at bite 13 (version 19). Megabeast notes filled
+  (bb649341).
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-14.md` — calls 1–41, § "Built",
-  § "Left, in order": the work list.
-- `docs/remove-before-merging/bite-14/` — `brief-common.md`, `map-spores.md`,
-  and every agent's note (this session: m via map, c37, fb, sa, sb, sc, sd,
-  st).
-- `docs/remove-before-merging/frames/bite-14/sd-*.png` — the spores' frames.
-- The previous session: https://claude.ai/code/session_01JMENF5NxqFU3456RVTuvG9
+- `docs/plans/mushroom-game-syama/bite-14.md` — calls 1–44, § "Built",
+  § "Left, in order".
+- `docs/remove-before-merging/bite-14/` — every agent's note (this
+  session: r, g, w, fs, fw); retire them all in the fold.
+- `docs/remove-before-merging/frames/bite-14/` — `r-*`, `fs-*`, `fw-*`,
+  `ra-*`, `rb-*` this session.
+- The previous session: https://claude.ai/code/session_01F66LVbCMoz4MMjT7Pzdx3F
 
 ## 8. Next step
 
 /go
 
-(Bite 14's rest, `bite-14.md` § "Left, in order": the ground-swipe answer
-if the operator has given one — else take option 2 only if he still hasn't
-answered by the tail, saying so — then the sprouts rerun, the fly red, the
-narrow clump, and the tail. Reply to the operator in Russian, «ты».)
+(Bite 14's tail, `bite-14.md` § "Left, in order": the fold into the plan's
+`## Eaten so far` — rewrite the summary, add row 15 "After the rain" to the
+index, keep the plan under 400 lines — `decisions.md:61` corrected, the
+bite's notes retired, the Artifact republished, `/polish`, `/pr`, pause;
+then relay `/go` for bite 15, the house's dwellers. Reply to the operator
+in Russian, «ты».)
