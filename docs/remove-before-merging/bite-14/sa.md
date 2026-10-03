@@ -48,7 +48,7 @@ as a shim for (d).
 - Pick-up: `{ kind: 'unsow', id: <spore id> }`; changes no selection or
   picker; the same meadow for an unknown id.
 - `Meadow.spores: readonly Spore[]` — each `{ id: 'spore-N', seed, species,
-  foot, lean, parent, at }`; reconcile dots by `id`. A spore sprouts as a
+foot, lean, parent, at }`; reconcile dots by `id`. A spore sprouts as a
   `Planted` whose `sprout.at` is its moment − `SPORE_FALL_MS`, so it shows
   at `SPROUT_START` the instant the spore leaves the list.
 - `sproutMoment(spore, rain)` and `darkAt(rain)` are exported for the play
