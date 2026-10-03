@@ -35,6 +35,7 @@ import {
   groundFootOf,
   OPENING_EYE,
 } from '../../model/ground';
+import { EMPTY_HOUSE } from '../../model/house';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
 import {
@@ -259,6 +260,33 @@ function shownTrials(
 /** The id a mushroom being tried is sought by among the meadow's. */
 const TRIED = 'the tried mushroom';
 
+/** The mushrooms `risen` stands, by the spores lying and the mushrooms standing it joined. */
+const risings = new WeakMap<
+  Stand['spores'],
+  { mushrooms: Stand['mushrooms']; risen: Stand['mushrooms'] }
+>();
+
+/**
+ * `stand` as it stands once every spore lying in it has come up, full-grown
+ * at its foot: a spore always has room to sprout, so what comes after it is
+ * judged against the mushroom it will be. The same array of mushrooms while
+ * neither the mushrooms nor the spores change, so what is cached on it holds.
+ */
+function risen(stand: Stand): Stand {
+  const { mushrooms, spores } = stand;
+  if (spores.length === 0) return stand;
+  const known = risings.get(spores);
+  const all =
+    known?.mushrooms === mushrooms
+      ? known.risen
+      : [
+          ...mushrooms,
+          ...spores.map((spore) => ({ ...spore, house: EMPTY_HOUSE })),
+        ];
+  risings.set(spores, { mushrooms, risen: all });
+  return { ...stand, mushrooms: all, spores: [] };
+}
+
 /**
  * How far round its parent's foot a sprout's is drawn (`Near`), in the
  * clump's size as a camera lays the ground out.
@@ -270,12 +298,13 @@ export const SPROUT_REACH = 1;
  * the visit a sweep opens both find it, whichever species the child picks:
  * shown in `view`, or anywhere in the world absent one, judged from the
  * view's anchor (`anchorIn`) and grown there (`grownOn`); `undefined` where
- * there is no room left for one. It keeps off every flower standing there
+ * there is no room left for one. The meadow is judged with every spore lying
+ * in it come up (`risen`). It keeps off every flower standing there
  * (`flowerFeet`), and each foot is tried on the area cap and the cheap rules
  * first, then the controls, then what it hides and what hides it, then the
- * doors, then the patches, the dearest to try. A sprout shed round the
- * stored foot `near` stands within `SPROUT_REACH` of it, judged at its full
- * size alone; `undefined` where the anchor has no ground under `near`.
+ * doors, then the patches, the dearest to try. A spore laid round the stored
+ * foot `near` stands within `SPROUT_REACH` of it, judged at its full size
+ * alone; `undefined` where the anchor has no ground under `near`.
  */
 export function roomFor(
   stand: Stand,
@@ -284,8 +313,8 @@ export function roomFor(
   near?: Point,
 ): Footed | undefined {
   const anchor = anchorIn(view);
-  const judged = anchoredStand(stand, anchor);
-  const { layout, mushrooms, spores } = judged;
+  const judged = anchoredStand(risen(stand), anchor);
+  const { layout, mushrooms } = judged;
   const parent = near && groundIn(layout.mushrooms, near);
   if (near && !parent) return undefined;
   const flowers = flowerFeet(judged).map((foot) => groundFootOf(foot));
@@ -298,7 +327,7 @@ export function roomFor(
     ...pick(layout.mushrooms, 'frame'),
     ...pick(screen, 'within'),
     ...(parent && { near: { ground: parent, reach: SPROUT_REACH } }),
-    feet: [...mushrooms, ...spores].flatMap(
+    feet: mushrooms.flatMap(
       ({ foot }) => groundIn(layout.mushrooms, foot) ?? [],
     ),
     admits: (foot) => {
@@ -355,6 +384,7 @@ const FOUND_FROM = [
   'layout',
   'flowers',
   'mushrooms',
+  'spores',
   'planted',
   'pulled',
 ] as const;
@@ -366,7 +396,7 @@ const sameEye = (a: Eye | undefined, b: Eye | undefined) =>
 
 /**
  * `find` answered again only once the stand it answered for, or the seed,
- * changes — a new layout after any resize, the mushrooms, the plantings,
+ * changes — a new layout after any resize, the mushrooms, the spores, the plantings,
  * the flowers pulled up or the seeded flowers — or a turn or a step leaves it wanting: a foot found
  * stays while it `fits` the view it is asked for, and no room found stays
  * while the eye stands where it did. A turn or a step never makes a new

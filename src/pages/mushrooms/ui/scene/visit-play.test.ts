@@ -4,11 +4,19 @@ import { describe, it } from 'node:test';
 import { OPENING_EYE } from '../../model/ground';
 import { apartOnScreen } from '../../model/placement';
 import { SPORE_SEATS } from '../../model/sprouting';
+import {
+  hiddenOf,
+  hidersOf,
+  MOST_HIDDEN,
+  PARTS,
+  partSighted,
+} from './cap-cover';
 import { groundIn } from './clump-layout';
 import type { MeadowLayout } from './layout';
+import { patchlessIn } from './mushroom-patch';
 import { SPROUT_REACH } from './mushroom-room';
 import { viewAt } from './view';
-import { opened } from './visit-play';
+import { opened, standingIn } from './visit-play';
 
 const atOpening = (layout: MeadowLayout) => viewAt(layout.camera, OPENING_EYE);
 
@@ -41,5 +49,23 @@ describe('a visit opened under showers', () => {
       once.mushrooms,
     );
     assert.ok(twice.mushrooms.length > once.mushrooms.length);
+  });
+
+  it('lays each spore clear of the sprouts the others come up as', () => {
+    for (const seed of [1, 316_763, 950_283]) {
+      const clump = opened(seed, 1180, 820, false, atOpening, 1);
+      assert.deepEqual(patchlessIn(clump), [], `visit ${String(seed)}`);
+      const among = standingIn(clump);
+      for (const one of among) {
+        const hiders = hidersOf(one, among);
+        for (const part of PARTS) {
+          const hidden = hiddenOf(partSighted(one.standing, part, hiders));
+          assert.ok(
+            hidden <= MOST_HIDDEN[part] + 1e-9,
+            `visit ${String(seed)}: a ${part} ${String(hidden)} hidden`,
+          );
+        }
+      }
+    }
   });
 });
