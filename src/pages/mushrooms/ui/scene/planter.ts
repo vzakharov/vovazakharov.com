@@ -9,6 +9,7 @@ import {
 } from '../../model/flower-sounds';
 import { type Action, type Meadow, sameFoot } from '../../model/game';
 import type { Eye } from '../../model/ground';
+import type { Stamped } from '../../model/motion';
 import { plantedId } from '../../model/pollen';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
@@ -37,7 +38,7 @@ export type Scened = {
 type PlanterVoice = Pick<MeadowSound, 'pop' | 'nuhUh'>;
 
 /** The flowers keys sowed at one moment of the scene's clock. */
-type KeySown = { at: number; flowers: readonly FlowerInView[] };
+type KeySown = Stamped & { flowers: readonly FlowerInView[] };
 
 /**
  * The child planting flowers: a tap on a tuft opens the flower picker on it,
