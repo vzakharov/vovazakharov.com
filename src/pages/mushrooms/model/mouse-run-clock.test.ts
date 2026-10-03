@@ -5,6 +5,8 @@ import { doorStations } from './house';
 import {
   endOf,
   hop,
+  pathBetween,
+  RUN_LEAST,
   RUN_LEGS,
   RUN_PACE,
   runAt,
@@ -14,6 +16,7 @@ import {
   runnerAt,
   widthAlong,
 } from './mouse-run-clock';
+import { alongPath, type RunPath } from './mouse-run-course';
 import { mushroomGenes } from './mushroom-genes';
 
 const FRAME = 1 / 60;
@@ -47,24 +50,26 @@ function legStarts(of: RunCourse): Map<string, number> {
 const near = (a: number, b: number) => Math.abs(a - b) <= FRAME + 1e-9;
 
 describe('runAt', () => {
-  it('goes through every leg in order, a 0.25 run taking its length over RUN_PACE', () => {
-    const short = course(0.25);
+  it('goes through every leg in order, a 1.2 run taking its length over RUN_PACE', () => {
+    const short = course(1.2);
     const starts = legStarts(short);
     assert.deepEqual([...starts.keys()], RUN_LEGS);
     const at = (leg: string) => starts.get(leg) ?? Number.NaN;
     assert.ok(near(at('leave'), 0.85));
     assert.ok(near(at('run'), 1.1));
-    assert.ok(near(at('enter') - at('run'), 0.25 / RUN_PACE));
+    assert.ok(near(at('enter') - at('run'), 1.2 / RUN_PACE));
     assert.ok(near(at('close') - at('enter'), 0.25));
     assert.ok(near(at('over'), runDuration(short)));
     assert.ok(
-      near(runDuration(short), 0.85 + 0.25 + 0.25 / RUN_PACE + 0.25 + 0.3),
+      near(runDuration(short), 0.85 + 0.25 + 1.2 / RUN_PACE + 0.25 + 0.3),
     );
   });
 
   it('never runs shorter than its least span', () => {
     const tiny = legStarts(course(0.01));
-    assert.ok((tiny.get('enter') ?? 0) - (tiny.get('run') ?? 0) >= 0.4 - FRAME);
+    assert.ok(
+      (tiny.get('enter') ?? 0) - (tiny.get('run') ?? 0) >= RUN_LEAST - FRAME,
+    );
   });
 
   it('peeks from the start, out and its door open, then hops down with the door open', () => {
@@ -156,24 +161,34 @@ describe('runnerAt', () => {
     sillHeight: 0.02,
   };
   const to: RunEnd = { front: { x: 1, y: 11 }, across: 0.04, sillHeight: 0.05 };
+  const straight: RunPath = {
+    from: from.front,
+    bend: { x: 0.5, y: 10.5 },
+    to: to.front,
+  };
   const run = course(Math.SQRT2);
 
   it('starts on its own sill at its own width and ends on the target’s at the target’s', () => {
     const start = legStarts(run).get('leave') ?? 0;
-    const first = runnerAt(runAt(start, run), from, to);
+    const first = runnerAt(runAt(start, run), from, to, straight);
     assert.deepEqual(first.point, from.front);
     assert.ok(Math.abs(first.up - from.sillHeight) < 1e-3);
     assert.equal(first.across, from.across);
-    const end = runnerAt(runAt(runDuration(run) - 0.3 - 1e-6, run), from, to);
+    const end = runnerAt(
+      runAt(runDuration(run) - 0.3 - 1e-6, run),
+      from,
+      to,
+      straight,
+    );
     assert.deepEqual(end.point, to.front);
     assert.equal(end.across, to.across);
     assert.ok(Math.abs(end.up - to.sillHeight) < 1e-3);
   });
 
-  it('runs on the ground along the straight line, facing its target', () => {
+  it('runs on the ground along its course, facing along it', () => {
     const moment = runAt(1.1 + Math.SQRT2 / RUN_PACE / 3, run);
     assert.equal(moment.leg, 'run');
-    const runner = runnerAt(moment, from, to);
+    const runner = runnerAt(moment, from, to, straight);
     assert.equal(runner.up, 0);
     assert.ok(moment.progress > 0.1 && moment.progress < 0.9);
     assert.ok(Math.abs(runner.point.x - moment.progress) < 1e-9);
@@ -186,8 +201,38 @@ describe('runnerAt', () => {
 
   it('arcs over the line between sill and ground as it hops', () => {
     const start = legStarts(run).get('leave') ?? 0;
-    const hopping = runnerAt(runAt(start + 0.125, run), from, to);
+    const hopping = runnerAt(runAt(start + 0.125, run), from, to, straight);
     assert.ok(hopping.up > from.sillHeight / 2);
+  });
+});
+
+describe('pathBetween', () => {
+  it('bows the course between two ends toward the eye and faces the runner along it', () => {
+    const from: RunEnd = {
+      front: { x: -0.1, y: 10 },
+      across: 0.05,
+      sillHeight: 0,
+    };
+    const to: RunEnd = {
+      front: { x: 0.1, y: 9.6 },
+      across: 0.06,
+      sillHeight: 0,
+    };
+    const eye = { x: 0, y: 0 };
+    const path = pathBetween(from, to, eye);
+    let nearest = Infinity;
+    for (let step = 0; step <= 100; step++) {
+      const { x, y } = alongPath(path, step / 100).point;
+      nearest = Math.min(nearest, Math.hypot(x, y));
+    }
+    assert.ok(nearest < Math.hypot(0.1, 9.6) - 1.8 * 0.06);
+    const moment = runAt(1.1, course(1));
+    const runner = runnerAt({ ...moment, progress: 0.2 }, from, to, path);
+    assert.deepEqual(runner, {
+      ...alongPath(path, 0.2),
+      up: 0,
+      across: widthAlong(from, to, 0.2),
+    });
   });
 });
 

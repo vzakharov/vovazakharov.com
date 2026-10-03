@@ -13,7 +13,6 @@ import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
 import { panOf } from '../../model/flight-frame';
-import { distanceBetween } from '../../model/geometry';
 import { CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
 import { onStem } from '../../model/house';
 import {
@@ -39,12 +38,14 @@ import {
 import {
   endOf,
   hop,
+  pathBetween,
   runAt,
   type RunCourse,
   type RunEnd,
   runnerAt,
   type RunOpening,
 } from '../../model/mouse-run-clock';
+import { alongPath, pathLength } from '../../model/mouse-run-course';
 import { stemHalfWidth } from '../../model/mushroom-profile';
 import type { Seeded } from '../../model/random';
 import { type BedPlace, bedPlace, standAt } from './bed-place';
@@ -296,14 +297,12 @@ export class MouseRuns {
     return { out, open, look };
   }
 
-  /** Which way a run's mouse looks from its doorway toward its target, on screen. */
+  /** Which way a run's mouse looks from its doorway, along its course toward its target, on screen. */
   private lookOf(run: MouseRun): number | undefined {
     if (!this.view || !run.start || !run.end) return undefined;
-    const way = {
-      x: run.end.front.x - run.start.front.x,
-      y: run.end.front.y - run.start.front.y,
-    };
-    return facingOn(way, run.start.front, this.view.eye);
+    const { eye } = this.view;
+    const { heading } = alongPath(pathBetween(run.start, run.end, eye), 0);
+    return facingOn(heading, run.start.front, eye);
   }
 
   /**
@@ -322,8 +321,9 @@ export class MouseRuns {
     const start = fixedStart ?? this.endAt(from);
     const end = this.endAt(to);
     if (opening === 'peek') this.counts = left(this.counts, from);
+    const eye = this.view?.eye;
     const runLength =
-      start && end ? distanceBetween(start.front, end.front) : 0;
+      start && end && eye ? pathLength(pathBetween(start, end, eye)) : 0;
     const hit = new Phaser.Geom.Circle();
     const run: MouseRun = {
       from,
@@ -418,11 +418,12 @@ export class MouseRuns {
       : undefined;
   }
 
-  /** Where `run`'s runner stands at `t`; `undefined` before its ends are known. */
+  /** Where `run`'s runner stands at `t` along its course; `undefined` before its ends are known or with no view. */
   private runnerPoint(run: MouseRun, t: number) {
-    if (!run.start || !run.end) return;
+    if (!run.start || !run.end || !this.view) return;
     const moment = runAt(Math.max(0, t - run.beganAt), run.course);
-    return runnerAt(moment, run.start, run.end);
+    const path = pathBetween(run.start, run.end, this.view.eye);
+    return runnerAt(moment, run.start, run.end, path);
   }
 
   private drop(run: MouseRun): void {

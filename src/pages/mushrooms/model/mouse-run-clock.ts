@@ -9,6 +9,12 @@
 import type { Point, Wide } from './geometry';
 import { type DoorPlace, onStem } from './house';
 import { PEEK_DUCK, PEEK_RISE, smooth } from './motion';
+import {
+  alongPath,
+  bowedPath,
+  RUN_BOW,
+  type RunPath,
+} from './mouse-run-course';
 
 /** How fast a mouse runs along the plane, at full pace. */
 export const RUN_PACE = 0.6;
@@ -48,8 +54,13 @@ const HOP_DOWN = 0.25;
 const HOP_UP = 0.25;
 /** How long the target door takes to shut behind the mouse. */
 const RUN_SHUT = 0.3;
-/** The run's shortest span, and how long it takes to reach full pace and to slow from it. */
-const RUN_LEAST = 0.4;
+/**
+ * The run's shortest span, long enough for a child to follow it: a course
+ * is bowed until it is this long at `RUN_PACE` (`pathBetween`), and a run
+ * shorter still is slowed to it.
+ */
+export const RUN_LEAST = 1;
+/** How long a run takes to reach full pace and to slow from it. */
 const RUN_EASE = 0.15;
 /** How quickly a called door swings open to wait. */
 const CALL_OPEN = 0.18;
@@ -112,7 +123,7 @@ export type RunMoment = {
 /**
  * Where `course` has its mouse `elapsed` seconds after it began: it peeks
  * out and looks toward its target, hops down to the ground, runs at
- * `RUN_PACE` from front to front, hops up into the target's doorway, and
+ * `RUN_PACE` along its course, hops up into the target's doorway, and
  * the door shuts behind it. Each door opens and shuts smoothly round the
  * legs that use it; a called target's opens at once and waits.
  */
@@ -214,10 +225,20 @@ export const hop = (since: number): number =>
 export const widthAlong = (from: Wide, to: Wide, progress: number): number =>
   from.across + (to.across - from.across) * progress;
 
+/** The course from `from`'s front to `to`'s as an eye at `eye` sees it, its middle `RUN_BOW` of the wider door nearer the eye than either. */
+export const pathBetween = (from: RunEnd, to: RunEnd, eye: Point): RunPath =>
+  bowedPath(
+    from.front,
+    to.front,
+    eye,
+    RUN_BOW * Math.max(from.across, to.across),
+    RUN_PACE * RUN_LEAST,
+  );
+
 /**
- * Where a runner stands for `moment` between `from` and `to`, all on the
- * plane in the clump's size: its point on the ground, how high it is off
- * it, its width, and the unit way from start to target it faces.
+ * Where a runner stands for `moment` between `from` and `to` along `path`,
+ * all on the plane in the clump's size: its point on the ground, how high it
+ * is off it, its width, and the unit way along the course it faces.
  */
 export type Runner = Wide & { point: Point; up: number; heading: Point };
 
@@ -225,19 +246,13 @@ export function runnerAt(
   { progress, sill, bounce }: RunMoment,
   from: RunEnd,
   to: RunEnd,
+  path: RunPath,
 ): Runner {
   const across = widthAlong(from, to, progress);
-  const dx = to.front.x - from.front.x;
-  const dy = to.front.y - from.front.y;
-  const way = Math.hypot(dx, dy);
   const end = progress < 0.5 ? from : to;
   return {
-    point: {
-      x: from.front.x + dx * progress,
-      y: from.front.y + dy * progress,
-    },
+    ...alongPath(path, progress),
     up: sill * end.sillHeight + bounce * HOP_ARC * across,
     across,
-    heading: way === 0 ? { x: 1, y: 0 } : { x: dx / way, y: dy / way },
   };
 }

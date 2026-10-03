@@ -158,6 +158,16 @@ of the leading end's pace on a long crawl (W1: an inch's step outruns the
 body's squeeze at 0.35 units/s); W4 tunes pace, length or inch from frames.
 A chanterelle has one window, so its worm only peeks.
 
+25\. **A run's course bows toward the eye** so its middle crosses open grass
+in front of both houses, at least a runner's length nearer than the nearer
+foot, and it is no shorter than about a second at `RUN_PACE`. R5's frames
+showed a straight run on the opening clump (doors ~20 px apart, ~0.4 s)
+hidden behind the front stem nearly end to end: the child saw a mouse vanish
+and a door move, not a run. This replaces call 7's straight path; depth
+still sorts the runner against stems at both ends. Beat: path planning
+round stems (call 7's own beat), and leaving it to `to-check.md`, which
+ships a run nobody can see.
+
 ## Built
 
 Each package's hand-over note under `docs/remove-before-merging/bite-15/`
@@ -175,6 +185,16 @@ holds its detail and the next step's API.
 - **R3** 2eceec8f — `mouse-runs.ts` holds the mice and runs, `run-front.ts`,
   `paintRunner`; `house.mouse.tappedAt` is set only by a tap that peeks.
   No one has yet looked at a runner or a worm on screen.
+- **R4** f8b471f, 17bcf36, 3374512 — the clock split to
+  `model/mouse-run-clock.ts` (call 23); a tap on a runner squeaks and hops it
+  (`hop`, 0.3 s, half a runner's width); `patter` ticks every 0.08 s while
+  running, panned by `panOf` — by time, not per footfall, which buzzes.
+- **R5** 139059c, 2765901, 4e311a4 — the probe's `runs()`, `mice()`,
+  `mouse(id).door`; `play-runs.ts`, green on tabL and phoneP. Head ÷ door
+  0.60 everywhere (chanterelle ~4.5 px); runner ~1.8 doors wide. The run on
+  the opening clump hides behind the front stem (call 25); in the flee
+  frame a head peeks from the front door while the runner is hidden,
+  unexplained. `play-house`'s change not yet run.
 
 Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
 `Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's

@@ -2,8 +2,8 @@
  * The house's part of `play-mushrooms.ts`'s tap sequence, played on the
  * opening clump: the house picker opened, every window and the door put in, a
  * full row and a second door each shaking their heads and changing nothing,
- * a door on each mushroom, a tap on each door — the back one too — calling its
- * mouse out, and the two pickers closing each other.
+ * a door on each mushroom, a tap on each door — the back one too — bringing
+ * its mouse out, and the two pickers closing each other.
  */
 
 import { z } from 'zod';
@@ -15,6 +15,7 @@ import {
   Mouse,
   type Page,
   Point,
+  Runs,
   State,
   Top,
 } from './mushroom-probe.ts';
@@ -169,8 +170,13 @@ export async function playHouse(
       Mouse,
     );
     const now = await state();
+    // With the other door in reach the tap starts a run, whose peek leg
+    // brings the mouse out; where it goes next is `play-runs.ts`' to check.
+    const ran = (await page.evaluate('__probe.runs()', Runs)).some(
+      (run) => run.from === id && run.elapsed < 1,
+    );
     expect(
-      mouse.tappedAt !== null && now.clock - mouse.tappedAt < 1,
+      ran || (mouse.tappedAt !== null && now.clock - mouse.tappedAt < 1),
       `a tap on the ${side} door did not call its mouse`,
     );
     expect(
@@ -178,7 +184,9 @@ export async function playHouse(
       `the ${side} mouse is only ${mouse.out.toFixed(2)} out`,
     );
     expect(now.selected === selected, 'a tap on a door changed the selection');
-    note(`${side} mouse's head ${mouse.head.toFixed(1)} px`);
+    note(
+      `${side} mouse's head ${mouse.head.toFixed(1)} px, ${(mouse.head / mouse.door).toFixed(2)} of its door's ${mouse.door.toFixed(1)} px`,
+    );
     await page.shoot(`h3-mouse-${side}`);
   });
 
