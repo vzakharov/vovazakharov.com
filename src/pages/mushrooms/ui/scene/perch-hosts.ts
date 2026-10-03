@@ -61,6 +61,7 @@ export function perchedOn(
       const aloft = alofts.get(perch.id);
       return aloft && { aloft };
     }
+    case 'shelter':
     case 'away': {
       return undefined;
     }
@@ -80,13 +81,14 @@ export function restingOn(
     : undefined;
 }
 
-/** Passes a tap through an insect at rest on to `under`, the cap or the flower it sits on. */
+/** Passes a tap through an insect at rest on to `under`, the cap it sits on or under, or the flower. */
 export function tapThrough(
   { bed, flowers }: PerchHosts,
   under: Perch | undefined,
 ): void {
   switch (under?.kind) {
-    case 'cap': {
+    case 'cap':
+    case 'shelter': {
       bed?.tap(under.id);
       break;
     }

@@ -30,6 +30,12 @@ import {
   type Sown,
   sown,
 } from './pollen';
+import {
+  dashesForCover,
+  shelteredPerches,
+  type Showered,
+  stayingDry,
+} from './shelter';
 
 /** A kind that carries no pollen. */
 type Visitor = OfKind<Exclude<InsectKind, 'bee'>>;
@@ -49,6 +55,12 @@ export type Flier = Insect & Flight & Shying & (Visitor | Pollinator);
  * the order they opened.
  */
 export type Swarm = { insects: readonly Flier[]; planted: readonly Sown[] };
+
+/**
+ * A swarm and the shower it flies in, which sends its fliers under the caps
+ * while it falls (`shelteredPerches`).
+ */
+type Rained = Swarm & Showered;
 
 /** How many of each kind the meadow holds before the oldest leaves. */
 export const INSECT_LIMITS = {
@@ -117,25 +129,27 @@ function tookOff(
  * `swarm` with `insect` flying in from `now`, to a first perch `onscreen`
  * shows where it is given (`firstFlight`). At its kind's limit, the oldest of
  * that kind not already leaving flies away from `now`, so a release always
- * acts.
+ * acts. In the rain the newcomer heads for shelter (`shelteredPerches`).
  */
 export function released(
-  swarm: Swarm,
+  swarm: Rained,
   insect: Insect,
-  perches: Perches,
+  given: Perches,
   now: number,
   onscreen?: Onscreen,
 ): Swarm {
-  const oldest = evicted(swarm.insects, insect.kind, INSECT_LIMITS);
+  const { insects, rain } = swarm;
+  const perches = shelteredPerches(given, rain, now);
+  const oldest = evicted(insects, insect.kind, INSECT_LIMITS);
   const planted = [...swarm.planted];
-  const staying = swarm.insects.map((each) =>
+  const staying = insects.map((each) =>
     each === oldest
       ? tookOff(each, flightAway(each, now, perches), now, perches, planted)
       : each,
   );
   const flight = firstFlight(insect, perches, now, takenBy(staying), onscreen);
   return {
-    insects: [...staying, flierOf(insect, flight)],
+    insects: stayingDry([...staying, flierOf(insect, flight)], rain, now),
     planted: plantedOnto(swarm.planted, planted),
   };
 }
@@ -155,29 +169,32 @@ export function caughtAloft(flier: Flight, now: number): boolean {
  * perch other than the one it sat on or was heading to (`nextFlight`): at
  * rest it takes off; caught in the air (`caughtAloft`) it shies, darting off
  * as the leg sets off (`shied`). One flying away, or none by that id, leaves
- * the swarm as it was, the same object.
+ * the swarm as it was, the same object. In the rain one under a cap darts to
+ * the nearest other shelter, or up into the air while none is open.
  */
 export function startled(
-  swarm: Swarm,
+  swarm: Rained,
   id: string,
-  perches: Perches,
+  given: Perches,
   now: number,
 ): Swarm {
-  const { insects } = swarm;
+  const { insects, rain } = swarm;
   const insect = insects.find((each) => each.id === id);
   if (insect === undefined) return swarm;
   const shies = caughtAloft(insect, now);
   if (!shies && isAloft(insect, now)) return swarm;
+  const perches = shelteredPerches(given, rain, now);
   const taken = takenBy(insects, insect);
   const planted = [...swarm.planted];
   const flight = nextFlight(insect, perches, now, taken);
   const shied = shies ? { shied: flight.legs } : {};
+  const next = insects.map((each) =>
+    each === insect
+      ? { ...tookOff(each, flight, now, perches, planted), ...shied }
+      : each,
+  );
   return {
-    insects: insects.map((each) =>
-      each === insect
-        ? { ...tookOff(each, flight, now, perches, planted), ...shied }
-        : each,
-    ),
+    insects: stayingDry(next, rain, now),
     planted: plantedOnto(swarm.planted, planted),
   };
 }
@@ -187,17 +204,19 @@ export const isShying = ({ shied, legs }: Flier): boolean => shied === legs;
 
 /**
  * Whether `insect`'s next leg is due at `now`, among `insects`: its stay is
- * over, the meadow no longer offers its perch, or it sits where a waiting
- * bee is owed room (`givesWay`).
+ * over, the meadow no longer offers its perch, `rain` has just started
+ * (`dashesForCover`), or it sits where a waiting bee is owed room
+ * (`givesWay`).
  */
 function isDue(
   insect: Flier,
-  insects: readonly Flier[],
+  { insects, rain }: Omit<Rained, 'planted'>,
   perches: Perches,
   now: number,
 ): boolean {
   const { kind, leg } = insect;
   if (now >= leg.leaves || !isOffered(leg.to, perches, kind)) return true;
+  if (dashesForCover(leg, rain, perches)) return true;
   if (now < leg.arrives) return false;
   const [held, taken] = [{ kind, perch: leg.to }, takenBy(insects, insect)];
   return givesWay(held, taken, perches) || flowerFreed(held, taken, perches);
@@ -209,26 +228,31 @@ function isDue(
  * landed is gone. They are taken in order, each new leg seeing the ones
  * before it already taken, so two due on one frame never pick one perch.
  * The same object comes back when nothing is due, so a frame with nothing to
- * do changes nothing.
+ * do changes nothing. In the rain a stay under a cap lasts until the shower
+ * stops, and the flier's own linger after (`stayingDry`).
  */
-export function ticked(swarm: Swarm, perches: Perches, now: number): Swarm {
-  const { insects } = swarm;
+export function ticked(swarm: Rained, given: Perches, now: number): Swarm {
+  const { insects, rain } = swarm;
+  const perches = shelteredPerches(given, rain, now);
   let changed = false;
   const next: Flier[] = [...insects];
   const planted = [...swarm.planted];
   for (const [index, insect] of insects.entries()) {
     if (isLeaving(insect)) {
       if (now >= insect.leg.arrives) changed = true;
-    } else if (isDue(insect, next, perches, now)) {
+    } else if (isDue(insect, { insects: next, rain }, perches, now)) {
       changed = true;
       const taken = takenBy(next, insect);
       const flight = nextFlight(insect, perches, now, taken);
       next[index] = tookOff(insect, flight, now, perches, planted);
     }
   }
-  if (!changed) return swarm;
+  const stayed = stayingDry(next, rain, now);
+  if (!changed && stayed === next) return swarm;
   return {
-    insects: next.filter((each) => !isLeaving(each) || now < each.leg.arrives),
+    insects: stayed.filter(
+      (each) => !isLeaving(each) || now < each.leg.arrives,
+    ),
     planted: plantedOnto(swarm.planted, planted),
   };
 }

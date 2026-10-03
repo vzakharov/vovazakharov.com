@@ -34,7 +34,6 @@ import {
   flowersFor,
   type Held,
   isSamePerch,
-  isSeat,
   keptForBees,
   perchName,
 } from './perch-room';
@@ -47,6 +46,7 @@ import {
   saltedStream,
   weighted,
 } from './random';
+import { nearestShelter, offersShelter, type ShelterSeat } from './shelter';
 
 export { FLIGHT_HABITS } from './flight-habits';
 export type { Span } from './flight-timing';
@@ -61,7 +61,7 @@ export {
 export const SIDES = ['left', 'right'] as const;
 export type Side = (typeof SIDES)[number];
 
-const PERCH_KINDS = ['flower', 'cap', 'air', 'away'] as const;
+const PERCH_KINDS = ['flower', 'cap', 'air', 'shelter', 'away'] as const;
 export type PerchKind = (typeof PERCH_KINDS)[number];
 
 /** What each kind of perch carries beside its kind. */
@@ -69,13 +69,14 @@ type PerchFields = {
   flower: WithId;
   cap: WithId;
   air: WithId;
+  shelter: ShelterSeat;
   away: { side: Side };
 };
 
 /**
- * Where an insect wants to be: a flower or a cap by id, a spot in the open
- * air by id, which it only passes through, or `away`, off screen past that
- * side's edge.
+ * Where an insect wants to be: a flower or a cap by id, a seat under a cap
+ * (`ShelterSeat`), a spot in the open air by id, which it only passes
+ * through, or `away`, off screen past that side's edge.
  */
 export type Perch = {
   [Kind in PerchKind]: { kind: Kind } & PerchFields[Kind];
@@ -131,6 +132,8 @@ export type Sight = Plot & {
   drawn?: Readonly<Record<string, Place>>;
   /** Each flier's own away spots, by its id: the scene draws one leaving at its own height and span past the edge. */
   aways?: Readonly<Record<string, Places>>;
+  /** The seats under the caps in sight, offered only while it rains (`shelteredPerches`). */
+  shelters?: readonly ShelterSeat[];
 };
 
 /**
@@ -140,6 +143,8 @@ export type Sight = Plot & {
 export type Perches = Sight & {
   caps: readonly string[];
   spotted: readonly string[];
+  /** While it rains: no flower or cap top is offered, and a flier takes the nearest shelter. */
+  raining?: boolean;
 };
 
 /** A moment on the scene's clock, in ms. */
@@ -170,7 +175,7 @@ function legRandom(seed: number, legs: number): Random {
 }
 
 /** What `nextPerch` weighs a choice by: where the insect is, what it cannot take, and the kind and habits choosing. */
-type Choosing = Kinded &
+export type Choosing = Kinded &
   Pick<Leg, 'from'> & {
     habits: Habits;
     perches: Perches;
@@ -225,7 +230,8 @@ function roamFrom(
  * offered and uncrowded, and roams the air otherwise (`roamFrom`), where it
  * looks again. It flies away only from a perch with every spot in the air
  * taken, which the scene never lets happen: the air holds a spot for every
- * insect the meadow can hold.
+ * insect the meadow can hold. While it rains it takes the nearest open
+ * shelter (`nearestShelter`), roaming while none is open, and settles nowhere.
  */
 function nextPerch(
   random: Random,
@@ -237,6 +243,13 @@ function nextPerch(
   const blocked = blockedFor(kind, taken, perches.crowded);
   for (const key of keptForBees(kind, taken, perches)) blocked.add(key);
   const choosing = { kind, habits, from, perches, taken, blocked };
+  if (perches.raining === true) {
+    return (
+      nearestShelter(choosing) ??
+      roamFrom(random, choosing) ??
+      awayPerch(random)
+    );
+  }
   const open = (perchKind: 'flower' | 'cap', ids: readonly string[]) =>
     ids
       .map((id): Perch => ({ kind: perchKind, id }))
@@ -263,7 +276,7 @@ function nextPerch(
   }
   const settles =
     habits.settles &&
-    isSeat(from) &&
+    (from.kind === 'flower' || from.kind === 'cap') &&
     isOffered(from, perches, kind) &&
     !blocked.has(perchName(from));
   if (settles) return from;
@@ -323,18 +336,18 @@ type Flying = InsectSeed & Flight & Partial<WithId>;
 
 /**
  * The leg after the current one, from its perch to the one `choose` draws
- * first off the leg's stream, timed from where the insect sets off
+ * first off the leg's stream, given and timed from where the insect sets off
  * (`placesSetOff`).
  */
 function onward(
   { seed, kind, leg, legs, id }: Flying,
   { now, ...placed }: Timed & Placed,
-  choose: (random: Random, habits: Habits) => Perch,
+  choose: (random: Random, habits: Habits, setOff: Placed) => Perch,
 ): Flight {
   const random = legRandom(seed, legs);
   const habits = FLIGHT_HABITS[kind];
-  const to = choose(random, habits);
   const flying = { now, places: placesSetOff(placed, leg, now, id) };
+  const to = choose(random, habits, flying);
   return {
     leg: legTo(random, habits, { from: leg.to, to }, flying),
     legs: legs + 1,
@@ -343,7 +356,8 @@ function onward(
 
 /**
  * The flight after `insect`'s current one, departing `now` from the perch
- * that one went to, to an open perch (`nextPerch`).
+ * that one went to, to an open perch (`nextPerch`) — while it rains, the
+ * nearest from where the insect is drawn, mid-flight too.
  */
 export function nextFlight(
   insect: Flying,
@@ -352,8 +366,13 @@ export function nextFlight(
   taken: readonly Held[] = [],
 ): Flight {
   const { kind, leg } = insect;
-  return onward(insect, { now, ...placedOf(perches) }, (random, habits) =>
-    nextPerch(random, { kind, habits }, leg.to, perches, taken),
+  return onward(
+    insect,
+    { now, ...placedOf(perches) },
+    (random, habits, { places }) => {
+      const seen = perches.raining === true ? { ...perches, places } : perches;
+      return nextPerch(random, { kind, habits }, leg.to, seen, taken);
+    },
   );
 }
 
@@ -394,6 +413,9 @@ export function isOffered(
     }
     case 'air': {
       return air.includes(perch.id);
+    }
+    case 'shelter': {
+      return offersShelter(perches, perch);
     }
     case 'away': {
       return true;

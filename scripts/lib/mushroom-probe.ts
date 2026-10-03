@@ -17,6 +17,7 @@ import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
 import type { Camera as ModelCamera } from '../../src/pages/mushrooms/model/ground.ts';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
+import { SHELTER_SEATS } from '../../src/pages/mushrooms/model/shelter.ts';
 import { PUFF_REACH } from '../../src/pages/mushrooms/ui/scene/cloud-puffs.ts';
 
 /** Swaps `Math.random` for a mulberry32 seeded with `seed` before the page's own code runs. */
@@ -492,6 +493,11 @@ const PERCHES = {
   flower: z.object({ kind: z.literal('flower'), id: z.string() }),
   cap: z.object({ kind: z.literal('cap'), id: z.string() }),
   air: z.object({ kind: z.literal('air'), id: z.string() }),
+  shelter: z.object({
+    kind: z.literal('shelter'),
+    id: z.string(),
+    seat: z.literal(SHELTER_SEATS),
+  }),
   away: z.object({ kind: z.literal('away'), side: z.enum(SIDES) }),
 } satisfies {
   [Kind in PerchKind]: z.ZodType<Extract<ModelPerch, { kind: Kind }>>;
@@ -500,6 +506,7 @@ const Perch = z.discriminatedUnion('kind', [
   PERCHES.flower,
   PERCHES.cap,
   PERCHES.air,
+  PERCHES.shelter,
   PERCHES.away,
 ]);
 export const Insects = z.array(
