@@ -5,11 +5,11 @@
  * the place is `stride.ts`'s. One finger moves one of them: a press inside
  * `SLOP` of where it went down taps, and once it moves past it, radially,
  * its axis locks for the rest of the press — within 45° of horizontal it
- * turns, or strafes if it went down above the ground, on the hills or the
- * sky; else it steps. A turn keeps the azimuth under the finger 1:1 and
- * glides on from the lift; a step chases the finger's row, and a strafe
- * slides the far ground with the finger, both no faster than the stride's
- * cruise and with no glide.
+ * turns if it went down above the ground, on the hills or the sky, and
+ * strafes if it went down on the ground; else it steps. A turn keeps the
+ * azimuth under the finger 1:1 and glides on from the lift; a step chases
+ * the finger's row, and a strafe slides the ground under the finger with
+ * it, both no faster than the stride's cruise and with no glide.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -17,6 +17,7 @@ import { pick } from '@/shared/lib/collections';
 import type { Direction } from './cruise';
 import type { Point } from './geometry';
 import {
+  bendAt,
   type Camera,
   type Eye,
   EYE_HEIGHT,
@@ -58,8 +59,8 @@ import {
  * Which axis a press moves once it has crossed the slop: the heading; the
  * place along it, chasing the finger's row from `reference`, the distance
  * ahead the crossing's row stood at; or the place square to it, sliding the
- * ground `reference` ahead as far across as the finger has come from `from`,
- * the crossing's screen x.
+ * ground `reference` straight ahead, the ground under the crossing's, as far
+ * across as the finger has come from `from`, the crossing's screen x.
  */
 type Lock =
   | { axis: 'turn' }
@@ -183,7 +184,7 @@ function turningFrom(walk: Walk, x: number, time: number): Pan {
 }
 
 /**
- * The widest azimuth off the heading a strafe brings far ground to, in
+ * The widest azimuth off the heading a strafe brings its ground to, in
  * radians: short of square, where the way across runs out to infinity.
  */
 const STRAFE_WIDEST = 1.3;
@@ -220,8 +221,9 @@ function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
 
 /**
  * The axis a press that went down at `pressedAt` and crossed the slop at
- * `crossing` locks: within 45° of horizontal it turns, or strafes if it went
- * down above the ground's top edge; else it steps.
+ * `crossing` locks: within 45° of horizontal it turns if it went down above
+ * the ground's top edge, and strafes if it went down on the ground; else it
+ * steps.
  */
 export function lockOf(
   camera: Camera,
@@ -231,25 +233,23 @@ export function lockOf(
   const dx = Math.abs(crossing.x - pressedAt.x);
   const dy = Math.abs(crossing.y - pressedAt.y);
   if (dy > dx) return 'step';
-  return pressedAt.y < camera.groundTop ? 'strafe' : 'turn';
+  return pressedAt.y < camera.groundTop ? 'turn' : 'strafe';
 }
 
 function lockAt(camera: Camera, axis: Lock['axis'], crossing: Point): Lock {
-  switch (axis) {
-    case 'turn': {
-      return { axis };
-    }
-    case 'step': {
-      return { axis, reference: distanceOfRow(camera, crossing.y) };
-    }
-    case 'strafe': {
-      const reference = distanceOfRow(camera, camera.groundTop);
-      return { axis, reference, from: crossing.x };
-    }
-    default: {
-      return axis satisfies never;
-    }
-  }
+  if (axis === 'turn') return { axis };
+  const ahead = distanceOfRow(camera, crossing.y);
+  if (axis === 'step') return { axis, reference: ahead };
+  // The ground under the crossing stands `ahead` times the screen's bend
+  // there from the eye, along its azimuth: this far straight ahead.
+  const pinhole = pinholeOf(camera);
+  const azimuth = arcOf(pinhole, crossing.x) / pinhole.arc;
+  const distance = ahead * bendAt(pinhole, crossing.x);
+  return {
+    axis,
+    reference: distance * Math.cos(azimuth),
+    from: crossing.x,
+  };
 }
 
 function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {
@@ -273,7 +273,8 @@ function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {
  * went and where it went down (`lockOf`), and from the crossing on it moves
  * that axis alone: a turn keeps the azimuth under the crossing under the
  * finger, a step aims the eye so the crossing's ground row comes under the
- * finger's, and a strafe aims it so the far ground follows the finger across.
+ * finger's, and a strafe aims it so the crossing's ground follows the finger
+ * across.
  */
 export function moveTo(walk: Walk, point: Point, time: number): Walk {
   const { drag, lens } = walk;
