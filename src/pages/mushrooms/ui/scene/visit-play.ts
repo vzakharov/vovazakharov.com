@@ -13,12 +13,20 @@ import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
+import {
+  shedding,
+  SPORE_FALL_MS,
+  SPROUT_MS,
+  sprouted,
+} from '../../model/sprouting';
+import { RAIN_MS } from '../../model/weather';
 import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
 import { type Stand, standOf } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
+import { shedIn } from './shedding';
 import type { View } from './view';
 
 export { tapTarget } from './mushroom-tap';
@@ -29,11 +37,16 @@ type Meadowed = { meadow: Meadow };
 /** A stand, and the meadow it stands. */
 export type Opened = Stand & Meadowed;
 
+/** How long a shower in `opened` waits after the last: its rain, then every sprout grown old. */
+const SHOWER_EVERY = RAIN_MS + SPORE_FALL_MS + SPROUT_MS;
+
 /**
  * A meadow as the scene opens it for the visit `seed`, drawing from the
  * scene's own streams, with the opening clump or a forest grown to
  * `MUSHROOM_SLOTS`, as far as the meadow has room, standing: each `+`
  * pressed in the view `viewIn` gives, or anywhere in the world absent one.
+ * Then `showers` clouds tapped one after another, each shedding as it stops
+ * with every mushroom in sight, its sprouts found in the same view.
  */
 export function opened(
   seed: number,
@@ -41,6 +54,7 @@ export function opened(
   height: number,
   forest: boolean,
   viewIn?: (layout: MeadowLayout) => View,
+  showers = 0,
 ): Opened {
   const random = mulberry32(seed);
   let meadow = firstMeadow(random);
@@ -66,6 +80,15 @@ export function opened(
       seed: own,
       ...foot,
     });
+  }
+  for (const index of Array.from({ length: showers }).keys()) {
+    const now = index * SHOWER_EVERY;
+    meadow = reduce(meadow, { kind: 'rain', now });
+    const stopsAt = now + RAIN_MS;
+    const shedders = shedding(meadow, stopsAt, () => true);
+    const shed =
+      shedders && shedIn(standOf(layout, flowers, meadow), shedders, view);
+    meadow = sprouted(meadow, { now: stopsAt, shed });
   }
   return { meadow, ...standOf(layout, flowers, meadow) };
 }
