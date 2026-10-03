@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **3** of the chain the operator started at depth 1
+Relay depth: **4** of the chain the operator started at depth 1
 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap": 8).
 
 ## 1. Standing constraints
@@ -94,83 +94,75 @@ scenarios stay short.** Pass this section on verbatim.
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
 The relay's launch line, the only operator-shaped turn this session. Reply
-(Russian): attached (the stale local ref renamed aside to
-`stale/mushroom-game-syama-lbirv7-e66b8e1`, no auto-branch touched),
-installed, plan flipped (3be89c4); then the rest of 12b's tail as agents,
-one step each, every turn after that an agent report answered with a short
-Russian status line. No further operator message.
+(Russian): attached (the diverged local ref renamed aside to
+`claude/mushroom-game-syama-lbirv7-stale-local`, auto-branch untouched),
+installed, plan flipped (1015bcb); three review agents briefed; then one
+short Russian status line per agent report; the review posted. No further
+operator message.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
-playable after every bite; `/finalize` at the end, no merge. Bite 12b is
-built, polished and published; next is its own review session (12b being
-structural keeps one), then its handling, then bite 13 (rain).
+playable after every bite; `/finalize` at the end, no merge. Bite 12b's
+review is posted; next is its handling, then bite 13 (rain).
 
 ## 4. Decisions
 
-Every call, with its numbers, is in
-`docs/remove-before-merging/bite-12b/waves.md` from "tail-turn3" on. The
-ones a successor would re-litigate:
-
-- **The turn-rate watch judges a frame only while the body's middle is on
-  screen** (74574f4), sharing one `onScreen` test with the heading watch; a
-  harness loosening, with its to-check.md line. phoneL `meadow` green.
-- **phoneL `approach` was the game's red, not the container's**: 31 ms on
-  a quiet container against 26, 24 of a no-work frame's 26 ms in Phaser
-  re-triangulating every `Graphics` each frame. Beat: a phoneL budget of
-  its own (a real phone runs the same `earcut`), and baking mushrooms to
-  textures (the light turns with the heading, so a turn re-bakes all).
-  Taken: **a mushroom's chords follow its drawn size** — `curveSteps` in
-  `model/mushroom-profile.ts` (567702f), 18.4 ms, the far forest looking
-  the same; tap outlines keep full detail.
-- **The gill band keeps all 28 chords** (`BAND_STEPS`): no floor under 28
-  holds the 1 px bound, the error being where angle samples fall on the
-  notch round the stem. Beat: resampling the notch, which moves the tap
-  outline, for ~120 of ~1,700 entries.
-- **phoneS seen, not traced, handed to the review**: the bees' planted
-  flower grew off the right edge (x 351 of 320); a thin forest (12); the
-  buttons over nearly all the sky.
+- **The review ran as three agents reporting to the orchestrator**, which
+  checked anchors against `git diff -U0 a8d2aff..HEAD` and posted one
+  review: a field reader, an insects-and-harness reader, a player
+  (brief: `docs/remove-before-merging/bite-12b/review-brief.md`). [Bite
+  12's shape, each group posting its own review: more threads to untangle.]
+- **12b's range is `a8d2aff..`** (bite 12's pause), everything after.
+- **flower-sight's off-screen bee planting is posted as "blocking or nit,
+  the handler's call"**: off screen may be the design's intent; the handler
+  decides and records it.
+- Findings the player saw but did not measure against `a8d2aff` (phoneS
+  thin field forest, buttons over the sky, 40–50 px back-row hit boxes) are
+  in the review body only, not threads.
 
 ## 5. Errors and dead ends
 
-- tail-lod ran to 170k before measuring, leaving a patch; tail-lod2, told
-  to land step 1 within ~60k, finished. (Megabeast `subagents.md` already
-  says an agent lands one step, maybe two.)
-- The earlier call "approach's 47 ms is the container's" was half wrong
-  (megabeast `play-run-and-frames.md`, rewritten in place).
+- Each agent asked ~120–150k ran to ~170k; all finished and reported.
+- A push raced the previous session's late plan edit (30e3bec); a
+  `--no-rebase` pull merged it cleanly.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `CONFLICTING` (reported, `/finalize`'s job). Body refreshed with a 12b
-  bullet and QA rows; squash proposal comment updated (5712237909).
+  `CONFLICTING` (reported, `/finalize`'s job).
+- Review https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5398479115
+  on commit 3aeb57a: nine inline threads — blocking on `model/game.ts:38-40`
+  (cap per foot strands mushrooms on a screen turn), `ui/scene/planter.ts:149`
+  (two eyes for tap vs buttons), `ui/scene/tufts.ts:228-232` (sow tends whole,
+  15–34 ms), `ui/scene/air-spots.ts:222-225` (crowding in layout px),
+  `docs/plans/mushroom-game-syama/bite-12b.md:46-48` (follow unchecked, reach
+  15.9), `ui/scene/flower-sight.ts:396-397` (bee flowers off screen); nits on
+  `model/flight-in.ts:57-61`, `ui/scene/insect-drawn.ts:131-139`,
+  `ui/scene/tufts.test.ts:171`.
 - Plan `docs/plans/mushroom-game-syama.paused.md`; `## Rest of the bite`
-  says only the review and its handling are left.
-- Last polish commit a772d94 (bare `polish:`), so a review's range for 12b's
-  tail starts after 385453f; 12b as a whole is everything after bite 12's
-  handling (`bite-12b.md` names its range).
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 17
-  (the tail's head, 2026-10-03).
-- No agent running, no worktree but the shared one, no PR subscription.
+  leaves only the handling.
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 17,
+  unchanged this session.
+- No agent running, no worktree, no PR subscription.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12b/waves.md` — every report and call;
-  `tail-phoneS.md`, `tail-lod.md`, `tail-turn3.md` beside it.
-- `docs/plans/mushroom-game-syama/bite-12b.md`, `endless-field.md` — the
-  bite's calls and contract; `to-check.md` — the operator's hand checks.
-- Frames: `docs/remove-before-merging/frames/bite-12b/` (`phoneS-*`,
-  `phoneL-lod-*` new).
-- The plan's § "How this elephant is eaten" step 2 — the review's reading
-  list (`writing/notes/the-five-percent.md`, read only) and form.
-- This session: https://claude.ai/code/session_016pbMDts3gGENqQCpRr4T3P
+- The review: `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5398479115/comments`.
+- Frames and the player's scratch play:
+  `docs/remove-before-merging/frames/bite-12b/review/` (`review-child.ts.txt`
+  re-runs it).
+- `docs/plans/mushroom-game-syama/bite-12b.md`, `endless-field.md`,
+  `decisions.md` (the twelve), `to-check.md`.
+- Megabeast `quality.md` § "Review practice" — "is the game wrong or is the
+  check?" before any fix.
+- This session: https://claude.ai/code/session_01TVGMRJroq437qb34GvhkXp
 
 ## 8. Next step
 
 The loop's own message for this point, the operator's words from § 1:
-"/relay оставь код ревью на последний кусок" — so: **leave the code review
-on bite 12b**, its own review session (the plan: a structural bite keeps
-one), reviewing as the operator would per the plan's step 2, one PR review
-with inline comments; then `/relay /handle`. Reply to the operator in
-Russian, «ты».
+"/relay /handle" — so: **`/handle`** the 12b review: one subagent per
+finding or per disjoint file group, each fix its own commit and GitHub
+reply naming its SHA (never resolving), the five-percent file untouched;
+then the Artifact republished, the plan's bite folded, and `/relay /go` for
+bite 13. Reply to the operator in Russian, «ты».
