@@ -243,8 +243,10 @@ and the tuft, not as an interactive object.
 40\. **A spore sown while it rains sprouts in that shower**, at the later of
 its seed's moment and `SPORE_DWELL_MS` (~2 s) after it settles — the
 child sees the dot land, then come up, which shows the rain's cause
-best. Beat: waiting for the next shower, which reads as the rain not
-working on this dot.
+best. A spore sown in the shower's last ~2 s comes up just after it
+stops, still wet. Beat: waiting for the next shower, which reads as the
+rain not working on this dot; and capping the moment at `stopsAt`, which
+would cut the dot's dwell short.
 
 36\. **A cloud rains on a press, a drag starting on it included** (B2,
 `b2.md`, found a sky drag over a cloud starts a shower). Kept: the
@@ -363,7 +365,16 @@ rest; a key or a press ends the glide, a key taking over its pace held
 to the cruise. The curve and the finger-speed sampling are one module,
 `model/glide.ts`, that `pan.ts` and `stride.ts` share. Beat: (1) stop
 on the lift, which moved a quick swipe ~0.2 units; (3) run to the lift
-point, which a quick swipe barely moves either.
+point at the cruise, which leaves the ground far behind the finger.
+
+44\. **While the finger is down the ground stays under it** (the review,
+RA: the strafe's chase at the cruise left a 150 px swipe's ground ~15 %
+of the way to the finger at the lift, and call 29's "slides the ground
+under the finger" held only for a slow drag). A ground drag tracks the
+finger with no cruise cap, as a sky drag keeps its azimuth; call 43's
+glide takes over on the lift (FW). Beat: restating call 29 as "lags,
+then catches up on the glide", which makes the ground feel unlike the
+sky under the same hand.
 
 - **R** f5f5f71 — `sprouts` passes after `risen` (tabL: 3 sown, 1 picked,
   2 sprouts, 0 left; 14.3 ms median); fly-8 traced (call 42). **W**
