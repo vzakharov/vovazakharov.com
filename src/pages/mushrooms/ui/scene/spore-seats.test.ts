@@ -13,7 +13,8 @@ import { viewAt } from './view';
 import { opened } from './visit-play';
 
 describe('the spore a tap on a mushroom settles', () => {
-  const stand = opened(1, 1180, 820, false);
+  // A visit whose first mushroom has room for all six dots in sight round it.
+  const stand = opened(2, 1180, 820, false);
   const view = viewAt(stand.layout.camera, OPENING_EYE);
   const [parent] = stand.meadow.mushrooms;
   assert.ok(parent);

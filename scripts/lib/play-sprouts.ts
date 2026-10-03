@@ -1,8 +1,8 @@
 /**
  * Spores sown and sprouted, `play-mushrooms.ts`'s run on a fresh meadow: the
  * opening clump's front cap tapped three times, one of its dots picked up,
- * and a cloud tapped. It fails where a tap leaves no dot or one off its
- * parent, where a pick-up leaves the dot or opens the flower picker, where a
+ * and a cloud tapped. It fails where a tap leaves no dot, one off its
+ * parent or one no tap reaches, where a pick-up leaves the dot or opens the flower picker, where a
  * spore sprouts before the dark sets in, or where one is still lying, or its
  * sprout is not up or not its parent's species, once the window has passed;
  * how they look is for the eye, in the frames.
@@ -79,10 +79,11 @@ export async function playSprouts(
     sown.spores.length === TAPS,
     `${String(TAPS)} taps on ${front} sowed ${String(sown.spores.length)} spores`,
   );
-  for (const { id, parent, shown, apart } of sown.spores) {
+  for (const { id, parent, shown, at, apart } of sown.spores) {
     note(`${id} of ${parent}: ${apart?.toFixed(2) ?? 'no parent'} apart`);
     expect(parent === front, `${id} is of ${parent}, not ${front}`);
     expect(shown, `${id} is not drawn once landed`);
+    expect(at !== null, `no tap reaches ${id}: something is drawn over it`);
     expect(
       apart !== null && apart <= SPROUT_REACH * SLACK,
       `${id} lies ${apart?.toFixed(2) ?? 'with no parent'} clump sizes off ${parent}`,

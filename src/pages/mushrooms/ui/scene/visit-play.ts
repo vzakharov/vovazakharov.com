@@ -34,8 +34,11 @@ export { tapTarget } from './mushroom-tap';
 /** The meadow as it stands. */
 type Meadowed = { meadow: Meadow };
 
-/** A stand, and the meadow it stands. */
-export type Opened = Stand & Meadowed;
+/**
+ * A stand, the meadow it stands, and the meadow as the last shower found it,
+ * every spore of its round lying (the meadow itself with no shower).
+ */
+export type Opened = Stand & Meadowed & { sowed: Meadow };
 
 /** How long a shower in `opened` waits after the last: its rain, then every sprout grown old. */
 const SHOWER_EVERY = RAIN_MS + SPORE_FALL_MS + SPROUT_MS;
@@ -82,6 +85,7 @@ export function opened(
       ...foot,
     });
   }
+  let sowed = meadow;
   for (const index of Array.from({ length: showers }).keys()) {
     const now = index * SHOWER_EVERY;
     for (const { id } of meadow.mushrooms) {
@@ -91,10 +95,11 @@ export function opened(
         view: () => view,
       }));
     }
+    sowed = meadow;
     meadow = reduce(meadow, { kind: 'rain', now });
     meadow = sproutedInRain(meadow, now + RAIN_MS);
   }
-  return { meadow, ...standOf(layout, flowers, meadow) };
+  return { meadow, sowed, ...standOf(layout, flowers, meadow) };
 }
 
 /**
