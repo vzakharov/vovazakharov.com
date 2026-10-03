@@ -2,6 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { RAIN_MS, rainbow, wetness } from '../../model/weather';
+import { meadowLayout } from './layout';
+import { PALETTE } from './palette';
+import { azimuthAt } from './panorama';
 import {
   cloudAt,
   cloudDarkness,
@@ -10,10 +13,12 @@ import {
   nextShowers,
   NO_SHOWERS,
   RAINBOW_OUT_MS,
+  rainbowArc,
   rainbowShown,
   wetnessShown,
 } from './rain-sky';
 import { TAP_RADIUS } from './tap-reach';
+import { VIEWPORTS } from './viewports';
 
 const first = { startedAt: 0, stopsAt: RAIN_MS };
 
@@ -124,4 +129,23 @@ describe('cloudAt', () => {
   it('leaves a cloud off the screen alone', () => {
     assert.equal(cloudAt({ x: 100, y: 60 }, [undefined]), undefined);
   });
+});
+
+describe('rainbowArc', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    const layout = meadowLayout(width, height, 1);
+    const arc = rainbowArc(layout);
+    const { camera, sun, horizon, nearHills } = layout;
+
+    it(`stands opposite the sun round the sky on the ${name}`, () => {
+      const apart = azimuthAt(camera, arc.x) - azimuthAt(camera, sun.x);
+      assert.ok(Math.abs(apart - Math.PI) < 1e-9);
+    });
+
+    it(`rises well clear of the horizon on the ${name}, its top on the screen`, () => {
+      assert.ok(arc.y - arc.r >= 0);
+      assert.ok(horizon - (arc.y - arc.r) >= 0.2 * nearHills);
+      assert.ok(arc.r - PALETTE.rainbow.length * arc.band > 0);
+    });
+  }
 });

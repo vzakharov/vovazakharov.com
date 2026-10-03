@@ -25,6 +25,7 @@ import {
   type Layer,
   paintClouds,
   paintGlow,
+  paintRainbow,
   paintSky,
   paintSun,
   paintWash,
@@ -55,7 +56,7 @@ type Turning = { columns: Picture; home: Span; offsets: number[] };
  * The backdrop as the screen shows it. The bare sky and the ground's rows and
  * grain stand fixed on the screen, which a step or a turn leaves as they are;
  * the glow, the sun and its wash are pictures `follow` slides to where the
- * view shows the sun; the clouds go to their azimuths through the view, and
+ * view shows the sun, and the rainbow to where it shows the sky opposite; the clouds go to their azimuths through the view, and
  * the hills and the brow are redrawn through it whenever its heading changes.
  * The ground's pictures, the brow's included, bob with the beds
  * (`GROUND_BOB`). `layers`, the off-list graphics the pictures are baked from,
@@ -65,6 +66,8 @@ export type Backdrop = Following & {
   sky: Picture;
   glow: Turning;
   sun: Turning;
+  /** The rainbow opposite the sun, shown by its columns' alpha as a shower ends (`rain-view.ts`). */
+  rainbow: Turning;
   clouds: Phaser.GameObjects.Graphics[];
   /** Each cloud's dark twin, placed with it and shown by its alpha as it rains (`rain-view.ts`). */
   rainClouds: Phaser.GameObjects.Graphics[];
@@ -160,8 +163,8 @@ function aboutTheSun(
 
 /**
  * Everything behind the grass: sky, its glow round the sun, the sun, clouds,
- * three hill ranges, the ground and its brow, the sun's wash over the sky and the ground's
- * grain. `random` shapes the opening screen's clouds, the hills, the ground's
+ * the rainbow opposite the sun, three hill ranges, the ground and its brow,
+ * the sun's wash over the sky and the ground's grain. `random` shapes the opening screen's clouds, the hills, the ground's
  * mottling and the grain, so the same source repaints the same meadow. It
  * paints into `existing` and adds only what is missing, so a repaint keeps
  * the objects — and whatever is moving them — and the view and the drift
@@ -234,6 +237,8 @@ export function paintBackdrop(
   const groundRows = paintGround(groundLayer, layout);
   const washLayer = layer();
   paintWash(washLayer, layout);
+  const rainbowLayer = layer();
+  const arch = paintRainbow(rainbowLayer, layout);
   const grain = paintGrain(
     scene,
     existing?.grain,
@@ -257,7 +262,7 @@ export function paintBackdrop(
     how: Omit<Bake, 'depth'>,
   ) => bake(scene, was, scratch, { ...how, depth: DEPTHS[picture] }, ratio);
   const turning = (
-    picture: 'glow' | 'sun' | 'wash',
+    picture: 'glow' | 'sun' | 'wash' | 'rainbow',
     how: Omit<Bake, 'depth'>,
   ): Turning => {
     const columns = baked(picture, existing?.[picture].columns, how);
@@ -282,6 +287,24 @@ export function paintBackdrop(
   for (const column of wash.columns) {
     column.setBlendMode(Phaser.BlendModes.SCREEN);
   }
+  // A repaint keeps how strongly the rainbow showed; a new one starts unseen.
+  const rainbowAlpha = existing?.rainbow.columns[0]?.alpha ?? 0;
+  const [archLeft, archRight] = onPixels(
+    arch.x - arch.r - arch.band,
+    arch.x + arch.r + arch.band,
+    ratio,
+  );
+  const [archTop, archBottom] = onPixels(
+    arch.y - arch.r - arch.band,
+    arch.y,
+    ratio,
+  );
+  const rainbow = turning('rainbow', {
+    span: { left: archLeft, across: archRight - archLeft },
+    rows: { top: archTop, bottom: archBottom },
+    sources: [rainbowLayer],
+  });
+  for (const column of rainbow.columns) column.setAlpha(rainbowAlpha);
   const backdrop: Backdrop = {
     sky: baked('sky', existing?.sky, {
       span: screen,
@@ -297,6 +320,7 @@ export function paintBackdrop(
       ...aboutTheSun(layout, rays, ratio),
       sources: [sunLayer],
     }),
+    rainbow,
     clouds,
     rainClouds,
     hills: hillLayers,
@@ -319,6 +343,7 @@ export function paintBackdrop(
       for (const picture of [backdrop.glow, backdrop.sun, backdrop.wash]) {
         turn(picture, view, sun.x);
       }
+      turn(backdrop.rainbow, view, arch.x);
       placeClouds(backdrop, layout);
       raiseHills(backdrop, hills, blades, view);
     },

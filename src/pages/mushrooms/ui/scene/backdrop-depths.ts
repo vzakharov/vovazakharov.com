@@ -7,6 +7,7 @@ export const DEPTHS = {
   glow: -8,
   sun: -7,
   clouds: -6,
+  rainbow: -5.5,
   farHills: -5,
   nearHills: -4,
   ground: -3,
