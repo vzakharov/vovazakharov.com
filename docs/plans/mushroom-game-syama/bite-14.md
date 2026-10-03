@@ -119,6 +119,16 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     leave the opening pair two seats of four on every seed; the to-check.md
     line keeps it for the operator's eye.
 
+27. **The take-off pivot of a shelter dash is floored, not the pace raised
+    alone** (A1, `a1.md`): the pivot's peak turn is 8π over its time, so
+    no pace short of the dry one held; legs to a shelter time their pivot
+    as at least `Sheltering.pivoting` (2700 ms for the butterfly), the
+    `flying` low end raised to 1500 too. tabL's take-off now peaks 8.72.
+    One frame of a mid-flight re-target at the rain's start (call 8) draws
+    10.90 against 10.81 — 0.8 % over for one frame, nothing a child sees,
+    and no committed play measures it: accepted, not traced. A1's scratch
+    play is `play-zzshower.ts.txt` beside the notes.
+
 ## Packages and waves
 
 - **Wave 1, in parallel: S1** shelter's model (spec-shelter § 5 step 1) and
@@ -154,7 +164,7 @@ holds its detail.
 
 ## Left, in order
 
-1. **Call 22**: slow the butterfly's rain take-off and re-measure with
+1. **Done** (A1 addafa1, 46ca7fc; call 27). Was: **call 22**: slow the butterfly's rain take-off and re-measure with
    S4's play (`s4.md` says how to rebuild it); then the full
    `fliers.test.ts` once.
 2. **Done** (A2 e671c74, 2b47ed9; call 26). Was: **call 24**: withhold covered shelter seats; re-shoot `--plays rain`.
