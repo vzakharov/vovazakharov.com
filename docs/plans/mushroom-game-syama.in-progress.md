@@ -165,6 +165,12 @@ a tap opening a two-stage picker (colour, then shape) whose exact flower
 grows there (bite-10.md), or a note key plants the flower that sounds it.
 A long press on a flower opens the picker on it, ringed, with a cross: a
 pick or a key replaces it, the cross pulls it, leaving a tuft (bite-12.md).
+A tap on a cloud wobbles it and starts a shower (bite-13.md): that cloud
+darkens first, the sky and meadow dim under a wash, the sun fades to half,
+drops fall out of the clouds and splash on the grass and the caps, flowers
+fold into buds that still play, caps swell, and it hisses and patters; a
+tap while it rains adds a gush and lengthens it. When it stops a rainbow
+stands opposite the sun, behind her on the opening view.
 A mute pictogram sits top left.
 
 **Pure model, reconciling scene.** `model/` is Phaser-free and under
@@ -180,7 +186,20 @@ so a resize repaints into the objects on screen and never interrupts one.
 `D_SEE`, `INSECT_LIMITS` the fliers; and `Meadow.pulled` remembers every
 flower pulled up or replaced. `meadow-scene.ts` only orchestrates the beds —
 `mushroom-bed.ts`, `flower-bed.ts`, `insect-view.ts`, `house-view.ts`,
-`controls.ts`, `hud.ts` — with `arrivals.ts` and `perches.ts` beside it.
+`controls.ts`, `hud.ts`, `rain-view.ts` — with `arrivals.ts`, `perches.ts`
+and `meadow-listeners.ts` (its event wiring) beside it.
+
+**Rain.** The shower is model state (`model/weather.ts`, `Meadow.rain`, the
+`rain` action: `wetness`, `downpour`, `rainbow` as functions of the clock);
+which cloud was tapped is the scene's. `rain-view.ts`'s `RainView` drives
+the shower each frame and owns its one wetness, the wetter of the last two
+spans (`rain-sky.ts`, which holds every level), which the wash, the clouds'
+dark twins, the sun, both beds and the sound all read. Drops are a pool
+(`rain-drops.ts`, pure parts in `rain-fall.ts`) landing on the plane or on
+a drawn cap, hidden under a cloud's puffs (`cloud-puffs.ts`, which also
+gives a cloud's tap reach). Flowers close by 12 steps into a bud
+(`flower-closing.ts`), their perches following it (`flower-seat.ts`); caps
+swell about their foot. The sound is `rain-voice.ts`.
 
 **The world, the eye, the view.** One world `WORLD_ACROSS` (5.764) ground
 units across on every screen (`ui/scene/meadow-camera.ts`). Every stored
@@ -202,8 +221,8 @@ the snapped eye (`model/anchor.ts`, `anchoredGround`) and reads only what
 stands near it (bite-12b.md). Light turns with the heading
 (`headedLight`), each bed relighting through its repaint queue. The camera's `scrollY` is only the walk's bob. Past
 `D_SEE` a thing sinks under a round brow by its distance (`brow.ts`) and
-pales; haze follows distance through `repaint-queue.ts`. The sun, glow, wash
-and clouds stand at azimuths (`panorama.ts`), the hills are live round 360°,
+pales; haze follows distance through `repaint-queue.ts`. The sun, glow, wash,
+clouds and rainbow stand at azimuths (`panorama.ts`), the hills are live round 360°,
 the ground screen-fixed rows that, with the brow, take the walk's bob
 (bite-12.md), dappled by mottles on the plane (`mottles.ts`).
 
@@ -264,8 +283,9 @@ export (`NEXT_PUBLIC_MUSHROOM_PROBE`) and drives every control over the
 DevTools protocol on tabL, tabP, phoneP, phoneL and phoneS
 (`scripts/lib/play-*.ts`, the probe and its schema in
 `scripts/lib/mushroom-probe.ts`, which reads the eye: `__probe.eye()`,
-`sun()`, `toScreen`/`toWorld`). Its plays — meadow, walk, planting,
-species, tufts, hold, approach — each start on a fresh meadow (`--plays` picks them).
+`sun()`, `toScreen`/`toWorld`, `rain()`, `clouds()`, `rainbowAt()`). Its
+plays — meadow, walk, planting, species, tufts, hold, approach, rain — each
+start on a fresh meadow (`--plays` picks them).
 It fails on a page error, a wrong effect, a flier turning or relit too fast
 (`flier-watch.ts`), a pop while walking (`play-walk.ts`) or a median frame
 past 26 ms (`frame-budget.ts`), the approach also holding the lawn's share of
@@ -280,8 +300,11 @@ visits on every `VIEWPORTS` screen. The suite runs a file at a time,
 under `tmp/mushroom-artifact/`, Phaser from jsDelivr at the lockfile's
 version, republished in place at the URL on the PR.
 
-**What the next bites stand on.** Rain's weather is model state already
-built (`model/weather.ts`, `Meadow.rain`; the rest in `rain.md`). Dusk is a
+**What the next bites stand on.** The aftermath reads the shower from the
+model (`Meadow.rain`'s `stopsAt`, `model/weather.ts`'s `raining`), so the
+reducer's `tick` needs nothing of the scene; shelter is a perch: `flight-habits.ts`
+picks it, `perch-sight.ts` and `perch-room.ts` keep it near the eye and
+single. Dusk is a
 second set of `palette*.ts` colours through the baked backdrop and
 `sunLight`, lit windows in `draw-house.ts`, mice from the house's peek
 motion, fireflies a fourth `INSECT_KINDS` entry. Around the canvas, reduced
@@ -304,16 +327,7 @@ The bites, each file its full contract:
 11. **A wider meadow, panned** — [bite-11.md](mushroom-game-syama/bite-11.md)
 12. **Walking the meadow** — [bite-12.md](mushroom-game-syama/bite-12.md)
 13. **The meadow has no edge** (12b) — [bite-12b.md](mushroom-game-syama/bite-12b.md), contract [endless-field.md](mushroom-game-syama/endless-field.md), its review [bite-12b/review.md](mushroom-game-syama/bite-12b/review.md), frame cost [bite-12b/frame-cost.md](mushroom-game-syama/bite-12b/frame-cost.md)
-
-## Rest of the bite
-
-13. **Rain** — the shower itself; what it leaves behind is item 14. The
-    contract is [rain.md](mushroom-game-syama/rain.md), the model built
-    (5c9f2e9); the scene's calls, the packages, what is built and what is
-    left are [bite-13.md](mushroom-game-syama/bite-13.md). Built: the
-    cloud tap, the darkening and wash, drops and splashes, flowers closing
-    to buds, caps swelling, the sound, the rainbow. Left: the play, small
-    fixes, the review, the tail (`bite-13.md` § "Left").
+14. **Rain** — [bite-13.md](mushroom-game-syama/bite-13.md), its review [bite-13/review.md](mushroom-game-syama/bite-13/review.md)
 
 ## Rest of the elephant
 
@@ -343,9 +357,10 @@ re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
 `airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
 anchors, or slice it as `Tended` slices the lawn).
 
-14. **After the rain.** While it rains, insects shelter under the nearest
-    cap (a perch in `flight-habits.ts`, clear of the world's edge as every
-    perch is, `perch-sight.ts`); when it stops, spores an old mushroom shed
+14. **After the rain.** While it rains (the model's `raining`, not the
+    scene's wetness), insects shelter under the nearest cap (a perch in
+    `flight-habits.ts`, clear of the world's edge as every perch is,
+    `perch-sight.ts`); when it stops, spores an old mushroom shed
     sprout into little mushrooms that grow over the next minutes through
     `pickFoot` and `roomFor`, within `MUSHROOM_SLOTS` — the first thing the
     reducer's `tick` grows.

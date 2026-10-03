@@ -3,8 +3,8 @@
 The shower itself, per [rain.md](rain.md), whose behaviour is the contract;
 what the shower leaves behind is item 14. The model is built (`model/weather.ts`,
 `Meadow.rain`, the `rain` action). This file holds the calls rain.md leaves to
-the scene, settled before any brief, and the packages they cut into. Paths are
-under `src/pages/mushrooms/`.
+the scene, the packages they cut into, what was built and the review's
+outcomes. Paths are under `src/pages/mushrooms/`.
 
 ## Calls
 
@@ -119,41 +119,127 @@ Wave 2, once R1 has landed:
   mid-shower and open after, the 26 ms budget held with the drops falling.
   A game red is fixed by the run; a harness red goes to `to-check.md`.
 
-Then the tail: the review subagent, its fixes, frames, `/polish`, the
-Artifact.
+Then: **R1b** (R1's dark-twin fix and the rainbow), **R6** (call 13),
+**R7** (call 11 and the rainbow), **F** (small fixes and call 15), **T**
+(`pnpm type-overlap` clean); the review (two reviewer agents) and its fixes
+in **X1** and **X2**; the tail.
 
 ## Built
 
-Each package's hand-over note under `docs/remove-before-merging/bite-13/`
-(`r1`–`r4`, `r6`, `r7`) holds its commits and its own calls; frames in
-`docs/remove-before-merging/frames/bite-13/`.
+Frames in `docs/remove-before-merging/frames/bite-13/`. Modules under
+`ui/scene/`.
 
-- **R1, R1b** — the cloud tap, the dark twins (one picture each through a
-  filter camera while they fade, so no puff rings), the wash, the probe's
-  `rain()` and `clouds()`; levels pure in `rain-sky.ts`.
-- **R2, R6** — flowers fold into a standing bud (`flower-closing.ts`,
-  `BUD`), repainted on 12 steps, ≤ 6 heads a frame; caps swell about the
-  foot, the tap area with them (Phaser tests in the drawing's frame), the
-  gene outline not.
-- **R3** — `rain-voice.ts`: hiss, three patter layers joining with
-  `downpour`, whoosh; ~12 dB under a flower note above 300 Hz.
-- **R4** — `rain-drops.ts`, `rain-fall.ts`: 120 drops, 160 pool slots,
-  landing rows even across the screen (even by ground distance crowds the
-  brow), caps found through `hit-areas.ts`'s `drawnMushrooms`; 13 ms median
-  on tabL with drops falling.
-- **R7** — one wetness a frame to both beds; the rainbow, its radius
-  floored at 0.6 of the near hills so a tall phone's arch clears the far
-  hills.
+**The sky (R1, R1b, R7, F).**
 
-## Left
+- `rain-sky.ts`, pure and tested, holds the levels: `wetnessShown` (the
+  wetter of the last two spans, call 11), `cloudDarkness` (the cloud that
+  started the shower first, the rest lagging by azimuth up to 600 ms on
+  `wetness`'s own curve), `rainbowShown`, `rainbowArc`, `sunShown`
+  (`1 − 0.5 · wet`, call 15), `cloudAt` and `CLOUD_SPREAD`.
+- `rain-view.ts`'s `RainView` drives it all from one `update` a frame and
+  owns the frame's one `wetness`. `lead` (the cloud that started the
+  shower, which the others darken after) is kept apart from `tapped` (the
+  last tapped, which the drops fall densest under), so a restart elsewhere
+  does not reshuffle the darkening. Every cloud tap wobbles the cloud.
+- The dark twins are `Backdrop.rainClouds`, each created straight after its
+  cloud at the same depth. A Graphics' alpha falls on each puff, so a
+  half-faded twin showed its puffs' overlaps as rings: while it fades a
+  twin renders whole through its filter camera
+  (`setFiltersForceComposite`, one screen-sized framebuffer per twin on
+  screen); the canvas renderer has no filters and keeps plain alpha. The
+  wash is one screen-fixed rectangle at `HUD_DEPTH - 2`; the drops are at
+  `HUD_DEPTH - 1`.
+- The rainbow is `Backdrop.rainbow`, seven bands stroked outermost first.
+  Its radius is `min(0.8 · nearHills, max(0.42 · width, 0.6 · nearHills))`:
+  without the 0.6 floor a tall phone's arch stood wholly behind the far
+  hills' crests. Depth −6.5, between the sun (−7) and the clouds (−6).
+- The sun and glow take `sunShown` as alpha. At half alpha the sun reads
+  see-through more than veiled; a grey tint would be a palette colour and a
+  second bake (`to-check.md`).
 
-1. **R5, the play** (as above), now with the drops.
-2. **Small fixes, one agent:** the gush on a restart tap reads small (it
-   should get its own room above the steady 96, `r4.md`); the shower's
-   sound reads the model's wetness, not `RainView.wetness` (call 11 covers
-   it); the rainbow is drawn over the clouds (depth −5.5 above −6) — it
-   goes behind them; `meadow-scene.ts` at 451 back under 450.
-3. **The review subagent** over the bite's commits (from 2ef49b60), then
-   its fixes.
-4. **The tail**: frames (retire 12b's), fold into `## Eaten so far`,
-   `/polish`, `/pr`, the Artifact.
+**The meadow wets (R2, R6, R7).**
+
+- `flower-closing.ts`: `closingStep` (one of 12), `closingsDue` (at most 6
+  heads a frame, drawn before hidden, nearest first), and the bud (call
+  13): `BUD` — 1.35 of the open head's 2.0 height, petals 1.35× as wide,
+  the centre gone under them by 1/1.6 shut so no dot shows — and
+  `petalPose`, swinging each petal to standing the short way round.
+  `PetalPose` is a labelled tuple, since an object of
+  `foot`/`angle`/`length` overlaps `Footed`, `Mottle` and `Wing` under
+  `pnpm type-overlap`. `draw-flower.ts` paints the petals at their poses in
+  the open colour; `flower-shown.ts` repaints a head alone in its last
+  light.
+- `flower-seat.ts` (tested): `foldedHead` gives the perches — the bee's rim
+  closing to the bud's foot, the butterfly's centre rising to its tip. The
+  tap reach stays the open head's, so a closed flower plays.
+- Caps swell (call 7) by the scale `MushroomBed` already sets about the
+  foot, `RAIN_SWELL` 0.06. The Phaser hit area is in the graphics' frame,
+  so it grows with the drawing as with breathing; only the gene outline
+  (`mushroom-outline`, which drops and flower yielding read) stays
+  unscaled.
+- Both beds' `update` take the frame's `wetness`, not the span;
+  `rain.update` runs before them.
+
+**Drops and splashes (R4, F, X2).**
+
+- `rain-fall.ts`, pure and tested: where a drop falls (`dropColumn`: half
+  in the tapped cloud's span while it shows), what it lands on
+  (`firstCrossing`), where it first shows (`shownFrom`), and how many
+  start: 96 steady, a restart tap's gush of 24 in its own room above them,
+  120 at most.
+- `rain-drops.ts`'s `RainDrops`: 160 pool slots of a streak and a ring, so
+  landed rings never starve the drops. A drop starts above y 0 (not
+  `worldView.y`, which the device ratio's zoom offsets), slanted, and lands
+  where picked at its start: a row uniform in screen rows between the brow
+  and the screen's foot (uniform in ground distance crowds the brow), put
+  on the plane, or the first drawn cap its path crosses (`hit-areas.ts`'s
+  `drawnMushrooms`, which the flower hit test shares). The landing is
+  re-placed every frame, so a splash stays put as the child turns and
+  walks.
+- `cloud-puffs.ts` holds the puff layout `paintClouds` reads and its widest
+  reach, any shaping, any sun (2.78 r across, 1.22 r below);
+  `CLOUD_SPREAD` is that reach, so taps, drops and the probe follow the
+  drawn puffs. A drop under a showing cloud is hidden till it clears the
+  cloud's underside — hidden, not started there, which would have a
+  shower's first drops appear in one row.
+- `RainDrops.start`'s `if (!foot)` never fires: every landing row lies
+  under the horizon on any camera.
+
+**The sound (R3, F).** `rain-voice.ts`'s `RainVoice`: a brown-noise hiss
+under 450 Hz, and a patter of three baked tick loops, layer k at
+`clamp(3·downpour − k, 0, 1)`, so the rate follows `downpour` with no node
+per tick; both levelled by the scene's wetness, so a restart while the last
+shower dries keeps the hiss. A steady shower touches no node; the graph is
+let go on the first dry frame. `whoosh` on every cloud tap. An ad hoc
+`OfflineAudioContext` render put a full shower ~12 dB under a C5 note above
+300 Hz.
+
+**The play (R5, X1).** `scripts/lib/play-rain.ts` (`--plays rain`) taps a
+cloud, checks drops falling and flowers shut mid-shower and open after,
+then holds `→` until `__probe.rainbowAt()` is mid-screen and the rainbow
+shows. It times frames one at a time against `FRAME_BUDGET_MS` over the
+closing ramp, mid-shower and the reopening (tabL 16.1 / 18.9 / 13.0 ms
+median). `__probe.rain()`'s `closing` is the fold the paint recorded.
+
+**The scene and types (F, T).** `meadow-scene.ts` (446 lines) wires the
+rain bed; its event wiring is `meadow-listeners.ts`'s `listenOnMeadow`.
+`WithTapArea` (`mushroom-tap.ts`) is the one home of a mushroom's `area`;
+`Slot`'s fields are `droppedAt`, `splashedAt` and `nearness`, renamed
+rather than based since they share only a name with `KeySown.at`,
+`Turns.landed` and `Scaled.size`.
+
+## The review
+
+Its calls, each with the alternative it beat:
+[bite-13/review.md](bite-13/review.md). Outcomes:
+
+1. B1 — `Shown.headR` is the open head's radius; the folded reach is
+   `Shown.perch`, which only `FlowerBed.seat` reads (cea5c240).
+2. B2 — `drawHead` records the `Folding` it painted as `shown.painted`;
+   `closing()` averages it, and a broken `drawHead` fails the play
+   (d3a911c8).
+3. B3 — the play times the closing and reopening ramps too (fe968caf).
+4. A1 — a cloud takes taps over its drawn puffs (74c5eec1).
+5. A2 — rain falls out of the cloud, never over it (f0b88ecb).
+6. A's hunch — the groundless drop never happens; left as it is
+   (1607713b).
