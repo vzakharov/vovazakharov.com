@@ -5,11 +5,17 @@ import { pick } from '@/shared/lib/collections';
 import type { Action } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import { widthFor, wobble } from '../../model/motion';
-import { type Rain, raining } from '../../model/weather';
+import {
+  downpour,
+  type Rain,
+  raining,
+  wetness as wetnessOf,
+} from '../../model/weather';
 import type { MeadowLayout } from './layout';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
 import { driftedAzimuth } from './panorama';
+import { RainDrops } from './rain-drops';
 import {
   cloudAt,
   cloudDarkness,
@@ -22,6 +28,7 @@ import {
   WASH_DEEPEST,
   wetnessShown,
 } from './rain-sky';
+import type { MeadowSound } from './sound';
 
 /**
  * Shows a cloud's dark `twin` at `darkness`. A graphics' own alpha falls on
@@ -39,6 +46,9 @@ function shade(twin: Phaser.GameObjects.Graphics, darkness: number): void {
 /** How the sky stands this frame, as the probe reads it. */
 export type SkyShown = { raining: boolean; wetness: number; rainbow: number };
 
+/** What the rain asks of the meadow's sound: the shower's hiss, and the whoosh a cloud tap answers with. */
+type RainSound = Pick<MeadowSound, 'shower' | 'whoosh'>;
+
 /**
  * The rain over the meadow: the cloud taps that start a shower, each cloud's
  * dark twin crossfaded in, the tapped cloud first, the slate wash over
@@ -53,6 +63,8 @@ export class RainView {
   /** The scene's clock, in seconds. */
   private readonly now: () => number;
   private readonly dispatch: (action: Action) => void;
+  private readonly sound: RainSound;
+  private readonly drops: RainDrops;
   private layout: MeadowLayout | undefined;
   private backdrop: Backdrop | undefined;
   private showers: Showers = NO_SHOWERS;
@@ -74,9 +86,12 @@ export class RainView {
     hudDepth: number,
     now: () => number,
     dispatch: (action: Action) => void,
+    sound: RainSound,
   ) {
     this.now = now;
     this.dispatch = dispatch;
+    this.sound = sound;
+    this.drops = new RainDrops(scene, hudDepth - 1);
     this.camera = scene.cameras.main;
     this.wash = scene.add
       .rectangle(0, 0, 1, 1, PALETTE.rainWash)
@@ -126,15 +141,21 @@ export class RainView {
     if (index === undefined) return false;
     const t = this.now();
     const ms = t * 1000;
-    if (!raining(this.showers.span, ms)) this.lead = index;
+    const restart = raining(this.showers.span, ms);
+    if (!restart) this.lead = index;
     this.tapped = index;
     this.wobble(index, t);
     this.dispatch({ kind: 'rain', now: ms });
+    this.sound.whoosh();
+    if (restart && this.backdrop) {
+      this.drops.gush(t, this.placed()[index], this.backdrop.view);
+    }
     return true;
   }
 
   /** Sets the sky for the frame at the scene's clock, under the meadow's span `rain`. */
   update(rain: Rain | undefined): void {
+    this.hear(rain);
     const { backdrop, layout, wash, now } = this;
     if (!backdrop || !layout) return;
     const t = now();
@@ -159,6 +180,13 @@ export class RainView {
       column.setAlpha(RAINBOW_DEEPEST * rainbow);
     }
     this.sway(t);
+    const { tapped, drops } = this;
+    drops.update(
+      t,
+      downpour(rain, ms),
+      tapped === undefined ? undefined : this.placed()[tapped],
+      backdrop.view,
+    );
     this.shown = { raining: raining(showers.span, ms), wetness, rainbow };
   }
 
@@ -172,7 +200,13 @@ export class RainView {
 
   /** How many drops are falling now. */
   dropsInAir(): number {
-    return 0;
+    return this.drops.inAir();
+  }
+
+  /** Sets the shower's sound for the frame, rain or not, under the meadow's span `rain`. */
+  private hear(rain: Rain | undefined): void {
+    const ms = this.now() * 1000;
+    this.sound.shower(downpour(rain, ms), wetnessOf(rain, ms));
   }
 
   private wobble(index: number, t: number): void {

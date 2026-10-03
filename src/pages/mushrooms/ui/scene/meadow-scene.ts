@@ -154,7 +154,13 @@ export class MeadowScene extends Phaser.Scene {
       this.now,
       HUD_DEPTH,
     );
-    this.rain = new RainView(this, HUD_DEPTH, this.now, this.scened.dispatch);
+    this.rain = new RainView(
+      this,
+      HUD_DEPTH,
+      this.now,
+      this.scened.dispatch,
+      this.voice,
+    );
     this.paint();
     this.bed.reconcile(this.meadow, this.requireLayout(), this.clock, true);
     this.scale.on(Phaser.Scale.Events.RESIZE, this.paint, this);
