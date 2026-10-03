@@ -33,6 +33,7 @@ import { type PerchHosts, restingOn } from './perch-hosts';
 import { perchAnchorOf, Perches } from './perches';
 import { Planter, type Scened } from './planter';
 import { RainView } from './rain-view';
+import { shedNow } from './shedding';
 import { MeadowSound, readMuted } from './sound';
 import { Grass } from './tufts';
 import { type View, viewAt } from './view';
@@ -189,13 +190,14 @@ export class MeadowScene extends Phaser.Scene {
     if (this.sown) this.sow();
     const t = this.clock;
     const { layout, backdrop, grass, flowers, bed, meadow } = this;
-    const { controls, insects, perches, rain } = this;
+    const { controls, insects, perches, rain, scened } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
     this.dispatch({
       kind: 'tick',
       now: time,
       ...this.sightNow(),
+      shed: shedNow(scened, bed, time),
     });
     driftClouds(backdrop, layout, t);
     rain?.update(meadow?.rain);

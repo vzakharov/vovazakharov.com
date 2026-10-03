@@ -26,8 +26,8 @@ import {
   tapArea,
   toCanvas,
 } from '../../model/mushroom-outline';
-import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
-import { capSurface } from '../../model/mushroom-profile';
+import { capSeat, splayed } from '../../model/mushroom-pose';
+import { sproutScale } from '../../model/sprouting';
 import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
@@ -46,8 +46,10 @@ import {
 } from './mushroom-shown';
 import type { Seat } from './perch-hosts';
 import { hazeAhead, repaintsDue } from './repaint-queue';
+import { footShown } from './shedding';
 import type { MeadowSound } from './sound';
-import { drawnSize, puffFrom, puffSpores } from './spores';
+import { crownOf, driftSpores } from './spore-drift';
+import { drawnSize, puffFrom } from './spores';
 import type { Following, View } from './view';
 
 /** Above everything in the meadow, whose depth is where its foot stands. */
@@ -118,23 +120,15 @@ export class MushroomBed implements Following {
       this.voice.sink();
     }
     const planted = new Set<string>();
+    const born: Shown[] = [];
     for (const mushroom of mushrooms) {
       if (this.shown.has(mushroom.id)) continue;
       const shown = this.show(mushroom, opening ? -Infinity : clock);
       this.place(shown, mushroom, layout);
       planted.add(mushroom.id);
-      if (!opening) {
-        puffSpores(
-          this.scene,
-          () => ({
-            ...pick(shown.graphics, 'x', 'y'),
-            r: drawnSize(shown) * 0.5,
-          }),
-          SPORE_DEPTH,
-        );
-        this.voice.grow();
-      }
+      if (!opening) born.push(shown);
     }
+    driftSpores(this.scene, this.voice, born, this.shown, SPORE_DEPTH);
     // A door going in is seated among the mushrooms standing now; one
     // already in stays where it is, whatever grows in front of it since.
     this.seatDoors(
@@ -179,6 +173,11 @@ export class MushroomBed implements Following {
     }
     this.seatDoors(meadow.mushrooms, layout, (shown) => shown.house.doored);
     this.selection.paint(this.lit());
+  }
+
+  /** Whether `id`'s foot is on the screen the bed last followed (`footShown`). */
+  inSight(id: string): boolean {
+    return footShown(this.shown.get(id)?.stands, this.view);
   }
 
   /**
@@ -231,9 +230,13 @@ export class MushroomBed implements Following {
         tappedAt,
         phase,
         turn,
-        stands: { zoom },
+        sprout,
+        stands: { zoom, drawn },
       } = shown;
-      const grown = Math.min(emerge(t - plantedAt), sink(t - goneAt)) * swell;
+      // A sprout stands hidden while its spores fall.
+      const young = sproutScale(sprout, t * 1000);
+      const grown =
+        Math.min(emerge(t - plantedAt), sink(t - goneAt)) * swell * young;
       if (t - goneAt >= SINK_DURATION) {
         graphics.destroy();
         shadow.destroy();
@@ -248,12 +251,15 @@ export class MushroomBed implements Following {
           widthFor(stretch) * grown * zoom,
           (1 + stretch) * grown * zoom,
         )
-        .setRotation(turn + bounce * WOBBLE_ROCK);
+        .setRotation(turn + bounce * WOBBLE_ROCK)
+        .setVisible(drawn && young > 0);
       house.update(t, shown);
-      shadow.setScale(
-        (1 + Math.max(0, -stretch) * SHADOW_SPREAD) * grown * zoom,
-        grown * zoom,
-      );
+      shadow
+        .setScale(
+          (1 + Math.max(0, -stretch) * SHADOW_SPREAD) * grown * zoom,
+          grown * zoom,
+        )
+        .setVisible(drawn && young > 0);
       if (id === this.selected) this.selection.pose(shown);
     }
   }
@@ -416,11 +422,7 @@ export class MushroomBed implements Following {
     const shown = this.shown.get(id);
     if (shown?.goneAt !== Infinity) return;
     shown.tappedAt = this.now();
-    const crown = capFrame(shown.genes)({
-      x: 0,
-      y: capSurface(shown.genes, 0) * 0.9,
-    });
-    puffFrom(this.scene, shown, crown, 0.75, SPORE_DEPTH);
+    puffFrom(this.scene, shown, crownOf(shown.genes), 0.75, SPORE_DEPTH);
     this.voice.boing(Math.min(1.4, 180 / drawnSize(shown)));
     this.onTap(id);
   }
