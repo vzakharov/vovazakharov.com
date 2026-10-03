@@ -146,8 +146,9 @@ sound.
 **What a child can do.** A drag past a 24 px slop steps her along the heading
 when it is vertical; within 45° of horizontal it turns her on the sky and
 strafes her on the ground, the ground staying under the finger, and a quick
-swipe glides on after the lift (`model/glide.ts`); held `←`/`→` turn and `↑`/`↓`
-walk, eased, with a bob and soft alternating footsteps. A tap wobbles a
+swipe glides on after the lift (`model/glide.ts`); held `←`/`→` turn, `↑`/`↓`
+walk and `z`/`c` strafe, any two at once, eased, with a bob and soft alternating
+footsteps; `.`/`/` step the keyboard's octave. A tap wobbles a
 mushroom, puffs spores and selects it; a full-grown one also drops a spore, a
 tiny white dot, on free ground near it, up to six, and a tap on a dot picks it
 up (bite-14.md). `+` opens a picker of four species — fly agaric, porcini,
@@ -155,8 +156,12 @@ chanterelle, russula — and grows the pick where it has room in the current vie
 up to twelve within sight and 96 on the field; where none does, facing bare
 ground included, `+` shakes its head with a "nuh-uh". `−` sinks the selected or
 the newest. The house button furnishes a cap with windows from Syama's row and
-its stem with a door, where a mouse now and then peeks out, or comes at once to
-a tap with a squeak. The butterfly, fly and bee buttons fly one in over the brow
+its stem with a door and a mouse sized to it. A tap on a door calls a mouse:
+when another house's door is near enough to be seen, one runs out of the
+fuller house in a loop across the grass and in at the emptier one, squeaking
+and hopping at a tap; else it peeks and hides. A tap on a window brings a worm
+that crawls over the cap to another window of the house, or peeks and hides
+(bite-15.md). The butterfly, fly and bee buttons fly one in over the brow
 (4/3/3 at most, the oldest leaving): butterflies drink at flowers and rest on
 caps, flies favour the fly agarics, bees carry pollen and plant a flower in a
 ring round one they visited. A tap on a resting insect sends it off and goes
@@ -307,10 +312,13 @@ runs a file at a time, `fliers.test.ts` alone (~354 s).
 `tmp/mushroom-artifact/`, Phaser from jsDelivr at the lockfile's version,
 republished in place at the URL on the PR.
 
-**What the next bites stand on.** A mouse run is the house's peek motion
-(`model/house.ts`, `house-view.ts`) carried along the plane to another door, the
-way a flier's leg is timed in its frame; a worm over a cap is the same, between
-`house.ts`'s windows. Dusk is a second set of `palette*.ts` colours through the
+**The house's dwellers.** Mouse counts, targets and taps are
+`model/mouse-run.ts`; a run's course and clock (`mouse-run-course.ts`,
+`mouse-run-clock.ts`) bow in drawn runners (`RUNNER_SPAN`), straight from the
+ground; `mouse-runs.ts` and `runner-shown.ts` draw them. A worm is
+`model/worm.ts`, `house-worm.ts`, `draw-worm.ts`.
+
+**What the next bites stand on.** Dusk is a second set of `palette*.ts` colours through the
 baked backdrop and `sunLight`, lit windows in `draw-house.ts`, mice out on those
 runs, fireflies a fourth `INSECT_KINDS` entry.
 
@@ -332,25 +340,9 @@ The bites, each file its full contract:
 14. **Rain** — [bite-13.md](mushroom-game-syama/bite-13.md), its review [bite-13/review.md](mushroom-game-syama/bite-13/review.md)
 15. **After the rain** — shelter, spores the child sows, sprouts, and the
     ground under the finger — [bite-14.md](mushroom-game-syama/bite-14.md)
-
-## Rest of the bite
-
-Item 15, **the house's dwellers** (the operator's asks in
-`mushroom-game-syama/bite-14.md` § "From the operator's play"): a mouse runs
-only to another door, a mouse is sized to its door, a window answers a tap
-with a worm. Calls, waves, build log: [bite-15.md](mushroom-game-syama/bite-15.md);
-briefs: `docs/remove-before-merging/bite-15/`. Built: every package
-(R1–R7, W1–W4), both reviews posted, the worms' fixed and replied to; of
-the runs' review, calls 29 (X1), 31 (X3) and 33, each replied to; the
-operator's calls 34 (K, keys) and 35 (D, the drag strafe). Left: call 30
-(a tap on a doorway holding a run's mouse, `mouse-runs.ts` tap handling
-and `model/mouse-run.ts`'s `answerTap`, thread 4173549175) and call 32
-(a re-target straight, and `retarget`'s far fallback, thread 4173549183) — one agent each, their functions granted by name since both
-touch `mouse-runs.ts` and `mouse-run.ts`; each replied to with its
-landed SHA. Then the tail — fold into `## Eaten so far` and a
-`bite-15.md` rewrite at its altitude, retire bite 14's frames and bite
-15's working notes (keep `frames/bite-15/`), republish the Artifact,
-`/polish` sized by changed lines (~3.7k since 9096cfb8), vet, `/pr`.
+16. **The house's dwellers** — mice run between doors, a mouse sized to its
+    door, worms between windows, keys that strafe while turning —
+    [bite-15.md](mushroom-game-syama/bite-15.md)
 
 ## Rest of the elephant
 

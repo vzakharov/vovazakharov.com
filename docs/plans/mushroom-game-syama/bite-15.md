@@ -238,7 +238,7 @@ is given up for it.
 
 ## Built
 
-Each package's hand-over note under `docs/remove-before-merging/bite-15/`
+Each package's hand-over note under `docs/remove-before-merging/bite-15/` (retired, `docs/remove-before-merging/retired.md`)
 holds its detail and the next step's API.
 
 - **R1** 305c2cbf — a mouse sized to its door, clipped to the doorway
@@ -332,14 +332,23 @@ holds its detail and the next step's API.
   from hop down to hop in, and its step 4 is the review's scenario (red on
   the old lookup, green on tabL and phoneP). A fleeing runner keeps the
   light its house had when it sank. Replied on 4173549169 and 4173549179.
+- **X4** 4f32576 — call 32: `courseOf` runs a ground opening straight
+  (`straightPath`) and a door opening through `pathBetween`; `RUN_LEAST`
+  holds only runs from a door, so a re-target from 0.2 clump sizes takes
+  ~0.88 s. `retarget` answers `{ to, runs }`: its far fallback counts the
+  mouse in at once, as `scattered` does; a run turned back to its own
+  start house still runs at any distance. Replied on 4173549183.
+- **X2** acfb76a — call 30: `inDoorway` finds the run whose mouse is in a
+  door's doorway (its peek out, its enter/close in); `answerTap` reads it
+  before the counts and squeaks that mouse, so a double tap starts one run
+  and never knocks. A run held back by `FLEE_EVERY` counts as peeking.
+  `RunEnds` is the runs' shared `from`/`to`. Replied on 4173549175.
 - **Squash landing** from here on: each agent pushes its steps to
   `wt/<package>` and lands one commit (`brief-common.md`); the operator
   asked why the branch carried ~2900 commits (990 cost rows, 423 pull
   merges). The cost hook commits a row only after the operator writes
   (52f6bf0b), dogfooded here before an issue on vzakharov/muthur (draft in
-  `docs/remove-before-merging/bite-15/c.md`).
+  `docs/remove-before-merging/cost-hook-issue.md`).
 
-Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
-`Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's
-phoneP fly-7 turn at 36.46 rad/s against 36.36 (call 42's bend allowance),
-seen by R1 and not this bite's.
+Open: the meadow play's phoneP fly-7 turn at 36.46 rad/s against 36.36
+(call 42's bend allowance), seen by R1 and not this bite's.
