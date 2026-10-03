@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **2** of the chain the operator started at depth 1
+Relay depth: **3** of the chain the operator started at depth 1
 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap": 8).
 
 ## 1. Standing constraints
@@ -93,86 +93,84 @@ scenarios stay short.** Pass this section on verbatim.
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
-The relay's launch line. Reply (Russian): attached, installed, plan flipped
-(6f1e193); the tail went out as agents one step each.
-
-> мета-замечания: на ветке накопилось неприлично много (966!) файлов, … То же относится к скриншотам -- скриншоты прошедших байтов нужно ретайрить когда появляются новые.
-
-(Verbatim in § 1.) Reply: retired bites 4–12's notes (85 files) and frames
-(340) in df30548, 966 → 437 files, tombstones naming 6f1e193a9f; kept
-`bite-12b/`, `ideas/` (the map's spec), `deepgram/` (the dictation skills
-read it); the habit written into the plan's standing rules and
-megabeast `gates.md`.
-
-The rest of the session was agent reports and check-ins, answered with
-short Russian status lines; no further operator message.
+The relay's launch line, the only operator-shaped turn this session. Reply
+(Russian): attached (the stale local ref renamed aside to
+`stale/mushroom-game-syama-lbirv7-e66b8e1`, no auto-branch touched),
+installed, plan flipped (3be89c4); then the rest of 12b's tail as agents,
+one step each, every turn after that an agent report answered with a short
+Russian status line. No further operator message.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
-playable after every bite; `/finalize` at the end, no merge. Bite 12b's
-tail is nearly done; then 12b's own review session, then bite 13 (rain).
+playable after every bite; `/finalize` at the end, no merge. Bite 12b is
+built, polished and published; next is its own review session (12b being
+structural keeps one), then its handling, then bite 13 (rain).
 
 ## 4. Decisions
 
-Every call is in `docs/remove-before-merging/bite-12b/waves.md`
-§ "The tail, continued (relay depth 1)". The ones a successor would
-re-litigate:
+Every call, with its numbers, is in
+`docs/remove-before-merging/bite-12b/waves.md` from "tail-turn3" on. The
+ones a successor would re-litigate:
 
-- **A flier's body turns by its drawn step, measured unsunk** (70fc342,
-  2d5283a): the screen's bend near the sides and over the grass is
-  followed; the brow's sink past `D_SEE`, which mirrors rows, is not — a
-  one-frame spin is worse than a far sinking flier pointing along its
-  flight.
-- **The flight watch judges what a child can see**: no heading past the
-  brow, none whose window's first or middle frame is off screen; next, the
-  turn rate only while the body's middle is on screen.
-- **Harness reds loosened, each with a to-check.md line**: `DASH_SLACK`
-  1.25 (a bee darting off a flower at 1.22 of its curve); the cap-rest wait
-  a minute; the walk's pop check passes over changes past a side;
-  `veer` notes a bee kept off the one planted flower by butterflies.
-- **Multi-second stalls and a 47 ms median in `approach` are the
-  container's** while other agents run tests (every frame kind equally
-  slow); re-run on a quiet container, not traced.
-- **Retiring**: one tombstone row per directory, the SHA the last commit
-  that held it.
+- **The turn-rate watch judges a frame only while the body's middle is on
+  screen** (74574f4), sharing one `onScreen` test with the heading watch; a
+  harness loosening, with its to-check.md line. phoneL `meadow` green.
+- **phoneL `approach` was the game's red, not the container's**: 31 ms on
+  a quiet container against 26, 24 of a no-work frame's 26 ms in Phaser
+  re-triangulating every `Graphics` each frame. Beat: a phoneL budget of
+  its own (a real phone runs the same `earcut`), and baking mushrooms to
+  textures (the light turns with the heading, so a turn re-bakes all).
+  Taken: **a mushroom's chords follow its drawn size** — `curveSteps` in
+  `model/mushroom-profile.ts` (567702f), 18.4 ms, the far forest looking
+  the same; tap outlines keep full detail.
+- **The gill band keeps all 28 chords** (`BAND_STEPS`): no floor under 28
+  holds the 1 px bound, the error being where angle samples fall on the
+  notch round the stem. Beat: resampling the notch, which moves the tap
+  outline, for ~120 of ~1,700 entries.
+- **phoneS seen, not traced, handed to the review**: the bees' planted
+  flower grew off the right edge (x 351 of 320); a thin forest (12); the
+  buttons over nearly all the sky.
 
 ## 5. Errors and dead ends
 
-- `/polish` over 12b's range took four agents, each stopping at 170k; the
-  first's bare `polish:` commits moved the lookup's floor past unreviewed
-  work (megabeast `gates.md`).
-- A container restart stopped tail-turn mid-fix; `SendMessage` resumed it
-  whole (megabeast `subagents.md`).
-- 70fc342's credited cause (skim and lay) was wrong; the bend was the
-  brow's mirror, corrected in `tail-face.md`.
+- tail-lod ran to 170k before measuring, leaving a patch; tail-lod2, told
+  to land step 1 within ~60k, finished. (Megabeast `subagents.md` already
+  says an agent lands one step, maybe two.)
+- The earlier call "approach's 47 ms is the container's" was half wrong
+  (megabeast `play-run-and-frames.md`, rewritten in place).
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `CONFLICTING` (reported, `/finalize`'s job); 459 files against `main`.
+  `CONFLICTING` (reported, `/finalize`'s job). Body refreshed with a 12b
+  bullet and QA rows; squash proposal comment updated (5712237909).
 - Plan `docs/plans/mushroom-game-syama.paused.md`; `## Rest of the bite`
-  lists what is left.
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG still at bite
-  12's version.
-- No agent running, no worktree but the shared one, no PR subscription; a
-  stale `send_later` check-in may fire into the old session, harmlessly.
+  says only the review and its handling are left.
+- Last polish commit a772d94 (bare `polish:`), so a review's range for 12b's
+  tail starts after 385453f; 12b as a whole is everything after bite 12's
+  handling (`bite-12b.md` names its range).
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 17
+  (the tail's head, 2026-10-03).
+- No agent running, no worktree but the shared one, no PR subscription.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12b/waves.md` — every report and call.
-- `tail-turn.md` beside it — § Left is the next agent's brief;
-  `tail-phoneL.md`, `tail-phoneP.md` — the screen-run template.
-- `docs/plans/mushroom-game-syama/to-check.md` — the operator's hand checks.
-- Frames: `docs/remove-before-merging/frames/bite-12b/`.
-- `scripts/build-mushroom-artifact.ts` — the Artifact build.
-- This session: https://claude.ai/code/session_013gbeQFTor1ThDoWwaDK59j
+- `docs/remove-before-merging/bite-12b/waves.md` — every report and call;
+  `tail-phoneS.md`, `tail-lod.md`, `tail-turn3.md` beside it.
+- `docs/plans/mushroom-game-syama/bite-12b.md`, `endless-field.md` — the
+  bite's calls and contract; `to-check.md` — the operator's hand checks.
+- Frames: `docs/remove-before-merging/frames/bite-12b/` (`phoneS-*`,
+  `phoneL-lod-*` new).
+- The plan's § "How this elephant is eaten" step 2 — the review's reading
+  list (`writing/notes/the-five-percent.md`, read only) and form.
+- This session: https://claude.ai/code/session_016pbMDts3gGENqQCpRr4T3P
 
 ## 8. Next step
 
-`/go` — the rest of bite 12b's tail, from the plan's `## Rest of the bite`:
-one agent for the turn-rate watch off screen plus phoneL `meadow`; phoneL
-`approach` once on a quiet container; one agent for every play on phoneS,
-one play per call; then the Artifact republished (read the live version
-first, megabeast `play-run-and-frames.md`), `/pr`; then `/relay` to 12b's
-own review session. Reply to the operator in Russian, «ты».
+The loop's own message for this point, the operator's words from § 1:
+"/relay оставь код ревью на последний кусок" — so: **leave the code review
+on bite 12b**, its own review session (the plan: a structural bite keeps
+one), reviewing as the operator would per the plan's step 2, one PR review
+with inline comments; then `/relay /handle`. Reply to the operator in
+Russian, «ты».
