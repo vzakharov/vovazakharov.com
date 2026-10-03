@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **2** for the successor (this session was 1; the cap is 8,
+Relay depth: **3** for the successor (this session was 2; the cap is 8,
 `.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
 
 ## 1. Standing constraints
@@ -125,126 +125,87 @@ Added this session:
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
-Reply: attached (unshallowed, no stale ref, fresh tracking branch), ran
-`/go`: claimed the plan, did call 33 itself (f57f2ec8), launched X1 (call 29) and X3 (call 31).
+Reply: attached (deepened; the local branch at e66b8e1, not an ancestor,
+renamed to `stale/mushroom-game-syama-lbirv7-e66b8e1`; fresh tracking
+branch; no auto-branch existed, HEAD was detached), ran `/go`: finished
+bite 15 — calls 30 (X2) and 32 (X4), the fold, retirements, Artifact,
+`/polish` in four slices, vet green, PR refreshed, plan paused, megabeast
+notes. Every reply in Russian.
 
-> слушай, я вот с утра уходил, за это время +264 коммита, а на ветке их уже под 3000. откуда стока? понятно, что часть -- это логи костов, но, кажется, это не б*оль*шая часть. Я так понимаю субагенты работают каждый в своих worktree, они могут сделать так чтобы на выходе у каждого в пиаре оставался один коммит (типа squash merge но на уровне worktree-ветка)? или это будет ощутимо хуже в силу каких-то причин?
-
-Reply: 2896 commits: 990 cost rows, 423 pull merges, ~700 docs, code
-under a quarter. Squash landing works (steps to `wt/<pkg>` for restart
-safety, one squash on the shared branch); adopted it from this wave
-(391b8d45). Cost rows: a hook change, not touched without a yes.
-
-> [screenshot of the earlier session's call-37 reply] а что с кост-логами, что с ними можно сделать? они же должны только на твоём сообщении мне коммититься -- сейчас по-другому?
->
-> и ещё обнаружил баг: при стрефе перетаскиванием как-то дёргано всё идёт (с клавиатуры нормально). Подозреваю, что это поломалось в момент, когда реализовывали вот это (см. скриншот)
->
-> и ещё давай переключение октав сделаем `.` и `/` (справа в нижнем ряду клавиатуры), а `z` и `c` переделаем для стрейфа (убрав для него шифт+стрелки) -- тогда можно будет одновременно стрейфиться и поворачивать, как в компьютерных играх (зажимая одновременно например z и курсор вправо).
-
-Reply: the Stop hook fires at every turn's end, agent wakes included;
-proposed a time/delta throttle, done in muthur. Wrote calls 34 (keys) and
-35 (drag jerk), launched K and D.
-
-> > Что можно сделать
->
-> а нельзя сделать просто чтобы по сообщению от подагента не отрабатывало? stop-хук не видит, _что_ он за стоп?
-
-Reply: yes — the transcript marks the operator's turns `turnOrigin:
-"human"`; proposed checking the turn's origin plus a flush in `/relay` and
-`/finalize`, in muthur.
-
-> > посмотреть, кто начал последний ход
->
-> именно "начал"? то есть косты будут коммиттиться, грубо говоря, в первый стоп после моего сообщения, а _не_ перед тем как мне уходит сообщение от тебя (в принципе не принципиально, но хочется понять)?
->
-> > Правлю в muthur
->
-> не, там ничего править не надо -- но завести там issue после того как утрясём детали можно
-
-Reply: it is the same stop — the row lands as the reply to their message
-goes out; a mid-turn message is not marked `human` on a user record, a
-gap to settle in the issue.
-
-> не очень понял, но давай сначала задогфудим и, убедившись, что всё нормально, создадим issue
-
-Reply (plain): a row commits when the agent answers the operator's
-message, not on its own reports. Launched C to build it here.
-
-No other operator message; every other turn was an agent's report or a
-check-in.
+No operator message this session; every other turn was an agent's report.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for Syama; the Artifact playable
-after every bite; `/finalize` at the end, no merge. New: fewer commits on
-the branch (squash landing, cost rows only after the operator writes),
-dogfooded before an upstream issue.
+after every bite; `/finalize` at the end, no merge.
 
 ## 4. Decisions
 
-In `docs/plans/mushroom-game-syama/bite-15.md`, calls 1–35 (`grep -c` = 35) and § "Built". New this session:
+Bite 15 is closed: `docs/plans/mushroom-game-syama/bite-15.md` (calls
+1–35, `grep -c` = 35; § "Built" ends with X4, X2). This session's own:
 
-- **Call 34**: `z`/`c` strafe held, `.`/`/` octave, Shift unread, `x`
-  unbound (K, 509a1e7e).
-- **Call 35**: the drag strafe's jerk was ccfff90d (bite 14's call 44),
-  not call 37 — the feet now step per frame at the finger's pace capped at
-  `STRIDE_CRUISE` (D, 52a334ec). Residual: the eye's own step follows the
-  samples one to one (a `to-check.md` line).
-- **Cost rows** (C, 52f6bf0b): the hook skips only when its marker
-  `tmp/costs/<session-id>.human` equals the last operator record (an
-  `origin.kind` or `attachment.origin.kind` `"human"`) and the row is
-  clean on the branch; anything else commits. `.claude/costs/flush-row.sh`
-  forces it; `/relay` runs it at the end of Step 2, `/finalize` before its
-  attestation. A `peer` turn counts as not the operator.
+- **Call 30** (X2, acfb76a): `inDoorway` + `answerTap`'s fourth argument;
+  a run held back by `FLEE_EVERY` counts as peeking (squeaks).
+- **Call 32** (X4, 4f32576): `courseOf`/`straightPath`; `retarget` returns
+  `{ to, runs }`; a run turned back to its own start house still runs at
+  any distance (call 32 named only the last fallback).
+- **Polish** by slice (gates.md has the note): the worm's peek rise/duck
+  now are the mouse's (`TAP_PEEK_RISE`, `PEEK_DUCK`), `WORM_PEEK_HOLD` 1
+  its own; `capOnCanvas` in `model/mushroom-outline.ts`. Left as calls: a
+  `furnish()` play helper; sweeping hand-rolled distances onto
+  `distanceBetween` outside bite 15's files.
+- **knip** (740f40e):
+  thirteen un-exported, `BAND_STEPS` moved to `mushroom-outline.ts`, the
+  probe's unused `Costs` schema deleted.
+- `docs/remove-before-merging/bite-15/` retired except `c.md`, now
+  `docs/remove-before-merging/cost-hook-issue.md` (the muthur issue is
+  still pending the operator's say-so).
 
 ## 5. Errors and dead ends
 
-- Proposed a time/delta throttle for cost rows first; the operator's
-  "doesn't the hook see what kind of stop it is" was simpler and is what
-  was built.
-- Proposed editing muthur; the operator ruled it out.
+- The Artifact publish was refused twice (live copy unread); settled by
+  diffing and reading the saved copy (gates.md note).
+- First vet red on knip only; second green (~9 min 15 s, `timeout 590`).
 
 ## 6. State
 
-Checked with commands at 25ca5fe4:
+Checked with commands at d549ed8:
 
-- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`
-  (was `CONFLICTING` at the last check — `/finalize`'s job). PR body not
-  refreshed for bite 15.
-- Plan `docs/plans/mushroom-game-syama.paused.md`, **407 lines** (the
-  tail's fold brings it under 400), its `## Rest of the bite` naming what
-  is left.
-- Runs' review 5401240514: replied on 4173549169 (call 29, 1b6c5093) and
-  4173549179 (call 31, 718ef2fc); open 4173549175 (call 30) and
-  4173549183 (call 32).
-- Cost hook dogfood: after the first row under the new hook (9f80ce6b)
-  two trigger-started turns added no row. Watch it keep holding; file the
-  muthur issue only once the operator says it is fine.
-- Not run this session: vet, the full suite, `sweep:mushrooms`. Artifact
-  still at bite 14.
-- No agent running, no worktree, no PR subscription; no check-in pending.
+- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
+  `CONFLICTING`/`DIRTY` — `/finalize`'s job, not a bite's. Body refreshed
+  for bite 15 (summary bullets, a "Bite 15:" QA list; the QA table has no
+  bite-15 rows). Squash proposal comment 5712237909 updated, tracked in
+  `docs/remove-before-merging/squash-message.md`.
+- Plan `docs/plans/mushroom-game-syama.paused.md`, 399 lines, no
+  `## This bite`; `## Rest of the elephant` lists 16 (the map) then 17
+  (dusk), then `/relay /finalize`.
+- Vet green at the knip-fix commit; Artifact
+  https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 21 (bite
+  15 as of 588fe38; polish changed no behaviour).
+- All review threads on 5401240514 replied (4173549175 → acfb76a,
+  4173549183 → 4f32576), none resolved.
+- A stale remote `wt/g37` (73692aeb, from an earlier bite, not this
+  session's) is still on origin.
+- No agent running, no worktree, no PR subscription, no check-in.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-15.md` — calls, § "Built".
-- `docs/remove-before-merging/bite-15/` — `brief-common.md` (every
-  agent's brief, squash landing included), `review-brief.md`, notes
-  `x1.md`, `x3.md`, `d.md`, `k.md`, `c.md` (with the muthur issue draft).
-- `docs/remove-before-merging/frames/bite-15/` — `x1-*` (the flee drawn
-  through), `review/`.
-- Review threads: `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5401240514/comments`.
-- This session: https://claude.ai/code/session_011GETHBy7o14dPrRJxMvqRq.
+- `docs/plans/mushroom-game-syama.paused.md` — § "Eaten so far" (now with
+  "The house's dwellers"), § "Rest of the elephant" item 16.
+- `docs/remove-before-merging/ideas/idea-1-walking-meadow.md` — the map's
+  spec, its «Что ты решил» section overriding the body.
+- `docs/remove-before-merging/retired.md` — `bite-15/` row: the retired
+  `brief-common.md` (the package brief to copy for bite 16's agents:
+  `git show <sha>:docs/remove-before-merging/bite-15/brief-common.md`).
+  Add `pnpm knip` to its checks (gates.md).
+- `docs/plans/mushroom-game-syama/to-check.md` — the operator's queue.
+- This session: https://claude.ai/code/session_01A7QLb5FgmNL7cKUmKrkrox.
 
 ## 8. Next step
 
 /go
 
-(Bite 15's rest, the plan's `## Rest of the bite`: call 30 and call 32 as
-two agents, functions granted by name in `mouse-runs.ts` and
-`model/mouse-run.ts` (X2: the door-tap handling and `answerTap`; X4: the
-re-target's opening/path and `retarget`), each landing one squash commit,
-each finding replied to with its bare SHA, never resolved — then the
-tail: fold (the summary's keys line names `z`/`c` and `.`/`/`), retire
-bite 14's frames and bite 15's notes, republish the Artifact, `/polish`
-sized by changed lines, vet, `/pr`, pause, megabeast notes, relay `/go`
-for item 16. Reply to the operator in Russian, «ты».)
+(Item 16, the map: write `## This bite` per `plan/elephant.md` §
+"Taking a bite", then build it with Opus agents in worktrees, each landing
+one squash commit; then the bite's tail as bite 15's ran. Reply to the
+operator in Russian, «ты».)
