@@ -382,7 +382,7 @@ export function letGoWalk(walk: Walk, direction: Direction): Walk {
   return { ...walk, stride: letGoStep(walk.stride, direction) };
 }
 
-/** Shift with `←` or `→` went down: the eye walks to its left or right while it is held. */
+/** `z` or `c` went down: the eye walks to its left or right while it is held. */
 export function holdStrafe(walk: Walk, direction: Direction): Walk {
   return { ...walk, stride: holdStrafeKey(walk.stride, direction) };
 }

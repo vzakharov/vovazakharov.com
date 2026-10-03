@@ -403,6 +403,39 @@ describe('a strafe on the walk', () => {
     const { sidePace: rested } = clock.walk.stride;
     assert.equal(rested, 0);
   });
+
+  it('bobs the meadow on a steady drag as a held key does, stepping every frame and never faster, though the finger’s samples straddle the frames', () => {
+    const clock = new Clock(openingWalk(TABLET));
+    const down = { x: TABLET.width * 0.4, y: TABLET.height * 0.8 };
+    const pressed = clock.time;
+    clock.press(down);
+    // 300 px a second, sampled 60 times a second 2 ms to either side of the
+    // frames by turns, so one frame gets two samples and the next none.
+    const sampledAt = (sample: number) =>
+      pressed + sample * FRAME + (sample % 2 === 0 ? 0.002 : -0.002);
+    let sample = 1;
+    const steps: number[] = [];
+    for (let frame = 1; frame <= 60; frame++) {
+      for (; sampledAt(sample) <= pressed + frame * FRAME; sample++) {
+        const time = sampledAt(sample);
+        const finger = shifted(down, 300 * (time - pressed), 0);
+        clock.walk = moveTo(clock.walk, finger, time);
+      }
+      const before = clock.walk.stride.walked;
+      clock.run(FRAME);
+      // The first frames cross the slop and set the finger's pace.
+      if (frame > 10) steps.push(clock.walk.stride.walked - before);
+    }
+    assert.equal(axisOf(clock.walk), 'strafe');
+    assert.ok(
+      steps.every((step) => step > 0),
+      `the bob snaps to rest on a frame with no sample: ${steps.join(', ')}`,
+    );
+    assert.ok(
+      steps.every((step) => step <= STRIDE_CRUISE * FRAME + 1e-12),
+      `the feet step past a held key's pace: ${Math.max(...steps) / FRAME} units/s`,
+    );
+  });
 });
 
 /** A long strafe drag across `camera`'s ground, the finger then held still. */

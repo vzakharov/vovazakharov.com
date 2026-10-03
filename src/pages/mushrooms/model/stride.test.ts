@@ -261,13 +261,16 @@ describe('the stride on a drag', () => {
     assert.equal(tick(lifted, heading, FRAME), lifted);
   });
 
-  it('keeps up with the finger however fast it moves, counting the way walked', () => {
+  it('keeps up with the finger however fast it moves, its feet stepping after it at the cruise', () => {
     for (const axis of ['step', 'strafe'] as const) {
       // 30 units a second, many times the cruise and the fling's most.
       const [stride] = dragged(axis, 30, 0.2);
       const way = axis === 'step' ? stride.at.y : stride.at.x;
       assert.ok(Math.abs(way - 6) < 1e-9, `${axis}: ${way}`);
-      assert.ok(Math.abs(stride.walked - 6) < 1e-9, `${axis}: walked`);
+      assert.ok(
+        Math.abs(stride.walked - STRIDE_CRUISE * 0.2) < 1e-9,
+        `${axis}: walked ${stride.walked}`,
+      );
       assert.ok(Math.abs(stride.pace - 30) < 1e-6, `${axis}: ${stride.pace}`);
     }
   });
@@ -330,6 +333,11 @@ describe('the stride on a fling', () => {
       // A swipe laying 2.7 units of ground across 0.2 s, as a third of a tablet's width does.
       const flung = swiped(axis, 13.5, 0.2);
       assert.ok(flung.glide !== undefined && flung.chase === undefined, axis);
+      const [first] = walked(flung, 0, FRAME);
+      assert.ok(
+        first.walked - flung.walked <= STRIDE_CRUISE * FRAME + 1e-12,
+        `${axis}: its feet no faster than a held key's`,
+      );
       const [second] = walked(flung, 0, 1);
       const [rested] = walked(second, 0, GLIDE_OVER);
       const glided = apart(rested.at, flung.at);
