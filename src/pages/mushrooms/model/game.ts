@@ -32,12 +32,9 @@ import { plantedId, type Sown } from './pollen';
 import type { Random, Seeded, Seeds } from './random';
 import {
   type Placed,
-  type Shed,
-  type Shedding,
   sown,
   type Spored,
   type SporeTap,
-  sprouted,
   sproutedInRain,
   type Sprouting,
   unsown,
@@ -86,8 +83,7 @@ export type Meadow = Swarm & {
   released: number;
   /** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
   rain: Rain | undefined;
-} & Shed &
-  Spored;
+} & Spored;
 
 export type Action =
   | { kind: 'pick' }
@@ -116,7 +112,7 @@ export type Action =
   | ({ kind: 'release'; insect: InsectKind; onscreen?: Onscreen } & Seeded &
       Sighted)
   | ({ kind: 'startle' } & WithId & Sighted)
-  | ({ kind: 'tick' } & Sighted & Shedding);
+  | ({ kind: 'tick' } & Sighted);
 
 /** An insect action's moment, and what the scene sees of the perches as it happens. */
 type Sighted = Timed & Sight;
@@ -140,7 +136,6 @@ export function firstMeadow(random: Random): Meadow {
     planted: [],
     released: 0,
     rain: undefined,
-    shed: undefined,
     spores: [],
     scattered: 0,
   };
@@ -388,8 +383,11 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'tick': {
-      const shed = sproutedInRain(sprouted(meadow, action), action.now);
-      return swarmed(shed, ticked(shed, perchesOf(shed, action), action.now));
+      const rained = sproutedInRain(meadow, action.now);
+      return swarmed(
+        rained,
+        ticked(rained, perchesOf(rained, action), action.now),
+      );
     }
     default: {
       return action satisfies never;

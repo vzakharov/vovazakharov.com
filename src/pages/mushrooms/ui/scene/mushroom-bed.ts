@@ -46,7 +46,6 @@ import {
 } from './mushroom-shown';
 import type { Seat } from './perch-hosts';
 import { hazeAhead, repaintsDue } from './repaint-queue';
-import { footShown } from './shedding';
 import type { MeadowSound } from './sound';
 import { SporeBed } from './spore-bed';
 import { crownOf, driftSpores } from './spore-drift';
@@ -179,11 +178,6 @@ export class MushroomBed implements Following {
     this.seatDoors(meadow.mushrooms, layout, (shown) => shown.house.doored);
     this.spores.reconcile(meadow.spores, this.shown, layout, false);
     this.selection.paint(this.lit());
-  }
-
-  /** Whether `id`'s foot is on the screen the bed last followed (`footShown`). */
-  inSight(id: string): boolean {
-    return footShown(this.shown.get(id)?.stands, this.view);
   }
 
   /**

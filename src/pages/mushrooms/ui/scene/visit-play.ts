@@ -14,10 +14,10 @@ import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
 import {
-  shedding,
   SPORE_FALL_MS,
+  SPORE_SEATS,
   SPROUT_MS,
-  sprouted,
+  sproutedInRain,
 } from '../../model/sprouting';
 import { RAIN_MS } from '../../model/weather';
 import { type Among, amongAt, capBox } from './cap-cover';
@@ -26,7 +26,7 @@ import { type Stand, standOf } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
-import { shedIn } from './shedding';
+import { sporeOnTap } from './spore-seats';
 import type { View } from './view';
 
 export { tapTarget } from './mushroom-tap';
@@ -45,8 +45,9 @@ const SHOWER_EVERY = RAIN_MS + SPORE_FALL_MS + SPROUT_MS;
  * scene's own streams, with the opening clump or a forest grown to
  * `MUSHROOM_SLOTS`, as far as the meadow has room, standing: each `+`
  * pressed in the view `viewIn` gives, or anywhere in the world absent one.
- * Then `showers` clouds tapped one after another, each shedding as it stops
- * with every mushroom in sight, its sprouts found in the same view.
+ * Then `showers` rounds one after another: every mushroom tapped for spores
+ * until it sows no more, their feet found in the same view, then a cloud
+ * tapped and the shower left to stop, every spore sprouted.
  */
 export function opened(
   seed: number,
@@ -83,14 +84,41 @@ export function opened(
   }
   for (const index of Array.from({ length: showers }).keys()) {
     const now = index * SHOWER_EVERY;
+    for (const { id } of meadow.mushrooms) {
+      meadow = sownUp(meadow, id, now, (sowing) => ({
+        meadow: () => sowing,
+        stand: () => standOf(layout, flowers, sowing),
+        view: () => view,
+      }));
+    }
     meadow = reduce(meadow, { kind: 'rain', now });
-    const stopsAt = now + RAIN_MS;
-    const shedders = shedding(meadow, stopsAt, () => true);
-    const shed =
-      shedders && shedIn(standOf(layout, flowers, meadow), shedders, view);
-    meadow = sprouted(meadow, { now: stopsAt, shed });
+    meadow = sproutedInRain(meadow, now + RAIN_MS);
   }
   return { meadow, ...standOf(layout, flowers, meadow) };
+}
+
+/**
+ * `meadow` with the mushroom `id` tapped at `now` up to `SPORE_SEATS` times,
+ * each tap's spore found as the scene finds it, stopping at the first tap
+ * that settles none.
+ */
+function sownUp(
+  meadow: Meadow,
+  id: string,
+  now: number,
+  scened: (meadow: Meadow) => Parameters<typeof sporeOnTap>[0],
+): Meadow {
+  let sowing = meadow;
+  for (let seat = 0; seat < SPORE_SEATS; seat++) {
+    const tapped = reduce(sowing, {
+      kind: 'select',
+      id,
+      ...sporeOnTap(scened(sowing), id, now),
+    });
+    if (tapped.spores.length === sowing.spores.length) break;
+    sowing = tapped;
+  }
+  return sowing;
 }
 
 /**
