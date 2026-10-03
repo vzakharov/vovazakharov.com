@@ -111,7 +111,12 @@
   Each call went into the plan with the numbers that forced it. The skill
   should expect a layout review to take calls in a chain like this, and
   brief each agent to stop and report at the first rule it cannot keep,
-  with the options measured, rather than pick one.
+  with the options measured, rather than pick one. A call made from a
+  report's numbers can still be wrong about the cause: 12b's gill band got
+  "a chord floor of its own", and the agent measured that no floor under
+  full detail held the bound (the error sat in where angle samples fall,
+  not chord length), kept full detail and said so. Accepting a measured
+  departure in the log beats re-briefing the call.
 - **A report's trade-off lines are the orchestrator's to decide, not to
   forward or footnote.** Bite 5's review asked for exclusive perches and
   flowers only in sight; both landed to the letter, and the report said

@@ -169,7 +169,21 @@
   four fix rounds, which read like a regression; f584982, built in its own
   worktree and run back to back, gave 32.1 — the container (load 3–4.6 on
   4 cores), not the code. The skill should keep one baseline build per
-  bite and run it beside HEAD whenever the frame check goes red.
+  bite and run it beside HEAD whenever the frame check goes red. "The
+  container" is a measurement, not a verdict: at 12b's tail phoneL
+  `approach` read 47 ms beside other agents' tests and was filed as load;
+  run alone it was still 31 against 26, and a CPU profile of a frame with
+  no game work put 24 of its 26 ms in Phaser re-triangulating every
+  Graphics each frame — the screen's own red. So a budget red waits for one
+  run with no other agent up and, if it holds, a profile of a no-work frame,
+  before it is filed as either.
+- **Phaser `Graphics` cost by point count every frame, changed or not.**
+  Its WebGL renderer runs `earcut` over each object's command buffer per
+  frame, so a mushroom 20 px across cost what one filling the screen did
+  (7–12 k entries). Detail by drawn size (`curveSteps`) cut phoneL's frame
+  from 31 to 18 ms with no visible change. A procedural game drawn in
+  vector primitives should size its point counts by drawn size from the
+  start.
 - **One red class can hide three causes.** The fly "dash-bound" overs took
   four agents: the eye's frame (v15-eyeframe), the way in over the brow
   (found by v16-play as a side red), a leg cut mid-flight (v16-capaway,
