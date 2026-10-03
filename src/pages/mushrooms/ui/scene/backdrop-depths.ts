@@ -6,8 +6,9 @@ export const DEPTHS = {
   sky: -9,
   glow: -8,
   sun: -7,
+  // Behind the clouds, as a rainbow stands in the sky beyond them.
+  rainbow: -6.5,
   clouds: -6,
-  rainbow: -5.5,
   farHills: -5,
   nearHills: -4,
   ground: -3,
