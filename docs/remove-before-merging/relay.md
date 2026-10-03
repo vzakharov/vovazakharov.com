@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **4** of the chain the operator started at depth 1
+Relay depth: **5** of the chain the operator started at depth 1
 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap": 8).
 
 ## 1. Standing constraints
@@ -94,75 +94,80 @@ scenarios stay short.** Pass this section on verbatim.
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
 The relay's launch line, the only operator-shaped turn this session. Reply
-(Russian): attached (the diverged local ref renamed aside to
-`claude/mushroom-game-syama-lbirv7-stale-local`, auto-branch untouched),
-installed, plan flipped (1015bcb); three review agents briefed; then one
-short Russian status line per agent report; the review posted. No further
-operator message.
+(Russian): attached (stale local ref renamed to
+`stale/mushroom-game-syama-lbirv7-e66b8e1`, no auto-branch present),
+installed, plan flipped (3b24207); the calls file written, eight agents
+run in waves, each report summarised in a short Russian line; all nine
+threads replied to; then this relay. No further operator message.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for a six-year-old boy; the Artifact
 playable after every bite; `/finalize` at the end, no merge. Bite 12b's
-review is posted; next is its handling, then bite 13 (rain).
+review is handled; its tail is left, then bite 13 (rain).
 
 ## 4. Decisions
 
-- **The review ran as three agents reporting to the orchestrator**, which
-  checked anchors against `git diff -U0 a8d2aff..HEAD` and posted one
-  review: a field reader, an insects-and-harness reader, a player
-  (brief: `docs/remove-before-merging/bite-12b/review-brief.md`). [Bite
-  12's shape, each group posting its own review: more threads to untangle.]
-- **12b's range is `a8d2aff..`** (bite 12's pause), everything after.
-- **flower-sight's off-screen bee planting is posted as "blocking or nit,
-  the handler's call"**: off screen may be the design's intent; the handler
-  decides and records it.
-- Findings the player saw but did not measure against `a8d2aff` (phoneS
-  thin field forest, buttons over the sky, 40–50 px back-row hit boxes) are
-  in the review body only, not threads.
+All in `docs/remove-before-merging/bite-12b/review-handling.md` (calls
+with rejected alternatives, then each package's report). The ones a
+successor would otherwise re-litigate:
+
+- **T139, the twelve on a turned screen**: counted round the anchor too
+  (0d391410), so 12 on every screen; a turned phone showing fewer of them
+  (phoneL 5 of 12, tabL 6) is accepted, written into `decisions.md`
+  (ebf33562). [Placing inside both orientations: phoneL refuses at 9, the
+  count changing with the screen.]
+- **T141's bar is the lawn's share of a frame ≤ 26 ms** (46.7 → 14.5 on
+  tabL), not the whole sow frame (still 60–72 ms, 24 ms of it the perches'
+  `see`). The play's expect for the share is not yet written.
+- **T144: bees plant only on screen**, births on phones roughly halved,
+  accepted.
+- **T143: C2's play window is 30 s heading in + 90 s settled** (a slow
+  butterfly), with a `to-check.md` line.
+- **T146 at turn −1.1**, the bed-repaint test not written (no seam without
+  opening production code): accepted.
 
 ## 5. Errors and dead ends
 
-- Each agent asked ~120–150k ran to ~170k; all finished and reported.
-- A push raced the previous session's late plan edit (30e3bec); a
-  `--no-rebase` pull merged it cleanly.
+- A2 filled at 170k with no source change; its design went out as a patch
+  and A2b built it whole from the note ("build it, don't re-derive").
+- B's d43c203 turned three `fliers.test.ts` checks red; F found it, B fixed
+  it before reporting (one check measured the replaced spacing, one was
+  two-visit noise; `TAP_SEEDS` 8).
+- C2 got green by stepping a long wait without drawing frames, after drawn
+  frames there pushed tabL's median 17 → 27.4 ms: a lead, not a fix.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `CONFLICTING` (reported, `/finalize`'s job).
-- Review https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5398479115
-  on commit 3aeb57a: nine inline threads — blocking on `model/game.ts:38-40`
-  (cap per foot strands mushrooms on a screen turn), `ui/scene/planter.ts:149`
-  (two eyes for tap vs buttons), `ui/scene/tufts.ts:228-232` (sow tends whole,
-  15–34 ms), `ui/scene/air-spots.ts:222-225` (crowding in layout px),
-  `docs/plans/mushroom-game-syama/bite-12b.md:46-48` (follow unchecked, reach
-  15.9), `ui/scene/flower-sight.ts:396-397` (bee flowers off screen); nits on
-  `model/flight-in.ts:57-61`, `ui/scene/insect-drawn.ts:131-139`,
-  `ui/scene/tufts.test.ts:171`.
+- Branch `claude/mushroom-game-syama-lbirv7`, head b857dca7 at writing;
+  PR #57 draft, base `main`, `CONFLICTING` (reported, `/finalize`'s job).
+- All nine 12b threads replied to (never resolved); no thread left
+  unanswered.
 - Plan `docs/plans/mushroom-game-syama.paused.md`; `## Rest of the bite`
-  leaves only the handling.
+  lists the tail.
 - Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 17,
-  unchanged this session.
-- No agent running, no worktree, no PR subscription.
+  not republished this session.
+- No agent running, no worktree but the main checkout, no check-in armed,
+  no PR subscription.
+- Megabeast notes filled this session (554c4eca).
 
 ## 7. Pointers
 
-- The review: `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5398479115/comments`.
-- Frames and the player's scratch play:
-  `docs/remove-before-merging/frames/bite-12b/review/` (`review-child.ts.txt`
-  re-runs it).
-- `docs/plans/mushroom-game-syama/bite-12b.md`, `endless-field.md`,
-  `decisions.md` (the twelve), `to-check.md`.
-- Megabeast `quality.md` § "Review practice" — "is the game wrong or is the
-  check?" before any fix.
-- This session: https://claude.ai/code/session_01TVGMRJroq437qb34GvhkXp
+- `docs/remove-before-merging/bite-12b/review-handling.md` — the calls and
+  reports, including the two frame-cost leads.
+- Hand-over notes `docs/remove-before-merging/bite-12b/rh-*.md`; frames
+  `docs/remove-before-merging/frames/bite-12b/handling/`.
+- `docs/pr/57/pr.md` (re-export with `python3 scripts/export-github-item.py 57`).
+- This session: https://claude.ai/code/session_01FZh3YwRpapmdm7kkF5R5gR
 
 ## 8. Next step
 
-The loop's own message for this point, the operator's words from § 1:
-"/relay /handle" — so: **`/handle`** the 12b review: one subagent per
-finding or per disjoint file group, each fix its own commit and GitHub
-reply naming its SHA (never resolving), the five-percent file untouched;
-then the Artifact republished, the plan's bite folded, and `/relay /go` for
-bite 13. Reply to the operator in Russian, «ты».
+Not a to-be message: the loop's own next point. The tail of bite 12b, as
+the plan's `## Rest of the bite` lists it, run as subagents (the plan's
+standing rules): the lawn-share expect in the approach play; one trace
+agent on the two frame-cost leads (fix if it is the game's); then the
+bite's end — `/polish` (`screenSides` vs `onscreenOf`), the fold, the
+retirements, the Artifact republished, `/pr`. Then, the operator's loop
+words from § 1 ("после ревью передавал \"/relay /handle\"" … "так по
+циклу"): `/relay /go` for bite 13 (rain). Reply to the operator in
+Russian, «ты».
