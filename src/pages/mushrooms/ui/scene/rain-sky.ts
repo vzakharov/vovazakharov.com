@@ -1,8 +1,8 @@
 /**
  * The sky under a shower as pure functions of the meadow's rain spans and
  * the clock, in ms on the insects' clock: how dark each cloud is, how deep
- * the slate wash lies, how strongly the rainbow shows and where it stands,
- * and which cloud a tap lands on.
+ * the slate wash lies, how far the sun dims, how strongly the rainbow shows
+ * and where it stands, and which cloud a tap lands on.
  */
 
 import { type Circle, type Point, wrap } from '../../model/geometry';
@@ -25,6 +25,14 @@ export const RAINBOW_OUT_MS = 600;
 export const WASH_DEEPEST = 0.3;
 /** The rainbow's alpha at its strongest. */
 export const RAINBOW_DEEPEST = 0.55;
+/** How much of the sun and its glow a full shower takes away, so it never rains in full sunshine. */
+export const SUN_DIMMED = 0.5;
+
+/** The sun's and its glow's alpha with the sky `wet` from 0 to 1 (`wetnessShown`). */
+export function sunShown(wet: number): number {
+  return 1 - SUN_DIMMED * wet;
+}
+
 /** How wide all the rainbow's bands together are, in its radii. */
 const RAINBOW_WIDTH = 0.2;
 

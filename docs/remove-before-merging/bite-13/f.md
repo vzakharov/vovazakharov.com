@@ -29,9 +29,18 @@
   Played opening, meadow and rain on tabL: all green but R5's own
   "no rendered frame was timed" (the harness's, also red before this).
 
+- **Step 5 — call 15, the sun dims while it rains.** `rain-sky.ts`:
+  `SUN_DIMMED` 0.5, `sunShown(wet)` = 1 − 0.5·wet, tested (half mid-shower,
+  whole again by the rainbow's full strength). `RainView.update` sets it as
+  the alpha of the sun's and the glow's columns each frame, beside the
+  rainbow's. Frame `frames/bite-13/f-tabL-sun-dimmed.png` (R5's play,
+  mid-shower). At half alpha the sun reads somewhat see-through (sky blue
+  through the rays) more than veiled; a person may want a grey tint
+  instead, which would be a palette colour and a second bake.
+
 ## Left
 
-5. Call 15: the sun and its glow fade with `RainView.wetness`.
+Nothing of F's.
 
 ## Decided here
 

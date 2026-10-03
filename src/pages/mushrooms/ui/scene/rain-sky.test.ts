@@ -15,6 +15,8 @@ import {
   RAINBOW_OUT_MS,
   rainbowArc,
   rainbowShown,
+  SUN_DIMMED,
+  sunShown,
   wetnessShown,
 } from './rain-sky';
 import { TAP_RADIUS } from './tap-reach';
@@ -83,6 +85,24 @@ describe('cloud darkening', () => {
       cloudDarkness(showers, 700, 0) > cloudDarkness(showers, 700, 500),
     );
     assert.equal(cloudDarkness(showers, 5000, DARKEN_LAG_MS), 1);
+  });
+});
+
+describe('sunShown', () => {
+  const showers = nextShowers(NO_SHOWERS, first, 0);
+  const sunAt = (ms: number) => sunShown(wetnessShown(showers, ms));
+
+  it('is the whole sun dry and dimmed by half mid-shower', () => {
+    assert.equal(sunShown(0), 1);
+    assert.equal(sunAt(RAIN_MS / 2), 1 - SUN_DIMMED);
+  });
+
+  it('has the sun back by the time the rainbow is at its strongest', () => {
+    const full = Array.from({ length: 4000 }, (_, ms) => RAIN_MS + ms).find(
+      (ms) => rainbow(first, ms) === 1,
+    );
+    assert.ok(full !== undefined);
+    assert.equal(sunAt(full), 1);
   });
 });
 
