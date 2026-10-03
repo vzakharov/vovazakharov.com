@@ -11,9 +11,31 @@
   turn −1.1: rotation within 0.01 of the placed step's way, ≥ 0.15 off the
   turn. Goes red (with the brow case) when the bend's sign is flipped.
 
+- T147 (not `tufts.test.ts`): `ground-seam.test.ts` holds `hasGround` true to
+  3.08 rad off the opening heading and false from 3.09, both sides, at
+  0.5 / 3 / `D_SEE` / 40. `clump-layout.test.ts` asks `laidOf` of the foot as
+  each eye moves it, and has it laid the same. `mushroom-light.test.ts`'s two
+  heading tests hold the closed form: across share `sin(α − heading)`, `α` =
+  `asin` of the opening's, 0 facing the sun, height kept (red with
+  `headedLight`'s sign flipped).
+
 ## Left
 
-- T147.
+- Nothing. The bed-repaint test has no seam without opening production code:
+  the beds are Phaser classes no test builds, and the scene answers an anchor
+  change only with `perches.see` (`meadow-scene.ts`); a bed repaints through
+  `paint` (layout or resize) or `repaintsDue` (haze, sun side, chords — all of
+  the view). The one pure part, `laidOf` taking no anchor, is the
+  clump-layout case above.
+
+## Seen, not mine
+
+- `fliers.test.ts` at 22b4b8f: 45 pass, 3 fail — "hold spots in the air
+  apart" on tabP and phoneL (overlapping aloft 0.0033 / 0.0014) and "caught
+  by a tap … seven times in ten" on tabP (fly 0.69). The same three fail with
+  `flight-in.ts` put back as it was, and all pass with `air-spots.ts` put
+  back to before d43c203 (rh-b's "crowd the air on the points as drawn at the
+  anchor").
 
 ## Decided
 
