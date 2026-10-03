@@ -10,6 +10,7 @@ import type { InsectKind } from '../../model/insect-genes';
 import { type Foot, FOOT_PAN, footstep } from './footsteps';
 import { SHY, TAKE_OFF } from './insect-voices';
 import { drumVoice, noteVoice } from './instrument-voices';
+import { RainVoice, whoosh } from './rain-voice';
 import { brownNoise, panned, tone, type Voice } from './synth';
 
 const MUTED_KEY = 'mushrooms-muted';
@@ -148,6 +149,7 @@ export class MeadowSound {
   private pending: Voice[] = [];
   private birdTimer: ReturnType<typeof setTimeout> | undefined;
   private quietTimer: ReturnType<typeof setTimeout> | undefined;
+  private rain: RainVoice | undefined;
   private mutedNow: boolean;
 
   constructor(muted: boolean) {
@@ -273,6 +275,29 @@ export class MeadowSound {
   /** An insect of `kind` caught in the air at `pan` (`panOf`), shying away: a butterfly's tumbling trill, a fly's whine, a bee's sharp buzz. */
   shy(kind: InsectKind, pan: number): void {
     this.play(panned(SHY[kind], pan));
+  }
+
+  /**
+   * The shower's sound at this frame, `downpour` and `wetness` as
+   * `model/weather.ts` gives them; called every frame, and free while neither
+   * has moved. Built when a shower is first heard — never while muted or
+   * hidden, and not waiting for `start`, since a shower is a state the next
+   * frame asks for again — and let go once the meadow is dry.
+   */
+  shower(downpour: number, wetness: number): void {
+    if (downpour <= 0 && wetness <= 0) {
+      this.rain?.stop();
+      this.rain = undefined;
+      return;
+    }
+    if (!this.context || !this.master || !this.heard()) return;
+    this.rain ??= new RainVoice(this.context, this.master);
+    this.rain.set(downpour, wetness);
+  }
+
+  /** A cloud answering a tap. */
+  whoosh(): void {
+    this.play(whoosh);
   }
 
   stop(): void {
