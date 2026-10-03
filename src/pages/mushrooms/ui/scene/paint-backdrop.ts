@@ -200,7 +200,8 @@ export function paintBackdrop(
   const rainClouds: Phaser.GameObjects.Graphics[] = [];
   const twinLayer: Layer = () => {
     const graphics = (
-      existing?.rainClouds[rainClouds.length] ?? fixedAt('clouds').setAlpha(0)
+      existing?.rainClouds[rainClouds.length] ??
+      fixedAt('clouds').setAlpha(0).enableFilters()
     ).clear();
     rainClouds.push(graphics);
     return graphics;

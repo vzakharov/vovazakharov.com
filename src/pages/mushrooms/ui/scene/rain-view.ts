@@ -22,6 +22,19 @@ import {
   wetnessShown,
 } from './rain-sky';
 
+/**
+ * Shows a cloud's dark `twin` at `darkness`. A graphics' own alpha falls on
+ * each puff, so the puffs' overlaps would show through one another; between
+ * 0 and 1 the twin is drawn whole off screen and its filter camera lays it
+ * on at `darkness`. Where filters are not to be had (the canvas renderer)
+ * it falls back to the graphics' own alpha.
+ */
+function shade(twin: Phaser.GameObjects.Graphics, darkness: number): void {
+  const fading = darkness > 0 && darkness < 1 && twin.filters !== null;
+  twin.setAlpha(fading ? 1 : darkness).setFiltersForceComposite(fading);
+  if (fading) twin.filterCamera.setAlpha(darkness);
+}
+
 /** How the sky stands this frame, as the probe reads it. */
 export type SkyShown = { raining: boolean; wetness: number; rainbow: number };
 
@@ -34,6 +47,8 @@ export type SkyShown = { raining: boolean; wetness: number; rainbow: number };
  */
 export class RainView {
   private readonly wash: Phaser.GameObjects.Rectangle;
+  /** The scene's camera, which draws the screen's pixels at the device's ratio. */
+  private readonly camera: Phaser.Cameras.Scene2D.Camera;
   /** The scene's clock, in seconds. */
   private readonly now: () => number;
   private readonly dispatch: (action: Action) => void;
@@ -61,6 +76,7 @@ export class RainView {
   ) {
     this.now = now;
     this.dispatch = dispatch;
+    this.camera = scene.cameras.main;
     this.wash = scene.add
       .rectangle(0, 0, 1, 1, PALETTE.rainWash)
       .setOrigin(0, 0)
@@ -74,6 +90,19 @@ export class RainView {
     this.layout = layout;
     this.backdrop = backdrop;
     this.wash.setSize(layout.width, layout.height);
+    // A twin stands fixed on the screen, so its filter camera sees the
+    // screen as the scene's camera does, zoom and all, but unscrolled.
+    const { camera } = this;
+    for (const twin of backdrop.rainClouds) {
+      if (twin.filters === null) continue;
+      twin
+        .setFiltersAutoFocus(false)
+        .setFiltersFocusContext(true)
+        .setFilterSize(camera.width, camera.height)
+        .filterCamera.setOrigin(0, 0)
+        .setZoom(camera.zoomX, camera.zoomY)
+        .setScroll(0, 0);
+    }
   }
 
   /** Each cloud where the screen shows it now, or `undefined` while it is off it. */
@@ -121,7 +150,7 @@ export class RainView {
     for (const [index, twin] of backdrop.rainClouds.entries()) {
       const azimuth = azimuthOf(index);
       if (!twin.visible || azimuth === undefined) continue;
-      twin.setAlpha(cloudDarkness(showers, ms, cloudLag(azimuth, leadAzimuth)));
+      shade(twin, cloudDarkness(showers, ms, cloudLag(azimuth, leadAzimuth)));
     }
     this.sway(t);
     this.shown = {
