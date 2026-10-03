@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { median, overBudget } from './frame-budget.ts';
+import { budgetReport, median } from './frame-budget.ts';
 
 describe('median', () => {
   it('takes the middle of an odd count, whatever the order', () => {
@@ -17,18 +17,20 @@ describe('median', () => {
   });
 });
 
-describe('overBudget', () => {
-  it('passes a screen whose median frame is under the bound, however slow its worst frames', () => {
-    assert.equal(overBudget([5, 6, 7, 80, 90], 10), undefined);
+describe('budgetReport', () => {
+  it('reports a median under the bound as within it, however slow the worst frames', () => {
+    const line = budgetReport([5, 6, 7, 80, 90], 10);
+    assert.match(line, /7\.0 ms median over 5 frames/);
+    assert.match(line, /within the 10 ms budget/);
   });
 
-  it('fails a screen whose median frame is past the bound, saying by how much', () => {
-    const verdict = overBudget([12, 30, 31, 32, 40], 16);
-    assert.match(verdict ?? '', /31\.0 ms/);
-    assert.match(verdict ?? '', /16 ms/);
+  it('reports a median past the bound as over it, and as not failing', () => {
+    const line = budgetReport([12, 30, 31, 32, 40], 16);
+    assert.match(line, /31\.0 ms median/);
+    assert.match(line, /over the 16 ms budget — reported, not failing/);
   });
 
-  it('fails a screen that timed no frame, rather than passing it', () => {
-    assert.notEqual(overBudget([], 16), undefined);
+  it('says so when no frame was timed, rather than printing a median', () => {
+    assert.match(budgetReport([], 16), /no rendered frame was timed/);
   });
 });

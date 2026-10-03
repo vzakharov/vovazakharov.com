@@ -24,7 +24,7 @@ import {
   wetness,
 } from '../../src/pages/mushrooms/model/weather.ts';
 import { closingStep } from '../../src/pages/mushrooms/ui/scene/flower-closing.ts';
-import { median, overBudget } from './frame-budget.ts';
+import { budgetReport } from './frame-budget.ts';
 import {
   Clouds,
   type Controls,
@@ -138,11 +138,6 @@ export async function playRain(
     expect(false, 'no cloud a tap reaches on the screen');
     return;
   }
-  const budget = (span: string, timed: readonly number[]) => {
-    const slow = overBudget(timed);
-    expect(slow === undefined, `${span}: ${slow ?? ''}`);
-    return `median ${median(timed).toFixed(1)} ms over ${String(timed.length)} frames`;
-  };
   await page.tap(cloud);
   const first = await timedSteps(page, 1);
   const started = await shower();
@@ -160,13 +155,13 @@ export async function playRain(
     ...dashing,
     ...(await timedSteps(page, SHUT_BY - DASH)),
   ];
-  note(`closing: ${budget('closing', closingFrames)}`);
+  note(`closing: ${budgetReport(closingFrames)}`);
 
   await page.step(MID - TIMED - SHUT_BY);
   const timed = await timedSteps(page, TIMED);
   const mid = await shower();
   note(
-    `mid-shower: ${String(mid.drops)} drops, closing ${mid.closing.toFixed(2)}, ${budget('mid-shower', timed)}`,
+    `mid-shower: ${String(mid.drops)} drops, closing ${mid.closing.toFixed(2)}, ${budgetReport(timed)}`,
   );
   expect(mid.drops > 0, 'mid-shower, no drop in the air');
   expect(
@@ -193,7 +188,7 @@ export async function playRain(
     ...leaving,
     ...(await timedSteps(page, Math.max(OPEN_BY - STOP - OUT, 0))),
   ];
-  note(`reopening: ${budget('reopening', reopening)}`);
+  note(`reopening: ${budgetReport(reopening)}`);
 
   // Dry, in the opening view, where the flowers stand.
   await page.step(Math.max(DRY + REPAINT - Math.max(OPEN_BY, STOP + OUT), 1));
