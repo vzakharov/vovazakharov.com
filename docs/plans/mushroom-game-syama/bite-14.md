@@ -145,6 +145,51 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     wherever it starts, as before. A ground strafe slides the ground under
     the finger with it.
 
+## Calls — spores the child sows (the operator, playing)
+
+> мне кажется было бы прикольно вот как: когда "тыкаешь по грибу", из него
+> ж вылетают споры. Можно сделать, чтобы часть из них "оседала" на землю.
+> Не обязательно чтобы анимация прям делала "из вылетающих в землю" --
+> достаточно просто если рядом с грибом будут малюсенькие белые кружочки.
+> Количество ограниченно количеством "посадочных мест" около гриба. Когда
+> идёт дождь, эти споры прорастают.
+
+These replace the after-the-rain shed: calls 12, 14, 15, 18, 19 and 28 go
+as written; 13 (`near`), 16 (a sprout's clock), 17 (the parent's species
+and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
+
+30. **A tap on a full-grown mushroom settles one spore** on the ground near
+    it, beside the puff it already makes, while it has a free seat; a
+    sprout still growing settles none. Each tap one, so the child sees
+    each tap leave a dot.
+31. **A mushroom has `SPROUTS` (3) seats**: feet the scene finds round it
+    with `roomFor`'s `near`, as `shedIn` does; a spore takes one. A spore
+    is laid as a sprout at its start size would be, and counts against
+    `MUSHROOM_SLOTS` and `FIELD_MUSHROOMS`, so it always has room to
+    sprout. No seat or full caps: the tap puffs as today, no dot, no
+    refusal.
+32. **A spore is model state**, `Meadow.spores`: its foot, parent, seed
+    and when it settled — the reducer records it from the tap with the
+    feet the scene found, re-checked as `grow` re-checks. Nothing happens
+    to a spore while dry: it stays until rain, a walk away and back finds
+    it.
+33. **A spore is drawn as a tiny white dot on the ground** at its foot
+    (`PALETTE.spore` or a white of its own in the palette), a few px at
+    the clump's depth, scaled by depth like any foot thing, hazed and sunk
+    by the brow, under every mushroom and insect. It takes no tap and is
+    no perch. The tap's dot drops from the puff along `spore-drift.ts`'s
+    arc to its foot (reused), then stays.
+34. **When it rains, every spore sprouts** at a moment its seed picks in
+    the shower's first ~6 s after the dark sets in, wherever it lies —
+    out of sight too — becoming a sprout of its parent's species and
+    seed stream (17), growing on call 16's clock with the grow sound; the
+    dot is gone as the sprout pops. A spore whose parent was sunk since
+    still sprouts (the species is on the spore).
+35. **The after-the-rain shed is retired**: `shedding`, `Meadow.shed`,
+    the tick's `shed`, `shedIn`, `shedNow` and the stop's search go; the
+    probe's `sprouts()`, the `sprouts` play and the sweep's `--showers`
+    follow the new source (tap to sow, rain to sprout).
+
 ## Packages and waves
 
 - **Wave 1, in parallel: S1** shelter's model (spec-shelter § 5 step 1) and
