@@ -160,6 +160,14 @@ export class RainView {
     };
   }
 
+  /**
+   * How wet the meadow shows this frame, 0 to 1 (`wetnessShown`): the one
+   * value the wash, the twins, the flowers' closing and the caps' swell read.
+   */
+  get wetness(): number {
+    return this.shown.wetness;
+  }
+
   /** How many drops are falling now. */
   dropsInAir(): number {
     return 0;
