@@ -10,14 +10,8 @@
 
 import { z } from 'zod';
 
-import {
-  type Controls,
-  type Expect,
-  Flower,
-  type Page,
-  Point,
-  walkAndTurn,
-} from './mushroom-probe.ts';
+import { type Controls, Flower, Point } from './mushroom-probe-answers.ts';
+import { type Expect, type Page, walkAndTurn } from './mushroom-probe-drive.ts';
 import { NEWEST, Newest, plantNearest } from './play-tufts.ts';
 
 /** The flower picker as the page holds it, and what stands of the flower `id`. */

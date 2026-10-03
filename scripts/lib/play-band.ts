@@ -12,7 +12,7 @@ import { z } from 'zod';
 import { inkWidth } from '../../src/pages/mushrooms/model/mushroom-outline.ts';
 import { INK_REACH } from '../../src/pages/mushrooms/ui/scene/ink.ts';
 import { PALETTE } from '../../src/pages/mushrooms/ui/scene/palette.ts';
-import type { Page } from './mushroom-probe.ts';
+import type { Page } from './mushroom-probe-drive.ts';
 
 /**
  * How far past its outline each point's two samples stand, in the band's

@@ -12,13 +12,12 @@ import { z } from 'zod';
 
 import {
   type Controls,
-  type Expect,
   Flower,
-  type Page,
   Point,
   Pose,
   State,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-answers.ts';
+import type { Expect, Page } from './mushroom-probe-drive.ts';
 import { playBuzzers } from './play-buzzers.ts';
 import { playHouse } from './play-house.ts';
 import { playFollow, playInsects } from './play-insects.ts';

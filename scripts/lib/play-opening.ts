@@ -18,13 +18,8 @@ import {
   ofLayout,
   viewAt,
 } from '../../src/pages/mushrooms/ui/scene/view.ts';
-import {
-  Camera,
-  type Controls,
-  type Expect,
-  type Page,
-  Point,
-} from './mushroom-probe.ts';
+import { Camera, type Controls, Point } from './mushroom-probe-answers.ts';
+import type { Expect, Page } from './mushroom-probe-drive.ts';
 import { fliersOn } from './play-fliers.ts';
 
 const FPS = 60;

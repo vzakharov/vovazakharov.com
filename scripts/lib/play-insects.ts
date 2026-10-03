@@ -11,15 +11,17 @@ import { perchAnchorOf } from '../../src/pages/mushrooms/ui/scene/perches.ts';
 import { pick } from '../../src/shared/lib/collections.ts';
 import {
   type Controls,
-  type Expect,
   Eye,
-  grow,
   InsectPoints,
   Insects,
+  Point,
+} from './mushroom-probe-answers.ts';
+import {
+  type Expect,
+  grow,
   inTurn,
   type Page,
-  Point,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-drive.ts';
 import {
   fliersOn,
   landed,

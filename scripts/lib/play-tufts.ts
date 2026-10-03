@@ -10,13 +10,8 @@
 
 import { z } from 'zod';
 
-import {
-  type Controls,
-  type Expect,
-  type Page,
-  Point,
-  walkAndTurn,
-} from './mushroom-probe.ts';
+import { type Controls, Point } from './mushroom-probe-answers.ts';
+import { type Expect, type Page, walkAndTurn } from './mushroom-probe-drive.ts';
 
 /** The meadow's planting as the page holds it. */
 const Planting = z.object({

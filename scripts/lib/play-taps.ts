@@ -8,13 +8,8 @@
 
 import { z } from 'zod';
 
-import {
-  type Controls,
-  type Expect,
-  grow,
-  type Page,
-  Point,
-} from './mushroom-probe.ts';
+import { type Controls, Point } from './mushroom-probe-answers.ts';
+import { type Expect, grow, type Page } from './mushroom-probe-drive.ts';
 import { nearestOpening, TUFTS } from './play-tufts.ts';
 
 /**

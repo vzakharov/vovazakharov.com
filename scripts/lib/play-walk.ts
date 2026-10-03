@@ -31,16 +31,18 @@ import {
 import { cloudAt } from '../../src/pages/mushrooms/ui/scene/rain-sky.ts';
 import { browRow } from '../../src/pages/mushrooms/ui/scene/view.ts';
 import {
-  type Arrow,
   Camera,
   type Controls,
-  dragMoves,
-  type Expect,
   Eye,
-  type Page,
   Point,
   Sun,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-answers.ts';
+import {
+  type Arrow,
+  dragMoves,
+  type Expect,
+  type Page,
+} from './mushroom-probe-drive.ts';
 import { BARE_START, playHeldDrags, TAPS } from './play-taps.ts';
 import {
   BACK_HELD,

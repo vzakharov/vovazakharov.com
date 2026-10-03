@@ -22,14 +22,8 @@ import {
 } from '../../src/pages/mushrooms/model/stride.ts';
 import { crossingOf } from '../../src/pages/mushrooms/model/walk.ts';
 import { SHOWN_LEAST } from '../../src/pages/mushrooms/ui/scene/view.ts';
-import {
-  type Arrow,
-  type Camera,
-  type Expect,
-  Eye,
-  type Point,
-  type Strafe,
-} from './mushroom-probe.ts';
+import { type Camera, Eye, type Point } from './mushroom-probe-answers.ts';
+import type { Arrow, Expect, Strafe } from './mushroom-probe-drive.ts';
 
 export const FPS = 60;
 /** How far over a cruise a frame's pace may run, for the float left over. */

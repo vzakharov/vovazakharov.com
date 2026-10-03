@@ -25,14 +25,16 @@ import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
   Camera,
   type Controls,
-  type Expect,
   Eye,
-  grow,
   Insects,
+  Point,
+} from './mushroom-probe-answers.ts';
+import {
+  type Expect,
+  grow,
   inTurn,
   type Page,
-  Point,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-drive.ts';
 import { buttonsOf, nearestOpening, TUFTS } from './play-tufts.ts';
 import {
   blinks,

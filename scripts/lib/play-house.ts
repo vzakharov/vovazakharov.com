@@ -10,17 +10,19 @@ import { z } from 'zod';
 
 import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
 import {
-  backToFront,
   type Controls,
-  type Expect,
-  inTurn,
   Mouse,
-  type Page,
   Point,
   Runs,
   State,
   Top,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-answers.ts';
+import {
+  backToFront,
+  type Expect,
+  inTurn,
+  type Page,
+} from './mushroom-probe-drive.ts';
 import { playWorms } from './play-worms.ts';
 
 const DOOR = FURNISHINGS.indexOf('door');

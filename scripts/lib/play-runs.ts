@@ -25,20 +25,22 @@ import {
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 import type { Named } from '../../src/shared/typings/index.ts';
 import {
-  backToFront,
   Box,
   type Controls,
+  Mice,
+  Mouse,
+  Point,
+  Runs,
+  State,
+} from './mushroom-probe-answers.ts';
+import {
+  backToFront,
   type Expect,
   FRAME_MS,
   grow,
   inTurn,
-  Mice,
-  Mouse,
   type Page,
-  Point,
-  Runs,
-  State,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-drive.ts';
 
 const DOOR = FURNISHINGS.indexOf('door');
 /** Frames for a pop to settle. */

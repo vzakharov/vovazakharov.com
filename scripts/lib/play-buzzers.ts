@@ -20,14 +20,8 @@ import {
   MOST_TURN_RATE,
   Watch,
 } from './flier-watch.ts';
-import {
-  type Controls,
-  type Expect,
-  inTurn,
-  type Page,
-  Point,
-  Top,
-} from './mushroom-probe.ts';
+import { type Controls, Point, Top } from './mushroom-probe-answers.ts';
+import { type Expect, inTurn, type Page } from './mushroom-probe-drive.ts';
 import { fliersOn, type Insect, landed } from './play-fliers.ts';
 
 /** How many taps are aimed at a fly in flight, and how many must reach it. */

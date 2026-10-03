@@ -37,19 +37,16 @@ import { flag, given } from './lib/argv.ts';
 import { type Browser, launch } from './lib/cdp.ts';
 import { WATCH } from './lib/flier-watch.ts';
 import { budgetReport } from './lib/frame-budget.ts';
+import { PROBE, seededRandom, STEPPED_TWEENS } from './lib/mushroom-probe.ts';
+import { Controls, type Point } from './lib/mushroom-probe-answers.ts';
 import {
-  Controls,
   dragMoves,
   type Expect,
   FRAME_MS,
   inTurn,
   KEY_CODES,
   type Page,
-  type Point,
-  PROBE,
-  seededRandom,
-  STEPPED_TWEENS,
-} from './lib/mushroom-probe.ts';
+} from './lib/mushroom-probe-drive.ts';
 import { playApproach } from './lib/play-approach.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
 import { playHold } from './lib/play-hold.ts';

@@ -20,18 +20,20 @@ import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
 import type { Sized } from '../../src/shared/typings/index.ts';
 import { againstBudget, budgetReport, median } from './frame-budget.ts';
 import {
-  type Arrow,
   Camera,
   type Controls,
-  type Expect,
   Eye,
   Hitches,
-  inTurn,
-  type Page,
   Point,
   State,
   TendFrames,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-answers.ts';
+import {
+  type Arrow,
+  type Expect,
+  inTurn,
+  type Page,
+} from './mushroom-probe-drive.ts';
 import { paintedCap, Painting, painting } from './painted-cap.ts';
 
 const FPS = 60;

@@ -15,17 +15,19 @@ import { darkAt } from '../../src/pages/mushrooms/model/weather.ts';
 import { SPORE_REACH } from '../../src/pages/mushrooms/ui/scene/mushroom-room.ts';
 import {
   type Controls,
-  type Expect,
-  FRAME_MS,
-  inTurn,
-  type Page,
   Point,
   Shower,
   Sprouts,
   State,
+} from './mushroom-probe-answers.ts';
+import {
+  type Expect,
+  FRAME_MS,
+  inTurn,
+  type Page,
   tapCloud,
   timedSteps,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-drive.ts';
 
 /** How many spores the play sows. */
 const TAPS = 3;

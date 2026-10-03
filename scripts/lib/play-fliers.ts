@@ -7,13 +7,12 @@ import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
 import { pick } from '../../src/shared/lib/collections.ts';
 import {
-  type Expect,
   Insects,
-  type Page,
   type Point,
   ShownInsect,
   State,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-answers.ts';
+import type { Expect, Page } from './mushroom-probe-drive.ts';
 
 /** How close to its perch, in px of its leg's frame, a butterfly at rest is flown. */
 const ON_PERCH = 1.5;

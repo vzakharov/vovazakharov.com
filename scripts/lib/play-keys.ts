@@ -19,16 +19,14 @@ import {
   sameSound,
   soundOf,
 } from '../../src/pages/mushrooms/model/flower-sounds.ts';
+import { type Controls, Flower, Point } from './mushroom-probe-answers.ts';
 import {
-  type Controls,
   type Expect,
-  Flower,
   inTurn,
   type Letter,
   type Page,
-  Point,
   walkAndTurn,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-drive.ts';
 import { HOLD_FRAMES } from './play-hold.ts';
 import {
   buttonsOf,

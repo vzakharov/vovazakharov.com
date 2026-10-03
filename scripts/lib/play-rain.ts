@@ -27,18 +27,16 @@ import {
 } from '../../src/pages/mushrooms/model/weather.ts';
 import { closingStep } from '../../src/pages/mushrooms/ui/scene/flower-closing.ts';
 import { budgetReport } from './frame-budget.ts';
+import { type Controls, Shower, Sun } from './mushroom-probe-answers.ts';
 import {
-  type Controls,
   type Expect,
   FRAME_MS,
   grow,
   inTurn,
   type Page,
-  Shower,
-  Sun,
   tapCloud,
   timedSteps,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-drive.ts';
 
 /** A shower as the model starts it, its clock counted from the tap. */
 const SPAN = { startedAt: 0, stopsAt: RAIN_MS };

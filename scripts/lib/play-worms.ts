@@ -16,18 +16,20 @@ import {
   WORM_GIRTH_LEAST,
 } from '../../src/pages/mushrooms/model/worm.ts';
 import {
-  backToFront,
   Box,
   type Controls,
-  type Expect,
-  FRAME_MS,
-  type Page,
   Pose,
   State,
   Top,
   Windows,
   Worm,
-} from './mushroom-probe.ts';
+} from './mushroom-probe-answers.ts';
+import {
+  backToFront,
+  type Expect,
+  FRAME_MS,
+  type Page,
+} from './mushroom-probe-drive.ts';
 
 const ROUND = FURNISHINGS.indexOf('round');
 /** The frames a window takes to swing open, less the two a tap steps. */

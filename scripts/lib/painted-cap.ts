@@ -24,7 +24,7 @@ import {
   splayed,
 } from '../../src/pages/mushrooms/model/mushroom-pose.ts';
 import { placeOf } from '../../src/pages/mushrooms/ui/scene/clump-layout.ts';
-import type { Camera, Point } from './mushroom-probe.ts';
+import type { Camera, Point } from './mushroom-probe-answers.ts';
 
 /**
  * What the painter draws `id`'s dome from, as the page holds it: the
