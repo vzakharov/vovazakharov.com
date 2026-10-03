@@ -1,8 +1,9 @@
 /**
  * The course a mouse runs on the plane from one door's front to another's:
  * a curve bowed toward the eye, so its middle crosses open grass in front of
- * both houses rather than the gap behind the nearer stem, and long enough to
- * be watched. Plane lengths are in the clump's size.
+ * both houses rather than the gap behind the nearer stem, and out to a side
+ * until it is long enough to be watched. Plane lengths are in the clump's
+ * size.
  */
 
 import { distanceBetween, type Point } from './geometry';
@@ -50,13 +51,34 @@ function lengthsOf(path: RunPath): number[] {
 export const pathLength = (path: RunPath): number =>
   lengthsOf(path)[PIECES] ?? 0;
 
-/** The course whose middle stands `toward` the eye's way from its ends' middle `middle`. */
-function bowed(from: Point, to: Point, middle: Point, toward: Point): RunPath {
-  return {
-    from,
-    to,
-    bend: { x: 2 * toward.x - middle.x, y: 2 * toward.y - middle.y },
+/**
+ * The ways a course between `from` and `to` bows as an eye at `eye` sees it:
+ * `toward` the eye from the ends' `middle`, `off` that far from it, and
+ * `aside`, square to the run's chord.
+ */
+function waysOf(from: Point, to: Point, eye: Point) {
+  const middle = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
+  const off = distanceBetween(eye, middle);
+  const toward =
+    off === 0
+      ? { x: 0, y: 1 }
+      : { x: (eye.x - middle.x) / off, y: (eye.y - middle.y) / off };
+  const chord = distanceBetween(from, to) || 1;
+  const aside = {
+    x: -(to.y - from.y) / chord,
+    y: (to.x - from.x) / chord,
   };
+  return { middle, off, toward, aside };
+}
+
+/**
+ * Which side of its chord a course from `from` to `to` bows out to, fixed as
+ * its run starts: the side nearer the eye at `eye`, `1` when neither is, so
+ * an eye walking mid-run never flips it.
+ */
+export function sideOf(from: Point, to: Point, eye: Point): number {
+  const { toward, aside } = waysOf(from, to, eye);
+  return toward.x * aside.x + toward.y * aside.y < 0 ? -1 : 1;
 }
 
 /** How many halvings find the bow that gives a short course its least length. */
@@ -64,9 +86,11 @@ const HALVINGS = 30;
 
 /**
  * The course from `from` to `to` as an eye at `eye` sees it: its middle at
- * least `clearance` nearer the eye than the nearer of the two, and bowed
- * farther toward the eye until it is `least` long; never past half the way
- * from the nearer end to the eye.
+ * least `clearance` nearer the eye than the nearer of the two, never past
+ * half the way from it to the eye, then bowed out square to its chord on
+ * `side` (`sideOf`) until it is `least` long — across the screen where the
+ * two doors stand one behind the other, which a bow toward the eye shows
+ * only as a dip.
  */
 export function bowedPath(
   from: Point,
@@ -74,28 +98,32 @@ export function bowedPath(
   eye: Point,
   clearance: number,
   least: number,
+  side: number,
 ): RunPath {
-  const middle = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 };
-  const off = distanceBetween(eye, middle);
-  const way =
-    off === 0
-      ? { x: 0, y: 1 }
-      : { x: (eye.x - middle.x) / off, y: (eye.y - middle.y) / off };
+  const { middle, off, toward, aside } = waysOf(from, to, eye);
   const nearer = Math.min(distanceBetween(eye, from), distanceBetween(eye, to));
-  const most = Math.max(0, off - nearer / 2);
-  const pathAt = (by: number) =>
-    bowed(from, to, middle, {
-      x: middle.x + way.x * by,
-      y: middle.y + way.y * by,
-    });
-  let low = Math.min(most, Math.max(0, off - nearer + clearance));
-  if (pathLength(pathAt(low)) >= least) return pathAt(low);
-  let high = most;
-  if (pathLength(pathAt(high)) <= least) return pathAt(high);
+  const near = Math.min(
+    Math.max(0, off - nearer / 2),
+    Math.max(0, off - nearer + clearance),
+  );
+  const pathAt = (out: number): RunPath => {
+    const top = {
+      x: middle.x + toward.x * near + aside.x * side * out,
+      y: middle.y + toward.y * near + aside.y * side * out,
+    };
+    return {
+      from,
+      to,
+      bend: { x: 2 * top.x - middle.x, y: 2 * top.y - middle.y },
+    };
+  };
+  if (pathLength(pathAt(0)) >= least) return pathAt(0);
+  // Bowed out by half its least length, a course is longer than that.
+  let [low, high] = [0, least / 2];
   for (let halving = 0; halving < HALVINGS; halving++) {
-    const by = (low + high) / 2;
-    if (pathLength(pathAt(by)) < least) low = by;
-    else high = by;
+    const out = (low + high) / 2;
+    if (pathLength(pathAt(out)) < least) low = out;
+    else high = out;
   }
   return pathAt(high);
 }

@@ -38,11 +38,12 @@ export type RunOpening = Extract<RunLeg, 'peek' | 'leave' | 'run'>;
 
 /**
  * What a run is fixed at when it starts: how far it runs on the plane, the
- * leg it opens with, and whether its target was called and holds its door
- * open from the start.
+ * side its course bows out to (`sideOf`), the leg it opens with, and whether
+ * its target was called and holds its door open from the start.
  */
 export type RunCourse = {
   runLength: number;
+  side: number;
   opening: RunOpening;
   calling: boolean;
 };
@@ -225,14 +226,24 @@ export const hop = (since: number): number =>
 export const widthAlong = (from: Wide, to: Wide, progress: number): number =>
   from.across + (to.across - from.across) * progress;
 
-/** The course from `from`'s front to `to`'s as an eye at `eye` sees it, its middle `RUN_BOW` of the wider door nearer the eye than either. */
-export const pathBetween = (from: RunEnd, to: RunEnd, eye: Point): RunPath =>
+/**
+ * The course from `from`'s front to `to`'s as an eye at `eye` sees it, its
+ * middle `RUN_BOW` of the wider door nearer the eye than either, bowed out
+ * to `side` until it lasts `RUN_LEAST` at `RUN_PACE`.
+ */
+export const pathBetween = (
+  from: RunEnd,
+  to: RunEnd,
+  eye: Point,
+  side: number,
+): RunPath =>
   bowedPath(
     from.front,
     to.front,
     eye,
     RUN_BOW * Math.max(from.across, to.across),
     RUN_PACE * RUN_LEAST,
+    side,
   );
 
 /**

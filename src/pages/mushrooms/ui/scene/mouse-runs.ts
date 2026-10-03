@@ -45,7 +45,7 @@ import {
   runnerAt,
   type RunOpening,
 } from '../../model/mouse-run-clock';
-import { alongPath, pathLength } from '../../model/mouse-run-course';
+import { alongPath, pathLength, sideOf } from '../../model/mouse-run-course';
 import { stemHalfWidth } from '../../model/mushroom-profile';
 import type { Seeded } from '../../model/random';
 import { type BedPlace, bedPlace, standAt } from './bed-place';
@@ -301,7 +301,8 @@ export class MouseRuns {
   private lookOf(run: MouseRun): number | undefined {
     if (!this.view || !run.start || !run.end) return undefined;
     const { eye } = this.view;
-    const { heading } = alongPath(pathBetween(run.start, run.end, eye), 0);
+    const path = pathBetween(run.start, run.end, eye, run.course.side);
+    const { heading } = alongPath(path, 0);
     return facingOn(heading, run.start.front, eye);
   }
 
@@ -322,14 +323,15 @@ export class MouseRuns {
     const end = this.endAt(to);
     if (opening === 'peek') this.counts = left(this.counts, from);
     const eye = this.view?.eye;
+    const side = start && end && eye ? sideOf(start.front, end.front, eye) : 1;
     const runLength =
-      start && end && eye ? pathLength(pathBetween(start, end, eye)) : 0;
+      start && end && eye ? pathLength(pathBetween(start, end, eye, side)) : 0;
     const hit = new Phaser.Geom.Circle();
     const run: MouseRun = {
       from,
       to,
       beganAt,
-      course: { runLength, opening, calling },
+      course: { runLength, side, opening, calling },
       start,
       end,
       fixed: fixedStart !== undefined,
@@ -422,7 +424,12 @@ export class MouseRuns {
   private runnerPoint(run: MouseRun, t: number) {
     if (!run.start || !run.end || !this.view) return;
     const moment = runAt(Math.max(0, t - run.beganAt), run.course);
-    const path = pathBetween(run.start, run.end, this.view.eye);
+    const path = pathBetween(
+      run.start,
+      run.end,
+      this.view.eye,
+      run.course.side,
+    );
     return runnerAt(moment, run.start, run.end, path);
   }
 

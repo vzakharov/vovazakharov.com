@@ -11,6 +11,7 @@
 
 import { z } from 'zod';
 
+import { RUN_LEAST } from '../../src/pages/mushrooms/model/mouse-run-clock.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 import {
   Box,
@@ -34,10 +35,11 @@ const LONGEST_RUN = 360;
 /**
  * When a run between the clump's two doors is halfway across, in seconds
  * from its start: 0.85 s of peek and 0.25 s of hop down, then half its
- * shortest run (0.4 s); a fleeing run opens on the hop.
+ * course, which the clump's close doors bow out to `RUN_LEAST`; a fleeing
+ * run opens on the hop.
  */
-const PEEKED_MID = 1.3;
-const FLED_MID = 0.45;
+const PEEKED_MID = 0.85 + 0.25 + RUN_LEAST / 2;
+const FLED_MID = 0.25 + RUN_LEAST / 2;
 /** CSS px of meadow kept round the clump in its close frames. */
 const PAD = 60;
 /** How far below a runner's foot, in CSS px, a mushroom's foot is nearer for sure. */
