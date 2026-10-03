@@ -78,10 +78,10 @@ committed yet.
   way (within 0.01) and not its sinking slide (over 0.1 off it). The three
   insect test files, typecheck, prettier and eslint green.
 
+- Step 2: both loosenings have their Russian lines in `to-check.md`;
+  `tail-face.md`'s tabL bend is credited to the brow's sink.
+
 ## Left
 
-1. Russian lines in `to-check.md` for both watch loosenings: frames past
-   the brow, and the whole window in view. Correct `tail-face.md`'s
-   attribution of the tabL bend.
-2. Rebuild the probe. Run tabL `meadow` to check the watch loosening, then
+1. Rebuild the probe. Run tabL `meadow` to check the watch loosening, then
    phoneL `meadow`, then phoneP `meadow`.

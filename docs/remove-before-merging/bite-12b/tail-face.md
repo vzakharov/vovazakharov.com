@@ -22,9 +22,10 @@ it flew at 24733 ms" (flight watch, `MOST_HEADING_OFF` 0.3).
 
 - Static check of the mapping at the run's frame point (608, 449.5),
   forward 13: drawn at (131.8, 471.1) — the trace drew (131.8, 472.8) — and
-  a frame turn of −1.07 drawn −1.19: 0.12 rad of bend, most of it the skim
-  easing the flight down onto the grass (`aloftFramed`), the rest the
-  screen's azimuth-straight lay.
+  a frame turn of −1.07 drawn −1.19: 0.12 rad of bend. Corrected by
+  `tail-turn.md`: most of it is the brow's sink mirroring the foot's rows
+  (the foot is past `D_SEE` there), not the skim or the lay — a frame turn
+  of −1.1 is drawn −1.22 sunk, −1.05 unsunk.
 
 ## Done
 
