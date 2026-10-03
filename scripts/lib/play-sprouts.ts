@@ -12,7 +12,7 @@ import { z } from 'zod';
 
 import { SPROUT_WINDOW_MS } from '../../src/pages/mushrooms/model/sprouting.ts';
 import { darkAt } from '../../src/pages/mushrooms/model/weather.ts';
-import { SPROUT_REACH } from '../../src/pages/mushrooms/ui/scene/mushroom-room.ts';
+import { SPORE_REACH } from '../../src/pages/mushrooms/ui/scene/mushroom-room.ts';
 import {
   Clouds,
   type Controls,
@@ -37,7 +37,7 @@ const SEEK = 30;
 /** Frames after the sprouts are up drawn one by one. */
 const TIMED = 24;
 /**
- * How far off its parent's foot, in `SPROUT_REACH`es, a spore may lie on
+ * How far off its parent's foot, in `SPORE_REACH`es, a spore may lie on
  * the screen: the reach is laid out at the clump's front foot, and the
  * ground nearer the eye stands larger.
  */
@@ -85,7 +85,7 @@ export async function playSprouts(
     expect(shown, `${id} is not drawn once landed`);
     expect(at !== null, `no tap reaches ${id}: something is drawn over it`);
     expect(
-      apart !== null && apart <= SPROUT_REACH * SLACK,
+      apart !== null && apart <= SPORE_REACH * SLACK,
       `${id} lies ${apart?.toFixed(2) ?? 'with no parent'} clump sizes off ${parent}`,
     );
   }

@@ -7,7 +7,7 @@ import { apartOnScreen } from '../../model/placement';
 import { SPORE_SEATS } from '../../model/sprouting';
 import { groundIn } from './clump-layout';
 import { standOf } from './flower-sight';
-import { SPROUT_REACH } from './mushroom-room';
+import { SPORE_REACH } from './mushroom-room';
 import { sporeOnTap } from './spore-seats';
 import { viewAt } from './view';
 import { opened } from './visit-play';
@@ -35,7 +35,7 @@ describe('the spore a tap on a mushroom settles', () => {
       assert.ok(settled.spore, `tap ${String(tap)} settled none`);
       const at = groundIn(ground, settled.spore.foot);
       assert.ok(at);
-      assert.ok(apartOnScreen(at, from) <= SPROUT_REACH + 1e-9);
+      assert.ok(apartOnScreen(at, from) <= SPORE_REACH + 1e-9);
       meadow = reduce(meadow, { kind: 'select', id, ...settled });
     }
     assert.equal(meadow.spores.length, SPORE_SEATS);

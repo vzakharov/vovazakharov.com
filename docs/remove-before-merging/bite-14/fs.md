@@ -31,3 +31,20 @@
    `SPROUT_REACH` → `SPORE_REACH` (used in mushroom-room, play-sprouts,
    spore-seats.test); `spore-drift.ts:107` swing toward
    `sign(end.x - start.x)`, a centred foot by the spore's seed.
+
+## FS2
+
+Picks up § Left. Call 40's late spore (sprouting past the stop) left as is.
+
+- Step 2 done: the sprout's clock starts at its moment (`at = moment`);
+  `sproutScale` has no hidden 0 phase, `isOld`, the bed's visibility,
+  `mushroom-shown`'s `plantedAt` and `visit-play`'s `SHOWER_EVERY` drop
+  `SPORE_FALL_MS`, now documented as the tap's fall time. Tests updated
+  (`sprouting`, `perch-sight`). Visible timing unchanged.
+- Step 3 done: `placement.ts`/`mushroom-room.ts` say a spore's parent;
+  `SPROUT_REACH` is `SPORE_REACH`; `fall` takes the spore's seed and swings
+  its arc toward the foot's side (`sideOf`, fixed at set-off), a foot
+  straight under the crown by the seed's parity.
+- `sprouts` play, tabL: passes — three dots 0.96/0.99/0.70 apart, one
+  picked, rain brings 2 sprouts up at start size, 0 spores left, frame
+  14.2 ms. Nothing left.

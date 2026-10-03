@@ -13,12 +13,7 @@ import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
-import {
-  SPORE_FALL_MS,
-  SPORE_SEATS,
-  SPROUT_MS,
-  sproutedInRain,
-} from '../../model/sprouting';
+import { SPORE_SEATS, SPROUT_MS, sproutedInRain } from '../../model/sprouting';
 import { RAIN_MS } from '../../model/weather';
 import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
@@ -41,7 +36,7 @@ type Meadowed = { meadow: Meadow };
 export type Opened = Stand & Meadowed & { sowed: Meadow };
 
 /** How long a shower in `opened` waits after the last: its rain, then every sprout grown old. */
-const SHOWER_EVERY = RAIN_MS + SPORE_FALL_MS + SPROUT_MS;
+const SHOWER_EVERY = RAIN_MS + SPROUT_MS;
 
 /**
  * A meadow as the scene opens it for the visit `seed`, drawing from the

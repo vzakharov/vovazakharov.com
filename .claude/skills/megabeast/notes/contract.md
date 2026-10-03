@@ -171,3 +171,9 @@
   rain bite starts with its model done. The skill should treat a reorder
   as: wrap up the running agents to a pushed step, move the open bite's
   text into the rest of the elephant whole, and write which part is built.
+- **Work that waits on the operator's answer is built on a side branch.**
+  At bite 14 a fork was put to the operator with a recommendation and a
+  "taken at the tail if unanswered" rule. Building the recommended option
+  at once, pushed to its own `wt/<name>` branch, and merging it at the
+  tail kept the bite moving without landing a choice he had not made; an
+  answer for another option would have cost only the side branch.

@@ -14,7 +14,7 @@ import {
 import { groundIn } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import { patchlessIn } from './mushroom-patch';
-import { SPROUT_REACH } from './mushroom-room';
+import { SPORE_REACH } from './mushroom-room';
 import { viewAt } from './view';
 import { opened, standingIn } from './visit-play';
 
@@ -39,7 +39,7 @@ describe('a visit opened under showers', () => {
       const at = groundIn(once.layout.mushrooms, foot);
       const from = groundIn(once.layout.mushrooms, parent.foot);
       assert.ok(at && from);
-      assert.ok(apartOnScreen(at, from) <= SPROUT_REACH + 1e-9);
+      assert.ok(apartOnScreen(at, from) <= SPORE_REACH + 1e-9);
     }
     const parents = new Set(sprouts.map(({ sprout }) => sprout?.parent));
     assert.ok(sprouts.length <= parents.size * SPORE_SEATS);
