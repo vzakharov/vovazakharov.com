@@ -7,17 +7,19 @@ import { planeSeen } from '../../model/ground';
 import { between } from '../../model/random';
 import { type DrawnMushroom, drawnMushrooms } from './hit-areas';
 import { PALETTE } from './palette';
-import { dropColumn, firstCrossing, lerpPoint } from './rain-fall';
+import {
+  dropColumn,
+  type DropsInAir,
+  firstCrossing,
+  gushToStart,
+  lerpPoint,
+  MOST_DROPS,
+  steadyToStart,
+} from './rain-fall';
 import { browRow, ofGround, type View } from './view';
 
-/** The most drops ever in the air, the gush's included. */
-const MOST_DROPS = 120;
 /** The pool's slots: the drops in the air and the rings of those just landed. */
 const SLOTS = 160;
-/** The drops a tap on a cloud while it rains adds under it at once. */
-const GUSH_DROPS = 24;
-/** The drops in the air in a full downpour, leaving room for a gush. */
-const STEADY_DROPS = MOST_DROPS - GUSH_DROPS;
 /** How fast a drop falls, in screen heights a second. */
 const FALL_SPEED = 1.5;
 /** How far a drop drifts across for each px it falls: the streaks' slant. */
@@ -49,6 +51,8 @@ type Slot = {
   fall: number;
   at: number;
   landed: number | undefined;
+  /** Whether a gush started it, so it falls outside the steady count. */
+  gushed: boolean;
   /** How big it is drawn, from `FAR_SIZE` at the brow to 1 at the screen's foot. */
   size: number;
 };
@@ -116,9 +120,9 @@ export class RainDrops {
     view: View,
   ): void {
     this.caps = undefined;
-    const wanted = Math.round(STEADY_DROPS * downpour) - this.inAir();
+    const wanted = steadyToStart(downpour, this.air());
     for (let index = 0; index < wanted; index++) {
-      if (!this.start(t, view, under, LEAD_IN)) break;
+      if (!this.start(t, view, under, LEAD_IN, false)) break;
     }
     for (const slot of this.slots) this.drive(slot, t, view);
   }
@@ -126,14 +130,25 @@ export class RainDrops {
   /** Starts a gush of drops under the cloud `under` just tapped while it rains. */
   gush(t: number, under: Circle | undefined, view: View): void {
     this.caps = undefined;
-    for (let index = 0; index < GUSH_DROPS; index++) {
-      if (!this.start(t, view, under, LEAD_IN / 3, 1)) break;
+    const wanted = gushToStart(this.inAir());
+    for (let index = 0; index < wanted; index++) {
+      if (!this.start(t, view, under, LEAD_IN / 3, true, 1)) break;
     }
   }
 
   /** How many drops are falling now. */
   inAir(): number {
-    return this.slots.filter((slot) => falling(slot)).length;
+    return this.air().all;
+  }
+
+  private air(): DropsInAir {
+    const air = { all: 0, gushed: 0 };
+    for (const slot of this.slots) {
+      if (!falling(slot)) continue;
+      air.all++;
+      if (slot.gushed) air.gushed++;
+    }
+    return air;
   }
 
   /** Starts a drop in a free slot; whether one was free. */
@@ -142,6 +157,7 @@ export class RainDrops {
     view: View,
     under: Circle | undefined,
     lead: number,
+    gushed: boolean,
     share?: number,
   ): boolean {
     const slot = this.inAir() < MOST_DROPS ? this.free(t) : undefined;
@@ -162,6 +178,7 @@ export class RainDrops {
       fall: fall * (cap?.along ?? 1),
       at: t,
       landed: undefined,
+      gushed,
       size: FAR_SIZE + (1 - FAR_SIZE) * ((row - brow) / (view.height - brow)),
     });
     return true;
@@ -206,6 +223,7 @@ export class RainDrops {
       fall: 0,
       at: 0,
       landed: undefined,
+      gushed: false,
       size: 1,
     };
     slots.push(slot);

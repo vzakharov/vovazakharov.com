@@ -1,7 +1,8 @@
 /**
- * Where a drop falls, as pure functions of a random stream and the screen:
- * the column it falls down, densest under the tapped cloud, and the first
- * point of its path a drawn outline stops it at.
+ * How many drops fall and where, as pure functions of a random stream and
+ * the screen: the steady and the gushed counts, the column a drop falls
+ * down, densest under the tapped cloud, and the first point of its path a
+ * drawn outline stops it at.
  */
 
 import type { Circle, Point } from '../../model/geometry';
@@ -10,6 +11,31 @@ import { CLOUD_SPREAD } from './rain-sky';
 
 /** The share of the drops that fall in the tapped cloud's span while it shows. */
 export const UNDER_CLOUD = 0.5;
+
+/** The most drops ever in the air, the gush's included. */
+export const MOST_DROPS = 120;
+/** The drops a tap on a cloud while it rains adds under it at once. */
+export const GUSH_DROPS = 24;
+/** The steady drops in the air in a full downpour, leaving the gush its own room. */
+export const STEADY_DROPS = MOST_DROPS - GUSH_DROPS;
+
+/** The drops in the air now: all of them, and those of a gush among them. */
+export type DropsInAir = { all: number; gushed: number };
+
+/**
+ * How many steady drops to start for `downpour` (0 to 1): up to its share
+ * of `STEADY_DROPS`, a gush's drops not counted against it, so a gush adds
+ * on top of the steady rain rather than pausing it — within `MOST_DROPS`.
+ */
+export function steadyToStart(downpour: number, air: DropsInAir): number {
+  const steady = Math.round(STEADY_DROPS * downpour) - (air.all - air.gushed);
+  return Math.max(0, Math.min(steady, MOST_DROPS - air.all));
+}
+
+/** How many drops a gush starts with `all` drops in the air: `GUSH_DROPS`, within `MOST_DROPS`. */
+export function gushToStart(all: number): number {
+  return Math.max(0, Math.min(GUSH_DROPS, MOST_DROPS - all));
+}
 
 /**
  * The tapped cloud's drawn span across a screen `width` wide, clipped to it;
