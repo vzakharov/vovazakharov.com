@@ -2,6 +2,8 @@ import type { Point } from '../../model/geometry';
 import { windowSlots } from '../../model/house';
 import type { Looking, TapTimed } from '../../model/motion';
 import type { MushroomGenes } from '../../model/mushroom-genes';
+import { toCanvas } from '../../model/mushroom-outline';
+import { capFrame } from '../../model/mushroom-pose';
 import {
   pathLength,
   peekPath,
@@ -47,6 +49,8 @@ export class HouseWorm {
   /** The cap it was last painted on, which a trip's way is laid on, and whether it showed there. */
   private drawn: { genes: MushroomGenes; size: number } | undefined;
   private showed = false;
+  /** Its head's middle and its girth as last painted, in its house's graphics' pixels, as the probe reads them: `undefined` while it is in, the head while it is behind a pane. */
+  painted: { head: Point | undefined; girth: number } | undefined;
 
   constructor(voice: MeadowSound, phase: number) {
     this.voice = voice;
@@ -110,11 +114,15 @@ export class HouseWorm {
     const pose = this.at(t);
     const { trip } = this;
     this.showed = pose !== undefined;
+    this.painted = undefined;
     if (!pose || !trip) return undefined;
     const { look } = pose;
-    return {
-      ...wormBody(trip.path, pose, trip.girth, t - trip.wriggledAt),
-      look,
+    const body = wormBody(trip.path, pose, trip.girth, t - trip.wriggledAt);
+    const place = (point: Point) => toCanvas(size)(capFrame(genes)(point));
+    this.painted = {
+      head: body.head && place(body.head),
+      girth: trip.girth * size,
     };
+    return { ...body, look };
   }
 }
