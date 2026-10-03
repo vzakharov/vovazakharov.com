@@ -97,3 +97,10 @@ Filled in as each lands.
   are Phaser classes no test builds, and the one pure piece (`laidOf`) is
   now covered — accepted. Its fliers run found three reds from B's d43c203;
   B is told to settle them before it reports.
+- **A1 (T140, T147 tap)**: e4e8c72 (`Scened.tendedAt`; `plantable`,
+  `plantSounding`, `tapTuft` and `sowSounding` — the last beyond the call,
+  it picks among tufts judged there — read it), c7f4db61 (`planter.test.ts`
+  drives the real `Planter` through five walks short of a re-tend, red with
+  the walked eye; `tufts.test.ts`'s faults measured on planted heads, not
+  the rule that chose them). One line outside its files: `meadow-scene.ts`
+  wires `tendedAt`. A2 launched on T141.
