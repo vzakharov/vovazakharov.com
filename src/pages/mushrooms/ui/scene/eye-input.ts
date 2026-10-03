@@ -155,6 +155,15 @@ export class EyeInput {
     this.change((walk) => letGoStrafe(walk, direction));
   }
 
+  /** Lets go of every turn, walk and strafe the keys hold. */
+  readonly letGo = (): void => {
+    for (const direction of [-1, 1] as const) {
+      this.letGoTurn(direction);
+      this.letGoWalk(direction);
+      this.letGoStrafe(direction);
+    }
+  };
+
   /** Lets `scene`'s pointer turn and walk the eye. Returns what stops it. */
   listen(scene: Phaser.Scene): () => void {
     const { input, cameras } = scene;

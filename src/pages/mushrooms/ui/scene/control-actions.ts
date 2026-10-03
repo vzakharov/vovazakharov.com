@@ -2,7 +2,7 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Arrivals } from './arrivals';
 import type { ControlHandlers } from './controls';
-import type { MapSwitch } from './map-switch';
+import type { MapView } from './map-view';
 import type { Planter, Scened } from './planter';
 import type { MeadowSound } from './sound';
 
@@ -14,7 +14,7 @@ import type { MeadowSound } from './sound';
 export type ControlScene = Pick<Scened, 'dispatch'> & {
   voice: MeadowSound;
   repaint: () => void;
-  map: Pick<MapSwitch, 'flip'>;
+  map: Pick<MapView, 'flip'>;
   arrivals: Pick<Arrivals, 'grow' | 'roomy' | 'release'>;
   planter: Pick<Planter, 'colour' | 'plant' | 'plantable'>;
 };

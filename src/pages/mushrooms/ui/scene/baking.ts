@@ -6,6 +6,9 @@
 
 import type { Circle, Cornered, Lefted, Wide } from '../../model/geometry';
 
+/** Device pixels to a CSS pixel. */
+export type AtRatio = { ratio: number };
+
 /** A stretch across, in CSS px or texels: where it starts and how far it runs. */
 export type Span = Lefted & Wide;
 

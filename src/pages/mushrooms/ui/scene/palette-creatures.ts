@@ -74,6 +74,10 @@ export const CREATURES = {
   spore: 0xff_f6_d8,
   /** The buttons' discs: a warm white, so they sit in the palette. */
   hud: 0xff_fa_f0,
+  /** The map's sheet: an old paper, warmer and darker than the buttons' discs so they stand on it. */
+  paper: 0xf2_e6_c8,
+  /** The map sheet's edge, a step darker, just inside its ink. */
+  paperEdge: 0xd8_c3_96,
   /** The `+` and `−` badges. */
   grow: 0x4c_b0_4a,
   shrink: 0xe8_7a_2c,

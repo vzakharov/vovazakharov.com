@@ -1,28 +1,46 @@
 import * as Phaser from 'phaser';
 
-/** What the meadow answers on the scene's own events. */
-type MeadowHandlers = {
+import { playTheMeadow } from './instrument-input';
+import type { MapView } from './map-view';
+import type { MeadowSound } from './sound';
+
+type Played = Parameters<typeof playTheMeadow>;
+
+/** What of the scene the meadow's listeners act through. */
+type MeadowPieces = {
   resize: () => void;
   /** A tap's press, with the game objects under it. */
   tap: (
     pointer: Phaser.Input.Pointer,
     over: readonly Phaser.GameObjects.GameObject[],
   ) => void;
-  /** A tap's release: a browser lets sound start only there. */
-  release: () => void;
+  instrument: Played[1];
+  flowers: Played[2];
+  eye: Played[3];
+  planter: Played[4];
+  /** Started on a tap's release, as a browser lets sound start only there. */
+  voice: Pick<MeadowSound, 'start' | 'stop'>;
+  /** The meadow's keys wait while it is open. */
+  map: Pick<MapView, 'open'>;
 };
 
 /**
- * Binds `handlers` to the scene's resize, press and release, and on the
- * scene's shutdown lets go of them and runs each of `stops` — the meadow's
- * other listeners' unbinding, and the sound's stop — in order.
+ * Binds the scene's resize, press and release, the keys and chords that play
+ * the meadow, and the pointer that turns and walks the eye; on the scene's
+ * shutdown lets go of all of them and stops the sound.
  */
 export function listenOnMeadow(
   scene: Phaser.Scene,
-  { resize, tap, release }: MeadowHandlers,
-  stops: ReadonlyArray<() => void>,
+  { resize, tap, instrument, flowers, eye, planter, voice, map }: MeadowPieces,
 ): void {
   const { scale, input, events } = scene;
+  const release = () => {
+    voice.start();
+  };
+  const stops = [
+    playTheMeadow(scene, instrument, flowers, eye, planter, () => map.open),
+    eye.listen(scene),
+  ];
   scale.on(Phaser.Scale.Events.RESIZE, resize);
   input.on(Phaser.Input.Events.POINTER_DOWN, tap);
   input.on(Phaser.Input.Events.POINTER_UP, release);
@@ -31,5 +49,6 @@ export function listenOnMeadow(
     input.off(Phaser.Input.Events.POINTER_DOWN, tap);
     input.off(Phaser.Input.Events.POINTER_UP, release);
     for (const stop of stops) stop();
+    voice.stop();
   });
 }

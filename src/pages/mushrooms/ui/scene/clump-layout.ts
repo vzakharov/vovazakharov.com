@@ -97,6 +97,10 @@ function standOn(
   return { x, y, size: size * scale, splay, haze };
 }
 
+/** How big, in the clump's size, a mushroom stands as the clump's `opening`th, or as the forest. */
+const sizeAs = (opening: number | undefined): number =>
+  opening === undefined ? FOREST_SIZE : (CLUMP_SIZES[opening] ?? 1);
+
 /**
  * Where `camera` stands a mushroom leaning `lean` on `ground`, the layout's
  * ground under its foot: as the clump's `opening`th, its splay the clump's;
@@ -108,10 +112,12 @@ function placedAs(
   lean: Lean,
   opening: number | undefined,
 ): Placement {
-  return opening === undefined
-    ? standOn(camera, ground, FOREST_SIZE, lean * FOREST_SPLAY)
-    : standOn(camera, ground, CLUMP_SIZES[opening] ?? 1, lean * CLUMP_SPLAY);
+  const splay = opening === undefined ? FOREST_SPLAY : CLUMP_SPLAY;
+  return standOn(camera, ground, sizeAs(opening), lean * splay);
 }
+
+/** How big, in the clump's size, a mushroom on `foot` stands on the ground, before depth scales it. */
+export const sizeOn = (foot: Point): number => sizeAs(openingIndex(foot));
 
 /**
  * Where `camera` stands a mushroom on `foot`, leaning `lean`: on an opening

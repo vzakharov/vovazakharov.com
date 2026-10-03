@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 import type { Meadow } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import { shake, wobble } from '../../model/motion';
-import { faceFrame, SUPERSAMPLE } from './baking';
+import { type AtRatio, faceFrame, SUPERSAMPLE } from './baking';
 import { containsCircle, type WithCircleHit } from './hit-areas';
 import { tapReach } from './tap-reach';
 
@@ -19,22 +19,22 @@ export const DIMMED_ALPHA = 0.4;
  * A button as the screen shows it: its picture baked into `face` whenever
  * what it shows or where it stands changes, so a frame draws one textured
  * quad per button rather than replaying its pictogram's shapes. `hit` is in
- * the face's own texels, which is where a tap on it is tested.
+ * the face's own texels, which is where a tap on it is tested; `ratio` is
+ * as of the last bake, the face's scale at rest being its inverse.
  */
-export type Button = WithCircleHit & {
-  face: Phaser.GameObjects.RenderTexture;
-  /** What `face` was last baked from; a paint that changes none of it bakes nothing. */
-  baked: string | undefined;
-  /** Device pixels to a CSS pixel as of the last bake; the face's scale at rest is its inverse. */
-  ratio: number;
-  /** Where the layout stands it; each frame's movement is an offset from here. */
-  home: Circle;
-  pressedAt: number;
-  /** When it last shook its head at a tap it could not act on. */
-  refusedAt: number;
-  /** Bakes `draw` into `face`, the button's middle at the graphics' origin. */
-  bake: (draw: Draw, home: Circle, ratio: number) => void;
-};
+export type Button = WithCircleHit &
+  AtRatio & {
+    face: Phaser.GameObjects.RenderTexture;
+    /** What `face` was last baked from; a paint that changes none of it bakes nothing. */
+    baked: string | undefined;
+    /** Where the layout stands it; each frame's movement is an offset from here. */
+    home: Circle;
+    pressedAt: number;
+    /** When it last shook its head at a tap it could not act on. */
+    refusedAt: number;
+    /** Bakes `draw` into `face`, the button's middle at the graphics' origin. */
+    bake: (draw: Draw, home: Circle, ratio: number) => void;
+  };
 
 /** Paints a button's picture into `graphics`, centred on its origin; `hairline` is one device pixel, in CSS pixels. */
 type Draw = (graphics: Phaser.GameObjects.Graphics, hairline: number) => void;

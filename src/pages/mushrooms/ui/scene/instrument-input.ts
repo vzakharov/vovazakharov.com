@@ -76,6 +76,7 @@ export function playTheMeadow(
   flowers: Pick<FlowerBed, 'chordTap' | 'inView' | 'answer' | 'hush'>,
   eye: EyeInput,
   planter: Pick<Planter, 'plantSounding' | 'sowSounding' | 'sownInView'>,
+  waiting: () => boolean,
 ): () => void {
   const { canvas } = scene.game;
   const keyed: KeyedPlay = {
@@ -93,6 +94,8 @@ export function playTheMeadow(
   const stopKeys = listenForKeys(
     canvas,
     (action) => {
+      // The meadow waits under the map: a key's press does nothing, its release still lets go.
+      if (waiting()) return;
       switch (action.kind) {
         case 'pan': {
           eye.holdTurn(action.direction);

@@ -59,7 +59,7 @@ export type LayeredPoint = Point & Layered;
 export type Framed = { frame: Frame };
 
 /** How big, in px, one of the clump's size stands where a point is shown. */
-type Scaling = { scale: number };
+export type Scaling = { scale: number };
 
 /**
  * A ground point as a camera shows it: where on the screen, how big one of

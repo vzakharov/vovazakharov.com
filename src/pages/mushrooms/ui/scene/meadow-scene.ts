@@ -24,9 +24,8 @@ import { FlowerBed } from './flower-bed';
 import { type Stand, standOf } from './flower-sight';
 import { InsectView } from './insect-view';
 import { Instrument } from './instrument';
-import { playTheMeadow } from './instrument-input';
 import { type MeadowLayout, meadowLayout } from './layout';
-import { MapSwitch } from './map-switch';
+import { type MapSnapshot, MapView } from './map-view';
 import { listenOnMeadow } from './meadow-listeners';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
@@ -84,12 +83,16 @@ export class MeadowScene extends Phaser.Scene {
    */
   private sown = false;
   private readonly voice = new MeadowSound();
-  private readonly map = new MapSwitch();
   /** Seconds on the scene's clock, as of the last frame. */
   private clock = 0;
   private readonly now = (): number => this.clock;
   /** Where the frames are seen from, and what turns and walks it. */
   private readonly eye = new EyeInput(this.now);
+  private readonly mapShot = (): MapSnapshot | undefined => {
+    const [stand, eye] = [this.stand(), this.eye.eye()];
+    return stand && eye && { stand, eye, ratio: this.pixelRatio() };
+  };
+  private readonly map = new MapView(this.now, this.mapShot, this.eye.letGo);
   /** The walk as the frames go by: the feet landing and the bob. */
   private readonly gait = new Gait();
   private readonly instrument = new Instrument(this.voice, this.now);
@@ -153,12 +156,10 @@ export class MeadowScene extends Phaser.Scene {
       },
       () => this.viewNow(),
     );
-    this.controls = new Controls(
-      this,
-      controlActions(this.controlScene()),
-      this.now,
-      HUD_DEPTH,
-    );
+    const actions = controlActions(this.controlScene());
+    this.controls = new Controls(this, actions, this.now, HUD_DEPTH);
+    // Over the rain, under the map button.
+    this.map.mount(this, HUD_DEPTH - 0.5, actions.map);
     this.rain = new RainView(
       this,
       HUD_DEPTH,
@@ -168,24 +169,18 @@ export class MeadowScene extends Phaser.Scene {
     );
     this.paint();
     this.bed.reconcile(this.meadow, this.requireLayout(), this.clock, true);
-    const { instrument, flowers, eye, planter, voice, paint, tapMeadow } = this;
-    listenOnMeadow(
-      this,
-      {
-        resize: paint,
-        tap: tapMeadow,
-        release: () => {
-          voice.start();
-        },
-      },
-      [
-        playTheMeadow(this, instrument, flowers, eye, planter),
-        eye.listen(this),
-        () => {
-          voice.stop();
-        },
-      ],
-    );
+    const { instrument, flowers, eye, planter, voice, map } = this;
+    const { paint: resize, tapMeadow: tap } = this;
+    listenOnMeadow(this, {
+      resize,
+      tap,
+      instrument,
+      flowers,
+      eye,
+      planter,
+      voice,
+      map,
+    });
   }
 
   override update(time: number): void {
@@ -193,7 +188,7 @@ export class MeadowScene extends Phaser.Scene {
     if (this.sown) this.sow();
     const t = this.clock;
     const { layout, backdrop, grass, flowers, bed, meadow } = this;
-    const { controls, insects, perches, rain } = this;
+    const { controls, insects, perches, rain, map } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
     this.dispatch({
@@ -211,6 +206,7 @@ export class MeadowScene extends Phaser.Scene {
     );
     bed?.update(t, rain?.wetness ?? 0);
     controls?.update(t);
+    map.update(t);
     // As the tick just left them.
     flowers?.update(t, rain?.wetness ?? 0, this.fliers(), planting?.flower);
     // Last, so every perch stands where this frame has put it, a sagging
@@ -440,6 +436,7 @@ export class MeadowScene extends Phaser.Scene {
     this.walk(layout.height);
     this.see();
     this.repaintControls();
+    this.map.redraw();
   };
 
   /** Sees the perches afresh, as the screen and the mushrooms now stand, from where the eye stands. */
