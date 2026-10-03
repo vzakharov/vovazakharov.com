@@ -213,7 +213,12 @@
   group could run early only because its brief said to build every guard
   as a function of the layout, never a constant tuned to today's clump. The
   wave planner asks of each pair "does one measure what the other draws?"
-  and briefs the earlier one that way.
+  and briefs the earlier one that way. **A wave is per package, not a
+  barrier**: bite 15 launched W2 the moment W1 landed, while R2 still ran,
+  and R3 on R2's report while W2 ran — the two scene agents shared
+  `house-view.ts` by named functions and merged clean. Its orchestrator
+  reached the 200k notice after two specs and five build reports, as bite
+  14's had, so a two-package bite still relays after its second wave.
 - **A migration does not parallelise, and a half-landed one blocks the
   whole tree.** Bite 9's flowers and placement agents each needed the
   other's uncommitted renames to type-check, and both paused with patches

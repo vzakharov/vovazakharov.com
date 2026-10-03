@@ -1,9 +1,12 @@
 # Relay summary
 
-Relay depth: **7** for the successor (this session was 6; cap 8,
+Relay depth: **8** for the successor (this session was 7; cap 8,
 `.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
-The successor's own relay, at depth 8, is the cap: it hands the operator
-the one line to paste into a fresh session, on Opus.
+**The successor is at the cap**: its own relay cannot `create_session`; it
+writes the summary with depth reset to 1 and hands the operator the one line
+to paste into a fresh session, on Opus: `/relay take
+claude/mushroom-game-syama-lbirv7` plus the pickup constraints below. Best
+done at a natural stop (after the review is posted, nothing half-built).
 
 ## 1. Standing constraints
 
@@ -115,12 +118,12 @@ in the brief. One agent over bite 14's ~5k lines ran out halfway.
 
 Reply: attached (deepened; the stale local ref e66b8e1 renamed to
 `stale/mushroom-game-syama-lbirv7-e66b8e1`, a fresh tracking branch
-checked out), installed, and ran the relay's `/go`: bite 14's tail —
-fold, notes retired, Artifact v20, `/polish` (three agents), `/pr`
-refresh, squash proposal refreshed, plan paused.
+checked out), installed, ran the relay's `/go`: opened bite 15, two spec
+agents, settled 24 calls in `bite-15.md`, two build waves (R1, R2, W1; W2,
+R3), then paused mid-bite at the 200k notice and relayed.
 
-No operator message followed; every other turn was an agent's report or a
-stop hook (the untracked `.claude/worktrees/` while agents ran).
+No other operator message; every other turn was an agent's report, a
+check-in or the cost Stop hook.
 
 ## 3. Intent
 
@@ -129,62 +132,70 @@ after every bite; `/finalize` at the end, no merge.
 
 ## 4. Decisions
 
-- **Bite 14 is index row 15, "After the rain"**; the plan's summary
-  carries shelter, spores, sprouts and the ground drag (398 lines).
-- **`decisions.md`'s ecology line**: rain sprouts the spores a tap left;
-  no old mushroom sheds.
-- **`bite-14/`'s 34 notes retired** at 8fcde14a2e (`retired.md` row);
-  `bite-14.md` points there for the specs and hand-over notes, and the
-  build agents' brief `brief-common.md` is read back with
-  `git show 8fcde14a2e:docs/remove-before-merging/bite-14/brief-common.md`.
-  Bite 14's frames stay until bite 15's land, then retire.
-- **Polish**: one `/dry` win in src (60514e3), then src and scripts
-  finished in parallel (2e27528, 8818c5d; 588721a, 7247023 — `azimuthOf`,
-  `FRAME_MS`/`timedSteps`/`tapCloud` in `mushroom-probe.ts`, prose tended).
-  `play-insects.ts`'s import sort fixed (pre-existing lint red vet would hit).
+All of bite 15's are in `docs/plans/mushroom-game-syama/bite-15.md`, calls
+1–24 (call numbers are escaped paragraphs; check `grep -c '^[0-9]*\\.'`
+= 24 after any prettier). The ones a successor would misread:
+
+- **Runs are scene state** (`ui/scene/mouse-runs.ts`) over pure rules
+  (`model/mouse-run.ts`); mice are conserved, a house may stand empty, a
+  tap on an empty door calls a mouse home (calls 2, 5, 6).
+- **A window tap does the worm only**, reach 16 px against the standing 32
+  (call 15, an accepted departure from `decisions.md`; a `to-check.md`
+  line is owed).
+- **Worms in rain (spec W5) are not built** (call 21).
+- `mouse-run.ts` (459 lines) is split in R4, the clock to
+  `model/mouse-run-clock.ts`, before `hop` lands (call 23).
 
 ## 5. Errors and dead ends
 
-- The first polish agent ran out at 175k after half of `/dry` and left a
-  bare `polish:` (60514e3) over unread work; the two follow-ups covered
-  `b306e90..HEAD` in full, so the floor is honest now.
-- `git push origin --delete` is refused by the proxy here ("remote end
-  hung up"): `polish-src`, `polish-scripts` and `wt/g37` stay on origin,
-  all merged. Harmless; don't retry.
+- The first push of the resume commit was rejected: the predecessor's cost
+  row had landed after the relay commit. Rebased one local commit; fine.
+- W2 sat at 142k with nothing pushed; one `SendMessage` nudge landed its
+  commit. R2 and R3 each stopped at the 170k hook having finished their step.
 
 ## 6. State
 
-Checked with commands at 9096cfb:
+Checked with commands at f9f78299:
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `CONFLICTING` (`/finalize`'s job, not a bite's). Body refreshed for bite
-  14; squash proposal comment 5712237909 updated.
-- Plan `docs/plans/mushroom-game-syama.paused.md`; no `## This bite` or
-  `## Rest of the bite`: the next is `## Rest of the elephant` item 15.
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at version 20
-  (bite 14).
-- No agent running, no worktree, no PR subscription, no `send_later`.
-- Megabeast notes filled (`gates.md`, the polish-sizing note).
+  `CONFLICTING` (`/finalize`'s job). PR body not yet refreshed for bite 15.
+- Plan `docs/plans/mushroom-game-syama.paused.md` (400 lines) with
+  `## Rest of the bite` (bite 15's left work); `## Rest of the elephant`
+  now starts at item 16.
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG still at
+  version 20 (bite 14).
+- No agent running, no worktree, no PR subscription. One `send_later`
+  check-in (wave 2's, 12:49 UTC) may fire into this old session; ignore it.
+- Bite 14's frames are not yet retired; `frames/bite-15/` holds R1's two.
+- `pnpm type-overlap` red: 4 groups in W2's files (`look` shared by
+  `draw-mouse.ts` `Peeking` and `draw-worm.ts` `ShownWorm`; `house-worm.ts`
+  `Trip`). Not run since: vet, the full suite, any play of runs or worms.
+- Megabeast notes filled (`subagents.md`, "a wave is per package").
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama.paused.md` — item 15, "The house's
-  dwellers": mice run door to door, sized to their door; a window's tap
-  brings a worm. The operator's words: `bite-14.md` § "From the operator's
-  play — for item 15", frame
-  `docs/remove-before-merging/frames/bite-14/operator-chanterelle-mouse.png`.
-- `docs/plans/mushroom-game-syama/decisions.md` — read before a bite adding
-  a creature.
-- The previous sessions: https://claude.ai/code/session_013DAjz1LhwmuHP9q9ije353
-  (this one), https://claude.ai/code/session_01F66LVbCMoz4MMjT7Pzdx3F.
+- `docs/plans/mushroom-game-syama/bite-15.md` — calls, waves with the line
+  grants, § "Built" (the build log and the open reds).
+- `docs/remove-before-merging/bite-15/` — `brief-common.md` (every agent's
+  brief), `spec-runs.md` and `spec-worms.md` (steps R4–R6, W3–W4), and the
+  hand-over notes `r1.md`, `r2.md`, `r3.md`, `w1.md`, `w2.md`: **r3.md and
+  w2.md name the API R5's and W3's probes read**.
+- `docs/remove-before-merging/frames/bite-15/r1-phoneP-mouse-back.png` — the
+  mini-mouse in its doorway (looked at: it fits).
+- The previous sessions: https://claude.ai/code/session_01V9De9Hi22B3xzsmiXfS6bX
+  (this one), https://claude.ai/code/session_013DAjz1LhwmuHP9q9ije353.
 
 ## 8. Next step
 
 /go
 
-(Bite 15, item 15 of `## Rest of the elephant`: the house's dwellers.
-Write `## This bite`, build it with Opus agents in worktrees, review it
-with a subagent in the tail, fix, fold, retire bite 14's frames and the
-bite's notes, republish the Artifact, `/polish` sized as above, `/pr`,
-pause, fill the megabeast notes, relay — the cap hand-off at depth 8.
-Reply to the operator in Russian, «ты».)
+(Bite 15 continued: the plan's `## Rest of the bite`. Wave 3 in parallel:
+R4 — the tap on a runner and the patter, after splitting `mouse-run.ts`
+(call 23); R5 — the probe's `runs()`/`mice()`/`mouse(id).door` and
+`play-runs.ts` (with R1's head/door check); W3 — the probe's window/worm
+readers and `play-worms.ts`, plus the `type-overlap` fix in W2's files.
+Then wave 4 (R6, W4: look at frames, tune constants, `to-check.md` lines),
+then the tail: frames, the review agent, fixes, fold into `## Eaten so
+far`, retire bite 14's frames and bite 15's notes, republish the Artifact,
+`/polish` sized by changed lines, vet, `/pr`, pause, megabeast notes, and
+the cap hand-off. Reply to the operator in Russian, «ты».)
