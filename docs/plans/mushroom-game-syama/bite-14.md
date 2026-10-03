@@ -220,7 +220,7 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
 > червячков -- бегут из одного окошка в (если есть) другое на том же грибе.
 > если нет -- как и мышка выглядывают и прячутся обратно
 
-The frame he sent: a chanterelle's mouse as wide as its stem, its door hidden
+The frame he sent (`docs/remove-before-merging/frames/bite-14/operator-chanterelle-mouse.png`): a chanterelle's mouse as wide as its stem, its door hidden
 behind it.
 
 ## Packages and waves
@@ -256,20 +256,29 @@ holds its detail.
   d1207f58, 7b3b5747 — the bed's sprout scale, `spore-drift.ts`, the tick
   wiring, perches seen on the scene's clock.
 
+- **This session's round** (2026-10-03): **A1** addafa1, 46ca7fc — the
+  shelter dash's pivot floored (call 27). **A2** e671c74, 2b47ed9 —
+  covered seats withheld, `shelter-cover.ts` (calls 24, 26). **A3** f07b50c,
+  bad0688 — the play's tweens step on the game clock (call 25). **P3a**
+  b0daf89 — the probe's `sprouts()`, the `sprouts` play. **P3b** 5b1bf71,
+  8dd1aab — the sweep's `--showers`, R1 holds. **B1** 386a396 — parents by
+  the shower's draw (call 28, to be retired by 35). **B2** b1cc7f5, 6ef6a6e
+  — sky turns, ground strafes (call 29).
+
 ## Left, in order
 
-1. **Done** (A1 addafa1, 46ca7fc; call 27). Was: **call 22**: slow the butterfly's rain take-off and re-measure with
-   S4's play (`s4.md` says how to rebuild it); then the full
-   `fliers.test.ts` once.
-2. **Done** (A2 e671c74, 2b47ed9; call 26). Was: **call 24**: withhold covered shelter seats; re-shoot `--plays rain`.
-3. **Done** (A3 f07b50c, bad0688: the play's tweens step on the game
-   clock; the dots fall and land, frames `a3-*`). Was: **the spore dots were never seen** (`p2b.md`'s next step): Phaser's
-   tweens run on the wall clock, the play steps the game's; drive the tween
-   clock from the stepped one, then confirm the dots fall from the parent.
-   P2b's scratch driver is `look-sprouts.ts.txt` beside the notes.
-4. **P3**: the probe's `sprouts()`, a `sprouts` play (spec-sprouting § 4
-   step 3, the stepped tween clock from item 3), the sweep's `--showers`
-   and R1's sweep check.
-5. The tail: the review (two reviewer agents by package), its fixes, the
-   fold, bite 13's frames retired, the Artifact, `/polish`, `/pr`.
-   `model/shelter.ts` carries a prettier warning (`saltedStream,type`).
+1. **Spores the child sows**, calls 30–35: a mapping agent first (the
+   switch retires `shedding`/`shedIn`/`shedNow`/`Meadow.shed`, and the
+   probe's `sprouts()`, the `sprouts` play and the sweep's `--showers`
+   follow it — call sites, files, the step cut with grants on
+   `game.ts`/`mushroom-bed.ts`/`meadow-scene.ts`, all near 450), then the
+   build one step per agent: model, scene (the settle on tap, the dot
+   drawing, the rain's sprouting), then probe/play/sweep.
+2. **Call 37**: a chase ends on the lift and yields to keys
+   (`model/stride.ts`, `model/walk.ts`); disjoint from item 1, run beside it.
+3. **The frame budget reports, never fails** (plan § "Performance waits"):
+   `frame-budget.ts` and the runner print the median and pass. Beside 1.
+4. The tail: the review (two reviewer agents — shelter+walk, spores), its
+   fixes, the fold, bite 13's frames and this bite's working notes retired,
+   the Artifact, `/polish`, `/pr`. `model/shelter.ts` carries a prettier
+   warning (`saltedStream,type`).
