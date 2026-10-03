@@ -22,9 +22,16 @@
   hold → half a turn, step to the full rainbow, shoot); on tabL a cloud
   crosses the arch and covers it, on phoneP none does.
 
+- **Step 4 — `meadow-scene.ts` at 446.** The scene's event wiring (resize,
+  press, release, and on shutdown their unbinding, the instrument's and the
+  eye's listeners let go and the sound stopped) moves to
+  `meadow-listeners.ts`'s `listenOnMeadow`; the release handler is inline.
+  Played opening, meadow and rain on tabL: all green but R5's own
+  "no rendered frame was timed" (the harness's, also red before this).
+
 ## Left
 
-4. `meadow-scene.ts` under 450 lines by a real seam.
+5. Call 15: the sun and its glow fade with `RainView.wetness`.
 
 ## Decided here
 
