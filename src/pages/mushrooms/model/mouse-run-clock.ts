@@ -57,10 +57,11 @@ const HOP_UP = 0.25;
 const RUN_SHUT = 0.3;
 /**
  * The run's shortest span, long enough for a child to follow it: a course
- * is bowed until it is this long at `RUN_PACE` (`pathBetween`), and a run
- * shorter still is slowed to it.
+ * is bowed aside until it is at least this long at `RUN_PACE`
+ * (`pathBetween`), which on the opening clump sweeps the runner ~60 px
+ * across a tablet's screen, and a run shorter still is slowed to it.
  */
-export const RUN_LEAST = 1;
+export const RUN_LEAST = 2.4;
 /** How long a run takes to reach full pace and to slow from it. */
 const RUN_EASE = 0.15;
 /** How quickly a called door swings open to wait. */

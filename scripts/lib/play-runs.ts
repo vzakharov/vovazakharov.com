@@ -30,16 +30,16 @@ import {
 const DOOR = 4;
 /** Frames for a pop to settle. */
 const SETTLE = 45;
-/** Frames a run is followed for at most: its longest is ~4 s on the plane. */
+/** Frames a run is followed for at most: its longest is ~4 s from peek to shut door. */
 const LONGEST_RUN = 360;
 /**
  * When a run between the clump's two doors is halfway across, in seconds
  * from its start: 0.85 s of peek and 0.25 s of hop down, then half its
- * course, which the clump's close doors bow out to `RUN_LEAST`; a fleeing
- * run opens on the hop.
+ * course, which the clump's close doors bow out to about `RUN_LEAST`.
  */
 const PEEKED_MID = 0.85 + 0.25 + RUN_LEAST / 2;
-const FLED_MID = 0.25 + RUN_LEAST / 2;
+/** When a fleeing run, which opens on the hop, has turned back toward its door on the last stretch of its loop. */
+const FLED_LATE = 0.25 + RUN_LEAST * 0.85;
 /** CSS px of meadow kept round the clump in its close frames. */
 const PAD = 60;
 /** How far below a runner's foot, in CSS px, a mushroom's foot is nearer for sure. */
@@ -279,7 +279,7 @@ export async function playRuns(
     await started(back, front),
     'the sinking back house sent no mouse out',
   );
-  await follow(watching(back, front, FLED_MID, 'r6-flee'));
+  await follow(watching(back, front, FLED_LATE, 'r6-flee-turned'));
   expect(
     (await mice())[front] === 2 && (await total()) === 2,
     `after the flight the houses hold ${JSON.stringify(await mice())}`,

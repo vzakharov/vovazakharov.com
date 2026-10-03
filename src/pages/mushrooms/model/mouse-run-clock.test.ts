@@ -51,18 +51,18 @@ function legStarts(of: RunCourse): Map<string, number> {
 const near = (a: number, b: number) => Math.abs(a - b) <= FRAME + 1e-9;
 
 describe('runAt', () => {
-  it('goes through every leg in order, a 1.2 run taking its length over RUN_PACE', () => {
-    const short = course(1.2);
+  it('goes through every leg in order, a 2.4 run taking its length over RUN_PACE', () => {
+    const short = course(2.4);
     const starts = legStarts(short);
     assert.deepEqual([...starts.keys()], RUN_LEGS);
     const at = (leg: string) => starts.get(leg) ?? Number.NaN;
     assert.ok(near(at('leave'), 0.85));
     assert.ok(near(at('run'), 1.1));
-    assert.ok(near(at('enter') - at('run'), 1.2 / RUN_PACE));
+    assert.ok(near(at('enter') - at('run'), 2.4 / RUN_PACE));
     assert.ok(near(at('close') - at('enter'), 0.25));
     assert.ok(near(at('over'), runDuration(short)));
     assert.ok(
-      near(runDuration(short), 0.85 + 0.25 + 1.2 / RUN_PACE + 0.25 + 0.3),
+      near(runDuration(short), 0.85 + 0.25 + 2.4 / RUN_PACE + 0.25 + 0.3),
     );
   });
 
@@ -123,9 +123,9 @@ describe('runAt', () => {
   });
 
   it('runs at an even pace mid-run, easing up to it and down from it', () => {
-    const run = course(2.4);
+    const run = course(4.8);
     // Peek and hop down take 1.1 s; the run leg lasts its length over RUN_PACE.
-    const [begin, end] = [1.1, 1.1 + 2.4 / RUN_PACE];
+    const [begin, end] = [1.1, 1.1 + 4.8 / RUN_PACE];
     const paceAt = (t: number) =>
       (runAt(t + 0.01, run).travelled - runAt(t - 0.01, run).travelled) / 0.02;
     const middle = paceAt((begin + end) / 2);
@@ -133,7 +133,7 @@ describe('runAt', () => {
     assert.ok(Math.abs(paceAt(begin + 1) - middle) < 1e-9);
     assert.ok(paceAt(begin + 0.02) < middle / 2);
     assert.ok(paceAt(end - 0.02) < middle / 2);
-    assert.ok(Math.abs(runAt(end - 1e-9, run).travelled - 2.4) < 1e-6);
+    assert.ok(Math.abs(runAt(end - 1e-9, run).travelled - 4.8) < 1e-6);
   });
 
   it('opens with the hop down from a sinking house, and with the run itself when re-targeted', () => {
