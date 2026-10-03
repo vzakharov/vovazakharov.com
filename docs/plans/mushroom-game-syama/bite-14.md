@@ -190,6 +190,11 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     probe's `sprouts()`, the `sprouts` play and the sweep's `--showers`
     follow the new source (tap to sow, rain to sprout).
 
+36. **A cloud rains on a tap, not on a press** (B2, `b2.md`): with the sky
+    now the turning surface, a drag that starts on a cloud started a
+    shower on phoneP. A cloud's shower starts when the press lifts inside
+    the slop, as a mushroom's tap does; a drag over a cloud only turns.
+
 ## Packages and waves
 
 - **Wave 1, in parallel: S1** shelter's model (spec-shelter § 5 step 1) and
