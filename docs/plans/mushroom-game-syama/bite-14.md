@@ -3,8 +3,8 @@
 Item 14 of the plan: while it rains, insects shelter under the caps; when it
 stops, spores an old mushroom shed sprout into little mushrooms that grow
 over the next minutes. Two packages, each mapped by a spec
-(`docs/remove-before-merging/bite-14/spec-shelter.md`,
-`spec-sprouting.md`), whose recommendations are taken except where a call
+(`spec-shelter.md`, `spec-sprouting.md`, retired with the bite's other
+working notes: `docs/remove-before-merging/retired.md`), whose recommendations are taken except where a call
 below says otherwise. Paths are under `src/pages/mushrooms/`.
 
 ## Calls — shelter
@@ -300,8 +300,8 @@ behind it.
 
 ## Built
 
-Each package's hand-over note under `docs/remove-before-merging/bite-14/`
-holds its detail.
+Each package's hand-over note (`bite-14/`, now in
+`docs/remove-before-merging/retired.md`) holds its detail.
 
 - **S1** 40e7e229 — shelter's model (`model/shelter.ts`, the `shelter`
   perch kind). **S2** 30031520 — the scene's seats under dome caps
@@ -397,12 +397,3 @@ sky under the same hand.
   the rain play expects every flier sheltering and a staggered way out.
   All plays named green on tabL and phoneP. The plan's call numbers,
   renumbered by prettier, restored (7de3ca4c).
-
-## Left, in order
-
-1. The rest of the tail: the fold (this file's calls at the plan's
-   altitude into `## Eaten so far`, `decisions.md:61`'s "spores an old
-   mushroom shed" corrected), this bite's working notes under
-   `docs/remove-before-merging/bite-14/` retired into `retired.md`, the
-   Artifact republished, `/polish`, `/pr`; then the plan paused for the
-   next bite (item 15).

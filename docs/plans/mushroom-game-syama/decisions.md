@@ -57,9 +57,9 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   word: bees carry pollen from flower to flower and a new flower opens where
   they have been; butterflies drink from flowers and rest on caps; flies are
   drawn to the fly agarics; rain, from a tapped cloud, closes the flowers,
-  sends the insects under the caps and makes the mushrooms swell, and once it
-  stops, spores an old mushroom shed sprout into little ones and a rainbow
-  comes out; at dusk the mice come out and the fireflies wake. **Shown,
+  sends the insects under the caps, makes the mushrooms swell and sprouts the
+  spores a tap left on the ground into little ones, and once it stops a
+  rainbow comes out; at dusk the mice come out and the fireflies wake. **Shown,
   never taught** ("это не должно быть в виде назойливого научения, всё
   должно быть перед глазами, а не на объяснениях"): no hint, arrow, counter,
   reward or lesson points at a rule — each is simply what happens in plain
