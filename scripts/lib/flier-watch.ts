@@ -8,6 +8,7 @@
 
 import { z } from 'zod';
 
+import { D_SEE } from '../../src/pages/mushrooms/model/ground.ts';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import {
   LANDING,
@@ -180,12 +181,22 @@ export const WATCH = `(() => {
         }
       }
       const window = travelFrames[kind];
-      trail.frames = [...trail.frames, { x, y, turn, now }].slice(-window - 1);
+      const eye = scene.eye.eye();
+      // Past the brow it is drawn sinking behind it (\`sunk\` in \`view.ts\`),
+      // which moves it down the screen however it flies: that slide is not
+      // its way, and its body does not turn to it.
+      const sinking =
+        Math.hypot(shown.drawn.x - eye.x, shown.drawn.y - eye.y) > ${String(D_SEE)};
+      const inView =
+        __probe.shows(x) && y >= 0 && y <= scene.layout.height && !sinking;
+      trail.frames = [...trail.frames, { x, y, turn, now, inView }].slice(-window - 1);
       trails.set(id, trail);
       const [first] = trail.frames;
       const middle = trail.frames[window / 2];
       const travel = first && Math.hypot(x - first.x, y - first.y);
-      const onScreen = __probe.shows(x) && y >= 0 && y <= scene.layout.height;
+      // The body judged is the middle frame's and its way runs from the
+      // first to this one, so all three must be in view, short of the brow.
+      const onScreen = inView && first?.inView && middle?.inView;
       // A shying flier darts (\`insect-dart.ts\`), which moves it without
       // turning it: its body faces its flight to the perch, not its dart.
       const shying = flier.shied === flier.legs;

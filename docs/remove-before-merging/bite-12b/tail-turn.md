@@ -70,14 +70,18 @@ committed yet.
   middle and the current frame are all in view. Not yet run, and no line in
   `to-check.md` yet.
 
+## tail-turn2 (builds the patch; the orchestrator's call in `waves.md`)
+
+- Step 1: the patch applied (its `insect-drawn.ts` hunk by hand, the doc
+  block having been reworded by polish since), `tail-turn.patch` deleted.
+  The tabL test now asks that the body follow the step's unsunk `placed`
+  way (within 0.01) and not its sinking slide (over 0.1 off it). The three
+  insect test files, typecheck, prettier and eslint green.
+
 ## Left
 
-1. Apply `tail-turn.patch`. Rewrite the tabL test in `insect-drawn.test.ts`
-   so the turn follows the unsunk step.
-2. Run `insect-drawn`, `insect-frame` and `insect-seat` tests, then
-   typecheck, prettier and eslint. Commit.
-3. Rebuild the probe. Run tabL `meadow` to check the watch loosening, then
+1. Russian lines in `to-check.md` for both watch loosenings: frames past
+   the brow, and the whole window in view. Correct `tail-face.md`'s
+   attribution of the tabL bend.
+2. Rebuild the probe. Run tabL `meadow` to check the watch loosening, then
    phoneL `meadow`, then phoneP `meadow`.
-4. Add Russian lines in `to-check.md` for both watch loosenings: frames past
-   the brow, and the whole window in view.
-5. Correct `tail-face.md`'s attribution of the tabL bend.
