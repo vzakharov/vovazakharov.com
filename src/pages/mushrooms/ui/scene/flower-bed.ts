@@ -13,7 +13,6 @@ import type { Flier } from '../../model/insects';
 import { headedLight } from '../../model/light';
 import { bloom, emerge, sway } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
-import { type Rain, wetness } from '../../model/weather';
 import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
 import { paintFlowerLit } from './draw-flower';
 import { closingsDue, closingStep, meanClosing } from './flower-closing';
@@ -249,20 +248,20 @@ export class FlowerBed implements Following {
 
   /**
    * Sways and blooms every flower at `t`, in seconds, each sagging under
-   * whatever of `insects` drinks at it and closing as `rain` wets the meadow
-   * (`closingsDue`), and rings the one `held` names, the flower picker's,
+   * whatever of `insects` drinks at it and closing by the meadow's `wetness`, 0 to
+   * 1 (`closingsDue`), and rings the one `held` names, the flower picker's,
    * where it stands; a press on a head held long enough opens the picker
    * there.
    */
   update(
     t: number,
-    rain: Rain | undefined,
+    wetness: number,
     insects: readonly Flier[],
     held: string | undefined,
   ): void {
     this.held = held;
     this.hold.update();
-    const step = closingStep(wetness(rain, t * 1000));
+    const step = closingStep(wetness);
     for (const shown of closingsDue(this.shown.values(), step))
       closeShown(shown, step);
     const ringed = held === undefined ? undefined : this.shown.get(held);

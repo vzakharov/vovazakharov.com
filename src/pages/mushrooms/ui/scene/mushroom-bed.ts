@@ -28,7 +28,6 @@ import {
 } from '../../model/mushroom-outline';
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
-import { type Rain, wetness } from '../../model/weather';
 import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
@@ -217,11 +216,11 @@ export class MushroomBed implements Following {
 
   /**
    * Breathes, wobbles and grows every mushroom at `t`, in seconds, each
-   * swollen about its foot as `rain` wets the meadow (`RAIN_SWELL`), its
+   * swollen about its foot by the meadow's `wetness`, 0 to 1 (`RAIN_SWELL`), its
    * house, ring and the seats on its cap following its drawing.
    */
-  update(t: number, rain: Rain | undefined): void {
-    const swell = 1 + RAIN_SWELL * wetness(rain, t * 1000);
+  update(t: number, wetness: number): void {
+    const swell = 1 + RAIN_SWELL * wetness;
     for (const [id, shown] of this.shown) {
       const {
         graphics,
