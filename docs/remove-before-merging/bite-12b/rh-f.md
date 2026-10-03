@@ -11,9 +11,22 @@
   turn −1.1: rotation within 0.01 of the placed step's way, ≥ 0.15 off the
   turn. Goes red (with the brow case) when the bend's sign is flipped.
 
+- T147 (not `tufts.test.ts`): `ground-seam.test.ts` holds `hasGround` true to
+  3.08 rad off the opening heading and false from 3.09, both sides, at
+  0.5 / 3 / `D_SEE` / 40. `clump-layout.test.ts` asks `laidOf` of the foot as
+  each eye moves it, and has it laid the same. `mushroom-light.test.ts`'s two
+  heading tests hold the closed form: across share `sin(α − heading)`, `α` =
+  `asin` of the opening's, 0 facing the sun, height kept (red with
+  `headedLight`'s sign flipped).
+
 ## Left
 
-- T147.
+- Nothing. The bed-repaint test has no seam without opening production code:
+  the beds are Phaser classes no test builds, and the scene answers an anchor
+  change only with `perches.see` (`meadow-scene.ts`); a bed repaints through
+  `paint` (layout or resize) or `repaintsDue` (haze, sun side, chords — all of
+  the view). The one pure part, `laidOf` taking no anchor, is the
+  clump-layout case above.
 
 ## Decided
 
