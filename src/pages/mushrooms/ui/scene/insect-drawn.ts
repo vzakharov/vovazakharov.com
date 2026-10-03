@@ -132,15 +132,17 @@ export function drawnInsect(
  * The screen bends the pinhole's rows (`viewOf`) and eases a flight skimming
  * the grass down onto it (`aloftFramed`), so the frame's turn alone points off
  * the drawn way at the sides and low down; it stands where either end is not
- * drawn.
+ * drawn. The step is read before the brow sinks it (`sunk` in `view.ts`),
+ * whose mirror of the foot's rows would flip a flier going away over the
+ * brow to face back down the screen in one frame.
  */
 function bentTurn(
   flying: ReturnType<typeof drawnFlier>,
   turn: number,
   lifted: (down: number, ahead: number) => ReturnType<typeof drawnFlier>,
 ): number {
-  const from = flying.sinking?.drawn;
-  const to = lifted(0, 1).sinking?.drawn;
+  const from = flying.sinking?.placed;
+  const to = lifted(0, 1).sinking?.placed;
   if (!from || !to) return turn;
   return Math.atan2(to.x - from.x, from.y - to.y);
 }

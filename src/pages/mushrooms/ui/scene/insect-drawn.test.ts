@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { framedOf } from '../../model/flight-frame';
-import { wrap } from '../../model/geometry';
+import { type Point, wrap } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,
+  D_SEE,
   gathered,
   groundOfPlane,
   OPENING_EYE,
@@ -13,11 +14,11 @@ import {
 import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, onHost } from './bed-place';
 import { drawnInsect, type LegFlight } from './insect-drawn';
-import { aloftAt, eyeFrameOf } from './insect-frame';
+import { aloftAt, aloftFramed, eyeFrameOf } from './insect-frame';
 import { drawnFlier, drawnSitter } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
 import { tapReach } from './tap-reach';
-import { viewAt } from './view';
+import { behindHills, viewAt } from './view';
 
 const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
 
@@ -58,6 +59,27 @@ function drawnAlong(flight: LegFlight, along: number) {
   assert.ok(middle);
   return middle;
 }
+
+/** Where `view` places `flight` `along` its frame's px, before the brow sinks it. */
+function placedAlong(flight: LegFlight, along: number) {
+  const { turn, at, frameAt, forward, flown, ends } = flight;
+  const placed = drawnFlier(
+    view,
+    aloftFramed(view, frameAt, {
+      x: at.x + along * Math.sin(turn),
+      y: at.y - along * Math.cos(turn),
+      forward,
+    }),
+    flown,
+    ends,
+  ).sinking?.placed;
+  assert.ok(placed);
+  return placed;
+}
+
+/** The way from `from` to `to` on the screen, clockwise from up. */
+const wayOf = (from: Point, to: Point) =>
+  Math.atan2(to.x - from.x, from.y - to.y);
 
 /** The angle between two turns, either way round. */
 const apart = (a: number, b: number) => Math.abs(wrap(a - b));
@@ -124,10 +146,11 @@ describe('drawnInsect', () => {
     assert.ok(apart(posed.rotation, -1.1) < 0.01);
   });
 
-  it('points a flier skimming the grass by the screen’s side the way a step its way in the frame is drawn, its seat’s facing kept', () => {
-    // Where tabL drew a butterfly leaving on the left facing 0.39 rad off
-    // its way: the frame stands it over the grass, which the screen eases
-    // it down onto, nearer (`aloftFramed`).
+  it('points a flier skimming the grass past the brow the way a step its way is placed, not its sinking slide, its seat’s facing kept', () => {
+    // Where tabL drew a butterfly leaving on the left: the frame stands it
+    // over the grass, which the screen eases it down onto (`aloftFramed`),
+    // and its foot is past the brow, which slides it down the screen as it
+    // sinks behind it — a slide that is not its way.
     const forward = 13;
     const flight: LegFlight = {
       ...flightAt(590, 500),
@@ -138,12 +161,56 @@ describe('drawnInsect', () => {
     };
     const posed = drawnInsect(view, flight).posed;
     assert.ok(posed);
-    const [from, to] = [drawnAlong(flight, -10), drawnAlong(flight, 10)];
-    const drawnWay = Math.atan2(to.x - from.x, from.y - to.y);
-    // The screen's bend there is worth keeping: over a tenth of a radian.
-    assert.ok(apart(drawnWay, -1.1) > 0.1, String(drawnWay));
-    assert.ok(apart(posed.rotation, drawnWay) < 0.01);
+    const placedWay = wayOf(placedAlong(flight, -10), placedAlong(flight, 10));
+    const slidWay = wayOf(drawnAlong(flight, -10), drawnAlong(flight, 10));
+    assert.ok(apart(posed.rotation, placedWay) < 0.01, String(posed.rotation));
+    assert.ok(apart(posed.rotation, slidWay) > 0.1, String(slidWay));
     const seated = drawnInsect(view, { ...flight, airborne: 0 }).posed;
     assert.equal(seated?.rotation, -1.1);
+  });
+
+  it('turns a flier crossing the brow, as it starts to sink behind it, with no snap', () => {
+    // Where phoneL turned a butterfly leaving on the left 0.4 rad in one
+    // frame: its foot crossed the brow, which mirrors the foot's rows.
+    const frameAt = view.eye.heading;
+    const short = D_SEE * 0.99;
+    const ahead = {
+      x: view.eye.x + Math.sin(frameAt) * short,
+      y: view.eye.y + Math.cos(frameAt) * short,
+      h: 2.8,
+    };
+    const { forward, ...at } = framedOf(eyeFrameOf(view), frameAt, ahead);
+    const across = (left: number) => {
+      const flight: LegFlight = {
+        ...flightAt(590, 500),
+        at: { ...at, x: at.x - left },
+        forward,
+        zoom: CLUMP_DISTANCE / forward,
+        turn: -1.336,
+      };
+      const ground = drawnFlier(
+        view,
+        aloftFramed(view, frameAt, { ...flight.at, forward }),
+        0.5,
+        {},
+      ).sinking?.ground;
+      const posed = drawnInsect(view, flight).posed;
+      assert.ok(ground && posed);
+      const { rotation } = posed;
+      return { behind: behindHills(ground), rotation };
+    };
+    const steps = Array.from({ length: 41 }, (_, step) =>
+      across(200 + step / 2),
+    );
+    assert.equal(steps[0]?.behind, false);
+    assert.equal(steps.at(-1)?.behind, true);
+    const most = Math.max(
+      ...steps
+        .slice(1)
+        .map((step, index) =>
+          apart(step.rotation, steps[index]?.rotation ?? step.rotation),
+        ),
+    );
+    assert.ok(most < 0.005, String(most));
   });
 });
