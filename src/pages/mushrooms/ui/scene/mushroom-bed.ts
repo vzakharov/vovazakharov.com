@@ -48,6 +48,7 @@ import type { Seat } from './perch-hosts';
 import { hazeAhead, repaintsDue } from './repaint-queue';
 import { footShown } from './shedding';
 import type { MeadowSound } from './sound';
+import { SporeBed } from './spore-bed';
 import { crownOf, driftSpores } from './spore-drift';
 import { drawnSize, puffFrom } from './spores';
 import type { Following, View } from './view';
@@ -78,6 +79,8 @@ export class MushroomBed implements Following {
   /** The view it last followed; `undefined` while it stands as laid out. */
   private view: View | undefined;
   private readonly selection: MushroomSelection;
+  /** The spores lying on the ground, which the meadow's bare-ground tap picks up. */
+  readonly spores: SporeBed;
   private selected: string | undefined;
   /** The screen's light as it last stood, which each mushroom takes from where it stands (`mushroomLights`). */
   private lighting: Lighting | undefined;
@@ -99,6 +102,7 @@ export class MushroomBed implements Following {
     this.onTap = onTap;
     this.now = now;
     this.selection = new MushroomSelection(scene);
+    this.spores = new SporeBed(scene, voice, SPORE_DEPTH, SHADOW_NEARER);
   }
 
   /**
@@ -106,7 +110,7 @@ export class MushroomBed implements Following {
    * the meadow opens is shown standing, with no growth.
    */
   reconcile(
-    { mushrooms, selected }: Meadow,
+    { mushrooms, selected, spores }: Meadow,
     layout: MeadowLayout,
     clock: number,
     opening = false,
@@ -128,7 +132,8 @@ export class MushroomBed implements Following {
       planted.add(mushroom.id);
       if (!opening) born.push(shown);
     }
-    driftSpores(this.scene, this.voice, born, this.shown, SPORE_DEPTH);
+    driftSpores(this.scene, this.voice, born, SPORE_DEPTH);
+    this.spores.reconcile(spores, this.shown, layout, opening);
     // A door going in is seated among the mushrooms standing now; one
     // already in stays where it is, whatever grows in front of it since.
     this.seatDoors(
@@ -172,6 +177,7 @@ export class MushroomBed implements Following {
       if (shown) this.place(shown, mushroom, layout);
     }
     this.seatDoors(meadow.mushrooms, layout, (shown) => shown.house.doored);
+    this.spores.reconcile(meadow.spores, this.shown, layout, false);
     this.selection.paint(this.lit());
   }
 
@@ -187,6 +193,7 @@ export class MushroomBed implements Following {
    */
   follow(view: View): void {
     this.view = view;
+    this.spores.follow(view);
     const hazing = [...this.shown.values()].flatMap((shown) => {
       this.stand(shown);
       const haze = this.hazeHere(shown);

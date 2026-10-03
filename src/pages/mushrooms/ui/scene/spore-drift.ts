@@ -1,10 +1,9 @@
 /**
- * The spores the mushrooms a reconcile brings up come with. One the child
- * grew comes up in a puff where it stands. A shed's sprouts come up where
- * their parent's spores land, so the child sees the cause: the parent puffs
- * from its crown, a few dots fall along an arc to each sprout's foot over
- * `SPORE_FALL_MS`, and as they land a small puff and the grow sound go with
- * the sprout popping up.
+ * The spores of the meadow's mushrooms in flight. A mushroom the reconcile
+ * brings up comes up in a puff where it stands, the grow sound with it; one
+ * the rain sprouts pops smaller, at its start size, as its spore goes. A
+ * spore a tap settles falls along an arc from its parent's crown to its foot
+ * over `SPORE_FALL_MS`.
  */
 
 import * as Phaser from 'phaser';
@@ -19,18 +18,12 @@ import { SPORE_FALL_MS, SPROUT_START } from '../../model/sprouting';
 import type { Shown } from './mushroom-shown';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
-import { drawnAt, drawnSize, puffFrom, puffSpores } from './spores';
+import { drawnSize, puffSpores } from './spores';
 
-/** How many dots fall to each sprout. */
-const DOTS = 4;
-/** How late in the fall the last dot sets off; every dot lands as it ends. */
-const STAGGER = 0.3;
 /** How far over the higher end the arc rises, of the distance it spans. */
 const RISE = 0.3;
-/** How far a dot's arc swings aside from the next's, of the distance it spans. */
+/** How far the arc swings aside, of the distance it spans. */
 const SWING = 0.2;
-/** A dot's radius, of its parent's cap width as drawn. */
-const DOT = 0.05;
 /** How far a newborn's puff opens, of its size as drawn. */
 const BIRTH_PUFF = 0.5;
 
@@ -40,44 +33,19 @@ export function crownOf(genes: MushroomGenes): Point {
 }
 
 /**
- * Brings up the spores of `born`, the mushrooms just shown: a puff and the
- * grow sound at each one without a `sprout`, and each parent's shed drifting
- * from it to its sprouts, the parent looked up among `shown` by id.
+ * Brings up `born`, the mushrooms just shown: a puff at each one's foot and
+ * the grow sound, a sprout's puff as small as it comes up.
  */
 export function driftSpores(
   scene: Phaser.Scene,
   voice: MeadowSound,
   born: readonly Shown[],
-  shown: ReadonlyMap<string, Shown>,
   depth: number,
 ): void {
-  const shed = new Map<string, Shown[]>();
   for (const newborn of born) {
-    const parent = newborn.sprout?.parent;
-    if (parent === undefined) {
-      puffAt(scene, newborn, BIRTH_PUFF, depth);
-      voice.grow();
-    } else shed.set(parent, [...(shed.get(parent) ?? []), newborn]);
-  }
-  for (const [id, sprouts] of shed) {
-    const parent = shown.get(id);
-    if (!parent) throw new Error(`${id} sheds, shown nowhere`);
-    const crown = crownOf(parent.genes);
-    puffFrom(scene, parent, crown, 0.75, depth);
-    const r = Math.max(1.5, parent.genes.capWidth * drawnSize(parent) * DOT);
-    for (const sprout of sprouts) {
-      fall(
-        scene,
-        () => drawnAt(parent, crown),
-        sprout,
-        r,
-        depth,
-        () => {
-          puffAt(scene, sprout, BIRTH_PUFF * SPROUT_START, depth);
-          voice.grow();
-        },
-      );
-    }
+    const share = newborn.sprout ? SPROUT_START : 1;
+    puffAt(scene, newborn, BIRTH_PUFF * share, depth);
+    voice.grow();
   }
 }
 
@@ -99,44 +67,34 @@ function puffAt(
 }
 
 /**
- * `DOTS` spores falling from wherever `from` stands to `sprout`'s foot, each
- * along its own arc and setting off a little after the last, all landing as
- * the fall ends, when `landed` runs. Both ends are read every frame, so the
- * dots follow a turn or a walk.
+ * A spore of radius `r` falling from wherever `from` stands to wherever `to`
+ * does, along an arc, over `SPORE_FALL_MS`; `landed` runs as it lands. Both
+ * ends are read every frame, so the dot follows a turn or a walk.
  */
-function fall(
+export function fall(
   scene: Phaser.Scene,
   from: () => Point,
-  sprout: Shown,
+  to: () => Point,
   r: number,
   depth: number,
   landed: () => void,
 ): void {
-  const dots = Array.from({ length: DOTS }, (_, index) => {
-    const share = index / (DOTS - 1);
-    const dot = scene.add
-      .circle(0, 0, r, PALETTE.spore)
-      // An inked rim, as a puff's dots have, so a pale spore reads against the sky.
-      .setStrokeStyle(Math.max(1, r * 0.2), PALETTE.ink, 0.45)
-      .setDepth(depth)
-      .setVisible(false);
-    return { dot, setsOff: STAGGER * share, swing: SWING * (share - 0.5) * 2 };
-  });
+  const dot = scene.add
+    .circle(0, 0, r, PALETTE.spore)
+    // An inked rim, as a puff's dots have, so a pale spore reads against the sky.
+    .setStrokeStyle(Math.max(1, r * 0.2), PALETTE.ink, 0.45)
+    .setDepth(depth)
+    .setVisible(false);
   scene.tweens.addCounter({
     from: 0,
     to: 1,
     duration: SPORE_FALL_MS,
     onUpdate: (tween) => {
-      const now = tween.getValue() ?? 0;
-      const ends = [from(), pick(sprout.graphics, 'x', 'y')] as const;
-      for (const { dot, setsOff, swing } of dots) {
-        const gone = (now - setsOff) / (1 - setsOff);
-        const along = Phaser.Math.Easing.Sine.In(Math.min(1, gone));
-        dot.setVisible(gone > 0).setPosition(...arcAt(...ends, swing)(along));
-      }
+      const along = Phaser.Math.Easing.Sine.In(tween.getValue() ?? 0);
+      dot.setVisible(true).setPosition(...arcAt(from(), to(), SWING)(along));
     },
     onComplete: () => {
-      for (const { dot } of dots) dot.destroy();
+      dot.destroy();
       landed();
     },
   });

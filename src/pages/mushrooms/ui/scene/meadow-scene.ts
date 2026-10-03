@@ -33,8 +33,8 @@ import { type PerchHosts, restingOn } from './perch-hosts';
 import { perchAnchorOf, Perches } from './perches';
 import { Planter, type Scened } from './planter';
 import { RainView } from './rain-view';
-import { shedNow } from './shedding';
 import { MeadowSound, readMuted } from './sound';
+import { sporeOnTap } from './spore-seats';
 import { Grass } from './tufts';
 import { type View, viewAt } from './view';
 import { Gait } from './walking';
@@ -138,7 +138,8 @@ export class MeadowScene extends Phaser.Scene {
       () => this.eye.heldStill(),
     );
     this.bed = new MushroomBed(this, this.voice, this.now, (id) => {
-      this.dispatch({ kind: 'select', id });
+      const spore = sporeOnTap(this.scened, id, this.clock * 1000);
+      this.dispatch({ kind: 'select', id, ...spore });
     });
     this.insects = new InsectView(
       this,
@@ -190,14 +191,13 @@ export class MeadowScene extends Phaser.Scene {
     if (this.sown) this.sow();
     const t = this.clock;
     const { layout, backdrop, grass, flowers, bed, meadow } = this;
-    const { controls, insects, perches, rain, scened } = this;
+    const { controls, insects, perches, rain } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
     this.dispatch({
       kind: 'tick',
       now: time,
       ...this.sightNow(),
-      shed: shedNow(scened, bed, time),
     });
     driftClouds(backdrop, layout, t);
     rain?.update(meadow?.rain);
@@ -336,11 +336,13 @@ export class MeadowScene extends Phaser.Scene {
     over: readonly Phaser.GameObjects.GameObject[],
   ): void => {
     if (over.length > 0) return;
-    const { grass, cameras, planter, rain } = this;
+    const { grass, cameras, planter, rain, bed } = this;
     const at = cameras.main.getWorldPoint(pointer.x, pointer.y);
     if (rain?.tap(at, cameras.main.scrollY) === true) return;
+    const spore = bed?.spores.pickUp(at);
     const tuft = grass?.at(at);
-    if (grass && tuft) planter.tapTuft(tuft, grass);
+    if (spore !== undefined) this.dispatch({ kind: 'unsow', id: spore });
+    else if (grass && tuft) planter.tapTuft(tuft, grass);
     else this.dispatch({ kind: 'deselect' });
   };
 
