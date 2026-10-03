@@ -10,8 +10,10 @@ import { PALETTE } from './palette';
 import { dropColumn, firstCrossing, lerpPoint } from './rain-fall';
 import { browRow, ofGround, type View } from './view';
 
-/** The most drops ever in the air or splashing, the gush's included. */
+/** The most drops ever in the air, the gush's included. */
 const MOST_DROPS = 120;
+/** The pool's slots: the drops in the air and the rings of those just landed. */
+const SLOTS = 160;
 /** The drops a tap on a cloud while it rains adds under it at once. */
 const GUSH_DROPS = 24;
 /** The drops in the air in a full downpour, leaving room for a gush. */
@@ -79,8 +81,8 @@ function bake(scene: Phaser.Scene): void {
 }
 
 /**
- * The shower's drops and their splashes: a pool of at most `MOST_DROPS`
- * images of one baked streak, each falling, slanted, to a landing picked
+ * The shower's drops and their splashes: at most `MOST_DROPS` images of
+ * one baked streak in the air, each falling, slanted, to a landing picked
  * when it starts — the top of the first drawn cap its path crosses, else
  * the ground — and splashing there as a ring that widens and fades. A
  * landing is kept as a foot on the plane or a point on its cap and placed
@@ -142,7 +144,7 @@ export class RainDrops {
     lead: number,
     share?: number,
   ): boolean {
-    const slot = this.free(t);
+    const slot = this.inAir() < MOST_DROPS ? this.free(t) : undefined;
     if (!slot) return false;
     const x = dropColumn(Math.random, view.width, under, share);
     const brow = browRow(view, x);
@@ -150,8 +152,9 @@ export class RainDrops {
     const foot = planeSeen(view, view.eye, { x, y: row });
     if (!foot) return true;
     const ground = ofGround(view, foot);
-    const top = this.scene.cameras.main.worldView.y;
-    const fall = ground.y - top + Math.random() * lead * view.height;
+    // From a streak's length over the screen's top, which the walk's bob
+    // never moves by as much.
+    const fall = ground.y + (STREAK_LONG + Math.random() * lead) * view.height;
     const from = { x: ground.x - SLANT * fall, y: ground.y - fall };
     const cap = this.capOn(from, ground);
     Object.assign(slot, {
@@ -189,7 +192,7 @@ export class RainDrops {
         !falling(slot) &&
         (slot.landed === undefined || t - slot.landed >= SPLASH_S),
     );
-    if (idle || this.slots.length >= MOST_DROPS) return idle;
+    if (idle || this.slots.length >= SLOTS) return idle;
     const { scene, depth, slots } = this;
     const slot: Slot = {
       drop: scene.add
