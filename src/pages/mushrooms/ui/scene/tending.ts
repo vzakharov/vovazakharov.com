@@ -24,7 +24,13 @@ import {
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { headClear, standingOn } from './flower-layout';
 import { flowersOf, groundFor, mushroomFeet } from './flower-plots';
-import { type Cover, coversOn, roomIn, type Stand } from './flower-sight';
+import {
+  type Cover,
+  coversOn,
+  roomIn,
+  type Stand,
+  WIDEST_SPAN,
+} from './flower-sight';
 import { type Tuft, tuftSizeAt } from './grass';
 import type { Sprout } from './lawn';
 import type { MeadowLayout } from './layout';
@@ -188,13 +194,40 @@ export function tendedIn(view: View): (sprout: Sprout) => boolean {
 }
 
 /**
- * Whether `view`'s eye has stepped `TEND_STEP` or turned `TEND_TURN` of a
- * screen from `from`, so a tuft in sight may stand outside what was tended.
+ * How far, in px across the screen, `view` turns from the heading the tufts
+ * were tended at before its side comes within `slack` of the side of the
+ * world the rules judge a tuft in (`flowerInSight`): the layout lays a
+ * point out `focal · tan(azimuth / SPREAD)` px off the anchor's heading, the
+ * screen `arc · azimuth`, so the world's side stands `focal · atan` of its
+ * half-width over `focal` across the screen. Past it a tuft in sight was
+ * judged off the world, and stands only once tended again.
  */
-export function strayed(view: View, from: Eye): boolean {
+function turnInWorld(view: View, slack: number): number {
+  const { width, world } = view;
+  const { focal } = pinholeOf(view);
+  return focal * Math.atan((world / 2 - slack) / focal) - width / 2;
+}
+
+/**
+ * Whether `view`'s eye has stepped `TEND_STEP` from `from`, or turned
+ * `TEND_TURN` of a screen or as far as the world tended in reaches
+ * (`turnInWorld`, with `slack` to spare), so a tuft in sight may stand
+ * outside what was tended.
+ */
+export function strayed(view: View, from: Eye, slack: number): boolean {
   const { eye, width } = view;
   const turn = Math.abs(wrap(eye.heading - from.heading)) * pinholeOf(view).arc;
-  return distanceBetween(eye, from) > TEND_STEP || turn > TEND_TURN * width;
+  const most = Math.min(TEND_TURN * width, turnInWorld(view, slack));
+  return distanceBetween(eye, from) > TEND_STEP || turn > Math.max(0, most);
+}
+
+/**
+ * How near, in px, a tuft's foot on `layout` stands to the world's side at
+ * the most while its flower's sighting reaches it (`flowerInSight`): the
+ * widest insect's span and a near flower's head and sway, with room over.
+ */
+export function sightSlack({ insectSize, camera }: MeadowLayout): number {
+  return 2 * WIDEST_SPAN * insectSize + camera.unit;
 }
 
 /**
@@ -325,7 +358,11 @@ export class Tended {
     if (changed) return;
     if (tending) {
       this.tendOn();
-    } else if (stood && tendedFrom && strayed(view, tendedFrom)) {
+    } else if (
+      stood &&
+      tendedFrom &&
+      strayed(view, tendedFrom, sightSlack(stood.layout))
+    ) {
       this.retend(stood, view.eye);
     }
   }

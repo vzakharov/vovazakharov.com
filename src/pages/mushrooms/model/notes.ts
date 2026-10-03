@@ -1,6 +1,6 @@
 /**
- * Where a flower's pitch class sounds: the nearest note of that class to the
- * last note played, within the game's three octaves, so a run of taps walks
+ * Where a flower's or a key's pitch class sounds: the nearest note of that
+ * class to the last note played, within the game's three octaves, so a run of taps walks
  * up and down as a melody does instead of jumping by octaves. Notes are MIDI
  * numbers.
  */
@@ -29,14 +29,15 @@ function intoRange(note: number): number {
 /**
  * The note of class `pitchClass` nearest `anchor`: the same note for the same
  * class, the nearer of the one above and the one below otherwise, and on a
- * tritone's tie the one toward the middle of the range. With no anchor, the
- * middle octave's.
+ * tritone's tie the one toward the middle of the range. With no anchor,
+ * `octave`'s.
  */
 export function nearestNote(
   anchor: number | undefined,
   pitchClass: PitchClass,
+  octave = HOME_OCTAVE,
 ): number {
-  if (anchor === undefined) return keyNote(HOME_OCTAVE, pitchClass);
+  if (anchor === undefined) return keyNote(octave, pitchClass);
   const up = (((pitchClass - anchor) % 12) + 12) % 12;
   if (up === 0) return intoRange(anchor);
   const above = anchor + up;
@@ -54,17 +55,30 @@ function anchorOf(melody: Melody, now: number): number | undefined {
   return melody && now - melody.at <= MELODY_REST ? melody.note : undefined;
 }
 
-/** The note a flower of `pitchClass` plays at `now`, and the melody it leaves. */
+/** The note `pitchClass` plays at `now`, a melody that has rested starting in `octave`, and the melody it leaves. */
 export function strike(
   melody: Melody,
   pitchClass: PitchClass,
   now: number,
+  octave = HOME_OCTAVE,
 ): { note: number; melody: Melody } {
-  const note = nearestNote(anchorOf(melody, now), pitchClass);
+  const note = nearestNote(anchorOf(melody, now), pitchClass, octave);
   return { note, melody: { note, at: now } };
 }
 
-/** The note a key of `pitchClass` plays in `octave` (0 to `OCTAVES` − 1), as a piano's key does. */
+/**
+ * `melody` with its last note moved `step` octaves at `now`, so the next
+ * note is found round it; as it was where it has rested or the move would
+ * leave the range.
+ */
+export function shiftMelody(melody: Melody, step: number, now: number): Melody {
+  const anchor = anchorOf(melody, now);
+  if (anchor === undefined) return melody;
+  const note = anchor + 12 * step;
+  return note < LOWEST_NOTE || note > HIGHEST_NOTE ? melody : { note, at: now };
+}
+
+/** The note of `pitchClass` in `octave` (0 to `OCTAVES` − 1). */
 export function keyNote(octave: number, pitchClass: PitchClass): number {
   return LOWEST_NOTE + octave * 12 + pitchClass;
 }

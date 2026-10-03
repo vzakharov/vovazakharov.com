@@ -50,6 +50,22 @@ describe('Instrument', () => {
     assert.deepEqual(heard, [middle + 12, middle + 11]);
   });
 
+  it('walks a keyed melody by the nearest note, as a tapped one', () => {
+    const { heard, instrument } = played();
+    instrument.key({ kind: 'note', pitchClass: 9 });
+    instrument.key({ kind: 'note', pitchClass: 0 });
+    instrument.key({ kind: 'note', pitchClass: 7 });
+    assert.deepEqual(heard, [middle + 9, middle + 12, middle + 7]);
+  });
+
+  it('moves the melody an octave by an octave key', () => {
+    const { heard, instrument } = played();
+    instrument.key({ kind: 'note', pitchClass: 9 });
+    instrument.key({ kind: 'octave', step: -1 });
+    instrument.key({ kind: 'note', pitchClass: 11 });
+    assert.deepEqual(heard, [middle + 9, middle - 1]);
+  });
+
   it('holds the octave at the range’s ends', () => {
     const { heard, instrument } = played();
     for (let press = 0; press < 5; press++) {

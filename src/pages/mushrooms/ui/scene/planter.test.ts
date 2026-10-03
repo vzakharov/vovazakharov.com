@@ -11,7 +11,7 @@ import { mulberry32, nextSeed } from '../../model/random';
 import { takesFlower } from './flower-sight';
 import { LiveLawn } from './lawn';
 import { Planter } from './planter';
-import { strayed, Tended } from './tending';
+import { sightSlack, strayed, Tended } from './tending';
 import { type Sprout, tendedIn, tendTufts } from './tufts';
 import { viewAt } from './view';
 import { type Opened, opened } from './visit-play';
@@ -126,7 +126,14 @@ describe('Planter', () => {
       assert.ok(held.length > 0, `visit ${String(seed)}`);
       for (const eye of WALKS) {
         const at = `visit ${String(seed)}, eye ${JSON.stringify(eye)}`;
-        assert.ok(!strayed(viewAt(stand.layout.camera, eye), OPENING_EYE), at);
+        assert.ok(
+          !strayed(
+            viewAt(stand.layout.camera, eye),
+            OPENING_EYE,
+            sightSlack(stand.layout),
+          ),
+          at,
+        );
         for (const sprout of held) {
           if (!takesFlower(stand, sprout.foot, eye)) driftRefused += 1;
           assert.deepEqual(

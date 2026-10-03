@@ -170,6 +170,30 @@ is in; a peek opens and shuts its one window. Open is a dark inside behind
 the pane swung aside, each of Syama's window kinds in its own way, timed
 off the worm's trip clock (`model/worm.ts`), as `open` is for a door.
 
+21\. **The tufts are tended again before the screen's side reaches the
+edge of the world the rules judged them in.** The operator: «травинки как
+будто стали появляться пучками сразу по много, и как-то не сразу/при
+повороте на достаточный угол -- до этого на поляне на их месте просто
+пустота». A tuft stands only where a flower planted on it would be in the
+world's frame as the anchor lays it out (`flowerInSight`'s `inWorld`), and
+that frame is a fixed number of clump sizes wide: a tablet shows half of
+it, a wide window most of it. The re-tend waited for half a screen's turn,
+so on a wide window the leading side's ground was judged off the world and
+stood bare until then. Not recent: the gate is bite 12b's. `strayed` now
+also strays at `turnInWorld` (the world's side as the screen lays it out,
+`focal · atan`), less `sightSlack`. On a 1900×1000 window, a turn of 0.31
+rad: 75 tufts drawn of the 92 a fresh tend draws before, 92 of 92 after
+(`frames/bite-16/tufts-turned-*.png`). A step short of `TEND_STEP` still
+leaves a few far tufts for the next tend, as it always did.
+
+22\. **A key's note sounds nearest the melody's last, as a flower's does.**
+The operator: «играю `;` `g` (ля-до); ожидается: "до" сыграется та, что выше
+"ля". на самом деле: играет "до" той же октавы, что и "ля"». The keys played
+as a piano's, in the keyboard's octave; now they `strike` as the flowers do,
+the keyboard's octave only where the melody has rested, and `.`/`/` move the
+melody's last note an octave with the keyboard's (`shiftMelody`), so they
+still step the register.
+
 ## Built
 
 Each package's hand-over note under `docs/remove-before-merging/bite-16/`

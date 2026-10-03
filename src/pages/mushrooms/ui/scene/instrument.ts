@@ -1,8 +1,8 @@
 import type { FlowerSound } from '../../model/flower-sounds';
 import {
   HOME_OCTAVE,
-  keyNote,
   type Melody,
+  shiftMelody,
   shiftOctave,
   strike,
 } from '../../model/notes';
@@ -13,10 +13,11 @@ import type { MeadowSound } from './sound';
 type Synth = Pick<MeadowSound, 'note' | 'drum' | 'start'>;
 
 /**
- * The flowers played as one instrument: a flower's note sounds nearest the
- * melody's last (`strike`), a key's sounds where the keyboard's octave puts
- * it, and either becomes the melody's last, so a child on the flowers and a
- * parent on the keys play in one register.
+ * The flowers played as one instrument: a flower's note and a key's sound
+ * nearest the melody's last (`strike`), a melody that has rested starting
+ * in the keyboard's octave, and either becomes the melody's last, so a child
+ * on the flowers and a parent on the keys play in one register. An octave
+ * key moves the keyboard's octave and the melody's last note with it.
  */
 export class Instrument {
   private readonly voice: Synth;
@@ -54,15 +55,21 @@ export class Instrument {
   key(action: PlayedKey): FlowerSound | undefined {
     if (action.kind === 'octave') {
       this.octave = shiftOctave(this.octave, action.step);
+      this.melody = shiftMelody(this.melody, action.step, this.now());
       return undefined;
     }
     if (action.kind === 'drum') {
       this.voice.drum(action.drum);
       return action;
     }
-    const note = keyNote(this.octave, action.pitchClass);
-    this.melody = { note, at: this.now() };
-    this.voice.note(note);
+    const played = strike(
+      this.melody,
+      action.pitchClass,
+      this.now(),
+      this.octave,
+    );
+    this.melody = played.melody;
+    this.voice.note(played.note);
     return action;
   }
 }
