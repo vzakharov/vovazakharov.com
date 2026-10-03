@@ -20,7 +20,7 @@ far mushroom drawn with fewer chords.
 - `.claude/skills/megabeast/notes/quality.md` § "Review practice", § "Sweeps
   and the tests they become" and § "Finding classes" — what earlier reviews
   learned to look for. Read, never edit.
-- `docs/plans/mushroom-game-syama.in-progress.md` § "Eaten so far" (what each
+- `docs/plans/mushroom-game-syama.paused.md` § "Eaten so far" (what each
   module is for) and `docs/plans/mushroom-game-syama/decisions.md` (the
   standing design: a six-year-old's hands, no text, juice, palette files
   hold every colour).

@@ -41,7 +41,14 @@
   signal (bite 8's `standing(0, 0)` and `capWidth * 0.8`; bite 10's stale
   tufts), so agreed findings post as confirmed, and one agent's finding
   without a measurement posts as a hunch. The orchestrator checks each cited
-  line, looks at frames and posts in one call, staying under ~60k.
+  line, looks at frames and posts in one call, staying under ~60k. A
+  structural bite's 116-file diff split the reader in two by theme (bite
+  12b: the field; the insects and the harness), three agents in parallel at
+  ~170k each against an asked ~120k, all reporting rather than posting; the
+  brief asked each finding for its changed anchor line and an `Ask:`, so
+  the post was one script. The player's best finding (a turned phone
+  stranding 17 of 22 mushrooms) came from a step no reader could take, a
+  screen turn after `+` refused: the player's brief lists the turn.
 - **A subagent's report is a lead, not a citation.** Bite 4's review agent
   anchored two causes past the end of their files (`draw-mouse.ts:249` in a
   112-line file) and claimed the drawing's windows were "nearer 1/5 of the

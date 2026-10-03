@@ -320,7 +320,8 @@ frame), green at 18.4 ms once a far mushroom paints fewer chords
 (`curveSteps` in `model/mushroom-profile.ts`, 567702f); the Artifact
 republished at the tail's head.
 `/polish` closed again (a772d94), the PR body refreshed.
-**Left:** 12b's own review session, then its handling. Each package's commits and the orchestrator's calls:
+12b's review posted (https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5398479115: six blocking, three nits; frames under `docs/remove-before-merging/frames/bite-12b/review/`, brief `bite-12b/review-brief.md`).
+**Left:** its handling. Each package's commits and the orchestrator's calls:
 `docs/remove-before-merging/bite-12b/waves.md`.
 
 ## Rest of the elephant
