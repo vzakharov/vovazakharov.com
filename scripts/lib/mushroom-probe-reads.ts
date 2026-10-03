@@ -80,7 +80,7 @@ export const PROBE_READS = `
       mapOpen: scene.map.open,
       clock: scene.clock,
     }),
-    /** The map: whether it is open, and as last drawn its frame and how many things stand on it; \`null\` before it first opens. */
+    /** The map: whether it is open, and what it showed last drawn, \`null\` before it first opens. */
     map: () => {
       const last = scene.map.last;
       return {

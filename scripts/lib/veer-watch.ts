@@ -216,7 +216,7 @@ function drawnPairs(seen: readonly Sample[]) {
  * same leg with the eye standing or turning no more than a held turn does
  * (`eyeMoved`), and how long the frame took, in ms: a frame the browser ran
  * late moves it as far as the time it spans. A held turn slides everything
- * drawn across by `arc` px to the radian it turns (`ground.ts`'s `viewOf`),
+ * drawn across by `arc` px to the radian it turns (`pinhole.ts`'s `viewOf`),
  * so that slide is taken out and the step is the insect's own.
  */
 export function steps(

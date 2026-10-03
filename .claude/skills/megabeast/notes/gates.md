@@ -84,9 +84,9 @@
   then ui/ + scripts/ + `.claude/costs`), `/dry` then `/tend-prose` per
   slice, each landing a scoped `polish(<pass> <slice>):` commit and the
   orchestrator the bare `polish:` mark after the last: ~110–165k each,
-  none ran out. A `/dry` finding it judged ambiguous, or that lay in the
-  other slice, went into the next agent's brief as one named code item to
-  apply, which closed it without a second `/dry`.
+  none ran out. A `/dry` finding judged ambiguous, or lying in the other
+  slice, went into the next agent's brief as one named item to apply,
+  which closed it without a second `/dry`.
 - **Agents' scratch breaks `pnpm test`.** The test glob `**/*.test.ts`
   reaches into gitignored `tmp/`: a subagent's copy of the mushroom sources
   in `tmp/clump/` (to measure old constants), throwaway tests and a

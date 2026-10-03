@@ -4,8 +4,9 @@
  * and selecting a mushroom, a tap selecting one, `−` sinking it with its
  * house and then taking the newest, the last, and shaking its head on an
  * empty meadow, a tap on a flower closing the picker and opening the flower,
- * and the map button opening and shutting — with the house, the insects and the buzzers played
- * between, and last the insects following the eye walked away from them.
+ * and the map button opening and shutting — with the house, the insects and
+ * the buzzers played between, and last the insects following the eye walked
+ * away from them.
  */
 
 import { z } from 'zod';

@@ -1,16 +1,13 @@
 /**
- * The map, `play-mushrooms.ts`'s run on a fresh meadow: the map button
- * pressed, the sheet shot mid-unfold and open, and shut; then mushrooms
- * grown, the newest furnished, a flower planted on a tuft, the eye turned
- * and walked a little, and the map opened again on what the meadow holds
- * now; the `+` picker open as the map opens, and a flick just before it,
- * the map then shut by Escape, which a second press leaves shut; then a
- * russula grown where the flick left the eye, given a door, and the map
- * opened on it.
- * Fails on a map that does not open or shut, one that leaves the child or a
- * flower off the sheet, mirrors the view, or draws fewer things than the
- * meadow holds; on a picker left open over it, or an eye that moves under
- * it; prints its scale.
+ * The map, played on a fresh meadow: opened, shot mid-unfold and open, and
+ * shut by a tap on the sheet; opened over the `+` picker, which shuts; opened
+ * again once three mushrooms have grown, the newest furnished, a flower is
+ * planted and the eye has walked; opened over a flick, then shut by Escape,
+ * which a second press leaves shut; and opened on a russula grown where the
+ * flick left the eye, given a door. Fails on a map that does not open or
+ * shut, leaves the child or a flower off the sheet, mirrors the view or draws
+ * fewer things than the meadow holds; on a picker left open over it, or an
+ * eye that moves under it. Prints its scale.
  */
 
 import { z } from 'zod';
@@ -59,7 +56,7 @@ export async function playMap(
   const map = async () => page.evaluate('__probe.map()', MapShown);
   const state = async () => page.evaluate('__probe.state()', State);
   const eyeNow = async () => page.evaluate('__probe.eye()', Eye);
-  /** A tap on the sheet, away from the button, shuts it as the button does. */
+  /** A tap on the sheet, away from the button, shuts it. */
   const shut = async (screen: z.infer<typeof Eye>, open: string) => {
     await page.tap({ x: screen.width / 2, y: screen.height / 2 });
     await page.step(UNFOLDED);

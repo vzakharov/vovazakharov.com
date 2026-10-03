@@ -1,8 +1,8 @@
 /**
  * The first half of `PROBE`'s page-side source: the scene, the timers wrapped
- * round its calls, and the helpers `PROBE_READS` reads it through. A string
- * evaluated in the page, spliced into one function body with `PROBE_READS`,
- * so the names it declares are the ones that half uses.
+ * round its calls, and the helpers `PROBE_READS` reads it through. Spliced
+ * into one function body with `PROBE_READS`, so the names it declares are the
+ * ones that half uses.
  */
 export const PROBE_INSTRUMENTS = `
   const scene = window.__game.scene.scenes[0];
@@ -37,7 +37,7 @@ export const PROBE_INSTRUMENTS = `
     const middle = toScreen({ x: (left + right) / 2, y: 0 }).x;
     return middle >= 0 && middle <= scene.layout.width ? middle : null;
   };
-  // Every footstep the walk sounds, counted whether or not the sound is on.
+  // Every footstep the walk sounds, counted at the call, before the voice checks it has audio.
   const step = scene.voice.step.bind(scene.voice);
   let steps = 0;
   scene.voice.step = (foot) => {

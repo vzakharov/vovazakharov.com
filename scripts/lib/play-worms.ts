@@ -3,9 +3,10 @@
  * cap's outermost window tapped, swinging open before its worm comes out,
  * the worm crawling to the far end of the row, a second tap leaving its
  * course, the far window open as it goes in and both shut after; the back
- * cap's one window tapped, its worm peeking and the window shut after. Each screen's window reach, the worm's girth and the cap its
- * mushroom keeps are printed with the mushroom they were taken on, for the
- * eye that looks at the frames.
+ * cap's one window tapped, its worm peeking and the window shut after. Each
+ * screen's window reach, the worm's girth and the cap its mushroom keeps are
+ * printed with the mushroom they were taken on, for the eye that looks at
+ * the frames.
  */
 
 import type { z } from 'zod';

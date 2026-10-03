@@ -3,12 +3,8 @@
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. Every control and every tappable thing in
  * the meadow is tapped the way a finger does, and the eye is turned and
- * walked by drag and by key and the screen turned — the steps are
- * `lib/play-opening.ts`, `lib/play-meadow.ts`, `lib/play-house.ts`,
- * `lib/play-insects.ts`, `lib/play-buzzers.ts`, `lib/play-walk.ts`,
- * `lib/play-approach.ts`, `lib/play-species.ts`, `lib/play-tufts.ts`,
- * `lib/play-hold.ts`, `lib/play-keys.ts`, `lib/play-veer.ts`,
- * `lib/play-rain.ts` and `lib/play-sprouts.ts` — and a frame of each lands in
+ * walked by drag and by key and the screen turned — the steps are `PLAYS`
+ * and the `lib/play-*.ts` modules behind them — and a frame of each lands in
  * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
