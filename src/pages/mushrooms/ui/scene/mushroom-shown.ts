@@ -93,7 +93,7 @@ export function unplacedShown(
   };
 }
 
-/** The chords to a curve `shown` is painted with as the view now draws it: by its size there, `size` scaled by its `zoom`. */
+/** The chords to a curve `shown` asks for at the size the view now draws it. */
 export function stepsHere({ size, stands }: Shown): number {
   return curveSteps(size * stands.zoom);
 }

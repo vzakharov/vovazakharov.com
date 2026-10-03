@@ -22,7 +22,7 @@ import {
 
 /** How far down the stem a ridge runs from the funnel, to `t` from its foot. */
 const RIDGE_END = 0.55;
-/** How many more chords the lip's waving top is drawn with than any other curve. */
+/** How many times as many chords the lip's waving top is drawn with as any other curve. */
 const LIP_STEPS = 1.5;
 
 /** The front rim from right to left, its two ends left out: where the lip and the funnel meet. */

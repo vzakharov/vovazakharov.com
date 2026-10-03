@@ -21,19 +21,18 @@ import {
  */
 export const CURVE_STEPS = 28;
 /**
- * The longest chord a curve is painted with on screen, in px per unit of the
- * mushroom's size it is drawn at (each curve runs about a unit), and the
- * fewest chords any curve is painted with: a far cap still reads as round.
+ * The longest a chord is painted on screen, in px, a curve running about a
+ * unit of the mushroom's size; and the fewest chords any curve gets, so a far
+ * cap still reads as round.
  */
 const CHORD_PX = 3;
 const LEAST_STEPS = 8;
 
 /**
  * How many chords each curve of a mushroom drawn `drawn` px to its unit of
- * size is painted with: fewer the smaller it stands, down to `LEAST_STEPS`,
- * so a far cap costs the renderer a fraction of a near one's points. One
- * chord more or less is under a pixel wherever it changes, so a mushroom
- * walked toward gains its detail with no step to see.
+ * size is painted with. Wherever the count changes, a chord more or less
+ * moves the outline under a pixel, so a mushroom walked toward gains its
+ * detail with no step to see.
  */
 export function curveSteps(drawn: number): number {
   const steps = Math.ceil(drawn / CHORD_PX);
@@ -44,10 +43,10 @@ export function curveSteps(drawn: number): number {
 export type Chorded = { steps: number };
 
 /**
- * The chords a porcini's or russula's band is painted with at any size. Its
- * collar is a notch round the stem narrower than a far chord, where sampling
- * by angle is sparsest, so with fewer chords than its tap area's it moves by
- * over a pixel at sizes from ~30 to ~80 px a unit, whichever count it takes.
+ * The chords a porcini's or russula's band is painted with at any size: its
+ * collar, a notch round the stem narrower than a far chord where sampling by
+ * angle is sparsest, moves by over a pixel at ~30 to ~80 px a unit with any
+ * fewer than its tap area's.
  */
 export const BAND_STEPS = CURVE_STEPS;
 

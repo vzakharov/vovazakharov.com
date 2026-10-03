@@ -380,9 +380,9 @@
   A container restart is the same case: at 12b's tail one stopped
   tail-turn with its fix uncommitted in its worktree, and a `SendMessage`
   naming the worktree and its dirty files resumed it, which wrote its note
-  and patch at once. So the orchestrator keeps each agent's id until its report lands, lists
-  `git worktree list` and each tree's `status` before deciding anything,
-  and never removes a dead agent's worktree before trying to resume it.
+  and patch at once. So the orchestrator keeps each agent's id until its
+  report lands, lists `git worktree list` and each tree's `status` before
+  deciding anything, and never removes a dead agent's worktree before trying to resume it.
 - **A wrap-up and its cancel can cross.** An agent told to stop, then told
   to carry on, had already stopped; the cancel only resumed it. Settle with
   the operator before stopping an agent, not after.
