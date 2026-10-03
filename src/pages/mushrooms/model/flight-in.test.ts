@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { onscreenOf } from '../ui/scene/perch-sight';
+import { Perches as ScenePerches } from '../ui/scene/perches';
+import { viewAt } from '../ui/scene/view';
+import { opened } from '../ui/scene/visit-play';
 import {
   firstFlight,
   type Flight,
@@ -23,7 +27,8 @@ import {
   shownOf,
 } from './flight-in';
 import { apartIn, apartOf } from './flight-timing';
-import { CLUMP_DISTANCE } from './ground';
+import { alongAzimuth } from './geometry';
+import { CLUMP_DISTANCE, D_SEE, OPENING_EYE } from './ground';
 import { INSECT_KINDS } from './insect-genes';
 
 /** A world 100 units across, the screen showing 30 to 60 of it. */
@@ -104,6 +109,36 @@ describe('isShown', () => {
     ]) {
       assert.equal(isShown(ONSCREEN, place), false, JSON.stringify(place));
     }
+  });
+
+  it('shows no cap on a stand past the brow off the heading, though its forward distance is inside it, on a tablet screen', () => {
+    const stand = opened(3, 1180, 820, true);
+    const [first] = stand.mushrooms;
+    assert.ok(first);
+    const foot = alongAzimuth(OPENING_EYE, 0.75, 14.25);
+    const perches = new ScenePerches(() => ({
+      bed: undefined,
+      flowers: undefined,
+    }));
+    perches.see(
+      {
+        ...stand,
+        mushrooms: [
+          ...stand.mushrooms,
+          { ...first, id: 'lone', foot: { ...first.foot, ...foot } },
+        ],
+      },
+      OPENING_EYE,
+    );
+    const view = viewAt(stand.layout.camera, OPENING_EYE);
+    const onscreen = onscreenOf(stand.layout, view);
+    const place =
+      perches.sightFrom(view).places?.[perchName({ kind: 'cap', id: 'lone' })];
+    assert.ok(onscreen && place);
+    // Inside the edges, and in front of the brow by its forward distance alone.
+    assert.ok(isShown({ ...onscreen, far: Infinity }, place));
+    assert.ok(place.fromEye <= D_SEE, String(place.fromEye));
+    assert.equal(isShown(onscreen, place), false);
   });
 });
 
