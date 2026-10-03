@@ -9,6 +9,7 @@ import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { azimuthAt, OPENING_CLOUD_COUNT } from './panorama';
+import { rainbowArc } from './rain-sky';
 import { fillShape, petal } from './shapes';
 import { SUN_RAY_REACH } from './sun-layout';
 
@@ -197,4 +198,26 @@ export function paintWash(
   for (const radius of wash) {
     graphics.fillCircle(sun.x, sun.y, radius);
   }
+}
+
+/**
+ * The rainbow round `layout`'s opening screen (`rainbowArc`): each band of
+ * `PALETTE.rainbow` as the arch's upper half, outermost first, each half as
+ * wide again as its share so it covers the seam with the band outside it.
+ * Where the arch stands, for the picture baked from it.
+ */
+export function paintRainbow(
+  graphics: Phaser.GameObjects.Graphics,
+  layout: MeadowLayout,
+): ReturnType<typeof rainbowArc> {
+  const arc = rainbowArc(layout);
+  const { x, y, r, band } = arc;
+  for (const [index, colour] of PALETTE.rainbow.entries()) {
+    graphics
+      .lineStyle(1.5 * band, colour)
+      .beginPath()
+      .arc(x, y, r - (index + 0.5) * band, Math.PI, 2 * Math.PI)
+      .strokePath();
+  }
+  return arc;
 }

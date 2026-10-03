@@ -16,6 +16,7 @@ import {
   cloudLag,
   nextShowers,
   NO_SHOWERS,
+  RAINBOW_DEEPEST,
   rainbowShown,
   type Showers,
   WASH_DEEPEST,
@@ -40,8 +41,8 @@ export type SkyShown = { raining: boolean; wetness: number; rainbow: number };
 
 /**
  * The rain over the meadow: the cloud taps that start a shower, each cloud's
- * dark twin crossfaded in, the tapped cloud first, and the slate wash over
- * everything under the HUD. Every level is set each frame from the clock and
+ * dark twin crossfaded in, the tapped cloud first, the slate wash over
+ * everything under the HUD, and the rainbow after. Every level is set each frame from the clock and
  * the meadow's span (`rain-sky.ts`), so a repaint never interrupts a shower.
  * Which cloud was tapped is the scene's alone: the model has no clouds.
  */
@@ -152,12 +153,13 @@ export class RainView {
       if (!twin.visible || azimuth === undefined) continue;
       shade(twin, cloudDarkness(showers, ms, cloudLag(azimuth, leadAzimuth)));
     }
+    const rainbow = rainbowShown(showers, ms);
+    // Alpha only: `follow` shows and hides the columns as the eye turns.
+    for (const column of backdrop.rainbow.columns) {
+      column.setAlpha(RAINBOW_DEEPEST * rainbow);
+    }
     this.sway(t);
-    this.shown = {
-      raining: raining(showers.span, ms),
-      wetness,
-      rainbow: rainbowShown(showers, ms),
-    };
+    this.shown = { raining: raining(showers.span, ms), wetness, rainbow };
   }
 
   /**
