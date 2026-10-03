@@ -1,32 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from './geometry';
+import { distanceToEdge, type Point } from './geometry';
 import { MUSHROOM_SPECIES, mushroomGenes } from './mushroom-genes';
 import { headOutlines, stemOutline } from './mushroom-outline';
 import { CURVE_STEPS, curveSteps, detailed } from './mushroom-profile';
 
 /** Drawn sizes from a far, tiny mushroom to a near one, in px to its unit. */
 const DRAWN = Array.from({ length: 60 }, (_, index) => 4 + index * 4);
-
-/** How far `point` stands from the closed polygon `outline`'s edge. */
-function offEdge(point: Point, outline: readonly Point[]): number {
-  return Math.min(
-    ...outline.map((from, index) => {
-      const to = outline[(index + 1) % outline.length] ?? from;
-      const [dx, dy] = [to.x - from.x, to.y - from.y];
-      const length = dx * dx + dy * dy || 1;
-      const t = Math.min(
-        1,
-        Math.max(
-          0,
-          ((point.x - from.x) * dx + (point.y - from.y) * dy) / length,
-        ),
-      );
-      return Math.hypot(point.x - from.x - t * dx, point.y - from.y - t * dy);
-    }),
-  );
-}
 
 /** Each outline a mushroom is painted with, as a curve gets `steps` chords. */
 function outlines(seed: number, steps: number): Point[][] {
@@ -56,7 +37,7 @@ describe('curveSteps', () => {
         for (const [index, outline] of full.entries()) {
           const coarse = painted[index] ?? [];
           const worst = Math.max(
-            ...outline.map((point) => offEdge(point, coarse)),
+            ...outline.map((point) => distanceToEdge(coarse, point)),
           );
           assert.ok(
             worst * drawn < 1,
