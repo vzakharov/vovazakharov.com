@@ -25,7 +25,11 @@ import {
 } from '../../model/mushroom-genes';
 import { domeArc, footWidth, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
-import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
+import {
+  capSurface,
+  CURVE_STEPS,
+  detailed,
+} from '../../model/mushroom-profile';
 import { awayAngle, litSide, shadowFall, type Translucent } from './ink';
 import { PALETTE } from './palette';
 
@@ -107,23 +111,33 @@ export function flowerLight<Lit extends Light>(
 function sideArc(
   genes: MushroomGenes,
   side: -1 | 1,
-  from: number,
-  to = Math.PI / 2,
+  [from, to]: readonly [number, number],
+  steps: number,
 ): Point[] {
-  return domeArc(genes, genes.capWidth / 2, [from, to]).map(({ x, y }) => ({
+  const half = genes.capWidth / 2;
+  return domeArc(genes, half, [from, to], 0, steps).map(({ x, y }) => ({
     x: x * side,
     y,
   }));
 }
 
 /** The dome's arc on the side turned from the light: where the shade lies. */
-export function capShadeArc(genes: MushroomGenes, toward: Point): Point[] {
-  return sideArc(genes, litSide(toward) === 1 ? -1 : 1, 0.3);
+export function capShadeArc(
+  genes: MushroomGenes,
+  toward: Point,
+  steps = CURVE_STEPS,
+): Point[] {
+  const side = litSide(toward) === 1 ? -1 : 1;
+  return sideArc(genes, side, [0.3, Math.PI / 2], steps);
 }
 
 /** The dome's arc on the light's side, from near its crown to the rim: where the rim light lies. */
-export function capRimArc(genes: MushroomGenes, toward: Point): Point[] {
-  return sideArc(genes, litSide(toward), 0.12, Math.PI / 2 - 0.08);
+export function capRimArc(
+  genes: MushroomGenes,
+  toward: Point,
+  steps = CURVE_STEPS,
+): Point[] {
+  return sideArc(genes, litSide(toward), [0.12, Math.PI / 2 - 0.08], steps);
 }
 
 /** The shine's middle on the cap, over toward the light. */
@@ -149,17 +163,22 @@ export type CapLight =
   | { kind: 'spot'; spot: Circle };
 
 /**
- * The cap's light in the order it is painted, first to last. The shade, the
- * rim light and the shine are light on the cap's own skin, so every spot goes
- * on after them and stays its own white wherever they reach. The shade and
- * the rim light are `strength` of their full alpha (`sideways`).
+ * The cap's light in the order it is painted, first to last, its arcs
+ * `steps` chords. The shade, the rim light and the shine are light on the
+ * cap's own skin, so every spot goes on after them and stays its own white
+ * wherever they reach. The shade and the rim light are `strength` of their
+ * full alpha (`sideways`).
  */
-export function capLight(genes: MushroomGenes, toward: Point): CapLight[] {
-  if (hasTrumpet(genes)) return lipLight(genes, toward);
+export function capLight(
+  genes: MushroomGenes,
+  toward: Point,
+  steps = CURVE_STEPS,
+): CapLight[] {
+  if (hasTrumpet(genes)) return lipLight(genes, toward, steps);
   const strength = sideways(toward);
   return [
-    { kind: 'shade', arc: capShadeArc(genes, toward), strength },
-    { kind: 'rim', arc: capRimArc(genes, toward), strength },
+    { kind: 'shade', arc: capShadeArc(genes, toward, steps), strength },
+    { kind: 'rim', arc: capRimArc(genes, toward, steps), strength },
     {
       kind: 'shine',
       centre: capShine(genes, toward),
@@ -173,9 +192,10 @@ export function capLight(genes: MushroomGenes, toward: Point): CapLight[] {
 function lipArc(
   genes: ChanterelleGenes,
   [from, to]: readonly [number, number],
+  steps: number,
 ): Point[] {
   const half = genes.capWidth / 2;
-  return sample(from * half, to * half, CURVE_STEPS, (x) => ({
+  return sample(from * half, to * half, steps, (x) => ({
     x,
     y: capSurface(genes, x),
   }));
@@ -200,12 +220,16 @@ function mouthArc(
  * shaded on the sun's side and lit on the other, the shine on it, and the
  * near rim's shadow along the mouth's near edge.
  */
-function lipLight(genes: ChanterelleGenes, toward: Point): CapLight[] {
+function lipLight(
+  genes: ChanterelleGenes,
+  toward: Point,
+  steps: number,
+): CapLight[] {
   const strength = sideways(toward);
   const sun = litSide(toward);
   const arc = (from: number, to: number) =>
-    lipArc(genes, [from * sun, to * sun]);
-  const { far, near } = mouthEdges(genes);
+    lipArc(genes, [from * sun, to * sun], steps);
+  const { far, near } = mouthEdges(genes, steps);
   const wall = (from: number, to: number) =>
     mouthArc(far, [from * sun, to * sun]);
   const { x, y } = wall(-0.3, -0.5)[0] ?? { x: 0, y: capSurface(genes, 0) };
@@ -231,17 +255,17 @@ function lipLight(genes: ChanterelleGenes, toward: Point): CapLight[] {
  * The half of a circle round `centre` turned from the light, in the canvas's
  * frame (y down, as `toward` is): a spot's shade, an eye's.
  */
-export function shadedHalf(centre: Point, r: number, toward: Point): Point[] {
+export function shadedHalf(
+  centre: Point,
+  r: number,
+  toward: Point,
+  steps = CURVE_STEPS,
+): Point[] {
   const away = awayAngle(toward);
-  return sample(
-    away - Math.PI / 2,
-    away + Math.PI / 2,
-    CURVE_STEPS,
-    (angle) => ({
-      x: centre.x + r * Math.cos(angle),
-      y: centre.y + r * Math.sin(angle),
-    }),
-  );
+  return sample(away - Math.PI / 2, away + Math.PI / 2, steps, (angle) => ({
+    x: centre.x + r * Math.cos(angle),
+    y: centre.y + r * Math.sin(angle),
+  }));
 }
 
 /**
@@ -255,18 +279,25 @@ export type StemLayer = readonly [
   side: 'sun' | 'shade',
 ];
 
-/** `count` layers of `colour` on `side`, each at `alpha`, from `deepest` in to `shallowest`. */
+/**
+ * `count` layers of `colour` on `side`, each at `alpha`, from `deepest` in to
+ * `shallowest` — fewer on a stem painted with fewer than `CURVE_STEPS` chords
+ * to a curve (`detailed`), each the more opaque, so the edge stands as dark
+ * under them all as under the full stack.
+ */
 function layers(
   colour: number,
   side: StemLayer[3],
-  count: number,
-  alpha: number,
+  [count, alpha]: readonly [number, number],
   [deepest, shallowest]: readonly [number, number],
+  steps: number,
 ): StemLayer[] {
-  return Array.from({ length: count }, (_, index) => [
+  const kept = detailed(count, steps, 2);
+  const each = kept === count ? alpha : 1 - (1 - alpha) ** (count / kept);
+  return Array.from({ length: kept }, (_, index) => [
     colour,
-    alpha,
-    deepest + ((shallowest - deepest) * index) / (count - 1),
+    each,
+    deepest + ((shallowest - deepest) * index) / (kept - 1),
     side,
   ]);
 }
@@ -278,10 +309,10 @@ function layers(
  * with no band of its own; and a pale line just inside the lit edge. It
  * stays light enough that the stem still reads as pale.
  */
-export function stemLight(lit: number): StemLayer[] {
+export function stemLight(lit: number, steps = CURVE_STEPS): StemLayer[] {
   return [
-    ...layers(PALETTE.shadeCool, 'shade', 12, 0.024, [0.6, 0.08]),
-    ...layers(lit, 'sun', 8, 0.08, [0.34, 0.06]),
+    ...layers(PALETTE.shadeCool, 'shade', [12, 0.024], [0.6, 0.08], steps),
+    ...layers(lit, 'sun', [8, 0.08], [0.34, 0.06], steps),
     [PALETTE.rimLight, 0.6, 0.04, 'sun'],
   ];
 }

@@ -38,7 +38,12 @@ import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
 import { mushroomLights } from './mushroom-light';
 import { MushroomSelection } from './mushroom-selection';
-import { paintLit, type Shown, unplacedShown } from './mushroom-shown';
+import {
+  paintLit,
+  type Shown,
+  stepsHere,
+  unplacedShown,
+} from './mushroom-shown';
 import type { Seat } from './perch-hosts';
 import { hazeAhead, repaintsDue } from './repaint-queue';
 import type { MeadowSound } from './sound';
@@ -171,8 +176,8 @@ export class MushroomBed implements Following {
 
   /**
    * Stands every mushroom where `view` sees its foot, and repaints the
-   * nearest few whose haze there, or whose sun side from its heading, has
-   * drifted from their paint (`repaintsDue`).
+   * nearest few whose haze there, sun side from its heading, or chords to a
+   * curve for its size there have drifted from their paint (`repaintsDue`).
    */
   follow(view: View): void {
     this.view = view;
@@ -189,6 +194,8 @@ export class MushroomBed implements Following {
               ...pick(shown.stands, 'ahead'),
               sunSide: headedLight(shown.sunFrom, view.eye.heading).toward.x,
               ...pick(shown, 'paintedSunSide'),
+              steps: stepsHere(shown),
+              paintedSteps: shown.steps,
             },
           ];
     });

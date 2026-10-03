@@ -15,8 +15,49 @@ import {
   type MushroomShape,
 } from './mushroom-genes';
 
-/** How many chords each curve of a mushroom's outline is drawn with. */
+/**
+ * How many chords each curve of a mushroom's outline is drawn with, near; its
+ * tap area is always built with these.
+ */
 export const CURVE_STEPS = 28;
+/**
+ * The longest chord a curve is painted with on screen, in px per unit of the
+ * mushroom's size it is drawn at (each curve runs about a unit), and the
+ * fewest chords any curve is painted with: a far cap still reads as round.
+ */
+const CHORD_PX = 3;
+const LEAST_STEPS = 8;
+
+/**
+ * How many chords each curve of a mushroom drawn `drawn` px to its unit of
+ * size is painted with: fewer the smaller it stands, down to `LEAST_STEPS`,
+ * so a far cap costs the renderer a fraction of a near one's points. One
+ * chord more or less is under a pixel wherever it changes, so a mushroom
+ * walked toward gains its detail with no step to see.
+ */
+export function curveSteps(drawn: number): number {
+  const steps = Math.ceil(drawn / CHORD_PX);
+  return Math.min(CURVE_STEPS, Math.max(LEAST_STEPS, steps));
+}
+
+/** How many chords each curve of a mushroom is painted with (`curveSteps`). */
+export type Chorded = { steps: number };
+
+/**
+ * The chords a porcini's or russula's band is painted with at any size. Its
+ * collar is a notch round the stem narrower than a far chord, where sampling
+ * by angle is sparsest, so with fewer chords than its tap area's it moves by
+ * over a pixel at sizes from ~30 to ~80 px a unit, whichever count it takes.
+ */
+export const BAND_STEPS = CURVE_STEPS;
+
+/**
+ * A count a near mushroom is painted with, `full`, for one painted with
+ * `steps` chords to a curve: scaled as the chords are, never under `least`.
+ */
+export function detailed(full: number, steps: number, least = 1): number {
+  return Math.max(least, Math.round((full * steps) / CURVE_STEPS));
+}
 /** How many times a cap outline's corners are cut, rounding its rim. */
 export const RIM_ROUNDS = 2;
 

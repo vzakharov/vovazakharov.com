@@ -65,3 +65,24 @@ steps about half.
 4. Measure: phoneL `approach` (bar: median under 26 ms; before 31.1 /
    30.7), phoneP `approach`, tabL `species`; look at the far forest before
    and after, commit frames `phoneL-lod-*.png`.
+
+## tail-lod2
+
+### Step 1 — the patch in source
+
+- **The gill band keeps every chord** (`BAND_STEPS = CURVE_STEPS` in
+  `mushroom-profile.ts`, used by `gillsOutline`'s band). A floor below 28
+  does not hold the 1 px bound: the band's error is set by where its samples
+  land on the collar notch round the stem (sampled by angle, sparsest
+  there), not by chord length, so it does not fall with more chords —
+  measured worst over 10 seeds, porcini and russula: 0.036 units at 8
+  chords, 0.030 at 17, 0.021 at 24, 0.015 at 27. With `curveSteps` as is,
+  any floor from 8 to 16 leaves 1.52 px at 51 px/unit, 20 leaves 1.47 at 72;
+  a shorter chord everywhere needs 2 px to reach 1.01. Cost: the band is
+  57 points at every size instead of 17 at the floor, ~120 of a far
+  porcini's ~1700 buffer entries.
+- `Chorded = { steps }` in `mushroom-profile.ts`, shared by `MushroomBrush`,
+  `Shown` and `Detailing` (`pnpm type-overlap`).
+- `stemLight` test in `mushroom-light.test.ts`: full chords give
+  `STEM_LIGHT`; 8, 14, 20 chords keep fewer layers per side with the same
+  combined opacity over the edge and the same depth span.

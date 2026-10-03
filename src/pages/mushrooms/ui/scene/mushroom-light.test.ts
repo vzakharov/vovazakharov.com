@@ -28,6 +28,7 @@ import {
   shadedHalf,
   STEM_LIGHT,
   type StemLayer,
+  stemLight,
 } from './mushroom-light';
 import { PALETTE } from './palette';
 import { VIEWPORTS, VISITS } from './viewports';
@@ -140,7 +141,36 @@ describe('a stem in the light', () => {
       assert.ok(luminance(over(side, 0)) >= 0.5, side);
     }
   });
+
+  it('paints a far stem in fewer, more opaque layers that leave its edge as dark', () => {
+    assert.deepEqual(stemLight(PALETTE.stemLit, CURVE_STEPS), STEM_LIGHT);
+    for (const steps of [8, 14, 20]) {
+      const far = stemLight(PALETTE.stemLit, steps);
+      for (const side of ['sun', 'shade'] as const) {
+        const [near, coarse] = [atEdge(STEM_LIGHT, side), atEdge(far, side)];
+        assert.ok(coarse.count < near.count, `${steps} chords, ${side}`);
+        assert.ok(coarse.count >= 2);
+        assert.ok(Math.abs(coarse.opacity - near.opacity) < 1e-9);
+        assert.deepEqual(coarse.span, near.span);
+      }
+    }
+  });
 });
+
+/**
+ * How many of `side`'s soft layers of stem light there are, how opaque they
+ * stand together over its edge, and the depths they span (the rim line, at
+ * over half opaque, left out).
+ */
+function atEdge(layers: readonly StemLayer[], side: StemLayer[3]) {
+  const on = layers.filter((layer) => layer[3] === side && layer[1] < 0.5);
+  const depths = on.map((layer) => layer[2]);
+  return {
+    count: on.length,
+    opacity: 1 - on.reduce((clear, [, alpha]) => clear * (1 - alpha), 1),
+    span: [Math.max(...depths), Math.min(...depths)],
+  };
+}
 
 /** Whether `point` lies under `layer`, of the cap's layers the ones a point can be tested against. */
 function covers(layer: CapLight, { x, y }: Point): boolean {

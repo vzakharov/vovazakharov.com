@@ -13,7 +13,6 @@ import {
 import type { Point } from '../../model/geometry';
 import type { ChanterelleGenes } from '../../model/mushroom-genes';
 import { headOutlines } from '../../model/mushroom-outline';
-import { CURVE_STEPS } from '../../model/mushroom-profile';
 import { inkFor } from './ink';
 import { type CapLight, capLight, sideways } from './mushroom-light';
 import {
@@ -54,9 +53,18 @@ export function paintTrumpet(
   brush: MushroomBrush & { genes: ChanterelleGenes },
   stem: readonly Point[],
 ): void {
-  const { graphics, genes, tints, toMushroom, ink, lighting, tone, size } =
-    brush;
-  const [lip, funnel] = headOutlines(genes).map((outline) =>
+  const {
+    graphics,
+    genes,
+    tints,
+    toMushroom,
+    ink,
+    lighting,
+    tone,
+    size,
+    steps,
+  } = brush;
+  const [lip, funnel] = headOutlines(genes, steps).map((outline) =>
     outline.map((point) => toMushroom(point)),
   );
   if (!lip || !funnel) return;
@@ -69,7 +77,7 @@ export function paintTrumpet(
   paintFunnelLight(brush, funnel);
 
   graphics.fillStyle(tone(PALETTE.chanterelle.ridge));
-  for (const ridge of ridgeLines(genes)) {
+  for (const ridge of ridgeLines(genes, steps)) {
     strokeTapered(
       graphics,
       ridge.map((point) => brush.canvas(point)),
@@ -82,7 +90,7 @@ export function paintTrumpet(
   graphics.fillStyle(tone(tints.cap));
   fillShape(graphics, lip);
   const thick = genes.lip * size;
-  const layers = capLight(genes, lighting.toward);
+  const layers = capLight(genes, lighting.toward, steps);
   paintCapLight(
     brush,
     layers.filter(({ kind }) => !inMouth(kind)),
@@ -108,8 +116,9 @@ function paintMouth(
   thick: number,
   layers: readonly CapLight[],
 ): void {
-  const { graphics, genes, tints, toMushroom, ink, lighting, tone } = brush;
-  const { far, near } = mouthEdges(genes);
+  const { graphics, genes, tints, toMushroom, ink, lighting, tone, steps } =
+    brush;
+  const { far, near } = mouthEdges(genes, steps);
   const [farEdge, nearEdge] = [far, near].map((edge) =>
     edge.map((point) => toMushroom(point)),
   );
@@ -144,8 +153,8 @@ function paintFunnelLight(
   brush: MushroomBrush & { genes: ChanterelleGenes },
   funnel: readonly Point[],
 ): void {
-  const { graphics, genes, lighting, tints, size, toMushroom } = brush;
-  const side = CURVE_STEPS + 1;
+  const { graphics, genes, lighting, tints, size, toMushroom, steps } = brush;
+  const side = steps + 1;
   // Up from the rim to the stem's top on the left, then out to the rim on the right, then the front rim.
   const [left, right, rim] = [
     funnel.slice(0, side),

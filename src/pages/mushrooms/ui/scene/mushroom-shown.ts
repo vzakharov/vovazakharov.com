@@ -13,6 +13,11 @@ import {
   UNLIT,
 } from '../../model/motion';
 import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
+import {
+  type Chorded,
+  CURVE_STEPS,
+  curveSteps,
+} from '../../model/mushroom-profile';
 import type { Footed } from '../../model/placement';
 import { UNPLACED } from './bed-place';
 import type { Laid } from './clump-layout';
@@ -46,6 +51,8 @@ export type Shown = Tapped &
     /** Its shadow's light as the opening eye sees it, which `headedLight` turns by the heading. */
     sunFrom: Light;
   } & Pick<Laid, 'opening'> &
+  // The chords to a curve it was last painted with.
+  Chorded &
   // Its shadow's sun side when last painted.
   Pick<Siding, 'paintedSunSide'>;
 
@@ -77,6 +84,7 @@ export function unplacedShown(
     lightsAt: () => ({ body: lighting, ground: lighting }),
     sunFrom: lighting,
     paintedSunSide: lighting.toward.x,
+    steps: CURVE_STEPS,
     phase: phaseOf(mushroom),
     tappedAt: -Infinity,
     ...UNLIT,
@@ -85,16 +93,29 @@ export function unplacedShown(
   };
 }
 
+/** The chords to a curve `shown` is painted with as the view now draws it: by its size there, `size` scaled by its `zoom`. */
+export function stepsHere({ size, stands }: Shown): number {
+  return curveSteps(size * stands.zoom);
+}
+
 /**
  * Paints `shown`'s body, its house and its shadow at its haze, in its light
- * from an eye facing `heading`, and keeps the light and sun side it painted.
+ * from an eye facing `heading` and with as many chords to a curve as its
+ * size on screen asks (`stepsHere`), and keeps the light, sun side and
+ * chords it painted.
  */
 export function paintLit(shown: Shown, heading: number): void {
   const { graphics, shadow, genes, spots, size, haze, turn, house } = shown;
   const { body, ground } = shown.lightsAt(heading);
-  Object.assign(shown, { lighting: body, paintedSunSide: ground.toward.x });
+  const steps = stepsHere(shown);
+  Object.assign(shown, {
+    lighting: body,
+    paintedSunSide: ground.toward.x,
+    steps,
+  });
   graphics.clear();
-  drawMushroom(graphics, { ...genes, spots }, size, body, { haze, turn });
+  const options = { haze, turn, steps };
+  drawMushroom(graphics, { ...genes, spots }, size, body, options);
   house.repaint();
   shadow.clear();
   drawMushroomShadow(shadow, genes, size, ground, turn);

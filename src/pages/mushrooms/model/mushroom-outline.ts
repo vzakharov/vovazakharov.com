@@ -15,6 +15,7 @@ import {
 } from './mushroom-genes';
 import { capFrame, stemAt } from './mushroom-pose';
 import {
+  BAND_STEPS,
   capSurface,
   CURVE_STEPS,
   RIM_ROUNDS,
@@ -53,7 +54,11 @@ const FOOT_SAG = 0.22;
  * about its foot (`placedAt`): up its right side, down its left, and along
  * its foot back to the start.
  */
-export function stemOutline(genes: MushroomGenes, turn = 0): Point[] {
+export function stemOutline(
+  genes: MushroomGenes,
+  turn = 0,
+  steps = CURVE_STEPS,
+): Point[] {
   // A point `x` across the foot is level with it on screen at `x * slope` up.
   const slope = Math.tan(turn);
   const side = (t: number, sign: number): Point => {
@@ -66,13 +71,13 @@ export function stemOutline(genes: MushroomGenes, turn = 0): Point[] {
       y: station.y - sign * half * Math.sin(station.tilt) + x * slope * level,
     };
   };
-  const right = sample(0, 1, CURVE_STEPS, (t) => side(t, 1));
-  const left = sample(1, 0, CURVE_STEPS, (t) => side(t, -1));
+  const right = sample(0, 1, steps, (t) => side(t, 1));
+  const left = sample(1, 0, steps, (t) => side(t, -1));
   const [from, to] = [left.at(-1) ?? side(0, -1), right[0] ?? side(0, 1)];
   // Straight down on screen, in this frame.
   const down = { x: Math.sin(turn), y: -Math.cos(turn) };
   const sag = FOOT_SAG * stemHalfWidth(genes, 0);
-  const foot = sample(0, 1, CURVE_STEPS, (u) => {
+  const foot = sample(0, 1, steps, (u) => {
     const dip = sag * 4 * u * (1 - u);
     return {
       x: from.x + (to.x - from.x) * u + down.x * dip,
@@ -97,8 +102,9 @@ export function domeArc(
   half: number,
   [from, to]: readonly [number, number],
   floor = 0,
+  steps = CURVE_STEPS,
 ): Point[] {
-  return sample(from, to, CURVE_STEPS, (angle) => {
+  return sample(from, to, steps, (angle) => {
     const x = half * Math.sin(angle);
     return { x, y: Math.max(floor, capSurface(genes, x)) };
   });
@@ -108,10 +114,10 @@ export function domeArc(
 const UNDER_SAG = 0.1;
 
 /** A domed cap, its rim rounded into the underside, in the cap's frame. */
-function domeOutline(genes: MushroomGenes): Point[] {
+function domeOutline(genes: MushroomGenes, steps: number): Point[] {
   const half = genes.capWidth / 2;
-  const arc = domeArc(genes, half, [Math.PI / 2, -Math.PI / 2]);
-  const underside = sample(-half, half, CURVE_STEPS, (x) => ({
+  const arc = domeArc(genes, half, [Math.PI / 2, -Math.PI / 2], 0, steps);
+  const underside = sample(-half, half, steps, (x) => ({
     x,
     y: undersideAt(genes, x),
   })).slice(1, -1);
@@ -172,16 +178,16 @@ function bandBottom(genes: Banded, x: number): number {
  * oval that shows only just below its rim, or the thick band of a porcini's
  * sponge or a russula's gills, its top tucked up inside the dome.
  */
-function gillsOutline(genes: DomeGenes): Point[] {
+function gillsOutline(genes: DomeGenes, steps: number): Point[] {
   if (genes.species === 'fly-agaric')
-    return sample(0, Math.PI * 2, CURVE_STEPS, (angle) => ({
+    return sample(0, Math.PI * 2, steps, (angle) => ({
       x: Math.cos(angle) * genes.capWidth * 0.44,
       y: Math.sin(angle) * genes.capHeight * 0.14,
     }));
   const across = genes.capWidth * BAND_ACROSS;
   const tuck = genes.capHeight * UNDER_SAG * 2;
   // By angle, crowding the samples toward the band's ends, where it rounds.
-  return sample(0, Math.PI * 2, CURVE_STEPS * 2, (angle) => {
+  return sample(0, Math.PI * 2, BAND_STEPS * 2, (angle) => {
     const x = Math.cos(angle) * across;
     const y = Math.sin(angle);
     return { x, y: y < 0 ? bandBottom(genes, x) : tuck * y };
@@ -208,12 +214,16 @@ export function gillLines(genes: RussulaGenes): Point[][] {
 
 /**
  * The cap and what shows under it as they are filled, in the cap's frame: a
- * dome and its gills, or a chanterelle's lip and its ridged funnel.
+ * dome and its gills, or a chanterelle's lip and its ridged funnel, each
+ * curve `steps` chords.
  */
-export function headOutlines(genes: MushroomGenes): [Point[], Point[]] {
+export function headOutlines(
+  genes: MushroomGenes,
+  steps = CURVE_STEPS,
+): [Point[], Point[]] {
   return hasTrumpet(genes)
-    ? trumpetOutlines(genes)
-    : [domeOutline(genes), gillsOutline(genes)];
+    ? trumpetOutlines(genes, steps)
+    : [domeOutline(genes, steps), gillsOutline(genes, steps)];
 }
 
 /** `headOutlines`, in the mushroom's frame. */

@@ -22,13 +22,13 @@ import {
 
 /** How far down the stem a ridge runs from the funnel, to `t` from its foot. */
 const RIDGE_END = 0.55;
-/** How many chords the lip's waving top is drawn with. */
-const LIP_STEPS = CURVE_STEPS * 1.5;
+/** How many more chords the lip's waving top is drawn with than any other curve. */
+const LIP_STEPS = 1.5;
 
 /** The front rim from right to left, its two ends left out: where the lip and the funnel meet. */
-function frontRim(genes: ChanterelleGenes): Point[] {
+function frontRim(genes: ChanterelleGenes, steps: number): Point[] {
   const half = genes.capWidth / 2;
-  return sample(half, -half, CURVE_STEPS, (x) => ({
+  return sample(half, -half, steps, (x) => ({
     x,
     y: capBase(genes, x),
   })).slice(1, -1);
@@ -48,8 +48,12 @@ function funnelAt(
 }
 
 /** The funnel's side on `sign`'s side, from the stem's top up to the rim: its rise sampled evenly. */
-function funnelSide(genes: ChanterelleGenes, sign: -1 | 1): Point[] {
-  return sample(0, 1, CURVE_STEPS, (q) => {
+function funnelSide(
+  genes: ChanterelleGenes,
+  sign: -1 | 1,
+  steps: number,
+): Point[] {
+  return sample(0, 1, steps, (q) => {
     const x = sign * funnelAt(genes, q).r;
     return { x, y: funnelEdge(genes, x) };
   });
@@ -61,19 +65,22 @@ function funnelSide(genes: ChanterelleGenes, sign: -1 | 1): Point[] {
  * dipping at its middle, and back along the front rim; the funnel up from
  * the stem's top on either side to the rim, closed along that same front rim.
  */
-export function trumpetOutlines(genes: ChanterelleGenes): [Point[], Point[]] {
+export function trumpetOutlines(
+  genes: ChanterelleGenes,
+  steps = CURVE_STEPS,
+): [Point[], Point[]] {
   const half = genes.capWidth / 2;
-  const rim = frontRim(genes);
+  const rim = frontRim(genes, steps);
   // Half by angle, crowding the samples toward the rim where the lip turns
   // down, and half evenly, so every lobe of the wave across it is drawn round.
-  const top = sample(-1, 1, LIP_STEPS, (along) => {
+  const top = sample(-1, 1, Math.round(steps * LIP_STEPS), (along) => {
     const x = (half * (along + Math.sin((along * Math.PI) / 2))) / 2;
     return { x, y: capSurface(genes, x) };
   });
   const lip = rounded([...top, ...rim], RIM_ROUNDS);
   const funnel = [
-    ...funnelSide(genes, -1).toReversed(),
-    ...funnelSide(genes, 1),
+    ...funnelSide(genes, -1, steps).toReversed(),
+    ...funnelSide(genes, 1, steps),
     ...rim,
   ];
   return [lip, funnel];
@@ -99,13 +106,16 @@ export const MOUTH_LINE = { near: 0.5, far: 0.3 };
  * left, over the near rim. Closed, the two are the opening the painter
  * shades.
  */
-export function mouthEdges(genes: ChanterelleGenes): {
+export function mouthEdges(
+  genes: ChanterelleGenes,
+  steps = CURVE_STEPS,
+): {
   far: Point[];
   near: Point[];
 } {
   const half = genes.capWidth / 2;
   const edge = (share: number, from: number, to: number) =>
-    sample(from, to, CURVE_STEPS, (angle) => {
+    sample(from, to, steps, (angle) => {
       const x = MOUTH_ACROSS * half * Math.cos(angle);
       const base = capBase(genes, x);
       const depth = capSurface(genes, x) - base;
@@ -129,14 +139,17 @@ export function mouthEdges(genes: ChanterelleGenes): {
  * shows — so the painter strokes them and a test measures them from one
  * place.
  */
-export function ridgeLines(genes: ChanterelleGenes): Point[][] {
+export function ridgeLines(
+  genes: ChanterelleGenes,
+  steps = CURVE_STEPS,
+): Point[][] {
   const cap = capFrame(genes);
   return Array.from({ length: genes.ridges }, (_, index) => {
     const round = -Math.PI / 2 + (Math.PI * (index + 0.5)) / genes.ridges;
     const side = Math.sin(round);
     const rimX = (side * genes.capWidth) / 2;
     const sag = frontSag(genes, rimX);
-    const overFunnel = sample(1, 0, CURVE_STEPS, (q) => {
+    const overFunnel = sample(1, 0, steps, (q) => {
       const { r, out } = funnelAt(genes, q);
       const x = r * side;
       const wave = rimWave(genes, x);
@@ -151,7 +164,7 @@ export function ridgeLines(genes: ChanterelleGenes): Point[][] {
     });
     // Its first point is the funnel's last: the funnel's foot is the stem's
     // top, the cap turning with the stem.
-    const downStem = sample(1, RIDGE_END, CURVE_STEPS, (t) => {
+    const downStem = sample(1, RIDGE_END, steps, (t) => {
       const station = stemAt(genes, t);
       const across = stemHalfWidth(genes, t) * side;
       return {

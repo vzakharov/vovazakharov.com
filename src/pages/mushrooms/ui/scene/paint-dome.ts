@@ -11,7 +11,7 @@ import type {
   RussulaGenes,
 } from '../../model/mushroom-genes';
 import { domeArc, gillLines, headOutlines } from '../../model/mushroom-outline';
-import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
+import { capSurface } from '../../model/mushroom-profile';
 import { inkFor } from './ink';
 import { capLight } from './mushroom-light';
 import { type MushroomBrush, paintCapLight, shadeWith } from './mushroom-paint';
@@ -33,9 +33,18 @@ const GILL_WIDTH = [0.4, 0.25] as const;
 const GILL_ALPHA = 0.55;
 
 export function paintDome(brush: MushroomBrush & { genes: DomeGenes }): void {
-  const { graphics, genes, tints, toMushroom, ink, lighting, tone, size } =
-    brush;
-  const [top, under] = headOutlines(genes);
+  const {
+    graphics,
+    genes,
+    tints,
+    toMushroom,
+    ink,
+    lighting,
+    tone,
+    size,
+    steps,
+  } = brush;
+  const [top, under] = headOutlines(genes, steps);
   const band = under.map((point) => toMushroom(point));
   if (genes.species === 'fly-agaric') {
     graphics.fillStyle(tone(tints.under));
@@ -51,7 +60,7 @@ export function paintDome(brush: MushroomBrush & { genes: DomeGenes }): void {
   const capHeight = genes.capHeight * size;
   paintCapLight(
     brush,
-    capLight(genes, lighting.toward),
+    capLight(genes, lighting.toward, steps),
     toMushroom({ x: 0, y: genes.capHeight * 0.3 }),
     (kind) => capHeight * DEPTHS[kind],
     SHADE_ALPHA,
@@ -63,11 +72,20 @@ export function paintDome(brush: MushroomBrush & { genes: DomeGenes }): void {
  * lying across the top of it just under the rim.
  */
 function paintBand(brush: MushroomBrush, band: readonly Point[]): void {
-  const { graphics, genes, tints, toMushroom, ink, lighting, tone, size } =
-    brush;
+  const {
+    graphics,
+    genes,
+    tints,
+    toMushroom,
+    ink,
+    lighting,
+    tone,
+    size,
+    steps,
+  } = brush;
   inkedFill(graphics, band, tints.under, ink, lighting, tone);
   const half = genes.capWidth / 2;
-  const rim = sample(-half, half, CURVE_STEPS, (x) => toMushroom({ x, y: 0 }));
+  const rim = sample(-half, half, steps, (x) => toMushroom({ x, y: 0 }));
   shadeWith(brush, UNDER_SHADE.alpha);
   fillShape(
     graphics,
@@ -98,12 +116,14 @@ function paintGills(brush: MushroomBrush, genes: RussulaGenes): void {
  * rim, round it and along the underside, reaching into the cap from there.
  */
 function paintMargin(brush: MushroomBrush, genes: PorciniGenes): void {
-  const { graphics, toMushroom, tone, size } = brush;
+  const { graphics, toMushroom, tone, size, steps } = brush;
   const half = genes.capWidth / 2;
+  const climb = (from: number, to: number) =>
+    domeArc(genes, half, [from, to], 0, steps);
   const arc = [
-    ...domeArc(genes, half, [-Math.PI / 2 + MARGIN_CLIMB, -Math.PI / 2]),
-    ...sample(-half, half, CURVE_STEPS, (x) => ({ x, y: 0 })).slice(1, -1),
-    ...domeArc(genes, half, [Math.PI / 2, Math.PI / 2 - MARGIN_CLIMB]),
+    ...climb(-Math.PI / 2 + MARGIN_CLIMB, -Math.PI / 2),
+    ...sample(-half, half, steps, (x) => ({ x, y: 0 })).slice(1, -1),
+    ...climb(Math.PI / 2, Math.PI / 2 - MARGIN_CLIMB),
   ].map((point) => toMushroom(point));
   graphics.fillStyle(tone(porciniMargin(genes)));
   fillShape(

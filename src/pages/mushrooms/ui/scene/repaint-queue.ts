@@ -1,10 +1,11 @@
 /**
  * Which things a frame repaints. A thing is painted at the haze of where it
- * stood and in the light of the heading it was seen from when last drawn;
- * walking up to a misty back-row mushroom must clear it, and turning round
- * must move its lit side, but a repaint costs up to a millisecond: so a frame
- * repaints only the few nearest whose haze or sun side has drifted far enough
- * from their paint to see.
+ * stood and in the light of the heading it was seen from when last drawn, and
+ * a mushroom with as many chords to a curve as its size there asked;
+ * walking up to a misty back-row mushroom must clear it and round it out,
+ * and turning round must move its lit side, but a repaint costs up to a
+ * millisecond: so a frame repaints only the few nearest whose haze, sun side
+ * or chords have drifted far enough from their paint to see.
  */
 
 import {
@@ -16,6 +17,7 @@ import {
   type Viewed,
 } from '../../model/ground';
 import { smooth } from '../../model/motion';
+import type { Chorded } from '../../model/mushroom-profile';
 import { D_SEE, type Placed } from './view';
 
 /** How far a thing's haze drifts from its paint before it is repainted. */
@@ -69,19 +71,31 @@ export type Siding = { sunSide: number; paintedSunSide: number };
 export type Hazing = Hazed &
   Pick<Viewed, 'ahead'> & { painted: number } & Siding;
 
-/** Whether `thing`'s haze or sun side has drifted far enough from its paint to repaint. */
-function drifted({ haze, painted, sunSide, paintedSunSide }: Hazing): boolean {
+/** How many chords to a curve a mushroom's size now asks (`curveSteps`), and how many it was painted with. */
+export type Detailing = Chorded & { paintedSteps: number };
+
+/** Whether `thing`'s haze, sun side or chords have drifted far enough from its paint to repaint. */
+function drifted({
+  haze,
+  painted,
+  sunSide,
+  paintedSunSide,
+  steps,
+  paintedSteps,
+}: Hazing & Partial<Detailing>): boolean {
   return (
     Math.abs(haze - painted) >= HAZE_DRIFT ||
-    Math.abs(sunSide - paintedSunSide) >= SIDE_DRIFT
+    Math.abs(sunSide - paintedSunSide) >= SIDE_DRIFT ||
+    steps !== paintedSteps
   );
 }
 
 /**
  * Those of `things` a frame repaints: the `most` nearest whose haze has
- * drifted `HAZE_DRIFT` or more from their paint, or whose sun side `SIDE_DRIFT`.
+ * drifted `HAZE_DRIFT` or more from their paint, whose sun side
+ * `SIDE_DRIFT`, or whose chords to a curve by any.
  */
-export function repaintsDue<Thing extends Hazing>(
+export function repaintsDue<Thing extends Hazing & Partial<Detailing>>(
   things: readonly Thing[],
   most = REPAINTS_PER_FRAME,
 ): Thing[] {
