@@ -56,6 +56,13 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
     a faster far leg would break call 22 — and the play's frames judge
     whether it still reads as hiding; a line in `to-check.md`.
 
+24. **A shelter seat a nearer cap covers is not offered** — S3's frames
+    showed an insect under the opening clump's back cap drawn over the
+    front one, reading as sitting on its rim. Withholding the seat
+    (judged on the drawn outlines, as `mushroom-tap.ts` judges a tap) beat
+    re-ordering the insect layer behind the mushrooms, which would touch
+    every flier's depth for one case.
+
 ## Calls — sprouting
 
 12. **Old is full-grown**: every mushroom not still sprouting. The parent is
@@ -114,3 +121,37 @@ below says otherwise. Paths are under `src/pages/mushrooms/`.
   - `model/game.ts` (436): P1 ≤ +8; S none.
 - **Wave 3: P3** the probe's `sprouts()`, the `sprouts` play and the
   sweep's `--showers`; then the tail (frames, review, fixes, fold, Artifact).
+
+## Built
+
+Each package's hand-over note under `docs/remove-before-merging/bite-14/`
+holds its detail.
+
+- **S1** 40e7e229 — shelter's model (`model/shelter.ts`, the `shelter`
+  perch kind). **S2** 30031520 — the scene's seats under dome caps
+  (`perch-sight.ts`, `perch-hosts.ts`, the bed's `seat`). **S3** c5ddcff2,
+  3be34bf7 — the rain play shelters and shoots three fliers; `capUnder`
+  moved to `model/mushroom-outline.ts`, on the lowest drawn edge.
+  **S4** 4fe541ad — the flier checks and a `fliers.test.ts` shower case; a
+  sheltering flier no longer gives way to a waiting bee (`isDue`).
+- **P1** fe6272a5 — sprouting's model (`model/sprouting.ts`, `pickFoot`'s
+  `near`). **P2** 3aad2f45 — `roomFor`'s `near`, `shedding.ts`. **P2b**
+  d1207f58, 7b3b5747 — the bed's sprout scale, `spore-drift.ts`, the tick
+  wiring, perches seen on the scene's clock.
+
+## Left, in order
+
+1. **Call 22**: slow the butterfly's rain take-off and re-measure with
+   S4's play (`s4.md` says how to rebuild it); then the full
+   `fliers.test.ts` once.
+2. **Call 24**: withhold covered shelter seats; re-shoot `--plays rain`.
+3. **The spore dots were never seen** (`p2b.md`'s next step): Phaser's
+   tweens run on the wall clock, the play steps the game's; drive the tween
+   clock from the stepped one, then confirm the dots fall from the parent.
+   P2b's scratch driver is `look-sprouts.ts.txt` beside the notes.
+4. **P3**: the probe's `sprouts()`, a `sprouts` play (spec-sprouting § 4
+   step 3, the stepped tween clock from item 3), the sweep's `--showers`
+   and R1's sweep check.
+5. The tail: the review (two reviewer agents by package), its fixes, the
+   fold, bite 13's frames retired, the Artifact, `/polish`, `/pr`.
+   `model/shelter.ts` carries a prettier warning (`saltedStream,type`).

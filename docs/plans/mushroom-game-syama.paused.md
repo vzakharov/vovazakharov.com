@@ -329,7 +329,7 @@ The bites, each file its full contract:
 13. **The meadow has no edge** (12b) — [bite-12b.md](mushroom-game-syama/bite-12b.md), contract [endless-field.md](mushroom-game-syama/endless-field.md), its review [bite-12b/review.md](mushroom-game-syama/bite-12b/review.md), frame cost [bite-12b/frame-cost.md](mushroom-game-syama/bite-12b/frame-cost.md)
 14. **Rain** — [bite-13.md](mushroom-game-syama/bite-13.md), its review [bite-13/review.md](mushroom-game-syama/bite-13/review.md)
 
-## This bite
+## Rest of the bite
 
 14. **After the rain.** While it rains (the model's `raining`, not the
     scene's wetness), insects shelter under the nearest cap (a perch in
@@ -337,8 +337,8 @@ The bites, each file its full contract:
     `perch-sight.ts`); when it stops, spores an old mushroom shed
     sprout into little mushrooms that grow over the next minutes through
     `pickFoot` and `roomFor`, within `MUSHROOM_SLOTS` — the first thing the
-    reducer's `tick` grows. Its 21 calls, packages and waves:
-    [bite-14.md](mushroom-game-syama/bite-14.md).
+    reducer's `tick` grows. Its calls, packages, what is built and what is
+    left, in order: [bite-14.md](mushroom-game-syama/bite-14.md).
 
 ## Rest of the elephant
 
