@@ -22,14 +22,21 @@ import {
 } from '../../model/flight';
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
+import type { Planted } from '../../model/game';
 import { distanceBetween, placedAt, type Point } from '../../model/geometry';
 import { D_SEE, OPENING_EYE, planeOf, scaleAt } from '../../model/ground';
 import type { InsectKind, Kinded } from '../../model/insect-genes';
 import { phaseOf } from '../../model/motion';
-import { mushroomGenes } from '../../model/mushroom-genes';
+import {
+  hasTrumpet,
+  type MushroomGenes,
+  mushroomGenes,
+} from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
-import { capSeat, splayed } from '../../model/mushroom-pose';
+import { capSeat, capUnder, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
+import { SHELTER_SEATS, type ShelterSeat } from '../../model/shelter';
+import { sproutScale } from '../../model/sprouting';
 import { airOf, airSpots, clumpRow } from './air-spots';
 import { placeIn } from './clump-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';
@@ -99,6 +106,46 @@ function flowerAt(
 type Seater = (spot: number, kind: InsectKind) => Point;
 
 /**
+ * How far below a cap's underside a sheltering insect's middle hangs, in its
+ * own size: about half its painted height, so its top meets the gills.
+ */
+const UNDER_DROP = {
+  butterfly: 0.45,
+  fly: 0.35,
+  bee: 0.4,
+} as const satisfies Record<InsectKind, number>;
+
+/** How far below a cap's underside an insect of `kind`, `sizes` to its unit drawn at `zoom`, hangs sheltering there, in px. */
+export function shelterDrop(
+  sizes: Readonly<Record<InsectKind, number>>,
+  kind: InsectKind,
+  zoom = 1,
+): number {
+  return UNDER_DROP[kind] * sizes[kind] * zoom;
+}
+
+/** `at` moved `by` px down the screen. */
+export function dropped<At extends Point>(at: At, by: number): At {
+  return { ...at, y: at.y + by };
+}
+
+/**
+ * Where `stand` stands the point `local` puts in the mushroom `id`'s own
+ * frame, from its genes as it stands; `undefined` where it stands nowhere.
+ */
+function capAt(
+  stand: Stand,
+  id: string,
+): ((local: (genes: MushroomGenes) => Point) => Point) | undefined {
+  const mushroom = stand.mushrooms.find((each) => each.id === id);
+  const place = mushroom && placeIn(stand.layout.mushrooms, mushroom);
+  if (!mushroom || !place) return undefined;
+  const { genes, turn } = splayed(mushroomGenes(mushroom), place.splay);
+  const toPlace = toCanvas(place.size);
+  return (local) => placedAt(place, turn, toPlace(local(genes)));
+}
+
+/**
  * Where on `perch` an insect sits, as the layout stands it, before sway and
  * breath move it; `undefined` for a perch that stands nowhere on this
  * screen. The perch is looked up once, however many seats are asked of it.
@@ -108,7 +155,7 @@ function seaterOn(
   perch: Perch,
   standing?: readonly StandingFlower[],
 ): Seater | undefined {
-  const { layout, mushrooms } = stand;
+  const { layout } = stand;
   switch (perch.kind) {
     case 'flower': {
       const here = standing ?? flowersOf(stand);
@@ -123,19 +170,24 @@ function seaterOn(
       });
     }
     case 'cap': {
-      const mushroom = mushrooms.find(({ id }) => id === perch.id);
-      const place = mushroom && placeIn(layout.mushrooms, mushroom);
-      if (!mushroom || !place) return undefined;
-      const { genes, turn } = splayed(mushroomGenes(mushroom), place.splay);
-      const toPlace = toCanvas(place.size);
-      return (spot) => placedAt(place, turn, toPlace(capSeat(genes, spot)));
+      const seat = capAt(stand, perch.id);
+      return seat && ((spot) => seat((genes) => capSeat(genes, spot)));
+    }
+    case 'shelter': {
+      const under = capAt(
+        stand,
+        perch.id,
+      )?.((genes) => capUnder(genes, perch.seat));
+      return (
+        under &&
+        ((_, kind) => dropped(under, shelterDrop(layout.insectSizes, kind)))
+      );
     }
     case 'air': {
       const air = airSpots(layout, layout.mushrooms.anchor);
       const found = air.find(({ id }) => id === perch.id);
       return found && (() => pick(found, 'x', 'y'));
     }
-    case 'shelter':
     case 'away': {
       return undefined;
     }
@@ -164,15 +216,42 @@ const CAP_SPOTS = [-1, -0.5, 0, 0.5, 1].map((share) => share * PERCH_SPREAD);
 
 /** Where on a perch whose seats `seater` gives an insect of `kind` may sit. */
 function trackOf(perch: Perch, seater: Seater, kind: InsectKind): Track {
-  const spots =
-    perch.kind === 'cap' ? CAP_SPOTS : [-PERCH_SPREAD, PERCH_SPREAD];
-  return spots.map((spot) => seater(spot, kind));
+  return spotsOn(perch).map((spot) => seater(spot, kind));
+}
+
+/** The spots a perch's track is drawn through: a shelter's one seat, a cap's dome, a flower's head across. */
+function spotsOn({ kind }: Perch): readonly number[] {
+  if (kind === 'shelter') return [0];
+  return kind === 'cap' ? CAP_SPOTS : [-PERCH_SPREAD, PERCH_SPREAD];
 }
 
 /**
- * What the scene sees of the perches in `stand`, judged from `OPENING_EYE`
- * (a stand anchored at the eye, `anchoredStand`): the caps and the flowers
- * within `PERCH_REACH`, the flowers among them in sight
+ * The seats under each of `caps` (`capUnder`) whose dome `layout` draws at
+ * least as wide as the widest butterfly's wings, judged at its size at `now`
+ * (`sproutScale`), full-grown without one: a cap too small to hide one, a
+ * sprout still small among them, offers none, and a funnel none at all.
+ */
+function sheltersUnder(
+  layout: MeadowLayout,
+  caps: readonly Planted[],
+  now = Infinity,
+): ShelterSeat[] {
+  const span = widestOn(layout, 'butterfly');
+  return caps.flatMap((mushroom) => {
+    const genes = mushroomGenes(mushroom);
+    const place = placeIn(layout.mushrooms, mushroom);
+    const drawn = (place?.size ?? 0) * sproutScale(mushroom.sprout, now);
+    return !hasTrumpet(genes) && genes.capWidth * drawn >= span
+      ? SHELTER_SEATS.map((seat) => ({ ...pick(mushroom, 'id'), seat }))
+      : [];
+  });
+}
+
+/**
+ * What the scene sees of the perches in `stand` at `now`, judged from
+ * `OPENING_EYE` (a stand anchored at the eye, `anchoredStand`): the caps and
+ * the flowers within `PERCH_REACH`, the seats under those caps wide enough
+ * (`sheltersUnder`), sent even when none is, the flowers among them in sight
  * (`flowerInSight`, against no cover) to a butterfly, and to a bee, whose
  * seat and wings differ, the spots in the open air round the eye the stand
  * is anchored at (`airOf`), every two
@@ -181,7 +260,7 @@ function trackOf(perch: Perch, seater: Seater, kind: InsectKind): Track {
  * every two spots in the air on which two insects of their kinds would
  * overlap at all; and where each of them stands (`Places`).
  */
-export function perchSight(stand: Stand): Sight {
+export function perchSight(stand: Stand, now?: number): Sight {
   const { layout, mushrooms } = stand;
   const covers = coversOn(layout, mushrooms);
   const standing = flowersOf(stand);
@@ -200,10 +279,13 @@ export function perchSight(stand: Stand): Sight {
       .map(({ id }) => id);
   const [shown, beeFlowers] = [inSightTo('butterfly'), inSightTo('bee')];
   const seen = [...new Set([...shown, ...beeFlowers])];
+  const caps = mushrooms.filter(({ foot }) =>
+    inReach(foot, layout.mushrooms.anchor),
+  );
+  const shelters = sheltersUnder(layout, caps, now);
   const perches: Perch[] = [
-    ...mushrooms
-      .filter(({ foot }) => inReach(foot, layout.mushrooms.anchor))
-      .map(({ id }) => ({ kind: 'cap', id }) as const),
+    ...caps.map(({ id }) => ({ kind: 'cap', id }) as const),
+    ...shelters.map((seat) => ({ kind: 'shelter', ...seat }) as const),
     ...seen.map((id) => ({ kind: 'flower', id }) as const),
   ];
   const seaters = perches.flatMap((perch) => {
@@ -246,6 +328,7 @@ export function perchSight(stand: Stand): Sight {
     crowded: [...perched, ...air.aloft],
     places,
     room: roomFor(stand, beeFlowers, covers),
+    shelters,
   };
 }
 
@@ -270,13 +353,14 @@ export function footRows(
   const { layout, mushrooms } = stand;
   const caps = mushrooms.flatMap((mushroom) => {
     const place = placeIn(layout.mushrooms, mushroom);
+    const id = pick(mushroom, 'id');
+    const under = SHELTER_SEATS.map((seat) =>
+      perchName({ kind: 'shelter', ...id, seat }),
+    );
     return place
-      ? [
-          [
-            perchName({ kind: 'cap', ...pick(mushroom, 'id') }),
-            place.y,
-          ] as const,
-        ]
+      ? [perchName({ kind: 'cap', ...id }), ...under].map(
+          (name) => [name, place.y] as const,
+        )
       : [];
   });
   const heads = standing.map(

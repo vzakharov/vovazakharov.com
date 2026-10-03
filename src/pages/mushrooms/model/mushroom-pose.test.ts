@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { containsPoint } from './geometry';
 import {
   GENE_RANGES,
+  HEAD_KIND,
   MUSHROOM_SPECIES,
   mushroomGenes,
   type Species,
@@ -11,11 +12,13 @@ import {
 import { capOutlines, capReach, stemOutline } from './mushroom-outline';
 import {
   capSeat,
+  capUnder,
   maxReach,
   speciesReach,
   splayed,
   stemAt,
 } from './mushroom-pose';
+import { SHELTER_SEATS } from './shelter';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 const genesOf = (seed: number, species: Species = 'fly-agaric') =>
@@ -117,6 +120,34 @@ describe('capSeat', () => {
         const seat = capSeat(genes, 0);
         assert.ok(!containsPoint(stemOutline(genes), seat));
         assert.ok(seat.y > stemAt(genes, 1).y, `${species} ${seed}`);
+      }
+    }
+  });
+});
+
+describe('capUnder', () => {
+  it('seats a sheltering insect under every dome, clear of its stem, one to either side', () => {
+    for (const species of MUSHROOM_SPECIES.filter(
+      (each) => HEAD_KIND[each] === 'dome',
+    )) {
+      for (const seed of SEEDS.slice(0, 400)) {
+        const genes = genesOf(seed, species);
+        const [dome] = capOutlines(genes);
+        const [left, right] = SHELTER_SEATS.map((seat) =>
+          capUnder(genes, seat),
+        );
+        assert.ok(left && right && left.x < right.x, `${species} ${seed}`);
+        for (const [seat, across] of [
+          [left, -0.55],
+          [right, 0.55],
+        ] as const) {
+          const name = `${species} ${seed} ${String(across)}`;
+          assert.ok(!containsPoint(stemOutline(genes), seat), name);
+          const above = { ...seat, y: seat.y + genes.capHeight * 0.2 };
+          assert.ok(containsPoint(dome, above), name);
+          assert.ok(seat.y < capSeat(genes, across).y, name);
+          assert.ok(seat.y > stemAt(genes, 0.5).y, name);
+        }
       }
     }
   });

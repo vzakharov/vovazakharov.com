@@ -19,14 +19,14 @@ import {
   widthFor,
   wobble,
 } from '../../model/motion';
-import { mushroomGenes } from '../../model/mushroom-genes';
+import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
 import {
   TAP_PARTS,
   type TapArea,
   tapArea,
   toCanvas,
 } from '../../model/mushroom-outline';
-import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
+import { capFrame, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
 import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
@@ -259,17 +259,17 @@ export class MushroomBed implements Following {
   }
 
   /**
-   * Where a butterfly sits on `id`'s cap as it stands this frame, `across`
-   * from -1 to 1 of the way from the crown toward either rim, in world px at
-   * the opening eye, where the insects fly, and the cap it sits on, which
-   * draws it, with the seat as it draws it this frame; `undefined` for a
-   * mushroom it does not hold.
+   * Where an insect sits on or under `id`'s cap as it stands this frame, at
+   * the point `local` puts in its own frame from its genes (`capSeat`,
+   * `capUnder`), in world px at the opening eye, where the insects fly, and
+   * the mushroom it sits on, which draws it, with the seat as it draws it
+   * this frame; `undefined` for a mushroom it does not hold.
    */
-  capTop(id: string, across: number): Seat | undefined {
+  seat(id: string, local: (genes: MushroomGenes) => Point): Seat | undefined {
     const shown = this.shown.get(id);
     if (!shown) return undefined;
     const { genes, size, graphics, laid, stands } = shown;
-    const seat = toCanvas(size)(capSeat(genes, across));
+    const seat = toCanvas(size)(local(genes));
     const on = { laidFoot: laid, ...pick(shown, 'stands', 'foot', 'opening') };
     const at = placedAt(laid, graphics.rotation, {
       x: (seat.x * graphics.scaleX) / stands.zoom,
