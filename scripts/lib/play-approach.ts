@@ -343,7 +343,7 @@ function reachable(
   const buttons = [
     controls.plus,
     controls.minus,
-    controls.mute,
+    controls.map,
     controls.house,
     ...Object.values(controls.releases),
   ];

@@ -84,9 +84,9 @@ export function fliersOn(page: Page, expect: Expect) {
   const tappable = async (point: z.infer<typeof Point>) =>
     page.evaluate(
       `(() => {
-        const { mute, plus, minus, house, releases } = __probe.scene.layout;
+        const { map, plus, minus, house, releases } = __probe.scene.layout;
         const { x, y } = ${JSON.stringify(pick(point, 'x', 'y'))};
-        const controls = [mute, plus, minus, house, ...Object.values(releases)];
+        const controls = [map, plus, minus, house, ...Object.values(releases)];
         return x >= 0 && x <= innerWidth && y >= 0 && y <= innerHeight &&
           !controls.some((circle) =>
             Math.hypot(circle.x - x, circle.y - y) <= Math.max(circle.r, ${String(TAP_RADIUS)}));

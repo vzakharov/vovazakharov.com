@@ -19,7 +19,7 @@ import {
   pickerRow,
   rowsFrom,
   stacked,
-  type WithMute,
+  type WithMap,
 } from './picker-rows';
 import {
   apart,
@@ -29,7 +29,7 @@ import {
   tapReach,
 } from './tap-reach';
 
-/** The mute button's radius. */
+/** The map button's radius. */
 const BUTTON_R = 28;
 /**
  * The radius of `+`, `−` and the house, and the `+`'s height at the lowest,
@@ -47,7 +47,7 @@ const COLUMN_REACH = 0.7;
 const YIELDERS = [...INSECT_KINDS, 'house'] as const;
 type Yielder = (typeof YIELDERS)[number];
 
-export type Controls = WithMute & {
+export type Controls = WithMap & {
   plus: Circle;
   minus: Circle;
   house: Circle;
@@ -83,14 +83,14 @@ export function shownOverPickers(controls: Controls): Circle[] {
 
 /** Every button that stands whatever is open: all but the pickers'. */
 export function standingControls({
-  mute,
+  map,
   plus,
   minus,
   house,
   releases,
 }: Controls): Circle[] {
   return [
-    mute,
+    map,
     plus,
     minus,
     house,
@@ -157,22 +157,22 @@ export function flowerCross(
 }
 
 /**
- * The mute in the top left; the two pickers across the top, one at a time, as
+ * The map button in the top left; the two pickers across the top, one at a time, as
  * each closes the other; and `+`, `−` and the house down the right, where
  * Syama drew them: at `PLUS_HEIGHT`, raised where that would bring the house
  * down onto the ground, but never onto a picker's row or off the screen.
  *
  * A sky too short for three down the right stands the house left of `+`,
  * and a picker's row that would push them onto the ground moves instead.
- * Where the rows, dropped below the mute, push the house under the ground's
- * edge, it takes the top right corner, opposite the mute, instead. A picker
+ * Where the rows, dropped below the map button, push the house under the ground's
+ * edge, it takes the top right corner, opposite the map button, instead. A picker
  * too long for one row at a finger's size — only ever on a screen narrow
- * enough to drop the row below the mute — puts the rest in the band that
- * leaves free beside the mute, or in rows under its own where that band is
+ * enough to drop the row below the map button — puts the rest in the band that
+ * leaves free beside the map button, or in rows under its own where that band is
  * too narrow to hold them (`completed`).
  *
  * The insects' buttons, butterfly, fly and bee, stand down the left as Syama
- * drew the insects, or beside the mute where the sky is too short for that
+ * drew the insects, or beside the map button where the sky is too short for that
  * (`placeReleases`).
  */
 export function placeControls(
@@ -180,22 +180,22 @@ export function placeControls(
   height: number,
   groundTop: number,
 ): Controls {
-  const mute = {
+  const map = {
     x: BUTTON_INSET + BUTTON_R,
     y: BUTTON_INSET + BUTTON_R,
     r: BUTTON_R,
   };
-  // A row dropped below the mute clears the house too, should it take the corner.
+  // A row dropped below the map button clears the house too, should it take the corner.
   const dropped = Math.max(
-    mute.y + mute.r + BUTTON_INSET,
+    map.y + map.r + BUTTON_INSET,
     BUTTON_INSET + tapReach(GROW_R) * 2 + PICK_CLEAR,
   );
   const picker = pickerRow(MUSHROOM_SPECIES.length, [width, height], {
-    mute,
+    map,
     dropped,
   });
   const houseRow = pickerRow(FURNISHINGS.length, [width, height], {
-    mute,
+    map,
     dropped,
   });
   const x = width - BUTTON_INSET - GROW_R;
@@ -229,19 +229,19 @@ export function placeControls(
     inTopRow,
     rows: [pickRow, furnishRow],
   } = placeReleases({
-    mute,
+    map,
     rows: [picker, houseRow],
     grow: { plus, minus, house },
     width,
     height,
     lowest: topRow ? 0 : groundTop * COLUMN_REACH,
   });
-  // The band beside the mute, or the insects beside it, up to the house
+  // The band beside the map button, or the insects beside it, up to the house
   // where it has the corner.
   const room = {
     from:
       Math.max(
-        mute.x + mute.r,
+        map.x + map.r,
         ...inTopRow.map((button) => button.x + tapReach(button.r)),
       ) + BUTTON_INSET,
     to: cornered ? house.x - hit - BUTTON_INSET : width - BUTTON_INSET,
@@ -256,7 +256,7 @@ export function placeControls(
     ],
   };
   return {
-    mute,
+    map,
     releases,
     yielding,
     plus,
@@ -270,9 +270,9 @@ export function placeControls(
 /** The insects' buttons, each a finger's size and `GROW_GAP` from the next. */
 const RELEASE_STEP = TAP_RADIUS * 2 + GROW_GAP;
 
-/** What the insects' buttons are placed among: the screen, the mute, the pickers' rows, the other buttons, and how far down the column may reach. */
+/** What the insects' buttons are placed among: the screen, the map button, the pickers' rows, the other buttons, and how far down the column may reach. */
 type PlaceReleasesParams = Sized &
-  Pick<Controls, 'mute'> & {
+  Pick<Controls, 'map'> & {
     rows: readonly [Circle[], Circle[]];
     grow: Pick<Controls, 'plus' | 'minus' | 'house'>;
     lowest: number;
@@ -280,17 +280,17 @@ type PlaceReleasesParams = Sized &
 
 /**
  * The insects' buttons, as the sky has room for them, the first that fits:
- * a column down the left under the mute and any picker's row over it, while
- * it ends above `lowest`; a row beside the mute, the pickers' rows moved right
+ * a column down the left under the map button and any picker's row over it, while
+ * it ends above `lowest`; a row beside the map button, the pickers' rows moved right
  * of it when they stand in the top row too, clear of the `grow` buttons; that
  * row where a sky too short for a picker's row anywhere else has the rows
- * stand over it, from the mute to `+`, and whichever of the insects and the
+ * stand over it, from the map button to `+`, and whichever of the insects and the
  * house they meet give way to them; or, on a screen too narrow for the row,
- * the butterfly beside the mute and the fly and the bee in the band a picker
+ * the butterfly beside the map button and the fly and the bee in the band a picker
  * opens in, which they give way to.
  */
 function placeReleases({
-  mute,
+  map,
   rows,
   grow,
   width,
@@ -299,12 +299,12 @@ function placeReleases({
 }: PlaceReleasesParams): {
   releases: Record<InsectKind, Circle>;
   yielding: readonly Yielder[];
-  /** Those of them that stand in the top row, beside the mute. */
+  /** Those of them that stand in the top row, beside the map button. */
   inTopRow: readonly Circle[];
   rows: readonly [Circle[], Circle[]];
 } {
   const r = TAP_RADIUS;
-  const { x: muteX, y: muteY, r: muteR } = mute;
+  const { x: mapX, y: mapY, r: mapR } = map;
   const keyed = (at: (index: number) => Circle) => ({
     butterfly: at(0),
     fly: at(1),
@@ -312,7 +312,7 @@ function placeReleases({
   });
   const columnX = BUTTON_INSET + r;
   const columnTop = Math.max(
-    muteY + tapReach(muteR) + GROW_GAP + r,
+    mapY + tapReach(mapR) + GROW_GAP + r,
     ...rows
       .flat()
       .filter((pick) => pick.x - tapReach(pick.r) < columnX + r)
@@ -331,10 +331,10 @@ function placeReleases({
       rows,
     };
   }
-  const rowFrom = muteX + tapReach(muteR) + GROW_GAP + r;
+  const rowFrom = mapX + tapReach(mapR) + GROW_GAP + r;
   const inRow = INSECT_KINDS.map((_, index) => ({
     x: rowFrom + RELEASE_STEP * index,
-    y: muteY,
+    y: mapY,
     r,
   }));
   const clear =
@@ -344,8 +344,8 @@ function placeReleases({
           button.x + tapReach(button.r) <= width - BUTTON_INSET &&
           fixed.every((other) => apart(button, other, gap)),
       );
-  const inRowReleases = keyed((index) => inRow[index] ?? mute);
-  const last = inRow.at(-1) ?? mute;
+  const inRowReleases = keyed((index) => inRow[index] ?? map);
+  const last = inRow.at(-1) ?? map;
   const fits = clear(GROW_GAP / 2, Object.values(grow))(inRow);
   const moved = fits
     ? rowsFrom(rows, {
@@ -365,7 +365,7 @@ function placeReleases({
   }
   const over = fits
     ? rowsFrom(rows, {
-        after: muteX + tapReach(muteR),
+        after: mapX + tapReach(mapR),
         bandBottom: Infinity,
         clear: (gap) => clear(gap, [grow.plus, grow.minus]),
         size: [width, height],
@@ -384,8 +384,8 @@ function placeReleases({
       rows: over,
     };
   }
-  const [butterfly = mute] = inRow;
-  const band = muteY + muteR + BUTTON_INSET + r;
+  const [butterfly = map] = inRow;
+  const band = mapY + mapR + BUTTON_INSET + r;
   return {
     releases: keyed((index) =>
       index === 0

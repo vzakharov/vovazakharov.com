@@ -47,7 +47,7 @@ import {
 } from './viewports';
 import { capsSpan, opened } from './visit-play';
 
-/** Each control as its hit area, which the mute's small drawing reaches past. */
+/** Each control as its hit area, which the map button's small drawing reaches past. */
 const reach = (circles: readonly Circle[]) =>
   circles.map((control) => ({ ...control, r: tapReach(control.r) }));
 const apart = (a: Circle, b: Circle) =>

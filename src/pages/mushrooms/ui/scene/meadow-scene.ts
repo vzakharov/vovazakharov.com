@@ -26,6 +26,7 @@ import { InsectView } from './insect-view';
 import { Instrument } from './instrument';
 import { playTheMeadow } from './instrument-input';
 import { type MeadowLayout, meadowLayout } from './layout';
+import { MapSwitch } from './map-switch';
 import { listenOnMeadow } from './meadow-listeners';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
@@ -33,7 +34,7 @@ import { type PerchHosts, restingOn } from './perch-hosts';
 import { perchAnchorOf, Perches } from './perches';
 import { Planter, type Scened } from './planter';
 import { RainView } from './rain-view';
-import { MeadowSound, readMuted } from './sound';
+import { MeadowSound } from './sound';
 import { sporeOnTap } from './spore-seats';
 import { Grass } from './tufts';
 import { type View, viewAt } from './view';
@@ -82,7 +83,8 @@ export class MeadowScene extends Phaser.Scene {
    * fresh sight to the frame whose tick planted it.
    */
   private sown = false;
-  private readonly voice = new MeadowSound(readMuted());
+  private readonly voice = new MeadowSound();
+  private readonly map = new MapSwitch();
   /** Seconds on the scene's clock, as of the last frame. */
   private clock = 0;
   private readonly now = (): number => this.clock;
@@ -371,7 +373,7 @@ export class MeadowScene extends Phaser.Scene {
       this.controls?.paint(
         this.layout,
         this.meadow,
-        this.voice.muted,
+        this.map.open,
         this.pixelRatio(),
         this.eye.toScreen,
       );
@@ -380,9 +382,10 @@ export class MeadowScene extends Phaser.Scene {
 
   /** What the buttons over the meadow act through (`controlActions`). */
   private controlScene(): ControlScene {
-    const { voice, arrivals, planter, scened, repaintControls } = this;
+    const { voice, map, arrivals, planter, scened, repaintControls } = this;
     return {
       voice,
+      map,
       arrivals,
       planter,
       ...pick(scened, 'dispatch'),

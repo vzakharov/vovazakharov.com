@@ -133,10 +133,10 @@ function drawnAtOpening(
  * they stand on the screen.
  */
 function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
-  const { mute, releases, plus, minus, house, picker, housePicker, sun } =
+  const { map, releases, plus, minus, house, picker, housePicker, sun } =
     layout;
   const controls = [
-    ...Object.entries({ mute, ...releases, plus, minus, house }).map(
+    ...Object.entries({ map, ...releases, plus, minus, house }).map(
       ([name, circle]) => ({ name, ...circle }),
     ),
     ...picker.map((circle, index) => ({ name: `pick ${index}`, ...circle })),

@@ -13,35 +13,10 @@ import { drumVoice, noteVoice } from './instrument-voices';
 import { RainVoice, whoosh } from './rain-voice';
 import { brownNoise, panned, tone, type Voice } from './synth';
 
-const MUTED_KEY = 'mushrooms-muted';
 const LOUDNESS = 0.8;
-/** How long a mute takes to fade out before the synth is suspended. */
-const FADE_SECONDS = 0.25;
 const BIRD_GAP_SECONDS = [5, 12] as const;
 /** The most voices asked for before the synth starts that wait for it: a chord's worth. */
 const PENDING_VOICES = 5;
-
-/**
- * Whether the player muted the meadow on an earlier visit. Where storage
- * throws (a private window) the meadow opens with sound, and a mute lasts the
- * visit: the one silent fallback in the game, since losing it costs a
- * remembered preference and never the meadow.
- */
-export function readMuted(): boolean {
-  try {
-    return globalThis.localStorage.getItem(MUTED_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
-
-function rememberMuted(muted: boolean): void {
-  try {
-    globalThis.localStorage.setItem(MUTED_KEY, muted ? '1' : '0');
-  } catch {
-    // The same fallback as `readMuted`: the mute holds for this visit.
-  }
-}
 
 const pop: Voice = (context, out) => {
   tone(context, out, 'sine', [900, 240], 0.14, 0.3);
@@ -164,21 +139,11 @@ export class MeadowSound {
   private master: GainNode | undefined;
   private pending: Voice[] = [];
   private birdTimer: ReturnType<typeof setTimeout> | undefined;
-  private quietTimer: ReturnType<typeof setTimeout> | undefined;
   private rain: RainVoice | undefined;
-  private mutedNow: boolean;
-
-  constructor(muted: boolean) {
-    this.mutedNow = muted;
-  }
-
-  get muted(): boolean {
-    return this.mutedNow;
-  }
 
   /**
-   * Builds the synth on the first call; each later call resumes it, unless it
-   * is muted or the tab is hidden.
+   * Builds the synth on the first call; each later call resumes it, unless
+   * the tab is hidden.
    */
   start(): void {
     if (this.context) {
@@ -189,9 +154,7 @@ export class MeadowSound {
     if (typeof AudioContext === 'undefined') return;
     const context = new AudioContext();
     this.context = context;
-    this.master = new GainNode(context, {
-      gain: this.mutedNow ? 0 : LOUDNESS,
-    });
+    this.master = new GainNode(context, { gain: LOUDNESS });
     // Chords and drums stacked on the breeze stay under full scale.
     this.master
       .connect(
@@ -210,31 +173,6 @@ export class MeadowSound {
     for (const voice of this.pending) voice(context, this.master);
     this.pending = [];
     this.settle();
-  }
-
-  /**
-   * Fades the sound out and then suspends the whole synth — breeze, gusts and
-   * birds — so a muted game costs the tablet no battery; or resumes it and
-   * fades back in.
-   */
-  toggleMuted(): void {
-    this.mutedNow = !this.mutedNow;
-    rememberMuted(this.mutedNow);
-    clearTimeout(this.quietTimer);
-    if (this.context && this.master) {
-      this.master.gain.setTargetAtTime(
-        this.mutedNow ? 0 : LOUDNESS,
-        this.context.currentTime,
-        FADE_SECONDS / 5,
-      );
-    }
-    if (this.mutedNow) {
-      this.quietTimer = setTimeout(() => {
-        this.settle();
-      }, FADE_SECONDS * 1000);
-    } else {
-      this.settle();
-    }
   }
 
   pop(): void {
@@ -306,8 +244,7 @@ export class MeadowSound {
   /**
    * The shower's sound at this frame, `downpour` and `wetness` as
    * `model/weather.ts` gives them; called every frame, and free while neither
-   * has moved. Built when a shower is first heard — never while muted or
-   * hidden, and not waiting for `start`, since a shower is a state the next
+   * has moved. Built when a shower is first heard — never while hidden, and not waiting for `start`, since a shower is a state the next
    * frame asks for again — and let go once the meadow is dry.
    */
   shower(downpour: number, wetness: number): void {
@@ -328,14 +265,13 @@ export class MeadowSound {
 
   stop(): void {
     clearTimeout(this.birdTimer);
-    clearTimeout(this.quietTimer);
     document.removeEventListener('visibilitychange', this.followVisibility);
     this.context?.close().catch(reportError);
   }
 
   /**
    * Builds `voice` only while the synth is heard. A suspended context's clock
-   * stands still, so a voice built while muted or hidden would wait there and
+   * stands still, so a voice built while hidden would wait there and
    * sound, with every other one, the moment it resumes; such a voice is
    * dropped instead. Before the synth exists the latest few voices wait
    * for `start`, so the first tap is heard, or the first chord.
@@ -349,9 +285,7 @@ export class MeadowSound {
   }
 
   private heard(): boolean {
-    return (
-      !this.mutedNow && !document.hidden && this.context?.state === 'running'
-    );
+    return !document.hidden && this.context?.state === 'running';
   }
 
   private scheduleBird(): void {
@@ -365,12 +299,11 @@ export class MeadowSound {
     );
   }
 
-  /** Running only while unmuted and the tab is shown, as the picture is. */
+  /** Running only while the tab is shown, as the picture is. */
   private settle(): void {
-    const change =
-      this.mutedNow || document.hidden
-        ? this.context?.suspend()
-        : this.context?.resume();
+    const change = document.hidden
+      ? this.context?.suspend()
+      : this.context?.resume();
     change?.catch(reportError);
   }
 

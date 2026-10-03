@@ -117,7 +117,6 @@ const globals = {
   DynamicsCompressorNode: FakeNode,
   StereoPannerNode: FakePanner,
   document: page,
-  localStorage: { getItem: () => null, setItem: () => null },
 };
 
 beforeEach(() => {
@@ -162,7 +161,7 @@ function askForEverything(sound: MeadowSound): void {
 }
 
 function started(): MeadowSound {
-  const sound = new MeadowSound(false);
+  const sound = new MeadowSound();
   sound.start();
   return sound;
 }
@@ -170,13 +169,13 @@ function started(): MeadowSound {
 /** The nodes `start` builds for what `ask` queued before it, past a start with nothing queued. */
 function builtOnStart(ask: (sound: MeadowSound) => void): number {
   built.nodes = 0;
-  const silent = new MeadowSound(false);
+  const silent = new MeadowSound();
   silent.start();
   const bare = built.nodes;
   silent.stop();
 
   built.nodes = 0;
-  const sound = new MeadowSound(false);
+  const sound = new MeadowSound();
   ask(sound);
   sound.start();
   const queued = built.nodes;
@@ -194,7 +193,7 @@ describe('MeadowSound', () => {
   });
 
   it('the first tap before the synth exists is heard once it starts', () => {
-    const sound = new MeadowSound(false);
+    const sound = new MeadowSound();
     sound.pop();
     assert.equal(built.nodes, 0);
     sound.start();
@@ -202,7 +201,7 @@ describe('MeadowSound', () => {
     sound.stop();
 
     built.nodes = 0;
-    const silent = new MeadowSound(false);
+    const silent = new MeadowSound();
     silent.start();
     assert.ok(withPop > built.nodes);
     silent.stop();
@@ -266,41 +265,11 @@ describe('MeadowSound', () => {
       value: undefined,
       configurable: true,
     });
-    const sound = new MeadowSound(false);
+    const sound = new MeadowSound();
     sound.start();
     askForEverything(sound);
-    sound.toggleMuted();
     sound.stop();
     assert.equal(built.nodes, 0);
-  });
-
-  it('no voice is built while muted, fading or suspended', async () => {
-    const sound = started();
-    sound.toggleMuted();
-    const muted = built.nodes;
-    askForEverything(sound);
-    assert.equal(built.nodes, muted, 'during the fade');
-    mock.timers.tick(1000);
-    await aTurn();
-    askForEverything(sound);
-    assert.equal(built.nodes, muted, 'once suspended');
-    sound.stop();
-  });
-
-  it('nothing asked for while muted plays on unmute', async () => {
-    const sound = started();
-    sound.toggleMuted();
-    mock.timers.tick(1000);
-    await aTurn();
-    askForEverything(sound);
-    const muted = built.nodes;
-    sound.toggleMuted();
-    await aTurn();
-    assert.equal(built.queued, 0);
-    assert.equal(built.nodes, muted);
-    sound.pop();
-    assert.ok(built.nodes > muted, 'a voice after unmute is heard');
-    sound.stop();
   });
 
   it('no voice is built while the tab is hidden', async () => {
@@ -357,28 +326,27 @@ describe('MeadowSound', () => {
     );
   });
 
-  it('a shower comes in on unmute while it still rains', async () => {
+  it('a shower comes in as the tab shows again while it still rains', async () => {
     const sound = started();
-    sound.toggleMuted();
-    mock.timers.tick(1000);
+    setHidden(true);
     await aTurn();
-    const muted = built.nodes;
+    const hidden = built.nodes;
     sound.shower(1, 1);
-    assert.equal(built.nodes, muted);
-    sound.toggleMuted();
+    assert.equal(built.nodes, hidden);
+    setHidden(false);
     await aTurn();
     sound.shower(1, 1);
-    assert.ok(built.nodes > muted);
+    assert.ok(built.nodes > hidden);
     sound.stop();
   });
 
-  it('no bird sings while muted', () => {
+  it('no bird sings while the tab is hidden', async () => {
     const sound = started();
-    sound.toggleMuted();
-    mock.timers.tick(1000);
-    const muted = built.nodes;
+    setHidden(true);
+    await aTurn();
+    const hidden = built.nodes;
     mock.timers.tick(60_000);
-    assert.equal(built.nodes, muted);
+    assert.equal(built.nodes, hidden);
     sound.stop();
   });
 });

@@ -37,7 +37,7 @@ import {
   drawFurnishButton,
   drawGrowButton,
   drawHouseButton,
-  drawMuteButton,
+  drawMapButton,
   drawReleaseButton,
   drawSpeciesButton,
 } from './hud';
@@ -49,7 +49,8 @@ import { flowerPicker } from './sky-layout';
 const PULL = ['pull'] as const;
 
 export type ControlHandlers = {
-  mute: () => void;
+  /** The map button: opens the map, or shuts it while it is open. */
+  map: () => void;
   pick: () => void;
   remove: () => void;
   grow: (species: Species) => void;
@@ -70,7 +71,7 @@ export type ControlHandlers = {
 };
 
 /**
- * The buttons over the meadow: mute, `+`, `−`, the house and one per insect,
+ * The buttons over the meadow: the map, `+`, `−`, the house and one per insect,
  * and the pickers — the four caps `+` opens, the windows and door the house
  * does, and the flower picker a tuft or a held flower opens, its five
  * colours standing where the house's five do, a flower's with the cross
@@ -81,7 +82,9 @@ export type ControlHandlers = {
  * stays open for window after window.
  */
 export class Controls {
-  private readonly mute: Button;
+  private readonly map: Button;
+  /** Whether the map is open, as of the last paint: every other button hides under it. */
+  private mapOpen = false;
   private readonly plus: Button;
   /** Whether `+` can act: a meadow short of full, with room for one more. */
   private readonly growable: (meadow: Meadow) => boolean;
@@ -117,7 +120,7 @@ export class Controls {
       () => this.meadow,
       handlers.refuse,
     );
-    this.mute = button(handlers.mute);
+    this.map = button(handlers.map);
     this.growable = (meadow) => !isFull(meadow) && handlers.roomy(meadow);
     this.plus = button(handlers.pick, this.growable);
     this.minus = button(handlers.remove, (meadow) => !isEmpty(meadow));
@@ -192,15 +195,17 @@ export class Controls {
   paint(
     layout: MeadowLayout,
     meadow: Meadow,
-    muted: boolean,
+    mapOpen: boolean,
     ratio: number,
     toScreen: <Placed extends Point>(point: Placed) => Placed,
   ): void {
     this.meadow = meadow;
-    placeButton(this.mute, layout.mute, ratio, {
-      look: muted ? 'muted' : 'heard',
+    this.mapOpen = mapOpen;
+    // Open, it shows the flower picker's cross, so a press visibly closes.
+    placeButton(this.map, layout.map, ratio, {
+      look: mapOpen ? 'open' : 'shut',
       draw: (graphics) => {
-        drawMuteButton(graphics, layout.mute.r, muted);
+        (mapOpen ? drawPullButton : drawMapButton)(graphics, layout.map.r);
       },
     });
     for (const [button, home, sign] of [
@@ -307,9 +312,10 @@ export class Controls {
       this.meadow?.furnishing === true ||
       this.meadow?.planting !== undefined;
     const shown = (name: MeadowLayout['yielding'][number]) =>
-      open && this.yielding.includes(name) ? 0 : 1;
-    for (const button of [this.mute, this.plus, this.minus]) {
-      standButton(button, t, button.home, 1);
+      this.mapOpen || (open && this.yielding.includes(name)) ? 0 : 1;
+    standButton(this.map, t, this.map.home, 1);
+    for (const button of [this.plus, this.minus]) {
+      standButton(button, t, button.home, this.mapOpen ? 0 : 1);
     }
     standButton(this.house, t, this.house.home, shown('house'));
     for (const kind of INSECT_KINDS) {

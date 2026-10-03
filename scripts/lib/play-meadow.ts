@@ -4,7 +4,7 @@
  * and selecting a mushroom, a tap selecting one, `−` sinking it with its
  * house and then taking the newest, the last, and shaking its head on an
  * empty meadow, a tap on a flower closing the picker and opening the flower,
- * and the mute toggling — with the house, the insects and the buzzers played
+ * and the map button opening and shutting — with the house, the insects and the buzzers played
  * between, and last the insects following the eye walked away from them.
  */
 
@@ -148,14 +148,13 @@ export async function playMeadow(
     await page.shoot('6-flower');
   }
 
-  const { muted } = await state();
-  await page.tap(controls.mute);
+  await page.tap(controls.map);
   await page.step(10);
-  expect((await state()).muted !== muted, 'the mute did not toggle');
-  await page.shoot('7-muted');
-  await page.tap(controls.mute);
+  expect((await state()).mapOpen, 'the map button did not open the map');
+  await page.shoot('7-map');
+  await page.tap(controls.map);
   await page.step(10);
-  expect((await state()).muted === muted, 'the mute did not toggle back');
+  expect(!(await state()).mapOpen, 'the map button did not shut the map');
 
   await playInsects(page, controls, expect, note);
   await playBuzzers(page, controls, expect, note);

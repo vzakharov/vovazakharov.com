@@ -104,7 +104,7 @@ export type Action =
   | ({ kind: 'sow' } & Seeded & Rooted)
   // The picker's cross: pulls up the flower it is open on.
   | { kind: 'pull' }
-  // A tap on a control that changes nothing here, the mute's: it closes
+  // A tap on a control that changes nothing here, the map button's: it closes
   // the flower picker, as any tap outside it does.
   | { kind: 'shut' }
   // A tap on a cloud: starts a shower, or while one falls restarts its time.

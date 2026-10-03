@@ -1,6 +1,6 @@
 /**
  * The pickers' rows across the top of the sky, in CSS pixels: as many of a
- * picker's buttons abreast as keep a finger's size, the rest beside the mute
+ * picker's buttons abreast as keep a finger's size, the rest beside the map button
  * or under the row, each held `PICK_CLEAR` off every other button.
  */
 
@@ -61,26 +61,26 @@ function pickRadius(count: number, span: number, height: number): number {
   );
 }
 
-/** Where the mute button stands, which a picker's row keeps off. */
-export type WithMute = { mute: Circle };
+/** Where the map button stands, which a picker's row keeps off. */
+export type WithMap = { map: Circle };
 
-type PickerRowParams = WithMute & { dropped: number };
+type PickerRowParams = WithMap & { dropped: number };
 
 /**
  * A picker's buttons across the top, as many of `count` abreast as keep a
  * finger's size — their top edge `dropped` where a narrow screen would have
- * them meet the `mute`, and smaller on a short one.
+ * them meet the `map`, and smaller on a short one.
  */
 export function pickerRow(
   count: number,
   [width, height]: readonly [number, number],
-  { mute, dropped }: PickerRowParams,
+  { map, dropped }: PickerRowParams,
 ): Circle[] {
   const row = rowAcross(count, [BUTTON_INSET, width - BUTTON_INSET], height);
   const [first] = row;
-  const clearOfMute =
-    first !== undefined && first.x - first.r >= mute.x + mute.r + BUTTON_INSET;
-  if (clearOfMute) return row;
+  const clearOfMap =
+    first !== undefined && first.x - first.r >= map.x + map.r + BUTTON_INSET;
+  if (clearOfMap) return row;
   return row.map((pick) => ({ ...pick, y: dropped + pick.r }));
 }
 
@@ -111,7 +111,7 @@ function rowAcross(
 }
 
 /**
- * The room a picker's rest may take: the band beside the mute, from `from`
+ * The room a picker's rest may take: the band beside the map button, from `from`
  * to `to` across the top, or rows under the picker's own down to `floor`,
  * clear of every button of `standing` still shown while it is open.
  */

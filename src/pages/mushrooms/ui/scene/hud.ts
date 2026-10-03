@@ -1,5 +1,6 @@
 import type * as Phaser from 'phaser';
 
+import type { Point } from '../../model/geometry';
 import { DOOR_ASPECT, type Furnishing } from '../../model/house';
 import {
   type Buzzing,
@@ -20,7 +21,7 @@ import { drawMushroom } from './draw-mushroom';
 import { iconGenes, iconSize, SPECIES_ICON_HEIGHT } from './icon-genes';
 import type { Lighting } from './ink';
 import { PALETTE } from './palette';
-import type { Brush } from './shapes';
+import { type Brush, fillShape, strokeShape } from './shapes';
 
 /**
  * A pictogram's light, the same on every button whatever the sun does, and
@@ -284,49 +285,74 @@ export function drawReleaseButton(
   graphics.restore();
 }
 
+/** The folded map's panel width, half its height and its folds' zigzag, in its button's radius. */
+const MAP_PANEL = 0.4;
+const MAP_HALF_HEIGHT = 0.45;
+const MAP_FOLD = 0.08;
+/** The middle panel, turned from the light: the shade laid over it. */
+const MAP_FOLD_SHADE = 0.14;
+/** The dotted path across the map: where it starts, bends and ends, in the button's radius. */
+const PATH = [
+  { x: -0.44, y: 0.26 },
+  { x: -0.05, y: -0.4 },
+  { x: 0.36, y: 0.02 },
+] as const;
+const PATH_DOTS = 6;
+/** How far along the path its dots run, the rest left to the cross that ends it. */
+const PATH_DOTTED = 0.78;
+
+/** A point `t` of the way along the quadratic `PATH`, in its button's radius. */
+function alongPath(t: number): Point {
+  const [from, bend, to] = PATH;
+  const at = (a: number, b: number, c: number) =>
+    (1 - t) ** 2 * a + 2 * (1 - t) * t * b + t ** 2 * c;
+  return { x: at(from.x, bend.x, to.x), y: at(from.y, bend.y, to.y) };
+}
+
 /**
- * The mute button as a pictogram: a speaker, with sound waves when the meadow
- * is heard and a cross when it is not.
+ * The map button: a paper of three panels folded in a zigzag, in Syama's
+ * indigo ink, a dotted path across it ending in a little cross.
  */
-export function drawMuteButton(
+export function drawMapButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
-  muted: boolean,
 ): void {
-  const ink = Math.max(2, r * 0.1);
   drawDisc(graphics, r);
-
-  const unit = r * 0.14;
-  graphics.fillStyle(PALETTE.ink);
-  graphics.fillRect(-4.2 * unit, -1.5 * unit, 2 * unit, 3 * unit);
-  graphics.fillTriangle(
-    -2.6 * unit,
-    -1.5 * unit,
-    0.6 * unit,
-    -4 * unit,
-    0.6 * unit,
-    4 * unit,
-  );
-  graphics.fillTriangle(
-    -2.6 * unit,
-    -1.5 * unit,
-    0.6 * unit,
-    4 * unit,
-    -2.6 * unit,
-    1.5 * unit,
-  );
-
-  graphics.lineStyle(ink, PALETTE.ink);
-  if (muted) {
-    const at = 3 * unit;
-    const arm = 1.4 * unit;
-    graphics.lineBetween(at - arm, -arm, at + arm, arm);
-    graphics.lineBetween(at - arm, arm, at + arm, -arm);
-    return;
+  const ink = Math.max(2, r * 0.08);
+  // The `edge`th fold from the left, at `side` -1 its top and 1 its bottom,
+  // the folds standing alternately low and high.
+  const corner = (edge: number, side: number): Point => ({
+    x: (edge - 1.5) * MAP_PANEL * r,
+    y: (side * MAP_HALF_HEIGHT + (edge % 2 === 0 ? 1 : -1) * MAP_FOLD) * r,
+  });
+  for (const index of [0, 1, 2]) {
+    const panel = [
+      corner(index, -1),
+      corner(index + 1, -1),
+      corner(index + 1, 1),
+      corner(index, 1),
+    ];
+    graphics.fillStyle(PALETTE.hud);
+    fillShape(graphics, panel);
+    if (index === 1) {
+      graphics.fillStyle(PALETTE.shadeInk, MAP_FOLD_SHADE);
+      fillShape(graphics, panel);
+    }
+    graphics.lineStyle(ink, PALETTE.inkCool);
+    strokeShape(graphics, panel);
   }
-  for (const reach of [2.2, 3.8]) {
-    graphics.beginPath();
-    graphics.arc(0, 0, reach * unit, -0.8, 0.8);
-    graphics.strokePath();
+
+  graphics.fillStyle(PALETTE.inkCool);
+  const dot = Math.max(1, r * 0.045);
+  for (let index = 0; index < PATH_DOTS; index++) {
+    const { x, y } = alongPath((index / (PATH_DOTS - 1)) * PATH_DOTTED);
+    graphics.fillCircle(x * r, y * r, dot);
   }
+  const end = alongPath(1);
+  const arm = r * 0.09;
+  graphics.save();
+  graphics.translateCanvas(end.x * r, end.y * r);
+  graphics.lineBetween(-arm, -arm, arm, arm);
+  graphics.lineBetween(-arm, arm, arm, -arm);
+  graphics.restore();
 }

@@ -327,13 +327,13 @@ export const PROBE = `(() => {
       selected: scene.meadow.selected ?? null,
       mushrooms: scene.meadow.mushrooms.map(({ id }) => id),
       species: scene.meadow.mushrooms.map(({ species }) => species),
-      muted: scene.voice.muted,
+      mapOpen: scene.map.open,
       clock: scene.clock,
     }),
     controls: () => ({
       plus: centre(scene.layout.plus),
       minus: centre(scene.layout.minus),
-      mute: centre(scene.layout.mute),
+      map: centre(scene.layout.map),
       picker: scene.layout.picker.map(centre),
       house: centre(scene.layout.house),
       housePicker: scene.layout.housePicker.map(centre),
@@ -616,7 +616,7 @@ export const State = z.object({
   mushrooms: z.array(z.string()),
   /** Each mushroom's species, in the meadow's order. */
   species: z.array(z.enum(MUSHROOM_SPECIES)),
-  muted: z.boolean(),
+  mapOpen: z.boolean(),
   clock: z.number(),
 });
 export const Point = z.object({ x: z.number(), y: z.number() });
@@ -679,7 +679,7 @@ export const InsectPoints = z.record(z.string(), Point);
 export const Controls = z.object({
   plus: Point,
   minus: Point,
-  mute: Point,
+  map: Point,
   picker: z.array(Point),
   house: Point,
   housePicker: z.array(Point),
