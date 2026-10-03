@@ -41,6 +41,7 @@ import {
   Controls,
   dragMoves,
   type Expect,
+  FRAME_MS,
   inTurn,
   KEY_CODES,
   type Page,
@@ -65,7 +66,6 @@ import { playWalk } from './lib/play-walk.ts';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'apps/vova/out');
 const FRAMES = path.join(ROOT, 'tmp/play');
-const FRAME_MS = 1000 / 60;
 const POLL_MS = 250;
 const SEED = 12_345;
 

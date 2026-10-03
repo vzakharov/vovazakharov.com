@@ -735,6 +735,9 @@ export type Letter = keyof typeof LETTERS;
 /** Every key a play presses, and the key code it goes down with. */
 export const KEY_CODES = { ...ARROWS, ...LETTERS } as const;
 
+/** A stepped frame's game time, in ms. */
+export const FRAME_MS = 1000 / 60;
+
 /** The page `play-mushrooms.ts` drives, a frame and a tap at a time. */
 export type Page = {
   evaluate: <Parsed>(
@@ -850,4 +853,30 @@ export async function inTurn<Item>(
   if (first === undefined) return;
   await each(first);
   return inTurn(rest, each);
+}
+
+/** `frames` frames stepped one by one, each drawn; returns each one's update in ms. */
+export async function timedSteps(
+  page: Page,
+  frames: number,
+): Promise<number[]> {
+  const from = page.rendered.length;
+  await inTurn(
+    Array.from({ length: frames }, (_, index) => index),
+    async () => page.step(1),
+  );
+  return page.rendered.slice(from);
+}
+
+/** Taps the first cloud a tap reaches on the screen and returns where; `undefined`, the miss expected, where none is. */
+export async function tapCloud(
+  page: Page,
+  expect: Expect,
+): Promise<z.infer<typeof Point> | undefined> {
+  const cloud = (await page.evaluate('__probe.clouds()', Clouds)).find(
+    (point) => point !== null,
+  );
+  expect(cloud !== undefined, 'no cloud a tap reaches on the screen');
+  if (cloud) await page.tap(cloud);
+  return cloud;
 }

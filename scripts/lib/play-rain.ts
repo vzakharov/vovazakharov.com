@@ -28,17 +28,18 @@ import {
 import { closingStep } from '../../src/pages/mushrooms/ui/scene/flower-closing.ts';
 import { budgetReport } from './frame-budget.ts';
 import {
-  Clouds,
   type Controls,
   type Expect,
+  FRAME_MS,
   grow,
   inTurn,
   type Page,
   Shower,
   Sun,
+  tapCloud,
+  timedSteps,
 } from './mushroom-probe.ts';
 
-const FRAME_MS = 1000 / 60;
 /** A shower as the model starts it, its clock counted from the tap. */
 const SPAN = { startedAt: 0, stopsAt: RAIN_MS };
 /** The first frame from the tap, from `from` on, at which `holds` does. */
@@ -111,16 +112,6 @@ async function turnToRainbow(page: Page): Promise<number> {
   return held;
 }
 
-/** `frames` frames stepped one by one, each drawn; returns each one's update in ms. */
-async function timedSteps(page: Page, frames: number): Promise<number[]> {
-  const from = page.rendered.length;
-  await inTurn(
-    Array.from({ length: frames }, (_, index) => index),
-    async () => page.step(1),
-  );
-  return page.rendered.slice(from);
-}
-
 export async function playRain(
   page: Page,
   controls: z.infer<typeof Controls>,
@@ -137,14 +128,8 @@ export async function playRain(
   });
   await page.step(SETTLE_FLIERS);
   await page.shoot('rain-0-settled');
-  const cloud = (await page.evaluate('__probe.clouds()', Clouds)).find(
-    (point) => point !== null,
-  );
-  if (!cloud) {
-    expect(false, 'no cloud a tap reaches on the screen');
-    return;
-  }
-  await page.tap(cloud);
+  const cloud = await tapCloud(page, expect);
+  if (!cloud) return;
   const first = await timedSteps(page, 1);
   const started = await shower();
   expect(
