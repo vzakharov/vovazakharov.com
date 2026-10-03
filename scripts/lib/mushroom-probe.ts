@@ -426,17 +426,23 @@ export const PROBE = `(() => {
      * The shower as the sky shows it: the meadow's span, whether it rains,
      * how wet the sky is, how strongly the rainbow shows, the drops in the
      * air, how far shut the flowers' heads were painted on average, as the
-     * paint reports it (0 while the flower bed reports none), and the cloud
-     * tapped last.
+     * paint reports it (0 while the flower bed reports none), the cloud
+     * tapped last, the fliers sitting under a cap now, and the seats under
+     * the caps the perches were last seen with.
      */
     rain: () => {
       const span = scene.meadow.rain;
+      const now = scene.clock * 1000;
       return {
         span: span ? { startedAt: span.startedAt, stopsAt: span.stopsAt } : null,
         ...scene.rain.shown,
         drops: scene.rain.dropsInAir(),
         closing: scene.flowers.closing(),
         tapped: scene.rain.tapped ?? null,
+        sheltering: scene.meadow.insects.filter(
+          ({ leg }) => leg.to.kind === 'shelter' && leg.arrives <= now,
+        ).length,
+        shelters: scene.perches.sight.shelters?.length ?? 0,
       };
     },
     /**
@@ -591,6 +597,10 @@ export const Shower = z.object({
   drops: z.number(),
   closing: z.number(),
   tapped: z.number().nullable(),
+  /** Fliers seated under a cap. */
+  sheltering: z.number(),
+  /** Seats under the caps in reach, two a cap wide enough. */
+  shelters: z.number(),
 });
 export const Clouds = z.array(Point.nullable());
 
