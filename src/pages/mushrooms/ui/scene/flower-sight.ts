@@ -365,10 +365,45 @@ function plantable(
   return (
     !flowersCrowdAt(standing, foot) &&
     groundFor(foot, standing, claimed) &&
-    sightingsAt(standingOn(layout.camera, foot), layout).every((sighting) =>
-      flowerInSight(layout, sighting, covers),
-    )
+    sightAt(layout, covers, foot).inSight
   );
+}
+
+/** How a flower planted on a foot would be seen, whatever its genes: in sight past the covers (`flowerInSight`), and its head whole on the screen (`headOnScreen`). */
+type FootSight = Record<'inSight' | 'onScreen', boolean>;
+
+/** Each layout's `FootSight`s, by the covers judged against and the foot. */
+const footSights = perLayout(
+  () => new WeakMap<readonly Cover[], Map<string, FootSight>>(),
+);
+
+/**
+ * How a flower planted at `foot` on `layout` would be seen among `covers`,
+ * judged once a foot: what it reads is the layout, the covers and the foot
+ * alone, and a sow re-judges the same ring slots round every flower that
+ * still has room (`roomFor`), each of them testing every sighting against
+ * every mushroom's outline.
+ */
+function sightAt(
+  layout: MeadowLayout,
+  covers: readonly Cover[],
+  foot: Footing,
+): FootSight {
+  const byCovers = footSights(layout);
+  const known = byCovers.get(covers) ?? new Map<string, FootSight>();
+  byCovers.set(covers, known);
+  const key = `${String(foot.x)} ${String(foot.y)} ${String(foot.size)}`;
+  const judged = known.get(key);
+  if (judged) return judged;
+  const sightings = sightingsAt(standingOn(layout.camera, foot), layout);
+  const fresh = {
+    inSight: sightings.every((sighting) =>
+      flowerInSight(layout, sighting, covers),
+    ),
+    onScreen: sightings.every((sighting) => headOnScreen(layout, sighting)),
+  };
+  known.set(key, fresh);
+  return fresh;
 }
 
 /** The flowers standing in `stand`, and the mushrooms' feet a planting keeps off. */
@@ -441,9 +476,7 @@ export function roomFor(
       return (
         spot !== undefined &&
         plantable(layout, spot, ground, covers) &&
-        sightingsAt(standingOn(layout.camera, spot), layout).every((sighting) =>
-          headOnScreen(layout, sighting),
-        )
+        sightAt(layout, covers, spot).onScreen
       );
     });
     return ring === -1 ? [] : [{ flower: id, ring }];
