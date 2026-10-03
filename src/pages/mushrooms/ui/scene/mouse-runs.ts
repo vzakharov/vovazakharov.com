@@ -7,13 +7,14 @@
  * doorways, which read how far each door stands open from here.
  */
 
-import type * as Phaser from 'phaser';
+import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
+import { panOf } from '../../model/flight-frame';
 import { distanceBetween } from '../../model/geometry';
-import { pinholeOf } from '../../model/ground';
+import { CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
 import { onStem } from '../../model/house';
 import {
   mouseOut,
@@ -24,35 +25,43 @@ import {
 } from '../../model/motion';
 import {
   answerTap,
-  endOf,
   entered,
   type Flee,
   left,
   type Mice,
   miceAt,
   retarget,
-  runAt,
-  type RunCourse,
   type RunDoor,
-  type RunEnd,
-  runnerAt,
-  type RunOpening,
   runsOuting,
   runTarget,
   scattered,
 } from '../../model/mouse-run';
+import {
+  endOf,
+  hop,
+  runAt,
+  type RunCourse,
+  type RunEnd,
+  runnerAt,
+  type RunOpening,
+} from '../../model/mouse-run-clock';
 import { stemHalfWidth } from '../../model/mushroom-profile';
 import type { Seeded } from '../../model/random';
 import { type BedPlace, bedPlace, standAt } from './bed-place';
 import { mix } from './colour';
 import type { ShownDoor } from './draw-house';
 import { paintRunner } from './draw-mouse';
-import type { WithGraphics } from './hit-areas';
+import {
+  containsCircle,
+  type WithCircleHit,
+  type WithGraphics,
+} from './hit-areas';
 import type { Shown } from './mushroom-shown';
 import { PALETTE } from './palette';
 import { hazeAhead } from './repaint-queue';
 import { doorFront, facingOn } from './run-front';
 import type { MeadowSound } from './sound';
+import { tapReach } from './tap-reach';
 import type { View } from './view';
 
 /**
@@ -72,9 +81,13 @@ export type MouseDoor = {
 /**
  * A run under way, from `from`'s door to `to`'s: when its clock began and
  * what it is fixed at; its ends as last stood, the start kept once its door
- * sinks or `fixed` where a re-target began on the ground; and its runner.
+ * sinks or `fixed` where a re-target began on the ground; its runner, the
+ * circle it takes a tap in, when it was last tapped, and its patter's last
+ * tick.
  */
 export type MouseRun = Pick<Flee, 'to'> &
+  Pick<Tapped, 'tappedAt'> &
+  WithCircleHit &
   WithGraphics & {
     from: string;
     beganAt: number;
@@ -82,6 +95,7 @@ export type MouseRun = Pick<Flee, 'to'> &
     start: RunEnd | undefined;
     end: RunEnd | undefined;
     fixed: boolean;
+    pattered: number;
   };
 
 /** A house's door as the runs keep it: its mushroom's seed, its last outing, the one a run took and its last knock. */
@@ -90,6 +104,11 @@ type Kept = Seeded & {
   ran: number | undefined;
   knockedAt: number;
 };
+
+/** How high a runner's body's middle stands over its feet, in its width: where its tap circle centres. */
+const RUNNER_MIDDLE = 0.3;
+/** How often a runner's patter ticks while it runs, in seconds: a quick, light patter at any pace. */
+const PATTER_EVERY = 0.08;
 
 /** Whether a house's door is drawn now, for a run to start at it: on screen and short of the brow. */
 const seenAt = ({ drawn, behind }: BedPlace): boolean => drawn && !behind;
@@ -305,7 +324,8 @@ export class MouseRuns {
     if (opening === 'peek') this.counts = left(this.counts, from);
     const runLength =
       start && end ? distanceBetween(start.front, end.front) : 0;
-    this.under.push({
+    const hit = new Phaser.Geom.Circle();
+    const run: MouseRun = {
       from,
       to,
       beganAt,
@@ -313,8 +333,19 @@ export class MouseRuns {
       start,
       end,
       fixed: fixedStart !== undefined,
-      graphics: this.scene.add.graphics(),
+      tappedAt: -Infinity,
+      pattered: -1,
+      hit,
+      graphics: this.scene.add.graphics().setInteractive(hit, containsCircle),
+    };
+    // A runner is not the meadow: the front-most thing under a finger takes
+    // its tap, so one on a runner reaches neither the ground's flowers nor a
+    // mushroom behind it, and leaves the selection and any picker as they are.
+    run.graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+      run.tappedAt = this.now();
+      this.voice.squeak();
     });
+    this.under.push(run);
   }
 
   /** The run's end at `id`'s door as the view stands it now; `undefined` with no view or no door. */
@@ -356,13 +387,15 @@ export class MouseRuns {
     standAt(run.graphics, place);
     const scale = (at.across * pinholeOf(view).focal) / place.ahead;
     const haze = hazeAhead(view, place);
+    const raised = at.up / at.across + hop(t - run.tappedAt);
+    run.hit.setTo(0, -(raised + RUNNER_MIDDLE) * scale, tapReach(scale / 2));
     paintRunner(
       run.graphics.clear(),
       ({ x, y }) => ({ x: x * scale, y: -y * scale }),
       {
         ran: moment.travelled / at.across,
         heads: facingOn(at.heading, at.point, view.eye),
-        raised: at.up / at.across,
+        raised,
       },
       {
         ink: Math.max(1.5, shown.size * 0.01 * place.zoom),
@@ -370,6 +403,12 @@ export class MouseRuns {
         ...pick(shown, 'lighting'),
       },
     );
+    const tick = Math.floor(elapsed / PATTER_EVERY);
+    if (moment.leg === 'run' && place.drawn && tick !== run.pattered) {
+      run.pattered = tick;
+      const level = Math.min(1, CLUMP_DISTANCE / place.distance);
+      this.voice.patter(panOf(view.eye, at.point), level);
+    }
   }
 
   /** The run's end at `id`'s door while it stands. */

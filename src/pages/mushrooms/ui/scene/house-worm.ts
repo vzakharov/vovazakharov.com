@@ -1,6 +1,9 @@
 import type { Point } from '../../model/geometry';
 import { windowSlots } from '../../model/house';
+import type { Looking, TapTimed } from '../../model/motion';
 import type { MushroomGenes } from '../../model/mushroom-genes';
+import { toCanvas } from '../../model/mushroom-outline';
+import { capFrame } from '../../model/mushroom-pose';
 import {
   pathLength,
   peekPath,
@@ -16,21 +19,20 @@ import { type ShownWorm, wormGirth } from './draw-worm';
 import type { MeadowSound } from './sound';
 
 /**
- * A worm's trip, fixed at the tap that called it out of window `from`: to
- * window `to` along `path`, or a peek with none; `girth` thick, in the
- * mushroom's units; last tapped on its way at `wriggledAt`.
+ * A worm's trip, fixed at the tap that called it out of window `source`: to
+ * window `target` along `path`, `travel` long, or a peek with none; `girth`
+ * thick, in the mushroom's units; last tapped on its way at `wriggledAt`.
  */
-type Trip = {
-  tappedAt: number;
-  from: number;
-  to: number | undefined;
+type Trip = TapTimed & {
+  source: number;
+  target: number | undefined;
   path: Point[];
-  length: number;
+  travel: number;
   girth: number;
   wriggledAt: number;
 };
 /** Where the worm is on its trip or peek, and which way a peeking one looks. */
-export type WormOut = WormPose & { phase: TripPhase | 'peek'; look: number };
+export type WormOut = WormPose & Looking & { phase: TripPhase | 'peek' };
 
 /**
  * A house's one worm: out of a tapped window to another of its windows, or
@@ -47,6 +49,8 @@ export class HouseWorm {
   /** The cap it was last painted on, which a trip's way is laid on, and whether it showed there. */
   private drawn: { genes: MushroomGenes; size: number } | undefined;
   private showed = false;
+  /** Its head's middle and its girth as last painted, in its house's graphics' pixels, as the probe reads them: `undefined` while it is in, the head while it is behind a pane. */
+  painted: { head: Point | undefined; girth: number } | undefined;
 
   constructor(voice: MeadowSound, phase: number) {
     this.voice = voice;
@@ -75,13 +79,12 @@ export class HouseWorm {
         ? peekPath(slot(from))
         : wormPath(genes, slot(from), slot(to), girth);
     if (to !== undefined) this.trips += 1;
-    const length = pathLength(path);
     this.trip = {
       tappedAt: t,
-      from,
-      to,
+      source: from,
+      target: to,
       path,
-      length,
+      travel: pathLength(path),
       girth,
       wriggledAt: -Infinity,
     };
@@ -92,8 +95,8 @@ export class HouseWorm {
   at(t: number): WormOut | undefined {
     if (!this.trip) return undefined;
     const elapsed = t - this.trip.tappedAt;
-    if (this.trip.to !== undefined) {
-      const pose = wormTrip(elapsed, this.trip.length);
+    if (this.trip.target !== undefined) {
+      const pose = wormTrip(elapsed, this.trip.travel);
       return pose && { ...pose, look: 0 };
     }
     const peek = wormPeek(elapsed, this.phase);
@@ -111,11 +114,15 @@ export class HouseWorm {
     const pose = this.at(t);
     const { trip } = this;
     this.showed = pose !== undefined;
+    this.painted = undefined;
     if (!pose || !trip) return undefined;
     const { look } = pose;
-    return {
-      ...wormBody(trip.path, pose, trip.girth, t - trip.wriggledAt),
-      look,
+    const body = wormBody(trip.path, pose, trip.girth, t - trip.wriggledAt);
+    const place = (point: Point) => toCanvas(size)(capFrame(genes)(point));
+    this.painted = {
+      head: body.head && place(body.head),
+      girth: trip.girth * size,
     };
+    return { ...body, look };
   }
 }

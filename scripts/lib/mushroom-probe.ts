@@ -178,12 +178,28 @@ export const PROBE = `(() => {
     const y = points.reduce((sum, point) => sum + point.y, 0) / points.length;
     return toScreen(graphics.getWorldTransformMatrix().transformPoint(x, y, {}));
   };
+  // Phaser's graphics commands by code, with how many numbers follow each.
+  const ARGS = { 0: 7, 3: 4, 4: 2, 5: 2, 6: 3, 7: 2, 10: 6, 11: 6, 16: 2, 17: 2, 18: 1 };
+  /** How far across \`graphics\` paints, in CSS px, from its paths and circles: \`null\` past a command not in \`ARGS\`. */
+  const spanAcross = (graphics) => {
+    const xs = [];
+    const buffer = graphics.commandBuffer;
+    for (let at = 0; at < buffer.length; ) {
+      const code = buffer[at];
+      const args = [1, 2, 8, 9, 14, 15].includes(code) ? 0 : ARGS[code];
+      if (args === undefined) return null;
+      if (code === 4 || code === 5) xs.push(buffer[at + 1]);
+      if (code === 0) xs.push(buffer[at + 1] - buffer[at + 3], buffer[at + 1] + buffer[at + 3]);
+      at += 1 + args;
+    }
+    return xs.length === 0 ? null : (Math.max(...xs) - Math.min(...xs)) * graphics.scaleX;
+  };
   /**
    * What a tap at a point on screen reaches, by the scene's own hit test and
    * its topmost-only rule, the top insect handing it to the one whose body is
-   * nearest (\`reached\`): \`insect:<id>\`, \`door:<id>\`, \`mushroom:<id>\`,
-   * \`other\`, or \`null\` for the bare meadow. With \`drawn\` set, the tap
-   * stays with the insect drawn on top.
+   * nearest (\`reached\`): \`insect:<id>\`, \`door:<id>\`, \`window:<id>:<index>\`,
+   * \`mushroom:<id>\`, \`other\`, or \`null\` for the bare meadow. With
+   * \`drawn\` set, the tap stays with the insect drawn on top.
    */
   const topAt = ({ x, y, drawn = false }) => {
     const pointer = { x: scene.scale.transformX(x), y: scene.scale.transformY(y) };
@@ -197,7 +213,11 @@ export const PROBE = `(() => {
       return 'insect:' + (drawn ? id : (scene.insects.reached(toWorld({ x, y })) ?? id));
     }
     for (const [id, shown] of scene.bed.shown) {
-      if (top === shown.house.graphics) return 'door:' + id;
+      if (top === shown.house.graphics) {
+        const { x: wx, y: wy } = toWorld(pointer);
+        const part = shown.house.takes(top.getWorldTransformMatrix().applyInverse(wx, wy));
+        return part === 'door' ? 'door:' + id : 'window:' + id + ':' + part;
+      }
       if (top === shown.graphics) return 'mushroom:' + id;
     }
     return 'other';
@@ -419,15 +439,54 @@ export const PROBE = `(() => {
         shown: shown.house.graphics.visible,
       };
     },
-    /** A mushroom's mouse: when a tap on its door called it, how far out it is, and how far across its head is drawn. */
+    /** A mushroom's windows' middles and reaches on screen, and of the taps on a grid over its cap's box finding it or a window, the share finding it. */
+    windows: (id) => {
+      const { graphics, hit, house } = scene.bed.shown.get(id);
+      const [xs, ys] = ['x', 'y'].map((axis) => hit.cap.map((point) => point[axis]));
+      const along = (all, k) => Math.min(...all) + ((Math.max(...all) - Math.min(...all)) * k) / 23;
+      const tops = [...Array(576).keys()].map((i) =>
+        topAt(onScreen(graphics, [{ x: along(xs, i % 24), y: along(ys, Math.floor(i / 24)) }])) ?? '');
+      const own = tops.filter((top) => top === 'mushroom:' + id).length;
+      const taken = tops.filter((top) => top.startsWith('window:' + id + ':')).length;
+      const matrix = house.graphics.getWorldTransformMatrix();
+      const reaches = house.reaches.map(({ x, y, r }) =>
+        ({ ...toScreen(matrix.transformPoint(x, y, {})), r: r * house.graphics.scaleX }));
+      return { reaches, capLeft: own / Math.max(1, own + taken) };
+    },
+    /** A mushroom's worm: its trip, its phase, and its head and girth as painted, on screen. */
+    worm: (id) => {
+      const { worm, graphics } = scene.bed.shown.get(id).house;
+      const { trip, trips, painted } = worm;
+      const head = painted?.head && graphics.getWorldTransformMatrix().transformPoint(painted.head.x, painted.head.y, {});
+      return {
+        tappedAt: trip?.tappedAt ?? null, from: trip?.source ?? null, to: trip?.target ?? null,
+        trips, phase: worm.at(scene.clock)?.phase ?? null, head: head ? toScreen(head) : null,
+        girth: painted ? painted.girth * graphics.scaleX : null,
+      };
+    },
+    /** A mushroom's mouse: when a tap on its door called it, how far out it is, and how far across its head and its door are drawn. */
     mouse: (id) => {
-      const { house } = scene.bed.shown.get(id);
+      const { house, door, size } = scene.bed.shown.get(id);
       return {
         tappedAt: finite(house.mouse.tappedAt),
         out: house.out(scene.clock),
         head: house.drawnHead,
+        door: house.doored && door ? door.width * size * house.graphics.scaleX : 0,
       };
     },
+    /** Each run under way: its doors, seconds since it began, and its runner's foot on screen, depth and drawn width (\`spanAcross\`, \`null\` while hidden). */
+    runs: () =>
+      scene.bed.runs.runs().map(({ from, to, beganAt, graphics }) => ({
+        from,
+        to,
+        elapsed: scene.clock - beganAt,
+        shown: graphics.visible,
+        ...toScreen(graphics),
+        depth: graphics.depth,
+        width: graphics.visible ? spanAcross(graphics) : null,
+      })),
+    /** How many mice each doored house holds. */
+    mice: () => Object.fromEntries(scene.bed.runs.mice()),
     /** The nearest shown flower whose head is on screen, the one least likely to be covered. */
     flower: () => {
       const shown = [...scene.flowers.shown.entries()]
@@ -657,12 +716,40 @@ export const Costs = z.object({
 export const TendFrames = z.array(
   z.object({ ms: z.number(), tend: z.number() }),
 );
+/** `__probe.windows(id)`, its reaches in CSS px. */
+export const Windows = z.object({
+  reaches: z.array(Point.extend({ r: z.number() })),
+  capLeft: z.number(),
+});
+const Maybe = z.number().nullable();
+/** `__probe.worm(id)`, its girth in CSS px as painted at the last frame. */
+export const Worm = z.object({
+  tappedAt: Maybe,
+  from: Maybe,
+  to: Maybe,
+  trips: z.number(),
+  phase: z.enum(['out', 'crawl', 'in', 'peek']).nullable(),
+  head: Point.nullable(),
+  girth: Maybe,
+});
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),
   out: z.number(),
   /** In CSS px, as painted at the last frame: 0 with no door. */
   head: z.number(),
+  door: z.number(),
 });
+export const Runs = z.array(
+  Point.extend({
+    from: z.string(),
+    to: z.string(),
+    elapsed: z.number(),
+    shown: z.boolean(),
+    depth: z.number(),
+    width: z.number().nullable(),
+  }),
+);
+export const Mice = z.record(z.string(), z.number());
 export const Top = z.string().nullable();
 export const Pose = z
   .object({ mushroom: z.number(), house: z.number(), shown: z.boolean() })
