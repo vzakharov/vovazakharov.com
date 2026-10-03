@@ -150,7 +150,12 @@ export const WATCH = `(() => {
           ? held
           : { legs: flier.legs, frames: [], round: 0, least: 0, most: 0 };
       const previous = trail.frames.at(-1) ?? held?.frames.at(-1);
-      if (previous && now > previous.now) {
+      // Whether its body's middle is on the screen: a body is drawn until a
+      // whole span is past the edge, and what turns where no one sees it is
+      // not judged.
+      const onScreen =
+        __probe.shows(x) && y >= 0 && y <= scene.layout.height;
+      if (onScreen && previous && now > previous.now) {
         const step = Math.abs(wrap(turn - previous.turn));
         const steps = (watch.turnSteps[kind] ??= { steps: 0, over: 0, most: 0 });
         steps.steps += 1;
@@ -187,8 +192,7 @@ export const WATCH = `(() => {
       // its way, and its body does not turn to it.
       const sinking =
         Math.hypot(shown.drawn.x - eye.x, shown.drawn.y - eye.y) > ${String(D_SEE)};
-      const inView =
-        __probe.shows(x) && y >= 0 && y <= scene.layout.height && !sinking;
+      const inView = onScreen && !sinking;
       trail.frames = [...trail.frames, { x, y, turn, now, inView }].slice(-window - 1);
       trails.set(id, trail);
       const [first] = trail.frames;
@@ -196,7 +200,7 @@ export const WATCH = `(() => {
       const travel = first && Math.hypot(x - first.x, y - first.y);
       // The body judged is the middle frame's and its way runs from the
       // first to this one, so all three must be in view, short of the brow.
-      const onScreen = inView && first?.inView && middle?.inView;
+      const judged = inView && first?.inView && middle?.inView;
       // A shying flier darts (\`insect-dart.ts\`), which moves it without
       // turning it: its body faces its flight to the perch, not its dart.
       const shying = flier.shied === flier.legs;
@@ -205,7 +209,7 @@ export const WATCH = `(() => {
         trail.frames.length > window &&
         middle.now >= leg.departs + ${String(HEADING_AFTER)} &&
         now < leg.arrives &&
-        onScreen &&
+        judged &&
         travel >= (span * ${String(MOVING)} * (now - first.now)) / 1000
       ) {
         // A body's turn is clockwise from up the screen, a heading from +x.
@@ -315,12 +319,12 @@ export const Watch = z.object({
   /** Per kind, the narrowest wings at rest at the insect's own size, the depth it sits at aside, in px. */
   leastOwnSpan: z.partialRecord(Kind, z.number()),
   capRests: z.object({ spotted: z.number(), other: z.number() }),
-  /** Per kind, frame-to-frame turns of its body, how many were over 0.2 rad, and the largest, in radians. */
+  /** Per kind, frame-to-frame turns of its body while its middle is on screen, how many were over 0.2 rad, and the largest, in radians. */
   turnSteps: z.partialRecord(
     Kind,
     z.object({ steps: z.number(), over: z.number(), most: z.number() }),
   ),
-  /** The fastest a body turned from one frame to the next against its kind's `MOST_TURN_RATE`, in radians a second. */
+  /** The fastest a body turned from one frame to the next, onto a frame with its middle on screen, against its kind's `MOST_TURN_RATE`, in radians a second. */
   worstTurn: z.object({
     id: z.string().nullable(),
     kind: Kind.nullable(),
