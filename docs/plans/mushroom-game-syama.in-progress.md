@@ -319,8 +319,8 @@ play green on phoneS; phoneL `approach`, red on a quiet container too
 frame), green at 18.4 ms once a far mushroom paints fewer chords
 (`curveSteps` in `model/mushroom-profile.ts`, 567702f); the Artifact
 republished at the tail's head.
-**Left:** `/polish` over the tail since 385453f, `/pr`, then 12b's own
-review session. Each package's commits and the orchestrator's calls:
+`/polish` closed again (a772d94), the PR body refreshed.
+**Left:** 12b's own review session, then its handling. Each package's commits and the orchestrator's calls:
 `docs/remove-before-merging/bite-12b/waves.md`.
 
 ## Rest of the elephant
