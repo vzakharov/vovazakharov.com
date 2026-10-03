@@ -140,6 +140,27 @@ a seat the moment its door goes in.
 arc and cuts each ray at the paper's inner edge, so a child near the
 frame's side draws no wedge over the margin or the meadow.
 
+## From the operator's play — the bite's last package
+
+17\. **A door is seated as the child sees its mushroom now**, from the
+current eye alone; call 15's opening view first goes. The operator: «не
+понимаю, почему оно ищется _сначала_ с первой точки? первая точка — вроде
+никакая не особенная». It isn't: the opening view was the only world
+before 12b, and seating from it can hide the door behind a neighbour from
+where the child stands when he furnishes. A seated door stays where it was
+seated.
+
+18\. **The map's sheet is a meadow seen from above, not bare paper.** «она
+и предполагается, что останется с таким никаким фоном?» — no. The paper
+keeps its frame; inside, a grass wash with tufts and mottles drawn in the
+meadow's own inks, so the things stand on ground, as in an old top-down
+pixel walker.
+
+19\. **The open map's close button is the map button's own disc with a
+plain ink cross**, not the flower picker's coloured one («кнопка закрытия
+выглядит аляписто»), and **Escape closes the map** («закрываться должна по
+эскейпу тоже»).
+
 ## Built
 
 Each package's hand-over note under `docs/remove-before-merging/bite-16/`
