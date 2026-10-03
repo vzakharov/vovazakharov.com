@@ -1,7 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import { clipToConvex, ellipse, type Point } from '../../model/geometry';
-import { MOUSE_HEAD_R, mouseScale } from './door-reach';
+import { MOUSE_HEAD_R } from './door-reach';
 import { inkFor, TAPER, taperedLine, upward, weightedOutline } from './ink';
 import { PALETTE } from './palette';
 import { box, type Brush, fillShape, type Place } from './shapes';
@@ -16,8 +16,6 @@ export type Peeking = { out: number; look: number; shut: boolean };
 /** Where the head's middle stands in the doorway, in door widths up from the sill: hidden, and all the way out. */
 const HEAD_LOW = -0.5;
 const HEAD_HIGH = 0.5;
-/** Everything above the sill, as far as any part of the mouse reaches: what a mouse drawn past its doorway's size is clipped to. */
-const ABOVE_SILL = box(-2, 0, 2, 2);
 const WHISKER_LENGTH = 0.26;
 const WHISKER_WIDTH = 0.018;
 
@@ -37,11 +35,9 @@ function whisker(
 
 /**
  * A mouse coming up out of a doorway, in the door's frame (door widths, the
- * sill's middle at the origin, y up). Every part is clipped to `opening`, so
- * the mouse comes from inside rather than over the door — unless the door is
- * too small for its head to read (`mouseScale`): then the mouse is drawn that
- * many times larger, clipped only to above the sill, and leans out past the
- * doorway. The ears turn with `look` less than the eyes, so the head reads as
+ * sill's middle at the origin, y up), at the door's own scale however small
+ * it is. Every part is clipped to `opening`, so the mouse comes from inside
+ * rather than over the door. The ears turn with `look` less than the eyes, so the head reads as
  * turning rather than sliding.
  */
 export function paintMouse(
@@ -51,17 +47,14 @@ export function paintMouse(
   { out, look, shut }: Peeking,
   { ink, tone, lighting }: Brush,
 ): void {
-  // The pixels a door width spans, and the mouse's frame: door widths,
-  // `scale` times over.
+  // The pixels a door width spans, the mouse's unit.
   const origin = place({ x: 0, y: 0 });
   const across = place({ x: 1, y: 0 });
   const unit = Math.hypot(across.x - origin.x, across.y - origin.y) || 1;
-  const scale = mouseScale(unit);
-  const clip = scale > 1 ? ABOVE_SILL : opening;
-  const line = ink / (unit * scale);
+  const line = ink / unit;
   // The light and the hairline in the mouse's own frame, y up and in door widths.
   const toward = upward(lighting.toward);
-  const hairline = lighting.hairline / (unit * scale);
+  const hairline = lighting.hairline / unit;
   const head = {
     x: 0.1 + look * 0.05,
     y: HEAD_LOW + (HEAD_HIGH - HEAD_LOW) * out,
@@ -72,12 +65,12 @@ export function paintMouse(
     colour: number,
     shown: (colour: number) => number = tone,
   ) => {
-    const seen = clipToConvex(outline, clip);
+    const seen = clipToConvex(outline, opening);
     if (seen.length < 3) return;
     graphics.fillStyle(shown(colour));
     fillShape(
       graphics,
-      seen.map(({ x, y }) => place({ x: x * scale, y: y * scale })),
+      seen.map((point) => place(point)),
     );
   };
   // Inked by a shape grown behind each fill, heavier on its shade side, so
@@ -90,7 +83,7 @@ export function paintMouse(
     fill(shape, colour);
   };
 
-  // A body under the head, so a mouse leaning out is not a floating head.
+  // A body under the head, so a mouse up in its doorway is not a floating head.
   inked(
     { x: head.x - look * 0.03, y: head.y - MOUSE_HEAD_R * 1.25 },
     MOUSE_HEAD_R * 1.15,

@@ -20,7 +20,6 @@ import {
   onStem,
   paintedDoor,
 } from '../../model/house';
-import { NARROWEST_STANDING } from '../../model/motion';
 import {
   MUSHROOM_SPECIES,
   mushroomGenes,
@@ -31,7 +30,7 @@ import { stemAt } from '../../model/mushroom-pose';
 import { mulberry32 } from '../../model/random';
 import { hiddenOf, partOf, sighted } from './cap-cover';
 import { everyPlace, placeIn } from './clump-layout';
-import { doorHitArea, MOUSE_HEAD_LEAST, mouseHead } from './door-reach';
+import { doorHitArea } from './door-reach';
 import { standingAt } from './door-sight';
 import { type MeadowLayout, meadowLayout, type Placement } from './layout';
 import { PICK_APART, PICK_CLEAR } from './picker-rows';
@@ -277,17 +276,6 @@ describe('meadowLayout', () => {
           for (const point of door.map(onStem(station))) {
             assert.ok(containsPoint(hit, canvas(point)));
           }
-        }
-      }
-    });
-
-    it(`draws every mouse's head big enough to read, its mushroom at its narrowest, on a ${name} screen`, () => {
-      for (const { size } of everyPlace(
-        screenLayout(width, height).mushrooms,
-      )) {
-        for (const { width: door } of DOOR_TRIES) {
-          const narrowest = mouseHead(door * size) * NARROWEST_STANDING;
-          assert.ok(narrowest >= MOUSE_HEAD_LEAST - 1e-9);
         }
       }
     });
