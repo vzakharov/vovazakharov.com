@@ -118,3 +118,10 @@ Filled in as each lands.
   14 and 3 before). Halving on phones is accepted: the call traded count
   for sight, and every screen still plants. Loose end for `/polish`:
   `onscreenOf` in `perch-sight.ts` repeats `screenSides`' half-width.
+- **A2 (T141)**: no source change; filled at 170k and pushed its design as
+  `rh-a2.patch` (b2a16cd8): `lostOn(was, now, eye)` — the tufts a sow must
+  hide in its own frame, exact rather than a radius round the foot, since
+  the flower count reaches `D_SEE` and mushroom covers work in screen space
+  (accepted) — and `Tended`, the standing-tuft bookkeeping out of `Grass`.
+  `paint` still tends whole (a resize lays everything anew: accepted).
+  A2b launched to apply, wire and test it from `rh-a2.md`.
