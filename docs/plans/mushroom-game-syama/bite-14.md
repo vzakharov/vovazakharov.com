@@ -206,6 +206,19 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     (so a tap beside a dot never opens the flower picker by surprise).
     This revises call 33's "it takes no tap".
 
+39. **The map's readings are taken** (`map-spores.md` § 7, M, a17bb175):
+    a spore sprouts at `darkAt(rain)` (start + `WET_MS`) plus its seed's
+    draw of 6 s, the sprout's clock started `SPORE_FALL_MS` earlier so it
+    pops as the dot goes; the dot sorts a shadow's step nearer than its
+    foot's row; a spore pick-up changes neither the selection nor a
+    picker; the tap routing tries a spore in `tapMeadow` between the cloud
+    and the tuft, not as an interactive object.
+40. **A spore sown while it rains sprouts in that shower**, at the later of
+    its seed's moment and `SPORE_DWELL_MS` (~2 s) after it settles — the
+    child sees the dot land, then come up, which shows the rain's cause
+    best. Beat: waiting for the next shower, which reads as the rain not
+    working on this dot.
+
 36. **A cloud rains on a press, a drag starting on it included** (B2,
     `b2.md`, found a sky drag over a cloud starts a shower). Kept: the
     operator, «это норм, так он и обнаружит, что есть дождь» — the child
