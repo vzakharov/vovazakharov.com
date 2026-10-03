@@ -70,7 +70,13 @@
   should cut `/dry` by area at ~3k lines and `/tend-prose` at ~5k, run all
   `/dry` before any `/tend-prose` on the same files, let a finished area's
   prose start while another's `/dry` runs, and hand cross-area findings to
-  whichever agent next owns those files. It also caught two things only a
+  whichever agent next owns those files. Bite 14's tail sent one agent at
+  ~5k lines anyway, because a successor told to read these notes by their
+  index never opened this file: it spent 175k on half of `/dry` and left a
+  bare `polish:` over unread work, and two agents split by directory in
+  worktrees then finished in ~150k each. So the sizing belongs where every
+  session reads it — the plan's standing rules, or the relay's — not only
+  here. It also caught two things only a
   wave reading everything finds: topic files stale against the build
   (`bite-12.md` still described the pinhole), and a test rule standing on
   code that production no longer calls.
