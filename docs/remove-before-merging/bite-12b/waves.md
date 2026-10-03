@@ -376,3 +376,17 @@ In this order of launch; parallel where files are disjoint.
   call:** accepted; tabL and phoneP not re-run, the change only judges
   fewer frames. Next: phoneL `approach` on a quiet container, then every
   play on phoneS, one agent, one play per call.
+- **tail-phoneS** — 4495abc, a7ad633. Every play green on phoneS. phoneL
+  `approach` red on a quiet container too: median 31.1 / 30.7 ms against
+  26 (phoneP 12.2). Profiled: 24 of a "neither" frame's 26 ms in `game.step`
+  is Phaser's `GraphicsWebGLRenderer` re-triangulating every Graphics each
+  frame (`earcut` 13.1 ms, batcher 5.4); a mushroom carries 7–12.7 k buffer
+  entries whatever its drawn size, and phoneL shows 19 of them where phoneP
+  shows 6. **Orchestrator's call:** a game red — a real phone runs the same
+  `earcut` — so not a phoneL budget of its own. Option 2: a mushroom's
+  point counts follow its drawn size (fewer for a far, small cap, floored
+  so it still reads round and spotted); not baking, which the turning
+  light re-bakes every frame of a turn. Measured by phoneL `approach`
+  under 26 ms, and by the far forest looked at before and after. tail-lod
+  builds it. The bee's planted flower off phoneS's right edge, the thin
+  phoneS forest and the buttons over phoneS's sky go to the review.
