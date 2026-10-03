@@ -1,12 +1,9 @@
 # Relay summary
 
-Relay depth: **8** for the successor (this session was 7; cap 8,
-`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
-**The successor is at the cap**: its own relay cannot `create_session`; it
-writes the summary with depth reset to 1 and hands the operator the one line
-to paste into a fresh session, on Opus: `/relay take
-claude/mushroom-game-syama-lbirv7` plus the pickup constraints below. Best
-done at a natural stop (after the review is posted, nothing half-built).
+Relay depth: **1** for the successor. This session was 8, at the cap
+(`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap"),
+so it did not `create_session`: the operator pastes the line into a fresh
+session on Opus, and the chain counts from 1 again.
 
 ## 1. Standing constraints
 
@@ -117,13 +114,14 @@ in the brief. One agent over bite 14's ~5k lines ran out halfway.
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
 Reply: attached (deepened; the stale local ref e66b8e1 renamed to
-`stale/mushroom-game-syama-lbirv7-e66b8e1`, a fresh tracking branch
-checked out), installed, ran the relay's `/go`: opened bite 15, two spec
-agents, settled 24 calls in `bite-15.md`, two build waves (R1, R2, W1; W2,
-R3), then paused mid-bite at the 200k notice and relayed.
+`claude/mushroom-game-syama-lbirv7-stale-e66b8e1`, a fresh tracking branch
+checked out; no harness auto-branch existed, HEAD was detached), installed,
+ran `/go`: wave 3 (R4, R5, W3), wave 4 (R6, W4), R7, both reviews posted,
+the worms' fixed and replied to, the runs' decided as calls 29–33; paused
+at the 200k notice and relayed.
 
-No other operator message; every other turn was an agent's report, a
-check-in or the cost Stop hook.
+No other operator message; every other turn was an agent's report or the
+cost Stop hook.
 
 ## 3. Intent
 
@@ -132,70 +130,71 @@ after every bite; `/finalize` at the end, no merge.
 
 ## 4. Decisions
 
-All of bite 15's are in `docs/plans/mushroom-game-syama/bite-15.md`, calls
-1–24 (call numbers are escaped paragraphs; check `grep -c '^[0-9]*\\.'`
-= 24 after any prettier). The ones a successor would misread:
+All in `docs/plans/mushroom-game-syama/bite-15.md`, calls 1–33 (escaped
+paragraphs; `grep -c '^[0-9]*\\.'` = 33 after any prettier). The ones a
+successor would misread:
 
-- **Runs are scene state** (`ui/scene/mouse-runs.ts`) over pure rules
-  (`model/mouse-run.ts`); mice are conserved, a house may stand empty, a
-  tap on an empty door calls a mouse home (calls 2, 5, 6).
-- **A window tap does the worm only**, reach 16 px against the standing 32
-  (call 15, an accepted departure from `decisions.md`; a `to-check.md`
-  line is owed).
-- **Worms in rain (spec W5) are not built** (call 21).
-- `mouse-run.ts` (459 lines) is split in R4, the clock to
-  `model/mouse-run-clock.ts`, before `hop` lands (call 23).
+- **Call 25 replaced call 7's straight path**: a run's course bows
+  sideways first (a loop out and back on the opening clump, 63 px across on
+  tabL), then toward the eye; `RUN_LEAST` 2.4 s, so a whole run is ~4 s.
+  `model/mouse-run-course.ts` holds it.
+- **Runs from one door start `FLEE_EVERY` 0.8 s apart** (R7), for taps and
+  fleeing alike.
+- **Calls 26–28 (the worms' review, done)**: a peek no higher than its cap,
+  the head kept by an epsilon, the girth floor and `WINDOW_REACH` divided by
+  the house's perspective zoom (the door's `TAP_RADIUS` keeps its unit).
+- **Calls 29–33 (the runs' review, not built)**: a run drawn from its own
+  placements so a sunk start house never hides it; a doorway holding a
+  run's mouse answers a tap with that mouse's squeak, never a new run or a
+  knock; `RUN_BOW` measured from the nearer foot in drawn runner lengths; a
+  re-targeted run straight, and the far-door fallback counting the mouse
+  in; `RunCourse.side` renamed (type-overlap).
 
 ## 5. Errors and dead ends
 
-- The first push of the resume commit was rejected: the predecessor's cost
-  row had landed after the relay commit. Rebased one local commit; fine.
-- W2 sat at 142k with nothing pushed; one `SendMessage` nudge landed its
-  commit. R2 and R3 each stopped at the 170k hook having finished their step.
+- R6's first bow pushed only toward the eye: the runner dipped 22 px below
+  the door with 5 px across, since that push alone made the length. R7
+  made the sideways bow carry the length.
+- R6, FW each stopped at the 170k hook; FW before its GitHub replies,
+  which the orchestrator posted (three one-liners).
 
 ## 6. State
 
-Checked with commands at f9f78299:
+Checked with commands at ac2b4075:
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `CONFLICTING` (`/finalize`'s job). PR body not yet refreshed for bite 15.
-- Plan `docs/plans/mushroom-game-syama.paused.md` (400 lines) with
-  `## Rest of the bite` (bite 15's left work); `## Rest of the elephant`
-  now starts at item 16.
+  `CONFLICTING` (`/finalize`'s job). PR body not refreshed for bite 15.
+- Plan `docs/plans/mushroom-game-syama.paused.md` (403 lines — the fold
+  brings it back under 400), its `## Rest of the bite` naming what is left.
+- Reviews: worms 5401128817 (three threads, replied); runs 5401240514
+  (four threads, unanswered).
+- `pnpm type-overlap` red on `side` (call 33). Not run this session: vet,
+  the full suite, `sweep:mushrooms`. Plays last green: `runs` tabL+phoneP
+  (R7), `meadow` tabL+phoneP (FW).
 - Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG still at
-  version 20 (bite 14).
-- No agent running, no worktree, no PR subscription. One `send_later`
-  check-in (wave 2's, 12:49 UTC) may fire into this old session; ignore it.
-- Bite 14's frames are not yet retired; `frames/bite-15/` holds R1's two.
-- `pnpm type-overlap` red: 4 groups in W2's files (`look` shared by
-  `draw-mouse.ts` `Peeking` and `draw-worm.ts` `ShownWorm`; `house-worm.ts`
-  `Trip`). Not run since: vet, the full suite, any play of runs or worms.
-- Megabeast notes filled (`subagents.md`, "a wave is per package").
+  bite 14.
+- No agent running, no worktree, no PR subscription, no check-in.
+- Megabeast notes filled (`play-run-and-frames.md`, `quality.md`).
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-15.md` — calls, waves with the line
-  grants, § "Built" (the build log and the open reds).
-- `docs/remove-before-merging/bite-15/` — `brief-common.md` (every agent's
-  brief), `spec-runs.md` and `spec-worms.md` (steps R4–R6, W3–W4), and the
-  hand-over notes `r1.md`, `r2.md`, `r3.md`, `w1.md`, `w2.md`: **r3.md and
-  w2.md name the API R5's and W3's probes read**.
-- `docs/remove-before-merging/frames/bite-15/r1-phoneP-mouse-back.png` — the
-  mini-mouse in its doorway (looked at: it fits).
-- The previous sessions: https://claude.ai/code/session_01V9De9Hi22B3xzsmiXfS6bX
-  (this one), https://claude.ai/code/session_013DAjz1LhwmuHP9q9ije353.
+- `docs/plans/mushroom-game-syama/bite-15.md` — calls 1–33, § "Built".
+- `docs/remove-before-merging/bite-15/` — `brief-common.md` (every build
+  agent's brief), `review-brief.md`, the hand-over notes `r1`–`r7`,
+  `w1`–`w4`, `fw.md`.
+- `docs/remove-before-merging/frames/bite-15/` — `r7-*` (the run), `w4-*`
+  (the worm), `review/` (the reviewers').
+- Review threads: `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5401240514/comments`.
+- The previous session: https://claude.ai/code/session_01PhhjXammJ1oQiYT9CP6P2M.
 
 ## 8. Next step
 
 /go
 
-(Bite 15 continued: the plan's `## Rest of the bite`. Wave 3 in parallel:
-R4 — the tap on a runner and the patter, after splitting `mouse-run.ts`
-(call 23); R5 — the probe's `runs()`/`mice()`/`mouse(id).door` and
-`play-runs.ts` (with R1's head/door check); W3 — the probe's window/worm
-readers and `play-worms.ts`, plus the `type-overlap` fix in W2's files.
-Then wave 4 (R6, W4: look at frames, tune constants, `to-check.md` lines),
-then the tail: frames, the review agent, fixes, fold into `## Eaten so
-far`, retire bite 14's frames and bite 15's notes, republish the Artifact,
-`/polish` sized by changed lines, vet, `/pr`, pause, megabeast notes, and
-the cap hand-off. Reply to the operator in Russian, «ты».)
+(Bite 15's rest, the plan's `## Rest of the bite`: the runs' review fixes
+— calls 29–33 as one or two build agents on disjoint files
+(`mouse-runs.ts` is 448 lines: move pure parts out first), each finding
+replied to on review 5401240514 with its bare SHA, never resolved — then
+the tail: fold, retire bite 14's frames and bite 15's notes, republish the
+Artifact, `/polish` sized by changed lines, vet, `/pr`, pause, megabeast
+notes, relay `/go` for item 16. Reply to the operator in Russian, «ты».)
