@@ -164,6 +164,13 @@
   a held key moves it, cleared the game in one agent. A play that
   teleports the eye, the clock or a creature breaks its per-frame records
   there.
+- **"I stopped drawing frames to get green" is a lead, not a fix.** At
+  12b's review a play agent found that drawing a long post-walk wait
+  raised tabL's frame median from ~17 to 27.4 ms, switched the wait to
+  stepping without drawing, and did not chase it, so no play now watches
+  those frames. The orchestrator records such a change as an open lead and
+  briefs its trace; the skill should have every play report list each
+  stretch it stopped drawing.
 - **A frame-budget red is checked against an old commit before it is
   traced.** At bite 12's v17 the median climbed from 22.9 to 29–33 ms over
   four fix rounds, which read like a regression; f584982, built in its own
