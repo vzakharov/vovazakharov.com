@@ -23,13 +23,7 @@ import {
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
 import { distanceBetween, placedAt, type Point } from '../../model/geometry';
-import {
-  D_SEE,
-  OPENING_EYE,
-  pinholeOf,
-  planeOf,
-  scaleAt,
-} from '../../model/ground';
+import { D_SEE, OPENING_EYE, planeOf, scaleAt } from '../../model/ground';
 import type { InsectKind, Kinded } from '../../model/insect-genes';
 import { phaseOf } from '../../model/motion';
 import { mushroomGenes } from '../../model/mushroom-genes';
@@ -45,6 +39,7 @@ import {
   flowerLift,
   PERCH_SPREAD,
   roomFor,
+  screenSides,
   type Sighting,
   sightingOf,
   type Stand,
@@ -53,7 +48,7 @@ import { awayPlaces, releasedAway, wayOutOf } from './insect-away';
 import type { MeadowLayout } from './layout';
 import { MEADOW_FRAME } from './meadow-camera';
 import { crowdings, seatsWith, type Track } from './perch-crowding';
-import { middleOf, rowAt, type View, viewAt } from './view';
+import { rowAt, type View, viewAt } from './view';
 import { widestOn } from './widest-spans';
 
 /** How much of the narrower of two perched insects' spans the other may cover. */
@@ -292,9 +287,8 @@ export function footRows(
 /**
  * What `view` shows of the world on `layout`, in the units of `Places`, which
  * stand every perch in the frame turned to the eye's heading
- * (`placeOfAloft`): the stretch of that frame between the screen's edges
- * (the screen is linear in azimuth and the frame its tangent, so a perch
- * counts as shown just where the screen draws it) and above its foot, out to
+ * (`placeOfAloft`): the stretch of that frame between the screen's sides
+ * (`screenSides`) and above its foot, out to
  * the brow (`D_SEE`), inset half the widest butterfly's wings so one seated
  * there is wholly in view; and the release's
  * way out of view (`wayOutOf`), past the edge where `view` draws the
@@ -307,11 +301,10 @@ export function onscreenOf(
 ): Onscreen | undefined {
   if (!view) return undefined;
   const unit = layout.insectSize;
-  const { x, focal } = pinholeOf(view);
-  const half = focal * Math.tan(x / focal);
+  const { left, right } = screenSides(view);
   return {
-    left: (middleOf(view) - half) / unit,
-    right: (middleOf(view) + half) / unit,
+    left: left / unit,
+    right: right / unit,
     downTo: view.height / unit,
     far: D_SEE,
     inset: widestOn(layout, 'butterfly') / 2 / unit,
