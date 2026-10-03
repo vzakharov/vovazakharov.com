@@ -245,6 +245,15 @@ holds its detail and the next step's API.
   run ~4 s), `RUN_PACE` 0.6. Runs from one door start `FLEE_EVERY` 0.8 s
   apart (W4's two mice on one spot were the back house's two, 0.4 s
   apart). Call 25's clearance at `RUN_BOW` 1 is unmeasured.
+- **The worms' review** (5401128817, three findings, each replied to with
+  its commit): **FW** 8c0c11ca — the head kept within 1e-9 of the path's
+  end (call 27); 8ae79d1e — a peek no higher than its cap (call 26; a
+  russula's peek is now as short as 0.21 of a body, a `to-check.md` line);
+  4f1fec8e — the girth floor and `WINDOW_REACH` divided by the house's
+  perspective zoom (call 28; `wormGirth` moved to `model/worm.ts`). Meadow
+  green on tabL and phoneP.
+- **Open:** `pnpm type-overlap` red on `side`, shared by R7's `RunCourse`
+  (`model/mouse-run-clock.ts`) and `FaceFrame` (`baking.ts`).
 
 Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
 `Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's
