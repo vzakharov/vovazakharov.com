@@ -19,6 +19,7 @@
 
 import { z } from 'zod';
 
+import { GLIDE_TAU } from '../../src/pages/mushrooms/model/glide.ts';
 import {
   pinholeOf,
   planeSeen,
@@ -32,6 +33,7 @@ import {
   forwardOf,
   sidewaysOf,
   STRIDE_CRUISE,
+  STRIDE_FLING_FASTEST,
 } from '../../src/pages/mushrooms/model/stride.ts';
 import { cloudAt } from '../../src/pages/mushrooms/ui/scene/rain-sky.ts';
 import { browRow } from '../../src/pages/mushrooms/ui/scene/view.ts';
@@ -349,7 +351,7 @@ function checkBack(
 /**
  * A strafe: a swipe leftward from bare ground, 150 px or to the screen's
  * edge, whichever is nearer — a finger off the screen is no longer read —
- * the ground under the finger following it, then `→` held 1.5 s under
+ * the ground under the finger following it and flung on from its lift, then `→` held 1.5 s under
  * Shift; each walks the eye square to a heading it never turns. The swipe
  * is shot at its lift and at rest, the key mid-way.
  */
@@ -398,9 +400,6 @@ async function playStrafes(
         );
       return goneAlong(pressed, under, pressed.heading);
     };
-    /** How far the eye goes for the ground under `from` to come to `to`'s x. */
-    const aimFrom = (from: number) =>
-      aheadOf(from) * (Math.tan(azimuth(from)) - Math.tan(azimuth(to.x)));
     const frames = 12;
     await page.drag(start, to, frames);
     await page.step(1);
@@ -410,22 +409,31 @@ async function playStrafes(
     await page.shoot('walk-strafe-drag-rest');
     checkWalk(pressed, chase, bob, 'drag', expect, note);
     const went = checkSquare(pressed, chase, 'a drag from the ground');
-    // The lock takes the ground from where the finger crossed the slop,
-    // within a frame's move past it.
-    const [least, most] = [
-      aimFrom(start.x - SLOP - swipe / frames),
-      aimFrom(start.x),
-    ];
-    expect(
-      went >= least * 0.98 && went <= most * 1.02,
-      `a drag from the ground strafed ${went.toFixed(3)}, not the ${least.toFixed(3)}..${most.toFixed(3)} that keeps the ground under the finger`,
-    );
     const sideAt = (seen: Seen) =>
       goneAlong(pressed, seen, sidewaysOf(pressed.heading));
     const atLift = sideAt(chase[0] ?? pressed);
+    // The lift flings the eye on from the finger's last frame, the lock
+    // measuring the ground from where it crossed the slop, no faster than the
+    // fling's most; the first traced frame already carries a frame or two of
+    // the glide.
+    const ahead = aheadOf(start.x - SLOP);
+    const finger =
+      ahead *
+      (Math.tan(azimuth(to.x + swipe / frames)) - Math.tan(azimuth(to.x))) *
+      FPS;
+    const carry = Math.min(STRIDE_FLING_FASTEST, finger) * GLIDE_TAU;
+    const flung = went - atLift;
+    expect(
+      flung >= carry * 0.8 && flung <= carry * 1.02,
+      `a quick swipe from the ground flung the eye on ${flung.toFixed(3)}, not the ${(carry * 0.8).toFixed(3)}..${carry.toFixed(3)} its ${finger.toFixed(2)} units/s carries`,
+    );
     const caught = chase.findIndex((seen) => sideAt(seen) >= 0.9 * went);
+    expect(
+      caught / FPS <= 1,
+      `a quick swipe from the ground took ${(caught / FPS).toFixed(2)} s to glide nine tenths of its way`,
+    );
     note(
-      `a ${swipe.toFixed(0)} px swipe from the ground (y ${start.y.toFixed(0)}, ${aheadOf(start.x - SLOP).toFixed(2)} ahead) strafed ${went.toFixed(3)}: ${atLift.toFixed(3)} by the lift, nine tenths ${(caught / FPS).toFixed(2)} s after it`,
+      `a ${swipe.toFixed(0)} px swipe from the ground (y ${start.y.toFixed(0)}, ${ahead.toFixed(2)} ahead, the finger at ${finger.toFixed(2)} units/s) strafed ${went.toFixed(3)}: ${atLift.toFixed(3)} by the lift, ${flung.toFixed(3)} flung, nine tenths ${(caught / FPS).toFixed(2)} s after it`,
     );
   }
 

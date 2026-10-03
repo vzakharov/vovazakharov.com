@@ -45,7 +45,7 @@ export const STEP_LENGTH = 0.8;
  * `STRIDE_FLING_FASTEST · GLIDE_TAU`, 2.6, about as far as a swipe across a
  * third of the screen lays its ground.
  */
-const STRIDE_FLING_FASTEST = 5 * STRIDE_CRUISE;
+export const STRIDE_FLING_FASTEST = 5 * STRIDE_CRUISE;
 const STRIDE_FLING_SLOWEST = STRIDE_CRUISE / 8;
 
 /** Which of the stepping and strafing keys are held, the strafe's as the turn's are. */

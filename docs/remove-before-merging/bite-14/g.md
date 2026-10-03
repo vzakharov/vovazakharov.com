@@ -34,7 +34,23 @@ the types `Sampled` and `Flinging`. Each axis keeps its own cap and floor
 stores a closed-form glide from `began`, the stride integrates `spent`
 seconds frame by frame, since it is ticked.
 
+- Step 2, the walk play (`scripts/lib/play-walk.ts`,
+  `scripts/lib/play-walk-checks.ts`): green on tabL.
+  - `checkWalk` lets a drag's frames, traced from its lift, run up to
+    `STRIDE_FLING_FASTEST` (was the cruise, which the fling passes by
+    design), and adds that they only ever slow after the lift.
+  - The strafing drag's check no longer asks for the ground caught up under
+    the finger (the retired run-on); it asks that the eye be flung on by
+    `min(STRIDE_FLING_FASTEST, finger) · GLIDE_TAU` (0.8–1.02 of it, the
+    first traced frame already carrying a frame or two of glide), the
+    finger's speed read off its last frame's move, and that nine tenths of
+    the way be gone within 1 s.
+  - Measured on tabL: the 150 px strafe swipe, the finger at 16.6 units/s
+    (capped to 8), strafed 2.689 in all — 0.343 by the first traced frame,
+    2.346 flung — nine tenths 0.70 s after the lift, at most 7.06 units/s;
+    the vertical step drag walked 2.69 at most 7.43 units/s. C37 had 0.18.
+
 ## Left
 
-- Step 2: `scripts/lib/play-walk.ts` ~405–422's strafing-drag check, and the
-  `walk` play on tabL.
+- Nothing in this package. The orchestrator lands `wt/g37` if the operator
+  picks option 2.
