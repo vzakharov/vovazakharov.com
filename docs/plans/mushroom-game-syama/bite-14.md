@@ -162,12 +162,19 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     it, beside the puff it already makes, while it has a free seat; a
     sprout still growing settles none. Each tap one, so the child sees
     each tap leave a dot.
-31. **A mushroom has `SPROUTS` (3) seats**: feet the scene finds round it
-    with `roomFor`'s `near`, as `shedIn` does; a spore takes one. A spore
-    is laid as a sprout at its start size would be, and counts against
-    `MUSHROOM_SLOTS` and `FIELD_MUSHROOMS`, so it always has room to
-    sprout. No seat or full caps: the tap puffs as today, no dot, no
-    refusal.
+31. **Up to `SPORE_SEATS` (6) spores a mushroom, each foot found on its
+    tap** (the operator: «вокруг каждого, грубо говоря, 6 посадочных мест —
+    или можно случайно выбирать … по критериям "близости" и
+    "нет-толпы-шности"?»). The field is continuous (`pickFoot` over plane
+    candidates), so there are no fixed seats: each tap's spore lands where
+    `roomFor`'s `near` finds room round the mushroom by the tap's seed —
+    near it, and clear of every other mushroom, sprout and spore, which is
+    the not-a-crowd rule already. Beat: six fixed seats in a ring, which
+    would draw the same hexagon round every mushroom and need its own
+    crowding check against neighbours. A spore is laid as a sprout at its
+    start size would be, and counts against `MUSHROOM_SLOTS` and
+    `FIELD_MUSHROOMS`, so it always has room to sprout. Six spores, no room
+    near, or full caps: the tap puffs as today, no dot, no refusal.
 32. **A spore is model state**, `Meadow.spores`: its foot, parent, seed
     and when it settled — the reducer records it from the tap with the
     feet the scene found, re-checked as `grow` re-checks. Nothing happens
@@ -176,8 +183,8 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
 33. **A spore is drawn as a tiny white dot on the ground** at its foot
     (`PALETTE.spore` or a white of its own in the palette), a few px at
     the clump's depth, scaled by depth like any foot thing, hazed and sunk
-    by the brow, under every mushroom and insect. It takes no tap and is
-    no perch. The tap's dot drops from the puff along `spore-drift.ts`'s
+    by the brow, under every mushroom and insect. A tap picks it up (call
+    38); it is no perch. The tap's dot drops from the puff along `spore-drift.ts`'s
     arc to its foot (reused), then stays.
 34. **When it rains, every spore sprouts** at a moment its seed picks in
     the shower's first ~6 s after the dark sets in, wherever it lies —
@@ -189,6 +196,15 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     the tick's `shed`, `shedIn`, `shedNow` and the stop's search go; the
     probe's `sprouts()`, the `sprouts` play and the sweep's `--showers`
     follow the new source (tap to sow, rain to sprout).
+
+38. **A tap on a spore picks it up** (the operator: «нажатие на точку её
+    убирает (мало ли, может именно там ребёнок не хочет, чтобы появлялся
+    новый гриб)»): the dot pops with a tiny puff and a soft sound, the
+    spore leaves `Meadow.spores`, and its parent may sow there again. A
+    spore's reach is `TAP_RADIUS` like every small thing; a mushroom's
+    drawn outline takes a tap before a spore, a spore before a grass tuft
+    (so a tap beside a dot never opens the flower picker by surprise).
+    This revises call 33's "it takes no tap".
 
 36. **A cloud rains on a press, a drag starting on it included** (B2,
     `b2.md`, found a sky drag over a cloud starts a shower). Kept: the
