@@ -11,8 +11,9 @@ import {
   WORM_SEGMENTS,
   type WormBody,
 } from '../../model/worm';
+import { inkFor } from './ink';
 import { PALETTE } from './palette';
-import { type Brush, fillShape, inkedFill } from './shapes';
+import { type Brush, fillShape, inkUnder } from './shapes';
 
 /** How thick a worm is on a mushroom drawn `size` px to its unit, in that mushroom's units: its window's share, or the least an eye reads. */
 export function wormGirth(size: number): number {
@@ -24,8 +25,8 @@ export type ShownWorm = WormBody & Looking;
 
 /**
  * A worm on a mushroom's cap, in the frame `paintHouse` paints in: its
- * segments tail first, each over its own ink so the one before shows its
- * rim, the second from the head in the band's deeper pink, and an eye on the
+ * segments tail first over one ink round them all, the second from the head
+ * in the band's deeper pink, and an eye on the
  * head looking the way it crawls, or about as it peeks.
  */
 export function paintWorm(
@@ -41,10 +42,18 @@ export function paintWorm(
   // In paint order the head is last, so the band sits next to it; with the
   // head gone into its window the tail still leads the list.
   const band = head ? segments.length - 2 : WORM_SEGMENTS - 2;
-  for (const [index, segment] of segments.entries()) {
+  const outlines = segments.map((segment) =>
+    ellipse(segment, segment.r).map((point) => place(point)),
+  );
+  // Every segment's ink first, then every fill: one inked body, not a
+  // string of rimmed beads.
+  for (const outline of outlines) {
+    inkUnder(graphics, outline, inkFor(tone(PALETTE.worm)), ink, lighting);
+  }
+  for (const [index, outline] of outlines.entries()) {
     const fill = index === band ? PALETTE.wormBand : PALETTE.worm;
-    const outline = ellipse(segment, segment.r).map((point) => place(point));
-    inkedFill(graphics, outline, fill, ink, lighting, tone);
+    graphics.fillStyle(tone(fill));
+    fillShape(graphics, outline);
   }
   if (!head) return;
   const along = { x: Math.cos(head.tangent), y: Math.sin(head.tangent) };

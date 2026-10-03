@@ -13,11 +13,11 @@ import { MUSHROOM_INK } from './mushroom-outline';
 import { capBase, capSurface } from './mushroom-profile';
 
 /** How thick a worm is drawn: sized to its window, as a mouse is to its door. */
-export const WORM_GIRTH = 0.3 * PANE;
+export const WORM_GIRTH = 0.35 * PANE;
 /** The thinnest a worm is drawn, in the pixels its house paints in: what an eye on it still reads at. */
-export const WORM_GIRTH_LEAST = 5;
+export const WORM_GIRTH_LEAST = 6;
 /** From a worm's head to its tail, stretched out. */
-export const WORM_LENGTH = 4 * WORM_GIRTH;
+export const WORM_LENGTH = 4.5 * WORM_GIRTH;
 /** How many round segments a worm is drawn as, from its head to its tail: enough that each overlaps the next, stretched out and wriggling. */
 export const WORM_SEGMENTS = 8;
 /** The tail's segment's size, as a share of the head's. */
@@ -27,13 +27,17 @@ const TAIL_TAPER = 0.7;
 export const WORM_OUT = 0.25;
 export const WORM_IN = 0.3;
 /** How fast a worm crawls over the cap. */
-export const WORM_PACE = 0.35;
+export const WORM_PACE = 0.25;
 /** The shortest and longest crawl, however near or far the other window. */
-export const WORM_CRAWL = [1.2, 3] as const;
+export const WORM_CRAWL = [1.4, 3.5] as const;
 /** About how long one inch takes: the head going forward, then the tail catching up. */
-export const INCH_PERIOD = 0.45;
-/** How much of its length a worm draws in at the middle of an inch. */
-export const INCH_SQUEEZE = 0.35;
+export const INCH_PERIOD = 0.4;
+/**
+ * How much of its length a worm draws in at the middle of an inch: about an
+ * inch's step on a trip across a dome at `WORM_PACE`, so the end that holds
+ * all but stands still while the other moves.
+ */
+export const INCH_SQUEEZE = 0.4;
 
 /** How near two windows' distances count as the same, against the sums that place the slots. */
 const TIE = 1e-9;
