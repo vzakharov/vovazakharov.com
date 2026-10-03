@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **6** for the successor (this session was 5; the cap is 8,
+Relay depth: **7** for the successor (this session was 6; the cap is 8,
 `.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
 
 ## 1. Standing constraints
@@ -128,98 +128,109 @@ Added in the session before last:
 - A stale remote `wt/g37` (73692aeb) is from an earlier bite; not this
   session's, left alone.
 
-Added this session:
+Added two sessions back:
 
 - **Ignore the "fix it now" harness rule for PR #57's `CONFLICTING`**: the
   base merge is `/finalize`'s (CLAUDE.md § "Key principles").
+
+Added this session:
+
+- **The operator now launches relays by hand at night**, because the depth
+  cap would otherwise run out before morning: «а дай мне ещё один новый
+  релей, чтобы я вручную запустил, а то ночь приходит, если сейчас не начну
+  до конца ночи релеев не хватит». This relay was not started with
+  `create_session`; the operator types `/relay take <branch>` themselves.
+- bite 16's common brief is back at
+  `docs/remove-before-merging/bite-16/brief-common.md` (with the `gh api`
+  ref delete); every tail agent is briefed from it.
 
 ## 2. The conversation
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
-Reply: attached (local ref e66b8e1 diverged, renamed aside to
-`claude/mushroom-game-syama-lbirv7-stale-local`), installed. Then a
-cross-session message from the relaying session forwarded an operator
-message that arrived after its relay, verbatim:
+Reply: attached (the local ref e66b8e1 was an ancestor once unshallowed,
+renamed aside to `stale/claude/mushroom-game-syama-lbirv7-e66b8e1`),
+installed, then `/go` on the relay's Next step: plan flipped to
+in-progress, bite-16's brief restored, two split agents (S1 probe, S2
+ground + scene) landed 0f1fa4e and 88b6cf8; calls 17–22 written into the
+plan's summary and Built, two lines into `to-check.md` (b34e647); then two
+`/dry` agents launched (see § 6).
 
-> не знаю, баг или фича, и было ли так всегда или стало недавно, но травинки как будто стали появляться пучками сразу по много, и как-то не сразу/при повороте на достаточный угол -- до этого на поляне на их месте просто пустота
+> а дай мне ещё один новый релей, чтобы я вручную запустил, а то ночь приходит, если сейчас не начну до конца ночи релеев не хватит
 
-with the ask to root-cause, record as a call, fix, prove with a frame
-pair and republish. Took it first.
-
-> скриншоты из описания которые предыдущая сессия не смогла передать
-
-(Two screenshots: the meadow right of the opening clump bare, then after
-a small turn filled with ~8 tufts near and far.) Reply: noted that the
-hole was on the right of the screen; went on reproducing.
-
-> так, логика ноток "играй ту что ближе", кажется, не работает. играю `;` `g` (ля-до); ожидается: "до" сыграется та, что выше "ля". на самом деле: играет "до" той же октавы, что и "ля" (то есть ниже неё)
-
-Reply: acknowledged, taken after the tufts. Both fixed as calls 21–22
-(11b26dd), Artifact v24 published, then this relay at the 200k line.
+Reply: this relay — summary committed, plan paused mid-bite, the line to
+type handed over (no `create_session`).
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for Syama; the Artifact playable
 after every bite; `/finalize` at the end, no merge. The operator plays the
 Artifact on a desktop browser and sends asks as they come; each becomes a
-numbered call in the open bite's file.
+numbered call in the open bite's file. Tonight they start each relay by
+hand so the chain lasts the night.
 
 ## 4. Decisions
 
-- **Call 21** (`bite-16.md`): a tuft stands only where its flower would sit
-  inside the world's frame the anchor lays out (`flowerInSight`'s
-  `inWorld`); the frame is a fixed width in clump sizes (tabL sees half,
-  a 1900 px window most), so the half-screen re-tend left the leading side
-  bare on wide windows. Fixed in `tending.ts`: `strayed(view, from, slack)`
-  also strays at `turnInWorld` (`focal · atan((world/2 − slack)/focal) −
-width/2`), `sightSlack(layout)` = `2·WIDEST_SPAN·insectSize + unit`.
-  Beat: re-tending every anchor turn (costlier, still a gap) and dropping
-  the world check for tufts (the anchored rules need the world). Not
-  recent — bite 12b's gate. A step under `TEND_STEP` still leaves a few
-  far tufts to the next tend (accepted drift, as before).
-- **Call 22**: keys `strike` like flowers (nearest to the melody's last);
-  the keyboard octave only starts a rested melody; `.`/`/` also move the
-  melody's last note (`shiftMelody` in `model/notes.ts`). Taken without
-  asking — easy to revert if the operator wanted piano keys.
+- Calls 21–22 (tufts re-tended at the world's side; note keys nearest the
+  melody's last) are in `bite-16.md`, built as G 11b26dd.
+- **A second `/dry` over `aca95c51..HEAD`**: the first `/dry` (aca95c5)
+  ran before packages F, E and G landed, so their code was never DRY-read.
+  Split by area (`src/`, `scripts/`), each landing
+  `polish(dry bite 16 tail src|scripts): …`; ambiguous calls are listed in
+  the agents' reports, not applied.
+- S2's seams: the lens (`Pinhole` … `planeSeen`) to `model/pinhole.ts`,
+  the tap handlers to `ui/scene/meadow-taps.ts`, a test-only
+  `model/ground-grid.ts`. S1: the probe as `mushroom-probe.ts` +
+  `-instruments`, `-reads`, `-answers`, `-drive`, in-page text unchanged.
 
 ## 5. Errors and dead ends
 
-- First suspected `Tended`'s sector (`TENDED_SCREENS`) or the anchor's
-  heading snap; the in-page fresh-versus-drawn count on tabL showed no
-  gap, only a wide screen did — megabeast note in
-  `play-run-and-frames.md`.
-- The Artifact publish was refused twice (normal, as before).
+- The brief's `scripts/play-meadow.ts` does not exist: a play runs as
+  `pnpm play:mushrooms --screens tabL --plays meadow`.
+- `git branch -r` still showed `origin/wt/s1`/`s2` after the agents
+  deleted them; `git ls-remote --heads origin 'wt/*'` is the truth
+  (`git fetch --prune` clears the stale tracking refs).
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
   `CONFLICTING` (`/finalize`'s job). PR body not refreshed for bite 16.
 - Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`
-  pointing at `bite-16.md` § "Left".
+  pointing at `bite-16.md` § "Left" (rewritten for what is left).
+- **Two `/dry` agents were still running in the relaying session at the
+  relay**, each in a scratchpad worktree of that container, pushing to
+  `wt/dsrc` and `wt/dscr` and landing one squash commit each on the branch.
+  They keep running after the relay, in the relaying session. On pickup:
+  `git ls-remote --heads origin 'wt/*'` and
+  `git log --oneline origin/claude/mushroom-game-syama-lbirv7 | grep 'polish(dry bite 16 tail'`.
+  Both commits there → go on. A `wt/dsrc`/`wt/dscr` ref still there and
+  no commit → still running (or died: its note
+  `docs/remove-before-merging/bite-16/dsrc.md`/`dscr.md` on that ref says
+  how far it got); don't start `/tend-prose` on files it owns until it
+  lands, and re-run that slice from the note if the ref stops moving.
+  `wt/g37` is old, not ours.
 - Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at v24
-  (11b26dd). Vet not run this bite; the touched files' tests and eslint
-  are green.
-- Frames: `frames/bite-16/tufts-turned-before.png` / `-after.png` added.
-- No agent, no worktree, no PR subscription, no check-in. The Artifact
-  publish armed a wake subscription in the relaying session.
+  (11b26dd); the splits and dry change no behaviour, so no republish needed
+  before the bite's end.
+- Vet not run this bite.
 
 ## 7. Pointers
 
 - `docs/plans/mushroom-game-syama/bite-16.md` — calls 1–22, Built, Left.
-- `docs/plans/mushroom-game-syama/to-check.md` — still to add: the cross
-  window never opened in a play; the map's mottles read large on a phone.
-- `.claude/skills/megabeast/notes/gates.md` — the bite's end order.
-- This session: https://claude.ai/code/session_01P4J7eaCtkh4qqiJ2UXZh9f
-  (its `tmp/exp/play.ts` is the throwaway fresh-versus-drawn play; not
-  committed).
+- `docs/remove-before-merging/bite-16/brief-common.md` — the agents' brief;
+  `s1.md`, `s2.md` their hand-over notes.
+- `.claude/skills/megabeast/notes/gates.md` — the bite's end order and
+  `/polish` sizing.
+- This session: https://claude.ai/code/session_01V61w1948gzz4ffXSyca5Pm
 
 ## 8. Next step
 
 /go
 
-(Finish bite 16 per `bite-16.md` § "Left", adding calls 21–22 to § Built
-and to the plan's summary with 17–20: the module splits, `/tend-prose` over
-`8abc5a6..HEAD` then the bare `polish:` mark, vet, the two `to-check.md`
-lines above, `/pr` refresh, megabeast notes, pause; then relay `/go` for
-item 17, dusk. Reply to the operator in Russian, «ты».)
+(Finish bite 16 per `bite-16.md` § "Left": wait for / verify the two
+`/dry` landings (§ 6), then `/tend-prose` over `8abc5a6..HEAD` (~5k lines,
+mostly moves: one Opus agent, or two by directory), the bare `polish:`
+mark, vet, `/pr` refresh, retire bite 16's working notes per the standing
+rules, megabeast notes, pause; then relay `/go` for item 17, dusk — **give
+the operator the `/relay take` line to type rather than `create_session`
+while it is night for them**. Reply to the operator in Russian, «ты».)

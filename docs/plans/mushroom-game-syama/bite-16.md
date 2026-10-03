@@ -260,9 +260,11 @@ sheet briefly larger than the screen mid-unfold — all five in
 
 ## Left
 
-Split `scripts/lib/mushroom-probe.ts` (1015 lines) and `model/ground.ts`
-(491), bring `meadow-scene.ts` (452) under; `/tend-prose` over
-`8abc5a6..HEAD` (the `/dry` is aca95c5), then the bare `polish:` mark;
-vet; the plan's summary for calls 17–20 (the door's seat, the map's ground
-and close cross, Escape, windows opening); `/pr` refresh; pause; relay
-`/go` for item 17, dusk.
+The splits are done: the probe into five modules (0f1fa4e), the lens out
+of `ground.ts` into `model/pinhole.ts` and the taps out of
+`meadow-scene.ts` into `meadow-taps.ts` (88b6cf8). The plan's summary
+carries calls 17–22 (b34e647). A second `/dry` over `aca95c51..HEAD` (E, F
+and G landed after the first) runs as two agents, `src/` and `scripts/`,
+each landing a `polish(dry bite 16 tail …):` commit. Then `/tend-prose`
+over `8abc5a6..HEAD`, the bare `polish:` mark; vet; `/pr` refresh; pause;
+relay `/go` for item 17, dusk.
