@@ -15,6 +15,6 @@ export type OfferBlock = OfferBlocks[OfferBlockKey];
  * bullets its offer rather than one that states it as prose.
  */
 export const OFFER_BLOCKS = {
-  cto: ['engagements', 'engineeringSystem', 'aiExpertise', 'workingStyle'],
+  cto: ['engagements', 'engineeringSystem', 'aiExpertise', 'handsOnLead'],
   dev: ['coreCapabilities', 'workingStyle', 'aiExpertise'],
 } as const satisfies Record<CvVariant, readonly OfferBlockKey[]>;
