@@ -36,7 +36,7 @@ import { placeOf } from '../../src/pages/mushrooms/ui/scene/clump-layout.ts';
 import { HAZE_DRIFT } from '../../src/pages/mushrooms/ui/scene/repaint-queue.ts';
 import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
 import type { Sized } from '../../src/shared/typings/index.ts';
-import { median, overBudget } from './frame-budget.ts';
+import { FRAME_BUDGET_MS, median, overBudget } from './frame-budget.ts';
 import {
   type Arrow,
   Camera,
@@ -381,8 +381,19 @@ export async function playApproach(
   noteHitches(carried, note);
   const tendFrames = await page.evaluate('__probe.tendFrames()', TendFrames);
   const planted = await page.evaluate('__probe.beePlanted()', z.number());
+  const shares = tendFrames.map(({ tend }) => tend);
   note(
-    `the frames whose update ran a tending call, across the approach with ${String(planted)} bee plantings: ${timings(tendFrames.map(({ ms }) => ms))}; the tending's share of each ${timings(tendFrames.map(({ tend }) => tend))}`,
+    `the frames whose update ran a tending call, across the approach with ${String(planted)} bee plantings: ${timings(tendFrames.map(({ ms }) => ms))}; the tending's share of each ${timings(shares)}`,
+  );
+  // A sow is held by the lawn's share of its frame, not the whole frame.
+  expect(
+    planted === 0 || shares.length > 0,
+    `bees planted ${String(planted)} times and no frame ran a tending call`,
+  );
+  const heaviest = Math.max(0, ...shares);
+  expect(
+    heaviest <= FRAME_BUDGET_MS,
+    `tending the lawn took ${heaviest.toFixed(1)} ms of one frame, over the ${String(FRAME_BUDGET_MS)} ms budget (lib/frame-budget.ts)`,
   );
   const frames = page.rendered.slice(timed);
   const slow = overBudget(frames);
