@@ -9,14 +9,8 @@ import {
   isFull,
   MUSHROOM_SLOTS,
 } from './crowding';
-import {
-  type Action,
-  canFurnish,
-  firstMeadow,
-  isEmpty,
-  type Meadow,
-  reduce,
-} from './game';
+import { canFurnish } from './furnishing';
+import { type Action, firstMeadow, isEmpty, type Meadow, reduce } from './game';
 import type { Point } from './geometry';
 import { D_SEE, OPENING_EYE, planeFootOf } from './ground';
 import { EMPTY_HOUSE, type Furnishing, windowSlots } from './house';

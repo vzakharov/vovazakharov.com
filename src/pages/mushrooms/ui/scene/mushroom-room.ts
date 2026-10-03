@@ -285,7 +285,7 @@ export function roomFor(
 ): Footed | undefined {
   const anchor = anchorIn(view);
   const judged = anchoredStand(stand, anchor);
-  const { layout, mushrooms } = judged;
+  const { layout, mushrooms, spores } = judged;
   const parent = near && groundIn(layout.mushrooms, near);
   if (near && !parent) return undefined;
   const flowers = flowerFeet(judged).map((foot) => groundFootOf(foot));
@@ -298,7 +298,7 @@ export function roomFor(
     ...pick(layout.mushrooms, 'frame'),
     ...pick(screen, 'within'),
     ...(parent && { near: { ground: parent, reach: SPROUT_REACH } }),
-    feet: mushrooms.flatMap(
+    feet: [...mushrooms, ...spores].flatMap(
       ({ foot }) => groundIn(layout.mushrooms, foot) ?? [],
     ),
     admits: (foot) => {

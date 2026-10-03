@@ -205,7 +205,7 @@ function plotted({
   planted,
   mushrooms,
   pulled,
-}: Stand): {
+}: Omit<Stand, 'spores'>): {
   standing: StandingFlower[];
   feet: ReadonlyMap<string, Footing>;
 } {

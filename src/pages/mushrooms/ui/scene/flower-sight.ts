@@ -65,8 +65,8 @@ export const WIDEST_SPAN = 1.22;
 const HEAD_SHOWN = 0.5;
 const HEAD_RING = 8;
 
-/** What of the meadow a `Stand` reads: the mushrooms standing, the planted flowers, and the ones the child pulled up. */
-const STOOD = ['mushrooms', 'planted', 'pulled'] as const;
+/** What of the meadow a `Stand` reads: the mushrooms standing, the spores lying, the planted flowers, and the ones the child pulled up. */
+const STOOD = ['mushrooms', 'spores', 'planted', 'pulled'] as const;
 
 /** The meadow as the scene stands it: the layout, the visit's seeded flowers, and what of the meadow `STOOD` names. */
 export type Stand = Pick<Meadow, (typeof STOOD)[number]> & {
