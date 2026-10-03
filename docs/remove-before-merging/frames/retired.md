@@ -21,3 +21,4 @@ git show <sha>:docs/remove-before-merging/frames/<dir>/<file> > <file>
 | `bite-11/`        | 8     | 6f1e193a9f                |                                             |
 | `bite-11-review/` | 6     | 6f1e193a9f                |                                             |
 | `bite-12/`        | 146   | 6f1e193a9f                |                                             |
+| `bite-12b/`       | 46    | 4d1112afaa                |                                             |

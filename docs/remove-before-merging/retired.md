@@ -21,6 +21,7 @@ git show <sha>:docs/remove-before-merging/<dir>/<file>
 | `bite11-tail/`   | 1     | 6f1e193a9f                | bite 11's tail brief                                        |
 | `bite-12/`       | 104   | 6f1e193a9f                | bite 12's briefs, specs and hand-over notes                 |
 | `bite-12b/`      | 40    | 69ac57a231                | bite 12b's specs, waves log, tail and review-handling notes |
+| `bite-13/`       | 13    | 4d1112afaa                | bite 13's briefs (packages, review) and hand-over notes     |
 | `handle-bite4/`  | 1     | 6f1e193a9f                | bite 4's review handling                                    |
 | `handle-bite6/`  | 4     | 6f1e193a9f                | bite 6's review handling                                    |
 | `handle-bite7/`  | 4     | 6f1e193a9f                | bite 7's review handling (`brief-common.md`)                |
