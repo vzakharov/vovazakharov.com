@@ -4,8 +4,7 @@ import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Point, sample } from '../../model/geometry';
 import { headedLight } from '../../model/light';
 import { mix } from './colour';
-import { BUD, type Folding, OPEN, petalPose } from './flower-closing';
-import type { HeadReach } from './flower-seat';
+import { type Folding, OPEN, petalPose } from './flower-closing';
 import { petalColour } from './flower-tints';
 import { facingArc, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
@@ -205,24 +204,6 @@ export function drawFlower(
     lighting,
     folded,
   );
-}
-
-/**
- * Where insects perch on the head of a flower `folded` as far shut as that
- * holds, as `paintFlowerHead` draws it: its rim, below the middle, closing up
- * to the bud's foot, and its centre, above it, rising to the bud's tip.
- */
-export function foldedHead(
-  genes: FlowerGenes,
-  size: number,
-  { closing }: Folding,
-): HeadReach {
-  const { r } = flowerHead(genes, size);
-  const along = (one: number, other: number) => one + (other - one) * closing;
-  return {
-    r: along(r, r * BUD.foot),
-    disc: along(genes.centre * size, r * BUD.tip),
-  };
 }
 
 /** A flower's paint: its light, how to draw it, and the sun side it was last painted at. */

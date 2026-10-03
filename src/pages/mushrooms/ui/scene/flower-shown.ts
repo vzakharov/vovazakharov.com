@@ -11,7 +11,6 @@ import { UNPLACED } from './bed-place';
 import {
   drawFlower,
   type FlowerPainting,
-  foldedHead,
   paintFlowerHead,
   paintFlowerLit,
 } from './draw-flower';
@@ -19,7 +18,7 @@ import { folding, type Shut } from './flower-closing';
 import { laidFlower } from './flower-layout';
 import type { StandingFlower } from './flower-plots';
 import type { Ringed } from './flower-ring';
-import type { Centred } from './flower-seat';
+import { foldedHead, type HeadReach } from './flower-seat';
 import { flowerTapReach } from './flower-sight';
 import type { TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
@@ -33,10 +32,15 @@ type Laid = Pick<StandingFlower, 'foot' | 'place'> & LaidAhead;
 
 export type Shown = TappedFigure &
   Sprouted &
-  Centred &
   Ringed & {
     stem: Phaser.GameObjects.Graphics;
     head: Phaser.GameObjects.Graphics;
+    /**
+     * Where insects perch on the head as last painted, folded as far shut as
+     * that (`foldedHead`). Perching alone reads it: `headR` stays the open
+     * head's, which the ring, the tap, the cull and the stand height read.
+     */
+    perch: HeadReach;
     /** Where the head stands on its stem as laid out, before a drinking insect sags it. */
     headY: number;
     /**
@@ -87,7 +91,7 @@ export function unplacedShown(
     painting: undefined,
     closing: 0,
     stands: UNPLACED,
-    disc: 0,
+    perch: { r: 0, disc: 0 },
     plantedAt,
     phase: phaseOf(flower),
     tappedAt: -Infinity,
@@ -97,8 +101,9 @@ export function unplacedShown(
 /**
  * Paints `shown` at `size` in `openingLight`, its light as the opening eye
  * sees it, turned by `heading`, as far shut as its `closing`, and keeps how it
- * painted it; its head and centre follow the paint, and its tap reach the
- * open head's, so a closed flower takes the taps an open one does.
+ * painted it; its perch follows the paint, and its head's size and tap reach
+ * stay the open head's, so a closed flower is ringed, culled and tapped as an
+ * open one is.
  */
 export function paintShown(
   shown: Shown,
@@ -108,9 +113,11 @@ export function paintShown(
   heading: number,
 ): void {
   let lastLit = openingLight;
+  const open = flowerHead(genes, size).r;
+  shown.headR = open;
   const fold = () => {
     const folded = folding(shown.closing);
-    ({ r: shown.headR, disc: shown.disc } = foldedHead(genes, size, folded));
+    shown.perch = foldedHead(genes, size, folded);
     return folded;
   };
   shown.painting = {
@@ -126,7 +133,7 @@ export function paintShown(
   };
   paintFlowerLit(shown.painting, heading);
   shown.headY = shown.head.y;
-  shown.hit.setTo(0, 0, flowerTapReach(flowerHead(genes, size).r));
+  shown.hit.setTo(0, 0, flowerTapReach(open));
 }
 
 /** Repaints `shown`'s head `closing` of the way shut, a step of `closingStep`, in the light it was last painted in. */

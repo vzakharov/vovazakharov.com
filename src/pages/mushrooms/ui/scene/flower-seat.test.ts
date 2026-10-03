@@ -1,11 +1,17 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { FLOWER_RANGES } from '../../model/flower-genes';
+import {
+  FLOWER_RANGES,
+  flowerGenes,
+  flowerHead,
+} from '../../model/flower-genes';
 import { INSECT_KINDS } from '../../model/insect-genes';
+import { BUD, CLOSING_STEPS, folding, OPEN } from './flower-closing';
 import {
   flowerLift,
   flowerLiftAt,
+  foldedHead,
   type HeadReach,
   type SeatZooms,
 } from './flower-seat';
@@ -151,6 +157,35 @@ describe('flowerLiftAt', () => {
           Math.abs(drawn - atHost) > 1e-6,
           `${kind} on ${JSON.stringify(reach)} at ${JSON.stringify(zoom)}`,
         );
+      }
+    }
+  });
+});
+
+describe('foldedHead', () => {
+  const heads = [3, 11, 29].flatMap((seed) =>
+    [12, 40, 90].map((size) => ({ genes: flowerGenes({ seed }), size })),
+  );
+
+  it('is the open head’s rim and centre open, and the bud’s foot and tip shut', () => {
+    for (const { genes, size } of heads) {
+      const { r } = flowerHead(genes, size);
+      assert.deepEqual(foldedHead(genes, size, OPEN), {
+        r,
+        disc: genes.centre * size,
+      });
+      const shut = foldedHead(genes, size, folding(1));
+      assert.ok(Math.abs(shut.r - r * BUD.foot) < SAME_PX);
+      assert.ok(Math.abs(shut.disc - r * BUD.tip) < SAME_PX);
+    }
+  });
+
+  it('never reaches past the open head, at any step of the closing', () => {
+    for (const { genes, size } of heads) {
+      const { r } = flowerHead(genes, size);
+      for (let step = 0; step <= CLOSING_STEPS; step++) {
+        const reach = foldedHead(genes, size, folding(step / CLOSING_STEPS));
+        assert.ok(reach.r <= r + SAME_PX, `step ${String(step)}`);
       }
     }
   });
