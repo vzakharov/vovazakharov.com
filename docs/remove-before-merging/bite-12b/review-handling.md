@@ -146,3 +146,16 @@ Filled in as each lands.
   decisions.md rules out (written there). The reducer's `grow` still counts
   round the foot alone: the scene's `roomFor` already applies the anchor
   rule before every grow it sends — accepted.
+- **A2b (T141)**: 06920038 (`Grass` hands its bookkeeping to `Tended`; a
+  sow hides what `lostOn` finds at once, exactly equal to `plantableIn` in
+  the tests, and re-tends in `TEND_SLICE` slices), 89244ebd (no slice in
+  the sow's own frame; `__probe.tendFrames()`, `beePlanted()`; the approach
+  releases bees before the forest). tabL, 20 bee plantings: one sow's tend
+  10–47 → 1–8 ms (+0.3–5 the next frame), the lawn's slowest share of a
+  frame 46.7 → 14.5 ms, the slowest frame running a tend 174 → 60–72 ms, of
+  which the perches' `see` is 24 ms. **Call: T141 is judged by the lawn's
+  share against 26 ms** — what the finding named, red before, green after;
+  the play's expect for it is the tail's to add. The perches' re-see on a
+  sow frame is a lead for the tail, traced with the after-walk frames lead
+  above (both may be `see`). Outside its files: `play-hold.ts` reads
+  `grass.tended`.
