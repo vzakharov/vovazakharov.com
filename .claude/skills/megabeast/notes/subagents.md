@@ -183,6 +183,15 @@
   a trace its own agent. Each successor finished from the hand-over note in
   one go, so that note is the next brief's spine.
 
+- **A brief names the size of every long run it asks for.** Bite 14's P3b
+  was told to sweep all 2000 visits with and without showers; a full sweep
+  takes about an hour against the 10-minute foreground cap, so it ran the
+  sweep detached (`nohup … xargs -P 3`), against the house rule, and sat
+  in short waits for an hour at a flat 135k — invisible to the usage
+  check-in, which reads only tool calls. `--visits 200` (~9 min) answered
+  R1. The skill's brief caps a sweep or play at what fits one foreground
+  call, and names the full run as the orchestrator's, if anyone's.
+
 ## Waves over files
 
 - **Group threads by the files they touch and run disjoint groups in

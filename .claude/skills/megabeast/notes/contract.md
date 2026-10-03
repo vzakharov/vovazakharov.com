@@ -72,6 +72,16 @@
   the old rule's reason and whether it still holds: two of the notes asked
   "почему?" of a call the agent had made without a reason the operator
   would accept.
+- **A mid-bite play note can supersede work the loop has in flight; hold
+  the package it touches rather than build to the old call.** Bite 14's
+  depth-3 session briefed B1 (parents by the shower's draw) from the
+  operator's first play note; two messages later he redesigned the whole
+  mechanism (spores the child sows by tapping), and B1's commit became
+  scaffolding to retire. Answering a "why only X?" with the mechanism and
+  a proposal, then waiting one beat for the follow-up, costs less than an
+  agent. His notes also cut scope as well as adding it (no a11y layer, no
+  way home, performance deferred): each cut went into the plan with his
+  words before anything else, like any contract change.
 - **An operator review that asks for a document, not a change, is kept
   verbatim and scheduled.** Mid-handling, the operator posted two game ideas
   and asked for a Russian document on each, weighing them against the code
