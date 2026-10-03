@@ -5,7 +5,12 @@
 # turn on an unclean or unpushed tree.
 # `.claude/costs/CLAUDE.md` § "Running beside the harness's Stop check" carries
 # how the row is committed without the tree ever looking unfinished, and what the
-# closing verdict covers when the tree was unclean before this ran.
+# closing verdict covers when the tree was unclean before this ran, and § "When a
+# row is committed" which turns commit one, and what `--flush` — the mid-turn run
+# `flush-row.sh` makes — changes.
+
+flush=false
+[ "${1:-}" != --flush ] || flush=true
 
 . "$(dirname "${BASH_SOURCE[0]}")/../../hooks/lib.sh" || exit 0
 read_payload
@@ -157,10 +162,49 @@ commit_row() {
   [ "$pushed" = false ] || state=pushed
 }
 
+session="$(field session_id)"
+
+# The last record the operator may have written, read before pricing so the
+# marker never claims a record the row was priced without. Empty where the
+# script failed, which `operator_silent` reads as not knowing.
+operator_record() {
+  python3 "$root/.claude/costs/hooks/last_operator_record.py" "$1" && return 0
+  say "could not read who started the turn; committing the row regardless"
+  return 1
+}
+
+# The id of the last operator record a committed row covers. An id outside the
+# safe set would make a path of it, so such a session has no marker.
+marker=''
+case "$session" in
+  '' | *[!A-Za-z0-9_-]*) ;;
+  *) marker="$root/tmp/costs/$session.human" ;;
+esac
+
+# True only on a positive reading: a marker, the same last operator record as
+# when it was written, and this session's row on the branch and clean — a skip
+# must not leave a hand-run rewrite or another branch's row standing.
+operator_silent() {
+  local latest=$1 rows=".claude/costs/sessions/*/$session.json"
+  [ -n "$marker" ] && [ -f "$marker" ] &&
+    [ "$latest" = "$(cat -- "$marker")" ] &&
+    [ -n "$(repo ls-files -- "$rows" 2>/dev/null)" ] &&
+    ! dirty "$rows"
+}
+
 run_ledger() {
-  local transcript staged row
+  local transcript staged row latest known=true
+  local stop_flags=(--at-stop)
   transcript="$(field transcript_path)"
   [ -n "$transcript" ] && [ -f "$transcript" ] || return 0
+
+  latest="$(operator_record "$transcript")" || known=false
+  if [ "$flush" = true ]; then
+    # Mid-turn, so the transcript is not expected to end on an `end_turn`.
+    stop_flags=()
+  elif [ "$known" = true ] && operator_silent "$latest"; then
+    return 0
+  fi
 
   # The last moment before anything here touches the tree, and so the latest —
   # which is what gives the look for the check's process time to find it.
@@ -172,13 +216,17 @@ run_ledger() {
   mkdir -p -- "$root/tmp" &&
     row="$(python3 "$root/.claude/costs/session_cost.py" \
       --transcript "$transcript" \
-      --session-id "$(field session_id)" \
-      --row-path --at-stop --out "$staged")" ||
+      --session-id "$session" \
+      --row-path "${stop_flags[@]}" --out "$staged")" ||
     { rm -f -- "$staged"; state=unpriced; return 0; }
 
   ! dirty "$row" || row_left=true
 
-  commit_row "$staged" "$row" && return 0
+  if commit_row "$staged" "$row"; then
+    [ "$known" = true ] && [ -n "$marker" ] || return 0
+    mkdir -p -- "$(dirname "$marker")" && printf '%s\n' "$latest" >"$marker"
+    return 0
+  fi
 
   # A row that could not be committed still goes in place, for the verdict to
   # name rather than for the turn to lose.
@@ -200,6 +248,18 @@ outstanding() {
 # already happening — and never on a re-fired `Stop`, which the harness's check
 # bails out of and this must bail with or the turn never ends.
 [ "$state" = unpriced ] && say "pricing failed; no cost row written this turn"
+
+# A flush is a command the agent runs, so its status is the whole verdict: 0
+# where the row is on origin, as written now or already.
+if [ "$flush" = true ]; then
+  case "$state" in
+    none | pushed) exit 0 ;;
+    committed) say "the cost row is committed but not pushed: push the branch" ;;
+    uncommitted) say "the cost row is written but not committed" ;;
+  esac
+  exit 1
+fi
+
 [ "$(field stop_hook_active)" != "true" ] || exit 0
 
 case "$state" in
