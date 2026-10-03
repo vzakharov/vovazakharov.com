@@ -81,7 +81,32 @@ committed yet.
 - Step 2: both loosenings have their Russian lines in `to-check.md`;
   `tail-face.md`'s tabL bend is credited to the brow's sink.
 
-## Left
+- Step 3, the probe of 2d5283a, `meadow` once each:
+  - tabL: green. Worst heading 0.25; butterflies over 0.3 off 0 of 5914;
+    fastest turn 35.25 rad/s (fly, within its limit).
+  - phoneP: green. Worst heading 0.23; over 0.3 off 0 everywhere; fastest
+    turn 33.77 rad/s (fly).
+  - phoneL: **red**. bee-12 turned 31.74 rad/s at 80217 ms against its
+    kind's 21.62. Headings green: worst 0.25, 0 over 0.3. The butterfly's
+    24.01 and bee-12's 1.52 rad are both gone.
 
-1. Rebuild the probe. Run tabL `meadow` to check the watch loosening, then
-   phoneL `meadow`, then phoneP `meadow`.
+## Left — phoneL's bee-12 turn rate, not fixed (likely a harness red)
+
+- The run is deterministic (5257 frames, every count as in tail-turn's
+  runs), and the patch moves no flier, so bee-12 flies the leg traced
+  above: its U-turn spans 80133–80267, and at 80200 it stood at x −43.7,
+  half-span 27, wholly off screen; it is in view from 80283.
+- The turn-rate check judges every frame the body is drawn
+  (`shown.container.visible`), and `reachesScreen` draws a body until a
+  whole span, not half, is past the edge. So 80217 is judged while no
+  child sees the bee.
+- Why it is faster now: `bentTurn` maps the frame turn through the
+  unsunk step, whose bend grows toward the screen's sides. A U-turn sweeps
+  the frame turn through every way, and in some ways the drawn way turns
+  faster than the frame's (1.47× here, past the side). Before 70fc342 the
+  bee's fastest was 21.60; 70fc342's sunk reading was never measured for
+  this bee (the butterfly's 24.01 outranked it).
+- Not traced: whether 80217's frame is on screen, and how fast an
+  on-screen U-turn at the side spins. The fix this points to is one more
+  loosening (judge the turn rate only while the body's middle is on screen,
+  as the heading is), which is the orchestrator's call, not this package's.

@@ -30,7 +30,7 @@ it flew at 24733 ms" (flight watch, `MOST_HEADING_OFF` 0.3).
 ## Done
 
 - `fix(mushrooms): draw an insect's body turned as the screen draws its
-  frame turn` — `drawnInsect` gives `posed.rotation`: the way a px's step
+frame turn` — `drawnInsect` gives `posed.rotation`: the way a px's step
   along the frame turn is drawn, through the same pipeline that draws the
   body (`bentTurn`), faded by `aloft` (0 sitting, so a seat's rest facing
   stays the screen's own; it fades in over the take-off and out over the
