@@ -12,8 +12,9 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
+import { panOf } from '../../model/flight-frame';
 import { distanceBetween } from '../../model/geometry';
-import { pinholeOf } from '../../model/ground';
+import { CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
 import { onStem } from '../../model/house';
 import {
   mouseOut,
@@ -81,7 +82,8 @@ export type MouseDoor = {
  * A run under way, from `from`'s door to `to`'s: when its clock began and
  * what it is fixed at; its ends as last stood, the start kept once its door
  * sinks or `fixed` where a re-target began on the ground; its runner, the
- * circle it takes a tap in, and when it was last tapped.
+ * circle it takes a tap in, when it was last tapped, and its patter's last
+ * tick.
  */
 export type MouseRun = Pick<Flee, 'to'> &
   Pick<Tapped, 'tappedAt'> &
@@ -93,6 +95,7 @@ export type MouseRun = Pick<Flee, 'to'> &
     start: RunEnd | undefined;
     end: RunEnd | undefined;
     fixed: boolean;
+    pattered: number;
   };
 
 /** A house's door as the runs keep it: its mushroom's seed, its last outing, the one a run took and its last knock. */
@@ -104,6 +107,8 @@ type Kept = Seeded & {
 
 /** How high a runner's body's middle stands over its feet, in its width: where its tap circle centres. */
 const RUNNER_MIDDLE = 0.3;
+/** How often a runner's patter ticks while it runs, in seconds: a quick, light patter at any pace. */
+const PATTER_EVERY = 0.08;
 
 /** Whether a house's door is drawn now, for a run to start at it: on screen and short of the brow. */
 const seenAt = ({ drawn, behind }: BedPlace): boolean => drawn && !behind;
@@ -329,6 +334,7 @@ export class MouseRuns {
       end,
       fixed: fixedStart !== undefined,
       tappedAt: -Infinity,
+      pattered: -1,
       hit,
       graphics: this.scene.add.graphics().setInteractive(hit, containsCircle),
     };
@@ -397,6 +403,12 @@ export class MouseRuns {
         ...pick(shown, 'lighting'),
       },
     );
+    const tick = Math.floor(elapsed / PATTER_EVERY);
+    if (moment.leg === 'run' && place.drawn && tick !== run.pattered) {
+      run.pattered = tick;
+      const level = Math.min(1, CLUMP_DISTANCE / place.distance);
+      this.voice.patter(panOf(view.eye, at.point), level);
+    }
   }
 
   /** The run's end at `id`'s door while it stands. */
