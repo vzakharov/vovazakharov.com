@@ -61,7 +61,7 @@ export type Shown = Tapped &
 
 /**
  * `mushroom` as shown before the bed first places it, planted at `plantedAt`
- * in seconds — a sprout as its spores land, whenever it is shown — in the
+ * in seconds — a sprout at the moment it came up, whenever it is shown — in the
  * objects the bed made for it: unshaped, unplaced and painted in `lighting`
  * alone until `place` shapes and lights it.
  */
