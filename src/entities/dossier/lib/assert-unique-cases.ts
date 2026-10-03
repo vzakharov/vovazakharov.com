@@ -13,10 +13,12 @@ type Filed = Slugged &
  * numbers make a duplicate easy.
  */
 export function assertUniqueCases(dossiers: readonly Filed[]): void {
-  const slugsByCase = Map.groupBy(
-    dossiers,
-    (dossier) => dossier.frontmatter.case,
-  );
+  // A loop rather than `Map.groupBy`, which the deploy's Node 20 lacks.
+  const slugsByCase = new Map<string, Filed[]>();
+  for (const dossier of dossiers) {
+    const { case: number } = dossier.frontmatter;
+    slugsByCase.set(number, [...(slugsByCase.get(number) ?? []), dossier]);
+  }
   const clashes = [...slugsByCase].filter(([, filed]) => filed.length > 1);
 
   if (clashes.length === 0) return;
