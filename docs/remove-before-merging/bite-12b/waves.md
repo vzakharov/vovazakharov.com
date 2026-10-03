@@ -390,3 +390,14 @@ In this order of launch; parallel where files are disjoint.
   under 26 ms, and by the far forest looked at before and after. tail-lod
   builds it. The bee's planted flower off phoneS's right edge, the thin
   phoneS forest and the buttons over phoneS's sky go to the review.
+- **tail-lod** (stopped at 170k before measuring) — 9a77b6f: the patch
+  `tail-lod.patch` and note, nothing in source. `curveSteps(drawn)`
+  (`ceil(drawn / 3)`, 8 to `CURVE_STEPS` 28) in `mushroom-profile.ts` the
+  one size→detail map; stem light (3975 of ~7.5 k entries) in fewer, more
+  opaque layers; far spots polygons; `repaintsDue` repaints a mushroom
+  whose count changed, two a frame. At the floor ~4.5× fewer entries. Its
+  own test red: the porcini/russula gill band 1.06 px off the full outline
+  at 28 px/unit, against 1 px. **Orchestrator's call:** the gill band
+  gets a floor of its own (more chords than `curveSteps` gives) rather
+  than a shorter chord everywhere, which would spend the saving on every
+  part to fix one; tail-lod2 applies, tests, measures, looks.
