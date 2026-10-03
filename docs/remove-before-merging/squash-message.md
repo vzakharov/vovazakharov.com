@@ -14,10 +14,11 @@ Issue #65 holds the spec; every control in the drawing works.
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
 route alone. Every mushroom, flower and insect is grown from its own
 seed by a pure, tested generator, and every motion is a pure function of
-the clock. The meadow is a glade the child walks, seen from an eye
-through a panoramic lens: a drag or the arrow keys turn it through 360°
-and step across it, far things sinking under a round brow and mist
-clearing as she walks up. It is painted in one light: shade, shine and
+the clock. The meadow is a field with no edge that the child walks,
+seen from an eye through a panoramic lens: a drag or the arrow keys turn
+it through 360° and step across it, far things sinking under a round
+brow and mist clearing as she walks up, and a walk back finds the same
+grass. It is painted in one light: shade, shine and
 shadows fall from the sun as each thing sees it, and every creature is
 inked in a dark of its own colour. A pure reducer in model/game.ts owns
 the state, and pnpm play:mushrooms plays every control, the walk
@@ -26,7 +27,7 @@ or a slow frame.
 
 Plus grows one of four species — a fly agaric, a porcini, a
 chanterelle, a russula — on a foot of its own in view, up to twelve
-over the meadow, and minus sinks one; the house button furnishes any
+in sight, and minus sinks one; the house button furnishes any
 of them with Syama's windows and a door a mouse peeks from.
 Butterflies drink at flowers, flies zigzag to the fly agarics, and
 bees carry pollen and plant new flowers round those they pollinate.
