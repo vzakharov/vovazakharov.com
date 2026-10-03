@@ -31,6 +31,7 @@ import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
 import { type PerchHosts, restingOn } from './perch-hosts';
 import { perchAnchorOf, Perches } from './perches';
 import { Planter, type Scened } from './planter';
+import { RainView } from './rain-view';
 import { MeadowSound, readMuted } from './sound';
 import { Grass } from './tufts';
 import { type View, viewAt } from './view';
@@ -68,6 +69,7 @@ export class MeadowScene extends Phaser.Scene {
   private bed: MushroomBed | undefined;
   private controls: Controls | undefined;
   private insects: InsectView | undefined;
+  private rain: RainView | undefined;
   private readonly perches: Perches;
   /** The anchor the perches were last seen from (`perchAnchorOf`). */
   private seenFrom: Eye | undefined;
@@ -152,6 +154,7 @@ export class MeadowScene extends Phaser.Scene {
       this.now,
       HUD_DEPTH,
     );
+    this.rain = new RainView(this, HUD_DEPTH, this.now, this.scened.dispatch);
     this.paint();
     this.bed.reconcile(this.meadow, this.requireLayout(), this.clock, true);
     this.scale.on(Phaser.Scale.Events.RESIZE, this.paint, this);
@@ -180,17 +183,8 @@ export class MeadowScene extends Phaser.Scene {
     this.clock = time / 1000;
     if (this.sown) this.sow();
     const t = this.clock;
-    const {
-      layout,
-      backdrop,
-      grass,
-      flowers,
-      bed,
-      controls,
-      insects,
-      perches,
-      meadow,
-    } = this;
+    const { layout, backdrop, grass, flowers, bed, meadow } = this;
+    const { controls, insects, perches, rain } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
     this.dispatch({
@@ -199,6 +193,7 @@ export class MeadowScene extends Phaser.Scene {
       ...this.sightNow(),
     });
     driftClouds(backdrop, layout, t);
+    rain?.update(meadow?.rain);
     const planting = meadow?.planting;
     // The grass marks the tuft the picker is open on; the bed rings a flower.
     grass?.update(
@@ -220,18 +215,8 @@ export class MeadowScene extends Phaser.Scene {
    * the walk (`Gait`) and a footstep for each foot that lands.
    */
   private walk(height: number): void {
-    const {
-      eye,
-      backdrop,
-      grass,
-      bed,
-      flowers,
-      voice,
-      gait,
-      clock,
-      cameras,
-      seenFrom,
-    } = this;
+    const { eye, backdrop, grass, bed, flowers } = this;
+    const { voice, gait, clock, cameras, seenFrom } = this;
     const view = eye.view();
     if (!view) return;
     backdrop?.follow(view);
@@ -335,16 +320,18 @@ export class MeadowScene extends Phaser.Scene {
   }
 
   /**
-   * A tap that lands on nothing else lands on a tuft or the bare meadow,
-   * either of which lets go of the selection.
+   * A tap that lands on nothing else lands on a cloud, which starts the rain,
+   * or on a tuft or the bare meadow, either of which lets go of the
+   * selection.
    */
   private readonly tapMeadow = (
     pointer: Phaser.Input.Pointer,
     over: readonly Phaser.GameObjects.GameObject[],
   ): void => {
     if (over.length > 0) return;
-    const { grass, cameras, planter } = this;
+    const { grass, cameras, planter, rain } = this;
     const at = cameras.main.getWorldPoint(pointer.x, pointer.y);
+    if (rain?.tap(at, cameras.main.scrollY) === true) return;
     const tuft = grass?.at(at);
     if (grass && tuft) planter.tapTuft(tuft, grass);
     else this.dispatch({ kind: 'deselect' });
@@ -431,6 +418,7 @@ export class MeadowScene extends Phaser.Scene {
     // Its own stream, so the backdrop never shifts the creatures' seeds.
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
+    this.rain?.paint(layout, this.backdrop);
     // Its own stream, so a planting never shifts the backdrop's.
     this.grass ??= new Grass(this, mulberry32(this.visitSeed ^ 0x70_f7_5e));
     const stand = this.stand();

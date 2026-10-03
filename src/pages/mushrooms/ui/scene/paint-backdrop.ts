@@ -30,12 +30,11 @@ import {
   paintWash,
 } from './paint-sky';
 import { driftedAzimuth, placedLeft, screenAt } from './panorama';
+import { CLOUD_SPREAD } from './rain-sky';
 import { SUN_RAY_REACH } from './sun-layout';
 import { type Following, type View, viewAt } from './view';
 import { GROUND_BOB } from './walking';
 
-/** How far a cloud's puffs spread either side of its middle, in its radii. */
-const CLOUD_SPREAD = 4;
 /** How far past the tips of its rays the sun's picture runs, in CSS px, for their smoothed edge. */
 const SUN_MARGIN = 2;
 
@@ -67,6 +66,8 @@ export type Backdrop = Following & {
   glow: Turning;
   sun: Turning;
   clouds: Phaser.GameObjects.Graphics[];
+  /** Each cloud's dark twin, placed with it and shown by its alpha as it rains (`rain-view.ts`). */
+  rainClouds: Phaser.GameObjects.Graphics[];
   hills: HillLayers;
   /** The meadow's brow along the ground's cover row, in front of what sinks under it. */
   brow: Phaser.GameObjects.Graphics;
@@ -196,6 +197,14 @@ export function paintBackdrop(
     cloudCount += 1;
     return graphics;
   };
+  const rainClouds: Phaser.GameObjects.Graphics[] = [];
+  const twinLayer: Layer = () => {
+    const graphics = (
+      existing?.rainClouds[rainClouds.length] ?? fixedAt('clouds').setAlpha(0)
+    ).clear();
+    rainClouds.push(graphics);
+    return graphics;
+  };
   // Drawn in this order, which is the order `random` is drawn from.
   const skyLayer = layer();
   paintSky(skyLayer, layout);
@@ -203,8 +212,13 @@ export function paintBackdrop(
   const glowSpan = paintGlow(glowLayer, layout);
   const sunLayer = layer();
   paintSun(sunLayer, layout);
-  const clouds = paintClouds(cloudLayer, layout, random);
-  for (const spare of existing?.clouds.slice(cloudCount) ?? []) spare.destroy();
+  const clouds = paintClouds(cloudLayer, twinLayer, layout, random);
+  for (const spare of [
+    ...(existing?.clouds.slice(cloudCount) ?? []),
+    ...(existing?.rainClouds.slice(rainClouds.length) ?? []),
+  ]) {
+    spare.destroy();
+  }
   const { camera, width, height, nearHills, sun, wash: rings } = layout;
   const hills = hillsOf(layout, random);
   const hillLayers: HillLayers = existing?.hills ?? {
@@ -283,6 +297,7 @@ export function paintBackdrop(
       sources: [sunLayer],
     }),
     clouds,
+    rainClouds,
     hills: hillLayers,
     brow,
     hillsFrom: undefined,
@@ -334,12 +349,12 @@ function turn({ columns, home, offsets }: Turning, view: View, at: number) {
 }
 
 /**
- * Moves `backdrop`'s clouds to where they have drifted round the sky by its
- * `drifted`, as its `view` shows them: a cloud past the screen's edges by
- * more than it spreads is hidden.
+ * Moves `backdrop`'s clouds, and their dark twins with them, to where they
+ * have drifted round the sky by its `drifted`, as its `view` shows them: a
+ * cloud past the screen's edges by more than it spreads is hidden.
  */
 function placeClouds(
-  { clouds: drawn, view, drifted }: Backdrop,
+  { clouds: drawn, rainClouds, view, drifted }: Backdrop,
   { clouds, width }: MeadowLayout,
 ): void {
   for (const [index, graphics] of drawn.entries()) {
@@ -348,8 +363,10 @@ function placeClouds(
     const x = screenAt(view, driftedAzimuth(cloud, drifted));
     const spread = cloud.r * CLOUD_SPREAD;
     const shown = x > -spread && x < width + spread;
-    graphics.setVisible(shown);
-    if (shown) graphics.x = x;
+    for (const each of [graphics, rainClouds[index]]) {
+      each?.setVisible(shown);
+      if (each && shown) each.x = x;
+    }
   }
 }
 

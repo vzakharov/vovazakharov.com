@@ -129,10 +129,12 @@ export function paintSun(
  * below and away from the sun, a warm rim on its side, the high clouds paler
  * with the sky's blue. The opening screen's clouds are shaped from `random`,
  * the rest from a stream of their own, so however many the sky holds, what
- * `random` shapes after them stays as it is.
+ * `random` shapes after them stays as it is. Each cloud's rain twin is the
+ * same puffs in the rain cloud's colours, from `twin` straight after it.
  */
 export function paintClouds(
   layer: Layer,
+  twin: Layer,
   { clouds, sun, camera, height }: MeadowLayout,
   random: Random,
 ): Phaser.GameObjects.Graphics[] {
@@ -157,14 +159,23 @@ export function paintClouds(
       x: (index - 2) * r * between(shaping, 0.75, 0.95),
       r: r * (index === 2 ? 1 : between(shaping, 0.55, 0.8)),
     }));
-    for (const [colour, dx, dy, scale] of [
-      [PALETTE.cloudShade, -lean.x, r * 0.14 - lean.y, 1],
-      [PALETTE.cloudLit, lean.x, lean.y, 0.96],
-      [PALETTE.cloud, 0, 0, 0.9],
+    const dark = twin().setPosition(0, y);
+    for (const [colour, rainy, dx, dy, scale] of [
+      [
+        PALETTE.cloudShade,
+        PALETTE.rainCloudShade,
+        -lean.x,
+        r * 0.14 - lean.y,
+        1,
+      ],
+      [PALETTE.cloudLit, PALETTE.rainCloudLit, lean.x, lean.y, 0.96],
+      [PALETTE.cloud, PALETTE.rainCloud, 0, 0, 0.9],
     ] as const) {
       graphics.fillStyle(tone(colour));
+      dark.fillStyle(tone(rainy));
       for (const puff of puffs) {
         graphics.fillCircle(puff.x + dx, dy, puff.r * scale);
+        dark.fillCircle(puff.x + dx, dy, puff.r * scale);
       }
     }
     return graphics;

@@ -63,6 +63,18 @@ under `src/pages/mushrooms/`.
 10. **`meadow-scene.ts` only wires the rain bed**, and stays under ~450
     lines (it is at 457): whatever the wiring needs room for moves out.
 
+11. **One wetness a frame, the scene's.** A shower started while the last
+    one still dries resets the model's `wetness` to 0, so read alone it
+    would flash the sky and spring the flowers open for a moment. `RainView`
+    keeps the last span and gives the wetter of the two (R1's
+    `rain-sky.ts`); the wash, the twins, the flowers' closing and the caps'
+    swell all read that one value, passed to the beds from `meadow-scene.ts`.
+    It beat backdating `startedAt` in the model, which would bend
+    `downpour`'s and `rainbow`'s clocks too.
+12. **Every cloud tap wobbles the cloud**, the first included (R1); rain.md
+    asked it only of a restart, but a tap that starts the rain answers with
+    the cloud too.
+
 ## Packages
 
 Wave 1, in parallel, file lists disjoint:

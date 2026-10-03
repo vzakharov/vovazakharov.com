@@ -15,6 +15,17 @@ export const BACKDROP = {
   cloudShade: 0xe2_dc_f0,
   /** A cloud's rim on the sun's side. */
   cloudLit: 0xff_f6_e4,
+  /** A rain cloud, its cool underside and its rim on the sun's side: each a dark twin's counterpart of the three above. */
+  rainCloud: 0x8c_92_aa,
+  rainCloudShade: 0x6a_6e_8a,
+  rainCloudLit: 0xa6_aa_be,
+  /** The slate wash over the meadow while it rains. */
+  rainWash: 0x2e_36_4e,
+  /** The rainbow's bands, outermost first. */
+  rainbow: [
+    0xff_5e_5e, 0xff_a6_4a, 0xff_e6_5a, 0x7c_d0_6a, 0x5a_b0_e8, 0x6e_72_d8,
+    0xa8_6a_d4,
+  ],
   farHill: 0x8f_c4_9c,
   nearHill: 0x80_c2_62,
   /** The ground far off, sunlit: only behind the flowers' back row. */
