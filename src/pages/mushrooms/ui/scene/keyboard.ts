@@ -1,9 +1,9 @@
 /**
  * The meadow played from a computer's keyboard: `g h j k l ; '` the white
  * keys C to B, `y u o p [` the sharps above them, `a s d f` violet's drums and
- * `q w e r` white's, `z`/`x` the octave down and up, `←`/`→` turn the
- * eye while held, or walk it sideways under Shift, and `↑`/`↓` walk it on
- * and back. Keys are read by
+ * `q w e r` white's, `.`/`/` the octave down and up; while held, `←`/`→`
+ * turn the eye, `↑`/`↓` walk it on and back, and `z`/`c` walk it sideways
+ * to its left and right, any of them together. Keys are read by
  * `event.code`, where they sit rather than what they print, so a Russian
  * layout plays the same.
  */
@@ -23,7 +23,7 @@ type PanKey = Directed & { kind: 'pan' };
 /** A key that walks the eye while held, on along its heading or back. */
 type StepKey = Directed & { kind: 'step' };
 
-/** A turning key held under Shift: it walks the eye sideways, to its left or right. */
+/** A key that walks the eye sideways while held, to its left or right. */
 type StrafeKey = Directed & { kind: 'strafe' };
 
 /** A key that moves the eye while held, and so must be let go. */
@@ -31,31 +31,15 @@ export type MoveKey = PanKey | StepKey | StrafeKey;
 
 export type KeyAction = PlayedKey | MoveKey;
 
-const LEFTWARD: PanKey = { kind: 'pan', direction: -1 };
-const RIGHTWARD: PanKey = { kind: 'pan', direction: 1 };
-const ON: StepKey = { kind: 'step', direction: 1 };
-const BACK: StepKey = { kind: 'step', direction: -1 };
-const MOVE_KEYS: readonly MoveKey[] = [
-  LEFTWARD,
-  RIGHTWARD,
-  ON,
-  BACK,
-  { kind: 'strafe', direction: -1 },
-  { kind: 'strafe', direction: 1 },
-];
-
-/** What a turning key does with Shift down or up: strafe or turn, the same way. */
-function sideways(
-  { direction }: PanKey | StrafeKey,
-  shifted: boolean,
-): MoveKey {
-  return { kind: shifted ? 'strafe' : 'pan', direction };
-}
-
-/** Whether `code` names a Shift key. */
-function isShift(code: string): boolean {
-  return code === 'ShiftLeft' || code === 'ShiftRight';
-}
+/** The keys that move the eye while held, any of them at once. */
+const MOVES: ReadonlyMap<string, MoveKey> = new Map<string, MoveKey>([
+  ['ArrowLeft', { kind: 'pan', direction: -1 }],
+  ['ArrowRight', { kind: 'pan', direction: 1 }],
+  ['ArrowUp', { kind: 'step', direction: 1 }],
+  ['ArrowDown', { kind: 'step', direction: -1 }],
+  ['KeyZ', { kind: 'strafe', direction: -1 }],
+  ['KeyC', { kind: 'strafe', direction: 1 }],
+]);
 
 /** C D E F G A B. */
 const WHITE_KEYS = [
@@ -96,42 +80,35 @@ export const KEYS: ReadonlyMap<string, KeyAction> = new Map([
     ([code, pitchClass]): Bound => [code, { kind: 'note', pitchClass }],
   ),
   ...DRUM_KEYS.map(([code, drum]): Bound => [code, { kind: 'drum', drum }]),
-  ['KeyZ', { kind: 'octave', step: -1 }],
-  ['KeyX', { kind: 'octave', step: 1 }],
-  ['ArrowLeft', LEFTWARD],
-  ['ArrowRight', RIGHTWARD],
-  ['ArrowUp', ON],
-  ['ArrowDown', BACK],
+  ['Period', { kind: 'octave', step: -1 }],
+  ['Slash', { kind: 'octave', step: 1 }],
+  ...MOVES,
 ] satisfies Bound[]);
 
 type Pressed = Pick<
   KeyboardEvent,
-  'code' | 'repeat' | 'altKey' | 'ctrlKey' | 'metaKey' | 'shiftKey'
+  'code' | 'repeat' | 'altKey' | 'ctrlKey' | 'metaKey'
 >;
 
 /**
  * What a key press does; nothing for a held key's repeats or a shortcut with
- * a modifier. A turning key under Shift strafes.
+ * a modifier. Shift changes nothing.
  */
 export function keyAction(event: Pressed): KeyAction | undefined {
   if (event.repeat || event.altKey || event.ctrlKey || event.metaKey) {
     return undefined;
   }
-  const action = KEYS.get(event.code);
-  return action?.kind === 'pan' ? sideways(action, event.shiftKey) : action;
+  return KEYS.get(event.code);
 }
 
 /**
- * The move keys a key's release lets go, whatever modifiers are down by then:
- * a held arrow let go under a modifier must still stop the eye, and a turning
- * arrow lets go its strafe too, Shift having perhaps come up first.
+ * The move key a key's release lets go, whatever modifiers are down by then:
+ * a held key let go under a modifier must still stop the eye.
  */
-export function letGoMoves(event: Pick<KeyboardEvent, 'code'>): MoveKey[] {
-  const action = KEYS.get(event.code);
-  if (action?.kind === 'pan') {
-    return [sideways(action, false), sideways(action, true)];
-  }
-  return action?.kind === 'step' ? [action] : [];
+export function letGoMove(
+  event: Pick<KeyboardEvent, 'code'>,
+): MoveKey | undefined {
+  return MOVES.get(event.code);
 }
 
 /**
@@ -139,41 +116,25 @@ export function letGoMoves(event: Pick<KeyboardEvent, 'code'>): MoveKey[] {
  * not the page's: single-letter keys bound page-wide would take a screen
  * reader's own. A move key's release goes to `onLetGo`, and so does every
  * move key when `host` loses focus, whose releases it then never hears.
- * Shift going down or up under a held turning arrow hands it from turning to
- * strafing or back, as if the arrow were pressed again. Returns what stops
- * listening.
+ * Returns what stops listening.
  */
 export function listenForKeys(
   host: HTMLElement,
   onKey: (action: KeyAction) => void,
   onLetGo: (key: MoveKey) => void,
 ): () => void {
-  /** The turning arrows held, by code. */
-  const turning = new Map<string, PanKey>();
-  const shifted = (event: KeyboardEvent, down: boolean) => {
-    if (event.repeat || !isShift(event.code)) return;
-    for (const key of turning.values()) {
-      onLetGo(sideways(key, !down));
-      onKey(sideways(key, down));
-    }
-  };
   const pressed = (event: KeyboardEvent) => {
-    shifted(event, true);
     const action = keyAction(event);
     if (!action) return;
     event.preventDefault();
-    const bound = KEYS.get(event.code);
-    if (bound?.kind === 'pan') turning.set(event.code, bound);
     onKey(action);
   };
   const lifted = (event: KeyboardEvent) => {
-    shifted(event, false);
-    turning.delete(event.code);
-    for (const key of letGoMoves(event)) onLetGo(key);
+    const key = letGoMove(event);
+    if (key) onLetGo(key);
   };
   const blurred = () => {
-    turning.clear();
-    for (const key of MOVE_KEYS) onLetGo(key);
+    for (const key of MOVES.values()) onLetGo(key);
   };
   host.addEventListener('keydown', pressed);
   host.addEventListener('keyup', lifted);

@@ -9,8 +9,8 @@
  * the finger and a drag down the screen walks it, the ground under the
  * finger while it is down and flung on past the lift, neither tapping
  * anything, nor a drag with a mushroom selected or the flower picker open on
- * a tuft; a sideways drag from bare ground, the same way, and `→` held under
- * Shift, never past the cruise, walk it square to its heading, never turning
+ * a tuft; a sideways drag from bare ground, the same way, and `c` held,
+ * never past the cruise, walk it square to its heading, never turning
  * it; and the screen turned keeps the eye where it stood and looking where it
  * looked. Frames of the opening, the walk, the walk back, a quarter and a
  * half turn and the strafes land as `walk-*.png`.
@@ -329,7 +329,7 @@ export async function playWalk(
  * A strafe: a swipe leftward from bare ground, 150 px or to the screen's
  * edge, whichever is nearer, since a finger past the edge goes unread — the
  * ground under the finger following it and flung on from its lift — then
- * `→` held 1.5 s under Shift; each walks the eye square to a heading it never
+ * `c` held 1.5 s; each walks the eye square to a heading it never
  * turns. The swipe is shot at its lift and at rest, the key mid-way.
  */
 async function playStrafes(
@@ -429,7 +429,7 @@ async function playStrafes(
   }
 
   const keyed = await eye();
-  await page.key('ArrowRight', 'keyDown', { shift: true });
+  await page.key('KeyC', 'keyDown');
   const held = await page.trace(Math.round(FPS * 0.75), WALKING, Walking);
   await page.step(1);
   await page.shoot('walk-strafe-key');
@@ -437,8 +437,8 @@ async function playStrafes(
     await page.evaluate(WALKING, Walking),
     ...(await page.trace(Math.round(FPS * 0.75), WALKING, Walking)),
   );
-  await page.key('ArrowRight', 'keyUp', { shift: true });
+  await page.key('KeyC', 'keyUp');
   held.push(...(await page.trace(SETTLE_FRAMES, WALKING, Walking)));
-  checkWalk(keyed, held, bob, 'Shift+ArrowRight', expect, note);
-  checkSquare(keyed, held, 'Shift+→');
+  checkWalk(keyed, held, bob, 'KeyC', expect, note);
+  checkSquare(keyed, held, 'c');
 }

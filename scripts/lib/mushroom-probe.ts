@@ -818,8 +818,12 @@ const LETTERS = {
 } as const;
 export type Letter = keyof typeof LETTERS;
 
+/** The strafing keys a play holds, by their DOM `code`: `c` rightward. */
+const STRAFES = { KeyC: 67 } as const;
+export type Strafe = keyof typeof STRAFES;
+
 /** Every key a play presses, and the key code it goes down with. */
-export const KEY_CODES = { ...ARROWS, ...LETTERS } as const;
+export const KEY_CODES = { ...ARROWS, ...LETTERS, ...STRAFES } as const;
 
 /** A stepped frame's game time, in ms. */
 export const FRAME_MS = 1000 / 60;
@@ -866,13 +870,12 @@ export type Page = {
   ) => Promise<Parsed[]>;
   /**
    * A key going down or up, by its DOM `code`, as `ArrowLeft`; a `repeat` is
-   * the browser's own repeat of a held key's press, and `shift` has Shift
-   * down under it.
+   * the browser's own repeat of a held key's press.
    */
   key: (
-    key: Arrow | Letter,
+    key: Arrow | Letter | Strafe,
     type: 'keyDown' | 'keyUp',
-    held?: { repeat?: boolean; shift?: boolean },
+    held?: { repeat?: boolean },
   ) => Promise<void>;
   /** The screen turned: its width and height swapped. */
   turn: () => Promise<void>;

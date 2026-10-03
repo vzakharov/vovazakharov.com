@@ -371,7 +371,27 @@ describe('a strafe on the walk', () => {
     }
   });
 
-  it('strafes on held Shift-arrows square to the heading at the walk’s pace, and eases to rest', () => {
+  it('strafes and turns at once on a strafe key and a turning arrow held together, frame by frame square to the turning heading', () => {
+    const clock = new Clock(holdStrafe(openingWalk(TABLET), -1));
+    const heading = headingAt(clock.walk, clock.time);
+    clock.walk = holdTurn(clock.walk, 1, clock.time);
+    const from = clock.walk.stride.at;
+    let at = from;
+    clock.run(2, (walk) => {
+      const now = headingAt(walk, clock.time);
+      const step = { x: walk.stride.at.x - at.x, y: walk.stride.at.y - at.y };
+      const on = forwardOf(now);
+      const side = forwardOf(sidewaysOf(now));
+      assert.ok(Math.abs(step.x * on.x + step.y * on.y) < 1e-9, 'never on');
+      assert.ok(step.x * side.x + step.y * side.y <= 0, 'leftward');
+      at = walk.stride.at;
+    });
+    assert.ok(turnedBy(heading, headingAt(clock.walk, clock.time)) > 0.1);
+    assert.ok(apart(from, at) > 2, `${at.x}, ${at.y}`);
+    assert.ok(Math.abs(clock.walk.stride.sidePace + STRIDE_CRUISE) < 1e-9);
+  });
+
+  it('strafes on a held strafe key square to the heading at the walk’s pace, and eases to rest', () => {
     const clock = new Clock(holdStrafe(openingWalk(TABLET), -1));
     clock.run(2);
     const { at, sidePace, walked } = clock.walk.stride;

@@ -28,6 +28,7 @@ import {
   type Expect,
   Eye,
   type Point,
+  type Strafe,
 } from './mushroom-probe.ts';
 
 export const FPS = 60;
@@ -91,7 +92,7 @@ export function checkWalk(
   from: Seen,
   seen: readonly Seen[],
   bob: number,
-  by: Arrow | 'drag' | `Shift+${Arrow}`,
+  by: Arrow | Strafe | 'drag',
   expect: Expect,
   note: (line: string) => void,
   down = 0,
