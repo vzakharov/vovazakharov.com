@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
 import { isSeat, perchName } from '../../model/flight';
@@ -16,9 +17,13 @@ import {
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
+import { hasTrumpet, mushroomGenes } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
+import { SHELTER_SEATS } from '../../model/shelter';
+import { SPORE_FALL_MS, SPROUT_MS } from '../../model/sprouting';
 import { airAlofts, airSpots, clumpRow } from './air-spots';
 import { bedPlace } from './bed-place';
+import { placeIn } from './clump-layout';
 import { flowersOf } from './flower-plots';
 import { type Stand, WIDEST_SPAN } from './flower-sight';
 import { drawnAloft } from './insect-frame';
@@ -36,6 +41,7 @@ import { aloftOfLayout, perchDistance } from './plane-place';
 import { middleOf, ofLayout, rowAt, V_NEAR, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
+import { widestOn } from './widest-spans';
 
 /** How long each visit is watched, how often the model ticks, and how often perches are read, in ms. */
 const VISIT = 40_000;
@@ -377,5 +383,70 @@ describe('footRows', () => {
     for (const [, row] of grounded) {
       assert.ok(row >= layout.groundTop && row <= layout.height);
     }
+  });
+});
+
+/** The screens the shelters are judged on: the widest and the narrowest the game is played on most. */
+const SHELTER_SCREENS = VIEWPORTS.filter(
+  ([name]) => name === 'tablet' || name === 'phone',
+);
+
+describe('the shelters', () => {
+  for (const [name, width, height] of SHELTER_SCREENS) {
+    it(`sit two under every dome in reach drawn as wide as a butterfly, placed over its foot, on a ${name} screen`, () => {
+      const stand = opened(3, width, height, true);
+      const { layout, mushrooms } = stand;
+      const { shelters = [], places = {}, crowded } = perchSight(stand);
+      const span = widestOn(layout, 'butterfly');
+      const wide = mushrooms.filter((mushroom) => {
+        const genes = mushroomGenes(mushroom);
+        const place = placeIn(layout.mushrooms, mushroom);
+        const cap = perchName({ kind: 'cap', ...pick(mushroom, 'id') });
+        return (
+          place !== undefined &&
+          !hasTrumpet(genes) &&
+          genes.capWidth * place.size >= span &&
+          places[cap] !== undefined
+        );
+      });
+      assert.ok(wide.length > 0 && wide.length < mushrooms.length);
+      assert.deepEqual(
+        shelters,
+        wide.flatMap(({ id }) => SHELTER_SEATS.map((seat) => ({ id, seat }))),
+      );
+      const crowding = new Set(
+        crowded.flatMap(([a, b]) => [perchName(a), perchName(b)]),
+      );
+      for (const seat of shelters) {
+        const under = places[perchName({ kind: 'shelter', ...seat })];
+        const cap = places[perchName({ kind: 'cap', ...pick(seat, 'id') })];
+        assert.ok(under && cap, seat.id);
+        assert.equal(under.fromEye, cap.fromEye);
+        assert.ok(under.y > cap.y, seat.id);
+      }
+      assert.ok(
+        shelters.some((seat) =>
+          crowding.has(perchName({ kind: 'shelter', ...seat })),
+        ),
+      );
+    });
+  }
+
+  it('offers none under a sprout still small, and two once it has grown', () => {
+    const stand = opened(3, 1180, 820, false);
+    const sprout = { at: 0, parent: 'm0' };
+    const sprouted = {
+      ...stand,
+      mushrooms: stand.mushrooms.map((mushroom) => ({ ...mushroom, sprout })),
+    };
+    assert.equal(perchSight(stand).shelters?.length, 4);
+    assert.deepEqual(perchSight(sprouted, SPORE_FALL_MS).shelters, []);
+    const grown = SPORE_FALL_MS + SPROUT_MS;
+    assert.equal(perchSight(sprouted, grown).shelters?.length, 4);
+  });
+
+  it('are sent, empty, with no cap to shelter under', () => {
+    const stand = opened(3, 1180, 820, false);
+    assert.deepEqual(perchSight({ ...stand, mushrooms: [] }).shelters, []);
   });
 });

@@ -57,14 +57,14 @@ export class Perches {
   }
 
   /**
-   * Sees the perches afresh on `stand` as judged from `anchor`
-   * (`anchoredStand`), every place on a bed taken back to the plane
+   * Sees the perches afresh on `stand` at `now` as judged from `anchor`
+   * (`anchoredStand`, `perchSight`), every place on a bed taken back to the plane
    * (`unanchored`), and the air's as the plane holds it (`airAlofts`).
    */
-  see(stand: Stand, anchor: Eye = OPENING_EYE): void {
+  see(stand: Stand, anchor: Eye = OPENING_EYE, now?: number): void {
     const judged = anchoredStand(stand, anchor);
     const { layout } = judged;
-    this.sight = perchSight(judged);
+    this.sight = perchSight(judged, now);
     this.layout = layout;
     this.alofts = airAlofts(layout, anchor);
     const { places = {} } = this.sight;
@@ -140,6 +140,7 @@ export class Perches {
         : undefined;
     return {
       ...this.beds(),
+      sizes: layout?.insectSizes,
       alofts:
         held && perch?.kind === 'air' ? new Map([[perch.id, held]]) : alofts,
     };

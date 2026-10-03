@@ -1,11 +1,14 @@
 import { isAloft, isLeaving, type Perch } from '../../model/flight';
 import type { Aloft } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
+import { CLUMP_DISTANCE } from '../../model/ground';
+import type { InsectKind } from '../../model/insect-genes';
 import type { Flier } from '../../model/insects';
+import { capSeat, capUnder } from '../../model/mushroom-pose';
 import type { Host } from './bed-place';
 import type { FlowerBed } from './flower-bed';
 import type { MushroomBed } from './mushroom-bed';
-import { perchSpot } from './perch-sight';
+import { dropped, perchSpot, shelterDrop } from './perch-sight';
 
 /**
  * Where an insect sits on a cap or a flower, in world px at the opening eye,
@@ -30,29 +33,40 @@ export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
 /**
  * What the scene's perches stand on: the mushrooms' caps, the flowers' heads,
  * and each spot in the open air by id, as a fixed point in the world
- * (`airAlofts`).
+ * (`airAlofts`); and each insect kind's unit on the layout, which a seat
+ * under a cap hangs by.
  */
 export type PerchHosts = {
   bed: MushroomBed | undefined;
   flowers: FlowerBed | undefined;
   alofts: ReadonlyMap<string, Aloft>;
+  sizes: Readonly<Record<InsectKind, number>> | undefined;
 };
 
 /**
  * Where `perch` stands this frame: over a flower's head, as it sways and
- * sags, with the head's middle it drinks from, or a cap's top, as it
- * breathes, wobbles and sinks, each butterfly at a spot of its own along
- * it; or a spot in the open air.
+ * sags, with the head's middle it drinks from, or on or under a cap, as it
+ * breathes, wobbles and sinks, each butterfly on top at a spot of its own
+ * along it, and one under it hanging below the underside by its own size at
+ * its own zoom (`shelterDrop`); or a spot in the open air.
  */
 export function perchedOn(
-  { bed, flowers, alofts }: PerchHosts,
+  { bed, flowers, alofts, sizes }: PerchHosts,
   perch: Perch,
   insect: Flier,
 ): Perched | undefined {
   const spot = perchSpot(insect);
   switch (perch.kind) {
     case 'cap': {
-      return bed?.capTop(perch.id, spot);
+      return bed?.seat(perch.id, (genes) => capSeat(genes, spot));
+    }
+    case 'shelter': {
+      const under = bed?.seat(perch.id, (genes) => capUnder(genes, perch.seat));
+      if (!under || !sizes) return under;
+      const drop = (zoom: number) => shelterDrop(sizes, insect.kind, zoom);
+      const { drawn, on } = under;
+      const own = CLUMP_DISTANCE / on.stands.ahead;
+      return { ...dropped(under, drop(1)), drawn: dropped(drawn, drop(own)) };
     }
     case 'flower': {
       return flowers?.seat(perch.id, spot, insect.kind);
@@ -61,7 +75,6 @@ export function perchedOn(
       const aloft = alofts.get(perch.id);
       return aloft && { aloft };
     }
-    case 'shelter':
     case 'away': {
       return undefined;
     }
