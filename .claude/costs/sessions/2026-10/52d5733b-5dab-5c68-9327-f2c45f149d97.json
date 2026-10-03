@@ -9,53 +9,63 @@
   "url": "https://claude.ai/code/session_01A3pqkHnqyZGwpBC7q689s8",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-03T08:25:55.181Z",
-  "lastResponseAt": "2026-10-03T09:09:08.550Z",
+  "lastResponseAt": "2026-10-03T09:15:35.837Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 59025,
-    "cacheWrite5mTokens": 1485349,
-    "cacheWrite1hTokens": 131909,
-    "cacheReadTokens": 31217378,
-    "outputTokens": 22471,
-    "thinkingTokens": 3186,
-    "responses": 276,
-    "costUsd": 15.477891600000003
+    "inputTokens": 60573,
+    "cacheWrite5mTokens": 1611490,
+    "cacheWrite1hTokens": 148662,
+    "cacheReadTokens": 32618721,
+    "outputTokens": 27900,
+    "thinkingTokens": 4327,
+    "responses": 288,
+    "costUsd": 16.635159200000007
   },
   "ownTurns": {
-    "inputTokens": 109,
+    "inputTokens": 121,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 131909,
-    "cacheReadTokens": 6507880,
-    "outputTokens": 18565,
-    "thinkingTokens": 3077,
-    "responses": 46,
-    "costUsd": 2.7285839999999997
+    "cacheWrite1hTokens": 148662,
+    "cacheReadTokens": 7613898,
+    "outputTokens": 23897,
+    "thinkingTokens": 4218,
+    "responses": 52,
+    "costUsd": 3.1904996
   },
   "subagents": {
-    "inputTokens": 430,
-    "cacheWrite5mTokens": 1463056,
+    "inputTokens": 438,
+    "cacheWrite5mTokens": 1588879,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 22312149,
-    "outputTokens": 3056,
+    "cacheReadTokens": 22430608,
+    "outputTokens": 3098,
     "thinkingTokens": 109,
-    "responses": 215,
-    "costUsd": 11.840549800000003
+    "responses": 219,
+    "costUsd": 12.494228600000001
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 59025,
-      "cacheWrite5mTokens": 1485349,
-      "cacheWrite1hTokens": 131909,
-      "cacheReadTokens": 31217378,
-      "outputTokens": 22471,
-      "thinkingTokens": 3186,
-      "responses": 276,
-      "costUsd": 15.477891600000003
+      "inputTokens": 59551,
+      "cacheWrite5mTokens": 1611490,
+      "cacheWrite1hTokens": 148662,
+      "cacheReadTokens": 32618721,
+      "outputTokens": 27874,
+      "thinkingTokens": 4327,
+      "responses": 287,
+      "costUsd": 16.634007200000006
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 1022,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 26,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0011519999999999998
     }
   },
   "warnings": [
-    "prices.json priced the 260 responses the events also priced at $14.5133, against the events' $17.1585: a rate in the table is likely out of date"
+    "prices.json priced the 270 responses the events also priced at $15.6544, against the events' $18.3105: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "end_turn",
@@ -75,20 +85,30 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 275,
-    "matched": 260,
-    "matchedTableUsd": 14.513305800000003,
-    "matchedEventUsd": 17.158545799999988,
+    "events": 287,
+    "matched": 270,
+    "matchedTableUsd": 15.654389400000001,
+    "matchedEventUsd": 18.31054939999998,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 58486,
-        "cacheWrite5mTokens": 22293,
+        "inputTokens": 58992,
+        "cacheWrite5mTokens": 22611,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 2397349,
-        "outputTokens": 850,
+        "cacheReadTokens": 2574215,
+        "outputTokens": 879,
         "thinkingTokens": 0,
-        "responses": 15,
-        "costUsd": 0.9087578
+        "responses": 16,
+        "costUsd": 0.949279
+      },
+      "generate_session_title": {
+        "inputTokens": 1022,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 26,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0011519999999999998
       }
     }
   }
