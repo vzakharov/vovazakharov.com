@@ -96,6 +96,13 @@
   disproved the first found two real tap losses nobody had reported. The
   handling brief asks "is the game wrong or is the check?" before any fix.
 
+- **A fix agent's GitHub replies are the orchestrator's when it runs
+  out.** Bite 15's worm fixes landed three commits and stopped at the 170k
+  hook before replying; posting three one-line replies cost the
+  orchestrator a single call, where a second agent would have paid a full
+  baseline. The skill briefs replies last and lets the orchestrator post
+  any left, from the report's comment ids and SHAs.
+
 ## Sweeps and the tests they become
 
 - **A test "fixed" because its fixture no longer arises is a regression

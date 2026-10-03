@@ -228,3 +228,14 @@
   start: a perch the sight no longer placed after a turn left the leg
   untimed, so it fell back to the random flight time (`placesSetOff`).
   Measuring both ends of the leg first is the cheap diagnosis.
+- **The probe-and-play agent is the first to see a creature, so its frames
+  are the bite's design check, and the orchestrator reads two of them.**
+  Bite 15's runs passed every model test and their play went green, while
+  R5's frames showed the straight run on the opening clump hidden behind
+  the front stem end to end; the orchestrator looked, made it a call (a
+  bowed course) and briefed a build agent the same hour, and the first fix
+  only dipped the runner 22 px with 5 across, which R6's logged screen
+  positions caught where a still would not. The skill briefs the play agent
+  to read its frames and log a moving thing's screen track, and has the
+  orchestrator open two frames before deciding a report's "for a person"
+  line.
