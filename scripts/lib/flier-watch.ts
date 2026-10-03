@@ -233,7 +233,7 @@ export const WATCH = `(() => {
         watch.leastSpan[kind] = Math.min(watch.leastSpan[kind] ?? Infinity, span);
         watch.leastOwnSpan[kind] = Math.min(watch.leastOwnSpan[kind] ?? Infinity, shown.span);
       }
-      const seat = leg.to.kind === 'cap' || leg.to.kind === 'flower';
+      const seat = ['cap', 'flower', 'shelter'].includes(leg.to.kind);
       if (seat && now >= leg.arrives + ${String(SETTLED_AFTER)} && now < leg.leaves - 50) {
         const off = Math.abs(wrap(turn));
         if (off > watch.worstRest.turn) {
