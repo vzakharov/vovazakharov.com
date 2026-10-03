@@ -82,6 +82,18 @@ under `src/pages/mushrooms/`.
     head's height, the petal colour plain on it, so the flower is still
     there and visibly shut.
 
+14. **The rainbow stays opposite the sun, behind the child on the opening
+    screen.** R5 found it on no opening view; rain.md asks exactly that
+    ("the child turns her back to the sun to see it"), and a rainbow put
+    in sight instead would stand beside the sun, which no child has seen.
+    The play turns round to it; `to-check.md` asks a person whether a
+    child finds it.
+15. **The sun dims while it rains.** R5's mid-shower frames show it bright
+    and round under the dark clouds — rain in full sunshine. The sun and
+    its glow fade with the one wetness to about half (`1 − 0.5 · wetness`),
+    alpha on their bakes, nothing redrawn; the rainbow after needs the sun
+    back, and it is.
+
 ## Packages
 
 Wave 1, in parallel, file lists disjoint:
