@@ -33,10 +33,10 @@ import type { Seeded } from '../../model/random';
 import { airOf, airSpots, clumpRow } from './air-spots';
 import { placeIn } from './clump-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';
+import { flowerLift } from './flower-seat';
 import {
   coversOn,
   flowerInSight,
-  flowerLift,
   PERCH_SPREAD,
   roomFor,
   screenSides,

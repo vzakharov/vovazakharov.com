@@ -27,12 +27,8 @@ import {
 import { buzzWing, wingspan } from '../../model/insect-outline';
 import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
-import {
-  flowerLift,
-  type HeadReach,
-  PERCH_SPREAD,
-  sightingOf,
-} from './flower-sight';
+import { flowerLift, type HeadReach } from './flower-seat';
+import { PERCH_SPREAD, sightingOf } from './flower-sight';
 import { LEAST_SPANS, meadowLayout } from './layout';
 import { FLOOR_HELD, VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';

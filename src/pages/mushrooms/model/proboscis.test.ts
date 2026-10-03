@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/shared/lib/collections';
 
-import { flowerLift } from '../ui/scene/flower-sight';
+import { flowerLift } from '../ui/scene/flower-seat';
 import { flowerGenes, flowerHead } from './flower-genes';
 import { placedAt, type Point } from './geometry';
 import { insectGenes } from './insect-genes';
