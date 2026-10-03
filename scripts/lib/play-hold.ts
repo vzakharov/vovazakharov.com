@@ -18,13 +18,7 @@ import {
   Point,
   walkAndTurn,
 } from './mushroom-probe.ts';
-import {
-  buttonsOf,
-  nearestOpening,
-  NEWEST,
-  Newest,
-  TUFTS,
-} from './play-tufts.ts';
+import { NEWEST, Newest, plantNearest } from './play-tufts.ts';
 
 /** The flower picker as the page holds it, and what stands of the flower `id`. */
 const Held = z.object({
@@ -180,23 +174,11 @@ async function holdAndPull(
   return pulled.tufts - open.tufts;
 }
 
-/** A flower planted on the nearest tuft that takes one, as `play-tufts.ts` plants it, with its head on screen. */
+/** A flower planted on the nearest tuft that takes one (`plantNearest`), with its head on screen. */
 async function plantOne(
   page: Page,
 ): Promise<NonNullable<z.infer<typeof Flower>> | undefined> {
-  const tufts = await page.evaluate(TUFTS, z.array(Point));
-  if (!(await nearestOpening(page, tufts))) {
-    return undefined;
-  }
-  const [colour] = await page.evaluate(
-    buttonsOf('colourPicker'),
-    z.array(Point),
-  );
-  if (colour) await page.tap(colour);
-  await page.step(30);
-  const [shape] = await page.evaluate(buttonsOf('shapePicker'), z.array(Point));
-  if (shape) await page.tap(shape);
-  await page.step(80);
+  if (!(await plantNearest(page))) return undefined;
   const newest = await page.evaluate(NEWEST, Newest);
   const id = await page.evaluate(
     '__probe.scene.meadow.planted.at(-1)?.id ?? null',

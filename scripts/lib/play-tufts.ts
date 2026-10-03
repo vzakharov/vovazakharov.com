@@ -126,6 +126,25 @@ export const nearestOpening = async (
 export const buttonsOf = (picker: 'colourPicker' | 'shapePicker') =>
   `__probe.scene.controls.${picker}.buttons.map(({ home }) => ({ x: home.x, y: home.y }))`;
 
+/**
+ * A flower planted in the first colour and shape on the nearest tuft that
+ * opens the picker, and grown; whether one opened it.
+ */
+export async function plantNearest(page: Page): Promise<boolean> {
+  const tufts = await page.evaluate(TUFTS, z.array(Point));
+  if (!(await nearestOpening(page, tufts))) return false;
+  const [colour] = await page.evaluate(
+    buttonsOf('colourPicker'),
+    z.array(Point),
+  );
+  if (colour) await page.tap(colour);
+  await page.step(30);
+  const [shape] = await page.evaluate(buttonsOf('shapePicker'), z.array(Point));
+  if (shape) await page.tap(shape);
+  await page.step(80);
+  return true;
+}
+
 /** A close-up's side round the grown flower, in CSS px. */
 const CLOSE = 200;
 

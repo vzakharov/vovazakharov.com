@@ -638,6 +638,8 @@ export const State = z.object({
   clock: z.number(),
 });
 export const Point = z.object({ x: z.number(), y: z.number() });
+/** A flower by its id, at a point. */
+export const FlowerAt = Point.extend({ id: z.string() });
 /** `__probe.map()`: as last drawn, the map's centre (plane, clump sizes), middle and scale (CSS px, a clump size), and where its flowers, the child and his heading show (CSS px). */
 export const MapShown = z.object({
   open: z.boolean(),
@@ -647,7 +649,7 @@ export const MapShown = z.object({
       middle: Point,
       scale: z.number(),
       things: z.number(),
-      flowers: z.array(Point.extend({ id: z.string() })),
+      flowers: z.array(FlowerAt),
       child: Point,
       ahead: Point,
     })
@@ -781,7 +783,7 @@ export const Top = z.string().nullable();
 export const Pose = z
   .object({ mushroom: z.number(), house: z.number(), shown: z.boolean() })
   .nullable();
-export const Flower = Point.extend({ id: z.string() }).nullable();
+export const Flower = FlowerAt.nullable();
 export const Shower = z.object({
   span: z.object({ startedAt: z.number(), stopsAt: z.number() }).nullable(),
   raining: z.boolean(),

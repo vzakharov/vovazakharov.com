@@ -49,6 +49,8 @@ const UNFOLD = 0.3;
 /** How far in from the sheet's edge the meadow is framed, in CSS px: room for the sun at the top. */
 const MARGIN = 26;
 const CORNER = 14;
+/** The sheet's pale edge line: its width, and how far inside the ink it runs, in CSS px. */
+const EDGE = 3;
 /**
  * The least a mushroom's cap stands across on the map, in CSS px, a flower's
  * height, and its head across: floored apart, so the head's colour shows
@@ -190,13 +192,13 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
   pen
     .fillStyle(PALETTE.paper)
     .fillRoundedRect(sheet.left, sheet.top, sheet.width, sheet.height, CORNER)
-    .lineStyle(3, PALETTE.paperEdge)
+    .lineStyle(EDGE, PALETTE.paperEdge)
     .strokeRoundedRect(
-      sheet.left + 3,
-      sheet.top + 3,
-      sheet.width - 6,
-      sheet.height - 6,
-      CORNER - 3,
+      sheet.left + EDGE,
+      sheet.top + EDGE,
+      sheet.width - 2 * EDGE,
+      sheet.height - 2 * EDGE,
+      CORNER - EDGE,
     )
     .lineStyle(2, PALETTE.ink)
     .strokeRoundedRect(
@@ -231,7 +233,7 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
     },
   );
   // Inside the paper's pale edge line, so the wedge never reaches the sky.
-  const inner = 3 + 3 / 2;
+  const inner = EDGE + EDGE / 2;
   drawView(pen, frame, eye, camera, {
     left: sheet.left + inner,
     right: sheet.left + sheet.width - inner,
@@ -239,59 +241,55 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
     bottom: sheet.top + sheet.height - inner,
   });
   const lighting = iconLighting(hairline);
+  // A thing standing on `foot`, painted by `paint` round the origin, moved to
+  // where it shows on the map.
+  const markOn = (foot: Point, paint: () => void): Mark => {
+    const at = onMap(frame, foot);
+    return {
+      ...at,
+      paint: () => {
+        pen.save();
+        pen.translateCanvas(at.x, at.y);
+        paint();
+        pen.restore();
+      },
+    };
+  };
   const marks: Mark[] = [
-    ...stand.spores.map(({ foot }) => {
-      const at = onMap(frame, foot);
-      return {
-        ...at,
-        paint: () => {
-          const r = Math.max(LEAST_SPORE, frame.scale * SPORE_RADIUS);
-          pen
-            .fillStyle(PALETTE.spore)
-            .fillCircle(at.x, at.y, r)
-            .lineStyle(1, PALETTE.ink, 0.45)
-            .strokeCircle(at.x, at.y, r);
-        },
-      };
-    }),
-    ...flowers.map((flower) => {
-      const at = onMap(frame, flower.foot);
-      return {
-        ...at,
-        paint: () => {
-          const genes = flowerGenes(flower);
-          const size = thingScale(frame, flower.foot.size, LEAST_FLOWER);
-          const head = flowerHead(genes, size);
-          const headSize = Math.max(size, LEAST_HEAD / (2 * genes.petalLength));
-          pen.save();
-          pen.translateCanvas(at.x, at.y);
-          paintFlowerStem(pen, genes, size, lighting);
-          pen.translateCanvas(head.x, head.y);
-          paintFlowerHead(pen, genes, headSize, lighting);
-          pen.restore();
-        },
-      };
-    }),
-    ...stand.mushrooms.map((mushroom) => {
-      const at = onMap(frame, mushroom.foot);
-      return {
-        ...at,
-        paint: () => {
-          const grown = mushroomGenes(mushroom);
-          const genes = {
-            ...grown,
-            spots: paintedSpots(grown, mushroom.house),
-          };
-          const least = LEAST_CAP / genes.capWidth;
-          const size = thingScale(frame, sizeOn(mushroom.foot), least);
-          pen.save();
-          pen.translateCanvas(at.x, at.y);
-          drawMushroom(pen, genes, size, lighting);
-          paintHome(pen, genes, size, mushroom.house, lighting);
-          pen.restore();
-        },
-      };
-    }),
+    ...stand.spores.map(({ foot }) =>
+      markOn(foot, () => {
+        const r = Math.max(LEAST_SPORE, frame.scale * SPORE_RADIUS);
+        pen
+          .fillStyle(PALETTE.spore)
+          .fillCircle(0, 0, r)
+          .lineStyle(1, PALETTE.ink, 0.45)
+          .strokeCircle(0, 0, r);
+      }),
+    ),
+    ...flowers.map((flower) =>
+      markOn(flower.foot, () => {
+        const genes = flowerGenes(flower);
+        const size = thingScale(frame, flower.foot.size, LEAST_FLOWER);
+        const head = flowerHead(genes, size);
+        const headSize = Math.max(size, LEAST_HEAD / (2 * genes.petalLength));
+        paintFlowerStem(pen, genes, size, lighting);
+        pen.translateCanvas(head.x, head.y);
+        paintFlowerHead(pen, genes, headSize, lighting);
+      }),
+    ),
+    ...stand.mushrooms.map((mushroom) =>
+      markOn(mushroom.foot, () => {
+        const grown = mushroomGenes(mushroom);
+        const genes = {
+          ...grown,
+          spots: paintedSpots(grown, mushroom.house),
+        };
+        const least = LEAST_CAP / genes.capWidth;
+        const size = thingScale(frame, sizeOn(mushroom.foot), least);
+        drawMushroom(pen, genes, size, lighting);
+        paintHome(pen, genes, size, mushroom.house, lighting);
+      }),
+    ),
   ];
   // Farther up the map first, so the nearer the bottom draws over it.
   for (const mark of marks.toSorted((a, b) => a.y - b.y)) mark.paint();
@@ -354,6 +352,10 @@ function drawSun(pen: Phaser.GameObjects.Graphics, { x, y }: Point): void {
     .strokeCircle(x, y, SUN_RADIUS);
 }
 
+/** How far a ray from `start` on one axis, moving `step` a px along it, runs to `low` or `high`. */
+const toEdge = (start: number, step: number, low: number, high: number) =>
+  step > 0 ? (high - start) / step : step < 0 ? (low - start) / step : Infinity;
+
 /**
  * The pale wedge of what the child sees: the view's half-angle either side of
  * his heading, `D_SEE` deep, cut off at `paper`. The eye stands inside it, so
@@ -382,16 +384,8 @@ function drawView(
     const dy = Math.sin(a);
     const reach = Math.min(
       deep,
-      dx > 0
-        ? (paper.right - at.x) / dx
-        : dx < 0
-          ? (paper.left - at.x) / dx
-          : deep,
-      dy > 0
-        ? (paper.bottom - at.y) / dy
-        : dy < 0
-          ? (paper.top - at.y) / dy
-          : deep,
+      toEdge(at.x, dx, paper.left, paper.right),
+      toEdge(at.y, dy, paper.top, paper.bottom),
     );
     return { x: at.x + dx * reach, y: at.y + dy * reach };
   });

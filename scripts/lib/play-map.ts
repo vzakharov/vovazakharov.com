@@ -19,15 +19,16 @@ import {
   type Controls,
   type Expect,
   Eye,
+  FlowerAt,
   grow,
   inTurn,
   MapShown,
   type Page,
-  Point,
+  type Point,
   State,
   walkAndTurn,
 } from './mushroom-probe.ts';
-import { buttonsOf, nearestOpening, TUFTS } from './play-tufts.ts';
+import { plantNearest } from './play-tufts.ts';
 
 /** Frames into the map's 0.3 s unfold that catch it growing out of its button, short of the overshoot. */
 const MID_UNFOLD = 3;
@@ -42,7 +43,7 @@ const FLOWERS_SEEN = `[...__probe.scene.flowers.shown]
 /** Where the door stands in the house picker. */
 const DOOR = FURNISHINGS.indexOf('door');
 
-const Seen = z.array(Point.extend({ id: z.string() }));
+const Seen = z.array(FlowerAt);
 
 export async function playMap(
   page: Page,
@@ -51,6 +52,8 @@ export async function playMap(
   note: (line: string) => void,
 ): Promise<void> {
   const map = async () => page.evaluate('__probe.map()', MapShown);
+  const state = async () => page.evaluate('__probe.state()', State);
+  const eyeNow = async () => page.evaluate('__probe.eye()', Eye);
   /** A tap on the sheet, away from the button, shuts it as the button does. */
   const shut = async (screen: z.infer<typeof Eye>, open: string) => {
     await page.tap({ x: screen.width / 2, y: screen.height / 2 });
@@ -73,7 +76,7 @@ export async function playMap(
     await page.shoot(open);
     const [shown, eye, seen] = await Promise.all([
       map(),
-      page.evaluate('__probe.eye()', Eye),
+      eyeNow(),
       page.evaluate(FLOWERS_SEEN, Seen),
     ]);
     expect(shown.open, `the map button did not open the map (${open})`);
@@ -118,12 +121,12 @@ export async function playMap(
   // Only the map button stands over the open map: the `+` picker shuts.
   await page.tap(controls.plus);
   await page.step(30);
-  const picking = (await page.evaluate('__probe.state()', State)).picking;
+  const { picking } = await state();
   await page.tap(controls.map);
   await page.step(UNFOLDED);
-  const shutUnder = !(await page.evaluate('__probe.state()', State)).picking;
+  const shutUnder = !(await state()).picking;
   expect(picking && shutUnder, 'the + picker stayed open over the map');
-  await shut(await page.evaluate('__probe.eye()', Eye), 'over the picker');
+  await shut(await eyeNow(), 'over the picker');
 
   await inTurn([0, 1, 2], async (index) =>
     grow(page, controls, controls.picker[index]),
@@ -131,25 +134,7 @@ export async function playMap(
   // The newest, selected as it grew, gets a window and a door.
   await furnishNewest(page, controls, expect, [0, DOOR]);
 
-  const tuft = await nearestOpening(
-    page,
-    await page.evaluate(TUFTS, z.array(Point)),
-  );
-  expect(tuft !== undefined, 'no tuft opened the flower picker');
-  if (tuft) {
-    const [colour] = await page.evaluate(
-      buttonsOf('colourPicker'),
-      z.array(Point),
-    );
-    if (colour) await page.tap(colour);
-    await page.step(30);
-    const [shape] = await page.evaluate(
-      buttonsOf('shapePicker'),
-      z.array(Point),
-    );
-    if (shape) await page.tap(shape);
-    await page.step(90);
-  }
+  expect(await plantNearest(page), 'no tuft opened the flower picker');
   note(await walkAndTurn(page));
   await page.shoot('m3-walked');
 
@@ -160,13 +145,13 @@ export async function playMap(
   );
 
   // A flick's glide stops dead as the map opens over it.
-  const screen = await page.evaluate('__probe.eye()', Eye);
+  const screen = await eyeNow();
   const sky = { x: screen.width * 0.7, y: screen.height * 0.15 };
   await page.drag(sky, { ...sky, x: screen.width * 0.3 }, 4);
   await page.tap(controls.map);
-  const stopped = await page.evaluate('__probe.eye()', Eye);
+  const stopped = await eyeNow();
   await page.step(60);
-  const later = await page.evaluate('__probe.eye()', Eye);
+  const later = await eyeNow();
   expect(
     stopped.heading === later.heading &&
       stopped.x === later.x &&
@@ -182,7 +167,7 @@ export async function playMap(
     controls,
     controls.picker[MUSHROOM_SPECIES.indexOf('russula')],
   );
-  const grown = await page.evaluate('__probe.state()', State);
+  const grown = await state();
   expect(
     grown.species.at(-1) === 'russula',
     `the picker grew a ${String(grown.species.at(-1))}, not a russula`,
