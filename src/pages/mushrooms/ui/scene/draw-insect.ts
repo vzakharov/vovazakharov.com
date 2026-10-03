@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import { type Point, sample } from '../../model/geometry';
+import { type Point, type Reach, sample } from '../../model/geometry';
 import type { ButterflyGenes } from '../../model/insect-genes';
 import { litCrest } from '../../model/insect-light';
 import {
@@ -230,7 +230,7 @@ export function paintBody(
 }
 
 /** How far the proboscis is out, where it reaches in the body's frame, and which side it bows to (`proboscisLine`). */
-export type Reaching = { reach: number; nectar: Point; side: Side };
+export type Reaching = Reach & { nectar: Point; side: Side };
 
 /** The proboscis into `graphics`, about the body's middle (`proboscisLine`). */
 export function paintProboscis(

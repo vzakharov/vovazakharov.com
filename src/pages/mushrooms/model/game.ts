@@ -31,17 +31,23 @@ import {
 } from './mushroom-genes';
 import { type Footed, OPENING_FOOTING } from './placement';
 import { plantedId, type Sown } from './pollen';
-import type { Random, Seeded } from './random';
+import type { Random, Seeded, Seeds } from './random';
+import {
+  type Shed,
+  type Shedding,
+  sprouted,
+  type Sprouting,
+} from './sprouting';
 import { type Rain, RAIN_MS, raining } from './weather';
 
-export type Planted = Mushroom & Housed & Footed;
+export type Planted = Mushroom & Housed & Footed & Sprouting;
 
 /**
  * A colour the child picked to plant, and the seed each of `FLOWER_SHAPES`
  * grows from in it, in that order, drawn before the pick so the picker shows
  * the very flower that will grow.
  */
-type Chosen = Coloured & { seeds: readonly number[] };
+type Chosen = Coloured & Seeds;
 
 /**
  * Where the flower picker is open, as a foot on the plane, while it waits:
@@ -76,7 +82,7 @@ export type Meadow = Swarm & {
   released: number;
   /** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
   rain: Rain | undefined;
-};
+} & Shed;
 
 export type Action =
   | { kind: 'pick' }
@@ -103,7 +109,7 @@ export type Action =
   | ({ kind: 'release'; insect: InsectKind; onscreen?: Onscreen } & Seeded &
       Sighted)
   | ({ kind: 'startle' } & WithId & Sighted)
-  | ({ kind: 'tick' } & Sighted);
+  | ({ kind: 'tick' } & Sighted & Shedding);
 
 /** An insect action's moment, and what the scene sees of the perches as it happens. */
 type Sighted = Timed & Sight;
@@ -127,6 +133,7 @@ export function firstMeadow(random: Random): Meadow {
     planted: [],
     released: 0,
     rain: undefined,
+    shed: undefined,
   };
 }
 
@@ -426,8 +433,8 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'tick': {
-      const perches = perchesOf(meadow, action);
-      return swarmed(meadow, ticked(meadow, perches, action.now));
+      const shed = sprouted(meadow, action);
+      return swarmed(shed, ticked(shed, perchesOf(shed, action), action.now));
     }
     default: {
       return action satisfies never;

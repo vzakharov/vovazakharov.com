@@ -9,7 +9,13 @@
 import type { Flight, Leg } from './flight';
 import type { Flower } from './flower-genes';
 import type { Rooted } from './ground';
-import { nextSeed, pick, saltedStream, type Seeded } from './random';
+import {
+  nextSeed,
+  type Parented,
+  pick,
+  saltedStream,
+  type Seeded,
+} from './random';
 
 /** How many specks of pollen a bee's baskets hold at most. */
 export const POLLEN_MOST = 3;
@@ -26,7 +32,7 @@ export type Plot = { room: readonly Room[] };
  * flower's id or a planted one's, so planted flowers ring planted flowers
  * too. Its genes grow from `seed` as any flower's do.
  */
-export type BeeSown = Flower & Ringed & { parent: string };
+export type BeeSown = Flower & Ringed & Parented;
 /**
  * A flower on its own foot on the ground: as a planted one, the child's,
  * planted on a tuft.

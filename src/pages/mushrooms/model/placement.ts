@@ -1,13 +1,13 @@
 /**
  * Where a new mushroom's foot goes on the ground: Mitchell's best of a few
  * candidates, each drawn at random over the world's frame or the stretch of
- * it the screen shows, the one farthest
+ * it the screen shows (or round a sprout's parent), the one farthest
  * from every foot already standing — so a meadow fills evenly, never on a
  * grid, and each visit's differently. What a foot must keep to on the screen
  * is the scene's to judge (`admits`); nothing here knows how it is drawn.
  */
 
-import type { Point } from './geometry';
+import type { Point, Reach } from './geometry';
 import {
   type Eye,
   type Frame,
@@ -17,6 +17,7 @@ import {
   scaleAt,
   seen,
   unanchored,
+  UP_PER_Z,
 } from './ground';
 import { mulberry32, type Random } from './random';
 
@@ -107,6 +108,29 @@ function drawnFoot(
   return { x: (left + random() * (right - left)) / scaleAt(z), z };
 }
 
+/** A disc round `ground`, `reach` across as a camera lays it out (`seen`), in the clump's size. */
+export type Near = Reach & { ground: Ground };
+
+/**
+ * A ground point drawn evenly over `near`'s disc as a camera lays it out, or
+ * `undefined` where it falls off `frame` or outside `span`: never pulled
+ * back in, so the feet stay even over what is left of the disc.
+ */
+function drawnNear(
+  random: Random,
+  frame: Frame,
+  { left, right }: Span,
+  { ground, reach }: Near,
+): Ground | undefined {
+  const centre = seen(ground);
+  const away = reach * Math.sqrt(random());
+  const turn = 2 * Math.PI * random();
+  const x = centre.x + away * Math.cos(turn);
+  const z = (centre.y + away * Math.sin(turn)) / UP_PER_Z;
+  const kept = z >= frame.near && z <= frame.far && x >= left && x <= right;
+  return kept ? { x: x / scaleAt(z), z } : undefined;
+}
+
 export type Picking = Framed &
   WithOptionalSpan & {
     /** The feet already standing, which a new one stands clear of and as far from as it can. */
@@ -116,6 +140,8 @@ export type Picking = Framed &
      * whatever else the ground alone cannot tell.
      */
     admits: (foot: Ground) => boolean;
+    /** Where the foot is drawn round instead of across the whole frame: a sprout's parent. */
+    near?: Near;
   };
 
 /**
@@ -126,7 +152,7 @@ export type Picking = Framed &
  */
 export function pickFoot(
   seed: number,
-  { frame, feet, admits, within }: Picking,
+  { frame, feet, admits, within, near }: Picking,
 ): Ground | undefined {
   const random = mulberry32(seed ^ 0x6f_07_5e);
   const span = {
@@ -135,10 +161,13 @@ export function pickFoot(
   };
   const room = (foot: Ground) =>
     Math.min(Infinity, ...feet.map((other) => apartOnScreen(foot, other)));
+  const drawn = () =>
+    near
+      ? drawnNear(random, frame, span, near)
+      : drawnFoot(random, frame, span);
   for (let round = 0; round < ROUNDS; round++) {
-    const candidates = Array.from({ length: CANDIDATES }, () =>
-      drawnFoot(random, frame, span),
-    )
+    const candidates = Array.from({ length: CANDIDATES }, drawn)
+      .filter((foot) => foot !== undefined)
       .map((foot) => ({ foot, room: room(foot) }))
       .filter(({ room: apart }) => apart >= FOOT_APART)
       .toSorted((a, b) => b.room - a.room);

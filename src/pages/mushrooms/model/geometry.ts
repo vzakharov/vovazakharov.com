@@ -11,6 +11,8 @@ export type Wide = { across: number };
 export type Tall = { tall: number };
 /** How far a thing leans from upright, in its module's units. */
 export type Leaning = { lean: number };
+/** How far a thing reaches, in its module's units. */
+export type Reach = { reach: number };
 
 export type WithMiddle = { middle: Point };
 /** Where a box's top-left corner stands. */

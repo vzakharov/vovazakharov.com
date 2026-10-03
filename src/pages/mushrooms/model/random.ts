@@ -2,6 +2,10 @@ import type { Bent } from './geometry';
 
 /** What a creature is grown from: its genes are a pure function of it. */
 export type Seeded = { seed: number };
+/** The seeds a few creatures will grow from, drawn before they grow, in order. */
+export type Seeds = { seeds: readonly number[] };
+/** The creature one grew from, by its id: a bee's flower's, a sprout's mushroom. */
+export type Parented = { parent: string };
 
 /**
  * A creature's own shift off its base hue, as a fraction of the colour wheel:
