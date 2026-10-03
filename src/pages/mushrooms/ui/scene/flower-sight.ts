@@ -13,13 +13,14 @@ import { pick } from '@/shared/lib/collections';
 import { anchorOf } from '../../model/anchor';
 import { FACE_REACH } from '../../model/bee-outline';
 import { CRAWL_REACH } from '../../model/buzz-rest';
+import { flowersCrowdAt } from '../../model/crowding';
 import {
   type Flower,
   FLOWER_RANGES,
   flowerGenes,
   flowerHead,
 } from '../../model/flower-genes';
-import { flowersCrowdAt, type Meadow } from '../../model/game';
+import type { Meadow } from '../../model/game';
 import {
   type Box,
   boxAround,

@@ -3,7 +3,8 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/shared/lib/collections';
 
-import { firstMeadow, MUSHROOM_SLOTS } from '../../model/game';
+import { MUSHROOM_SLOTS } from '../../model/crowding';
+import { firstMeadow } from '../../model/game';
 import {
   type Box,
   boxAround,

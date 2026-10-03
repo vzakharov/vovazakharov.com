@@ -2,17 +2,19 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  type Action,
-  canFurnish,
   FIELD_MUSHROOMS,
-  firstMeadow,
   FLOWER_SLOTS,
   flowersCrowdAt,
   isCrowdedAt,
-  isEmpty,
   isFull,
-  type Meadow,
   MUSHROOM_SLOTS,
+} from './crowding';
+import {
+  type Action,
+  canFurnish,
+  firstMeadow,
+  isEmpty,
+  type Meadow,
   reduce,
 } from './game';
 import type { Point } from './geometry';

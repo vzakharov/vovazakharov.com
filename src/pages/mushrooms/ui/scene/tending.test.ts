@@ -3,7 +3,8 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/shared/lib/collections';
 
-import { MUSHROOM_SLOTS, reduce, sameFoot } from '../../model/game';
+import { MUSHROOM_SLOTS } from '../../model/crowding';
+import { reduce, sameFoot } from '../../model/game';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { plantedId, type Sown } from '../../model/pollen';

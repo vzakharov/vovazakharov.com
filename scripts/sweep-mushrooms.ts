@@ -18,7 +18,7 @@
 
 import { z } from 'zod';
 
-import { MUSHROOM_SLOTS } from '../src/pages/mushrooms/model/game';
+import { MUSHROOM_SLOTS } from '../src/pages/mushrooms/model/crowding';
 import { OPENING_EYE } from '../src/pages/mushrooms/model/ground';
 import {
   hiddenOf,

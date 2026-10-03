@@ -1,5 +1,6 @@
 import type * as Phaser from 'phaser';
 
+import { isFull } from '../../model/crowding';
 import type { FlowerColour } from '../../model/flower-genes';
 import {
   FLOWER_SHAPES,
@@ -9,7 +10,6 @@ import {
 import {
   canFurnish,
   isEmpty,
-  isFull,
   type Meadow,
   type Planted,
   shapeSeed,

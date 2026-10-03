@@ -7,12 +7,12 @@
 import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
+import { isCrowdedAt, isFull } from './crowding';
 import { type Perches, perchName, type Sight, type Timed } from './flight';
 import type { Onscreen } from './flight-in';
 import type { Coloured } from './flower-genes';
 import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
-import { distanceBetween, type Point } from './geometry';
-import { D_SEE, type Footing, type Rooted } from './ground';
+import type { Footing, Rooted } from './ground';
 import {
   EMPTY_HOUSE,
   furnished,
@@ -33,21 +33,6 @@ import { type Footed, OPENING_FOOTING } from './placement';
 import { plantedId, type Sown } from './pollen';
 import type { Random, Seeded } from './random';
 import { type Rain, RAIN_MS, raining } from './weather';
-
-/**
- * How many mushrooms stand at most within `D_SEE` of a new one's foot, room
- * permitting: as far as the eye sees holds twice the six one screen reads
- * apart.
- */
-export const MUSHROOM_SLOTS = 12;
-/**
- * How many flowers stand at most within `D_SEE` of a new one's foot: past
- * it a bee plants nothing and no tuft takes the child's flower, so bee
- * rings cannot sow the endless field without bound.
- */
-export const FLOWER_SLOTS = 48;
-/** How many mushrooms the whole field holds at most. */
-export const FIELD_MUSHROOMS = 96;
 
 export type Planted = Mushroom & Housed & Footed;
 
@@ -151,53 +136,6 @@ export function shapeSeed(
   shape: FlowerShape,
 ): number | undefined {
   return planting?.chosen?.seeds[FLOWER_SHAPES.indexOf(shape)];
-}
-
-export function isFull({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
-  return mushrooms.length >= FIELD_MUSHROOMS;
-}
-
-type Stood = Pick<Footed, 'foot'>;
-
-/** Whether `slots` of `standing` already stand within `D_SEE` of `foot`, on the plane. */
-function fullRound(
-  standing: readonly Stood[],
-  foot: Point,
-  slots: number,
-): boolean {
-  let near = 0;
-  for (const each of standing) {
-    if (distanceBetween(each.foot, foot) <= D_SEE && ++near >= slots) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Whether `MUSHROOM_SLOTS` of the meadow's mushrooms already stand within
- * `D_SEE` of `foot`, or of the anchor `from` it grows from, so none grows
- * there. Counting round the anchor holds every screen's opening to the same
- * count: a wide screen shows more ground than one foot's circle, and what it
- * grew past `MUSHROOM_SLOTS` would leave the screen when the phone is turned.
- */
-export function isCrowdedAt(
-  { mushrooms }: Pick<Meadow, 'mushrooms'>,
-  foot: Point,
-  from: Point = foot,
-): boolean {
-  return (
-    fullRound(mushrooms, foot, MUSHROOM_SLOTS) ||
-    fullRound(mushrooms, from, MUSHROOM_SLOTS)
-  );
-}
-
-/** Whether `FLOWER_SLOTS` of the flowers `standing` already stand within `D_SEE` of `foot`, so none is planted there. */
-export function flowersCrowdAt(
-  standing: readonly Stood[],
-  foot: Point,
-): boolean {
-  return fullRound(standing, foot, FLOWER_SLOTS);
 }
 
 export function isEmpty({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {

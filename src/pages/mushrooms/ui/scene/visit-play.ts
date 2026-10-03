@@ -5,14 +5,10 @@
  * whenever a bee plants. Only tests and `scripts/sweep-mushrooms.ts` read it.
  */
 
+import { MUSHROOM_SLOTS } from '../../model/crowding';
 import type { Sight, Timed } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-sounds';
-import {
-  firstMeadow,
-  type Meadow,
-  MUSHROOM_SLOTS,
-  reduce,
-} from '../../model/game';
+import { firstMeadow, type Meadow, reduce } from '../../model/game';
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { openingIndex } from '../../model/placement';

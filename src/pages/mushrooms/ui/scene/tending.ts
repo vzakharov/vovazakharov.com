@@ -8,9 +8,10 @@
  */
 
 import { anchorOf } from '../../model/anchor';
+import { flowersCrowdAt } from '../../model/crowding';
 import { azimuthOf } from '../../model/flight-frame';
 import { FLOWER_RANGES, flowerGenes } from '../../model/flower-genes';
-import { flowersCrowdAt, sameFoot } from '../../model/game';
+import { sameFoot } from '../../model/game';
 import { boxesMeet, distanceBetween, wrap } from '../../model/geometry';
 import {
   D_SEE,

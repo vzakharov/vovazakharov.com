@@ -19,7 +19,7 @@
 import { pick } from '@/shared/lib/collections';
 
 import { anchorOf } from '../../model/anchor';
-import { isCrowdedAt } from '../../model/game';
+import { isCrowdedAt } from '../../model/crowding';
 import {
   type Box,
   boxAround,

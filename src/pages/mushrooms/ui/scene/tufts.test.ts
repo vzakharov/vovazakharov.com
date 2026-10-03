@@ -3,8 +3,9 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/shared/lib/collections';
 
+import { MUSHROOM_SLOTS } from '../../model/crowding';
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
-import { type Action, MUSHROOM_SLOTS, reduce } from '../../model/game';
+import { type Action, reduce } from '../../model/game';
 import { type Circle, distanceBetween, type Point } from '../../model/geometry';
 import {
   type Camera,
