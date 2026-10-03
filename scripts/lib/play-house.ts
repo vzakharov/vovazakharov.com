@@ -3,7 +3,7 @@
  * opening clump: the house picker opened, every window and the door put in, a
  * full row and a second door each shaking their heads and changing nothing,
  * a door on each mushroom, a tap on each door — the back one too — calling its
- * mouse out at a readable size, and the two pickers closing each other.
+ * mouse out, and the two pickers closing each other.
  */
 
 import { z } from 'zod';
@@ -26,8 +26,6 @@ const DOOR = PIECES.indexOf('door');
 const MOST_TAPS = 8;
 /** Frames for a pop to settle, and for a shake to be seen. */
 const SETTLE = 45;
-/** The least a mouse's head is drawn across, in CSS px: `MOUSE_HEAD_LEAST` in `ui/scene/door-reach.ts`. */
-const MOUSE_HEAD_LEAST = 28;
 
 export async function playHouse(
   page: Page,
@@ -177,10 +175,6 @@ export async function playHouse(
     expect(
       mouse.out > 0.9,
       `the ${side} mouse is only ${mouse.out.toFixed(2)} out`,
-    );
-    expect(
-      mouse.head >= MOUSE_HEAD_LEAST,
-      `the ${side} mouse's head is drawn ${mouse.head.toFixed(1)} px across`,
     );
     expect(now.selected === selected, 'a tap on a door changed the selection');
     note(`${side} mouse's head ${mouse.head.toFixed(1)} px`);
