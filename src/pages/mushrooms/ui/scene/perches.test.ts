@@ -3,9 +3,10 @@ import { describe, it } from 'node:test';
 
 import { type Perch, perchName } from '../../model/flight';
 import { apartIn } from '../../model/flight-timing';
-import type { Point } from '../../model/geometry';
+import { distanceBetween, type Point } from '../../model/geometry';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import { anchoredStand } from './anchored-stand';
+import { placeIn } from './clump-layout';
 import { type Stand, WIDEST_SPAN } from './flower-sight';
 import { awayDown, leavingAloft } from './insect-away';
 import { drawnAloft } from './insect-frame';
@@ -107,15 +108,19 @@ describe('perches judged at an anchor', () => {
     assert.deepEqual(anchored, plain);
   });
 
-  it('offer no cap past PERCH_REACH of the anchor', () => {
-    const stand = withLone(opened(3, 1180, 820, true), { x: 0, y: 10 });
-    const near: Eye = { x: 0, y: 0, heading: 0 };
-    const far: Eye = { x: 0, y: 10 - PERCH_REACH - 1, heading: 0 };
+  it('offer no cap past PERCH_REACH of the anchor, though the layout places it', () => {
+    // Off to the side and near the frame's far edge: the one stretch the
+    // layout places past the reach, so only the reach refuses it.
+    const at = { x: 15.5, y: 5.5 };
+    const stand = withLone(opened(3, 1180, 820, true), at);
+    const near: Eye = { x: 2, y: 0, heading: 0 };
+    const far: Eye = { x: 0, y: 0, heading: 0 };
+    assert.ok(distanceBetween(far, at) > PERCH_REACH);
     assert.ok(perchSight(anchoredStand(stand, near)).places?.[LONE]);
-    assert.equal(
-      perchSight(anchoredStand(stand, far)).places?.[LONE],
-      undefined,
-    );
+    const judged = anchoredStand(stand, far);
+    const lone = judged.mushrooms.find(({ id }) => id === 'lone');
+    assert.ok(lone && placeIn(judged.layout.mushrooms, lone), 'not placed');
+    assert.equal(perchSight(judged).places?.[LONE], undefined);
   });
 
   it('place a cap behind the opening eye from an anchor facing it, where it stands', () => {
