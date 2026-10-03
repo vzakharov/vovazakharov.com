@@ -20,10 +20,8 @@ export const RUNNER_SPAN = RUNNER_REACH.back + RUNNER_REACH.ahead;
 
 /**
  * How much nearer the eye than the nearer stem's foot a course's middle
- * runs, in drawn runners (`RUNNER_SPAN`) of the wider end's door: a whole
- * runner clears that stem, and no more keeps the course from dipping far
- * down the screen, where the aside bow already carries it out from behind
- * the stem.
+ * runs, in drawn runners (`RUNNER_SPAN`) of the wider end's door: one clears
+ * that stem, and more only dips the course down the screen.
  */
 export const RUN_BOW = 1;
 
@@ -33,13 +31,11 @@ export const RUN_BOW = 1;
  */
 export type RunPath = { from: Point; bend: Point; to: Point };
 
-/** The point halfway from `from` to `to`. */
 const middleOf = (from: Point, to: Point): Point => ({
   x: (from.x + to.x) / 2,
   y: (from.y + to.y) / 2,
 });
 
-/** The course straight from `from` to `to`, its bend at their middle. */
 export const straightPath = (from: Point, to: Point): RunPath => ({
   from,
   bend: middleOf(from, to),
@@ -72,7 +68,6 @@ function lengthsOf(path: RunPath): number[] {
   return lengths;
 }
 
-/** How long a run's course is on the plane. */
 export const pathLength = (path: RunPath): number =>
   lengthsOf(path)[PIECES] ?? 0;
 

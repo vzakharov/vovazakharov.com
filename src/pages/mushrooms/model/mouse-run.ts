@@ -3,8 +3,8 @@
  * functions: which doors are in reach and which one a mouse picks, how many
  * mice each house holds as runs move them, and when an outing becomes a run;
  * the run's own clock is `mouse-run-clock.ts`. The scene holds the counts
- * and the runs under way and asks these; nothing here reads it. Plane
- * lengths are in the clump's size.
+ * and the runs under way and asks these. Plane lengths are in the clump's
+ * size.
  */
 
 import type { WithId } from '@/shared/typings';
@@ -29,7 +29,6 @@ export type Mice = ReadonlyMap<string, number>;
 /** A house's door as the runs see it: where its foot stands on the plane, and whether it is drawn now. */
 export type RunDoor = WithId & Pick<Footed, 'foot'> & { seen: boolean };
 
-/** How many mice `id`'s house holds. */
 export const miceAt = (mice: Mice, id: string): number => mice.get(id) ?? 0;
 
 /** How many mice the houses hold between them. */

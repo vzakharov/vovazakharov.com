@@ -277,7 +277,7 @@ export const PEEK_DUCK = 0.3;
 const PEEK_HOLD = 1.6;
 const TAP_PEEK_HOLD = 1.4;
 /** A tap brings the mouse out quicker than it comes on its own. */
-const TAP_PEEK_RISE = 0.18;
+export const TAP_PEEK_RISE = 0.18;
 /** The shortest and longest wait from one peek to the next, one per mushroom. */
 export const PEEK_PERIOD = [6, 12] as const;
 export const TAP_PEEK_DURATION = TAP_PEEK_RISE + TAP_PEEK_HOLD + PEEK_DUCK;

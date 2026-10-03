@@ -60,11 +60,9 @@ const HOP_UP = 0.25;
 const RUN_SHUT = 0.3;
 /**
  * The shortest span of a run from a door, long enough for a child to follow
- * it: a course is bowed aside until it is at least this long at `RUN_PACE`
- * (`pathBetween`), which on the opening clump sweeps the runner ~60 px
- * across a tablet's screen, and a run shorter still is slowed to it. A run
- * re-targeted from the ground is already being followed, and runs straight
- * in at its own length (`courseOf`).
+ * it: a course is bowed aside until it lasts this long at `RUN_PACE`
+ * (`pathBetween`), and a run shorter still is slowed to it. A run re-targeted
+ * from the ground, already being followed, runs straight at its own length.
  */
 export const RUN_LEAST = 2.4;
 /** How long a run takes to reach full pace and to slow from it. */
@@ -236,8 +234,7 @@ const TAP_HOP_HEIGHT = 0.5;
 
 /**
  * How high a runner jumps `since` seconds after a tap, in its width, on top
- * of where its run has it: a single arc over `TAP_HOP`, nothing before the
- * tap or after it lands. The run's own clock never reads it.
+ * of where its run has it: a single arc over `TAP_HOP`.
  */
 export const hop = (since: number): number =>
   since >= 0 && since < TAP_HOP
@@ -288,11 +285,7 @@ export const courseOf = (
     ? straightPath(from.front, to.front)
     : pathBetween(from, to, eye, bowSign);
 
-/**
- * Where a runner stands for `moment` between `from` and `to` along `path`,
- * all on the plane in the clump's size: its point on the ground, how high it
- * is off it, its width, and the unit way along the course it faces.
- */
+/** A runner on the plane, in the clump's size: `up` off the ground, and `heading` the unit way along its course it faces. */
 export type Runner = Wide & { point: Point; up: number; heading: Point };
 
 export function runnerAt(

@@ -7,7 +7,14 @@
 
 import { type Circle, distanceBetween, type Point, sample } from './geometry';
 import { PANE, slotLevel } from './house';
-import { lookAbout, type Looking, outAndBack, smooth } from './motion';
+import {
+  lookAbout,
+  type Looking,
+  outAndBack,
+  PEEK_DUCK,
+  smooth,
+  TAP_PEEK_RISE,
+} from './motion';
 import { hasTrumpet, type MushroomGenes } from './mushroom-genes';
 import { MUSHROOM_INK } from './mushroom-outline';
 import { capBase, capSurface } from './mushroom-profile';
@@ -61,11 +68,9 @@ const RIM_HUMP = PANE / 2;
 /** How many chords a trip's path is sampled with. */
 const PATH_STEPS = 24;
 
-/** A worm's peek out of a lone window: up, a look about, and back in. */
-const PEEK_RISE = 0.18;
-const PEEK_HOLD = 1;
-const PEEK_DUCK = 0.3;
-export const WORM_PEEK_DURATION = PEEK_RISE + PEEK_HOLD + PEEK_DUCK;
+/** How long a worm peeking out of a lone window looks about: a tapped mouse's rise and duck around it. */
+const WORM_PEEK_HOLD = 1;
+export const WORM_PEEK_DURATION = TAP_PEEK_RISE + WORM_PEEK_HOLD + PEEK_DUCK;
 
 /** How long a tapped worm wriggles, and how far sideways, in girths. */
 export const WRIGGLE_DURATION = 0.3;
@@ -161,7 +166,6 @@ export function peekPath(
   return [from, { x, y: y + Math.max(0, Math.min(WORM_LENGTH, room)) }];
 }
 
-/** How long a polyline is, end to end along it. */
 export function pathLength(path: readonly Point[]): number {
   let length = 0;
   for (let index = 1; index < path.length; index++) {
@@ -224,8 +228,8 @@ export function wormTrip(
 /**
  * A worm peeking out of a lone window, `elapsed` after the tap, along a
  * `peekPath` `length` long, its body drawn in to that length: up, a look
- * about (`look`, from -1 left to 1 right), and back in — the mouse's own
- * peek. `undefined` before the tap and once it is in.
+ * about and back in, as a tapped mouse peeks. `undefined` before the tap and
+ * once it is in.
  */
 export function wormPeek(
   elapsed: number,
@@ -233,7 +237,8 @@ export function wormPeek(
   phase = 0,
 ): (WormPose & Looking) | undefined {
   if (elapsed < 0 || elapsed >= WORM_PEEK_DURATION) return undefined;
-  const head = length * outAndBack(elapsed, PEEK_RISE, PEEK_HOLD, PEEK_DUCK);
+  const head =
+    length * outAndBack(elapsed, TAP_PEEK_RISE, WORM_PEEK_HOLD, PEEK_DUCK);
   return { head, tail: head - length, look: lookAbout(elapsed, phase) };
 }
 
