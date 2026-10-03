@@ -102,4 +102,29 @@ landing one squash commit (`brief-common.md` under
   frame's centre and reach) and a `map` play shooting it closed, opening and
   open on a fresh meadow and on a walked, planted one, on tabL and phoneP.
 
+## Calls from the build
+
+11\. **`MapView` replaces `MapSwitch`**; the map is one Graphics in a
+Container centred on the button, scaled and faded together, redrawn on
+opening and on a resize while open — not baked. Lit by `iconLighting`, the
+buttons' fixed light. A spore is a dot 0.06 of a clump size, at least 2 px.
+
+12\. **A tap anywhere closes the open map**, the margin round the sheet
+included: a full-screen catch is interactive only while it is open, so no
+tap reaches the meadow under it. A key held as it opens is let go
+(`EyeInput.letGo`); note keys are dropped while it is open.
+
+13\. **A flower stands on the map at its `foot`, never its `place`** — the
+layout's footing put the field's reach at ~2000 clump sizes and shrank the
+meadow onto the child's dot (the first play run's one red, 80bd380).
+
+14\. **Call 7 revised: the map frames what is planted, not the child.** As
+built, centred on the child, half the sheet stays empty behind him and a
+fresh meadow on phoneP is a thin band at 9 px flowers (frames
+`phoneP-m2-open-fresh.png`, `tabL-m4-open-planted.png`). The frame is the
+box round every foot and the eye, padded one clump size, fitted to the
+sheet on both axes, still sun-up, its scale capped at 2.5× the fresh
+meadow's so two mushrooms do not fill a tablet. Beat: keeping the child
+centred, which the child's own marker and wedge make unnecessary.
+
 ## Built
