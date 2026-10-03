@@ -98,8 +98,9 @@ type Drawn = {
 
 /**
  * The map: a sheet of paper over the meadow that unfolds out of the map
- * button and folds back into it, drawn once as it opens from a snapshot —
- * nothing walks while it is open. Up is the sun's azimuth; the child is a
+ * button and folds back into it, drawn from a snapshot as it opens and again
+ * on a resize — nothing walks while it is open. Up is the sun's azimuth; the
+ * child is a
  * dot with his heading and his view's wedge. Any tap while it is open runs
  * `tap`, the map button's own handler, so the two close it alike.
  */
