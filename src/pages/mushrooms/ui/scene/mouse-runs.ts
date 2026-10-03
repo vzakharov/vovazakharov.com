@@ -303,7 +303,7 @@ export class MouseRuns {
     if (!this.view || !run.start || !run.end) return undefined;
     const { eye } = this.view;
     return facingAlong(
-      pathBetween(run.start, run.end, eye, run.course.side),
+      pathBetween(run.start, run.end, eye, run.course.bowSign),
       0,
       eye,
     );
@@ -331,15 +331,18 @@ export class MouseRuns {
     const end = this.endAt(to);
     if (opening === 'peek') this.counts = left(this.counts, from);
     const eye = this.view?.eye;
-    const side = start && end && eye ? sideOf(start.front, end.front, eye) : 1;
+    const bowSign =
+      start && end && eye ? sideOf(start.front, end.front, eye) : 1;
     const runLength =
-      start && end && eye ? pathLength(pathBetween(start, end, eye, side)) : 0;
+      start && end && eye
+        ? pathLength(pathBetween(start, end, eye, bowSign))
+        : 0;
     const hit = new Phaser.Geom.Circle();
     const run: MouseRun = {
       from,
       to,
       beganAt: begins,
-      course: { runLength, side, opening, calling },
+      course: { runLength, bowSign, opening, calling },
       start,
       end,
       fixed: fixedStart !== undefined,
@@ -436,7 +439,7 @@ export class MouseRuns {
       run.start,
       run.end,
       this.view.eye,
-      run.course.side,
+      run.course.bowSign,
     );
     return { ...runnerAt(moment, run.start, run.end, path), path };
   }

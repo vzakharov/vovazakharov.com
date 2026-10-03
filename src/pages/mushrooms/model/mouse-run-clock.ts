@@ -38,12 +38,12 @@ export type RunOpening = Extract<RunLeg, 'peek' | 'leave' | 'run'>;
 
 /**
  * What a run is fixed at when it starts: how far it runs on the plane, the
- * side its course bows out to (`sideOf`), the leg it opens with, and whether
- * its target was called and holds its door open from the start.
+ * sign of the side its course bows out to (`sideOf`), the leg it opens with,
+ * and whether its target was called and holds its door open from the start.
  */
 export type RunCourse = {
   runLength: number;
-  side: number;
+  bowSign: number;
   opening: RunOpening;
   calling: boolean;
 };

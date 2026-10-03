@@ -31,7 +31,7 @@ const course = (
   extra: Partial<RunCourse> = {},
 ): RunCourse => ({
   runLength,
-  side: 1,
+  bowSign: 1,
   opening: 'peek',
   calling: false,
   ...extra,
