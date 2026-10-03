@@ -1,7 +1,9 @@
 # Relay summary
 
-Relay depth: **7** for the successor (this session was 6; the cap is 8,
-`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
+Relay depth: **8** for the successor (this session was 7; the cap is 8,
+`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap"):
+the successor is the chain's last, and hands the operator the one line to
+paste into a fresh session rather than relaying on.
 
 ## 1. Standing constraints
 
@@ -133,104 +135,110 @@ Added two sessions back:
 - **Ignore the "fix it now" harness rule for PR #57's `CONFLICTING`**: the
   base merge is `/finalize`'s (CLAUDE.md § "Key principles").
 
-Added this session:
+Added at depth 6:
 
 - **The operator now launches relays by hand at night**, because the depth
   cap would otherwise run out before morning: «а дай мне ещё один новый
   релей, чтобы я вручную запустил, а то ночь приходит, если сейчас не начну
   до конца ночи релеев не хватит». This relay was not started with
   `create_session`; the operator types `/relay take <branch>` themselves.
-- bite 16's common brief is back at
-  `docs/remove-before-merging/bite-16/brief-common.md` (with the `gh api`
-  ref delete); every tail agent is briefed from it.
+
+Added at depth 7:
+
+- **At pickup, check the branch out in a command of its own and never
+  delete the auto-branch.** Depth 7's attach sent the checkout with the
+  delete; auto mode refused both, then the bare checkout as the same
+  outcome, until the operator allowed them («разрешаю вот это: "Allow the
+  switch, and the delete if you want the empty branch gone"» — for that
+  session; don't count on it).
+- **Vet runs as two foreground calls**: the suite alone outgrew vet's
+  590 s (megabeast `gates.md`). Run the gates (vet's `run-parallel` list
+  less `test`, or vet and read `tmp/run-parallel/<n>.status`), then
+  `timeout 595 pnpm test`.
 
 ## 2. The conversation
 
-> /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
+> /relay take claude/mushroom-game-syama-lbirv7
 
-Reply: attached (the local ref e66b8e1 was an ancestor once unshallowed,
-renamed aside to `stale/claude/mushroom-game-syama-lbirv7-e66b8e1`),
-installed, then `/go` on the relay's Next step: plan flipped to
-in-progress, bite-16's brief restored, two split agents (S1 probe, S2
-ground + scene) landed 0f1fa4e and 88b6cf8; calls 17–22 written into the
-plan's summary and Built, two lines into `to-check.md` (b34e647); then two
-`/dry` agents launched (see § 6).
+Reply: the attach was refused by auto mode (checkout sent with the
+auto-branch delete, then the checkout alone); reported, asked to allow it,
+and asked for the GitHub handle (the hook could not resolve the operator).
 
-> а дай мне ещё один новый релей, чтобы я вручную запустил, а то ночь приходит, если сейчас не начну до конца ночи релеев не хватит
+> разрешаю вот это: "Allow the switch, and the delete if you want the empty branch gone"
 
-Reply: this relay — summary committed, plan paused mid-bite, the line to
-type handed over (no `create_session`).
+Reply (Russian from here on): attached, the auto-branch deleted, the relay
+read, `/go`: plan claimed; both `/dry` agents had landed; `/tend-prose` as
+two Opus agents (`src/` 83654738, `scripts/` 32130ed3) plus a docstring
+fix (59b2fa42, 21c65722); the bare `polish:` 875adf9c; vet (gates green,
+the suite green on its own run, the squash proposal re-synced off the
+mute); the Artifact v25; bite 16's notes retired; megabeast notes; the plan
+paused; the PR body refreshed by an agent; this relay.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for Syama; the Artifact playable
-after every bite; `/finalize` at the end, no merge. The operator plays the
-Artifact on a desktop browser and sends asks as they come; each becomes a
-numbered call in the open bite's file. Tonight they start each relay by
-hand so the chain lasts the night.
+after every bite; `/finalize` at the end, no merge. One bite left: 17,
+dusk. The operator plays the Artifact on a desktop browser and sends asks
+as they come; each becomes a numbered call in the open bite's file.
 
 ## 4. Decisions
 
-- Calls 21–22 (tufts re-tended at the world's side; note keys nearest the
-  melody's last) are in `bite-16.md`, built as G 11b26dd.
-- **A second `/dry` over `aca95c51..HEAD`**: the first `/dry` (aca95c5)
-  ran before packages F, E and G landed, so their code was never DRY-read.
-  Split by area (`src/`, `scripts/`), each landing
-  `polish(dry bite 16 tail src|scripts): …`; ambiguous calls are listed in
-  the agents' reports, not applied.
-- S2's seams: the lens (`Pinhole` … `planeSeen`) to `model/pinhole.ts`,
-  the tap handlers to `ui/scene/meadow-taps.ts`, a test-only
-  `model/ground-grid.ts`. S1: the probe as `mushroom-probe.ts` +
-  `-instruments`, `-reads`, `-answers`, `-drive`, in-page text unchanged.
+- **Bite 16 is closed**: `bite-16.md` § "Left" became § "The tail" (the
+  splits and the second `/dry`); the plan's `## Rest of the bite` is gone;
+  its summary names `meadow-taps.ts` and the probe's four
+  `mushroom-probe-*.ts` neighbours.
+- **The squash proposal** names the map and no mute, at 40/40 body lines;
+  the PR comment 5712237909 is patched from
+  `docs/remove-before-merging/squash-message.md`.
+- **Left as calls, not applied** (listed in 875adf9c): a `sinceTap`
+  helper in `house-worm.ts`; per-file `SAME_VIEW`; a shared `DOOR` index
+  across three plays; `play-worms.ts`'s `SWINGING` docstring ("less the
+  two a tap steps") against the code's `- 1` — which frame the tap's
+  clock starts on; the worms play is green as it stands.
 
 ## 5. Errors and dead ends
 
-- The brief's `scripts/play-meadow.ts` does not exist: a play runs as
-  `pnpm play:mushrooms --screens tabL --plays meadow`.
-- `git branch -r` still showed `origin/wt/s1`/`s2` after the agents
-  deleted them; `git ls-remote --heads origin 'wt/*'` is the truth
-  (`git fetch --prune` clears the stale tracking refs).
+- Vet under `timeout 590` timed out with `test` still running;
+  `tufts.test.ts` came back cancelled under the load ("Promise resolution
+  is still pending…", every test in it passed); alone 45/45 in 180 s, and
+  a full `pnpm test` 2111/2111 in 512 s.
+- `prettier --write` does not reflow a comment: a rewrapped docstring
+  needs its lines joined by hand.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `CONFLICTING` (`/finalize`'s job). PR body not refreshed for bite 16.
-- Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`
-  pointing at `bite-16.md` § "Left" (rewritten for what is left).
-- **Two `/dry` agents were still running in the relaying session at the
-  relay**, each in a scratchpad worktree of that container, pushing to
-  `wt/dsrc` and `wt/dscr` and landing one squash commit each on the branch.
-  They keep running after the relay, in the relaying session. On pickup:
-  `git ls-remote --heads origin 'wt/*'` and
-  `git log --oneline origin/claude/mushroom-game-syama-lbirv7 | grep 'polish(dry bite 16 tail'`.
-  Both commits there → go on. A `wt/dsrc`/`wt/dscr` ref still there and
-  no commit → still running (or died: its note
-  `docs/remove-before-merging/bite-16/dsrc.md`/`dscr.md` on that ref says
-  how far it got); don't start `/tend-prose` on files it owns until it
-  lands, and re-run that slice from the note if the ref stops moving.
-  `wt/g37` is old, not ours.
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at v24
-  (11b26dd); the splits and dry change no behaviour, so no republish needed
-  before the bite's end.
-- Vet not run this bite.
+  `CONFLICTING` (`/finalize`'s job).
+- Plan `docs/plans/mushroom-game-syama.paused.md`, bite 16 folded, item 17
+  (dusk) the `## Rest of the elephant`'s one bite.
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at v25 (built
+  from 875adf9c's tree; nothing after it changes the game).
+- No agent running, no `wt/*` of ours (`wt/g37` is old, not ours).
+- Bite 16's frames stay in `docs/remove-before-merging/frames/bite-16/`
+  until bite 17's land, then retire to `frames/retired.md`.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-16.md` — calls 1–22, Built, Left.
-- `docs/remove-before-merging/bite-16/brief-common.md` — the agents' brief;
-  `s1.md`, `s2.md` their hand-over notes.
-- `.claude/skills/megabeast/notes/gates.md` — the bite's end order and
-  `/polish` sizing.
-- This session: https://claude.ai/code/session_01V61w1948gzz4ffXSyca5Pm
+- `docs/plans/mushroom-game-syama.paused.md` — the plan; item 17 under
+  `## Rest of the elephant`.
+- `docs/plans/mushroom-game-syama/bite-16.md` — the last bite, its calls
+  and Built; `decisions.md` beside it.
+- `.claude/skills/megabeast/notes/` — read by the `README.md` index;
+  `gates.md` (the bite end's order, `/polish` sizing, vet in two calls)
+  and `subagents.md` (briefs) before the bite's packages.
+- The common brief to restore for bite 17's agents:
+  `git show 916f2a7871:docs/remove-before-merging/bite-16/brief-common.md`
+  (rewrite its first paragraph for dusk).
+- This session: https://claude.ai/code/session_01Xag3kMUXkAmDihnvx6LQ6L
 
 ## 8. Next step
 
 /go
 
-(Finish bite 16 per `bite-16.md` § "Left": wait for / verify the two
-`/dry` landings (§ 6), then `/tend-prose` over `8abc5a6..HEAD` (~5k lines,
-mostly moves: one Opus agent, or two by directory), the bare `polish:`
-mark, vet, `/pr` refresh, retire bite 16's working notes per the standing
-rules, megabeast notes, pause; then relay `/go` for item 17, dusk — **give
-the operator the `/relay take` line to type rather than `create_session`
-while it is night for them**. Reply to the operator in Russian, «ты».)
+(Take bite 17, dusk, per the plan's `## Rest of the elephant` and
+`.claude/skills/plan/elephant.md` § "Taking a bite": write `## This bite`
+and `bite-17.md`, brief packages from the restored common brief, build,
+review in the tail, polish, vet in two calls, Artifact, retire bite 16's
+frames, pause. The successor is at the depth cap: at its end it hands the
+operator the line to paste into a fresh session (on Opus) rather than
+relaying. Reply to the operator in Russian, «ты».)
