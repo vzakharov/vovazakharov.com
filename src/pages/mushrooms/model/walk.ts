@@ -9,9 +9,10 @@
  * strafes if it went down on the ground; else it steps. A turn keeps the
  * azimuth under the finger 1:1 and glides on from the lift; a step chases
  * the finger's row, and a strafe slides the ground under the finger with
- * it, both no faster than the stride's cruise, easing to rest on the lift
- * with no glide; any arrow key going down ends a step's or a strafe's chase
- * and takes over.
+ * it, both no faster than the stride's cruise, and on the lift fling on from
+ * the finger's speed as a turn glides (`glide.ts`), or, the finger lifted at
+ * rest, ease to rest; any arrow key going down ends a step's or a strafe's
+ * chase or fling and takes over.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -162,7 +163,7 @@ export function pressAt(walk: Walk, point: Point, time: number): Walk {
   return {
     ...walk,
     pan: press(walk.pan, arcOf(pinhole, point.x), time),
-    stride: chaseFrom(walk.stride, heading, 'step'),
+    stride: chaseFrom(walk.stride, heading, 'step', time),
     drag: { pressedAt: point, since: time, lock: undefined },
   };
 }
@@ -203,7 +204,7 @@ function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
     }
     case 'step': {
       const aim = lock.reference - distanceOfRow(lens, point.y);
-      return { ...walk, stride: chaseTo(stride, aim) };
+      return { ...walk, stride: chaseTo(stride, aim, time) };
     }
     case 'strafe': {
       // The ground `reference` ahead under the crossing's azimuth stands
@@ -213,7 +214,7 @@ function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
       const from = arcOf(pinhole, lock.from) / pinhole.arc;
       const to = clampAzimuth(arcOf(pinhole, point.x) / pinhole.arc);
       const aim = lock.reference * (Math.tan(from) - Math.tan(to));
-      return { ...walk, stride: chaseTo(stride, aim) };
+      return { ...walk, stride: chaseTo(stride, aim, time) };
     }
     default: {
       return lock satisfies never;
@@ -260,13 +261,12 @@ function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {
   if (lock.axis === 'turn') {
     return { ...locked, pan: turningFrom(walk, crossing.x, time) };
   }
-  if (lock.axis === 'strafe') {
-    return {
-      ...locked,
-      stride: chaseFrom(stride, headingAt(walk, time), 'strafe'),
-    };
-  }
-  return locked;
+  // The chase starts afresh at the crossing, so its step past the slop
+  // counts toward no fling, as a turn's counts toward no glide.
+  return {
+    ...locked,
+    stride: chaseFrom(stride, headingAt(walk, time), lock.axis, time),
+  };
 }
 
 /**
@@ -293,15 +293,15 @@ export function moveTo(walk: Walk, point: Point, time: number): Walk {
 
 /**
  * The finger lifted at `time`: a turn glides on from the finger's velocity, a
- * step's or a strafe's chase eases to rest where the finger left it; the keys
- * held take over after either.
+ * step or a strafe flings on from it, or eases to rest where the finger left
+ * it at rest; the keys held take over after either.
  */
 export function liftAt(walk: Walk, time: number): Walk {
   if (!walk.drag) return walk;
   return {
     ...walk,
     pan: release(walk.pan, time),
-    stride: liftChase(walk.stride),
+    stride: liftChase(walk.stride, time),
     drag: undefined,
   };
 }
@@ -317,7 +317,7 @@ export function heldStill({ drag }: Walk, time: number): number | undefined {
 
 /**
  * `←` or `→` went down: the heading turns leftward or rightward while it is
- * held, and the stride's chase, if any, ends where it stands.
+ * held, and the stride's chase or fling, if any, ends where it stands.
  */
 export function holdTurn(walk: Walk, direction: Direction, time: number): Walk {
   const pan = holdKey(walk.pan, direction, time);
