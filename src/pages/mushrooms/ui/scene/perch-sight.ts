@@ -25,7 +25,11 @@ import { flowerGenes } from '../../model/flower-genes';
 import type { Planted } from '../../model/game';
 import { distanceBetween, placedAt, type Point } from '../../model/geometry';
 import { D_SEE, OPENING_EYE, planeOf, scaleAt } from '../../model/ground';
-import type { InsectKind, Kinded } from '../../model/insect-genes';
+import {
+  INSECT_KINDS,
+  type InsectKind,
+  type Kinded,
+} from '../../model/insect-genes';
 import { phaseOf } from '../../model/motion';
 import {
   hasTrumpet,
@@ -42,6 +46,7 @@ import { placeIn } from './clump-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';
 import { flowerLift } from './flower-seat';
 import {
+  type Cover,
   coversOn,
   flowerInSight,
   PERCH_SPREAD,
@@ -55,6 +60,7 @@ import { awayPlaces, releasedAway, wayOutOf } from './insect-away';
 import type { MeadowLayout } from './layout';
 import { MEADOW_FRAME } from './meadow-camera';
 import { crowdings, seatsWith, type Track } from './perch-crowding';
+import { discCovered } from './shelter-cover';
 import { rowAt, type View, viewAt } from './view';
 import { widestOn } from './widest-spans';
 
@@ -250,6 +256,37 @@ function sheltersUnder(
 }
 
 /**
+ * How far round its middle an insect sheltering is judged drawn, in its
+ * kind's widest wingspan: as far as its wings reach.
+ */
+const SHELTER_REACH = 0.5;
+
+/**
+ * Whether a mushroom of `covers` nearer the front than `seat`'s cap is drawn
+ * over an insect of any kind sheltering there (`discCovered`), as far round
+ * its middle as `SHELTER_REACH` says.
+ */
+function shelterCovered(
+  stand: Stand,
+  seat: ShelterSeat,
+  covers: readonly Cover[],
+): boolean {
+  const { layout, mushrooms } = stand;
+  const seater = seaterOn(stand, { kind: 'shelter', ...seat });
+  const mushroom = mushrooms.find(({ id }) => id === seat.id);
+  const place = mushroom && placeIn(layout.mushrooms, mushroom);
+  if (!seater || !place) return false;
+  return INSECT_KINDS.some((kind) =>
+    discCovered(
+      seater(0, kind),
+      SHELTER_REACH * widestOn(layout, kind),
+      place.y,
+      covers,
+    ),
+  );
+}
+
+/**
  * What the scene sees of the perches in `stand` at `now`, judged from
  * `OPENING_EYE` (a stand anchored at the eye, `anchoredStand`): the caps and
  * the flowers within `PERCH_REACH`, the seats under those caps wide enough
@@ -284,7 +321,9 @@ export function perchSight(stand: Stand, now?: number): Sight {
   const caps = mushrooms.filter(({ foot }) =>
     inReach(foot, layout.mushrooms.anchor),
   );
-  const shelters = sheltersUnder(layout, caps, now);
+  const shelters = sheltersUnder(layout, caps, now).filter(
+    (seat) => !shelterCovered(stand, seat, covers),
+  );
   const perches: Perch[] = [
     ...caps.map(({ id }) => ({ kind: 'cap', id }) as const),
     ...shelters.map((seat) => ({ kind: 'shelter', ...seat }) as const),

@@ -19,7 +19,7 @@ import { wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
 import { hasTrumpet, mushroomGenes } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
-import { SHELTER_SEATS } from '../../model/shelter';
+import { SHELTER_SEATS, type ShelterSeat } from '../../model/shelter';
 import { SPORE_FALL_MS, SPROUT_MS } from '../../model/sprouting';
 import { airAlofts, airSpots, clumpRow } from './air-spots';
 import { bedPlace } from './bed-place';
@@ -386,6 +386,11 @@ describe('footRows', () => {
   });
 });
 
+/** Whether two shelter seats are the same seat under the same cap. */
+function isSameSeat(a: ShelterSeat, b: ShelterSeat): boolean {
+  return a.id === b.id && a.seat === b.seat;
+}
+
 /** The screens the shelters are judged on: the widest and the narrowest the game is played on most. */
 const SHELTER_SCREENS = VIEWPORTS.filter(
   ([name]) => name === 'tablet' || name === 'phone',
@@ -393,7 +398,7 @@ const SHELTER_SCREENS = VIEWPORTS.filter(
 
 describe('the shelters', () => {
   for (const [name, width, height] of SHELTER_SCREENS) {
-    it(`sit two under every dome in reach drawn as wide as a butterfly, placed over its foot, on a ${name} screen`, () => {
+    it(`sit under the domes in reach drawn as wide as a butterfly, two to most, placed over its foot, on a ${name} screen`, () => {
       const stand = opened(3, width, height, true);
       const { layout, mushrooms } = stand;
       const { shelters = [], places = {}, crowded } = perchSight(stand);
@@ -410,10 +415,14 @@ describe('the shelters', () => {
         );
       });
       assert.ok(wide.length > 0 && wide.length < mushrooms.length);
-      assert.deepEqual(
-        shelters,
-        wide.flatMap(({ id }) => SHELTER_SEATS.map((seat) => ({ id, seat }))),
+      const seats = wide.flatMap(({ id }) =>
+        SHELTER_SEATS.map((seat) => ({ id, seat })),
       );
+      // A seat a nearer mushroom is drawn over is withheld: a few at most.
+      assert.ok(
+        shelters.every((seat) => seats.some((each) => isSameSeat(each, seat))),
+      );
+      assert.ok(shelters.length >= seats.length * 0.75);
       const crowding = new Set(
         crowded.flatMap(([a, b]) => [perchName(a), perchName(b)]),
       );
@@ -439,10 +448,25 @@ describe('the shelters', () => {
       ...stand,
       mushrooms: stand.mushrooms.map((mushroom) => ({ ...mushroom, sprout })),
     };
-    assert.equal(perchSight(stand).shelters?.length, 4);
+    const full = perchSight(stand).shelters ?? [];
+    assert.ok(full.length > 0);
     assert.deepEqual(perchSight(sprouted, SPORE_FALL_MS).shelters, []);
     const grown = SPORE_FALL_MS + SPROUT_MS;
-    assert.equal(perchSight(sprouted, grown).shelters?.length, 4);
+    assert.deepEqual(perchSight(sprouted, grown).shelters, full);
+  });
+
+  it('withhold the seat of the back cap a nearer one is drawn over', () => {
+    const stand = opened(3, 1180, 820, false);
+    const [back, front] = stand.mushrooms
+      .map((mushroom) => ({
+        ...pick(mushroom, 'id'),
+        y: placeIn(stand.layout.mushrooms, mushroom)?.y ?? 0,
+      }))
+      .toSorted((a, b) => a.y - b.y);
+    assert.ok(back && front && front.y > back.y);
+    const shelters = perchSight(stand).shelters ?? [];
+    assert.equal(shelters.length, 3);
+    assert.ok(shelters.filter(({ id }) => id === front.id).length === 2);
   });
 
   it('are sent, empty, with no cap to shelter under', () => {
