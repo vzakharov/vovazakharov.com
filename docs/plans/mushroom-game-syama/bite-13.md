@@ -75,6 +75,13 @@ under `src/pages/mushrooms/`.
     asked it only of a restart, but a tap that starts the rain answers with
     the cloud too.
 
+13. **A closed flower reads as a bud, not a speck.** R2's fold (petals to
+    45% reach) leaves a dot a child takes for a flower gone (frames
+    `tabL-r2-closed.png` against `-open.png`). Closed, the petals stand
+    folded up into a cup or a pointed bud about two-thirds of the open
+    head's height, the petal colour plain on it, so the flower is still
+    there and visibly shut.
+
 ## Packages
 
 Wave 1, in parallel, file lists disjoint:
