@@ -80,6 +80,13 @@
   wave reading everything finds: topic files stale against the build
   (`bite-12.md` still described the pinhole), and a test rule standing on
   code that production no longer calls.
+  Bite 15's ~5k lines ran as four Opus agents in two slices (model/,
+  then ui/ + scripts/ + `.claude/costs`), `/dry` then `/tend-prose` per
+  slice, each landing a scoped `polish(<pass> <slice>):` commit and the
+  orchestrator the bare `polish:` mark after the last: ~110–165k each,
+  none ran out. A `/dry` finding it judged ambiguous, or that lay in the
+  other slice, went into the next agent's brief as one named code item to
+  apply, which closed it without a second `/dry`.
 - **Agents' scratch breaks `pnpm test`.** The test glob `**/*.test.ts`
   reaches into gitignored `tmp/`: a subagent's copy of the mushroom sources
   in `tmp/clump/` (to measure old constants), throwaway tests and a
@@ -133,3 +140,19 @@
   `git push --delete` hangs at the proxy; `gh api -X DELETE
 repos/<o>/<r>/git/refs/heads/wt/<package>` works. The skill's common
   brief carries the squash landing from the template.
+- **The agents' gates miss knip, and vet nearly misses its clock.** A
+  package's brief runs typecheck, eslint, prettier and `type-overlap`, not
+  knip, so bite 15's vet went red on thirteen exports nothing read (an
+  agent's new helper exported for a test it never wrote, aliases, schemas
+  no play parses), some of them bites old. The skill should put
+  `pnpm knip` in every package's checks. Vet itself took ~9 min 20 s
+  under `flock`, just inside a foreground call's 600 s cap with
+  `timeout 590`; the day it passes that, it needs splitting (the build,
+  then the gates) rather than a background run.
+- **A new session's Artifact publish is refused once.** The URL's live
+  copy was never read in this session, so the first publish saves it and
+  refuses, and an unchanged resend is refused again until a `Read` of the
+  saved file. For a generated build the merge is a check, not an edit:
+  diff the saved copy's lines minus the bundle line against the new build
+  (only the publish wrapper differs), `Read` its head, publish. The skill
+  should do that in one step at a bite's end.
