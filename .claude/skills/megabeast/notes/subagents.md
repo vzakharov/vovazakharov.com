@@ -444,3 +444,20 @@
   eye's layout, which the lens and walking had made wrong. Brief a play
   check with every fix to what the child sees, and on a second miss send a
   research agent for the layer below rather than a third fix.
+- **A container restart kills a background agent and its uncommitted
+  work, and nothing reports it.** Bite 16's first `/dry` agent died with
+  five files edited in its worktree and no commit; the session only woke
+  on the operator's «что это всё остановилось?». The worktree survived:
+  `git -C <wt> add -A && commit && push` rescued it as a `wip` commit, and
+  a successor briefed to review that commit first finished in ~115k. The
+  skill should, on any resume, list `git worktree list` and remote `wt/*`
+  refs before anything else, and the brief should push a `wip` commit
+  every few files, not only at a passing step.
+- **The operator's play turns the tail into a package wave, and calls
+  recorded first survive the relay.** Four asks came mid-tail (the door's
+  search order, the map's bare paper, a garish close cross, windows that
+  never opened); each went into `bite-<n>.md` as a numbered call quoting
+  the operator before its agent launched, and two agents on disjoint files
+  ran at once. One of them ran out at 170k on three calls; its successor
+  finished from the note. Size a package at about two calls with a play
+  run, not three.

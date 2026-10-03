@@ -51,7 +51,7 @@ The operator delegated the whole loop and does not step in until the end
    merge.
 
 **The relays stay relays.** A chain stops at eight sessions deep — about
-three bites (bites 1–3 took ~3½ hours, 4–6 ~13) — and the operator restarting
+three bites — and the operator restarting
 it every eighth session is part of the loop, not a defect to engineer away
 ("менять relay на что-то другое в этот подход megabeast-a точно не надо").
 Each relay summary carries the chain's depth, and the session at the cap
@@ -353,14 +353,16 @@ The bites, each file its full contract:
     it, sun-up, every foot in its own side picture —
     [bite-16.md](mushroom-game-syama/bite-16.md)
 
-## Rest of the elephant
+## Rest of the bite
 
-In order.
+**16's tail** — built and fixed through calls 1–20, Artifact v23; what is
+left is [bite-16.md](mushroom-game-syama/bite-16.md) § "Left".
+
+## Rest of the elephant
 
 **Open:** near-square windows of ~320–360 px each way (no phone has one)
 fit no finger-sized picker row: it overlaps `−`, and `+` stands below the
-ground; no test covers them. The play run shoots no 568×320 screen, so the
-tests alone hold it. On tablets the front mushroom's stem can run to the
+ground; no test covers them. On tablets the front mushroom's stem can run to the
 bottom edge. On phoneP one planted flower reads larger than its neighbours
 at the same depth. The play run shoots no refused `+` and no bees planting
 in a full forest. A flower still drawn past the brow takes a
@@ -385,11 +387,9 @@ layer: the game opens straight on the meadow for one child, not a store
 product («сейчас это развлечение для одного ребёнка, а не продукт для
 апстора»), until the operator widens it.
 
-**Performance waits.** The play's median ran ~30 ms against its 26 ms
-budget under the agents' parallel load; the operator plays on a computer
-and finds it fine («к перформанс улучшениям вернёмся когда и если это
-станет критичным»). The play prints the budget line and does not fail on
-it (1946a63), until the operator asks.
+**Performance waits** until the operator asks («к перформанс улучшениям
+вернёмся когда и если это станет критичным»): the play prints its 26 ms
+budget line and does not fail on it (1946a63).
 
 ## DRY notes
 

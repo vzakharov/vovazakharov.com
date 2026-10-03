@@ -202,8 +202,39 @@ Each package's hand-over note under `docs/remove-before-merging/bite-16/`
   heading, the `+` picker shut and a flick stopped under it; calls 15–16.
   Map on tabL and phoneP, meadow on tabL, green.
 
-Open: on phoneP the planted meadow fills the sheet's width but only a
+- **`/dry`** aca95c5 — `plantNearest` in `play-tufts.ts`, `FlowerAt` in
+  the probe, `markOn`/`toEdge`/`EDGE` in `map-view.ts`, `stoodStill` over
+  `standingAt`.
+- **F** 32f8a533 — call 20: `tripWindows`/`peekWindow`/`wormClock` in
+  `model/worm.ts`; `paintWindow` takes an optional open state, each kind
+  opening its own way, the dark inside `PALETTE.doorway`, the glass
+  swinging away from the worm's way; `Opened` the door's and window's
+  shared base. The worm comes out 0.2 s after the tap, once its window is
+  open. `play-worms` checks both windows open and shut.
+- **E** 710f170a — call 17: `doorSeats` from the current eye, alone as the
+  fallback (a furnished target can stand behind the child), and `paint`
+  no longer re-seats, a station being in the mushroom's own frame. Call
+  18: `map-ground.ts` (pure, tested) and `draw-map-ground.ts`, tufts and
+  the lawn's own mottles in cells seeded through `cellSeed`; the wedge a
+  warm-white veil with an indigo edge. Call 19: `drawCloseButton` in
+  `hud.ts`; `Escape` → `{ kind: 'close' }` in `keyboard.ts`. The map draws
+  a door at the station nearest its seat's height. `play-map` shuts by
+  Escape and shoots `m5-open-door`; `Blade` in `brow.ts` the brow's and
+  the tufts' base. `meadow-scene.ts` 452 lines.
+
+Open: the cross window never opened in a play (the play taps the
+outermost window). On a phone the map's mottles read large beside the
+things. On phoneP the planted meadow fills the sheet's width but only a
 middle band of its height (call 14 as written, on a tall sheet); the house
 at map scale reads as a dot and a smudge; `emerge`'s overshoot makes the
 sheet briefly larger than the screen mid-unfold — all three in
 `to-check.md`.
+
+## Left
+
+Split `scripts/lib/mushroom-probe.ts` (1015 lines) and `model/ground.ts`
+(491), bring `meadow-scene.ts` (452) under; `/tend-prose` over
+`8abc5a6..HEAD` (the `/dry` is aca95c5), then the bare `polish:` mark;
+vet; the plan's summary for calls 17–20 (the door's seat, the map's ground
+and close cross, Escape, windows opening); `/pr` refresh; pause; relay
+`/go` for item 17, dusk.
