@@ -341,7 +341,7 @@ The bites, each file its full contract:
 
 In order.
 
-**The rest of idea 1 is item 15.** Bites 9, 11, 12 and 12b built the
+**The rest of idea 1 is item 16.** Bites 9, 11, 12 and 12b built the
 ground, the wide world, walking it and its endlessness; the map comes
 after the rain's aftermath («карту можно отложить до после после дождя»).
 `docs/remove-before-merging/ideas/idea-1-walking-meadow.md` is its spec,
@@ -365,11 +365,21 @@ re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
 `airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
 anchors, or slice it as `Tended` slices the lawn).
 
-15. **The map.** A map view and its button take the mute's circle, which
+15. **The house's dwellers** (the operator, playing; his words in
+    `mushroom-game-syama/bite-14.md` § "From the operator's play"). A mouse
+    runs only to another door: out of its door, along the ground, in at the
+    other house's door, when there is one near enough to be seen; with none
+    it peeks and hides as today. A mouse is sized to its door, so a small
+    house has a small mouse («мини-мышек, несмотря на то что это против
+    биологии»). A window answers a tap with a worm: it crawls over the cap
+    to another window of the same house when there is one, else it peeks
+    out and hides again. Dusk's "mice coming out of their doors" is this
+    run.
+16. **The map.** A map view and its button take the mute's circle, which
     anchors the layout; the mute and its `localStorage` memory go with it
     (sound off is the device's), `settle()` staying. It reads where the
     child stands and faces from `EyeInput`.
-16. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
+17. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
     glowing, fireflies waking, mice coming out of their doors, butterflies
     folded on the caps and flowers closed for the night.
 Then, the Artifact republished, `/relay /finalize`. Nothing goes around

@@ -206,6 +206,23 @@ and salted seeds), 20 (a sprout is a mushroom) and 21 stand.
     to the target; a held walk, strafe or turn key cancels it at once and
     takes over (`model/stride.ts`, `model/walk.ts`).
 
+## From the operator's play — for item 15
+
+> 1- мышки: я мельком увидел, что они должны бегать? это хорошо. но
+> предлагаю так: мышка бежит, только если есть другая дверца, и бежит к
+> этой дверце
+>
+> 2- на маленьких грибах отрисовка мышки оставляет желать лучшего.
+> наверное, нужно делать мини-мышек, несмотря на то что это против
+> биологии :)
+>
+> 3- есть ли какая-то интерактивность с окошками? если нет, предлагаю
+> червячков -- бегут из одного окошка в (если есть) другое на том же грибе.
+> если нет -- как и мышка выглядывают и прячутся обратно
+
+The frame he sent: a chanterelle's mouse as wide as its stem, its door hidden
+behind it.
+
 ## Packages and waves
 
 - **Wave 1, in parallel: S1** shelter's model (spec-shelter § 5 step 1) and
