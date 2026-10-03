@@ -1,10 +1,12 @@
 /**
  * A shower, `play-mushrooms.ts`'s run on a fresh meadow: a cloud tapped
- * starts the rain; mid-shower the flowers are shut and drops fall, within
- * the frame budget; dry, the flowers are open again; and the eye turned
- * round, the rainbow shows opposite the sun. Every moment is found on
- * `model/weather.ts`'s own clock functions, so the play follows the shower's
- * timing as it changes.
+ * starts the rain; mid-shower the flowers are shut and drops fall; dry, the
+ * flowers are open again; and the eye turned round, the rainbow shows
+ * opposite the sun. The frames the heads close over, the mid-shower ones and
+ * those they reopen over are each timed against the frame budget. Every
+ * moment is found on `model/weather.ts`'s own clock functions and the
+ * closing's steps (`closingStep`), so the play follows the shower's timing
+ * as it changes.
  */
 
 import { z } from 'zod';
@@ -15,6 +17,7 @@ import {
   rainbow,
   wetness,
 } from '../../src/pages/mushrooms/model/weather.ts';
+import { closingStep } from '../../src/pages/mushrooms/ui/scene/flower-closing.ts';
 import { median, overBudget } from './frame-budget.ts';
 import {
   Clouds,
@@ -40,11 +43,17 @@ const DRY = frameWhen(STOP, (ms) => wetness(SPAN, ms) === 0);
 /** Frames timed one by one mid-shower, the drops falling. */
 const TIMED = 24;
 /**
- * Frames a flower bed takes past the dry moment to repaint every head open:
- * it repaints a few heads a frame, so this is the harness's slack, not the
- * shower's clock.
+ * Frames a flower bed takes past its last closing step to repaint every head
+ * at it: it repaints a few heads a frame, so this is the harness's slack, not
+ * the shower's clock.
  */
 const REPAINT = 30;
+/** How far shut the flowers are asked to be, a step of `closingStep`, at `ms` from the tap. */
+const closingAt = (ms: number): number => closingStep(wetness(SPAN, ms));
+/** The last frame of the closing, from the tap: the heads repainted shut. */
+const SHUT_BY = frameWhen(1, (ms) => closingAt(ms) === 1) + REPAINT;
+/** The last frame of the reopening, from the tap: the heads repainted open. */
+const OPEN_BY = frameWhen(STOP, (ms) => closingAt(ms) === 0) + REPAINT;
 /** How far shut the flowers must be, on average, mid-shower. */
 const SHUT = 0.5;
 /** How far open again, dry. */
@@ -77,6 +86,16 @@ async function turnToRainbow(page: Page): Promise<number> {
   return held;
 }
 
+/** `frames` frames stepped one by one, each drawn; returns each one's update in ms. */
+async function timedSteps(page: Page, frames: number): Promise<number[]> {
+  const from = page.rendered.length;
+  await inTurn(
+    Array.from({ length: frames }, (_, index) => index),
+    async () => page.step(1),
+  );
+  return page.rendered.slice(from);
+}
+
 export async function playRain(
   page: Page,
   _controls: z.infer<typeof Controls>,
@@ -91,8 +110,13 @@ export async function playRain(
     expect(false, 'no cloud a tap reaches on the screen');
     return;
   }
+  const budget = (span: string, timed: readonly number[]) => {
+    const slow = overBudget(timed);
+    expect(slow === undefined, `${span}: ${slow ?? ''}`);
+    return `median ${median(timed).toFixed(1)} ms over ${String(timed.length)} frames`;
+  };
   await page.tap(cloud);
-  await page.step(1);
+  const first = await timedSteps(page, 1);
   const started = await shower();
   expect(
     started.raining,
@@ -100,18 +124,15 @@ export async function playRain(
   );
   if (!started.raining) return;
 
-  await page.step(MID - TIMED - 1);
-  const from = page.rendered.length;
-  await inTurn(
-    Array.from({ length: TIMED }, (_, index) => index),
-    async () => page.step(1),
-  );
-  const timed = page.rendered.slice(from);
-  const slow = overBudget(timed);
-  expect(slow === undefined, `mid-shower: ${slow ?? ''}`);
+  // The heads repaint as they close: frames 1 to `SHUT_BY` from the tap.
+  const closingFrames = [...first, ...(await timedSteps(page, SHUT_BY - 1))];
+  note(`closing: ${budget('closing', closingFrames)}`);
+
+  await page.step(MID - TIMED - SHUT_BY);
+  const timed = await timedSteps(page, TIMED);
   const mid = await shower();
   note(
-    `mid-shower: ${String(mid.drops)} drops, closing ${mid.closing.toFixed(2)}, median ${median(timed).toFixed(1)} ms over ${String(TIMED)} frames`,
+    `mid-shower: ${String(mid.drops)} drops, closing ${mid.closing.toFixed(2)}, ${budget('mid-shower', timed)}`,
   );
   expect(mid.drops > 0, 'mid-shower, no drop in the air');
   expect(
@@ -120,8 +141,13 @@ export async function playRain(
   );
   await page.shoot('rain-1-mid');
 
+  // The heads repaint as they reopen: from the rain's stop to `OPEN_BY`.
+  await page.step(STOP - MID);
+  const reopening = await timedSteps(page, OPEN_BY - STOP);
+  note(`reopening: ${budget('reopening', reopening)}`);
+
   // Dry, in the opening view, where the flowers stand.
-  await page.step(DRY + REPAINT - MID);
+  await page.step(Math.max(DRY + REPAINT - OPEN_BY, 1));
   const dry = await shower();
   expect(!dry.raining, 'the rain did not stop at its end');
   expect(
