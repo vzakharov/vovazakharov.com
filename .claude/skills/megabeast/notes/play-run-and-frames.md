@@ -88,8 +88,12 @@
   run from minutes to ~20 — and nobody asked why until the review, whose
   reader found the cause in Phaser's renderer and whose player confirmed it
   by hiding layers and timing frames. The play run should report a
-  render-frame median per screen and fail past a budget, so a look bite's
-  cost shows in its own tail. A spec's cost column is a claim to measure.
+  render-frame median per screen against a budget, so a look bite's cost
+  shows in its own tail. It prints the line and does not fail on it: once
+  the operator played on his computer and found it fine («к перформанс
+  улучшениям вернёмся когда и если это станет критичным»), a red that
+  stopped the run for container load cost more than it caught. A spec's
+  cost column is a claim to measure.
 
 ## Frames
 
@@ -175,8 +179,8 @@
   those frames. The orchestrator records such a change as an open lead and
   briefs its trace; the skill should have every play report list each
   stretch it stopped drawing.
-- **A frame-budget red is checked against an old commit before it is
-  traced.** At bite 12's v17 the median climbed from 22.9 to 29–33 ms over
+- **A frame-budget line over its mark is checked against an old commit
+  before it is traced.** At bite 12's v17 the median climbed from 22.9 to 29–33 ms over
   four fix rounds, which read like a regression; f584982, built in its own
   worktree and run back to back, gave 32.1 — the container (load 3–4.6 on
   4 cores), not the code. The skill should keep one baseline build per

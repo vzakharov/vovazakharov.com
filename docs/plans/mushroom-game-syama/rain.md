@@ -64,8 +64,8 @@ The rain bite's contract, written ahead of it and moved verbatim out of the plan
     (wash, dark cloud, rainbow bands). The probe exposes the shower
     (`__probe`), and `pnpm play:mushrooms` taps a cloud on every screen,
     steps through the rain and the rainbow, checks `rain` is set, the
-    flowers closed mid-shower and open after, and holds the 26 ms frame
-    budget with the drops falling.
+    flowers closed mid-shower and open after, and reports the frame
+    median against the 26 ms budget with the drops falling.
 
     **DRY notes.** The weather's clock functions join `motion.ts`'s
     pattern (pure functions of seconds or ms) in their own module, since
