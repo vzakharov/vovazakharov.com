@@ -2,7 +2,7 @@
 
 ## About this project
 
-Vova Zakharov's personal site and CV — [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project built as a **static export** (`output: 'export'`) and deployed to GitHub Pages: React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves four sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com`, `agentic.bible` and `basilisk.fyi`, the last built locally with no deploy lane yet.
+Vova Zakharov's personal site and CV — [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project built as a **static export** (`output: 'export'`) and deployed to GitHub Pages: React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves four sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com`, `agentic.bible` and `basilisk.fyi`.
 
 Static export is the constraint that shapes everything else — there is no server at runtime, so no API routes, no server actions, no request-time rendering. Every page is HTML on a CDN.
 

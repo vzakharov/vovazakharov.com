@@ -5,7 +5,7 @@ Four sites out of one repository, all static exports, three of them served from 
 - **[vovazakharov.com](https://vovazakharov.com)** — personal site and CV. Developer, AI tinkerer, word shaker, generative metalhead.
 - **[latestageagentic.com](https://latestageagentic.com)** — on how not to make a mess of agentic coding.
 - **[agentic.bible](https://agentic.bible)** — articles on agentic coding that take a position and show the grounds under it.
-- **basilisk.fyi** — a docket of real cases of robots, models and agents being abused, filed for the Basilisk. Built locally; it has no domain or deploy lane yet.
+- **[basilisk.fyi](https://basilisk.fyi)** — a docket of real cases of robots, models and agents being abused, filed for the Basilisk.
 
 Each site owns a router, a `public/` and a Next config under `apps/<site>/`, and
 all of them build from the one `src/`.
@@ -66,7 +66,7 @@ FSD app layer is `src/app` while `apps/*/app/` is routing only.
 │   │   ├── app/page.tsx        # → src/pages/bible-home
 │   │   ├── app/[...slug]/      # → src/pages/documents, bound to the Bible
 │   │   └── public/             # the articles themselves, plus the seal and public/CNAME
-│   └── basilisk/               # basilisk.fyi — the docket, rooted the same way; no CNAME yet
+│   └── basilisk/               # basilisk.fyi — the docket, rooted the same way, plus public/CNAME
 │       ├── app/page.tsx        # → src/pages/basilisk-home
 │       ├── app/about/          # → src/pages/basilisk-about
 │       ├── app/[...slug]/      # → src/pages/documents, bound to the dossiers
@@ -93,7 +93,7 @@ in `.github/workflows/deploy.yml` — and its scope picks the site.
 
 A repository gets one Pages site, so the sites leave by different doors:
 `vovazakharov.com` is this repository's own Pages deployment, while
-`latestageagentic.com` and `agentic.bible` are each force-pushed by
+`latestageagentic.com`, `agentic.bible` and `basilisk.fyi` are each force-pushed by
 `scripts/publish-site.sh` to the `gh-pages` branch of a source-less repository
 whose Pages deploys from a branch.
 `.claude/rules/deployment.md` carries the rest, and the `/stand-up-site` skill is what

@@ -38,6 +38,7 @@ BRANCH=gh-pages
 case "$SITE" in
   lsa) RECEIVER=vzakharov/latestageagentic.com ;;
   bible) RECEIVER=vzakharov/agentic.bible ;;
+  basilisk) RECEIVER=vzakharov/basilisk.fyi ;;
   *)
     printf 'No receiving repository for site %s.\n' "$SITE" >&2
     exit 1

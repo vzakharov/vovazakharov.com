@@ -6,10 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       site:
-        # Free text rather than a `choice`, which is single-select: with three
-        # sites the useful runs include the pairs, and a `choice` would need
-        # one option per subset.
-        description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`
+        # Free text rather than a `choice`, which is single-select: the useful
+        # runs include subsets, and a `choice` would need one option per subset.
+        description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`, `basilisk`
         type: string
         default: all
 
@@ -60,10 +59,10 @@ jobs:
           select_site() {
             case "$1" in
               vova) vova=true ;;
-              lsa | bible) receivers="$receivers $1" ;;
+              lsa | bible | basilisk) receivers="$receivers $1" ;;
               *)
                 vova=true
-                receivers="$receivers lsa bible"
+                receivers="$receivers lsa bible basilisk"
                 ;;
             esac
           }
@@ -73,9 +72,9 @@ jobs:
           # — and falling through to `select_site` would publish everything.
           select_picked() {
             case "$1" in
-              all | vova | lsa | bible) select_site "$1" ;;
+              all | vova | lsa | bible | basilisk) select_site "$1" ;;
               *)
-                echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`." >&2
+                echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`, \`basilisk\`." >&2
                 exit 1
                 ;;
             esac
