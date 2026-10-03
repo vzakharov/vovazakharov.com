@@ -295,6 +295,12 @@
   two-sample noise. The skill routes such a red to its owner at once, and
   the owner asks "is this test measuring what I replaced?" before loosening
   anything.
+- **Lines of one shared file, granted by name, merge clean.** Bite 13 ran
+  two or three agents at once on `meadow-scene.ts` and `rain-view.ts`,
+  each brief naming the lines that were its own (the beds' `update`
+  arguments; the drops' build-and-drive lines against the wetness getter
+  and the rainbow's); four pulls auto-merged and the one textual conflict
+  the agent settled keeping both sides.
 - **Own a type's builders, not only its files.** Bite 12b's I4 blocked
   because `Host` is built in `capTop` (mushroom bed) and `seat` (flower
   bed), each another package's file that wave. Handing the next I agent

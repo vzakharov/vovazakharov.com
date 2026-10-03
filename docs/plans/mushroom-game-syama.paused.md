@@ -305,12 +305,15 @@ The bites, each file its full contract:
 12. **Walking the meadow** — [bite-12.md](mushroom-game-syama/bite-12.md)
 13. **The meadow has no edge** (12b) — [bite-12b.md](mushroom-game-syama/bite-12b.md), contract [endless-field.md](mushroom-game-syama/endless-field.md), its review [bite-12b/review.md](mushroom-game-syama/bite-12b/review.md), frame cost [bite-12b/frame-cost.md](mushroom-game-syama/bite-12b/frame-cost.md)
 
-## This bite
+## Rest of the bite
 
 13. **Rain** — the shower itself; what it leaves behind is item 14. The
     contract is [rain.md](mushroom-game-syama/rain.md), the model built
-    (5c9f2e9); the scene's calls and the packages are
-    [bite-13.md](mushroom-game-syama/bite-13.md).
+    (5c9f2e9); the scene's calls, the packages, what is built and what is
+    left are [bite-13.md](mushroom-game-syama/bite-13.md). Built: the
+    cloud tap, the darkening and wash, drops and splashes, flowers closing
+    to buds, caps swelling, the sound, the rainbow. Left: the play, small
+    fixes, the review, the tail (`bite-13.md` § "Left").
 
 ## Rest of the elephant
 

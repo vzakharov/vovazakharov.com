@@ -112,7 +112,14 @@
   skill should size a bite in work packages before taking it — more than
   two sequential packages is two bites — read the plan by section, arm the
   subagent check-in at ~15 minutes rather than 25, and plan the relay at
-  the package boundary rather than meet it at the notice.
+  the package boundary rather than meet it at the notice. Bite 13 (rain, a
+  look-and-behaviour bite of four packages) measured the orchestrator's
+  side: pickup and the calls file ~40k, then each of seven agent reports
+  with the frames it named ~15–20k, the 200k notice landing as the second
+  wave reported — every package built, the play, review and tail left. So
+  the skill plans an orchestrator relay after the build waves, with the
+  play, review and tail as the successor's first work, and keeps the frames
+  it opens to the one per report that decides a call.
 - **Reading an Artifact before republishing it costs ~40k tokens** when the
   page is a 135 KB bundle: the read hands its head back inline. The
   republish needs only the version header and the writer check. The skill

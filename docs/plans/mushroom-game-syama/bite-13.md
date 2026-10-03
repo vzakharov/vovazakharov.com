@@ -109,3 +109,39 @@ Wave 2, once R1 has landed:
 
 Then the tail: the review subagent, its fixes, frames, `/polish`, the
 Artifact.
+
+## Built
+
+Each package's hand-over note under `docs/remove-before-merging/bite-13/`
+(`r1`–`r4`, `r6`, `r7`) holds its commits and its own calls; frames in
+`docs/remove-before-merging/frames/bite-13/`.
+
+- **R1, R1b** — the cloud tap, the dark twins (one picture each through a
+  filter camera while they fade, so no puff rings), the wash, the probe's
+  `rain()` and `clouds()`; levels pure in `rain-sky.ts`.
+- **R2, R6** — flowers fold into a standing bud (`flower-closing.ts`,
+  `BUD`), repainted on 12 steps, ≤ 6 heads a frame; caps swell about the
+  foot, the tap area with them (Phaser tests in the drawing's frame), the
+  gene outline not.
+- **R3** — `rain-voice.ts`: hiss, three patter layers joining with
+  `downpour`, whoosh; ~12 dB under a flower note above 300 Hz.
+- **R4** — `rain-drops.ts`, `rain-fall.ts`: 120 drops, 160 pool slots,
+  landing rows even across the screen (even by ground distance crowds the
+  brow), caps found through `hit-areas.ts`'s `drawnMushrooms`; 13 ms median
+  on tabL with drops falling.
+- **R7** — one wetness a frame to both beds; the rainbow, its radius
+  floored at 0.6 of the near hills so a tall phone's arch clears the far
+  hills.
+
+## Left
+
+1. **R5, the play** (as above), now with the drops.
+2. **Small fixes, one agent:** the gush on a restart tap reads small (it
+   should get its own room above the steady 96, `r4.md`); the shower's
+   sound reads the model's wetness, not `RainView.wetness` (call 11 covers
+   it); the rainbow is drawn over the clouds (depth −5.5 above −6) — it
+   goes behind them; `meadow-scene.ts` at 451 back under 450.
+3. **The review subagent** over the bite's commits (from 2ef49b60), then
+   its fixes.
+4. **The tail**: frames (retire 12b's), fold into `## Eaten so far`,
+   `/polish`, `/pr`, the Artifact.
