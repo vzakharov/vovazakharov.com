@@ -98,3 +98,33 @@ steps about half.
 Load 0.5 before the phoneL run (its own build included), ~4 during each play.
 The multi-second single stalls (slowest 3.5 s phoneL, 4.4 s phoneP) are the
 container's, as on every earlier run.
+
+The parent (8a3cd25), built and played the same way right after:
+**30.0 ms** (neither-frames 28.8), red against the bar. So 30.0 → 18.4 on
+one container in one sitting.
+
+### Step 3 — looked at
+
+Frames from the `approach` play's last screens, before (8a3cd25) and after
+(567702f), same seed:
+
+- `phoneL-lod-far-forest-before-after.png` — the far forest at the brow,
+  2×, before on top. No difference to the eye: caps round, fly agarics and
+  russulas spotted, porcini and chanterelle each read as themselves. The
+  frames differ in 46 551 of 2.96 M pixels, all sub-pixel edge shading.
+- `phoneL-lod-caps-zoom-before-after.png` — mid-distance caps in the walked-in
+  frame at 3× pixel zoom, before left: indistinguishable (145 258 pixels
+  differ by a shade). The close, turned frame is pixel-identical (all at 28).
+- `phoneL-lod-forest-after.png` — the whole forest frame, after.
+
+Neither the floor (8) nor the chord (3 px) visibly hurts, so neither was
+raised. **Not seen frame by frame:** a mushroom popping between levels on
+the walk — the play keeps only its last frames. What holds it is
+`mushroom-profile.test.ts`: every painted outline lies within 1 px of the
+full one at every size, so one chord's change moves an edge by under a pixel.
+The stem light's layer count and the spots' polygon also step with the
+chords, and are not covered by that bound; at these sizes they show nothing.
+
+### Left
+
+Nothing in this package's list. For review: the band at full chords (above).
