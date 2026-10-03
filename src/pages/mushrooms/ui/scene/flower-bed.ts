@@ -378,9 +378,16 @@ export class FlowerBed implements Following {
     });
   }
 
-  /** How far shut the flowers with room on screen are painted, on average (`meanClosing`). */
+  /**
+   * How far shut the flowers with room on screen are painted, on average
+   * (`meanClosing`), as their paint reports it (`Shown.painted`).
+   */
   closing(): number {
-    return meanClosing([...this.shown.values()].filter(({ laid }) => laid));
+    return meanClosing(
+      [...this.shown.values()].flatMap(({ laid, painted }) =>
+        laid ? [painted] : [],
+      ),
+    );
   }
 
   /** Opens the flower `id` silent once it is planted: the key that sows it sounds it. */

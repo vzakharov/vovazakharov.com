@@ -1,5 +1,7 @@
 import type * as Phaser from 'phaser';
 
+import { pick } from '@/shared/lib/collections';
+
 import {
   type Flower,
   type FlowerGenes,
@@ -14,7 +16,7 @@ import {
   paintFlowerHead,
   paintFlowerLit,
 } from './draw-flower';
-import { folding, type Shut } from './flower-closing';
+import { type Folding, folding, type Shut } from './flower-closing';
 import { laidFlower } from './flower-layout';
 import type { StandingFlower } from './flower-plots';
 import type { Ringed } from './flower-ring';
@@ -41,6 +43,11 @@ export type Shown = TappedFigure &
      * head's, which the ring, the tap, the cull and the stand height read.
      */
     perch: HeadReach;
+    /**
+     * How far shut its head was last painted, as the paint itself reports it
+     * (`paintFlowerHead`); `closing` is how far shut it is asked to be.
+     */
+    painted: Shut;
     /** Where the head stands on its stem as laid out, before a drinking insect sags it. */
     headY: number;
     /**
@@ -92,6 +99,7 @@ export function unplacedShown(
     closing: 0,
     stands: UNPLACED,
     perch: { r: 0, disc: 0 },
+    painted: { closing: 0 },
     plantedAt,
     phase: phaseOf(flower),
     tappedAt: -Infinity,
@@ -115,19 +123,27 @@ export function paintShown(
   let lastLit = openingLight;
   const open = flowerHead(genes, size).r;
   shown.headR = open;
-  const fold = () => {
-    const folded = folding(shown.closing);
+  // The perch and the closing read follow the fold the paint reports.
+  const painted = (folded: Folding) => {
+    shown.painted = pick(folded, 'closing');
     shown.perch = foldedHead(genes, size, folded);
-    return folded;
   };
   shown.painting = {
     openingLight,
     drawIn: (lit) => {
       lastLit = lit;
-      drawFlower(shown, genes, size, lit, fold());
+      painted(drawFlower(shown, genes, size, lit, folding(shown.closing)));
     },
     drawHead: () => {
-      paintFlowerHead(shown.head.clear(), genes, size, lastLit, fold());
+      painted(
+        paintFlowerHead(
+          shown.head.clear(),
+          genes,
+          size,
+          lastLit,
+          folding(shown.closing),
+        ),
+      );
     },
     paintedSunSide: openingLight.toward.x,
   };
