@@ -299,8 +299,16 @@ holds its detail and the next step's API.
   4f1fec8e — the girth floor and `WINDOW_REACH` divided by the house's
   perspective zoom (call 28; `wormGirth` moved to `model/worm.ts`). Meadow
   green on tabL and phoneP.
-- **Open:** `pnpm type-overlap` red on `side`, shared by R7's `RunCourse`
-  (`model/mouse-run-clock.ts`) and `FaceFrame` (`baking.ts`).
+- **Call 33** f57f2ec8 — `RunCourse.side` is `bowSign`; `type-overlap` green.
+- **X3** 718ef2fc — call 31: `RUNNER_SPAN` 1.82 door widths
+  (`RUNNER_REACH` back 0.9, ahead 0.92, which `paintRunner` draws to) in
+  `model/mouse-run-course.ts`; `bowedPath` takes the `reach` its middle
+  may not pass, `pathBetween` gives it the nearer foot less
+  `RUN_BOW · RUNNER_SPAN · wider across`; `RunEnd` has an optional `foot`
+  (`endOf`'s fourth argument), the front standing in without one. Until
+  `mouse-runs.ts` passes `shown.foot` (handed to X1) the bow is a stem's
+  half width deeper than the rule: the runner ~20 px lower on tabL, the
+  sweep 63 px as R7's.
 
 Open for wave 3: `pnpm type-overlap` reds in W2's files (`look` shared by
 `Peeking` and `ShownWorm`, and `house-worm.ts`'s `Trip`); the meadow play's
