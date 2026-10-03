@@ -135,3 +135,14 @@ Filled in as each lands.
   median from ~17 to 27.4 ms, so frames after a long walk may cost far more
   than at the opening; the wait now steps without drawing, so no play
   watches those frames. Trace it with its own agent before bite 13.
+- **E (T139)**: 0d391410 (`isCrowdedAt(meadow, foot, from)`, `roomFor`
+  passing its anchor; phoneL and tabL now stop at 12, from 22 and 15).
+  Turned, phoneL still shows 5 of 12 tappable and tabL 6 of 12; options
+  measured — placing the opening inside the turned screen too, on every
+  screen or landscape only — strand none but make phoneL refuse at 9.
+  **Call: the twelve stays the same on every screen, and a turned phone
+  showing fewer of them is accepted**, since the field turns and walks and a
+  drag brings each one back; the count changing with the screen is what
+  decisions.md rules out (written there). The reducer's `grow` still counts
+  round the foot alone: the scene's `roomFor` already applies the anchor
+  rule before every grow it sends — accepted.
