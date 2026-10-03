@@ -344,14 +344,15 @@
   near 170k ("wrap up within ~25k, commit the frames") landed a commit or a
   patch every time; past ~200k the orchestrator pauses the agent from
   outside and starts a fresh one on the same brief from its hand-over note.
-- **On a structural bite an agent lands about one step, so its note should
-  end with the next step designed.** Bite 12b's L package took four agents:
-  three each built one step and spent the rest reading and measuring; the
-  fourth, briefed "l.md § L3c is your design: build it, don't re-derive or
-  re-measure; keep your reading small", landed four steps. The skill's
-  brief should ask every agent to leave the next step as a buildable design
-  in its note, and the successor's brief should say "build it" and name the
-  sections to open, nothing wider.
+- **A package in code nobody has read this session costs one agent of
+  reading before one of building.** Bite 12b's L package took four agents
+  (three built a step each and read the rest); bite 16's map agent spent all
+  170k reading and landed only a fact sheet — where the sun's azimuth lives,
+  each painter's arguments, the seam to hang on — and its successor, briefed
+  "read the note first, open only what it names, first commit within ~50k",
+  landed all three steps. The skill should plan that pair: a reader that
+  writes the fact sheet and the next step's design, then builders briefed
+  "build it" with the sections to open and nothing wider.
 - **A numeric bar in an orchestrator's call names what it protects.** The
   call "a bee's ring lands within half a tuft of today's" cost an agent its
   whole context proving no geometry met it, and the bar guarded nothing a
