@@ -264,6 +264,12 @@ export class Tended {
   private tendedFrom: Eye | undefined;
   /** The re-tend under way, a slice a frame. */
   private tending: Tending | undefined;
+  /**
+   * Whether the next `follow` passes: the one in a change's own frame, which
+   * the scene runs after the change (`MeadowScene.update`), so reading the
+   * rules lands on a frame of its own.
+   */
+  private changed = false;
 
   constructor(gather: (stand: Stand, eye: Eye) => Sprout[]) {
     this.gather = gather;
@@ -288,6 +294,7 @@ export class Tended {
   whole(stand: Stand, eye: Eye): void {
     this.stood = stand;
     this.tending = undefined;
+    this.changed = false;
     this.tufts = tendTufts(stand, this.gather(stand, eye), eye);
     this.tendedFrom = eye;
   }
@@ -307,11 +314,14 @@ export class Tended {
     this.tufts = tufts.filter((sprout) => !lost(sprout));
     this.stood = stand;
     this.retend(stand, eye);
+    this.changed = true;
   }
 
-  /** Judges the re-tend under way a slice further, or starts one once `view`'s eye strays past the last tending (`strayed`). */
+  /** Judges the re-tend under way a slice further, or starts one once `view`'s eye strays past the last tending (`strayed`), unless a `change` came since the last `follow`. */
   follow(view: View): void {
-    const { stood, tendedFrom, tending } = this;
+    const { stood, tendedFrom, tending, changed } = this;
+    this.changed = false;
+    if (changed) return;
     if (tending) {
       this.tendOn();
     } else if (stood && tendedFrom && strayed(view, tendedFrom)) {

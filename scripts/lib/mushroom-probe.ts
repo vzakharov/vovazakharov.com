@@ -64,14 +64,19 @@ export const PROBE = `(() => {
   };
   // Every lawn-tending call and perch re-sight, timed for \`hitches()\`. The
   // private methods are timed on the instance, which \`follow\`'s \`this.\`
-  // calls reach first, and the tending on the grass's \`Tended\`.
+  // calls reach first, and the tending on the grass's \`Tended\`. A call
+  // made inside another timed into the same list counts in that one alone.
   const hitches = { tend: [], see: [] };
+  const depths = new Map();
   const timing = (owner, name, into) => {
     const run = owner[name].bind(owner);
     owner[name] = (...args) => {
+      const depth = depths.get(into) ?? 0;
+      depths.set(into, depth + 1);
       const started = performance.now();
       const result = run(...args);
-      into.push(performance.now() - started);
+      depths.set(into, depth);
+      if (depth === 0) into.push(performance.now() - started);
       return result;
     };
   };
@@ -79,6 +84,22 @@ export const PROBE = `(() => {
     timing(scene.grass.tended, name, hitches.tend);
   }
   timing(scene, 'see', hitches.see);
+  // Every frame whose update ran a tending call, for \`tendFrames()\`: the
+  // update's ms, which a headless frame's own timing leaves out, and the
+  // tending calls' share of it. Phaser calls the update it took at boot,
+  // \`sys.sceneUpdate\`.
+  const tendFrames = [];
+  const sceneUpdate = scene.sys.sceneUpdate;
+  scene.sys.sceneUpdate = function (...args) {
+    const tends = hitches.tend.length;
+    const started = performance.now();
+    sceneUpdate.apply(this, args);
+    if (hitches.tend.length > tends) {
+      const ms = performance.now() - started;
+      const tend = hitches.tend.slice(tends).reduce((sum, one) => sum + one, 0);
+      tendFrames.push({ ms, tend });
+    }
+  };
   /** The middle of \`points\`, in \`graphics\`' frame, on screen. */
   const onScreen = (graphics, points) => {
     const x = points.reduce((sum, point) => sum + point.x, 0) / points.length;
@@ -171,6 +192,11 @@ export const PROBE = `(() => {
       const taken = { tend: hitches.tend.splice(0), see: hitches.see.splice(0) };
       return taken;
     },
+    /** Each frame since the last call whose update ran a lawn-tending call, forgotten: its update ms and the tending's share. */
+    tendFrames: () => tendFrames.splice(0),
+    /** How many flowers bees have planted on the meadow. */
+    beePlanted: () =>
+      scene.meadow.planted.filter((sown) => 'parent' in sown).length,
     /** Where the sun's picture stands across the screen, in CSS px; \`null\` while the view leaves it out. */
     sun: () => {
       const columns = scene.backdrop.sun.columns.filter(
@@ -441,6 +467,10 @@ export const Hitches = z.object({
   tend: z.array(z.number()),
   see: z.array(z.number()),
 });
+/** `__probe.tendFrames()`: each frame since the last call whose update ran a lawn-tending call, its update ms and the tending calls' share. */
+export const TendFrames = z.array(
+  z.object({ ms: z.number(), tend: z.number() }),
+);
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),
   out: z.number(),

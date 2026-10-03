@@ -18,6 +18,7 @@ import {
   distanceToEdge,
 } from '../../src/pages/mushrooms/model/geometry.ts';
 import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
+import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
 import {
   MUSHROOM_SPECIES,
   mushroomGenes,
@@ -47,6 +48,7 @@ import {
   type Page,
   Point,
   State,
+  TendFrames,
 } from './mushroom-probe.ts';
 
 const FPS = 60;
@@ -234,6 +236,16 @@ export async function playApproach(
     await page.step(90);
     return sow(tries + 1);
   };
+  // The bees out first, so their plantings land while the forest grows and
+  // the walk goes up, each a re-tend on the frame it lands on.
+  await page.evaluate('__probe.tendFrames()', TendFrames);
+  await inTurn(
+    [...Array.from({ length: INSECT_LIMITS.bee }).keys()],
+    async () => {
+      await page.tap(controls.releases.bee);
+      await page.step(20);
+    },
+  );
   await sow(0);
   const first = (await state()).mushrooms.length;
   await page.key('ArrowDown', 'keyDown');
@@ -367,6 +379,11 @@ export async function playApproach(
   await page.key('ArrowRight', 'keyUp');
   await stepEach(FPS);
   noteHitches(carried, note);
+  const tendFrames = await page.evaluate('__probe.tendFrames()', TendFrames);
+  const planted = await page.evaluate('__probe.beePlanted()', z.number());
+  note(
+    `the frames whose update ran a tending call, across the approach with ${String(planted)} bee plantings: ${timings(tendFrames.map(({ ms }) => ms))}; the tending's share of each ${timings(tendFrames.map(({ tend }) => tend))}`,
+  );
   const frames = page.rendered.slice(timed);
   const slow = overBudget(frames);
   expect(
