@@ -82,6 +82,16 @@
   agent. His notes also cut scope as well as adding it (no a11y layer, no
   way home, performance deferred): each cut went into the plan with his
   words before anything else, like any contract change.
+- **A fix built to the letter of a play note can change a feel the note
+  never mentioned; that side effect is the operator's call, asked before the
+  play test is bent to it.** Call 37 ("the strafe doesn't stop") was built as
+  "stop on the lift", and the agent's play red showed a quick ground swipe
+  now moving 0.2 units where it moved 2–3. The orchestrator put three
+  options to him from the child's side, recommended one, and left the play
+  check red until the answer, building the rest meanwhile. A map's own
+  reading-calls (which shower a late spore waits for, what a pick-up does
+  to the selection) are the orchestrator's, decided in the calls file the
+  turn the map lands.
 - **An operator review that asks for a document, not a change, is kept
   verbatim and scheduled.** Mid-handling, the operator posted two game ideas
   and asked for a Russian document on each, weighing them against the code

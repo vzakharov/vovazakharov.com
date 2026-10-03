@@ -181,6 +181,14 @@
   door inside its stem) while the scene hid the back door behind the front
   stem. Whenever a bite adds something tappable, the sweep measures what
   fraction of it nearer things cover.
+- **Pending state is judged as it will stand.** Bite 14's spores counted
+  in the room check's spacing and caps but not in its cover, door and patch
+  rules, so each of six spores round a cap passed alone and the six buried
+  each other once the rain grew them (clump caps 91 % hidden, bound 25 %).
+  The 50-visit sweep caught it the round the switch landed; the one-visit
+  play frame looked clean. Anything laid now to become something later is
+  judged as the later thing, against every rule — and a feature switch
+  gets a sweep run before its frames are trusted.
 - **Angles.** Every rotation defect in bite 5 sat at the ±π seam: a linear
   blend, a clamp of a wrapped heading. The play script checks "no rotation
   step above ~0.2 rad between frames" for everything that turns — with the

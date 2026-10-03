@@ -331,10 +331,10 @@ The bites, each file its full contract:
 14. **After the rain.** While it rains (the model's `raining`, not the
     scene's wetness), insects shelter under the nearest cap (a perch in
     `flight-habits.ts`, clear of the world's edge as every perch is,
-    `perch-sight.ts`); when it stops, spores an old mushroom shed
-    sprout into little mushrooms that grow over the next minutes through
-    `pickFoot` and `roomFor`, within `MUSHROOM_SLOTS` — the first thing the
-    reducer's `tick` grows. Its calls, packages, what is built and what is
+    `perch-sight.ts`); a tap on a mushroom sows a spore beside it
+    (a dot, up to six, a tap picking one up), and rain sprouts every spore
+    into a little mushroom that grows over the next minutes — the first
+    thing the reducer's `tick` grows. Built but for the tail. Its calls, packages, what is built and what is
     left, in order: [bite-14.md](mushroom-game-syama/bite-14.md).
 
 ## Rest of the elephant

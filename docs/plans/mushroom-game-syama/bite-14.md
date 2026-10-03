@@ -294,20 +294,42 @@ holds its detail.
   the shower's draw (call 28, to be retired by 35). **B2** b1cc7f5, 6ef6a6e
   — sky turns, ground strafes (call 29).
 
+- **The second round** (2026-10-03, relay depth 4): **M** a17bb175 — the
+  spores map (`map-spores.md`). **C37** 7d0b6871 — a chase eases to rest on
+  the lift, any key ends it (call 37). **FB** 1946a63 — the frame budget
+  reports, never fails. **SA** aacbd7f4 — spores in the model
+  (`Meadow.spores`, `sown`/`unsown`/`sproutedInRain`, `darkAt`, furnishing
+  moved to `model/furnishing.ts`; the counter is `scattered`). **SB**
+  522362cc, 3edcafaf — spores in the scene (`spore-seats.ts`,
+  `spore-bed.ts`, the pick-up in `tapMeadow`). **SC** 5b494679, eb66ec9b —
+  the probe, the `sprouts` play, the sweep's `--showers`, the shed retired.
+  **SD** 1285d6f6 — the play passes first run; `DOT` 0.05, cap-spot size.
+  **ST** 7144209b — `roomFor` judges the meadow as it stands once every
+  lying spore has risen (`risen`); clump 24.8/50.0 against bounds 25/50,
+  median 7 sprouts a shower.
+
+41. **A lying spore holds its place against everything laid after it**,
+    `+` and other spores included (ST): `roomFor` judges the risen meadow,
+    flowers replotted off the spores' feet. Beat: judging the meadow as
+    drawn, which let six spores round a cap bury each other once grown.
+
 ## Left, in order
 
-1. **Spores the child sows**, calls 30–35: a mapping agent first (the
-   switch retires `shedding`/`shedIn`/`shedNow`/`Meadow.shed`, and the
-   probe's `sprouts()`, the `sprouts` play and the sweep's `--showers`
-   follow it — call sites, files, the step cut with grants on
-   `game.ts`/`mushroom-bed.ts`/`meadow-scene.ts`, all near 450), then the
-   build one step per agent: model, scene (the settle on tap, the dot
-   drawing, the rain's sprouting), then probe/play/sweep.
-2. **Call 37**: a chase ends on the lift and yields to keys
-   (`model/stride.ts`, `model/walk.ts`); disjoint from item 1, run beside it.
-3. **The frame budget reports, never fails** (plan § "Performance waits"):
-   `frame-budget.ts` and the runner print the median and pass. Beside 1.
-4. The tail: the review (two reviewer agents — shelter+walk, spores), its
+1. **Call 37's ground swipe, the operator's call** (asked, no answer yet):
+   C37 makes a quick ground swipe move ~0.2 units (was 2–3). Options put to
+   him: (1) as built, stop on the lift; (2, recommended) glide on at the
+   finger's speed and fade in ~1 s, as the sky turn does; (3) run to the
+   lift point, a tap or key stopping it. Then fix `scripts/lib/play-walk.ts`
+   ~405–422's strafing-drag check (expects 2.34–3.07) to match.
+2. **Rerun the `sprouts` play** after ST's `risen` (SD ran it before).
+3. **meadow's fly-8 turn red**, 36.18 vs 36.04 rad/s, recurring on tabL —
+   0.4 % over; decide in the review (accept in writing, or trace).
+4. **The phone's narrow clump**: after a showered clump 62 % of its
+   mushrooms are narrower than a fingertip (47.8 % under the old shed); no
+   bound in the sweep. A line in `to-check.md`, or a review finding.
+5. The tail: the review (two reviewer agents — shelter+walk, spores), its
    fixes, the fold, bite 13's frames and this bite's working notes retired,
    the Artifact, `/polish`, `/pr`. `model/shelter.ts` carries a prettier
-   warning (`saltedStream,type`).
+   warning (`saltedStream,type`). The megabeast note
+   `play-run-and-frames.md` still describes the budget as failing (lines
+   ~89, ~140, ~178–190); `rain.md:67` too.
