@@ -401,3 +401,15 @@ In this order of launch; parallel where files are disjoint.
   gets a floor of its own (more chords than `curveSteps` gives) rather
   than a shorter chord everywhere, which would spend the saving on every
   part to fix one; tail-lod2 applies, tests, measures, looks.
+- **tail-lod2** — 567702f (the patch in source), aa165d8, 60b6fb3.
+  phoneL `approach` green: median 18.4 ms against 26 (the parent 30.0 in
+  the same sitting); phoneP `approach` 11.1, tabL `species` green. The
+  far forest before and after on one seed reads the same, mid caps at 3×
+  indistinguishable, a near frame identical. Departs from the call: the
+  gill band keeps all 28 chords (`BAND_STEPS`), its error being where the
+  angle samples fall on the notch round the stem, not chord length — no
+  floor under 28 holds 1 px. **Orchestrator's call:** accepted; ~120 of a
+  far porcini's ~1,700 entries is not worth resampling the notch, which
+  would move the tap outline. Looked at the before/after frame myself:
+  the same. The tail's plays are done; next the Artifact, `/pr`, 12b's
+  review session.
