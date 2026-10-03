@@ -258,13 +258,10 @@ at map scale reads as a dot and a smudge; `emerge`'s overshoot makes the
 sheet briefly larger than the screen mid-unfold — all five in
 `to-check.md`.
 
-## Left
+## The tail
 
-The splits are done: the probe into five modules (0f1fa4e), the lens out
-of `ground.ts` into `model/pinhole.ts` and the taps out of
-`meadow-scene.ts` into `meadow-taps.ts` (88b6cf8). The plan's summary
-carries calls 17–22 (b34e647). A second `/dry` over `aca95c51..HEAD` (E, F
-and G landed after the first) runs as two agents, `src/` and `scripts/`,
-each landing a `polish(dry bite 16 tail …):` commit. Then `/tend-prose`
-over `8abc5a6..HEAD`, the bare `polish:` mark; vet; `/pr` refresh; pause;
-relay `/go` for item 17, dusk.
+- **Splits**: the probe into five modules (0f1fa4e); the lens out of
+  `ground.ts` into `model/pinhole.ts` and the taps out of `meadow-scene.ts`
+  into `meadow-taps.ts` (88b6cf8).
+- **A second `/dry`** over `aca95c51..` (E, F and G landed after the
+  first), by area: `scripts/` 3b88ad31, `src/` 3454539f.

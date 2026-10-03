@@ -200,8 +200,8 @@ mushrooms within `D_SEE` of a new one and `FIELD_MUSHROOMS` (96) the field,
 `Meadow.pulled` remembers every flower pulled up or replaced. `meadow-scene.ts`
 only orchestrates the beds — `mushroom-bed.ts`, `flower-bed.ts`,
 `insect-view.ts`, `house-view.ts`, `controls.ts`, `hud.ts`, `rain-view.ts` —
-with `arrivals.ts`, `perches.ts` and `meadow-listeners.ts` (its event wiring)
-beside it, and holds `map-view.ts`'s `MapView`, which gates the input while
+with `arrivals.ts`, `perches.ts`, `meadow-listeners.ts` (its event wiring) and
+`meadow-taps.ts` (its tap handlers) beside it, and holds `map-view.ts`'s `MapView`, which gates the input while
 open and frames through `model/map-frame.ts`.
 
 **Rain.** The shower is model state (`model/weather.ts`, `Meadow.rain`, the
@@ -301,7 +301,8 @@ asleep on a hidden tab. `instrument.ts`'s `Instrument` plays
 **The play run, the sweep, the suite.** `pnpm play:mushrooms` builds a probe
 export (`NEXT_PUBLIC_MUSHROOM_PROBE`) and drives every control over the DevTools
 protocol on tabL, tabP, phoneP, phoneL and phoneS (`scripts/lib/play-*.ts`, the
-probe and its schema in `scripts/lib/mushroom-probe.ts`, which reads the eye:
+probe and its schema in `scripts/lib/mushroom-probe.ts` and its four
+`mushroom-probe-*.ts` neighbours, which read the eye:
 `__probe.eye()`, `sun()`, `toScreen`/`toWorld`, `rain()`, `clouds()`,
 `rainbowAt()`). Its plays — meadow, walk, planting, species, tufts, hold,
 approach, rain, sprouts, map — each start on a fresh meadow (`--plays` picks them).
@@ -354,10 +355,6 @@ The bites, each file its full contract:
 17. **The map** — the mute's circle a map button, the map unfolding from
     it, sun-up, every foot in its own side picture —
     [bite-16.md](mushroom-game-syama/bite-16.md)
-
-## Rest of the bite
-
-**16's tail** — calls 1–22 built, Artifact v24; the rest is [bite-16.md](mushroom-game-syama/bite-16.md) § "Left".
 
 ## Rest of the elephant
 
