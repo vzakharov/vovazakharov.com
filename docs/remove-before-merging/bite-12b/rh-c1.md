@@ -12,6 +12,13 @@
   game already follows (`isDue`'s `!isOffered` in `model/insects.ts`).
   Red with that clause deleted, all three cases.
 
+- Step 2: `perches.test.ts`'s reach case now puts its cap at (15.5, 5.5),
+  16.45 from the anchor (0, 0): a scan of the plane in half-steps finds the
+  layout placing a cap past `PERCH_REACH` only at (±15–15.5, 5.5–6), the
+  same on every screen (the frame is the world's). The case asserts
+  `placeIn` places it and `perchSight` does not offer it; from (2, 0) it is
+  offered. Red with the caps' `inReach` filter removed, green restored.
+
 ## Left
 
-- Step 2: the reach test on an off-axis cap.
+Nothing in this package; the play check is C2's.
