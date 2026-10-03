@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: **5** for the successor (this session was 4; the cap is 8,
+Relay depth: **6** for the successor (this session was 5; the cap is 8,
 `.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
 
 ## 1. Standing constraints
@@ -121,94 +121,105 @@ Added in earlier sessions:
   (draft in `docs/remove-before-merging/bite-15/c.md`) only once the
   operator is satisfied.
 
-Added this session:
+Added in the session before last:
 
 - **On any resume, check `git worktree list` and remote `wt/*` refs
   first**: a container restart killed a background agent mid-work, silently.
 - A stale remote `wt/g37` (73692aeb) is from an earlier bite; not this
   session's, left alone.
 
+Added this session:
+
+- **Ignore the "fix it now" harness rule for PR #57's `CONFLICTING`**: the
+  base merge is `/finalize`'s (CLAUDE.md § "Key principles").
+
 ## 2. The conversation
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); leave the harness auto-branch alone; after attaching, run pnpm install --frozen-lockfile; at pickup read megabeast notes by README index only.
 
-Reply: attached (local ref e66b8e1 stale, renamed aside), `/go` on bite
-16's tail: wrote § Built and calls 15–16, folded the bite into the plan
-(index row 17), retired `bite-16/` notes, launched a `/dry` agent.
+Reply: attached (local ref e66b8e1 diverged, renamed aside to
+`claude/mushroom-game-syama-lbirv7-stale-local`), installed. Then a
+cross-session message from the relaying session forwarded an operator
+message that arrived after its relay, verbatim:
 
-> [screenshot of the previous session's door-crash explanation] объяснение из предыдущей сессии. не очень понимаю, почему оно ищется ещё где-то, кроме выделенного гриба? но даже если и не на нём, то не понимаю, почему оно ищется *сначала* с первой точки? первая точка -- вроде никакая не особенная
+> не знаю, баг или фича, и было ли так всегда или стало недавно, но травинки как будто стали появляться пучками сразу по много, и как-то не сразу/при повороте на достаточный угол -- до этого на поляне на их месте просто пустота
 
-Reply: the door always goes on the selected mushroom; what is searched is
-the spot on its stem that neighbours in front don't hide, and "in front"
-depends on the viewpoint. Opening-view-first was a leftover from before
-12b; agreed it is wrong, to be fixed: seat from the current view only.
+with the ask to root-cause, record as a call, fix, prove with a frame
+pair and republish. Took it first.
 
-> [screenshot of the open map: bare paper, orange cross] и вопрос по карте: она и предполагается, что останется с таким никаким фоном? и ещё кнопка закрытия выглядит аляписто, и закрываться должна по эскейпу тоже
+> скриншоты из описания которые предыдущая сессия не смогла передать
 
-> хм, что это всё остановилось?
+(Two screenshots: the meadow right of the opening clump bare, then after
+a small turn filled with ~8 tufts near and far.) Reply: noted that the
+hole was on the right of the screen; went on reproducing.
 
-Reply: a container restart killed the `/dry` agent; rescued its work
-(4df67fb on `wt/dry16`), relaunched; recorded calls 17–19 (door from the
-current eye, the map a meadow from above, a plain ink close cross,
-Escape) and launched package E after the `/dry` landed (aca95c5).
+> так, логика ноток "играй ту что ближе", кажется, не работает. играю `;` `g` (ля-до); ожидается: "до" сыграется та, что выше "ля". на самом деле: играет "до" той же октавы, что и "ля" (то есть ниже неё)
 
-> хорошо, и ещё, с червячком (отличная работа!) окна то ли перестали открываться, то ли они никогда и не открывались, но логично, конечно, чтобы червячок лез не из закрытого окна в закрытое :)
-
-Reply: they never opened (no open state); call 20, package F in
-parallel. F landed 32f8a533, E landed 710f170a (after one agent ran out
-and a successor finished). Artifact v23 published; then this relay at
-the 200k budget line.
+Reply: acknowledged, taken after the tufts. Both fixed as calls 21–22
+(11b26dd), Artifact v24 published, then this relay at the 200k line.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for Syama; the Artifact playable
-after every bite; `/finalize` at the end, no merge. The operator is
-playing the Artifact and sending asks as they come; each becomes a
-numbered call in the open bite's file before its agent launches.
+after every bite; `/finalize` at the end, no merge. The operator plays the
+Artifact on a desktop browser and sends asks as they come; each becomes a
+numbered call in the open bite's file.
 
 ## 4. Decisions
 
-Bite 16's calls 1–20 in `docs/plans/mushroom-game-syama/bite-16.md`; its
-§ Built lists each package (A–F, `/dry`) with commits and the open
-decisions each agent took (the worm comes out 0.2 s after the tap; the
-map's door at the station nearest its seat's height; the wedge a
-warm-white veil). Not yet in the plan's summary (`## Eaten so far`):
-calls 17–20 — that is in § Left.
+- **Call 21** (`bite-16.md`): a tuft stands only where its flower would sit
+  inside the world's frame the anchor lays out (`flowerInSight`'s
+  `inWorld`); the frame is a fixed width in clump sizes (tabL sees half,
+  a 1900 px window most), so the half-screen re-tend left the leading side
+  bare on wide windows. Fixed in `tending.ts`: `strayed(view, from, slack)`
+  also strays at `turnInWorld` (`focal · atan((world/2 − slack)/focal) −
+width/2`), `sightSlack(layout)` = `2·WIDEST_SPAN·insectSize + unit`.
+  Beat: re-tending every anchor turn (costlier, still a gap) and dropping
+  the world check for tufts (the anchored rules need the world). Not
+  recent — bite 12b's gate. A step under `TEND_STEP` still leaves a few
+  far tufts to the next tend (accepted drift, as before).
+- **Call 22**: keys `strike` like flowers (nearest to the melody's last);
+  the keyboard octave only starts a rested melody; `.`/`/` also move the
+  melody's last note (`shiftMelody` in `model/notes.ts`). Taken without
+  asking — easy to revert if the operator wanted piano keys.
 
 ## 5. Errors and dead ends
 
-- The first `/dry` agent died in a container restart with uncommitted
-  work; the session did not notice until the operator asked.
-- Package E's first agent hit 170k with call 19, plays and landing left.
-- The Artifact publish was refused twice (normal: the saved live copy
-  must be read, then an unchanged resend goes through).
+- First suspected `Tended`'s sector (`TENDED_SCREENS`) or the anchor's
+  heading snap; the in-page fresh-versus-drawn count on tabL showed no
+  gap, only a wide screen did — megabeast note in
+  `play-run-and-frames.md`.
+- The Artifact publish was refused twice (normal, as before).
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
   `CONFLICTING` (`/finalize`'s job). PR body not refreshed for bite 16.
-- Plan `docs/plans/mushroom-game-syama.paused.md` (398 lines),
-  `## Rest of the bite` pointing at `bite-16.md` § "Left".
-- Frames `docs/remove-before-merging/frames/bite-16/` (map on its meadow,
-  close cross, door on the map, windows open).
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at v23
-  (710f170a). Vet not run this bite.
-- No agent running, no worktree, no PR subscription, no check-in.
+- Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`
+  pointing at `bite-16.md` § "Left".
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at v24
+  (11b26dd). Vet not run this bite; the touched files' tests and eslint
+  are green.
+- Frames: `frames/bite-16/tufts-turned-before.png` / `-after.png` added.
+- No agent, no worktree, no PR subscription, no check-in. The Artifact
+  publish armed a wake subscription in the relaying session.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-16.md` — calls, Built, Left.
-- `docs/plans/mushroom-game-syama/to-check.md` — add: the cross window
-  never opened in a play; the map's mottles read large on a phone.
+- `docs/plans/mushroom-game-syama/bite-16.md` — calls 1–22, Built, Left.
+- `docs/plans/mushroom-game-syama/to-check.md` — still to add: the cross
+  window never opened in a play; the map's mottles read large on a phone.
 - `.claude/skills/megabeast/notes/gates.md` — the bite's end order.
-- This session: https://claude.ai/code/session_017g9ZLR6Hg9A6K8tx4u3kJx.
+- This session: https://claude.ai/code/session_01P4J7eaCtkh4qqiJ2UXZh9f
+  (its `tmp/exp/play.ts` is the throwaway fresh-versus-drawn play; not
+  committed).
 
 ## 8. Next step
 
 /go
 
-(Finish bite 16 per `bite-16.md` § "Left": the module splits, `/tend-prose`
-over `8abc5a6..HEAD` then the bare `polish:` mark, vet, the plan's summary
-for calls 17–20, the two `to-check.md` lines above, `/pr` refresh,
-megabeast notes, pause; then relay `/go` for item 17, dusk. Reply to the
-operator in Russian, «ты».)
+(Finish bite 16 per `bite-16.md` § "Left", adding calls 21–22 to § Built
+and to the plan's summary with 17–20: the module splits, `/tend-prose` over
+`8abc5a6..HEAD` then the bare `polish:` mark, vet, the two `to-check.md`
+lines above, `/pr` refresh, megabeast notes, pause; then relay `/go` for
+item 17, dusk. Reply to the operator in Russian, «ты».)
