@@ -6,6 +6,7 @@ import type { WithId } from '@/shared/typings';
 
 import { isSeat, perchName } from '../../model/flight';
 import { isShown } from '../../model/flight-in';
+import { NEAR_FLOWERS } from '../../model/flower-sounds';
 import { type Meadow, reduce } from '../../model/game';
 import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE, D_SEE, OPENING_EYE } from '../../model/ground';
@@ -239,12 +240,14 @@ describe('onscreenOf', () => {
       const { places = {}, air } = perchSight(stand);
       const inAir = new Set(air.map((id) => perchName({ kind: 'air', id })));
       const clump = rowAt(layout.camera, clumpRow(layout.camera)).opening;
+      const far = farPerches(stand);
       for (const [perch, { fromEye: q }] of Object.entries(places)) {
         if (inAir.has(perch)) continue;
         const row = rows.get(perch);
         const expected =
           row === undefined ? clump : rowAt(layout.camera, row).opening;
         assert.ok(Math.abs(q - expected) < 1e-9 * expected, perch);
+        if (far.has(perch)) continue;
         assert.ok(q > 0.8 * CLUMP_DISTANCE && q < 1.7 * CLUMP_DISTANCE, perch);
       }
     });
@@ -376,11 +379,23 @@ describe('footRows', () => {
       ([name]) => !name.startsWith('air'),
     );
     assert.ok(grounded.length > mushrooms.length);
-    for (const [, row] of grounded) {
-      assert.ok(row >= layout.groundTop && row <= layout.height);
+    const far = farPerches(stand);
+    for (const [name, row] of grounded) {
+      // The far band's feet stand past the ground's top row, behind the brow.
+      if (far.has(name)) assert.ok(row < layout.groundTop, name);
+      else assert.ok(row >= layout.groundTop && row <= layout.height, name);
     }
   });
 });
+
+/** The perch names of `stand`'s far band of seeded flowers, which only flight's risen eye sees. */
+function farPerches({ flowers }: Stand): Set<string> {
+  return new Set(
+    flowers
+      .slice(NEAR_FLOWERS)
+      .map(({ id }) => perchName({ kind: 'flower', id })),
+  );
+}
 
 /** Whether two shelter seats are the same seat under the same cap. */
 function isSameSeat(a: ShelterSeat, b: ShelterSeat): boolean {

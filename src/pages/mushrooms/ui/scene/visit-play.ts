@@ -7,7 +7,7 @@
 
 import { MUSHROOM_SLOTS } from '../../model/crowding';
 import type { Sight, Timed } from '../../model/flight';
-import { firstFlowers } from '../../model/flower-sounds';
+import { visitFlowers } from '../../model/flower-sounds';
 import { firstMeadow, type Meadow, reduce } from '../../model/game';
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
@@ -17,6 +17,7 @@ import { SPORE_SEATS, SPROUT_MS, sproutedInRain } from '../../model/sprouting';
 import { RAIN_MS } from '../../model/weather';
 import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
+import { FAR_FLOWERS } from './far-band';
 import { type Stand, standOf } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
@@ -57,7 +58,7 @@ export function opened(
 ): Opened {
   const random = mulberry32(seed);
   let meadow = firstMeadow(random);
-  const flowers = firstFlowers(random, 14);
+  const flowers = visitFlowers(random, seed, FAR_FLOWERS);
   const layout = meadowLayout(
     width,
     height,

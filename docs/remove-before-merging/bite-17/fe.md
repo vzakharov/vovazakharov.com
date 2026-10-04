@@ -47,15 +47,31 @@ The operator: «в "полёте" камеру можно чуть припод�
    same amount. Pure alpha function → test.
    Not yet seen in a frame: in the fresh meadow nothing stands near the
    brow in flight (2.), so the play's frames cannot show it either way.
-2. **In flight the far band is bare.** The visit's seeded flowers are laid
-   out on the opening lens's bed, which ends at `D_SEE`, so the ground
-   flight adds (rows from the brow down to where the walking brow's flowers
-   now stand, ~200 px on tabL) shows tufts and mottles but no flower or
-   mushroom. Flight reads as "everything slid down the screen", not yet as
-   "seeing farther". The opening clump also slides into the bottom edge,
-   its stems cut off. Fix, if wanted: seed the wild flowers' bed out to
-   `D_SEE_MOST` (`flower-plots.ts` / `layout.flowers`), so the deeper band
-   holds things to see; a design call, not built.
+2. **Far band — landed (fe3).** `far-band.ts`: `FAR_BAND`, a second
+   seeded band past the walking brow, from `SUNK_AWAY` (0.1 of the ground's
+   depth past the top row) out to `FLIGHT_TOP` (0.065 under flight's brow,
+   so the farthest foot sits under the brow line rather than on it); 4
+   uneven slots a half, 8 flowers. `seededBed(opening, seed, bands)` lays
+   bands in turn, each slot on its own stream; `visitFlowers` deals the near
+   `NEAR_FLOWERS` (14) off the visit's stream and the far ones off
+   `visitSeed ^ FAR_STREAM`. `m0-closed` stays byte-identical to
+   `fe-steps.png`; `fe-flight.png` is the new `g-lifted`.
+   Tests that read the opening against controls, foot rows or perch
+   distances (`flower-layout`, `perch-sight`) judge the near band alone;
+   `far-band.test.ts`: every far flower sunk away behind the walking brow on
+   every screen, every slot placed, and every one in the middle half of the
+   screen in front of flight's brow.
+   Known, not fixed: the band is laid at a depth down the screen and the
+   brow is a circle round the eye, so the band's ends, where the brow bends
+   down, lie past flight's brow — on phone held sideways ~1.5 of the 8 far
+   flowers a visit sink away there in flight (0 on the other screens). A
+   fix would lay the band by distance from the eye. The ground between
+   flight's far row and the near flowers stays bare (~130 px on tabL): the
+   walking view's own strip, which "steps unchanged" forbids filling.
+   Latent: `flowersOf` pairs `layout.flowers[i]` with `flowers[i]`, so a
+   near slot that found no spot would shift the far places onto near
+   flowers; no visit drops one today (22 of 22 on every screen, 2000
+   visits), and `far-band.test.ts` asserts all 8 far ones place.
 3. Perf in flight unmeasured: the map play's frame budget (18.5 ms median
    on tabL) is read over its steps frames.
 

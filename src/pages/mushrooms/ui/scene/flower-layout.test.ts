@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { flowerGenes } from '../../model/flower-genes';
 import {
+  NEAR_FLOWERS,
   SEEDED_SOUNDS,
   seedSounding,
   soundOf,
@@ -178,7 +179,9 @@ describe('the seeded flowers', () => {
     );
     for (const [index, visit] of visitsOn(1180, 820).slice(0, 200).entries()) {
       const { layout, flowers, mushrooms } = visit;
-      const standing = standingFlowers(layout, flowers, [], mushrooms, []);
+      // The near band's alone: the far band's are flight's extra.
+      const near = flowers.slice(0, NEAR_FLOWERS);
+      const standing = standingFlowers(layout, near, [], mushrooms, []);
       const at = `visit ${String(VISITS[index])}`;
       assert.deepEqual(
         sounds(standing.filter(({ foot }) => foot.x < 0)),
@@ -290,9 +293,10 @@ describe('the seeded flowers', () => {
       let nearest = Infinity;
       for (const [index, visit] of visitsOn(width, height).entries()) {
         const controls = drawnControls(visit.layout);
+        // The near band's alone: the far band's stand hidden behind the brow.
         for (const flower of standingFlowers(
           visit.layout,
-          visit.flowers,
+          visit.flowers.slice(0, NEAR_FLOWERS),
           [],
           visit.mushrooms,
           [],

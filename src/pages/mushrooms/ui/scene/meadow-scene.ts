@@ -5,7 +5,7 @@ import { pick } from '@/shared/lib/collections';
 import { sameAnchor } from '../../model/anchor';
 import { dusky, FULL_DAY, FULL_DUSK } from '../../model/dusk';
 import type { Sight } from '../../model/flight';
-import { firstFlowers } from '../../model/flower-sounds';
+import { visitFlowers } from '../../model/flower-sounds';
 import {
   type Action,
   firstMeadow,
@@ -22,6 +22,7 @@ import { controlActions, type ControlScene } from './control-actions';
 import { Controls } from './controls';
 import { DuskView, schemeIsDark } from './dusk-view';
 import { EyeInput } from './eye-input';
+import { FAR_FLOWERS } from './far-band';
 import { FlowerBed } from './flower-bed';
 import { bedClosing } from './flower-closing';
 import { type Stand, standOf } from './flower-sight';
@@ -147,7 +148,7 @@ export class MeadowScene extends Phaser.Scene {
       this,
       this.instrument,
       this.now,
-      firstFlowers(random, 14),
+      visitFlowers(random, this.visitSeed, FAR_FLOWERS),
       (action) => {
         this.dispatch(action);
       },

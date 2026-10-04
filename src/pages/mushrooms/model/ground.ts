@@ -151,7 +151,7 @@ function depthScale(down: number): number {
 }
 
 /** How far down the band, from its top to the screen's foot, a point `z` into the distance stands. */
-function downOf(z: number): number {
+export function downOf(z: number): number {
   return CLUMP_DOWN - z / BAND_DEPTH;
 }
 

@@ -53,7 +53,7 @@ const FLOWER_SPOTS = [
   [0.56, 0.88],
 ] as const;
 /** A slot of `FLOWER_SPOTS`: across its half and down the ground. */
-type Spot = (typeof FLOWER_SPOTS)[number];
+type Spot = readonly [number, number];
 /**
  * How far a flower strays from its slot, as a fraction of its half's width
  * and of the ground's depth.
@@ -350,33 +350,59 @@ function jitter(
   return Math.min(max, Math.max(min, moved));
 }
 
-/** How many halves of the world the seeded bed spreads over, a full set of sounds in each. */
+/** How many halves of the world a seeded bed spreads over, a full set of sounds in each. */
 const BED_HALVES = 2;
 
 /**
- * Where the flower in slot `index`, at `spot`, of the world's `half` stands
- * on the ground `opening` shows: the first try off its slot, from its own
- * seeded stream, that stands off the opening clump's feet and apart from
- * every flower of `placed` on the ground, and on `opening` has its head
- * clear of every control and shown past the clump; `undefined` when none of
- * its tries does.
+ * A band of the ground a seeded bed is laid out in: its slots in each half
+ * of the world (`FLOWER_SPOTS`' form), how far a flower strays off one
+ * (`FLOWER_JITTER`'s), and how far down the ground's depth, from its top
+ * row at the opening eye, a foot may stand, a negative share standing past
+ * that row.
+ */
+export type Band = {
+  spots: readonly Spot[];
+  jitter: readonly [number, number];
+  down: readonly [number, number];
+};
+
+/** The band the opening eye sees, from `FLOWER_DOWN`'s top to its foot. */
+export const NEAR_BAND: Band = {
+  spots: FLOWER_SPOTS,
+  jitter: FLOWER_JITTER,
+  down: FLOWER_DOWN,
+};
+
+/** How many slots `band` holds across the world. */
+export function bandSlots(band: Band): number {
+  return BED_HALVES * band.spots.length;
+}
+
+/**
+ * Where the flower in slot `index`, at `spot`, of the world's `half` of
+ * `band` stands on the ground `opening` shows: the first try off its slot,
+ * from its own seeded stream (`stream` on from `seed`), that stands off the
+ * opening clump's feet and apart from every flower of `placed` on the
+ * ground, and on `opening` has its head clear of every control and shown
+ * past the clump; `undefined` when none of its tries does.
  */
 function spotOn(
   opening: FlowerGround,
+  band: Band,
   half: number,
   [index, [across, down]]: readonly [number, Spot],
-  seed: number,
+  stream: number,
   placed: readonly GroundFoot[],
 ): GroundFoot | undefined {
   const { frame, controls, clump } = opening;
   const camera = cameraOf(opening);
   const feet = clump.map(({ place }) => groundOf(camera, place));
-  const random = mulberry32(seed + half * FLOWER_SPOTS.length + index);
+  const random = mulberry32(stream + half * band.spots.length + index);
   for (let attempt = 0; attempt < FLOWER_TRIES; attempt++) {
     // Each miss strays a little farther, so a slot on the clump finds a way off it.
     const stray = 1 + attempt / 4;
-    const x = jitter(random, across, FLOWER_JITTER[0] * stray, FLOWER_ACROSS);
-    const y = jitter(random, down, FLOWER_JITTER[1] * stray, FLOWER_DOWN);
+    const x = jitter(random, across, band.jitter[0] * stray, FLOWER_ACROSS);
+    const y = jitter(random, down, band.jitter[1] * stray, band.down);
     const z = zAt(y);
     const foot = {
       x: ((2 * ((half + x) / BED_HALVES) - 1) * frame.across) / scaleAt(z),
@@ -397,17 +423,28 @@ function spotOn(
 }
 
 /**
- * The visit's seeded flowers' feet on the plane, laid out once on `opening`'s ground: the
- * left half's slots, then the right's, each flower at its slot's first spot
- * there that a child sees (`spotOn`), left out when it has none.
+ * The visit's seeded flowers' feet on the plane, laid out once on `opening`'s
+ * ground: band by band of `bands`, the left half's slots, then the right's,
+ * each flower at its slot's first spot there that a child sees (`spotOn`),
+ * left out when it has none. Each slot draws from a stream of its own, a
+ * band's on past every slot of the bands before it, so a band added after
+ * moves no flower of those.
  */
-export function seededBed(opening: FlowerGround, seed: number): Footing[] {
+export function seededBed(
+  opening: FlowerGround,
+  seed: number,
+  bands: readonly Band[],
+): Footing[] {
   const bed: GroundFoot[] = [];
-  for (let half = 0; half < BED_HALVES; half++) {
-    for (const slot of FLOWER_SPOTS.entries()) {
-      const foot = spotOn(opening, half, slot, seed, bed);
-      if (foot) bed.push(foot);
+  let stream = seed;
+  for (const band of bands) {
+    for (let half = 0; half < BED_HALVES; half++) {
+      for (const slot of band.spots.entries()) {
+        const foot = spotOn(opening, band, half, slot, stream, bed);
+        if (foot) bed.push(foot);
+      }
     }
+    stream += bandSlots(band);
   }
   return bed.map((foot) => planeFootOf(foot));
 }

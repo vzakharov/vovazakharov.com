@@ -21,7 +21,8 @@ import type { InsectKind } from '../../model/insect-genes';
 import { openingPan, screenOf } from '../../model/pan';
 import { clumpCrowns, type MushroomGround } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
-import { flowersOn, type Footing, seededBed } from './flower-layout';
+import { FAR_BAND } from './far-band';
+import { flowersOn, type Footing, NEAR_BAND, seededBed } from './flower-layout';
 import { gaitSpot } from './gait-spot';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
 import { type Cloud, skyClouds } from './panorama';
@@ -194,7 +195,7 @@ function keptBed(seed: number, openers: readonly Opener[]): Footing[] {
       controls: [],
       clump: clumpShade(mushrooms, openers),
     };
-    return seededBed(opened, seed);
+    return seededBed(opened, seed, [NEAR_BAND, FAR_BAND]);
   });
 }
 

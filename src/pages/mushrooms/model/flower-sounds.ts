@@ -152,15 +152,44 @@ export function shapeSeeds(random: Random, colour: FlowerColour): number[] {
 }
 
 /**
- * The visit's first flowers, one per `SEEDED_SOUNDS` entry up to `count`.
- * Each draws one seed off `random`, as any grown thing does, and searches its
- * own stream from there, so the visit's later draws stand where they would.
+ * The visit's first flowers, one per `SEEDED_SOUNDS` entry up to `count`,
+ * numbered on from `first`. Each draws one seed off `random`, as any grown
+ * thing does, and searches its own stream from there, so the visit's later
+ * draws stand where they would.
  */
-export function firstFlowers(random: Random, count: number): Flower[] {
-  return Array.from({ length: count }, (_, index) => {
+export function firstFlowers(
+  random: Random,
+  count: number,
+  first = 0,
+): Flower[] {
+  return Array.from({ length: count }, (_, dealt) => {
+    const index = first + dealt;
     const own = mulberry32(nextSeed(random));
     const sound = SEEDED_SOUNDS[index % SEEDED_SOUNDS.length];
     if (!sound) throw new Error('The seeded flowers have no sounds');
     return { id: `flower-${index + 1}`, seed: seedSounding(own, sound) };
   });
+}
+
+/** How many flowers the visit's near bed holds: a full set of sounds in each half of the world. */
+export const NEAR_FLOWERS = 2 * SEEDED_SOUNDS.length;
+
+/** Mixed into the visit's seed for the far band's own stream. */
+const FAR_STREAM = 0x0f_a2_be;
+
+/**
+ * The visit `visitSeed`'s seeded flowers, in the order the bed's bands stand
+ * them: the near band's off `random`, the visit's own stream, then `far`
+ * more for the far band off a stream of their own, so the near ones and
+ * every later draw off `random` stand where they would without them.
+ */
+export function visitFlowers(
+  random: Random,
+  visitSeed: number,
+  far: number,
+): Flower[] {
+  return [
+    ...firstFlowers(random, NEAR_FLOWERS),
+    ...firstFlowers(mulberry32(visitSeed ^ FAR_STREAM), far, NEAR_FLOWERS),
+  ];
 }
