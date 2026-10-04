@@ -219,7 +219,7 @@ export class MeadowScene extends Phaser.Scene {
     );
     bed?.update(t, rain?.wetness ?? 0, dusk?.lights);
     controls?.update(t);
-    map.update(t);
+    map.update(t, dusk?.level ?? 0);
     const closing = bedClosing(rain?.wetness ?? 0, dusk?.level ?? 0);
     // As the tick just left them.
     flowers?.update(t, closing, this.fliers(), planting?.flower);

@@ -2,7 +2,7 @@
  * Dusk, played on a fresh meadow, its two mushrooms furnished with every
  * window and a door so their windows light: the sun tapped and shot by day, half way
  * and at dusk; the eye turned so the moon crosses the fixed stars, and shot;
- * the moon tapped and the morning shot. Fails where the meadow does not open
+ * the map opened at dusk and shot; the moon tapped and the morning shot. Fails where the meadow does not open
  * in full day, a tap on the sun does not turn the light toward dusk and reach
  * it, the moon leaves the screen on a short turn, or a tap on the moon does
  * not bring the day back. `playDark` is the opening on a dark page, which
@@ -106,6 +106,12 @@ export async function playDusk(
   await page.step(HALF + SLACK);
   expect((await dusk()).level === 1, 'the light never reached dusk');
   await page.shoot('dusk-dusk');
+  // The map, opened at dusk, under the wash as the meadow is.
+  await page.tap(controls.map);
+  await page.step(OPEN);
+  await page.shoot('dusk-map');
+  await page.tap(controls.map);
+  await page.step(OPEN);
   // Turned toward the moon's side, so it crosses the screen's middle.
   const width = await page.evaluate('__probe.eye().width', z.number());
   const toward = sun.x < width / 2 ? 'ArrowLeft' : 'ArrowRight';
