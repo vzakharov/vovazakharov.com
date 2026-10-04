@@ -7,6 +7,7 @@ import {
 import { type MemoField, MemoFields } from '@/shared/ui';
 
 import { aggravations, GradeStamp } from './grade-stamp';
+import { NoAiNote } from './no-ai-note';
 
 /** The case file's header, under the title. The actor's kind is printed once, in the grade stamp. */
 export function CaseBrief({ frontmatter }: WithFrontmatter<CaseFrontmatter>) {
@@ -32,5 +33,10 @@ export function CaseBrief({ frontmatter }: WithFrontmatter<CaseFrontmatter>) {
       : [{ label: 'Aggravating', value: aggravating }]),
   ];
 
-  return <MemoFields {...{ fields }} />;
+  return (
+    <>
+      <MemoFields {...{ fields }} />
+      {frontmatter.noAi === true && <NoAiNote />}
+    </>
+  );
 }

@@ -18,12 +18,16 @@ const CASE_AGGRAVATIONS = ['spectacle', 'profit', 'repetition'] as const;
 
 /**
  * An article with a case file on top. `date` is the incident's — the first
- * report's where the incident is undated — so the base sort, newest first, is
- * the docket's order without one of its own.
+ * report's where the incident is undated.
  */
 export const caseFrontmatterSchema = sourcedArticleFrontmatterSchema.extend({
-  /** In filing order, as a real docket numbers; unique across the collection. */
+  /**
+   * In filing order, as a real docket numbers, and the docket lists by it;
+   * unique across the collection.
+   */
   case: z.string().regex(/^BAS-\d{4}$/),
+  /** The machine ran no AI: the dossier points the reader at why it is filed anyway. */
+  noAi: z.boolean().optional(),
   /** Who did it, named as the sources name them and no further. */
   subject: z.string().min(1),
   /** What it was done to. */
