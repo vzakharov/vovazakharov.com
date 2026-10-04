@@ -4,20 +4,25 @@ import { describe, it } from 'node:test';
 import { pick } from '@/shared/lib/collections';
 
 import { MUSHROOM_SLOTS } from '../../model/crowding';
+import { browDistance, gaitHeight } from '../../model/eye-height';
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Action, reduce } from '../../model/game';
 import { type Circle, distanceBetween, type Point } from '../../model/geometry';
 import {
   type Camera,
+  D_SEE,
   type Eye,
   groundFootOf,
   OPENING_EYE,
+  planeOf,
+  zAt,
 } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { pinholeOf } from '../../model/pinhole';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import {
+  FLOWER_DOWN,
   FLOWER_SIZE,
   type Footing,
   headClear,
@@ -25,7 +30,7 @@ import {
 } from './flower-layout';
 import { flowersOf } from './flower-plots';
 import { roomIn, type Stand, takesFlower } from './flower-sight';
-import { type Tuft, tuftSizeAt } from './grass';
+import { type Tuft, tuftSizeAt, turfAt } from './grass';
 import {
   CELL,
   cellOf,
@@ -37,9 +42,15 @@ import {
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
+import { PALE_SPAN } from './repaint-queue';
 import { bareToTap, tuftAt } from './tuft-tap';
 import {
   leaveTufts,
+  SEAM_BAND,
+  seamFaded,
+  seamPatches,
+  seamReachOf,
+  shownSeam,
   shownSprouts,
   type Sprout,
   tendedIn,
@@ -565,6 +576,57 @@ describe('the ground’s grass', () => {
         left > tried / 2,
         `${String(left)} of ${String(tried)} seeded flowers on the ${name} left a tuft standing`,
       );
+    }
+  });
+});
+
+describe('the seam in flight', () => {
+  const risen = viewAt(
+    meadowLayout(390, 844, 7).camera,
+    OPENING_EYE,
+    gaitHeight('flight'),
+  );
+  const flightBrow = browDistance(risen);
+  /** How far straight ahead the flowers' band, and with it the lawn's standing tufts, reaches. */
+  const bandEnd = planeOf({ x: 0, z: zAt(FLOWER_DOWN[0]) }).y;
+
+  it("reaches from the flowers' band's end to past the risen brow, as near as in steps", () => {
+    const steps = seamReachOf(D_SEE);
+    assert.deepEqual(steps, {
+      near: D_SEE - SEAM_BAND,
+      far: D_SEE + PALE_SPAN,
+    });
+    const flight = seamReachOf(flightBrow);
+    assert.equal(flight.near, steps.near);
+    assert.ok(flight.far >= flightBrow + PALE_SPAN);
+    // No ground between the band's end and the seam bar the seam's own fade.
+    assert.ok(flight.near - bandEnd < SEAM_BAND / 2);
+  });
+
+  it("draws, risen, every live seam tuft from the seam's near edge to past the brow, the strip under the brow included", () => {
+    for (const [name, width, height] of VIEWPORTS) {
+      const layout = meadowLayout(width, height, 7);
+      for (const eye of [OPENING_EYE, { x: 6, y: 9, heading: 0.7 }]) {
+        const lawn = new LiveLawn({ seed: 7, layout });
+        lawn.round(eye);
+        const view = viewAt(layout.camera, eye, gaitHeight('flight'));
+        const { near, far } = seamReachOf(flightBrow);
+        const banded = lawn.seam.filter(({ foot }) => {
+          const away = distanceBetween(eye, foot);
+          return away > near && away < far;
+        });
+        const shown = shownSeam(view, seamPatches(lawn.seam), turfAt(0));
+        assert.deepEqual(
+          shown,
+          shownSprouts(view, banded, turfAt(0), seamFaded),
+          `${name} at ${JSON.stringify(eye)}`,
+        );
+        const inStrip = shown.near.filter(({ sprout }) => {
+          const away = distanceBetween(eye, sprout.foot);
+          return away > D_SEE && away < flightBrow - SEAM_BAND;
+        });
+        assert.ok(inStrip.length > 0, name);
+      }
     }
   });
 });

@@ -145,14 +145,23 @@ export function shownSprouts(
  */
 export const SEAM_BAND = 1;
 
-/** How far into the ground under it a tuft of the seam's grass `distance` from the eye is faded, the brow standing `brow` off: wholly at the band's near edge, none from its middle out. */
-export function seamFaded(distance: number, brow = D_SEE): number {
-  return 1 - smooth((distance - (brow - SEAM_BAND)) / (SEAM_BAND / 2));
+/**
+ * How near the eye the seam's grass shows, whatever the eye's height: the
+ * near edge of the band under the walking brow, where the flowers' band, and
+ * with it the lawn's standing tufts, ends. Risen, the brow stands farther
+ * off and the seam's grass runs from here to it, so the deeper ground the
+ * rise shows between the two is never bare.
+ */
+const SEAM_NEAR = D_SEE - SEAM_BAND;
+
+/** How far into the ground under it a tuft of the seam's grass `distance` from the eye is faded: wholly at the seam's near edge (`SEAM_NEAR`), none from half a band past it out. */
+export function seamFaded(distance: number): number {
+  return 1 - smooth((distance - SEAM_NEAR) / (SEAM_BAND / 2));
 }
 
-/** The distances from the eye the seam's grass shows between, the brow standing `brow` off, both ends open: the band under the brow and the stretch past it it sinks over. */
-function seamReachOf(brow: number): Record<'near' | 'far', number> {
-  return { near: brow - SEAM_BAND, far: brow + PALE_SPAN };
+/** The distances from the eye the seam's grass shows between, the brow standing `brow` off, both ends open: from `SEAM_NEAR` to the brow, and the stretch past it it sinks over. */
+export function seamReachOf(brow: number): Record<'near' | 'far', number> {
+  return { near: SEAM_NEAR, far: brow + PALE_SPAN };
 }
 
 /** A run of the seam's grass standing in one cell of the lawn. */
@@ -194,7 +203,8 @@ export function crossesSeam(eye: Point, { i, j }: Cell, brow = D_SEE): boolean {
 
 /**
  * Where `view` draws the seam's grass `patches`, in `turf`'s light: the tufts
- * in the band under the brow and those just past it, sinking, each standing
+ * from the seam's near edge to the brow and those just past it, sinking
+ * (`seamReachOf`), each standing
  * on its foot on the plane as the lawn's do, so a step and a turn move it as
  * they move the ground, the nearer the more. Only the patches whose cell the
  * band crosses are looked into.
@@ -215,9 +225,7 @@ export function shownSeam(
         })
       : [],
   );
-  return shownSprouts(view, banded, turf, (distance) =>
-    seamFaded(distance, brow),
-  );
+  return shownSprouts(view, banded, turf, seamFaded);
 }
 
 /** Each scene's grass, for the flowers' hit tests to yield to (`tuftUnder`). */
