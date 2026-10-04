@@ -158,6 +158,7 @@ function askForEverything(sound: MeadowSound): void {
   sound.step('right');
   sound.whoosh();
   sound.shower(1, 1);
+  sound.dusk(1);
 }
 
 function started(): MeadowSound {
@@ -337,6 +338,70 @@ describe('MeadowSound', () => {
     await aTurn();
     sound.shower(1, 1);
     assert.ok(built.nodes > hidden);
+    sound.stop();
+  });
+
+  it('the crickets are built once at dusk, a still dusk sets nothing, and day lets them go', () => {
+    const sound = started();
+    const before = built.nodes;
+    sound.dusk(0.5);
+    const crickets = built.nodes;
+    assert.ok(crickets > before);
+    const levels = built.levels;
+    sound.dusk(0.5);
+    assert.equal(built.nodes, crickets);
+    assert.equal(built.levels, levels);
+    sound.dusk(1);
+    assert.equal(built.nodes, crickets, 'a deeper dusk builds nothing');
+    assert.ok(built.levels > levels, 'a deeper dusk is set');
+    const stopped = built.stopped;
+    sound.dusk(0);
+    assert.ok(built.stopped > stopped, 'their loops are stopped');
+    const day = built.nodes;
+    sound.dusk(0);
+    assert.equal(built.nodes, day, 'a day frame costs nothing');
+    sound.stop();
+  });
+
+  it('no cricket chirps while the tab is hidden, and they come in as it shows again', async () => {
+    const sound = started();
+    setHidden(true);
+    await aTurn();
+    const hidden = built.nodes;
+    sound.dusk(1);
+    assert.equal(built.nodes, hidden);
+    setHidden(false);
+    await aTurn();
+    sound.dusk(1);
+    assert.ok(built.nodes > hidden);
+    sound.stop();
+  });
+
+  it('no scheduled bird sings at dusk, and they sing again by day', () => {
+    const sound = started();
+    sound.dusk(1);
+    const dusk = built.nodes;
+    mock.timers.tick(60_000);
+    assert.equal(built.nodes, dusk);
+    sound.dusk(0);
+    const day = built.nodes;
+    mock.timers.tick(60_000);
+    assert.ok(built.nodes > day);
+    sound.stop();
+  });
+
+  it('a phrase of birds greets the morning, once, as the light turns back to day', () => {
+    const sound = started();
+    sound.dusk(1);
+    sound.dusk(0.5);
+    const before = built.nodes;
+    sound.dusk(0.2);
+    assert.ok(built.nodes > before, 'morning is greeted');
+    const greeted = built.nodes;
+    sound.dusk(0.1);
+    sound.dusk(0.2);
+    sound.dusk(0.25);
+    assert.equal(built.nodes, greeted, 'once');
     sound.stop();
   });
 

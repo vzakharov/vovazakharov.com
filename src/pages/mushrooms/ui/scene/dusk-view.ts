@@ -31,8 +31,11 @@ const MOON_INK = 1.5;
 /** The meadow's dusk as the houses' windows light by it, and the depth over the dusk wash they are drawn at. */
 export type Lights = Pick<Meadow, 'dusk'> & Layered;
 
-/** What the turning light asks of the meadow's sound: a sinking slide toward dusk, a rising one toward day. */
-type DuskSound = Pick<MeadowSound, 'sink' | 'grow'>;
+/**
+ * What the turning light asks of the meadow's sound: a sinking slide toward
+ * dusk, a rising one toward day, and the dusk's own sound each frame.
+ */
+type DuskSound = Pick<MeadowSound, 'sink' | 'grow' | 'dusk'>;
 
 /**
  * The light over the meadow: the backdrop relit (`relight`), the dusk wash
@@ -129,6 +132,7 @@ export class DuskView {
     const level = duskness(dusk, this.now() * 1000);
     this.level = level;
     this.lights = { dusk, depth: this.glowDepth };
+    this.sound.dusk(level);
     const { backdrop, layout, wash, moon, sunRows, fireflies } = this;
     if (!backdrop || !layout) return;
     fireflies.update(level);

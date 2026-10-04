@@ -5,8 +5,10 @@
  * then plays the moment it starts, so the first tap is heard too.
  */
 
+import { duskyAt } from '../../model/dusk';
 import type { Drum } from '../../model/flower-sounds';
 import type { InsectKind } from '../../model/insect-genes';
+import { DuskVoice, morningComes } from './dusk-voice';
 import { type Foot, FOOT_PAN, footstep } from './footsteps';
 import { SHY, TAKE_OFF } from './insect-voices';
 import { drumVoice, noteVoice } from './instrument-voices';
@@ -15,6 +17,8 @@ import { brownNoise, panned, tone, type Voice } from './synth';
 
 const LOUDNESS = 0.8;
 const BIRD_GAP_SECONDS = [5, 12] as const;
+/** When each call of morning's bird phrase starts, in seconds. */
+const MORNING_CALLS = [0, 0.55, 1.3] as const;
 /** The most voices asked for before the synth starts that wait for it: a chord's worth. */
 const PENDING_VOICES = 5;
 
@@ -98,22 +102,30 @@ const patter =
     tone(context, out, 'triangle', [high, high * 0.6], 0.03, 0.05 * level);
   };
 
-const bird: Voice = (context, out) => {
-  const notes = 2 + Math.floor(Math.random() * 3);
-  const high = 2600 + Math.random() * 900;
-  for (let index = 0; index < notes; index++) {
-    const at = context.currentTime + index * 0.13;
-    const oscillator = new OscillatorNode(context, { frequency: high });
-    oscillator.frequency.setValueAtTime(high, at);
-    oscillator.frequency.exponentialRampToValueAtTime(high * 1.35, at + 0.07);
-    const envelope = new GainNode(context, { gain: 0 });
-    envelope.gain.setValueAtTime(0, at);
-    envelope.gain.linearRampToValueAtTime(0.035, at + 0.02);
-    envelope.gain.exponentialRampToValueAtTime(0.0001, at + 0.09);
-    oscillator.connect(envelope).connect(out);
-    oscillator.start(at);
-    oscillator.stop(at + 0.1);
-  }
+/** A bird's call of two to four rising notes, `delay` seconds from now. */
+const bird =
+  (delay: number): Voice =>
+  (context, out) => {
+    const notes = 2 + Math.floor(Math.random() * 3);
+    const high = 2600 + Math.random() * 900;
+    for (let index = 0; index < notes; index++) {
+      const at = context.currentTime + delay + index * 0.13;
+      const oscillator = new OscillatorNode(context, { frequency: high });
+      oscillator.frequency.setValueAtTime(high, at);
+      oscillator.frequency.exponentialRampToValueAtTime(high * 1.35, at + 0.07);
+      const envelope = new GainNode(context, { gain: 0 });
+      envelope.gain.setValueAtTime(0, at);
+      envelope.gain.linearRampToValueAtTime(0.035, at + 0.02);
+      envelope.gain.exponentialRampToValueAtTime(0.0001, at + 0.09);
+      oscillator.connect(envelope).connect(out);
+      oscillator.start(at);
+      oscillator.stop(at + 0.1);
+    }
+  };
+
+/** Morning's greeting: a bird answering another, then the first again. */
+const morning: Voice = (context, out) => {
+  for (const delay of MORNING_CALLS) bird(delay)(context, out);
 };
 
 /** A breeze: brown noise through a low filter that opens and closes slowly. */
@@ -143,6 +155,9 @@ export class MeadowSound {
   private pending: Voice[] = [];
   private birdTimer: ReturnType<typeof setTimeout> | undefined;
   private rain: RainVoice | undefined;
+  private crickets: DuskVoice | undefined;
+  /** How far toward dusk the meadow showed at the last frame (`duskness`). */
+  private duskLevel = 0;
 
   /**
    * Builds the synth on the first call; each later call resumes it, unless
@@ -274,6 +289,27 @@ export class MeadowSound {
     this.rain.set(downpour, wetness);
   }
 
+  /**
+   * The dusk's sound at this frame, `level` as `duskness` gives it; called
+   * every frame, and free while it has not moved. The crickets are built and
+   * let go as `shower` builds and lets go the rain; the scheduled birds keep
+   * quiet while the meadow is dusky, and a phrase of them greets the morning
+   * as a turn toward day passes `MORNING`.
+   */
+  dusk(level: number): void {
+    const was = this.duskLevel;
+    this.duskLevel = level;
+    if (this.context && morningComes(was, level)) this.play(morning);
+    if (level <= 0) {
+      this.crickets?.stop();
+      this.crickets = undefined;
+      return;
+    }
+    if (!this.context || !this.master || !this.heard()) return;
+    this.crickets ??= new DuskVoice(this.context, this.master);
+    this.crickets.set(level);
+  }
+
   /** A cloud answering a tap. */
   whoosh(): void {
     this.play(whoosh);
@@ -308,7 +344,7 @@ export class MeadowSound {
     const [min, max] = BIRD_GAP_SECONDS;
     this.birdTimer = setTimeout(
       () => {
-        this.play(bird);
+        if (!duskyAt(this.duskLevel)) this.play(bird(0));
         this.scheduleBird();
       },
       (min + Math.random() * (max - min)) * 1000,

@@ -42,7 +42,12 @@ export function duskness(
 
 /** Whether the meadow is past half way to dusk at `now`: what the creatures' dusk rules read. */
 export function dusky(dusk: Dusk, now: number): boolean {
-  return duskness(dusk, now) > 0.5;
+  return duskyAt(duskness(dusk, now));
+}
+
+/** Whether a meadow `level` of the way to dusk (`duskness`) is dusky. */
+export function duskyAt(level: number): boolean {
+  return level > 0.5;
 }
 
 /** `dusk` turned the other way at `now`, from wherever it stands then. */
