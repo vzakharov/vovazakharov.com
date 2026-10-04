@@ -1,14 +1,14 @@
 Proposed squash title/body:
 
 ```
-chore: /mega runs a huge task while the operator drops in (pr #101)
+chore: /golem runs a huge task while the operator drops in (pr #101)
 ```
 
 ```
 A task too big for one session already had a loop that worked: PR #57's
 game was built bite by bite, with each session building, reviewing in
 its own tail and folding into the plan. But the loop lived in one plan
-and ~100 KB of notes. /mega turns it into a skill that runs an elephant
+and ~100 KB of notes. /golem turns it into a skill that runs an elephant
 of any kind end to end, stopping only once, at the plan's review, and
 relaying at the context-budget pause rather than at every bite's end.
 
