@@ -184,7 +184,36 @@ gh api -X PUT repos/<owner>/<domain>/pages -F https_enforced=true
 Read the config back when either surprises you — `source.branch`, `cname` and
 `https_certificate` say which of the two states you are in.
 
-## Step 5 — Verify what is served
+## Step 5 — Register it in Umami
+
+Every site counts its visits in the self-hosted Umami at
+`stats.vovazakharov.com`, and `SiteConfig.analyticsId` is required, so a site
+without a website there does not type-check. The agent makes it: user `agent`,
+password `UMAMI_AGENT_PASSWORD` from the environment, in the team `Sites`, where
+every site's website lives — the user's own list is empty, which reads like
+nothing having been set up.
+
+```bash
+umami_token() {
+  jq -cn --arg p "$UMAMI_AGENT_PASSWORD" '{ username: "agent", password: $p }' |
+    curl -sS -X POST https://stats.vovazakharov.com/api/auth/login \
+      -H 'Content-Type: application/json' -d @- | jq -r .token
+}
+TOKEN=$(umami_token)
+TEAM=$(curl -sS https://stats.vovazakharov.com/api/me/teams \
+  -H "Authorization: Bearer $TOKEN" | jq -r '.data[] | select(.name == "Sites") | .id')
+curl -sS "https://stats.vovazakharov.com/api/teams/$TEAM/websites" \
+  -H "Authorization: Bearer $TOKEN" | jq -r '.data[] | "\(.id) \(.domain)"'
+jq -cn --arg d '<domain>' --arg t "$TEAM" '{ name: $d, domain: $d, teamId: $t }' |
+  curl -sS -X POST https://stats.vovazakharov.com/api/websites \
+    -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' -d @- |
+  jq -r .id
+```
+
+List first and create only when the domain is not there. The `id` the create
+returns is the site's `analyticsId`, committed in its `SiteConfig` entry.
+
+## Step 6 — Verify what is served
 
 Against the live URL, never against the source: the build that produced the page
 is the thing under test, so reading the tree only confirms the input.
@@ -196,6 +225,7 @@ is the thing under test, so reading the tree only confirms the input.
   other's domain, and it looks like a working site.
 - The body copy reaches its last line, and anything the branch changed about how
   it renders is there in the markup.
+- The `<head>`'s Umami `<script>` carries **this** site's `data-website-id`.
 - Assets and the 404 page answer — `.nojekyll` missing strips Next's `_next/`
   directory, and the page comes up unstyled rather than broken.
 - **Every site already published from here still serves its own content.**

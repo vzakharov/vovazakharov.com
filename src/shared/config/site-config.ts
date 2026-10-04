@@ -96,8 +96,7 @@ export type SiteConfig = Billed & {
   listsSources: boolean;
   /**
    * The site's website ID in Umami — public by design, as every page's HTML
-   * carries it. A new site's is made in the Umami team `Sites`, logged in as
-   * `agent` with `UMAMI_AGENT_PASSWORD` from the environment.
+   * carries it. A new site gets one at `/stand-up-site`.
    */
   analyticsId: string;
 };
@@ -192,8 +191,6 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     ...PUBLISHER,
   },
   basilisk: {
-    // Not yet registered: the build is local until `/stand-up-site` gives it
-    // a domain, and the URL is what that domain will be.
     url: 'https://basilisk.fyi',
     downloadPrefix: 'basilisk',
     name: 'basilisk.fyi',
