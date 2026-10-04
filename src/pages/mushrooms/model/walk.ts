@@ -7,11 +7,13 @@
  * its axis locks for the rest of the press — within 45° of horizontal it
  * turns if it went down above the ground, on the hills or the sky, and
  * strafes if it went down on the ground; else it steps. A turn keeps the
- * azimuth under the finger 1:1 and glides on from the lift; a step keeps the
- * ground row under the finger and a strafe slides the ground under the
- * finger with it, as fast as the finger moves, and on the lift both fling on
- * from the finger's speed as a turn glides (`glide.ts`), or, the finger
- * lifted at rest, stand where it left them; any arrow key going down ends a
+ * azimuth under the finger 1:1 and glides on from the lift; a step aims the
+ * eye to bring the ground row under the finger and a strafe to slide the
+ * ground under the finger with it, and the walk's `Gait` says how the eye
+ * follows that aim (`stride.ts`): walking to it at a held key's cruise, or
+ * standing on it at once, as fast as the finger moves. On the lift both
+ * fling on from the finger's speed as a turn glides (`glide.ts`), or, the
+ * finger lifted at rest, come to rest; any arrow key going down ends a
  * step's or a strafe's chase or fling and takes over.
  */
 
@@ -40,6 +42,7 @@ import { bendAt, type Pinhole, pinholeOf } from './pinhole';
 import {
   chaseFrom,
   chaseTo,
+  type Gait,
   holdStep,
   holdStrafe as holdStrafeKey,
   letGoStep,
@@ -74,12 +77,14 @@ type Drag = { pressedAt: Point; since: number; lock: Lock | undefined };
 
 /**
  * The walk over the camera it is seen through: the heading's crop, the
- * stride, and the finger pressed, if one is.
+ * stride, the `gait` a ground drag moves the eye by, and the finger pressed,
+ * if one is.
  */
 export type Walk = {
   lens: Camera;
   pan: Pan;
   stride: Stride;
+  gait: Gait;
   drag: Drag | undefined;
 };
 
@@ -98,6 +103,7 @@ export function openingWalk(camera: Camera): Walk {
       OPENING_EYE.heading * pinholeOf(camera).arc,
     ),
     stride: standingAt(pick(OPENING_EYE, 'x', 'y')),
+    gait: 'steps',
     drag: undefined,
   };
 }
@@ -163,7 +169,7 @@ export function pressAt(walk: Walk, point: Point, time: number): Walk {
   return {
     ...walk,
     pan: press(walk.pan, arcOf(pinhole, point.x), time),
-    stride: chaseFrom(walk.stride, heading, 'step', time),
+    stride: chaseFrom(walk.stride, heading, 'step', time, walk.gait),
     drag: { pressedAt: point, since: time, lock: undefined },
   };
 }
@@ -293,7 +299,7 @@ function lockAt(camera: Camera, axis: Lock['axis'], crossing: Point): Lock {
 }
 
 function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {
-  const { drag, stride } = walk;
+  const { drag, stride, gait } = walk;
   const locked = { ...walk, drag: drag && { ...drag, lock } };
   if (lock.axis === 'turn') {
     return { ...locked, pan: turningFrom(walk, crossing.x, time) };
@@ -302,7 +308,7 @@ function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {
   // counts toward no fling, as a turn's counts toward no glide.
   return {
     ...locked,
-    stride: chaseFrom(stride, headingAt(walk, time), lock.axis, time),
+    stride: chaseFrom(stride, headingAt(walk, time), lock.axis, time, gait),
   };
 }
 
@@ -330,8 +336,8 @@ export function moveTo(walk: Walk, point: Point, time: number): Walk {
 
 /**
  * The finger lifted at `time`: a turn glides on from the finger's velocity, a
- * step or a strafe flings on from it, or stands where a finger at rest left
- * it; keys held at the lift take over either at once, from the finger's
+ * step or a strafe flings on from it, or comes to rest where a finger at
+ * rest left it; keys held at the lift take over either at once, from its
  * pace.
  */
 export function liftAt(walk: Walk, time: number): Walk {

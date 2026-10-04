@@ -2,12 +2,13 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Point } from './geometry';
-import { GLIDE_OVER } from './glide';
+import { GLIDE_OVER, GLIDE_TAU } from './glide';
 import { KEY_EASE } from './pan';
 import {
   chaseFrom,
   chaseTo,
   forwardOf,
+  type Gait,
   holdStep,
   holdStrafe,
   letGoStep,
@@ -15,8 +16,10 @@ import {
   liftChase,
   sidewaysOf,
   standingAt,
+  STEP_LENGTH,
   type Stride,
   STRIDE_CRUISE,
+  STRIDE_FLING_FASTEST,
   tick,
   yieldChase,
 } from './stride';
@@ -200,7 +203,7 @@ describe('the stride on the strafing keys', () => {
   it('chases a drag square to the heading as it chases one along it', () => {
     const heading = 0.3;
     const pressed = chaseTo(
-      chaseFrom(standingAt(ORIGIN), heading, 'strafe', 0),
+      chaseFrom(standingAt(ORIGIN), heading, 'strafe', 0, 'flight'),
       -2,
       0,
     );
@@ -222,8 +225,9 @@ function dragged(
   speed: number,
   seconds: number,
   stride = standingAt(ORIGIN),
+  gait: Gait = 'flight',
 ): [Stride, number] {
-  let dragging = chaseFrom(stride, 0, axis, 0);
+  let dragging = chaseFrom(stride, 0, axis, 0, gait);
   let time = 0;
   for (; time < seconds - 1e-9; ) {
     time += FRAME;
@@ -238,8 +242,9 @@ function swiped(
   speed: number,
   seconds: number,
   rest = 0,
+  gait: Gait = 'flight',
 ): Stride {
-  const [stride, time] = dragged(axis, speed, seconds);
+  const [stride, time] = dragged(axis, speed, seconds, undefined, gait);
   const [still] = walked(stride, 0, rest);
   return liftChase(still, time + rest);
 }
@@ -248,7 +253,11 @@ describe('the stride on a drag', () => {
   it('stands where the finger sets it while held and rests after the lift, with no glide', () => {
     const heading = -0.4;
     const start = standingAt({ x: 1, y: 2 });
-    const pressed = chaseTo(chaseFrom(start, heading, 'step', 0), 3, 0);
+    const pressed = chaseTo(
+      chaseFrom(start, heading, 'step', 0, 'flight'),
+      3,
+      0,
+    );
     const way = forwardOf(heading);
     const target = { x: 1 + 3 * way.x, y: 2 + 3 * way.y };
     assert.ok(apart(pressed.at, target) < 1e-9);
@@ -405,9 +414,65 @@ describe('the stride on a fling', () => {
 
   it('ends at once on a new press, the eye standing where it stood', () => {
     const [gliding] = walked(swiped('strafe', 13.5, 0.2), 0, 0.1);
-    const pressed = chaseFrom(gliding, 0, 'step', 1);
+    const pressed = chaseFrom(gliding, 0, 'step', 1, 'flight');
     assert.equal(pressed.glide, undefined);
     assert.equal(pressed.pace, 0);
     assert.equal(tick(pressed, 0, FRAME).at, gliding.at);
+  });
+});
+
+describe('the stride on a drag in steps', () => {
+  it('walks to the finger’s point at the cruise, its feet stepping every unit, and rests there', () => {
+    const pressed = chaseTo(
+      chaseFrom(standingAt(ORIGIN), 0, 'step', 0, 'steps'),
+      3,
+      0,
+    );
+    assert.deepEqual(pressed.at, ORIGIN, 'the finger moves no eye at once');
+    const [held, seen] = walked(pressed, 0, 4);
+    for (const move of moves(ORIGIN, seen)) {
+      assert.ok(move <= STRIDE_CRUISE * FRAME + 1e-12, `${move}`);
+    }
+    assert.ok(Math.abs(held.at.y - 3) < 1e-6, `${held.at.y}`);
+    assert.ok(Math.abs(held.walked - 3) < 1e-6, `walked ${held.walked}`);
+    assert.equal(held.pace, 0);
+  });
+
+  it('carries a long quick swipe a bounded number of steps, where a flight goes the whole way', () => {
+    for (const axis of ['step', 'strafe'] as const) {
+      // 15 units of ground laid across 0.3 s: a swipe from near the horizon.
+      const flown = swiped(axis, 50, 0.3);
+      assert.ok(
+        apart(flown.at, ORIGIN) > 14,
+        `${axis}: flew ${apart(flown.at, ORIGIN)}`,
+      );
+      const lifted = swiped(axis, 50, 0.3, 0, 'steps');
+      assert.ok(
+        apart(lifted.at, ORIGIN) <= STRIDE_CRUISE * 0.3 + 1e-9,
+        `${axis}: walked ${apart(lifted.at, ORIGIN)} under the finger`,
+      );
+      const [rested] = walked(lifted, 0, GLIDE_OVER + FRAME);
+      const most = STRIDE_CRUISE * 0.3 + STRIDE_FLING_FASTEST * GLIDE_TAU;
+      const went = apart(rested.at, ORIGIN);
+      assert.ok(went <= most + 1e-9, `${axis}: ${went} of at most ${most}`);
+      assert.ok(went / STEP_LENGTH < 4, `${axis}: ${went / STEP_LENGTH} steps`);
+    }
+  });
+
+  it('eases to rest from a finger lifted at rest, as a let-go key does', () => {
+    // The finger set the point 3 units off, then rested while the eye walked on.
+    const lifted = swiped('strafe', 10, 0.3, 0.5, 'steps');
+    assert.equal(lifted.chase, undefined);
+    assert.equal(lifted.glide, undefined);
+    assert.ok(
+      Math.abs(lifted.sidePace - STRIDE_CRUISE) < 1e-6,
+      `${lifted.sidePace}`,
+    );
+    const [rested] = walked(lifted, 0, 1);
+    assert.equal(rested.sidePace, 0);
+    assert.ok(
+      rested.at.x - lifted.at.x <= (STRIDE_CRUISE * KEY_EASE) / 2 + 1e-9,
+      `${rested.at.x - lifted.at.x}`,
+    );
   });
 });

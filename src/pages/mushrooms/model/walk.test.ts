@@ -8,11 +8,16 @@ import { viewAt } from '../ui/scene/view';
 import { planeUnder } from '../ui/scene/view-inverse';
 import { VIEWPORTS } from '../ui/scene/viewports';
 import type { Point } from './geometry';
-import { GLIDE_OVER } from './glide';
+import { GLIDE_OVER, GLIDE_TAU } from './glide';
 import type { Camera } from './ground';
 import { KEY_EASE, SLOP, TURN_CRUISE } from './pan';
 import { pinholeOf, viewOf } from './pinhole';
-import { forwardOf, sidewaysOf, STRIDE_CRUISE } from './stride';
+import {
+  forwardOf,
+  sidewaysOf,
+  STRIDE_CRUISE,
+  STRIDE_FLING_FASTEST,
+} from './stride';
 import {
   distanceOfRow,
   eyeAt,
@@ -97,6 +102,11 @@ class Clock {
 
 function shifted(point: Point, dx: number, dy: number): Point {
   return { x: point.x + dx, y: point.y + dy };
+}
+
+/** The opening walk on `camera` with its ground drags in flight. */
+function flying(camera: Camera): Walk {
+  return { ...openingWalk(camera), gait: 'flight' };
 }
 
 /** The axis a walk's pressed finger is locked to, if any. */
@@ -239,11 +249,11 @@ describe('a drag on the walk', () => {
     assert.deepEqual(eyeAt(flung.walk, flung.time), at);
   });
 
-  it('steps with the finger, the crossing’s ground on its row frame by frame at the middle and off it, never turning, and glides on from a moving lift', () => {
+  it('in flight, steps with the finger, the crossing’s ground on its row frame by frame at the middle and off it, never turning, and glides on from a moving lift', () => {
     for (const [{ name, camera }, across] of CAMERAS.flatMap((seen) =>
       [0.5, 0.8].map((share) => [seen, share] as const),
     )) {
-      const clock = new Clock(openingWalk(camera));
+      const clock = new Clock(flying(camera));
       clock.walk = holdTurn(clock.walk, 1, clock.time);
       clock.run(0.4 / TURN_CRUISE);
       clock.walk = letGoTurn(clock.walk, 1);
@@ -334,9 +344,9 @@ describe('a strafe on the walk', () => {
     }
   });
 
-  it('slides the ground under the finger with it frame by frame, square to the heading and never turning, and glides on from a moving lift', () => {
+  it('in flight, slides the ground under the finger with it frame by frame, square to the heading and never turning, and glides on from a moving lift', () => {
     for (const { name, camera } of CAMERAS) {
-      const clock = new Clock(openingWalk(camera));
+      const clock = new Clock(flying(camera));
       clock.walk = holdTurn(clock.walk, 1, clock.time);
       clock.run(0.3 / TURN_CRUISE);
       clock.walk = letGoTurn(clock.walk, 1);
@@ -468,8 +478,8 @@ describe('a strafe on the walk', () => {
 });
 
 /** A long strafe drag across `camera`'s ground, the finger then held still. */
-function strafing(camera: Camera): Clock {
-  const clock = new Clock(openingWalk(camera));
+function strafing(camera: Camera, walk = openingWalk(camera)): Clock {
+  const clock = new Clock(walk);
   const down = { x: camera.width * 0.15, y: camera.height * 0.8 };
   clock.press(down);
   clock.drag(down, { ...down, x: camera.width * 0.9 }, 0.2);
@@ -478,14 +488,17 @@ function strafing(camera: Camera): Clock {
 }
 
 describe('a chase’s end', () => {
-  it('leaves a strafe or a step standing where a finger at rest lifts', () => {
-    const stepping = new Clock(openingWalk(TABLET));
+  it('in flight, leaves a strafe or a step standing where a finger at rest lifts', () => {
+    const stepping = new Clock(flying(TABLET));
     const down = { x: TABLET.width / 2, y: TABLET.groundTop + 10 };
     stepping.press(down);
     stepping.drag(down, { ...down, y: TABLET.height - 5 }, 0.1);
     stepping.run(0.5);
     for (const [name, clock] of [
-      ...CAMERAS.map((each) => [each.name, strafing(each.camera)] as const),
+      ...CAMERAS.map(
+        (each) =>
+          [each.name, strafing(each.camera, flying(each.camera))] as const,
+      ),
       ['a step', stepping] as const,
     ]) {
       const lifted = clock.walk.stride.at;
@@ -553,6 +566,38 @@ describe('the walk across a resize', () => {
       const after = eyeAt(refit(clock.walk, camera, clock.time), clock.time);
       assert.ok(Math.abs(after.heading - before.heading) < 1e-9, name);
       assert.deepEqual(pick(after, 'x', 'y'), pick(before, 'x', 'y'));
+    }
+  });
+});
+
+describe('a ground drag’s gait', () => {
+  it('walks a quarter-second swipe by the horizon a few steps, where a flight crosses the meadow', () => {
+    // At the cruise under the finger, then the fling's most.
+    const most = STRIDE_CRUISE * 0.25 + STRIDE_FLING_FASTEST * GLIDE_TAU;
+    for (const { name, camera } of CAMERAS) {
+      const top = camera.groundTop + 4;
+      for (const [axis, down, to] of [
+        ['step', { x: camera.width / 2, y: top }, { y: camera.height - 5 }],
+        [
+          'strafe',
+          { x: camera.width * 0.1, y: top },
+          { x: camera.width * 0.9 },
+        ],
+      ] as const) {
+        const went = (walk: Walk): number => {
+          const clock = new Clock(walk);
+          const start = clock.walk.stride.at;
+          clock.press(down);
+          clock.drag(down, { ...down, ...to }, 0.25);
+          clock.lift();
+          clock.run(GLIDE_OVER + 0.5);
+          return apart(clock.walk.stride.at, start);
+        };
+        const flown = went(flying(camera));
+        const walked = went(openingWalk(camera));
+        assert.ok(flown > 2 * most, `${name} ${axis}: flew ${flown}`);
+        assert.ok(walked <= most + 1e-9, `${name} ${axis}: walked ${walked}`);
+      }
     }
   });
 });
