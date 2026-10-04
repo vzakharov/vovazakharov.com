@@ -25,8 +25,12 @@ import type { MeadowSound } from './sound';
 /** The dusk wash's alpha at full dusk. */
 export const DUSK_WASH_DEEPEST = 0.38;
 
-/** The meadow's dusk as the houses' windows light by it, and the depth over the dusk wash they are drawn at. */
-export type Lights = Pick<Meadow, 'dusk'> & Layered;
+/**
+ * The meadow's dusk as the houses' windows light by it, the turn `before` it
+ * that a lagging house still reads (the dusk itself until it is first
+ * turned), and the depth over the dusk wash they are drawn at.
+ */
+export type Lights = Pick<Meadow, 'dusk'> & { before: Dusk } & Layered;
 
 /**
  * What the turning light asks of the meadow's sound: a sinking slide toward
@@ -111,7 +115,10 @@ export class DuskView {
     this.toward = dusk.toward;
     const level = duskness(dusk, this.now() * 1000);
     this.level = level;
-    this.lights = { dusk, depth: this.glowDepth };
+    const last = this.lights;
+    const before =
+      last && last.dusk.startedAt !== dusk.startedAt ? last.dusk : last?.before;
+    this.lights = { dusk, before: before ?? dusk, depth: this.glowDepth };
     this.sound.dusk(level);
     const { backdrop, layout, wash, moon, sunRows, fireflies } = this;
     if (!backdrop || !layout) return;

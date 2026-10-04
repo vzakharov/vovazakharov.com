@@ -291,7 +291,7 @@ export class HouseView {
    */
   private light(t: number, body: Body, lights: Lights | undefined): void {
     const { glow, graphics, painted, mouse } = this;
-    const lit = lights ? windowsLit(lights.dusk, t * 1000, mouse.phase) : 0;
+    const lit = lights ? windowsLit(lights, t * 1000, mouse.phase) : 0;
     const shown = lit > 0 && graphics.visible && painted !== undefined;
     if (lights && painted && shown) this.relit(body, painted);
     glow.follow(graphics, shown, lit, lights?.depth ?? 0);
