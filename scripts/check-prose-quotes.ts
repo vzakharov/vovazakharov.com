@@ -27,10 +27,9 @@ import remarkParse from 'remark-parse';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
-const APPS_DIR = path.join(process.cwd(), 'apps');
+import { GENERATED_DIR } from '../src/shared/content/collections.ts';
 
-/** The pipeline's own output, which is not authored prose. */
-const GENERATED_DIR = 'generated';
+const APPS_DIR = path.join(process.cwd(), 'apps');
 
 /** The typewriter characters prose spells as `“”`, `«»` and `’`. */
 const STRAIGHT = new Set(['"', "'"]);
