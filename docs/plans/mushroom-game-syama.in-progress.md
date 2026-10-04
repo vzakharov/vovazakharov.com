@@ -373,7 +373,9 @@ re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
 `airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
 anchors, or slice it as `Tended` slices the lawn).
 
-After the bite below, the Artifact republished, `/relay /finalize`. Nothing goes around the
+After the bite below, one more — the meadow kept across reloads
+([saving.md](mushroom-game-syama/saving.md)) — then the Artifact
+republished, `/relay /finalize`. Nothing goes around the
 canvas — no way home, no footer link, no reduced-motion or assistive-tech
 layer: the game opens straight on the meadow for one child, not a store
 product («сейчас это развлечение для одного ребёнка, а не продукт для
@@ -385,11 +387,9 @@ budget line and does not fail on it (1946a63).
 
 ## This bite
 
-18\. **Dusk**, item 17 and the last: a tap on the sun turns the meadow to
-dusk and a tap on the moon back, the dark scheme opening at dusk; the
-sky's second colours cross-faded, a wash, glowing windows, flowers closed,
-fliers settled, mice running, fireflies circling, crickets. Calls,
-packages, what is built and what is left:
+18\. **Dusk**, item 17: a tap on the sun brings dusk, the moon's takes it
+back; windows glow, flowers close, fliers settle, mice run, fireflies and
+crickets wake. Calls, packages, built and left:
 [bite-17.md](mushroom-game-syama/bite-17.md).
 
 ## DRY notes
