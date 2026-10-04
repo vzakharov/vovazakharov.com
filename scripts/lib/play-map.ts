@@ -1,6 +1,7 @@
 /**
  * The gait button beside the map's, flipped to flight and back, each shot
- * close. Then the map, played on a fresh meadow: opened, shot mid-unfold and open, and
+ * close, and the whole meadow shot once the eye has risen (`g-lifted`) and
+ * settled again (`g-settled`), from the spot `m0-closed` shows. Then the map, played on a fresh meadow: opened, shot mid-unfold and open, and
  * shut by a tap on the sheet; opened over the `+` picker, which shuts; opened
  * again once three mushrooms have grown, the newest furnished, a flower is
  * planted and the eye has walked; opened over a flick, then shut by Escape,
@@ -42,6 +43,10 @@ const MID_UNFOLD = 3;
 const UNFOLDED = 30;
 /** How far from the screen's middle, in CSS px, a flower is read as left or right of the heading. */
 const OFF_MIDDLE = 20;
+/** Frames after a gait flip for the eye's 0.5 s rise and the far things' repaints, about a second, to settle. */
+const RISEN = 120;
+/** The whole-meadow shot each gait settles into. */
+const RISEN_SHOT = { flight: 'g-lifted', steps: 'g-settled' } as const;
 /** Every flower the meadow shows, by id, where its container stands on the screen. */
 const FLOWERS_SEEN = `[...__probe.scene.flowers.shown]
   .filter(([, { container }]) => container.visible)
@@ -142,6 +147,8 @@ export async function playMap(
     await page.shoot(`g-${gait}`, corner);
     const now = (await eyeNow()).gait;
     expect(now === gait, `the gait button left the gait ${now}, not ${gait}`);
+    await page.step(RISEN - 30);
+    await page.shoot(RISEN_SHOT[gait]);
   });
   const fresh = await look('m2-open-fresh', 'm1-unfolding');
 

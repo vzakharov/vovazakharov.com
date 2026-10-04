@@ -45,13 +45,25 @@ The operator: «в "полёте" камеру можно чуть припод�
    where `hazeX(r)` is `project`'s haze for the distance row r shows at
    height X; and mix `brow.ts`'s fill/crest rows toward `PALETTE.air` by the
    same amount. Pure alpha function → test.
-2. Repaint lag: a flip changes every far thing's haze; the repaint queue
-   catches up at `REPAINTS_PER_FRAME` = 2, ~1 s. Watch in the play.
-3. Play not run: `flock /home/user/vovazakharov.com/tmp/site.lock pnpm
-play:mushrooms --screens tabL --plays map`, add a shot after the gait
-   flip + 0.6 s (full lift) beside steps (`play-map.ts`, the `g-${gait}`
-   shots are only the corner), copy the best to
-   `docs/remove-before-merging/frames/bite-17/`.
-4. Perf: in flight ~1.4× the ground area is drawn to the brow; check the
-   26 ms budget. `fliers.test.ts` not run (flight frames untouched).
-5. `pnpm knip`, `pnpm type-overlap` not run.
+   Not yet seen in a frame: in the fresh meadow nothing stands near the
+   brow in flight (2.), so the play's frames cannot show it either way.
+2. **In flight the far band is bare.** The visit's seeded flowers are laid
+   out on the opening lens's bed, which ends at `D_SEE`, so the ground
+   flight adds (rows from the brow down to where the walking brow's flowers
+   now stand, ~200 px on tabL) shows tufts and mottles but no flower or
+   mushroom. Flight reads as "everything slid down the screen", not yet as
+   "seeing farther". The opening clump also slides into the bottom edge,
+   its stems cut off. Fix, if wanted: seed the wild flowers' bed out to
+   `D_SEE_MOST` (`flower-plots.ts` / `layout.flowers`), so the deeper band
+   holds things to see; a design call, not built.
+3. Perf in flight unmeasured: the map play's frame budget (18.5 ms median
+   on tabL) is read over its steps frames.
+
+Checked (fe2): `pnpm knip` clean; `pnpm type-overlap` was red (`Rise`
+overlapped `Ramped`'s `from` and `Drag`'s `since`) — `motion.ts` now names
+`Ramp = Started & Ramped`, which `Dusk` and the eye's rise both are.
+`fliers.test.ts` passes (52). The map play shoots `g-lifted` (2 s into
+flight, repaints done) and `g-settled` (back in steps); frames
+`frames/bite-17/fe-steps.png` (`m0-closed`) and `fe-flight.png`
+(`g-lifted`). In them the brow, the seam grass and the hills stay put, with
+no gap at the brow and nothing floating.

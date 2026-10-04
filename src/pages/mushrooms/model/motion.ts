@@ -21,6 +21,8 @@ export type Stamped = { at: number };
 export type Started = { startedAt: number };
 /** Where a ramp between two values starts: a turn of the light's duskness, a halo's full-opacity reach. */
 export type Ramped = { from: number };
+/** A ramp that eases on from where it started, and when: a turn of the light, the eye's rise. */
+export type Ramp = Started & Ramped;
 /** How far a bob sinks a thing, in its module's units. */
 export type Bobbed = { bob: number };
 

@@ -111,7 +111,7 @@ function flying(camera: Camera): Walk {
   return {
     ...openingWalk(camera),
     gait: 'flight',
-    rise: { from: gaitHeight('flight'), since: 0 },
+    rise: { from: gaitHeight('flight'), startedAt: 0 },
   };
 }
 

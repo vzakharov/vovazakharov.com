@@ -20,15 +20,10 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Direction } from './cruise';
-import {
-  heightAt,
-  OPENING_RISE,
-  type Raised,
-  type Rise,
-  riseFrom,
-} from './eye-height';
+import { heightAt, OPENING_RISE, type Raised, riseFrom } from './eye-height';
 import type { Point } from './geometry';
 import { type Camera, type Eye, OPENING_EYE } from './ground';
+import type { Ramp } from './motion';
 import {
   holdKey,
   leftAt,
@@ -91,7 +86,7 @@ export type Walk = WithGait & {
   lens: Camera;
   pan: Pan;
   stride: Stride;
-  rise: Rise;
+  rise: Ramp;
   drag: Drag | undefined;
 };
 

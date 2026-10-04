@@ -5,7 +5,7 @@
  * `dusky` and nothing ends a fade.
  */
 
-import { type Ramped, smooth, type Started } from './motion';
+import { type Ramp, smooth } from './motion';
 
 /** The two ways the light can be going. */
 export const TOWARDS = ['dusk', 'day'] as const;
@@ -14,7 +14,7 @@ export const TOWARDS = ['dusk', 'day'] as const;
  * Which way the light is going, when it was turned and how dusky the meadow
  * was at that moment (`from`), so a turn reversed midway goes back from there.
  */
-export type Dusk = Started & Ramped & { toward: (typeof TOWARDS)[number] };
+export type Dusk = Ramp & { toward: (typeof TOWARDS)[number] };
 
 /** How long a full turn from day to dusk, or back, takes. */
 export const DUSK_MS = 4000;

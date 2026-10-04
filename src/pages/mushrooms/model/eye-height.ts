@@ -7,7 +7,7 @@
  */
 
 import { D_SEE, EYE_HEIGHT } from './ground';
-import { smooth } from './motion';
+import { type Ramp, smooth } from './motion';
 import type { Gait } from './stride';
 
 /**
@@ -23,11 +23,12 @@ export const RISE_EASE = 0.5;
 /** How high the eye stands above the plane, in the clump's size. */
 export type Raised = { eyeHeight: number };
 
-/** The eye's height easing toward its gait's: the height it eased `from`, `since` when. */
-export type Rise = { from: number; since: number };
-
-/** The rise a visit opens on: standing at the walking height. */
-export const OPENING_RISE: Rise = { from: EYE_HEIGHT, since: 0 };
+/**
+ * The rise a visit opens on: standing at the walking height. A rise is a
+ * `Ramp` of the eye's height toward its gait's: the height it eased `from`,
+ * and when it `startedAt`.
+ */
+export const OPENING_RISE: Ramp = { from: EYE_HEIGHT, startedAt: 0 };
 
 /** `lens` with the eye standing at its walking height. */
 export function walking<Lens extends object>(lens: Lens): Lens & Raised {
@@ -40,17 +41,19 @@ export function gaitHeight(gait: Gait): number {
 }
 
 /** The eye's height at `time`, easing from `rise.from` to `gait`'s. */
-export function heightAt(rise: Rise, gait: Gait, time: number): number {
+export function heightAt(rise: Ramp, gait: Gait, time: number): number {
   const to = gaitHeight(gait);
-  return rise.from + (to - rise.from) * smooth((time - rise.since) / RISE_EASE);
+  return (
+    rise.from + (to - rise.from) * smooth((time - rise.startedAt) / RISE_EASE)
+  );
 }
 
 /**
  * The rise that eases on from wherever `rise` stands the eye at `time`
  * under the gait it had, `gait`, toward the next gait's height.
  */
-export function riseFrom(rise: Rise, gait: Gait, time: number): Rise {
-  return { from: heightAt(rise, gait, time), since: time };
+export function riseFrom(rise: Ramp, gait: Gait, time: number): Ramp {
+  return { from: heightAt(rise, gait, time), startedAt: time };
 }
 
 /**
