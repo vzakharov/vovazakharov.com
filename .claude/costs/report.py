@@ -24,7 +24,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from lib.pricing import parse_prices
+from lib.pricing import load_prices
 from lib.rows import SessionCost, read_row
 from lib.shape import to_json
 from lib.totals import Bucket, OrientationSummary, PhaseStats, Spread, TelemetrySummary, totals_of
@@ -171,7 +171,7 @@ def main() -> int:
     # The hand-kept rate table has no published source to check itself against,
     # so the report states its age, and checks the arithmetic against the only
     # second opinion there is: what Claude Code itself counted the session at.
-    prices = parse_prices((COSTS / "prices.json").read_text(encoding="utf-8"))
+    prices = load_prices()
     age = (datetime.now(timezone.utc).date() - date.fromisoformat(prices.as_of)).days
     print(f"\nrates as of {prices.as_of} ({count(age, 'day')} ago), hand-kept in .claude/costs/prices.json")
 

@@ -3,7 +3,8 @@ description: >-
   Hand the session to a fresh one instead of compacting it: write a summary of
   the conversation to a committed file, start a new session on the branch, and
   stop. Invoke as `/relay [<to-be first message>]`, the argument being what
-  the operator would type first after a compact (`/relay /go`, `/relay /handle`);
+  the operator would type first after a compact, a skill in it named bare
+  (`/relay go`, `/relay handle`);
   the new session runs `/relay take <branch>`. Use when the operator says
   "/relay", "relay the session", "hand this to a new session", or takes up
   the `/relay` the context budget notice offers.
@@ -15,7 +16,7 @@ Two ends, told apart by the first token: `take` is the pickup; anything else, or
 
 ## `/relay [<to-be first message>]` — hand off
 
-The argument is the message the operator would have sent first after a compact, addressed to the successor: a slash command (`/go`, `/handle`, `/finalize`), prose, or both. It becomes the summary's Next step verbatim, and the summary dwells on what that message will need. With no argument, the Next step is the agent's own call under § "Step 2"'s rule for it.
+The argument is the message the operator would have sent first after a compact, addressed to the successor: a skill named bare (`go`, `handle`, `finalize and merge` — `@.claude/skills/CLAUDE.md` says why), prose, or both. It becomes the summary's Next step verbatim, and the summary dwells on what that message will need. With no argument, the Next step is the agent's own call under § "Step 2"'s rule for it.
 
 ### Step 1 — Leave the branch resumable
 
@@ -42,7 +43,7 @@ The sections, in this order:
 4. **Decisions** — each with the alternative it beat and why, and every term coined in the conversation with its meaning: what a successor would otherwise re-litigate or misread.
 5. **Errors and dead ends** — what was tried and failed, and the operator's feedback on it.
 6. **State** — branch, PR, last pushed commit, the plan file by its current name, and anything running or waiting: CI, a PR subscription, a scheduled check-in.
-7. **Pointers** — the files that matter, and the re-fetch commands above. The way back to the transcript too (§ "What a relay loses"): on the web this session's link, `https://claude.ai/code/<session_id>` from the id `get_session` returns when called with none; locally the transcript path.
+7. **Pointers** — the files that matter, and the re-fetch commands above. The way back to the transcript too (§ "The predecessor's transcript"): on the web this session's link, `https://claude.ai/code/<session_id>` from the id `get_session` returns when called with none; locally the transcript path.
 8. **Next step** — the to-be first message, verbatim, when `/relay` was given one. Otherwise only what is in line with the operator's most recent request, with their words quoted, and nothing from an old or finished thread without asking; then anything else asked and not yet done. "Wait for the operator" when nothing is pending. A draft plan's go-ahead given in this session is quoted here, since it is what the successor's `/go` records when it flips the plan.
 
 ### Step 3 — Start the successor
@@ -54,11 +55,13 @@ Its prompt is one line, `/relay take <branch>`. The summary is not passed in the
 
 ### Step 4 — Report and stop
 
-The successor's link — on the web `https://claude.ai/code/<session_id>` from the id `create_session` returned, written bare so the operator clicks through to it — or the local recipe, and the summary's size in characters with a rough token count at four characters a token — the context the successor starts with on top of its baseline. Leave this session open: archiving it is the operator's call (§ "What a relay loses").
+The successor's link — on the web `https://claude.ai/code/<session_id>` from the id `create_session` returned, written bare so the operator clicks through to it — or the local recipe, and the summary's size in characters with a rough token count at four characters a token — the context the successor starts with on top of its baseline. Leave this session open: archiving it is the operator's call.
 
-## What a relay loses
+## The predecessor's transcript
 
-`/compact` ends its summary with the path to the full transcript, for the rare detail the summary dropped. Locally the successor runs on the same machine, so the summary carries that path. On the web the transcript lives in the relaying session's container, and it is not committed instead, because it holds every tool output, secrets included. What remains is the relaying session itself, left open for the operator to ask.
+`/compact` ends its summary with the way back to the full transcript, for the rare detail the summary dropped, and so do a relay's Pointers. On the web that is the predecessor's session id, from its link: `list_events` and `get_event` from the Claude Code Remote tools read its transcript from the server — every message, tool call and tool output, thinking redacted — whether or not its container still exists. It is never committed, because it holds every tool output, secrets included.
+
+Reach for it only for a detail the summary dropped, and through a subagent that pages it into `tmp/` and searches it there: read inline, a long session's transcript costs the successor the context the relay was run to free.
 
 ## Auto-relay
 

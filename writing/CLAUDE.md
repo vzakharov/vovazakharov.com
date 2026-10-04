@@ -1,9 +1,3 @@
----
-description: Form, shapes and voice for the posts drafted under writing/ — the per-draft contract every draft is held to, and the anti-slop rules seeded from marked-up drafts
-paths:
-  - writing/**
----
-
 # Writing
 
 Everything that holds for every draft under `writing/`. `writing/linkedin/plan.md`
