@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
+import { duskyAt } from '../../model/dusk';
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import type { Facing, Point } from '../../model/geometry';
 import { type Eyed, OPENING_EYE } from '../../model/ground';
@@ -45,7 +46,7 @@ import { BUTTON_INSET } from './tap-reach';
  * What the map is drawn from as it opens: the meadow as it stands, the eye,
  * the screen's pixel ratio, the seed its ground grows from, where the
  * meadow seated each door, and whether it is dusk (`dusky`), which puts the
- * moon on the compass.
+ * moon on the compass as it opens.
  */
 export type MapSnapshot = Eyed &
   AtRatio &
@@ -111,6 +112,7 @@ type Drawn = Facing & {
   things: number;
   flowers: Array<Point & { id: string }>;
   child: Point;
+  compass: Point;
 };
 
 /**
@@ -128,6 +130,8 @@ export class MapView {
   private layers: Layers | undefined;
   private catcher: Phaser.GameObjects.Zone | undefined;
   private drawn: Drawn | undefined;
+  /** Whether the compass shows the moon, as last drawn. */
+  private moon = false;
 
   private readonly now: () => number;
   private readonly snapshot: () => MapSnapshot | undefined;
@@ -161,6 +165,7 @@ export class MapView {
       shade: make(),
       pen: make(),
       veil: make(),
+      compass: make(),
       top: make(),
     };
     this.layers = layers;
@@ -201,6 +206,7 @@ export class MapView {
       layer.clear().setPosition(-map.x, -map.y);
     }
     this.drawn = drawMap(layers, shot);
+    this.moon = shot.dusky;
     // Afresh, so the catch takes the screen's size as it is now.
     catcher.removeInteractive().setSize(width, height).setInteractive();
   }
@@ -209,8 +215,15 @@ export class MapView {
    * Unfolds the sheet out of the button, or folds it back, scale and alpha
    * both, and dims it as far as the meadow's `duskness`: its paper and
    * ground toward the dusk's deep ground, and the whole under the dusk wash.
+   * While it is open, the compass turns sun to moon, or back, on the frame
+   * the meadow crosses half way.
    */
   update(t: number, duskness: number): void {
+    const moon = duskyAt(duskness);
+    if (this.isOpen && this.drawn && this.layers && moon !== this.moon) {
+      this.moon = moon;
+      drawCompass(this.layers.compass.clear(), this.drawn.compass, moon);
+    }
     this.layers?.shade.setAlpha(DUSK_SHADE * duskness);
     this.layers?.veil.setAlpha(DUSK_WASH_DEEPEST * duskness);
     const shown = unfolded(
@@ -229,15 +242,16 @@ export class MapView {
  * (`paper`); the dusk's deep ground over them (`shade`), as the meadow's
  * ground is baked toward it; the things on the map (`pen`); the dusk wash
  * over the sheet (`veil`); and what stands over the wash as the meadow's
- * lights do (`top`): the compass and the child.
+ * lights do: the compass (`compass`, alone so it redraws as dusk crosses
+ * half way) and the child (`top`).
  */
 type Layers = Record<
-  'paper' | 'shade' | 'pen' | 'veil' | 'top',
+  'paper' | 'shade' | 'pen' | 'veil' | 'compass' | 'top',
   Phaser.GameObjects.Graphics
 >;
 
 function drawMap(layers: Layers, shot: MapSnapshot): Drawn {
-  const { paper, shade, pen, veil, top } = layers;
+  const { paper, shade, pen, veil, compass: dial, top } = layers;
   const { stand, eye, ratio, seed, doors, dusky } = shot;
   const { width, height, camera, sun } = stand.layout;
   const hairline = 1 / ratio;
@@ -316,7 +330,7 @@ function drawMap(layers: Layers, shot: MapSnapshot): Drawn {
         CORNER,
       );
   }
-  drawCompass(top, compass, dusky);
+  drawCompass(dial, compass, dusky);
   drawView(paper, frame, eye, camera, ground);
   const lighting = iconLighting(hairline);
   // A thing standing on `foot`, painted by `paint` round the origin, moved to
@@ -378,6 +392,7 @@ function drawMap(layers: Layers, shot: MapSnapshot): Drawn {
     things: marks.length,
     flowers: flowers.map(({ id, foot }) => ({ id, ...onMap(frame, foot) })),
     child: onMap(frame, eye),
+    compass,
     ahead: headingOnMap(frame, eye.heading),
   };
 }
