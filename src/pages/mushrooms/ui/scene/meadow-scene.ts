@@ -212,7 +212,7 @@ export class MeadowScene extends Phaser.Scene {
       t,
       planting?.flower === undefined ? planting?.foot : undefined,
     );
-    bed?.update(t, rain?.wetness ?? 0);
+    bed?.update(t, rain?.wetness ?? 0, dusk?.lights);
     controls?.update(t);
     map.update(t);
     // As the tick just left them.

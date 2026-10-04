@@ -346,7 +346,7 @@ export function paintDoor(
 }
 
 /** A window's frame on a mushroom's cap, `grown` of its size round its slot's middle. */
-function windowPlace(
+export function windowPlace(
   genes: MushroomGenes,
   size: number,
   slot: Point,
@@ -378,6 +378,27 @@ export type ShownWindow = Popped & { kind: WindowKind; swing?: WindowSwing };
 /** A door as the house paints it: where on the stem it stands, and how open. */
 export type ShownDoor = Popped & Peeking & Opened & { station: DoorPlace };
 
+/** A mushroom's windows on its cap, each in its slot of `windowSlots` in the order it was put in; one not popped in is left out. */
+export function paintWindows(
+  graphics: Phaser.GameObjects.Graphics,
+  genes: MushroomGenes,
+  size: number,
+  windows: readonly ShownWindow[],
+  brush: Brush,
+): void {
+  const slots = windowSlots(genes);
+  const onCap = {
+    ...brush,
+    halo: haloFor(PALETTE.wood, brush.tone(mushroomTints(genes).cap)),
+  };
+  for (const [index, { kind, popped, swing }] of windows.entries()) {
+    const slot = slots[index];
+    if (!slot || popped <= 0) continue;
+    const place = windowPlace(genes, size, slot, popped);
+    paintWindow(graphics, kind, place, onCap, swing);
+  }
+}
+
 /**
  * A mushroom's windows and door, painted into `graphics` in the frame
  * `drawMushroom` paints it in — the foot at the graphics' own position — so
@@ -395,20 +416,10 @@ export function paintHouse(
   brush: Brush,
   worm?: ShownWorm,
 ): void {
-  const slots = windowSlots(genes);
-  const tints = mushroomTints(genes);
-  const onCap = {
-    ...brush,
-    halo: haloFor(PALETTE.wood, brush.tone(tints.cap)),
-  };
-  for (const [index, { kind, popped, swing }] of windows.entries()) {
-    const slot = slots[index];
-    if (!slot || popped <= 0) continue;
-    const place = windowPlace(genes, size, slot, popped);
-    paintWindow(graphics, kind, place, onCap, swing);
-  }
+  paintWindows(graphics, genes, size, windows, brush);
   if (worm) paintWorm(graphics, genes, size, worm, brush);
   if (!door || door.popped <= 0) return;
+  const tints = mushroomTints(genes);
   const { place, aspect } = doorFrame(door.station, size, door.popped);
   const onItsStem = {
     ...brush,

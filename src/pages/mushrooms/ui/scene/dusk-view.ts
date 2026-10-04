@@ -3,8 +3,9 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { type Dusk, duskness } from '../../model/dusk';
-import type { Action } from '../../model/game';
+import type { Action, Meadow } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
+import type { Layered } from '../../model/ground';
 import {
   cloudOverMoon,
   darkScheme,
@@ -21,9 +22,12 @@ import type { MeadowSound } from './sound';
 import { focusTwins, shade } from './twin-fade';
 
 /** The dusk wash's alpha at full dusk. */
-const DUSK_WASH_DEEPEST = 0.38;
+export const DUSK_WASH_DEEPEST = 0.38;
 /** The moon's outline, in CSS px. */
 const MOON_INK = 1.5;
+
+/** The meadow's dusk as the houses' windows light by it, and the depth over the dusk wash they are drawn at. */
+export type Lights = Pick<Meadow, 'dusk'> & Layered;
 
 /** What the turning light asks of the meadow's sound: a sinking slide toward dusk, a rising one toward day. */
 type DuskSound = Pick<MeadowSound, 'sink' | 'grow'>;
@@ -45,6 +49,8 @@ export class DuskView {
   readonly glowDepth: number;
   /** How far toward dusk the meadow shows this frame (`duskness`), 0 to 1. */
   level = 0;
+  /** The meadow's dusk as of this frame, and the depth the houses' lit windows are drawn at. */
+  lights: Lights | undefined;
   private readonly wash: Phaser.GameObjects.Rectangle;
   /** The moon, drawn about its own origin and moved to where it stands. */
   private readonly moon: Phaser.GameObjects.Graphics;
@@ -115,6 +121,7 @@ export class DuskView {
     this.toward = dusk.toward;
     const level = duskness(dusk, this.now() * 1000);
     this.level = level;
+    this.lights = { dusk, depth: this.glowDepth };
     const { backdrop, layout, wash, moon, sunRows } = this;
     if (!backdrop || !layout) return;
     backdrop.relight(level);
