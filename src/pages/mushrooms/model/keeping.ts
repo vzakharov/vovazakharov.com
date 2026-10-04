@@ -10,24 +10,9 @@ import { pick } from '@/shared/lib/collections';
 import { FULL_DAY, FULL_DUSK } from './dusk';
 import { restedFliers } from './flier-rest';
 import type { Meadow } from './game';
-import type { KeptMeadow } from './kept-record';
+import { type KeptMeadow, RESTED_AT, UNKEPT } from './kept-record';
 import { NO_NIGHT_RUNS } from './night-runs';
-import { SPROUT_MS, sproutedInRain } from './sprouting';
-
-/**
- * The moment every kept stamp is set to: longer before the load's start
- * than any span a rule measures from a stamp, so each reads it as long over.
- */
-export const RESTED_AT = -SPROUT_MS;
-
-/** What a meadow opens with of what is not kept: nothing selected, every picker shut, no shower yet. */
-const UNKEPT = {
-  selected: undefined,
-  picking: false,
-  furnishing: false,
-  planting: undefined,
-  rain: undefined,
-} as const satisfies Omit<Meadow, keyof KeptMeadow>;
+import { sproutedInRain } from './sprouting';
 
 /**
  * `meadow` at rest as of `now`, to be kept: every spore a shower under way

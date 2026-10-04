@@ -5,7 +5,7 @@ import { ALL_TEN, opened, play } from '../ui/scene/visit-play';
 import { restedFliers } from './flier-rest';
 import { isAloft, isLeaving } from './flight';
 import type { Flier } from './insects';
-import { RESTED_AT } from './keeping';
+import { RESTED_AT } from './kept-record';
 
 /** A flier as it was at `now`, and as it was kept then. */
 type Settling = { flier: Flier; now: number; rested: Flier | undefined };
