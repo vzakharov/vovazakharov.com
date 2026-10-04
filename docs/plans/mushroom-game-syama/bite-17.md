@@ -124,16 +124,15 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
   opening at `FULL_DAY`, the `dusk` action. A turn reversed midway takes
   its share of `DUSK_MS`, so the light moves at one pace; the action
   changes only `dusk`; a dark page gets `FULL_DUSK` from the scene.
-- **Call 5's palette half**, a patch, not source:
-  `docs/remove-before-merging/bite-17/a-light-step2.patch` (eslint fails two
-  rules on it; `a-light.md` says how to fix them).
-- **The rest of package A is designed** in
-  `docs/remove-before-merging/bite-17/a-light.md`: the sky and ground get
-  dusk bakes, while the hills, brow and clouds — drawn live — take blended
-  tones and cloud twins (a departure from "a second bake", call 5);
-  `DuskView` exposes `glowDepth` and `level`, the seam B and C draw at; the
-  sun's tap sounds `voice.sink()`, the moon's `voice.grow()`, a cloud in
-  front of the sun taking the tap first.
+- **Package A, the light** (calls 2–7, 14), in five slices: dusk tones
+  and the dusk sky and ground baked (41188392); the moon and the map's
+  compass at dusk (7b266fa4); cloud twins, hills and brow toned live behind
+  one `backdrop.relight(level)` (015fb30d); `DuskView` — the sun's tap, the
+  moon, the wash, stars fading round the moon (97ac3620); the probe, the
+  `dusk` and `dark` plays, clouds masking the moon (d8f6f3a0). Departures:
+  the stars are their own graphics, not baked, faded near the moon; clouds
+  pass in front of the moon by masks, the moon staying above the wash.
+  Artifact v26.
 - **Off the bite, from the operator**: the porcini's cap fill flickered
   (~10 Hz, since bite 8) — its margin's crescent crossed itself at the
   corners and re-triangulated per frame. `crescent` (now pure in
@@ -142,18 +141,13 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
 
 ## Left
 
-Package A's rest, from `a-light.md` — its agent ran out of context at its
-first step, so brief each agent on one or two of those steps, not the
-package; then B and C beside each other; the review, polish, vet, frames,
-the Artifact.
+Packages B and C beside each other (C first makes the sun-to-moon hand-over
+clean: half way, the two rosettes ghost over each other); the review,
+polish, vet, frames, the Artifact; retire bite 16's frames.
 
-Off the bite, from the operator, after package A lands on `map-view.ts`:
-
-- **The map's ✕ still looks odd** («крестик на карте по-прежнему выглядит
-  странно (хотя это правили)»): the open map's close button sits half over
-  the map frame's rounded corner.
-- **`M` opens the map** («давай карту открывать ещё по нажатию M»), and
-  closes it, as the map button does.
-- **The play run's red "a tap on the bare meadow kept a selection" is the
-  harness's**: the operator checked a mushroom's selection by hand («проверил,
-  всё норм»). The play's check is fixed or cut, not the game.
+Off the bite, from the operator: the map's ✕ («крестик на карте
+по-прежнему выглядит странно», then «дело в самом кружке. попробовать без
+него б») stands bare on the open map (2aa143d2, 9722c620); `M` opens and
+closes the map (2aa143d2). The play run's red "a tap on the bare meadow
+kept a selection" is the harness's — the operator checked by hand
+(«проверил, всё норм»): the play's check is fixed or cut, not the game.
