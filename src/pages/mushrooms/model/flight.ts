@@ -61,7 +61,7 @@ export {
 export const SIDES = ['left', 'right'] as const;
 export type Side = (typeof SIDES)[number];
 
-const PERCH_KINDS = ['flower', 'cap', 'air', 'shelter', 'away'] as const;
+export const PERCH_KINDS = ['flower', 'cap', 'air', 'shelter', 'away'] as const;
 export type PerchKind = (typeof PERCH_KINDS)[number];
 
 /** What each kind of perch carries beside its kind. */
