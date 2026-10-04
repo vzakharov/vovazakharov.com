@@ -6,28 +6,28 @@ chore: /golem runs a huge task while the operator drops in (pr #101)
 
 ```
 A task too big for one session already had a loop that worked: PR #57's
-game was built bite by bite, with each session building, reviewing in
-its own tail and folding into the plan. But the loop lived in one plan
-and ~100 KB of notes. /golem turns it into a skill that runs an elephant
-of any kind end to end, stopping only once, at the plan's review, and
-relaying at the context-budget pause rather than at every bite's end.
+game was built bite by bite, each session building, reviewing in its
+own tail and folding into the plan. But the loop lived in one plan and
+~100 KB of notes. /golem makes it a skill that runs an elephant of any
+kind end to end, stopping once, at the plan's review, and relaying at
+the context-budget pause rather than at every bite's end.
 
 The operator's say is asynchronous: the run makes every call itself and
-reverses one when asked. Its reach ends at its own branch and PR; a step
-beyond them, or a failure that survives three attempts, goes on the
-operator's list in a "Where it stands" block that opens the PR body with
-the live session and what can be seen now. Messages come as chat or as
-PR comments taken in at each bite's end, never by subscription; hooks
-log both sides verbatim, and each is sorted as a question, change,
-idea to weigh, re-steer or pause. A re-steer settles the new direction's
-forks in one doc before building any of it.
+reverses one when asked. Its reach ends at its own branch and PR; a
+step beyond them, or a failure that survives three attempts of
+different kinds, goes on the operator's list in a "Where it stands"
+block opening the PR body. Messages come as chat or as PR comments
+taken in at each bite's end; a hook and a script log both sides to an
+operator log verbatim, and each is sorted as a question, change, idea,
+re-steer or pause. The skill reads by phase, one file each, and points
+at /relay, /task, /polish and /finalize rather than restating them.
 
-The skill reads by phase, one file each, and points at /relay, /task,
-/polish, /finalize and the elephant shape rather than restating them.
-The megabeast notes retire behind a tombstone. /relay take and
-/from-branch move a diverged ref aside instead of resetting it, and
-vet.sh caps every PR body at 32,000 characters, passing a body that
-crossed it again only at 24,000.
+The megabeast notes retire behind a tombstone. Vendored fixes, recorded
+in the muthur watermark: /relay take attaches only through /from-branch,
+which moves a diverged ref aside instead of resetting it; a loop review
+exports as guidance; tests skip tmp/; and a live operator log turns
+auto-relay on. vet.sh caps every PR body at 32,000 characters, passing
+a body that crossed it again only below 24,000.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
