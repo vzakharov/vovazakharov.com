@@ -103,6 +103,23 @@
   baseline. The skill briefs replies last and lets the orchestrator post
   any left, from the report's comment ids and SHAs.
 
+- **Brief the reviewer with the real device's failure modes, and let it
+  argue against the spec.** Bite 18's (saving) reviewer was handed a list —
+  a record reopened mid-flight, two tabs, a dropped connection, a store
+  failing after open, a poll writing forever — and came back with eight
+  findings, four blocking, two of which overturned spec calls (call 5's
+  "one refused write stops keeping", call 12's "last writer wins"): iPad
+  Safari keeps old tabs and drops IndexedDB after backgrounding, so both
+  lost a child's work. The spec agent had weighed the model, not the
+  device. For any bite touching storage, timing or the platform, the
+  skill's spec brief should carry the same list, and the orchestrator
+  amends the call in the bite file when a finding beats it. Fixing all
+  eight took five one-step agents in parallel off one shared addendum
+  (`fix-common.md` in the scratchpad: own threads, neighbours' files,
+  landing, reply); the one that stopped with measured options (a zod
+  `undefined` in a schema snapshot) was resumed with `SendMessage` and a
+  pick, cheaper than a fresh agent.
+
 ## Sweeps and the tests they become
 
 - **A test "fixed" because its fixture no longer arises is a regression

@@ -153,7 +153,11 @@ repos/<o>/<r>/git/refs/heads/wt/<package>` works. The skill's common
   tests passed so far — green alone (180 s) and in a full `pnpm test`
   rerun (512 s). The skill's bite end should run vet's gates and the
   suite as two foreground calls, and read the gate statuses from
-  `tmp/run-parallel/<n>.status` rather than vet's last line.
+  `tmp/run-parallel/<n>.status` rather than vet's last line. By bite 18
+  the suite alone hit `timeout 595` (2273 passed, `tufts.test.ts`
+  cancelled at 185 s), so it runs as two calls itself: every test file
+  but `tufts` and `fliers` (~410 s), then those two (~225 s). The gates
+  run from vet with its `test=` line dropped (~2 min).
 - **The squash proposal goes stale with the game.** Bite 16 removed the
   mute and added the map; the proposal still promised "a remembered
   mute", and only the squash gate's line cap caught it, by luck. The
