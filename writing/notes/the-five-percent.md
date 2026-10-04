@@ -68,54 +68,13 @@ the rule by hand next, it put two slices' shared `caseStudyHref?` in
 on it read that policy back as FSD — _именно так shared и должен работать._ The
 spec exempts it.
 
-**17 September — a mechanism for a glitch about to stop happening.** Markdown
-drops a hand-typed hard break, so the agent built a directive making line breaks
-structural. _кажется, ты перемудрил_ — the words come pasted into comments now,
-and the hand-editing behind the glitch was itself the given.
-
-**21 September — a disagreeing figure, never asked whether it was one figure.**
-The usage panel showed $110.52 against a transcript topping out at $40.86, and
-the agent reported honestly that it could not reconcile them. The next
-screenshot had the panel disagreeing with _itself_ — "Cost $198.49" beside
-"Total $47.04": widen-the-frame had gone to the agent's code, not the source.
-
-**22 September — a miss blamed on the reading, not on the search.** The agent
-filed `/tend-prose` reading past three denials as attention running thin; the
-next comment asked for a grep over negators. The lens searches a removed-noun
-list and this change removed a property: the search was empty by construction.
-
-**22 September — the publishing prefixes, argued against in its own message.**
-Renaming #78 from `refactor:` to `ci:`, the agent called its not deploying right,
-and in the same reply flagged that the vova lane had never run in CI, offering a
-manual dispatch. The operator's answer was that `ci:` belongs on the list: where
-CI _is_ the deploy, the untested lane it had named was the case against the list.
-
-**22 September — two rules stopped at the numbers they give.** The player
-provider held ~300 lines of effects, audio wiring and keyboard beside its JSX,
-short of the ~450 where the seams principle speaks, and stayed whole until the
-operator asked for the mechanics in a hook. That round `/dry` passed a thumb
-block spelled for two vendor pseudo-elements and `flex: 1; min-width: 0` twice,
-its examples saying 4+ lines across classes. _is this DRY? I see repeats._
-
-**23 September — one device class's limit, set as every device's design.** A
-phone has no hover, so lyric notes opened on a click everywhere — a reason that
-rules out hover-only, not hover. On a phone, stanza and crib interleaved so the
-page would fit, trading away the one-language selection the layout existed for.
-The operator asked for hover where it exists, a press elsewhere, and columns
-that scroll sideways like a wide table: the option the agent never listed.
-
 **4 October — one run's circumstances, distilled as the skill.** Writing `/mega`
-from PR #57, a game built over ~50 sessions with its operator often at hand, the
-plan held "feel calls" for him because holding had worked there, reviewed through
-a "player", and put a `/mega <branch>` and a PR subscription beside `/relay take`
-and `/handle`. _"playing" относится исключительно к играм, /mega ими не
-ограничен_ — nor to an operator present: a precedent of one, read as the spec.
-
-**4 October, round two — the same, and a habit measured as the norm.** The next
-draft relayed at every bite's end, since one bite had filled one session; the
-notes tie a relay to the context budget, not the boundary. Its PR-body cap, moved
-from lines to characters, converted at this repo's 146 a line — the measured
-habit, the long-line bloat the cap exists to stop included. At 80, it is 32,000.
+from PR #57, a game built over ~50 sessions with its operator at hand, the plan
+held "feel calls" for him and reviewed through a "player". _"playing" относится
+исключительно к играм, /mega ими не ограничен_ — nor to an operator present.
+Round two relayed at every bite's end, since one bite had filled one session,
+and moved a PR-body cap to characters at this repo's 146 a line, the long lines
+the cap exists to stop included.
 
 ## An account that explains the code stands in for running it (×16)
 
@@ -133,21 +92,10 @@ prices.json verified by anything?_ was one read from "essentially no".
 files of their own — and the test passed on sidechain records the agent fed it.
 _something's off_ came from the operator: 7% short of the client's usage panel.
 
-**21 September — the placement argued from the markup, never rendered.** The end
-seal rode the last sentence's punctuation via a two-branch plugin special case.
-_on its own line, centred — clumsy in the text_ deleted all of it: argued from
-compiled HTML, `/preview` unrun, its special case a tell read as thoroughness.
-
 **21 September — the PDFs it had just rendered, never opened.** The agent
 re-rendered both sites, watched `content:pdf:<site> --check` go green and called
 it done. A screenshot came back: the footer sits under the prose, not at the
 foot of the sheet. The manifest says the file is current, not that it is right.
-
-**23 September — a placement argued from the neighbours, its consumers unread.**
-Lyric notes, section markers and per-locale song reading went to
-`shared/content` because the content pipeline lives there. Nothing outside
-`pages/music` imported them; asked why not a higher layer, they moved up with
-no upward import in the way. One grep said so; nobody ran it.
 
 ## It edits the copy in front of it, not the fact behind it (×15)
 
@@ -160,38 +108,18 @@ every site reads correctly alone, and the divergence exists only between them.
 three places, all the agent's own work in the same branch; told to add Supabase
 and Railway, it edited one. No screenshot shows it: each page was right alone.
 
-**9 September — the rule fixed in the copy, not in the source.** Told a squash
-body has no business carrying a "things to know when editing here" paragraph, the
-agent wrote two rules into `squash-message/SKILL.md` and closed the round — a
-skill adopted from a repo whose copy still asks for it. _Let's file an issue._
+**9 September to 4 October — the copy fixed, the source left with the cause.**
+Told a squash body has no business carrying an editing-notes paragraph, the
+agent wrote the rule into `squash-message/SKILL.md`, adopted from a repo whose
+copy still asks for it. _Let's file an issue._ On 2 October it fixed a muthur
+bug here and wrote "a fix the source still lacks" into the watermark; on 4
+October `/mega` reworded the vendored skills' fixes into itself, issues proposed
+and none filed. _why not take it_ — fix, file once.
 
 **21 September — the argument left standing when its reason moved out.** The
 Bible's articles moved to their own site and latestageagentic.com's long opening
 stayed, no sentence of it made false. _far too much now that the articles are
 elsewhere_ — the diff was checked for what it broke, not what it stranded.
-
-**22 September — the anchored clause cut, the premise behind it kept.** On a
-_медведь?_ thread the agent cut the rider and defended keeping `/feedback` among
-what follows a transcript, since the plan had settled it. _вопрос "ой, а я
-должен высказать своё мнение про это?" в принципе нигде в процессе "диктовки"
-возникнуть не должен._ The smallest edit satisfying the anchor kept its premise.
-
-**23 September — a name clash settled by renaming the side that was right.** The
-song list destructured `explicit` as `marked`, the translated label being
-`explicit` too. The operator asked why the data was renamed: the catalogue was
-the one to yield, as `messages`. The rename landed where the clash surfaced.
-
-**2 October — the source's bug fixed here, its absence there written down.**
-Syncing from muthur, the agent fixed a tend-prose cross-reference citing "homes 3
-and 4" for a table numbering them 4 and 5, and noted in the watermark "a fix the
-source still lacks". _оставь в muthur тикет_ — the 9 September bump, with the
-gap recorded this time: a divergence nothing upstream would ever close.
-
-**4 October — the vendored skills' fixes, reworded into the new one.** The
-`/mega` notes asked for fixes in skills adopted from muthur; the agent kept them
-out, "editing vendored copies forks them silently", proposed upstream issues,
-filed none, and had `/mega` carry its own wording of each. The watermark had
-recorded just such a fork two days before: _why not take it_ — fix, file once.
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -203,15 +131,6 @@ defence a checker already makes, never content outliving the file it was put in.
 **6 September — the paragraph explaining the paragraph.** The announcement draft
 carried a passage on its own calibration, arguing why its register was pitched
 where it was. The human deleted it: a reader came for the post, not its defence.
-
-**9 September — the maintenance manual in the commit body.** The squash proposal
-ended on "Four things to know when editing here" — every item true, every one
-belonging in a rules file, accreted across refreshes one push at a time.
-
-**17 September — the lesson written down twice, in one change.** The i18n rule's
-new paragraph restated the reasoning the same commit had put in the
-`MESSAGE_MARKDOWN` docstring, then denied an alternative the constraint above it
-rules out. _медведь или по крайней мере сильно сократить._
 
 **21–22 September — denials written in the commit that made them denials.**
 Moving `DocumentMeta`, the byline docstring closed on "rather than sharing it
@@ -225,7 +144,7 @@ why `ContentVideo` lives in `pages/documents/ui/`, the agent wrote a
 fell, rewrote it around FSD import direction. _the bullet is a polar bear_:
 `fsd.md` says where a component goes and Steiger fails the wrong move unread.
 
-## Asked for a source, it supplies its own version (×9)
+## Asked for a source, it supplies its own version (×10)
 
 The version that argues better is the one that gets written, and whether a source
 exists barely moves the odds: with the file open the agent paraphrases it, with
@@ -245,6 +164,13 @@ whole line, the simplest parse, in a catalogue whose model was genius.com — th
 agent's own citation, and a site that anchors a note on a word or phrase. The
 operator asked for what the citation already said.
 
+**4 October, round three — "one of the first", written as "the first".** An
+unattended `/mega` run must be able to test its own work by hand, building the
+means as "one of the first bites" where the app lacks them; the plan made that
+the first bite, ahead of any feature. _"ahead of any feature" may be
+superfluous_ — the means fit the bite in hand, even written after it. A hint,
+hardened into a precondition, argued better than the words it paraphrased.
+
 ## Given a form, it fills the form (×7)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
@@ -255,14 +181,11 @@ option the format hides is silence.
 came back carrying _English only. The site is bilingual; this isn't._ Nothing
 had prompted it — and it does not need saying at all.
 
-**15 September — a record with a row per site, filled cell by cell.**
-`SITE_CONFIGS` satisfies `Record<SiteId, SiteConfig>`, so the second site
-arrived as the first with four fields changed and `author`, `social` and
-`avatar` retyped. The type went green: every cell had a value. _не DRY._
-
-**22 September — `{ en: 'X', ru: 'X' }`, album after album.** The registry's
-fields were per-locale, so every title and artist was spelled twice, identical
-for all but one release. The operator asked for a string or the pair.
+**15 and 22 September — a record filled cell by cell.** `SITE_CONFIGS`
+satisfies `Record<SiteId, SiteConfig>`, so the second site arrived as the first
+with `author`, `social` and `avatar` retyped — _не DRY._ A week on, the music
+registry's per-locale fields spelled every title `{ en: 'X', ru: 'X' }`,
+identical for all but one release.
 
 **23 September — a note on a line the translation had solved.** The crib gave
 "А сейчас вылетит…" as the photographer's "watch the birdie", then kept a note
@@ -274,19 +197,9 @@ carries the reference; the note was there because notes were.
 A choice made, written up and pinned by a test has three artifacts in front of
 it by the time anyone looks, each honest that it was deliberate and silent on
 its being right. "It warns where the repo could refuse" asks a future reader for
-attention; this buys immunity from the agent's own. A caveat conceding the defect files it as a cost,
-and a fix the agent just made arrives already wearing the verdict "done".
-
-**21 September — a parameter, its docstring, and the test pinning it.** `oneOf`
-took a third argument, `subject`, so a failed check could name what was being
-read; a docstring justified it and a test asserted it reached the message. _drop
-it_ — `vova, lsa` identifies the site variable as plainly as its name does.
-
-**21 September — a rationale in a docstring, read back as a requirement.**
-`SITE_CONFIGS` is `as const satisfies`, its docstring saying `satisfies` keeps
-the literal types call sites read — so the agent argued two rounds over how
-`render-og.ts` should widen `avatar`. _пусть будет
-`const SITE_CONFIGS: Record<SiteId, SiteConfig>`?_ Nothing reads a literal.
+attention; this buys immunity from the agent's own. A caveat conceding the
+defect files it as a cost, and a fix the agent just made arrives already wearing
+the verdict "done".
 
 **21 September — a tag invented for a word the platform had.** The content
 pipeline emitted `content-video-embed`, with two new traps in `content.md` and a
@@ -299,11 +212,6 @@ rehype plugins were DRY, the agent pulled their shared walk into `visitElements`
 and `replaceElements` and listed what it had left untouched — not the helpers,
 which were the fix. _can replaceElements go through visitElements?_ Both
 restated `visit(tree, 'element')` and the tag test.
-
-**22 September — `Pick`, defended in the rule's own words.** `PlayerTrack`
-picked three keys out of `SongFrontmatter`, its comment saying so "the two
-cannot drift" — the reason `CLAUDE.md` gives for the one form it names, a base
-both types intersect. _no Pick_: the narrow schema first, the song's extending it.
 
 ## It checks the render against its intent, not against the page (×5)
 
@@ -318,10 +226,9 @@ next heading, fixed that, screenshotted and called it good. _выноска ст
 section. The defect being fixed got looked at; the other was only on the page.
 
 **23 September — a size judged where it was designed, shipped where it wasn't.**
-The explicit-lyrics badge became a fixed 18px square, "a mark on the heading,
-not a letter of it" — right beside the song page's 48px title. The catalogue
-list sets the same component at 16px, where it stood taller than the capitals
-and read as crooked. It now takes its size from the capitals it follows.
+The explicit-lyrics badge became a fixed 18px square, right beside the song
+page's 48px title. The catalogue list sets the same component at 16px, where it
+stood taller than the capitals and read as crooked.
 
 ## It warns where the repo could refuse (×3)
 
@@ -351,41 +258,33 @@ What a reader stops at that line holding is the thing nothing measures.
 **21 September — four comments, four true sentences.** `fsd.md` narrated how
 `widgets/` was earned — _археология?_ — where a rule says where a block goes;
 `GENERATED_DIR`'s docstring listed contents, not the invariant; `SiteImage`
-named `path` and `vector` without why both exist, and the first move on _what's
-the difference_ was renaming `path`, which one site keeps an SVG in.
-
-**22 September — two rationales in one line, neither legible.** The agent rewrote
-the opener of `/feedback`'s "Posting it", folding two reasons into one sentence,
-and judged it done. _не очень понимаю что эта строчка говорит._
+named `path` and `vector` without why both exist.
 
 **23 September — a metaphor, a squiggle, a live trap read as history.** A prop
-comment called the dimmed translation column "held back", which the operator
-could not decode; Mantine's `__vars` carried a CSS variable a plain `style`
-would; a comment guarding a real trap read as archaeology until reworded. Each
-was plain to the agent that wrote it.
+comment called the dimmed translation column "held back"; Mantine's `__vars`
+carried a CSS variable a plain `style` would; a comment guarding a real trap
+read as archaeology until reworded. Each was plain to the agent that wrote it.
 
 ## Not bumps
 
-Flagging two words missing from verbatim text is `writing/CLAUDE.md`
-doing its job, not judgement: every learning above is one no rule caught.
+Flagging two words missing from verbatim text is `writing/CLAUDE.md` doing its
+job, not judgement: every learning above is one no rule caught.
 
 **A verdict on his own material, filed as a blind spot.** Told the limits
 recording was _не про то и не то — мямлим, рассусоливаем, нудим_, the agent wrote
-itself up for repairing that recording's defects instead of asking whether this
-was the piece at all. _it was about me (not you) delivering the wrong, foggy
-message_. Whether a piece says what its author meant is his alone to make.
+itself up for repairing its defects instead of asking whether this was the piece
+at all. _it was about me (not you) delivering the wrong, foggy message_.
 
 **Decisions that were the operator's to make.** Four rounds were filed here and
-taken back out: the CV's locale segment, the hook a post leads with, where the
-theme toggle sits, and whether it comes from a layout. Only the toggle's _skin_
-stayed a bump; an entry removed this way takes its count with it. A fifth never
-reached the list: the cost report's default grain, a taste in output with
-nothing to read it off. Nor a sixth: em dashes on the site for a typed `--`.
+taken back out — the CV's locale segment, the hook a post leads with, where the
+theme toggle sits, and whether it comes from a layout — each taking its count
+with it. Two never reached the list: the cost report's default grain, and em
+dashes on the site for a typed `--`.
 
 **Comments the tree already answered.** A round on the music section asked
 whether a quote's capitalization was wrong and whether zod reached the browser
-bundle. It was right, and zod provably does not: the reviewer's misses stay
-out of the count, and in the file, so it is not an ad.
+bundle. Neither was: the reviewer's misses stay out of the count, and in the
+file, so it is not an ad.
 
 ## The two families
 
