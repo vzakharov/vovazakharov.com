@@ -2,16 +2,7 @@ import 'server-only';
 
 import { byLocale, type Locale } from '@/shared/i18n';
 
-/** A date-only frontmatter value parses as UTC midnight; formatting it in the
- * build machine's zone would shift it a day. */
-const UTC = { timeZone: 'UTC' } as const;
-
-const DOCUMENT_DATE = new Intl.DateTimeFormat('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  ...UTC,
-});
+import { UTC } from './document-date-format';
 
 /**
  * Month and year, in the reader's language. What a song is dated to: the day a
@@ -27,11 +18,6 @@ const DOCUMENT_MONTH = byLocale(
       ...UTC,
     }),
 );
-
-/** How every collection dates a document, so two of them cannot disagree. */
-export function formatDocumentDate(date: Date): string {
-  return DOCUMENT_DATE.format(date);
-}
 
 export function formatDocumentMonth(date: Date, locale: Locale): string {
   return DOCUMENT_MONTH[locale].format(date);

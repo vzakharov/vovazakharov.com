@@ -26,9 +26,9 @@ export {
 export {
   documentDateTime,
   documentMonth,
-  formatDocumentDate,
   formatDocumentMonth,
 } from './document-date';
+export { formatDocumentDate } from './document-date-format';
 export {
   type ContentDocument,
   listAllDocuments,

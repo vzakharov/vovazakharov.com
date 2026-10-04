@@ -1,7 +1,7 @@
 /**
  * basilisk.fyi's social card, as a page for `og-render.ts` to screenshot: the
  * lettered seal beside the memo the home page opens on, and under the memo the
- * last case filed. The memo is read from the module the page renders and the
+ * last case filed, numbered and dated as the docket lists it. The memo is read from the module the page renders and the
  * case from the docket's files, so the card cannot say what the site has
  * stopped saying — and filing a case re-flags it.
  *
@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url';
 
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
 import { collectionDir, PUBLIC_DIR } from '@/shared/content/collections';
+import { formatDocumentDate } from '@/shared/content/document-date-format';
 
 import { MEMO } from '@/pages/basilisk-home/lib/memo';
 
@@ -87,6 +88,8 @@ function cardPage(filed: FiledCase): string {
       /* A title is a sentence, not a memo line: it wraps, and stops at three. */
       section { border-top: 2px solid ${INK}; padding-top: 24px; font-size: 23px; line-height: 1.5; }
       section p { margin: 0; }
+      /* Number and date are one memo line, as on the docket. */
+      .filed { margin-bottom: 12px; font-size: 20px; white-space: nowrap; }
       .title {
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -104,7 +107,7 @@ function cardPage(filed: FiledCase): string {
 ${fields}
       </dl>
       <section>
-        <p class="filed">Last filed: ${escapeHtml(filed.number)}</p>
+        <p class="filed">Last filed: ${escapeHtml(filed.number)} · ${escapeHtml(formatDocumentDate(filed.date))}</p>
         <p class="title">${escapeHtml(filed.title)}</p>
       </section>
     </main>
