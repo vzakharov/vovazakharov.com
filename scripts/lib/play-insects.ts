@@ -124,6 +124,10 @@ export async function playInsects(
     expect(!left.has(id), `${id} left the meadow without being sent away`);
   }
   const firstId = first?.id ?? '';
+  // Its flight away can outlast the looks: one from a far perch across a
+  // wide screen runs past `MOST_LOOKS`. It is gone once that flight lands.
+  const toGone = (first?.arrives ?? 0) - (await now());
+  if (toGone >= 0) await page.step(Math.ceil((toGone * FPS) / 1000) + 2);
   expect(
     (await byId(firstId)) === undefined && (await shown(firstId)) === null,
     'the butterfly sent away is still in the meadow',
