@@ -12,7 +12,7 @@ import {
 import { pick } from '@/shared/lib/collections';
 import { MemoFields, PageShell } from '@/shared/ui';
 
-import { assertUniqueCases } from '@/entities/case';
+import { assertUniqueCases, byFilingOrder } from '@/entities/case';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
@@ -57,12 +57,13 @@ function Masthead() {
 
 /** The site is the docket, so its home page indexes both its collections. */
 export async function BasiliskHomePage() {
-  const [cases, faq] = await Promise.all([
+  const [filed, faq] = await Promise.all([
     renderPrimaryDocuments(ARTICLE_COLLECTIONS['basilisk-cases']),
     renderPrimaryDocuments(ARTICLE_COLLECTIONS['basilisk-faq']),
   ]);
 
-  assertUniqueCases(cases.map(({ document }) => document));
+  assertUniqueCases(filed.map(({ document }) => document));
+  const cases = filed.toSorted((a, b) => byFilingOrder(a.document, b.document));
 
   return (
     <PageShell>
