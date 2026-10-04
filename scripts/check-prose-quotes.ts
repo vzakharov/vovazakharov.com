@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Fails on a straight double quote in the prose of any site's content — every
- * Markdown file under `apps/*\/public/`:
+ * Fails on a straight quote or apostrophe in the prose of any site's content —
+ * every Markdown file under `apps/*\/public/`:
  *
  *   pnpm check:prose-quotes
  *
@@ -31,6 +31,9 @@ const APPS_DIR = path.join(process.cwd(), 'apps');
 
 /** The pipeline's own output, which is not authored prose. */
 const GENERATED_DIR = 'generated';
+
+/** The typewriter characters prose spells as `“”`, `«»` and `’`. */
+const STRAIGHT = new Set(['"', "'"]);
 
 const FRONTMATTER = /^---\n[\S\s]*?\n---\n/;
 
@@ -61,7 +64,8 @@ function straightQuoteLines(source: string): number[] {
     const { start, end } = node.position ?? {};
     if (start?.offset === undefined || end?.offset === undefined) return;
     for (let at = start.offset; at < end.offset; at++)
-      if (source[at] === '"') lines.add(source.slice(0, at).split('\n').length);
+      if (STRAIGHT.has(source[at] ?? ''))
+        lines.add(source.slice(0, at).split('\n').length);
   });
   return [...lines].toSorted((a, b) => a - b);
 }
@@ -86,7 +90,7 @@ const findings = sites.flatMap((dir) =>
 
 if (findings.length > 0) {
   console.log(
-    `prose-quotes: ${findings.length} line(s) with a straight double quote in prose — use “…” (or «…» in Russian):\n`,
+    `prose-quotes: ${findings.length} line(s) with a straight quote or apostrophe in prose — use “…” (or «…» in Russian) and ’:\n`,
   );
   for (const finding of findings) console.log(finding);
   process.exit(1);

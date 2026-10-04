@@ -35,7 +35,7 @@ const SYNTAX_ONLY = [
   'title: "A quoted title"',
   '---',
   '',
-  'Prose with “curly” quotes and a `"code span"`.',
+  'Prose with “curly” quotes, it’s apostrophe and a `"code span\'s"`.',
   '',
   '```json',
   '{ "key": "value" }',
@@ -61,6 +61,14 @@ describe('check-prose-quotes', () => {
       stdout,
       /^apps\/a\/public\/doc\.md:13: She said "no" twice\.$/m,
     );
+  });
+
+  it('fails a straight apostrophe in prose', () => {
+    const { status, stdout } = run({
+      'apps/a/public/doc.md': "It's straight.\n",
+    });
+    assert.equal(status, 1);
+    assert.match(stdout, /^apps\/a\/public\/doc\.md:1: It's straight\.$/m);
   });
 
   it('skips the pipeline’s generated output', () => {
