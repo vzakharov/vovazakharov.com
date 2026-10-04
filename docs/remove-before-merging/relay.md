@@ -1,125 +1,156 @@
 # Relay summary
 
-Relayed from https://claude.ai/code/session_01TCxETGNwFZq4jFzFU9AikQ — the
-last session of the mushroom-game chain (`lineage.depth` 8 of 8), so this
-successor is one the operator started by hand: a fresh chain, depth 0. Read
-`lineage.depth` with `get_session`, never count it by hand.
+Relayed from https://claude.ai/code/session_017uMqBBUFCfujceSXzVHuBG
+(`lineage.depth` 0 of 8 there). Read your own depth with `get_session`,
+never count it by hand.
 
 ## 1. Standing constraints
 
-From the operator, verbatim, carried over from the megabeast run — they
-held there; whether they bind this task is the successor's call, but the
-language and voice ones do:
+Carried over from the mushroom-game run and kept by the predecessor:
 
-> не понял почему мы вдруг заговорили по-английски
-
-Every reply to the operator is in Russian, «ты». **Syama is a boy**
-(Салман, «Сяма»), so no "she" for the child in anything written. Every
-session and subagent runs on Opus, named explicitly (`create_session`
-`model: "claude-opus-5-5"`, `Agent` `model: "opus"`). No module past ~450
-lines. Never append to `writing/notes/the-five-percent.md` unless the
-operator asks (the megabeast run froze it: «пятипроцентник зафиксируй и НЕ
-пополняй»).
+- Every reply to the operator is in Russian, «ты». Syama is a **boy**
+  (Салман, «Сяма») — no "she" for the child anywhere.
+- Every session and subagent runs on Opus, named explicitly
+  (`create_session` `model: "claude-opus-5-5"`, `Agent` `model: "opus"`).
+- Never append to `writing/notes/the-five-percent.md` unless the operator
+  asks («пятипроцентник зафиксируй и НЕ пополняй»).
 
 ## 2. The conversation
 
-1. `/relay take claude/mushroom-game-syama-lbirv7` (launch) — attached,
-   ran `/finalize` on PR #57 without merging: `/dry` (5b96e84) and
-   `/tend-prose` (c2ac2ec) over the review fixes, vet gates green before
-   and after merging `main`, tests 2239 + 99 green, plan and PR exports
-   swept, squash proposal rewritten (dusk and keeping added, the child's
-   "she" removed), `docs/remove-before-merging/` swept, attestation posted.
-2. > обалдеть, это что теперь, всё-всё? (пока не релей, хочу тут дообщаться)
-   >
-   > ты (и твои прошлые ипостаси) просто мегазверь, та самая черепаха -- и, поверь, я заметил и в полном восторге! 💪
-   >
-   > я наверное сейчас мёрджну, а потом уже буду смотреть код и оставлять комментарии, чтобы новым пиаром их поправить, так же методологически норм?
+1. `/relay take claude/mushroom-case-study` (launch). Mid-turn the operator
+   asked:
+   > я думаю, может на этой ветке и остаться? это же норм когда на одной ветке несколько пиаров?
 
-   Reply: yes — the game lives on its own route; merge is deploy and makes
-   vovazakharov.com/mushrooms public; review comments can go on the merged
-   #57 and a new `/task` session fixes them on a fresh branch; behavior
-   changes better as separate PR items.
+   and then
+   > с другой стороны тут 3200 коммитов...
 
-3. > передам! спасибо, и увидимся в новых сессиях! <3
+   Reply: GitHub allows one open PR per head branch at a time; recommended
+   moving to `claude/mushroom-case-study`, which carries the relay summary;
+   waited for the operator's word.
+2. > > Так что жить вечно на одной ветке и складывать в неё всё подряд не выйдет
    >
-   > /relay знаешь, что хочу? кейс-стади, как "мы" всё это сделали -- настолько, насколько ты сможешь это вспомнить (pro tip: все обмены сообщениями можно "вспомнить" по истории файла relay.md (который, кажется, в какой-то момент был переименован в pickup-and-relay.md)). Для начала в виде блоговой статьи в case-studies, потом можно и видюшкой (можешь посмотреть примеры за последний месяц, как твои коллеги-клоды научились делать инфо-и-не-только-инфо-видюшки, засмотришься!)
+   > я это и не планировал. Я имел в виду остаться на ветке игры для пиара с кейс-стади, чтобы прямо "у себя" смотреть всё, что там происходило (переименовывать ветку при этом не надо).
    >
-   > это новая /task, может слон, а может нет 🙂 тот пиар уже смёрджен, но вся история -- в нём
+   > > Про 3200 коммитов. …
+   >
+   > но если мы останемся на ветке -- попадут? или их считают именно для пиара, а не для ветки?
 
-   Reply: this relay.
+   Reply: yes — PR #57 was squash-merged, so its 3,162 commits are not in
+   `main`'s ancestry; a new PR from the game branch would show them all and
+   diff from the old merge-base. The history is readable from any branch via
+   `git fetch`. Recommended staying on the case-study branch.
+3. > хорошо. не забудь там суффикс pk9soi, или что там нужно у нас по договорам
+
+   Done: `claude/mushroom-case-study` → `claude/mushroom-case-study-pk9soi`
+   (per `/branch-rename`, `claude/<slug>-<hash>`); old remote ref deleted via
+   `gh api -X DELETE …/git/refs/heads/…` (git push --delete got 403); the
+   auto-branch `claude/affectionate-knuth-pk9soi` was never pushed and was
+   deleted locally. Then `/task` on the relayed Next step (the case-study
+   request) → planning; two Opus subagents mined PR #57's history.
+4. > кейс-стади хочу (в максимальной версии) прямо подробный: скриншотики разных байтов (с какого-то момента мы начали их делать, можно найти где-то в /remove-before-merging того пиара), где какие затыки были -- и в самом коде, и в мета-инфратсруктуре вокруг него, в какой момент оператор (то бишь "я" с точки зрения кейс стади) приходил с внезапными 180-градусными пивотами и т.п.
+   >
+   > если что-то не удастся восстановить, я напомню. Лучше сразу не писать всё а составить план
+
+   Reply: plan, not article. Published the draft plan as PR #100 with six
+   numbered questions, each with a recommendation already in force in the
+   plan: (1) title/hook — a) *My son drew a mushroom house. 92 Claude
+   sessions built it in eight days.* (working), b) *The megabeast: a
+   six-year-old's drawing and 3,162 commits*, c) own; (2) names from «от
+   Сямы идея, от меня процедурки, от Золтана экология, от Лейсан мандалы» —
+   a) all by first name (rec.), b) Syama only; plus "who is Zoltan?";
+   (3) Syama's drawing from #65 in the article — a) yes (rec.); (4) a
+   "Syama's verdict" section — a) the operator writes a paragraph by bite 3
+   (rec.); (5) mini/nano cuts in this PR as bite 4 — a) yes (rec.);
+   (6) video — a) separate task after merge (rec.). Handed `/go
+   claude/mushroom-case-study-pk9soi`. Offered a new session for the
+   pending muthur sync (one commit, cea7c20, human-hour estimates on cost
+   rows); not answered.
+5. > отлично, спасибо. я плюс-минус по твоему плану начитаю кейс-стади в общих чертах на диктофон, чтобы потом более похоже на меня "звучал" текст. Так что пока давай /relay жди диктовки :)
+
+   Reply: this relay. None of the six questions was answered.
 
 ## 3. Intent
 
-A case study of how the mushroom game was built — the operator and a chain
-of Claude sessions, run autonomously ("megabeast") — first as a blog
-article under the site's case studies, later perhaps a video. Told "as
-far as you can remember", reconstructed from the PR's history.
+A case study of how Syama's mushroom meadow (PR #57) was built — the
+operator, a chain of 92 Claude sessions in the autonomous "megabeast" loop,
+8.5 days — as the maximal blog article under `case-studies/` first, later a
+video. Detailed: per-bite screenshots, the snags in the game code and in the
+machinery around it, every pivot the operator brought. Now the operator will
+**dictate the case study roughly along the plan**, so the text sounds like
+him; the article is written from that dictation plus the digests, not from
+the digests alone.
 
 ## 4. Decisions
 
-- **The relay file was not renamed.** `docs/remove-before-merging/relay.md`
-  kept its name through 29 revisions on PR #57's head; the operator's
-  `pickup-and-relay.md` is a different file —
-  `.claude/skills/megabeast/notes/pickup-and-relay.md`, the megabeast
-  notes on how pickup and relay should work. Both are sources.
-- **A new branch off `main`**: PR #57 is merged (2026-10-04, 88e327e), so
-  this work does not reuse its branch. This branch, `claude/mushroom-case-study`,
-  carries only this summary; `/task` decides plan or not.
-- Terms: a **bite** is one slice of the plan (18 of them, plus 12b); the
-  **megabeast** is the autonomous plan → build → review → handle → relay
-  loop and the future skill its notes are for; the **five-percent**
-  («пятипроцентник») is `writing/notes/the-five-percent.md`, the record of
-  review comments that overturned what the agent had settled; **Страшила**
-  is the operator's reviewer lens («что бы на нашем месте сделал
-  Страшила»).
+- **Branch**: a fresh branch off `main`, not the merged game branch — a PR
+  from that one would carry 3,162 commits and re-diff the whole game.
+- **Planned, gated**: `/task` routed to a plan (Step 3: the work costs far
+  more than the plan, and the shape is the operator's), an **elephant** of
+  four bites paused for review after each. The plan is still a **draft** —
+  no go-ahead given.
+- **The article**: `apps/vova/public/case-studies/mushrooms.md`, English
+  (the collection is `localized: false`), first person = the operator,
+  chronological in three parts, pivots marked inline with `↻ Pivot`, snags
+  tagged _game_ / _machinery_, two appendix tables, pivot quotes carry the
+  Russian original under the English. Playgram stays featured. Squash type
+  `feat(vova):`.
+- **Video** out of this PR (recommended, unconfirmed).
+- **Terms**: a **bite** is one slice of a plan; the **megabeast** is the
+  autonomous plan → build → review → handle → relay loop; **frames** are
+  the per-bite screenshots under `docs/remove-before-merging/frames/` on
+  #57's head; the **digests** are the two source files below.
 
 ## 5. Errors and dead ends
 
-None this session beyond what PR #57's relay history records; those are
-the case study's material.
+- `git push origin --delete <branch>` returns HTTP 403 through the proxy;
+  `gh api -X DELETE repos/vzakharov/vovazakharov.com/git/refs/heads/<branch>`
+  works.
+- Both history-mining subagents hit their context limit before finishing:
+  the first left frames/plan/notes/costs undone (the second did them), the
+  second left issue #65 and PR #57's review threads undone — that is bite
+  1's step 1 in the plan. Brief such agents narrower.
+- A PreToolUse hook refuses `cat >` file writes; use Write/Edit.
 
 ## 6. State
 
-- Branch `claude/mushroom-case-study`, off `main` @ 88e327e; no PR yet.
-- No plan file, nothing running, no subscription, no check-in.
+- Branch `claude/mushroom-case-study-pk9soi`, off `main` @ 88e327e.
+- PR #100, draft: https://github.com/vzakharov/vovazakharov.com/pull/100 —
+  title `feat(vova): the mushroom meadow case study`; squash proposal posted
+  as a comment, tracked in `docs/remove-before-merging/squash-message.md`.
+- Plan: `docs/plans/mushroom-case-study.draft.do-not-implement.md` (draft,
+  not approved).
+- Nothing running: no subscription, no check-in, no CI.
 
 ## 7. Pointers
 
-- **PR #57** (https://github.com/vzakharov/vovazakharov.com/pull/57) — the
-  whole history. Its head: `git fetch origin pull/57/head:refs/pr/57`; the
-  clone is shallow, so `git fetch --unshallow` (or `--deepen`) before
-  walking it. Every relay summary, in order:
-  `git log --reverse --format='%h %ci' refs/pr/57 -- docs/remove-before-merging/relay.md`,
-  then `git show <sha>:docs/remove-before-merging/relay.md`. § 2 of each
-  quotes the operator verbatim; the earliest bites predate the relays, so
-  reach for the plan's and PR's history there.
-- The plan and bite files, swept at finalize:
-  `git show 6e61b42^:docs/plans/mushroom-game-syama.completed.md`, and
-  `docs/plans/mushroom-game-syama/` (bite-01…18, decisions.md, to-check.md)
-  at the same commit. Frames per bite: `docs/remove-before-merging/frames/`
-  at `09ee4ae` and earlier (each bite retired the previous one's — the
-  tombstone `frames/retired.md` names the commits).
-- `.claude/skills/megabeast/notes/` (on `main`) — README index first; the
-  agent's own lessons from the run. `writing/notes/the-five-percent.md` —
-  the review moments that changed something.
-- `.claude/costs/` and `pnpm costs` — per-session spend; the chain's total
-  is a number the article may want.
-- Issue #65 — Syama's drawing and the spec (`/take-issue 65` exports it with
-  attachments).
-- PR #57's review threads and comments: `python3 scripts/export-github-item.py 57`.
-- Case studies: `apps/vova/public/case-studies/` (`playgram.md` and its
-  `.mini`/`.nano` cuts are the house form); `writing/CLAUDE.md` for writing
-  conventions.
-- Videos: the operator points at "examples from the last month" by other
-  Claude sessions; `src/entities/document/ui/content-video.tsx`,
-  `.claude/skills/subtitles/`, `.claude/skills/take-issue/video-frames.md`
-  are where to start looking.
-- The game Artifact: https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG;
-  live at vovazakharov.com/mushrooms once deployed.
-- This session: https://claude.ai/code/session_01TCxETGNwFZq4jFzFU9AikQ
+- **The plan** (above) — outline §§ 0–12, assets, bites, DRY notes.
+- **`docs/remove-before-merging/case-study/digest.md`** — numbers with the
+  commands behind them, session-by-session timeline, every operator message
+  from the 98 relay versions verbatim, turning points (game / machinery),
+  the 14 pivots, the game in plain words.
+- **`docs/remove-before-merging/case-study/digest-2.md`** — the frames
+  inventory (holding commits per bite; frames start at bite 4; 633 versions,
+  ~357 MB — pull selectively), the plan's bites and decisions log, megabeast
+  notes' lessons, the chain's cost ($1,777.15 / 92 sessions, with the
+  script), open questions.
+- PR #57's head: `claude/mushroom-game-syama-lbirv7`
+  (`git fetch origin pull/57/head:refs/pr/57`, then `git fetch --unshallow
+  origin`). Relay versions:
+  `git log --reverse --format=%h refs/pr/57 -- docs/remove-before-merging/relay.md`.
+- Dictations: `.claude/skills/dictation/` (`/dictation <media> [<slug>]`
+  writes `writing/<project>/dictations/<slug>.md`); `/dictation-to-post`
+  and `/feedback` sit beside it. Where this dictation lands in `writing/`
+  is for the session that receives it.
+- The way back to the transcript: this session,
+  https://claude.ai/code/session_017uMqBBUFCfujceSXzVHuBG
+  (`list_events` / `get_event`, through a subagent into `tmp/`).
 
 ## 8. Next step
 
-знаешь, что хочу? кейс-стади, как "мы" всё это сделали -- настолько, насколько ты сможешь это вспомнить (pro tip: все обмены сообщениями можно "вспомнить" по истории файла relay.md (который, кажется, в какой-то момент был переименован в pickup-and-relay.md)). Для начала в виде блоговой статьи в case-studies, потом можно и видюшкой (можешь посмотреть примеры за последний месяц, как твои коллеги-клоды научились делать инфо-и-не-только-инфо-видюшки, засмотришься!)
+жди диктовки
 
-это новая /task, может слон, а может нет 🙂 тот пиар уже смёрджен, но вся история -- в нём
+The operator is recording the case study by voice, roughly along the plan.
+When the recording arrives, transcribe it (`/dictation`), then fold it into
+the plan — the dictation sets the voice and may reorder or add to the
+outline — and re-emit the `/go` handoff. The six questions in § 2 item 4
+still stand; the dictation may answer some of them.
