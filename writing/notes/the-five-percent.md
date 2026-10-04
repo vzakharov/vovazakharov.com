@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×37)
+## What it was handed, it treats as fixed (×38)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -103,6 +103,12 @@ rules out hover-only, not hover. On a phone, stanza and crib interleaved so the
 page would fit, trading away the one-language selection the layout existed for.
 The operator asked for hover where it exists, a press elsewhere, and columns
 that scroll sideways like a wide table: the option the agent never listed.
+
+**4 October — a paragraph moved and trimmed, never asked what it argued.** A
+basilisk FAQ section argues people attack machines they _know_ have no mind; an
+earlier session had added children who saw a mind in a mall robot and kicked it
+anyway. Asked to move it there, the agent moved it and cut it to size. Neither
+supporting the argument nor contradicting it, it sat beside it, and went.
 
 ## An account that explains the code stands in for running it (×16)
 
@@ -361,7 +367,8 @@ stayed a bump; an entry removed this way takes its count with it. A fifth never
 reached the list: the cost report's default grain, a taste in output with
 nothing to read it off. Nor a sixth: em dashes on the site for a typed `--`.
 Nor basilisk.fyi's round of taste: American punctuation inside quotes, a new
-tagline and sign-off, dossiers under `cases/`, an /about page as FAQ markdown.
+tagline and sign-off, dossiers under `cases/`, an /about page as FAQ markdown,
+an archived copy in parentheses after its title rather than trailing the date.
 Nor the stance struck from its dossiers: a voice found together as it goes, no
 rule against it beforehand. Nor a sources list rendered on every site because
 the `sources` field is every collection's — elsewhere inline links still serve.
