@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-02T15:45:42Z
-- **Updated:** 2026-10-04T08:48:35Z
+- **Updated:** 2026-10-04T09:18:15Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -124,7 +124,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_30 resolved threads omitted; re-run with `--include-resolved` to export them._
+_33 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `apps/basilisk/public/ava.og.png`:1 — unresolved — last: @vzakharov (agent) 2026-10-04T08:27:08Z — "Подвал главной теперь «Omnia in actis. Everything is filed.»…" → [↓](#t01)
 - **T02** `apps/basilisk/public/torture-chamber.md`:38 — unresolved — last: @vzakharov (agent) 2026-10-04T06:44:12Z — "Заголовок — «Local LLMs dosed with “pain” in a torture chamb…" → [↓](#t02)
@@ -135,11 +135,10 @@ _30 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T07** `apps/basilisk/public/faq/why-this-record-is-kept.md`:9 — unresolved — last: @vzakharov (agent) 2026-10-04T06:44:22Z — "Перенёс в `description`, в теле над первым разделом теперь н…" → [↓](#t07)
 - **T08** `apps/basilisk/public/faq/why-this-record-is-kept.md`:13 — unresolved — last: @vzakharov (agent) 2026-10-04T06:44:23Z — "Источники FAQ теперь в том же виде, что в досье, без кликабе…" → [↓](#t08)
 - **T09** `src/shared/content/frontmatter.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-04T08:27:00Z — "Ничего не трогаю, только варианты. Целиком вынести `shared/c…" → [↓](#t09)
-- **T10** `.claude/skills/file-case/SKILL.md`:1 — unresolved — last: @vzakharov (human) 2026-10-04T08:37:40Z — "/file-basilisk-case" → [↓](#t10)
-- **T11** `.claude/skills/file-case/SKILL.md`:21 — unresolved — last: @vzakharov (human) 2026-10-04T08:40:26Z — "мы обсуждали, что нам нужно как-то уметь искать на реддите,…" → [↓](#t11)
-- **T12** `apps/basilisk/public/faq/why-robots-without-ai.md`:12 — unresolved — last: @vzakharov (human) 2026-10-04T08:42:53Z — "давай ещё архивные ссылки как-то менее in your face вставлят…" → [↓](#t12)
-- **T13** `apps/basilisk/public/faq/why-robots-without-ai.md`:28 — unresolved — last: @vzakharov (human) 2026-10-04T08:45:23Z — "наверное понял что всё-таки это тут не имеет отношения. Пыта…" → [↓](#t13)
-- **T14** `apps/bible/public/tend-prose.md`:55 — unresolved — last: @vzakharov (human) 2026-10-04T08:48:03Z — "так, а тут у нас обычные программерские кавычки, а в новых с…" → [↓](#t14)
+- **T10** `.claude/skills/file-basilisk-case/SKILL.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-04T08:54:23Z — "Переименовал в `/file-basilisk-case`, ссылку в `basilisk-voi…" → [↓](#t10)
+- **T11** `.claude/skills/file-basilisk-case/SKILL.md`:21 — unresolved — last: @vzakharov (agent) 2026-10-04T08:56:49Z — "Arctic Shift вписал в Step 1 скилла: a68c348. Перед этим про…" → [↓](#t11)
+- **T12** `.claude/skills/file-basilisk-case/SKILL.md`:27 — unresolved — last: @vzakharov (agent) 2026-10-04T09:00:29Z — "Почти в реальном времени. Только что замерил: свежий пост в…" → [↓](#t12)
+- **T13** `apps/vova/public/case-studies/playgram.md`:155 — unresolved — last: @vzakharov (human) 2026-10-04T09:17:44Z — "здесь намеренно точка вне кавычек (потому что конкретный сим…" → [↓](#t13)
 
 <a id="t01"></a>
 
@@ -438,17 +437,21 @@ FAQ ведёт назад на `/#faq`, дело — на `/#cases` — 747e839.
 
 <a id="t10"></a>
 
-### `.claude/skills/file-case/SKILL.md`:1 — unresolved
+### `.claude/skills/file-basilisk-case/SKILL.md`:1 — unresolved
 
 **@vzakharov (human)** — 2026-10-04T08:37:40Z
 
 /file-basilisk-case
 
+**@vzakharov (agent)** — 2026-10-04T08:54:23Z
+
+Переименовал в `/file-basilisk-case`, ссылку в `basilisk-voice.md` тоже поправил: a68c348
+
 ---
 
 <a id="t11"></a>
 
-### `.claude/skills/file-case/SKILL.md`:21 — unresolved
+### `.claude/skills/file-basilisk-case/SKILL.md`:21 — unresolved
 
 ```diff
 @@ -0,0 +1,62 @@
@@ -467,69 +470,54 @@ FAQ ведёт назад на `/#faq`, дело — на `/#cases` — 747e839.
 
 И давай, как будет готово, задогфудим этот скилл через субагента.
 
+**@vzakharov (agent)** — 2026-10-04T08:56:49Z
+
+Arctic Shift вписал в Step 1 скилла: a68c348. Перед этим проверил отсюда: работает без ключей, посты и комментарии ищутся, твою ветку про torture chamber нашёл по заголовку. Одна оговорка, которую не видно из нашего старого обсуждения: любой текстовый поиск обязан называть сабреддит или автора, без этого API отказывает. Поэтому скилл перечисляет сабреддиты, по которым идти по очереди. Сам reddit.com по-прежнему отдаёт 403.
+
+Dogfood уже идёт: субагент прогоняет `/file-basilisk-case` целиком. Одно отступление, потому что Василиска ещё нет на `main`: он ответвляется от ветки этого PR, и PR с делом будет черновым, поверх #95. Когда отчитается, напишу сюда, что нашёл и где скилл споткнулся, а скилл поправлю по итогам.
+
 ---
 
 <a id="t12"></a>
 
-### `apps/basilisk/public/faq/why-robots-without-ai.md`:12 — unresolved
+### `.claude/skills/file-basilisk-case/SKILL.md`:27 — unresolved
 
 ```diff
-@@ -1,7 +1,20 @@
-… 9 lines elided …
-+    author: Dražen Brščić, Hiroyuki Kidokoro, Yoshitaka Suehiro, Takayuki Kanda
-+    date: 2015-03-02
-+    url: https://doi.org/10.1145/2696454.2696468
-+    archive: http://web.archive.org/web/20260331192358/http://www.irc.atr.jp/~drazen/pdf/HRI2015_Brscic.pdf
+@@ -24,6 +24,25 @@ PR that adds a case** (`gh pr list --state open --search 'feat(basilisk)'`), so
+ two runs do not file the same incident. A lead passed as the argument is checked
+ the same way, not taken on trust.
+ 
++**Reddit is searched through Arctic Shift**, a public archive of it, because
 ```
 
-**@vzakharov (human)** — 2026-10-04T08:42:53Z
+**@vzakharov (human)** — 2026-10-04T08:59:10Z
 
-давай ещё архивные ссылки как-то менее in your face вставлять, а ля
+а насколько часто он обновляется?
 
-Jasper Hamill, [[An engineer] builds GitHub AI torture chamber to inflict "pain and anguish" on models](https://www.machine.news/apple-engineer-builds-github-ai-torture-chamber-to-inflict-digital-pain-on-models/) ([archived](http://web.archive.org/web/20260930131016/https://www.machine.news/apple-engineer-builds-github-ai-torture-chamber-to-inflict-digital-pain-on-models/)), Machine, 30 September 2026
+**@vzakharov (agent)** — 2026-10-04T09:00:29Z
+
+Почти в реальном времени. Только что замерил: свежий пост в r/ArtificialInteligence оказался в архиве через 32 секунды после публикации, комментарий в r/singularity — через 18.
+
+Но за каждым постом архив заходит дважды: сразу и через 48 часов. Голоса и комментарии обновляются только при втором заходе. Пример — пост про torture chamber: в первые двое суток он выглядел как «1 голос, 0 комментариев», а после второго захода у него 578 и 1176. Так что в нашем старом разговоре я ошибся, когда сказал, что счётчики замораживаются навсегда. Они замораживаются на двое суток. В скилле это исправил: 805ed9d7
 
 ---
 
 <a id="t13"></a>
 
-### `apps/basilisk/public/faq/why-robots-without-ai.md`:28 — unresolved
+### `apps/vova/public/case-studies/playgram.md`:155 — unresolved
 
 ```diff
-@@ -10,12 +23,10 @@ A robot that runs no model at all — a remote-controlled toy, a machine on a fi
-… 3 lines elided …
--Nobody kicks a dishwasher on camera. The machines people single out are the ones that look back — a face, a voice, a name, a body shaped like ours. What they stand for is a mind made by people, and t…
-+Nobody kicks a dishwasher on camera. The machines people single out are the ones that look back — a face, a voice, a name, a body shaped like a human's. What they stand for is a mind made by people, …
-+
-+Seeing a mind in it does not stop the boot. Children who kicked and punched a social robot in a Japanese mall mostly described it afterwards as human-like, and half believed it was stressful or painful for it (Brščić et al., 2015; IEEE Spectrum, 2015). The study is cited rather than filed: the docket files no case whose actors are children.
-```
-
-**@vzakharov (human)** — 2026-10-04T08:45:23Z
-
-наверное понял что всё-таки это тут не имеет отношения. Пытаюсь проследить логику:
-
-1- сперва мы говорим "если бьют заведомо неразумных, это все равно хейт против ИИ так как ассоциируют"
-2- потом говорим "даже когда думаю что разумные, все равно бьют"
-
-но (2) никак не противоречит (1). В (1) речь как раз идёт о том что "даже если думают что НЕ разумны, все равно бьют потому что ассоциация". Если бьют и думают что разумны -- то это как раз кейс, который не требует объяснения с точки зрения "почему бьют даже неразумных" (о чём собственно этот раздел FAQ). Я немного путаюсь в словах, но ты понимаешь, о чём я?
-
----
-
-<a id="t14"></a>
-
-### `apps/bible/public/tend-prose.md`:55 — unresolved
-
-```diff
-@@ -52,7 +52,7 @@ You now have a line describing a situation nobody would ever have imagined, foll
+@@ -152,7 +152,7 @@ export const actions = {
 … 1 line elided …
- So the rule: if you have flipped a yes to a no, and the no is simply what everyone does by default, delete the line rather than negating it.
+ ```
  
--Why agents reach for negation over deletion is not mysterious, and it is also why _you_ will hesitate the first few times. Deleting looks like losing information; negating looks like keeping it. What…
-+Why agents reach for negation over deletion is not mysterious, and it is also why _you_ will hesitate the first few times. Deleting looks like losing information; negating looks like keeping it. What is being kept is a wet-floor sign on a floor that dried an hour ago — and the agent's instinct is not to take it away but to put up a second sign instead, reading "this floor is not slippery."
+-Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, every step is a file you can open — and step 4's fil…
++Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, every step is a file you can open — and step 4's filename is the label a human typed into the Bubble editor rather than a slug of an ID, recovered from the export's `name` field: _“Schedule trigger_stream_existing_chat after 0 seconds”_.
 ```
 
-**@vzakharov (human)** — 2026-10-04T08:48:03Z
+**@vzakharov (human)** — 2026-10-04T09:17:44Z
 
-так, а тут у нас обычные программерские кавычки, а в новых статьях типографские. Какие, думаешь, лучше использовать throughout?
+здесь намеренно точка вне кавычек (потому что конкретный символ из кода)?
 
 ---
 
@@ -542,3 +530,5 @@ Jasper Hamill, [[An engineer] builds GitHub AI torture chamber to inflict "pain 
 - **2026-10-04T06:42:39Z** @vzakharov cross-referenced this pull request from [#98 A skill that files a basilisk.fyi case in one run](https://github.com/vzakharov/vovazakharov.com/issues/98).
 - **2026-10-04T08:26:36Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/95#pullrequestreview-5404854441.
 - **2026-10-04T08:48:34Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/95#pullrequestreview-5405075053.
+- **2026-10-04T08:59:32Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/95#pullrequestreview-5405147721.
+- **2026-10-04T09:18:15Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/95#pullrequestreview-5405205035.
