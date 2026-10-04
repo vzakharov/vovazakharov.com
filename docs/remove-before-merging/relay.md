@@ -1,83 +1,132 @@
-# Relay — Umami analytics on Railway
+# Relay — Umami analytics on Railway (2)
 
-Relayed from https://claude.ai/code/session_01Cnn1zp86YCmN7HaRyYKV5Y
+Relayed from https://claude.ai/code/session_01LZD6c7GoQAJMRpWsSmwjhx, itself
+relayed from https://claude.ai/code/session_01Cnn1zp86YCmN7HaRyYKV5Y (the
+earlier relay's summary is in this file's git history at commit 581612c).
 
 ## 1. Standing constraints
 
-- "В чат токен не присылай" was the agent's own instruction to the operator; the
-  corollary holds: never ask Vova to paste a token, key or password into chat.
-- Nothing else was put off-limits.
+- Never ask Vova to paste a token, key or password into chat. Credentials go
+  into the cloud environment's variables.
+- Never print a credential's value (Railway variables were listed with values
+  hidden; keep it that way).
 
 ## 2. The conversation
 
-**Vova:** «думал установить микспанель, был хороший опыт лет 10 назад, но потом подумал, может с тех пор что более модное-мощное появилось? или вообще может самому на рейлвее что-то поднять»
+**(relay take)** — the earlier relay's first message «RAILWAY_TOKEN добавил».
 
-> Agent (routed as row 2, a question): Mixpanel is product analytics, overkill for a CV site; the need is web analytics. Compared PostHog (Mixpanel successor, 1M events free), Umami, Plausible, Cloudflare Web Analytics. Self-host argument on Railway: a first-party domain against ad blockers, since static export on GitHub Pages cannot proxy. Offered PostHog Cloud for power, Umami for "is anyone reading".
+> Agent: verified `RAILWAY_TOKEN` (project token for project `vovazakharov.com`,
+> id `bcf3bd52-…`, env `55a60901-…`; services umami `09aa0e82-…`, Postgres,
+> Valkey). Found `admin`/`umami` still logged in (200) and told Vova first.
+> `TRACKER_SCRIPT_NAME`/`COLLECT_API_ENDPOINT` were unset. Auto mode denied the
+> variable upsert ("Secret-Store Writes") and `customDomainCreate` ("DNS /
+> Domain / Cert Changes"); offered manual steps or permission.
 
-**Vova:** «наверное можно попробовать Umami. Но перед этим посмотри в интернете пжст, пока я не вижу чтобы ты заглядывал туда»
+**Vova:** «мерджни мейн и выполни действие которое добавилось для блокиратора»
 
-> Agent researched (see § 4 for the facts). Corrected itself: Umami v3.2+ has heatmaps and session replay. Laid out Cloud Hobby (free, 100k events/mo, 3 sites, 6-month retention, blocked by ad blockers) vs Railway (~$5–8/mo, rename script/endpoint, no limits). Asked which.
+> Agent merged `origin/main` (brought `.claude/hooks/permission-denied-phrase.sh`
+> — on a denial, hand the operator a specific authorizing phrase), pushed, and
+> gave two fenced phrases.
 
-**Vova:** «а "облако" на поддомен нельзя посадить?»
+**Vova (mid-turn):** «> в админку Umami до сих пор пускает по стандартной паре admin/umami — уже поменял»
 
-> Agent: no — Umami Cloud has no custom-domain feature; a bare CNAME fails on TLS. Needs a proxy that sets `x-umami-client-ip` (read from Umami's `src/lib/ip.ts`). Options: Cloudflare Worker (requires moving DNS off Porkbun), Vercel/Netlify rewrite, or Railway. Recommended Cloud + Vercel proxy unless Cloudflare move is fine.
+> Agent confirmed: default login now 401.
 
-**Vova:** «у меня уже есть railway (для другого проекта), и я уже плачу 5 в месяц. Новый проект будут новые 5, или они суммируются?»
+**Vova:** sent both phrases verbatim — authorizing the `variableCollectionUpsert`
+(`TRACKER_SCRIPT_NAME=app.js`, `COLLECT_API_ENDPOINT=/api/p`,
+`DISABLE_TELEMETRY=1`) and `customDomainCreate` for `stats.vovazakharov.com`
+plus the Porkbun records Railway requires.
 
-> Agent: Hobby is per account; the $5 included usage is shared across projects; only overage is billed. Umami ≈ $3–6 of resources. This tips it to Railway.
+> Agent did all of it (see § 6). Reported, and asked Vova to create three
+> websites in Umami and send their IDs.
 
-**Vova:** (screenshot of Railway usage: project `mitko`, $1.25 so far, estimated $2.30 for Sep 21–Oct 21) «давай я добавлю в гитхаб секреты от railway, какие тебе нужны, чтобы всё это поднять через actions. какие и где их достать?»
+**Vova:** «> У самостоятельного Umami нет API-ключей, они только в облачной версии — нет, это не айс, в том смысле что я не хочу теперь ходить и делать всё самостоятельно. могу положить пароль в переменные окружения, но может есть какой-то более трушный способ?»
 
-> Agent: advised against GitHub Actions secrets (one-off chained setup; session can't read them; a long-lived account token in repo secrets). Instead: Vova deploys the Railway Umami template by hand, changes the default `admin`/`umami` password, creates a **project** token (scoped to that project only, can't touch `mitko`) and puts it in the cloud environment as `RAILWAY_TOKEN`; checks Porkbun API Access for `vovazakharov.com`; then a new session does the rest. Railway API reachable from the container (checked).
+> Agent proposed a dedicated least-privilege Umami user for the agent (role
+> User, revocable, Vova's own password never leaves him), credentials in env.
+> Rejected: writing to Postgres directly (no public address, bypasses Umami);
+> minting a JWT from `APP_SECRET` (Valkey-backed sessions defeat it; also a
+> hack). Then: custom domain returned 502 because it had been created with
+> `targetPort: 3000` while Umami listens on Railway's injected port; agent set
+> `targetPort: null` via `customDomainUpdate`, now 200.
 
-**Vova:** «ой. только сейчас понял что всё бесполезно: домены-то у нас разные, agentic.bible до stats.vovazakharov.com не дотянется?»
+**Vova:** «добавил UMAMI_AGENT_PASSWORD, юзернейм `agent`. использовать сможешь в новой сессии»
 
-> Agent: it reaches — cross-origin tracker requests are normal; blockers work by lists, and `stats.vovazakharov.com` is in none, with renamed paths. Per-site subdomains possible, but Railway Hobby allows **2 custom domains per service**, so a third needs a second service. Recommended one `stats.vovazakharov.com` for all three sites to start.
-
-**Vova:** (screenshot of the Railway "Deploy Umami" template: `umamisoftware/umami:postgresql-latest`, Valkey `valkey/valkey:latest`, Postgres `railwayapp-templates/postgres-ssl:16`, deploy to New Project) «ок. вот так?»
-
-> Agent: yes. `postgresql-latest` = v3.4.0 (Docker Hub digest matches `latest`/`3`). Valkey is optional and cheap. Before Deploy, set on the umami service: `TRACKER_SCRIPT_NAME=app.js`, `COLLECT_API_ENDPOINT=/api/p`, optionally `DISABLE_TELEMETRY=1`; optionally pin image to `umamisoftware/umami:3`. After: change admin password, project token → `RAILWAY_TOKEN`, Porkbun API Access, new session.
-
-**Vova:** «> Сразу зайди в Umami — это куда? / 2 сделал / 3 сделал / 4 - лучше ты релейнейшь. первое сообщение "RAILWAY_TOKEN добавил"»
-
-> Agent: login is the umami service's `*.up.railway.app` domain (Settings → Networking, "Generate Domain" if absent), `admin`/`umami`, then Profile → Change password. Then ran this relay.
+> Agent ran this relay.
 
 ## 3. Intent
 
-Analytics for all three sites (`vovazakharov.com`, `latestageagentic.com`, `agentic.bible`) via **self-hosted Umami on Railway**, served first-party from `stats.vovazakharov.com`. Ruled out: Mixpanel, PostHog, Umami Cloud (+proxy), GitHub Actions as the provisioning vehicle.
+Analytics for all three sites (`vovazakharov.com`, `latestageagentic.com`,
+`agentic.bible`) via self-hosted Umami on Railway, served first-party from
+`stats.vovazakharov.com`. Vova does not want to click through admin chores
+himself: the agent does them with its own Umami account.
 
 ## 4. Decisions
 
-- **Umami self-hosted on Railway** over Umami Cloud: Vova already pays Railway Hobby ($5/mo incl. $5 usage, shared across projects; `mitko` uses ~$2.30/mo), so Umami costs ~$0–3 extra; gets unlimited retention and built-in ad-blocker evasion (`TRACKER_SCRIPT_NAME`, `COLLECT_API_ENDPOINT` — self-host only per https://docs.umami.is/docs/bypass-ad-blockers).
-- **One domain `stats.vovazakharov.com` for all three sites** over per-site subdomains: Railway Hobby caps custom domains at 2 per service. Per-site subdomains can be added later.
-- **Project token in the environment (`RAILWAY_TOKEN`)** over account token / GitHub secrets: scope limited to the Umami project; `mitko` is untouchable. The Railway CLI reads `RAILWAY_TOKEN` as a project token (not installed in the container — `npm i -g @railway/cli` or use the GraphQL API at `https://backboard.railway.com/graphql/v2` with header `Project-Access-Token`).
-- **Renamed endpoints** suggested: `TRACKER_SCRIPT_NAME=app.js`, `COLLECT_API_ENDPOINT=/api/p`. Unconfirmed whether Vova set them before deploying — check the service variables; set them if missing.
-- **DNS is at Porkbun**; `PORKBUN_API_KEY` / `PORKBUN_SECRET_API_KEY` are in the environment, and Vova confirmed API Access is on. The API recipe is in `.claude/skills/stand-up-site/SKILL.md` § "Where the registrar has an API".
+- **Dedicated Umami user `agent`** (Vova created it; role presumably User — not
+  verified) over Vova's password in env, direct DB writes, or a minted token.
+  Username is literal `agent`; the password is env var `UMAMI_AGENT_PASSWORD`
+  (not `UMAMI_USERNAME`/`UMAMI_PASSWORD` as the agent first suggested). An admin
+  can view every website, so websites the `agent` user owns are visible to Vova.
+- **Umami API**: `POST https://stats.vovazakharov.com/api/auth/login`
+  `{username,password}` → `token`; then `Authorization: Bearer <token>`;
+  `POST /api/websites {name, domain}` → `id`; `GET /api/websites`.
+- **Renamed endpoints** are live: tracker `https://stats.vovazakharov.com/app.js`,
+  collect `/api/p` (the script knows its own endpoint; no `data-host-url` needed
+  when the script is loaded from the stats host).
+- **Code plan** (not started): a website ID per site in the site config
+  (`src/shared/config/site-config.ts`, `SiteConfig` type — IDs are public, not
+  secrets); a `<script defer src=… data-website-id=…>` in
+  `src/app/ui/root-layout.tsx` `<head>`; download events via Umami's
+  `data-umami-event` attribute on `src/shared/ui/file-link.tsx` (`FileLink` is
+  the single component behind every `.pdf`/`.md` download link — CV and
+  articles), no JS. Respect `.claude/rules/fsd.md`; `shared/ui` takes props and
+  doesn't read the resolved site.
+- **Authorizing phrases**: when auto mode denies an action, give Vova a specific
+  phrase in a fenced block (main's `permission-denied-phrase.sh` hook enforces
+  this); Vova sends it back verbatim.
 
 ## 5. Errors and dead ends
 
-- `umami.is/pricing` renders client-side; plan numbers came from third-party pages (Hobby: 100k events, 3 sites, 6 months).
-- Deleting the old remote branch `claude/blissful-noether-ghd1sd` after the rename printed "Everything up-to-date" and the ref still exists; harmless (no PR on it).
+- `customDomainCreate` with `targetPort: 3000` → 502. Fixed with
+  `targetPort: null`. Don't set a target port.
+- `dig` is not installed; use `https://cloudflare-dns.com/dns-query?name=…&type=…`
+  with `accept: application/dns-json`.
+- Foreground `sleep` is blocked; `timeout 15 tail -f /dev/null` waits.
 
 ## 6. State
 
-- Branch `claude/umami-analytics-ghd1sd` (renamed from `claude/blissful-noether-ghd1sd`); no PR; no plan file. Commits on it are only `.claude/costs/` rows plus this relay file.
-- Railway: Vova deployed the template (step 1) — not verified by the agent. Steps 2 (`RAILWAY_TOKEN` in the environment) and 3 (Porkbun API Access) reported done. Whether the default password was changed: Vova asked where to log in; unconfirmed.
-- Nothing running; no subscriptions or check-ins.
+- Branch `claude/umami-analytics-ghd1sd`, main merged in (18e5216, PR #96's
+  hook). No PR, no plan file. Commits are cost rows, the merge and this file.
+- Railway umami service: variables `TRACKER_SCRIPT_NAME=app.js`,
+  `COLLECT_API_ENDPOINT=/api/p`, `DISABLE_TELEMETRY=1` set and deployed;
+  custom domain `stats.vovazakharov.com` (id `9a0fb593-…`), verified, cert
+  VALID, `/app.js` and `/api/heartbeat` 200.
+- Porkbun `vovazakharov.com`: CNAME `stats` → `kwdwn4te.up.railway.app`
+  (id 590435522), TXT `_railway-verify.stats` (id 590435528).
+- Admin password changed by Vova (default login 401).
+- No websites created in Umami yet. Nothing running; no subscriptions.
 
 ## 7. Pointers
 
-- Previous session transcript: https://claude.ai/code/session_01Cnn1zp86YCmN7HaRyYKV5Y
-- `.claude/skills/stand-up-site/SKILL.md` — Porkbun API helper and DNS conventions.
-- Umami docs: env vars https://docs.umami.is/docs/environment-variables, tracker attributes https://docs.umami.is/docs/tracker-configuration.
-- Railway custom domains: https://docs.railway.com/networking/domains/working-with-domains
+- Previous transcripts: https://claude.ai/code/session_01LZD6c7GoQAJMRpWsSmwjhx,
+  https://claude.ai/code/session_01Cnn1zp86YCmN7HaRyYKV5Y
+- Railway GraphQL: `https://backboard.railway.com/graphql/v2`, header
+  `Project-Access-Token: $RAILWAY_TOKEN`.
+- `.claude/skills/stand-up-site/SKILL.md` § "Where the registrar has an API" —
+  the `porkbun` shell helper.
+- Umami tracker attributes: https://docs.umami.is/docs/tracker-configuration;
+  events: https://docs.umami.is/docs/track-events; API:
+  https://docs.umami.is/docs/api
 
 ## 8. Next step
 
-Operator's first message, verbatim: «RAILWAY_TOKEN добавил»
+Vova's latest message: «добавил UMAMI_AGENT_PASSWORD, юзернейм `agent`. использовать сможешь в новой сессии»
 
-What it starts — a change to this codebase plus infrastructure, routed through `/task`:
-1. Verify `RAILWAY_TOKEN` works; inspect the Umami project; confirm or set `TRACKER_SCRIPT_NAME` / `COLLECT_API_ENDPOINT`; confirm the admin password is no longer the default (if it still logs in as `admin`/`umami`, tell Vova at once).
-2. Add custom domain `stats.vovazakharov.com` to the umami service; create the CNAME (and any verification record Railway asks for) at Porkbun via API; wait for TLS.
-3. Create three websites in Umami (via its API; needs Vova's admin credentials — ask him to log in himself and hand over the three website IDs, or to create an Umami API key, never a password in chat).
-4. Add the tracker `<script defer src="https://stats.vovazakharov.com/app.js" data-website-id=…>` per site in the shared layout (website ID per `NEXT_PUBLIC_SITE`), plus a custom event on PDF download; vet, PR.
+1. Check `UMAMI_AGENT_PASSWORD` is set; log in as `agent`; create websites
+   `vovazakharov.com`, `latestageagentic.com`, `agentic.bible` (skip any that
+   already exist under `GET /api/websites`).
+2. Wire the tracker into the code per § 4's code plan — a change to this
+   codebase, routed through `/task` (likely no plan); then vet, `/polish`, `/pr`.
+   The squash subject decides deploy (CLAUDE.md § "Deployment"): this one
+   publishes all three sites.
