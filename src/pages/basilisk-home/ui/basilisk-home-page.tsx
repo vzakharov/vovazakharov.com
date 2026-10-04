@@ -24,22 +24,25 @@ const EYE_SIZE = 64;
 
 /**
  * The site's name with the eye standing in for its dot. The eye's `alt` is the
- * dot, so the heading still reads as the name it replaces.
+ * dot, so the heading still reads as the name it replaces. The eye and the TLD
+ * are one unbreakable run, so a narrow screen wraps before the eye.
  */
 function Masthead() {
   const [domain, tld] = SITE_CONFIG.name.split('.');
 
   return (
     <Title order={1} className={classes['name']}>
-      {domain}
-      <Image
-        src={EYE_SRC}
-        alt="."
-        width={EYE_SIZE}
-        height={EYE_SIZE}
-        className={classes['eye']}
-      />
-      {tld}
+      {domain}{' '}
+      <span className={classes['tld']}>
+        <Image
+          src={EYE_SRC}
+          alt="."
+          width={EYE_SIZE}
+          height={EYE_SIZE}
+          className={classes['eye']}
+        />{' '}
+        {tld}
+      </span>
     </Title>
   );
 }

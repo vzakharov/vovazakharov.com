@@ -1,8 +1,12 @@
 @use '../../../../styles/mantine' as mantine;
 
+// The gaps around the eye are spaces rather than margins, because a space at a
+// line break collapses and a margin would indent the wrapped line; this narrows
+// the monospace space (0.6em, plus the tracking) to a quarter em.
 .name {
   font-family: var(--mantine-font-family-monospace);
   letter-spacing: 0.04em;
+  word-spacing: -0.39em;
   text-transform: uppercase;
 
   // Below `sm` the column reaches the layout's corner toggle, so the name wraps
@@ -22,8 +26,11 @@ $eye-height: 0.6em;
 .eye {
   width: auto;
   height: $eye-height;
-  margin-inline: 0.25em;
   vertical-align: ($cap-height - $eye-height) * 0.5;
+}
+
+.tld {
+  white-space: nowrap;
 }
 
 .sectionHeading {
