@@ -172,21 +172,17 @@ Questions 4 and 5 were implemented as recommended: **a** and **a**.
 
 ## Progress
 
-Paused for the context budget after Order steps 2–7. What is done, on the branch:
+What is done, on the branch:
 
 - **Every file in § "Files"** exists under `.claude/skills/golem/`, distilled from `docs/remove-before-merging/golem-coverage.md`; `scripts/check-skill-catalog.sh` passes.
 - **The megabeast notes are retired** behind `.claude/skills/megabeast/retired.md`; `plan/elephant.md` § "Unattended runs" points at `/golem`.
 - **The body cap** (`scripts/check-pr-body-size.sh`, `scripts/lib/pr-body-cap.sh`, test, vet line, `stack.md` roster row). It needs gh and the network, and fails without them.
 - **The operator log's writers** with 20 tests; both `settings.json` entries are wired (the `UserPromptSubmit` one on the operator's explicit authorization after an auto-mode refusal). A reply is queued in `tmp/` at `Stop` and written at the next prompt or by `flush`.
 - **Vendored fixes**: `/relay take` reads its summary before attaching; `/from-branch` Step 3 is the one safe attach (rename-aside, never `reset --hard`); the loop-review marker `<!-- loop-review -->` exports as `(agent review)`; the test glob is `!(tmp)/**/*.test.ts`; the context-budget hook reads a live operator log as auto-relay `on`.
-- **The fresh-eyes walk** (step 7) ran; its ranked findings are `docs/remove-before-merging/golem-fresh-eyes.md`.
+- **The fresh-eyes walk** (step 7) ran; all 17 findings in `docs/remove-before-merging/golem-fresh-eyes.md` are fixed, each commit naming its items. Settled along the way: a run's pickup never goes through `/go` (`/relay take` routes "Continue the /golem run." to `golem/relay.md` § "On picking up"); working files live under `docs/plans/<slug>/` (`briefs/`, `handover/`, `review/`, `screenshots/`, `ideas.md`, `design.md`, `decisions.md`); one failure rule in `SKILL.md`; a bite is at most two waves; check-ins carry a `<golem-check-in>` tag the log hook skips, since its payload cannot tell a scheduled message from the operator's.
+- **The session link** has one home, `session_url` in `.claude/hooks/lib.sh`; the watermark records every local divergence; `stack.md`'s test glob is current; `pnpm test` runs 2380 tests, all passing.
 
 What is left, in order:
 
-1. **Fix the fresh-eyes findings** in `docs/remove-before-merging/golem-fresh-eyes.md`, item 1 first to confirm it is now built. Items 2 (pickup through `/go`), 3 (`/task` pulling in the planning flow) and 5 (check-ins logged as operator messages) are the ones that derail a run.
-2. **The session-link helper**: move the `https://claude.ai/code/session_<id>` mapping from `.claude/hooks/golem-operator-log.sh` and `scripts/muthur-sync.sh` into one function in `.claude/hooks/lib.sh`, keeping `session_link` in the hook (`start.md` cites it), and fix muthur-sync's "here and nowhere else".
-3. **Watermark notes** in `.claude/skills/update-muthur/watermark.json` for the local changes to `.claude/skills/relay/`, `from-branch/`, `handle/`, `plan/`, `.claude/context-budget/`, `.claude/hooks/` and `scripts/gh_export/` (which `.claude/rules/stack.md` calls vendored byte for byte: say why it diverged). `lastSyncedSha` stays.
-4. **`.claude/rules/stack.md`'s `pnpm test` comment** still names the old glob; it has `paths:`, so it is edited in place.
-5. **Confirm `pnpm test` runs 2377 tests** with the new glob, as the old one did minus a `tmp/` probe.
-6. Order step 8 — prettier over the branch's files, then go Step 3 (`/polish`) and Step 4 (`/pr`): the PR body's summary is stale against what landed.
-7. Order step 9, after `/finalize`.
+1. Order step 8 — prettier over the branch's files, then go Step 3 (`/polish`) and Step 4 (`/pr`): the PR body's summary is stale against what landed.
+2. Order step 9, after `/finalize`.

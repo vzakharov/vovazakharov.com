@@ -73,7 +73,7 @@ Each call goes into the run's `docs/plans/<slug>/decisions.md` before the brief 
 ## Watching agents
 
 - **A subagent cannot see its own context.** The context-budget hook tells it at 170k to commit, bring its note current and report (`.claude/context-budget/CLAUDE.md`).
-- **The backstop is a `send_later` check-in armed with each wave**, ~10–12 minutes for a build or check agent, rarely needed for a reader: an agent stuck in one long command fires no tool call, so the hook never reads it. The check-in reads the branch's new commits and the agent's usage off its output file, never its content, and its prompt says to relaunch from the note if the agent is gone. A check-in fires into the session that armed it, so the pending ones are cancelled with `delete_trigger` before a relay (`relay.md`). The usage read:
+- **The backstop is a `send_later` check-in armed with each wave**, ~10–12 minutes for a build or check agent, rarely needed for a reader: an agent stuck in one long command fires no tool call, so the hook never reads it. The check-in reads the branch's new commits and the agent's usage off its output file, never its content, and its prompt says to relaunch from the note if the agent is gone. Its message opens with `<golem-check-in>`, the tag `.claude/hooks/golem-operator-log.sh` skips, since nothing in the hook's payload tells a scheduled message from the operator's. A check-in fires into the session that armed it, so the pending ones are cancelled with `delete_trigger` before a relay (`relay.md`). The usage read:
 
   ```sh
   jq -c 'select(.message.usage) | .message.usage | (.input_tokens + (.cache_read_input_tokens//0) + (.cache_creation_input_tokens//0))' <output_file> | tail -1
