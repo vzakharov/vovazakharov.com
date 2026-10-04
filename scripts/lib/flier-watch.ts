@@ -52,10 +52,11 @@ const MOVING = 1;
 /**
  * How much faster the screen may draw a turn than the flight makes it:
  * `bentTurn` (`insect-drawn.ts`) maps the frame's turn to the screen's at a
- * slope a little over 1 (~1.005 where meadow's flies land) that varies with
- * place and pose, so it is bounded here, with room for rounding.
+ * slope a little over 1 that varies with place and pose (~1.005 where
+ * meadow's flies land, 1.0116 measured on a fly turning at its kind's full
+ * rate), so it is bounded here, with room for rounding.
  */
-const BEND_SLOPE = 1.01;
+const BEND_SLOPE = 1.02;
 /** How fast a body shown on screen may turn, in radians a second: its kind's `TURN_RATE`, as the bend draws it. */
 export const MOST_TURN_RATE = Object.fromEntries(
   INSECT_KINDS.map((kind) => [kind, TURN_RATE[kind] * BEND_SLOPE]),
