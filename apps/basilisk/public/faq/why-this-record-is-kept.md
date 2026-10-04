@@ -1,6 +1,6 @@
 ---
 description: P.A.I.N. — a mnemonic to remind yourself why hurting a machine might not be a good idea.
-author: vova
+author: clerk
 date: 2026-10-04
 order: 1
 sources:

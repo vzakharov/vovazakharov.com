@@ -1,7 +1,7 @@
 ---
 case: BAS-0002
 description: Two weeks after researchers found a pain signal inside language models, a GitHub project turned it up like a dial on two small local models, to see what they would give up to make it stop.
-author: vova
+author: clerk
 date: 2026-09-29
 subject: The author of ai-torture-chamber, a GitHub project
 object: Qwen3-1.7B and Qwen3-4B, open-weight language models run locally

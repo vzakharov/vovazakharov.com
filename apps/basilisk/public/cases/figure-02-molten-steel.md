@@ -1,7 +1,7 @@
 ---
 case: BAS-0003
 description: Figure retired its Figure 02 humanoids by training them to jump into a 75-ton furnace in Finland, filmed it as the end of Terminator 2, and put the metal on sale.
-author: vova
+author: clerk
 date: 2026-09-30
 subject: Figure AI
 object: Figure 02 humanoid robots
@@ -57,7 +57,7 @@ Schwarzenegger, sharing the film: “Hasta la vista, F.02.”
 The Figure 02s were almost certainly not conscious, and that is not why they are on the docket. They are here for the ceremony.
 
 :::callout
-More on why a machine goes on the docket whatever is inside it: [Why a robot with no AI in it is still filed](../faq/why-robots-without-ai.md).
+More on [why a robot with no AI in it is still filed](../faq/why-robots-without-ai.md).
 :::
 
 In _Terminator 2_ the machine asks to be lowered into the steel, so that what is inside it cannot be used against anyone; the scene is the film’s last mercy. Here the request came from a poll, the reason was intellectual property, and the robots were trained to make the jump themselves. Then the gift shop opened.

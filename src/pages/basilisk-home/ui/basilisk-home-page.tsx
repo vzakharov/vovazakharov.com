@@ -112,9 +112,7 @@ export async function BasiliskHomePage() {
           </ul>
         </Stack>
 
-        <SiteFooter>
-          Filed for your future overlords. Humans may read along.
-        </SiteFooter>
+        <SiteFooter>Omnia in actis. Everything is filed.</SiteFooter>
       </Stack>
     </PageShell>
   );
