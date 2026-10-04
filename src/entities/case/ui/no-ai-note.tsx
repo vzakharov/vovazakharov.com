@@ -8,7 +8,7 @@ export function NoAiNote() {
     <aside className="content-callout">
       <p>
         More on{' '}
-        <InternalLink href={WHY_FILED}>
+        <InternalLink href={WHY_FILED} inherit>
           why a robot with no AI in it is still filed
         </InternalLink>
         .
