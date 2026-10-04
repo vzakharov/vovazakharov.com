@@ -196,12 +196,15 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
   firefly's body dark enough for `ink.test` (c4971a9); `mushroom-frame.ts`
   split out of the bed (d9008d7). The ground haze wash stays unbuilt.
 
+- **The tail**: polish by area (`/dry` ×3 and its leftovers, `/tend-prose`
+  ×2), vet green (2271 tests), the dusk play retrying a firefly that yields
+  to a cap (its pick could land on one since 96fd4483), closing frames in
+  `frames/bite-17/end/`, Artifact v29; bite 16's frames and this bite's
+  working notes retired.
+
 ## Left
 
-1. Polish, vet in two calls, frames, the Artifact; retire bite 16's frames
-   and this bite's working notes.
-
-The gait button alone mid-sky on phoneP (review play 3) waits on the
+Nothing. The gait button alone mid-sky on phoneP (review play 3) waits on the
 operator, as do day runs across the screen if he wants them.
 
 Off the bite, from the operator: the map's ✕ («крестик на карте

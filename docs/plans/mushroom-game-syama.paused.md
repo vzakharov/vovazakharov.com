@@ -353,6 +353,10 @@ The bites, each file its full contract:
 17. **The map** — the mute's circle a map button, the map unfolding from
     it, sun-up, every foot in its own side picture —
     [bite-16.md](mushroom-game-syama/bite-16.md)
+18. **Dusk** — a tap on the sun brings it, the moon's takes it back;
+    windows glow, flowers close, fliers settle, mice run, fireflies and
+    crickets wake; steps or flight, a far flower band —
+    [bite-17.md](mushroom-game-syama/bite-17.md). Artifact v29.
 
 ## Rest of the elephant
 
@@ -373,7 +377,7 @@ re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
 `airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
 anchors, or slice it as `Tended` slices the lawn).
 
-After the bite below, one more — the meadow kept across reloads
+One bite left — the meadow kept across reloads
 ([saving.md](mushroom-game-syama/saving.md)) — then the Artifact
 republished, `/relay /finalize`. Nothing goes around the
 canvas — no way home, no footer link, no reduced-motion or assistive-tech
@@ -384,13 +388,6 @@ product («сейчас это развлечение для одного реб
 **Performance waits** until the operator asks («к перформанс улучшениям
 вернёмся когда и если это станет критичным»): the play prints its 26 ms
 budget line and does not fail on it (1946a63).
-
-## Rest of the bite
-
-18\. **Dusk**, item 17: a tap on the sun brings dusk, the moon's takes it
-back; windows glow, flowers close, fliers settle, mice run, fireflies and
-crickets wake. Calls, packages, built and left:
-[bite-17.md](mushroom-game-syama/bite-17.md).
 
 ## DRY notes
 
