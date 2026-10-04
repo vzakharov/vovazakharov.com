@@ -10,6 +10,7 @@ import {
   pathBetween,
   RUN_LEAST,
   RUN_LEGS,
+  RUN_MOST,
   RUN_PACE,
   runAt,
   type RunCourse,
@@ -142,9 +143,9 @@ describe('runAt', () => {
   });
 
   it('runs at an even pace mid-run, easing up to it and down from it', () => {
-    const run = course(4.8);
+    const run = course(3);
     // Peek and hop down take 1.1 s; the run leg lasts its length over RUN_PACE.
-    const [begin, end] = [1.1, 1.1 + 4.8 / RUN_PACE];
+    const [begin, end] = [1.1, 1.1 + 3 / RUN_PACE];
     const paceAt = (t: number) =>
       (runAt(t + 0.01, run).travelled - runAt(t - 0.01, run).travelled) / 0.02;
     const middle = paceAt((begin + end) / 2);
@@ -152,7 +153,15 @@ describe('runAt', () => {
     assert.ok(Math.abs(paceAt(begin + 1) - middle) < 1e-9);
     assert.ok(paceAt(begin + 0.02) < middle / 2);
     assert.ok(paceAt(end - 0.02) < middle / 2);
-    assert.ok(Math.abs(runAt(end - 1e-9, run).travelled - 4.8) < 1e-6);
+    assert.ok(Math.abs(runAt(end - 1e-9, run).travelled - 3) < 1e-6);
+  });
+
+  it('runs a course across the screen faster, its running lasting RUN_MOST', () => {
+    for (const opening of ['peek', 'run'] as const) {
+      const long = legStarts(course(15, { opening }));
+      const running = (long.get('enter') ?? 0) - (long.get('run') ?? 0);
+      assert.ok(near(running, RUN_MOST), `${opening}: ${running}`);
+    }
   });
 
   it('opens with the hop down from a sinking house, and with the run itself when re-targeted', () => {

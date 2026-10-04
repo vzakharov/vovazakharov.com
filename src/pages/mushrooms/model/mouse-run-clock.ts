@@ -65,6 +65,12 @@ const RUN_SHUT = 0.3;
  * from the ground, already being followed, runs straight at its own length.
  */
 export const RUN_LEAST = 2.4;
+/**
+ * The longest a run's running lasts: a mouse runs to any door in sight, and
+ * one between houses at the screen's two sides would take half a minute at
+ * `RUN_PACE`, so a longer course is run faster, to last this long.
+ */
+export const RUN_MOST = 6;
 /** How long a run takes to reach full pace and to slow from it. */
 const RUN_EASE = 0.15;
 /** How quickly a called door swings open to wait. */
@@ -77,10 +83,12 @@ function spans({ runLength, opening }: RunCourse): Record<RunLeg, number> {
   return {
     peek: opening === 'peek' ? PEEK_RISE + RUN_LOOK : 0,
     leave: opening === 'run' ? 0 : HOP_DOWN,
-    run:
+    run: Math.min(
+      RUN_MOST,
       opening === 'run'
         ? runLength / RUN_PACE
         : Math.max(RUN_LEAST, runLength / RUN_PACE),
+    ),
     enter: HOP_UP,
     close: RUN_SHUT,
     over: Infinity,
@@ -131,7 +139,7 @@ export type RunMoment = {
 /**
  * Where `course` has its mouse `elapsed` seconds after it began: it peeks
  * out and looks toward its target, hops down to the ground, runs at
- * `RUN_PACE` along its course, hops up into the target's doorway, and
+ * `RUN_PACE` along its course (faster past `RUN_MOST`), hops up into the target's doorway, and
  * the door shuts behind it. Each door opens and shuts smoothly round the
  * legs that use it; a called target's opens at once and waits.
  */

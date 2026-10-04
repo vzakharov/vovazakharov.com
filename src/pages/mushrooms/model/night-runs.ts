@@ -1,7 +1,7 @@
 /**
  * The mice's own runs at dusk, as a pure rule of the meadow's tick: every
- * `NIGHT_GAP` (seeded) a mouse home in a house drawn now runs to a door in
- * reach, by `mouse-run.ts`'s target, or peeks with none. The scene hands the
+ * `NIGHT_GAP` (seeded) a mouse home in a house drawn now runs to another
+ * door drawn now, by `mouse-run.ts`'s target, or peeks with none. The scene hands the
  * tick its doors and counts (`Burrows`) and plays each new `NightRuns.last`
  * as a run or a peek; by day the rule rests and the timer starts afresh at
  * the next dusk.
@@ -52,7 +52,7 @@ const gapOf = (seed: number, made: number): number =>
 
 /**
  * Who goes out on outing `made`: of the houses drawn now with a mouse home,
- * one with a door in reach runs to the one `runTarget` picks, else one
+ * one with another door in sight runs to the one `runTarget` picks, else one
  * without peeks, each picked by the seed; `undefined` with no mouse in sight.
  */
 function outingFrom(

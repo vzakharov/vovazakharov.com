@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { FULL_DAY, FULL_DUSK } from './dusk';
 import { firstMeadow, type Meadow, reduce } from './game';
-import { RUN_REACH, type RunDoor } from './mouse-run';
+import type { RunDoor } from './mouse-run';
 import {
   type Burrows,
   NIGHT_GAP,
@@ -19,7 +19,7 @@ const door = (id: string, x: number, hidden = false): RunDoor => ({
   seen: !hidden,
 });
 
-/** Two houses in reach of each other, one mouse home in each. */
+/** Two houses in sight of each other, one mouse home in each. */
 const PAIR: Burrows = {
   seed: 7,
   doors: [door('a', 0), door('b', 1)],
@@ -78,28 +78,37 @@ describe('nightRan', () => {
     assert.notDeepEqual(timesOf(7), timesOf(8));
   });
 
-  it('runs to no door out of sight or out of reach: the mouse peeks', () => {
-    for (const other of [door('b', 1, true), door('b', RUN_REACH + 1)]) {
-      const { sent } = nightOf(
-        { ...PAIR, doors: [door('a', 0), other], mice: new Map([['a', 1]]) },
-        30_000,
-      );
-      assert.ok(sent.length > 0);
-      for (const run of sent) assert.deepEqual(run.to, undefined);
-      for (const run of sent) assert.equal(run.from, 'a');
-    }
-  });
-
-  it('peeks from a lone mouse when the houses in reach have none to spare', () => {
-    const burrows: Burrows = {
-      seed: 3,
-      doors: [door('a', 0), door('b', 1), door('c', RUN_REACH + 5)],
-      mice: new Map([['c', 1]]),
-    };
-    const { sent } = nightOf(burrows, 30_000);
+  it('runs to no door out of sight: the mouse peeks', () => {
+    const { sent } = nightOf(
+      {
+        ...PAIR,
+        doors: [door('a', 0), door('b', 1, true)],
+        mice: new Map([['a', 1]]),
+      },
+      30_000,
+    );
     assert.ok(sent.length > 0);
     for (const run of sent)
-      assert.deepEqual(run, { ...run, from: 'c', to: undefined });
+      assert.deepEqual(run, { ...run, from: 'a', to: undefined });
+  });
+
+  it('runs between houses grown at the screen’s two sides, the first within 12 s', () => {
+    // As a child's meadow stood on a tablet: three houses grown by `+`, each
+    // as far from the others as the screen allows (`pickFoot`).
+    const burrows: Burrows = {
+      seed: 3,
+      doors: [door('a', -8.5), door('b', 6.2), door('c', -4)],
+      mice: new Map([
+        ['a', 1],
+        ['b', 1],
+        ['c', 1],
+      ]),
+    };
+    const { sent } = nightOf(burrows, 30_000);
+    const [first] = sent;
+    assert.ok(first && first.at <= NIGHT_GAP[1] + 100);
+    for (const run of sent)
+      assert.ok(run.to !== undefined && run.to !== run.from);
   });
 
   it('sends no one with no mouse home in sight, and keeps the timer going', () => {

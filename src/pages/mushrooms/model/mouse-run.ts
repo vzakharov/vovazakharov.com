@@ -1,6 +1,6 @@
 /**
  * The rules of a mouse's run from its door to another house's, as pure
- * functions: which doors are in reach and which one a mouse picks, how many
+ * functions: which doors are in sight and which one a mouse picks, how many
  * mice each house holds as runs move them, and when an outing becomes a run;
  * the run's own clock is `mouse-run-clock.ts`. The scene holds the counts
  * and the runs under way and asks these. Plane lengths are in the clump's
@@ -14,13 +14,7 @@ import type { RunMoment } from './mouse-run-clock';
 import type { Footed } from './placement';
 import { saltedStream, type Seeded } from './random';
 
-/**
- * How far apart two doors' feet may stand on the plane for a mouse to run
- * between them: the opening clump's feet are a tenth of it apart, and a run
- * this long takes about four seconds and keeps to one screen.
- */
-export const RUN_REACH = 2.5;
-/** The share of a house's outings that become runs when a door is in reach and it holds one mouse. */
+/** The share of a house's outings that become runs when a door is in sight and it holds one mouse. */
 export const RUN_SHARE = 0.5;
 
 /** How many mice each house holds, by its mushroom's id; a house missing holds none. */
@@ -51,19 +45,13 @@ export function left(mice: Mice, id: string): Mice {
 export const moved = (mice: Mice, from: string, to: string): Mice =>
   entered(left(mice, from), to);
 
-/** Whether two feet stand near enough for a mouse to run between them. */
-const inReach = (a: Point, b: Point): boolean =>
-  distanceBetween(a, b) <= RUN_REACH;
-
-/** Of `doors` other than `except`, the ones drawn now within reach of `origin`. */
-const seenAround = (
-  origin: Point,
-  doors: readonly RunDoor[],
-  except?: string,
-): RunDoor[] =>
-  doors.filter(
-    (door) => door.id !== except && door.seen && inReach(origin, door.foot),
-  );
+/**
+ * Of `doors` other than `except`, the ones drawn now: a mouse runs to any
+ * door in sight, however far apart the two houses grew, since a mushroom
+ * grows as far from the others as the screen allows (`pickFoot`).
+ */
+const seenBesides = (doors: readonly RunDoor[], except?: string): RunDoor[] =>
+  doors.filter((door) => door.id !== except && door.seen);
 
 /**
  * The first of `doors` by `count`, lowest first, then by distance from
@@ -89,10 +77,10 @@ function firstBy(
 }
 
 /**
- * Where a mouse running from `origin` goes: of the doors drawn now within
- * `RUN_REACH` of it, other than `except`, the emptiest house, then the
- * nearest — so the house a mouse has left is the first refilled, and mice
- * spread rather than shuttle between two houses.
+ * Where a mouse running from `origin` goes: of the doors drawn now, other
+ * than `except`, the emptiest house, then the nearest to `origin` — so the
+ * house a mouse has left is the first refilled, and mice spread rather than
+ * shuttle between two houses.
  */
 export function emptiestNear(
   mice: Mice,
@@ -100,12 +88,12 @@ export function emptiestNear(
   doors: readonly RunDoor[],
   except?: string,
 ): string | undefined {
-  return firstBy(seenAround(origin, doors, except), origin, (door) =>
+  return firstBy(seenBesides(doors, except), origin, (door) =>
     miceAt(mice, door.id),
   )?.id;
 }
 
-/** Where a mouse leaving `from` runs to, when `from` is drawn now and a door is in reach. */
+/** Where a mouse leaving `from` runs to, when `from` and another door are drawn now. */
 export function runTarget(
   mice: Mice,
   from: RunDoor,
@@ -116,7 +104,7 @@ export function runTarget(
 
 /**
  * Which house sends a mouse home to the empty `to` called: the fullest
- * holding any, of those drawn now in reach of it, then the nearest.
+ * holding any, of those drawn now, then the nearest.
  */
 export function caller(
   mice: Mice,
@@ -124,7 +112,7 @@ export function caller(
   doors: readonly RunDoor[],
 ): string | undefined {
   if (!to.seen) return undefined;
-  const homed = seenAround(to.foot, doors, to.id).filter(
+  const homed = seenBesides(doors, to.id).filter(
     (door) => miceAt(mice, door.id) > 0,
   );
   return firstBy(homed, to.foot, (door) => -miceAt(mice, door.id))?.id;
@@ -133,7 +121,7 @@ export function caller(
 const RUN_SALT = 0x6e_37_a1_c9;
 
 /**
- * Whether a house's `outing` (`outingOf`) is a run, a door being in reach:
+ * Whether a house's `outing` (`outingOf`) is a run, a door being in sight:
  * always when it holds two or more, else when its seed's draw for that
  * outing falls under `RUN_SHARE`; never from an empty house.
  */
@@ -175,8 +163,8 @@ export type DoorAnswer =
  * What a tap on `tapped`'s door does: a run's mouse in its doorway
  * (`inDoorway`) squeaks, whatever the counts say, since a run counts its
  * mouse out as it peeks and in only once its door has shut; else its mouse
- * runs to a door in reach, or peeks with none; an empty house calls one home
- * from the fullest in reach, or opens on its empty doorway with none and
+ * runs to a door in sight, or peeks with none; an empty house calls one home
+ * from the fullest in sight, or opens on its empty doorway with none and
  * shuts with a knock.
  */
 export function answerTap(
@@ -216,9 +204,9 @@ export type Flee = { to: string; wait: number };
 /**
  * Where a sinking house's mice go, `doors` being every door standing on the
  * field: each to the door `emptiestNear` picks, the ones already sent
- * counted there, one every `FLEE_EVERY`; with none in reach, to the nearest
- * door on the field — running when both doors are drawn, else counted in
- * there at once. With no other door standing they sink with the house. The
+ * counted there, one every `FLEE_EVERY`, running while the sinking house is
+ * drawn; with it or every other door out of sight, counted in at once at the
+ * nearest door on the field. With no other door standing they sink with the house. The
  * mice that stay or sink are gone from `mice`; the ones counted in at once
  * are in it; the ones running are in `fleeing`, for the scene's runs.
  */
@@ -240,10 +228,8 @@ export function scattered(
     const to = near ?? nearestOf(sinking.foot, doors, sinking.id);
     if (to === undefined) break;
     planned = entered(planned, to);
-    const runs =
-      sinking.seen && doors.some((door) => door.id === to && door.seen);
-    if (runs) fleeing.push({ to, wait: fleeing.length * FLEE_EVERY });
-    else after = entered(after, to);
+    if (near === undefined) after = entered(after, to);
+    else fleeing.push({ to, wait: fleeing.length * FLEE_EVERY });
   }
   return { mice: after, fleeing };
 }
@@ -256,7 +242,7 @@ export type Retarget = Pick<Flee, 'to'> & { runs: boolean };
  * being every door still standing: running, by `emptiestNear` from there,
  * else back to `start` while it stands; else counted in at once at the
  * nearest door on the field, as `scattered` counts a mouse with no door in
- * reach, rather than running off screen; `undefined` with no door standing.
+ * sight, rather than running off screen; `undefined` with no door standing.
  */
 export function retarget(
   mice: Mice,

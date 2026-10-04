@@ -14,7 +14,6 @@ import {
   miceHome,
   moved,
   retarget,
-  RUN_REACH,
   RUN_SHARE,
   type RunDoor,
   runsOuting,
@@ -66,15 +65,12 @@ describe('counts', () => {
 describe('runTarget', () => {
   const from = door('a', 0, 10);
 
-  it('runs only to a door drawn now within RUN_REACH, never its own', () => {
-    const doors = [
-      from,
-      door('far', RUN_REACH + 0.01, 10),
-      door('hidden', 0.5, 10, true),
-    ];
+  it('runs only to a door drawn now, however far, never its own', () => {
+    const doors = [from, door('hidden', 0.5, 10, true)];
     assert.equal(runTarget(miceOf({ a: 1 }), from, doors), undefined);
-    const near = door('near', RUN_REACH - 0.01, 10);
-    assert.equal(runTarget(miceOf({ a: 1 }), from, [...doors, near]), 'near');
+    // Two houses grown at the screen's two sides, as `pickFoot` spreads them.
+    const far = door('far', 15, 12);
+    assert.equal(runTarget(miceOf({ a: 1 }), from, [...doors, far]), 'far');
   });
 
   it('starts from no door that is not drawn', () => {
@@ -118,16 +114,16 @@ describe('runTarget', () => {
 });
 
 describe('caller', () => {
-  it('calls from the fullest house in reach, then the nearest, never an empty one', () => {
+  it('calls from the fullest house in sight, then the nearest, never an empty one', () => {
     const to = door('home', 0, 10);
     const doors = [
       to,
       door('one', 0.2, 10),
       door('two', 1, 10),
-      door('two-far', 2, 10),
-      door('three-out', RUN_REACH + 1, 10),
+      door('two-far', 9, 10),
+      door('three-hidden', 1, 10, true),
     ];
-    const mice = miceOf({ one: 1, two: 2, 'two-far': 2, 'three-out': 3 });
+    const mice = miceOf({ one: 1, two: 2, 'two-far': 2, 'three-hidden': 3 });
     assert.equal(caller(mice, to, doors), 'two');
     assert.equal(caller(miceOf({}), to, doors), undefined);
   });
@@ -233,19 +229,24 @@ describe('scattered', () => {
     const sinking = door('s', 0, 10);
     const doors = [
       sinking,
-      door('far-seen', RUN_REACH + 1, 10),
-      door('far-hidden', RUN_REACH + 0.5, 10, true),
+      door('far-hidden', 3, 10, true),
+      door('farther-hidden', 5, 10, true),
     ];
     const mice = miceOf({ s: 2 });
     const { mice: after, fleeing } = scattered(mice, sinking, doors);
     assert.deepEqual(fleeing, []);
     assert.equal(miceAt(after, 'far-hidden'), 2);
     assert.equal(miceHome(after), miceHome(mice));
+    const unseen = door('s', 0, 10, true);
+    const seenDoor = door('seen', 1, 10);
+    const counted = scattered(mice, unseen, [unseen, seenDoor]);
+    assert.deepEqual(counted.fleeing, []);
+    assert.equal(miceAt(counted.mice, 'seen'), 2);
   });
 
-  it('runs to the nearest door drawn out of reach, both being in sight', () => {
+  it('runs to a door in sight however far, both being drawn', () => {
     const sinking = door('s', 0, 10);
-    const doors = [sinking, door('far', RUN_REACH + 1, 10)];
+    const doors = [sinking, door('far', 15, 12)];
     const { fleeing } = scattered(miceOf({ s: 1 }), sinking, doors);
     assert.deepEqual(fleeing, [{ to: 'far', wait: 0 }]);
   });
@@ -269,10 +270,17 @@ describe('retarget', () => {
     });
   });
 
-  it('turns back to its start when nothing is in reach, else counts it in at the nearest door', () => {
-    const far = door('far', 10, 10);
+  it('runs to a door in sight however far, else turns back to its start, else counts it in at the nearest door', () => {
     assert.deepEqual(
-      retarget(miceOf({}), at, 'start', [far, door('start', -9, 10)]),
+      retarget(miceOf({}), at, 'start', [door('seen', 10, 10)]),
+      {
+        to: 'seen',
+        runs: true,
+      },
+    );
+    const far = door('far', 10, 10, true);
+    assert.deepEqual(
+      retarget(miceOf({}), at, 'start', [far, door('start', -9, 10, true)]),
       { to: 'start', runs: true },
     );
     assert.deepEqual(retarget(miceOf({}), at, 'start', [far]), {
