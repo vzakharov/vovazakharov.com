@@ -136,7 +136,7 @@ Lyric notes, section markers and per-locale song reading went to
 `pages/music` imported them; asked why not a higher layer, they moved up with
 no upward import in the way. One grep said so; nobody ran it.
 
-## It writes its reasoning into the artifact (×14)
+## It writes its reasoning into the artifact (×13)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -167,12 +167,6 @@ why `ContentVideo` lives in `pages/documents/ui/`, the agent wrote a
 `content.md` bullet — a `server-only` wall, future islands — and, when both
 fell, rewrote it around FSD import direction. _the bullet is a polar bear_:
 `fsd.md` says where a component goes and Steiger fails the wrong move unread.
-
-**4 October — a clerk with opinions.** basilisk.fyi's dossiers are meant to read
-as a dry clerk's record, and the agent's stance kept getting in. "The _minds_
-before you" took a side on machine consciousness the site gains nothing from and
-critics would take as bait; a dossier closed on "whether X is the research or
-the point is for the reader to weigh" — weighing it for them. Both struck.
 
 ## It edits the copy in front of it, not the fact behind it (×13)
 
@@ -368,6 +362,9 @@ reached the list: the cost report's default grain, a taste in output with
 nothing to read it off. Nor a sixth: em dashes on the site for a typed `--`.
 Nor basilisk.fyi's round of taste: American punctuation inside quotes, a new
 tagline and sign-off, dossiers under `cases/`, an /about page as FAQ markdown.
+Nor the stance struck from its dossiers: a voice found together as it goes, no
+rule against it beforehand. Nor a sources list rendered on every site because
+the `sources` field is every collection's — elsewhere inline links still serve.
 
 **Comments the tree already answered.** A round on the music section asked
 whether a quote's capitalization was wrong and whether zod reached the browser
