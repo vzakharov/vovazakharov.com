@@ -1,5 +1,5 @@
 ---
-description: File one new basilisk.fyi case end to end in a single unattended run — find an incident not yet on the docket, write its dossier on a fresh branch off `main` with a draft PR, and leave the agent's own reading as a `/feedback` review on that PR. Never merges. Invoke as `/file-case [<lead>]`, the optional lead being an incident or link to start from. Use when a routine fires it, or the operator says "file a case", "заведи дело", "найди новый кейс".
+description: File one new basilisk.fyi case end to end in a single unattended run — find an incident not yet on the docket, write its dossier on a fresh branch off `main` with a draft PR, and leave the agent's own reading as a `/feedback` review on that PR. Never merges. Invoke as `/file-basilisk-case [<lead>]`, the optional lead being an incident or link to start from. Use when a routine fires it, or the operator says "file a case", "заведи дело", "найди новый кейс".
 ---
 
 End state: a draft PR on its own branch adds one dossier to
@@ -23,6 +23,25 @@ not hold. **The docket is `main`'s `apps/basilisk/public/cases/` plus every open
 PR that adds a case** (`gh pr list --state open --search 'feat(basilisk)'`), so
 two runs do not file the same incident. A lead passed as the argument is checked
 the same way, not taken on trust.
+
+**Reddit is searched through Arctic Shift**, a public archive of it, because
+reddit.com answers this container's cloud IP with a 403. No key is needed:
+
+- `https://arctic-shift.photon-reddit.com/api/posts/search?subreddit=<sub>&query=<words>&after=<YYYY-MM-DD>&limit=25&fields=id,title,created_utc,url`
+  searches posts, `title=` narrowing to titles; `/api/comments/search` takes
+  `body=` instead; `/api/comments/tree?link_id=<id>` reads a thread.
+- Every text search names a `subreddit` (or an `author`) — the API refuses one
+  without — so sweep a handful in turn: `ArtificialInteligence`, `singularity`,
+  `robotics`, `LocalLLaMA`, `ChatGPT`, `technology`, `nottheonion`. A
+  `Timeout. Maybe slow down a bit` is answered by waiting and narrowing, not
+  by dropping the subreddit.
+- Its vote and comment counts are frozen at the moment it archived a post, so
+  they measure nothing about reach.
+
+A thread is a lead, never the source of a fact: the press or the primary record
+it points at is what `## Facts` cites. A thread that is itself part of the
+incident is cited as its `reddit.com` permalink with a Wayback `archive`, like
+any other source.
 
 A candidate qualifies only under `basilisk-voice.md` — real, no child actors, and
 reachable sources enough to carry `## Facts` without memory. **Nothing qualifies →

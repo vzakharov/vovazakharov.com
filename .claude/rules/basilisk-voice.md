@@ -55,7 +55,7 @@ holds a dossier's fields; these rules hold what goes in them.
 - **Each newly filed case gets the agent's own reading as a `/feedback` review
   on its PR** — reflection goes in comments, never in the file. The repository
   and its comments are public, so the review is written to be read.
-  `/file-case` runs the whole filing, this review included, in one go.
+  `/file-basilisk-case` runs the whole filing, this review included, in one go.
 
 A dossier's body has four sections, in order: `## Facts`, `## Statements`
 (what the parties said, quoted and attributed), `## For the record`, and
