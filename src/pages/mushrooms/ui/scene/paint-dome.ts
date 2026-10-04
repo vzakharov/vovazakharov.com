@@ -10,20 +10,19 @@ import type {
   PorciniGenes,
   RussulaGenes,
 } from '../../model/mushroom-genes';
-import { domeArc, gillLines, headOutlines } from '../../model/mushroom-outline';
+import { gillLines, headOutlines } from '../../model/mushroom-outline';
 import { capSurface } from '../../model/mushroom-profile';
+import { crescent } from './crescent';
 import { inkFor } from './ink';
 import { capLight } from './mushroom-light';
 import { type MushroomBrush, paintCapLight, shadeWith } from './mushroom-paint';
 import { porciniMargin, russulaCentre } from './mushroom-tints';
-import { crescent, fillShape, inkedFill, strokeTapered } from './shapes';
+import { marginBand } from './porcini-margin';
+import { fillShape, inkedFill, strokeTapered } from './shapes';
 
 const SHADE_ALPHA = 0.26;
 /** How deep each crescent of a dome's light reaches in from its arc, in the cap's height. */
 const DEPTHS = { shade: 0.34, rim: 0.06, 'dip-shade': 0.2, 'dip-light': 0.06 };
-/** A porcini's pale margin: how far round the rim it climbs, in radians from it, and how deep it reaches in, in the cap's height. */
-const MARGIN_CLIMB = 0.55;
-const MARGIN_DEPTH = 0.2;
 /** A russula's pale middle: its half-width, in the cap's, and its height, in the cap's. */
 const CENTRE = [0.24, 0.16] as const;
 /** The cap's shadow across the top of a porcini's sponge or a russula's gills: how deep, in the cap's width, and how dark. */
@@ -111,29 +110,11 @@ function paintGills(brush: MushroomBrush, genes: RussulaGenes): void {
   }
 }
 
-/**
- * A porcini's paler band along its cap's margin: up each side from near the
- * rim, round it and along the underside, reaching into the cap from there.
- */
+/** A porcini's paler band along its cap's margin (`marginBand`). */
 function paintMargin(brush: MushroomBrush, genes: PorciniGenes): void {
   const { graphics, toMushroom, tone, size, steps } = brush;
-  const half = genes.capWidth / 2;
-  const climb = (from: number, to: number) =>
-    domeArc(genes, half, [from, to], 0, steps);
-  const arc = [
-    ...climb(-Math.PI / 2 + MARGIN_CLIMB, -Math.PI / 2),
-    ...sample(-half, half, steps, (x) => ({ x, y: 0 })).slice(1, -1),
-    ...climb(Math.PI / 2, Math.PI / 2 - MARGIN_CLIMB),
-  ].map((point) => toMushroom(point));
   graphics.fillStyle(tone(porciniMargin(genes)));
-  fillShape(
-    graphics,
-    crescent(
-      arc,
-      toMushroom({ x: 0, y: genes.capHeight * 0.6 }),
-      genes.capHeight * size * MARGIN_DEPTH,
-    ),
-  );
+  fillShape(graphics, marginBand(genes, toMushroom, size, steps));
 }
 
 /** A russula's paler middle, in its dip at the top of the cap. */

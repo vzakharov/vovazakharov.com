@@ -10,11 +10,12 @@ import type { FlyGenes } from '../../model/fly-genes';
 import { ellipse, type Point } from '../../model/geometry';
 import { litCrest } from '../../model/insect-light';
 import { mix, nudgeHue } from './colour';
+import { crescent } from './crescent';
 import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
 import { awayAngle, type Lighting } from './ink';
 import { PALETTE } from './palette';
-import { crescent, fillShape, inkedDisc, inkedFill, ovalArc } from './shapes';
+import { fillShape, inkedDisc, inkedFill, ovalArc } from './shapes';
 
 /** How far the body takes its sheen, and its shine the same sheen paled. */
 const SHEEN = 0.42;

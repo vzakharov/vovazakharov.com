@@ -174,6 +174,23 @@ export function distanceToSegment(a: Point, b: Point, point: Point): number {
   return Math.hypot(point.x - a.x - t * dx, point.y - a.y - t * dy);
 }
 
+/** Where the segment from `a` to `b` crosses the one from `c` to `d`; `undefined` where they only touch or miss. */
+export function segmentCrossing(
+  a: Point,
+  b: Point,
+  c: Point,
+  d: Point,
+): Point | undefined {
+  const side = (p: Point, q: Point, r: Point) =>
+    (q.x - p.x) * (r.y - p.y) - (q.y - p.y) * (r.x - p.x);
+  const [onAbC, onAbD] = [side(a, b, c), side(a, b, d)];
+  if (side(c, d, a) * side(c, d, b) >= 0 || onAbC * onAbD >= 0) {
+    return undefined;
+  }
+  const t = onAbC / (onAbC - onAbD);
+  return { x: c.x + (d.x - c.x) * t, y: c.y + (d.y - c.y) * t };
+}
+
 /** How far `point` is from the nearest edge of the closed `outline`. */
 export function distanceToEdge(
   outline: readonly Point[],

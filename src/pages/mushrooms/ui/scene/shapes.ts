@@ -173,36 +173,6 @@ export function petal(
   ];
 }
 
-/**
- * A crescent along `arc`, its inner edge pulled toward `towards` by up to
- * `width` and tapering to nothing at both ends, so no straight edge closes it.
- */
-export function crescent(
-  arc: readonly Point[],
-  towards: Point,
-  width: number,
-): Point[] {
-  const last = arc.length - 1;
-  const inner = arc.map((point, index) => {
-    const before = arc[Math.max(0, index - 1)] ?? point;
-    const after = arc[Math.min(last, index + 1)] ?? point;
-    const length = Math.hypot(after.x - before.x, after.y - before.y) || 1;
-    let normal = {
-      x: -(after.y - before.y) / length,
-      y: (after.x - before.x) / length,
-    };
-    if (
-      normal.x * (towards.x - point.x) + normal.y * (towards.y - point.y) <
-      0
-    ) {
-      normal = { x: -normal.x, y: -normal.y };
-    }
-    const reach = width * Math.sin((Math.PI * index) / (last || 1));
-    return { x: point.x + normal.x * reach, y: point.y + normal.y * reach };
-  });
-  return [...arc, ...inner.toReversed()];
-}
-
 /** An ellipse's edge round `centre` from angle `from` to `to`, y down. */
 export function ovalArc(
   centre: Point,

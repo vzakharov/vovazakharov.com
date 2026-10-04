@@ -13,12 +13,12 @@ import { type Point, sample } from '../../model/geometry';
 import { litCrest } from '../../model/insect-light';
 import { POLLEN_MOST } from '../../model/pollen';
 import { mix, nudgeHue } from './colour';
+import { crescent } from './crescent';
 import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
 import { awayAngle, inkFor, type Lighting, lineInk, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
-  crescent,
   fillShape,
   inkedDisc,
   inkedFill,

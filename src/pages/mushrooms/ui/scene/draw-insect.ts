@@ -18,10 +18,10 @@ import {
 } from '../../model/insect-outline';
 import { proboscisLine } from '../../model/proboscis';
 import { mix, nudgeHue } from './colour';
+import { crescent } from './crescent';
 import { inkFor, type Lighting, lineInk, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
-  crescent,
   fillShape,
   inkedDisc,
   inkedFill,

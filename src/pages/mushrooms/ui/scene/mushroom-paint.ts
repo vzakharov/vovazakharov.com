@@ -26,6 +26,7 @@ import {
   detailed,
 } from '../../model/mushroom-profile';
 import { mix } from './colour';
+import { crescent } from './crescent';
 import type { WithGraphics } from './hit-areas';
 import { inkFor, type Lighting, litSide } from './ink';
 import type { Hazed } from './layout';
@@ -37,7 +38,7 @@ import {
 } from './mushroom-light';
 import { heldHaze, type MushroomTints, mushroomTints } from './mushroom-tints';
 import { PALETTE } from './palette';
-import { type Brush, crescent, fillShape, inkUnder } from './shapes';
+import { type Brush, fillShape, inkUnder } from './shapes';
 
 const SHINE_ALPHA = 0.45;
 const SPOT_SHADE_ALPHA = 0.13;

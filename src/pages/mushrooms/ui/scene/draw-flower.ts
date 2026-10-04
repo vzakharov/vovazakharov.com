@@ -4,13 +4,13 @@ import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Point, sample } from '../../model/geometry';
 import { headedLight } from '../../model/light';
 import { mix } from './colour';
+import { crescent } from './crescent';
 import { type Folding, OPEN, petalPose } from './flower-closing';
 import { petalColour } from './flower-tints';
 import { facingArc, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
 import type { Siding } from './repaint-queue';
 import {
-  crescent,
   fillShape,
   inkedDisc,
   inkedFill,

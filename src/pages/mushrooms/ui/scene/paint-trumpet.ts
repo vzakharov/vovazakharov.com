@@ -13,6 +13,7 @@ import {
 import type { Point } from '../../model/geometry';
 import type { ChanterelleGenes } from '../../model/mushroom-genes';
 import { headOutlines } from '../../model/mushroom-outline';
+import { crescent } from './crescent';
 import { inkFor } from './ink';
 import { type CapLight, capLight, sideways } from './mushroom-light';
 import {
@@ -25,7 +26,7 @@ import {
   shadeWith,
 } from './mushroom-paint';
 import { PALETTE } from './palette';
-import { crescent, fillShape, inkUnder, strokeTapered } from './shapes';
+import { fillShape, inkUnder, strokeTapered } from './shapes';
 
 /** Kept light on a chanterelle, so its cool shade deepens its orange rather than browning it. */
 const SHADE_ALPHA = 0.22;
