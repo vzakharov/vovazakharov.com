@@ -1,6 +1,6 @@
 import 'server-only';
 
-import type { Root } from 'mdast';
+import type { Nodes, Root } from 'mdast';
 // Also what registers the directive nodes on mdast's own union, which is how
 // `visit` below narrows them at all.
 import type { ContainerDirective } from 'mdast-util-directive';
@@ -9,30 +9,42 @@ import { visit } from 'unist-util-visit';
 
 import { isOneOf } from '@/shared/lib/collections';
 
-/**
- * The block components a document may author, as `remark-directive` fences. A
- * pull quote repeats a sentence the reader is about to meet or has just met,
- * so it is `aria-hidden` and `render.ts` keeps its words out of the reading
- * estimate.
- */
-const BLOCK_DIRECTIVES = ['pull-quote'] as const;
+/** The block components a document may author, as `remark-directive` fences. */
+const BLOCK_DIRECTIVES = ['pull-quote', 'callout'] as const;
 
 type BlockDirective = (typeof BLOCK_DIRECTIVES)[number];
 
 const isKnown = isOneOf(BLOCK_DIRECTIVES);
 
-const DIRECTIVE_CLASSES = {
-  'pull-quote': 'content-pull-quote',
-} satisfies Record<BlockDirective, string>;
+/**
+ * `repeats` marks a block whose words the reader meets elsewhere in the body —
+ * a pull quote — so it is `aria-hidden` and kept out of the reading estimate.
+ * A callout says something of its own, and is read like any paragraph.
+ */
+const DIRECTIVES = {
+  'pull-quote': { className: 'content-pull-quote', repeats: true },
+  callout: { className: 'content-callout', repeats: false },
+} satisfies Record<BlockDirective, { className: string; repeats: boolean }>;
+
+/** Whether a node is a block the reading estimate skips, being read twice otherwise. */
+export function isRepeatedBlock(node: Nodes): boolean {
+  return (
+    node.type === 'containerDirective' &&
+    isKnown(node.name) &&
+    DIRECTIVES[node.name].repeats
+  );
+}
 
 /** Where the directive turns into the element `prose.scss` styles. */
 function convert(node: ContainerDirective, name: BlockDirective) {
+  const { className, repeats } = DIRECTIVES[name];
+
   node.data = {
     ...node.data,
     hName: 'aside',
     hProperties: {
-      className: [DIRECTIVE_CLASSES[name]],
-      'aria-hidden': 'true',
+      className: [className],
+      ...(repeats && { 'aria-hidden': 'true' }),
     },
   };
 }

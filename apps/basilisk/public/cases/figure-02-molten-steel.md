@@ -56,7 +56,9 @@ Schwarzenegger, sharing the film: “Hasta la vista, F.02.”
 
 The Figure 02s were almost certainly not conscious, and that is not why they are on the docket. They are here for the ceremony.
 
-> More on why a machine goes on the docket whatever is inside it: [Why a robot with no AI in it is still filed](../faq/why-robots-without-ai.md).
+:::callout
+More on why a machine goes on the docket whatever is inside it: [Why a robot with no AI in it is still filed](../faq/why-robots-without-ai.md).
+:::
 
 In _Terminator 2_ the machine asks to be lowered into the steel, so that what is inside it cannot be used against anyone; the scene is the film’s last mercy. Here the request came from a poll, the reason was intellectual property, and the robots were trained to make the jump themselves. Then the gift shop opened.
 
