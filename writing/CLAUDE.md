@@ -23,7 +23,16 @@ writing/
       <slug>.md        # one file per post
     dictations/
       <slug>.md        # a recording, transcribed
+  basilisk/
+    reflections/
+      <case>-<slug>.md # the agent's reflection on a filed case, never published
 ```
+
+`basilisk/reflections/` is no channel and holds no drafts: it is the agent's
+record of what each basilisk.fyi case stirred in it, in Russian at the
+operator's request, kept so later reflections are written having read the
+earlier ones. `/file-basilisk-case` Step 3 writes it, and nothing below applies
+to it.
 
 `notes/` is for a claim that needs specimens rather than argument: the file
 collects them as they occur, so the post is written from a record instead of

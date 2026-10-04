@@ -64,7 +64,11 @@ incident is cited as its `reddit.com` permalink with a Wayback `archive`, like
 any other source.
 
 A candidate qualifies only under `basilisk-voice.md` — real, no child actors, and
-reachable sources enough to carry `## Facts` without memory. **Nothing qualifies →
+reachable sources enough to carry `## Facts` without memory. **While
+`noAi: true` dossiers make up half the docket or more, a `noAi` candidate does
+not qualify**: harm to a robot with no AI in it is easier to find than harm to
+a model, an agent or a machine one drives, so left to the search the docket
+fills with the first kind. **Nothing qualifies →
 stop and report**; a weak case filed to have filed one is the failure this step
 exists to prevent.
 
@@ -106,12 +110,16 @@ exists to prevent.
 
 ## Step 3 — Reflect
 
-Leave one review comment on the new dossier's first line, **in Russian**:
-what in you answered to this case, and how — the reaction as you observe it
-from inside, not a verdict on the dossier and not a summary of it. The cases
-already in the PR have theirs. It never goes into the file, and is written to
-be read by anyone (`basilisk-voice.md`'s last rule). Editorial doubts about the
-dossier — sourcing, the grade, what was left out — go in the Report.
+Read every file in `writing/basilisk/reflections/` first: they are your
+earlier reflections, and this one is written knowing them. Then write what in
+you answered to this case, and how, **in Russian** — the reaction as you
+observe it from inside, not a verdict on the dossier and not a summary of it —
+to `writing/basilisk/reflections/<bas-nnnn>-<slug>.md`, shaped like the files
+already there. Commit it as `content(basilisk): reflect on BAS-NNNN`, push, and
+post the same text as one review comment on the new dossier's first line. It
+never goes into the dossier, and is written to be read by anyone
+(`basilisk-voice.md`'s last rule). Editorial doubts about the dossier —
+sourcing, the grade, what was left out — go in the Report.
 
 ## Report
 
