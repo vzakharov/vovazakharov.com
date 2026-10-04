@@ -15,6 +15,8 @@ const STAR_SEED = 0x5_7a_25;
 export const STAR_BAND = [0.04, 0.42] as const;
 /** A star's disc, as shares of the screen's short side. */
 const STAR_SIZE = [0.003, 0.0055] as const;
+/** How far a star's rays reach, from and to, in its radii (`paintStars`). */
+export const STAR_RAY_REACH = [1.3, 3] as const;
 /** How many places are drawn at most: past half of them, the spacing asked of each is halved. */
 const STAR_TRIES = 400;
 

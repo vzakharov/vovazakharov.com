@@ -1,0 +1,104 @@
+diff --git a/scripts/lib/cdp.ts b/scripts/lib/cdp.ts
+index 134a287b..13fd4022 100644
+--- a/scripts/lib/cdp.ts
++++ b/scripts/lib/cdp.ts
+@@ -76,6 +76,7 @@ export async function launch(): Promise<Browser> {
+       '--use-angle=swiftshader',
+       '--enable-unsafe-swiftshader',
+       '--hide-scrollbars',
++      ...(process.env.DARK ? ['--force-dark-mode'] : []),
+       `--user-data-dir=${profile}`,
+       'about:blank',
+     ],
+diff --git a/scripts/lib/play-dusk-tmp.ts b/scripts/lib/play-dusk-tmp.ts
+new file mode 100644
+index 00000000..17204d63
+--- /dev/null
++++ b/scripts/lib/play-dusk-tmp.ts
+@@ -0,0 +1,66 @@
++import { z } from 'zod';
++
++import { DUSK_MS } from '../../src/pages/mushrooms/model/dusk.ts';
++import type { Controls } from './mushroom-probe-answers.ts';
++import { type Expect, FRAME_MS, type Page } from './mushroom-probe-drive.ts';
++
++const State = z.object({
++  level: z.number(),
++  toward: z.string(),
++  scheme: z.string().nullable(),
++  sun: z.object({ x: z.number(), y: z.number() }).nullable(),
++  stars: z.array(z.number()),
++});
++const READ = `(() => {
++  const scene = __probe.scene;
++  const x = __probe.sun();
++  return {
++    level: scene.dusk.level,
++    toward: scene.meadow.dusk.toward,
++    scheme: document.documentElement.dataset.mantineColorScheme ?? null,
++    sun: x === null ? null : { x, y: scene.layout.sun.y },
++    stars: scene.backdrop.stars.map((s) => Math.round(s.alpha * 100) / 100),
++  };
++})()`;
++
++const HALF = Math.round(DUSK_MS / 2 / FRAME_MS);
++const SLACK = 20;
++
++export async function playDuskTmp(
++  page: Page,
++  _controls: Controls,
++  expect: Expect,
++  note: (line: string) => void,
++): Promise<void> {
++  const read = () => page.evaluate(READ, State);
++  const opened = await read();
++  note(`opened ${JSON.stringify(opened)}`);
++  await page.shoot(opened.level === 1 ? 'dark-open' : 'day');
++  if (opened.level === 1) return;
++  expect(opened.sun !== null, 'no sun on screen');
++  if (!opened.sun) return;
++  await page.tap(opened.sun);
++  await page.step(HALF);
++  note(`mid ${JSON.stringify(await read())}`);
++  await page.shoot('mid');
++  await page.step(HALF + SLACK);
++  const dusk = await read();
++  note(`dusk ${JSON.stringify(dusk)}`);
++  expect(dusk.level === 1, 'not full dusk');
++  await page.shoot('dusk');
++  // Turned a little, so the moon moves among the fixed stars.
++  await page.key('ArrowLeft', 'keyDown');
++  await page.step(30);
++  await page.key('ArrowLeft', 'keyUp');
++  await page.step(60);
++  const turned = await read();
++  note(`turned ${JSON.stringify(turned)}`);
++  await page.shoot('dusk-turned');
++  if (!turned.sun) return;
++  await page.tap(turned.sun);
++  await page.step(2 * HALF + SLACK);
++  const morning = await read();
++  note(`morning ${JSON.stringify(morning)}`);
++  expect(morning.level === 0, 'not morning');
++  await page.shoot('morning');
++}
+diff --git a/scripts/play-mushrooms.ts b/scripts/play-mushrooms.ts
+index 2e3b0032..dbe37762 100644
+--- a/scripts/play-mushrooms.ts
++++ b/scripts/play-mushrooms.ts
+@@ -57,6 +57,7 @@ import { playSprouts } from './lib/play-sprouts.ts';
+ import { playTufts } from './lib/play-tufts.ts';
+ import { playVeer } from './lib/play-veer.ts';
+ import { playWalk } from './lib/play-walk.ts';
++import { playDuskTmp } from './lib/play-dusk-tmp.ts';
+ 
+ const ROOT = path.resolve(import.meta.dirname, '..');
+ const OUT = path.join(ROOT, 'apps/vova/out');
+@@ -90,6 +91,7 @@ const PLAYS = [
+   ['rain', playRain],
+   ['sprouts', playSprouts],
+   ['map', playMap],
++  ['dusktmp', playDuskTmp],
+ ] as const;
+ 
+ const TYPES: Record<string, string> = {

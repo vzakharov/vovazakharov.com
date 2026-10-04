@@ -1,6 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import type { Arrivals } from './arrivals';
+import type { DuskView } from './dusk-view';
 import type { MushroomBed } from './mushroom-bed';
 import { restingOn } from './perch-hosts';
 import type { Perches } from './perches';
@@ -14,12 +15,13 @@ type MeadowTapped = Pick<Scened, 'dispatch'> & {
   planter: Pick<Planter, 'tapTuft'>;
   grass: Grass | undefined;
   rain: Pick<RainView, 'tap'> | undefined;
+  dusk: Pick<DuskView, 'tap'> | undefined;
   bed: Pick<MushroomBed, 'spores'> | undefined;
 };
 
 /**
  * A tap that lands on nothing else (`over` empty) lands on a cloud, which
- * starts the rain, on a spore, which it picks up, or on a tuft or the bare
+ * starts the rain, on the sun or the moon, which turns the light, on a spore, which it picks up, or on a tuft or the bare
  * meadow, either of which lets go of the selection.
  */
 export function tapMeadow(
@@ -28,9 +30,10 @@ export function tapMeadow(
   over: readonly Phaser.GameObjects.GameObject[],
 ): void {
   if (over.length > 0) return;
-  const { camera, planter, grass, rain, bed, dispatch } = scene;
+  const { camera, planter, grass, rain, dusk, bed, dispatch } = scene;
   const at = camera.getWorldPoint(pointer.x, pointer.y);
   if (rain?.tap(at, camera.scrollY) === true) return;
+  if (dusk?.tap(at, camera.scrollY) === true) return;
   const spore = bed?.spores.pickUp(at);
   const tuft = grass?.at(at);
   if (spore !== undefined) dispatch({ kind: 'unsow', id: spore });

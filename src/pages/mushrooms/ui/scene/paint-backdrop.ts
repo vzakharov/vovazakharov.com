@@ -14,6 +14,8 @@ import {
 import { onPixels, type Span, SUPERSAMPLE } from './baking';
 import { type BrowBlade, browBlades, drawBrow } from './brow';
 import { PUFF_REACH } from './cloud-puffs';
+import { moonAt, starClear, sunOnScreen } from './dusk-sky';
+import { duskStars } from './dusk-stars';
 import type { MeadowLayout } from './layout';
 import {
   drawHills,
@@ -29,7 +31,7 @@ import {
   paintGlow,
   paintRainbow,
   paintSky,
-  paintStars,
+  paintStar,
   paintSun,
   paintWash,
 } from './paint-sky';
@@ -64,8 +66,14 @@ type Turning = { columns: Picture; home: Span; offsets: number[] };
  */
 export type Backdrop = Following & {
   sky: Picture;
-  /** The sky at full dusk and its stars, over the day's sky and the glow, shown by its alpha (`relight`). */
+  /** The sky at full dusk, over the day's sky and the glow, shown by its alpha (`relight`). */
   duskSky: Picture;
+  /**
+   * The dusk sky's stars, one graphics each, fixed on the screen over it:
+   * shown with it, but never where the moon's halo reaches as the view
+   * stands (`starClear`), since the moon turns with the sun and they do not.
+   */
+  stars: Phaser.GameObjects.Graphics[];
   glow: Turning;
   sun: Turning;
   /** The rainbow opposite the sun, shown by its columns' alpha as a shower ends (`rain-view.ts`). */
@@ -87,10 +95,11 @@ export type Backdrop = Following & {
   level: number;
   /**
    * Lights the backdrop `level` of the way to dusk, from 0 at full day to 1
-   * at full dusk (`duskness`): the dusk's pictures shown over the day's and
-   * the clouds' dusk twins faded in over them at `level`, which costs no
-   * repaint, and the hills and the brow, drawn live, redrawn in its tones
-   * whenever it crosses a step of `LIGHT_STEPS`.
+   * at full dusk (`duskness`): the dusk's pictures and stars shown over the
+   * day's and the clouds' dusk twins faded in over them at `level`, which
+   * costs no repaint, and the hills and the brow, drawn live, redrawn in its
+   * tones whenever it crosses a step of `LIGHT_STEPS`. The stars clear the
+   * moon as the view last followed shows it, so it runs after `follow`.
    */
   relight: (level: number) => void;
   wash: Turning;
@@ -199,7 +208,15 @@ export function paintBackdrop(
   const arch = paintRainbow(rainbowLayer, layout);
   const duskSkyLayer = layer();
   paintSky(duskSkyLayer, layout, DUSK_TONES);
-  paintStars(duskSkyLayer, layout);
+  const placedStars = duskStars(layout);
+  const stars = placedStars.map((star, index) => {
+    const graphics = (existing?.stars[index] ?? fixedAt('stars')).clear();
+    paintStar(graphics, star);
+    return graphics;
+  });
+  for (const spare of existing?.stars.slice(stars.length) ?? []) {
+    spare.destroy();
+  }
   const duskGroundLayer = layer();
   paintGround(duskGroundLayer, layout, DUSK_TONES);
   const grain = paintGrain(
@@ -279,6 +296,7 @@ export function paintBackdrop(
       rows: { top: 0, bottom: glowBottom },
       sources: [duskSkyLayer],
     }),
+    stars,
     glow: turning('glow', {
       span: { left: glowLeft, across: glowRight - glowLeft },
       rows: { top: 0, bottom: glowBottom },
@@ -313,6 +331,11 @@ export function paintBackdrop(
       backdrop.level = level;
       for (const column of [...backdrop.duskSky, ...backdrop.duskGround]) {
         column.setAlpha(level);
+      }
+      const moon = moonAt(sunOnScreen(backdrop.view, sun), level);
+      for (const [index, graphics] of backdrop.stars.entries()) {
+        const star = placedStars[index];
+        graphics.setAlpha(star ? level * starClear(star, moon) : 0);
       }
       for (const twin of backdrop.duskClouds) shade(twin, level);
       raiseHills(backdrop, hills, blades);

@@ -7,6 +7,7 @@ export const DEPTHS = {
   glow: -8,
   // Over the day's sky and the glow, under the sun, which sinks into it.
   duskSky: -7.5,
+  stars: -7.25,
   sun: -7,
   // Behind the clouds, as a rainbow stands in the sky beyond them.
   rainbow: -6.5,

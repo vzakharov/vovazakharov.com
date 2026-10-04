@@ -127,8 +127,13 @@ export class RainView {
     return true;
   }
 
-  /** Sets the sky for the frame at the scene's clock, under the meadow's span `rain`. */
-  update(rain: Rain | undefined): void {
+  /**
+   * Sets the sky for the frame at the scene's clock, under the meadow's span
+   * `rain`, `dusk` of the way to dusk (`DuskView.level`): the sun, its glow
+   * and the rainbow fade toward dusk, so no rainbow follows a shower that
+   * ends there.
+   */
+  update(rain: Rain | undefined, dusk: number): void {
     const t = this.now();
     const ms = t * 1000;
     this.showers = nextShowers(this.showers, rain, ms);
@@ -149,12 +154,13 @@ export class RainView {
       if (!twin.visible || azimuth === undefined) continue;
       shade(twin, cloudDarkness(showers, ms, cloudLag(azimuth, leadAzimuth)));
     }
-    const rainbow = rainbowShown(showers, ms);
+    const day = 1 - dusk;
+    const rainbow = rainbowShown(showers, ms) * day;
     // Alpha only: `follow` shows and hides the columns as the eye turns.
     for (const column of backdrop.rainbow.columns) {
       column.setAlpha(RAINBOW_DEEPEST * rainbow);
     }
-    const sun = sunShown(wetness);
+    const sun = sunShown(wetness) * day;
     for (const column of [...backdrop.sun.columns, ...backdrop.glow.columns]) {
       column.setAlpha(sun);
     }

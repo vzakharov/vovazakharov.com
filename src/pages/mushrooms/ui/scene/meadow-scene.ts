@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { sameAnchor } from '../../model/anchor';
-import { dusky } from '../../model/dusk';
+import { dusky, FULL_DAY, FULL_DUSK } from '../../model/dusk';
 import type { Sight } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-sounds';
 import {
@@ -20,6 +20,7 @@ import { Arrivals } from './arrivals';
 import type { Opener } from './clump-shade';
 import { controlActions, type ControlScene } from './control-actions';
 import { Controls } from './controls';
+import { DuskView, schemeIsDark } from './dusk-view';
 import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
 import { type Stand, standOf } from './flower-sight';
@@ -74,6 +75,7 @@ export class MeadowScene extends Phaser.Scene {
   private controls: Controls | undefined;
   private insects: InsectView | undefined;
   private rain: RainView | undefined;
+  private dusk: DuskView | undefined;
   private readonly perches: Perches;
   /** The anchor the perches were last seen from (`perchAnchorOf`). */
   private seenFrom: Eye | undefined;
@@ -138,7 +140,8 @@ export class MeadowScene extends Phaser.Scene {
 
   create(): void {
     const random = mulberry32(this.visitSeed);
-    this.meadow = firstMeadow(random);
+    const dusk = schemeIsDark() ? FULL_DUSK : FULL_DAY;
+    this.meadow = { ...firstMeadow(random), dusk };
     this.flowers = new FlowerBed(
       this,
       this.instrument,
@@ -167,13 +170,9 @@ export class MeadowScene extends Phaser.Scene {
     this.controls = new Controls(this, actions, this.now, HUD_DEPTH);
     // Over the rain, under the map button.
     this.map.mount(this, HUD_DEPTH - 0.5, actions.map);
-    this.rain = new RainView(
-      this,
-      HUD_DEPTH,
-      this.now,
-      this.scened.dispatch,
-      this.voice,
-    );
+    const lit = [this, HUD_DEPTH, this.now, this.scened.dispatch] as const;
+    this.rain = new RainView(...lit, this.voice);
+    this.dusk = new DuskView(...lit, this.voice);
     this.paint();
     this.bed.reconcile(this.meadow, this.requireLayout(), this.clock, true);
     const { instrument, flowers, eye, planter, voice, map } = this;
@@ -196,7 +195,7 @@ export class MeadowScene extends Phaser.Scene {
     if (this.sown) this.sow();
     const t = this.clock;
     const { layout, backdrop, grass, flowers, bed, meadow } = this;
-    const { controls, insects, perches, rain, map } = this;
+    const { controls, insects, perches, rain, dusk, map } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
     this.dispatch({
@@ -205,7 +204,8 @@ export class MeadowScene extends Phaser.Scene {
       ...this.sightNow(),
     });
     driftClouds(backdrop, layout, t);
-    rain?.update(meadow?.rain);
+    dusk?.update(meadow?.dusk);
+    rain?.update(meadow?.rain, dusk?.level ?? 0);
     const planting = meadow?.planting;
     // The grass marks the tuft the picker is open on; the bed rings a flower.
     grass?.update(
@@ -318,10 +318,11 @@ export class MeadowScene extends Phaser.Scene {
     pointer: Phaser.Input.Pointer,
     over: readonly Phaser.GameObjects.GameObject[],
   ): void => {
-    const { grass, cameras, planter, rain, bed, scened } = this;
+    const { grass, cameras, planter, rain, dusk, bed, scened } = this;
     const { dispatch } = scened;
     const camera = cameras.main;
-    tapMeadow({ camera, planter, grass, rain, bed, dispatch }, pointer, over);
+    const tapped = { camera, planter, grass, rain, dusk, bed, dispatch };
+    tapMeadow(tapped, pointer, over);
   };
 
   private requireLayout(): MeadowLayout {
@@ -403,6 +404,7 @@ export class MeadowScene extends Phaser.Scene {
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
     this.rain?.paint(layout, this.backdrop);
+    this.dusk?.paint(layout, this.backdrop);
     // Its own stream, so a planting never shifts the backdrop's.
     this.grass ??= new Grass(this, mulberry32(this.visitSeed ^ 0x70_f7_5e));
     const stand = this.stand();

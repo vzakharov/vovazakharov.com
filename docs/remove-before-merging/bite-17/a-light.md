@@ -18,10 +18,9 @@ Calls 1–7 and 14 of `bite-17.md`. Paths under `src/pages/mushrooms/`.
   `ridgeTone` taking an optional `tones` (day by default).
 - Left item 1, the bakes (package a1): `bake`/`aboutTheSun`/`Picture` in
   `bake-picture.ts`; `paintSky`/`paintGround` take an optional `tones`;
-  `Backdrop.duskSky` (-7.5, dusk sky plus twelve ringed stars from
-  `dusk-stars.ts`'s fixed seed) and `Backdrop.duskGround` (-2.9, bobbing),
-  alpha carried over a repaint, else 0. **DuskView sets their alpha with
-  `backdrop.showDusk(level)`.**
+  `Backdrop.duskSky` (-7.5; its twelve ringed stars from `dusk-stars.ts`'s
+  fixed seed are `Backdrop.stars`, one graphics each, package a3) and
+  `Backdrop.duskGround` (-2.9, bobbing), alpha carried over a repaint, else 0. **DuskView sets their alpha with `backdrop.relight(level)`.**
 
 ## Left — designed
 
@@ -31,7 +30,7 @@ Calls 1–7 and 14 of `bite-17.md`. Paths under `src/pages/mushrooms/`.
 3. **Hills and brow** — done (package a2, `a2.md`): `backdrop.relight(level)`
    also sets the dusk bakes' alpha (it replaces `showDusk`), so DuskView
    calls that one thing.
-4. **`dusk-view.ts` `DuskView`**: wash rectangle `PALETTE.duskWash` at
+4. **`dusk-view.ts` `DuskView`** — done (package a3, `a3.md`): wash rectangle `PALETTE.duskWash` at
    `DUSK_WASH_DEEPEST * level` at `hudDepth - 2` (stacks with the rain's);
    `glowDepth = hudDepth - 1.5` — **the seam for packages B and C**: windows
    and fireflies draw at `dusk.glowDepth` and read `dusk.level`; the moon
@@ -45,9 +44,9 @@ level`; `tap(at, bob)` within `max(TAP_RADIUS, sun.r * SUN_RAY_REACH)` of
    that point dispatches `{ kind: 'dusk', now }` and sounds `voice.sink()`
    toward dusk, `voice.grow()` toward day; `schemeIsDark()` reads
    `data-mantine-color-scheme` on `<html>`, else `prefers-color-scheme`.
-5. **Rain view**: `update(rain, dusk)` — sun and glow alpha
+5. **Rain view** — done (package a3): `update(rain, dusk)` — sun and glow alpha
    `sunShown(wet) * (1 − dusk)`, rainbow `* (1 − dusk)`.
-6. **Scene** (427 lines, keep ≤ 450): hold `DuskView` like `RainView`;
+6. **Scene** — done (package a3; 432 lines, keep ≤ 450): hold `DuskView` like `RainView`;
    `this.meadow = { ...firstMeadow(random), dusk: schemeIsDark() ? FULL_DUSK
 : FULL_DAY }`; update the dusk view before `rain.update`; `tapMeadow`
    tries `dusk.tap` after the clouds.
