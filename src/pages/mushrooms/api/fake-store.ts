@@ -1,12 +1,13 @@
 import type { Kept } from '../model/kept-record';
-import type { Store } from './meadow-store';
+import type { Connection, Store } from './meadow-store';
 
-/** An in-memory `Store`; a held one lands or refuses each write, in order, when told. */
+/** An in-memory `Store`; a held one lands or refuses each write, in order, when told, and its connection stands as last `drop`ped. */
 export type FakeStore = Store & {
   records: Map<number, unknown>;
   written: Kept[];
   land: () => void;
   refuse: (error: unknown) => void;
+  drop: (to: Connection) => void;
 };
 
 /** A turn of the event loop, as IndexedDB answers a read; a write landed or refused has run its callbacks by the next. */
@@ -23,9 +24,14 @@ export function fakeStore(
 ): FakeStore {
   const written: Kept[] = [];
   const pending: Pending[] = [];
+  let connection: Connection = 'open';
   return {
     records,
     written,
+    connection: () => connection,
+    drop: (to) => {
+      connection = to;
+    },
     numbers: async () => {
       await later();
       return [...records.keys()];

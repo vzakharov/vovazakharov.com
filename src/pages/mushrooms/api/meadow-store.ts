@@ -5,11 +5,20 @@
 
 import type { Kept } from '../model/kept-record';
 
+/**
+ * How the store's connection stands: `lost` once the browser closed it under
+ * the page (WebKit does, after the app sits in the background), so a fresh
+ * one would answer; `yielded` once a newer build asked to upgrade the
+ * database, the connection closed so that build's open is never blocked.
+ */
+export type Connection = 'open' | 'lost' | 'yielded';
+
 /** Where the meadows are kept, read raw: a record is parsed by `readKept`. */
 export type Store = {
   numbers: () => Promise<number[]>;
   read: (number: number) => Promise<unknown>;
   write: (number: number, record: Kept) => Promise<void>;
+  connection: () => Connection;
 };
 
 const DATABASE = 'mushrooms';
@@ -61,9 +70,19 @@ export async function openStore(): Promise<Store | undefined> {
 }
 
 function storeOver(database: IDBDatabase): Store {
+  let connection: Connection = 'open';
+  // Fired only when the browser closes the connection, never on `close()`.
+  database.addEventListener('close', () => {
+    connection = 'lost';
+  });
+  database.addEventListener('versionchange', () => {
+    connection = 'yielded';
+    database.close();
+  });
   const meadows = (mode: IDBTransactionMode) =>
     database.transaction(MEADOWS, mode).objectStore(MEADOWS);
   return {
+    connection: () => connection,
     async numbers() {
       const keys = await answer(meadows('readonly').getAllKeys());
       return keys.filter((key) => typeof key === 'number');

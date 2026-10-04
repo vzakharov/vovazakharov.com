@@ -6,6 +6,7 @@ import { type Kept, KEPT_VERSION } from '../model/kept-record';
 import { opened } from '../ui/scene/visit-play';
 import { fakeStore, later as landed } from './fake-store';
 import { keeper, POLL_MS } from './keeper';
+import type { Store } from './meadow-store';
 
 const stand = opened(3, 1180, 820, false);
 
@@ -24,6 +25,18 @@ const unreported = (error: unknown) => {
   assert.fail(`a write was refused: ${String(error)}`);
 };
 const seeds = (written: readonly Kept[]) => written.map(({ seed }) => seed);
+
+/** A reopen answering `store` a turn later, as `openStore` does. */
+const reopensAs = (store?: Store) => async () => {
+  await landed();
+  return store;
+};
+
+/** Long enough for a refusal, the reopen after it and the retry on it. */
+const reopenedAndRetried = async () => {
+  await landed();
+  await landed();
+};
 
 describe('keeper', () => {
   it('writes at once with nothing in flight', () => {
@@ -47,22 +60,114 @@ describe('keeper', () => {
     assert.deepEqual(seeds(store.written), [1, 4, 5]);
   });
 
-  it('stops keeping after a refused write, reporting it once', async () => {
+  it('retries the newest record on a reopened store after a refused write', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const fresh = fakeStore();
+    const keeping = keeper(store, 4, unreported, reopensAs(fresh));
+    keeping.keep(record(1));
+    keeping.keep(record(2));
+    store.refuse(new Error('Connection to Indexed Database server lost'));
+    await reopenedAndRetried();
+    keeping.keep(record(3));
+    await landed();
+    assert.deepEqual(seeds(store.written), [1]);
+    assert.deepEqual(seeds(fresh.written), [2, 3]);
+  });
+
+  it('retries a record kept while the store reopens over the refused one', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const fresh = fakeStore();
+    const keeping = keeper(store, 4, unreported, reopensAs(fresh));
+    keeping.keep(record(1));
+    store.refuse(new Error('Connection to Indexed Database server lost'));
+    await Promise.resolve();
+    keeping.keep(record(2));
+    await reopenedAndRetried();
+    assert.deepEqual(seeds(fresh.written), [2]);
+  });
+
+  it('stops keeping when the store will not reopen, reporting the refusal once', async () => {
     const store = fakeStore(new Map(), 'held');
     const reported: unknown[] = [];
-    const keeping = keeper(store, 4, (error) => {
-      reported.push(error);
-    });
+    const keeping = keeper(
+      store,
+      4,
+      (error) => {
+        reported.push(error);
+      },
+      reopensAs(),
+    );
     keeping.keep(record(1));
     keeping.keep(record(2));
     const refusal = new Error('quota');
     store.refuse(refusal);
-    await landed();
+    await reopenedAndRetried();
     keeping.keep(record(3));
     keeping.poll(0, () => record(4));
-    await landed();
+    await reopenedAndRetried();
     assert.deepEqual(seeds(store.written), [1]);
     assert.deepEqual(reported, [refusal]);
+  });
+
+  it('stops keeping when the retry is refused too', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const fresh = fakeStore(new Map(), 'held');
+    const reported: unknown[] = [];
+    const keeping = keeper(
+      store,
+      4,
+      (error) => {
+        reported.push(error);
+      },
+      reopensAs(fresh),
+    );
+    keeping.keep(record(1));
+    store.refuse(new Error('quota'));
+    await reopenedAndRetried();
+    const again = new Error('quota again');
+    fresh.refuse(again);
+    await landed();
+    keeping.keep(record(2));
+    await reopenedAndRetried();
+    assert.deepEqual(seeds(fresh.written), [1]);
+    assert.deepEqual(reported, [again]);
+  });
+
+  it('reopens a connection the browser closed before writing on it', async () => {
+    const store = fakeStore();
+    const fresh = fakeStore();
+    const keeping = keeper(store, 4, unreported, reopensAs(fresh));
+    keeping.keep(record(1));
+    await landed();
+    store.drop('lost');
+    keeping.keep(record(2));
+    await reopenedAndRetried();
+    assert.deepEqual(seeds(store.written), [1]);
+    assert.deepEqual(seeds(fresh.written), [2]);
+  });
+
+  it('stops keeping once the store yielded to a newer build, reopening nothing', async () => {
+    const store = fakeStore();
+    const fresh = fakeStore();
+    const reported: unknown[] = [];
+    const keeping = keeper(
+      store,
+      4,
+      (error) => {
+        reported.push(error);
+      },
+      reopensAs(fresh),
+    );
+    keeping.keep(record(1));
+    await landed();
+    store.drop('yielded');
+    keeping.keep(record(2));
+    await reopenedAndRetried();
+    keeping.keep(record(3));
+    await landed();
+    assert.deepEqual(seeds(store.written), [1]);
+    assert.deepEqual(fresh.written, []);
+    assert.equal(reported.length, 1);
   });
 
   it('polls at most once a period, building the record only then', () => {

@@ -5,7 +5,7 @@
  */
 
 import type { Kept } from '../model/kept-record';
-import type { Store } from './meadow-store';
+import { openStore, type Store } from './meadow-store';
 
 /** The tick's own changes and the walking eye are kept at most this often. */
 export const POLL_MS = 1000;
@@ -18,11 +18,18 @@ export type Keeper = {
   poll: (at: number, record: () => Kept) => void;
 };
 
+/** Why keeping stops once a newer build holds the database. */
+const YIELDED = new Error('A newer build of the game holds the kept meadows');
+
 /**
- * The keeper of meadow `number`. A write the browser refuses after the store
- * opened is the "no storage, no keeping" case met late: keeping stops for
- * the rest of the load and the refusal is reported once, while the meadow on
- * screen plays on unaffected.
+ * The keeper of meadow `number`. A connection the browser closed is reopened
+ * (`reopen`) before the next write, and a refused write reopens the store
+ * once and retries the newest record on it: WebKit drops the connection of an
+ * app left in the background, and a fresh one answers. Only when the reopen
+ * or that retry fails too, or the connection yielded to a newer build, is it
+ * the "no storage, no keeping" case met late: keeping stops for the rest of
+ * the load and the cause is reported once, while the meadow on screen plays
+ * on unaffected.
  */
 export function keeper(
   store: Store,
@@ -30,32 +37,58 @@ export function keeper(
   report = (error: unknown) => {
     reportError(error);
   },
+  reopen: () => Promise<Store | undefined> = openStore,
 ): Keeper {
+  let current = store;
   let writing = false;
   let waiting: Kept | undefined;
   let stopped = false;
   let polled = -Infinity;
 
-  const write = (record: Kept): void => {
-    writing = true;
-    store.write(number, record).then(
-      () => {
-        const next = waiting;
-        waiting = undefined;
-        writing = false;
-        if (next !== undefined) write(next);
-      },
-      (error: unknown) => {
-        stopped = true;
-        waiting = undefined;
-        report(error);
-      },
-    );
+  const reopened = async (refusal: unknown) => {
+    const next = await reopen();
+    if (next === undefined) throw refusal;
+    current = next;
+  };
+  const written = async (record: Kept) => {
+    if (current.connection() === 'yielded') throw YIELDED;
+    if (current.connection() === 'lost') {
+      await reopened(new Error('IndexedDB connection lost'));
+      await current.write(number, record);
+      return;
+    }
+    try {
+      await current.write(number, record);
+    } catch (error) {
+      if (current.connection() === 'yielded') throw YIELDED;
+      await reopened(error);
+      const newest = waiting ?? record;
+      waiting = undefined;
+      await current.write(number, newest);
+    }
+  };
+  // `writing` drops in the same turn the last write lands, so a record kept
+  // just after it starts a write of its own rather than waiting on none.
+  const drain = async (): Promise<void> => {
+    const record = waiting;
+    if (record === undefined) {
+      writing = false;
+      return;
+    }
+    waiting = undefined;
+    await written(record);
+    await drain();
   };
   const keep = (record: Kept) => {
     if (stopped) return;
-    if (writing) waiting = record;
-    else write(record);
+    waiting = record;
+    if (writing) return;
+    writing = true;
+    drain().catch((error: unknown) => {
+      stopped = true;
+      waiting = undefined;
+      report(error);
+    });
   };
 
   return {

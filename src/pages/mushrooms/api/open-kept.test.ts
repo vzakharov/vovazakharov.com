@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { settled } from '../model/keeping';
 import { type Kept, KEPT_VERSION } from '../model/kept-record';
 import { opened } from '../ui/scene/visit-play';
-import { fakeStore } from './fake-store';
+import { fakeStore, later } from './fake-store';
 import { openStore } from './meadow-store';
 import { openKept } from './open-kept';
 
@@ -122,6 +122,52 @@ describe('openKept', () => {
     const { location, history } = page('#5');
     const opening = await openKept(location, history, store);
     assert.equal(await opening.overwritten?.(), false);
+  });
+
+  it('opens fresh and unkept, reporting it, when a read fails', async () => {
+    const lost = new Error('Connection to Indexed Database server lost');
+    const store = {
+      ...fakeStore(new Map([[2, kept(20)]])),
+      numbers: async () => {
+        await later();
+        throw lost;
+      },
+    };
+    const { location, history, written } = page('#2');
+    const reported: unknown[] = [];
+    const opening = await openKept(location, history, store, (error) => {
+      reported.push(error);
+    });
+    assert.equal(opening.kept, undefined);
+    assert.equal(opening.keeper, undefined);
+    assert.deepEqual(written, []);
+    assert.deepEqual(reported, [lost]);
+  });
+
+  it('follows the keeper onto a reopened store', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const reopened = fakeStore();
+    const { location, history } = page('#new');
+    const opening = await openKept(
+      location,
+      history,
+      store,
+      (error) => {
+        assert.fail(`keeping stopped: ${String(error)}`);
+      },
+      async () => {
+        await later();
+        return reopened;
+      },
+    );
+    opening.keeper?.keep(kept(30));
+    store.refuse(new Error('Connection to Indexed Database server lost'));
+    await later();
+    await later();
+    assert.deepEqual(reopened.records.get(1), kept(30));
+    assert.equal(await opening.overwritten?.(), false);
+    reopened.records.set(1, kept(99));
+    assert.equal(await opening.overwritten?.(), true);
   });
 
   it('touches no hash and keeps nothing with no store', async () => {
