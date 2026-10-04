@@ -41,6 +41,8 @@ const sourceSchema = z.object({
 
 export type Source = z.infer<typeof sourceSchema>;
 
+const sourcesSchema = z.array(sourceSchema).min(1);
+
 /** Every article's shape: titled by the body, bylined, cut and printed. */
 export const articleFrontmatterSchema = baseFrontmatterSchema.extend({
   /** Meta description and index-card blurb. */
@@ -49,12 +51,12 @@ export const articleFrontmatterSchema = baseFrontmatterSchema.extend({
   part: z.string().min(1).optional(),
   author: z.enum(AUTHOR_IDS),
   /** What the article rests on, listed after the body; absent where it rests on nothing outside itself. */
-  sources: z.array(sourceSchema).min(1).optional(),
+  sources: sourcesSchema.optional(),
 });
 
 /** A case's sources are not optional: a filing rests on reports or is not filed. */
 export const sourcedArticleFrontmatterSchema = articleFrontmatterSchema.extend({
-  sources: z.array(sourceSchema).min(1),
+  sources: sourcesSchema,
 });
 
 /**
