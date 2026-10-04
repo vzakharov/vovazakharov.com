@@ -208,11 +208,14 @@ export class MushroomBed implements Following {
   /**
    * Moves every mushroom at `t`, in seconds (`moveMushroom`), in the meadow's
    * `wetness` and the dusk's `lights`, its ring and the seats on its cap
-   * following its drawing, and its haze toward the air as `dusk`
-   * (`duskness`) turns it; destroys one once it has sunk away.
+   * following its drawing, and its haze, the spores' and the runners' toward
+   * the air as `dusk` (`duskness`) turns it; destroys one once it has sunk away.
    */
   update(t: number, wetness: number, lights?: Lights, dusk = 0): void {
     this.dusk = dusk;
+    this.spores.duskTo(dusk);
+    // Before the runs' update, which draws the runners.
+    this.runs.duskTo(dusk);
     // Laid out, with no view to follow, the far ones still turn with the dusk.
     if (!this.view) {
       const standing = [...this.shown.values()].filter(

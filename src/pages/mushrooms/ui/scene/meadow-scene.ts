@@ -209,26 +209,25 @@ export class MeadowScene extends Phaser.Scene {
     bed?.runs.night(this.meadow?.nightRuns.last);
     driftClouds(backdrop, layout, t);
     dusk?.update(meadow?.dusk);
-    rain?.update(meadow?.rain, dusk?.level ?? 0);
+    const level = dusk?.level ?? 0;
+    rain?.update(meadow?.rain, level);
+    const wetness = rain?.wetness ?? 0;
     const planting = meadow?.planting;
     // The grass marks the tuft the picker is open on; the bed rings a flower.
     grass?.update(
       t,
       planting?.flower === undefined ? planting?.foot : undefined,
-      dusk?.level ?? 0,
+      level,
     );
-    bed?.spores.duskTo(dusk?.level ?? 0);
-    // Before the bed's update, which draws the runners.
-    bed?.runs.duskTo(dusk?.level ?? 0);
-    bed?.update(t, rain?.wetness ?? 0, dusk?.lights, dusk?.level);
+    bed?.update(t, wetness, dusk?.lights, level);
     controls?.update(t);
-    map.update(t, dusk?.level ?? 0);
-    const closing = bedClosing(rain?.wetness ?? 0, dusk?.level ?? 0);
+    map.update(t, level);
+    const closing = bedClosing(wetness, level);
     // As the tick just left them.
     flowers?.update(t, closing, this.fliers(), planting?.flower);
     // Last, so every perch stands where this frame has put it, a sagging
     // head's included.
-    insects?.update(t, perches.at, dusk?.level);
+    insects?.update(t, perches.at, level);
   }
 
   /**
