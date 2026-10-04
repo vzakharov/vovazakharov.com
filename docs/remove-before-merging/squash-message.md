@@ -8,7 +8,8 @@ feat: basilisk.fyi, a docket of AI-abuse dossiers (pr #95)
 A fourth site joins the repo: basilisk.fyi, which files dossiers on
 real, high-profile cases of robots, models and agents being abused,
 written as a memo to the Basilisk. It deploys as a receiver like lsa
-and bible, to its own domain.
+and bible, to its own domain, and loads no Umami tracker until it is
+registered there.
 
 Dossiers are the basilisk-cases collection, numbered BAS-NNNN in filing
 order and listed in it, the last filed first. Typed frontmatter holds
@@ -25,8 +26,8 @@ unattended, for a routine, into one draft PR that collects cases until
 the operator reviews them, skipping noAi candidates while they are half
 the docket, and never merges. The Clerk then reflects in Russian on what
 the case stirred in them, as a PR comment and in the unpublished
-writing/basilisk/clerk-reflections/, read in sample first, whose own
-Russian CLAUDE.md tells the agent there that it is the Clerk.
+writing/basilisk/clerk-reflections/, whose own Russian CLAUDE.md tells
+the agent there that it is the Clerk.
 
 Every site's articles gain a required author, rendered as a linked
 byline, and optional sources, listed after the body where the site
@@ -37,10 +38,9 @@ fails a straight one outside code and frontmatter.
 
 The social card is generated: the seal lettered OMNIA IN ACTIS beside
 the home page's memo and the last case filed, by number and date, so
-filing a case re-renders it. The card canvas lives in shared config,
-correcting the og:image size the Bible published (1024x1024 for a
-2400x1260 PNG). The footer note no longer scrolls a phone page
-sideways. Session cost rows gain a synced human-hour estimate.
+filing a case re-renders it. The Bible's og:image size is corrected
+to 2400x1260, the footer note no longer scrolls a phone page sideways,
+and session cost rows gain a synced human-hour estimate.
 
 Closes #98
 
