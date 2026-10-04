@@ -5,7 +5,7 @@
  * `dusky` and nothing ends a fade.
  */
 
-import { type Ramp, smooth } from './motion';
+import { type Ramp, rampAt } from './motion';
 
 /** The two ways the light can be going. */
 export const TOWARDS = ['dusk', 'day'] as const;
@@ -30,14 +30,11 @@ export const FULL_DUSK: Dusk = { toward: 'dusk', startedAt: 0, from: 1 };
  * eased from where the last turn found it toward where it is going, over
  * `DUSK_MS` for a full turn and its share of that for a part of one.
  */
-export function duskness(
-  { toward, startedAt, from }: Dusk,
-  now: number,
-): number {
-  const to = toward === 'dusk' ? 1 : 0;
-  const span = Math.abs(to - from) * DUSK_MS;
+export function duskness(dusk: Dusk, now: number): number {
+  const to = dusk.toward === 'dusk' ? 1 : 0;
+  const span = Math.abs(to - dusk.from) * DUSK_MS;
   if (span === 0) return to;
-  return from + (to - from) * smooth((now - startedAt) / span);
+  return rampAt(dusk, to, span, now);
 }
 
 /** Whether the meadow is past half way to dusk at `now`: what the creatures' dusk rules read. */

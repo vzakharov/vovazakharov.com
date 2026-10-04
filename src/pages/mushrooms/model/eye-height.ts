@@ -7,7 +7,7 @@
  */
 
 import { D_SEE, EYE_HEIGHT } from './ground';
-import { type Ramp, smooth } from './motion';
+import { type Ramp, rampAt } from './motion';
 import type { Gait } from './stride';
 
 /**
@@ -42,10 +42,7 @@ export function gaitHeight(gait: Gait): number {
 
 /** The eye's height at `time`, easing from `rise.from` to `gait`'s. */
 export function heightAt(rise: Ramp, gait: Gait, time: number): number {
-  const to = gaitHeight(gait);
-  return (
-    rise.from + (to - rise.from) * smooth((time - rise.startedAt) / RISE_EASE)
-  );
+  return rampAt(rise, gaitHeight(gait), RISE_EASE, time);
 }
 
 /**

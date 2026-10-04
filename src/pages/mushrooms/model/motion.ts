@@ -145,6 +145,16 @@ export const smooth = (t: number) => {
   return clamped * clamped * (3 - 2 * clamped);
 };
 
+/** Where `ramp` stands at `now`: eased from its `from` toward `to` over `span`, `now` on `span`'s clock. */
+export function rampAt(
+  { from, startedAt }: Ramp,
+  to: number,
+  span: number,
+  now: number,
+): number {
+  return from + (to - from) * smooth((now - startedAt) / span);
+}
+
 /** A selected mushroom's stretch at its tallest, and how long one swell takes. */
 export const BECKON_DEPTH = 0.06;
 export const BECKON_PERIOD = 1.3;

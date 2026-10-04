@@ -28,6 +28,7 @@ import {
   FRAME_MS,
   inTurn,
   type Page,
+  tapSun,
 } from './mushroom-probe-drive.ts';
 import { shootNightRun } from './play-night-run.ts';
 import { releaseButterfly, shootRoosting } from './play-roost.ts';
@@ -135,13 +136,9 @@ export async function playDusk(
   const butterfly = await releaseButterfly(page, controls);
   const day = await dusk();
   expect(day.level === 0, `opened at dusk ${String(day.level)}, not day`);
-  const sun = await sunAt();
   await page.shoot('dusk-day');
-  if (!sun) {
-    expect(false, 'no sun on the screen to tap');
-    return;
-  }
-  await page.tap(sun);
+  const sun = await tapSun(page, expect);
+  if (!sun) return;
   await page.step(HALF);
   const mid = await dusk();
   note(`half way: ${mid.level.toFixed(2)} toward ${mid.toward}`);

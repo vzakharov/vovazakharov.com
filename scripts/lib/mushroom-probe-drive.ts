@@ -9,6 +9,7 @@ import {
   type Controls,
   Eye,
   type Point,
+  SunAt,
 } from './mushroom-probe-answers.ts';
 
 /** The arrow keys, by their DOM `key`, and the key code each goes down with. */
@@ -219,4 +220,16 @@ export async function tapCloud(
   expect(cloud !== undefined, 'no cloud a tap reaches on the screen');
   if (cloud) await page.tap(cloud);
   return cloud;
+}
+
+/** Taps the sun, or the moon risen in its place, and returns where; `undefined`, the miss expected, while it stands off the screen. */
+export async function tapSun(
+  page: Page,
+  expect: Expect,
+): Promise<z.infer<typeof Point> | undefined> {
+  const sun = await page.evaluate('__probe.sunAt()', SunAt);
+  expect(sun !== null, 'no sun on the screen to tap');
+  if (!sun) return undefined;
+  await page.tap(sun);
+  return sun;
 }

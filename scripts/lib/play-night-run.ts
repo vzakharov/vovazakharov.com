@@ -12,13 +12,14 @@ import { z } from 'zod';
 
 import { DUSK_MS } from '../../src/pages/mushrooms/model/dusk.ts';
 import { NIGHT_GAP } from '../../src/pages/mushrooms/model/night-runs.ts';
-import { type Controls, Runs, State, SunAt } from './mushroom-probe-answers.ts';
+import { type Controls, Runs, State } from './mushroom-probe-answers.ts';
 import {
   type Expect,
   FRAME_MS,
   grow,
   inTurn,
   type Page,
+  tapSun,
 } from './mushroom-probe-drive.ts';
 
 /** Frames between looks while waiting. */
@@ -169,12 +170,7 @@ export async function playGrownRuns(
     doored.length === GROWN,
     `of ${String(GROWN)} grown houses only ${String(doored.length)} took a door`,
   );
-  const sun = await page.evaluate('__probe.sunAt()', SunAt);
-  if (!sun) {
-    expect(false, 'no sun on the screen to tap');
-    return;
-  }
-  await page.tap(sun);
+  if (!(await tapSun(page, expect))) return;
   await page.step(TO_DUSK);
   const between = await outingAfter(
     page,
