@@ -22,11 +22,8 @@ type ProseContentProps = WithContentTree & {
  * — an article's body and a song's prose alike.
  */
 export function ProseContent({ tree, afterLead }: ProseContentProps) {
-  const toJsx = (children: RootContent[]) =>
-    toJsxRuntime(
-      { ...tree, children },
-      { Fragment, jsx, jsxs, components: CONTENT_COMPONENTS },
-    );
+  const half = (children: RootContent[]) => ({ ...tree, children });
+  const options = { Fragment, jsx, jsxs, components: CONTENT_COMPONENTS };
   const split =
     tree.children.findIndex(
       (node) => node.type === 'element' && node.tagName === 'p',
@@ -37,9 +34,9 @@ export function ProseContent({ tree, afterLead }: ProseContentProps) {
   // halves render as fragments, so `afterLead` is a direct child as well.
   return (
     <div className="prose-content">
-      {toJsx(tree.children.slice(0, split))}
+      {toJsxRuntime(half(tree.children.slice(0, split)), options)}
       {afterLead}
-      {toJsx(tree.children.slice(split))}
+      {toJsxRuntime(half(tree.children.slice(split)), options)}
     </div>
   );
 }

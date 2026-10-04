@@ -4,10 +4,10 @@
  * `server-only` and throws.
  */
 
-import type { Titled } from '@/shared/typings';
+import type { Dated, Titled } from '@/shared/typings';
 
 /** `date` is the frontmatter's own ISO string, which is what the card prints. */
-export type FiledCase = Titled & { number: string; date: string };
+export type FiledCase = Titled & Dated & { number: string };
 
 const FRONTMATTER = /^---\r?\n([\S\s]*?)^---/m;
 const CASE_NUMBER = /^case:[\t ]*(BAS-\d{4})[\t ]*$/m;
