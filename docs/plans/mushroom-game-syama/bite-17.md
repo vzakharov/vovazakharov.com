@@ -79,7 +79,9 @@ something, and the meadow never does.
 11\. **Mice come out of their doors.** At dusk, with two houses' doors in
 sight of each other, a mouse runs between them on its own every 6–12 s
 (seeded), by `mouse-run.ts`'s runs, as a `tick` rule in the reducer; a
-house with no mouse to spare peeks instead. Day keeps runs tap-only.
+house with no mouse to spare peeks instead. By day a tap sends a mouse to any
+door in sight; a house's own outing runs only to a door within
+`OUTING_REACH`.
 
 12\. **Fireflies wake.** `model/firefly.ts` and `firefly-view.ts`: up to
 twelve fireflies, each a small dark body with a glowing tail, circling a
@@ -181,25 +183,26 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
   steps never sees (1228765; band ends sink behind the bending brow on
   phoneL, accepted).
 
+- **The review** (posted as PR #57 review 5405749484, each thread answered):
+  fireflies yield a tap to anything else under the finger (96fd4483); far
+  things haze toward a dusk air, `PALETTE.airDusk` (d125c5bb, 300dfd16);
+  lagging windows carry on through a reversed turn (e2735e5); the open
+  map's compass flips at half dusk (766db15); a house's own outing runs
+  only near (99c69c2); a drag holds its pressed gait and height (1ca67cc);
+  seeded flowers pair by slot (a98fb68); the walk play checks flight's
+  ground under the finger (107d3e2); seam grass starts at the walking
+  brow's line in flight, filling the strip under the raised brow (795b5f0 —
+  tending was not the cause); nits (4a03b5c, the bees test was vacuous); a
+  firefly's body dark enough for `ink.test` (c4971a9); `mushroom-frame.ts`
+  split out of the bed (d9008d7). The ground haze wash stays unbuilt.
+
 ## Left
 
-In this order, each an Opus agent briefed on one step:
-
-1. **The review's findings** — `docs/remove-before-merging/bite-17/`
-   `review-play.md`, `review-read1.md`, `review-read2.md` (reported, not
-   yet posted on PR #57). Post them as one review (megabeast `quality.md`
-   § "Review practice"), then fix in this order: fireflies swallowing door
-   taps (play 1); far caps pale at dusk in flight (play 2); windows jumping
-   on a reversed turn (read1 1); the map compass sticking (read1 3); day
-   outings widened — keep taps and night runs wide, gate day outings (read1
-   2); grass tended to the walking brow in flight and the gait flip
-   mid-drag (read2 1, 4); the near/far pairing (read2 3); the flight
-   walk-play pass (read2 5); then the nits. The ground haze wash in flight
-   (read2 2, `fe.md` § Left 1) is built only if a frame shows far things
-   paler than their ground. The gait button alone mid-sky on phoneP (play
-   3) waits on the operator.
-2. Polish, vet in two calls, frames, the Artifact; retire bite 16's frames
+1. Polish, vet in two calls, frames, the Artifact; retire bite 16's frames
    and this bite's working notes.
+
+The gait button alone mid-sky on phoneP (review play 3) waits on the
+operator, as do day runs across the screen if he wants them.
 
 Off the bite, from the operator: the map's ✕ («крестик на карте
 по-прежнему выглядит странно», then «дело в самом кружке. попробовать без
