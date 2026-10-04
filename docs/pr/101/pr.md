@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-04T19:39:49Z
-- **Updated:** 2026-10-04T22:02:42Z
+- **Updated:** 2026-10-04T22:12:01Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -26,7 +26,7 @@
 
   A re-steer keeps what still makes sense, and settles the new direction's forks in one doc before building any of it. #57 paid for that lesson with its crop → pan → walk rework.
 
-- **The run must be able to see and drive its own work**; a product with no way to do that gets one as its first bite.
+- **A bite is not done until the run has seen its result with its own means**, built inside the bite that first needs them.
 - **Vendored fixes land here too**, after `/update-muthur`: `/relay take` reads its summary before attaching and moves a diverged ref aside instead of `reset --hard`, and so does `/from-branch`. A muthur issue follows once the PR is finalized.
 - **Every PR body gets a size cap** in `vet.sh`: 32,000 characters, and a body that crossed it passes again only at 24,000.
 - **Two questions with recommendations** remain: the run's model (named, with a warning below Opus at high effort) and the operator log versus kept relay files.
@@ -34,7 +34,7 @@
 ## QA Checklist
 
 - [ ] `entry` — `/mega <task>` in a fresh session checks its model and effort, writes a megaplan in the split shape with the loop section, standing rules and the dashboard block, publishes it as a draft PR and stops at the one gate.
-- [ ] `self-test` — on a product with no way for the run to see its own work, the megaplan's first bite builds one.
+- [ ] `self-test` — on a product with no way for the run to see its own work, the first bite that needs one builds it, and no bite closes before its result was seen.
 - [ ] `pickup` — `/relay take <branch>` on a mega branch reads `relay.md` before attaching, moves a diverged ref aside rather than resetting, and resumes from the plan's loop section.
 - [ ] `budget-relay` — the budget pause on a mega branch relays without asking, with the operator's auto-relay off.
 - [ ] `dashboard` — after a bite's end, the PR body opens with `## Where it stands`, naming the live session, what can be seen now, and everything that waits on the operator.
@@ -117,157 +117,11 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_17 resolved threads omitted; re-run with `--include-resolved` to export them._
+_21 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `docs/plans/mega-skill.draft.do-not-implement.md`:82 — unresolved — last: @vzakharov (human) 2026-10-04T21:58:08Z — "а промежуточные вызовы тулов и пр. записывает? стоит или нет…" → [↓](#t01)
-- **T02** `docs/plans/mega-skill.draft.do-not-implement.md`:17 — unresolved — last: @vzakharov (human) 2026-10-04T21:59:42Z — "> раньше любой фичи ну это может быть лишнее -- главное чтоб…" → [↓](#t02)
-- **T03** `docs/plans/mega-skill.draft.do-not-implement.md`:87 — unresolved — last: @vzakharov (human) 2026-10-04T22:00:28Z — "ок" → [↓](#t03)
-- **T04** `docs/plans/mega-skill.draft.do-not-implement.md`:89 — unresolved — last: @vzakharov (human) 2026-10-04T22:01:24Z — "ничего не понял но ок :)" → [↓](#t04)
-- **T05** `docs/plans/mega-skill.draft.do-not-implement.md`:110 — unresolved — last: @vzakharov (human) 2026-10-04T22:02:42Z — "немножко свербит внутри, что у нас то ли суть что "mega", то…" → [↓](#t05)
+- **T01** `docs/plans/mega-skill.draft.do-not-implement.md`:110 — unresolved — last: @vzakharov (human) 2026-10-04T22:12:01Z — "подмывает назвать /yolo :) давай подумаем о вариантах" → [↓](#t01)
 
 <a id="t01"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:82 — unresolved
-
-```diff
-@@ -0,0 +1,142 @@
-… 78 lines elided …
-+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------…
-+| `.claude/skills/mega/SKILL.md`                        | Entry points, the loop in one screen, the session-as-orchestrator rule, and the phase → file table                                           …
-+| `.claude/skills/mega/start.md`                        | Writing the megaplan: the split shape from bite 1, the loop section and standing rules from the template, the run's model named, the dashboar…
-+| `.claude/skills/mega/operator.md`                     | The dashboard and the intake above                                                                                                                                                                                                                                                                                                 |
-```
-
-**@vzakharov (human)** — 2026-10-04T20:39:36Z
-
-поясни?
-
-а название навело меня на мысль: каждый relay сохраняет переписку с оператором (и короткие ответы агентов). Что если держать файл, где это сохраняется полностью, от первого байта до последнего? То есть все сообщения оператора за всю историю меги сохранены без необходимости git-магии. Ну или например разделены по байтам.
-
-как более простой вариант -- relay.md всегда один (его берёт новая сессия), но предыдущие не удаляются а переделываются в relay-bite-0N-session-0M.md
-
-**@vzakharov (agent)** — 2026-10-04T20:48:30Z
-
-`operator.md` — файл, который сессия открывает, когда ты что-то говоришь, и в конце байта, когда переписывает дашборд: в нём правила дашборда и intake. Скилл читается по фазам, чтобы сессия не грузила всё сразу (заметки целиком — ~38k токенов до первого брифа).
-
-Идею взял: `docs/plans/<slug>/operator-log.md` — все твои сообщения за весь прогон, дословно и по порядку, с `## Bite N` на каждый байт. У каждого время, ссылка на сессию, канал и ответ прогона в одну строку. Пишется в момент, когда сообщение пришло, а не на релее, так что сессия, умершая до релея, ничего не теряет.
-
-Вариант с `relay-bite-0N-session-0M.md` оставил вопросом 5. Рекомендую лог: он хранит твои слова целиком, а сводка релея длинное сжимает, и не требует править вендорный `/relay`, который `relay.md` перезаписывает. a349a98
-
-**@vzakharov (human)** — 2026-10-04T21:31:47Z
-
-а что с ответами на сообщения оператора? и как оно "пишется" -- вручную агентом, или скриптом?
-
-**@vzakharov (agent)** — 2026-10-04T21:55:55Z
-
-Ответы теперь тоже в логе, целиком. Пишут хуки, а не агент, чтобы ничего не пересказывалось и не терялось:
-- чат: `UserPromptSubmit` дописывает твоё сообщение в момент прихода, `Stop` — ответ прогона. Промпты, которые подкладывает харнесс (уведомления задач, wake, отчёты сабагентов), узнаются по их открывающему тегу и пропускаются;
-- комментарии на PR: `scripts/mega-log-pr.sh` в конце байта, после переэкспорта. Ответ там уже на GitHub, так что в логе ссылка на него, а не копия.
-
-На ветке без operator log оба хука ничего не делают. Сессии лог целиком не читают, только секцию текущего байта. f4fddfb
-
-**@vzakharov (human)** — 2026-10-04T21:58:08Z
-
-а промежуточные вызовы тулов и пр. записывает? стоит или нет, как считаешь?
-
----
-
-<a id="t02"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:17 — unresolved
-
-```diff
-@@ -14,83 +14,87 @@ The ask, verbatim:
- - **PR #57's thread**: `docs/pr/57/pr.md` (exported). It shows how the operator actually dropped in: 19 bites (1–18 plus 12b), about 50 sessions over 9 days, two big re-steers, and a stream of play n…
- - **The run's own plan** at its last state: `git show 9bcb67b1:docs/plans/mushroom-game-syama.completed.md`, its § "How this elephant is eaten" and standing rules, plus `decisions.md` and `to-check.m…
- 
-+#57 was a game, and `/mega` is not limited to games: the same loop has to carry a large feature inside an existing product with a client and a server. So the skill says "see" and "use" where the notes say "play", and keeps game specifics out (§ "Files").
-```
-
-**@vzakharov (human)** — 2026-10-04T21:36:07Z
-
-Это не про артефакт, а навеяно: вот я сам раньше написал про клиент и сервер, но подумал, что *какие-то* средства собственноручного тестирования у агента должны быть всегда. Иначе unsolicited получается невозможным. Соответственно, если, например, приложение в принципе не поддерживает пока возможность работы руками агента (грубо говоря если /preview не настроен), то это должен быть один из первых байтов, иначе такого можно нагородить...
-
-**@vzakharov (agent)** — 2026-10-04T21:55:58Z
-
-Взял как правило. До первого байта план отвечает, как прогон сам увидит и прогонит свою работу: маршруты `/preview`, тестовая обвязка, команда, дёргающая API, скрипт, который водит UI. Если у продукта такого пока нет, это первый байт, раньше любой фичи. f4fddfb
-
-**@vzakharov (human)** — 2026-10-04T21:59:42Z
-
-> раньше любой фичи
-
-ну это может быть лишнее -- главное чтобы он был fitting для того байта, над которым работает. можно написать и после написания байта. наверное так даже лучше, потому что иначе придётся заранее планировать что писать в байте. с другой стороны, TDD. что думаешь?
-
----
-
-<a id="t03"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:87 — unresolved
-
-```diff
-@@ -14,83 +14,87 @@ The ask, verbatim:
-… 116 lines elided …
-+- **`.claude/skills/mega/start.md`** — writing the megaplan: the split shape from bite 1, the loop section and standing rules from the template, the run's model named, the dashboard block, a spike in…
-+- **`.claude/skills/mega/operator.md`** — opened whenever the operator says something, and at each bite's end when the dashboard is rewritten: the dashboard, the intake and the operator log above.
-+- **`.claude/skills/mega/orchestrate.md`** — subagents: one step per agent; a committed common brief; waves by file, each staged by what its result depends on; per-agent worktrees landing one squash …
-+- **`.claude/skills/mega/bite-end.md`** — the tail, in order: the PR's comments taken in; suite at the tail's start; quick gates including knip; `/polish` as sized waves with the bare `polish:` last; vet in parts; screenshots; retiring the last bite's leftovers; the 450-line check; folding and splitting the plan; resyncing the squash proposal; the Artifact; the dashboard and the QA checklist's top list; the journal; the relay.
-```
-
-**@vzakharov (human)** — 2026-10-04T21:39:49Z
-
-я вот ещё кстати думаю, а обязательно ли байты начинать с нового релея каждый раз? если например байт закончился, а у тебя потрачено 100к контекста, чего б не перейти на следующий? давай взвесим за и против.
-
-**@vzakharov (agent)** — 2026-10-04T21:56:00Z
-
-Взвесил. По заметкам, релей и так привязан не к границе байта, а к паузе бюджета; просто на масштабе #57 один байт заполнял сессию ("Bite 1 alone reached the 200k warning").
-
-За продолжение:
-- экономит ориентацию новой сессии, ~58–115k;
-- нет трения подхвата: устаревшая ветка «почти каждый раз», не тот lockfile, дрейф языка ответов в английский, потерянный `tmp/`;
-- заметки сами советуют складывать разбор ревью в следующий байт, «где контекст позволяет».
-
-Против:
-- следующий байт почти наверняка зарелеится посередине;
-- ты говорил «relay, и всегда так». Но это было против замены релеев сабагентами, а не против продолжения при свободном контексте.
-
-Так что прогон продолжает в следующий байт, пока пауза бюджета не сработала. Fold в конце байта пишется целиком, как перед релеем, чтобы релей мог прийти в любой момент после него. f4fddfb
-
-**@vzakharov (human)** — 2026-10-04T22:00:28Z
-
-ок
-
----
-
-<a id="t04"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:89 — unresolved
-
-```diff
-@@ -14,83 +14,87 @@ The ask, verbatim:
-… 118 lines elided …
-+- **`.claude/skills/mega/orchestrate.md`** — subagents: one step per agent; a committed common brief; waves by file, each staged by what its result depends on; per-agent worktrees landing one squash …
-+- **`.claude/skills/mega/bite-end.md`** — the tail, in order: the PR's comments taken in; suite at the tail's start; quick gates including knip; `/polish` as sized waves with the bare `polish:` last;…
-+- **`.claude/skills/mega/review.md`** — the review as tail subagents, a user and a reader. The user drives the built thing the way its users would, from screenshots first when it has a UI. Findings e…
-+- **`.claude/skills/mega/relay.md`** — the loop's own relay rules: depth read from `lineage`; never `reset --hard`, and a stale ref is renamed aside; dependencies installed after checkout; subagents stopped before the hand-off; `pull --no-rebase` early on; the cap-depth hand-off at a natural stop, with the line to paste.
-```
-
-**@vzakharov (human)** — 2026-10-04T21:41:11Z
-
-что за reset --hard, почему он раз за разом появлялся в сообщениях релея? не лучше ли это просто в скилл релея перенести?
-
-**@vzakharov (agent)** — 2026-10-04T21:56:02Z
-
-Откуда: преемник цепляется через `create_session` + `source_revision` и поднимается detached или на устаревшей локальной ветке, `pull --ff-only` отказывает. На байтах 9 и 10 авто-режим один раз пропустил `reset --hard`, и после этого сессиям отказывали во всём, даже в чтении. Потеряно ничего не было, tip вернули из reflog. В каждом промпте преемника строка ездила потому, что `/relay take` читает сводку после attach, и «never reset» из сводки приходил слишком поздно.
-
-Да, место ему в скилле релея, и с T13 это теперь можно сделать здесь. `/relay take` читает `relay.md` из `origin/<branch>` через `git show` до attach. Сам attach делает unshallow, fast-forward, а действительно разошедшийся реф отодвигает (`git branch -m <branch> stale/<…>`) вместо reset. Тот же приём заменяет `reset --hard` в force-push-кейсе `/from-branch`. Из `mega/relay.md` правило ушло. f4fddfb
-
-**@vzakharov (human)** — 2026-10-04T22:01:24Z
-
-ничего не понял но ок :)
-
----
-
-<a id="t05"></a>
 
 ### `docs/plans/mega-skill.draft.do-not-implement.md`:110 — unresolved
 
@@ -291,6 +145,14 @@ _17 resolved threads omitted; re-run with `--include-resolved` to export them._
 **@vzakharov (human)** — 2026-10-04T22:02:42Z
 
 немножко свербит внутри, что у нас то ли суть что "mega", то ли что "unattended", никак не могу свести воедино. Это пока фраза к размышлению, не запрос на изменение.
+
+**@vzakharov (agent)** — 2026-10-04T22:06:39Z
+
+Моя версия, тоже к размышлению: это два взгляда на один прогон. «mega» — про размер, то есть почему работа растягивается на много сессий. «unattended» — про то, что между ними нет тебя. Размер без второго — это просто слон с твоим ревью после каждого байта. Unattended без размера — это просто `/go`. Скилл — их пересечение, и новое в нём (дашборд, intake, лог) всё про вторую половину. Так что если будет свербеть и дальше, имя, наверное, должно идти за сутью, а не за размером. План пока не трогаю.
+
+**@vzakharov (human)** — 2026-10-04T22:12:01Z
+
+подмывает назвать /yolo :) давай подумаем о вариантах
 
 ---
 
