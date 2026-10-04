@@ -1,0 +1,82 @@
+{
+  "sessionId": "49fcc7e6-3612-57ce-9603-ba6bb13cfc24",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7 — before attaching: check the branch out in a command of its own and never delete the harness auto-branch; never g…",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_01RzyF2iGuEev3pgeVfmKzdp",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-04T11:31:23.846Z",
+  "lastResponseAt": "2026-10-04T11:34:19.175Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 590701,
+    "cacheWrite1hTokens": 87535,
+    "cacheReadTokens": 1699679,
+    "outputTokens": 15801,
+    "thinkingTokens": 1402,
+    "responses": 27,
+    "costUsd": 4.3099568
+  },
+  "ownTurns": {
+    "inputTokens": 30,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 87535,
+    "cacheReadTokens": 1583557,
+    "outputTokens": 15602,
+    "thinkingTokens": 1402,
+    "responses": 15,
+    "costUsd": 1.3291514
+  },
+  "subagents": {
+    "inputTokens": 24,
+    "cacheWrite5mTokens": 590701,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 116122,
+    "outputTokens": 199,
+    "thinkingTokens": 0,
+    "responses": 12,
+    "costUsd": 2.9808054
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 54,
+      "cacheWrite5mTokens": 590701,
+      "cacheWrite1hTokens": 87535,
+      "cacheReadTokens": 1699679,
+      "outputTokens": 15801,
+      "thinkingTokens": 1402,
+      "responses": 27,
+      "costUsd": 4.3099568
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-04T11:34:18.444Z",
+    "contextTokens": 141685,
+    "spend": {
+      "inputTokens": 48,
+      "cacheWrite5mTokens": 580153,
+      "cacheWrite1hTokens": 74966,
+      "cacheReadTokens": 1454443,
+      "outputTokens": 15342,
+      "thinkingTokens": 1402,
+      "responses": 24,
+      "costUsd": 4.098413599999999
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 25,
+    "matched": 25,
+    "matchedTableUsd": 4.2337164,
+    "matchedEventUsd": 4.2601164,
+    "unseen": {}
+  }
+}
