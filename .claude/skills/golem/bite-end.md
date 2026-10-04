@@ -51,7 +51,7 @@ Opened when a bite's build is done: the tail in the order below, then the next b
 
 ## 10. The plan
 
-- **Fold the bite in and split the plan as `@.claude/skills/plan/elephant.md` § "The plan's shape" says.** The fold is written whole at every bite's end, so a relay can land anywhere after it.
+- **Fold the bite in, whole, and split the plan as `@.claude/skills/plan/elephant.md` § "The plan's shape" says** (`SKILL.md` § "The loop" says why whole).
 - **A structural change to the plan is recorded as a decision in the same commit, unasked.** The next session learns the plan's shape from the plan, not from the history.
 - **Run the format check after every format write on the plan, and never wrap a line inside a code span.** A code span broken across lines is one the formatter can mangle.
 
@@ -69,7 +69,7 @@ Opened when a bite's build is done: the tail in the order below, then the next b
 
 ## 14. Closing the bite
 
-- **Flush the operator log's queued reply, write the journal, then commit and push.** `.claude/hooks/golem-operator-log.sh flush "$(git rev-parse --show-toplevel)"` writes the reply `tmp/` holds, and the commit takes what is left of the log; `journal.md` gets whatever this bite taught that would make the next run go better.
+- **Flush the operator log's queued reply, write the journal, then commit and push.** The flush is `operator.md` § "The operator log"'s command; `journal.md` gets whatever this bite taught that would make the next run go better.
 
 ## Then
 

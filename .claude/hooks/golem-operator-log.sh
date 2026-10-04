@@ -76,7 +76,8 @@ flush() {
   [ -d "$dir" ] || return 0
   # Names are session ids, which the hook path admits only from a safe set.
   while IFS= read -r name; do
-    cat -- "$dir/$name" >>"$log" && rm -f -- "$dir/$name" || return 1
+    cat -- "$dir/$name" >>"$log" && rm -f -- "$dir/$name" ||
+      { say "could not move the pending replies into $log"; return 1; }
   done < <(ls -1tr -- "$dir" | grep '\.reply$')
 }
 
@@ -87,7 +88,7 @@ path)
   ;;
 flush)
   log="$(find_log "${2:-.}")" || exit 1
-  [ -z "$log" ] || flush "${2:-.}" "$log" || { say "could not move the pending replies into $log"; exit 1; }
+  [ -z "$log" ] || flush "${2:-.}" "$log" || exit 1
   exit 0
   ;;
 esac
@@ -144,7 +145,7 @@ reply_from_transcript() {
 
 case "$(field hook_event_name)" in
 UserPromptSubmit)
-  flush "$root" "$log" || { say "could not move the pending replies into $log"; exit 1; }
+  flush "$root" "$log" || exit 1
   prompt="$(field prompt)"
   injected="^[[:space:]]*<($INJECTED)([[:space:]>]|$)"
   if [ -z "$prompt" ] || [[ "$prompt" =~ $injected ]]; then

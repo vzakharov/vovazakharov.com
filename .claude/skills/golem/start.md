@@ -12,7 +12,7 @@ Opened by `/golem <task>`, once `SKILL.md` § "Entry and pickup"'s model check i
 
 **The loop section opens the plan**, right under the draft banner, filled from `templates/loop.md`. Every successor reads the plan on attach, so the section is how a session learns it is in a run with no extra file to load. Name the run's model in it, as `get_session` reported it. Its standing rules start with every rule the opening message states, quoted verbatim.
 
-**Bite 1 is written in full in `## This bite`**, so the operator reviews it at the gate, which is the cheapest point to turn the run. Size it per the loop section: **at most two sequential waves of subagents**, each agent one step, none sized past the 170k subagent notice — a spec or research agent well under it, split where it would not be. Work past two waves is two bites, and a bite cut too big ends in a stop mid-bite.
+**Bite 1 is written in full in `## This bite`**, so the operator reviews it at the gate, which is the cheapest point to turn the run. Size it per the loop section's **Bite size** line, whose reasons are `orchestrate.md`'s. Work past two waves is two bites, and a bite cut too big ends in a stop mid-bite.
 
 **Each bite's contract names how its result gets seen**: the test, preview route, command or drive script, and which of them the bite builds (`SKILL.md` § "Rules that hold on every turn of a run"). The bite's end checks against that line, so green gates alone cannot close a bite — a run once shipped every tap dead with vet green. Bite 1 names it here; every later bite names it when it is taken.
 

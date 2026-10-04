@@ -10,7 +10,7 @@ Opened at the context budget's pause, at any other relay, and on picking a run u
 - **Commit whatever a successor reruns** — a drive script, a sweep, a brief. `tmp/` does not survive a relay.
 - **The summary points at the plan's standing rules rather than re-quoting them**, since a copy drifts from the plan it quotes, and **at the operator log in place of § "The conversation"**, which the log already holds verbatim. A rule that must govern a step before the plan is read belongs in `/relay take` itself, never in the summary or the prompt line.
 - **The summary's Next step is the fixed line "Continue the /golem run."** — the line `/relay take` dispatches here on. Where the work stands is the plan's to say, not the summary's.
-- **Write the journal** (`journal.md`), then **flush the operator log before the summary's commit**: `.claude/hooks/golem-operator-log.sh flush "$(git rev-parse --show-toplevel)"`. The queued reply sits in `tmp/`, which the container takes with it.
+- **Write the journal** (`journal.md`), then **flush the operator log before the summary's commit**, as `operator.md` § "The operator log" says.
 
 ## The depth and the successor
 
