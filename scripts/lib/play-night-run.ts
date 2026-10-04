@@ -14,6 +14,7 @@ import { DUSK_MS } from '../../src/pages/mushrooms/model/dusk.ts';
 import { NIGHT_GAP } from '../../src/pages/mushrooms/model/night-runs.ts';
 import { type Controls, Runs, State } from './mushroom-probe-answers.ts';
 import {
+  deselect,
   type Expect,
   FRAME_MS,
   grow,
@@ -142,10 +143,7 @@ async function growDoored(
     const newest = mushrooms.at(-1);
     if (newest !== undefined) grown.push(newest);
   });
-  await page.evaluate(
-    "__probe.scene.dispatch({ kind: 'deselect' })",
-    z.unknown(),
-  );
+  await deselect(page);
   await page.step(SETTLE);
   return grown;
 }

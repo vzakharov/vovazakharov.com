@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { DUSK_MS } from '../../src/pages/mushrooms/model/dusk.ts';
 import { type Controls, DuskShown, State } from './mushroom-probe-answers.ts';
 import {
+  deselect,
   type Expect,
   FRAME_MS,
   grow,
@@ -55,10 +56,7 @@ export async function playKeep(
   if (controls.housePicker[0]) await page.tap(controls.housePicker[0]);
   await page.step(6);
   await page.tap(controls.house);
-  await page.evaluate(
-    "__probe.scene.dispatch({ kind: 'deselect' })",
-    z.unknown(),
-  );
+  await deselect(page);
   expect(await plantNearest(page), 'no tuft took a flower');
   if (!(await tapSun(page, expect))) return;
   await page.step(TO_DUSK);

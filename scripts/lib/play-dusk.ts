@@ -24,6 +24,7 @@ import {
   SunAt,
 } from './mushroom-probe-answers.ts';
 import {
+  deselect,
   type Expect,
   FRAME_MS,
   inTurn,
@@ -93,10 +94,7 @@ async function shootFlare(
     expect(false, `no tapped firefly flared in ${String(FLARE_TRIES)} tries`);
     return;
   }
-  await page.evaluate(
-    "__probe.scene.dispatch({ kind: 'deselect' })",
-    z.unknown(),
-  );
+  await deselect(page);
   await page.step(CIRCLING);
   await shootFlare(page, expect, note, tries + 1);
 }
@@ -128,10 +126,7 @@ async function furnish(
     await inTurn(controls.housePicker, pick);
   }
   await pick(controls.house);
-  await page.evaluate(
-    "__probe.scene.dispatch({ kind: 'deselect' })",
-    z.unknown(),
-  );
+  await deselect(page);
   await page.step(SETTLE);
   const { houses, furnishing } = await page.evaluate('__probe.state()', State);
   expect(

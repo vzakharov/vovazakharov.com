@@ -161,7 +161,15 @@ export async function grow(
   await page.step(90);
 }
 
-/** `ids`, the mushrooms', from the one drawn furthest back to the one in front. */
+/** Whatever is selected let go, with no tap that could land on something else. */
+export async function deselect(page: Page): Promise<void> {
+  await page.evaluate(
+    "__probe.scene.dispatch({ kind: 'deselect' })",
+    z.unknown(),
+  );
+}
+
+/** `ids`, the mushrooms',from the one drawn furthest back to the one in front. */
 export async function backToFront(
   page: Page,
   ids: readonly string[],

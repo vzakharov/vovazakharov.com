@@ -14,7 +14,11 @@ const SEED = 0x6b_ee_70;
 const { meadow } = opened(3, 1180, 820, false);
 const EYE: Eye = { x: 0.4, y: -0.2, heading: 1.1 };
 
-type FakePage = KeptPage & { reloads: number; hide: () => void };
+type FakePage = KeptPage & {
+  reloads: number;
+  hide: () => void;
+  editHash: () => void;
+};
 
 /** A page whose events the test fires, counting its reloads. */
 function fakePage(): FakePage {
@@ -22,9 +26,10 @@ function fakePage(): FakePage {
     visibilityState: 'visible',
   };
   const document = Object.assign(new EventTarget(), shown);
+  const window = new EventTarget();
   const page: FakePage = {
     document,
-    window: new EventTarget(),
+    window,
     reloads: 0,
     reload: () => {
       page.reloads += 1;
@@ -32,6 +37,9 @@ function fakePage(): FakePage {
     hide: () => {
       document.visibilityState = 'hidden';
       document.dispatchEvent(new Event('visibilitychange'));
+    },
+    editHash: () => {
+      window.dispatchEvent(new Event('hashchange'));
     },
   };
   return page;
@@ -117,12 +125,12 @@ describe('meadowKeeping', () => {
     const { kept, keeper, page } = keeping({ meadow });
     const letGo = kept.bind();
     page.hide();
-    page.window.dispatchEvent(new Event('hashchange'));
+    page.editHash();
     assert.equal(keeper.kept.length, 1);
     assert.equal(page.reloads, 1);
     letGo();
     page.hide();
-    page.window.dispatchEvent(new Event('hashchange'));
+    page.editHash();
     assert.equal(keeper.kept.length, 1);
     assert.equal(page.reloads, 1);
   });
@@ -137,7 +145,7 @@ describe('meadowKeeping', () => {
       () => page,
     );
     kept.bind();
-    page.window.dispatchEvent(new Event('hashchange'));
+    page.editHash();
     assert.equal(page.reloads, 0);
   });
 });
