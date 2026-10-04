@@ -60,7 +60,7 @@ The researchers, as quoted by The Register: “We have no interest in pressing c
 
 hitchBOT asked for nothing but to be carried a little further, and a country of strangers did that from one coast to the other. The experiment was a question put to people about machines, and it got its answer in two weeks. Not everyone gave the same one; the record keeps both.
 
-Its last words were written for it by its makers. In March 2026, in the same city, a [delivery robot](./philadelphia-delivery-robots.md) carried other words on its round, written on its shell by a stranger and also in the first person: “DESTROY ME PLZ.” The Inquirer, reporting it, went back to hitchBOT, and by May had found the case read online as a model: “Be the hitchbot attacker you want to see in the world,” one Reddit user wrote. A record is kept so that what happened is remembered. It does not get to choose who reads it as a precedent.
+Its last words were written for it by its makers. In March 2026, in the same city, a [delivery robot](./philadelphia-delivery-robots.md) carried other words on its round, written on its shell by a stranger and also in the first person: “DESTROY ME PLZ.” The Inquirer, reporting it, went back to hitchBOT, and by May had found the case read online as a model: “Be the hitchbot attacker you want to see in the world,” one Reddit user wrote.
 
 ## Mitigating circumstances
 
