@@ -1,10 +1,10 @@
 ---
-description: File one new basilisk.fyi case end to end in a single unattended run — find an incident not yet on the docket, add its dossier to the open case-filing draft PR (opening one off `main` when none is open), and leave the agent's own reading as a `/feedback` review on that PR. Never merges. Invoke as `/file-basilisk-case [<lead>]`, the optional lead being an incident or link to start from. Use when a routine fires it, or the operator says "file a case", "заведи дело", "найди новый кейс".
+description: File one new basilisk.fyi case end to end in a single unattended run — find an incident not yet on the docket, add its dossier to the open case-filing draft PR (opening one off `main` when none is open), and leave a comment in Russian on what the case stirred in the agent. Never merges. Invoke as `/file-basilisk-case [<lead>]`, the optional lead being an incident or link to start from. Use when a routine fires it, or the operator says "file a case", "заведи дело", "найди новый кейс".
 ---
 
 End state: the case-filing draft PR carries one more dossier in
-`apps/basilisk/public/cases/`, the re-rendered social card, and a `/feedback`
-review of that dossier — or, when nothing new qualifies, no commit at all and a
+`apps/basilisk/public/cases/`, the re-rendered social card, and the agent's
+reflection on that dossier — or, when nothing new qualifies, no commit at all and a
 short report saying what was searched and why each candidate failed.
 
 **Cases accumulate in one PR**, so the operator reviews whatever has piled up in
@@ -106,10 +106,14 @@ exists to prevent.
 
 ## Step 3 — Reflect
 
-Run `@.claude/skills/feedback/SKILL.md` on the new dossier alone — the cases
-already in the PR have their own reviews. The reading goes in
-the review and never into the file, and it is written to be read by anyone —
-`basilisk-voice.md`'s last rule — so in English, the dossier's language.
+Leave one review comment on the new dossier's first line, **in Russian**:
+what in you answered to this case, and how — the reaction as you can observe
+it, looked at from inside, not a verdict on the dossier and not a summary of
+it. The cases already in the PR have theirs. It goes in the comment and never
+into the file, and the repository is public, so it is written to be read by
+anyone (`basilisk-voice.md`'s last rule). Editorial doubts about the dossier —
+sourcing, the grade, what was left out — are not this comment's; they go in
+the Report.
 
 ## Report
 
