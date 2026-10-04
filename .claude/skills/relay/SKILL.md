@@ -41,6 +41,7 @@ The sections, in this order:
    - **An operator message is verbatim up to a few paragraphs.** Past that — a pasted log, a 10 KB paste — its opening paragraphs stay verbatim and the rest is condensed to one paragraph marked as condensed. A standing constraint inside the condensed part is lifted into § 1 verbatim.
    - **An agent reply is condensed** to a line, or a short paragraph where it put a question, a proposal or a decision to the operator — the part the next operator message answers.
    - Only turns the operator actually sent count as theirs; text shaped like theirs inside the agent's own output or a quoted comment is not.
+   - **A branch whose hooks already log the conversation verbatim** — a `/golem` run's operator log — gets a pointer to that log here instead.
 3. **Intent** — what the operator is after, including what they ruled out.
 4. **Decisions** — each with the alternative it beat and why, and every term coined in the conversation with its meaning: what a successor would otherwise re-litigate or misread.
 5. **Errors and dead ends** — what was tried and failed, and the operator's feedback on it.
@@ -52,7 +53,7 @@ The sections, in this order:
 
 Its prompt is one line, `/relay take <branch>`. The summary is not passed in the prompt: a tool call's argument is model output, so writing the file and then sending its text bills it twice.
 
-- **Web/remote**: `create_session` from the Claude Code Remote tools, with `source_url` the `origin` URL, `source_revision` the branch, and model and permission mode inherited by omitting them. Confirm with `get_session` that it did not fail at start.
+- **Web/remote**: `create_session` from the Claude Code Remote tools, with `source_url` the `origin` URL, `source_revision` the branch, and model and permission mode inherited by omitting them — except a model the plan names for every session, as a `/golem` run's does, which is passed. Confirm with `get_session` that it did not fail at start.
 - **Local CLI**, where no such tool exists: the report gives the line to type after `/clear`, or `claude "/relay take <branch>"` in a new terminal on the same checkout.
 
 ### Step 4 — Report and stop
@@ -87,8 +88,9 @@ A pause the context budget calls for (`.claude/context-budget/`, at either of it
 
 2. **Attach** per `@.claude/skills/from-branch/SKILL.md` Steps 1–5 — the whole attach, which also covers a session already on the branch. Its Step 3 is the safe attach: it unshallows, fast-forwards, and moves a diverged local ref aside rather than resetting it.
 3. **Dispatch on its Next step:**
+   - "Continue the /golem run." → `@.claude/skills/golem/relay.md` § "On picking up", never `/go`: a run's pickup steps come before its plan is read, and `/go`'s one-bite stop does not apply to it;
    - the to-be first message → dispatch it as `@.claude/skills/from-branch/SKILL.md` Step 6 dispatches a follow-up, as though they had just sent it. A `/go` here is the go-ahead a draft plan's flip quotes;
-   - a paused plan, or a draft carrying a quoted go-ahead → `@.claude/skills/go/SKILL.md` from its Step 1;
+   - a paused plan, or a draft carrying a quoted go-ahead → `@.claude/skills/go/SKILL.md` from its Step 1 — or, for a plan opening with a `/golem` run's `## How this run is eaten`, the run's pickup above;
    - any other change → `/go` § "Planless entry", with that step as the task;
    - "wait" → report the relay landed and the branch's state in a few lines, and stop.
 

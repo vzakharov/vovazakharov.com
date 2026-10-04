@@ -63,13 +63,16 @@ The session that claims the plan writes `## This bite` before building:
 ## A bite
 
 - leaves `vet` green and lands whole — nothing half-built that the next bite
-  has to finish before anything works;
+  has to finish before anything works. A gate an unattended run parked red
+  carries over only as a named item on its operator's list;
 - is sized to finish, `/polish` included, before the context budget's warning
   line (`CONTEXT_BUDGET_WARN`, `.claude/context-budget/CLAUDE.md`) — so a
   bite's end normally comes before the hook says anything, and a notice
   arriving mid-bite means the bite was cut too big;
 - is one per session: the pause is for the operator's review, not for saving
-  tokens, so a session that finishes its bite early stops there.
+  tokens, so a session that finishes its bite early stops there. An
+  unattended run has no review to pause for, so its session goes on into the
+  next bite.
 
 What a pause does — at a bite's end or forced mid-bite by the budget — is
 `/go` Step 2's.
@@ -77,4 +80,4 @@ What a pause does — at a bite's end or forced mid-bite by the budget — is
 ## Unattended runs
 
 An elephant eaten with no operator between its bites is
-`@.claude/skills/golem/SKILL.md`'s.
+`@.claude/skills/golem/SKILL.md`'s, and is never eaten through `/go`.
