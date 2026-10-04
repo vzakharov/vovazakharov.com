@@ -1,17 +1,25 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { alongAzimuth } from '../../model/geometry';
+import { alongAzimuth, distanceBetween } from '../../model/geometry';
 import { D_SEE, type Eye, OPENING_EYE } from '../../model/ground';
 import { hasGround } from './anchored-stand';
 import { groundAt, RANGES } from './backdrop-tones';
 import { grainStrips } from './grain';
 import { turfAt } from './grass';
-import { LiveLawn } from './lawn';
+import { cellOf, LiveLawn } from './lawn';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { crestAcross } from './panorama';
+import { PALE_SPAN } from './repaint-queue';
 import { SEAM_REACH, SEAM_STEPS, seamCrest, seamTop } from './skyline';
-import { SEAM_BAND, seamFaded, shownSeam } from './tufts';
+import {
+  crossesSeam,
+  SEAM_BAND,
+  seamFaded,
+  seamPatches,
+  shownSeam,
+  shownSprouts,
+} from './tufts';
 import { browRow, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
@@ -24,7 +32,11 @@ const LEVEL = 0.5;
 function seamOf(layout: MeadowLayout, seed: number, eye: Eye) {
   const lawn = new LiveLawn({ seed, layout });
   lawn.round(eye);
-  return shownSeam(viewAt(layout.camera, eye), lawn.seam, turfAt(0));
+  return shownSeam(
+    viewAt(layout.camera, eye),
+    seamPatches(lawn.seam),
+    turfAt(0),
+  );
 }
 
 /** How far apart two colours stand, in RGB. */
@@ -183,6 +195,66 @@ describe('the seam between the near hills and the ground', () => {
       const away = D_SEE - SEAM_BAND + (at * SEAM_BAND) / 40;
       assert.ok(seamFaded(away + SEAM_BAND / 40) <= seamFaded(away));
     }
+  });
+});
+
+describe('the seam’s grass by cell', () => {
+  /** Eyes over a walk: stepping, turning, and standing on a cell's edge. */
+  const EYES: Eye[] = [
+    OPENING_EYE,
+    { x: 4, y: -8, heading: 1.3 },
+    ...Array.from({ length: 12 }, (_, step) => ({
+      x: step * 1.7 - 3.1,
+      y: OPENING_EYE.y - step * 2.3,
+      heading: (step * Math.PI) / 6 + 0.07,
+    })),
+  ];
+
+  it('cuts the seam into one-cell runs that laid end to end are the seam again', () => {
+    const lawn = new LiveLawn({ seed: 7, layout: meadowLayout(1180, 820, 7) });
+    lawn.round(OPENING_EYE);
+    const patches = seamPatches(lawn.seam);
+    assert.deepEqual(
+      patches.flatMap(({ seam }) => seam),
+      lawn.seam,
+    );
+    for (const { cell, seam } of patches) {
+      for (const { foot } of seam) assert.deepEqual(cellOf(foot), cell);
+    }
+  });
+
+  it('draws what looking into every live tuft draws, looking into only the cells the band crosses', () => {
+    let every = 0;
+    let crossed = 0;
+    for (const [name, width, height] of VIEWPORTS) {
+      const layout = meadowLayout(width, height, 7);
+      for (const eye of EYES) {
+        const lawn = new LiveLawn({ seed: 7, layout });
+        lawn.round(eye);
+        const view = viewAt(layout.camera, eye);
+        const banded = lawn.seam.filter(({ foot }) => {
+          const away = distanceBetween(eye, foot);
+          return away > D_SEE - SEAM_BAND && away < D_SEE + PALE_SPAN;
+        });
+        const patches = seamPatches(lawn.seam);
+        assert.deepEqual(
+          shownSeam(view, patches, turfAt(0.5)),
+          shownSprouts(view, banded, turfAt(0.5), seamFaded),
+          `${name} at ${JSON.stringify(eye)}`,
+        );
+        every += lawn.seam.length;
+        for (const { cell, seam } of patches) {
+          if (crossesSeam(eye, cell)) crossed += seam.length;
+        }
+      }
+    }
+    // A frame looks into about 1,350 of the 2,835 live tufts: the band, 2.2
+    // units deep, crosses about 44 of the 81 live cells, each 4 wide.
+    const frames = VIEWPORTS.length * EYES.length;
+    assert.ok(
+      crossed <= every * 0.55,
+      `${crossed / frames} of ${every / frames}`,
+    );
   });
 });
 

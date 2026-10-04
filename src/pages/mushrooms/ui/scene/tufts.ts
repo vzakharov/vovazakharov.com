@@ -39,7 +39,15 @@ import {
   turfAt,
   type WithTuft,
 } from './grass';
-import { LiveLawn, regrowTufts, type Sprout, sproutOn } from './lawn';
+import {
+  CELL,
+  type Cell,
+  cellOf,
+  LiveLawn,
+  regrowTufts,
+  type Sprout,
+  sproutOn,
+} from './lawn';
 import type { MeadowLayout } from './layout';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
 import { PALE_SPAN } from './repaint-queue';
@@ -138,22 +146,69 @@ export function seamFaded(distance: number): number {
   return 1 - smooth((distance - (D_SEE - SEAM_BAND)) / (SEAM_BAND / 2));
 }
 
+/** The distances from the eye the seam's grass shows between, both ends open: the band under the brow and the stretch past it it sinks over. */
+const SEAM_NEAR = D_SEE - SEAM_BAND;
+const SEAM_FAR = D_SEE + PALE_SPAN;
+
+/** A run of the seam's grass standing in one cell of the lawn. */
+export type SeamPatch = { cell: Cell; seam: readonly Sprout[] };
+
+/** `seam` cut into runs of tufts standing in one cell, in its order, so the runs laid end to end are `seam` again. */
+export function seamPatches(seam: readonly Sprout[]): SeamPatch[] {
+  const patches: Array<{ cell: Cell; seam: Sprout[] }> = [];
+  for (const sprout of seam) {
+    const cell = cellOf(sprout.foot);
+    const last = patches.at(-1);
+    if (last?.cell.i === cell.i && last.cell.j === cell.j) {
+      last.seam.push(sprout);
+    } else {
+      patches.push({ cell, seam: [sprout] });
+    }
+  }
+  return patches;
+}
+
 /**
- * Where `view` draws the seam's grass `seam`, in `turf`'s light: the tufts
+ * Leeway on the cell's nearest and farthest distances, so rounding never
+ * leaves out a tuft its own distance puts in the band.
+ */
+const CROSS_LEEWAY = 1e-9;
+
+/** Whether some foot in `cell`, edges included, stands in the seam's band from `eye`. */
+export function crossesSeam(eye: Point, { i, j }: Cell): boolean {
+  const [left, right] = [i * CELL - eye.x, (i + 1) * CELL - eye.x];
+  const [near, far] = [j * CELL - eye.y, (j + 1) * CELL - eye.y];
+  const nearest = Math.hypot(
+    Math.max(left, 0, -right),
+    Math.max(near, 0, -far),
+  );
+  const farthest = Math.hypot(Math.max(-left, right), Math.max(-near, far));
+  return (
+    nearest < SEAM_FAR + CROSS_LEEWAY && farthest > SEAM_NEAR - CROSS_LEEWAY
+  );
+}
+
+/**
+ * Where `view` draws the seam's grass `patches`, in `turf`'s light: the tufts
  * in the band under the brow and those just past it, sinking, each standing
  * on its foot on the plane as the lawn's do, so a step and a turn move it as
- * they move the ground, the nearer the more.
+ * they move the ground, the nearer the more. Only the patches whose cell the
+ * band crosses are looked into.
  */
 export function shownSeam(
   view: View,
-  seam: readonly Sprout[],
+  patches: readonly SeamPatch[],
   turf: Turf,
 ): ShownGrass {
   const { eye } = view;
-  const banded = seam.filter(({ foot }) => {
-    const distance = distanceBetween(eye, foot);
-    return distance > D_SEE - SEAM_BAND && distance < D_SEE + PALE_SPAN;
-  });
+  const banded = patches.flatMap(({ cell, seam }) =>
+    crossesSeam(eye, cell)
+      ? seam.filter(({ foot }) => {
+          const distance = distanceBetween(eye, foot);
+          return distance > SEAM_NEAR && distance < SEAM_FAR;
+        })
+      : [],
+  );
   return shownSprouts(view, banded, turf, seamFaded);
 }
 
@@ -189,6 +244,9 @@ export class Grass {
   private lawn: LiveLawn | undefined;
   /** The light the grass was last toned in, and the duskness it was toned for. */
   private lit: { dusk: number; turf: Turf } = { dusk: 0, turf: turfAt(0) };
+  /** The live seam's grass as last cut into patches, and its patches. */
+  private patched: { seam: readonly Sprout[]; patches: readonly SeamPatch[] } =
+    { seam: [], patches: [] };
   /** Every tuft a pulled flower left, standing or not (`leaveTufts`). */
   private left: readonly Sprout[] = [];
   /** The tufts that stand and the stand and eye they were tended to. */
@@ -282,7 +340,7 @@ export class Grass {
     }
     const shown = shownSprouts(view, tended.standing(), turf);
     lawn?.round(view.eye);
-    const seam = shownSeam(view, lawn?.seam ?? [], turf);
+    const seam = shownSeam(view, this.seamPatchesOf(lawn?.seam ?? []), turf);
     this.shown = shown;
     const drawn = [...shown.near, ...shown.behind];
     const drawnOf = (holds: (sprout: Sprout) => boolean) =>
@@ -305,6 +363,14 @@ export class Grass {
         sprouting,
       );
     }
+  }
+
+  /** The live seam's grass `seam` by cell (`seamPatches`), cut afresh only when the live cells change. */
+  private seamPatchesOf(seam: readonly Sprout[]): readonly SeamPatch[] {
+    if (seam !== this.patched.seam) {
+      this.patched = { seam, patches: seamPatches(seam) };
+    }
+    return this.patched.patches;
   }
 
   /** The grass's light `dusk` of the way to full dusk, toned afresh only when the duskness moves. */
