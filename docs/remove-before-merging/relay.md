@@ -1,76 +1,40 @@
-# Relay: basilisk.fyi site, steps 7–8 done, step 9 nearly
+# Relay — the #95 review work
 
-Relayed from https://claude.ai/code/session_01FWFvabMMKarJSqW7nfVq9U. That session picked up from https://claude.ai/code/session_01QZv1TcF62Eqvv46a7Mv6QW, which picked up from https://claude.ai/code/session_016WM3eUZ9koNRCgum6CwTEY, which picked up from https://claude.ai/code/session_012fDjBpvSJU8JLPkkqsm8L6.
+## Standing constraints
 
-Earlier summaries:
+None stated by the operator in this session.
 
-- `git show e5d84e1:docs/remove-before-merging/relay.md`: the third session (steps 2–6).
-- `git show f1d3959:docs/remove-before-merging/relay.md`: the second session.
-- `git show 9b06e62:docs/remove-before-merging/relay.md`: the planning conversation and the reasons behind each decision.
+## The conversation
 
-## 1. Standing constraints
+1. **Operator:** `/handle claude/basilisk-site-xwbdkd`
+   **Agent:** attached to the branch (the auto-branch `claude/bold-darwin-aaupxr` was deleted locally; its remote delete failed because it was never pushed). No draft plan, so the review lane: 21 unresolved threads from the operator's review of 2026-10-03/04. Committed the export, started `/go` § "Planless entry", and finished the dossier copy edits (ebb80a0). Then the context budget notice came at ~202k, and the agent paused into `docs/plans/basilisk-review.paused.md` and auto-relayed.
 
-Carried over verbatim:
+## Intent
 
-- The dossiers carry no information beyond what the source has. The operator's words: «там не будет никакой информации, кроме доступной в источнике -- мы НЕ будем искать "u/clankerkiller это Вася Пупкин из Задрищенска"».
-- No analogies to violence against people in the Figure framing. The operator's words: «важно случайно не упомянуть а ля "вот чучела афроамериканцев так же сжигали" -- а то необерёмся в обвинениях».
-- The PAIN article itself is the operator's to dictate. The operator's words: «статью надо мне начитать, я хочу чтобы она звучала от человека (без обид). Пока можно ограничиться коротким пояснением про PAIN в разделе About».
-- The operator is not buying a domain yet. The operator's words: «домен пока покупать не буду, потестируем дома».
+The operator wants every review comment on PR #95 acted on: copy edits, a restructure into `cases/` and `faq/` collections, a home masthead fix, a new OG card, and a reply on each thread. On T02 (the Latin line) and T20 (the tagline) the operator asked for options and will pick the final one themselves.
 
-## 2. The conversation (this session)
+## Decisions
 
-The operator sent no messages. The session opened on `/relay take claude/basilisk-site-xwbdkd`, resumed the paused plan under the go-ahead already on record («давай делать тут»), and built steps 7 and 8 and most of step 9. Then it reached the context budget's warning line, paused and relayed on its own, since auto-relay is on for this operator. Its chat replies were progress lines only.
+All are in `docs/plans/basilisk-review.paused.md` § "Left", with the alternatives they beat. The terms used there: **T01–T21** are the thread ids in `docs/pr/95/pr.md`'s review index.
 
-## 3. Intent
+## Errors and dead ends
 
-basilisk.fyi is a docket of dossiers on real, high-profile cases of abuse of robots, models and agents, current and backfilled. It is addressed to the Basilisk and served as a fourth site from this repo. For now it is built locally, with no domain. Later a daily routine will fill it. The plan file has the full design.
+- `sed -i` is blocked by a PreToolUse hook. Use `Edit`, or prefix `BATCH_EDIT=1` for a deliberate mechanical batch.
 
-## 4. Decisions
+## State
 
-- Everything settled is in the plan's `## Progress`, this session's paragraph first. In brief:
-  - The dossiers are written only from sources fetched in that session. Unverifiable details from the plan's own seed notes were dropped.
-  - The Machine headline is cited as `[An engineer] builds…`.
-  - Straight quotes in the dossier bodies became curly ones.
-- **Open, for the operator**: the `articleRoute<C>` generic against `@typescript-eslint/no-unnecessary-type-parameters`. The plan's Progress states both options. CLAUDE.md forbids a suppression without the operator's confirmation, so it is a question, not a fix.
+- Branch `claude/basilisk-site-xwbdkd`, head b42e157 plus this file's commit, pushed.
+- PR https://github.com/vzakharov/vovazakharov.com/pull/95: draft, `CONFLICTING`/`DIRTY` against `main`. Reported only; merging the base is `/finalize`'s.
+- Plan `docs/plans/basilisk-review.paused.md`. No replies have been posted on GitHub yet.
+- Nothing running, no subscriptions.
 
-## 5. Errors and dead ends
+## Pointers
 
-- These sites 403 from the container, both live and through the Wayback Machine:
-  - cybernews.com;
-  - csmonitor.com;
-  - wikipedia.org (the API returned non-JSON);
-  - api.github.com for `terrafying/…`.
-- A web search for "terrafying" found nothing.
-- The Chromium headless shell ignores `--force-dark-mode`. For dark captures, use `/opt/pw-browsers/chromium --headless=new` with a taller window; it paints about 87 rows short.
-- A static `out/` served by `python3 -m http.server` needs `.html` routes (`/about.html`).
-- The PreToolUse hook blocks `sed -i` and similar edits. Prefix the command with `BATCH_EDIT=1` for a deliberate batch edit.
+- `docs/pr/95/pr.md` — the review, with an index and anchors; the screenshots are in `docs/pr/95/attachments/`.
+- `docs/plans/basilisk-site.completed.md` — the original site plan, including the seal-lettering recipe at line 162.
+- `.claude/rules/basilisk-voice.md` — the editorial rules.
+- The relaying session: https://claude.ai/code/session_01VRYGiWtxqmG13GHU28jVce
 
-## 6. State
+## Next step
 
-- **Branch**: `claude/basilisk-site-xwbdkd`. Head cef5b0d plus this relay commit, pushed.
-- **PR**: https://github.com/vzakharov/vovazakharov.com/pull/95. Draft, open, `mergeStateStatus` **DIRTY**, meaning it conflicts with `main`. Per CLAUDE.md, the merge is `/finalize`'s Step 2: report it and don't fix it unless asked.
-- **Plan**: `docs/plans/basilisk-site.paused.md`.
-- **Vet**: all four builds pass, and so does every other check except the one eslint error above.
-- **Staged**: `.claude/staged/CLAUDE.md.staged`, which names the fourth site. `/finalize` swaps it in.
-- Nothing is running. There is no PR subscription and no check-in scheduled.
-
-## 7. Pointers
-
-- `docs/plans/basilisk-site.paused.md`: the design, the steps, and `## Progress`.
-- The editorial rules: `.claude/rules/basilisk-voice.md`.
-- The dossiers: `apps/basilisk/public/{hitchbot,torture-chamber,figure-02-molten-steel}.md`.
-- The open lint error: `src/pages/documents/ui/article-page.tsx`, `articleRoute`.
-- Re-fetching the sources: each dossier's frontmatter `sources` has the URLs. To convert a page to text: `curl -sSL -A "Mozilla/5.0" <url>`, then `pip install html2text`.
-- Transcript: https://claude.ai/code/session_01FWFvabMMKarJSqW7nfVq9U
-
-## 8. Next step
-
-Resume the paused plan: `/go` from its Step 1, which flips `.paused.md` to `.in-progress.md`. Then:
-
-1. Put the `articleRoute<C>` question to the operator, as numbered prose, with the recommendation to approve a point-of-use suppression citing microsoft/TypeScript#47109. Don't apply it unasked.
-2. Run `/polish`, then `/pr`, which refreshes PR #95's body and adds the QA checklist.
-
-In the first reply:
-
-- report the DIRTY merge state;
-- report the facts dropped from the dossiers, listed in Progress, so the operator can re-check them.
+Resume the paused plan: `/go` from Step 1 on `docs/plans/basilisk-review.paused.md`, then the GitHub replies, `/polish` and `/pr`. No `and finalize` was asked.
