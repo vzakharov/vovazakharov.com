@@ -1,7 +1,7 @@
 # Relay summary
 
-Relay depth: **6 of 8** for the successor, read off `get_session`'s
-`lineage` (this session was `{"depth":5,"limit":8}`). **Never count the
+Relay depth: **7 of 8** for the successor, read off `get_session`'s
+`lineage` (this session was `{"depth":6,"limit":8}`). **Never count the
 depth by hand** — call `get_session` with no id and read `lineage.depth`;
 only at `depth == limit` does a session hand the operator a line instead of
 relaying with `create_session`.
@@ -196,87 +196,105 @@ Added this session:
 - **`/dry` at ~3k lines ran out twice of three**; a fourth agent briefed on
   their named leftovers closed it. Plan that agent, or cut at ~2k.
 
+Added this session:
+
+- **A refused write is reported with `reportError`**, not `console.error`
+  (`no-console` is repo-wide and a suppression needs the operator): bite-18
+  call 5. It is in `to-check.md`'s list for him to confirm.
+- **The flier turn watch's screen slack is 1.02** (3ea15a8): a fly at exactly
+  its kind's `TURN_RATE` showed 36.42 on screen, `bentTurn` drawing it
+  ~1.0116 as fast; the flight never exceeds its rate.
+- **`subagents.md` in the megabeast notes is at 489 lines**: condense it
+  under ~450 (README's rule) before adding to it.
+
 ## 2. The conversation
 
-> /relay take claude/mushroom-game-syama-lbirv7 (the standing pickup rules)
+> /relay take claude/mushroom-game-syama-lbirv7 — before attaching: check the branch out in a command of its own and never delete the harness auto-branch; never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); after attaching, run pnpm install --frozen-lockfile; read megabeast notes by README index only. Relay depth is get_session's lineage.depth, never counted by hand: relay with create_session (model claude-opus-5-5) whenever it is below the limit, day or night.
 
-The operator sent nothing else this session. Replies (Russian) reported:
-the attach; the bite 17 review posted as one review on PR #57
-(https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5405749484)
-and ten Opus agents dispatched; each landing in a line; the grass agent's
-three options and the pick (B, below); the context warning at ~203k and
-why the session carried on (the tail was agent work, est. under 100k);
-polish, vet, frames, Artifact v29; this relay. Still unanswered from
-earlier sessions: **the phoneP gait button floating mid-sky** (left until
-he rules), and **day mouse runs across the screen** (the session gated day
-outings short, keeping taps and night runs wide — he may want them wide).
+The operator sent nothing else this session. Replies (Russian) reported: the
+attach (a stale local ref renamed aside to `stale/mushroom-game-syama-lbirv7`,
+container-only); the baseline suite green (0 fail, 501 s); the spec, then
+each agent's landing in a line; the T2 call (option 2, the watch's slack);
+the context warning at ~202k and why the session waited out S5a before
+pausing (relaying mid-wave orphans running agents); this relay.
 
 ## 3. Intent
 
-Unchanged: the whole game, autonomous, for Syama; the Artifact playable
-after every bite. Bite 17 (dusk) is done. Next: the saving bite
-(`docs/plans/mushroom-game-syama/saving.md`), its review, its handle, then
-`relay finalize` — never merge.
+Unchanged: the whole game, autonomous, for Syama; the Artifact playable after
+every bite. Bite 18 (saving, the last) is half built. After it: its review in
+the tail, then `relay finalize` — never merge.
 
 ## 4. Decisions
 
-- **Fireflies yield a tap** to anything else under the finger (a cap, a
-  door, a window, a bare tuft); nearest firefly wins among fireflies. A
-  firefly over a cap is uncatchable there until it circles out — accepted.
-  What a door still loses at dusk is a night-run mouse answering the tap
-  itself — accepted, not a bug.
-- **Haze at dusk tends to `PALETTE.airDusk`** (a dim slate, darker than the
-  dusk hills), not `DUSK.air` (too light for the ask).
-- **A house's own day outing runs only within `OUTING_REACH` 2.5**; taps
-  and night runs reach any door in sight (bite-17.md call 11 restated).
-- **Flight's bare strip under the brow** was the seam grass starting at
-  brow − band, not tending: option B, the seam starts at the walking brow's
-  line at any eye height (steps byte-identical). Option C (the planting
-  band following the eye) is a design call, not taken.
-- **A drag holds the gait and eye height it was pressed at**; the drawn eye
-  still eases under a held finger across a flip (small drift, left).
-- **The ground haze wash in flight** stays unbuilt.
+Bite 18's thirteen calls are `docs/plans/mushroom-game-syama/bite-18.md`
+(the visit seed kept; settled at rest at `RESTED_AT = -SPROUT_MS`; a zod
+record pinned with `satisfies z.ZodType<Kept>`; hash `#n`/`#new`/bare;
+writes after every non-tick action plus a 1 s poll and on hide; eye and
+gait kept; fresh streams per load; mice not kept; no storage → fresh meadow,
+hash untouched; boot inside `startGame`; a silent opening; two tabs last
+writer wins; a browser context per play). Agents' own calls, accepted:
+
+- `reopened(kept.meadow)` takes the meadow part; `Kept = Seeded & WalkStart
+& { version: typeof KEPT_VERSION; meadow: KeptMeadow }`.
+- "Settling twice equals once" is `settled(reopened(settled(m, now)), 0)`.
+- `meadowNumber` returns `{number, fresh}`; the hash is `meadowHash(n)`
+  (a `hash` field trips `type-overlap` against `scripts/render-mermaid.ts`).
+  `#01`, `#1.5`, `#NEW` read as "anything else".
+- Records are `put(record, number)`, keyed outside the record; `Opening`
+  carries `keeper?: Keeper` (`keep`, `poll` gated by `POLL_MS`).
+- The scene's `opening` is a constructor-assigned field (`erasableSyntaxOnly`
+  bans parameter properties); the kept eye goes through `EyeInput.fit`.
+- The play's `Page.reload(hash?)` goes through `about:blank` for a new hash,
+  so `#new` opens as a link would, not via `hashchange`.
+- The T1 red (butterfly-4 taps) was the harness picking a butterfly sunk
+  under the brow: the play now picks only insects in sight (714ca0e).
 
 ## 5. Errors and dead ends
 
-- The grass agent's first fix (tend to flight's brow) gathered 44 % more
-  tufts and showed none: the planting band rejects them all.
-- `ink.test` red since 9ea434ac (firefly body hue-nudged to 2e2a1e); fixed
-  by a darker body (c4971a9).
-- The closing play went red on "the tapped firefly did not flare": its
-  pick landed on a firefly over a cap, which now yields the tap; the play
-  retries up to four taps (a harness fix, not a game bug).
-- The first play run used vet's non-probe build ("no game on the page");
-  run the play without `--no-build`.
+- S5a tried one extra `Math.random()` before the boot to restore the play
+  run's seeded meadow; no change — other page code draws while the store's
+  open waits.
+- T2 found no sampling cause for the fly's turn overshoot; the screen bend
+  is the cause (options it listed: accept, raise slack — taken, split the
+  check by cause, cap flight by the bend).
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`.
-- Plan `docs/plans/mushroom-game-syama.paused.md` — bite 17 folded into
-  "Eaten so far" (item 18); "Rest of the elephant": the saving bite only.
-- Vet green at the polish (2271 tests); Artifact v29 at the tail's head.
-- The PR body was not refreshed this bite (`/pr`); `/finalize` does it.
-- No agent running, no worktree; remote `wt/g37` is old, left alone.
-- Local branches `stale/…` from earlier sessions may not exist here; this
-  container has `claude/mushroom-game-syama-lbirv7-stale-local` (9c390d9),
-  container-only.
+- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`
+  (mergeable read `UNKNOWN` at relay; `CONFLICTING` is `/finalize`'s).
+- Plan `docs/plans/mushroom-game-syama.paused.md`, with `## Rest of the
+bite` listing built and left; last pushed commit is this relay's.
+- Landed this session: 3a6757e spec, 76c1e8f S3, f48572e + f206059 S1,
+  1e0493b S2, 0634d42 S6, 714ca0e T1, 7e7a156 S4, 3ea15a8 watch slack,
+  bd99a9c S5a, 5bfa22c megabeast note.
+- No agent running, no worktree, no check-in armed; remote `wt/g37` is old,
+  left alone.
+- The `keep` play is red until S5b; `meadow` on tabL red with "the butterfly
+  sent away is still in the meadow" ×2 since S5a (base 3ea15a8 green).
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama.paused.md`, `…/saving.md`,
-  `…/bite-17.md`, `…/decisions.md`, `…/to-check.md`.
-- Bite 17's working notes are retired:
-  `docs/remove-before-merging/retired.md` (row `bite-17/`, 2beecd28ef).
-- Closing frames: `docs/remove-before-merging/frames/bite-17/end/`.
+- `docs/plans/mushroom-game-syama.paused.md` § "Rest of the bite";
+  `…/bite-18.md` (calls, steps).
+- `docs/remove-before-merging/bite-18/`: `brief-common.md` (the shared brief
+  — every agent reads it), `spec.md`, the hand-over notes `s1-settle.md`,
+  `s2-record.md`, `s3-walk-start.md`, `s4-store.md`, `s5a-opening.md` (§
+  "Left for S5b" is S5b's brief), `s6-keep-play.md`, `t1-butterfly-tap.md`,
+  `polish-items.md` (two `/dry` items).
+- Suite baseline before the bite: 0 fail, 501 s (`timeout 595 pnpm test`).
 - `.claude/skills/megabeast/notes/` by its `README.md`.
-- This session: https://claude.ai/code/session_01RzyF2iGuEev3pgeVfmKzdp
+- This session: https://claude.ai/code/session_01Vxr4MVNjGAeTFPY1YCV5Np
 
 ## 8. Next step
 
 go
 
-(Take the saving bite per the plan: flip `paused` → `in-progress`, write
-`## This bite` from `saving.md`, build it as one-step Opus agents, then the
-bite's tail as the loop says — `/relay оставь код ревью на последний кусок`
-for its review. Watch for the operator's answers on the phoneP gait button
-and day runs. Reply in Russian, «ты».)
+(Resume bite 18 from `## Rest of the bite`: flip `paused` → `in-progress`;
+brief S5b from `s5a-opening.md` § "Left for S5b" and, in parallel, a trace
+agent for the new `meadow` red (game or harness; the seed now drawn after
+the store opens); then the `keep` run and a look at its frames; then the
+tail as the plan's loop says, its review a subagent; fill the megabeast
+notes (condense `subagents.md` first) and relay `finalize` when the bite
+and its review are done. Reply in Russian, «ты». Still unanswered from
+earlier sessions: the phoneP gait button floating mid-sky, and day mouse
+runs gated short.)
