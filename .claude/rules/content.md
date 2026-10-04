@@ -113,13 +113,16 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 
 ## Punctuation around quotes
 
-**American, in every English sentence the repo's prose carries** — these
-collections' documents, the drafts under `writing/`, and the copy in `src/`: a
-comma or period after a quoted passage goes inside the closing quote
-(`“cheap,” and`, `reading "done."`), whether or not it belongs to the quotation
-and whatever the source's own style. A question mark, exclamation mark, colon or
-semicolon goes inside only when it is the quotation's own. Russian text keeps
-Russian rules, and code spans, fences and identifiers are not prose.
+**Typographic quotes, American punctuation, in every English sentence the
+repo's prose carries** — these collections' documents, the drafts under
+`writing/`, and the copy in `src/`. Quotes are curly (`“…”`), and a comma or
+period after a quoted passage goes inside the closing quote (`“cheap,” and`),
+whether or not it belongs to the quotation and whatever the source's own style.
+A question mark, exclamation mark, colon or semicolon goes inside only when it
+is the quotation's own. Russian text keeps Russian rules, `«…»` included, and
+code spans, fences and identifiers are not prose. `pnpm check:prose-quotes`
+fails on a straight double quote in the collections' documents; the rest is
+held by reading.
 
 ## Traps worth knowing
 
