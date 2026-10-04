@@ -39,7 +39,8 @@ the home page's memo and the last case filed, by number and date, so
 filing a case re-renders it. The card canvas now lives in shared
 config, which corrects the og:image size the Bible published
 (1024x1024 for a 2400x1260 PNG). The footer note no longer makes a
-phone-width page scroll sideways.
+phone-width page scroll sideways. Session cost rows gain a human-hour
+estimate, synced from the vendored agent infrastructure.
 
 Closes #98
 
