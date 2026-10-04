@@ -23,14 +23,15 @@ export function SourceList({ sources }: SourceListProps) {
         {sources.map(({ title, outlet, author, date, url, archive }) => (
           <li key={url}>
             {author === undefined ? '' : `${author}, `}
-            <Anchor href={url}>{title}</Anchor>, {outlet},{' '}
-            {typeof date === 'number' ? date : formatDocumentDate(date)}
+            <Anchor href={url}>{title}</Anchor>
             {archive !== undefined && (
               <>
                 {' '}
-                — <Anchor href={archive}>archived</Anchor>
+                (<Anchor href={archive}>archived</Anchor>)
               </>
             )}
+            , {outlet},{' '}
+            {typeof date === 'number' ? date : formatDocumentDate(date)}
           </li>
         ))}
       </ol>
