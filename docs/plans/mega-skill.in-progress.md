@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) _before_ touching code.
-
 # `/golem` — a huge task, run near-autonomously, with an operator who drops in
 
 The ask, verbatim:
@@ -124,13 +122,13 @@ Several notes ask for fixes in skills vendored from `vzakharov/muthur`, and this
 - **`gh pr edit` → REST**, the export's authorship label, and the test glob reaching into `tmp/`.
 - **The context-budget hook** reads a branch with an operator log as `auto-relay` `on`.
 
-muthur already fixed the notes' other pickup complaint, the auto-branch deleted at pickup (vzakharov/muthur#132), and this repo is three commits behind it. So the first step is `/update-muthur`, and the fixes above land on top of what it brings. Each fix is recorded against its path in `.claude/skills/update-muthur/watermark.json` as a local change, so the next sync reads it rather than overwriting it.
+muthur already fixed the notes' other pickup complaint, the auto-branch deleted at pickup (vzakharov/muthur#132). This branch does not sync for it: the sync is #95's, which holds the lock, and the fixes above touch other sections of the same files, so they merge with whatever it brings. Each fix is recorded against its path in `.claude/skills/update-muthur/watermark.json` as a local change, so the next sync reads it rather than overwriting it.
 
 **Once the PR is finalized**, the run files one issue on `vzakharov/muthur` linking it, asking for `/golem` and these fixes to be adopted in general form. The operator asked for that issue, so it is in the run's reach.
 
 ## Order
 
-1. `/update-muthur`, so the vendored fixes start from muthur's current copies.
+1. ~~`/update-muthur`~~ — dropped: #95 holds the sync (§ "Vendored fixes").
 2. Write the coverage table, against the notes and the thread. It is the skeleton every file is written to.
 3. `SKILL.md` and `operator.md`, which hold the new design.
 4. `start.md`, `relay.md`, `orchestrate.md`, `bite-end.md`, `review.md`, `look.md` and `templates/`, distilled from the table. These are file-disjoint, so they can go in parallel to agents briefed with their rows.
