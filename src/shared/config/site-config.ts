@@ -91,10 +91,9 @@ export type SiteConfig = Billed & {
 };
 
 /**
- * The Umami tracker, self-hosted on Railway under the author's domain so it
- * loads first-party. Renamed from Umami's default `script.js`, its collect
- * endpoint from `/api/send`, by the service's `TRACKER_SCRIPT_NAME` and
- * `COLLECT_API_ENDPOINT` — the names blocklists know.
+ * The self-hosted Umami tracker, under the author's domain so it loads
+ * first-party. The filename is the Railway service's `TRACKER_SCRIPT_NAME`, set
+ * away from Umami's blocklisted `script.js`: change one, change the other.
  */
 export const ANALYTICS_SCRIPT_URL = 'https://stats.vovazakharov.com/app.js';
 
