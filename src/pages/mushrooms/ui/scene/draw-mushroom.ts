@@ -47,19 +47,27 @@ export function drawMushroomShadow(
  * whose rotation is the lean, `turn` — so the scene squashes and rocks it from
  * the ground, the foot kept level with it — lit from where `lighting`, in
  * that turned frame, says (`mushroomLights`). `haze`, from 0 to 1, takes
- * every colour toward the air's, as distance does; `steps`, the chords to a
- * curve, follows how big the scene draws it (`curveSteps`). A chanterelle is
- * one trumpet (`paintTrumpet`); every other species a stem under a dome
- * (`paintDome`).
+ * every colour toward the air's as `dusk` has it (`hazeAir`), as distance
+ * does; `steps`, the chords to a curve, follows how big the scene draws it
+ * (`curveSteps`). A chanterelle is one trumpet (`paintTrumpet`); every other
+ * species a stem under a dome (`paintDome`).
  */
 export function drawMushroom(
   graphics: Phaser.GameObjects.Graphics,
   genes: MushroomGenes,
   size: number,
   lighting: Lighting,
-  { haze = 0, turn = 0, steps = CURVE_STEPS } = {},
+  { haze = 0, dusk = 0, turn = 0, steps = CURVE_STEPS } = {},
 ): void {
-  const brush = mushroomBrush(graphics, genes, size, lighting, haze, steps);
+  const brush = mushroomBrush(
+    graphics,
+    genes,
+    size,
+    lighting,
+    haze,
+    dusk,
+    steps,
+  );
   const stem = stemPoints(brush, turn);
   if (hasTrumpet(genes)) {
     paintTrumpet({ ...brush, genes }, stem);

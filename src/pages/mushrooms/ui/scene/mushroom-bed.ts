@@ -47,7 +47,13 @@ import {
   unplacedShown,
 } from './mushroom-shown';
 import type { Seat } from './perch-hosts';
-import { hazeAhead, repaintsDue } from './repaint-queue';
+import {
+  type Detailing,
+  type Dusking,
+  hazeAhead,
+  type Hazing,
+  repaintsDue,
+} from './repaint-queue';
 import type { MeadowSound } from './sound';
 import { SporeBed } from './spore-bed';
 import { crownOf, driftSpores } from './spore-drift';
@@ -85,6 +91,8 @@ export class MushroomBed implements Following {
   private selected: string | undefined;
   /** The screen's light as it last stood, which each mushroom takes from where it stands (`mushroomLights`). */
   private lighting: Lighting | undefined;
+  /** How far toward dusk the meadow showed at the last frame (`duskness`), which the haze's air turns with. */
+  private dusk = 0;
   /** How many mice each house holds, and their runs between the houses. */
   readonly runs: MouseRuns;
 
@@ -188,8 +196,9 @@ export class MushroomBed implements Following {
 
   /**
    * Stands every mushroom where `view` sees its foot, and repaints the
-   * nearest few whose haze there, sun side from its heading, or chords to a
-   * curve for its size there have drifted from their paint (`repaintsDue`).
+   * nearest few whose haze there, sun side from its heading, chords to a
+   * curve for its size there, or air the dusk turns have drifted from their
+   * paint (`repaintsDue`).
    */
   follow(view: View): void {
     this.view = view;
@@ -209,24 +218,40 @@ export class MushroomBed implements Following {
               ...pick(shown, 'paintedSunSide'),
               steps: stepsHere(shown),
               paintedSteps: shown.steps,
+              ...this.dusking(shown),
             },
           ];
     });
     const lit = this.lit();
     if (lit) this.selection.stand(lit);
-    for (const { shown, haze } of repaintsDue(hazing)) {
-      shown.haze = haze;
-      paintLit(shown, this.heading);
-    }
+    this.repaint(hazing);
   }
 
   /**
    * Breathes, wobbles and grows every mushroom at `t`, in seconds, each
    * swollen about its foot by the meadow's `wetness`, 0 to 1 (`RAIN_SWELL`),
    * its house, ring and the seats on its cap following its drawing, the
-   * house's windows lit as `lights` has the dusk.
+   * house's windows lit as `lights` has the dusk, and its haze toward the
+   * air as `dusk` (`duskness`) turns it.
    */
-  update(t: number, wetness: number, lights?: Lights): void {
+  update(t: number, wetness: number, lights?: Lights, dusk = 0): void {
+    this.dusk = dusk;
+    // Laid out, with no view to follow, the far ones still turn with the dusk.
+    if (!this.view) {
+      const standing = [...this.shown.values()].filter(
+        ({ goneAt }) => goneAt === Infinity,
+      );
+      this.repaint(
+        standing.map((shown) => ({
+          shown,
+          ...pick(shown, 'haze', 'paintedSunSide'),
+          painted: shown.haze,
+          ...pick(shown.stands, 'ahead'),
+          sunSide: shown.paintedSunSide,
+          ...this.dusking(shown),
+        })),
+      );
+    }
     const swell = 1 + RAIN_SWELL * wetness;
     for (const [id, shown] of this.shown) {
       const {
@@ -351,7 +376,27 @@ export class MushroomBed implements Following {
     Object.assign(shown, { laid: { x, y }, opening });
     this.stand(shown);
     shown.haze = this.hazeHere(shown) ?? haze;
+    shown.dusk = this.dusk;
     paintLit(shown, this.heading);
+  }
+
+  /** The dusk now and the one `shown` was painted at. */
+  private dusking({ dusk: paintedDusk }: Shown): Dusking {
+    const { dusk } = this;
+    return { dusk, paintedDusk };
+  }
+
+  /** Repaints those of `hazing` due (`repaintsDue`) at their haze now and the dusk's air. */
+  private repaint(
+    hazing: ReadonlyArray<
+      Hazing & Partial<Detailing> & Dusking & { shown: Shown }
+    >,
+  ): void {
+    const { dusk, heading } = this;
+    for (const { shown, haze } of repaintsDue(hazing)) {
+      Object.assign(shown, { haze, dusk });
+      paintLit(shown, heading);
+    }
   }
 
   /** The heading the view looks along, which the mushrooms are lit from; the opening's while they stand as laid out. */

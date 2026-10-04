@@ -25,8 +25,8 @@ import {
   CURVE_STEPS,
   detailed,
 } from '../../model/mushroom-profile';
-import { mix } from './colour';
 import { crescent } from './crescent';
+import { hazeTone } from './haze-tone';
 import type { WithGraphics } from './hit-areas';
 import { inkFor, type Lighting, litSide } from './ink';
 import type { Hazed } from './layout';
@@ -55,7 +55,7 @@ export type HazedGraphics = WithGraphics & Hazed;
 /**
  * One mushroom's brush: its graphics, genes and fills, the light it is lit
  * by, its size and ink line in pixels, `tone` taking a colour through its
- * haze, the maps from its own frame and its cap's to the canvas, and how
+ * haze toward the air at its dusk (`hazeTone`), the maps from its own frame and its cap's to the canvas, and how
  * many chords each of its curves is painted with (`curveSteps`).
  */
 export type MushroomBrush = Brush &
@@ -74,6 +74,7 @@ export function mushroomBrush(
   size: number,
   lighting: Lighting,
   haze: number,
+  dusk: number,
   steps = CURVE_STEPS,
 ): MushroomBrush {
   const canvas = toCanvas(size);
@@ -86,7 +87,7 @@ export function mushroomBrush(
     size,
     ink: inkWidth(size),
     haze: held,
-    tone: (colour) => mix(colour, PALETTE.air, held),
+    tone: hazeTone(held, dusk),
     canvas,
     toMushroom: capOnCanvas(genes, size),
     steps,

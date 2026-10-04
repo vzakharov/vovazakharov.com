@@ -217,7 +217,7 @@ export class MeadowScene extends Phaser.Scene {
       planting?.flower === undefined ? planting?.foot : undefined,
       dusk?.level ?? 0,
     );
-    bed?.update(t, rain?.wetness ?? 0, dusk?.lights);
+    bed?.update(t, rain?.wetness ?? 0, dusk?.lights, dusk?.level);
     controls?.update(t);
     map.update(t, dusk?.level ?? 0);
     const closing = bedClosing(rain?.wetness ?? 0, dusk?.level ?? 0);

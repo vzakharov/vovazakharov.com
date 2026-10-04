@@ -8,6 +8,13 @@ const SHARED = {
   skyHorizon: 0xd4_f1_ff,
   /** What distance takes a colour toward at ground level: a pale green-blue mist. */
   air: 0xd6_ea_e4,
+  /**
+   * What distance takes a thing on the ground toward at full dusk, `air`'s
+   * twin: a dim slate under the dusk ranges and the ground's top, so a far cap
+   * sinks into the dusk behind it rather than glowing off it. Darker than
+   * `DUSK.air`, which only the backdrop's own ranges mist toward.
+   */
+  airDusk: 0x40_4c_66,
   /** Cartoon ink: every outline in the foreground. */
   ink: 0x3b_22_18,
   /** A deep indigo: the warm sun's complement, and the blue of Syama's pen. */

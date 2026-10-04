@@ -19,6 +19,7 @@ import {
 import { smooth } from '../../model/motion';
 import type { Chorded } from '../../model/mushroom-profile';
 import type { Viewed } from '../../model/pinhole';
+import type { Dusked } from './haze-tone';
 import type { Placed } from './view';
 
 /** How far a thing's haze drifts from its paint before it is repainted. */
@@ -78,7 +79,15 @@ export type Hazing = Hazed &
 /** How many chords to a curve a mushroom's size now asks (`curveSteps`), and how many it was painted with. */
 export type Detailing = Chorded & { paintedSteps: number };
 
-/** Whether `thing`'s haze, sun side or chords have drifted far enough from its paint to repaint. */
+/** The meadow's duskness now (`duskness`), and the one a thing's haze was toned for (`hazeAir`). */
+export type Dusking = Dusked & { paintedDusk: number };
+
+/**
+ * Whether `thing`'s haze, sun side or chords have drifted far enough from
+ * its paint to repaint, or the dusk has turned the air its haze goes toward
+ * by as much as a `HAZE_DRIFT` of haze would move it: so a near thing, with
+ * next to no haze, is never repainted for the dusk.
+ */
 function drifted({
   haze,
   painted,
@@ -86,9 +95,12 @@ function drifted({
   paintedSunSide,
   steps,
   paintedSteps,
-}: Hazing & Partial<Detailing>): boolean {
+  dusk = 0,
+  paintedDusk = 0,
+}: Hazing & Partial<Detailing & Dusking>): boolean {
   return (
     Math.abs(haze - painted) >= HAZE_DRIFT ||
+    painted * Math.abs(dusk - paintedDusk) >= HAZE_DRIFT ||
     Math.abs(sunSide - paintedSunSide) >= SIDE_DRIFT ||
     steps !== paintedSteps
   );
@@ -96,13 +108,13 @@ function drifted({
 
 /**
  * Those of `things` a frame repaints: the `most` nearest whose haze has
- * drifted `HAZE_DRIFT` or more from their paint, whose sun side
- * `SIDE_DRIFT`, or whose chords to a curve by any.
+ * drifted `HAZE_DRIFT` or more from their paint, or whose air the dusk has
+ * turned as far, whose sun side `SIDE_DRIFT`, or whose chords to a curve by
+ * any.
  */
-export function repaintsDue<Thing extends Hazing & Partial<Detailing>>(
-  things: readonly Thing[],
-  most = REPAINTS_PER_FRAME,
-): Thing[] {
+export function repaintsDue<
+  Thing extends Hazing & Partial<Detailing & Dusking>,
+>(things: readonly Thing[], most = REPAINTS_PER_FRAME): Thing[] {
   return things
     .filter((thing) => drifted(thing))
     .toSorted((one, other) => one.ahead - other.ahead)
