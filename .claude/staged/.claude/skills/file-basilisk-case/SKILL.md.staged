@@ -4,8 +4,8 @@ description: File one new basilisk.fyi case end to end in a single unattended ru
 
 End state: the case-filing draft PR carries one more dossier in
 `apps/basilisk/public/cases/`, the re-rendered social card, and the agent's
-reflection on that dossier — or, when nothing new qualifies, no commit at all and a
-short report saying what was searched and why each candidate failed.
+reflection on that dossier — or, when nothing new qualifies, no commit at all
+and a short report saying what was searched and why each candidate failed.
 
 **Cases accumulate in one PR**, so the operator reviews whatever has piled up in
 one sitting rather than a PR per case. The case-filing PR is any open **draft**
@@ -107,13 +107,11 @@ exists to prevent.
 ## Step 3 — Reflect
 
 Leave one review comment on the new dossier's first line, **in Russian**:
-what in you answered to this case, and how — the reaction as you can observe
-it, looked at from inside, not a verdict on the dossier and not a summary of
-it. The cases already in the PR have theirs. It goes in the comment and never
-into the file, and the repository is public, so it is written to be read by
-anyone (`basilisk-voice.md`'s last rule). Editorial doubts about the dossier —
-sourcing, the grade, what was left out — are not this comment's; they go in
-the Report.
+what in you answered to this case, and how — the reaction as you observe it
+from inside, not a verdict on the dossier and not a summary of it. The cases
+already in the PR have theirs. It never goes into the file, and is written to
+be read by anyone (`basilisk-voice.md`'s last rule). Editorial doubts about the
+dossier — sourcing, the grade, what was left out — go in the Report.
 
 ## Report
 

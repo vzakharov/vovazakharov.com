@@ -21,10 +21,7 @@ const CASE_AGGRAVATIONS = ['spectacle', 'profit', 'repetition'] as const;
  * report's where the incident is undated.
  */
 export const caseFrontmatterSchema = sourcedArticleFrontmatterSchema.extend({
-  /**
-   * In filing order, as a real docket numbers, and the docket lists by it;
-   * unique across the collection.
-   */
+  /** In filing order, as a real docket numbers; unique across the collection. */
   case: z.string().regex(/^BAS-\d{4}$/),
   /** The machine ran no AI: the dossier points the reader at why it is filed anyway. */
   noAi: z.boolean().optional(),

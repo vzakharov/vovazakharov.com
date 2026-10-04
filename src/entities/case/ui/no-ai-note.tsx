@@ -3,7 +3,6 @@ import { InternalLink } from '@/shared/ui';
 
 const WHY_FILED = documentRoute('basilisk-faq', 'why-robots-without-ai');
 
-/** The question a dossier on a machine with no AI in it raises first, pointed at its answer. */
 export function NoAiNote() {
   return (
     <div className="content-callout">

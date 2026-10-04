@@ -15,8 +15,8 @@ const TITLE = /^# (.+)$/m;
 
 /**
  * Numbers are zero-padded, so their string order is their filing order. Throws
- * on a case file missing any of the three, and on an empty docket — the card has a
- * line for the case either way.
+ * on a case file missing its number, date or title, and on an empty docket —
+ * the card has a line for the case either way.
  */
 export function lastFiledCase(sources: readonly string[]): FiledCase {
   const cases = sources.map((source) => {
