@@ -11,9 +11,9 @@ This plan is a `/golem` run — open `.claude/skills/golem/SKILL.md`, whose tabl
 4. The last bite ends in `/finalize` without `and merge`.
 
 - **Model:** `<model id>`, passed to every `create_session` and `Agent` call, never inherited.
-- **Bite size:** counted in work packages, one agent's step each, before a bite is taken; more than two sequential packages is two bites.
+- **Bite size:** at most two sequential waves of subagents, each agent one step and none sized past the 170k subagent notice; research and spec go in the spike or a bite of their own.
 - **Relay depth:** read from `get_session`'s `lineage` at every relay, never counted (`relay.md`).
-- **Beside this file in `docs/plans/<slug>/`:** `decisions.md` (the calls), `operator-log.md`, `ideas.md` once an idea arrives, and one `bite-<nn>.md` per bite folded.
+- **Beside this file in `docs/plans/<slug>/`:** `decisions.md` (the calls), `operator-log.md`, `ideas.md` once an idea arrives, `design.md` during a re-steer, one `bite-<nn>.md` per bite folded, and the working files, each named `bite-<nn>-…` after the bite that wrote it: `briefs/`, `handover/`, `review/` (findings and calls), `screenshots/`.
 
 ### Standing rules
 

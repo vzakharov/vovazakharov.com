@@ -5,11 +5,11 @@ Opened once a bite's calls are settled and the session is about to brief agents,
 ## The orchestrator's own budget
 
 - **Pickup costs ~60–115k before any work, so spend nothing the agents can.** Open only the files the plan names as the slice's contracts, give exploration to agents, and check the budget before starting a fix round.
-- **One session orchestrates about one bite's specs and two build waves.** Each report costs ~2–4k plus its brief, and the pause usually lands after the wave that holds the integration, even in a one-package bite of six steps. Size the waves so the pause falls between them, and open one result per report, not everything it names.
+- **A bite is at most two sequential waves of subagents**, which is about what one session orchestrates: each report costs ~2–4k plus its brief, and the pause usually lands after the wave that holds the integration. Size the waves so the pause falls between them, and open one result per report, not everything it names.
 
 ## Settling the calls
 
-Each call goes into the bite's calls in the plan before the brief that cites it, with the alternative it beat, so every later brief is a pointer and every reply has something to cite. Each report's decisions are written there as the report arrives, so a restart loses none of them.
+Each call goes into the run's `docs/plans/<slug>/decisions.md` before the brief that cites it, with the alternative it beat, so every later brief is a pointer and every reply has something to cite. Each report's decisions are written there as the report arrives, so a restart loses none of them.
 
 - **A call with an unmeasured bar names its fallback in writing**, so the agent drops back without a re-brief.
 - **A number is stated as "derive it from `<file>`", never as a figure copied from prose**, and carries its unit as read off the function that consumes it. A figure from a hand-over note or a call's wording goes stale the moment the code moves.
@@ -18,8 +18,8 @@ Each call goes into the bite's calls in the plan before the brief that cites it,
 
 ## Shaping the work
 
-- **A bite whose shape is unclear — how something looks or feels, a subject nobody has mapped — runs research → spec → step 0 → parallel groups by file.** A research agent writes the spec, not code: each item names what the references do, the change in the code's terms, a checkable property and a cost. The orchestrator settles its open calls, runs step 0 (the shared split, a pure module both groups need) alone, then the groups in parallel with file lists disjoint down to named functions.
-- **Specs are one agent per theme or package, ~190k each**, each writing its own file and ending with its collision list: the files and types it shares with the others. A single spec agent fills before it maps half the ground; the collision lists make the waves trivial to plan.
+- **Work whose shape is unclear — how something looks or feels, a subject nobody has mapped — gets its research and spec ahead of the build**, in the spike before bite 1 or as a bite of its own: the spec agents are its first wave, and step 0 (the shared split, a pure module both groups need) its second. A research agent writes the spec, not code: each item names what the references do, the change in the code's terms, a checkable property and a cost. The orchestrator settles its open calls before the build bite, whose two waves are the groups, in parallel with file lists disjoint down to named functions, and their fix round.
+- **Specs are one agent per theme or package, each sized well under the 170k notice** and split in two where its ground would not fit, each writing its own file and ending with its collision list: the files and types it shares with the others. A single spec agent fills before it maps half the ground; the collision lists make the waves trivial to plan.
 - **Code nobody has read this session costs a reader before a builder.** The reader writes a fact sheet and the next step's design; the builder is briefed "read the note first, open only what it names, first commit within ~50k".
 - **A switch-over after additive packages gets a mapping agent first**: the call sites, the files outside the list that read the old shape, the design calls. The switch is then one step.
 - **A full check across configurations is one agent per configuration**, and the reds it finds are other agents' work, so checking and fixing run side by side.
@@ -28,7 +28,7 @@ Each call goes into the bite's calls in the plan before the brief that cites it,
 
 ## Briefs
 
-**Every brief points at `templates/brief-common.md`** and adds only its own steps, files, off-limits list and the calls it builds to. Before it goes out:
+**Every brief points at the run's common brief**, copied from `templates/brief-common.md` into `docs/plans/<slug>/briefs/` and committed, and adds only its own steps, files, off-limits list and the calls it builds to. Before it goes out:
 
 - **One build step plus its tests per agent**, a second only "if context allows", and the brief names the step that ends it. Writing a check, running it, looking at the results and tracing a red are each an agent of their own: every agent briefed "build, then look" runs out before the look. The hand-over note is the next brief's spine.
 - **A fix that needs a check run is a brief of its own**; nits and wording batch together.
@@ -37,7 +37,7 @@ Each call goes into the bite's calls in the plan before the brief that cites it,
 - **A constraint-tightening fix is briefed with the invariants it must not break**, named from the plan's decisions; the agent sweeps them and reports each place it departs from a design line.
 - **The agent stops at the first rule it cannot keep** and reports its options, measured. Only the orchestrator can weigh one standing decision against another.
 - **A fix from the operator's report is briefed "measure the cause first; stop if it differs from the plan's account."** A guessed cause in any report is a hypothesis for the brief, never its instruction, and a fix round first tests the check against its rule at the commit before, then tunes the code.
-- **Every fix carries a check of what the user sees.** A fix green in tests and invisible in use has its cause one layer out; on a second miss, send a research agent for the layer below rather than a third fix.
+- **Every fix carries a check of what the user sees.** A fix green in tests and invisible in use has its cause one layer out. A miss changes the kind of attempt — a research agent for the layer below is one kind — and `SKILL.md` § "Rules that hold on every turn of a run" says when it is parked.
 - **A downstream agent may change upstream code** for an invariant its result exposes, and lists each change in its report so the plan absorbs it.
 - **The `Agent` call passes the plan's model** (`SKILL.md`): an inherited one lands on the operator's default.
 
@@ -57,7 +57,9 @@ Each call goes into the bite's calls in the plan before the brief that cites it,
 ## Worktrees and landing
 
 - **Each agent works in its own worktree outside the repo**, in the scratchpad, with its own dependency install, nothing symlinked. The shared checkout is the orchestrator's: in a shared tree a sibling's half-written module fails the checks, and `git stash`, `git checkout -- <path>` and `git restore` sweep up siblings' edits, so a brief that does share the tree bans all three.
-- **An agent pushes each passing step to its own `wt/<pkg>` and lands its package on the run's branch as one squash commit**, so a restart loses nothing and the branch's history stays the work's, not one merge per push. The mechanics are `templates/brief-common.md`'s.
+- **An agent pushes each passing step to its own `wt/<pkg>` and lands its package on the run's branch as one squash commit**, so a restart loses nothing and the branch's history stays the work's, not one merge per push. The agent's mechanics are `templates/brief-common.md`'s; the order and the conflicts are the orchestrator's:
+  - **Within a wave, a package lands before any package that builds on its API** (§ "Waves by file"); the rest land as they finish.
+  - **A conflict where both sides' lines can stand is the landing agent's to resolve**, the gates green again before its push. One where the two sides disagree on a shared thing's shape comes back as a report instead: the orchestrator settles it as a call and re-briefs the later package against what landed.
 - **As each report lands, remove the agent's worktree and delete its `wt/<pkg>` ref** with `gh api -X DELETE repos/<owner>/<repo>/git/refs/heads/wt/<pkg>` (`git push --delete` can hang at a proxy). The run created the ref, so deleting it is in reach. A taste call's branch stays until the operator answers, since it is what switching costs (`operator.md` § "The intake"). A worktree left inside the repo — `isolation: "worktree"` puts one under `.claude/worktrees/` — shows untracked on every turn and sits in the test glob. Never remove a dead agent's worktree before trying to resume it.
 
 ## Reports
@@ -71,7 +73,7 @@ Each call goes into the bite's calls in the plan before the brief that cites it,
 ## Watching agents
 
 - **A subagent cannot see its own context.** The context-budget hook tells it at 170k to commit, bring its note current and report (`.claude/context-budget/CLAUDE.md`).
-- **The backstop is a `send_later` check-in armed with each wave**, ~10–12 minutes for a build or check agent, rarely needed for a reader: an agent stuck in one long command fires no tool call, so the hook never reads it. The check-in reads the branch's new commits and the agent's usage off its output file, never its content, and its prompt says to relaunch from the note if the agent is gone:
+- **The backstop is a `send_later` check-in armed with each wave**, ~10–12 minutes for a build or check agent, rarely needed for a reader: an agent stuck in one long command fires no tool call, so the hook never reads it. The check-in reads the branch's new commits and the agent's usage off its output file, never its content, and its prompt says to relaunch from the note if the agent is gone. A check-in fires into the session that armed it, so the pending ones are cancelled with `delete_trigger` before a relay (`relay.md`). The usage read:
 
   ```sh
   jq -c 'select(.message.usage) | .message.usage | (.input_tokens + (.cache_read_input_tokens//0) + (.cache_creation_input_tokens//0))' <output_file> | tail -1
@@ -90,6 +92,6 @@ Each call goes into the bite's calls in the plan before the brief that cites it,
 A container restart or a usage limit kills running agents and their notifications, but not their pushed work or their worktrees, and nothing reports it.
 
 - **Keep each agent's id until its report lands.**
-- **Before re-dispatching anything, read `origin`'s log, the remote `wt/*` refs, the hand-over notes, `git worktree list` and each tree's `git status`**, since a dead agent may have finished.
+- **Before re-dispatching anything, read `origin`'s log, the remote `wt/*` refs, the hand-over notes in `docs/plans/<slug>/handover/`, `git worktree list` and each tree's `git status`**, since a dead agent may have finished.
 - **Resume a dead agent by `SendMessage` to its id**, saying where it stopped and that its worktree is intact; it revives whole from its transcript. A worktree whose agent cannot be revived is rescued with `git -C <wt> add -A`, a `wip` commit and a push, and its successor reviews that commit first. A lost report comes back off the agent's output file: `jq -r 'select(.type=="assistant") | .message.content[]? | select(.type=="text") | .text' <output_file> | tail -c 5000`.
 - **When the Stop hook flags uncommitted edits while agents run**, they are the agents' work in progress: run `git status`, push what the orchestrator owns, and stop. Committing an agent's half-done files collides with its own commit.
