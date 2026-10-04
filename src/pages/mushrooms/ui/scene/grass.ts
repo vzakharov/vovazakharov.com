@@ -1,19 +1,12 @@
 import type * as Phaser from 'phaser';
 
 import { type Phased, shake, sway } from '../../model/motion';
-import { pinholeOf } from '../../model/pinhole';
-import { between, type Random, skewedBetween } from '../../model/random';
-import { groundAt } from './backdrop-tones';
+import { between, type Random } from '../../model/random';
+import { groundAt, type Tones, tonesAt } from './backdrop-tones';
 import { mix } from './colour';
 import type { Footing, MeadowLayout } from './layout';
-import { PALETTE } from './palette';
-import { type Azimuthed, screenAt } from './panorama';
-import { browRow, onScreen, type View } from './view';
+import { DUSK, PALETTE } from './palette';
 
-/** How many tufts break the brow up per 1000 CSS px of the panorama, as the screen's middle shows it. */
-const SEAM_TUFTS_PER_1000PX = 28;
-/** How far below the brow the tufts that break it up are rooted, as shares of the ground's depth. */
-const SEAM_SCATTER = [0.004, 0.09] as const;
 /** How far a tuft's tip swings in the breeze, in units of its size. */
 const SWING = 0.35;
 /** How far a tuft's tip swings as it shakes its head, refusing a flower. */
@@ -33,14 +26,41 @@ type TuftColours = { flank: number; middle: number; crown: number };
 
 export type Tuft = Footing & Phased & TuftColours;
 
-/** A tuft's colours `down` of the way from the ground's top to the bottom edge, fading into the ground the farther back it stands. */
-export function tuftColours(down: number): TuftColours {
-  const under = groundAt(down);
-  const fade = (1 - down) * FADE;
+/** The light the grass is toned in: the backdrop's tones, the ground's under it, and the grass's own colours, all at one duskness. */
+export type Turf = Record<'tuft' | 'tuftDark' | 'groundLit', number> & {
+  tones: Tones;
+};
+
+/** The grass's light `dusk` of the way to full dusk: each colour between its day's and its dusk twin (`DUSK`), as the ground's (`tonesAt`). */
+export function turfAt(dusk: number): Turf {
+  const colour = (name: 'tuft' | 'tuftDark' | 'groundLit') =>
+    mix(PALETTE[name], DUSK[name], Math.min(1, Math.max(0, dusk)));
   return {
-    flank: mix(PALETTE.tuftDark, under, fade),
-    middle: mix(PALETTE.tuft, under, fade),
-    crown: mix(mix(PALETTE.tuft, PALETTE.groundLit, 0.4), under, fade),
+    tones: tonesAt(dusk),
+    tuft: colour('tuft'),
+    tuftDark: colour('tuftDark'),
+    groundLit: colour('groundLit'),
+  };
+}
+
+const DAY_TURF = turfAt(0);
+
+/**
+ * A tuft's colours `down` of the way from the ground's top to the bottom
+ * edge in `turf`'s light, fading into the ground under it the farther back
+ * it stands, and `faded` of the rest of the way besides.
+ */
+export function tuftColours(
+  down: number,
+  turf: Turf = DAY_TURF,
+  faded = 0,
+): TuftColours {
+  const under = groundAt(down, turf.tones);
+  const fade = faded + (1 - faded) * (1 - down) * FADE;
+  return {
+    flank: mix(turf.tuftDark, under, fade),
+    middle: mix(turf.tuft, under, fade),
+    crown: mix(mix(turf.tuft, turf.groundLit, 0.4), under, fade),
   };
 }
 
@@ -95,53 +115,8 @@ export function tuftSizeAt(
   return (0.6 + downAt(screen, y)) * (screen.height - screen.groundTop) * 0.03;
 }
 
-/**
- * A tuft of the grass along the meadow's brow: the azimuth it stands at round
- * the panorama, how far below the brow it is rooted, as a share of the
- * ground's depth, and its place in the breeze.
- */
-export type SeamTuft = Azimuthed & Phased & { below: number };
-
-/**
- * The grass scattered just under the brow, the meadow's visible far edge,
- * round the whole panorama, drawn from `random`, so the same source regrows
- * it: it breaks the brow's line up rather than lining it, standing behind
- * the flowers' band, where no flower is planted. It stands at the horizon,
- * so a turn slides it and a step moves none of it, and one tuft to each even
- * share of the circle shows every heading it at one density.
- */
-export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
-  const { arc } = pinholeOf(layout.camera);
-  const round = Math.PI * 2 * arc;
-  const count = Math.round((round / 1000) * SEAM_TUFTS_PER_1000PX);
-  // One to each even share of the circle, anywhere in it.
-  const share = (Math.PI * 2) / count;
-  return Array.from({ length: count }, (_, index) => {
-    const azimuth = -Math.PI + share * (index + random());
-    const below = skewedBetween(random, ...SEAM_SCATTER, 1.6);
-    // The gust lags by the tuft's arc round the panorama, whichever way the eye looks.
-    return { azimuth, below, phase: gustPhase(arc * azimuth, random) };
-  });
-}
-
 /** How far past the screen's edge, in units of its size, a tuft still has blades on it. */
 export const BLADE_OVERHANG = 3;
-
-/**
- * The tufts of `seam` that `view`'s screen shows, each where it stands
- * across it, rooted under the brow at its x (`browRow`): on the ground's
- * near side of the brow, so the near hills beyond it never show one,
- * whatever their light.
- */
-export function seamShown(view: View, seam: readonly SeamTuft[]): Tuft[] {
-  const depth = view.height - view.groundTop;
-  return seam.flatMap(({ azimuth, below, phase }) => {
-    const x = screenAt(view, azimuth);
-    const y = browRow(view, x) + depth * below;
-    const shown = tuftRooted(view, x, y, phase);
-    return onScreen(view, shown, -BLADE_OVERHANG * shown.size) ? [shown] : [];
-  });
-}
 
 export type WithTuft = { tuft: Tuft };
 
@@ -188,19 +163,6 @@ function bladesOf({ flank, middle }: Tuft): readonly Blade[] {
   ];
 }
 
-/** The seam's grass as it bends at `time`, into `graphics` cleared for it. */
-export function paintTufts(
-  graphics: Phaser.GameObjects.Graphics,
-  tufts: readonly Tuft[],
-  time: number,
-): void {
-  graphics.clear();
-  for (const tuft of tufts) {
-    const bend = sway(time, tuft.phase) * SWING;
-    paintBlades(graphics, tuft, bend, bladesOf(tuft), tuft.crown);
-  }
-}
-
 /** How much taller the tuft the picker is open on stands, and how fast its glow breathes, per second. */
 const MARKED_LIFT = 0.18;
 const GLOW_RATE = 2.4;
@@ -210,7 +172,7 @@ export type Sprouting = { refused?: Refusal; marked?: Tuft };
 
 /**
  * The ground's grass, every tuft a flower can be planted on, as it bends at
- * `time`, into `graphics` over the seam's grass: plain tufts like the seam's.
+ * `time`, into `graphics`, and the seam's grass with it, plain tufts.
  * The tuft `marked` stands taller on a breathing glow; the one of `refused`
  * shakes its head.
  */

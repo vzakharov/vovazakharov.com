@@ -214,6 +214,7 @@ export class MeadowScene extends Phaser.Scene {
     grass?.update(
       t,
       planting?.flower === undefined ? planting?.foot : undefined,
+      dusk?.level ?? 0,
     );
     bed?.update(t, rain?.wetness ?? 0, dusk?.lights);
     controls?.update(t);
@@ -412,7 +413,7 @@ export class MeadowScene extends Phaser.Scene {
     // Its own stream, so a planting never shifts the backdrop's.
     this.grass ??= new Grass(this, mulberry32(this.visitSeed ^ 0x70_f7_5e));
     const stand = this.stand();
-    if (stand) this.grass.paint(stand, random);
+    if (stand) this.grass.paint(stand);
     this.shutStrayPicker();
     // One device pixel is the thinnest line the screen shows.
     const lighting = { ...sunLight(layout), hairline: 1 / ratio };

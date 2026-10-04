@@ -14,7 +14,7 @@ import {
   tonesAt,
 } from './backdrop-tones';
 import { channels, contrast, luminance, mix, toHsv } from './colour';
-import { tuftColours } from './grass';
+import { tuftColours, turfAt } from './grass';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { DUSK, PALETTE } from './palette';
 import { azimuthAt, crestAt, screenAt } from './panorama';
@@ -185,6 +185,26 @@ describe('the backdrop', () => {
       .filter((down) => down >= 0.6)
       .map((down) => standOut(down));
     assert.ok(Math.max(...back) < Math.min(...front));
+  });
+
+  it('tones the grass with the ground at dusk, no blade lighter over the dusk ground than over the day’s', () => {
+    // Within a few hundredths: at the brow a blade is mostly the misted ground under it.
+    const SLACK = 0.04;
+    const [day, dusk] = [turfAt(0), turfAt(1)];
+    /** How many times lighter a tuft's lightest blade stands than the ground under it, in `turf`. */
+    const lighter = (down: number, turf: typeof day) =>
+      Math.max(
+        ...Object.values(tuftColours(down, turf)).map((colour) =>
+          luminance(colour),
+        ),
+      ) / luminance(groundAt(down, turf.tones));
+    for (let at = 0; at <= 20; at++) {
+      const down = at / 20;
+      assert.ok(
+        lighter(down, dusk) <= lighter(down, day) + SLACK,
+        `${down}: ${lighter(down, dusk).toFixed(3)} at dusk, ${lighter(down, day).toFixed(3)} by day`,
+      );
+    }
   });
 
   for (const [name, width, height] of VIEWPORTS) {

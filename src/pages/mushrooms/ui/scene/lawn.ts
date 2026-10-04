@@ -88,18 +88,28 @@ export function regrowTufts(
 /** A lawn: the visit's `seed`, which every cell's stream is drawn off, laid out on `layout`. */
 export type Lawn = Seeded & Pick<Stand, 'layout'>;
 
-/** What a cell of the lawn grows: its tufts and its mottles. */
-export type CellLawn = { tufts: Sprout[]; mottles: Mottle[] };
+/**
+ * How many tufts of the seam's grass a cell grows: 2.2 to a square of the
+ * clump's size, which the brow's band (`SEAM_BAND`) shows at about the
+ * density the far ground needs to read as grassy to its edge.
+ */
+const SEAM_PER_CELL = Math.round(2.2 * CELL * CELL);
 
 /**
- * What `cell` of `lawn` grows, anywhere in the cell, from the cell's own
- * stream: `TUFTS_PER_CELL` tufts, each in a flower's size, then
- * `MOTTLES_PER_CELL` mottles, drawn after the tufts so they leave the tufts'
- * draws as they are.
+ * What a cell of the lawn grows: its tufts, its mottles, and its share of
+ * the seam's grass, which only the band under the brow shows and no flower
+ * is planted on.
  */
-export function cellLawn(lawn: Lawn, cell: Cell): CellLawn {
-  const random = mulberry32(cellSeed(lawn.seed, cell));
-  const tufts = Array.from({ length: TUFTS_PER_CELL }, () => {
+export type CellLawn = { tufts: Sprout[]; mottles: Mottle[]; seam: Sprout[] };
+
+/** `count` tufts anywhere in `cell` of `lawn`, each in a flower's size, from `random`. */
+function sproutsIn(
+  lawn: Lawn,
+  cell: Cell,
+  count: number,
+  random: Random,
+): Sprout[] {
+  return Array.from({ length: count }, () => {
     const foot = {
       x: (cell.i + random()) * CELL,
       y: (cell.j + random()) * CELL,
@@ -107,11 +117,23 @@ export function cellLawn(lawn: Lawn, cell: Cell): CellLawn {
     };
     return sproutOn(lawn.layout, foot, random);
   });
+}
+
+/**
+ * What `cell` of `lawn` grows, anywhere in the cell, from the cell's own
+ * stream: `TUFTS_PER_CELL` tufts, then `MOTTLES_PER_CELL` mottles, then
+ * `SEAM_PER_CELL` tufts of the seam's grass, each drawn after the last so it
+ * leaves the earlier draws as they are.
+ */
+export function cellLawn(lawn: Lawn, cell: Cell): CellLawn {
+  const random = mulberry32(cellSeed(lawn.seed, cell));
+  const tufts = sproutsIn(lawn, cell, TUFTS_PER_CELL, random);
   const corner = { x: cell.i * CELL, y: cell.j * CELL };
   const mottles = Array.from({ length: MOTTLES_PER_CELL }, () =>
     mottleIn(random, corner, CELL),
   );
-  return { tufts, mottles };
+  const seam = sproutsIn(lawn, cell, SEAM_PER_CELL, random);
+  return { tufts, mottles, seam };
 }
 
 export function cellTufts(lawn: Lawn, cell: Cell): Sprout[] {
@@ -130,6 +152,7 @@ export class LiveLawn {
   private at: Cell | undefined;
   private tufts: readonly Sprout[] = [];
   private liveMottles: readonly Mottle[] = [];
+  private liveSeam: readonly Sprout[] = [];
 
   private readonly lawn: Lawn;
 
@@ -153,12 +176,18 @@ export class LiveLawn {
     const grown = [...cells.values()];
     this.tufts = grown.flatMap(({ tufts }) => tufts);
     this.liveMottles = grown.flatMap(({ mottles }) => mottles);
+    this.liveSeam = grown.flatMap(({ seam }) => seam);
     return this.tufts;
   }
 
   /** The live cells' mottles as of the last `round`. */
   get mottles(): readonly Mottle[] {
     return this.liveMottles;
+  }
+
+  /** The live cells' seam grass as of the last `round`. */
+  get seam(): readonly Sprout[] {
+    return this.liveSeam;
   }
 
   /** The tufts of the cell `foot` stands in, live or not. */

@@ -22,7 +22,8 @@ export const DUSK = {
   ground: 0x46_6e_52,
   groundDeep: 0x30_52_44,
   browLit: 0xe8_b8_a4,
-  tuft: 0x62_92_60,
+  /** As far over the dusk ground as the day's tuft stands over the day's, so the grass never glows. */
+  tuft: 0x5a_88_58,
   tuftDark: 0x22_44_34,
   cloud: 0xa8_96_cc,
   /** A cloud's underside, lit rose by the sun below the hills. */

@@ -12,13 +12,15 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { sameFoot } from '../../model/game';
-import type { Point } from '../../model/geometry';
+import { distanceBetween, type Point } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,
+  D_SEE,
   type Eye,
   type Footing,
   OPENING_EYE,
 } from '../../model/ground';
+import { smooth } from '../../model/motion';
 import type { Random } from '../../model/random';
 import { depthOf, UNPLACED } from './bed-place';
 import { coversShown, inSightPast } from './flower-cover';
@@ -29,19 +31,18 @@ import {
   BLADE_OVERHANG,
   downAt,
   paintSprouts,
-  paintTufts,
   type Refusal,
-  seamGrass,
-  seamShown,
-  type SeamTuft,
   type Tuft,
   tuftColours,
   tuftSizeAt,
+  type Turf,
+  turfAt,
   type WithTuft,
 } from './grass';
 import { LiveLawn, regrowTufts, type Sprout, sproutOn } from './lawn';
 import type { MeadowLayout } from './layout';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
+import { PALE_SPAN } from './repaint-queue';
 import { Tended, tendedIn } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
 import {
@@ -96,11 +97,15 @@ export type ShownGrass = { near: ShownSprout[]; behind: ShownSprout[] };
 /**
  * Where `view` draws each of `sprouts`: hidden near the eye and sunk past the
  * brow as a bed's things are (`bed-place.ts`), sized and toned by its screen
- * row as the ground's bands are (`tuftSizeAt`), wherever on the plane it stands.
+ * row in `turf`'s light as the ground's bands are (`tuftSizeAt`), wherever on
+ * the plane it stands, and faded into the ground as far as `faded` says for
+ * its distance from the eye.
  */
 export function shownSprouts(
   view: View,
   sprouts: readonly Sprout[],
+  turf: Turf = turfAt(0),
+  faded: (distance: number) => number = () => 0,
 ): ShownGrass {
   const shown: ShownGrass = { near: [], behind: [] };
   for (const sprout of sprouts) {
@@ -112,13 +117,44 @@ export function shownSprouts(
     if (!onScreen(view, drawn, -BLADE_OVERHANG * size)) continue;
     const tuft = {
       ...sprout.tuft,
-      ...tuftColours(downAt(view, drawn.y)),
+      ...tuftColours(downAt(view, drawn.y), turf, faded(placed.distance)),
       ...pick(drawn, 'x', 'y'),
       size,
     };
     (behindHills(placed) ? shown.behind : shown.near).push({ tuft, sprout });
   }
   return shown;
+}
+
+/**
+ * How deep, in the clump's size, the band under the brow the seam's grass
+ * shows in runs toward the eye: its nearer half fades the grass into the
+ * ground, so a tuft a step brings nearer melts away rather than going.
+ */
+export const SEAM_BAND = 1;
+
+/** How far into the ground under it a tuft of the seam's grass `distance` from the eye is faded: wholly at the band's near edge, none from its middle out. */
+export function seamFaded(distance: number): number {
+  return 1 - smooth((distance - (D_SEE - SEAM_BAND)) / (SEAM_BAND / 2));
+}
+
+/**
+ * Where `view` draws the seam's grass `seam`, in `turf`'s light: the tufts
+ * in the band under the brow and those just past it, sinking, each standing
+ * on its foot on the plane as the lawn's do, so a step and a turn move it as
+ * they move the ground, the nearer the more.
+ */
+export function shownSeam(
+  view: View,
+  seam: readonly Sprout[],
+  turf: Turf,
+): ShownGrass {
+  const { eye } = view;
+  const banded = seam.filter(({ foot }) => {
+    const distance = distanceBetween(eye, foot);
+    return distance > D_SEE - SEAM_BAND && distance < D_SEE + PALE_SPAN;
+  });
+  return shownSprouts(view, banded, turf, seamFaded);
 }
 
 /** Each scene's grass, for the flowers' hit tests to yield to (`tuftUnder`). */
@@ -131,7 +167,7 @@ export function tuftUnder(scene: Phaser.Scene, point: Point): boolean {
 
 /**
  * The meadow's grass on screen, through each frame's view: the seam's grass
- * round the panorama and the ground's tufts, as many as `tendTufts` lets
+ * in the band under the brow and the ground's tufts, as many as `tendTufts` lets
  * stand, bending in the breeze, the tuft the flower picker is open on marked,
  * and the tuft that last refused a flower shaking its head. A tuft takes a
  * tap where it was last drawn.
@@ -151,7 +187,8 @@ export class Grass {
   private layout: MeadowLayout | undefined;
   /** The lawn's tufts round the eye, laid out on `layout`. */
   private lawn: LiveLawn | undefined;
-  private seam: readonly SeamTuft[] = [];
+  /** The light the grass was last toned in, and the duskness it was toned for. */
+  private lit: { dusk: number; turf: Turf } = { dusk: 0, turf: turfAt(0) };
   /** Every tuft a pulled flower left, standing or not (`leaveTufts`). */
   private left: readonly Sprout[] = [];
   /** The tufts that stand and the stand and eye they were tended to. */
@@ -182,15 +219,10 @@ export class Grass {
     this.tended.follow(view);
   }
 
-  /**
-   * Grows the seam's grass for `stand` from `random`, the same source
-   * regrowing the same, lays the lawn out on its layout, each tuft kept on
-   * its foot, and tends it.
-   */
-  paint(stand: Stand, random: Random): void {
+  /** Lays the lawn out on `stand`'s layout, each tuft kept on its foot, and tends it. */
+  paint(stand: Stand): void {
     const { layout } = stand;
     const { seed, left, growing, view, tended } = this;
-    this.seam = seamGrass(layout, random);
     if (this.layout !== layout) {
       this.lawn = new LiveLawn({ seed, layout });
       this.left = regrowTufts(layout, left, growing);
@@ -232,20 +264,25 @@ export class Grass {
     return this.tended.standing().some((sprout) => sameFoot(sprout.foot, foot));
   }
 
-  /** The grass as it bends at `t` through the view last followed, the tuft on `open`, the flower picker's, marked. */
-  update(t: number, open: Footing | undefined): void {
-    const { graphics, behind, view, refused, seam, lawn, tended } = this;
+  /**
+   * The grass as it bends at `t` through the view last followed, toned
+   * `dusk` of the way to full dusk, the tuft on `open`, the flower picker's,
+   * marked.
+   */
+  update(t: number, open: Footing | undefined, dusk: number): void {
+    const { graphics, behind, view, refused, lawn, tended } = this;
     const { mottled, mottledFor } = this;
+    graphics.clear();
     behind.clear();
-    if (!view) {
-      graphics.clear();
-      return;
-    }
+    if (!view) return;
+    const turf = this.turfAt(dusk);
     if (lawn && view !== mottledFor) {
       paintMottles(mottled, shownMottles(view, lawn.mottles));
       this.mottledFor = view;
     }
-    const shown = shownSprouts(view, tended.standing());
+    const shown = shownSprouts(view, tended.standing(), turf);
+    lawn?.round(view.eye);
+    const seam = shownSeam(view, lawn?.seam ?? [], turf);
     this.shown = shown;
     const drawn = [...shown.near, ...shown.behind];
     const drawnOf = (holds: (sprout: Sprout) => boolean) =>
@@ -256,10 +293,10 @@ export class Grass {
       marked,
       refused: refused && shaken && { ...refused, tuft: shaken },
     };
-    paintTufts(graphics, seamShown(view, seam), t);
+    // The seam's grass first, under the lawn's, whose tufts stand nearer.
     for (const [into, these] of [
-      [graphics, shown.near],
-      [behind, shown.behind],
+      [graphics, [...seam.near, ...shown.near]],
+      [behind, [...seam.behind, ...shown.behind]],
     ] as const) {
       paintSprouts(
         into,
@@ -268,6 +305,12 @@ export class Grass {
         sprouting,
       );
     }
+  }
+
+  /** The grass's light `dusk` of the way to full dusk, toned afresh only when the duskness moves. */
+  private turfAt(dusk: number): Turf {
+    if (dusk !== this.lit.dusk) this.lit = { dusk, turf: turfAt(dusk) };
+    return this.lit.turf;
   }
 
   /** The standing tuft a tap at `point`, on the screen, lands on, where the last frame drew it (`tuftAt`). */

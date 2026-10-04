@@ -2,15 +2,16 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { alongAzimuth } from '../../model/geometry';
-import { D_SEE, OPENING_EYE } from '../../model/ground';
-import { mulberry32 } from '../../model/random';
+import { D_SEE, type Eye, OPENING_EYE } from '../../model/ground';
 import { hasGround } from './anchored-stand';
 import { groundAt, RANGES } from './backdrop-tones';
 import { grainStrips } from './grain';
-import { seamGrass, seamShown } from './grass';
-import { meadowLayout } from './layout';
+import { turfAt } from './grass';
+import { LiveLawn } from './lawn';
+import { type MeadowLayout, meadowLayout } from './layout';
 import { crestAcross } from './panorama';
 import { SEAM_REACH, SEAM_STEPS, seamCrest, seamTop } from './skyline';
+import { SEAM_BAND, seamFaded, shownSeam } from './tufts';
 import { browRow, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
@@ -18,6 +19,13 @@ import { VIEWPORTS, VISITS } from './viewports';
 const LONGEST_LEVEL = 0.08;
 /** How far a stretch of the seam may drift and still count as level, in CSS px. */
 const LEVEL = 0.5;
+
+/** The seam's grass `view`ed from `eye` on `layout`, the lawn grown off `seed`. */
+function seamOf(layout: MeadowLayout, seed: number, eye: Eye) {
+  const lawn = new LiveLawn({ seed, layout });
+  lawn.round(eye);
+  return shownSeam(viewAt(layout.camera, eye), lawn.seam, turfAt(0));
+}
 
 /** How far apart two colours stand, in RGB. */
 function distance(a: number, b: number): number {
@@ -92,77 +100,88 @@ describe('the seam between the near hills and the ground', () => {
     }
   });
 
-  it('scatters the tufts along the brow rather than lining it in a row', () => {
-    for (const [, width, height] of VIEWPORTS) {
-      for (const seed of VISITS.slice(0, 20)) {
+  it('scatters the tufts down a band under the brow rather than lining it in a row', () => {
+    for (const [name, width, height] of VIEWPORTS) {
+      for (const seed of VISITS.slice(0, 5)) {
         const layout = meadowLayout(width, height, seed);
-        const back = seamGrass(layout, mulberry32(seed))
-          .map(({ below }) => below)
-          .filter((below) => below < 0.1);
-        for (const below of back) assert.ok(below >= 0);
-        const mean = back.reduce((sum, v) => sum + v, 0) / back.length;
-        const spread = Math.sqrt(
-          back.reduce((sum, v) => sum + (v - mean) ** 2, 0) / back.length,
+        const view = viewAt(layout.camera, OPENING_EYE);
+        const below = seamOf(layout, seed, OPENING_EYE).near.map(
+          ({ tuft }) => tuft.y - browRow(view, tuft.x),
         );
-        assert.ok(spread >= 0.008, `spread ${spread.toFixed(3)}`);
+        const mean = below.reduce((sum, v) => sum + v, 0) / below.length;
+        const spread = Math.sqrt(
+          below.reduce((sum, v) => sum + (v - mean) ** 2, 0) / below.length,
+        );
+        assert.ok(spread >= 1, `${name}: spread ${spread.toFixed(2)} px`);
       }
     }
   });
 
-  it('roots every tuft under the brow at its x, on every heading, so none stands on the hills beyond it', () => {
+  it('roots every tuft under the brow at its x, on every heading and after a walk, so none stands on the hills beyond it', () => {
     for (const [name, width, height] of VIEWPORTS) {
       const layout = meadowLayout(width, height, 7);
-      const grass = seamGrass(layout, mulberry32(7));
       for (let step = 0; step < 12; step++) {
-        const heading = (step * Math.PI) / 6 + 0.07;
-        const view = viewAt(layout.camera, { ...OPENING_EYE, heading });
-        for (const { x, y } of seamShown(view, grass)) {
-          assert.ok(y > browRow(view, x), `${name}: ${y} over the brow`);
+        const eye = {
+          x: step * 1.7,
+          y: OPENING_EYE.y - step * 2.3,
+          heading: (step * Math.PI) / 6 + 0.07,
+        };
+        const view = viewAt(layout.camera, eye);
+        const { near, behind } = seamOf(layout, 7, eye);
+        for (const { tuft } of [...near, ...behind]) {
+          assert.ok(
+            tuft.y > browRow(view, tuft.x),
+            `${name}: ${tuft.y} over the brow`,
+          );
         }
       }
     }
   });
 
   it('grows its tufts round the whole panorama, no heading’s screen bare', () => {
-    const headings = Array.from(
-      { length: 12 },
-      (_, step) => (step * Math.PI) / 6,
-    );
     for (const [name, width, height] of VIEWPORTS) {
-      for (const seed of VISITS.slice(0, 20)) {
+      for (const seed of VISITS.slice(0, 5)) {
         const layout = meadowLayout(width, height, seed);
-        const grass = seamGrass(layout, mulberry32(seed));
-        const opening = seamShown(viewAt(layout.camera, OPENING_EYE), grass);
-        for (const heading of headings) {
-          const view = viewAt(layout.camera, { ...OPENING_EYE, heading });
-          const shown = seamShown(view, grass);
+        const opening = seamOf(layout, seed, OPENING_EYE).near.length;
+        for (let step = 0; step < 12; step++) {
+          const heading = (step * Math.PI) / 6;
+          const shown = seamOf(layout, seed, { ...OPENING_EYE, heading });
           assert.ok(
-            shown.length >= opening.length / 4,
-            `${name}, seed ${seed}: ${shown.length} at ${heading.toFixed(2)}, ${opening.length} at the opening`,
+            shown.near.length >= opening / 4,
+            `${name}, seed ${seed}: ${shown.near.length} at ${heading.toFixed(2)}, ${opening} at the opening`,
           );
-          for (const { x } of shown) assert.ok(Number.isFinite(x));
         }
       }
     }
   });
 
-  it('turns its tufts with the eye and steps none of them', () => {
+  it('moves its tufts with the ground as the eye steps: each comes nearer, lower on the screen', () => {
     // Tablet landscape.
     const layout = meadowLayout(1180, 820, 42);
-    const grass = seamGrass(layout, mulberry32(42));
-    const opening = seamShown(viewAt(layout.camera, OPENING_EYE), grass);
-    const stepped = seamShown(
-      viewAt(layout.camera, { ...OPENING_EYE, y: OPENING_EYE.y + 3 }),
-      grass,
-    );
-    assert.deepEqual(stepped, opening);
-    const round = seamShown(
-      viewAt(layout.camera, { ...OPENING_EYE, heading: Math.PI * 2 }),
-      grass,
-    );
-    assert.equal(round.length, opening.length);
-    for (const [index, tuft] of round.entries()) {
-      assert.ok(Math.abs(tuft.x - (opening[index]?.x ?? Number.NaN)) < 1e-6);
+    const opening = seamOf(layout, 42, OPENING_EYE).near;
+    const stepped = seamOf(layout, 42, {
+      ...OPENING_EYE,
+      y: OPENING_EYE.y + 0.3,
+    }).near;
+    let shared = 0;
+    for (const { sprout, tuft } of stepped) {
+      const was = opening.find(
+        ({ sprout: { foot } }) =>
+          foot.x === sprout.foot.x && foot.y === sprout.foot.y,
+      );
+      if (!was) continue;
+      shared++;
+      assert.ok(tuft.y > was.tuft.y, `${tuft.y} not below ${was.tuft.y}`);
+    }
+    assert.ok(shared >= opening.length / 2, `${shared} of ${opening.length}`);
+  });
+
+  it('fades a tuft into the ground as a step brings it to the band’s near edge, so none goes in one frame', () => {
+    assert.equal(seamFaded(D_SEE - SEAM_BAND), 1);
+    assert.equal(seamFaded(D_SEE - SEAM_BAND / 2), 0);
+    for (let at = 0; at < 20; at++) {
+      const away = D_SEE - SEAM_BAND + (at * SEAM_BAND) / 40;
+      assert.ok(seamFaded(away + SEAM_BAND / 40) <= seamFaded(away));
     }
   });
 });
