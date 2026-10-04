@@ -6,11 +6,11 @@
  * rebakes nothing.
  */
 
+import { browDistance, type Raised } from '../../model/eye-height';
 import { distanceBetween, type Point } from '../../model/geometry';
 import {
   type Camera,
   CLUMP_DISTANCE,
-  D_SEE,
   type Eye,
   EYE_HEIGHT,
   type Eyed,
@@ -19,8 +19,8 @@ import {
 } from '../../model/ground';
 import { bendAt, pinholeOf, type Viewed, viewOf } from '../../model/pinhole';
 
-/** The camera a frame is drawn through, and the eye it looks from. */
-export type View = Camera & Eyed;
+/** The camera a frame is drawn through, the eye it looks from, and how high that eye stands. */
+export type View = Camera & Eyed & Raised;
 
 /**
  * Something the view places each frame: how many times its opening size it
@@ -45,8 +45,9 @@ export const V_NEAR = 0.58 * CLUMP_DISTANCE;
 
 export { D_SEE } from '../../model/ground';
 
-export function viewAt(camera: Camera, eye: Eye): View {
-  return { ...camera, eye };
+/** `camera` seen from `eye`, standing `eyeHeight` above the plane: a walking eye's unless told. */
+export function viewAt(camera: Camera, eye: Eye, eyeHeight = EYE_HEIGHT): View {
+  return { ...camera, eye, eyeHeight };
 }
 
 /** `plane`, `height` above the plane, as `view` places a thing laid out `opening` ahead of the opening eye. */
@@ -131,14 +132,17 @@ export function cull({ ahead }: Pick<Viewed, 'ahead'>): boolean {
   return ahead < V_NEAR;
 }
 
-/** Whether a thing stands farther from the eye than the brow, and sinks behind it. */
-export function behindHills({ distance }: Pick<Placed, 'distance'>): boolean {
-  return distance > D_SEE;
+/** Whether a thing stands farther from `view`'s eye than the brow, and sinks behind it. */
+export function behindHills(
+  view: Raised,
+  { distance }: Pick<Placed, 'distance'>,
+): boolean {
+  return distance > browDistance(view);
 }
 
 /**
  * The meadow's brow at `x` across `camera`'s screen: the row the circle
- * `D_SEE` round the eye stands on there, the ground's top row at the
+ * `browDistance` round the eye stands on there, the ground's top row at the
  * screen's middle, bent lower toward its edges as every row is (`bendAt`).
  * The same on every heading, so the brow stands still as the eye turns.
  */
@@ -159,7 +163,7 @@ export function browLowest(camera: Camera): number {
  * it, covers it from the foot up (`depthOf`).
  */
 export function sunk(view: View, placed: Placed): Placed {
-  if (!behindHills(placed)) return placed;
+  if (!behindHills(view, placed)) return placed;
   return { ...placed, y: 2 * browRow(view, placed.x) - placed.y };
 }
 
@@ -182,7 +186,7 @@ export function sunkOver(view: View, placed: Placed, foot: Placed): Placed {
  * nothing would cover there.
  */
 export function buried(view: View, placed: Placed): boolean {
-  return behindHills(placed) && placed.y > browRow(view, placed.x);
+  return behindHills(view, placed) && placed.y > browRow(view, placed.x);
 }
 
 /**
@@ -205,7 +209,8 @@ export function sunkAway(
 ): boolean {
   const cover = browRow(view, placed.x);
   return (
-    behindHills(placed) && cover - (placed.y - height) < SHOWN_LEAST * height
+    behindHills(view, placed) &&
+    cover - (placed.y - height) < SHOWN_LEAST * height
   );
 }
 

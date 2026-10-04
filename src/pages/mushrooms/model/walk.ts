@@ -20,8 +20,15 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Direction } from './cruise';
+import {
+  heightAt,
+  OPENING_RISE,
+  type Raised,
+  type Rise,
+  riseFrom,
+} from './eye-height';
 import type { Point } from './geometry';
-import { type Camera, type Eye, EYE_HEIGHT, OPENING_EYE } from './ground';
+import { type Camera, type Eye, OPENING_EYE } from './ground';
 import {
   holdKey,
   leftAt,
@@ -77,13 +84,14 @@ type Drag = { pressedAt: Point; since: number; lock: Lock | undefined };
 
 /**
  * The walk over the camera it is seen through: the heading's crop, the
- * stride, the `gait` a ground drag moves the eye by, and the finger pressed,
- * if one is.
+ * stride, the `gait` a ground drag moves the eye by and the eye's `rise`
+ * toward its height, and the finger pressed, if one is.
  */
 export type Walk = WithGait & {
   lens: Camera;
   pan: Pan;
   stride: Stride;
+  rise: Rise;
   drag: Drag | undefined;
 };
 
@@ -103,8 +111,23 @@ export function openingWalk(camera: Camera): Walk {
     ),
     stride: standingAt(pick(OPENING_EYE, 'x', 'y')),
     gait: 'steps',
+    rise: OPENING_RISE,
     drag: undefined,
   };
+}
+
+/**
+ * The walk switched to `gait` at `time`: the eye eases from the height it
+ * stands at toward the gait's. A press reads the gait as it lands, so a drag
+ * under way keeps its own until the finger lifts.
+ */
+export function withGait(walk: Walk, gait: Walk['gait'], time: number): Walk {
+  return { ...walk, gait, rise: riseFrom(walk.rise, walk.gait, time) };
+}
+
+/** The walk's camera at `time`, the eye standing at its height then. */
+export function lensAt(walk: Walk, time: number): Camera & Raised {
+  return { ...walk.lens, eyeHeight: heightAt(walk.rise, walk.gait, time) };
 }
 
 /**
@@ -151,10 +174,10 @@ function azimuthOf(pinhole: Pinhole, x: number): number {
  * `y` stands at the screen's middle, a row above the seam counting as the
  * seam's: the farthest ground the screen shows.
  */
-export function distanceOfRow(camera: Camera, y: number): number {
+export function distanceOfRow(camera: Camera & Raised, y: number): number {
   const pinhole = pinholeOf(camera);
   const row = Math.max(y, camera.groundTop);
-  return (pinhole.focal * EYE_HEIGHT) / (row - pinhole.y);
+  return (pinhole.focal * camera.eyeHeight) / (row - pinhole.y);
 }
 
 /**
@@ -212,7 +235,7 @@ const STEP_HALVINGS = 48;
  * the ground stands more than `STRAFE_WIDEST` off the heading.
  */
 function stepAim(
-  lens: Camera,
+  lens: Camera & Raised,
   { reference, across }: Extract<Lock, { axis: 'step' }>,
   y: number,
 ): number {
@@ -245,7 +268,7 @@ function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
       return { ...walk, pan: move(pan, arcOf(pinholeOf(lens), point.x), time) };
     }
     case 'step': {
-      const aim = stepAim(lens, lock, point.y);
+      const aim = stepAim(lensAt(walk, time), lock, point.y);
       return { ...walk, stride: chaseTo(stride, aim, time) };
     }
     case 'strafe': {
@@ -281,7 +304,11 @@ export function lockOf(
   return pressedAt.y < camera.groundTop ? 'turn' : 'strafe';
 }
 
-function lockAt(camera: Camera, axis: Lock['axis'], crossing: Point): Lock {
+function lockAt(
+  camera: Camera & Raised,
+  axis: Lock['axis'],
+  crossing: Point,
+): Lock {
   if (axis === 'turn') return { axis };
   // The ground under the crossing stands its row's distance times the
   // screen's bend there from the eye, along its azimuth: this far straight
@@ -329,7 +356,8 @@ export function moveTo(walk: Walk, point: Point, time: number): Walk {
     return walk;
   }
   const crossing = crossingOf(pressedAt, point);
-  const lock = lockAt(lens, lockOf(lens, pressedAt, crossing), crossing);
+  const axis = lockOf(lens, pressedAt, crossing);
+  const lock = lockAt(lensAt(walk, time), axis, crossing);
   return follow(locking(walk, lock, crossing, time), lock, point, time);
 }
 

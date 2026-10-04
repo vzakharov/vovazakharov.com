@@ -242,7 +242,8 @@ export class FlowerBed implements Following {
       : UNPLACED;
     shown.stands = place;
     standAt(container, place);
-    const pale = this.view && place.behind ? browPale(place.distance) : 0;
+    const pale =
+      this.view && place.behind ? browPale(this.view, place.distance) : 0;
     container.setAlpha(1 - BROW_FADE * pale);
   }
 

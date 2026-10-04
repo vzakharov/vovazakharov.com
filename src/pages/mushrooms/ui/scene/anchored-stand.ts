@@ -7,6 +7,7 @@
  */
 
 import { sameAnchor } from '../../model/anchor';
+import { D_SEE_MOST } from '../../model/eye-height';
 import type { Flower } from '../../model/flower-genes';
 import { distanceBetween, type Point } from '../../model/geometry';
 import {
@@ -27,10 +28,11 @@ import { PALE_SPAN } from './repaint-queue';
 
 /**
  * How far from the anchor an anchored stand reads the meadow: a foot the rules
- * judge stands within `D_SEE` and `PALE_SPAN` of the eye and a step more, and
- * a rule counts round it (`FLOWER_SLOTS`, `MUSHROOM_SLOTS`) `D_SEE` further.
+ * judge stands within the farthest brow (`D_SEE_MOST`) and `PALE_SPAN` of the
+ * eye and a step more, and a rule counts round it (`FLOWER_SLOTS`,
+ * `MUSHROOM_SLOTS`) `D_SEE` further.
  */
-const STAND_REACH = 2 * D_SEE + PALE_SPAN + 1;
+const STAND_REACH = D_SEE_MOST + D_SEE + PALE_SPAN + 1;
 
 /** Whether `point` has ground on the layout (`groundOfPlane`): anywhere but a sliver straight behind `OPENING_EYE`. */
 export function hasGround(point: Point): boolean {

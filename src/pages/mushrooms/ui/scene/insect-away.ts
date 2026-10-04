@@ -6,6 +6,7 @@
  * is timed between the points it is drawn between.
  */
 
+import { browDistance } from '../../model/eye-height';
 import {
   type Perch,
   perchName,
@@ -218,7 +219,7 @@ export function wayOutOf(
 
 /** The spot past `view`'s screen's `side` a release flies out of view by (`entryAloft`). */
 function outAloft(view: View, side: Side, away: Away): Aloft {
-  return offAloft(view, side, away, OUT_AHEAD * D_SEE);
+  return offAloft(view, side, away, OUT_AHEAD * browDistance(view));
 }
 
 /**
@@ -240,7 +241,8 @@ export function entryAloft(
   const middle = pinholeOf(view).x;
   const shown = seated !== undefined && onScreen(view, seated);
   const x = shown ? (middle + seated.x) / 2 : middle;
-  const from = { ...alongSight(view, view.eye, x, D_SEE + PAST_BROW), h: 0 };
+  const brow = browDistance(view) + PAST_BROW;
+  const from = { ...alongSight(view, view.eye, x, brow), h: 0 };
   if (shown) return { from };
   const exit = seated ? (seated.x < middle ? 'left' : 'right') : side;
   return { from, out: outAloft(view, exit, away) };

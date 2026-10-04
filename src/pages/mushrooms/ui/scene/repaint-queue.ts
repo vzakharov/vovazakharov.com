@@ -8,6 +8,7 @@
  * or chords have drifted far enough from their paint to see.
  */
 
+import { browDistance, type Raised } from '../../model/eye-height';
 import {
   type Camera,
   CLUMP_DISTANCE,
@@ -18,7 +19,7 @@ import {
 import { smooth } from '../../model/motion';
 import type { Chorded } from '../../model/mushroom-profile';
 import type { Viewed } from '../../model/pinhole';
-import { D_SEE, type Placed } from './view';
+import type { Placed } from './view';
 
 /** How far a thing's haze drifts from its paint before it is repainted. */
 export const HAZE_DRIFT = 0.04;
@@ -35,16 +36,16 @@ export const REPAINTS_PER_FRAME = 2;
 
 /**
  * How much paler than the ground's haze a thing stands as it sinks behind the
- * brow, at the most, and how far past `D_SEE`, in the clump's size, it gets
+ * brow, at the most, and how far past the brow, in the clump's size, it gets
  * there: about as far as a back-row mushroom takes to sink away, so it pales
  * as it goes under rather than after.
  */
 const BROW_PALE = 0.2;
 export const PALE_SPAN = 1.2;
 
-/** How much paler a thing `distance` from the eye stands for sinking behind the brow: none up to `D_SEE`, easing up to `BROW_PALE`. */
-export function browPale(distance: number): number {
-  return BROW_PALE * smooth((distance - D_SEE) / PALE_SPAN);
+/** How much paler a thing `distance` from `view`'s eye stands for sinking behind the brow: none up to `browDistance`, easing up to `BROW_PALE`. */
+export function browPale(view: Raised, distance: number): number {
+  return BROW_PALE * smooth((distance - browDistance(view)) / PALE_SPAN);
 }
 
 /**
@@ -54,14 +55,17 @@ export function browPale(distance: number): number {
  * brow, paler still (`browPale`).
  */
 export function hazeAhead(
-  camera: Camera,
+  camera: Camera & Raised,
   { ahead, distance }: Pick<Placed, 'ahead' | 'distance'>,
 ): number {
   const [near, far] = [scaleAt(0), scaleAt(1)];
   const z = (CLUMP_DISTANCE / ahead - near) / (far - near);
   // The ground's haze runs on past `MAX_HAZE` beyond its top row; a colour
   // mixed toward the air past all of it would overshoot.
-  return Math.min(1, project(camera, { x: 0, z }).haze + browPale(distance));
+  return Math.min(
+    1,
+    project(camera, { x: 0, z }).haze + browPale(camera, distance),
+  );
 }
 
 /** A thing's sun side now, as its light from the heading gives it, and as it was painted. */

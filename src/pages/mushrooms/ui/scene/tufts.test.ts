@@ -119,7 +119,7 @@ describe('shownSprouts', () => {
       // Only what is laid past the brow, which curves below the ground's top
       // row toward the screen's sides, sinks at the opening.
       for (const { sprout: sunk } of behind) {
-        assert.ok(behindHills(ofGround(view, sunk.foot)));
+        assert.ok(behindHills(view, ofGround(view, sunk.foot)));
       }
       assert.ok(near.length > 0);
       // The lens shows the layout's ground at the azimuth the opening crop's

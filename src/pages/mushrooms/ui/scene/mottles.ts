@@ -8,13 +8,13 @@
 
 import type * as Phaser from 'phaser';
 
+import { browDistance } from '../../model/eye-height';
 import {
   distanceBetween,
   type Point,
   type Wide,
   type WithMiddle,
 } from '../../model/geometry';
-import { D_SEE } from '../../model/ground';
 import { smooth } from '../../model/motion';
 import { viewOf } from '../../model/pinhole';
 import { between, type Random } from '../../model/random';
@@ -38,10 +38,10 @@ const MOTTLE_TONE = 0.7;
 export const SOFT_EDGE = 1.3;
 /** How many points round a ring. */
 const RING_STEPS = 16;
-/** How far short of `D_SEE` a mottle's far edge, in the clump's size, starts fading out. */
+/** How far short of the brow a mottle's far edge, in the clump's size, starts fading out. */
 const FADE_SPAN = 2;
 
-/** The depth mottles are drawn at: over the ground's rows, under the brow that covers the ground past `D_SEE`. */
+/** The depth mottles are drawn at: over the ground's rows, under the brow that covers the ground past it. */
 export const MOTTLE_DEPTH = (DEPTHS.ground + DEPTHS.brow) / 2;
 
 /**
@@ -97,7 +97,8 @@ export function ringOf(
 /**
  * Where `view` draws `mottles`, flat on the ground. Dropped: one with any of
  * its outer ring nearer ahead than half `V_NEAR` (under the screen or behind
- * the eye), or wholly off it; one fades out as its far edge nears `D_SEE`.
+ * the eye), or wholly off it; one fades out as its far edge nears the brow
+ * (`browDistance`).
  */
 export function shownMottles(
   view: View,
@@ -105,10 +106,11 @@ export function shownMottles(
 ): ShownMottle[] {
   const { eye, width, height } = view;
   const forward = forwardOf(eye.heading);
+  const brow = browDistance(view);
   return mottles.flatMap((mottle) => {
     const reach = mottle.across * SOFT_EDGE;
     const far = distanceBetween(eye, mottle.middle) + reach;
-    const fade = 1 - smooth((far - (D_SEE - FADE_SPAN)) / FADE_SPAN);
+    const fade = 1 - smooth((far - (brow - FADE_SPAN)) / FADE_SPAN);
     if (fade <= 0) return [];
     const outer = ringOf(mottle, SOFT_EDGE);
     const ahead = ({ x, y }: Point) =>

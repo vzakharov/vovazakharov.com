@@ -10,7 +10,7 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import { EYE_HEIGHT, type Layered } from '../../model/ground';
+import type { Layered } from '../../model/ground';
 import { depthOf, UNPLACED } from './bed-place';
 import type { ShadowLayer } from './mushroom-light';
 import { PALETTE } from './palette';
@@ -53,12 +53,12 @@ export function shadowOf(
   if (!(presence > 0) || !(ground.ahead > 0)) return undefined;
   const drawn = sunk(view, ground);
   const across = span * ground.zoom * ACROSS;
-  const tall = across * Math.min(ROUNDEST, EYE_HEIGHT / ground.ahead);
+  const tall = across * Math.min(ROUNDEST, view.eyeHeight / ground.ahead);
   const bottom = { ...drawn, y: drawn.y + tall / 2 };
   if (sunkAway(view, bottom, tall) || !onScreen(view, drawn, -across)) {
     return undefined;
   }
-  const behind = behindHills(ground);
+  const behind = behindHills(view, ground);
   return {
     ...pick(drawn, 'x', 'y'),
     across,

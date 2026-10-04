@@ -7,6 +7,7 @@ import { meadowCamera } from '../ui/scene/meadow-camera';
 import { viewAt } from '../ui/scene/view';
 import { planeUnder } from '../ui/scene/view-inverse';
 import { VIEWPORTS } from '../ui/scene/viewports';
+import { gaitHeight, walking } from './eye-height';
 import type { Point } from './geometry';
 import { GLIDE_OVER, GLIDE_TAU } from './glide';
 import type { Camera } from './ground';
@@ -27,6 +28,7 @@ import {
   holdStrafe,
   holdTurn,
   holdWalk,
+  lensAt,
   letGoStrafe,
   letGoTurn,
   liftAt,
@@ -106,7 +108,11 @@ function shifted(point: Point, dx: number, dy: number): Point {
 
 /** The opening walk on `camera` with its ground drags in flight. */
 function flying(camera: Camera): Walk {
-  return { ...openingWalk(camera), gait: 'flight' };
+  return {
+    ...openingWalk(camera),
+    gait: 'flight',
+    rise: { from: gaitHeight('flight'), since: 0 },
+  };
 }
 
 /** The axis a walk's pressed finger is locked to, if any. */
@@ -183,17 +189,24 @@ describe('a drag on the walk', () => {
       const down = skyPress(camera);
       clock.press(down);
       const crossing = shifted(down, -SLOP, 0);
-      const under = planeUnder(viewAt(camera, eyeAt(clock.walk, clock.time)), {
-        ...crossing,
-        y: camera.height * 0.85,
-      });
+      const under = planeUnder(
+        viewAt(
+          camera,
+          eyeAt(clock.walk, clock.time),
+          lensAt(clock.walk, clock.time).eyeHeight,
+        ),
+        {
+          ...crossing,
+          y: camera.height * 0.85,
+        },
+      );
       clock.move(shifted(crossing, -1, 0));
       assert.ok(under, name);
       for (const x of [down.x - 100, 10, camera.width - 10, down.x + 40]) {
         clock.run(FRAME);
         clock.move({ ...down, x });
         const eye = eyeAt(clock.walk, clock.time);
-        const seen = viewOf(camera, eye, under, 0);
+        const seen = viewOf(walking(camera), eye, under, 0);
         assert.ok(Math.abs(seen.x - x) < 1e-6, `${name} at ${x}: ${seen.x}`);
         // And the angle formula itself, from the crossing.
         const want = (crossing.x - x) / pinholeOf(camera).arc;
@@ -264,7 +277,11 @@ describe('a drag on the walk', () => {
       const crossing = shifted(down, 0, SLOP);
       const lift = { ...down, y: camera.height - 5 };
       const under = planeUnder(
-        viewAt(camera, eyeAt(clock.walk, clock.time)),
+        viewAt(
+          camera,
+          eyeAt(clock.walk, clock.time),
+          lensAt(clock.walk, clock.time).eyeHeight,
+        ),
         crossing,
       );
       assert.ok(under);
@@ -277,7 +294,12 @@ describe('a drag on the walk', () => {
           ((lift.y - crossing.y) * frame) / 6,
         );
         clock.move(finger);
-        const seen = viewOf(camera, eyeAt(clock.walk, clock.time), under, 0);
+        const seen = viewOf(
+          lensAt(clock.walk, clock.time),
+          eyeAt(clock.walk, clock.time),
+          under,
+          0,
+        );
         assert.ok(
           Math.abs(seen.y - finger.y) < 0.05,
           `${name} at ${String(across)}, frame ${String(frame)}: ${seen.y} under ${finger.y}`,
@@ -300,8 +322,8 @@ describe('a drag on the walk', () => {
 
   it('counts a row above the seam as the seam’s', () => {
     assert.equal(
-      distanceOfRow(TABLET, TABLET.groundTop - 100),
-      distanceOfRow(TABLET, TABLET.groundTop),
+      distanceOfRow(walking(TABLET), TABLET.groundTop - 100),
+      distanceOfRow(walking(TABLET), TABLET.groundTop),
     );
     const clock = new Clock(openingWalk(TABLET));
     const down = { x: TABLET.width / 2, y: TABLET.groundTop + 60 };
@@ -310,8 +332,8 @@ describe('a drag on the walk', () => {
     clock.run(12);
     clock.lift();
     const back =
-      distanceOfRow(TABLET, TABLET.groundTop + 60 - SLOP) -
-      distanceOfRow(TABLET, TABLET.groundTop);
+      distanceOfRow(walking(TABLET), TABLET.groundTop + 60 - SLOP) -
+      distanceOfRow(walking(TABLET), TABLET.groundTop);
     assert.ok(Math.abs(clock.walk.stride.at.y - back) < 1e-6);
   });
 
@@ -360,7 +382,10 @@ describe('a strafe on the walk', () => {
       const ahead = forwardOf(heading);
       const side = forwardOf(sidewaysOf(heading));
       // The ground under the crossing: `reference` straight ahead, at its azimuth.
-      const under = planeUnder(viewAt(camera, { ...start, heading }), crossing);
+      const under = planeUnder(
+        viewAt(camera, { ...start, heading }, gaitHeight('flight')),
+        crossing,
+      );
       assert.ok(under, name);
       const reference =
         (under.x - start.x) * ahead.x + (under.y - start.y) * ahead.y;
@@ -370,7 +395,12 @@ describe('a strafe on the walk', () => {
         y: start.y + ahead.y * reference + side.y * offset,
       };
       assert.ok(apart(far, under) < 1e-6, `${name}: under the crossing`);
-      const before = viewOf(camera, { ...start, heading }, far, 0).x;
+      const before = viewOf(
+        lensAt(clock.walk, clock.time),
+        { ...start, heading },
+        far,
+        0,
+      ).x;
       assert.ok(Math.abs(before - crossing.x) < 1e-6, `${name}: ${before}`);
       clock.press(down);
       clock.move(shifted(crossing, 1, 0));
@@ -382,7 +412,12 @@ describe('a strafe on the walk', () => {
           0,
         );
         clock.move(finger);
-        const seen = viewOf(camera, eyeAt(clock.walk, clock.time), far, 0).x;
+        const seen = viewOf(
+          lensAt(clock.walk, clock.time),
+          eyeAt(clock.walk, clock.time),
+          far,
+          0,
+        ).x;
         assert.ok(
           Math.abs(seen - finger.x) < 1e-6,
           `${name}, frame ${String(frame)}: ${seen} under ${finger.x}`,

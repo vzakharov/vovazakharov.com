@@ -118,7 +118,7 @@ export function aloftAt(view: View, at: Point, distance: number): Aloft {
   const scale = (pinhole.focal * bendAt(pinhole, at.x)) / distance;
   return {
     ...alongSight(view, view.eye, at.x, distance),
-    h: EYE_HEIGHT - (at.y - pinhole.y) / scale,
+    h: view.eyeHeight - (at.y - pinhole.y) / scale,
   };
 }
 

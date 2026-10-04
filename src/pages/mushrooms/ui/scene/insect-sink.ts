@@ -43,7 +43,7 @@ export function sinkingOf(
   under: Under,
   above: number,
 ): Sinking {
-  if (!behindHills(under)) return { depth: above, alpha: 1, shown: true };
+  if (!behindHills(view, under)) return { depth: above, alpha: 1, shown: true };
   const foot = {
     ...middle,
     y: middle.y + height / 2,
@@ -54,7 +54,7 @@ export function sinkingOf(
       { ...UNPLACED, ...pick(under, 'depth'), behind: true },
       OVER_HOST,
     ),
-    alpha: 1 - browPale(under.distance),
+    alpha: 1 - browPale(view, under.distance),
     shown: !sunkAway(view, foot, height),
   };
 }

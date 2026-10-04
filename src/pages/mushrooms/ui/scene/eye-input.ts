@@ -10,6 +10,7 @@ import {
   holdStrafe,
   holdTurn,
   holdWalk,
+  lensAt,
   letGoStrafe,
   letGoTurn,
   letGoWalk,
@@ -20,6 +21,7 @@ import {
   refit,
   tickWalk,
   type Walk,
+  withGait,
 } from '../../model/walk';
 import { ofLayout, type View, viewAt } from './view';
 import { layoutUnder } from './view-inverse';
@@ -77,7 +79,10 @@ export class EyeInput {
   /** The view a frame is drawn through now; none before the first `fit`. */
   view(): View | undefined {
     const walk = this.current();
-    return walk && viewAt(walk.lens, eyeAt(walk, this.now()));
+    if (!walk) return undefined;
+    const now = this.now();
+    const lens = lensAt(walk, now);
+    return viewAt(lens, eyeAt(walk, now), lens.eyeHeight);
   }
 
   /** How far the eye has walked in all, in the clump's size: what the bob and the footsteps count. */
@@ -162,14 +167,13 @@ export class EyeInput {
   }
 
   /**
-   * Switches a ground drag between steps and flight. A press reads the gait
-   * as it lands, so a drag under way keeps its own until the finger lifts.
+   * Switches a ground drag between steps and flight (`withGait`), the eye
+   * easing to the gait's height.
    */
   readonly flipGait = (): void => {
-    this.change((walk) => ({
-      ...walk,
-      gait: walk.gait === 'steps' ? 'flight' : 'steps',
-    }));
+    this.change((walk) =>
+      withGait(walk, walk.gait === 'steps' ? 'flight' : 'steps', this.now()),
+    );
   };
 
   /** Stops the eye dead where it stands: every held key, glide and fling ended. */

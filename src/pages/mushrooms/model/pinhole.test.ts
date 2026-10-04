@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { MEADOW_FRAME, meadowCamera } from '../ui/scene/meadow-camera';
 import { EITHER_WAY, VIEWPORTS } from '../ui/scene/viewports';
+import { walking } from './eye-height';
 import {
   anchored,
   type Eye,
@@ -68,7 +69,7 @@ describe('the eye', () => {
             ahead: Math.hypot(planeOf(foot).x, planeOf(foot).y) / bend,
           };
           const off = apart(
-            viewOf(camera, OPENING_EYE, planeOf(foot), lift),
+            viewOf(walking(camera), OPENING_EYE, planeOf(foot), lift),
             expected,
           );
           if (off.length > 0) {
@@ -87,8 +88,8 @@ describe('the eye', () => {
         for (const foot of feetOver(MEADOW_FRAME)) {
           const point = planeOf(foot);
           const off = apart(
-            viewOf(camera, turned, point, 1),
-            viewOf(camera, eye, point, 1),
+            viewOf(walking(camera), turned, point, 1),
+            viewOf(walking(camera), eye, point, 1),
           );
           assert.deepEqual(
             off,
@@ -113,8 +114,8 @@ describe('the eye', () => {
             x: eye.x + distance * Math.sin(eye.heading),
             y: eye.y + distance * Math.cos(eye.heading),
           };
-          const before = viewOf(camera, eye, point, 0);
-          const after = viewOf(camera, stepped, point, 0);
+          const before = viewOf(walking(camera), eye, point, 0);
+          const after = viewOf(walking(camera), stepped, point, 0);
           const k = distance / (distance - step);
           const at = `eye ${JSON.stringify(eye)}, ${String(distance)} ahead`;
           assert.ok(Math.abs(before.x - middle) < 1e-6, `${at}: across`);
@@ -142,12 +143,12 @@ describe('the eye', () => {
         };
         for (const foot of feetOver(MEADOW_FRAME)) {
           const point = planeOf(foot);
-          const before = viewOf(camera, eye, point, 0);
+          const before = viewOf(walking(camera), eye, point, 0);
           // In front of the eye, far enough for a step to bring it nearer.
           const off = (before.x - pinhole.x) / pinhole.arc;
           const distance = before.ahead * bendAt(pinhole, before.x);
           if (Math.cos(off) <= step / distance) continue;
-          const after = viewOf(camera, stepped, point, 0);
+          const after = viewOf(walking(camera), stepped, point, 0);
           const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
           assert.ok(after.scale > before.scale, `${at}: scale`);
           assert.ok(
@@ -179,8 +180,8 @@ describe('the lens', () => {
           const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
           assert.deepEqual(
             apart(
-              viewOf(camera, OPENING_EYE, moved, 1),
-              viewOf(camera, eye, point, 1),
+              viewOf(walking(camera), OPENING_EYE, moved, 1),
+              viewOf(walking(camera), eye, point, 1),
             ),
             [],
             at,
@@ -200,8 +201,8 @@ describe('the lens', () => {
       for (const eye of EYES) {
         for (const foot of feetOver(MEADOW_FRAME)) {
           const point = planeOf(foot);
-          const shown = viewOf(camera, eye, point, 0);
-          const under = planeSeen(camera, eye, shown);
+          const shown = viewOf(walking(camera), eye, point, 0);
+          const under = planeSeen(walking(camera), eye, shown);
           const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
           assert.ok(
             under !== undefined &&

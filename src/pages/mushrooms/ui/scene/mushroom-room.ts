@@ -143,7 +143,7 @@ function screenOn(stage: MeadowLayout, view: View | undefined): Screen {
 function capShown(view: View, cap: Box, laidFoot: Point): boolean {
   const { left, right, top, bottom } = cap;
   const foot = ofLayout(view, laidFoot, laidFoot.y);
-  if (cull(foot) || behindHills(foot)) return false;
+  if (cull(foot) || behindHills(view, foot)) return false;
   return [left, right].every((x) =>
     [top, bottom].every((y) => {
       const at = aboutFoot(foot, laidFoot, { x, y });

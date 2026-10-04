@@ -9,12 +9,12 @@
 
 import { anchorOf } from '../../model/anchor';
 import { flowersCrowdAt } from '../../model/crowding';
+import { browDistance } from '../../model/eye-height';
 import { azimuthOf } from '../../model/flight-frame';
 import { FLOWER_RANGES, flowerGenes } from '../../model/flower-genes';
 import { sameFoot } from '../../model/game';
 import { boxesMeet, distanceBetween, wrap } from '../../model/geometry';
 import {
-  D_SEE,
   type Eye,
   type Footing,
   groundFootOf,
@@ -175,7 +175,7 @@ export function lostOn(
 
 /**
  * Whether a tuft is one `view` tends: within the reach a tuft is drawn at
- * (`D_SEE` and `PALE_SPAN`), past the near ones the view never draws, each
+ * (`browDistance` and `PALE_SPAN`), past the near ones the view never draws, each
  * with `TEND_STEP` to spare, and at an azimuth off the heading no farther
  * than the screen's side and `TENDED_SCREENS` screens more.
  */
@@ -183,9 +183,10 @@ export function tendedIn(view: View): (sprout: Sprout) => boolean {
   const { eye, width } = view;
   const { arc } = pinholeOf(view);
   const most = ((0.5 + TENDED_SCREENS) * width) / arc;
+  const reach = browDistance(view) + PALE_SPAN;
   return ({ foot }) => {
     const distance = distanceBetween(eye, foot);
-    const far = distance - TEND_STEP > D_SEE + PALE_SPAN;
+    const far = distance - TEND_STEP > reach;
     if (far || cull({ ahead: distance + TEND_STEP })) {
       return false;
     }

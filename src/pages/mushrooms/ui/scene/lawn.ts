@@ -7,8 +7,9 @@
  * (`LiveLawn`).
  */
 
+import { D_SEE_MOST } from '../../model/eye-height';
 import type { Point } from '../../model/geometry';
-import { D_SEE, type Eye, type Footing, type Rooted } from '../../model/ground';
+import type { Eye, Footing, Rooted } from '../../model/ground';
 import { mulberry32, type Random, type Seeded } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
 import type { Stand } from './flower-sight';
@@ -31,9 +32,10 @@ export const TUFTS_PER_CELL = Math.round(0.85 * CELL * CELL);
 
 /**
  * The farthest a live cell's middle stands from the eye's cell's: a tuft's
- * reach before the brow hides it, plus a diagonal for where in its cell the eye is.
+ * reach before the brow hides it, at the farthest the brow stands, plus a
+ * diagonal for where in its cell the eye is.
  */
-const LIVE_REACH = D_SEE + PALE_SPAN + CELL * Math.SQRT2;
+const LIVE_REACH = D_SEE_MOST + PALE_SPAN + CELL * Math.SQRT2;
 
 /** A cell of the lawn: `i` across, `j` into the distance, each `CELL` wide. */
 export type Cell = Record<'i' | 'j', number>;

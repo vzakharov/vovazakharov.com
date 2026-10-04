@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { walking } from '../../model/eye-height';
 import { alongAzimuth, type Point } from '../../model/geometry';
 import {
   type Eye,
@@ -93,7 +94,7 @@ describe('the view', () => {
     const left = (camera.world - camera.width) / 2;
 
     it(`stands the ground's top row at D_SEE on the ${name} camera`, () => {
-      const { y } = viewOf(camera, OPENING_EYE, { x: 0, y: D_SEE }, 0);
+      const { y } = viewOf(walking(camera), OPENING_EYE, { x: 0, y: D_SEE }, 0);
       assert.ok(Math.abs(y - camera.groundTop) < 1e-9, String(y));
     });
 
@@ -158,7 +159,12 @@ describe('the view', () => {
       for (const species of MUSHROOM_SPECIES) {
         const head = speciesHeight(species) * largest;
         assert.ok(head < EYE_HEIGHT, `${species}: taller than the eye`);
-        const { y } = viewOf(camera, OPENING_EYE, { x: 0, y: V_NEAR }, head);
+        const { y } = viewOf(
+          walking(camera),
+          OPENING_EYE,
+          { x: 0, y: V_NEAR },
+          head,
+        );
         assert.ok(y > camera.height, `${species}: head at ${String(y)}`);
       }
     });
@@ -172,9 +178,9 @@ describe('the view', () => {
   });
 
   it('puts behind the brow only what stands farther than D_SEE', () => {
-    assert.equal(behindHills({ distance: V_NEAR }), false);
-    assert.equal(behindHills({ distance: D_SEE }), false);
-    assert.equal(behindHills({ distance: D_SEE + 1e-6 }), true);
+    assert.equal(behindHills(walking({}), { distance: V_NEAR }), false);
+    assert.equal(behindHills(walking({}), { distance: D_SEE }), false);
+    assert.equal(behindHills(walking({}), { distance: D_SEE + 1e-6 }), true);
   });
 
   for (const { name, camera } of CAMERAS) {

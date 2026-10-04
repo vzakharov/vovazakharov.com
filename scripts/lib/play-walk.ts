@@ -18,6 +18,7 @@
 
 import { z } from 'zod';
 
+import { walking } from '../../src/pages/mushrooms/model/eye-height.ts';
 import { GLIDE_TAU } from '../../src/pages/mushrooms/model/glide.ts';
 import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
@@ -355,7 +356,10 @@ async function playStrafes(
     const pressed = await eye();
     /** How far straight ahead the ground under the finger at `from` stands. */
     const aheadOf = (from: number) => {
-      const under = planeSeen(camera, pressed, { ...start, x: from });
+      const under = planeSeen(walking(camera), pressed, {
+        ...start,
+        x: from,
+      });
       if (!under)
         throw new Error(
           `no ground under (${String(from)}, ${String(start.y)})`,

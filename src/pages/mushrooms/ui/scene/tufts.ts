@@ -11,6 +11,7 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
+import { browDistance } from '../../model/eye-height';
 import { sameFoot } from '../../model/game';
 import { distanceBetween, type Point } from '../../model/geometry';
 import {
@@ -129,7 +130,10 @@ export function shownSprouts(
       ...pick(drawn, 'x', 'y'),
       size,
     };
-    (behindHills(placed) ? shown.behind : shown.near).push({ tuft, sprout });
+    (behindHills(view, placed) ? shown.behind : shown.near).push({
+      tuft,
+      sprout,
+    });
   }
   return shown;
 }
@@ -141,14 +145,15 @@ export function shownSprouts(
  */
 export const SEAM_BAND = 1;
 
-/** How far into the ground under it a tuft of the seam's grass `distance` from the eye is faded: wholly at the band's near edge, none from its middle out. */
-export function seamFaded(distance: number): number {
-  return 1 - smooth((distance - (D_SEE - SEAM_BAND)) / (SEAM_BAND / 2));
+/** How far into the ground under it a tuft of the seam's grass `distance` from the eye is faded, the brow standing `brow` off: wholly at the band's near edge, none from its middle out. */
+export function seamFaded(distance: number, brow = D_SEE): number {
+  return 1 - smooth((distance - (brow - SEAM_BAND)) / (SEAM_BAND / 2));
 }
 
-/** The distances from the eye the seam's grass shows between, both ends open: the band under the brow and the stretch past it it sinks over. */
-const SEAM_NEAR = D_SEE - SEAM_BAND;
-const SEAM_FAR = D_SEE + PALE_SPAN;
+/** The distances from the eye the seam's grass shows between, the brow standing `brow` off, both ends open: the band under the brow and the stretch past it it sinks over. */
+function seamReachOf(brow: number): Record<'near' | 'far', number> {
+  return { near: brow - SEAM_BAND, far: brow + PALE_SPAN };
+}
 
 /** A run of the seam's grass standing in one cell of the lawn. */
 export type SeamPatch = { cell: Cell; seam: readonly Sprout[] };
@@ -174,8 +179,9 @@ export function seamPatches(seam: readonly Sprout[]): SeamPatch[] {
  */
 const CROSS_LEEWAY = 1e-9;
 
-/** Whether some foot in `cell`, edges included, stands in the seam's band from `eye`. */
-export function crossesSeam(eye: Point, { i, j }: Cell): boolean {
+/** Whether some foot in `cell`, edges included, stands in the seam's band from `eye`, the brow standing `brow` off. */
+export function crossesSeam(eye: Point, { i, j }: Cell, brow = D_SEE): boolean {
+  const { near: seamNear, far: seamFar } = seamReachOf(brow);
   const [left, right] = [i * CELL - eye.x, (i + 1) * CELL - eye.x];
   const [near, far] = [j * CELL - eye.y, (j + 1) * CELL - eye.y];
   const nearest = Math.hypot(
@@ -183,9 +189,7 @@ export function crossesSeam(eye: Point, { i, j }: Cell): boolean {
     Math.max(near, 0, -far),
   );
   const farthest = Math.hypot(Math.max(-left, right), Math.max(-near, far));
-  return (
-    nearest < SEAM_FAR + CROSS_LEEWAY && farthest > SEAM_NEAR - CROSS_LEEWAY
-  );
+  return nearest < seamFar + CROSS_LEEWAY && farthest > seamNear - CROSS_LEEWAY;
 }
 
 /**
@@ -201,15 +205,19 @@ export function shownSeam(
   turf: Turf,
 ): ShownGrass {
   const { eye } = view;
+  const brow = browDistance(view);
+  const { near, far } = seamReachOf(brow);
   const banded = patches.flatMap(({ cell, seam }) =>
-    crossesSeam(eye, cell)
+    crossesSeam(eye, cell, brow)
       ? seam.filter(({ foot }) => {
           const distance = distanceBetween(eye, foot);
-          return distance > SEAM_NEAR && distance < SEAM_FAR;
+          return distance > near && distance < far;
         })
       : [],
   );
-  return shownSprouts(view, banded, turf, seamFaded);
+  return shownSprouts(view, banded, turf, (distance) =>
+    seamFaded(distance, brow),
+  );
 }
 
 /** Each scene's grass, for the flowers' hit tests to yield to (`tuftUnder`). */

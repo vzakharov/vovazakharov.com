@@ -3,12 +3,12 @@
  * and back. `ground.ts` fits the camera; this reads it as a pinhole.
  */
 
+import type { Raised } from './eye-height';
 import { alongAzimuth, type Point, wrap } from './geometry';
 import {
   type Camera,
   CLUMP_DISTANCE,
   type Eye,
-  EYE_HEIGHT,
   HORIZON_DOWN,
   type Scaling,
   SPREAD,
@@ -54,12 +54,12 @@ export type Viewed = Point & Scaling & { ahead: number };
 
 /**
  * Where `camera` shows `point` on the plane, `height` above it in the clump's
- * size, to `eye`: across by its azimuth off the heading the shorter way
+ * size, to `eye` standing `camera.eyeHeight` above it: across by its azimuth off the heading the shorter way
  * round, `arc` px to the radian, so a thing behind the eye stands off the
  * screen's side; down by its distance, bent (`bendAt`).
  */
 export function viewOf(
-  camera: Camera,
+  camera: Camera & Raised,
   eye: Eye,
   point: Point,
   height: number,
@@ -73,7 +73,7 @@ export function viewOf(
   const scale = (pinhole.focal * bend) / distance;
   return {
     x,
-    y: pinhole.y + (EYE_HEIGHT - height) * scale,
+    y: pinhole.y + (camera.eyeHeight - height) * scale,
     scale,
     ahead: distance / bend,
   };
@@ -84,7 +84,7 @@ export function viewOf(
  * `screen`, in CSS px; none at or above the horizon.
  */
 export function planeSeen(
-  camera: Camera,
+  camera: Camera & Raised,
   eye: Eye,
   screen: Point,
 ): Point | undefined {
@@ -92,7 +92,7 @@ export function planeSeen(
   const below = screen.y - pinhole.y;
   if (below <= 0) return undefined;
   const distance =
-    (pinhole.focal * bendAt(pinhole, screen.x) * EYE_HEIGHT) / below;
+    (pinhole.focal * bendAt(pinhole, screen.x) * camera.eyeHeight) / below;
   return alongSight(camera, eye, screen.x, distance);
 }
 

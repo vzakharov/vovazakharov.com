@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { walking } from '../../model/eye-height';
 import { FRAME_DEPTH, OPENING_EYE, planeOf, project } from '../../model/ground';
 import { sunLight } from '../../model/light';
 import { mushroomGenes } from '../../model/mushroom-genes';
@@ -158,8 +159,8 @@ describe('the repaint queue', () => {
           // Past the brow a thing pales further, by the side of the screen
           // or off it, and is repainted once.
           if (bedPlace(opening, foot).behind) continue;
-          const painted = hazeAhead(camera, bedPlace(opening, foot));
-          const near = hazeAhead(camera, bedPlace(nearer, foot));
+          const painted = hazeAhead(walking(camera), bedPlace(opening, foot));
+          const near = hazeAhead(walking(camera), bedPlace(nearer, foot));
           assert.ok(near <= painted, where);
         }
       }
@@ -170,7 +171,7 @@ describe('the repaint queue', () => {
       const span = 1.2;
       // Straight ahead, where the distance is the depth along the heading.
       const at = (ahead: number) =>
-        hazeAhead(camera, { ahead, distance: ahead });
+        hazeAhead(walking(camera), { ahead, distance: ahead });
       const before = at(D_SEE) - at(D_SEE - span);
       const after = at(D_SEE + span) - at(D_SEE);
       assert.ok(after - before > 0.15, `${String(before)} → ${String(after)}`);
@@ -191,7 +192,7 @@ describe('the repaint queue', () => {
         const ground = { x, z: FRAME_DEPTH.far };
         const foot = planeOf(ground);
         const opening = bedPlace(viewAt(camera, OPENING_EYE), foot);
-        const painted = hazeAhead(camera, opening);
+        const painted = hazeAhead(walking(camera), opening);
         const where = `across ${String(x)}`;
         assert.ok(painted >= MISTY, `${where}: painted ${String(painted)}`);
         // Near the middle the lens draws the row where the layout lays it.
@@ -201,7 +202,7 @@ describe('the repaint queue', () => {
           `${where}: laid ${String(laid)}`,
         );
         const near = hazeAhead(
-          camera,
+          walking(camera),
           bedPlace(viewAt(camera, STEPPED_IN), foot),
         );
         assert.ok(painted - near >= HAZE_DRIFT, `${where}: to ${String(near)}`);

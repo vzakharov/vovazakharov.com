@@ -211,7 +211,7 @@ describe('drawnInsect', () => {
       const posed = drawnInsect(view, flight).posed;
       assert.ok(ground && posed);
       const { rotation } = posed;
-      return { behind: behindHills(ground), rotation };
+      return { behind: behindHills(view, ground), rotation };
     };
     const steps = Array.from({ length: 41 }, (_, step) =>
       across(200 + step / 2),

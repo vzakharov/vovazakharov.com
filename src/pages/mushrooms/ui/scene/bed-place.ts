@@ -102,7 +102,7 @@ export function bedPlace(
     ...pick(shown, 'x', 'y', 'zoom', 'ahead', 'distance'),
     depth: placed.y,
     drawn: !cull(placed) && !gone,
-    behind: behindHills(placed),
+    behind: behindHills(view, placed),
   };
 }
 
