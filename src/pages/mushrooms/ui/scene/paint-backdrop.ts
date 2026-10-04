@@ -1,18 +1,19 @@
 import * as Phaser from 'phaser';
 
-import { type Layered, OPENING_EYE } from '../../model/ground';
+import { OPENING_EYE } from '../../model/ground';
 import type { Random } from '../../model/random';
 import { DEPTHS } from './backdrop-depths';
+import { DUSK_TONES } from './backdrop-tones';
 import {
-  bakeTiles,
-  onPixels,
-  pictureColumns,
-  type Span,
-  SUPERSAMPLE,
-} from './baking';
+  aboutTheSun,
+  type Bake,
+  bake,
+  type Picture,
+  TILE,
+} from './bake-picture';
+import { onPixels, type Span, SUPERSAMPLE } from './baking';
 import { type BrowBlade, browBlades, drawBrow } from './brow';
 import { PUFF_REACH } from './cloud-puffs';
-import type { Band } from './grain';
 import type { MeadowLayout } from './layout';
 import {
   drawHills,
@@ -28,6 +29,7 @@ import {
   paintGlow,
   paintRainbow,
   paintSky,
+  paintStars,
   paintSun,
   paintWash,
 } from './paint-sky';
@@ -38,12 +40,6 @@ import { GROUND_BOB } from './walking';
 
 /** How far past the tips of its rays the sun's picture runs, in CSS px, for their smoothed edge. */
 const SUN_MARGIN = 2;
-
-/**
- * A picture baked in columns side by side, left to right, each texture at
- * most `WIDEST_TEXTURE` texels wide.
- */
-type Picture = Phaser.GameObjects.RenderTexture[];
 
 /**
  * A picture baked round the sun, which turns with it: its columns, the
@@ -65,6 +61,8 @@ type Turning = { columns: Picture; home: Span; offsets: number[] };
  */
 export type Backdrop = Following & {
   sky: Picture;
+  /** The sky at full dusk and its stars, over the day's sky and the glow, shown by its alpha (`showDusk`). */
+  duskSky: Picture;
   glow: Turning;
   sun: Turning;
   /** The rainbow opposite the sun, shown by its columns' alpha as a shower ends (`rain-view.ts`). */
@@ -78,6 +76,13 @@ export type Backdrop = Following & {
   /** The heading the hills and the brow were last drawn from. */
   hillsFrom: number | undefined;
   ground: Picture;
+  /** The ground's rows at full dusk, over the day's, shown by its alpha (`showDusk`). */
+  duskGround: Picture;
+  /**
+   * Shows the dusk's pictures over the day's at `level`, from 0 at full day
+   * to 1 at full dusk (`duskness`): the cross-fade costs no repaint.
+   */
+  showDusk: (level: number) => void;
   wash: Turning;
   grain: Phaser.GameObjects.TileSprite[];
   layers: Phaser.GameObjects.Graphics[];
@@ -87,85 +92,11 @@ export type Backdrop = Following & {
   drifted: number;
 };
 
-/** The side of a finished picture's square baked at a time, in texels, so the supersampled scratch stays 2048² whatever the screen. */
-const TILE = 1024;
-
-/**
- * What a picture is baked from and where it lies: its stretch across the
- * screen, the rows it covers, its depth, and how much of the camera's bob it
- * takes (`GROUND_BOB` for the ground's, none for the sky's).
- */
-type Bake = Layered & {
-  sources: readonly Phaser.GameObjects.GameObject[];
-  span: Span;
-  rows: Band;
-  bobbing?: number;
-};
-
-/**
- * Bakes `sources`, drawn in CSS pixels, into a picture over `span` and
- * `rows` at `ratio` device pixels each, so a texel lands on one device
- * pixel, reusing `existing`'s columns: column by column, tile by tile, each
- * tile drawn into `scratch` at `SUPERSAMPLE` times that and shrunk into
- * place. The picture stands on the screen, bobbing by `bobbing`, and stacks
- * at `depth`.
- */
-function bake(
-  scene: Phaser.Scene,
-  existing: Picture | undefined,
-  scratch: Phaser.GameObjects.RenderTexture,
-  { sources, span, rows, depth, bobbing = 0 }: Bake,
-  ratio: number,
-): Picture {
-  const columns = pictureColumns(Math.ceil(span.across * ratio));
-  for (const spare of existing?.slice(columns.length) ?? []) spare.destroy();
-  const tall = Math.max(2, Math.ceil((rows.bottom - rows.top) * ratio));
-  scratch.camera.setOrigin(0, 0).setZoom(ratio * SUPERSAMPLE);
-  return columns.map(({ left, across }, index) => {
-    const picture = (
-      existing?.[index] ?? scene.add.renderTexture(0, 0, 2, 2)
-    ).setOrigin(0, 0);
-    picture.resize(Math.max(2, across), tall);
-    picture.camera.setOrigin(0, 0).setZoom(1).setScroll(0, 0);
-    const x = span.left + left / ratio;
-    picture
-      .setPosition(x, rows.top)
-      .setScale(1 / ratio)
-      .setScrollFactor(0, bobbing)
-      .setDepth(depth)
-      .clear()
-      .render();
-    for (const tile of bakeTiles(picture.width, picture.height, TILE)) {
-      scratch.camera.setScroll(
-        x + tile.left / ratio,
-        rows.top + tile.top / ratio,
-      );
-      scratch.clear().draw(sources).render();
-      picture.draw(scratch, tile.left, tile.top).render();
-    }
-    return picture;
-  });
-}
-
-/** The square `reach` either way of the sun's middle, across and down, on whole device pixels, never above the screen's top. */
-function aboutTheSun(
-  { sun }: MeadowLayout,
-  reach: number,
-  ratio: number,
-): Pick<Bake, 'span' | 'rows'> {
-  const [left, right] = onPixels(sun.x - reach, sun.x + reach, ratio);
-  const [top, bottom] = onPixels(
-    Math.max(0, sun.y - reach),
-    sun.y + reach,
-    ratio,
-  );
-  return { span: { left, across: right - left }, rows: { top, bottom } };
-}
-
 /**
  * Everything behind the grass: sky, its glow round the sun, the sun, clouds,
  * the rainbow opposite the sun, three hill ranges, the ground and its brow,
- * the sun's wash over the sky and the ground's grain. `random` shapes the
+ * the sun's wash over the sky and the ground's grain, with the sky and the
+ * ground baked a second time at full dusk to lie over the day's. `random` shapes the
  * opening screen's clouds, the hills, the ground's mottling and the grain, so the same source repaints the same meadow. It
  * paints into `existing` and adds only what is missing, so a repaint keeps
  * the objects — and whatever is moving them — and the view and the drift
@@ -240,6 +171,11 @@ export function paintBackdrop(
   paintWash(washLayer, layout);
   const rainbowLayer = layer();
   const arch = paintRainbow(rainbowLayer, layout);
+  const duskSkyLayer = layer();
+  paintSky(duskSkyLayer, layout, DUSK_TONES);
+  paintStars(duskSkyLayer, layout);
+  const duskGroundLayer = layer();
+  paintGround(duskGroundLayer, layout, DUSK_TONES);
   const grain = paintGrain(
     scene,
     existing?.grain,
@@ -306,11 +242,18 @@ export function paintBackdrop(
     sources: [rainbowLayer],
   });
   for (const column of rainbow.columns) column.setAlpha(rainbowAlpha);
+  // A repaint keeps how far the dusk had come; a new one opens at day.
+  const duskAlpha = existing?.duskSky[0]?.alpha ?? 0;
   const backdrop: Backdrop = {
     sky: baked('sky', existing?.sky, {
       span: screen,
       rows: { top: 0, bottom: height },
       sources: [skyLayer],
+    }),
+    duskSky: baked('duskSky', existing?.duskSky, {
+      span: screen,
+      rows: { top: 0, bottom: glowBottom },
+      sources: [duskSkyLayer],
     }),
     glow: turning('glow', {
       span: { left: glowLeft, across: glowRight - glowLeft },
@@ -333,6 +276,17 @@ export function paintBackdrop(
       sources: [groundLayer],
       bobbing: GROUND_BOB,
     }),
+    duskGround: baked('duskGround', existing?.duskGround, {
+      span: screen,
+      rows: groundRows,
+      sources: [duskGroundLayer],
+      bobbing: GROUND_BOB,
+    }),
+    showDusk: (level) => {
+      for (const column of [...backdrop.duskSky, ...backdrop.duskGround]) {
+        column.setAlpha(level);
+      }
+    },
     wash,
     grain,
     layers: painted,
@@ -350,6 +304,7 @@ export function paintBackdrop(
     },
   };
   backdrop.follow(backdrop.view);
+  backdrop.showDusk(duskAlpha);
   return backdrop;
 }
 

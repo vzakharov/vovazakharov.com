@@ -8,32 +8,24 @@ Calls 1–7 and 14 of `bite-17.md`. Paths under `src/pages/mushrooms/`.
   `FULL_DUSK`, `duskness`, `dusky`, `turned`) with its tests;
   `Meadow.dusk` (opens `FULL_DAY`) and the `dusk` action (`Timed`) in
   `model/game.ts`'s `reduce`, tested in `game.test.ts`.
-- Step 2 begun, **as a patch** (`a-light-step2.patch` beside this note,
-  `git apply`-able): `ui/scene/palette-dusk.ts` (`DUSK`), exported from
+- Step 2 (in source, package a1): `ui/scene/palette-dusk.ts` (`DUSK`), exported from
   `palette.ts`; `PALETTE.duskWash`, `moon`, `moonShade`, `moonHalo`, `star`
   in `palette-backdrop.ts`; `backdrop-tones.ts` rebuilt round
-  `tonesOf(colours)` → `Tones` (sky stops, ranges, rim, ground stops, brow),
-  with `DUSK_TONES`, `tonesAt(dusk)` (source colours blended, so live-drawn
-  parts match the cross-faded bakes), and `skyAt`/`groundAt`/`groundRowAt`/
-  `ridgeTone` taking an optional `tones` (day by default). Typechecks and
-  `backdrop-tones`, `ground-seam`, `ink`, `panorama` tests pass; **eslint
-  fails** on it: `unicorn/consistent-destructuring` in `tonesOf` (use the
-  destructured names for `farHill`, `nearHill`, `groundLit`… too), and
-  `no-unsafe-type-assertion` in `tonesAt` (build the blend with a typed
-  mapper over `DUSK`'s entries rather than `Object.keys(...) as`/`as
-BackdropColours` — e.g. spell the object out key by key, or a helper
-  `blendColours(a: BackdropColours, b: BackdropColours, t)` returning a
-  literal built from `tonesOf`'s own keys).
+  `tonesOf(colour)` → `Tones` (sky stops, ranges, ridge, ground stops, brow),
+  `colour` a typed lookup by `DUSK`'s names, with `DUSK_TONES`,
+  `tonesAt(dusk)` (source colours blended, so live-drawn parts match the
+  cross-faded bakes; tested), and `skyAt`/`groundAt`/`groundRowAt`/
+  `ridgeTone` taking an optional `tones` (day by default).
+- Left item 1, the bakes (package a1): `bake`/`aboutTheSun`/`Picture` in
+  `bake-picture.ts`; `paintSky`/`paintGround` take an optional `tones`;
+  `Backdrop.duskSky` (-7.5, dusk sky plus twelve ringed stars from
+  `dusk-stars.ts`'s fixed seed) and `Backdrop.duskGround` (-2.9, bobbing),
+  alpha carried over a repaint, else 0. **DuskView sets their alpha with
+  `backdrop.showDusk(level)`.**
 
 ## Left — designed
 
-1. **Bakes** (`paint-backdrop.ts`, 408 lines — move `bake`/`aboutTheSun`/
-   `Picture` into a new `bake-picture.ts` first): bake `duskSky` (the dusk
-   sky via `paintSky(graphics, layout, DUSK_TONES)` plus a dozen ringed stars
-   from a fixed seed, never `random`, in the upper band) at a new
-   `DEPTHS.duskSky` -7.5 (over the glow, under the sun), and `duskGround`
-   (`paintGround` with `DUSK_TONES`) at -2.9, bobbing like the ground. Both
-   kept in `Backdrop`, their alpha carried over a repaint (else 0).
+1. **Bakes** — done (see Done).
 2. **Clouds**: a dusk twin per cloud in `paintClouds` (created between the
    day cloud and the rain twin, same puffs, `DUSK` cloud colours, haze toward
    `DUSK.skyTop`); `placeClouds` and rain-view's `scaleCloud` move them too.

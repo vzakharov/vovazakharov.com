@@ -2,7 +2,13 @@ import type * as Phaser from 'phaser';
 
 import { type Light, sunLight } from '../../model/light';
 import type { Random } from '../../model/random';
-import { GROUND_BANDS, groundRowAt, RANGES, ridgeTone } from './backdrop-tones';
+import {
+  GROUND_BANDS,
+  groundRowAt,
+  RANGES,
+  ridgeTone,
+  type Tones,
+} from './backdrop-tones';
 import { browFloor, nearFoot } from './brow';
 import { mix } from './colour';
 import { type Band, grainPixels, grainStrips } from './grain';
@@ -131,12 +137,13 @@ export function drawHills(
  * brow and the seam (`browFloor`) to the bottom edge, lit far and deeper
  * near, each toned by how far down the ground it lies (`groundRowAt`). Above
  * them the brow draws the ground on down from itself, and the near range's
- * foot fills the seam and the far ground beyond the brow. Returns the rows it
- * covers.
+ * foot fills the seam and the far ground beyond the brow. Toned in `tones`,
+ * the day's unless given. Returns the rows it covers.
  */
 export function paintGround(
   graphics: Phaser.GameObjects.Graphics,
   layout: MeadowLayout,
+  tones?: Tones,
 ): Band {
   const { width, height, camera } = layout;
   const top = seamTop(layout);
@@ -148,7 +155,7 @@ export function paintGround(
       top + (band + 1) * step,
     ];
     if (y1 <= y0) continue;
-    graphics.fillStyle(groundRowAt(layout, top + (band + 0.5) * step));
+    graphics.fillStyle(groundRowAt(layout, top + (band + 0.5) * step, tones));
     graphics.fillRect(0, y0, width, y1 - y0);
   }
   return { top: from, bottom: height };
