@@ -18,6 +18,12 @@ const SEA_ALPHA = 0.3;
 const FEATURE_ALPHA = 0.8;
 const CHEEK_ALPHA = 0.5;
 
+/** How far from its middle the moon of radius `r` drawn with an outline `ink` wide reaches: its outermost ring or bead, ink and all. */
+export function moonReach(r: number, ink: number): number {
+  const [[ring]] = RINGS;
+  return Math.max(ring * r, (BEADS.reach + BEADS.r[0]) * r + ink / 2);
+}
+
 /**
  * The moon: a full, round disc in `moon`, outlined in `inkCool` and wearing
  * the kind, sleeping face of its own seas (`moonFace`), in a halo of soft

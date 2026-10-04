@@ -17,16 +17,13 @@ import {
 } from './dusk-sky';
 import { type FireflyGround, FireflyView } from './firefly-view';
 import type { MeadowLayout } from './layout';
+import { MoonView } from './moon-view';
 import type { Backdrop } from './paint-backdrop';
-import { drawMoon } from './paint-moon';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
-import { focusTwins, shade } from './twin-fade';
 
 /** The dusk wash's alpha at full dusk. */
 export const DUSK_WASH_DEEPEST = 0.38;
-/** The moon's outline, in CSS px. */
-const MOON_INK = 1.5;
 
 /** The meadow's dusk as the houses' windows light by it, and the depth over the dusk wash they are drawn at. */
 export type Lights = Pick<Meadow, 'dusk'> & Layered;
@@ -58,14 +55,8 @@ export class DuskView {
   /** The meadow's dusk as of this frame, and the depth the houses' lit windows are drawn at. */
   lights: Lights | undefined;
   private readonly wash: Phaser.GameObjects.Rectangle;
-  /** The moon, drawn about its own origin and moved to where it stands. */
-  private readonly moon: Phaser.GameObjects.Graphics;
-  /**
-   * Each of the backdrop's clouds cut out of the moon, by the cloud's index,
-   * so a cloud drifting past stands in front of it as it does the sun; on
-   * only while the cloud reaches the moon, as each costs a pass.
-   */
-  private cloudMasks: Phaser.Filters.Mask[] = [];
+  /** The moon, with the clouds drifting past in front of it as they do the sun, though it stands over the wash. */
+  private readonly moon: MoonView;
   private readonly camera: Phaser.Cameras.Scene2D.Camera;
   /** The scene's clock, in seconds. */
   private readonly now: () => number;
@@ -99,12 +90,7 @@ export class DuskView {
       .setScrollFactor(0)
       .setDepth(hudDepth - 2)
       .setAlpha(0);
-    this.moon = scene.add
-      .graphics()
-      .setScrollFactor(0)
-      .setDepth(this.glowDepth)
-      .setAlpha(0)
-      .enableFilters();
+    this.moon = new MoonView(scene, this.glowDepth);
     this.fireflies = new FireflyView(scene, this.glowDepth, now, ground);
   }
 
@@ -115,14 +101,7 @@ export class DuskView {
     this.wash.setSize(layout.width, layout.height);
     this.fireflies.paint(layout);
     this.sunRows = backdrop.sun.columns.map(({ y }) => y);
-    const { r } = layout.sun;
-    drawMoon(this.moon.clear(), { x: 0, y: 0, r }, MOON_INK);
-    focusTwins([this.moon], this.camera);
-    const filters = this.moon.filters?.internal;
-    filters?.clear();
-    this.cloudMasks = filters
-      ? backdrop.clouds.map((cloud) => filters.addMask(cloud, true))
-      : [];
+    this.moon.paint(layout.sun.r, this.camera.zoomX);
   }
 
   /** Sets the light for the frame at the scene's clock, as the meadow's `dusk` turns it. */
@@ -145,26 +124,8 @@ export class DuskView {
     for (const column of backdrop.wash.columns) column.setAlpha(1 - level);
     const sun = this.sunAt();
     const risen = sun && moonAt(sun, level);
-    if (risen) moon.setPosition(risen.x, risen.y);
-    this.cutClouds(backdrop, layout, risen);
-    shade(moon, moonUp(level));
-  }
-
-  /** Cuts the moon `risen` round the clouds reaching it, and only those. */
-  private cutClouds(
-    backdrop: Backdrop,
-    layout: MeadowLayout,
-    risen: Circle | undefined,
-  ): void {
-    for (const [index, mask] of this.cloudMasks.entries()) {
-      const shown = backdrop.clouds[index];
-      const cloud = layout.clouds[index];
-      if (!risen || shown?.visible !== true || !cloud) {
-        mask.setActive(false);
-        continue;
-      }
-      const { x } = shown;
-      mask.setActive(cloudOverMoon({ x, ...pick(cloud, 'y', 'r') }, risen));
+    if (risen) {
+      moon.show(risen, moonUp(level), cloudsOver(backdrop, layout, risen));
     }
   }
 
@@ -188,6 +149,26 @@ export class DuskView {
     const { layout, backdrop } = this;
     return layout && backdrop && sunOnScreen(backdrop.view, layout.sun);
   }
+}
+
+/**
+ * The clouds on the screen that reach `moon` (`cloudOverMoon`), each as the
+ * graphics showing it whole: the day's cloud until full dusk, which hides
+ * it under its opaque dusk twin, then the twin.
+ */
+function cloudsOver(
+  { clouds, duskClouds, level }: Backdrop,
+  layout: MeadowLayout,
+  moon: Circle,
+): Phaser.GameObjects.Graphics[] {
+  return clouds.flatMap((day, index) => {
+    const cloud = layout.clouds[index];
+    const twin = duskClouds[index];
+    const shown = level < 1 ? day : twin;
+    if (!day.visible || !cloud || !shown) return [];
+    const { x } = day;
+    return cloudOverMoon({ x, ...pick(cloud, 'y', 'r') }, moon) ? [shown] : [];
+  });
 }
 
 /** Whether the page opens dark (`darkScheme`), read once as the meadow opens. */

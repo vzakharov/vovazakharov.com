@@ -93,17 +93,36 @@ The aim is fewer flushes and fewer vertices, with dusk looking the same:
    it as an `Image` that follows the house's transform as the glow Graphics does
    now. Its resolution comes from the house's zoom, which already marks the
    house `stale` and repaints it.
-3. **Day clouds under opaque dusk twins** (−13.3k vertices). At `level === 1` the
-   twin fully covers its cloud. The moon's cloud masks use `backdrop.clouds` as
-   their source, though, so hiding the day cloud would empty the masks. Either
-   move the masks to the dusk twins (DuskView, which the moon agent shares) or
-   leave this one.
+3. **Day clouds under opaque dusk twins** — **done** (package `pm`, `pm.md`).
+   `relight` sets the day clouds' alpha to 0 at `level === 1` (alpha, not
+   `visible`, which `rain-view.placed()` and the probe read as "on the
+   screen"). The moon's cut takes the twin as its source at full dusk and the
+   day cloud before it (a fading twin is composited at its fade, so it would
+   cut the moon only partly).
 4. **Stars** (−5.4k vertices): one shared star texture, scaled per star, as
    Images, with alpha set from `starClear` as now.
-5. **Moon, reported here and not edited** (it is the moon package's): its shape
-   (−9.6k vertices a frame) could be baked once per `paint`. Its cloud masks put it
-   through a full-screen filter pass (5 framebuffer binds) on every frame a cloud
-   is within the moon's reach, which here is every frame.
+5. **Moon** — **done** (package `pm`). `MoonView` (`moon-view.ts`) draws the
+   moon once per paint, supersampled, into a texture a texel to a device pixel,
+   and shows it as one quad faded by its alpha (`moonUp`); its place and tap
+   are unchanged. The filter masks are gone: a cloud reaching it is _erased_
+   from the shown texture, which is redrawn only when a cut moves by a device
+   pixel (clouds drift 4–7 CSS px/s, so a few times a second), with no
+   full-screen pass at all. Depth order was not usable: a cloud above the moon
+   must also be above the wash (the moon is, call 7), and then it is unwashed
+   and covers the fliers in front of it.
+
+   Full dusk, tabL, the same bench before and after (fireflies, glow and
+   stars untouched):
+
+   | frame                      | draw calls | vertices | framebuffer binds | clears |
+   | -------------------------- | ---------: | -------: | ----------------: | -----: |
+   | before                     |         36 |  122 974 |                 5 |      4 |
+   | after, most frames         |         33 |   94 086 |                 0 |      1 |
+   | after, a frame that recuts |         35 |   97 638 |                 2 |      2 |
+
+   The moon itself is now 1 draw and ~90 vertices on the screen (A/B), from
+   −4 draws and −9.6k. Frames `before`/`after` of the `dusk` play differ only
+   at the moon's antialiased edges (`frames/bite-17/pm-tabL.png`).
 
 Before and after are measured with `perf-bench.patch` (beside this note). It adds
 a temporary `bench` play and a `mac` screen (1512×900 @2) to

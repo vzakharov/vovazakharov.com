@@ -78,6 +78,7 @@ export type Backdrop = Following & {
   sun: Turning;
   /** The rainbow opposite the sun, shown by its columns' alpha as a shower ends (`rain-view.ts`). */
   rainbow: Turning;
+  /** The day's clouds, `visible` while on the screen, unseen by their alpha at full dusk (`relight`). */
   clouds: Phaser.GameObjects.Graphics[];
   /** Each cloud's dusk twin, placed with it and faded in over it toward dusk (`relight`). */
   duskClouds: Phaser.GameObjects.Graphics[];
@@ -96,7 +97,8 @@ export type Backdrop = Following & {
   /**
    * Lights the backdrop `level` of the way to dusk, from 0 at full day to 1
    * at full dusk (`duskness`): the dusk's pictures and stars shown over the
-   * day's and the clouds' dusk twins faded in over them at `level`, which
+   * day's and the clouds' dusk twins faded in over them at `level`, hiding
+   * them at 1, which
    * costs no repaint, and the hills and the brow, drawn live, redrawn in its
    * tones whenever it crosses a step of `LIGHT_STEPS`. The stars clear the
    * moon as the view last followed shows it, so it runs after `follow`.
@@ -331,6 +333,8 @@ export function paintBackdrop(
         graphics.setAlpha(star ? level * starClear(star, moon) : 0);
       }
       for (const twin of backdrop.duskClouds) shade(twin, level);
+      // At full dusk the opaque twins hide their clouds whole.
+      for (const cloud of backdrop.clouds) cloud.setAlpha(level < 1 ? 1 : 0);
       raiseHills(backdrop, hills, blades);
     },
     wash,
