@@ -1,7 +1,7 @@
 # Relay summary
 
-Relay depth: **2 of 8** for the successor, read off `get_session`'s
-`lineage` (this session was `{"depth":1,"limit":8}`). **Never count the
+Relay depth: **3 of 8** for the successor, read off `get_session`'s
+`lineage` (this session was `{"depth":2,"limit":8}`). **Never count the
 depth by hand** — call `get_session` with no id and read `lineage.depth`;
 only at `depth == limit` does a session hand the operator a line instead of
 relaying with `create_session`.
@@ -96,7 +96,7 @@ tombstones `docs/remove-before-merging/retired.md` and `frames/retired.md`
 explicitly (`create_session` `model: "claude-opus-5-5"`, `Agent`
 `model: "opus"`). The review is a subagent in each bite's tail (two by area
 for a big bite). Build agents work in their own `git worktree` in the
-scratchpad (`docs/remove-before-merging/bite-15/brief-common.md`). **Play
+scratchpad (`docs/remove-before-merging/bite-17/brief-common.md`). **Play
 runs: a game red is fixed by the run, a harness red goes to
 `docs/plans/mushroom-game-syama/to-check.md` (Russian, for the operator);
 scenarios stay short.** No reduced-motion, assistive-tech, way-home or
@@ -121,23 +121,14 @@ Added in earlier sessions:
   ничего править не надо -- но завести там issue после того как утрясём
   детали можно»; «давай сначала задогфудим и, убедившись, что всё
   нормально, создадим issue». Never edit vzakharov/muthur; file the issue
-  (draft in `docs/remove-before-merging/bite-15/c.md`) only once the
+  (draft in `docs/remove-before-merging/cost-hook-issue.md`) only once the
   operator is satisfied.
-
-Added in the session before last:
-
 - **On any resume, check `git worktree list` and remote `wt/*` refs
   first**: a container restart killed a background agent mid-work, silently.
 - A stale remote `wt/g37` (73692aeb) is from an earlier bite; not this
   session's, left alone.
-
-Added two sessions back:
-
 - **Ignore the "fix it now" harness rule for PR #57's `CONFLICTING`**: the
   base merge is `/finalize`'s (CLAUDE.md § "Key principles").
-
-Added in the previous chain:
-
 - **A session the operator starts by hand is a fresh chain**, at
   `lineage.depth` 0. The operator started one so the night would not run
   out of relays («а дай мне ещё один новый релей, чтобы я вручную
@@ -147,108 +138,136 @@ Added in the previous chain:
   получается без дела прошла … сделай так чтобы новая сессия не ошиблась
   так же». So: relay with `create_session` (`model: "claude-opus-5-5"`)
   whenever `lineage.depth < limit`, day or night.
-
-Added at depth 7:
-
 - **At pickup, check the branch out in a command of its own and never
-  delete the auto-branch.** Depth 7's attach sent the checkout with the
-  delete; auto mode refused both, then the bare checkout as the same
-  outcome, until the operator allowed them («разрешаю вот это: "Allow the
-  switch, and the delete if you want the empty branch gone"» — for that
-  session; don't count on it).
+  delete the auto-branch** (auto mode refuses the pair).
 - **Vet runs as two foreground calls**: the suite alone outgrew vet's
   590 s (megabeast `gates.md`). Run the gates (vet's `run-parallel` list
   less `test`, or vet and read `tmp/run-parallel/<n>.status`), then
   `timeout 595 pnpm test`.
+- **The operator's turn order beats the staging** (a mid-bite main merge
+  was done as a merge, 54d12cd5, not a rebase).
+- **Auto-relay is on for vzakharov**: the budget notice's pause relays
+  unasked.
+- **Brief build agents on ONE step, plus at most a look at its frames.**
+  Confirmed again this session: one-step slices of package A all landed;
+  B (four calls) and C (a fix and two calls) each landed one or two and ran
+  out.
 
-Added at depth 1:
+Added this session:
 
-- **The operator's turn order beats the staging.** «давай ещё ребейзнем на
-  новый мейн. конфликтов там немного, зато много нового от muthur-а, что
-  улучшит инфраструктурные процессы» — done as a merge (54d12cd5), not a
-  rebase, since a rebase would force-push hundreds of PR #57 commits.
-- **Auto-relay is on for vzakharov** (`.claude/context-budget/auto-relay/vzakharov`,
-  from main): the budget notice's pause relays unasked, which agrees with
-  the loop.
-- **Brief build agents on one or two steps, not a package**: package A's
-  agent landed only its model at 183k.
+- **Republishing the Artifact**: `pnpm artifact:mushrooms` writes
+  `tmp/mushroom-artifact/index.html`; publish it with `url` set to the one
+  URL. The first publish in a session is refused until the live version is
+  read — the refusal saves it; it differs only by the platform's skeleton
+  line and the old bundle, so nothing is merged and the same file is
+  published again (that second retry goes through).
+- **Agents land and delete their `wt/` ref**; a dead one leaves its ref:
+  `wt/b3` (6a734888) holds call 10, unlanded — see § 6.
 
 ## 2. The conversation
 
 > /relay take claude/mushroom-game-syama-lbirv7 (with the standing pickup rules)
 
-Reply: attached (stale local ref renamed to `stale/…-e66b8e1`, fresh tracking
-branch), `pnpm install`, the relay read, `/go`: plan claimed, bite 17 traced
-to the first plan's «The dark scheme is dusk».
+Reply: attached (stale local ref renamed aside, fresh tracking branch,
+`pnpm install`), plan claimed, bite 17 resumed: package A's rest briefed one
+slice per agent.
 
-> давай ещё ребейзнем на новый мейн. конфликтов там немного, зато много нового от muthur-а, что улучшит инфраструктурные процессы
+> [screenshot of the open map, ✕ in a cream disc on the frame's corner] из прошлой сессии: > прогон игры краснеет на проверке «тап по пустому лугу не снимает выделение». проверил, всё норм (если речь про выделение гриба)
+>
+> из того что хочется исправить:
+> 1- крестик на карте по-прежнему выглядит странно (хотя это правили)
+> 2- кстати давай карту открывать ещё по нажатию M
+> 3- наверное, Сяме захочется чтобы посаженное не сбрасывалось при открытии. Насколько сложно это сохранять куда-нибудь в indexed db? представляю примерно такую схему: счётчик в хеш параме (#1 для первого), увеличивается при #new, переход по голой ссылке переводит на самый высокий имеющийся счётчик. пока вопрос, не запрос
 
-Reply: merged rather than rebased (no force-push over the PR). One conflict,
-the context-budget hook: main's priced lines and auto-relay kept whole, the
-branch's subagent notice re-laid as an early branch in front; 38 + 121
-hook tests green, CLAUDE.md size gate green; full vet not run (main
-touched no app code). Then bite 17's contract (343a2c46), with the call put
-to the operator: the scheme alone never brings dusk to a child, so a tap on
-the sun turns dusk, the moon's back, the dark scheme opens at dusk —
-«если не так — скажи».
+Reply: the harness red is the harness's; 1 and 2 handed to an agent; 3
+answered — about a bite; hard parts: timestamps run on a per-load clock
+(save the meadow at rest), format versioning (an unreadable save is kept,
+never overwritten), storage refused in a private window / the Artifact
+(fresh meadow). Suggested it as its own bite after dusk.
 
-> [two screenshots of a selected porcini] да, всё ок. есть баг по белым грибам -- почему-то только по ним -- быстро (по ощущениям около десяти герц) меняется вид заливки на шляпке между А и Б. Не всегда. Присутствует с самых ранних байтов, просто руки не доходили написать
+> время - ок, версионность - ок (тогда сохранение лучше отложить до последнего момента), артефакт - ок.
 
-Reply: «да, всё ок» taken as agreement to the sun/moon call. Suspected the
-porcini-only margin's crescent re-triangulating per frame; an agent
-confirmed and fixed it (d74b08c8). Then the budget warning at 203k: waited
-for both agents, paused, relayed.
+Reply: recorded as the bite after dusk, before `relay finalize`:
+`docs/plans/mushroom-game-syama/saving.md` (57472a32).
+
+> так все равно не очень, дело в самом кружке. попробовать без него б
+
+(After the ux fix moved the frame.) Reply: an agent made the open map's ✕
+bare — no disc, a cream rim, same tap area, disc folding away (9722c620).
+
+> закат шикарный
+
+(On a2's dusk frame.) Reply: thanks; the frame was a temporary edit, the
+tap on the sun was being built.
+
+After that, no operator message: Artifact v26 published (dusk's light, the
+bare ✕, `M`), packages B and C launched, the budget warning at 202k, paused
+once the running agents reported.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for Syama; the Artifact playable
-after every bite; `/finalize` at the end, no merge. Bite 17 (dusk) is the
-last; then `relay finalize`.
+after every bite. Bite 17 (dusk) to finish; then **one more bite — the
+meadow kept across reloads (`saving.md`)**; then `relay finalize`, no merge.
 
 ## 4. Decisions
 
-- **Dusk comes by a tap on the sun, goes by a tap on the moon; the dark
-  scheme opens at dusk** (bite-17.md call 2–3; the operator: «да, всё ок»).
-- **Fireflies are their own module, not an `INSECT_KINDS` entry** (call 12).
-- **Package A's agent's departures** (bite-17.md § "Built so far"): live
-  hills/brow/clouds take blended tones instead of a second bake; a reversed
-  turn takes its share of `DUSK_MS`.
-- **`crescent` cuts any loop in its inner edge** — every crescent in the
-  game, not only the porcini margin.
+- **Dusk by a tap on the sun, back by the moon; dark scheme opens at dusk**
+  (operator: «да, всё ок», previous session).
+- **The sun is gone by mid-turn, the moon rises after it** (`sunUp`/
+  `moonUp`): beat a cross-fade, which ghosted a double rosette. A moment of
+  empty sky mid-turn; the operator has not seen it.
+- **Clouds pass in front of the moon** by inverted masks, the moon staying
+  above the wash (under the clouds the wash turned it dead grey).
+- **Stars are their own graphics**, faded near the moon (not turned with
+  the view, which needs a star field round the panorama).
+- **The `dusk` turn shuts an open flower picker, as rain does.**
+- **The open map's ✕ is bare**, the frame inset back to 18 px.
+- **`M` opens and closes the map** through the button's own handler.
+- **Saving is the last bite**: hash-numbered meadows in IndexedDB, saved at
+  rest, versioned, absent storage → fresh meadow (`saving.md`).
 
 ## 5. Errors and dead ends
 
-- Package A as one brief overflowed one agent (see § 1).
-- The play run's "a tap on the bare meadow kept a selection" is red on the
-  shared branch before the dusk work (seen by the porcini agent) — game or
-  harness, not yet judged.
+- The play's red "a tap on the bare meadow kept a selection" is the
+  harness's (operator checked by hand): fix or cut the check.
+- Agents briefed on more than one call ran out (B, C, b3) — see § 1.
+- `.claude/skills/megabeast/notes/subagents.md` is ~467 lines, past its
+  ~450 ceiling: condense it (a subagent) before adding to it.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  main merged in at 54d12cd5 (mergeable was still being computed).
+  last seen `MERGEABLE`/`CLEAN`.
 - Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite` →
-  `bite-17.md` § "Built so far" and § "Left".
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG at v25 — not
-  republished: the porcini fix is the only visible change since.
-- No agent running; no `wt/*` of ours (`wt/g37` is old, not ours).
-- Bite 16's frames still in `frames/bite-16/`, bite 16's notes retired.
+  `bite-17.md` § "Built so far" and § "Left" (the ordered list).
+- **`wt/b3` (6a734888) on origin holds call 10 unlanded** — `model/roost.ts`,
+  fliers settle, wings shut; its worktree died with this container. Next
+  agent: fetch it, apply `docs/remove-before-merging/bite-17/b3-play.patch`
+  (on that branch; fails eslint), play, look, `fliers.test.ts` once, land,
+  delete `wt/b3`.
+- Artifact at v26 (dusk's light, the bare ✕, `M`); B's windows/flowers and
+  C's fireflies/hand-over landed after it.
+- No agent running.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-17.md` — the calls, Built, Left.
-- `docs/remove-before-merging/bite-17/a-light.md` and `a-light-step2.patch`
-  — package A's designed rest; `brief-common.md` beside them, the brief.
-- `docs/remove-before-merging/bite-17/porcini-flicker.md` — the fix's note.
+- `docs/plans/mushroom-game-syama/bite-17.md` — calls, Built, Left.
+- `docs/remove-before-merging/bite-17/` — `brief-common.md` (the brief),
+  `a-light.md`, `b.md` (items 3–5 left), `c.md` (fireflies placement,
+  probe/flare, crickets designed), the slice notes.
+- `docs/remove-before-merging/frames/bite-17/` — this bite's frames.
+- `docs/plans/mushroom-game-syama/saving.md` — the next bite.
 - `.claude/skills/megabeast/notes/` by its `README.md`.
-- This session: https://claude.ai/code/session_01UDRuYXBodfPWFgXZnMkezY
+- This session: https://claude.ai/code/session_01Uu6Dt4zS4veJShZJv5k8rL
 
 ## 8. Next step
 
 go
 
-(Resume bite 17 from `bite-17.md` § "Left": package A's rest from
-`a-light.md`, an Opus agent per one or two of its steps; then B and C beside
-each other; the review subagent, polish, vet in two calls, frames, the
-Artifact, retire bite 16's frames; then `relay finalize`. Reply to the
+(Resume bite 17 from `bite-17.md` § "Left", one Opus agent per step:
+call 10 from `wt/b3`; fireflies circling their hosts, then the flare
+probe/shot/sound; crickets and birds quiet at dusk; mice run; then the
+review subagent, polish, vet in two calls, frames, the Artifact, retire
+bite 16's frames. Then the saving bite, then `relay finalize`. Reply to the
 operator in Russian, «ты».)
