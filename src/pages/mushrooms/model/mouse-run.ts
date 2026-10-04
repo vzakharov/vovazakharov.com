@@ -14,8 +14,15 @@ import type { RunMoment } from './mouse-run-clock';
 import type { Footed } from './placement';
 import { saltedStream, type Seeded } from './random';
 
-/** The share of a house's outings that become runs when a door is in sight and it holds one mouse. */
+/** The share of a house's outings that become runs when a door is in reach and it holds one mouse. */
 export const RUN_SHARE = 0.5;
+/**
+ * How far apart two doors' feet may stand on the plane for a house's own
+ * outing to run between them: a run this long takes about four seconds, so
+ * the mice keep to their own corner of the meadow unasked. A tap and a dusk
+ * outing reach any door in sight.
+ */
+export const OUTING_REACH = 2.5;
 
 /** How many mice each house holds, by its mushroom's id; a house missing holds none. */
 export type Mice = ReadonlyMap<string, number>;
@@ -46,9 +53,9 @@ export const moved = (mice: Mice, from: string, to: string): Mice =>
   entered(left(mice, from), to);
 
 /**
- * Of `doors` other than `except`, the ones drawn now: a mouse runs to any
- * door in sight, however far apart the two houses grew, since a mushroom
- * grows as far from the others as the screen allows (`pickFoot`).
+ * Of `doors` other than `except`, the ones drawn now: a tapped or dusk mouse
+ * runs to any door in sight, however far apart the two houses grew, since a
+ * mushroom grows as far from the others as the screen allows (`pickFoot`).
  */
 const seenBesides = (doors: readonly RunDoor[], except?: string): RunDoor[] =>
   doors.filter((door) => door.id !== except && door.seen);
@@ -121,7 +128,7 @@ export function caller(
 const RUN_SALT = 0x6e_37_a1_c9;
 
 /**
- * Whether a house's `outing` (`outingOf`) is a run, a door being in sight:
+ * Whether a house's `outing` (`outingOf`) is a run, a door being in reach:
  * always when it holds two or more, else when its seed's draw for that
  * outing falls under `RUN_SHARE`; never from an empty house.
  */
@@ -132,6 +139,25 @@ export function runsOuting(
 ): boolean {
   if (count === 0) return false;
   return count >= 2 || saltedStream(seed, RUN_SALT, outing)() < RUN_SHARE;
+}
+
+/**
+ * Where `from`'s own `outing` runs to, `from` grown from `seeded`: the door
+ * `runTarget` picks of those within `OUTING_REACH` when `runsOuting` says it
+ * runs; `undefined` for an outing that stays a peek.
+ */
+export function outingTarget(
+  seeded: Seeded,
+  outing: number,
+  mice: Mice,
+  from: RunDoor,
+  doors: readonly RunDoor[],
+): string | undefined {
+  if (!runsOuting(seeded, outing, miceAt(mice, from.id))) return undefined;
+  const inReach = doors.filter(
+    (door) => distanceBetween(from.foot, door.foot) <= OUTING_REACH,
+  );
+  return runTarget(mice, from, inReach);
 }
 
 /** A run's two houses, by their mushrooms' ids: the one it leaves and the one it goes in at. */

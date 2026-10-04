@@ -22,10 +22,9 @@ import {
   left,
   type Mice,
   miceAt,
+  outingTarget,
   retarget,
   type RunDoor,
-  runsOuting,
-  runTarget,
   scattered,
 } from '../../model/mouse-run';
 import {
@@ -240,8 +239,7 @@ export class MouseRuns {
     const was = kept.outing;
     kept.outing = outing;
     if (was === undefined || outing === was) return;
-    if (!runsOuting(kept, outing, miceAt(this.counts, door.id))) return;
-    const to = runTarget(this.counts, door, doors);
+    const to = outingTarget(kept, outing, this.counts, door, doors);
     if (to === undefined) return;
     kept.ran = outing;
     this.start(door.id, to, outingStart(outing, phase), 'peek', false);

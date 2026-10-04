@@ -13,6 +13,8 @@ import {
   miceAt,
   miceHome,
   moved,
+  OUTING_REACH,
+  outingTarget,
   retarget,
   RUN_SHARE,
   type RunDoor,
@@ -206,6 +208,39 @@ describe('runsOuting', () => {
       Array.from({ length: 40 }, (_, outing) =>
         runsOuting({ seed: 12_345 }, outing, 1),
       ),
+    );
+  });
+});
+
+describe('reach', () => {
+  // Two houses 8 apart, as `pickFoot` spreads a child's meadow; a house of
+  // two runs every outing, so only the reach decides.
+  const from = door('a', 0, 10);
+  const far = door('far', 8, 10);
+  const mice = miceOf({ a: 2 });
+
+  it('runs a tapped mouse to a door in sight however far', () => {
+    assert.deepEqual(answerTap(mice, from, [from, far], []), {
+      answer: 'run',
+      to: 'far',
+    });
+  });
+
+  it('runs a dusk outing to a door in sight however far', () => {
+    assert.equal(runTarget(mice, from, [from, far]), 'far');
+  });
+
+  it('keeps a house’s own outing to a door within OUTING_REACH', () => {
+    for (let outing = 0; outing < 20; outing++) {
+      assert.equal(
+        outingTarget({ seed: 7 }, outing, mice, from, [from, far]),
+        undefined,
+      );
+    }
+    const near = door('near', OUTING_REACH, 10);
+    assert.equal(
+      outingTarget({ seed: 7 }, 0, mice, from, [from, far, near]),
+      'near',
     );
   });
 });
