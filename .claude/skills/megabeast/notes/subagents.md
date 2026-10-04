@@ -317,6 +317,24 @@
   its grant and every merge was clean. The skill writes both grants into
   the calls for a file two packages touch, the count wherever it is near
   the cap.
+- **Two parallel steps that both spell types collide in `type-overlap`
+  at landing, not in their worktrees.** Bite 18's S1 (the kept record's
+  types) and S3 (the walk's start) ran side by side on disjoint files; S3
+  landed `WalkStart = WithGait & Eyed` first, and S1's `Kept` spelled the
+  same combination, which the gate rejects. S1 settled it in a second
+  commit by building on `WalkStart`. The spec had already flagged a
+  second race (S2's schema in S1's types file), which the orchestrator
+  avoided by running S2 after S1. The wave planner asks of each parallel
+  pair "does either declare a type the other might also spell?" and
+  sequences them, or names one owner of the shared base.
+- **A pure package bite runs one-step agents at ~100–145k each, and a
+  spec at ~190k.** Bite 18 (saving: one package, no look) ran a spec
+  agent, then S1 ∥ S3 ∥ S6 (the play written first), S2, S4, plus a
+  trace of an old play red, all landing inside 5–15 minutes, none
+  running out; the orchestrator still crossed its 200k line before the
+  scene wiring, because its baseline and the spec read cost ~110k before
+  any build. A relayed orchestrator should expect a bite of six steps to
+  take two sessions, and relay after the wave that holds the scene.
 - **Own a type's builders, not only its files.** Bite 12b's I4 blocked
   because `Host` is built in `capTop` (mushroom bed) and `seat` (flower
   bed), each another package's file that wave. Handing the next I agent
