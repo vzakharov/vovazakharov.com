@@ -4,8 +4,8 @@ The operator's report: «на сумерках значительно медле
 
 ## Status
 
-Measured, cause found, **no fix landed yet** — the agent ran out of context before
-the fix. The next step is designed below so a successor can build it straight away.
+Measured, cause found; the fixes below are landing item by item (each marked
+**done** with its numbers).
 
 ## Cause
 
@@ -78,6 +78,23 @@ The aim is fewer flushes and fewer vertices, with dusk looking the same:
    `bake-picture.ts` does. Re-bake in `paint` only. Look change: a halo no longer
    lands over a neighbouring firefly's dark body when two overlap, which is rare
    and tiny.
+   **Done (package `pf`).** As designed, with one Phaser 4 catch: a container
+   with no blend mode of its own (`-1`) opens a new drawing context, and so a
+   new batch, whenever its child's mode or the mode it is handed is not
+   NORMAL, so splitting the halos out alone still left one draw per halo (24
+   at full dusk). The halo containers carry
+   `ADD` and the body containers `NORMAL` on the container itself, and then the
+   dozen of each share one context. The shapes are canvas textures
+   (`generateTexture`) baked in `paint` at `camera zoom × 2` texels a CSS pixel,
+   so a near or flaring firefly stays crisp. Full dusk, tabL, same bench:
+   **36 draws / 122 974 vertices before, 13 / 109 456 after** (day unchanged
+   at 8 / 62 706). A/B: the fireflies now cost 1 draw and 216 vertices, from
+   24 and ~13.8k (the bodies ride in the normal batch after them). By eye, the
+   `dusk` play's fireflies match `c2-fireflies-tabL.png` (rings, dark body,
+   lit tail, pulse), and a forced flare swells, brightens and lifts as before
+   (`frames/bite-17/pf-fireflies-tabL.png` is the unforced after frame). In the
+   bench patch, the fireflies' A/B list is now
+   `shown.flatMap((s) => [s.container, s.glow])`.
    **Items 2 and 4 are done (package `pw`).** The glow is a `WindowGlow`: each house's lit
    windows painted on change into a canvas texture of its own at `zoom × camera zoom` texels a
    unit, shown as one `Image` in the house's transform, and destroyed with the house. The stars

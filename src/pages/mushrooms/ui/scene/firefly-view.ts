@@ -41,6 +41,15 @@ const HALO = [
   [0.36, 0.16],
   [0.2, 0.32],
 ] as const;
+/** How many texels a baked shape spends on each device pixel at a firefly's own size, so a near or flaring one stays crisp. */
+const OVERSAMPLE = 2;
+/** The baked shapes, each drawn about its texture's middle. */
+const BAKED = {
+  halo: 'firefly-halo',
+  body: 'firefly-body',
+  tail: 'firefly-tail',
+} as const;
+type Part = keyof typeof BAKED;
 
 /** What the fireflies circle — the meadow's mushrooms, and the beds that draw them and the flowers — and the visit's seed the dozen grow from. */
 export type FireflyGround = Pick<Scened, 'meadow'> &
@@ -51,9 +60,11 @@ export type FireflyGround = Pick<Scened, 'meadow'> &
 type Shown = CircleFigure &
   TapTimed & {
     genes: FireflyGenes;
-    halo: Phaser.GameObjects.Graphics;
-    body: Phaser.GameObjects.Graphics;
-    tail: Phaser.GameObjects.Graphics;
+    /** The halo, added over what lies under it, apart from the body so every halo draws in one batch. */
+    glow: Phaser.GameObjects.Container;
+    halo: Phaser.GameObjects.Image;
+    body: Phaser.GameObjects.Image;
+    tail: Phaser.GameObjects.Image;
     /** The host it circles, as `hostKey` names it, while awake. */
     host?: string;
     /** Where it was drawn as it left its last host, and when, so it glides to the next. */
@@ -70,12 +81,19 @@ type Hosted = WithId & { seat: Seat };
  * circles a mushroom or a flower near the eye (`model/firefly.ts`), keeps it
  * while it stays on the screen and glides to another when it goes; a tap
  * flares one and lifts it before it settles back to its ring.
+ * Each is two containers moved together, its halo's and its body's, every
+ * halo made before every body: the display list then holds all the added
+ * halos and then all the bodies, two batches where a halo between bodies
+ * would break one per firefly. Every shape is a texture baked in `paint`.
  */
 export class FireflyView {
+  private readonly scene: Phaser.Scene;
   private readonly shown: Shown[];
   private readonly ground: FireflyGround;
   private readonly now: () => number;
   private unit = 0;
+  /** The texels the shapes were baked at for each CSS pixel. */
+  private texel = 1;
 
   constructor(
     scene: Phaser.Scene,
@@ -85,17 +103,31 @@ export class FireflyView {
   ) {
     this.now = now;
     this.ground = ground;
-    this.shown = fireflies(ground.seed).map((genes) => {
-      const halo = scene.add.graphics().setBlendMode(Phaser.BlendModes.ADD);
-      const body = scene.add.graphics();
-      const tail = scene.add.graphics();
+    this.scene = scene;
+    const glows = fireflies(ground.seed).map((genes) => {
+      const halo = scene.add.image(0, 0, '__WHITE');
+      // Each container holds a blend mode of its own, so the dozen share one
+      // drawing context: a container without one starts a new context, and
+      // with it a batch, whenever its child's mode or the one it is handed
+      // differs from normal.
+      const glow = scene.add
+        .container(0, 0, [halo])
+        .setBlendMode(Phaser.BlendModes.ADD)
+        .setDepth(depth)
+        .setVisible(false);
+      return { genes, glow, halo };
+    });
+    this.shown = glows.map(({ genes, glow, halo }) => {
+      const body = scene.add.image(0, 0, '__WHITE');
+      const tail = scene.add.image(0, 0, '__WHITE');
       const hit = new Phaser.Geom.Circle(0, 0, TAP_RADIUS);
       const container = scene.add
-        .container(0, 0, [halo, body, tail])
+        .container(0, 0, [body, tail])
+        .setBlendMode(Phaser.BlendModes.NORMAL)
         .setDepth(depth)
         .setVisible(false)
         .setInteractive(hit, containsCircle);
-      const parts = { genes, container, halo, body, tail, hit };
+      const parts = { genes, container, glow, halo, body, tail, hit };
       const shown: Shown = { ...parts, tappedAt: -Infinity };
       // A firefly is not the meadow: its tap leaves the selection as it is.
       container.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
@@ -105,30 +137,69 @@ export class FireflyView {
     });
   }
 
-  /** Draws every firefly at the insects' size on `layout`. */
+  /** Bakes every firefly's shapes at the insects' size on `layout`. */
   paint(layout: MeadowLayout): void {
     const unit = layout.insectSize;
     this.unit = unit;
+    // The camera's zoom is the device pixel ratio, which the layout's CSS
+    // pixels are drawn at.
+    const texel = this.scene.cameras.main.zoom * OVERSAMPLE;
     const { body: dark, tail: light, halo: glow } = PALETTE.firefly;
     const [length, width] = [BODY.length * unit, BODY.width * unit];
     // The tail is the body's back third, which the light sits in.
     const back = -length * 0.3;
-    for (const { halo, body, tail } of this.shown) {
-      // About the tail, so a flare swells it there.
-      halo.clear().setPosition(back, 0);
+    const head = width * 0.38;
+    const [outer] = HALO[0];
+    this.bake('halo', outer * unit, outer * unit, texel, (graphics) => {
       for (const [r, alpha] of HALO) {
-        halo.fillStyle(glow, alpha).fillCircle(0, 0, r * unit);
+        graphics.fillStyle(glow, alpha).fillCircle(0, 0, r * unit);
       }
-      body
-        .clear()
+    });
+    this.bake('body', length / 2 + head, width / 2, texel, (graphics) => {
+      graphics
         .fillStyle(dark, 1)
         .fillEllipse(0, 0, length, width)
-        .fillCircle(length * 0.5, 0, width * 0.38);
-      tail
-        .clear()
+        .fillCircle(length * 0.5, 0, head);
+    });
+    this.bake('tail', TAIL * unit, width * 0.4, texel, (graphics) => {
+      graphics
         .fillStyle(light, 1)
-        .fillEllipse(back, 0, TAIL * 2 * unit, width * 0.8);
+        .fillEllipse(0, 0, TAIL * 2 * unit, width * 0.8);
+    });
+    for (const { halo, body, tail } of this.shown) {
+      // About the tail, so a flare swells it there.
+      halo.setTexture(BAKED.halo).setPosition(back, 0);
+      body.setTexture(BAKED.body).setScale(1 / texel);
+      tail
+        .setTexture(BAKED.tail)
+        .setScale(1 / texel)
+        .setPosition(back, 0);
     }
+    this.texel = texel;
+  }
+
+  /**
+   * Bakes `part` as `draw` paints it about the origin, in CSS pixels,
+   * reaching `across` and `down` either way, at `texel` texels a pixel.
+   */
+  private bake(
+    part: Part,
+    across: number,
+    down: number,
+    texel: number,
+    draw: (graphics: Phaser.GameObjects.Graphics) => void,
+  ): void {
+    const { textures, make } = this.scene;
+    const key = BAKED[part];
+    if (textures.exists(key)) textures.remove(key);
+    // A texel of room each side, for the edge's antialiasing.
+    const span = (reach: number) =>
+      Math.max(2, Math.ceil(2 * reach * texel) + 2);
+    const [wide, tall] = [span(across), span(down)];
+    const graphics = make.graphics({}, false);
+    graphics.translateCanvas(wide / 2, tall / 2).scaleCanvas(texel, texel);
+    draw(graphics);
+    graphics.generateTexture(key, wide, tall).destroy();
   }
 
   /** Sets every firefly for the frame `level` of the way to dusk, at the scene's clock. */
@@ -142,7 +213,7 @@ export class FireflyView {
     for (const shown of this.shown) {
       const woke = awake(shown.genes, level);
       if (woke <= 0) {
-        shown.container.setVisible(false);
+        hide(shown);
         shown.host = undefined;
         shown.left = undefined;
         shown.drawn = undefined;
@@ -172,9 +243,9 @@ export class FireflyView {
     woke: number,
     t: number,
   ): void {
-    const { container, halo, tail, genes, hit, left, tappedAt } = shown;
+    const { container, glow, halo, tail, genes, hit, left, tappedAt } = shown;
     if (!seat) {
-      container.setVisible(false);
+      hide(shown);
       return;
     }
     const own = CLUMP_DISTANCE / seat.on.stands.ahead;
@@ -196,15 +267,17 @@ export class FireflyView {
       if (way >= 1) shown.left = undefined;
     }
     shown.drawn = at;
-    const glow = Math.min(1, tailGlow(genes, t) + flared.glow);
-    container
-      .setVisible(true)
-      .setPosition(at.x, at.y)
-      .setScale(scale)
-      .setRotation(ring.heading)
-      .setAlpha(woke);
-    halo.setAlpha(glow).setScale(1 + FLARE_SWELL * flared.glow);
-    tail.setAlpha(TAIL_EBB + (1 - TAIL_EBB) * glow);
+    const lit = Math.min(1, tailGlow(genes, t) + flared.glow);
+    for (const part of [container, glow]) {
+      part
+        .setVisible(true)
+        .setPosition(at.x, at.y)
+        .setScale(scale)
+        .setRotation(ring.heading)
+        .setAlpha(woke);
+    }
+    halo.setAlpha(lit).setScale((1 + FLARE_SWELL * flared.glow) / this.texel);
+    tail.setAlpha(TAIL_EBB + (1 - TAIL_EBB) * lit);
     hit.radius = TAP_RADIUS / scale;
   }
 
@@ -235,4 +308,9 @@ export class FireflyView {
       })
       .toSorted((a, b) => distance(a) - distance(b));
   }
+}
+
+function hide({ container, glow }: Shown): void {
+  container.setVisible(false);
+  glow.setVisible(false);
 }
