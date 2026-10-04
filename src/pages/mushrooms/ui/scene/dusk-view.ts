@@ -170,12 +170,13 @@ export class DuskView {
 
   /**
    * Turns the light if a tap at the camera's world point `{ x, y }` lands on
-   * the sun, or the moon in its place; whether it did. The sun stands on the
-   * screen, which the camera's `bob` scrolls the world past.
+   * the sun, or the moon in its place, `within` its disc or its rays
+   * (`onTheSun`); whether it did. The sun stands on the screen, which the
+   * camera's `bob` scrolls the world past.
    */
-  tap({ x, y }: Point, bob: number): boolean {
+  tap({ x, y }: Point, bob: number, within: 'disc' | 'rays'): boolean {
     const sun = this.sunAt();
-    if (!sun || !onTheSun(sun, { x, y: y - bob })) return false;
+    if (!sun || !onTheSun(sun, { x, y: y - bob }, within)) return false;
     this.dispatch({ kind: 'dusk', now: this.now() * 1000 });
     if (this.toward === 'day') this.sound.sink();
     else this.sound.grow();

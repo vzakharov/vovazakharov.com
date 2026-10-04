@@ -32,8 +32,11 @@ export function tapMeadow(
   if (over.length > 0) return;
   const { camera, planter, grass, rain, dusk, bed, dispatch } = scene;
   const at = camera.getWorldPoint(pointer.x, pointer.y);
+  // The sun's or moon's own disc first: a cloud's tap box reaches past its
+  // puffs, over a disc it does not cover.
+  if (dusk?.tap(at, camera.scrollY, 'disc') === true) return;
   if (rain?.tap(at, camera.scrollY) === true) return;
-  if (dusk?.tap(at, camera.scrollY) === true) return;
+  if (dusk?.tap(at, camera.scrollY, 'rays') === true) return;
   const spore = bed?.spores.pickUp(at);
   const tuft = grass?.at(at);
   if (spore !== undefined) dispatch({ kind: 'unsow', id: spore });

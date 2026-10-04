@@ -63,9 +63,18 @@ export function duskReach(r: number): number {
   return Math.max(TAP_RADIUS, r * SUN_RAY_REACH);
 }
 
-/** Whether a tap at `at` lands on the sun, or the moon in its place, standing at `sun`. */
-export function onTheSun(sun: Circle, at: Point): boolean {
-  return Math.hypot(at.x - sun.x, at.y - sun.y) <= duskReach(sun.r);
+/**
+ * Whether a tap at `at` lands on the sun, or the moon in its place, standing
+ * at `sun`: anywhere its rays reach (`duskReach`), or on its drawn disc alone
+ * — the reach a cloud's tap box, wider than its puffs, never takes from it.
+ */
+export function onTheSun(
+  sun: Circle,
+  at: Point,
+  within: 'disc' | 'rays',
+): boolean {
+  const reach = within === 'disc' ? sun.r : duskReach(sun.r);
+  return Math.hypot(at.x - sun.x, at.y - sun.y) <= reach;
 }
 
 /**

@@ -75,9 +75,15 @@ describe('a tap on the sun', () => {
 
   it('lands within that reach and nowhere past it', () => {
     const reach = duskReach(sunR);
-    assert.ok(onTheSun(sun, sun));
-    assert.ok(onTheSun(sun, { x: sunX, y: sunY + reach - 1 }));
-    assert.ok(!onTheSun(sun, { x: sunX + reach + 1, y: sunY }));
+    assert.ok(onTheSun(sun, sun, 'rays'));
+    assert.ok(onTheSun(sun, { x: sunX, y: sunY + reach - 1 }, 'rays'));
+    assert.ok(!onTheSun(sun, { x: sunX + reach + 1, y: sunY }, 'rays'));
+  });
+
+  it('on its disc alone, lands within its radius and not on its rays', () => {
+    assert.ok(onTheSun(sun, sun, 'disc'));
+    assert.ok(onTheSun(sun, { x: sunX, y: sunY + sunR - 1 }, 'disc'));
+    assert.ok(!onTheSun(sun, { x: sunX + sunR + 1, y: sunY }, 'disc'));
   });
 });
 
