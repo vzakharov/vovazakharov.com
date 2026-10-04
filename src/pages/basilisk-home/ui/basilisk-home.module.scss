@@ -4,15 +4,26 @@
   font-family: var(--mantine-font-family-monospace);
   letter-spacing: 0.04em;
   text-transform: uppercase;
+
+  // Below `sm` the column reaches the layout's corner toggle, so the name wraps
+  // short of it rather than running under it: the toggle's 38px and a gap.
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    padding-inline-end: 50px;
+  }
 }
 
-// A little under cap height, its middle on the capitals' middle rather than on
-// the baseline an inline image sits on by default.
+// JetBrains Mono's capitals, measured: 35px of ink at 48px.
+$cap-height: 0.729em;
+$eye-height: 0.6em;
+
+// Its middle on the capitals' middle rather than on the baseline an inline
+// image sits on by default; the drawing is symmetric, so the box's middle is
+// the ink's.
 .eye {
   width: auto;
-  height: 0.6em;
+  height: $eye-height;
   margin-inline: 0.25em;
-  vertical-align: -0.02em;
+  vertical-align: ($cap-height - $eye-height) * 0.5;
 }
 
 .sectionHeading {
