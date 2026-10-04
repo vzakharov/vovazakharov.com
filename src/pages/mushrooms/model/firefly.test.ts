@@ -68,6 +68,16 @@ describe('the fireflies', () => {
     assert.ok(Math.abs(back.x - start.x) < 1e-9, 'one round comes back');
   });
 
+  it('keep within a flower head’s reach of their host', () => {
+    for (const genes of dozen) {
+      for (let step = 0; step < 40; step += 1) {
+        const { x, y } = circling(genes, (step / 40) * genes.round);
+        assert.ok(Math.abs(x) <= 0.8, `${String(x)} across`);
+        assert.ok(y < 0 && y > -0.9, `${String(y)} up`);
+      }
+    }
+  });
+
   it('head along the ring', () => {
     const genes = dozen[1];
     assert.ok(genes);

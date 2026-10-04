@@ -19,10 +19,15 @@ const FIREFLY_MOST = 12;
 const WAKE_TIMES = [1000, 3400] as const;
 /** How much of the turn's `duskness` a firefly takes to light up. */
 const WAKE_SPAN = 0.04;
-/** The ring's radius, its height over the host and how flat it is seen from the side. */
-const RING = [1, 1.7] as const;
-const LIFT = [0.9, 1.8] as const;
-const FLAT = [0.25, 0.4] as const;
+/**
+ * The ring's radius, its height over the host and how flat it is seen from
+ * the side. The unit is a butterfly's size, over twice a flower's head
+ * across, so a ring much wider or higher leaves the head for the open
+ * grass; the lowest middle still clears the widest ring's front.
+ */
+const RING = [0.45, 0.8] as const;
+const LIFT = [0.3, 0.55] as const;
+const FLAT = [0.2, 0.35] as const;
 /** How long one round of the ring takes, and one pulse of the tail, in seconds. */
 const ROUND = [6, 11] as const;
 const PULSE = [1.3, 2.4] as const;

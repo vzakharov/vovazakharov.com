@@ -31,14 +31,9 @@ under `src/pages/mushrooms/`. Stopped at the context ceiling after step 2.
 
 ## Left
 
-- **Fireflies look wrong in one way**: in the dusk frame they glow nicely
-  but float mostly near the brow and in the grass, not round the clump's
-  caps or the flowers beside them. Suspects, in order: `stands.distance`
-  is not the measure `hostFor` should sort by (try `ahead`), or `inView()`
-  / every mushroom in `meadow.mushrooms` offers far hosts whose
-  `stands.drawn` is true; or `Seat.drawn` is not in the world coordinates
-  the container uses. Check with a probe (below) printing each firefly's
-  host and seat.
+- ~~Fireflies float near the brow and in the grass rather than round their
+  hosts~~: done by package c2 (the ring was too wide and too high for the
+  insects' unit), see `c2.md`.
 - **Probe and play**: add `__probe.fireflies()` in
   `scripts/lib/mushroom-probe-reads.ts` (`scene.dusk.fireflies.shown`,
   visible ones: `drawn` minus `cameras.main.scrollY`, and whether
