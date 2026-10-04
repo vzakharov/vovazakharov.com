@@ -1,10 +1,11 @@
 # Relay summary
 
-Relay depth: **7 of 8** for the successor, read off `get_session`'s
-`lineage` (this session was `{"depth":6,"limit":8}`). **Never count the
-depth by hand** — call `get_session` with no id and read `lineage.depth`;
-only at `depth == limit` does a session hand the operator a line instead of
-relaying with `create_session`.
+Relay depth: the successor is **8 of 8**, read off `get_session`'s
+`lineage` (this session was `{"depth":7,"limit":8}`). **Never count the
+depth by hand** — call `get_session` with no id and read `lineage.depth`.
+At `depth == limit` a session does not `create_session`: if it needs a
+relay, it ends its turn handing the operator the line to paste into a
+fresh Opus session (`/relay take claude/mushroom-game-syama-lbirv7`).
 
 ## 1. Standing constraints
 
@@ -207,94 +208,99 @@ Added this session:
 - **`subagents.md` in the megabeast notes is at 489 lines**: condense it
   under ~450 (README's rule) before adding to it.
 
+Added this session:
+
+- **The suite no longer fits one call even alone**: run every test file
+  but `src/pages/mushrooms/ui/scene/tufts.test.ts` and `fliers.test.ts`
+  (`git ls-files '*.test.ts'` minus those two, `timeout 595 node --import
+tsx --test …`, ~410 s), then those two (~225 s). Vet's gates run as
+  `scripts/vet.sh` with its `test=` line dropped (`tmp/vet-gates.sh` was
+  built that way; ~2 min). Megabeast `gates.md` carries it.
+- **Bite 18's review overturned calls 5 and 12** (the plan's bite file is
+  amended, ee6cae9): saving now reopens a dropped store once, a stale tab
+  re-reads before writing, nothing is written before the first action.
+
 ## 2. The conversation
 
 > /relay take claude/mushroom-game-syama-lbirv7 — before attaching: check the branch out in a command of its own and never delete the harness auto-branch; never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside with git branch -m and a fresh tracking branch checked out); after attaching, run pnpm install --frozen-lockfile; read megabeast notes by README index only. Relay depth is get_session's lineage.depth, never counted by hand: relay with create_session (model claude-opus-5-5) whenever it is below the limit, day or night.
 
-The operator sent nothing else this session. Replies (Russian) reported: the
-attach (a stale local ref renamed aside to `stale/mushroom-game-syama-lbirv7`,
-container-only); the baseline suite green (0 fail, 501 s); the spec, then
-each agent's landing in a line; the T2 call (option 2, the watch's slack);
-the context warning at ~202k and why the session waited out S5a before
-pausing (relaying mid-wave orphans running agents); this relay.
+The operator sent nothing else this session. Replies (Russian, «ты»)
+reported, in a line each: the attach (stale local ref renamed aside to
+`stale/mushroom-game-syama-lbirv7-9c390d9`, container-only); S5b landed and
+the `keep` frames looked at; the `meadow` red traced to the harness; the
+suite timing out at 595 s and passing split; polish landed; the review's
+eight findings and the call to accept all of them, including the two
+against spec calls 5 and 12; each fix landing; the context warning at
+~201k with its figures (relay ~$1.46 now, ~$0.79 more than carrying on)
+and why the session carried on (the tail fit in under 100k); the Artifact
+v30; this relay.
 
 ## 3. Intent
 
-Unchanged: the whole game, autonomous, for Syama; the Artifact playable after
-every bite. Bite 18 (saving, the last) is half built. After it: its review in
-the tail, then `relay finalize` — never merge.
+Unchanged: the whole game, autonomous, for Syama. **Every bite is eaten**
+(bite 18, saving, was the last, review handled). What is left is
+`/finalize` — **never merge**.
 
 ## 4. Decisions
 
-Bite 18's thirteen calls are `docs/plans/mushroom-game-syama/bite-18.md`
-(the visit seed kept; settled at rest at `RESTED_AT = -SPROUT_MS`; a zod
-record pinned with `satisfies z.ZodType<Kept>`; hash `#n`/`#new`/bare;
-writes after every non-tick action plus a 1 s poll and on hide; eye and
-gait kept; fresh streams per load; mice not kept; no storage → fresh meadow,
-hash untouched; boot inside `startGame`; a silent opening; two tabs last
-writer wins; a browser context per play). Agents' own calls, accepted:
-
-- `reopened(kept.meadow)` takes the meadow part; `Kept = Seeded & WalkStart
-& { version: typeof KEPT_VERSION; meadow: KeptMeadow }`.
-- "Settling twice equals once" is `settled(reopened(settled(m, now)), 0)`.
-- `meadowNumber` returns `{number, fresh}`; the hash is `meadowHash(n)`
-  (a `hash` field trips `type-overlap` against `scripts/render-mermaid.ts`).
-  `#01`, `#1.5`, `#NEW` read as "anything else".
-- Records are `put(record, number)`, keyed outside the record; `Opening`
-  carries `keeper?: Keeper` (`keep`, `poll` gated by `POLL_MS`).
-- The scene's `opening` is a constructor-assigned field (`erasableSyntaxOnly`
-  bans parameter properties); the kept eye goes through `EyeInput.fit`.
-- The play's `Page.reload(hash?)` goes through `about:blank` for a new hash,
-  so `#new` opens as a link would, not via `hashchange`.
-- The T1 red (butterfly-4 taps) was the harness picking a butterfly sunk
-  under the brow: the play now picks only insects in sight (714ca0e).
+- All eight review findings accepted and fixed (review
+  https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5406721354;
+  replies on every thread, none resolved): 472645c (poll only on change;
+  nothing kept before the first action), 62a5615 (a stale tab re-reads on
+  show and reloads onto a newer meadow; read-back over `BroadcastChannel`
+  because iPad Safari suspends background tabs), 0ae3f2c (a failed read
+  after open plays fresh; a refused write reopens once and retries;
+  `versionchange` closes and stops keeping), d51f55b (schema snapshot
+  `kept-record.schema.json`, `unrepresentable: 'any'` because the record
+  holds `z.undefined()`), 9781755 (`keep` play reloads with the eye moved
+  and a butterfly in flight).
+- The `meadow` red was the harness: the look loop's 20 s cap ended before a
+  21.4 s flight away landed; the play now steps to the flight's `arrives`
+  (ab42be5). The probe's seed was left alone.
+- `/dry` (a24819a, 36d7482) and `/tend-prose` (666f900) ran before the
+  review; the review fixes (~a few hundred lines) are unpolished, which
+  `/finalize`'s own `/polish` covers.
 
 ## 5. Errors and dead ends
 
-- S5a tried one extra `Math.random()` before the boot to restore the play
-  run's seeded meadow; no change — other page code draws while the store's
-  open waits.
-- T2 found no sampling cause for the fly's turn overshoot; the screen bend
-  is the cause (options it listed: accept, raise slack — taken, split the
-  check by cause, cap flight by the bend).
+- The whole suite under `timeout 595` was cancelled at the limit (no
+  failures) — see § 1's split.
+- The first two Artifact publishes were refused (unread live copy, then an
+  unchanged resend); a `Read` of the saved copy's head let the third go.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`
-  (mergeable read `UNKNOWN` at relay; `CONFLICTING` is `/finalize`'s).
-- Plan `docs/plans/mushroom-game-syama.paused.md`, with `## Rest of the
-bite` listing built and left; last pushed commit is this relay's.
-- Landed this session: 3a6757e spec, 76c1e8f S3, f48572e + f206059 S1,
-  1e0493b S2, 0634d42 S6, 714ca0e T1, 7e7a156 S4, 3ea15a8 watch slack,
-  bd99a9c S5a, 5bfa22c megabeast note.
-- No agent running, no worktree, no check-in armed; remote `wt/g37` is old,
-  left alone.
-- The `keep` play is red until S5b; `meadow` on tabL red with "the butterfly
-  sent away is still in the meadow" ×2 since S5a (base 3ea15a8 green).
+- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
+  mergeable read `UNKNOWN` at relay (`CONFLICTING` is `/finalize`'s).
+- Plan `docs/plans/mushroom-game-syama.completed.md` (bite 18 folded,
+  399 lines).
+- Artifact v30 at https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG.
+- Frames `docs/remove-before-merging/frames/bite-18/` (keep before / after
+  / new); bite 17's retired (tombstone row, ab42be53f5).
+- `to-check.md` has bite 18's hand checks (cec5e7e).
+- No agent running, no worktree; remote `wt/g37` is old, left alone. No
+  check-in armed. Last pushed commit is this relay's.
+- Checks on the final tree (before the fold, code unchanged since):
+  typecheck, knip, type-overlap, eslint, format clean; the saving tests
+  53/53; `keep` and `meadow` plays green on tabL. Vet's gates and the
+  split suite were green before the review fixes.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama.paused.md` § "Rest of the bite";
-  `…/bite-18.md` (calls, steps).
-- `docs/remove-before-merging/bite-18/`: `brief-common.md` (the shared brief
-  — every agent reads it), `spec.md`, the hand-over notes `s1-settle.md`,
-  `s2-record.md`, `s3-walk-start.md`, `s4-store.md`, `s5a-opening.md` (§
-  "Left for S5b" is S5b's brief), `s6-keep-play.md`, `t1-butterfly-tap.md`,
-  `polish-items.md` (two `/dry` items).
-- Suite baseline before the bite: 0 fail, 501 s (`timeout 595 pnpm test`).
+- `docs/plans/mushroom-game-syama.completed.md`;
+  `docs/plans/mushroom-game-syama/bite-18.md`; `…/to-check.md`.
+- `docs/remove-before-merging/bite-18/` (working notes; `/finalize` sweeps
+  the directory), `docs/remove-before-merging/squash-message.md`.
 - `.claude/skills/megabeast/notes/` by its `README.md`.
-- This session: https://claude.ai/code/session_01Vxr4MVNjGAeTFPY1YCV5Np
+- This session: https://claude.ai/code/session_0188bXjG7mxLHiHpN5tb7Axi
 
 ## 8. Next step
 
-go
+finalize
 
-(Resume bite 18 from `## Rest of the bite`: flip `paused` → `in-progress`;
-brief S5b from `s5a-opening.md` § "Left for S5b" and, in parallel, a trace
-agent for the new `meadow` red (game or harness; the seed now drawn after
-the store opens); then the `keep` run and a look at its frames; then the
-tail as the plan's loop says, its review a subagent; fill the megabeast
-notes (condense `subagents.md` first) and relay `finalize` when the bite
-and its review are done. Reply in Russian, «ты». Still unanswered from
-earlier sessions: the phoneP gait button floating mid-sky, and day mouse
-runs gated short.)
+(Without `and merge` — never merge. Vet in two calls plus the split suite
+(§ 1). `/finalize`'s `/polish` covers the review fixes. Re-sync the
+squash proposal against the whole game, saving included (megabeast
+`gates.md`: it goes stale). Reply in Russian, «ты». At depth 8 this
+session cannot relay with `create_session`; if its budget runs out, hand
+the operator the line.)
