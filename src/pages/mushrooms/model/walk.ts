@@ -73,9 +73,12 @@ type Lock =
 /**
  * A finger down on the meadow: where on the screen it was pressed, in CSS px,
  * `since` when on the scene's clock, and the axis it moves once it has
- * crossed the slop; none before.
+ * crossed the slop; none before. It keeps the gait and the eye height it was
+ * pressed at for its whole length, so a gait flip or a rise under way never
+ * moves the ground under the finger; the next press takes up the new ones.
  */
-type Drag = { pressedAt: Point; since: number; lock: Lock | undefined };
+type Drag = WithGait &
+  Raised & { pressedAt: Point; since: number; lock: Lock | undefined };
 
 /**
  * The walk over the camera it is seen through: the heading's crop, the
@@ -113,8 +116,8 @@ export function openingWalk(camera: Camera): Walk {
 
 /**
  * The walk switched to `gait` at `time`: the eye eases from the height it
- * stands at toward the gait's. A press reads the gait as it lands, so a drag
- * under way keeps its own until the finger lifts.
+ * stands at toward the gait's. A drag under way keeps the gait and height it
+ * was pressed at until the finger lifts (`Drag`).
  */
 export function withGait(walk: Walk, gait: Walk['gait'], time: number): Walk {
   return { ...walk, gait, rise: riseFrom(walk.rise, walk.gait, time) };
@@ -123,6 +126,11 @@ export function withGait(walk: Walk, gait: Walk['gait'], time: number): Walk {
 /** The walk's camera at `time`, the eye standing at its height then. */
 export function lensAt(walk: Walk, time: number): Camera & Raised {
   return { ...walk.lens, eyeHeight: heightAt(walk.rise, walk.gait, time) };
+}
+
+/** The walk's camera with the eye at the height `drag` was pressed at. */
+function pressedLens({ lens }: Walk, { eyeHeight }: Drag): Camera & Raised {
+  return { ...lens, eyeHeight };
 }
 
 /**
@@ -181,13 +189,14 @@ export function distanceOfRow(camera: Camera & Raised, y: number): number {
  * the press waits to see which axis it moves.
  */
 export function pressAt(walk: Walk, point: Point, time: number): Walk {
-  const pinhole = pinholeOf(walk.lens);
+  const { gait, lens, pan, stride } = walk;
   const heading = headingAt(walk, time);
+  const { eyeHeight } = lensAt(walk, time);
   return {
     ...walk,
-    pan: press(walk.pan, arcOf(pinhole, point.x), time),
-    stride: chaseFrom(walk.stride, heading, 'step', time, walk.gait),
-    drag: { pressedAt: point, since: time, lock: undefined },
+    pan: press(pan, arcOf(pinholeOf(lens), point.x), time),
+    stride: chaseFrom(stride, heading, 'step', time, gait),
+    drag: { gait, eyeHeight, pressedAt: point, since: time, lock: undefined },
   };
 }
 
@@ -256,14 +265,18 @@ function stepAim(
   return (back + on) / 2;
 }
 
-function follow(walk: Walk, lock: Lock, point: Point, time: number): Walk {
+/** A press past the slop, its axis locked. */
+type Locked = Drag & { lock: Lock };
+
+function follow(walk: Walk, drag: Locked, point: Point, time: number): Walk {
   const { lens, pan, stride } = walk;
+  const { lock } = drag;
   switch (lock.axis) {
     case 'turn': {
       return { ...walk, pan: move(pan, arcOf(pinholeOf(lens), point.x), time) };
     }
     case 'step': {
-      const aim = stepAim(lensAt(walk, time), lock, point.y);
+      const aim = stepAim(pressedLens(walk, drag), lock, point.y);
       return { ...walk, stride: chaseTo(stride, aim, time) };
     }
     case 'strafe': {
@@ -319,11 +332,13 @@ function lockAt(
   return { axis, reference, from: crossing.x };
 }
 
-function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {
-  const { drag, stride, gait } = walk;
-  const locked = { ...walk, drag: drag && { ...drag, lock } };
+/** The walk with `drag` locked at the crossing, at screen x `x`, at `time`. */
+function locking(walk: Walk, drag: Locked, x: number, time: number): Walk {
+  const { stride } = walk;
+  const { gait, lock } = drag;
+  const locked = { ...walk, drag };
   if (lock.axis === 'turn') {
-    return { ...locked, pan: turningFrom(walk, crossing.x, time) };
+    return { ...locked, pan: turningFrom(walk, x, time) };
   }
   // The chase starts afresh at the crossing, so its step past the slop
   // counts toward no fling, as a turn's counts toward no glide.
@@ -345,15 +360,16 @@ function locking(walk: Walk, lock: Lock, crossing: Point, time: number): Walk {
 export function moveTo(walk: Walk, point: Point, time: number): Walk {
   const { drag, lens } = walk;
   if (!drag) return walk;
-  if (drag.lock) return follow(walk, drag.lock, point, time);
-  const { pressedAt } = drag;
+  const { lock, pressedAt } = drag;
+  if (lock) return follow(walk, { ...drag, lock }, point, time);
   if (Math.hypot(point.x - pressedAt.x, point.y - pressedAt.y) <= SLOP) {
     return walk;
   }
   const crossing = crossingOf(pressedAt, point);
   const axis = lockOf(lens, pressedAt, crossing);
-  const lock = lockAt(lensAt(walk, time), axis, crossing);
-  return follow(locking(walk, lock, crossing, time), lock, point, time);
+  const held = pressedLens(walk, drag);
+  const locked = { ...drag, lock: lockAt(held, axis, crossing) };
+  return follow(locking(walk, locked, crossing.x, time), locked, point, time);
 }
 
 /**

@@ -7,7 +7,7 @@ import { meadowCamera } from '../ui/scene/meadow-camera';
 import { viewAt } from '../ui/scene/view';
 import { planeUnder } from '../ui/scene/view-inverse';
 import { VIEWPORTS } from '../ui/scene/viewports';
-import { gaitHeight, walking } from './eye-height';
+import { gaitHeight, RISE_EASE, walking } from './eye-height';
 import type { Point } from './geometry';
 import { GLIDE_OVER, GLIDE_TAU } from './glide';
 import type { Camera } from './ground';
@@ -39,6 +39,7 @@ import {
   refit,
   tickWalk,
   type Walk,
+  withGait,
 } from './walk';
 
 const FRAME = 1 / 60;
@@ -606,6 +607,33 @@ describe('the walk across a resize', () => {
 });
 
 describe('a ground drag’s gait', () => {
+  it('holds the height it was pressed at, so a gait flip mid-drag moves a flight’s eye by the finger alone and flings nothing', () => {
+    for (const { name, camera } of CAMERAS) {
+      const clock = new Clock(flying(camera));
+      const pressed = clock.time;
+      const down = { x: camera.width / 2, y: camera.height * 0.7 };
+      const lens = lensAt(clock.walk, pressed);
+      clock.press(down);
+      clock.run(FRAME);
+      const locked = shifted(down, 0, SLOP + 1);
+      clock.move(locked);
+      assert.equal(axisOf(clock.walk), 'step', name);
+      clock.run(pressed + 0.1 - clock.time);
+      clock.walk = withGait(clock.walk, 'steps', clock.time);
+      // The finger rests while the eye settles to the walking height.
+      clock.run(RISE_EASE);
+      const before = clock.walk.stride.at;
+      clock.run(FRAME);
+      clock.move(shifted(locked, 0, 1));
+      const row =
+        distanceOfRow(lens, locked.y) - distanceOfRow(lens, locked.y + 1);
+      const moved = apart(clock.walk.stride.at, before);
+      assert.ok(moved <= row + 1e-9, `${name}: moved ${moved} > ${row}`);
+      clock.lift();
+      assert.equal(clock.walk.stride.glide, undefined, `${name}: flung`);
+    }
+  });
+
   it('walks a quarter-second swipe by the horizon a few steps, where a flight crosses the meadow', () => {
     // At the cruise under the finger, then the fling's most.
     const most = STRIDE_CRUISE * 0.25 + STRIDE_FLING_FASTEST * GLIDE_TAU;
