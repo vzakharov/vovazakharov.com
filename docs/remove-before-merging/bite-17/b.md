@@ -32,17 +32,23 @@ Calls 8–11 of `bite-17.md`. Paths under `src/pages/mushrooms/ui/scene/`.
 
 ## Left
 
-1. **Look at call 8**: extend `scripts/lib/play-dusk.ts`'s `dusk` play to
-   furnish a house (house button) before the sun's tap and shoot it at dusk
-   (tabL, phoneP). Watch for: the halo's softness (`HALO_*` in
-   `window-glow.ts`), a perched insect over a window (the glow draws over
-   insects — `coveredAt` checks only mushrooms), the washed frame matching
-   the house under rain at dusk (the rain's wash is not pre-applied, so frames
-   there are a shade lighter than the cap).
-2. **Call 9, flowers close**: `flower-closing.ts`'s closing as
-   `max(rain's, dusk level)`; bees plant nothing while `dusky`. Decide
-   whether closing flowers shut an open flower picker (`a-light.md`
-   § Decided leaves it open).
+1. **Done (b2) — call 8 looked at**: the `dusk` play furnishes both opening
+   mushrooms (every window, a door) before the sun's tap; frames
+   `frames/bite-17/b-windows-*.png`. Tuned on sight: a pale rim round every
+   lit frame (the glow decided `haloFor` against the *washed* cap, so it
+   rimmed frames the house does not — `paintWindows` now takes the cap tone
+   to decide against); the halo's four rings stepped visibly (now eight at
+   0.05, reach 1.3); lit from 0.15 over 0.5 (was 0.3 over 0.45), since the
+   panes went a muddy brown under the wash before lighting. Not checked: a
+   perched insect over a window (`coveredAt` checks only mushrooms), rain at
+   dusk (the rain's wash is not pre-applied, so frames there are a shade
+   lighter than the cap).
+2. **Done (b2) — call 9, flowers close**: `bedClosing(wetness, duskness)`
+   (`flower-closing.ts`, the greater) drives `FlowerBed.update`; `perchesOf`
+   offers no `room` while `dusky`, so bees plant nothing (game.test: by day
+   three bees plant within a minute, at dusk none); the `dusk` turn shuts an
+   open flower picker, as rain does (`a-light.md` Decided updated). Frame
+   `b-flowers-tabL.png`. A closed flower's tap was not played at dusk.
 3. **Call 10, fliers settle** (`model/flight-habits.ts` by `dusky`); run
    `fliers.test.ts` (~6 min) once at the end.
 4. **Call 11, mice run**: a `tick` rule in the reducer running a mouse

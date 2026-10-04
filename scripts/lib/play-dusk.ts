@@ -1,5 +1,6 @@
 /**
- * Dusk, played on a fresh meadow: the sun tapped and shot by day, half way
+ * Dusk, played on a fresh meadow, its two mushrooms furnished with every
+ * window and a door so their windows light: the sun tapped and shot by day, half way
  * and at dusk; the eye turned so the moon crosses the fixed stars, and shot;
  * the moon tapped and the morning shot. Fails where the meadow does not open
  * in full day, a tap on the sun does not turn the light toward dusk and reach
@@ -11,8 +12,19 @@
 import { z } from 'zod';
 
 import { DUSK_MS } from '../../src/pages/mushrooms/model/dusk.ts';
-import { type Controls, DuskShown, SunAt } from './mushroom-probe-answers.ts';
-import { type Expect, FRAME_MS, type Page } from './mushroom-probe-drive.ts';
+import {
+  type Controls,
+  DuskShown,
+  Point,
+  State,
+  SunAt,
+} from './mushroom-probe-answers.ts';
+import {
+  type Expect,
+  FRAME_MS,
+  inTurn,
+  type Page,
+} from './mushroom-probe-drive.ts';
 
 /** Frames to half a full turn of the light. */
 const HALF = Math.round(DUSK_MS / 2 / FRAME_MS);
@@ -22,15 +34,58 @@ const SLACK = 20;
 const TURN = 30;
 /** Frames for the turn to come to rest. */
 const REST = 60;
+/** Frames for the house picker to open, and for a furnishing's pop to settle. */
+const OPEN = 30;
+const SETTLE = 45;
+
+/** Every piece the house picker offers put into each of the opening's mushrooms, the newest first, and the picker closed and the mushroom let go, so no glow of a selection lies over the windows. */
+async function furnish(
+  page: Page,
+  controls: z.infer<typeof Controls>,
+  expect: Expect,
+): Promise<void> {
+  const pick = async (at: z.infer<typeof Point>) => {
+    await page.tap(at);
+    await page.step(6);
+  };
+  await page.tap(controls.house);
+  await page.step(OPEN);
+  await inTurn(controls.housePicker, pick);
+  const { mushrooms } = await page.evaluate('__probe.state()', State);
+  const older = mushrooms.at(-2);
+  const at =
+    older === undefined
+      ? null
+      : await page.evaluate(
+          `__probe.mushroom(${JSON.stringify(older)})`,
+          Point.nullable(),
+        );
+  if (at) {
+    await pick(at);
+    await inTurn(controls.housePicker, pick);
+  }
+  await pick(controls.house);
+  await page.evaluate(
+    "__probe.scene.dispatch({ kind: 'deselect' })",
+    z.unknown(),
+  );
+  await page.step(SETTLE);
+  const { houses, furnishing } = await page.evaluate('__probe.state()', State);
+  expect(
+    !furnishing && houses.every(({ windows }) => windows.length > 0),
+    `the houses were left ${JSON.stringify(houses)}, the picker ${furnishing ? 'open' : 'shut'}`,
+  );
+}
 
 export async function playDusk(
   page: Page,
-  _controls: z.infer<typeof Controls>,
+  controls: z.infer<typeof Controls>,
   expect: Expect,
   note: (line: string) => void,
 ): Promise<void> {
   const dusk = async () => page.evaluate('__probe.dusk()', DuskShown);
   const sunAt = async () => page.evaluate('__probe.sunAt()', SunAt);
+  await furnish(page, controls, expect);
   const day = await dusk();
   expect(day.level === 0, `opened at dusk ${String(day.level)}, not day`);
   const sun = await sunAt();

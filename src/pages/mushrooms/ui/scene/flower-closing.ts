@@ -1,8 +1,9 @@
 /**
- * How a flower closes in the rain: by the meadow's `wetness`, from 0 (open)
- * to 1 (a bud, its petals standing folded up over the head's middle), in
- * `CLOSING_STEPS` steps, since a head is repainted only when its closing
- * crosses one.
+ * How a flower closes in the rain and for the night: by the meadow's
+ * `wetness` or its dusk, whichever is the further on (`bedClosing`), from 0
+ * (open) to 1 (a bud, its petals standing folded up over the head's
+ * middle), in `CLOSING_STEPS` steps, since a head is repainted only when its
+ * closing crosses one.
  */
 
 import { type Point, wrap } from '../../model/geometry';
@@ -29,6 +30,10 @@ export const BUD = {
 
 /** How fast, against the closing, the head's centre goes under the rising petals. */
 const DISC_GONE = 1.6;
+
+/** How far the bed is shut by the meadow's `wetness` and its `duskness`, each 0 to 1: as far as the further on. */
+export const bedClosing = (wetness: number, duskness: number): number =>
+  Math.max(wetness, duskness);
 
 /** `closing` clamped to 0–1 and rounded to the nearest of `CLOSING_STEPS` steps. */
 export function closingStep(closing: number): number {

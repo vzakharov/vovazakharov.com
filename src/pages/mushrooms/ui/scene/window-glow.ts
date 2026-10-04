@@ -8,13 +8,14 @@ import { paintWindows, type ShownWindow, windowPlace } from './draw-house';
 import { DUSK_WASH_DEEPEST } from './dusk-view';
 import type { DrawnMushroom } from './hit-areas';
 import { drawnHolds } from './mushroom-tap';
+import { mushroomTints } from './mushroom-tints';
 import { PALETTE } from './palette';
 import type { Brush } from './shapes';
 
 /** The halo round a lit window: how far it reaches past the window's middle, in the window's side; its rings, each laid at `HALO_ALPHA` over the ones outside it. */
-const HALO_REACH = 1.1;
-const HALO_RINGS = 4;
-const HALO_ALPHA = 0.1;
+const HALO_REACH = 1.3;
+const HALO_RINGS = 8;
+const HALO_ALPHA = 0.05;
 
 /** Where each of `windows` has its middle on the cap, in the house's own frame; `undefined` for one with no slot. */
 export function windowMiddles(
@@ -74,12 +75,19 @@ export function paintGlow(
   }
   const washed = (colour: number) =>
     mix(brush.tone(colour), PALETTE.duskWash, DUSK_WASH_DEEPEST);
-  paintWindows(graphics, genes, size, windows, {
-    ...brush,
-    tone: (colour) => {
-      if (colour === PALETTE.windowPane) return lit;
-      if (colour === PALETTE.windowShine) return brush.tone(colour);
-      return washed(colour);
+  paintWindows(
+    graphics,
+    genes,
+    size,
+    windows,
+    {
+      ...brush,
+      tone: (colour) => {
+        if (colour === PALETTE.windowPane) return lit;
+        if (colour === PALETTE.windowShine) return brush.tone(colour);
+        return washed(colour);
+      },
     },
-  });
+    brush.tone(mushroomTints(genes).cap),
+  );
 }

@@ -23,6 +23,7 @@ import { Controls } from './controls';
 import { DuskView, schemeIsDark } from './dusk-view';
 import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
+import { bedClosing } from './flower-closing';
 import { type Stand, standOf } from './flower-sight';
 import { InsectView } from './insect-view';
 import { Instrument } from './instrument';
@@ -219,8 +220,9 @@ export class MeadowScene extends Phaser.Scene {
     bed?.update(t, rain?.wetness ?? 0, dusk?.lights);
     controls?.update(t);
     map.update(t);
+    const closing = bedClosing(rain?.wetness ?? 0, dusk?.level ?? 0);
     // As the tick just left them.
-    flowers?.update(t, rain?.wetness ?? 0, this.fliers(), planting?.flower);
+    flowers?.update(t, closing, this.fliers(), planting?.flower);
     // Last, so every perch stands where this frame has put it, a sagging
     // head's included.
     insects?.update(t, perches.at);

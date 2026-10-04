@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  bedClosing,
   BUD,
   CLOSING_STEPS,
   closingsDue,
@@ -11,6 +12,14 @@ import {
   OPEN,
   petalPose,
 } from './flower-closing';
+
+describe('bedClosing', () => {
+  it('shuts the bed as far as the rain or the dusk, whichever is further on', () => {
+    assert.equal(bedClosing(0, 0), 0);
+    assert.equal(bedClosing(0.3, 0.8), 0.8);
+    assert.equal(bedClosing(1, 0.2), 1);
+  });
+});
 
 describe('closingStep', () => {
   it('rounds to the nearest of the steps', () => {

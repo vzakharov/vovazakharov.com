@@ -9,7 +9,7 @@ import {
   isFull,
   MUSHROOM_SLOTS,
 } from './crowding';
-import { DUSK_MS, duskness, FULL_DAY } from './dusk';
+import { DUSK_MS, duskness, FULL_DAY, FULL_DUSK } from './dusk';
 import { canFurnish } from './furnishing';
 import { type Action, firstMeadow, isEmpty, type Meadow, reduce } from './game';
 import type { Point } from './geometry';
@@ -599,6 +599,29 @@ describe('the rain', () => {
 /** A tap on the sun or the moon at `now`. */
 const dusk = (now: number): Action => ({ kind: 'dusk', now });
 
+/** Bees left a minute among flowers each with room beside it, and the flowers they planted. */
+const plantedBy = (from: Meadow): number => {
+  const sight = {
+    ...SIGHT,
+    beeFlowers: FLOWERS,
+    room: FLOWERS.map((flower) => ({ flower, ring: 0 })),
+  };
+  const bees = [1, 2, 3].map(
+    (seed): Action => ({
+      kind: 'release',
+      insect: 'bee',
+      seed,
+      now: 0,
+      ...sight,
+    }),
+  );
+  const ticks = Array.from(
+    { length: 600 },
+    (_, index): Action => ({ kind: 'tick', now: index * 100, ...sight }),
+  );
+  return run(from, [...bees, ...ticks]).planted.length;
+};
+
 describe('the dusk', () => {
   it('opens in full day', () => {
     assert.deepEqual(opening().dusk, FULL_DAY);
@@ -614,5 +637,19 @@ describe('the dusk', () => {
     const back = run(meadow, [dusk(2000), dusk(2000 + DUSK_MS * 2)]).dusk;
     assert.equal(back.toward, 'day');
     assert.equal(duskness(back, 2000 + DUSK_MS * 3), 0);
+  });
+
+  it('shuts the flower picker, as the rain does', () => {
+    const meadow = run(opening(), [
+      { kind: 'select', id: 'mushroom-1' },
+      { kind: 'tuft', foot: planeFootOf({ x: 0.4, z: 1.3, size: 0.28 }) },
+    ]);
+    assert.ok(meadow.planting);
+    assert.equal(reduce(meadow, dusk(1000)).planting, undefined);
+  });
+
+  it('keeps the bees from planting, where by day they plant', () => {
+    assert.ok(plantedBy(opening()) > 0);
+    assert.equal(plantedBy({ ...opening(), dusk: FULL_DUSK }), 0);
   });
 });

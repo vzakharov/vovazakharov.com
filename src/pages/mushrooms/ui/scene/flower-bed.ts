@@ -248,20 +248,20 @@ export class FlowerBed implements Following {
 
   /**
    * Sways and blooms every flower at `t`, in seconds, each sagging under
-   * whatever of `insects` drinks at it and closing by the meadow's
-   * `wetness`, 0 to 1 (`closingsDue`), and rings the one `held` names, the
+   * whatever of `insects` drinks at it and shut to `closing`, 0 to 1
+   * (`bedClosing`, `closingsDue`), and rings the one `held` names, the
    * flower picker's, where it stands; a press on a head held long enough
    * opens the picker there.
    */
   update(
     t: number,
-    wetness: number,
+    closing: number,
     insects: readonly Flier[],
     held: string | undefined,
   ): void {
     this.held = held;
     this.hold.update();
-    const step = closingStep(wetness);
+    const step = closingStep(closing);
     for (const shown of closingsDue(this.shown.values(), step))
       closeShown(shown, step);
     const ringed = held === undefined ? undefined : this.shown.get(held);

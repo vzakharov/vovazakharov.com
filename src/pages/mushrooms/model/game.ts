@@ -8,7 +8,7 @@ import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
 import { isCrowdedAt, isFull } from './crowding';
-import { type Dusk, FULL_DAY, turned } from './dusk';
+import { type Dusk, dusky, FULL_DAY, turned } from './dusk';
 import { type Perches, perchName, type Sight, type Timed } from './flight';
 import type { Onscreen } from './flight-in';
 import type { Coloured } from './flower-genes';
@@ -171,10 +171,14 @@ function withSown(
 
 /**
  * Every perch an insect can go to: the mushrooms still standing that the
- * scene places (all of them where it places none), and what the scene sees.
+ * scene places (all of them where it places none), and what the scene sees
+ * — at dusk with no room to plant in, so the bees plant nothing.
  */
-const perchesOf = ({ mushrooms }: Meadow, sight: Sight): Perches => {
-  const { places } = sight;
+const perchesOf = (
+  { mushrooms, dusk }: Meadow,
+  { now, ...sight }: Sighted,
+): Perches => {
+  const { places, room } = sight;
   const offered = places
     ? mushrooms.filter(({ id }) =>
         Object.hasOwn(places, perchName({ kind: 'cap', id })),
@@ -182,6 +186,7 @@ const perchesOf = ({ mushrooms }: Meadow, sight: Sight): Perches => {
     : mushrooms;
   return {
     ...sight,
+    room: dusky(dusk, now) ? [] : room,
     caps: offered.map(({ id }) => id),
     spotted: offered
       .filter(({ species }) => species === 'fly-agaric')
@@ -394,7 +399,8 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'dusk': {
-      return { ...meadow, dusk: turned(meadow.dusk, action.now) };
+      // The flowers close for the night as for the rain, the picker with them.
+      return { ...flowersShut(meadow), dusk: turned(meadow.dusk, action.now) };
     }
     case 'tick': {
       const rained = sproutedInRain(meadow, action.now);

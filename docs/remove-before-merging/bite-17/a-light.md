@@ -61,8 +61,8 @@ level`; `tap(at, bob)` within `max(TAP_RADIUS, sun.r * SUN_RAY_REACH)` of
 
 - A partial turn takes its share of `DUSK_MS` (a turn reversed at half way
   goes back in 2 s), so the light always moves at one pace.
-- The `dusk` action changes nothing but `dusk`: unlike `rain` it leaves the
-  flower picker open. Package B may shut it when it closes the flowers.
+- The `dusk` action changes `dusk` and, as `rain` does, shuts an open
+  flower picker (package B, with the flowers closing for the night).
 - A dark page opens with `FULL_DUSK` set on the first meadow by the scene;
   `firstMeadow` itself always opens in `FULL_DAY`.
 - Hills, brow and clouds are drawn live, not baked, so they take the dusk by

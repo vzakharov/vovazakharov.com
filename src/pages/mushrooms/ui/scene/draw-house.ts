@@ -378,19 +378,22 @@ export type ShownWindow = Popped & { kind: WindowKind; swing?: WindowSwing };
 /** A door as the house paints it: where on the stem it stands, and how open. */
 export type ShownDoor = Popped & Peeking & Opened & { station: DoorPlace };
 
-/** A mushroom's windows on its cap, each in its slot of `windowSlots` in the order it was put in; one not popped in is left out. */
+/**
+ * A mushroom's windows on its cap, each in its slot of `windowSlots` in the
+ * order it was put in; one not popped in is left out. Whether a frame takes
+ * a halo is decided against `cap`, the cap's colour as the house shows it, so
+ * a repaint in other tones rims exactly the frames the house does.
+ */
 export function paintWindows(
   graphics: Phaser.GameObjects.Graphics,
   genes: MushroomGenes,
   size: number,
   windows: readonly ShownWindow[],
   brush: Brush,
+  cap = brush.tone(mushroomTints(genes).cap),
 ): void {
   const slots = windowSlots(genes);
-  const onCap = {
-    ...brush,
-    halo: haloFor(PALETTE.wood, brush.tone(mushroomTints(genes).cap)),
-  };
+  const onCap = { ...brush, halo: haloFor(PALETTE.wood, cap) };
   for (const [index, { kind, popped, swing }] of windows.entries()) {
     const slot = slots[index];
     if (!slot || popped <= 0) continue;
