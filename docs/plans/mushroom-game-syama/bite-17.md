@@ -144,6 +144,16 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
 
 Package A's rest, from `a-light.md` — its agent ran out of context at its
 first step, so brief each agent on one or two of those steps, not the
-package; then B and C beside each other; the play run's red "a tap on the
-bare meadow kept a selection", seen on the shared branch before the dusk
-work; the review, polish, vet, frames, the Artifact.
+package; then B and C beside each other; the review, polish, vet, frames,
+the Artifact.
+
+Off the bite, from the operator, after package A lands on `map-view.ts`:
+
+- **The map's ✕ still looks odd** («крестик на карте по-прежнему выглядит
+  странно (хотя это правили)»): the open map's close button sits half over
+  the map frame's rounded corner.
+- **`M` opens the map** («давай карту открывать ещё по нажатию M»), and
+  closes it, as the map button does.
+- **The play run's red "a tap on the bare meadow kept a selection" is the
+  harness's**: the operator checked a mushroom's selection by hand («проверил,
+  всё норм»). The play's check is fixed or cut, not the game.
