@@ -48,7 +48,7 @@ const SETTLE = 45;
 const FLARING = 15;
 /** Taps tried before the fireflies count as uncatchable. */
 const FLARE_TRIES = 4;
-/** Frames between tries: a firefly over a cap or a door yields it the tap, and circles out. */
+/** Frames between tries, for a missed firefly to circle off the mushroom. */
 const CIRCLING = 40;
 
 /**

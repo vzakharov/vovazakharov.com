@@ -51,7 +51,7 @@ export async function openKept(
     : { ...pick(kept, 'seed'), streams: randomSeed(), kept, keeper: keeping };
 }
 
-/** A fresh visit, its streams off its own seed, as a visit played before keeping. */
+/** A fresh visit, its streams off its own seed. */
 function fresh(): Opening {
   const seed = randomSeed();
   return { seed, streams: seed };

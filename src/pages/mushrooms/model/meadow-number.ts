@@ -9,7 +9,6 @@ export type MeadowChoice = { number: number; fresh: boolean };
 
 const NAMED = /^#[1-9]\d*$/;
 
-/** The meadow `hash` opens among the `kept` numbers. */
 export function meadowNumber(
   hash: string,
   kept: readonly number[],
