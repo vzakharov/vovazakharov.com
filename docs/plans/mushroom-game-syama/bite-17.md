@@ -167,8 +167,17 @@ In this order, each an Opus agent briefed on one step:
    "лицом"… не должно быть страшным»); dusk runs ~20 fps on an M2 Pro
    («возможно, это светлячки, возможно ещё что-то») — measured and fixed
    without changing the look; the open map dimmed at dusk too («карта ночью
-   тоже должна выглядеть приглушённо»).
-6. The review, polish, vet, frames, the Artifact; retire bite 16's frames.
+   тоже должна выглядеть приглушённо»). Landed: grass under the brow
+   (0e7aa3d), the map (7c5a3f3, 0afbbfd), the moon (11b4383); dusk's cost
+   measured (76cf344, `perf.md`: per-frame re-tessellation, fireflies +24
+   draw calls), fixed by three agents.
+6. **From the operator, after**: a drag walks in steps again («как базу
+   "шаги" хочется оставить» — one swipe now flies ~50 m); then a small
+   steps/flight toggle right of the map, flight maybe lifting the camera a
+   little («видим чуть дальше, чуть с бОльшей дымкой»); the swaying tufts
+   near the horizon stay put and show at dusk («в сумерках то что они
+   всегда остаются на месте сбивает»).
+7. The review, polish, vet, frames, the Artifact; retire bite 16's frames.
 
 Off the bite, from the operator: the map's ✕ («крестик на карте
 по-прежнему выглядит странно», then «дело в самом кружке. попробовать без
