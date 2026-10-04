@@ -31,11 +31,11 @@ import {
   paintGlow,
   paintRainbow,
   paintSky,
-  paintStar,
   paintSun,
   paintWash,
 } from './paint-sky';
 import { driftedAzimuth, placedLeft, screenAt } from './panorama';
+import { starImages } from './star-images';
 import { SUN_RAY_REACH } from './sun-layout';
 import { focusTwins, shade } from './twin-fade';
 import { type Following, type View, viewAt } from './view';
@@ -69,11 +69,11 @@ export type Backdrop = Following & {
   /** The sky at full dusk, over the day's sky and the glow, shown by its alpha (`relight`). */
   duskSky: Picture;
   /**
-   * The dusk sky's stars, one graphics each, fixed on the screen over it:
+   * The dusk sky's stars (`starImages`), fixed on the screen over it:
    * shown with it, but never where the moon's halo reaches as the view
    * stands (`starClear`), since the moon turns with the sun and they do not.
    */
-  stars: Phaser.GameObjects.Graphics[];
+  stars: Phaser.GameObjects.Image[];
   glow: Turning;
   sun: Turning;
   /** The rainbow opposite the sun, shown by its columns' alpha as a shower ends (`rain-view.ts`). */
@@ -209,14 +209,7 @@ export function paintBackdrop(
   const duskSkyLayer = layer();
   paintSky(duskSkyLayer, layout, DUSK_TONES);
   const placedStars = duskStars(layout);
-  const stars = placedStars.map((star, index) => {
-    const graphics = (existing?.stars[index] ?? fixedAt('stars')).clear();
-    paintStar(graphics, star);
-    return graphics;
-  });
-  for (const spare of existing?.stars.slice(stars.length) ?? []) {
-    spare.destroy();
-  }
+  const stars = starImages(scene, existing?.stars, placedStars, ratio);
   const duskGroundLayer = layer();
   paintGround(duskGroundLayer, layout, DUSK_TONES);
   const grain = paintGrain(

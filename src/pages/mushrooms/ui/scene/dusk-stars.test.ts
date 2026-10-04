@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { duskStars, STAR_BAND, STAR_COUNT } from './dusk-stars';
+import {
+  duskStars,
+  STAR_BAND,
+  STAR_COUNT,
+  STAR_RAY_REACH,
+  starTexels,
+} from './dusk-stars';
 import { meadowLayout } from './layout';
 import { SUN_GLOW_REACH } from './sun-layout';
 import { EITHER_WAY } from './viewports';
@@ -31,5 +37,22 @@ describe('the dusk sky’s stars', () => {
   it('stand in the same places on every paint', () => {
     const layout = meadowLayout(1180, 820, 3);
     assert.deepEqual(duskStars(layout), duskStars(layout));
+  });
+});
+
+describe('the star texture’s size', () => {
+  it('holds the widest star one texel to a device pixel, its rays inside the square', () => {
+    for (const ratio of [1, 2, 3]) {
+      const stars = duskStars(meadowLayout(1180, 820, 3));
+      const widest = Math.max(...stars.map(({ r }) => r));
+      const { r, side } = starTexels(widest, ratio);
+      assert.equal(r, widest * ratio);
+      assert.ok(side / 2 >= r * STAR_RAY_REACH[1] + 1, 'rays cut off');
+      assert.ok(Number.isInteger(side / 2), 'middle off a texel corner');
+    }
+  });
+
+  it('never shrinks a star below a texel', () => {
+    assert.equal(starTexels(0, 2).r, 1);
   });
 });

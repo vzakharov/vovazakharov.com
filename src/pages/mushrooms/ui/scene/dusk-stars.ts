@@ -21,6 +21,20 @@ export const STAR_RAY_REACH = [1.3, 3] as const;
 const STAR_TRIES = 400;
 
 /**
+ * The radius of the one star every star is shown from (`starImages`) and the
+ * side of the square holding it, rays and all, in texels, for stars as wide
+ * as `widest` at `ratio` device pixels a CSS pixel: the widest star lands one
+ * texel to a device pixel, and every other one shrinks from it.
+ */
+export function starTexels(
+  widest: number,
+  ratio: number,
+): { r: number; side: number } {
+  const r = Math.max(1, widest * ratio);
+  return { r, side: 2 * Math.ceil(r * STAR_RAY_REACH[1]) + 2 };
+}
+
+/**
  * The stars, each a disc in the upper band, clear of the sun's glow, where
  * the moon rises, and spaced half the side of an even share of the band
  * apart, so none clump — `STAR_COUNT` of them on every screen the sweeps

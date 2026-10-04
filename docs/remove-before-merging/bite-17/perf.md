@@ -78,6 +78,16 @@ The aim is fewer flushes and fewer vertices, with dusk looking the same:
    `bake-picture.ts` does. Re-bake in `paint` only. Look change: a halo no longer
    lands over a neighbouring firefly's dark body when two overlap, which is rare
    and tiny.
+   **Items 2 and 4 are done (package `pw`).** The glow is a `WindowGlow`: each house's lit
+   windows painted on change into a canvas texture of its own at `zoom × camera zoom` texels a
+   unit, shown as one `Image` in the house's transform, and destroyed with the house. The stars
+   are `Image`s of one shared `dusk-star` canvas texture baked at the widest star's size in
+   device pixels (`starImages`). Full dusk on tabL, same bench: **36 draws / 122 974 vertices
+   before, 36 / 102 160 after (−20.8k)**; day unchanged at 8 / 62 706. A/B: house.glow now
+   costs 3 vertices, the stars 66. Against a build of the base, the `dusk` play's frames differ
+   only on the stars' and windows' antialiased edges. In the bench patch, the glow is now
+   `s.house.glow.image` (two lines in `play-bench.ts`).
+
 2. **Window glow** (`window-glow.ts` / `house-view.ts`, −15.5k vertices). Paint
    the glow into a texture whenever `paintGlow` runs now (on change only), and show
    it as an `Image` that follows the house's transform as the glow Graphics does
