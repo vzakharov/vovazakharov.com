@@ -175,6 +175,13 @@
   in every relay summary, expect the paste about every three bites and say
   so, and fold what it can into fewer sessions (review handling into the
   next bite's session where context allows).
+- **Read the depth, never count it.** `get_session` with no id returns
+  `lineage: {depth, limit}`. Summaries counted "this session + 1" by hand,
+  so after the operator started a session by hand (a fresh chain, depth 0) the next one believed it was 7, ended its bite handing the operator
+  a line, and a whole night stood idle («какая же она восьмая, я сам её
+  начал! 😞»). The skill should read `lineage` at every relay and write
+  that number, and relay by `create_session` whenever it is below the
+  limit.
 - **The cap-depth session ends at a natural stop.** Bite 8's review was the
   eighth in its chain, so it posted the review, wrote the summary with depth
   reset to 1 and the Next step `/handle`, and handed the operator

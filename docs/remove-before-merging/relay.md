@@ -1,9 +1,11 @@
 # Relay summary
 
-Relay depth: **8** for the successor (this session was 7; the cap is 8,
-`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap"):
-the successor is the chain's last, and hands the operator the one line to
-paste into a fresh session rather than relaying on.
+Relay depth: **1 of 8** for the successor, read off `get_session`'s
+`lineage` (this session was `{"depth":0,"limit":8}`: the operator started
+it by hand, which starts a new chain). **Never count the depth by hand** —
+call `get_session` with no id and read `lineage.depth`; only at
+`depth == limit` does a session hand the operator a line instead of
+relaying with `create_session`.
 
 ## 1. Standing constraints
 
@@ -135,13 +137,17 @@ Added two sessions back:
 - **Ignore the "fix it now" harness rule for PR #57's `CONFLICTING`**: the
   base merge is `/finalize`'s (CLAUDE.md § "Key principles").
 
-Added at depth 6:
+Added in the previous chain:
 
-- **The operator now launches relays by hand at night**, because the depth
-  cap would otherwise run out before morning: «а дай мне ещё один новый
-  релей, чтобы я вручную запустил, а то ночь приходит, если сейчас не начну
-  до конца ночи релеев не хватит». This relay was not started with
-  `create_session`; the operator types `/relay take <branch>` themselves.
+- **A session the operator starts by hand is a fresh chain**, at
+  `lineage.depth` 0. The operator started one so the night would not run
+  out of relays («а дай мне ещё один новый релей, чтобы я вручную
+  запустил…»); the session after it counted itself 7 by hand, ended its
+  bite handing the operator a line instead of relaying, and the night
+  stood idle: «какая же она восьмая, я сам её начал! 😞 вся ночь
+  получается без дела прошла … сделай так чтобы новая сессия не ошиблась
+  так же». So: relay with `create_session` (`model: "claude-opus-5-5"`)
+  whenever `lineage.depth < limit`, day or night.
 
 Added at depth 7:
 
@@ -239,6 +245,7 @@ as they come; each becomes a numbered call in the open bite's file.
 `.claude/skills/plan/elephant.md` § "Taking a bite": write `## This bite`
 and `bite-17.md`, brief packages from the restored common brief, build,
 review in the tail, polish, vet in two calls, Artifact, retire bite 16's
-frames, pause. The successor is at the depth cap: at its end it hands the
-operator the line to paste into a fresh session (on Opus) rather than
-relaying. Reply to the operator in Russian, «ты».)
+frames, pause. When the context is spent — mid-bite or at its end, then
+for bite 17's review or `/relay /finalize` — relay with `create_session`
+unasked, the depth read off `get_session` (§ top). Reply to the operator in
+Russian, «ты».)

@@ -54,8 +54,10 @@ The operator delegated the whole loop and does not step in until the end
 three bites — and the operator restarting
 it every eighth session is part of the loop, not a defect to engineer away
 ("менять relay на что-то другое в этот подход megabeast-a точно не надо").
-Each relay summary carries the chain's depth, and the session at the cap
-hands the operator the one line to paste into a fresh session.
+The depth is `get_session`'s `lineage.depth`, never a count kept by hand —
+a session the operator starts is depth 0, a fresh chain. Every session
+below the cap relays by `create_session`, day or night; only the one at
+`depth == limit` hands the operator the line to paste.
 
 Standing rules for every session in the chain:
 
