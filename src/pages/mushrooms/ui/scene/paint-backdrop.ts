@@ -95,13 +95,11 @@ export type Backdrop = Following & {
   /** How far toward dusk the backdrop was last lit (`relight`), kept over a repaint. */
   level: number;
   /**
-   * Lights the backdrop `level` of the way to dusk, from 0 at full day to 1
-   * at full dusk (`duskness`): the dusk's pictures and stars shown over the
-   * day's and the clouds' dusk twins faded in over them at `level`, hiding
-   * them at 1, which
-   * costs no repaint, and the hills and the brow, drawn live, redrawn in its
-   * tones whenever it crosses a step of `LIGHT_STEPS`. The stars clear the
-   * moon as the view last followed shows it, so it runs after `follow`.
+   * Lights the backdrop `level` of the way to dusk (`duskness`): the dusk's
+   * pictures, stars and cloud twins faded in over the day's, hiding them at
+   * 1, at no repaint; the live hills and brow redrawn whenever it crosses a
+   * step of `LIGHT_STEPS`. Runs after `follow`: the stars clear the moon as
+   * the view last followed shows it.
    */
   relight: (level: number) => void;
   wash: Turning;
@@ -117,8 +115,9 @@ export type Backdrop = Following & {
  * Everything behind the grass: sky, its glow round the sun, the sun, clouds,
  * the rainbow opposite the sun, three hill ranges, the ground and its brow,
  * the sun's wash over the sky and the ground's grain, with the sky and the
- * ground baked a second time at full dusk to lie over the day's. `random` shapes the
- * opening screen's clouds, the hills, the ground's mottling and the grain, so the same source repaints the same meadow. It
+ * ground baked a second time at full dusk to lie over the day's. `random`
+ * shapes the opening screen's clouds, the hills, the ground's mottling and
+ * the grain, so the same source repaints the same meadow. It
  * paints into `existing` and adds only what is missing, so a repaint keeps
  * the objects — and whatever is moving them — and the view and the drift
  * they were placed by. All but the clouds, the hills and the brow is baked

@@ -21,8 +21,9 @@ type MeadowTapped = Pick<Scened, 'dispatch'> & {
 
 /**
  * A tap that lands on nothing else (`over` empty) lands on a cloud, which
- * starts the rain, on the sun or the moon, which turns the light, on a spore, which it picks up, or on a tuft or the bare
- * meadow, either of which lets go of the selection.
+ * starts the rain, on the sun or the moon, which turns the light, on a spore,
+ * which it picks up, or on a tuft or the bare meadow, either of which lets go
+ * of the selection.
  */
 export function tapMeadow(
   scene: MeadowTapped,

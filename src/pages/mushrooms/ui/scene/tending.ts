@@ -175,9 +175,9 @@ export function lostOn(
 
 /**
  * Whether a tuft is one `view` tends: within the reach a tuft is drawn at
- * (`browDistance` and `PALE_SPAN`), past the near ones the view never draws, each
- * with `TEND_STEP` to spare, and at an azimuth off the heading no farther
- * than the screen's side and `TENDED_SCREENS` screens more.
+ * (`browDistance` and `PALE_SPAN`), past the near ones the view never draws,
+ * each with `TEND_STEP` to spare, and at an azimuth off the heading no
+ * farther than the screen's side and `TENDED_SCREENS` screens more.
  */
 export function tendedIn(view: View): (sprout: Sprout) => boolean {
   const { eye, width } = view;

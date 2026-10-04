@@ -313,7 +313,6 @@ function drawMap(layers: Layers, shot: MapSnapshot): Drawn {
     )
     .lineStyle(2, PALETTE.ink)
     .strokeRoundedRect(...paperRect);
-  // The compass at the top edge's middle.
   const compass = { ...pick(middle, 'x'), y: sheet.top + MARGIN / 2 + 2 };
   for (const [layer, colour] of [
     [shade, DUSK.groundDeep],

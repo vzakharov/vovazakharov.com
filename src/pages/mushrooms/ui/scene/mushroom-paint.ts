@@ -55,8 +55,9 @@ export type HazedGraphics = WithGraphics & Hazed;
 /**
  * One mushroom's brush: its graphics, genes and fills, the light it is lit
  * by, its size and ink line in pixels, `tone` taking a colour through its
- * haze toward the air at its dusk (`hazeTone`), the maps from its own frame and its cap's to the canvas, and how
- * many chords each of its curves is painted with (`curveSteps`).
+ * haze toward the air at its dusk (`hazeTone`), the maps from its own frame
+ * and its cap's to the canvas, and how many chords each of its curves is
+ * painted with (`curveSteps`).
  */
 export type MushroomBrush = Brush &
   HazedGraphics &

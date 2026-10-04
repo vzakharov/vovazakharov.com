@@ -28,8 +28,8 @@ const SHARED = {
  * Every colour the game paints. This module, its two sections,
  * `palette-backdrop.ts` and `palette-creatures.ts`, and the backdrop's dusk
  * twin `palette-dusk.ts` (`DUSK`), are the one place on the site holding
- * colour literals: a canvas is out of the CSS tokens' reach, so
- * they are the canvas's token table. A per-mushroom variation is a gene
- * applied on top, never a literal elsewhere.
+ * colour literals: a canvas is out of the CSS tokens' reach, so they are the
+ * canvas's token table. A per-mushroom variation is a gene applied on top,
+ * never a literal elsewhere.
  */
 export const PALETTE = { ...SHARED, ...BACKDROP, ...CREATURES } as const;

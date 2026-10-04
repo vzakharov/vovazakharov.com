@@ -106,10 +106,10 @@ export function stepsHere({ size, stands }: Shown): number {
 }
 
 /**
- * Paints `shown`'s body, its house and its shadow at its haze and dusk, in its light
- * from an eye facing `heading` and with as many chords to a curve as its
- * size on screen asks (`stepsHere`), and keeps the light, sun side and
- * chords it painted.
+ * Paints `shown`'s body, its house and its shadow at its haze and dusk, in
+ * its light from an eye facing `heading` and with as many chords to a curve
+ * as its size on screen asks (`stepsHere`), and keeps the light, sun side
+ * and chords it painted.
  */
 export function paintLit(shown: Shown, heading: number): void {
   const { graphics, shadow, genes, spots, size, haze, dusk, turn, house } =

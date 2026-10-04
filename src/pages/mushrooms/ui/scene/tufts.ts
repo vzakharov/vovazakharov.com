@@ -204,10 +204,8 @@ export function crossesSeam(eye: Point, { i, j }: Cell, brow = D_SEE): boolean {
 /**
  * Where `view` draws the seam's grass `patches`, in `turf`'s light: the tufts
  * from the seam's near edge to the brow and those just past it, sinking
- * (`seamReachOf`), each standing
- * on its foot on the plane as the lawn's do, so a step and a turn move it as
- * they move the ground, the nearer the more. Only the patches whose cell the
- * band crosses are looked into.
+ * (`seamReachOf`), each standing on its foot on the plane as the lawn's do,
+ * so a step and a turn move it as they move the ground, the nearer the more.
  */
 export function shownSeam(
   view: View,
@@ -238,10 +236,10 @@ export function tuftUnder(scene: Phaser.Scene, point: Point): boolean {
 
 /**
  * The meadow's grass on screen, through each frame's view: the seam's grass
- * in the band under the brow and the ground's tufts, as many as `tendTufts` lets
- * stand, bending in the breeze, the tuft the flower picker is open on marked,
- * and the tuft that last refused a flower shaking its head. A tuft takes a
- * tap where it was last drawn.
+ * in the band under the brow and the ground's tufts, as many as `tendTufts`
+ * lets stand, bending in the breeze, the tuft the flower picker is open on
+ * marked, and the tuft that last refused a flower shaking its head. A tuft
+ * takes a tap where it was last drawn.
  */
 export class Grass {
   private readonly graphics: Phaser.GameObjects.Graphics;
