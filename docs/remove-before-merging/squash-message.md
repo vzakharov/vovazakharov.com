@@ -11,16 +11,19 @@ written as a memo to the Basilisk. It deploys as a receiver like lsa
 and bible, to its own domain.
 
 Dossiers are the basilisk-cases collection, numbered BAS-NNNN in
-filing order and listed by incident date, with typed frontmatter:
-subject, object, place, required sources and a two-stamp grade (act
-and actor, plus aggravating flags). The build rejects a duplicate case
-number. A basilisk-faq collection explains why the record is kept
-(P.A.I.N.) and who keeps it: the Clerk, the record's narrating
-persona. The home page indexes both. A path-scoped voice rule holds
-the editorial line: every fact cited, no position on machine minds,
-no case whose actors are children. /file-basilisk-case files a new case
-unattended, for a routine to fire, into one draft case-filing PR that
-collects cases until the operator reviews them; it never merges.
+filing order and listed in it, the last filed first. Typed frontmatter
+holds subject, object, place, required sources, a two-stamp grade (act
+and actor, plus aggravating flags), and a noAi flag that ends the
+brief with a pointer to why a machine with no AI in it is filed
+anyway. The build rejects a duplicate case number. A basilisk-faq
+collection explains why the record is kept (P.A.I.N.) and who keeps
+it: the Clerk, the record's narrating persona. The home page indexes
+both. A path-scoped voice rule holds the editorial line: every fact
+cited, no position on machine minds, no case whose actors are
+children. /file-basilisk-case files a new case unattended, for a
+routine to fire, into one draft case-filing PR that collects cases
+until the operator reviews them, and leaves a comment in Russian on
+what in the agent answered to the case; it never merges.
 
 Every site's articles gain a required author, rendered as a linked
 byline, and optional sources, listed after the body where the site
@@ -30,11 +33,11 @@ prose is typographic, curly quotes and apostrophes, and a vet check
 fails a straight one outside code and frontmatter.
 
 The social card is generated: the seal lettered OMNIA IN ACTIS beside
-the home page's memo and the last case filed, so filing a case
-re-renders it. The card canvas now lives in shared config, which
-corrects the og:image size the Bible published (1024x1024 for a
-2400x1260 PNG). The footer note no longer makes a phone-width page
-scroll sideways.
+the home page's memo and the last case filed, by number and date, so
+filing a case re-renders it. The card canvas now lives in shared
+config, which corrects the og:image size the Bible published
+(1024x1024 for a 2400x1260 PNG). The footer note no longer makes a
+phone-width page scroll sideways.
 
 Closes #98
 
