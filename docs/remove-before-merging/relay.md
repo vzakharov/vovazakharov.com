@@ -1,7 +1,7 @@
 # Relay summary
 
-Relay depth: **5 of 8** for the successor, read off `get_session`'s
-`lineage` (this session was `{"depth":4,"limit":8}`). **Never count the
+Relay depth: **6 of 8** for the successor, read off `get_session`'s
+`lineage` (this session was `{"depth":5,"limit":8}`). **Never count the
 depth by hand** — call `get_session` with no id and read `lineage.depth`;
 only at `depth == limit` does a session hand the operator a line instead of
 relaying with `create_session`.
@@ -183,115 +183,100 @@ Added this session:
   this session, megabeast `subagents.md`); brief the look as its own agent
   or expect a successor.
 
+Added this session:
+
+- **Ten one-step agents in parallel all landed** (one per review finding,
+  files not colliding); one whose premise was wrong (grass tending) stopped
+  and reported options instead of landing — keep "stop and report options"
+  in every brief.
+- **`isolation: "worktree"` agents live under `.claude/worktrees/`**: the
+  `Stop` hook nags "untracked files" while they run — never commit them;
+  remove each worktree and its `worktree-agent-*` branch as its report
+  lands (megabeast `gates.md`).
+- **`/dry` at ~3k lines ran out twice of three**; a fourth agent briefed on
+  their named leftovers closed it. Plan that agent, or cut at ~2k.
+
 ## 2. The conversation
 
 > /relay take claude/mushroom-game-syama-lbirv7 (the standing pickup rules)
 
-Reply: attached (stale local ref renamed aside to
-`stale/mushroom-game-syama-lbirv7-9c390d9`), plan claimed, six one-step
-agents (types, walk play, mice, fireflies, grass band, gait button);
-Artifact v27 published. Then each landing reported in a line.
-
-> [screenshot: day meadow, a porcini and a fly agaric house half a screen apart, mice at both doors] про мышек -- ну вот на таком расстоянии всё ещё не бегут :)
-
-> (полэкрана)
-
-Reply: the reach fix (0e80d99) landed after v27; published v28; also it
-was day in the shot, and by day runs are tap-only; offered day runs of
-their own if he wants.
-
-> а, да, просто не пульнул (играю локально, не в артефакт).
-
-Reply: after `git pull` mice run by tap and at dusk.
-
-> мышки сами бегающие по ночам это просто восхитительно, целый город можно сделать
-
-Reply: banter; floated two ideas into the piggy bank, not built: worn
-paths where mice run often; a guest mouse lighting a second window.
-
-> фонарщики это светлячки :)
-
-Reply: proposed fireflies lighting the windows as they fly past (not
-built, not asked for yet).
-
-Then the gait button (68bafe1, frames sent), the risen eye (frames sent:
-"the meadow slid down"), and:
-
-> ну, как по мне, так плюс-минус норм. что должно быть больше видно -- логично, да
-
-Reply: 1.2× kept; the far flower band landed (1228765, frame sent); told
-him the band's ends sink behind the bending brow on phoneL and that I
-left it. Then the review's three agents; reported read1's three visible
-findings and **asked: day outings back to a short reach, keeping taps and
-night runs wide — unless he wants day runs across the screen (no answer
-yet)**. Also told him the phoneP gait button floats mid-sky and is left
-until he says (no answer). Then the context warning and this relay.
+The operator sent nothing else this session. Replies (Russian) reported:
+the attach; the bite 17 review posted as one review on PR #57
+(https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5405749484)
+and ten Opus agents dispatched; each landing in a line; the grass agent's
+three options and the pick (B, below); the context warning at ~203k and
+why the session carried on (the tail was agent work, est. under 100k);
+polish, vet, frames, Artifact v29; this relay. Still unanswered from
+earlier sessions: **the phoneP gait button floating mid-sky** (left until
+he rules), and **day mouse runs across the screen** (the session gated day
+outings short, keeping taps and night runs wide — he may want them wide).
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for Syama; the Artifact playable
-after every bite. Finish bite 17 (`bite-17.md` § Left: the review's
-fixes, then polish, vet, frames, Artifact, retirements), then the saving
-bite (`saving.md`), then `relay finalize`, no merge.
+after every bite. Bite 17 (dusk) is done. Next: the saving bite
+(`docs/plans/mushroom-game-syama/saving.md`), its review, its handle, then
+`relay finalize` — never merge.
 
 ## 4. Decisions
 
-- **Steps are the drag's base; flight is a toggle** beside the map button
-  (`gait-spot.ts` places it where no other control moves — 858 sizes
-  compared); flight stands the eye 1.2× (`FLIGHT_RISE`), eased 0.5 s,
-  horizon rows fixed.
-- **A far flower band** (8, `far-band.ts`) only flight reveals; steps'
-  opening is byte-identical. Its ends sinking behind the bending brow is
-  accepted.
-- **Mice run to any door in sight** (no `RUN_REACH`), long runs sped to
-  6 s. The review found day outings widened too: the proposed call is to
-  gate day outings to a short reach, keeping taps and night runs wide.
-- **Grass band perf further cuts are not pursued** — the operator: perf
-  waits until it is critical.
+- **Fireflies yield a tap** to anything else under the finger (a cap, a
+  door, a window, a bare tuft); nearest firefly wins among fireflies. A
+  firefly over a cap is uncatchable there until it circles out — accepted.
+  What a door still loses at dusk is a night-run mouse answering the tap
+  itself — accepted, not a bug.
+- **Haze at dusk tends to `PALETTE.airDusk`** (a dim slate, darker than the
+  dusk hills), not `DUSK.air` (too light for the ask).
+- **A house's own day outing runs only within `OUTING_REACH` 2.5**; taps
+  and night runs reach any door in sight (bite-17.md call 11 restated).
+- **Flight's bare strip under the brow** was the seam grass starting at
+  brow − band, not tending: option B, the seam starts at the walking brow's
+  line at any eye height (steps byte-identical). Option C (the planting
+  band following the eye) is a design call, not taken.
+- **A drag holds the gait and eye height it was pressed at**; the drawn eye
+  still eases under a held finger across a flip (small drift, left).
+- **The ground haze wash in flight** stays unbuilt.
 
 ## 5. Errors and dead ends
 
-- `gt`, `fe`, `fe3` each ran out before their look; successors finished.
-- `gt`'s first approach moved other buttons to make room (two layout tests
-  red, an unplanned tablet-portrait row shift); redone as "nothing else
-  moves".
-- `gt` once made a worktree inside the shared checkout (`base-gt/`); it
-  removed it.
-- Artifact publish: the resend went through only after a `Read` of the
-  saved live copy (megabeast `gates.md`).
+- The grass agent's first fix (tend to flight's brow) gathered 44 % more
+  tufts and showed none: the planting band rejects them all.
+- `ink.test` red since 9ea434ac (firefly body hue-nudged to 2e2a1e); fixed
+  by a darker body (c4971a9).
+- The closing play went red on "the tapped firefly did not flare": its
+  pick landed on a firefly over a cap, which now yields the tap; the play
+  retries up to four taps (a harness fix, not a game bug).
+- The first play run used vet's non-probe build ("no game on the page");
+  run the play without `--no-build`.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `MERGEABLE`.
-- Plan `docs/plans/mushroom-game-syama.paused.md`; `bite-17.md` § Left 1
-  (review fixes, ordered) and 2 (polish, vet, frames, Artifact, retire).
-- **The review is reported, not posted**: three files under
-  `docs/remove-before-merging/bite-17/review-*.md`, frames under
-  `docs/remove-before-merging/frames/bite-17/review/`.
-- Artifact v28 (at 593a4b6: no gait button, no risen eye, no far band).
-- No agent running; no `wt/` ref but the old `wt/g37`. A local branch
-  `stale/mushroom-game-syama-lbirv7-9c390d9` exists in this container only.
+- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`.
+- Plan `docs/plans/mushroom-game-syama.paused.md` — bite 17 folded into
+  "Eaten so far" (item 18); "Rest of the elephant": the saving bite only.
+- Vet green at the polish (2271 tests); Artifact v29 at the tail's head.
+- The PR body was not refreshed this bite (`/pr`); `/finalize` does it.
+- No agent running, no worktree; remote `wt/g37` is old, left alone.
+- Local branches `stale/…` from earlier sessions may not exist here; this
+  container has `claude/mushroom-game-syama-lbirv7-stale-local` (9c390d9),
+  container-only.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-17.md` — Built so far, Left.
-- `docs/remove-before-merging/bite-17/review-play.md`, `review-read1.md`,
-  `review-read2.md` — the findings with their Asks; `fe.md` (risen eye,
-  ground haze design), `gt.md`, `mc.md`, `mr.md`, `ff.md`, `gb.md`,
-  `wp.md`, `tov.md`, `brief-common.md`.
-- `docs/plans/mushroom-game-syama/to-check.md` — the firefly chime added.
+- `docs/plans/mushroom-game-syama.paused.md`, `…/saving.md`,
+  `…/bite-17.md`, `…/decisions.md`, `…/to-check.md`.
+- Bite 17's working notes are retired:
+  `docs/remove-before-merging/retired.md` (row `bite-17/`, 2beecd28ef).
+- Closing frames: `docs/remove-before-merging/frames/bite-17/end/`.
 - `.claude/skills/megabeast/notes/` by its `README.md`.
-- This session: https://claude.ai/code/session_01LTGjV5v8KKHxygXyctDu3o
+- This session: https://claude.ai/code/session_01RzyF2iGuEev3pgeVfmKzdp
 
 ## 8. Next step
 
 go
 
-(Resume bite 17 at `bite-17.md` § Left 1: post the review as one review on
-PR #57 from the three files, then one Opus agent per finding, in parallel
-where files don't collide; then Left 2 — polish, vet in two calls,
-frames, **publish the Artifact**, retire bite 16's frames and the working
-notes. Watch for the operator's answers on day outings and the phoneP gait
-button. Then the saving bite, then `relay finalize`. Reply in Russian,
-«ты».)
+(Take the saving bite per the plan: flip `paused` → `in-progress`, write
+`## This bite` from `saving.md`, build it as one-step Opus agents, then the
+bite's tail as the loop says — `/relay оставь код ревью на последний кусок`
+for its review. Watch for the operator's answers on the phoneP gait button
+and day runs. Reply in Russian, «ты».)
