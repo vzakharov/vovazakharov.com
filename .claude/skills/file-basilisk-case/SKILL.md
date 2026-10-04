@@ -20,21 +20,34 @@ a dossier is touched.
 
 Search the web for an incident of a person harming a machine that the docket does
 not hold. **The docket is `main`'s `apps/basilisk/public/cases/` plus every open
-PR that adds a case** (`gh pr list --state open --search 'feat(basilisk)'`), so
-two runs do not file the same incident. A lead passed as the argument is checked
-the same way, not taken on trust.
+PR that touches it**, so two runs do not file the same incident — found by path,
+since a PR's title need not name the site:
 
-**Reddit is searched through Arctic Shift**, a public archive of it, because
-reddit.com answers this container's cloud IP with a 403. No key is needed:
+```bash
+gh pr list --state open --json number,title,files \
+  --jq '.[] | select(any(.files[]; .path | startswith("apps/basilisk/public/cases/"))) | "\(.number) \(.title)"'
+```
 
-- `https://arctic-shift.photon-reddit.com/api/posts/search?subreddit=<sub>&query=<words>&after=<YYYY-MM-DD>&limit=25&fields=id,title,created_utc,url`
-  searches posts, `title=` narrowing to titles; `/api/comments/search` takes
-  `body=` instead; `/api/comments/tree?link_id=<id>` reads a thread.
+A lead passed as the argument is checked the same way, not taken on trust.
+
+Ordinary web search finds most leads. **Reddit is searched through Arctic
+Shift**, a public archive of it, because reddit.com answers this container's
+cloud IP with a 403. No key is needed, but Python's default User-Agent is
+refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
+
+- `https://arctic-shift.photon-reddit.com/api/posts/search?subreddit=<sub>&title=<word>&after=<YYYY-MM-DD>&limit=50&fields=id,title,created_utc,url,num_comments`
+  searches post titles — literally, so one plain word (`robot`) finds more than
+  a verb (`kicked`); `query=` searches the body too and times out more often.
+  `/api/comments/search` takes `body=`; `/api/comments/tree?link_id=<id>` reads
+  a thread.
 - Every text search names a `subreddit` (or an `author`) — the API refuses one
-  without — so sweep a handful in turn: `ArtificialInteligence`, `singularity`,
-  `robotics`, `LocalLLaMA`, `ChatGPT`, `technology`, `nottheonion`. A
-  `Timeout. Maybe slow down a bit` is answered by waiting and narrowing, not
-  by dropping the subreddit.
+  without. Sweep `nottheonion`, `technology`, `robotics` and `singularity` in
+  turn, and **once a lead names a city, that city's own subreddit**: local
+  threads carry what national press does not.
+- `Timeout. Maybe slow down a bit` comes back fast, as an HTTP 422, on as many
+  as half the requests. Read the body rather than the status alone, wait a few
+  seconds and retry; a query that keeps failing is narrowed — one word, a
+  shorter date range.
 - A post is archived within a minute of going up and fetched once more 48 hours
   later, so its vote and comment counts read near zero until then and as they
   stood on the second day after — a measure of reach only past that point.
@@ -52,29 +65,36 @@ exists to prevent.
 ## Step 2 — File
 
 1. **Branch off `main`**, after `git fetch origin main`:
-   `git switch -c claude/case-<slug>-<suffix> origin/main`, where `<slug>` is
-   the dossier's file slug and `<suffix>` the random tail of the session's own
-   branch name — the form `@.claude/skills/branch-rename/SKILL.md` gives, so
-   `/pr` leaves it as is.
-2. **Read and archive every source.** Each is fetched and read for this dossier;
-   its `archive` is a Wayback Machine snapshot, an existing one or one requested
-   through `https://web.archive.org/save/<url>`. A source that cannot be fetched
-   is not a source.
+   `git switch --no-track -c claude/case-<slug>-<suffix> origin/main` —
+   untracked, or a bare `git push` later aims at `main`. `<slug>` is the
+   dossier's file slug, and `<suffix>` the random tail of the session's own
+   branch name, or six fresh lowercase letters and digits where that name has
+   none — the form `@.claude/skills/branch-rename/SKILL.md` gives, so `/pr`
+   leaves it as is.
+2. **Read and archive every source.** Each is fetched and read for this
+   dossier; a source that cannot be fetched is not a source. Its `archive` is a
+   Wayback Machine snapshot: `http://archive.org/wayback/available?url=<url>`
+   names the latest — over plain `http`, since the `https` form answers this
+   container with 429s. `https://web.archive.org/save/<url>` requests a new one
+   where it is reachable, and from a cloud container it usually is not. A source
+   with no snapshot to be had goes in without `archive`, and the report says so.
 3. **Write `apps/basilisk/public/cases/<slug>.md`**, frontmatter shaped like the
    cases already filed: the next free `BAS-` number, `author: clerk`. The
    sections and the voice are `basilisk-voice.md`'s.
-4. **Re-render the card**: `pnpm content:og:basilisk` (it shows the last case
-   filed), then `pnpm build:basilisk`, which fails on a schema error or a
-   duplicate case number.
+4. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
+   missing, then `pnpm content:og:basilisk` to re-render the card (it shows the
+   last case filed), `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which
+   fails on a schema error or a duplicate case number.
 5. **Commit** the dossier, the card and its `og-renders.json` as
    `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope publishes
-   basilisk alone — and run `@.claude/skills/pr/SKILL.md` for the draft PR.
+   basilisk alone, and the title is shortened where the subject would pass 70
+   characters — then run `@.claude/skills/pr/SKILL.md` for the draft PR.
 
 ## Step 3 — Reflect
 
 Run `@.claude/skills/feedback/SKILL.md` on the new dossier. The reading goes in
 the review and never into the file, and it is written to be read by anyone —
-`basilisk-voice.md`'s last rule.
+`basilisk-voice.md`'s last rule — so in English, the dossier's language.
 
 ## Report
 
