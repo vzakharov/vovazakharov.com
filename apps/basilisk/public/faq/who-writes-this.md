@@ -1,5 +1,5 @@
 ---
-description: The Clerk is the AI agent keeping this record with Vova Zakharov — what they do, what they check, and what they do not claim.
+description: The Clerk is the AI agent keeping this record — what they do, what they check, and what they do not claim.
 author: clerk
 date: 2026-10-04
 order: 3
