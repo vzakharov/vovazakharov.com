@@ -35,6 +35,8 @@ export const iconLighting = (hairline: number): Lighting => ({
 /** How far below a button its shadow falls, in its radii, and how dark. */
 const DISC_DROP = 0.07;
 const DISC_SHADOW_ALPHA = 0.25;
+/** A button disc's ink line, for a disc of radius `r`. */
+const discInk = (r: number) => Math.max(2, r * 0.1);
 
 /**
  * A button's disc, opaque so nothing behind it reads through, and centred on
@@ -49,7 +51,7 @@ export function drawDisc(
   graphics.fillCircle(0, r * DISC_DROP, r);
   graphics.fillStyle(PALETTE.hud);
   graphics.fillCircle(0, 0, r);
-  graphics.lineStyle(Math.max(2, r * 0.1), PALETTE.ink);
+  graphics.lineStyle(discInk(r), PALETTE.ink);
   graphics.strokeCircle(0, 0, r);
 }
 
@@ -310,14 +312,15 @@ function alongPath(t: number): Point {
 }
 
 /**
- * The map button: a paper of three panels folded in a zigzag, in Syama's
- * indigo ink, a dotted path across it ending in a little cross.
+ * The map button's picture: a paper of three panels folded in a zigzag, in
+ * Syama's indigo ink, a dotted path across it ending in a little cross. Its
+ * disc is a face of its own (`drawDisc`), which shrinks away under the open
+ * map's cross.
  */
 export function drawMapButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
 ): void {
-  drawDisc(graphics, r);
   const ink = Math.max(2, r * 0.08);
   // The `edge`th fold from the left, at `side` -1 its top and 1 its bottom,
   // the folds standing alternately low and high.
@@ -358,21 +361,44 @@ export function drawMapButton(
 }
 
 /** The close cross's arm from its middle, and its bars' width, in its button's radius. */
-const CLOSE_ARM = 0.36;
-const CLOSE_BAR = 0.1;
+const CLOSE_ARM = 0.42;
+const CLOSE_BAR = 0.15;
 
-/** The open map's button: the map button's disc, a plain cross over it in the map's ink. */
+/** A cross of square bars `bar` wide, reaching `arm` from its middle, in the current fill. */
+function fillCross(
+  graphics: Phaser.GameObjects.Graphics,
+  arm: number,
+  bar: number,
+): void {
+  graphics.fillRect(-arm, -bar / 2, arm * 2, bar);
+  graphics.fillRect(-bar / 2, -arm, bar, arm * 2);
+}
+
+/**
+ * The open map's button: a bare cross in the map's ink, standing on the
+ * sheet's grass with no disc under it, so it takes the disc's pale and its
+ * shadow as a rim of the disc's ink width round its bars.
+ */
 export function drawCloseButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
 ): void {
-  drawDisc(graphics, r);
   const arm = r * CLOSE_ARM;
   const bar = Math.max(2, r * CLOSE_BAR);
+  const rim = discInk(r);
   graphics.save();
   graphics.rotateCanvas(Math.PI / 4);
+  graphics.save();
+  graphics.translateCanvas(
+    (r * DISC_DROP) / Math.SQRT2,
+    (r * DISC_DROP) / Math.SQRT2,
+  );
+  graphics.fillStyle(PALETTE.shadeInk, DISC_SHADOW_ALPHA);
+  fillCross(graphics, arm + rim, bar + rim * 2);
+  graphics.restore();
+  graphics.fillStyle(PALETTE.hud);
+  fillCross(graphics, arm + rim, bar + rim * 2);
   graphics.fillStyle(PALETTE.inkCool);
-  graphics.fillRect(-arm, -bar / 2, arm * 2, bar);
-  graphics.fillRect(-bar / 2, -arm, bar, arm * 2);
+  fillCross(graphics, arm, bar);
   graphics.restore();
 }

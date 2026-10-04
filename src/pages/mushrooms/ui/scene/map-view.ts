@@ -61,16 +61,27 @@ export type MapSnapshot = Eyed &
 
 /** How long the map takes to unfold out of its button, and to fold back, in seconds. */
 const UNFOLD = 0.3;
+
+/**
+ * How far the sheet stands unfolded, its scale, `elapsed` seconds after it
+ * was opened (`open`) or shut — and, the other way about, the map button's
+ * disc, which folds away as the sheet comes out over it and back as it goes.
+ */
+export function unfolded(open: boolean, elapsed: number): number {
+  return open
+    ? emerge((elapsed * EMERGE_DURATION) / UNFOLD)
+    : sink((elapsed * SINK_DURATION) / UNFOLD);
+}
 /** How far in from the sheet's edge the meadow is framed, in CSS px: room for the sun at the top. */
 const MARGIN = 26;
 const CORNER = 14;
 /**
- * How far the sheet's edge keeps from the screen's, in CSS px: half the map
- * button's own inset, so the button, which stays put over the open map, sits
- * clear inside the sheet's corner as far from its edge as the edge is from
- * the screen's.
+ * How far the sheet's edge keeps from the screen's, in CSS px: the buttons'
+ * own inset, so it unfolds out to the line the shut map button's disc stands
+ * on. Open, that disc is gone and only its bare cross stands over the
+ * corner, well inside the edge.
  */
-const SHEET_INSET = BUTTON_INSET / 2;
+const SHEET_INSET = BUTTON_INSET;
 /** The sheet's pale edge line: its width, and how far inside the ink it runs, in CSS px. */
 const EDGE = 3;
 /**
@@ -191,9 +202,10 @@ export class MapView {
 
   /** Unfolds the sheet out of the button, or folds it back, scale and alpha both. */
   update(t: number): void {
-    const shown = this.isOpen
-      ? emerge(((t - this.openedAt) * EMERGE_DURATION) / UNFOLD)
-      : sink(((t - this.closedAt) * SINK_DURATION) / UNFOLD);
+    const shown = unfolded(
+      this.isOpen,
+      t - (this.isOpen ? this.openedAt : this.closedAt),
+    );
     this.sheet
       ?.setVisible(shown > 0)
       .setScale(shown)

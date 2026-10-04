@@ -35,6 +35,7 @@ import {
 import { standingOn } from './flower-layout';
 import {
   drawCloseButton,
+  drawDisc,
   drawFurnishButton,
   drawGrowButton,
   drawHouseButton,
@@ -43,6 +44,7 @@ import {
   drawSpeciesButton,
 } from './hud';
 import type { MeadowLayout } from './layout';
+import { unfolded } from './map-view';
 import { Picker } from './picker';
 import { flowerPicker } from './sky-layout';
 
@@ -84,8 +86,16 @@ export type ControlHandlers = {
  */
 export class Controls {
   private readonly map: Button;
+  /**
+   * The map button's disc, a face of its own under the button's picture and
+   * deaf to taps: the open map's cross stands bare on the sheet, so the disc
+   * folds away as the map opens and back as it shuts.
+   */
+  private readonly mapDisc: Button;
   /** Whether the map is open, as of the last paint: every other button hides under it. */
   private mapOpen = false;
+  /** When `mapOpen` last changed, which the disc folds from. */
+  private mapFlippedAt = -Infinity;
   private readonly plus: Button;
   /** Whether `+` can act: a meadow short of full, with room for one more. */
   private readonly growable: (meadow: Meadow) => boolean;
@@ -121,6 +131,10 @@ export class Controls {
       () => this.meadow,
       handlers.refuse,
     );
+    // Made first, so at the same depth it stands under the button's picture;
+    // deaf, so the map's handler it carries is reached through the picture alone.
+    this.mapDisc = button(handlers.map);
+    this.mapDisc.face.disableInteractive();
     this.map = button(handlers.map);
     this.growable = (meadow) => !isFull(meadow) && handlers.roomy(meadow);
     this.plus = button(handlers.pick, this.growable);
@@ -201,7 +215,14 @@ export class Controls {
     toScreen: <Placed extends Point>(point: Placed) => Placed,
   ): void {
     this.meadow = meadow;
+    if (mapOpen !== this.mapOpen) this.mapFlippedAt = this.now();
     this.mapOpen = mapOpen;
+    placeButton(this.mapDisc, layout.map, ratio, {
+      look: 'disc',
+      draw: (graphics) => {
+        drawDisc(graphics, layout.map.r);
+      },
+    });
     // Open, it shows a cross, so a press visibly closes.
     placeButton(this.map, layout.map, ratio, {
       look: mapOpen ? 'open' : 'shut',
@@ -315,6 +336,11 @@ export class Controls {
     const shown = (name: MeadowLayout['yielding'][number]) =>
       this.mapOpen || (open && this.yielding.includes(name)) ? 0 : 1;
     standButton(this.map, t, this.map.home, 1);
+    // The disc presses in with the picture over it.
+    this.mapDisc.pressedAt = this.map.pressedAt;
+    const disc = unfolded(!this.mapOpen, t - this.mapFlippedAt);
+    standButton(this.mapDisc, t, this.mapDisc.home, disc);
+    this.mapDisc.face.setAlpha(Math.min(1, disc));
     for (const button of [this.plus, this.minus]) {
       standButton(button, t, button.home, this.mapOpen ? 0 : 1);
     }
