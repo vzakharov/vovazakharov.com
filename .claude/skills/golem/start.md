@@ -32,4 +32,4 @@ Opened by `/golem <task>`, once `SKILL.md` § "Entry and pickup"'s model check i
 
 **Then take in the PR's comments before bite 1**, since the operator may have reviewed the plan there rather than in chat: `python3 scripts/export-github-item.py <n>`, `scripts/golem-log-pr.sh <n>`, and each thread through `operator.md` § "The intake", as a bite's end does (`bite-end.md` § "1. The operator's comments"). What they change is placed in the plan before any brief.
 
-Then take bite 1 per `SKILL.md` § "The loop". Nothing after this asks the operator for anything.
+Then take bite 1 per `SKILL.md` § "The loop", writing `## Bite 1` into the operator log first. Nothing after this asks the operator for anything.
