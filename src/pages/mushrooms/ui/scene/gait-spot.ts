@@ -28,7 +28,8 @@ type GaitScreen = Controls &
  * band), and the sun's rays `BUTTON_INSET` off it, as they keep off every
  * button. A sky too full for any such spot has it stand over a picker's
  * row instead, as the insects' buttons do there, and give way to it; one
- * too full for that too, anywhere on the screen its reach clears the rays.
+ * too full for that too, still in the sky where its reach clears the rays,
+ * and only where the sky has no such spot, on the meadow.
  */
 export function gaitSpot(
   screen: GaitScreen,
@@ -42,6 +43,7 @@ export function gaitSpot(
   if (free) return { gait: free, yielding };
   const giving =
     nearestSpot(screen, (spot) => standing(spot, groundTop, BUTTON_INSET)) ??
+    nearestSpot(screen, (spot) => standing(spot, groundTop, 0)) ??
     nearestSpot(screen, (spot) => standing(spot, height, 0));
   if (!giving) {
     throw new Error(
@@ -64,6 +66,11 @@ function nearestSpot(
   let nearest: { spot: Circle; distance: number } | undefined;
   // The grid runs through the map button's centre, so the spots in line with it are on it.
   for (let y = map.y % SPOT_STEP; y <= height; y += SPOT_STEP) {
+    // A row as far off the map button as the nearest spot yet holds none nearer.
+    if (nearest && Math.abs(y - map.y) >= nearest.distance) {
+      if (y > map.y) break;
+      continue;
+    }
     for (let x = map.x % SPOT_STEP; x <= width; x += SPOT_STEP) {
       const distance = Math.hypot(x - map.x, y - map.y);
       if (nearest && distance >= nearest.distance) continue;

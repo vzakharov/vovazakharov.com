@@ -72,7 +72,7 @@ export class DuskView {
   private backdrop: Backdrop | undefined;
   /** Where each of the sun's columns was baked, before it sinks. */
   private sunRows: number[] = [];
-  /** Which way the light was going at the last frame. */
+  /** Which way the light is going: as the last frame read it, or the last tap since turned it. */
   private toward: Dusk['toward'] = 'day';
 
   /** The wash lies at the rain's depth, two under `hudDepth`, so the two stack. */
@@ -147,7 +147,8 @@ export class DuskView {
     const sun = this.sunAt();
     if (!sun || !onTheSun(sun, { x, y: y - bob }, within)) return false;
     this.dispatch({ kind: 'dusk', now: this.now() * 1000 });
-    if (this.toward === 'day') this.sound.sink();
+    this.toward = this.toward === 'day' ? 'dusk' : 'day';
+    if (this.toward === 'dusk') this.sound.sink();
     else this.sound.grow();
     return true;
   }

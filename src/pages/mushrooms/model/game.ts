@@ -409,8 +409,11 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'dusk': {
-      // The flowers close for the night as for the rain, the picker with them.
-      return { ...flowersShut(meadow), dusk: turned(meadow.dusk, action.now) };
+      // The flowers close for the night as for the rain, the picker with
+      // them; morning opens them, and leaves an open picker be.
+      const dusk = turned(meadow.dusk, action.now);
+      const shut = dusk.toward === 'dusk' ? flowersShut(meadow) : meadow;
+      return { ...shut, dusk };
     }
     case 'tick': {
       const { now, burrows } = action;

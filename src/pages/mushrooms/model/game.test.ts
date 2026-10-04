@@ -599,7 +599,18 @@ describe('the rain', () => {
 /** A tap on the sun or the moon at `now`. */
 const dusk = (now: number): Action => ({ kind: 'dusk', now });
 
-/** Bees left a minute among flowers each with room beside it, and the flowers they planted. */
+/** `from` with the flower picker open on a fresh tuft. */
+const picking = (from: Meadow): Meadow =>
+  run(from, [
+    { kind: 'select', id: 'mushroom-1' },
+    { kind: 'tuft', foot: planeFootOf({ x: 0.4, z: 1.3, size: 0.28 }) },
+  ]);
+
+/**
+ * Bees left a minute among flowers each with room beside it, each tapped off
+ * its perch every two seconds, and the flowers they planted. The taps reach
+ * the take-offs a dusk's roost would otherwise forestall, where a bee plants.
+ */
 const plantedBy = (from: Meadow): number => {
   const sight = {
     ...SIGHT,
@@ -615,11 +626,16 @@ const plantedBy = (from: Meadow): number => {
       ...sight,
     }),
   );
-  const ticks = Array.from(
-    { length: 600 },
-    (_, index): Action => ({ kind: 'tick', now: index * 100, ...sight }),
-  );
-  return run(from, [...bees, ...ticks]).planted.length;
+  let meadow = run(from, bees);
+  for (let index = 0; index < 600; index++) {
+    const now = index * 100;
+    meadow = reduce(meadow, { kind: 'tick', now, ...sight });
+    if (index % 20 !== 19) continue;
+    for (const { id } of meadow.insects) {
+      meadow = reduce(meadow, { kind: 'startle', id, now, ...sight });
+    }
+  }
+  return meadow.planted.length;
 };
 
 describe('the dusk', () => {
@@ -639,13 +655,13 @@ describe('the dusk', () => {
     assert.equal(duskness(back, 2000 + DUSK_MS * 3), 0);
   });
 
-  it('shuts the flower picker, as the rain does', () => {
-    const meadow = run(opening(), [
-      { kind: 'select', id: 'mushroom-1' },
-      { kind: 'tuft', foot: planeFootOf({ x: 0.4, z: 1.3, size: 0.28 }) },
-    ]);
-    assert.ok(meadow.planting);
-    assert.equal(reduce(meadow, dusk(1000)).planting, undefined);
+  it('shuts the flower picker toward dusk, as the rain does, and leaves it toward day', () => {
+    const day = picking(opening());
+    assert.ok(day.planting);
+    assert.equal(reduce(day, dusk(1000)).planting, undefined);
+    const night = picking({ ...opening(), dusk: FULL_DUSK });
+    assert.ok(night.planting);
+    assert.equal(reduce(night, dusk(1000)).planting, night.planting);
   });
 
   it('keeps the bees from planting, where by day they plant', () => {
