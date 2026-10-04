@@ -21,9 +21,9 @@ is open below.
 ## The site is a wiki, not a blog
 
 **One body of knowledge, two registers.** The same material runs twice: in the
-channel as "here is what I have been thinking, and here is why", on the site as
+channel as "here is what I have been thinking, and here is why," on the site as
 an article that states the position — "here is why to choose the web client over
-the CLI". The channel post is dated and personal; the article is the thing you
+the CLI." The channel post is dated and personal; the article is the thing you
 send someone a year later.
 
 **Everything here is evergreen**, in the only sense the subject allows: a piece
@@ -38,7 +38,7 @@ Three things "wiki" does **not** mean here:
   everything else. The word is used in its popular sense — an encyclopaedia of
   lessons — because that sense has overtaken the technical one.
 - **Not balanced.** Every article takes a position: "here is why the web client,
-  not the CLI". The alternative is the cardboard that language models produce by
+  not the CLI." The alternative is the cardboard that language models produce by
   default — every approach has its pros and cons, weigh them for your context —
   and avoiding it is most of the point. Hence «Библия» as a working name: the
   self-irony is what keeps a categorical article from reading as a manifesto,

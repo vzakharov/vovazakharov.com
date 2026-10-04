@@ -128,8 +128,8 @@ You see the light — this is our bottom
 Don't be afraid, dear, shame is a lesson
 Go on, don't be shy, get on the hook
 
-[^medvedev-en]: An allusion to Medvedev’s “There’s no money, but you hang in there”.
+[^medvedev-en]: An allusion to Medvedev’s “There’s no money, but you hang in there.”
 
 [^adieu-en]: Together with the German that follows, an allusion to “Adieu, Goodbye, Auf Wiedersehen” (Rammstein — Adieu).
 
-[^klappe-en]: German for “shut your mouth”.
+[^klappe-en]: German for “shut your mouth.”

@@ -8,7 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/rak/main/%D0%9D%D0%B5%20%D1
 seconds: 219
 en:
   title: Не смотри
-  description: 'A very free translation of My Chemical Romance’s “Cancer”, begun in the early 2010s and finally heard out loud.'
+  description: 'A very free translation of My Chemical Romance’s “Cancer,” begun in the early 2010s and finally heard out loud.'
 ru:
   title: Не смотри
   description: 'Очень вольный перевод «Cancer» My Chemical Romance, начатый в начале десятых и наконец-то услышанный.'

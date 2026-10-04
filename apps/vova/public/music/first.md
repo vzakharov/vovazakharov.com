@@ -18,7 +18,7 @@ ru:
 
 <!-- lang:en -->
 
-I was seven or eight when I “made up” my first “song”. D minor, A major, G minor,
+I was seven or eight when I “made up” my first “song.” D minor, A major, G minor,
 A major — the simplest harmony there is, and it would have sunk without trace if
 my father hadn't heard me plinking away at the piano just then.
 

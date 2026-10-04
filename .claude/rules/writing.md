@@ -112,6 +112,8 @@ invented for it.
   language a draft is written in — Russian included, where the dash is ordinary
   and the fingerprint reads fainter. The prose around the text in a draft file is
   ordinary Markdown and uses whatever punctuation reads best.
+- **Commas and periods go inside closing quotes**, American style —
+  `.claude/rules/content.md` § "Punctuation around quotes" is the rule.
 - **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in
   the voice. Emoji as decoration, as bullet markers, or as enthusiasm is not.
   Text emoticons — `;-)` — are in the voice too.

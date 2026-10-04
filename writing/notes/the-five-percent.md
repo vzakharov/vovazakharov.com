@@ -113,7 +113,7 @@ because the reasoning closed. Nothing inside an account reports it was unchecked
 **19 September — a limitation written down instead of tested, twice.** The costs
 rule listed "the last turn of a session is never priced" as a gap; _что может
 этому помочь?_ — `ls ~/.claude/projects/` answers it. Same round, _is
-prices.json verified by anything?_ was one read from "essentially no".
+prices.json verified by anything?_ was one read from "essentially no."
 
 **21 September — a green test for a path production cannot reach.** The ledger's
 `subagents` bucket was always zero — the client writes subagent transcripts to
@@ -158,7 +158,7 @@ rules out. _медведь или по крайней мере сильно со
 
 **21–22 September — denials written in the commit that made them denials.**
 Moving `DocumentMeta`, the byline docstring closed on "rather than sharing it
-sideways", the pre-move state; adding `/feedback` after `/dictation`, the rider
+sideways," the pre-move state; adding `/feedback` after `/dictation`, the rider
 said it posts "on the PR" — not here, where the afterword used to live. Only a
 reader of the old tree asks either. _медведь?_, both times.
 
@@ -240,7 +240,7 @@ fields were per-locale, so every title and artist was spelled twice, identical
 for all but one release. The operator asked for a string or the pair.
 
 **23 September — a note on a line the translation had solved.** The crib gave
-"А сейчас вылетит…" as the photographer's "watch the birdie", then kept a note
+"А сейчас вылетит…" as the photographer's "watch the birdie," then kept a note
 explaining the Russian. Where the idiom exists in English the translation
 carries the reference; the note was there because notes were.
 
@@ -254,7 +254,7 @@ A choice made, written up and pinned by a test has three artifacts in front of
 it by the time anyone looks, each honest that it was deliberate and silent on
 its being right. "It warns where the repo could refuse" asks a future reader for
 attention; this buys immunity from the agent's own. A caveat conceding the defect files it as a cost,
-and a fix the agent just made arrives already wearing the verdict "done".
+and a fix the agent just made arrives already wearing the verdict "done."
 
 **21 September — a parameter, its docstring, and the test pinning it.** `oneOf`
 took a third argument, `subject`, so a failed check could name what was being
@@ -269,7 +269,7 @@ the literal types call sites read — so the agent argued two rounds over how
 
 **21 September — a tag invented for a word the platform had.** The content
 pipeline emitted `content-video-embed`, with two new traps in `content.md` and a
-docstring granting the tags "make the tree invalid HTML". _другой набор
+docstring granting the tags "make the tree invalid HTML." _другой набор
 аттрибутов, или что?_ — `toJsxRuntime` keys off the tag name, so `video` reaches
 the same component. The caveat had been the finding, filed as a cost.
 
@@ -334,11 +334,11 @@ named `path` and `vector` without why both exist, and the first move on _what's
 the difference_ was renaming `path`, which one site keeps an SVG in.
 
 **22 September — two rationales in one line, neither legible.** The agent rewrote
-the opener of `/feedback`'s "Posting it", folding two reasons into one sentence,
+the opener of `/feedback`'s "Posting it," folding two reasons into one sentence,
 and judged it done. _не очень понимаю что эта строчка говорит._
 
 **23 September — a metaphor, a squiggle, a live trap read as history.** A prop
-comment called the dimmed translation column "held back", which the operator
+comment called the dimmed translation column "held back," which the operator
 could not decode; Mantine's `__vars` carried a CSS variable a plain `style`
 would; a comment guarding a real trap read as archaeology until reworded. Each
 was plain to the agent that wrote it.

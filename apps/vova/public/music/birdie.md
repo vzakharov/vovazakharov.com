@@ -162,4 +162,4 @@ Birdie!
 Just say goodbye!
 I will survive.
 
-[^gorky-en]: An allusion to “Those born to crawl cannot fly” from Gorky’s “The Song of the Falcon”.
+[^gorky-en]: An allusion to “Those born to crawl cannot fly” from Gorky’s “The Song of the Falcon.”

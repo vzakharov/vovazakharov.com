@@ -9,7 +9,7 @@ seconds: 293
 album: vagabond
 en:
   title: Breathe
-  description: 'Written in Noteflight in June 2014 as “breathe, please, just breathe”, and re-recorded ten years later as the wind under Konyukhov’s balloon.'
+  description: 'Written in Noteflight in June 2014 as “breathe, please, just breathe,” and re-recorded ten years later as the wind under Konyukhov’s balloon.'
 ru:
   title: Повелитель ветра
   description: 'Написано в Noteflight в июне 2014-го как «дыши, пожалуйста, только дыши», а десять лет спустя перезаписано как дыхание ветра под шаром Конюхова.'
@@ -31,7 +31,7 @@ Western services and as `Полуживые - Скиталец: по следа�
 Music. I think the latter has already taken it down.) The ending came out
 different from the original notation, and, I think, much stronger for it.
 
-In the “reimagining”, this song is about Konyukhov's famous round-the-world
+In the “reimagining,” this song is about Konyukhov's famous round-the-world
 balloon flight, and _Breathe_ is the breath of the wind. In the Russian
 “localization” it is called _Повелитель ветра_ — which is the name of both the
 book and the film about that flight.

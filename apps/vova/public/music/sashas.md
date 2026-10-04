@@ -19,7 +19,7 @@ ru:
 <!-- lang:en -->
 
 Claude, when he was preparing the stand-in draft for this song, called it a
-“companion piece to [Двадцать](./first.md)”, which is apt enough. What he didn't
+“companion piece to [Двадцать](./first.md),” which is apt enough. What he didn't
 know is that this song — the poem, rather — was written by my sister, Sasha.
 Apart from the last, “father's” verse: that one I wrote, going from her paraphrase
 of discussing those very poems with her ChatGPT. A cross-generational,

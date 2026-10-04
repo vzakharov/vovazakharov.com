@@ -100,6 +100,6 @@ Life is beautiful, immeasurable, full, deep.
 And when you manage to live any given moment as a moment,
 I am the drop, and the rain, and the river.[^dad-en]
 
-[^source-en]: My father’s translation of Thích Nhất Hạnh’s gatha “Opening the Window”, from [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): “Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.”
+[^source-en]: My father’s translation of Thích Nhất Hạnh’s gatha “Opening the Window,” from [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): “Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.”
 
-[^dad-en]: In my father’s “translation” the line was «Ум мой ясен и чист, как большая река» — “my mind is clear and pure, like a great river”.
+[^dad-en]: In my father’s “translation” the line was «Ум мой ясен и чист, как большая река» — “my mind is clear and pure, like a great river.”

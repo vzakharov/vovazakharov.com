@@ -111,6 +111,16 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 
 **A callout is the other fence** — `:::callout` … `:::` — a note to the reader set as a card on the surface colour: a pointer elsewhere, a caveat, never someone's words, which is what a `>` quote would claim. Unlike the pull quote it is read and counted like any paragraph. `remark-content-directives.ts` names the directives that exist and **throws on any other**, naming the file — an unconverted directive would otherwise reach the page as its own `:::` text.
 
+## Punctuation around quotes
+
+**American, in every English sentence the repo's prose carries** — these
+collections' documents, the drafts under `writing/`, and the copy in `src/`: a
+comma or period after a quoted passage goes inside the closing quote
+(`“cheap,” and`, `reading "done."`), whether or not it belongs to the quotation
+and whatever the source's own style. A question mark, exclamation mark, colon or
+semicolon goes inside only when it is the quotation's own. Russian text keeps
+Russian rules, and code spans, fences and identifiers are not prose.
+
 ## Traps worth knowing
 
 - **A document's route reserves `.html` and `.txt`, and takes them without a word.** Those are the page and the RSC payload Next emits beside it, and a file in `public/` that collides with either is silently overwritten by the route's output — `next build` exits 0 and reports nothing. Every other extension is free, which is what makes `.md` and `.pdf` safe and leaves room for a third.

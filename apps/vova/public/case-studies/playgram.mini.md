@@ -32,7 +32,7 @@ Three reasons, in the order they mattered.
 
 ## What made it hard
 
-The Bubble export — the "code" in "no code", and the thing you feed an agent — is a single minified JSON of 11.6 MB. VS Code won't open it. Meanwhile the app was live and shipping features the whole time, the rewrite had to be pixel-perfect against a design the team had invested heavily in, and the data lived in Bubble's proprietary format with no easy path out. That last one is Part II's story.
+The Bubble export — the "code" in "no code," and the thing you feed an agent — is a single minified JSON of 11.6 MB. VS Code won't open it. Meanwhile the app was live and shipping features the whole time, the rewrite had to be pixel-perfect against a design the team had invested heavily in, and the data lived in Bubble's proprietary format with no easy path out. That last one is Part II's story.
 
 ## Setting the table
 
@@ -81,7 +81,7 @@ flowchart TD
     entities -->|394| shared
 ```
 
-Then 362 explicitly enabled lint rules, 28 of them hand-written, every one an `error` because "LLMs treat warnings as negotiable". They're worth the effort because an agent will cheerfully ignore a paragraph of your CLAUDE.md and will never once ship a lint error.
+Then 362 explicitly enabled lint rules, 28 of them hand-written, every one an `error` because "LLMs treat warnings as negotiable." They're worth the effort because an agent will cheerfully ignore a paragraph of your CLAUDE.md and will never once ship a lint error.
 
 The most feared guardrail of the lot is a script rather than a lint rule: `type-overlap` fails the build if any two type aliases declare the same member. Turning it on at full strength would have failed the build in hundreds of places, so it took a 26-day climb-down: at first it only complained when two types shared three or more fields, then two, then briefly back out to four when we improved the detector, and finally down to a single shared field — thirteen landings and about 1,300 file changes. Worth it, because of what it was written for: we once had a `tokenCounts: { input, output }` shape sitting beside DB columns named `inputTokens`/`outputTokens`. Both type-checked perfectly. Every usage log we wrote recorded zero. We found it months later, by accident.
 

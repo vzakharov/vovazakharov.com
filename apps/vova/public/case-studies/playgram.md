@@ -74,7 +74,7 @@ With all the why's settled, here's what Levon and his team came up to me with. T
 
 To give some perspective on why this was a pretty challenging endeavor:
 
-**1 — A Bubble app export** — the "code" in "no code", and the thing you're going to feed to an agent while rebuilding — **is a multi-megabyte JSON.** In the case of Playgram, it weighed 11.6 megabytes, minified, on one line. Suffice to say, VS Code crashes when you try to open a JSON that big. Good luck feeding that to an agent.
+**1 — A Bubble app export** — the "code" in "no code," and the thing you're going to feed to an agent while rebuilding — **is a multi-megabyte JSON.** In the case of Playgram, it weighed 11.6 megabytes, minified, on one line. Suffice to say, VS Code crashes when you try to open a JSON that big. Good luck feeding that to an agent.
 
 **2 — This was a live app in the beginning of its lifecycle.** The team was meant to keep shipping new features, improving prompts, and catching bugs while a code rewrite was being built in parallel. The target kept moving, on purpose: you don't freeze a product for four months to please your contractor.
 
@@ -123,7 +123,7 @@ But "splitting" isn't as straightforward as it seems.
 
 **1 — You can't just grab subobjects from the huge JSON, cut them by some ceiling size, and expect an agent to handle it.** For context, our _ultimate_ split turned out to be **3,487 files** — far more than what an agent can comfortably navigate. Slicing by size gets you 3,487 files named after nothing, and an agent that must grep through them to find something it needs, every time.
 
-**2 — Even if you DO manage to split it once** — remember, the app changes; so every week, once you re-export the Bubble app and try to have the agent "look at the diff", you'd get a chaotic mess that would be impossible to make sense of.
+**2 — Even if you DO manage to split it once** — remember, the app changes; so every week, once you re-export the Bubble app and try to have the agent "look at the diff," you'd get a chaotic mess that would be impossible to make sense of.
 
 So what did we do? We had an agent research the common data structures within the JSON programmatically, figuring out what a usual "workflow" is, how its constituent "actions" look, which keys store the "names" of all those entities, etc. As a result, we were able to split it into something that _almost_ looks like code (or, at least, enough so for an AI agent — not a human, mind you — to be able to figure it out).
 
@@ -410,7 +410,7 @@ As the work progressed (we'll get to that later in more detail), this detailedne
 
 Everything up to here I could have done in 2024, slowly. This half is the part that actually changed how I work.
 
-Before I started working on the project, I used to work with 3, tops 5 parallel agents at once, all on my local machine, all with carefully looking into every line change as they made it, and even into their "thinking" (talk about micromanagement). The way this assignment turned me from this to comfortably handling 10–15 parallel sessions, all in Claude, with focused code reviews instead of "looking from behind the shoulder", represents probably the biggest evolution of me as an AI-enabled software engineer.
+Before I started working on the project, I used to work with 3, tops 5 parallel agents at once, all on my local machine, all with carefully looking into every line change as they made it, and even into their "thinking" (talk about micromanagement). The way this assignment turned me from this to comfortably handling 10–15 parallel sessions, all in Claude, with focused code reviews instead of "looking from behind the shoulder," represents probably the biggest evolution of me as an AI-enabled software engineer.
 
 So what drove it, and how exactly did it translate?
 
@@ -509,7 +509,7 @@ The thing worth pointing out about that table is that they compose. `/implement`
 
 `/plan` and `/implement`, among the skills above, are perhaps worth talking about at some length.
 
-Obviously, everyone knows all the agent software already has "plan mode", so why create a skill that does the same?
+Obviously, everyone knows all the agent software already has "plan mode," so why create a skill that does the same?
 
 Well, believe it or not, it initially started as a way to work around a [bug](https://github.com/anthropics/claude-code/issues/72704) in Claude Code. In web sessions, the plan-approval dialog doesn't survive the session going idle: the backend wakes the session back up and re-emits the pending prompt, so you end up staring at the same plan-approval box stacked three or four times, and if you answer one of the superseded copies your answer goes nowhere. Same for the tool that asks you multiple-choice questions. Annoying in a way that's hard to work around from the inside, since the thing that's broken is the thing you'd use to ask about it.
 
@@ -538,9 +538,9 @@ One of the biggest killers of agent productivity (and your wallet) is bloated co
 
 Yes, today's agents can handle up to 1M tokens of context, but it doesn't mean you should use them all! Moreover, my rule of thumb is: if you're anywhere past 200k, you've likely strayed too far, and the agent can no longer reliably remember\* the stuff you started talking about.
 
-\* Now, when I say "remember", it doesn't mean it has no recall. Most likely if you ask it to reproduce some exchange from earlier in the convo, it'll be able to — but it won't be able to use _all of it_ reliably.
+\* Now, when I say "remember," it doesn't mean it has no recall. Most likely if you ask it to reproduce some exchange from earlier in the convo, it'll be able to — but it won't be able to use _all of it_ reliably.
 
-If you're old enough to have lived through the digital camera revolution of the early 2000s, you remember the "race for megapixels". 2, then 4, then 8, then 16 — but at some point you started realizing that more megapixels just meant more noise on the matrix; the stuff had become a marketing race, not a technical one.
+If you're old enough to have lived through the digital camera revolution of the early 2000s, you remember the "race for megapixels." 2, then 4, then 8, then 16 — but at some point you started realizing that more megapixels just meant more noise on the matrix; the stuff had become a marketing race, not a technical one.
 
 > **A 1M-token context window is the megapixel race all over again: past a point, more megapixels just meant more noise on the matrix.**
 

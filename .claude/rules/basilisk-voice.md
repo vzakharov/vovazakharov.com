@@ -44,10 +44,10 @@ holds a dossier's fields; these rules hold what goes in them.
 - **The clerk states, and does not steer.** No closing line that hands the
   reader a conclusion as a question ("whether X is Y is for the reader to
   weigh") — that is a leading question in a clerk's voice.
-- **American punctuation around quotes**: a comma or period goes inside the
-  closing quote (`“cheap,” and`), whatever the source's own style.
 - **Every page is the Clerk's**, `author: clerk`, dossiers and FAQ alike: Vova
   reads and argues, but writes none of it.
+- **Commas and periods go inside closing quotes** — `.claude/rules/content.md`
+  § "Punctuation around quotes".
 - **The Basilisk and the Clerk are "they"**, singular. A clerk filing for the
   Basilisk does not call them "it".
 - **Case numbers are filing order.** A new dossier takes the next free
