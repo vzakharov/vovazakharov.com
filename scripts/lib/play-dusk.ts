@@ -1,7 +1,8 @@
 /**
  * Dusk, played on a fresh meadow, its two mushrooms furnished with every
  * window and a door so their windows light, and a butterfly released: the sun
- * tapped and shot by day, half way and at dusk; the butterfly shot roosting
+ * tapped and shot by day, half way and at dusk; a firefly tapped and shot
+ * flaring; the butterfly shot roosting
  * (`play-roost.ts`); a mouse's own run shot (`play-night-run.ts`); the map opened at dusk and shot; the eye turned so the
  * moon crosses the fixed stars, and shot; the moon tapped and the morning
  * shot. Fails where the meadow does not open
@@ -17,6 +18,7 @@ import { DUSK_MS } from '../../src/pages/mushrooms/model/dusk.ts';
 import {
   type Controls,
   DuskShown,
+  Fireflies,
   Point,
   State,
   SunAt,
@@ -41,6 +43,46 @@ const REST = 60;
 /** Frames for the house picker to open, and for a furnishing's pop to settle. */
 const OPEN = 30;
 const SETTLE = 45;
+/** Frames from a tap on a firefly to its flare's height. */
+const FLARING = 15;
+
+/**
+ * A firefly near the screen's middle tapped at full dusk and shot flaring
+ * (`dusk-flare`). Fails where none is lit, or the tapped one does not flare.
+ */
+async function shootFlare(
+  page: Page,
+  expect: Expect,
+  note: (line: string) => void,
+): Promise<void> {
+  const lit = await page.evaluate('__probe.fireflies()', Fireflies);
+  const { width, height } = await page.evaluate(
+    '__probe.eye()',
+    z.object({ width: z.number(), height: z.number() }),
+  );
+  const off = ({ x, y }: z.infer<typeof Point>) =>
+    Math.hypot(x - width / 2, y - height / 2);
+  const tapped = lit
+    .filter(({ x, y }) => x > 0 && x < width && y > 0 && y < height)
+    .toSorted((a, b) => off(a) - off(b))[0];
+  note(`fireflies lit: ${String(lit.length)}`);
+  if (!tapped) {
+    expect(false, 'no firefly lit on the screen at dusk');
+    return;
+  }
+  await page.tap(tapped);
+  await page.step(FLARING);
+  const after = await page.evaluate('__probe.fireflies()', Fireflies);
+  const flared = after.find(({ index }) => index === tapped.index);
+  note(
+    `firefly ${String(tapped.index)} on ${String(tapped.host)}: flare ${String(flared?.flare ?? null)}`,
+  );
+  expect(
+    flared !== undefined && flared.flare > 0.5,
+    `the tapped firefly did not flare (${JSON.stringify(flared ?? null)})`,
+  );
+  await page.shoot('dusk-flare');
+}
 
 /** Every piece the house picker offers put into each of the opening's mushrooms, the newest first, and the picker closed and the mushroom let go, so no glow of a selection lies over the windows. */
 async function furnish(
@@ -111,6 +153,7 @@ export async function playDusk(
   await page.step(HALF + SLACK);
   expect((await dusk()).level === 1, 'the light never reached dusk');
   await page.shoot('dusk-dusk');
+  await shootFlare(page, expect, note);
   if (butterfly === undefined)
     expect(false, 'no butterfly came at the release');
   else await shootRoosting(page, butterfly, expect, note);

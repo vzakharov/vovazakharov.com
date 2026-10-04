@@ -80,6 +80,17 @@ export const PROBE_READS = `
       if (!at || at.x < 0 || at.x > scene.layout.width) return null;
       return { x: at.x, y: at.y };
     },
+    /**
+     * Each firefly lit now, by its place in the dozen: where it is drawn on
+     * the screen, the host it circles (\`cap:<id>\` or \`flower:<id>\`) and
+     * how far a tap's flare has it, 0 to 1.
+     */
+    fireflies: () =>
+      // The dusk view's and the firefly view's private fields: a rename breaks this at play time.
+      scene.dusk.fireflies.shown.flatMap(({ container, host, flaring }, index) =>
+        container.visible
+          ? [{ index, ...toScreen(container), host: host ?? null, flare: flaring }]
+          : []),
     /** Where the rainbow's picture stands across the screen, as \`sun\`. */
     rainbowAt: () => middleShown(scene.backdrop.rainbow),
     state: () => ({

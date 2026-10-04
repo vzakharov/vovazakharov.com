@@ -21,6 +21,7 @@ import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import type { PerchHosts, Seat } from './perch-hosts';
 import type { Scened } from './planter';
+import type { MeadowSound } from './sound';
 import { TAP_RADIUS } from './tap-reach';
 
 /** How many of the nearest hosts the fireflies spread over. */
@@ -69,8 +70,9 @@ type Shown = CircleFigure &
     host?: string;
     /** Where it was drawn as it left its last host, and when, so it glides to the next. */
     left?: Point & { at: number };
-    /** Where it was drawn last frame. */
+    /** Where it was drawn last frame, and how far its tap's flare had it (`flare`'s glow). */
     drawn?: Point;
+    flaring: number;
   };
 
 /** A host and where it stands this frame. */
@@ -91,7 +93,10 @@ export class FireflyView {
   private readonly shown: Shown[];
   private readonly ground: FireflyGround;
   private readonly now: () => number;
+  private readonly voice: Pick<MeadowSound, 'glint'>;
   private unit = 0;
+  /** The screen's width, in CSS px, a flare's chime is panned across. */
+  private width = 0;
   /** The texels the shapes were baked at for each CSS pixel. */
   private texel = 1;
 
@@ -100,8 +105,10 @@ export class FireflyView {
     depth: number,
     now: () => number,
     ground: FireflyGround,
+    voice: Pick<MeadowSound, 'glint'>,
   ) {
     this.now = now;
+    this.voice = voice;
     this.ground = ground;
     this.scene = scene;
     const glows = fireflies(ground.seed).map((genes) => {
@@ -128,10 +135,12 @@ export class FireflyView {
         .setVisible(false)
         .setInteractive(hit, containsCircle);
       const parts = { genes, container, glow, halo, body, tail, hit };
-      const shown: Shown = { ...parts, tappedAt: -Infinity };
+      const shown: Shown = { ...parts, tappedAt: -Infinity, flaring: 0 };
       // A firefly is not the meadow: its tap leaves the selection as it is.
       container.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
         shown.tappedAt = this.now();
+        const across = this.width > 0 ? container.x / this.width : 0.5;
+        this.voice.glint(Math.min(1, Math.max(-1, 2 * across - 1)));
       });
       return shown;
     });
@@ -141,6 +150,7 @@ export class FireflyView {
   paint(layout: MeadowLayout): void {
     const unit = layout.insectSize;
     this.unit = unit;
+    this.width = layout.width;
     // The camera's zoom is the device pixel ratio, which the layout's CSS
     // pixels are drawn at.
     const texel = this.scene.cameras.main.zoom * OVERSAMPLE;
@@ -267,6 +277,7 @@ export class FireflyView {
       if (way >= 1) shown.left = undefined;
     }
     shown.drawn = at;
+    shown.flaring = flared.glow;
     const lit = Math.min(1, tailGlow(genes, t) + flared.glow);
     for (const part of [container, glow]) {
       part

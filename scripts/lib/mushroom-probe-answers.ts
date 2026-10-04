@@ -136,6 +136,14 @@ export const DuskShown = z.object({
 });
 /** `__probe.sunAt()`: the sun's, or the moon's, screen point, `null` while it stands off the screen. */
 export const SunAt = z.object({ x: z.number(), y: z.number() }).nullable();
+/** `__probe.fireflies()`: each lit firefly by its place in the dozen, on the screen in CSS px, its host and its flare, 0 to 1. */
+export const Fireflies = z.array(
+  Point.extend({
+    index: z.number(),
+    host: z.string().nullable(),
+    flare: z.number(),
+  }),
+);
 /** `__probe.hitches()`: how long each lawn-tending call and each perch re-sight since the last call took, in ms. */
 export const Hitches = z.object({
   tend: z.array(z.number()),

@@ -30,9 +30,10 @@ export type Lights = Pick<Meadow, 'dusk'> & Layered;
 
 /**
  * What the turning light asks of the meadow's sound: a sinking slide toward
- * dusk, a rising one toward day, and the dusk's own sound each frame.
+ * dusk, a rising one toward day, the dusk's own sound each frame, and a
+ * firefly's chime as it flares.
  */
-type DuskSound = Pick<MeadowSound, 'sink' | 'grow' | 'dusk'>;
+type DuskSound = Pick<MeadowSound, 'sink' | 'grow' | 'dusk' | 'glint'>;
 
 /**
  * The light over the meadow: the backdrop relit (`relight`), the dusk wash
@@ -91,7 +92,7 @@ export class DuskView {
       .setDepth(hudDepth - 2)
       .setAlpha(0);
     this.moon = new MoonView(scene, this.glowDepth);
-    this.fireflies = new FireflyView(scene, this.glowDepth, now, ground);
+    this.fireflies = new FireflyView(scene, this.glowDepth, now, ground, sound);
   }
 
   /** Lays the wash over `layout`'s screen, draws the moon at the sun's size and the fireflies at the insects', and takes the sun `backdrop` baked. */

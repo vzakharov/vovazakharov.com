@@ -13,7 +13,7 @@ import { type Foot, FOOT_PAN, footstep } from './footsteps';
 import { SHY, TAKE_OFF } from './insect-voices';
 import { drumVoice, noteVoice } from './instrument-voices';
 import { RainVoice, whoosh } from './rain-voice';
-import { brownNoise, panned, tone, type Voice } from './synth';
+import { brownNoise, panned, PENTATONIC, tone, type Voice } from './synth';
 
 const LOUDNESS = 0.8;
 const BIRD_GAP_SECONDS = [5, 12] as const;
@@ -21,6 +21,8 @@ const BIRD_GAP_SECONDS = [5, 12] as const;
 const MORNING_CALLS = [0, 0.55, 1.3] as const;
 /** The most voices asked for before the synth starts that wait for it: a chord's worth. */
 const PENDING_VOICES = 5;
+/** The pentatonic's steps a firefly's chime rings, a rising fourth. */
+const GLINT_NOTES: ReadonlySet<number> = new Set([2, 4]);
 
 const pop: Voice = (context, out) => {
   tone(context, out, 'sine', [900, 240], 0.14, 0.3);
@@ -89,6 +91,21 @@ const wriggle =
 const squeak: Voice = (context, out) => {
   tone(context, out, 'sine', [1900, 2700, 2200], 0.16, 0.11);
   tone(context, out, 'sine', [2100, 2900], 0.1, 0.09, 0.2);
+};
+
+/**
+ * A firefly flaring: a soft two-note chime an octave over the flowers'
+ * pentatonic, so it sits in tune with whatever they play, each note with a
+ * faint bell's overtone.
+ */
+const glint: Voice = (context, out) => {
+  const notes = PENTATONIC.filter((_, at) => GLINT_NOTES.has(at));
+  for (const [index, note] of notes.entries()) {
+    const pitch = note * 2;
+    const delay = index * 0.08;
+    tone(context, out, 'sine', [pitch], 0.7, 0.05, delay);
+    tone(context, out, 'sine', [pitch * 2.76], 0.25, 0.008, delay);
+  }
 };
 
 /**
@@ -236,6 +253,11 @@ export class MeadowSound {
 
   squeak(): void {
     this.play(squeak);
+  }
+
+  /** A tapped firefly flaring at `pan` (-1 left to 1 right). */
+  glint(pan: number): void {
+    this.play(panned(glint, pan));
   }
 
   /**
