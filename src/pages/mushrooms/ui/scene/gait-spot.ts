@@ -41,9 +41,9 @@ export function gaitSpot(
   const sky = (spot: Circle) => standing(spot, groundTop, BUTTON_INSET);
   const free = (spot: Circle) => sky(spot) && picked(spot);
   const lines = besideLines(screen);
-  const freeBeside = lines.find(free);
+  const freeBeside = lines.find((spot) => free(spot));
   if (freeBeside) return { gait: freeBeside, yielding };
-  const givingBeside = lines.find(sky);
+  const givingBeside = lines.find((spot) => sky(spot));
   const freeElsewhere = givingBeside ? undefined : nearestSpot(screen, free);
   if (freeElsewhere) return { gait: freeElsewhere, yielding };
   const giving =
@@ -65,7 +65,7 @@ function nearestSpot(
   fits: (spot: Circle) => boolean,
 ): Circle | undefined {
   const { map, width, height } = screen;
-  const beside = besideLines(screen).find(fits);
+  const beside = besideLines(screen).find((spot) => fits(spot));
   if (beside) return beside;
   let nearest: { spot: Circle; distance: number } | undefined;
   // The grid runs through the map button's centre, so the spots in line with it are on it.
@@ -94,8 +94,10 @@ function nearestSpot(
  */
 function besideLines({ map, releases }: GaitScreen): Circle[] {
   const insects = Object.values(releases);
-  const last = (line: Circle[], along: (button: Circle) => number) =>
-    line.reduce((end, button) => (along(button) > along(end) ? button : end));
+  const last = (line: Circle[], along: (button: Circle) => number) => {
+    const end = Math.max(...line.map((button) => along(button)));
+    return line.find((button) => along(button) === end) ?? map;
+  };
   const rowEnd = last(
     [map, ...insects.filter((button) => button.y === map.y)],
     (button) => button.x,
@@ -104,18 +106,15 @@ function besideLines({ map, releases }: GaitScreen): Circle[] {
     [map, ...insects.filter((button) => button.x - button.r === map.x - map.r)],
     (button) => button.y,
   );
-  const step = (button: Circle) => tapReach(button.r) + tapReach(GAIT_R);
-  const rightOf = (button: Circle) => ({
-    x: button.x + step(button),
-    y: button.y,
-    r: GAIT_R,
-  });
-  const under = (button: Circle) => ({
-    x: button.x,
-    y: button.y + step(button),
-    r: GAIT_R,
-  });
-  return [rightOf(map), under(map), rightOf(rowEnd), under(columnEnd)];
+  const next = (button: Circle, across: 0 | 1) => {
+    const step = tapReach(button.r) + tapReach(GAIT_R);
+    return {
+      x: button.x + step * across,
+      y: button.y + step * (1 - across),
+      r: GAIT_R,
+    };
+  };
+  return [next(map, 1), next(map, 0), next(rowEnd, 1), next(columnEnd, 0)];
 }
 
 /**
