@@ -35,8 +35,9 @@ reddit.com answers this container's cloud IP with a 403. No key is needed:
   `robotics`, `LocalLLaMA`, `ChatGPT`, `technology`, `nottheonion`. A
   `Timeout. Maybe slow down a bit` is answered by waiting and narrowing, not
   by dropping the subreddit.
-- Its vote and comment counts are frozen at the moment it archived a post, so
-  they measure nothing about reach.
+- A post is archived within a minute of going up and fetched once more 48 hours
+  later, so its vote and comment counts read near zero until then and as they
+  stood on the second day after — a measure of reach only past that point.
 
 A thread is a lead, never the source of a fact: the press or the primary record
 it points at is what `## Facts` cites. A thread that is itself part of the
