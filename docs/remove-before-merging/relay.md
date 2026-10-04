@@ -1,7 +1,7 @@
 # Relay summary
 
-Relay depth: **4 of 8** for the successor, read off `get_session`'s
-`lineage` (this session was `{"depth":3,"limit":8}`). **Never count the
+Relay depth: **5 of 8** for the successor, read off `get_session`'s
+`lineage` (this session was `{"depth":4,"limit":8}`). **Never count the
 depth by hand** — call `get_session` with no id and read `lineage.depth`;
 only at `depth == limit` does a session hand the operator a line instead of
 relaying with `create_session`.
@@ -174,112 +174,124 @@ Added this session:
   `S.dusk.moon.face` and the fireflies' `[s.container, s.glow]` now —
   `perf.md`). Frame times on this shared machine are noise.
 
+Added this session:
+
+- **The operator plays a local build** (`git pull`), not the Artifact,
+  most of the time: «играю локально, не в артефакт». A "still broken" from
+  him may be an unpulled tree — ask nothing, but say which commit fixed it.
+- **Briefs that end in "run the play and look" run out** (three of three
+  this session, megabeast `subagents.md`); brief the look as its own agent
+  or expect a successor.
+
 ## 2. The conversation
 
 > /relay take claude/mushroom-game-syama-lbirv7 (the standing pickup rules)
 
-Reply: attached (already on the branch), plan claimed, three agents: call
-10 from `wt/b3`, fireflies' hosts, crickets.
+Reply: attached (stale local ref renamed aside to
+`stale/mushroom-game-syama-lbirv7-9c390d9`), plan claimed, six one-step
+agents (types, walk play, mice, fireflies, grass band, gait button);
+Artifact v27 published. Then each landing reported in a line.
 
-> [3 images: grass tufts above the brow at dusk; the old petal moon; a photo of the man in the moon] сумерки классные, но есть пара замечаний, не знаю учтённых ли уже:
->
-> 1- трава прорастает за пределами горизонта (почему-то только в сумерках, днём всё ок)
-> 2- луна с лучами выглядит красиво, но не очень по-лунному. Я бы лучше сделал просто круг, но возможно с "лицом" (которое дети иногда видят на луне -- но конечно оно не должно быть страшным). Как это совместить с "мандальностью" -- креативная задачка
-> 3- на сумерках значительно медленнее отрисовка, мой M2 Pro даёт наверное 20 fps где-то. Возможно, это светлячки, возможно ещё что-то
+> [screenshot: day meadow, a porcini and a fly agaric house half a screen apart, mice at both doors] про мышек -- ну вот на таком расстоянии всё ещё не бегут :)
 
-> а, карта ночью тоже должна выглядеть приглушённо
+> (полэкрана)
 
-Reply: none were tracked; four agents (grass, moon, perf, map). Reported
-each as it landed: grass (rooted under the brow), the map (two passes —
-the first too bright, sent back), the moon (sleeping face, beaded halo;
-frame sent), the butterfly, the moon-tap bug, mice, perf findings
-(per-frame re-tessellation; fireflies +24 draw calls).
+Reply: the reach fix (0e80d99) landed after v27; published v28; also it
+was day in the shot, and by day runs are tap-only; offered day runs of
+their own if he wants.
 
-> всё выглядит хорошо. пара замечаний:
->
-> 1- в какой-то момент движение от перетаскивания перестало привязыватьяс к шагам, сейчас можно перелететь буквально на 50 метров за один свайп. Вообще такая механика тоже интересная, особенно если поле будет большое, но как базу "шаги" хочется оставить. Я бы сделал справа от карты, тоже поменьше чем картинки насекомых, значок который отображает либо шаги либо какой-то символ для "полёта". Не знаю, можно ли в "полёте" чуть поднять камеру, или это меняет всю модель мира, но если можно было бы классно (типа видим чуть дальше, чуть с бОльшей дымкой)
-> 2- неподвижные травинки около горизонта (не те которые по-другому нарисованы, а те которые тоже "шатаются") в сумерках выглядят не очень. Днём их почти не видно на ярком, поэтому это не сбивает, а в сумерках то что они всегда остаются на месте сбивает.
+> а, да, просто не пульнул (играю локально, не в артефакт).
 
-Reply: two agents (steps, horizon tufts); the toggle comes after steps;
-a raised eye looks feasible (`EYE_HEIGHT`), to be confirmed. Told him the
-context budget would relay the session once the agents reported, with the
-figures. Then reported steps (ccfff90d lifted the cruise cap; flight kept
-as a gait; the walk play not yet adapted), glow/stars, the tufts, the moon
-bake.
+Reply: after `git pull` mice run by tap and at dusk.
 
-> поиграл, перформанс ощутимо лучше 👍
->
-> вопрос: мышка пока так и не перебегает между грибами -- это будет позже?
+> мышки сами бегающие по ночам это просто восхитительно, целый город можно сделать
 
-Reply: it landed (d11c830) and ran in our play; listed the conditions
-(past half dusk, a house on screen with a mouse home, another door in
-sight and in reach, every 6–12 s, else a silent peek). **Asked, unanswered:
-(1) the Artifact (v26, no mice, no perf) or a local build? (2) how many
-houses with doors, did mice peek by day?**
+Reply: banter; floated two ideas into the piggy bank, not built: worn
+paths where mice run often; a guest mouse lighting a second window.
+
+> фонарщики это светлячки :)
+
+Reply: proposed fireflies lighting the windows as they fly past (not
+built, not asked for yet).
+
+Then the gait button (68bafe1, frames sent), the risen eye (frames sent:
+"the meadow slid down"), and:
+
+> ну, как по мне, так плюс-минус норм. что должно быть больше видно -- логично, да
+
+Reply: 1.2× kept; the far flower band landed (1228765, frame sent); told
+him the band's ends sink behind the bending brow on phoneL and that I
+left it. Then the review's three agents; reported read1's three visible
+findings and **asked: day outings back to a short reach, keeping taps and
+night runs wide — unless he wants day runs across the screen (no answer
+yet)**. Also told him the phoneP gait button floats mid-sky and is left
+until he says (no answer). Then the context warning and this relay.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, for Syama; the Artifact playable
-after every bite. Finish bite 17 (`bite-17.md` § Left), then the saving
+after every bite. Finish bite 17 (`bite-17.md` § Left: the review's
+fixes, then polish, vet, frames, Artifact, retirements), then the saving
 bite (`saving.md`), then `relay finalize`, no merge.
 
 ## 4. Decisions
 
-- **Steps are the drag's base; flight is `Walk.gait: 'steps' | 'flight'`**
-  (ae1d5fc), flight being ccfff90d's ground-under-the-finger. The toggle
-  sets `this.walk = { ...this.walk, gait }` in `eye-input.ts` (`st.md`).
-- **The moon**: a full moon, a face of soft seas (closed eyes, smile,
-  cheeks), no outlines but the disc's ink, three halo rings and 24 beads;
-  the compass moon is the same drawing at 7 px.
-- **The sun/moon's drawn disc wins a tap over a cloud's box**; past the
-  disc a cloud wins.
-- **The map at dusk**: a shade in `DUSK.groundDeep` × 0.56 under its
-  things, the wash over them; its windows do not glow.
-- **Clouds are erased from the baked moon**, not masked (drawing clouds
-  above it would leave them unwashed and over the fliers).
-- **Grass dims at dusk** (`turfAt(dusk)`, `DUSK.tuft` darkened to
-  0x5a8858); the horizon band is ground-rooted (`SEAM_BAND`).
+- **Steps are the drag's base; flight is a toggle** beside the map button
+  (`gait-spot.ts` places it where no other control moves — 858 sizes
+  compared); flight stands the eye 1.2× (`FLIGHT_RISE`), eased 0.5 s,
+  horizon rows fixed.
+- **A far flower band** (8, `far-band.ts`) only flight reveals; steps'
+  opening is byte-identical. Its ends sinking behind the bending brow is
+  accepted.
+- **Mice run to any door in sight** (no `RUN_REACH`), long runs sped to
+  6 s. The review found day outings widened too: the proposed call is to
+  gate day outings to a short reach, keeping taps and night runs wide.
+- **Grass band perf further cuts are not pursued** — the operator: perf
+  waits until it is critical.
 
 ## 5. Errors and dead ends
 
-- The map's first dusk pass (wash only) stayed bright; the meadow gets the
-  dusk bake as well — a shade layer matched it.
-- `perf.md`'s "halos then bodies" did not batch in Phaser 4: a container
-  needs its own blend mode.
-- The perf agent ran out after measuring; one agent per piece fixed it.
-- The steps agent ran out before the walk play (Left 2).
+- `gt`, `fe`, `fe3` each ran out before their look; successors finished.
+- `gt`'s first approach moved other buttons to make room (two layout tests
+  red, an unplanned tablet-portrait row shift); redone as "nothing else
+  moves".
+- `gt` once made a worktree inside the shared checkout (`base-gt/`); it
+  removed it.
+- Artifact publish: the resend went through only after a `Read` of the
+  saved live copy (megabeast `gates.md`).
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
-  `MERGEABLE` at pickup.
-- Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite` →
-  `bite-17.md` § "Built so far" and § "Left" (ordered).
-- **`pnpm type-overlap` is red** (Left 1).
-- Artifact still v26 — the operator's "перформанс лучше" suggests a local
-  build. No agent running; no `wt/` ref but the old `wt/g37`.
+  `MERGEABLE`.
+- Plan `docs/plans/mushroom-game-syama.paused.md`; `bite-17.md` § Left 1
+  (review fixes, ordered) and 2 (polish, vet, frames, Artifact, retire).
+- **The review is reported, not posted**: three files under
+  `docs/remove-before-merging/bite-17/review-*.md`, frames under
+  `docs/remove-before-merging/frames/bite-17/review/`.
+- Artifact v28 (at 593a4b6: no gait button, no risen eye, no far band).
+- No agent running; no `wt/` ref but the old `wt/g37`. A local branch
+  `stale/mushroom-game-syama-lbirv7-9c390d9` exists in this container only.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama/bite-17.md` — Built, Left.
-- `docs/remove-before-merging/bite-17/` — `brief-common.md`, one note per
-  package (`st.md` steps/flight, `g2.md` the band, `perf.md`, `pf.md`,
-  `pw.md`, `pm.md`, `moon.md`, `map.md`, `mt.md`, `b.md`, `c2.md`, `c3.md`).
-- `docs/remove-before-merging/frames/bite-17/` — this bite's frames.
-- `docs/plans/mushroom-game-syama/saving.md` — the next bite.
+- `docs/plans/mushroom-game-syama/bite-17.md` — Built so far, Left.
+- `docs/remove-before-merging/bite-17/review-play.md`, `review-read1.md`,
+  `review-read2.md` — the findings with their Asks; `fe.md` (risen eye,
+  ground haze design), `gt.md`, `mc.md`, `mr.md`, `ff.md`, `gb.md`,
+  `wp.md`, `tov.md`, `brief-common.md`.
+- `docs/plans/mushroom-game-syama/to-check.md` — the firefly chime added.
 - `.claude/skills/megabeast/notes/` by its `README.md`.
-- This session: https://claude.ai/code/session_014CKzk3vHzy7GuqaHCAbjFc
+- This session: https://claude.ai/code/session_01LTGjV5v8KKHxygXyctDu3o
 
 ## 8. Next step
 
 go
 
-(Resume bite 17 from `bite-17.md` § "Left", one Opus agent per step, in
-parallel where files don't collide: type-overlap red; the walk play for
-steps; mice at the operator's (watch for his answer to the two questions);
-the steps/flight toggle with a lifted eye; firefly probe/flare/sound; the
-band's cost; then the review, polish, vet in two calls, frames, **publish
-the Artifact** (he has not seen any of this session's work there), retire
-bite 16's frames. Then the saving bite, then `relay finalize`. Reply in
-Russian, «ты».)
-
+(Resume bite 17 at `bite-17.md` § Left 1: post the review as one review on
+PR #57 from the three files, then one Opus agent per finding, in parallel
+where files don't collide; then Left 2 — polish, vet in two calls,
+frames, **publish the Artifact**, retire bite 16's frames and the working
+notes. Watch for the operator's answers on day outings and the phoneP gait
+button. Then the saving bite, then `relay finalize`. Reply in Russian,
+«ты».)
