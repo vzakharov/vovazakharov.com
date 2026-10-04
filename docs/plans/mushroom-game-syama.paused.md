@@ -385,7 +385,7 @@ product («сейчас это развлечение для одного реб
 вернёмся когда и если это станет критичным»): the play prints its 26 ms
 budget line and does not fail on it (1946a63).
 
-## This bite
+## Rest of the bite
 
 18\. **Dusk**, item 17: a tap on the sun brings dusk, the moon's takes it
 back; windows glow, flowers close, fliers settle, mice run, fireflies and

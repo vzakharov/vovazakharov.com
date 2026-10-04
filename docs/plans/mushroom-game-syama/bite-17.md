@@ -133,6 +133,12 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
   the stars are their own graphics, not baked, faded near the moon; clouds
   pass in front of the moon by masks, the moon staying above the wash.
   Artifact v26.
+- **Package B so far**: lit windows, house by house, looked at and tuned
+  (8cf326c8, 73d8c647); flowers close at dusk, bees plant none, the `dusk`
+  turn shuts the flower picker as rain does (73d8c647).
+- **Package C so far**: the sun gone by mid-turn and the moon rising after
+  it, no double rosette (`sunUp`/`moonUp`); twelve fireflies waking by
+  `duskness`, flared by a tap (9ea434ac).
 - **Off the bite, from the operator**: the porcini's cap fill flickered
   (~10 Hz, since bite 8) — its margin's crescent crossed itself at the
   corners and re-triangulated per frame. `crescent` (now pure in
@@ -141,9 +147,20 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
 
 ## Left
 
-Packages B and C beside each other (C first makes the sun-to-moon hand-over
-clean: half way, the two rosettes ghost over each other); the review,
-polish, vet, frames, the Artifact; retire bite 16's frames.
+In this order, each an Opus agent briefed on one step:
+
+1. **Call 10, landed from `wt/b3`** (6a734888, pushed; the agent's worktree
+   died with its container): `model/roost.ts`, fliers settling, wings shut —
+   built and unit-tested, never landed. `b.md` item 3: apply
+   `b3-play.patch` (fails eslint), run the play, look, run `fliers.test.ts`
+   once, land, delete `wt/b3`.
+2. **Fireflies circle their hosts** — they bunch at the brow and in open
+   grass (`c.md`, three suspects); then `__probe.fireflies()`, a flare shot
+   in the `dusk` play, a flare sound.
+3. **Crickets** (call 13), `c.md` step 3, and the day's birds going quiet at
+   dusk.
+4. **Call 11, mice run** (`b.md` item 4).
+5. The review, polish, vet, frames, the Artifact; retire bite 16's frames.
 
 Off the bite, from the operator: the map's ✕ («крестик на карте
 по-прежнему выглядит странно», then «дело в самом кружке. попробовать без
