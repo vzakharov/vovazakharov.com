@@ -81,13 +81,12 @@ function cardPage(filed: FiledCase): string {
         font-size: 23px;
         line-height: 1.5;
       }
-      dt { color: ${INK_DIM}; text-transform: uppercase; letter-spacing: 0.04em; }
+      dt, .filed { color: ${INK_DIM}; text-transform: uppercase; letter-spacing: 0.04em; }
       /* A memo line is one line, as on the page; the type is sized to fit the longest. */
       dd { margin: 0; white-space: nowrap; }
       /* A title is a sentence, not a memo line: it wraps, and stops at three. */
       section { border-top: 2px solid ${INK}; padding-top: 24px; font-size: 23px; line-height: 1.5; }
       section p { margin: 0; }
-      .filed { color: ${INK_DIM}; text-transform: uppercase; letter-spacing: 0.04em; }
       .title {
         display: -webkit-box;
         -webkit-box-orient: vertical;
