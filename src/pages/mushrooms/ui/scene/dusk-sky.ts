@@ -6,6 +6,7 @@
  */
 
 import type { Circle, Point } from '../../model/geometry';
+import { smooth } from '../../model/motion';
 import { cloudBox } from './cloud-puffs';
 import { STAR_RAY_REACH } from './dusk-stars';
 import { shiftOf } from './panorama';
@@ -22,6 +23,8 @@ const MOON_RISE = 0.5;
  * at the halo's edge is gone, one this much further out shows whole.
  */
 const STAR_FADE = 0.3;
+/** How far toward dusk the sun is gone and the moon starts to show. */
+const HAND_OVER = 0.5;
 
 /**
  * The sun's place on the screen as `view` shows it, unsunk: where the moon
@@ -34,6 +37,20 @@ export function sunOnScreen(view: View, sun: Circle): Circle {
 /** How far below its place the sun stands `level` of the way to dusk, in CSS px. */
 export function sunSunk(r: number, level: number): number {
   return SUN_SINK * r * level;
+}
+
+/**
+ * How much of the sun shows `level` of the way to dusk, 1 by day: gone by
+ * `HAND_OVER`, before the moon shows at all, so the two rosettes never lie
+ * one through the other.
+ */
+export function sunUp(level: number): number {
+  return 1 - smooth(level / HAND_OVER);
+}
+
+/** How much of the moon shows `level` of the way to dusk: none until `HAND_OVER`, whole at dusk. */
+export function moonUp(level: number): number {
+  return smooth((level - HAND_OVER) / (1 - HAND_OVER));
 }
 
 /** How far below the sun's place the moon stands `level` of the way to dusk, in CSS px. */

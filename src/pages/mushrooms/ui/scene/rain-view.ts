@@ -6,6 +6,7 @@ import type { Action } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import { widthFor, wobble } from '../../model/motion';
 import { downpour, type Rain, raining } from '../../model/weather';
+import { sunUp } from './dusk-sky';
 import type { MeadowLayout } from './layout';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
@@ -129,9 +130,9 @@ export class RainView {
 
   /**
    * Sets the sky for the frame at the scene's clock, under the meadow's span
-   * `rain`, `dusk` of the way to dusk (`DuskView.level`): the sun, its glow
-   * and the rainbow fade toward dusk, so no rainbow follows a shower that
-   * ends there.
+   * `rain`, `dusk` of the way to dusk (`DuskView.level`): the sun and its
+   * glow are gone by half way (`sunUp`), before the moon shows, and the
+   * rainbow fades toward dusk, so none follows a shower that ends there.
    */
   update(rain: Rain | undefined, dusk: number): void {
     const t = this.now();
@@ -154,13 +155,12 @@ export class RainView {
       if (!twin.visible || azimuth === undefined) continue;
       shade(twin, cloudDarkness(showers, ms, cloudLag(azimuth, leadAzimuth)));
     }
-    const day = 1 - dusk;
-    const rainbow = rainbowShown(showers, ms) * day;
+    const rainbow = rainbowShown(showers, ms) * (1 - dusk);
     // Alpha only: `follow` shows and hides the columns as the eye turns.
     for (const column of backdrop.rainbow.columns) {
       column.setAlpha(RAINBOW_DEEPEST * rainbow);
     }
-    const sun = sunShown(wetness) * day;
+    const sun = sunShown(wetness) * sunUp(dusk);
     for (const column of [...backdrop.sun.columns, ...backdrop.glow.columns]) {
       column.setAlpha(sun);
     }

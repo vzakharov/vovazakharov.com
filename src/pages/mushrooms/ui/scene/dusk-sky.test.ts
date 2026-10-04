@@ -8,10 +8,12 @@ import {
   duskReach,
   moonAt,
   moonBelow,
+  moonUp,
   onTheSun,
   starClear,
   sunOnScreen,
   sunSunk,
+  sunUp,
 } from './dusk-sky';
 import { duskStars, STAR_RAY_REACH } from './dusk-stars';
 import { meadowLayout } from './layout';
@@ -37,6 +39,22 @@ describe('the sun and the moon as the light turns', () => {
     assert.equal(moonBelow(40, 1), 0);
     assert.deepEqual(moonAt(sun, 1), sun);
     assert.ok(moonAt(sun, 0.5).y > sunY);
+  });
+
+  it('hand over: the sun gone before the moon shows, either way', () => {
+    assert.equal(sunUp(0), 1);
+    assert.equal(moonUp(0), 0);
+    assert.equal(sunUp(1), 0);
+    assert.equal(moonUp(1), 1);
+    for (let step = 0; step <= 100; step++) {
+      const level = step / 100;
+      assert.ok(
+        sunUp(level) === 0 || moonUp(level) === 0,
+        `both show at ${String(level)}`,
+      );
+      assert.ok(sunUp(level) <= sunUp(Math.max(0, level - 0.01)));
+      assert.ok(moonUp(level) >= moonUp(Math.max(0, level - 0.01)));
+    }
   });
 
   it('stand where the view turns the sun to', () => {

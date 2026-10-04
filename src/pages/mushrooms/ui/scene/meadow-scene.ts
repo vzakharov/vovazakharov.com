@@ -172,7 +172,11 @@ export class MeadowScene extends Phaser.Scene {
     this.map.mount(this, HUD_DEPTH - 0.5, actions.map);
     const lit = [this, HUD_DEPTH, this.now, this.scened.dispatch] as const;
     this.rain = new RainView(...lit, this.voice);
-    this.dusk = new DuskView(...lit, this.voice);
+    const ground = { ...this.scened, beds: () => this.beds() };
+    this.dusk = new DuskView(...lit, this.voice, {
+      ...ground,
+      seed: this.visitSeed,
+    });
     this.paint();
     this.bed.reconcile(this.meadow, this.requireLayout(), this.clock, true);
     const { instrument, flowers, eye, planter, voice, map } = this;
