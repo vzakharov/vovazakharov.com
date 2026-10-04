@@ -1,13 +1,13 @@
 /**
  * The gait button beside the map's, flipped to flight and back, each shot
  * close, and the whole meadow shot once the eye has risen (`g-lifted`) and
- * settled again (`g-settled`), from the spot `m0-closed` shows. Then the map, played on a fresh meadow: opened, shot mid-unfold and open, and
- * shut by a tap on the sheet; opened over the `+` picker, which shuts; opened
- * again once three mushrooms have grown, the newest furnished, a flower is
- * planted and the eye has walked; opened over a flick, then shut by Escape,
- * which a second press leaves shut; opened by `m` and shut by it again; and
- * opened on a russula grown where the
- * flick left the eye, given a door. Fails on a map that does not open or
+ * settled again (`g-settled`), from the spot `m0-closed` shows. Then the map,
+ * played on a fresh meadow: opened, shot mid-unfold and open, and shut by a
+ * tap on the sheet; opened over the `+` picker, which shuts; opened again
+ * once three mushrooms have grown, the newest furnished, a flower is planted
+ * and the eye has walked; opened over a flick, then shut by Escape, which a
+ * second press leaves shut; opened by `m` and shut by it again; and opened on
+ * a russula grown where the flick left the eye, given a door. Fails on a map that does not open or
  * shut, leaves the child or a flower off the sheet, mirrors the view or draws
  * fewer things than the meadow holds; on a picker left open over it, or an
  * eye that moves under it; on a gait button that does not flip the gait.

@@ -232,9 +232,9 @@ export type Flee = { to: string; wait: number };
  * field: each to the door `emptiestNear` picks, the ones already sent
  * counted there, one every `FLEE_EVERY`, running while the sinking house is
  * drawn; with it or every other door out of sight, counted in at once at the
- * nearest door on the field. With no other door standing they sink with the house. The
- * mice that stay or sink are gone from `mice`; the ones counted in at once
- * are in it; the ones running are in `fleeing`, for the scene's runs.
+ * nearest door on the field. With no other door standing they sink with the
+ * house. The mice that stay or sink are gone from `mice`; the ones counted in
+ * at once are in it; the ones running are in `fleeing`, for the scene's runs.
  */
 export function scattered(
   mice: Mice,

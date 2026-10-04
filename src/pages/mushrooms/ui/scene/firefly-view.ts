@@ -85,11 +85,10 @@ type Hosted = WithId & { seat: Seat };
  * The fireflies of dusk, drawn at `DuskView.glowDepth` over the wash: each
  * circles a mushroom or a flower near the eye (`model/firefly.ts`), keeps it
  * while it stays on the screen and glides to another when it goes; a tap
- * flares one and lifts it before it settles back to its ring.
- * Each is two containers moved together, its halo's and its body's, every
- * halo made before every body: the display list then holds all the added
- * halos and then all the bodies, two batches where a halo between bodies
- * would break one per firefly. Every shape is a texture baked in `paint`.
+ * flares one and lifts it before it settles back to its ring. Each is two
+ * containers moved together, its halo's and its body's, and every halo is
+ * made before every body, so the dozen draw in two batches rather than one
+ * per firefly. Every shape is a texture baked in `paint`.
  */
 export class FireflyView {
   private readonly scene: Phaser.Scene;

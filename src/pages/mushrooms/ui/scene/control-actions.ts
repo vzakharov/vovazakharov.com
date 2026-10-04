@@ -9,8 +9,8 @@ import type { MeadowSound } from './sound';
 
 /**
  * What the buttons act through: the scene's voice and reducer, the repaint
- * of the controls themselves, the map's switch, the eye's gait, and the arrivals and the
- * planter, whose own handlers the buttons call straight.
+ * of the controls themselves, the map's switch, the eye's gait, and the
+ * arrivals and the planter, whose own handlers the buttons call straight.
  */
 export type ControlScene = Pick<Scened, 'dispatch'> & {
   voice: MeadowSound;

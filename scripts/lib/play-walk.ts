@@ -13,8 +13,9 @@
  * from bare ground, the same way, and `c` held, never past the cruise, walk
  * it square to its heading, never turning it; in flight a drag down the
  * screen carries the ground under the finger; and the screen turned keeps
- * the eye where it stood and looking where it looked. Frames of the opening, the walk, the walk back, a quarter and a
- * half turn and the strafes land as `walk-*.png`.
+ * the eye where it stood and looking where it looked. Frames of the opening,
+ * the walk, the walk back, a quarter and a half turn and the strafes land as
+ * `walk-*.png`.
  */
 
 import { z } from 'zod';

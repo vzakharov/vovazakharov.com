@@ -2,14 +2,14 @@
  * Dusk, played on a fresh meadow, its two mushrooms furnished with every
  * window and a door so their windows light, and a butterfly released: the sun
  * tapped and shot by day, half way and at dusk; a firefly tapped and shot
- * flaring; the butterfly shot roosting
- * (`play-roost.ts`); a mouse's own run shot (`play-night-run.ts`); the map opened at dusk and shot; the eye turned so the
- * moon crosses the fixed stars, and shot; the moon tapped and the morning
- * shot. Fails where the meadow does not open
- * in full day, a tap on the sun does not turn the light toward dusk and reach
- * it, the moon leaves the screen on a short turn, or a tap on the moon does
- * not bring the day back. `playDark` is the opening on a dark page, which
- * must stand at full dusk from the first frame. How it looks is for the eye.
+ * flaring; the butterfly shot roosting (`play-roost.ts`); a mouse's own run
+ * shot (`play-night-run.ts`); the map opened at dusk and shot; the eye turned
+ * so the moon crosses the fixed stars, and shot; the moon tapped and the
+ * morning shot. Fails where the meadow does not open in full day, a tap on
+ * the sun does not turn the light toward dusk and reach it, the moon leaves
+ * the screen on a short turn, or a tap on the moon does not bring the day
+ * back. `playDark` is the opening on a dark page, which must stand at full
+ * dusk from the first frame. How it looks is for the eye.
  */
 
 import { z } from 'zod';

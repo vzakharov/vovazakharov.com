@@ -1,10 +1,10 @@
 /**
  * The mice's own runs at dusk, as a pure rule of the meadow's tick: every
  * `NIGHT_GAP` (seeded) a mouse home in a house drawn now runs to another
- * door drawn now, by `mouse-run.ts`'s target, or peeks with none. The scene hands the
- * tick its doors and counts (`Burrows`) and plays each new `NightRuns.last`
- * as a run or a peek; by day the rule rests and the timer starts afresh at
- * the next dusk.
+ * door drawn now, by `mouse-run.ts`'s target, or peeks with none. The scene
+ * hands the tick its doors and counts (`Burrows`) and plays each new
+ * `NightRuns.last` as a run or a peek; by day the rule rests and the timer
+ * starts afresh at the next dusk.
  */
 
 import { type Dusk, dusky } from './dusk';

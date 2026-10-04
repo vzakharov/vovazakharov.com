@@ -43,10 +43,10 @@ type DuskSound = Pick<MeadowSound, 'sink' | 'grow' | 'dusk' | 'glint'>;
  * The light over the meadow: the backdrop relit (`relight`), the dusk wash
  * over everything under the HUD, the sun sinking and fading and the moon
  * rising in its place as it turns, the tap on either that turns it, and the
- * fireflies that wake at dusk (`FireflyView`).
- * Every level is set each frame from the meadow's `dusk` and the clock, so a
- * repaint never interrupts a turn. The sun's and its glow's alpha are the
- * rain view's, which reads `level`.
+ * fireflies that wake at dusk (`FireflyView`). Every level is set each frame
+ * from the meadow's `dusk` and the clock, so a repaint never interrupts a
+ * turn. The sun's and its glow's alpha are the rain view's, which reads
+ * `level`.
  */
 export class DuskView {
   /**

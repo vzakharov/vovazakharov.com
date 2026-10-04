@@ -4,9 +4,9 @@
  * `q w e r` white's, `.`/`/` the octave down and up; while held, `←`/`→`
  * turn the eye, `↑`/`↓` walk it on and back, and `z`/`c` walk it sideways
  * to its left and right, any of them together; `m` opens the map and shuts
- * it, as its button does, and `Esc` only shuts it. Keys
- * are read by `event.code`, where they sit rather than what they print, so a
- * Russian layout plays the same.
+ * it, as its button does, and `Esc` only shuts it. Keys are read by
+ * `event.code`, where they sit rather than what they print, so a Russian
+ * layout plays the same.
  */
 
 import type { Direction } from '../../model/cruise';

@@ -78,10 +78,10 @@ export type ControlHandlers = {
 };
 
 /**
- * The buttons over the meadow: the map, the gait, `+`, `−`, the house and one per insect,
- * and the pickers — the four caps `+` opens, the windows and door the house
- * does, and the flower picker a tuft or a held flower opens, its five
- * colours standing where the house's five do, a flower's with the cross
+ * The buttons over the meadow: the map, the gait, `+`, `−`, the house and one
+ * per insect, and the pickers — the four caps `+` opens, the windows and door
+ * the house does, and the flower picker a tuft or a held flower opens, its
+ * five colours standing where the house's five do, a flower's with the cross
  * that pulls it up, and then its four shapes where the caps do.
  * Each presses in when a tap sets it acting; one that cannot act shakes its
  * head instead. A picker comes up one button after another and goes the same

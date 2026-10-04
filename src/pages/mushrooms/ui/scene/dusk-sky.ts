@@ -1,8 +1,8 @@
 /**
  * Where the sun and the moon stand as the light turns, what of the sky a tap
  * on either reaches, which stars the moon's halo leaves showing and which
- * clouds pass in front of it: pure,
- * from the sun's screen point and the meadow's `duskness`.
+ * clouds pass in front of it: pure, from the sun's screen point and the
+ * meadow's `duskness`.
  */
 
 import type { Circle, Point } from '../../model/geometry';

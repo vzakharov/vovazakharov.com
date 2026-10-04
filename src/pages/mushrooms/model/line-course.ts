@@ -1,8 +1,7 @@
 /**
- * A course to a point on a line: from `origin` along the unit way `ahead`,
- * `aim` units on (back for less than 0). A drive on it asks toward the aim
- * from wherever it stands and brakes to rest exactly there, `covered`
- * hearing every length it moves.
+ * A course to a point on a line (`Aimed`) along the unit way `ahead`. A drive
+ * on it asks toward the aim from wherever it stands and brakes to rest
+ * exactly there, `covered` hearing every length it moves.
  */
 
 import { type Course, type Direction, wayOf } from './cruise';

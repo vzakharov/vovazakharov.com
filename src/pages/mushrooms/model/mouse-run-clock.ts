@@ -139,9 +139,10 @@ export type RunMoment = {
 /**
  * Where `course` has its mouse `elapsed` seconds after it began: it peeks
  * out and looks toward its target, hops down to the ground, runs at
- * `RUN_PACE` along its course (faster past `RUN_MOST`), hops up into the target's doorway, and
- * the door shuts behind it. Each door opens and shuts smoothly round the
- * legs that use it; a called target's opens at once and waits.
+ * `RUN_PACE` along its course (faster past `RUN_MOST`), hops up into the
+ * target's doorway, and the door shuts behind it. Each door opens and shuts
+ * smoothly round the legs that use it; a called target's opens at once and
+ * waits.
  */
 export function runAt(elapsed: number, course: RunCourse): RunMoment {
   const span = spans(course);

@@ -56,9 +56,10 @@ export type Viewed = Point & Scaling & { ahead: number };
 
 /**
  * Where `camera` shows `point` on the plane, `height` above it in the clump's
- * size, to `eye` standing `camera.eyeHeight` above it: across by its azimuth off the heading the shorter way
- * round, `arc` px to the radian, so a thing behind the eye stands off the
- * screen's side; down by its distance, bent (`bendAt`).
+ * size, to `eye` standing `camera.eyeHeight` above it: across by its azimuth
+ * off the heading the shorter way round, `arc` px to the radian, so a thing
+ * behind the eye stands off the screen's side; down by its distance, bent
+ * (`bendAt`).
  */
 export function viewOf(
   camera: Camera & Raised,
