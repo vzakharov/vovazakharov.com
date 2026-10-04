@@ -322,6 +322,11 @@ runs a file at a time, `fliers.test.ts` alone (~354 s).
 `tmp/mushroom-artifact/`, Phaser from jsDelivr at the lockfile's version,
 republished in place at the URL on the PR.
 
+**Keeping.** A meadow survives a reload (bite-18.md): numbered in the hash
+(`meadow-number.ts`), settled at rest (`keeping.ts`), a versioned zod record
+(`kept-record.ts`) kept in IndexedDB by `api/`, opened in `start-game.ts`
+and handed over by `meadow-keeping.ts`; no storage or a fault plays fresh.
+
 **The house's dwellers.** Mouse counts, targets and taps are
 `model/mouse-run.ts`; a door's seat is `door-seats.ts`'s, as the current eye
 sees its mushroom, else alone, and stays where it was seated; a run's course and clock (`mouse-run-course.ts`,
@@ -357,6 +362,7 @@ The bites, each file its full contract:
     windows glow, flowers close, fliers settle, mice run, fireflies and
     crickets wake; steps or flight, a far flower band —
     [bite-17.md](mushroom-game-syama/bite-17.md). Artifact v29.
+19. **The meadow is kept** — [bite-18.md](mushroom-game-syama/bite-18.md). Artifact v30.
 
 ## Rest of the elephant
 
@@ -377,44 +383,14 @@ re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
 `airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
 anchors, or slice it as `Tended` slices the lawn).
 
-After this bite: the Artifact republished, `/relay /finalize`. Nothing goes around the
-canvas — no way home, no footer link, no reduced-motion or assistive-tech
+Every bite is eaten; what is left is `/relay /finalize`. Nothing goes around
+the canvas — no way home, no footer link, no reduced-motion or assistive-tech
 layer: the game opens straight on the meadow for one child, not a store
 product («сейчас это развлечение для одного ребёнка, а не продукт для
 апстора»), until the operator widens it.
 
-**Performance waits** until the operator asks («к перформанс улучшениям
-вернёмся когда и если это станет критичным»): the play prints its 26 ms
-budget line and does not fail on it (1946a63).
-
-## Rest of the bite
-
-**The meadow is kept** — the last bite, from
-[saving.md](mushroom-game-syama/saving.md): meadows numbered in the URL hash,
-kept in IndexedDB after every action, saved at rest with the time of day, the
-format versioned, no storage meaning no keeping. Its thirteen calls and its
-steps (S1–S6, one agent each) are
-[bite-18.md](mushroom-game-syama/bite-18.md).
-
-Built: S1 (settling, `model/keeping.ts`, `flier-rest.ts`), S2 (the zod
-record, `model/kept-record.ts`; the hash, `meadow-number.ts`), S3
-(`openingWalk`'s start), S4 (`api/`: store, `openKept`, keeper), S5a (the
-scene opens on the kept meadow, `ui/scene/meadow-opening.ts`), S6's `keep`
-play written (red until S5b) with a browser context per play. Left:
-
-- **S5b** — the keeper wired into `meadow-scene.ts` (440 of its 448 cap):
-  `docs/remove-before-merging/bite-18/s5a-opening.md` § "Left for S5b".
-- **A new `meadow` play red on tabL**: "the butterfly sent away is still in
-  the meadow" (×2), since the seed is now drawn after the store's open, so a
-  seeded play run plays another meadow. Trace it as its own agent: game or
-  harness.
-- The `keep` play run and a look at its three frames.
-- The tail: the whole suite once, `/polish` (with
-  `docs/remove-before-merging/bite-18/polish-items.md`), vet as two calls,
-  frames to `frames/bite-18/` and bite 17's retired, the Artifact
-  republished (it opens fresh: no storage in the sandbox), the review agent,
-  `to-check.md`'s hand checks (spec § 3's end, plus call 5's refused write),
-  the fold, then `relay finalize`.
+**Performance waits** for the operator («к перформанс улучшениям вернёмся
+когда и если это станет критичным»): the 26 ms line prints, never fails.
 
 ## DRY notes
 
