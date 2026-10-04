@@ -20,7 +20,11 @@ export function FileLink({ href, download, children }: FileLinkProps) {
       size="sm"
       className={cx('print-hidden', hoverDim)}
     >
-      {children}
+      {/* On the span, not the anchor: Umami cancels a click on a tagged anchor
+          and follows its href itself, which drops `download`. */}
+      <span data-umami-event="download" data-umami-event-file={href}>
+        {children}
+      </span>
     </Anchor>
   );
 }

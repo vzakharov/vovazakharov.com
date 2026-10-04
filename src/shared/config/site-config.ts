@@ -86,7 +86,17 @@ export type SiteConfig = Billed & {
    * whether its work is its own or published under another name.
    */
   credit: SiteCredit | undefined;
+  /** The site's website ID in Umami — public by design, as every page's HTML carries it. */
+  analyticsId: string;
 };
+
+/**
+ * The Umami tracker, self-hosted on Railway under the author's domain so it
+ * loads first-party. Renamed from Umami's default `script.js`, its collect
+ * endpoint from `/api/send`, by the service's `TRACKER_SCRIPT_NAME` and
+ * `COLLECT_API_ENDPOINT` — the names blocklists know.
+ */
+export const ANALYTICS_SCRIPT_URL = 'https://stats.vovazakharov.com/app.js';
 
 /** One person publishes every site, so none of them owns the byline. */
 const PUBLISHER = {
@@ -135,6 +145,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     avatar: AVATAR,
     seal: undefined,
     credit: undefined,
+    analyticsId: '06b87bb7-2383-42e5-9625-521627a743b0',
     ...PUBLISHER,
   },
   lsa: {
@@ -145,6 +156,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     avatar: AVATAR,
     seal: undefined,
     credit: undefined,
+    analyticsId: '1d5168b8-0a1b-42ff-bf4f-006e903fd1d8',
     ...PUBLISHER,
   },
   bible: {
@@ -162,6 +174,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     },
     seal: { path: '/seal.svg', ...SEAL_SIZE },
     credit: LSA_CREDIT,
+    analyticsId: 'dd2ebf96-920c-478d-a060-708a10e42cf4',
     ...PUBLISHER,
   },
 };
