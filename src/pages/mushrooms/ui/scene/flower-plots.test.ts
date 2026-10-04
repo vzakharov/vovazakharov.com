@@ -4,24 +4,29 @@ import { describe, it } from 'node:test';
 import { pick } from '@/shared/lib/collections';
 
 import { anchorOf } from '../../model/anchor';
+import { NEAR_FLOWERS } from '../../model/flower-sounds';
 import { reduce } from '../../model/game';
 import { distanceBetween } from '../../model/geometry';
 import {
   anchored,
   CLUMP_DISTANCE,
+  downOf,
   groundFootOf,
   OPENING_EYE,
   unanchored,
 } from '../../model/ground';
 import { openingIndex } from '../../model/placement';
 import { isBeeSown, type Sown } from '../../model/pollen';
-import { mulberry32, nextSeed } from '../../model/random';
+import { between, mulberry32, nextSeed } from '../../model/random';
 import { anchoredStand } from './anchored-stand';
+import { FAR_BAND } from './far-band';
 import {
   FLOWER_SIZE,
   FLOWERS_APART,
   FOOT_CLEARANCE,
+  type Footing,
   HEAD_REACH,
+  NEAR_BAND,
 } from './flower-layout';
 import {
   flowerFeet,
@@ -318,4 +323,65 @@ describe('a tablet’s meadow', () => {
       });
     }
   }
+});
+
+/** How many random screens, and visits on each, the slot pairing is read over. */
+const PAIRED_SCREENS = 200;
+const PAIRED_VISITS = 20;
+
+/** Whether `foot` stands in the band of the slot seeded flower `id` was dealt (`firstFlowers`). */
+function inOwnBand(id: string, foot: Footing): boolean {
+  const slot = Number(id.slice('flower-'.length)) - 1;
+  const [top, bottom] = (slot < NEAR_FLOWERS ? NEAR_BAND : FAR_BAND).down;
+  const down = downOf(groundFootOf(foot).z);
+  return down >= top - SAME_GROUND && down <= bottom + SAME_GROUND;
+}
+
+describe('the seeded flowers by slot', () => {
+  it('stand every flower on its own slot’s band, over random screens and visits, a slot left out or not', () => {
+    const random = mulberry32(0x51_07);
+    const anchor = WALKED[0] ?? OPENING_EYE;
+    for (let screen = 0; screen < PAIRED_SCREENS; screen++) {
+      const width = Math.round(between(random, 320, 2560));
+      const height = Math.round(between(random, 320, 1600));
+      for (const seed of VISITS.slice(0, PAIRED_VISITS)) {
+        const stand = opened(seed, width, height, false);
+        const where = `visit ${String(seed)} on ${String(width)}×${String(height)}`;
+        const { flowers, layout } = stand;
+        assert.equal(layout.flowers.length, flowers.length, where);
+        // One near slot left out, as a slot with no spot leaves it.
+        const out = Math.floor(random() * NEAR_FLOWERS);
+        const thinned = {
+          ...stand,
+          layout: {
+            ...layout,
+            flowers: layout.flowers.map((place, slot) =>
+              slot === out ? undefined : place,
+            ),
+          },
+        };
+        for (const [held, judged] of [stand, thinned].entries()) {
+          const standing = flowersOf(judged);
+          for (const { id, foot } of standing) {
+            assert.ok(inOwnBand(id, foot), `${where}: ${id} off its band`);
+          }
+          if (held === 0) continue;
+          const outId = flowers[out]?.id;
+          assert.ok(
+            standing.every(({ id }) => id !== outId),
+            where,
+          );
+          const opening = new Map(standing.map(({ id, foot }) => [id, foot]));
+          for (const { id, foot } of flowersOf(anchoredStand(judged, anchor))) {
+            const own = opening.get(id);
+            assert.ok(own, `${where}: ${id} stands only when anchored`);
+            assert.ok(
+              distanceBetween(unanchored(anchor, foot), own) < SAME_GROUND,
+              `${where}: ${id} moved when anchored`,
+            );
+          }
+        }
+      }
+    }
+  });
 });

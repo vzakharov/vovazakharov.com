@@ -72,7 +72,9 @@ const FEET: readonly Foot[] = [
           down: down(y),
           haze,
         })),
-        ...layout.flowers.map(({ y }) => ({ down: down(y), haze: 0 })),
+        ...layout.flowers.flatMap((foot) =>
+          foot ? [{ down: down(foot.y), haze: 0 }] : [],
+        ),
       ];
     }),
   ),

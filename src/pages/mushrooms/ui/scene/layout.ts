@@ -22,7 +22,13 @@ import { openingPan, screenOf } from '../../model/pan';
 import { clumpCrowns, type MushroomGround } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import { FAR_BAND } from './far-band';
-import { flowersOn, type Footing, NEAR_BAND, seededBed } from './flower-layout';
+import {
+  type Bed,
+  flowersOn,
+  type Footing,
+  NEAR_BAND,
+  seededBed,
+} from './flower-layout';
 import { gaitSpot } from './gait-spot';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
 import { type Cloud, skyClouds } from './panorama';
@@ -94,7 +100,7 @@ export type MeadowLayout = Sized &
     clouds: readonly Cloud[];
     /** How the mushrooms stand, each by its foot (`placeIn`), as the opening eye judges them (`anchoredGround`). */
     mushrooms: MushroomGround;
-    flowers: readonly Footing[];
+    flowers: Bed;
     /** The unit a butterfly's genes are painted in. */
     insectSize: number;
     /** The unit each kind's genes are painted in, the butterfly's `insectSize`. */
@@ -134,7 +140,7 @@ export function meadowLayout(
  */
 const KEPT = 8;
 const stood = new Map<string, Stood>();
-const beds = new Map<string, Footing[]>();
+const beds = new Map<string, Bed>();
 
 /** `make()`, kept in `store` under `key` among the latest `KEPT`. */
 function keptIn<Kept>(
@@ -168,7 +174,7 @@ function stoodMeadow(width: number, height: number): Stood {
 const BED_SCREEN = { width: 1180, height: 820 } as const;
 
 /** `seededBed` on the world against `openers`, kept for the visits placed last. */
-function keptBed(seed: number, openers: readonly Opener[]): Footing[] {
+function keptBed(seed: number, openers: readonly Opener[]): Bed {
   const key = [
     String(seed),
     ...openers.map(

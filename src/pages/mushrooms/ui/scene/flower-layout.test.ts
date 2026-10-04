@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { pick } from '@/shared/lib/collections';
+
 import { flowerGenes } from '../../model/flower-genes';
 import {
   NEAR_FLOWERS,
@@ -17,6 +19,7 @@ import {
 } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,
+  downOf,
   gathered,
   groundFootOf,
   planeFootOf,
@@ -25,7 +28,10 @@ import { geneBounds } from '../../model/mushroom-genes';
 import { mulberry32 } from '../../model/random';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
+import { FAR_BAND } from './far-band';
 import {
+  bandSlots,
+  type Bed,
   FLOWER_SWAY,
   FLOWERS_APART,
   FOOT_CLEARANCE,
@@ -33,6 +39,8 @@ import {
   groundOf,
   laidFlower,
   MOST_SHADED,
+  NEAR_BAND,
+  seededBed,
   standingOn,
   widestHead,
 } from './flower-layout';
@@ -73,11 +81,16 @@ function visitsOn(width: number, height: number): Opened[] {
   return known;
 }
 
-/** The visit's seeded bed on the plane, read back off the screen it opened on. */
-function bedOf({ layout }: Opened): Footing[] {
-  return layout.flowers.map((place) =>
-    planeFootOf(groundOf(layout.camera, place)),
+/** The visit's seeded bed on the plane, slot by slot, read back off the screen it opened on. */
+function slotsOf({ layout }: Opened): Bed {
+  return layout.flowers.map(
+    (place) => place && planeFootOf(groundOf(layout.camera, place)),
   );
+}
+
+/** The feet of the visit's seeded bed that stand (`slotsOf`). */
+function bedOf(visit: Opened): Footing[] {
+  return slotsOf(visit).filter((foot) => foot !== undefined);
 }
 
 /** Every head of `flower` as drawn: at rest, and leant either way by the breeze. */
@@ -167,6 +180,58 @@ describe('laidFlower', () => {
   });
 });
 
+describe('seededBed', () => {
+  it('keeps every slot’s entry, in its own band, where slots find no spot', () => {
+    const { camera, mushrooms } = meadowLayout(1180, 820, 1);
+    const bands = [NEAR_BAND, FAR_BAND];
+    const slots = bands.flatMap((band) =>
+      Array.from({ length: bandSlots(band) }, () => band),
+    );
+    // A control as wide as the world over the ground below its top row
+    // leaves the near band's slots out, and none of the far band's.
+    const reach = 1e6;
+    const opening = {
+      ...pick(
+        camera,
+        'width',
+        'height',
+        'groundTop',
+        'ground',
+        'world',
+        'unit',
+      ),
+      ...pick(mushrooms, 'frame'),
+      controls: [
+        { x: camera.world / 2, y: camera.groundTop + reach, r: reach },
+      ],
+      clump: [],
+    };
+    let out = 0;
+    let after = 0;
+    for (const seed of VISITS.slice(0, 20)) {
+      const bed = seededBed(opening, seed, bands);
+      assert.equal(bed.length, slots.length);
+      for (const [slot, foot] of bed.entries()) {
+        if (!foot) {
+          out += 1;
+          continue;
+        }
+        if (out > 0) after += 1;
+        const [top, bottom] = slots[slot]?.down ?? [Number.NaN, Number.NaN];
+        const down = downOf(groundFootOf(foot).z);
+        assert.ok(
+          down >= top - SAME_GROUND && down <= bottom + SAME_GROUND,
+          `visit ${String(seed)}: slot ${String(slot)} off its band`,
+        );
+      }
+    }
+    assert.ok(
+      out > 0 && after > 0,
+      `${String(out)} out, ${String(after)} after`,
+    );
+  });
+});
+
 describe('the seeded flowers', () => {
   it('sound each seeded sound once in each half of the world', () => {
     const every = sounds(
@@ -200,6 +265,7 @@ describe('the seeded flowers', () => {
     it(`come back to the same ground from the plane, for a visit opened on a ${name} screen`, () => {
       for (const { layout } of visitsOn(width, height).slice(0, 40)) {
         for (const place of layout.flowers) {
+          if (!place) continue;
           const ground = groundOf(layout.camera, place);
           const back = groundFootOf(planeFootOf(ground));
           assert.ok(
@@ -217,7 +283,7 @@ describe('the seeded flowers', () => {
       let shown = 0;
       for (const [index, visit] of visits.entries()) {
         const seed = (VISITS[index] ?? 0) ^ 0xf1_0e_25;
-        const bed = bedOf(visit);
+        const bed = slotsOf(visit);
         for (const [screen, across, down] of EITHER_WAY) {
           const there = meadowLayout(
             across,
@@ -227,6 +293,10 @@ describe('the seeded flowers', () => {
           );
           assert.equal(there.flowers.length, bed.length);
           for (const [at, place] of there.flowers.entries()) {
+            if (!place) {
+              assert.equal(bed[at], undefined);
+              continue;
+            }
             const foot = groundOf(there.camera, place);
             const own = bed[at] && groundFootOf(bed[at]);
             assert.ok(own);
@@ -399,7 +469,10 @@ describe('the seeded flowers', () => {
     it(`keep every flower shorter than the clump's stems on a ${name} screen`, () => {
       const [visit] = visitsOn(width, height);
       assert.ok(visit);
-      const { flowers, mushrooms } = visit.layout;
+      const { mushrooms } = visit.layout;
+      const flowers = visit.layout.flowers.filter(
+        (place) => place !== undefined,
+      );
       const stem = Math.min(
         ...visit.mushrooms.flatMap((mushroom) => {
           const place = placeIn(mushrooms, mushroom);

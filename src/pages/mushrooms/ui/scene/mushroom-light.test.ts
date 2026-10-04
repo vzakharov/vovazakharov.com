@@ -435,7 +435,8 @@ function flanks(layout: MeadowLayout, place: Placement, seed: number) {
 describe('the meadow’s light', () => {
   for (const [name, width, height] of VIEWPORTS) {
     const layout = meadowLayout(width, height, VISITS[0] ?? 0);
-    const { sun, mushrooms, flowers } = layout;
+    const { sun, mushrooms } = layout;
+    const flowers = layout.flowers.filter((foot) => foot !== undefined);
 
     it(`lights every mushroom on the side facing the sun, as strongly as it is sideways, on a ${name} screen`, () => {
       let overhead = 0;
@@ -485,7 +486,8 @@ const flyAgaricIn = (place: Placement, seed: number) =>
 describe('the meadow’s light by heading', () => {
   for (const [name, width, height] of VIEWPORTS) {
     const layout = meadowLayout(width, height, VISITS[0] ?? 0);
-    const { sun, mushrooms, flowers } = layout;
+    const { sun, mushrooms } = layout;
+    const flowers = layout.flowers.filter((foot) => foot !== undefined);
     const light = sunLight(layout);
 
     it(`lights every thing at the opening eye from the sun as seen where it stands, on a ${name} screen`, () => {

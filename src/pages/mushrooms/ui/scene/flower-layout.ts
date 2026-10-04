@@ -154,9 +154,16 @@ export function groundOf(camera: Camera, { x, y, size }: Footing): GroundFoot {
   return { x: (x - at.x) / at.scale, z, size: size / at.scale };
 }
 
-/** Each foot of `bed` as `camera` shows it. */
-export function flowersOn(camera: Camera, bed: readonly Footing[]): Footing[] {
-  return bed.map((foot) => standingOn(camera, foot));
+/**
+ * The visit's seeded flowers' feet, one entry per slot in the order
+ * `firstFlowers` deals the flowers, so the flower at an index stands on that
+ * slot's foot: `undefined` where its slot found no spot (`seededBed`).
+ */
+export type Bed = ReadonlyArray<Footing | undefined>;
+
+/** Each foot of `bed` as `camera` shows it, a slot left out still left out. */
+export function flowersOn(camera: Camera, bed: Bed): Bed {
+  return bed.map((foot) => foot && standingOn(camera, foot));
 }
 
 /**
@@ -426,25 +433,28 @@ function spotOn(
  * The visit's seeded flowers' feet on the plane, laid out once on `opening`'s
  * ground: band by band of `bands`, the left half's slots, then the right's,
  * each flower at its slot's first spot there that a child sees (`spotOn`),
- * left out when it has none. Each slot draws from a stream of its own, a
- * band's on past every slot of the bands before it, so a band added after
- * moves no flower of those.
+ * its entry `undefined` when it has none, so every later slot keeps its
+ * index (`Bed`). Each slot draws from a stream of its own, a band's on past
+ * every slot of the bands before it, so a band added after moves no flower
+ * of those.
  */
 export function seededBed(
   opening: FlowerGround,
   seed: number,
   bands: readonly Band[],
-): Footing[] {
-  const bed: GroundFoot[] = [];
+): Bed {
+  const bed: Array<Footing | undefined> = [];
+  const placed: GroundFoot[] = [];
   let stream = seed;
   for (const band of bands) {
     for (let half = 0; half < BED_HALVES; half++) {
       for (const slot of band.spots.entries()) {
-        const foot = spotOn(opening, band, half, slot, stream, bed);
-        if (foot) bed.push(foot);
+        const foot = spotOn(opening, band, half, slot, stream, placed);
+        if (foot) placed.push(foot);
+        bed.push(foot && planeFootOf(foot));
       }
     }
     stream += bandSlots(band);
   }
-  return bed.map((foot) => planeFootOf(foot));
+  return bed;
 }
