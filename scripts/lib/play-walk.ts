@@ -11,8 +11,9 @@
  * from the horizon only a few steps, none tapping anything, nor a drag with
  * a mushroom selected or the flower picker open on a tuft; a sideways drag
  * from bare ground, the same way, and `c` held, never past the cruise, walk
- * it square to its heading, never turning it; and the screen turned keeps the eye where it stood and looking where it
- * looked. Frames of the opening, the walk, the walk back, a quarter and a
+ * it square to its heading, never turning it; in flight a drag down the
+ * screen carries the ground under the finger; and the screen turned keeps
+ * the eye where it stood and looking where it looked. Frames of the opening, the walk, the walk back, a quarter and a
  * half turn and the strafes land as `walk-*.png`.
  */
 
@@ -53,6 +54,7 @@ import {
   WALKING,
   Walking,
 } from './play-walk-checks.ts';
+import { playFlightDrag } from './play-walk-flight.ts';
 import { playHorizonSwipe } from './play-walk-swipe.ts';
 
 /** Frames enough for a held key's ease and a glide to come to rest. */
@@ -294,6 +296,7 @@ export async function playWalk(
     (await taps()) === tapsBefore,
     'walking, turning and strafing tapped something',
   );
+  await playFlightDrag(page, controls, camera, expect, note);
   await playHeldDrags(page, controls, expect, note);
 
   // The screen turned: the eye stands where it stood, looking where it looked.
