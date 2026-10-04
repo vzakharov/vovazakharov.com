@@ -160,7 +160,7 @@ export const CREATURES = {
   wingVein: 0x5a_6a_7e,
   /** A firefly: its dark body, its tail's yellow-green light and the softer halo round it. */
   firefly: {
-    body: 0x2e_26_1e,
+    body: 0x24_1e_18,
     tail: 0xf2_ff_8a,
     halo: 0xc6_f0_4a,
   },
