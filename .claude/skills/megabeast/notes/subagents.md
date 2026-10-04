@@ -350,7 +350,9 @@
   170k reading and landed only a fact sheet — where the sun's azimuth lives,
   each painter's arguments, the seam to hang on — and its successor, briefed
   "read the note first, open only what it names, first commit within ~50k",
-  landed all three steps. The skill should plan that pair: a reader that
+  landed all three steps. Bite 17's light package, briefed as eight calls
+  over the backdrop, the bakes, the scene and the play, landed only its
+  model at 183k, the rest a patch and a design. The skill should plan that pair: a reader that
   writes the fact sheet and the next step's design, then builders briefed
   "build it" with the sections to open and nothing wider.
 - **A numeric bar in an orchestrator's call names what it protects.** The

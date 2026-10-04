@@ -116,3 +116,34 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
   closing, fliers settling, mice running; the dusk play extended to shoot
   them.
 - **C — fireflies and crickets** (calls 12–13), after A lands, beside B.
+
+## Built so far
+
+- **Call 1, the model** (3225fce3): `model/dusk.ts` (`Dusk`, `DUSK_MS`,
+  `FULL_DAY`, `FULL_DUSK`, `duskness`, `dusky`, `turned`), `Meadow.dusk`
+  opening at `FULL_DAY`, the `dusk` action. A turn reversed midway takes
+  its share of `DUSK_MS`, so the light moves at one pace; the action
+  changes only `dusk`; a dark page gets `FULL_DUSK` from the scene.
+- **Call 5's palette half**, a patch, not source:
+  `docs/remove-before-merging/bite-17/a-light-step2.patch` (eslint fails two
+  rules on it; `a-light.md` says how to fix them).
+- **The rest of package A is designed** in
+  `docs/remove-before-merging/bite-17/a-light.md`: the sky and ground get
+  dusk bakes, while the hills, brow and clouds — drawn live — take blended
+  tones and cloud twins (a departure from "a second bake", call 5);
+  `DuskView` exposes `glowDepth` and `level`, the seam B and C draw at; the
+  sun's tap sounds `voice.sink()`, the moon's `voice.grow()`, a cloud in
+  front of the sun taking the tap first.
+- **Off the bite, from the operator**: the porcini's cap fill flickered
+  (~10 Hz, since bite 8) — its margin's crescent crossed itself at the
+  corners and re-triangulated per frame. `crescent` (now pure in
+  `crescent.ts`) cuts any loop in its inner edge (d74b08c8,
+  `porcini-margin.test.ts`).
+
+## Left
+
+Package A's rest, from `a-light.md` — its agent ran out of context at its
+first step, so brief each agent on one or two of those steps, not the
+package; then B and C beside each other; the play run's red "a tap on the
+bare meadow kept a selection", seen on the shared branch before the dusk
+work; the review, polish, vet, frames, the Artifact.

@@ -383,13 +383,14 @@ product («сейчас это развлечение для одного реб
 вернёмся когда и если это станет критичным»): the play prints its 26 ms
 budget line and does not fail on it (1946a63).
 
-## This bite
+## Rest of the bite
 
 18\. **Dusk**, item 17 and the last: a tap on the sun turns the meadow to
 dusk and a tap on the moon back, the dark scheme opening at dusk; the
 sky's second colours cross-faded, a wash, glowing windows, flowers closed,
-fliers settled, mice running, fireflies circling, crickets. Calls and
-packages: [bite-17.md](mushroom-game-syama/bite-17.md).
+fliers settled, mice running, fireflies circling, crickets. Calls,
+packages, what is built and what is left:
+[bite-17.md](mushroom-game-syama/bite-17.md).
 
 ## DRY notes
 
