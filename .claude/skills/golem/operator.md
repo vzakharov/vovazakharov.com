@@ -14,12 +14,18 @@ Opened whenever the operator says something, and at each bite's end when the das
 
 The block's own lines stay at ~10; the list is as long as it is, because a long list is itself what the operator needs to see. `@.claude/skills/qa-checklist/SKILL.md`'s checklist below it is untouched.
 
-**Screenshots and the Artifact** are where the operator actually looks. Where the work has them: screenshots committed per bite, the previous bite's retired behind a tombstone; one Artifact URL, republished in place, mid-bite too whenever a visible batch lands.
+**An out-of-reach step's command names a secret by its variable, never its value** — `gh secret set STRIPE_KEY`, the value left for the operator to supply — because the PR body is read by everyone who can read the repo, and its edit history keeps what a later rewrite removes.
+
+**A bite whose seeing-means needs an out-of-reach step** closes on what the run can see without it — a stand-in for the blocked service, a test at the seam — and the rest of its contract goes on the list as a hand check naming the command it waits on. The plan keeps that remainder open under the bite, and work that depends on it waits with it.
+
+**Items still on the list at the last bite** do not hold it: it ends in `/finalize` without `and merge` as always, the list stays at the top of the PR body, and the run's last reply names each item. A parked red gate stops `/finalize` where its own rules stop, with the list saying why. Merging is the operator's, made with the list in front of them.
+
+**Screenshots and the Artifact** are where the operator actually looks. Where the work has them: screenshots committed per bite (`bite-end.md`); one Artifact URL, republished in place, mid-bite too whenever a visible batch lands.
 
 ## Two channels in, no subscription
 
 - **Chat in the live session**, whose link is on the dashboard. A `/handle` typed there goes through the intake like any other message.
-- **PR comments and reviews**, taken in at every bite's end before the fold (`bite-end.md`): the PR is re-exported, and each thread whose last comment is the operator's is a message — on any path, a committed screenshot and the run's own plan and skill files included. A comment waits at most until the current bite ends. A batched review is taken in whole, and every thread gets one reply naming the commit that answered it.
+- **PR comments and reviews**, taken in at the go-ahead (`start.md` § "The gate") and at every bite's end before the fold (`bite-end.md`): the PR is re-exported, and each thread whose last comment is the operator's is a message — on any path, a committed screenshot and the run's own plan and skill files included. A comment waits at most until the current bite ends. A batched review is taken in whole, and every thread gets one reply naming the commit that answered it.
 
 A comment on the run's process — its standing rules, the journal, this skill — is a change to the loop, placed like any other.
 
@@ -27,15 +33,15 @@ A comment on the run's process — its standing rules, the journal, this skill �
 
 Every message lands in the operator log first (below). A reply goes in the operator's language, also on a turn woken by an agent's English report. Then the message is sorted into exactly one of:
 
-- **Question** — asks, changes nothing. Answered from the plan **and** the idea docs, with agents still running. It reaches the plan only if the answer changes what gets built. A "why?" about a call the run made is a question, not a request to undo it: it gets the call's reason and whether that reason still holds.
-- **Change** — a fix, a tweak, an addition, a cut. It goes through `@.claude/skills/task/SKILL.md`'s plan-or-not call. **The orchestrator decides where it goes**: at once in parallel with the bite, into the bite, into a later bite, or into `## Rest of the elephant`, and writes that placement into the plan in a commit of its own, quoting the operator's words, before any code is touched — mid-tail too, as a numbered call, so it survives a relay. Never queued for "after this bite" unless placing it there is the call.
+- **Question** — asks, changes nothing. Answered from the plan **and** `ideas.md`, with agents still running. It reaches the plan only if the answer changes what gets built. A "why?" about a call the run made is a question, not a request to undo it: it gets the call's reason and whether that reason still holds.
+- **Change** — a fix, a tweak, an addition, a cut. It takes only `@.claude/skills/task/SKILL.md` § "Step 1"'s plan-or-not judgment, written as a numbered call in `decisions.md`: one that needs a plan is written into this run's plan as a bite or part of one, never into a plan file of its own. None of `/task`'s outcomes runs — no draft file, no `/pr`, no hand-off, no `/go` Planless with its `/polish` and `/pr` mid-bite — since the bite's tail does all of that for the run. **The orchestrator decides where it goes**: at once in parallel with the bite, into the bite, into a later bite, or into `## Rest of the elephant`, and writes that placement into the plan in a commit of its own, quoting the operator's words, before any code is touched — mid-tail too, so it survives a relay. Never queued for "after this bite" unless placing it there is the call.
   - **Built by an agent**: a change placed at once is one file-disjoint step for one agent, launched in parallel with the bite. A defect whose cause is obvious is cheaper fixed by the orchestrator than briefed. In a fast stream of messages, wait for the next one before briefing.
   - **Work a running agent holds** goes to that agent by `SendMessage`, naming the earlier message it supersedes. A change that redesigns what an agent is building stops it at a pushed step rather than letting it finish to the old call.
   - **A conditional ask** ("if it's easy; if not, drop it") is the run's to decide; the reply says which way it went and the commit.
   - **A reorder** lands running agents at a pushed step, moves the open bite's text whole into `## Rest of the elephant`, and says which part of it is already built.
-  - **A cut places the same way, as a removal**: an agent building the cut piece lands at a pushed step and stops, `## Rest of the elephant` drops it, and what is built is taken out in its own commit — unless something kept depends on it, in which case it stays and the plan says why.
-- **Idea to weigh** — "don't put it in a plan yet", or a direction with open forks. Kept verbatim in `docs/plans/<slug>/ideas.md`. The plan gets only the task of writing the weighing doc; where one message splits "now" from "later", the "now" part is done at once and nothing more. Once an idea is partly built, the plan says which half is built and which is unplaced.
-  - **Answers to a weighing doc's forks** land twice: a "what you decided" section on top of the doc, its body kept as the reasoning, and a plan item quoting them. A one-line "ok" to a recommendation approves that recommendation. The reply names every reading the run had to guess.
+  - **A cut places the same way, as a removal**, wherever the piece lives: `## This bite` and `## Rest of the elephant` drop it; `## Eaten so far` and its `bite-<nn>.md` keep their record and gain a line naming the cut and its commit; `decisions.md` gets a new call naming the calls it overturns, which stay as written. An agent building the cut piece lands at a pushed step and stops. **The orchestrator takes the built part out**, in its own commit, once the wave holding those files is stopped or done (`orchestrate.md`), so no agent is still writing them. A pushed migration is reversed by a new migration, not by deleting its file, since a database that ran it keeps its effects. What something kept depends on stays, and the plan says why.
+- **Idea to weigh** — "don't put it in a plan yet", or a direction with open forks. The orchestrator quotes it verbatim into `docs/plans/<slug>/ideas.md`, a section per idea, in the intake's commit. The plan gets only the task of weighing it — the forks, the options and a recommendation, written under the quote by a subagent, in a package beside the bite in flight since it touches no source, or in the next bite when this one has no wave left. Where one message splits "now" from "later", the "now" part is done at once and nothing more. Once an idea is partly built, the plan says which half is built and which is unplaced.
+  - **Answers to an idea's forks** land twice: a "what you decided" paragraph on top of its section in `ideas.md`, the weighing kept below as the reasoning, and a plan item quoting them. A one-line "ok" to a recommendation approves that recommendation. The reply names every reading the run had to guess.
 - **Re-steer** — changes what the thing _is_. Below.
 - **Pause / take over** — "I'll take it from here". Running agents land a pushed step, a dirty tree proven equal to its patch before anything is dropped. Then a relay with no `create_session` (`relay.md`): the successor line goes to the operator, and the depth resets.
 
@@ -43,10 +49,11 @@ Every message lands in the operator log first (below). A reply goes in the opera
 
 ## A re-steer
 
-1. The message is quoted into the plan's standing rules or decisions, and committed on its own.
+1. **The message is quoted into the loop section's `### Standing rules`, and what it supersedes is retired in the same commit**: each standing rule it overturns is struck from that list, and each call in `decisions.md` it overturns gets a new call naming its number. The commit names every rule and call retired, so a successor never builds to one the operator turned away from.
 2. **Each piece in flight and each piece already built is judged against the new direction.** One that still makes sense under it is finished or kept. One that doesn't is landed at a pushed step and marked unplaced. Where the operator names the timing themselves ("after this bite"), their words decide.
 3. `## Rest of the elephant` is rewritten, what is already built marked built or unplaced.
-4. **The new direction's forks are settled in one design doc before any of it is built.** The run settles them itself, and the doc says what it picked and why, so the operator can overturn any of it later. A direction built in stages, each fork settled only when the last stage hit it, throws away each stage with the next. Settling may take a whole session; the settled doc is then its natural stop, so the successor starts briefing at once.
+4. **The bite in flight still runs its tail** (`bite-end.md`) over what landed, so the new direction starts from a vetted, folded tree; its review covers only what is kept.
+5. **The new direction's forks are settled in `docs/plans/<slug>/design.md` before any of it is built.** The run settles them itself, and the doc says what it picked and why, so the operator can overturn any of it later. A direction built in stages, each fork settled only when the last stage hit it, throws away each stage with the next.
 
 ## The operator log
 
@@ -54,7 +61,7 @@ Every message lands in the operator log first (below). A reply goes in the opera
 
 **Hooks write it, not the agent**, so nothing in it is paraphrased or forgotten:
 
-- **Chat** — `.claude/hooks/golem-operator-log.sh` appends each operator message as it arrives, with the time and the session's link. The run's reply is queued in `tmp/` when the turn ends and written at the next prompt, so a turn does not end on an uncommitted file. A prompt the harness injects — a task notification, a wake, a subagent's hand-back — is skipped, and so is the reply to it. Its header carries the detection's limits.
+- **Chat** — `.claude/hooks/golem-operator-log.sh` appends each operator message as it arrives, with the time and the session's link. The run's reply is queued in `tmp/` when the turn ends and written at the next prompt, so a turn does not end on an uncommitted file. A prompt the harness injects — a task notification, a wake, a subagent's hand-back, and the run's own check-ins (`send_later`, a scheduled trigger) — is skipped, and so is the reply to it: none is the operator's, so none goes through the intake either. Its header carries the detection's limits.
 - **PR comments** — `scripts/golem-log-pr.sh`, run by the bite's end after its re-export, appends each thread whose last comment is the operator's, with the comment's link. The run's reply is on GitHub, so the entry links it rather than copying it.
 
 Each append is committed with the session's next commit. **Before a relay's last commit and at the bite's end**, `.claude/hooks/golem-operator-log.sh flush "$(git rev-parse --show-toplevel)"` writes the queued reply, which `tmp/` would otherwise lose with the container, and the commit takes what is left. **Sessions never read the log whole**: the intake reads only the current bite's section. Tool calls stay out of it — each entry's session link leads to the transcript that holds them.

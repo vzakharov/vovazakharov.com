@@ -4,7 +4,7 @@ Opened by `/golem <task>`, once `SKILL.md` § "Entry and pickup"'s model check i
 
 ## Before the plan
 
-**Spike the main dependency's riskiest seam before writing bite 1.** Spend minutes in its source — not its docs — on the seam the work leans on hardest: sizing, input, lifecycle, auth, transport. Ten minutes there find what an hour of documentation misses, and bite 1 is then written against how the dependency actually behaves. Scratch goes in `tmp/`, since the draft gate holds; what the spike settles enters the plan as calls.
+**Spike the main dependency's riskiest seam before writing bite 1.** Spend minutes in its source — not its docs — on the seam the work leans on hardest: sizing, input, lifecycle, auth, transport. Ten minutes there find what an hour of documentation misses, and bite 1 is then written against how the dependency actually behaves. Scratch goes in `tmp/`, since the draft gate holds; what the spike settles enters the plan as calls. The spike is also where the run's research and spec work goes, unless it is big enough to be a bite of its own: a bite's waves only build.
 
 ## The plan
 
@@ -12,7 +12,7 @@ Opened by `/golem <task>`, once `SKILL.md` § "Entry and pickup"'s model check i
 
 **The loop section opens the plan**, right under the draft banner, filled from `templates/loop.md`. Every successor reads the plan on attach, so the section is how a session learns it is in a run with no extra file to load. Name the run's model in it, as `get_session` reported it. Its standing rules start with every rule the opening message states, quoted verbatim.
 
-**Bite 1 is written in full in `## This bite`**, so the operator reviews it at the gate, which is the cheapest point to turn the run. Size it in work packages, one agent's step each, per the loop section: more than two sequential packages is two bites, and a bite cut too big ends in a stop mid-bite.
+**Bite 1 is written in full in `## This bite`**, so the operator reviews it at the gate, which is the cheapest point to turn the run. Size it per the loop section: **at most two sequential waves of subagents**, each agent one step, none sized past the 170k subagent notice — a spec or research agent well under it, split where it would not be. Work past two waves is two bites, and a bite cut too big ends in a stop mid-bite.
 
 **Each bite's contract names how its result gets seen**: the test, preview route, command or drive script, and which of them the bite builds (`SKILL.md` § "Rules that hold on every turn of a run"). The bite's end checks against that line, so green gates alone cannot close a bite — a run once shipped every tap dead with vet green. Bite 1 names it here; every later bite names it when it is taken.
 
@@ -28,4 +28,8 @@ Opened by `/golem <task>`, once `SKILL.md` § "Entry and pickup"'s model check i
 
 **Stop at the run's one gate.** The reply gives the PR's URL, the open questions with their recommendations, and asks for the go-ahead in this session, in place of `/plan`'s `/go` handoff block: the session goes on into bite 1 itself, since a run relays only at the budget pause. What counts as a go-ahead is `@.claude/skills/plan/SKILL.md` § "The approval gate"'s.
 
-**On the go-ahead, flip the plan** as `@.claude/skills/go/SKILL.md` Step 1 does, quoting it in the commit, and take bite 1 per `SKILL.md` § "The loop". Nothing after this asks the operator for anything.
+**On the go-ahead, flip the plan** as `@.claude/skills/go/SKILL.md` Step 1 does, quoting it in the commit.
+
+**Then take in the PR's comments before bite 1**, since the operator may have reviewed the plan there rather than in chat: `python3 scripts/export-github-item.py <n>`, `scripts/golem-log-pr.sh <n>`, and each thread through `operator.md` § "The intake", as a bite's end does (`bite-end.md` § "1. The operator's comments"). What they change is placed in the plan before any brief.
+
+Then take bite 1 per `SKILL.md` § "The loop". Nothing after this asks the operator for anything.

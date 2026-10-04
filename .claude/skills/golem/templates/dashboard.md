@@ -14,6 +14,6 @@ The block that opens a run's PR body, per `operator.md` § "The dashboard". Rewr
 
 - **Check by hand:** <what to do, and what to look for>
 - **Taste call:** <the question> — took <option>; the alternative is <option>, and switching costs <cost> (`wt/<name>`)
-- **Out of reach:** `<the exact command>` — <what it is for, and what waits on it>
+- **Out of reach:** `<the exact command, a secret named by its variable, never its value>` — <what it is for, and what waits on it>
 - **Parked:** <the failure> — tried <the attempts>; <what waits on it>
 ```
