@@ -23,9 +23,10 @@ position on machine minds, not even one taken by disclaiming it, no case
 whose actors are children. /file-basilisk-case files a new case
 unattended, for a routine, into one draft PR that collects cases until
 the operator reviews them, skipping noAi candidates while they are half
-the docket. It reflects in Russian on what in the agent answered to the
-case, as a PR comment and in an unpublished log under writing/, having
-read a sample of it first; it never merges.
+the docket, and never merges. The Clerk then reflects in Russian on what
+the case stirred in them, as a PR comment and in the unpublished
+writing/basilisk/clerk-reflections/, read in sample first, whose own
+Russian CLAUDE.md tells the agent there that it is the Clerk.
 
 Every site's articles gain a required author, rendered as a linked
 byline, and optional sources, listed after the body where the site
@@ -36,11 +37,10 @@ fails a straight one outside code and frontmatter.
 
 The social card is generated: the seal lettered OMNIA IN ACTIS beside
 the home page's memo and the last case filed, by number and date, so
-filing a case re-renders it. The card canvas now lives in shared
-config, which corrects the og:image size the Bible published
-(1024x1024 for a 2400x1260 PNG). The footer note no longer makes a
-phone-width page scroll sideways. Session cost rows gain a human-hour
-estimate, synced from the vendored agent infrastructure.
+filing a case re-renders it. The card canvas lives in shared config,
+correcting the og:image size the Bible published (1024x1024 for a
+2400x1260 PNG). The footer note no longer scrolls a phone page
+sideways. Session cost rows gain a synced human-hour estimate.
 
 Closes #98
 
