@@ -4,17 +4,19 @@ import { describe, it } from 'node:test';
 import { OPENING_EYE } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import {
+  DUSK_TONES,
   GROUND_STOPS,
   groundAt,
   litSkyAt,
   RANGES,
   skyAt,
   skyGrid,
+  tonesAt,
 } from './backdrop-tones';
 import { channels, contrast, luminance, mix, toHsv } from './colour';
 import { tuftColours } from './grass';
 import { type MeadowLayout, meadowLayout } from './layout';
-import { PALETTE } from './palette';
+import { DUSK, PALETTE } from './palette';
 import { azimuthAt, crestAt, screenAt } from './panorama';
 import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
 import { SUN_RAY_REACH } from './sun-layout';
@@ -299,4 +301,35 @@ describe('the backdrop', () => {
       }
     });
   }
+});
+
+describe('the backdrop toward dusk', () => {
+  it('is the day’s at no dusk and the dusk’s at full dusk', () => {
+    assert.deepEqual(tonesAt(0).ranges, RANGES);
+    assert.equal(tonesAt(1), DUSK_TONES);
+  });
+
+  it('tones part way from its source colours blended, so the sky’s top is theirs mixed', () => {
+    for (const dusk of [0.25, 0.5, 0.75]) {
+      assert.equal(
+        skyAt(0, tonesAt(dusk)),
+        mix(PALETTE.skyTop, DUSK.skyTop, dusk),
+      );
+      assert.equal(
+        tonesAt(dusk).ridge,
+        mix(PALETTE.sunGlow, DUSK.sunGlow, dusk),
+      );
+    }
+  });
+
+  it('darkens the ground and its sky top as it goes', () => {
+    let last = Infinity;
+    for (const dusk of [0, 0.25, 0.5, 0.75, 1]) {
+      const tones = tonesAt(dusk);
+      const shade =
+        luminance(skyAt(0, tones)) + luminance(groundAt(0.5, tones));
+      assert.ok(shade < last, `not darker at ${dusk.toString()}`);
+      last = shade;
+    }
+  });
 });

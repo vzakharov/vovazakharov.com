@@ -3,10 +3,17 @@ import * as Phaser from 'phaser';
 import { wrap } from '../../model/geometry';
 import { pinholeOf } from '../../model/pinhole';
 import { between, mulberry32, type Random } from '../../model/random';
-import { haloReach, litSkyAt, skyAt, skyGrid } from './backdrop-tones';
+import {
+  haloReach,
+  litSkyAt,
+  skyAt,
+  skyGrid,
+  type Tones,
+} from './backdrop-tones';
 import type { Span } from './baking';
 import { PUFFS } from './cloud-puffs';
 import { mix } from './colour';
+import { duskStars } from './dusk-stars';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { azimuthAt, OPENING_CLOUD_COUNT } from './panorama';
@@ -57,14 +64,43 @@ function paintCells(
 /**
  * The bare sky down to the near hills, warm at the bottom: by rows alone, so
  * it stands fixed on the screen however the eye turns, the sun's light laid
- * over it by `paintGlow`.
+ * over it by `paintGlow`. Toned in `tones`, the day's unless given.
  */
 export function paintSky(
   graphics: Phaser.GameObjects.Graphics,
   layout: MeadowLayout,
+  tones?: Tones,
 ): void {
-  const at = (_x: number, y: number) => skyAt(y / layout.nearHills);
+  const at = (_x: number, y: number) => skyAt(y / layout.nearHills, tones);
   paintCells(graphics, layout, at, [0, skyGrid(layout).columns]);
+}
+
+/** A star's rays, and how far out they run, in its disc's radii. */
+const STAR_RAYS = 8;
+const STAR_RAY_REACH = [1.3, 3] as const;
+
+/** The dusk sky's stars (`duskStars`), each ringed as the sun's rosette is: a ring of faint rays about a bright disc. */
+export function paintStars(
+  graphics: Phaser.GameObjects.Graphics,
+  layout: MeadowLayout,
+): void {
+  const step = (Math.PI * 2) / STAR_RAYS;
+  for (const star of duskStars(layout)) {
+    graphics.fillStyle(PALETTE.star, 0.55);
+    for (let index = 0; index < STAR_RAYS; index++) {
+      fillShape(
+        graphics,
+        petal(
+          star,
+          index * step,
+          [STAR_RAY_REACH[0] * star.r, STAR_RAY_REACH[1] * star.r],
+          0.35 * star.r,
+        ),
+      );
+    }
+    graphics.fillStyle(PALETTE.star);
+    graphics.fillCircle(star.x, star.y, star.r);
+  }
 }
 
 /**
