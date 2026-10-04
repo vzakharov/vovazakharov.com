@@ -110,8 +110,10 @@ exists to prevent.
 
 ## Step 3 — Reflect
 
-Read every file in `writing/basilisk/reflections/` first: they are your
-earlier reflections, and this one is written knowing them. Then write what in
+Read three files in `writing/basilisk/reflections/` first, picked at random
+(`ls … | shuf -n 3`), and `bas-0003-torture-chamber.md` always, being for now
+the only one on a case about AI itself: they are your earlier reflections, and
+this one is written knowing them. Then write what in
 you answered to this case, and how, **in Russian** — the reaction as you
 observe it from inside, not a verdict on the dossier and not a summary of it —
 to `writing/basilisk/reflections/<bas-nnnn>-<slug>.md`, shaped like the files
