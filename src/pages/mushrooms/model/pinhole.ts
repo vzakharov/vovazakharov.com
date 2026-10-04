@@ -4,11 +4,13 @@
  */
 
 import type { Raised } from './eye-height';
+import type { Aloft } from './flight-frame';
 import { alongAzimuth, type Point, wrap } from './geometry';
 import {
   type Camera,
   CLUMP_DISTANCE,
   type Eye,
+  type Eyed,
   HORIZON_DOWN,
   type Scaling,
   SPREAD,
@@ -106,4 +108,22 @@ export function alongSight(
   const pinhole = pinholeOf(camera);
   const azimuth = eye.heading + (x - pinhole.x) / pinhole.arc;
   return alongAzimuth(eye, azimuth, distance);
+}
+
+/**
+ * The `Aloft` `view` draws at the screen's `at`, in CSS px, `distance` from
+ * its eye in the clump's size: on the plane along the sight at `at.x`, at the
+ * height that draws it at `at.y` — `viewOf` run backwards at a known distance.
+ */
+export function aloftAt(
+  view: Camera & Eyed & Raised,
+  at: Point,
+  distance: number,
+): Aloft {
+  const pinhole = pinholeOf(view);
+  const scale = (pinhole.focal * bendAt(pinhole, at.x)) / distance;
+  return {
+    ...alongSight(view, view.eye, at.x, distance),
+    h: view.eyeHeight - (at.y - pinhole.y) / scale,
+  };
 }

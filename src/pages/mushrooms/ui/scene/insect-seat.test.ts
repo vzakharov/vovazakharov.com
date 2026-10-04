@@ -12,10 +12,11 @@ import {
   project,
   unanchored,
 } from '../../model/ground';
+import { aloftAt } from '../../model/pinhole';
 import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, type Host, onHost } from './bed-place';
 import { laidOf } from './clump-layout';
-import { aloftAt, drawnAloft, veerOf } from './insect-frame';
+import { drawnAloft, veerOf } from './insect-frame';
 import { drawnFlier, drawnSitter, seatAloft, seatedZoom } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
 import { aloftOfLayout } from './plane-place';

@@ -7,7 +7,7 @@
 import type * as Phaser from 'phaser';
 
 import type { FlyGenes } from '../../model/fly-genes';
-import { ellipse, type Point } from '../../model/geometry';
+import { ellipse, lerpPoint, type Point } from '../../model/geometry';
 import { litCrest } from '../../model/insect-light';
 import { mix, nudgeHue } from './colour';
 import { crescent } from './crescent';
@@ -117,11 +117,6 @@ function paintEyes(
   }
 }
 
-/** `t` of the way from `a` to `b`. */
-function toward(a: Point, b: Point, t: number): Point {
-  return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
-}
-
 /**
  * The legs into `graphics`, the front pair `rub` of the way from down and
  * apart (0) to raised and crossed before the head (1).
@@ -172,8 +167,8 @@ export function paintFlyLegs(
       graphics,
       [
         hip,
-        toward(down.knee, up.knee, rub),
-        toward(down.foot, up.foot, rub),
+        lerpPoint(down.knee, up.knee, rub),
+        lerpPoint(down.foot, up.foot, rub),
       ].map((point) => at(point)),
       size,
       lighting,

@@ -125,11 +125,3 @@ export function firstCrossing(
   }
   return first;
 }
-
-/** The point `share` of the way from `from` to `to`. */
-export function lerpPoint(from: Point, to: Point, share: number): Point {
-  return {
-    x: from.x + (to.x - from.x) * share,
-    y: from.y + (to.y - from.y) * share,
-  };
-}

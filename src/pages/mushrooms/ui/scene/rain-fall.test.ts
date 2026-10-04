@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { lerpPoint } from '../../model/geometry';
 import { between, mulberry32 } from '../../model/random';
 import { cloudBox, PUFF_REACH } from './cloud-puffs';
 import {
@@ -9,7 +10,6 @@ import {
   firstCrossing,
   GUSH_DROPS,
   gushToStart,
-  lerpPoint,
   MOST_DROPS,
   shownFrom,
   STEADY_DROPS,

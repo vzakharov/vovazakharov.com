@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { clipToConvex, containsPoint, type Point } from './geometry';
+import {
+  alongQuadratic,
+  clipToConvex,
+  containsPoint,
+  type Point,
+} from './geometry';
 
 const square = (x: number, y: number, side: number): Point[] => [
   { x, y },
@@ -52,5 +57,20 @@ describe('clipToConvex', () => {
     assert.ok(kept.length > 0);
     const grown = round.map(({ x, y }) => ({ x: x * 1.001, y: y * 1.001 }));
     for (const point of kept) assert.ok(containsPoint(grown, point));
+  });
+});
+
+describe('alongQuadratic', () => {
+  const from = { x: 0, y: 0 };
+  const bend = { x: 2, y: 4 };
+  const to = { x: 4, y: 0 };
+
+  it('starts at its first point and ends at its last', () => {
+    assert.deepEqual(alongQuadratic(from, bend, to, 0), from);
+    assert.deepEqual(alongQuadratic(from, bend, to, 1), to);
+  });
+
+  it('reaches halfway toward its bend at its middle', () => {
+    assert.deepEqual(alongQuadratic(from, bend, to, 0.5), { x: 2, y: 2 });
   });
 });

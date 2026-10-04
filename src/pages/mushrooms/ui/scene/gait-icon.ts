@@ -1,8 +1,8 @@
 import type * as Phaser from 'phaser';
 
-import type { Point } from '../../model/geometry';
+import { alongQuadratic, lerpPoint, type Point } from '../../model/geometry';
 import type { Walk } from '../../model/walk';
-import { alongQuadratic, drawDisc } from './hud';
+import { drawDisc } from './hud';
 import { PALETTE } from './palette';
 import { fillShape, strokeShape } from './shapes';
 
@@ -93,13 +93,7 @@ function wingOutline(): Point[] {
         x: (before.x + point.x) / 2,
         y: (before.y + point.y) / 2,
       };
-      return [
-        {
-          x: notch.x + (WING_MIDDLE.x - notch.x) * NOTCH,
-          y: notch.y + (WING_MIDDLE.y - notch.y) * NOTCH,
-        },
-        point,
-      ];
+      return [lerpPoint(notch, WING_MIDDLE, NOTCH), point];
     },
   );
   return [...edge, ...trailing];

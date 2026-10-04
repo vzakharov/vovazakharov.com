@@ -54,6 +54,9 @@ const SPORE_DEPTH = 1e5;
 /** How much nearer than its mushroom its shadow is drawn: just behind it, before anything standing behind it. */
 const SHADOW_NEARER = -0.5;
 
+/** A mushroom as `repaintsDue` weighs it, with the mushroom itself. */
+type Repainting = Hazing & Dusking & { shown: Shown };
+
 /**
  * The meadow's mushrooms on screen, reconciled with the state by id: a new
  * one grows out of the ground, a removed one sinks back into it and is
@@ -188,15 +191,13 @@ export class MushroomBed implements Following {
         ? []
         : [
             {
-              shown,
-              haze,
-              painted: shown.haze,
-              ...pick(shown.stands, 'ahead'),
-              sunSide: headedLight(shown.sunFrom, view.eye.heading).toward.x,
-              ...pick(shown, 'paintedSunSide'),
+              ...this.repainting(
+                shown,
+                haze,
+                headedLight(shown.sunFrom, view.eye.heading).toward.x,
+              ),
               steps: stepsHere(shown),
               paintedSteps: shown.steps,
-              ...this.dusking(shown),
             },
           ];
     });
@@ -222,14 +223,9 @@ export class MushroomBed implements Following {
         ({ goneAt }) => goneAt === Infinity,
       );
       this.repaint(
-        standing.map((shown) => ({
-          shown,
-          ...pick(shown, 'haze', 'paintedSunSide'),
-          painted: shown.haze,
-          ...pick(shown.stands, 'ahead'),
-          sunSide: shown.paintedSunSide,
-          ...this.dusking(shown),
-        })),
+        standing.map((shown) =>
+          this.repainting(shown, shown.haze, shown.paintedSunSide),
+        ),
       );
     }
     for (const [id, shown] of this.shown) {
@@ -329,17 +325,28 @@ export class MushroomBed implements Following {
     paintLit(shown, this.heading);
   }
 
-  /** The dusk now and the one `shown` was painted at. */
-  private dusking({ dusk: paintedDusk }: Shown): Dusking {
+  /**
+   * `shown` as `repaint` weighs it: its `haze` and `sunSide` now against
+   * those it was painted with, and the dusk now against the one it was
+   * painted at.
+   */
+  private repainting(shown: Shown, haze: number, sunSide: number): Repainting {
     const { dusk } = this;
-    return { dusk, paintedDusk };
+    return {
+      shown,
+      haze,
+      painted: shown.haze,
+      ...pick(shown.stands, 'ahead'),
+      sunSide,
+      ...pick(shown, 'paintedSunSide'),
+      dusk,
+      paintedDusk: shown.dusk,
+    };
   }
 
   /** Repaints those of `hazing` due (`repaintsDue`) at their haze now and the dusk's air. */
   private repaint(
-    hazing: ReadonlyArray<
-      Hazing & Partial<Detailing> & Dusking & { shown: Shown }
-    >,
+    hazing: ReadonlyArray<Repainting & Partial<Detailing>>,
   ): void {
     const { dusk, heading } = this;
     for (const { shown, haze } of repaintsDue(hazing)) {

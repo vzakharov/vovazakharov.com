@@ -12,7 +12,7 @@ import {
   hostFor,
   tailGlow,
 } from '../../model/firefly';
-import type { Point } from '../../model/geometry';
+import { lerpPoint, type Point } from '../../model/geometry';
 import { CLUMP_DISTANCE } from '../../model/ground';
 import { smooth, type TapTimed } from '../../model/motion';
 import { capSeat } from '../../model/mushroom-pose';
@@ -313,10 +313,7 @@ export class FireflyView {
     if (left) {
       const way = (t - left.at) / GLIDE;
       const eased = smooth(way);
-      at = {
-        x: left.x + (at.x - left.x) * eased,
-        y: left.y + (at.y - left.y) * eased,
-      };
+      at = lerpPoint(left, at, eased);
       if (way >= 1) shown.left = undefined;
     }
     shown.drawn = at;

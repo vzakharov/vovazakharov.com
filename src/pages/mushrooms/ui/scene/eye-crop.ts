@@ -1,6 +1,6 @@
 import type { Point } from '../../model/geometry';
 import { gathered } from '../../model/ground';
-import { alongSight, bendAt, pinholeOf } from '../../model/pinhole';
+import { aloftAt, alongSight, pinholeOf } from '../../model/pinhole';
 import { middleOf, rowAt, type View } from './view';
 
 /**
@@ -61,12 +61,11 @@ export function layoutAtRow(
   const { opening, perPx } = rowAt(view, footRow);
   const distance = crossing(view, screen.x, opening);
   if (distance === undefined) return undefined;
-  const seen = gathered(alongSight(view, view.eye, screen.x, distance));
-  const scale = (pinhole.focal * bendAt(pinhole, screen.x)) / distance;
-  const height = view.eyeHeight - (screen.y - pinhole.y) / scale;
+  const aloft = aloftAt(view, screen, distance);
+  const seen = gathered(aloft);
   return {
     x: middleOf(view) + seen.x / perPx,
-    y: footRow - height / perPx,
+    y: footRow - aloft.h / perPx,
   };
 }
 

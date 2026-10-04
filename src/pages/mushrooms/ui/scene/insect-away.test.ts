@@ -7,6 +7,7 @@ import { entryOf, isShown, nearerSide, outWay } from '../../model/flight-in';
 import { apartIn, placesSetOff } from '../../model/flight-timing';
 import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
 import { INSECT_KINDS } from '../../model/insect-genes';
+import { aloftAt } from '../../model/pinhole';
 import type { Stand } from './flower-sight';
 import {
   awayDown,
@@ -19,7 +20,7 @@ import {
   releasedAway,
   seenFor,
 } from './insect-away';
-import { aloftAt, drawnAloft, eyeFrameOf, mixD } from './insect-frame';
+import { drawnAloft, eyeFrameOf, mixD } from './insect-frame';
 import { meadowCamera } from './meadow-camera';
 import { footRows, onscreenOf, seatAt } from './perch-sight';
 import { Perches } from './perches';

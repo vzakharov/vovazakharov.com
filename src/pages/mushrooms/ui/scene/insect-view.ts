@@ -19,12 +19,13 @@ import { wingspan } from '../../model/insect-outline';
 import { startLeg, steer } from '../../model/insect-steering';
 import { caughtAloft, type Flier, isShying } from '../../model/insects';
 import { smooth, wobble } from '../../model/motion';
+import { aloftAt } from '../../model/pinhole';
 import { wingsShut } from '../../model/roost';
 import { containsCircle } from './hit-areas';
 import type { Lighting } from './ink';
 import { type Away, entryAloft, legEnd, ownAway, seenFor } from './insect-away';
 import { drawnInsect } from './insect-drawn';
-import { aloftAt, eyeFrameOf, mixD } from './insect-frame';
+import { eyeFrameOf, mixD } from './insect-frame';
 import {
   drawLook,
   fidget,

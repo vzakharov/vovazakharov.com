@@ -11,10 +11,11 @@ import {
   OPENING_EYE,
   project,
 } from '../../model/ground';
+import { aloftAt } from '../../model/pinhole';
 import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, onHost } from './bed-place';
 import { drawnInsect, type LegFlight } from './insect-drawn';
-import { aloftAt, aloftFramed, eyeFrameOf } from './insect-frame';
+import { aloftFramed, eyeFrameOf } from './insect-frame';
 import { drawnFlier, drawnSitter } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
 import { tapReach } from './tap-reach';

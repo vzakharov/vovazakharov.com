@@ -1,7 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import type { Meadow } from '../../model/game';
-import type { Circle, Point } from '../../model/geometry';
+import { type Circle, lerpPoint, type Point } from '../../model/geometry';
 import { emerge, launch, sink, SINK_DURATION } from '../../model/motion';
 import {
   type Able,
@@ -160,12 +160,7 @@ export class Picker<Item, Towards = never> {
       const up = t < shownAt ? 0 : emerge(t - shownAt);
       const going = flight ? flight.scale : sink(t - hiddenAt);
       const at =
-        flight && target
-          ? {
-              x: home.x + (target.x - home.x) * flight.travel,
-              y: home.y + (target.y - home.y) * flight.travel,
-            }
-          : home;
+        flight && target ? lerpPoint(home, target, flight.travel) : home;
       standButton(button, t, at, Math.min(up, going));
     }
   }

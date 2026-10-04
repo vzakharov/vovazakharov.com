@@ -10,7 +10,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import type { Point } from '../../model/geometry';
+import { alongQuadratic, type Point } from '../../model/geometry';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { capFrame } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
@@ -117,10 +117,7 @@ function arcAt(start: Point, end: Point, swing: number) {
     y: Math.min(start.y, end.y) - RISE * span,
   };
   return (t: number): [number, number] => {
-    const [a, b, c] = [(1 - t) ** 2, 2 * (1 - t) * t, t ** 2];
-    return [
-      a * start.x + b * bend.x + c * end.x,
-      a * start.y + b * bend.y + c * end.y,
-    ];
+    const { x, y } = alongQuadratic(start, bend, end, t);
+    return [x, y];
   };
 }

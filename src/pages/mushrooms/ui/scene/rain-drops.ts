@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import type { Circle, Point } from '../../model/geometry';
+import { type Circle, lerpPoint, type Point } from '../../model/geometry';
 import { planeSeen } from '../../model/pinhole';
 import { between } from '../../model/random';
 import { type DrawnMushroom, drawnMushrooms } from './hit-areas';
@@ -12,7 +12,6 @@ import {
   type DropsInAir,
   firstCrossing,
   gushToStart,
-  lerpPoint,
   MOST_DROPS,
   shownFrom,
   steadyToStart,

@@ -19,10 +19,9 @@ import {
   spread,
 } from '../../model/ground';
 import { flightPoint } from '../../model/insect-paths';
-import { pinholeOf } from '../../model/pinhole';
+import { aloftAt, pinholeOf } from '../../model/pinhole';
 import { between, mulberry32 } from '../../model/random';
 import {
-  aloftAt,
   aloftFramed,
   drawnAloft,
   eyeFrameOf,

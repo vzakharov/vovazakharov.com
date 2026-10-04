@@ -293,9 +293,14 @@ function drawMap(layers: Layers, shot: MapSnapshot): Drawn {
     bottom: sheet.top + sheet.height - inner,
     corner: CORNER - inner,
   };
-  paper
-    .fillStyle(PALETTE.paper)
-    .fillRoundedRect(sheet.left, sheet.top, sheet.width, sheet.height, CORNER);
+  const paperRect = [
+    sheet.left,
+    sheet.top,
+    sheet.width,
+    sheet.height,
+    CORNER,
+  ] as const;
+  paper.fillStyle(PALETTE.paper).fillRoundedRect(...paperRect);
   drawMapGround(paper, frame, ground, seed);
   paper
     .lineStyle(EDGE, PALETTE.paperEdge)
@@ -307,28 +312,14 @@ function drawMap(layers: Layers, shot: MapSnapshot): Drawn {
       CORNER - EDGE,
     )
     .lineStyle(2, PALETTE.ink)
-    .strokeRoundedRect(
-      sheet.left,
-      sheet.top,
-      sheet.width,
-      sheet.height,
-      CORNER,
-    );
+    .strokeRoundedRect(...paperRect);
   // The compass at the top edge's middle.
   const compass = { ...pick(middle, 'x'), y: sheet.top + MARGIN / 2 + 2 };
   for (const [layer, colour] of [
     [shade, DUSK.groundDeep],
     [veil, PALETTE.duskWash],
   ] as const) {
-    layer
-      .fillStyle(colour)
-      .fillRoundedRect(
-        sheet.left,
-        sheet.top,
-        sheet.width,
-        sheet.height,
-        CORNER,
-      );
+    layer.fillStyle(colour).fillRoundedRect(...paperRect);
   }
   drawCompass(dial, compass, dusky);
   drawView(paper, frame, eye, camera, ground);

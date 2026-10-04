@@ -19,6 +19,8 @@ const SEEDS = Array.from({ length: 24 }, (_, index) => index + 1);
 const SIT_ON_FLOWER = { kind: 'flower', id: 'flower-1' } as const;
 /** Long past any stay. */
 const LATER = 600_000;
+/** Day breaking at `LATER` after a full dusk. */
+const MORNING: Dusk = { toward: 'day', startedAt: LATER, from: 1 };
 
 /** A swarm of one `kind` grown off `seed`, released at 0 in `dusk`, and its flier. */
 function released1(kind: InsectKind, seed: number, dusk: Dusk) {
@@ -34,6 +36,12 @@ function only({ insects }: Swarm): Flier {
   const [one] = insects;
   assert.ok(one);
   return one;
+}
+
+/** Asserts `swarm` at full dusk sits on, unchanged, long past any stay. */
+function assertSitsOutDusk(swarm: Swarm): void {
+  const atDusk = { ...swarm, dusk: FULL_DUSK };
+  assert.equal(ticked(atDusk, SIGHT, LATER), atDusk);
 }
 
 describe('roostedPerches', () => {
@@ -69,13 +77,12 @@ describe('sitsOut', () => {
   });
 
   it('lets each go at its own wake after the moon’s tap', () => {
-    const morning: Dusk = { toward: 'day', startedAt: LATER, from: 1 };
     const wakes = SEEDS.map((seed) => {
       const flier = { ...one, seed };
-      assert.ok(sitsOut(flier, morning, LATER + WAKE_MS[0] - 1));
-      assert.ok(!sitsOut(flier, morning, LATER + WAKE_MS[1]));
+      assert.ok(sitsOut(flier, MORNING, LATER + WAKE_MS[0] - 1));
+      assert.ok(!sitsOut(flier, MORNING, LATER + WAKE_MS[1]));
       let at = LATER + WAKE_MS[0];
-      while (sitsOut(flier, morning, at)) at += 50;
+      while (sitsOut(flier, MORNING, at)) at += 50;
       return at;
     });
     assert.ok(new Set(wakes).size > SEEDS.length / 2);
@@ -95,8 +102,7 @@ describe('fliers at dusk', () => {
   it('none settled takes off of its own accord, whatever its stay', () => {
     for (const kind of ['butterfly', 'fly', 'bee'] as const) {
       for (const seed of SEEDS) {
-        const { swarm } = released1(kind, seed, FULL_DUSK);
-        assert.equal(ticked(swarm, SIGHT, LATER), swarm);
+        assertSitsOutDusk(released1(kind, seed, FULL_DUSK).swarm);
       }
     }
   });
@@ -111,8 +117,7 @@ describe('fliers at dusk', () => {
       const settled = ticked(dusk, SIGHT, one.leg.leaves);
       const next = only(settled);
       assert.notEqual(next.leg.to.kind, 'air');
-      const after = { ...settled, dusk: FULL_DUSK };
-      assert.equal(ticked(after, SIGHT, LATER), after);
+      assertSitsOutDusk(settled);
     }
     assert.ok(hovered > 0);
   });
@@ -140,16 +145,14 @@ describe('fliers at dusk', () => {
       const next = only(tapped);
       assert.equal(next.legs, one.legs + 1);
       assert.equal(next.leg.to.kind, 'cap');
-      const after = { ...tapped, dusk: FULL_DUSK };
-      assert.equal(ticked(after, SIGHT, LATER), after);
+      assertSitsOutDusk(tapped);
     }
   });
 
   it('morning lets them go as before, each at its wake', () => {
-    const morning: Dusk = { toward: 'day', startedAt: LATER, from: 1 };
     for (const seed of SEEDS) {
       const { swarm, one } = released1('butterfly', seed, FULL_DUSK);
-      const woken = { ...swarm, dusk: morning };
+      const woken = { ...swarm, dusk: MORNING };
       assert.equal(ticked(woken, SIGHT, LATER + WAKE_MS[0] - 1), woken);
       const gone = only(ticked(woken, SIGHT, LATER + WAKE_MS[1]));
       assert.equal(gone.legs, one.legs + 1);

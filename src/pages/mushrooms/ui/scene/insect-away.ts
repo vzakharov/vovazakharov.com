@@ -25,10 +25,10 @@ import {
 } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import { phaseOf } from '../../model/motion';
-import { alongSight, pinholeOf } from '../../model/pinhole';
+import { aloftAt, alongSight, pinholeOf } from '../../model/pinhole';
 import type { Seeded } from '../../model/random';
 import { WIDEST_SPAN } from './flower-sight';
-import { aloftAt, drawnAloft } from './insect-frame';
+import { drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import { perchDistance, placeOfAloft } from './plane-place';
 import { D_SEE, onScreen, type Placed, type View } from './view';

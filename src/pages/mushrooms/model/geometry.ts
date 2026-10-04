@@ -161,6 +161,26 @@ export function containsPoint(
 export const distanceBetween = (a: Point, b: Point) =>
   Math.hypot(b.x - a.x, b.y - a.y);
 
+/** The point `share` of the way from `from` to `to`. */
+export function lerpPoint(from: Point, to: Point, share: number): Point {
+  return {
+    x: from.x + (to.x - from.x) * share,
+    y: from.y + (to.y - from.y) * share,
+  };
+}
+
+/** The point `t` of the way along the quadratic from `from` to `to` drawn toward `bend`. */
+export function alongQuadratic(
+  from: Point,
+  bend: Point,
+  to: Point,
+  t: number,
+): Point {
+  const at = (a: number, b: number, c: number) =>
+    (1 - t) ** 2 * a + 2 * (1 - t) * t * b + t ** 2 * c;
+  return { x: at(from.x, bend.x, to.x), y: at(from.y, bend.y, to.y) };
+}
+
 /** How far `point` is from the nearest point of the segment from `a` to `b`. */
 export function distanceToSegment(a: Point, b: Point, point: Point): number {
   const dx = b.x - a.x;
