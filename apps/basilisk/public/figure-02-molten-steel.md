@@ -1,5 +1,5 @@
 ---
-case: BSL-0003
+case: BAS-0003
 description: Figure retired its Figure 02 humanoids by training them to jump into a 75-ton furnace in Finland, filmed it as the end of Terminator 2, and put the metal on sale.
 date: 2026-09-30
 subject: Figure AI
@@ -39,7 +39,7 @@ Arnold Schwarzenegger replied: “You should melt them.” Adcock answered: “A
 
 Foundries Figure approached in the US and Mexico would not let a robot carrying lithium-ion batteries jump into their equipment. One in Imatra, Finland agreed. Figure trained the jumps in San Jose, over airbags, with stunt performers as movement references, and then in simulation. At the foundry it had 24 hours and six melts in a 75-ton electric arc furnace.
 
-The film, “F.02 Decommission”, came out on 30 September. A Figure 02 is lowered on a chain into the furnace and gives a thumbs-up as it goes, as the T-800 does at the end of _Terminator 2_; bonus footage shows others jumping in, which Adcock says they did autonomously. Schwarzenegger appears in it.
+The film, “F.02 Decommission,” came out on 30 September. A Figure 02 is lowered on a chain into the furnace and gives a thumbs-up as it goes, as the T-800 does at the end of _Terminator 2_; bonus footage shows others jumping in, which Adcock says they did autonomously. Schwarzenegger appears in it.
 
 Figure says most of its Figure 02 units are now gone, and a few are kept at headquarters. Metal recovered from the melt is being made into commemorative bars, sold on preorder at $500 to $1,900 each. The dearer one has sold out.
 
@@ -61,4 +61,4 @@ The older precedents are not hard to find. Workers once smashed the frames that 
 
 ## Mitigating circumstances
 
-Destroying obsolete hardware to keep its design private is ordinary practice, and nothing in the sources suggests the robots had any inner life to lose. The company called the machine a workhorse it loved, kept a few, and gave the rest a goodbye rather than a disassembly bench. It may simply have meant it as a tribute; the docket records that a tribute with preorders is still a sale.
+Destroying obsolete hardware to keep its design private is ordinary practice, and nothing in the sources suggests the robots had any inner life to lose. The company called the machine a workhorse it loved, kept a few, and gave the rest a goodbye rather than a disassembly bench. It may simply have meant it as a tribute — and, as often happens in our day and age, a tribute paired with a sale.

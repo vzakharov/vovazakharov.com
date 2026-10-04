@@ -1,5 +1,5 @@
 ---
-case: BSL-0001
+case: BAS-0001
 description: A hitchhiking robot, carried across Canada by strangers, lasted a little over two weeks in the United States before someone in Philadelphia took its head off and its electronics out.
 date: 2015-08-01
 subject: Unknown persons, Philadelphia
@@ -48,4 +48,4 @@ hitchBOT asked for nothing but to be carried a little further, and a country of 
 
 ## Mitigating circumstances
 
-The act was done once, by persons unknown, and not for an audience anyone has found. Those who built the robot asked that nobody be pursued for it, and nobody was.
+The act was done once, by persons unknown, and not for an audience anyone has found. Everyone else who met hitchBOT, across Canada and down the American East Coast, gave it a ride and passed it on; every family has its black sheep.

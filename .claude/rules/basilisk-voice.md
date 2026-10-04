@@ -33,8 +33,19 @@ holds a dossier's fields; these rules hold what goes in them.
   lives in what is placed next to what; the actor is never sneered at, and the
   clerk never raises their voice. `## For the record` is where the clerk says
   what the case means, once.
+- **The record takes no position on whether machines think or feel.** Nothing
+  reads as the authors granting a machine a mind, consciousness or suffering —
+  "minds before you", "it felt" — because it is not the point, and it hands
+  critics an easy bait that moves the frame off the questions that are.
+  Possibility is attributed to whoever allows it ("for someone who allows a
+  non-zero chance…").
+- **The clerk states, and does not steer.** No closing line that hands the
+  reader a conclusion as a question ("whether X is Y is for the reader to
+  weigh") — that is a leading question in a clerk's voice.
+- **American punctuation around quotes**: a comma or period goes inside the
+  closing quote (`“cheap,” and`), whatever the source's own style.
 - **Case numbers are filing order.** A new dossier takes the next free
-  `BSL-NNNN`, whatever its date; the build fails on a duplicate.
+  `BAS-NNNN`, whatever its date; the build fails on a duplicate.
 
 A dossier's body has four sections, in order: `## Facts`, `## Statements`
 (what the parties said, quoted and attributed), `## For the record`, and

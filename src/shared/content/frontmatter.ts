@@ -64,7 +64,7 @@ const dossierSourceSchema = z.object({
  */
 const dossierFrontmatterSchema = articleFrontmatterSchema.extend({
   /** In filing order, as a real docket numbers; unique across the collection. */
-  case: z.string().regex(/^BSL-\d{4}$/),
+  case: z.string().regex(/^BAS-\d{4}$/),
   /** Who did it, named as the sources name them and no further. */
   subject: z.string().min(1),
   /** What it was done to. */
