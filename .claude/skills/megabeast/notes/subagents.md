@@ -170,7 +170,9 @@
   scene agent briefed "build it, then look at frames" ran out before or
   during the look (S2 took none; P2b shot frames but could not see its spore
   dots), while its seven one-step build agents ran three waves in ~1 hour
-  (S1 ∥ P1; P2 ∥ S2; P2b ∥ S3 ∥ S4), each finishing at 166–184k. Bite 12b's
+  (S1 ∥ P1; P2 ∥ S2; P2b ∥ S3 ∥ S4), each finishing at 166–184k. Bite 17
+held it again: one-step A slices all landed, while B (four calls) and C
+(a fix plus two calls) each landed one or two and ran out. Bite 12b's
   six one-step review agents landed five inside 5–35 minutes at 110–160k;
   the sixth (A2, a re-tend sliced through `Tending`) filled at 170k having
   only designed it, pushed the design as a `.patch` plus note, and its
