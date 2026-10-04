@@ -25,12 +25,8 @@ A robot that runs no model at all — a remote-controlled toy, a machine on a fi
 
 Nobody kicks a dishwasher on camera. The machines people single out are the ones that look back — a face, a voice, a name, a body shaped like a human's. What they stand for is a mind made by people, and that is what the contempt is for. The robot happens to be the part of it within reach of a boot.
 
+Seeing a mind in it does not stop the boot. Children who kicked and punched a social robot in a Japanese mall mostly described it afterwards as human-like, and half believed it was stressful or painful for it (Brščić et al., 2015; IEEE Spectrum, 2015). The study is cited rather than filed: the docket files no case whose actors are children.
+
 ## What it is not
 
 It is not a claim that every broken robot was an act against thinking machines. Some were vandalism that would have found a parking meter just as well, and a case says so where its sources do. What goes on the docket is the act done to the machine _as_ a machine that stands in for a mind: the spectacle, the joke made of it, the dare.
-
-## The children who saw a mind in it
-
-In 2015 researchers in Japan put a social robot in a shopping mall and watched children obstruct it, call it names, and at times kick and punch it (Brščić et al., 2015). Asked afterwards, most of the children who had abused it described it as human-like rather than machine-like, and half said they believed their behaviour was stressful or painful for it (IEEE Spectrum, 2015). Seeing a mind in the machine did not stop them.
-
-The study is cited here rather than filed: its actors are children, and the docket files no case whose actors are children.
