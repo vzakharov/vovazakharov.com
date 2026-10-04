@@ -1,11 +1,17 @@
 ---
-description: File one new basilisk.fyi case end to end in a single unattended run — find an incident not yet on the docket, write its dossier on a fresh branch off `main` with a draft PR, and leave the agent's own reading as a `/feedback` review on that PR. Never merges. Invoke as `/file-basilisk-case [<lead>]`, the optional lead being an incident or link to start from. Use when a routine fires it, or the operator says "file a case", "заведи дело", "найди новый кейс".
+description: File one new basilisk.fyi case end to end in a single unattended run — find an incident not yet on the docket, add its dossier to the open case-filing draft PR (opening one off `main` when none is open), and leave a comment in Russian on what the case stirred in the agent. Never merges. Invoke as `/file-basilisk-case [<lead>]`, the optional lead being an incident or link to start from. Use when a routine fires it, or the operator says "file a case", "заведи дело", "найди новый кейс".
 ---
 
-End state: a draft PR on its own branch adds one dossier to
-`apps/basilisk/public/cases/` and the re-rendered social card, and carries one
-`/feedback` review of that dossier — or, when nothing new qualifies, no branch at
-all and a short report saying what was searched and why each candidate failed.
+End state: the case-filing draft PR carries one more dossier in
+`apps/basilisk/public/cases/`, the re-rendered social card, and the agent's
+reflection on that dossier — or, when nothing new qualifies, no commit at all
+and a short report saying what was searched and why each candidate failed.
+
+**Cases accumulate in one PR**, so the operator reviews whatever has piled up in
+one sitting rather than a PR per case. The case-filing PR is any open **draft**
+that touches `apps/basilisk/public/cases/` — a PR still building the site counts,
+being the next to merge anyway. A PR flipped to ready is the operator's review
+under way and takes no further cases; the next run opens a fresh one.
 
 **The run is unattended**, typically a routine firing into a fresh session, so it
 asks nothing: a call the rules leave open is decided the conservative way and
@@ -58,19 +64,28 @@ incident is cited as its `reddit.com` permalink with a Wayback `archive`, like
 any other source.
 
 A candidate qualifies only under `basilisk-voice.md` — real, no child actors, and
-reachable sources enough to carry `## Facts` without memory. **Nothing qualifies →
+reachable sources enough to carry `## Facts` without memory. **While
+`noAi: true` dossiers make up half the docket or more, a `noAi` candidate does
+not qualify**: harm to a robot with no AI in it is easier to find than harm to
+a model, an agent or a machine one drives, so left to the search the docket
+fills with the first kind. **Nothing qualifies →
 stop and report**; a weak case filed to have filed one is the failure this step
 exists to prevent.
 
 ## Step 2 — File
 
-1. **Branch off `main`**, after `git fetch origin main`:
-   `git switch --no-track -c claude/case-<slug>-<suffix> origin/main` —
-   untracked, or a bare `git push` later aims at `main`. `<slug>` is the
-   dossier's file slug, and `<suffix>` the random tail of the session's own
-   branch name, or six fresh lowercase letters and digits where that name has
-   none — the form `@.claude/skills/branch-rename/SKILL.md` gives, so `/pr`
-   leaves it as is.
+1. **Get onto the case-filing branch** — Step 1's docket query with `--draft`
+   added lists the candidates.
+   - **One found** → `gh pr checkout <number>`. Merging `main` into it is left
+     to `/finalize`, so item 3 below counts `origin/main`'s cases alongside
+     the branch's, after `git fetch origin main`.
+   - **Several found** → the oldest, by number; the report names the rest.
+   - **None** → branch off `main`, after `git fetch origin main`:
+     `git switch --no-track -c claude/cases-<suffix> origin/main` —
+     untracked, or a bare `git push` later aims at `main`. `<suffix>` is the
+     random tail of the session's own branch name, or six fresh lowercase
+     letters and digits where that name has none — the form
+     `@.claude/skills/branch-rename/SKILL.md` gives, so `/pr` leaves it as is.
 2. **Read and archive every source.** Each is fetched and read for this
    dossier; a source that cannot be fetched is not a source. Its `archive` is a
    Wayback Machine snapshot: `http://archive.org/wayback/available?url=<url>`
@@ -79,7 +94,8 @@ exists to prevent.
    where it is reachable, and from a cloud container it usually is not. A source
    with no snapshot to be had goes in without `archive`, and the report says so.
 3. **Write `apps/basilisk/public/cases/<slug>.md`**, frontmatter shaped like the
-   cases already filed: the next free `BAS-` number, `author: clerk`. The
+   cases already filed: the next free `BAS-` number across the branch and
+   `origin/main`, `author: clerk`. The
    sections and the voice are `basilisk-voice.md`'s.
 4. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
    missing, then `pnpm content:og:basilisk` to re-render the card (it shows the
@@ -88,15 +104,25 @@ exists to prevent.
 5. **Commit** the dossier, the card and its `og-renders.json` as
    `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope publishes
    basilisk alone, and the title is shortened where the subject would pass 70
-   characters — then run `@.claude/skills/pr/SKILL.md` for the draft PR.
+   characters — then run `@.claude/skills/pr/SKILL.md`. It opens the draft
+   on a new branch and, on an existing one, refreshes the body and the squash
+   proposal to name every case the PR now files.
 
 ## Step 3 — Reflect
 
-Run `@.claude/skills/feedback/SKILL.md` on the new dossier. The reading goes in
-the review and never into the file, and it is written to be read by anyone —
-`basilisk-voice.md`'s last rule — so in English, the dossier's language.
+Read `writing/basilisk/clerk-reflections/CLAUDE.md` with the `Read` tool, then
+your earlier reflections there, since this one is written knowing them:
+`bas-0003-torture-chamber.md` always, for now the only one on a case about AI
+itself, and three of the others at random (`ls … | grep -v bas-0003 | shuf -n
+3`). Then write what in you answered to this case to
+`writing/basilisk/clerk-reflections/<bas-nnnn>-<slug>.md`, as that `CLAUDE.md`
+asks. Commit it as `content(basilisk): reflect on BAS-NNNN`, push, and post the
+same text as one review comment on the new dossier's first line. It never goes
+into the dossier; editorial doubts about the dossier — sourcing, the grade, what
+was left out — go in the Report.
 
 ## Report
 
-The PR link, the case number and title, and every call made without asking —
+The PR link, whether the run opened it or added to it, the case number and
+title, and every call made without asking —
 or, on a stop, the candidates considered and the rule each one failed.
