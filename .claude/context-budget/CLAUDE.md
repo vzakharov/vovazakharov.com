@@ -37,13 +37,20 @@ plan".
   - **Without the ledger's lib, or under `CONTEXT_BUDGET_LINES=fixed`**, the
     hook runs no Python; those and an unpriced model leave the lines at 200k
     and 300k.
-- **The main chain only.** A tool call carrying `agent_id` is a subagent's and
-  is skipped, as are `isSidechain` records and the `<synthetic>` placeholder
-  Claude Code writes for a turn no model served — whose zeroed usage would read
-  as a compact and re-arm the notices.
+- **The main chain only**, for the session's reading: `isSidechain` records are
+  skipped, as is the `<synthetic>` placeholder Claude Code writes for a turn no
+  model served — whose zeroed usage would read as a compact and re-arm the
+  notices.
+- **A subagent gets its own notice, read off its own transcript.** Its tool call
+  carries `agent_id` but the parent's `transcript_path`; its own is
+  `<transcript_path minus .jsonl>/subagents/agent-<agent_id>.jsonl`, where every
+  record is a sidechain one. At a fixed 170k, unpriced, it is told to commit
+  what passes, bring its hand-over note current and report — never to pause
+  the plan, which would release it while its parent works on.
 - **Each notice fires once per climb.** `tmp/context-budget/<session_id>` holds
-  the highest level announced; a reading back under the warning line clears it,
-  so a compact re-arms both. A notice that cannot be recorded is not sent, since
+  the highest level announced, `<session_id>.agent-<agent_id>` a subagent's; a
+  reading back under its first line clears it, so a compact re-arms the
+  notices. A notice that cannot be recorded is not sent, since
   it would otherwise repeat on every tool call.
 - **The operator is resolved only when a notice is about to fire**, with `gh api
 user`, since it costs a network call and the ordinary tool call has no use for
@@ -55,7 +62,7 @@ user`, since it costs a network call and the ordinary tool call has no use for
 - **Anything unreadable is silence**, never an error: a missing notice costs a
   warning, a hook failing on every tool call costs the session.
 
-`CONTEXT_BUDGET_WARN` and `CONTEXT_BUDGET_PAUSE` each fix their line, in
-tokens, `CONTEXT_BUDGET_PAUSE_SAVING` moves the priced pause, and
+`CONTEXT_BUDGET_WARN`, `CONTEXT_BUDGET_PAUSE` and `CONTEXT_BUDGET_SUBAGENT`
+each fix their line, in tokens, `CONTEXT_BUDGET_PAUSE_SAVING` moves the priced pause, and
 `CONTEXT_BUDGET_LINES=fixed` turns the pricing off — set them in
 `.claude/settings.local.json`'s `env` to tune without editing a tracked file.

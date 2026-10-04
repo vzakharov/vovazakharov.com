@@ -10,6 +10,8 @@
     "dev:basilisk": "scripts/in-site.sh basilisk next dev",
     "build": "pnpm build:vova && pnpm build:lsa && pnpm build:bible && pnpm build:basilisk",
     "build:vova": "scripts/in-site.sh vova next build",
+    "play:mushrooms": "tsx scripts/play-mushrooms.ts",
+    "sweep:mushrooms": "tsx scripts/sweep-mushrooms.ts",
     "build:lsa": "scripts/in-site.sh lsa next build",
     "build:bible": "scripts/in-site.sh bible next build",
     "build:basilisk": "scripts/in-site.sh basilisk next build",
@@ -34,7 +36,8 @@
     "content:pdf:basilisk": "scripts/in-site.sh basilisk tsx scripts/render-pdf.ts",
     "music:scaffold": "scripts/in-site.sh vova tsx scripts/scaffold-song.ts",
     "styles:codegen": "node scripts/generate-styles.ts",
-    "costs": "python3 .claude/costs/report.py"
+    "costs": "python3 .claude/costs/report.py",
+    "artifact:mushrooms": "tsx scripts/build-mushroom-artifact.ts"
   },
   "dependencies": {
     "@mantine/core": "^9.6.0",
@@ -45,6 +48,7 @@
     "lucide-react": "^0.554.0",
     "next": "16.0.3",
     "next-intl": "^4.5.4",
+    "phaser": "^4.2.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-markdown": "^10.1.0",
@@ -74,6 +78,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/unist": "^3.0.3",
+    "esbuild": "0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
     "eslint-config-prettier": "^10.1.8",

@@ -28,6 +28,8 @@ Where the cost ledger ships (`.claude/costs/`), revise this session's human-hour
 
 Walk the conversation in order first, then write `docs/remove-before-merging/relay.md`, overwriting any earlier relay's, and commit and push it. `/finalize` sweeps that directory, and each relay's summary stays readable in the branch history.
 
+Then run `.claude/costs/flush-row.sh`, which commits and pushes the session's cost row even on a turn no operator message started, when the `Stop` hook would skip it. It goes here because the summary is most of this session's last spend, and before Step 3 because the successor pushes to the same branch.
+
 - **English**, being agent-facing, with the operator's words quoted in their own language.
 - **A `Compact Instructions` section in context** steers what the summary dwells on: whoever wrote one wrote it for this.
 - **Every claim about state is checked with a command** before it is written — branch, head, PR, CI, plan file name. The turn has its tools; memory is what `/compact` is stuck with.

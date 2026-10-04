@@ -5,7 +5,11 @@ import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import type { Metadata } from 'next';
 import { JetBrains_Mono, Merriweather } from 'next/font/google';
 
-import { SITE_CONFIG } from '@/shared/config';
+import {
+  ANALYTICS_SCRIPT_URL,
+  SITE_CONFIG,
+  withoutScheme,
+} from '@/shared/config';
 import { constructMetadata } from '@/shared/seo/index.server-only';
 
 import { ThemeCorner } from './theme-corner';
@@ -51,6 +55,15 @@ export function RootLayout({
     >
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
+        {/* `data-domains` keeps a dev server or a preview from counting as the site. */}
+        {SITE_CONFIG.analyticsId !== undefined && (
+          <script
+            defer
+            src={ANALYTICS_SCRIPT_URL}
+            data-website-id={SITE_CONFIG.analyticsId}
+            data-domains={withoutScheme(SITE_CONFIG.url)}
+          />
+        )}
       </head>
       <body>
         <ThemeProvider>

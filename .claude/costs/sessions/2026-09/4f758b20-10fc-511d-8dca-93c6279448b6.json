@@ -1,0 +1,105 @@
+{
+  "sessionId": "4f758b20-10fc-511d-8dca-93c6279448b6",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_0141HSHsNVJcESrg1qJLQEf4",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-26T21:06:19.406Z",
+  "lastResponseAt": "2026-09-26T23:56:37.599Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 1702,
+    "cacheWrite5mTokens": 1711492,
+    "cacheWrite1hTokens": 343899,
+    "cacheReadTokens": 48129702,
+    "outputTokens": 34715,
+    "thinkingTokens": 4261,
+    "responses": 378,
+    "costUsd": 21.632652399999998
+  },
+  "ownTurns": {
+    "inputTokens": 111,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 343899,
+    "cacheReadTokens": 6600809,
+    "outputTokens": 29711,
+    "thinkingTokens": 4261,
+    "responses": 47,
+    "costUsd": 4.6660178000000005
+  },
+  "subagents": {
+    "inputTokens": 660,
+    "cacheWrite5mTokens": 1711492,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 41528893,
+    "outputTokens": 4987,
+    "thinkingTokens": 0,
+    "responses": 330,
+    "costUsd": 16.965618600000006
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 771,
+      "cacheWrite5mTokens": 1711492,
+      "cacheWrite1hTokens": 343899,
+      "cacheReadTokens": 48129702,
+      "outputTokens": 34698,
+      "thinkingTokens": 4261,
+      "responses": 377,
+      "costUsd": 21.631636399999998
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 931,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 17,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.001016
+    }
+  },
+  "warnings": [
+    "prices.json priced the 377 responses the events also priced at $21.6316, against the events' $26.0066: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/pages/mushrooms/model/game.ts",
+    "endedAt": "2026-09-26T21:08:22.523Z",
+    "contextTokens": 76926,
+    "spend": {
+      "inputTokens": 44,
+      "cacheWrite5mTokens": 157690,
+      "cacheWrite1hTokens": 68667,
+      "cacheReadTokens": 1708288,
+      "outputTokens": 7138,
+      "thinkingTokens": 2023,
+      "responses": 22,
+      "costUsd": 1.8223796
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 378,
+    "matched": 377,
+    "matchedTableUsd": 21.631636399999998,
+    "matchedEventUsd": 26.006636399999998,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 931,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 17,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.001016
+      }
+    }
+  }
+}

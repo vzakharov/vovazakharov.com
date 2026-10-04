@@ -14,6 +14,7 @@ export {
   SITE_ID,
 } from './resolved-site';
 export {
+  ANALYTICS_SCRIPT_URL,
   AUTHOR_URL,
   PAGE_ROUTES,
   type SiteConfig,

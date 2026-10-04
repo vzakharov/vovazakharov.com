@@ -1,0 +1,348 @@
+/**
+ * The spots in the open air a roaming insect flies between: the cells of a
+ * square lattice on the plane, offered round the eye the perches are judged
+ * from, so the air walks and turns with the child. Each cell is named by its
+ * place in the lattice and keeps its own height, so walking never renames or
+ * moves a spot; only which spots are offered changes.
+ */
+
+import { pick } from '@/shared/lib/collections';
+import type { WithId } from '@/shared/typings';
+
+import {
+  type Crowding,
+  type Perch,
+  perchName,
+  type Place,
+  type Places,
+} from '../../model/flight';
+import { type Aloft, azimuthOf, type Pose } from '../../model/flight-frame';
+import { distanceBetween, type Point, wrap } from '../../model/geometry';
+import {
+  anchored,
+  type Camera,
+  CLUMP_DISTANCE,
+  type Eye,
+  OPENING_EYE,
+  project,
+} from '../../model/ground';
+import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import { INSECT_LIMITS } from '../../model/insects';
+import { mulberry32 } from '../../model/random';
+import type { Zoomed } from './insect-away';
+import { drawnAloft } from './insect-frame';
+import type { MeadowLayout } from './layout';
+import { pointCrowdings } from './perch-crowding';
+import type { PerchHosts } from './perch-hosts';
+import { placeOfAloft } from './plane-place';
+import { rowAt, viewAt } from './view';
+import { widestOn } from './widest-spans';
+
+/** How far the open air reaches down over the back of the ground, as a share of the ground's depth. */
+export const AIR_BELOW = 0.15;
+
+/** How far from the eye, in the clump's size, the farthest spot in the air stands: the far side of the opening's air. */
+const AIR_FAR = 10.6;
+
+/** How far, in radians, either side of the eye's heading the air is offered. */
+const AIR_WEDGE = 1.2;
+
+/** Every insect the meadow can hold. */
+export const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
+  Array.from({ length: INSECT_LIMITS[kind] }, () => kind),
+);
+
+/** What of a layout the air is laid by: the insects' sizes are the camera's. */
+type AirLaid = Pick<MeadowLayout, 'camera' | 'insectSize' | 'insectSizes'>;
+
+/**
+ * One spot in the air: its id, where on the layout's screen it is laid out
+ * (`x`, `y`, `fromEye`, what a leg is timed by), where in the world it stands,
+ * and where the eye it is offered round draws it (`drawn`).
+ */
+type Spot = CellName &
+  Pick<Place, 'x' | 'y' | 'fromEye'> &
+  Pick<Pose, 'aloft'> & { drawn: Zoomed };
+
+/**
+ * The air offered round an eye: its spots by id where the eye's anchored
+ * layout draws them, each in the world (`alofts`) and as a `Place`, and
+ * every two of them on which two insects of their kinds would overlap at all.
+ */
+export type Air = Pick<PerchHosts, 'alofts'> & {
+  spots: ReadonlyArray<WithId & Point>;
+  places: Places;
+  aloft: readonly Crowding[];
+};
+
+/** The lattice the air is laid on, one per camera: how far apart its cells stand on the plane, and the band of heights its spots keep. */
+type Lattice = { spacing: number; low: number; high: number };
+
+/** The row the opening clump stands on, in world px: what an insect in the air was laid out standing over. */
+export function clumpRow(camera: Camera): number {
+  return project(camera, { x: 0, z: 0 }).y;
+}
+
+/**
+ * Whether `spots` seat every insect the meadow can hold at once, each clear
+ * of the others as drawn, by their kinds' widest spans zoomed where each
+ * hovers, taken widest first.
+ */
+function seatsEveryOne(laid: AirLaid, spots: readonly Spot[]): boolean {
+  const spans = EVERY_ONE.map((kind) => widestOn(laid, kind)).toSorted(
+    (a, b) => b - a,
+  );
+  const held: Array<Point & { span: number }> = [];
+  return spans.every((span) => {
+    const spot = spots.find(({ drawn: { x, y, zoom } }) =>
+      held.every(
+        (other) =>
+          Math.hypot(x - other.x, y - other.y) >=
+          (span * zoom + other.span) / 2,
+      ),
+    );
+    if (spot) {
+      const { drawn } = spot;
+      held.push({ ...pick(drawn, 'x', 'y'), span: span * drawn.zoom });
+    }
+    return spot !== undefined;
+  });
+}
+
+/**
+ * Every two of `spots` on which two insects of a pairing's kinds, hovering
+ * where the eye they are offered round draws them, would overlap: nearer
+ * than half their widest spans, each zoomed where it hovers.
+ */
+function crowdingsAsDrawn(laid: AirLaid, spots: readonly Spot[]): Crowding[] {
+  const drawnOn = new Map<Perch, Zoomed>();
+  const points = spots.map(({ id, drawn }) => {
+    const perch: Perch = { kind: 'air', id };
+    drawnOn.set(perch, drawn);
+    return { perch, ...pick(drawn, 'x', 'y') };
+  });
+  // Every pair crowded at the largest zoom any spot has may crowd at its
+  // own two, and is judged there; no pair crowds that is not one of them.
+  const largest = Math.max(1, ...spots.map(({ drawn }) => drawn.zoom));
+  const span = (kind: InsectKind) => widestOn(laid, kind);
+  const found: Crowding[] = [];
+  for (const [a, b, may] of pointCrowdings(
+    points,
+    (first, second) => (largest * (span(first) + span(second))) / 2,
+  )) {
+    const [onA, onB] = [drawnOn.get(a), drawnOn.get(b)];
+    if (!onA || !onB) continue;
+    const between = distanceBetween(onA, onB);
+    const pairings = may.filter(
+      ([first, second]) =>
+        between < (span(first) * onA.zoom + span(second) * onB.zoom) / 2,
+    );
+    if (pairings.length > 0) found.push([a, b, pairings]);
+  }
+  return found;
+}
+
+const lattices = new WeakMap<Camera, Lattice>();
+
+/**
+ * The lattice the air is laid on for `laid`'s camera: one narrowest kind's
+ * widest span apart at the clump, halved where that seats too few insects at
+ * the opening eye (`seatsEveryOne`); its heights from a butterfly's widest
+ * wings under the world's top down to `AIR_BELOW` over the back of the ground.
+ */
+function latticeOf(laid: AirLaid): Lattice {
+  const { camera } = laid;
+  const known = lattices.get(camera);
+  if (known) return known;
+  const row = clumpRow(camera);
+  const { perPx } = rowAt(camera, row);
+  const half = widestOn(laid, 'butterfly') / 2;
+  const bottom = Math.max(half, camera.groundTop + AIR_BELOW * camera.ground);
+  const band = { low: (row - bottom) * perPx, high: (row - half) * perPx };
+  const narrowest = Math.min(
+    ...INSECT_KINDS.map((kind) => widestOn(laid, kind)),
+  );
+  const coarse = { ...band, spacing: narrowest / camera.unit };
+  const opening = spotsAt(
+    laid,
+    coarse,
+    OPENING_EYE,
+    new Map<number, Map<number, CellName>>(),
+  );
+  const lattice = seatsEveryOne(laid, opening)
+    ? coarse
+    : { ...band, spacing: coarse.spacing / 2 };
+  lattices.set(camera, lattice);
+  return lattice;
+}
+
+/** The share of its band a cell's height stands at, from the cell alone. */
+function heightShare(column: number, row: number): number {
+  const seed = Math.imul(column, 0x9e_37_79_b1) ^ Math.imul(row, 0x85_eb_ca_77);
+  return mulberry32(seed)();
+}
+
+/** The cell of `lattice` at `column` and `row` as a fixed point in the world. */
+function cellAloft(lattice: Lattice, column: number, row: number): Aloft {
+  const { spacing, low, high } = lattice;
+  const h = low + (high - low) * heightShare(column, row);
+  return { x: column * spacing, y: row * spacing, h };
+}
+
+/** A cell's id, and its key as a perch (`perchName`). */
+type CellName = WithId & { key: string };
+
+/** The names of a cell, by column, then row. */
+type Names = Map<number, Map<number, CellName>>;
+
+function namesOf(column: number, row: number): CellName {
+  const id = `air-${String(column)}-${String(row)}`;
+  return { id, key: perchName({ kind: 'air', id }) };
+}
+
+/**
+ * The id and perch name of the cell at `column` and `row`, the very strings
+ * `known` holds where it does, entered in `kept`: a fresh string keying
+ * `Places` costs its interning, several times all the rest of `airOf`.
+ */
+function namedCell(
+  known: Names,
+  kept: Names,
+  column: number,
+  row: number,
+): CellName {
+  const named = known.get(column)?.get(row) ?? namesOf(column, row);
+  const rows = kept.get(column) ?? new Map<number, CellName>();
+  kept.set(column, rows);
+  rows.set(row, named);
+  return named;
+}
+
+/**
+ * The cells of `lattice` offered round `anchor`: those `CLUMP_DISTANCE` to
+ * `AIR_FAR` from it within `AIR_WEDGE` of its heading, where the anchored
+ * layout lays them out a butterfly's widest wings inside the world and
+ * `anchor` draws them (`drawnAloft`), named as `known` names them where it
+ * does (`namedCell`), entered in `kept`.
+ */
+function spotsAt(
+  laid: AirLaid,
+  lattice: Lattice,
+  anchor: Eye,
+  known: Names,
+  kept: Names = new Map(),
+): Spot[] {
+  const { camera } = laid;
+  const view = viewAt(camera, OPENING_EYE);
+  const drawnBy = viewAt(camera, anchor);
+  const half = widestOn(laid, 'butterfly') / 2;
+  const { spacing } = lattice;
+  const cells = (at: number) => ({
+    from: Math.floor((at - AIR_FAR) / spacing),
+    to: Math.ceil((at + AIR_FAR) / spacing),
+  });
+  const [across, along] = [cells(anchor.x), cells(anchor.y)];
+  const spots: Spot[] = [];
+  for (let column = across.from; column <= across.to; column++) {
+    for (let row = along.from; row <= along.to; row++) {
+      const centre = { x: column * spacing, y: row * spacing };
+      const distance = distanceBetween(anchor, centre);
+      if (distance < CLUMP_DISTANCE || distance > AIR_FAR) continue;
+      const turned = wrap(azimuthOf(anchor, centre) - anchor.heading);
+      if (Math.abs(turned) > AIR_WEDGE) continue;
+      const aloft = cellAloft(lattice, column, row);
+      const seen = { ...aloft, ...anchored(anchor, aloft) };
+      const { x, y, fromEye } = placeOfAloft(view, 1, seen);
+      if (x < half || x > camera.world - half || y < half) continue;
+      const drawn = drawnAloft(drawnBy, aloft);
+      if (!drawn) continue;
+      const named = namedCell(known, kept, column, row);
+      spots.push({
+        ...named,
+        x,
+        y,
+        fromEye,
+        aloft,
+        drawn: pick(drawn, 'x', 'y', 'zoom'),
+      });
+    }
+  }
+  return spots;
+}
+
+/** The air offered round each of the last few anchors, by camera. */
+const offered = new WeakMap<Camera, Map<string, Air>>();
+/** The names of the cells offered round the last anchor each camera's air was laid at. */
+const lastNamed = new WeakMap<Camera, Names>();
+/** How many anchors' air each camera keeps. */
+const KEPT = 8;
+
+/**
+ * The air `laid` offers round `anchor` (`spotsAt`), its crowdings judged where
+ * `anchor` draws the spots and at the size it draws an insect hovering at
+ * each (`crowdingsAsDrawn`), so hovering insects never overlap on the screen
+ * while the eye stands there; kept for the last `KEPT` anchors.
+ */
+export function airOf(laid: AirLaid, anchor: Eye = OPENING_EYE): Air {
+  const { camera, insectSize: unit } = laid;
+  const known = offered.get(camera) ?? new Map<string, Air>();
+  offered.set(camera, known);
+  const at = `${String(anchor.x)} ${String(anchor.y)} ${String(anchor.heading)}`;
+  const laidBefore = known.get(at);
+  if (laidBefore) return laidBefore;
+  const named: Names = new Map();
+  const spots = spotsAt(
+    laid,
+    latticeOf(laid),
+    anchor,
+    lastNamed.get(camera) ?? new Map<number, Map<number, CellName>>(),
+    named,
+  );
+  lastNamed.set(camera, named);
+  const crowded = crowdingsAsDrawn(laid, spots);
+  // Entered one by one: `Object.fromEntries` and spreads cost several times
+  // as much on as many keys never seen before, as most are a step later.
+  const places: Record<string, Place> = {};
+  for (const { key, x, y, fromEye } of spots) {
+    places[key] = { x: x / unit, y: y / unit, fromEye };
+  }
+  const air: Air = {
+    spots: spots.map((spot) => pick(spot, 'id', 'x', 'y')),
+    alofts: new Map(spots.map(({ id, aloft }) => [id, aloft])),
+    places,
+    aloft: crowded,
+  };
+  if (known.size >= KEPT) {
+    const [oldest] = known.keys();
+    if (oldest !== undefined) known.delete(oldest);
+  }
+  known.set(at, air);
+  return air;
+}
+
+/** The spots in the open air `laid` offers round `anchor` (`airOf`), where the layout anchored at `anchor` draws each. */
+export function airSpots(
+  laid: AirLaid,
+  anchor: Eye = OPENING_EYE,
+): ReadonlyArray<WithId & Point> {
+  return airOf(laid, anchor).spots;
+}
+
+/** Each spot in the open air `laid` offers round `anchor` (`airOf`) as a fixed point in the world, by id. */
+export function airAlofts(
+  laid: AirLaid,
+  anchor: Eye = OPENING_EYE,
+): ReadonlyMap<string, Aloft> {
+  return airOf(laid, anchor).alofts;
+}
+
+/**
+ * The spot in the open air named `id` as a fixed point in the world, offered
+ * round any eye or none: where an insect still holding a spot the eye has
+ * walked away from hovers.
+ */
+export function airAloftOf(laid: AirLaid, id: string): Aloft | undefined {
+  const cell = /^air-(-?\d+)-(-?\d+)$/u.exec(id);
+  if (!cell) return undefined;
+  return cellAloft(latticeOf(laid), Number(cell[1]), Number(cell[2]));
+}

@@ -23,6 +23,7 @@ import type { SiteId } from './site-ids';
  */
 export const PAGE_ROUTES = {
   writing: '/writing',
+  mushrooms: '/mushrooms',
 } as const;
 
 /**
@@ -93,7 +94,20 @@ export type SiteConfig = Billed & {
    * unrendered. Spelled by every site for the same reason `seal` is.
    */
   listsSources: boolean;
+  /**
+   * The site's website ID in Umami — public by design, as every page's HTML
+   * carries it. `undefined` for a site not yet registered there, whose pages
+   * load no tracker; spelled by every site for the same reason `seal` is.
+   */
+  analyticsId: string | undefined;
 };
+
+/**
+ * The self-hosted Umami tracker, under the author's domain so it loads
+ * first-party. The filename is the Railway service's `TRACKER_SCRIPT_NAME`, set
+ * away from Umami's blocklisted `script.js`: change one, change the other.
+ */
+export const ANALYTICS_SCRIPT_URL = 'https://stats.vovazakharov.com/app.js';
 
 /** One person publishes every site, so none of them owns the byline. */
 const PUBLISHER = {
@@ -143,6 +157,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: undefined,
     credit: undefined,
     listsSources: false,
+    analyticsId: '06b87bb7-2383-42e5-9625-521627a743b0',
     ...PUBLISHER,
   },
   lsa: {
@@ -154,6 +169,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: undefined,
     credit: undefined,
     listsSources: false,
+    analyticsId: '1d5168b8-0a1b-42ff-bf4f-006e903fd1d8',
     ...PUBLISHER,
   },
   bible: {
@@ -172,6 +188,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: { path: '/seal.svg', ...SEAL_SIZE },
     credit: LSA_CREDIT,
     listsSources: false,
+    analyticsId: 'dd2ebf96-920c-478d-a060-708a10e42cf4',
     ...PUBLISHER,
   },
   basilisk: {
@@ -187,6 +204,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: { path: '/seal.svg', ...SEAL_SIZE },
     credit: LSA_CREDIT,
     listsSources: true,
+    analyticsId: undefined,
     ...PUBLISHER,
   },
 };
