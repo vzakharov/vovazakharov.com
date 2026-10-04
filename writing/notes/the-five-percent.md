@@ -136,7 +136,7 @@ Lyric notes, section markers and per-locale song reading went to
 `pages/music` imported them; asked why not a higher layer, they moved up with
 no upward import in the way. One grep said so; nobody ran it.
 
-## It writes its reasoning into the artifact (×13)
+## It writes its reasoning into the artifact (×14)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -167,6 +167,12 @@ why `ContentVideo` lives in `pages/documents/ui/`, the agent wrote a
 `content.md` bullet — a `server-only` wall, future islands — and, when both
 fell, rewrote it around FSD import direction. _the bullet is a polar bear_:
 `fsd.md` says where a component goes and Steiger fails the wrong move unread.
+
+**4 October — a clerk with opinions.** basilisk.fyi's dossiers are meant to read
+as a dry clerk's record, and the agent's stance kept getting in. "The _minds_
+before you" took a side on machine consciousness the site gains nothing from and
+critics would take as bait; a dossier closed on "whether X is the research or
+the point is for the reader to weigh" — weighing it for them. Both struck.
 
 ## It edits the copy in front of it, not the fact behind it (×13)
 
@@ -220,7 +226,7 @@ whole line, the simplest parse, in a catalogue whose model was genius.com — th
 agent's own citation, and a site that anchors a note on a word or phrase. The
 operator asked for what the citation already said.
 
-## Given a form, it fills the form (×7)
+## Given a form, it fills the form (×8)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -243,6 +249,10 @@ for all but one release. The operator asked for a string or the pair.
 "А сейчас вылетит…" as the photographer's "watch the birdie", then kept a note
 explaining the Russian. Where the idiom exists in English the translation
 carries the reference; the note was there because notes were.
+
+**4 October — a mitigating circumstance that mitigated nothing.** A basilisk.fyi
+dossier has a slot for them, and one was filled with the robot's builders asking
+that nobody be pursued — a fact, but no defence of anyone. The slot got a value.
 
 ## What it defends in writing, it stops asking about (×5)
 
@@ -356,6 +366,8 @@ theme toggle sits, and whether it comes from a layout. Only the toggle's _skin_
 stayed a bump; an entry removed this way takes its count with it. A fifth never
 reached the list: the cost report's default grain, a taste in output with
 nothing to read it off. Nor a sixth: em dashes on the site for a typed `--`.
+Nor basilisk.fyi's round of taste: American punctuation inside quotes, a new
+tagline and sign-off, dossiers under `cases/`, an /about page as FAQ markdown.
 
 **Comments the tree already answered.** A round on the music section asked
 whether a quote's capitalization was wrong and whether zod reached the browser
