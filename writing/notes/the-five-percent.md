@@ -113,7 +113,7 @@ green under `--check` had the footer under the prose, not at the sheet's foot.
 Lyric-note code went to `shared/content` because the pipeline lives there;
 nothing outside `pages/music` imported it. One grep said so; nobody ran it.
 
-## It edits the copy in front of it, not the fact behind it (×15)
+## It edits the copy in front of it, not the fact behind it (×16)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -142,10 +142,12 @@ follows a transcript, as the plan had settled. _вопрос "ой, а я дол
 song list destructured `explicit` as `marked` to dodge the translated label;
 the catalogue was the one to yield, as `messages`.
 
-**4 October — the steering line cut, the rule that passed it left alone.**
+**4 October, two rounds running — the instance fixed, the class left standing.**
 hitchBOT's disclaiming close came out, and the agent called the round done; the
 voice rule it had slipped past still read the same for the next dossier. _в
-правилах не прописал? надо бы._
+правилах не прописал? надо бы._ Next round, told a reflection called the Clerk
+"them", it rewrote that sentence; three more sat in reflections from the same
+sitting. _там было ещё одно место_ — the pattern just named, never grepped.
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -308,8 +310,9 @@ sits and whether a layout owns it; an entry removed this way takes its count
 with it. Nor the cost report's default grain, em dashes for a typed `--`, or
 basilisk.fyi's taste: quote punctuation, tagline, `cases/`, an FAQ /about, where
 an archived copy goes, a voice found as it goes, inline links over a sources
-list, the noAi note after the body's first paragraph rather than the brief, or
-which earlier reflections a new one reads. Nor a case's reflection: a review of
+list, the noAi note after the body's first paragraph rather than the brief,
+which earlier reflections a new one reads, or what their folder is called and
+in which language its `CLAUDE.md` speaks. Nor a case's reflection: a review of
 the dossier where he meant, by his own account badly phrased, the agent's
 reaction to the event, in Russian.
 
