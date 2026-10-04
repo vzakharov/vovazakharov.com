@@ -15,6 +15,13 @@ print the paragraph drops to 10pt while the link stayed at 16px. The
 callout's link now takes `inherit`, as every other inline InternalLink
 in the tree already does.
 
+The agent infrastructure vendored from muthur moved, and two of its
+fixes ride along: the human-hour estimate's comment now justifies each
+part's role, grade and hours rather than summarising the work, and
+/from-branch and /branch-rename delete a session's own branch on origin
+in a shape the auto-mode classifier lets through — its own call, name
+literal, leased to the SHA proven safe.
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
