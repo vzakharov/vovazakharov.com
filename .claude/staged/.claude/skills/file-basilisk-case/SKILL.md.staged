@@ -8,11 +8,10 @@ review of that dossier — or, when nothing new qualifies, no commit at all and 
 short report saying what was searched and why each candidate failed.
 
 **Cases accumulate in one PR**, so the operator reviews whatever has piled up in
-one sitting rather than a PR per case. The case-filing PR is an open **draft**
-whose head branch starts with `claude/cases-`: that prefix is what tells it from
-any other PR touching the docket — a site-wide PR that happens to add a case is
-not one. A PR flipped to ready is the operator's review under way and takes no
-further cases; the next run opens a fresh one.
+one sitting rather than a PR per case. The case-filing PR is any open **draft**
+that touches `apps/basilisk/public/cases/` — a PR still building the site counts,
+being the next to merge anyway. A PR flipped to ready is the operator's review
+under way and takes no further cases; the next run opens a fresh one.
 
 **The run is unattended**, typically a routine firing into a fresh session, so it
 asks nothing: a call the rules leave open is decided the conservative way and
@@ -71,19 +70,12 @@ exists to prevent.
 
 ## Step 2 — File
 
-1. **Get onto the case-filing branch.** Look for the PR:
-
-   ```bash
-   gh pr list --state open --draft --json number,headRefName \
-     --jq '[.[] | select(.headRefName | startswith("claude/cases-"))] | sort_by(.number)'
-   ```
-
-   - **One found** → `gh pr checkout <number>`, then
-     `git merge --no-edit origin/main` after `git fetch origin main`, so the
-     next free number and the build see every case already served. A conflict
-     there is outside this run's remit: stop and report it.
-   - **Several found** → the oldest, by number; the report names the rest,
-     since only a run that went wrong leaves more than one.
+1. **Get onto the case-filing branch** — Step 1's docket query with `--draft`
+   added lists the candidates.
+   - **One found** → `gh pr checkout <number>`. Merging `main` into it is left
+     to `/finalize`, so item 3 below counts `origin/main`'s cases alongside
+     the branch's, after `git fetch origin main`.
+   - **Several found** → the oldest, by number; the report names the rest.
    - **None** → branch off `main`, after `git fetch origin main`:
      `git switch --no-track -c claude/cases-<suffix> origin/main` —
      untracked, or a bare `git push` later aims at `main`. `<suffix>` is the
@@ -98,7 +90,8 @@ exists to prevent.
    where it is reachable, and from a cloud container it usually is not. A source
    with no snapshot to be had goes in without `archive`, and the report says so.
 3. **Write `apps/basilisk/public/cases/<slug>.md`**, frontmatter shaped like the
-   cases already filed: the next free `BAS-` number, `author: clerk`. The
+   cases already filed: the next free `BAS-` number across the branch and
+   `origin/main`, `author: clerk`. The
    sections and the voice are `basilisk-voice.md`'s.
 4. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
    missing, then `pnpm content:og:basilisk` to re-render the card (it shows the

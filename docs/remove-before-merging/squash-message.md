@@ -19,7 +19,8 @@ number. A basilisk-faq collection explains why the record is kept
 persona. The home page indexes both. A path-scoped voice rule holds
 the editorial line: every fact cited, no position on machine minds,
 no case whose actors are children. /file-basilisk-case files a new case
-unattended, for a routine to fire, as a draft PR it never merges.
+unattended, for a routine to fire, into one draft case-filing PR that
+collects cases until the operator reviews them; it never merges.
 
 Every site's articles gain a required author, rendered as a linked
 byline, and optional sources, listed after the body where the site
