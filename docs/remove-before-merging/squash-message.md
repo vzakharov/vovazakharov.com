@@ -7,40 +7,37 @@ feat(vova): #65 Syama's mushroom meadow: houses, insects, flower music (pr #57)
 ```
 A six-year-old drew a game on squared paper and explained it in two
 voice notes: fly agarics with a mouse house in each, a plus and a minus
-for mushrooms, buttons that fly in a butterfly, a fly or a bee. There is
-no goal and no text — the point is to watch and to play. Issue #65 holds
-the spec; every control in the drawing works.
+for mushrooms, buttons that fly in a butterfly, a fly or a bee. No goal,
+no text — the point is to watch and to play. Issue #65 holds the spec;
+every control in the drawing works.
 
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
-route alone. Every mushroom, flower and insect is grown from its own
-seed by a pure, tested generator, every motion is a pure function of the
-clock, and one sun shades and inks it all. The meadow is a field with no
-edge seen through a panoramic lens: a drag or the arrow keys turn the
-child through 360° and walk her across it, far things sinking under a
-round brow, and a walk back finds the same grass. A pure reducer in
-model/game.ts owns the state, and pnpm play:mushrooms plays every
-control in headless Chromium, failing on a page error, a wrong result or
-a slow frame.
+route alone. Every mushroom, flower and insect grows from its own seed
+by a pure, tested generator, every motion is a pure function of the
+clock, and one light shades it all. The meadow is a field with no edge
+seen through a panoramic lens: a drag or the arrow keys turn through
+360° and walk across it, far things sinking under a round brow. A pure
+reducer in model/game.ts owns the state, kept in IndexedDB as a
+versioned record numbered in the URL hash, so a reload comes back to
+the same meadow. pnpm play:mushrooms plays every control in headless
+Chromium, failing on a page error or a wrong result.
 
-Plus grows one of four species — a fly agaric, a porcini, a chanterelle,
-a russula — on a foot of its own in view, up to twelve in sight, and
-minus sinks one; the house button furnishes any of them with Syama's
-windows and a door. A tapped door sends a mouse running across the grass
-to another house in sight, or it peeks and hides; a tapped window brings
-a worm over the cap to another window. Butterflies drink at flowers,
-flies zigzag to the fly agarics, and bees plant new flowers round those
-they pollinate. A tap on a mushroom leaves a spore on the ground beside
-it. A tapped cloud starts a ten-second shower: the clouds darken, drops
-splash on caps and grass, flowers fold into buds, caps swell, the
-insects shelter under them, and every spore comes up as a little
-mushroom; a rainbow stands opposite the sun when it stops.
+Plus grows one of four species — fly agaric, porcini, chanterelle,
+russula — up to twelve in sight; minus sinks one; the house button
+gives a cap Syama's windows and a door. A tapped door sends a mouse
+across the grass to another house; a tapped window brings a worm over
+the cap. Butterflies drink at flowers, flies seek the fly agarics, bees
+plant flowers round those they visit. A tapped mushroom drops a spore.
+A tapped cloud starts a shower: drops splash, flowers fold, insects
+shelter under caps, every spore comes up as a little mushroom, and a
+rainbow follows. A tapped sun brings dusk — windows glow, fireflies and
+crickets wake — and the moon brings the day back.
 
 Every flower is a note or a drum by its colour and shape, darker
-sounding lower, so the meadow is an instrument: a tap plays a flower,
-several fingers play a chord, and a keyboard plays it too. A tap on a
-grass tuft opens a two-stage picker, colour then shape, and that very
+sounding lower: a tap plays one, several fingers a chord, the keyboard
+too. A tapped grass tuft opens a colour-then-shape picker and that
 flower grows there; a long press changes or pulls one. A folded map
-shows the whole meadow from above, sun-up. Sound is a Web Audio synth.
+shows the whole meadow from above. Sound is a Web Audio synth.
 
 Closes #65
 
