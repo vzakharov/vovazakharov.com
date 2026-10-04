@@ -14,7 +14,7 @@ Opened at the context budget's pause, at any other relay, and on picking a run u
 
 ## The depth and the successor
 
-- **Read the depth and its limit from `get_session`'s `lineage`, `{depth, limit}`, at every relay, never count them**, and write both into the summary's State. The limit has been 8. An operator who starts a session by hand starts a fresh chain, so a count carried from summary to summary goes wrong and can leave the run idle for a night.
+- **Read the depth and its limit from `get_session`'s `lineage`, `{depth, limit}`, at every relay, never count them**, and write both into the summary's State. An operator who starts a session by hand starts a fresh chain, so a count carried from summary to summary goes wrong and can leave the run idle for a night.
 - **Below the limit, relay by `create_session`**, passing the plan's model (`SKILL.md` § "Rules that hold on every turn of a run") rather than inheriting it. Look the tool up by its current name, never copy it from an earlier call: tool names change mid-session. Then rewrite the dashboard's live-session line with the successor's link and `<depth> of <limit>` (`operator.md` § "The dashboard").
 - **Relays stay relays.** A subagent cannot orchestrate a bite, and a fresh-session Routine started from a session at the cap is refused by the same cap.
 

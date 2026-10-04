@@ -7,7 +7,7 @@ The block that opens a run's PR body, per `operator.md` § "The dashboard". Rewr
 - **To see or use now:** <the Artifact's URL | a preview route | screenshots at `<path>` | `<command>`>, <how> — or nothing to see yet
 - **Live session:** <link>, relay depth <depth> of <limit>, both from `get_session`'s `lineage`
 - **Last re-steer:** «<the operator's words, cut short>» → <where it landed in the plan>
-- **Model:** <only when the model check raised it: the run is on `<model>`, below Opus at high effort, and may not hold up on it>
+- **Model:** <only when the model check raised it: the run is on `<model>`, below Opus at high effort, and may not hold up on it | the run is on `<model>`, its effort unreadable: confirm it is high>
 - **Updated:** <time>, at <bite N's end | a wave report>
 
 ### Waiting on you

@@ -74,5 +74,5 @@ Opened when a bite's build is done: the tail in the order below, then the next b
 ## Then
 
 - **The budget pause has fired** → `relay.md`.
-- **The last bite** → distill `journal.md` and empty it, then `@.claude/skills/finalize/SKILL.md` without `and merge` (`SKILL.md` § "The loop"). Its rounds are its own, and its last miss counts as one attempt under `SKILL.md`'s failure rule.
+- **The last bite** → distill `journal.md` and empty it, then `@.claude/skills/finalize/SKILL.md` without `and merge` (`SKILL.md` § "The loop").
 - **Otherwise the next bite, in this session**: whoever takes a bite writes its `## Bite N` heading into the operator log first — here, at bite 1's go-ahead (`start.md`), and on a pickup (`relay.md` § "On picking up") — then takes it per `@.claude/skills/plan/elephant.md` § "Taking a bite".

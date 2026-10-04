@@ -21,7 +21,7 @@
 # and a hash of its text — and a key already in the log is skipped. An edited
 # post is new text, so it is logged again.
 #
-# No live log is not a run, and exits 0 having written nothing.
+# A branch with no live log is not a run: it exits 0 having written nothing.
 #
 # Exit codes:
 #   0  - logged what was new, or there is no live log.

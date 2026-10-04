@@ -94,7 +94,7 @@ git merge --ff-only origin/<branch>
   git checkout -b <branch> --track origin/<branch>
   ```
 
-  Never `git reset --hard`: it discards those commits, and an auto-mode session that ran one has had every later command refused.
+  Never `git reset --hard`: it discards those commits, and auto mode refuses every later command in a session that ran one.
 
 - **A cross-repo PR** goes through `gh pr checkout <NNN>`, which adds the fork remote and leaves you on the PR head. Where it refuses to fast-forward, move the local ref aside the same way and run it again; never pass `--force`, which resets.
 
