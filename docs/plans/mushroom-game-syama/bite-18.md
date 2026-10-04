@@ -33,13 +33,18 @@ rewritten with `history.replaceState`. A hash edited while playing reloads
 the page, only when a store is open.
 
 5\. **Writes**: every action but `tick` writes at once; tick changes and the
-walking eye at most once a second, and when the tab hides. One write in
-flight, the newest waiting, no debounce. **A write refused after the store
-opened** stops keeping for the rest of that load, reported once with
-`reportError` (which logs as an error and reaches the play run; `no-console`
-bans the other) — the same case as saving.md's "no storage, no keeping"
-(the browser refusing storage), so the game keeps playing; it goes to
-`to-check.md` for the operator to confirm.
+walking eye at most once a second when something changed, and when the tab
+hides; nothing is written before the child's first action or step, so a
+stray `#new` leaves no empty meadow behind. One write in flight, the newest
+waiting, no debounce. **A write refused after the store opened** reopens the
+store once and retries the newest record (WebKit drops connections after
+backgrounding); only a second refusal stops keeping for the rest of that
+load, reported once with `reportError` (which logs as an error and reaches
+the play run; `no-console` bans the other), so the game keeps playing; it
+goes to `to-check.md` for the operator to confirm. A read failing after the
+open falls back to a fresh meadow as call 9 does, and a `versionchange`
+closes the connection and stops keeping. (Amended by the bite's review,
+findings 1, 3, 4, 5, 7.)
 
 6\. **The eye and the gait are kept**: `openingWalk` takes a start, so a
 reload stands where the child stood. Fliers are kept, settled (call 2).
@@ -65,7 +70,11 @@ boot in a new `api/` segment.
 note and no bloom (an `opening` flag on `FlowerBed.reconcile`), insects
 reconciled once at start, mushrooms as today.
 
-12\. **Two tabs on one meadow**: the last writer wins, not handled.
+12\. **Two tabs on one meadow**: a tab coming back into view checks the kept
+record before writing again, and reopens on the newer meadow when another
+tab wrote it, so an old tab on the iPad never writes over today's work.
+(Amended by the bite's review, finding 2; "last writer wins" lost what a
+child built.)
 
 13\. **The play run gives each play its own browser context**, so no play
 reopens another's meadow; a `keep` play reloads and opens `#new`.
