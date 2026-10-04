@@ -21,6 +21,7 @@ import {
   refit,
   tickWalk,
   type Walk,
+  type WalkStart,
   withGait,
 } from '../../model/walk';
 import { ofLayout, type View, viewAt } from './view';
@@ -56,10 +57,16 @@ export class EyeInput {
     this.now = now;
   }
 
-  /** Sees the meadow through `camera`: the opening eye the first time; after, the heading and the place kept. */
-  fit(camera: Camera): void {
+  /**
+   * Sees the meadow through `camera`: from `start` the first time (the
+   * opening eye on foot without one, `openingWalk`); after, the heading and
+   * the place kept.
+   */
+  fit(camera: Camera, start?: WalkStart): void {
     const walk = this.current();
-    this.walk = walk ? refit(walk, camera, this.now()) : openingWalk(camera);
+    this.walk = walk
+      ? refit(walk, camera, this.now())
+      : openingWalk(camera, start);
   }
 
   /** The walk as of now: the keys' turn and walk ticked on by the time since it was last read. */

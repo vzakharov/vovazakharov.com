@@ -19,13 +19,14 @@ export function MeadowCanvas() {
     if (!parent) return;
     let stop: (() => void) | undefined;
     let unmounted = false;
+    const fail = (error: unknown) => {
+      setFailure(error instanceof Error ? error : new Error(String(error)));
+    };
     import('./scene/start-game')
       .then(({ startGame }) => {
-        if (!unmounted) stop = startGame(parent);
+        if (!unmounted) stop = startGame(parent, fail);
       })
-      .catch((error: unknown) => {
-        setFailure(error instanceof Error ? error : new Error(String(error)));
-      });
+      .catch(fail);
     return () => {
       unmounted = true;
       stop?.();

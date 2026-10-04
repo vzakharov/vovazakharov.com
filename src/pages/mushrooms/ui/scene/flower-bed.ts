@@ -155,10 +155,10 @@ export class FlowerBed implements Following {
 
   /**
    * Shows what `planted` holds as of `clock`, in seconds, among `mushrooms`:
-   * each new flower grows up where `layout` stands it,
-   * blooming open with its sound, each planted flower stands or hides as
-   * the mushrooms' feet leave it ground, and each of `pulled` hides
-   * (`standingFlowers`).
+   * each new flower grows up where `layout` stands it, blooming open with its
+   * sound (grown and silent on the `opening`, as it was left), each planted
+   * flower stands or hides as the mushrooms' feet leave it ground, and each
+   * of `pulled` hides (`standingFlowers`).
    */
   reconcile(
     {
@@ -168,24 +168,20 @@ export class FlowerBed implements Following {
     }: Pick<Meadow, 'planted' | 'mushrooms' | 'pulled'>,
     layout: MeadowLayout,
     clock: number,
+    opening = false,
   ): void {
-    if (
-      planted === this.planted &&
-      mushrooms === this.mushrooms &&
-      pulled === this.pulled
-    ) {
-      return;
-    }
+    const same = planted === this.planted && mushrooms === this.mushrooms;
+    if (same && pulled === this.pulled) return;
     const fresh = planted.filter(({ id }) => !this.shown.has(id));
     this.planted = planted;
     this.mushrooms = mushrooms;
     this.pulled = pulled;
     for (const flower of fresh) {
-      const shown = this.show(flower, clock);
-      shown.tappedAt = clock;
+      const at = opening ? -Infinity : clock;
+      this.show(flower, at).tappedAt = at;
       // The child's own flower leads the melody, as a tap does; a bee's
       // plays from it without moving it.
-      if (!this.hushed.delete(flower.id))
+      if (!opening && !this.hushed.delete(flower.id))
         this.sound(flower, !isBeeSown(flower));
     }
     if (!this.lighting) throw new Error('A flower is planted before its paint');

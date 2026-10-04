@@ -2,16 +2,11 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
+import type { Opening } from '../../api/open-kept';
 import { sameAnchor } from '../../model/anchor';
 import { dusky, FULL_DAY, FULL_DUSK } from '../../model/dusk';
 import type { Sight } from '../../model/flight';
-import { visitFlowers } from '../../model/flower-sounds';
-import {
-  type Action,
-  firstMeadow,
-  type Meadow,
-  reduce,
-} from '../../model/game';
+import { type Action, type Meadow, reduce } from '../../model/game';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import { sunLight } from '../../model/light';
@@ -22,7 +17,6 @@ import { controlActions, type ControlScene } from './control-actions';
 import { Controls } from './controls';
 import { DuskView, schemeIsDark } from './dusk-view';
 import { EyeInput } from './eye-input';
-import { FAR_FLOWERS } from './far-band';
 import { FlowerBed } from './flower-bed';
 import { bedClosing } from './flower-closing';
 import { type Stand, standOf } from './flower-sight';
@@ -31,6 +25,7 @@ import { Instrument } from './instrument';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { type MapSnapshot, MapView } from './map-view';
 import { listenOnMeadow } from './meadow-listeners';
+import { meadowOpening } from './meadow-opening';
 import { tapInsect, tapMeadow } from './meadow-taps';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
@@ -64,7 +59,6 @@ const INSECT_DEPTH = 1.5e5;
  * interrupts how it moves.
  */
 export class MeadowScene extends Phaser.Scene {
-  private readonly visitSeed = Math.floor(Math.random() * 2 ** 32);
   /** What the player has made of the meadow; changed only by `dispatch`, which the screen follows. */
   private meadow: Meadow | undefined;
   private flowers: FlowerBed | undefined;
@@ -95,7 +89,7 @@ export class MeadowScene extends Phaser.Scene {
   /** Where the frames are seen from, and what turns and walks it. */
   private readonly eye = new EyeInput(this.now);
   private readonly mapShot = (): MapSnapshot | undefined => {
-    const [stand, eye, seed] = [this.stand(), this.eye.eye(), this.visitSeed];
+    const [stand, eye, { seed }] = [this.stand(), this.eye.eye(), this.opening];
     const [ratio, bed, meadow] = [this.pixelRatio(), this.bed, this.meadow];
     if (!stand || !eye || !bed || !meadow) return undefined;
     const dusk = dusky(meadow.dusk, this.clock * 1000);
@@ -116,39 +110,41 @@ export class MeadowScene extends Phaser.Scene {
     tufts: () => this.grass?.inView() ?? [],
     tendedAt: () => this.grass?.tendedAt() ?? OPENING_EYE,
   };
-  private readonly planter = new Planter(
-    this.voice,
-    this.now,
-    this.scened,
-    this.visitSeed ^ 0x7f_10_e5,
-  );
+  private readonly planter: Planter;
   /** `scened` with the layout and what the insects see, as the arrivals and a tap on an insect act through it. */
   private readonly sighted = {
     ...this.scened,
     layout: () => this.requireLayout(),
     sight: () => this.sightNow(),
   };
-  private readonly arrivals = new Arrivals(
-    this.voice,
-    this.now,
-    this.sighted,
-    this.visitSeed,
-  );
+  private readonly arrivals: Arrivals;
+  /** What the visit opens on; its `keeper`, absent with no store, keeps the meadow. */
+  private readonly opening: Opening;
 
-  constructor() {
+  constructor(opening: Opening) {
     super('meadow');
+    this.opening = opening;
     this.perches = new Perches(() => this.beds());
+    // Each its own stream, apart from the meadow's world.
+    const { voice, now, scened, sighted } = this;
+    this.planter = new Planter(
+      voice,
+      now,
+      scened,
+      opening.streams ^ 0x7f_10_e5,
+    );
+    this.arrivals = new Arrivals(voice, now, sighted, opening.streams);
   }
 
   create(): void {
-    const random = mulberry32(this.visitSeed);
     const dusk = schemeIsDark() ? FULL_DUSK : FULL_DAY;
-    this.meadow = { ...firstMeadow(random), dusk };
+    const opened = meadowOpening(this.opening, dusk);
+    [this.meadow, this.openers] = [opened.meadow, opened.openers];
     this.flowers = new FlowerBed(
       this,
       this.instrument,
       this.now,
-      visitFlowers(random, this.visitSeed, FAR_FLOWERS),
+      opened.flowers,
       (action) => {
         this.dispatch(action);
       },
@@ -177,10 +173,14 @@ export class MeadowScene extends Phaser.Scene {
     const ground = { ...this.scened, beds: () => this.beds() };
     this.dusk = new DuskView(...lit, this.voice, {
       ...ground,
-      seed: this.visitSeed,
+      ...pick(this.opening, 'seed'),
     });
     this.paint();
-    this.bed.reconcile(this.meadow, this.requireLayout(), this.clock, true);
+    // At rest, as it was left: nothing pops in, sounds or blooms.
+    const at = [this.meadow, this.requireLayout(), this.clock, true] as const;
+    this.bed.reconcile(...at);
+    this.flowers.reconcile(...at);
+    this.insects.reconcile(this.meadow.insects);
     const { instrument, flowers, eye, planter, voice, map } = this;
     const { paint: resize, tapMeadow: tap } = this;
     listenOnMeadow(this, {
@@ -201,10 +201,10 @@ export class MeadowScene extends Phaser.Scene {
     if (this.sown) this.sow();
     const t = this.clock;
     const { layout, backdrop, grass, flowers, bed, meadow } = this;
-    const { controls, insects, perches, rain, dusk, map, visitSeed } = this;
+    const { controls, insects, perches, rain, dusk, map, opening } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
-    const burrows = bed?.runs.burrows(visitSeed);
+    const burrows = bed?.runs.burrows(opening.seed);
     this.dispatch({ kind: 'tick', now: time, burrows, ...this.sightNow() });
     bed?.runs.night(this.meadow?.nightRuns.last);
     driftClouds(backdrop, layout, t);
@@ -397,27 +397,24 @@ export class MeadowScene extends Phaser.Scene {
       width: this.scale.width / ratio,
       height: this.scale.height / ratio,
     };
-    // The flowers are placed on the world against the mushrooms the visit
-    // opens with, and stay put.
-    this.openers ??= this.meadow?.mushrooms ?? [];
     const layout = meadowLayout(
       screen.width,
       screen.height,
       // Its own stream, apart from the creatures' and the backdrop's.
-      this.visitSeed ^ 0xf1_0e_25,
+      this.opening.seed ^ 0xf1_0e_25,
       this.openers,
     );
     this.layout = layout;
     // The visit opens on the clump; a resize keeps where the eye stands
     // and which way it looks.
-    this.eye.fit(layout.camera);
+    this.eye.fit(layout.camera, this.opening.kept);
     // Its own stream, so the backdrop never shifts the creatures' seeds.
-    const random = mulberry32(this.visitSeed ^ 0x5e_ed);
+    const random = mulberry32(this.opening.seed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
     this.rain?.paint(layout, this.backdrop);
     this.dusk?.paint(layout, this.backdrop);
     // Its own stream, so a planting never shifts the backdrop's.
-    this.grass ??= new Grass(this, mulberry32(this.visitSeed ^ 0x70_f7_5e));
+    this.grass ??= new Grass(this, mulberry32(this.opening.seed ^ 0x70_f7_5e));
     const stand = this.stand();
     if (stand) this.grass.paint(stand);
     this.shutStrayPicker();
