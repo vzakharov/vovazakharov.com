@@ -9,6 +9,7 @@ import {
   isFull,
   MUSHROOM_SLOTS,
 } from './crowding';
+import { DUSK_MS, duskness, FULL_DAY } from './dusk';
 import { canFurnish } from './furnishing';
 import { type Action, firstMeadow, isEmpty, type Meadow, reduce } from './game';
 import type { Point } from './geometry';
@@ -592,5 +593,26 @@ describe('the rain', () => {
     const { rain: dry, ...before } = meadow;
     assert.equal(dry, undefined);
     assert.deepEqual(after, { ...before, planting: undefined });
+  });
+});
+
+/** A tap on the sun or the moon at `now`. */
+const dusk = (now: number): Action => ({ kind: 'dusk', now });
+
+describe('the dusk', () => {
+  it('opens in full day', () => {
+    assert.deepEqual(opening().dusk, FULL_DAY);
+  });
+
+  it('turns toward dusk at a tap, and back at the next, changing nothing else', () => {
+    const meadow = opening();
+    const { dusk: turning, ...after } = reduce(meadow, dusk(2000));
+    const { dusk: _day, ...before } = meadow;
+    assert.deepEqual(after, before);
+    assert.equal(turning.toward, 'dusk');
+    assert.equal(duskness(turning, 2000 + DUSK_MS), 1);
+    const back = run(meadow, [dusk(2000), dusk(2000 + DUSK_MS * 2)]).dusk;
+    assert.equal(back.toward, 'day');
+    assert.equal(duskness(back, 2000 + DUSK_MS * 3), 0);
   });
 });

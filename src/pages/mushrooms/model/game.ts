@@ -8,6 +8,7 @@ import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
 import { isCrowdedAt, isFull } from './crowding';
+import { type Dusk, FULL_DAY, turned } from './dusk';
 import { type Perches, perchName, type Sight, type Timed } from './flight';
 import type { Onscreen } from './flight-in';
 import type { Coloured } from './flower-genes';
@@ -83,6 +84,8 @@ export type Meadow = Swarm & {
   released: number;
   /** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
   rain: Rain | undefined;
+  /** Which way the light is going (`duskness`): the one record of the time of day. */
+  dusk: Dusk;
 } & Spored;
 
 export type Action =
@@ -111,6 +114,8 @@ export type Action =
   | { kind: 'map' }
   // A tap on a cloud: starts a shower, or while one falls restarts its time.
   | ({ kind: 'rain' } & Timed)
+  // A tap on the sun or the moon: turns the light the other way.
+  | ({ kind: 'dusk' } & Timed)
   | ({ kind: 'release'; insect: InsectKind; onscreen?: Onscreen } & Seeded &
       Sighted)
   | ({ kind: 'startle' } & WithId & Sighted)
@@ -138,6 +143,7 @@ export function firstMeadow(random: Random): Meadow {
     planted: [],
     released: 0,
     rain: undefined,
+    dusk: FULL_DAY,
     spores: [],
     scattered: 0,
   };
@@ -386,6 +392,9 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         ...flowersShut(meadow),
         rain: { startedAt, stopsAt: now + RAIN_MS },
       };
+    }
+    case 'dusk': {
+      return { ...meadow, dusk: turned(meadow.dusk, action.now) };
     }
     case 'tick': {
       const rained = sproutedInRain(meadow, action.now);
