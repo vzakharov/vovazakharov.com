@@ -1,0 +1,80 @@
+{
+  "sessionId": "39f443f9-7c1a-5ef6-97c7-a7b2173b2113",
+  "branch": "claude/umami-analytics-ghd1sd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/umami-analytics-ghd1sd",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01LZD6c7GoQAJMRpWsSmwjhx",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-04T05:20:49.206Z",
+  "lastResponseAt": "2026-10-04T05:22:06.152Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 45126,
+    "cacheReadTokens": 704988,
+    "outputTokens": 4187,
+    "thinkingTokens": 798,
+    "responses": 8,
+    "costUsd": 0.5858095999999999
+  },
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 45126,
+    "cacheReadTokens": 704988,
+    "outputTokens": 4187,
+    "thinkingTokens": 798,
+    "responses": 8,
+    "costUsd": 0.5858095999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 45126,
+      "cacheReadTokens": 704988,
+      "outputTokens": 4187,
+      "thinkingTokens": 798,
+      "responses": 8,
+      "costUsd": 0.5858095999999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-04T05:22:06.152Z",
+    "contextTokens": 99276,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43841,
+      "cacheReadTokens": 606999,
+      "outputTokens": 3232,
+      "thinkingTokens": 743,
+      "responses": 7,
+      "costUsd": 0.5368238
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.5858095999999999,
+    "matchedEventUsd": 0.5858095999999999,
+    "unseen": {}
+  }
+}
