@@ -50,6 +50,7 @@ import { playHold } from './lib/play-hold.ts';
 import { playKeys } from './lib/play-keys.ts';
 import { playMap } from './lib/play-map.ts';
 import { playMeadow } from './lib/play-meadow.ts';
+import { playGrownRuns } from './lib/play-night-run.ts';
 import { playOpening } from './lib/play-opening.ts';
 import { playRain } from './lib/play-rain.ts';
 import { playRuns } from './lib/play-runs.ts';
@@ -92,6 +93,7 @@ const PLAYS = [
   ['sprouts', playSprouts],
   ['map', playMap],
   ['dusk', playDusk],
+  ['night-run', playGrownRuns],
   ['dark', playDark],
 ] as const;
 

@@ -20,7 +20,7 @@ import type { Lights } from './dusk-view';
 import { containsOutline, drawnMushrooms } from './hit-areas';
 import { HouseWorm } from './house-worm';
 import type { Lighted } from './ink';
-import type { DoorShown, MouseDoor } from './mouse-runs';
+import type { DoorShown, MouseDoor } from './mouse-door';
 import type { HazedGraphics } from './mushroom-paint';
 import { PALETTE } from './palette';
 import type { Brush } from './shapes';

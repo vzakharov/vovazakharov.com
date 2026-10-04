@@ -14,13 +14,7 @@ import type { WithId } from '@/shared/typings';
 
 import { panOf } from '../../model/flight-frame';
 import { CLUMP_DISTANCE } from '../../model/ground';
-import {
-  mouseOut,
-  outingOf,
-  outingStart,
-  peekAfterTap,
-  type Tapped,
-} from '../../model/motion';
+import { outingOf, outingStart, type Tapped } from '../../model/motion';
 import {
   answerTap,
   entered,
@@ -30,7 +24,6 @@ import {
   miceAt,
   retarget,
   type RunDoor,
-  type RunEnds,
   runsOuting,
   runTarget,
   scattered,
@@ -38,7 +31,6 @@ import {
 import {
   courseOf,
   runAt,
-  type RunCourse,
   type RunMoment,
   runnerAt,
   type RunOpening,
@@ -47,12 +39,18 @@ import { facingAlong, pathLength, sideOf } from '../../model/mouse-run-course';
 import type { Burrows, NightRun } from '../../model/night-runs';
 import type { Seeded } from '../../model/random';
 import type { BedPlace } from './bed-place';
-import type { ShownDoor } from './draw-house';
 import {
   containsCircle,
   type WithCircleHit,
   type WithGraphics,
 } from './hit-areas';
+import {
+  type DoorKept,
+  type DoorRun,
+  type DoorShown,
+  doorShownAt,
+  type MouseDoor,
+} from './mouse-door';
 import type { Shown } from './mushroom-shown';
 import {
   doorEnd,
@@ -64,46 +62,20 @@ import type { MeadowSound } from './sound';
 import type { View } from './view';
 
 /**
- * How far a door's mouse's head is out and the door open (0 to 1), as its
- * peeks and the runs at it have them, and, while a run's mouse looks toward
- * its target from the doorway, which way it looks.
+ * A run under way, as its doors see it (`DoorRun`); its ends as last stood
+ * with their houses' paint, each kept once its door sinks and the start
+ * `fixed` where a re-target began on the ground, so the runner is drawn
+ * whatever its houses do; its runner, the circle it takes a tap in, when it
+ * was last tapped, and its patter's last tick.
  */
-export type DoorShown = Pick<ShownDoor, 'out' | 'open'> &
-  Partial<Pick<ShownDoor, 'look'>>;
-
-/** A house's door as the runs answer it: a tap on it, and how it shows at a moment. */
-export type MouseDoor = {
-  tap: (mouse: Tapped) => void;
-  at: (t: number, mouse: Tapped) => DoorShown;
-};
-
-/**
- * A run under way, from `from`'s door to `to`'s: when its clock began and
- * what it is fixed at; its ends as last stood with their houses' paint,
- * each kept once its door sinks and the start `fixed` where a re-target
- * began on the ground, so the runner is drawn whatever its houses do; its
- * runner, the circle it takes a tap in, when it was last tapped, and its
- * patter's last tick.
- */
-export type MouseRun = RunEnds &
+type MouseRun = DoorRun &
   Pick<Tapped, 'tappedAt'> &
   WithCircleHit &
   WithGraphics & {
-    beganAt: number;
-    course: RunCourse;
     start: PaintedEnd | undefined;
     end: PaintedEnd | undefined;
-    fixed: boolean;
     pattered: number;
   };
-
-/** A house's door as the runs keep it: its mushroom's seed, its last outing, the one a run took, its last knock and the dusk's last peek at it. */
-type Kept = Seeded & {
-  outing: number | undefined;
-  ran: number | undefined;
-  knockedAt: number;
-  calledAt: number;
-};
 
 /** How often a runner's patter ticks while it runs, in seconds: a quick, light patter at any pace. */
 const PATTER_EVERY = 0.08;
@@ -118,7 +90,7 @@ const momentOf = (run: MouseRun, t: number): RunMoment =>
 export class MouseRuns {
   private counts: Mice = new Map();
   private readonly under: MouseRun[] = [];
-  private readonly kept = new Map<string, Kept>();
+  private readonly kept = new Map<string, DoorKept>();
   /** The doors that have brought their mouse, so a door brings one only once. */
   private readonly known = new Set<string>();
   /** The dusk's last outing played, so each plays once. */
@@ -234,7 +206,7 @@ export class MouseRuns {
       );
       if (bound === undefined) continue;
       const { to, runs } = bound;
-      // With no view to place it by, or no door in reach, its mouse is
+      // With no view to place it by, or no door in sight, its mouse is
       // counted in there at once.
       if (at && runs) {
         const start = {
@@ -308,40 +280,13 @@ export class MouseRuns {
     } else mouse.tappedAt = now;
   }
 
-  /**
-   * How `id`'s door shows at `t`: its mouse's head out of a run's peek, or
-   * else its own peeks and the dusk's while it holds a mouse — not the
-   * outing a run took — and open as far as the most any of those or a run
-   * or a knock opens it.
-   */
+  /** How `id`'s door shows at `t`, by `doorShownAt`. */
   private doorAt(id: string, t: number, mouse: Tapped): DoorShown {
     const kept = this.kept.get(id);
     const home = miceAt(this.counts, id) > 0;
-    const ran =
-      kept?.ran !== undefined && outingOf(t, mouse.phase) === kept.ran;
-    const peeking = home
-      ? ran
-        ? peekAfterTap(t - mouse.tappedAt)
-        : mouseOut(t, mouse)
-      : 0;
-    const called = home ? peekAfterTap(t - (kept?.calledAt ?? -Infinity)) : 0;
-    let out = Math.max(peeking, called);
-    let open = peekAfterTap(t - (kept?.knockedAt ?? -Infinity));
-    let look: number | undefined;
-    for (const run of this.under) {
-      const elapsed = t - run.beganAt;
-      if (elapsed < 0 || (run.from !== id && run.to !== id)) continue;
-      const moment = runAt(elapsed, run.course);
-      if (run.from === id && !run.fixed) {
-        open = Math.max(open, moment.fromOpen);
-        if (moment.headOut > out) {
-          out = moment.headOut;
-          look = this.lookOf(run);
-        }
-      }
-      if (run.to === id) open = Math.max(open, moment.toOpen);
-    }
-    return { out, open, look };
+    return doorShownAt(id, t, mouse, { kept, home }, this.under, (run) =>
+      this.lookOf(run),
+    );
   }
 
   /** Which way a run's mouse looks from its doorway, along its course toward its target, on screen. */
