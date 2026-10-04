@@ -127,18 +127,31 @@ mkdir -p "$state_dir" && printf '%s\n' "$level" >"$state_file" || {
   exit 0
 }
 
-# The operator's auto-relay setting, keyed as `.claude/hooks/operator-voice.sh`
-# keys voice entries: the lowercased login of a `User` token. Read only here,
-# with a notice about to go out, since resolving the operator is an API call.
+# A `/golem` run relays at every pause, whoever the operator is: a branch with a
+# live operator log reads as `on`. The golem hook's `path` is that rule's home.
+# Otherwise the operator's auto-relay setting, keyed as
+# `.claude/hooks/operator-voice.sh` keys voice entries: the lowercased login of a
+# `User` token. Read only here, with a notice about to go out, since resolving
+# the operator is an API call.
 auto_relay=unresolved
-handle="$(gh api user 2>/dev/null | jq -r 'select(.type == "User") | .login | ascii_downcase' 2>/dev/null)"
-if [[ "$handle" =~ ^[a-z0-9-]+$ ]]; then
-  setting=".claude/context-budget/auto-relay/$handle"
-  case "$(tr -d '[:space:]' 2>/dev/null <"$root/$setting")" in
-    on) auto_relay=on ;;
-    off) auto_relay=off ;;
-    *) auto_relay=unset ;;
-  esac
+auto='`@.claude/skills/relay/SKILL.md` § "Auto-relay"'
+golem_hook="$hooks/../../hooks/golem-operator-log.sh"
+golem_log=
+[ ! -x "$golem_hook" ] || golem_log="$("$golem_hook" path "$root" 2>/dev/null)"
+if [ -n "$golem_log" ]; then
+  auto_relay=on
+  because="this branch is a \`/golem\` run with a live operator log (\`${golem_log#"$root/"}\`, \`@.claude/skills/golem/SKILL.md\`)"
+else
+  handle="$(gh api user 2>/dev/null | jq -r 'select(.type == "User") | .login | ascii_downcase' 2>/dev/null)"
+  if [[ "$handle" =~ ^[a-z0-9-]+$ ]]; then
+    setting=".claude/context-budget/auto-relay/$handle"
+    because="this operator turned auto-relay on (\`${setting}\`, ${auto})"
+    case "$(tr -d '[:space:]' 2>/dev/null <"$root/$setting")" in
+      on) auto_relay=on ;;
+      off) auto_relay=off ;;
+      *) auto_relay=unset ;;
+    esac
+  fi
 fi
 
 past() { echo "Context budget: this session is carrying ~$(k "$reading") tokens of context, past the $(k "$1") $2 line."; }
@@ -150,10 +163,9 @@ relay='`/relay` (`@.claude/skills/relay/SKILL.md`), which hands the branch to a 
 room=$((pause - warn))
 last_step=20000
 
-# However a pause is reached, the operator's setting decides how it ends.
-auto='`@.claude/skills/relay/SKILL.md` § "Auto-relay"'
+# However a pause is reached, the auto-relay setting decides how it ends.
 ends="tell the operator the session was paused for its context budget, and end the turn offering ${relay}"
-[ "$auto_relay" != on ] || ends="then, without asking and with no argument, run ${relay}. Do so because this operator turned auto-relay on (\`${setting}\`, ${auto}); its report tells the operator the session was paused for its context budget and relayed on its own"
+[ "$auto_relay" != on ] || ends="then, without asking and with no argument, run ${relay}. Do so because ${because}; its report tells the operator the session was paused for its context budget and relayed on its own"
 paused="follow ${stopping}. Push, ${ends}; the new session resumes the paused plan."
 
 saving=

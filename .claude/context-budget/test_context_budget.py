@@ -285,6 +285,28 @@ class WhetherThePauseRelaysOnItsOwn(BudgetTestCase):
         self.assertIn("offering `/relay`", pause)
         self.assertNotIn(self.OPT_IN, pause)
 
+    def test_a_live_golem_operator_log_relays_whatever_the_operator_said(self) -> None:
+        self.session.signed_in_as("someone")
+        self.session.auto_relay("someone", "off")
+        log = self.session.root / "docs" / "plans" / "run" / "operator-log.md"
+        log.parent.mkdir(parents=True)
+        log.write_text("# Operator log\n")
+        for notice in self.notices():
+            self.assertIn("without asking and with no argument, run `/relay`", notice)
+            self.assertIn("`/golem` run", notice)
+            self.assertIn("docs/plans/run/operator-log.md", notice)
+            self.assertNotIn("auto-relay/someone", notice)
+            self.assertNotIn(self.OPT_IN, notice)
+
+    def test_a_completed_runs_log_is_not_live(self) -> None:
+        log = self.session.root / "docs" / "plans" / "run" / "operator-log.md"
+        log.parent.mkdir(parents=True)
+        log.write_text("# Operator log\n")
+        (self.session.root / "docs" / "plans" / "run.completed.md").write_text("")
+        _, pause = self.notices()
+        self.assertIn("offering `/relay`", pause)
+        self.assertNotIn("`/golem` run", pause)
+
 
 class ThePricedLines(BudgetTestCase):
     # Opening at 43k, acting at 90k, then growing 2k a request: a successor

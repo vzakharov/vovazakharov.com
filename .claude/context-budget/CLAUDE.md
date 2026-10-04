@@ -58,7 +58,9 @@ user`, since it costs a network call and the ordinary tool call has no use for
   `@.claude/skills/relay/SKILL.md` § "Auto-relay" owns what it means and who
   writes it. A `gh` that cannot answer, or a token that is not a `User`'s, reads
   as `off` and asks nothing: there is no one to have opted in and nowhere to
-  record an answer.
+  record an answer. A branch with a live `/golem` operator log, by
+  `.claude/hooks/golem-operator-log.sh path`, reads as `on` without asking `gh`,
+  since `@.claude/skills/golem/SKILL.md` relays at every pause.
 - **Anything unreadable is silence**, never an error: a missing notice costs a
   warning, a hook failing on every tool call costs the session.
 
