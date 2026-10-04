@@ -19,7 +19,6 @@ const isKnown = isOneOf(BLOCK_DIRECTIVES);
 /**
  * `repeats` marks a block whose words the reader meets elsewhere in the body —
  * a pull quote — so it is `aria-hidden` and kept out of the reading estimate.
- * A callout says something of its own, and is read like any paragraph.
  */
 const DIRECTIVES = {
   'pull-quote': { className: 'content-pull-quote', repeats: true },

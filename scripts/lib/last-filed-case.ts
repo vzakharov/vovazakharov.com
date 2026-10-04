@@ -11,9 +11,9 @@ const CASE_NUMBER = /^case:[\t ]*(BAS-\d{4})[\t ]*$/m;
 const TITLE = /^# (.+)$/m;
 
 /**
- * The case with the highest number. Numbers are zero-padded, so their string
- * order is their filing order. Throws on a case file missing either half, and
- * on an empty docket — the card has a line for the case either way.
+ * Numbers are zero-padded, so their string order is their filing order. Throws
+ * on a case file missing either half, and on an empty docket — the card has a
+ * line for the case either way.
  */
 export function lastFiledCase(sources: readonly string[]): FiledCase {
   const cases = sources.map((source) => {
