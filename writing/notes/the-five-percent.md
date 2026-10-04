@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×37)
+## What it was handed, it treats as fixed (×38)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -103,6 +103,13 @@ rules out hover-only, not hover. On a phone, stanza and crib interleaved so the
 page would fit, trading away the one-language selection the layout existed for.
 The operator asked for hover where it exists, a press elsewhere, and columns
 that scroll sideways like a wide table: the option the agent never listed.
+
+**4 October — one run's circumstances, distilled as the skill.** Writing `/mega`
+from PR #57, a game built over ~50 sessions with its operator often at hand, the
+plan held "feel calls" for him because holding had worked there, reviewed through
+a "player", and put a `/mega <branch>` and a PR subscription beside `/relay take`
+and `/handle`. _"playing" относится исключительно к играм, /mega ими не
+ограничен_ — nor to an operator present: a precedent of one, read as the spec.
 
 ## An account that explains the code stands in for running it (×16)
 
