@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
+import { z } from 'zod';
 
 import { ALL_TEN, opened, play } from '../ui/scene/visit-play';
 import { type Action, type Meadow, reduce } from './game';
 import { OPENING_EYE } from './ground';
 import { settled } from './keeping';
-import { type Kept, KEPT_VERSION, readKept } from './kept-record';
+import { type Kept, KEPT_VERSION, KeptSchema, readKept } from './kept-record';
 import { grownOn } from './placement';
 
 const SEED = 5;
@@ -92,5 +94,21 @@ describe('readKept', () => {
     for (const raw of [undefined, null, 1, 'meadow', []]) {
       assert.equal(readKept(raw), undefined);
     }
+  });
+});
+
+describe('KeptSchema', () => {
+  it('keeps the shape pinned for its version', () => {
+    // `undefined` is the schema's only type JSON Schema cannot express; it reads as `{}`.
+    const shape = z.toJSONSchema(KeptSchema, { unrepresentable: 'any' });
+    const pinned: unknown = JSON.parse(
+      readFileSync(new URL('kept-record.schema.json', import.meta.url), 'utf8'),
+    );
+    assert.deepEqual(
+      shape,
+      pinned,
+      'The kept record changed shape: bump KEPT_VERSION and add a reader for the previous one, ' +
+        'or, if the change is additive and old records still parse, update kept-record.schema.json.',
+    );
   });
 });

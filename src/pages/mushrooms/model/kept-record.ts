@@ -139,8 +139,11 @@ const KeptMeadowSchema = z.object({
   }),
 });
 
-/** The record, checked against the model's own types: a field the model changes and this does not fails the type check. */
-const KeptSchema = z.object({
+/**
+ * The record, checked against the model's own types: a field the model changes and this does not fails the type check.
+ * Its shape is pinned by `kept-record.schema.json`, so a change to it meets the question of `KEPT_VERSION`.
+ */
+export const KeptSchema = z.object({
   version: z.literal(KEPT_VERSION),
   seed,
   eye: z.object({ ...point, heading: z.number() }),
