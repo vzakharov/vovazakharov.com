@@ -1,8 +1,8 @@
 /**
  * How an Open Graph card is rasterized: the Chromium screenshot of a staged
- * page, on the canvas `shared/config/og-canvas.ts` sizes. The page is whatever a card kind
- * produces — a letterbox around an authored SVG, or a laid-out HTML card — so
- * this file knows the frame and nothing about what goes in it.
+ * page, on the canvas `shared/config/og-canvas.ts` sizes. The page is whatever
+ * a card kind produces — a letterbox around an authored SVG, or a laid-out HTML
+ * card — so this file knows the frame and nothing about what goes in it.
  *
  * Bare Node can run this file, relying on its type stripping, so it stays free
  * of syntax the stripper cannot erase and every relative import carries its

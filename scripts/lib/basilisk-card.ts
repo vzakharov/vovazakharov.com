@@ -38,8 +38,7 @@ const fontPath = fileURLToPath(
 );
 
 /**
- * Laid out at the canvas size and zoomed to the screenshot's, as the CV card
- * is. The memo mirrors `MemoFields`: labels in one column sized to the longest,
+ * The memo mirrors `MemoFields`: labels in one column sized to the longest,
  * dimmed and capitalized, the values beside them.
  */
 function cardPage(): string {
