@@ -32,6 +32,7 @@ import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
 import { doorSeats } from './door-seats';
 import { tappedDoor } from './door-tap';
+import type { Lights } from './dusk-view';
 import { containsMushroom } from './hit-areas';
 import { HouseView } from './house-view';
 import type { Lighting } from './ink';
@@ -222,9 +223,10 @@ export class MushroomBed implements Following {
   /**
    * Breathes, wobbles and grows every mushroom at `t`, in seconds, each
    * swollen about its foot by the meadow's `wetness`, 0 to 1 (`RAIN_SWELL`),
-   * its house, ring and the seats on its cap following its drawing.
+   * its house, ring and the seats on its cap following its drawing, the
+   * house's windows lit as `lights` has the dusk.
    */
-  update(t: number, wetness: number): void {
+  update(t: number, wetness: number, lights?: Lights): void {
     const swell = 1 + RAIN_SWELL * wetness;
     for (const [id, shown] of this.shown) {
       const {
@@ -258,7 +260,7 @@ export class MushroomBed implements Following {
         )
         .setRotation(turn + bounce * WOBBLE_ROCK)
         .setVisible(drawn);
-      house.update(t, shown);
+      house.update(t, shown, lights);
       shadow
         .setScale(
           (1 + Math.max(0, -stretch) * SHADOW_SPREAD) * grown * zoom,

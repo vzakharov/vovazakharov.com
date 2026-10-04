@@ -95,6 +95,8 @@ export const CREATURES = {
    */
   windowPane: 0xff_d8_6a,
   windowShine: 0xff_f4_c8,
+  /** A window's pane lit at dusk, and the halo round it: a deeper amber than the day's pane. */
+  windowLit: 0xff_b8_40,
   /** Window frames, and the door's wood with its planks' darker grain. */
   wood: 0xb0_6e_3a,
   woodDeep: 0x86_4e_28,
@@ -154,4 +156,10 @@ export const CREATURES = {
   /** A fly's and a bee's clear wings: the glass, laid over at low alpha, and its veins. */
   wingGlass: 0xe8_f6_ff,
   wingVein: 0x5a_6a_7e,
+  /** A firefly: its dark body, its tail's yellow-green light and the softer halo round it. */
+  firefly: {
+    body: 0x2e_26_1e,
+    tail: 0xf2_ff_8a,
+    halo: 0xc6_f0_4a,
+  },
 } as const;

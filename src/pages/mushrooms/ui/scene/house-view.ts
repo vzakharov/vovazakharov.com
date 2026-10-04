@@ -15,21 +15,25 @@ import { capFrame } from '../../model/mushroom-pose';
 import { type BedPlace, standAt } from './bed-place';
 import { mix } from './colour';
 import { doorHitArea, mouseHead } from './door-reach';
-import { paintHouse } from './draw-house';
-import { containsOutline } from './hit-areas';
+import { paintHouse, type ShownWindow } from './draw-house';
+import type { Lights } from './dusk-view';
+import { containsOutline, drawnMushrooms } from './hit-areas';
 import { HouseWorm } from './house-worm';
 import type { Lighted } from './ink';
 import type { DoorShown, MouseDoor } from './mouse-runs';
 import type { HazedGraphics } from './mushroom-paint';
 import { PALETTE } from './palette';
+import type { Brush } from './shapes';
 import type { MeadowSound } from './sound';
 import { puffFrom, type Puffing } from './spores';
+import { coveredAt, paintGlow, windowMiddles } from './window-glow';
 import {
   type HousePart,
   tappedPart,
   windowFace,
   windowReaches,
 } from './window-reach';
+import { windowsLit } from './windows-lit';
 
 /** How much sooner than its mouse's head a door swings all the way open. */
 const DOOR_LEAD = 2;
@@ -90,6 +94,12 @@ export class HouseView {
   private readonly nearest: (house: HouseView, at: Point) => boolean;
   /** Its door as the mice's runs show it and answer a tap on it. */
   private readonly onDoor: MouseDoor;
+  /** Its windows lit at dusk, over the dusk wash, following the house (`paintGlow`). */
+  private readonly glow: Phaser.GameObjects.Graphics;
+  /** The windows and brush of the last paint, which the glow lights. */
+  private painted: { windows: ShownWindow[]; brush: Brush } | undefined;
+  /** Which of the last paint's windows the glow was last painted with lit, by index: changes when a paint or a nearer mushroom does. */
+  private glowed: string | undefined;
 
   constructor(
     scene: Phaser.Scene,
@@ -108,6 +118,7 @@ export class HouseView {
     this.onDoor = onDoor;
     this.mouse = { phase, tappedAt: -Infinity };
     this.worm = new HouseWorm(voice, phase);
+    this.glow = scene.add.graphics().setVisible(false);
     this.graphics = scene.add.graphics().setInteractive({
       hitArea: this.hit,
       hitAreaCallback: (_area: readonly Point[], x: number, y: number) =>
@@ -227,6 +238,7 @@ export class HouseView {
 
   destroy(): void {
     this.graphics.destroy();
+    this.glow.destroy();
   }
 
   /** How far a mouse is out of its door at `t`, peeking or setting off on a run: 0 with no door. */
@@ -247,8 +259,8 @@ export class HouseView {
     this.zoom = place.zoom;
   }
 
-  /** Takes `body`'s pose as of `t`, and repaints what has moved. */
-  update(t: number, body: Body): void {
+  /** Takes `body`'s pose as of `t`, repaints what has moved, and lights its windows as `lights` has the dusk. */
+  update(t: number, body: Body, lights?: Lights): void {
     const { graphics } = body;
     this.graphics
       .setScale(graphics.scaleX, graphics.scaleY)
@@ -259,11 +271,49 @@ export class HouseView {
       (at) => t - at < EMERGE_DURATION,
     );
     const worm = this.worm.stirring(t);
-    if (!this.stale && !popping && out === 0 && this.shownOut === 0 && !worm)
-      return;
-    this.stale = false;
-    this.shownOut = out;
-    this.paint(t, body, door);
+    if (this.stale || popping || out > 0 || this.shownOut > 0 || worm) {
+      // A stale house is repainted afresh, its glow with it; a moving one only where its windows did.
+      if (this.stale) this.glowed = undefined;
+      this.stale = false;
+      this.shownOut = out;
+      this.paint(t, body, door);
+    }
+    this.light(t, body, lights);
+  }
+
+  /**
+   * Lays its glow over the house, at `lights`' depth and as lit as the dusk
+   * has its windows at `t`: each window a worm has open, or a nearer
+   * mushroom stands over the middle of, left to the house under the wash.
+   */
+  private light(t: number, body: Body, lights: Lights | undefined): void {
+    const { glow, graphics, painted, mouse, scene } = this;
+    const lit = lights ? windowsLit(lights.dusk, t * 1000, mouse.phase) : 0;
+    glow.setVisible(lit > 0 && graphics.visible && painted !== undefined);
+    if (!lights || !painted || !glow.visible) return;
+    glow
+      .setAlpha(lit)
+      .setDepth(lights.depth)
+      .setPosition(graphics.x, graphics.y)
+      .setScale(graphics.scaleX, graphics.scaleY)
+      .setRotation(graphics.rotation);
+    const { genes, size } = body;
+    const nearer = drawnMushrooms(scene);
+    const matrix = graphics.getWorldTransformMatrix();
+    const middles = windowMiddles(genes, size, painted.windows);
+    const windows = painted.windows.map((window, index) => {
+      const middle = middles[index];
+      const at = middle && matrix.transformPoint(middle.x, middle.y);
+      const hidden =
+        !at ||
+        (window.swing?.open ?? 0) > 0 ||
+        coveredAt(nearer, pick(at, 'x', 'y'), graphics.depth);
+      return hidden ? { ...window, popped: 0 } : window;
+    });
+    const glowed = windows.map(({ popped }) => popped).join(',');
+    if (glowed === this.glowed) return;
+    this.glowed = glowed;
+    paintGlow(glow, genes, size, windows, painted.brush);
   }
 
   private paint(t: number, body: Body, shown: DoorShown | undefined): void {
@@ -302,6 +352,7 @@ export class HouseView {
       this.zoom,
     );
     this.face = windowFace(genes, size);
+    this.painted = { windows, brush };
     const worm = this.worm.shown(t, genes, size, this.zoom);
     paintHouse(this.graphics, genes, size, windows, door, brush, worm);
     if (!door) return;
