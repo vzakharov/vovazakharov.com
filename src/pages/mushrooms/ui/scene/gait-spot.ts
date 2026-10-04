@@ -1,7 +1,7 @@
 /**
- * Where the gait button stands: beside the map button, on a spot the other
- * buttons, the pickers, the cross and the sun leave free, so that it moves
- * none of them on any screen.
+ * Where the gait button stands: beside the map button or the insects' buttons
+ * lined up with it, on a spot the other buttons, the pickers, the cross and
+ * the sun leave free, so that it moves none of them on any screen.
  */
 
 import type { Circle } from '../../model/geometry';
@@ -21,28 +21,34 @@ type GaitScreen = Controls &
   Pick<MeadowLayout, 'width' | 'height' | 'groundTop' | 'sun' | 'cross'>;
 
 /**
- * The gait button right of the map button, their reaches touching; under it
- * where that spot is not free; else the free spot nearest the map button.
- * Free is in the sky, every standing button's reach clear of it, every
- * picker's stage `PICK_CLEAR` off it (`PICK_APART`, a four-button row in its
- * band), and the sun's rays `BUTTON_INSET` off it, as they keep off every
- * button. A sky too full for any such spot has it stand over a picker's
- * row instead, as the insects' buttons do there, and give way to it; one
- * too full for that too, still in the sky where its reach clears the rays,
- * and only where the sky has no such spot, on the meadow.
+ * The gait button on the first free spot beside the line of buttons the map
+ * button heads (`besideLines`). Free is in the sky, every standing button's
+ * reach clear of it, every picker's stage `PICK_CLEAR` off it (`PICK_APART`,
+ * a four-button row in its band), and the sun's rays `BUTTON_INSET` off it,
+ * as they keep off every button. Where none of those spots is free but one
+ * stands over a picker's stage, it stands there and gives way to the picker,
+ * as the insects' buttons do: a button alone out in the sky reads as nobody's.
+ * Only a screen with neither has the free spot nearest the map button; one
+ * with none of that either has it give way over a picker's row anywhere in
+ * the sky, then still in the sky where its reach clears the rays, and only
+ * where the sky has no such spot, on the meadow.
  */
 export function gaitSpot(
   screen: GaitScreen,
 ): Pick<Controls, 'gait' | 'yielding'> {
   const { width, height, groundTop, yielding } = screen;
   const { standing, picked } = freeOf(screen);
-  const free = nearestSpot(
-    screen,
-    (spot) => standing(spot, groundTop, BUTTON_INSET) && picked(spot),
-  );
-  if (free) return { gait: free, yielding };
+  const sky = (spot: Circle) => standing(spot, groundTop, BUTTON_INSET);
+  const free = (spot: Circle) => sky(spot) && picked(spot);
+  const lines = besideLines(screen);
+  const freeBeside = lines.find(free);
+  if (freeBeside) return { gait: freeBeside, yielding };
+  const givingBeside = lines.find(sky);
+  const freeElsewhere = givingBeside ? undefined : nearestSpot(screen, free);
+  if (freeElsewhere) return { gait: freeElsewhere, yielding };
   const giving =
-    nearestSpot(screen, (spot) => standing(spot, groundTop, BUTTON_INSET)) ??
+    givingBeside ??
+    nearestSpot(screen, sky) ??
     nearestSpot(screen, (spot) => standing(spot, groundTop, 0)) ??
     nearestSpot(screen, (spot) => standing(spot, height, 0));
   if (!giving) {
@@ -53,16 +59,14 @@ export function gaitSpot(
   return { gait: giving, yielding: [...yielding, 'gait'] };
 }
 
-/** The first spot `fits`: right of the map button, under it, or the nearest on a grid round it. */
+/** The first spot `fits` beside the map button's lines (`besideLines`), or else the nearest on a grid round it. */
 function nearestSpot(
-  { map, width, height }: GaitScreen,
+  screen: GaitScreen,
   fits: (spot: Circle) => boolean,
 ): Circle | undefined {
-  const step = tapReach(map.r) + tapReach(GAIT_R);
-  const right = { ...map, x: map.x + step, r: GAIT_R };
-  const under = { ...map, y: map.y + step, r: GAIT_R };
-  if (fits(right)) return right;
-  if (fits(under)) return under;
+  const { map, width, height } = screen;
+  const beside = besideLines(screen).find(fits);
+  if (beside) return beside;
   let nearest: { spot: Circle; distance: number } | undefined;
   // The grid runs through the map button's centre, so the spots in line with it are on it.
   for (let y = map.y % SPOT_STEP; y <= height; y += SPOT_STEP) {
@@ -79,6 +83,39 @@ function nearestSpot(
     }
   }
   return nearest?.spot;
+}
+
+/**
+ * Right of the map button, under it, right of the last button in its row and
+ * under the last in its column, each their reaches touching. The insects'
+ * buttons stand in either line where they stand beside the map button
+ * (`placeReleases`), so the gait button follows them rather than leave the
+ * line for the sky.
+ */
+function besideLines({ map, releases }: GaitScreen): Circle[] {
+  const insects = Object.values(releases);
+  const last = (line: Circle[], along: (button: Circle) => number) =>
+    line.reduce((end, button) => (along(button) > along(end) ? button : end));
+  const rowEnd = last(
+    [map, ...insects.filter((button) => button.y === map.y)],
+    (button) => button.x,
+  );
+  const columnEnd = last(
+    [map, ...insects.filter((button) => button.x - button.r === map.x - map.r)],
+    (button) => button.y,
+  );
+  const step = (button: Circle) => tapReach(button.r) + tapReach(GAIT_R);
+  const rightOf = (button: Circle) => ({
+    x: button.x + step(button),
+    y: button.y,
+    r: GAIT_R,
+  });
+  const under = (button: Circle) => ({
+    x: button.x,
+    y: button.y + step(button),
+    r: GAIT_R,
+  });
+  return [rightOf(map), under(map), rightOf(rowEnd), under(columnEnd)];
 }
 
 /**
