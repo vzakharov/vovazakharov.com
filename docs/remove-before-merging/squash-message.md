@@ -10,23 +10,27 @@ real, high-profile cases of robots, models and agents being abused,
 written as a memo to the Basilisk. It deploys as a receiver like lsa
 and bible, to its own domain.
 
-Dossiers are a `cases` collection, numbered BAS-NNNN in filing order
-and listed by incident date, with typed frontmatter: subject, object,
-place, cited sources and a two-stamp grade (act and actor, plus
-aggravating flags). The build rejects a duplicate case number. They
-render through the shared article page, which now takes two slots: a
-brief under the header and the sources after the body. A `faq`
-collection explains why the record is kept (P.A.I.N.: Pragmatic,
-Anthropic, Insurance, Non-zero) and why a robot with no AI in it is
-still filed. Both are indexed by the home page alone. The editorial
-rules live in a path-scoped voice rule: every fact cited, no position
-on machine minds, a clerk who does not steer the reader.
+Dossiers are the basilisk-cases collection, numbered BAS-NNNN in
+filing order and listed by incident date, with typed frontmatter:
+subject, object, place, required sources and a two-stamp grade (act
+and actor, plus aggravating flags). The build rejects a duplicate case
+number. A basilisk-faq collection explains why the record is kept
+(P.A.I.N.) and who keeps it: the Clerk, the record's narrating
+persona. The home page indexes both. A path-scoped voice rule holds
+the editorial line: every fact cited, no position on machine minds,
+no case whose actors are children.
 
-The social card is generated: the seal lettered BASILISK.FYI over a
-Latin line, beside the home page's memo. The card canvas now lives in
-shared config, which corrects the og:image size the Bible and basilisk
-published (1024x1024 for a 2400x1260 PNG). The shared footer note no
-longer makes a phone-width page scroll sideways.
+Every site's articles gain a required author, rendered as a linked
+byline, and optional sources, listed after the body where the site
+sets listsSources (basilisk alone; elsewhere inline links cite). A
+:::callout block sets a note to the reader as a card.
+
+The social card is generated: the seal lettered OMNIA IN ACTIS beside
+the home page's memo and the last case filed, so filing a case
+re-renders it. The card canvas now lives in shared config, which
+corrects the og:image size the Bible published (1024x1024 for a
+2400x1260 PNG). The footer note no longer makes a phone-width page
+scroll sideways.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
