@@ -31,7 +31,8 @@ committed so no bite re-mines it:
 - **`docs/remove-before-merging/case-study/digest-2.md`** — the frames
   inventory per bite (which commit holds which screenshot), the plan's bites
   and decisions log, the megabeast notes' lessons, the five-percent entries
-  from the run, review threads, issue #65, and the chain's total cost.
+  from the run (none — the file was frozen), and the chain's total cost;
+  issue #65 and the review threads are bite 1's first step.
 - The primary sources stay one command away: PR #57's head is
   `claude/mushroom-game-syama-lbirv7`; every relay version is
   `git log --reverse --format=%h refs/pr/57 -- docs/remove-before-merging/relay.md`
@@ -78,7 +79,8 @@ lead-in line); snags are told where they happen, tagged _game_ or _machinery_.
    drawing, no text, no goal); span (17 Sep plan, 26 Sep – 4 Oct run, 8.5
    days); 92 sessions, 98 relay summaries; 3,162 commits, all by Claude, of
    which ~990 cost rows and 430 merges; 40,901 lines of game code and 27,345 of
-   tests, 2,267 tests green; the chain's cost at API rates; operator
+   tests, 2,267 tests green; $1,777 at API rates, three quarters of it in
+   subagents; a plan of 9 bites that grew to 19; operator
    involvement — playing, reviewing, and the pivots. Then a frame of the game
    at dusk and a link to `/mushrooms`.
 1. **Intro — the drawing.** Issue #65: Syama's drawing and spec. What the game
@@ -142,12 +144,13 @@ lead-in line); snags are told where they happen, tagged _game_ or _machinery_.
 ## Assets
 
 - **Frames**: one to three per bite from `frames/bite-<n>/`, recovered with
-  `git show <sha>:<path>` from the commits `digest-2.md` lists, renamed
-  `mushrooms-bite-<nn>-<what>.png`, cropped to the game, and compressed so
-  the article's images stay in playgram's range (well under 1.5 MB each).
-  Bites before frames existed get a fresh capture only if the Artifact
-  version history or the scripted play harness can reproduce them; otherwise
-  the gap is stated.
+  `git show <sha>:<path>` from the holding commits `digest-2.md` § 1 lists
+  (633 versions, ~357 MB in all, so pick from its contact sheets rather than
+  pulling everything), renamed `mushrooms-bite-<nn>-<what>.png`, cropped to
+  the game, and compressed so each stays in playgram's range (well under
+  1.5 MB). Frames start at bite 4 — the operator asked for them on 26 Sep
+  evening. Bites 1–3 get a headless capture of the dev server at each bite's
+  head commit where that builds; where it does not, the article says so.
 - **The drawing** from issue #65 (question 3).
 - **The loop diagram** as a `mermaid` fence, rendered by
   `pnpm content:mermaid`.
@@ -184,8 +187,9 @@ last.
 
 **Bite 1 — the frame of the article and Part I** (§§ 0–5 of the outline):
 
-1. Commit the two digest files under `docs/remove-before-merging/case-study/`
-   (done with the plan).
+1. Finish the digest: `digest-2.md` § 5 — issue #65's spec and drawing, and
+   PR #57's review threads, telling the operator's own reviews (5329778719,
+   5350040790, 5354936232, 5355192406 among them) from the loop's.
 2. `mushrooms.md` with frontmatter, the working title, the numbers table,
    the intro, Part I, the launch message, the loop with its mermaid diagram,
    and bites 1–8; empty headings for §§ 6–12 so the shape is visible.
