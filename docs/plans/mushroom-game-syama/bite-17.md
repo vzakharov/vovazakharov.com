@@ -163,30 +163,43 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
   moon baked with clouds erased from it, day clouds hidden at full dusk
   (3101c0d): 36 → ~10 draw calls. The operator: «перформанс ощутимо лучше».
 
+- **The tail's steps**: type-overlap green (0f7f38f, bases Aimed, Facing,
+  WithGait); the walk play checks steps' pace and a horizon swipe
+  (fe68aa8; checkUnderFinger cut); fireflies probed, flared in the dusk
+  play, chimed (690191a); the seam grass visits only the cells its band
+  crosses, 2835 → ~1350 tufts (2878342).
+- **Mice**: «мышка пока так и не перебегает» — `RUN_REACH` (2.5) was
+  shorter than `+` spaces houses, so every outing peeked; runs now go to
+  any door in sight, long ones sped to `RUN_MOST` 6 s (0e80d99). The
+  `night-run` play grows doored houses with `+` (593a4b6, `mouse-door.ts`
+  split out). The operator played locally without pulling; after it:
+  «мышки сами бегающие по ночам это просто восхитительно».
+- **Steps/flight**: the toggle beside the map button, footprints or a wing,
+  placed where it moves no other control (68bafe1, `gait-spot.ts`); flight
+  stands the eye 1.2× higher, eased 0.5 s (92319da, 712c69f — the operator:
+  «плюс-минус норм»); a far flower band (8) that flight's brow reveals and
+  steps never sees (1228765; band ends sink behind the bending brow on
+  phoneL, accepted).
+
 ## Left
 
 In this order, each an Opus agent briefed on one step:
 
-1. **`pnpm type-overlap` is red** on `line-course.ts` / `stride.ts` /
-   `walk.ts` / `map-view.ts` (Line/Chase/Walk/Drawn), from ae1d5fc and
-   0afbbfd.
-2. **The walk play** (`scripts/lib/play-walk.ts`) still checks flight's
-   ground-under-the-finger; recheck for steps (`st.md` § Left), run, look.
-3. **Mice at the operator's**: «мышка пока так и не перебегает между
-   грибами» — he played after d11c830 landed; our play saw a run. Asked
-   him (no answer yet) whether he played the Artifact (v26, no mice) or a
-   local build, and how many houses with doors and mice. Find the cause
-   (a probe over `night-runs.ts`'s conditions on a furnished meadow).
-4. **The steps/flight toggle** right of the map button, smaller than the
-   insect buttons, showing footsteps or a flight symbol; flight lifting the
-   eye a little, seeing farther with more haze (`st.md`: `EYE_HEIGHT` per
-   gait is its own design step).
-5. **Fireflies**: `__probe.fireflies()`, a flare shot in the `dusk` play, a
-   flare sound.
-6. **The grass band's cost** (`g2.md`: dusk play median 12.7 → 15.7 ms —
-   check only the cells the band crosses).
-7. The review, polish (`mouse-runs.ts` is 462 lines), vet, frames, the
-   Artifact; retire bite 16's frames.
+1. **The review's findings** — `docs/remove-before-merging/bite-17/`
+   `review-play.md`, `review-read1.md`, `review-read2.md` (reported, not
+   yet posted on PR #57). Post them as one review (megabeast `quality.md`
+   § "Review practice"), then fix in this order: fireflies swallowing door
+   taps (play 1); far caps pale at dusk in flight (play 2); windows jumping
+   on a reversed turn (read1 1); the map compass sticking (read1 3); day
+   outings widened — keep taps and night runs wide, gate day outings (read1
+   2); grass tended to the walking brow in flight and the gait flip
+   mid-drag (read2 1, 4); the near/far pairing (read2 3); the flight
+   walk-play pass (read2 5); then the nits. The ground haze wash in flight
+   (read2 2, `fe.md` § Left 1) is built only if a frame shows far things
+   paler than their ground. The gait button alone mid-sky on phoneP (play
+   3) waits on the operator.
+2. Polish, vet in two calls, frames, the Artifact; retire bite 16's frames
+   and this bite's working notes.
 
 Off the bite, from the operator: the map's ✕ («крестик на карте
 по-прежнему выглядит странно», then «дело в самом кружке. попробовать без
