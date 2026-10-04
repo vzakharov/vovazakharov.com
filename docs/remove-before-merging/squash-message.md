@@ -9,22 +9,25 @@ A task too big for one session already had a loop that worked: PR #57's
 game was built bite by bite, with each session building, reviewing in
 its own tail, folding into the plan and relaying. But the loop lived in
 one plan and ~100 KB of notes. /mega turns it into a skill that runs an
-elephant end to end, stopping only once, at the plan's review.
+elephant of any kind end to end, stopping only once, at the plan's
+review.
 
-The operator's side is designed rather than inherited. The PR body opens
-with a "Where it stands" block, rewritten at every bite's end and wave.
-It names the live session, what can be played, and what waits on them.
-Each operator message, whether it comes as a PR comment or as chat, is
-sorted as a question, note, feel call, idea to weigh, re-steer, cut or
-pause, and each kind lands in its own place. A re-steer lands running
-agents at a pushed step and quotes the message into the plan. It then
-settles the new direction's forks in one doc before building any of it.
+The operator's say is asynchronous: the run makes every call itself and
+reverses one when asked, so nothing waits for them. The PR body opens
+with a "Where it stands" block naming the live session, what can be seen
+now and what waits on them, which heads the QA checklist. Messages come
+as chat in the live session or as PR comments taken in at each bite's
+end, go verbatim into an operator log, and are sorted as a question,
+change, idea to weigh, re-steer, cut or pause. A re-steer keeps what
+still makes sense and settles the new direction's forks in one doc
+before building any of it.
 
 The skill reads by phase, from one file each: start, operator,
 orchestrate, bite-end, review, relay and look, plus templates and a
-journal. It points at /relay, /polish, /finalize and the elephant shape
-rather than restating them. The megabeast notes retire behind a
-tombstone.
+journal. It points at /relay, /task, /qa-checklist, /polish, /finalize
+and the elephant shape rather than restating them. The megabeast notes
+retire behind a tombstone. vet.sh caps every PR body at 400 lines, and
+a body that crossed it passes again only at 300.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
