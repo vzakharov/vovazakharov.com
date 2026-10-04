@@ -7,27 +7,27 @@ chore: /mega runs a huge task while the operator drops in (pr #101)
 ```
 A task too big for one session already had a loop that worked: PR #57's
 game was built bite by bite, with each session building, reviewing in
-its own tail, folding into the plan and relaying. But the loop lived in
-one plan and ~100 KB of notes. /mega turns it into a skill that runs an
-elephant of any kind end to end, stopping only once, at the plan's
-review.
+its own tail and folding into the plan. But the loop lived in one plan
+and ~100 KB of notes. /mega turns it into a skill that runs an elephant
+of any kind end to end, stopping only once, at the plan's review, and
+relaying at the context-budget pause rather than at every bite's end.
 
 The operator's say is asynchronous: the run makes every call itself and
-reverses one when asked, so nothing waits for them. The PR body opens
-with a "Where it stands" block naming the live session, what can be seen
-now and what waits on them, which heads the QA checklist. Messages come
-as chat in the live session or as PR comments taken in at each bite's
-end, go verbatim into an operator log, and are sorted as a question,
-change, idea to weigh, re-steer, cut or pause. A re-steer keeps what
-still makes sense and settles the new direction's forks in one doc
-before building any of it.
+reverses one when asked. Its reach ends at its own branch and PR; a step
+beyond them, or a failure that survives three attempts, goes on the
+operator's list in a "Where it stands" block that opens the PR body with
+the live session and what can be seen now. Messages come as chat or as
+PR comments taken in at each bite's end, never by subscription; hooks
+log both sides verbatim, and each is sorted as a question, change,
+idea to weigh, re-steer or pause. A re-steer settles the new direction's
+forks in one doc before building any of it.
 
-The skill reads by phase, from one file each: start, operator,
-orchestrate, bite-end, review, relay and look, plus templates and a
-journal. It points at /relay, /task, /qa-checklist, /polish, /finalize
-and the elephant shape rather than restating them. The megabeast notes
-retire behind a tombstone. vet.sh caps every PR body at 400 lines, and
-a body that crossed it passes again only at 300.
+The skill reads by phase, one file each, and points at /relay, /task,
+/polish, /finalize and the elephant shape rather than restating them.
+The megabeast notes retire behind a tombstone. /relay take and
+/from-branch move a diverged ref aside instead of resetting it, and
+vet.sh caps every PR body at 32,000 characters, passing a body that
+crossed it again only at 24,000.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
