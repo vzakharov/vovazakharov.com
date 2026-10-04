@@ -3,10 +3,11 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
+import type { Hazed } from '../../model/ground';
 import type { Spore } from '../../model/sprouting';
 import { standAt, type Standing, UNPLACED, viewedOrLaid } from './bed-place';
 import { type Laid, laidOf } from './clump-layout';
-import { mix } from './colour';
+import { hazeTone } from './haze-tone';
 import type { MeadowLayout } from './layout';
 import type { Shown } from './mushroom-shown';
 import { PALETTE } from './palette';
@@ -24,13 +25,14 @@ const LEAST_DOT = 1.2;
 /** How far a picked-up spore's puff opens, of its radius. */
 const PICK_PUFF = 4;
 
-/** A spore as the bed draws it: landed once its fall from the parent ends. */
-type Dot = Standing & {
-  circle: Phaser.GameObjects.Arc;
-  spore: Spore;
-  laid: Laid;
-  landed: boolean;
-};
+/** A spore as the bed draws it, hazed as it last stood: landed once its fall from the parent ends. */
+type Dot = Standing &
+  Hazed & {
+    circle: Phaser.GameObjects.Arc;
+    spore: Spore;
+    laid: Laid;
+    landed: boolean;
+  };
 
 /**
  * The meadow's spores on the ground, reconciled with the state by id: a new
@@ -42,6 +44,8 @@ type Dot = Standing & {
 export class SporeBed {
   private readonly dots = new Map<string, Dot>();
   private view: View | undefined;
+  /** How far toward dusk the meadow shows (`duskness`), which the dots' haze turns toward the dusk air with. */
+  private dusk = 0;
   private readonly scene: Phaser.Scene;
   private readonly voice: MeadowSound;
   /** The depth a falling spore and a pick-up's puff are drawn at, over everything. */
@@ -91,6 +95,13 @@ export class SporeBed {
     for (const dot of this.dots.values()) this.stand(dot);
   }
 
+  /** Tones every dot's haze toward the air at `dusk` (`duskness`), where it has turned since. */
+  duskTo(dusk: number): void {
+    if (dusk === this.dusk) return;
+    this.dusk = dusk;
+    for (const dot of this.dots.values()) this.fill(dot);
+  }
+
   /**
    * Picks up the nearest resting dot within `TAP_RADIUS` of `at`, on screen,
    * with a tiny puff and a soft pop, and names its spore; `undefined` where
@@ -127,7 +138,14 @@ export class SporeBed {
   ): void {
     const parent = opening ? undefined : shown.get(spore.parent);
     const circle = this.scene.add.circle(0, 0, 1, PALETTE.spore);
-    const dot = { circle, spore, laid, stands: UNPLACED, landed: !parent };
+    const dot = {
+      circle,
+      spore,
+      laid,
+      stands: UNPLACED,
+      ...pick(laid, 'haze'),
+      landed: !parent,
+    };
     this.dots.set(spore.id, dot);
     this.stand(dot);
     if (!parent) return;
@@ -159,13 +177,19 @@ export class SporeBed {
     );
     dot.stands = place;
     standAt(circle, place, this.nearer);
-    const haze =
+    dot.haze =
       this.view && place.drawn ? hazeAhead(this.view, place) : laid.haze;
     circle
       .setRadius(Math.max(LEAST_DOT, r * place.zoom))
-      .setFillStyle(mix(PALETTE.spore, PALETTE.air, haze))
-      // An inked rim, as a falling spore has, so the pale dot reads on the grass.
-      .setStrokeStyle(1, PALETTE.ink, 0.45 * (1 - haze))
       .setVisible(place.drawn && landed);
+    this.fill(dot);
+  }
+
+  /** Fills `dot` hazed toward the air at the dusk, its inked rim fading with the haze. */
+  private fill({ circle, haze }: Dot): void {
+    circle
+      .setFillStyle(hazeTone(haze, this.dusk)(PALETTE.spore))
+      // An inked rim, as a falling spore has, so the pale dot reads on the grass.
+      .setStrokeStyle(1, PALETTE.ink, 0.45 * (1 - haze));
   }
 }

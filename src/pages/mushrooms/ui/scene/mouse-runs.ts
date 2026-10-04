@@ -95,6 +95,8 @@ export class MouseRuns {
   /** The dusk's last outing played, so each plays once. */
   private played: NightRun | undefined;
   private view: View | undefined;
+  /** How far toward dusk the meadow shows (`duskness`), which a runner's haze turns toward the dusk air with. */
+  private dusk = 0;
 
   private readonly scene: Phaser.Scene;
   private readonly voice: MeadowSound;
@@ -155,6 +157,11 @@ export class MouseRuns {
     }
     for (const door of doors) this.watchOuting(door, doors, t);
     for (const run of this.under) this.move(run, t);
+  }
+
+  /** Hazes every runner drawn from now toward the air at `dusk` (`duskness`). */
+  duskTo(dusk: number): void {
+    this.dusk = dusk;
   }
 
   /** The houses as the dusk's outings see them, off the visit's `seed`. */
@@ -365,17 +372,17 @@ export class MouseRuns {
     }
     const at =
       elapsed >= 0 && moment.runner ? this.runnerPoint(run, t) : undefined;
-    const view = this.view;
+    const { view, dusk, voice } = this;
     if (!at || !view) {
       run.graphics.setVisible(false);
       return;
     }
-    const place = drawRunner(run, view, at, moment, t);
+    const place = drawRunner(run, view, at, moment, { t, dusk });
     const tick = Math.floor(elapsed / PATTER_EVERY);
     if (moment.leg === 'run' && place.drawn && tick !== run.pattered) {
       run.pattered = tick;
       const level = Math.min(1, CLUMP_DISTANCE / place.distance);
-      this.voice.patter(panOf(view.eye, at.point), level);
+      voice.patter(panOf(view.eye, at.point), level);
     }
   }
 

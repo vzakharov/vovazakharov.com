@@ -31,6 +31,18 @@ describe('the haze toward the air', () => {
     }
   });
 
+  it('takes a far spore and a far mouse darker at dusk than by day, never past the dusk air', () => {
+    for (const colour of [PALETTE.spore, PALETTE.mouse, PALETTE.mouseLight]) {
+      const [day, dusk] = [0, 1].map((at) =>
+        luminance(hazeTone(FAR, at)(colour)),
+      );
+      assert.ok(
+        luminance(PALETTE.airDusk) < (dusk ?? 0) && (dusk ?? 0) < (day ?? 0),
+        `${colour.toString(16)}: day ${String(day)}, dusk ${String(dusk)}`,
+      );
+    }
+  });
+
   // A chanterelle holds back most of its haze (`heldHaze`), its orange being what tells it apart far off.
   it('leaves a far cap at full dusk no lighter than the ground behind it, but a chanterelle', () => {
     const ground = luminance(DUSK_TONES.ground[0]?.[1] ?? 0);

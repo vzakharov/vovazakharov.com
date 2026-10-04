@@ -18,11 +18,10 @@ import { facingAlong, type RunPath } from '../../model/mouse-run-course';
 import { stemHalfWidth } from '../../model/mushroom-profile';
 import { pinholeOf } from '../../model/pinhole';
 import { type BedPlace, bedPlace, standAt } from './bed-place';
-import { mix } from './colour';
 import { paintRunner } from './draw-mouse';
+import { type Dusked, hazeTone } from './haze-tone';
 import type { WithCircleHit, WithGraphics } from './hit-areas';
 import type { Shown } from './mushroom-shown';
-import { PALETTE } from './palette';
 import { hazeAhead } from './repaint-queue';
 import { doorFront } from './run-front';
 import { tapReach } from './tap-reach';
@@ -63,14 +62,15 @@ export function doorEnd(shown: Shown, view: View): PaintedEnd | undefined {
 /**
  * Stands `runner`'s graphics at `at` as of `moment` and `t`, hopping from
  * its last tap, sets its tap circle, and paints it in the ink and light of
- * the house `at` is nearer; returns where it stands.
+ * the house `at` is nearer, hazed toward the air at `dusk` (`hazeTone`);
+ * returns where it stands.
  */
 export function drawRunner(
   runner: WithGraphics & WithCircleHit & Pick<Tapped, 'tappedAt'>,
   view: View,
   at: ShownRunner,
   { travelled, progress }: RunMoment,
-  t: number,
+  { t, dusk }: Dusked & { t: number },
 ): BedPlace {
   const place = bedPlace(view, at.point);
   standAt(runner.graphics, place);
@@ -88,7 +88,7 @@ export function drawRunner(
     },
     {
       ink: Math.max(1.5, at.house.size * 0.01 * place.zoom),
-      tone: (colour) => mix(colour, PALETTE.air, haze),
+      tone: hazeTone(haze, dusk),
       ...pick(at.house, 'lighting'),
     },
   );
