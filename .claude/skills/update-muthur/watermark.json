@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "b7805f2aac5334080d8dbe29a0356c823ce9b519",
-  "lastSyncedAt": "2026-09-30",
+  "lastSyncedSha": "4a5fe86864197cdf2674afe6e0c96d52776f154d",
+  "lastSyncedAt": "2026-10-04",
   "adopted": [
     {
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
@@ -61,9 +61,7 @@
     },
     ".claude/skills/squash-message/",
     ".claude/skills/sync-branch/",
-    {
-      ".claude/skills/tend-prose/": "taken with one fix the source still lacks: § \"Rule or README?\" cites the two rule homes as 4 and 5, the rows the homes table gives them. The source's copy says \"homes 3 and 4\", a numbering its own table no longer has — vzakharov/muthur#133, whose fix retires this note."
-    },
+    ".claude/skills/tend-prose/",
     ".claude/skills/watch-ci/",
     "scripts/check-claude-md-size.sh",
     "scripts/check-merge.sh",
