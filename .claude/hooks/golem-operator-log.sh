@@ -20,10 +20,11 @@
 # headings. Entries go at the end of the file; the bite's start writes the
 # headings.
 #
-# **Skipped**, with the reply to it: a subagent's prompt, and a prompt the
-# harness injects, which opens with its own tag (`INJECTED`). A scheduled
-# message (`send_later`, a Routine) arrives as plain text that nothing in the
-# payload tells from the operator's, so it is logged.
+# **Skipped**, with the reply to it: a subagent's prompt, and a prompt that opens
+# with a tag in `INJECTED` — the harness's own, and `<golem-check-in>`, which
+# opens every check-in the run schedules (`send_later`, a Routine). A scheduled
+# message arrives as plain text: its origin is stamped on the transcript record,
+# never on the hook's payload, so the run's tag is the one mark the hook can read.
 #
 # **The reply waits in `tmp/` until the next prompt** (or a `flush`), because
 # the harness's own `Stop` check refuses to end a turn on a tree with uncommitted
@@ -41,7 +42,7 @@ set -uo pipefail
 
 . "$(dirname "${BASH_SOURCE[0]}")/lib.sh" || exit 0
 
-INJECTED='task-notification|wake|webhook-payload|child-session-event|cross-session-message|teammate-message'
+INJECTED='task-notification|wake|webhook-payload|child-session-event|cross-session-message|teammate-message|golem-check-in'
 
 STATE='tmp/golem-operator-log'
 
@@ -119,12 +120,11 @@ mkdir -p -- "$state" || { say "could not create $state"; exit 1; }
 
 now() { date -u +%Y-%m-%dT%H:%M:%SZ; }
 
-# The address a person opens the session at: `cse_<id>` in the environment is
-# `session_<id>` in the URL, as `scripts/muthur-sync.sh` also builds it.
 session_link() {
-  local id="${CLAUDE_CODE_REMOTE_SESSION_ID:-}"
-  if [ -n "$id" ]; then
-    printf '[session](https://claude.ai/code/session_%s)' "${id#cse_}"
+  local url
+  url="$(session_url)"
+  if [ -n "$url" ]; then
+    printf '[session](%s)' "$url"
   else
     printf 'local session `%s`' "$session"
   fi

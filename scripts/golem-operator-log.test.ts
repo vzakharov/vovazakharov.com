@@ -42,7 +42,11 @@ function tree(files: Record<string, string> = { [LOG]: LOG_HEAD }): string {
   return dir;
 }
 
-function hook(dir: string, payload: Record<string, unknown>): Run {
+function hook(
+  dir: string,
+  payload: Record<string, unknown>,
+  remote = true,
+): Run {
   const { error, status, stdout, stderr } = spawnSync(
     path.join(dir, HOOKS, 'golem-operator-log.sh'),
     [],
@@ -52,7 +56,7 @@ function hook(dir: string, payload: Record<string, unknown>): Run {
       env: {
         PATH: process.env.PATH,
         CLAUDE_PROJECT_DIR: dir,
-        CLAUDE_CODE_REMOTE_SESSION_ID: 'cse_01abc',
+        ...(remote && { CLAUDE_CODE_REMOTE_SESSION_ID: 'cse_01abc' }),
       },
     },
   );
@@ -119,6 +123,7 @@ describe('golem-operator-log: the operator’s prompt', () => {
     '<wake reason="external-event"><event source="github"/></wake>',
     '<webhook-payload>{}</webhook-payload>',
     '  <child-session-event kind="failed"/>',
+    '<golem-check-in>\nRead the wave’s new commits.\n</golem-check-in>',
   ])
     it(`skips an injected prompt: ${injected.trim().split(/[\s>]/)[0]}>`, () => {
       const dir = tree();
@@ -139,7 +144,15 @@ describe('golem-operator-log: the operator’s prompt', () => {
   it('keeps a prompt that only mentions a tag', () => {
     const dir = tree();
     prompt(dir, 'why did <wake> fire?');
+    prompt(dir, 'cancel the <golem-check-in> before you relay');
     assert.match(log(dir), /> why did <wake> fire\?/);
+    assert.match(log(dir), /> cancel the <golem-check-in> before you relay/);
+  });
+
+  it('names a local session by its id', () => {
+    const dir = tree();
+    hook(dir, { hook_event_name: 'UserPromptSubmit', prompt: 'hi' }, false);
+    assert.match(log(dir), new RegExp(`· local session \`${SESSION}\`\\n`));
   });
 });
 
@@ -181,6 +194,14 @@ describe('golem-operator-log: the run’s reply', () => {
     prompt(dir, 'next');
     assert.match(log(dir), /> answer\n/);
     assert.doesNotMatch(log(dir), /agent finished/);
+  });
+
+  it('skips the reply to a scheduled check-in', () => {
+    const dir = tree();
+    prompt(dir, '<golem-check-in>read the agent’s usage</golem-check-in>');
+    stop(dir, { last_assistant_message: 'agent at 140k' });
+    prompt(dir, 'next');
+    assert.doesNotMatch(log(dir), /usage|140k/);
   });
 
   it('skips a Stop re-fired after another hook’s block', () => {

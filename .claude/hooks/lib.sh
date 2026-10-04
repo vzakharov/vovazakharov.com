@@ -5,6 +5,7 @@
 # `PostToolUse` hook under
 # `.claude/context-budget/hooks/`: the payload read, the context-injecting JSON
 # shape, and the guards each hook needs before it can do anything.
+# `scripts/muthur-sync.sh` sources it for `session_url` alone.
 #
 # Every hook sources it as `. "$(dirname "${BASH_SOURCE[0]}")/lib.sh" || exit 0`,
 # so a tree holding a hook without this file skips that hook instead of failing
@@ -49,6 +50,14 @@ project_root() {
   local root="${CLAUDE_PROJECT_DIR:-$(field cwd)}"
   [ -n "$root" ] && [ -d "$root" ] && printf '%s\n' "$root"
   return 0
+}
+
+# The address a person opens this session at, or nothing off a remote session.
+# The mapping — `cse_<id>` in the environment, `session_<id>` in the URL — is
+# observed on live sessions, not documented, which is why it has one home.
+session_url() {
+  local id="${CLAUDE_CODE_REMOTE_SESSION_ID:-}"
+  [ -z "$id" ] || printf 'https://claude.ai/code/session_%s\n' "${id#cse_}"
 }
 
 # `hookSpecificOutput` must name the event that ran the hook, so the name is

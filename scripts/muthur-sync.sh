@@ -38,6 +38,9 @@ die() {
   exit 1
 }
 
+# shellcheck source=../.claude/hooks/lib.sh
+. .claude/hooks/lib.sh || die "could not source .claude/hooks/lib.sh."
+
 need() { command -v "$1" >/dev/null || die "$1 is not installed."; }
 
 # Not `${var,,}`, which the bash 3.2 macOS ships lacks.
@@ -146,18 +149,6 @@ describe_lock() {
   echo "  Claimed-By: $(trailer "$1" Claimed-By)"
   echo "  Session: $(trailer "$1" Session)"
   echo "  Claimed: $(($(lock_age "$1") / 3600))h ago, as $LOCK on origin"
-}
-
-# The session-URL mapping — `cse_<id>` in the environment, `session_<id>` in the
-# URL — is observed on live sessions, not documented, which is why it is built
-# here and nowhere else.
-session_url() {
-  local id="${CLAUDE_CODE_REMOTE_SESSION_ID:-}"
-  if [ -n "$id" ]; then
-    echo "https://claude.ai/code/session_${id#cse_}"
-  else
-    echo local
-  fi
 }
 
 # `here` is the working tree, so a file taken without being listed in `adopted`
@@ -292,14 +283,15 @@ claim() {
     expect="$held"
   fi
 
-  local handle commit
+  local handle commit url
   handle="$(gh api user --jq .login 2>/dev/null)" && [ -n "$handle" ] ||
     die "could not resolve the operator's GitHub handle with \`gh api user\`."
+  url="$(session_url)"
   commit="$(git commit-tree "$TRUNK^{tree}" -p "$TRUNK" -F - <<EOF
 chore: claim the muthur sync from ${LAST_SHA:0:12}
 
 Claimed-By: @$handle
-Session: $(session_url)
+Session: ${url:-local}
 EOF
 )"
 
