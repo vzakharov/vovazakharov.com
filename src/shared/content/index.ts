@@ -1,9 +1,5 @@
 export { AUTHORS } from './authors';
-export {
-  type BasiliskArticleFrontmatter,
-  type CaseFrontmatter,
-  type Source,
-} from './basilisk-frontmatter';
+export { type CaseFrontmatter } from './basilisk-frontmatter';
 export {
   ARTICLE_COLLECTIONS,
   type ArticleCollectionId,
@@ -49,6 +45,7 @@ export {
   type LocalizedText,
   type Playable,
   type SongFrontmatter,
+  type Source,
   type WithFrontmatter,
 } from './frontmatter';
 export {

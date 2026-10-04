@@ -69,6 +69,8 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
    ---
    description: ... # meta description and index-card blurb
    date: 2026-08-29 # published date, ISO
+   author: vova # an AUTHOR_IDS key, rendered as the byline
+   sources: [...] # optional; title, outlet, date, url, author?, archive? — listed after the body
    order: 1 # optional; lower first, ahead of everything without one
    part: I of II # optional free-text series marker
    ogImage: ... # optional, relative to the document

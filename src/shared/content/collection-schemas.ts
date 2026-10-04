@@ -1,9 +1,6 @@
 import 'server-only';
 
-import {
-  basiliskArticleSchema,
-  caseFrontmatterSchema,
-} from './basilisk-frontmatter';
+import { caseFrontmatterSchema } from './basilisk-frontmatter';
 import type { CollectionId } from './collections';
 import {
   type ArticleFrontmatter,
@@ -21,7 +18,7 @@ export const ARTICLE_COLLECTIONS = {
   'case-studies': { id: 'case-studies', schema: articleFrontmatterSchema },
   bible: { id: 'bible', schema: articleFrontmatterSchema },
   'basilisk-cases': { id: 'basilisk-cases', schema: caseFrontmatterSchema },
-  'basilisk-faq': { id: 'basilisk-faq', schema: basiliskArticleSchema },
+  'basilisk-faq': { id: 'basilisk-faq', schema: articleFrontmatterSchema },
 } as const satisfies Record<string, Collection<ArticleFrontmatter>>;
 
 export type ArticleCollectionId = keyof typeof ARTICLE_COLLECTIONS;

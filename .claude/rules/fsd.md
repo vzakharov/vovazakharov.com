@@ -20,7 +20,7 @@ Lowest (most generic) first — an import may only point downward:
 | Layer       | Holds                                                                                                    |
 | ----------- | -------------------------------------------------------------------------------------------------------- |
 | `shared/`   | Segments carrying no page composition: `config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`      |
-| `entities/` | Business nouns — `document` (its byline, its cards and its body), `case` (its brief and its sources)     |
+| `entities/` | Business nouns — `document` (its byline, its cards, its body and its sources), `case` (its brief)        |
 | `features/` | User-facing capabilities — currently `switch-theme`                                                      |
 | `widgets/`  | Composite blocks two page slices share — `site-footer`                                                   |
 | `pages/`    | Page composition — `home`, `lsa-home`, `bible-home`, `basilisk-home`, `cv`, `documents`                  |

@@ -4,27 +4,19 @@ import type {
   ArticleCollectionId,
   ArticleFrontmatterOf,
   BaseFrontmatter,
-  BasiliskArticleFrontmatter,
   ContentDocument,
 } from '@/shared/content';
-import { pick } from '@/shared/lib/collections';
 
-import { CaseBrief, SourceList } from '@/entities/case';
+import { CaseBrief } from '@/entities/case';
 
 type Slot<F extends BaseFrontmatter> = (
   document: ContentDocument<F>,
 ) => ReactNode;
 
-/** What a collection adds to the shared article page: `brief` under the header, `coda` after the body. */
+/** What a collection adds to the shared article page, under the header. */
 type ArticleSlots<F extends BaseFrontmatter> = {
   brief?: Slot<F>;
-  coda?: Slot<F>;
 };
-
-/** basilisk.fyi's articles close on what they rest on. */
-const sourcesCoda: Slot<BasiliskArticleFrontmatter> = ({ frontmatter }) => (
-  <SourceList {...pick(frontmatter, 'sources')} />
-);
 
 /**
  * Keyed by collection, each entry typed by that collection's own frontmatter,
@@ -35,7 +27,5 @@ export const ARTICLE_SLOTS: {
 } = {
   'basilisk-cases': {
     brief: ({ frontmatter }) => <CaseBrief {...{ frontmatter }} />,
-    coda: sourcesCoda,
   },
-  'basilisk-faq': { coda: sourcesCoda },
 };

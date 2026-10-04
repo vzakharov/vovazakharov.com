@@ -1,6 +1,7 @@
 ---
 description: Agents write a great deal of prose, and write more of it when they see that there is already a lot. Four lenses — tightness, existence, negation, durability — catch nearly all of what goes wrong.
 date: 2026-09-16
+author: vova
 order: 2
 cardImage: ./assets/polar-bear.jpg
 ---

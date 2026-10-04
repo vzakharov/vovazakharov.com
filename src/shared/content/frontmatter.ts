@@ -27,14 +27,33 @@ const baseFrontmatterSchema = z.object({
 /** What every collection states, and all that anything reading documents at large can rely on. */
 export type BaseFrontmatter = z.infer<typeof baseFrontmatterSchema>;
 
-/** A case study's shape, and the Bible's: titled by the body, cut and printed. */
+/** One report an article's facts rest on. */
+const sourceSchema = z.object({
+  title: z.string().min(1),
+  outlet: z.string().min(1),
+  author: z.string().min(1).optional(),
+  date: z.coerce.date(),
+  url: z.url(),
+  /** A copy that survives the original, where the Wayback Machine has one. */
+  archive: z.url().optional(),
+});
+
+export type Source = z.infer<typeof sourceSchema>;
+
+/** Every article's shape: titled by the body, bylined, cut and printed. */
 export const articleFrontmatterSchema = baseFrontmatterSchema.extend({
   /** Meta description and index-card blurb. */
   description: z.string().min(1),
   /** Free-text series marker, e.g. `I of II`. */
   part: z.string().min(1).optional(),
-  /** The byline, where a site names one; a site with one author leaves it off. */
-  author: z.enum(AUTHOR_IDS).optional(),
+  author: z.enum(AUTHOR_IDS),
+  /** What the article rests on, listed after the body; absent where it rests on nothing outside itself. */
+  sources: z.array(sourceSchema).min(1).optional(),
+});
+
+/** A case's sources are not optional: a filing rests on reports or is not filed. */
+export const sourcedArticleFrontmatterSchema = articleFrontmatterSchema.extend({
+  sources: z.array(sourceSchema).min(1),
 });
 
 /**

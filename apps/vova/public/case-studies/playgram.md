@@ -1,6 +1,7 @@
 ---
 description: Rebuilding a live, feature-rich Bubble app as a production Next.js 16 codebase in 158 days — 1,029 merged pull requests, 250,000 lines of TypeScript, and twenty-plus Claude Code agents running in parallel.
 date: 2026-08-29
+author: vova
 part: I of II
 ogImage: ./assets/playgram-commit-cumsum.og.png
 ---

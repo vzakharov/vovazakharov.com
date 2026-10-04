@@ -16,11 +16,12 @@ import {
   type Variant,
   VARIANTS,
 } from '@/shared/content';
+import { pick } from '@/shared/lib/collections';
 import { constructArticleMetadata } from '@/shared/seo/index.server-only';
 import type { WithParams } from '@/shared/typings';
 import { BackToHome, hoverDim, InternalLink } from '@/shared/ui';
 
-import { ProseContent } from '@/entities/document';
+import { ProseContent, SourceList } from '@/entities/document';
 
 import { ArticleHeader } from './article-header';
 import { ARTICLE_SLOTS } from './article-slots';
@@ -100,7 +101,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
 
   async function Page({ params }: Props) {
     const { document, rendered } = await resolve(params);
-    const { route, slug } = document;
+    const { route, slug, frontmatter } = document;
     const { title, readingMinutes, headings, tree } = rendered;
 
     return (
@@ -139,7 +140,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
 
                 <Box className={classes['articleBody']}>
                   <ProseContent {...{ tree }} />
-                  {slots?.coda?.(document)}
+                  <SourceList {...pick(frontmatter, 'sources')} />
                 </Box>
               </Box>
             </PrintSheet>

@@ -1,6 +1,7 @@
 ---
 description: Most people stay in a local terminal because a terminal is where serious work happens and a browser tab is where it doesn't. That is a feeling, not an argument, and the three things you get for giving it up are not small ones.
 date: 2026-09-16
+author: vova
 order: 3
 cardImage: ./assets/trunk.jpg
 ---
