@@ -1,11 +1,18 @@
 ---
-description: File one new basilisk.fyi case end to end in a single unattended run — find an incident not yet on the docket, write its dossier on a fresh branch off `main` with a draft PR, and leave the agent's own reading as a `/feedback` review on that PR. Never merges. Invoke as `/file-basilisk-case [<lead>]`, the optional lead being an incident or link to start from. Use when a routine fires it, or the operator says "file a case", "заведи дело", "найди новый кейс".
+description: File one new basilisk.fyi case end to end in a single unattended run — find an incident not yet on the docket, add its dossier to the open case-filing draft PR — opening one off `main` when none is open — and leave the agent's own reading as a `/feedback` review on that PR. Never merges. Invoke as `/file-basilisk-case [<lead>]`, the optional lead being an incident or link to start from. Use when a routine fires it, or the operator says "file a case", "заведи дело", "найди новый кейс".
 ---
 
-End state: a draft PR on its own branch adds one dossier to
-`apps/basilisk/public/cases/` and the re-rendered social card, and carries one
-`/feedback` review of that dossier — or, when nothing new qualifies, no branch at
-all and a short report saying what was searched and why each candidate failed.
+End state: the case-filing draft PR carries one more dossier in
+`apps/basilisk/public/cases/`, the re-rendered social card, and a `/feedback`
+review of that dossier — or, when nothing new qualifies, no commit at all and a
+short report saying what was searched and why each candidate failed.
+
+**Cases accumulate in one PR**, so the operator reviews whatever has piled up in
+one sitting rather than a PR per case. The case-filing PR is an open **draft**
+whose head branch starts with `claude/cases-`: that prefix is what tells it from
+any other PR touching the docket — a site-wide PR that happens to add a case is
+not one. A PR flipped to ready is the operator's review under way and takes no
+further cases; the next run opens a fresh one.
 
 **The run is unattended**, typically a routine firing into a fresh session, so it
 asks nothing: a call the rules leave open is decided the conservative way and
@@ -64,13 +71,25 @@ exists to prevent.
 
 ## Step 2 — File
 
-1. **Branch off `main`**, after `git fetch origin main`:
-   `git switch --no-track -c claude/case-<slug>-<suffix> origin/main` —
-   untracked, or a bare `git push` later aims at `main`. `<slug>` is the
-   dossier's file slug, and `<suffix>` the random tail of the session's own
-   branch name, or six fresh lowercase letters and digits where that name has
-   none — the form `@.claude/skills/branch-rename/SKILL.md` gives, so `/pr`
-   leaves it as is.
+1. **Get onto the case-filing branch.** Look for the PR:
+
+   ```bash
+   gh pr list --state open --draft --json number,headRefName \
+     --jq '[.[] | select(.headRefName | startswith("claude/cases-"))] | sort_by(.number)'
+   ```
+
+   - **One found** → `gh pr checkout <number>`, then
+     `git merge --no-edit origin/main` after `git fetch origin main`, so the
+     next free number and the build see every case already served. A conflict
+     there is outside this run's remit: stop and report it.
+   - **Several found** → the oldest, by number; the report names the rest,
+     since only a run that went wrong leaves more than one.
+   - **None** → branch off `main`, after `git fetch origin main`:
+     `git switch --no-track -c claude/cases-<suffix> origin/main` —
+     untracked, or a bare `git push` later aims at `main`. `<suffix>` is the
+     random tail of the session's own branch name, or six fresh lowercase
+     letters and digits where that name has none — the form
+     `@.claude/skills/branch-rename/SKILL.md` gives, so `/pr` leaves it as is.
 2. **Read and archive every source.** Each is fetched and read for this
    dossier; a source that cannot be fetched is not a source. Its `archive` is a
    Wayback Machine snapshot: `http://archive.org/wayback/available?url=<url>`
@@ -88,15 +107,19 @@ exists to prevent.
 5. **Commit** the dossier, the card and its `og-renders.json` as
    `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope publishes
    basilisk alone, and the title is shortened where the subject would pass 70
-   characters — then run `@.claude/skills/pr/SKILL.md` for the draft PR.
+   characters — then run `@.claude/skills/pr/SKILL.md`. It opens the draft
+   on a new branch and, on an existing one, refreshes the body and the squash
+   proposal to name every case the PR now files.
 
 ## Step 3 — Reflect
 
-Run `@.claude/skills/feedback/SKILL.md` on the new dossier. The reading goes in
+Run `@.claude/skills/feedback/SKILL.md` on the new dossier alone — the cases
+already in the PR have their own reviews. The reading goes in
 the review and never into the file, and it is written to be read by anyone —
 `basilisk-voice.md`'s last rule — so in English, the dossier's language.
 
 ## Report
 
-The PR link, the case number and title, and every call made without asking —
+The PR link, whether the run opened it or added to it, the case number and
+title, and every call made without asking —
 or, on a stop, the candidates considered and the rule each one failed.
