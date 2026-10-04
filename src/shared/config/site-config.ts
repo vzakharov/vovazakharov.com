@@ -87,6 +87,12 @@ export type SiteConfig = Billed & {
    * whether its work is its own or published under another name.
    */
   credit: SiteCredit | undefined;
+  /**
+   * Whether an article closes on a list of its frontmatter `sources`. Where it
+   * does not, the prose's own links are the citations and the field goes
+   * unrendered. Spelled by every site for the same reason `seal` is.
+   */
+  listsSources: boolean;
 };
 
 /** One person publishes every site, so none of them owns the byline. */
@@ -136,6 +142,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     avatar: AVATAR,
     seal: undefined,
     credit: undefined,
+    listsSources: false,
     ...PUBLISHER,
   },
   lsa: {
@@ -146,6 +153,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     avatar: AVATAR,
     seal: undefined,
     credit: undefined,
+    listsSources: false,
     ...PUBLISHER,
   },
   bible: {
@@ -163,6 +171,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     },
     seal: { path: '/seal.svg', ...SEAL_SIZE },
     credit: LSA_CREDIT,
+    listsSources: false,
     ...PUBLISHER,
   },
   basilisk: {
@@ -177,6 +186,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     avatar: { path: '/ava.og.png', ...PIXELS },
     seal: { path: '/seal.svg', ...SEAL_SIZE },
     credit: LSA_CREDIT,
+    listsSources: true,
     ...PUBLISHER,
   },
 };

@@ -1,6 +1,7 @@
 import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
+import { SITE_CONFIG } from '@/shared/config';
 import {
   ARTICLE_COLLECTIONS,
   type ArticleCollectionId,
@@ -140,7 +141,9 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
 
                 <Box className={classes['articleBody']}>
                   <ProseContent {...{ tree }} />
-                  <SourceList {...pick(frontmatter, 'sources')} />
+                  {SITE_CONFIG.listsSources && (
+                    <SourceList {...pick(frontmatter, 'sources')} />
+                  )}
                 </Box>
               </Box>
             </PrintSheet>
