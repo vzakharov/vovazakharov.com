@@ -38,6 +38,7 @@ import { flowersOf } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { iconLighting } from './hud';
 import type { Lighting } from './ink';
+import { drawCompass } from './map-compass';
 import type { MushroomBed } from './mushroom-bed';
 import { PALETTE } from './palette';
 import { azimuthAt } from './panorama';
@@ -46,12 +47,17 @@ import { BUTTON_INSET } from './tap-reach';
 
 /**
  * What the map is drawn from as it opens: the meadow as it stands, the eye,
- * the screen's pixel ratio, the seed its ground grows from, and where the
- * meadow seated each door.
+ * the screen's pixel ratio, the seed its ground grows from, where the
+ * meadow seated each door, and whether it is dusk (`dusky`), which puts the
+ * moon on the compass.
  */
 export type MapSnapshot = Eyed &
   AtRatio &
-  Seeded & { stand: Stand; doors: Pick<MushroomBed, 'seatedDoor'> };
+  Seeded & {
+    stand: Stand;
+    doors: Pick<MushroomBed, 'seatedDoor'>;
+    dusky: boolean;
+  };
 
 /** How long the map takes to unfold out of its button, and to fold back, in seconds. */
 const UNFOLD = 0.3;
@@ -71,8 +77,6 @@ const LEAST_HEAD = 9;
 /** The spore's dot against the clump's size, and its least radius in CSS px. */
 const SPORE_RADIUS = 0.06;
 const LEAST_SPORE = 2;
-const SUN_RADIUS = 7;
-const SUN_RAYS = 8;
 const CHILD_RADIUS = 5;
 const ARROW = 16;
 /** The wedge on the grass: a pale veil, edged in faint indigo. */
@@ -191,7 +195,7 @@ export class MapView {
 }
 
 function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
-  const { stand, eye, ratio, seed, doors } = shot;
+  const { stand, eye, ratio, seed, doors, dusky } = shot;
   const { width, height, camera, sun } = stand.layout;
   const hairline = 1 / ratio;
   const sheet = {
@@ -253,7 +257,9 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
       sheet.height,
       CORNER,
     );
-  drawSun(pen, { ...pick(middle, 'x'), y: sheet.top + MARGIN / 2 + 2 });
+  // The compass at the top edge's middle.
+  const compass = { ...pick(middle, 'x'), y: sheet.top + MARGIN / 2 + 2 };
+  drawCompass(pen, compass, dusky);
   drawView(pen, frame, eye, camera, ground);
   const lighting = iconLighting(hairline);
   // A thing standing on `foot`, painted by `paint` round the origin, moved to
@@ -354,27 +360,6 @@ function paintHome(
     lighting,
   };
   paintHouse(pen, genes, size, windows, door, brush);
-}
-
-/** The map's compass: a little sun at the top edge's middle, up being its azimuth. */
-function drawSun(pen: Phaser.GameObjects.Graphics, { x, y }: Point): void {
-  pen.lineStyle(2, PALETTE.sunRay);
-  for (let ray = 0; ray < SUN_RAYS; ray++) {
-    const angle = (ray / SUN_RAYS) * Math.PI * 2;
-    const dx = Math.cos(angle);
-    const dy = Math.sin(angle);
-    pen.lineBetween(
-      x + dx * SUN_RADIUS * 1.35,
-      y + dy * SUN_RADIUS * 1.35,
-      x + dx * SUN_RADIUS * 1.85,
-      y + dy * SUN_RADIUS * 1.85,
-    );
-  }
-  pen
-    .fillStyle(PALETTE.sun)
-    .fillCircle(x, y, SUN_RADIUS)
-    .lineStyle(1.5, PALETTE.ink)
-    .strokeCircle(x, y, SUN_RADIUS);
 }
 
 /** How far a ray from `start` on one axis, moving `step` a px along it, runs to `low` or `high`. */

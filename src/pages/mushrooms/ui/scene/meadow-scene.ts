@@ -3,6 +3,7 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { sameAnchor } from '../../model/anchor';
+import { dusky } from '../../model/dusk';
 import type { Sight } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-sounds';
 import {
@@ -91,8 +92,10 @@ export class MeadowScene extends Phaser.Scene {
   private readonly eye = new EyeInput(this.now);
   private readonly mapShot = (): MapSnapshot | undefined => {
     const [stand, eye, seed] = [this.stand(), this.eye.eye(), this.visitSeed];
-    const [ratio, bed] = [this.pixelRatio(), this.bed];
-    return stand && eye && bed && { stand, eye, seed, ratio, doors: bed };
+    const [ratio, bed, meadow] = [this.pixelRatio(), this.bed, this.meadow];
+    if (!stand || !eye || !bed || !meadow) return undefined;
+    const dusk = dusky(meadow.dusk, this.clock * 1000);
+    return { stand, eye, seed, ratio, doors: bed, dusky: dusk };
   };
   private readonly map = new MapView(this.now, this.mapShot, this.eye.halt);
   /** The walk as the frames go by: the feet landing and the bob. */

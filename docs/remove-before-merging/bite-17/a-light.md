@@ -47,7 +47,7 @@ BackdropColours` — e.g. spell the object out key by key, or a helper
    `DUSK_WASH_DEEPEST * level` at `hudDepth - 2` (stacks with the rain's);
    `glowDepth = hudDepth - 1.5` — **the seam for packages B and C**: windows
    and fireflies draw at `dusk.glowDepth` and read `dusk.level`; the moon
-   (a `Graphics`, drawn on paint by a shared `drawMoon` in `paint-moon.ts`:
+   (a `Graphics`, drawn on paint by `drawMoon(graphics, moon, ink)`, built, in `paint-moon.ts`:
    pale disc, crescent shadow = disc minus a circle offset ~0.35 r, a rosette
    of petals in `moonHalo` outlined in `inkCool`) at the sun's screen point
    (`layout.sun.x + shiftOf(backdrop.view, layout.sun.x)`), rising from
@@ -63,8 +63,8 @@ level`; `tap(at, bob)` within `max(TAP_RADIUS, sun.r * SUN_RAY_REACH)` of
    `this.meadow = { ...firstMeadow(random), dusk: schemeIsDark() ? FULL_DUSK
 : FULL_DAY }`; update the dusk view before `rain.update`; `tapMeadow`
    tries `dusk.tap` after the clouds.
-7. **Map**: move `drawSun` out of `map-view.ts` (445 lines) into a compass
-   module with a moon drawn by `drawMoon`; `MapSnapshot` gains `dusky`.
+7. **Map** — done (package a-map, `a-map.md`): `map-compass.ts`
+   `drawCompass` draws the sun, or the moon by `drawMoon` when `MapSnapshot.dusky`.
 8. **Probe and play**: `__probe.dusk()` → `{ level, toward }`,
    `__probe.sunAt()` → the sun's screen point or `null`; a `dusk` play
    registered in `play-mushrooms.ts`: tap the sun, shoot day, mid-fade
