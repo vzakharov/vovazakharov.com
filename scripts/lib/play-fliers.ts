@@ -94,7 +94,9 @@ export function fliersOn(page: Page, expect: Expect) {
     );
   /**
    * Steps until `found` picks an insect drawn where a finger can tap it
-   * (`tappable`), and where; `undefined` if none ever is.
+   * (`tappable`), and where; `undefined` if none ever is. `found` sees only
+   * the insects in sight: one sunk under the brow keeps its last place on
+   * the probe, but is not drawn there and takes no tap.
    */
   const waitInReach = async (
     found: (all: Insect[], at: number) => Insect | undefined,
@@ -103,7 +105,14 @@ export function fliersOn(page: Page, expect: Expect) {
     | { insect: Insect; point: NonNullable<z.infer<typeof ShownInsect>> }
     | undefined
   > => {
-    const insect = await waitFor(found, looks);
+    const insect = await waitFor(
+      (all, at) =>
+        found(
+          all.filter(({ inSight }) => inSight),
+          at,
+        ),
+      looks,
+    );
     if (insect === undefined) return undefined;
     const point = await shown(insect.id);
     if (point !== null && (await tappable(point))) return { insect, point };
