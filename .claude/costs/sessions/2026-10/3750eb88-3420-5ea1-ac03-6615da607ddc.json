@@ -1,7 +1,7 @@
 {
   "sessionId": "3750eb88-3420-5ea1-ac03-6615da607ddc",
   "branch": "claude/mushroom-game-syama-lbirv7",
-  "cwd": "/home/user/vovazakharov.com/src/pages/mushrooms",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7 — before attaching: check the branch out in a command of its own and never delete the harness auto-branch; never g…",
   "prs": [
     57
@@ -9,49 +9,49 @@
   "url": "https://claude.ai/code/session_01UDRuYXBodfPWFgXZnMkezY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-04T04:21:57.377Z",
-  "lastResponseAt": "2026-10-04T04:34:09.442Z",
+  "lastResponseAt": "2026-10-04T04:51:37.107Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 1604,
-    "cacheWrite5mTokens": 182488,
-    "cacheWrite1hTokens": 160933,
-    "cacheReadTokens": 10109197,
-    "outputTokens": 28275,
-    "thinkingTokens": 9734,
-    "responses": 78,
-    "costUsd": 4.792945400000001
+    "inputTokens": 2776,
+    "cacheWrite5mTokens": 305739,
+    "cacheWrite1hTokens": 175105,
+    "cacheReadTokens": 21103253,
+    "outputTokens": 36460,
+    "thinkingTokens": 10734,
+    "responses": 159,
+    "costUsd": 7.892307600000002
   },
   "ownTurns": {
-    "inputTokens": 98,
+    "inputTokens": 116,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 160933,
-    "cacheReadTokens": 7103115,
-    "outputTokens": 27919,
-    "thinkingTokens": 9734,
-    "responses": 49,
-    "costUsd": 3.266859
+    "cacheWrite1hTokens": 175105,
+    "cacheReadTokens": 8817631,
+    "outputTokens": 35321,
+    "thinkingTokens": 10734,
+    "responses": 57,
+    "costUsd": 3.8712502
   },
   "subagents": {
-    "inputTokens": 54,
-    "cacheWrite5mTokens": 181685,
+    "inputTokens": 196,
+    "cacheWrite5mTokens": 304092,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 2814253,
-    "outputTokens": 319,
+    "cacheReadTokens": 11678998,
+    "outputTokens": 1091,
     "thinkingTokens": 0,
-    "responses": 27,
-    "costUsd": 1.4778716
+    "responses": 98,
+    "costUsd": 3.8788636000000003
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 658,
-      "cacheWrite5mTokens": 182488,
-      "cacheWrite1hTokens": 160933,
-      "cacheReadTokens": 10109197,
-      "outputTokens": 28256,
-      "thinkingTokens": 9734,
-      "responses": 77,
-      "costUsd": 4.791904400000001
+      "inputTokens": 1830,
+      "cacheWrite5mTokens": 305739,
+      "cacheWrite1hTokens": 175105,
+      "cacheReadTokens": 21103253,
+      "outputTokens": 36441,
+      "thinkingTokens": 10734,
+      "responses": 158,
+      "costUsd": 7.8912666000000025
     },
     "claude-haiku-4-5-20251001/standard": {
       "inputTokens": 946,
@@ -65,7 +65,7 @@
     }
   },
   "warnings": [
-    "prices.json priced the 76 responses the events also priced at $4.7447, against the events' $5.2830: a rate in the table is likely out of date"
+    "prices.json priced the 155 responses the events also priced at $7.7501, against the events' $9.4388: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "Write",
@@ -85,10 +85,10 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 78,
-    "matched": 76,
-    "matchedTableUsd": 4.7447306000000005,
-    "matchedEventUsd": 5.2829906,
+    "events": 159,
+    "matched": 155,
+    "matchedTableUsd": 7.750113800000002,
+    "matchedEventUsd": 9.438813800000004,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 946,
@@ -101,14 +101,14 @@
         "costUsd": 0.001041
       },
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 803,
+        "inputTokens": 1518,
+        "cacheWrite5mTokens": 1647,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 191829,
-        "outputTokens": 18,
+        "cacheReadTokens": 606624,
+        "outputTokens": 29,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.0471738
+        "responses": 3,
+        "costUsd": 0.14115280000000002
       }
     }
   }
