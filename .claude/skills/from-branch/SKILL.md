@@ -76,15 +76,27 @@ If the count is non-zero, or there are uncommitted changes, **stop and ask the u
 
 ## Step 3 — Fetch and check out the target
 
+This is the safe attach, which `/relay take` runs too: it discards nothing and asks nothing. A local ref the remote has moved past is fast-forwarded; one that has genuinely diverged from it is moved aside, never reset.
+
 ```bash
-git fetch origin <branch>                 # same-repo PR or plain branch
-# For a cross-repo PR, add the fork as a remote first:
-#   gh pr checkout <NNN>                  # easiest path — gh sets up the remote
-git checkout <branch>
-git pull --ff-only origin <branch>        # ensure tip matches remote
+[ "$(git rev-parse --is-shallow-repository)" = false ] || git fetch --unshallow origin
+git fetch origin "+refs/heads/<branch>:refs/remotes/origin/<branch>"
+git checkout <branch>                     # tracks origin/<branch> when there is no local one
+git merge --ff-only origin/<branch>
 ```
 
-`gh pr checkout <NNN>` is the most robust path when the input was a PR — it handles fork remotes, sets upstream, and leaves you on the PR head. Prefer it for PR inputs.
+- **Unshallow first**: in a shallow clone the fast-forward check cannot reach the common ancestor, so an ordinary stale ref reads as diverged.
+- **The explicit refspec** writes `origin/<branch>`, which a bare `git fetch origin <branch>` skips in a single-branch clone.
+- **When the fast-forward refuses**, the local ref holds commits the remote lacks — a force-push, or unpushed work. Move it aside and take the remote's, then name the stale ref in the attach report; deleting it is the operator's call:
+
+  ```bash
+  git branch -m <branch> "stale/<branch>-$(git rev-parse --short <branch>)"
+  git checkout -b <branch> --track origin/<branch>
+  ```
+
+  Never `git reset --hard`: it discards those commits, and an auto-mode session that ran one has had every later command refused.
+
+- **A cross-repo PR** goes through `gh pr checkout <NNN>`, which adds the fork remote and leaves you on the PR head. Where it refuses to fast-forward, move the local ref aside the same way and run it again; never pass `--force`, which resets.
 
 Verify the result with `git branch --show-current` and `git log --oneline -3` — the head should match the PR/branch you intended, not the auto-branch.
 
@@ -121,7 +133,7 @@ State this explicitly in your turn output so the user can see the redirect took 
 ## Failure modes to call out
 
 - **Auto-branch is unexpectedly non-empty** (commits ahead of `origin/main`, uncommitted changes, detached HEAD) — Step 2 already stops on this. Don't try to recover automatically; ask the user.
-- **Target branch already checked out** — skip Steps 2–4 and proceed to Step 6.
+- **Target branch already checked out** — run Step 3 alone, then Step 6: a session started on the branch can still come up shallow or behind it.
 - **MCP says "not allowed"** for a branch/PR action — switch to `gh` (the token is in `GH_TOKEN`). Don't report the action as impossible.
-- **Branch was force-pushed since the PR was opened** — `git pull --ff-only` will refuse; do a `git reset --hard origin/<branch>` only after confirming with the user that there's no local work to lose.
+- **Branch was force-pushed since the PR was opened** — the fast-forward refuses, and Step 3 moves the local ref aside as `stale/<branch>-<short-sha>`, so nothing is discarded and nothing needs asking.
 - **`go`/`implement`/`execute` given but `docs/plans/` has zero or multiple files** — don't guess; `@.claude/skills/go/SKILL.md` Step 1 owns the resolution, and Step 6 dispatches there.
