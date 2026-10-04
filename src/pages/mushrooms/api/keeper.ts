@@ -37,7 +37,7 @@ export function keeper(
   report = (error: unknown) => {
     reportError(error);
   },
-  reopen: () => Promise<Store | undefined> = openStore,
+  reopen: typeof openStore = openStore,
 ): Keeper {
   let current = store;
   let writing = false;

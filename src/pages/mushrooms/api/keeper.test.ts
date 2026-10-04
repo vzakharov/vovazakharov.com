@@ -26,6 +26,15 @@ const unreported = (error: unknown) => {
 };
 const seeds = (written: readonly Kept[]) => written.map(({ seed }) => seed);
 
+/** A report collecting what keeping reports into `reported`. */
+const reporting = () => {
+  const reported: unknown[] = [];
+  const report = (error: unknown) => {
+    reported.push(error);
+  };
+  return { reported, report };
+};
+
 /** A reopen answering `store` a turn later, as `openStore` does. */
 const reopensAs = (store?: Store) => async () => {
   await landed();
@@ -88,15 +97,8 @@ describe('keeper', () => {
 
   it('stops keeping when the store will not reopen, reporting the refusal once', async () => {
     const store = fakeStore(new Map(), 'held');
-    const reported: unknown[] = [];
-    const keeping = keeper(
-      store,
-      4,
-      (error) => {
-        reported.push(error);
-      },
-      reopensAs(),
-    );
+    const { reported, report } = reporting();
+    const keeping = keeper(store, 4, report, reopensAs());
     keeping.keep(record(1));
     keeping.keep(record(2));
     const refusal = new Error('quota');
@@ -112,15 +114,8 @@ describe('keeper', () => {
   it('stops keeping when the retry is refused too', async () => {
     const store = fakeStore(new Map(), 'held');
     const fresh = fakeStore(new Map(), 'held');
-    const reported: unknown[] = [];
-    const keeping = keeper(
-      store,
-      4,
-      (error) => {
-        reported.push(error);
-      },
-      reopensAs(fresh),
-    );
+    const { reported, report } = reporting();
+    const keeping = keeper(store, 4, report, reopensAs(fresh));
     keeping.keep(record(1));
     store.refuse(new Error('quota'));
     await reopenedAndRetried();
@@ -149,15 +144,8 @@ describe('keeper', () => {
   it('stops keeping once the store yielded to a newer build, reopening nothing', async () => {
     const store = fakeStore();
     const fresh = fakeStore();
-    const reported: unknown[] = [];
-    const keeping = keeper(
-      store,
-      4,
-      (error) => {
-        reported.push(error);
-      },
-      reopensAs(fresh),
-    );
+    const { reported, report } = reporting();
+    const keeping = keeper(store, 4, report, reopensAs(fresh));
     keeping.keep(record(1));
     await landed();
     store.drop('yielded');

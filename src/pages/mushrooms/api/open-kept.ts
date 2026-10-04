@@ -42,7 +42,7 @@ export async function openKept(
   report = (error: unknown) => {
     reportError(error);
   },
-  reopen: () => Promise<Store | undefined> = openStore,
+  reopen: typeof openStore = openStore,
 ): Promise<Opening> {
   if (store === undefined) return fresh();
   try {
@@ -58,7 +58,7 @@ async function openIn(
   location: Pick<Location, 'hash'>,
   history: Pick<History, 'state' | 'replaceState'>,
   report: (error: unknown) => void,
-  reopen: () => Promise<Store | undefined>,
+  reopen: typeof openStore,
 ): Promise<Opening> {
   const numbers = await store.numbers();
   const choice = meadowNumber(location.hash, numbers);
@@ -91,7 +91,7 @@ function watchedWrites(
   store: Store,
   number: number,
   opened: unknown,
-  reopen: () => Promise<Store | undefined>,
+  reopen: typeof openStore,
 ) {
   let inner = store;
   let landed = opened;
