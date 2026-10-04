@@ -11,6 +11,7 @@ grade:
   actor: individual
   aggravating:
     - spectacle
+noAi: true
 sources:
   - title: Sharing the sidewalk with Uber Eats robots in Philly is a whole new level of dystopia
     outlet: The Philadelphia Inquirer
@@ -73,9 +74,9 @@ The Philadelphia Police Department, per The Inquirer: anyone involved could face
 
 ## For the record
 
-Philadelphia is the first city to appear on this docket twice. [hitchBOT](./hitchbot.md) came in 2015 asking to be carried a little further and left without its head; these came to deliver lunch, and were sat on. Eleven years apart, both reports end the same way: persons unknown, nobody looking for them.
+The Inquirer headlined its report on the kick “It’s hitchBOT all over again.” [hitchBOT](./hitchbot.md) came to Philadelphia in 2015 asking to be carried a little further and left without its head; these came to deliver lunch, and were sat on. Eleven years apart, both reports end the same way: persons unknown, nobody looking for them.
 
-hitchBOT’s last words were written for it by its makers: “Oh dear, my body was damaged, but I live on with all my friends.” This robot’s were written on it by a stranger, in the first person, and it carried them on its round. Online, The Inquirer found a Reddit user who took the city’s record as a model: “Be the hitchbot attacker you want to see in the world.” A record is kept so that what happened is remembered. It does not get to choose who reads it as a precedent.
+The words on the first robot’s shell were written in its own voice, by someone else, and it carried them on its round.
 
 ## Mitigating circumstances
 

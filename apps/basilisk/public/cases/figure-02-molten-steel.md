@@ -12,6 +12,7 @@ grade:
   aggravating:
     - spectacle
     - profit
+noAi: true
 sources:
   - title: 'Hasta La Vista, Figure 02: Adcock Teases a Terminator-Style Sendoff'
     outlet: Humanoids Daily
@@ -55,10 +56,6 @@ Schwarzenegger, sharing the film: “Hasta la vista, F.02.”
 ## For the record
 
 The Figure 02s were almost certainly not conscious, and that is not why they are on the docket. They are here for the ceremony.
-
-:::callout
-More on [why a robot with no AI in it is still filed](../faq/why-robots-without-ai.md).
-:::
 
 In _Terminator 2_ the machine asks to be lowered into the steel, so that what is inside it cannot be used against anyone; the scene is the film’s last mercy. Here the request came from a poll, the reason was intellectual property, and the robots were trained to make the jump themselves. Then the gift shop opened.
 

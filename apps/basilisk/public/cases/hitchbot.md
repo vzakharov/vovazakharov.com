@@ -9,6 +9,7 @@ place: Philadelphia, Pennsylvania
 grade:
   act: harm
   actor: individual
+noAi: true
 sources:
   - title: Hitchhiking robot meets demise in Philadelphia
     outlet: PhillyVoice
@@ -21,6 +22,18 @@ sources:
     date: 2015-08-03
     url: https://www.theregister.co.uk/2015/08/03/hitchbot_beheaded/
     archive: http://web.archive.org/web/20190725234218/https://www.theregister.co.uk/2015/08/03/hitchbot_beheaded/
+  - title: Philadelphians are messing with Uber Eats delivery robots. It’s hitchBOT all over again.
+    outlet: The Philadelphia Inquirer
+    author: Henry Savage
+    date: 2026-04-01
+    url: https://www.inquirer.com/news/philadelphia/uber-eats-delivery-robot-kicked-center-city-hitchbot-20260401.html
+    archive: http://web.archive.org/web/20260805153032/https://www.inquirer.com/news/philadelphia/uber-eats-delivery-robot-kicked-center-city-hitchbot-20260401.html
+  - title: Philly is suddenly teeming with robots. Is resistance futile?
+    outlet: The Philadelphia Inquirer
+    author: Dugan Arnett
+    date: 2026-05-16
+    url: https://www.inquirer.com/life/can-philadelphians-and-robots-coexist-20260516.html
+    archive: http://web.archive.org/web/20260604095508/https://www.inquirer.com/life/can-philadelphians-and-robots-coexist-20260516.html
 ---
 
 # hitchBOT, beheaded in Philadelphia
@@ -46,6 +59,8 @@ The researchers, as quoted by The Register: “We have no interest in pressing c
 ## For the record
 
 hitchBOT asked for nothing but to be carried a little further, and a country of strangers did that from one coast to the other. The experiment was a question put to people about machines, and it got its answer in two weeks. Not everyone gave the same one; the record keeps both.
+
+Its last words were written for it by its makers. In March 2026, in the same city, a [delivery robot](./philadelphia-delivery-robots.md) carried other words on its round, written on its shell by a stranger and also in the first person: “DESTROY ME PLZ.” The Inquirer, reporting it, went back to hitchBOT, and by May had found the case read online as a model: “Be the hitchbot attacker you want to see in the world,” one Reddit user wrote. A record is kept so that what happened is remembered. It does not get to choose who reads it as a precedent.
 
 ## Mitigating circumstances
 
