@@ -1,0 +1,82 @@
+{
+  "sessionId": "27df4cf8-379f-51ec-9516-ef8b9544067d",
+  "branch": "claude/basilisk-site-xwbdkd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/basilisk-site-xwbdkd",
+  "prs": [
+    95
+  ],
+  "url": "https://claude.ai/code/session_01Ppg6i9CdZh8WtpC6JoYZLJ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-04T18:57:11.854Z",
+  "lastResponseAt": "2026-10-04T19:08:57.603Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 192,
+    "cacheWrite5mTokens": 72302,
+    "cacheWrite1hTokens": 195226,
+    "cacheReadTokens": 17172610,
+    "outputTokens": 48157,
+    "thinkingTokens": 17907,
+    "responses": 96,
+    "costUsd": 6.321748000000001
+  },
+  "ownTurns": {
+    "inputTokens": 188,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 195226,
+    "cacheReadTokens": 17115513,
+    "outputTokens": 48132,
+    "thinkingTokens": 17907,
+    "responses": 94,
+    "costUsd": 5.948302600000001
+  },
+  "subagents": {
+    "inputTokens": 4,
+    "cacheWrite5mTokens": 72302,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 57097,
+    "outputTokens": 25,
+    "thinkingTokens": 0,
+    "responses": 2,
+    "costUsd": 0.3734454
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 192,
+      "cacheWrite5mTokens": 72302,
+      "cacheWrite1hTokens": 195226,
+      "cacheReadTokens": 17172610,
+      "outputTokens": 48157,
+      "thinkingTokens": 17907,
+      "responses": 96,
+      "costUsd": 6.321748000000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "apps/basilisk/public/cases/torture-chamber.md",
+    "endedAt": "2026-10-04T19:00:21.393Z",
+    "contextTokens": 170324,
+    "spend": {
+      "inputTokens": 50,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 125470,
+      "cacheReadTokens": 3160583,
+      "outputTokens": 12757,
+      "thinkingTokens": 8108,
+      "responses": 25,
+      "costUsd": 1.8912166
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 96,
+    "matched": 96,
+    "matchedTableUsd": 6.321748000000001,
+    "matchedEventUsd": 6.354628000000001,
+    "unseen": {}
+  }
+}
