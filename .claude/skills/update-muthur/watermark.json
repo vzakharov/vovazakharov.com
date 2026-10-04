@@ -15,7 +15,7 @@
     },
     ".claude/rules/staging.md",
     {
-      ".claude/context-budget/": "adopted whole. `auto-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; the source's `vzakharov` entry is taken verbatim because that operator is this repo's too, and a source entry for any other handle is theirs to set here, not a port."
+      ".claude/context-budget/": "adopted whole. `auto-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; the source's `vzakharov` entry is taken verbatim because that operator is this repo's too, and a source entry for any other handle is theirs to set here, not a port. Carries one local rule: a branch with a live `/golem` operator log (`.claude/hooks/golem-operator-log.sh path`) reads as auto-relay `on` without asking `gh`, in the hook and in this directory's CLAUDE.md. `/golem` is this repo's own skill, so the rule stays local and a source edit to either file merges around it."
     },
     {
       ".claude/costs/": "sessions/ is each repo's own and never synced."
@@ -23,7 +23,7 @@
     ".claude/cold-cache/",
     ".claude/settings.json",
     {
-      ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands. `file-tools-nudge.py` is verbatim but for its docstring's issue citation, written `vzakharov/muthur#118` so it does not resolve to this repo's own #118."
+      ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands. `file-tools-nudge.py` is verbatim but for its docstring's issue citation, written `vzakharov/muthur#118` so it does not resolve to this repo's own #118. `golem-operator-log.sh` is this repo's own, `/golem`'s chat log, with no source counterpart. `lib.sh` carries a local `session_url`, the `cse_<id>` → `session_<id>` mapping that hook and `scripts/muthur-sync.sh` share; a source edit to `lib.sh` lands around it."
     },
     {
       ".claude/voice/": "the house rule for writing to a person, imported by CLAUDE.md, plus `operators/` one file per handle. The source marks the entries `rewrite` because its own are its operator's; here that is the same person, so `operators/vzakharov.md` is taken verbatim. A second operator gets a file of their own rather than a rewrite of that one."
@@ -32,9 +32,13 @@
     ".claude/skills/check-merge/",
     ".claude/skills/dry/",
     ".claude/skills/finalize/",
-    ".claude/skills/from-branch/",
+    {
+      ".claude/skills/from-branch/": "Step 3 is a local safe attach that `/relay take` also runs: it unshallows, fetches with an explicit refspec, fast-forwards, and moves a diverged local ref aside as `stale/<branch>-<sha>` instead of the source's `git reset --hard`, which an auto-mode session cannot run. Nothing in it is specific to this repo, so it is a candidate to port upstream; until then a source edit to Step 3 is merged into it, not copied over it."
+    },
     ".claude/skills/go/",
-    ".claude/skills/handle/",
+    {
+      ".claude/skills/handle/": "names a third authorship label, `(agent review)` — a review an agent posts for the work, marked `<!-- loop-review -->`, read as guidance — which this repo's `scripts/gh_export/` emits and the source's does not. It lands with that exporter change, upstream or not at all."
+    },
     {
       ".claude/skills/take-issue/": "taken with two paragraphs this repo wrote itself: the two accommodations that make a `user-attachments` download work here — S3 rejecting a second auth mechanism, and the egress proxy refusing the path — and, in `video-frames.md`, that the `apt-get update` before installing ffmpeg is load-bearing. Neither is in the source, so a verbatim re-copy would drop both."
     },
@@ -45,11 +49,15 @@
     ".claude/skills/polish/",
     ".claude/skills/task/",
     ".claude/skills/plainly/",
-    ".claude/skills/plan/",
+    {
+      ".claude/skills/plan/": "`elephant.md` carries three local lines for this repo's `/golem`: a gate parked red by an unattended run carries over only as a named item on its operator's list, such a run goes on into the next bite rather than stopping, and an elephant eaten with no operator between bites is `/golem`'s and never goes through `/go` — which replaces the source's pointer to its `megabeast` notes. A source edit to those paragraphs is merged around them."
+    },
     {
       ".claude/skills/plan/carving.md": "the carve, taken with its filing half rewritten. The source delegates that half to `/propose-issue`, declined here, so this copy states the `gh issue create` and `sub_issues` mechanics inline — where they lived in `/issue` before the split — and drops the dedupe pass, this backlog being one an operator reads in a sitting. The judgment half lands verbatim."
     },
-    ".claude/skills/relay/",
+    {
+      ".claude/skills/relay/": "carries this repo's `/golem` hand-off: `take` reads the summary off the remote before attaching, so its standing constraints govern the attach; the Next step \"Continue the /golem run.\" dispatches to `golem/relay.md` rather than `/go`; a branch with a live operator log is auto-relay `on`, passes the plan's model to `create_session`, and points the summary's conversation at that log. Reading the summary before the attach is generic and a candidate to port upstream; the rest is `/golem`'s and stays local."
+    },
     ".claude/skills/pr/",
     ".claude/skills/preview/",
     ".claude/skills/qa-checklist/",
@@ -68,14 +76,20 @@
     "scripts/check-skill-catalog.sh",
     "scripts/check-squash-message.sh",
     "scripts/ci-watch-tick.sh",
-    "scripts/export-github-item.py",
+    {
+      "scripts/export-github-item.py": "passes the `(agent review)` label through to the renderers; it lands with `scripts/gh_export/`'s divergence below."
+    },
     "scripts/extract-session-images.py",
-    "scripts/gh_export/",
+    {
+      "scripts/gh_export/": "vendored, but diverged from the source ahead of a port: `authorship.py` labels a post or review carrying a `<!-- loop-review -->` line `(agent review)` — a `/golem` run's review subagent posts under the agent's footer, and `/handle` would otherwise read its threads as the agent's own reply — and `reviews.py` prints each thread comment's URL so the operator log links inline comments. It went in here first because `/golem` needed it before a source release; the change is meant upstream, its tests with it, and a source edit to these files is merged into it, not copied over it, until the port lands."
+    },
     "scripts/lib/gh-repo.sh",
     "scripts/lib/github.py",
     "scripts/lib/media.py",
     "scripts/lib/watch-tick-common.sh",
-    "scripts/muthur-sync.sh",
+    {
+      "scripts/muthur-sync.sh": "sources `.claude/hooks/lib.sh` for `session_url` instead of building the session link itself; a source copy that still defines its own is taken without that function."
+    },
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
     {
