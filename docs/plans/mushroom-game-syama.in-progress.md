@@ -329,10 +329,6 @@ sees its mushroom, else alone, and stays where it was seated; a run's course and
 ground; `mouse-runs.ts` and `runner-shown.ts` draw them. A worm is
 `model/worm.ts`, `house-worm.ts`, `draw-worm.ts`.
 
-**What the next bites stand on.** Dusk is a second set of `palette*.ts` colours through the
-baked backdrop and `sunLight`, lit windows in `draw-house.ts`, mice out on those
-runs, fireflies a fourth `INSECT_KINDS` entry.
-
 The bites, each file its full contract:
 
 1. **The meadow, still** — [bite-01.md](mushroom-game-syama/bite-01.md)
@@ -377,11 +373,7 @@ re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
 `airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
 anchors, or slice it as `Tended` slices the lawn).
 
-17. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
-    glowing, fireflies waking, mice coming out of their doors, butterflies
-    folded on the caps and flowers closed for the night.
-
-Then, the Artifact republished, `/relay /finalize`. Nothing goes around the
+After the bite below, the Artifact republished, `/relay /finalize`. Nothing goes around the
 canvas — no way home, no footer link, no reduced-motion or assistive-tech
 layer: the game opens straight on the meadow for one child, not a store
 product («сейчас это развлечение для одного ребёнка, а не продукт для
@@ -390,6 +382,14 @@ product («сейчас это развлечение для одного реб
 **Performance waits** until the operator asks («к перформанс улучшениям
 вернёмся когда и если это станет критичным»): the play prints its 26 ms
 budget line and does not fail on it (1946a63).
+
+## This bite
+
+18\. **Dusk**, item 17 and the last: a tap on the sun turns the meadow to
+dusk and a tap on the moon back, the dark scheme opening at dusk; the
+sky's second colours cross-faded, a wash, glowing windows, flowers closed,
+fliers settled, mice running, fireflies circling, crickets. Calls and
+packages: [bite-17.md](mushroom-game-syama/bite-17.md).
 
 ## DRY notes
 
