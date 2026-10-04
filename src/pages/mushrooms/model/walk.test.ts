@@ -10,11 +10,12 @@ import { VIEWPORTS } from '../ui/scene/viewports';
 import { gaitHeight, RISE_EASE, walking } from './eye-height';
 import type { Point } from './geometry';
 import { GLIDE_OVER, GLIDE_TAU } from './glide';
-import type { Camera } from './ground';
+import { type Camera, OPENING_EYE } from './ground';
 import { KEY_EASE, SLOP, TURN_CRUISE } from './pan';
 import { pinholeOf, viewOf } from './pinhole';
 import {
   forwardOf,
+  GAITS,
   sidewaysOf,
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
@@ -39,6 +40,7 @@ import {
   refit,
   tickWalk,
   type Walk,
+  type WalkStart,
   withGait,
 } from './walk';
 
@@ -109,11 +111,7 @@ function shifted(point: Point, dx: number, dy: number): Point {
 
 /** The opening walk on `camera` with its ground drags in flight. */
 function flying(camera: Camera): Walk {
-  return {
-    ...openingWalk(camera),
-    gait: 'flight',
-    rise: { from: gaitHeight('flight'), startedAt: 0 },
-  };
+  return openingWalk(camera, { eye: OPENING_EYE, gait: 'flight' });
 }
 
 /** The axis a walk's pressed finger is locked to, if any. */
@@ -130,6 +128,37 @@ function groundPress(camera: Camera): Point {
 function skyPress(camera: Camera): Point {
   return { x: camera.width * 0.6, y: camera.groundTop * 0.5 };
 }
+
+describe('the walk a visit opens on', () => {
+  it('opens on the opening eye, in steps, at the walking height', () => {
+    const walk = openingWalk(TABLET);
+    assert.equal(walk.gait, 'steps');
+    for (const time of [0, 10]) {
+      assert.deepEqual(eyeAt(walk, time), OPENING_EYE);
+      assert.equal(lensAt(walk, time).eyeHeight, gaitHeight('steps'));
+    }
+  });
+
+  for (const gait of GAITS) {
+    it(`opens where it is started, ${gait}, at the gait’s height from the first frame`, () => {
+      for (const { name, camera } of CAMERAS) {
+        const start: WalkStart = {
+          eye: { x: 3.4, y: -7.25, heading: 2.1 },
+          gait,
+        };
+        const { eye } = start;
+        const walk = openingWalk(camera, start);
+        assert.equal(walk.gait, gait, name);
+        for (const time of [0, FRAME, 10]) {
+          const at = eyeAt(walk, time);
+          assert.deepEqual(pick(at, 'x', 'y'), pick(eye, 'x', 'y'), name);
+          assert.ok(Math.abs(at.heading - eye.heading) < 1e-9, name);
+          assert.equal(lensAt(walk, time).eyeHeight, gaitHeight(gait), name);
+        }
+      }
+    });
+  }
+});
 
 describe('a drag on the walk', () => {
   it('moves nothing while it stays inside the radial slop, a long press while it lasts', () => {

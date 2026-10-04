@@ -20,9 +20,9 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Direction } from './cruise';
-import { heightAt, OPENING_RISE, type Raised, riseFrom } from './eye-height';
+import { gaitHeight, heightAt, type Raised, riseFrom } from './eye-height';
 import type { Point } from './geometry';
-import { type Camera, type Eye, OPENING_EYE } from './ground';
+import { type Camera, type Eye, type Eyed, OPENING_EYE } from './ground';
 import type { Ramp } from './motion';
 import {
   holdKey,
@@ -99,17 +99,19 @@ function panView(camera: Camera): View & { turn: Turn } {
   return { width, world, unit, turn: turnOf(pinholeOf(camera).arc) };
 }
 
-/** The walk a visit opens on: the opening eye, at rest. */
-export function openingWalk(camera: Camera): Walk {
+/** Where a walk opens: the eye, and the gait it stands in. */
+export type WalkStart = WithGait & Eyed;
+
+const OPENING_START: WalkStart = { eye: OPENING_EYE, gait: 'steps' };
+
+/** The walk a visit opens on, at rest at `from`, the eye at its gait's height. */
+export function openingWalk(camera: Camera, from = OPENING_START): Walk {
   return {
     lens: camera,
-    pan: restingAt(
-      panView(camera),
-      OPENING_EYE.heading * pinholeOf(camera).arc,
-    ),
-    stride: standingAt(pick(OPENING_EYE, 'x', 'y')),
-    gait: 'steps',
-    rise: OPENING_RISE,
+    pan: restingAt(panView(camera), from.eye.heading * pinholeOf(camera).arc),
+    stride: standingAt(pick(from.eye, 'x', 'y')),
+    ...pick(from, 'gait'),
+    rise: { from: gaitHeight(from.gait), startedAt: 0 },
     drag: undefined,
   };
 }
