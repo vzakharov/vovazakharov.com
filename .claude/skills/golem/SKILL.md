@@ -20,7 +20,7 @@ A golem works without rest by the words put in its head — here, the plan — a
 4. **Then the next bite**, in the same session while it has context left. The context budget's pause relays (`relay.md`), wherever the work stands.
 5. **The last bite** ends in `@.claude/skills/finalize/SKILL.md` without `and merge`. Merging deploys, and it is the operator's.
 
-**A run relays at the budget pause, never at a bite's end as such.** A session with room left goes on into the next bite, skipping the orientation a fresh session pays for and the pickup's friction. The fold is written whole at every bite's end, so a relay can land anywhere after it. **The pause always relays**: the context-budget hook reads a branch with an operator log as `auto-relay` `on`, whatever the operator's own setting says.
+**A run relays at the budget pause, never at a bite's end as such.** A session cannot measure its own context, so the hook's notice is the only signal; one with room left goes on into the next bite, skipping the orientation a fresh session pays for and the pickup's friction. The fold is written whole at every bite's end, so a relay can land anywhere after it. **The pause always relays**: the context-budget hook reads a branch with an operator log as `auto-relay` `on`, whatever the operator's own setting says.
 
 ## Rules that hold on every turn of a run
 
