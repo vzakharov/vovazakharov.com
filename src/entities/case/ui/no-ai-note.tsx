@@ -5,7 +5,7 @@ const WHY_FILED = documentRoute('basilisk-faq', 'why-robots-without-ai');
 
 export function NoAiNote() {
   return (
-    <div className="content-callout">
+    <aside className="content-callout">
       <p>
         More on{' '}
         <InternalLink href={WHY_FILED}>
@@ -13,6 +13,6 @@ export function NoAiNote() {
         </InternalLink>
         .
       </p>
-    </div>
+    </aside>
   );
 }
