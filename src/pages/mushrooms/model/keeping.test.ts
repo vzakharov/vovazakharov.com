@@ -5,8 +5,8 @@ import { ALL_TEN, opened, play } from '../ui/scene/visit-play';
 import { DUSK_MS, duskness, FULL_DAY, FULL_DUSK } from './dusk';
 import { isAloft, isLeaving } from './flight';
 import { type Meadow, reduce } from './game';
-import { reopened, RESTED_AT, settled } from './keeping';
-import type { Kept } from './kept-record';
+import { reopened, settled } from './keeping';
+import { type Kept, RESTED_AT } from './kept-record';
 import {
   isOld,
   SPORE_DWELL_MS,

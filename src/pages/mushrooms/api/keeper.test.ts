@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { settled } from '../model/keeping';
 import { type Kept, KEPT_VERSION } from '../model/kept-record';
 import { opened } from '../ui/scene/visit-play';
-import { fakeStore } from './fake-store';
+import { fakeStore, later as landed } from './fake-store';
 import { keeper, POLL_MS } from './keeper';
 
 const stand = opened(3, 1180, 820, false);
@@ -24,11 +24,6 @@ const unreported = (error: unknown) => {
   assert.fail(`a write was refused: ${String(error)}`);
 };
 const seeds = (written: readonly Kept[]) => written.map(({ seed }) => seed);
-/** Lets every settled write's callbacks run. */
-const landed = async () =>
-  new Promise((resolve) => {
-    setImmediate(resolve);
-  });
 
 describe('keeper', () => {
   it('writes at once with nothing in flight', () => {

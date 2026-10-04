@@ -9,8 +9,8 @@ export type FakeStore = Store & {
   refuse: (error: unknown) => void;
 };
 
-/** A turn of the event loop, as IndexedDB answers a read. */
-const later = async () =>
+/** A turn of the event loop, as IndexedDB answers a read; a write landed or refused has run its callbacks by the next. */
+export const later = async () =>
   new Promise<void>((resolve) => {
     setImmediate(resolve);
   });

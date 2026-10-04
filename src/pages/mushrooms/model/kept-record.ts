@@ -8,23 +8,38 @@ import { z } from 'zod';
 
 import { TOWARDS } from './dusk';
 import { PERCH_KINDS, SIDES } from './flight';
-import type { Meadow } from './game';
+import { type Meadow, PICKERS_SHUT } from './game';
 import { WINDOW_KINDS } from './house';
 import { INSECT_KINDS } from './insect-genes';
 import { MUSHROOM_SPECIES } from './mushroom-genes';
 import type { Seeded } from './random';
 import { SHELTER_SEATS } from './shelter';
+import { SPROUT_MS } from './sprouting';
 import { GAITS } from './stride';
 import type { WalkStart } from './walk';
 
 /** The record's format: a record of any other is not read, and is never overwritten. */
 export const KEPT_VERSION = 1;
 
-/** A meadow as it is kept: the selection, the pickers and the shower belong to the load that had them. */
-export type KeptMeadow = Omit<
-  Meadow,
-  'selected' | 'picking' | 'furnishing' | 'planting' | 'rain'
->;
+/**
+ * The moment every kept stamp is set to: longer before the load's start
+ * than any span a rule measures from a stamp, so each reads it as long over.
+ */
+export const RESTED_AT = -SPROUT_MS;
+
+/**
+ * What a meadow opens with of what is not kept, the selection, the pickers
+ * and the shower belonging to the load that had them: nothing selected,
+ * every picker shut, no shower yet.
+ */
+export const UNKEPT = {
+  ...PICKERS_SHUT,
+  selected: undefined,
+  rain: undefined,
+} as const satisfies Partial<Meadow>;
+
+/** A meadow as it is kept: all of it but `UNKEPT`. */
+export type KeptMeadow = Omit<Meadow, keyof typeof UNKEPT>;
 
 /** One kept meadow, the visit seed that grew its world, and where the child stood in it and how, as the walk reopens there. */
 export type Kept = Seeded &

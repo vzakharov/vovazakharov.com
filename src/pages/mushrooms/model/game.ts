@@ -217,7 +217,7 @@ export const sameFoot = (a: Footing, b: Footing): boolean =>
   a.x === b.x && a.y === b.y && a.size === b.size;
 
 /** Every picker shut: the mushrooms', the house's and the flowers'. */
-const PICKERS_SHUT = {
+export const PICKERS_SHUT = {
   picking: false,
   furnishing: false,
   planting: undefined,

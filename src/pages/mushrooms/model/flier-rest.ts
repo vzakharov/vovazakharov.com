@@ -5,7 +5,7 @@
 
 import type { Leg } from './flight';
 import type { Flier } from './insects';
-import { RESTED_AT } from './keeping';
+import { RESTED_AT } from './kept-record';
 
 /**
  * `insects` at rest, settled at `now`: one leaving is gone; one under a cap
