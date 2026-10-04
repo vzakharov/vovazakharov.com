@@ -46,27 +46,34 @@ const OPEN = 30;
 const SETTLE = 45;
 /** Frames from a tap on a firefly to its flare's height. */
 const FLARING = 15;
+/** Taps tried before the fireflies count as uncatchable. */
+const FLARE_TRIES = 4;
+/** Frames between tries: a firefly over a cap or a door yields it the tap, and circles out. */
+const CIRCLING = 40;
 
 /**
  * A firefly near the screen's middle tapped at full dusk and shot flaring
- * (`dusk-flare`). Fails where none is lit, or the tapped one does not flare.
+ * (`dusk-flare`). One drawn over a mushroom gives the tap to the mushroom,
+ * so a miss deselects and tries again once it has circled on. Fails where
+ * none is lit, or none flares in `FLARE_TRIES`.
  */
 async function shootFlare(
   page: Page,
   expect: Expect,
   note: (line: string) => void,
+  tries = 1,
 ): Promise<void> {
-  const lit = await page.evaluate('__probe.fireflies()', Fireflies);
   const { width, height } = await page.evaluate(
     '__probe.eye()',
     z.object({ width: z.number(), height: z.number() }),
   );
   const off = ({ x, y }: z.infer<typeof Point>) =>
     Math.hypot(x - width / 2, y - height / 2);
+  const lit = await page.evaluate('__probe.fireflies()', Fireflies);
   const tapped = lit
     .filter(({ x, y }) => x > 0 && x < width && y > 0 && y < height)
     .toSorted((a, b) => off(a) - off(b))[0];
-  note(`fireflies lit: ${String(lit.length)}`);
+  if (tries === 1) note(`fireflies lit: ${String(lit.length)}`);
   if (!tapped) {
     expect(false, 'no firefly lit on the screen at dusk');
     return;
@@ -78,11 +85,20 @@ async function shootFlare(
   note(
     `firefly ${String(tapped.index)} on ${String(tapped.host)}: flare ${String(flared?.flare ?? null)}`,
   );
-  expect(
-    flared !== undefined && flared.flare > 0.5,
-    `the tapped firefly did not flare (${JSON.stringify(flared ?? null)})`,
+  if (flared !== undefined && flared.flare > 0.5) {
+    await page.shoot('dusk-flare');
+    return;
+  }
+  if (tries === FLARE_TRIES) {
+    expect(false, `no tapped firefly flared in ${String(FLARE_TRIES)} tries`);
+    return;
+  }
+  await page.evaluate(
+    "__probe.scene.dispatch({ kind: 'deselect' })",
+    z.unknown(),
   );
-  await page.shoot('dusk-flare');
+  await page.step(CIRCLING);
+  await shootFlare(page, expect, note, tries + 1);
 }
 
 /** Every piece the house picker offers put into each of the opening's mushrooms, the newest first, and the picker closed and the mushroom let go, so no glow of a selection lies over the windows. */
