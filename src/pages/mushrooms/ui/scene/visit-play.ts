@@ -28,7 +28,7 @@ import type { View } from './view';
 export { tapTarget } from './mushroom-tap';
 
 /** The meadow as it stands. */
-type Meadowed = { meadow: Meadow };
+export type Meadowed = { meadow: Meadow };
 
 /**
  * A stand, the meadow it stands, and the meadow as the last shower found it,

@@ -24,6 +24,7 @@ import { InsectView } from './insect-view';
 import { Instrument } from './instrument';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { type MapSnapshot, MapView } from './map-view';
+import { type MeadowKeeping, meadowKeeping } from './meadow-keeping';
 import { listenOnMeadow } from './meadow-listeners';
 import { meadowOpening } from './meadow-opening';
 import { tapInsect, tapMeadow } from './meadow-taps';
@@ -120,13 +121,14 @@ export class MeadowScene extends Phaser.Scene {
   private readonly arrivals: Arrivals;
   /** What the visit opens on; its `keeper`, absent with no store, keeps the meadow. */
   private readonly opening: Opening;
+  private readonly keeping: MeadowKeeping;
 
   constructor(opening: Opening) {
     super('meadow');
     this.opening = opening;
     this.perches = new Perches(() => this.beds());
     // Each its own stream, apart from the meadow's world.
-    const { voice, now, scened, sighted } = this;
+    const { voice, now, scened, sighted, eye } = this;
     this.planter = new Planter(
       voice,
       now,
@@ -134,6 +136,7 @@ export class MeadowScene extends Phaser.Scene {
       opening.streams ^ 0x7f_10_e5,
     );
     this.arrivals = new Arrivals(voice, now, sighted, opening.streams);
+    this.keeping = meadowKeeping(opening, scened, eye, now);
   }
 
   create(): void {
@@ -181,7 +184,7 @@ export class MeadowScene extends Phaser.Scene {
     this.bed.reconcile(...at);
     this.flowers.reconcile(...at);
     this.insects.reconcile(this.meadow.insects);
-    const { instrument, flowers, eye, planter, voice, map } = this;
+    const { instrument, flowers, eye, planter, voice, map, keeping } = this;
     const { paint: resize, tapMeadow: tap } = this;
     listenOnMeadow(this, {
       resize,
@@ -193,6 +196,7 @@ export class MeadowScene extends Phaser.Scene {
       planter,
       voice,
       map,
+      keeping,
     });
   }
 
@@ -200,12 +204,13 @@ export class MeadowScene extends Phaser.Scene {
     this.clock = time / 1000;
     if (this.sown) this.sow();
     const t = this.clock;
-    const { layout, backdrop, grass, flowers, bed, meadow } = this;
+    const { layout, backdrop, grass, flowers, bed, meadow, keeping } = this;
     const { controls, insects, perches, rain, dusk, map, opening } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
     const burrows = bed?.runs.burrows(opening.seed);
     this.dispatch({ kind: 'tick', now: time, burrows, ...this.sightNow() });
+    keeping.poll(time);
     bed?.runs.night(this.meadow?.nightRuns.last);
     driftClouds(backdrop, layout, t);
     dusk?.update(meadow?.dusk);
@@ -320,6 +325,7 @@ export class MeadowScene extends Phaser.Scene {
     this.bed?.reconcile(meadow, this.requireLayout(), this.clock);
     this.insects?.reconcile(meadow.insects);
     this.repaintControls();
+    if (action.kind !== 'tick') this.keeping.keep();
   }
 
   private readonly tapMeadow = (

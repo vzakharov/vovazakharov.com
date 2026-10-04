@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 
 import { playTheMeadow } from './instrument-input';
 import type { MapView } from './map-view';
+import type { MeadowKeeping } from './meadow-keeping';
 import type { MeadowSound } from './sound';
 
 type Played = Parameters<typeof playTheMeadow>;
@@ -24,6 +25,8 @@ type MeadowPieces = {
   map: Pick<MapView, 'open'>;
   /** The map button's press, which `m` makes too, and `Esc` while the map is open. */
   fold: () => void;
+  /** The tab hiding and the hash edited, while the meadow is kept. */
+  keeping: Pick<MeadowKeeping, 'bind'>;
 };
 
 /**
@@ -36,7 +39,7 @@ export function listenOnMeadow(
   pieces: MeadowPieces,
 ): void {
   const { resize, tap, instrument, flowers, eye, planter, voice } = pieces;
-  const { map, fold } = pieces;
+  const { map, fold, keeping } = pieces;
   const { scale, input, events } = scene;
   const release = () => {
     voice.start();
@@ -45,6 +48,7 @@ export function listenOnMeadow(
   const stops = [
     playTheMeadow(scene, instrument, flowers, eye, planter, waiting, fold),
     eye.listen(scene),
+    keeping.bind(),
   ];
   scale.on(Phaser.Scale.Events.RESIZE, resize);
   input.on(Phaser.Input.Events.POINTER_DOWN, tap);
