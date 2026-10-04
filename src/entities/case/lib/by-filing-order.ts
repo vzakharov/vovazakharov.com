@@ -1,6 +1,6 @@
 import type { CaseFrontmatter, WithFrontmatter } from '@/shared/content';
 
-type Numbered = WithFrontmatter<Pick<CaseFrontmatter, 'case'>>;
+type Numbered = WithFrontmatter<Pick<CaseFrontmatter, 'case' | 'date'>>;
 
 /**
  * The docket's order, the last case filed first. Numbers are zero-padded, so

@@ -3,7 +3,9 @@ import { describe, it } from 'node:test';
 
 import { byFilingOrder } from './by-filing-order.ts';
 
-const filed = (number: string) => ({ frontmatter: { case: number } });
+const filed = (number: string) => ({
+  frontmatter: { case: number, date: new Date('2026-10-02') },
+});
 
 describe('byFilingOrder', () => {
   it('lists the last case filed first, past a digit boundary', () => {
