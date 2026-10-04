@@ -24,7 +24,8 @@ the model's types with `satisfies z.ZodType<Kept>`, never a hand copy of
 them. One record per meadow, `{version: 1, seed, meadow, eye, gait}`, keyed
 by its number. "Cannot read" is another version or a schema failure: that
 record is left untouched and a fresh meadow opens under the next number
-past the highest. `kept-record.ts` owns the `Kept` types, `keeping.ts` the functions.
+past the highest. `kept-record.ts` owns the `Kept` types and the schema,
+`keeping.ts` the functions.
 
 4\. **The hash**: `#n` opens meadow n (fresh when none is kept); `#new` opens
 the highest + 1; anything else opens the highest kept, or `#1`. The hash is
@@ -72,10 +73,10 @@ reopens another's meadow; a `keep` play reloads and opens `#new`.
 
 One agent each (spec § 3 holds each step's files and tests):
 
-- **S1** settled at rest ∥ **S2** record and hash ∥ **S3** the eye's start
-  — pure, disjoint files.
-- **S4** the store, `openKept` and the keeper (after S1, S2) ∥ **S6** the
-  `keep` play written (scripts only).
+- **S1** settled at rest, owning the `Kept` types in `kept-record.ts` ∥
+  **S3** the eye's start ∥ **S6** the `keep` play written (scripts only).
+- **S2** the record's schema and the hash (after S1, in its file).
+- **S4** the store, `openKept` and the keeper (after S2).
 - **S5a** the boot moved to `meadow-opening.ts` and the opening through the
   constructor, the flowers' `opening` flag (after S3, S4).
 - **S5b** the keeper wired: writes after `dispatch`, the once-a-second poll,
