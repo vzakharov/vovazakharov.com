@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 
+import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
 import {
@@ -16,13 +17,15 @@ import { CLUMP_DISTANCE } from '../../model/ground';
 import { smooth, type TapTimed } from '../../model/motion';
 import { capSeat } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
-import { type CircleFigure, containsCircle } from './hit-areas';
+import { tappedFirefly } from './firefly-tap';
+import type { CircleFigure } from './hit-areas';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import type { PerchHosts, Seat } from './perch-hosts';
 import type { Scened } from './planter';
 import type { MeadowSound } from './sound';
 import { TAP_RADIUS } from './tap-reach';
+import { tuftUnder } from './tufts';
 
 /** How many of the nearest hosts the fireflies spread over. */
 const NEAREST = 6;
@@ -124,7 +127,7 @@ export class FireflyView {
         .setVisible(false);
       return { genes, glow, halo };
     });
-    this.shown = glows.map(({ genes, glow, halo }) => {
+    this.shown = glows.map(({ genes, glow, halo }, index) => {
       const body = scene.add.image(0, 0, '__WHITE');
       const tail = scene.add.image(0, 0, '__WHITE');
       const hit = new Phaser.Geom.Circle(0, 0, TAP_RADIUS);
@@ -133,7 +136,12 @@ export class FireflyView {
         .setBlendMode(Phaser.BlendModes.NORMAL)
         .setDepth(depth)
         .setVisible(false)
-        .setInteractive(hit, containsCircle);
+        .setInteractive(
+          hit,
+          (area: Phaser.Geom.Circle, x: number, y: number) =>
+            Phaser.Geom.Circle.Contains(area, x, y) &&
+            this.tapped(container, x, y) === String(index),
+        );
       const parts = { genes, container, glow, halo, body, tail, hit };
       const shown: Shown = { ...parts, tappedAt: -Infinity, flaring: 0 };
       // A firefly is not the meadow: its tap leaves the selection as it is.
@@ -144,6 +152,40 @@ export class FireflyView {
       });
       return shown;
     });
+  }
+
+  /**
+   * Which firefly a tap at `x`, `y` in `container`'s frame goes to, by its
+   * place in the dozen (`tappedFirefly`): only where nothing else on the
+   * scene answers it (`othersAnswer`) and no bare tuft holds it.
+   */
+  private tapped(
+    container: Phaser.GameObjects.Container,
+    x: number,
+    y: number,
+  ): string | undefined {
+    const finger = container
+      .getWorldTransformMatrix()
+      .transformPoint(x, y, { x: 0, y: 0 });
+    const targets = this.shown.flatMap(({ container: each, hit }, index) =>
+      each.visible
+        ? [
+            {
+              ...pick(each, 'x', 'y'),
+              id: String(index),
+              r: hit.radius * each.scaleX,
+            },
+          ]
+        : [],
+    );
+    const dozen = new Set(this.shown.map(({ container: each }) => each));
+    return tappedFirefly(
+      finger,
+      targets,
+      () =>
+        othersAnswer(this.scene, finger, dozen) ||
+        tuftUnder(this.scene, finger),
+    );
   }
 
   /** Bakes every firefly's shapes at the insects' size on `layout`. */
@@ -256,6 +298,7 @@ export class FireflyView {
     const { container, glow, halo, tail, genes, hit, left, tappedAt } = shown;
     if (!seat) {
       hide(shown);
+      shown.drawn = undefined;
       return;
     }
     const own = CLUMP_DISTANCE / seat.on.stands.ahead;
@@ -324,4 +367,54 @@ export class FireflyView {
 function hide({ container, glow }: Shown): void {
   container.setVisible(false);
   glow.setVisible(false);
+}
+
+/**
+ * Whether any interactive object on `scene` but `skip`'s, shown and enabled,
+ * holds `world` in its hit area, as Phaser's own hit test finds it: through
+ * each object's scroll factor and parents, its display origin, and its own
+ * hit callback.
+ */
+function othersAnswer(
+  scene: Phaser.Scene,
+  world: Point,
+  skip: ReadonlySet<Phaser.GameObjects.GameObject>,
+): boolean {
+  const { manager } = scene.input;
+  const { scrollX, scrollY } = scene.cameras.main;
+  const local = new Phaser.Math.Vector2();
+  const holds = (object: Placed): boolean => {
+    if (object.input?.enabled !== true) return false;
+    object
+      .getWorldTransformMatrix()
+      .applyInverse(
+        world.x + scrollX * object.scrollFactorX - scrollX,
+        world.y + scrollY * object.scrollFactorY - scrollY,
+        local,
+      );
+    return manager.pointWithinHitArea(object, local.x, local.y);
+  };
+  const probe = (list: readonly Phaser.GameObjects.GameObject[]): boolean =>
+    list.some((object) => {
+      if (skip.has(object) || !placed(object) || !object.visible) return false;
+      if (holds(object)) return true;
+      return (
+        object instanceof Phaser.GameObjects.Container && probe(object.list)
+      );
+    });
+  return probe(scene.children.list);
+}
+
+/** A game object placed on the screen, as Phaser's hit test reads it. */
+type Placed = Phaser.GameObjects.GameObject &
+  Phaser.GameObjects.Components.Transform &
+  Phaser.GameObjects.Components.ScrollFactor &
+  Phaser.GameObjects.Components.Visible;
+
+function placed(object: Phaser.GameObjects.GameObject): object is Placed {
+  return (
+    'getWorldTransformMatrix' in object &&
+    'scrollFactorX' in object &&
+    'visible' in object
+  );
 }
