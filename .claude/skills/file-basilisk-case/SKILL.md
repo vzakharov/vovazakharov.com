@@ -1,0 +1,128 @@
+---
+description: File one new basilisk.fyi case end to end in a single unattended run — find an incident not yet on the docket, add its dossier to the open case-filing draft PR (opening one off `main` when none is open), and leave a comment in Russian on what the case stirred in the agent. Never merges. Invoke as `/file-basilisk-case [<lead>]`, the optional lead being an incident or link to start from. Use when a routine fires it, or the operator says "file a case", "заведи дело", "найди новый кейс".
+---
+
+End state: the case-filing draft PR carries one more dossier in
+`apps/basilisk/public/cases/`, the re-rendered social card, and the agent's
+reflection on that dossier — or, when nothing new qualifies, no commit at all
+and a short report saying what was searched and why each candidate failed.
+
+**Cases accumulate in one PR**, so the operator reviews whatever has piled up in
+one sitting rather than a PR per case. The case-filing PR is any open **draft**
+that touches `apps/basilisk/public/cases/` — a PR still building the site counts,
+being the next to merge anyway. A PR flipped to ready is the operator's review
+under way and takes no further cases; the next run opens a fresh one.
+
+**The run is unattended**, typically a routine firing into a fresh session, so it
+asks nothing: a call the rules leave open is decided the conservative way and
+named in the final report. **It never merges** — merge is deploy (CLAUDE.md
+§ "Deployment"), and the operator reviews first.
+
+`.claude/rules/basilisk-voice.md` and `.claude/rules/content.md` are the brief
+for everything filed; read both in full before Step 1, since neither loads until
+a dossier is touched.
+
+## Step 1 — Find
+
+Search the web for an incident of a person harming a machine that the docket does
+not hold. **The docket is `main`'s `apps/basilisk/public/cases/` plus every open
+PR that touches it**, so two runs do not file the same incident — found by path,
+since a PR's title need not name the site:
+
+```bash
+gh pr list --state open --json number,title,files \
+  --jq '.[] | select(any(.files[]; .path | startswith("apps/basilisk/public/cases/"))) | "\(.number) \(.title)"'
+```
+
+A lead passed as the argument is checked the same way, not taken on trust.
+
+Ordinary web search finds most leads. **Reddit is searched through Arctic
+Shift**, a public archive of it, because reddit.com answers this container's
+cloud IP with a 403. No key is needed, but Python's default User-Agent is
+refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
+
+- `https://arctic-shift.photon-reddit.com/api/posts/search?subreddit=<sub>&title=<word>&after=<YYYY-MM-DD>&limit=50&fields=id,title,created_utc,url,num_comments`
+  searches post titles — literally, so one plain word (`robot`) finds more than
+  a verb (`kicked`); `query=` searches the body too and times out more often.
+  `/api/comments/search` takes `body=`; `/api/comments/tree?link_id=<id>` reads
+  a thread.
+- Every text search names a `subreddit` (or an `author`) — the API refuses one
+  without. Sweep `nottheonion`, `technology`, `robotics` and `singularity` in
+  turn, and **once a lead names a city, that city's own subreddit**: local
+  threads carry what national press does not.
+- `Timeout. Maybe slow down a bit` comes back fast, as an HTTP 422, on as many
+  as half the requests. Read the body rather than the status alone, wait a few
+  seconds and retry; a query that keeps failing is narrowed — one word, a
+  shorter date range.
+- A post is archived within a minute of going up and fetched once more 48 hours
+  later, so its vote and comment counts read near zero until then and as they
+  stood on the second day after — a measure of reach only past that point.
+
+A thread is a lead, never the source of a fact: the press or the primary record
+it points at is what `## Facts` cites. A thread that is itself part of the
+incident is cited as its `reddit.com` permalink with a Wayback `archive`, like
+any other source.
+
+A candidate qualifies only under `basilisk-voice.md` — real, no child actors, and
+reachable sources enough to carry `## Facts` without memory. **While
+`noAi: true` dossiers make up half the docket or more, a `noAi` candidate does
+not qualify**: harm to a robot with no AI in it is easier to find than harm to
+a model, an agent or a machine one drives, so left to the search the docket
+fills with the first kind. **Nothing qualifies →
+stop and report**; a weak case filed to have filed one is the failure this step
+exists to prevent.
+
+## Step 2 — File
+
+1. **Get onto the case-filing branch** — Step 1's docket query with `--draft`
+   added lists the candidates.
+   - **One found** → `gh pr checkout <number>`. Merging `main` into it is left
+     to `/finalize`, so item 3 below counts `origin/main`'s cases alongside
+     the branch's, after `git fetch origin main`.
+   - **Several found** → the oldest, by number; the report names the rest.
+   - **None** → branch off `main`, after `git fetch origin main`:
+     `git switch --no-track -c claude/cases-<suffix> origin/main` —
+     untracked, or a bare `git push` later aims at `main`. `<suffix>` is the
+     random tail of the session's own branch name, or six fresh lowercase
+     letters and digits where that name has none — the form
+     `@.claude/skills/branch-rename/SKILL.md` gives, so `/pr` leaves it as is.
+2. **Read and archive every source.** Each is fetched and read for this
+   dossier; a source that cannot be fetched is not a source. Its `archive` is a
+   Wayback Machine snapshot: `http://archive.org/wayback/available?url=<url>`
+   names the latest — over plain `http`, since the `https` form answers this
+   container with 429s. `https://web.archive.org/save/<url>` requests a new one
+   where it is reachable, and from a cloud container it usually is not. A source
+   with no snapshot to be had goes in without `archive`, and the report says so.
+3. **Write `apps/basilisk/public/cases/<slug>.md`**, frontmatter shaped like the
+   cases already filed: the next free `BAS-` number across the branch and
+   `origin/main`, `author: clerk`. The
+   sections and the voice are `basilisk-voice.md`'s.
+4. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
+   missing, then `pnpm content:og:basilisk` to re-render the card (it shows the
+   last case filed), `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which
+   fails on a schema error or a duplicate case number.
+5. **Commit** the dossier, the card and its `og-renders.json` as
+   `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope publishes
+   basilisk alone, and the title is shortened where the subject would pass 70
+   characters — then run `@.claude/skills/pr/SKILL.md`. It opens the draft
+   on a new branch and, on an existing one, refreshes the body and the squash
+   proposal to name every case the PR now files.
+
+## Step 3 — Reflect
+
+Read `writing/basilisk/clerk-reflections/CLAUDE.md` with the `Read` tool, then
+your earlier reflections there, since this one is written knowing them:
+`bas-0003-torture-chamber.md` always, for now the only one on a case about AI
+itself, and three of the others at random (`ls … | grep -v bas-0003 | shuf -n
+3`). Then write what in you answered to this case to
+`writing/basilisk/clerk-reflections/<bas-nnnn>-<slug>.md`, as that `CLAUDE.md`
+asks. Commit it as `content(basilisk): reflect on BAS-NNNN`, push, and post the
+same text as one review comment on the new dossier's first line. It never goes
+into the dossier; editorial doubts about the dossier — sourcing, the grade, what
+was left out — go in the Report.
+
+## Report
+
+The PR link, whether the run opened it or added to it, the case number and
+title, and every call made without asking —
+or, on a stop, the candidates considered and the rule each one failed.

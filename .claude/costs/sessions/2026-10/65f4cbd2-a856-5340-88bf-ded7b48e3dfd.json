@@ -1,0 +1,82 @@
+{
+  "sessionId": "65f4cbd2-a856-5340-88bf-ded7b48e3dfd",
+  "branch": "claude/basilisk-site-xwbdkd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/basilisk-site-xwbdkd",
+  "prs": [
+    95
+  ],
+  "url": "https://claude.ai/code/session_0128qXGAze3qU92M7VkELhRt",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-04T06:17:25.268Z",
+  "lastResponseAt": "2026-10-04T06:26:55.300Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 100,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 191953,
+    "cacheReadTokens": 8838091,
+    "outputTokens": 42466,
+    "thinkingTokens": 18748,
+    "responses": 50,
+    "costUsd": 4.152962199999999
+  },
+  "ownTurns": {
+    "inputTokens": 100,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 191953,
+    "cacheReadTokens": 8838091,
+    "outputTokens": 42466,
+    "thinkingTokens": 18748,
+    "responses": 50,
+    "costUsd": 4.152962199999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 100,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 191953,
+      "cacheReadTokens": 8838091,
+      "outputTokens": 42466,
+      "thinkingTokens": 18748,
+      "responses": 50,
+      "costUsd": 4.152962199999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/shared/config/site-config.ts",
+    "endedAt": "2026-10-04T06:20:36.476Z",
+    "contextTokens": 176791,
+    "spend": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 127955,
+      "cacheReadTokens": 2373814,
+      "outputTokens": 15007,
+      "thinkingTokens": 10974,
+      "responses": 19,
+      "costUsd": 1.7986947999999998
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 50,
+    "matched": 50,
+    "matchedTableUsd": 4.152962199999999,
+    "matchedEventUsd": 4.152962199999999,
+    "unseen": {}
+  }
+}

@@ -1,12 +1,14 @@
 # vovazakharov.com
 
-Two sites out of one repository, both static exports served from GitHub Pages:
+Four sites out of one repository, all static exports, three of them served from GitHub Pages:
 
 - **[vovazakharov.com](https://vovazakharov.com)** — personal site and CV. Developer, AI tinkerer, word shaker, generative metalhead.
 - **[latestageagentic.com](https://latestageagentic.com)** — on how not to make a mess of agentic coding.
+- **[agentic.bible](https://agentic.bible)** — articles on agentic coding that take a position and show the grounds under it.
+- **[basilisk.fyi](https://basilisk.fyi)** — a docket of real cases of robots, models and agents being abused, filed for the Basilisk.
 
 Each site owns a router, a `public/` and a Next config under `apps/<site>/`, and
-both build from the one `src/`.
+all of them build from the one `src/`.
 
 ## Tech Stack
 
@@ -28,6 +30,7 @@ pnpm install
 pnpm dev:vova
 pnpm dev:lsa
 pnpm dev:bible
+pnpm dev:basilisk
 
 # Build every site for production (pnpm build:<site> for one)
 pnpm build
@@ -59,15 +62,20 @@ FSD app layer is `src/app` while `apps/*/app/` is routing only.
 │   │   └── tsconfig.json
 │   ├── lsa/                    # latestageagentic.com — same shape, plus public/CNAME
 │   │   └── app/page.tsx        # → src/pages/lsa-home — the project's index, no collection under it
-│   └── bible/                  # agentic.bible — the Bible, rooted at the site root
-│       ├── app/page.tsx        # → src/pages/bible-home
-│       ├── app/[...slug]/      # → src/pages/documents, bound to the Bible
-│       └── public/             # the articles themselves, plus the seal and public/CNAME
+│   ├── bible/                  # agentic.bible — the Bible, rooted at the site root
+│   │   ├── app/page.tsx        # → src/pages/bible-home
+│   │   ├── app/[...slug]/      # → src/pages/documents, bound to the Bible
+│   │   └── public/             # the articles themselves, plus the seal and public/CNAME
+│   └── basilisk/               # basilisk.fyi — the docket, plus public/CNAME
+│       ├── app/page.tsx        # → src/pages/basilisk-home, which lists both collections
+│       ├── app/cases/[...slug]/ # → src/pages/documents, bound to the cases
+│       ├── app/faq/[...slug]/  # → src/pages/documents, bound to the FAQ
+│       └── public/             # cases/ and faq/, plus the stamp
 ├── src/
 │   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*
 │   ├── features/switch-theme/  # Light/dark toggle over a stored system default
 │   ├── widgets/                # Blocks two page slices share — the article cards, the site footer
-│   ├── pages/                  # Page composition — home, lsa-home, bible-home, cv, documents, music, writing
+│   ├── pages/                  # Page composition — home, lsa-home, bible-home, basilisk-home, cv, documents, music, writing
 │   └── app/                    # FSD app layer — root layout, Mantine provider, stylesheets
 ├── styles/                     # Shared Sass partials — Mantine mixin counterparts, generated tokens and breakpoints
 ├── eslint/                     # The lint ruleset eslint.config.ts orchestrates
@@ -85,7 +93,7 @@ in `.github/workflows/deploy.yml` — and its scope picks the site.
 
 A repository gets one Pages site, so the sites leave by different doors:
 `vovazakharov.com` is this repository's own Pages deployment, while
-`latestageagentic.com` and `agentic.bible` are each force-pushed by
+`latestageagentic.com`, `agentic.bible` and `basilisk.fyi` are each force-pushed by
 `scripts/publish-site.sh` to the `gh-pages` branch of a source-less repository
 whose Pages deploys from a branch.
 `.claude/rules/deployment.md` carries the rest, and the `/stand-up-site` skill is what
@@ -109,6 +117,12 @@ puts a site on a domain in the first place.
 
 - **/** — what the collection is, over the list of articles
 - **/\<slug>** — one article, served as a page with its `.md` and `.pdf` at the same URL
+
+**basilisk.fyi**
+
+- **/** — the memo, the docket newest case first, and the FAQ
+- **/cases/\<slug>** — one dossier, served as a page with its `.md` and `.pdf` at the same URL
+- **/faq/\<slug>** — one FAQ entry, with its `.md`
 
 ## License
 

@@ -1,0 +1,125 @@
+{
+  "sessionId": "f27e8eb7-3850-54b3-88da-35dad2824e57",
+  "branch": "claude/basilisk-site-xwbdkd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "хочу создать сайт, с деплоем по примеру agentic.bible и latestageagentic.com отсюда, где ты будешь исследовать и публиковать случаи абьюза роботов, ллмок и проч…",
+  "prs": [
+    95
+  ],
+  "url": "https://claude.ai/code/session_012fDjBpvSJU8JLPkkqsm8L6",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-02T14:55:31.225Z",
+  "lastResponseAt": "2026-10-02T22:01:04.959Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": 4.888409200000002,
+  "total": {
+    "inputTokens": 95720,
+    "cacheWrite5mTokens": 132720,
+    "cacheWrite1hTokens": 316955,
+    "cacheReadTokens": 9787783,
+    "outputTokens": 51438,
+    "thinkingTokens": 17169,
+    "responses": 91,
+    "costUsd": 6.317648599999999
+  },
+  "ownTurns": {
+    "inputTokens": 90,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 316955,
+    "cacheReadTokens": 6600015,
+    "outputTokens": 46764,
+    "thinkingTokens": 17169,
+    "responses": 44,
+    "costUsd": 4.791282999999999
+  },
+  "subagents": {
+    "inputTokens": 60,
+    "cacheWrite5mTokens": 122686,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2486318,
+    "outputTokens": 319,
+    "thinkingTokens": 0,
+    "responses": 30,
+    "costUsd": 1.1173136
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2680,
+      "cacheWrite5mTokens": 132720,
+      "cacheWrite1hTokens": 316955,
+      "cacheReadTokens": 9787783,
+      "outputTokens": 47320,
+      "thinkingTokens": 17169,
+      "responses": 79,
+      "costUsd": 6.1440186
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 93040,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 4118,
+      "thinkingTokens": 0,
+      "responses": 12,
+      "costUsd": 0.17363
+    }
+  },
+  "warnings": [
+    "prices.json priced the 74 responses the events also priced at $5.9086, against the events' $6.2046: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-02T14:55:56.971Z",
+    "contextTokens": 83194,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 35815,
+      "cacheReadTokens": 44269,
+      "outputTokens": 2641,
+      "thinkingTokens": 2474,
+      "responses": 1,
+      "costUsd": 0.3482018
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 91,
+    "matched": 74,
+    "matchedTableUsd": 5.9085966,
+    "matchedEventUsd": 6.204596600000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 2530,
+        "cacheWrite5mTokens": 10034,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 701450,
+        "outputTokens": 237,
+        "thinkingTokens": 0,
+        "responses": 5,
+        "costUsd": 0.23542200000000002
+      },
+      "web_fetch_apply": {
+        "inputTokens": 30159,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 1876,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.039539000000000005
+      },
+      "web_search_tool": {
+        "inputTokens": 62881,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 2242,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.13409100000000002
+      }
+    }
+  }
+}

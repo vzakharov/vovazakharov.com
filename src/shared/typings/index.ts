@@ -27,6 +27,9 @@ export type MaybeTitled = { title?: string };
 
 export type Described = { description: string };
 
+/** A date as frontmatter spells it, ISO `YYYY-MM-DD`. */
+export type Dated = { date: string };
+
 /** The short name a thing is shown or logged under. */
 export type Labeled = { label: string };
 

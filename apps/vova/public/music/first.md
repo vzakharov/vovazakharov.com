@@ -18,20 +18,20 @@ ru:
 
 <!-- lang:en -->
 
-I was seven or eight when I “made up” my first “song”. D minor, A major, G minor,
+I was seven or eight when I “made up” my first “song.” D minor, A major, G minor,
 A major — the simplest harmony there is, and it would have sunk without trace if
-my father hadn't heard me plinking away at the piano just then.
+my father hadn’t heard me plinking away at the piano just then.
 
 He came running over and started playing it back, already with a melody on top —
 insisting, of course, that I had written it. In whatever he was feeling at that
 moment, I suppose that was true.
 
-That's how our first “collab” came about. It occurs to me now — strangely, there
-weren't many of those. We both wrote a lot, but somehow mostly apart. The souls
+That’s how our first “collab” came about. It occurs to me now — strangely, there
+weren’t many of those. We both wrote a lot, but somehow mostly apart. The souls
 synced up later, when the two guitars came out.
 
 Either way: now, thirty-three years after it started and twenty months after my
-father's death, that first thing we made together has finally taken shape as a
+father’s death, that first thing we made together has finally taken shape as a
 song.
 
 <!-- lang:ru -->
@@ -115,9 +115,9 @@ song.
 <!-- lyrics:en -->
 
 Snow outside the window
-It didn't know it was April
+It didn’t know it was April
 It fell against all reason
-It didn't want to be rain
+It didn’t want to be rain
 
 Hello, dad; you know, I miss
 Our sitting up together on two guitars
@@ -126,7 +126,7 @@ You on your old [Musima][^musima-en]
 
 I miss the smell of you
 That spiced, comfortable smell
-And how you'd say that I once fitted
+And how you’d say that I once fitted
 Inside the enormous pocket of your jacket
 
 You know, I even miss
@@ -160,13 +160,13 @@ And in a small voice, squeezed by the lump in his throat:
 So why are you the one crying, dad?”
 
 Snow outside the window
-It didn't know it was April
+It didn’t know it was April
 It fell against all reason
 Like a tear run dry
 
 But I believe that day
 Will come round again
-When we'll sing
+When we’ll sing
 On two guitars, you and I
 
 [^musima-en]: A Musima Resonata — a classical guitar from the East German Musima works, very popular in the mid-to-late USSR.

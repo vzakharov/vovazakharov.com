@@ -28,6 +28,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { PIXELS } from '@/shared/config/index.node-safe';
 import { siteConfig } from '@/shared/config/site-config';
 import { PUBLIC_DIR } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
@@ -36,7 +37,8 @@ import { OG_CARD_SUFFIX } from '@/shared/seo';
 import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
 
-import { findChromium } from './lib/chromium.ts';
+import { basiliskCard } from './lib/basilisk-card.ts';
+import { findScreenshotChromium } from './lib/chromium.ts';
 import {
   CONTENT_DIRS,
   contentFiles,
@@ -47,8 +49,8 @@ import { cvCard } from './lib/cv-card.ts';
 import {
   CANVAS_BACKGROUND,
   type Card,
-  PIXELS,
   renderCard,
+  type StagedPage,
 } from './lib/og-render.ts';
 import { runRenderJob } from './lib/render-manifest.ts';
 
@@ -173,47 +175,51 @@ function chartCards(): Card[] {
 }
 
 /**
- * The card a site whose mark is a vector unfurls as. The drawing is authored
- * as SVG and every page renders it that way; this is the one place it has to
- * be a raster, so the pair is `avatar.vector` beside `avatar.path` — the two
- * cuts of a seal share no stem for the convention above to pair them by.
+ * A card generated as a page, its source the page and the files it references
+ * — so the template, the copy it reads and every staged file are covered, and
+ * editing any of them re-flags the card.
  */
-function siteCards(): Card[] {
-  const { avatar } = siteConfig(RENDERED_SITE);
+function generatedCard(staged: StagedPage, outputPath: string): Card {
+  const files = Object.entries(staged.files)
+    .toSorted(([a], [b]) => a.localeCompare(b))
+    .map(
+      ([name, content]) => `${name}:${Buffer.from(content).toString('base64')}`,
+    );
 
-  return avatar.vector === undefined
-    ? []
-    : [
-        svgCard(
-          path.join(PUBLIC_DIR, avatar.vector),
-          path.join(PUBLIC_DIR, avatar.path),
-        ),
-      ];
+  return {
+    ...staged,
+    outputPath,
+    sourceHash: contentHash([staged.page, ...files].join('\n')),
+  };
 }
 
 /**
- * One card per framing, its source the generated page and the files it
- * references — so the template, the catalogue slice it reads and the portrait
- * are all covered, and editing any of them re-flags the card.
+ * The card a site unfurls as. basilisk.fyi's is generated, the seal beside the
+ * home page's memo. Elsewhere it is the site's mark: authored as SVG and
+ * rendered that way on every page, so this is the one place it has to be a
+ * raster, and the pair is `avatar.vector` beside `avatar.path` — the two cuts
+ * of a seal share no stem for the convention above to pair them by.
  */
+function siteCards(): Card[] {
+  const { avatar } = siteConfig(RENDERED_SITE);
+  const outputPath = path.join(PUBLIC_DIR, avatar.path);
+
+  if (RENDERED_SITE === 'basilisk') {
+    return [generatedCard(basiliskCard(), outputPath)];
+  }
+
+  return avatar.vector === undefined
+    ? []
+    : [svgCard(path.join(PUBLIC_DIR, avatar.vector), outputPath)];
+}
+
+/** One card per framing. */
 function cvCards(): Card[] {
   if (!CARDS_CV) return [];
 
-  return CV_VARIANTS.map((variant) => {
-    const staged = cvCard(variant);
-    const files = Object.entries(staged.files)
-      .toSorted(([a], [b]) => a.localeCompare(b))
-      .map(
-        ([name, content]) =>
-          `${name}:${Buffer.from(content).toString('base64')}`,
-      );
-
-    return {
-      ...staged,
-      outputPath: path.join(PUBLIC_DIR, cvCardPath(variant)),
-      sourceHash: contentHash([staged.page, ...files].join('\n')),
-    };
-  });
+  return CV_VARIANTS.map((variant) =>
+    generatedCard(cvCard(variant), path.join(PUBLIC_DIR, cvCardPath(variant))),
+  );
 }
 
 const siteEntries = siteCards();
@@ -234,7 +240,7 @@ await runRenderJob(
     ],
     entries: [...chartCards(), ...siteEntries, ...cvCards()],
     render: (stale) => {
-      const chromium = findChromium();
+      const chromium = findScreenshotChromium();
       for (const card of stale) renderCard(card, chromium);
     },
   },

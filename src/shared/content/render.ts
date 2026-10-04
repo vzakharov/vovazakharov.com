@@ -37,7 +37,10 @@ import { rehypeImageLayout } from './plugins/rehype-image-layout';
 import { rehypeMediaEmbeds } from './plugins/rehype-media-embeds';
 import { rehypeMermaid } from './plugins/rehype-mermaid';
 import { rehypeTableScroll } from './plugins/rehype-table-scroll';
-import { remarkContentDirectives } from './plugins/remark-content-directives';
+import {
+  isRepeatedBlock,
+  remarkContentDirectives,
+} from './plugins/remark-content-directives';
 
 /** Words per minute, for the reading-time estimate. */
 const READING_SPEED = 220;
@@ -108,11 +111,7 @@ function extractTitleAndCount(collected: ExtractTitleAndCountCollected) {
     // Fenced code and raw HTML are not prose, and a pull quote is prose the
     // reader meets twice, so none of the three counts toward reading time.
     visit(tree, (node) => {
-      if (
-        node.type === 'code' ||
-        node.type === 'html' ||
-        node.type === 'containerDirective'
-      )
+      if (node.type === 'code' || node.type === 'html' || isRepeatedBlock(node))
         return SKIP;
       if (node.type === 'text' || node.type === 'inlineCode') {
         collected.wordCount += node.value.split(/\s+/).filter(Boolean).length;

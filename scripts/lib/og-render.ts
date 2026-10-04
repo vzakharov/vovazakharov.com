@@ -1,8 +1,8 @@
 /**
- * How an Open Graph card is rasterized: the canvas every card shares, and the
- * Chromium screenshot of a staged page. The page is whatever a card kind
- * produces — a letterbox around an authored SVG, or a laid-out HTML card — so
- * this file knows the frame and nothing about what goes in it.
+ * How an Open Graph card is rasterized: the Chromium screenshot of a staged
+ * page, on the canvas `shared/config/og-canvas.ts` sizes. The page is whatever
+ * a card kind produces — a letterbox around an authored SVG, or a laid-out HTML
+ * card — so this file knows the frame and nothing about what goes in it.
  *
  * Bare Node can run this file, relying on its type stripping, so it stays free
  * of syntax the stripper cannot erase and every relative import carries its
@@ -18,32 +18,25 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import type { Sized } from '../../src/shared/typings/index.ts';
+import { PIXELS } from '../../src/shared/config/index.node-safe.ts';
 import { REPO_ROOT } from './content-tree.ts';
 import type { Renderable } from './render-manifest.ts';
 
-/**
- * 1200×630 is what X's `summary_large_image` crops to, and the chart's native
- * 980×640 would lose its title row and x-axis to that crop. Letterboxing into
- * the ratio costs padding and loses nothing.
- */
-export const CANVAS: Sized = { width: 1200, height: 630 };
-
-/** Doubled so the card stays sharp where a consumer renders it at 2×. */
-export const SCALE = 2;
-
-/**
- * The PNG's real pixel size, and the size the page is laid out at — scaling
- * `CANVAS` by a device pixel ratio instead widens the bottom-row loss the chart
- * page's padding guards against.
- */
-export const PIXELS: Sized = {
-  width: CANVAS.width * SCALE,
-  height: CANVAS.height * SCALE,
-};
-
 /** `globals.css`'s `--background`, so a card's inset extends its own plate. */
 export const CANVAS_BACKGROUND = '#ffffff';
+
+/** The chart card's palette, so every card kind reads as one site. */
+export const INK = '#0b0b0b';
+export const INK_DIM = '#52514e';
+
+/** For copy spliced into a generated card's HTML. */
+export function escapeHtml(text: string): string {
+  return text
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
+}
 
 /**
  * A document for Chromium to screenshot, with the files it references written

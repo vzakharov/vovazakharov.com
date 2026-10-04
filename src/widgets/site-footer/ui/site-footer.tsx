@@ -13,7 +13,7 @@ export function SiteFooter({ children }: WithOptionalChildren) {
     <Box component="footer">
       <Divider mb={32} color={cssColor('border-hairline')} />
       <Group justify="space-between" align="flex-start" gap={32}>
-        <Text size="sm" opacity={0.6} flex={1} miw={360}>
+        <Text size="sm" opacity={0.6} flex={1} miw="min(360px, 100%)">
           {children}
         </Text>
         <Text size="sm" opacity={0.6}>

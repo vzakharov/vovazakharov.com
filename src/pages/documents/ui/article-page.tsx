@@ -1,10 +1,13 @@
 import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
+import { SITE_CONFIG } from '@/shared/config';
 import {
   ARTICLE_COLLECTIONS,
   type ArticleCollectionId,
-  collectionRoute,
+  type ArticleFrontmatterOf,
+  type Collection,
+  collectionListingRoute,
   COLLECTIONS,
   documentName,
   listDocuments,
@@ -14,16 +17,27 @@ import {
   type Variant,
   VARIANTS,
 } from '@/shared/content';
+import { pick } from '@/shared/lib/collections';
 import { constructArticleMetadata } from '@/shared/seo/index.server-only';
 import type { WithParams } from '@/shared/typings';
 import { BackToHome, hoverDim, InternalLink } from '@/shared/ui';
 
-import { ProseContent } from '@/entities/document';
+import { ProseContent, SourceList } from '@/entities/document';
 
 import { ArticleHeader } from './article-header';
+import { ARTICLE_SLOTS } from './article-slots';
 import classes from './documents.module.scss';
 import { PrintSheet } from './print-sheet';
 import { TableOfContents } from './table-of-contents';
+
+/**
+ * The registry restated per key, which the compiler checks entry by entry; a
+ * lookup by a generic id then reads as that collection's own frontmatter,
+ * where one on `ARTICLE_COLLECTIONS` widens to the union of all three.
+ */
+const HANDLES: {
+  [C in ArticleCollectionId]: Collection<ArticleFrontmatterOf<C>>;
+} = ARTICLE_COLLECTIONS;
 
 /** The catch-all's own segment: `<slug>[.<variant>]`, still to be split. */
 type WithSlugSegments = { slug: string[] };
@@ -55,8 +69,10 @@ function parseSegments(
  * articles are this one page — the collection is the only thing that differs,
  * and it arrives from whichever router mounted the page.
  */
-export function articleRoute(collection: ArticleCollectionId) {
-  const handle = ARTICLE_COLLECTIONS[collection];
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- `C` correlates HANDLES[collection] with ARTICLE_SLOTS[collection] (microsoft/TypeScript#47109); without it `slots.brief` takes no document type
+export function articleRoute<C extends ArticleCollectionId>(collection: C) {
+  const handle = HANDLES[collection];
+  const slots = ARTICLE_SLOTS[collection];
 
   async function resolve(params: Props['params']) {
     const parsed = parseSegments((await params).slug);
@@ -86,7 +102,7 @@ export function articleRoute(collection: ArticleCollectionId) {
 
   async function Page({ params }: Props) {
     const { document, rendered } = await resolve(params);
-    const { route, slug } = document;
+    const { route, slug, frontmatter } = document;
     const { title, readingMinutes, headings, tree } = rendered;
 
     return (
@@ -95,7 +111,7 @@ export function articleRoute(collection: ArticleCollectionId) {
           <Stack gap={32}>
             <Group component="nav" className="print-hidden">
               <InternalLink
-                href={collectionRoute(collection)}
+                href={collectionListingRoute(collection)}
                 size="sm"
                 className={hoverDim}
               >
@@ -116,6 +132,7 @@ export function articleRoute(collection: ArticleCollectionId) {
                     {...{ document, title, readingMinutes }}
                     availableVariants={siblingVariants(collection, slug)}
                   />
+                  {slots?.brief?.(document)}
                 </Box>
 
                 <Box component="aside" className={classes['articleAside']}>
@@ -123,7 +140,13 @@ export function articleRoute(collection: ArticleCollectionId) {
                 </Box>
 
                 <Box className={classes['articleBody']}>
-                  <ProseContent {...{ tree }} />
+                  <ProseContent
+                    {...{ tree }}
+                    afterLead={slots?.afterLead?.(document)}
+                  />
+                  {SITE_CONFIG.listsSources && (
+                    <SourceList {...pick(frontmatter, 'sources')} />
+                  )}
                 </Box>
               </Box>
             </PrintSheet>

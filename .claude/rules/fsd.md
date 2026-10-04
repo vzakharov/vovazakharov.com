@@ -20,10 +20,10 @@ Lowest (most generic) first — an import may only point downward:
 | Layer       | Holds                                                                                                    |
 | ----------- | -------------------------------------------------------------------------------------------------------- |
 | `shared/`   | Segments carrying no page composition: `config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`      |
-| `entities/` | Business nouns — `document` (its byline, its cards and its body)                                         |
+| `entities/` | Business nouns — `document` (its byline, its cards, its body and its sources), `case` (its brief)        |
 | `features/` | User-facing capabilities — currently `switch-theme`                                                      |
 | `widgets/`  | Composite blocks two page slices share — `site-footer`                                                   |
-| `pages/`    | Page composition — `home`, `lsa-home`, `bible-home`, `cv`, `documents`                                   |
+| `pages/`    | Page composition — `home`, `lsa-home`, `bible-home`, `basilisk-home`, `cv`, `documents`                  |
 | `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
 
 An entity is earned once a block is a business noun's own UI: `document` holds

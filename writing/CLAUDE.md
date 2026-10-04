@@ -23,7 +23,14 @@ writing/
       <slug>.md        # one file per post
     dictations/
       <slug>.md        # a recording, transcribed
+  basilisk/
+    clerk-reflections/
+      <case>-<slug>.md # the Clerk's reflection on a filed case, never published
 ```
+
+`basilisk/clerk-reflections/` is no channel and holds no drafts: it is the
+Clerk's record of what each basilisk.fyi case stirred in them, and its own
+`CLAUDE.md` says how it is kept. Nothing below applies to it.
 
 `notes/` is for a claim that needs specimens rather than argument: the file
 collects them as they occur, so the post is written from a record instead of
@@ -106,6 +113,8 @@ invented for it.
   language a draft is written in — Russian included, where the dash is ordinary
   and the fingerprint reads fainter. The prose around the text in a draft file is
   ordinary Markdown and uses whatever punctuation reads best.
+- **Commas and periods go inside closing quotes**, American style —
+  `.claude/rules/content.md` § "Punctuation around quotes" is the rule.
 - **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in
   the voice. Emoji as decoration, as bullet markers, or as enthusiasm is not.
   Text emoticons — `;-)` — are in the voice too.
