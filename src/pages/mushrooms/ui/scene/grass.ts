@@ -8,12 +8,11 @@ import { mix } from './colour';
 import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { type Azimuthed, screenAt } from './panorama';
-import { seamCrest } from './skyline';
-import { onScreen, type View } from './view';
+import { browRow, onScreen, type View } from './view';
 
-/** How many tufts break the seam up per 1000 CSS px of the panorama, as the screen's middle shows it. */
+/** How many tufts break the brow up per 1000 CSS px of the panorama, as the screen's middle shows it. */
 const SEAM_TUFTS_PER_1000PX = 28;
-/** How far below the seam the tufts that break it up stand, as shares of the ground's depth. */
+/** How far below the brow the tufts that break it up are rooted, as shares of the ground's depth. */
 const SEAM_SCATTER = [0.004, 0.09] as const;
 /** How far a tuft's tip swings in the breeze, in units of its size. */
 const SWING = 0.35;
@@ -56,12 +55,27 @@ export function tuftOn(
   y: number,
   random: Random,
 ): Tuft {
+  return tuftRooted(layout, x, y, gustPhase(x, random));
+}
+
+/** A tuft's place in the breeze's cycle, lagging by its `x` so a gust crosses the grass, with a stray drawn from `random`. */
+function gustPhase(x: number, random: Random): number {
+  return -x * GUST_LAG * Math.PI * 2 + between(random, -0.4, 0.4);
+}
+
+/** A tuft rooted at `x`, `y` on `screen` at `phase` in the breeze, sized and toned by its row. */
+function tuftRooted(
+  screen: Pick<MeadowLayout, 'height' | 'groundTop'>,
+  x: number,
+  y: number,
+  phase: number,
+): Tuft {
   return {
     x,
     y,
-    size: tuftSizeAt(layout, y),
-    phase: -x * GUST_LAG * Math.PI * 2 + between(random, -0.4, 0.4),
-    ...tuftColours(downAt(layout, y)),
+    size: tuftSizeAt(screen, y),
+    phase,
+    ...tuftColours(downAt(screen, y)),
   };
 }
 
@@ -82,26 +96,22 @@ export function tuftSizeAt(
 }
 
 /**
- * A tuft breaking the seam up, at the azimuth it stands at round the
- * panorama. Its `x` is its arc round the panorama in CSS px, which the gust
- * lags by, until `seamShown` places it across the screen; its row is the
- * seam's at its azimuth, whichever way the eye looks.
+ * A tuft of the grass along the meadow's brow: the azimuth it stands at round
+ * the panorama, how far below the brow it is rooted, as a share of the
+ * ground's depth, and its place in the breeze.
  */
-export type SeamTuft = Tuft & Azimuthed;
+export type SeamTuft = Azimuthed & Phased & { below: number };
 
 /**
- * The grass scattered just under the seam with the hills, following its
- * waver round the whole panorama (`seamCrest`), drawn from `random`, so the
- * same source regrows it: it breaks the seam up rather than lining it,
- * standing behind the flowers' band, where no flower is planted. It stands at
- * the horizon, so a turn slides it and a step moves none of it, and one tuft
- * to each even share of the circle shows every heading it at one density.
+ * The grass scattered just under the brow, the meadow's visible far edge,
+ * round the whole panorama, drawn from `random`, so the same source regrows
+ * it: it breaks the brow's line up rather than lining it, standing behind
+ * the flowers' band, where no flower is planted. It stands at the horizon,
+ * so a turn slides it and a step moves none of it, and one tuft to each even
+ * share of the circle shows every heading it at one density.
  */
 export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
-  const { height, groundTop, camera } = layout;
-  const seam = seamCrest(layout);
-  const { arc } = pinholeOf(camera);
-  const depth = height - groundTop;
+  const { arc } = pinholeOf(layout.camera);
   const round = Math.PI * 2 * arc;
   const count = Math.round((round / 1000) * SEAM_TUFTS_PER_1000PX);
   // One to each even share of the circle, anywhere in it.
@@ -109,19 +119,27 @@ export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
   return Array.from({ length: count }, (_, index) => {
     const azimuth = -Math.PI + share * (index + random());
     const below = skewedBetween(random, ...SEAM_SCATTER, 1.6);
-    const y = seam(azimuth) + depth * below;
-    return { ...tuftOn(layout, arc * azimuth, y, random), azimuth };
+    // The gust lags by the tuft's arc round the panorama, whichever way the eye looks.
+    return { azimuth, below, phase: gustPhase(arc * azimuth, random) };
   });
 }
 
 /** How far past the screen's edge, in units of its size, a tuft still has blades on it. */
 export const BLADE_OVERHANG = 3;
 
-/** The tufts of `seam` that `view`'s screen shows, each where it stands across it. */
+/**
+ * The tufts of `seam` that `view`'s screen shows, each where it stands
+ * across it, rooted under the brow at its x (`browRow`): on the ground's
+ * near side of the brow, so the near hills beyond it never show one,
+ * whatever their light.
+ */
 export function seamShown(view: View, seam: readonly SeamTuft[]): Tuft[] {
-  return seam.flatMap((tuft) => {
-    const shown = { ...tuft, x: screenAt(view, tuft.azimuth) };
-    return onScreen(view, shown, -BLADE_OVERHANG * tuft.size) ? [shown] : [];
+  const depth = view.height - view.groundTop;
+  return seam.flatMap(({ azimuth, below, phase }) => {
+    const x = screenAt(view, azimuth);
+    const y = browRow(view, x) + depth * below;
+    const shown = tuftRooted(view, x, y, phase);
+    return onScreen(view, shown, -BLADE_OVERHANG * shown.size) ? [shown] : [];
   });
 }
 

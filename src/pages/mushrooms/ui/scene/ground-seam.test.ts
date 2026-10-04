@@ -11,7 +11,7 @@ import { seamGrass, seamShown } from './grass';
 import { meadowLayout } from './layout';
 import { crestAcross } from './panorama';
 import { SEAM_REACH, SEAM_STEPS, seamCrest, seamTop } from './skyline';
-import { viewAt } from './view';
+import { browRow, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How far across, as a share of the screen, the seam may run level at most. */
@@ -92,14 +92,12 @@ describe('the seam between the near hills and the ground', () => {
     }
   });
 
-  it('scatters the tufts along it rather than lining it in a row', () => {
+  it('scatters the tufts along the brow rather than lining it in a row', () => {
     for (const [, width, height] of VIEWPORTS) {
       for (const seed of VISITS.slice(0, 20)) {
         const layout = meadowLayout(width, height, seed);
-        const seam = seamCrest(layout);
-        const depth = height - layout.groundTop;
         const back = seamGrass(layout, mulberry32(seed))
-          .map(({ azimuth, y }) => (y - seam(azimuth)) / depth)
+          .map(({ below }) => below)
           .filter((below) => below < 0.1);
         for (const below of back) assert.ok(below >= 0);
         const mean = back.reduce((sum, v) => sum + v, 0) / back.length;
@@ -107,6 +105,20 @@ describe('the seam between the near hills and the ground', () => {
           back.reduce((sum, v) => sum + (v - mean) ** 2, 0) / back.length,
         );
         assert.ok(spread >= 0.008, `spread ${spread.toFixed(3)}`);
+      }
+    }
+  });
+
+  it('roots every tuft under the brow at its x, on every heading, so none stands on the hills beyond it', () => {
+    for (const [name, width, height] of VIEWPORTS) {
+      const layout = meadowLayout(width, height, 7);
+      const grass = seamGrass(layout, mulberry32(7));
+      for (let step = 0; step < 12; step++) {
+        const heading = (step * Math.PI) / 6 + 0.07;
+        const view = viewAt(layout.camera, { ...OPENING_EYE, heading });
+        for (const { x, y } of seamShown(view, grass)) {
+          assert.ok(y > browRow(view, x), `${name}: ${y} over the brow`);
+        }
       }
     }
   });
