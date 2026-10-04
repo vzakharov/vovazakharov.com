@@ -25,3 +25,4 @@ git show <sha>:docs/remove-before-merging/frames/<dir>/<file> > <file>
 | `bite-13/`        | 26    | 28b2b66911                | `f-tabL-sun-dimmed.png`, cited in to-check                         |
 | `bite-14/`        | 34    | e3a77fb976                | `operator-chanterelle-mouse.png`, cited in bite-14.md and to-check |
 | `bite-15/`        | 18    | 28a6277009                | `w4-*.png`, `r7-tabL-*.png`, cited in to-check                     |
+| `bite-16/`        | 9     | 20d0fd4df3                | `tufts-turned-*.png`, cited in bite-16.md                          |
