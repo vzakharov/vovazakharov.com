@@ -56,14 +56,12 @@ export function RootLayout({
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
         {/* `data-domains` keeps a dev server or a preview from counting as the site. */}
-        {SITE_CONFIG.analyticsId !== undefined && (
-          <script
-            defer
-            src={ANALYTICS_SCRIPT_URL}
-            data-website-id={SITE_CONFIG.analyticsId}
-            data-domains={withoutScheme(SITE_CONFIG.url)}
-          />
-        )}
+        <script
+          defer
+          src={ANALYTICS_SCRIPT_URL}
+          data-website-id={SITE_CONFIG.analyticsId}
+          data-domains={withoutScheme(SITE_CONFIG.url)}
+        />
       </head>
       <body>
         <ThemeProvider>

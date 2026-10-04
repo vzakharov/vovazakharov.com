@@ -96,10 +96,10 @@ export type SiteConfig = Billed & {
   listsSources: boolean;
   /**
    * The site's website ID in Umami — public by design, as every page's HTML
-   * carries it. `undefined` for a site not yet registered there, whose pages
-   * load no tracker; spelled by every site for the same reason `seal` is.
+   * carries it. A new site's is made in the Umami team `Sites`, logged in as
+   * `agent` with `UMAMI_AGENT_PASSWORD` from the environment.
    */
-  analyticsId: string | undefined;
+  analyticsId: string;
 };
 
 /**
@@ -204,7 +204,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: { path: '/seal.svg', ...SEAL_SIZE },
     credit: LSA_CREDIT,
     listsSources: true,
-    analyticsId: undefined,
+    analyticsId: '1a93ed21-a8c1-4054-9ee3-33657a8c40d1',
     ...PUBLISHER,
   },
 };
