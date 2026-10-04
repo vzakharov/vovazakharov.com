@@ -53,7 +53,7 @@ from gh_export.attachments import (
     rewrite_attachment_refs,
 )
 from gh_export.cli import parse_args
-from gh_export.authorship import split_agent_footer
+from gh_export.authorship import authorship_of
 from gh_export.index import indexed_section
 from gh_export.markdown import comments_parts, header_section
 from gh_export.reviews import review_parts
@@ -112,7 +112,7 @@ def main() -> None:
     attachments_dir = out_dir / "attachments"
     md_path = out_dir / ("pr.md" if is_pr else "issue.md")
 
-    body_by_agent, body_md = split_agent_footer(item.get("body") or "")
+    body_authorship, body_md = authorship_of(item.get("body") or "")
     body_md = body_md or "_No description._"
     prose = [
         body_md,
@@ -140,7 +140,7 @@ def main() -> None:
     # An empty section is left out rather than joined as "" — an empty element
     # would leave a stray blank line in every export that lacks it.
     parts: list[str] = [
-        header_section(item, pr, body_by_agent),
+        header_section(item, pr, body_authorship),
         body_md,
         "",
         "---",

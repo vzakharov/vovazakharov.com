@@ -246,6 +246,59 @@ one more
     assert.match(log(dir), /> one more\n$/);
   });
 
+  it('reads a loop review as the run’s own, and links an inline post by its own URL', () => {
+    const inlineUrl = `${PR_URL}#discussion_r9`;
+    const withLoopReview = EXPORT.replace(
+      '### Review by @op (human)',
+      `### Review by @op (agent review) — COMMENTED
+
+_2026-01-01T09:15:00Z_
+
+the loop's summary
+
+### Review by @op (human)`,
+    ).replace(
+      '## Timeline',
+      `<a id="t03"></a>
+
+### \`src/c.ts\`:1 — unresolved
+
+**@op (human)** — 2026-01-02T07:00:00Z
+
+[${PR_URL}#discussion_r7](${PR_URL}#discussion_r7)
+
+already seen
+
+**@op (agent review)** — 2026-01-02T08:00:00Z
+
+[${PR_URL}#discussion_r8](${PR_URL}#discussion_r8)
+
+the loop's finding
+
+**@op (human)** — 2026-01-02T09:00:00Z
+
+[${inlineUrl}](${inlineUrl})
+
+not this one
+
+---
+
+## Timeline`,
+    );
+    const dir = repo({ [LOG]: LOG_HEAD, 'docs/pr/7/pr.md': withLoopReview });
+    assert.deepEqual(run(dir, '7'), { status: 0, stdout: '', stderr: '' });
+    const text = log(dir);
+
+    assert.equal(entries(text).length, 5);
+    assert.doesNotMatch(text, /the loop's (summary|finding)|already seen/);
+    assert.ok(
+      text.includes(
+        `**Operator on the PR** · 2026-01-02T09:00:00Z · [\`src/c.ts\`:1](${inlineUrl})`,
+      ),
+    );
+    assert.match(text, /> not this one\n$/);
+  });
+
   it('writes the pending chat replies first', () => {
     const dir = repo({
       [LOG]: LOG_HEAD,

@@ -6,14 +6,14 @@ from __future__ import annotations
 from typing import Any
 
 from gh_export.attachments import rewrite_attachment_refs
-from gh_export.authorship import attribution, split_agent_footer
+from gh_export.authorship import Authorship, attribution, authorship_of
 from gh_export.index import Indexed, anchor_tag, preview
 
 
 def header_section(
-    item: dict[str, Any], pr: dict[str, Any] | None, body_by_agent: bool
+    item: dict[str, Any], pr: dict[str, Any] | None, body_authorship: Authorship
 ) -> str:
-    """`body_by_agent` is the caller's to compute — it holds the item body and
+    """`body_authorship` is the caller's to compute — it holds the item body and
     strips the footer where it renders it."""
     labels = item.get("labels") or []
     labels_md = (
@@ -29,7 +29,7 @@ def header_section(
         "",
         f"- **State:** {item['state']}{state_suffix}",
         f"- **URL:** {item['html_url']}",
-        f"- **Author:** {attribution(item.get('user'), body_by_agent)}",
+        f"- **Author:** {attribution(item.get('user'), body_authorship)}",
     ]
     if pr:
         base_ref = pr.get("base") or {}
@@ -74,8 +74,8 @@ def comments_parts(
     items = []
     for number, c in enumerate(comments, start=1):
         anchor = f"c{number:02d}"
-        by_agent, body = split_agent_footer(c.get("body") or "")
-        who = attribution(c.get("user"), by_agent)
+        kind, body = authorship_of(c.get("body") or "")
+        who = attribution(c.get("user"), kind)
         created = c.get("created_at", "")
         items.append(
             Indexed(

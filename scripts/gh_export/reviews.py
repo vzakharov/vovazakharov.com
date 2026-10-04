@@ -14,7 +14,12 @@ import re
 from typing import Any
 
 from gh_export.attachments import rewrite_attachment_refs
-from gh_export.authorship import attribution, split_agent_footer
+from gh_export.authorship import (
+    Authorship,
+    attribution,
+    authorship_of,
+    is_loop_review,
+)
 from gh_export.index import Indexed, anchor_tag, preview
 
 HUNK_CONTEXT_LINES = 3
@@ -114,6 +119,7 @@ def render_thread(
     anchor: str,
     url_to_relative: dict[str, str],
     resolved_by_comment_id: dict[int, bool],
+    loop_review_ids: frozenset[Any] = frozenset(),
 ) -> str:
     """One thread's body, opening with the anchor its index row links to."""
     root = chain[0]
@@ -124,15 +130,18 @@ def render_thread(
     if hunk:
         chunks.extend(["```diff", hunk, "```", ""])
     for comment in chain:
-        by_agent, body = split_agent_footer(comment.get("body") or "")
+        kind, body = _comment_authorship(comment, loop_review_ids)
         chunks.extend(
             [
-                f"**{attribution(comment.get('user'), by_agent)}**"
+                f"**{attribution(comment.get('user'), kind)}**"
                 f" — {comment.get('created_at', '')}",
                 "",
-                rewrite_attachment_refs(body or "_empty_", url_to_relative),
-                "",
             ]
+        )
+        if url := comment.get("html_url"):
+            chunks.extend([f"[{url}]({url})", ""])
+        chunks.extend(
+            [rewrite_attachment_refs(body or "_empty_", url_to_relative), ""]
         )
     chunks.extend(["---", ""])
     return "\n".join(chunks)
@@ -142,16 +151,17 @@ def thread_summary(
     chain: list[dict[str, Any]],
     thread_id: str,
     resolved_by_comment_id: dict[int, bool],
+    loop_review_ids: frozenset[Any] = frozenset(),
 ) -> str:
     """The index row. Its fields are the ones `/handle`'s tail test selects on —
-    the resolved state, the tail author's agent/human label and timestamp —
+    the resolved state, the tail author's authorship label and timestamp —
     so dropping one leaves that test reading bodies again."""
     tail = chain[-1]
-    by_agent, body = split_agent_footer(tail.get("body") or "")
+    kind, body = _comment_authorship(tail, loop_review_ids)
     return (
         f"- **{thread_id}** {_location(chain[0])}"
         f" — {resolution_label(chain, resolved_by_comment_id)}"
-        f" — last: {attribution(tail.get('user'), by_agent)}"
+        f" — last: {attribution(tail.get('user'), kind)}"
         f" {tail.get('created_at', '')} — {preview(body)}"
     )
 
@@ -174,6 +184,11 @@ def review_parts(
     `unresolved` are kept: only the state the reviewer explicitly closed goes.
     """
     bodied = [r for r in reviews if (r.get("body") or "").strip()]
+    loop_review_ids = frozenset(
+        r["id"]
+        for r in reviews
+        if r.get("id") is not None and is_loop_review(r.get("body") or "")
+    )
     threads = review_threads(comments)
     if not include_resolved:
         kept = [
@@ -191,10 +206,10 @@ def review_parts(
     chunks = ["## Review threads", ""]
     for review in bodied:
         state = (review.get("state") or "COMMENTED").upper()
-        by_agent, body = split_agent_footer(review["body"])
+        kind, body = authorship_of(review["body"])
         chunks.extend(
             [
-                f"### Review by {attribution(review.get('user'), by_agent)} — {state}",
+                f"### Review by {attribution(review.get('user'), kind)} — {state}",
                 "",
                 f"_{review.get('submitted_at', '')}_",
                 "",
@@ -218,13 +233,30 @@ def review_parts(
         items.append(
             Indexed(
                 anchor=anchor,
-                summary=thread_summary(chain, f"T{number:02d}", resolved_by_comment_id),
+                summary=thread_summary(
+                    chain, f"T{number:02d}", resolved_by_comment_id, loop_review_ids
+                ),
                 body=render_thread(
-                    chain, anchor, url_to_relative, resolved_by_comment_id
+                    chain,
+                    anchor,
+                    url_to_relative,
+                    resolved_by_comment_id,
+                    loop_review_ids,
                 ),
             )
         )
     return "\n".join(chunks), items
+
+
+def _comment_authorship(
+    comment: dict[str, Any], loop_review_ids: frozenset[Any]
+) -> tuple[Authorship, str]:
+    """An inline comment is a loop review's when its own review carries the
+    marker, so one marker in the review body labels every comment it posted."""
+    return authorship_of(
+        comment.get("body") or "",
+        in_loop_review=comment.get("pull_request_review_id") in loop_review_ids,
+    )
 
 
 def _location(root: dict[str, Any]) -> str:

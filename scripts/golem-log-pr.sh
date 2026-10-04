@@ -11,10 +11,11 @@
 #
 # **A thread** is each review thread, plus the PR's conversation — its comments
 # and review bodies, in time order — read as one more. **Its tail** is the run of
-# posts after its last agent-authored one, by the export's `(agent)` label; each
-# post in it is logged verbatim, quoted, with its link. The run answers on
-# GitHub, so the link is where its reply is found. A post the export gives no
-# link of its own (a review body, an inline comment) links the PR.
+# posts after its last agent-authored one, by the export's `(agent)` or
+# `(agent review)` label — a loop review is the run's own too; each post in it is
+# logged verbatim, quoted, with its link. The run answers on GitHub, so the link
+# is where its reply is found. A post the export gives no link of its own (a
+# review body) links the PR.
 #
 # **Re-running is safe**: each entry carries a key — the post's time, its author
 # and a hash of its text — and a key already in the log is skipped. An edited
@@ -62,11 +63,13 @@ lines = Path(export_path).read_text(encoding="utf-8").split("\n")
 
 # The exporter's own lines (scripts/gh_export/markdown.py, reviews.py).
 URL = re.compile(r"^- \*\*URL:\*\* (\S+)$")
-COMMENT = re.compile(r"^### Comment by @(\S+) \((\w+)\) on (\S+)$")
-REVIEW = re.compile(r"^### Review by @(\S+) \((\w+)\) — \w+$")
+COMMENT = re.compile(r"^### Comment by @(\S+) \(([\w ]+)\) on (\S+)$")
+REVIEW = re.compile(r"^### Review by @(\S+) \(([\w ]+)\) — \w+$")
 REVIEW_TIME = re.compile(r"^_(\S+)_$")
 THREAD = re.compile(r"^### (`[^`]*`(?::\d+)?) — [\w ]+$")
-THREAD_POST = re.compile(r"^\*\*@(\S+) \((\w+)\)\*\* — (\S+)$")
+THREAD_POST = re.compile(r"^\*\*@(\S+) \(([\w ]+)\)\*\* — (\S+)$")
+# scripts/gh_export/authorship.py's labels for a post the run wrote itself.
+RUNS_OWN = {"agent", "agent review"}
 OWN_LINK = re.compile(r"^\[(https://github\.com/\S+)\]\(\1\)$")
 ANCHOR = re.compile(r'^<a id="[ct]\d+"></a>$')
 SECTION = re.compile(r"^## (Review threads|Timeline\b)")
@@ -133,7 +136,7 @@ conversation.sort(key=lambda p: p["at"])
 
 
 def tail(chain: list[dict]) -> list[dict]:
-    last_agent = max((n for n, p in enumerate(chain) if p["label"] == "agent"), default=-1)
+    last_agent = max((n for n, p in enumerate(chain) if p["label"] in RUNS_OWN), default=-1)
     return chain[last_agent + 1 :]
 
 
