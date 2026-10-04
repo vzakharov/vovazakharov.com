@@ -95,6 +95,35 @@ describe('openKept', () => {
     assert.deepEqual(store.records.get(5), broken);
   });
 
+  it('tells when another load has kept the meadow since this one opened it', async () => {
+    const store = fakeStore(new Map([[2, structuredClone(kept(20))]]));
+    const { location, history } = page('#2');
+    const opening = await openKept(location, history, store);
+    assert.equal(await opening.overwritten?.(), false);
+    store.records.set(2, kept(99));
+    assert.equal(await opening.overwritten?.(), true);
+  });
+
+  it('tells when another load has kept the meadow since this one last wrote it', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const { location, history } = page('#new');
+    const opening = await openKept(location, history, store);
+    assert.equal(await opening.overwritten?.(), false);
+    opening.keeper?.keep(kept(30));
+    const answer = opening.overwritten?.();
+    store.land();
+    assert.equal(await answer, false);
+    store.records.set(1, kept(99));
+    assert.equal(await opening.overwritten?.(), true);
+  });
+
+  it('reads a fresh meadow beside an unreadable record as its own', async () => {
+    const store = fakeStore(new Map<number, unknown>([[5, { version: 9 }]]));
+    const { location, history } = page('#5');
+    const opening = await openKept(location, history, store);
+    assert.equal(await opening.overwritten?.(), false);
+  });
+
   it('touches no hash and keeps nothing with no store', async () => {
     const { location, history, written } = page('#2');
     const opening = await openKept(location, history);

@@ -1,8 +1,9 @@
 /**
  * The scene's side of keeping: the record of the meadow on screen, handed to
  * the opening's keeper after every change, and at most once a second and when
- * the tab hides if anything moved since. With no keeper (no store) nothing is kept and nothing
- * is listened to.
+ * the tab hides if anything moved since, until another tab keeps the same
+ * meadow. With no keeper (no store) nothing is kept and nothing is listened
+ * to.
  */
 
 import type { Opening } from '../../api/open-kept';
@@ -32,11 +33,15 @@ export function keptRecord(
   };
 }
 
-/** The page events keeping listens to, and the reload a hash edit asks for. */
+/**
+ * The page events keeping listens to, the reload a hash edit or another
+ * tab's keeping asks for, and where a failed check of the store is reported.
+ */
 export type KeptPage = {
   document: EventTarget & Pick<Document, 'visibilityState'>;
   window: EventTarget;
   reload: () => void;
+  report: (error: unknown) => void;
 };
 
 export type MeadowKeeping = {
@@ -47,7 +52,10 @@ export type MeadowKeeping = {
   /**
    * Keeps it when the tab hides, and reloads the page on a hash edited while
    * playing, as the boot is the one path that opens a meadow; returns what
-   * lets go of both.
+   * lets go of both. From the hide until the tab, shown again, has checked
+   * the store, nothing is kept: another tab may have kept the meadow
+   * meanwhile, and then this one reloads to open that rather than write
+   * over it.
    */
   bind: () => () => void;
 };
@@ -67,16 +75,19 @@ function sameStart(a: WalkStart, b: WalkStart): boolean {
  * the first frame's — so a stray link leaves no empty meadow behind.
  */
 export function meadowKeeping(
-  opening: Pick<Opening, 'seed' | 'keeper' | 'kept'>,
+  opening: Pick<Opening, 'seed' | 'keeper' | 'kept' | 'overwritten'>,
   scened: Pick<Scened, 'meadow'>,
   eye: Pick<EyeInput, 'eye' | 'gait'>,
   now: () => number,
   page: () => KeptPage = thePage,
 ): MeadowKeeping {
-  const { keeper, kept } = opening;
+  const { keeper, kept, overwritten } = opening;
   // A fresh meadow's first frame stands in for a record handed over unwritten.
   let handed: Held | undefined;
   let played = kept !== undefined;
+  // Set from a hide until the check on show passes; a keep asked meanwhile is owed.
+  let paused = false;
+  let owed = false;
   // None before the scene's first paint fits the eye.
   const held = (): Held | undefined => {
     const [meadow, seen] = [scened.meadow(), eye.eye()];
@@ -103,12 +114,17 @@ export function meadowKeeping(
     return played || !stood ? still : undefined;
   };
   const keep = () => {
+    if (paused) {
+      owed = true;
+      return;
+    }
     const still = keeper && held();
     if (still) keeper.keep(record(still));
   };
   return {
     keep,
     poll: (at) => {
+      if (paused) return;
       const still = changed();
       if (still) keeper?.poll(at, () => record(still));
     },
@@ -118,16 +134,34 @@ export function meadowKeeping(
           // Nothing was bound.
         };
       }
-      const { document, window, reload } = page();
-      const hidden = () => {
-        if (document.visibilityState !== 'hidden') return;
-        const still = changed();
-        if (still) keeper.keep(record(still));
+      const { document, window, reload, report } = page();
+      const resume = (stale: boolean) => {
+        if (stale) {
+          reload();
+          return;
+        }
+        // Hidden again before the answer: the next show checks afresh.
+        if (document.visibilityState === 'hidden') return;
+        paused = false;
+        if (owed) {
+          owed = false;
+          keep();
+        }
       };
-      document.addEventListener('visibilitychange', hidden);
+      const shown = () => {
+        if (document.visibilityState === 'hidden') {
+          const still = paused ? undefined : changed();
+          if (still) keeper.keep(record(still));
+          paused = true;
+        } else if (paused) {
+          // A check that fails leaves keeping paused for the rest of the load.
+          (overwritten?.() ?? Promise.resolve(false)).then(resume, report);
+        }
+      };
+      document.addEventListener('visibilitychange', shown);
       window.addEventListener('hashchange', reload);
       return () => {
-        document.removeEventListener('visibilitychange', hidden);
+        document.removeEventListener('visibilitychange', shown);
         window.removeEventListener('hashchange', reload);
       };
     },
@@ -140,6 +174,9 @@ function thePage(): KeptPage {
     window: globalThis,
     reload: () => {
       location.reload();
+    },
+    report: (error) => {
+      reportError(error);
     },
   };
 }

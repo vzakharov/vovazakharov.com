@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { later } from '../../api/fake-store';
 import type { Keeper } from '../../api/keeper';
 import { FULL_DUSK } from '../../model/dusk';
 import type { Meadow } from '../../model/game';
@@ -17,27 +18,39 @@ const EYE: Eye = { x: 0.4, y: -0.2, heading: 1.1 };
 
 type FakePage = KeptPage & {
   reloads: number;
+  reports: unknown[];
   hide: () => void;
+  show: () => void;
   editHash: () => void;
 };
 
-/** A page whose events the test fires, counting its reloads. */
+/** A page whose events the test fires, counting its reloads and reports. */
 function fakePage(): FakePage {
   const shown: { visibilityState: DocumentVisibilityState } = {
     visibilityState: 'visible',
   };
   const document = Object.assign(new EventTarget(), shown);
   const window = new EventTarget();
+  const turn = (state: DocumentVisibilityState) => {
+    document.visibilityState = state;
+    document.dispatchEvent(new Event('visibilitychange'));
+  };
   const page: FakePage = {
     document,
     window,
     reloads: 0,
+    reports: [],
     reload: () => {
       page.reloads += 1;
     },
+    report: (error) => {
+      page.reports.push(error);
+    },
     hide: () => {
-      document.visibilityState = 'hidden';
-      document.dispatchEvent(new Event('visibilitychange'));
+      turn('hidden');
+    },
+    show: () => {
+      turn('visible');
     },
     editHash: () => {
       window.dispatchEvent(new Event('hashchange'));
@@ -79,14 +92,23 @@ type Held = {
   fresh?: boolean;
 };
 
-/** The keeping of a scene holding `held`, its clock at `seconds`, seen from `EYE` once fitted. */
-function keeping(held: Held) {
+/**
+ * The keeping of a scene holding `held`, its clock at `seconds`, seen from
+ * `EYE` once fitted; the store check answers `stale`, or fails with it.
+ */
+function keeping(held: Held, stale: boolean | Error = false) {
   const keeper = fakeKeeper();
   const page = fakePage();
+  const overwritten = async () => {
+    await later();
+    if (stale instanceof Error) throw stale;
+    return stale;
+  };
   const kept = meadowKeeping(
     {
       seed: SEED,
       keeper,
+      overwritten,
       ...(held.fresh === true ? {} : { kept: onScreen(0) }),
     },
     { meadow: () => held.meadow },
@@ -211,6 +233,61 @@ describe('meadowKeeping', () => {
     page.editHash();
     assert.equal(keeper.kept.length, 1);
     assert.equal(page.reloads, 1);
+  });
+
+  it('keeps nothing from a hide until the store is checked, then pays the keep owed', async () => {
+    const held: Held = { meadow };
+    const { kept, keeper, page } = keeping(held);
+    kept.bind();
+    page.hide();
+    page.show();
+    held.meadow = { ...meadow };
+    kept.keep();
+    kept.poll(9000);
+    assert.equal(keeper.kept.length, 1);
+    await later();
+    assert.equal(keeper.kept.length, 2);
+    held.meadow = { ...meadow };
+    kept.poll(9000);
+    assert.equal(keeper.kept.length, 3);
+    assert.equal(page.reloads, 0);
+  });
+
+  it('reloads rather than keep when another tab kept the meadow meanwhile', async () => {
+    const { kept, keeper, page } = keeping({ meadow }, true);
+    kept.bind();
+    page.hide();
+    page.show();
+    kept.keep();
+    await later();
+    kept.poll(9000);
+    assert.equal(keeper.kept.length, 1);
+    assert.equal(page.reloads, 1);
+  });
+
+  it('stays paused when hidden again before the check answers', async () => {
+    const { kept, keeper, page } = keeping({ meadow });
+    kept.bind();
+    page.hide();
+    page.show();
+    page.hide();
+    await later();
+    kept.poll(9000);
+    assert.equal(keeper.kept.length, 1);
+  });
+
+  it('reports a check that fails and keeps nothing more', async () => {
+    const failure = new Error('refused');
+    const { kept, keeper, page } = keeping({ meadow }, failure);
+    kept.bind();
+    page.hide();
+    page.show();
+    await later();
+    kept.keep();
+    kept.poll(9000);
+    assert.equal(keeper.kept.length, 1);
+    assert.deepEqual(page.reports, [failure]);
+    assert.equal(page.reloads, 0);
   });
 
   it('with no keeper, listens to nothing', () => {
