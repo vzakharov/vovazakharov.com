@@ -1,0 +1,80 @@
+{
+  "sessionId": "edbb6226-9f53-57d6-bdef-18e44513cf33",
+  "branch": "claude/blissful-noether-ghd1sd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "думал установить микспанель, был хороший опыт лет 10 назад, но потом подумал, может с тех пор что более модное-мощное появилось? или вообще может самому на рейл…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01Cnn1zp86YCmN7HaRyYKV5Y",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-04T04:22:13.251Z",
+  "lastResponseAt": "2026-10-04T04:22:13.251Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 2,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 36337,
+    "cacheReadTokens": 44296,
+    "outputTokens": 2068,
+    "thinkingTokens": 913,
+    "responses": 1,
+    "costUsd": 0.34092320000000004
+  },
+  "ownTurns": {
+    "inputTokens": 2,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 36337,
+    "cacheReadTokens": 44296,
+    "outputTokens": 2068,
+    "thinkingTokens": 913,
+    "responses": 1,
+    "costUsd": 0.34092320000000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 36337,
+      "cacheReadTokens": 44296,
+      "outputTokens": 2068,
+      "thinkingTokens": 913,
+      "responses": 1,
+      "costUsd": 0.34092320000000004
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-04T04:22:13.251Z",
+    "contextTokens": 80635,
+    "spend": {
+      "inputTokens": 0,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 0,
+      "thinkingTokens": 0,
+      "responses": 0,
+      "costUsd": 0.0
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 1,
+    "matched": 1,
+    "matchedTableUsd": 0.34092320000000004,
+    "matchedEventUsd": 0.3409232,
+    "unseen": {}
+  }
+}
