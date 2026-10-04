@@ -377,9 +377,7 @@ re-sight at each fresh anchor costs ~18 ms median on tabL, most of it
 `airOf`'s `crowdingsAsDrawn` over ~650 air spots (carry the pairs between
 anchors, or slice it as `Tended` slices the lawn).
 
-One bite left — the meadow kept across reloads
-([saving.md](mushroom-game-syama/saving.md)) — then the Artifact
-republished, `/relay /finalize`. Nothing goes around the
+After this bite: the Artifact republished, `/relay /finalize`. Nothing goes around the
 canvas — no way home, no footer link, no reduced-motion or assistive-tech
 layer: the game opens straight on the meadow for one child, not a store
 product («сейчас это развлечение для одного ребёнка, а не продукт для
@@ -388,6 +386,15 @@ product («сейчас это развлечение для одного реб
 **Performance waits** until the operator asks («к перформанс улучшениям
 вернёмся когда и если это станет критичным»): the play prints its 26 ms
 budget line and does not fail on it (1946a63).
+
+## This bite
+
+**The meadow is kept** — the last bite, from
+[saving.md](mushroom-game-syama/saving.md): meadows numbered in the URL hash,
+kept in IndexedDB after every action, saved at rest with the time of day, the
+format versioned, no storage meaning no keeping. Its thirteen calls and its
+steps (S1–S6, one agent each) are
+[bite-18.md](mushroom-game-syama/bite-18.md).
 
 ## DRY notes
 
