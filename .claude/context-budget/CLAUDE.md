@@ -1,8 +1,11 @@
 # The context budget hook
 
 `hooks/post-tool-context-budget.sh` tells the agent when its session's context
-crosses 200k tokens (a warning) and 300k (the pause), so work is left resumable
-before a compact or a dead session takes the choice away. What the agent does on
+crosses the warning line and the pause line, so work is left resumable
+before a compact or a dead session takes the choice away. The warning gives the
+work the room up to the pause line, to finish in or to steer to a good stopping
+point and pause there; the pause line is where that estimate missed, so it
+stops the work where it stands, a last step aside. What the agent does on
 each notice is `@.claude/skills/go/SKILL.md` § "Stopping partway releases the
 plan".
 
@@ -13,8 +16,27 @@ plan".
 - **The reading is what the last request sent**: the last main-chain assistant
   record's `input_tokens + cache_read_input_tokens + cache_creation_input_tokens`.
   `output_tokens` is left out — the next request carries it, and the next
-  reading counts it then. A session starts at around 100k (system prompt, tools,
-  `CLAUDE.md`), so the warning line is about one baseline of work away.
+  reading counts it then.
+- **Both lines are priced by what `/relay` saves over the next 100k tokens of
+  work** (`finish`): the warning where that saving reaches $0, the
+  pause where it reaches `CONTEXT_BUDGET_PAUSE_SAVING` percent (default 20) of
+  what carrying on costs. The model is `.claude/costs/lib/restart.py`, via
+  `hooks/priced_line.py`, and the notice carries the dollars.
+  - **Each is capped at its fixed line, 200k and 300k**, so pricing only ever
+    moves a line earlier: context quality and the hard window are not cost
+    questions.
+  - **The requests a slice takes** are this session's own since its last
+    boundary, per token of growth; the `REQUESTS_PER_TOKEN` estimate stands in
+    until it has grown `MIN_GROWTH`.
+  - **The successor's reorientation** is `.claude/costs/lib/orientation.py`'s
+    measure — the ledger's definition of acting — from the first source
+    `restart.py`'s `reorientation_of` finds one in. The notice names which.
+  - **The lines are cached** in `tmp/context-budget/<session_id>.line` and
+    recomputed per 10k of growth, since a Python start-up per tool call is what
+    this bash hook avoids.
+  - **Without the ledger's lib, or under `CONTEXT_BUDGET_LINES=fixed`**, the
+    hook runs no Python; those and an unpriced model leave the lines at 200k
+    and 300k.
 - **The main chain only**, for the session's reading: `isSidechain` records are
   skipped, as is the `<synthetic>` placeholder Claude Code writes for a turn no
   model served — whose zeroed usage would read as a compact and re-arm the
@@ -22,17 +44,25 @@ plan".
 - **A subagent gets its own notice, read off its own transcript.** Its tool call
   carries `agent_id` but the parent's `transcript_path`; its own is
   `<transcript_path minus .jsonl>/subagents/agent-<agent_id>.jsonl`, where every
-  record is a sidechain one. At 170k it is told to commit what passes, bring its
-  hand-over note current and report — never to pause the plan, which would
-  release it while its parent works on.
+  record is a sidechain one. At a fixed 170k, unpriced, it is told to commit
+  what passes, bring its hand-over note current and report — never to pause
+  the plan, which would release it while its parent works on.
 - **Each notice fires once per climb.** `tmp/context-budget/<session_id>` holds
   the highest level announced, `<session_id>.agent-<agent_id>` a subagent's; a
-  reading back under the first line clears it, so a compact re-arms the notices.
-  A notice that cannot be recorded is not sent, since it would otherwise repeat
-  on every tool call.
+  reading back under its first line clears it, so a compact re-arms the
+  notices. A notice that cannot be recorded is not sent, since
+  it would otherwise repeat on every tool call.
+- **The operator is resolved only when a notice is about to fire**, with `gh api
+user`, since it costs a network call and the ordinary tool call has no use for
+  it. Their `auto-relay/<handle>` decides how the pause ends, and
+  `@.claude/skills/relay/SKILL.md` § "Auto-relay" owns what it means and who
+  writes it. A `gh` that cannot answer, or a token that is not a `User`'s, reads
+  as `off` and asks nothing: there is no one to have opted in and nowhere to
+  record an answer.
 - **Anything unreadable is silence**, never an error: a missing notice costs a
   warning, a hook failing on every tool call costs the session.
 
 `CONTEXT_BUDGET_WARN`, `CONTEXT_BUDGET_PAUSE` and `CONTEXT_BUDGET_SUBAGENT`
-override the three lines, in tokens — set them in `.claude/settings.local.json`'s `env` to tune without
-editing a tracked file.
+each fix their line, in tokens, `CONTEXT_BUDGET_PAUSE_SAVING` moves the priced pause, and
+`CONTEXT_BUDGET_LINES=fixed` turns the pricing off — set them in
+`.claude/settings.local.json`'s `env` to tune without editing a tracked file.

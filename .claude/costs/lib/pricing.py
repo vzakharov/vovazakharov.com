@@ -8,7 +8,9 @@ leave out.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, fields
+from pathlib import Path
 from typing import Any, Dict, List, Mapping, Optional, Sequence, Set, Tuple
 
 from lib.billed import Event, Telemetry, compaction_costs, disagreement
@@ -52,11 +54,22 @@ class UnpricedError(ValueError):
 # --- The rate table -----------------------------------------------------------
 
 
+# A snapshot id's release-date suffix, as in `claude-haiku-4-5-20251001`.
+_DATED = re.compile(r"-\d{8}$")
+
+
 @dataclass(frozen=True)
 class PriceTable:
     as_of: str
     rates: Dict[str, Rates]
 
+    def rates_for(self, model: str, speed: Optional[str]) -> Optional[Rates]:
+        """A dated snapshot id with no row of its own is priced at its undated
+        alias's row; a dated row, where there is one, wins."""
+        rates = self.rates.get(rate_key(model, speed))
+        if rates is None and _DATED.search(model):
+            rates = self.rates.get(rate_key(_DATED.sub("", model), speed))
+        return rates
 
 
 def parse_prices(text: str) -> PriceTable:
@@ -72,6 +85,10 @@ def parse_prices(text: str) -> PriceTable:
             **{f.name: required(read_number, entry, f.name, where) for f in fields(Rates)}
         )
     return PriceTable(as_of=required(read_string, table, "as_of", "prices.json"), rates=rates)
+
+
+def load_prices() -> PriceTable:
+    return parse_prices((Path(__file__).resolve().parents[1] / "prices.json").read_text(encoding="utf-8"))
 
 
 def rate_key(model: str, speed: Optional[str]) -> str:
@@ -103,7 +120,7 @@ class Response:
     tokens: Tally
 
 
-def _is_response_record(record: Any) -> bool:
+def is_response_record(record: Any) -> bool:
     # Prompts, attachments and tool results share the file and carry no usage,
     # so only a record that looks like a billed response is held to the shape.
     if not isinstance(record, dict):
@@ -112,7 +129,7 @@ def _is_response_record(record: Any) -> bool:
     return isinstance(message, dict) and "usage" in message
 
 
-def _parse_response(record: Dict[str, Any], where: str, warnings: List[str]) -> Response:
+def parse_response(record: Dict[str, Any], where: str, warnings: List[str]) -> Response:
     message = required(read_object, record, "message", where)
     message_id = required(read_string, message, "id", where)
     usage = required(read_object, message, "usage", where)
@@ -170,6 +187,16 @@ class TranscriptSources:
 
     main: str
     subagents: Sequence[str] = ()
+
+
+def subagents_of(main: Path) -> List[str]:
+    """A subagent's responses are billed to this session and written to their own
+    file under `<transcript>/subagents/`, so the directory is read rather than
+    assumed empty. A session that spawned none has no directory at all."""
+    directory = main.parent / main.stem / "subagents"
+    if not directory.is_dir():
+        return []
+    return [path.read_text(encoding="utf-8") for path in sorted(directory.glob("*.jsonl"))]
 
 
 # Marks the warning `at_stop` raises, which is what lets a rewrite of the row
@@ -264,9 +291,9 @@ def summarise_transcript(
                         operator = operator_of(record)
                     continue
 
-            if not _is_response_record(record):
+            if not is_response_record(record):
                 continue
-            response = _parse_response(record, where, warnings)
+            response = parse_response(record, where, warnings)
             if not (delegated or response.is_sidechain or response.model == SYNTHETIC_MODEL):
                 last_own = response
             # One API response is written as one record per content block, each
@@ -301,8 +328,10 @@ def summarise_transcript(
                     )
                 continue
 
+            # `byRate` keeps the id the response named, as telemetry's own
+            # events do, whichever row priced it.
             key = rate_key(response.model, response.speed)
-            rates = prices.rates.get(key)
+            rates = prices.rates_for(response.model, response.speed)
             if rates is None:
                 unpriced.add(key)
                 continue
