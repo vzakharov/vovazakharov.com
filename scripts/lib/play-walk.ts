@@ -6,12 +6,12 @@
  * way, never past `TURN_CRUISE`, all the way round, the sun leaving the screen
  * and coming back, and `←` held as long turns it back onto every bed object
  * as it stood; a sideways drag from the sky turns it with the azimuth under
- * the finger and a drag down the screen walks it, the ground under the
- * finger while it is down and flung on past the lift, neither tapping
- * anything, nor a drag with a mushroom selected or the flower picker open on
- * a tuft; a sideways drag from bare ground, the same way, and `c` held,
- * never past the cruise, walk it square to its heading, never turning
- * it; and the screen turned keeps the eye where it stood and looking where it
+ * the finger and a drag down the screen walks it in steps, never past the
+ * cruise while the finger is down and flung on past the lift, a quick swipe
+ * from the horizon only a few steps, none tapping anything, nor a drag with
+ * a mushroom selected or the flower picker open on a tuft; a sideways drag
+ * from bare ground, the same way, and `c` held, never past the cruise, walk
+ * it square to its heading, never turning it; and the screen turned keeps the eye where it stood and looking where it
  * looked. Frames of the opening, the walk, the walk back, a quarter and a
  * half turn and the strafes land as `walk-*.png`.
  */
@@ -37,19 +37,13 @@ import {
   Point,
   Sun,
 } from './mushroom-probe-answers.ts';
-import {
-  type Arrow,
-  dragMoves,
-  type Expect,
-  type Page,
-} from './mushroom-probe-drive.ts';
+import type { Arrow, Expect, Page } from './mushroom-probe-drive.ts';
 import { BARE_START, playHeldDrags, TAPS } from './play-taps.ts';
 import {
   BACK_HELD,
   checkBack,
   checkPops,
   checkTurn,
-  checkUnderFinger,
   checkWalk,
   FPS,
   goneAlong,
@@ -58,6 +52,7 @@ import {
   WALKING,
   Walking,
 } from './play-walk-checks.ts';
+import { playHorizonSwipe } from './play-walk-swipe.ts';
 
 /** Frames enough for a held key's ease and a glide to come to rest. */
 const SETTLE_FRAMES = 150;
@@ -277,16 +272,6 @@ export async function playWalk(
         '__probe.eye()',
         Eye,
       );
-      const offFinger = checkUnderFinger(
-        camera,
-        pressed,
-        from,
-        dragMoves(from, down, DRAG_MOVES),
-        held,
-        'step',
-        expect,
-        note,
-      );
       const chase = await page.trace(SETTLE_FRAMES, '__probe.eye()', Eye);
       checkWalk(
         pressed,
@@ -297,14 +282,12 @@ export async function playWalk(
         note,
         DRAG_MOVES,
       );
-      note(
-        `a drag down the screen: its ground ${offFinger(held.at(-1) ?? pressed).toFixed(1)} px down from the finger at the lift, ${offFinger(chase.at(-1) ?? pressed).toFixed(1)} at rest`,
-      );
       expect(
         turned(pressed.heading, chase.at(-1)?.heading ?? 0) === 0,
         'a drag down the screen turned the eye',
       );
     }
+    await playHorizonSwipe(page, expect, note);
   }
   expect(
     (await taps()) === tapsBefore,
@@ -330,7 +313,7 @@ export async function playWalk(
 /**
  * A strafe: a swipe leftward from bare ground, 150 px or to the screen's
  * edge, whichever is nearer, since a finger past the edge goes unread — the
- * ground under the finger following it and flung on from its lift — then
+ * eye walking after the finger and flung on from its lift — then
  * `c` held 1.5 s; each walks the eye square to a heading it never
  * turns. The swipe is shot at its lift and at rest, the key mid-way.
  */
@@ -381,16 +364,6 @@ async function playStrafes(
     };
     const frames = DRAG_MOVES;
     const down = await page.dragTraced(start, to, frames, '__probe.eye()', Eye);
-    const offFinger = checkUnderFinger(
-      camera,
-      pressed,
-      start,
-      dragMoves(start, to, frames),
-      down,
-      'strafe',
-      expect,
-      note,
-    );
     await page.step(1);
     await page.shoot('walk-strafe-drag-lift');
     const chase = await page.trace(FPS * 4, '__probe.eye()', Eye);
@@ -426,7 +399,7 @@ async function playStrafes(
       `a quick swipe from the ground took ${(caught / FPS).toFixed(2)} s to glide nine tenths of its way`,
     );
     note(
-      `a ${swipe.toFixed(0)} px swipe from the ground (y ${start.y.toFixed(0)}, ${ahead.toFixed(2)} ahead, the finger at ${finger.toFixed(2)} units/s) strafed ${went.toFixed(3)}: ${atLift.toFixed(3)} by the lift, ${flung.toFixed(3)} flung, nine tenths ${(caught / FPS).toFixed(2)} s after it; its ground ${offFinger(lifted).toFixed(1)} px across from the finger at the lift, ${offFinger(chase.at(-1) ?? lifted).toFixed(1)} at rest`,
+      `a ${swipe.toFixed(0)} px swipe from the ground (y ${start.y.toFixed(0)}, ${ahead.toFixed(2)} ahead, the finger at ${finger.toFixed(2)} units/s) strafed ${went.toFixed(3)}: ${atLift.toFixed(3)} by the lift, ${flung.toFixed(3)} flung, nine tenths ${(caught / FPS).toFixed(2)} s after it`,
     );
   }
 

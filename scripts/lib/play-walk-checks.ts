@@ -7,12 +7,7 @@
 import { z } from 'zod';
 
 import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
-import {
-  KEY_EASE,
-  SLOP,
-  TURN_CRUISE,
-} from '../../src/pages/mushrooms/model/pan.ts';
-import { planeSeen, viewOf } from '../../src/pages/mushrooms/model/pinhole.ts';
+import { KEY_EASE, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
   forwardOf,
   sidewaysOf,
@@ -20,14 +15,13 @@ import {
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
 } from '../../src/pages/mushrooms/model/stride.ts';
-import { crossingOf } from '../../src/pages/mushrooms/model/walk.ts';
 import { SHOWN_LEAST } from '../../src/pages/mushrooms/ui/scene/view.ts';
-import { type Camera, Eye, type Point } from './mushroom-probe-answers.ts';
+import { Eye, type Point } from './mushroom-probe-answers.ts';
 import type { Arrow, Expect, Strafe } from './mushroom-probe-drive.ts';
 
 export const FPS = 60;
 /** How far over a cruise a frame's pace may run, for the float left over. */
-const OVER = 1.02;
+export const OVER = 1.02;
 
 /**
  * How much more than the sliver a sunk thing is hidden at (`SHOWN_LEAST` of
@@ -76,11 +70,11 @@ export function turned(from: number, to: number): number {
 /**
  * A walk frame by frame, `seen`, from where it stood at `from`: never past
  * `STRIDE_CRUISE`, eased in where a key starts it. A drag's first `down`
- * frames are the finger's, moving with it, which `checkUnderFinger` checks;
- * from the lift on it runs never past `STRIDE_FLING_FASTEST` and only ever
- * slows, as its fling does, its first frame after the lift carrying the
- * lift's own. The bob within `[−bob, 0]`, down while it walks and 0 once it
- * rests, and a footstep per `STEP_LENGTH` walked, ±1.
+ * frames are the finger's, the eye walking after it in steps, never past the
+ * cruise either; from the lift on it runs never past `STRIDE_FLING_FASTEST`
+ * and only ever slows, as its fling does, its first frame after the lift
+ * carrying the lift's own. The bob within `[−bob, 0]`, down while it walks
+ * and 0 once it rests, and a footstep per `STEP_LENGTH` walked, ±1.
  */
 export function checkWalk(
   from: Seen,
@@ -97,14 +91,19 @@ export function checkWalk(
     const was = seen[index - 1] ?? from;
     return Math.hypot(now.x - was.x, now.y - was.y) * FPS;
   });
+  const pressed = by === 'drag' ? paces.slice(0, down) : paces;
   const lifted = paces.slice(down + 1);
-  const fastest = Math.max(...(by === 'drag' ? lifted : paces));
-  const most = by === 'drag' ? STRIDE_FLING_FASTEST : STRIDE_CRUISE;
+  const fastest = Math.max(...pressed);
   expect(
-    fastest <= most * OVER,
-    `${by}: walked at ${fastest.toFixed(3)} units/s${by === 'drag' ? ' after the lift' : ''}, past the ${by === 'drag' ? 'fling' : 'cruise'} ${String(most)}`,
+    fastest <= STRIDE_CRUISE * OVER,
+    `${by}: walked at ${fastest.toFixed(3)} units/s${by === 'drag' ? ' while the finger was down' : ''}, past the cruise ${String(STRIDE_CRUISE)}`,
   );
   if (by === 'drag') {
+    const flung = Math.max(...lifted);
+    expect(
+      flung <= STRIDE_FLING_FASTEST * OVER,
+      `${by}: walked at ${flung.toFixed(3)} units/s after the lift, past the fling ${String(STRIDE_FLING_FASTEST)}`,
+    );
     const rose = lifted.findIndex(
       (pace, index) =>
         index > 0 && pace > (lifted[index - 1] ?? 0) * OVER + 1e-6,
@@ -141,56 +140,6 @@ export function checkWalk(
   note(
     `${by}: walked ${walked.toFixed(2)} units at most ${fastest.toFixed(2)} units/s in ${String(steps)} footsteps, the bob down to ${Math.min(...bobs).toFixed(2)} px; the eye at (${last.x.toFixed(2)}, ${last.y.toFixed(2)})`,
   );
-}
-
-/** How far off the finger, as a share of its swipe, the ground under it may stand while it is down. */
-const UNDER_SHARE = 0.03;
-
-/**
- * A drag from the ground, the finger at `fingers` and the eye at `eyes` move
- * by move from `pressed` at `start`: on every move past the slop, and at the
- * lift, its last, the ground under the crossing (`crossingOf`) stands at the
- * finger on the axis the drag moves — across for a strafe, down for a step —
- * within `UNDER_SHARE` of the swipe. Returns how far off the finger that
- * ground stands to `eye`, in px on that axis, to measure the glide by.
- */
-export function checkUnderFinger(
-  camera: z.infer<typeof Camera>,
-  pressed: Seen,
-  start: z.infer<typeof Point>,
-  fingers: ReadonlyArray<z.infer<typeof Point>>,
-  eyes: readonly Seen[],
-  by: 'strafe' | 'step',
-  expect: Expect,
-  note: (line: string) => void,
-): (eye: Seen) => number {
-  const lifted = fingers.at(-1) ?? start;
-  const axis = by === 'strafe' ? 'x' : 'y';
-  const crossing = crossingOf(start, lifted);
-  const ground = planeSeen(camera, pressed, crossing);
-  if (!ground) {
-    throw new Error(
-      `no ground under the crossing (${crossing.x.toFixed(0)}, ${crossing.y.toFixed(0)})`,
-    );
-  }
-  const offAt = (eye: Seen, finger: z.infer<typeof Point>) =>
-    viewOf(camera, eye, ground, 0)[axis] - finger[axis];
-  const offs = fingers.flatMap((finger, index) => {
-    const eye = eyes[index];
-    const past = Math.hypot(finger.x - start.x, finger.y - start.y) > SLOP;
-    return eye && past ? [offAt(eye, finger)] : [];
-  });
-  const swipe = Math.abs(lifted[axis] - start[axis]);
-  const worst = Math.max(...offs.map((off) => Math.abs(off)));
-  const atLift = offs.at(-1) ?? 0;
-  expect(
-    offs.length > 0 && worst <= UNDER_SHARE * swipe,
-    `a ${by} drag left the ground under its crossing up to ${worst.toFixed(1)} px off the finger over ${String(offs.length)} moves, past ${(UNDER_SHARE * 100).toFixed(0)} % of its ${swipe.toFixed(0)} px swipe`,
-  );
-  note(
-    `a ${by} drag: the ground under its crossing at most ${worst.toFixed(1)} px off the finger over ${String(offs.length)} moves, ${atLift.toFixed(1)} at the lift`,
-  );
-  return (eye) => offAt(eye, lifted);
 }
 
 /** How long `↓` is held walking back, in seconds. */

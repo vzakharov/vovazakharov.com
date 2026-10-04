@@ -174,7 +174,7 @@ export function pressAt(walk: Walk, point: Point, time: number): Walk {
 }
 
 /** Where on the slop's circle round `from` the way to `to` crosses it. */
-export function crossingOf(from: Point, to: Point): Point {
+function crossingOf(from: Point, to: Point): Point {
   const reach = Math.hypot(to.x - from.x, to.y - from.y);
   return {
     x: from.x + ((to.x - from.x) * SLOP) / reach,
