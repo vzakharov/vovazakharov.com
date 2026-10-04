@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×38)
+## What it was handed, it treats as fixed (×40)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -111,6 +111,12 @@ a "player", and put a `/mega <branch>` and a PR subscription beside `/relay take
 and `/handle`. _"playing" относится исключительно к играм, /mega ими не
 ограничен_ — nor to an operator present: a precedent of one, read as the spec.
 
+**4 October, round two — the same, and a habit measured as the norm.** The next
+draft relayed at every bite's end, since one bite had filled one session; the
+notes tie a relay to the context budget, not the boundary. Its PR-body cap, moved
+from lines to characters, converted at this repo's 146 a line — the measured
+habit, the long-line bloat the cap exists to stop included. At 80, it is 32,000.
+
 ## An account that explains the code stands in for running it (×16)
 
 The sibling of "It checks the render against its intent" below, and the worse
@@ -143,7 +149,7 @@ Lyric notes, section markers and per-locale song reading went to
 `pages/music` imported them; asked why not a higher layer, they moved up with
 no upward import in the way. One grep said so; nobody ran it.
 
-## It edits the copy in front of it, not the fact behind it (×14)
+## It edits the copy in front of it, not the fact behind it (×15)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -180,6 +186,12 @@ Syncing from muthur, the agent fixed a tend-prose cross-reference citing "homes 
 and 4" for a table numbering them 4 and 5, and noted in the watermark "a fix the
 source still lacks". _оставь в muthur тикет_ — the 9 September bump, with the
 gap recorded this time: a divergence nothing upstream would ever close.
+
+**4 October — the vendored skills' fixes, reworded into the new one.** The
+`/mega` notes asked for fixes in skills adopted from muthur; the agent kept them
+out, "editing vendored copies forks them silently", proposed upstream issues,
+filed none, and had `/mega` carry its own wording of each. The watermark had
+recorded just such a fork two days before: _why not take it_ — fix, file once.
 
 ## It writes its reasoning into the artifact (×13)
 
