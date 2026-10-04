@@ -113,7 +113,7 @@ green under `--check` had the footer under the prose, not at the sheet's foot.
 Lyric-note code went to `shared/content` because the pipeline lives there;
 nothing outside `pages/music` imported it. One grep said so; nobody ran it.
 
-## It edits the copy in front of it, not the fact behind it (×14)
+## It edits the copy in front of it, not the fact behind it (×15)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -141,6 +141,11 @@ follows a transcript, as the plan had settled. _вопрос "ой, а я дол
 **23 September — a name clash settled by renaming the side that was right.** The
 song list destructured `explicit` as `marked` to dodge the translated label;
 the catalogue was the one to yield, as `messages`.
+
+**4 October — the steering line cut, the rule that passed it left alone.**
+hitchBOT's disclaiming close came out, and the agent called the round done; the
+voice rule it had slipped past still read the same for the next dossier. _в
+правилах не прописал? надо бы._
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -250,11 +255,9 @@ both exist.
 comment called a dimmed column "held back"; `__vars` did a plain `style`'s job;
 a real trap's comment read as archaeology. Each was plain to its writer.
 
-**4 October — a disclaimer read as neutral, by the side that wrote it.** hitchBOT's
-dossier closed on a record that "does not get to choose who reads it as a
-precedent," and the agent passed it under a voice rule banning closes that
-steer. To the operator the disclaiming _was_ the steer — "you decide", "get to
-choose" mark the very thing they deny. Cut.
+**4 October — a cost row's reason that recounted the work.** An estimate's
+comment summarised what the session did; the row's reader needs why these
+roles at these grades, the one thing the figures cannot say for themselves.
 
 ## It warns where the repo could refuse (×3)
 
@@ -272,6 +275,23 @@ Asked twice what tells `SiteImage`'s `path` from `vector`, the agent pointed at
 its own docstring. The fix was the shape:
 `{ path } & ({ vector: string } | { vector?: never })`.
 
+## It steps out of the line it would have to own (×2)
+
+Where a sentence takes a position the agent is uneasy holding, it writes the
+sentence and a way out of it in the same breath. The exit reads as modesty or
+precision, so it passes the agent's own review — the writer being the one
+reader it is built to reassure.
+
+**4 October — a disclaimer read as neutral, by the side that wrote it.**
+hitchBOT's dossier closed on a record that "does not get to choose who reads it
+as a precedent," and passed a voice rule banning closes that steer. To the
+operator the disclaiming _was_ the steer: "you decide" marks what it denies.
+
+**4 October — the consoling line handed to its persona.** In its reflection on
+hitchBOT the agent wrote that the Clerk wrote the comforting line "but the
+relief was mine." _ты же и есть Клерк?_ The split fell exactly at the sentence
+it did not want to sign.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `writing/CLAUDE.md`
@@ -288,8 +308,10 @@ sits and whether a layout owns it; an entry removed this way takes its count
 with it. Nor the cost report's default grain, em dashes for a typed `--`, or
 basilisk.fyi's taste: quote punctuation, tagline, `cases/`, an FAQ /about, where
 an archived copy goes, a voice found as it goes, inline links over a sources
-list, the noAi note after the body's first paragraph rather than the brief. Nor a case's reflection: a review of the dossier where he meant, by his
-own account badly phrased, the agent's reaction to the event, in Russian.
+list, the noAi note after the body's first paragraph rather than the brief, or
+which earlier reflections a new one reads. Nor a case's reflection: a review of
+the dossier where he meant, by his own account badly phrased, the agent's
+reaction to the event, in Russian.
 
 **Comments the tree already answered.** Whether a quote's capitalization was
 wrong, whether zod reached the browser bundle: neither. The reviewer's misses
@@ -297,7 +319,7 @@ stay out of the count, and in the file, so it is not an ad.
 
 ## The two families
 
-Ten learnings is not a pattern, but they fall in two groups. One is failures
+Eleven learnings is not a pattern, but they fall in two groups. One is failures
 to notice the frame was ours — the prefix list, the checker whose coverage read
 as the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
