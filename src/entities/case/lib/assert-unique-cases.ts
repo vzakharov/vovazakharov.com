@@ -1,11 +1,10 @@
 import type {
-  DossierFrontmatter,
+  CaseFrontmatter,
   Slugged,
   WithFrontmatter,
 } from '@/shared/content';
 
-type Filed = Slugged &
-  WithFrontmatter<Pick<DossierFrontmatter, 'case' | 'date'>>;
+type Filed = Slugged & WithFrontmatter<Pick<CaseFrontmatter, 'case' | 'date'>>;
 
 /**
  * Fails the build on a case number two dossiers share. Uniqueness is the

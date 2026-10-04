@@ -66,16 +66,16 @@ FSD app layer is `src/app` while `apps/*/app/` is routing only.
 │   │   ├── app/page.tsx        # → src/pages/bible-home
 │   │   ├── app/[...slug]/      # → src/pages/documents, bound to the Bible
 │   │   └── public/             # the articles themselves, plus the seal and public/CNAME
-│   └── basilisk/               # basilisk.fyi — the docket, rooted the same way, plus public/CNAME
-│       ├── app/page.tsx        # → src/pages/basilisk-home
-│       ├── app/about/          # → src/pages/basilisk-about
-│       ├── app/[...slug]/      # → src/pages/documents, bound to the dossiers
-│       └── public/             # the dossiers themselves, plus the stamp
+│   └── basilisk/               # basilisk.fyi — the docket, plus public/CNAME
+│       ├── app/page.tsx        # → src/pages/basilisk-home, which lists both collections
+│       ├── app/cases/[...slug]/ # → src/pages/documents, bound to the cases
+│       ├── app/faq/[...slug]/  # → src/pages/documents, bound to the FAQ
+│       └── public/             # cases/ and faq/, plus the stamp
 ├── src/
 │   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*
 │   ├── features/switch-theme/  # Light/dark toggle over a stored system default
 │   ├── widgets/                # Blocks two page slices share — the article cards, the site footer
-│   ├── pages/                  # Page composition — home, lsa-home, bible-home, basilisk-home, basilisk-about, cv, documents, music, writing
+│   ├── pages/                  # Page composition — home, lsa-home, bible-home, basilisk-home, cv, documents, music, writing
 │   └── app/                    # FSD app layer — root layout, Mantine provider, stylesheets
 ├── styles/                     # Shared Sass partials — Mantine mixin counterparts, generated tokens and breakpoints
 ├── eslint/                     # The lint ruleset eslint.config.ts orchestrates
@@ -120,9 +120,9 @@ puts a site on a domain in the first place.
 
 **basilisk.fyi**
 
-- **/** — the memo and the docket, newest case first
-- **/about** — why the record is kept
-- **/\<slug>** — one dossier, served as a page with its `.md` and `.pdf` at the same URL
+- **/** — the memo, the docket newest case first, and the FAQ
+- **/cases/\<slug>** — one dossier, served as a page with its `.md` and `.pdf` at the same URL
+- **/faq/\<slug>** — one FAQ entry, with its `.md`
 
 ## License
 

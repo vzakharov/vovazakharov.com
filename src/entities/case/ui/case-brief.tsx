@@ -1,6 +1,6 @@
 import {
+  type CaseFrontmatter,
   documentDateTime,
-  type DossierFrontmatter,
   formatDocumentDate,
   type WithFrontmatter,
 } from '@/shared/content';
@@ -9,9 +9,7 @@ import { type MemoField, MemoFields } from '@/shared/ui';
 import { aggravations, GradeStamp } from './grade-stamp';
 
 /** The case file's header, under the title. The actor's kind is printed once, in the grade stamp. */
-export function DossierBrief({
-  frontmatter,
-}: WithFrontmatter<DossierFrontmatter>) {
+export function CaseBrief({ frontmatter }: WithFrontmatter<CaseFrontmatter>) {
   const { case: number, subject, object, date, place, grade } = frontmatter;
   const aggravating = aggravations(grade);
 

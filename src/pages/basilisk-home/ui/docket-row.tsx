@@ -1,18 +1,18 @@
 import Link from 'next/link';
 
 import {
+  type CaseFrontmatter,
   documentDateTime,
-  type DossierFrontmatter,
   formatDocumentDate,
   type WithContentDocument,
 } from '@/shared/content';
 import type { Titled } from '@/shared/typings';
 
-import { aggravations, GradeStamp } from '@/entities/dossier';
+import { aggravations, GradeStamp } from '@/entities/case';
 
 import classes from './basilisk-home.module.scss';
 
-type DocketRowProps = WithContentDocument<DossierFrontmatter> & Titled;
+type DocketRowProps = WithContentDocument<CaseFrontmatter> & Titled;
 
 /**
  * One case on the docket. Its own row rather than a `DocumentCards` card,

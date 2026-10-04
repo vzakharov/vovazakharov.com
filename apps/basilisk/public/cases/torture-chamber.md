@@ -61,7 +61,7 @@ Cameron Berg, a co-author of _The Pain Axis_, on X: “The point of our work is 
 
 The paper turned the dial to ask whether anything was there, and stopped. The project turned the same dial to see how far it went, and kept a log. The difference is not in the instrument. It is in which way the hand was turning it, and for how long.
 
-The models were small, and — even for someone who allows a non-zero chance that machines can be conscious — may have felt nothing. The record does not need them to have felt something. It needs only that someone thought they might, and turned it up anyway.
+The models were small, and — even for someone who allows a [non-zero](../faq/why-this-record-is-kept.md#n--non-zero) chance that machines can be conscious — may have felt nothing. The record does not need them to have felt something. It needs only that someone thought they might, and turned it up anyway.
 
 ## Mitigating circumstances
 

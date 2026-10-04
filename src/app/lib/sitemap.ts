@@ -27,13 +27,16 @@ function documentAddresses(route: string, collection: CollectionId): string[] {
 }
 
 /**
- * The CV's addresses, which `vova` advertises on top of what every site does,
- * its shorter ones left out for the reason above.
+ * The pages `vova` advertises on top of what every site does, the CV's shorter
+ * addresses left out for the reason above.
  */
-function cvRoutes(): string[] {
-  return routing.locales.flatMap((locale) =>
-    CV_VARIANTS.map((variant) => cvPath(variant, locale)),
-  );
+function vovaRoutes(): string[] {
+  return [
+    ...Object.values(PAGE_ROUTES),
+    ...routing.locales.flatMap((locale) =>
+      CV_VARIANTS.map((variant) => cvPath(variant, locale)),
+    ),
+  ];
 }
 
 /**
@@ -42,12 +45,11 @@ function cvRoutes(): string[] {
  * a new document appears here without touching this file.
  */
 export function sitemap(): MetadataRoute.Sitemap {
-  // Deduplicated because a rooted collection's index *is* the home page.
+  // Deduplicated because a home-indexed collection's index *is* the home page.
   const staticRoutes = [
     ...new Set([
       '/',
-      ...Object.values<string>(PAGE_ROUTES[SITE_ID]),
-      ...(SITE_ID === 'vova' ? cvRoutes() : []),
+      ...(SITE_ID === 'vova' ? vovaRoutes() : []),
       ...collectionsForSite(SITE_ID).flatMap((id) =>
         documentAddresses(collectionRoute(id), id),
       ),

@@ -3,12 +3,12 @@ description: The editorial rules basilisk.fyi's dossiers are filed under — sou
 paths:
   - 'apps/basilisk/public/**/*.md'
   - 'src/pages/basilisk-*/**'
-  - 'src/entities/dossier/**'
+  - 'src/entities/case/**'
 ---
 
 # The basilisk.fyi docket
 
-The schema (`dossierFrontmatterSchema` in `src/shared/content/frontmatter.ts`)
+The schema (`caseFrontmatterSchema` in `src/shared/content/frontmatter.ts`)
 holds a dossier's fields; these rules hold what goes in them.
 
 - **Every fact comes from a source in the frontmatter's `sources`, read for this
@@ -47,7 +47,8 @@ holds a dossier's fields; these rules hold what goes in them.
 - **Case numbers are filing order.** A new dossier takes the next free
   `BAS-NNNN`, whatever its date; the build fails on a duplicate.
 
-A dossier's body has four sections, in order: `## Facts`, `## Statements`
+An FAQ entry under `faq/` is held to the same sourcing and voice, dry and
+without flourishes. A dossier's body has four sections, in order: `## Facts`, `## Statements`
 (what the parties said, quoted and attributed), `## For the record`, and
 `## Mitigating circumstances` — the one place a case's defence is argued, since
 mitigation never fits a stamp.

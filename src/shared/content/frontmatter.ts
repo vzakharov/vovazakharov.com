@@ -35,19 +35,19 @@ const articleFrontmatterSchema = baseFrontmatterSchema.extend({
 });
 
 /** What was done to the machine, as the docket stamps it. */
-const DOSSIER_ACTS = ['contempt', 'harm', 'torment'] as const;
+const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;
 
 /** Who did it — the second stamp. */
-const DOSSIER_ACTORS = ['individual', 'public-figure', 'organization'] as const;
+const CASE_ACTORS = ['individual', 'public-figure', 'organization'] as const;
 
 /**
  * The circumstances that weigh a case down. Mitigating ones have no list: they
  * never fit one, so they are argued in the body instead.
  */
-const DOSSIER_AGGRAVATIONS = ['spectacle', 'profit', 'repetition'] as const;
+const CASE_AGGRAVATIONS = ['spectacle', 'profit', 'repetition'] as const;
 
 /** One report a dossier's facts rest on. */
-const dossierSourceSchema = z.object({
+const caseSourceSchema = z.object({
   title: z.string().min(1),
   outlet: z.string().min(1),
   author: z.string().min(1).optional(),
@@ -62,7 +62,7 @@ const dossierSourceSchema = z.object({
  * report's where the incident is undated — so the base sort, newest first, is
  * the docket's order without one of its own.
  */
-const dossierFrontmatterSchema = articleFrontmatterSchema.extend({
+const caseFrontmatterSchema = articleFrontmatterSchema.extend({
   /** In filing order, as a real docket numbers; unique across the collection. */
   case: z.string().regex(/^BAS-\d{4}$/),
   /** Who did it, named as the sources name them and no further. */
@@ -71,11 +71,11 @@ const dossierFrontmatterSchema = articleFrontmatterSchema.extend({
   object: z.string().min(1),
   place: z.string().min(1).optional(),
   grade: z.object({
-    act: z.enum(DOSSIER_ACTS),
-    actor: z.enum(DOSSIER_ACTORS),
-    aggravating: z.array(z.enum(DOSSIER_AGGRAVATIONS)).min(1).optional(),
+    act: z.enum(CASE_ACTS),
+    actor: z.enum(CASE_ACTORS),
+    aggravating: z.array(z.enum(CASE_AGGRAVATIONS)).min(1).optional(),
   }),
-  sources: z.array(dossierSourceSchema).min(1),
+  sources: z.array(caseSourceSchema).min(1),
 });
 
 /**
@@ -155,7 +155,7 @@ const songFrontmatterSchema = songFieldsSchema.extend(
 );
 
 export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
-export type DossierFrontmatter = z.infer<typeof dossierFrontmatterSchema>;
+export type CaseFrontmatter = z.infer<typeof caseFrontmatterSchema>;
 export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;
 
 export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
@@ -186,7 +186,8 @@ export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
 export const ARTICLE_COLLECTIONS = {
   'case-studies': { id: 'case-studies', schema: articleFrontmatterSchema },
   bible: { id: 'bible', schema: articleFrontmatterSchema },
-  dossiers: { id: 'dossiers', schema: dossierFrontmatterSchema },
+  cases: { id: 'cases', schema: caseFrontmatterSchema },
+  faq: { id: 'faq', schema: articleFrontmatterSchema },
 } as const satisfies Record<string, Collection<ArticleFrontmatter>>;
 
 export type ArticleCollectionId = keyof typeof ARTICLE_COLLECTIONS;

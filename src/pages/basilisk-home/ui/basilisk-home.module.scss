@@ -1,19 +1,21 @@
 @use '../../../../styles/mantine' as mantine;
 
-.masthead {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
 .name {
   font-family: var(--mantine-font-family-monospace);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.docketHeading {
+// A little under cap height, its middle on the capitals' middle rather than on
+// the baseline an inline image sits on by default.
+.eye {
+  width: auto;
+  height: 0.6em;
+  margin-inline: 0.25em;
+  vertical-align: -0.02em;
+}
+
+.sectionHeading {
   margin: 0;
   padding-bottom: 8px;
   border-bottom: 1px solid currentcolor;
@@ -23,11 +25,20 @@
   text-transform: uppercase;
 }
 
-.docket {
+.docket,
+.faq {
   margin: 0;
   padding: 0;
   list-style: none;
   border-bottom: 1px solid currentcolor;
+}
+
+.faq > li {
+  padding-block: 12px;
+
+  & + li {
+    border-top: 1px solid var(--color-border-hairline);
+  }
 }
 
 // Number and date in the left column on a wide screen, the case's own lines

@@ -1,8 +1,8 @@
-import type { DossierFrontmatter } from '@/shared/content';
+import type { CaseFrontmatter } from '@/shared/content';
 
-import classes from './dossier.module.scss';
+import classes from './case.module.scss';
 
-type Grade = DossierFrontmatter['grade'];
+type Grade = CaseFrontmatter['grade'];
 
 type GradeStampProps = { grade: Grade };
 

@@ -11,7 +11,7 @@ import { OfferSection } from './offer-section';
 import { WorkSection } from './work-section';
 
 /** The nouns the hero claims that live on pages of their own. */
-const SEE_ALSO = [PAGE_ROUTES.vova.writing, collectionRoute('music')];
+const SEE_ALSO = [PAGE_ROUTES.writing, collectionRoute('music')];
 
 export function HomePage() {
   const { name } = SITE_CONFIG;

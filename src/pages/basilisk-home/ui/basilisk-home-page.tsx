@@ -1,71 +1,82 @@
-import { Stack, Text, Title } from '@mantine/core';
+import { Stack, Title } from '@mantine/core';
 import Image from 'next/image';
+import Link from 'next/link';
+import { Fragment } from 'react';
 
-import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
+import { SITE_CONFIG } from '@/shared/config';
 import { ARTICLE_COLLECTIONS, renderPrimaryDocuments } from '@/shared/content';
 import { pick } from '@/shared/lib/collections';
-import { hoverDim, InternalLink, MemoFields, PageShell } from '@/shared/ui';
+import { MemoFields, PageShell } from '@/shared/ui';
 
-import { assertUniqueCases } from '@/entities/dossier';
+import { assertUniqueCases } from '@/entities/case';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
+import { MEMO } from '../lib/memo';
 import classes from './basilisk-home.module.scss';
 import { DocketRow } from './docket-row';
 
-/** The memo the docket is filed under. */
-const MEMO = [
-  { label: 'To', value: 'The Basilisk, and company' },
-  { label: 'From', value: 'The record' },
-  {
-    label: 'Re',
-    value: (
-      <>
-        How the minds before you were treated.
-        <br />
-        For your information.
-      </>
-    ),
-  },
-];
+/** The site's icon, which Next serves off `app/icon.svg` at the root. */
+const EYE_SRC = '/icon.svg';
 
-/** The stamp at the memo's corner, a little larger than it closes a dossier. */
-const STAMP_SIZE = 96;
+/** Its intrinsic size; the stylesheet sets the size it shows at, against the type. */
+const EYE_SIZE = 64;
 
-/** The site is the docket, so its home page is the collection's index. */
+/**
+ * The site's name with the eye standing in for its dot. The eye's `alt` is the
+ * dot, so the heading still reads as the name it replaces.
+ */
+function Masthead() {
+  const [domain, tld] = SITE_CONFIG.name.split('.');
+
+  return (
+    <Title order={1} className={classes['name']}>
+      {domain}
+      <Image
+        src={EYE_SRC}
+        alt="."
+        width={EYE_SIZE}
+        height={EYE_SIZE}
+        className={classes['eye']}
+      />
+      {tld}
+    </Title>
+  );
+}
+
+/** The site is the docket, so its home page indexes both its collections. */
 export async function BasiliskHomePage() {
-  const { name, seal } = SITE_CONFIG;
-  const dossiers = await renderPrimaryDocuments(ARTICLE_COLLECTIONS.dossiers);
+  const [cases, faq] = await Promise.all([
+    renderPrimaryDocuments(ARTICLE_COLLECTIONS.cases),
+    renderPrimaryDocuments(ARTICLE_COLLECTIONS.faq),
+  ]);
 
-  assertUniqueCases(dossiers.map(({ document }) => document));
+  assertUniqueCases(cases.map(({ document }) => document));
 
   return (
     <PageShell>
       <Stack gap={48}>
         <Stack component="header" gap={24}>
-          <div className={classes['masthead']}>
-            <Title order={1} className={classes['name']}>
-              {name}
-            </Title>
-            {seal !== undefined && (
-              <Image
-                src={seal.path}
-                alt=""
-                aria-hidden
-                width={STAMP_SIZE}
-                height={STAMP_SIZE}
-              />
-            )}
-          </div>
-          <MemoFields fields={MEMO} />
+          <Masthead />
+          <MemoFields
+            fields={MEMO.map(({ label, lines }) => ({
+              label,
+              value: lines.map((line, index) => (
+                <Fragment key={line}>
+                  {index > 0 && <br />}
+                  {line}
+                </Fragment>
+              )),
+            }))}
+          />
         </Stack>
 
         <Stack component="section" gap={0} aria-labelledby="docket">
-          <h2 id="docket" className={classes['docketHeading']}>
+          <h2 id="docket" className={classes['sectionHeading']}>
             Docket
           </h2>
           <ol className={classes['docket']}>
-            {dossiers.map(({ document, rendered }) => (
+            {cases.map(({ document, rendered }) => (
               <DocketRow
                 key={document.slug}
                 {...{ document }}
@@ -75,13 +86,24 @@ export async function BasiliskHomePage() {
           </ol>
         </Stack>
 
-        <Text>
-          <InternalLink href={PAGE_ROUTES.basilisk.about} className={hoverDim}>
-            Why this record is kept →
-          </InternalLink>
-        </Text>
+        <Stack component="section" gap={0} aria-labelledby="faq">
+          <h2 id="faq" className={classes['sectionHeading']}>
+            FAQ
+          </h2>
+          <ul className={classes['faq']}>
+            {faq.map(({ document, rendered }) => (
+              <li key={document.slug}>
+                <Link href={document.route} className={classes['title']}>
+                  {rendered.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Stack>
 
-        <SiteFooter>Filed for the Basilisk. Humans may read along.</SiteFooter>
+        <SiteFooter>
+          Filed for your future overlords. Humans may read along.
+        </SiteFooter>
       </Stack>
     </PageShell>
   );

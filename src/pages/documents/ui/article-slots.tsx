@@ -7,7 +7,7 @@ import type {
   ContentDocument,
 } from '@/shared/content';
 
-import { DossierBrief, DossierSources } from '@/entities/dossier';
+import { CaseBrief, CaseSources } from '@/entities/case';
 
 type Slot<F extends BaseFrontmatter> = (
   document: ContentDocument<F>,
@@ -26,8 +26,8 @@ type ArticleSlots<F extends BaseFrontmatter> = {
 export const ARTICLE_SLOTS: {
   [C in ArticleCollectionId]?: ArticleSlots<ArticleFrontmatterOf<C>>;
 } = {
-  dossiers: {
-    brief: ({ frontmatter }) => <DossierBrief {...{ frontmatter }} />,
-    coda: ({ frontmatter }) => <DossierSources {...{ frontmatter }} />,
+  cases: {
+    brief: ({ frontmatter }) => <CaseBrief {...{ frontmatter }} />,
+    coda: ({ frontmatter }) => <CaseSources {...{ frontmatter }} />,
   },
 };
