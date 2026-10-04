@@ -44,7 +44,7 @@ Dostoevsky, roughly: set yourself the task of not thinking of a polar bear, and 
 
 ![A polar bear pointing at its own head: “Do not think about me.”](./assets/polar-bear.jpg 'aside')
 
-Here is how it happens. You make a decision about your code, and the decision is unusual, so you write it down. Say you serve images through a resizer of your own instead of your CDN's, and next to that code sits an honest comment: we do it this way because the CDN's resizer ruins transparency. Good comment. Correct comment.
+Here is how it happens. You make a decision about your code, and the decision is unusual, so you write it down. Say you serve images through a resizer of your own instead of your CDN’s, and next to that code sits an honest comment: we do it this way because the CDN’s resizer ruins transparency. Good comment. Correct comment.
 
 Then the CDN gets better, transparency survives, and you decide to stop being special and do it like everybody else. You hand the task to an agent and it removes the code. But instead of also removing the comment — which was right up until exactly this moment, and is now about nothing — it turns the comment inside out. It writes: we do not route images through our own resizer, because the CDN handles it.
 
@@ -52,7 +52,7 @@ You now have a line describing a situation nobody would ever have imagined, foll
 
 So the rule: if you have flipped a yes to a no, and the no is simply what everyone does by default, delete the line rather than negating it.
 
-Why agents reach for negation over deletion is not mysterious, and it is also why _you_ will hesitate the first few times. Deleting looks like losing information; negating looks like keeping it. What is being kept is a wet-floor sign on a floor that dried an hour ago — and the agent's instinct is not to take it away but to put up a second sign instead, reading “this floor is not slippery.”
+Why agents reach for negation over deletion is not mysterious, and it is also why _you_ will hesitate the first few times. Deleting looks like losing information; negating looks like keeping it. What is being kept is a wet-floor sign on a floor that dried an hour ago — and the agent’s instinct is not to take it away but to put up a second sign instead, reading “this floor is not slippery.”
 
 :::pull-quote
 What is being kept is a wet-floor sign on a floor that dried an hour ago.

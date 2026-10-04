@@ -24,11 +24,11 @@ birthday, on 4 March 2024. While I was writing it, I worked out that “two thir
 of a century” (counted to the day) would fall EXACTLY on my own birthday that
 same year. My father, sadly, did not live to see it.
 
-The last verse is my father's. Strictly speaking it is a translation of Thích
+The last verse is my father’s. Strictly speaking it is a translation of Thích
 Nhất Hạnh, but my father translated in such a way that more of him stayed in the
 translation than of the source.
 
-Rivers, and water in general, ran through my father's whole life, and somehow
+Rivers, and water in general, ran through my father’s whole life, and somehow
 through our entire discourse as well. And on the last full day of his life he
 was deep in a book about the history of Moscow, from which he learned that
 somewhere outside the city there is a hidden canal from some ancient century.
@@ -85,12 +85,12 @@ Life boils over, rushing past me with a noise.
 I stand still, as if in a backwater above the rapids,
 On the threshold of the coming day.
 
-I'll close my eyes and see a mighty river,
+I’ll close my eyes and see a mighty river,
 Maybe the Don, maybe the Neman, or maybe the Katun,
 Where moments, like waves, have stretched out over two thirds of a century
 Along the current of nylon strings.
 
-And spreading my wings, I'll race above them in a butterfly stroke,
+And spreading my wings, I’ll race above them in a butterfly stroke,
 Rush through the waters, the storms and the years.
 Like raindrops we scatter into circles and disappear,
 But the river will never die.

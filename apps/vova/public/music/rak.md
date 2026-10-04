@@ -16,16 +16,16 @@ ru:
 
 <!-- lang:en -->
 
-This song is, in fact, a (very) free translation of My Chemical Romance's
-_Cancer_ — ~~so I'm expecting the cease and desist~~. I started the translation
+This song is, in fact, a (very) free translation of My Chemical Romance’s
+_Cancer_ — ~~so I’m expecting the cease and desist~~. I started the translation
 something like the beginning of the 2010s, and I always dreamed not just of
 translating it but of hearing what came out. So: thanks, Suno, for my happy
 middle age!
 
 <!-- lang:ru -->
 
-Собственно, эта песня — (очень) вольный перевод My Chemical Romance'овского
-Cancer'а, ~~так что жду cease and desist~~. Перевод начинал чуть ли не в начале
+Собственно, эта песня — (очень) вольный перевод My Chemical Romance’овского
+Cancer’а, ~~так что жду cease and desist~~. Перевод начинал чуть ли не в начале
 10-х, и всегда мечтал не просто перевести, но и услышать то, что получится. Так
 что спасибо Суне за моё счастливое среднелетье!
 
@@ -61,7 +61,7 @@ Cancer'а, ~~так что жду cease and desist~~. Перевод начин�
 
 <!-- lyrics:en -->
 
-Don't look
+Don’t look
 Better bring me a glass of water
 My throat has gone completely dry
 Call the family
@@ -72,18 +72,18 @@ I am not saying goodbye
 Because the hardest part is leaving
 All of you here
 
-Don't look
-I don't want you to remember me
+Don’t look
+I don’t want you to remember me
 As helpless as this
 And the fire inside
 Picturing you with someone else
-Baby, forgive me, I'm tired of the chemo
+Baby, forgive me, I’m tired of the chemo
 But counting one day after another like this—
 What are they to me?
 Please try to understand
 
 And if you decide to go
-Then don't waste the time
+Then don’t waste the time
 Because the hardest part is leaving
 You here
 The hardest part for me is leaving

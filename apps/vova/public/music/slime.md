@@ -16,12 +16,12 @@ ru:
 
 <!-- lang:en -->
 
-The song is a cover of [Sasha's song on
+The song is a cover of [Sasha’s song on
 Suno](https://suno.com/s/ygS73i5KfVDegC62), called _Slime Rolls_, whose meaning
 is — in mood at least — the opposite. When I started writing about “slime”
 myself, wanting to keep the title, what crawled out was something not remotely
-optimistic. And for a long time I didn't understand what I was writing about, and
-I still don't fully — the slime is probably a different one for everybody.
+optimistic. And for a long time I didn’t understand what I was writing about, and
+I still don’t fully — the slime is probably a different one for everybody.
 
 <!-- lang:ru -->
 
@@ -86,33 +86,33 @@ I still don't fully — the slime is probably a different one for everybody.
 <!-- lyrics:en -->
 
 Dawn is knocking at the window again
-It shines into the eye, but it's dark in there
+It shines into the eye, but it’s dark in there
 And the shadows leap, trembling, along the wall
 Afraid of being alone with you
 You open the familiar chest of drawers
-And in anticipation of what's coming
+And in anticipation of what’s coming
 You, the one who could reach the moon,
 Go for the glitter, go to the bottom
 
 This is not light, this is not life
-There's no hope, but you hang in there[^medvedev-en]
+There’s no hope, but you hang in there[^medvedev-en]
 
 You see the target, it sees you
 You kill it, lovingly
-Don't be afraid, dear, flying is no sin
-Go on, don't be shy, pull the trigger
+Don’t be afraid, dear, flying is no sin
+Go on, don’t be shy, pull the trigger
 You see the target, it sees you
 You kill it, lovingly
-Don't be afraid, dear, shame is a lesson
-Go on, don't be shy, get on the hook
+Don’t be afraid, dear, shame is a lesson
+Go on, don’t be shy, get on the hook
 
 I raise the suffering up on high
 There are no stars here, only sweet slime
-But maybe, maybe, maybe it's right here
-That you'll suddenly see there is salvation after all
+But maybe, maybe, maybe it’s right here
+That you’ll suddenly see there is salvation after all
 
 Build a pyre, set the boat alight
-And that's it, [goodbye, adieu!][^adieu-en]
+And that’s it, [goodbye, adieu!][^adieu-en]
 
 [Halt die Klappe][^klappe-en], silence by the ounce
 Every nut gets its own screw
@@ -121,12 +121,12 @@ Open up and receive the sacred slime
 
 I see the target, and you see me
 I do the killing, always lovingly
-Don't be afraid, dear, flying is no sin
-Go on, don't be shy, pull the trigger
+Don’t be afraid, dear, flying is no sin
+Go on, don’t be shy, pull the trigger
 To freeze forever and become one thing
 You see the light — this is our bottom
-Don't be afraid, dear, shame is a lesson
-Go on, don't be shy, get on the hook
+Don’t be afraid, dear, shame is a lesson
+Go on, don’t be shy, get on the hook
 
 [^medvedev-en]: An allusion to Medvedev’s “There’s no money, but you hang in there.”
 

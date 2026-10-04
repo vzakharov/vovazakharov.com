@@ -17,13 +17,13 @@ ru:
 
 <!-- lang:en -->
 
-I don't remember exactly how it got written. I remember we were somewhere around
+I don’t remember exactly how it got written. I remember we were somewhere around
 Nizhny Novgorod, passing through on the way from Tatarstan. I was throwing a lot
 of prompts at riffs in the “punk metalcore” line back then. This one apparently
 filled out better than the others. Something came to mind straight away that was
 both unknown and calling you onward — that happens on the road fairly often.
 
-I think I started writing it well before December 2024, but I wasn't happy with
+I think I started writing it well before December 2024, but I wasn’t happy with
 the ending, or with some of the words that were _too_ AI-ish (writing lyrics with
 ChatGPT was still new to me then, it had only just learned to rhyme, so — guilty
 — I overdid it a bit).

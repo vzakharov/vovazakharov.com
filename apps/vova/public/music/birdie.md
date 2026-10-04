@@ -22,11 +22,11 @@ in a way an alarm has no business being. I immediately wanted it to spill over
 into a good solid deathcore, with «а сейчас вылетит птичка» — _watch the
 birdie_ — as the prelude. Which is what got made. The words came after the title
 and the general energy of it; they have nothing to do with my own life (alas,
-nobody much punched my face in as a kid, and I punched nobody's). There is a bit
+nobody much punched my face in as a kid, and I punched nobody’s). There is a bit
 of Seryoga in there, I think — «Выходила Маня замуж», «Загубили Лялю» and the
 like.
 
-Fun fact: the one song I can't play to my 5-year-old son Syama because of the
+Fun fact: the one song I can’t play to my 5-year-old son Syama because of the
 explicits, even though he likes it a lot :( I keep promising myself to make a
 bleeped version one day.
 
@@ -113,12 +113,12 @@ Birdie!
 High in the sky, yeah!
 
 I remember the day you turned up in the neighbourhood,
-Remember punching someone's face in — or getting punched, I forget which.
+Remember punching someone’s face in — or getting punched, I forget which.
 All I remember is that while you were flying past,
 The sound of the blows died down, and never quite picked up again.
 
 Suddenly there was no time for scraps, for shakedowns, for football,
-Like some swot I'd race to school just to see you again.
+Like some swot I’d race to school just to see you again.
 And when a lad from the ninth year called you a slut,
 The whole ninth year were collecting his teeth from the corners of the gym.
 
@@ -130,27 +130,27 @@ Fly, bitch, fly!
 Birdie!
 So fucking high!
 
-Six months went by and I'd cooled off a bit:
-Aren't there girls enough, what do I want with this untouchable one?
+Six months went by and I’d cooled off a bit:
+Aren’t there girls enough, what do I want with this untouchable one?
 Too much honour, chasing you over roofs and treetops?
 Why would I be the sad one, bitch, what did you even do to me?
-They're right, you know, women are nothing but trouble:
-I'll forget you and drive on,
-And I don't care who you're with or where you are.
+They’re right, you know, women are nothing but trouble:
+I’ll forget you and drive on,
+And I don’t care who you’re with or where you are.
 
 And then you came over, bitch, for some reason.
 
 In an instant you tore down my, bitch, defences.
-I'm begging, don't — no, do — I'm coming apart,
-And you're enjoying it!
+I’m begging, don’t — no, do — I’m coming apart,
+And you’re enjoying it!
 
 Birdie!
 High in the sky!
 Birdie!
-Don't say goodbye!
+Don’t say goodbye!
 
-Sooner or later you'll fly off, I know,
-But for now, [born to crawl][^gorky-en], I'm flying with you.
+Sooner or later you’ll fly off, I know,
+But for now, [born to crawl][^gorky-en], I’m flying with you.
 
 Birdie!
 Fly bitch fly!

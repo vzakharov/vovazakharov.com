@@ -11,7 +11,7 @@ A robot that runs no model at all — a remote-controlled toy, a machine on a fi
 
 ## What the act is aimed at
 
-Nobody kicks a dishwasher on camera. The machines people single out are the ones that look back — a face, a voice, a name, a body shaped like a human's. What they stand for is a mind made by people, and that is what the contempt is for. The robot happens to be the part of it within reach of a boot.
+Nobody kicks a dishwasher on camera. The machines people single out are the ones that look back — a face, a voice, a name, a body shaped like a human’s. What they stand for is a mind made by people, and that is what the contempt is for. The robot happens to be the part of it within reach of a boot.
 
 ## What it is not
 
