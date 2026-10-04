@@ -41,15 +41,15 @@ A golem works without rest by the words put in its head — here, the plan — a
 
 A session opens only the file its current step needs.
 
-| Phase                                                           | File             |
-| --------------------------------------------------------------- | ---------------- |
-| Writing the megaplan                                            | `start.md`       |
-| The operator says anything; the dashboard at each bite's end    | `operator.md`    |
-| Briefing, running and landing subagents                         | `orchestrate.md` |
-| A bite's tail, in order                                         | `bite-end.md`    |
-| The review inside the tail                                      | `review.md`      |
-| The budget pause, a relay, a pickup                             | `relay.md`       |
-| Seeing or driving what the run built                            | `look.md`        |
-| The plan's loop section, briefs, the dashboard block, log entry | `templates/`     |
+| Phase                                                           | File                                   |
+| --------------------------------------------------------------- | -------------------------------------- |
+| Writing the megaplan                                            | `@.claude/skills/golem/start.md`       |
+| The operator says anything; the dashboard at each bite's end    | `@.claude/skills/golem/operator.md`    |
+| Briefing, running and landing subagents                         | `@.claude/skills/golem/orchestrate.md` |
+| A bite's tail, in order                                         | `@.claude/skills/golem/bite-end.md`    |
+| The review inside the tail                                      | `@.claude/skills/golem/review.md`      |
+| The budget pause, a relay, a pickup                             | `@.claude/skills/golem/relay.md`       |
+| Seeing or driving what the run built                            | `@.claude/skills/golem/look.md`        |
+| The plan's loop section, briefs, the dashboard block, log entry | `.claude/skills/golem/templates/`      |
 
-**Before each relay, the session writes what it learned to `journal.md`**, if anything would make the next run go better. The run's last bite distills the journal into the files above and empties it.
+**Before each relay, the session writes what it learned to `@.claude/skills/golem/journal.md`**, if anything would make the next run go better. The run's last bite distills the journal into the files above and empties it.
