@@ -81,6 +81,8 @@ export const CREATURES = {
   /** The `+` and `−` badges. */
   grow: 0x4c_b0_4a,
   shrink: 0xe8_7a_2c,
+  /** The gait button's wing, in flight: a pale sky blue under the indigo ink. */
+  flightWing: 0xc4_e4_f8,
   /**
    * The band round a selected mushroom and its ring on the ground: a warm
    * yellow as far from the grass, the sky and the caps as a colour gets, and

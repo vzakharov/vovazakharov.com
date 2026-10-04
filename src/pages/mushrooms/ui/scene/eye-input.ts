@@ -156,6 +156,22 @@ export class EyeInput {
     this.change((walk) => letGoStrafe(walk, direction));
   }
 
+  /** How a ground drag moves the eye (`Walk.gait`): `steps` before the first `fit`. */
+  gait(): Walk['gait'] {
+    return this.walk?.gait ?? 'steps';
+  }
+
+  /**
+   * Switches a ground drag between steps and flight. A press reads the gait
+   * as it lands, so a drag under way keeps its own until the finger lifts.
+   */
+  readonly flipGait = (): void => {
+    this.change((walk) => ({
+      ...walk,
+      gait: walk.gait === 'steps' ? 'flight' : 'steps',
+    }));
+  };
+
   /** Stops the eye dead where it stands: every held key, glide and fling ended. */
   readonly halt = (): void => {
     this.change((walk) => haltAt(walk, this.now()));

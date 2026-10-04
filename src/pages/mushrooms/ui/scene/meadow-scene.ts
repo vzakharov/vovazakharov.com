@@ -356,6 +356,7 @@ export class MeadowScene extends Phaser.Scene {
         this.layout,
         this.meadow,
         this.map.open,
+        this.eye.gait(),
         this.pixelRatio(),
         this.eye.toScreen,
       );
@@ -364,10 +365,12 @@ export class MeadowScene extends Phaser.Scene {
 
   /** What the buttons over the meadow act through (`controlActions`). */
   private controlScene(): ControlScene {
-    const { voice, map, arrivals, planter, scened, repaintControls } = this;
+    const { voice, map, eye, arrivals, planter, scened, repaintControls } =
+      this;
     return {
       voice,
       map,
+      eye,
       arrivals,
       planter,
       ...pick(scened, 'dispatch'),

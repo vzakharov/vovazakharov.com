@@ -47,7 +47,7 @@ import {
 } from './viewports';
 import { capsSpan, opened } from './visit-play';
 
-/** Each control as its hit area, which the map button's small drawing reaches past. */
+/** Each control as its hit area, which the map and gait buttons' small drawings reach past. */
 const reach = (circles: readonly Circle[]) =>
   circles.map((control) => ({ ...control, r: tapReach(control.r) }));
 const apart = (a: Circle, b: Circle) =>
@@ -321,8 +321,10 @@ describe('the controls', () => {
         colours: [...colours, cross],
         shapes,
       };
+      // The map button and the gait button are drawn smaller than a finger;
+      // their reach is a finger's all the same.
       for (const { r } of [
-        ...standing.slice(1),
+        ...standing.slice(2),
         ...Object.values(stages).flat(),
       ]) {
         assert.ok(r >= TAP_RADIUS);

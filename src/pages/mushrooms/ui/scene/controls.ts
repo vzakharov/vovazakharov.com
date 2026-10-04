@@ -19,6 +19,7 @@ import { type Furnishing, FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
 import { isBeeSown, type Sown } from '../../model/pollen';
+import type { Walk } from '../../model/walk';
 import {
   type Button,
   buttonMaker,
@@ -33,6 +34,7 @@ import {
   drawShapeButton,
 } from './flower-icons';
 import { standingOn } from './flower-layout';
+import { drawGaitButton } from './gait-icon';
 import {
   drawCloseButton,
   drawDisc,
@@ -54,6 +56,8 @@ const PULL = ['pull'] as const;
 export type ControlHandlers = {
   /** The map button: opens the map, or shuts it while it is open. */
   map: () => void;
+  /** The gait button: switches a ground drag between steps and flight. */
+  gait: () => void;
   pick: () => void;
   remove: () => void;
   grow: (species: Species) => void;
@@ -74,7 +78,7 @@ export type ControlHandlers = {
 };
 
 /**
- * The buttons over the meadow: the map, `+`, `−`, the house and one per insect,
+ * The buttons over the meadow: the map, the gait, `+`, `−`, the house and one per insect,
  * and the pickers — the four caps `+` opens, the windows and door the house
  * does, and the flower picker a tuft or a held flower opens, its five
  * colours standing where the house's five do, a flower's with the cross
@@ -96,6 +100,8 @@ export class Controls {
   private mapOpen = false;
   /** When `mapOpen` last changed, which the disc folds from. */
   private mapFlippedAt = -Infinity;
+  /** Shows the footprints or the wing, as the eye's gait is as of the last paint. */
+  private readonly gait: Button;
   private readonly plus: Button;
   /** Whether `+` can act: a meadow short of full, with room for one more. */
   private readonly growable: (meadow: Meadow) => boolean;
@@ -136,6 +142,7 @@ export class Controls {
     this.mapDisc = button(handlers.map);
     this.mapDisc.face.disableInteractive();
     this.map = button(handlers.map);
+    this.gait = button(handlers.gait);
     this.growable = (meadow) => !isFull(meadow) && handlers.roomy(meadow);
     this.plus = button(handlers.pick, this.growable);
     this.minus = button(handlers.remove, (meadow) => !isEmpty(meadow));
@@ -211,6 +218,7 @@ export class Controls {
     layout: MeadowLayout,
     meadow: Meadow,
     mapOpen: boolean,
+    gait: Walk['gait'],
     ratio: number,
     toScreen: <Placed extends Point>(point: Placed) => Placed,
   ): void {
@@ -228,6 +236,12 @@ export class Controls {
       look: mapOpen ? 'open' : 'shut',
       draw: (graphics) => {
         (mapOpen ? drawCloseButton : drawMapButton)(graphics, layout.map.r);
+      },
+    });
+    placeButton(this.gait, layout.gait, ratio, {
+      look: gait,
+      draw: (graphics) => {
+        drawGaitButton(graphics, layout.gait.r, gait);
       },
     });
     for (const [button, home, sign] of [
@@ -344,6 +358,7 @@ export class Controls {
     for (const button of [this.plus, this.minus]) {
       standButton(button, t, button.home, this.mapOpen ? 0 : 1);
     }
+    standButton(this.gait, t, this.gait.home, shown('gait'));
     standButton(this.house, t, this.house.home, shown('house'));
     for (const kind of INSECT_KINDS) {
       const button = this.releases[kind];

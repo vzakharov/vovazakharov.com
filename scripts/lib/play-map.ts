@@ -1,5 +1,6 @@
 /**
- * The map, played on a fresh meadow: opened, shot mid-unfold and open, and
+ * The gait button beside the map's, flipped to flight and back, each shot
+ * close. Then the map, played on a fresh meadow: opened, shot mid-unfold and open, and
  * shut by a tap on the sheet; opened over the `+` picker, which shuts; opened
  * again once three mushrooms have grown, the newest furnished, a flower is
  * planted and the eye has walked; opened over a flick, then shut by Escape,
@@ -8,13 +9,15 @@
  * flick left the eye, given a door. Fails on a map that does not open or
  * shut, leaves the child or a flower off the sheet, mirrors the view or draws
  * fewer things than the meadow holds; on a picker left open over it, or an
- * eye that moves under it. Prints its scale.
+ * eye that moves under it; on a gait button that does not flip the gait.
+ * Prints its scale.
  */
 
 import { z } from 'zod';
 
 import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
+import { GAITS } from '../../src/pages/mushrooms/model/stride.ts';
 import {
   type Controls,
   Eye,
@@ -125,6 +128,21 @@ export async function playMap(
 
   await page.step(30);
   await page.shoot('m0-closed');
+  // The map button and the gait button beside it, close.
+  const corner = {
+    x: 0,
+    y: 0,
+    width: Math.max(controls.gait.x, controls.map.x) + controls.map.x,
+    height: Math.max(controls.gait.y, controls.map.y) + controls.map.y,
+  };
+  // Each tap moves the eye on to the next gait, from `steps` round to it again.
+  await inTurn([...GAITS.slice(1), ...GAITS.slice(0, 1)], async (gait) => {
+    await page.tap(controls.gait);
+    await page.step(30);
+    await page.shoot(`g-${gait}`, corner);
+    const now = (await eyeNow()).gait;
+    expect(now === gait, `the gait button left the gait ${now}, not ${gait}`);
+  });
   const fresh = await look('m2-open-fresh', 'm1-unfolding');
 
   // Only the map button stands over the open map: the `+` picker shuts.

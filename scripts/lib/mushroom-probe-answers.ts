@@ -15,6 +15,7 @@ import type { Camera as ModelCamera } from '../../src/pages/mushrooms/model/grou
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 import { SHELTER_SEATS } from '../../src/pages/mushrooms/model/shelter.ts';
+import { GAITS } from '../../src/pages/mushrooms/model/stride.ts';
 
 export const State = z.object({
   picking: z.boolean(),
@@ -108,6 +109,7 @@ export const Controls = z.object({
   plus: Point,
   minus: Point,
   map: Point,
+  gait: Point,
   picker: z.array(Point),
   house: Point,
   housePicker: z.array(Point),
@@ -119,6 +121,8 @@ export const Eye = z.object({
   y: z.number(),
   heading: z.number(),
   walked: z.number(),
+  /** How a ground drag moves the eye: in steps, or flying with the finger. */
+  gait: z.enum(GAITS),
   /** The camera's scroll down the screen, in CSS px: the walk's bob, never above 0. */
   bob: z.number(),
   /** Footsteps sounded since the probe went in. */

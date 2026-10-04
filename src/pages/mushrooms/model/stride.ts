@@ -77,7 +77,8 @@ type Line = { axis: Axis; bearing: number };
  * How the eye follows a finger on the ground: walking to where it sets the
  * point, step by step at a held key's cruise, or standing there at once.
  */
-export type Gait = 'steps' | 'flight';
+export const GAITS = ['steps', 'flight'] as const;
+export type Gait = (typeof GAITS)[number];
 /** The `gait` a ground drag moves the eye by. */
 export type WithGait = { gait: Gait };
 

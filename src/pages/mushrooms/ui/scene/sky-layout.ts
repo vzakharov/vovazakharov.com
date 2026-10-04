@@ -46,8 +46,12 @@ const COLUMN_REACH = 0.7;
 /** The buttons that may give way, hidden, to an open picker. */
 const YIELDERS = [...INSECT_KINDS, 'house'] as const;
 type Yielder = (typeof YIELDERS)[number];
+/** Those, and the gait button, which gives way where the sky has no spot free for it (`gaitSpot`). */
+type Giving = Yielder | 'gait';
 
 export type Controls = WithMap & {
+  /** The button that switches a ground drag between steps and flight, beside the map button (`gaitSpot`). */
+  gait: Circle;
   plus: Circle;
   minus: Circle;
   house: Circle;
@@ -58,7 +62,7 @@ export type Controls = WithMap & {
    * for both anywhere else has them share: they give way, hidden, while a
    * picker is open.
    */
-  yielding: readonly Yielder[];
+  yielding: readonly Giving[];
   /** One per `MUSHROOM_SPECIES`, in that order. */
   picker: readonly Circle[];
   /** One per `FURNISHINGS`, in that order. */
@@ -76,7 +80,9 @@ function yielder(
 /** Every button still shown while a picker is open: all that stand but those `yielding`. */
 export function shownOverPickers(controls: Controls): Circle[] {
   const hidden = new Set(
-    controls.yielding.map((name) => yielder(name, controls)),
+    controls.yielding.map((name) =>
+      name === 'gait' ? controls.gait : yielder(name, controls),
+    ),
   );
   return standingControls(controls).filter((button) => !hidden.has(button));
 }
@@ -84,6 +90,7 @@ export function shownOverPickers(controls: Controls): Circle[] {
 /** Every button that stands whatever is open: all but the pickers'. */
 export function standingControls({
   map,
+  gait,
   plus,
   minus,
   house,
@@ -91,6 +98,7 @@ export function standingControls({
 }: Controls): Circle[] {
   return [
     map,
+    gait,
     plus,
     minus,
     house,
@@ -174,6 +182,9 @@ export function flowerCross(
  * The insects' buttons, butterfly, fly and bee, stand down the left as Syama
  * drew the insects, or beside the map button where the sky is too short for
  * that (`placeReleases`).
+ *
+ * The gait button stands on the map button here, so it moves none of them:
+ * `gaitSpot` finds it a spot of its own once the sun and the cross stand.
  */
 export function placeControls(
   width: number,
@@ -257,6 +268,7 @@ export function placeControls(
   };
   return {
     map,
+    gait: map,
     releases,
     yielding,
     plus,
