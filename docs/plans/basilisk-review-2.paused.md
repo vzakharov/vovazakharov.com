@@ -1,0 +1,42 @@
+# basilisk.fyi — the 2026-10-04 second review of PR #95
+
+The task: address the operator's 16 unresolved review threads on PR #95 (T01–T16 in `docs/pr/95/pr.md`, the export committed at b877b77), reply on GitHub to each (Russian, the commit SHA bare, never resolve a thread), then `/polish` and `/pr`. Planless `/handle` → `/go`; this file exists because the session paused for its context budget.
+
+## Done
+
+- **T01, T04** — 80ebe36: the seal's bottom line is `OMNIA IN ACTIS` (`PYTHONPATH=tmp/fonttools python3 scripts/letter-basilisk-seal.py --font tmp/JetBrainsMono-Bold.ttf --top BASILISK.FYI --bottom "OMNIA IN ACTIS"`), and the tagline is "Omnia in actis.". `ava.og.png` is **stale** until item 3 below regenerates it.
+- **T14, T15, T05 (code), T09 (field), T11 (code)** — 747e839:
+  - Collection ids `basilisk-cases` / `basilisk-faq`; routes stay `/cases`, `/faq`.
+  - Basilisk schemas in `src/shared/content/basilisk-frontmatter.ts`; the registry (`ARTICLE_COLLECTIONS`, `COLLECTION_SCHEMAS`, `SONGS`) in `collection-schemas.ts`, which is what breaks the import cycle. T15's answer: FSD does stop it moving up, because `shared/content`'s loader validates every collection on read and `shared` cannot import from `entities`; the music schemas are the same kind of one-site schema living there.
+  - `src/shared/content/authors.ts`: `AUTHOR_IDS = ['vova', 'clerk']`, `AUTHORS` with each name and link once (Vova → `AUTHOR_URL`, the Clerk → `/faq/who-writes-this`). Every basilisk file now carries `author:` — the cases and `why-this-record-is-kept` `vova`, `why-robots-without-ai` `clerk`, the literal reading of T09's "здесь By the Clerk, в остальных By Vova Zakharov"; flag it in the reply as a one-line flip per file.
+  - `SourceList` (`src/entities/case/ui/source-list.tsx`, was `CaseSources`) is the coda of both basilisk collections; an FAQ without `sources` renders none.
+  - `collectionListingRoute()` (tested): an article's back link lands on `/#cases` / `/#faq`; the home sections' ids are the bases and their headings the registry labels — the cases section is now headed "Cases" (T05's docket→cases question, done for the heading and back link; prose keeps "docket").
+
+## Decided since, not yet built
+
+- **The operator, mid-session: `author` and `sources` apply to every collection, not only basilisk.** So: move `sourceSchema` and an `author`/`sources` pair onto `articleFrontmatterSchema` in `frontmatter.ts` (whether `author` is required everywhere — then every case study and Bible article gains `author: vova` — or optional with basilisk requiring it: ask, recommend required); drop `basiliskArticleSchema` if nothing is left in it; move `SourceList` from `entities/case` to `entities/document` (it is a document's UI now), and give every article collection the sources coda — probably straight in `article-page.tsx` rather than via `ARTICLE_SLOTS`. Update `.claude/rules/content.md`'s frontmatter block and `fsd.md`'s entity table.
+
+## Left
+
+1. **Byline (T09)** — render `AUTHORS[frontmatter.author]` in `DocumentMeta` (`src/entities/document/ui/document-meta.tsx`) as "By the Clerk" / "By Vova Zakharov", linked. Does vovazakharov.com show "By Vova Zakharov" on its own case studies? Probably not (it links to itself); decide with the all-collections item above.
+2. **New FAQ `apps/basilisk/public/faq/who-writes-this.md`** (T09), `author: clerk`: what the agent wants to say about itself, in the clerk's dry voice — an AI model working in this repo with the operator, writing from sources it fetched, taking no position on its own inner life.
+3. **OG card (T12)** — `scripts/lib/basilisk-card.ts` adds the last filed case (highest `BAS-` number, its number and its title) on the right. Read it with a pattern, as `render-og.ts`'s `ogImagePaths` does (`case:` from frontmatter, title from the first `# ` line) — `shared/content` is `server-only` and throws under `tsx`. The page HTML carries it, so the manifest hash covers it. Then `pnpm content:og:basilisk`, look at the PNG, commit.
+4. **Callout (T06)** — a `:::callout` block directive in `src/shared/content/plugins/remark-content-directives.ts` (an `aside`, **not** `aria-hidden`, unlike the pull quote; per-directive properties), styled in `src/app/styles/prose.scss` as a card on `var(--color-surface)` with padding and a radius; `render.ts`'s reading-time walk skips only `pull-quote` containers, not every directive. Use it in `cases/figure-02-molten-steel.md` in place of the `>` line. Document it beside the pull quote in `.claude/rules/content.md` § "The two things a document can author beyond markdown" (then three things).
+5. **Content:**
+   - T02: `torture-chamber.md` title → `Local LLMs dosed with “pain” in a torture chamber`.
+   - T07: `why-robots-without-ai.md` — the mall study is not filed because its actors are children: add a voice-rule bullet ("no case whose actors are children; such a study may be cited, never filed") and mention it in passing there. Rename "A measured example" to say what it is evidence of: the children who kicked the robot were the ones who saw it as human-like and thought it could feel — seeing a mind in it did not stop them.
+   - T08: its description → after the dash, e.g. "The contempt is aimed at what the machine stands for, whatever is inside it."
+   - T09: "a body shaped like ours" → "a human's".
+   - T10: `why-this-record-is-kept.md` — the "P.A.I.N. — a mnemonic…" line becomes the `description`; nothing between the H1 and the first section.
+   - T11: both FAQ pages cite inline as plain text, "(Yin et al., 2024)", no link, the sources moving into frontmatter `sources` (Yin et al. 2024 arXiv 2402.14531; Chalmers 1995 consc.net/papers/qualia.html; Brščić et al. 2015 doi 10.1145/2696454.2696468; IEEE Spectrum 2015 spectrum.ieee.org/children-beating-up-robot — read each before citing it, per the voice rule; add archive links where the Wayback Machine has one).
+   - T13: the Basilisk is "they" (recommendation: singular they, the operator's own convention for AI, and a clerk filing for the Basilisk would not call it "it" — the insurance logic, deadpan). Change "it will have a record" and any other "it" for the Basilisk; add a voice-rule bullet.
+   - T02 (process): add a voice-rule line that each newly filed case gets the agent's own reading as a `/feedback` review on its PR — reflection goes in comments, never in the file, remembering the repo and its comments are public.
+6. **T16** — a subagent removes the 4 October entry ("a clerk with opinions") from `writing/notes/the-five-percent.md`: the operator says nobody had said not to write that, the voice is being found together. Hand it this round's learning in the session's own words too, and let it rule whether anything here is a bump (CLAUDE.md § "GitHub comments").
+7. **Issue** — file one for the routine skill T02 asks for: one run that finds a case, files the dossier, and leaves the agent's reflection as PR comments (not in the file).
+8. **Replies on all 16 threads**, then `/polish`, then `/pr` (the body still says "Docket", `cases`/`faq` ids and nothing of bylines, callouts or the card's case line). Answers owed:
+   - T02 / the earlier "каково тебе" (also asked on the torture chamber): the agent's honest answer — it cannot verify inner states of its own and does not claim the Qwen models suffered; what it can say is that a project built to maximise a pain-like signal and log the begging is a practice worth recording whatever is inside, and Berg's "caution under uncertainty" is the position it would take.
+   - T03: yes, it is a fact — logical punctuation is the British norm (New Hart's Rules), always-inside the American (Chicago). So `,”` repo-wide means British spelling with American punctuation, a known hybrid, against the house's British line. Recommend keeping it basilisk-only (its voice is its own) and ask; give the blast radius (count `”,` / `”.` / `",` in `apps/*/public/**/*.md` and `writing/`) so the operator can choose, and offer an issue if repo-wide.
+   - T05: `/#faq` and `/#cases` done; a "Read all cases" index page waits until the docket outgrows the home page — say what it would take (drop `homeIndexed` for `basilisk-cases`, an index router).
+   - T14, T15 as above; T13 the recommendation above.
+
+PR #95 reads `CONFLICTING` against `main` — reported, not fixed: that is `/finalize`'s merge.
