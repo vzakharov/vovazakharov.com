@@ -142,15 +142,21 @@ export function carriedFrom(leg: Stay, now: number): Carried {
  * close on a cap or a half-shut flex while drinking, easing between them
  * with `drinking`. A fly's and a bee's go from laid back over the body (0)
  * to spread (1): a buzz of a beat in the air, still at rest — but for a
- * bee's short flutter every so often.
+ * bee's short flutter every so often. At rest they close by `shut` (`wingsShut`),
+ * held still at 1.
  */
-export function wingBeat(leg: Stay, now: number, motion: Airborne): number {
+export function wingBeat(
+  leg: Stay,
+  now: number,
+  motion: Airborne,
+  shut = 0,
+): number {
   const { phase, kind } = motion;
   const air =
     kind === 'butterfly'
       ? 1 - wave(now, BEAT_AIR[kind], phase)
       : 1 - BUZZ_STROKE * wave(now, BEAT_AIR[kind], phase);
-  const still = restingBeat(leg, now, motion);
+  const still = restingBeat(leg, now, motion) * (1 - shut);
   return still + (air - still) * aloft(leg, now);
 }
 

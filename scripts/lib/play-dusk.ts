@@ -1,8 +1,10 @@
 /**
  * Dusk, played on a fresh meadow, its two mushrooms furnished with every
- * window and a door so their windows light: the sun tapped and shot by day, half way
- * and at dusk; the eye turned so the moon crosses the fixed stars, and shot;
- * the map opened at dusk and shot; the moon tapped and the morning shot. Fails where the meadow does not open
+ * window and a door so their windows light, and a butterfly released: the sun
+ * tapped and shot by day, half way and at dusk; the butterfly shot roosting
+ * (`play-roost.ts`); the map opened at dusk and shot; the eye turned so the
+ * moon crosses the fixed stars, and shot; the moon tapped and the morning
+ * shot. Fails where the meadow does not open
  * in full day, a tap on the sun does not turn the light toward dusk and reach
  * it, the moon leaves the screen on a short turn, or a tap on the moon does
  * not bring the day back. `playDark` is the opening on a dark page, which
@@ -25,6 +27,7 @@ import {
   inTurn,
   type Page,
 } from './mushroom-probe-drive.ts';
+import { releaseButterfly, shootRoosting } from './play-roost.ts';
 
 /** Frames to half a full turn of the light. */
 const HALF = Math.round(DUSK_MS / 2 / FRAME_MS);
@@ -86,6 +89,7 @@ export async function playDusk(
   const dusk = async () => page.evaluate('__probe.dusk()', DuskShown);
   const sunAt = async () => page.evaluate('__probe.sunAt()', SunAt);
   await furnish(page, controls, expect);
+  const butterfly = await releaseButterfly(page, controls);
   const day = await dusk();
   expect(day.level === 0, `opened at dusk ${String(day.level)}, not day`);
   const sun = await sunAt();
@@ -106,6 +110,9 @@ export async function playDusk(
   await page.step(HALF + SLACK);
   expect((await dusk()).level === 1, 'the light never reached dusk');
   await page.shoot('dusk-dusk');
+  if (butterfly === undefined)
+    expect(false, 'no butterfly came at the release');
+  else await shootRoosting(page, butterfly, expect, note);
   // The map, opened at dusk, under the wash as the meadow is.
   await page.tap(controls.map);
   await page.step(OPEN);

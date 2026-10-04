@@ -30,6 +30,7 @@ import {
   type Sown,
   sown,
 } from './pollen';
+import { type Dusked, roostedPerches, sitsOut } from './roost';
 import {
   dashesForCover,
   shelteredPerches,
@@ -57,10 +58,18 @@ export type Flier = Insect & Flight & Shying & (Visitor | Pollinator);
 export type Swarm = { insects: readonly Flier[]; planted: readonly Sown[] };
 
 /**
- * A swarm and the shower it flies in, which sends its fliers under the caps
- * while it falls (`shelteredPerches`).
+ * A swarm, the shower it flies in, which sends its fliers under the caps
+ * while it falls (`shelteredPerches`), and the light, which settles them at
+ * dusk (`roost.ts`).
  */
-type Rained = Swarm & Showered;
+type Rained = Swarm & Showered & Dusked;
+
+/** `given` as the shower and the light leave it at `now`. */
+const perchesAt = (
+  given: Perches,
+  { rain, dusk }: Showered & Dusked,
+  now: number,
+): Perches => roostedPerches(shelteredPerches(given, rain, now), dusk, now);
 
 /** How many of each kind the meadow holds before the oldest leaves. */
 export const INSECT_LIMITS = {
@@ -139,7 +148,7 @@ export function released(
   onscreen?: Onscreen,
 ): Swarm {
   const { insects, rain } = swarm;
-  const perches = shelteredPerches(given, rain, now);
+  const perches = perchesAt(given, swarm, now);
   const oldest = evicted(insects, insect.kind, INSECT_LIMITS);
   const planted = [...swarm.planted];
   const staying = insects.map((each) =>
@@ -183,7 +192,7 @@ export function startled(
   if (insect === undefined) return swarm;
   const shies = caughtAloft(insect, now);
   if (!shies && isAloft(insect, now)) return swarm;
-  const perches = shelteredPerches(given, rain, now);
+  const perches = perchesAt(given, swarm, now);
   const taken = takenBy(insects, insect);
   const planted = [...swarm.planted];
   const flight = nextFlight(insect, perches, now, taken);
@@ -207,17 +216,20 @@ export const isShying = ({ shied, legs }: Flier): boolean => shied === legs;
  * over, the meadow no longer offers its perch, `rain` has just started
  * (`dashesForCover`), or it sits where a waiting bee is owed room
  * (`givesWay`) — other than under a cap, which it leaves at its own linger
- * after the shower (`stayingDry`), whatever bee waits.
+ * after the shower (`stayingDry`), whatever bee waits, and other than where
+ * it sits the dusk out (`sitsOut`), which only the first two end.
  */
 function isDue(
   insect: Flier,
-  { insects, rain }: Omit<Rained, 'planted'>,
+  { insects, rain, dusk }: Omit<Rained, 'planted'>,
   perches: Perches,
   now: number,
 ): boolean {
   const { kind, leg } = insect;
-  if (now >= leg.leaves || !isOffered(leg.to, perches, kind)) return true;
+  if (!isOffered(leg.to, perches, kind)) return true;
   if (dashesForCover(leg, rain, perches)) return true;
+  if (sitsOut(insect, dusk, now)) return false;
+  if (now >= leg.leaves) return true;
   if (now < leg.arrives || leg.to.kind === 'shelter') return false;
   const [held, taken] = [{ kind, perch: leg.to }, takenBy(insects, insect)];
   return givesWay(held, taken, perches) || flowerFreed(held, taken, perches);
@@ -233,15 +245,15 @@ function isDue(
  * stops, and the flier's own linger after (`stayingDry`).
  */
 export function ticked(swarm: Rained, given: Perches, now: number): Swarm {
-  const { insects, rain } = swarm;
-  const perches = shelteredPerches(given, rain, now);
+  const { insects, rain, dusk } = swarm;
+  const perches = perchesAt(given, swarm, now);
   let changed = false;
   const next: Flier[] = [...insects];
   const planted = [...swarm.planted];
   for (const [index, insect] of insects.entries()) {
     if (isLeaving(insect)) {
       if (now >= insect.leg.arrives) changed = true;
-    } else if (isDue(insect, { insects: next, rain }, perches, now)) {
+    } else if (isDue(insect, { insects: next, rain, dusk }, perches, now)) {
       changed = true;
       const taken = takenBy(next, insect);
       const flight = nextFlight(insect, perches, now, taken);

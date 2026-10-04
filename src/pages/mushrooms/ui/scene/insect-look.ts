@@ -93,9 +93,16 @@ type BeeLook = OfKind<'bee'> &
 export type Look = (ButterflyLook | FlyLook | BeeLook) &
   Lighted & { litTurn: number };
 
-/** What a frame poses a look by: the leg with its stay, the clock in ms, the flier and its motion, and its size to its unit in pixels. */
+/** How far shut the dusk holds a flier's wings at rest (`wingsShut`). */
+export type Folded = { shut: number };
+
+/**
+ * What a frame poses a look by: the leg with its stay, the clock in ms, the
+ * flier and its motion, its size to its unit in pixels, and its wings' fold.
+ */
 export type Moment = Timed &
   Flying &
+  Folded &
   Pick<Footing, 'size'> & { stay: Stay; motion: Airborne };
 
 /** An insect of the meadow's, as the scene shows it. */
@@ -249,9 +256,9 @@ function relight(look: Look, turn: number, size: number): void {
  * rubbing, a bee's baskets filling and emptying.
  */
 export function poseLook(look: Look, moment: Moment, drinking: Drinking): void {
-  const { stay, now, motion, size } = moment;
+  const { stay, now, motion, size, shut } = moment;
   relight(look, drinking.rotation, size);
-  const open = wingBeat(stay, now, motion);
+  const open = wingBeat(stay, now, motion, shut);
   switch (look.kind) {
     case 'butterfly': {
       look.fore.setScale(FOLDED + (1 - FOLDED) * open, 1);

@@ -65,6 +65,11 @@ export type Habits = Pace & {
   fussy: number;
   /** Whether, with nowhere else open, it settles again where it sat rather than roaming. */
   settles: boolean;
+  /**
+   * The perch it sits the dusk out on (`roost.ts`), sought before any other;
+   * `undefined` for a kind that sits it out on whichever it lands on.
+   */
+  roost: 'flower' | 'cap' | undefined;
 };
 
 /**
@@ -88,7 +93,8 @@ export type Habits = Pace & {
  * `cruising` times `way / time`, is what reads as fast, or as sharp. To
  * shelter from the rain a butterfly doubles its pace and darts, under cover
  * in about two seconds, its coming-in still near a size a second, but turns
- * to set off as lazily as ever; a fly and a bee keep their own.
+ * to set off as lazily as ever; a fly and a bee keep their own. At dusk a
+ * butterfly sits the night out on a cap, a bee on a flower, a fly on either.
  */
 export const FLIGHT_HABITS = {
   butterfly: {
@@ -110,6 +116,7 @@ export const FLIGHT_HABITS = {
     spottedPull: 0.25,
     fussy: 0,
     settles: true,
+    roost: 'cap',
   },
   fly: {
     flying: [600, 1100],
@@ -125,6 +132,7 @@ export const FLIGHT_HABITS = {
     spottedPull: 8,
     fussy: 0.85,
     settles: true,
+    roost: undefined,
   },
   bee: {
     flying: [1100, 1800],
@@ -140,5 +148,6 @@ export const FLIGHT_HABITS = {
     spottedPull: 1,
     fussy: 0,
     settles: false,
+    roost: 'flower',
   },
 } as const satisfies Record<InsectKind, Habits>;

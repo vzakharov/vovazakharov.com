@@ -145,6 +145,8 @@ export type Perches = Sight & {
   spotted: readonly string[];
   /** While it rains: no flower or cap top is offered, and a flier takes the nearest shelter. */
   raining?: boolean;
+  /** Past half way to dusk: a flier seeks its `roost` first and never roams by choice (`roostedPerches`). */
+  dusky?: boolean;
 };
 
 /** A moment on the scene's clock, in ms. */
@@ -232,6 +234,8 @@ function roamFrom(
  * taken, which the scene never lets happen: the air holds a spot for every
  * insect the meadow can hold. While it rains it takes the nearest open
  * shelter (`nearestShelter`), roaming while none is open, and settles nowhere.
+ * At dusk (`dusky`) it seeks its `roost` first, never roams by choice, and
+ * with none open settles again where it was, whatever its kind.
  */
 function nextPerch(
   random: Random,
@@ -258,13 +262,19 @@ function nextPerch(
       );
   const flowers = open('flower', flowersFor(kind, perches));
   const caps = habits.resting === undefined ? [] : open('cap', perches.caps);
-  const drawn =
-    random() < habits.flowerShare ? [flowers, caps] : [caps, flowers];
+  const dusky = perches.dusky === true;
+  // Drawn at dusk too, so a leg's stream past it is the day's.
+  const flowerFirst = random() < habits.flowerShare;
+  const roosting = dusky && habits.roost !== undefined;
+  const drawn = (roosting ? habits.roost === 'flower' : flowerFirst)
+    ? [flowers, caps]
+    : [caps, flowers];
   const [first, ...rest] = drawn.find((each) => each.length > 0) ?? [];
   const isSpotted = (perch: Perch) =>
     perch.kind === 'cap' && perches.spotted.includes(perch.id);
   // Drawn only for a fussy kind, so every other kind's stream is its own.
   const roams =
+    !dusky &&
     habits.fussy > 0 &&
     !caps.some((cap) => isSpotted(cap)) &&
     random() < habits.fussy &&
@@ -275,7 +285,7 @@ function nextPerch(
     return weighted(random, [first, ...rest], pull);
   }
   const settles =
-    habits.settles &&
+    (habits.settles || dusky) &&
     (from.kind === 'flower' || from.kind === 'cap') &&
     isOffered(from, perches, kind) &&
     !blocked.has(perchName(from));

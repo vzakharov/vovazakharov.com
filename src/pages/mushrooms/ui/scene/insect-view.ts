@@ -19,12 +19,20 @@ import { wingspan } from '../../model/insect-outline';
 import { startLeg, steer } from '../../model/insect-steering';
 import { caughtAloft, type Flier, isShying } from '../../model/insects';
 import { smooth, wobble } from '../../model/motion';
+import { wingsShut } from '../../model/roost';
 import { containsCircle } from './hit-areas';
 import type { Lighting } from './ink';
 import { type Away, entryAloft, legEnd, ownAway, seenFor } from './insect-away';
 import { drawnInsect } from './insect-drawn';
 import { aloftAt, eyeFrameOf, mixD } from './insect-frame';
-import { drawLook, fidget, lookOf, newDrink, poseLook } from './insect-look';
+import {
+  drawLook,
+  fidget,
+  type Folded,
+  lookOf,
+  newDrink,
+  poseLook,
+} from './insect-look';
 import { seatAloft } from './insect-seat';
 import { InsectShadows } from './insect-shadow';
 import { freshShown, legSetOff, type Shown } from './insect-shown';
@@ -50,6 +58,9 @@ function alongOf(point: Point, start: Point, end: Point): number {
   const left = Math.hypot(point.x - end.x, point.y - end.y);
   return gone + left > 0 ? gone / (gone + left) : 1;
 }
+
+/** A frame's clock in seconds, where each perch stands, and its wings' fold. */
+type Frame = Folded & { t: number; perchAt: PerchAt };
 
 /**
  * The meadow's insects, reconciled with the state by id: each a container of
@@ -140,10 +151,16 @@ export class InsectView {
     }
   }
 
-  /** Flies every insect to where its leg has it at `t`, in seconds, its perch standing where `perchAt` says. */
-  update(t: number, perchAt: PerchAt): void {
+  /**
+   * Flies every insect to where its leg has it at `t`, in seconds, its perch
+   * standing where `perchAt` says, its wings at rest held as `duskLevel`
+   * (`duskness`) shuts them.
+   */
+  update(t: number, perchAt: PerchAt, duskLevel = 0): void {
+    const shut = wingsShut(duskLevel);
     const view = this.view();
-    for (const shown of this.shown.values()) this.fly(shown, view, t, perchAt);
+    for (const shown of this.shown.values())
+      this.fly(shown, view, { t, perchAt, shut });
   }
 
   /** The insect a tap at `finger`, in CSS px, reaches as they are drawn (`tappedInsect`); `undefined` for none. */
@@ -181,7 +198,7 @@ export class InsectView {
     return this.sizes[flier.kind];
   }
 
-  private fly(shown: Shown, view: View, t: number, perchAt: PerchAt): void {
+  private fly(shown: Shown, view: View, { t, perchAt, shut }: Frame): void {
     const now = t * 1000;
     const { leg, id } = shown.flier;
     const size = this.sizeOf(shown);
@@ -252,7 +269,14 @@ export class InsectView {
         shown.bobFrom * (1 - smooth((now - leg.departs) / BOB_FADE))) *
       size;
     const jolt = 1 + wobble(t - shown.tappedAt) * JOLT;
-    const moment = { stay, now, motion, ...pick(shown, 'flier'), size };
+    const moment = {
+      stay,
+      now,
+      motion,
+      ...pick(shown, 'flier'),
+      size,
+      shut,
+    };
     const offset = perched ? fidget(shown.look, moment) : { x: 0, y: 0 };
     const sitting = perched && now >= leg.arrives;
     const flown = sitting ? 1 : alongOf(point, start, framedEnd);

@@ -116,8 +116,8 @@ export const WATCH = `(() => {
     );
   };
   const wrap = (angle) => angle - Math.PI * 2 * Math.round(angle / (Math.PI * 2));
-  view.update = (t, perchAt) => {
-    fly(t, perchAt);
+  view.update = (t, perchAt, ...rest) => {
+    fly(t, perchAt, ...rest);
     const now = t * 1000;
     watch.frames += 1;
     const aloft = [];

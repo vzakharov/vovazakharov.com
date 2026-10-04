@@ -25,8 +25,8 @@ export const VEER = `(() => {
   const fly = view.update.bind(view);
   const veer = { samples: [], frame: 0 };
   const seatKinds = ['cap', 'flower'];
-  view.update = (t, perchAt) => {
-    fly(t, perchAt);
+  view.update = (t, perchAt, ...rest) => {
+    fly(t, perchAt, ...rest);
     veer.frame += 1;
     const now = t * 1000;
     const { eye } = view.view();
