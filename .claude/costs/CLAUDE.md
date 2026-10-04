@@ -160,6 +160,30 @@ a unit or a stale rate, which would miss by one factor in both.
 anthropics/claude-code#95837 carries the measurements and asks which figure is
 authoritative.
 
+## When a row is committed
+
+**The `Stop` hook commits a row only when the operator has written since the
+last one it committed.** Turns a subagent's report, a task notification or a
+peer session start would otherwise each leave a commit, and on a delegating
+session they are most of them. Skipping one loses nothing: a row is the
+session's whole spend, rewritten each time, so the next committed row carries
+it.
+
+- **The operator wrote** where a record's `origin.kind` or
+  `attachment.origin.kind` is `human` — the latter a message queued mid-turn,
+  which starts no turn of its own. `hooks/last_operator_record.py` reads it,
+  counting whatever it cannot place as the operator's: the hook skips only on
+  a positive reading.
+- **The marker is `tmp/costs/<session-id>.human`**, the id of the last such
+  record a committed row covered, kept out of the row so its shape does not
+  change. A missing marker — a fresh container, a relayed session — commits, as
+  does this session's row being dirty or absent from the branch, so a restart
+  or a checkout can only add a row.
+- **A session's last turn is often one no operator started**, so `/relay` and
+  `/finalize` run `flush-row.sh`, which runs the hook with `--flush`: committed
+  regardless, priced without `--at-stop` since the turn is still going, and
+  exiting non-zero unless the row is on origin.
+
 ## Running beside the harness's Stop check
 
 The harness registers its own `Stop` hook in `~/.claude/launcher-settings.json` —
@@ -225,6 +249,8 @@ commit.
 
 ## What the totals do not cover
 
+- **The turns after the last committed row**, where no operator wrote into them
+  and no `flush-row.sh` ran after them — a session left on a subagent's report.
 - **The turn that merges.** `/finalize and merge` merges within its turn and the
   row lands after, on a branch already merged — so that turn's spend reaches
   neither the trunk nor any later merge.

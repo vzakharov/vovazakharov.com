@@ -1,0 +1,676 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "number",
+      "const": 1
+    },
+    "seed": {
+      "type": "number"
+    },
+    "eye": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "heading": {
+          "type": "number"
+        }
+      },
+      "required": ["x", "y", "heading"],
+      "additionalProperties": false
+    },
+    "gait": {
+      "type": "string",
+      "enum": ["steps", "flight"]
+    },
+    "meadow": {
+      "type": "object",
+      "properties": {
+        "mushrooms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "seed": {
+                "type": "number"
+              },
+              "species": {
+                "type": "string",
+                "enum": ["fly-agaric", "porcini", "chanterelle", "russula"]
+              },
+              "foot": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                },
+                "required": ["x", "y"],
+                "additionalProperties": false
+              },
+              "lean": {
+                "type": "number",
+                "enum": [-1, 1]
+              },
+              "house": {
+                "type": "object",
+                "properties": {
+                  "windows": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["cross", "round", "square", "tall"]
+                    }
+                  },
+                  "door": {
+                    "type": "boolean"
+                  }
+                },
+                "required": ["windows", "door"],
+                "additionalProperties": false
+              },
+              "sprout": {
+                "type": "object",
+                "properties": {
+                  "parent": {
+                    "type": "string"
+                  },
+                  "at": {
+                    "type": "number"
+                  }
+                },
+                "required": ["parent", "at"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["id", "seed", "species", "foot", "lean", "house"],
+            "additionalProperties": false
+          }
+        },
+        "spores": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "seed": {
+                "type": "number"
+              },
+              "species": {
+                "type": "string",
+                "enum": ["fly-agaric", "porcini", "chanterelle", "russula"]
+              },
+              "foot": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                },
+                "required": ["x", "y"],
+                "additionalProperties": false
+              },
+              "lean": {
+                "type": "number",
+                "enum": [-1, 1]
+              },
+              "parent": {
+                "type": "string"
+              },
+              "at": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "seed",
+              "species",
+              "foot",
+              "lean",
+              "parent",
+              "at"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "scattered": {
+          "type": "number"
+        },
+        "insects": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "seed": {
+                    "type": "number"
+                  },
+                  "leg": {
+                    "type": "object",
+                    "properties": {
+                      "departs": {
+                        "type": "number"
+                      },
+                      "arrives": {
+                        "type": "number"
+                      },
+                      "dash": {
+                        "type": "object",
+                        "properties": {
+                          "time": {
+                            "type": "number"
+                          },
+                          "way": {
+                            "type": "number"
+                          }
+                        },
+                        "required": ["time", "way"],
+                        "additionalProperties": false
+                      },
+                      "hops": {
+                        "type": "object",
+                        "properties": {
+                          "every": {
+                            "type": "number"
+                          },
+                          "range": {
+                            "type": "number"
+                          }
+                        },
+                        "required": ["every", "range"],
+                        "additionalProperties": false
+                      },
+                      "pivots": {
+                        "type": "number"
+                      },
+                      "from": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["flower", "cap", "air"]
+                              },
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": ["kind", "id"],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["shelter"]
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "seat": {
+                                "type": "number",
+                                "enum": [0, 1]
+                              }
+                            },
+                            "required": ["kind", "id", "seat"],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["away"]
+                              },
+                              "side": {
+                                "type": "string",
+                                "enum": ["left", "right"]
+                              }
+                            },
+                            "required": ["kind", "side"],
+                            "additionalProperties": false
+                          }
+                        ]
+                      },
+                      "to": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["flower", "cap", "air"]
+                              },
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": ["kind", "id"],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["shelter"]
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "seat": {
+                                "type": "number",
+                                "enum": [0, 1]
+                              }
+                            },
+                            "required": ["kind", "id", "seat"],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["away"]
+                              },
+                              "side": {
+                                "type": "string",
+                                "enum": ["left", "right"]
+                              }
+                            },
+                            "required": ["kind", "side"],
+                            "additionalProperties": false
+                          }
+                        ]
+                      },
+                      "leaves": {
+                        "type": "number"
+                      },
+                      "out": {
+                        "type": "number"
+                      }
+                    },
+                    "required": ["departs", "arrives", "from", "to", "leaves"],
+                    "additionalProperties": false
+                  },
+                  "legs": {
+                    "type": "number"
+                  },
+                  "shied": {
+                    "type": "number"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": ["butterfly", "fly"]
+                  }
+                },
+                "required": ["id", "seed", "leg", "legs", "kind"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "seed": {
+                    "type": "number"
+                  },
+                  "leg": {
+                    "type": "object",
+                    "properties": {
+                      "departs": {
+                        "type": "number"
+                      },
+                      "arrives": {
+                        "type": "number"
+                      },
+                      "dash": {
+                        "type": "object",
+                        "properties": {
+                          "time": {
+                            "type": "number"
+                          },
+                          "way": {
+                            "type": "number"
+                          }
+                        },
+                        "required": ["time", "way"],
+                        "additionalProperties": false
+                      },
+                      "hops": {
+                        "type": "object",
+                        "properties": {
+                          "every": {
+                            "type": "number"
+                          },
+                          "range": {
+                            "type": "number"
+                          }
+                        },
+                        "required": ["every", "range"],
+                        "additionalProperties": false
+                      },
+                      "pivots": {
+                        "type": "number"
+                      },
+                      "from": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["flower", "cap", "air"]
+                              },
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": ["kind", "id"],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["shelter"]
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "seat": {
+                                "type": "number",
+                                "enum": [0, 1]
+                              }
+                            },
+                            "required": ["kind", "id", "seat"],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["away"]
+                              },
+                              "side": {
+                                "type": "string",
+                                "enum": ["left", "right"]
+                              }
+                            },
+                            "required": ["kind", "side"],
+                            "additionalProperties": false
+                          }
+                        ]
+                      },
+                      "to": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["flower", "cap", "air"]
+                              },
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": ["kind", "id"],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["shelter"]
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "seat": {
+                                "type": "number",
+                                "enum": [0, 1]
+                              }
+                            },
+                            "required": ["kind", "id", "seat"],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": ["away"]
+                              },
+                              "side": {
+                                "type": "string",
+                                "enum": ["left", "right"]
+                              }
+                            },
+                            "required": ["kind", "side"],
+                            "additionalProperties": false
+                          }
+                        ]
+                      },
+                      "leaves": {
+                        "type": "number"
+                      },
+                      "out": {
+                        "type": "number"
+                      }
+                    },
+                    "required": ["departs", "arrives", "from", "to", "leaves"],
+                    "additionalProperties": false
+                  },
+                  "legs": {
+                    "type": "number"
+                  },
+                  "shied": {
+                    "type": "number"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": ["bee"]
+                  },
+                  "pollen": {
+                    "type": "object",
+                    "properties": {
+                      "from": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {}
+                        ]
+                      },
+                      "specks": {
+                        "type": "number"
+                      },
+                      "pollinates": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": ["from", "specks", "pollinates"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": ["id", "seed", "leg", "legs", "kind", "pollen"],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "planted": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "seed": {
+                    "type": "number"
+                  },
+                  "ring": {
+                    "type": "number"
+                  },
+                  "parent": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id", "seed", "ring", "parent"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "seed": {
+                    "type": "number"
+                  },
+                  "foot": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "size": {
+                        "type": "number"
+                      }
+                    },
+                    "required": ["x", "y", "size"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": ["id", "seed", "foot"],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "pulled": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "grown": {
+          "type": "number"
+        },
+        "released": {
+          "type": "number"
+        },
+        "dusk": {
+          "type": "object",
+          "properties": {
+            "startedAt": {
+              "type": "number"
+            },
+            "from": {
+              "type": "number"
+            },
+            "toward": {
+              "type": "string",
+              "enum": ["dusk", "day"]
+            }
+          },
+          "required": ["startedAt", "from", "toward"],
+          "additionalProperties": false
+        },
+        "nightRuns": {
+          "type": "object",
+          "properties": {
+            "due": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {}
+              ]
+            },
+            "made": {
+              "type": "number"
+            },
+            "last": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "at": {
+                      "type": "number"
+                    },
+                    "from": {
+                      "type": "string"
+                    },
+                    "to": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {}
+                      ]
+                    }
+                  },
+                  "required": ["at", "from", "to"],
+                  "additionalProperties": false
+                },
+                {}
+              ]
+            }
+          },
+          "required": ["due", "made", "last"],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "mushrooms",
+        "spores",
+        "scattered",
+        "insects",
+        "planted",
+        "pulled",
+        "grown",
+        "released",
+        "dusk",
+        "nightRuns"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": ["version", "seed", "eye", "gait", "meadow"],
+  "additionalProperties": false
+}

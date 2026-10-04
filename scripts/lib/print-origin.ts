@@ -21,7 +21,9 @@ import net from 'node:net';
 import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 
-import { REPO_ROOT } from './content-tree.ts';
+// Its own rather than `content-tree.ts`'s, which resolves a site on import: a
+// script that serves an export for no one site imports this module too.
+const REPO_ROOT = path.join(import.meta.dirname, '..', '..');
 
 /** Which of the three shapes a run prints from. */
 export type PrintOrigin =

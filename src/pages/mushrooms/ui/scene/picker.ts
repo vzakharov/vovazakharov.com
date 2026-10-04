@@ -1,0 +1,167 @@
+import type * as Phaser from 'phaser';
+
+import type { Meadow } from '../../model/game';
+import { type Circle, lerpPoint, type Point } from '../../model/geometry';
+import { emerge, launch, sink, SINK_DURATION } from '../../model/motion';
+import {
+  type Able,
+  type Button,
+  DIMMED_ALPHA,
+  placeButton,
+  standButton,
+} from './button';
+
+/**
+ * How far apart a picker's buttons come up, one after another from the end
+ * nearest the button that opens it, and go again in the reverse order.
+ */
+const PICK_STAGGER = 0.07;
+
+/** One of a picker's buttons, which come and go with it. */
+type PickButton<Towards> = Button & {
+  /** When it starts coming up, and going; `-Infinity` for both before the picker first opens. */
+  shownAt: number;
+  hiddenAt: number;
+  /** What it was picked for, whose place it flies to as it goes. */
+  towards: Towards | undefined;
+  /** Where the layout stands it. */
+  target: Point | undefined;
+};
+
+/** What a picker offers and does, one `Item` per button. */
+export type PickerSpec<Item, Towards> = {
+  items: readonly Item[];
+  pick: (item: Item) => void;
+  /** Whether a pick of `item` can act; one that cannot shakes its head. */
+  can?: (meadow: Meadow, item: Item) => boolean;
+  draw: (
+    graphics: Phaser.GameObjects.Graphics,
+    r: number,
+    item: Item,
+    hairline: number,
+    meadow: Meadow,
+  ) => void;
+  /** What `item`'s button shows of `meadow`, so a change there bakes its face afresh; nothing by default. */
+  look?: (item: Item, meadow: Meadow) => string;
+  /**
+   * What a pick that closes the picker flies to as it goes, read off the
+   * meadow it leaves — as a picked cap flies to where its mushroom grows;
+   * without it, a pick folds back with the rest.
+   */
+  flies?: (meadow: Meadow) => Towards | undefined;
+};
+
+/**
+ * A row of buttons that unfolds from the button that opens it, one after
+ * another on the clock, the nearest first, and folds back into it the same
+ * way; a pick that closes it flies off to what it was picked for.
+ */
+export class Picker<Item, Towards = never> {
+  private readonly buttons: Array<PickButton<Towards>>;
+  private open = false;
+  /** The button a tap has just picked, until the picker closes on it. */
+  private picked: PickButton<Towards> | undefined;
+  private readonly spec: PickerSpec<Item, Towards>;
+
+  constructor(
+    spec: PickerSpec<Item, Towards>,
+    make: (act: () => void, can?: Able) => Button,
+  ) {
+    this.spec = spec;
+    const { items, can, flies, pick } = spec;
+    this.buttons = items.map((item) => {
+      // Into the object the tap handler presses, not a copy of it.
+      const button: PickButton<Towards> = Object.assign(
+        make(
+          () => {
+            if (flies !== undefined) this.picked = button;
+            pick(item);
+          },
+          can && ((meadow) => can(meadow, item)),
+        ),
+        {
+          shownAt: -Infinity,
+          hiddenAt: -Infinity,
+          towards: undefined,
+          target: undefined,
+        },
+      );
+      return button;
+    });
+  }
+
+  /**
+   * Stands the buttons at `homes`, unfolding from `from` as `open` turns true
+   * at `now` and folding back as it turns false; `ratio` is device pixels
+   * to a CSS pixel. A picker closing `inPlaceOf` another, which opens where
+   * it stands, goes at once rather than folding back, so the two never show
+   * together. `placeOf` is where the layout stands what a picked button
+   * flies to (`PickerSpec.flies`).
+   */
+  paint(
+    homes: readonly Circle[],
+    from: Point,
+    open: boolean,
+    now: number,
+    meadow: Meadow,
+    ratio: number,
+    inPlaceOf: boolean,
+    placeOf?: (towards: Towards) => Point | undefined,
+  ): void {
+    const opening = open && !this.open;
+    const closing = !open && this.open;
+    this.open = open;
+    const away = ({ x, y }: Point) => Math.hypot(x - from.x, y - from.y);
+    const order = [...homes.entries()]
+      .toSorted(([, a], [, b]) => away(a) - away(b))
+      .map(([index]) => index);
+    const leaving = order.filter(
+      (index) => this.buttons[index] !== this.picked,
+    );
+    for (const [index, button] of this.buttons.entries()) {
+      const at = homes[index];
+      const item = this.spec.items[index];
+      if (!at || item === undefined) continue;
+      placeButton(button, at, ratio, {
+        look: `${String(index)} ${this.spec.look?.(item, meadow) ?? ''}`,
+        draw: (graphics, hairline) => {
+          this.spec.draw(graphics, at.r, item, hairline, meadow);
+        },
+      });
+      const able = this.spec.can?.(meadow, item) ?? true;
+      button.face.setAlpha(able ? 1 : DIMMED_ALPHA);
+      if (opening) {
+        button.shownAt = now + order.indexOf(index) * PICK_STAGGER;
+        button.hiddenAt = Infinity;
+        button.towards = undefined;
+      } else if (closing && button === this.picked) {
+        button.hiddenAt = now;
+        button.towards = this.spec.flies?.(meadow);
+      } else if (closing && inPlaceOf) {
+        button.hiddenAt = now - SINK_DURATION;
+      } else if (closing) {
+        const turn = leaving.length - 1 - leaving.indexOf(index);
+        button.hiddenAt = now + turn * PICK_STAGGER;
+      }
+      button.target =
+        button.towards === undefined ? undefined : placeOf?.(button.towards);
+      // Out of reach the moment the picker closes, while it is still going.
+      if (open) button.face.setInteractive();
+      else button.face.disableInteractive();
+    }
+    if (!open) this.picked = undefined;
+  }
+
+  update(t: number): void {
+    for (const button of this.buttons) {
+      const { home, target, towards, shownAt, hiddenAt } = button;
+      const flight = towards === undefined ? undefined : launch(t - hiddenAt);
+      // A button waiting its turn in the stagger has not come up yet.
+      const up = t < shownAt ? 0 : emerge(t - shownAt);
+      const going = flight ? flight.scale : sink(t - hiddenAt);
+      const at =
+        flight && target ? lerpPoint(home, target, flight.travel) : home;
+      standButton(button, t, at, Math.min(up, going));
+    }
+  }
+}

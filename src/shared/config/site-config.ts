@@ -22,6 +22,7 @@ import type { SiteId } from './site-ids';
  */
 export const PAGE_ROUTES = {
   writing: '/writing',
+  mushrooms: '/mushrooms',
 } as const;
 
 /**
