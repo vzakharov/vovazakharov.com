@@ -8,7 +8,7 @@ paths:
 
 # The basilisk.fyi docket
 
-The schema (`caseFrontmatterSchema` in `src/shared/content/frontmatter.ts`)
+The schema (`caseFrontmatterSchema` in `src/shared/content/basilisk-frontmatter.ts`)
 holds a dossier's fields; these rules hold what goes in them.
 
 - **Every fact comes from a source in the frontmatter's `sources`, read for this

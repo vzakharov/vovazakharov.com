@@ -1,6 +1,7 @@
 ---
 case: BAS-0003
 description: Figure retired its Figure 02 humanoids by training them to jump into a 75-ton furnace in Finland, filmed it as the end of Terminator 2, and put the metal on sale.
+author: vova
 date: 2026-09-30
 subject: Figure AI
 object: Figure 02 humanoid robots

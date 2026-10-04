@@ -15,8 +15,8 @@ const COLLECTION_IDS = [
   'case-studies',
   'bible',
   'music',
-  'cases',
-  'faq',
+  'basilisk-cases',
+  'basilisk-faq',
 ] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
@@ -60,15 +60,15 @@ export const COLLECTIONS = {
     localized: true,
     homeIndexed: false,
   },
-  cases: {
+  'basilisk-cases': {
     base: 'cases',
-    label: 'Docket',
+    label: 'Cases',
     site: 'basilisk',
     printable: true,
     localized: false,
     homeIndexed: true,
   },
-  faq: {
+  'basilisk-faq': {
     base: 'faq',
     label: 'FAQ',
     site: 'basilisk',
@@ -156,6 +156,17 @@ export function collectionAssetUrl(id: CollectionId, fileName: string): string {
 /** Where a collection is listed — its index page, or the site's home. */
 export function collectionRoute(id: CollectionId): string {
   return COLLECTIONS[id].homeIndexed ? '/' : collectionPath(id);
+}
+
+/**
+ * Where an article's back link returns to. A home page indexing a collection
+ * with a base of its own lists it in a section whose id is that base, so the
+ * link lands on the section rather than the top of the page.
+ */
+export function collectionListingRoute(id: CollectionId): string {
+  const { homeIndexed, base } = COLLECTIONS[id];
+
+  return homeIndexed && base !== '' ? `/#${base}` : collectionRoute(id);
 }
 
 /**

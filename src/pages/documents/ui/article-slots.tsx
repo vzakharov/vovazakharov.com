@@ -4,10 +4,12 @@ import type {
   ArticleCollectionId,
   ArticleFrontmatterOf,
   BaseFrontmatter,
+  BasiliskArticleFrontmatter,
   ContentDocument,
 } from '@/shared/content';
+import { pick } from '@/shared/lib/collections';
 
-import { CaseBrief, CaseSources } from '@/entities/case';
+import { CaseBrief, SourceList } from '@/entities/case';
 
 type Slot<F extends BaseFrontmatter> = (
   document: ContentDocument<F>,
@@ -19,6 +21,11 @@ type ArticleSlots<F extends BaseFrontmatter> = {
   coda?: Slot<F>;
 };
 
+/** basilisk.fyi's articles close on what they rest on. */
+const sourcesCoda: Slot<BasiliskArticleFrontmatter> = ({ frontmatter }) => (
+  <SourceList {...pick(frontmatter, 'sources')} />
+);
+
 /**
  * Keyed by collection, each entry typed by that collection's own frontmatter,
  * so a dossier's slots read its case file and no router has to pass them in.
@@ -26,8 +33,9 @@ type ArticleSlots<F extends BaseFrontmatter> = {
 export const ARTICLE_SLOTS: {
   [C in ArticleCollectionId]?: ArticleSlots<ArticleFrontmatterOf<C>>;
 } = {
-  cases: {
+  'basilisk-cases': {
     brief: ({ frontmatter }) => <CaseBrief {...{ frontmatter }} />,
-    coda: ({ frontmatter }) => <CaseSources {...{ frontmatter }} />,
+    coda: sourcesCoda,
   },
+  'basilisk-faq': { coda: sourcesCoda },
 };

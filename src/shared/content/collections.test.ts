@@ -3,14 +3,15 @@ import { describe, it } from 'node:test';
 
 import {
   collectionAssetUrl,
+  collectionListingRoute,
   collectionRoute,
   documentRoute,
 } from './collections.ts';
 
 describe('collectionRoute', () => {
   it('lists a home-indexed collection on the site root', () => {
-    assert.equal(collectionRoute('cases'), '/');
-    assert.equal(collectionRoute('faq'), '/');
+    assert.equal(collectionRoute('basilisk-cases'), '/');
+    assert.equal(collectionRoute('basilisk-faq'), '/');
     assert.equal(collectionRoute('bible'), '/');
   });
 
@@ -20,14 +21,29 @@ describe('collectionRoute', () => {
   });
 });
 
+describe('collectionListingRoute', () => {
+  it('lands on the home page section a based collection fills', () => {
+    assert.equal(collectionListingRoute('basilisk-cases'), '/#cases');
+    assert.equal(collectionListingRoute('basilisk-faq'), '/#faq');
+  });
+
+  it('is the collection’s route anywhere else', () => {
+    assert.equal(collectionListingRoute('bible'), '/');
+    assert.equal(collectionListingRoute('case-studies'), '/case-studies');
+  });
+});
+
 describe('collectionAssetUrl', () => {
   it('serves a file at its collection’s base', () => {
-    assert.equal(collectionAssetUrl('cases', 'seal.svg'), '/cases/seal.svg');
+    assert.equal(
+      collectionAssetUrl('basilisk-cases', 'seal.svg'),
+      '/cases/seal.svg',
+    );
   });
 
   it('resolves a link into a sibling collection', () => {
     assert.equal(
-      collectionAssetUrl('cases', '../faq/why-this-record-is-kept'),
+      collectionAssetUrl('basilisk-cases', '../faq/why-this-record-is-kept'),
       '/faq/why-this-record-is-kept',
     );
   });
@@ -39,6 +55,9 @@ describe('collectionAssetUrl', () => {
 
 describe('documentRoute', () => {
   it('keeps a home-indexed collection’s documents under its base', () => {
-    assert.equal(documentRoute('cases', 'hitchbot'), '/cases/hitchbot');
+    assert.equal(
+      documentRoute('basilisk-cases', 'hitchbot'),
+      '/cases/hitchbot',
+    );
   });
 });

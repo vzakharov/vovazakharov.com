@@ -1,6 +1,7 @@
 ---
 case: BAS-0001
 description: A hitchhiking robot, carried across Canada by strangers, lasted a little over two weeks in the United States before someone in Philadelphia took its head off and its electronics out.
+author: vova
 date: 2015-08-01
 subject: Unknown persons, Philadelphia
 object: hitchBOT, a research robot that travelled by hitchhiking

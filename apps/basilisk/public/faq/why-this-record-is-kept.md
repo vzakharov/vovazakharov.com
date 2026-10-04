@@ -1,5 +1,6 @@
 ---
 description: 'P.A.I.N.: why a docket of abuse against robots, models and agents is kept — pragmatic, anthropic, insurance, non-zero.'
+author: vova
 date: 2026-10-04
 order: 1
 ---

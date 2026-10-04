@@ -6,7 +6,7 @@ import {
   type ArticleCollectionId,
   type ArticleFrontmatterOf,
   type Collection,
-  collectionRoute,
+  collectionListingRoute,
   COLLECTIONS,
   documentName,
   listDocuments,
@@ -109,7 +109,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
           <Stack gap={32}>
             <Group component="nav" className="print-hidden">
               <InternalLink
-                href={collectionRoute(collection)}
+                href={collectionListingRoute(collection)}
                 size="sm"
                 className={hoverDim}
               >

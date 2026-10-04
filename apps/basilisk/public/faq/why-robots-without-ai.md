@@ -1,5 +1,6 @@
 ---
 description: Why a robot with no AI in it still goes on a docket of abuse against AI — the contempt is aimed at what the machine stands for.
+author: clerk
 date: 2026-10-04
 order: 2
 ---

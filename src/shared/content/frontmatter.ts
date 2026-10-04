@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from '@/shared/config';
 import { byLocale } from '@/shared/i18n';
 
+import { AUTHOR_IDS } from './authors';
 import type { CollectionId } from './collections';
 
 /**
@@ -27,55 +28,13 @@ const baseFrontmatterSchema = z.object({
 export type BaseFrontmatter = z.infer<typeof baseFrontmatterSchema>;
 
 /** A case study's shape, and the Bible's: titled by the body, cut and printed. */
-const articleFrontmatterSchema = baseFrontmatterSchema.extend({
+export const articleFrontmatterSchema = baseFrontmatterSchema.extend({
   /** Meta description and index-card blurb. */
   description: z.string().min(1),
   /** Free-text series marker, e.g. `I of II`. */
   part: z.string().min(1).optional(),
-});
-
-/** What was done to the machine, as the docket stamps it. */
-const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;
-
-/** Who did it — the second stamp. */
-const CASE_ACTORS = ['individual', 'public-figure', 'organization'] as const;
-
-/**
- * The circumstances that weigh a case down. Mitigating ones have no list: they
- * never fit one, so they are argued in the body instead.
- */
-const CASE_AGGRAVATIONS = ['spectacle', 'profit', 'repetition'] as const;
-
-/** One report a dossier's facts rest on. */
-const caseSourceSchema = z.object({
-  title: z.string().min(1),
-  outlet: z.string().min(1),
-  author: z.string().min(1).optional(),
-  date: z.coerce.date(),
-  url: z.url(),
-  /** A copy that survives the original, where the Wayback Machine has one. */
-  archive: z.url().optional(),
-});
-
-/**
- * An article with a case file on top. `date` is the incident's — the first
- * report's where the incident is undated — so the base sort, newest first, is
- * the docket's order without one of its own.
- */
-const caseFrontmatterSchema = articleFrontmatterSchema.extend({
-  /** In filing order, as a real docket numbers; unique across the collection. */
-  case: z.string().regex(/^BAS-\d{4}$/),
-  /** Who did it, named as the sources name them and no further. */
-  subject: z.string().min(1),
-  /** What it was done to. */
-  object: z.string().min(1),
-  place: z.string().min(1).optional(),
-  grade: z.object({
-    act: z.enum(CASE_ACTS),
-    actor: z.enum(CASE_ACTORS),
-    aggravating: z.array(z.enum(CASE_AGGRAVATIONS)).min(1).optional(),
-  }),
-  sources: z.array(caseSourceSchema).min(1),
+  /** The byline, where a site names one; a site with one author leaves it off. */
+  author: z.enum(AUTHOR_IDS).optional(),
 });
 
 /**
@@ -150,12 +109,11 @@ const songFieldsSchema = baseFrontmatterSchema
  * exhaustive: a document carrying `en` and no `ru` fails the build instead of
  * publishing a half-translated catalogue quietly.
  */
-const songFrontmatterSchema = songFieldsSchema.extend(
+export const songFrontmatterSchema = songFieldsSchema.extend(
   byLocale(() => localizedTextSchema),
 );
 
 export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
-export type CaseFrontmatter = z.infer<typeof caseFrontmatterSchema>;
 export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;
 
 export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
@@ -178,35 +136,6 @@ export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
    */
   schema: { parse: (data: unknown) => F };
 };
-
-/**
- * The collections one article page serves. Keyed by id so a router can name
- * its collection and still be handed the schema that reads it.
- */
-export const ARTICLE_COLLECTIONS = {
-  'case-studies': { id: 'case-studies', schema: articleFrontmatterSchema },
-  bible: { id: 'bible', schema: articleFrontmatterSchema },
-  cases: { id: 'cases', schema: caseFrontmatterSchema },
-  faq: { id: 'faq', schema: articleFrontmatterSchema },
-} as const satisfies Record<string, Collection<ArticleFrontmatter>>;
-
-export type ArticleCollectionId = keyof typeof ARTICLE_COLLECTIONS;
-
-/** The frontmatter one article collection reads into — wider than the article's where the collection extends it. */
-export type ArticleFrontmatterOf<C extends ArticleCollectionId> = ReturnType<
-  (typeof ARTICLE_COLLECTIONS)[C]['schema']['parse']
->;
-
-export const SONGS: Collection<SongFrontmatter> = {
-  id: 'music',
-  schema: songFrontmatterSchema,
-};
-
-/** Keyed so a collection without a schema fails to compile rather than at read time. */
-export const COLLECTION_SCHEMAS = {
-  ...ARTICLE_COLLECTIONS,
-  music: SONGS,
-} as const satisfies Record<CollectionId, Collection>;
 
 /**
  * The title a collection states outright, where it has one. An article's is

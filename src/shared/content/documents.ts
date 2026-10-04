@@ -8,6 +8,7 @@ import { pageFile, type SiteId } from '@/shared/config';
 import type { Locale } from '@/shared/i18n';
 import type { DocumentFile, Sized } from '@/shared/typings';
 
+import { COLLECTION_SCHEMAS } from './collection-schemas';
 import {
   collectionAssetUrl,
   collectionDir,
@@ -20,11 +21,10 @@ import {
   type Variant,
   VARIANTS,
 } from './collections';
-import {
-  type BaseFrontmatter,
-  type Collection,
-  COLLECTION_SCHEMAS,
-  type WithFrontmatter,
+import type {
+  BaseFrontmatter,
+  Collection,
+  WithFrontmatter,
 } from './frontmatter';
 import {
   intrinsicDimensions,
