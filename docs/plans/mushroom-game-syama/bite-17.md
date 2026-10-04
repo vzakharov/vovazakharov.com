@@ -145,39 +145,48 @@ commit (`brief-common.md` under `docs/remove-before-merging/bite-17/`):
   `crescent.ts`) cuts any loop in its inner edge (d74b08c8,
   `porcini-margin.test.ts`).
 
+- **Calls 10–13 done**: fliers settle at dusk, wings folded (203beb8 — the
+  play harness's wrappers dropped the dusk argument); fireflies ring their
+  hosts (9d615e1); crickets, day birds hushed, a morning phrase (4de9bb6);
+  mice run between in-sight doors every 6–12 s (d11c830, `night-runs.ts`).
+- **From the operator on v26's dusk, done**: grass rooted under the brow
+  (0e7aa3d); the map dimmed and shaded to the dusk ground (7c5a3f3,
+  0afbbfd); the moon a round full moon with a sleeping face in its seas,
+  a ringed and beaded halo (11b4383); the moon's face wins a tap over a
+  nearby cloud's box (c3cee8c, a real bug); the horizon band's tufts walk
+  with the meadow and all grass dims at dusk (a43165e); a ground drag walks
+  in steps again, flight kept as `Walk.gait` (ae1d5fc — ccfff90d had lifted
+  the cruise cap).
+- **Dusk's cost** (`perf.md`): every dusk piece was a Graphics
+  re-tessellated per frame. Fireflies in two blend-moded batches from baked
+  textures (3c1adf4), window glow and stars from textures (6fefab9), the
+  moon baked with clouds erased from it, day clouds hidden at full dusk
+  (3101c0d): 36 → ~10 draw calls. The operator: «перформанс ощутимо лучше».
+
 ## Left
 
 In this order, each an Opus agent briefed on one step:
 
-1. **Call 10, landed from `wt/b3`** (6a734888, pushed; the agent's worktree
-   died with its container): `model/roost.ts`, fliers settling, wings shut —
-   built and unit-tested, never landed. `b.md` item 3: apply
-   `b3-play.patch` (fails eslint), run the play, look, run `fliers.test.ts`
-   once, land, delete `wt/b3`.
-2. **Fireflies**: circling their hosts landed (9d615e1, `c2.md` — the
-   rings were too wide and high); left: `__probe.fireflies()`, a flare shot
-   in the `dusk` play, a flare sound.
-3. **Done — crickets** (call 13) and the day's birds quiet at dusk, a bird
-   phrase at morning (4de9bb6, `c3.md`).
-4. **Call 11, mice run** (`b.md` item 4).
-5. **From the operator, on v26's dusk**, each an agent: grass tufts show
-   past the brow at dusk only («трава прорастает за пределами горизонта…
-   только в сумерках»); the moon a plain disc with a kind face in its spots,
-   no petals, its mandala from round the disc («просто круг, но возможно с
-   "лицом"… не должно быть страшным»); dusk runs ~20 fps on an M2 Pro
-   («возможно, это светлячки, возможно ещё что-то») — measured and fixed
-   without changing the look; the open map dimmed at dusk too («карта ночью
-   тоже должна выглядеть приглушённо»). Landed: grass under the brow
-   (0e7aa3d), the map (7c5a3f3, 0afbbfd), the moon (11b4383); dusk's cost
-   measured (76cf344, `perf.md`: per-frame re-tessellation, fireflies +24
-   draw calls), fixed by three agents.
-6. **From the operator, after**: a drag walks in steps again («как базу
-   "шаги" хочется оставить» — one swipe now flies ~50 m); then a small
-   steps/flight toggle right of the map, flight maybe lifting the camera a
-   little («видим чуть дальше, чуть с бОльшей дымкой»); the swaying tufts
-   near the horizon stay put and show at dusk («в сумерках то что они
-   всегда остаются на месте сбивает»).
-7. The review, polish, vet, frames, the Artifact; retire bite 16's frames.
+1. **`pnpm type-overlap` is red** on `line-course.ts` / `stride.ts` /
+   `walk.ts` / `map-view.ts` (Line/Chase/Walk/Drawn), from ae1d5fc and
+   0afbbfd.
+2. **The walk play** (`scripts/lib/play-walk.ts`) still checks flight's
+   ground-under-the-finger; recheck for steps (`st.md` § Left), run, look.
+3. **Mice at the operator's**: «мышка пока так и не перебегает между
+   грибами» — he played after d11c830 landed; our play saw a run. Asked
+   him (no answer yet) whether he played the Artifact (v26, no mice) or a
+   local build, and how many houses with doors and mice. Find the cause
+   (a probe over `night-runs.ts`'s conditions on a furnished meadow).
+4. **The steps/flight toggle** right of the map button, smaller than the
+   insect buttons, showing footsteps or a flight symbol; flight lifting the
+   eye a little, seeing farther with more haze (`st.md`: `EYE_HEIGHT` per
+   gait is its own design step).
+5. **Fireflies**: `__probe.fireflies()`, a flare shot in the `dusk` play, a
+   flare sound.
+6. **The grass band's cost** (`g2.md`: dusk play median 12.7 → 15.7 ms —
+   check only the cells the band crosses).
+7. The review, polish (`mouse-runs.ts` is 462 lines), vet, frames, the
+   Artifact; retire bite 16's frames.
 
 Off the bite, from the operator: the map's ✕ («крестик на карте
 по-прежнему выглядит странно», then «дело в самом кружке. попробовать без

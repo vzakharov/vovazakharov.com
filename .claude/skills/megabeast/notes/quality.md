@@ -266,3 +266,17 @@
   _which frame each side measures in_, model, view and watch, before it is
   called noise or a residue; an "accepted residue" is re-asked whenever the
   frame of anything it measured changes.
+- **The operator at the keyboard finds what no play measures.** In bite 17
+  he found, in one sitting: 20 fps at dusk on a real Mac (every play
+  passed its 26 ms budget headless), a swipe flying ~50 m since bite 14
+  (no play checked distance per swipe), a band of tufts pinned under the
+  horizon (a test asserted it), the moon's tap lost to a cloud's tap box.
+  So the skill should publish the Artifact mid-bite whenever a visible
+  batch lands, not only at the bite's end, and each operator note becomes
+  a one-step agent at once, in parallel with the bite's own steps: seven
+  ran side by side here with only squash conflicts in the shared play file.
+- **A perf report is counts, not milliseconds.** On a machine shared by
+  agents, frame times swung 20–32 ms; draw calls, vertices and framebuffer
+  binds per frame (a bench play reading the renderer) are exact and name
+  the piece. Phaser 4 trap: a container without its own blend mode breaks
+  the batch for every non-normal child.
