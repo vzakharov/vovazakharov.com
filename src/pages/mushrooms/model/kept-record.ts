@@ -5,9 +5,8 @@
  */
 
 import type { Meadow } from './game';
-import type { Eyed } from './ground';
 import type { Seeded } from './random';
-import type { WithGait } from './stride';
+import type { WalkStart } from './walk';
 
 /** A meadow as it is kept: the selection, the pickers and the shower belong to the load that had them. */
 export type KeptMeadow = Omit<
@@ -15,12 +14,9 @@ export type KeptMeadow = Omit<
   'selected' | 'picking' | 'furnishing' | 'planting' | 'rain'
 >;
 
-/** Where the child stands, facing which way, and whether on foot or in flight. */
-type Stance = Eyed & WithGait;
-
-/** One kept meadow, the visit seed that grew its world, and the child's stance in it. */
+/** One kept meadow, the visit seed that grew its world, and where the child stood in it and how, as the walk reopens there. */
 export type Kept = Seeded &
-  Stance & {
+  WalkStart & {
     version: 1;
     meadow: KeptMeadow;
   };
