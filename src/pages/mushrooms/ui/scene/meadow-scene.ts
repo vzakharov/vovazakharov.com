@@ -200,14 +200,12 @@ export class MeadowScene extends Phaser.Scene {
     if (this.sown) this.sow();
     const t = this.clock;
     const { layout, backdrop, grass, flowers, bed, meadow } = this;
-    const { controls, insects, perches, rain, dusk, map } = this;
+    const { controls, insects, perches, rain, dusk, map, visitSeed } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
-    this.dispatch({
-      kind: 'tick',
-      now: time,
-      ...this.sightNow(),
-    });
+    const burrows = bed?.runs.burrows(visitSeed);
+    this.dispatch({ kind: 'tick', now: time, burrows, ...this.sightNow() });
+    bed?.runs.night(this.meadow?.nightRuns.last);
     driftClouds(backdrop, layout, t);
     dusk?.update(meadow?.dusk);
     rain?.update(meadow?.rain, dusk?.level ?? 0);

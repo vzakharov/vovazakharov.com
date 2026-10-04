@@ -28,6 +28,12 @@ import {
 import type { InsectKind } from './insect-genes';
 import { released, startled, type Swarm, ticked } from './insects';
 import { firstMushrooms, type Species } from './mushroom-genes';
+import {
+  type Burrows,
+  nightRan,
+  type NightRuns,
+  NO_NIGHT_RUNS,
+} from './night-runs';
 import { type Footed, OPENING_FOOTING } from './placement';
 import { plantedId, type Sown } from './pollen';
 import type { Random, Seeded, Seeds } from './random';
@@ -86,6 +92,8 @@ export type Meadow = Swarm & {
   rain: Rain | undefined;
   /** Which way the light is going (`duskness`): the one record of the time of day. */
   dusk: Dusk;
+  /** The mice's own outings at dusk (`nightRan`). */
+  nightRuns: NightRuns;
 } & Spored;
 
 export type Action =
@@ -119,7 +127,8 @@ export type Action =
   | ({ kind: 'release'; insect: InsectKind; onscreen?: Onscreen } & Seeded &
       Sighted)
   | ({ kind: 'startle' } & WithId & Sighted)
-  | ({ kind: 'tick' } & Sighted);
+  // The houses ride along for the mice's dusk outings; without them none go.
+  | ({ kind: 'tick'; burrows?: Burrows } & Sighted);
 
 /** An insect action's moment, and what the scene sees of the perches as it happens. */
 type Sighted = Timed & Sight;
@@ -144,6 +153,7 @@ export function firstMeadow(random: Random): Meadow {
     released: 0,
     rain: undefined,
     dusk: FULL_DAY,
+    nightRuns: NO_NIGHT_RUNS,
     spores: [],
     scattered: 0,
   };
@@ -403,11 +413,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       return { ...flowersShut(meadow), dusk: turned(meadow.dusk, action.now) };
     }
     case 'tick': {
-      const rained = sproutedInRain(meadow, action.now);
-      return swarmed(
-        rained,
-        ticked(rained, perchesOf(rained, action), action.now),
-      );
+      const { now, burrows } = action;
+      const rained = sproutedInRain(meadow, now);
+      const nightRuns = nightRan(rained.nightRuns, rained.dusk, now, burrows);
+      const ran =
+        nightRuns === rained.nightRuns ? rained : { ...rained, nightRuns };
+      return swarmed(ran, ticked(ran, perchesOf(ran, action), now));
     }
     default: {
       return action satisfies never;

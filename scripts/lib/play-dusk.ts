@@ -2,7 +2,7 @@
  * Dusk, played on a fresh meadow, its two mushrooms furnished with every
  * window and a door so their windows light, and a butterfly released: the sun
  * tapped and shot by day, half way and at dusk; the butterfly shot roosting
- * (`play-roost.ts`); the map opened at dusk and shot; the eye turned so the
+ * (`play-roost.ts`); a mouse's own run shot (`play-night-run.ts`); the map opened at dusk and shot; the eye turned so the
  * moon crosses the fixed stars, and shot; the moon tapped and the morning
  * shot. Fails where the meadow does not open
  * in full day, a tap on the sun does not turn the light toward dusk and reach
@@ -27,6 +27,7 @@ import {
   inTurn,
   type Page,
 } from './mushroom-probe-drive.ts';
+import { shootNightRun } from './play-night-run.ts';
 import { releaseButterfly, shootRoosting } from './play-roost.ts';
 
 /** Frames to half a full turn of the light. */
@@ -113,6 +114,7 @@ export async function playDusk(
   if (butterfly === undefined)
     expect(false, 'no butterfly came at the release');
   else await shootRoosting(page, butterfly, expect, note);
+  await shootNightRun(page, expect, note);
   // The map, opened at dusk, under the wash as the meadow is.
   await page.tap(controls.map);
   await page.step(OPEN);

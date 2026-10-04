@@ -44,6 +44,7 @@ import {
   type RunOpening,
 } from '../../model/mouse-run-clock';
 import { facingAlong, pathLength, sideOf } from '../../model/mouse-run-course';
+import type { Burrows, NightRun } from '../../model/night-runs';
 import type { Seeded } from '../../model/random';
 import type { BedPlace } from './bed-place';
 import type { ShownDoor } from './draw-house';
@@ -96,11 +97,12 @@ export type MouseRun = RunEnds &
     pattered: number;
   };
 
-/** A house's door as the runs keep it: its mushroom's seed, its last outing, the one a run took and its last knock. */
+/** A house's door as the runs keep it: its mushroom's seed, its last outing, the one a run took, its last knock and the dusk's last peek at it. */
 type Kept = Seeded & {
   outing: number | undefined;
   ran: number | undefined;
   knockedAt: number;
+  calledAt: number;
 };
 
 /** How often a runner's patter ticks while it runs, in seconds: a quick, light patter at any pace. */
@@ -119,6 +121,8 @@ export class MouseRuns {
   private readonly kept = new Map<string, Kept>();
   /** The doors that have brought their mouse, so a door brings one only once. */
   private readonly known = new Set<string>();
+  /** The dusk's last outing played, so each plays once. */
+  private played: NightRun | undefined;
   private view: View | undefined;
 
   private readonly scene: Phaser.Scene;
@@ -155,6 +159,7 @@ export class MouseRuns {
       outing: undefined,
       ran: undefined,
       knockedAt: -Infinity,
+      calledAt: -Infinity,
     });
     return {
       tap: (mouse) => {
@@ -179,6 +184,28 @@ export class MouseRuns {
     }
     for (const door of doors) this.watchOuting(door, doors, t);
     for (const run of this.under) this.move(run, t);
+  }
+
+  /** The houses as the dusk's outings see them, off the visit's `seed`. */
+  burrows(seed: number): Burrows {
+    return { seed, doors: this.doors(), mice: this.counts };
+  }
+
+  /**
+   * Plays `outing`, the dusk's latest, once: a run while its mouse is still
+   * home and its target stands, else a peek from its door.
+   */
+  night(outing: NightRun | undefined): void {
+    if (outing === undefined || outing === this.played) return;
+    this.played = outing;
+    const { from, to } = outing;
+    if (miceAt(this.counts, from) === 0) return;
+    if (to !== undefined && this.standing(to)) {
+      this.start(from, to, this.now(), 'peek', false);
+      return;
+    }
+    const kept = this.kept.get(from);
+    if (kept) kept.calledAt = this.now();
   }
 
   /**
@@ -283,8 +310,9 @@ export class MouseRuns {
 
   /**
    * How `id`'s door shows at `t`: its mouse's head out of a run's peek, or
-   * else its own peeks while it holds a mouse — not the outing a run took —
-   * and open as far as the most any of those or a run or a knock opens it.
+   * else its own peeks and the dusk's while it holds a mouse — not the
+   * outing a run took — and open as far as the most any of those or a run
+   * or a knock opens it.
    */
   private doorAt(id: string, t: number, mouse: Tapped): DoorShown {
     const kept = this.kept.get(id);
@@ -296,7 +324,8 @@ export class MouseRuns {
         ? peekAfterTap(t - mouse.tappedAt)
         : mouseOut(t, mouse)
       : 0;
-    let out = peeking;
+    const called = home ? peekAfterTap(t - (kept?.calledAt ?? -Infinity)) : 0;
+    let out = Math.max(peeking, called);
     let open = peekAfterTap(t - (kept?.knockedAt ?? -Infinity));
     let look: number | undefined;
     for (const run of this.under) {

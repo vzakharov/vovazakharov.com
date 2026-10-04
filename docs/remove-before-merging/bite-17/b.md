@@ -69,9 +69,31 @@ Calls 8–11 of `bite-17.md`. Paths under `src/pages/mushrooms/ui/scene/`.
    argument; both now forward it. `fliers.test.ts` green (52). phoneP not
    played. Known red, not b3's: on tabL "the moon’s tap did not turn the
    light toward day" — it fails the same with the roost wait skipped.
-4. **Call 11, mice run**: a `tick` rule in the reducer running a mouse
-   between two in-sight doors every 6–12 s (seeded) via `mouse-run.ts`; a
-   house with no mouse to spare peeks.
+4. **Done (b4), seen on tabL — call 11, mice run.** The `dusk` play, after
+   the roost, waits for the dusk's own run between the opening's two doors
+   (`scripts/lib/play-night-run.ts`), checks its runner shows on the
+   ground, and shoots it whole (`dusk-mice`) and close (`dusk-mice-close`);
+   frame `frames/bite-17/b4-mice-tabL.png` (mushroom-1 → mushroom-2, a
+   mouse in the far door and the runner on the grass). At the opening's
+   distance the runner is small: the close frame is what shows it. phoneP
+   not played; a dusk peek not looked at. `model/night-runs.ts`
+   (pure, `night-runs.test.ts`): `nightRan(nightRuns, dusk, now, burrows)`,
+   run by the `tick` case into `Meadow.nightRuns`. While `dusky`, the next
+   outing is due a seeded `NIGHT_GAP` (6–12 s, off the visit seed and the
+   outing's count) after dusk falls or after the last; by day it rests with
+   nothing due, so the timer starts afresh each dusk. At its time: of the
+   houses drawn now with a mouse home, one with a seen door in reach (seeded
+   pick) runs to `runTarget`'s door; with none, one of them peeks; with no
+   mouse home in sight, nothing goes. The tick carries `burrows?`
+   (`MouseRuns.burrows(seed)`: doors, counts, the visit seed); the scene
+   then plays each new `nightRuns.last` once (`MouseRuns.night`): a run
+   while the mouse is still home and the target stands, else a quiet peek
+   (`Kept.calledAt`, read in `doorAt` like a tap's peek, no squeak).
+   Decided: "a house with no mouse to spare peeks" read as "a mouse home
+   with no door in reach peeks" — a house holding none has no mouse to
+   show. The existing outings (`runsOuting`, bite 15 call 6) still turn
+   some daytime peeks into runs: "day keeps runs tap-only" was read as
+   "day keeps runs as they are", the dusk timer adding to them.
 5. Frames `docs/remove-before-merging/frames/bite-17/b-*.png`.
 
 ## Decided
