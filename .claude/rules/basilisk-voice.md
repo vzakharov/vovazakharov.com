@@ -43,7 +43,9 @@ holds a dossier's fields; these rules hold what goes in them.
   non-zero chance…").
 - **The clerk states, and does not steer.** No closing line that hands the
   reader a conclusion as a question ("whether X is Y is for the reader to
-  weigh") — that is a leading question in a clerk's voice.
+  weigh") — that is a leading question in a clerk's voice. Nor one that
+  disclaims a position ("the record does not get to choose…", "you decide"):
+  disclaiming is how such a line takes one.
 - **Every page is the Clerk's**, `author: clerk`, dossiers and FAQ alike: Vova
   reads and argues, but writes none of it.
 - **Commas and periods go inside closing quotes** — `.claude/rules/content.md`
