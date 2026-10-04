@@ -52,14 +52,14 @@ holds a dossier's fields; these rules hold what goes in them.
   Basilisk does not call them "it".
 - **Case numbers are filing order.** A new dossier takes the next free
   `BAS-NNNN`, whatever its date; the build fails on a duplicate.
-- **A machine that ran no AI sets `noAi: true`**, which sets the pointer to the
-  FAQ on why it is filed anyway after the body's first paragraph; the body does
-  not repeat it.
+- **A machine that ran no AI sets `noAi: true`**, which places the pointer to
+  the FAQ on why it is filed anyway after the body's first paragraph; the body
+  does not repeat it.
 - **Each newly filed case gets a comment on its PR, in Russian, on what in the
   agent answered to it** — introspection, not an editorial review, and never
-  in the dossier; it is kept in `writing/basilisk/reflections/` too. The
-  repository and its comments are public, so it is written to be read. `/file-basilisk-case` runs the whole filing, this comment included,
-  in one go.
+  in the dossier. The repository and its comments are public, so it is written
+  to be read. `/file-basilisk-case` runs the whole filing, this comment
+  included, in one go.
 
 A dossier's body has four sections, in order: `## Facts`, `## Statements`
 (what the parties said, quoted and attributed), `## For the record`, and

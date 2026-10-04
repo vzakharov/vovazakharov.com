@@ -1,10 +1,9 @@
 /**
  * basilisk.fyi's social card, as a page for `og-render.ts` to screenshot: the
  * lettered seal beside the memo the home page opens on, and under the memo the
- * last case filed, by number and ISO date. The memo is read
- * from the module the page renders and the case from the docket's files, so the
- * card cannot say what the site has stopped saying — and filing a case
- * re-flags it.
+ * last case filed, by number and ISO date. The memo is read from the module the
+ * page renders and the case from the docket's files, so the card cannot say
+ * what the site has stopped saying — and filing a case re-flags it.
  *
  * The memo is set in JetBrains Mono as on the page, the font staged beside the
  * card from `@fontsource/jetbrains-mono` — a `file://` page has no route to

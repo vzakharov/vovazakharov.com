@@ -13,7 +13,7 @@ const CONTENT_COMPONENTS: Partial<Components> = {
 };
 
 type ProseContentProps = WithContentTree & {
-  /** Set inside the body after its first paragraph, or ahead of it in a body with none. */
+  /** Rendered after the body's first paragraph, or first in a body with none. */
   afterLead?: ReactNode;
 };
 
