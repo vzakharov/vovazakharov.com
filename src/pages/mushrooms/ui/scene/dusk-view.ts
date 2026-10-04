@@ -1,9 +1,18 @@
 import type * as Phaser from 'phaser';
 
+import { pick } from '@/shared/lib/collections';
+
 import { type Dusk, duskness } from '../../model/dusk';
 import type { Action } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
-import { darkScheme, moonAt, onTheSun, sunOnScreen, sunSunk } from './dusk-sky';
+import {
+  cloudOverMoon,
+  darkScheme,
+  moonAt,
+  onTheSun,
+  sunOnScreen,
+  sunSunk,
+} from './dusk-sky';
 import type { MeadowLayout } from './layout';
 import type { Backdrop } from './paint-backdrop';
 import { drawMoon } from './paint-moon';
@@ -39,6 +48,12 @@ export class DuskView {
   private readonly wash: Phaser.GameObjects.Rectangle;
   /** The moon, drawn about its own origin and moved to where it stands. */
   private readonly moon: Phaser.GameObjects.Graphics;
+  /**
+   * Each of the backdrop's clouds cut out of the moon, by the cloud's index,
+   * so a cloud drifting past stands in front of it as it does the sun; on
+   * only while the cloud reaches the moon, as each costs a pass.
+   */
+  private cloudMasks: Phaser.Filters.Mask[] = [];
   private readonly camera: Phaser.Cameras.Scene2D.Camera;
   /** The scene's clock, in seconds. */
   private readonly now: () => number;
@@ -87,6 +102,11 @@ export class DuskView {
     const { r } = layout.sun;
     drawMoon(this.moon.clear(), { x: 0, y: 0, r }, MOON_INK);
     focusTwins([this.moon], this.camera);
+    const filters = this.moon.filters?.internal;
+    filters?.clear();
+    this.cloudMasks = filters
+      ? backdrop.clouds.map((cloud) => filters.addMask(cloud, true))
+      : [];
   }
 
   /** Sets the light for the frame at the scene's clock, as the meadow's `dusk` turns it. */
@@ -105,8 +125,28 @@ export class DuskView {
     }
     for (const column of backdrop.wash.columns) column.setAlpha(1 - level);
     const sun = this.sunAt();
-    if (sun) moon.setPosition(sun.x, moonAt(sun, level).y);
+    const risen = sun && moonAt(sun, level);
+    if (risen) moon.setPosition(risen.x, risen.y);
+    this.cutClouds(backdrop, layout, risen);
     shade(moon, level);
+  }
+
+  /** Cuts the moon `risen` round the clouds reaching it, and only those. */
+  private cutClouds(
+    backdrop: Backdrop,
+    layout: MeadowLayout,
+    risen: Circle | undefined,
+  ): void {
+    for (const [index, mask] of this.cloudMasks.entries()) {
+      const shown = backdrop.clouds[index];
+      const cloud = layout.clouds[index];
+      if (!risen || shown?.visible !== true || !cloud) {
+        mask.setActive(false);
+        continue;
+      }
+      const { x } = shown;
+      mask.setActive(cloudOverMoon({ x, ...pick(cloud, 'y', 'r') }, risen));
+    }
   }
 
   /**
@@ -123,8 +163,8 @@ export class DuskView {
     return true;
   }
 
-  /** The sun's place on the screen as the view now shows it, before it sinks. */
-  private sunAt(): Circle | undefined {
+  /** The sun's place on the screen as the view now shows it, before it sinks: where the moon stands risen and a tap turns the light. */
+  sunAt(): Circle | undefined {
     const { layout, backdrop } = this;
     return layout && backdrop && sunOnScreen(backdrop.view, layout.sun);
   }

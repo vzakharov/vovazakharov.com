@@ -5,6 +5,7 @@
 
 import { z } from 'zod';
 
+import { TOWARDS } from '../../src/pages/mushrooms/model/dusk.ts';
 import {
   type Perch as ModelPerch,
   type PerchKind,
@@ -128,6 +129,13 @@ export const Eye = z.object({
 });
 /** `__probe.sun()`: the sun's middle across the screen, `null` while the view leaves it out. */
 export const Sun = z.number().nullable();
+/** `__probe.dusk()`: how far toward dusk the meadow shows, 0 to 1, and which way the light is turning. */
+export const DuskShown = z.object({
+  level: z.number(),
+  toward: z.enum(TOWARDS),
+});
+/** `__probe.sunAt()`: the sun's, or the moon's, screen point, `null` while it stands off the screen. */
+export const SunAt = z.object({ x: z.number(), y: z.number() }).nullable();
 /** `__probe.hitches()`: how long each lawn-tending call and each perch re-sight since the last call took, in ms. */
 export const Hitches = z.object({
   tend: z.array(z.number()),

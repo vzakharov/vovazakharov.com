@@ -52,7 +52,7 @@ level`; `tap(at, bob)` within `max(TAP_RADIUS, sun.r * SUN_RAY_REACH)` of
    tries `dusk.tap` after the clouds.
 7. **Map** — done (package a-map, `a-map.md`): `map-compass.ts`
    `drawCompass` draws the sun, or the moon by `drawMoon` when `MapSnapshot.dusky`.
-8. **Probe and play**: `__probe.dusk()` → `{ level, toward }`,
+8. **Probe and play** — done (package a4, `a4.md`, with the `dark` play and the moon cut round the clouds): `__probe.dusk()` → `{ level, toward }`,
    `__probe.sunAt()` → the sun's screen point or `null`; a `dusk` play
    registered in `play-mushrooms.ts`: tap the sun, shoot day, mid-fade
    (`DUSK_MS / 2`) and dusk, tap the moon, shoot morning; tabL and phoneP.

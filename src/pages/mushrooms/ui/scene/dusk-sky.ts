@@ -1,10 +1,12 @@
 /**
  * Where the sun and the moon stand as the light turns, what of the sky a tap
- * on either reaches, and which stars the moon's halo leaves showing: pure,
+ * on either reaches, which stars the moon's halo leaves showing and which
+ * clouds pass in front of it: pure,
  * from the sun's screen point and the meadow's `duskness`.
  */
 
 import type { Circle, Point } from '../../model/geometry';
+import { cloudBox } from './cloud-puffs';
 import { STAR_RAY_REACH } from './dusk-stars';
 import { shiftOf } from './panorama';
 import { SUN_RAY_REACH } from './sun-layout';
@@ -66,6 +68,21 @@ export function starClear(star: Circle, moon: Circle): number {
   const gone = moon.r * SUN_RAY_REACH + star.r * STAR_RAY_REACH[1];
   const apart = Math.hypot(star.x - moon.x, star.y - moon.y) - gone;
   return Math.min(1, Math.max(0, apart / (moon.r * STAR_FADE)));
+}
+
+/**
+ * Whether `cloud`'s drawn puffs may reach over `moon` or its halo: the
+ * clouds that drift in front of it, which it is cut round.
+ */
+export function cloudOverMoon(cloud: Circle, moon: Circle): boolean {
+  const { left, right, top, bottom } = cloudBox(cloud);
+  const reach = moon.r * SUN_RAY_REACH;
+  return (
+    left < moon.x + reach &&
+    right > moon.x - reach &&
+    top < moon.y + reach &&
+    bottom > moon.y - reach
+  );
 }
 
 /**

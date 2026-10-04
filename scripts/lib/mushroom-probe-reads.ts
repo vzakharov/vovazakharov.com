@@ -65,6 +65,21 @@ export const PROBE_READS = `
       scene.meadow.planted.filter((sown) => 'parent' in sown).length,
     /** Where the sun's picture stands across the screen, in CSS px; \`null\` while the view leaves it out. */
     sun: () => middleShown(scene.backdrop.sun),
+    /** How far toward dusk the meadow shows, 0 to 1, and which way the light is turning. */
+    dusk: () => ({
+      level: scene.dusk.level,
+      toward: scene.meadow.dusk.toward,
+    }),
+    /**
+     * Where the sun stands on the screen before it sinks, or the moon risen
+     * in its place — the point a tap on either turns the light at — in CSS
+     * px; \`null\` while it stands off the screen.
+     */
+    sunAt: () => {
+      const at = scene.dusk.sunAt();
+      if (!at || at.x < 0 || at.x > scene.layout.width) return null;
+      return { x: at.x, y: at.y };
+    },
     /** Where the rainbow's picture stands across the screen, as \`sun\`. */
     rainbowAt: () => middleShown(scene.backdrop.rainbow),
     state: () => ({

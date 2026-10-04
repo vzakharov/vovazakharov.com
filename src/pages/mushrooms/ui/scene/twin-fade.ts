@@ -35,5 +35,6 @@ export function focusTwins(
 export function shade(twin: Phaser.GameObjects.Graphics, alpha: number): void {
   const fading = alpha > 0 && alpha < 1 && twin.filters !== null;
   twin.setAlpha(fading ? 1 : alpha).setFiltersForceComposite(fading);
-  if (fading) twin.filterCamera.setAlpha(alpha);
+  // Whole once the fade is done, for a twin whose other filters still composite it.
+  if (twin.filters !== null) twin.filterCamera.setAlpha(fading ? alpha : 1);
 }

@@ -45,6 +45,7 @@ import {
 } from './lib/mushroom-probe-drive.ts';
 import { playApproach } from './lib/play-approach.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
+import { playDark, playDusk } from './lib/play-dusk.ts';
 import { playHold } from './lib/play-hold.ts';
 import { playKeys } from './lib/play-keys.ts';
 import { playMap } from './lib/play-map.ts';
@@ -90,7 +91,12 @@ const PLAYS = [
   ['rain', playRain],
   ['sprouts', playSprouts],
   ['map', playMap],
+  ['dusk', playDusk],
+  ['dark', playDark],
 ] as const;
+
+/** The play that opens its page with the system's scheme dark. */
+const DARK = 'dark';
 
 const TYPES: Record<string, string> = {
   '.html': 'text/html',
@@ -152,6 +158,7 @@ async function open(
   origin: string,
   screen: Screen,
   errors: string[],
+  dark: boolean,
 ): Promise<Page> {
   const target = z
     .object({ targetId: z.string() })
@@ -186,6 +193,11 @@ async function open(
   await send('Page.addScriptToEvaluateOnNewDocument', {
     source: seededRandom(SEED),
   });
+  if (dark) {
+    await send('Emulation.setEmulatedMedia', {
+      features: [{ name: 'prefers-color-scheme', value: 'dark' }],
+    });
+  }
   await send('Page.navigate', { url: `${origin}/mushrooms` });
 
   const evaluate: Page['evaluate'] = async (expression, schema) => {
@@ -389,7 +401,7 @@ async function main(): Promise<void> {
     await inTurn(
       PLAYS.filter(([name]) => only?.includes(name) ?? true),
       async ([name, playOn]) => {
-        const on = await open(browser, origin, screen, errors);
+        const on = await open(browser, origin, screen, errors, name === DARK);
         if (name !== 'meadow') await on.step(30);
         await playOn(
           on,

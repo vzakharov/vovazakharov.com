@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { cloudBox } from './cloud-puffs';
 import {
+  cloudOverMoon,
   darkScheme,
   duskReach,
   moonAt,
@@ -84,6 +86,26 @@ describe('the stars beside the moon', () => {
       }
     });
   }
+});
+
+const cloud = (x: number, y = sunY) => ({ x, y, r: 20 });
+
+describe('the clouds in front of the moon', () => {
+  const halo = sunR * SUN_RAY_REACH;
+  // The puffs' reach from a cloud's middle.
+  const box = cloudBox(cloud(0, 0));
+
+  it('a cloud reaching the moon’s halo, from either side or across it', () => {
+    assert.ok(cloudOverMoon(cloud(sunX), sun));
+    assert.ok(cloudOverMoon(cloud(sunX - halo - box.right + 1), sun));
+    assert.ok(cloudOverMoon(cloud(sunX + halo - box.left - 1), sun));
+  });
+
+  it('none clear of it, beside it or above it', () => {
+    assert.ok(!cloudOverMoon(cloud(sunX - halo - box.right - 1), sun));
+    assert.ok(!cloudOverMoon(cloud(sunX + halo - box.left + 1), sun));
+    assert.ok(!cloudOverMoon(cloud(sunX, sunY - halo - box.bottom - 1), sun));
+  });
 });
 
 describe('the scheme the page opens in', () => {
