@@ -7,18 +7,7 @@ import { placedAt, type Point } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
 import { type DoorPlace, paintedSpots } from '../../model/house';
 import { headedLight } from '../../model/light';
-import {
-  beckon,
-  breath,
-  emerge,
-  letGo,
-  lightUp,
-  phaseOf,
-  sink,
-  SINK_DURATION,
-  widthFor,
-  wobble,
-} from '../../model/motion';
+import { letGo, lightUp, phaseOf, SINK_DURATION } from '../../model/motion';
 import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
 import {
   TAP_PARTS,
@@ -27,7 +16,6 @@ import {
   toCanvas,
 } from '../../model/mushroom-outline';
 import { splayed } from '../../model/mushroom-pose';
-import { sproutScale } from '../../model/sprouting';
 import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
 import { doorSeats } from './door-seats';
@@ -38,6 +26,7 @@ import { HouseView } from './house-view';
 import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
 import { MouseRuns } from './mouse-runs';
+import { moveMushroom } from './mushroom-frame';
 import { mushroomLights } from './mushroom-light';
 import { MushroomSelection } from './mushroom-selection';
 import {
@@ -62,19 +51,8 @@ import type { Following, View } from './view';
 
 /** Above everything in the meadow, whose depth is where its foot stands. */
 const SPORE_DEPTH = 1e5;
-/** A tapped mushroom's rock to and fro, against its squash. */
-const WOBBLE_ROCK = 0.35;
-/** How much wider a shadow spreads per unit of the mushroom's squash. */
-const SHADOW_SPREAD = 0.6;
 /** How much nearer than its mushroom its shadow is drawn: just behind it, before anything standing behind it. */
 const SHADOW_NEARER = -0.5;
-/**
- * How much larger a mushroom is drawn in a wet meadow, scaled about its foot.
- * Its hit area, in its drawing's frame, grows with it; the outline read off
- * its genes (`mushroom-outline`) does not, the 6 % being inside the tap
- * patch's slack.
- */
-const RAIN_SWELL = 0.06;
 
 /**
  * The meadow's mushrooms on screen, reconciled with the state by id: a new
@@ -228,11 +206,10 @@ export class MushroomBed implements Following {
   }
 
   /**
-   * Breathes, wobbles and grows every mushroom at `t`, in seconds, each
-   * swollen about its foot by the meadow's `wetness`, 0 to 1 (`RAIN_SWELL`),
-   * its house, ring and the seats on its cap following its drawing, the
-   * house's windows lit as `lights` has the dusk, and its haze toward the
-   * air as `dusk` (`duskness`) turns it.
+   * Moves every mushroom at `t`, in seconds (`moveMushroom`), in the meadow's
+   * `wetness` and the dusk's `lights`, its ring and the seats on its cap
+   * following its drawing, and its haze toward the air as `dusk`
+   * (`duskness`) turns it; destroys one once it has sunk away.
    */
   update(t: number, wetness: number, lights?: Lights, dusk = 0): void {
     this.dusk = dusk;
@@ -252,46 +229,15 @@ export class MushroomBed implements Following {
         })),
       );
     }
-    const swell = 1 + RAIN_SWELL * wetness;
     for (const [id, shown] of this.shown) {
-      const {
-        graphics,
-        shadow,
-        house,
-        plantedAt,
-        goneAt,
-        tappedAt,
-        phase,
-        turn,
-        sprout,
-        stands: { zoom, drawn },
-      } = shown;
-      const young = sproutScale(sprout, t * 1000);
-      const grown =
-        Math.min(emerge(t - plantedAt), sink(t - goneAt)) * swell * young;
-      if (t - goneAt >= SINK_DURATION) {
-        graphics.destroy();
-        shadow.destroy();
-        house.destroy();
+      if (t - shown.goneAt >= SINK_DURATION) {
+        shown.graphics.destroy();
+        shown.shadow.destroy();
+        shown.house.destroy();
         this.shown.delete(id);
         continue;
       }
-      const bounce = wobble(t - tappedAt);
-      const stretch = breath(t, phase) + bounce + beckon(t, shown);
-      graphics
-        .setScale(
-          widthFor(stretch) * grown * zoom,
-          (1 + stretch) * grown * zoom,
-        )
-        .setRotation(turn + bounce * WOBBLE_ROCK)
-        .setVisible(drawn);
-      house.update(t, shown, lights);
-      shadow
-        .setScale(
-          (1 + Math.max(0, -stretch) * SHADOW_SPREAD) * grown * zoom,
-          grown * zoom,
-        )
-        .setVisible(drawn);
+      moveMushroom(shown, t, wetness, lights);
       if (id === this.selected) this.selection.pose(shown);
     }
     this.runs.update(t, this.view);

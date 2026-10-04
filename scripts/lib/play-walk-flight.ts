@@ -13,6 +13,7 @@ import {
 } from '../../src/pages/mushrooms/model/eye-height.ts';
 import { SLOP } from '../../src/pages/mushrooms/model/pan.ts';
 import { planeSeen, viewOf } from '../../src/pages/mushrooms/model/pinhole.ts';
+import { crossingOf } from '../../src/pages/mushrooms/model/walk.ts';
 import {
   type Camera,
   type Controls,
@@ -29,21 +30,6 @@ const UNDER_SHARE = 0.03;
 const DRAG_MOVES = 12;
 /** Frames past the rise's ease for the far things' repaints to settle. */
 const RISEN = Math.ceil(RISE_EASE * FPS) + 30;
-
-/**
- * The point a drag from `from` toward `to` locks its ground at: `SLOP` along
- * the way, where the finger crossed out of a tap (`walk.ts`'s crossing).
- */
-function crossingOf(
-  from: z.infer<typeof Point>,
-  to: z.infer<typeof Point>,
-): z.infer<typeof Point> {
-  const reach = Math.hypot(to.x - from.x, to.y - from.y);
-  return {
-    x: from.x + ((to.x - from.x) * SLOP) / reach,
-    y: from.y + ((to.y - from.y) * SLOP) / reach,
-  };
-}
 
 /**
  * A drag down the screen from bare ground in flight, the finger at `fingers`

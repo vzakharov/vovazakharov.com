@@ -200,22 +200,13 @@ export function pressAt(walk: Walk, point: Point, time: number): Walk {
   };
 }
 
-/** Where on the slop's circle round `from` the way to `to` crosses it. */
-function crossingOf(from: Point, to: Point): Point {
+/** Where on the slop's circle round `from` the way to `to` crosses it: where a press locks its axis and ground. */
+export function crossingOf(from: Point, to: Point): Point {
   const reach = Math.hypot(to.x - from.x, to.y - from.y);
   return {
     x: from.x + ((to.x - from.x) * SLOP) / reach,
     y: from.y + ((to.y - from.y) * SLOP) / reach,
   };
-}
-
-/**
- * The pan pressed and already turning from screen x `x` at `time`, its
- * crossing step behind it, so the finger's next sample turns it 1:1 from
- * there and the crossing counts toward no glide.
- */
-function turningFrom(walk: Walk, x: number, time: number): Pan {
-  return press(walk.pan, arcOf(pinholeOf(walk.lens), x), time, true);
 }
 
 /**
@@ -334,14 +325,18 @@ function lockAt(
 
 /** The walk with `drag` locked at the crossing, at screen x `x`, at `time`. */
 function locking(walk: Walk, drag: Locked, x: number, time: number): Walk {
-  const { stride } = walk;
+  const { lens, pan, stride } = walk;
   const { gait, lock } = drag;
   const locked = { ...walk, drag };
+  // The turn or the chase starts afresh at the crossing, so the finger's next
+  // sample moves it 1:1 from there and its step past the slop counts toward
+  // no glide or fling.
   if (lock.axis === 'turn') {
-    return { ...locked, pan: turningFrom(walk, x, time) };
+    return {
+      ...locked,
+      pan: press(pan, arcOf(pinholeOf(lens), x), time, true),
+    };
   }
-  // The chase starts afresh at the crossing, so its step past the slop
-  // counts toward no fling, as a turn's counts toward no glide.
   return {
     ...locked,
     stride: chaseFrom(stride, headingAt(walk, time), lock.axis, time, gait),
