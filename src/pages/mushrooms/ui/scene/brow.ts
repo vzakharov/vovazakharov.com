@@ -25,7 +25,7 @@ import {
   type Random,
   skewedBetween,
 } from '../../model/random';
-import { BROW, groundRowAt } from './backdrop-tones';
+import { groundRowAt, type Tones } from './backdrop-tones';
 import { mix } from './colour';
 import { type Azimuthed, screenAt } from './panorama';
 import { hillBands, seamReach } from './skyline';
@@ -232,13 +232,16 @@ function browLine(view: View): Point[] {
  * from the brow down to where the ground's picture starts (`browFloor`), in
  * the picture's own tones, over whatever sinks; the crest's light along the
  * brow, fading down into the ground over a few rows; then the blades along
- * it at the view's heading, so a turn slides them as it does the hills.
+ * it at the view's heading, so a turn slides them as it does the hills. All
+ * in `tones`.
  */
 export function drawBrow(
   graphics: Phaser.GameObjects.Graphics,
   blades: readonly BrowBlade[],
   view: View,
+  tones: Tones,
 ): void {
+  const { brow } = tones;
   graphics.clear();
   const reach = seamReach(view);
   const line = browLine(view);
@@ -250,21 +253,21 @@ export function drawBrow(
     floor,
     COVER_ROWS,
   ).entries()) {
-    graphics.fillStyle(groundRowAt(view, top + (row + 0.5) * tall));
+    graphics.fillStyle(groundRowAt(view, top + (row + 0.5) * tall, tones));
     fillPolygon(graphics, outline);
   }
   const step = (reach * CREST_DEPTH) / CREST_ROWS;
   const shifted = (by: number) => line.map(({ x, y }) => ({ x, y: y + by }));
   for (let row = 0; row < CREST_ROWS; row++) {
-    const under = groundRowAt(view, view.groundTop + row * step);
-    graphics.fillStyle(mix(BROW.crest, under, row / CREST_ROWS));
+    const under = groundRowAt(view, view.groundTop + row * step, tones);
+    graphics.fillStyle(mix(brow.crest, under, row / CREST_ROWS));
     fillPolygon(graphics, [
       ...shifted(row * step),
       ...shifted((row + 1) * step + 0.5).toReversed(),
     ]);
   }
   for (const { x, root, half, tip, lit } of browShown(view, blades)) {
-    graphics.fillStyle(lit ? BROW.bladeLit : BROW.blade);
+    graphics.fillStyle(lit ? brow.bladeLit : brow.blade);
     graphics.fillTriangle(x - half, root, x + half, root, tip.x, tip.y);
   }
 }

@@ -25,19 +25,7 @@ import {
   wetnessShown,
 } from './rain-sky';
 import type { MeadowSound } from './sound';
-
-/**
- * Shows a cloud's dark `twin` at `darkness`. A graphics' own alpha falls on
- * each puff, so the puffs' overlaps would show through one another; between
- * 0 and 1 the twin is drawn whole off screen and its filter camera lays it
- * on at `darkness`. Where filters are not to be had (the canvas renderer)
- * it falls back to the graphics' own alpha.
- */
-function shade(twin: Phaser.GameObjects.Graphics, darkness: number): void {
-  const fading = darkness > 0 && darkness < 1 && twin.filters !== null;
-  twin.setAlpha(fading ? 1 : darkness).setFiltersForceComposite(fading);
-  if (fading) twin.filterCamera.setAlpha(darkness);
-}
+import { focusTwins, shade } from './twin-fade';
 
 /** How the sky stands this frame, as the probe reads it. */
 export type SkyShown = { raining: boolean; wetness: number; rainbow: number };
@@ -103,19 +91,7 @@ export class RainView {
     this.layout = layout;
     this.backdrop = backdrop;
     this.wash.setSize(layout.width, layout.height);
-    // A twin stands fixed on the screen, so its filter camera sees the
-    // screen as the scene's camera does, zoom and all, but unscrolled.
-    const { camera } = this;
-    for (const twin of backdrop.rainClouds) {
-      if (twin.filters === null) continue;
-      twin
-        .setFiltersAutoFocus(false)
-        .setFiltersFocusContext(true)
-        .setFilterSize(camera.width, camera.height)
-        .filterCamera.setOrigin(0, 0)
-        .setZoom(camera.zoomX, camera.zoomY)
-        .setScroll(0, 0);
-    }
+    focusTwins(backdrop.rainClouds, this.camera);
   }
 
   /** Each cloud where the screen shows it now, or `undefined` while it is off it. */
@@ -228,6 +204,7 @@ export class RainView {
     const { backdrop } = this;
     for (const graphics of [
       backdrop?.clouds[index],
+      backdrop?.duskClouds[index],
       backdrop?.rainClouds[index],
     ]) {
       graphics?.setScale(widthFor(stretch), 1 + stretch);

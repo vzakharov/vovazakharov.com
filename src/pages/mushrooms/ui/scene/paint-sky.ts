@@ -15,7 +15,7 @@ import { PUFFS } from './cloud-puffs';
 import { mix } from './colour';
 import { duskStars } from './dusk-stars';
 import type { MeadowLayout } from './layout';
-import { PALETTE } from './palette';
+import { DUSK, PALETTE } from './palette';
 import { azimuthAt, OPENING_CLOUD_COUNT } from './panorama';
 import { rainbowArc } from './rain-sky';
 import { fillShape, petal } from './shapes';
@@ -167,12 +167,14 @@ export function paintSun(
  * below and away from the sun, a warm rim on its side, the high clouds paler
  * with the sky's blue. The opening screen's clouds are shaped from `random`,
  * the rest from a stream of their own, so however many the sky holds, what
- * `random` shapes after them stays as it is. Each cloud's rain twin is the
- * same puffs in the rain cloud's colours, from `twin` straight after it.
+ * `random` shapes after them stays as it is. Each cloud has two twins of the
+ * same puffs, from `twins` straight after it and in this order, so the rain's
+ * lies over the dusk's: its dusk twin in `DUSK`'s cloud colours, a high one
+ * hazed toward the dusk sky's top, and its rain twin in the rain cloud's.
  */
 export function paintClouds(
   layer: Layer,
-  twin: Layer,
+  twins: Record<'dusk' | 'rain', Layer>,
   { clouds, sun, camera, height }: MeadowLayout,
   random: Random,
 ): Phaser.GameObjects.Graphics[] {
@@ -184,9 +186,9 @@ export function paintClouds(
   return clouds.map(({ azimuth, y, r }, place) => {
     const graphics = layer().setPosition(0, y);
     const shaping = place < OPENING_CLOUD_COUNT ? random : round;
-    const tone = (colour: number) =>
+    const tone = (colour: number, skyTop: number) =>
       y <= height * HIGH_CLOUD_ROW
-        ? mix(colour, PALETTE.skyTop, HIGH_CLOUD_HAZE)
+        ? mix(colour, skyTop, HIGH_CLOUD_HAZE)
         : colour;
     // The sun's way across the sky from the cloud, round the shorter side.
     const across = arc * wrap(sunAzimuth - azimuth);
@@ -199,23 +201,28 @@ export function paintClouds(
       x: (index - middle) * r * between(shaping, ...step),
       r: r * (index === middle ? 1 : between(shaping, ...side)),
     }));
-    const dark = twin().setPosition(0, y);
-    for (const [colour, rainy, dx, dy, scale] of [
+    const dusk = twins.dusk().setPosition(0, y);
+    const dark = twins.rain().setPosition(0, y);
+    for (const [face, rainy, dx, dy, scale] of [
       [
-        PALETTE.cloudShade,
-        PALETTE.rainCloudShade,
+        'cloudShade',
+        'rainCloudShade',
         -lean.x,
         r * sink - lean.y,
         scales.shade,
       ],
-      [PALETTE.cloudLit, PALETTE.rainCloudLit, lean.x, lean.y, scales.lit],
-      [PALETTE.cloud, PALETTE.rainCloud, 0, 0, scales.face],
+      ['cloudLit', 'rainCloudLit', lean.x, lean.y, scales.lit],
+      ['cloud', 'rainCloud', 0, 0, scales.face],
     ] as const) {
-      graphics.fillStyle(tone(colour));
-      dark.fillStyle(tone(rainy));
-      for (const puff of puffs) {
-        graphics.fillCircle(puff.x + dx, dy, puff.r * scale);
-        dark.fillCircle(puff.x + dx, dy, puff.r * scale);
+      for (const [into, colour, skyTop] of [
+        [graphics, PALETTE[face], PALETTE.skyTop],
+        [dusk, DUSK[face], DUSK.skyTop],
+        [dark, PALETTE[rainy], PALETTE.skyTop],
+      ] as const) {
+        into.fillStyle(tone(colour, skyTop));
+        for (const puff of puffs) {
+          into.fillCircle(puff.x + dx, dy, puff.r * scale);
+        }
       }
     }
     return graphics;

@@ -118,8 +118,8 @@ export function tonesAt(dusk: number): Tones {
   return tonesOf((name) => mix(PALETTE[name], DUSK[name], dusk));
 }
 
-/** The day's ranges, ground stops and brow (`tonesOf`). */
-export const { ranges: RANGES, ground: GROUND_STOPS, brow: BROW } = DAY;
+/** The day's ranges and ground stops (`tonesOf`). */
+export const { ranges: RANGES, ground: GROUND_STOPS } = DAY;
 
 /** A crest's rim on the sun's side of its range, in `tones`. */
 export function ridgeTone(lit: number, tones: Tones = DAY): number {

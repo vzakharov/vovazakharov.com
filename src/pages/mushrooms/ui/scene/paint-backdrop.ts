@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 import { OPENING_EYE } from '../../model/ground';
 import type { Random } from '../../model/random';
 import { DEPTHS } from './backdrop-depths';
-import { DUSK_TONES } from './backdrop-tones';
+import { DUSK_TONES, tonesAt } from './backdrop-tones';
 import {
   aboutTheSun,
   type Bake,
@@ -35,11 +35,14 @@ import {
 } from './paint-sky';
 import { driftedAzimuth, placedLeft, screenAt } from './panorama';
 import { SUN_RAY_REACH } from './sun-layout';
+import { focusTwins, shade } from './twin-fade';
 import { type Following, type View, viewAt } from './view';
 import { GROUND_BOB } from './walking';
 
 /** How far past the tips of its rays the sun's picture runs, in CSS px, for their smoothed edge. */
 const SUN_MARGIN = 2;
+/** The steps per day-to-dusk the hills and the brow are redrawn at as the light turns. */
+const LIGHT_STEPS = 64;
 
 /**
  * A picture baked round the sun, which turns with it: its columns, the
@@ -61,28 +64,35 @@ type Turning = { columns: Picture; home: Span; offsets: number[] };
  */
 export type Backdrop = Following & {
   sky: Picture;
-  /** The sky at full dusk and its stars, over the day's sky and the glow, shown by its alpha (`showDusk`). */
+  /** The sky at full dusk and its stars, over the day's sky and the glow, shown by its alpha (`relight`). */
   duskSky: Picture;
   glow: Turning;
   sun: Turning;
   /** The rainbow opposite the sun, shown by its columns' alpha as a shower ends (`rain-view.ts`). */
   rainbow: Turning;
   clouds: Phaser.GameObjects.Graphics[];
-  /** Each cloud's dark twin, placed with it and shown by its alpha as it rains (`rain-view.ts`). */
+  /** Each cloud's dusk twin, placed with it and faded in over it toward dusk (`relight`). */
+  duskClouds: Phaser.GameObjects.Graphics[];
+  /** Each cloud's dark twin, over its dusk twin, placed with it and faded in as it rains (`rain-view.ts`). */
   rainClouds: Phaser.GameObjects.Graphics[];
   hills: HillLayers;
   /** The meadow's brow along the ground's cover row, in front of what sinks under it. */
   brow: Phaser.GameObjects.Graphics;
-  /** The heading the hills and the brow were last drawn from. */
-  hillsFrom: number | undefined;
+  /** The heading, and the level in `LIGHT_STEPS`, the hills and the brow were last drawn from. */
+  hillsFrom: { heading: number; level: number } | undefined;
   ground: Picture;
-  /** The ground's rows at full dusk, over the day's, shown by its alpha (`showDusk`). */
+  /** The ground's rows at full dusk, over the day's, shown by its alpha (`relight`). */
   duskGround: Picture;
+  /** How far toward dusk the backdrop was last lit (`relight`), kept over a repaint. */
+  level: number;
   /**
-   * Shows the dusk's pictures over the day's at `level`, from 0 at full day
-   * to 1 at full dusk (`duskness`): the cross-fade costs no repaint.
+   * Lights the backdrop `level` of the way to dusk, from 0 at full day to 1
+   * at full dusk (`duskness`): the dusk's pictures shown over the day's and
+   * the clouds' dusk twins faded in over them at `level`, which costs no
+   * repaint, and the hills and the brow, drawn live, redrawn in its tones
+   * whenever it crosses a step of `LIGHT_STEPS`.
    */
-  showDusk: (level: number) => void;
+  relight: (level: number) => void;
   wash: Turning;
   grain: Phaser.GameObjects.TileSprite[];
   layers: Phaser.GameObjects.Graphics[];
@@ -132,15 +142,21 @@ export function paintBackdrop(
     cloudCount += 1;
     return graphics;
   };
+  /** A layer for one of each cloud's twins, unseen until it is faded in (`twin-fade.ts`), collected into `twins`. */
+  const twinLayer =
+    (
+      twins: Phaser.GameObjects.Graphics[],
+      was: readonly Phaser.GameObjects.Graphics[] | undefined,
+    ): Layer =>
+    () => {
+      const graphics = (
+        was?.[twins.length] ?? fixedAt('clouds').setAlpha(0).enableFilters()
+      ).clear();
+      twins.push(graphics);
+      return graphics;
+    };
+  const duskClouds: Phaser.GameObjects.Graphics[] = [];
   const rainClouds: Phaser.GameObjects.Graphics[] = [];
-  const twinLayer: Layer = () => {
-    const graphics = (
-      existing?.rainClouds[rainClouds.length] ??
-      fixedAt('clouds').setAlpha(0).enableFilters()
-    ).clear();
-    rainClouds.push(graphics);
-    return graphics;
-  };
   // Drawn in this order, which is the order `random` is drawn from.
   const skyLayer = layer();
   paintSky(skyLayer, layout);
@@ -148,13 +164,23 @@ export function paintBackdrop(
   const glowSpan = paintGlow(glowLayer, layout);
   const sunLayer = layer();
   paintSun(sunLayer, layout);
-  const clouds = paintClouds(cloudLayer, twinLayer, layout, random);
+  const clouds = paintClouds(
+    cloudLayer,
+    {
+      dusk: twinLayer(duskClouds, existing?.duskClouds),
+      rain: twinLayer(rainClouds, existing?.rainClouds),
+    },
+    layout,
+    random,
+  );
   for (const spare of [
     ...(existing?.clouds.slice(cloudCount) ?? []),
+    ...(existing?.duskClouds.slice(duskClouds.length) ?? []),
     ...(existing?.rainClouds.slice(rainClouds.length) ?? []),
   ]) {
     spare.destroy();
   }
+  focusTwins(duskClouds, scene.cameras.main);
   const { camera, width, height, nearHills, sun, wash: rings } = layout;
   const hills = hillsOf(layout, random);
   const hillLayers: HillLayers = existing?.hills ?? {
@@ -242,8 +268,6 @@ export function paintBackdrop(
     sources: [rainbowLayer],
   });
   for (const column of rainbow.columns) column.setAlpha(rainbowAlpha);
-  // A repaint keeps how far the dusk had come; a new one opens at day.
-  const duskAlpha = existing?.duskSky[0]?.alpha ?? 0;
   const backdrop: Backdrop = {
     sky: baked('sky', existing?.sky, {
       span: screen,
@@ -266,10 +290,13 @@ export function paintBackdrop(
     }),
     rainbow,
     clouds,
+    duskClouds,
     rainClouds,
     hills: hillLayers,
     brow,
     hillsFrom: undefined,
+    // A repaint keeps how far the dusk had come; a new one opens at day.
+    level: existing?.level ?? 0,
     ground: baked('ground', existing?.ground, {
       span: screen,
       rows: groundRows,
@@ -282,10 +309,13 @@ export function paintBackdrop(
       sources: [duskGroundLayer],
       bobbing: GROUND_BOB,
     }),
-    showDusk: (level) => {
+    relight: (level) => {
+      backdrop.level = level;
       for (const column of [...backdrop.duskSky, ...backdrop.duskGround]) {
         column.setAlpha(level);
       }
+      for (const twin of backdrop.duskClouds) shade(twin, level);
+      raiseHills(backdrop, hills, blades);
     },
     wash,
     grain,
@@ -300,25 +330,32 @@ export function paintBackdrop(
       }
       turn(backdrop.rainbow, view, arch.x);
       placeClouds(backdrop, layout);
-      raiseHills(backdrop, hills, blades, view);
+      raiseHills(backdrop, hills, blades);
     },
   };
   backdrop.follow(backdrop.view);
-  backdrop.showDusk(duskAlpha);
+  backdrop.relight(backdrop.level);
   return backdrop;
 }
 
-/** Draws `backdrop`'s hills and its brow as `view` shows them, unless they were last drawn from its heading. */
+/**
+ * Draws `backdrop`'s hills and its brow as its `view` shows them, toned at
+ * its `level` in `LIGHT_STEPS`, unless they were last drawn from that heading
+ * at that step.
+ */
 function raiseHills(
   backdrop: Backdrop,
   hills: Hills,
   blades: readonly BrowBlade[],
-  view: View,
 ): void {
-  if (backdrop.hillsFrom === view.eye.heading) return;
-  backdrop.hillsFrom = view.eye.heading;
-  drawHills(backdrop.hills, hills, view);
-  drawBrow(backdrop.brow, blades, view);
+  const { view, hillsFrom: was, hills: layers, brow } = backdrop;
+  const { heading } = view.eye;
+  const level = Math.round(backdrop.level * LIGHT_STEPS) / LIGHT_STEPS;
+  if (was?.heading === heading && was.level === level) return;
+  backdrop.hillsFrom = { heading, level };
+  const tones = tonesAt(level);
+  drawHills(layers, hills, view, tones);
+  drawBrow(brow, blades, view, tones);
 }
 
 /** Slides `picture`, baked round the opening x `at`, to where `view` shows `at`, or hides it. */
@@ -331,12 +368,12 @@ function turn({ columns, home, offsets }: Turning, view: View, at: number) {
 }
 
 /**
- * Moves `backdrop`'s clouds, and their dark twins with them, to where they
- * have drifted round the sky by its `drifted`, as its `view` shows them: a
- * cloud past the screen's edges by more than it spreads is hidden.
+ * Moves `backdrop`'s clouds, and their twins with them, to where they have
+ * drifted round the sky by its `drifted`, as its `view` shows them: a cloud
+ * past the screen's edges by more than it spreads is hidden.
  */
 function placeClouds(
-  { clouds: drawn, rainClouds, view, drifted }: Backdrop,
+  { clouds: drawn, duskClouds, rainClouds, view, drifted }: Backdrop,
   { clouds, width }: MeadowLayout,
 ): void {
   for (const [index, graphics] of drawn.entries()) {
@@ -345,7 +382,7 @@ function placeClouds(
     const x = screenAt(view, driftedAzimuth(cloud, drifted));
     const spread = cloud.r * PUFF_REACH.across;
     const shown = x > -spread && x < width + spread;
-    for (const each of [graphics, rainClouds[index]]) {
+    for (const each of [graphics, duskClouds[index], rainClouds[index]]) {
       each?.setVisible(shown);
       if (each && shown) each.x = x;
     }

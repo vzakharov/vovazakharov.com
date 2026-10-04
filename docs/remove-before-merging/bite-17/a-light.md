@@ -26,15 +26,11 @@ Calls 1–7 and 14 of `bite-17.md`. Paths under `src/pages/mushrooms/`.
 ## Left — designed
 
 1. **Bakes** — done (see Done).
-2. **Clouds**: a dusk twin per cloud in `paintClouds` (created between the
-   day cloud and the rain twin, same puffs, `DUSK` cloud colours, haze toward
-   `DUSK.skyTop`); `placeClouds` and rain-view's `scaleCloud` move them too.
-   Fade them whole with rain-view's `shade` and its filter-camera setup —
-   move both into a shared module (`twin-fade.ts`) both views import.
-3. **Hills and brow**: `drawHills(layers, hills, view, tones)` and
-   `drawBrow(..., tones)` take `tonesAt(level)`; a `Range` keeps a key into
-   `tones.ranges` instead of its tones. `Backdrop.relight(level)` (a closure
-   like `follow`) redraws them when the level, quantised to 1/64, changes.
+2. **Clouds** — done (package a2, `a2.md`): dusk twins faded by
+   `backdrop.relight(level)`.
+3. **Hills and brow** — done (package a2, `a2.md`): `backdrop.relight(level)`
+   also sets the dusk bakes' alpha (it replaces `showDusk`), so DuskView
+   calls that one thing.
 4. **`dusk-view.ts` `DuskView`**: wash rectangle `PALETTE.duskWash` at
    `DUSK_WASH_DEEPEST * level` at `hudDepth - 2` (stacks with the rain's);
    `glowDepth = hudDepth - 1.5` — **the seam for packages B and C**: windows

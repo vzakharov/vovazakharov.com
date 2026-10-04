@@ -5,7 +5,6 @@ import type { Random } from '../../model/random';
 import {
   GROUND_BANDS,
   groundRowAt,
-  RANGES,
   ridgeTone,
   type Tones,
 } from './backdrop-tones';
@@ -40,9 +39,9 @@ const HILL_MARGIN = 4;
 /** The two layers the hills are drawn into: the farthest and far ranges, and the near one under the far. */
 export type HillLayers = Record<'far' | 'near', Phaser.GameObjects.Graphics>;
 
-/** A range as it is drawn: its skyline round the panorama, its tones, the layer it lies in and its sunlit rim's depth. */
+/** A range as it is drawn: its skyline round the panorama, which of `Tones.ranges` it is toned as, the layer it lies in and its sunlit rim's depth. */
 type Range = WithCrest & {
-  tones: (typeof RANGES)[keyof typeof RANGES];
+  toned: keyof Tones['ranges'];
   layer: keyof HillLayers;
   rim: number;
 };
@@ -69,19 +68,19 @@ export function hillsOf(layout: MeadowLayout, random: Random): Hills {
   const ranges: Range[] = [
     {
       crest: farthestSkyline(random, layout),
-      tones: RANGES.farthest,
+      toned: 'farthest',
       layer: 'far',
       rim: 2,
     },
     {
       crest: farSkyline(random, layout),
-      tones: RANGES.far,
+      toned: 'far',
       layer: 'far',
       rim: 3,
     },
     {
       crest: nearSkyline(random, layout),
-      tones: RANGES.near,
+      toned: 'near',
       layer: 'near',
       rim: 4,
     },
@@ -101,30 +100,33 @@ export function hillsOf(layout: MeadowLayout, random: Random): Hills {
  * The hills as `view` shows them, into `layers`, cleared first: each range
  * nearer the air the farther it stands and paling into the mist at its foot,
  * its slopes that face the sun rimmed with light, and the near range's foot
- * meeting the ground along the seam, in the ground's own colour there.
+ * meeting the ground along the seam, in the ground's own colour there —
+ * all in `tones`.
  */
 export function drawHills(
   layers: HillLayers,
   { ranges, seam, floors, light }: Hills,
   view: View,
+  tones: Tones,
 ): void {
   for (const graphics of Object.values(layers)) graphics.clear();
-  for (const { crest, tones, layer, rim } of ranges) {
+  for (const { crest, toned, layer, rim } of ranges) {
     const graphics = layers[layer];
+    const { lit, foot } = tones.ranges[toned];
     const line = crestAcross(crest, view, HILL_STEPS, HILL_MARGIN);
     for (const { outline, down } of hillBands(
       line,
       floors[layer],
       HILL_BANDS,
     )) {
-      graphics.fillStyle(mix(tones.lit, tones.foot, down));
+      graphics.fillStyle(mix(lit, foot, down));
       fillShape(graphics, outline);
     }
-    graphics.fillStyle(ridgeTone(tones.lit));
+    graphics.fillStyle(ridgeTone(lit, tones));
     for (const quad of litRidge(line, light, rim)) fillShape(graphics, quad);
   }
   const seamLine = crestAcross(seam, view, SEAM_STEPS, HILL_MARGIN);
-  layers.near.fillStyle(RANGES.near.foot);
+  layers.near.fillStyle(tones.ranges.near.foot);
   fillShape(layers.near, [
     ...seamLine,
     { x: seamLine.at(-1)?.x ?? view.width, y: floors.near },
