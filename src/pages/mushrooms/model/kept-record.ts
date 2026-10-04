@@ -27,11 +27,7 @@ export const KEPT_VERSION = 1;
  */
 export const RESTED_AT = -SPROUT_MS;
 
-/**
- * What a meadow opens with of what is not kept, the selection, the pickers
- * and the shower belonging to the load that had them: nothing selected,
- * every picker shut, no shower yet.
- */
+/** What a meadow opens with in place of the selection, the pickers and the shower, which belong to the load that had them. */
 export const UNKEPT = {
   ...PICKERS_SHUT,
   selected: undefined,
@@ -140,8 +136,10 @@ const KeptMeadowSchema = z.object({
 });
 
 /**
- * The record, checked against the model's own types: a field the model changes and this does not fails the type check.
- * Its shape is pinned by `kept-record.schema.json`, so a change to it meets the question of `KEPT_VERSION`.
+ * The record, checked against the model's own types: a field the model
+ * changes and this does not fails the type check. Its shape is pinned by
+ * `kept-record.schema.json`, so a change to it meets the question of
+ * `KEPT_VERSION`.
  */
 export const KeptSchema = z.object({
   version: z.literal(KEPT_VERSION),

@@ -169,7 +169,7 @@ export async function deselect(page: Page): Promise<void> {
   );
 }
 
-/** `ids`, the mushrooms',from the one drawn furthest back to the one in front. */
+/** `ids`, the mushrooms', from the one drawn furthest back to the one in front. */
 export async function backToFront(
   page: Page,
   ids: readonly string[],

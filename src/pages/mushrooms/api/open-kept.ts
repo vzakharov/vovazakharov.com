@@ -20,10 +20,7 @@ export type Opening = Seeded & {
   streams: number;
   kept?: Kept;
   keeper?: Keeper;
-  /**
-   * Whether the meadow's stored record is no longer the one this load opened
-   * or last wrote, another tab having kept it since; present with the keeper.
-   */
+  /** Whether another tab has kept the meadow since this load opened or last wrote it; present with the keeper. */
   overwritten?: () => Promise<boolean>;
 };
 
@@ -83,9 +80,10 @@ async function openIn(
 /**
  * `store`, remembering the record under `number` this load last saw land,
  * `opened` to begin with, and reopened in place, so the memory and
- * `overwritten` follow the keeper onto a fresh connection. A read queues behind the writes already sent, and
- * a landed write updates the memory before that read answers, so a read
- * that differs from it was written by another load.
+ * `overwritten` follow the keeper onto a fresh connection. A read queues
+ * behind the writes already sent, and a landed write updates the memory
+ * before that read answers, so a read that differs from it was written by
+ * another load.
  */
 function watchedWrites(
   store: Store,

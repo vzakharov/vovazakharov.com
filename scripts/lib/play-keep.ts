@@ -4,8 +4,8 @@
  * dusk and a butterfly released (`keep-before`); the page reloaded while it
  * flies, where the eye must stand where it stood, the butterfly sit on its
  * perch, and the same mushrooms, houses and flowers come back at `#1`, at
- * full dusk (`keep-after`); then `#new` opened, a fresh
- * meadow at `#2` with the opening's two mushrooms, in daylight (`keep-new`).
+ * full dusk (`keep-after`); then `#new` opened, a fresh meadow at `#2` with
+ * the opening's two mushrooms, in daylight (`keep-new`).
  */
 
 import { setTimeout as sleep } from 'node:timers/promises';
@@ -60,7 +60,7 @@ async function kept(page: Page) {
 
 type Kept = Awaited<ReturnType<typeof kept>>;
 
-/** Whether the reload brought the eye back where it stood, and every flier seated on its perch. */
+/** Expects the reload to bring the eye back where it stood, and every flier seated on its perch. */
 function cameBackAtRest(
   { eye, insects }: Kept,
   back: Kept,

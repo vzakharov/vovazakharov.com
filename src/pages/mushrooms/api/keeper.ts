@@ -22,14 +22,12 @@ export type Keeper = {
 const YIELDED = new Error('A newer build of the game holds the kept meadows');
 
 /**
- * The keeper of meadow `number`. A connection the browser closed is reopened
- * (`reopen`) before the next write, and a refused write reopens the store
- * once and retries the newest record on it: WebKit drops the connection of an
- * app left in the background, and a fresh one answers. Only when the reopen
- * or that retry fails too, or the connection yielded to a newer build, is it
- * the "no storage, no keeping" case met late: keeping stops for the rest of
- * the load and the cause is reported once, while the meadow on screen plays
- * on unaffected.
+ * The keeper of meadow `number`. WebKit drops a backgrounded app's connection
+ * and a fresh one answers, so a closed connection is reopened before the next
+ * write, and a refused write reopens once and retries the newest record. Only
+ * when that fails too, or the connection yielded to a newer build, is it the
+ * "no storage, no keeping" case met late: keeping stops for the load and the
+ * cause is reported once, while the meadow on screen plays on unaffected.
  */
 export function keeper(
   store: Store,
