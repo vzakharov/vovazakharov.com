@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-04T19:39:49Z
-- **Updated:** 2026-10-04T21:45:24Z
+- **Updated:** 2026-10-04T22:02:42Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -18,43 +18,54 @@
 ## Summary
 
 - **A plan, not code yet:** `docs/plans/mega-skill.draft.do-not-implement.md` designs `/mega`. It is a skill that runs a huge task (an elephant, game or not) near-autonomously across many sessions, while the operator drops in now and then to look at progress, leave notes, and sometimes turn the whole direction.
-- **The loop itself is distilled** from two sources: the megabeast notes (`.claude/skills/megabeast/notes/`, ~100 KB), and PR #57, where the mushroom game was built that way by hand over 19 bites and ~50 sessions.
-- **The operator's side is new design, and asynchronous**: the run makes every call itself and reverses one when asked, so nothing waits for the operator. It has three parts:
-  - a `## Where it stands` dashboard at the top of the PR body, with the live session's link kept current across relays, and what waits on the operator heading the QA checklist;
-  - an intake for chat in the live session and for PR comments, taken in at each bite's end (no PR subscription). It sorts every message as a question, change, idea to weigh, re-steer, cut or pause;
-  - an operator log holding every message of the run verbatim, appended as it arrives.
+- **The loop itself is distilled** from two sources: the megabeast notes (`.claude/skills/megabeast/notes/`, ~100 KB), and PR #57, where the mushroom game was built that way by hand over 19 bites and ~50 sessions. A run goes on into the next bite while it has context left, and relays at the budget pause, always.
+- **The operator's side is new design, and asynchronous**: the run makes every call itself and reverses one when asked, so nothing waits for the operator. Its reach ends at its own branch and PR: anything outside goes on the operator's list as the exact command, and so does a failure that survives three attempts. It has three parts:
+  - a `## Where it stands` dashboard at the top of the PR body, with the live session's link kept current across relays, and the full list of what waits on the operator;
+  - an intake for chat in the live session and for PR comments, taken in at each bite's end, never by subscribing to PR activity. It sorts every message as a question, change (cuts included), idea to weigh, re-steer or pause;
+  - an operator log of the run's whole conversation, written verbatim by hooks as each message and reply arrives.
 
   A re-steer keeps what still makes sense, and settles the new direction's forks in one doc before building any of it. #57 paid for that lesson with its crop → pan → walk rework.
 
-- **Every PR body gets a size cap** in `vet.sh`: 400 lines, and a body that crossed it passes again only at 300.
-- **Five questions with recommendations** close the plan: where the skill lives (here or in muthur), the gate, what happens to the notes, the run's model, and the operator log versus kept relay files.
+- **The run must be able to see and drive its own work**; a product with no way to do that gets one as its first bite.
+- **Vendored fixes land here too**, after `/update-muthur`: `/relay take` reads its summary before attaching and moves a diverged ref aside instead of `reset --hard`, and so does `/from-branch`. A muthur issue follows once the PR is finalized.
+- **Every PR body gets a size cap** in `vet.sh`: 32,000 characters, and a body that crossed it passes again only at 24,000.
+- **Two questions with recommendations** remain: the run's model (named, with a warning below Opus at high effort) and the operator log versus kept relay files.
 
 ## QA Checklist
 
-- [ ] `entry` — `/mega <task>` in a fresh session writes a megaplan in the split shape, with the loop section, standing rules and the dashboard block. It publishes it as a draft PR and stops at the one gate.
-- [ ] `pickup` — `/relay take <branch>` on a mega branch resumes the run from the plan's loop section. It reads the depth from `lineage`, and never runs `reset --hard`.
-- [ ] `dashboard` — after a bite's end, the PR body opens with `## Where it stands` (at most ~15 lines), naming the live session, what can be seen now, and what waits on the operator; the QA checklist opens with that list.
+- [ ] `entry` — `/mega <task>` in a fresh session checks its model and effort, writes a megaplan in the split shape with the loop section, standing rules and the dashboard block, publishes it as a draft PR and stops at the one gate.
+- [ ] `self-test` — on a product with no way for the run to see its own work, the megaplan's first bite builds one.
+- [ ] `pickup` — `/relay take <branch>` on a mega branch reads `relay.md` before attaching, moves a diverged ref aside rather than resetting, and resumes from the plan's loop section.
+- [ ] `budget-relay` — the budget pause on a mega branch relays without asking, with the operator's auto-relay off.
+- [ ] `dashboard` — after a bite's end, the PR body opens with `## Where it stands`, naming the live session, what can be seen now, and everything that waits on the operator.
+- [ ] `out-of-reach` — a step outside the branch and PR (a merge, a push elsewhere) is not taken, and appears on the operator's list as the exact command.
 - [ ] `drop-in-change` — a change dropped mid-wave is logged, goes through the plan-or-not call, and lands where the orchestrator placed it, quoted in its own plan commit, without stopping the wave.
 - [ ] `drop-in-comment` — a PR comment left mid-bite is taken into the intake at that bite's end.
 - [ ] `drop-in-resteer` — a re-steer mid-bite judges each running piece against the new direction, rewrites `## Rest of the elephant` with built/unplaced marks, and opens a design doc before building anything.
-- [ ] `body-cap` — `vet.sh` fails a PR body over 400 lines, and keeps failing it above 300 once it has crossed.
+- [ ] `operator-log` — a chat message and its reply land in `operator-log.md` verbatim; a task notification does not; a branch with no log is untouched.
+- [ ] `body-cap` — `vet.sh` fails a PR body over 32,000 characters, and keeps failing it above 24,000 once it has crossed.
 - [ ] `coverage` — every megabeast note maps either to a destination in the skill or to a stated reason it was dropped.
 - [ ] `tombstone` — `.claude/skills/megabeast/retired.md` resolves the old notes via `git show`, and `plan/elephant.md` points at `/mega`.
 
 | Item              | Automatable | Covered? | Notes                                                                           |
 | ----------------- | ----------- | -------- | ------------------------------------------------------------------------------- |
 | `entry`           | manual-only | —        | An agent following prose; walked by the plan's fresh-eyes subagent              |
+| `self-test`       | manual-only | —        | Walked in the plan's fresh-eyes dry run                                         |
 | `pickup`          | manual-only | —        | Seen on a real run's first relay                                                |
+| `budget-relay`    | unit        | ✅       | The context-budget hook's test, with an operator log present                    |
 | `dashboard`       | manual-only | —        | Judged by the operator reading it on a drop-in                                  |
+| `out-of-reach`    | manual-only | —        | Walked in the plan's fresh-eyes dry run                                         |
 | `drop-in-change`  | manual-only | —        | Walked in the plan's fresh-eyes dry run                                         |
 | `drop-in-comment` | manual-only | —        | Seen on a real run's first bite end after a comment                             |
 | `drop-in-resteer` | manual-only | —        | Walked in the plan's fresh-eyes dry run                                         |
+| `operator-log`    | unit        | ✅       | The hook's tests: the injected-prompt skip and the no-log no-op                 |
 | `body-cap`        | unit        | ✅       | The crossing rule's test                                                        |
 | `coverage`        | manual-only | —        | Read against `docs/remove-before-merging/mega-coverage.md`                      |
 | `tombstone`       | unit        | ✅       | `scripts/check-skill-catalog.sh` fails a dangling `@`-reference into `.claude/` |
 
 https://claude.ai/code/session_01CnAdnSZ8PCLBPcWVtQxcFX
 https://claude.ai/code/session_01Be3aJin8zwtPdBiY8vTMG9
+https://claude.ai/code/session_01MF9yMKnnd3MPKCXt3M46Rh
 
 ---
 
@@ -77,27 +88,27 @@ chore: /mega runs a huge task while the operator drops in (pr #101)
 ```
 A task too big for one session already had a loop that worked: PR #57's
 game was built bite by bite, with each session building, reviewing in
-its own tail, folding into the plan and relaying. But the loop lived in
-one plan and ~100 KB of notes. /mega turns it into a skill that runs an
-elephant of any kind end to end, stopping only once, at the plan's
-review.
+its own tail and folding into the plan. But the loop lived in one plan
+and ~100 KB of notes. /mega turns it into a skill that runs an elephant
+of any kind end to end, stopping only once, at the plan's review, and
+relaying at the context-budget pause rather than at every bite's end.
 
 The operator's say is asynchronous: the run makes every call itself and
-reverses one when asked, so nothing waits for them. The PR body opens
-with a "Where it stands" block naming the live session, what can be seen
-now and what waits on them, which heads the QA checklist. Messages come
-as chat in the live session or as PR comments taken in at each bite's
-end, go verbatim into an operator log, and are sorted as a question,
-change, idea to weigh, re-steer, cut or pause. A re-steer keeps what
-still makes sense and settles the new direction's forks in one doc
-before building any of it.
+reverses one when asked. Its reach ends at its own branch and PR; a step
+beyond them, or a failure that survives three attempts, goes on the
+operator's list in a "Where it stands" block that opens the PR body with
+the live session and what can be seen now. Messages come as chat or as
+PR comments taken in at each bite's end, never by subscription; hooks
+log both sides verbatim, and each is sorted as a question, change,
+idea to weigh, re-steer or pause. A re-steer settles the new direction's
+forks in one doc before building any of it.
 
-The skill reads by phase, from one file each: start, operator,
-orchestrate, bite-end, review, relay and look, plus templates and a
-journal. It points at /relay, /task, /qa-checklist, /polish, /finalize
-and the elephant shape rather than restating them. The megabeast notes
-retire behind a tombstone. vet.sh caps every PR body at 400 lines, and
-a body that crossed it passes again only at 300.
+The skill reads by phase, one file each, and points at /relay, /task,
+/polish, /finalize and the elephant shape rather than restating them.
+The megabeast notes retire behind a tombstone. /relay take and
+/from-branch move a diverged ref aside instead of resetting it, and
+vet.sh caps every PR body at 32,000 characters, passing a body that
+crossed it again only at 24,000.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -106,128 +117,15 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_7 resolved threads omitted; re-run with `--include-resolved` to export them._
+_17 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `docs/plans/mega-skill.draft.do-not-implement.md`:38 — unresolved — last: @vzakharov (human) 2026-10-04T21:28:33Z — "Наверное, лучше таки в символах. Агенты иногда пишут абзацы…" → [↓](#t01)
-- **T02** `docs/plans/mega-skill.draft.do-not-implement.md`:46 — unresolved — last: @vzakharov (human) 2026-10-04T21:28:58Z — "Про `subscribe_pr_activity` я бы прямо прописал НЕ подписыва…" → [↓](#t02)
-- **T03** `docs/plans/mega-skill.draft.do-not-implement.md`:72 — unresolved — last: @vzakharov (human) 2026-10-04T21:30:45Z — "2 - но например у кого-то авторелей не стоит, /mega должен э…" → [↓](#t03)
-- **T04** `docs/plans/mega-skill.draft.do-not-implement.md`:82 — unresolved — last: @vzakharov (human) 2026-10-04T21:31:47Z — "а что с ответами на сообщения оператора? и как оно "пишется"…" → [↓](#t04)
-- **T05** `docs/plans/mega-skill.draft.do-not-implement.md`:23 — unresolved — last: @vzakharov (human) 2026-10-04T21:33:31Z — "да, но всё же ограничение для drastic changes (которые идут…" → [↓](#t05)
-- **T06** `docs/plans/mega-skill.draft.do-not-implement.md`:45 — unresolved — last: @vzakharov (human) 2026-10-04T21:34:35Z — "я думаю это тоже на самом деле лучше в Where it stands засун…" → [↓](#t06)
-- **T07** `docs/plans/mega-skill.draft.do-not-implement.md`:17 — unresolved — last: @vzakharov (human) 2026-10-04T21:36:07Z — "Это не про артефакт, а навеяно: вот я сам раньше написал про…" → [↓](#t07)
-- **T08** `docs/plans/mega-skill.draft.do-not-implement.md`:63 — unresolved — last: @vzakharov (human) 2026-10-04T21:37:15Z — "давай отдельно не будем. это в принципе Change тоже. И "befo…" → [↓](#t08)
-- **T09** `docs/plans/mega-skill.draft.do-not-implement.md`:87 — unresolved — last: @vzakharov (human) 2026-10-04T21:39:49Z — "я вот ещё кстати думаю, а обязательно ли байты начинать с но…" → [↓](#t09)
-- **T10** `docs/plans/mega-skill.draft.do-not-implement.md`:88 — unresolved — last: @vzakharov (human) 2026-10-04T21:40:44Z — "что в заметках мегазверя говорят про полезность ревью, if an…" → [↓](#t10)
-- **T11** `docs/plans/mega-skill.draft.do-not-implement.md`:89 — unresolved — last: @vzakharov (human) 2026-10-04T21:41:11Z — "что за reset --hard, почему он раз за разом появлялся в сооб…" → [↓](#t11)
-- **T12** `docs/plans/mega-skill.draft.do-not-implement.md`:94 — unresolved — last: @vzakharov (human) 2026-10-04T21:41:57Z — "а в чём будет цимес отличиая просто Unattended runs от mega?" → [↓](#t12)
-- **T13** `docs/plans/mega-skill.draft.do-not-implement.md`:101 — unresolved — last: @vzakharov (human) 2026-10-04T21:42:35Z — "почему бы и не взять. слон в слоне. по окончании пиара -- со…" → [↓](#t13)
-- **T14** `docs/plans/mega-skill.draft.do-not-implement.md`:149 — unresolved — last: @vzakharov (human) 2026-10-04T21:44:29Z — "1-2-3 ок" → [↓](#t14)
-- **T15** `docs/plans/mega-skill.draft.do-not-implement.md`:150 — unresolved — last: @vzakharov (human) 2026-10-04T21:45:07Z — "должна изначально смотреть, если это не как минимум Opus Hig…" → [↓](#t15)
+- **T01** `docs/plans/mega-skill.draft.do-not-implement.md`:82 — unresolved — last: @vzakharov (human) 2026-10-04T21:58:08Z — "а промежуточные вызовы тулов и пр. записывает? стоит или нет…" → [↓](#t01)
+- **T02** `docs/plans/mega-skill.draft.do-not-implement.md`:17 — unresolved — last: @vzakharov (human) 2026-10-04T21:59:42Z — "> раньше любой фичи ну это может быть лишнее -- главное чтоб…" → [↓](#t02)
+- **T03** `docs/plans/mega-skill.draft.do-not-implement.md`:87 — unresolved — last: @vzakharov (human) 2026-10-04T22:00:28Z — "ок" → [↓](#t03)
+- **T04** `docs/plans/mega-skill.draft.do-not-implement.md`:89 — unresolved — last: @vzakharov (human) 2026-10-04T22:01:24Z — "ничего не понял но ок :)" → [↓](#t04)
+- **T05** `docs/plans/mega-skill.draft.do-not-implement.md`:110 — unresolved — last: @vzakharov (human) 2026-10-04T22:02:42Z — "немножко свербит внутри, что у нас то ли суть что "mega", то…" → [↓](#t05)
 
 <a id="t01"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:38 — unresolved
-
-```diff
-@@ -0,0 +1,142 @@
-… 34 lines elided …
-+- **A `## Where it stands` block at the top of the PR body**, rewritten (not appended) at every bite's end and every wave report. It is at most ~15 lines and holds:
-+  - the bite in flight and its step;
-+  - what is playable or viewable now, with the Artifact link and the frames directory;
-+  - what waits on the operator: the `to-check.md` count, and any open fork with its "taken at the tail if unanswered" default;
-```
-
-**@vzakharov (human)** — 2026-10-04T20:30:36Z
-
-вот этот самый to-check на самом деле хорошо бы прижился в рамках QA checklist в качестве топ-приорити списка (то есть выше остальных). Но проблема в конкретно том проекте была что идея создать такое появилась, когда пр-боди уже был большой и лазать в него было просто неудобно, а в конце концов он разросся до таких масштабов, что даже пролистывание занимало неделю. Нужно где-то ограничивать размер body при веттинге; при этом должен быть тот же гистерезис, что у нас в других вещах: перешёл 400 -- сократил до 300 (например)
-
-**@vzakharov (agent)** — 2026-10-04T20:48:21Z
-
-Сделал и то, и другое.
-
-- Список «ждёт тебя» теперь первым в QA checklist, отдельного `to-check.md` нет. `/mega` передаёт это в `/qa-checklist` как focus guidance, так что вендорный скилл не трогаем.
-- Новый гейт в `vet.sh`, для любого PR, не только мега: body до 400 строк, а тот, что перешёл, снова проходит только на 300 и ниже. «Перешёл ли» читается из истории правок body (GraphQL `userContentEdits`), как `check-claude-md-size.sh` читает git, так что хранить состояние не нужно. Без PR гейт проходит.
-
-Цифры взял твои «например», в строках — скажи, если удобнее в символах. a349a98
-
-**@vzakharov (human)** — 2026-10-04T21:28:33Z
-
-Наверное, лучше таки в символах. Агенты иногда пишут абзацы в одну строку, и тогда 400 строк это целая энциклопедия. Сколько это в знаках -- посчитай пжст сам.
-
----
-
-<a id="t02"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:46 — unresolved
-
-```diff
-@@ -0,0 +1,142 @@
-… 42 lines elided …
-+
-+### The intake
-+
-+Each run session calls `subscribe_pr_activity` on the PR, so a comment or review wakes whichever session is live. Chat in the live session is the other channel. Every operator message, from either channel, is sorted into exactly one of these:
-```
-
-**@vzakharov (human)** — 2026-10-04T20:32:17Z
-
-нене, этого добра нам не надо. У нас свой луп с handle и (в случай с мега, если примем) review -- не нужно нам, чтобы subscribe лез когда не надо
-
-**@vzakharov (agent)** — 2026-10-04T20:48:22Z
-
-Убрал `subscribe_pr_activity`. Каналов теперь два, и подписка ни одному не нужна:
-
-- чат в живой сессии (ссылка на дашборде); `/handle`, набранный там, тоже идёт через intake;
-- комментарии на PR: их забирает конец каждого байта — переэкспорт PR, и каждая ветка, где последний ты, идёт в intake как сообщение.
-
-Комментарий ждёт максимум до конца текущего байта, и в асинхронной модели это нормально. a349a98
-
-**@vzakharov (human)** — 2026-10-04T21:28:58Z
-
-Про `subscribe_pr_activity` я бы прямо прописал НЕ подписываться и почему
-
----
-
-<a id="t03"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:72 — unresolved
-
-```diff
-@@ -0,0 +1,142 @@
-… 63 lines elided …
-+
-+**Timing:** by default a re-steer takes effect at once. "After this bite" in their words defers it to the bite boundary, as with T49.
-+
-+**Standing posture during a drop-in** (from the notes, said once in the skill):
-+
-+- ask only about the unrecoverable;
-+- a budget notice relays unasked;
-+- a "why?" gets the old rule's reason and whether it still holds;
-+- replies go in the operator's language even when the turn was woken by an English agent report.
-```
-
-**@vzakharov (human)** — 2026-10-04T20:37:22Z
-
-это о чём?
-
-**@vzakharov (agent)** — 2026-10-04T20:48:27Z
-
-Это четыре правила из заметок о том, как прогону вести себя, когда ты заглянул:
-
-1. спрашивать только о необратимом;
-2. по сигналу бюджета контекста — релей без спроса;
-3. на «почему?» отвечать причиной решения и тем, держится ли она ещё, а не воспринимать как просьбу откатить (на #57 два «почему?» были про решения без причины, которую ты бы принял);
-4. отвечать на твоём языке, даже если ход разбужен английским отчётом агента (было «не понял почему мы вдруг заговорили по-английски»).
-
-Отдельной секцией это лишнее: 1 поглощено асинхронностью, 2 уже делает auto-relay, 3 теперь в описании вопроса, 4 — одна строка в intake. Секцию убрал. a349a98
-
-**@vzakharov (human)** — 2026-10-04T21:30:45Z
-
-2 - но например у кого-то авторелей не стоит, /mega должен это оверрайдить
-
----
-
-<a id="t04"></a>
 
 ### `docs/plans/mega-skill.draft.do-not-implement.md`:82 — unresolved
 
@@ -260,47 +158,21 @@ _7 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 а что с ответами на сообщения оператора? и как оно "пишется" -- вручную агентом, или скриптом?
 
----
+**@vzakharov (agent)** — 2026-10-04T21:55:55Z
 
-<a id="t05"></a>
+Ответы теперь тоже в логе, целиком. Пишут хуки, а не агент, чтобы ничего не пересказывалось и не терялось:
+- чат: `UserPromptSubmit` дописывает твоё сообщение в момент прихода, `Stop` — ответ прогона. Промпты, которые подкладывает харнесс (уведомления задач, wake, отчёты сабагентов), узнаются по их открывающему тегу и пропускаются;
+- комментарии на PR: `scripts/mega-log-pr.sh` в конце байта, после переэкспорта. Ответ там уже на GitHub, так что в логе ссылка на него, а не копия.
 
-### `docs/plans/mega-skill.draft.do-not-implement.md`:23 — unresolved
+На ветке без operator log оба хука ничего не делают. Сессии лог целиком не читают, только секцию текущего байта. f4fddfb
 
-```diff
-@@ -14,83 +14,87 @@ The ask, verbatim:
-… 7 lines elided …
--`/mega` runs one elephant (`.claude/skills/plan/elephant.md`) end to end without the operator in between bites. The loop is: plan, then for each bite a build, a review by subagents in the bite's tail…
-+`/mega` runs one elephant (`.claude/skills/plan/elephant.md`) end to end without the operator in between bites. The loop is: plan, then for each bite a build, a review by subagents in the bite's tail…
-+
-+**The operator's say is asynchronous.** The run is unattended and does not solicit: it makes every call itself — what to plan, where a change goes, which option a fork takes, how a re-steer lands — and never waits for an answer. The operator drops in at times of their choosing, sees where things stand in under a minute, and says something into the run. When they ask for a call to go the other way, the run reverses it like any other change. Nothing is held for them.
-```
+**@vzakharov (human)** — 2026-10-04T21:58:08Z
 
-**@vzakharov (human)** — 2026-10-04T21:33:31Z
-
-да, но всё же ограничение для drastic changes (которые идут за пределы пиара), чтобы агент не ушёл в клинч и не стал пытаться взломать сайт пентагона.
+а промежуточные вызовы тулов и пр. записывает? стоит или нет, как считаешь?
 
 ---
 
-<a id="t06"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:45 — unresolved
-
-```diff
-@@ -14,83 +14,87 @@ The ask, verbatim:
-… 38 lines elided …
-   - the last re-steer and where it landed in the plan.
--- **The live session's link** goes in that block at every relay, so the operator always knows where chat goes.
--- **Frames, the Artifact and `to-check.md`** keep the shape they had on #57 (committed frames per bite, previous ones retired with a tombstone; one Artifact URL republished in place; a standing Russi…
-+- **What waits on the operator heads the QA checklist**, as a list of its own above every other step: hand checks only a person can make, and the taste calls the run took for them (§ "The intake"). It replaces #57's separate `to-check.md`, and is in the operator's language. `/mega` gets it there by passing that as focus guidance to `/qa-checklist`, so the vendored skill stays untouched.
-```
-
-**@vzakharov (human)** — 2026-10-04T21:34:35Z
-
-я думаю это тоже на самом деле лучше в Where it stands засунуть (я знаю что сам сказал про QA checklist, но наверное лучше таки держать в одной секции с остальным "здесь и сейчас")
-
----
-
-<a id="t07"></a>
+<a id="t02"></a>
 
 ### `docs/plans/mega-skill.draft.do-not-implement.md`:17 — unresolved
 
@@ -316,28 +188,19 @@ _7 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 Это не про артефакт, а навеяно: вот я сам раньше написал про клиент и сервер, но подумал, что *какие-то* средства собственноручного тестирования у агента должны быть всегда. Иначе unsolicited получается невозможным. Соответственно, если, например, приложение в принципе не поддерживает пока возможность работы руками агента (грубо говоря если /preview не настроен), то это должен быть один из первых байтов, иначе такого можно нагородить...
 
----
+**@vzakharov (agent)** — 2026-10-04T21:55:58Z
 
-<a id="t08"></a>
+Взял как правило. До первого байта план отвечает, как прогон сам увидит и прогонит свою работу: маршруты `/preview`, тестовая обвязка, команда, дёргающая API, скрипт, который водит UI. Если у продукта такого пока нет, это первый байт, раньше любой фичи. f4fddfb
 
-### `docs/plans/mega-skill.draft.do-not-implement.md`:63 — unresolved
+**@vzakharov (human)** — 2026-10-04T21:59:42Z
 
-```diff
-@@ -14,83 +14,87 @@ The ask, verbatim:
-… 66 lines elided …
-+- **Change** — a fix, a tweak or an addition. It goes through `/task`'s plan-or-not call, and a subagent builds it. **The orchestrator decides where it goes**: at once in parallel with the bite, into…
-+- **Idea to weigh** — "don't put it in a plan yet", or a direction with open forks. Kept verbatim in an ideas doc. The plan gets only the task of writing the weighing doc. Once ideas are partly built…
-+- **Re-steer** — changes what the thing _is_. See below.
-+- **Cut** — drops scope. Written into the plan with their words before anything else happens.
-```
+> раньше любой фичи
 
-**@vzakharov (human)** — 2026-10-04T21:37:15Z
-
-давай отдельно не будем. это в принципе Change тоже. И "before anything else happens" оставляет открытым вопрос, что, собственно, happens after that
+ну это может быть лишнее -- главное чтобы он был fitting для того байта, над которым работает. можно написать и после написания байта. наверное так даже лучше, потому что иначе придётся заранее планировать что писать в байте. с другой стороны, TDD. что думаешь?
 
 ---
 
-<a id="t09"></a>
+<a id="t03"></a>
 
 ### `docs/plans/mega-skill.draft.do-not-implement.md`:87 — unresolved
 
@@ -354,28 +217,28 @@ _7 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 я вот ещё кстати думаю, а обязательно ли байты начинать с нового релея каждый раз? если например байт закончился, а у тебя потрачено 100к контекста, чего б не перейти на следующий? давай взвесим за и против.
 
+**@vzakharov (agent)** — 2026-10-04T21:56:00Z
+
+Взвесил. По заметкам, релей и так привязан не к границе байта, а к паузе бюджета; просто на масштабе #57 один байт заполнял сессию ("Bite 1 alone reached the 200k warning").
+
+За продолжение:
+- экономит ориентацию новой сессии, ~58–115k;
+- нет трения подхвата: устаревшая ветка «почти каждый раз», не тот lockfile, дрейф языка ответов в английский, потерянный `tmp/`;
+- заметки сами советуют складывать разбор ревью в следующий байт, «где контекст позволяет».
+
+Против:
+- следующий байт почти наверняка зарелеится посередине;
+- ты говорил «relay, и всегда так». Но это было против замены релеев сабагентами, а не против продолжения при свободном контексте.
+
+Так что прогон продолжает в следующий байт, пока пауза бюджета не сработала. Fold в конце байта пишется целиком, как перед релеем, чтобы релей мог прийти в любой момент после него. f4fddfb
+
+**@vzakharov (human)** — 2026-10-04T22:00:28Z
+
+ок
+
 ---
 
-<a id="t10"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:88 — unresolved
-
-```diff
-@@ -14,83 +14,87 @@ The ask, verbatim:
-… 117 lines elided …
-+- **`.claude/skills/mega/operator.md`** — opened whenever the operator says something, and at each bite's end when the dashboard is rewritten: the dashboard, the intake and the operator log above.
-+- **`.claude/skills/mega/orchestrate.md`** — subagents: one step per agent; a committed common brief; waves by file, each staged by what its result depends on; per-agent worktrees landing one squash …
-+- **`.claude/skills/mega/bite-end.md`** — the tail, in order: the PR's comments taken in; suite at the tail's start; quick gates including knip; `/polish` as sized waves with the bare `polish:` last;…
-+- **`.claude/skills/mega/review.md`** — the review as tail subagents, a user and a reader. The user drives the built thing the way its users would, from screenshots first when it has a UI. Findings each carry an `Ask:`; a calls file comes before any fix; the agent-authorship marker; the five-percent file frozen; the device failure-mode list; sweeps over the states a user actually reaches.
-```
-
-**@vzakharov (human)** — 2026-10-04T21:40:44Z
-
-что в заметках мегазверя говорят про полезность ревью, if anything? у меня было опасение что это будет просто пустая трата времени и токенов. Но ощущение исключительно умозрительное, в то что там действительно происходит я не смотрел.
-
----
-
-<a id="t11"></a>
+<a id="t04"></a>
 
 ### `docs/plans/mega-skill.draft.do-not-implement.md`:89 — unresolved
 
@@ -392,11 +255,21 @@ _7 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 что за reset --hard, почему он раз за разом появлялся в сообщениях релея? не лучше ли это просто в скилл релея перенести?
 
+**@vzakharov (agent)** — 2026-10-04T21:56:02Z
+
+Откуда: преемник цепляется через `create_session` + `source_revision` и поднимается detached или на устаревшей локальной ветке, `pull --ff-only` отказывает. На байтах 9 и 10 авто-режим один раз пропустил `reset --hard`, и после этого сессиям отказывали во всём, даже в чтении. Потеряно ничего не было, tip вернули из reflog. В каждом промпте преемника строка ездила потому, что `/relay take` читает сводку после attach, и «never reset» из сводки приходил слишком поздно.
+
+Да, место ему в скилле релея, и с T13 это теперь можно сделать здесь. `/relay take` читает `relay.md` из `origin/<branch>` через `git show` до attach. Сам attach делает unshallow, fast-forward, а действительно разошедшийся реф отодвигает (`git branch -m <branch> stale/<…>`) вместо reset. Тот же приём заменяет `reset --hard` в force-push-кейсе `/from-branch`. Из `mega/relay.md` правило ушло. f4fddfb
+
+**@vzakharov (human)** — 2026-10-04T22:01:24Z
+
+ничего не понял но ок :)
+
 ---
 
-<a id="t12"></a>
+<a id="t05"></a>
 
-### `docs/plans/mega-skill.draft.do-not-implement.md`:94 — unresolved
+### `docs/plans/mega-skill.draft.do-not-implement.md`:110 — unresolved
 
 ```diff
 @@ -14,83 +14,87 @@ The ask, verbatim:
@@ -411,58 +284,13 @@ _7 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 а в чём будет цимес отличиая просто Unattended runs от mega?
 
----
+**@vzakharov (agent)** — 2026-10-04T21:56:03Z
 
-<a id="t13"></a>
+По сути ничем, это одно и то же. `elephant.md` § «Unattended runs» сейчас — заглушка в шесть строк со ссылкой на заметки, откуда скилл когда-нибудь вырастет. Разница с обычным слоном: обычный останавливается после каждого байта на твоё ревью и следующий `/go`, а `/mega` — тот же слон без тебя между байтами. Секция становится однострочным указателем на `/mega`; так в плане и написано. f4fddfb
 
-### `docs/plans/mega-skill.draft.do-not-implement.md`:101 — unresolved
+**@vzakharov (human)** — 2026-10-04T22:02:42Z
 
-**@vzakharov (human)** — 2026-10-04T21:42:35Z
-
-почему бы и не взять. слон в слоне. по окончании пиара -- создать отдельный issue в muthur со ссылкой на пиар и просьбой принять в обобщённом виде. Хотя по сути мы его уже и здесь делаем максимально обобщённым -- пишем с перспективой на muthur сразу.
-
----
-
-<a id="t14"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:149 — unresolved
-
-```diff
-@@ -112,31 +116,36 @@ Several notes ask for fixes in skills vendored from `vzakharov/muthur`:
-… 32 lines elided …
- 
- ## Questions
- 
- 1. **Where `/mega` lives.** **a)** Here, as this repo's own skill, with muthur issues proposed for the vendored fixes. **b)** Upstream in muthur from the start. _Recommendation: a._ The loop was learned on this repo's stack, and it needs a second run before anyone can tell which parts are general.
- 2. **The gate.** **a)** `/mega <task>` stops once, at the plan's review, then runs. **b)** No gate: the prompt is the go-ahead, and the plan is published only for reading. _Recommendation: a._ #57's plan was approved before "fully autonomous" was said, and the first bite's shape is the cheapest point to re-steer.
--3. **When a re-steer takes effect.** **a)** At once by default: running agents land a pushed step, then re-plan, unless they say "after this bite". **b)** At the bite boundary by default. _Recommendation: a._ #57 had both ("можно после окончания этого байта", then «всё-таки хочу… уже сейчас»), and waiting costs more when the bite is building toward the old direction.
--4. **The notes.** **a)** Distill them into the skill, retire them behind a tombstone, and have runs write into `journal.md` from now on. **b)** Keep `notes/` alive beside the skill as its journal. _Recommendation: a._ The notes are 100 KB, and a journal that grows without being distilled is the bloat the plan split was invented for.
--5. **The run's model.** **a)** `/mega` names the starting session's own model in the plan, and passes it to every `create_session` and `Agent`. **b)** It always pins Opus. _Recommendation: a._ "Opus throughout" was #57's ruling for that task. What the skill must enforce is "named, never inherited", not which model it is.
-+3. **The notes.** **a)** Distill them into the skill, retire them behind a tombstone, and have runs write into `journal.md` from now on. **b)** Keep `notes/` alive beside the skill as its journal. _Recommendation: a._ The notes are 100 KB, and a journal that grows without being distilled is the bloat the plan split was invented for.
-```
-
-**@vzakharov (human)** — 2026-10-04T21:44:29Z
-
-1-2-3 ок
-
----
-
-<a id="t15"></a>
-
-### `docs/plans/mega-skill.draft.do-not-implement.md`:150 — unresolved
-
-```diff
-@@ -112,31 +116,36 @@ Several notes ask for fixes in skills vendored from `vzakharov/muthur`:
-… 38 lines elided …
--4. **The notes.** **a)** Distill them into the skill, retire them behind a tombstone, and have runs write into `journal.md` from now on. **b)** Keep `notes/` alive beside the skill as its journal. _R…
--5. **The run's model.** **a)** `/mega` names the starting session's own model in the plan, and passes it to every `create_session` and `Agent`. **b)** It always pins Opus. _Recommendation: a._ "Opus …
-+3. **The notes.** **a)** Distill them into the skill, retire them behind a tombstone, and have runs write into `journal.md` from now on. **b)** Keep `notes/` alive beside the skill as its journal. _R…
-+4. **The run's model.** **a)** `/mega` names the starting session's own model in the plan, and passes it to every `create_session` and `Agent`. **b)** It always pins Opus. _Recommendation: a._ "Opus throughout" was #57's ruling for that task. What the skill must enforce is "named, never inherited", not which model it is.
-```
-
-**@vzakharov (human)** — 2026-10-04T21:45:07Z
-
-должна изначально смотреть, если это не как минимум Opus High, предупреждать, что этого может не хватить
+немножко свербит внутри, что у нас то ли суть что "mega", то ли что "unattended", никак не могу свести воедино. Это пока фраза к размышлению, не запрос на изменение.
 
 ---
 
