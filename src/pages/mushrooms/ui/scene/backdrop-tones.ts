@@ -6,6 +6,7 @@
  * `DUSK`, or a blend of the two part way to dusk (`tonesAt`).
  */
 
+import type { Ramped } from '../../model/motion';
 import { channels, mix, packed } from './colour';
 import type { MeadowLayout } from './layout';
 import { DUSK, PALETTE } from './palette';
@@ -144,10 +145,9 @@ export function skyAt(down: number, tones: Tones = DAY): number {
  * `from` the sun's middle, and how far it reaches, `to`, thinning between the two —
  * in sun radii, or as shares of the screen's short side.
  */
-type HaloLayer = {
+type HaloLayer = Ramped & {
   colour: number;
   opacity: number;
-  from: number;
   to: number;
   per: 'sun' | 'screen';
 };

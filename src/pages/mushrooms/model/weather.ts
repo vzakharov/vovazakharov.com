@@ -4,10 +4,10 @@
  * the clock and nothing has to end a shower.
  */
 
-import { outAndBack, smooth } from './motion';
+import { outAndBack, smooth, type Started } from './motion';
 
 /** A shower, from its first drop to the moment it stops. */
-export type Rain = { startedAt: number; stopsAt: number };
+export type Rain = Started & { stopsAt: number };
 
 /** How long a shower lasts from the tap that starts or restarts it. */
 export const RAIN_MS = 10_000;

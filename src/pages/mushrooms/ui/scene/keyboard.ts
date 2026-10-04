@@ -3,7 +3,8 @@
  * keys C to B, `y u o p [` the sharps above them, `a s d f` violet's drums and
  * `q w e r` white's, `.`/`/` the octave down and up; while held, `←`/`→`
  * turn the eye, `↑`/`↓` walk it on and back, and `z`/`c` walk it sideways
- * to its left and right, any of them together; `Esc` closes the map. Keys
+ * to its left and right, any of them together; `m` opens the map and shuts
+ * it, as its button does, and `Esc` only shuts it. Keys
  * are read by `event.code`, where they sit rather than what they print, so a
  * Russian layout plays the same.
  */
@@ -32,7 +33,10 @@ export type MoveKey = PanKey | StepKey | StrafeKey;
 /** The key that closes the open map. */
 type CloseKey = { kind: 'close' };
 
-export type KeyAction = PlayedKey | MoveKey | CloseKey;
+/** The key that presses the map button: opens the map, or shuts it. */
+type MapKey = { kind: 'map' };
+
+export type KeyAction = PlayedKey | MoveKey | CloseKey | MapKey;
 
 /** The move keys, by `event.code`. */
 const MOVES: ReadonlyMap<string, MoveKey> = new Map<string, MoveKey>([
@@ -86,6 +90,7 @@ export const KEYS: ReadonlyMap<string, KeyAction> = new Map([
   ['Period', { kind: 'octave', step: -1 }],
   ['Slash', { kind: 'octave', step: 1 }],
   ['Escape', { kind: 'close' }],
+  ['KeyM', { kind: 'map' }],
   ...MOVES,
 ] satisfies Bound[]);
 

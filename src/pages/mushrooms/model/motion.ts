@@ -17,6 +17,10 @@ export type Looking = { look: number };
 export type Sprouted = { plantedAt: number };
 /** When a thing happened, on its module's clock. */
 export type Stamped = { at: number };
+/** When a span that plays out on the clock began: a shower, a turn of the light. */
+export type Started = { startedAt: number };
+/** Where a ramp between two values starts: a turn of the light's duskness, a halo's full-opacity reach. */
+export type Ramped = { from: number };
 /** How far a bob sinks a thing, in its module's units. */
 export type Bobbed = { bob: number };
 

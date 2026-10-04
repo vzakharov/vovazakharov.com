@@ -64,6 +64,13 @@ const UNFOLD = 0.3;
 /** How far in from the sheet's edge the meadow is framed, in CSS px: room for the sun at the top. */
 const MARGIN = 26;
 const CORNER = 14;
+/**
+ * How far the sheet's edge keeps from the screen's, in CSS px: half the map
+ * button's own inset, so the button, which stays put over the open map, sits
+ * clear inside the sheet's corner as far from its edge as the edge is from
+ * the screen's.
+ */
+const SHEET_INSET = BUTTON_INSET / 2;
 /** The sheet's pale edge line: its width, and how far inside the ink it runs, in CSS px. */
 const EDGE = 3;
 /**
@@ -199,10 +206,10 @@ function drawMap(pen: Phaser.GameObjects.Graphics, shot: MapSnapshot): Drawn {
   const { width, height, camera, sun } = stand.layout;
   const hairline = 1 / ratio;
   const sheet = {
-    left: BUTTON_INSET,
-    top: BUTTON_INSET,
-    width: width - 2 * BUTTON_INSET,
-    height: height - 2 * BUTTON_INSET,
+    left: SHEET_INSET,
+    top: SHEET_INSET,
+    width: width - 2 * SHEET_INSET,
+    height: height - 2 * SHEET_INSET,
   };
   const middle = { x: width / 2, y: height / 2 };
   const flowers = flowersOf(stand);

@@ -68,7 +68,8 @@ function listenForChords(
  * through the flowers in front of the player, `planter` planting through
  * the open flower picker or growing the flower of a sound none in view makes
  * (`playKey`), the held move keys turning, walking and strafing `eye`, all of
- * it `waiting` while the map is open, which `Esc` then shuts through `close`;
+ * it `waiting` while the map is open; `m` presses the map button through
+ * `pressMap`, open or shut, and `Esc` presses it only to shut the open map;
  * and with more fingers than one (`listenForChords`). Returns what stops both.
  */
 export function playTheMeadow(
@@ -78,7 +79,7 @@ export function playTheMeadow(
   eye: EyeInput,
   planter: Pick<Planter, 'plantSounding' | 'sowSounding' | 'sownInView'>,
   waiting: () => boolean,
-  close: () => void,
+  pressMap: () => void,
 ): () => void {
   const { canvas } = scene.game;
   const keyed: KeyedPlay = {
@@ -96,10 +97,14 @@ export function playTheMeadow(
   const stopKeys = listenForKeys(
     canvas,
     (action) => {
+      if (action.kind === 'map') {
+        pressMap();
+        return;
+      }
       // The meadow waits under the map: a key's press does nothing but close
       // it, its release still lets go.
       if (action.kind === 'close') {
-        if (waiting()) close();
+        if (waiting()) pressMap();
         return;
       }
       if (waiting()) return;

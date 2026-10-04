@@ -74,6 +74,11 @@ describe('the keyboard', () => {
     assert.equal(letGoMove({ code: 'Escape' }), undefined);
   });
 
+  it('presses the map button on M, which nothing lets go', () => {
+    assert.deepEqual(press('KeyM'), { kind: 'map' });
+    assert.equal(letGoMove({ code: 'KeyM' }), undefined);
+  });
+
   it('turns on ← → under Shift as without', () => {
     const shift = { shiftKey: true };
     assert.deepEqual(press('ArrowLeft', shift), { kind: 'pan', direction: -1 });

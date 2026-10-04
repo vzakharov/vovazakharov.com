@@ -3,7 +3,8 @@
  * shut by a tap on the sheet; opened over the `+` picker, which shuts; opened
  * again once three mushrooms have grown, the newest furnished, a flower is
  * planted and the eye has walked; opened over a flick, then shut by Escape,
- * which a second press leaves shut; and opened on a russula grown where the
+ * which a second press leaves shut; opened by `m` and shut by it again; and
+ * opened on a russula grown where the
  * flick left the eye, given a door. Fails on a map that does not open or
  * shut, leaves the child or a flower off the sheet, mirrors the view or draws
  * fewer things than the meadow holds; on a picker left open over it, or an
@@ -168,6 +169,16 @@ export async function playMap(
   );
   await escape('after a flick');
   await escape('while shut');
+
+  // `m` presses the map button: it opens the map, and shuts it again.
+  await inTurn([true, false], async (open) => {
+    await press(page, 'KeyM');
+    await page.step(UNFOLDED);
+    expect(
+      (await map()).open === open,
+      `m left the map ${open ? 'shut' : 'open'}`,
+    );
+  });
 
   // A russula grown with the eye turned far off the opening world, as the
   // flick left it, takes a door.

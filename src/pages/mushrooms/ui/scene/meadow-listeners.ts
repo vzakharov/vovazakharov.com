@@ -22,7 +22,7 @@ type MeadowPieces = {
   voice: Pick<MeadowSound, 'start' | 'stop'>;
   /** The meadow's keys wait while it is open. */
   map: Pick<MapView, 'open'>;
-  /** The map button's press, which `Esc` makes while the map is open. */
+  /** The map button's press, which `m` makes too, and `Esc` while the map is open. */
   fold: () => void;
 };
 
