@@ -6,7 +6,8 @@
 
 import type { Titled } from '@/shared/typings';
 
-export type FiledCase = Titled & { number: string; date: Date };
+/** `date` is the frontmatter's own ISO string, which is what the card prints. */
+export type FiledCase = Titled & { number: string; date: string };
 
 const FRONTMATTER = /^---\r?\n([\S\s]*?)^---/m;
 const CASE_NUMBER = /^case:[\t ]*(BAS-\d{4})[\t ]*$/m;
@@ -33,7 +34,7 @@ export function lastFiledCase(sources: readonly string[]): FiledCase {
       );
     }
 
-    return { number, date: new Date(date), title: title.trim() };
+    return { number, date, title: title.trim() };
   });
 
   const last = cases.toSorted((a, b) => b.number.localeCompare(a.number))[0];

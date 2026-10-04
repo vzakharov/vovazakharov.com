@@ -14,7 +14,7 @@ describe('lastFiledCase', () => {
         filed('BAS-0010', 'The tenth'),
         filed('BAS-0002', 'The second'),
       ]),
-      { number: 'BAS-0010', date: new Date('2015-08-01'), title: 'The tenth' },
+      { number: 'BAS-0010', date: '2015-08-01', title: 'The tenth' },
     );
   });
 
