@@ -14,7 +14,7 @@ ogImage: ./assets/playgram-commit-cumsum.og.png
 | ----------------------------- | --------------------------------------------------------------------------------------------------- |
 | **Assignment**                | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase                        |
 | **Span**                      | 6 March – 10 August 2026 · 158 days                                                                 |
-| **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                                                    |
+| **The “code” I started from** | an 11.6 MB minified JSON — the Bubble app export                                                    |
 | **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of production TypeScript |
 | **Throughput**                | 6.8 → 11.2 units of work a day (+65%) after the move into the cloud                                 |
 | **Cold load**                 | multi-second → sub-second                                                                           |
@@ -38,7 +38,7 @@ But you'd be surprised how far people can actually take it — from a [sublettin
 
 None of those are toys. A lot of software you've used was probably drawn rather than typed.
 
-In our case, we're talking about Playgram, an app that managed to put together a chat interface giving access to multiple providers and models, realtime team/project chat UIs, libraries of generated images & files, memory & knowledge management, voice input, and tons of other small "nifties" — all brought to life with no code at all:
+In our case, we're talking about Playgram, an app that managed to put together a chat interface giving access to multiple providers and models, realtime team/project chat UIs, libraries of generated images & files, memory & knowledge management, voice input, and tons of other small “nifties” — all brought to life with no code at all:
 
 [Playgram in use: a screen recording of the chat interface, the model picker, and the file library](./assets/playgram-demo.mp4)
 
@@ -48,11 +48,11 @@ So why would then they want to switch to code if it was all so great?
 
 ## Why
 
-**1 — Performance.** However hard you try, when you put abstraction over abstraction over abstraction to make an app work in a "draw a couple of interconnected boxes, and it just works" fashion, you're bound to hurt the performance. The platform — quoting its [own performance guide](https://manual.bubble.io/help-guides/maintaining-an-application/performance-and-scaling) — sends "the code for all the elements (visible and invisible)" before it draws anything, degrades multiplicatively with every nested repeating group, and ships the code of every plugin you install on every page load, whether you use it or not.
+**1 — Performance.** However hard you try, when you put abstraction over abstraction over abstraction to make an app work in a “draw a couple of interconnected boxes, and it just works” fashion, you're bound to hurt the performance. The platform — quoting its [own performance guide](https://manual.bubble.io/help-guides/maintaining-an-application/performance-and-scaling) — sends “the code for all the elements (visible and invisible)” before it draws anything, degrades multiplicatively with every nested repeating group, and ships the code of every plugin you install on every page load, whether you use it or not.
 
 Regardless of any performance improvements you try, a Bubble page ships three render-blocking platform bundles before your app even exists. A group of developers [measured](https://forum.bubble.io/t/seeking-advice-on-slow-page-loads-in-bubble-applications/327360) an almost-empty page — one text heading, nothing else — and found a [Lighthouse Speed Index](https://developer.chrome.com/docs/lighthouse/performance/speed-index) of 1.5–1.7 seconds.
 
-To spoil the ending: moving Playgram to Next changed cold load times from multi-second to sub-second; something which is _instantly_ tangible for a user, even if "wait a couple secs at first load" doesn't sound like such a big thing.
+To spoil the ending: moving Playgram to Next changed cold load times from multi-second to sub-second; something which is _instantly_ tangible for a user, even if “wait a couple secs at first load” doesn't sound like such a big thing.
 
 **2 — Bumping into the bubble's edges.** All too many Bubble developers have faced the same thing again and again as their apps grow: they meet the system's limits and end up installing (and sometimes purchasing) third-party plugins, running vanilla JS in the browser, or even writing their own reactivity frameworks to make up for what Bubble can not provide. Quite illustratively, the number one Bubble plugin, with over 538,000 lifetime downloads, is [one that allows](https://bubble.io/blog/top-community-plugins-templates-2023/) running custom JavaScript. The most popular thing anyone ever built for the platform is a way out of it — and two of the five top templates that year were entire homegrown application frameworks built on top of Bubble, for the same reason one layer up.
 
@@ -74,7 +74,7 @@ With all the why's settled, here's what Levon and his team came up to me with. T
 
 To give some perspective on why this was a pretty challenging endeavor:
 
-**1 — A Bubble app export** — the "code" in "no code," and the thing you're going to feed to an agent while rebuilding — **is a multi-megabyte JSON.** In the case of Playgram, it weighed 11.6 megabytes, minified, on one line. Suffice to say, VS Code crashes when you try to open a JSON that big. Good luck feeding that to an agent.
+**1 — A Bubble app export** — the “code” in “no code,” and the thing you're going to feed to an agent while rebuilding — **is a multi-megabyte JSON.** In the case of Playgram, it weighed 11.6 megabytes, minified, on one line. Suffice to say, VS Code crashes when you try to open a JSON that big. Good luck feeding that to an agent.
 
 **2 — This was a live app in the beginning of its lifecycle.** The team was meant to keep shipping new features, improving prompts, and catching bugs while a code rewrite was being built in parallel. The target kept moving, on purpose: you don't freeze a product for four months to please your contractor.
 
@@ -107,7 +107,7 @@ Before the grit, the shape of the thing.
 
 Let's have a look at the dynamics for a bit. As you can see, the output steps up from 6.8 to 11.2 units of work a day — **by 65%!** — within days of the switch to web sessions in late April (more on that below). It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
 
-A word on what a "commit" means here, because it's load-bearing for that chart. Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the "conceptual" meaning of a commit on `main` hasn't changed.
+A word on what a “commit” means here, because it's load-bearing for that chart. Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the “conceptual” meaning of a commit on `main` hasn't changed.
 
 ---
 
@@ -119,13 +119,13 @@ Everything in this half happened before the code could scale. It's the least gla
 
 As I already said, the JSON that is an exported Bubble app is an 11.6 MB file, minified, so not even the most context-rich agent would be able to eat it at once. That's why the first step I took was to write a script that splits it into pieces.
 
-But "splitting" isn't as straightforward as it seems.
+But “splitting” isn't as straightforward as it seems.
 
 **1 — You can't just grab subobjects from the huge JSON, cut them by some ceiling size, and expect an agent to handle it.** For context, our _ultimate_ split turned out to be **3,487 files** — far more than what an agent can comfortably navigate. Slicing by size gets you 3,487 files named after nothing, and an agent that must grep through them to find something it needs, every time.
 
-**2 — Even if you DO manage to split it once** — remember, the app changes; so every week, once you re-export the Bubble app and try to have the agent "look at the diff," you'd get a chaotic mess that would be impossible to make sense of.
+**2 — Even if you DO manage to split it once** — remember, the app changes; so every week, once you re-export the Bubble app and try to have the agent “look at the diff,” you'd get a chaotic mess that would be impossible to make sense of.
 
-So what did we do? We had an agent research the common data structures within the JSON programmatically, figuring out what a usual "workflow" is, how its constituent "actions" look, which keys store the "names" of all those entities, etc. As a result, we were able to split it into something that _almost_ looks like code (or, at least, enough so for an AI agent — not a human, mind you — to be able to figure it out).
+So what did we do? We had an agent research the common data structures within the JSON programmatically, figuring out what a usual “workflow” is, how its constituent “actions” look, which keys store the “names” of all those entities, etc. As a result, we were able to split it into something that _almost_ looks like code (or, at least, enough so for an AI agent — not a human, mind you — to be able to figure it out).
 
 For example, here's the click handler on the chat composer's send button. The splitter gave it a directory of its own and wrote one file per step, so `actions/index.js` is the workflow's body, in order, as ES module imports:
 
@@ -152,7 +152,7 @@ export const actions = {
 };
 ```
 
-Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, every step is a file you can open — and step 4's filename is the label a human typed into the Bubble editor rather than a slug of an ID, recovered from the export's `name` field: _"Schedule trigger_stream_existing_chat after 0 seconds"_.
+Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, every step is a file you can open — and step 4's filename is the label a human typed into the Bubble editor rather than a slug of an ID, recovered from the export's `name` field: _“Schedule trigger_stream_existing_chat after 0 seconds”_.
 
 One lovely detail: Step 0, the only step with an unreadable name, refers to using `Toolbox`, the run-custom-JavaScript plugin from a few paragraphs up. Step zero of sending a chat message in our no-code app was a `Run javascript` action.
 
@@ -213,7 +213,7 @@ Code-wise, the project was greenfield — although the app itself wasn't — so 
 
 Even stuff like which Node version to use, or which package manager, was subjected to scrutiny, and the decision process was insanely intricate: four different models from different providers each made its own research, then a fifth synthesized their inputs and provided it for us humans to decide on.
 
-As an example, here's what the decision flow produced for the database question. (Note that the doc doesn't mention model names — intentional to avoid the "judging" being biased for/against any or some of them.)
+As an example, here's what the decision flow produced for the database question. (Note that the doc doesn't mention model names — intentional to avoid the “judging” being biased for/against any or some of them.)
 
 ```markdown
 # Database Decision Documents: Comparison
@@ -245,15 +245,15 @@ Prisma and the Supabase client.
 | **Is Neon worth an extra vendor?**       | Yes — branching justifies it | Not yet — revisit later                    | No — Supabase covers DB hosting                   | Defer — pick host after stack         |
 ```
 
-If you look at the Doc 3 column, you'll see that it was the lone dissenter — one against three — on both "is RLS valuable" and "is Supabase Auth worth the coupling."
+If you look at the Doc 3 column, you'll see that it was the lone dissenter — one against three — on both “is RLS valuable” and “is Supabase Auth worth the coupling.”
 
 Doc 3 won both. We ship Supabase Auth and we ship RLS as a fail-closed safety net. The decision doc says out loud why the arithmetic lost:
 
 > **Supabase was chosen despite a lower weighted score.** Neon led the scoring on raw capability […] The matrix simply had no row for the factor that decided it, auth co-location.
 
-This is an example of why I think the whole thing was to a considerable degree overthinking and — I hate to admit that — avoiding (future) responsibility ("but five agents told it would be fine!" sounds like a good argument until it isn't).
+This is an example of why I think the whole thing was to a considerable degree overthinking and — I hate to admit that — avoiding (future) responsibility (“but five agents told it would be fine!” sounds like a good argument until it isn't).
 
-> **"But five agents told it would be fine!" sounds like a good argument until it isn't.**
+> **“But five agents told it would be fine!” sounds like a good argument until it isn't.**
 
 A note aside, I think here lies the most important thing to keep in mind when coding with agents: whoever writes the code or a document, it's _you_ who gets kicked if things go wrong, and rightfully so.
 
@@ -278,7 +278,7 @@ For the record, here are the decisions we actually made:
 
 ## The strutwork: FSD, linters, and other things to keep the agents focused
 
-Now, if there's one thing I've learned about coding with agents it's that agents work best when there are strict guardrails in place. For their own good. See, especially when it comes to "where to put what" decisions, agents work by the "nearest neighbor" principle. If you awkwardly misplace a line of code, cross-importing a low-level abstraction from a high-level component module, the next agent working on your codebase is more likely to do the same again. And again. And again. Over time, the likelihood of your codebase getting properly screwed up converges to 1.
+Now, if there's one thing I've learned about coding with agents it's that agents work best when there are strict guardrails in place. For their own good. See, especially when it comes to “where to put what” decisions, agents work by the “nearest neighbor” principle. If you awkwardly misplace a line of code, cross-importing a low-level abstraction from a high-level component module, the next agent working on your codebase is more likely to do the same again. And again. And again. Over time, the likelihood of your codebase getting properly screwed up converges to 1.
 
 > **When you don't care about code hygiene, the likelihood of your codebase getting screwed up in the long run converges to 1.**
 
@@ -383,9 +383,9 @@ All of them run concurrently, all of them run to completion even when one has al
 
 Now that we had the functionality figured out (or so we thought), and all the strutwork in place to keep the code from falling under its own weight once it was there, it was time to figure out where to actually start.
 
-Our initial approach was: if we know the entire functionality, why not just describe everything we have to do in a single document? That's how the "migration plan" was born, and it looked _very_ detailed — file-by-file, path-by-path, with stage numbers and acceptance criteria.
+Our initial approach was: if we know the entire functionality, why not just describe everything we have to do in a single document? That's how the “migration plan” was born, and it looked _very_ detailed — file-by-file, path-by-path, with stage numbers and acceptance criteria.
 
-Here's a piece of it as of early April, a month in — the plan's own inventory of the entity slices, labeled "current state":
+Here's a piece of it as of early April, a month in — the plan's own inventory of the entity slices, labeled “current state”:
 
 ```
 ├── entities/                         # FSD Entities layer
@@ -410,7 +410,7 @@ As the work progressed (we'll get to that later in more detail), this detailedne
 
 Everything up to here I could have done in 2024, slowly. This half is the part that actually changed how I work.
 
-Before I started working on the project, I used to work with 3, tops 5 parallel agents at once, all on my local machine, all with carefully looking into every line change as they made it, and even into their "thinking" (talk about micromanagement). The way this assignment turned me from this to comfortably handling 10–15 parallel sessions, all in Claude, with focused code reviews instead of "looking from behind the shoulder," represents probably the biggest evolution of me as an AI-enabled software engineer.
+Before I started working on the project, I used to work with 3, tops 5 parallel agents at once, all on my local machine, all with carefully looking into every line change as they made it, and even into their “thinking” (talk about micromanagement). The way this assignment turned me from this to comfortably handling 10–15 parallel sessions, all in Claude, with focused code reviews instead of “looking from behind the shoulder,” represents probably the biggest evolution of me as an AI-enabled software engineer.
 
 So what drove it, and how exactly did it translate?
 
@@ -422,13 +422,13 @@ So my initial switch to the web interface was one born out of necessity, and ver
 
 Thing is, my first-ever introduction to coding agents was via the first version of Codex, which ran on web, and the UX felt counterintuitive and cumbersome. I imagined it would be the same.
 
-It also felt too "hands-off" that the agent would be working _somewhere_ that isn't _right here_, you know?
+It also felt too “hands-off” that the agent would be working _somewhere_ that isn't _right here_, you know?
 
 Finally, constantly having to merge conflicting branches into main seemed like it would have been quite a headache.
 
 But boy could I be wronger.
 
-> **It felt too "hands-off" that the agent would be working _somewhere_ that isn't _right here_. But boy could I be wronger.**
+> **It felt too “hands-off” that the agent would be working _somewhere_ that isn't _right here_. But boy could I be wronger.**
 
 Mere weeks after starting, I was already running 20+ agents at once, limited only by the account's five-hourly quota:
 
@@ -446,9 +446,9 @@ Depending on your choice of agent software (Claude Code / Cursor / Codex / etc.)
 
 A callout on the choice of software, models, etc.: the thing all those benchmarks don't usually tell you is that it doesn't make much difference! Each model and each app has its quirks — but at this point, all are really good. It's like choosing between a Makita and a Bosch hammer drill to do home repairs: there are people who will endlessly argue which one is better, but in the end either one puts the shelf up.
 
-**2 — "Hands-off" engineering actually turned out much more comfortable than I thought.**
+**2 — “Hands-off” engineering actually turned out much more comfortable than I thought.**
 
-Like many coders, I liked to be "close to code." I thought, I know the tricks of the trade better than an AI would do, I had opinions on how certain things should look, etc. Well, guess what, I still do, in a way (for 95% of cases, agents do know better than me, but the remaining 5% is where you actually understand why you still need a knowledgeable human in the loop).
+Like many coders, I liked to be “close to code.” I thought, I know the tricks of the trade better than an AI would do, I had opinions on how certain things should look, etc. Well, guess what, I still do, in a way (for 95% of cases, agents do know better than me, but the remaining 5% is where you actually understand why you still need a knowledgeable human in the loop).
 
 But here's the thing: you don't have to be constantly _in_ it to be able to steer it. Right now my flow is almost 100% based on code reviews I do in GitHub's native interface, based on _already made_ changes. (And, of course, before that there is also most often the planning stage, which I also review rigorously.)
 
@@ -509,7 +509,7 @@ The thing worth pointing out about that table is that they compose. `/implement`
 
 `/plan` and `/implement`, among the skills above, are perhaps worth talking about at some length.
 
-Obviously, everyone knows all the agent software already has "plan mode," so why create a skill that does the same?
+Obviously, everyone knows all the agent software already has “plan mode,” so why create a skill that does the same?
 
 Well, believe it or not, it initially started as a way to work around a [bug](https://github.com/anthropics/claude-code/issues/72704) in Claude Code. In web sessions, the plan-approval dialog doesn't survive the session going idle: the backend wakes the session back up and re-emits the pending prompt, so you end up staring at the same plan-approval box stacked three or four times, and if you answer one of the superseded copies your answer goes nowhere. Same for the tool that asks you multiple-choice questions. Annoying in a way that's hard to work around from the inside, since the thing that's broken is the thing you'd use to ask about it.
 
@@ -517,14 +517,14 @@ So I thought, okay, I'll just create a skill that would do _exactly_ the same as
 
 But what started as a workaround ended up being not just a permanent part of my own workflow, but the core of a [spinoff](https://github.com/vzakharov/agent-project-boilerplate) I created to then use in my other projects, new and old — but more on that later.
 
-First of all, I've been able to squeeze a few essential things into both `/plan` and `/implement` that aren't part of the usual "create a plan" / "implement the plan" flow. For example, the `/plan` skill prescribes including a "DRY notes" section in every plan, which has to state what's genuinely shared versus duplicated, which existing helper gets reused — and, when the plan decides _not_ to extract a shared abstraction, why forcing one would be net-negative. It makes the reuse call explicit and reviewable before implementation, rather than discovered in review.
+First of all, I've been able to squeeze a few essential things into both `/plan` and `/implement` that aren't part of the usual “create a plan” / “implement the plan” flow. For example, the `/plan` skill prescribes including a “DRY notes” section in every plan, which has to state what's genuinely shared versus duplicated, which existing helper gets reused — and, when the plan decides _not_ to extract a shared abstraction, why forcing one would be net-negative. It makes the reuse call explicit and reviewable before implementation, rather than discovered in review.
 
 And the `/implement` skill includes:
 
 - a prescription to run the `/dry` skill again (!) — because even if there were DRY notes in the plan, the agent (from experience!) will often end up inserting repetitive code in places that weren't described in detail in the plan
 - running the `/tighten-docs` skill, which does two things:
-  - a "make the docs durable" step. You might've encountered this: an agent works on your review, and it starts inserting stuff like "it was this, now it's that, because…" — stuff that does _not_ belong in the codebase because it describes archaeology that noises up the reader's context window (whether a human or an agent). So it will meticulously go through the added prose and bring it back to describing a durable contract instead of said archaeology. A comment saying `// now also handles the null case` becomes `// null means the workspace has no owner yet`, or it gets deleted, because the diff already said the first thing and will keep saying it forever.
-  - a "tighten the docs" step, because gosh, agents can be loquacious when they write docstrings, comments etc. (btw, throughout this, I'm referring to "docs" as anything that describes how the app/code works — it doesn't have to be an `.md` file; a two-line comment in an especially tricky part is a doc too).
+  - a “make the docs durable” step. You might've encountered this: an agent works on your review, and it starts inserting stuff like “it was this, now it's that, because…” — stuff that does _not_ belong in the codebase because it describes archaeology that noises up the reader's context window (whether a human or an agent). So it will meticulously go through the added prose and bring it back to describing a durable contract instead of said archaeology. A comment saying `// now also handles the null case` becomes `// null means the workspace has no owner yet`, or it gets deleted, because the diff already said the first thing and will keep saying it forever.
+  - a “tighten the docs” step, because gosh, agents can be loquacious when they write docstrings, comments etc. (btw, throughout this, I'm referring to “docs” as anything that describes how the app/code works — it doesn't have to be an `.md` file; a two-line comment in an especially tricky part is a doc too).
 
 But most importantly, once I started having the plan in my codebase, I started thinking, hmmm, do I even have to implement this plan _with all the conversation context kept_? After a few trials, I concluded that no, I don't!
 
@@ -534,13 +534,13 @@ Which led me to probably the most important part of the process I've adopted and
 
 ## Context hygiene
 
-One of the biggest killers of agent productivity (and your wallet) is bloated context. Whenever I get to consult someone on how to use agents, the first mistake I see — over and over again — is that people will just not ever end their conversations. "Do smth here; or let's also do smth there; oh, you know what, let's also do this totally unrelated thing."
+One of the biggest killers of agent productivity (and your wallet) is bloated context. Whenever I get to consult someone on how to use agents, the first mistake I see — over and over again — is that people will just not ever end their conversations. “Do smth here; or let's also do smth there; oh, you know what, let's also do this totally unrelated thing.”
 
 Yes, today's agents can handle up to 1M tokens of context, but it doesn't mean you should use them all! Moreover, my rule of thumb is: if you're anywhere past 200k, you've likely strayed too far, and the agent can no longer reliably remember\* the stuff you started talking about.
 
-\* Now, when I say "remember," it doesn't mean it has no recall. Most likely if you ask it to reproduce some exchange from earlier in the convo, it'll be able to — but it won't be able to use _all of it_ reliably.
+\* Now, when I say “remember,” it doesn't mean it has no recall. Most likely if you ask it to reproduce some exchange from earlier in the convo, it'll be able to — but it won't be able to use _all of it_ reliably.
 
-If you're old enough to have lived through the digital camera revolution of the early 2000s, you remember the "race for megapixels." 2, then 4, then 8, then 16 — but at some point you started realizing that more megapixels just meant more noise on the matrix; the stuff had become a marketing race, not a technical one.
+If you're old enough to have lived through the digital camera revolution of the early 2000s, you remember the “race for megapixels.” 2, then 4, then 8, then 16 — but at some point you started realizing that more megapixels just meant more noise on the matrix; the stuff had become a marketing race, not a technical one.
 
 > **A 1M-token context window is the megapixel race all over again: past a point, more megapixels just meant more noise on the matrix.**
 
@@ -550,9 +550,9 @@ This long rant is meant to say: in any given session, you must hold one specific
 
 Okay, but what does any of this have to do with planning and implementing? Here's what: when you've written a plan, _iff_ it is a good plan, it _has_ to be enough for the agent to follow through. No previous part of your conversation — how you came up with this approach instead of that approach — should be a factor in the quality of work done. It's like a litmus test: if it doesn't hold, it means your plan itself is bad.
 
-Then, this makes the next consequence obvious: if your plan is necessary and sufficient for a quality implementation, you can just start a new session and implement from there. It's obviously not possible with the standard UX-based "plan mode" (there's nothing to start "from"), but with a plan file that sits right in your repo on this feature's branch, it fits perfectly.
+Then, this makes the next consequence obvious: if your plan is necessary and sufficient for a quality implementation, you can just start a new session and implement from there. It's obviously not possible with the standard UX-based “plan mode” (there's nothing to start “from”), but with a plan file that sits right in your repo on this feature's branch, it fits perfectly.
 
-I even ended up instructing the `/plan` skill to always provide a copiable instruction that I can just paste into a new session, and the `/implement` skill will "attach" itself to the needed branch, find the plan file, and start executing it.
+I even ended up instructing the `/plan` skill to always provide a copiable instruction that I can just paste into a new session, and the `/implement` skill will “attach” itself to the needed branch, find the plan file, and start executing it.
 
 For example, here's how it looks for the plan to write this exact case study:
 
@@ -620,7 +620,7 @@ This ends Part I of the case study; coming up in Part II:
   - Release cycles and hotfix break-ins
 - Data migration
 - Stuff that sounds simple but isn't
-  - Navigation, and that 75-commit, 139-file PR we had to ship mid-production because our representation of "what chat exists" kept bloating and drifting as more and more consumers were added
+  - Navigation, and that 75-commit, 139-file PR we had to ship mid-production because our representation of “what chat exists” kept bloating and drifting as more and more consumers were added
   - Attachment handling: spreadsheets with unexpected stuff in them, images that failed to convert, and spreadsheets, always the spreadsheets, that made us end up writing a home-grown XLS reader
   - Memory chunking, and that time a malformed HTML hung our entire app for 4+ hours and made us start using workers (I know I know)
 - And, finally, why the hell it seemed like everything was ALMOST ready in 2 months, and stayed ALMOST ready for 2 more, or Pareto never fails.

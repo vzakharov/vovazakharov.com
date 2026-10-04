@@ -32,17 +32,17 @@ Three reasons, in the order they mattered.
 
 ## What made it hard
 
-The Bubble export — the "code" in "no code," and the thing you feed an agent — is a single minified JSON of 11.6 MB. VS Code won't open it. Meanwhile the app was live and shipping features the whole time, the rewrite had to be pixel-perfect against a design the team had invested heavily in, and the data lived in Bubble's proprietary format with no easy path out. That last one is Part II's story.
+The Bubble export — the “code” in “no code,” and the thing you feed an agent — is a single minified JSON of 11.6 MB. VS Code won't open it. Meanwhile the app was live and shipping features the whole time, the rewrite had to be pixel-perfect against a design the team had invested heavily in, and the data lived in Bubble's proprietary format with no easy path out. That last one is Part II's story.
 
 ## Setting the table
 
-**The split (10/10).** First thing I did was write a Python script that cuts the export into files an agent can navigate — by _shape_ rather than by size. It works out what a Bubble "workflow" is and how its constituent "actions" look, then recovers human-readable names from the export's own `name` fields, so a click handler lands at `pages/index/workflows/buttonclicked_btnaw0/` with one file per step, in order, as ES module imports. It reads like a function body because it is one, transcribed.
+**The split (10/10).** First thing I did was write a Python script that cuts the export into files an agent can navigate — by _shape_ rather than by size. It works out what a Bubble “workflow” is and how its constituent “actions” look, then recovers human-readable names from the export's own `name` fields, so a click handler lands at `pages/index/workflows/buttonclicked_btnaw0/` with one file per step, in order, as ES module imports. It reads like a function body because it is one, transcribed.
 
 The final split is 3,487 files. The part that took real thought was making the cut _stable_, so that re-exporting the app every week produced a legible diff instead of noise. Names derive from content, never position. Ordering is deterministic. Chunks are named by their key range rather than an index, so inserting one entry doesn't renumber eighteen files. Long strings — mostly LLM prompts — get hoisted into `.txt` siblings so they diff as prose rather than as one giant line of `\n` escapes. Once it was done, every button, input group and workflow was tied to a specific file, so a change in the Bubble app showed up as a diff in the relevant one.
 
 **The decision docs (6.5/10).** The first four days produced 23,000 lines of documentation and zero lines of application code. The process: four models from different providers each researched a question independently, in parallel worktrees where none could see the others, then a fifth synthesised — with the model names stripped off the files first, so the judging couldn't be biased for or against any of them.
 
-It worked, and it was too much. On the database question the lone dissenter — one model against three — won both contested points, and the decision doc says so out loud: _"Supabase was chosen despite a lower weighted score… The matrix simply had no row for the factor that decided it."_ Which is the lesson. "But five agents told it would be fine!" sounds like a good argument until it isn't.
+It worked, and it was too much. On the database question the lone dissenter — one model against three — won both contested points, and the decision doc says so out loud: _“Supabase was chosen despite a lower weighted score… The matrix simply had no row for the factor that decided it.”_ Which is the lesson. “But five agents told it would be fine!” sounds like a good argument until it isn't.
 
 > **Whoever writes the code or a document, it's _you_ who gets kicked if things go wrong, and rightfully so.**
 
@@ -81,7 +81,7 @@ flowchart TD
     entities -->|394| shared
 ```
 
-Then 362 explicitly enabled lint rules, 28 of them hand-written, every one an `error` because "LLMs treat warnings as negotiable." They're worth the effort because an agent will cheerfully ignore a paragraph of your CLAUDE.md and will never once ship a lint error.
+Then 362 explicitly enabled lint rules, 28 of them hand-written, every one an `error` because “LLMs treat warnings as negotiable.” They're worth the effort because an agent will cheerfully ignore a paragraph of your CLAUDE.md and will never once ship a lint error.
 
 The most feared guardrail of the lot is a script rather than a lint rule: `type-overlap` fails the build if any two type aliases declare the same member. Turning it on at full strength would have failed the build in hundreds of places, so it took a 26-day climb-down: at first it only complained when two types shared three or more fields, then two, then briefly back out to four when we improved the detector, and finally down to a single shared field — thirteen landings and about 1,300 file changes. Worth it, because of what it was written for: we once had a `tokenCounts: { input, output }` shape sitting beside DB columns named `inputTokens`/`outputTokens`. Both type-checked perfectly. Every usage log we wrote recorded zero. We found it months later, by accident.
 
@@ -101,7 +101,7 @@ And the hands-off part inverted completely. **I turned from a boss who's constan
 
 **Thirty-three skills (8/10).** Every repeatable process became a file in the repo: `/plan`, `/implement`, `/pr`, `/finalize`, `/dry`, `/tighten-docs`, `/sync-branch`, and twenty-six more. They compose by pointing at each other — `/implement` runs `/dry` and `/tighten-docs`, then hands off to `/pr`, which loads three more. About four of the thirty-three are stale. Thirty-three files describing how you work is a real asset and also a second codebase, and nothing lints it.
 
-**Plan and implement (9/10).** `/plan` began as a workaround for a Claude Code bug — the plan-approval dialog doesn't survive a web session going idle, so you get the same prompt stacked four times and answers to the superseded copies vanish. So I wrote a skill that does what plan mode does but writes a tracked file in the repo instead of an ephemeral object. It became the core of a [spinoff boilerplate](https://github.com/vzakharov/agent-project-boilerplate) I now use everywhere. It also let me put things into the flow that plan mode has no opinion about — every plan must carry a "DRY notes" section arguing what's shared vs. duplicated _before_ implementation, rather than discovering it in review.
+**Plan and implement (9/10).** `/plan` began as a workaround for a Claude Code bug — the plan-approval dialog doesn't survive a web session going idle, so you get the same prompt stacked four times and answers to the superseded copies vanish. So I wrote a skill that does what plan mode does but writes a tracked file in the repo instead of an ephemeral object. It became the core of a [spinoff boilerplate](https://github.com/vzakharov/agent-project-boilerplate) I now use everywhere. It also let me put things into the flow that plan mode has no opinion about — every plan must carry a “DRY notes” section arguing what's shared vs. duplicated _before_ implementation, rather than discovering it in review.
 
 **Context hygiene (9/10).** This is the one I'd tell you first if we had one minute. The single biggest killer of agent productivity — and of your wallet — is bloated context. The mistake I see constantly is people never ending a conversation: do this, and also that, oh and this unrelated thing. Yes, models take a million tokens now. Past 200k you've strayed, and the agent can no longer _use_ all of it reliably even if it can still recall it.
 
