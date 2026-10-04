@@ -140,7 +140,10 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
                 </Box>
 
                 <Box className={classes['articleBody']}>
-                  <ProseContent {...{ tree }} />
+                  <ProseContent
+                    {...{ tree }}
+                    afterLead={slots?.afterLead?.(document)}
+                  />
                   {SITE_CONFIG.listsSources && (
                     <SourceList {...pick(frontmatter, 'sources')} />
                   )}
