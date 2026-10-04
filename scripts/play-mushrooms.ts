@@ -24,7 +24,6 @@
 
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
-import http from 'node:http';
 import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
@@ -47,6 +46,7 @@ import { playApproach } from './lib/play-approach.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
 import { playDark, playDusk } from './lib/play-dusk.ts';
 import { playHold } from './lib/play-hold.ts';
+import { playKeep } from './lib/play-keep.ts';
 import { playKeys } from './lib/play-keys.ts';
 import { playMap } from './lib/play-map.ts';
 import { playMeadow } from './lib/play-meadow.ts';
@@ -59,6 +59,7 @@ import { playSprouts } from './lib/play-sprouts.ts';
 import { playTufts } from './lib/play-tufts.ts';
 import { playVeer } from './lib/play-veer.ts';
 import { playWalk } from './lib/play-walk.ts';
+import { withPrintOrigin } from './lib/print-origin.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'apps/vova/out');
@@ -95,52 +96,11 @@ const PLAYS = [
   ['dusk', playDusk],
   ['night-run', playGrownRuns],
   ['dark', playDark],
+  ['keep', playKeep],
 ] as const;
 
 /** The play that opens its page with the system's scheme dark. */
 const DARK = 'dark';
-
-const TYPES: Record<string, string> = {
-  '.html': 'text/html',
-  '.js': 'text/javascript',
-  '.css': 'text/css',
-  '.json': 'application/json',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.webp': 'image/webp',
-  '.woff2': 'font/woff2',
-  '.txt': 'text/plain',
-};
-
-/** `apps/vova/out` as GitHub Pages serves it: `/mushrooms` is `mushrooms.html`. */
-async function serve(): Promise<http.Server> {
-  const server = http.createServer((request, response) => {
-    const url = decodeURIComponent(
-      new URL(request.url ?? '/', 'http://x').pathname,
-    );
-    const found = [url, `${url}.html`, path.join(url, 'index.html')]
-      .map((candidate) => path.join(OUT, candidate))
-      .find(
-        (file) =>
-          file.startsWith(OUT) &&
-          fs.existsSync(file) &&
-          fs.statSync(file).isFile(),
-      );
-    if (found === undefined) {
-      response.writeHead(404).end();
-      return;
-    }
-    response.writeHead(200, {
-      'content-type': TYPES[path.extname(found)] ?? 'application/octet-stream',
-    });
-    fs.createReadStream(found).pipe(response);
-  });
-  return new Promise((resolve) => {
-    server.listen(0, '127.0.0.1', () => {
-      resolve(server);
-    });
-  });
-}
 
 const Thrown = z.object({
   exceptionDetails: z.object({
@@ -162,9 +122,16 @@ async function open(
   errors: string[],
   dark: boolean,
 ): Promise<Page> {
-  const target = z
-    .object({ targetId: z.string() })
-    .parse(await browser.send('Target.createTarget', { url: 'about:blank' }));
+  // A context of its own, its storage in memory, so no play opens another's meadow.
+  const context = z
+    .object({ browserContextId: z.string() })
+    .parse(await browser.send('Target.createBrowserContext'));
+  const target = z.object({ targetId: z.string() }).parse(
+    await browser.send('Target.createTarget', {
+      url: 'about:blank',
+      ...context,
+    }),
+  );
   const { sessionId } = z
     .object({ sessionId: z.string() })
     .parse(
@@ -214,36 +181,33 @@ async function open(
     return schema.parse(reply.result.value);
   };
 
-  const deadline = Date.now() + 60_000;
-  const awaitGame = async (): Promise<void> => {
-    if (
-      await evaluate(
-        'Boolean(window.__game?.scene?.scenes?.[0]?.layout)',
-        z.boolean(),
-      )
-    ) {
-      return;
+  let timeOrigin = 0;
+  // `__left` marks a page told to go, so a game still up is not taken for the next one's.
+  const ready = async (deadline = Date.now() + 60_000): Promise<void> => {
+    const up =
+      'Boolean(!window.__left && window.__game?.scene?.scenes?.[0]?.layout)';
+    if (!(await evaluate(up, z.boolean()))) {
+      if (Date.now() > deadline) {
+        throw new Error(
+          `${screen.name}: no game on the page — is apps/vova/out a probe build?`,
+        );
+      }
+      await sleep(POLL_MS);
+      return ready(deadline);
     }
-    if (Date.now() > deadline) {
-      throw new Error(
-        `${screen.name}: no game on the page — is apps/vova/out a probe build?`,
-      );
-    }
-    await sleep(POLL_MS);
-    return awaitGame();
+    await evaluate(
+      `${PROBE}; ${WATCH}; ${STEPPED_TWEENS}; window.__game.loop.sleep(); true`,
+      z.boolean(),
+    );
+    // A touch is stamped with the frames' clock, as a real finger's event
+    // shares its clock with the frames: the crop times a finger's velocity
+    // and a glide by the event's own stamp. CDP takes seconds since the epoch.
+    timeOrigin = await evaluate('performance.timeOrigin', z.number());
   };
-  await awaitGame();
-  await evaluate(
-    `${PROBE}; ${WATCH}; ${STEPPED_TWEENS}; window.__game.loop.sleep(); true`,
-    z.boolean(),
-  );
+  await ready();
 
   let time = 1000;
   const rendered: number[] = [];
-  // A touch is stamped with the frames' clock, as a real finger's event
-  // shares its clock with the frames: the crop times a finger's velocity
-  // and a glide by the event's own stamp. CDP takes seconds since the epoch.
-  const timeOrigin = await evaluate('performance.timeOrigin', z.number());
   const touch = async (
     type: 'touchStart' | 'touchMove' | 'touchEnd',
     touchPoints: ReadonlyArray<z.infer<typeof Point>>,
@@ -295,6 +259,17 @@ async function open(
   };
   return {
     evaluate,
+    reload: async (hash) => {
+      await evaluate('window.__left = true', z.boolean());
+      if (hash === undefined) await send('Page.reload');
+      else {
+        // Through a blank page, so `hash` opens as a link does, not as an edit of this page's.
+        await send('Page.navigate', { url: 'about:blank' });
+        await send('Page.navigate', { url: `${origin}/mushrooms${hash}` });
+      }
+      await ready();
+    },
+    close: async () => browser.send('Target.disposeBrowserContext', context),
     rendered,
     step,
     trace,
@@ -372,21 +347,14 @@ async function main(): Promise<void> {
     if (built.status !== 0) throw new Error('The probe build failed');
   }
   fs.mkdirSync(FRAMES, { recursive: true });
-  const server = await serve();
-  const address = server.address();
-  if (address === null || typeof address === 'string') {
-    server.close();
-    throw new Error('The OS gave no port to serve the export on.');
-  }
-  const origin = `http://127.0.0.1:${String(address.port)}`;
   const browser = await launch();
   const errors: string[] = [];
   const failures: string[] = [];
   // One screen after another, since they all drive the one browser.
-  const playFrom = async ([
-    screen,
-    ...rest
-  ]: readonly Screen[]): Promise<void> => {
+  const playFrom = async (
+    origin: string,
+    [screen, ...rest]: readonly Screen[],
+  ): Promise<void> => {
     if (screen === undefined) return;
     const fail = (message: string) => {
       failures.push(`${screen.name}: ${message}`);
@@ -412,21 +380,26 @@ async function main(): Promise<void> {
           note,
         );
         frames.push(...on.rendered);
+        await on.close();
       },
     );
     // A screen that timed nothing has a broken probe, not a slow frame.
     if (frames.length === 0) fail('no rendered frame was timed');
     note(`rendered-frame JS, ${budgetReport(frames)}`);
     process.stdout.write(`${screen.name}: played\n`);
-    return playFrom(rest);
+    return playFrom(origin, rest);
   };
   try {
     // `--screens tabL,phoneS` plays only those.
     const only = flag('screens')?.split(',');
-    await playFrom(SCREENS.filter(({ name }) => only?.includes(name) ?? true));
+    await withPrintOrigin({ serve: 'export', dir: OUT }, async (origin) =>
+      playFrom(
+        origin,
+        SCREENS.filter(({ name }) => only?.includes(name) ?? true),
+      ),
+    );
   } finally {
     await browser.close();
-    server.close();
     // Before a thrown error surfaces, so a crash still reports what led to it.
     for (const line of [...errors, ...failures]) {
       process.stderr.write(`${line}\n`);

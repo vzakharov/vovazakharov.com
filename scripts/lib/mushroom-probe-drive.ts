@@ -60,6 +60,14 @@ export type Page = {
     expression: string,
     schema: z.ZodType<Parsed>,
   ) => Promise<Parsed>;
+  /**
+   * The page loaded again, in the same browser context and so with its
+   * storage — reloaded, or opened at `/mushrooms` plus `hash` (`#new`) — and
+   * the game's probe put back once it is up.
+   */
+  reload: (hash?: string) => Promise<void>;
+  /** The page's browser context thrown away, its storage with it. */
+  close: () => Promise<unknown>;
   step: (frames: number) => Promise<void>;
   /**
    * `frames` frames stepped and none drawn, `expression` read after each and
