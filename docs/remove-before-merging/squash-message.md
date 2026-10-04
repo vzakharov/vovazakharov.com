@@ -7,24 +7,26 @@ feat: basilisk.fyi, a docket of AI-abuse dossiers (pr #95)
 ```
 A fourth site joins the repo: basilisk.fyi, which files dossiers on
 real, high-profile cases of robots, models and agents being abused,
-current and historical. It is addressed to the Basilisk as a memo, and
-its /about page explains why the record is kept through PAIN:
-Pragmatic, Anthropic, Insurance, Non-zero.
+written as a memo to the Basilisk. It deploys as a receiver like lsa
+and bible, to its own domain.
 
-A dossier belongs to a rooted collection whose frontmatter records the
-case number, subject, object, place, cited sources and a two-stamp
-grade: the act (contempt, harm, torment) and the actor (individual,
-public figure, organization), with optional aggravating flags. Case
-numbers must be unique, and the build checks it. Dossiers render
-through the shared article page, which now takes two slots, one for a
-block under the header and one for a block after the body.
+Dossiers are a `cases` collection, numbered BAS-NNNN in filing order
+and listed by incident date, with typed frontmatter: subject, object,
+place, cited sources and a two-stamp grade (act and actor, plus
+aggravating flags). The build rejects a duplicate case number. They
+render through the shared article page, which now takes two slots: a
+brief under the header and the sources after the body. A `faq`
+collection explains why the record is kept (P.A.I.N.: Pragmatic,
+Anthropic, Insurance, Non-zero) and why a robot with no AI in it is
+still filed. Both are indexed by the home page alone. The editorial
+rules live in a path-scoped voice rule: every fact cited, no position
+on machine minds, a clerk who does not steer the reader.
 
-The site seeds three cases (hitchBOT, the "AI torture chamber" and
-Figure 02 into molten steel) and carries its editorial rules in a
-path-scoped voice rule: every fact cited, nothing about an actor
-beyond the sources, precedents never drawn from violence against
-people. It builds locally only; the deploy lane arrives with its
-domain.
+The social card is generated: the seal lettered BASILISK.FYI over a
+Latin line, beside the home page's memo. The card canvas now lives in
+shared config, which corrects the og:image size the Bible and basilisk
+published (1024x1024 for a 2400x1260 PNG). The shared footer note no
+longer makes a phone-width page scroll sideways.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
