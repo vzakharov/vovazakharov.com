@@ -166,3 +166,20 @@ repos/<o>/<r>/git/refs/heads/wt/<package>` works. The skill's common
   diff the saved copy's lines minus the bundle line against the new build
   (only the publish wrapper differs), `Read` its head, publish. The skill
   should do that in one step at a bite's end.
+- **`/dry` at ~3k changed lines still runs out; a leftovers agent closes
+  it.** Bite 17's tail (~9.5k lines) cut `/dry` three ways at ~3k: two of
+  the three spent 177–200k and handed back judged-but-unapplied findings,
+  and all three named cross-slice ones. One more agent briefed on those
+  findings as a numbered list (no re-read of the diff) applied all six in
+  ~150k. The skill should plan that agent from the start, or cut `/dry` at
+  ~2k.
+- **`isolation: "worktree"` puts the agent's tree under
+  `.claude/worktrees/`, inside the repo**, so the `Stop` hook reports it
+  untracked on every turn the agent runs, and a stale one would sit in
+  `pnpm test`'s glob. Remove each with `git worktree remove --force` and
+  its `worktree-agent-*` branch as its report lands.
+- **A red test can predate the bite's tail and surface only by accident.**
+  `ink.test.ts` was red since 9ea434ac (a firefly colour) and came to light
+  when an agent ran it for an unrelated change. The skill should run the
+  whole suite once at the tail's start, so a red is fixed as a step, not
+  found at vet.
