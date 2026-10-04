@@ -154,13 +154,21 @@ In this order, each an Opus agent briefed on one step:
    built and unit-tested, never landed. `b.md` item 3: apply
    `b3-play.patch` (fails eslint), run the play, look, run `fliers.test.ts`
    once, land, delete `wt/b3`.
-2. **Fireflies circle their hosts** — they bunch at the brow and in open
-   grass (`c.md`, three suspects); then `__probe.fireflies()`, a flare shot
+2. **Fireflies**: circling their hosts landed (9d615e1, `c2.md` — the
+   rings were too wide and high); left: `__probe.fireflies()`, a flare shot
    in the `dusk` play, a flare sound.
-3. **Crickets** (call 13), `c.md` step 3, and the day's birds going quiet at
-   dusk.
+3. **Done — crickets** (call 13) and the day's birds quiet at dusk, a bird
+   phrase at morning (4de9bb6, `c3.md`).
 4. **Call 11, mice run** (`b.md` item 4).
-5. The review, polish, vet, frames, the Artifact; retire bite 16's frames.
+5. **From the operator, on v26's dusk**, each an agent: grass tufts show
+   past the brow at dusk only («трава прорастает за пределами горизонта…
+   только в сумерках»); the moon a plain disc with a kind face in its spots,
+   no petals, its mandala from round the disc («просто круг, но возможно с
+   "лицом"… не должно быть страшным»); dusk runs ~20 fps on an M2 Pro
+   («возможно, это светлячки, возможно ещё что-то») — measured and fixed
+   without changing the look; the open map dimmed at dusk too («карта ночью
+   тоже должна выглядеть приглушённо»).
+6. The review, polish, vet, frames, the Artifact; retire bite 16's frames.
 
 Off the bite, from the operator: the map's ✕ («крестик на карте
 по-прежнему выглядит странно», then «дело в самом кружке. попробовать без
