@@ -26,12 +26,11 @@ type GaitScreen = Controls &
  * reach clear of it, every picker's stage `PICK_CLEAR` off it (`PICK_APART`,
  * a four-button row in its band), and the sun's rays `BUTTON_INSET` off it,
  * as they keep off every button. Where none of those spots is free but one
- * stands over a picker's stage, it stands there and gives way to the picker,
- * as the insects' buttons do: a button alone out in the sky reads as nobody's.
- * Only a screen with neither has the free spot nearest the map button; one
- * with none of that either has it give way over a picker's row anywhere in
- * the sky, then still in the sky where its reach clears the rays, and only
- * where the sky has no such spot, on the meadow.
+ * is blocked only by a picker's stage, it stands there and gives way to the
+ * picker, as the insects' buttons do: a button alone out in the sky reads as
+ * nobody's. Failing both, the free spot nearest the map button; then, giving
+ * way, the nearest in the sky `BUTTON_INSET` off the rays, then merely clear
+ * of them, and only where the sky has no such spot, on the meadow.
  */
 export function gaitSpot(
   screen: GaitScreen,
@@ -86,11 +85,9 @@ function nearestSpot(
 }
 
 /**
- * Right of the map button, under it, right of the last button in its row and
- * under the last in its column, each their reaches touching. The insects'
- * buttons stand in either line where they stand beside the map button
- * (`placeReleases`), so the gait button follows them rather than leave the
- * line for the sky.
+ * Right of the map button, under it, right of the last insect's button in its
+ * row and under the last in its column (`placeReleases` lines them up either
+ * way), each their reaches touching.
  */
 function besideLines({ map, releases }: GaitScreen): Circle[] {
   const insects = Object.values(releases);
