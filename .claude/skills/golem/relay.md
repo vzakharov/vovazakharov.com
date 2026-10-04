@@ -20,7 +20,7 @@ Opened at the context budget's pause, at any other relay, and on picking a run u
 
 ## At the cap
 
-- **A session whose `depth` has reached its `limit` ends at a natural stop** — a bite's end, a settled design doc, a finished review — rather than running on to the pause: its successor waits for a person, and nothing half-built should wait with it.
+- **A session whose `depth` has reached its `limit` is the one exception to relaying only at the budget pause** (`SKILL.md` § "The loop"): it ends at a natural stop — a bite's end, a finished review — rather than running on to the pause, because its successor waits for a person, and nothing half-built should wait with it.
 - **It writes the summary with the depth reset and hands the operator the line to paste**: `/relay take <branch>`, naming the model and effort to start the session on, since a session started by hand gets whatever the operator picks. The line goes on the dashboard's list too.
 
 ## Pause or take over
