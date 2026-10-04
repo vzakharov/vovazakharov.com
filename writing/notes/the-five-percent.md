@@ -234,6 +234,28 @@ _выноска стала лучше, изображение -- хуже_ — i
 The explicit badge, a fixed 18px square beside the song page's 48px title,
 stood taller than the capitals in the catalogue's 16px list.
 
+## Its prose answers the question it had, not the reader's (×4)
+
+Accurate, present-tense and short is the whole of what a prose pass asks, and a
+rewrite is held against the points it was meant to carry — so a line answering
+the wrong question, or too compressed to give its points back, passes every test.
+What a reader stops at that line holding is the thing nothing measures.
+
+**21 September — four comments, four true sentences.** `fsd.md` narrated how
+`widgets/` was earned — _археология?_; `GENERATED_DIR`'s docstring listed
+contents, not the invariant; `SiteImage` never said why `path` and `vector`
+both exist.
+
+**23 September — a metaphor, a squiggle, a live trap read as history.** A prop
+comment called a dimmed column "held back"; `__vars` did a plain `style`'s job;
+a real trap's comment read as archaeology. Each was plain to its writer.
+
+**4 October — a disclaimer read as neutral, by the side that wrote it.** hitchBOT's
+dossier closed on a record that "does not get to choose who reads it as a
+precedent," and the agent passed it under a voice rule banning closes that
+steer. To the operator the disclaiming _was_ the steer — "you decide", "get to
+choose" mark the very thing they deny. Cut.
+
 ## It warns where the repo could refuse (×3)
 
 A decision the agent wants to survive, it secures by explaining it — a docstring,
@@ -249,22 +271,6 @@ into `site-ids.ts`. _нам нужно сделать .server-only. модуль
 Asked twice what tells `SiteImage`'s `path` from `vector`, the agent pointed at
 its own docstring. The fix was the shape:
 `{ path } & ({ vector: string } | { vector?: never })`.
-
-## Its prose answers the question it had, not the reader's (×3)
-
-Accurate, present-tense and short is the whole of what a prose pass asks, and a
-rewrite is held against the points it was meant to carry — so a line answering
-the wrong question, or too compressed to give its points back, passes every test.
-What a reader stops at that line holding is the thing nothing measures.
-
-**21 September — four comments, four true sentences.** `fsd.md` narrated how
-`widgets/` was earned — _археология?_; `GENERATED_DIR`'s docstring listed
-contents, not the invariant; `SiteImage` never said why `path` and `vector`
-both exist.
-
-**23 September — a metaphor, a squiggle, a live trap read as history.** A prop
-comment called a dimmed column "held back"; `__vars` did a plain `style`'s job;
-a real trap's comment read as archaeology. Each was plain to its writer.
 
 ## Not bumps
 
@@ -282,7 +288,7 @@ sits and whether a layout owns it; an entry removed this way takes its count
 with it. Nor the cost report's default grain, em dashes for a typed `--`, or
 basilisk.fyi's taste: quote punctuation, tagline, `cases/`, an FAQ /about, where
 an archived copy goes, a voice found as it goes, inline links over a sources
-list. Nor a case's reflection: a review of the dossier where he meant, by his
+list, the noAi note after the body's first paragraph rather than the brief. Nor a case's reflection: a review of the dossier where he meant, by his
 own account badly phrased, the agent's reaction to the event, in Russian.
 
 **Comments the tree already answered.** Whether a quote's capitalization was
