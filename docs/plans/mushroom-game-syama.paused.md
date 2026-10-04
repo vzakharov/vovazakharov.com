@@ -387,7 +387,7 @@ product («сейчас это развлечение для одного реб
 вернёмся когда и если это станет критичным»): the play prints its 26 ms
 budget line and does not fail on it (1946a63).
 
-## This bite
+## Rest of the bite
 
 **The meadow is kept** — the last bite, from
 [saving.md](mushroom-game-syama/saving.md): meadows numbered in the URL hash,
@@ -395,6 +395,26 @@ kept in IndexedDB after every action, saved at rest with the time of day, the
 format versioned, no storage meaning no keeping. Its thirteen calls and its
 steps (S1–S6, one agent each) are
 [bite-18.md](mushroom-game-syama/bite-18.md).
+
+Built: S1 (settling, `model/keeping.ts`, `flier-rest.ts`), S2 (the zod
+record, `model/kept-record.ts`; the hash, `meadow-number.ts`), S3
+(`openingWalk`'s start), S4 (`api/`: store, `openKept`, keeper), S5a (the
+scene opens on the kept meadow, `ui/scene/meadow-opening.ts`), S6's `keep`
+play written (red until S5b) with a browser context per play. Left:
+
+- **S5b** — the keeper wired into `meadow-scene.ts` (440 of its 448 cap):
+  `docs/remove-before-merging/bite-18/s5a-opening.md` § "Left for S5b".
+- **A new `meadow` play red on tabL**: "the butterfly sent away is still in
+  the meadow" (×2), since the seed is now drawn after the store's open, so a
+  seeded play run plays another meadow. Trace it as its own agent: game or
+  harness.
+- The `keep` play run and a look at its three frames.
+- The tail: the whole suite once, `/polish` (with
+  `docs/remove-before-merging/bite-18/polish-items.md`), vet as two calls,
+  frames to `frames/bite-18/` and bite 17's retired, the Artifact
+  republished (it opens fresh: no storage in the sandbox), the review agent,
+  `to-check.md`'s hand checks (spec § 3's end, plus call 5's refused write),
+  the fold, then `relay finalize`.
 
 ## DRY notes
 
