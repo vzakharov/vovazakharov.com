@@ -21,6 +21,10 @@ export const BACKDROP = {
   rainCloudLit: 0xa6_aa_be,
   /** The slate wash over the meadow while it rains. */
   rainWash: 0x2e_36_4e,
+  /** The moon's lit face, the crescent of its shadow, and its rosette halo. */
+  moon: 0xfa_f4_dc,
+  moonShade: 0xc6_c2_dc,
+  moonHalo: 0xc8_c4_f4,
   /** A falling drop's streak, pale against the darkened sky and the wash. */
   rainDrop: 0xd6_ea_ff,
   /** The ring a drop splashes where it lands. */
