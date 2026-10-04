@@ -152,7 +152,7 @@ export const actions = {
 };
 ```
 
-Read that as a function body and you’re reading it correctly. The directory name carries the trigger, the numbered map is Bubble’s own step order, every step is a file you can open — and step 4’s filename is the label a human typed into the Bubble editor rather than a slug of an ID, recovered from the export’s `name` field: _“Schedule trigger_stream_existing_chat after 0 seconds”_.
+Read that as a function body and you’re reading it correctly. The directory name carries the trigger, the numbered map is Bubble’s own step order, every step is a file you can open — and step 4’s filename is the label a human typed into the Bubble editor rather than a slug of an ID, recovered from the export’s `name` field: _“Schedule trigger_stream_existing_chat after 0 seconds.”_
 
 One lovely detail: Step 0, the only step with an unreadable name, refers to using `Toolbox`, the run-custom-JavaScript plugin from a few paragraphs up. Step zero of sending a chat message in our no-code app was a `Run javascript` action.
 
