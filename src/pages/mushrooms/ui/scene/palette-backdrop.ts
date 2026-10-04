@@ -23,9 +23,10 @@ export const BACKDROP = {
   rainWash: 0x2e_36_4e,
   /** The blue-violet wash over the meadow at dusk. */
   duskWash: 0x26_1c_5e,
-  /** The moon's lit face, the crescent of its shadow, and its rosette halo. */
+  /** The moon's face, the seas its kind face is made of, its cheeks, and its halo. */
   moon: 0xfa_f4_dc,
-  moonShade: 0xc6_c2_dc,
+  moonSea: 0xc6_c2_dc,
+  moonCheek: 0xf4_d4_c4,
   moonHalo: 0xc8_c4_f4,
   /** A star in the dusk sky. */
   star: 0xff_f6_d8,
