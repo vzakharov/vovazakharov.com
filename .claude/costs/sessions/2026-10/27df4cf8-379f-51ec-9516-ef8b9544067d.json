@@ -9,52 +9,54 @@
   "url": "https://claude.ai/code/session_01Ppg6i9CdZh8WtpC6JoYZLJ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-04T18:57:11.854Z",
-  "lastResponseAt": "2026-10-04T19:09:02.342Z",
+  "lastResponseAt": "2026-10-04T19:13:37.796Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 194,
-    "cacheWrite5mTokens": 72302,
-    "cacheWrite1hTokens": 196710,
-    "cacheReadTokens": 17412132,
-    "outputTokens": 48357,
-    "thinkingTokens": 17941,
-    "responses": 97,
-    "costUsd": 6.3855324000000016
+    "inputTokens": 232,
+    "cacheWrite5mTokens": 198905,
+    "cacheWrite1hTokens": 199577,
+    "cacheReadTokens": 19217343,
+    "outputTokens": 49701,
+    "thinkingTokens": 18072,
+    "responses": 115,
+    "costUsd": 7.429557600000002
   },
   "ownTurns": {
-    "inputTokens": 190,
+    "inputTokens": 196,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 196710,
-    "cacheReadTokens": 17355035,
-    "outputTokens": 48332,
-    "thinkingTokens": 17941,
-    "responses": 95,
-    "costUsd": 6.012087000000001
+    "cacheWrite1hTokens": 199577,
+    "cacheReadTokens": 17837846,
+    "outputTokens": 49515,
+    "thinkingTokens": 18072,
+    "responses": 97,
+    "costUsd": 6.155269200000001
   },
   "subagents": {
-    "inputTokens": 4,
-    "cacheWrite5mTokens": 72302,
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 198905,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 57097,
-    "outputTokens": 25,
+    "cacheReadTokens": 1379497,
+    "outputTokens": 186,
     "thinkingTokens": 0,
-    "responses": 2,
-    "costUsd": 0.3734454
+    "responses": 18,
+    "costUsd": 1.2742884
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 194,
-      "cacheWrite5mTokens": 72302,
-      "cacheWrite1hTokens": 196710,
-      "cacheReadTokens": 17412132,
-      "outputTokens": 48357,
-      "thinkingTokens": 17941,
-      "responses": 97,
-      "costUsd": 6.3855324000000016
+      "inputTokens": 232,
+      "cacheWrite5mTokens": 198905,
+      "cacheWrite1hTokens": 199577,
+      "cacheReadTokens": 19217343,
+      "outputTokens": 49701,
+      "thinkingTokens": 18072,
+      "responses": 115,
+      "costUsd": 7.429557600000002
     }
   },
-  "warnings": [],
+  "warnings": [
+    "prices.json priced the 114 responses the events also priced at $7.3640, against the events' $7.8557: a rate in the table is likely out of date"
+  ],
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "apps/basilisk/public/cases/torture-chamber.md",
@@ -73,10 +75,10 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 97,
-    "matched": 97,
-    "matchedTableUsd": 6.3855324000000016,
-    "matchedEventUsd": 6.418412400000001,
+    "events": 114,
+    "matched": 114,
+    "matchedTableUsd": 7.3640446000000015,
+    "matchedEventUsd": 7.855744600000003,
     "unseen": {}
   }
 }
