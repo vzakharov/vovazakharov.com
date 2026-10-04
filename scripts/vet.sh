@@ -44,7 +44,7 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these twenty writes anything another one reads, so they overlap
+# None of these twenty-one writes anything another one reads, so they overlap
 # freely.
 # The Open Graph check is one entry per site, not one script running both: pnpm
 # appends a passed `--check` to the end of the command line, so a combined
@@ -62,6 +62,7 @@ fi
 # their own temporary directories. The squash check reads the proposal under
 # docs/remove-before-merging/ (or its own history) and the notes check counts
 # lines under writing/notes/, neither of which anything else here touches.
+# The PR body check reads only GitHub, through gh.
 # The Mantine and i18n-payload checks only read what the build above already
 # finished writing under `apps/*/out/`, which nothing here writes to.
 # The last six read the agent infrastructure itself and nothing else here
@@ -80,6 +81,7 @@ scripts/run-parallel.sh \
   og-bible='pnpm content:og:bible --check' \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
+  pr-body-size='scripts/check-pr-body-size.sh' \
   notes='scripts/check-notes-length.sh' \
   skills='scripts/check-skill-catalog.sh' \
   staged='scripts/staged.sh check' \
