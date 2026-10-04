@@ -1,0 +1,82 @@
+{
+  "sessionId": "01c312cd-f898-5434-9477-d44d2284a6c4",
+  "branch": "claude/basilisk-site-xwbdkd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle и finalize claude/basilisk-site-xwbdkd",
+  "prs": [
+    95
+  ],
+  "url": "https://claude.ai/code/session_015g2E1vCLGh41zDwrSVPr3c",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-04T09:19:43.923Z",
+  "lastResponseAt": "2026-10-04T09:22:21.775Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 87425,
+    "cacheReadTokens": 1953015,
+    "outputTokens": 5709,
+    "thinkingTokens": 1606,
+    "responses": 19,
+    "costUsd": 1.2043350000000002
+  },
+  "ownTurns": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 87425,
+    "cacheReadTokens": 1953015,
+    "outputTokens": 5709,
+    "thinkingTokens": 1606,
+    "responses": 19,
+    "costUsd": 1.2043350000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 87425,
+      "cacheReadTokens": 1953015,
+      "outputTokens": 5709,
+      "thinkingTokens": 1606,
+      "responses": 19,
+      "costUsd": 1.2043350000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "apps/vova/public/case-studies/playgram.md",
+    "endedAt": "2026-10-04T09:21:54.065Z",
+    "contextTokens": 120178,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 66307,
+      "cacheReadTokens": 1214509,
+      "outputTokens": 3705,
+      "thinkingTokens": 1293,
+      "responses": 13,
+      "costUsd": 0.8475618
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 19,
+    "matched": 19,
+    "matchedTableUsd": 1.2043350000000002,
+    "matchedEventUsd": 1.2043350000000002,
+    "unseen": {}
+  }
+}
