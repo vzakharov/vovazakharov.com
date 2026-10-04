@@ -115,7 +115,12 @@ export const DUSK_TONES = tonesOf((name) => DUSK[name]);
 export function tonesAt(dusk: number): Tones {
   if (dusk <= 0) return DAY;
   if (dusk >= 1) return DUSK_TONES;
-  return tonesOf((name) => mix(PALETTE[name], DUSK[name], dusk));
+  return tonesOf(coloursAt(dusk));
+}
+
+/** The source colours `dusk` of the way to full dusk: each its day's blended toward its dusk twin. */
+export function coloursAt(dusk: number): BackdropColours {
+  return (name) => mix(PALETTE[name], DUSK[name], dusk);
 }
 
 /** The day's ranges and ground stops (`tonesOf`). */

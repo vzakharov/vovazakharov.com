@@ -2,7 +2,7 @@ import type * as Phaser from 'phaser';
 
 import type { Point } from '../../model/geometry';
 import type { Walk } from '../../model/walk';
-import { drawDisc } from './hud';
+import { alongQuadratic, drawDisc } from './hud';
 import { PALETTE } from './palette';
 import { fillShape, strokeShape } from './shapes';
 
@@ -83,15 +83,9 @@ const EDGE_POINTS = 10;
 /** The wing's outline (`FEATHER_TIPS`), in its button's radius. */
 function wingOutline(): Point[] {
   const [tip] = FEATHER_TIPS;
-  const edge = Array.from({ length: EDGE_POINTS + 1 }, (_, index) => {
-    const t = index / EDGE_POINTS;
-    const at = (a: number, b: number, c: number) =>
-      (1 - t) ** 2 * a + 2 * (1 - t) * t * b + t ** 2 * c;
-    return {
-      x: at(SHOULDER.x, BOW.x, tip.x),
-      y: at(SHOULDER.y, BOW.y, tip.y),
-    };
-  });
+  const edge = Array.from({ length: EDGE_POINTS + 1 }, (_, index) =>
+    alongQuadratic(SHOULDER, BOW, tip, index / EDGE_POINTS),
+  );
   const trailing = [...FEATHER_TIPS.slice(1), SHOULDER].flatMap(
     (point, index) => {
       const before = FEATHER_TIPS[index] ?? tip;

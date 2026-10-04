@@ -2,10 +2,10 @@ import type * as Phaser from 'phaser';
 
 import { type Phased, shake, sway } from '../../model/motion';
 import { between, type Random } from '../../model/random';
-import { groundAt, type Tones, tonesAt } from './backdrop-tones';
+import { coloursAt, groundAt, type Tones, tonesAt } from './backdrop-tones';
 import { mix } from './colour';
 import type { Footing, MeadowLayout } from './layout';
-import { DUSK, PALETTE } from './palette';
+import { PALETTE } from './palette';
 
 /** How far a tuft's tip swings in the breeze, in units of its size. */
 const SWING = 0.35;
@@ -31,10 +31,9 @@ export type Turf = Record<'tuft' | 'tuftDark' | 'groundLit', number> & {
   tones: Tones;
 };
 
-/** The grass's light `dusk` of the way to full dusk: each colour between its day's and its dusk twin (`DUSK`), as the ground's (`tonesAt`). */
+/** The grass's light `dusk` of the way to full dusk: each colour between its day's and its dusk twin (`coloursAt`), as the ground's (`tonesAt`). */
 export function turfAt(dusk: number): Turf {
-  const colour = (name: 'tuft' | 'tuftDark' | 'groundLit') =>
-    mix(PALETTE[name], DUSK[name], Math.min(1, Math.max(0, dusk)));
+  const colour = coloursAt(Math.min(1, Math.max(0, dusk)));
   return {
     tones: tonesAt(dusk),
     tuft: colour('tuft'),

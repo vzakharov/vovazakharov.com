@@ -303,12 +303,21 @@ const PATH_DOTS = 6;
 /** How far along the path its dots run, the rest left to the cross that ends it. */
 const PATH_DOTTED = 0.78;
 
-/** A point `t` of the way along the quadratic `PATH`, in its button's radius. */
-function alongPath(t: number): Point {
-  const [from, bend, to] = PATH;
+/** The point `t` of the way along the quadratic from `from` to `to` drawn toward `bend`. */
+export function alongQuadratic(
+  from: Point,
+  bend: Point,
+  to: Point,
+  t: number,
+): Point {
   const at = (a: number, b: number, c: number) =>
     (1 - t) ** 2 * a + 2 * (1 - t) * t * b + t ** 2 * c;
   return { x: at(from.x, bend.x, to.x), y: at(from.y, bend.y, to.y) };
+}
+
+/** A point `t` of the way along the quadratic `PATH`, in its button's radius. */
+function alongPath(t: number): Point {
+  return alongQuadratic(...PATH, t);
 }
 
 /**

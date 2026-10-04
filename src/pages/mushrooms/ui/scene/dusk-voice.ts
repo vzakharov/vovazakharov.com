@@ -4,7 +4,12 @@
  * dusk's level, under the meadow rather than over it.
  */
 
-import { mulberry32, type Random } from '../../model/random';
+import {
+  between,
+  countFrom,
+  mulberry32,
+  type Random,
+} from '../../model/random';
 
 /** The chorus's loudness at full dusk: a single pulse peaks at this, about half a bird note's. */
 const CRICKET_LOUDNESS = 0.018;
@@ -51,13 +56,11 @@ export function chirpRhythm(random: Random): Rhythm {
   const onsets: number[] = [];
   let at = 0;
   for (let chirp = 0; chirp < CHIRPS_PER_LOOP; chirp++) {
-    const [fewest, most] = PULSES;
-    const pulses = fewest + Math.floor(random() * (most - fewest + 1));
+    const pulses = countFrom(random, PULSES);
     for (let pulse = 0; pulse < pulses; pulse++) {
       onsets.push(at + pulse * PULSE_SPACING);
     }
-    const [shortest, longest] = CHIRP_GAP_SECONDS;
-    at += shortest + random() * (longest - shortest);
+    at += between(random, ...CHIRP_GAP_SECONDS);
   }
   return { onsets, loopSeconds: at };
 }
