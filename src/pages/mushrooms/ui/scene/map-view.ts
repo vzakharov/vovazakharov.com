@@ -37,6 +37,7 @@ import { drawChild, drawView } from './map-child';
 import { drawCompass } from './map-compass';
 import type { MushroomBed } from './mushroom-bed';
 import { PALETTE } from './palette';
+import { DUSK } from './palette-dusk';
 import { azimuthAt } from './panorama';
 import { BUTTON_INSET } from './tap-reach';
 
@@ -53,6 +54,13 @@ export type MapSnapshot = Eyed &
     doors: Pick<MushroomBed, 'seatedDoor'>;
     dusky: boolean;
   };
+
+/**
+ * How far the dusk's deep ground lies over the map's paper and ground at full
+ * dusk, under the wash: as dark as the dusk meadow's ground, the things on
+ * the map left to the wash alone so they stand out on it.
+ */
+const DUSK_SHADE = 0.56;
 
 /** How long the map takes to unfold out of its button, and to fold back, in seconds. */
 const UNFOLD = 0.3;
@@ -149,10 +157,16 @@ export class MapView {
   /** Makes the sheet and the catch for taps over everything at `depth` but the map button. */
   mount(scene: Phaser.Scene, depth: number, tap: () => void): void {
     const make = () => scene.make.graphics({}, false);
-    const layers = { pen: make(), veil: make(), top: make() };
+    const layers = {
+      paper: make(),
+      shade: make(),
+      pen: make(),
+      veil: make(),
+      top: make(),
+    };
     this.layers = layers;
     this.sheet = scene.add
-      .container(0, 0, [layers.pen, layers.veil, layers.top])
+      .container(0, 0, Object.values(layers))
       .setScrollFactor(0)
       .setDepth(depth)
       .setVisible(false);
@@ -194,9 +208,11 @@ export class MapView {
 
   /**
    * Unfolds the sheet out of the button, or folds it back, scale and alpha
-   * both, and dims it under the dusk wash as far as the meadow's `duskness`.
+   * both, and dims it as far as the meadow's `duskness`: its paper and
+   * ground toward the dusk's deep ground, and the whole under the dusk wash.
    */
   update(t: number, duskness: number): void {
+    this.layers?.shade.setAlpha(DUSK_SHADE * duskness);
     this.layers?.veil.setAlpha(DUSK_WASH_DEEPEST * duskness);
     const shown = unfolded(
       this.isOpen,
@@ -210,13 +226,19 @@ export class MapView {
 }
 
 /**
- * The map's three layers, bottom up: the paper and all on it (`pen`), the
- * dusk wash over the sheet (`veil`), and what stands over the wash as the
- * meadow's lights do (`top`): the compass and the child.
+ * The map's layers, bottom up: the paper, its ground and the wedge
+ * (`paper`); the dusk's deep ground over them (`shade`), as the meadow's
+ * ground is baked toward it; the things on the map (`pen`); the dusk wash
+ * over the sheet (`veil`); and what stands over the wash as the meadow's
+ * lights do (`top`): the compass and the child.
  */
-type Layers = Record<'pen' | 'veil' | 'top', Phaser.GameObjects.Graphics>;
+type Layers = Record<
+  'paper' | 'shade' | 'pen' | 'veil' | 'top',
+  Phaser.GameObjects.Graphics
+>;
 
-function drawMap({ pen, veil, top }: Layers, shot: MapSnapshot): Drawn {
+function drawMap(layers: Layers, shot: MapSnapshot): Drawn {
+  const { paper, shade, pen, veil, top } = layers;
   const { stand, eye, ratio, seed, doors, dusky } = shot;
   const { width, height, camera, sun } = stand.layout;
   const hairline = 1 / ratio;
@@ -258,11 +280,11 @@ function drawMap({ pen, veil, top }: Layers, shot: MapSnapshot): Drawn {
     bottom: sheet.top + sheet.height - inner,
     corner: CORNER - inner,
   };
-  pen
+  paper
     .fillStyle(PALETTE.paper)
     .fillRoundedRect(sheet.left, sheet.top, sheet.width, sheet.height, CORNER);
-  drawMapGround(pen, frame, ground, seed);
-  pen
+  drawMapGround(paper, frame, ground, seed);
+  paper
     .lineStyle(EDGE, PALETTE.paperEdge)
     .strokeRoundedRect(
       sheet.left + EDGE,
@@ -281,11 +303,22 @@ function drawMap({ pen, veil, top }: Layers, shot: MapSnapshot): Drawn {
     );
   // The compass at the top edge's middle.
   const compass = { ...pick(middle, 'x'), y: sheet.top + MARGIN / 2 + 2 };
-  veil
-    .fillStyle(PALETTE.duskWash)
-    .fillRoundedRect(sheet.left, sheet.top, sheet.width, sheet.height, CORNER);
+  for (const [layer, colour] of [
+    [shade, DUSK.groundDeep],
+    [veil, PALETTE.duskWash],
+  ] as const) {
+    layer
+      .fillStyle(colour)
+      .fillRoundedRect(
+        sheet.left,
+        sheet.top,
+        sheet.width,
+        sheet.height,
+        CORNER,
+      );
+  }
   drawCompass(top, compass, dusky);
-  drawView(pen, frame, eye, camera, ground);
+  drawView(paper, frame, eye, camera, ground);
   const lighting = iconLighting(hairline);
   // A thing standing on `foot`, painted by `paint` round the origin, moved to
   // where it shows on the map.
