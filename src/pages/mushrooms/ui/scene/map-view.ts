@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
-import type { Point } from '../../model/geometry';
+import type { Facing, Point } from '../../model/geometry';
 import { type Eyed, OPENING_EYE } from '../../model/ground';
 import { type DoorPlace, doorStations, paintedSpots } from '../../model/house';
 import {
@@ -106,12 +106,11 @@ type Mark = Point & { paint: () => void };
  * The map as last drawn: its frame, how many things stand on it, every
  * flower where it shows, and the child's dot and the way he faces.
  */
-type Drawn = {
+type Drawn = Facing & {
   frame: MapFrame;
   things: number;
   flowers: Array<Point & { id: string }>;
   child: Point;
-  ahead: Point;
 };
 
 /**

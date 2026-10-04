@@ -42,7 +42,6 @@ import { bendAt, type Pinhole, pinholeOf } from './pinhole';
 import {
   chaseFrom,
   chaseTo,
-  type Gait,
   holdStep,
   holdStrafe as holdStrafeKey,
   letGoStep,
@@ -52,6 +51,7 @@ import {
   stoodStill,
   type Stride,
   tick as tickStride,
+  type WithGait,
   yieldChase,
 } from './stride';
 
@@ -80,11 +80,10 @@ type Drag = { pressedAt: Point; since: number; lock: Lock | undefined };
  * stride, the `gait` a ground drag moves the eye by, and the finger pressed,
  * if one is.
  */
-export type Walk = {
+export type Walk = WithGait & {
   lens: Camera;
   pan: Pan;
   stride: Stride;
-  gait: Gait;
   drag: Drag | undefined;
 };
 

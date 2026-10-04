@@ -6,9 +6,12 @@
  */
 
 import { type Course, type Direction, wayOf } from './cruise';
-import type { Point } from './geometry';
+import type { Facing, Point } from './geometry';
 
-type Line = { origin: Point; ahead: Point; aim: number };
+/** A point on a line, `aim` units on from its `origin` (back for less than 0). */
+export type Aimed = { origin: Point; aim: number };
+
+type Line = Aimed & Facing;
 
 /** The course to `line`'s aim at `pace` units a second, eased in over `ease` seconds. */
 export function lineCourse(

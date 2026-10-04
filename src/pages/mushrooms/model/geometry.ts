@@ -15,6 +15,8 @@ export type Leaning = { lean: number };
 export type Reach = { reach: number };
 
 export type WithMiddle = { middle: Point };
+/** The way a thing faces, `ahead`, as a unit vector. */
+export type Facing = { ahead: Point };
 /** Where a box's top-left corner stands. */
 export type Cornered = Topped & Lefted;
 /** How big a thing stands on screen, in its points' units: the unit its shape is drawn in. */

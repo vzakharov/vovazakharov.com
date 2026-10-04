@@ -31,7 +31,7 @@ import {
   glidePace,
   type Sampled,
 } from './glide';
-import { lineCourse } from './line-course';
+import { type Aimed, lineCourse } from './line-course';
 import { type Held, KEY_EASE } from './pan';
 
 /** A held key's walk, in the clump's size a second. */
@@ -78,6 +78,8 @@ type Line = { axis: Axis; bearing: number };
  * point, step by step at a held key's cruise, or standing there at once.
  */
 export type Gait = 'steps' | 'flight';
+/** The `gait` a ground drag moves the eye by. */
+export type WithGait = { gait: Gait };
 
 /**
  * A drag walking the eye along its line by its `gait`: the point it stood
@@ -88,12 +90,9 @@ export type Gait = 'steps' | 'flight';
  */
 type Chase = Line &
   Sampled &
-  Flinging & {
-    gait: Gait;
-    origin: Point;
-    aim: number;
-    unstepped: number;
-  };
+  Flinging &
+  WithGait &
+  Aimed & { unstepped: number };
 
 /**
  * A fling gliding the eye on along its line after a quick lift: it carries
