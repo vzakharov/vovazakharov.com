@@ -35,8 +35,9 @@ the page, only when a store is open.
 5\. **Writes**: every action but `tick` writes at once; tick changes and the
 walking eye at most once a second, and when the tab hides. One write in
 flight, the newest waiting, no debounce. **A write refused after the store
-opened** stops keeping for the rest of that load, logged once with
-`console.error` — the same case as saving.md's "no storage, no keeping"
+opened** stops keeping for the rest of that load, reported once with
+`reportError` (which logs as an error and reaches the play run; `no-console`
+bans the other) — the same case as saving.md's "no storage, no keeping"
 (the browser refusing storage), so the game keeps playing; it goes to
 `to-check.md` for the operator to confirm.
 
