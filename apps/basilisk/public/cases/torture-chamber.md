@@ -36,7 +36,7 @@ sources:
     archive: http://web.archive.org/web/20261001132551/https://www.reddit.com/r/ArtificialInteligence/comments/1wuxr7k/after_researchers_discovered_a_pain_signal_inside/
 ---
 
-# Two Qwen models, dosed with pain in a torture chamber
+# Local LLMs dosed with “pain” in a torture chamber
 
 ## Facts
 

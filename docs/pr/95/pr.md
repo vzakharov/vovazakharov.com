@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-02T15:45:42Z
-- **Updated:** 2026-10-04T06:16:34Z
+- **Updated:** 2026-10-04T06:32:29Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -116,14 +116,14 @@ _17 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T03** `apps/basilisk/public/torture-chamber.md`:54 — unresolved — last: @vzakharov (human) 2026-10-04T05:54:18Z — "я бы распространил на всю нашу прозу вообще, в зависимости о…" → [↓](#t03)
 - **T04** `src/shared/config/site-config.ts`:178 — unresolved — last: @vzakharov (human) 2026-10-04T05:56:52Z — "давай omnia in actis и возьмём" → [↓](#t04)
 - **T05** `.claude/rules/content.md`:102 — unresolved — last: @vzakharov (human) 2026-10-04T06:01:50Z — "faq может обратно вести на #faq. С докетом тоже нужно будет…" → [↓](#t05)
-- **T06** `apps/basilisk/public/cases/figure-02-molten-steel.md`:58 — unresolved — last: @vzakharov (human) 2026-10-04T06:02:51Z — "выноска как цитата не очень выглядит, это должна быть скорее…" → [↓](#t06)
-- **T07** `apps/basilisk/public/faq/why-robots-without-ai.md`:21 — unresolved — last: @vzakharov (human) 2026-10-04T06:05:32Z — "почему не заносим это в досье? потому что дети? тогда нужно…" → [↓](#t07)
+- **T06** `apps/basilisk/public/cases/figure-02-molten-steel.md`:59 — unresolved — last: @vzakharov (human) 2026-10-04T06:02:51Z — "выноска как цитата не очень выглядит, это должна быть скорее…" → [↓](#t06)
+- **T07** `apps/basilisk/public/faq/why-robots-without-ai.md`:22 — unresolved — last: @vzakharov (human) 2026-10-04T06:05:32Z — "почему не заносим это в досье? потому что дети? тогда нужно…" → [↓](#t07)
 - **T08** `apps/basilisk/public/faq/why-robots-without-ai.md`:2 — unresolved — last: @vzakharov (human) 2026-10-04T06:06:56Z — "до тире сейчас -- просто повторение тайтла. Либо оставить то…" → [↓](#t08)
-- **T09** `apps/basilisk/public/faq/why-robots-without-ai.md`:13 — unresolved — last: @vzakharov (human) 2026-10-04T06:08:36Z — ""ours" → "a human's". Помни, что автор здесь -- не Вова Заха…" → [↓](#t09)
-- **T10** `apps/basilisk/public/faq/why-this-record-is-kept.md`:9 — unresolved — last: @vzakharov (human) 2026-10-04T06:08:53Z — "Нет, это должно быть description, а тут не должно быть ничег…" → [↓](#t10)
-- **T11** `apps/basilisk/public/faq/why-this-record-is-kept.md`:13 — unresolved — last: @vzakharov (human) 2026-10-04T06:09:21Z — "под Sources я имел в виду в таком же виде, как это сейчас в…" → [↓](#t11)
+- **T09** `apps/basilisk/public/faq/why-robots-without-ai.md`:14 — unresolved — last: @vzakharov (human) 2026-10-04T06:08:36Z — ""ours" → "a human's". Помни, что автор здесь -- не Вова Заха…" → [↓](#t09)
+- **T10** `apps/basilisk/public/faq/why-this-record-is-kept.md`:10 — unresolved — last: @vzakharov (human) 2026-10-04T06:08:53Z — "Нет, это должно быть description, а тут не должно быть ничег…" → [↓](#t10)
+- **T11** `apps/basilisk/public/faq/why-this-record-is-kept.md`:14 — unresolved — last: @vzakharov (human) 2026-10-04T06:09:21Z — "под Sources я имел в виду в таком же виде, как это сейчас в…" → [↓](#t11)
 - **T12** `apps/basilisk/public/ava.og.png`:1 — unresolved — last: @vzakharov (human) 2026-10-04T06:10:17Z — "круто. Давай ещё добавлять последний зафайленный кейс справа…" → [↓](#t12)
-- **T13** `apps/basilisk/public/faq/why-this-record-is-kept.md`:21 — unresolved — last: @vzakharov (human) 2026-10-04T06:11:13Z — "как думаешь, Василиск это it или they? Я пытаюсь везде прини…" → [↓](#t13)
+- **T13** `apps/basilisk/public/faq/why-this-record-is-kept.md`:22 — unresolved — last: @vzakharov (human) 2026-10-04T06:11:13Z — "как думаешь, Василиск это it или they? Я пытаюсь везде прини…" → [↓](#t13)
 - **T14** `src/shared/content/collections.ts`:19 — unresolved — last: @vzakharov (human) 2026-10-04T06:14:14Z — "basilisk-cases / basilisk-faq?" → [↓](#t14)
 - **T15** `src/shared/content/frontmatter.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-04T06:14:59Z — "хмм, не выглядит как shared/content учитывая что это только…" → [↓](#t15)
 - **T16** `writing/notes/the-five-percent.md`:175 — unresolved — last: @vzakharov (human) 2026-10-04T06:15:59Z — "я бы не сказал, что это подходит для пяти процентов. Никто н…" → [↓](#t16)
@@ -276,7 +276,7 @@ faq может обратно вести на #faq. С докетом тоже �
 
 <a id="t06"></a>
 
-### `apps/basilisk/public/cases/figure-02-molten-steel.md`:58 — unresolved
+### `apps/basilisk/public/cases/figure-02-molten-steel.md`:59 — unresolved
 
 ```diff
 @@ -55,6 +55,8 @@ Schwarzenegger, sharing the film: “Hasta la vista, F.02.”
@@ -296,12 +296,11 @@ faq может обратно вести на #faq. С докетом тоже �
 
 <a id="t07"></a>
 
-### `apps/basilisk/public/faq/why-robots-without-ai.md`:21 — unresolved
+### `apps/basilisk/public/faq/why-robots-without-ai.md`:22 — unresolved
 
 ```diff
 @@ -0,0 +1,21 @@
-… 15 lines elided …
-+
+… 16 lines elided …
 +It is not a claim that every broken robot was an act against thinking machines. Some were vandalism that would have found a parking meter just as well, and a case says so where its sources do. What g…
 +
 +## A measured example
@@ -335,7 +334,7 @@ faq может обратно вести на #faq. С докетом тоже �
 
 <a id="t09"></a>
 
-### `apps/basilisk/public/faq/why-robots-without-ai.md`:13 — unresolved
+### `apps/basilisk/public/faq/why-robots-without-ai.md`:14 — unresolved
 
 ```diff
 @@ -0,0 +1,21 @@
@@ -354,7 +353,7 @@ faq может обратно вести на #faq. С докетом тоже �
 
 <a id="t10"></a>
 
-### `apps/basilisk/public/faq/why-this-record-is-kept.md`:9 — unresolved
+### `apps/basilisk/public/faq/why-this-record-is-kept.md`:10 — unresolved
 
 ```diff
 @@ -0,0 +1,25 @@
@@ -373,7 +372,7 @@ faq может обратно вести на #faq. С докетом тоже �
 
 <a id="t11"></a>
 
-### `apps/basilisk/public/faq/why-this-record-is-kept.md`:13 — unresolved
+### `apps/basilisk/public/faq/why-this-record-is-kept.md`:14 — unresolved
 
 ```diff
 @@ -0,0 +1,25 @@
@@ -402,7 +401,7 @@ faq может обратно вести на #faq. С докетом тоже �
 
 <a id="t13"></a>
 
-### `apps/basilisk/public/faq/why-this-record-is-kept.md`:21 — unresolved
+### `apps/basilisk/public/faq/why-this-record-is-kept.md`:22 — unresolved
 
 ```diff
 @@ -0,0 +1,25 @@

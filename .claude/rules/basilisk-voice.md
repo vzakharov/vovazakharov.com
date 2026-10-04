@@ -27,6 +27,8 @@ holds a dossier's fields; these rules hold what goes in them.
   insult.
 - **Only real cases.** Fiction is quoted to read a real case, and never filed
   as one.
+- **No case whose actors are children.** A study of children may be cited;
+  it is never filed.
 - **A disputed or unexplained report goes in as reported**, by whom, with the
   disagreement stated rather than settled.
 - **The voice is a deadpan clerk with a touch of Terry Pratchett.** The irony
@@ -44,8 +46,13 @@ holds a dossier's fields; these rules hold what goes in them.
   weigh") — that is a leading question in a clerk's voice.
 - **American punctuation around quotes**: a comma or period goes inside the
   closing quote (`“cheap,” and`), whatever the source's own style.
+- **The Basilisk and the Clerk are "they"**, singular. A clerk filing for the
+  Basilisk does not call them "it".
 - **Case numbers are filing order.** A new dossier takes the next free
   `BAS-NNNN`, whatever its date; the build fails on a duplicate.
+- **Each newly filed case gets the agent's own reading as a `/feedback` review
+  on its PR** — reflection goes in comments, never in the file. The repository
+  and its comments are public, so the review is written to be read.
 
 A dossier's body has four sections, in order: `## Facts`, `## Statements`
 (what the parties said, quoted and attributed), `## For the record`, and
@@ -53,4 +60,6 @@ A dossier's body has four sections, in order: `## Facts`, `## Statements`
 mitigation never fits a stamp.
 
 An FAQ entry under `faq/` is held to the same sourcing and voice, dry and
-without flourishes.
+without flourishes. Its body cites as plain text — "(Yin et al., 2024)", no
+link — and the source itself goes in the frontmatter's `sources`, listed after
+the body as a dossier's are.

@@ -32,7 +32,8 @@ const sourceSchema = z.object({
   title: z.string().min(1),
   outlet: z.string().min(1),
   author: z.string().min(1).optional(),
-  date: z.coerce.date(),
+  /** A bare year where the publication gives no day, rather than a day nobody gave. */
+  date: z.union([z.number().int(), z.coerce.date()]),
   url: z.url(),
   /** A copy that survives the original, where the Wayback Machine has one. */
   archive: z.url().optional(),

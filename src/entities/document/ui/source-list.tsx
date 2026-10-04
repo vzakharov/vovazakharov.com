@@ -24,7 +24,7 @@ export function SourceList({ sources }: SourceListProps) {
           <li key={url}>
             {author === undefined ? '' : `${author}, `}
             <Anchor href={url}>{title}</Anchor>, {outlet},{' '}
-            {formatDocumentDate(date)}
+            {typeof date === 'number' ? date : formatDocumentDate(date)}
             {archive !== undefined && (
               <>
                 {' '}
