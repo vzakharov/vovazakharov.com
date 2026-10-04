@@ -12,7 +12,7 @@ None stated by the operator. House rules in force: never resolve a review thread
    - T12 (archive links "менее in your face", as `Title ([archived](…)), Outlet, Date`): `src/entities/document/ui/source-list.tsx` now renders that.
    - T13 (the mall-study paragraph in `faq/why-robots-without-ai.md` doesn't serve the section's logic): paragraph and its two sources removed.
    - T14 ("обычные программерские кавычки … Какие, думаешь, лучше использовать throughout?"): answered with a proposal (curly in source, a vet check), awaited a go.
-   A subagent logged T13 in the five-percent file (T12 ruled taste).
+     A subagent logged T13 in the five-percent file (T12 ruled taste).
 2. **"вот на это не вижу ответа …discussion_r4176793805"** — posted an interim T11 reply (dogfood still running).
 3. **"а, он ещё работает, понял"** — acknowledged.
 4. **"оставил ещё один небольшой ревью, но там больше вопрос"** — two items: T14 "давай" → converted 45 lines of straight quotes to “…”/«…» and added `pnpm check:prose-quotes` (vet, test, `content.md` rule, `stack.md` entry); and "а насколько часто он обновляется?" on Arctic Shift → measured: archived within ~30 s, re-fetched at 48 h when counts update; skill line corrected; replied.

@@ -4,7 +4,9 @@
  * `server-only` and throws.
  */
 
-export type FiledCase = { number: string; title: string };
+import type { Titled } from '@/shared/typings';
+
+export type FiledCase = Titled & { number: string };
 
 const FRONTMATTER = /^---\r?\n([\S\s]*?)^---/m;
 const CASE_NUMBER = /^case:[\t ]*(BAS-\d{4})[\t ]*$/m;
