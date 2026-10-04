@@ -61,4 +61,8 @@ Get #95 (basilisk.fyi) review-complete: content right, the case-filing skill usa
 
 ## Next step
 
-The operator's last ask is done: "не надо нам отдельный PR" — BAS-0004 is on this branch (see it locally with `pnpm dev:basilisk`). Wait for the operator.
+"не надо нам отдельный PR" is done — BAS-0004 is on this branch (see it locally with `pnpm dev:basilisk`). The operator then said, arriving as this relay was being written:
+
+> то есть в скилле-то наверное надо, а вот прямо сейчас -- нет. И, пожалуй, лучше чтобы он писал это всё в один пиар (открывал новый если подходящих открытых нет, или доделывал существующий если есть) -- чтобы когда скапливалось я мог всё одним скопом смотреть, а не по очерерди
+
+So: change `/file-basilisk-case` so a run adds its case to an open case-filing PR when one exists (checking out that PR's branch and appending a commit, the card re-rendered, the PR body and squash proposal refreshed, its `/feedback` review on that PR anchored to the new dossier), and opens a fresh one off `main` only when none is open. The docket check's path-based `gh pr list` already finds such PRs; decide what makes one "suitable" (a PR that only files cases, e.g. a `claude/cases-…` branch — not #95 itself, which carries the whole site). Then reply on the T11 thread with the commit, `/polish`, refresh the PR body.
