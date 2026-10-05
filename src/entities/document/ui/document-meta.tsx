@@ -41,7 +41,7 @@ export function DocumentMeta({
     >
       <span>
         By{' '}
-        <InternalLink {...{ href }} underline="hover" inherit>
+        <InternalLink {...{ href }} underline="hover">
           {name}
         </InternalLink>
       </span>

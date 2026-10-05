@@ -17,7 +17,7 @@ import type { Anchored, WithOptionalClassName } from '@/shared/typings';
 import classes from './internal-link.module.scss';
 
 export type InternalLinkProps = Anchored &
-  AnchorProps &
+  Omit<AnchorProps, 'inherit'> &
   WithOptionalClassName &
   ElementProps<'a', keyof AnchorProps | 'href' | 'className'> & {
     /**
@@ -51,15 +51,23 @@ export type InternalLinkProps = Anchored &
  * `className` dresses both anchors and never the wrapper, which carries the
  * medium switch alone: a caller's class stating `display` ties with it on
  * specificity and wins on order, putting the printed half on screen.
+ *
+ * The link takes the size of the text around it unless the caller names a
+ * `size`: `Anchor` is `Text` underneath and states its own `font-size`, which
+ * print re-keys on the paragraph and never on the link. Mantine's `inherit`
+ * rule follows the one `size` drives at equal specificity, so the two cannot
+ * both be on.
  */
 export function InternalLink({
   href,
   children,
   withAddress = false,
   className,
-  ...props
+  size,
+  ...rest
 }: InternalLinkProps) {
   const printed = printedUrl(href);
+  const props = { ...rest, size, inherit: size === undefined };
 
   return (
     <>

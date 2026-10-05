@@ -82,7 +82,7 @@ export function PlayerBar() {
 
       <Box className={classes['playerTrack']}>
         <Text size="sm" truncate>
-          <InternalLink href={routes[locale]} underline="hover" inherit>
+          <InternalLink href={routes[locale]} underline="hover">
             {titles[locale]}
           </InternalLink>
           <Text component="span" inherit opacity={0.6}>

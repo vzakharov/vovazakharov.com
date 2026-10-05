@@ -15,7 +15,7 @@ export const CASE_STUDY_KEY = 'playgram';
 export function CaseStudyLink({ href, label }: LabeledLink) {
   return (
     <Text className={classes['caseStudyLine']}>
-      <InternalLink {...{ href }} withAddress inherit>
+      <InternalLink {...{ href }} withAddress>
         {label}
       </InternalLink>
     </Text>

@@ -32,11 +32,7 @@ export function SongList({ locale }: WithLocale) {
 
                 <Box className={classes['trackText']}>
                   <Text fw={500} truncate>
-                    <InternalLink
-                      href={routes[locale]}
-                      underline="hover"
-                      inherit
-                    >
+                    <InternalLink href={routes[locale]} underline="hover">
                       {titles[locale]}
                     </InternalLink>
                     {explicit && <ExplicitBadge label={messages.explicit} />}
