@@ -218,12 +218,7 @@ export function placeControls(
   };
   const top = {
     after: gait.x + TAP_RADIUS,
-    clear: (gap: number) => (buttons: readonly Circle[]) =>
-      buttons.every(
-        (button) =>
-          button.x + tapReach(button.r) <= width - BUTTON_INSET &&
-          apart(button, gait, gap),
-      ),
+    clear: clearOf(width, [gait]),
     size: [width, height] as const,
   };
   // A row in the top row moves past the gait button's spot where it meets it;
@@ -268,6 +263,17 @@ export function placeControls(
     housePicker: furnishings,
   };
 }
+
+/** Whether a picker's row keeps inside the screen's right edge and `gap` off each of `standing`. */
+const clearOf =
+  (width: number, standing: readonly Circle[]) =>
+  (gap: number) =>
+  (buttons: readonly Circle[]): boolean =>
+    buttons.every(
+      (button) =>
+        button.x + tapReach(button.r) <= width - BUTTON_INSET &&
+        standing.every((other) => apart(button, other, gap)),
+    );
 
 /**
  * The columns' sizes, the first whose columns fit: `+`, `−` and the house as
@@ -371,12 +377,7 @@ function placeColumns({
   const between = rowsFrom(rows, {
     after: besideMap + TAP_RADIUS,
     bandBottom: -Infinity,
-    clear: (gap) => (buttons) =>
-      buttons.every(
-        (button) =>
-          button.x + tapReach(button.r) <= width - BUTTON_INSET &&
-          standing.every((other) => apart(button, other, gap)),
-      ),
+    clear: clearOf(width, standing),
     size: [width, height],
   });
   const moved = between ?? rows;
