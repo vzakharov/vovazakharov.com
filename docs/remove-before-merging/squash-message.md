@@ -1,19 +1,20 @@
 Proposed squash title/body:
 
 ```
-fix(basilisk): callout link keeps the paragraph's size in print (pr #102)
+fix: internal links take the surrounding text's size by default (pr #102)
 ```
 
 ```
 The PDF of every case filed with `noAi: true` printed the link in its
 "More on why a robot with no AI in it is still filed" callout 1.2x
-larger than the words around it.
+larger than the words around it: a Mantine Anchor states its own
+font-size, print re-keys the paragraph and not the link, and that one
+InternalLink was missing the `inherit` every other inline one carried.
 
-The link is a Mantine Anchor, which is Text underneath and sets its own
-font-size from the `md` scale. On screen that matches the prose; in
-print the paragraph drops to 10pt while the link stayed at 16px. The
-callout's link now takes `inherit`, as every other inline InternalLink
-in the tree already does.
+InternalLink now inherits by default, unless the caller names a `size`,
+which Mantine's inherit rule would otherwise override. ChipNav's linked
+chips, which passed neither, drop from 16px to the row's 14px and match
+the current chip beside them.
 
 The agent infrastructure vendored from muthur moved, and two of its
 fixes ride along: the human-hour estimate's comment now justifies each
