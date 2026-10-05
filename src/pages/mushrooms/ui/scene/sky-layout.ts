@@ -110,6 +110,16 @@ export function standingControls({
 }
 
 /**
+ * Whether `button` reaches down onto the meadow, as a column at the screen's
+ * foot does (`placeColumns`). What the world stands there it stands
+ * whatever the screen, so a turn moves nothing, and the button is drawn
+ * over it, as a pan brings anything on the ground under any button.
+ */
+export function overMeadow(button: Circle, groundTop: number): boolean {
+  return button.y + button.r > groundTop;
+}
+
+/**
  * The flower picker's two stages, one open at a time, in the top row the
  * other pickers share: its five colours where the house picker's five
  * stand, then its four shapes where the caps' four do. Where that picker
