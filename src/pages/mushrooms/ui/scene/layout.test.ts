@@ -329,16 +329,8 @@ describe('the controls', () => {
       ]) {
         assert.ok(r >= TAP_RADIUS);
       }
-      // Only a screen with no room anywhere else has buttons give way to an
-      // open picker.
-      assert.equal(
-        yielding.length > 0,
-        [
-          'small phone',
-          FLOOR_HELD[0],
-          ...TURNED_SMALL.map(([turned]) => turned),
-        ].includes(name),
-      );
+      // Every screen swept has room for every button clear of an open picker.
+      assert.deepEqual(yielding, []);
       const given = shownOverPickers(layout);
       const reached = reach(standing);
       for (const [index, control] of reached.entries()) {

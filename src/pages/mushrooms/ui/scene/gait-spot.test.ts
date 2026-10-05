@@ -11,7 +11,6 @@ import { tapReach } from './tap-reach';
  */
 const CROWDED_SKIES = [
   [320, 280],
-  [320, 360],
   [360, 240],
   [360, 280],
 ] as const;

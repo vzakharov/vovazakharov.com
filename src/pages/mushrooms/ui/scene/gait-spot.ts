@@ -122,7 +122,10 @@ function besideLines({ map, releases }: GaitScreen): Circle[] {
 function freeOf({ width, sun, ...controls }: GaitScreen) {
   const reach = tapReach(GAIT_R);
   const { colours, shapes, cross } = flowerPicker(controls);
-  const buttons = standingControls(controls);
+  // The gait button's own first spot, which `placeControls` holds for it, is no other button's.
+  const buttons = standingControls(controls).filter(
+    (button) => button !== controls.gait,
+  );
   const fourAbreast = [...controls.picker, ...shapes];
   const fiveAbreast = [...controls.housePicker, ...colours, cross];
   const rays = sun.r * SUN_RAY_REACH;

@@ -220,28 +220,25 @@ export function beside(
   );
 }
 
-/** Where `rowsFrom` fits the pickers' rows in the top row. */
+/** Where `inTopRow` fits a picker's row in the top row. */
 type TopRow = {
-  /** The right edge of the reach of the buttons the rows stand after. */
+  /** The right edge of the reach of the buttons the row stands after. */
   after: number;
-  /** How far down the top row's buttons reach: a row below it may stay. */
-  bandBottom: number;
   /** Whether a row's buttons stand `gap` clear of every button they must keep off. */
   clear: (gap: number) => (buttons: readonly Circle[]) => boolean;
   size: readonly [number, number];
 };
 
 /**
- * The pickers' `rows`, each as it stands where it is below the top row and
- * `PICK_CLEAR` clear; else in the top row `PICK_APART` past `after` and clear
- * of the rest by as much, narrowed from the right until it is; else the same
- * at `PICK_CLEAR`; `undefined` where a row fits whole in none of these.
+ * `count` of a picker's buttons whole in the top row, `PICK_APART` past
+ * `after` and clear of the rest by as much, narrowed from the right until it
+ * is; else the same at `PICK_CLEAR`; `undefined` where they fit in neither.
  */
-export function rowsFrom(
-  rows: readonly [Circle[], Circle[]],
-  { after, bandBottom, clear, size: [width, height] }: TopRow,
-): readonly [Circle[], Circle[]] | undefined {
-  const inTopRow = (count: number, gap: number): Circle[] | undefined => {
+export function inTopRow(
+  count: number,
+  { after, clear, size: [width, height] }: TopRow,
+): Circle[] | undefined {
+  const at = (gap: number): Circle[] | undefined => {
     const left = after + gap;
     for (let right = width - BUTTON_INSET; right > left; right--) {
       const placed = rowAcross(count, [left, right], height);
@@ -255,11 +252,25 @@ export function rowsFrom(
     }
     return undefined;
   };
+  return at(PICK_APART) ?? at(PICK_CLEAR);
+}
+
+/**
+ * The pickers' `rows`, each as it stands where it is below `bandBottom`, the
+ * top row's foot, and `PICK_CLEAR` clear; else in the top row (`inTopRow`);
+ * `undefined` where a row fits whole in neither.
+ */
+export function rowsFrom(
+  rows: readonly [Circle[], Circle[]],
+  { bandBottom, ...top }: TopRow & { bandBottom: number },
+): readonly [Circle[], Circle[]] | undefined {
   const fitted = (row: Circle[]): Circle[] | undefined => {
     const [first] = row;
     if (!first) return row;
-    if (first.y - first.r > bandBottom && clear(PICK_CLEAR)(row)) return row;
-    return inTopRow(row.length, PICK_APART) ?? inTopRow(row.length, PICK_CLEAR);
+    if (first.y - first.r > bandBottom && top.clear(PICK_CLEAR)(row)) {
+      return row;
+    }
+    return inTopRow(row.length, top);
   };
   const [picks, furnishings] = rows.map((row) => fitted(row));
   return picks && furnishings ? [picks, furnishings] : undefined;
