@@ -3,7 +3,7 @@ import { List, ListItem, Stack, Text, Title } from '@mantine/core';
 import { SITE_CONFIG } from '@/shared/config';
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import { loadMessages } from '@/shared/i18n';
-import { Section,TextLink } from '@/shared/ui';
+import { Section, TextLink } from '@/shared/ui';
 
 import { ReadCvButton } from './read-cv-button';
 

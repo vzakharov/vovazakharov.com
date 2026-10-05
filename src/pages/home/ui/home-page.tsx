@@ -2,7 +2,7 @@ import { Box, Stack, Text, Title } from '@mantine/core';
 
 import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
 import { collectionRoute } from '@/shared/content';
-import { PageShell, SiteAvatar,TextLink } from '@/shared/ui';
+import { PageShell, SiteAvatar, TextLink } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 

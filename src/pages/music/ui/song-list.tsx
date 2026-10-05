@@ -1,7 +1,7 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 
 import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { Card, Subheading,TextLink } from '@/shared/ui';
+import { Card, Subheading, TextLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import { listSongs } from '../lib/songs';

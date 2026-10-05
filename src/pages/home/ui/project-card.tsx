@@ -1,6 +1,6 @@
 import { Group, Text, Title } from '@mantine/core';
 
-import { Card, CardLink, type Summarized,TextLink } from '@/shared/ui';
+import { Card, CardLink, type Summarized, TextLink } from '@/shared/ui';
 
 import classes from './project-card.module.scss';
 import { TechLine } from './tech-line';
