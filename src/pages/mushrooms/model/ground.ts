@@ -46,6 +46,8 @@ export type Camera = Sized & {
   midline: number;
   unit: number;
 };
+/** A screen and where the ground's top stands on it. */
+export type GroundedScreen = Sized & Pick<Camera, 'groundTop'>;
 /** The camera a thing is seen through. */
 export type WithCamera = { camera: Camera };
 
