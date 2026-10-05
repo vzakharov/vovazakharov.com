@@ -46,30 +46,49 @@ const SKY_STEP = 2;
  * at a time, until it fits the sky (`fitsSky`), which also frees the corner
  * where only its rays kept it off; never below `SUN_LEAST`. Where the least
  * sun there still does not fit, the largest sun that fits anywhere is moved
- * there instead (`movedSun`). Throws where no sun fits the sky at all: that
- * screen's sun would stand over the clump or a button.
+ * there instead (`movedSun`). The rays keep off the buttons of `spared` too,
+ * where some sun fits so: the flower picker's cross, which otherwise yields
+ * to them (`flowerCross`), and on a narrow screen finds no spot left. Throws
+ * where no sun fits the sky at all: that screen's sun would stand over the
+ * clump or a button.
  */
 export function placeSun(
   { width, height, horizon }: SunScreen,
   r: number,
   controls: Controls,
   crowns: readonly Box[],
+  spared: readonly Circle[] = [],
 ): Circle {
-  const sky = {
-    width,
-    horizon,
-    buttons: [
-      ...standingControls(controls).map((button) => ({
-        ...button,
-        r: tapReach(button.r) + BUTTON_INSET,
-      })),
-      ...[...controls.picker, ...controls.housePicker].map((pick) => ({
-        ...pick,
-        r: tapReach(pick.r),
-      })),
-    ],
-    crowns,
-  };
+  const buttons = [
+    ...standingControls(controls).map((button) => ({
+      ...button,
+      r: tapReach(button.r) + BUTTON_INSET,
+    })),
+    ...[...controls.picker, ...controls.housePicker].map((pick) => ({
+      ...pick,
+      r: tapReach(pick.r),
+    })),
+  ];
+  const kept = spared.map((button) => ({ ...button, r: tapReach(button.r) }));
+  const sky = { width, height, horizon, crowns };
+  const sun =
+    sunIn({ ...sky, buttons: [...buttons, ...kept] }, r, controls) ??
+    sunIn({ ...sky, buttons }, r, controls);
+  if (!sun) {
+    throw new Error(
+      `No sun fits the sky of a ${String(width)}×${String(height)} screen`,
+    );
+  }
+  return sun;
+}
+
+/** `placeSun`'s sun in `sky`, or `undefined` where none fits it. */
+function sunIn(
+  sky: Sky & Pick<SunScreen, 'height'>,
+  r: number,
+  controls: Controls,
+): Circle | undefined {
+  const { width, height } = sky;
   for (let size = r; size >= r * SUN_LEAST; size--) {
     const sun = sunAt(width, height, size, controls);
     if (fitsSky(sky, sun)) return sun;
@@ -80,11 +99,7 @@ export function placeSun(
     movedSun(sky, sunAt(width, height, r - shrink, controls));
   let [fits, fails] = [Math.floor(r * (1 - SUN_SMALLEST)), -1];
   let sun = moved(fits);
-  if (!sun) {
-    throw new Error(
-      `No sun fits the sky of a ${String(width)}×${String(height)} screen`,
-    );
-  }
+  if (!sun) return undefined;
   while (fits - fails > 1) {
     const middle = Math.floor((fits + fails) / 2);
     const tried = moved(middle);

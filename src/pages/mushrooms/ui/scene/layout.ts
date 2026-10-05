@@ -227,15 +227,15 @@ function standMeadow(width: number, height: number): Stood {
   const mushrooms = { camera, frame: MEADOW_FRAME, anchor: OPENING_EYE };
   const placed = placeControls(width, height, groundTop);
   const insectSize = insectSizeFor(unit);
+  const crossed = { ...placed, width, groundTop };
   const sun = placeSun(
     { width, height, horizon },
     short * 0.075,
     placed,
     openingCrowns(camera),
+    [flowerCross(crossed, [])],
   );
-  const cross = flowerCross({ ...placed, width, groundTop }, [
-    { ...sun, r: sun.r * SUN_RAY_REACH },
-  ]);
+  const cross = flowerCross(crossed, [{ ...sun, r: sun.r * SUN_RAY_REACH }]);
   const gait = gaitSpot({ ...placed, width, height, groundTop, sun, cross });
   const controls = { ...placed, ...gait };
   return {
