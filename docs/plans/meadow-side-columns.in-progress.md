@@ -25,17 +25,10 @@ Planless, on PR #103's branch (the session's working branch). #103's own fix (th
 
 ## Left
 
-1. **Downstream sweeps that now fail** (`node --import tsx --test src/pages/mushrooms/ui/scene/*.test.ts src/pages/mushrooms/model/*.test.ts`), all from the columns standing on the ground on short skies (small phone 320×568, phone held sideways 844×390) or from the moved sun:
-   - "the seeded flowers": flower heads under a control on phone held sideways / small phone — flowers must keep off the columns where they stand on the meadow (find where flower plots read controls; mushrooms already keep off them via `mushroom-room.ts` `keepOff`).
-   - "a meadow grown toward six": meadow rules, small phone, visit 3.
-   - "the meadow's light": small phone, no mushroom under the sun.
-   - "a grown forest's taps": small phone turned, a mushroom keeps 72% of its head's taps (a column over it).
-   - "the sun on every screen size": 300×700, the cross on the sun.
-     Vova said dropping placement rules is fine where they get in the way; a flower/mushroom keeping off the ground columns is the expected fix, not relaxing the assertions.
+Done since the relay: the sun keeps off the cross's spot where the sky has room (`placeSun`'s `spared`), which fixed "the sun on every screen size" (300×700) and "the meadow's light" (the small phone's sun is back in the middle); `besideLines` lost its dead spot; `sunAt`'s docstring still reads true; previews of the phones taken.
+
+1. **Waiting on Вова: what stands under a column on the meadow.** Three sweeps fail, each a column standing at the screen's foot over something the world places regardless of the screen: "the seeded flowers" (heads under `house`/`minus` on every visit on 844×390 and 568×320, two thirds on 320×568), "a meadow grown toward six" (the fly over the opening clump on 320×568) and "a grown forest's taps" (568×320, a column over a mushroom grown on the other orientation). The bed and the clump are world-fixed so a turn moves nothing; hiding a seeded flower per screen would make it, and every bee flower ringed round it, blink on a turn. Recommended: let a ground column stand over the meadow as a pan already brings things under it, and hold those sweeps to the controls in the sky.
 2. Then the whole of `layout.test.ts` (the mushroom-count sweeps per screen are slow; run it alone).
-3. `gait-spot.ts` `besideLines`: the "after the last insect in the map's row" spot is now dead (insects never share the map's row); trim it and its docstrings. `LINED_SCREENS` test still holds (the gait touches the map everywhere).
-4. `sunAt`'s docstring still speaks of buttons "down the right" and the insects'; check it still reads true.
-5. `/preview` the meadow on 390×844, 466×930, 643×426, 844×390, 568×320 and 1180×820 and look — the sun's new spots especially.
-6. `/go` Step 3 (`/polish`) and Step 4 (`/pr`: retitle #103 to what the branch now ships, refresh its body and QA checklist).
+3. `/go` Step 3 (`/polish`) and Step 4 (`/pr`: retitle #103 to what the branch now ships, refresh its body and QA checklist).
 
 `tmp/gap.ts` (gitignored, may be gone) printed every screen's columns, gait, sun and first picker; rebuild it from `meadowLayout(w, h, 1)` if useful.
