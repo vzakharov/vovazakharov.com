@@ -1,25 +1,29 @@
 Proposed squash title/body:
 
 ```
-fix(vova): keep the meadow's gait button beside the insects' buttons (pr #103)
+feat(vova): the meadow's buttons in two columns down the sides (pr #103)
 ```
 
 ```
-On an upright phone the mushroom meadow's steps/flight button hung alone
-in the middle of the sky. There the insects' buttons take the top row
-beside the map button and the pickers open right under it, so neither
-spot gaitSpot tried first was free. It then took the free spot nearest
-the map button, wherever in the sky that fell.
+On a phone held sideways the mushroom meadow's buttons scattered across
+the top row and the corners, and the insects' buttons crowded the band
+the pickers open in. The game buttons now stand in two columns of three
+at one height, butterfly, fly and bee down the left and +, - and the
+house down the right, which leaves the top left to the view buttons,
+map and steps/flight, and the top to the pickers' rows.
 
-The spots tried first now follow the line the map button heads: right
-of it and under it, then after the last insect button in its row and
-under the last in its column. If none of those is free but one is
-blocked only by a picker, the gait button stands there and hides while
-the picker is open, as the insects' buttons already do. The nearest
-free spot is the fallback after that.
+The columns stand in the sky where it holds them: at the old + height,
+or lowered under the rows. Otherwise they stand at the screen's foot,
+on the meadow, shrinking to a finger's size if they have to. A column
+on the meadow is drawn over what stands there. Seeded flowers and the
+opening clump stay where the world places them, so a turn moves
+nothing on the ground; a + still keeps a new mushroom off every
+button. No swept screen has a button give way to an open picker.
 
-Phones 360 to 430 wide and upright tablets now keep it in the row or
-the column; landscape and desktop layouts are unchanged.
+The steps button keeps a reserved spot right of the map button, which
+the rows, the sun and the flower picker's cross keep off. The sun keeps
+off the cross's spot wherever the sky holds both, so a narrow screen's
+cross is no longer left with nowhere to stand.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
