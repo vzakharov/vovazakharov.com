@@ -13,9 +13,8 @@ InternalLink was missing the `inherit` every other inline one carried.
 
 InternalLink now inherits unless the caller names a `size`, which
 Mantine's inherit rule would otherwise override, and no longer takes
-`inherit` as a prop. ChipNav's linked
-chips, which passed neither, drop from 16px to the row's 14px and match
-the current chip beside them.
+`inherit` as a prop. ChipNav's linked chips, which passed neither, drop
+from 16px to the row's 14px and match the current chip beside them.
 
 The agent infrastructure vendored from muthur moved, and two of its
 fixes ride along: the human-hour estimate's comment now justifies each
