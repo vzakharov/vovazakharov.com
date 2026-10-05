@@ -265,8 +265,7 @@ const eslintConfig = defineConfig([
   },
   // The two links built on a bare `Anchor`: `TextLink` itself, and `FileLink`,
   // whose site-root `href` names a file to save rather than a page, so it wants
-  // neither `next/link` nor a printed half. Every other link goes through
-  // `TextLink`.
+  // neither `next/link` nor a printed half.
   {
     files: ['src/shared/ui/{text,file}-link.tsx'],
     rules: {

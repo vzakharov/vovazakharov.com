@@ -32,7 +32,7 @@ export type TextLinkProps = Anchored &
 const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' };
 
 /**
- * Every link set in running text, this site's pages and the wider web alike.
+ * A link on any of the site's pages, to another of them or anywhere else.
  *
  * Another page of this site is linked once per medium, because any page can be
  * printed and `next/link` writes a **relative** href. That is what a
@@ -81,11 +81,7 @@ export function TextLink({
   };
 
   if (printed.href === href && !withAddress) {
-    return (
-      <Anchor {...{ href, ...props, className }}>
-        {children}
-      </Anchor>
-    );
+    return <Anchor {...{ href, ...props, className }}>{children}</Anchor>;
   }
 
   return (
