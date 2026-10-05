@@ -20,7 +20,7 @@ import {
 import { pick } from '@/shared/lib/collections';
 import { constructArticleMetadata } from '@/shared/seo/index.server-only';
 import type { WithParams } from '@/shared/typings';
-import { BackToHome, hoverDim, InternalLink } from '@/shared/ui';
+import { BackToHome, hoverDim, TextLink } from '@/shared/ui';
 
 import { ProseContent, SourceList } from '@/entities/document';
 
@@ -110,13 +110,13 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
         <Container size={1152} px={0}>
           <Stack gap={32}>
             <Group component="nav" className="print-hidden">
-              <InternalLink
+              <TextLink
                 href={collectionListingRoute(collection)}
                 size="sm"
                 className={hoverDim}
               >
                 ← {COLLECTIONS[collection].label}
-              </InternalLink>
+              </TextLink>
             </Group>
 
             <PrintSheet {...{ route }}>

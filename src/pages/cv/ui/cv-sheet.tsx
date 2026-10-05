@@ -1,12 +1,4 @@
-import {
-  Anchor,
-  Box,
-  Container,
-  Group,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Box, Container, Group, Stack, Text, Title } from '@mantine/core';
 import Markdown from 'react-markdown';
 
 import { printedUrl, SITE_CONFIG } from '@/shared/config';
@@ -14,7 +6,7 @@ import { MESSAGE_MARKDOWN, type Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import type { DocumentFile } from '@/shared/typings';
-import { Card, FileLink, InternalLink } from '@/shared/ui';
+import { Card, FileLink, TextLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
 import type { CvEdition } from '../lib/cv-variants';
@@ -31,21 +23,13 @@ type EmailLinkProps = { email: string };
 
 /** The address the sheet renders in more than one place. */
 function EmailLink({ email }: EmailLinkProps) {
-  return (
-    <Anchor href={`mailto:${email}`} inherit>
-      {email}
-    </Anchor>
-  );
+  return <TextLink href={`mailto:${email}`}>{email}</TextLink>;
 }
 
 function WebsiteLink() {
   const { href, text } = printedUrl(SITE_CONFIG.url);
 
-  return (
-    <Anchor {...{ href }} inherit>
-      {text}
-    </Anchor>
-  );
+  return <TextLink {...{ href }}>{text}</TextLink>;
 }
 
 type ProfileLinkProps = { profile: string };
@@ -55,16 +39,7 @@ type ProfileLinkProps = { profile: string };
  * same in print as on screen, and linked with the scheme added back.
  */
 function ProfileLink({ profile }: ProfileLinkProps) {
-  return (
-    <Anchor
-      href={`https://${profile}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      inherit
-    >
-      {profile}
-    </Anchor>
-  );
+  return <TextLink href={`https://${profile}`}>{profile}</TextLink>;
 }
 
 /** Order is a presentation decision, as with the experience entries. */
@@ -101,9 +76,9 @@ export function CvSheet({
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                <InternalLink href="/" underline="never">
+                <TextLink href="/" underline="never">
                   {cv.header.name}
-                </InternalLink>
+                </TextLink>
               </Title>
               <Text className={cx(classes['tagline'], classes['dim80'])}>
                 {cv.header.tagline}
@@ -230,7 +205,7 @@ export function CvSheet({
             className={cx('print-hidden', classes['screenFooter'])}
           >
             <Text size="sm" className={classes['dim60']}>
-              <InternalLink href="/">{cv.footer.backLink}</InternalLink>
+              <TextLink href="/">{cv.footer.backLink}</TextLink>
             </Text>
             <OtherVariantLink {...{ variant, locale }} labels={ui.cvVariants} />
           </Group>

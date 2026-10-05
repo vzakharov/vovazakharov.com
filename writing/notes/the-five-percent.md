@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×40)
+## What it was handed, it treats as fixed (×42)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -94,6 +94,15 @@ callout link printed 1.2x its paragraph for want of `inherit`; the agent added
 it, citing in its favour that every other inline `InternalLink` passed it — 18
 of 21. The operator asked why the component didn't own it. Moving the default in
 surfaced ChipNav's link chips, passing neither, at 16px beside the current 14px.
+
+**5 October — current behaviour kept, never asked whether anyone chose it.**
+Folding every link into one `TextLink`, the agent found nine callers spelling
+`target="_blank"` and proposed a `newTab` prop over "every external link opens
+a new tab," calling the latter a product change to three links. _do we ever
+have external links that open not in a new tab?_ No: those three lacked it by
+omission, and `rehypeContentLinks` already applied the rule to every document
+link. Same review, `InternalButton` stayed in the renamed file, docstring
+patched, because it was there before; the file had stopped being about it.
 
 ## An account that explains the code stands in for running it (×16)
 

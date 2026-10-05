@@ -1,6 +1,5 @@
-import { Anchor } from '@mantine/core';
-
 import { formatDocumentDate, type Source } from '@/shared/content';
+import { TextLink } from '@/shared/ui';
 
 import classes from './source-list.module.scss';
 
@@ -23,11 +22,11 @@ export function SourceList({ sources }: SourceListProps) {
         {sources.map(({ title, outlet, author, date, url, archive }) => (
           <li key={url}>
             {author === undefined ? '' : `${author}, `}
-            <Anchor href={url}>{title}</Anchor>
+            <TextLink href={url}>{title}</TextLink>
             {archive !== undefined && (
               <>
                 {' '}
-                (<Anchor href={archive}>archived</Anchor>)
+                (<TextLink href={archive}>archived</TextLink>)
               </>
             )}
             , {outlet},{' '}

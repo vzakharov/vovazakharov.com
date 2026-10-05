@@ -6,7 +6,7 @@ import { cx } from '@/shared/lib/class-names';
 import type { LabeledLink } from '@/shared/typings';
 
 import classes from './chip-nav.module.scss';
-import { InternalLink } from './internal-link';
+import { TextLink } from './text-link';
 
 /** One destination in the row; the current one renders inert rather than linked. */
 export type Chip = LabeledLink & {
@@ -35,7 +35,7 @@ export function ChipNav({ chips }: ChipNavProps) {
             {label}
           </Box>
         ) : (
-          <InternalLink
+          <TextLink
             key={label}
             {...{ href, hrefLang }}
             underline="never"
@@ -43,7 +43,7 @@ export function ChipNav({ chips }: ChipNavProps) {
             className={cx(classes['chip'], classes['chipLink'])}
           >
             {label}
-          </InternalLink>
+          </TextLink>
         ),
       )}
     </Group>
