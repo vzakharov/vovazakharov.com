@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×39)
+## What it was handed, it treats as fixed (×40)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -88,6 +88,12 @@ and columns that scroll sideways like a wide table: the option never listed.
 basilisk FAQ section argues people attack machines they _know_ have no mind.
 Asked to move in children who saw a mind in a mall robot and kicked it anyway,
 the agent moved them and cut to size. It argued neither way, and went.
+
+**5 October — a convention cited for the patch, not against the component.** A
+callout link printed 1.2x its paragraph for want of `inherit`; the agent added
+it, citing in its favour that every other inline `InternalLink` passed it — 18
+of 21. The operator asked why the component didn't own it. Moving the default in
+surfaced ChipNav's link chips, passing neither, at 16px beside the current 14px.
 
 ## An account that explains the code stands in for running it (×16)
 
