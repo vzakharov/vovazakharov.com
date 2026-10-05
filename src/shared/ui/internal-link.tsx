@@ -17,7 +17,7 @@ import type { Anchored, WithOptionalClassName } from '@/shared/typings';
 import classes from './internal-link.module.scss';
 
 export type InternalLinkProps = Anchored &
-  AnchorProps &
+  Omit<AnchorProps, 'inherit'> &
   WithOptionalClassName &
   ElementProps<'a', keyof AnchorProps | 'href' | 'className'> & {
     /**
@@ -64,11 +64,10 @@ export function InternalLink({
   withAddress = false,
   className,
   size,
-  inherit = size === undefined,
   ...rest
 }: InternalLinkProps) {
   const printed = printedUrl(href);
-  const props = { ...rest, size, inherit };
+  const props = { ...rest, size, inherit: size === undefined };
 
   return (
     <>
