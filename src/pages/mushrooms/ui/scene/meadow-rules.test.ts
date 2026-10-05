@@ -134,8 +134,17 @@ function drawnAtOpening(
  * and the sun's rays, where they stand on the screen.
  */
 function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
-  const { map, releases, plus, minus, house, picker, housePicker, sun } =
-    layout;
+  const {
+    map,
+    releases,
+    plus,
+    minus,
+    house,
+    picker,
+    housePicker,
+    sun,
+    groundTop,
+  } = layout;
   const controls = [
     ...Object.entries({ map, ...releases, plus, minus, house }).map(
       ([name, circle]) => ({ name, ...circle }),
@@ -148,7 +157,7 @@ function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
   ];
   return [
     ...controls
-      .filter((control) => !overMeadow(control, layout.groundTop))
+      .filter((control) => !overMeadow(control, groundTop))
       .map((control) => ({ ...control, r: tapReach(control.r) })),
     { name: 'the sun', ...sun, r: sun.r * SUN_RAY_REACH },
   ];

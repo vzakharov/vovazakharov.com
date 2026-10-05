@@ -4,11 +4,9 @@
  * rather than in proportion to it; `sun-layout.ts` keeps the sun off them.
  */
 
-import type { Sized } from '@/shared/typings';
-
 import { FLOWER_SHAPES, PICKED_COLOURS } from '../../model/flower-sounds';
 import type { Circle } from '../../model/geometry';
-import type { Camera } from '../../model/ground';
+import type { Camera, GroundedScreen } from '../../model/ground';
 import { FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
@@ -177,6 +175,17 @@ export function flowerCross(
   });
 }
 
+/** Whether a picker's row keeps inside the screen's right edge and `gap` off each of `standing`. */
+const clearOf =
+  (width: number, standing: readonly Circle[]) =>
+  (gap: number) =>
+  (buttons: readonly Circle[]): boolean =>
+    buttons.every(
+      (button) =>
+        button.x + tapReach(button.r) <= width - BUTTON_INSET &&
+        standing.every((other) => apart(button, other, gap)),
+    );
+
 /**
  * The map button in the top left; the two pickers across the top, one at a
  * time, as each closes the other; and the two columns down the sides, the
@@ -211,11 +220,8 @@ export function placeControls(
     dropped,
   });
   // The gait button's first spot, right of the map button (`gaitSpot`).
-  const gait = {
-    x: map.x + tapReach(map.r) + TAP_RADIUS,
-    y: map.y,
-    r: TAP_RADIUS,
-  };
+  const { x, y, r } = map;
+  const gait = { x: x + tapReach(r) + TAP_RADIUS, y, r: TAP_RADIUS };
   const top = {
     after: gait.x + TAP_RADIUS,
     clear: clearOf(width, [gait]),
@@ -264,17 +270,6 @@ export function placeControls(
   };
 }
 
-/** Whether a picker's row keeps inside the screen's right edge and `gap` off each of `standing`. */
-const clearOf =
-  (width: number, standing: readonly Circle[]) =>
-  (gap: number) =>
-  (buttons: readonly Circle[]): boolean =>
-    buttons.every(
-      (button) =>
-        button.x + tapReach(button.r) <= width - BUTTON_INSET &&
-        standing.every((other) => apart(button, other, gap)),
-    );
-
 /**
  * The columns' sizes, the first whose columns fit: `+`, `−` and the house as
  * drawn, then, on a screen too short for them, at a finger's size and closer
@@ -289,9 +284,8 @@ type ColumnSize = (typeof COLUMN_SIZES)[number];
 type Columns = Pick<Controls, 'plus' | 'minus' | 'house' | 'releases'>;
 
 /** What the columns are placed among: the screen, the map button and the pickers' rows. */
-type PlaceColumnsParams = Sized &
-  Pick<Controls, 'map'> &
-  Pick<Camera, 'groundTop'> & { rows: readonly [Circle[], Circle[]] };
+type PlaceColumnsParams = GroundedScreen &
+  Pick<Controls, 'map'> & { rows: readonly [Circle[], Circle[]] };
 
 /**
  * The insects' buttons, butterfly, fly and bee, down the left, and `+`, `−`

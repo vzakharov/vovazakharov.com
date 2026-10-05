@@ -8,11 +8,11 @@
  */
 
 import { pick } from '@/shared/lib/collections';
-import type { Sized } from '@/shared/typings';
 
 import type { Box, Circle } from '../../model/geometry';
 import {
   type Camera,
+  type GroundedScreen,
   type Hazed,
   OPENING_EYE,
   type WithCamera,
@@ -85,10 +85,9 @@ const KIND_SCALE = {
   bee: 0.65,
 } as const satisfies Record<InsectKind, number>;
 
-export type MeadowLayout = Sized &
+export type MeadowLayout = GroundedScreen &
   Controls &
   Crossed &
-  Pick<Camera, 'groundTop'> &
   // What the meadow is shown through: a turn or a resize fits a new one.
   WithCamera & {
     /** Where the far hills meet the sky. */

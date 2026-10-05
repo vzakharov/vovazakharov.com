@@ -9,16 +9,19 @@ None stated by the operator beyond the repo's CLAUDE.md.
 ## 2. The conversation
 
 1. **Operator** (`/from-branch claude/gait-button-beside-insects-8bqesf`, with a portrait screenshot ~466×930: map and gait buttons top left, the insects' column starting far below them):
+
    > то что здесь такой зазор между кнопка памяти-шага и насекомых слева -- это баг или фича?
 
    **Agent:** Attached to the branch (PR #103, draft). Answered: a feature, not from #103 — the insects' column stands below the band where the picker rows open (`placeReleases`' `columnTop` clears dropped rows), reproduced at 466×930 (butterfly at (50, 236), rows at y≈142, r46). Offered two alternatives (lift the column and have it yield, or move the rows).
 
 2. **Operator:**
+
    > а что если кнопки насекомых всегда располагать на той же высоте (но с другой стороны) что и кнопки грибов? Их как раз тоже три, так что будет симметрия. И тогда будет разделение строго-игровые кнопки vs кнопки представления (карта/шаги), ну и дополнительным кнопкам грибов/ноток будет куда располагаться на любых высотах
 
    **Agent:** Prototyped the mirror across every swept screen: clean on tablets, desktop, portrait phones; on phones held sideways and 320×568 the right side is not a column of three (house beside `+`), so nothing to mirror; the left column would break `COLUMN_REACH` (0.7). Proposed: merge #103 as is and do the mirror as a separate PR. Asked three questions: (1) separate PR or this branch; (2) what to do on screens with no column on the right; (3) drop the 0.7 limit for the left column?
 
 3. **Operator** (with a landscape screenshot ~643×426: insects in the top row after the map, gait after the bee, house left of `+`, `−` under `+`):
+
    > хм... вот в такой ориентации (которую до этого не смотрел) выглядит вообще всё сикось-накось. Я бы сделал, чтобы кнопки и насекомы, и грибов располагались как и предлагаю по сторонам, в столбик, при этом возможно стали чуть меньше, и располагались уже не над горизонтом, а прямо начиная с низа экрана. Критерий, когда располагать "не надо горизонтом" -- если иначе над ними не остаётся места для размещения "кнопок вида". Не сажать туда цветы-грибы ок -- в такой ориентации горизонтального места и так достаточно, но вообще, надо помнить, что наверное все эти правила ("не ставь туда, ставь сюда") писались в первые байты слона, когда у нас вообще не предполагалось ни поворотов, ни движения -- то есть их критичность со временем значительно упала. Но пока не мешают, можно оставить.
 
    **Agent:** Treated it as a change request and implemented planless on this branch (question 1 went unanswered; the branch is the session's working branch). Got the controls' sweeps green, then hit failing downstream sweeps and the context budget; paused the work into `docs/plans/meadow-side-columns.paused.md` and relayed. No reply to the operator has reported this yet.
