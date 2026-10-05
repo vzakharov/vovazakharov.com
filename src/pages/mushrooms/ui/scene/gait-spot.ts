@@ -85,24 +85,16 @@ function nearestSpot(
 }
 
 /**
- * Right of the map button, under it, right of the last insect's button in its
- * row and under the last in its column (`placeReleases` lines them up either
- * way), each their reaches touching.
+ * Right of the map button, under it, and under the last insect's button in
+ * its column where that column lines up under the map button
+ * (`placeColumns`), each their reaches touching.
  */
 function besideLines({ map, releases }: GaitScreen): Circle[] {
-  const insects = Object.values(releases);
-  const last = (line: Circle[], along: (button: Circle) => number) => {
-    const end = Math.max(...line.map((button) => along(button)));
-    return line.find((button) => along(button) === end) ?? map;
-  };
-  const rowEnd = last(
-    [map, ...insects.filter((button) => button.y === map.y)],
-    (button) => button.x,
+  const column = Object.values(releases).filter(
+    (button) => button.x - button.r === map.x - map.r,
   );
-  const columnEnd = last(
-    [map, ...insects.filter((button) => button.x - button.r === map.x - map.r)],
-    (button) => button.y,
-  );
+  const lowest = Math.max(...column.map((button) => button.y));
+  const columnEnd = column.find((button) => button.y === lowest) ?? map;
   const next = (button: Circle, across: 0 | 1) => {
     const step = tapReach(button.r) + tapReach(GAIT_R);
     return {
@@ -111,7 +103,7 @@ function besideLines({ map, releases }: GaitScreen): Circle[] {
       r: GAIT_R,
     };
   };
-  return [next(map, 1), next(map, 0), next(rowEnd, 1), next(columnEnd, 0)];
+  return [next(map, 1), next(map, 0), next(columnEnd, 0)];
 }
 
 /**
