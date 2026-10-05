@@ -19,9 +19,7 @@ export function BackToHome({
       className={cx('print-hidden', classes['pageFooter'])}
     >
       <Text size="sm" opacity={0.6}>
-        <InternalLink href="/" inherit>
-          {label}
-        </InternalLink>
+        <InternalLink href="/">{label}</InternalLink>
       </Text>
     </Box>
   );

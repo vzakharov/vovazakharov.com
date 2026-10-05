@@ -101,7 +101,7 @@ export function CvSheet({
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                <InternalLink href="/" underline="never" inherit>
+                <InternalLink href="/" underline="never">
                   {cv.header.name}
                 </InternalLink>
               </Title>
@@ -230,9 +230,7 @@ export function CvSheet({
             className={cx('print-hidden', classes['screenFooter'])}
           >
             <Text size="sm" className={classes['dim60']}>
-              <InternalLink href="/" inherit>
-                {cv.footer.backLink}
-              </InternalLink>
+              <InternalLink href="/">{cv.footer.backLink}</InternalLink>
             </Text>
             <OtherVariantLink {...{ variant, locale }} labels={ui.cvVariants} />
           </Group>

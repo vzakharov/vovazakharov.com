@@ -36,7 +36,7 @@ export function ProjectCard({
       </Group>
       {caseStudyHref !== undefined && (
         <Text size="sm" mb={12} className={classes['aboveCardLink']}>
-          <InternalLink href={caseStudyHref} inherit>
+          <InternalLink href={caseStudyHref}>
             Read the case study →
           </InternalLink>
         </Text>

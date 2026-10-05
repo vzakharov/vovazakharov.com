@@ -24,7 +24,7 @@ export function OfferSection() {
           draw the architecture, set up the pipeline the agents ship through on
           your codebase, and sit in the pull requests rather than in the org
           chart.{' '}
-          <InternalLink href={FEATURED_CASE_STUDY_ROUTE} inherit>
+          <InternalLink href={FEATURED_CASE_STUDY_ROUTE}>
             Last time round
           </InternalLink>{' '}
           that took a live product from a no-code builder to 250,000 lines of
