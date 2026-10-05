@@ -14,7 +14,10 @@ its own font-size, and every link in running text had to remember
 InternalLink becomes TextLink and serves every link. It takes the
 surrounding size unless given a `size`; a site-root `href` still gets
 its screen and paper halves, an absolute or `mailto:` one renders a
-single anchor, and `newTab` sets the `target`/`rel` pair.
+single anchor. A page off the site opens in a new tab: `isOffSite`,
+which rehypeContentLinks now reads too, states the rule a document's
+own links already followed, so the Sources list and the footer's
+author link no longer open in place.
 
 `@typescript-eslint/no-restricted-imports` rejects `Anchor` from
 `@mantine/core` everywhere but the two links built on it, TextLink and
