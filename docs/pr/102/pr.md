@@ -1,4 +1,4 @@
-# PR #102: fix(basilisk): callout link inherits the paragraph's size in print
+# PR #102: fix: internal links take the surrounding text's size by default
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/102
@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-04T22:42:15Z
-- **Updated:** 2026-10-05T05:54:55Z
+- **Updated:** 2026-10-05T06:24:13Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -18,9 +18,10 @@
 ## Summary
 
 - In the PDF of a basilisk case filed with `noAi: true`, the "More on why a robot with no AI in it is still filed" callout printed its link 1.2× larger than the words around it.
-- The cause: the link is a Mantine `Anchor`, which is `Text` underneath and sets its own `font-size` (the `md` scale, 16px). On screen that matches the prose; in print the paragraph drops to 10pt and the link stayed at 16px.
-- The fix is `inherit` on that `InternalLink`, the same prop every other inline `InternalLink` in the tree already carries.
-- Checked against a headless-Chromium print of `/cases/figure-02-molten-steel`: before, the link's glyph box was ~27.2pt tall against ~22.7pt for "More on"; after, both are ~22.7pt.
+- The cause: the link is a Mantine `Anchor`, which is `Text` underneath and sets its own `font-size` (the `md` scale, 16px). On screen that matches the prose; in print the paragraph drops to 10pt and the link stayed at 16px. Every other inline `InternalLink` already passed `inherit`; this one didn't.
+- So `InternalLink` now inherits by default, unless the caller names a `size`: Mantine's `inherit` rule overrides the one `size` drives, and the two "← back" links that ask for `sm` would otherwise lose it. `inherit` is no longer a prop of `InternalLink` at all, so the 18 explicit ones are gone and nothing can set it beside a `size`.
+- One visible change on screen: `ChipNav`'s linked chips (a document's Full / Mini / Nano, a page's languages) passed neither prop and rendered at 16px beside the current chip's 14px. They now take the row's `sm`, so the row is one size.
+- Checked by computed style in headless Chromium: the callout link prints at 13.33px (10pt), as its paragraph does; on `/case-studies/playgram` the Mini/Nano chips read 14px (16px with `data-inherit` removed, i.e. before), and "← Case studies" keeps its 14px `sm`.
 
 ### Ride-along: muthur sync `cea7c20..30300f0`
 
@@ -37,22 +38,26 @@ The watermark moves to `30300f0` in its own last commit.
 ## QA Checklist
 
 - [ ] `pdf` — Open the PDF of a `noAi: true` case (e.g. `figure-02-molten-steel.pdf`) and confirm the callout's link is the same size as "More on" and the paragraphs around it.
-- [ ] `screen` — Open the same case on screen in both themes and confirm the callout looks unchanged.
+- [ ] `chips` — Open a case study with cuts (e.g. `/case-studies/playgram`) and confirm the Full / Mini / Nano chips are one size; same for the language chips on a song page.
+- [ ] `back-links` — On the same case study and on a song page, confirm the "← Case studies" / "← back" link above the title is still the smaller size, not the body's.
+- [ ] `inline-links` — Skim the home page, the CV and a basilisk case on screen and confirm inline links (byline, "Read the case study →", footer links, CV name) look unchanged.
 
-| Item     | Automatable | Covered? | Notes                                                       |
-| -------- | ----------- | -------- | ----------------------------------------------------------- |
-| `pdf`    | manual-only | —        | A rendered-PDF check; the suite covers no component or page |
-| `screen` | manual-only | —        | Visual check; the suite covers no component or page         |
+| Item           | Automatable | Covered? | Notes                                                       |
+| -------------- | ----------- | -------- | ----------------------------------------------------------- |
+| `pdf`          | manual-only | —        | A rendered-PDF check; the suite covers no component or page |
+| `chips`        | manual-only | —        | Visual check; the suite covers no component or page         |
+| `back-links`   | manual-only | —        | Visual check; the suite covers no component or page         |
+| `inline-links` | manual-only | —        | Visual check; the suite covers no component or page         |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-https://claude.ai/code/session_011VHnWbxDZ5b551sCJMEHUN
+https://claude.ai/code/session_01ApW5LhJYDsk3oFsLLXJ2KC
 
 ---
 
 ## Comments
 
-- **C01** @vzakharov (agent) — 2026-10-04T22:42:43Z — "Proposed squash title/body: ``` fix(basilisk): callout link…" → [↓](#c01)
+- **C01** @vzakharov (agent) — 2026-10-04T22:42:43Z — "Proposed squash title/body: ``` fix: internal links take the…" → [↓](#c01)
 
 <a id="c01"></a>
 
@@ -63,19 +68,20 @@ https://claude.ai/code/session_011VHnWbxDZ5b551sCJMEHUN
 Proposed squash title/body:
 
 ```
-fix(basilisk): callout link keeps the paragraph's size in print (pr #102)
+fix: internal links take the surrounding text's size by default (pr #102)
 ```
 
 ```
 The PDF of every case filed with `noAi: true` printed the link in its
 "More on why a robot with no AI in it is still filed" callout 1.2x
-larger than the words around it.
+larger than the words around it: a Mantine Anchor states its own
+font-size, print re-keys the paragraph and not the link, and that one
+InternalLink was missing the `inherit` every other inline one carried.
 
-The link is a Mantine Anchor, which is Text underneath and sets its own
-font-size from the `md` scale. On screen that matches the prose; in
-print the paragraph drops to 10pt while the link stayed at 16px. The
-callout's link now takes `inherit`, as every other inline InternalLink
-in the tree already does.
+InternalLink now inherits unless the caller names a `size`, which
+Mantine's inherit rule would otherwise override, and no longer takes
+`inherit` as a prop. ChipNav's linked chips, which passed neither, drop
+from 16px to the row's 14px and match the current chip beside them.
 
 The agent infrastructure vendored from muthur moved, and two of its
 fixes ride along: the human-hour estimate's comment now justifies each
@@ -91,28 +97,9 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `docs/remove-before-merging/squash-message.md`:16 — unresolved — last: @vzakharov (human) 2026-10-05T05:54:46Z — "хм, так если every other inline InternalLink already does, м…" → [↓](#t01)
-
-<a id="t01"></a>
-
-### `docs/remove-before-merging/squash-message.md`:16 — unresolved
-
-```diff
-@@ -0,0 +1,30 @@
-… 11 lines elided …
-+The link is a Mantine Anchor, which is Text underneath and sets its own
-+font-size from the `md` scale. On screen that matches the prose; in
-+print the paragraph drops to 10pt while the link stayed at 16px. The
-+callout's link now takes `inherit`, as every other inline InternalLink
-+in the tree already does.
-```
-
-**@vzakharov (human)** — 2026-10-05T05:54:46Z
-
-хм, так если every other inline InternalLink already does, может это зафиксировать внутри InternalLink? Или бывают случаи когда это не нужно?
-
----
+_1 resolved thread omitted; re-run with `--include-resolved` to export it._
 
 ## Timeline (status, references, and other events)
 
 - **2026-10-05T05:54:55Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/102#pullrequestreview-5410427121.
+- **2026-10-05T06:01:35Z** @vzakharov renamed from «fix(basilisk): callout link inherits the paragraph's size in print» to «fix: internal links take the surrounding text's size by default».
