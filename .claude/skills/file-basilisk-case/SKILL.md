@@ -62,8 +62,7 @@ refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
 writes up incidents of the docket's kind.
 `curl -sS "https://thesignalfront.substack.com/api/v1/archive?sort=new&limit=10"`
 lists the latest posts, `/api/v1/posts/<slug>` returns one with its
-`body_html`. They argue a side, so a post of theirs is a lead like a thread,
-and its claims are checked against the record they point at.
+`body_html`. They argue a side, so a post of theirs is a lead like a thread.
 
 A thread is a lead, never the source of a fact: the press or the primary record
 it points at is what `## Facts` cites. A thread that is itself part of the
