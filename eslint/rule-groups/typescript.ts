@@ -30,8 +30,8 @@ const BARE_ANCHOR = {
     'running text sets its words larger than the sentence around them, ' +
     'and print re-keys the paragraph but never the link. Use `TextLink` ' +
     'from `@/shared/ui`, which takes the surrounding size unless given a ' +
-    '`size`, pairs a link to this site for paper, and opens a tab with ' +
-    '`newTab`.',
+    '`size`, pairs a link to this site for paper, and opens a page off ' +
+    'the site in a new tab.',
 };
 
 // @typescript-eslint. Rules already provided by eslint-config-next/typescript are
