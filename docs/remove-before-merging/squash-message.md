@@ -1,18 +1,24 @@
 Proposed squash title/body:
 
 ```
-fix: source links take the surrounding text's size (pr #105)
+fix: every link goes through TextLink and takes its text's size (pr #105)
 ```
 
 ```
 An article's Sources list set each source's linked title, and its
 "archived" link, at 16px against the 14px of the author, outlet and
-date around it — and against 13.3px in print. A Mantine Anchor states
-its own font-size, and the two in SourceList were missing the
-`inherit` every other inline Anchor carries: the trap #102 closed for
-InternalLink, left open on the raw Anchors beside it.
+date around it, and against 13.3px in print. A Mantine Anchor states
+its own font-size, and every link in running text had to remember
+`inherit` by hand; these two were the second in a day that forgot.
 
-Both now inherit, so a source line is one size on screen and in print.
+InternalLink becomes TextLink and serves every link. It takes the
+surrounding size unless given a `size`; a site-root `href` still gets
+its screen and paper halves, an absolute or `mailto:` one renders a
+single anchor, and `newTab` sets the `target`/`rel` pair.
+
+`@typescript-eslint/no-restricted-imports` rejects `Anchor` from
+`@mantine/core` everywhere but the two links built on it, TextLink and
+FileLink, so a bare Anchor can no longer reach a page.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
