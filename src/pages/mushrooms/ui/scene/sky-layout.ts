@@ -111,9 +111,9 @@ export function standingControls({
 
 /**
  * Whether `button` reaches down onto the meadow, as a column at the screen's
- * foot does (`placeColumns`). What the world stands there it stands
- * whatever the screen, so a turn moves nothing, and the button is drawn
- * over it, as a pan brings anything on the ground under any button.
+ * foot does (`placeColumns`). What stands on the ground there stands
+ * whatever the screen, so a turn moves nothing; the button is drawn over it,
+ * as over anything a pan brings under a button.
  */
 export function overMeadow(button: Circle, groundTop: number): boolean {
   return button.y + button.r > groundTop;

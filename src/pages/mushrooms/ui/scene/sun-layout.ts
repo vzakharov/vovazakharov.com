@@ -46,9 +46,9 @@ const SKY_STEP = 2;
  * at a time, until it fits the sky (`fitsSky`), which also frees the corner
  * where only its rays kept it off; never below `SUN_LEAST`. Where the least
  * sun there still does not fit, the largest sun that fits anywhere is moved
- * there instead (`movedSun`). The rays keep off the buttons of `spared` too,
- * where some sun fits so: the flower picker's cross, which otherwise yields
- * to them (`flowerCross`), and on a narrow screen finds no spot left. Throws
+ * there instead (`movedSun`). The rays keep off `spared` too, wherever some
+ * sun fits so: the flower picker's cross, which yields to the rays
+ * (`flowerCross`) and on a narrow screen has no other spot. Throws
  * where no sun fits the sky at all: that screen's sun would stand over the
  * clump or a button.
  */
