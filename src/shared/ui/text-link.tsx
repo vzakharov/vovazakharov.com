@@ -14,9 +14,9 @@ import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import type { Anchored, WithOptionalClassName } from '@/shared/typings';
 
-import classes from './internal-link.module.scss';
+import classes from './text-link.module.scss';
 
-export type InternalLinkProps = Anchored &
+export type TextLinkProps = Anchored &
   Omit<AnchorProps, 'inherit'> &
   WithOptionalClassName &
   ElementProps<'a', keyof AnchorProps | 'href' | 'className'> & {
@@ -25,16 +25,21 @@ export type InternalLinkProps = Anchored &
      * don't say where it goes — a printed page can only be followed by hand.
      */
     withAddress?: boolean;
+    /** Opens beside the page rather than over it, without handing it `window.opener`. */
+    newTab?: boolean;
   };
 
+const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' };
+
 /**
- * Another page of this site, linked once per medium — every internal link,
- * because any page can be printed and `next/link` writes a **relative** href.
- * That is what a client-side route needs and what a PDF resolves against
- * whatever host printed the file, so no single anchor serves both.
+ * Every link set in running text, this site's pages and the wider web alike.
  *
- * External links need no such pair, being absolute already — which is why the
- * fork belongs to this component rather than to a second one beside it.
+ * Another page of this site is linked once per medium, because any page can be
+ * printed and `next/link` writes a **relative** href. That is what a
+ * client-side route needs and what a PDF resolves against whatever host
+ * printed the file, so no single anchor serves both. An absolute address is
+ * already paper's own, so it takes one anchor unless `withAddress` gives paper
+ * words the screen lacks.
  *
  * Paper's copy is derived from the same `href`, so a link that reaches no
  * paper is one sitting inside a `print-hidden` container — the medium is a fact
@@ -58,16 +63,30 @@ export type InternalLinkProps = Anchored &
  * rule follows the one `size` drives at equal specificity, so the two cannot
  * both be on.
  */
-export function InternalLink({
+export function TextLink({
   href,
   children,
   withAddress = false,
+  newTab = false,
   className,
   size,
   ...rest
-}: InternalLinkProps) {
+}: TextLinkProps) {
   const printed = printedUrl(href);
-  const props = { ...rest, size, inherit: size === undefined };
+  const props = {
+    ...rest,
+    ...(newTab ? NEW_TAB : {}),
+    size,
+    inherit: size === undefined,
+  };
+
+  if (printed.href === href && !withAddress) {
+    return (
+      <Anchor {...{ href, ...props, className }}>
+        {children}
+      </Anchor>
+    );
+  }
 
   return (
     <>
@@ -97,8 +116,9 @@ export function InternalLink({
 }
 
 /**
- * The call-to-action shape of the pairing above, and the one internal link with
- * no printed half: a button is something to press, and paper takes no press.
+ * The call-to-action shape of a link to another page of this site, and the one
+ * with no printed half: a button is something to press, and paper takes no
+ * press.
  */
 export function InternalButton({
   href,

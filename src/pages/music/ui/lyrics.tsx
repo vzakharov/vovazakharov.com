@@ -1,9 +1,9 @@
-import { Anchor, Box, Stack, Text } from '@mantine/core';
+import { Box, Stack, Text } from '@mantine/core';
 import Markdown, { type Components } from 'react-markdown';
 
 import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
-import { Subheading } from '@/shared/ui';
+import { Subheading, TextLink } from '@/shared/ui';
 
 import type { LyricLine, WithStanzas } from '../lib/lyric-notes';
 import type { SongLyrics } from '../lib/song-text';
@@ -84,10 +84,12 @@ function StanzaList({ stanzas }: WithStanzas) {
  */
 const NOTE_COMPONENTS: Components = {
   p: ({ children }) => <>{children}</>,
-  a: ({ href, children }) => (
-    <Anchor {...{ href }} target="_blank" rel="noopener noreferrer" inherit>
+  // The type is HTML's, where an `<a>` may have no address; a markdown link
+  // always has one.
+  a: ({ href = '', children }) => (
+    <TextLink {...{ href }} newTab>
       {children}
-    </Anchor>
+    </TextLink>
   ),
 };
 

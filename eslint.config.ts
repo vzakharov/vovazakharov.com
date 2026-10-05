@@ -42,7 +42,10 @@ import { importSortRules } from './eslint/rule-groups/import-sort';
 import { jsxA11yRules } from './eslint/rule-groups/jsx-a11y';
 import { nextRules } from './eslint/rule-groups/next';
 import { reactRules } from './eslint/rule-groups/react';
-import { typescriptRules } from './eslint/rule-groups/typescript';
+import {
+  NEXT_INTL_CLIENT,
+  typescriptRules,
+} from './eslint/rule-groups/typescript';
 import { unicornRules } from './eslint/rule-groups/unicorn';
 import { vovaRules } from './eslint/rule-groups/vova';
 import noDefaultTrue from './eslint/rules/no-default-true';
@@ -259,6 +262,19 @@ const eslintConfig = defineConfig([
   {
     files: ['src/pages/{home,writing,music}/ui/**/*.tsx'],
     rules: { 'vova/no-hardcoded-strings': 'off' },
+  },
+  // The two links built on a bare `Anchor`: `TextLink` itself, and `FileLink`,
+  // whose site-root `href` names a file to save rather than a page, so it wants
+  // neither `next/link` nor a printed half. Every other link goes through
+  // `TextLink`.
+  {
+    files: ['src/shared/ui/{text,file}-link.tsx'],
+    rules: {
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        { paths: [NEXT_INTL_CLIENT] },
+      ],
+    },
   },
   // Custom ESLint rule implementations (eslint/) and the root tooling configs.
   // Relax only the patterns intrinsic to AST-walking rule code; everything else is linted.

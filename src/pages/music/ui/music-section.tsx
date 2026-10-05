@@ -1,8 +1,8 @@
-import { Anchor, Box, Stack, Text } from '@mantine/core';
+import { Box, Stack, Text } from '@mantine/core';
 
 import { MUSIC_ORGANIZATION, MUSIC_ORGANIZATION_URL } from '@/shared/config';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { Section } from '@/shared/ui';
+import { Section, TextLink } from '@/shared/ui';
 
 export function MusicSection({ locale }: WithLocale) {
   const { intro, alsoOn, and, openSource } = loadMessages(locale).music;
@@ -21,34 +21,19 @@ export function MusicSection({ locale }: WithLocale) {
       <Stack gap={8}>
         <Text size="sm" opacity={0.7}>
           {alsoOn}{' '}
-          <Anchor
-            href="https://soundcloud.com/vzkrv"
-            target="_blank"
-            rel="noopener noreferrer"
-            inherit
-          >
+          <TextLink href="https://soundcloud.com/vzkrv" newTab>
             SoundCloud
-          </Anchor>{' '}
+          </TextLink>{' '}
           {and}{' '}
-          <Anchor
-            href="https://suno.com/@vova"
-            target="_blank"
-            rel="noopener noreferrer"
-            inherit
-          >
+          <TextLink href="https://suno.com/@vova" newTab>
             Suno
-          </Anchor>
+          </TextLink>
         </Text>
         <Text size="sm" opacity={0.7}>
           {openSource}{' '}
-          <Anchor
-            href={MUSIC_ORGANIZATION_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            inherit
-          >
+          <TextLink href={MUSIC_ORGANIZATION_URL} newTab>
             github.com/{MUSIC_ORGANIZATION}
-          </Anchor>
+          </TextLink>
         </Text>
       </Stack>
     </Section>

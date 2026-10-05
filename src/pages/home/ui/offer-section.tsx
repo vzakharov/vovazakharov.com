@@ -3,7 +3,7 @@ import { List, ListItem, Stack, Text, Title } from '@mantine/core';
 import { SITE_CONFIG } from '@/shared/config';
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import { loadMessages } from '@/shared/i18n';
-import { InternalLink, Section } from '@/shared/ui';
+import { Section,TextLink } from '@/shared/ui';
 
 import { ReadCvButton } from './read-cv-button';
 
@@ -24,9 +24,7 @@ export function OfferSection() {
           draw the architecture, set up the pipeline the agents ship through on
           your codebase, and sit in the pull requests rather than in the org
           chart.{' '}
-          <InternalLink href={FEATURED_CASE_STUDY_ROUTE}>
-            Last time round
-          </InternalLink>{' '}
+          <TextLink href={FEATURED_CASE_STUDY_ROUTE}>Last time round</TextLink>{' '}
           that took a live product from a no-code builder to 250,000 lines of
           production TypeScript in 158 days — and the engineers who took it over
           run it today.

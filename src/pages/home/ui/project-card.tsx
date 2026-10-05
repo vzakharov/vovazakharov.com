@@ -1,6 +1,6 @@
 import { Group, Text, Title } from '@mantine/core';
 
-import { Card, CardLink, InternalLink, type Summarized } from '@/shared/ui';
+import { Card, CardLink, type Summarized,TextLink } from '@/shared/ui';
 
 import classes from './project-card.module.scss';
 import { TechLine } from './tech-line';
@@ -36,9 +36,7 @@ export function ProjectCard({
       </Group>
       {caseStudyHref !== undefined && (
         <Text size="sm" mb={12} className={classes['aboveCardLink']}>
-          <InternalLink href={caseStudyHref}>
-            Read the case study →
-          </InternalLink>
+          <TextLink href={caseStudyHref}>Read the case study →</TextLink>
         </Text>
       )}
       <Text mb={12} lh={1.625}>

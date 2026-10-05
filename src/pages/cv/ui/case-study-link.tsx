@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 
 import type { LabeledLink } from '@/shared/typings';
-import { InternalLink } from '@/shared/ui';
+import { TextLink } from '@/shared/ui';
 
 import classes from './cv.module.scss';
 
@@ -15,9 +15,9 @@ export const CASE_STUDY_KEY = 'playgram';
 export function CaseStudyLink({ href, label }: LabeledLink) {
   return (
     <Text className={classes['caseStudyLine']}>
-      <InternalLink {...{ href }} withAddress>
+      <TextLink {...{ href }} withAddress>
         {label}
-      </InternalLink>
+      </TextLink>
     </Text>
   );
 }

@@ -1,6 +1,12 @@
-import { Anchor, Box, Button, SimpleGrid, Text } from '@mantine/core';
+import { Box, Button, SimpleGrid, Text } from '@mantine/core';
 
-import { Section, Subheading, SUBHEADING_GAP, SummaryCard } from '@/shared/ui';
+import {
+  Section,
+  Subheading,
+  SUBHEADING_GAP,
+  SummaryCard,
+  TextLink,
+} from '@/shared/ui';
 
 export function WritingSection() {
   return (
@@ -12,14 +18,9 @@ export function WritingSection() {
           anymore, I still find joy in stretching the writing muscles,
           especially with my AI co-conspirator, “synthetic buddy” Finn O’Connor,
           under the brand of{' '}
-          <Anchor
-            href="https://glitchporn.substack.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            inherit
-          >
+          <TextLink href="https://glitchporn.substack.com" newTab>
             Glitchporn
-          </Anchor>
+          </TextLink>
           .
         </Text>
         <Text size="xl" fs="italic" mt={16} opacity={0.8}>
