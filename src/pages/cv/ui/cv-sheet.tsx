@@ -39,11 +39,7 @@ type ProfileLinkProps = { profile: string };
  * same in print as on screen, and linked with the scheme added back.
  */
 function ProfileLink({ profile }: ProfileLinkProps) {
-  return (
-    <TextLink href={`https://${profile}`} newTab>
-      {profile}
-    </TextLink>
-  );
+  return <TextLink href={`https://${profile}`}>{profile}</TextLink>;
 }
 
 /** Order is a presentation decision, as with the experience entries. */

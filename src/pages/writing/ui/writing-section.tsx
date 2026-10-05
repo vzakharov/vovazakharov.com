@@ -18,9 +18,7 @@ export function WritingSection() {
           anymore, I still find joy in stretching the writing muscles,
           especially with my AI co-conspirator, “synthetic buddy” Finn O’Connor,
           under the brand of{' '}
-          <TextLink href="https://glitchporn.substack.com" newTab>
-            Glitchporn
-          </TextLink>
+          <TextLink href="https://glitchporn.substack.com">Glitchporn</TextLink>
           .
         </Text>
         <Text size="xl" fs="italic" mt={16} opacity={0.8}>

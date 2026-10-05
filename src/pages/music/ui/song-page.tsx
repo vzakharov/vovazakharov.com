@@ -152,7 +152,6 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                 <FileLink {...localized.markdown}>.md</FileLink>
                 <TextLink
                   href={songRepositoryUrl(repo)}
-                  newTab
                   size="sm"
                   className={hoverDim}
                 >

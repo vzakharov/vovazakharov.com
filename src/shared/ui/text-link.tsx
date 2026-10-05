@@ -1,15 +1,9 @@
 'use client';
 
-import {
-  Anchor,
-  type AnchorProps,
-  Button,
-  type ButtonProps,
-  type ElementProps,
-} from '@mantine/core';
+import { Anchor, type AnchorProps, type ElementProps } from '@mantine/core';
 import Link from 'next/link';
 
-import { printedUrl } from '@/shared/config';
+import { isOffSite, printedUrl } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import type { Anchored, WithOptionalClassName } from '@/shared/typings';
@@ -25,10 +19,9 @@ export type TextLinkProps = Anchored &
      * don't say where it goes — a printed page can only be followed by hand.
      */
     withAddress?: boolean;
-    /** Opens beside the page rather than over it, without handing it `window.opener`. */
-    newTab?: boolean;
   };
 
+// `noopener` keeps the opened page from reaching back through `window.opener`.
 const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' };
 
 /**
@@ -40,6 +33,9 @@ const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' };
  * printed the file, so no single anchor serves both. An absolute address is
  * already paper's own, so it takes one anchor unless `withAddress` gives paper
  * words the screen lacks.
+ *
+ * A page off this site opens in a tab of its own, as a document's own links
+ * do (`rehypeContentLinks`); this site's pages and a `mailto:` open in place.
  *
  * Paper's copy is derived from the same `href`, so a link that reaches no
  * paper is one sitting inside a `print-hidden` container — the medium is a fact
@@ -67,7 +63,6 @@ export function TextLink({
   href,
   children,
   withAddress = false,
-  newTab = false,
   className,
   size,
   ...rest
@@ -75,7 +70,7 @@ export function TextLink({
   const printed = printedUrl(href);
   const props = {
     ...rest,
-    ...(newTab ? NEW_TAB : {}),
+    ...(isOffSite(href) ? NEW_TAB : {}),
     size,
     inherit: size === undefined,
   };
@@ -108,22 +103,5 @@ export function TextLink({
         </Anchor>
       </span>
     </>
-  );
-}
-
-/**
- * The call-to-action shape of a link to another page of this site, and the one
- * with no printed half: a button is something to press, and paper takes no
- * press.
- */
-export function InternalButton({
-  href,
-  children,
-  ...props
-}: ButtonProps & Anchored) {
-  return (
-    <Button component={Link} {...{ href }} {...props} className="print-hidden">
-      {children}
-    </Button>
   );
 }

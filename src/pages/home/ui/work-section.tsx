@@ -93,7 +93,7 @@ export function WorkSection() {
         {EARLIER_PROJECTS.map(({ name, gloss }, index) => (
           <span key={name}>
             {index > 0 && ', '}
-            <TextLink href={`https://github.com/vzakharov/${name}`} newTab>
+            <TextLink href={`https://github.com/vzakharov/${name}`}>
               {name}
             </TextLink>{' '}
             ({gloss})

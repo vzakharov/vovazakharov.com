@@ -86,11 +86,7 @@ const NOTE_COMPONENTS: Components = {
   p: ({ children }) => <>{children}</>,
   // The type is HTML's, where an `<a>` may have no address; a markdown link
   // always has one.
-  a: ({ href = '', children }) => (
-    <TextLink {...{ href }} newTab>
-      {children}
-    </TextLink>
-  ),
+  a: ({ href = '', children }) => <TextLink {...{ href }}>{children}</TextLink>,
 };
 
 type StanzaProps = { lines: LyricLine[] };

@@ -26,7 +26,7 @@ export function ContactSection() {
           {PROFILES.map(({ label, host, path }) => (
             <Text key={label}>
               <strong>{label}:</strong>{' '}
-              <TextLink href={`https://${host}${path}`} newTab>
+              <TextLink href={`https://${host}${path}`}>
                 {host}
                 {path}
               </TextLink>

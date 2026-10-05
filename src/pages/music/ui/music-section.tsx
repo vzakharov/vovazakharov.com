@@ -21,17 +21,12 @@ export function MusicSection({ locale }: WithLocale) {
       <Stack gap={8}>
         <Text size="sm" opacity={0.7}>
           {alsoOn}{' '}
-          <TextLink href="https://soundcloud.com/vzkrv" newTab>
-            SoundCloud
-          </TextLink>{' '}
-          {and}{' '}
-          <TextLink href="https://suno.com/@vova" newTab>
-            Suno
-          </TextLink>
+          <TextLink href="https://soundcloud.com/vzkrv">SoundCloud</TextLink>{' '}
+          {and} <TextLink href="https://suno.com/@vova">Suno</TextLink>
         </Text>
         <Text size="sm" opacity={0.7}>
           {openSource}{' '}
-          <TextLink href={MUSIC_ORGANIZATION_URL} newTab>
+          <TextLink href={MUSIC_ORGANIZATION_URL}>
             github.com/{MUSIC_ORGANIZATION}
           </TextLink>
         </Text>
