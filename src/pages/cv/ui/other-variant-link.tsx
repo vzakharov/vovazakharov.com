@@ -33,9 +33,7 @@ export function OtherVariantLink({
 
   return (
     <Text size="sm" className={classes['dim60']}>
-      <InternalLink href={cvPath(other, locale)} inherit>
-        {labels[other]}
-      </InternalLink>
+      <InternalLink href={cvPath(other, locale)}>{labels[other]}</InternalLink>
     </Text>
   );
 }

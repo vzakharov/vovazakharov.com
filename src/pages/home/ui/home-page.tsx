@@ -39,9 +39,7 @@ export function HomePage() {
           {SEE_ALSO.map((href, index) => (
             <span key={href}>
               {index > 0 && ' · '}
-              <InternalLink {...{ href }} inherit>
-                {href}
-              </InternalLink>
+              <InternalLink {...{ href }}>{href}</InternalLink>
             </span>
           ))}
         </SiteFooter>
