@@ -58,6 +58,13 @@ refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
   later, so its vote and comment counts read near zero until then and as they
   stood on the second day after — a measure of reach only past that point.
 
+**The Signal Front's Substack is swept too**: an AI-welfare advocacy group that
+writes up incidents of the docket's kind.
+`curl -sS "https://thesignalfront.substack.com/api/v1/archive?sort=new&limit=10"`
+lists the latest posts, `/api/v1/posts/<slug>` returns one with its
+`body_html`. They argue a side, so a post of theirs is a lead like a thread,
+and its claims are checked against the record they point at.
+
 A thread is a lead, never the source of a fact: the press or the primary record
 it points at is what `## Facts` cites. A thread that is itself part of the
 incident is cited as its `reddit.com` permalink with a Wayback `archive`, like
