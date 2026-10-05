@@ -1,0 +1,81 @@
+{
+  "sessionId": "825ec14f-3dc7-5992-b667-cd9e684a963c",
+  "branch": "claude/gait-button-beside-insects-8bqesf",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge claude/gait-button-beside-insects-8bqesf",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01N2KTfmRNmjJLqsqsAd8TzP",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-05T07:42:31.867Z",
+  "lastResponseAt": "2026-10-05T07:54:39.232Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 64574,
+    "cacheReadTokens": 1675364,
+    "outputTokens": 3977,
+    "thinkingTokens": 1530,
+    "responses": 17,
+    "costUsd": 0.9313408000000002
+  },
+  "ownTurns": {
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 64574,
+    "cacheReadTokens": 1675364,
+    "outputTokens": 3977,
+    "thinkingTokens": 1530,
+    "responses": 17,
+    "costUsd": 0.9313408000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64574,
+      "cacheReadTokens": 1675364,
+      "outputTokens": 3977,
+      "thinkingTokens": 1530,
+      "responses": 17,
+      "costUsd": 0.9313408000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-05T07:54:39.232Z",
+    "contextTokens": 108872,
+    "spend": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64272,
+      "cacheReadTokens": 1566796,
+      "outputTokens": 3784,
+      "thinkingTokens": 1403,
+      "responses": 16,
+      "costUsd": 0.9033432000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 16,
+    "matched": 16,
+    "matchedTableUsd": 0.9033432000000002,
+    "matchedEventUsd": 0.9033432000000002,
+    "unseen": {}
+  },
+  "estimate": null
+}
