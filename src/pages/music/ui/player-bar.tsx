@@ -4,7 +4,7 @@ import { ActionIcon, Box, Group, Text } from '@mantine/core';
 import { Pause, Play, Shuffle, SkipBack, SkipForward } from 'lucide-react';
 
 import { cx } from '@/shared/lib/class-names';
-import { InternalLink } from '@/shared/ui';
+import { TextLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import classes from './music.module.scss';
@@ -82,9 +82,9 @@ export function PlayerBar() {
 
       <Box className={classes['playerTrack']}>
         <Text size="sm" truncate>
-          <InternalLink href={routes[locale]} underline="hover">
+          <TextLink href={routes[locale]} underline="hover">
             {titles[locale]}
-          </InternalLink>
+          </TextLink>
           <Text component="span" inherit opacity={0.6}>
             {' — '}
             {billing}

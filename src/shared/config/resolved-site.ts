@@ -25,3 +25,8 @@ export const printedUrl = (url: string): PrintedLink => {
 
   return { href, text: withoutScheme(href) };
 };
+
+/** A page on the web outside this site, which opens in a tab of its own. */
+export const isOffSite = (url: string) =>
+  /^https?:/i.test(url) &&
+  new URL(url).origin !== new URL(SITE_CONFIG.url).origin;

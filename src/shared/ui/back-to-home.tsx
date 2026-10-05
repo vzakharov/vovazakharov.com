@@ -4,7 +4,7 @@ import { cx } from '@/shared/lib/class-names';
 import type { Labeled } from '@/shared/typings';
 
 import classes from './back-to-home.module.scss';
-import { InternalLink } from './internal-link';
+import { TextLink } from './text-link';
 
 export type BackToHomeProps = Partial<Labeled>;
 
@@ -19,7 +19,7 @@ export function BackToHome({
       className={cx('print-hidden', classes['pageFooter'])}
     >
       <Text size="sm" opacity={0.6}>
-        <InternalLink href="/">{label}</InternalLink>
+        <TextLink href="/">{label}</TextLink>
       </Text>
     </Box>
   );
