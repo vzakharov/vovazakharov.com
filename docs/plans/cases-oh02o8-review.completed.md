@@ -5,8 +5,7 @@ The task: the operator's review 5425987795 on PR #104 (submitted 2026-10-06
 
 ## Done
 
-- `prompter` role ported from vzakharov/muthur@61e9a0a (77801f9) — comment
-  4193333672.
+- `prompter` role ported from vzakharov/muthur@61e9a0a (77801f9) — comment 4193333672.
 - The docket is known before the search as a list, dossiers read in full only
   while filing (c1fe625) — comment 4193350994.
 - Five-percent entry fixed (8679928) — comment 4193412486; this round's two

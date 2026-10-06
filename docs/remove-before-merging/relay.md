@@ -19,13 +19,12 @@ file's previous version in git (`git log -p -- docs/remove-before-merging/relay.
    threads, and handed the five-percent notes to a subagent (d2ee570). It then
    proposed a `filed:` frontmatter date (write date vs publication date) and
    asked which to use. The plan was left `*.in-progress.md`.
-2. «давай ещё раз handle» → `/handle` found five new threads (review
-   5426475947) and the agent handled them all:
+2. «давай ещё раз handle» → `/handle` found five new threads (review 5426475947) and the agent handled them all:
    - `filed:` implemented (f420694). The operator's answer was «да, конечно» on
      the thread. The agent picked 2026-10-04 for all five cases, the day the
      docket was numbered, so dates run in number order.
    - The search skill now says "know everything, look away" (d73e521), from the
-     operator's «"вширь" должно идти не от того, что агент будет *не знать* …
+     operator's «"вширь" должно идти не от того, что агент будет _не знать_ …
      а о том, что он сознательно будет "не думать о белом медведе"».
    - The reflection rule's list now evolves after each reflection without
      bloating (d73e521), from «давай добавим что это правило должно меняться в
