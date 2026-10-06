@@ -6,6 +6,7 @@ import { SKIP, visit } from 'unist-util-visit';
 
 import {
   mentionsPrintRasterDomain,
+  PRINT_RASTER_CLASS,
   splitOnPrintRasterDomains,
 } from '@/shared/lib/print-raster';
 
@@ -15,7 +16,7 @@ function withPrintRaster(properties: Properties): Properties {
   const { className } = properties;
   const classes = Array.isArray(className) ? className : [];
 
-  return { ...properties, className: [...classes, 'print-raster'] };
+  return { ...properties, className: [...classes, PRINT_RASTER_CLASS] };
 }
 
 function markMentions(tree: Root) {
@@ -49,7 +50,7 @@ function markMentions(tree: Root) {
           ? {
               type: 'element',
               tagName: 'span',
-              properties: { className: ['print-raster'] },
+              properties: withPrintRaster({}),
               children: [{ type: 'text', value: text }],
             }
           : { type: 'text', value: text },

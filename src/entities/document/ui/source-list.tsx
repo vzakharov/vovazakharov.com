@@ -1,5 +1,8 @@
 import { formatDocumentDate, type Source } from '@/shared/content';
-import { mentionsPrintRasterDomain } from '@/shared/lib/print-raster';
+import {
+  mentionsPrintRasterDomain,
+  PRINT_RASTER_CLASS,
+} from '@/shared/lib/print-raster';
 import { TextLink } from '@/shared/ui';
 
 import classes from './source-list.module.scss';
@@ -28,7 +31,7 @@ export function SourceList({ sources }: SourceListProps) {
               [url, archive ?? '', outlet].some((text) =>
                 mentionsPrintRasterDomain(text),
               )
-                ? 'print-raster'
+                ? PRINT_RASTER_CLASS
                 : undefined
             }
           >
