@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×39)
+## What it was handed, it treats as fixed (×41)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -88,6 +88,19 @@ and columns that scroll sideways like a wide table: the option never listed.
 basilisk FAQ section argues people attack machines they _know_ have no mind.
 Asked to move in children who saw a mind in a mall robot and kicked it anyway,
 the agent moved them and cut to size. It argued neither way, and went.
+
+**6 October — "widen the search," read as more places to look.** The agent
+added subreddits, older years and an incident database; the operator saw six of
+eight ledger candidates were Waymo and suspected depth, not width. The research
+log agreed: the run read the Waymo dossier just before searching, named Waymo in
+three queries and chased each hit's neighbours. The agent's own relay summary
+held all of it, filed as a coverage gap. The fix was a rule against seeding
+queries from the docket.
+
+**6 October — a duplication kept through a rewrite of the step holding it.** The
+case-filing skill wrote the Clerk's reflection to a file and posted it as a
+review comment too; rewriting that very step, the agent kept both. Asked why it
+lived twice, it had only the skill's instruction to point at.
 
 ## An account that explains the code stands in for running it (×16)
 
@@ -190,7 +203,7 @@ inherited it as the speaker's. _проблема не в этом._
 lines in a catalogue modelled on genius.com — the agent's own citation, and a
 site that anchors a note on a word.
 
-## Given a form, it fills the form (×8)
+## Given a form, it fills the form (×9)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -206,6 +219,12 @@ _не DRY_ — and the music registry spelled every title `{ en: 'X', ru: 'X' }`
 **4 October — a mitigating circumstance that mitigated nothing.** A basilisk
 dossier's slot for them got the builders asking that nobody be pursued — a
 fact, but no defence of anyone.
+
+**6 October — told a Waymo counts as no AI, it built a docket rule for it.** The
+balance was rebuilt on what was attacked, the Waymo dossier demoted to a new
+set-aside directory with machinery to match. Rereading it, the operator took the
+call back — his to take — but the cost was the agent's to see: the noAi flag
+alone could carry the balance, and the target rule made every filing harder.
 
 ## What it defends in writing, it stops asking about (×5)
 
@@ -311,8 +330,9 @@ with it. Nor the cost report's default grain, em dashes for a typed `--`, or
 basilisk.fyi's taste: quote punctuation, tagline, `cases/`, an FAQ /about, where
 an archived copy goes, a voice found as it goes, inline links over a sources
 list, the noAi note after the body's first paragraph rather than the brief,
-which earlier reflections a new one reads, or what their folder is called and
-in which language its `CLAUDE.md` speaks. Nor a case's reflection: a review of
+whether a Waymo case fits the balance, which earlier reflections a new one
+reads, or what their folder is called and in which language its `CLAUDE.md`
+speaks. Nor a case's reflection: a review of
 the dossier where he meant, by his own account badly phrased, the agent's
 reaction to the event, in Russian.
 
