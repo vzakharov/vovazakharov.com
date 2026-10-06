@@ -15,7 +15,6 @@ export function CvFrame({ children }: WithChildren) {
   );
 }
 
-/** A CV page's centred masthead. */
 export function CvHeader({ children }: WithChildren) {
   return (
     <Box component="header" className={classes['header']}>
