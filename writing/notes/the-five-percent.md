@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×48)
+## What it was handed, it treats as fixed (×49)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -131,6 +131,13 @@ stopped on a claim nobody held.
 case-filing skill wrote the Clerk's reflection to a file and posted it as a
 review comment too; rewriting that very step, the agent kept both. Asked why it
 lived twice, it had only the skill's instruction to point at.
+
+**6 October — a sibling card's layout, reused for a card with another job.** A
+basilisk case's share card took the site card's order for consistency: memo
+fields, a rule, then a dimmed "Case BAS-0001" and the title at the foot, the
+`filed` date dropped as bookkeeping. The site card leads with the memo because
+the memo is its point; a shared case link has to say first which case it is.
+The operator put number and title on top, the filed date beside the number.
 
 ## An account that explains the code stands in for running it (×16)
 
