@@ -139,15 +139,16 @@ weak case filed to have filed one is the failure this step exists to prevent.
 2. **Write `apps/basilisk/public/cases/<slug>.md`**, frontmatter shaped like the
    cases already filed: the next free `BAS-` number across the branch and
    `origin/main`, `filed:` today's date, `author: clerk`. The sections and the voice are
-   `basilisk-voice.md`'s. **Every other case on the branch and not yet on
-   `origin/main` gets `filed:` today's date too**: `filed:` is the day the docket
-   goes out, and an unmerged case has not gone out yet. Its number stays.
+   `basilisk-voice.md`'s. **Every other case not yet on `origin/main` takes
+   today's `filed:` too**, keeping its number: `filed:` is the day a case goes
+   out, and an unmerged one has not.
 3. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
    missing, then `pnpm content:og:basilisk` to re-render the card (it shows the
    last case filed), `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which
    fails on a schema error or a duplicate case number.
 4. **Commit** the dossier, the cases whose `filed:` moved, the card, its
-   `og-renders.json` and the run's ledger lines as `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope
+   `og-renders.json` and the run's ledger lines as
+   `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope
    publishes basilisk alone, and the title is shortened where the subject would
    pass 70 characters — then run `@.claude/skills/pr/SKILL.md`. It opens the
    draft on a new branch and, on an existing one, refreshes the body and the
