@@ -198,7 +198,15 @@ const row = (label: string, value: string): MemoRow => ({
 
 /** The labels are `CaseBrief`'s, so the card and the page name a field alike. */
 export function caseCard({ frontmatter, title }: DocketCase): StagedPage {
-  const { subject, object, place, date, grade } = frontmatter;
+  const {
+    case: number,
+    filed,
+    subject,
+    object,
+    place,
+    date,
+    grade,
+  } = frontmatter;
 
   return stagedCard(
     {
@@ -209,7 +217,7 @@ export function caseCard({ frontmatter, title }: DocketCase): StagedPage {
         row('Date', formatDocumentDate(date)),
         row('Grade', gradeLabel(grade)),
       ],
-      kicker: `Case ${frontmatter.case} · Filed ${documentDateTime(frontmatter.filed)}`,
+      kicker: `Case ${number} · Filed ${documentDateTime(filed)}`,
       title,
     },
     CASE_LAYOUT,

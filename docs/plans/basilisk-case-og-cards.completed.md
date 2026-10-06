@@ -10,17 +10,17 @@ FAQ pages keep the site card: their frontmatter is a description, an author and 
 
 The same layout as the site card — lettered seal on the left, a memo grid beside it, a ruled section with the title under it — so a case unfurls as the same docket the home card belongs to. The memo is the case's, trimmed from the page's `CaseBrief`:
 
-| Field       | On the card | Why                                                              |
-| ----------- | ----------- | ---------------------------------------------------------------- |
-| Case        | yes, in the kicker above the title (`Case BAS-0001`) | the identifier                    |
-| Subject     | yes         | who did it                                                       |
-| Object      | yes         | what it was done to                                              |
-| Date        | yes         | the incident's                                                   |
-| Place       | yes, when stated | short, and orients the reader                               |
-| Grade       | yes, as the stamp (`HARM · INDIVIDUAL`) | the docket's verdict                  |
-| Filed       | no          | bookkeeping; moves on every unmerged case each filing run        |
-| Aggravating | no          | noise at card size; the page argues it                           |
-| sources, author, noAi, description | no | the page's, or already in `og:description`         |
+| Field                              | On the card                                          | Why                                                       |
+| ---------------------------------- | ---------------------------------------------------- | --------------------------------------------------------- |
+| Case                               | yes, in the kicker above the title (`Case BAS-0001`) | the identifier                                            |
+| Subject                            | yes                                                  | who did it                                                |
+| Object                             | yes                                                  | what it was done to                                       |
+| Date                               | yes                                                  | the incident's                                            |
+| Place                              | yes, when stated                                     | short, and orients the reader                             |
+| Grade                              | yes, as the stamp (`HARM · INDIVIDUAL`)              | the docket's verdict                                      |
+| Filed                              | no                                                   | bookkeeping; moves on every unmerged case each filing run |
+| Aggravating                        | no                                                   | noise at card size; the page argues it                    |
+| sources, author, noAi, description | no                                                   | the page's, or already in `og:description`                |
 
 Values wrap (a subject is a phrase, not a memo line) and clamp at two lines; the title clamps at three, as on the site card.
 
