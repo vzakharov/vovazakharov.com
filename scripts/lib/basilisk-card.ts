@@ -16,7 +16,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
-import { collectionDir, PUBLIC_DIR } from '@/shared/content/collections';
+import {
+  collectionDir,
+  isDocumentFile,
+  PUBLIC_DIR,
+} from '@/shared/content/collections';
 
 import { MEMO } from '@/pages/basilisk-home/lib/memo';
 
@@ -115,10 +119,9 @@ ${fields}
 }
 
 export function basiliskCard(): StagedPage {
-  const docket = contentFiles(
-    (name) => name.endsWith('.md'),
-    [collectionDir('basilisk-cases')],
-  );
+  const docket = contentFiles(isDocumentFile, [
+    collectionDir('basilisk-cases'),
+  ]);
 
   return {
     page: cardPage(

@@ -42,7 +42,11 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { siteConfig } from '@/shared/config/site-config';
-import { PUBLIC_DIR, type Routed } from '@/shared/content/collections';
+import {
+  isDocumentFile,
+  PUBLIC_DIR,
+  type Routed,
+} from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { routing } from '@/shared/i18n';
 
@@ -194,10 +198,7 @@ function sourceFiles(...sources: string[][]): string[] {
 function documentPrintables(): Printable[] {
   const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES, SEAL_SOURCES);
 
-  return contentFiles(
-    (name) => name.endsWith('.md'),
-    PRINTABLE_CONTENT_DIRS,
-  ).map((documentPath) => {
+  return contentFiles(isDocumentFile, PRINTABLE_CONTENT_DIRS).map((documentPath) => {
     const stem = documentPath.replace(/\.md$/, '');
 
     return {

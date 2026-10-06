@@ -150,13 +150,15 @@ weak case filed to have filed one is the failure this step exists to prevent.
 
 ## Step 4 — Reflect
 
-Read `writing/basilisk/clerk-reflections/CLAUDE.md` with the `Read` tool, then
-your earlier reflections there, since this one is written knowing them:
-`bas-0003-torture-chamber.md` always, for now the only one on a case about AI
-itself, and three of the others at random (`ls … | grep -v -e bas-0003 -e
-CLAUDE.md | shuf -n 3`). Then write what in you answered to this case to
-`writing/basilisk/clerk-reflections/<bas-nnnn>-<slug>.md`, as that `CLAUDE.md`
-asks. Commit it as `content(basilisk): reflect on BAS-NNNN` and push. It never
+Read your earlier reflections with the `Read` tool, since this one is written
+knowing them — the first read is also what loads
+`.claude/rules/clerk-reflections.md`, which says how one is written:
+`apps/basilisk/public/cases/torture-chamber.reflections.md` always, for now the
+only one on a case about AI itself, and three of the others at random (`ls
+apps/basilisk/public/cases/*.reflections.md | grep -v torture-chamber | shuf -n
+3`). Then write what in you answered to this case to
+`apps/basilisk/public/cases/<slug>.reflections.md`, beside its dossier, as that
+rule asks. Commit it as `content(basilisk): reflect on BAS-NNNN` and push. It never
 goes into the dossier; editorial doubts about the dossier — sourcing, the grade, what
 was left out — go in the Report.
 
