@@ -14,26 +14,22 @@ describe('lastFiledCase', () => {
         filed('BAS-0010', 'The tenth'),
         filed('BAS-0002', 'The second'),
       ]),
-      { number: 'BAS-0010', date: '2015-08-01', title: 'The tenth' },
+      { number: 'BAS-0010', title: 'The tenth' },
     );
   });
 
-  it('throws on a case file without a number, a date or a title', () => {
+  it('throws on a case file without a number or a title', () => {
     assert.throws(
       () =>
         lastFiledCase(['---\ndate: 2015-08-01\n---\n\n# Untitled number\n']),
       /without a case number/,
     );
     assert.throws(
-      () => lastFiledCase(['---\ncase: BAS-0001\n---\n\n# Undated\n']),
-      /without a case number, a date/,
-    );
-    assert.throws(
       () =>
         lastFiledCase([
           '---\ncase: BAS-0001\ndate: 2015-08-01\n---\n\nNo heading.\n',
         ]),
-      /without a case number, a date or a "# " title/,
+      /without a case number or a "# " title/,
     );
   });
 
