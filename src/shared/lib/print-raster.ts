@@ -1,3 +1,5 @@
+import type { WithText } from '@/shared/typings';
+
 /**
  * Domains a printed page must not carry as text or as a link, because
  * LinkedIn's document upload rejects a PDF that names one: the upload reports
@@ -5,9 +7,7 @@
  * mention as an image, under `PRINT_RASTER_CLASS`, which leaves neither text
  * nor a link annotation in the PDF.
  */
-export const PRINT_RASTER_DOMAINS: readonly string[] = [
-  'paindirection.pages.dev',
-];
+const PRINT_RASTER_DOMAINS: readonly string[] = ['paindirection.pages.dev'];
 
 /** `print.scss` spells it too, being Sass. */
 export const PRINT_RASTER_CLASS = 'print-raster';
@@ -23,7 +23,7 @@ export function mentionsPrintRasterDomain(text: string): boolean {
   return text.match(MENTION) !== null;
 }
 
-type TextRun = { text: string; raster: boolean };
+type TextRun = WithText & { raster: boolean };
 
 export function splitOnPrintRasterDomains(text: string): TextRun[] {
   const runs: TextRun[] = [];

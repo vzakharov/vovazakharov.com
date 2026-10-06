@@ -13,6 +13,7 @@ None stated beyond the repo's own rules.
    "0 pages", and two PDFs attached:
    `basilisk.cases.the-pain-direction.pdf` and
    `basilisk.cases.figure-02-molten-steel_2.pdf`):
+
    > по какой-то причине линкдин не хочет загружать последний кейс из басилиска (0 pages), при том что любые другие, в том числе прошлые кейсы (2й пример приложенный) загружает норм. Где-то corrupted pdf или что?
 
    **Agent:** Classified it as a question. The PDF is valid (xref, strict parse,
