@@ -15,7 +15,9 @@ the restraint.
 A case now carries a required filed: date, shown in its brief, on the
 site card under "Last filed" and as the sitemap's lastModified, which
 read the incident's date before and made the site look untouched
-since 2024. All five cases took their numbers on 2026-10-04.
+since 2024. filed: is the day a case went out, so each
+/file-basilisk-case run moves it to its own date on every case not
+yet on main.
 
 /file-basilisk-case runs kept finding the same incidents. A ledger,
 writing/basilisk/case-ledger.md, records every candidate weighed and
