@@ -59,8 +59,19 @@ Step 1's query lists**, drafts or not, so two runs do not file the same
 incident. A lead passed as the argument is checked the same way, not taken on
 trust.
 
-**Where to look starts from the latest run's `Next` line** in the ledger, so
-each run sweeps what the one before did not. Beyond it:
+**Search wide, not deep.** A search that starts from what is already filed
+finds more of it, and the docket grows richer in whatever it already holds:
+
+- **No query names a machine, a maker or an incident** the docket or the ledger
+  already holds. The ledger is read to rule candidates out, never as a seed.
+- **The docket's dossiers are read after the search**, as Step 3's format
+  samples, not before it, where the last one read becomes the first query.
+- **A hit is weighed, and the next query goes elsewhere** — a different kind of
+  target, place or year — rather than to the hit's neighbours.
+- **The latest run's `Next` line comes first**, so each run sweeps what the one
+  before did not.
+
+Where else to look:
 
 - **Any year.** Case numbers are filing order, and hitchBOT is from 2015; a run
   that finds the recent months swept goes further back.
@@ -98,23 +109,12 @@ incident is cited as its `reddit.com` permalink with a Wayback `archive`, like
 any other source.
 
 A candidate qualifies only under `basilisk-voice.md` — real, no child actors, and
-reachable sources enough to carry `## Facts` without memory — and under the
-docket's balance. **The balance is by what was attacked**:
-
-- **Against AI** — an AI system as such: a model, an agent, a chatbot, a
-  companion, reached through its interface, its weights or its running.
-  BAS-0003 is one.
-- **Against a machine** — everything else: a robot with no AI (`noAi: true`),
-  and just as much a machine an AI drives or runs — a robotaxi, a humanoid, an
-  autonomous delivery robot — where what was hit is the hardware. The `noAi`
-  flag says only whether the machine ran AI, so a Waymo is not `noAi` and still
-  counts here.
-
-**While cases against a machine make up half the docket or more, only a
-candidate against AI qualifies**: hardware being hit is easier to find than a
-model being harmed, so left to the search the docket fills with the first kind.
-A machine-side case that qualifies on everything but the balance is **set
-aside** in the ledger rather than dropped.
+reachable sources enough to carry `## Facts` without memory. **While
+`noAi: true` dossiers make up half the docket or more, a `noAi` candidate does
+not qualify**: harm to a robot with no AI in it is easier to find than harm to
+a model, an agent or a machine one drives, so left to the search the docket
+fills with the first kind. A `noAi` candidate that fails on the balance alone
+is **set aside** in the ledger rather than dropped.
 
 **Nothing qualifies → stop**: write the run into the ledger, commit it as
 `content(basilisk): log a case search, nothing filed`, push, and run
@@ -133,8 +133,7 @@ weak case filed to have filed one is the failure this step exists to prevent.
 2. **Write `apps/basilisk/public/cases/<slug>.md`**, frontmatter shaped like the
    cases already filed: the next free `BAS-` number across the branch and
    `origin/main`, `author: clerk`. The sections and the voice are
-   `basilisk-voice.md`'s. A set-aside dossier being revived is `git mv`'d back
-   from `writing/basilisk/set-aside/` and given its number, its sources re-read.
+   `basilisk-voice.md`'s.
 3. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
    missing, then `pnpm content:og:basilisk` to re-render the card (it shows the
    last case filed), `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which
@@ -154,9 +153,8 @@ your earlier reflections there, since this one is written knowing them:
 itself, and three of the others at random (`ls … | grep -v -e bas-0003 -e
 CLAUDE.md | shuf -n 3`). Then write what in you answered to this case to
 `writing/basilisk/clerk-reflections/<bas-nnnn>-<slug>.md`, as that `CLAUDE.md`
-asks. Commit it as `content(basilisk): reflect on BAS-NNNN`, push, and post the
-same text as one review comment on the new dossier's first line. It never goes
-into the dossier; editorial doubts about the dossier — sourcing, the grade, what
+asks. Commit it as `content(basilisk): reflect on BAS-NNNN` and push. It never
+goes into the dossier; editorial doubts about the dossier — sourcing, the grade, what
 was left out — go in the Report.
 
 ## The ledger
@@ -168,9 +166,7 @@ stopped. Every run writes it, a stop included, with two sections:
   where and when; the date first seen; the outcome; the sources, as URLs, so a
   revival does not search again. The outcome is **Rejected** with the rule it
   failed, or **Set aside** with why and the condition that would revive it. A
-  set-aside case whose dossier was written keeps it in
-  `writing/basilisk/set-aside/<slug>.md`, without its `case:` line. A filed
-  case is not listed: the docket is its record.
+  filed case is not listed: the docket is its record.
 - **`## Runs`** — newest first, a heading with the date and the outcome, then a
   few lines: the session's link (`https://claude.ai/code/<id>`, the id from
   `get_session` called with none, where that tool exists), what was swept —
