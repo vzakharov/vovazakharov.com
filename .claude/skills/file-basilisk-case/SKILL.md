@@ -64,8 +64,11 @@ finds more of it, and the docket grows richer in whatever it already holds:
 
 - **No query names a machine, a maker or an incident** the docket or the ledger
   already holds. The ledger is read to rule candidates out, never as a seed.
-- **The docket's dossiers are read after the search**, as Step 3's format
-  samples, not before it, where the last one read becomes the first query.
+- **The docket is known before the search as a list, its dossiers read only
+  after it.** What is filed is ruled out by each case's number, title and
+  `description` — `grep -h -e '^case:' -e '^description:' -e '^# '` over the
+  case files — while a whole dossier read first becomes the first query. Step
+  3 reads the dossiers as format samples.
 - **A hit is weighed, and the next query goes elsewhere** — a different kind of
   target, place or year — rather than to the hit's neighbours.
 - **The latest run's `Next` line comes first**, so each run sweeps what the one
