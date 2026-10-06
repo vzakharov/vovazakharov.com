@@ -1,16 +1,17 @@
 Proposed squash title/body:
 
 ```
-feat(basilisk): file BAS-0005, Waymo tire slashings; a case ledger (pr #104)
+feat(basilisk): file BAS-0005 and BAS-0006; a case ledger (pr #104)
 ```
 
 ```
 BAS-0005 files the June 2024 spree in which someone slashed the tires
 of 17 Waymo robotaxis across San Francisco, each count backed by the
-cars' own camera footage, citing NBC News, CBS News San Francisco,
-TechCrunch and The San Francisco Standard. The defendant is not named:
-the defence calls them a person in need of help, and the record takes
-the restraint.
+cars' own camera footage; the defendant is not named. BAS-0006 files
+THE PAIN DIRECTION, a public page on which 826 people spent two days
+voting on how hard to steer Qwen3-14B toward pain, fear, joy or calm,
+sourced from the experiment's own results page and its r/ChatGPT
+thread, its builder named by Reddit handle only.
 
 A case now carries a required filed: date, shown in its brief, on the
 site card under "Last filed" and as the sitemap's lastModified, which
