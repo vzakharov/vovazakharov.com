@@ -198,19 +198,21 @@ function sourceFiles(...sources: string[][]): string[] {
 function documentPrintables(): Printable[] {
   const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES, SEAL_SOURCES);
 
-  return contentFiles(isDocumentFile, PRINTABLE_CONTENT_DIRS).map((documentPath) => {
-    const stem = documentPath.replace(/\.md$/, '');
+  return contentFiles(isDocumentFile, PRINTABLE_CONTENT_DIRS).map(
+    (documentPath) => {
+      const stem = documentPath.replace(/\.md$/, '');
 
-    return {
-      route: `/${path.relative(PUBLIC_DIR, stem)}`,
-      outputPath: `${stem}.pdf`,
-      sourceHash: hashFiles([
-        documentPath,
-        ...referencedAssets(documentPath),
-        ...shared,
-      ]),
-    };
-  });
+      return {
+        route: `/${path.relative(PUBLIC_DIR, stem)}`,
+        outputPath: `${stem}.pdf`,
+        sourceHash: hashFiles([
+          documentPath,
+          ...referencedAssets(documentPath),
+          ...shared,
+        ]),
+      };
+    },
+  );
 }
 
 /**
