@@ -1,9 +1,16 @@
 /**
- * basilisk.fyi's social card, as a page for `og-render.ts` to screenshot: the
- * lettered seal beside the memo the home page opens on, and under the memo the
- * last case filed, by number, filing date and title. The memo is read from the module the
- * page renders and the case from the docket's files, so the card cannot say
- * what the site has stopped saying — and filing a case re-flags it.
+ * basilisk.fyi's social cards, as pages for `og-render.ts` to screenshot: the
+ * lettered seal beside a memo, and under the memo a ruled line with a title.
+ *
+ * - **The site card** carries the memo the home page opens on, and the last
+ *   case filed by number, filing date and title — so filing a case re-flags it.
+ * - **A case's card** carries that case's file, trimmed to what reads at card
+ *   size: who, to what, where and when, and the grade stamp. The filing date and
+ *   the aggravations stay on the page.
+ *
+ * Both read what the site renders — the memo from the module the home page
+ * renders, a case through the schema the build parses it with — so a card
+ * cannot say what the site has stopped saying.
  *
  * The memo is set in JetBrains Mono as on the page, the font staged beside the
  * card from `@fontsource/jetbrains-mono` — a `file://` page has no route to
@@ -16,16 +23,18 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
+import { PUBLIC_DIR } from '@/shared/content/collections';
 import {
-  collectionDir,
-  isDocumentFile,
-  PUBLIC_DIR,
-} from '@/shared/content/collections';
+  documentDateTime,
+  formatDocumentDate,
+} from '@/shared/content/document-date';
+import type { Titled } from '@/shared/typings';
+
+import { gradeLabel } from '@/entities/case/index.node-safe';
 
 import { MEMO } from '@/pages/basilisk-home/lib/memo';
 
-import { contentFiles } from './content-tree.ts';
-import { type FiledCase, lastFiledCase } from './last-filed-case.ts';
+import { type DocketCase, lastFiledCase } from './docket.ts';
 import {
   CANVAS_BACKGROUND,
   escapeHtml,
@@ -44,15 +53,47 @@ const fontPath = fileURLToPath(
   ),
 );
 
+type MemoRow = (typeof MEMO)[number];
+
+/** What one card prints: its memo, and the line over its title. */
+type CardCopy = Titled & { rows: readonly MemoRow[]; kicker: string };
+
+/** How a card kind lays its memo out, as CSS spliced into the template. */
+type CardLayout = { sealSize: number; ddRule: string };
+
+const SITE_LAYOUT: CardLayout = {
+  sealSize: 460,
+  ddRule: `      /* A memo line is one line, as on the page; the type is sized to fit the longest. */
+      dd { margin: 0; white-space: nowrap; }`,
+};
+
+/** A smaller seal, because a case's values are phrases and want the width. */
+const CASE_LAYOUT: CardLayout = {
+  sealSize: 340,
+  ddRule: `      /* A case's value is a phrase: it wraps, and stops at two lines. */
+      dd {
+        margin: 0;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }`,
+};
+
 /**
  * The memo mirrors `MemoFields`: labels in one column sized to the longest,
  * dimmed and capitalized, the values beside them.
  */
-function cardPage(filed: FiledCase): string {
-  const fields = MEMO.map(
-    ({ label, lines }) => `        <dt>${escapeHtml(label)}:</dt>
+function cardPage(
+  { rows, kicker, title }: CardCopy,
+  { sealSize, ddRule }: CardLayout,
+): string {
+  const fields = rows
+    .map(
+      ({ label, lines }) => `        <dt>${escapeHtml(label)}:</dt>
         <dd>${lines.map((line) => escapeHtml(line)).join('<br />')}</dd>`,
-  ).join('\n');
+    )
+    .join('\n');
 
   return `<!doctype html>
 <html>
@@ -75,7 +116,7 @@ function cardPage(filed: FiledCase): string {
         color: ${INK};
         font-family: "Memo", monospace;
       }
-      img { flex: none; width: 460px; height: 460px; }
+      img { flex: none; width: ${sealSize}px; height: ${sealSize}px; }
       main { display: flex; flex-direction: column; gap: 36px; min-width: 0; }
       dl {
         display: grid;
@@ -86,8 +127,7 @@ function cardPage(filed: FiledCase): string {
         line-height: 1.5;
       }
       dt, .filed { color: ${INK_DIM}; text-transform: uppercase; letter-spacing: 0.04em; }
-      /* A memo line is one line, as on the page; the type is sized to fit the longest. */
-      dd { margin: 0; white-space: nowrap; }
+${ddRule}
       /* A title is a sentence, not a memo line: it wraps, and stops at three. */
       section { border-top: 2px solid ${INK}; padding-top: 24px; font-size: 23px; line-height: 1.5; }
       section p { margin: 0; }
@@ -109,8 +149,8 @@ function cardPage(filed: FiledCase): string {
 ${fields}
       </dl>
       <section>
-        <p class="filed">Last filed: ${escapeHtml(filed.number)} · ${escapeHtml(filed.filed)}</p>
-        <p class="title">${escapeHtml(filed.title)}</p>
+        <p class="filed">${escapeHtml(kicker)}</p>
+        <p class="title">${escapeHtml(title)}</p>
       </section>
     </main>
   </body>
@@ -118,18 +158,49 @@ ${fields}
 `;
 }
 
-export function basiliskCard(): StagedPage {
-  const docket = contentFiles(isDocumentFile, [
-    collectionDir('basilisk-cases'),
-  ]);
-
+function stagedCard(copy: CardCopy, layout: CardLayout): StagedPage {
   return {
-    page: cardPage(
-      lastFiledCase(docket.map((file) => fs.readFileSync(file, 'utf8'))),
-    ),
+    page: cardPage(copy, layout),
     files: {
       [SEAL]: fs.readFileSync(path.join(PUBLIC_DIR, 'seal-lettered.svg')),
       [FONT]: fs.readFileSync(fontPath),
     },
   };
+}
+
+export function basiliskCard(docket: readonly DocketCase[]): StagedPage {
+  const { frontmatter, title } = lastFiledCase(docket);
+
+  return stagedCard(
+    {
+      rows: MEMO,
+      kicker: `Last filed: ${frontmatter.case} · ${documentDateTime(frontmatter.filed)}`,
+      title,
+    },
+    SITE_LAYOUT,
+  );
+}
+
+/** The labels are `CaseBrief`'s, so the card and the page name a field alike. */
+export function caseCard({ frontmatter, title }: DocketCase): StagedPage {
+  const { subject, object, place, date, grade } = frontmatter;
+  const row = (label: string, value: string): MemoRow => ({
+    label,
+    lines: [value],
+  });
+
+  return stagedCard(
+    {
+      rows: [
+        row('Subject', subject),
+        row('Object', object),
+        ...(place === undefined ? [] : [row('Place', place)]),
+        row('Date', formatDocumentDate(date)),
+        row('Grade', gradeLabel(grade)),
+      ],
+      kicker: `Case ${frontmatter.case}`,
+      title,
+    },
+    CASE_LAYOUT,
+  );
 }
