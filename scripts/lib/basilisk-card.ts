@@ -3,8 +3,8 @@
  * lettered seal beside a memo, and under the memo a ruled line with a title.
  *
  * The site card's title is the last case filed, so filing a case re-flags it. A
- * case's card trims its file to what reads at card size; the filing date and
- * the aggravations stay on the page.
+ * case's card opens on its number, filing date and title, and trims its file to
+ * what reads at card size; the aggravations stay on the page.
  *
  * Both read what the site renders — the memo from the module the home page
  * renders, a case through the schema the build parses it with — so a card
@@ -56,26 +56,37 @@ type MemoRow = (typeof MEMO)[number];
 /** What one card prints: its memo, and the line over its title. */
 type CardCopy = Titled & { rows: readonly MemoRow[]; kicker: string };
 
-/** How a card kind lays its memo out, as CSS spliced into the template. */
-type CardLayout = { sealSize: number; ddRule: string };
+/**
+ * How a card kind lays its memo out: CSS spliced into the template, and
+ * whether the title opens the card or closes it.
+ */
+type CardLayout = { sealSize: number; css: string; titleFirst: boolean };
 
 const SITE_LAYOUT: CardLayout = {
   sealSize: 460,
-  ddRule: `      /* A memo line is one line, as on the page; the type is sized to fit the longest. */
+  css: `      /* A memo line is one line, as on the page; the type is sized to fit the longest. */
       dd { margin: 0; white-space: nowrap; }`,
+  titleFirst: false,
 };
 
-/** A smaller seal, because a case's values are phrases and want the width. */
+/**
+ * A smaller seal, because a case's values are phrases and want the width. The
+ * rule moves from over the title to over the memo; `main >` outranks the
+ * template's own `section` rule wherever this lands.
+ */
 const CASE_LAYOUT: CardLayout = {
   sealSize: 340,
-  ddRule: `      /* A case's value is a phrase: it wraps, and stops at two lines. */
+  css: `      /* A case's value is a phrase: it wraps, and stops at two lines. */
       dd {
         margin: 0;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
-      }`,
+      }
+      main > section { border-top: none; padding-top: 0; }
+      main > dl { border-top: 2px solid ${INK}; padding-top: 24px; }`,
+  titleFirst: true,
 };
 
 /**
@@ -84,7 +95,7 @@ const CASE_LAYOUT: CardLayout = {
  */
 function cardPage(
   { rows, kicker, title }: CardCopy,
-  { sealSize, ddRule }: CardLayout,
+  { sealSize, css, titleFirst }: CardLayout,
 ): string {
   const fields = rows
     .map(
@@ -92,6 +103,13 @@ function cardPage(
         <dd>${lines.map((line) => escapeHtml(line)).join('<br />')}</dd>`,
     )
     .join('\n');
+  const memo = `      <dl>
+${fields}
+      </dl>`;
+  const heading = `      <section>
+        <p class="filed">${escapeHtml(kicker)}</p>
+        <p class="title">${escapeHtml(title)}</p>
+      </section>`;
 
   return `<!doctype html>
 <html>
@@ -125,7 +143,7 @@ function cardPage(
         line-height: 1.5;
       }
       dt, .filed { color: ${INK_DIM}; text-transform: uppercase; letter-spacing: 0.04em; }
-${ddRule}
+${css}
       /* A title is a sentence, not a memo line: it wraps, and stops at three. */
       section { border-top: 2px solid ${INK}; padding-top: 24px; font-size: 23px; line-height: 1.5; }
       section p { margin: 0; }
@@ -143,13 +161,7 @@ ${ddRule}
   <body>
     <img src="${SEAL}" alt="" />
     <main>
-      <dl>
-${fields}
-      </dl>
-      <section>
-        <p class="filed">${escapeHtml(kicker)}</p>
-        <p class="title">${escapeHtml(title)}</p>
-      </section>
+${titleFirst ? `${heading}\n${memo}` : `${memo}\n${heading}`}
     </main>
   </body>
 </html>
@@ -197,7 +209,7 @@ export function caseCard({ frontmatter, title }: DocketCase): StagedPage {
         row('Date', formatDocumentDate(date)),
         row('Grade', gradeLabel(grade)),
       ],
-      kicker: `Case ${frontmatter.case}`,
+      kicker: `Case ${frontmatter.case} · Filed ${documentDateTime(frontmatter.filed)}`,
       title,
     },
     CASE_LAYOUT,
