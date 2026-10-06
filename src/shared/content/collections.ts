@@ -105,6 +105,21 @@ export const VARIANTS = ['mini', 'nano'] as const;
 
 export type Variant = (typeof VARIANTS)[number];
 
+/**
+ * Files kept as `<slug>.<companion>.md` beside a document, about it rather than
+ * of it: `public/` serves them as authored, and no walk for documents — the
+ * loader, the prints, the cards — reads one as a document.
+ */
+const COMPANIONS = ['reflections'] as const;
+
+/** Whether a file name under a collection's directory is a document or one of its cuts. */
+export function isDocumentFile(fileName: string): boolean {
+  return (
+    fileName.endsWith('.md') &&
+    !COMPANIONS.some((companion) => fileName.endsWith(`.${companion}.md`))
+  );
+}
+
 export type WithCollectionId = { collection: CollectionId };
 export type Slugged = { slug: string };
 

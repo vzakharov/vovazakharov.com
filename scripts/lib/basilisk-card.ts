@@ -1,7 +1,7 @@
 /**
  * basilisk.fyi's social card, as a page for `og-render.ts` to screenshot: the
  * lettered seal beside the memo the home page opens on, and under the memo the
- * last case filed, by number and ISO date. The memo is read from the module the
+ * last case filed, by number, filing date and title. The memo is read from the module the
  * page renders and the case from the docket's files, so the card cannot say
  * what the site has stopped saying — and filing a case re-flags it.
  *
@@ -16,7 +16,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
-import { collectionDir, PUBLIC_DIR } from '@/shared/content/collections';
+import {
+  collectionDir,
+  isDocumentFile,
+  PUBLIC_DIR,
+} from '@/shared/content/collections';
 
 import { MEMO } from '@/pages/basilisk-home/lib/memo';
 
@@ -105,7 +109,7 @@ function cardPage(filed: FiledCase): string {
 ${fields}
       </dl>
       <section>
-        <p class="filed">Last filed: ${escapeHtml(filed.number)} · ${escapeHtml(filed.date)}</p>
+        <p class="filed">Last filed: ${escapeHtml(filed.number)} · ${escapeHtml(filed.filed)}</p>
         <p class="title">${escapeHtml(filed.title)}</p>
       </section>
     </main>
@@ -115,10 +119,9 @@ ${fields}
 }
 
 export function basiliskCard(): StagedPage {
-  const docket = contentFiles(
-    (name) => name.endsWith('.md'),
-    [collectionDir('basilisk-cases')],
-  );
+  const docket = contentFiles(isDocumentFile, [
+    collectionDir('basilisk-cases'),
+  ]);
 
   return {
     page: cardPage(

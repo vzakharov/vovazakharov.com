@@ -17,6 +17,7 @@ import {
   documentName,
   type DocumentRef,
   documentRoute,
+  isDocumentFile,
   type Routed,
   type Variant,
   VARIANTS,
@@ -188,7 +189,7 @@ export function listDocuments<F extends BaseFrontmatter>(
 ): Array<ContentDocument<F>> {
   return fs
     .readdirSync(collectionDir(collection.id))
-    .filter((fileName) => fileName.endsWith('.md'))
+    .filter((fileName) => isDocumentFile(fileName))
     .map((fileName) => readDocument(collection, fileName))
     .toSorted(byReadingOrder);
 }
