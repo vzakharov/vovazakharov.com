@@ -63,13 +63,20 @@
           "title": "Working Style",
           "paragraphs": [
             "I'm the kind of developer you can generally leave unattended, as long as the overall vector is clear. I have enough life expertise to figure stuff on my own, enough imagination to fill the missing pieces, and a \"treat any job as if it was your own brainchild\" mentality.",
-            "In other words: a surprisingly low-maintenance LLM tinkerer with a TypeScript kink, ready to prototype, debug, or sanity-check your AI-infused ambitions."
+            "In other words: a surprisingly low-maintenance LLM tinkerer with a soft spot for TypeScript, ready to prototype, debug, or sanity-check your AI-infused ambitions."
+          ]
+        },
+        "handsOnLead": {
+          "title": "Working Style",
+          "paragraphs": [
+            "Hands-on is the point: I set the direction and write the rules the work runs on, then stay in the code — reviewing what the agents ship, fixing what the gate catches, and deciding what gets built next. Give me the vector and I'll own the result as if the company were my own.",
+            "Handing over is part of the job rather than the end of it: the procedure lives in the repository, where the next engineer will find it, and at Playgram I mentored two developers along the way."
           ]
         },
         "aiExpertise": {
           "title": "AI Expertise",
           "paragraphs": [
-            "I tend to stick to a more \"economical\" paradigm of AI usage: smaller prompts, more aware of context limitations, less \"let's feed it all and it'll somehow work!\" My expertise predates the ChatGPT hype cycle, which means I understand not just the APIs, but the underlying patterns and limitations that most \"AI engineers\" are still discovering."
+            "I tend to stick to a more \"economical\" paradigm of AI usage: smaller prompts, a close eye on context limits, and no hoping that a model fed everything will sort it out on its own. My expertise predates the ChatGPT hype cycle, which means I understand not just the APIs, but the patterns and limitations underneath them — which is where most of the hard problems live."
           ]
         }
       }
@@ -206,11 +213,11 @@
           },
           {
             "lead": "Next.js API",
-            "text": "– If you're mostly using other people's web APIs and don't want to go all fancy and domain-driven"
+            "text": "– If you're mostly calling other people's web APIs and a separate backend would be overhead"
           },
           {
             "lead": "NestJS",
-            "text": "– If you do want to go all fancy and domain-driven"
+            "text": "– When the domain is rich enough to earn a structured, domain-driven backend"
           }
         ]
       },
@@ -223,7 +230,7 @@
           },
           {
             "lead": "Nuxt / Vue",
-            "text": "– If you're feeling all progressive and SFC-ish"
+            "text": "– If your team prefers single-file components and a lighter framework"
           }
         ]
       },
@@ -232,7 +239,7 @@
         "items": [
           {
             "lead": "Cloudflare Workers",
-            "text": "– Because why not rely on something that can make the entire Internet stop a few times a year?"
+            "text": "– Edge compute for low-latency, pay-per-request backends"
           },
           {
             "lead": "Google Colab",
@@ -271,7 +278,7 @@
         },
         "profile": {
           "paragraph1": "158 days, **250,000 lines of production TypeScript**, none of it hand-written, up to **20 agents working at once**, and **a production deploy every 2.4 days** — on a live product that stayed in production for its users the whole way through. The engineering platform I built to get there outlived my involvement: three engineers run it today, and it travels to their new projects as a checked-in boilerplate.",
-          "paragraph2": "Most of my work has revolved around LLMs and image generation ever since 2020, following years of messing with smaller neural networks. This means I **don't buy or sell buzzwords**, I understand things **a level or two deeper than most**, and I've developed an **intuition for what models can and cannot do**. What I'm not is a compliance function or a headcount manager: this is founder-and-small-team scale, where I run the delivery rather than the org chart."
+          "paragraph2": "Most of my work has revolved around LLMs and image generation ever since 2020, following years of messing with smaller neural networks. This means I **don't buy or sell buzzwords**, I understand things **a level or two deeper than most**, and I've developed an **intuition for what models can and cannot do**. What I lead is the delivery — the agents, the pipeline they ship through, and the handover to the engineers who carry the platform on — at founder-and-small-team scale, through the work rather than the org chart."
         }
       }
     }
