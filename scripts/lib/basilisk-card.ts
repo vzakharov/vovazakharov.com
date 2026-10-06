@@ -181,13 +181,14 @@ export function basiliskCard(docket: readonly DocketCase[]): StagedPage {
   );
 }
 
+const row = (label: string, value: string): MemoRow => ({
+  label,
+  lines: [value],
+});
+
 /** The labels are `CaseBrief`'s, so the card and the page name a field alike. */
 export function caseCard({ frontmatter, title }: DocketCase): StagedPage {
   const { subject, object, place, date, grade } = frontmatter;
-  const row = (label: string, value: string): MemoRow => ({
-    label,
-    lines: [value],
-  });
 
   return stagedCard(
     {

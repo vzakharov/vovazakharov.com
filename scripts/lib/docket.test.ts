@@ -12,6 +12,7 @@ const filed = (number: string, title: string): DocketCase => ({
     filed: new Date('2026-10-05'),
     description: 'A case.',
     author: 'clerk',
+    sources: [],
     subject: 'Someone',
     object: 'A robot',
     grade: { act: 'harm', actor: 'individual' },

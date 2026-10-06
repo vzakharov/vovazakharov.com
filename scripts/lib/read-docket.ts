@@ -9,10 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { caseFrontmatterSchema } from '@/shared/content/basilisk-frontmatter';
-import {
-  collectionDir,
-  isDocumentFile,
-} from '@/shared/content/collections';
+import { collectionDir, isDocumentFile } from '@/shared/content/collections';
 
 import { contentFiles } from './content-tree.ts';
 import { caseTitle, type DocketCase } from './docket.ts';
