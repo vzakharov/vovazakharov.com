@@ -169,9 +169,8 @@ stopped. Every run writes it, a stop included, with two sections:
   revival does not search again. The outcome is **Rejected** with the rule it
   failed, or **Set aside** with why and the condition that would revive it. A
   set-aside case whose dossier was written keeps it in
-  `writing/basilisk/set-aside/<slug>.md`, without its `case:` line, and its
-  reflection, if any, as `clerk-reflections/<slug>.md`. A filed case is not
-  listed: the docket is its record.
+  `writing/basilisk/set-aside/<slug>.md`, without its `case:` line. A filed
+  case is not listed: the docket is its record.
 - **`## Runs`** — newest first, a heading with the date and the outcome, then a
   few lines: the session's link (`https://claude.ai/code/<id>`, the id from
   `get_session` called with none, where that tool exists), what was swept —
