@@ -96,14 +96,16 @@
       {
         "hours": 1.5,
         "grade": "middle",
-        "role": "designer"
+        "role": "designer",
+        "comment": "picking a dark background shade is a taste call between a handful of greys, checked against surfaces and borders"
       },
       {
         "hours": 0.5,
         "grade": "junior",
-        "role": "developer"
+        "role": "developer",
+        "comment": "the change is one token value plus side-by-side renders"
       }
     ],
-    "comment": "middle designer: picking a dark background shade is a taste call between a handful of greys, checked against surfaces and borders; junior developer: the change is one token value plus side-by-side renders"
+    "comment": null
   }
 }

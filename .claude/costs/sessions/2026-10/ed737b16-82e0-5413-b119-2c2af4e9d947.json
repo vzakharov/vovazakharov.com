@@ -114,14 +114,16 @@
       {
         "hours": 1.5,
         "grade": "middle",
-        "role": "analyst"
+        "role": "analyst",
+        "comment": "picking subreddits means reading each community's temper and self-promo rules, not just listing AI subs"
       },
       {
         "hours": 0.5,
         "grade": "junior",
-        "role": "designer"
+        "role": "designer",
+        "comment": "two theme captures cropped to a feed-readable length are routine."
       }
     ],
-    "comment": "middle analyst: picking subreddits means reading each community's temper and self-promo rules, not just listing AI subs; junior designer: two theme captures cropped to a feed-readable length are routine."
+    "comment": null
   }
 }

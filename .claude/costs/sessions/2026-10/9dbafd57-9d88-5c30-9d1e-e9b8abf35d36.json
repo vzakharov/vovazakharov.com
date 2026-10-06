@@ -79,9 +79,10 @@
       {
         "hours": 0.5,
         "grade": "middle",
-        "role": "developer"
+        "role": "developer",
+        "comment": "what remains is a routine prose pass over a finished diff, the plan flip, a PR body refresh, and possibly a small print-only note under rasterized sources — no design decisions left open."
       }
     ],
-    "comment": "middle developer: what remains is a routine prose pass over a finished diff, the plan flip, a PR body refresh, and possibly a small print-only note under rasterized sources — no design decisions left open."
+    "comment": null
   }
 }

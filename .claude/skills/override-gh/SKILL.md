@@ -13,9 +13,12 @@ This skill is a no-op marker. Its sole purpose is the description above — surf
 
 **`gh` already bypasses the egress proxy.** In remote/web sessions a SessionStart hook (`.claude/hooks/gh-shim.sh`) installs a `gh` shim at `$HOME/.local/bin/gh` (first on `PATH`) that runs the real binary under `env -u HTTPS_PROXY -u https_proxy`. The agent proxy's egress policy blocks some `api.github.com` operations — notably long-polling ones like `gh run watch` — so without this, simple actions (watching a CI run, the `/watch-ci` and `/finalize` flows, `scripts/ci-watch-tick.sh`) stall. With the shim, just call `gh` normally — no `env -u …` prefix needed, the unproxying is transparent and applies to every `gh` invocation (scripts, skills, ad-hoc). git keeps the proxy.
 
+**The path around the proxy is undocumented and may close.** With `HTTPS_PROXY` stripped, `gh` leaves through a transparent egress gateway (its TLS chain names `Egress Gateway SDS Issuing CA`) that applies none of the proxy's policy: a GitHub API path outside the session's configured repositories, refused through the proxy ("sessions are bound to their configured repositories"), succeeds around it. The paragraph above rests on that gap as much as the long-poll fix does. The base image's own `gh` is set up for the proxy, so the proxied path is the supported one; if the gateway starts enforcing the same policy, every `gh` call through the shim fails at once — the tell is the shim failing where the binary on its `exec` line, called directly with the proxy in place, succeeds.
+
 **`gh` genuinely missing is reported, not guessed at.** The hook installs no `gh`
-— it shims one already on `PATH` — so where the environment setup script is unset
-or omits `apt-get install -y gh`, there is nothing to shim. The hook says so into
+— it shims one already on `PATH` — so where the base image lacks `gh` and the
+environment setup script is unset or does not install it, there is nothing to
+shim. The hook says so into
 the session context on startup, naming what the operator has to add and where.
 That notice is the litmus test: absent it, `gh` is present and shimmed.
 

@@ -96,9 +96,10 @@
       {
         "hours": 1.5,
         "grade": "senior",
-        "role": "developer"
+        "role": "developer",
+        "comment": "land prep on a finished branch — vetting it, fixing five gate findings in layout code that has to be read to name a shared base type well, merging the base and judging its overlap, and writing the attestation"
       }
     ],
-    "comment": "senior developer: land prep on a finished branch — vetting it, fixing five gate findings in layout code that has to be read to name a shared base type well, merging the base and judging its overlap, and writing the attestation"
+    "comment": null
   }
 }

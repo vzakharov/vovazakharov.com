@@ -96,19 +96,22 @@
       {
         "hours": 2.0,
         "grade": "middle",
-        "role": "developer"
+        "role": "developer",
+        "comment": "merging two link kinds into one component and migrating ~20 call sites is routine React"
       },
       {
         "hours": 1.0,
         "grade": "senior",
-        "role": "developer"
+        "role": "developer",
+        "comment": "the print pairing, the lint guard and its exemptions need judgement of the medium contract"
       },
       {
         "hours": 0.75,
         "grade": "junior",
-        "role": "qa"
+        "role": "qa",
+        "comment": "screen-and-print size checks on four pages"
       }
     ],
-    "comment": "middle developer: merging two link kinds into one component and migrating ~20 call sites is routine React; senior developer: the print pairing, the lint guard and its exemptions need judgement of the medium contract; junior qa: screen-and-print size checks on four pages"
+    "comment": null
   }
 }

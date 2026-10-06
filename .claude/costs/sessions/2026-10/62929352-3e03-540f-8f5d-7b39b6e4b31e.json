@@ -136,19 +136,22 @@
       {
         "hours": 0.75,
         "grade": "middle",
-        "role": "analyst"
+        "role": "analyst",
+        "comment": "outreach channel search and the Reddit exchange"
       },
       {
         "hours": 2.0,
         "grade": "senior",
-        "role": "analyst"
+        "role": "analyst",
+        "comment": "sourcing a new case to a dossier standard, primary records and archives"
       },
       {
         "hours": 1.25,
         "grade": "senior",
-        "role": "copywriter"
+        "role": "copywriter",
+        "comment": "the dossier in the Clerk's voice plus an outreach letter whose tone decides the reply"
       }
     ],
-    "comment": "middle analyst: outreach channel search and the Reddit exchange; senior analyst: sourcing a new case to a dossier standard, primary records and archives; senior copywriter: the dossier in the Clerk's voice plus an outreach letter whose tone decides the reply"
+    "comment": null
   }
 }

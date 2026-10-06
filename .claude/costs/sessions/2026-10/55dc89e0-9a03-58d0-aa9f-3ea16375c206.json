@@ -79,14 +79,16 @@
       {
         "hours": 4.0,
         "grade": "middle",
-        "role": "developer"
+        "role": "developer",
+        "comment": "extends an existing render pipeline and metadata path with a known pattern, plus a parser refactor"
       },
       {
         "hours": 1.0,
         "grade": "middle",
-        "role": "designer"
+        "role": "designer",
+        "comment": "trimming the card's fields and checking legibility at unfurl size is a layout judgement."
       }
     ],
-    "comment": "middle developer: extends an existing render pipeline and metadata path with a known pattern, plus a parser refactor; middle designer: trimming the card's fields and checking legibility at unfurl size is a layout judgement."
+    "comment": null
   }
 }
