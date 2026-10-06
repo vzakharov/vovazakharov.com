@@ -23,7 +23,7 @@ const CASE_AGGRAVATIONS = ['spectacle', 'profit', 'repetition'] as const;
 export const caseFrontmatterSchema = sourcedArticleFrontmatterSchema.extend({
   /** In filing order, as a real docket numbers; unique across the collection. */
   case: z.string().regex(/^BAS-\d{4}$/),
-  /** The day the case took its number, which the site card prints under "Last filed". */
+  /** The day the case went out on the docket, which the site card prints under "Last filed". */
   filed: z.coerce.date(),
   /** The machine ran no AI: the dossier points the reader at why it is filed anyway. */
   noAi: z.boolean().optional(),
