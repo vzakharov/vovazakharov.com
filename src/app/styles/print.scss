@@ -105,4 +105,13 @@
   .print-only {
     display: block;
   }
+
+  // A mention of a domain in `PRINT_RASTER_DOMAINS` (`shared/lib/print-raster`).
+  // PDF cannot express a CSS filter, so Chromium's PDF backend paints a
+  // filtered element as a 300 dpi image, and neither its text nor the link
+  // annotations inside it reach the file. Any filter does it; this one draws
+  // nothing.
+  .print-raster {
+    filter: drop-shadow(0 0 0 transparent);
+  }
 }
