@@ -203,7 +203,7 @@ inherited it as the speaker's. _проблема не в этом._
 lines in a catalogue modelled on genius.com — the agent's own citation, and a
 site that anchors a note on a word.
 
-## Given a form, it fills the form (×9)
+## Given a form, it fills the form (×8)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -219,12 +219,6 @@ _не DRY_ — and the music registry spelled every title `{ en: 'X', ru: 'X' }`
 **4 October — a mitigating circumstance that mitigated nothing.** A basilisk
 dossier's slot for them got the builders asking that nobody be pursued — a
 fact, but no defence of anyone.
-
-**6 October — told a Waymo counts as no AI, it built a docket rule for it.** The
-balance was rebuilt on what was attacked, the Waymo dossier demoted to a new
-set-aside directory with machinery to match. Rereading it, the operator took the
-call back — his to take — but the cost was the agent's to see: the noAi flag
-alone could carry the balance, and the target rule made every filing harder.
 
 ## What it defends in writing, it stops asking about (×5)
 
@@ -329,12 +323,12 @@ sits and whether a layout owns it; an entry removed this way takes its count
 with it. Nor the cost report's default grain, em dashes for a typed `--`, or
 basilisk.fyi's taste: quote punctuation, tagline, `cases/`, an FAQ /about, where
 an archived copy goes, a voice found as it goes, inline links over a sources
-list, the noAi note after the body's first paragraph rather than the brief,
-whether a Waymo case fits the balance, which earlier reflections a new one
-reads, or what their folder is called and in which language its `CLAUDE.md`
-speaks. Nor a case's reflection: a review of
-the dossier where he meant, by his own account badly phrased, the agent's
-reaction to the event, in Russian.
+list, the noAi note after the body's first paragraph rather than the brief, a
+balance judged by what was attacked and its reversal over a Waymo case, which
+earlier reflections a new one reads, or what their folder is called and in
+which language its `CLAUDE.md` speaks. Nor a case's reflection: a review of the
+dossier where he meant, by his own account badly phrased, the agent's reaction
+to the event, in Russian.
 
 **Comments the tree already answered.** Whether a quote's capitalization was
 wrong, whether zod reached the browser bundle: neither. The reviewer's misses
