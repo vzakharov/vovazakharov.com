@@ -9,12 +9,12 @@ Every page on basilisk.fyi unfurled as the site card, so a shared case
 showed the home memo and whichever case was filed last rather than the
 one being linked. A case page now unfurls as its own card.
 
-The card keeps the site card's layout (lettered seal, memo grid, ruled
-title) and fills it from the case: its number and title, with the
-frontmatter trimmed to subject, object, date, place and the grade
-stamp. `pnpm content:og:basilisk` renders it to `cases/<slug>.og.png`,
-the case's route plus an extension, and the existing `--check` in vet
-holds it to the fields it prints. A collection flagged for generated
+The card pairs the site card's lettered seal with the case's file: its
+number, filing date and title on top, and under a rule its frontmatter
+trimmed to subject, object, place, date and the grade stamp.
+`pnpm content:og:basilisk` renders it to `cases/<slug>.og.png`, the
+case's route plus an extension, and the existing `--check` in vet holds
+it to the fields it prints. A collection flagged for generated
 cards advertises `<route>.og.png` as its pages' `og:image`; FAQ pages
 keep the site card.
 
