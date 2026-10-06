@@ -68,20 +68,14 @@ annotations inside it leave the file. On screen, and on paper, it looks the same
   showed the plugin marks bare mentions, links and code, and leaves
   `example.pages.dev` alone.
 
+- At the operator's "да, ок", a print-only note under a rasterized source
+  entry sends the reader to the online version (b6283a6). The raster wraps
+  the citation alone, so the note stays text. Re-rendered BAS-0006: 3 pages,
+  no domain in its text.
+- `/tend-prose`, full run.
+
 **Left:**
 
-- **The operator's open question** (the session's last turn). In the PDF the
-  rasterized entry is no longer clickable, while on screen it is.
-  - They asked for a "type it in by hand" marker on such links.
-  - The recommendation offered is a print-only note after a rasterized source
-    entry, pointing the reader to the online version, whose URL the footer
-    already prints. The archive URL is not visible in print at all, so typing
-    it is not an option.
-  - Wait for their answer before building it.
-- `/tend-prose` — the second half of `/polish`. The floor is 7234704's
-  parent, so this run is full: no plain `polish:` commit yet. Then commit
-  `polish: …` or the empty mark.
-- `git mv` this plan to `*.completed.md`.
 - `/pr` refresh of PR #109: body from the commits, then the `/squash-message`
   proposal comment.
 - The old ref `claude/inspiring-davinci-i0k9zo` still sits on the remote at
