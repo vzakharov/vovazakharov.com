@@ -1,9 +1,9 @@
-import { Anchor, Box, Divider, Group, Text } from '@mantine/core';
+import { Box, Divider, Group, Text } from '@mantine/core';
 
 import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
 import { BUILD_YEAR } from '@/shared/config/index.server-only';
 import type { WithOptionalChildren } from '@/shared/typings';
-import { cssColor } from '@/shared/ui';
+import { cssColor, TextLink } from '@/shared/ui';
 
 /** Every site's foot: the note this one has for its readers, where it has one, opposite the byline. */
 export function SiteFooter({ children }: WithOptionalChildren) {
@@ -21,9 +21,7 @@ export function SiteFooter({ children }: WithOptionalChildren) {
           {url === AUTHOR_URL ? (
             author.name
           ) : (
-            <Anchor href={AUTHOR_URL} inherit>
-              {author.name}
-            </Anchor>
+            <TextLink href={AUTHOR_URL}>{author.name}</TextLink>
           )}
         </Text>
       </Group>

@@ -1,9 +1,10 @@
-import { Anchor, Group, Text } from '@mantine/core';
+import { Group, Text } from '@mantine/core';
 
 import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { BUILD_YEAR } from '@/shared/config/index.server-only';
 import type { Routed } from '@/shared/content';
 import { pick } from '@/shared/lib/collections';
+import { TextLink } from '@/shared/ui';
 
 import classes from './documents.module.scss';
 
@@ -28,15 +29,15 @@ export function PrintedFrom({ route }: Routed) {
       wrap="nowrap"
       className={classes['printedFrom']}
     >
-      <Anchor {...{ href }} c="inherit" underline="never">
+      <TextLink {...{ href }} c="inherit" underline="never">
         {text}
-      </Anchor>
+      </TextLink>
       <Text>
         ©{' '}
         {credit ? (
-          <Anchor {...pick(credit, 'href')} c="inherit" underline="never">
+          <TextLink {...pick(credit, 'href')} c="inherit" underline="never">
             {credit.name}
-          </Anchor>
+          </TextLink>
         ) : (
           name
         )}

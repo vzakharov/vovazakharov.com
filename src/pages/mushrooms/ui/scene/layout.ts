@@ -8,11 +8,11 @@
  */
 
 import { pick } from '@/shared/lib/collections';
-import type { Sized } from '@/shared/typings';
 
 import type { Box, Circle } from '../../model/geometry';
 import {
   type Camera,
+  type GroundedScreen,
   type Hazed,
   OPENING_EYE,
   type WithCamera,
@@ -85,10 +85,9 @@ const KIND_SCALE = {
   bee: 0.65,
 } as const satisfies Record<InsectKind, number>;
 
-export type MeadowLayout = Sized &
+export type MeadowLayout = GroundedScreen &
   Controls &
   Crossed &
-  Pick<Camera, 'groundTop'> &
   // What the meadow is shown through: a turn or a resize fits a new one.
   WithCamera & {
     /** Where the far hills meet the sky. */
@@ -227,15 +226,15 @@ function standMeadow(width: number, height: number): Stood {
   const mushrooms = { camera, frame: MEADOW_FRAME, anchor: OPENING_EYE };
   const placed = placeControls(width, height, groundTop);
   const insectSize = insectSizeFor(unit);
+  const crossed = { ...placed, width, groundTop };
   const sun = placeSun(
     { width, height, horizon },
     short * 0.075,
     placed,
     openingCrowns(camera),
+    [flowerCross(crossed, [])],
   );
-  const cross = flowerCross({ ...placed, width, groundTop }, [
-    { ...sun, r: sun.r * SUN_RAY_REACH },
-  ]);
+  const cross = flowerCross(crossed, [{ ...sun, r: sun.r * SUN_RAY_REACH }]);
   const gait = gaitSpot({ ...placed, width, height, groundTop, sun, cross });
   const controls = { ...placed, ...gait };
   return {

@@ -8,7 +8,7 @@ import {
   type WithCollectionId,
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
-import { Card, InternalLink } from '@/shared/ui';
+import { Card, TextLink } from '@/shared/ui';
 
 import classes from './document-cards.module.scss';
 import { DocumentMeta } from './document-meta';
@@ -47,9 +47,9 @@ export function DocumentCards({ collection, cards }: DocumentCardsProps) {
               )}
               <div>
                 <Title order={2} size="h3" mb={8}>
-                  <InternalLink href={route} underline="hover" inherit>
+                  <TextLink href={route} underline="hover">
                     {title}
-                  </InternalLink>
+                  </TextLink>
                 </Title>
                 <DocumentMeta
                   {...{ frontmatter, readingMinutes }}
@@ -59,18 +59,15 @@ export function DocumentCards({ collection, cards }: DocumentCardsProps) {
                   {frontmatter.description}
                 </Text>
                 <Group component="p" gap={12} wrap="wrap" fz="sm">
-                  <InternalLink href={route} inherit>
-                    Read
-                  </InternalLink>
+                  <TextLink href={route}>Read</TextLink>
                   {variants.map((variant) => (
-                    <InternalLink
+                    <TextLink
                       key={variant}
                       href={documentRoute(collection, slug, variant)}
                       className={classes['variantLink']}
-                      inherit
                     >
                       {variant} version
-                    </InternalLink>
+                    </TextLink>
                   ))}
                 </Group>
               </div>

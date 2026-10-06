@@ -1,6 +1,6 @@
-import { Anchor, Stack, Text } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 
-import { Card, Section, Subheading } from '@/shared/ui';
+import { Card, Section, Subheading, TextLink } from '@/shared/ui';
 
 // A `mailto:` has no page to leave for, so it stays in this tab and takes none
 // of the new-tab hardening the rest get.
@@ -21,22 +21,15 @@ export function ContactSection() {
         <Stack gap={12}>
           <Text>
             <strong>Email:</strong>{' '}
-            <Anchor href={`mailto:${EMAIL}`} inherit>
-              {EMAIL}
-            </Anchor>
+            <TextLink href={`mailto:${EMAIL}`}>{EMAIL}</TextLink>
           </Text>
           {PROFILES.map(({ label, host, path }) => (
             <Text key={label}>
               <strong>{label}:</strong>{' '}
-              <Anchor
-                href={`https://${host}${path}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                inherit
-              >
+              <TextLink href={`https://${host}${path}`}>
                 {host}
                 {path}
-              </Anchor>
+              </TextLink>
             </Text>
           ))}
         </Stack>

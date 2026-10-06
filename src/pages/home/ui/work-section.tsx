@@ -1,5 +1,4 @@
 import {
-  Anchor,
   Group,
   List,
   ListItem,
@@ -13,7 +12,7 @@ import Image from 'next/image';
 import { TECH_STACKS } from '@/shared/config';
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import type { TitledBlock } from '@/shared/typings';
-import { Card, Section, Subheading } from '@/shared/ui';
+import { Card, Section, Subheading, TextLink } from '@/shared/ui';
 
 import { ProjectCard } from './project-card';
 import { ReadCvButton } from './read-cv-button';
@@ -94,14 +93,9 @@ export function WorkSection() {
         {EARLIER_PROJECTS.map(({ name, gloss }, index) => (
           <span key={name}>
             {index > 0 && ', '}
-            <Anchor
-              href={`https://github.com/vzakharov/${name}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              inherit
-            >
+            <TextLink href={`https://github.com/vzakharov/${name}`}>
               {name}
-            </Anchor>{' '}
+            </TextLink>{' '}
             ({gloss})
           </span>
         ))}

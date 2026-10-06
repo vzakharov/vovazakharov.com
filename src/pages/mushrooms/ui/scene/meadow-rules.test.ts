@@ -33,6 +33,7 @@ import {
 } from './door-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
+import { overMeadow } from './sky-layout';
 import { SUN_RAY_REACH } from './sun-layout';
 import { tapReach } from './tap-reach';
 import { ofLayout, viewAt } from './view';
@@ -129,12 +130,21 @@ function drawnAtOpening(
 }
 
 /**
- * Every control's hit area, open pickers and all, and the sun's rays, where
- * they stand on the screen.
+ * Every control's hit area in the sky (`overMeadow`), open pickers and all,
+ * and the sun's rays, where they stand on the screen.
  */
 function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
-  const { map, releases, plus, minus, house, picker, housePicker, sun } =
-    layout;
+  const {
+    map,
+    releases,
+    plus,
+    minus,
+    house,
+    picker,
+    housePicker,
+    sun,
+    groundTop,
+  } = layout;
   const controls = [
     ...Object.entries({ map, ...releases, plus, minus, house }).map(
       ([name, circle]) => ({ name, ...circle }),
@@ -146,7 +156,9 @@ function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
     })),
   ];
   return [
-    ...controls.map((control) => ({ ...control, r: tapReach(control.r) })),
+    ...controls
+      .filter((control) => !overMeadow(control, groundTop))
+      .map((control) => ({ ...control, r: tapReach(control.r) })),
     { name: 'the sun', ...sun, r: sun.r * SUN_RAY_REACH },
   ];
 }

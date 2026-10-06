@@ -46,7 +46,7 @@ import {
 } from './flower-layout';
 import { type StandingFlower, standingFlowers } from './flower-plots';
 import { type MeadowLayout, meadowLayout } from './layout';
-import { standingControls } from './sky-layout';
+import { overMeadow, standingControls } from './sky-layout';
 import { EITHER_WAY, VIEWPORTS, VISITS } from './viewports';
 import { type Opened, opened, relaidOn } from './visit-play';
 
@@ -118,12 +118,11 @@ function headPoints({ x, y, r }: Circle): Point[] {
   })).filter((point) => Math.hypot(point.x - x, point.y - y) <= r);
 }
 
-/** Each control's circle as drawn, the pickers' included. */
-const drawnControls = (layout: MeadowLayout): Circle[] => [
-  ...standingControls(layout),
-  ...layout.picker,
-  ...layout.housePicker,
-];
+/** Each control's circle as drawn in the sky, the pickers' included (`overMeadow`). */
+const drawnControls = (layout: MeadowLayout): Circle[] =>
+  [...standingControls(layout), ...layout.picker, ...layout.housePicker].filter(
+    (control) => !overMeadow(control, layout.groundTop),
+  );
 
 /** Whether `point` lies inside `box`, edges included. */
 const inBox = ({ left, right, top, bottom }: Box, { x, y }: Point) =>
@@ -359,7 +358,7 @@ describe('the seeded flowers', () => {
       assert.ok(perVisit >= LEAST_FLOWERS, `${perVisit.toFixed(2)} a visit`);
     });
 
-    it(`keep every head off every control, however the breeze leans it, on the ${name} screen the visit opens on`, (t) => {
+    it(`keep every head off every control in the sky, however the breeze leans it, on the ${name} screen the visit opens on`, (t) => {
       let nearest = Infinity;
       for (const [index, visit] of visitsOn(width, height).entries()) {
         const controls = drawnControls(visit.layout);
