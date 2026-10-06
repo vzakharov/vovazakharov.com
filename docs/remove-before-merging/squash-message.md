@@ -21,6 +21,9 @@ Supabase, Drizzle, Weaviate, LiteLLM, the AI SDK, Railway, the test
 and lint toolchain, and the agent infrastructure. The items live in
 code, being proper nouns no locale would translate.
 
+The home page's agent-infrastructure card takes the repo's new name,
+muthur, and its URL, which the old one only redirected to.
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
