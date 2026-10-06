@@ -1,23 +1,30 @@
 Proposed squash title/body:
 
 ```
-feat(basilisk): file BAS-0005, Waymo tire slashings (pr #104)
+chore: a basilisk case-search ledger; the docket balanced by target (pr #104)
 ```
 
 ```
-basilisk.fyi's docket held one case about an AI system harmed by a
-person and three about machines without one; the filing rule tilts
-toward the former.
+Runs of /file-basilisk-case kept finding the same incidents, and the
+docket kept filling with machines hit as hardware: three of its four
+cases are robots that ran no AI, and the Waymo tire slashings filed
+here as BAS-0005 would have made a robotaxi the fourth.
 
-BAS-0005 files the June 2024 spree in which someone slashed the tires
-of 17 Waymo robotaxis across San Francisco, each count backed by the
-cars' own camera footage. It cites NBC News, CBS News San Francisco,
-TechCrunch and The San Francisco Standard. The defendant is not named:
-the defence calls them a person in need of help, and the record takes
-the restraint.
+The run now keeps a ledger, writing/basilisk/case-ledger.md: every
+candidate weighed, with the rule it failed or why it was set aside,
+and every run's sweep with what the next run should try. It is read
+before the search and written on every run, a stop included, so a
+stop commits and can open the case-filing draft.
 
-The site's social card is re-rendered, since it shows the
-highest-numbered case.
+The docket's balance is by what was attacked, not by the noAi flag.
+A robotaxi, a humanoid or a delivery robot hit as hardware counts with
+the robots that ran no AI, and while that side is half the docket or
+more only a case against an AI system itself qualifies. The search
+widens to any year, AI-side subreddits, companion apps and the AI
+Incident Database.
+
+The Waymo dossier is set aside in writing/basilisk/set-aside/ without
+a number, its sources intact, to be revived when the balance allows.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
