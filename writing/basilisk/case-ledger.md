@@ -34,6 +34,15 @@ skill's § "The ledger" says how it is kept; the docket itself
 
 ## Runs
 
+### 2026-10-06 — filed BAS-0006
+
+https://claude.ai/code/session_01QUyaNSYGFQ27NXXnfprTZ3. No search: the
+operator's lead on PR #104, THE PAIN DIRECTION, read from its results page
+(rendered in headless Chromium, the prose being written by script) and the
+r/ChatGPT thread through Arctic Shift. **Next**: still the 2026-10-05 run's —
+the AI-side subreddits, companion apps (Replika, Character.AI), and incidents
+before 2024 (Microsoft Tay, 2016; users abusing Replika companions, 2022).
+
 ### 2026-10-05 — stopped, nothing filed
 
 https://claude.ai/code/session_01Fwef2akzwYW8SYCHZq1KRE. Web search for harm
