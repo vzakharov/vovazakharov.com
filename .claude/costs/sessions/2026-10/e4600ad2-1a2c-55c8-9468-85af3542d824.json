@@ -1,0 +1,85 @@
+{
+  "sessionId": "e4600ad2-1a2c-55c8-9468-85af3542d824",
+  "branch": "claude/chto-za-dela-264vrl",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "чё за дела, чего они там ждут?",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01S3tnJs8D24bR7j5a6ieMqZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-06T21:25:20.748Z",
+  "lastResponseAt": "2026-10-06T21:26:04.317Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 46749,
+    "cacheReadTokens": 660449,
+    "outputTokens": 3463,
+    "thinkingTokens": 1014,
+    "responses": 8,
+    "costUsd": 0.5754058
+  },
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 46749,
+    "cacheReadTokens": 660449,
+    "outputTokens": 3463,
+    "thinkingTokens": 1014,
+    "responses": 8,
+    "costUsd": 0.5754058
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 46749,
+      "cacheReadTokens": 660449,
+      "outputTokens": 3463,
+      "thinkingTokens": 1014,
+      "responses": 8,
+      "costUsd": 0.5754058
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-06T21:26:04.317Z",
+    "contextTokens": 91343,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 46376,
+      "cacheReadTokens": 569481,
+      "outputTokens": 2709,
+      "thinkingTokens": 983,
+      "responses": 7,
+      "costUsd": 0.5391402
+    }
+  },
+  "compactions": [],
+  "telemetry": null,
+  "estimate": {
+    "at": "2026-10-06T21:25:57.185Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "analyst"
+      }
+    ],
+    "comment": "middle analyst: reading the workflow's concurrency and environment config, the run's job states, the environment's rules and GitHub's status page to tell a stuck platform gate from a misconfiguration"
+  }
+}
