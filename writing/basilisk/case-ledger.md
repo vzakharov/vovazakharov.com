@@ -20,8 +20,7 @@ skill's § "The ledger" says how it is kept; the docket itself
   the SF Chronicle piece
   (https://www.sfchronicle.com/sf/article/waymo-attack-rider-trapped-inside-22348656.php)
   did not render. AI Incident Database #1599. A robotaxi besides.
-- **A man punching a Waymo's windows for six minutes**, San Francisco, January
-  2026. First seen 2026-10-05. **Rejected**: one source (SFist, 2026-03-17,
+- **A man punching a Waymo's windows for six minutes**, San Francisco, January 2026. First seen 2026-10-05. **Rejected**: one source (SFist, 2026-03-17,
   https://sfist.com/2026/03/17/what-happens-when-the-waymo-youre-riding-in-gets-attacked-by-a-robot-hater-not-much-and-youre-sort-of-trapped/),
   no arrest; a robotaxi.
 - **Riley Walz's "Waymo DDOS"**, fifty rides ordered to one dead end, 2025.

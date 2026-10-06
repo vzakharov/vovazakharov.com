@@ -12,8 +12,8 @@ Under `writing/`, not `apps/*/public/`, because nothing in it is served.
 
 - **`## Candidates`** — one entry per incident any run has weighed: name,
   place, date, first seen, outcome, sources. Outcome is one of `filed
-  BAS-NNNN`, `rejected — <the rule it failed>`, or `set aside — <why>; revive
-  when <condition>`. This is the list a run checks a candidate against before
+BAS-NNNN`, `rejected — <the rule it failed>`, or `set aside — <why>; revive
+when <condition>`. This is the list a run checks a candidate against before
   reading a single source.
 - **`## Runs`** — newest first, a few lines each: date, session link, what was
   swept (outlets, subreddits, words, date ranges), outcome, and what the next
