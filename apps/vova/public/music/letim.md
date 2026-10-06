@@ -27,9 +27,9 @@ somewhere around February 2024 — but then, as with
 <!-- lang:ru -->
 
 Эта — первая песня, написанная на Суно 3. Как сейчас помню, мы были на
-"виза-ране" в Требинье, я попробовал пару генераций, и после Суно 2 у меня просто
+«виза-ране» в Требинье, я попробовал пару генераций, и после Суно 2 у меня просто
 ВЗОРВАЛСЯ мозг. Ну а герцеговинские горы-холмы дополнили образ и вылились в
-текст. Это было намного дальше даты "релиза", где-то в феврале 2024-го, но потом,
+текст. Это было намного дальше даты «релиза», где-то в феврале 2024-го, но потом,
 как и в случае с [Crossroads](./crossroads.md), я допереписывал текст и
 допеределывал концовку.
 
@@ -72,7 +72,7 @@ somewhere around February 2024 — but then, as with
 <!-- lyrics:en -->
 
 Somewhere very far away
-So far it's within arm's reach
+So far it’s within arm’s reach
 At the foot of ancient mountains
 Moonlit water dozes
 
@@ -82,7 +82,7 @@ Watch the falling stars
 Drop into your open palm
 
 Fly with me
-I'll hold you by the hand.
+I’ll hold you by the hand.
 Following the moon
 Cutting through the starry water
 
@@ -92,12 +92,12 @@ We will never fall
 
 Flying over sleeping valleys
 Past the Arabic script of drowsy rivers
-We'll be carried off on eagle paths
+We’ll be carried off on eagle paths
 To the mountain tops, where the eternal snow
 Is waiting only for us
 
 Fly with me
-I'll hold you by the hand
+I’ll hold you by the hand
 Following the moon
 Cutting through the starry water
 

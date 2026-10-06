@@ -1,0 +1,127 @@
+{
+  "sessionId": "ed737b16-82e0-5413-b119-2c2af4e9d947",
+  "branch": "claude/basilisk-reddit-hty5kw",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "куда в реддит нам можно запостить про basilisk.fyi? в дурдомы вроде /accelerate или /proai заходить не хочется, эта публика хуже луддитов.",
+  "prs": [],
+  "url": "https://claude.ai/code/session_017Z5mevT44YQziZg8GiiBvi",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-05T08:12:34.199Z",
+  "lastResponseAt": "2026-10-05T10:39:19.740Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": 1.2237140000000002,
+  "total": {
+    "inputTokens": 32637,
+    "cacheWrite5mTokens": 3464,
+    "cacheWrite1hTokens": 135938,
+    "cacheReadTokens": 3429350,
+    "outputTokens": 15272,
+    "thinkingTokens": 3973,
+    "responses": 38,
+    "costUsd": 2.1567339999999993
+  },
+  "ownTurns": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 135938,
+    "cacheReadTokens": 3115631,
+    "outputTokens": 14075,
+    "thinkingTokens": 3973,
+    "responses": 32,
+    "costUsd": 1.9923861999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 1582,
+      "cacheWrite5mTokens": 3464,
+      "cacheWrite1hTokens": 135938,
+      "cacheReadTokens": 3429350,
+      "outputTokens": 14127,
+      "thinkingTokens": 3973,
+      "responses": 35,
+      "costUsd": 2.0899539999999996
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 31055,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 1145,
+      "thinkingTokens": 0,
+      "responses": 3,
+      "costUsd": 0.06678
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-05T08:15:31.400Z",
+    "contextTokens": 101675,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56970,
+      "cacheReadTokens": 1609104,
+      "outputTokens": 6266,
+      "thinkingTokens": 2246,
+      "responses": 18,
+      "costUsd": 0.9030448000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 38,
+    "matched": 32,
+    "matchedTableUsd": 1.9923861999999997,
+    "matchedEventUsd": 1.9923861999999997,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 31055,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 1145,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 0.06678
+      },
+      "prompt_suggestion": {
+        "inputTokens": 1518,
+        "cacheWrite5mTokens": 3464,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 313719,
+        "outputTokens": 52,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 0.09756780000000001
+      }
+    }
+  },
+  "estimate": {
+    "at": "2026-10-05T08:15:16.300Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "analyst"
+      },
+      {
+        "hours": 0.5,
+        "grade": "junior",
+        "role": "designer"
+      }
+    ],
+    "comment": "middle analyst: picking subreddits means reading each community's temper and self-promo rules, not just listing AI subs; junior designer: two theme captures cropped to a feed-readable length are routine."
+  }
+}

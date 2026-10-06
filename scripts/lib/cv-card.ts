@@ -12,6 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { siteConfig, withoutScheme } from '@/shared/config';
+import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
 import { PUBLIC_DIR } from '@/shared/content/collections';
 import type { Billed, Labeled } from '@/shared/typings';
 
@@ -21,9 +22,10 @@ import type { CvVariant } from '@/pages/cv/lib/cv-variants';
 
 import { RENDERED_SITE } from './content-tree.ts';
 import {
-  CANVAS,
   CANVAS_BACKGROUND,
-  SCALE,
+  escapeHtml,
+  INK,
+  INK_DIM,
   type StagedPage,
 } from './og-render.ts';
 
@@ -33,18 +35,7 @@ const SITE_CONFIG = siteConfig(RENDERED_SITE);
 /** Staged beside the page under this name, which is the `src` it uses. */
 const PORTRAIT = 'portrait.png';
 
-/** The chart card's palette, so the two card kinds read as one site. */
-const INK = '#0b0b0b';
-const INK_DIM = '#52514e';
 const RULE = '#dcdad5';
-
-function escapeHtml(text: string): string {
-  return text
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;');
-}
 
 type CardCopy = Billed & {
   offerTitle: string;

@@ -45,7 +45,7 @@ function vovaRoutes(): string[] {
  * a new document appears here without touching this file.
  */
 export function sitemap(): MetadataRoute.Sitemap {
-  // Deduplicated because a rooted collection's index *is* the home page.
+  // Deduplicated because a home-indexed collection's index *is* the home page.
   const staticRoutes = [
     ...new Set([
       '/',
@@ -61,7 +61,7 @@ export function sitemap(): MetadataRoute.Sitemap {
     ...listAllDocuments(SITE_ID).flatMap(({ route, collection, frontmatter }) =>
       documentAddresses(route, collection).map((address) => ({
         url: getAbsoluteUrl(address),
-        lastModified: frontmatter.date,
+        lastModified: frontmatter.filed ?? frontmatter.date,
       })),
     ),
   ];

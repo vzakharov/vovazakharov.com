@@ -42,7 +42,11 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { siteConfig } from '@/shared/config/site-config';
-import { PUBLIC_DIR, type Routed } from '@/shared/content/collections';
+import {
+  isDocumentFile,
+  PUBLIC_DIR,
+  type Routed,
+} from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { routing } from '@/shared/i18n';
 
@@ -92,6 +96,7 @@ const PRINT_SOURCES = [
 /** What shapes a document's printed page on top of that: its prose and its pipeline. */
 const DOCUMENT_SOURCES = [
   'src/app/styles/prose.scss',
+  'src/entities/case',
   'src/entities/document',
   'src/pages/documents/ui',
   'src/shared/content',
@@ -193,22 +198,21 @@ function sourceFiles(...sources: string[][]): string[] {
 function documentPrintables(): Printable[] {
   const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES, SEAL_SOURCES);
 
-  return contentFiles(
-    (name) => name.endsWith('.md'),
-    PRINTABLE_CONTENT_DIRS,
-  ).map((documentPath) => {
-    const stem = documentPath.replace(/\.md$/, '');
+  return contentFiles(isDocumentFile, PRINTABLE_CONTENT_DIRS).map(
+    (documentPath) => {
+      const stem = documentPath.replace(/\.md$/, '');
 
-    return {
-      route: `/${path.relative(PUBLIC_DIR, stem)}`,
-      outputPath: `${stem}.pdf`,
-      sourceHash: hashFiles([
-        documentPath,
-        ...referencedAssets(documentPath),
-        ...shared,
-      ]),
-    };
-  });
+      return {
+        route: `/${path.relative(PUBLIC_DIR, stem)}`,
+        outputPath: `${stem}.pdf`,
+        sourceHash: hashFiles([
+          documentPath,
+          ...referencedAssets(documentPath),
+          ...shared,
+        ]),
+      };
+    },
+  );
 }
 
 /**

@@ -1,45 +1,113 @@
 #!/bin/bash
 # `PostToolUse` hook: tell the agent when the context its session carries
-# crosses the warn line and again at the pause line, once per climb.
-# `.claude/context-budget/CLAUDE.md` carries what the reading is and why it is
-# taken here; the procedure the notices point at is `/go`'s.
+# crosses the warn line and again at the pause line, once per climb — or, on a
+# subagent's tool call, tell that subagent once when its own context crosses the
+# subagent line. `.claude/context-budget/CLAUDE.md` carries what the reading is
+# and why it is taken here; the procedure the main notices point at is `/go`'s.
 
 . "$(dirname "${BASH_SOURCE[0]}")/../../hooks/lib.sh" || exit 0
 read_payload
 need_command jq "no context-budget reading this tool call."
 
-# A subagent's tool call. The notice is for the session holding the plan, and a
-# subagent pausing that plan would release it while its parent works on.
-[ -z "$(field agent_id)" ] || exit 0
-
 warn="${CONTEXT_BUDGET_WARN:-200000}"
 pause="${CONTEXT_BUDGET_PAUSE:-300000}"
-[[ "$warn" =~ ^[0-9]+$ && "$pause" =~ ^[0-9]+$ ]] || {
-  say "CONTEXT_BUDGET_WARN / CONTEXT_BUDGET_PAUSE must be whole token counts; no reading taken."
+pause_saving="${CONTEXT_BUDGET_PAUSE_SAVING:-20}"
+lines="${CONTEXT_BUDGET_LINES:-priced}"
+subagent_line="${CONTEXT_BUDGET_SUBAGENT:-170000}"
+[[ "$warn" =~ ^[0-9]+$ && "$pause" =~ ^[0-9]+$ && "$subagent_line" =~ ^[0-9]+$ && "$pause_saving" =~ ^[0-9]+$ && "$pause_saving" -lt 100 ]] || {
+  say "CONTEXT_BUDGET_WARN / CONTEXT_BUDGET_PAUSE / CONTEXT_BUDGET_SUBAGENT must be whole counts, CONTEXT_BUDGET_PAUSE_SAVING a percentage under 100; no reading taken."
   exit 0
 }
+[[ "$lines" == priced || "$lines" == fixed ]] || {
+  say "CONTEXT_BUDGET_LINES must be \`priced\` or \`fixed\`; no reading taken."
+  exit 0
+}
+# The slice of work a relay's saving is priced over.
+finish=100000
 
 root="$(project_root)"
 transcript="$(field transcript_path)"
 session="$(field session_id)"
-[ -n "$root" ] && [ -f "$transcript" ] || exit 0
+agent="$(field agent_id)"
+[ -n "$root" ] && [ -n "$transcript" ] || exit 0
 case "$session" in '' | */* | .*) exit 0 ;; esac
 
 # Read from the end: the transcript runs to megabytes and this runs on every tool
 # call. `first` stops jq at the first match, which is also why there is no
-# `pipefail` here — `tac` dying of the closed pipe is the intended exit.
-reading="$(tac "$transcript" | grep -F '"type":"assistant"' | jq -rn '
-  first(
-    inputs
-    | select(.type == "assistant" and (.isSidechain | not))
-    | select(.message.model != "<synthetic>")
-    | .message.usage // empty
-    | (.input_tokens // 0) + (.cache_read_input_tokens // 0) + (.cache_creation_input_tokens // 0)
-  )' 2>/dev/null)"
-[[ "$reading" =~ ^[0-9]+$ ]] || exit 0
+# `pipefail` here — `tac` dying of the closed pipe is the intended exit. Every
+# record in a subagent's own transcript is a sidechain one, so `$1` = `sidechain`
+# lifts the main chain's filter.
+read_context() {
+  tac "$transcript" | grep -F '"type":"assistant"' | jq -rn --argjson sidechain "$([ "${1:-}" = sidechain ] && echo true || echo false)" '
+    first(
+      inputs
+      | select(.type == "assistant" and ($sidechain or (.isSidechain | not)))
+      | select(.message.model != "<synthetic>")
+      | .message.usage // empty
+      | (.input_tokens // 0) + (.cache_read_input_tokens // 0) + (.cache_creation_input_tokens // 0)
+    )' 2>/dev/null
+}
 
+k() { echo "$(($1 / 1000))k"; }
 state_dir="$root/tmp/context-budget"
 state_file="$state_dir/$session"
+
+# A subagent's tool call: its own one notice, never the session's, since a
+# subagent pausing the plan would release it while its parent works on.
+if [ -n "$agent" ]; then
+  [[ "$agent" =~ ^[A-Za-z0-9_-]+$ ]] || exit 0
+  # The call carries the parent session's `transcript_path`; the subagent's own
+  # sits in `<session>/subagents/`, or one directory further down for a
+  # subagent the harness files under a subdirectory.
+  subagents="${transcript%.jsonl}/subagents"
+  transcript="$subagents/agent-$agent.jsonl"
+  [ -f "$transcript" ] || transcript="$(find "$subagents" -name "agent-$agent.jsonl" -print -quit 2>/dev/null)"
+  [ -f "$transcript" ] || exit 0
+  reading="$(read_context sidechain)"
+  [[ "$reading" =~ ^[0-9]+$ ]] || exit 0
+  state_file="$state_file.agent-$agent"
+  # Under the line again means a compact landed, which re-arms the notice.
+  if [ "$reading" -lt "$subagent_line" ]; then
+    rm -f "$state_file"
+    exit 0
+  fi
+  [ ! -f "$state_file" ] || exit 0
+  mkdir -p "$state_dir" && printf 'report\n' >"$state_file" || {
+    say "cannot write $state_file; context-budget notice withheld."
+    exit 0
+  }
+  emit_context "Context budget: you are a subagent, and your own context is carrying ~$(k "$reading") tokens, past the $(k "$subagent_line") line where a subagent stops.
+
+Wrap up now: commit and push what passes, bring your hand-over note current if your brief keeps one — what is done, what is left — and report to your caller. Do not touch the plan file: pausing or releasing the plan belongs to the session that holds it, not to you. Your caller can continue from your report with a fresh agent."
+  exit 0
+fi
+
+[ -f "$transcript" ] || exit 0
+reading="$(read_context)"
+[[ "$reading" =~ ^[0-9]+$ ]] || exit 0
+
+# Priced where the ledger's lib can price it, each line capped at its fixed one;
+# a hand-set line stays fixed. Cached as `<warn> <pause> <reading>`.
+hooks="$(dirname "${BASH_SOURCE[0]}")"
+priced=
+if [ "$lines" = priced ] && [ -z "${CONTEXT_BUDGET_WARN:-}" -o -z "${CONTEXT_BUDGET_PAUSE:-}" ] \
+  && [ -f "$hooks/../../costs/lib/restart.py" ] && command -v python3 >/dev/null; then
+  line_file="$state_dir/$session.line"
+  priced_warn= priced_pause= at=
+  [ ! -f "$line_file" ] || read -r priced_warn priced_pause at <"$line_file"
+  if ! [[ "$at" =~ ^[0-9]+$ && "$reading" -ge "$at" && "$reading" -lt $((at + 10000)) ]]; then
+    read -r priced_warn priced_pause < <(python3 "$hooks/priced_line.py" lines "$transcript" "$finish" "$pause_saving")
+    mkdir -p "$state_dir" && printf '%s %s %s\n' "${priced_warn:--}" "${priced_pause:--}" "$reading" >"$line_file"
+  fi
+  if [ -z "${CONTEXT_BUDGET_WARN:-}" ] && [[ "$priced_warn" =~ ^[0-9]+$ ]]; then
+    priced=1
+    [ "$priced_warn" -ge "$warn" ] || warn="$priced_warn"
+  fi
+  if [ -z "${CONTEXT_BUDGET_PAUSE:-}" ] && [[ "$priced_pause" =~ ^[0-9]+$ ]]; then
+    priced=1
+    [ "$priced_pause" -ge "$pause" ] || pause="$priced_pause"
+  fi
+fi
 
 # Under the warn line again means a compact landed, which re-arms both notices.
 if [ "$reading" -lt "$warn" ]; then
@@ -73,7 +141,6 @@ if [[ "$handle" =~ ^[a-z0-9-]+$ ]]; then
   esac
 fi
 
-k() { echo "$(($1 / 1000))k"; }
 past() { echo "Context budget: this session is carrying ~$(k "$reading") tokens of context, past the $(k "$1") $2 line."; }
 stopping='`@.claude/skills/go/SKILL.md` § "Stopping partway releases the plan" — which also covers work that has no plan yet'
 relay='`/relay` (`@.claude/skills/relay/SKILL.md`), which hands the branch to a fresh session starting from a summary of this one — the summary `/compact` would make, written to a file instead'
@@ -89,9 +156,13 @@ ends="tell the operator the session was paused for its context budget, and end t
 [ "$auto_relay" != on ] || ends="then, without asking and with no argument, run ${relay}. Do so because this operator turned auto-relay on (\`${setting}\`, ${auto}); its report tells the operator the session was paused for its context budget and relayed on its own"
 paused="follow ${stopping}. Push, ${ends}; the new session resumes the paused plan."
 
+saving=
+[ -z "$priced" ] || saving="$(python3 "$hooks/priced_line.py" notice "$transcript" "$reading" "$finish")"
+priced_past() { echo "$(past "$@")${saving:+ $saving Give the operator those figures when you offer the choice.}"; }
+
 case "$level" in
   warn)
-    notice="$(past "$warn" warning)
+    notice="$(priced_past "$warn" warning)
 
 Judge whether the work fits — the open bite, when the plan has a \`## This bite\` section: by your own estimate, under ~$(k "$room") more tokens of context to finish, roughly less than half of what this session has already carried. If it fits, carry on and finish it, and say in your report that the warning came and why you did not pause.
 
@@ -100,7 +171,7 @@ If it does not fit, steer to a pause within that same ~$(k "$room"): pick the be
 At $(k "$pause") this notice returns as the pause itself, which stops wherever the work stands."
     ;;
   pause)
-    notice="$(past "$pause" pause)
+    notice="$(priced_past "$pause" pause)
 
 Pause now, without asking, wherever the work stands: there is no room left to steer to a better stopping point. The one exception is work literally a step from done — under ~$(k "$last_step") more tokens of context — which you finish first, saying in your report why. Otherwise commit what is in hand, leave the branch just resumable rather than tidy, and ${paused}"
     ;;

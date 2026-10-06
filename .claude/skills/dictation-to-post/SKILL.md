@@ -41,9 +41,9 @@ stopped being the same piece.
 | `## Швы` — the departures, one row each                     | yours, and the reason this skill can be trusted |
 | `## Открытые вопросы` — anything the draft could not settle | yours, and only where a real question is open   |
 
-**The post text is copy-exact**, per `@.claude/rules/writing.md` § "A draft's
-post text is copy-exact": one unwrapped line per paragraph inside a `text`
-fence, because a hard wrap in the source becomes a line break in the feed.
+**The post text is copy-exact**, per `@writing/CLAUDE.md`
+§ "A draft's post text is copy-exact": one unwrapped line per paragraph inside a
+`text` fence, because a hard wrap in the source becomes a line break in the feed.
 
 **The seams table is the point.** One row per departure: where it is, and what
 was done — added, cut, or repeated less. A draft that quietly reads well gives

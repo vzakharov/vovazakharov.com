@@ -1,0 +1,159 @@
+# Writing
+
+Everything that holds for every draft under `writing/`. `writing/linkedin/plan.md`
+is the backlog and the strategy — which posts exist, in what order, and what is
+still unsettled — and does not restate any of this.
+
+**The voice rules are seeded, not finished.** They get written against a
+marked-up draft rather than anticipated, so what follows is what has actually
+come back marked up. A rule here should name the tell it catches, not the
+aesthetic it prefers.
+
+## Layout and frontmatter
+
+```
+writing/
+  notes/
+    <slug>.md          # evidence gathered for a post not yet drafted
+  <channel>/
+    plan.md            # the backlog for that channel
+    ideas/
+      <slug>.md        # one paragraph on a piece not yet started
+    drafts/
+      <slug>.md        # one file per post
+    dictations/
+      <slug>.md        # a recording, transcribed
+  basilisk/
+    case-ledger.md     # every case search and every candidate it weighed
+```
+
+`basilisk/` is no channel and holds no drafts: it is the working record behind
+basilisk.fyi, kept by `/file-basilisk-case`, which says how the ledger is
+written. Nothing below applies to it.
+
+`notes/` is for a claim that needs specimens rather than argument: the file
+collects them as they occur, so the post is written from a record instead of
+from memory. A backlog row whose objection is "this needs evidence" points at
+its notes file, and the file retires with the post it fed — a notes file is
+scaffolding for one draft, not a document the repo keeps.
+
+## Ideas and the threads between them
+
+`ideas/<slug>.md` is **one paragraph** on a piece that does not exist yet: what
+the idea is, and where it came from. A paragraph, because the file's job is to
+be a destination, and a destination that takes ten minutes to write is one
+nobody creates in the middle of doing something else.
+
+**Every "about this later" and "as I said before" carries a Markdown link** —
+to the idea file for a promise, to the piece itself for a callback — put in as
+the text is written, not afterwards. Which file exactly matters less than that
+the link is there: when the promised piece is finally drafted, everywhere that
+promised it is `grep <slug>` rather than recollection, and the backlinks go into
+the published copy from a list.
+
+An idea graduating into a draft leaves its file behind as the redirect — a line
+saying which draft it became — until the draft is posted, at which point both
+retire and the links repoint at the published piece.
+
+| Key      | Meaning                                    |
+| -------- | ------------------------------------------ |
+| `source` | the case-study section its facts come from |
+| `shape`  | one of the five below                      |
+| `status` | `draft` \| `approved` \| `posted`          |
+| `posted` | the date, once it is                       |
+
+`source` exists so "which posts repeat this number?" is a grep rather than a
+memory. The case study is the single source of truth for every fact, and a post
+restates those facts rather than linking to them — a reader has nothing open.
+
+## Form
+
+- **1,000 characters, hard ceiling.** Long enough for one idea completely; short
+  enough to be read whole.
+- **The first two lines carry it.** LinkedIn folds at roughly 200 characters, so
+  the opening states the concrete thing rather than promising it. No "I want to
+  share some thoughts on…", no question-as-opener.
+- **One idea per post.** A second good idea is a second post.
+- **A few short paragraphs, broken at the turns** — where the post changes what
+  it is doing, not every sentence. One block is a wall; one sentence per line is
+  the house style of the genre and reads as the genre rather than as a person.
+- **Numbers stay unrounded.** 3,487 files, 11.6 MB, 8,123 imports. The precision
+  is the evidence.
+
+## The five shapes
+
+Naming the shapes is what stops eighteen posts from being eighteen variations of
+one paragraph. They spell **FRAME**, which is the only reason to remember them in
+this order. Drafts name a shape in frontmatter and never restate its definition.
+
+- **Footgun** — a specific bug, why it was invisible, and the thing that catches
+  it now. Ends on the mechanism, never on a moral.
+- **Reversal** — a received best practice that is wrong in a named context, with
+  the reason it's usually right left standing.
+- **Artifact** — a small piece of real code, config or output, shown and then
+  explained. The reader should be able to steal it.
+- **Measurement** — a number nobody else has, and what it does and doesn't mean.
+  Must include the deflating half; a measurement that only flatters is an ad.
+- **Erratum** — a correction to my own record: something I got wrong or oversold,
+  scored. It does the most for credibility, and must never be false modesty
+  about something that actually went well.
+
+Rough mix over any ten posts: 3 footgun, 2 reversal, 1 artifact, 2 measurement,
+2 erratum. Errata are the scarce ingredient — overused they turn into a bit.
+
+An announcement belongs to none of them. A one-off does not need a category
+invented for it.
+
+## Voice
+
+- **`--`, never `—`.** Written as two hyphens on purpose. Enough readers now
+  treat an em dash as a machine's fingerprint that the correct punctuation has
+  become the wrong signal. This holds inside the post text itself, in every
+  language a draft is written in — Russian included, where the dash is ordinary
+  and the fingerprint reads fainter. The prose around the text in a draft file is
+  ordinary Markdown and uses whatever punctuation reads best.
+- **Commas and periods go inside closing quotes**, American style —
+  `.claude/rules/content.md` § "Punctuation around quotes" is the rule.
+- **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in
+  the voice. Emoji as decoration, as bullet markers, or as enthusiasm is not.
+  Text emoticons — `;-)` — are in the voice too.
+- **Don't tighten the sentences.** The loose, slightly talked-out version is the
+  voice: "Once done, I thought, why not write a case study about it" survives
+  edits that would compress it. A draft that reads as efficient reads as edited
+  by a machine, which is the thing being avoided.
+- **"Not just X — it's also Y" is a paraphrase wearing a reveal**, and what it
+  paraphrases is a neighbouring sentence, not its own first half. «Машина не
+  просто занята, она ещё и держит вас за столом» followed «крышку не закроешь,
+  а то агенты остановятся» and said it over again, in words different enough to
+  pass for a second fact — which is why the sentence has to be read against the
+  ones around it. Its twin cadence, «не X, а Y», hides the same repeat. Either
+  the second half brings something of its own, or the plain line that said it
+  first is the one to keep.
+- **Cut the sentence that announces the next one.** "And it is worth saying out
+  loud", "here is the thing", "make no mistake" — an agent writes these to mark
+  that something important is coming, which a reader learns by reading the
+  important thing. They are the cadence of a model filling the space before a
+  point rather than making it, and the tell is that deleting the clause costs
+  the sentence nothing. This is the one voice rule that survives "don't tighten
+  the sentences" above: that rule protects a talked-out human line, and these
+  are not one.
+- **A list of examples where one would do reads as a machine's.** "…to the point
+  of parody — the shower, the offhand remark, the run down the corridor" spends
+  three specimens on a point the reader already has. A list that _is_ the point
+  — three shapes, three reasons — earns its items; the tell is one hanging off a
+  **detour**, where three beats go on ground the piece is already leaving. Cut to
+  the claim, keeping one example only where the claim is thin without it.
+- **The hook is the operator's call, not the agent's.** Given a choice of what to
+  lead with, an agent reaches for the technically impressive detail and a reader
+  wants the legible one — a number they can react to, a change in how the work
+  felt, an admission. Offer the options; don't pick for them.
+
+## A draft's post text is copy-exact
+
+The fenced block in a draft is what gets pasted into LinkedIn, so it is one
+unwrapped line per paragraph: a hard wrap in the source becomes a line break in
+the feed. Keep it in a `text` fence for the same reason — `--`, `#` and `_`
+survive unread, and Prettier leaves fenced content alone.
+
+Text the operator supplied is verbatim and stays that way. Fill only the marked
+blanks; anything else that looks like it wants fixing gets raised, not fixed.

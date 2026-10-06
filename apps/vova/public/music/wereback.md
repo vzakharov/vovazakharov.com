@@ -9,16 +9,16 @@ seconds: 191
 explicit: true
 album: ctfu
 en:
-  title: We're Back
+  title: We’re Back
   description: 'Written second by second on OpenAI’s Jukebox, about the comeback of a band that never existed, to fans who never existed either.'
 ru:
-  title: We're Back
+  title: We’re Back
   description: 'Написана по секунде на OpenAI’овском Jukebox — про возвращение группы, которой не было, к фанатам, которых тоже не было.'
 ---
 
 <!-- lang:en -->
 
-This is one of the songs originally written back on OpenAI's open-source Jukebox,
+This is one of the songs originally written back on OpenAI’s open-source Jukebox,
 using my own [Jukebox Web UI](https://github.com/vzakharov/jukebox-webui). The
 process was completely different then — the song was written literally second by
 second, with each second taking a minute to generate, and the quality on the
@@ -34,7 +34,7 @@ fresher.
 
 <!-- lang:ru -->
 
-Это одна из песен, изначально написанных ещё на OpenAI'ном опенсорсном Jukebox'е,
+Это одна из песен, изначально написанных ещё на OpenAI’ном опенсорсном Jukebox’е,
 с использованием моего же [Jukebox Web
 UI](https://github.com/vzakharov/jukebox-webui). Тогда процесс был совсем другим
 — песня писалась буквально по секундам, причём генерация каждой секунды занимала
@@ -50,41 +50,41 @@ UI](https://github.com/vzakharov/jukebox-webui). Тогда процесс бы�
 <!-- lyrics:en -->
 
 Raise your horns and stomp your feet
-A new adventure's here to greet
+A new adventure’s here to greet
 Gather round, you rowdy lot
 For the tune that time forgot
 
 Tales of wars and battles won
-We'll sing from dusk till morning sun
+We’ll sing from dusk till morning sun
 Here we go, our time has come!
 
-We're back, we're back, oh-oh-oh-oh
+We’re back, we’re back, oh-oh-oh-oh
 Sing it loud, let it echo-cho
-We're back, we're back, we're here to stay
+We’re back, we’re back, we’re here to stay
 Dance and drink the night away!
 
-Back, we're back, hey-hey-hey-hey
+Back, we’re back, hey-hey-hey-hey
 Sing it proudly, let it sway
-Back, we're back, so grab a cup
+Back, we’re back, so grab a cup
 Dance and cheer the fuck up!
 
 We know these days can test your might
 Storm clouds loom both day and night
-But fear not, we're by your side
-We'll guard your back and be your guide
+But fear not, we’re by your side
+We’ll guard your back and be your guide
 
 When troubles churn and doubts abound
-We'll help you rise from off the ground
-We're back to fill the halls with sound!
+We’ll help you rise from off the ground
+We’re back to fill the halls with sound!
 
-We're back, we're back, oh-oh-oh-oh
+We’re back, we’re back, oh-oh-oh-oh
 Sing it loud, let it echo-cho
-We're back, we're back, we're here to stay
+We’re back, we’re back, we’re here to stay
 Dance and drink the night away!
 
-Back, we're back, hey-hey-hey-hey
+Back, we’re back, hey-hey-hey-hey
 Sing it proudly, let it sway
-Back, we're back, so grab a cup
+Back, we’re back, so grab a cup
 Dance and cheer the fuck up!
 
 Cheer the fuck up!
@@ -92,14 +92,14 @@ Cheer the fuck up!
 Cheer the fuck up!
 Cheer the fuck up!
 
-We're back, we're back, oh-oh-oh-oh
+We’re back, we’re back, oh-oh-oh-oh
 Sing it loud, let it echo-cho
-We're back, we're back, we're here to stay
+We’re back, we’re back, we’re here to stay
 Dance and drink the night away!
 
-Back, we're back, hey-hey-hey-hey
+Back, we’re back, hey-hey-hey-hey
 Sing it proudly, let it sway
-Back, we're back, so grab a cup
+Back, we’re back, so grab a cup
 Dance and cheer the fuck up!
 
 <!-- lyrics:ru -->

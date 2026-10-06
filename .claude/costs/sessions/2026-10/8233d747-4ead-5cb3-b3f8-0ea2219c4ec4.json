@@ -1,0 +1,93 @@
+{
+  "sessionId": "8233d747-4ead-5cb3-b3f8-0ea2219c4ec4",
+  "branch": "claude/basilisk-site-xwbdkd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/basilisk-site-xwbdkd домен я купил; код и тексты ещё не сморел. давай опубликуем (PORKBUN_API_KEY/PORKBUN_SECRET_API_KEY у тебя есть), чтобы…",
+  "prs": [
+    95
+  ],
+  "url": "https://claude.ai/code/session_01Anjk4xiZNkDPdP6fP55LFg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-03T08:34:26.746Z",
+  "lastResponseAt": "2026-10-03T08:51:29.051Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 592,
+    "cacheWrite5mTokens": 886,
+    "cacheWrite1hTokens": 110657,
+    "cacheReadTokens": 5630612,
+    "outputTokens": 21134,
+    "thinkingTokens": 4053,
+    "responses": 44,
+    "costUsd": 2.4435144
+  },
+  "ownTurns": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 110657,
+    "cacheReadTokens": 5500391,
+    "outputTokens": 21116,
+    "thinkingTokens": 4053,
+    "responses": 43,
+    "costUsd": 2.4079982
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 592,
+      "cacheWrite5mTokens": 886,
+      "cacheWrite1hTokens": 110657,
+      "cacheReadTokens": 5630612,
+      "outputTokens": 21134,
+      "thinkingTokens": 4053,
+      "responses": 44,
+      "costUsd": 2.4435144
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": ".github/workflows/deploy.yml",
+    "endedAt": "2026-10-03T08:35:18.744Z",
+    "contextTokens": 110050,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 62623,
+      "cacheReadTokens": 719498,
+      "outputTokens": 2952,
+      "thinkingTokens": 1151,
+      "responses": 8,
+      "costUsd": 0.7039875999999999
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 44,
+    "matched": 43,
+    "matchedTableUsd": 2.4079982,
+    "matchedEventUsd": 2.4079982,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 886,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 130221,
+        "outputTokens": 18,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.035516200000000005
+      }
+    }
+  }
+}

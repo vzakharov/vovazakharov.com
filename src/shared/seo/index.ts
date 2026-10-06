@@ -1,1 +1,1 @@
-export { OG_CARD_SUFFIX } from './og-card';
+export { OG_CARD_SUFFIX, routeCardPath } from './og-card';

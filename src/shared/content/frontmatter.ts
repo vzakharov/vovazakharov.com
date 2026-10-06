@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from '@/shared/config';
 import { byLocale } from '@/shared/i18n';
 
+import { AUTHOR_IDS } from './authors';
 import type { CollectionId } from './collections';
 
 /**
@@ -15,6 +16,11 @@ import type { CollectionId } from './collections';
 const baseFrontmatterSchema = z.object({
   /** Published date. YAML parses an unquoted `2026-08-29` into a Date. */
   date: z.coerce.date(),
+  /**
+   * When the site took the document in, where `date` names something older — a
+   * case's incident. What a crawler is told the page last changed on.
+   */
+  filed: z.coerce.date().optional(),
   /** Reading order within the collection — lower first, ahead of anything without one. */
   order: z.number().int().optional(),
   /** Open Graph image, relative to the document. */
@@ -26,12 +32,36 @@ const baseFrontmatterSchema = z.object({
 /** What every collection states, and all that anything reading documents at large can rely on. */
 export type BaseFrontmatter = z.infer<typeof baseFrontmatterSchema>;
 
-/** A case study's shape, and the Bible's: titled by the body, cut and printed. */
-const articleFrontmatterSchema = baseFrontmatterSchema.extend({
+/** One report an article's facts rest on. */
+const sourceSchema = z.object({
+  title: z.string().min(1),
+  outlet: z.string().min(1),
+  author: z.string().min(1).optional(),
+  /** A bare year where the publication gives no day, rather than a day nobody gave. */
+  date: z.union([z.number().int(), z.coerce.date()]),
+  url: z.url(),
+  /** A copy that survives the original, where the Wayback Machine has one. */
+  archive: z.url().optional(),
+});
+
+export type Source = z.infer<typeof sourceSchema>;
+
+const sourcesSchema = z.array(sourceSchema).min(1);
+
+/** Every article's shape: titled by the body, bylined, cut and printed. */
+export const articleFrontmatterSchema = baseFrontmatterSchema.extend({
   /** Meta description and index-card blurb. */
   description: z.string().min(1),
   /** Free-text series marker, e.g. `I of II`. */
   part: z.string().min(1).optional(),
+  author: z.enum(AUTHOR_IDS),
+  /** What the article rests on, listed after the body; absent where it rests on nothing outside itself. */
+  sources: sourcesSchema.optional(),
+});
+
+/** A case's sources are not optional: a filing rests on reports or is not filed. */
+export const sourcedArticleFrontmatterSchema = articleFrontmatterSchema.extend({
+  sources: sourcesSchema,
 });
 
 /**
@@ -106,7 +136,7 @@ const songFieldsSchema = baseFrontmatterSchema
  * exhaustive: a document carrying `en` and no `ru` fails the build instead of
  * publishing a half-translated catalogue quietly.
  */
-const songFrontmatterSchema = songFieldsSchema.extend(
+export const songFrontmatterSchema = songFieldsSchema.extend(
   byLocale(() => localizedTextSchema),
 );
 
@@ -133,28 +163,6 @@ export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
    */
   schema: { parse: (data: unknown) => F };
 };
-
-/**
- * The collections one article page serves. Keyed by id so a router can name
- * its collection and still be handed the schema that reads it.
- */
-export const ARTICLE_COLLECTIONS = {
-  'case-studies': { id: 'case-studies', schema: articleFrontmatterSchema },
-  bible: { id: 'bible', schema: articleFrontmatterSchema },
-} as const satisfies Record<string, Collection<ArticleFrontmatter>>;
-
-export type ArticleCollectionId = keyof typeof ARTICLE_COLLECTIONS;
-
-export const SONGS: Collection<SongFrontmatter> = {
-  id: 'music',
-  schema: songFrontmatterSchema,
-};
-
-/** Keyed so a collection without a schema fails to compile rather than at read time. */
-export const COLLECTION_SCHEMAS = {
-  ...ARTICLE_COLLECTIONS,
-  music: SONGS,
-} as const satisfies Record<CollectionId, Collection>;
 
 /**
  * The title a collection states outright, where it has one. An article's is

@@ -1,0 +1,461 @@
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
+
+import {
+  clampLeft,
+  CRUISE_ACROSS,
+  type Direction,
+  holdKey,
+  KEY_EASE,
+  leftAt,
+  letGoKey,
+  move,
+  openingPan,
+  type Pan,
+  press,
+  recrop,
+  release,
+  screenOf,
+  SLOP,
+  tick,
+  type View,
+  worldOf,
+} from './pan';
+
+/** A tablet held sideways over a world twice its width. */
+const TABLET: View = { width: 1180, world: 2360, unit: 100 };
+
+const FRAME = 1 / 60;
+
+/** `pan` pressed at `x` and dragged by `by` in `steps` moves over `seconds`, from `time`. */
+function dragged(
+  pan: Pan,
+  x: number,
+  by: number,
+  { time = 0, steps = 10, seconds = 0.2 } = {},
+): Pan {
+  let moving = press(pan, x, time);
+  for (let index = 1; index <= steps; index++) {
+    moving = move(
+      moving,
+      x + (by * index) / steps,
+      time + (seconds * index) / steps,
+    );
+  }
+  return moving;
+}
+
+describe('the crop', () => {
+  it('opens on the world’s middle, and stays inside the world', () => {
+    const pan = openingPan(TABLET);
+    assert.equal(leftAt(pan, 0), 590);
+    assert.equal(clampLeft(TABLET, -50), 0);
+    assert.equal(clampLeft(TABLET, 5000), 1180);
+  });
+
+  it('centres a world narrower than the screen, and never pans it', () => {
+    const narrow = { ...TABLET, world: 1000 };
+    assert.equal(leftAt(openingPan(narrow), 0), -90);
+    const pan = dragged(openingPan(narrow), 600, -300);
+    assert.equal(leftAt(pan, 0.2), -90);
+    assert.equal(leftAt(release(pan, 0.2), 5), -90);
+  });
+
+  it('converts screen x to world x and back through the crop', () => {
+    const pan = openingPan(TABLET);
+    assert.equal(worldOf(pan, 0, 100), 690);
+    assert.equal(screenOf(pan, 0, worldOf(pan, 0, 321)), 321);
+  });
+});
+
+describe('a drag', () => {
+  it('is a tap until the finger moves past the slop, and a tap never pans', () => {
+    const start = openingPan(TABLET);
+    const within = dragged(start, 600, SLOP);
+    assert.equal(leftAt(within, 0.2), 590);
+    const lifted = release(within, 0.2);
+    assert.equal(leftAt(lifted, 5), 590);
+  });
+
+  it('follows the finger 1:1 past the slop, lagging it by the slop', () => {
+    const start = openingPan(TABLET);
+    const crossed = move(press(start, 600, 0), 600 - SLOP - 1, 0.01);
+    assert.equal(leftAt(crossed, 0.01), 591);
+    const on = move(crossed, 600 - SLOP - 1 - 200, 0.1);
+    assert.equal(leftAt(on, 0.1), 791);
+  });
+
+  it('keeps the ground under the press within the slop of the finger, whatever its first step', () => {
+    for (const step of [SLOP + 1, 40, 60, 200]) {
+      for (const way of [-1, 1]) {
+        let pan = press(openingPan(TABLET), 600, 0);
+        const ground = worldOf(pan, 0, 600);
+        for (let index = 1; index <= 8; index++) {
+          const x = 600 + way * (step + 20 * (index - 1));
+          pan = move(pan, x, index / 60);
+          const lag = Math.abs(screenOf(pan, index / 60, ground) - x);
+          assert.ok(
+            lag <= SLOP + 1e-9,
+            `a first step of ${String(step)} px lags ${String(lag)} px`,
+          );
+        }
+      }
+    }
+  });
+
+  it('moves the crop no farther than a wobbly tap drifts', () => {
+    // How far a child's tap drifts over 100 ms.
+    for (const drift of [4, 8, 11, 14, 18, 24]) {
+      for (const steps of [3, 6, 12]) {
+        for (const way of [-1, 1]) {
+          const wobbled = dragged(openingPan(TABLET), 600, way * drift, {
+            steps,
+            seconds: 0.1,
+          });
+          const slid = Math.abs(leftAt(release(wobbled, 0.1), 5) - 590);
+          assert.ok(
+            slid <= drift,
+            `a ${String(drift)} px drift in ${String(steps)} steps slid ${String(slid)} px`,
+          );
+        }
+      }
+    }
+  });
+
+  it('glides only on the finger’s velocity after it crossed the slop', () => {
+    const crossed = move(press(openingPan(TABLET), 600, 0), 540, FRAME);
+    const at = leftAt(crossed, FRAME);
+    assert.equal(at, 590 + 60 - SLOP);
+    assert.equal(
+      leftAt(release(crossed, FRAME + 0.004), 5),
+      at,
+      'a lift right after the crossing step does not glide',
+    );
+    let slow = crossed;
+    for (let index = 2; index <= 6; index++) {
+      slow = move(slow, 540 - (index - 1), index * FRAME);
+    }
+    const from = leftAt(slow, 6 * FRAME);
+    const glide = leftAt(release(slow, 6 * FRAME), 5) - from;
+    // 60 px/s after the crossing glides on by that times `GLIDE_TAU`, 0.325 s.
+    assert.ok(Math.abs(glide - 60 * 0.325) < 1e-6, `glided ${String(glide)}`);
+  });
+
+  it('stops at the world’s ends however far the finger goes', () => {
+    const pan = dragged(openingPan(TABLET), 1000, 2000);
+    assert.equal(leftAt(pan, 0.2), 0);
+  });
+
+  it('moves back within a frame of turning, however far it overshot an end', () => {
+    const wide: View = { width: 1024, world: 2048, unit: 100 };
+    for (const overshoot of [1, 100, 1000]) {
+      // Pressed at 10 and dragged right by the crop's room plus the slop's lag and `overshoot`.
+      const by = leftAt(openingPan(wide), 0) + SLOP + overshoot;
+      const over = dragged(openingPan(wide), 10, by);
+      assert.equal(leftAt(over, 0.2), 0);
+      const back = move(over, 10 + by - 5, 0.2 + FRAME);
+      assert.equal(
+        leftAt(back, 0.2 + FRAME),
+        5,
+        `overshot by ${String(overshoot)}`,
+      );
+    }
+  });
+
+  it('glides on after a quick release, decaying to rest, and not after a still one', () => {
+    const pan = dragged(openingPan(TABLET), 800, -200, { seconds: 0.1 });
+    const at = leftAt(pan, 0.1);
+    const gliding = release(pan, 0.1);
+    const soon = leftAt(gliding, 0.2);
+    const later = leftAt(gliding, 0.3);
+    const rest = leftAt(gliding, 5);
+    assert.ok(at < soon && soon < later && later < rest);
+    assert.ok(soon - at > later - soon, 'the glide slows');
+    assert.equal(leftAt(gliding, 2.1), rest, 'it rests within two seconds');
+    assert.equal(leftAt(gliding, 50), rest);
+    const still = release(pan, 0.5);
+    assert.equal(leftAt(still, 5), at);
+  });
+
+  it('eases a glide to rest at the world’s end rather than past it', () => {
+    const near = dragged(openingPan(TABLET), 800, -560, { seconds: 0.1 });
+    const gliding = release(near, 0.1);
+    const path = Array.from({ length: 40 }, (_, index) =>
+      leftAt(gliding, 0.1 + index * 0.05),
+    );
+    assert.ok(path.every((left) => left <= 1180));
+    assert.equal(path.at(-1), 1180);
+    const steps = path.slice(1).map((left, index) => left - (path[index] ?? 0));
+    assert.ok(
+      steps.every(
+        (each, index) => each <= (steps[index - 1] ?? Infinity) + 1e-9,
+      ),
+      'it only slows as it nears the end',
+    );
+  });
+
+  it('is stopped by a press, where the glide stands', () => {
+    const gliding = release(
+      dragged(openingPan(TABLET), 800, -200, { seconds: 0.1 }),
+      0.1,
+    );
+    const stopped = press(gliding, 400, 0.3);
+    assert.equal(leftAt(stopped, 2), leftAt(gliding, 0.3));
+  });
+});
+
+/** Every left edge `pan` passes through over `seconds` of frames `frame` seconds long, the first before any tick. */
+function ticked(pan: Pan, seconds: number, frame: number): [Pan, number[]] {
+  const lefts = [leftAt(pan, 0)];
+  let now = pan;
+  for (let index = 0; index < Math.round(seconds / frame); index++) {
+    now = tick(now, frame);
+    lefts.push(leftAt(now, 0));
+  }
+  return [now, lefts];
+}
+
+/** A key for `direction` held `seconds` from the opening crop over `view`, then let go and left to rest, at frames `frame` seconds long. */
+function heldFor(
+  view: View,
+  direction: Direction,
+  seconds: number,
+  frame: number,
+): { held: number[]; after: number[]; rest: Pan } {
+  const [holding, held] = ticked(
+    holdKey(openingPan(view), direction, 0),
+    seconds,
+    frame,
+  );
+  const [rest, after] = ticked(letGoKey(holding, direction), 1, frame);
+  return { held, after, rest };
+}
+
+/** Each frame's move across `lefts`. */
+function moves(lefts: readonly number[]): number[] {
+  return lefts.slice(1).map((left, index) => left - (lefts[index] ?? 0));
+}
+
+const CRUISE = CRUISE_ACROSS * TABLET.width;
+
+/** That the last frame of `lefts` moves leftward at the cruise. */
+function assertCruisesLeftward(lefts: readonly number[]): void {
+  const last = moves(lefts).at(-1) ?? 0;
+  assert.ok(
+    Math.abs(last + CRUISE * FRAME) < 1e-6,
+    `turns leftward at ${String(last / FRAME)} px/s`,
+  );
+}
+
+describe('a held key', () => {
+  it('eases in to a steady cruise in screen widths a second', () => {
+    const { held } = heldFor(TABLET, 1, 1, FRAME);
+    const steps = moves(held);
+    const cruising = steps.slice(-10);
+    for (const each of cruising) {
+      assert.ok(
+        Math.abs(each - CRUISE * FRAME) < 1e-6,
+        `cruises: ${String(each)}`,
+      );
+    }
+    const easing = steps.slice(0, Math.round(KEY_EASE / FRAME));
+    assert.ok(
+      easing.every((each, index) => each > (easing[index - 1] ?? 0)),
+      'each frame of the start moves farther than the last',
+    );
+    assert.ok((easing[0] ?? 0) < CRUISE * FRAME * 0.2, 'no jump on the press');
+    assert.ok(steps.every((each) => each <= CRUISE * FRAME + 1e-9));
+  });
+
+  it('eases out to rest on release, and rests', () => {
+    const { held, after, rest } = heldFor(TABLET, 1, 0.6, FRAME);
+    const steps = moves(after);
+    const stopping = steps.slice(0, Math.round(KEY_EASE / FRAME));
+    assert.ok(
+      stopping.every(
+        (each, index) =>
+          each < (index === 0 ? CRUISE * FRAME : (stopping[index - 1] ?? 0)),
+      ),
+      'each frame of the stop moves less than the last',
+    );
+    assert.ok(
+      stopping.every((each) => each > 0),
+      'it never backs up',
+    );
+    assert.equal(rest.motion.kind, 'rest');
+    assert.equal(tick(rest, FRAME), rest, 'a rest is the same crop');
+    const coasted = (after.at(-1) ?? 0) - (held.at(-1) ?? 0);
+    assert.ok(
+      Math.abs(coasted - (CRUISE * KEY_EASE) / 2) < 1,
+      `coasts ${String(coasted)}`,
+    );
+  });
+
+  it('nudges a little on a quick tap', () => {
+    const { rest } = heldFor(TABLET, -1, 0.1, FRAME);
+    const moved = 590 - leftAt(rest, 0);
+    assert.ok(
+      moved > 5 && moved < 0.05 * TABLET.width,
+      `a tap moved ${String(moved)}`,
+    );
+  });
+
+  it('is not restarted by a held key’s repeats', () => {
+    const [once] = ticked(holdKey(openingPan(TABLET), 1, 0), 0.5, FRAME);
+    let repeated = holdKey(openingPan(TABLET), 1, 0);
+    for (let index = 0; index < 30; index++) {
+      repeated = tick(holdKey(repeated, 1, index * FRAME), FRAME);
+    }
+    assert.equal(leftAt(repeated, 0), leftAt(once, 0));
+  });
+
+  it('holds still with both keys held', () => {
+    const both = holdKey(holdKey(openingPan(TABLET), 1, 0), -1, 0);
+    const [standing, lefts] = ticked(both, 1, FRAME);
+    assert.ok(lefts.every((left) => left === 590));
+    assert.equal(tick(standing, FRAME), standing, 'a stand is the same crop');
+  });
+
+  it('turns the other way at cruise within the ease once one of two keys is let go', () => {
+    const [rightward] = ticked(holdKey(openingPan(TABLET), 1, 0), 0.5, FRAME);
+    const [both, standing] = ticked(holdKey(rightward, -1, 0.5), 1, FRAME);
+    const stood = moves(standing).slice(-10);
+    assert.ok(
+      stood.every((each) => each === 0),
+      `stands: ${stood.join(', ')}`,
+    );
+    const [, lefts] = ticked(letGoKey(both, 1), KEY_EASE + FRAME, FRAME);
+    assertCruisesLeftward(lefts);
+  });
+
+  it('turns on after a finger presses and lifts while it is held', () => {
+    const [turning] = ticked(holdKey(openingPan(TABLET), -1, 0), 0.5, FRAME);
+    const at = leftAt(turning, 0);
+    const pressed = press(turning, 400, 0.5);
+    assert.equal(leftAt(tick(pressed, FRAME), 0.6), at, 'the finger keeps it');
+    const lifted = release(tick(pressed, 0.1), 0.6);
+    const [, lefts] = ticked(lifted, KEY_EASE + FRAME, FRAME);
+    assertCruisesLeftward(lefts);
+  });
+
+  it('turns on after a finger drags while it is held, from the drag’s crop', () => {
+    const turning = holdKey(openingPan(TABLET), 1, 0);
+    const lifted = release(dragged(turning, 800, -200, { seconds: 0.1 }), 0.1);
+    const from = leftAt(lifted, 0.1);
+    assert.ok(from > 590 + 150, `the drag carried it to ${String(from)}`);
+    const [, lefts] = ticked(lifted, 0.4, FRAME);
+    const steps = moves(lefts);
+    assert.ok(
+      steps.every((each) => each > 0 && each <= CRUISE * FRAME + 1e-9),
+      'it turns on rightward, never past the cruise',
+    );
+  });
+
+  it('is the same crop each frame it is held against a world’s end', () => {
+    const { held } = heldFor(TABLET, 1, 4, FRAME);
+    assert.equal(held.at(-1), 1180);
+    const [atEnd] = ticked(holdKey(openingPan(TABLET), 1, 0), 4, FRAME);
+    assert.equal(tick(atEnd, FRAME), atEnd);
+  });
+
+  it('comes to rest softly at the world’s end, never past it', () => {
+    const { held } = heldFor(TABLET, 1, 4, FRAME);
+    assert.ok(held.every((left) => left <= 1180));
+    assert.ok(Math.abs((held.at(-1) ?? 0) - 1180) < 1e-6);
+    const steps = moves(held);
+    const cruised = steps.findIndex(
+      (each, index) => index > 20 && each < CRUISE * FRAME - 1e-6,
+    );
+    const braking = steps.slice(cruised).filter((each) => each > 0);
+    assert.ok(braking.length > 5, 'the stop takes several frames');
+    assert.ok(
+      braking.every(
+        (each, index) => each <= (braking[index - 1] ?? Infinity) + 1e-9,
+      ),
+      'it only slows as it nears the end',
+    );
+    const last = braking.at(-1) ?? Infinity;
+    assert.ok(
+      last < CRUISE * FRAME * 0.25,
+      `the last frame moves ${String(last)} px`,
+    );
+  });
+
+  it('lands within a pixel at 60, 30 and 144 frames a second', () => {
+    // Each hold spans a whole number of frames at every rate.
+    for (const seconds of [1 / 6, 1, 3]) {
+      const lands = [1 / 60, 1 / 30, 1 / 144].map((frame): [number, number] => {
+        const { held, after } = heldFor(TABLET, 1, seconds, frame);
+        return [held.at(-1) ?? 0, after.at(-1) ?? 0];
+      });
+      const [first = [0, 0]] = lands;
+      for (const [letGo, rest] of lands) {
+        assert.ok(Math.abs(letGo - first[0]) < 1, `let go at ${String(letGo)}`);
+        assert.ok(Math.abs(rest - first[1]) < 1, `rested at ${String(rest)}`);
+      }
+    }
+  });
+
+  it('takes a long frame as no more than a tenth of a second', () => {
+    const away = tick(holdKey(openingPan(TABLET), 1, 0), 30);
+    assert.ok(leftAt(away, 0) - 590 < CRUISE * 0.1);
+  });
+
+  it('stops a glide, carrying its pace no faster than the cruise', () => {
+    const gliding = release(
+      dragged(openingPan(TABLET), 800, -200, { seconds: 0.1 }),
+      0.1,
+    );
+    const at = leftAt(gliding, 0.2);
+    const keyed = holdKey(gliding, -1, 0.2);
+    assert.equal(leftAt(keyed, 0.2), at);
+    const next = tick(keyed, FRAME);
+    const moved = leftAt(next, 0) - at;
+    assert.ok(
+      moved > 0 && moved <= CRUISE * FRAME,
+      `the next frame moves ${String(moved)}`,
+    );
+    const [, lefts] = ticked(next, 2, FRAME);
+    assert.ok((lefts.at(-1) ?? 0) < at, 'the key turns it back');
+  });
+
+  it('pressed under a finger waits for the lift, and then turns', () => {
+    const pressed = press(openingPan(TABLET), 400, 0);
+    const keyed = holdKey(pressed, 1, 0.1);
+    assert.equal(leftAt(tick(keyed, FRAME), 0.2), 590);
+    const [, lefts] = ticked(release(keyed, 0.2), 1, FRAME);
+    assert.ok((lefts.at(-1) ?? 0) > 590 + CRUISE * 0.5, 'it turns after');
+    const letGo = release(letGoKey(keyed, 1), 0.2);
+    assert.equal(letGo.motion.kind, 'rest', 'a key let go first is let go');
+  });
+});
+
+describe('a resize', () => {
+  it('keeps the ground point at the screen’s centre there, across a new zoom', () => {
+    const view = { ...TABLET };
+    const [panned] = ticked(holdKey(openingPan(view), 1, 0), 0.5, FRAME);
+    const centre =
+      (leftAt(panned, 1) + view.width / 2 - view.world / 2) / view.unit;
+    const turned: View = { width: 820, world: 1640 * 1.2, unit: 120 };
+    const there = recrop(panned, turned, 1);
+    const after =
+      (leftAt(there, 1) + turned.width / 2 - turned.world / 2) / turned.unit;
+    assert.ok(Math.abs(after - centre) < 1e-9);
+  });
+
+  it('keeps the opening crop centred, and holds the crop inside the new world', () => {
+    const turned: View = { width: 820, world: 1640, unit: 70 };
+    assert.equal(leftAt(recrop(openingPan(TABLET), turned, 0), 0), 410);
+    const atEnd = dragged(openingPan(TABLET), 1000, -2000);
+    const narrow: View = { width: 820, world: 900, unit: 30 };
+    assert.equal(leftAt(recrop(release(atEnd, 5), narrow, 5), 5), 80);
+  });
+
+  it('lets a pressed finger pan on from the new crop', () => {
+    const pressed = dragged(openingPan(TABLET), 600, -100);
+    const turned: View = { width: 820, world: 1640, unit: 70 };
+    const there = recrop(pressed, turned, 0.2);
+    const left = leftAt(there, 0.2);
+    assert.equal(leftAt(move(there, 400, 0.3), 0.3), left + 100);
+  });
+});

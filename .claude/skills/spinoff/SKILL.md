@@ -135,7 +135,9 @@ shapes of this recur, and each is silent when taken by directory:
 
 - **Path-scoped rules.** A `.claude/rules/*.md` scoped to a directory the new
   repo will not have sits beside three that should travel, and a directory-level
-  copy takes all four. Decide every rule file on its own `paths:` globs.
+  copy takes all four. Decide every rule file on its own `paths:` globs; a
+  directory's own `CLAUDE.md` needs no decision of its own, travelling or not
+  with the directory it sits in.
 - **Files that are half loop, half stack.** A session-start hook is typically
   both: a proxy shim or credential fix that travels intact, beside a dependency
   install that is stack-bound. Split it — the neutral half is a copy, the rest a

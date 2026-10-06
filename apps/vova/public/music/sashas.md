@@ -19,9 +19,9 @@ ru:
 <!-- lang:en -->
 
 Claude, when he was preparing the stand-in draft for this song, called it a
-“companion piece to [Двадцать](./first.md)”, which is apt enough. What he didn't
+“companion piece to [Двадцать](./first.md),” which is apt enough. What he didn’t
 know is that this song — the poem, rather — was written by my sister, Sasha.
-Apart from the last, “father's” verse: that one I wrote, going from her paraphrase
+Apart from the last, “father’s” verse: that one I wrote, going from her paraphrase
 of discussing those very poems with her ChatGPT. A cross-generational,
 cross-species collab of the living and the dead, machine and human.
 
@@ -84,7 +84,7 @@ Dad, I heard laughter from a yacht,
 Even though it was far away, a little dot.
 Why does a sound wave travel so far
 From its source across water?
-Sometimes there's a hum in my head,
+Sometimes there’s a hum in my head,
 Though I know there is nothing nearby to hum.
 Sometimes, in that hum, it seems to me
 That you are about to answer something.

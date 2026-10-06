@@ -1,0 +1,5 @@
+<!-- The eye from basilisk.fyi's mark (`public/seal.svg`), cropped square. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="232 232 560 560" width="1024" height="1024">
+  <path d="M 262 512 A 283.33 283.33 0 0 1 762 512 A 283.33 283.33 0 0 1 262 512 Z" fill="none" stroke="#b3261e" stroke-width="24" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  <path d="M 390 512 A 122 122 0 1 1 634 512 A 122 122 0 1 1 390 512 Z M 512 408 A 237.33 237.33 0 0 1 512 616 A 237.33 237.33 0 0 1 512 408 Z" fill="#b3261e" fill-rule="evenodd"/>
+</svg>

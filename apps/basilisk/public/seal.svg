@@ -1,0 +1,23 @@
+<!--
+  basilisk.fyi's mark: a rubber stamp, in two cuts — this one and `seal-lettered.svg`.
+  The two are one drawing; the lettered cut is the blank one plus a final
+  letters path, as on the Bible's seal.
+
+  Drawn rather than traced, on a 1024 canvas in one ink, #b3261e: an outer ring
+  at 466 (24 wide) and an inner one at 326 (10 wide); inside, an
+  eye of two circular arcs meeting at ±250 with a sagitta of 150
+  (24 stroke), an iris disc of 122, and a slit pupil cut out of it
+  as a lens of two arcs, ±104 tall with a sagitta of 24. The lettering is
+  JetBrains Mono Bold — the site's memo face — at 100 px per em, set along
+  two arcs and emitted as outlines rather than <text>, since an SVG behind
+  an <img> cannot reach a web font. The band runs 353.00–432.00: the top
+  line's baseline on its inner edge across 164°, the bottom line's on its
+  outer edge across 116°, a dot at either gap.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <circle cx="512" cy="512" r="466" fill="none" stroke="#b3261e" stroke-width="24"/>
+  <circle cx="512" cy="512" r="326" fill="none" stroke="#b3261e" stroke-width="10"/>
+  <path d="M 262 512 A 283.33 283.33 0 0 1 762 512 A 283.33 283.33 0 0 1 262 512 Z" fill="none" stroke="#b3261e" stroke-width="24" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  <path d="M 390 512 A 122 122 0 1 1 634 512 A 122 122 0 1 1 390 512 Z M 512 408 A 237.33 237.33 0 0 1 512 616 A 237.33 237.33 0 0 1 512 408 Z" fill="#b3261e" fill-rule="evenodd"/>
+  <circle cx="119.50" cy="512" r="11" fill="#b3261e"/> <circle cx="904.50" cy="512" r="11" fill="#b3261e"/>
+</svg>

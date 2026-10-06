@@ -13,3 +13,6 @@ Write it with a touch of Terry Pratchett-ish irony — what that means is for
 every agent to find out and for the codebase to settle on as more prose
 accumulates, which is a roundabout way of saying that nobody here has defined
 it and it has been going rather well so far.
+
+Commas and periods go inside closing quotes — `.claude/rules/content.md`
+§ "Punctuation around quotes".

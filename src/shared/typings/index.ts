@@ -16,7 +16,7 @@ export type WithId = { id: string };
 
 export type Titled = { title: string };
 
-/** An image's intrinsic pixel size — what reserves its box before it loads. */
+/** A box's width and height: an image's intrinsic pixel size, which reserves its box before it loads, or a drawn part's. */
 export type Sized = {
   width: number;
   height: number;
@@ -26,6 +26,9 @@ export type Sized = {
 export type MaybeTitled = { title?: string };
 
 export type Described = { description: string };
+
+/** A date as frontmatter spells it, ISO `YYYY-MM-DD`. */
+export type Dated = { date: string };
 
 /** The short name a thing is shown or logged under. */
 export type Labeled = { label: string };

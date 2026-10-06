@@ -1,0 +1,115 @@
+{
+  "sessionId": "6b292b26-a562-5d11-9a7b-39c8c7fce727",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_01EpLkhKsHnrkerpK5nAQDgo",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-30T19:55:33.293Z",
+  "lastResponseAt": "2026-09-30T22:57:14.950Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": 32.44598420000001,
+  "total": {
+    "inputTokens": 17509,
+    "cacheWrite5mTokens": 3453114,
+    "cacheWrite1hTokens": 266720,
+    "cacheReadTokens": 70928129,
+    "outputTokens": 51300,
+    "thinkingTokens": 8939,
+    "responses": 526,
+    "costUsd": 34.68546179999996
+  },
+  "ownTurns": {
+    "inputTokens": 236,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 266720,
+    "cacheReadTokens": 18506498,
+    "outputTokens": 45671,
+    "thinkingTokens": 8939,
+    "responses": 105,
+    "costUsd": 6.7494236
+  },
+  "subagents": {
+    "inputTokens": 812,
+    "cacheWrite5mTokens": 3450609,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 50105502,
+    "outputTokens": 5159,
+    "thinkingTokens": 0,
+    "responses": 406,
+    "costUsd": 27.380573399999996
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16574,
+      "cacheWrite5mTokens": 3453114,
+      "cacheWrite1hTokens": 266720,
+      "cacheReadTokens": 70928129,
+      "outputTokens": 51284,
+      "thinkingTokens": 8939,
+      "responses": 525,
+      "costUsd": 34.68444679999996
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 935,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 16,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0010149999999999998
+    }
+  },
+  "warnings": [
+    "prices.json priced the 511 responses the events also priced at $34.1300, against the events' $39.0592: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/remove-before-merging/bite-11/brief-common.md",
+    "endedAt": "2026-09-30T19:57:05.444Z",
+    "contextTokens": 110071,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55503,
+      "cacheReadTokens": 1098357,
+      "outputTokens": 3265,
+      "thinkingTokens": 1410,
+      "responses": 12,
+      "costUsd": 0.7290914
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 526,
+    "matched": 511,
+    "matchedTableUsd": 34.12999699999997,
+    "matchedEventUsd": 39.059217000000004,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 15526,
+        "cacheWrite5mTokens": 2505,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 2316129,
+        "outputTokens": 454,
+        "thinkingTokens": 0,
+        "responses": 14,
+        "costUsd": 0.5544498
+      },
+      "generate_session_title": {
+        "inputTokens": 935,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 16,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0010149999999999998
+      }
+    }
+  }
+}

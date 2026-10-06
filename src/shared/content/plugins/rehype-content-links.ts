@@ -4,7 +4,7 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl } from '@/shared/config';
+import { getAbsoluteUrl, isOffSite } from '@/shared/config';
 
 import {
   collectionAssetUrl,
@@ -27,7 +27,7 @@ function rewrite(
   url: string,
 ): { href: string; external: boolean } {
   if (!isRelative(url)) {
-    return { href: url, external: /^https?:/i.test(url) };
+    return { href: url, external: isOffSite(url) };
   }
 
   const target = stripLeadingDot(url);

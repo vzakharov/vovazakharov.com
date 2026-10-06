@@ -1,0 +1,446 @@
+import * as Phaser from 'phaser';
+
+import { pick } from '@/shared/lib/collections';
+
+import type { Opening } from '../../api/open-kept';
+import { sameAnchor } from '../../model/anchor';
+import { dusky, FULL_DAY, FULL_DUSK } from '../../model/dusk';
+import type { Sight } from '../../model/flight';
+import { type Action, type Meadow, reduce } from '../../model/game';
+import { type Eye, OPENING_EYE } from '../../model/ground';
+import type { Flier } from '../../model/insects';
+import { sunLight } from '../../model/light';
+import { mulberry32 } from '../../model/random';
+import { Arrivals } from './arrivals';
+import type { Opener } from './clump-shade';
+import { controlActions, type ControlScene } from './control-actions';
+import { Controls } from './controls';
+import { DuskView, schemeIsDark } from './dusk-view';
+import { EyeInput } from './eye-input';
+import { FlowerBed } from './flower-bed';
+import { bedClosing } from './flower-closing';
+import { type Stand, standOf } from './flower-sight';
+import { InsectView } from './insect-view';
+import { Instrument } from './instrument';
+import { type MeadowLayout, meadowLayout } from './layout';
+import { type MapSnapshot, MapView } from './map-view';
+import { type MeadowKeeping, meadowKeeping } from './meadow-keeping';
+import { listenOnMeadow } from './meadow-listeners';
+import { meadowOpening } from './meadow-opening';
+import { tapInsect, tapMeadow } from './meadow-taps';
+import { MushroomBed } from './mushroom-bed';
+import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
+import type { PerchHosts } from './perch-hosts';
+import { perchAnchorOf, Perches } from './perches';
+import { Planter, type Scened } from './planter';
+import { RainView } from './rain-view';
+import { MeadowSound } from './sound';
+import { sporeOnTap } from './spore-seats';
+import { Grass } from './tufts';
+import { type View, viewAt } from './view';
+import { Gait } from './walking';
+
+/** The registry key the host writes the device pixel ratio under. */
+export const PIXEL_RATIO_KEY = 'pixelRatio';
+
+/** Above everything in the meadow, spores included. */
+const HUD_DEPTH = 2e5;
+/**
+ * Above everything in the meadow too, taking a tap first and passing one at
+ * rest on to its perch (`tapInsect`), but under the buttons, which keep their
+ * taps.
+ */
+const INSECT_DEPTH = 1.5e5;
+
+/**
+ * The meadow. Everything that varies between visits comes from one seed, so a
+ * resize repaints the same meadow rather than a new one — into the objects
+ * already on screen. Every movement is set each frame from the clock
+ * (`model/motion.ts`), so a resize changes where a thing stands and never
+ * interrupts how it moves.
+ */
+export class MeadowScene extends Phaser.Scene {
+  /** What the player has made of the meadow; changed only by `dispatch`, which the screen follows. */
+  private meadow: Meadow | undefined;
+  private flowers: FlowerBed | undefined;
+  private layout: MeadowLayout | undefined;
+  /** The mushrooms the visit opened with, which place the flowers. */
+  private openers: readonly Opener[] | undefined;
+  private backdrop: Backdrop | undefined;
+  private grass: Grass | undefined;
+  private bed: MushroomBed | undefined;
+  private controls: Controls | undefined;
+  private insects: InsectView | undefined;
+  private rain: RainView | undefined;
+  private dusk: DuskView | undefined;
+  private readonly perches: Perches;
+  /** The anchor the perches were last seen from (`perchAnchorOf`). */
+  private seenFrom: Eye | undefined;
+  /**
+   * Whether flowers were planted, or mushrooms grown or thinned, since the
+   * flower bed last caught up: the bed draws them and the insects see them on
+   * the next frame, so a planting never adds a repaint of every flower and a
+   * fresh sight to the frame whose tick planted it.
+   */
+  private sown = false;
+  private readonly voice = new MeadowSound();
+  /** Seconds on the scene's clock, as of the last frame. */
+  private clock = 0;
+  private readonly now = (): number => this.clock;
+  /** Where the frames are seen from, and what turns and walks it. */
+  private readonly eye = new EyeInput(this.now);
+  private readonly mapShot = (): MapSnapshot | undefined => {
+    const [stand, eye, { seed }] = [this.stand(), this.eye.eye(), this.opening];
+    const [ratio, bed, meadow] = [this.pixelRatio(), this.bed, this.meadow];
+    if (!stand || !eye || !bed || !meadow) return undefined;
+    const dusk = dusky(meadow.dusk, this.clock * 1000);
+    return { stand, eye, seed, ratio, doors: bed, dusky: dusk };
+  };
+  private readonly map = new MapView(this.now, this.mapShot, this.eye.halt);
+  /** The walk as the frames go by: the feet landing and the bob. */
+  private readonly gait = new Gait();
+  private readonly instrument = new Instrument(this.voice, this.now);
+  /** The stand and the reducer, as the planter and the arrivals act through them. */
+  private readonly scened: Scened = {
+    stand: () => this.stand(),
+    view: () => this.eye.view(),
+    meadow: () => this.meadow,
+    dispatch: (action) => {
+      this.dispatch(action);
+    },
+    tufts: () => this.grass?.inView() ?? [],
+    tendedAt: () => this.grass?.tendedAt() ?? OPENING_EYE,
+  };
+  private readonly planter: Planter;
+  /** `scened` with the layout and what the insects see, as the arrivals and a tap on an insect act through it. */
+  private readonly sighted = {
+    ...this.scened,
+    layout: () => this.requireLayout(),
+    sight: () => this.sightNow(),
+  };
+  private readonly arrivals: Arrivals;
+  /** What the visit opens on; its `keeper`, absent with no store, keeps the meadow. */
+  private readonly opening: Opening;
+  private readonly keeping: MeadowKeeping;
+
+  constructor(opening: Opening) {
+    super('meadow');
+    this.opening = opening;
+    this.perches = new Perches(() => this.beds());
+    // Each its own stream, apart from the meadow's world.
+    const { voice, now, scened, sighted, eye } = this;
+    this.planter = new Planter(
+      voice,
+      now,
+      scened,
+      opening.streams ^ 0x7f_10_e5,
+    );
+    this.arrivals = new Arrivals(voice, now, sighted, opening.streams);
+    this.keeping = meadowKeeping(opening, scened, eye, now);
+  }
+
+  create(): void {
+    const dusk = schemeIsDark() ? FULL_DUSK : FULL_DAY;
+    const opened = meadowOpening(this.opening, dusk);
+    [this.meadow, this.openers] = [opened.meadow, opened.openers];
+    this.flowers = new FlowerBed(
+      this,
+      this.instrument,
+      this.now,
+      opened.flowers,
+      (action) => {
+        this.dispatch(action);
+      },
+      () => this.eye.heldStill(),
+    );
+    this.bed = new MushroomBed(this, this.voice, this.now, (id) => {
+      const spore = sporeOnTap(this.scened, id, this.clock * 1000);
+      this.dispatch({ kind: 'select', id, ...spore });
+    });
+    this.insects = new InsectView(
+      this,
+      this.voice,
+      this.now,
+      INSECT_DEPTH,
+      (id) => {
+        tapInsect(this.sighted, this.perches, id, this.clock * 1000);
+      },
+      () => this.viewNow(),
+    );
+    const actions = controlActions(this.controlScene());
+    this.controls = new Controls(this, actions, this.now, HUD_DEPTH);
+    // Over the rain, under the map button.
+    this.map.mount(this, HUD_DEPTH - 0.5, actions.map);
+    const lit = [this, HUD_DEPTH, this.now, this.scened.dispatch] as const;
+    this.rain = new RainView(...lit, this.voice);
+    const ground = { ...this.scened, beds: () => this.beds() };
+    this.dusk = new DuskView(...lit, this.voice, {
+      ...ground,
+      ...pick(this.opening, 'seed'),
+    });
+    this.paint();
+    // At rest, as it was left: nothing pops in, sounds or blooms.
+    const at = [this.meadow, this.requireLayout(), this.clock, true] as const;
+    this.bed.reconcile(...at);
+    this.flowers.reconcile(...at);
+    this.insects.reconcile(this.meadow.insects);
+    const { instrument, flowers, eye, planter, voice, map, keeping } = this;
+    const { paint: resize, tapMeadow: tap } = this;
+    listenOnMeadow(this, {
+      resize,
+      tap,
+      fold: actions.map,
+      instrument,
+      flowers,
+      eye,
+      planter,
+      voice,
+      map,
+      keeping,
+    });
+  }
+
+  override update(time: number): void {
+    this.clock = time / 1000;
+    if (this.sown) this.sow();
+    const t = this.clock;
+    const { layout, backdrop, grass, flowers, bed, meadow, keeping } = this;
+    const { controls, insects, perches, rain, dusk, map, opening } = this;
+    if (!layout || !backdrop) return;
+    this.walk(layout.height);
+    const burrows = bed?.runs.burrows(opening.seed);
+    this.dispatch({ kind: 'tick', now: time, burrows, ...this.sightNow() });
+    keeping.poll(time);
+    bed?.runs.night(this.meadow?.nightRuns.last);
+    driftClouds(backdrop, layout, t);
+    dusk?.update(meadow?.dusk);
+    const level = dusk?.level ?? 0;
+    rain?.update(meadow?.rain, level);
+    const wetness = rain?.wetness ?? 0;
+    const planting = meadow?.planting;
+    // The grass marks the tuft the picker is open on; the bed rings a flower.
+    grass?.update(
+      t,
+      planting?.flower === undefined ? planting?.foot : undefined,
+      level,
+    );
+    bed?.update(t, wetness, dusk?.lights, level);
+    controls?.update(t);
+    map.update(t, level);
+    const closing = bedClosing(wetness, level);
+    // As the tick just left them.
+    flowers?.update(t, closing, this.fliers(), planting?.flower);
+    // Last, so every perch stands where this frame has put it, a sagging
+    // head's included.
+    insects?.update(t, perches.at, level);
+  }
+
+  /**
+   * Sees the frame from where the eye stands now: everything on the ground
+   * and the sky's turning parts through its view, the camera bobbing with
+   * the walk (`Gait`) and a footstep for each foot that lands.
+   */
+  private walk(height: number): void {
+    const { eye, backdrop, grass, bed, flowers } = this;
+    const { voice, gait, clock, cameras, seenFrom } = this;
+    const view = eye.view();
+    if (!view) return;
+    backdrop?.follow(view);
+    grass?.follow(view);
+    bed?.follow(view);
+    flowers?.follow(view);
+    const { feet, bob } = gait.step(eye.walked(), clock, height);
+    for (const foot of feet) voice.step(foot);
+    cameras.main.setScroll(0, bob);
+    if (seenFrom && !sameAnchor(seenFrom, this.anchor())) this.see();
+  }
+
+  /** The anchor the perches are judged from: where the eye stands now, snapped (`perchAnchorOf`). */
+  private anchor(): Eye {
+    return perchAnchorOf(this.eye.eye() ?? OPENING_EYE);
+  }
+
+  /** Draws the flowers as the plantings and the mushrooms now stand, and sees the perches with them. */
+  private sow(): void {
+    this.sown = false;
+    if (!this.meadow) return;
+    this.flowers?.reconcile(this.meadow, this.requireLayout(), this.clock);
+    this.see();
+    this.tendGrass();
+  }
+
+  /** Tends the tufts to the meadow as it now stands (`Grass.tend`). */
+  private tendGrass(): void {
+    const stand = this.stand();
+    if (!stand) return;
+    this.grass?.tend(stand);
+    this.shutStrayPicker();
+  }
+
+  /**
+   * Shuts the flower picker once the tuft it is open on no longer takes a
+   * flower; one open on a flower stands, with no tuft under it to lose.
+   */
+  private shutStrayPicker(): void {
+    const planting = this.meadow?.planting;
+    if (
+      planting &&
+      planting.flower === undefined &&
+      this.grass &&
+      !this.grass.holds(planting.foot)
+    ) {
+      this.dispatch({ kind: 'shut' });
+    }
+  }
+
+  /** The meadow as it stands on the screen last painted, once there is one. */
+  private stand(): Stand | undefined {
+    const { layout, flowers, meadow } = this;
+    if (!layout || !meadow) return undefined;
+    return standOf(layout, flowers?.seeded ?? [], meadow);
+  }
+
+  private fliers(): readonly Flier[] {
+    return this.meadow?.insects ?? [];
+  }
+
+  /** The beds the perches stand on, as the scene holds them now. */
+  private beds(): Pick<PerchHosts, 'bed' | 'flowers'> {
+    const { bed, flowers } = this;
+    return { bed, flowers };
+  }
+
+  private dispatch(action: Action): void {
+    if (!this.meadow) return;
+    const meadow = reduce(this.meadow, action);
+    // A frame's tick with nothing due changes nothing, and costs nothing.
+    if (meadow === this.meadow) return;
+    const regrown = meadow.mushrooms !== this.meadow.mushrooms;
+    this.sown ||=
+      regrown ||
+      meadow.planted !== this.meadow.planted ||
+      meadow.pulled !== this.meadow.pulled;
+    this.meadow = meadow;
+    if (regrown) this.see();
+    this.bed?.reconcile(meadow, this.requireLayout(), this.clock);
+    this.insects?.reconcile(meadow.insects);
+    this.repaintControls();
+    if (action.kind !== 'tick') this.keeping.keep();
+  }
+
+  private readonly tapMeadow = (
+    pointer: Phaser.Input.Pointer,
+    over: readonly Phaser.GameObjects.GameObject[],
+  ): void => {
+    const { grass, cameras, planter, rain, dusk, bed, scened } = this;
+    const { dispatch } = scened;
+    const camera = cameras.main;
+    const tapped = { camera, planter, grass, rain, dusk, bed, dispatch };
+    tapMeadow(tapped, pointer, over);
+  };
+
+  private requireLayout(): MeadowLayout {
+    if (!this.layout) throw new Error('The meadow is used before its paint');
+    return this.layout;
+  }
+
+  /** The view the frame is drawn through now: the opening eye's before the eye's first fit. */
+  private viewNow(): View {
+    return this.eye.view() ?? viewAt(this.requireLayout().camera, OPENING_EYE);
+  }
+
+  /** What the insects see now, each flier where it was last drawn among it and where it is drawn leaving. */
+  private sightNow(): Sight {
+    const view = this.viewNow();
+    return this.perches.sightFrom(
+      view,
+      this.insects?.drawnAlofts(),
+      this.insects?.awaysOf(view),
+    );
+  }
+
+  private readonly repaintControls = (): void => {
+    if (this.layout && this.meadow) {
+      this.controls?.paint(
+        this.layout,
+        this.meadow,
+        this.map.open,
+        this.eye.gait(),
+        this.pixelRatio(),
+        this.eye.toScreen,
+      );
+    }
+  };
+
+  /** What the buttons over the meadow act through (`controlActions`). */
+  private controlScene(): ControlScene {
+    const { voice, map, eye, arrivals, planter, scened, repaintControls } =
+      this;
+    return {
+      voice,
+      map,
+      eye,
+      arrivals,
+      planter,
+      ...pick(scened, 'dispatch'),
+      repaint: repaintControls,
+    };
+  }
+
+  private pixelRatio(): number {
+    return Number(this.registry.get(PIXEL_RATIO_KEY) ?? 1);
+  }
+
+  /**
+   * The canvas is sized in device pixels for a sharp picture on a dense
+   * screen; the camera's zoom brings the world back to CSS pixels, which is
+   * what the layout is written in.
+   */
+  private readonly paint = (): void => {
+    const ratio = this.pixelRatio();
+    this.cameras.main.setOrigin(0, 0).setZoom(ratio);
+    const screen = {
+      width: this.scale.width / ratio,
+      height: this.scale.height / ratio,
+    };
+    const layout = meadowLayout(
+      screen.width,
+      screen.height,
+      // Its own stream, apart from the creatures' and the backdrop's.
+      this.opening.seed ^ 0xf1_0e_25,
+      this.openers,
+    );
+    this.layout = layout;
+    // The visit opens on the clump; a resize keeps where the eye stands
+    // and which way it looks.
+    this.eye.fit(layout.camera, this.opening.kept);
+    // Its own stream, so the backdrop never shifts the creatures' seeds.
+    const random = mulberry32(this.opening.seed ^ 0x5e_ed);
+    this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
+    this.rain?.paint(layout, this.backdrop);
+    this.dusk?.paint(layout, this.backdrop);
+    // Its own stream, so a planting never shifts the backdrop's.
+    this.grass ??= new Grass(this, mulberry32(this.opening.seed ^ 0x70_f7_5e));
+    const stand = this.stand();
+    if (stand) this.grass.paint(stand);
+    this.shutStrayPicker();
+    // One device pixel is the thinnest line the screen shows.
+    const lighting = { ...sunLight(layout), hairline: 1 / ratio };
+    if (this.meadow) this.bed?.paint(this.meadow, layout, lighting);
+    this.insects?.paint(layout, lighting);
+    this.flowers?.paint(layout, lighting);
+    this.walk(layout.height);
+    this.see();
+    this.repaintControls();
+    this.map.redraw();
+  };
+
+  /** Sees the perches afresh, as the screen and the mushrooms now stand, from where the eye stands. */
+  private see(): void {
+    const stand = this.stand();
+    if (!stand) return;
+    const anchor = this.anchor();
+    this.perches.see(stand, anchor, this.clock * 1000);
+    this.seenFrom = anchor;
+  }
+}

@@ -8,12 +8,14 @@ export {
 } from './music-projects';
 export {
   getAbsoluteUrl,
+  isOffSite,
   pageFile,
   printedUrl,
   SITE_CONFIG,
   SITE_ID,
 } from './resolved-site';
 export {
+  ANALYTICS_SCRIPT_URL,
   AUTHOR_URL,
   PAGE_ROUTES,
   type SiteConfig,

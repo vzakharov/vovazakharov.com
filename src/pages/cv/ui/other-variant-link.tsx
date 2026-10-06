@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 
 import type { Messages } from '@/shared/i18n';
-import { InternalLink } from '@/shared/ui';
+import { TextLink } from '@/shared/ui';
 
 import { cvPath } from '../lib/cv-urls';
 import type { CvEdition, CvVariant } from '../lib/cv-variants';
@@ -33,9 +33,7 @@ export function OtherVariantLink({
 
   return (
     <Text size="sm" className={classes['dim60']}>
-      <InternalLink href={cvPath(other, locale)} inherit>
-        {labels[other]}
-      </InternalLink>
+      <TextLink href={cvPath(other, locale)}>{labels[other]}</TextLink>
     </Text>
   );
 }

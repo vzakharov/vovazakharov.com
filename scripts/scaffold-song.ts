@@ -31,7 +31,7 @@ import {
   MUSIC_PROJECT_NAMES,
 } from '@/shared/config/music-projects';
 import { collectionDir } from '@/shared/content/collections';
-import type { Named } from '@/shared/typings';
+import type { Dated, Named } from '@/shared/typings';
 
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */
 const HEADER_BYTES = 128 * 1024;
@@ -209,13 +209,13 @@ async function firstCommitDate(repo: string): Promise<string> {
   return oldest.commit.author.date.slice(0, 10);
 }
 
-type DocumentFields = Named & {
-  date: string;
-  repo: string;
-  seconds: number;
-  master: Master;
-  streamInfo: StreamInfo;
-};
+type DocumentFields = Named &
+  Dated & {
+    repo: string;
+    seconds: number;
+    master: Master;
+    streamInfo: StreamInfo;
+  };
 
 /**
  * The frontmatter this script can fill, plus a body that says what is left. The

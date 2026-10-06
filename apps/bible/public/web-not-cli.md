@@ -1,6 +1,7 @@
 ---
-description: Most people stay in a local terminal because a terminal is where serious work happens and a browser tab is where it doesn't. That is a feeling, not an argument, and the three things you get for giving it up are not small ones.
+description: Most people stay in a local terminal because a terminal is where serious work happens and a browser tab is where it doesn’t. That is a feeling, not an argument, and the three things you get for giving it up are not small ones.
 date: 2026-09-16
+author: vova
 order: 3
 cardImage: ./assets/trunk.jpg
 ---
@@ -15,9 +16,9 @@ Mostly people stay for a reason nobody says out loud: a terminal is where seriou
 
 ## The branches do not fight
 
-Locally, you work in one repository. Whatever your agents are up to, they are up to it in the same working tree, so they see each other coming; at any moment your checkout is the current state of everything you have going, and merging is somebody else's problem. Move to the cloud and every session gets a branch of its own, and you immediately start doing arithmetic about how ten of those are ever going to come back together.
+Locally, you work in one repository. Whatever your agents are up to, they are up to it in the same working tree, so they see each other coming; at any moment your checkout is the current state of everything you have going, and merging is somebody else’s problem. Move to the cloud and every session gets a branch of its own, and you immediately start doing arithmetic about how ten of those are ever going to come back together.
 
-I put the move off for months on the strength of that arithmetic. It was wrong. Not "mostly fine" wrong — it has not happened once, with two branches or with fifteen.
+I put the move off for months on the strength of that arithmetic. It was wrong. Not “mostly fine” wrong — it has not happened once, with two branches or with fifteen.
 
 ![Two alarmed saplings looking at a serene tree stump in sunglasses: “Dude, is it just me, or is trunk high as balls?”](./assets/trunk.jpg 'aside')
 
@@ -35,7 +36,7 @@ Running locally I could hold three to five sessions, six at a push, and they bea
 
 ![The “this is fine” dog, drawn as a laptop, sipping coffee in a burning room.](./assets/this-is-fine.jpg)
 
-In the web, none of it happens on your computer. Somebody else's processor gets hot, and unlike your own it does so for free: your subscription buys you as many VMs as you care to start, and nobody has yet come to have a word with me about it. You can also put a few other things in that VM — your CI, for one, which does wonders for the GitHub Actions bill — but that too is another article.
+In the web, none of it happens on your computer. Somebody else’s processor gets hot, and unlike your own it does so for free: your subscription buys you as many VMs as you care to start, and nobody has yet come to have a word with me about it. You can also put a few other things in that VM — your CI, for one, which does wonders for the GitHub Actions bill — but that too is another article.
 
 And you can close the lid.
 
@@ -47,9 +48,9 @@ Ten sessions, fifteen, however many the work divides into. You hand out the task
 
 And, let us be honest about the local alternative: sooner or later you will drift. You start an agent, you read along, there is nothing for you to do, so after a while you get bored and open Netflix. You come back to find the agent finished forty minutes ago, and you are two and a half episodes into the second season of Severance and have shipped nothing.
 
-You do lose something real: engagement with each individual session. Reading an agent's reasoning is interesting and genuinely instructive, and now and then you catch a bad decision while it is still a thought rather than a diff. But weighed against the hours it takes, it is not much leverage. Choose a task size the agent can actually finish — also its own subject — and nearly everything you would have said mid-flight you can say to finished code instead, where it is cheaper to say and cheaper to act on, because there is something concrete under the comment.
+You do lose something real: engagement with each individual session. Reading an agent’s reasoning is interesting and genuinely instructive, and now and then you catch a bad decision while it is still a thought rather than a diff. But weighed against the hours it takes, it is not much leverage. Choose a task size the agent can actually finish — also its own subject — and nearly everything you would have said mid-flight you can say to finished code instead, where it is cheaper to say and cheaper to act on, because there is something concrete under the comment.
 
-My own loop, once a task comes back: the agent opens a pull request with [a proposed merge message](https://github.com/vzakharov/muthur/blob/main/.claude/skills/squash-message/SKILL.md) on it, so three or four paragraphs tell me what it did and why. I read the diff in the review tab and leave comments in it — "not like that", "pull this out into a function", "let us rethink the big picture here". Then I go back to the session, compact it rather than dragging the whole accumulated context along, and say: there are comments waiting, go [handle](https://github.com/vzakharov/muthur/blob/main/.claude/skills/handle/SKILL.md) them. It re-reads the PR, works through them, and comes back. Two or three rounds, usually, and it lands.
+My own loop, once a task comes back: the agent opens a pull request with [a proposed merge message](https://github.com/vzakharov/muthur/blob/main/.claude/skills/squash-message/SKILL.md) on it, so three or four paragraphs tell me what it did and why. I read the diff in the review tab and leave comments in it — “not like that,” “pull this out into a function,” “let us rethink the big picture here.” Then I go back to the session, compact it rather than dragging the whole accumulated context along, and say: there are comments waiting, go [handle](https://github.com/vzakharov/muthur/blob/main/.claude/skills/handle/SKILL.md) them. It re-reads the PR, works through them, and comes back. Two or three rounds, usually, and it lands.
 
 The part I did not see coming is that the switching is not a tax. It is where a good share of the insight comes from. A thought that belongs to the parser branch turns up while you are reading the deploy branch, because you have been in both of them in the last twenty minutes, and the two have no business having anything to do with each other, which is exactly why it works. Fifteen shallow contexts cross-pollinate in a way one deep one does not — and that is the human half of what [another article here](./precedent-fallacy.md) is about: the insight arrives from next door, and there is no way to schedule it.
 

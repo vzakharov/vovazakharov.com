@@ -17,7 +17,7 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from test_pricing import PRICE_TABLE, response
 
@@ -78,12 +78,25 @@ class Clone:
     def env(self) -> dict:
         return {"PATH": "/usr/bin:/bin", "HOME": str(self.home), "GIT_CONFIG_NOSYSTEM": "1"}
 
-    def respond(self) -> None:
-        """One more priced turn in the transcript, so the next row differs."""
+    def respond(self, by: Optional[str] = "human", queued: Optional[str] = None) -> None:
+        """One more priced turn in the transcript, so the next row differs: a
+        prompt whose `origin.kind` is `by` (`None` writes no `origin`), and a
+        message `queued` mid-turn by that kind where one is named."""
         self.responses += 1
+        n = self.responses
+        prompt: dict = {"type": "user", "uuid": f"prompt-{n}", "message": {"role": "user", "content": "go"}}
+        if by is not None:
+            prompt["origin"] = {"kind": by}
+        records = [json.dumps(prompt)]
+        if queued is not None:
+            records.append(json.dumps({
+                "type": "attachment",
+                "uuid": f"queued-{n}",
+                "attachment": {"type": "queued_command", "origin": {"kind": queued}},
+            }))
+        records.append(response(id=f"msg_{n}", output=1_000, stop="end_turn"))
         with self.transcript.open("a") as f:
-            record = response(id=f"msg_{self.responses}", output=1_000, stop="end_turn")
-            f.write(record + "\n")
+            f.write("".join(record + "\n" for record in records))
 
     def register_check(self) -> None:
         settings = {"hooks": {"Stop": [{"hooks": [{"command": "~/.claude/stop-hook-git-check.sh"}]}]}}
@@ -104,6 +117,21 @@ class Clone:
             capture_output=True,
             text=True,
             env={**self.env(), "CLAUDE_PROJECT_DIR": str(self.root)},
+        )
+
+    def flush(self) -> subprocess.CompletedProcess:
+        """`flush-row.sh` as a skill runs it, finding the transcript the way
+        Claude Code files it."""
+        projects = self.home / ".claude" / "projects" / "-repo"
+        projects.mkdir(parents=True, exist_ok=True)
+        link = projects / f"{SESSION}.jsonl"
+        if not link.exists():
+            link.symlink_to(self.transcript)
+        return subprocess.run(
+            [str(self.root / ".claude" / "costs" / "flush-row.sh")],
+            capture_output=True,
+            text=True,
+            env={**self.env(), "CLAUDE_CODE_SESSION_ID": SESSION},
         )
 
     def cost(self, *args: str) -> None:
@@ -257,6 +285,77 @@ class StopHookTest(unittest.TestCase):
         self.assertIn("committed but not pushed", result.stderr)
         self.assertEqual(self.clone.status(), "")
         self.assertEqual(self.clone.git("rev-list", "--count", "origin/feature..HEAD"), "1")
+
+
+class WhenARowIsCommittedTest(unittest.TestCase):
+    """A row is committed on a turn the operator wrote into; a turn only an
+    agent or a schedule started leaves it for the next, whose cumulative row
+    carries the skipped spend."""
+
+    def setUp(self) -> None:
+        base = tempfile.TemporaryDirectory()
+        self.addCleanup(base.cleanup)
+        self.clone = Clone(Path(base.name))
+        self.assertEqual(self.clone.stop().returncode, 0)
+        self.first = self.clone.commits()
+
+    def assertCommitted(self, result: subprocess.CompletedProcess, total: str) -> None:
+        self.assertEqual((result.returncode, result.stderr), (0, ""))
+        self.assertEqual(self.clone.commits(), self.first + 1)
+        self.assertEqual(self.clone.git("log", "-1", "--format=%s").split(", ")[-1], f"total {total} USD")
+        self.assertEqual(self.clone.status(), "")
+
+    def test_a_turn_a_notification_started_commits_nothing(self) -> None:
+        self.clone.respond(by="task-notification")
+        result = self.clone.stop()
+        self.assertEqual((result.returncode, result.stderr), (0, ""))
+        self.assertEqual(self.clone.commits(), self.first)
+        self.assertEqual(self.clone.status(), "")
+
+    def test_a_turn_the_operator_started_commits_the_skipped_spend_with_its_own(self) -> None:
+        self.clone.respond(by="task-notification")
+        self.clone.stop()
+        self.clone.respond(by="human")
+        self.assertCommitted(self.clone.stop(), "0.03")
+
+    def test_a_message_the_operator_queued_mid_turn_commits(self) -> None:
+        self.clone.respond(by="task-notification", queued="human")
+        self.assertCommitted(self.clone.stop(), "0.02")
+
+    def test_a_notification_queued_mid_turn_commits_nothing(self) -> None:
+        self.clone.respond(by="task-notification", queued="task-notification")
+        self.clone.stop()
+        self.assertEqual(self.clone.commits(), self.first)
+
+    def test_a_prompt_with_no_origin_commits(self) -> None:
+        self.clone.respond(by=None)
+        self.assertCommitted(self.clone.stop(), "0.02")
+
+    def test_a_session_with_no_marker_commits(self) -> None:
+        [marker] = (self.clone.root / "tmp" / "costs").glob(f"{SESSION}.human")
+        marker.unlink()
+        self.clone.respond(by="task-notification")
+        self.assertCommitted(self.clone.stop(), "0.02")
+
+    def test_a_row_rewritten_by_hand_commits_whoever_started_the_turn(self) -> None:
+        self.clone.respond(by="task-notification")
+        self.clone.cost()
+        self.assertCommitted(self.clone.stop(), "0.02")
+
+    def test_a_flush_commits_whoever_started_the_turn(self) -> None:
+        self.clone.respond(by="task-notification")
+        result = self.clone.flush()
+        self.assertCommitted(result, "0.02")
+        self.assertEqual(self.clone.git("rev-parse", "HEAD"), self.clone.git("rev-parse", "origin/feature"))
+        self.clone.stop()
+        self.assertEqual(self.clone.commits(), self.first + 1)
+
+    def test_a_flush_that_cannot_push_says_so(self) -> None:
+        self.clone.git("remote", "set-url", "origin", str(self.clone.root.parent / "missing.git"))
+        self.clone.respond(by="task-notification")
+        result = self.clone.flush()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("committed but not pushed", result.stderr)
 
 
 if __name__ == "__main__":

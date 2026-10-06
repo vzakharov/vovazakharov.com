@@ -1,6 +1,7 @@
 ---
 description: Agents write a great deal of prose, and write more of it when they see that there is already a lot. Four lenses — tightness, existence, negation, durability — catch nearly all of what goes wrong.
 date: 2026-09-16
+author: vova
 order: 2
 cardImage: ./assets/polar-bear.jpg
 ---
@@ -9,7 +10,7 @@ cardImage: ./assets/polar-bear.jpg
 
 Call everything in your repository that is text but not code **prose**: the documentation files, the docstrings above your function definitions, the comments scattered through the bodies. Somebody has to tend it, and after a few months of agentic work that somebody is you, because your agents have been writing it at a rate no human ever managed.
 
-Run four lenses over every piece of prose an agent produces, every time it produces any. **T**ightness, **E**xistence, **N**egation, **D**urability. They spell TEND, which is a marketing habit I have never fully shaken, and in this case it earns its keep, because four things you can name are four things you will actually check. Mine run as [a skill](https://github.com/vzakharov/muthur/blob/main/.claude/skills/tend-prose/SKILL.md), so that "every time" is one word rather than a resolution.
+Run four lenses over every piece of prose an agent produces, every time it produces any. **T**ightness, **E**xistence, **N**egation, **D**urability. They spell TEND, which is a marketing habit I have never fully shaken, and in this case it earns its keep, because four things you can name are four things you will actually check. Mine run as [a skill](https://github.com/vzakharov/muthur/blob/main/.claude/skills/tend-prose/SKILL.md), so that “every time” is one word rather than a resolution.
 
 ## Why there is so much of it
 
@@ -43,7 +44,7 @@ Dostoevsky, roughly: set yourself the task of not thinking of a polar bear, and 
 
 ![A polar bear pointing at its own head: “Do not think about me.”](./assets/polar-bear.jpg 'aside')
 
-Here is how it happens. You make a decision about your code, and the decision is unusual, so you write it down. Say you serve images through a resizer of your own instead of your CDN's, and next to that code sits an honest comment: we do it this way because the CDN's resizer ruins transparency. Good comment. Correct comment.
+Here is how it happens. You make a decision about your code, and the decision is unusual, so you write it down. Say you serve images through a resizer of your own instead of your CDN’s, and next to that code sits an honest comment: we do it this way because the CDN’s resizer ruins transparency. Good comment. Correct comment.
 
 Then the CDN gets better, transparency survives, and you decide to stop being special and do it like everybody else. You hand the task to an agent and it removes the code. But instead of also removing the comment — which was right up until exactly this moment, and is now about nothing — it turns the comment inside out. It writes: we do not route images through our own resizer, because the CDN handles it.
 
@@ -51,7 +52,7 @@ You now have a line describing a situation nobody would ever have imagined, foll
 
 So the rule: if you have flipped a yes to a no, and the no is simply what everyone does by default, delete the line rather than negating it.
 
-Why agents reach for negation over deletion is not mysterious, and it is also why _you_ will hesitate the first few times. Deleting looks like losing information; negating looks like keeping it. What is being kept is a wet-floor sign on a floor that dried an hour ago — and the agent's instinct is not to take it away but to put up a second sign instead, reading "this floor is not slippery".
+Why agents reach for negation over deletion is not mysterious, and it is also why _you_ will hesitate the first few times. Deleting looks like losing information; negating looks like keeping it. What is being kept is a wet-floor sign on a floor that dried an hour ago — and the agent’s instinct is not to take it away but to put up a second sign instead, reading “this floor is not slippery.”
 
 :::pull-quote
 What is being kept is a wet-floor sign on a floor that dried an hour ago.
@@ -61,7 +62,7 @@ What is being kept is a wet-floor sign on a floor that dried an hour ago.
 
 ## D — durability
 
-The last one. My philosophy is that all prose in a repository should describe the situation as it now stands, not the history of how it got there. No comment should be saying "we used to do this, and now we do that".
+The last one. My philosophy is that all prose in a repository should describe the situation as it now stands, not the history of how it got there. No comment should be saying “we used to do this, and now we do that.”
 
 Sometimes the change was genuinely important. Important changes belong to the commit history and to artifacts like pull requests, which sit in GitHub and can be pulled up whenever anyone wants them. So the comment states what holds and points at the argument — `// Mantine is imported layered, so nothing here needs !important (#412)` — and any reader curious about how it used to be, agent or human, follows the number and reads the whole thing.
 

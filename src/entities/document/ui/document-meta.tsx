@@ -2,6 +2,7 @@ import { Group } from '@mantine/core';
 
 import {
   type ArticleFrontmatter,
+  AUTHORS,
   documentDateTime,
   formatDocumentDate,
   type WithFrontmatter,
@@ -9,6 +10,7 @@ import {
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/shared/typings';
+import { TextLink } from '@/shared/ui';
 
 import classes from './document-meta.module.scss';
 
@@ -26,6 +28,8 @@ export function DocumentMeta({
   readingMinutes,
   className,
 }: DocumentMetaProps) {
+  const { name, href } = AUTHORS[frontmatter.author];
+
   return (
     <Group
       component="p"
@@ -35,6 +39,13 @@ export function DocumentMeta({
       opacity={0.7}
       className={cx(classes['meta'], className)}
     >
+      <span>
+        By{' '}
+        <TextLink {...{ href }} underline="hover">
+          {name}
+        </TextLink>
+      </span>
+      <span aria-hidden>·</span>
       <time dateTime={documentDateTime(frontmatter.date)}>
         {formatDocumentDate(frontmatter.date)}
       </time>

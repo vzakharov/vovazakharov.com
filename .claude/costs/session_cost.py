@@ -25,34 +25,33 @@ import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 from lib.billed import Event, parse_events
 from lib.pricing import (
     TranscriptSources,
     is_unwritten_tail,
-    parse_prices,
+    load_prices,
+    subagents_of,
     summarise_transcript,
 )
-from lib.rows import ROOT, SessionCost, parse_session_cost, row_text, write_atomic
+from lib.estimate import latest
+from lib.rows import (
+    ROOT,
+    SessionCost,
+    parse_session_cost,
+    read_pending_estimate,
+    row_text,
+    write_atomic,
+)
 from lib.shape import ShapeError
 
 COSTS = Path(__file__).resolve().parent
 
 
-def subagents_of(main: Path) -> List[str]:
-    """A subagent's responses are billed to this session and written to their own
-    file under `<transcript>/subagents/`, so the directory is read rather than
-    assumed empty. A session that spawned none has no directory at all."""
-    directory = main.parent / main.stem / "subagents"
-    if not directory.is_dir():
-        return []
-    return [path.read_text(encoding="utf-8") for path in sorted(directory.glob("*.jsonl"))]
-
-
 def previous(row: Path) -> Optional[SessionCost]:
-    """An unwritten-tail warning is what no run can recompute from the
-    transcript, so a rewrite reads it back from the last one. An unreadable row
+    """An unwritten-tail warning and the estimate are what no run can recompute
+    from the transcript, so a rewrite reads them back from the last one. An unreadable row
     loses it rather than failing the write — the rewrite is what repairs it —
     and says so."""
     if not row.exists():
@@ -93,7 +92,7 @@ def main() -> int:
     transcript: Path = args.transcript
     session_id: str = args.session_id or transcript.stem
     events = events_at(args.events or ROOT / "tmp" / "telemetry" / f"{session_id}.jsonl")
-    prices = parse_prices((COSTS / "prices.json").read_text(encoding="utf-8"))
+    prices = load_prices()
     cost = summarise_transcript(
         TranscriptSources(
             main=transcript.read_text(encoding="utf-8"),
@@ -110,6 +109,12 @@ def main() -> int:
     if before is not None:
         carried = [w for w in before.warnings if is_unwritten_tail(w) and w not in cost.warnings]
         cost.warnings = carried + cost.warnings
+    # The previous row is what keeps the estimate through a resume in a fresh
+    # container, whose `tmp/` starts empty.
+    cost.estimate = latest(
+        before.estimate if before is not None else None,
+        read_pending_estimate(cost.session_id),
+    )
     row = row_text(cost)
     if args.out is not None:
         args.out.write_text(row, encoding="utf-8")

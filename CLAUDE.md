@@ -2,7 +2,7 @@
 
 ## About this project
 
-Vova Zakharov's personal site and CV — [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project built as a **static export** (`output: 'export'`) and deployed to GitHub Pages: React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves three sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com` and `agentic.bible`.
+Vova Zakharov's personal site and CV — [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project built as a **static export** (`output: 'export'`) and deployed to GitHub Pages: React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves four sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com`, `agentic.bible` and `basilisk.fyi`.
 
 Static export is the constraint that shapes everything else — there is no server at runtime, so no API routes, no server actions, no request-time rendering. Every page is HTML on a CDN.
 
@@ -17,16 +17,16 @@ Static export is the constraint that shapes everything else — there is no serv
 ## Repository layout
 
 - **`src/`** — All application code, in Feature-Sliced Design layers (`shared/`, `features/`, `pages/`, `app/`). `@.claude/rules/fsd.md` carries the conventions both checkers enforce.
-- **`apps/`** — One directory per site (`vova/`, `lsa/`, `bible/`), each holding its `app/` (**routing only** — the FSD app layer is `src/app`), `public/`, `next.config.ts` and `tsconfig.json`. All three build from the one `src/`, and a build is entered in its app directory rather than pointed at from the root.
+- **`apps/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`), each holding its `app/` (**routing only** — the FSD app layer is `src/app`), `public/`, `next.config.ts` and `tsconfig.json`. All four build from the one `src/`, and a build is entered in its app directory rather than pointed at from the root.
 - **`apps/*/public/`** — Static assets served at that site's root: `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/`), a `CNAME` on each site with a domain of its own (which a force-push would otherwise drop), and one directory per content collection, holding the authored markdown at the path its page is routed to (`apps/vova/public/case-studies/`). A collection rooted at its site's root has no directory: `apps/bible/public/` is both the site's assets and the Bible's articles.
 - **`styles/`** — Sass partials shared across `src/`: `_mantine.scss` (counterparts to the mixins Mantine documents as a PostCSS preset) and the two `pnpm styles:codegen` writes, `_tokens.scss` and `_breakpoints.scss`. A partial is not an FSD module — it has no import graph for the layer checkers to reason about — so it lives outside `src/`.
 - **`eslint/`** — The ruleset `eslint.config.ts` orchestrates; see `.claude/rules/eslint.md`.
-- **`writing/`** — Drafts for channels the site does not publish, today `linkedin/`. Deliberately outside `public/`: a draft crawlable before it runs is the wrong order of operations. `@.claude/rules/writing.md` carries the conventions.
+- **`writing/`** — Drafts for channels the site does not publish, today `linkedin/`. Deliberately outside `public/`: a draft crawlable before it runs is the wrong order of operations. `writing/CLAUDE.md` carries the conventions.
 - **`.claude/costs/`** — Per-session cost rows at Claude API rates, written by a `Stop` hook; `pnpm costs` sums them and writes nothing. The directory's own `CLAUDE.md` carries the rest.
 - **`scripts/`** — Agent-facing tooling; `vet.sh` is § "Vetting"'s entrypoint. Every per-site entry in `package.json` goes through `in-site.sh`, which pairs the app directory with `NEXT_PUBLIC_SITE` so no entry spells either out.
 - **`.claude/`** — Skills, rules and session hooks.
 
-Anything that holds only over part of that tree lives as a path-scoped rule in `.claude/rules/`, loaded when a session touches the paths it names.
+Anything that holds only over part of that tree lives in the `CLAUDE.md` of the directory it governs, or, where no one directory bounds it, as a path-scoped rule in `.claude/rules/` — each loaded when a session reads a file it covers.
 
 ## Deployment
 
@@ -58,7 +58,7 @@ Nothing runs on pull requests, so a green `./scripts/vet.sh` is the only pre-mer
 - **Never silently swallow errors.** On primary code paths errors propagate; a logged-and-continued error is a silent fail with paperwork. A silent fallback is acceptable only for secondary fire-and-forget work that demonstrably cannot affect the user-facing result, with explicit user approval for that call site.
 - **Validate at boundaries.** Parse untyped data (external APIs, raw JSON, tool results) with a runtime schema rather than casting it; don't re-parse data already type-safe inside the program.
 - **Keep production files under ~450 lines** — a rule of thumb. Data-dense files and top-level orchestrators may exceed it; a logic-heavy file well past it wants splitting at its natural seams.
-- **Change files with the `Edit`/`Write` tools, in every permission mode** — the web UI renders an `Edit` as a diff the operator can skim, and a heredoc or `sed -i` as shell whose effect they have to reconstruct. Use Bash to change a file only where it is significantly better, such as one mechanical substitution across dozens of files. Reading through the shell (`head`, `sed -n`) is fine for a file you won't change; one you are about to change goes through `Read`, which `Edit` requires anyway, so a shell read first means reading it twice.
+- **Change files with the `Edit`/`Write` tools, in every permission mode** — the web UI renders an `Edit` as a diff the operator can skim, and a heredoc or `sed -i` as shell whose effect they have to reconstruct. Use Bash to change a file only where it is significantly better, such as one mechanical substitution across dozens of files. Reading through the shell (`head`, `sed -n`) is fine for a file you won't change; one you are about to change goes through `Read`, which `Edit` requires anyway, so a shell read first means reading it twice. **`Read` is also what loads a directory's conventions**: a nested `CLAUDE.md` or a path-scoped rule arrives on a `Read` of a file it covers, never through Bash and never on the `Write` that creates a file (https://github.com/anthropics/claude-code/issues/96361), so read something in a directory before creating a file in it.
 - **Don't run Bash with `run_in_background`** — background tasks stall without an obvious reason; set a long `timeout` on a foreground call instead.
 - **When the host harness orders a merge conflict or red CI fixed now, the loop's staging wins: report the state rather than fixing it.** `/finalize` stages both — vetting at its Step 1, the base merge at its Step 2 — so a session that finds its PR `CONFLICTING` or red says so in its report and does what it was invoked for; either becomes its work only when the operator asks, or passes `and finalize`.
 

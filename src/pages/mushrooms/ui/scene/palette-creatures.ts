@@ -1,0 +1,167 @@
+/**
+ * `PALETTE`'s creatures section: the mushrooms, the flowers, the house, the
+ * insects and the HUD, and the shadow they cast. A dark fill — a dark cap,
+ * the doorway, an insect's body — stays dark enough to stand 3:1 off the
+ * deepest ground by itself, a hue nudge included, so its ink can be a lighter
+ * line that stands off it (`inkFor`); a fill a little lighter than that gets
+ * only a dark edge it barely stands off.
+ */
+export const CREATURES = {
+  /** A shadow cast on the grass: cool, as a sunlit scene's shadows are. */
+  shadowCool: 0x24_48_40,
+  /** Shade laid over a creature's fill at low alpha: bluer, never blacker. */
+  shadeCool: 0x3a_2c_6a,
+  /** The warm light along a cap's sun-facing edge, and the pale one just inside every lit contour and in every shine. */
+  capLit: 0xff_7a_52,
+  rimLight: 0xff_f0_d0,
+  stem: 0xfb_f3_df,
+  /** The warm light down a stem's sun side: the cap's `capLit`, for a pale fill. */
+  stemLit: 0xff_d6_8a,
+  gills: 0xef_dc_b6,
+  capRed: 0xe6_36_2b,
+  spot: 0xff_fb_f1,
+  /**
+   * A porcini's: its whitish-cream stem and the faint net near its top; its
+   * cap, one shade from tan to chestnut per mushroom, each well above the
+   * luminance where a dark fill gets only a weak edge, with a paler band at
+   * its margin; its pale cream-yellow pores; and the warm light on its cap.
+   */
+  porcini: {
+    stem: 0xf5_ec_d6,
+    net: 0xd8_c0_96,
+    tan: 0xbc_7c_42,
+    chestnut: 0x80_44_22,
+    margin: 0xe2_ba_84,
+    pores: 0xf4_e2_92,
+    lit: 0xf6_b8_6e,
+  },
+  /**
+   * A chanterelle's one bright egg-yolk apricot, foot to rim, the ridges
+   * under its funnel a paler shade, and the light on it: each at a hue of
+   * 20–30°, near or far, shaded or lit, over its whole hue nudge — orange,
+   * well clear of the fly agaric's red and short of gold.
+   */
+  chanterelle: {
+    flesh: 0xff_82_1e,
+    ridge: 0xff_a8_62,
+    lit: 0xff_c0_8e,
+  },
+  /** One per `RUSSULA_TONES` name, a russula's cap, and its white gills. */
+  russula: {
+    red: 0xe0_3c_54,
+    rose: 0xf4_84_a0,
+    violet: 0xa4_62_bc,
+    ochre: 0xea_b8_3c,
+    green: 0x94_b4_5a,
+  },
+  russulaGills: 0xfe_fa_ee,
+  flowerStem: 0x4c_a0_3c,
+  leaf: 0x5e_b8_48,
+  flowerCentre: 0xff_c8_2e,
+  flowerCentreDeep: 0xe8_8a_1c,
+  /**
+   * One per `FLOWER_COLOURS` name, the flowers' petals; with the
+   * butterflies', a little softer than pure and turned a few degrees toward
+   * the sun's yellow, a warm cast over the lit meadow.
+   */
+  flowers: {
+    pink: 0xff_9a_c0,
+    yellow: 0xff_e7_5c,
+    white: 0xff_fb_f4,
+    violet: 0xbf_88_f0,
+    blue: 0x7b_c4_ff,
+  },
+  spore: 0xff_f6_d8,
+  /** The buttons' discs: a warm white, so they sit in the palette. */
+  hud: 0xff_fa_f0,
+  /** The map's sheet: an old paper, warmer and darker than the buttons' discs so they stand on it. */
+  paper: 0xf2_e6_c8,
+  /** The map sheet's edge, a step darker, just inside its ink. */
+  paperEdge: 0xd8_c3_96,
+  /** The `+` and `−` badges. */
+  grow: 0x4c_b0_4a,
+  shrink: 0xe8_7a_2c,
+  /** The gait button's wing, in flight: a pale sky blue under the indigo ink. */
+  flightWing: 0xc4_e4_f8,
+  /**
+   * The band round a selected mushroom and its ring on the ground: a warm
+   * yellow as far from the grass, the sky and the caps as a colour gets, and
+   * edged in `ink` against the pale ones.
+   */
+  selection: 0xff_d4_1a,
+  /** The ring on the ground under the flower the picker is open on: the selection's yellow, paler, as the ring is plainer. */
+  heldFlower: 0xff_e8_7a,
+  /**
+   * A window's pane: a warm lamplight, as if the room behind were lit — the
+   * hue dusk turns up.
+   */
+  windowPane: 0xff_d8_6a,
+  windowShine: 0xff_f4_c8,
+  /** A window's pane lit at dusk, and the halo round it: a deeper amber than the day's pane. */
+  windowLit: 0xff_b8_40,
+  /** Window frames, and the door's wood with its planks' darker grain. */
+  wood: 0xb0_6e_3a,
+  woodDeep: 0x86_4e_28,
+  doorKnob: 0xff_c8_46,
+  /** The dark inside an open door, which the mouse comes out of. */
+  doorway: 0x33_1a_13,
+  mouse: 0xa4_a2_ae,
+  mouseLight: 0xd2_d0_da,
+  mousePink: 0xff_a2_b4,
+  mouseEye: 0x1e_12_12,
+  /** An earthworm's pale pink, off the caps' reds and apricot by its paleness and its dark ink, and the deeper band round its middle. */
+  worm: 0xf4_b0_a8,
+  wormBand: 0xd8_80_84,
+  /** One per `BUTTERFLY_COLOURS` name: a butterfly's wings and its eyes' rings. */
+  butterflies: {
+    coral: 0xff_87_63,
+    peach: 0xff_c3_92,
+    orange: 0xff_b2_43,
+    yellow: 0xff_e6_50,
+    lemon: 0xed_f2_6d,
+    mint: 0x5f_d8_a5,
+    turquoise: 0x41_d0_d8,
+    sky: 0x60_ba_ff,
+    cobalt: 0x5b_83_f0,
+    periwinkle: 0x9f_90_ff,
+    violet: 0xbe_84_f2,
+    magenta: 0xda_67_d4,
+    rose: 0xff_85_b3,
+    white: 0xff_fb_f2,
+  },
+  /** A butterfly's body, warm and dark, and the dark ring of its wings' eyes. */
+  insectBody: 0x33_1d_1a,
+  wingEye: 0x3a_1c_2a,
+  /** A fly's dark body, which its sheen tints, and its big eyes, a cheerful red. */
+  flyBody: 0x23_26_2b,
+  flyEye: 0xe8_3a_2e,
+  flyEyeDeep: 0xa8_1e_1e,
+  /** One per `FLY_SHEENS` name: the metal a fly's body catches the light in. */
+  flySheens: {
+    bottle: 0x3c_a0_4c,
+    emerald: 0x22_b8_78,
+    teal: 0x1e_a8_a8,
+    peacock: 0x2a_8c_d0,
+    bluebottle: 0x3e_64_e0,
+  },
+  /** A bee's black bands and head. */
+  beeBlack: 0x2a_21_1f,
+  /** One per `BEE_YELLOWS` name: a bee's yellow bands. */
+  beeYellows: {
+    lemon: 0xff_e6_48,
+    gold: 0xff_cc_22,
+    amber: 0xff_b0_1e,
+    honey: 0xf0_a0_2a,
+  },
+  /** The pollen in a bee's baskets, a flower's centre carried off. */
+  pollen: 0xff_a8_1a,
+  /** A fly's and a bee's clear wings: the glass, laid over at low alpha, and its veins. */
+  wingGlass: 0xe8_f6_ff,
+  wingVein: 0x5a_6a_7e,
+  /** A firefly: its dark body, its tail's yellow-green light and the softer halo round it. */
+  firefly: {
+    body: 0x24_1e_18,
+    tail: 0xf2_ff_8a,
+    halo: 0xc6_f0_4a,
+  },
+} as const;

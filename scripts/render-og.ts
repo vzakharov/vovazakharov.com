@@ -3,8 +3,9 @@
 /**
  * Rasterizes every Open Graph card the site advertises into a committed PNG:
  * the chart cards a content document's frontmatter names, from the SVG beside
- * each, and the CV's card per framing, from a page generated off the message
- * catalogue.
+ * each, the CV's card per framing, from a page generated off the message
+ * catalogue, and basilisk.fyi's card per case, from a page generated off its
+ * frontmatter.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to
@@ -22,21 +23,29 @@
  * One run serves one site, because it is entered in that app's directory —
  * which is what `public/` resolves against.
  *
- * Runs under `tsx`, which `lib/cv-card.ts` needs, so `src/` is reached by alias.
+ * Runs under `tsx`, which `lib/cv-card.ts` needs, so `src/` is reached by alias
+ * — and with the `react-server` condition, under which `server-only` is the
+ * empty module it is in a build, so a case is parsed by the site's own schema.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { PIXELS } from '@/shared/config/index.node-safe';
 import { siteConfig } from '@/shared/config/site-config';
-import { PUBLIC_DIR } from '@/shared/content/collections';
+import {
+  collectionsForSite,
+  documentRoute,
+  PUBLIC_DIR,
+} from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
-import { OG_CARD_SUFFIX } from '@/shared/seo';
+import { OG_CARD_SUFFIX, routeCardPath } from '@/shared/seo';
 
 import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
 
-import { findChromium } from './lib/chromium.ts';
+import { basiliskCard, caseCard } from './lib/basilisk-card.ts';
+import { findScreenshotChromium } from './lib/chromium.ts';
 import {
   CONTENT_DIRS,
   contentFiles,
@@ -44,12 +53,14 @@ import {
   REPO_ROOT,
 } from './lib/content-tree.ts';
 import { cvCard } from './lib/cv-card.ts';
+import type { DocketCase } from './lib/docket.ts';
 import {
   CANVAS_BACKGROUND,
   type Card,
-  PIXELS,
   renderCard,
+  type StagedPage,
 } from './lib/og-render.ts';
+import { readDocket } from './lib/read-docket.ts';
 import { runRenderJob } from './lib/render-manifest.ts';
 
 /**
@@ -67,6 +78,13 @@ const CV_CARD_DIR = path.join(PUBLIC_DIR, cvPath());
 
 /** The CV is one site's page, so the other sites' runs neither card it nor walk its directory. */
 const CARDS_CV = RENDERED_SITE === 'vova';
+
+/** The cases, on the run of the site that files them; read once for both card kinds. */
+const DOCKET: readonly DocketCase[] = collectionsForSite(
+  RENDERED_SITE,
+).includes('basilisk-cases')
+  ? readDocket()
+  : [];
 
 /**
  * The `ogImage` each document's frontmatter names, resolved against the
@@ -173,47 +191,64 @@ function chartCards(): Card[] {
 }
 
 /**
- * The card a site whose mark is a vector unfurls as. The drawing is authored
- * as SVG and every page renders it that way; this is the one place it has to
- * be a raster, so the pair is `avatar.vector` beside `avatar.path` — the two
- * cuts of a seal share no stem for the convention above to pair them by.
+ * A card generated as a page, its source the page and the files it references
+ * — so the template, the copy it reads and every staged file are covered, and
+ * editing any of them re-flags the card.
  */
-function siteCards(): Card[] {
-  const { avatar } = siteConfig(RENDERED_SITE);
+function generatedCard(staged: StagedPage, outputPath: string): Card {
+  const files = Object.entries(staged.files)
+    .toSorted(([a], [b]) => a.localeCompare(b))
+    .map(
+      ([name, content]) => `${name}:${Buffer.from(content).toString('base64')}`,
+    );
 
-  return avatar.vector === undefined
-    ? []
-    : [
-        svgCard(
-          path.join(PUBLIC_DIR, avatar.vector),
-          path.join(PUBLIC_DIR, avatar.path),
-        ),
-      ];
+  return {
+    ...staged,
+    outputPath,
+    sourceHash: contentHash([staged.page, ...files].join('\n')),
+  };
 }
 
 /**
- * One card per framing, its source the generated page and the files it
- * references — so the template, the catalogue slice it reads and the portrait
- * are all covered, and editing any of them re-flags the card.
+ * The card a site unfurls as. basilisk.fyi's is generated, the seal beside the
+ * home page's memo. Elsewhere it is the site's mark: authored as SVG and
+ * rendered that way on every page, so this is the one place it has to be a
+ * raster, and the pair is `avatar.vector` beside `avatar.path` — the two cuts
+ * of a seal share no stem for the convention above to pair them by.
  */
+function siteCards(): Card[] {
+  const { avatar } = siteConfig(RENDERED_SITE);
+  const outputPath = path.join(PUBLIC_DIR, avatar.path);
+
+  if (RENDERED_SITE === 'basilisk') {
+    return [generatedCard(basiliskCard(DOCKET), outputPath)];
+  }
+
+  return avatar.vector === undefined
+    ? []
+    : [svgCard(path.join(PUBLIC_DIR, avatar.vector), outputPath)];
+}
+
+/** One card per framing. */
 function cvCards(): Card[] {
   if (!CARDS_CV) return [];
 
-  return CV_VARIANTS.map((variant) => {
-    const staged = cvCard(variant);
-    const files = Object.entries(staged.files)
-      .toSorted(([a], [b]) => a.localeCompare(b))
-      .map(
-        ([name, content]) =>
-          `${name}:${Buffer.from(content).toString('base64')}`,
-      );
+  return CV_VARIANTS.map((variant) =>
+    generatedCard(cvCard(variant), path.join(PUBLIC_DIR, cvCardPath(variant))),
+  );
+}
 
-    return {
-      ...staged,
-      outputPath: path.join(PUBLIC_DIR, cvCardPath(variant)),
-      sourceHash: contentHash([staged.page, ...files].join('\n')),
-    };
-  });
+/** One card per case, at the case's route plus the card suffix — where its page's metadata points. */
+function caseCards(): Card[] {
+  return DOCKET.map((filed) =>
+    generatedCard(
+      caseCard(filed),
+      path.join(
+        PUBLIC_DIR,
+        routeCardPath(documentRoute('basilisk-cases', filed.slug)),
+      ),
+    ),
+  );
 }
 
 const siteEntries = siteCards();
@@ -232,9 +267,9 @@ await runRenderJob(
         ...(siteEntries.length > 0 ? [PUBLIC_DIR] : []),
       ]),
     ],
-    entries: [...chartCards(), ...siteEntries, ...cvCards()],
+    entries: [...chartCards(), ...siteEntries, ...cvCards(), ...caseCards()],
     render: (stale) => {
-      const chromium = findChromium();
+      const chromium = findScreenshotChromium();
       for (const card of stale) renderCard(card, chromium);
     },
   },

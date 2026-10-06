@@ -1,0 +1,122 @@
+@use '../../../../styles/mantine' as mantine;
+
+// The gaps around the eye are spaces rather than margins, because a space at a
+// line break collapses and a margin would indent the wrapped line; this narrows
+// the monospace space (0.6em, plus the tracking) to a quarter em.
+.name {
+  font-family: var(--mantine-font-family-monospace);
+  letter-spacing: 0.04em;
+  word-spacing: -0.39em;
+  text-transform: uppercase;
+
+  // Below `sm` the column reaches the layout's corner toggle, so the name wraps
+  // short of it rather than running under it: the toggle's 38px and a gap.
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    padding-inline-end: 50px;
+  }
+}
+
+// JetBrains Mono's capitals, measured: 35px of ink at 48px.
+$cap-height: 0.729em;
+$eye-height: 0.6em;
+
+// Its middle on the capitals' middle rather than on the baseline an inline
+// image sits on by default; the drawing is symmetric, so the box's middle is
+// the ink's.
+.eye {
+  width: auto;
+  height: $eye-height;
+  vertical-align: ($cap-height - $eye-height) * 0.5;
+}
+
+.tld {
+  white-space: nowrap;
+}
+
+.sectionHeading {
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid currentcolor;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: var(--mantine-font-size-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.docket,
+.faq {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid currentcolor;
+}
+
+.faq > li {
+  padding-block: 12px;
+
+  & + li {
+    border-top: 1px solid var(--color-border-hairline);
+  }
+}
+
+// Number and date in the left column on a wide screen, the case's own lines
+// beside them; stacked on a narrow one.
+.row {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px 16px;
+  padding-block: 16px;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: var(--mantine-font-size-sm);
+
+  & + & {
+    border-top: 1px solid var(--color-border-hairline);
+  }
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.number {
+  font-weight: 700;
+}
+
+.date,
+.grade {
+  opacity: 0.7;
+}
+
+.subject,
+.title,
+.grade {
+  grid-column: 2;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-column: 1;
+  }
+}
+
+.date {
+  grid-column: 2;
+  grid-row: 1;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+.subject {
+  grid-row: 2;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-row: auto;
+  }
+}
+
+.title {
+  font-family: var(--mantine-font-family);
+  font-size: var(--mantine-font-size-lg);
+  color: inherit;
+}

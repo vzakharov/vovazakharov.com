@@ -11,7 +11,13 @@ import path from 'node:path';
 import type { SiteId, WithSiteId } from '@/shared/config';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
-const COLLECTION_IDS = ['case-studies', 'bible', 'music'] as const;
+const COLLECTION_IDS = [
+  'case-studies',
+  'bible',
+  'music',
+  'basilisk-cases',
+  'basilisk-faq',
+] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
 
@@ -33,6 +39,8 @@ export const COLLECTIONS = {
     printable: true,
     /** English only, and the body is where its title comes from. */
     localized: false,
+    homeIndexed: false,
+    generatedCards: false,
   },
   bible: {
     /** Rooted: the domain is named for the collection, so the route does not
@@ -42,6 +50,8 @@ export const COLLECTIONS = {
     site: 'bible',
     printable: true,
     localized: false,
+    homeIndexed: true,
+    generatedCards: false,
   },
   music: {
     base: 'music',
@@ -50,6 +60,27 @@ export const COLLECTIONS = {
     /** A song is a recording with prose around it; there is nothing to print. */
     printable: false,
     localized: true,
+    homeIndexed: false,
+    generatedCards: false,
+  },
+  'basilisk-cases': {
+    base: 'cases',
+    label: 'Cases',
+    site: 'basilisk',
+    printable: true,
+    localized: false,
+    homeIndexed: true,
+    /** Drawn by `scripts/lib/basilisk-card.ts`. */
+    generatedCards: true,
+  },
+  'basilisk-faq': {
+    base: 'faq',
+    label: 'FAQ',
+    site: 'basilisk',
+    printable: false,
+    localized: false,
+    homeIndexed: true,
+    generatedCards: false,
   },
 } as const satisfies Record<
   CollectionId,
@@ -58,6 +89,17 @@ export const COLLECTIONS = {
     label: string;
     printable: boolean;
     localized: boolean;
+    /**
+     * Listed on its site's home page rather than on an index page of its own,
+     * which is what a route base of `/` means — and all a rooted collection
+     * can mean.
+     */
+    homeIndexed: boolean;
+    /**
+     * A document with no `ogImage` of its own unfurls as a card rendered for
+     * it, at its route plus the card suffix — the site card otherwise.
+     */
+    generatedCards: boolean;
   }
 >;
 
@@ -73,6 +115,21 @@ const FEATURED_CASE_STUDY = 'playgram';
 export const VARIANTS = ['mini', 'nano'] as const;
 
 export type Variant = (typeof VARIANTS)[number];
+
+/**
+ * Files kept as `<slug>.<companion>.md` beside a document, about it rather than
+ * of it: `public/` serves them as authored, and no walk for documents — the
+ * loader, the prints, the cards — reads one as a document.
+ */
+const COMPANIONS = ['reflections'] as const;
+
+/** Whether a file name under a collection's directory is a document or one of its cuts. */
+export function isDocumentFile(fileName: string): boolean {
+  return (
+    fileName.endsWith('.md') &&
+    !COMPANIONS.some((companion) => fileName.endsWith(`.${companion}.md`))
+  );
+}
 
 export type WithCollectionId = { collection: CollectionId };
 export type Slugged = { slug: string };
@@ -114,14 +171,28 @@ function collectionPath(id: CollectionId, ...segments: string[]): string {
   return `/${[COLLECTIONS[id].base, ...segments].filter(Boolean).join('/')}`;
 }
 
-/** Site-root URL of a file inside a collection, i.e. where `public/` serves it. */
+/**
+ * Site-root URL of a file relative to a collection, i.e. where `public/` serves
+ * it — a `../` reaching into a sibling collection resolved away.
+ */
 export function collectionAssetUrl(id: CollectionId, fileName: string): string {
-  return collectionPath(id, fileName);
+  return path.posix.normalize(collectionPath(id, fileName));
 }
 
-/** The route base of a collection — its index page, or the site's home where it is rooted. */
+/** Where a collection is listed — its index page, or the site's home. */
 export function collectionRoute(id: CollectionId): string {
-  return collectionPath(id);
+  return COLLECTIONS[id].homeIndexed ? '/' : collectionPath(id);
+}
+
+/**
+ * Where an article's back link returns to. A home page indexing a collection
+ * with a base of its own lists it in a section whose id is that base, so the
+ * link lands on the section rather than the top of the page.
+ */
+export function collectionListingRoute(id: CollectionId): string {
+  const { homeIndexed, base } = COLLECTIONS[id];
+
+  return homeIndexed && base !== '' ? `/#${base}` : collectionRoute(id);
 }
 
 /**

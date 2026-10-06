@@ -105,4 +105,11 @@
   .print-only {
     display: block;
   }
+
+  // `PRINT_RASTER_DOMAINS` (`shared/lib/print-raster`). PDF has no CSS filter,
+  // so Chromium paints a filtered element as a 300 dpi image, its text and
+  // links left out of the file. Any filter does; this one draws nothing.
+  .print-raster {
+    filter: drop-shadow(0 0 0 transparent);
+  }
 }

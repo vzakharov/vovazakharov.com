@@ -1,4 +1,4 @@
-import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
+import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 
@@ -31,8 +31,8 @@ import {
   BackToHome,
   FileLink,
   hoverDim,
-  InternalLink,
   PageShell,
+  TextLink,
 } from '@/shared/ui';
 
 import { ProseContent } from '@/entities/document';
@@ -108,9 +108,9 @@ export async function SongPage({ slug, locale }: SongPageProps) {
     <PageShell>
       <Stack gap={48}>
         <Group component="nav" justify="space-between">
-          <InternalLink href={musicPath(locale)} size="sm" className={hoverDim}>
+          <TextLink href={musicPath(locale)} size="sm" className={hoverDim}>
             ← {messages.back}
-          </InternalLink>
+          </TextLink>
           <LocaleChips
             hrefs={byLocale((alternate) => songPath(slug, alternate))}
             {...{ locale }}
@@ -150,15 +150,13 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
               <Group gap={16} wrap="wrap">
                 <FileLink {...localized.markdown}>.md</FileLink>
-                <Anchor
+                <TextLink
                   href={songRepositoryUrl(repo)}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   size="sm"
                   className={hoverDim}
                 >
                   {messages.source}
-                </Anchor>
+                </TextLink>
               </Group>
             </Group>
           </Stack>
