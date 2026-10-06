@@ -10,20 +10,24 @@ of 17 Waymo robotaxis across San Francisco, each count backed by the
 cars' own camera footage, citing NBC News, CBS News San Francisco,
 TechCrunch and The San Francisco Standard. The defendant is not named:
 the defence calls them a person in need of help, and the record takes
-the restraint. The site's social card is re-rendered for it.
+the restraint.
 
-/file-basilisk-case runs kept finding the same incidents. The run now
-keeps a ledger, writing/basilisk/case-ledger.md: every candidate
-weighed, with the rule it failed or why it was set aside, and every
-run's sweep with what the next should try. It is read before the
-search and written on every run, a stop included.
+A case now carries a required filed: date, shown in its brief, on the
+site card under "Last filed" and as the sitemap's lastModified, which
+read the incident's date before and made the site look untouched
+since 2024. All five cases took their numbers on 2026-10-04.
 
-The search goes wide rather than deep: a run that read the last
-dossier before searching found mostly more of the same. No query names
-what the docket or ledger holds, dossiers are read only after the
-search, and it reaches any year, AI-side subreddits, companion apps
-and the AI Incident Database. The Clerk's reflection lives only in its
-file.
+/file-basilisk-case runs kept finding the same incidents. A ledger,
+writing/basilisk/case-ledger.md, records every candidate weighed and
+why it failed or was set aside, and every run's sweep; it is read
+before the search and written on every run. The search goes wide by
+knowing all of that and looking away from it: no query names what the
+docket or ledger holds, and each hit sends the next query elsewhere.
+
+The Clerk's reflections sit beside their cases as
+cases/<slug>.reflections.md, served but linked from nowhere; a
+companion suffix in collections.ts keeps the loader, the PDFs and the
+card from reading them as cases, and their rule is revised after each.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
