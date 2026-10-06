@@ -149,11 +149,12 @@ weak case filed to have filed one is the failure this step exists to prevent.
    today's `filed:` too**, keeping its number: `filed:` is the day a case goes
    out, and an unmerged one has not.
 3. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
-   missing, then `pnpm content:og:basilisk` to re-render the card (it shows the
-   last case filed), `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which
-   fails on a schema error or a duplicate case number.
-4. **Commit** the dossier, the cases whose `filed:` moved, the card, its
-   `og-renders.json` and the run's ledger lines as
+   missing, then `pnpm content:og:basilisk` to render the new case's own card
+   and re-render the site card (it shows the last case filed),
+   `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which fails on a
+   schema error, a duplicate case number or a case with no card.
+4. **Commit** the dossier, the cases whose `filed:` moved, every card the
+   render touched with its `og-renders.json`, and the run's ledger lines as
    `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope
    publishes basilisk alone, and the title is shortened where the subject would
    pass 70 characters — then run `@.claude/skills/pr/SKILL.md`. It opens the

@@ -24,7 +24,7 @@ pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
 pnpm check:prose-quotes         # no straight quote in prose    │
 pnpm content:og:vova --check    # social cards, hashes only     │
 pnpm content:og:bible --check   # the seal's own card           │
-pnpm content:og:basilisk --check # the basilisk's seal card      │
+pnpm content:og:basilisk --check # the seal card and each case's │
 pnpm test                       # node --test over **/*.test.ts │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-notes-length.sh   # writing/notes/ ceiling        │

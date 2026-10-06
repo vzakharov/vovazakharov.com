@@ -6,6 +6,7 @@ import path from 'node:path';
 
 import { pageFile, type SiteId } from '@/shared/config';
 import type { Locale } from '@/shared/i18n';
+import { routeCardPath } from '@/shared/seo';
 import type { DocumentFile, Sized } from '@/shared/typings';
 
 import { COLLECTION_SCHEMAS } from './collection-schemas';
@@ -13,6 +14,7 @@ import {
   collectionAssetUrl,
   collectionDir,
   type CollectionId,
+  COLLECTIONS,
   collectionsForSite,
   documentName,
   type DocumentRef,
@@ -34,7 +36,7 @@ import {
 
 /** Where `public/` serves the card and how big it is — resolved together so they cannot disagree. */
 type ResolvedOgImage = WithOptionalOgImageSize & {
-  /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
+  /** Where `public/` serves the page's own card; absent where it unfurls as the site's. */
   ogImageUrl?: string;
 };
 
@@ -81,15 +83,23 @@ function resolveImage(collection: CollectionId, authored: string) {
   return { url, size: intrinsicDimensions(url) };
 }
 
+/** A generated card never rendered fails the build, as any broken image reference does. */
 function resolveOgImage(
   collection: CollectionId,
+  route: string,
   ogImage: string | undefined,
 ): ResolvedOgImage {
-  if (ogImage === undefined) return {};
+  if (ogImage !== undefined) {
+    const { url, size } = resolveImage(collection, ogImage);
 
-  const { url, size } = resolveImage(collection, ogImage);
+    return { ogImageUrl: url, ogImageSize: size };
+  }
 
-  return { ogImageUrl: url, ogImageSize: size };
+  if (!COLLECTIONS[collection].generatedCards) return {};
+
+  const url = routeCardPath(route);
+
+  return { ogImageUrl: url, ogImageSize: intrinsicDimensions(url) };
 }
 
 /**
@@ -165,7 +175,7 @@ function readDocument<F extends BaseFrontmatter>(
     fileName,
     markdown: pageFile(route, 'md'),
     route,
-    ...resolveOgImage(id, frontmatter.ogImage),
+    ...resolveOgImage(id, route, frontmatter.ogImage),
     ...resolveCardImage(id, frontmatter.cardImage),
   };
 }
