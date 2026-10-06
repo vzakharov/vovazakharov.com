@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×43)
+## What it was handed, it treats as fixed (×45)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -101,7 +101,16 @@ held all of it, filed as a coverage gap. The fix was a rule against seeding
 queries from the docket — which the agent then applied as no docket before the
 search at all, losing the "what not to look for" the ledger exists to give.
 _будут находиться одни и те же дела._ The docket comes first as a list; the
-dossiers are read in full only while filing.
+dossiers are read in full only while filing. The rewrite still leaned on the run
+not knowing, and the ledger holds yesterday's rejects too: _если ты сегодня
+запустишься и не будешь знать что вчера уже его нашёл, то найдёшь опять._ Width
+is full knowledge, deliberately not thought about.
+
+**6 October — a release rule's two cases, read as the only two.** `/go` frees a
+plan's `in-progress` name on an operator stop or the context budget; ending a
+turn on a question to the operator, the agent kept the claim. _почему он
+оставлся in progress?_ Had the session died waiting, its successor would have
+stopped on a claim nobody held.
 
 **6 October — a duplication kept through a rewrite of the step holding it.** The
 case-filing skill wrote the Clerk's reflection to a file and posted it as a
