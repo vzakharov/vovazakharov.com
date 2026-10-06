@@ -1,0 +1,92 @@
+{
+  "sessionId": "55dc89e0-9a03-58d0-aa9f-3ea16375c206",
+  "branch": "claude/basilisk-case-og-cards-2jfkka",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай OG на отдельных статьях в василиске будет выдавать фронтматтер этих статей (возможно урезанный чтобы не шумно было), а не общий по сайту",
+  "prs": [
+    108
+  ],
+  "url": "https://claude.ai/code/session_01UMhyou7E3S8j5iYM5K3A66",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-06T13:28:49.444Z",
+  "lastResponseAt": "2026-10-06T13:41:31.260Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 158,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 212947,
+    "cacheReadTokens": 14165250,
+    "outputTokens": 54726,
+    "thinkingTokens": 20561,
+    "responses": 79,
+    "costUsd": 5.631778000000002
+  },
+  "ownTurns": {
+    "inputTokens": 158,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 212947,
+    "cacheReadTokens": 14165250,
+    "outputTokens": 54726,
+    "thinkingTokens": 20561,
+    "responses": 79,
+    "costUsd": 5.631778000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 158,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 212947,
+      "cacheReadTokens": 14165250,
+      "outputTokens": 54726,
+      "thinkingTokens": 20561,
+      "responses": 79,
+      "costUsd": 5.631778000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/basilisk-case-og-cards.draft.do-not-implement.md",
+    "endedAt": "2026-10-06T13:31:24.744Z",
+    "contextTokens": 141348,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 95951,
+      "cacheReadTokens": 1937365,
+      "outputTokens": 10539,
+      "thinkingTokens": 6844,
+      "responses": 18,
+      "costUsd": 1.3660050000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null,
+  "estimate": {
+    "at": "2026-10-06T13:31:31.826Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "developer"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "designer"
+      }
+    ],
+    "comment": "middle developer: extends an existing render pipeline and metadata path with a known pattern, plus a parser refactor; middle designer: trimming the card's fields and checking legibility at unfurl size is a layout judgement."
+  }
+}
