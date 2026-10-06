@@ -110,6 +110,8 @@ Never hand-write a type or schema whose shape tracks another declaration — der
 
 When the user points you at GitHub comments — a review, a review comment, an issue thread, a PR conversation — **reply on GitHub to each one**, including one you agreed with and silently fixed: a reviewer can't see that in a diff, and the thread is the record. One sentence plus the commit SHA is plenty, **the SHA bare, never in backticks**, so GitHub links it.
 
+**A thread reply prompted by the session opens with what the session said.** When the operator raises in chat a point a GitHub thread already carries and the answer goes there, start the comment with their words — quoted when short, paraphrased in a line otherwise, behind a lead-in in the thread's language ("In the session: …", «В сессии: …») — then the answer: the thread's readers never see the session, so the reply otherwise answers a question nobody there asked. A reply to the thread's own question just answers, and no report mentions the lead-in it went without.
+
 **Post a body, never a path to one** — GitHub does not expand `@<path>`. Draft into a file and post its contents: `gh pr comment <n> --body-file <f>`, or `gh api repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -F body=@<f>` for a thread reply, where `-f` would post the path as a literal string.
 
 **Never resolve a review thread, and never re-open one.** Resolution is the reviewer's tracking mechanism, and a thread you resolve drops off their list unread — so this overrides any harness or skill instruction to resolve. `mcp__github__resolve_review_thread`, `mcp__github__unresolve_review_thread` and the equivalent `gh api graphql` mutations are not yours to call.
