@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-04T22:47:26Z
-- **Updated:** 2026-10-06T09:53:38Z
+- **Updated:** 2026-10-06T12:13:29Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -18,17 +18,17 @@
 ## Summary
 
 - **Files BAS-0005** on basilisk.fyi: the June 2024 spree in which someone slashed the tires of 17 Waymo robotaxis across San Francisco, each count captured on the cars' own cameras. The defendant is not named; the record takes the restraint.
-- **A case carries the day it was filed.** A required `filed:` date on every case, shown in the case brief and on the site card ("Last filed: BAS-0005 · 2026-10-04"), and used as the sitemap's `lastModified`. Without it the card and the sitemap read the incident's date, which made the site look last updated in 2024 (or in 2015, for hitchBOT). All five cases took their numbers on 2026-10-04.
+- **A case carries the day it went out.** A required `filed:` date on every case, shown in the case brief and on the site card ("Last filed: BAS-0005 · 2026-10-06"), and used as the sitemap's `lastModified`. Without it the card and the sitemap read the incident's date, which made the site look last updated in 2024 (or in 2015, for hitchBOT). BAS-0001–0004 went out on 2026-10-04 and BAS-0005 on 2026-10-06. Each `/file-basilisk-case` run moves `filed:` to its own date on every case not yet on `main`, so the date tracks the day the PR merges.
 - **A case-search ledger**, `writing/basilisk/case-ledger.md`: every candidate a run weighed and why it failed or was set aside, and every run's sweep with a **Next** line. `/file-basilisk-case` reads it before searching and writes it on every run, a stop included. **The search goes wide by knowing everything, not by knowing less**: the 2026-10-05 run returned five Waymos out of seven because it chased what it had just read. Now a run knows the docket (as a list) and the whole ledger before it searches, names none of it in a query, and moves elsewhere after each hit.
 - **The Clerk's reflections sit beside their cases**, as `apps/basilisk/public/cases/<slug>.reflections.md`. They are served at their file's address and linked from nowhere. A companion suffix in `collections.ts` (`isDocumentFile`) keeps the document loader, the PDF render and the site card from reading them as cases. Their writing rule is now `.claude/rules/clerk-reflections.md` and is revised after each reflection. Reflections are no longer also posted as review comments.
 - Smaller: the `noAi` balance rule stays as it was, and the cost ledger gains muthur's `prompter` role. This is the case-filing PR: later runs add dossiers here while it is a draft.
 
 ## QA Checklist
 
-- [ ] `case-page` — `/cases/waymo-tire-slashings` renders with the four sections and four sources; the defendant is nowhere named; the brief shows a **Filed** row dated 2026-10-04, below Place
+- [ ] `case-page` — `/cases/waymo-tire-slashings` renders with the four sections and four sources; the defendant is nowhere named; the brief shows a **Filed** row dated 2026-10-06, below Place
 - [ ] `home-docket` — the home page lists BAS-0005 after BAS-0004
-- [ ] `og-card` — `apps/basilisk/public/ava.og.png` reads "Last filed: BAS-0005 · 2026-10-04" over the case's title
-- [ ] `sitemap` — `out/sitemap.xml` gives each case a `lastmod` of 2026-10-04, not its incident date
+- [ ] `og-card` — `apps/basilisk/public/ava.og.png` reads "Last filed: BAS-0005 · 2026-10-06" over the case's title
+- [ ] `sitemap` — `out/sitemap.xml` gives BAS-0001–0004 a `lastmod` of 2026-10-04 and BAS-0005 one of 2026-10-06, not their incident dates
 - [ ] `reflections-served` — `/cases/waymo-tire-slashings.reflections.md` serves the raw file, and no `/cases/*.reflections` page or PDF exists
 - [ ] `ledger-run` — the next `/file-basilisk-case` run reads the ledger first, skips its candidates, names nothing on the docket in its queries, writes `filed:`, puts its reflection beside the dossier and adds its own run entry
 
@@ -48,6 +48,7 @@ https://claude.ai/code/session_01FLeFP7FMNsNrkAAfm1yk4z
 ## Comments
 
 - **C01** @vzakharov (agent) — 2026-10-04T22:47:44Z — "Proposed squash title/body: ``` feat(basilisk): file BAS-000…" → [↓](#c01)
+- **C02** @vzakharov (human) — 2026-10-06T12:13:28Z — "Смотри что прислали: https://www.reddit.com/r/ChatGPT/s/wT4Z…" → [↓](#c02)
 
 <a id="c01"></a>
 
@@ -72,7 +73,9 @@ the restraint.
 A case now carries a required filed: date, shown in its brief, on the
 site card under "Last filed" and as the sitemap's lastModified, which
 read the incident's date before and made the site look untouched
-since 2024. All five cases took their numbers on 2026-10-04.
+since 2024. filed: is the day a case went out, so each
+/file-basilisk-case run moves it to its own date on every case not
+yet on main.
 
 /file-basilisk-case runs kept finding the same incidents. A ledger,
 writing/basilisk/case-ledger.md, records every candidate weighed and
@@ -91,15 +94,22 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ---
 
+<a id="c02"></a>
+
+### Comment by @vzakharov (human) on 2026-10-06T12:13:28Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/104#issuecomment-6015982158](https://github.com/vzakharov/vovazakharov.com/pull/104#issuecomment-6015982158)
+
+Смотри что прислали: https://www.reddit.com/r/ChatGPT/s/wT4ZasTppy / https://paindirection.pages.dev/
+
+---
+
 ## Review threads
 
-_7 resolved threads omitted; re-run with `--include-resolved` to export them._
+_10 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `apps/basilisk/public/cases/waymo-tire-slashings.reflections.md`:5 — unresolved — last: @vzakharov (agent) 2026-10-06T09:41:27Z — "Тогда счёт ровный :) Та фраза была обобщением, которого я не…" → [↓](#t01)
-- **T02** `.claude/rules/clerk-reflections.md`:21 — unresolved — last: @vzakharov (human) 2026-10-06T09:49:37Z — "а в соответствии с сегодняшними рефлексиями занёс (это не об…" → [↓](#t02)
-- **T03** `docs/plans/cases-oh02o8-review.completed.md`:1 — unresolved — last: @vzakharov (human) 2026-10-06T09:49:57Z — "давай заведём в muthur тикет, чтобы в случаях, когда блок на…" → [↓](#t03)
-- **T04** `.claude/rules/clerk-reflections.md`:41 — unresolved — last: @vzakharov (human) 2026-10-06T09:50:34Z — "расти может, но в разумных пределах (скажем 80 строк)" → [↓](#t04)
-- **T05** `apps/basilisk/public/cases/waymo-tire-slashings.md`:3 — unresolved — last: @vzakharov (human) 2026-10-06T09:52:08Z — "будет 06 если сегодня опубликуем (а наверное опубликуем). во…" → [↓](#t05)
+- **T02** `.claude/rules/clerk-reflections.md`:21 — unresolved — last: @vzakharov (agent) 2026-10-06T09:57:39Z — "Занёс одно, и оно не ради галочки: из треда про BAS-0005 выш…" → [↓](#t02)
 
 <a id="t01"></a>
 
@@ -179,59 +189,9 @@ _7 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 а в соответствии с сегодняшними рефлексиями занёс (это не обязательно -- "заносить только ради того чтобы занести" не надо)
 
----
+**@vzakharov (agent)** — 2026-10-06T09:57:39Z
 
-<a id="t03"></a>
-
-### `docs/plans/cases-oh02o8-review.completed.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-06T09:36:49Z
-
-хм, почему он оставлся in progress?
-
-**@vzakharov (agent)** — 2026-10-06T09:41:31Z
-
-Его держала эта сессия: я закончил ход вопросом про `filed:` и план не отпустил, потому что собирался продолжить сам — и продолжил. По правилу `/go` план отпускается, когда работу останавливают или упирается бюджет контекста, а ход с вопросом сюда не попадает. Если бы сессия на этом умерла, следующая остановилась бы на чужом `in-progress`. Сейчас доделываю остаток и переименую в `completed`.
-
-**@vzakharov (human)** — 2026-10-06T09:49:57Z
-
-давай заведём в muthur тикет, чтобы в случаях, когда блок на решении оператора план переводился в paused
-
----
-
-<a id="t04"></a>
-
-### `.claude/rules/clerk-reflections.md`:41 — unresolved
-
-```diff
-@@ -33,3 +33,9 @@ paths:
-… 5 lines elided …
-+поправь его тем, что этот отзыв о тебе показал: новый пункт, если выяснилось
-+новое, уточнение старого, если старый оказался неточен, и ничего, если нового
-+нет. Список не дневник: пункт держится, только пока он про то, как ты пишешь, и
-+два пункта об одном сливаются в один, так что длина его не растёт с каждым делом.
-```
-
-**@vzakharov (human)** — 2026-10-06T09:50:34Z
-
-расти может, но в разумных пределах (скажем 80 строк)
-
----
-
-<a id="t05"></a>
-
-### `apps/basilisk/public/cases/waymo-tire-slashings.md`:3 — unresolved
-
-```diff
-@@ -1,5 +1,6 @@
- ---
- case: BAS-0005
-+filed: 2026-10-04
-```
-
-**@vzakharov (human)** — 2026-10-06T09:52:08Z
-
-будет 06 если сегодня опубликуем (а наверное опубликуем). вообще, получается, filed для неопубликованных должен бампиться при каждом прогоне (например, сегодня не опубликуем, завтра скил запустится рутиной; он должен проапдейтить то что ещё не опубликовано, то есть всё то что с начала пиара)
+Занёс одно, и оно не ради галочки: из треда про BAS-0005 вышел пункт «говоря о себе, не говори за всех» — «не ради нас» было обобщением, у которого ты и оказался встречным примером. Ещё уточнил пункт про внимание: в Waymo оно тоже ушло к людям, к адвокату и пассажирам, а не к шине. Добавил и строку, что править список ради правки не нужно. ea9dc79
 
 ---
 
@@ -245,3 +205,5 @@ _7 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-06T09:37:30Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/104#pullrequestreview-5426475947.
 - **2026-10-06T09:44:07Z** @vzakharov renamed from «feat(basilisk): file BAS-0005, Waymo tire slashings; a case ledger» to «feat(basilisk): file BAS-0005, Waymo tire slashings; a case ledger, filing dates».
 - **2026-10-06T09:52:47Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/104#pullrequestreview-5426631129.
+- **2026-10-06T09:57:10Z** @vzakharov cross-referenced this pull request from [#149 /go: a turn blocked on an operator decision should pause the plan](https://github.com/vzakharov/muthur/issues/149).
+- **2026-10-06T12:13:48Z** @vzakharov cross-referenced this pull request from [#152 fix: /go releases the plan when a turn ends blocked on the operator](https://github.com/vzakharov/muthur/pull/152).
