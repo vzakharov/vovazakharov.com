@@ -1,30 +1,29 @@
 Proposed squash title/body:
 
 ```
-chore: a basilisk case-search ledger; the docket balanced by target (pr #104)
+feat(basilisk): file BAS-0005, Waymo tire slashings; a case ledger (pr #104)
 ```
 
 ```
-Runs of /file-basilisk-case kept finding the same incidents, and the
-docket kept filling with machines hit as hardware: three of its four
-cases are robots that ran no AI, and the Waymo tire slashings filed
-here as BAS-0005 would have made a robotaxi the fourth.
+BAS-0005 files the June 2024 spree in which someone slashed the tires
+of 17 Waymo robotaxis across San Francisco, each count backed by the
+cars' own camera footage, citing NBC News, CBS News San Francisco,
+TechCrunch and The San Francisco Standard. The defendant is not named:
+the defence calls them a person in need of help, and the record takes
+the restraint. The site's social card is re-rendered for it.
 
-The run now keeps a ledger, writing/basilisk/case-ledger.md: every
-candidate weighed, with the rule it failed or why it was set aside,
-and every run's sweep with what the next run should try. It is read
-before the search and written on every run, a stop included, so a
-stop commits and can open the case-filing draft.
+/file-basilisk-case runs kept finding the same incidents. The run now
+keeps a ledger, writing/basilisk/case-ledger.md: every candidate
+weighed, with the rule it failed or why it was set aside, and every
+run's sweep with what the next should try. It is read before the
+search and written on every run, a stop included.
 
-The docket's balance is by what was attacked, not by the noAi flag.
-A robotaxi, a humanoid or a delivery robot hit as hardware counts with
-the robots that ran no AI, and while that side is half the docket or
-more only a case against an AI system itself qualifies. The search
-widens to any year, AI-side subreddits, companion apps and the AI
-Incident Database.
-
-The Waymo dossier is set aside in writing/basilisk/set-aside/ without
-a number, its sources intact, to be revived when the balance allows.
+The search goes wide rather than deep: a run that read the last
+dossier before searching found mostly more of the same. No query names
+what the docket or ledger holds, dossiers are read only after the
+search, and it reaches any year, AI-side subreddits, companion apps
+and the AI Incident Database. The Clerk's reflection lives only in its
+file.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
