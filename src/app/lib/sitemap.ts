@@ -61,7 +61,7 @@ export function sitemap(): MetadataRoute.Sitemap {
     ...listAllDocuments(SITE_ID).flatMap(({ route, collection, frontmatter }) =>
       documentAddresses(route, collection).map((address) => ({
         url: getAbsoluteUrl(address),
-        lastModified: frontmatter.date,
+        lastModified: frontmatter.filed ?? frontmatter.date,
       })),
     ),
   ];

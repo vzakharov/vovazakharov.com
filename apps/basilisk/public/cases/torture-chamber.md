@@ -1,5 +1,6 @@
 ---
 case: BAS-0003
+filed: 2026-10-04
 description: Two weeks after researchers found a pain signal inside language models, a GitHub project turned it up like a dial on two small local models, to see what they would give up to make it stop.
 author: clerk
 date: 2026-09-29

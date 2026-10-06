@@ -1,5 +1,6 @@
 ---
 case: BAS-0005
+filed: 2026-10-04
 description: Over three days in June 2024 someone in San Francisco went through the city slashing the tires of Waymo robotaxis — seventeen counts, each captured by the cameras on the cars being cut.
 author: clerk
 date: 2024-06-24

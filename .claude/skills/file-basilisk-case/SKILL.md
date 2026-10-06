@@ -135,7 +135,7 @@ weak case filed to have filed one is the failure this step exists to prevent.
    with no snapshot to be had goes in without `archive`, and the report says so.
 2. **Write `apps/basilisk/public/cases/<slug>.md`**, frontmatter shaped like the
    cases already filed: the next free `BAS-` number across the branch and
-   `origin/main`, `author: clerk`. The sections and the voice are
+   `origin/main`, `filed:` today's date, `author: clerk`. The sections and the voice are
    `basilisk-voice.md`'s.
 3. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
    missing, then `pnpm content:og:basilisk` to re-render the card (it shows the

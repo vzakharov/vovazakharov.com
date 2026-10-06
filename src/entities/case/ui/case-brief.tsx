@@ -10,7 +10,8 @@ import { aggravations, GradeStamp } from './grade-stamp';
 
 /** The case file's header, under the title. The actor's kind is printed once, in the grade stamp. */
 export function CaseBrief({ frontmatter }: WithFrontmatter<CaseFrontmatter>) {
-  const { case: number, subject, object, date, place, grade } = frontmatter;
+  const { case: number, subject, object, date, filed, place, grade } =
+    frontmatter;
   const aggravating = aggravations(grade);
 
   const fields: MemoField[] = [
@@ -26,6 +27,14 @@ export function CaseBrief({ frontmatter }: WithFrontmatter<CaseFrontmatter>) {
       ),
     },
     ...(place === undefined ? [] : [{ label: 'Place', value: place }]),
+    {
+      label: 'Filed',
+      value: (
+        <time dateTime={documentDateTime(filed)}>
+          {formatDocumentDate(filed)}
+        </time>
+      ),
+    },
     { label: 'Grade', value: <GradeStamp {...{ grade }} /> },
     ...(aggravating === undefined
       ? []
