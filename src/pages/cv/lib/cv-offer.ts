@@ -26,11 +26,19 @@ export function leadsWithProof(variant: CvVariant): boolean {
   return variant === 'cto';
 }
 
-/** The framing's offer in a line per item: a labelled item by its label alone. */
-export function offerHeadline({ cv }: Messages, variant: CvVariant): string[] {
-  const [headBlock] = OFFER_BLOCKS[variant];
-  const items: ReadonlyArray<string | Labeled> =
-    cv.whatIOffer.blocks[headBlock].items;
+export type OfferHeadline = { offerTitle: string; offer: string[] };
 
-  return items.map((item) => (typeof item === 'string' ? item : item.label));
+/** The framing's offer in a line per item: a labelled item by its label alone. */
+export function offerHeadline(
+  { cv }: Messages,
+  variant: CvVariant,
+): OfferHeadline {
+  const { title, blocks } = cv.whatIOffer;
+  const [headBlock] = OFFER_BLOCKS[variant];
+  const items: ReadonlyArray<string | Labeled> = blocks[headBlock].items;
+
+  return {
+    offerTitle: title,
+    offer: items.map((item) => (typeof item === 'string' ? item : item.label)),
+  };
 }

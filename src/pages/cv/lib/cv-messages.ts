@@ -1,6 +1,19 @@
 import { loadMessages, type Locale, type Messages } from '@/shared/i18n';
+import type { LabeledLink } from '@/shared/typings';
 
-import type { CvVariant } from './cv-variants';
+import type { CvEdition, CvVariant } from './cv-variants';
+
+export type WithCaseStudy = {
+  /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
+  caseStudy: LabeledLink;
+};
+
+/** What every CV page renders from, as `CvPage` resolves it. */
+export type CvPageCopy = CvEdition &
+  WithCaseStudy & {
+    /** This framing in this language, the variant's overrides already merged in. */
+    messages: Messages;
+  };
 
 /**
  * The CV's messages in one framing. `dev` is the base catalogue and every other

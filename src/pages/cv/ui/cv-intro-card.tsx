@@ -6,20 +6,20 @@ import { pick } from '@/shared/lib/collections';
 import type { LabeledLink } from '@/shared/typings';
 import { Card, TextLink } from '@/shared/ui';
 
+import type { WithCaseStudy } from '../lib/cv-messages';
+import type { OfferHeadline } from '../lib/cv-offer';
 import classes from './cv.module.scss';
 
-type CvIntroCardProps = {
-  summary: string;
-  offerTitle: string;
-  offer: string[];
-  /** The profile page, where the long form of both halves lives. */
-  more: LabeledLink;
-  caseStudy?: LabeledLink;
-};
+type CvIntroCardProps = OfferHeadline &
+  Partial<WithCaseStudy> & {
+    summary: string;
+    /** The profile page, where the long form of both halves lives. */
+    more: LabeledLink;
+  };
 
 /**
  * Who and what, side by side: the profile cut to a paragraph beside the
- * framing's offer headline, each half linking to its long form on one page.
+ * framing's offer headline, both linking to their long form on one page.
  */
 export function CvIntroCard({
   summary,

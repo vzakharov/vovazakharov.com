@@ -17,7 +17,7 @@ import { PUBLIC_DIR } from '@/shared/content/collections';
 import type { Billed } from '@/shared/typings';
 
 import { cvMessages } from '@/pages/cv/lib/cv-messages';
-import { offerHeadline } from '@/pages/cv/lib/cv-offer';
+import { type OfferHeadline, offerHeadline } from '@/pages/cv/lib/cv-offer';
 import type { CvVariant } from '@/pages/cv/lib/cv-variants';
 
 import { RENDERED_SITE } from './content-tree.ts';
@@ -37,11 +37,10 @@ const PORTRAIT = 'portrait.png';
 
 const RULE = '#dcdad5';
 
-type CardCopy = Billed & {
-  offerTitle: string;
-  offer: string[];
-  addresses: string[];
-};
+type CardCopy = Billed &
+  OfferHeadline & {
+    addresses: string[];
+  };
 
 /**
  * Laid out at the canvas size and zoomed to the screenshot's, so the numbers
@@ -129,15 +128,14 @@ ${offer.map((item) => `        <li>${escapeHtml(item)}</li>`).join('\n')}
 
 export function cvCard(variant: CvVariant): StagedPage {
   const messages = cvMessages('en', variant);
-  const { header, contact, whatIOffer } = messages.cv;
+  const { header, contact } = messages.cv;
   const { name, tagline } = header;
 
   return {
     page: cardPage({
       name,
       tagline,
-      offerTitle: whatIOffer.title,
-      offer: offerHeadline(messages, variant),
+      ...offerHeadline(messages, variant),
       addresses: [
         withoutScheme(SITE_CONFIG.url),
         contact.github,
