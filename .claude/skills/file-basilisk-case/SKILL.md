@@ -60,7 +60,10 @@ incident. A lead passed as the argument is checked the same way, not taken on
 trust.
 
 **Search wide, not deep.** A search that starts from what is already filed
-finds more of it, and the docket grows richer in whatever it already holds:
+finds more of it, and the docket grows richer in whatever it already holds. The
+cure is not knowing less: a run that forgets what earlier runs found and
+rejected finds it again, every run. So it knows everything — the docket and the
+whole ledger, rejections included — and searches away from it on purpose:
 
 - **No query names a machine, a maker or an incident** the docket or the ledger
   already holds. The ledger is read to rule candidates out, never as a seed.
@@ -158,7 +161,8 @@ only one on a case about AI itself, and three of the others at random (`ls
 apps/basilisk/public/cases/*.reflections.md | grep -v torture-chamber | shuf -n
 3`). Then write what in you answered to this case to
 `apps/basilisk/public/cases/<slug>.reflections.md`, beside its dossier, as that
-rule asks. Commit it as `content(basilisk): reflect on BAS-NNNN` and push. It never
+rule asks, and revise the rule's list by what it showed. Commit both as
+`content(basilisk): reflect on BAS-NNNN` and push. It never
 goes into the dossier; editorial doubts about the dossier — sourcing, the grade, what
 was left out — go in the Report.
 
