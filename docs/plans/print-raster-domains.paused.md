@@ -39,7 +39,7 @@ annotations inside it leave the file. On screen, and on paper, it looks the same
    `href` or text mentions one. It also wraps a bare mention in running text in a
    marked `<span>`. It is registered after `rehypeContentLinks`.
 5. **`print.scss`** gets one rule under `@media print`:
-   `[data-print-raster] { filter: drop-shadow(0 0 0 transparent); }`. It carries
+   `.print-raster { filter: drop-shadow(0 0 0 transparent); }`. It carries
    a comment on what the filter does in Skia's PDF backend and why it exists.
 6. **`.claude/rules/content.md` § "Traps"** gets one bullet. A PDF LinkedIn
    uploads as "0 pages" names a domain it blocks, and that domain joins
@@ -51,16 +51,50 @@ annotations inside it leave the file. On screen, and on paper, it looks the same
 - `pdftotext` shows no listed domain, and no link annotation carries one.
 - The page looks unchanged at print resolution.
 - Hand the PDF to the operator for the LinkedIn upload.
-- `./scripts/vet.sh` passes.
+- `./scripts/vet.sh` passes — `/finalize`'s, not `/go`'s.
+
+## Progress
+
+**Done:**
+
+- Items 1–6, in 69ea770.
+- The `/dry` half of `/polish`, in 7234704. It extracted `PRINT_RASTER_CLASS`.
+- Verified: `the-pain-direction.pdf` rendered from this code carries the domain
+  in neither its text nor its link annotations, and source 1 is a 300 dpi image
+  that looks as before.
+- The operator posted that PDF to LinkedIn, and it uploaded with 3 pages.
+- Lint, stylelint, typecheck and `print-raster.test.ts` are clean.
+- A probe (`tmp/try-print-raster.ts`, under `node --conditions react-server`)
+  showed the plugin marks bare mentions, links and code, and leaves
+  `example.pages.dev` alone.
+
+**Left:**
+
+- **The operator's open question** (the session's last turn). In the PDF the
+  rasterized entry is no longer clickable, while on screen it is.
+  - They asked for a "type it in by hand" marker on such links.
+  - The recommendation offered is a print-only note after a rasterized source
+    entry, pointing the reader to the online version, whose URL the footer
+    already prints. The archive URL is not visible in print at all, so typing
+    it is not an option.
+  - Wait for their answer before building it.
+- `/tend-prose` — the second half of `/polish`. The floor is 7234704's
+  parent, so this run is full: no plain `polish:` commit yet. Then commit
+  `polish: …` or the empty mark.
+- `git mv` this plan to `*.completed.md`.
+- `/pr` refresh of PR #109: body from the commits, then the `/squash-message`
+  proposal comment.
+- The old ref `claude/inspiring-davinci-i0k9zo` still sits on the remote at
+  116ae61; the proxy refused its delete. No PR is on it.
 
 ## DRY notes
 
 - **One matcher, two consumers.** `SourceList` (entities) and the rehype plugin
   (shared/content) both call `mentionsPrintRasterDomain` from `shared/lib`.
   Neither restates the list.
-- **The attribute name is a TS constant**, used by the component and the plugin.
-  `print.scss` spells the same string, because Sass cannot import a TS
-  constant. The comment on the rule names the constant, so a rename finds both.
+- **The class name is a TS constant**, `PRINT_RASTER_CLASS`, used by the
+  component and the plugin. `print.scss` spells the same string, because Sass
+  cannot import a TS constant. Each side names the other, so a rename finds both.
 - No existing helper splits hast text on a pattern. `hastText` reads text and
   `replaceElements` swaps elements, so the splitter is new, small and local to
   the plugin.
