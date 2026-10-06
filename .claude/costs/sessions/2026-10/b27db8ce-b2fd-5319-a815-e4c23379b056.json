@@ -79,9 +79,10 @@
       {
         "hours": 1.0,
         "grade": "middle",
-        "role": "developer"
+        "role": "developer",
+        "comment": "land prep for a reviewed small fix — attach, vet, base merge, artifact sweep, squash reconcile and merge are routine steps, but someone must read the run's results before releasing to the live site."
       }
     ],
-    "comment": "middle developer: land prep for a reviewed small fix — attach, vet, base merge, artifact sweep, squash reconcile and merge are routine steps, but someone must read the run's results before releasing to the live site."
+    "comment": null
   }
 }

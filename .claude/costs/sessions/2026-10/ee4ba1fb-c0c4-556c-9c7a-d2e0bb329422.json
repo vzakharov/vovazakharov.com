@@ -79,19 +79,22 @@
       {
         "hours": 2.0,
         "grade": "senior",
-        "role": "analyst"
+        "role": "analyst",
+        "comment": "vetting a fresh lead against the docket and sourcing it from primary data takes judgement"
       },
       {
         "hours": 2.0,
         "grade": "senior",
-        "role": "copywriter"
+        "role": "copywriter",
+        "comment": "a dossier and reflection in the docket's restrained voice"
       },
       {
         "hours": 0.5,
         "grade": "middle",
-        "role": "developer"
+        "role": "developer",
+        "comment": "wiring the case into the build and checks."
       }
     ],
-    "comment": "senior analyst: vetting a fresh lead against the docket and sourcing it from primary data takes judgement; senior copywriter: a dossier and reflection in the docket's restrained voice; middle developer: wiring the case into the build and checks."
+    "comment": null
   }
 }

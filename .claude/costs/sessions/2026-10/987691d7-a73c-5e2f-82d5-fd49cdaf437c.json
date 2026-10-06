@@ -79,9 +79,10 @@
       {
         "hours": 0.75,
         "grade": "middle",
-        "role": "developer"
+        "role": "developer",
+        "comment": "land prep for a copy-only PR — vet twice, merge a 12-commit base and check it doesn't touch the CV text or offer blocks, sweep, attest, merge; no code to write"
       }
     ],
-    "comment": "middle developer: land prep for a copy-only PR — vet twice, merge a 12-commit base and check it doesn't touch the CV text or offer blocks, sweep, attest, merge; no code to write"
+    "comment": null
   }
 }
