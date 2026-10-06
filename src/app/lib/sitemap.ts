@@ -11,7 +11,7 @@ import {
 } from '@/shared/content';
 import { routing } from '@/shared/i18n';
 
-import { CV_VARIANTS, cvPath } from '@/pages/cv';
+import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/pages/cv';
 
 /**
  * Which addresses a page in this collection is advertised at. A localized
@@ -34,7 +34,10 @@ function vovaRoutes(): string[] {
   return [
     ...Object.values(PAGE_ROUTES),
     ...routing.locales.flatMap((locale) =>
-      CV_VARIANTS.map((variant) => cvPath(variant, locale)),
+      CV_VARIANTS.flatMap((variant) => [
+        cvPath(variant, locale),
+        ...CV_SUBPAGES.map((subpage) => cvPath(variant, locale, subpage)),
+      ]),
     ),
   ];
 }

@@ -1,20 +1,21 @@
 import { Box, Container, Group, Stack, Text, Title } from '@mantine/core';
-import Markdown from 'react-markdown';
+import { Fragment } from 'react';
 
 import { printedUrl, SITE_CONFIG } from '@/shared/config';
-import { MESSAGE_MARKDOWN, type Messages } from '@/shared/i18n';
+import type { Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import type { DocumentFile } from '@/shared/typings';
 import { Card, FileLink, TextLink } from '@/shared/ui';
 
-import { OFFER_BLOCKS } from '../lib/cv-offer';
+import { leadsWithProof, offerHeadline } from '../lib/cv-offer';
+import { TECH_STACK } from '../lib/cv-stack';
+import { cvPath } from '../lib/cv-urls';
 import type { CvEdition } from '../lib/cv-variants';
-import { CASE_STUDY_KEY, CaseStudyLink } from './case-study-link';
+import { CASE_STUDY_KEY } from './case-study-link';
 import classes from './cv.module.scss';
-import { CvBullets } from './cv-bullets';
-import { CvOfferBlock } from './cv-offer-block';
-import { CvSection, CvSubsection } from './cv-section';
+import { CvIntroCard } from './cv-intro-card';
+import { CvSection } from './cv-section';
 import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
 import { LocalePicker } from './locale-picker';
 import { OtherVariantLink } from './other-variant-link';
@@ -43,9 +44,15 @@ function ProfileLink({ profile }: ProfileLinkProps) {
 }
 
 /** Order is a presentation decision, as with the experience entries. */
-const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
-
-const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
+const TECH_STACK_GROUPS = [
+  'languages',
+  'frontend',
+  'backend',
+  'ai',
+  'infrastructure',
+  'quality',
+  'agentic',
+] as const satisfies ReadonlyArray<keyof typeof TECH_STACK>;
 
 export type CvSheetProps = CvEdition & {
   /** This framing in this language, the variant's overrides already merged in. */
@@ -103,40 +110,16 @@ export function CvSheet({
           </Group>
 
           <CvSection {...pick(cv.profile, 'title')}>
-            <Card>
-              <Stack className={classes['section']}>
-                {PROFILE_PARAGRAPHS.map((key) => (
-                  <Text key={key} lh={1.625}>
-                    <Markdown {...MESSAGE_MARKDOWN}>{cv.profile[key]}</Markdown>
-                  </Text>
-                ))}
-              </Stack>
-            </Card>
-          </CvSection>
-
-          <CvSection {...pick(cv.whatIOffer, 'title')}>
-            <Card>
-              <Stack className={classes['section']}>
-                {OFFER_BLOCKS[variant].map((key) => {
-                  const block = cv.whatIOffer.blocks[key];
-                  const { title } = block;
-
-                  return (
-                    <CvSubsection key={key} {...{ title }}>
-                      <CvOfferBlock {...{ block }} />
-                    </CvSubsection>
-                  );
-                })}
-                {/* The framing that leads with proof keeps it one click from
-                    the claim. Screen only: the experience entry already prints
-                    this address. */}
-                {variant === 'cto' && (
-                  <Box className="print-hidden">
-                    <CaseStudyLink {...caseStudy} />
-                  </Box>
-                )}
-              </Stack>
-            </Card>
+            <CvIntroCard
+              {...pick(cv.profile, 'summary')}
+              offerTitle={cv.whatIOffer.title}
+              offer={offerHeadline(messages, variant)}
+              more={{
+                href: cvPath(variant, locale, 'profile'),
+                label: cv.profilePage.link,
+              }}
+              caseStudy={leadsWithProof(variant) ? caseStudy : undefined}
+            />
           </CvSection>
 
           <CvSection {...pick(cv.experience, 'title')} wide>
@@ -156,17 +139,16 @@ export function CvSheet({
 
           <CvSection {...pick(cv.techStack, 'title')}>
             <Card>
-              <Stack className={classes['subsections']}>
-                {TECH_STACK_GROUPS.map((group) => {
-                  const { title, items } = cv.techStack[group];
-
-                  return (
-                    <CvSubsection key={group} {...{ title }}>
-                      <CvBullets {...{ items }} last />
-                    </CvSubsection>
-                  );
-                })}
-              </Stack>
+              <Box className={classes['stack']}>
+                {TECH_STACK_GROUPS.map((group) => (
+                  <Fragment key={group}>
+                    <Text className={classes['stackGroup']}>
+                      {cv.techStack.groups[group]}
+                    </Text>
+                    <Text>{TECH_STACK[group]}</Text>
+                  </Fragment>
+                ))}
+              </Box>
             </Card>
           </CvSection>
 

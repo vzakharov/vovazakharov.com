@@ -14,10 +14,10 @@ import path from 'node:path';
 import { siteConfig, withoutScheme } from '@/shared/config';
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
 import { PUBLIC_DIR } from '@/shared/content/collections';
-import type { Billed, Labeled } from '@/shared/typings';
+import type { Billed } from '@/shared/typings';
 
 import { cvMessages } from '@/pages/cv/lib/cv-messages';
-import { OFFER_BLOCKS } from '@/pages/cv/lib/cv-offer';
+import { offerHeadline } from '@/pages/cv/lib/cv-offer';
 import type { CvVariant } from '@/pages/cv/lib/cv-variants';
 
 import { RENDERED_SITE } from './content-tree.ts';
@@ -128,21 +128,16 @@ ${offer.map((item) => `        <li>${escapeHtml(item)}</li>`).join('\n')}
 }
 
 export function cvCard(variant: CvVariant): StagedPage {
-  const { header, contact, whatIOffer } = cvMessages('en', variant).cv;
+  const messages = cvMessages('en', variant);
+  const { header, contact, whatIOffer } = messages.cv;
   const { name, tagline } = header;
-
-  const [headBlock] = OFFER_BLOCKS[variant];
-  const items: ReadonlyArray<string | Labeled> =
-    whatIOffer.blocks[headBlock].items;
 
   return {
     page: cardPage({
       name,
       tagline,
       offerTitle: whatIOffer.title,
-      offer: items.map((item) =>
-        typeof item === 'string' ? item : item.label,
-      ),
+      offer: offerHeadline(messages, variant),
       addresses: [
         withoutScheme(SITE_CONFIG.url),
         contact.github,

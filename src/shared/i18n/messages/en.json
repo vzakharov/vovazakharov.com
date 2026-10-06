@@ -11,6 +11,7 @@
     },
     "profile": {
       "title": "Profile",
+      "summary": "Developer with a physics-and-math brain, working with LLMs and image generation since 2020, after years of smaller neural networks. I **don’t buy or sell buzzwords**, I know **what models can and cannot do**, and I turn vague ideas into working prototypes — or clean up the ones that got vibe-coded into a corner.",
       "paragraph1": "Developer with a physics-and-math brain and a knack for building practical tools that turn AI buzz into actual features. Ever since 2020, most of my work revolves around LLMs and image generation, following years of messing with smaller neural networks. This means I **don't buy or sell buzzwords**, I understand things **a level or two deeper than most**, and I've developed an **intuition for what models can and cannot do**.",
       "paragraph2": "I've built systems from scratch, simplified convoluted integrations, and turned vague ideas into working prototypes — across open-source, startups, and global advertising giants."
     },
@@ -202,54 +203,21 @@
         "link": "Read the case study"
       }
     },
+    "profilePage": {
+      "title": "Profile and Offer",
+      "link": "Full profile and offer",
+      "back": "← Back to the CV"
+    },
     "techStack": {
       "title": "Tech Stack",
-      "backend": {
-        "title": "Backend",
-        "items": [
-          {
-            "lead": "Django / FastAPI",
-            "text": "– If you rely on your own ML models or otherwise require computations/libs that the JavaScript world hasn't yet caught up with"
-          },
-          {
-            "lead": "Next.js API",
-            "text": "– If you're mostly calling other people's web APIs and a separate backend would be overhead"
-          },
-          {
-            "lead": "NestJS",
-            "text": "– When the domain is rich enough to earn a structured, domain-driven backend"
-          }
-        ]
-      },
-      "frontend": {
-        "title": "Frontend",
-        "items": [
-          {
-            "lead": "Next.js / React",
-            "text": "– If you want to stay on the safe and \"we can definitely hire another dev to work with it later\" side"
-          },
-          {
-            "lead": "Nuxt / Vue",
-            "text": "– If your team prefers single-file components and a lighter framework"
-          }
-        ]
-      },
-      "serverless": {
-        "title": "Serverless / Other",
-        "items": [
-          {
-            "lead": "Cloudflare Workers",
-            "text": "– Edge compute for low-latency, pay-per-request backends"
-          },
-          {
-            "lead": "Google Colab",
-            "text": "— Had my fair share of fails and successes building and testing models"
-          },
-          {
-            "lead": "Gradio",
-            "text": "– Quick but powerful UIs for ML experiments"
-          }
-        ]
+      "groups": {
+        "languages": "Languages",
+        "frontend": "Frontend",
+        "backend": "Backend & data",
+        "ai": "AI",
+        "infrastructure": "Infrastructure",
+        "quality": "Quality",
+        "agentic": "Agentic engineering"
       }
     },
     "education": {
@@ -277,6 +245,7 @@
           "tagline": "Fractional, hands-on CTO for AI-native delivery"
         },
         "profile": {
+          "summary": "158 days, **250,000 lines of production TypeScript** with none of it hand-written, **up to 20 agents at once** and **a deploy every 2.4 days** — on a live product that never left production. I lead AI-native delivery hands-on: the agents, the pipeline they ship through, and the handover to the engineers who carry the platform on.",
           "paragraph1": "158 days, **250,000 lines of production TypeScript**, none of it hand-written, up to **20 agents working at once**, and **a production deploy every 2.4 days** — on a live product that stayed in production for its users the whole way through. The engineering platform I built to get there outlived my involvement: three engineers run it today, and it travels to their new projects as a checked-in boilerplate.",
           "paragraph2": "Most of my work has revolved around LLMs and image generation ever since 2020, following years of messing with smaller neural networks. This means I **don't buy or sell buzzwords**, I understand things **a level or two deeper than most**, and I've developed an **intuition for what models can and cannot do**. What I lead is the delivery — the agents, the pipeline they ship through, and the handover to the engineers who carry the platform on — at founder-and-small-team scale, through the work rather than the org chart."
         }

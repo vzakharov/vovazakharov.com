@@ -75,6 +75,63 @@
   }
 }
 
+// The intro card's two halves, side by side wherever the measure allows — paper
+// included, which the viewport query cannot be trusted to reach.
+.intro {
+  display: grid;
+  gap: 24px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-columns: 3fr 2fr;
+    gap: 32px;
+  }
+
+  @media print {
+    grid-template-columns: 3fr 2fr;
+    gap: 0.6cm;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.introLinks {
+  @extend %aside;
+
+  margin-top: 16px;
+
+  @media print {
+    margin-top: 0.2cm;
+  }
+}
+
+// One group of the stack per row: its name in a column of its own, the items
+// running beside it.
+.stack {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 24px;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-template-columns: 1fr;
+    gap: 2px;
+
+    > :nth-child(even) {
+      margin-bottom: 8px;
+    }
+  }
+
+  @media print {
+    grid-template-columns: max-content 1fr;
+    gap: 0.1cm 0.5cm;
+  }
+}
+
+.stackGroup {
+  font-weight: 600;
+}
+
 .header {
   padding-bottom: 32px;
 
