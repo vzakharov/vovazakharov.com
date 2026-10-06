@@ -36,6 +36,7 @@ import { rehypeImageDimensions } from './plugins/rehype-image-dimensions';
 import { rehypeImageLayout } from './plugins/rehype-image-layout';
 import { rehypeMediaEmbeds } from './plugins/rehype-media-embeds';
 import { rehypeMermaid } from './plugins/rehype-mermaid';
+import { rehypePrintRaster } from './plugins/rehype-print-raster';
 import { rehypeTableScroll } from './plugins/rehype-table-scroll';
 import {
   isRepeatedBlock,
@@ -176,7 +177,9 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
       defaultColor: false,
       fallbackLanguage: 'text',
       langs: CODE_LANGUAGES,
-    });
+    })
+    // After the highlighter, which reads a code block's text whole.
+    .use(rehypePrintRaster);
 
   if (seal !== undefined) processor.use(rehypeEndMark, { seal });
 
