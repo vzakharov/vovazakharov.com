@@ -11,7 +11,12 @@ The task: the operator's review 5425987795 on PR #104 (submitted 2026-10-06
 - The site card drops the incident date under "Last filed" (3474b50).
   Comment 4193382483 asked for filing date or none; the agent chose none — the
   number already says which is latest, a filing date needs a frontmatter field
-  only the card reads.
+  only the card reads. **Reopened**: the operator answered in chat, quoting
+  "нового поля во фронтматтере, которое нужно только карточке": «я бы не
+  сказал что только карточке». So a filing-date field (e.g. `filed:`) has
+  uses beyond the card — the case page, the docket's order. Propose its shape
+  (name, where the site shows it, back-filling BAS-0001–0005 from git history)
+  and implement on agreement; 3474b50 may be reverted in favour of it.
 - `/file-basilisk-case` Step 2: the docket is known before the search as a list
   (number, title, `description` via grep), dossiers read in full only after.
   Comment 4193350994 (reading dossiers only after the search means the agent
