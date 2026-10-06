@@ -1,0 +1,85 @@
+{
+  "sessionId": "b27db8ce-b2fd-5319-a815-e4c23379b056",
+  "branch": "claude/print-raster-domains-i0k9zo",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize and merge claude/print-raster-domains-i0k9zo",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01BxRQKxcNf75ZnS17KVsPg8",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-06T17:00:38.508Z",
+  "lastResponseAt": "2026-10-06T17:12:21.746Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 76656,
+    "cacheReadTokens": 2034685,
+    "outputTokens": 4681,
+    "thinkingTokens": 1207,
+    "responses": 19,
+    "costUsd": 1.1139569999999999
+  },
+  "ownTurns": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 76656,
+    "cacheReadTokens": 2034685,
+    "outputTokens": 4681,
+    "thinkingTokens": 1207,
+    "responses": 19,
+    "costUsd": 1.1139569999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 76656,
+      "cacheReadTokens": 2034685,
+      "outputTokens": 4681,
+      "thinkingTokens": 1207,
+      "responses": 19,
+      "costUsd": 1.1139569999999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-06T17:12:21.746Z",
+    "contextTokens": 121107,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 76265,
+      "cacheReadTokens": 1913971,
+      "outputTokens": 4555,
+      "thinkingTokens": 1156,
+      "responses": 18,
+      "costUsd": 1.0841581999999998
+    }
+  },
+  "compactions": [],
+  "telemetry": null,
+  "estimate": {
+    "at": "2026-10-06T17:12:07.265Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer"
+      }
+    ],
+    "comment": "middle developer: land prep for a reviewed small fix — attach, vet, base merge, artifact sweep, squash reconcile and merge are routine steps, but someone must read the run's results before releasing to the live site."
+  }
+}
