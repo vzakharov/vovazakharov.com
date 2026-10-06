@@ -70,7 +70,7 @@ export const COLLECTIONS = {
     printable: true,
     localized: false,
     homeIndexed: true,
-    /** A case unfurls as its own file, which `scripts/lib/basilisk-card.ts` draws. */
+    /** Drawn by `scripts/lib/basilisk-card.ts`. */
     generatedCards: true,
   },
   'basilisk-faq': {

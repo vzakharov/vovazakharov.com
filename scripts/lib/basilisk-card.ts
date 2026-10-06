@@ -2,11 +2,9 @@
  * basilisk.fyi's social cards, as pages for `og-render.ts` to screenshot: the
  * lettered seal beside a memo, and under the memo a ruled line with a title.
  *
- * - **The site card** carries the memo the home page opens on, and the last
- *   case filed by number, filing date and title — so filing a case re-flags it.
- * - **A case's card** carries that case's file, trimmed to what reads at card
- *   size: who, to what, where and when, and the grade stamp. The filing date and
- *   the aggravations stay on the page.
+ * The site card's title is the last case filed, so filing a case re-flags it. A
+ * case's card trims its file to what reads at card size; the filing date and
+ * the aggravations stay on the page.
  *
  * Both read what the site renders — the memo from the module the home page
  * renders, a case through the schema the build parses it with — so a card

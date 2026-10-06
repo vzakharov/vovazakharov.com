@@ -83,12 +83,7 @@ function resolveImage(collection: CollectionId, authored: string) {
   return { url, size: intrinsicDimensions(url) };
 }
 
-/**
- * The frontmatter's `ogImage` where it names one; else, in a collection whose
- * cards are generated, the one rendered for this route — which, never rendered,
- * fails the build as any image reference resolving to nothing does; else none,
- * and the page unfurls as the site card.
- */
+/** A generated card never rendered fails the build, as any broken image reference does. */
 function resolveOgImage(
   collection: CollectionId,
   route: string,
