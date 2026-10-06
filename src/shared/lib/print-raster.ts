@@ -23,10 +23,8 @@ export function mentionsPrintRasterDomain(text: string): boolean {
   return text.match(MENTION) !== null;
 }
 
-/** A run of text, and whether it is a mention print has to rasterize. */
 type TextRun = { text: string; raster: boolean };
 
-/** Cuts text into runs, each mention a run of its own. */
 export function splitOnPrintRasterDomains(text: string): TextRun[] {
   const runs: TextRun[] = [];
   let from = 0;
