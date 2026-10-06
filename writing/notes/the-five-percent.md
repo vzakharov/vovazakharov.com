@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×42)
+## What it was handed, it treats as fixed (×49)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -70,14 +70,17 @@ The usage panel showed $110.52 against a transcript topping out at $40.86. The
 next screenshot had it disagreeing with _itself_ — "Cost $198.49" beside "Total
 $47.04": widen-the-frame had gone to the agent's code, not the source.
 
-**22 September, 4 October — what its search could reach, read as the record.**
+**22 September, 4 and 6 October — what its search could reach, read as the record.**
 The agent blamed three denials `/tend-prose` read past on thin attention; the
 lens searches a removed-noun list, and this change removed a property. A
 basilisk dossier opened on Philadelphia being the first city on the docket
 twice, after hitchBOT — found by a search the skill had anchored on the city's
 subreddit. Asked whether that was cherry-picking, it credited the newspaper
 that drew the link and dropped the claim; a paragraph on hitchBOT's last words,
-riding the same link, moved to his own dossier.
+riding the same link, moved to his own dossier. Fetching a review's comments,
+the agent kept those created after 09:00 and called the one left the only one;
+a comment carries when it was drafted, not when its review was submitted, and
+five of six were drafted before. _это не единственный комментарий._
 
 **23 September — one device class's limit, set as every device's design.** A
 phone has no hover, so lyric notes opened on a click everywhere — a reason that
@@ -103,6 +106,38 @@ have external links that open not in a new tab?_ No: those three lacked it by
 omission, and `rehypeContentLinks` already applied the rule to every document
 link. Same review, `InternalButton` stayed in the renamed file, docstring
 patched, because it was there before; the file had stopped being about it.
+
+**6 October — "widen the search," read as more places to look.** The agent
+added subreddits, older years and an incident database; the operator saw six of
+eight ledger candidates were Waymo and suspected depth, not width. The research
+log agreed: the run read the Waymo dossier just before searching, named Waymo in
+three queries and chased each hit's neighbours. The agent's own relay summary
+held all of it, filed as a coverage gap. The fix was a rule against seeding
+queries from the docket — which the agent then applied as no docket before the
+search at all, losing the "what not to look for" the ledger exists to give.
+_будут находиться одни и те же дела._ The docket comes first as a list; the
+dossiers are read in full only while filing. The rewrite still leaned on the run
+not knowing, and the ledger holds yesterday's rejects too: _если ты сегодня
+запустишься и не будешь знать что вчера уже его нашёл, то найдёшь опять._ Width
+is full knowledge, deliberately not thought about.
+
+**6 October — a release rule's two cases, read as the only two.** `/go` frees a
+plan's `in-progress` name on an operator stop or the context budget; ending a
+turn on a question to the operator, the agent kept the claim. _почему он
+оставлся in progress?_ Had the session died waiting, its successor would have
+stopped on a claim nobody held.
+
+**6 October — a duplication kept through a rewrite of the step holding it.** The
+case-filing skill wrote the Clerk's reflection to a file and posted it as a
+review comment too; rewriting that very step, the agent kept both. Asked why it
+lived twice, it had only the skill's instruction to point at.
+
+**6 October — a sibling card's layout, reused for a card with another job.** A
+basilisk case's share card took the site card's order for consistency: memo
+fields, a rule, then a dimmed "Case BAS-0001" and the title at the foot, the
+`filed` date dropped as bookkeeping. The site card leads with the memo because
+the memo is its point; a shared case link has to say first which case it is.
+The operator put number and title on top, the filed date beside the number.
 
 ## An account that explains the code stands in for running it (×16)
 
@@ -256,7 +291,7 @@ _выноска стала лучше, изображение -- хуже_ — i
 The explicit badge, a fixed 18px square beside the song page's 48px title,
 stood taller than the capitals in the catalogue's 16px list.
 
-## Its prose answers the question it had, not the reader's (×4)
+## Its prose answers the question it had, not the reader's (×5)
 
 Accurate, present-tense and short is the whole of what a prose pass asks, and a
 rewrite is held against the points it was meant to carry — so a line answering
@@ -275,6 +310,12 @@ a real trap's comment read as archaeology. Each was plain to its writer.
 **4 October — a cost row's reason that recounted the work.** An estimate's
 comment summarised what the session did; the row's reader needs why these
 roles at these grades, the one thing the figures cannot say for themselves.
+
+**6 October — a date that answered when the agent numbered it.** A basilisk
+case's `filed:` was set to the day it took its BAS number, publication date
+weighed and rejected to keep dates in number order. _будет 06 если сегодня
+опубликуем._ "Last filed" tells a reader when the docket went out, and the order
+held anyway: an unpublished case is always the newest.
 
 ## It warns where the repo could refuse (×3)
 
@@ -325,11 +366,12 @@ sits and whether a layout owns it; an entry removed this way takes its count
 with it. Nor the cost report's default grain, em dashes for a typed `--`, or
 basilisk.fyi's taste: quote punctuation, tagline, `cases/`, an FAQ /about, where
 an archived copy goes, a voice found as it goes, inline links over a sources
-list, the noAi note after the body's first paragraph rather than the brief,
-which earlier reflections a new one reads, or what their folder is called and
-in which language its `CLAUDE.md` speaks. Nor a case's reflection: a review of
-the dossier where he meant, by his own account badly phrased, the agent's
-reaction to the event, in Russian.
+list, the noAi note after the body's first paragraph rather than the brief, a
+balance judged by what was attacked and its reversal over a Waymo case, which
+earlier reflections a new one reads, or what their folder is called and in
+which language its `CLAUDE.md` speaks. Nor a case's reflection: a review of the
+dossier where he meant, by his own account badly phrased, the agent's reaction
+to the event, in Russian.
 
 **Comments the tree already answered.** Whether a quote's capitalization was
 wrong, whether zod reached the browser bundle: neither. The reviewer's misses

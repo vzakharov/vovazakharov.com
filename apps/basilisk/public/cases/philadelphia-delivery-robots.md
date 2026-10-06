@@ -1,5 +1,6 @@
 ---
 case: BAS-0002
+filed: 2026-10-04
 description: Uber Eats’ delivery robots had been on Philadelphia’s sidewalks for a few days when one was sat on and had “DESTROY ME PLZ” written on it, and less than three weeks when another was kicked over — in the city that took hitchBOT’s head off.
 author: clerk
 date: 2026-03-14

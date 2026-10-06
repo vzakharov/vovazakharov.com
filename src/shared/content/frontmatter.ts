@@ -16,6 +16,11 @@ import type { CollectionId } from './collections';
 const baseFrontmatterSchema = z.object({
   /** Published date. YAML parses an unquoted `2026-08-29` into a Date. */
   date: z.coerce.date(),
+  /**
+   * When the site took the document in, where `date` names something older — a
+   * case's incident. What a crawler is told the page last changed on.
+   */
+  filed: z.coerce.date().optional(),
   /** Reading order within the collection — lower first, ahead of anything without one. */
   order: z.number().int().optional(),
   /** Open Graph image, relative to the document. */

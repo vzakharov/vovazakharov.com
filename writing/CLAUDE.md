@@ -24,13 +24,12 @@ writing/
     dictations/
       <slug>.md        # a recording, transcribed
   basilisk/
-    clerk-reflections/
-      <case>-<slug>.md # the Clerk's reflection on a filed case, never published
+    case-ledger.md     # every case search and every candidate it weighed
 ```
 
-`basilisk/clerk-reflections/` is no channel and holds no drafts: it is the
-Clerk's record of what each basilisk.fyi case stirred in them, and its own
-`CLAUDE.md` says how it is kept. Nothing below applies to it.
+`basilisk/` is no channel and holds no drafts: it is the working record behind
+basilisk.fyi, kept by `/file-basilisk-case`, which says how the ledger is
+written. Nothing below applies to it.
 
 `notes/` is for a claim that needs specimens rather than argument: the file
 collects them as they occur, so the post is written from a record instead of

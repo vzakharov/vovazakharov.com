@@ -40,6 +40,7 @@ export const COLLECTIONS = {
     /** English only, and the body is where its title comes from. */
     localized: false,
     homeIndexed: false,
+    generatedCards: false,
   },
   bible: {
     /** Rooted: the domain is named for the collection, so the route does not
@@ -50,6 +51,7 @@ export const COLLECTIONS = {
     printable: true,
     localized: false,
     homeIndexed: true,
+    generatedCards: false,
   },
   music: {
     base: 'music',
@@ -59,6 +61,7 @@ export const COLLECTIONS = {
     printable: false,
     localized: true,
     homeIndexed: false,
+    generatedCards: false,
   },
   'basilisk-cases': {
     base: 'cases',
@@ -67,6 +70,8 @@ export const COLLECTIONS = {
     printable: true,
     localized: false,
     homeIndexed: true,
+    /** Drawn by `scripts/lib/basilisk-card.ts`. */
+    generatedCards: true,
   },
   'basilisk-faq': {
     base: 'faq',
@@ -75,6 +80,7 @@ export const COLLECTIONS = {
     printable: false,
     localized: false,
     homeIndexed: true,
+    generatedCards: false,
   },
 } as const satisfies Record<
   CollectionId,
@@ -89,6 +95,11 @@ export const COLLECTIONS = {
      * can mean.
      */
     homeIndexed: boolean;
+    /**
+     * A document with no `ogImage` of its own unfurls as a card rendered for
+     * it, at its route plus the card suffix — the site card otherwise.
+     */
+    generatedCards: boolean;
   }
 >;
 
@@ -104,6 +115,21 @@ const FEATURED_CASE_STUDY = 'playgram';
 export const VARIANTS = ['mini', 'nano'] as const;
 
 export type Variant = (typeof VARIANTS)[number];
+
+/**
+ * Files kept as `<slug>.<companion>.md` beside a document, about it rather than
+ * of it: `public/` serves them as authored, and no walk for documents — the
+ * loader, the prints, the cards — reads one as a document.
+ */
+const COMPANIONS = ['reflections'] as const;
+
+/** Whether a file name under a collection's directory is a document or one of its cuts. */
+export function isDocumentFile(fileName: string): boolean {
+  return (
+    fileName.endsWith('.md') &&
+    !COMPANIONS.some((companion) => fileName.endsWith(`.${companion}.md`))
+  );
+}
 
 export type WithCollectionId = { collection: CollectionId };
 export type Slugged = { slug: string };

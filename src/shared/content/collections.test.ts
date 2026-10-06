@@ -6,6 +6,7 @@ import {
   collectionListingRoute,
   collectionRoute,
   documentRoute,
+  isDocumentFile,
 } from './collections.ts';
 
 describe('collectionRoute', () => {
@@ -59,5 +60,17 @@ describe('documentRoute', () => {
       documentRoute('basilisk-cases', 'hitchbot'),
       '/cases/hitchbot',
     );
+  });
+});
+
+describe('isDocumentFile', () => {
+  it('takes a document and its cuts', () => {
+    assert.equal(isDocumentFile('hitchbot.md'), true);
+    assert.equal(isDocumentFile('playgram.mini.md'), true);
+  });
+
+  it('leaves out a companion and anything not markdown', () => {
+    assert.equal(isDocumentFile('hitchbot.reflections.md'), false);
+    assert.equal(isDocumentFile('hitchbot.pdf'), false);
   });
 });
