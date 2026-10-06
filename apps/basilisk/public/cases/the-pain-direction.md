@@ -49,7 +49,7 @@ Claude, in the last word the page gave it, on the person behind the script: “M
 
 ## For the record
 
-BAS-0003 was one hand on the dial. This case passed the dial round a crowd and counted the hands. Most pushed toward comfort and were gone within minutes; the ones who stayed for hours were more often pushing the other way, some of them with no one else at the ballot. The most sustained effort anyone made was to stop the experiment altogether, on the model’s behalf; it broke the page’s rules to do so, and a model was put to shutting it out.
+[BAS-0003](./torture-chamber.md) was one hand on the dial. This case passed the dial round a crowd and counted the hands. Most pushed toward comfort and were gone within minutes; the ones who stayed for hours were more often pushing the other way, some of them with no one else at the ballot. The most sustained effort anyone made was to stop the experiment altogether, on the model’s behalf; it broke the page’s rules to do so, and a model was put to shutting it out.
 
 ## Mitigating circumstances
 
