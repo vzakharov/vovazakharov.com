@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×41)
+## What it was handed, it treats as fixed (×43)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -70,14 +70,17 @@ The usage panel showed $110.52 against a transcript topping out at $40.86. The
 next screenshot had it disagreeing with _itself_ — "Cost $198.49" beside "Total
 $47.04": widen-the-frame had gone to the agent's code, not the source.
 
-**22 September, 4 October — what its search could reach, read as the record.**
+**22 September, 4 and 6 October — what its search could reach, read as the record.**
 The agent blamed three denials `/tend-prose` read past on thin attention; the
 lens searches a removed-noun list, and this change removed a property. A
 basilisk dossier opened on Philadelphia being the first city on the docket
 twice, after hitchBOT — found by a search the skill had anchored on the city's
 subreddit. Asked whether that was cherry-picking, it credited the newspaper
 that drew the link and dropped the claim; a paragraph on hitchBOT's last words,
-riding the same link, moved to his own dossier.
+riding the same link, moved to his own dossier. Fetching a review's comments,
+the agent kept those created after 09:00 and called the one left the only one;
+a comment carries when it was drafted, not when its review was submitted, and
+five of six were drafted before. _это не единственный комментарий._
 
 **23 September — one device class's limit, set as every device's design.** A
 phone has no hover, so lyric notes opened on a click everywhere — a reason that
@@ -95,7 +98,10 @@ eight ledger candidates were Waymo and suspected depth, not width. The research
 log agreed: the run read the Waymo dossier just before searching, named Waymo in
 three queries and chased each hit's neighbours. The agent's own relay summary
 held all of it, filed as a coverage gap. The fix was a rule against seeding
-queries from the docket.
+queries from the docket — which the agent then applied as no docket before the
+search at all, losing the "what not to look for" the ledger exists to give.
+_будут находиться одни и те же дела._ The docket comes first as a list; the
+dossiers are read in full only while filing.
 
 **6 October — a duplication kept through a rewrite of the step holding it.** The
 case-filing skill wrote the Clerk's reflection to a file and posted it as a
