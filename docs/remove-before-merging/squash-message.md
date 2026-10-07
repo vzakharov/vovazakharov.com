@@ -27,6 +27,12 @@ That footer now ends every page: an inner page's "← Home" link (in
 English shortened from "← Back to the home page") moves into it,
 opposite the copyright the inner pages lacked.
 
+`./scripts/vet.sh` also stops running the mushroom meadow's tests,
+which take half an hour, on a branch that cannot change them: they run
+only when the diff touches the meadow, a module their import closure
+reaches, `package.json` or the lockfile, and every other test still
+runs.
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
