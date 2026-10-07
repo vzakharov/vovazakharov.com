@@ -283,10 +283,12 @@ weighed and rejected to keep dates in number order. _будет 06 если се
 опубликуем._ "Last filed" tells a reader when the docket went out, and the order
 held anyway: an unpublished case is always the newest.
 
-**7 October — a prop named for what its writer meant.** The flag that drops
-`SiteFooter`'s "← Home" link on a site's root page was named `home`, chosen as a
-fact about the page. _более понятно назвать проп?_ Met cold, `<SiteFooter home />`
-reads as "link home" — the opposite of what it does. Now `isHomePage`.
+**7 October, two rounds running — a prop named for what its writer meant.** The
+flag that drops `SiteFooter`'s "← Home" link on a site's root page was named
+`home`, chosen as a fact about the page. _более понятно назвать проп?_ Met cold,
+`<SiteFooter home />` reads as "link home" — the opposite of what it does. The
+fix, `isHomePage`, was judged the same way, and reads as the footer _being_ the
+home page. Now `onHomePage`.
 
 ## What it defends in writing, it stops asking about (×5)
 
