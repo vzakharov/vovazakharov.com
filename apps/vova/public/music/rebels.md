@@ -7,6 +7,7 @@ repo: 'rebels'
 audio: https://raw.githubusercontent.com/vovas-music/rebels/main/rebels_master1.flac
 seconds: 204
 explicit: true
+album: ignite
 hidden: true
 en:
   title: 'Rebels Between the Lines (Live in Sparta)'
@@ -16,7 +17,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: The master is a guess: rebels.flac is the same length as rebels_master1.flac. Apple Music lists it on the release “Ignite”, which is not in the album registry, so the song has no album. Language is inferred from the title alone. -->
+<!-- For Vova to check: The master is a guess: rebels.flac is the same length as rebels_master1.flac. Language is inferred from the title alone. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/rebels — rebels_master1.flac,
      44.1 kHz / 16-bit / stereo.

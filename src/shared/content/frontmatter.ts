@@ -98,6 +98,7 @@ const SONG_LANGUAGES = [
   'pl',
   'la',
   'zh',
+  'fr',
   'instrumental',
 ] as const;
 

@@ -17,8 +17,6 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: The checklist gives this track no repo of its own, but repo zoo holds the same song (zoo_master.flac, also zoo.flac and zoo_o.flac; lyrics.md files the words under both) — check which master you want; the zoo entry's project is still blank, so it is not scaffolded separately. -->
-
 <!-- Scaffolded from https://github.com/vovas-music/ghosts-of-flesh — 4.The Last Human Zoo.flac,
      44.1 kHz / 16-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and

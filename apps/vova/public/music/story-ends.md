@@ -17,7 +17,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Language is a guess from the English title — no words for it in lyrics.md; set instrumental if it has no vocal. The album entry names no repo of its own for this track, so the master is the album file; a separate repo `story_ends` (`story_ends.flac`) exists and may be this song’s own. -->
+<!-- For Vova to check: Language is a guess from the English title — no words for it in lyrics.md; set instrumental if it has no vocal. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/stories — 11 ends.flac,
      44.1 kHz / 16-bit / stereo.

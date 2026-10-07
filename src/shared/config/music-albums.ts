@@ -19,6 +19,7 @@ export const MUSIC_ALBUM_SLUGS = [
   'papa-reka',
   'rus',
   'dng',
+  'ignite',
 ] as const;
 
 export type MusicAlbum = (typeof MUSIC_ALBUM_SLUGS)[number];
@@ -54,4 +55,5 @@ export const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     title: 'Пять романсов, два сонета и один реквием',
     artist: 'Дамы и господа',
   },
+  ignite: { title: 'Ignite', artist: 'Yoohie' },
 };

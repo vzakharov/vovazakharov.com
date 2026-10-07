@@ -7,6 +7,7 @@ repo: 'ignite'
 audio: https://raw.githubusercontent.com/vovas-music/ignite/main/ignite.flac
 seconds: 149
 explicit: false
+album: ignite
 hidden: true
 en:
   title: 'Ignite'
@@ -16,7 +17,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Language is a guess from the English title — the checklist leaves it blank and lyrics.md has no words for it. Apple Music releases it on «Ignite», which is not in the album registry, so it stands as a single. -->
+<!-- For Vova to check: Language is a guess from the English title — the checklist leaves it blank and lyrics.md has no words for it. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/ignite — ignite.flac,
      44.1 kHz / 16-bit / stereo.

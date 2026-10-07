@@ -17,7 +17,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: The master is a guess: requiem_louder.flac, requiem_new.flac and requiem_pop.flac are all the same length as requiem_master.flac. The album repo dng_album also holds this song as dng-007.flac, which has no page of its own — check which file is the released one. -->
+<!-- For Vova to check: The master is a guess: requiem_louder.flac, requiem_new.flac and requiem_pop.flac are all the same length as requiem_master.flac. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/requiem — requiem_master.flac,
      44.1 kHz / 16-bit / stereo.
