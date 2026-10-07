@@ -14,7 +14,7 @@ type SiteFooterProps = WithOptionalChildren &
   WithOptionalLocale & {
     /** The route of the feed the page's listing mirrors, linked beside the byline. */
     feed?: string;
-    /** The page is its site's root, so no note means no note rather than the way home. */
+    /** On its site's root page, no note means no note rather than the way home. */
     onHomePage?: boolean;
   };
 
