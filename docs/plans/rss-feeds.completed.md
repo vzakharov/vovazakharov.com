@@ -63,8 +63,9 @@ collection's listing is `/`, which `basilisk-cases` and `basilisk-faq` share.
    `alternates.types['application/rss+xml']` listing the site's feeds with
    titles. It goes there rather than in `rootMetadata` because a page's own
    `alternates` replaces the layout's wholesale.
-6. **Visible link** — a small "RSS" link beside each feed's listing: the Bible
-   and basilisk home footers, and the music index in its own language. `/preview`
+6. **Visible link** — a small "RSS" link after the copyright in the footer of
+   each feed's listing: the Bible and basilisk homes, and the music index in its
+   own language, which gains the site footer for it. `/preview`
    to look.
 7. **Check the build output**: `out/feed.xml` etc. exist, validate as RSS 2.0
    (well-formed XML, required elements), and `/music/en`, `/music/ru` still

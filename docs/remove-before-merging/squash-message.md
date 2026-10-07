@@ -20,8 +20,9 @@ document's frontmatter blurb and a link rather than its full body,
 which is rendered for the page and not for a feed reader.
 
 Every page announces its site's feeds in `<head>` for reader
-autodiscovery, and each feed is linked visibly beside the listing it
-mirrors.
+autodiscovery, and each feed is linked visibly from the footer of the
+page whose listing it mirrors, after the copyright — which the music
+page gains with it.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
