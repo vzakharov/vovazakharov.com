@@ -43,6 +43,7 @@ export {
   type ArticleFrontmatter,
   type BaseFrontmatter,
   type Collection,
+  filedDate,
   type LocalizedText,
   type Playable,
   type SongFrontmatter,

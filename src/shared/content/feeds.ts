@@ -22,7 +22,7 @@ import {
   type WithCollectionId,
 } from './collections';
 import { listPrimaryDocuments, type LocaleRouted } from './documents';
-import type { BaseFrontmatter } from './frontmatter';
+import { filedDate } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
 /**
@@ -87,14 +87,6 @@ export function findFeed(
 }
 
 /**
- * When a document entered the collection — the date the sitemap reports as
- * last modified too, a case being filed long after its incident.
- */
-function published({ date, filed }: BaseFrontmatter): Date {
-  return filed ?? date;
-}
-
-/**
  * A feed's items, newest first. The blurb rather than the body: the body is
  * rendered for the page, and reads wrong anywhere else.
  */
@@ -107,14 +99,14 @@ export async function feedEntries({
       ? listPrimaryDocuments(SONGS).map(({ route, frontmatter }) => ({
           ...frontmatter[locale],
           route: localizedRoute(route, locale),
-          published: published(frontmatter),
+          published: filedDate(frontmatter),
         }))
       : (await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection])).map(
           ({ document: { route, frontmatter }, rendered: { title } }) => ({
             title,
             ...pick(frontmatter, 'description'),
             route,
-            published: published(frontmatter),
+            published: filedDate(frontmatter),
           }),
         );
 
