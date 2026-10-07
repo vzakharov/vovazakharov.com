@@ -9,13 +9,16 @@ import { ExplicitBadge } from './explicit-badge';
 import classes from './music.module.scss';
 import { TrackButton } from './track-button';
 
+/** An index, in one language; `everything` lists the hidden songs too. */
+export type MusicIndexProps = WithLocale & { everything?: boolean };
+
 /**
  * The catalogue on the index, row for row the queue the layout seeds the player
  * with, so pressing play on a row and pressing next on the bar move through one
- * list.
+ * list. A hidden row joins that queue when played, as on its own page.
  */
-export function SongList({ locale }: WithLocale) {
-  const songs = listSongs();
+export function SongList({ locale, everything = false }: MusicIndexProps) {
+  const songs = listSongs(everything);
   const messages = loadMessages(locale).music;
 
   if (songs.length === 0) return null;

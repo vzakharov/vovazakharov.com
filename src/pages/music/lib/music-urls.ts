@@ -14,6 +14,20 @@ export function musicPath(locale?: Locale): string {
   return localizedRoute(collectionRoute('music'), locale);
 }
 
+/** The segment that turns the index into the whole catalogue, hidden songs included. */
+export const EVERYTHING_SEGMENT = 'all';
+
+/**
+ * The index with every song on it, hidden ones included — linked from nowhere
+ * and not indexed, for the author to see what the public list leaves out.
+ */
+export function everythingPath(locale?: Locale): string {
+  return localizedRoute(
+    `${collectionRoute('music')}/${EVERYTHING_SEGMENT}`,
+    locale,
+  );
+}
+
 /** One song, in one language — the canonical address its alias defers to. */
 export function songPath(slug: string, locale?: Locale): string {
   return localizedRoute(documentRoute('music', slug), locale);

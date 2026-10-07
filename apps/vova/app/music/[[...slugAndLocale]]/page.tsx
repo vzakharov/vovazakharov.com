@@ -18,22 +18,22 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { slug, locale } = musicAddressDefaults(
+  const { slug, everything, locale } = musicAddressDefaults(
     parseMusicSegments(await params),
   );
 
   return slug === undefined
-    ? generateMusicMetadata(locale)
+    ? generateMusicMetadata(locale, everything)
     : generateSongMetadata({ slug, locale });
 }
 
 export default async function Page({ params }: Props) {
-  const { slug, locale } = musicAddressDefaults(
+  const { slug, everything, locale } = musicAddressDefaults(
     parseMusicSegments(await params),
   );
 
   return slug === undefined ? (
-    <MusicPage {...{ locale }} />
+    <MusicPage {...{ locale, everything }} />
   ) : (
     <SongPage {...{ slug, locale }} />
   );

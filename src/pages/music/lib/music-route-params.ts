@@ -10,6 +10,7 @@ import {
 } from '@/shared/i18n';
 import { oneOfEach } from '@/shared/lib/collections';
 
+import { EVERYTHING_SEGMENT } from './music-urls';
 import { listSongDocuments } from './songs';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
@@ -35,15 +36,22 @@ export function parseMusicSegments({
   return [head, ...oneOfEach([LOCALES], tail)];
 }
 
-/** Which page an address resolves to: the index or one song, in one language. */
+/**
+ * Which page an address resolves to, in one language: the index, the index with
+ * hidden songs on it too, or one song.
+ */
 export function musicAddressDefaults(address: MusicSegments): {
   slug?: string;
+  everything?: true;
   locale: Locale;
 } {
   const [head, tail] = address;
 
   if (head === undefined) return { locale: DEFAULT_LOCALE };
   if (isLocale(head)) return { locale: head };
+  if (head === EVERYTHING_SEGMENT) {
+    return { everything: true, locale: tail ?? DEFAULT_LOCALE };
+  }
 
   return { slug: head, locale: tail ?? DEFAULT_LOCALE };
 }
@@ -53,6 +61,7 @@ export function musicSegmentParams(): WithOptionalMusicSegments[] {
   const addresses: MusicSegments[] = [
     [],
     ...LOCALES.map<MusicSegments>((locale) => [locale]),
+    ...localeTailAddresses(EVERYTHING_SEGMENT),
     ...listSongDocuments().flatMap(({ slug }) => localeTailAddresses(slug)),
   ];
 

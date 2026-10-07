@@ -2,22 +2,25 @@ import { billing } from '@/shared/config';
 import { isListed, listPrimaryDocuments, SONGS } from '@/shared/content';
 import { byLocale, isLocale } from '@/shared/i18n';
 
-import { songPath } from './music-urls';
+import { EVERYTHING_SEGMENT, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { localizeSong, type SongDocument } from './song-text';
 
 /**
- * The catalogue, newest first. A slug that reads as a language is rejected
- * here, where every list of songs passes: `/music/ru` is the index in Russian,
- * so such a song would have a file, a row on the index and no page of its own.
+ * The catalogue, newest first. A slug the index's own addresses already claim
+ * is rejected here, where every list of songs passes: `/music/ru` is the index
+ * in Russian and `/music/all` the whole catalogue, so such a song would have a
+ * file, a row on the index and no page of its own.
  */
 export function listSongDocuments(): SongDocument[] {
   const documents = listPrimaryDocuments(SONGS);
-  const unreachable = documents.find(({ slug }) => isLocale(slug));
+  const unreachable = documents.find(
+    ({ slug }) => isLocale(slug) || slug === EVERYTHING_SEGMENT,
+  );
 
   if (unreachable) {
     throw new Error(
-      `${unreachable.fileName} is named after a locale, and /music/${unreachable.slug} is the index in that language.`,
+      `${unreachable.fileName} is named after an address of the index, /music/${unreachable.slug}.`,
     );
   }
 
@@ -48,9 +51,9 @@ export function songTrack(document: SongDocument): PlayerTrack {
   };
 }
 
-/** The queue: every listed song, in catalogue order. */
-export function listSongs(): PlayerTrack[] {
+/** The queue: every listed song — or every song, hidden ones too — in catalogue order. */
+export function listSongs(everything = false): PlayerTrack[] {
   return listSongDocuments()
-    .filter((document) => isListed(document))
+    .filter((document) => everything || isListed(document))
     .map((document) => songTrack(document));
 }

@@ -28,9 +28,9 @@ const baseFrontmatterSchema = z.object({
   /** The drawing the index shows beside the blurb, relative to the document. */
   cardImage: z.string().min(1).optional(),
   /**
-   * Built and served at its address, but left out of every listing — the
-   * index, the player's queue, the sitemap — and of search: reachable only by
-   * a link someone was given.
+   * Built and served at its address, but left out of every public listing —
+   * the index, the player's queue, the sitemap — and of search: reachable only
+   * by a link someone was given, or from the unlinked `/music/all`.
    */
   hidden: z.boolean().optional(),
 });
