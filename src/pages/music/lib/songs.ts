@@ -43,7 +43,7 @@ export function songTrack(document: SongDocument): PlayerTrack {
     audio,
     seconds,
     explicit,
-    billing: billing(project),
+    billing: byLocale((locale) => billing(project, locale)),
     titles: byLocale(
       (locale) => localizeSong(document, locale).frontmatter.title,
     ),

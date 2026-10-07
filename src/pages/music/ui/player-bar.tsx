@@ -87,7 +87,7 @@ export function PlayerBar() {
           </TextLink>
           <Text component="span" inherit opacity={0.6}>
             {' — '}
-            {billing}
+            {billing[locale]}
           </Text>
         </Text>
       </Box>

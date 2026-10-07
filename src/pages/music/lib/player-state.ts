@@ -7,11 +7,10 @@ import type { Locale } from '@/shared/i18n';
  */
 export type PlayerTrack = Slugged &
   Playable & {
-    /** What the song is called in each language, and where each is served. */
+    /** What the song is called in each language, how it is billed, and where each is served. */
     titles: Record<Locale, string>;
+    billing: Record<Locale, string>;
     routes: Record<Locale, string>;
-    /** How it is billed — the artist and its features, the same in both languages. */
-    billing: string;
   };
 
 /** Tracks by catalogue position — the listed songs in collection order, then any appended. */

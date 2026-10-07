@@ -205,7 +205,7 @@ export function useAudioPlayer(
 
     session.metadata = new MediaMetadata({
       title: current.titles[locale],
-      artist: current.billing,
+      artist: current.billing[locale],
       album: 'vovazakharov.com/music',
     });
     session.playbackState = state.playing ? 'playing' : 'paused';

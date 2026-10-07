@@ -83,7 +83,7 @@ function songFacts(document: SongDocument, locale: Locale): string[] {
   const messages = loadMessages(locale).music;
 
   return [
-    billing(project),
+    billing(project, locale),
     language.map((sung) => messages.language[sung]).join(', '),
     album &&
       messages.album.replace(

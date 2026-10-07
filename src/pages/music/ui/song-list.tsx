@@ -43,7 +43,7 @@ export function SongList({ locale, everything = false }: MusicIndexProps) {
                   )}
                 </Text>
                 <Text size="sm" opacity={0.6} truncate>
-                  {track.billing}
+                  {track.billing[locale]}
                 </Text>
               </Box>
 
