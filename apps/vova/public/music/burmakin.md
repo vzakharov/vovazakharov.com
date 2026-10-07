@@ -54,7 +54,7 @@ ru:
 Просто устал.
 
 Да давно бы послать этот бал,
-Но быть может, быть может, кто знает…
+Но быть может, быть может, кто знает,
 Но всё же, быть может, я просто устал.
 
 <!-- lyrics:en -->
@@ -87,7 +87,7 @@ And tell this fucking ball to go to hell.
 Just tired.
 
 Should’ve told this ball to go to hell long ago,
-But maybe, maybe, who knows…
+But maybe, maybe, who knows,
 But still, maybe I’m just tired.
 
 [^perekati-en]: «По перекатам перекати-полем»: «перекаты» are a river’s shallow riffles, «перекати-поле» a tumbleweed, literally a “roll-over-the-field.”

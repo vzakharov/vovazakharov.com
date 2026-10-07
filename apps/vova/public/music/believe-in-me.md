@@ -74,8 +74,8 @@ Like, for re-re-real,
 That you’d bet-bet-better
 Believe in me.
 
-But I do do feel…
-Believe in me…
+But I do do feel
+Believe in me.
 
 Clouds gather, [Stürme][^stuerme-en] brew,
 [Wut entfacht][^wut-en], old becomes new.
@@ -112,12 +112,12 @@ Believe in me.
 
 Alles endet, alles Scheiße.
 Alles endet, alles Scheiße.
-Alles endet…
+Alles endet.
 
 Ich bin ein big, big God
 Mit keinem big, big heart,[^keinem-en]
-Ist eine big, big thing…[^eine-en]
-Believe in me…
+Ist eine big, big thing.[^eine-en]
+Believe in me.
 
 [^keinem-en]: German, in part: “With no big, big heart.”
 
@@ -170,8 +170,8 @@ Alles endet.
 Что тебе луч-луч-лучше
 Верить в меня.
 
-Но мне вот вот кажется…
-Верь в меня…
+Но мне вот вот кажется
+Верь в меня.
 
 Тучи сгущаются, назревают бури,
 Ярость вспыхнула, старое становится новым.
@@ -198,12 +198,12 @@ Alles endet.
 
 Всё кончается, всё — дерьмо.
 Всё кончается, всё — дерьмо.
-Всё кончается…
+Всё кончается.
 
 Я большой-большой Бог
 Без большого-большого сердца,
-Это большое-большое дело…
-Верь в меня…
+Это большое-большое дело.
+Верь в меня.
 
 Я большой-большой Бог
 С большим-большим сердцем,

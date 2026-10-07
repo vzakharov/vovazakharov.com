@@ -65,7 +65,7 @@ ru:
 Невзначай подмигни,
 И окажемся там.
 
-Там…
+Там,
 Ты мне только шепни,
 И окажемся там
 Одни.
@@ -109,7 +109,7 @@ Just whisper to me,
 Wink at me as if by chance,
 And we’ll find ourselves there.
 
-There…
+There,
 Just whisper to me,
 And we’ll find ourselves there
 Alone.

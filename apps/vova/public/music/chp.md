@@ -69,7 +69,7 @@ ru:
 Нас, несовершенных!
 
 И пусть всего одна лишь почка,
-Но сердца хватит на двоииих!
+Но сердца хватит на двоих!
 
 Чих-Пых, Чих-Пых—
 Первый среди первых
@@ -94,7 +94,7 @@ ru:
 Чих-Пых! Чих-Пых! Чих-Пых! Чих-Пых!
 Чих-Пых! Чих-Пых! Чих-Пых! Чих-Пых!
 Чих-Пых! Чих-Пых! Чих-Пых! Чих-Пых!
-Чих-Пых! Чих-Пых! Чих-Пых! Чих-Пых!…
+Чих-Пых! Чих-Пых! Чих-Пых! Чих-Пых!
 
 <!-- lyrics:en -->
 
@@ -139,7 +139,7 @@ He’ll shield from filth
 Us, the imperfect!
 
 And though there’s only the one kidney,
-There’s heart enough for twooo!
+There’s heart enough for two!
 
 Chikh-Pykh, Chikh-Pykh—
 First among the first
@@ -164,4 +164,4 @@ Us, the imperfect!
 Chikh-Pykh! Chikh-Pykh! Chikh-Pykh! Chikh-Pykh!
 Chikh-Pykh! Chikh-Pykh! Chikh-Pykh! Chikh-Pykh!
 Chikh-Pykh! Chikh-Pykh! Chikh-Pykh! Chikh-Pykh!
-Chikh-Pykh! Chikh-Pykh! Chikh-Pykh! Chikh-Pykh!…
+Chikh-Pykh! Chikh-Pykh! Chikh-Pykh! Chikh-Pykh!

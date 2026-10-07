@@ -60,12 +60,12 @@ An original song, written around 2016–2017.
 Где нет пути
 И бег на месте — путь
 Пусть неказист
-…Доступен очень многим
+Доступен очень многим
 
 Но как же хочется
 Порой найти
 Ту самую
-…Забытую дорогу
+Забытую дорогу
 
 Кто что ни пьёт,
 Что ни лает до зари
@@ -109,12 +109,12 @@ Of walking behind the coffin
 Where there is no way,
 Even running in place is a way
 Plain as it is,
-…It’s open to very many
+It’s open to very many
 
 But how one longs
 At times to find
 That very
-…Forgotten road
+Forgotten road
 
 Whoever drinks whatever,
 Whatever they bark till dawn
