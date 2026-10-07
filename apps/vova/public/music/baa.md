@@ -25,26 +25,66 @@ ru:
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
 
-<!-- For Vova to check: words are the traditional rhyme as published (Opie, The Oxford Dictionary of Nursery Rhymes); the sung version may repeat or vary lines. -->
-
 <!-- lyrics:en -->
 
-Baa, baa, black sheep,
-Have you any wool?
-Yes, sir, yes, sir,
-Three bags full;
-One for the master,
-And one for the dame,
-And one for the little boy
-Who lives down the lane.
+Baa, baa, black sheep, have you any wool?
+Yes, sir, yes, sir, three bags full
+One for the master, one for the dame
+One for the little boy who lives down the lane
+
+Baa, baa, black sheep, have you any wool?
+Yes, sir, yes, sir, three bags full
+One for the master, one for the dame
+One for the little boy who lives down the lane
+
+Baa, baa, black sheep, have you any plea?
+Yes, sir, yes, sir, please let me be
+One for the butcher, one for the grind
+One for the nightmares that haunt my mind
+
+Baa, baa, black sheep, have you any plea?
+Yes, sir, yes, sir, please let me be
+One for the butcher, one for the grind
+One for the nightmares that haunt my mind!
+
+Baa, baa, black sheep, have you any fear?
+Yes, sir, yes, sir, it’s drawing near
+One for the slaughter, one for the knife
+One for the dark night that ends my life
+
+Baa, baa, black sheep, have you any fear?
+Yes, sir, yes, sir, it’s drawing near
+One for the slaughter, one for the knife
+One for the dark night that ends my life!
 
 <!-- lyrics:ru -->
 
-Бе-е, бе-е, чёрная овечка,
-Есть у тебя шерсть?
-Да, сэр, да, сэр,
-Три полных мешка;
-Один для хозяина,
-И один для хозяйки,
-И один для маленького мальчика,
-Что живёт в конце переулка.
+Бе-е, бе-е, чёрная овечка, шерсть у тебя есть?
+Да, сэр, да, сэр, целых три мешка:
+Один — хозяину, один — хозяйке,
+Один — мальчонке, что живёт в конце переулка.
+
+Бе-е, бе-е, чёрная овечка, шерсть у тебя есть?
+Да, сэр, да, сэр, целых три мешка:
+Один — хозяину, один — хозяйке,
+Один — мальчонке, что живёт в конце переулка.
+
+Бе-е, бе-е, чёрная овечка, о чём ты молишь?
+Да, сэр, да, сэр, оставьте меня в покое.
+Один — мяснику, один — в мясорубку,
+Один — кошмарам, что меня преследуют.
+
+Бе-е, бе-е, чёрная овечка, о чём ты молишь?
+Да, сэр, да, сэр, оставьте меня в покое.
+Один — мяснику, один — в мясорубку,
+Один — кошмарам, что меня преследуют!
+
+Бе-е, бе-е, чёрная овечка, тебе страшно?
+Да, сэр, да, сэр, уже совсем близко.
+Один — на бойню, один — под нож,
+Один — тёмной ночи, что оборвёт мою жизнь.
+
+Бе-е, бе-е, чёрная овечка, тебе страшно?
+Да, сэр, да, сэр, уже совсем близко.
+Один — на бойню, один — под нож,
+Один — тёмной ночи, что оборвёт мою жизнь!

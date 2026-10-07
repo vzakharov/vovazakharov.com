@@ -27,21 +27,21 @@ ru:
 <!-- lyrics:en -->
 
 You’re fierce, you’re strong, you’re unapologetic
-You’re a force to be reckoned with, queen, don’t you forget it (uh)
+You’re a force to be reckoned with, queen, don’t you forget it
 From the way you strut down the street
-To the way you take a seat, you exude confidence and heat (yeah)
+To the way you take a seat, you exude confidence and heat
 I see you shine, girl, like a diamond in the sun
 You’re the definition of elegance, second to none
 From your style to your grace, I can’t help but be amazed
 You’re the queen of my heart, and that’s where you’ll stay
 
-Like that, like that, (ooh, ooh, yeah)
+Like that, like that
 When you walk, you walk with such grace
-Like that, like that, (ooh, ooh, yeah)
+Like that, like that
 Can’t nobody take your place
-Like that, like that, (ooh, ooh, yeah)
+Like that, like that
 You’re the queen, can’t you see?
-Like that, like that, (ooh, ooh, yeah)
+Like that, like that
 You’re like no one else, just be free
 
 I wanted to write a song about how I disrespect women, but
@@ -53,33 +53,33 @@ Strong, independent, you’re a force to show
 From your achievements to the way you speak
 You inspire me, girl, you make me believe
 
-Like that, like that, (ooh, ooh, yeah)
+Like that, like that
 When you walk, you walk with such grace
-Like that, like that, (ooh, ooh, yeah)
+Like that, like that
 Can’t nobody take your place
-Like that, like that, (ooh, ooh, yeah)
+Like that, like that
 You’re the queen, can’t you see?
-Like that, like that, (ooh, ooh, yeah)
+Like that, like that
 You’re like no one else, just be free
 
 <!-- lyrics:ru -->
 
 Ты яростная, ты сильная, ты ни за что не извиняешься,
-С тобой приходится считаться, королева, не забывай об этом (у)
+С тобой приходится считаться, королева, не забывай об этом
 От того, как ты вышагиваешь по улице,
-До того, как ты садишься, — ты излучаешь уверенность и жар (йе)
+До того, как ты садишься, — ты излучаешь уверенность и жар
 Я вижу, как ты сияешь, девочка, словно бриллиант на солнце,
 Ты само определение элегантности, тебе нет равных,
 От твоего стиля до твоей грации — я не могу не восхищаться,
 Ты королева моего сердца, и там ты и останешься
 
-Вот так, вот так, (у-у, йе)
+Вот так, вот так
 Когда ты идёшь, ты идёшь с такой грацией
-Вот так, вот так, (у-у, йе)
+Вот так, вот так
 Никто не займёт твоё место
-Вот так, вот так, (у-у, йе)
+Вот так, вот так
 Ты королева, разве ты не видишь?
-Вот так, вот так, (у-у, йе)
+Вот так, вот так
 Ты ни на кого не похожа, просто будь свободной
 
 Я хотел написать песню о том, как я не уважаю женщин, но
@@ -91,11 +91,11 @@ You’re like no one else, just be free
 От твоих достижений до того, как ты говоришь, —
 Ты вдохновляешь меня, девочка, ты заставляешь меня поверить
 
-Вот так, вот так, (у-у, йе)
+Вот так, вот так
 Когда ты идёшь, ты идёшь с такой грацией
-Вот так, вот так, (у-у, йе)
+Вот так, вот так
 Никто не займёт твоё место
-Вот так, вот так, (у-у, йе)
+Вот так, вот так
 Ты королева, разве ты не видишь?
-Вот так, вот так, (у-у, йе)
+Вот так, вот так
 Ты ни на кого не похожа, просто будь свободной

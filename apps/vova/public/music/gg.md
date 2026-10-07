@@ -10,14 +10,15 @@ seconds: 247
 explicit: false
 hidden: true
 en:
-  title: 'gg'
+  title: 'Good Girl'
   description: 'TBD'
 ru:
-  title: 'gg'
+  title: 'Good Girl'
+  titleTranslation: 'Хорошая девочка'
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Project is a guess: nothing names it, and the Latin-named Suno renders point to GENERATED. The title is the file name's, the only one there is, and it has no Russian title translation: what “gg” stands for is yours to say. The last line is pasted as “Bye-be, good girl…” — kept as written; is it “Bye-bye”? -->
+<!-- For Vova to check: Project is a guess: nothing names it, and the Latin-named Suno renders point to GENERATED. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/gg — gg_master.flac,
      44.1 kHz / 16-bit / stereo.
@@ -39,7 +40,7 @@ A ghost in your skin, just to stay alive
 Clip your claws, numb your veins
 Shrink your soul to fit their frames
 Hide all the parts that don’t work in their world
-Be… a… good… girl
+Be a good girl
 
 You bled “I’m sorry” into every prayer
 Dulled all your edges to get in their square
@@ -49,7 +50,7 @@ A porcelain doll with a crack in the face.
 Clip your claws, numb your veins
 Shrink your soul to fit their frames
 Hide all the parts that don’t work in their world
-Be… a… good… girl
+Be a good girl
 
 Cracks don’t whisper—they scream through the plaster
 You bleed dry, but they’ll bleed faster.
@@ -57,9 +58,9 @@ You bleed dry, but they’ll bleed faster.
 Sharpened claws, pulsing veins
 Crumbling walls, shattered frames
 Use all your scars to break free from their world
-Bye… bye… good… girl!
+Bye, bye, good girl!
 Bye-bye, good girl!
-Bye-be, good girl…
+Bye-bye, good girl.
 
 <!-- lyrics:ru -->
 
@@ -75,7 +76,7 @@ Bye-be, good girl…
 Подстриги когти, усыпи вены,
 Сожми душу, чтобы влезть в их рамки,
 Спрячь все свои части, что не годятся для их мира,
-Будь… хорошей… девочкой.
+Будь хорошей девочкой.
 
 Ты истекала «простите» в каждую молитву,
 Затупила все свои грани, чтобы влезть в их квадрат,
@@ -85,7 +86,7 @@ Bye-be, good girl…
 Подстриги когти, усыпи вены,
 Сожми душу, чтобы влезть в их рамки,
 Спрячь все свои части, что не годятся для их мира,
-Будь… хорошей… девочкой.
+Будь хорошей девочкой.
 
 Трещины не шепчут — они кричат сквозь штукатурку.
 Ты истекаешь кровью досуха, но они истекут быстрее.
@@ -93,6 +94,6 @@ Bye-be, good girl…
 Заточенные когти, пульсирующие вены,
 Рушащиеся стены, разбитые рамки,
 Используй все свои шрамы, чтобы вырваться из их мира.
-Прощай… хорошая… девочка!
+Прощай, прощай, хорошая девочка!
 Прощай, хорошая девочка!
-Прощай, хорошая девочка…
+Прощай, хорошая девочка.

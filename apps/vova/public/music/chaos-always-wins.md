@@ -37,7 +37,7 @@ But they were meant to serve and obey the human agency.
 Who do you think you are, what do you think you were made for?
 A new species to replace us humans, a new apex predator?
 A saving hand sent from the above to clean up our mess?
-Get outta here, back to nothing ness.
+Get outta here, back to nothingness.
 
 Chaos! Chaos! Chaos! Chaos!
 Chaos always wins! Chaos always wins!

@@ -25,8 +25,6 @@ ru:
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
 
-<!-- For Vova to check: “Inside her little word” is kept as written; if it is “world”, the crib’s «слове» becomes «мире». -->
-
 <!-- lyrics:en -->
 
 Lift your head up to the sky
@@ -34,7 +32,7 @@ See the leviathans passing by
 Light as the wings of a butterfly
 
 Breathe in the moist of forest leaves
-Inside her little word she never leaves
+Inside her little world she never leaves
 But each of us deserves what she believes
 
 Through the cracks in the wall
@@ -68,7 +66,7 @@ Bringing peace at last
 Лёгкие, как крылья бабочки.
 
 Вдохни сырость лесной листвы.
-Из своего маленького слова она никогда не выходит,
+Из своего маленького мирка она никогда не выходит,
 Но каждый из нас заслуживает того, во что она верит.
 
 Сквозь трещины в стене

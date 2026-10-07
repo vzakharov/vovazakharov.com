@@ -18,8 +18,6 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: the words end on “Alright, alright, (...)” as you wrote them — if that line is the whole “Alright, alright, wave goodbye” stanza sung again, it can be written out. -->
-
 <!-- Scaffolded from https://github.com/vovas-music/ok-loser — ok loser.flac,
      44.1 kHz / 16-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and
@@ -55,7 +53,12 @@ Where you see walls, I paint doorways, wide and inviting
 You aimed to cloud my sky, yet I found my silver lining
 In this grand design of life, it’s clear, I’m the one designing
 
-Alright, alright, (...)
+Alright, alright, wave goodbye, ok, loser
+No sour notes in my melody, my tune’s much smoother
+Barred from my world, your role’s been cut clearer
+In the story of my life, you’re barely a scribbler
+Sailed beyond the horizon, you thought you were a crusader
+Reality check, you’re just a background fader
 
 Okay, loser!
 Okay, loser!
@@ -93,7 +96,12 @@ Okay, loser!
 Ты хотел затянуть тучами моё небо, но я нашёл свой просвет
 В этом великом замысле жизни ясно одно: замышляю здесь я
 
-Ладно, ладно, (...)
+Ладно, ладно, помаши на прощание, окей, лузер
+Никаких кислых нот в моей мелодии, мой мотив куда глаже
+Тебе закрыт вход в мой мир, твою роль вырезали начисто
+В истории моей жизни ты едва ли даже писака
+Уплыл за горизонт, ты думал, что ты крестоносец
+Спустись на землю: ты просто растворяешься на фоне
 
 Окей, лузер!
 Окей, лузер!

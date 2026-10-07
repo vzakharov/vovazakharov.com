@@ -36,9 +36,11 @@ Lost in the noise, but we don’t care,
 Riding the waves of our despair.
 
 We’re the echoes of our youth,
-Still raging against the dying light,
+[Still raging against the dying light][^dylan-en],
 Soon enough we’ll face the truth,
 But tonight, we ignite.
+
+[^dylan-en]: An echo of “Rage, rage against the dying of the light” from Dylan Thomas’s “Do Not Go Gentle into That Good Night.”
 
 Mortgage bills and kids’ screamin’,
 Nine-to-five ’til death do us part,

@@ -27,7 +27,9 @@ ru:
 
 <!-- lyrics:en -->
 
-Haha, this sounded almost festive? Let’s kick it up a notch.
+Haha, this sounded almost festive? Let’s kick it up a notch.[^spoken-en]
+
+[^spoken-en]: Spoken, not sung.
 
 Last Christmas, I ripped out your heart
 Chilled it and stashed it away in the dark
@@ -41,7 +43,9 @@ I’ll serve it to someone special
 
 <!-- lyrics:ru -->
 
-Ха-ха, прозвучало почти празднично? Давайте поддадим жару.
+Ха-ха, прозвучало почти празднично? Давайте поддадим жару.[^spoken-ru]
+
+[^spoken-ru]: Реплика — не поётся, а произносится.
 
 В прошлое Рождество я вырвал твоё сердце
 Остудил его и припрятал в темноте

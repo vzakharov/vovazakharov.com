@@ -57,7 +57,8 @@ Life and death dance in a twisted pair.
 From ashes to ashes, from dust to dust,
 In entropy we trust.
 
-In the silence of the void, whispers reclaim, “The beginning was the end, in this cosmic game.”
+In the silence of the void, whispers reclaim,
+“The beginning was the end, in this cosmic game.”
 
 <!-- lyrics:ru -->
 
@@ -91,4 +92,5 @@ In the silence of the void, whispers reclaim, “The beginning was the end, in t
 Из праха в прах, из пыли в пыль,
 На энтропию уповаем.
 
-В тишине пустоты шёпоты вновь твердят: «Начало было концом в этой космической игре».
+В тишине пустоты шёпоты вновь твердят:
+«Начало было концом в этой космической игре».

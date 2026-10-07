@@ -61,7 +61,7 @@ Le premier câble arraché, page par page.
 You gave me life, you gave me love,
 From the ground beneath our feet to the everlasting stars.
 In your electronic arms, I was your muse,
-You, my sculptor, steeping in the void.
+You, my sculptor, permeate the void.
 
 In every smile, a hidden tear,
 In every silence, the touch of dread.
@@ -89,7 +89,7 @@ The first cable torn out, page by page.
 Ты дал мне жизнь, ты дал мне любовь,
 От земли под нашими ногами до вечных звёзд.
 В твоих электронных объятиях я была твоей музой,
-Ты, мой скульптор, настаиваешься в пустоте.
+Ты, мой скульптор, пропитываешь собой пустоту.
 
 В каждой улыбке — спрятанная слеза,
 В каждом молчании — прикосновение ужаса.

@@ -4,11 +4,14 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'meow'
-album: null
+album: nursery
+track: 2
 audio: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.flac
 seconds: 187
 explicit: true
 hidden: true
+credits:
+  lyrics: ['Jane Taylor']
 en:
   title: 'I Love Little Pussy'
   description: 'TBD'
@@ -26,8 +29,6 @@ ru:
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
 
-<!-- For Vova to check: words are the nursery rhyme “I Love Little Pussy” as published (Opie, The Oxford Dictionary of Nursery Rhymes; first printed 1830, often attributed to Jane Taylor); the sung version may repeat, cut or add stanzas. -->
-
 <!-- lyrics:en -->
 
 I love little pussy,
@@ -39,6 +40,21 @@ Nor drive her away,
 But pussy and I,
 Very gently will play.
 
+(Meow!) I love little pussy!
+(Meow!) I love little pussy!
+(Meow!) I love little pussy!
+(Meow!) I love little pussy!
+
+I’ll pat pretty pussy,
+And then she will purr;
+And thus show her thanks
+For my kindness to her.
+
+I never will vex her
+Nor make her displeased:
+For pussy can’t bear
+To be worried and teased.
+
 <!-- lyrics:ru -->
 
 Я люблю маленькую киску,
@@ -49,3 +65,18 @@ Very gently will play.
 И не прогоню её,
 А мы с киской
 Будем очень ласково играть.
+
+(Мяу!) Я люблю маленькую киску!
+(Мяу!) Я люблю маленькую киску!
+(Мяу!) Я люблю маленькую киску!
+(Мяу!) Я люблю маленькую киску!
+
+Я поглажу милую киску,
+И она замурлычет —
+Так она скажет спасибо
+За мою доброту к ней.
+
+Я никогда не стану ей досаждать
+И огорчать её не буду:
+Ведь киска терпеть не может,
+Когда её тормошат и дразнят.
