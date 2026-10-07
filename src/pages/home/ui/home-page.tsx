@@ -35,7 +35,7 @@ export function HomePage() {
         <WorkSection />
         <ContactSection />
 
-        <SiteFooter home>
+        <SiteFooter isHomePage>
           {SEE_ALSO.map((href, index) => (
             <span key={href}>
               {index > 0 && ' · '}
