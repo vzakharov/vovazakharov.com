@@ -9,7 +9,8 @@
  * an untranslated term: connective prose belongs in the entry's bullets.
  */
 export const TECH_STACKS = {
-  playgram: 'Next.js 16, Railway + Supabase, feature-sliced design',
+  playgram:
+    'Next.js 16, Supabase + Drizzle, Weaviate, LiteLLM, Railway, feature-sliced design',
   englishForKids: 'Next.js, OpenAI API, custom game engine',
   orcool:
     'Next.js/NestJS, Cloudflare Workers, Firebase, custom LLM orchestration framework',

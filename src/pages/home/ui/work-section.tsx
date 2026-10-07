@@ -65,10 +65,10 @@ export function WorkSection() {
         />
 
         <ProjectCard
-          title="agent-project-boilerplate"
-          description="The engineering platform that rebuild ran on, extracted so it travels: the architecture, the staged pipeline and the pre-push gate, ready to carry onto my — or anyone’s — next project."
-          techStack="agentic development, project templating, open source"
-          url="https://github.com/vzakharov/agent-project-boilerplate"
+          title="muthur"
+          description="The engineering platform that rebuild ran on, extracted so it travels: the staged agent pipeline and the pre-push gate, carried onto any project — and kept in sync, so a fix made in one repo reaches the others."
+          techStack="Claude Code, agentic development, open source"
+          url="https://github.com/vzakharov/muthur"
         />
 
         <ProjectCard

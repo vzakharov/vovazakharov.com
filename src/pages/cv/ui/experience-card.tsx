@@ -3,9 +3,9 @@ import { Text, Title } from '@mantine/core';
 import { TECH_STACKS } from '@/shared/config';
 import type { Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
-import type { LabeledLink } from '@/shared/typings';
 import { Card } from '@/shared/ui';
 
+import type { WithCaseStudy } from '../lib/cv-messages';
 import { CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
 import { type BulletItem, CvBullets } from './cv-bullets';
@@ -32,11 +32,10 @@ type ExperienceEntry = Messages['cv']['experience'][ExperienceKey];
  *  registry's keys to ones the CV renders. */
 const ENTRY_TECH_STACKS: Partial<Record<ExperienceKey, string>> = TECH_STACKS;
 
-type ExperienceCardProps = {
+/** `caseStudy` is present on the one entry the CV cross-links. */
+type ExperienceCardProps = Partial<WithCaseStudy> & {
   entryKey: ExperienceKey;
   entry: ExperienceEntry;
-  /** Present on the one entry the CV cross-links. */
-  caseStudy?: LabeledLink;
 };
 
 export function ExperienceCard({

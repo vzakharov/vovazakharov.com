@@ -23,16 +23,24 @@ import { type CvAddress, cvCardPath, cvPath } from './cv-urls';
  * nothing.
  */
 export function generateCvMetadata(address: CvAddress) {
-  const { variant, locale } = cvAddressDefaults(address);
-  const { description, ogSuffix } = cvMessages(locale, variant).cv.metadata;
+  const { variant, locale, subpage } = cvAddressDefaults(address);
+  const { metadata, profilePage } = cvMessages(locale, variant).cv;
+  const { description, ogSuffix } = metadata;
   const ogImage = cvCardPath(variant);
+  const title = `CV - ${SITE_CONFIG.name}`;
 
   return constructMetadata({
-    title: `CV - ${SITE_CONFIG.name}`,
+    title: subpage === undefined ? title : `${profilePage.title} - ${title}`,
     description,
     ogDescription: `${description} ${ogSuffix}`,
     path: cvPath(...address),
-    ...localizedAddresses((alternate) => cvPath(variant, alternate), locale),
+    ...localizedAddresses(
+      (alternate) =>
+        subpage === undefined
+          ? cvPath(variant, alternate)
+          : cvPath(variant, alternate, subpage),
+      locale,
+    ),
     ogType: 'profile',
     ogImage,
     ogImageSize: intrinsicDimensions(ogImage),
