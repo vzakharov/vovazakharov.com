@@ -4,6 +4,7 @@ status: done
 language: ru
 project: [Полуживые]
 repo: sashas
+album: null
 seconds: 173
 audio: https://raw.githubusercontent.com/vovas-music/sashas/main/%D0%9F%D0%B0%D0%BF%D0%B0.flac
 credits:

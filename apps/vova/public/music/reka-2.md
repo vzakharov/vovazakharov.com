@@ -4,6 +4,7 @@ status: done
 language: ru
 project: [Полуживые]
 repo: reka-2
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/reka-2/main/reka2.flac
 seconds: 340
 credits:

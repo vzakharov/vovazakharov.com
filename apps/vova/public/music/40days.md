@@ -9,8 +9,12 @@ seconds: 332
 explicit: false
 album: papa-reka
 hidden: true
+transliteration: 'Vsyo v etoy zhizni nachinaetsya s lyubvi'
+credits:
+  lyrics: [Vladimir Zakharov Sr.]
 en:
   title: 'Всё в этой жизни начинается с любви'
+  titleTranslation: 'Everything in This Life Begins with Love'
   description: 'TBD'
 ru:
   title: 'Всё в этой жизни начинается с любви'
@@ -19,8 +23,110 @@ ru:
 
 <!-- For Vova to check: The title is corrected from the checklist's «начинаетс» to «начинается», as the album entry and Apple Music spell it. -->
 
-<!-- Scaffolded from https://github.com/vovas-music/40days — dad.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- lang:en -->
+
+An original song, written around 2016–2017.
+
+<!-- lang:ru -->
+
+Оригинальная песня, написанная около 2016–2017 года.
+
+<!-- lyrics:ru -->
+
+Кто что поёт,[^sings-ru]
+Кто что ни говорит
+С чем соглашается,
+А от чего отказывается
+
+[^sings-ru]: В папином оригинале — «Кто ни поёт что, кто что ни говорит».
+
+Всё в этой жизни
+Начинается с любви
+И окончанием любви
+Заканчивается
+
+Порой от скуки
+Кто-то прёт на Эверест,
+А кто-то пьяный
+Лазит по сугробам
+
+Всё это лишь способы
+Нести свой крест
+Шествия за гробом[^coffin-ru]
+
+[^coffin-ru]: В папином оригинале — «Всё это лишь способы нести свой крест, / Лишь варианты шествия за гробом».
+
+Где нет пути
+И бег на месте — путь
+Пусть неказист
+…Доступен очень многим
+
+Но как же хочется
+Порой найти
+Ту самую
+…Забытую дорогу
+
+Кто что ни пьёт,
+Что ни лает до зари
+За что премируется,
+А за что наказывается
+
+Всё в этой жизни
+Начинается с любви
+И окончанием любви
+Заканчивается
+
+Всё в этой жизни
+Начинается с любви
+Всё в этой жизни
+Начинается с любви
+
+<!-- lyrics:en -->
+
+Who sings what,[^sings-en]
+Who says whatever
+What they agree with,
+And what they turn down
+
+[^sings-en]: In my father’s original: «Кто ни поёт что, кто что ни говорит» — “Whoever sings whatever, whoever says whatever.”
+
+Everything in this life
+Begins with love
+And with the end of love
+It ends
+
+Sometimes, out of boredom,
+Someone slogs up Everest,
+And someone, drunk,
+Clambers through the snowdrifts
+
+All of these are just ways
+To carry your cross
+Of walking behind the coffin[^coffin-en]
+
+[^coffin-en]: In my father’s original: «Всё это лишь способы нести свой крест, / Лишь варианты шествия за гробом» — “All of these are just ways to carry your cross, / Just versions of walking behind the coffin.”
+
+Where there is no way,
+Even running in place is a way
+Plain as it is,
+…It’s open to very many
+
+But how one longs
+At times to find
+That very
+…Forgotten road
+
+Whoever drinks whatever,
+Whatever they bark till dawn
+What they get a bonus for,
+And what they get punished for
+
+Everything in this life
+Begins with love
+And with the end of love
+It ends
+
+Everything in this life
+Begins with love
+Everything in this life
+Begins with love

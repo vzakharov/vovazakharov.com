@@ -4,6 +4,7 @@ status: done
 language: ru
 project: [Полуживые, Грёбаный бал]
 repo: first
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/first/main/%D0%94%D0%B2%D0%B0%D0%B4%D1%86%D0%B0%D1%82%D1%8C.flac
 seconds: 218
 credits:

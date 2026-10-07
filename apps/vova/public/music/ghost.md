@@ -4,6 +4,7 @@ status: done
 language: en
 project: ['Downtemple']
 repo: 'ghost'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/ghost/main/ghost.flac
 seconds: 214
 explicit: false

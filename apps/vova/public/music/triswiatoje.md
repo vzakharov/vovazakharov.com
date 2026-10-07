@@ -4,6 +4,7 @@ status: done
 language: ru
 project: ['Downtemple']
 repo: 'triswiatoje'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/triswiatoje/main/triswiatoje.flac
 seconds: 284
 explicit: false

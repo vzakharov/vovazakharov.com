@@ -9,16 +9,88 @@ seconds: 298
 explicit: false
 album: papa-reka
 hidden: true
+transliteration: 'Mladshiy vnuchek moy'
+credits:
+  lyrics: [Vladimir Zakharov Sr.]
 en:
   title: 'Младший внучек мой'
+  titleTranslation: 'My Youngest Grandson'
   description: 'TBD'
 ru:
   title: 'Младший внучек мой'
   description: 'TBD'
 ---
 
-<!-- Scaffolded from https://github.com/vovas-music/salman — salman.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- lang:en -->
+
+The song is dedicated to the youngest grandson, Salman. I think it is my
+father’s only song in a major key :-)
+
+<!-- lang:ru -->
+
+Песня посвящена младшему внуку Салману. Кажется, единственная папина мажорная
+песня :-)
+
+<!-- lyrics:ru -->
+
+Судьба даёт бесценные дары
+И понемногу, да и очень много
+И надо не забыть об этом в час поры
+Когда невзгоды сыплют как из рога
+
+Бесценный дар судьбы мой младший внук
+Какою сильною любовь бывает
+Он улыбнётся — расцветает всё вокруг
+И дедушкино сердце расцветает
+
+Хоть говори, хоть пой, а хоть пиши
+Его улыбка — радость для души
+Хоть говори, а хоть пиши, хоть пой
+Какой же милый младший внучек мой
+
+Он только начинает говорить
+И наполняет мир каким-то светом
+Люблю смотреть, как ходит брата он будить
+Такой восторг, не рассказать об этом
+
+Как мил родной малыш мой. Бедный слог
+Не сможет передать всё, что в душе
+Да только кто вообще бы сделать это смог
+В словах о столь любимом малыше
+
+Хоть говори, хоть пой, а хоть пиши
+Его улыбка — радость для души
+Хоть говори, а хоть пиши, хоть пой
+Какой же милый младший внучек мой
+
+<!-- lyrics:en -->
+
+Fate gives priceless gifts
+Both a little at a time, and a great deal
+And one must not forget it in that hour
+When misfortunes pour down as if from a horn
+
+A priceless gift of fate is my youngest grandson
+How strong love can be
+He smiles — and everything around him blossoms
+And his grandfather’s heart blossoms too
+
+Whether you speak, or sing, or write
+His smile is a joy to the soul
+Whether you speak, or write, or sing
+How sweet is my youngest little grandson
+
+He is only beginning to talk
+And fills the world with a kind of light
+I love to watch him go to wake his brother
+Such delight, there is no telling it
+
+How sweet is my own little one. My poor verse
+Cannot convey all that is in my soul
+But then who could ever have done it at all
+In words about so beloved a little one
+
+Whether you speak, or sing, or write
+His smile is a joy to the soul
+Whether you speak, or write, or sing
+How sweet is my youngest little grandson

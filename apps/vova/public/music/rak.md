@@ -4,6 +4,7 @@ status: done
 language: ru
 project: [Грёбаный бал]
 repo: rak
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/rak/main/%D0%9D%D0%B5%20%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B8.flac
 seconds: 219
 en:

@@ -70,6 +70,14 @@ report to Vova.
 - baa: traditional rhyme (Opie/Wikipedia) + "sung version may differ" comment; album (T10 "Nursery Rhymes for the Jilted Generation") left to the coordinator.
 - meow (see also below) = "I Love Little Pussy" (1830, PD), 8-line version. Explicit and 3:07 — does he sing extra stanzas or his own changes? Credit Jane Taylor (uncertain attribution)? **ask**.
 
+## Папа-река (T04, T60, T61, T63–T65, T70, T76, T81, T82)
+
+- All nine: transliteration, `en.titleTranslation`, his T82 note as the ru story + English translation (pes-reprise has no note). Album text and the «Река. Часть вторая» note: `docs/remove-before-merging/papa-reka-album.md`.
+- 40days: his sung words; footnotes give his father's original where he sang differently. Father credited for lyrics (`Vladimir Zakharov Sr.`, as reka-2.md) on 40days, pes, pes-reprise, pobeg, salman, sultan.
+- ophelia: his words = К. Р.'s 1899 translation (PD); crib Shakespeare IV.5 (Folger), `en.cribNote`. rank: Claudius III.3 (Globe), Russian crib К. Р.'s, `ru.cribNote`, title «О, гнусен грех мой». otter: footnote on «порог».
+- Kept: otter «вдоём», pes «бешенной», «Слёзы мои….». Fixed «Речетатив» → «Речитатив» in his note.
+- **Ask**: is rank sung in English or in Pasternak's Russian (his note cites «Удушлив смрад…»)? pes: photo by Sasha or of her? `credits.music` father on the album's songs (as first.md)? Father as lyricist right?
+
 ## Poets (Tsvetaeva ×5, sad, sneg_idet, komnata, ya-govoryu)
 
 - Tsvetaeva: mne-nravitsya, moim-stiham, pod-laskoy-pleda (poem 2 of «Подруга»), requiem («Уж сколько их упало в эту бездну»), tikhiy-sneg («Зима», «Мы вспоминаем тихий снег») — full poem (two sources each, ё restored) + own crib, `credits.lyrics: ['Марина Цветаева']`, "poem as published" check comment. Doubts: «Моим стихам» common line «Где их никто не брал и не берёт»; «Уж сколько…» punctuation per rustih.ru. Stanza cuts/repeats unchecked against the recordings.

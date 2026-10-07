@@ -4,6 +4,7 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'because-of-you-2'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/because-of-you-2/main/Because%20of%20You.flac
 seconds: 108
 explicit: false

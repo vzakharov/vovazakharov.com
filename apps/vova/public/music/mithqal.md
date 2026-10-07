@@ -4,6 +4,7 @@ status: done
 language: ar
 project: ['GENERATED']
 repo: 'mithqal'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/mithqal/main/mithqal_rock_master.flac
 seconds: 243
 explicit: false

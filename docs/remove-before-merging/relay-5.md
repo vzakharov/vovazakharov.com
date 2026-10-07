@@ -1,6 +1,6 @@
 # Relay 5 — Vova's 94-thread review: words done by subagents, the structure still to do
 
-Auto-relayed at the context budget's pause line, mid-review-round. Two subagents were still
+Auto-relayed at the context budget's pause line, mid-review-round. One subagent (Nekrasov) was still
 running in the predecessor when this was written; the predecessor commits their files and
 forwards their reports (see § 6).
 
@@ -80,7 +80,7 @@ Answer every thread of Vova's review on PR #115 (docs/pr/115/pr.md, T01–T94): 
 ## 6. State
 
 - Branch `claude/music-catalogue-hidden-ldz252`, draft PR #115, base `main`, **`CONFLICTING`** — reported, not fixed (`/finalize` merges the base). Last commit before this file: b952a97. Plan `docs/plans/music-catalogue-hidden.completed.md` (no open plan; this is continued review work).
-- **Still running in the predecessor** at relay time (the predecessor commits their files and forwards their reports — **`git pull` before touching these files**): papa-reka batch (40days, ophelia, otter, pes, pes-reprise, pobeg, rank, salman, sultan; also writes `tmp/papa-reka-album.md` — gitignored, so its content will be forwarded/committed by the predecessor), Nekrasov (asa, golodnaa, leli, moral, moroz, mu-icok-new, ne-toropi, otvet).
+- **Still running in the predecessor** at relay time (the predecessor commits their files and forwards their reports — **`git pull` before touching these files**): Nekrasov (asa, golodnaa, leli, moral, moroz, mu-icok-new, ne-toropi, otvet).
 - No build has run since the subagents' edits: **run `./scripts/vet.sh`** once all land (format, stanza-count and footnote checks fail the build).
 - Estimate: this session 22 h senior copywriter + 2 h middle developer. Remainder handed on: 8 h middle developer (structure, track numbers, artist/album pages, repo links), 2 h middle designer (covers, page layout), 3 h senior copywriter (album/artist blurbs, GitHub replies).
 
@@ -103,6 +103,6 @@ Continue the review round on PR #115 («экспортируй, не стесн�
 5. **Merges**: triswiatoje into agios-o-skopos («Священная цель», T84 — check trisagion.md too); reka-chast-vtoraya with reka-2, full title «Река. Часть вторая» (T72); wagner into overture as PSCHPTHY's overture (T88); prsdemo → ignore list, no page (T69). pes/pes-reprise stay separate (same words, different arrangement, T64).
 6. **ya-govoryu** title from the listings — by its first lines (T91). **agios-o-skopos** gloss: `transliteration`, `titleLanguage: el`, `titleTranslation` (T05's own example).
 7. **Repo links** (T02): `repo` → the song's own repository, not the album's; `audio` stays the album master (he tuned the gaps).
-8. **Artist and album pages** (T03): «артисты» like on streaming platforms; covers from Spotify or the Apple Music playlist https://music.apple.com/ru/playlist/generative-music-by-vova/pl.u-oZyl3V1soprp9J?l=en ; T16 attaches the NSFL cover (`faa1a4f2…png`); T82's album text (from `tmp/papa-reka-album.md`, forwarded) is Папа-река's description. Likely a plan of its own.
+8. **Artist and album pages** (T03): «артисты» like on streaming platforms; covers from Spotify or the Apple Music playlist https://music.apple.com/ru/playlist/generative-music-by-vova/pl.u-oZyl3V1soprp9J?l=en ; T16 attaches the NSFL cover (`faa1a4f2…png`); T82's album text (`docs/remove-before-merging/papa-reka-album.md`, with the «Река. Часть вторая» note for the merge) is Папа-река's description. Likely a plan of its own.
 9. Add `es`, `de`, `it` languages if wanted (tango, crossout, believe-in-me) — ask.
 10. Reply on GitHub to all 94 threads; report to Vova with the questions from `agent-reports.md`; remind him about slugs (T28). Then `/polish`, vet, PR body refresh.

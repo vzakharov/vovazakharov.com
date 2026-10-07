@@ -4,6 +4,7 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'prsdemo'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/prsdemo/main/prsdemo.flac
 seconds: 154
 explicit: false

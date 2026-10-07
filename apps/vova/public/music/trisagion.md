@@ -4,6 +4,7 @@ status: done
 language: [ru, la, en]
 project: ['Downtemple']
 repo: 'trisagion'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/trisagion/main/trisagion.flac
 seconds: 202
 explicit: false

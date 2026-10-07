@@ -9,8 +9,12 @@ seconds: 323
 explicit: false
 album: papa-reka
 hidden: true
+transliteration: 'Pegiy pyos (Repriza)'
+credits:
+  lyrics: [Vladimir Zakharov Sr.]
 en:
   title: 'Пегий пёс (Реприза)'
+  titleTranslation: 'Piebald Dog (Reprise)'
   description: 'TBD'
 ru:
   title: 'Пегий пёс (Реприза)'
@@ -22,3 +26,87 @@ ru:
      Replace this with the story, told once per language under a "lang:en" and
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- lyrics:ru -->
+
+Навсегда заколдованный лунной дорожкой
+Приведённый на берег цыганской судьбою
+Увлекаемый в вечность то правдой то ложью
+Пегий пёс всё бежит и бежит краем моря
+
+Это море…
+Судьба моя…
+Эти воды…
+Слёзы мои….
+
+Да не все, кто отчалил, на берег вернутся
+Ожидавшие их задохнутся от горя
+И не веря в спасенье, вернувшиеся оглянутся
+И увидят, как мчится вдаль пёс краем моря
+
+Это море…
+Судьба моя…
+Эти воды…
+Слёзы мои….
+
+Пегий пёс — это тонкая грань между жизнью и смертью
+Меж землёю и небом, вдруг ставшим столь близким
+Навсегда заколдованный бешенной круговертью
+На лазурную гладь лунный блеск опустивший
+
+Навсегда заколдованный лунной дорожкой
+Приведённый на берег цыганской судьбою
+Увлекаемый в вечность то правдой то ложью
+Пегий пёс всё бежит и бежит краем моря
+
+Это море…
+Судьба моя…
+Эти воды…
+Слёзы мои….
+
+Это море…
+Судьба моя…
+Эти воды…
+Слёзы мои….
+
+<!-- lyrics:en -->
+
+Forever spellbound by the moon’s path on the water
+Brought to the shore by a gypsy fate
+Drawn into eternity now by truth, now by lies
+The piebald dog runs and runs along the edge of the sea
+
+This sea…
+My fate…
+These waters…
+My tears….
+
+Yet not all who cast off will come back to shore
+Those who waited for them will choke with grief
+And, not believing in their rescue, those who came back will look round
+And see the dog racing away along the edge of the sea
+
+This sea…
+My fate…
+These waters…
+My tears….
+
+The piebald dog is the fine line between life and death
+Between the earth and the sky, grown suddenly so near
+Forever spellbound by the frenzied whirl
+Having let the moon’s gleam down onto the azure surface
+
+Forever spellbound by the moon’s path on the water
+Brought to the shore by a gypsy fate
+Drawn into eternity now by truth, now by lies
+The piebald dog runs and runs along the edge of the sea
+
+This sea…
+My fate…
+These waters…
+My tears….
+
+This sea…
+My fate…
+These waters…
+My tears….

@@ -4,6 +4,7 @@ status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'f-ec'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/f-ec/main/%D0%A2%D0%B0%D0%BC.flac
 seconds: 208
 explicit: false

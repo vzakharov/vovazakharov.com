@@ -4,6 +4,7 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'wagner'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/wagner/main/wagner.flac
 seconds: 54
 explicit: false
