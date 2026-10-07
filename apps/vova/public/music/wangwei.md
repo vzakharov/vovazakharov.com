@@ -85,3 +85,35 @@ I suppose that’s how it had to be.
 [^junyan-ru]: Кит. «Ты говоришь: не сбылись мои стремления, вернусь и лягу у подножия Южных гор».
 
 [^danqu-ru]: Кит. «Иди же, больше не спрошу; белым облакам нет конца».
+
+<!-- lyrics:en -->
+
+My friend, get down from your horse,
+My friend, let us drink wine
+From jade cups.
+
+My friend, I have but one question for you:
+Where does your road lead, my lord,
+Where does your road lead?
+
+And he answered: my dreams did not come true,
+I longed to fall asleep among the southern mountains.
+And he left, unasked about anything,
+Into the clouds, endless, eternal.
+
+下马饮君酒，问君何所之？[^xiama-en]
+君言不得意，归卧南山陲。[^junyan-en]
+但去莫复问，白云无尽时。[^danqu-en]
+
+Yes, he answered: my dreams did not come true,
+I longed to fall asleep among the southern mountains.
+And he left, unasked about anything,
+Into the clouds, endless, eternal,
+Into the clouds, endless, eternal,
+Endless, eternal.
+
+[^xiama-en]: Chinese: “Get down from your horse, drink my wine; I ask you: where are you headed?” — Wang Wei, “Farewell.”
+
+[^junyan-en]: Chinese: “You say your hopes came to nothing; you will go home and lie down at the foot of the Southern Mountains.”
+
+[^danqu-en]: Chinese: “Go, then, I will ask no more; the white clouds have no end.”

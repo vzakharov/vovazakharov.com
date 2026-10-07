@@ -62,3 +62,42 @@ ru:
 Мгновенный пламень звёздного осколка!
 
 О, сад ночной…
+
+<!-- lyrics:en -->
+
+Oh, night garden, mysterious organ,
+Forest of long pipes, refuge of cellos!
+Oh, night garden, sorrowful caravan
+Of mute oaks and motionless firs!
+
+All day long it tossed and roared.
+The oak was a battle, and the poplar — an upheaval.
+A hundred thousand leaves, like a hundred thousand bodies,
+Intertwined in the autumn air.
+
+Iron August in long boots
+Stood in the distance with a big plate of game.
+And shots thundered over the meadows,
+And little bird bodies flashed through the air.
+
+And the garden fell silent, and the moon suddenly came out,
+Dozens of long shadows lay down below,
+And crowds of lindens raised their hands,
+Hiding the birds under the clumps of leaves.
+
+Oh, night garden, oh, poor night garden,
+Oh, creatures fallen asleep for long!
+Oh, flaring right overhead,
+The instant flame of a splinter of a star!
+
+Oh, night garden, oh, poor night garden,
+Oh, creatures fallen asleep for long!
+Oh, flaring right overhead,
+The instant flame of a splinter of a star!
+
+Oh, night garden, oh, poor night garden,
+Oh, creatures fallen asleep for long!
+Oh, flaring right overhead,
+The instant flame of a splinter of a star!
+
+Oh, night garden…

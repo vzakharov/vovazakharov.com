@@ -109,3 +109,89 @@ ru:
 В осколках
 Мечт наших детей, да?
 Сколько…
+
+<!-- lyrics:en -->
+
+Maybe I only dreamed it:
+The sky is choking in fire,
+And the clouds glitter with ash…
+
+And all around, as far as the eye can see,
+A pattern of craters and ruins,
+As if someone decided to give children
+Nuclear ink.
+
+Maybe somewhere after us
+The hour will come,
+But for now…
+
+How long
+Can we run in circles,
+How long
+Can we wipe each other out,
+Only
+To prove that
+Someone
+Is guiltier than us, huh?
+How long
+Can we tear at each other’s
+Throats,
+Leaving the world
+In the shards
+Of our children’s dreams, huh?
+How long can this go on?
+
+The city breathes poison, the streets a panorama of wounds,
+Froth in the Telegrams — you won’t find the truth on the screens.
+A carousel of drones in the sky silently picks a target.
+Evil’s a squirrel in a wheel — get out while you’re still in one piece.
+
+The pulse of the borders jumps in time with reels and pages, so
+The pain on someone’s faces becomes routine.
+How many likes for a strike? How many views for soldiers’ fear?
+The match is ending — ahead is check and mate.
+
+How long
+Can we run in circles,
+How long
+Can we wipe each other out,
+Only
+To prove that
+Someone
+Is guiltier than us, huh?
+How long
+Can we tear at each other’s
+Throats,
+Leaving the world
+In the shards
+Of our children’s dreams, huh?
+How long?
+
+Maybe somewhere after us
+The hour will come,
+But not now…
+
+How long
+Can we run in circles,
+How long
+Can we wipe each other out,
+Only
+To prove that
+Someone
+Is guiltier than us, huh?
+
+How long
+Can we tear at each other’s
+Throats,
+Leaving the world
+In the shards
+Of our children’s dreams, huh?
+How long can this go on…
+
+How long
+Can we tear at each other’s
+Throats,
+Leaving the world
+In the shards
+Of our children’s dreams, huh?
+How long…

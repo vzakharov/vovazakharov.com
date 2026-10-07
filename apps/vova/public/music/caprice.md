@@ -60,3 +60,30 @@ Three months since Dad died. Dad’s words, the music mostly Dad’s, built on C
 Он промелькнёт как солнца луч среди ненастья
 И музыка планет
 Зазвучит вдали как каприз Каркасси
+
+<!-- lyrics:en -->
+
+A melody that burst into the soul like a hurricane
+Suddenly recalled a ringing morning long ago
+And, flashing with fire, lighting up the half-dark,
+Forgotten youth gleamed in mother-of-pearl colors
+
+The world is beautiful and fresh, like a strand of pearls
+Blood pounds in a frenzied whirlpool
+Nothing can be understood to the end
+In the freedom that rolled in and swept over everything
+
+And now life goes on like a nagging dream
+Thoughts circle sluggishly and knit together flatly
+And Charon is probably already waiting
+By the rocky shore with its narrow strip
+
+Days go by one after another without the glow of fire
+Like a doleful song with a mumbled refrain
+And only this melody takes me back
+To radiant youth, back to the source
+
+The light of those faraway years
+It will flash like a ray of sun amid foul weather
+And the music of the planets
+Will sound in the distance like Carcassi’s caprice

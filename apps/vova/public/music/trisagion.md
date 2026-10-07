@@ -49,3 +49,25 @@ Have mercy on us.[^mercy-ru]
 [^en-ru]: Англ. «Святый Боже, Святый Крепкий, Святый Бессмертный, помилуй нас» — эта строка и следующая.
 
 [^mercy-ru]: Англ. «Помилуй нас».
+
+<!-- lyrics:en -->
+
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.
+
+Sanctus Deus, Sanctus Fortis, Sanctus Immortalis, miserere nobis.[^la-en]
+Sanctus Deus, Sanctus Fortis, Sanctus Immortalis, miserere nobis.
+Sanctus Deus, Sanctus Fortis, Sanctus Immortalis, miserere nobis.
+Sanctus Deus, Sanctus Fortis, Sanctus Immortalis, miserere nobis.
+
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.
+Sanctus Deus, Sanctus Fortis, Sanctus Immortalis, miserere nobis.
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.
+
+Have mercy on us.
+Have mercy on us.
+Have mercy on us.
+Have mercy on us.
+
+[^la-en]: Latin: “Holy God, Holy Mighty, Holy Immortal, have mercy on us” — this line and every Latin one below.

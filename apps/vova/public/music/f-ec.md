@@ -67,3 +67,47 @@ ru:
 Ты мне только шепни,
 И окажемся там
 Одни.
+
+<!-- lyrics:en -->
+
+Flying past like a wingless bird
+Over a road strewn with silence,
+Measuring by the faces that have gone
+All that’s been lived and lost,
+
+Through potholes and roads gone to mud,
+Past the skeletons of churches and village edges,
+Giving myself to the time before last —
+Let there be a remainder, as long as it won’t divide.
+
+But one day, on a November evening,
+I’ll open the creaking window vent,
+Smile at yesterday’s troubles:
+Oh, if only I could take even a handful along.
+
+And when what was foretold comes true,
+When the shutters close mid-swing,
+Over the snow-dusted cross will sweep
+A whirl of new faces.
+
+There,
+Where the light ends,
+Where photons, tired,
+Rest in the shade,
+Just whisper to me,
+Wink at me as if by chance,
+And we’ll find ourselves there
+Alone.
+
+There,
+Where the light ends,
+Where photons, tired,
+Rest in the shade,
+Just whisper to me,
+Wink at me as if by chance,
+And we’ll find ourselves there.
+
+There…
+Just whisper to me,
+And we’ll find ourselves there
+Alone.

@@ -54,3 +54,38 @@ ru:
 Да давно бы послать этот бал,
 Но быть может, быть может, кто знает…
 Но всё же, быть может, я просто устал.
+
+<!-- lyrics:en -->
+
+There, where dust grows cold on the palms, forgetting all the warmth that was given them,
+There, where it’s unclear whether there’s any point, or maybe there never even was,
+There, over the [riffles, like a tumbleweed][^perekati-en], rolls a simple étude
+From the ravine up the hill and back, now dreading, now believing someone’s waiting there.
+
+Covering kilometers, like a corpse with balm, for the soul,
+Not hoping for salvation, just because, on muscle memory, breathe while you can,
+To look your fill through the glass while the sun measures out the final hour,
+The cardiogram jumps in time, as if it knows it’s the last time.
+
+Maybe I’m just tired,
+Or maybe it’s time at last to dance it out to the end
+And tell this fucking ball to go to hell.
+
+I’m just tired.
+
+Knock, night, light, a sweep,
+Sound, pain, laughter, fear.
+Well then, so be it:
+You’re here, I’m into the dark.
+
+Maybe I’m just tired,
+Or maybe it’s time at last to dance it out to the end
+And tell this fucking ball to go to hell.
+
+Just tired.
+
+Should’ve told this ball to go to hell long ago,
+But maybe, maybe, who knows…
+But still, maybe I’m just tired.
+
+[^perekati-en]: «По перекатам перекати-полем»: «перекаты» are a river’s shallow riffles, «перекати-поле» a tumbleweed, literally a “roll-over-the-field.”

@@ -71,3 +71,51 @@ ru:
 Окна мои, грёзы мои.
 Ещё раз увидеть бы
 И не забыть…
+
+<!-- lyrics:en -->
+
+That dream again: I’m standing on the waste ground behind the building,
+Underfoot the weeds and the thistles are carving up the turf,
+And over by number four the lads are surely kicking a ball around at keep-away,
+And it seems you only have to reach out a hand to them and you’ll be straight back there.
+Back where you can study the faces of passers-by and not seem strange,
+Where the worst thing that can happen is being called home too early,
+Where in the mornings the grove waves at the windows with aspens not yet cut down,
+Where Dad is the biggest and strongest, and Mom is the most beautiful.
+
+I wake up, a stifled groan, a lump in my throat, someone else’s house,
+Someone else’s wall, someone else’s country, someone else’s war, and however far down you look, there’s no bottom in sight.
+The world is like a string tuned half an octave too high,
+Half-crazed, it sprays spit and breathes half-life, but no one will hear these fears.
+Because it’s part, fuck, of growing up: teeth clenched, forcing your way through the thorns,
+Making decisions with a knowing look, convincing yourself they’re the right ones.
+But I’m not asking heaven for salvation, only a breather in this flight,
+So that, while there’s still an hour till dawn, I can go back to that faraway summer.
+
+If I could pass, even just at the edge,
+Those windows where my youth shines
+Like a fading ember,
+Keeping this fire in my heart.
+
+Everyone copes however they can: some argue, some quarrel,
+Some ask the Lord for strength, some just howl out loud,
+Some will jump down rabbit holes, some will go quiet but won’t hide,
+Some head off into the fields on a fast train, to vanish all alone.
+And me, I hide in the windows of the past, like Coleridge in the waters of the Otter,
+As if searching for something so dear and carefree,
+With glints, with reflections, with unsteady outlines
+Bringing back those moments outside space and time.
+
+If I could pass, even just at the edge,
+Those windows where my youth shines
+Like a fading ember,
+But that’s all I have.
+
+If I could pass, even just at the edge,
+Those windows where my youth shines
+Like a fading ember,
+But that’s all I have: these
+Distant, close
+Windows of mine, daydreams of mine.
+If I could see them once more
+And not forget…

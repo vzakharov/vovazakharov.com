@@ -29,4 +29,11 @@ ru:
 Святый Боже, Святый Крепкий, Святый Бессмертный, помилуй нас.
 Святый Боже, Святый Крепкий, Святый Бессмертный, помилуй нас.
 Святый Боже, Святый Крепкий, Святый Бессмертный, помилуй нас.
+
+<!-- lyrics:en -->
+
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.
 Святый Боже, Святый Крепкий, Святый Бессмертный, помилуй нас.

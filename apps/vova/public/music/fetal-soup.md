@@ -26,3 +26,7 @@ ru:
 <!-- lyrics:en -->
 
 How can the man exist when there is such thing as fetal soup?
+
+<!-- lyrics:ru -->
+
+Как может существовать человек, когда есть такая вещь, как суп из эмбрионов?

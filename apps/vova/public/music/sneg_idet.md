@@ -90,3 +90,48 @@ Sadly, snow isn’t planning to fall in our parts yet — but who knows, maybe t
 Перекрёстка поворот.
 
 [^vot-ru]: У Пастернака — «там и новый год».
+
+<!-- lyrics:en -->
+
+Snow is falling, snow is falling.
+Toward the little white stars in the blizzard
+The geranium flowers reach
+Past the window frame.
+
+Snow is falling, and all is in turmoil,
+All of it takes flight, —
+The steps of the back stairs,
+The turn at the crossroads.
+
+Snow is falling, snow is falling,
+As if it’s not flakes that are falling,
+But in a patched old cloak
+The firmament is coming down to earth.
+
+As if, with the air of an oddball,
+From the top landing of the stairs,
+Stealing along, playing hide-and-seek,
+The sky is coming down from the attic.
+
+Because life does not wait.
+Before you look back — it’s Yuletide.
+Only a short interval,
+You look — and here’s the New Year.
+
+Snow is falling, thick, so thick.
+[In step with it][^idet-en], with those same feet,
+At the same pace, with that same laziness
+Or with that same swiftness,
+
+Perhaps time is passing?
+Perhaps year after year
+Follows the way the snow falls,
+Or like the words in a poem?
+
+Snow is falling, snow is falling,
+Snow is falling, and all is in turmoil:
+The whitened passer-by,
+The astonished plants,
+The turn at the crossroads.
+
+[^idet-en]: In Russian snow doesn’t fall, it “goes” (идёт) — the same verb as walking, and time “passes” the same way.

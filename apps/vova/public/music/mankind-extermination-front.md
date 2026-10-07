@@ -29,3 +29,10 @@ Mankind extermination front!
 Mankind extermination front!
 Mankind extermination front!
 Mankind extermination!
+
+<!-- lyrics:ru -->
+
+Фронт истребления человечества!
+Фронт истребления человечества!
+Фронт истребления человечества!
+Истребление человечества!
