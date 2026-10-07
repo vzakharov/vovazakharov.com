@@ -2,8 +2,8 @@ import 'server-only';
 
 import type {
   ContentDocument,
-  LocalizedText,
   SongFrontmatter,
+  SongText,
   SungLanguage,
 } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
@@ -23,7 +23,7 @@ export type SongDocument = ContentDocument<SongFrontmatter>;
  * lifted out of the one file both languages are authored in.
  */
 export type LocalizedSongDocument = ContentDocument<
-  SongFrontmatter & LocalizedText
+  SongFrontmatter & SongText
 >;
 
 /**

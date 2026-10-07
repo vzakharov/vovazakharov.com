@@ -46,6 +46,8 @@ export {
   type LocalizedText,
   type Playable,
   type SongFrontmatter,
+  type SongLanguage,
+  type SongText,
   type Source,
   type SungLanguage,
   type WithFrontmatter,

@@ -11,7 +11,11 @@ import type { SongLyrics } from '../lib/song-text';
 import classes from './music.module.scss';
 import { NotedSpan } from './noted-span';
 
-export type LyricsProps = WithLocale & { lyrics: SongLyrics };
+export type LyricsProps = WithLocale & {
+  lyrics: SongLyrics;
+  /** What the crib is, where it is more than a crib: one line of markdown. */
+  cribNote?: string;
+};
 
 /**
  * The words, and their crib beside them where the reader's language is not the
@@ -22,7 +26,7 @@ export type LyricsProps = WithLocale & { lyrics: SongLyrics };
  * Each language is one element holding all of its stanzas, so a selection
  * started in one column stays in it.
  */
-export function Lyrics({ lyrics, locale }: LyricsProps) {
+export function Lyrics({ lyrics, locale, cribNote }: LyricsProps) {
   const { stanzas, translation, language } = lyrics;
   const { lyrics: labels } = loadMessages(locale).music;
 
@@ -32,7 +36,11 @@ export function Lyrics({ lyrics, locale }: LyricsProps) {
         <Subheading>{labels.title}</Subheading>
         {translation !== undefined && (
           <Text size="sm" opacity={0.6} mt={8}>
-            {labels.crib}
+            {cribNote === undefined ? (
+              labels.crib
+            ) : (
+              <Markdown components={NOTE_COMPONENTS}>{cribNote}</Markdown>
+            )}
           </Text>
         )}
       </Box>

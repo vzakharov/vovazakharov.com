@@ -275,7 +275,19 @@
       "la": "Latin",
       "zh": "Chinese",
       "fr": "French",
+      "el": "Greek",
       "instrumental": "Instrumental"
+    },
+    "languageShort": {
+      "ru": "rus.",
+      "en": "eng.",
+      "tt": "tat.",
+      "ar": "ar.",
+      "pl": "pol.",
+      "la": "lat.",
+      "zh": "chin.",
+      "fr": "fr.",
+      "el": "gr."
     },
     "explicit": "Explicit",
     "source": "source",

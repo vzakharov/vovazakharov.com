@@ -41,6 +41,7 @@ import { formatDuration } from '../lib/duration';
 import { musicPath, songPath } from '../lib/music-urls';
 import { localizeSong, type SongDocument, songLyrics } from '../lib/song-text';
 import { songTrack } from '../lib/songs';
+import { titleGloss } from '../lib/title-gloss';
 import { ExplicitBadge } from './explicit-badge';
 import { LocaleChips } from './locale-chips';
 import { Lyrics } from './lyrics';
@@ -101,9 +102,21 @@ export async function SongPage({ slug, locale }: SongPageProps) {
   const document = resolve(slug);
   const localized = localizeSong(document, locale);
   const { tree } = await renderDocument(localized);
-  const { title, description, date, repo, explicit } = localized.frontmatter;
+  const { title, description, date, repo, explicit, cribNote } =
+    localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
+  const gloss = titleGloss(
+    {
+      ...localized.frontmatter,
+      titleLanguage:
+        localized.frontmatter.titleLanguage ??
+        localized.frontmatter.language[0] ??
+        'instrumental',
+    },
+    locale,
+    messages.languageShort,
+  );
 
   return (
     <PageShell>
@@ -129,6 +142,12 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                 {explicit && <ExplicitBadge label={messages.explicit} />}
               </Title>
             </Group>
+
+            {gloss.length > 0 && (
+              <Text size="sm" opacity={0.6} mt={-16}>
+                {gloss.join(' · ')}
+              </Text>
+            )}
 
             <Text size="lg" lh={1.625} opacity={0.8}>
               {description}
@@ -165,7 +184,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
         <ProseContent {...{ tree }} />
 
-        {lyrics && <Lyrics {...{ lyrics, locale }} />}
+        {lyrics && <Lyrics {...{ lyrics, locale, cribNote }} />}
 
         <BackToHome label={messages.backToHome} />
       </Stack>

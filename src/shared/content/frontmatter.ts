@@ -99,6 +99,7 @@ const SONG_LANGUAGES = [
   'la',
   'zh',
   'fr',
+  'el',
   'instrumental',
 ] as const;
 
@@ -107,6 +108,21 @@ export type SongLanguage = (typeof SONG_LANGUAGES)[number];
 export type SungLanguage = Exclude<SongLanguage, 'instrumental'>;
 
 const songLanguageSchema = z.enum(SONG_LANGUAGES);
+
+const sungLanguageSchema = songLanguageSchema.exclude(['instrumental']);
+
+/** A song's strings in one locale: the document's own, and two only a song has. */
+const songTextSchema = localizedTextSchema.extend({
+  /** The title in this locale's language, where the title is in another. */
+  titleTranslation: z.string().min(1).optional(),
+  /**
+   * What the crib beside the words is, in place of the stock line — whose
+   * translation it is, or that the column is the original. One line of markdown.
+   */
+  cribNote: z.string().min(1).optional(),
+});
+
+export type SongText = z.infer<typeof songTextSchema>;
 
 /**
  * Who wrote which half, in contribution order rather than billing order. Absent
@@ -156,8 +172,18 @@ const songFieldsSchema = baseFrontmatterSchema
     project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1),
     /** Its repository under the `vovas-music` organization. */
     repo: z.string().min(1),
-    /** The release it came out on, where it came out on one. */
-    album: z.enum(MUSIC_ALBUM_SLUGS).optional(),
+    /**
+     * The release it came out on; `null` for a single. Required, so a song whose
+     * release nobody has decided yet cannot pass for a single by omission.
+     */
+    album: z.enum(MUSIC_ALBUM_SLUGS).nullable(),
+    /**
+     * The title in Latin letters, where it is written in another script. The
+     * page shows it only to a reader whose own script the title is not in.
+     */
+    transliteration: z.string().min(1).optional(),
+    /** What the title is in, where that is not the language sung first. */
+    titleLanguage: sungLanguageSchema.optional(),
     credits: creditsSchema.optional(),
     /** Track id, where the song is also on Spotify. */
     spotify: z.string().min(1).optional(),
@@ -171,7 +197,7 @@ const songFieldsSchema = baseFrontmatterSchema
  * publishing a half-translated catalogue quietly.
  */
 export const songFrontmatterSchema = songFieldsSchema.extend(
-  byLocale(() => localizedTextSchema),
+  byLocale(() => songTextSchema),
 );
 
 export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
