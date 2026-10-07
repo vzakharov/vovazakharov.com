@@ -43,6 +43,13 @@ The queue lives in the music layout and is built once from `listSongs()`, so a h
 
 **Scaffolded** (434939c, then a commit per batch through fadf540): `language` a list with `tt`/`ar`/`pl`/`la`/`zh`, eight albums and three projects registered, `pnpm music:scaffold --spec`, and 119 song files from every entry Vova filled in. Open with him: whether «Ignite» is an album, `requiem` vs `dng-007`, the `zoo`/`story_ends`/`vagabond` repos duplicating album tracks, French/Greek vocals, the 87 entries still without a project, and Yoohie as «Йухи» on Russian pages.
 
+**Vova's answers, applied** (5606dc1 → faf52be): `/music/all` lists hidden songs too (unlinked, noindex); «Ignite» is a mini-album (`ignite`); an album track and the single repo cut from it are one song; `fr` added, La Scorpionne in French; Άγιος Ο Σκοπός sung in Russian (the choir's one line); the blank-project entries scaffolded with guessed projects (31 pages, 13 repos skipped as album tracks already on the site). 160 song files; `pnpm build:vova` passes.
+
+**Left**:
+- **Yoohie is «Йухи» on Russian pages** («да, давай пусть переводятся, пока конкретно для этого случая»). A per-locale display name for a project: `billing(projects, locale)` in `src/shared/config/music-projects.ts` through `inLocale` (`src/shared/i18n/locales.ts`), a `Partial<Record<MusicProject, Localizable>>` of names; `PlayerTrack.billing` becomes `Record<Locale, string>` (`player-state.ts`), read per locale in `song-list.tsx`, `player-bar.tsx`, `use-audio-player.ts` (media session `artist`) and `song-page.tsx`'s facts. `scripts/scaffold-song.ts` imports `music-projects.ts` under tsx, so keep its imports next-intl-free.
+- Refresh PR #115's body with the answers above and the new pages (`/pr`), and `/polish` over what changed since 24f549f.
+- Still open with Vova: «Минем бабай» words (he'll add them); the guessed projects on the 31 new pages.
+
 **Before that**: waiting on Vova to finish the checklist. Then the step below. His entries raise schema questions to settle with him first: a song with no project (`babay`, «Минем бабай»), languages outside `ru`/`en`/`instrumental` (Tatar, Arabic, Polish, Chinese, Latin — the list form is settled below), per-locale project order (`8849`: GENERATED & Полуживые in English, reversed in Russian), and albums beyond `ctfu`/`vagabond` — `MUSIC_ALBUM_SLUGS` grows, and some have no name yet. New projects from the playlist: `Trending Today`, `Дамы и господа`.
 
 ## Later — after the checklist is filled in
