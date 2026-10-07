@@ -257,6 +257,37 @@ _не DRY_ — and the music registry spelled every title `{ en: 'X', ru: 'X' }`
 dossier's slot for them got the builders asking that nobody be pursued — a
 fact, but no defence of anyone.
 
+## Its prose answers the question it had, not the reader's (×6)
+
+Accurate, present-tense and short is the whole of what a prose pass asks, and a
+rewrite is held against the points it was meant to carry — so a line answering
+the wrong question, or too compressed to give its points back, passes every test.
+What a reader stops at that line holding is the thing nothing measures.
+
+**21 September — four comments, four true sentences.** `fsd.md` narrated how
+`widgets/` was earned — _археология?_; `GENERATED_DIR`'s docstring listed
+contents, not the invariant; `SiteImage` never said why `path` and `vector`
+both exist.
+
+**23 September — a metaphor, a squiggle, a live trap read as history.** A prop
+comment called a dimmed column "held back"; `__vars` did a plain `style`'s job;
+a real trap's comment read as archaeology. Each was plain to its writer.
+
+**4 October — a cost row's reason that recounted the work.** An estimate's
+comment summarised what the session did; the row's reader needs why these
+roles at these grades, the one thing the figures cannot say for themselves.
+
+**6 October — a date that answered when the agent numbered it.** A basilisk
+case's `filed:` was set to the day it took its BAS number, publication date
+weighed and rejected to keep dates in number order. _будет 06 если сегодня
+опубликуем._ "Last filed" tells a reader when the docket went out, and the order
+held anyway: an unpublished case is always the newest.
+
+**7 October — a prop named for what its writer meant.** The flag that drops
+`SiteFooter`'s "← Home" link on a site's root page was named `home`, chosen as a
+fact about the page. _более понятно назвать проп?_ Met cold, `<SiteFooter home />`
+reads as "link home" — the opposite of what it does. Now `isHomePage`.
+
 ## What it defends in writing, it stops asking about (×5)
 
 A choice made, written up and pinned by a test has three artifacts in front of
@@ -290,32 +321,6 @@ _выноска стала лучше, изображение -- хуже_ — i
 **23 September — a size judged where it was designed, shipped where it wasn't.**
 The explicit badge, a fixed 18px square beside the song page's 48px title,
 stood taller than the capitals in the catalogue's 16px list.
-
-## Its prose answers the question it had, not the reader's (×5)
-
-Accurate, present-tense and short is the whole of what a prose pass asks, and a
-rewrite is held against the points it was meant to carry — so a line answering
-the wrong question, or too compressed to give its points back, passes every test.
-What a reader stops at that line holding is the thing nothing measures.
-
-**21 September — four comments, four true sentences.** `fsd.md` narrated how
-`widgets/` was earned — _археология?_; `GENERATED_DIR`'s docstring listed
-contents, not the invariant; `SiteImage` never said why `path` and `vector`
-both exist.
-
-**23 September — a metaphor, a squiggle, a live trap read as history.** A prop
-comment called a dimmed column "held back"; `__vars` did a plain `style`'s job;
-a real trap's comment read as archaeology. Each was plain to its writer.
-
-**4 October — a cost row's reason that recounted the work.** An estimate's
-comment summarised what the session did; the row's reader needs why these
-roles at these grades, the one thing the figures cannot say for themselves.
-
-**6 October — a date that answered when the agent numbered it.** A basilisk
-case's `filed:` was set to the day it took its BAS number, publication date
-weighed and rejected to keep dates in number order. _будет 06 если сегодня
-опубликуем._ "Last filed" tells a reader when the docket went out, and the order
-held anyway: an unpublished case is always the newest.
 
 ## It warns where the repo could refuse (×3)
 
