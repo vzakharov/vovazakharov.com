@@ -19,14 +19,17 @@ Carried over from the mushroom-game run and kept by the predecessor:
 
 1. `/relay take claude/mushroom-case-study` (launch). Mid-turn the operator
    asked:
+
    > я думаю, может на этой ветке и остаться? это же норм когда на одной ветке несколько пиаров?
 
    and then
+
    > с другой стороны тут 3200 коммитов...
 
    Reply: GitHub allows one open PR per head branch at a time; recommended
    moving to `claude/mushroom-case-study`, which carries the relay summary;
    waited for the operator's word.
+
 2. > > Так что жить вечно на одной ветке и складывать в неё всё подряд не выйдет
    >
    > я это и не планировал. Я имел в виду остаться на ветке игры для пиара с кейс-стади, чтобы прямо "у себя" смотреть всё, что там происходило (переименовывать ветку при этом не надо).
@@ -39,6 +42,7 @@ Carried over from the mushroom-game run and kept by the predecessor:
    `main`'s ancestry; a new PR from the game branch would show them all and
    diff from the old merge-base. The history is readable from any branch via
    `git fetch`. Recommended staying on the case-study branch.
+
 3. > хорошо. не забудь там суффикс pk9soi, или что там нужно у нас по договорам
 
    Done: `claude/mushroom-case-study` → `claude/mushroom-case-study-pk9soi`
@@ -47,24 +51,26 @@ Carried over from the mushroom-game run and kept by the predecessor:
    auto-branch `claude/affectionate-knuth-pk9soi` was never pushed and was
    deleted locally. Then `/task` on the relayed Next step (the case-study
    request) → planning; two Opus subagents mined PR #57's history.
+
 4. > кейс-стади хочу (в максимальной версии) прямо подробный: скриншотики разных байтов (с какого-то момента мы начали их делать, можно найти где-то в /remove-before-merging того пиара), где какие затыки были -- и в самом коде, и в мета-инфратсруктуре вокруг него, в какой момент оператор (то бишь "я" с точки зрения кейс стади) приходил с внезапными 180-градусными пивотами и т.п.
    >
    > если что-то не удастся восстановить, я напомню. Лучше сразу не писать всё а составить план
 
    Reply: plan, not article. Published the draft plan as PR #100 with six
    numbered questions, each with a recommendation already in force in the
-   plan: (1) title/hook — a) *My son drew a mushroom house. 92 Claude
-   sessions built it in eight days.* (working), b) *The megabeast: a
-   six-year-old's drawing and 3,162 commits*, c) own; (2) names from «от
+   plan: (1) title/hook — a) _My son drew a mushroom house. 92 Claude
+   sessions built it in eight days._ (working), b) _The megabeast: a
+   six-year-old's drawing and 3,162 commits_, c) own; (2) names from «от
    Сямы идея, от меня процедурки, от Золтана экология, от Лейсан мандалы» —
    a) all by first name (rec.), b) Syama only; plus "who is Zoltan?";
    (3) Syama's drawing from #65 in the article — a) yes (rec.); (4) a
    "Syama's verdict" section — a) the operator writes a paragraph by bite 3
    (rec.); (5) mini/nano cuts in this PR as bite 4 — a) yes (rec.);
    (6) video — a) separate task after merge (rec.). Handed `/go
-   claude/mushroom-case-study-pk9soi`. Offered a new session for the
+claude/mushroom-case-study-pk9soi`. Offered a new session for the
    pending muthur sync (one commit, cea7c20, human-hour estimates on cost
    rows); not answered.
+
 5. > отлично, спасибо. я плюс-минус по твоему плану начитаю кейс-стади в общих чертах на диктофон, чтобы потом более похоже на меня "звучал" текст. Так что пока давай /relay жди диктовки :)
 
    Reply: this relay. None of the six questions was answered.
@@ -135,7 +141,7 @@ the digests alone.
   script), open questions.
 - PR #57's head: `claude/mushroom-game-syama-lbirv7`
   (`git fetch origin pull/57/head:refs/pr/57`, then `git fetch --unshallow
-  origin`). Relay versions:
+origin`). Relay versions:
   `git log --reverse --format=%h refs/pr/57 -- docs/remove-before-merging/relay.md`.
 - Dictations: `.claude/skills/dictation/` (`/dictation <media> [<slug>]`
   writes `writing/<project>/dictations/<slug>.md`); `/dictation-to-post`

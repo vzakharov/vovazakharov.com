@@ -80,7 +80,7 @@ Well, even that is me getting ahead of myself, because originally there was no s
 
 ## The launch message
 
-Here it is in full, sent on Saturday, 26 September, at 08:17 UTC:
+Here it is in full, sent on Saturday, 26 September, at 08\:17 UTC (every time in this story is UTC):
 
 > so, haven't been here in a while. Let's go for something cool this time. Look, here's what I want you to do:
 >
@@ -159,7 +159,7 @@ And every eighth session the chain stops, because a chain of sessions starting s
 
 ### 26 September: the meadow, still; alive; and a forest
 
-Bites 1 to 3 each took well under an hour of wall time. Bite 1 was claimed at 08:24 and built by 08:35: a sunny meadow and two spotted fly agarics, grown from seeded genes, with the game's logic in a pure model and the Phaser scene only drawing what the model says. Its first run of our checks found 17 lint errors and four of the repository's own gates red, which is about what a first bite should find. Bite 2 made the meadow breathe — clouds drifting, grass swaying, a tapped mushroom wobbling out a puff of spores, seven flowers chiming — with every sound synthesized in the browser. Bite 3 gave the meadow Syama's `+` and `−` and his four cap shapes as a picker, and planted a forest in depth.
+Bites 1 to 3 each took well under an hour of wall time. Bite 1 was claimed at 08\:24 and built by 08\:35: a sunny meadow and two spotted fly agarics, grown from seeded genes, with the game's logic in a pure model and the Phaser scene only drawing what the model says. Its first run of our checks found 17 lint errors and four of the repository's own gates red, which is about what a first bite should find. Bite 2 made the meadow breathe — clouds drifting, grass swaying, a tapped mushroom wobbling out a puff of spores, seven flowers chiming — with every sound synthesized in the browser. Bite 3 gave the meadow Syama's `+` and `−` and his four cap shapes as a picker, and planted a forest in depth.
 
 ![Bite 1: two spotted fly agarics leaning into each other on a still meadow under a petalled sun — no flowers, no buttons](./assets/mushrooms-bite-01-still.jpg)
 
@@ -169,7 +169,7 @@ Bites 1 to 3 each took well under an hour of wall time. Bite 1 was claimed at 08
 
 Nobody took screenshots of these three bites at the time; these come from each bite's last commit, rebuilt for this article. The meadow wasn't seeded on load then, so the flowers and the far caps come out different every time.
 
-_Snag, machinery._ After bite 3's review, the chain hit its depth of eight. The session ended at 11:42; I pasted the relay by hand at 15:22. About three and a half hours of nothing.
+_Snag, machinery._ After bite 3's review, the chain hit its depth of eight. The session ended at 11\:42; I pasted the relay by hand at 15\:22. About three and a half hours of nothing.
 
 ### 26 September, evening: the mouse house
 
@@ -207,7 +207,7 @@ Bite 6 was the fly, which goes for fly agarics, and the bee, which carries polle
 
 ![The meadow with every kind of creature at its limit: fly agarics and red-capped mushrooms, butterflies, flies and bees on the caps and among the flowers, the insect buttons down the left](./assets/mushrooms-bite-06-every-kind.jpg)
 
-_Snag, machinery._ After bite 6, the chain hit its depth again — at 06:15, while I slept. The next session started at 17:13. Eleven hours of nothing, which is when I started to wonder whether the cap was a bug or a feature. The first lineage built bites 1–3 in about three hours and twenty minutes; the second took thirteen hours for bites 4–6.
+_Snag, machinery._ After bite 6, the chain hit its depth again — at 06\:15, while I slept. The next session started at 17\:13. Eleven hours of nothing, which is when I started to wonder whether the cap was a bug or a feature. The first lineage built bites 1–3 in about three hours and twenty minutes; the second took thirteen hours for bites 4–6.
 
 _Snag, machinery._ That night the weekly quota was about to run out in the middle of bite 6's handling. I asked whether the subagents could be paused so they'd pick up when I said the quota had reset; they were, and in the morning it was "good morning, here we go!". Then I asked the session to check with its two subagents how much context they had left. One answered "115k". Read off its transcript, it was at 220k, and the other at 274k. A subagent can't tell you its own context size; you have to read it from the outside.
 

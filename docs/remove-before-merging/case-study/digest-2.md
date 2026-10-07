@@ -18,26 +18,26 @@ All shas are on `refs/pr/57` (PR head `c10d1379`) unless said otherwise.
 
 "Holding sha" is the tombstone's "last commit containing it" (read files with `git show <sha>:docs/remove-before-merging/frames/<dir>/<file>`). "Paths" counts every path ever committed under the dir, so it exceeds the tombstone's live count where frames were pruned or replaced mid-bite.
 
-| Dir | Tombstone files | Paths ever (blobs) | Size (MB) | First frame commit (UTC) | Holding sha | Example files |
-|---|---|---|---|---|---|---|
-| `bite-4/` | 8 | 8 (13) | 2.8 | `3b9c1c99` 09-26 22:32 | `6f1e193a9f` | `review-tabL-windows.png`, `review-phoneP-both-mice.png`, `review-tabL-sinking.png` |
-| `bite-5/` | 22 | 23 (23) | 4.6 | `42d0e246` 09-27 00:58 | `6f1e193a9f` | `tabL-b5-resting.png`, `review/phoneP-flight-closed-wings-read-as-sticks.png` |
-| `bite-6/` | 18 | 27 (28) | 6.7 | `13b65304` 09-27 06:12 | `6f1e193a9f` | `phoneL-sun-sits-on-the-horizon.png`, `review/phoneP-bees-hide-the-flowers-they-sit-on.png` |
-| `bite-7/` | 38 | 38 (37) | 14.2 | `7a28d15a` 09-28 14:15 | `6f1e193a9f` | `tabL-opening-meadow.png`, `tabL-bee-inked-close.png`, `review/tabL-stem-foot-plank-cut.png` |
-| `bite-8/` | 29 | 39 (39) | 13.5 | `4651e948` 09-28 18:38 | `6f1e193a9f` | `meadow-mixed-portrait-tabP.png`, `porcini-close-tabL.png`, `russula-close-tabP.png` |
-| `bite-9/` | 27 | 27 (28) | 23.7 | `8295361c` 09-29 17:00 | `6f1e193a9f` | `six-meadow-crowded-tabL.png`, `six-meadow-plus-refused-tabP.png` |
-| `bite-10/` | 24 | 24 (26) | 15.3 | `1f797883` 09-30 01:11 | `6f1e193a9f` | `house-picker-phoneL.png`, `tufts-before-tabL-forest-61-tufts.png`, `sound.md` (drum/note render report) |
-| `bite-10-review/` | 14 | 14 (15) | 8.6 | `4b6b6a0a` 09-30 02:16 | `6f1e193a9f` | player-agent review frames + README |
-| `bite-11/` | 8 | 8 (12) | 9.8 | `fb464075` 09-30 21:17 | `6f1e193a9f` | `tabL-pan-dragged.png`, `phoneL-pan-right-end.png` |
-| `bite-11-review/` | 6 | 6 (6) | 5.1 | `9670fedd` 09-30 23:21 | `6f1e193a9f` | review player frames |
-| `bite-12/` | 146 | 146 (153) | 94.1 | `81ffe900` 10-01 06:03 | `6f1e193a9f` | lens/brow/veer plays, `operator/butterfly-shadow-unseen.webp` (the operator's own screenshot) |
-| `bite-12b/` | 46 | 46 (46) | 30.4 | `dc8adaf3` 10-02 21:39 | `4d1112afaa` | `phoneL-final-forest.png`, `mottles-at-0.7-0.4-far-out.png`, `review/*.json` sweep data |
-| `bite-13/` | 26 | 26 (26) | 20.1 | `bb6eabe0` 10-03 05:11 | `28b2b66911` | `phoneP-r7-rainbow.png`, `tabL-rain-3s.png`, `f-tabL-sun-dimmed.png` |
-| `bite-14/` | 34 | 34 (32) | 30.3 | `3be34bf7` 10-03 08:23 | `e3a77fb976` | `rb-phoneP-sprouts-3-up.png`, `a3-tabL-shed-p42.png`, `operator-chanterelle-mouse.png` |
-| `bite-15/` | 18 | 30 (30) | 7.7 | `5b87beaa` 10-03 12:32 | `28a6277009` | `r7-tabL-two-mice.png`, `w4-tabL-crawl.png`, `review/rw-tabL-russula-peek.png` |
-| `bite-16/` | 9 | 12 (20) | 8.2 | `4484b81e` 10-03 18:26 | `20d0fd4df3` | `tabL-m4-open-planted.png` (map), `tufts-turned-before/after.png` |
-| `bite-17/` | 22 | 70 (71) | 45.6 | `2aa143d2` 10-04 05:09 | `ab42be53f5` | `a4-tabL-dusk.png`, `fe-flight.png`, `end/contact-sheet.png` |
-| `bite-18/` | 3 (live at `09ee4ae7`) | 3 (6) | 6.4 | `50b12af6` 10-04 14:33 | `09ee4ae7` | `tabL-keep-before/after/new.png` |
+| Dir               | Tombstone files        | Paths ever (blobs) | Size (MB) | First frame commit (UTC) | Holding sha  | Example files                                                                                            |
+| ----------------- | ---------------------- | ------------------ | --------- | ------------------------ | ------------ | -------------------------------------------------------------------------------------------------------- |
+| `bite-4/`         | 8                      | 8 (13)             | 2.8       | `3b9c1c99` 09-26 22:32   | `6f1e193a9f` | `review-tabL-windows.png`, `review-phoneP-both-mice.png`, `review-tabL-sinking.png`                      |
+| `bite-5/`         | 22                     | 23 (23)            | 4.6       | `42d0e246` 09-27 00:58   | `6f1e193a9f` | `tabL-b5-resting.png`, `review/phoneP-flight-closed-wings-read-as-sticks.png`                            |
+| `bite-6/`         | 18                     | 27 (28)            | 6.7       | `13b65304` 09-27 06:12   | `6f1e193a9f` | `phoneL-sun-sits-on-the-horizon.png`, `review/phoneP-bees-hide-the-flowers-they-sit-on.png`              |
+| `bite-7/`         | 38                     | 38 (37)            | 14.2      | `7a28d15a` 09-28 14:15   | `6f1e193a9f` | `tabL-opening-meadow.png`, `tabL-bee-inked-close.png`, `review/tabL-stem-foot-plank-cut.png`             |
+| `bite-8/`         | 29                     | 39 (39)            | 13.5      | `4651e948` 09-28 18:38   | `6f1e193a9f` | `meadow-mixed-portrait-tabP.png`, `porcini-close-tabL.png`, `russula-close-tabP.png`                     |
+| `bite-9/`         | 27                     | 27 (28)            | 23.7      | `8295361c` 09-29 17:00   | `6f1e193a9f` | `six-meadow-crowded-tabL.png`, `six-meadow-plus-refused-tabP.png`                                        |
+| `bite-10/`        | 24                     | 24 (26)            | 15.3      | `1f797883` 09-30 01:11   | `6f1e193a9f` | `house-picker-phoneL.png`, `tufts-before-tabL-forest-61-tufts.png`, `sound.md` (drum/note render report) |
+| `bite-10-review/` | 14                     | 14 (15)            | 8.6       | `4b6b6a0a` 09-30 02:16   | `6f1e193a9f` | player-agent review frames + README                                                                      |
+| `bite-11/`        | 8                      | 8 (12)             | 9.8       | `fb464075` 09-30 21:17   | `6f1e193a9f` | `tabL-pan-dragged.png`, `phoneL-pan-right-end.png`                                                       |
+| `bite-11-review/` | 6                      | 6 (6)              | 5.1       | `9670fedd` 09-30 23:21   | `6f1e193a9f` | review player frames                                                                                     |
+| `bite-12/`        | 146                    | 146 (153)          | 94.1      | `81ffe900` 10-01 06:03   | `6f1e193a9f` | lens/brow/veer plays, `operator/butterfly-shadow-unseen.webp` (the operator's own screenshot)            |
+| `bite-12b/`       | 46                     | 46 (46)            | 30.4      | `dc8adaf3` 10-02 21:39   | `4d1112afaa` | `phoneL-final-forest.png`, `mottles-at-0.7-0.4-far-out.png`, `review/*.json` sweep data                  |
+| `bite-13/`        | 26                     | 26 (26)            | 20.1      | `bb6eabe0` 10-03 05:11   | `28b2b66911` | `phoneP-r7-rainbow.png`, `tabL-rain-3s.png`, `f-tabL-sun-dimmed.png`                                     |
+| `bite-14/`        | 34                     | 34 (32)            | 30.3      | `3be34bf7` 10-03 08:23   | `e3a77fb976` | `rb-phoneP-sprouts-3-up.png`, `a3-tabL-shed-p42.png`, `operator-chanterelle-mouse.png`                   |
+| `bite-15/`        | 18                     | 30 (30)            | 7.7       | `5b87beaa` 10-03 12:32   | `28a6277009` | `r7-tabL-two-mice.png`, `w4-tabL-crawl.png`, `review/rw-tabL-russula-peek.png`                           |
+| `bite-16/`        | 9                      | 12 (20)            | 8.2       | `4484b81e` 10-03 18:26   | `20d0fd4df3` | `tabL-m4-open-planted.png` (map), `tufts-turned-before/after.png`                                        |
+| `bite-17/`        | 22                     | 70 (71)            | 45.6      | `2aa143d2` 10-04 05:09   | `ab42be53f5` | `a4-tabL-dusk.png`, `fe-flight.png`, `end/contact-sheet.png`                                             |
+| `bite-18/`        | 3 (live at `09ee4ae7`) | 3 (6)              | 6.4       | `50b12af6` 10-04 14:33   | `09ee4ae7`   | `tabL-keep-before/after/new.png`                                                                         |
 
 Bites 1, 2, 3 and 12's sibling directories outside `frames/`: none. There is no frames dir for bite 12b's "review" beyond `bite-12b/review/`.
 
@@ -67,12 +67,12 @@ All 633 blobs are copied to `tmp/case-study/frames/<dir>/<path>` (342 MB). Where
 
 No GIF, MP4 or audio file was ever committed on the branch (`git log 250bab9..refs/pr/57 --diff-filter=A --name-only` over png/jpg/gif/webp/mp4/webm/mov/svg/wav/mp3/ogg). Outside `frames/` there are 31 images, all copied to `tmp/case-study/frames/_other/`:
 
-| Path | Added | Size | What it is |
-|---|---|---|---|
-| `docs/remove-before-merging/syama-drawing.webp` | `f94fc67a` (author 09-17, committer 09-26) | 110 KB | **Syama's drawing**: blue ballpoint on squared paper — a big mushroom with a butterfly on the cap; a column of words «БАБОЧКА / МУХА / ПЧЕЛА» (butterfly / fly / bee) each with a tick box; small icons of a mushroom with `+` and a mushroom with `−`; window and door shapes (arched, round, square, a tall door) across the top and bottom — i.e. he drew the UI (insect buttons, +/−, window/door picker). |
-| `docs/pr/57/attachments/44a2f807-….png` | `9ff63422` 09-29 ("docs: #57 refresh the PR export") | 207 KB | A screenshot of a **pixel-art top-down room game** (fireplace, tables, avatars, a chat line "There are 3 rooms so far that you can explore!"). Attached to some PR comment; not referenced in that export's `pr.md` by path. See § 5 / Open questions. |
-| `docs/remove-before-merging/bite-11/look/*.png` (26 files) | `27acd7fa`, `a1afce76`, `a5ddedbe`, 09-30 | 0.3–1.2 MB each | bite 11's before/after looks at the far hills (pressed under the sun), the pan's left/right ends and the "sideways wash", on all five screens. |
-| `docs/remove-before-merging/bite-12/brow-round/{1,2,3}.webp` | `33fa6767` 10-01 | 78–88 KB | The operator's screenshots for the "brow follows the D_SEE circle" decision (commit subject says "the operator's screenshots"). Not opened. |
+| Path                                                         | Added                                                | Size            | What it is                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------------------------------------------ | ---------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs/remove-before-merging/syama-drawing.webp`              | `f94fc67a` (author 09-17, committer 09-26)           | 110 KB          | **Syama's drawing**: blue ballpoint on squared paper — a big mushroom with a butterfly on the cap; a column of words «БАБОЧКА / МУХА / ПЧЕЛА» (butterfly / fly / bee) each with a tick box; small icons of a mushroom with `+` and a mushroom with `−`; window and door shapes (arched, round, square, a tall door) across the top and bottom — i.e. he drew the UI (insect buttons, +/−, window/door picker). |
+| `docs/pr/57/attachments/44a2f807-….png`                      | `9ff63422` 09-29 ("docs: #57 refresh the PR export") | 207 KB          | A screenshot of a **pixel-art top-down room game** (fireplace, tables, avatars, a chat line "There are 3 rooms so far that you can explore!"). Attached to some PR comment; not referenced in that export's `pr.md` by path. See § 5 / Open questions.                                                                                                                                                         |
+| `docs/remove-before-merging/bite-11/look/*.png` (26 files)   | `27acd7fa`, `a1afce76`, `a5ddedbe`, 09-30            | 0.3–1.2 MB each | bite 11's before/after looks at the far hills (pressed under the sun), the pan's left/right ends and the "sideways wash", on all five screens.                                                                                                                                                                                                                                                                 |
+| `docs/remove-before-merging/bite-12/brow-round/{1,2,3}.webp` | `33fa6767` 10-01                                     | 78–88 KB        | The operator's screenshots for the "brow follows the D_SEE circle" decision (commit subject says "the operator's screenshots"). Not opened.                                                                                                                                                                                                                                                                    |
 
 The game itself is an Artifact (https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG, v30), not committed media.
 
@@ -82,20 +82,20 @@ Plan files were read at `6e61b42^` (`6e61b42b` 10-04 15:39 "chore: sweep the pla
 
 ### 2a. Plan history: from a form to an elephant
 
-| When (author date, UTC) | Commit | What happened to the plan file |
-|---|---|---|
-| 09-17 09:38 | `f94fc67a` | **First draft** added: `docs/plans/mushroom-game-syama.draft.do-not-implement.md` ("docs: plan the mushroom toy from Syama's drawing"), 1,687 words. |
-| 09-17 09:40 | `c2847499` | Flipped to `.in-progress.md` under `/task`'s conditional go-ahead from the opening prompt «давай сделаем игрушку про мухоморы по рисунку и описанию Сямы». |
-| 09-17 09:44 | `419fd519` | **Flipped back to draft**: «и нет, давай таки plan, не спеши». No source had been touched. |
-| 09-17 12:10 | `e38488bb` | "raise the plan's bar — a real game in Phaser, not a form" |
-| 09-17 16:33 | `5b3d166c` | "narrow the plan to stage one — a static meadow, the rest in #65" |
-| 09-17 16:55 | `0b31bae1` | "no sprites — mushrooms grown by a seeded generator, drawn by code" |
-| (9-day gap) | | |
-| 09-26 08:20 | `e6163b69` | "plan the whole game as an elephant, eaten by an autonomous relay loop" (9 bites) |
-| 09-26 08:22 | `b5d09745` | **The go-ahead flip** to `.in-progress.md`, commit subject quoting «(потирает ручки) ну, что, поехали?» + «весь процесс должен пройти полностью автономно, без единого моего вмешательства». Session `01MpLJGEigosCVuf9kvADaiS`. |
-| 09-26 08:43 → 10-04 15:09 | 154 renames in all | paused ↔ in-progress at every session hand-off (`git log -M --name-status -- 'docs/plans/mushroom-game-syama.*'`) |
-| 10-04 15:09 | `9bcb67b1` | → `.completed.md`: "fold bite 18, the last; the elephant is eaten" |
-| 10-04 15:39 | `6e61b42b` | plan + bite files swept before landing |
+| When (author date, UTC)   | Commit             | What happened to the plan file                                                                                                                                                                                                   |
+| ------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 09-17 09:38               | `f94fc67a`         | **First draft** added: `docs/plans/mushroom-game-syama.draft.do-not-implement.md` ("docs: plan the mushroom toy from Syama's drawing"), 1,687 words.                                                                             |
+| 09-17 09:40               | `c2847499`         | Flipped to `.in-progress.md` under `/task`'s conditional go-ahead from the opening prompt «давай сделаем игрушку про мухоморы по рисунку и описанию Сямы».                                                                       |
+| 09-17 09:44               | `419fd519`         | **Flipped back to draft**: «и нет, давай таки plan, не спеши». No source had been touched.                                                                                                                                       |
+| 09-17 12:10               | `e38488bb`         | "raise the plan's bar — a real game in Phaser, not a form"                                                                                                                                                                       |
+| 09-17 16:33               | `5b3d166c`         | "narrow the plan to stage one — a static meadow, the rest in #65"                                                                                                                                                                |
+| 09-17 16:55               | `0b31bae1`         | "no sprites — mushrooms grown by a seeded generator, drawn by code"                                                                                                                                                              |
+| (9-day gap)               |                    |                                                                                                                                                                                                                                  |
+| 09-26 08:20               | `e6163b69`         | "plan the whole game as an elephant, eaten by an autonomous relay loop" (9 bites)                                                                                                                                                |
+| 09-26 08:22               | `b5d09745`         | **The go-ahead flip** to `.in-progress.md`, commit subject quoting «(потирает ручки) ну, что, поехали?» + «весь процесс должен пройти полностью автономно, без единого моего вмешательства». Session `01MpLJGEigosCVuf9kvADaiS`. |
+| 09-26 08:43 → 10-04 15:09 | 154 renames in all | paused ↔ in-progress at every session hand-off (`git log -M --name-status -- 'docs/plans/mushroom-game-syama.*'`)                                                                                                               |
+| 10-04 15:09               | `9bcb67b1`         | → `.completed.md`: "fold bite 18, the last; the elephant is eaten"                                                                                                                                                               |
+| 10-04 15:39               | `6e61b42b`         | plan + bite files swept before landing                                                                                                                                                                                           |
 
 The first seven commits carry author date 09-17 but committer date 09-26 08:17 (the branch was rebased onto main when the run started).
 
@@ -111,27 +111,27 @@ The first seven commits carry author date 09-17 but committer date 09-26 08:17 (
 
 Dates are UTC committer dates of commits whose subject names the bite (`git log 250bab9..refs/pr/57 --format='%ci %s' | grep -i 'bite N'`), so overlapping ranges mean review fixes landing after the next bite opened. Numbering caveat: in `## Eaten so far` 12b is item 13, so `bite-13.md` is item 14 and so on.
 
-| Bite | Title (plan) | Goal, one or two lines | Dates (first → last commit naming it) | Commits |
-|---|---|---|---|---|
-| 1 | The meadow, still | `/mushrooms` paints a sunny meadow and two spotted fly agarics from seeded genes; Phaser, model/ui split. | 09-26 08:21 → 09:08 | 11 |
-| 2 | The meadow alive, and heard | Clouds drift, grass sways, mushrooms breathe; tap wobbles + spore puff; seven flowers chime; synthesized sound, mute button. | 09-26 09:09 → 09:55 | 11 |
-| 3 | More mushrooms, and a forest | `+`/`−` as Syama drew them, a four-cap picker, select glow, a forest laid in depth. | 09-26 09:58 → 17:56 | 13 |
-| 4 | The mouse house | House button; Syama's window row + door furnish a cap/stem; a mouse peeks out. First frames. | 09-26 17:57 → 23:56 | 21 |
-| 5 | The butterfly | Butterfly button; flies in on a curve, drinks at flowers, rests on caps, tap sends it off; max 4. | 09-26 23:56 → 09-27 03:46 | 17 |
-| 6 | The fly and the bee — the MPP line | Flies favour fly agarics; bees carry pollen and plant flowers in a ring. Every control in the drawing works. | 09-27 (one mention 09-26) → 09-28 11:06 | 29 |
-| 7 | Atmosphere | One light (`sunLight`) and air between layers: graded sky, haloed sun, misting hills, lit ground, inked creatures. | 09-28 11:06 → 17:10 | 28 |
-| 8 | Real mushrooms | The four cap patterns become four real species: fly agaric, porcini, chanterelle, russula. | 09-28 17:10 → 09-29 10:58 | 23 |
-| 9 | The operator's two ideas weighed, and the meadow on the ground | Mushrooms get feet on the ground; two Russian idea docs (walking meadow, flower keyboard) written for the operator's call. | 09-29 08:55 → 21:29 | 47 |
-| 10 | The flowers as an instrument, and the child plants them | Every flower a note or drum (20 voices, darker = lower); tap a tuft → colour→shape picker plants a flower. | 09-29 15:46 → 09-30 17:52 | 29 |
-| 11 | A wider meadow, panned | World 5.764 units wide (two tablet screens); the screen a crop the child drags. | 09-30 17:49 → 10-01 05:04 | 37 |
-| 12 | Walking the meadow | Turn 360° and step along the heading on a plane through a panoramic lens; the round brow; keys. 146 frames, 9 topic files. | 10-01 05:07 → 10-02 16:11 | 59 |
-| 12b | The meadow has no edge | Structural: an edgeless field, every rule judged from the snapped eye; frame cost. Kept its own review session. | 10-02 16:12 → 10-03 06:26 | 49 |
-| 13 | Rain | A tapped cloud brings a shower: wash, drops, flowers fold to buds, caps swell, a rainbow after. | 10-03 04:38 → 11:13 | 20 |
-| 14 | After the rain | Insects shelter under caps; shed spores sprout into little mushrooms; the ground under the finger. | 10-03 07:10 → 16:25 | 35 |
-| 15 | The house's dwellers | The operator's three asks after playing 14: mice run only to another door, a mouse sized to its door, a window tap brings a worm. | 10-03 12:11 → 18:57 | 32 |
-| 16 | The map | Idea 1's last piece: a folded-map button replaces the mute button; a top-down map with side pictures. | 10-03 17:19 → 10-04 12:28 | 31 |
-| 17 | Dusk | Tap the sun → dusk (glowing windows, fireflies, crickets, mice out, fliers settle, flowers close); the moon brings day; steps/flight toggle. Artifact v29. | 10-04 04:22 → 14:33 | 27 |
-| 18 | The meadow is kept | IndexedDB save, meadows numbered in the URL hash, versioned zod record. Artifact v30. | 10-04 12:58 → 15:10 | 19 |
+| Bite | Title (plan)                                                   | Goal, one or two lines                                                                                                                                     | Dates (first → last commit naming it)   | Commits |
+| ---- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------- |
+| 1    | The meadow, still                                              | `/mushrooms` paints a sunny meadow and two spotted fly agarics from seeded genes; Phaser, model/ui split.                                                  | 09-26 08:21 → 09:08                     | 11      |
+| 2    | The meadow alive, and heard                                    | Clouds drift, grass sways, mushrooms breathe; tap wobbles + spore puff; seven flowers chime; synthesized sound, mute button.                               | 09-26 09:09 → 09:55                     | 11      |
+| 3    | More mushrooms, and a forest                                   | `+`/`−` as Syama drew them, a four-cap picker, select glow, a forest laid in depth.                                                                        | 09-26 09:58 → 17:56                     | 13      |
+| 4    | The mouse house                                                | House button; Syama's window row + door furnish a cap/stem; a mouse peeks out. First frames.                                                               | 09-26 17:57 → 23:56                     | 21      |
+| 5    | The butterfly                                                  | Butterfly button; flies in on a curve, drinks at flowers, rests on caps, tap sends it off; max 4.                                                          | 09-26 23:56 → 09-27 03:46               | 17      |
+| 6    | The fly and the bee — the MPP line                             | Flies favour fly agarics; bees carry pollen and plant flowers in a ring. Every control in the drawing works.                                               | 09-27 (one mention 09-26) → 09-28 11:06 | 29      |
+| 7    | Atmosphere                                                     | One light (`sunLight`) and air between layers: graded sky, haloed sun, misting hills, lit ground, inked creatures.                                         | 09-28 11:06 → 17:10                     | 28      |
+| 8    | Real mushrooms                                                 | The four cap patterns become four real species: fly agaric, porcini, chanterelle, russula.                                                                 | 09-28 17:10 → 09-29 10:58               | 23      |
+| 9    | The operator's two ideas weighed, and the meadow on the ground | Mushrooms get feet on the ground; two Russian idea docs (walking meadow, flower keyboard) written for the operator's call.                                 | 09-29 08:55 → 21:29                     | 47      |
+| 10   | The flowers as an instrument, and the child plants them        | Every flower a note or drum (20 voices, darker = lower); tap a tuft → colour→shape picker plants a flower.                                                 | 09-29 15:46 → 09-30 17:52               | 29      |
+| 11   | A wider meadow, panned                                         | World 5.764 units wide (two tablet screens); the screen a crop the child drags.                                                                            | 09-30 17:49 → 10-01 05:04               | 37      |
+| 12   | Walking the meadow                                             | Turn 360° and step along the heading on a plane through a panoramic lens; the round brow; keys. 146 frames, 9 topic files.                                 | 10-01 05:07 → 10-02 16:11               | 59      |
+| 12b  | The meadow has no edge                                         | Structural: an edgeless field, every rule judged from the snapped eye; frame cost. Kept its own review session.                                            | 10-02 16:12 → 10-03 06:26               | 49      |
+| 13   | Rain                                                           | A tapped cloud brings a shower: wash, drops, flowers fold to buds, caps swell, a rainbow after.                                                            | 10-03 04:38 → 11:13                     | 20      |
+| 14   | After the rain                                                 | Insects shelter under caps; shed spores sprout into little mushrooms; the ground under the finger.                                                         | 10-03 07:10 → 16:25                     | 35      |
+| 15   | The house's dwellers                                           | The operator's three asks after playing 14: mice run only to another door, a mouse sized to its door, a window tap brings a worm.                          | 10-03 12:11 → 18:57                     | 32      |
+| 16   | The map                                                        | Idea 1's last piece: a folded-map button replaces the mute button; a top-down map with side pictures.                                                      | 10-03 17:19 → 10-04 12:28               | 31      |
+| 17   | Dusk                                                           | Tap the sun → dusk (glowing windows, fireflies, crickets, mice out, fliers settle, flowers close); the moon brings day; steps/flight toggle. Artifact v29. | 10-04 04:22 → 14:33                     | 27      |
+| 18   | The meadow is kept                                             | IndexedDB save, meadows numbered in the URL hash, versioned zod record. Artifact v30.                                                                      | 10-04 12:58 → 15:10                     | 19      |
 
 Bites 1–3 each took well under an hour of wall time (bite 1: claimed 08:24, `feat` 08:35, paused 08:43); from bite 9 on a bite took 12–30 h.
 
@@ -222,4 +222,3 @@ To do: `gh issue view 65 --comments` (spec, drawing attachment URLs); `gh pr vie
 4. Whether any the-five-percent entry dated in the run came from #57 unnamed.
 5. The completed plan calls the child "she" — keep as a detail for the post, or ignore?
 6. 46 open hand checks at merge, none checked after 10-02: did the operator check them on Syama's tablet before merging?
-
