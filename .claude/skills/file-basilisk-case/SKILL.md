@@ -192,10 +192,11 @@ A lean that left no mark, or one the reflection already weighed and kept for a
 reason that holds, stays as it is: an edit made for the round's sake is the
 failure this step can produce. An edit to the title or `description` re-runs
 Step 3's checks, since the card renders both. The reflection itself is not
-rewritten to match — `clerk-reflections.md` says what it gets instead.
+rewritten to match; it gains a closing account of what the round changed, per
+`clerk-reflections.md`.
 
-Commit as `content(basilisk): revise BAS-NNNN by its reflection` and push. A
-round that changed nothing commits nothing.
+Commit both as `content(basilisk): revise BAS-NNNN by its reflection` and push.
+A round that changed nothing commits nothing.
 
 ## The ledger
 
