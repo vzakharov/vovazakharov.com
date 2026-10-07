@@ -2,6 +2,7 @@ export { BackToHome } from './back-to-home';
 export { Card, CardLink } from './card';
 export { type Chip, ChipNav } from './chip-nav';
 export { cssColor } from './css-color';
+export { FeedLink } from './feed-link';
 export { FileLink } from './file-link';
 export { hoverDim } from './hover-dim';
 export { InternalButton } from './internal-button';
