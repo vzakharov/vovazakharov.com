@@ -420,7 +420,7 @@
   - мастер: `meow_master.flac`
   - другие файлы: `meow.flac`
   - проект: GENERATED
-  - название: I Love Little P\*\*\*y
+  - название: I Love Little Pussy
   - Apple Music: «I Love Little P**_y» — GENERATED, I Love Little P_**y · explicit
   - той же длины: `meow_master.flac`, `meow.flac`
   - язык:
@@ -641,7 +641,7 @@
   - мастер: `psch.flac`
   - другие файлы: `psch_1.flac`
   - проект:
-  - название:
+  - название: PSCHPTHY
   - язык:
   - hidden: да
   - текст: [Suno](https://suno.com/song/f477eac9-b18c-45b0-aac3-6e947b115157), причёсанный — в `lyrics.md`

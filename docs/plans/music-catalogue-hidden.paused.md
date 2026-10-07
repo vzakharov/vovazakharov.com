@@ -39,15 +39,19 @@ The queue lives in the music layout and is built once from `listSongs()`, so a h
 
 ## Status
 
-**Done**: the `hidden` flag end to end (5fba127, d2a13bf), verified on a real `next build` and in a headless browser. The checklist, partly filled by Vova (f21da00), then matched against his Apple Music playlist «Generative music by Vova» by FLAC length (cc8ac52): 118 entries gained project, title, album and an `Apple Music:` line; the operator's own entries were kept; 28 playlist tracks with no root FLAC are listed at the end.
+**Done**: the `hidden` flag end to end (5fba127, d2a13bf), verified on a real `next build` and in a headless browser. The checklist, partly filled by Vova (f21da00), then matched against his Apple Music playlist «Generative music by Vova» by FLAC length (cc8ac52): 118 entries gained project, title, album and an `Apple Music:` line; the operator's own entries were kept; 28 playlist tracks with no root FLAC are listed at the end. The words of 34 of them, from Vova's public Suno profile, are in `docs/remove-before-merging/lyrics.md` (5310804); ten Suno songs with words have no master, only MP3 drafts at most.
 
-**Left**: waiting on Vova to finish the checklist. Then the step below. His entries raise schema questions to settle with him first: a song with no project (`babay`, «Минем бабай»), a language outside `ru`/`en`/`instrumental` (Tatar), per-locale project order (`8849`: GENERATED & Полуживые in English, reversed in Russian), and albums beyond `ctfu`/`vagabond` — `MUSIC_ALBUM_SLUGS` grows, and some have no name yet. New projects from the playlist: `Trending Today`, `Дамы и господа`.
+**Left**: waiting on Vova to finish the checklist. Then the step below. His entries raise schema questions to settle with him first: a song with no project (`babay`, «Минем бабай»), languages outside `ru`/`en`/`instrumental` (Tatar, Arabic, Polish, Chinese, Latin — the list form is settled below), per-locale project order (`8849`: GENERATED & Полуживые in English, reversed in Russian), and albums beyond `ctfu`/`vagabond` — `MUSIC_ALBUM_SLUGS` grows, and some have no name yet. New projects from the playlist: `Trending Today`, `Дамы и господа`.
 
 ## Later — after the checklist is filled in
 
 - Read the filled checklist and scaffold each song it keeps: master file, project, title, language and `hidden` as marked, `description: TBD` in both languages. `pnpm music:scaffold` today refuses a repository with several root FLACs and reads the title off the file name; it gains a way to be told the master and the authored fields, rather than a second scaffolder.
 - New project names go into `MUSIC_PROJECT_NAMES`.
 - Album tracks with no repository of their own take the album's repository as `repo`.
+- Words come from `docs/remove-before-merging/lyrics.md` — Suno prompts already cleaned of Suno markup, matched to masters, with the author's corrections applied — under each song's `lyrics:<language>` marker.
+- **`language` becomes a list where a song is sung in several**, the main one first. Settled by Vova: a song sung wholly in another language (Tatar, Arabic, Polish) shows its own words, with the crib beside them in the reader's locale, as `lyrics-parallel` does today; a song in one language with inserts in another (Chinese in «Прощание», the Russian lullaby in «Flesh Fiction») keeps one language and glosses each insert with a phrase note, as «Слизь» does.
+- **Where the master or a field is not certain, the song file carries a visible note for Vova** to check against what he uploaded to OFFstep — several root FLACs of one length, say (`meow_master.flac` / `meow.flac`). Never a silent pick.
+- **Titles are written as the author spells them, not as a platform forced them**: `I Love Little Pussy`, not `P***y`; `PSCHPTHY`, not `P.S.C.H.P.T.H.Y.` (OFFstep refused an all-caps title without the dots).
 
 ## Questions
 
