@@ -4,12 +4,17 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'komnata'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/komnata/main/%D0%BA%D0%BE%D0%BC%D0%BD%D0%B0%D1%82%D0%B0.flac
 seconds: 192
 explicit: false
 hidden: true
+transliteration: 'Komnata'
+credits:
+  lyrics: ['Анна Ахматова']
 en:
   title: 'Комната'
+  titleTranslation: 'The Room'
   description: 'TBD'
 ru:
   title: 'Комната'

@@ -70,6 +70,21 @@ report to Vova.
 - baa: traditional rhyme (Opie/Wikipedia) + "sung version may differ" comment; album (T10 "Nursery Rhymes for the Jilted Generation") left to the coordinator.
 - meow (see also below) = "I Love Little Pussy" (1830, PD), 8-line version. Explicit and 3:07 — does he sing extra stanzas or his own changes? Credit Jane Taylor (uncertain attribution)? **ask**.
 
+## Poets (Tsvetaeva ×5, sad, sneg_idet, komnata, ya-govoryu)
+
+- Tsvetaeva: mne-nravitsya, moim-stiham, pod-laskoy-pleda (poem 2 of «Подруга»), requiem («Уж сколько их упало в эту бездну»), tikhiy-sneg («Зима», «Мы вспоминаем тихий снег») — full poem (two sources each, ё restored) + own crib, `credits.lyrics: ['Марина Цветаева']`, "poem as published" check comment. Doubts: «Моим стихам» common line «Где их никто не брал и не берёт»; «Уж сколько…» punctuation per rustih.ru. Stanza cuts/repeats unchecked against the recordings.
+- sad (Заболоцкий), sneg_idet (Пастернак): credits, transliteration, titleTranslation; words and cribs unchanged. komnata, ya-govoryu: `credits.lyrics: ['Анна Ахматова']`, no words (not PD).
+- Published translations, none PD: Tsvetaeva — Feinstein, Kneller, Lydia Razran Stone, Shambat, Dumer, U. R. Bowie (ruverses.com); Zabolotsky «Ночной сад» — Perelman & Lewis; maybe Weissbort *Selected Poems* (1999); Pasternak «Снег идёт» — Stallworthy & France (Penguin 1983/84), A. S. Kline, Kneller, Chetin; Akhmatova «Вечерняя комната» — Hemschemeyer *Complete Poems* (1990, unconfirmed), D. M. Thomas, Kline, Kneller.
+- SoundCloud set (T41) is «Пять романсов, два сонета и один реквием» = album `dng`; visible titles are the five first lines plus «Твоя ль вина, что милый образ твой».
+
+## Shakespeare (hamlet, deer, s74, tvoya-l-vina)
+
+- deer: `language` → `en` (words he pasted are English), `credits.lyrics: ['William Shakespeare']`; Russian crib from the «Гамлет» translations; Claudius's "Try what repentance… / My words fly up…" (not in «Гамлет») from К. Р.'s PD translation (1899), rebroken; `ru.cribNote` says so. `[Chorus]` written out after verse 2 and bridge.
+- hamlet: his words (from chat) as `lyrics:ru`; English = Shakespeare's original (Gutenberg #1524), `en.cribNote`. **Ask**: which two translations are combined (Lozinsky's Lucianus differs; Pasternak likely, not PD)? Where is «Он вне себя. Не трогайте его» from — matched to V.1 ("O, he is mad, Laertes" / "For love of God forbear him!"), unconfirmed.
+- s74: his T74 words (3 stanzas with the «Да потому» repeat); English Sonnet 74 (Gutenberg #1041), last six lines repeated against his repeat; `en.cribNote` (Kushner's translation). **Ask** Kushner's full name for credits (Александр Кушнер?).
+- tvoya-l-vina: Sonnet 61, Sonnet 75, then the 61 couplet; English originals in that order; credits Shakespeare, Маршак. «воо сне» → «во сне».
+- Story quote in deer «Тот караулит, этот спит» matches no PD translation found.
+
 ## Divine Discontent (T01, T32, T36, T37)
 
 - All ten: words + Russian crib + `ru.titleTranslation`. grand-finale, in-the-beginning `instrumental` (the words file has full words for Grand Finale — review followed, flagged). in-the-end: `language: ar`, `titleLanguage: en`, «وأخيراً صَمْت» with en and ru cribs.

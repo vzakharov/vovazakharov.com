@@ -4,12 +4,17 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'sad'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/sad/main/sad.flac
 seconds: 312
 explicit: false
 hidden: true
+transliteration: 'Nochnoy sad'
+credits:
+  lyrics: ['Николай Заболоцкий']
 en:
   title: 'Ночной сад'
+  titleTranslation: 'Night Garden'
   description: 'TBD'
 ru:
   title: 'Ночной сад'

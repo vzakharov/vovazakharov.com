@@ -9,8 +9,12 @@ seconds: 190
 explicit: false
 album: dng
 hidden: true
+transliteration: 'Ya govoryu seychas slovami temi'
+credits:
+  lyrics: ['Анна Ахматова']
 en:
   title: 'Я говорю сейчас словами теми'
+  titleTranslation: 'I Speak Now in Those Words'
   description: 'TBD'
 ru:
   title: 'Я говорю сейчас словами теми'

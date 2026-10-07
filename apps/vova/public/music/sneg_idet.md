@@ -4,12 +4,17 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'sneg_idet'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/sneg_idet/main/%D0%A1%D0%BD%D0%B5%D0%B3%20%D0%B8%D0%B4%D1%91%D1%82.flac
 seconds: 293
 explicit: false
 hidden: true
+transliteration: 'Sneg idyot'
+credits:
+  lyrics: ['Борис Пастернак']
 en:
   title: 'Снег идёт'
+  titleTranslation: 'Snow Is Falling'
   description: 'TBD'
 ru:
   title: 'Снег идёт'

@@ -1,28 +1,27 @@
 ---
 date: 2025-07-16
 status: done
-language: ru
+language: en
 project: ['Полуживые']
 repo: 'deer'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/deer/main/Why%20Let%20the%20Stricken%20Deer%20Go%20Weep.flac
 seconds: 191
 explicit: false
 hidden: true
+credits:
+  lyrics: ['William Shakespeare']
 en:
   title: 'Why Let the Stricken Deer Go Weep'
   description: 'TBD'
 ru:
   title: 'Why Let the Stricken Deer Go Weep'
+  titleTranslation: 'Пусть раненый олень ревёт'
   description: 'TBD'
+  cribNote: 'Перевод — тот же, что в песне «Гамлет»; молитва Клавдия — в переводе К. Р., строки разбиты по песне.'
 ---
 
-<!-- For Vova to check: Project is a guess: the Telegram post calls it one of Dad’s songs for the Hamlet rock opera, like `hamlet`, which is Полуживые. Language is a guess: the post quotes the song’s Russian lines («Тот караулит, этот спит»), and no words are on file. The repo also holds `deer.flac`, the same length; the checklist's pick is the one named after the song. -->
-
-<!-- Scaffolded from https://github.com/vovas-music/deer — Why Let the Stricken Deer Go Weep.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- For Vova to check: Project is a guess: the Telegram post calls it one of Dad’s songs for the Hamlet rock opera, like `hamlet`, which is Полуживые. The repo also holds `deer.flac`, the same length; the checklist's pick is the one named after the song. -->
 
 <!-- Story from Vova's Telegram post of 2025-08-18. -->
 
@@ -55,3 +54,83 @@ _So runs the world away._
 
 _Тот караулит, этот спит,_\
 _И так весь мир вертится._
+
+<!-- lyrics:en -->
+
+Thoughts black, hands apt, drugs fit, and time agreeing;
+Confederate season, else no creature seeing;
+Thou mixture rank, of midnight weeds collected,
+With Hecate’s ban thrice blasted, thrice infected,
+
+Thy natural magic and dire property,
+On wholesome life usurp immediately.
+
+Why, let the stricken deer go weep,
+The hart ungalled play;
+For some must watch, while some must sleep:
+So runs the world away.
+
+Why, let the stricken deer go weep,
+The hart ungalled play;
+For some must watch, while some must sleep:
+So runs the world away.
+
+Try what repentance can: what can it not?
+Yet what can it when one can not repent?
+My words fly up, my thoughts remain below:
+Words without thoughts never to heaven go.
+
+Why, let the stricken deer go weep,
+The hart ungalled play;
+For some must watch, while some must sleep:
+So runs the world away.
+
+To be or not to be (or not to be)
+To be or not to be (or not to be)
+To be or not to be (or not to be)
+To be or not to be?!
+
+Why, let the stricken deer go weep,
+The hart ungalled play;
+For some must watch, while some must sleep:
+So runs the world away.
+
+<!-- lyrics:ru -->
+
+Рука тверда, дух чёрен, крепок яд
+Удобен миг, ничей не видит взгляд…
+Теки, теки, верши свою расправу
+Гекате посвященная отрава
+
+Спеши весь вред, который в травах есть,
+Над этой жизнью в действие привесть!
+
+Пусть раненый олень ревёт
+А уцелевший скачет
+Где – спят, а где – ночной обход
+Кому что рок назначит
+
+Пускай подстреленный хрипит
+А тот что жив резвится
+То караулит, этот спит
+И так весь мир вертится
+
+Испытать, что может раскаянье. Чего оно не может!
+Но что может, если каяться не можешь?
+Слова стремятся ввысь, а думы долу бродят;
+Слова без дум до неба не доходят.
+
+Пусть раненый олень ревёт
+А уцелевший скачет
+Где – спят, а где – ночной обход
+Кому что рок назначит
+
+Быть или не быть (или не быть)
+Быть или не быть (или не быть)
+Быть или не быть (или не быть)
+Быть или не быть?!
+
+Пускай подстреленный хрипит
+А тот что жив резвится
+То караулит, этот спит
+И так весь мир вертится
