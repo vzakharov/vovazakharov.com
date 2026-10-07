@@ -4,7 +4,7 @@ import { Fragment, type ReactNode } from 'react';
 import { bill, MUSIC_ALBUMS, projectName } from '@/shared/config';
 import { documentMonth, formatDocumentMonth } from '@/shared/content';
 import { inLocale, loadMessages, type WithLocale } from '@/shared/i18n';
-import { TextLink } from '@/shared/ui';
+import { NameLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import { albumPath, artistPath, type WithEverything } from '../lib/music-urls';
@@ -35,24 +35,16 @@ export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
       </time>
     ),
     billing: bill(project, (artist) => (
-      <TextLink
-        key={artist}
-        href={artistPath(artist, catalogue, locale)}
-        underline="hover"
-      >
+      <NameLink key={artist} href={artistPath(artist, catalogue, locale)}>
         {projectName(artist, locale)}
-      </TextLink>
+      </NameLink>
     )),
     language: language.map((sung) => messages.language[sung]).join(', '),
     album: album && [
       beforeAlbum,
-      <TextLink
-        key="album"
-        href={albumPath(album, catalogue, locale)}
-        underline="hover"
-      >
+      <NameLink key="album" href={albumPath(album, catalogue, locale)}>
         {inLocale(MUSIC_ALBUMS[album].title, locale)}
-      </TextLink>,
+      </NameLink>,
       afterAlbum,
     ],
     lyrics:

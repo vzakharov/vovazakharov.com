@@ -1,7 +1,7 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 
 import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { Card, Subheading, TextLink } from '@/shared/ui';
+import { Card, NameLink, Subheading } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import type { WithTracks } from '../lib/player-state';
@@ -34,9 +34,9 @@ export function SongList({ locale, tracks: songs }: SongListProps) {
 
               <Box className={classes['trackText']}>
                 <Text fw={500} truncate>
-                  <TextLink href={track.routes[locale]} underline="hover">
+                  <NameLink href={track.routes[locale]}>
                     {track.titles[locale]}
-                  </TextLink>
+                  </NameLink>
                   {track.explicit && (
                     <ExplicitBadge label={messages.explicit} />
                   )}

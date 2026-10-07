@@ -1,7 +1,7 @@
 import { Box, Stack, Text } from '@mantine/core';
 
 import type { LabeledLink, Titled } from '@/shared/typings';
-import { Card, Subheading, TextLink } from '@/shared/ui';
+import { Card, NameLink, Subheading } from '@/shared/ui';
 
 /** A row linking to an artist or an album, with the line under its name. */
 type CatalogueEntry = LabeledLink & { detail?: string };
@@ -20,9 +20,7 @@ export function CatalogueList({ title, entries }: CatalogueListProps) {
         {entries.map(({ href, label, detail }) => (
           <Card key={href}>
             <Text fw={500}>
-              <TextLink {...{ href }} underline="hover">
-                {label}
-              </TextLink>
+              <NameLink {...{ href }}>{label}</NameLink>
             </Text>
             {detail !== undefined && detail !== '' && (
               <Text size="sm" opacity={0.6}>

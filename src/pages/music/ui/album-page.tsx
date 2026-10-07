@@ -2,7 +2,7 @@ import { Stack, Text } from '@mantine/core';
 
 import { MUSIC_ALBUMS, projectName } from '@/shared/config';
 import { byLocale, inLocale, loadMessages } from '@/shared/i18n';
-import { BackToHome, PageShell, TextLink } from '@/shared/ui';
+import { BackToHome, NameLink, PageShell } from '@/shared/ui';
 
 import { albumSongs, albumYears } from '../lib/catalogue';
 import type { AlbumPageProps } from '../lib/music-route-params';
@@ -36,12 +36,9 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
           title={inLocale(record.title, locale)}
         >
           <Text size="sm" opacity={0.7} mt={12}>
-            <TextLink
-              href={artistPath(artist, catalogue, locale)}
-              underline="hover"
-            >
+            <NameLink href={artistPath(artist, catalogue, locale)}>
               {projectName(artist, locale)}
-            </TextLink>{' '}
+            </NameLink>{' '}
             · {albumYears(album, songs)}
           </Text>
         </CatalogueHeader>
