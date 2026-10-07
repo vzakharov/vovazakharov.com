@@ -2,7 +2,6 @@
 date: 2026-01-17
 status: done
 language: ru
-transliteration: 'Ukhodi'
 project: ['Грёбаный бал']
 repo: 'ukhodi'
 album: nikogo
@@ -13,6 +12,7 @@ explicit: false
 hidden: true
 en:
   title: 'Уходи'
+  transliteration: 'Ukhodi'
   titleTranslation: 'Go Away'
   description: 'TBD'
 ru:
@@ -20,7 +20,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 17 January 2026, captioned «А ещё, конечно, „Батарейку“», which suggests it is a cover — say whose. «о́кан» and «НедопереплетЕний» are set as «окон» and «Недопереплетений», read as spellings for the singer. -->
+<!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 17 January 2026, captioned «А ещё, конечно, „Батарейку“». «о́кан» and «НедопереплетЕний» are set as «окон» and «Недопереплетений», read as spellings for the singer. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/ukhodi — Уходи.flac,
      44.1 kHz / 16-bit / stereo.
@@ -52,8 +52,10 @@ ru:
 
 И снова проблеска ждём
 Хотя давно понятно
-Холодный ветер с дождём
-И нет пути обратно
+Холодный ветер с дождём[^batareyka-ru]
+И нет пути обратно[^batareyka-ru]
+
+[^batareyka-ru]: Отсылка к «Батарейке» группы «Жуки»: песня построена на тех же четырёх нисходящих аккордах, а куплет «Батарейки» начинается словами «Холодный ветер с дождём / Усилился стократно».
 
 Улетай, уплывай, уходи
 Там, где край, там где рай, впереди
@@ -63,9 +65,9 @@ ru:
 Улетай, уплывай, уходи
 Там, где край, там где рай, впереди
 Не смотри, не надейся, не жди
-Уходи…
-Уходи…
-Уходи.
+Уходи
+Уходи
+Уходи
 
 <!-- lyrics:en -->
 
@@ -91,8 +93,10 @@ Loud, yes, but what’s the use
 
 And again we wait for a glimmer
 Though it’s long been clear
-Cold wind and rain
-And no way back
+Cold wind and rain[^batareyka-en]
+And no way back[^batareyka-en]
+
+[^batareyka-en]: A nod to “Batareyka” (“Battery”) by Zhuki: the song is built on the same four descending chords, and Zhuki’s verse opens «Холодный ветер с дождём / Усилился стократно», “Cold wind and rain / Have grown a hundredfold.”
 
 Fly away, sail away, go away
 Where the edge is, where paradise is, up ahead
@@ -102,6 +106,6 @@ Go away, go away, go away
 Fly away, sail away, go away
 Where the edge is, where paradise is, up ahead
 Don’t look, don’t hope, don’t wait
-Go away…
-Go away…
-Go away.
+Go away
+Go away
+Go away

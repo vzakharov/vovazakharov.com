@@ -9,9 +9,9 @@ track: 6
 audio: https://raw.githubusercontent.com/vovas-music/birdie/main/%F0%9F%85%B4%20%D0%9F%D1%82%D0%B8%D1%87%D0%BA%D0%B0.flac
 seconds: 207
 explicit: true
-transliteration: 'Ptichka'
 en:
   title: Птичка
+  transliteration: 'Ptichka'
   titleTranslation: 'Birdie'
   description: 'Deathcore grown out of an iPhone alarm tone, with the photographer’s “watch the birdie” as its prelude.'
 ru:
@@ -112,7 +112,7 @@ bleeped version one day.
 And now, watch the...
 
 Birdie!
-Fly, fucking fly!
+Fly, bitch, fly!
 Birdie!
 High in the sky, yeah!
 
@@ -130,7 +130,7 @@ You stood off to one side, not saying a word,
 Then sighed, took wing and flew off again.
 
 Birdie!
-Fly, fucking fly!
+Fly, bitch, fly!
 Birdie!
 So fucking high!
 
@@ -157,11 +157,11 @@ Sooner or later you’ll fly off, I know,
 But for now, [born to crawl][^gorky-en], I’m flying with you.
 
 Birdie!
-Fly fucking fly!
+Fly bitch fly!
 Birdie!
 High in the sky yeah!
 Birdie!
-Fly fucking fly!
+Fly bitch fly!
 Birdie!
 Just say goodbye!
 I will survive.

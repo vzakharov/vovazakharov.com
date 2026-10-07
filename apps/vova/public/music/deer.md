@@ -18,7 +18,7 @@ ru:
   title: 'Why Let the Stricken Deer Go Weep'
   titleTranslation: 'Пусть раненый олень ревёт'
   description: 'TBD'
-  cribNote: 'Перевод — тот же, что в песне «Гамлет»; молитва Клавдия — в переводе К. Р., строки разбиты по песне.'
+  cribNote: 'Песня Гамлета — в переводе Бориса Пастернака; молитва Клавдия — в переводе К. Р., строки разбиты по песне.'
 ---
 
 <!-- For Vova to check: Project is a guess: the Telegram post calls it one of Dad’s songs for the Hamlet rock opera, like `hamlet`, which is Полуживые. The repo also holds `deer.flac`, the same length; the checklist's pick is the one named after the song. -->

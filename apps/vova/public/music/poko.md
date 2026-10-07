@@ -2,7 +2,6 @@
 date: 2025-11-01
 status: done
 language: ru
-transliteration: 'Metel'
 project: ['Грёбаный бал']
 repo: 'poko'
 album: nikogo
@@ -11,13 +10,18 @@ audio: https://raw.githubusercontent.com/vovas-music/poko/main/%D0%9C%D0%B5%D1%8
 seconds: 257
 explicit: false
 hidden: true
+credits:
+  lyrics: ['Александр Блок', 'Vova Zakharov']
 en:
   title: 'Метель'
-  titleTranslation: 'Blizzard'
+  transliteration: 'Metel'
+  titleTranslation: 'Snowstorm'
   description: 'TBD'
+  cribNote: 'The chorus and the bridge are Alexander Blok’s “Покойник спать ложится…” (1909); where the song keeps Blok’s words, the crib is Dmitri N. Smirnov’s translation, “The calm snowstorm.”'
 ru:
   title: 'Метель'
   description: 'TBD'
+  cribNote: 'Припев и бридж — стихотворение Александра Блока «Покойник спать ложится…» (1909); там, где песня поёт Блока как есть, подстрочник — перевод Дмитрия Смирнова «The calm snowstorm».'
 ---
 
 <!-- For Vova to check: Project is a guess: track 4 of the unnamed `grebaniy-bal` album, posted with it to the Грёбаный бал Telegram channel on 2025-11-07; the album has no title yet, so the song is a single. It is also Dad’s song «Покойник» reworked, posted to his channel on 2025-11-04, so Полуживые may belong in the billing too. -->
@@ -54,15 +58,15 @@ _«Покойник спать ложится на белую постель»_
 
 Привет сынок прости что не звонил
 Я слышу ты немного не в своей
-Ну что ж сынок оно и так бывает…
+Ну что ж сынок оно и так бывает
 
 Ты знаешь сам советчик из меня
 Мне б со своим а впрочем не о том
-Помни одно я здесь я понимаю…
+Помни одно я здесь я понимаю
 
 Когда-нибудь и ты сынок поймёшь
 Не всё что боль достойно умирать
-Ты лишь успей понять…
+Ты лишь успей понять
 
 Покойник спать ложится
 На белую постель
@@ -71,20 +75,20 @@ _«Покойник спать ложится на белую постель»_
 
 Прости сынок но мне уже пора
 У вас метель ну а у нас жара
-У нас всегда жара…
+У нас всегда жара
 
 Ты знаешь жить важней чем умирать
 Прошу тебя ты лишь успей понять
-Пускай я не успел…
+Пускай я не успел
 
-Снежинок лёгкий пух…
-Куда летит куда…
-Пройдут, пройдут года…
+Снежинок лёгкий пух
+Куда летит куда
+Пройдут, пройдут года
 Настанет никогда
 
-Снежинок лёгкий пух…
-Куда летит куда…
-Прошли, прошли года…
+Снежинок лёгкий пух
+Куда летит куда
+Прошли, прошли года
 Настало никогда
 
 Всю ночь легко кружится
@@ -95,57 +99,57 @@ _«Покойник спать ложится на белую постель»_
 Покойник спать ложится
 На белую постель
 Всю ночь легко кружится
-Спокойная…
-Спокойная…
+Спокойная
+Спокойная
 Спокойная метель
 
 <!-- lyrics:en -->
 
 Hi son sorry I didn’t call
 I can hear you’re a bit [out of your][^plate-en]
-Well son that’s how it goes sometimes…
+Well son that’s how it goes sometimes
 
 [^plate-en]: «Не в своей тарелке», literally “not in your own plate,” means out of sorts; the line breaks off before the last word.
 
 You know yourself what an adviser I am
 I’ve got enough of my own but that’s beside the point
-Remember one thing I’m here I understand…
+Remember one thing I’m here I understand
 
 Some day you too son will understand
 Not everything that hurts deserves to die
-Just make sure you understand in time…
+Just make sure you understand in time
 
-The dead man lies down to sleep
-On a white bed
-All night lightly whirling
-The calm blizzard
+The dead man went to sleep
+On a bed of white
+All night there lightly swirls
+The calm snowstorm
 
 Sorry son but it’s time for me to go
-You’ve got a blizzard there but here it’s hot
-Here it’s always hot…
+You’ve got a snowstorm there but here it’s hot
+Here it’s always hot
 
 You know living matters more than dying
 I beg you just make sure you understand in time
-Even if I didn’t make it…
+Even if I didn’t make it
 
-The light down of snowflakes…
-Where is it flying where…
-The years will pass, will pass…
-Never will come
+The light wool of snow
+Where does it fly to, where
+The years will go, will go
+Never will arrive
 
-The light down of snowflakes…
-Where is it flying where…
-The years have passed, have passed…
-Never has come
+The light wool of snow
+Where does it fly to, where
+The years are gone, are gone
+Never has arrived
 
-All night lightly whirling
-The calm blizzard
-The dead man lies down to sleep
-On a white bed
+All night there lightly swirls
+The calm snowstorm
+The dead man went to sleep
+On a bed of white
 
-The dead man lies down to sleep
-On a white bed
-All night lightly whirling
-The calm…
-The calm…
-The calm blizzard
+The dead man went to sleep
+On a bed of white
+All night there lightly swirls
+The calm
+The calm
+The calm snowstorm

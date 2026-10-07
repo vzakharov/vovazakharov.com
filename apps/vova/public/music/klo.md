@@ -2,7 +2,7 @@
 date: 2025-02-17
 status: done
 language: ru
-project: ['GENERATED']
+project: ['Оттепель']
 repo: 'klo'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/klo/main/klo_remaster.flac
@@ -10,14 +10,16 @@ seconds: 283
 explicit: false
 hidden: true
 en:
-  title: 'Klo'
+  title: 'Клокочина'
+  transliteration: 'Klokochina'
+  titleTranslation: 'Chinaberry'
   description: 'TBD'
 ru:
-  title: 'Klo'
+  title: 'Клокочина'
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Project is a guess: a Latin-titled Suno cover (`Media/klo (Cover).wav`) with no words, post or album to place it, so GENERATED. The title is only the repo’s name; the words suggest «Клокочина» — say if that is its title. Master is the checklist's guess `klo_remaster.flac`; `klo.flac` is the same length (4:43) and `klo_1.flac` runs 4:29. -->
+<!-- For Vova to check: the name of the project of old Soviet-style songs is the agent’s proposal, «Оттепель» (the era of Майя Кристаллинская); the other candidates were «Патефон» and «Хрусталь». Master is the checklist's guess `klo_remaster.flac`; `klo.flac` is the same length (4:43) and `klo_1.flac` runs 4:29. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/klo — klo_remaster.flac,
      44.1 kHz / 16-bit / stereo.
@@ -58,12 +60,12 @@ ru:
 
 <!-- lyrics:en -->
 
-We kissed, you and I, under the window with the bladdernut
+We kissed, you and I, under the window with the chinaberry
 The full moon drew the shadow of the branches
 That house has long stood empty, its shutters boarded up
-And the bladdernut grieves by the window alone
+And the chinaberry grieves by the window alone
 That house has long stood empty, its shutters boarded up
-And the bladdernut grieves by the window alone
+And the chinaberry grieves by the window alone
 
 It does not lure you with its scatter of yellow berries
 The maze of its branches does not captivate your keen eye
@@ -74,15 +76,15 @@ Why did you leave, why not for her
 
 Did we give in to the tongues that foretold trouble
 Was there not enough warmth in our languid spring meetings?
-Why did our fates not weave together into a bladdernut branch,
+Why did our fates not weave together into a chinaberry branch,
 That we could not keep our cherished love?
-Why did our fates not weave together into a bladdernut branch,
+Why did our fates not weave together into a chinaberry branch,
 That we could not keep our cherished love?
 
 And the years, like falling leaves, will carry us off to autumn
 Bringing new fruit to take our place
-The bladdernut will lure them with its yellow scatter
+The chinaberry will lure them with its yellow scatter
 Perhaps it will lead them along the branches of fate
-The bladdernut will lure them with its yellow scatter
+The chinaberry will lure them with its yellow scatter
 Perhaps it will lead them along the branches of fate
 Perhaps it will lead them along the branches of fate

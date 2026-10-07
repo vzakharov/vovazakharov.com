@@ -2,7 +2,6 @@
 date: 2026-02-08
 status: done
 language: ru
-transliteration: 'Studentka'
 project: ['Грёбаный бал']
 repo: 'studentka'
 album: polzat
@@ -11,8 +10,11 @@ audio: https://raw.githubusercontent.com/vovas-music/studentka/main/%D0%A1%D1%82
 seconds: 253
 explicit: false
 hidden: true
+credits:
+  lyrics: ['Traditional', 'Vova Zakharov']
 en:
   title: 'Студентка'
+  transliteration: 'Studentka'
   titleTranslation: 'The Student Girl'
   description: 'TBD'
 ru:
@@ -21,8 +23,6 @@ ru:
 ---
 
 <!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 8 February 2026. -->
-
-<!-- For Vova to check: the words are your reworking of the student song «Всё косы твои, всё бантики»; whose the original is could not be established, so no lyrics credit is set — name the author if there is one. «васне» and «Састен на меня глидела» are set as «во сне» and «Со стен на меня глядела», read as spellings for the singer. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/studentka — Студентка.flac,
      44.1 kHz / 16-bit / stereo.
@@ -44,10 +44,12 @@ ru:
 Безумно любя
 Я видел на всей планете
 
-Всё косы твои, всё бантики
+[Всё косы твои, всё бантики][^kosy-ru]
 Всё прядь золотых волос
 На блузке витые кантики
 Да милый курносый нос
+
+[^kosy-ru]: Песня — переделка народной «Всё косы твои, всё бантики», какой её пел Аркадий Северный; в более поздней версии Михаила Круга слова изменены до пошлости.
 
 Всё косы твои, всё бантики
 Всё прядь золотых волос
@@ -112,10 +114,12 @@ Only you,
 Loving you madly,
 Did I see on the whole planet
 
-It’s all your braids, all your bows
+[It’s all your braids, all your bows][^kosy-en]
 All that lock of golden hair
 The twisted piping on your blouse
 And that sweet snub nose
+
+[^kosy-en]: A reworking of the folk song «Всё косы твои, всё бантики» as Arkady Severny sang it; Mikhail Krug’s later version coarsens the words.
 
 It’s all your braids, all your bows
 All that lock of golden hair

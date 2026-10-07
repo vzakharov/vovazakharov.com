@@ -9,20 +9,25 @@ audio: https://raw.githubusercontent.com/vovas-music/hamlet/main/hamlet_extended
 seconds: 353
 explicit: false
 hidden: true
-transliteration: 'Gamlet (Extended Version)'
 credits:
-  lyrics: ['William Shakespeare']
+  lyrics:
+    - 'William Shakespeare'
+    - 'Борис Пастернак'
+    - 'Михаил Лозинский'
+    - 'Vova Zakharov'
 en:
   title: 'Гамлет (Extended Version)'
+  transliteration: 'Gamlet (Extended Version)'
   titleTranslation: 'Hamlet (Extended Version)'
   description: 'TBD'
-  cribNote: 'The English is Shakespeare’s original; the song combines two Russian translations of it.'
+  cribNote: 'The English is Shakespeare’s original. The song sings it in Russian, the “stricken deer” quatrain twice: Boris Pasternak’s translation, then Mikhail Lozinsky’s as reworked for the film _Pokrovsky Gates_ and reworked once more for the song.'
 ru:
   title: 'Гамлет (Extended Version)'
   description: 'TBD'
+  cribNote: 'Английский текст — оригинал Шекспира.'
 ---
 
-<!-- For Vova to check: `hamlet_short-001.flac` is a shorter version in the same repo. Which two translations the words come from is not established, so `credits.lyrics` names Shakespeare alone — say who to add. The third line of the fifth stanza, «Он вне себя. Не трогайте его», is matched to V.1 (the King’s “O, he is mad, Laertes” and the Queen’s “For love of God forbear him!”) without the translation to confirm it; say if it comes from elsewhere. -->
+<!-- For Vova to check: `hamlet_short-001.flac` is a shorter version in the same repo. Vova named Pasternak for the first “stricken deer” quatrain and Lozinsky-via-«Покровские ворота» for the second; the rest (Lucianus, Claudius’s «Удушлив смрад…», the Ghost’s «Так похоть даже в ангельских объятьях») reads as Pasternak too, unconfirmed against the book. The third line of the fifth stanza, «Он вне себя. Не трогайте его», is matched to V.1 (the King’s “O, he is mad, Laertes” and the Queen’s “For love of God forbear him!”) without the translation to confirm it; say if it comes from elsewhere. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/hamlet — hamlet_extended.flac,
      44.1 kHz / 16-bit / stereo.
@@ -40,15 +45,15 @@ ru:
 Спеши весь вред, который в травах есть,
 Над этой жизнью в действие привесть!
 
-Пусть раненый олень ревёт
-А уцелевший скачет
-Где – спят, а где – ночной обход
-Кому что рок назначит
+Пусть раненый олень ревёт[^pasternak-ru]
+А уцелевший скачет[^pasternak-ru]
+Где – спят, а где – ночной обход[^pasternak-ru]
+Кому что рок назначит[^pasternak-ru]
 
-Пускай подстреленный хрипит
-А тот что жив резвится
-То караулит, этот спит
-И так весь мир вертится
+Пускай подстреленный хрипит[^pokrovka-ru]
+А тот что жив резвится[^pokrovka-ru]
+То караулит, этот спит[^pokrovka-ru]
+И так весь мир вертится[^pokrovka-ru]
 
 Удушлив смрад злодейства моего
 На мне печать древнейшего проклятья
@@ -59,6 +64,10 @@ ru:
 Быть или не быть
 Быть или не быть
 Быть или не быть?!
+
+[^pasternak-ru]: Перевод Бориса Пастернака.
+
+[^pokrovka-ru]: Перевод Михаила Лозинского в той переделке, что звучит в фильме «Покровские ворота» («Олень подстреленный хрипит, / Лань, уцелев, резвится, / Тот караулит, этот спит — / И так весь мир вертится!»), — и переделанный ещё раз.
 
 <!-- lyrics:en -->
 
