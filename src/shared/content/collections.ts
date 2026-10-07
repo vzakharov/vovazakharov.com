@@ -238,11 +238,9 @@ export function localizedRoute(route: string, locale?: string): string {
 }
 
 /**
- * A collection's feeds, at its base plus a locale segment where it has one and
- * `feed.xml` — so a rooted collection's is the site's `/feed.xml`, and a
- * home-indexed one's still names its base, the listing route `/` being shared.
- * The locales come in as an argument because this module runs under bare Node,
- * which cannot follow the alias they are imported by.
+ * A collection's feeds, at its base rather than its listing route, which a
+ * home-indexed collection shares with its siblings. The locales are an argument
+ * because bare Node runs this module and cannot follow their import's alias.
  */
 export function feedRoutes<L extends string>(
   id: CollectionId,

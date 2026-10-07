@@ -25,20 +25,14 @@ import { listPrimaryDocuments, type LocaleRouted } from './documents';
 import { filedDate } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
-/**
- * One feed a site publishes — the route its file is written at, and what a
- * reader lists it as. A localized collection's feeds carry their locale.
- */
 export type Feed = WithCollectionId & LocaleRouted & Summarized;
 
 /** An item before its link is made absolute, which is the site's to do. */
 export type FeedEntry = Omit<RssItem, 'link'> & Routed;
 
 /**
- * Every feed the site publishes. Named after the site alone where the feed is
- * the only collection it serves, and after the collection too where it is not;
- * described by the site's tagline, save the songs, whose index says what they
- * are in each language and the author's site does not.
+ * Every feed the site publishes, described by the site's tagline save the
+ * songs — the author's tagline sells a CTO, not a record.
  */
 export function listFeeds(site: SiteId): Feed[] {
   const { name, tagline } = siteConfig(site);

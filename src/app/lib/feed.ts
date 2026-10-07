@@ -10,7 +10,6 @@ import { DEFAULT_LOCALE, type Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { renderRss } from '@/shared/lib/rss';
 
-/** A feed route's handler. */
 export function collectionFeed(collection: CollectionId, locale?: Locale) {
   const feed = findFeed(SITE_ID, collection, locale);
 
