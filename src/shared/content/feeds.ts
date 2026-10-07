@@ -9,10 +9,11 @@ import {
 } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import type { RssItem } from '@/shared/lib/rss';
-import type { Described, Titled } from '@/shared/typings';
+import type { Summarized } from '@/shared/typings';
 
 import { ARTICLE_COLLECTIONS, SONGS } from './collection-schemas';
 import {
+  type CollectionId,
   COLLECTIONS,
   collectionsForSite,
   feedRoutes,
@@ -20,18 +21,15 @@ import {
   type Routed,
   type WithCollectionId,
 } from './collections';
-import { listPrimaryDocuments } from './documents';
+import { listPrimaryDocuments, type LocaleRouted } from './documents';
 import type { BaseFrontmatter } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
-/** One feed a site publishes — the route its file is written at, and what a reader lists it as. */
-export type Feed = WithCollectionId &
-  Routed &
-  Titled &
-  Described & {
-    /** Set on a localized collection's feeds, one per language. */
-    locale?: Locale;
-  };
+/**
+ * One feed a site publishes — the route its file is written at, and what a
+ * reader lists it as. A localized collection's feeds carry their locale.
+ */
+export type Feed = WithCollectionId & LocaleRouted & Summarized;
 
 /** An item before its link is made absolute, which is the site's to do. */
 export type FeedEntry = Omit<RssItem, 'link'> & Routed;
@@ -63,6 +61,29 @@ export function listFeeds(site: SiteId): Feed[] {
           : tagline,
     })),
   );
+}
+
+/**
+ * The one feed a collection publishes in a language — the throw is what fails
+ * the build on a route file or a link to a feed the registry does not list.
+ */
+export function findFeed(
+  site: SiteId,
+  collection: CollectionId,
+  locale?: Locale,
+): Feed {
+  const feed = listFeeds(site).find(
+    (candidate) =>
+      candidate.collection === collection && candidate.locale === locale,
+  );
+
+  if (feed === undefined) {
+    throw new Error(
+      `${collection}${locale === undefined ? '' : ` (${locale})`} publishes no feed on ${site}.`,
+    );
+  }
+
+  return feed;
 }
 
 /**

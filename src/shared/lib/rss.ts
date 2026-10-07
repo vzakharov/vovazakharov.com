@@ -1,7 +1,7 @@
-import type { Described, Titled } from '@/shared/typings';
+import type { Summarized } from '@/shared/typings';
 
 /** What a feed and each of its items both state: a title, a blurb and an absolute link. */
-type RssEntry = Titled & Described & { link: string };
+type RssEntry = Summarized & { link: string };
 
 export type RssItem = RssEntry & { published: Date };
 

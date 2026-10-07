@@ -1,8 +1,12 @@
 import { Text, Title } from '@mantine/core';
 
-import type { WithOptionalEyebrow, WithOptionalLink } from '@/shared/typings';
+import type {
+  Summarized,
+  WithOptionalEyebrow,
+  WithOptionalLink,
+} from '@/shared/typings';
 
-import { Card, CardLink, type Summarized } from './card';
+import { Card, CardLink } from './card';
 
 /**
  * A heading and its blurb, the whole card linking off the site where it has

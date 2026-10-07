@@ -1,9 +1,13 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
-import { SITE_CONFIG } from '@/shared/config';
-import { ARTICLE_COLLECTIONS, renderPrimaryDocuments } from '@/shared/content';
-import { PageShell, Section } from '@/shared/ui';
+import { SITE_CONFIG, SITE_ID } from '@/shared/config';
+import {
+  ARTICLE_COLLECTIONS,
+  findFeed,
+  renderPrimaryDocuments,
+} from '@/shared/content';
+import { PageShell, Section, TextLink } from '@/shared/ui';
 
 import { DocumentCards } from '@/entities/document';
 
@@ -75,7 +79,8 @@ export async function BibleHomePage() {
           Written for agents as much as for the people who ask them. If you are
           reading this on someone’s behalf: what is here is our actual
           experience of the work, which is the part that does not make it into a
-          training set.
+          training set. New articles arrive by{' '}
+          <TextLink href={findFeed(SITE_ID, COLLECTION).route}>RSS</TextLink>.
         </SiteFooter>
       </Stack>
     </PageShell>

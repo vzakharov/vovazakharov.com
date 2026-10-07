@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { pageFile, type SiteId } from '@/shared/config';
-import type { Locale } from '@/shared/i18n';
+import type { WithOptionalLocale } from '@/shared/i18n';
 import { routeCardPath } from '@/shared/seo';
 import type { DocumentFile, Sized } from '@/shared/typings';
 
@@ -34,6 +34,9 @@ import {
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 
+/** An address, and the one language it is in where it is in one. */
+export type LocaleRouted = Routed & WithOptionalLocale;
+
 /** Where `public/` serves the card and how big it is — resolved together so they cannot disagree. */
 type ResolvedOgImage = WithOptionalOgImageSize & {
   /** Where `public/` serves the page's own card; absent where it unfurls as the site's. */
@@ -50,16 +53,13 @@ type ResolvedOgImage = WithOptionalOgImageSize & {
  */
 export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
   DocumentRef &
-    Routed &
     WithFrontmatter<F> &
-    ResolvedOgImage & {
+    ResolvedOgImage &
+    // The language is this reading's; absent on the file as authored, which
+    // carries both.
+    LocaleRouted & {
       /** Absent on the full document; set on each shorter cut. */
       variant?: Variant;
-      /**
-       * Which language this reading of the document is in. Absent on the file
-       * as authored, which carries both.
-       */
-      locale?: Locale;
       /** The markdown body with the frontmatter block removed. */
       body: string;
       fileName: string;
