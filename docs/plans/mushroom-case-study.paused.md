@@ -81,7 +81,7 @@ italics, because the original is the evidence and the translation is mine.
 
 **Title**, the operator's pick: _"My son drew a mushroom house. 92 Claude
 sessions built it in eight days."_ Syama turns six on 12 October, and the
-work is one of his birthday presents.
+game is one of his birthday presents.
 
 ### Outline
 
