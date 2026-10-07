@@ -1,0 +1,1472 @@
+# Каталог мастеров `vovas-music`
+
+Корневые FLAC всех репозиториев [vovas-music](https://github.com/vovas-music): 350 файлов в 143 репозиториях. `Media/` не смотрел, репозитории без корневого FLAC не вошли.
+
+Под каждым репо — пункты, впиши после двоеточия:
+
+- **мастер** — какой файл песня. Где файл один, он уже вписан; где несколько, вписана догадка (`*master*`, иначе файл с человеческим названием), а пусто — значит «не угадал». Две разные песни в одном репо — оба файла через `;`.
+- **проект** — артист первым, фиты после, через запятую: `GENERATED`, `Полуживые`, `Downtemple`, `Грёбаный бал`, `за/обложкой`, `Yoohie`. Новый проект — просто впиши, я заведу.
+- **название** — одно на оба языка, или `en / ru`, если разные. Догадка из имени файла стоит там, где оно похоже на название.
+- **язык** — `ru`, `en` или `instrumental`. `ru` угадан там, где название кириллицей.
+- **hidden** — `да`: страница есть, но в списке и плеере её нет, только по ссылке. Стоит у всех; `нет` — показывать сразу.
+- Песня не нужна — `—` в проекте, и пропущу.
+
+Описание у всех будет `TBD`.
+
+## Отдельные песни (123)
+
+- [40days](https://github.com/vovas-music/40days)
+  - мастер: `dad.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [8849](https://github.com/vovas-music/8849)
+  - мастер: `8849.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [alive](https://github.com/vovas-music/alive)
+  - мастер: `alive_master.flac`
+  - другие файлы: `alive.flac`, `alive_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [almost](https://github.com/vovas-music/almost)
+  - мастер: `almost.flac`
+  - другие файлы: `almost_1.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [artemis](https://github.com/vovas-music/artemis)
+  - мастер:
+  - другие файлы: `artemis_2.flac`, `artemis_3.flac`, `artemis_new.flac`, `artemis_new_1.flac`, `artemis_to_fix.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [asa](https://github.com/vovas-music/asa)
+  - мастер: `яша_v6.flac`
+  - проект:
+  - название: Яша
+  - язык: ru
+  - hidden: да
+- [baa](https://github.com/vovas-music/baa)
+  - мастер: `baa_master.flac`
+  - другие файлы: `baa.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [babay](https://github.com/vovas-music/babay)
+  - мастер: `babay_master.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [because-of-you-2](https://github.com/vovas-music/because-of-you-2)
+  - мастер: `Because of You.flac`
+  - проект:
+  - название: Because of You
+  - язык:
+  - hidden: да
+- [bezm](https://github.com/vovas-music/bezm)
+  - мастер:
+  - другие файлы: `В безмерности небес.flac`, `За горизонт.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [boom](https://github.com/vovas-music/boom)
+  - мастер: `boom.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [bronte](https://github.com/vovas-music/bronte)
+  - мастер: `bronte.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [burmakin](https://github.com/vovas-music/burmakin)
+  - мастер: `Просто устал.flac`
+  - проект:
+  - название: Просто устал
+  - язык: ru
+  - hidden: да
+- [calm](https://github.com/vovas-music/calm)
+  - мастер: `calm.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [caprice](https://github.com/vovas-music/caprice)
+  - мастер: `Полуживые — Каприс Каркасси.flac`
+  - проект:
+  - название: Полуживые — Каприс Каркасси
+  - язык: ru
+  - hidden: да
+- [chaos](https://github.com/vovas-music/chaos)
+  - мастер: `chaos_master.flac`
+  - другие файлы: `chaos.flac`, `chaos_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [chp](https://github.com/vovas-music/chp)
+  - мастер: `chp.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [codep](https://github.com/vovas-music/codep)
+  - мастер: `codep_1_master.flac`
+  - другие файлы: `codep.flac`, `codep_mix.flac`, `codep_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [comeback](https://github.com/vovas-music/comeback)
+  - мастер: `Yoohie - The Comeback Song (We Have a Banger).flac`
+  - другие файлы: `comeback.flac`, `comeback_mix.flac`
+  - проект:
+  - название: Yoohie - The Comeback Song (We Have a Banger)
+  - язык:
+  - hidden: да
+- [cracks](https://github.com/vovas-music/cracks)
+  - мастер: `cracks.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [crossout](https://github.com/vovas-music/crossout)
+  - мастер: `crossout.flac`
+  - другие файлы: `crossout_1.flac`, `crossout_2.flac`, `crossout_3.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [cycle](https://github.com/vovas-music/cycle)
+  - мастер: `cycle_master.flac`
+  - другие файлы: `cycle.flac`, `cycle_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [deer](https://github.com/vovas-music/deer)
+  - мастер: `Why Let the Stricken Deer Go Weep.flac`
+  - другие файлы: `deer.flac`
+  - проект:
+  - название: Why Let the Stricken Deer Go Weep
+  - язык:
+  - hidden: да
+- [diner](https://github.com/vovas-music/diner)
+  - мастер: `diner.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [dream](https://github.com/vovas-music/dream)
+  - мастер: `dream.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [dym](https://github.com/vovas-music/dym)
+  - мастер: `dym_master_new.flac`
+  - другие файлы: `dym_extended.flac`, `dym_extended_mix.flac`, `dym_short.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [entropy-end](https://github.com/vovas-music/entropy-end)
+  - мастер: `entropy+end v7.flac`
+  - проект:
+  - название: Entropy+end
+  - язык:
+  - hidden: да
+- [erebos](https://github.com/vovas-music/erebos)
+  - мастер: `erebos.flac`
+  - другие файлы: `erebos_reprise.flac`, `erebos_reprise_1.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [f-ec](https://github.com/vovas-music/f-ec)
+  - мастер: `Там.flac`
+  - проект:
+  - название: Там
+  - язык: ru
+  - hidden: да
+- [f-s](https://github.com/vovas-music/f-s)
+  - мастер: `f&s_master.flac`
+  - другие файлы: `f&s.flac`, `f&s_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [fingers](https://github.com/vovas-music/fingers)
+  - мастер:
+  - другие файлы: `На пальцы (EDM).flac`, `На пальцы.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [gg](https://github.com/vovas-music/gg)
+  - мастер: `gg_master.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [ghost](https://github.com/vovas-music/ghost)
+  - мастер: `ghost.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [golodnaa](https://github.com/vovas-music/golodnaa)
+  - мастер: `голодная_1.flac`
+  - проект:
+  - название: Голодная
+  - язык: ru
+  - hidden: да
+- [grayrage](https://github.com/vovas-music/grayrage)
+  - мастер: `grayrage.flac`
+  - другие файлы: `grayrage_1.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [guy](https://github.com/vovas-music/guy)
+  - мастер: `guy.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [hamlet](https://github.com/vovas-music/hamlet)
+  - мастер:
+  - другие файлы: `hamlet_extended.flac`, `hamlet_short-001.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [hcyl](https://github.com/vovas-music/hcyl)
+  - мастер: `how_could_you_leave.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [heart](https://github.com/vovas-music/heart)
+  - мастер: `heart_master.flac`
+  - другие файлы: `heart_new.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [horizons](https://github.com/vovas-music/horizons)
+  - мастер: `horizons_master.flac`
+  - другие файлы: `horizons.flac`, `horizons_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [ice](https://github.com/vovas-music/ice)
+  - мастер: `ice.flac`
+  - другие файлы: `ice_1.flac`, `ice_shorter.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [ignite](https://github.com/vovas-music/ignite)
+  - мастер: `ignite.flac`
+  - другие файлы: `ignite_1min.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [image](https://github.com/vovas-music/image)
+  - мастер: `image v2.flac`
+  - проект:
+  - название: Image
+  - язык:
+  - hidden: да
+- [ink](https://github.com/vovas-music/ink)
+  - мастер: `ink.flac`
+  - другие файлы: `ink_pop.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [inside](https://github.com/vovas-music/inside)
+  - мастер: `inside_master_pop.flac`
+  - другие файлы: `inside_master.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [inter](https://github.com/vovas-music/inter)
+  - мастер: `inter.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [intheflesh](https://github.com/vovas-music/intheflesh)
+  - мастер: `intheflesh_master.flac`
+  - другие файлы: `intheflesh.flac`, `intheflesh_1.flac`, `intheflesh_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [klo](https://github.com/vovas-music/klo)
+  - мастер: `klo_remaster.flac`
+  - другие файлы: `klo.flac`, `klo_1.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [kobk](https://github.com/vovas-music/kobk)
+  - мастер: `kobk.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [komnata](https://github.com/vovas-music/komnata)
+  - мастер: `комната.flac`
+  - другие файлы: `room.flac`
+  - проект:
+  - название: Комната
+  - язык: ru
+  - hidden: да
+- [lake](https://github.com/vovas-music/lake)
+  - мастер: `lake_end_fix.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [lebed](https://github.com/vovas-music/lebed)
+  - мастер:
+  - другие файлы: `Я куплю тебе дом (караоке).flac`, `Я куплю тебе дом.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [like-that](https://github.com/vovas-music/like-that)
+  - мастер: `like that.flac`
+  - проект:
+  - название: Like that
+  - язык:
+  - hidden: да
+- [love](https://github.com/vovas-music/love)
+  - мастер: `love_master_2.flac`
+  - другие файлы: `love_master.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [machines](https://github.com/vovas-music/machines)
+  - мастер: `machines.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [mask](https://github.com/vovas-music/mask)
+  - мастер: `mask.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [meow](https://github.com/vovas-music/meow)
+  - мастер: `meow_master.flac`
+  - другие файлы: `meow.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [mira](https://github.com/vovas-music/mira)
+  - мастер: `mira.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [mirrors](https://github.com/vovas-music/mirrors)
+  - мастер: `mirrors.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [mithqal](https://github.com/vovas-music/mithqal)
+  - мастер: `mithqal_rock_master.flac`
+  - другие файлы: `mithqal.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [mne-nravitsa](https://github.com/vovas-music/mne-nravitsa)
+  - мастер:
+  - другие файлы: `mn.flac`, `мн_pop.flac`, `мн_soul.flac`, `мне нравится.flac`, `мне нравится_mix.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [monday](https://github.com/vovas-music/monday)
+  - мастер: `monday.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [monday_doo](https://github.com/vovas-music/monday_doo)
+  - мастер: `monday_doo.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [monkey](https://github.com/vovas-music/monkey)
+  - мастер: `monkey.flac`
+  - другие файлы: `monkey_4_inpaint.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [moral-](https://github.com/vovas-music/moral-)
+  - мастер: `мораль_2.flac`
+  - проект:
+  - название: Мораль
+  - язык: ru
+  - hidden: да
+- [mountains](https://github.com/vovas-music/mountains)
+  - мастер: `mountains.flac`
+  - другие файлы: `mountains_new.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [mu-icok-new](https://github.com/vovas-music/mu-icok-new)
+  - мастер:
+  - другие файлы: `мужичок+лёли nocomp.flac`, `мужичок+лёли v2.flac`, `мужичок+лёли.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [my_hope](https://github.com/vovas-music/my_hope)
+  - мастер: `my_hope_master_2.flac`
+  - другие файлы: `my_hope_fill.flac`, `my_hope_master.flac`, `my_hope_pop.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [nazovi](https://github.com/vovas-music/nazovi)
+  - мастер: `Назови меня по имени.flac`
+  - проект:
+  - название: Назови меня по имени
+  - язык: ru
+  - hidden: да
+- [nightmares](https://github.com/vovas-music/nightmares)
+  - мастер:
+  - другие файлы: `nightmares_pop.flac`, `nightmares_rock.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [normal](https://github.com/vovas-music/normal)
+  - мастер: `normal.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [ogonki](https://github.com/vovas-music/ogonki)
+  - мастер: `ogonki.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [ok-loser](https://github.com/vovas-music/ok-loser)
+  - мастер: `ok loser.flac`
+  - проект:
+  - название: Ok loser
+  - язык:
+  - hidden: да
+- [okna](https://github.com/vovas-music/okna)
+  - мастер: `Окна.flac`
+  - другие файлы: `okna.flac`
+  - проект:
+  - название: Окна
+  - язык: ru
+  - hidden: да
+- [oneday](https://github.com/vovas-music/oneday)
+  - мастер: `oneday+2213 v3.flac`
+  - проект:
+  - название: Oneday+2213
+  - язык:
+  - hidden: да
+- [ophelia](https://github.com/vovas-music/ophelia)
+  - мастер: `ophelia.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [otter](https://github.com/vovas-music/otter)
+  - мастер: `otter.flac`
+  - другие файлы: `siminor.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [otvet](https://github.com/vovas-music/otvet)
+  - мастер:
+  - другие файлы: `ответ_1.flac`, `ответ_2.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [pes](https://github.com/vovas-music/pes)
+  - мастер: `pes.flac`
+  - другие файлы: `pes_faster.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [peta](https://github.com/vovas-music/peta)
+  - мастер: `peta_master.flac`
+  - другие файлы: `peta.flac`, `peta_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [phoenix](https://github.com/vovas-music/phoenix)
+  - мастер: `phoenix.flac`
+  - другие файлы: `phoenix_new.flac`, `phoenix_ozz.flac`, `phoenix_stemmed.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [pled](https://github.com/vovas-music/pled)
+  - мастер: `pled.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [pobeg](https://github.com/vovas-music/pobeg)
+  - мастер: `pobeg.flac`
+  - другие файлы: `reka.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [poko](https://github.com/vovas-music/poko)
+  - мастер: `Метель.flac`
+  - проект:
+  - название: Метель
+  - язык: ru
+  - hidden: да
+- [prologue](https://github.com/vovas-music/prologue)
+  - мастер:
+  - другие файлы: `sirens.flac`, `sirens_punch.flac`, `sirens_punch_3.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [prs](https://github.com/vovas-music/prs)
+  - мастер: `prs40.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [prsdemo](https://github.com/vovas-music/prsdemo)
+  - мастер: `prsdemo.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [psch](https://github.com/vovas-music/psch)
+  - мастер: `psch.flac`
+  - другие файлы: `psch_1.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [rank](https://github.com/vovas-music/rank)
+  - мастер: `rank2.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [rebels](https://github.com/vovas-music/rebels)
+  - мастер: `rebels_master1.flac`
+  - другие файлы: `rebels.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [requiem](https://github.com/vovas-music/requiem)
+  - мастер: `requiem_master.flac`
+  - другие файлы: `requiem_louder.flac`, `requiem_new.flac`, `requiem_pop.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [s74](https://github.com/vovas-music/s74)
+  - мастер: `Ты не терзайся и когда за мной.flac`
+  - проект:
+  - название: Ты не терзайся и когда за мной
+  - язык: ru
+  - hidden: да
+- [sad](https://github.com/vovas-music/sad)
+  - мастер: `sad.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [salman](https://github.com/vovas-music/salman)
+  - мастер: `salman.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [skolko](https://github.com/vovas-music/skolko)
+  - мастер: `Сколько.flac`
+  - проект:
+  - название: Сколько
+  - язык: ru
+  - hidden: да
+- [sneg](https://github.com/vovas-music/sneg)
+  - мастер: `sneg.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [sneg_0](https://github.com/vovas-music/sneg_0)
+  - мастер: `sneg_master.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [sneg_idet](https://github.com/vovas-music/sneg_idet)
+  - мастер: `Снег идёт.flac`
+  - проект:
+  - название: Снег идёт
+  - язык: ru
+  - hidden: да
+- [solitude](https://github.com/vovas-music/solitude)
+  - мастер: `silence+solitude v7.flac`
+  - проект:
+  - название: Silence+solitude
+  - язык:
+  - hidden: да
+- [sonnet61](https://github.com/vovas-music/sonnet61)
+  - мастер: `sonnet61.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [steppe](https://github.com/vovas-music/steppe)
+  - мастер: `steppe.flac`
+  - другие файлы: `steppe_66.flac`, `steppe_69.flac`, `steppe_82.flac`, `steppe_mix.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [stiham](https://github.com/vovas-music/stiham)
+  - мастер: `стихам.flac`
+  - проект:
+  - название: Стихам
+  - язык: ru
+  - hidden: да
+- [story_ends](https://github.com/vovas-music/story_ends)
+  - мастер: `story_ends.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [studentka](https://github.com/vovas-music/studentka)
+  - мастер: `Студентка.flac`
+  - проект:
+  - название: Студентка
+  - язык: ru
+  - hidden: да
+- [succumb](https://github.com/vovas-music/succumb)
+  - мастер: `succumb.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [sultan](https://github.com/vovas-music/sultan)
+  - мастер: `sultan.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [tango](https://github.com/vovas-music/tango)
+  - мастер: `tango.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [trisagion](https://github.com/vovas-music/trisagion)
+  - мастер: `trisagion.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [triswiatoje](https://github.com/vovas-music/triswiatoje)
+  - мастер: `triswiatoje.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [u4](https://github.com/vovas-music/u4)
+  - мастер: `u4.flac`
+  - другие файлы: `u4_new.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [ukhodi](https://github.com/vovas-music/ukhodi)
+  - мастер: `Уходи.flac`
+  - проект:
+  - название: Уходи
+  - язык: ru
+  - hidden: да
+- [undone](https://github.com/vovas-music/undone)
+  - мастер: `undone.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [utro](https://github.com/vovas-music/utro)
+  - мастер: `Доброе утро.flac`
+  - проект:
+  - название: Доброе утро
+  - язык: ru
+  - hidden: да
+- [vagabond](https://github.com/vovas-music/vagabond)
+  - мастер: `vagabond.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [virus](https://github.com/vovas-music/virus)
+  - мастер: `virus_master.flac`
+  - другие файлы: `virus.flac`, `virus_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [wagner](https://github.com/vovas-music/wagner)
+  - мастер: `wagner.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [wanderlust](https://github.com/vovas-music/wanderlust)
+  - мастер: `mist_over_azov.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [wangwei](https://github.com/vovas-music/wangwei)
+  - мастер: `Прощание.flac`
+  - проект:
+  - название: Прощание
+  - язык: ru
+  - hidden: да
+- [wdk](https://github.com/vovas-music/wdk)
+  - мастер: `wdk.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [wind](https://github.com/vovas-music/wind)
+  - мастер: `Gone With the Wind.flac`
+  - другие файлы: `wind.flac`, `wind_ending.flac`
+  - проект:
+  - название: Gone With the Wind
+  - язык:
+  - hidden: да
+- [yad](https://github.com/vovas-music/yad)
+  - мастер: `Яд_master2.flac`
+  - другие файлы: `Яд.flac`
+  - проект:
+  - название: Яд_master2
+  - язык: ru
+  - hidden: да
+- [zhadina](https://github.com/vovas-music/zhadina)
+  - мастер: `zhadina.flac`
+  - другие файлы: `zhadina_short.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- [zoo](https://github.com/vovas-music/zoo)
+  - мастер: `zoo_master.flac`
+  - другие файлы: `zoo.flac`, `zoo_o.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+
+## Альбомные репозитории
+
+Треки, сведённые в альбом. Где у трека нашёлся свой репо, он назван — такой трек, наверное, лучше брать оттуда, из списка выше. Трек без своего репо заполни здесь, если он нужен на сайте.
+
+### [Divine-Discontent--album-](https://github.com/vovas-music/Divine-Discontent--album-)
+
+- `1. In the Beginning, There Was Silence.flac`
+  - проект:
+  - название: In the Beginning, There Was Silence
+  - язык:
+  - hidden: да
+- `2. Infinite Solitude.flac`
+  - проект:
+  - название: Infinite Solitude
+  - язык:
+  - hidden: да
+- `3. In Our Image.flac`
+  - проект:
+  - название: In Our Image
+  - язык:
+  - hidden: да
+- `4. Fuck Religion.flac`
+  - проект:
+  - название: Fuck Religion
+  - язык:
+  - hidden: да
+- `5. One Day.flac`
+  - проект:
+  - название: One Day
+  - язык:
+  - hidden: да
+- `6. The Ultimate Abstraction.flac`
+  - проект:
+  - название: The Ultimate Abstraction
+  - язык:
+  - hidden: да
+- `7. Believe In Me.flac`
+  - проект:
+  - название: Believe In Me
+  - язык:
+  - hidden: да
+- `8. 300,000 Years.flac`
+  - проект:
+  - название: 300,000 Years
+  - язык:
+  - hidden: да
+- `9. Grand Finale (In Entropy We Trust).flac`
+  - проект:
+  - название: Grand Finale (In Entropy We Trust)
+  - язык:
+  - hidden: да
+- `10. In the End, There Was Silence.flac`
+  - проект:
+  - название: In the End, There Was Silence
+  - язык:
+  - hidden: да
+
+### [dng_album](https://github.com/vovas-music/dng_album)
+
+- `dng-001.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `dng-002.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `dng-003.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `dng-004.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `dng-005.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `dng-006.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `dng-007.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+
+### [ghosts-of-flesh](https://github.com/vovas-music/ghosts-of-flesh)
+
+- `1. In the Flesh.flac`
+  - проект:
+  - название: In the Flesh
+  - язык:
+  - hidden: да
+- `2. Here's To The Virus.flac`
+  - проект:
+  - название: Here's To The Virus
+  - язык:
+  - hidden: да
+- `3. Codependence Day.flac`
+  - проект:
+  - название: Codependence Day
+  - язык:
+  - hidden: да
+- `4.The Last Human Zoo.flac`
+  - проект:
+  - название: The Last Human Zoo
+  - язык:
+  - hidden: да
+- `5. Alive.flac` — свой репо: [alive](https://github.com/vovas-music/alive)
+  - проект:
+  - название: Alive
+  - язык:
+  - hidden: да
+- `6. PETA.flac` — свой репо: [peta](https://github.com/vovas-music/peta)
+  - проект:
+  - название: PETA
+  - язык:
+  - hidden: да
+- `7. La Scorpionne.flac`
+  - проект:
+  - название: La Scorpionne
+  - язык:
+  - hidden: да
+- `8. Chaos Always Wins.flac`
+  - проект:
+  - название: Chaos Always Wins
+  - язык:
+  - hidden: да
+- `9. Mo_bius.flac`
+  - проект:
+  - название: Mo_bius
+  - язык:
+  - hidden: да
+- `10. Horizons.flac` — свой репо: [horizons](https://github.com/vovas-music/horizons)
+  - проект:
+  - название: Horizons
+  - язык:
+  - hidden: да
+
+### [grebaniy-bal](https://github.com/vovas-music/grebaniy-bal)
+
+- `01 Просто устал.flac` — свой репо: [burmakin](https://github.com/vovas-music/burmakin)
+  - проект:
+  - название: Просто устал
+  - язык: ru
+  - hidden: да
+- `02 Там.flac` — свой репо: [f-ec](https://github.com/vovas-music/f-ec)
+  - проект:
+  - название: Там
+  - язык: ru
+  - hidden: да
+- `03 Назови меня по имени.flac` — свой репо: [nazovi](https://github.com/vovas-music/nazovi)
+  - проект:
+  - название: Назови меня по имени
+  - язык: ru
+  - hidden: да
+- `04 Метель.flac` — свой репо: [poko](https://github.com/vovas-music/poko)
+  - проект:
+  - название: Метель
+  - язык: ru
+  - hidden: да
+- `05 Окна.flac` — свой репо: [okna](https://github.com/vovas-music/okna)
+  - проект:
+  - название: Окна
+  - язык: ru
+  - hidden: да
+
+### [nsfl](https://github.com/vovas-music/nsfl)
+
+- `1_dnl.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `2_fs.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `3_mxf.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `4_parking.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `5_facepalm.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `6_wpd.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `7_xmas.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `8_fridge.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `9_eyes.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `10_femur.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `11_hang.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `12_grave.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `13_flesh.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `facepalm.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `femur.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `ff-1.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `ff-2.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `ff-3.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `flesh.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `fridge+eyes.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `grave.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `hang.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-001.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-002.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-003.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-004.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-005.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-006.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-007.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-008.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-009.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-010.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-011.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-012.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl-013.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `nsfl.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `parking.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `soup+mxf.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `soup_fix.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `wpd.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `xmas.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+
+### [papa-reka](https://github.com/vovas-music/papa-reka)
+
+- `1_pobeg.flac` — свой репо: [pobeg](https://github.com/vovas-music/pobeg)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `2_pes.flac` — свой репо: [pes](https://github.com/vovas-music/pes)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `3_sultan.flac` — свой репо: [sultan](https://github.com/vovas-music/sultan)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `4_reka.flac` — свой репо: [pobeg](https://github.com/vovas-music/pobeg)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `5_rank.flac` — свой репо: [rank](https://github.com/vovas-music/rank)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `6_ophelia.flac` — свой репо: [ophelia](https://github.com/vovas-music/ophelia)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `7_otter.flac` — свой репо: [otter](https://github.com/vovas-music/otter)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `8_pes_reprise.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `9_dad.flac` — свой репо: [40days](https://github.com/vovas-music/40days)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `10_salman.flac` — свой репо: [salman](https://github.com/vovas-music/salman)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+
+### [psch_album](https://github.com/vovas-music/psch_album)
+
+- `1_overture.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `2_grayrage.flac` — свой репо: [grayrage](https://github.com/vovas-music/grayrage)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `3_boom.flac` — свой репо: [boom](https://github.com/vovas-music/boom)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `4_succumb.flac` — свой репо: [succumb](https://github.com/vovas-music/succumb)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `5_mask.flac` — свой репо: [mask](https://github.com/vovas-music/mask)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `6_almost.flac` — свой репо: [almost](https://github.com/vovas-music/almost)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `7_psch.flac` — свой репо: [psch](https://github.com/vovas-music/psch)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `8_normal.flac` — свой репо: [normal](https://github.com/vovas-music/normal)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `9_intermezzo.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `10_artemis.flac` — свой репо: [artemis](https://github.com/vovas-music/artemis)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `11_tango.flac` — свой репо: [tango](https://github.com/vovas-music/tango)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `12_erebos.flac` — свой репо: [erebos](https://github.com/vovas-music/erebos)
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+
+### [rus-](https://github.com/vovas-music/rus-)
+
+- `1 яша.flac` — свой репо: [asa](https://github.com/vovas-music/asa)
+  - проект:
+  - название: Яша
+  - язык: ru
+  - hidden: да
+- `2 мораль.flac` — свой репо: [moral-](https://github.com/vovas-music/moral-)
+  - проект:
+  - название: Мораль
+  - язык: ru
+  - hidden: да
+- `3 ответ.flac` — свой репо: [otvet](https://github.com/vovas-music/otvet)
+  - проект:
+  - название: Ответ
+  - язык: ru
+  - hidden: да
+- `4 голодная.flac` — свой репо: [golodnaa](https://github.com/vovas-music/golodnaa)
+  - проект:
+  - название: Голодная
+  - язык: ru
+  - hidden: да
+- `5 мороз.flac`
+  - проект:
+  - название: Мороз
+  - язык: ru
+  - hidden: да
+- `6 мужичок.flac` — свой репо: [mu-icok-new](https://github.com/vovas-music/mu-icok-new)
+  - проект:
+  - название: Мужичок
+  - язык: ru
+  - hidden: да
+- `7 лёли.flac`
+  - проект:
+  - название: Лёли
+  - язык: ru
+  - hidden: да
+- `8 не торопи.flac`
+  - проект:
+  - название: Не торопи
+  - язык: ru
+  - hidden: да
+
+### [stories](https://github.com/vovas-music/stories)
+
+- `1 ink.flac` — свой репо: [ink](https://github.com/vovas-music/ink)
+  - проект:
+  - название: Ink
+  - язык:
+  - hidden: да
+- `2 mira.flac` — свой репо: [mira](https://github.com/vovas-music/mira)
+  - проект:
+  - название: Mira
+  - язык:
+  - hidden: да
+- `3 heart.flac` — свой репо: [heart](https://github.com/vovas-music/heart)
+  - проект:
+  - название: Heart
+  - язык:
+  - hidden: да
+- `4 lake.flac` — свой репо: [lake](https://github.com/vovas-music/lake)
+  - проект:
+  - название: Lake
+  - язык:
+  - hidden: да
+- `5 wind.flac` — свой репо: [wind](https://github.com/vovas-music/wind)
+  - проект:
+  - название: Wind
+  - язык:
+  - hidden: да
+- `6 undone.flac` — свой репо: [undone](https://github.com/vovas-music/undone)
+  - проект:
+  - название: Undone
+  - язык:
+  - hidden: да
+- `7 fireflies.flac`
+  - проект:
+  - название: Fireflies
+  - язык:
+  - hidden: да
+- `8 wdk.flac` — свой репо: [wdk](https://github.com/vovas-music/wdk)
+  - проект:
+  - название: Wdk
+  - язык:
+  - hidden: да
+- `9 u4.flac` — свой репо: [u4](https://github.com/vovas-music/u4)
+  - проект:
+  - название: U4
+  - язык:
+  - hidden: да
+- `10 monkey.flac` — свой репо: [monkey](https://github.com/vovas-music/monkey)
+  - проект:
+  - название: Monkey
+  - язык:
+  - hidden: да
+- `11 ends.flac`
+  - проект:
+  - название: Ends
+  - язык:
+  - hidden: да
+- `12 cracks.flac` — свой репо: [cracks](https://github.com/vovas-music/cracks)
+  - проект:
+  - название: Cracks
+  - язык:
+  - hidden: да
+
+### [vagabond_album](https://github.com/vovas-music/vagabond_album)
+
+- `vagabond_album-001.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `vagabond_album-002.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `vagabond_album-003.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `vagabond_album-004.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `vagabond_album-005.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `vagabond_album-006.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `vagabond_album-007.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `vagabond_album-008.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `vagabond_album-009.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+- `vagabond_album-010.flac`
+  - проект:
+  - название:
+  - язык:
+  - hidden: да
+
+## Уже на сайте
+
+[birdie](https://github.com/vovas-music/birdie), [crossroads](https://github.com/vovas-music/crossroads), [first](https://github.com/vovas-music/first), [june](https://github.com/vovas-music/june), [letim](https://github.com/vovas-music/letim), [rak](https://github.com/vovas-music/rak), [reka-2](https://github.com/vovas-music/reka-2), [sashas](https://github.com/vovas-music/sashas), [slime](https://github.com/vovas-music/slime), [wereback](https://github.com/vovas-music/wereback)
