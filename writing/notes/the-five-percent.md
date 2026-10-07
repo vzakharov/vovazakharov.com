@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×50)
+## What it was handed, it treats as fixed (×52)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -99,6 +99,14 @@ and date: «Трисвятое», «Wagner», «Комната», and «Река
 was an album track already in the catalogue — every pair within two seconds of
 each other, Apple Music listing «Вечерняя комната — Single». One of its notes
 rightly argued a near-duplicate was a different song, beside four that weren't.
+
+**7 October — a rule's examples, and an operator's condition, read as the
+letter.** `content.md` keeps Suno's control markers and stress marks out of
+lyrics; the agent took the two as the whole list and kept “Insi-ide”, «Война-а»
+and “be… a… good… girl” as the author's punctuation. _разве в правилах нет
+суновские тексты исправлять до человеческого вида?_ Told a Russian page shows no
+transliteration of an English title, it dropped "English" and stored one Latin
+gloss per song, leaving a Greek title unreadable on the Russian page.
 
 ## An account that explains the code stands in for running it (×16)
 
