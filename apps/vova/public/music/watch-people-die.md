@@ -26,9 +26,11 @@ ru:
 <!-- lyrics:en -->
 
 Screens light up with final breaths,
-Flinging to the dance of death.
+[Flinging][^fling-en] to the dance of death.
 Glimpse into an end so nigh,
 Drawn to witness, don’t know why.
+
+[^fling-en]: Read _flailing_: my English failed me here 🙈
 
 Is it thrill? Is it fear?
 Watching their selves disappear.
@@ -46,9 +48,11 @@ Watch people die!
 <!-- lyrics:ru -->
 
 Экраны вспыхивают последними вздохами,
-Дёргаясь в пляске смерти.
+[Дёргаясь][^fling-ru] в пляске смерти.
 Взгляд на конец, что так близок,
 Тянет смотреть — сам не знаю почему.
+
+[^fling-ru]: В оригинале _flinging_ — читать _flailing_: тут мой английский дал сбой 🙈
 
 Это азарт? Это страх?
 Смотреть, как исчезает их «я».
