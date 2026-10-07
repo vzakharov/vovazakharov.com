@@ -17,7 +17,7 @@
   }
 
   @media print {
-    padding: 0.5cm;
+    padding: 0;
   }
 }
 
@@ -32,7 +32,7 @@
   gap: 32px;
 
   @media print {
-    gap: 0.8cm;
+    gap: 0.5cm;
   }
 }
 
@@ -40,7 +40,7 @@
   gap: 16px;
 
   @media print {
-    gap: 0.3cm;
+    gap: 0.2cm;
 
     > p:not(:last-child) {
       margin-bottom: 0;
@@ -53,7 +53,7 @@
   gap: 24px;
 
   @media print {
-    gap: 0.4cm;
+    gap: 0.15cm;
   }
 }
 
@@ -145,7 +145,7 @@
   // here is print's alone.
   @media print {
     padding-top: 0;
-    padding-bottom: 0.4cm;
+    padding-bottom: 0.25cm;
     border-bottom: 1px solid var(--color-border-hairline);
   }
 }
@@ -292,6 +292,10 @@
     --list-spacing: 0;
 
     margin-left: 0;
+
+    li {
+      margin-bottom: 0.05cm;
+    }
   }
 }
 
