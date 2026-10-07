@@ -83,6 +83,7 @@
   - альбом с revival-ом, но пока названия ещё нет (историяя см. https://music.lib.ru/y/yoohie/, кстати в русских версиях Yoohie становятся Йухи)
   - язык: en
   - hidden: да
+  - текст: [Suno](https://suno.com/song/145ead7f-6822-492a-94b7-4f982862b60a), причёсанный — в `lyrics.md`
 - [bezm](https://github.com/vovas-music/bezm)
   - мастер: `В безмерности небес.flac`
   - другие файлы: `В безмерности небес.flac`, `За горизонт.flac`
@@ -98,6 +99,7 @@
   - psycho
   - язык: en
   - hidden: да
+  - текст: [Suno](https://suno.com/song/c5f89496-a5d1-49d6-a476-143ad889a660), причёсанный — в `lyrics.md`
 - [bronte](https://github.com/vovas-music/bronte)
   - мастер: `bronte.flac`
   - проект: см. https://open.spotify.com/album/3Xuov6nvskg0ApkRTqMoii
@@ -113,6 +115,7 @@
   - название: Просто устал
   - язык: ru
   - hidden: да
+  - текст: [Suno](https://suno.com/song/cade61ad-bd86-4d4d-82b0-987c6409412a), причёсанный — в `lyrics.md`
 - [calm](https://github.com/vovas-music/calm)
   - мастер: `calm.flac`
   - проект:
@@ -221,6 +224,7 @@
   - название: Там
   - язык: ru
   - hidden: да
+  - текст: [Suno](https://suno.com/song/e104e390-f0ae-4326-a098-a5e4ae97a603), причёсанный — в `lyrics.md`
 - [f-s](https://github.com/vovas-music/f-s)
   - мастер: `f&s_master.flac`
   - другие файлы: `f&s.flac`, `f&s_o.flac`
@@ -248,6 +252,7 @@
   - Apple Music: «Ghost of Yesterday» — Downtemple, Ghost of Yesterday
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/e8a1acbf-c873-4c9f-9213-40f938954dd0), причёсанный — в `lyrics.md`
 - [golodnaa](https://github.com/vovas-music/golodnaa)
   - мастер: `голодная_1.flac`
   - проект:
@@ -261,6 +266,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/a36c7c2e-f809-4822-8a58-62286af487ff), причёсанный — в `lyrics.md`
 - [guy](https://github.com/vovas-music/guy)
   - мастер: `guy.flac`
   - проект: GENERATED
@@ -297,6 +303,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/cc34a05a-56f6-4b4a-b717-42985fe0b98f), причёсанный — в `lyrics.md`
 - [ice](https://github.com/vovas-music/ice)
   - мастер: `ice.flac`
   - другие файлы: `ice_1.flac`, `ice_shorter.flac`
@@ -408,6 +415,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/44d5458d-9ff6-4ea5-97bd-a864a901d25c), причёсанный — в `lyrics.md`
 - [meow](https://github.com/vovas-music/meow)
   - мастер: `meow_master.flac`
   - другие файлы: `meow.flac`
@@ -437,6 +445,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/ef0ab165-a38d-4b78-9313-991bff1cf2bf), причёсанный — в `lyrics.md`
 - [mne-nravitsa](https://github.com/vovas-music/mne-nravitsa)
   - мастер:
   - другие файлы: `mn.flac`, `мн_pop.flac`, `мн_soul.flac`, `мне нравится.flac`, `мне нравится_mix.flac`
@@ -515,6 +524,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/94de10e6-4d5e-4150-807e-c20e12b4e71c), причёсанный — в `lyrics.md`
 - [ogonki](https://github.com/vovas-music/ogonki)
   - мастер: `ogonki.flac`
   - проект: за/обложкой, Downtemple
@@ -536,6 +546,7 @@
   - название: Окна
   - язык: ru
   - hidden: да
+  - текст: [Suno](https://suno.com/song/c03c71dd-5993-4385-a716-29180c5d9167), причёсанный — в `lyrics.md`
 - [oneday](https://github.com/vovas-music/oneday)
   - мастер: `oneday+2213 v3.flac`
   - проект:
@@ -633,6 +644,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/f477eac9-b18c-45b0-aac3-6e947b115157), причёсанный — в `lyrics.md`
 - [rank](https://github.com/vovas-music/rank)
   - мастер: `rank2.flac`
   - проект:
@@ -670,6 +682,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/e291c7a5-312a-4b8b-a020-8ccbee77a911), причёсанный — в `lyrics.md`
 - [salman](https://github.com/vovas-music/salman)
   - мастер: `salman.flac`
   - проект:
@@ -682,6 +695,7 @@
   - название: Сколько
   - язык: ru
   - hidden: да
+  - текст: [Suno](https://suno.com/song/0c99705d-bc76-4ed6-b5ae-1294606fc549), причёсанный — в `lyrics.md`
 - [sneg](https://github.com/vovas-music/sneg)
   - мастер: `sneg.flac`
   - проект:
@@ -701,6 +715,7 @@
   - название: Снег идёт
   - язык: ru
   - hidden: да
+  - текст: [Suno](https://suno.com/song/f2057deb-5067-40af-9d80-ce2dada8e27b), причёсанный — в `lyrics.md`
 - [solitude](https://github.com/vovas-music/solitude)
   - мастер: `silence+solitude v7.flac`
   - проект:
@@ -744,6 +759,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/af768e85-8f75-4e04-8576-effd71d81094), причёсанный — в `lyrics.md`
 - [sultan](https://github.com/vovas-music/sultan)
   - мастер: `sultan.flac`
   - проект:
@@ -763,6 +779,7 @@
   - Apple Music: «Trisagion» — Downtemple, Trisagion
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/7f758850-5030-4f68-9096-a17ac62fcd57), причёсанный — в `lyrics.md`
 - [triswiatoje](https://github.com/vovas-music/triswiatoje)
   - мастер: `triswiatoje.flac`
   - проект:
@@ -776,6 +793,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/db7ef1ac-0a00-462b-b002-926745f3dd85), причёсанный — в `lyrics.md`
 - [ukhodi](https://github.com/vovas-music/ukhodi)
   - мастер: `Уходи.flac`
   - проект:
@@ -800,6 +818,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/4dcd9511-80c6-49b5-9968-66c8a7a3f922), причёсанный — в `lyrics.md`
 - [virus](https://github.com/vovas-music/virus)
   - мастер: `virus_master.flac`
   - другие файлы: `virus.flac`, `virus_o.flac`
@@ -825,6 +844,7 @@
   - название: Прощание
   - язык: ru
   - hidden: да
+  - текст: [Suno](https://suno.com/song/00e71638-cbb5-40ea-9272-a12c594f8f83), причёсанный — в `lyrics.md`
 - [wdk](https://github.com/vovas-music/wdk)
   - мастер: `wdk.flac`
   - проект:
@@ -859,6 +879,7 @@
   - название:
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/21fc844e-bc17-4404-9512-39fdf1190e23), причёсанный — в `lyrics.md`
 
 ## Альбомные репозитории
 
@@ -1017,6 +1038,7 @@
   - Apple Music: «The Last Human Zoo» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/21fc844e-bc17-4404-9512-39fdf1190e23), причёсанный — в `lyrics.md`
 - `5. Alive.flac` — свой репо: [alive](https://github.com/vovas-music/alive)
   - проект: GENERATED
   - название: Alive
@@ -1058,6 +1080,7 @@
   - Apple Music: «Horizons» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/cc34a05a-56f6-4b4a-b717-42985fe0b98f), причёсанный — в `lyrics.md`
 
 ### [grebaniy-bal](https://github.com/vovas-music/grebaniy-bal)
 
@@ -1066,11 +1089,13 @@
   - название: Просто устал
   - язык: ru
   - hidden: да
+  - текст: [Suno](https://suno.com/song/cade61ad-bd86-4d4d-82b0-987c6409412a), причёсанный — в `lyrics.md`
 - `02 Там.flac` — свой репо: [f-ec](https://github.com/vovas-music/f-ec)
   - проект:
   - название: Там
   - язык: ru
   - hidden: да
+  - текст: [Suno](https://suno.com/song/e104e390-f0ae-4326-a098-a5e4ae97a603), причёсанный — в `lyrics.md`
 - `03 Назови меня по имени.flac` — свой репо: [nazovi](https://github.com/vovas-music/nazovi)
   - проект:
   - название: Назови меня по имени
@@ -1086,6 +1111,7 @@
   - название: Окна
   - язык: ru
   - hidden: да
+  - текст: [Suno](https://suno.com/song/c03c71dd-5993-4385-a716-29180c5d9167), причёсанный — в `lyrics.md`
 
 ### [nsfl](https://github.com/vovas-music/nsfl)
 
@@ -1213,6 +1239,7 @@
   - Apple Music: «Fetal Soup» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/b3f86624-9a2e-4d31-bb8a-526d6d4dea5f), причёсанный — в `lyrics.md`
 - `nsfl-003.flac`
   - проект: GENERATED
   - название: Mankind Extermination Front
@@ -1220,6 +1247,7 @@
   - Apple Music: «Mankind Extermination Front» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/b3f86624-9a2e-4d31-bb8a-526d6d4dea5f), причёсанный — в `lyrics.md`
 - `nsfl-004.flac`
   - проект: GENERATED
   - название: Parking in Disabled Spot
@@ -1227,6 +1255,7 @@
   - Apple Music: «Parking in Disabled Spot» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/fe2a6c9a-f863-4a75-a054-aa3a6e5fd74b), причёсанный — в `lyrics.md`
 - `nsfl-005.flac`
   - проект: GENERATED
   - название: Facepalm Death
@@ -1234,6 +1263,7 @@
   - Apple Music: «Facepalm Death» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/bb58aa89-837e-4a59-84e0-256232e2b0d5), причёсанный — в `lyrics.md`
 - `nsfl-006.flac`
   - проект: GENERATED
   - название: Watch People Die
@@ -1241,6 +1271,7 @@
   - Apple Music: «Watch People Die» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/6546d005-339b-4272-8c28-6dd7e4c3d4d1), причёсанный — в `lyrics.md`
 - `nsfl-007.flac`
   - проект: GENERATED
   - название: Last Christmas
@@ -1248,6 +1279,7 @@
   - Apple Music: «Last Christmas» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/feba75fa-fba1-46cf-821c-01f35faed4df), причёсанный — в `lyrics.md`
 - `nsfl-008.flac`
   - проект: GENERATED
   - название: Two Girls, One Fridge
@@ -1255,6 +1287,7 @@
   - Apple Music: «Two Girls, One Fridge» — GENERATED, Not Safe for Life · explicit
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/c19a7bb4-917a-4357-a97a-fe963f9403f9), причёсанный — в `lyrics.md`
 - `nsfl-009.flac`
   - проект: GENERATED
   - название: Can’t Take Your Eyes out of You
@@ -1262,6 +1295,7 @@
   - Apple Music: «Can’t Take Your Eyes out of You» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/928581e6-db1e-4b13-8f18-131f3dfbc037), причёсанный — в `lyrics.md`
 - `nsfl-010.flac`
   - проект: GENERATED
   - название: Femur (Seems to Be the Hardest Bone)
@@ -1269,6 +1303,7 @@
   - Apple Music: «Femur (Seems to Be the Hardest Bone)» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/948a519c-ea77-47a5-8794-0689ea4388e2), причёсанный — в `lyrics.md`
 - `nsfl-011.flac`
   - проект: GENERATED
   - название: Hang for the Moment
@@ -1276,6 +1311,7 @@
   - Apple Music: «Hang for the Moment» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/fb28cbcf-886e-45ed-b32a-b245a1788aa9), причёсанный — в `lyrics.md`
 - `nsfl-012.flac`
   - проект: GENERATED
   - название: Grave Awakening
@@ -1283,6 +1319,7 @@
   - Apple Music: «Grave Awakening» — GENERATED, Not Safe for Life · explicit
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/a2e02c2b-6f88-48ff-a6dd-f764c969a2dc), причёсанный — в `lyrics.md`
 - `nsfl-013.flac`
   - проект: GENERATED
   - название: Flesh Fiction
@@ -1290,6 +1327,7 @@
   - Apple Music: «Flesh Fiction» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/4e93d5c3-baa4-4011-bfe0-4283f557316d), причёсанный — в `lyrics.md`
 - `nsfl.flac`
   - проект:
   - название:
@@ -1416,6 +1454,7 @@
   - Apple Music: «Boom!» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/c5f89496-a5d1-49d6-a476-143ad889a660), причёсанный — в `lyrics.md`
 - `4_succumb.flac` — свой репо: [succumb](https://github.com/vovas-music/succumb)
   - проект: GENERATED
   - название: Succumb to Me
@@ -1423,6 +1462,7 @@
   - Apple Music: «Succumb to Me» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/af768e85-8f75-4e04-8576-effd71d81094), причёсанный — в `lyrics.md`
 - `5_mask.flac` — свой репо: [mask](https://github.com/vovas-music/mask)
   - проект: GENERATED
   - название: Behind the Mask
@@ -1430,6 +1470,7 @@
   - Apple Music: «Behind the Mask» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/44d5458d-9ff6-4ea5-97bd-a864a901d25c), причёсанный — в `lyrics.md`
 - `6_almost.flac` — свой репо: [almost](https://github.com/vovas-music/almost)
   - проект: GENERATED
   - название: I Almost Love You
@@ -1444,6 +1485,7 @@
   - Apple Music: «P. S. C. H. P. T. H. Y.» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
+  - текст: [Suno](https://suno.com/song/f477eac9-b18c-45b0-aac3-6e947b115157), причёсанный — в `lyrics.md`
 - `8_normal.flac` — свой репо: [normal](https://github.com/vovas-music/normal)
   - проект: GENERATED
   - название: Normal
