@@ -40,7 +40,7 @@ import { ProseContent } from '@/entities/document';
 import { formatDuration } from '../lib/duration';
 import { musicPath, songPath } from '../lib/music-urls';
 import { localizeSong, type SongDocument, songLyrics } from '../lib/song-text';
-import { songQueueIndex } from '../lib/songs';
+import { songTrack } from '../lib/songs';
 import { ExplicitBadge } from './explicit-badge';
 import { LocaleChips } from './locale-chips';
 import { Lyrics } from './lyrics';
@@ -58,7 +58,7 @@ function resolve(slug: string): SongDocument {
 
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
-  const { title, description } = localizeSong(
+  const { title, description, hidden } = localizeSong(
     resolve(slug),
     locale,
   ).frontmatter;
@@ -69,6 +69,7 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
     path: songPath(slug, locale),
     ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
     ogType: 'article',
+    hidden,
   });
 }
 
@@ -120,9 +121,9 @@ export async function SongPage({ slug, locale }: SongPageProps) {
         <Box component="header">
           <Stack gap={24}>
             <Group gap={16} wrap="nowrap" align="center">
-              {/* The queue's own index, so the header's play button and the
-                  index page's rows drive one list. */}
-              <TrackButton track={songQueueIndex(slug)} {...{ title }} />
+              {/* The same track the index page's row plays, so both drive one
+                  queue — which a hidden song joins only once played here. */}
+              <TrackButton track={songTrack(document)} {...{ title }} />
               <Title order={1}>
                 {title}
                 {explicit && <ExplicitBadge label={messages.explicit} />}

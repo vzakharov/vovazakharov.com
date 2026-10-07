@@ -1,5 +1,5 @@
 import { billing } from '@/shared/config';
-import { listPrimaryDocuments, SONGS } from '@/shared/content';
+import { isListed, listPrimaryDocuments, SONGS } from '@/shared/content';
 import { byLocale, isLocale } from '@/shared/i18n';
 
 import { songPath } from './music-urls';
@@ -25,32 +25,32 @@ export function listSongDocuments(): SongDocument[] {
 }
 
 /**
- * The queue, reduced to what the player needs. Resolved at build time and
+ * One song, reduced to what the player needs. Resolved at build time and
  * handed down as props, which is what keeps `shared/content` — and with it
  * `gray-matter`, `zod` and the whole remark stack — out of the browser while
  * the player still has a queue to work from. Both languages travel with every
  * track: a queue that stopped at the language boundary would stop the music.
  */
-export function listSongs(): PlayerTrack[] {
-  return listSongDocuments().map((document) => {
-    const { slug, frontmatter } = document;
-    const { audio, seconds, explicit, project } = frontmatter;
+export function songTrack(document: SongDocument): PlayerTrack {
+  const { slug, frontmatter } = document;
+  const { audio, seconds, explicit, project } = frontmatter;
 
-    return {
-      slug,
-      audio,
-      seconds,
-      explicit,
-      billing: billing(project),
-      titles: byLocale(
-        (locale) => localizeSong(document, locale).frontmatter.title,
-      ),
-      routes: byLocale((locale) => songPath(slug, locale)),
-    };
-  });
+  return {
+    slug,
+    audio,
+    seconds,
+    explicit,
+    billing: billing(project),
+    titles: byLocale(
+      (locale) => localizeSong(document, locale).frontmatter.title,
+    ),
+    routes: byLocale((locale) => songPath(slug, locale)),
+  };
 }
 
-/** Where a song sits in the queue — the position its play button drives. */
-export function songQueueIndex(slug: string): number {
-  return listSongDocuments().findIndex((document) => document.slug === slug);
+/** The queue: every listed song, in catalogue order. */
+export function listSongs(): PlayerTrack[] {
+  return listSongDocuments()
+    .filter((document) => isListed(document))
+    .map((document) => songTrack(document));
 }

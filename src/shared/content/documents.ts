@@ -211,6 +211,14 @@ export function listPrimaryDocuments<F extends BaseFrontmatter>(
   return listDocuments(collection).filter((doc) => !doc.variant);
 }
 
+/**
+ * Whether a document may be listed. Applied where documents are offered to a
+ * reader, never where they are routed — a hidden page is still built.
+ */
+export function isListed({ frontmatter }: WithFrontmatter): boolean {
+  return frontmatter.hidden !== true;
+}
+
 export function loadDocument<F extends BaseFrontmatter>(
   collection: Collection<F>,
   slug: string,

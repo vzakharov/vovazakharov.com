@@ -29,6 +29,8 @@ export type ConstructMetadataParams = MaybeTitled &
     languages?: Record<string, string>;
     ogType?: 'website' | 'profile' | 'article';
     ogImage?: string; // Custom Open Graph image path; the avatar when absent
+    /** A page reachable only by its link, which search engines are asked to leave out. */
+    hidden?: boolean;
   };
 
 /**
@@ -62,6 +64,7 @@ export function constructMetadata({
   ogType = 'website',
   ogImage,
   ogImageSize,
+  hidden = false,
 }: ConstructMetadataParams = {}): Metadata {
   const { url: siteUrl, name: siteName, author, social, avatar } = SITE_CONFIG;
   const { name: authorName } = author;
@@ -78,6 +81,7 @@ export function constructMetadata({
   return {
     title,
     description,
+    ...(hidden && { robots: { index: false } }),
     alternates: {
       canonical:
         canonical === undefined ? undefined : getAbsoluteUrl(canonical),
@@ -124,7 +128,7 @@ export function constructArticleMetadata(
   title: string,
 ): Metadata {
   const { frontmatter, route, ogImageUrl, ogImageSize } = document;
-  const { description } = frontmatter;
+  const { description, hidden } = frontmatter;
 
   return constructMetadata({
     title,
@@ -133,5 +137,6 @@ export function constructArticleMetadata(
     ogType: 'article',
     ogImage: ogImageUrl,
     ogImageSize,
+    hidden,
   });
 }

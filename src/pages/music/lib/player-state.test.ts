@@ -95,6 +95,37 @@ describe('the queue', () => {
   });
 });
 
+describe('a track appended to the queue', () => {
+  it('takes the next position and plays', () => {
+    const appended = playerReducer(playing(2), { type: 'append' });
+
+    assert.equal(currentTrack(appended), COUNT);
+    assert.equal(appended.playing, true);
+    assert.equal(appended.order.length, COUNT + 1);
+  });
+
+  it('wraps forward to the top of the queue', () => {
+    const appended = playerReducer(initialPlayerState(COUNT), {
+      type: 'append',
+    });
+
+    assert.equal(
+      currentTrack(playerReducer(appended, { type: 'step', by: 1 })),
+      0,
+    );
+  });
+
+  it('stays in a shuffled queue, and in the unshuffled one after it', () => {
+    const shuffled = playerReducer(playing(2), { type: 'shuffle', seed: 3 });
+    const appended = playerReducer(shuffled, { type: 'append' });
+    const restored = playerReducer(appended, { type: 'shuffle', seed: 3 });
+
+    assert.equal(currentTrack(appended), COUNT);
+    assert.equal(currentTrack(restored), COUNT);
+    assert.deepEqual(restored.order, initialPlayerState(COUNT + 1).order);
+  });
+});
+
 describe('shouldRestart', () => {
   it('restarts only once the track is past the threshold', () => {
     assert.equal(shouldRestart(0), false);

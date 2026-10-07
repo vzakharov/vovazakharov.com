@@ -20,6 +20,7 @@ import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
 import type { Variant } from './collections';
 import {
   type ContentDocument,
+  isListed,
   listPrimaryDocuments,
   siblingVariants,
   type WithContentDocument,
@@ -229,17 +230,19 @@ export type DocumentCard<F extends BaseFrontmatter = BaseFrontmatter> =
   };
 
 /**
- * The full documents of a collection, rendered — what a list of cards needs.
+ * The listed full documents of a collection, rendered — what a list of cards needs.
  * Rendering just to read a title is free: `renderDocument` memoizes.
  */
 export async function renderPrimaryDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
 ): Promise<Array<DocumentCard<F>>> {
   return Promise.all(
-    listPrimaryDocuments(collection).map(async (document) => ({
-      document,
-      rendered: await renderDocument(document),
-      variants: siblingVariants(collection.id, document.slug),
-    })),
+    listPrimaryDocuments(collection)
+      .filter((document) => isListed(document))
+      .map(async (document) => ({
+        document,
+        rendered: await renderDocument(document),
+        variants: siblingVariants(collection.id, document.slug),
+      })),
   );
 }

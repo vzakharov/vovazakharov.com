@@ -6,6 +6,7 @@ import {
   collectionRoute,
   COLLECTIONS,
   collectionsForSite,
+  isListed,
   listAllDocuments,
   localizedRoute,
 } from '@/shared/content';
@@ -61,11 +62,13 @@ export function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes.map((route) => ({ url: getAbsoluteUrl(route) })),
-    ...listAllDocuments(SITE_ID).flatMap(({ route, collection, frontmatter }) =>
-      documentAddresses(route, collection).map((address) => ({
-        url: getAbsoluteUrl(address),
-        lastModified: frontmatter.filed ?? frontmatter.date,
-      })),
-    ),
+    ...listAllDocuments(SITE_ID)
+      .filter((document) => isListed(document))
+      .flatMap(({ route, collection, frontmatter }) =>
+        documentAddresses(route, collection).map((address) => ({
+          url: getAbsoluteUrl(address),
+          lastModified: frontmatter.filed ?? frontmatter.date,
+        })),
+      ),
   ];
 }

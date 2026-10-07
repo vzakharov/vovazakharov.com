@@ -34,6 +34,11 @@ export type PlayerState = {
 export type PlayerAction =
   /** Play this catalogue position, wherever it sits in the current order. */
   | { type: 'select'; track: number }
+  /**
+   * Play a track the catalogue did not hold — a hidden song, from its own page
+   * — which takes the next catalogue position and joins the end of the order.
+   */
+  | { type: 'append' }
   | { type: 'toggle' }
   /** One track forward or back, wrapping at either end. */
   | { type: 'step'; by: 1 | -1 }
@@ -115,6 +120,17 @@ function select(state: PlayerState, track: number): PlayerState {
   return at === -1 ? state : { ...state, cursor: at, playing: true };
 }
 
+function append(state: PlayerState): PlayerState {
+  const { order } = state;
+
+  return {
+    ...state,
+    order: [...order, order.length],
+    cursor: order.length,
+    playing: true,
+  };
+}
+
 function toggle(state: PlayerState): PlayerState {
   const { cursor, playing } = state;
 
@@ -160,6 +176,7 @@ export function playerReducer(
   action: PlayerAction,
 ): PlayerState {
   if (action.type === 'select') return select(state, action.track);
+  if (action.type === 'append') return append(state);
   if (action.type === 'toggle') return toggle(state);
   if (action.type === 'step') return step(state, action.by);
   if (action.type === 'shuffle') return reshuffle(state, action.seed);

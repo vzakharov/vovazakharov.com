@@ -9,14 +9,18 @@ import {
   type PlayerState,
   type PlayerTrack,
   shouldRestart,
+  type WithTracks,
 } from './player-state';
 
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
 
 export type PlayerControls = {
-  /** Play this catalogue position, or pause it if it is the one already playing. */
-  play: (track: number) => void;
+  /**
+   * Play this track, or pause it if it is the one already playing. A track the
+   * queue does not hold yet joins its end.
+   */
+  play: (track: PlayerTrack) => void;
   toggle: () => void;
   next: () => void;
   /** Restarts the track before it steps back, once past `RESTART_AFTER_SECONDS`. */
@@ -35,7 +39,10 @@ export type Playback = {
   elapsed: number;
 };
 
-export type AudioPlayer = Playback & { controls: PlayerControls };
+/** Playback, and the queue it plays from: the catalogue, plus whatever was played from outside it. */
+export type QueuedPlayback = Playback & WithTracks;
+
+export type AudioPlayer = QueuedPlayback & { controls: PlayerControls };
 
 /**
  * The one `<audio>` element on the site and everything that drives it: the
@@ -43,13 +50,14 @@ export type AudioPlayer = Playback & { controls: PlayerControls };
  * is the page's, which the lock screen titles the track in.
  */
 export function useAudioPlayer(
-  tracks: PlayerTrack[],
+  catalogue: PlayerTrack[],
   locale: Locale,
 ): AudioPlayer {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [tracks, setTracks] = useState(catalogue);
   const [state, dispatch] = useReducer(
     playerReducer,
-    tracks.length,
+    catalogue.length,
     initialPlayerState,
   );
   const [elapsed, setElapsed] = useState(0);
@@ -60,8 +68,19 @@ export function useAudioPlayer(
   const controls = useMemo<PlayerControls>(
     () => ({
       play: (next) => {
+        const position = tracks.findIndex(({ slug }) => slug === next.slug);
+
+        if (position === -1) {
+          setTracks([...tracks, next]);
+          dispatch({ type: 'append' });
+
+          return;
+        }
+
         dispatch(
-          next === track ? { type: 'toggle' } : { type: 'select', track: next },
+          position === track
+            ? { type: 'toggle' }
+            : { type: 'select', track: position },
         );
       },
       toggle: () => {
@@ -100,7 +119,7 @@ export function useAudioPlayer(
         }
       },
     }),
-    [track],
+    [track, tracks],
   );
 
   // The element is an audio engine rather than page content — the bar is what
@@ -245,5 +264,5 @@ export function useAudioPlayer(
     };
   }, [controls]);
 
-  return { state, elapsed, controls, ...(current && { current }) };
+  return { state, elapsed, tracks, controls, ...(current && { current }) };
 }

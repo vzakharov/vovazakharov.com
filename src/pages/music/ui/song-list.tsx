@@ -10,8 +10,9 @@ import classes from './music.module.scss';
 import { TrackButton } from './track-button';
 
 /**
- * The catalogue on the index. Each row's position is the queue's own index, so
- * pressing play on a row and pressing next on the bar move through one list.
+ * The catalogue on the index, row for row the queue the layout seeds the player
+ * with, so pressing play on a row and pressing next on the bar move through one
+ * list.
  */
 export function SongList({ locale }: WithLocale) {
   const songs = listSongs();
@@ -24,31 +25,31 @@ export function SongList({ locale }: WithLocale) {
       <Subheading>{messages.title}</Subheading>
 
       <Stack gap={12}>
-        {songs.map(
-          ({ slug, titles, routes, billing, seconds, explicit }, track) => (
-            <Card key={slug}>
-              <Group gap={16} wrap="nowrap">
-                <TrackButton title={titles[locale]} {...{ track }} />
+        {songs.map((track) => (
+          <Card key={track.slug}>
+            <Group gap={16} wrap="nowrap">
+              <TrackButton title={track.titles[locale]} {...{ track }} />
 
-                <Box className={classes['trackText']}>
-                  <Text fw={500} truncate>
-                    <TextLink href={routes[locale]} underline="hover">
-                      {titles[locale]}
-                    </TextLink>
-                    {explicit && <ExplicitBadge label={messages.explicit} />}
-                  </Text>
-                  <Text size="sm" opacity={0.6} truncate>
-                    {billing}
-                  </Text>
-                </Box>
-
-                <Text size="sm" opacity={0.6} ff="monospace">
-                  {formatDuration(seconds)}
+              <Box className={classes['trackText']}>
+                <Text fw={500} truncate>
+                  <TextLink href={track.routes[locale]} underline="hover">
+                    {track.titles[locale]}
+                  </TextLink>
+                  {track.explicit && (
+                    <ExplicitBadge label={messages.explicit} />
+                  )}
                 </Text>
-              </Group>
-            </Card>
-          ),
-        )}
+                <Text size="sm" opacity={0.6} truncate>
+                  {track.billing}
+                </Text>
+              </Box>
+
+              <Text size="sm" opacity={0.6} ff="monospace">
+                {formatDuration(track.seconds)}
+              </Text>
+            </Group>
+          </Card>
+        ))}
       </Stack>
     </Box>
   );

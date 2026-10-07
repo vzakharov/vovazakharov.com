@@ -31,6 +31,7 @@ export {
 } from './document-date';
 export {
   type ContentDocument,
+  isListed,
   listAllDocuments,
   listDocuments,
   listPrimaryDocuments,
