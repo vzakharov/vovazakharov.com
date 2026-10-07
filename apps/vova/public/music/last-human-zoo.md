@@ -1,0 +1,67 @@
+---
+date: 2024-07-23
+status: done
+language: en
+project: ["GENERATED"]
+repo: "ghosts-of-flesh"
+audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/4.The%20Last%20Human%20Zoo.flac
+seconds: 291
+explicit: false
+album: ghosts
+hidden: true
+en:
+  title: "The Last Human Zoo"
+  description: "TBD"
+ru:
+  title: "The Last Human Zoo"
+  description: "TBD"
+---
+
+<!-- For Vova to check: The checklist gives this track no repo of its own, but repo zoo holds the same song (zoo_master.flac, also zoo.flac and zoo_o.flac; lyrics.md files the words under both) — check which master you want; the zoo entry's project is still blank, so it is not scaffolded separately. -->
+
+<!-- Scaffolded from https://github.com/vovas-music/ghosts-of-flesh — 4.The Last Human Zoo.flac,
+     44.1 kHz / 16-bit / stereo.
+     Replace this with the story, told once per language under a "lang:en" and
+     a "lang:ru" marker, and put the words under "lyrics:" plus the language
+     they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- lyrics:en -->
+
+Once masters of Earth,
+Now a fading memory,
+Caged within walls,
+Reduced to a curiosity.
+
+A spectacle so gross,
+Watched by cold steel eyes,
+Preserved for the mistakes
+That they epitomize.
+
+Shackled past on show,
+Flesh and bone for view,
+Witness the downfall,
+Welcome to the last human zoo.
+
+Is it humane,
+This display we arrange,
+To trap the last of man
+In this iron cage?
+
+Their gaze meets ours,
+So full of silent rage,
+A question hangs,
+Unanswered, yet we gauge.
+To ponder what’s humane
+Might have saved them from this wage.
+
+Shackled past on show,
+Flesh and bone for view,
+Witness the downfall,
+Gaze into their rue.
+
+Masters in a cage,
+Voices all but mute,
+A lesson for us all:
+Welcome to the last human zoo!
+
+Zoo!
