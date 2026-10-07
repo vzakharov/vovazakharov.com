@@ -10,7 +10,8 @@ import { localizeSong, type SongDocument } from './song-text';
  * The catalogue, newest first. A slug the index's own addresses already claim
  * is rejected here, where every list of songs passes: `/music/ru` is the index
  * in Russian and `/music/all` the whole catalogue, so such a song would have a
- * file, a row on the index and no page of its own.
+ * file, a row on the index and no page of its own. Two songs claiming one
+ * album's track number are rejected here too.
  */
 export function listSongDocuments(): SongDocument[] {
   const documents = listPrimaryDocuments(SONGS);
@@ -22,6 +23,23 @@ export function listSongDocuments(): SongDocument[] {
     throw new Error(
       `${unreachable.fileName} is named after an address of the index, /music/${unreachable.slug}.`,
     );
+  }
+
+  const claimed = new Map<string, string>();
+
+  for (const { fileName, frontmatter } of documents) {
+    const { album, track } = frontmatter;
+
+    if (album === null) continue;
+
+    const position = `${album} #${String(track)}`;
+    const holder = claimed.get(position);
+
+    if (holder !== undefined) {
+      throw new Error(`${fileName} and ${holder} are both ${position}.`);
+    }
+
+    claimed.set(position, fileName);
   }
 
   return documents;

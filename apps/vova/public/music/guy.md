@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/guy/main/guy.flac
 seconds: 214
 explicit: false
 album: ctfu
+track: 7
 hidden: true
 en:
   title: 'A Guy Without a Plan'

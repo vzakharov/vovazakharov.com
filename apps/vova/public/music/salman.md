@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/salman/main/salman.flac
 seconds: 298
 explicit: false
 album: papa-reka
+track: 10
 hidden: true
 transliteration: 'Mladshiy vnuchek moy'
 credits:

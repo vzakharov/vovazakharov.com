@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/golodnaa/master/%D0%B3%D0%B
 seconds: 324
 explicit: false
 album: rus
+track: 4
 hidden: true
 en:
   title: 'Голодная'

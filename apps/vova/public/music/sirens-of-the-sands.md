@@ -8,12 +8,13 @@ audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabon
 seconds: 352
 explicit: false
 album: vagabond
+track: 6
 hidden: true
 en:
   title: 'Sirens of the Sands'
   description: 'TBD'
 ru:
-  title: 'Sirens of the Sands'
+  title: 'Сирены барханов'
   description: 'TBD'
 ---
 

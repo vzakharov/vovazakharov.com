@@ -4,7 +4,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'machines'
-album: null
+album: prototypes
+track: 2
 audio: https://raw.githubusercontent.com/vovas-music/machines/main/machines.flac
 seconds: 390
 explicit: false

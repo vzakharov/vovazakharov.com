@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/boom/main/boom.flac
 seconds: 212
 explicit: false
 album: pschpthy
+track: 3
 hidden: true
 en:
   title: 'Boom!'

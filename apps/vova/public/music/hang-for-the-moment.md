@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-011.flac
 seconds: 35
 explicit: false
 album: nsfl
+track: 11
 hidden: true
 en:
   title: 'Hang for the Moment'

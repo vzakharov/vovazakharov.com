@@ -7,6 +7,7 @@ repo: crossroads
 audio: https://raw.githubusercontent.com/vovas-music/crossroads/main/crossroads.flac
 seconds: 194
 album: ctfu
+track: 4
 en:
   title: Crossroads
   description: 'Punk-metalcore written on the road out of Tatarstan, and left unfinished until the ending and the too-AI words were fixed.'

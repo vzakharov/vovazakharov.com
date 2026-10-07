@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/grayrage/main/grayrage.flac
 seconds: 205
 explicit: false
 album: pschpthy
+track: 2
 hidden: true
 en:
   title: 'Gray Rage'

@@ -7,6 +7,7 @@ repo: letim
 audio: https://raw.githubusercontent.com/vovas-music/letim/main/letim.flac
 seconds: 208
 album: ctfu
+track: 5
 transliteration: 'Letim'
 en:
   title: Летим

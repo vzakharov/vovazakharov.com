@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-006.flac
 seconds: 211
 explicit: false
 album: dng
+track: 6
 hidden: true
 transliteration: 'My vspominaem tikhiy sneg'
 credits:

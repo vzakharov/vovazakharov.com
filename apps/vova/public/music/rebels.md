@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/rebels/main/rebels_master1.
 seconds: 204
 explicit: true
 album: ignite
+track: 3
 hidden: true
 en:
   title: 'Rebels Between the Lines (Live in Sparta)'

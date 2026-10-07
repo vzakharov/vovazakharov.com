@@ -8,12 +8,13 @@ audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabon
 seconds: 383
 explicit: false
 album: vagabond
+track: 3
 hidden: true
 en:
   title: 'Inverno'
   description: 'TBD'
 ru:
-  title: 'Inverno'
+  title: 'Инверно'
   description: 'TBD'
 ---
 

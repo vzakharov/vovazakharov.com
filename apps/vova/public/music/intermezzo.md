@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/9_intermezz
 seconds: 172
 explicit: false
 album: pschpthy
+track: 9
 hidden: true
 en:
   title: 'Intermezzo'

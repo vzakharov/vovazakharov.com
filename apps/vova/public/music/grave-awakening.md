@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-012.flac
 seconds: 26
 explicit: true
 album: nsfl
+track: 12
 hidden: true
 en:
   title: 'Grave Awakening'

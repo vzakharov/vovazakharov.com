@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/m
 seconds: 274
 explicit: true
 album: divine
+track: 7
 hidden: true
 en:
   title: 'Believe in Me'

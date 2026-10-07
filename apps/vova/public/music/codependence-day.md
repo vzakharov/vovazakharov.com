@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/3.%20C
 seconds: 277
 explicit: false
 album: ghosts
+track: 3
 hidden: true
 en:
   title: 'Codependence Day'

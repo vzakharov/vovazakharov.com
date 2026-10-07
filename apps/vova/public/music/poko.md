@@ -5,7 +5,8 @@ language: ru
 transliteration: 'Metel'
 project: ['Грёбаный бал']
 repo: 'poko'
-album: null
+album: nikogo
+track: 6
 audio: https://raw.githubusercontent.com/vovas-music/poko/main/%D0%9C%D0%B5%D1%82%D0%B5%D0%BB%D1%8C.flac
 seconds: 257
 explicit: false

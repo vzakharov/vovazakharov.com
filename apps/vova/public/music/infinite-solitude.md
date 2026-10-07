@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/m
 seconds: 243
 explicit: false
 album: divine
+track: 2
 hidden: true
 en:
   title: 'Infinite Solitude'

@@ -8,12 +8,13 @@ audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabon
 seconds: 316
 explicit: false
 album: vagabond
+track: 5
 hidden: true
 en:
   title: 'Call of the Steppe'
   description: 'TBD'
 ru:
-  title: 'Call of the Steppe'
+  title: 'По зову степей'
   description: 'TBD'
 ---
 

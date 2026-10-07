@@ -7,6 +7,7 @@ repo: june
 audio: https://raw.githubusercontent.com/vovas-music/june/main/breathe.flac
 seconds: 293
 album: vagabond
+track: 8
 en:
   title: Breathe
   description: 'Written in Noteflight in June 2014 as “breathe, please, just breathe,” and re-recorded ten years later as the wind under Konyukhov’s balloon.'

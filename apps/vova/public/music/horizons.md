@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/horizons/main/horizons_mast
 seconds: 168
 explicit: false
 album: ghosts
+track: 10
 hidden: true
 en:
   title: 'Horizons'

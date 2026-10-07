@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ophelia/main/ophelia.flac
 seconds: 203
 explicit: false
 album: papa-reka
+track: 6
 hidden: true
 transliteration: 'Valentinov den'
 credits:

@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/mira/main/mira.flac
 seconds: 236
 explicit: false
 album: stories
+track: 2
 hidden: true
 en:
   title: 'Mira Is Going to the Sea'

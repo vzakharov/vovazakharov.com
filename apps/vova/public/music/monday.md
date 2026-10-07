@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/monday/main/monday.flac
 seconds: 159
 explicit: false
 album: ctfu
+track: 2
 hidden: true
 en:
   title: 'Every Monday'

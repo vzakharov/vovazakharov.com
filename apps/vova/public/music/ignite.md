@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ignite/main/ignite.flac
 seconds: 149
 explicit: false
 album: ignite
+track: 2
 hidden: true
 en:
   title: 'Ignite'

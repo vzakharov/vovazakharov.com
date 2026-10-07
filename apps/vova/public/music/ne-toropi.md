@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/rus-/main/8%20%D0%BD%D0%B5%
 seconds: 273
 explicit: false
 album: rus
+track: 8
 hidden: true
 en:
   title: 'Не торопи'

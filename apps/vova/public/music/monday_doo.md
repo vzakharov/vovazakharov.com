@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/monday_doo/main/monday_doo.
 seconds: 214
 explicit: false
 album: ctfu
+track: 6
 hidden: true
 en:
   title: 'Every Monday'

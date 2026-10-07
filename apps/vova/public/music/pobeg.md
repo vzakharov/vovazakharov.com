@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/pobeg/main/pobeg.flac
 seconds: 220
 explicit: false
 album: papa-reka
+track: 1
 hidden: true
 transliteration: 'Reka. Chast pervaya / Pobeg'
 credits:

@@ -5,7 +5,8 @@ language: ru
 transliteration: 'Studentka'
 project: ['Грёбаный бал']
 repo: 'studentka'
-album: null
+album: polzat
+track: 2
 audio: https://raw.githubusercontent.com/vovas-music/studentka/main/%D0%A1%D1%82%D1%83%D0%B4%D0%B5%D0%BD%D1%82%D0%BA%D0%B0.flac
 seconds: 253
 explicit: false

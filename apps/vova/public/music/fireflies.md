@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/stories/main/7%20fireflies.
 seconds: 243
 explicit: false
 album: stories
+track: 7
 hidden: true
 en:
   title: 'Fireflies'

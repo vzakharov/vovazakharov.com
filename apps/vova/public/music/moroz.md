@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/rus-/main/5%20%D0%BC%D0%BE%
 seconds: 375
 explicit: false
 album: rus
+track: 5
 hidden: true
 en:
   title: 'Не ветер бушует над бором'

@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/rus-/main/6%20%D0%BC%D1%83%
 seconds: 190
 explicit: false
 album: rus
+track: 6
 hidden: true
 en:
   title: 'Однажды в студёную зимнюю пору'

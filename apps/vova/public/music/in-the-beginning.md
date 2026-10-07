@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/m
 seconds: 252
 explicit: false
 album: divine
+track: 1
 hidden: true
 en:
   title: 'In the Beginning, There Was Silence'

@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/undone/main/undone.flac
 seconds: 245
 explicit: false
 album: stories
+track: 6
 hidden: true
 en:
   title: 'Undone'

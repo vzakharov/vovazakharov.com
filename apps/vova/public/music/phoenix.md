@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/phoenix/main/phoenix.flac
 seconds: 193
 explicit: false
 album: ctfu
+track: 10
 hidden: true
 en:
   title: 'Phoenix'

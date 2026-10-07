@@ -178,6 +178,12 @@ const songFieldsSchema = baseFrontmatterSchema
      */
     album: z.enum(MUSIC_ALBUM_SLUGS).nullable(),
     /**
+     * Its number on that release — required there and refused on a single, so
+     * an album lists in the order it was released in. Numbers may skip: a
+     * release can carry a song the catalogue has no master for.
+     */
+    track: z.number().int().positive().optional(),
+    /**
      * The title in Latin letters, where it is written in another script. The
      * page shows it only to a reader whose own script the title is not in.
      */
@@ -196,9 +202,13 @@ const songFieldsSchema = baseFrontmatterSchema
  * exhaustive: a document carrying `en` and no `ru` fails the build instead of
  * publishing a half-translated catalogue quietly.
  */
-export const songFrontmatterSchema = songFieldsSchema.extend(
-  byLocale(() => songTextSchema),
-);
+export const songFrontmatterSchema = songFieldsSchema
+  .extend(byLocale(() => songTextSchema))
+  .refine(({ album, track }) => (album === null) === (track === undefined), {
+    message:
+      'A song on an album takes a track number, and a single takes none.',
+    path: ['track'],
+  });
 
 export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
 export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;

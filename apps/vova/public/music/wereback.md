@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/wereback/main/wereback.flac
 seconds: 191
 explicit: true
 album: ctfu
+track: 1
 en:
   title: We’re Back
   description: 'Written second by second on OpenAI’s Jukebox, about the comeback of a band that never existed, to fans who never existed either.'

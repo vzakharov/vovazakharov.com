@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/stories/main/4%20lake.flac
 seconds: 352
 explicit: false
 album: stories
+track: 4
 hidden: true
 en:
   title: 'Sisters'

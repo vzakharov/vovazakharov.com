@@ -8,12 +8,13 @@ audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabon
 seconds: 286
 explicit: false
 album: vagabond
+track: 9
 hidden: true
 en:
   title: 'Άγιος Ο Σκοπός'
   description: 'TBD'
 ru:
-  title: 'Άγιος Ο Σκοπός'
+  title: 'Предназначение'
   description: 'TBD'
 ---
 

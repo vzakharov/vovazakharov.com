@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/psch/main/psch.flac
 seconds: 282
 explicit: false
 album: pschpthy
+track: 7
 hidden: true
 en:
   title: 'PSCHPTHY'

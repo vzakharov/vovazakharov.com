@@ -4,7 +4,8 @@ status: done
 language: ru
 project: [Грёбаный бал]
 repo: birdie
-album: null
+album: polzat
+track: 6
 audio: https://raw.githubusercontent.com/vovas-music/birdie/main/%F0%9F%85%B4%20%D0%9F%D1%82%D0%B8%D1%87%D0%BA%D0%B0.flac
 seconds: 207
 explicit: true

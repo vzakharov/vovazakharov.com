@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/otter/main/otter.flac
 seconds: 212
 explicit: false
 album: papa-reka
+track: 7
 hidden: true
 transliteration: 'Reka. Chast tretya'
 en:

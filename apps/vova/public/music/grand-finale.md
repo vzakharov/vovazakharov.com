@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/m
 seconds: 240
 explicit: false
 album: divine
+track: 9
 hidden: true
 en:
   title: 'Grand Finale (In Entropy We Trust)'

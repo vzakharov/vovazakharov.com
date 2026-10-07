@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-002.flac
 seconds: 6
 explicit: false
 album: nsfl
+track: 2
 hidden: true
 en:
   title: 'Fetal Soup'

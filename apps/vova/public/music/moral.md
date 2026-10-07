@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/moral-/main/%D0%BC%D0%BE%D1
 seconds: 231
 explicit: false
 album: rus
+track: 2
 hidden: true
 en:
   title: 'Нравственный человек'

@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/normal/main/normal.flac
 seconds: 243
 explicit: false
 album: pschpthy
+track: 8
 hidden: true
 en:
   title: 'Normal'

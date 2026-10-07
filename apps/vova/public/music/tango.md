@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/tango/main/tango.flac
 seconds: 279
 explicit: false
 album: pschpthy
+track: 11
 hidden: true
 en:
   title: 'Disintegration Tango'

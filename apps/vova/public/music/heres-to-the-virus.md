@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/2.%20H
 seconds: 232
 explicit: false
 album: ghosts
+track: 2
 hidden: true
 en:
   title: 'Here’s to the Virus'

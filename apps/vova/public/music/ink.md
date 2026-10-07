@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ink/main/ink.flac
 seconds: 208
 explicit: false
 album: stories
+track: 1
 hidden: true
 en:
   title: 'Ink'

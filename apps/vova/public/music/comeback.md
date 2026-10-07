@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/comeback/main/comeback.flac
 seconds: 209
 explicit: false
 album: ignite
+track: 1
 hidden: true
 en:
   title: 'The Comeback Song (We Have a Banger)'

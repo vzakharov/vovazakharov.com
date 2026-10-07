@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/succumb/main/succumb.flac
 seconds: 204
 explicit: false
 album: pschpthy
+track: 4
 hidden: true
 en:
   title: 'Succumb to Me'

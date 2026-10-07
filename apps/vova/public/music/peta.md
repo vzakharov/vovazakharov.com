@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/peta/main/peta_master.flac
 seconds: 122
 explicit: false
 album: ghosts
+track: 6
 hidden: true
 en:
   title: 'Robots for the Ethical Treatment of Humans'

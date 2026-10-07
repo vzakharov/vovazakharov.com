@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/8.%20C
 seconds: 203
 explicit: false
 album: ghosts
+track: 8
 hidden: true
 en:
   title: 'Chaos Always Wins'

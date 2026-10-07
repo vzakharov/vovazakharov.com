@@ -29,7 +29,8 @@ export const MUSIC_PROJECT_NAMES = [
   'Yoohie',
   'Trending Today',
   'Дамы и господа',
-  'Онык',
+  'Иске Курмаш',
+  'Киндерштайн',
 ] as const;
 
 export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];

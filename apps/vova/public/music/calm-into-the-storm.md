@@ -8,12 +8,13 @@ audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabon
 seconds: 324
 explicit: false
 album: vagabond
+track: 1
 hidden: true
 en:
   title: 'Calm into the Storm'
   description: 'TBD'
 ru:
-  title: 'Calm into the Storm'
+  title: 'Буревестник'
   description: 'TBD'
 ---
 

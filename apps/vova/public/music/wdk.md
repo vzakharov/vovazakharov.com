@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/wdk/main/wdk.flac
 seconds: 220
 explicit: false
 album: stories
+track: 8
 hidden: true
 en:
   title: 'What Doesn’t Kill'

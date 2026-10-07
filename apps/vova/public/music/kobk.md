@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/kobk/main/kobk.flac
 seconds: 180
 explicit: false
 album: ctfu
+track: 3
 hidden: true
 en:
   title: 'Kill or Be Killed'

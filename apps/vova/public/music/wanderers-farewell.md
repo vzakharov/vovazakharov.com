@@ -8,12 +8,13 @@ audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabon
 seconds: 266
 explicit: false
 album: vagabond
+track: 7
 hidden: true
 en:
   title: 'Wanderer’s Farewell'
   description: 'TBD'
 ru:
-  title: 'Wanderer’s Farewell'
+  title: 'Прощание с дорогой'
   description: 'TBD'
 ---
 

@@ -3,7 +3,7 @@ date: 2024-07-23
 status: done
 language: ru
 transliteration: 'Dym'
-project: ['Полуживые']
+project: ['за/обложкой']
 repo: 'dym'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/dym/main/dym_master_new.flac

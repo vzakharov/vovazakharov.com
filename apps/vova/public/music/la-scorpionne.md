@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/7.%20L
 seconds: 335
 explicit: false
 album: ghosts
+track: 7
 hidden: true
 en:
   title: 'La Scorpionne (Dans Ma Nature)'

@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-007.flac
 seconds: 36
 explicit: false
 album: nsfl
+track: 7
 hidden: true
 en:
   title: 'Last Christmas'

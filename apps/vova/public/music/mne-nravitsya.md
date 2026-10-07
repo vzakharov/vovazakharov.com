@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-003.flac
 seconds: 254
 explicit: false
 album: dng
+track: 3
 hidden: true
 transliteration: 'Mne nravitsya, chto vy bolny ne mnoy'
 credits:

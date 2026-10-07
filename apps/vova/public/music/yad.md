@@ -5,7 +5,8 @@ language: ru
 transliteration: 'Yad'
 project: ['Грёбаный бал']
 repo: 'yad'
-album: null
+album: polzat
+track: 3
 audio: https://raw.githubusercontent.com/vovas-music/yad/main/%D0%AF%D0%B4_master2.flac
 seconds: 235
 explicit: false

@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/stories/main/11%20ends.flac
 seconds: 118
 explicit: false
 album: stories
+track: 11
 hidden: true
 en:
   title: 'The Story Ends'

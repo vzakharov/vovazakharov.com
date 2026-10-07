@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.flac
 seconds: 232
 explicit: false
 album: papa-reka
+track: 3
 hidden: true
 transliteration: 'Moy Sultan'
 credits:

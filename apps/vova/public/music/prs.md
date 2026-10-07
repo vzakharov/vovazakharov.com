@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/prs/main/prs40.flac
 seconds: 218
 explicit: true
 album: ctfu
+track: 8
 hidden: true
 en:
   title: 'Punk Rock Song (At 40)'

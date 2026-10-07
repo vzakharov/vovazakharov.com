@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/9.%20M
 seconds: 361
 explicit: false
 album: ghosts
+track: 9
 hidden: true
 en:
   title: 'Möbius'

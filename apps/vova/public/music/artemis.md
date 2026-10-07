@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/artemis/main/artemis_3.flac
 seconds: 258
 explicit: true
 album: pschpthy
+track: 10
 hidden: true
 en:
   title: 'Artemis'

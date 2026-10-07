@@ -4,7 +4,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'baa'
-album: null
+album: nursery
+track: 1
 audio: https://raw.githubusercontent.com/vovas-music/baa/main/baa_master.flac
 seconds: 177
 explicit: false

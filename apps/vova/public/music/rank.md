@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/rank/main/rank2.flac
 seconds: 220
 explicit: false
 album: papa-reka
+track: 5
 hidden: true
 credits:
   lyrics: [William Shakespeare]

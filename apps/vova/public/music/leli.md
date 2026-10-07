@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/rus-/main/7%20%D0%BB%D1%91%
 seconds: 264
 explicit: false
 album: rus
+track: 7
 hidden: true
 en:
   title: 'Лёли'

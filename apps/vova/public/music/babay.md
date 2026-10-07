@@ -3,7 +3,7 @@ date: 2025-02-24
 status: done
 language: tt
 transliteration: 'Minem babay'
-project: ['Онык']
+project: ['Иске Курмаш']
 repo: 'babay'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/babay/main/babay_master.flac
@@ -19,8 +19,6 @@ ru:
   titleTranslation: 'Мой дедушка'
   description: 'TBD'
 ---
-
-<!-- For Vova to check: Project «Онык» is made up — rename it. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/babay — babay_master.flac,
      44.1 kHz / 16-bit / stereo.

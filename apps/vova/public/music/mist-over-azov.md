@@ -8,12 +8,13 @@ audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabon
 seconds: 270
 explicit: false
 album: vagabond
+track: 2
 hidden: true
 en:
   title: 'Mist over Azov'
   description: 'TBD'
 ru:
-  title: 'Mist over Azov'
+  title: 'Туман над Азовом'
   description: 'TBD'
 ---
 

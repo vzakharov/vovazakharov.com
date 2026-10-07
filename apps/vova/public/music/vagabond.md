@@ -8,12 +8,13 @@ audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabon
 seconds: 314
 explicit: false
 album: vagabond
+track: 10
 hidden: true
 en:
   title: 'Vagabond'
   description: 'TBD'
 ru:
-  title: 'Vagabond'
+  title: 'Скиталец'
   description: 'TBD'
 ---
 

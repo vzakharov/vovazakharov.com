@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/4.The%
 seconds: 291
 explicit: false
 album: ghosts
+track: 4
 hidden: true
 en:
   title: 'The Last Human Zoo'

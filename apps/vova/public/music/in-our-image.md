@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/m
 seconds: 261
 explicit: false
 album: divine
+track: 3
 hidden: true
 en:
   title: 'In Our Image'

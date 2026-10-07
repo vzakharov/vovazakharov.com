@@ -5,7 +5,8 @@ language: ru
 transliteration: 'Ukhodi'
 project: ['Грёбаный бал']
 repo: 'ukhodi'
-album: null
+album: nikogo
+track: 8
 audio: https://raw.githubusercontent.com/vovas-music/ukhodi/main/%D0%A3%D1%85%D0%BE%D0%B4%D0%B8.flac
 seconds: 234
 explicit: false

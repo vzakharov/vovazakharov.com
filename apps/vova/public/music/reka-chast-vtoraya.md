@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/4_reka.flac
 seconds: 338
 explicit: false
 album: papa-reka
+track: 4
 hidden: true
 en:
   title: 'Река. Часть вторая'

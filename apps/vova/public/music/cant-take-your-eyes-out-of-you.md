@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-009.flac
 seconds: 53
 explicit: false
 album: nsfl
+track: 9
 hidden: true
 en:
   title: 'Can’t Take Your Eyes out of You'

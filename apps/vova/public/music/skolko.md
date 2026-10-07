@@ -4,7 +4,8 @@ status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'skolko'
-album: null
+album: polzat
+track: 1
 audio: https://raw.githubusercontent.com/vovas-music/skolko/main/%D0%A1%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE.flac
 seconds: 240
 explicit: false

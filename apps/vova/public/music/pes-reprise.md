@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/8_pes_repris
 seconds: 323
 explicit: false
 album: papa-reka
+track: 8
 hidden: true
 transliteration: 'Pegiy pyos (Repriza)'
 credits:

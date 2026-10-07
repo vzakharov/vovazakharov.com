@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/mask/main/mask.flac
 seconds: 208
 explicit: false
 album: pschpthy
+track: 5
 hidden: true
 en:
   title: 'Behind the Mask'

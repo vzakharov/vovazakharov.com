@@ -20,6 +20,10 @@ export const MUSIC_ALBUM_SLUGS = [
   'rus',
   'dng',
   'ignite',
+  'nursery',
+  'prototypes',
+  'nikogo',
+  'polzat',
 ] as const;
 
 export type MusicAlbum = (typeof MUSIC_ALBUM_SLUGS)[number];
@@ -56,4 +60,11 @@ export const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     artist: 'Дамы и господа',
   },
   ignite: { title: 'Ignite', artist: 'Yoohie' },
+  nursery: {
+    title: 'Nursery Rhymes for the Jilted Generation',
+    artist: 'GENERATED',
+  },
+  prototypes: { title: 'Prototypes', artist: 'GENERATED' },
+  nikogo: { title: 'Ни для кого и для всех', artist: 'Грёбаный бал' },
+  polzat: { title: 'Рождённый ползать', artist: 'Грёбаный бал' },
 };

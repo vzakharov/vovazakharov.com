@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/pes/main/pes.flac
 seconds: 321
 explicit: false
 album: papa-reka
+track: 2
 hidden: true
 transliteration: 'Pegiy pyos, begushchiy kraem morya'
 credits:

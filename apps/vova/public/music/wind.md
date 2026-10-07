@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/wind/main/wind.flac
 seconds: 243
 explicit: false
 album: stories
+track: 5
 hidden: true
 en:
   title: 'Gone with the Wind'

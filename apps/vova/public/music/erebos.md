@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/erebos/main/erebos.flac
 seconds: 272
 explicit: false
 album: pschpthy
+track: 12
 hidden: true
 en:
   title: 'Erebos'

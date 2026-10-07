@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/1_overture.
 seconds: 53
 explicit: false
 album: pschpthy
+track: 1
 hidden: true
 en:
   title: 'Overture'

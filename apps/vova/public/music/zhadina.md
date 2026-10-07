@@ -3,7 +3,7 @@ date: 2024-10-14
 status: done
 language: ru
 transliteration: 'Zhadina'
-project: ['Грёбаный бал']
+project: ['Киндерштайн']
 repo: 'zhadina'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/zhadina/main/zhadina.flac

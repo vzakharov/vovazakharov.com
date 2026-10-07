@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/1.%20I
 seconds: 265
 explicit: false
 album: ghosts
+track: 1
 hidden: true
 en:
   title: 'In the Flesh'
