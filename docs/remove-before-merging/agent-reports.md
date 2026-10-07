@@ -70,6 +70,14 @@ report to Vova.
 - baa: traditional rhyme (Opie/Wikipedia) + "sung version may differ" comment; album (T10 "Nursery Rhymes for the Jilted Generation") left to the coordinator.
 - meow (see also below) = "I Love Little Pussy" (1830, PD), 8-line version. Explicit and 3:07 — does he sing extra stanzas or his own changes? Credit Jane Taylor (uncertain attribution)? **ask**.
 
+## Divine Discontent (T01, T32, T36, T37)
+
+- All ten: words + Russian crib + `ru.titleTranslation`. grand-finale, in-the-beginning `instrumental` (the words file has full words for Grand Finale — review followed, flagged). in-the-end: `language: ar`, `titleLanguage: en`, «وأخيراً صَمْت» with en and ru cribs.
+- believe-in-me (German) and in-our-image (Italian chorus) filed as `en` with notes — no `de`/`it` language codes.
+- ultimate-abstraction: Church Slavonic closing line kept (stress marks removed), set once; English note quotes KJV Rev 22:13, Russian crib the Synodal.
+- Masked swear words written `\*` (Prettier); `lyric-notes.ts` unescapes markdown escapes in lyric text (a9618e3).
+- Flagged: "In Your Image"/"In Your Own Image" vs "In Our Image" (title kept); "(One more time!)" kept as sung; kept "Cause", "One day....", unclosed quotes.
+
 ## Let the Stories Spin (T19)
 
 - All 12: words + Russian crib + `ru.titleTranslation` (Чернила, Мира уходит к морю, Другое сердце, Сёстры, Унесённые ветром, Разрушенные — his say?, Светлячки, Что не убивает, Непрощённый IV, Обезьяна, История заканчивается, Сквозь трещины).
