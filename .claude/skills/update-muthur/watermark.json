@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "2fb5fa5c877412265ed1721c848d5783c1d0dbc6",
-  "lastSyncedAt": "2026-10-06",
+  "lastSyncedSha": "4b5bbe678db29d8eef0cb52509fa73ffc2179777",
+  "lastSyncedAt": "2026-10-07",
   "adopted": [
     {
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
@@ -59,7 +59,9 @@
     {
       ".claude/skills/spinoff/": "taken with two translations, neither of which the closure check can see. The relative link to the source's catalog.md resolves to nothing here and reads as any catalog.md under .claude/skills/. And the stackless-vet rule it cites as CLAUDE.md § \"Vetting\" is the source's clause, declined here, so the skill states it itself. Everything else lands verbatim, its § \"The watermark\" pointer included: this repo carries the source's own name for the sync skill and for the watermark file, so the paragraph on what the target's copy is named holds here as written. Its catalog refusal needs no translation either — this repo has no catalog, which is exactly the signal that says a caller may spin off."
     },
-    ".claude/skills/squash-message/",
+    {
+      ".claude/skills/squash-message/": "taken with one translation: the title rule allows a site scope, `<type>[(<site>)]:`, because here the squash subject's scope picks which site a merge publishes (CLAUDE.md § \"Deployment\"). The source forbids a scope, having one site to deploy; a sync that re-copies the rule unscoped makes every merge publish every site."
+    },
     ".claude/skills/sync-branch/",
     ".claude/skills/tend-prose/",
     ".claude/skills/watch-ci/",

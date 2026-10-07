@@ -125,12 +125,16 @@ appears only sometimes shows up as drift.
 
 Format rules:
 
-- **Title** — exactly `<type>: #<issue number if applicable> <essence> (pr #<pr
+- **Title** — exactly `<type>[(<site>)]: #<issue number if applicable> <essence> (pr #<pr
 number>)`, e.g. `refactor: #1150 extract useVisibilityPoll to shared/lib (pr
 #1155)`. `<type>` is one of the prefixes the project's `CLAUDE.md` lists under
   "Git conventions" — read them there rather than assuming the
-  conventional-commit set, since a project may carry its own — with no scope or
-  extra words before the colon. Include `#<issue>` only when the PR addresses a GitHub issue
+  conventional-commit set, since a project may carry its own. **The scope is
+  the deploy switch** (CLAUDE.md § "Deployment"): a branch whose shipped change
+  is one site's names that site (`feat(basilisk):`), so the merge publishes it
+  alone; one that ships to several sites, or changes the shared `src/`, takes
+  none. Agent-infrastructure files riding along ship to no site and do not
+  count. No other words before the colon. Include `#<issue>` only when the PR addresses a GitHub issue
   (the primary one if several); omit it otherwise. Always end with ` (pr #<pr
 number>)`. **One line, at most 80 chars** — the mandatory suffix eats ~10 of it,
   which is why it isn't the body's own 72.
