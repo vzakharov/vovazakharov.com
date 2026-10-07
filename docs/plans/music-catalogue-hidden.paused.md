@@ -37,6 +37,12 @@ The queue lives in the music layout and is built once from `listSongs()`, so a h
 
 `player-state.test.ts` covers the append action: the queue grows by one, the appended track becomes current, `next` from it wraps to the start, and shuffle keeps it.
 
+## Status
+
+**Done**: the `hidden` flag end to end (5fba127, d2a13bf), verified on a real `next build` and in a headless browser. The checklist, partly filled by Vova (f21da00), then matched against his Apple Music playlist «Generative music by Vova» by FLAC length (cc8ac52): 118 entries gained project, title, album and an `Apple Music:` line; the operator's own entries were kept; 28 playlist tracks with no root FLAC are listed at the end.
+
+**Left**: waiting on Vova to finish the checklist. Then the step below. His entries raise schema questions to settle with him first: a song with no project (`babay`, «Минем бабай»), a language outside `ru`/`en`/`instrumental` (Tatar), per-locale project order (`8849`: GENERATED & Полуживые in English, reversed in Russian), and albums beyond `ctfu`/`vagabond` — `MUSIC_ALBUM_SLUGS` grows, and some have no name yet. New projects from the playlist: `Trending Today`, `Дамы и господа`.
+
 ## Later — after the checklist is filled in
 
 - Read the filled checklist and scaffold each song it keeps: master file, project, title, language and `hidden` as marked, `description: TBD` in both languages. `pnpm music:scaffold` today refuses a repository with several root FLACs and reads the title off the file name; it gains a way to be told the master and the authored fields, rather than a second scaffolder.
