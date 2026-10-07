@@ -1,0 +1,76 @@
+{
+  "sessionId": "8f38aaa2-e745-5ebe-9af5-378866934578",
+  "branch": "claude/mushroom-case-study-pk9soi",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/mushroom-case-study-pk9soi давай напишем (/go) первую часть и поставим на паузу. Твой ответ на мою диктовку из прошлой сессии -- твои правки…",
+  "prs": [
+    100
+  ],
+  "url": "https://claude.ai/code/session_01X8ckz6wPvM1H2m4zmjhcT8",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-07T04:43:06.636Z",
+  "lastResponseAt": "2026-10-07T05:21:26.481Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": 7.404767599999999,
+  "total": {
+    "inputTokens": 230,
+    "cacheWrite5mTokens": 111482,
+    "cacheWrite1hTokens": 250819,
+    "cacheReadTokens": 21421736,
+    "outputTokens": 58024,
+    "thinkingTokens": 16426,
+    "responses": 115,
+    "costUsd": 8.0097092
+  },
+  "ownTurns": {
+    "inputTokens": 186,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 250819,
+    "cacheReadTokens": 19674650,
+    "outputTokens": 57686,
+    "thinkingTokens": 16426,
+    "responses": 93,
+    "costUsd": 7.0959460000000005
+  },
+  "subagents": {
+    "inputTokens": 44,
+    "cacheWrite5mTokens": 111482,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1747086,
+    "outputTokens": 338,
+    "thinkingTokens": 0,
+    "responses": 22,
+    "costUsd": 0.9137631999999999
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 230,
+      "cacheWrite5mTokens": 111482,
+      "cacheWrite1hTokens": 250819,
+      "cacheReadTokens": 21421736,
+      "outputTokens": 58024,
+      "thinkingTokens": 16426,
+      "responses": 115,
+      "costUsd": 8.0097092
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/plans/mushroom-case-study.in-progress.md",
+    "endedAt": "2026-10-07T04:43:41.787Z",
+    "contextTokens": 120659,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 75555,
+      "cacheReadTokens": 657414,
+      "outputTokens": 2225,
+      "thinkingTokens": 773,
+      "responses": 7,
+      "costUsd": 0.7804787999999999
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
