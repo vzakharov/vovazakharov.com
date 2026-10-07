@@ -7,17 +7,18 @@ feat(vova): fit the printed CV on three pages (pr #113)
 ```
 Every CV PDF, in both framings and both languages, ran onto a fourth
 page: the English ones by about a sixth of it, the Russian by a third.
-The overflow was print whitespace rather than copy.
 
-The CV's print spacing is tightened: no inset beyond the page margin,
-smaller gaps between sections and between experience entries, less
-header padding, closer bullets. A printed card keeps only its vertical
-padding, since it prints as a rule between entries rather than a box.
-Body type stays at 10 pt and no copy changed.
+The CV now prints its paragraphs and lists at 9 pt rather than the
+sheet's 10, and no longer adds its own 0.5 cm inset inside the page
+margin; every gap between sections and entries stays as it was. The
+size is scoped to the CV page through `:where()`, so the header's
+tagline and contact line keep their print sizes. Tighter spacing at
+10 pt also fit, but read as cramped. All four PDFs end on page 3, the
+longest at about 89% of it, and the case-study PDFs are unchanged.
 
-All four PDFs now end on page 3, English at about two thirds of it and
-Russian at about 85%. `@page` is untouched, so the case-study PDFs
-re-render unchanged.
+/relay also renames an opaque auto-branch before it relays, so the
+summary and the successor's take line name a branch that still exists,
+taken from the repo this agent infrastructure is vendored from.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
