@@ -1,9 +1,9 @@
 import { Group } from '@mantine/core';
 import { Fragment, type ReactNode } from 'react';
 
-import { bill, MUSIC_ALBUMS, projectName } from '@/shared/config';
+import { albumTitle, bill, projectName } from '@/shared/config';
 import { documentMonth, formatDocumentMonth } from '@/shared/content';
-import { inLocale, loadMessages, type WithLocale } from '@/shared/i18n';
+import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { NameLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
@@ -43,7 +43,7 @@ export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
     album: album && [
       beforeAlbum,
       <NameLink key="album" href={albumPath(album, catalogue, locale)}>
-        {inLocale(MUSIC_ALBUMS[album].title, locale)}
+        {albumTitle(album, locale)}
       </NameLink>,
       afterAlbum,
     ],

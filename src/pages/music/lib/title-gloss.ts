@@ -1,4 +1,4 @@
-import type { SongLanguage } from '@/shared/content';
+import type { SongLanguage, SongText, SungLanguage } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 import type { Titled } from '@/shared/typings';
 
@@ -10,12 +10,11 @@ const LOCALE_SCRIPTS: Record<Locale, RegExp> = {
   ru: /\p{Script=Cyrillic}/u,
 };
 
-export type TitleGlossSource = Titled & {
-  transliteration?: string;
-  titleTranslation?: string;
-  /** What the title is in; `instrumental` where nothing says, which leaves the translation unprefixed. */
-  titleLanguage: SongLanguage;
-};
+export type TitleGlossSource = Titled &
+  Pick<SongText, 'transliteration' | 'titleTranslation'> & {
+    /** What the title is in; `instrumental` where nothing says, which leaves the translation unprefixed. */
+    titleLanguage: SongLanguage;
+  };
 
 /**
  * The muted line under a song's title: the title in the reader's own letters
@@ -26,7 +25,7 @@ export type TitleGlossSource = Titled & {
 export function titleGloss(
   { title, transliteration, titleTranslation, titleLanguage }: TitleGlossSource,
   locale: Locale,
-  languageShort: Record<Exclude<SongLanguage, 'instrumental'>, string>,
+  languageShort: Record<SungLanguage, string>,
 ): string[] {
   const readable = LATIN.test(title) || LOCALE_SCRIPTS[locale].test(title);
   const translation =

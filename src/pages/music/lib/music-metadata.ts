@@ -1,7 +1,12 @@
 import 'server-only';
 
-import { MUSIC_ALBUMS, projectName, SITE_CONFIG } from '@/shared/config';
-import { inLocale, loadMessages, type Locale } from '@/shared/i18n';
+import {
+  albumArtist,
+  albumTitle,
+  projectName,
+  SITE_CONFIG,
+} from '@/shared/config';
+import { loadMessages, type Locale } from '@/shared/i18n';
 import {
   constructMetadata,
   localizedAddresses,
@@ -55,8 +60,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
 }
 
 export function generateAlbumMetadata(page: AlbumPageProps) {
-  const { title, artist } = MUSIC_ALBUMS[page.album];
-  const name = inLocale(title, page.locale);
+  const name = albumTitle(page.album, page.locale);
   const { albumDescription } = loadMessages(page.locale).music;
 
   return catalogueMetadata(
@@ -66,7 +70,7 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
       .replace('{album}', name)
       .replace(
         '{artist}',
-        projectName(inLocale(artist, page.locale), page.locale),
+        projectName(albumArtist(page.album, page.locale), page.locale),
       ),
     (locale) => albumPath(page.album, page, locale),
   );

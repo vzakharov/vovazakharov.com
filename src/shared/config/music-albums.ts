@@ -5,7 +5,9 @@
  * album page's address under `/music/albums/`.
  */
 
-import type { Localizable } from '@/shared/i18n';
+// `scripts/scaffold-song.ts` imports this module under tsx: the next-intl-free
+// leaf, never the `@/shared/i18n` barrel.
+import { inLocale, type Locale, type Localizable } from '@/shared/i18n/locales';
 
 import type { MusicProject } from './music-projects';
 
@@ -29,7 +31,7 @@ export const MUSIC_ALBUM_SLUGS = [
 
 export type MusicAlbum = (typeof MUSIC_ALBUM_SLUGS)[number];
 
-export type MusicAlbumRecord = {
+type MusicAlbumRecord = {
   /**
    * What the release is called — once, or per language where one release went
    * out under two names: `Vagabond` to the Western services and
@@ -40,7 +42,7 @@ export type MusicAlbumRecord = {
   artist: Localizable<MusicProject>;
 };
 
-export const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
+const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   ctfu: {
     title: 'Cheer The Fuck Up',
     artist: 'GENERATED',
@@ -69,3 +71,11 @@ export const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   nikogo: { title: 'Ни для кого и для всех', artist: 'Грёбаный бал' },
   polzat: { title: 'Сильней любви', artist: 'Грёбаный бал' },
 };
+
+export function albumTitle(album: MusicAlbum, locale: Locale): string {
+  return inLocale(MUSIC_ALBUMS[album].title, locale);
+}
+
+export function albumArtist(album: MusicAlbum, locale: Locale): MusicProject {
+  return inLocale(MUSIC_ALBUMS[album].artist, locale);
+}

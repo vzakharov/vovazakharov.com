@@ -1,6 +1,7 @@
 export {
+  albumArtist,
+  albumTitle,
   MUSIC_ALBUM_SLUGS,
-  MUSIC_ALBUMS,
   type MusicAlbum,
 } from './music-albums';
 export {

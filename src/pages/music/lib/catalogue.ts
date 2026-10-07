@@ -1,13 +1,13 @@
 import 'server-only';
 
 import {
+  albumArtist,
   MUSIC_ALBUM_SLUGS,
-  MUSIC_ALBUMS,
   MUSIC_PROJECT_NAMES,
   type MusicAlbum,
   type MusicProject,
 } from '@/shared/config';
-import { inLocale, type Locale, LOCALES } from '@/shared/i18n';
+import { type Locale, LOCALES } from '@/shared/i18n';
 
 import type { SongDocument } from './song-text';
 
@@ -70,7 +70,7 @@ export function artistAlbums(
   songs: readonly SongDocument[],
 ): MusicAlbum[] {
   return catalogueAlbums(songs).filter(
-    (album) => inLocale(MUSIC_ALBUMS[album].artist, locale) === artist,
+    (album) => albumArtist(album, locale) === artist,
   );
 }
 

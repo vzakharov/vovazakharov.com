@@ -1,7 +1,7 @@
 import { Stack, Text } from '@mantine/core';
 
-import { MUSIC_ALBUMS, projectName } from '@/shared/config';
-import { byLocale, inLocale, loadMessages } from '@/shared/i18n';
+import { albumArtist, albumTitle, projectName } from '@/shared/config';
+import { byLocale, loadMessages } from '@/shared/i18n';
 import { BackToHome, NameLink, PageShell } from '@/shared/ui';
 
 import { albumSongs, albumYears } from '../lib/catalogue';
@@ -17,8 +17,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
   const catalogue = { everything };
   const songs = catalogueSongs(catalogue);
   const messages = loadMessages(locale).music;
-  const record = MUSIC_ALBUMS[album];
-  const artist = inLocale(record.artist, locale);
+  const artist = albumArtist(album, locale);
 
   return (
     <PageShell>
@@ -33,7 +32,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
 
         <CatalogueHeader
           kind={messages.kind.album}
-          title={inLocale(record.title, locale)}
+          title={albumTitle(album, locale)}
         >
           <Text size="sm" opacity={0.7} mt={12}>
             <NameLink href={artistPath(artist, catalogue, locale)}>

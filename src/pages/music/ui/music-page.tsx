@@ -1,7 +1,7 @@
 import { Stack } from '@mantine/core';
 
-import { MUSIC_ALBUMS, projectName } from '@/shared/config';
-import { byLocale, inLocale, loadMessages } from '@/shared/i18n';
+import { albumTitle, projectName } from '@/shared/config';
+import { byLocale, loadMessages } from '@/shared/i18n';
 import { BackToHome, PageShell } from '@/shared/ui';
 
 import { artistAlbums, catalogueArtists } from '../lib/catalogue';
@@ -35,7 +35,7 @@ export function MusicPage({ locale, everything }: CataloguePageProps) {
             href: artistPath(artist, catalogue, locale),
             label: projectName(artist, locale),
             detail: artistAlbums(artist, locale, songs)
-              .map((album) => inLocale(MUSIC_ALBUMS[album].title, locale))
+              .map((album) => albumTitle(album, locale))
               .join(' · '),
           }))}
         />
