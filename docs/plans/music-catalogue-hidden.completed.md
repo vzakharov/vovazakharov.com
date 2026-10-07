@@ -46,6 +46,7 @@ The queue lives in the music layout and is built once from `listSongs()`, so a h
 **Vova's answers, applied** (5606dc1 → faf52be): `/music/all` lists hidden songs too (unlinked, noindex); «Ignite» is a mini-album (`ignite`); an album track and the single repo cut from it are one song; `fr` added, La Scorpionne in French; Άγιος Ο Σκοπός sung in Russian (the choir's one line); the blank-project entries scaffolded with guessed projects (31 pages, 13 repos skipped as album tracks already on the site). 160 song files; `pnpm build:vova` passes.
 
 **Left**:
+
 - **Yoohie is «Йухи» on Russian pages** («да, давай пусть переводятся, пока конкретно для этого случая»). A per-locale display name for a project: `billing(projects, locale)` in `src/shared/config/music-projects.ts` through `inLocale` (`src/shared/i18n/locales.ts`), a `Partial<Record<MusicProject, Localizable>>` of names; `PlayerTrack.billing` becomes `Record<Locale, string>` (`player-state.ts`), read per locale in `song-list.tsx`, `player-bar.tsx`, `use-audio-player.ts` (media session `artist`) and `song-page.tsx`'s facts. `scripts/scaffold-song.ts` imports `music-projects.ts` under tsx, so keep its imports next-intl-free.
 - Refresh PR #115's body with the answers above and the new pages (`/pr`), and `/polish` over what changed since 24f549f.
 - Still open with Vova: «Минем бабай» words (he'll add them); the guessed projects on the 31 new pages.

@@ -29,7 +29,7 @@ const NOTE_MARKER = /(?:\[([^[\]]+)])?\[\^([^\s\]]+)]/g;
 const MARKDOWN_ESCAPE = /\\([!-/:-@[-`{-~])/g;
 
 function unescaped(text: string): string {
-  return text.replace(MARKDOWN_ESCAPE, '$1');
+  return text.replaceAll(MARKDOWN_ESCAPE, '$1');
 }
 
 /** `[^label]: text` on a line of its own: what the note says. */

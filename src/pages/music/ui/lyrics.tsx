@@ -18,6 +18,17 @@ export type LyricsProps = WithLocale & {
 };
 
 /**
+ * A note is one line of markdown, so the paragraph the parser wraps it in is
+ * dropped, and a link opens beside the song rather than over it.
+ */
+const NOTE_COMPONENTS: Components = {
+  p: ({ children }) => <>{children}</>,
+  // The type is HTML's, where an `<a>` may have no address; a markdown link
+  // always has one.
+  a: ({ href = '', children }) => <TextLink {...{ href }}>{children}</TextLink>,
+};
+
+/**
  * The words, and their crib beside them where the reader's language is not the
  * one they are sung in. Stanza for stanza rather than line for line: the lines
  * of a translated stanza do not correspond, and pretending they do makes a
@@ -86,17 +97,6 @@ function StanzaList({ stanzas }: WithStanzas) {
   // string — the index is what distinguishes them.
   return stanzas.map((lines, index) => <Stanza key={index} {...{ lines }} />);
 }
-
-/**
- * A note is one line of markdown, so the paragraph the parser wraps it in is
- * dropped, and a link opens beside the song rather than over it.
- */
-const NOTE_COMPONENTS: Components = {
-  p: ({ children }) => <>{children}</>,
-  // The type is HTML's, where an `<a>` may have no address; a markdown link
-  // always has one.
-  a: ({ href = '', children }) => <TextLink {...{ href }}>{children}</TextLink>,
-};
 
 type StanzaProps = { lines: LyricLine[] };
 

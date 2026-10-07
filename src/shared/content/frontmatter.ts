@@ -80,8 +80,6 @@ const localizedTextSchema = z.object({
   description: z.string().min(1),
 });
 
-export type LocalizedText = z.infer<typeof localizedTextSchema>;
-
 /** Whether the song is released or still being worked on. */
 const SONG_STATUSES = ['done', 'wip'] as const;
 

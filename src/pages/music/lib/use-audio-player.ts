@@ -32,7 +32,7 @@ export type PlayerControls = {
 };
 
 /** What is playing and where, as the bar and the track buttons read it. */
-export type Playback = {
+type Playback = {
   state: PlayerState;
   current?: PlayerTrack;
   /** Where playback sits, in seconds — the seek bar's value. */

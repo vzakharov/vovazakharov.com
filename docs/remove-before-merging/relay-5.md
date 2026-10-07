@@ -18,36 +18,43 @@ forwards their reports (see § 6).
 **Operator:** `/relay take claude/music-catalogue-hidden-ldz252` (automated). Agent: attached; next step was wait.
 
 **Operator:**
+
 > ух мамочки, готово. спойлер: тебе понадобится #многосубагентов
 
 Agent: found nothing new on the branch, looked for where the sources were.
 
 **Operator:**
+
 > экспортируй, не стесняйся
 
 Agent: exported PR #115 (94 threads awaiting an answer, 13 attachments; committed 66f…, "docs: #115 refresh the PR export"), split the threads into lyrics vs structure, wrote `tmp/lyrics-brief.md` (gitignored — conventions now live in the reports file and in the committed song files), launched 15 subagents on lyrics/cribs by album, and itself implemented title glosses, `cribNote`, required nullable `album` (28b8a7c).
 
 **Operator:**
+
 > а зачем ему? я ж сказал, это шекспир -- пусть найдёт тексты шекспира?
 
 Agent: told the Shakespeare subagent to drop transcription and take Shakespeare's texts.
 
 **Operator:** (the full words of «Гамлет», hamlet.md — now in `hamlet.md` once the subagent finishes; also in the predecessor transcript)
-> и вроде я слал полностью даже текст, потому что там перестановки и сочетание двух переводов. Но может нет: ``` Рука тверда, дух чёрен, крепок яд … Быть или не быть?! ``` передашь?
+
+> и вроде я слал полностью даже текст, потому что там перестановки и сочетание двух переводов. Но может нет: `Рука тверда, дух чёрен, крепок яд … Быть или не быть?!` передашь?
 
 Agent: forwarded it verbatim to the Shakespeare subagent.
 
 **Operator:**
+
 > собственно тут ещё и "быть или не быть" лезет и даже частично "oh my offence is rank" (две строчки в бридже) и ещё один кусок ("он вне себя")
 
 Agent: forwarded.
 
 **Operator:**
+
 > шекспировскому агенту досталась самая тяжёлая работёнка)
 
 Agent: banter.
 
 **Operator:**
+
 > > Ещё одно уточнение про «Гамлета» передала тому же субагенту
 >
 > и вот так, незаметно, ты стала женщиной :)
@@ -55,6 +62,7 @@ Agent: banter.
 Agent: banter; offered to switch to masculine past tense if he prefers — no answer yet.
 
 **Operator:**
+
 > кстати, для песен в альбомах нужны же порядковые номера 🙈
 
 Agent: agreed — a `track` field, required with an album, numbers from his attachments, Vagabond's screenshot and T82's list; queued with album pages for the successor.

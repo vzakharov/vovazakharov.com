@@ -22,9 +22,7 @@ export type SongDocument = ContentDocument<SongFrontmatter>;
  * A song as one language sees it: the titles and the story for that locale,
  * lifted out of the one file both languages are authored in.
  */
-export type LocalizedSongDocument = ContentDocument<
-  SongFrontmatter & SongText
->;
+export type LocalizedSongDocument = ContentDocument<SongFrontmatter & SongText>;
 
 /**
  * The words, and the same words in the reader's language where the two differ.

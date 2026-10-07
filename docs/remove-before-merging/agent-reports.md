@@ -30,7 +30,7 @@ report to Vova.
 ## crossout, diner, gg, hcyl, inside, like-that, love, machines (English, pasted)
 
 - All eight: words + Russian crib; `ru.titleTranslation` on all but gg (what "gg" stands for is unknown — **ask**). Language-guess check comments removed where settled.
-- crossout: a German stanza (Nietzsche, *Zarathustra* prologue) noted in both columns; `de` not in SONG_LANGUAGES — add `de`? Antonovsky's 1898 Russian translation is likely PD but unverified; own crib used.
+- crossout: a German stanza (Nietzsche, _Zarathustra_ prologue) noted in both columns; `de` not in SONG_LANGUAGES — add `de`? Antonovsky's 1898 Russian translation is likely PD but unverified; own crib used.
 - inside: "wIthin" → "within". gg: last line "Bye-be, good girl…" kept, asked in a comment.
 - machines: pasted words headed "Trust in the machine", file title "Machines" — **ask** (left, asked in comment).
 - hcyl: Russian gender chosen masculine for both («ты мог», «я не готов») — asked in comment.
@@ -82,7 +82,7 @@ report to Vova.
 
 - Tsvetaeva: mne-nravitsya, moim-stiham, pod-laskoy-pleda (poem 2 of «Подруга»), requiem («Уж сколько их упало в эту бездну»), tikhiy-sneg («Зима», «Мы вспоминаем тихий снег») — full poem (two sources each, ё restored) + own crib, `credits.lyrics: ['Марина Цветаева']`, "poem as published" check comment. Doubts: «Моим стихам» common line «Где их никто не брал и не берёт»; «Уж сколько…» punctuation per rustih.ru. Stanza cuts/repeats unchecked against the recordings.
 - sad (Заболоцкий), sneg_idet (Пастернак): credits, transliteration, titleTranslation; words and cribs unchanged. komnata, ya-govoryu: `credits.lyrics: ['Анна Ахматова']`, no words (not PD).
-- Published translations, none PD: Tsvetaeva — Feinstein, Kneller, Lydia Razran Stone, Shambat, Dumer, U. R. Bowie (ruverses.com); Zabolotsky «Ночной сад» — Perelman & Lewis; maybe Weissbort *Selected Poems* (1999); Pasternak «Снег идёт» — Stallworthy & France (Penguin 1983/84), A. S. Kline, Kneller, Chetin; Akhmatova «Вечерняя комната» — Hemschemeyer *Complete Poems* (1990, unconfirmed), D. M. Thomas, Kline, Kneller.
+- Published translations, none PD: Tsvetaeva — Feinstein, Kneller, Lydia Razran Stone, Shambat, Dumer, U. R. Bowie (ruverses.com); Zabolotsky «Ночной сад» — Perelman & Lewis; maybe Weissbort _Selected Poems_ (1999); Pasternak «Снег идёт» — Stallworthy & France (Penguin 1983/84), A. S. Kline, Kneller, Chetin; Akhmatova «Вечерняя комната» — Hemschemeyer _Complete Poems_ (1990, unconfirmed), D. M. Thomas, Kline, Kneller.
 - SoundCloud set (T41) is «Пять романсов, два сонета и один реквием» = album `dng`; visible titles are the five first lines plus «Твоя ль вина, что милый образ твой».
 
 ## Shakespeare (hamlet, deer, s74, tvoya-l-vina)

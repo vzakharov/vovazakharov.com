@@ -102,17 +102,22 @@ export async function SongPage({ slug, locale }: SongPageProps) {
   const document = resolve(slug);
   const localized = localizeSong(document, locale);
   const { tree } = await renderDocument(localized);
-  const { title, description, date, repo, explicit, cribNote } =
-    localized.frontmatter;
+  const {
+    title,
+    description,
+    date,
+    repo,
+    explicit,
+    cribNote,
+    titleLanguage,
+    language,
+  } = localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
   const gloss = titleGloss(
     {
       ...localized.frontmatter,
-      titleLanguage:
-        localized.frontmatter.titleLanguage ??
-        localized.frontmatter.language[0] ??
-        'instrumental',
+      titleLanguage: titleLanguage ?? language[0] ?? 'instrumental',
     },
     locale,
     messages.languageShort,

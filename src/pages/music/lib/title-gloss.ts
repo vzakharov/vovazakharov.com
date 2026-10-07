@@ -1,5 +1,6 @@
 import type { SongLanguage } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
+import type { Titled } from '@/shared/typings';
 
 const LATIN = /\p{Script=Latin}/u;
 
@@ -9,8 +10,7 @@ const LOCALE_SCRIPTS: Record<Locale, RegExp> = {
   ru: /\p{Script=Cyrillic}/u,
 };
 
-export type TitleGlossSource = {
-  title: string;
+export type TitleGlossSource = Titled & {
   transliteration?: string;
   titleTranslation?: string;
   /** What the title is in; `instrumental` where nothing says, which leaves the translation unprefixed. */
@@ -30,10 +30,9 @@ export function titleGloss(
 ): string[] {
   const readable = LATIN.test(title) || LOCALE_SCRIPTS[locale].test(title);
   const translation =
-    titleTranslation &&
-    (titleLanguage === 'instrumental'
+    titleTranslation === undefined || titleLanguage === 'instrumental'
       ? titleTranslation
-      : `${languageShort[titleLanguage]} ${titleTranslation}`);
+      : `${languageShort[titleLanguage]} ${titleTranslation}`;
 
   return [readable ? undefined : transliteration, translation].flatMap(
     (part) => part ?? [],
