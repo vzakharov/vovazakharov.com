@@ -43,7 +43,7 @@ I’ll have had enough,
 My eternal love
 (One day)
 Turns to primal hate
-One day....
+One day
 
 But people so funny
 People so f\*cking hilarious
@@ -54,7 +54,7 @@ Down to kick the shit…
 So funny
 People so lovely hilarious
 Keep me from coming
-Down to kick the dumb out of them…
+Down to kick the dumb out of them
 
 Just one of those days,
 When you don’t wanna wake up,
@@ -78,12 +78,12 @@ Down to kick the shit…
 So funny
 People so lovely hilarious
 Keep me from coming
-Down to kick the dumb out of them…
+Down to kick the dumb out of them
 
 People so funny
 People so lovely hilarious
 Keep me from coming
-Down to break some stuff…
+Down to break some stuff
 
 (People) so funny
 People so lovely hilarious
@@ -113,7 +113,7 @@ Down to be the god that they deserve.
 Моя вечная любовь
 (Однажды)
 Обернётся первобытной ненавистью
-Однажды....
+Однажды
 
 Но люди такие смешные
 Люди такие ох\*енно уморительные
@@ -124,7 +124,7 @@ Down to be the god that they deserve.
 Такие смешные
 Люди такие мило уморительные
 Не дают мне сойти
-Вниз и выбить из них всю дурь…
+Вниз и выбить из них всю дурь
 
 Просто один из тех дней,
 Когда не хочется просыпаться,
@@ -148,12 +148,12 @@ Down to be the god that they deserve.
 Такие смешные
 Люди такие мило уморительные
 Не дают мне сойти
-Вниз и выбить из них всю дурь…
+Вниз и выбить из них всю дурь
 
 Люди такие смешные
 Люди такие мило уморительные
 Не дают мне сойти
-Вниз и что-нибудь разнести…
+Вниз и что-нибудь разнести
 
 (Люди) такие смешные
 Люди такие мило уморительные

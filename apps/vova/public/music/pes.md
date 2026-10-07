@@ -42,20 +42,16 @@ sister Sasha.
 Увлекаемый в вечность то правдой то ложью
 Пегий пёс всё бежит и бежит краем моря
 
-Это море…
-Судьба моя…
-Эти воды…
-Слёзы мои….
+Это море — судьба моя,
+Эти воды — слёзы мои
 
 Да не все, кто отчалил, на берег вернутся
 Ожидавшие их задохнутся от горя
 И не веря в спасенье, вернувшиеся оглянутся
 И увидят, как мчится вдаль пёс краем моря
 
-Это море…
-Судьба моя…
-Эти воды…
-Слёзы мои….
+Это море — судьба моя,
+Эти воды — слёзы мои
 
 Пегий пёс — это тонкая грань между жизнью и смертью
 Меж землёю и небом, вдруг ставшим столь близким
@@ -67,15 +63,11 @@ sister Sasha.
 Увлекаемый в вечность то правдой то ложью
 Пегий пёс всё бежит и бежит краем моря
 
-Это море…
-Судьба моя…
-Эти воды…
-Слёзы мои….
+Это море — судьба моя,
+Эти воды — слёзы мои
 
-Это море…
-Судьба моя…
-Эти воды…
-Слёзы мои….
+Это море — судьба моя,
+Эти воды — слёзы мои
 
 <!-- lyrics:en -->
 
@@ -84,20 +76,16 @@ Brought to the shore by a gypsy fate
 Drawn into eternity now by truth, now by lies
 The piebald dog runs and runs along the edge of the sea
 
-This sea…
-My fate…
-These waters…
-My tears….
+This sea is my fate,
+These waters are my tears
 
 Yet not all who cast off will come back to shore
 Those who waited for them will choke with grief
 And, not believing in their rescue, those who came back will look round
 And see the dog racing away along the edge of the sea
 
-This sea…
-My fate…
-These waters…
-My tears….
+This sea is my fate,
+These waters are my tears
 
 The piebald dog is the fine line between life and death
 Between the earth and the sky, grown suddenly so near
@@ -109,12 +97,8 @@ Brought to the shore by a gypsy fate
 Drawn into eternity now by truth, now by lies
 The piebald dog runs and runs along the edge of the sea
 
-This sea…
-My fate…
-These waters…
-My tears….
+This sea is my fate,
+These waters are my tears
 
-This sea…
-My fate…
-These waters…
-My tears….
+This sea is my fate,
+These waters are my tears

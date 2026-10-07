@@ -30,7 +30,7 @@ ru:
 
 Может, это лишь приснилось мне:
 Небо задыхается в огне,
-И блестят от пепла облака…
+И блестят от пепла облака.
 
 И вокруг, насколько видит взор,
 Из воронок и руин узор,
@@ -85,7 +85,7 @@ ru:
 
 Может, где-то после нас
 И настанет час,
-Но не сейчас…
+Но не сейчас.
 
 Сколько
 Можно бегать кругом,
@@ -102,7 +102,7 @@ ru:
 Оставляя мир
 В осколках
 Мечт наших детей, да?
-Сколько можно…
+Сколько можно?
 
 Сколько
 Можно грызть друг другу
@@ -110,13 +110,13 @@ ru:
 Оставляя мир
 В осколках
 Мечт наших детей, да?
-Сколько…
+Сколько?
 
 <!-- lyrics:en -->
 
 Maybe I only dreamed it:
 The sky is choking in fire,
-And the clouds glitter with ash…
+And the clouds glitter with ash.
 
 And all around, as far as the eye can see,
 A pattern of craters and ruins,
@@ -171,7 +171,7 @@ How long?
 
 Maybe somewhere after us
 The hour will come,
-But not now…
+But not now.
 
 How long
 Can we run in circles,
@@ -188,7 +188,7 @@ Throats,
 Leaving the world
 In the shards
 Of our children’s dreams, huh?
-How long can this go on…
+How long can this go on?
 
 How long
 Can we tear at each other’s
@@ -196,4 +196,4 @@ Throats,
 Leaving the world
 In the shards
 Of our children’s dreams, huh?
-How long…
+How long?

@@ -66,7 +66,7 @@ ru:
 О, вспыхнувший над самой головой
 Мгновенный пламень звёздного осколка!
 
-О, сад ночной…
+О, сад ночной.
 
 <!-- lyrics:en -->
 
@@ -105,4 +105,4 @@ Oh, creatures fallen asleep for long!
 Oh, flaring right overhead,
 The instant flame of a splinter of a star!
 
-Oh, night garden…
+Oh, night garden.

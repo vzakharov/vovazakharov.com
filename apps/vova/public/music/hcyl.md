@@ -36,7 +36,7 @@ Your hand’s so cold
 An August day
 Under the age-old oaks
 The question rings
-Unanswered…
+Unanswered
 
 How could you leave
 (I’m not ready for this)
@@ -48,13 +48,13 @@ How could you leave
 How could you leave,
 How could you leave?
 
-Ash to ash… (ash to ash)
-Dust to dust… (dust to dust)
+Ash to ash (ash to ash)
+Dust to dust (dust to dust)
 What’s to keep? (Ash to ash)
 What’s to show? (Dust to dust)
 
-Ash to ash… (ash to ash)
-In the gust… (dust to dust)
+Ash to ash (ash to ash)
+In the gust (dust to dust)
 What’s to keep? (Ash to ash)
 I don’t know.
 
@@ -78,7 +78,7 @@ How could you leave?
 Августовский день
 Под вековыми дубами,
 Вопрос звенит
-Без ответа…
+Без ответа
 
 Как ты мог уйти
 (Я к этому не готов)
@@ -90,13 +90,13 @@ How could you leave?
 Как ты мог уйти,
 Как ты мог уйти?
 
-Пепел к пеплу… (пепел к пеплу)
-Прах к праху… (прах к праху)
+Пепел к пеплу (пепел к пеплу)
+Прах к праху (прах к праху)
 Что сберечь? (Пепел к пеплу)
 Что показать? (Прах к праху)
 
-Пепел к пеплу… (пепел к пеплу)
-На ветру… (прах к праху)
+Пепел к пеплу (пепел к пеплу)
+На ветру (прах к праху)
 Что сберечь? (Пепел к пеплу)
 Я не знаю.
 

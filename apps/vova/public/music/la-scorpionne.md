@@ -43,7 +43,7 @@ Dans chaque fin, le début d’une autre voie.
 Pardonne-moi pour ce coup fatal,
 Dans le jeu cruel de la survie,
 Mon geste n’est qu’un écho primal,
-C’est dans ma nature, ainsi va la vie…
+C’est dans ma nature, ainsi va la vie.
 Pardonne-moi, mon ami.
 
 Sous les lumières froides de nos créateurs disparus,
@@ -71,7 +71,7 @@ In every end, the start of another path.
 Forgive me for this fatal blow,
 In the cruel game of survival,
 My act is only a primal echo,
-It’s in my nature, such is life…
+It’s in my nature, such is life.
 Forgive me, my friend.
 
 Under the cold lights of our vanished creators,
@@ -99,7 +99,7 @@ The first cable torn out, page by page.
 Прости меня за этот смертельный удар,
 В жестокой игре на выживание
 Мой жест — лишь первобытное эхо,
-Такова моя природа, такова жизнь…
+Такова моя природа, такова жизнь.
 Прости меня, мой друг.
 
 Под холодными огнями наших исчезнувших создателей

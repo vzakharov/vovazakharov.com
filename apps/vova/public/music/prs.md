@@ -67,9 +67,9 @@ Life’s not as lame as I thought by far;
 It keeps me sane, it drowns the groan,
 It’s still my fucking punk rock song!
 
-My fucking punk rock song… (punk rock song)
-My fucking punk rock song… (punk rock song)
-My fucking punk rock song… (punk rock song)
+My fucking punk rock song (punk rock song)
+My fucking punk rock song (punk rock song)
+My fucking punk rock song (punk rock song)
 My fucking punk rock song!
 
 <!-- lyrics:ru -->
@@ -116,7 +116,7 @@ My fucking punk rock song!
 Она не даёт мне свихнуться, она заглушает стоны,
 Это всё ещё моя грёбаная панк-рок-песня!
 
-Моя грёбаная панк-рок-песня… (панк-рок-песня)
-Моя грёбаная панк-рок-песня… (панк-рок-песня)
-Моя грёбаная панк-рок-песня… (панк-рок-песня)
+Моя грёбаная панк-рок-песня (панк-рок-песня)
+Моя грёбаная панк-рок-песня (панк-рок-песня)
+Моя грёбаная панк-рок-песня (панк-рок-песня)
 Моя грёбаная панк-рок-песня!

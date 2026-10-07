@@ -51,7 +51,7 @@ How to get the fuck up
 We might have mutated
 Doesn’t mean we’re benign
 Waiting for the day
-We’re the rebels... between the lines!
+We’re the rebels between the lines!
 
 Hey, fellow kids, you’re in your prime
 Soak up the chaos, enjoy the climb
@@ -82,7 +82,7 @@ Shit that you’ll cherish when the age sinks in
 Может, мы и мутировали —
 Это не значит, что мы [доброкачественные][^benign-ru]
 Ждём того дня
-Мы бунтари... между строк!
+Мы бунтари между строк!
 
 [^benign-ru]: «Benign» — и «безобидный», и «доброкачественный» (об опухоли).
 
