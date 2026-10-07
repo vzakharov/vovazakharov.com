@@ -37,6 +37,7 @@ import {
   MUSIC_PROJECT_NAMES,
 } from '@/shared/config/music-projects';
 import { collectionDir } from '@/shared/content/collections';
+import { byLocale, inLocale } from '@/shared/i18n/locales';
 import type { Dated, Named } from '@/shared/typings';
 
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */
@@ -294,8 +295,7 @@ function document(fields: DocumentFields): string {
     title = name,
   } = spec;
   const { sampleRate, bitsPerSample, channels } = streamInfo;
-  const { en, ru } =
-    typeof title === 'string' ? { en: title, ru: title } : title;
+  const { en, ru } = byLocale((locale) => inLocale(title, locale));
 
   return `---
 date: ${date}
