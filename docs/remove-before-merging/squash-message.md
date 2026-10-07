@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): hidden songs, reachable only by their link (pr #115)
+feat(vova): hidden documents, reachable only by their link (pr #115)
 ```
 
 ```
