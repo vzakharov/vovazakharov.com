@@ -27,7 +27,7 @@ Take that page on its own terms: the recovery it describes is **plan mode's own 
 
 ## Part 1 — Plan instead of plan mode
 
-A `/plan` session's deliverable is the **plan file on a draft PR**, not code. The operator reviews it from another machine, often hours later, and begins implementation in a **different** session via `/go <branch>` (`@.claude/skills/go/SKILL.md` routes that through `/from-branch`, which attaches to the branch and finds the plan under `docs/plans/`) — the handoff works because the plan file rides the branch. So a plan turn ends in a handoff, not a continuation; same-session implementation is the rare exception.
+A `/plan` session's deliverable is the **plan file on a draft PR**, not code. The operator reviews it from another machine, often hours later, and begins implementation in a **different** session via `/go <branch>` (`@.claude/skills/go/SKILL.md` routes that through `/from-branch`, which attaches to the branch and finds the plan under `docs/plans/`) — the handoff works because the plan file rides the branch. So a plan turn ends in a handoff, not a continuation — and the handoff offers both a fresh session and a go-ahead in this one (§ "Handing off").
 
 **A `#<N>` in the argument means the thread is read first:** load and follow `@.claude/skills/take-issue/SKILL.md` with the whole argument before planning anything, and plan against what it puts on the branch. CLAUDE.md § "Plan mode & questions in web sessions" is that rule's home.
 
@@ -39,7 +39,7 @@ Do **exactly what you would do in plan mode** — same research, same rigor, sam
   > ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
   ```
 - Then **commit it and publish it** (§ "Publishing the plan" below), **end the turn with the handoff block** (§ "Handing off") and stop — do not start implementing.
-- **The in-session path is the exception, not the default.** If a literal go-ahead token does arrive in _this_ session, "The approval gate" below governs it unchanged — and on approval you hand off to `@.claude/skills/go/SKILL.md`, whose Step 1 performs the flip that unlocks source edits (`git mv` the plan to `docs/plans/<branch-slug>.in-progress.md`, drop the draft banner, quote the go-ahead in the commit) as its first action, before any source edit. That flip is the on-record receipt that approval was given, so don't front-run it here; the mechanics live in `/go` to avoid two copies drifting apart. The gate is exactly as strict on this path as on any other; it just fires rarely.
+- **The in-session path is one of the two the handoff offers.** When a literal go-ahead token arrives in _this_ session, "The approval gate" below governs it unchanged — and on approval you hand off to `@.claude/skills/go/SKILL.md`, whose Step 1 performs the flip that unlocks source edits (`git mv` the plan to `docs/plans/<branch-slug>.in-progress.md`, drop the draft banner, quote the go-ahead in the commit) as its first action, before any source edit. That flip is the on-record receipt that approval was given, so don't front-run it here; the mechanics live in `/go` to avoid two copies drifting apart. The gate is exactly as strict on this path as on any other.
 
 ### Splitting work across sessions
 
@@ -73,7 +73,7 @@ The trigger lives here rather than in `/pr` because this is where a plan becomes
 
 ### Handing off — end the plan turn with a copyable `/go` block
 
-Get the branch with `git branch --show-current` and substitute the real name. Introduce the block with wording that **names the new session** — `To implement — start a new session with:`, or an unmistakable equivalent. That lead-in is what carries the session model to the operator; a bare "To implement:" reads as an offer to do it here, which is the misreading the block exists to remove. Emit the command in a fenced block containing **only** the command — no language tag, nothing else inside the fence — so it can be copied verbatim:
+Get the branch with `git branch --show-current` and substitute the real name. **Offer both routes, neither as the rule:** a new session opened with the block, or a go-ahead in this one — "поехали", "go ahead" — where the context budget hook (`.claude/context-budget/`) relays the work on if the session runs long. Name each route, in the operator's language — `To implement, start a new session with the command below, or just say "go ahead" here:` or an unmistakable equivalent — because a bare "To implement:" leaves them guessing which box the block goes in. Emit the command in a fenced block containing **only** the command — no language tag, nothing else inside the fence — so it can be copied verbatim:
 
 ````
 ```
@@ -85,7 +85,7 @@ Get the branch with `git branch --show-current` and substitute the real name. In
 - **Print the PR URL alongside it**, outside the fence — the plan is published by the time the block goes out, and the URL is where the operator reads and comments on it.
 - **Open questions don't hold the block back when they carry recommendations.** Part 2 requires every fork to name a recommended option _and_ the plan file to be written with that option already in force, so implementing it unanswered is the same as adhering to the recommendations. Emit the block alongside the questions: an answer that differs revises the plan, and silence is a valid resolution. Hold the block only for a fork with no recommendation, where the plan has nothing executable to say until the operator picks — handing over a command to implement a genuinely unresolved fork invites implementing the wrong one.
 - **Never** close a plan turn with "Want me to implement it?", "Shall I proceed?", "Ready for me to start?", or any equivalent. Two reasons: the plan session does not implement, so there is nothing to ask; and a turn that ends on that question trains the agent to read the operator's _next_ message as an answer to it, so a correction ("actually, do X instead") gets taken as assent and code starts getting written. The handoff block is the structural fix that the approval gate's "a suggestion is a plan revision" and Part 3's "picking an option is not a signal to implement" can only exhort.
-- The block is built for a session that does not exist yet, which is why the lead-in names it. Pasting it back into _this_ session is a recognizable mistake with its own guard — see `@.claude/skills/go/SKILL.md` § "Argument shape" for the canary that catches it.
+- The block is built for a session that does not exist yet; the go-ahead is what this one takes. Pasting the block back into _this_ session is a recognizable mistake with its own guard — see `@.claude/skills/go/SKILL.md` § "Argument shape" for the canary that catches it.
 
 ### The approval gate
 

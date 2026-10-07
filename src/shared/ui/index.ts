@@ -1,4 +1,3 @@
-export { BackToHome } from './back-to-home';
 export { Card, CardLink } from './card';
 export { type Chip, ChipNav } from './chip-nav';
 export { cssColor } from './css-color';

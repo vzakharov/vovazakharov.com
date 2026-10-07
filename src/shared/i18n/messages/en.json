@@ -255,7 +255,6 @@
   "music": {
     "title": "Songs",
     "back": "Songs",
-    "backToHome": "← Home",
     "metaTitle": "Music",
     "metaDescription": "AI music from before there was a product for it — a catalogue of masters you can play right here, all of it open-source.",
     "intro": {
@@ -295,6 +294,7 @@
   },
   "ui": {
     "toggleTheme": "Toggle theme",
+    "backToHome": "← Home",
     "cvVariants": {
       "cto": "Looking for a CTO?",
       "dev": "Looking for a dev?"
