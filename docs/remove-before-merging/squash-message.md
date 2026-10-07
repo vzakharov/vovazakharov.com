@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): hidden documents, reachable only by their link (pr #115)
+feat(vova): hidden documents, and 119 masters as hidden song pages (pr #115)
 ```
 
 ```
@@ -10,15 +10,22 @@ lists, most of them not ready to show. A document now takes
 `hidden: true`: its page is built and served at its address, but no
 listing carries it — not a collection index, not the music player's
 queue, not the sitemap — and the page asks search engines not to
-index it.
-
-What counts as listed is one predicate in shared/content, applied
-where documents are listed and not where they are routed, so every
-collection honours the flag the same way.
+index it. One predicate in shared/content decides what is listed,
+applied where documents are listed and never where they are routed.
 
 A hidden song plays from its own page: the player takes a track
 rather than a queue position, and a track it does not hold yet joins
 the end of the queue when played.
+
+119 of those masters land as hidden song pages, each one Vova assigned
+a project to, with description TBD and words from his Suno songs
+where they exist. A master or language that was a guess says so in a
+comment in its file. To carry them, a song's language is a list, main
+language first, with Tatar, Arabic, Polish, Latin and Chinese added;
+eight albums and three projects join their registries; and
+music:scaffold takes a spec naming the master and the authored
+fields, so album tracks and repositories with several masters can be
+scaffolded.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
