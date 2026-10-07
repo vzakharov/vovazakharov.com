@@ -269,6 +269,11 @@
     "language": {
       "ru": "Russian",
       "en": "English",
+      "tt": "Tatar",
+      "ar": "Arabic",
+      "pl": "Polish",
+      "la": "Latin",
+      "zh": "Chinese",
       "instrumental": "Instrumental"
     },
     "explicit": "Explicit",

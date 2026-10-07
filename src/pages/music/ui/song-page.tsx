@@ -84,7 +84,7 @@ function songFacts(document: SongDocument, locale: Locale): string[] {
 
   return [
     billing(project),
-    messages.language[language],
+    language.map((sung) => messages.language[sung]).join(', '),
     album &&
       messages.album.replace(
         '{album}',

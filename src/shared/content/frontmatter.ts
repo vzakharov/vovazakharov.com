@@ -85,8 +85,28 @@ export type LocalizedText = z.infer<typeof localizedTextSchema>;
 /** Whether the song is released or still being worked on. */
 const SONG_STATUSES = ['done', 'wip'] as const;
 
-/** What the vocal is in — `instrumental` where there is none. */
-const SONG_LANGUAGES = ['ru', 'en', 'instrumental'] as const;
+/**
+ * What the vocal is in — `instrumental` where there is none. Beyond the site's
+ * two locales a song can be sung in a language nobody reads the site in; its
+ * words then show with a crib in the reader's.
+ */
+const SONG_LANGUAGES = [
+  'ru',
+  'en',
+  'tt',
+  'ar',
+  'pl',
+  'la',
+  'zh',
+  'instrumental',
+] as const;
+
+export type SongLanguage = (typeof SONG_LANGUAGES)[number];
+
+/** A language a song can be sung in, which is every one but the absence of one. */
+export type SungLanguage = Exclude<SongLanguage, 'instrumental'>;
+
+const songLanguageSchema = z.enum(SONG_LANGUAGES);
 
 /**
  * Who wrote which half, in contribution order rather than billing order. Absent
@@ -120,7 +140,16 @@ const songFieldsSchema = baseFrontmatterSchema
   .extend(playableSchema.shape)
   .extend({
     status: z.enum(SONG_STATUSES),
-    language: z.enum(SONG_LANGUAGES),
+    /**
+     * One language, or a list where a song is sung in several — the main one
+     * first, it being the one whose words the page shows. Read as a list either
+     * way.
+     */
+    language: z
+      .union([songLanguageSchema, z.array(songLanguageSchema).min(1)])
+      .transform((language) =>
+        Array.isArray(language) ? language : [language],
+      ),
     /**
      * The artist first, whoever is featured after it — a feature meaning the song
      * can be shown to the people the other project is shown to.

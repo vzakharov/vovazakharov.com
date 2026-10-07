@@ -23,6 +23,9 @@ export const MUSIC_PROJECT_NAMES = [
   'Грёбаный бал',
   'за/обложкой',
   'Yoohie',
+  'Trending Today',
+  'Дамы и господа',
+  'Онык',
 ] as const;
 
 export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];

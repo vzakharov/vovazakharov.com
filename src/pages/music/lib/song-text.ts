@@ -4,8 +4,9 @@ import type {
   ContentDocument,
   LocalizedText,
   SongFrontmatter,
+  SungLanguage,
 } from '@/shared/content';
-import { isLocale, type Locale } from '@/shared/i18n';
+import type { Locale } from '@/shared/i18n';
 
 import {
   readVerse,
@@ -32,7 +33,7 @@ export type LocalizedSongDocument = ContentDocument<
  */
 export type SongLyrics = WithStanzas & {
   /** What the vocal is in, which is the column the author wrote. */
-  language: Locale;
+  language: SungLanguage;
   /** A crib, not a singing version — and absent where the song is in the reader's language. */
   translation?: Stanzas;
 };
@@ -41,7 +42,7 @@ function storyKey(locale: Locale): string {
   return `lang:${locale}`;
 }
 
-function lyricsKey(language: Locale): string {
+function lyricsKey(language: SungLanguage): string {
   return `lyrics:${language}`;
 }
 
@@ -81,9 +82,11 @@ export function songLyrics(
   locale: Locale,
 ): SongLyrics | undefined {
   const { frontmatter, body, fileName } = document;
-  const { language } = frontmatter;
+  // The main language's words are the ones shown; another sung in the song
+  // appears inside them, glossed by notes.
+  const [language] = frontmatter.language;
 
-  if (!isLocale(language)) return undefined;
+  if (language === undefined || language === 'instrumental') return undefined;
 
   const sections = splitSections(body);
   const sung = sections.get(lyricsKey(language));

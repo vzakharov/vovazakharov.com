@@ -1,7 +1,8 @@
 import { Box, Stack, Text } from '@mantine/core';
 import Markdown, { type Components } from 'react-markdown';
 
-import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
+import type { SungLanguage } from '@/shared/content';
+import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { Subheading, TextLink } from '@/shared/ui';
 
@@ -56,7 +57,7 @@ export function Lyrics({ lyrics, locale }: LyricsProps) {
 }
 
 type LyricsColumnProps = WithStanzas & {
-  lang: Locale;
+  lang: SungLanguage;
   /** The crib: set dimmer than the words, so they are what reads first. */
   muted?: boolean;
 };

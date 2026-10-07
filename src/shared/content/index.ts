@@ -47,6 +47,7 @@ export {
   type Playable,
   type SongFrontmatter,
   type Source,
+  type SungLanguage,
   type WithFrontmatter,
 } from './frontmatter';
 export {
