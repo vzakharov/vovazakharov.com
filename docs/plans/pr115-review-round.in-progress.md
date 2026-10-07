@@ -11,7 +11,7 @@ Task as asked (`/handle claude/music-catalogue-hidden-ldz252`): «ответил
 - Rule: Suno vocalisms and pause ellipses do not travel — a411554. Five-percent entry — 95f545b.
 - Artist/album links underline on hover only (Vova in chat) — 4ea1ff8; DRY'd into `NameLink` (Vova: «я бы DRY-нул») — 1019f8f.
 - Ellipsis sweep — e9510e5 (first six files), bac6ea4, a7a61ba (the rest, pes chorus in two lines); `pnpm build:vova` green.
-- Replies posted on 40 of the 41 awaiting threads; T47's reply hit GitHub's secondary rate limit (422 `abuse`) — body in `tmp/replies/T47_4206638270.md`, retry it.
+- Replies posted on all 41 awaiting threads.
 
 ## Left
 
