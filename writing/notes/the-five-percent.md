@@ -222,7 +222,7 @@ used to live. Only a reader of the old tree asks either. _медведь?_, both
 rewritten when its reasons fell. _the bullet is a polar bear_: `fsd.md` says
 where a component goes, and Steiger fails the wrong move unread.
 
-## Asked for a source, it supplies its own version (×9)
+## Asked for a source, it supplies its own version (×10)
 
 The version that argues better is the one that gets written, and whether a source
 exists barely moves the odds: with the file open the agent paraphrases it, with
@@ -239,6 +239,12 @@ inherited it as the speaker's. _проблема не в этом._
 **23 September — the model it cited, simplified.** Lyric notes anchored on whole
 lines in a catalogue modelled on genius.com — the agent's own citation, and a
 site that anchors a note on a word.
+
+**7 October — the dictionary's version, over the author's.** Briefed to strip
+Suno tricks from his lyrics, the agent "fixed" «вот и новый год» back to
+Pasternak's «там» and «вдушевлённые» to «одушевлённые», flagged "check" with
+the correction already in. Both were his choices; in an author's lyrics an odd
+form is intent before it is a typo.
 
 ## Given a form, it fills the form (×8)
 
