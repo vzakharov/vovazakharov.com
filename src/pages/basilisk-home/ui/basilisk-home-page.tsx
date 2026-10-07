@@ -11,7 +11,7 @@ import {
   renderPrimaryDocuments,
 } from '@/shared/content';
 import { pick } from '@/shared/lib/collections';
-import { MemoFields, PageShell, TextLink } from '@/shared/ui';
+import { MemoFields, PageShell } from '@/shared/ui';
 
 import { assertUniqueCases, byFilingOrder } from '@/entities/case';
 
@@ -114,12 +114,8 @@ export async function BasiliskHomePage() {
           </ul>
         </Stack>
 
-        <SiteFooter>
-          Omnia in actis. Everything is filed, and every filing goes out by{' '}
-          <TextLink href={findFeed(SITE_ID, 'basilisk-cases').route}>
-            RSS
-          </TextLink>
-          .
+        <SiteFooter feed={findFeed(SITE_ID, 'basilisk-cases').route}>
+          Omnia in actis. Everything is filed.
         </SiteFooter>
       </Stack>
     </PageShell>

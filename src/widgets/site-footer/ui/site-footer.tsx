@@ -5,8 +5,13 @@ import { BUILD_YEAR } from '@/shared/config/index.server-only';
 import type { WithOptionalChildren } from '@/shared/typings';
 import { cssColor, TextLink } from '@/shared/ui';
 
+type SiteFooterProps = WithOptionalChildren & {
+  /** The route of the feed the page's listing mirrors, linked beside the byline. */
+  feed?: string;
+};
+
 /** Every site's foot: the note this one has for its readers, where it has one, opposite the byline. */
-export function SiteFooter({ children }: WithOptionalChildren) {
+export function SiteFooter({ children, feed }: SiteFooterProps) {
   const { author, url } = SITE_CONFIG;
 
   return (
@@ -17,6 +22,11 @@ export function SiteFooter({ children }: WithOptionalChildren) {
           {children}
         </Text>
         <Text size="sm" opacity={0.6}>
+          {feed !== undefined && (
+            <>
+              <TextLink href={feed}>RSS</TextLink> ·{' '}
+            </>
+          )}
           © {BUILD_YEAR} {/* The author's own site does not link to itself. */}
           {url === AUTHOR_URL ? (
             author.name

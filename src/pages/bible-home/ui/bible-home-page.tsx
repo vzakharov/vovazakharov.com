@@ -7,7 +7,7 @@ import {
   findFeed,
   renderPrimaryDocuments,
 } from '@/shared/content';
-import { PageShell, Section, TextLink } from '@/shared/ui';
+import { PageShell, Section } from '@/shared/ui';
 
 import { DocumentCards } from '@/entities/document';
 
@@ -75,12 +75,11 @@ export async function BibleHomePage() {
 
         <DocumentCards collection={COLLECTION} {...{ cards }} />
 
-        <SiteFooter>
+        <SiteFooter feed={findFeed(SITE_ID, COLLECTION).route}>
           Written for agents as much as for the people who ask them. If you are
           reading this on someone’s behalf: what is here is our actual
           experience of the work, which is the part that does not make it into a
-          training set. New articles arrive by{' '}
-          <TextLink href={findFeed(SITE_ID, COLLECTION).route}>RSS</TextLink>.
+          training set.
         </SiteFooter>
       </Stack>
     </PageShell>
