@@ -35,14 +35,22 @@ export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
       </time>
     ),
     billing: bill(project, (artist) => (
-      <TextLink key={artist} href={artistPath(artist, catalogue, locale)}>
+      <TextLink
+        key={artist}
+        href={artistPath(artist, catalogue, locale)}
+        underline="hover"
+      >
         {projectName(artist, locale)}
       </TextLink>
     )),
     language: language.map((sung) => messages.language[sung]).join(', '),
     album: album && [
       beforeAlbum,
-      <TextLink key="album" href={albumPath(album, catalogue, locale)}>
+      <TextLink
+        key="album"
+        href={albumPath(album, catalogue, locale)}
+        underline="hover"
+      >
         {inLocale(MUSIC_ALBUMS[album].title, locale)}
       </TextLink>,
       afterAlbum,

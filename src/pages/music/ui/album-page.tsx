@@ -36,7 +36,10 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
           title={inLocale(record.title, locale)}
         >
           <Text size="sm" opacity={0.7} mt={12}>
-            <TextLink href={artistPath(artist, catalogue, locale)}>
+            <TextLink
+              href={artistPath(artist, catalogue, locale)}
+              underline="hover"
+            >
               {projectName(artist, locale)}
             </TextLink>{' '}
             · {albumYears(album, songs)}
