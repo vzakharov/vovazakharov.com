@@ -10,8 +10,8 @@
     border-color: var(--color-border-hairline-strong);
   }
 
-  // A printed card is a rule between entries, not a box around one, so it has
-  // no inset to keep.
+  // A printed card is a rule between entries, not a box around one: no sides,
+  // so no side padding.
   @media print {
     padding: 10px 0;
     border-width: 0 0 1px;
