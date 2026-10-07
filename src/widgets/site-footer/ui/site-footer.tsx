@@ -15,7 +15,7 @@ type SiteFooterProps = WithOptionalChildren &
     /** The route of the feed the page's listing mirrors, linked beside the byline. */
     feed?: string;
     /** The page is its site's root, so no note means no note rather than the way home. */
-    isHomePage?: boolean;
+    onHomePage?: boolean;
   };
 
 /**
@@ -27,7 +27,7 @@ type SiteFooterProps = WithOptionalChildren &
 export function SiteFooter({
   children,
   feed,
-  isHomePage = false,
+  onHomePage = false,
   locale = DEFAULT_LOCALE,
 }: SiteFooterProps) {
   const { author, url } = SITE_CONFIG;
@@ -38,7 +38,7 @@ export function SiteFooter({
       <Group justify="space-between" align="flex-start" gap={32}>
         <Text size="sm" opacity={0.6} flex={1} miw="min(360px, 100%)">
           {children ??
-            (!isHomePage && (
+            (!onHomePage && (
               <TextLink href="/">{loadMessages(locale).ui.backToHome}</TextLink>
             ))}
         </Text>

@@ -114,7 +114,7 @@ export async function BasiliskHomePage() {
           </ul>
         </Stack>
 
-        <SiteFooter isHomePage feed={findFeed(SITE_ID, 'basilisk-cases').route}>
+        <SiteFooter onHomePage feed={findFeed(SITE_ID, 'basilisk-cases').route}>
           Omnia in actis. Everything is filed.
         </SiteFooter>
       </Stack>
