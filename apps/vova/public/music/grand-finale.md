@@ -1,7 +1,7 @@
 ---
 date: 2024-07-23
 status: done
-language: en
+language: instrumental
 project: ['GENERATED']
 repo: 'Divine-Discontent--album-'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/9.%20Grand%20Finale%20(In%20Entropy%20We%20Trust).flac
@@ -14,10 +14,11 @@ en:
   description: 'TBD'
 ru:
   title: 'Grand Finale (In Entropy We Trust)'
+  titleTranslation: 'Гранд-финал (На энтропию уповаем)'
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Language was blank and no words were found; set to en from the title — check it. -->
+<!-- For Vova to check: set instrumental as you said in review; the album's words file (divine_discontent.txt) still has words for this track, from “Flames from melting skies” to “In entropy we trust” — confirm they are not sung. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 9. Grand Finale (In Entropy We Trust).flac,
      44.1 kHz / 16-bit / stereo.

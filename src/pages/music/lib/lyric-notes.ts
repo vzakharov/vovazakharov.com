@@ -21,6 +21,17 @@ export type WithStanzas = { stanzas: Stanzas };
  */
 const NOTE_MARKER = /(?:\[([^[\]]+)])?\[\^([^\s\]]+)]/g;
 
+/**
+ * A backslash before ASCII punctuation, which is how markdown — and Prettier,
+ * formatting the file — writes a literal `*` in a masked `f*ck`. The page sets
+ * the words as text, so it drops the escape GitHub would have consumed.
+ */
+const MARKDOWN_ESCAPE = /\\([!-/:-@[-`{-~])/g;
+
+function unescaped(text: string): string {
+  return text.replace(MARKDOWN_ESCAPE, '$1');
+}
+
 /** `[^label]: text` on a line of its own: what the note says. */
 const NOTE_DEFINITION = /^\[\^([^\s\]]+)]:\s*(\S.*)$/;
 
@@ -90,7 +101,9 @@ export function readVerse(section: string, fileName: string): Stanzas {
   }
 
   const stanzas = splitStanzas(verse.join('\n')).map((stanza) =>
-    stanza.map((line) => readLine(line)),
+    stanza.map((line) =>
+      readLine(line).map((span) => ({ ...span, text: unescaped(span.text) })),
+    ),
   );
   const unused = [...notes.keys()].filter((label) => !used.has(label));
 
