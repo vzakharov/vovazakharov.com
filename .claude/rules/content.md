@@ -75,6 +75,7 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
    part: I of II # optional free-text series marker
    ogImage: ... # optional, relative to the document
    cardImage: ... # optional, the drawing the collection index shows
+   hidden: true # optional; built, but on no index, queue or sitemap, and noindex
    ---
    ```
 

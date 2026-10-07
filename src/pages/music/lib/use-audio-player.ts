@@ -39,7 +39,7 @@ export type Playback = {
   elapsed: number;
 };
 
-/** Playback, and the queue it plays from: the catalogue, plus whatever was played from outside it. */
+/** Playback, and the tracks it plays from. */
 export type QueuedPlayback = Playback & WithTracks;
 
 export type AudioPlayer = QueuedPlayback & { controls: PlayerControls };

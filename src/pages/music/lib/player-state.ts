@@ -14,7 +14,7 @@ export type PlayerTrack = Slugged &
     billing: string;
   };
 
-/** The whole catalogue, in the order the collection lists it. */
+/** Tracks by catalogue position — the listed songs in collection order, then any appended. */
 export type WithTracks = { tracks: PlayerTrack[] };
 
 /**
