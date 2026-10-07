@@ -103,7 +103,6 @@ const SONG_LANGUAGES = [
 
 export type SongLanguage = (typeof SONG_LANGUAGES)[number];
 
-/** A language a song can be sung in, which is every one but the absence of one. */
 export type SungLanguage = Exclude<SongLanguage, 'instrumental'>;
 
 const songLanguageSchema = z.enum(SONG_LANGUAGES);
@@ -142,8 +141,7 @@ const songFieldsSchema = baseFrontmatterSchema
     status: z.enum(SONG_STATUSES),
     /**
      * One language, or a list where a song is sung in several — the main one
-     * first, it being the one whose words the page shows. Read as a list either
-     * way.
+     * first, whose words the page shows.
      */
     language: z
       .union([songLanguageSchema, z.array(songLanguageSchema).min(1)])

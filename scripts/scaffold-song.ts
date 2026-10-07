@@ -5,9 +5,8 @@
  *   pnpm music:scaffold <repo> [<repo> ...]
  *   pnpm music:scaffold --spec <file.json>
  *
- * The second form takes what the author already decided — the master, the
- * titles, project, language, album — so those are written rather than left as
- * blanks; `specSchema` below is its shape.
+ * The second form writes what the author already decided rather than leaving
+ * it blank; `specSchema` below is its shape.
  *
  * A song's mechanical fields all live outside this repo — in the master's
  * filename, in its FLAC header and in the source repository's own history — so
@@ -232,10 +231,9 @@ async function firstCommitDate(repo: string): Promise<string> {
 }
 
 /**
- * What the author already decided about a song, handed in as a JSON array with
- * `--spec <file>`. Only `repo` is required, which is what a bare repository on
- * the command line becomes. The language is left for the build to check: its
- * list lives behind `server-only`, which a script cannot load.
+ * What the author already decided about a song, as `--spec` reads it. The
+ * language is left for the build to check: its list lives behind
+ * `server-only`, which a script cannot load.
  */
 const specSchema = z.array(
   z.object({
@@ -271,7 +269,6 @@ type DocumentFields = Named &
     streamInfo: StreamInfo;
   };
 
-/** A YAML flow sequence of quoted scalars. */
 function yamlList(values: readonly string[]): string {
   return `[${values.map((value) => yaml(value)).join(', ')}]`;
 }
