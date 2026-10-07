@@ -79,14 +79,16 @@
       {
         "hours": 2.0,
         "grade": "middle",
-        "role": "developer"
+        "role": "developer",
+        "comment": "case files, a ledger and the card script are routine repo work"
       },
       {
         "hours": 1.5,
         "grade": "senior",
-        "role": "prompter"
+        "role": "prompter",
+        "comment": "the search and balance rules are instructions an unattended agent must follow"
       }
     ],
-    "comment": "middle developer: case files, a ledger and the card script are routine repo work; senior prompter: the search and balance rules are instructions an unattended agent must follow"
+    "comment": null
   }
 }

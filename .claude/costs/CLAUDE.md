@@ -20,6 +20,11 @@ confidently incorrect rather than absent.
   a turn that thought and called two tools writes three — and each carries that
   response's _whole_ `usage`. Records are deduplicated by `message.id`; summing
   them triples the bill.
+- **A subagent's records carry the usage the stream started with.** Their
+  `stop_reason` is null and their `output_tokens` a partial count — 16 of a
+  response's final 112, 24 of 1,289 — while input and cache counts are already
+  final. A matched event supplies the output; without one, the row warns that
+  those responses' output is a floor.
 - **A response is billed at the rates for its `(model, speed)` pair.** Fast mode
   doubles the rates, so `usage.speed` is read rather than assumed.
 - **Cache writes are billed by TTL.** `usage.cache_creation` splits into
@@ -105,9 +110,10 @@ bearings lands in the work.
 fields. `lib/billed.py` joins them to the priced responses by request id.
 
 **The events' worth is the calls the transcript never records.** Where a
-response and its event are both there, the table and the event price it alike,
-so the response keeps the table's price and the event checks it; the row warns
-when the two drift apart. An event no response matches is such a call — a
+response and its event are both there, the table and the event price it alike
+once the event's output count stands in for the record's, so the response keeps
+the table's price and the event checks it; the row warns when the two drift
+apart. An event no response matches is such a call — a
 prompt suggestion, a compaction — and goes into `total` and `byRate` at the
 event's price, and into `telemetry.unseen` by its `query_source`, which takes
 values the documentation does not list (`sdk` for a web session's main thread,
@@ -230,8 +236,8 @@ adjusting quietly is what would leave the rest of this section false.
 A row's `estimate` says how much work the session's spend bought, so the
 ledger can price a unit of human work done by an agent and watch that price
 move — including whether the same work started costing more. It is the task
-split into parts, each the hours one role at one grade would spend on it, with
-a comment justifying them. A revision replaces it, so its history is git's.
+split into parts, each the hours one role at one grade would spend on it and
+the reason for them. A revision replaces it, so its history is git's.
 `hooks/estimate-notice.sh` is the agent-facing home of when and how to set one.
 
 - **The unit is a senior-hour**: an hour of a senior developer, the role and
@@ -246,10 +252,14 @@ a comment justifying them. A revision replaces it, so its history is git's.
   does — scope added, a difficulty no estimator would have foreseen, a relay
   handing the rest on. A model that booked its own detours as extra hours would
   hide exactly the regression the figure exists to show.
-- **The comment is the case for the team, not a summary of the work.** What
-  was done is already in the row and the commits; what nothing else carries is
-  why each part is that role, at that grade, for those hours — and only that
-  lets a reader check the figure rather than take it.
+- **A part's reason is the case for the team, not a summary of the work.**
+  What was done is already in the row and the commits; what nothing else
+  carries is why that part is that role, at that grade, for those hours — and
+  only that lets a reader check the figure rather than take it. It sits on the
+  part it justifies, so the one is never read without the other. An older row
+  carries one comment for the whole; where it names each part as
+  `<grade> <role>: <reason>`, the report moves it onto the parts, and where it
+  does not, it stays as written, since placing it would be a guess.
 
 **What the figure cannot tell apart:** the estimator is the model under
 measurement, so a changed model may estimate differently too — a person's
@@ -274,11 +284,11 @@ every branch that ran a session — and settling one by summing the two sides
 double-counts every session both of them saw. The rows themselves never collide:
 one file per session id.
 
-**The rows can be.** A row carrying a key the current shape no longer writes is
-rewritten without it as the report reads it, and the report names each one on
-stderr. Retiring a field is therefore a change to the shape alone: the first
-report in each repository clears it, and those rewrites are ordinary changes to
-commit.
+**The rows can be.** A row in a shape the ledger no longer writes — a key it
+dropped, an estimate comment its parts now carry — is rewritten in the current
+one as the report reads it, and the report names each one on stderr. Retiring a
+shape is therefore a change to the reader alone: the first report in each
+repository clears it, and those rewrites are ordinary changes to commit.
 
 ## What the totals do not cover
 

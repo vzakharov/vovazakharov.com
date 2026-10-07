@@ -79,14 +79,16 @@
       {
         "hours": 3.0,
         "grade": "middle",
-        "role": "qa"
+        "role": "qa",
+        "comment": "two valid PDFs differ only in what LinkedIn reads, so the cause is found by cutting variants and uploading each"
       },
       {
         "hours": 2.5,
         "grade": "middle",
-        "role": "developer"
+        "role": "developer",
+        "comment": "a print-only class, a matcher and a rehype pass in an existing pipeline are routine."
       }
     ],
-    "comment": "middle qa: two valid PDFs differ only in what LinkedIn reads, so the cause is found by cutting variants and uploading each; middle developer: a print-only class, a matcher and a rehype pass in an existing pipeline are routine."
+    "comment": null
   }
 }

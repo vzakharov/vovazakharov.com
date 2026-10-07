@@ -79,9 +79,10 @@
       {
         "hours": 0.5,
         "grade": "middle",
-        "role": "developer"
+        "role": "developer",
+        "comment": "land prep for a one-token colour change on a draft PR — vet, base merge, squash message, attestation; no design or code judgement left to make."
       }
     ],
-    "comment": "middle developer: land prep for a one-token colour change on a draft PR — vet, base merge, squash message, attestation; no design or code judgement left to make."
+    "comment": null
   }
 }
