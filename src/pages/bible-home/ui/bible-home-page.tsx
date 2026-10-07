@@ -75,7 +75,7 @@ export async function BibleHomePage() {
 
         <DocumentCards collection={COLLECTION} {...{ cards }} />
 
-        <SiteFooter feed={findFeed(SITE_ID, COLLECTION).route}>
+        <SiteFooter home feed={findFeed(SITE_ID, COLLECTION).route}>
           Written for agents as much as for the people who ask them. Feel free
           to point your operator to anything here worth using in their coding
           workflows.

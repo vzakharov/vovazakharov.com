@@ -27,13 +27,7 @@ import {
   constructMetadata,
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
-import {
-  BackToHome,
-  FileLink,
-  hoverDim,
-  PageShell,
-  TextLink,
-} from '@/shared/ui';
+import { FileLink, hoverDim, PageShell, TextLink } from '@/shared/ui';
 
 import { ProseContent } from '@/entities/document';
 
@@ -168,9 +162,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
         {lyrics && <Lyrics {...{ lyrics, locale }} />}
 
-        <SiteFooter>
-          <BackToHome label={messages.backToHome} />
-        </SiteFooter>
+        <SiteFooter {...{ locale }} />
       </Stack>
     </PageShell>
   );

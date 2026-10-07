@@ -20,7 +20,7 @@ import {
 import { pick } from '@/shared/lib/collections';
 import { constructArticleMetadata } from '@/shared/seo/index.server-only';
 import type { WithParams } from '@/shared/typings';
-import { BackToHome, hoverDim, TextLink } from '@/shared/ui';
+import { hoverDim, TextLink } from '@/shared/ui';
 
 import { ProseContent, SourceList } from '@/entities/document';
 
@@ -153,9 +153,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
               </Box>
             </PrintSheet>
 
-            <SiteFooter>
-              <BackToHome />
-            </SiteFooter>
+            <SiteFooter />
           </Stack>
         </Container>
       </Box>

@@ -68,7 +68,7 @@ export function LsaHomePage() {
         </Section>
 
         {/* The address to agent readers travels with the articles it was written for. */}
-        <SiteFooter />
+        <SiteFooter home />
       </Stack>
     </PageShell>
   );

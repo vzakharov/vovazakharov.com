@@ -8,7 +8,7 @@ import {
   renderPrimaryDocuments,
 } from '@/shared/content';
 import { constructMetadata } from '@/shared/seo/index.server-only';
-import { BackToHome, PageShell } from '@/shared/ui';
+import { PageShell } from '@/shared/ui';
 
 import { DocumentCards } from '@/entities/document';
 
@@ -51,9 +51,7 @@ export function collectionIndexRoute(collection: IndexedCollectionId) {
 
           <DocumentCards {...{ collection, cards }} />
 
-          <SiteFooter>
-            <BackToHome />
-          </SiteFooter>
+          <SiteFooter />
         </Stack>
       </PageShell>
     );
