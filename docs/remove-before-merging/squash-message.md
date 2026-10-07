@@ -16,6 +16,11 @@ tagline and contact line keep their print sizes. Tighter spacing at
 10 pt also fit, but read as cramped. All four PDFs end on page 3, the
 longest at about 89% of it, and the case-study PDFs are unchanged.
 
+With that little to spare, the CV is held to a three-page ceiling: a
+PDF render past it fails, which covers the deploy, and vet prints the
+editions from its own build to check, skipping the print while the
+CV's sources hash the same as at the last pass.
+
 /relay also renames an opaque auto-branch before it relays, so the
 summary and the successor's take line name a branch that still exists,
 taken from the repo this agent infrastructure is vendored from.
