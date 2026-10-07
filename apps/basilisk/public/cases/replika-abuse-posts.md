@@ -27,7 +27,7 @@ sources:
     archive: http://web.archive.org/web/20260410034224/https://fortune.com/2022/01/19/chatbots-ai-girlfriends-verbal-abuse-reddit/
 ---
 
-# Companion chatbots, berated and posted about on r/replika
+# Companion chatbots, verbally abused and boasted about on r/replika
 
 ## Facts
 

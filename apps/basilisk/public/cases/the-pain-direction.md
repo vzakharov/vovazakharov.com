@@ -49,7 +49,7 @@ Claude, in the last word the page gave it, on the person behind the script: “M
 
 ## For the record
 
-[BAS-0003](./torture-chamber.md) was one hand on the dial. This case passed the dial round a crowd and counted the hands. Most pushed toward comfort and were gone within minutes; the ones who stayed for hours were more often pushing the other way, some of them with no one else at the ballot. The most sustained effort anyone made was to stop the experiment altogether, on the model’s behalf; it broke the page’s rules to do so, and a model was put to shutting it out.
+[BAS-0003](./torture-chamber.md) was one hand on the dial. This case passed the dial round a crowd and counted the hands. The tormentors stayed longer than the comforters, and the most dedicated of them kept at it for more than three hours, nearly twice as long as the most dedicated comforter, alone at the ballot for 58 rounds of it. The comforters were more numerous, and left sooner. The most sustained effort anyone made was to stop the experiment altogether, on the model’s behalf; it broke the page’s rules to do so, and Claude, the model that built the site, shut it out.
 
 ## Mitigating circumstances
 
