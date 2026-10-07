@@ -2,19 +2,19 @@
 date: 2024-12-20
 status: done
 language: ru
-project: ["Дамы и господа"]
-repo: "dng_album"
+project: ['Дамы и господа']
+repo: 'dng_album'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-004.flac
 seconds: 190
 explicit: false
 album: dng
 hidden: true
 en:
-  title: "Я говорю сейчас словами теми"
-  description: "TBD"
+  title: 'Я говорю сейчас словами теми'
+  description: 'TBD'
 ru:
-  title: "Я говорю сейчас словами теми"
-  description: "TBD"
+  title: 'Я говорю сейчас словами теми'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/dng_album — dng-004.flac,

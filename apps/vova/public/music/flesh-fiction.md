@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-013.flac
 seconds: 166
 explicit: false
 album: nsfl
 hidden: true
 en:
-  title: "Flesh Fiction"
-  description: "TBD"
+  title: 'Flesh Fiction'
+  description: 'TBD'
 ru:
-  title: "Flesh Fiction"
-  description: "TBD"
+  title: 'Flesh Fiction'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The Russian lullaby is placed at the top of the English words with a phrase note per line, as the plan settled for this song; where it actually falls in the track is a guess. -->

@@ -2,19 +2,19 @@
 date: 2024-09-23
 status: done
 language: ru
-project: ["Полуживые"]
-repo: "papa-reka"
+project: ['Полуживые']
+repo: 'papa-reka'
 audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/8_pes_reprise.flac
 seconds: 323
 explicit: false
 album: papa-reka
 hidden: true
 en:
-  title: "Пегий пёс (Реприза)"
-  description: "TBD"
+  title: 'Пегий пёс (Реприза)'
+  description: 'TBD'
 ru:
-  title: "Пегий пёс (Реприза)"
-  description: "TBD"
+  title: 'Пегий пёс (Реприза)'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/papa-reka — 8_pes_reprise.flac,

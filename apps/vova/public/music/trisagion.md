@@ -2,18 +2,18 @@
 date: 2024-09-09
 status: done
 language: [ru, la, en]
-project: ["Downtemple"]
-repo: "trisagion"
+project: ['Downtemple']
+repo: 'trisagion'
 audio: https://raw.githubusercontent.com/vovas-music/trisagion/main/trisagion.flac
 seconds: 202
 explicit: false
 hidden: true
 en:
-  title: "Trisagion"
-  description: "TBD"
+  title: 'Trisagion'
+  description: 'TBD'
 ru:
-  title: "Trisagion"
-  description: "TBD"
+  title: 'Trisagion'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The words are sung in Russian, Latin and English in turn; they are set as one Russian text with the Latin and English lines glossed, and the language order (ru, la, en) is a guess. -->

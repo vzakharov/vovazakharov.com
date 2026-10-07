@@ -2,19 +2,19 @@
 date: 2024-09-17
 status: done
 language: ru
-project: ["Полуживые"]
-repo: "pes"
+project: ['Полуживые']
+repo: 'pes'
 audio: https://raw.githubusercontent.com/vovas-music/pes/main/pes.flac
 seconds: 321
 explicit: false
 album: papa-reka
 hidden: true
 en:
-  title: "Пегий пёс, бегущий краем моря"
-  description: "TBD"
+  title: 'Пегий пёс, бегущий краем моря'
+  description: 'TBD'
 ru:
-  title: "Пегий пёс, бегущий краем моря"
-  description: "TBD"
+  title: 'Пегий пёс, бегущий краем моря'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is pes.flac as the checklist names it; the repository also holds pes_faster.flac. -->

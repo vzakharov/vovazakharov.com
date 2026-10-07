@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-008.flac
 seconds: 15
 explicit: true
 album: nsfl
 hidden: true
 en:
-  title: "Two Girls, One Fridge"
-  description: "TBD"
+  title: 'Two Girls, One Fridge'
+  description: 'TBD'
 ru:
-  title: "Two Girls, One Fridge"
-  description: "TBD"
+  title: 'Two Girls, One Fridge'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-008.flac,

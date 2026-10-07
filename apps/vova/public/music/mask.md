@@ -2,19 +2,19 @@
 date: 2024-11-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "mask"
+project: ['GENERATED']
+repo: 'mask'
 audio: https://raw.githubusercontent.com/vovas-music/mask/main/mask.flac
 seconds: 208
 explicit: false
 album: pschpthy
 hidden: true
 en:
-  title: "Behind the Mask"
-  description: "TBD"
+  title: 'Behind the Mask'
+  description: 'TBD'
 ru:
-  title: "Behind the Mask"
-  description: "TBD"
+  title: 'Behind the Mask'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/mask — mask.flac,

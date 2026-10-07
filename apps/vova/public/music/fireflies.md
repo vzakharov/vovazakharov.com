@@ -2,19 +2,19 @@
 date: 2024-09-16
 status: done
 language: en
-project: ["GENERATED"]
-repo: "stories"
+project: ['GENERATED']
+repo: 'stories'
 audio: https://raw.githubusercontent.com/vovas-music/stories/main/7%20fireflies.flac
 seconds: 243
 explicit: false
 album: stories
 hidden: true
 en:
-  title: "Fireflies"
-  description: "TBD"
+  title: 'Fireflies'
+  description: 'TBD'
 ru:
-  title: "Fireflies"
-  description: "TBD"
+  title: 'Fireflies'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — no words for it in lyrics.md; set instrumental if it has no vocal. -->

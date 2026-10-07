@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-011.flac
 seconds: 35
 explicit: false
 album: nsfl
 hidden: true
 en:
-  title: "Hang for the Moment"
-  description: "TBD"
+  title: 'Hang for the Moment'
+  description: 'TBD'
 ru:
-  title: "Hang for the Moment"
-  description: "TBD"
+  title: 'Hang for the Moment'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-011.flac,

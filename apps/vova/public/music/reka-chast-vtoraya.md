@@ -2,19 +2,19 @@
 date: 2024-09-23
 status: done
 language: ru
-project: ["Полуживые"]
-repo: "papa-reka"
+project: ['Полуживые']
+repo: 'papa-reka'
 audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/4_reka.flac
 seconds: 338
 explicit: false
 album: papa-reka
 hidden: true
 en:
-  title: "Река. Часть вторая"
-  description: "TBD"
+  title: 'Река. Часть вторая'
+  description: 'TBD'
 ru:
-  title: "Река. Часть вторая"
-  description: "TBD"
+  title: 'Река. Часть вторая'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The album lists this track's own repository as pobeg, whose checklist entry names pobeg.flac (track 1) as its master, so this file uses the album's 4_reka.flac; pobeg's reka.flac is the likely alternative. -->

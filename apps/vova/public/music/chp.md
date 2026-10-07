@@ -2,18 +2,18 @@
 date: 2025-01-18
 status: done
 language: ru
-project: ["Yoohie", "за/обложкой"]
-repo: "chp"
+project: ['Yoohie', 'за/обложкой']
+repo: 'chp'
 audio: https://raw.githubusercontent.com/vovas-music/chp/main/chp.flac
 seconds: 216
 explicit: false
 hidden: true
 en:
-  title: "Чих-Пых"
-  description: "TBD"
+  title: 'Чих-Пых'
+  description: 'TBD'
 ru:
-  title: "Чих-Пых"
-  description: "TBD"
+  title: 'Чих-Пых'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the Cyrillic title — the checklist leaves it blank and lyrics.md has no words for it. -->

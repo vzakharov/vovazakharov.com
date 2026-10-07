@@ -2,19 +2,19 @@
 date: 2024-12-16
 status: done
 language: en
-project: ["Полуживые", "GENERATED"]
-repo: "vagabond_album"
+project: ['Полуживые', 'GENERATED']
+repo: 'vagabond_album'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-010.flac
 seconds: 314
 explicit: false
 album: vagabond
 hidden: true
 en:
-  title: "Vagabond"
-  description: "TBD"
+  title: 'Vagabond'
+  description: 'TBD'
 ru:
-  title: "Vagabond"
-  description: "TBD"
+  title: 'Vagabond'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The album entry names no repo of its own for this track, so the master is the album file; a separate repo `vagabond` (`vagabond.flac`) carries the same Suno lyrics and may be this song’s own. lyrics.md suggests its Suno footer note “Piano intro, lyrics, curation, production” for `credits`. -->

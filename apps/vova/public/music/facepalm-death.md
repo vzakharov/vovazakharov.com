@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-005.flac
 seconds: 53
 explicit: false
 album: nsfl
 hidden: true
 en:
-  title: "Facepalm Death"
-  description: "TBD"
+  title: 'Facepalm Death'
+  description: 'TBD'
 ru:
-  title: "Facepalm Death"
-  description: "TBD"
+  title: 'Facepalm Death'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-005.flac,

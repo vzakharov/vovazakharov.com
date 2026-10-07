@@ -2,19 +2,19 @@
 date: 2024-12-20
 status: done
 language: ru
-project: ["Дамы и господа"]
-repo: "dng_album"
+project: ['Дамы и господа']
+repo: 'dng_album'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-002.flac
 seconds: 248
 explicit: false
 album: dng
 hidden: true
 en:
-  title: "Под лаской плюшевого пледа"
-  description: "TBD"
+  title: 'Под лаской плюшевого пледа'
+  description: 'TBD'
 ru:
-  title: "Под лаской плюшевого пледа"
-  description: "TBD"
+  title: 'Под лаской плюшевого пледа'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/dng_album — dng-002.flac,

@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-010.flac
 seconds: 54
 explicit: false
 album: nsfl
 hidden: true
 en:
-  title: "Femur (Seems to Be the Hardest Bone)"
-  description: "TBD"
+  title: 'Femur (Seems to Be the Hardest Bone)'
+  description: 'TBD'
 ru:
-  title: "Femur (Seems to Be the Hardest Bone)"
-  description: "TBD"
+  title: 'Femur (Seems to Be the Hardest Bone)'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-010.flac,

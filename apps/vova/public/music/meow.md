@@ -2,18 +2,18 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "meow"
+project: ['GENERATED']
+repo: 'meow'
 audio: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.flac
 seconds: 187
 explicit: true
 hidden: true
 en:
-  title: "I Love Little Pussy"
-  description: "TBD"
+  title: 'I Love Little Pussy'
+  description: 'TBD'
 ru:
-  title: "I Love Little Pussy"
-  description: "TBD"
+  title: 'I Love Little Pussy'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master picked as `meow_master.flac`; `meow.flac` is the same length — check which one is on OFFstep. Language is a guess from the English title — the checklist leaves it blank and lyrics.md has no words for it. -->

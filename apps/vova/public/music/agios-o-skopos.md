@@ -2,19 +2,19 @@
 date: 2024-12-16
 status: done
 language: instrumental
-project: ["Полуживые", "GENERATED"]
-repo: "vagabond_album"
+project: ['Полуживые', 'GENERATED']
+repo: 'vagabond_album'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-009.flac
 seconds: 286
 explicit: false
 album: vagabond
 hidden: true
 en:
-  title: "Άγιος Ο Σκοπός"
-  description: "TBD"
+  title: 'Άγιος Ο Σκοπός'
+  description: 'TBD'
 ru:
-  title: "Άγιος Ο Σκοπός"
-  description: "TBD"
+  title: 'Άγιος Ο Σκοπός'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; if a Greek vocal is sung here, Greek is not yet in the language registry. -->

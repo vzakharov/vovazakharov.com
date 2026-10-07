@@ -2,19 +2,19 @@
 date: 2024-12-16
 status: done
 language: instrumental
-project: ["Полуживые", "GENERATED"]
-repo: "vagabond_album"
+project: ['Полуживые', 'GENERATED']
+repo: 'vagabond_album'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-002.flac
 seconds: 270
 explicit: false
 album: vagabond
 hidden: true
 en:
-  title: "Mist over Azov"
-  description: "TBD"
+  title: 'Mist over Azov'
+  description: 'TBD'
 ru:
-  title: "Mist over Azov"
-  description: "TBD"
+  title: 'Mist over Azov'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; the checklist left the language blank. -->

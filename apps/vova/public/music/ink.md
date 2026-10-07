@@ -2,19 +2,19 @@
 date: 2024-09-08
 status: done
 language: en
-project: ["GENERATED"]
-repo: "ink"
+project: ['GENERATED']
+repo: 'ink'
 audio: https://raw.githubusercontent.com/vovas-music/ink/main/ink.flac
 seconds: 208
 explicit: false
 album: stories
 hidden: true
 en:
-  title: "Ink"
-  description: "TBD"
+  title: 'Ink'
+  description: 'TBD'
 ru:
-  title: "Ink"
-  description: "TBD"
+  title: 'Ink'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — no words for it in lyrics.md; set instrumental if it has no vocal. Master is the checklist's guess `ink.flac`; the repo also has `ink_pop.flac`, and the album repo `stories` has its own `1 ink.flac`. -->

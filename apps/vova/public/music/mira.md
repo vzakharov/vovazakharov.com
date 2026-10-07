@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "mira"
+project: ['GENERATED']
+repo: 'mira'
 audio: https://raw.githubusercontent.com/vovas-music/mira/main/mira.flac
 seconds: 236
 explicit: false
 album: stories
 hidden: true
 en:
-  title: "Mira Is Going to the Sea"
-  description: "TBD"
+  title: 'Mira Is Going to the Sea'
+  description: 'TBD'
 ru:
-  title: "Mira Is Going to the Sea"
-  description: "TBD"
+  title: 'Mira Is Going to the Sea'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — no words for it in lyrics.md; set instrumental if it has no vocal. -->

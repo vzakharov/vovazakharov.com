@@ -2,19 +2,19 @@
 date: 2024-09-13
 status: done
 language: en
-project: ["GENERATED"]
-repo: "wdk"
+project: ['GENERATED']
+repo: 'wdk'
 audio: https://raw.githubusercontent.com/vovas-music/wdk/main/wdk.flac
 seconds: 220
 explicit: false
 album: stories
 hidden: true
 en:
-  title: "What Doesn’t Kill"
-  description: "TBD"
+  title: 'What Doesn’t Kill'
+  description: 'TBD'
 ru:
-  title: "What Doesn’t Kill"
-  description: "TBD"
+  title: 'What Doesn’t Kill'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — no words for it in lyrics.md; set instrumental if it has no vocal. -->

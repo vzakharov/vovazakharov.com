@@ -2,19 +2,19 @@
 date: 2024-09-23
 status: done
 language: ru
-project: ["Полуживые"]
-repo: "pobeg"
+project: ['Полуживые']
+repo: 'pobeg'
 audio: https://raw.githubusercontent.com/vovas-music/pobeg/main/pobeg.flac
 seconds: 220
 explicit: false
 album: papa-reka
 hidden: true
 en:
-  title: "Река. Часть первая / Побег"
-  description: "TBD"
+  title: 'Река. Часть первая / Побег'
+  description: 'TBD'
 ru:
-  title: "Река. Часть первая / Побег"
-  description: "TBD"
+  title: 'Река. Часть первая / Побег'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The pobeg repository also holds reka.flac, which may be the master of «Река. Часть вторая» (scaffolded separately from the album file as reka-chast-vtoraya). -->

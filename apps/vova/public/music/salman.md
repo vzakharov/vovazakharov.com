@@ -2,19 +2,19 @@
 date: 2024-09-19
 status: done
 language: ru
-project: ["Полуживые"]
-repo: "salman"
+project: ['Полуживые']
+repo: 'salman'
 audio: https://raw.githubusercontent.com/vovas-music/salman/main/salman.flac
 seconds: 298
 explicit: false
 album: papa-reka
 hidden: true
 en:
-  title: "Младший внучек мой"
-  description: "TBD"
+  title: 'Младший внучек мой'
+  description: 'TBD'
 ru:
-  title: "Младший внучек мой"
-  description: "TBD"
+  title: 'Младший внучек мой'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/salman — salman.flac,

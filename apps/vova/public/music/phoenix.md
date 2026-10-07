@@ -2,19 +2,19 @@
 date: 2024-11-30
 status: done
 language: en
-project: ["GENERATED"]
-repo: "phoenix"
+project: ['GENERATED']
+repo: 'phoenix'
 audio: https://raw.githubusercontent.com/vovas-music/phoenix/main/phoenix.flac
 seconds: 193
 explicit: false
 album: ctfu
 hidden: true
 en:
-  title: "Phoenix"
-  description: "TBD"
+  title: 'Phoenix'
+  description: 'TBD'
 ru:
-  title: "Phoenix"
-  description: "TBD"
+  title: 'Phoenix'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The master is a guess: phoenix_ozz.flac is the same length as phoenix.flac, and phoenix_new.flac and phoenix_stemmed.flac are also in the repo. Language is inferred from the title alone. -->

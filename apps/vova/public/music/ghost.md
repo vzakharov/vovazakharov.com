@@ -2,18 +2,18 @@
 date: 2024-08-07
 status: done
 language: en
-project: ["Downtemple"]
-repo: "ghost"
+project: ['Downtemple']
+repo: 'ghost'
 audio: https://raw.githubusercontent.com/vovas-music/ghost/main/ghost.flac
 seconds: 214
 explicit: false
 hidden: true
 en:
-  title: "Ghost of Yesterday"
-  description: "TBD"
+  title: 'Ghost of Yesterday'
+  description: 'TBD'
 ru:
-  title: "Ghost of Yesterday"
-  description: "TBD"
+  title: 'Ghost of Yesterday'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/ghost — ghost.flac,

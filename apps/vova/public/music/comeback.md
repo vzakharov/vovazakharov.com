@@ -2,18 +2,18 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["Yoohie"]
-repo: "comeback"
+project: ['Yoohie']
+repo: 'comeback'
 audio: https://raw.githubusercontent.com/vovas-music/comeback/main/comeback.flac
 seconds: 209
 explicit: false
 hidden: true
 en:
-  title: "The Comeback Song (We Have a Banger)"
-  description: "TBD"
+  title: 'The Comeback Song (We Have a Banger)'
+  description: 'TBD'
 ru:
-  title: "The Comeback Song (We Have a Banger)"
-  description: "TBD"
+  title: 'The Comeback Song (We Have a Banger)'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — the checklist leaves it blank and lyrics.md has no words for it. Apple Music releases it on «Ignite», which is not in the album registry, so it stands as a single. -->

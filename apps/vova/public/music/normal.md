@@ -2,19 +2,19 @@
 date: 2024-11-04
 status: done
 language: en
-project: ["GENERATED"]
-repo: "normal"
+project: ['GENERATED']
+repo: 'normal'
 audio: https://raw.githubusercontent.com/vovas-music/normal/main/normal.flac
 seconds: 243
 explicit: false
 album: pschpthy
 hidden: true
 en:
-  title: "Normal"
-  description: "TBD"
+  title: 'Normal'
+  description: 'TBD'
 ru:
-  title: "Normal"
-  description: "TBD"
+  title: 'Normal'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/normal — normal.flac,

@@ -2,19 +2,19 @@
 date: 2024-12-20
 status: done
 language: ru
-project: ["Дамы и господа"]
-repo: "dng_album"
+project: ['Дамы и господа']
+repo: 'dng_album'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-001.flac
 seconds: 176
 explicit: false
 album: dng
 hidden: true
 en:
-  title: "Моим стихам, написанным так рано"
-  description: "TBD"
+  title: 'Моим стихам, написанным так рано'
+  description: 'TBD'
 ru:
-  title: "Моим стихам, написанным так рано"
-  description: "TBD"
+  title: 'Моим стихам, написанным так рано'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/dng_album — dng-001.flac,

@@ -2,19 +2,19 @@
 date: 2024-09-16
 status: done
 language: ru
-project: ["Полуживые"]
-repo: "sultan"
+project: ['Полуживые']
+repo: 'sultan'
 audio: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.flac
 seconds: 232
 explicit: false
 album: papa-reka
 hidden: true
 en:
-  title: "Мой Султан"
-  description: "TBD"
+  title: 'Мой Султан'
+  description: 'TBD'
 ru:
-  title: "Мой Султан"
-  description: "TBD"
+  title: 'Мой Султан'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/sultan — sultan.flac,

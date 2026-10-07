@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-002.flac
 seconds: 6
 explicit: false
 album: nsfl
 hidden: true
 en:
-  title: "Fetal Soup"
-  description: "TBD"
+  title: 'Fetal Soup'
+  description: 'TBD'
 ru:
-  title: "Fetal Soup"
-  description: "TBD"
+  title: 'Fetal Soup'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-002.flac,

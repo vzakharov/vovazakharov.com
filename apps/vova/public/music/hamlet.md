@@ -2,18 +2,18 @@
 date: 2024-07-23
 status: done
 language: ru
-project: ["Полуживые"]
-repo: "hamlet"
+project: ['Полуживые']
+repo: 'hamlet'
 audio: https://raw.githubusercontent.com/vovas-music/hamlet/main/hamlet_extended.flac
 seconds: 353
 explicit: false
 hidden: true
 en:
-  title: "Гамлет (Extended Version)"
-  description: "TBD"
+  title: 'Гамлет (Extended Version)'
+  description: 'TBD'
 ru:
-  title: "Гамлет (Extended Version)"
-  description: "TBD"
+  title: 'Гамлет (Extended Version)'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the Cyrillic title — the checklist leaves it blank and lyrics.md has no words for it; say if it is instrumental. `hamlet_short-001.flac` is a shorter version in the same repo. -->

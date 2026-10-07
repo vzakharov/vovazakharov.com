@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "horizons"
+project: ['GENERATED']
+repo: 'horizons'
 audio: https://raw.githubusercontent.com/vovas-music/horizons/main/horizons_master.flac
 seconds: 168
 explicit: false
 album: ghosts
 hidden: true
 en:
-  title: "Horizons"
-  description: "TBD"
+  title: 'Horizons'
+  description: 'TBD'
 ru:
-  title: "Horizons"
-  description: "TBD"
+  title: 'Horizons'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Fields are taken from the Ghosts of Flesh entry (10. Horizons.flac), which lacks an album line; Ghosts of Flesh is taken from its Apple Music line, and the horizons entry itself is blank. Master is the checklist's guess horizons_master.flac; horizons.flac and horizons_o.flac are the alternatives. -->

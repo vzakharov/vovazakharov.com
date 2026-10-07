@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "Divine-Discontent--album-"
+project: ['GENERATED']
+repo: 'Divine-Discontent--album-'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/4.%20Fuck%20Religion.flac
 seconds: 140
 explicit: true
 album: divine
 hidden: true
 en:
-  title: "Fuck Religion"
-  description: "TBD"
+  title: 'Fuck Religion'
+  description: 'TBD'
 ru:
-  title: "Fuck Religion"
-  description: "TBD"
+  title: 'Fuck Religion'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language was blank and no words were found; set to en from the title — check it. -->

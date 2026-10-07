@@ -2,19 +2,19 @@
 date: 2024-10-29
 status: done
 language: en
-project: ["GENERATED"]
-repo: "psch"
+project: ['GENERATED']
+repo: 'psch'
 audio: https://raw.githubusercontent.com/vovas-music/psch/main/psch.flac
 seconds: 282
 explicit: false
 album: pschpthy
 hidden: true
 en:
-  title: "PSCHPTHY"
-  description: "TBD"
+  title: 'PSCHPTHY'
+  description: 'TBD'
 ru:
-  title: "PSCHPTHY"
-  description: "TBD"
+  title: 'PSCHPTHY'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is the checklist's guess psch.flac; the alternatives are psch_1.flac and the album repo's 7_psch.flac (lyrics.md's Suno clip is «psch_3 (final)»). -->

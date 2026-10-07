@@ -2,18 +2,18 @@
 date: 2024-12-02
 status: done
 language: en
-project: ["GENERATED"]
-repo: "crossout"
+project: ['GENERATED']
+repo: 'crossout'
 audio: https://raw.githubusercontent.com/vovas-music/crossout/main/crossout_3.flac
 seconds: 213
 explicit: false
 hidden: true
 en:
-  title: "Cross Out"
-  description: "TBD"
+  title: 'Cross Out'
+  description: 'TBD'
 ru:
-  title: "Cross Out"
-  description: "TBD"
+  title: 'Cross Out'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master picked as `crossout_3.flac`; `crossout_2.flac` is the same length, and `crossout_1.flac` is also in the repo — check which one is on OFFstep. Language is a guess from the English title — the checklist leaves it blank and lyrics.md has no words for it. -->

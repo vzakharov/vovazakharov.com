@@ -2,18 +2,18 @@
 date: 2024-10-18
 status: done
 language: en
-project: ["GENERATED"]
-repo: "mirrors"
+project: ['GENERATED']
+repo: 'mirrors'
 audio: https://raw.githubusercontent.com/vovas-music/mirrors/main/mirrors.flac
 seconds: 319
 explicit: false
 hidden: true
 en:
-  title: "Empty Mirrors"
-  description: "TBD"
+  title: 'Empty Mirrors'
+  description: 'TBD'
 ru:
-  title: "Empty Mirrors"
-  description: "TBD"
+  title: 'Empty Mirrors'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — the checklist leaves it blank and lyrics.md has no words for it. -->

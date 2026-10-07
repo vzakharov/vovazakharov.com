@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-004.flac
 seconds: 38
 explicit: false
 album: nsfl
 hidden: true
 en:
-  title: "Parking in Disabled Spot"
-  description: "TBD"
+  title: 'Parking in Disabled Spot'
+  description: 'TBD'
 ru:
-  title: "Parking in Disabled Spot"
-  description: "TBD"
+  title: 'Parking in Disabled Spot'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-004.flac,

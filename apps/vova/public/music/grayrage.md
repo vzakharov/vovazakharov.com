@@ -2,19 +2,19 @@
 date: 2024-10-24
 status: done
 language: en
-project: ["GENERATED"]
-repo: "grayrage"
+project: ['GENERATED']
+repo: 'grayrage'
 audio: https://raw.githubusercontent.com/vovas-music/grayrage/main/grayrage.flac
 seconds: 205
 explicit: false
 album: pschpthy
 hidden: true
 en:
-  title: "Gray Rage"
-  description: "TBD"
+  title: 'Gray Rage'
+  description: 'TBD'
 ru:
-  title: "Gray Rage"
-  description: "TBD"
+  title: 'Gray Rage'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is the checklist's guess grayrage.flac (lyrics.md matched it to the Suno «final» by length); the alternatives are grayrage_1.flac and the album repo's 2_grayrage.flac. -->

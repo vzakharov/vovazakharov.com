@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["Yoohie"]
-repo: "prs"
+project: ['Yoohie']
+repo: 'prs'
 audio: https://raw.githubusercontent.com/vovas-music/prs/main/prs40.flac
 seconds: 218
 explicit: true
 album: ctfu
 hidden: true
 en:
-  title: "Punk Rock Song (At 40)"
-  description: "TBD"
+  title: 'Punk Rock Song (At 40)'
+  description: 'TBD'
 ru:
-  title: "Punk Rock Song (At 40)"
-  description: "TBD"
+  title: 'Punk Rock Song (At 40)'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is inferred from the title alone. -->

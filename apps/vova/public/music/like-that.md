@@ -2,18 +2,18 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["Trending Today"]
-repo: "like-that"
+project: ['Trending Today']
+repo: 'like-that'
 audio: https://raw.githubusercontent.com/vovas-music/like-that/master/like%20that.flac
 seconds: 196
 explicit: false
 hidden: true
 en:
-  title: "Like That"
-  description: "TBD"
+  title: 'Like That'
+  description: 'TBD'
 ru:
-  title: "Like That"
-  description: "TBD"
+  title: 'Like That'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — the checklist leaves it blank and lyrics.md has no words for it. -->

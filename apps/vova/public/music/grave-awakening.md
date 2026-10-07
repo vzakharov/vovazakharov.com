@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-012.flac
 seconds: 26
 explicit: true
 album: nsfl
 hidden: true
 en:
-  title: "Grave Awakening"
-  description: "TBD"
+  title: 'Grave Awakening'
+  description: 'TBD'
 ru:
-  title: "Grave Awakening"
-  description: "TBD"
+  title: 'Grave Awakening'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: lyrics.md says Suno sang the first line on its own, unprompted, and you heard it into these words afterwards; that could become a footnote on the line if you want one. -->

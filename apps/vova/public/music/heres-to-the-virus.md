@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "ghosts-of-flesh"
+project: ['GENERATED']
+repo: 'ghosts-of-flesh'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/2.%20Here's%20To%20The%20Virus.flac
 seconds: 232
 explicit: false
 album: ghosts
 hidden: true
 en:
-  title: "Here’s to the Virus"
-  description: "TBD"
+  title: 'Here’s to the Virus'
+  description: 'TBD'
 ru:
-  title: "Here’s to the Virus"
-  description: "TBD"
+  title: 'Here’s to the Virus'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language was blank and no words were found; set to en from the title — check it. -->

@@ -2,18 +2,18 @@
 date: 2025-02-28
 status: done
 language: ru
-project: ["Дамы и господа", "Полуживые"]
-repo: "sneg_0"
+project: ['Дамы и господа', 'Полуживые']
+repo: 'sneg_0'
 audio: https://raw.githubusercontent.com/vovas-music/sneg_0/main/sneg_master.flac
 seconds: 180
 explicit: false
 hidden: true
 en:
-  title: "Снег"
-  description: "TBD"
+  title: 'Снег'
+  description: 'TBD'
 ru:
-  title: "Снег"
-  description: "TBD"
+  title: 'Снег'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is inferred from the title alone. -->

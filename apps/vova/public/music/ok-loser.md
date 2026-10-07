@@ -2,18 +2,18 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["Trending Today"]
-repo: "ok-loser"
+project: ['Trending Today']
+repo: 'ok-loser'
 audio: https://raw.githubusercontent.com/vovas-music/ok-loser/main/ok%20loser.flac
 seconds: 206
 explicit: false
 hidden: true
 en:
-  title: "Ok Loser"
-  description: "TBD"
+  title: 'Ok Loser'
+  description: 'TBD'
 ru:
-  title: "Ok Loser"
-  description: "TBD"
+  title: 'Ok Loser'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is inferred from the title alone. -->

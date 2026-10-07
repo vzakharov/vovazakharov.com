@@ -2,19 +2,19 @@
 date: 2024-09-11
 status: done
 language: en
-project: ["GENERATED"]
-repo: "undone"
+project: ['GENERATED']
+repo: 'undone'
 audio: https://raw.githubusercontent.com/vovas-music/undone/main/undone.flac
 seconds: 245
 explicit: false
 album: stories
 hidden: true
 en:
-  title: "Undone"
-  description: "TBD"
+  title: 'Undone'
+  description: 'TBD'
 ru:
-  title: "Undone"
-  description: "TBD"
+  title: 'Undone'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — no words for it in lyrics.md; set instrumental if it has no vocal. -->

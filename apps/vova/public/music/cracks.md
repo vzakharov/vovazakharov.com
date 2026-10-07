@@ -2,19 +2,19 @@
 date: 2024-09-16
 status: done
 language: en
-project: ["GENERATED"]
-repo: "cracks"
+project: ['GENERATED']
+repo: 'cracks'
 audio: https://raw.githubusercontent.com/vovas-music/cracks/main/cracks.flac
 seconds: 199
 explicit: false
 album: stories
 hidden: true
 en:
-  title: "Through the Cracks"
-  description: "TBD"
+  title: 'Through the Cracks'
+  description: 'TBD'
 ru:
-  title: "Through the Cracks"
-  description: "TBD"
+  title: 'Through the Cracks'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — no words for it in lyrics.md; set instrumental if it has no vocal. The album comes from the Apple Music line; the entry has no `альбом:` line. -->

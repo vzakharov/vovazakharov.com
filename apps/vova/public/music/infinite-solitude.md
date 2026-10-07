@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "Divine-Discontent--album-"
+project: ['GENERATED']
+repo: 'Divine-Discontent--album-'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/2.%20Infinite%20Solitude.flac
 seconds: 243
 explicit: false
 album: divine
 hidden: true
 en:
-  title: "Infinite Solitude"
-  description: "TBD"
+  title: 'Infinite Solitude'
+  description: 'TBD'
 ru:
-  title: "Infinite Solitude"
-  description: "TBD"
+  title: 'Infinite Solitude'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language was blank and no words were found; set to en from the title — check it. -->

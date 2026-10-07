@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-006.flac
 seconds: 65
 explicit: false
 album: nsfl
 hidden: true
 en:
-  title: "Watch People Die"
-  description: "TBD"
+  title: 'Watch People Die'
+  description: 'TBD'
 ru:
-  title: "Watch People Die"
-  description: "TBD"
+  title: 'Watch People Die'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-006.flac,

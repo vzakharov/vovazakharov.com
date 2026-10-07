@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-001.flac
 seconds: 33
 explicit: false
 album: nsfl
 hidden: true
 en:
-  title: "Do Not Listen"
-  description: "TBD"
+  title: 'Do Not Listen'
+  description: 'TBD'
 ru:
-  title: "Do Not Listen"
-  description: "TBD"
+  title: 'Do Not Listen'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The checklist leaves the language blank and lyrics.md has no words for this track, so `en` is read off the title; make it `instrumental` if nothing is sung. -->

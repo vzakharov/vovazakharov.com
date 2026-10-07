@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "succumb"
+project: ['GENERATED']
+repo: 'succumb'
 audio: https://raw.githubusercontent.com/vovas-music/succumb/main/succumb.flac
 seconds: 204
 explicit: false
 album: pschpthy
 hidden: true
 en:
-  title: "Succumb to Me"
-  description: "TBD"
+  title: 'Succumb to Me'
+  description: 'TBD'
 ru:
-  title: "Succumb to Me"
-  description: "TBD"
+  title: 'Succumb to Me'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/succumb — succumb.flac,

@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "Divine-Discontent--album-"
+project: ['GENERATED']
+repo: 'Divine-Discontent--album-'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/10.%20In%20the%20End%2C%20There%20Was%20Silence.flac
 seconds: 356
 explicit: false
 album: divine
 hidden: true
 en:
-  title: "In the End, There Was Silence"
-  description: "TBD"
+  title: 'In the End, There Was Silence'
+  description: 'TBD'
 ru:
-  title: "In the End, There Was Silence"
-  description: "TBD"
+  title: 'In the End, There Was Silence'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The checklist entry has no album line; Divine Discontent is taken from its Apple Music line. Language was blank and no words were found; set to en from the title — check whether the track has vocals or is instrumental (the album's closer). -->

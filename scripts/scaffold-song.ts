@@ -94,13 +94,14 @@ async function json<T>(url: string, schema: z.ZodType<T>): Promise<T> {
 }
 
 /**
- * A YAML double-quoted scalar, which JSON's string form already is. Every
- * authored value goes through it: a title or a blurb holding `: ` parses as a
- * mapping unquoted, and the document is then rejected at build time rather than
- * where it was written.
+ * A quoted YAML scalar. Every authored value goes through it: a title or a
+ * blurb holding `: ` parses as a mapping unquoted, and the document is then
+ * rejected at build time rather than where it was written. Single-quoted unless
+ * the value holds a `'` — the choice Prettier makes, so a fresh file passes the
+ * format check; the double-quoted form is JSON's string form.
  */
 function yaml(value: string): string {
-  return JSON.stringify(value);
+  return value.includes("'") ? JSON.stringify(value) : `'${value}'`;
 }
 
 /** Everything this script prints is its result, so it goes to stdout directly. */

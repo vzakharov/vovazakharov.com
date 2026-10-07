@@ -2,18 +2,18 @@
 date: 2024-09-19
 status: done
 language: ru
-project: ["за/обложкой", "Downtemple"]
-repo: "ogonki"
+project: ['за/обложкой', 'Downtemple']
+repo: 'ogonki'
 audio: https://raw.githubusercontent.com/vovas-music/ogonki/main/ogonki.flac
 seconds: 186
 explicit: false
 hidden: true
 en:
-  title: "Огоньки"
-  description: "TBD"
+  title: 'Огоньки'
+  description: 'TBD'
 ru:
-  title: "Огоньки"
-  description: "TBD"
+  title: 'Огоньки'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is inferred from the title alone. -->

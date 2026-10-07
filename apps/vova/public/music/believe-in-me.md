@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "Divine-Discontent--album-"
+project: ['GENERATED']
+repo: 'Divine-Discontent--album-'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/7.%20Believe%20In%20Me.flac
 seconds: 274
 explicit: true
 album: divine
 hidden: true
 en:
-  title: "Believe in Me"
-  description: "TBD"
+  title: 'Believe in Me'
+  description: 'TBD'
 ru:
-  title: "Believe in Me"
-  description: "TBD"
+  title: 'Believe in Me'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language was blank and no words were found; set to en from the title — check it. -->

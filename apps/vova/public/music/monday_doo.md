@@ -2,19 +2,19 @@
 date: 2024-12-27
 status: done
 language: en
-project: ["Yoohie"]
-repo: "monday_doo"
+project: ['Yoohie']
+repo: 'monday_doo'
 audio: https://raw.githubusercontent.com/vovas-music/monday_doo/main/monday_doo.flac
 seconds: 214
 explicit: false
 album: ctfu
 hidden: true
 en:
-  title: "Every Monday"
-  description: "TBD"
+  title: 'Every Monday'
+  description: 'TBD'
 ru:
-  title: "Every Monday"
-  description: "TBD"
+  title: 'Every Monday'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: Language is a guess from the English title — the checklist leaves it blank and lyrics.md has no words for it. `monday` is another «Every Monday» on the same album, billed to GENERATED & Yoohie — check both belong. -->

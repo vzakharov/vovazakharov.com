@@ -2,19 +2,19 @@
 date: 2024-12-05
 status: done
 language: en
-project: ["GENERATED"]
-repo: "nsfl"
+project: ['GENERATED']
+repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-007.flac
 seconds: 36
 explicit: false
 album: nsfl
 hidden: true
 en:
-  title: "Last Christmas"
-  description: "TBD"
+  title: 'Last Christmas'
+  description: 'TBD'
 ru:
-  title: "Last Christmas"
-  description: "TBD"
+  title: 'Last Christmas'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-007.flac,

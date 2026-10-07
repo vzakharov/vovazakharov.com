@@ -2,19 +2,19 @@
 date: 2024-07-23
 status: done
 language: en
-project: ["GENERATED"]
-repo: "ghosts-of-flesh"
+project: ['GENERATED']
+repo: 'ghosts-of-flesh'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/4.The%20Last%20Human%20Zoo.flac
 seconds: 291
 explicit: false
 album: ghosts
 hidden: true
 en:
-  title: "The Last Human Zoo"
-  description: "TBD"
+  title: 'The Last Human Zoo'
+  description: 'TBD'
 ru:
-  title: "The Last Human Zoo"
-  description: "TBD"
+  title: 'The Last Human Zoo'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The checklist gives this track no repo of its own, but repo zoo holds the same song (zoo_master.flac, also zoo.flac and zoo_o.flac; lyrics.md files the words under both) — check which master you want; the zoo entry's project is still blank, so it is not scaffolded separately. -->

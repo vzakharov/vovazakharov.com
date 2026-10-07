@@ -2,19 +2,19 @@
 date: 2024-10-01
 status: done
 language: en
-project: ["GENERATED"]
-repo: "erebos"
+project: ['GENERATED']
+repo: 'erebos'
 audio: https://raw.githubusercontent.com/vovas-music/erebos/main/erebos.flac
 seconds: 272
 explicit: false
 album: pschpthy
 hidden: true
 en:
-  title: "Erebos"
-  description: "TBD"
+  title: 'Erebos'
+  description: 'TBD'
 ru:
-  title: "Erebos"
-  description: "TBD"
+  title: 'Erebos'
+  description: 'TBD'
 ---
 
 <!-- For Vova to check: The album entry has no album line; the album is taken from the Apple Music line. Master is the checklist's guess erebos.flac; the repo also holds erebos_reprise.flac and erebos_reprise_1.flac. No words found: language is set to en from the title — check it, or change it to instrumental. -->

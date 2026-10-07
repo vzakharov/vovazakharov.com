@@ -2,19 +2,19 @@
 date: 2024-12-20
 status: done
 language: ru
-project: ["Дамы и господа", "Полуживые"]
-repo: "dng_album"
+project: ['Дамы и господа', 'Полуживые']
+repo: 'dng_album'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-005.flac
 seconds: 255
 explicit: false
 album: dng
 hidden: true
 en:
-  title: "Твоя ль вина, что милый образ твой"
-  description: "TBD"
+  title: 'Твоя ль вина, что милый образ твой'
+  description: 'TBD'
 ru:
-  title: "Твоя ль вина, что милый образ твой"
-  description: "TBD"
+  title: 'Твоя ль вина, что милый образ твой'
+  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/dng_album — dng-005.flac,
