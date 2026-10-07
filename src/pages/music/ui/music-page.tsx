@@ -24,9 +24,9 @@ export function MusicPage({ locale }: WithLocale) {
 
         <SongList {...{ locale }} />
 
-        <BackToHome label={loadMessages(locale).music.backToHome} />
-
-        <SiteFooter feed={findFeed(SITE_ID, 'music', locale).route} />
+        <SiteFooter feed={findFeed(SITE_ID, 'music', locale).route}>
+          <BackToHome label={loadMessages(locale).music.backToHome} />
+        </SiteFooter>
       </Stack>
     </PageShell>
   );

@@ -12,6 +12,8 @@ import { BackToHome, PageShell } from '@/shared/ui';
 
 import { DocumentCards } from '@/entities/document';
 
+import { SiteFooter } from '@/widgets/site-footer';
+
 import {
   COLLECTION_INTROS,
   type IndexedCollectionId,
@@ -49,7 +51,9 @@ export function collectionIndexRoute(collection: IndexedCollectionId) {
 
           <DocumentCards {...{ collection, cards }} />
 
-          <BackToHome />
+          <SiteFooter>
+            <BackToHome />
+          </SiteFooter>
         </Stack>
       </PageShell>
     );

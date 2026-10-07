@@ -10,12 +10,16 @@ type SiteFooterProps = WithOptionalChildren & {
   feed?: string;
 };
 
-/** Every site's foot: the note this one has for its readers, where it has one, opposite the byline. */
+/**
+ * Every page's foot: whatever the page has to say on its way out — a note, the
+ * way back home — opposite the byline. Screen-only, a printed document carrying
+ * a footer of its own on every sheet.
+ */
 export function SiteFooter({ children, feed }: SiteFooterProps) {
   const { author, url } = SITE_CONFIG;
 
   return (
-    <Box component="footer">
+    <Box component="footer" className="print-hidden">
       <Divider mb={32} color={cssColor('border-hairline')} />
       <Group justify="space-between" align="flex-start" gap={32}>
         <Text size="sm" opacity={0.6} flex={1} miw="min(360px, 100%)">

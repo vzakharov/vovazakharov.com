@@ -24,6 +24,8 @@ import { BackToHome, hoverDim, TextLink } from '@/shared/ui';
 
 import { ProseContent, SourceList } from '@/entities/document';
 
+import { SiteFooter } from '@/widgets/site-footer';
+
 import { ArticleHeader } from './article-header';
 import { ARTICLE_SLOTS } from './article-slots';
 import classes from './documents.module.scss';
@@ -151,7 +153,9 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
               </Box>
             </PrintSheet>
 
-            <BackToHome />
+            <SiteFooter>
+              <BackToHome />
+            </SiteFooter>
           </Stack>
         </Container>
       </Box>

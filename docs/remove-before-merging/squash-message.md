@@ -21,8 +21,11 @@ which is rendered for the page and not for a feed reader.
 
 Every page announces its site's feeds in `<head>` for reader
 autodiscovery, and each feed is linked visibly from the footer of the
-page whose listing it mirrors, after the copyright — which the music
-page gains with it.
+page whose listing it mirrors, after the copyright.
+
+That footer now ends every page: an inner page's "← Home" link (in
+English shortened from "← Back to the home page") moves into it,
+opposite the copyright the inner pages lacked.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
