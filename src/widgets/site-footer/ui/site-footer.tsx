@@ -22,16 +22,17 @@ export function SiteFooter({ children, feed }: SiteFooterProps) {
           {children}
         </Text>
         <Text size="sm" opacity={0.6}>
-          {feed !== undefined && (
-            <>
-              <TextLink href={feed}>RSS</TextLink> ·{' '}
-            </>
-          )}
           © {BUILD_YEAR} {/* The author's own site does not link to itself. */}
           {url === AUTHOR_URL ? (
             author.name
           ) : (
             <TextLink href={AUTHOR_URL}>{author.name}</TextLink>
+          )}
+          {feed !== undefined && (
+            <>
+              {' · '}
+              <TextLink href={feed}>RSS</TextLink>
+            </>
           )}
         </Text>
       </Group>
