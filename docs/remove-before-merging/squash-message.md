@@ -1,33 +1,34 @@
 Proposed squash title/body:
 
 ```
-feat(vova): hidden documents, and 150 masters as hidden song pages (pr #115)
+feat(vova): hidden documents, artist pages, 147 hidden song pages (pr #115)
 ```
 
 ```
 The vovas-music organization holds far more masters than the site
 lists, most of them not ready to show. A document now takes
 `hidden: true`: its page is built and served at its address, but no
-listing carries it — not a collection index, not the music player's
-queue, not the sitemap — and the page asks search engines not to
-index it. One predicate in shared/content decides what is listed,
-applied where documents are listed and never where they are routed.
+listing, player queue or sitemap carries it, and it is noindex. One
+predicate in shared/content decides what is listed. A hidden song
+plays from its own page, joining the end of the queue.
 
-A hidden song plays from its own page: the player takes a track
-rather than a queue position, and a track it does not hold yet joins
-the end of the queue when played.
+147 masters land as hidden song pages, their words set as verse:
+Suno's markers, drawn-out syllables and pause ellipses do not travel,
+a published poem's punctuation does. A guessed master, project or
+language says so in a comment in its file. Masters outside
+vovas-music are served from the site, so a song's repo is optional.
 
-150 of those masters land as hidden song pages, with description TBD
-and words from his Suno songs where they exist; /music/all lists them
-alongside the public ones, unlinked and unindexed, for review. A
-master, project or language that was a guess says so in a comment in
-its file. To carry them, a song's language is a list, main language
-first, with Tatar, Arabic, Polish, Latin, Chinese and French added;
-albums and projects join their registries, and a project can be
-billed under another name per language (Yoohie is «Йухи» in Russian);
-and music:scaffold takes a spec naming the master and the authored
-fields, so album tracks and repositories with several masters can be
-scaffolded.
+/music opens with the artists; artist and album pages list what is
+public, and their twins under /music/all list the hidden songs too,
+noindex and out of the sitemap. A song page links its artists and
+album. A title's transliteration is per locale and shows only to a
+reader who cannot read its script, and one note can span several
+lines.
+
+To carry the catalogue, a song's language is a list, main language
+first, with nine languages added; albums and projects join their
+registries, a project can be billed under another name per language,
+and music:scaffold takes a spec naming the master and its fields.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
