@@ -17,90 +17,101 @@
 
 - [40days](https://github.com/vovas-music/40days)
   - мастер: `dad.flac`
-  - проект:
-  - название:
-  - язык:
+  - проект: Полуживые (далее П)
+  - название: Всё в этой жизни начинаетс с любви
+  - альбом: Папа-река
+  - язык: русский
   - hidden: да
 - [8849](https://github.com/vovas-music/8849)
   - мастер: `8849.flac`
-  - проект:
-  - название:
-  - язык:
+  - проект: GENERATED & Полуживые (в русском -- наоборот, проект про Конюхова, то же откуда "June")
+  - название: 8849
+  - альбом: Vagabond на английском, Скиталец: по следам Конюхова (далее названия альбомов буду сокращать где понятно)
+  - язык: инструментал
   - hidden: да
 - [alive](https://github.com/vovas-music/alive)
   - мастер: `alive_master.flac`
   - другие файлы: `alive.flac`, `alive_o.flac`
-  - проект:
-  - название:
-  - язык:
+  - проект: GENERATED (далее G)
+  - название: Alive
+  - Ghosts of Flesh (далее названия альбомов буду писать без метки альбом:)
+  - язык: en
   - hidden: да
 - [almost](https://github.com/vovas-music/almost)
   - мастер: `almost.flac`
   - другие файлы: `almost_1.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: I Almost Love You
+  - P.S.C.H.P.T.H.Y. (далее psycho)
   - язык:
   - hidden: да
 - [artemis](https://github.com/vovas-music/artemis)
   - мастер:
   - другие файлы: `artemis_2.flac`, `artemis_3.flac`, `artemis_new.flac`, `artemis_new_1.flac`, `artemis_to_fix.flac`
-  - проект:
-  - название:
+  - проект: G
+  - название: Artemis
+  - same
   - язык:
   - hidden: да
 - [asa](https://github.com/vovas-music/asa)
   - мастер: `яша_v6.flac`
-  - проект:
-  - название: Яша
+  - проект: Полуживые
+  - название: На Руси святой
+  - Кому на Руси жить хорошо
   - язык: ru
   - hidden: да
 - [baa](https://github.com/vovas-music/baa)
   - мастер: `baa_master.flac`
   - другие файлы: `baa.flac`
-  - проект:
-  - название:
-  - язык:
+  - проект: G
+  - название: Baa Baa Black Sheep
+  - альбом с детскими страшилками, но пока названия не придумал
+  - язык: en
   - hidden: да
 - [babay](https://github.com/vovas-music/babay)
   - мастер: `babay_master.flac`
-  - проект:
-  - название:
-  - язык:
+  - проект: - (есть песни без проектов, нужно подумать как их каталожить)
+  - название: Минем бабай
+  - язык: татарский
   - hidden: да
 - [because-of-you-2](https://github.com/vovas-music/because-of-you-2)
   - мастер: `Because of You.flac`
-  - проект:
+  - проект: Yoohie
   - название: Because of You
-  - язык:
+  - альбом с revival-ом, но пока названия ещё нет (историяя см. https://music.lib.ru/y/yoohie/, кстати в русских версиях Yoohie становятся Йухи)
+  - язык: en
   - hidden: да
 - [bezm](https://github.com/vovas-music/bezm)
-  - мастер:
+  - мастер: `В безмерности небес.flac`
   - другие файлы: `В безмерности небес.flac`, `За горизонт.flac`
-  - проект:
-  - название:
-  - язык:
+  - проект: Полуживые
+  - название: В безмерности небес
+  - Папа-река 2 (ещё только в виде идеи)
+  - язык: ру
   - hidden: да
 - [boom](https://github.com/vovas-music/boom)
   - мастер: `boom.flac`
-  - проект:
-  - название:
-  - язык:
+  - проект: G
+  - название: Boom!
+  - psycho
+  - язык: en
   - hidden: да
 - [bronte](https://github.com/vovas-music/bronte)
   - мастер: `bronte.flac`
-  - проект:
+  - проект: см. https://open.spotify.com/album/3Xuov6nvskg0ApkRTqMoii
   - название:
   - язык:
   - hidden: да
 - [burmakin](https://github.com/vovas-music/burmakin)
   - мастер: `Просто устал.flac`
-  - проект:
+  - проект: Грёбаный бал
+  - to-be первый альбом, пока без названия
   - название: Просто устал
   - язык: ru
   - hidden: да
 - [calm](https://github.com/vovas-music/calm)
   - мастер: `calm.flac`
-  - проект:
+  - проект: 
   - название:
   - язык:
   - hidden: да
