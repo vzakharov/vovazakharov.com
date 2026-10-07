@@ -404,7 +404,7 @@ function holdCvToCeiling(prints: Printable[]): void {
   );
 }
 
-/** What the last passing `--cv-pages` run printed from, keyed by one hash of every edition's. */
+/** The source hash, over every edition's, of the last `--cv-pages` run that passed. */
 const CV_PAGES_PASS = path.join(REPO_ROOT, 'tmp', 'cv-pages-pass.txt');
 
 async function checkCvPages(): Promise<void> {
