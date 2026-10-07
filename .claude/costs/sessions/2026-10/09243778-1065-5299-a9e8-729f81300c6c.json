@@ -1,0 +1,88 @@
+{
+  "sessionId": "09243778-1065-5299-a9e8-729f81300c6c",
+  "branch": "claude/cv-compact-profile-stack-6ds3kd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge claude/cv-compact-profile-stack-6ds3kd",
+  "prs": [
+    110
+  ],
+  "url": "https://claude.ai/code/session_01XbTgWoQyKTAofnid89vBaa",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-07T04:40:27.687Z",
+  "lastResponseAt": "2026-10-07T05:02:08.317Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 80221,
+    "cacheReadTokens": 2448464,
+    "outputTokens": 4966,
+    "thinkingTokens": 1659,
+    "responses": 23,
+    "costUsd": 1.2309647999999997
+  },
+  "ownTurns": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 80221,
+    "cacheReadTokens": 2448464,
+    "outputTokens": 4966,
+    "thinkingTokens": 1659,
+    "responses": 23,
+    "costUsd": 1.2309647999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 46,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 80221,
+      "cacheReadTokens": 2448464,
+      "outputTokens": 4966,
+      "thinkingTokens": 1659,
+      "responses": 23,
+      "costUsd": 1.2309647999999997
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-07T05:02:08.317Z",
+    "contextTokens": 124815,
+    "spend": {
+      "inputTokens": 44,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 79903,
+      "cacheReadTokens": 2323969,
+      "outputTokens": 4928,
+      "thinkingTokens": 1659,
+      "responses": 22,
+      "costUsd": 1.2027537999999998
+    }
+  },
+  "compactions": [],
+  "telemetry": null,
+  "estimate": {
+    "at": "2026-10-07T04:51:30.644Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": null
+      }
+    ],
+    "comment": "land prep on a small finished branch: one vet run, a base merge check, attestation and the squash merge"
+  }
+}
