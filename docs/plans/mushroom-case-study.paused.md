@@ -188,28 +188,38 @@ the operator asked to see it grow rather than receive it whole. Four bites;
 the article builds and renders after each, and nothing merges before the
 last.
 
+## Eaten so far
+
+- **Bite 1** — `mushrooms.md` holds the header, the drawing with Syama's voice
+  notes, Part I (Thursday's session and its two pivots), the launch message in
+  full, the first minutes (megabeast notes, the family and the mandalas), the
+  loop with its diagram, and bites 1–8 with frames, pivots and snags; §§ 6–12
+  are empty headings. Built from dictation 1 and the history; issue #65 and
+  review 5329778719 read at the source. Frames are JPEG, 1600 px wide, as
+  `assets/mushrooms-bite-<nn>-<what>.jpg`; bites 1–3 were rebuilt from each
+  bite's last commit (23276782, d80d81d8, 278116c7) and captured headless.
+  Clock times are written `08\:17`, because remark-directive reads `:17` as a
+  directive. No `ogImage` yet: the chart's card is bite 3's.
+- Along the way: `content:mermaid` was broken on `main` (an extensionless
+  import under bare Node), fixed in de1cef84. Vet ran without the full
+  `pnpm test` (the game suite alone outlasts one call), which no change here
+  touches.
+
 ## Rest of the elephant
 
-- **Bite 2 — Part II** (§ 6 of the outline) with its frames.
+- **Bite 2 — Part II** (§ 6 of the outline) with its frames. Opens with the
+  dictation's "Шагабельный мир" passage (the walking idea, «а не замахнуться
+  ли нам…», the agent swearing under its breath), which bite 1 held back for
+  it, and closes the dictation's last line («завис на много-много шагов» —
+  bite 12's «никто не spiraled?»). Read reviews 5350040790, 5354936232 and
+  5355192406 at the source first. A second dictation, if the operator records
+  one, sets the voice for this part as the first did.
 - **Bite 3 — Part III, the numbers, the lessons, the appendices** (§§ 7–11),
   the chart and its OG card.
 - **Bite 4 — the cuts and the read-through**: `mushrooms.mini.md` and
   `mushrooms.nano.md` (question 5), the opening's final hook, a fact check of
   every number against the commands in `digest.md`, `/preview` of the page in
   both themes.
-
-## This bite
-
-**Bite 1 — the frame of the article and Part I** (§§ 0–5 of the outline):
-
-1. Finish the digest: `digest-2.md` § 5 — issue #65's spec and drawing, and
-   PR #57's review threads, telling the operator's own reviews (5329778719,
-   5350040790, 5354936232, 5355192406 among them) from the loop's.
-2. `mushrooms.md` with frontmatter, the working title, the numbers table,
-   the intro, Part I, the launch message, the loop with its mermaid diagram,
-   and bites 1–8; empty headings for §§ 6–12 so the shape is visible.
-3. Frames for bites 1–8 and the drawing into `assets/`; `pnpm content:mermaid`.
-4. `/preview` the page once, `./scripts/vet.sh`, `/polish`, pause the plan.
 
 ## DRY notes
 
