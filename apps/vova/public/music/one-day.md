@@ -3,7 +3,7 @@ date: 2024-07-23
 status: done
 language: en
 project: ['GENERATED']
-repo: 'Divine-Discontent--album-'
+repo: 'oneday'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/5.%20One%20Day.flac
 seconds: 198
 explicit: true

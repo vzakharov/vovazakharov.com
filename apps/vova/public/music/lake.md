@@ -3,7 +3,7 @@ date: 2024-09-16
 status: done
 language: en
 project: ['GENERATED']
-repo: 'stories'
+repo: 'lake'
 audio: https://raw.githubusercontent.com/vovas-music/stories/main/4%20lake.flac
 seconds: 352
 explicit: false

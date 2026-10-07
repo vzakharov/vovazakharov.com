@@ -3,7 +3,7 @@ date: 2024-09-16
 status: done
 language: en
 project: ['GENERATED']
-repo: 'stories'
+repo: 'story_ends'
 audio: https://raw.githubusercontent.com/vovas-music/stories/main/11%20ends.flac
 seconds: 118
 explicit: false

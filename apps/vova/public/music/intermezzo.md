@@ -3,7 +3,7 @@ date: 2024-11-05
 status: done
 language: instrumental
 project: ['GENERATED']
-repo: 'psch_album'
+repo: 'inter'
 audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/9_intermezzo.flac
 seconds: 172
 explicit: false

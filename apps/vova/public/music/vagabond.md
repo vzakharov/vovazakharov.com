@@ -3,7 +3,7 @@ date: 2024-12-16
 status: done
 language: en
 project: ['Полуживые', 'GENERATED']
-repo: 'vagabond_album'
+repo: 'vagabond'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-010.flac
 seconds: 314
 explicit: false

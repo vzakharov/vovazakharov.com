@@ -3,7 +3,7 @@ date: 2024-07-23
 status: done
 language: ru
 project: ['Полуживые']
-repo: 'rus-'
+repo: 'mu-icok-new'
 audio: https://raw.githubusercontent.com/vovas-music/rus-/main/6%20%D0%BC%D1%83%D0%B6%D0%B8%D1%87%D0%BE%D0%BA.flac
 seconds: 190
 explicit: false

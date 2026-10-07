@@ -3,7 +3,7 @@ date: 2024-12-16
 status: done
 language: instrumental
 project: ['Полуживые', 'GENERATED']
-repo: 'vagabond_album'
+repo: 'steppe'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-005.flac
 seconds: 316
 explicit: false

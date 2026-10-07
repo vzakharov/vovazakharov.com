@@ -3,7 +3,7 @@ date: 2024-12-20
 status: done
 language: ru
 project: ['Дамы и господа']
-repo: 'dng_album'
+repo: 'pled'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-002.flac
 seconds: 248
 explicit: false

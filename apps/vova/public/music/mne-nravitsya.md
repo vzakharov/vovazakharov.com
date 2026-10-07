@@ -3,7 +3,7 @@ date: 2024-12-20
 status: done
 language: ru
 project: ['Дамы и господа']
-repo: 'dng_album'
+repo: 'mne-nravitsa'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-003.flac
 seconds: 254
 explicit: false

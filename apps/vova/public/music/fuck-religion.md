@@ -3,7 +3,7 @@ date: 2024-07-23
 status: done
 language: en
 project: ['GENERATED']
-repo: 'Divine-Discontent--album-'
+repo: 'fuckreligion'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/4.%20Fuck%20Religion.flac
 seconds: 140
 explicit: true

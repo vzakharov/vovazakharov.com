@@ -3,7 +3,7 @@ date: 2024-07-23
 status: done
 language: en
 project: ['GENERATED']
-repo: 'Divine-Discontent--album-'
+repo: 'solitude'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/2.%20Infinite%20Solitude.flac
 seconds: 243
 explicit: false

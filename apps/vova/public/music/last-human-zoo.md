@@ -3,7 +3,7 @@ date: 2024-07-23
 status: done
 language: en
 project: ['GENERATED']
-repo: 'ghosts-of-flesh'
+repo: 'zoo'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/4.The%20Last%20Human%20Zoo.flac
 seconds: 291
 explicit: false

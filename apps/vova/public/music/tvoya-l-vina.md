@@ -3,7 +3,7 @@ date: 2024-12-20
 status: done
 language: ru
 project: ['Дамы и господа', 'Полуживые']
-repo: 'dng_album'
+repo: 'sonnet61'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-005.flac
 seconds: 255
 explicit: false
