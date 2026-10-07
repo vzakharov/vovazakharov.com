@@ -68,4 +68,11 @@ report to Vova.
 - All eight: words + Russian crib + `ru.titleTranslation`. Footnotes: nightmares "Exit light, enter fear" (Metallica); rebels "benign", "fellow kids"; ignite Dylan Thomas.
 - ok-loser (image): last line "Okav. loser!" read as "Okay, loser!"; "Alright, alright, (...)" kept, asked. ignite: one-line pre-chorus split at the comma. Kept "shite", "less'n".
 - baa: traditional rhyme (Opie/Wikipedia) + "sung version may differ" comment; album (T10 "Nursery Rhymes for the Jilted Generation") left to the coordinator.
-- meow = "I Love Little Pussy" (1830, PD), 8-line version. Explicit and 3:07 — does he sing extra stanzas or his own changes? Credit Jane Taylor (uncertain attribution)? **ask**.
+- meow (see also below) = "I Love Little Pussy" (1830, PD), 8-line version. Explicit and 3:07 — does he sing extra stanzas or his own changes? Credit Jane Taylor (uncertain attribution)? **ask**.
+
+## Let the Stories Spin (T19)
+
+- All 12: words + Russian crib + `ru.titleTranslation` (Чернила, Мира уходит к морю, Другое сердце, Сёстры, Унесённые ветром, Разрушенные — his say?, Светлячки, Что не убивает, Непрощённый IV, Обезьяна, История заканчивается, Сквозь трещины).
+- lake = track 4 "Sisters" (chorus "Mist and Lake"). Footnotes: ink (pen/sword), mira "fishy", wdk (Joker, Nietzsche "stranger"), monkey (monkey on one's back).
+- u4: album text replaced old words; ends at "I won't get out!" — old closing chorus and "What am I unforgiven for?" outro gone, asked whether sung.
+- Kept as written: cracks "little word" (world?) — flagged; "the moist of forest leaves"; mira "unleashing the main" (sea, or mane?); monkey "no mo ropes", "I will forgive at last"; wdk "unlied", "‘fore".
