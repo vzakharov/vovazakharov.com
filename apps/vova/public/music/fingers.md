@@ -83,7 +83,7 @@ Bayan-core, or: any self-respecting composer has to write at least one song on t
 Хочется то убить, то убиться, то вовсе сбежать
 Следы стены на костяшках как статус «всё сложно»
 Я знаю, жизнь не перемотать, ошибки не переиграть
-Без снега полдекабря… но помечтать-то можно?
+Без снега полдекабря, но помечтать-то можно?
 
 И звёзды с неба на пальцы
 Да не тают
@@ -101,7 +101,7 @@ Bayan-core, or: any self-respecting composer has to write at least one song on t
 Вот мой ковчег
 И эту песню крутить ни для кого и для всех
 
-А звёзды с неба на пальцы…
+А звёзды с неба на пальцы
 На твоих скулах румянцем
 Пусть люди будут смеяться
 
@@ -158,7 +158,7 @@ Do you even remember the last time the two of us looked at the sky?
 One moment I want to kill, the next to get killed, the next to just run away
 Marks of the wall on my knuckles, like an “it’s complicated” status
 I know, you can’t rewind a life, you can’t replay mistakes
-Half of December without snow… but a man can dream, can’t he?
+Half of December without snow, but a man can dream, can’t he?
 
 And stars from the sky onto fingers
 And they don’t melt
@@ -176,7 +176,7 @@ Getting lost in your eyelashes
 That’s my ark
 And spinning this song for no one and for everyone
 
-And stars from the sky onto fingers…
+And stars from the sky onto fingers
 On your cheekbones, as a blush
 Let people laugh
 

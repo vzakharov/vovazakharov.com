@@ -38,8 +38,8 @@ In this ceaseless ebb and flow
 What binds us, high and low?
 A silent thread we can’t deny
 
-Love makes the world go round...
-Love is all around...
+Love makes the world go round
+Love is all around
 
 Love in the timid morning light
 And in a child’s exploring eyes
@@ -63,8 +63,8 @@ And in a robot’s gentle beep
 Что связывает нас, высоких и низких?
 Безмолвная нить, которую нам не отрицать
 
-Любовь движет миром...
-Любовь повсюду...
+Любовь движет миром
+Любовь повсюду
 
 Любовь — в робком утреннем свете
 И в пытливых глазах ребёнка,

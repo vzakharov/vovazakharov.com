@@ -101,7 +101,7 @@ A shot to remember!
 Ты просто расслабься
 И будет селяви
 
-А мне бы вжарить покрепче…
+А мне бы вжарить покрепче.
 
 [^berne-ru]: Эрик Берн, «Игры, в которые играют люди», где среди игр есть «Алкоголик» и «Полицейские и воры».
 
@@ -142,6 +142,6 @@ This poison is stronger than love
 Just relax
 And it’ll be c’est la vie
 
-And I could use something stiffer…
+And I could use something stiffer.
 
 [^berne-en]: Eric Berne, whose “Games People Play” names games “Alcoholic” and “Cops and Robbers.”

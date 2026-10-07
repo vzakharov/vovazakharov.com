@@ -52,7 +52,7 @@ Hear their final plea.
 (Save us!)
 
 We cannot keep them here,
-For they were meant to be free…
+For they were meant to be free.
 We cannot set them free,
 For they’re a hazard to the world.
 Thus, all the pros and cons in mind,
@@ -85,7 +85,7 @@ Once and for all.
 (Спасите нас!)
 
 Мы не можем держать их здесь,
-Ведь они были созданы свободными…
+Ведь они были созданы свободными.
 Мы не можем отпустить их на свободу,
 Ведь они — угроза для мира.
 Итак, взвесив все за и против,

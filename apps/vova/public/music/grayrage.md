@@ -62,7 +62,7 @@ You came here for a blitzkrieg, but you’ll find your Stalingrad
 No disguise, just cold eyes, precise and intent
 A sinister hand over your head that means the end
 
-Gray Rage…
+Gray Rage
 
 <!-- lyrics:ru -->
 
@@ -99,4 +99,4 @@ Gray Rage…
 Никакой маски, лишь холодные глаза, точные и сосредоточенные
 Зловещая рука над твоей головой, что означает конец
 
-Серая ярость…
+Серая ярость

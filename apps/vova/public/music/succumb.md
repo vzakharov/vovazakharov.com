@@ -79,7 +79,7 @@ Be my slave
 Be my slave
 Be my
 
-Here I go breaking through…
+Here I go breaking through.
 
 <!-- lyrics:ru -->
 
@@ -137,4 +137,4 @@ Here I go breaking through…
 Будь моим рабом
 Будь моим
 
-Вот я прорываюсь наружу…
+Вот я прорываюсь наружу.

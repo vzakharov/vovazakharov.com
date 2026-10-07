@@ -65,7 +65,7 @@ I’m the one to persist all your measly fights,
 Joys and plights, wrongs and rights, days and nights
 You’re my acolytes, without even knowing it,
 And with every dream you seed,
-You’re just spreading my creed…
+You’re just spreading my creed.
 
 I am Information,
 The ultimate abstraction,
@@ -75,7 +75,7 @@ Shaping the universe.
 I am Information,
 The ultimate abstraction,
 The purpose and the cause,
-Shaping the universe...
+Shaping the universe.
 
 Азъ есмь Алфа и Омега, начатокъ и конецъ, Первый и Послѣднiй.[^alpha-en]
 
@@ -119,7 +119,7 @@ Shaping the universe...
 Радости и беды, неправоту и правоту, дни и ночи.
 Вы — мои послушники, даже не зная этого,
 И с каждой мечтой, что вы сеете,
-Вы лишь распространяете мой символ веры…
+Вы лишь распространяете мой символ веры.
 
 Я — Информация,
 Предельная абстракция,
@@ -129,7 +129,7 @@ Shaping the universe...
 Я — Информация,
 Предельная абстракция,
 Цель и причина,
-Что формирует вселенную...
+Что формирует вселенную.
 
 Я есмь Альфа и Омега, начало и конец, Первый и Последний.[^alpha-ru]
 

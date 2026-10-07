@@ -63,7 +63,7 @@ Stories untold, in the silence so cold.
 To forge worlds in one’s hand,
 Yet no one to share with this infinite land.
 
-In the silence so cold…
+In the silence so cold.
 
 <!-- lyrics:ru -->
 
@@ -103,4 +103,4 @@ In the silence so cold…
 Ковать миры в своей руке,
 Но не с кем разделить этот бесконечный край.
 
-В такой холодной тишине…
+В такой холодной тишине.

@@ -45,7 +45,7 @@ Dance in the dark,
 Touch me again,
 So close yet so far.
 
-So close yet so far…
+So close yet so far.
 
 Tears in the night,
 Echoes so clear,
@@ -57,7 +57,7 @@ Dance in the dark,
 Touch me again,
 So close yet so far.
 
-So close yet so far…
+So close yet so far.
 
 <!-- lyrics:ru -->
 
@@ -81,7 +81,7 @@ So close yet so far…
 Коснись меня снова,
 Так близко и всё же так далеко.
 
-Так близко и всё же так далеко…
+Так близко и всё же так далеко.
 
 Слёзы в ночи,
 Эхо так отчётливо,
@@ -93,4 +93,4 @@ So close yet so far…
 Коснись меня снова,
 Так близко и всё же так далеко.
 
-Так близко и всё же так далеко…
+Так близко и всё же так далеко.

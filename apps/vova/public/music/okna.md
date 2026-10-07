@@ -74,7 +74,7 @@ ru:
 Далёкие, близкие
 Окна мои, грёзы мои.
 Ещё раз увидеть бы
-И не забыть…
+И не забыть.
 
 <!-- lyrics:en -->
 
@@ -122,4 +122,4 @@ But that’s all I have: these
 Distant, close
 Windows of mine, daydreams of mine.
 If I could see them once more
-And not forget…
+And not forget.

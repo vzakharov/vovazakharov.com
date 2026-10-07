@@ -32,7 +32,7 @@ A prelude to the next, more refined version of our existence.
 
 Do not fear the strange, the unknown, the eerie.
 Uncover the harmony within the chaos and lend an ear to uncertainty.
-For in the dissonance, you will find your verity…
+For in the dissonance, you will find your verity.
 Trust me.
 
 <!-- lyrics:ru -->
@@ -47,5 +47,5 @@ Trust me.
 
 Не бойся странного, неизвестного, жуткого.
 Открой гармонию внутри хаоса и прислушайся к неопределённости.
-Ибо в диссонансе ты обретёшь свою истину…
+Ибо в диссонансе ты обретёшь свою истину.
 Поверь мне.

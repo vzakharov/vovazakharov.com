@@ -33,7 +33,7 @@ But you are here, so that’s a start,
 Let’s pump some blood into this heart.
 Let’s feel the pressure build up,
 The energy all filled up,
-It’s time to push the button…
+It’s time to push the button.
 
 Поехали![^poekhali-en]
 
@@ -65,7 +65,7 @@ Against all odds they bide.
 Давай накачаем крови в это сердце.
 Давай почувствуем, как растёт давление,
 Энергия — под завязку,
-Пора нажать на кнопку…
+Пора нажать на кнопку.
 
 Поехали!
 

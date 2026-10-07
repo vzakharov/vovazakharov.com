@@ -75,7 +75,7 @@ P.S.C.H.P.T.H.Y.
 P.S.C.H.P.T.H.Y.
 P.S.C.H.P.T.H.Y.
 
-It takes a smile to hide the fiends inside you…
+It takes a smile to hide the fiends inside you.
 
 <!-- lyrics:ru -->
 
@@ -126,4 +126,4 @@ P.S.C.H.P.T.H.Y.
 P.S.C.H.P.T.H.Y.
 P.S.C.H.P.T.H.Y.
 
-Нужна улыбка, чтобы спрятать бесов внутри тебя…
+Нужна улыбка, чтобы спрятать бесов внутри тебя.

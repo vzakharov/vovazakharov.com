@@ -57,15 +57,15 @@ Something dark crawling near
 Darkness falls, a haunted night
 Moonless dim, light lost the fight
 Something’s creeping, cold embrace
-Visions blur, can’t awake...
+Visions blur, can’t awake
 
 In the shadow, gripping fear, haunting every breath
 Twisted visions, can’t escape this dance with death
 Demons whisper, calling me to the void
 Nightmares tighten, sanity destroyed!
 
-In the shadow...
-In the shadow...
+In the shadow
+In the shadow
 
 <!-- lyrics:ru -->
 
@@ -100,12 +100,12 @@ In the shadow...
 Опускается тьма, ночь с призраками
 Безлунный сумрак, свет проиграл бой
 Что-то подкрадывается, холодные объятия
-Видения расплываются, не проснуться...
+Видения расплываются, не проснуться
 
 В тени цепкий страх преследует каждый вдох
 Искажённые видения, не уйти от этого танца со смертью
 Демоны шепчут, зовут меня в пустоту
 Кошмары сжимаются, рассудок разрушен!
 
-В тени...
-В тени...
+В тени
+В тени
