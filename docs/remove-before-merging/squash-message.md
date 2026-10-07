@@ -17,6 +17,9 @@ Russian original, and the snags in the game code and in the machinery
 around it told where they happened and tabled in two appendices. Mini
 and nano cuts sit beside it, as Playgram's do.
 
+pnpm content:mermaid works again: mermaid-renders.ts imported
+./collections without its extension, which bare Node cannot resolve.
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
