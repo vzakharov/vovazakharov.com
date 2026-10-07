@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Two Girls, One Fridge'
+  titleTranslation: 'Две девчонки, один холодильник'
   description: 'TBD'
 ---
 
@@ -25,14 +26,14 @@ ru:
 
 <!-- lyrics:en -->
 
-One for the fridge, packed tight and cold,
-One left out, for nights so bold.
-One to eat and one to fuck,
+One for the fridge, packed tight and cold
+One left out, for nights so bold
+One to eat and one to fuck
 Two girls, one fridge, ain’t that luck?
 
 <!-- lyrics:ru -->
 
-Одну — в холодильник, упакованную туго, в холод,
-Одну — оставить снаружи, для дерзких ночей.
-Одну — чтобы есть, другую — чтобы ебать,
+Одну — в холодильник, упакованную туго, в холод
+Одну — оставить снаружи, для дерзких ночей
+Одну — чтобы есть, другую — чтобы ебать
 Две девчонки, один холодильник — ну чем не везуха?

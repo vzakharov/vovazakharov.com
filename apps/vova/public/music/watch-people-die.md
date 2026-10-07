@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Watch People Die'
+  titleTranslation: 'Смотри, как умирают люди'
   description: 'TBD'
 ---
 
@@ -25,44 +26,42 @@ ru:
 
 <!-- lyrics:en -->
 
-Screens light up with final breaths,
-[Flinging][^fling-en] to the dance of death.
-Glimpse into an end so nigh,
-Drawn to witness, don’t know why.
+Screens light up with final breaths
+[Flinging][^fling-en] to the dance of death
+Glimpse into an end so nigh
+Drawn to witness, don’t know why
 
 [^fling-en]: Read _flailing_: my English failed me here 🙈
 
 Is it thrill? Is it fear?
-Watching their selves disappear.
-Or just a mirror, clear and stark,
-Of our lives’ most brutal mark.
+Watching their selves disappear
+Or just a mirror, clear and stark
+Of our lives’ most brutal mark
 
-I’m watching people die-oh,
+I’m watching people die-o
 Does this make me a psycho?
 I’m watching people perish
-Lest I forget to cherish
-Life!
+Lest I forget to cherish life
 
 Watch people die!
 
 <!-- lyrics:ru -->
 
-Экраны вспыхивают последними вздохами,
-[Дёргаясь][^fling-ru] в пляске смерти.
-Взгляд на конец, что так близок,
-Тянет смотреть — сам не знаю почему.
+Экраны вспыхивают последними вздохами
+[Дёргаясь][^fling-ru] в пляске смерти
+Взгляд на конец, что так близок
+Тянет смотреть — сам не знаю почему
 
 [^fling-ru]: В оригинале _flinging_ — читать _flailing_: тут мой английский дал сбой 🙈
 
 Это азарт? Это страх?
-Смотреть, как исчезает их «я».
-Или просто зеркало, ясное и беспощадное,
-Самой жестокой отметины наших жизней.
+Смотреть, как исчезает их «я»
+Или просто зеркало, ясное и беспощадное
+Самой жестокой отметины наших жизней
 
-Я смотрю, как умирают люди-о,
+Я смотрю, как умирают люди-о
 Значит ли это, что я псих?
-Я смотрю, как гибнут люди,
-Чтобы не забыть ценить
-Жизнь!
+Я смотрю, как гибнут люди
+Чтобы не забыть ценить жизнь
 
 Смотри, как умирают люди!

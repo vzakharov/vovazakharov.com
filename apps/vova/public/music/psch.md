@@ -27,134 +27,102 @@ ru:
 
 <!-- lyrics:en -->
 
-Walking through the crowd, unseen, the perfect guise,
-Clocking every move, sharp as knives, the wise disguise.
-Silent as the night, my thoughts like ice, they crystallize,
-Plotting every step ahead, with stealth I strategize.
+Walking through the crowd concealed under the perfect guise
+Clocking every move, unseen to your naked eyes
+Cold as the night, my thoughts, like ice, crystallize
+Always two steps ahead as I strategize
 
-No heart to break, no tears to fake, emotion’s just a tool,
-Manipulate the scene, serene, I play it cool.
-In silence I proceed, confide in none, I rule,
-A chessboard in my mind, each pawn becomes my fool.
+No heart to break I mold and fake emotions like a tool
+Manipulate the scene serene I play it cool
+In silence I divide, confide in none, I rule
+A chessboard in my mind, each pawn becomes my fool
 
-Master of the masquerade, faces switch, a seamless trade,
-Every grin and gesture weighed in this game of charades played.
-But beneath the calm facade, dangers in the dark pervade,
-Every smile, each charade could be the edge of the blade.
+Master of the masquerade, faces switch, a seamless trade
+Every grin and gesture weighed, every role so deftly played
+But beneath the calm display, dangers in the dark pervade
+Every smile, each charade, could tip the edge of the blade
 
-Closer now, the cracks show, slight slips in my display,
-Eyes pry, suspicions grow, whispers start to sway.
-Will they see the void below, as my facades begin to fray?
-One misstep and it all may slip away.
+Closer now, cracks show, slips in my actions
+Eyes pry, doubts grow, cover stories fracture
+Will they see the void below, as the facade begins to fray?
+One misstep and it all may slip away
 
-It takes a smile to hide the fiends inside you,
-It takes a mask to veil the demons that bide you,
-But beware to put your sickness in their view,
-’Cause it takes a pair of so-called healthy people to hang you!
+It takes a smile to hide the fiends inside you
+It takes a mask to veil the demons that bide you
+But beware to put your sickness in their view
+’Cause it takes a pair of so-called healthy people to hang you
 
-A pair of so-called healthy people to hang you…
+A Pair of So-Called Healthy People To Hang You
 
-You paint your world in black and white,
-Define the lines, decide what’s right.
-But your own anger dims the light,
-Your own rage makes your mind ignite.
+You paint your world in black and white
+Define the lines, decide what’s right
+But your own anger dims the light
+Your own rage makes your mind ignite
 
-You fear the ones who do not feel,
-But go berserk when feelings reel.
-Keep pointing fingers at my ruse —
-You, normals, lighting the fuse!
+You fear the ones who do not feel
+But go berserk when feelings reel
+Keep pointing fingers at my ruse
+You normals lighting the fuse
 
-It takes a smile to hide the fiends inside you,
-It takes a mask to veil the demons that bide you,
-But beware to put your sickness in their view,
-’Cause it takes a pair of so-called healthy people to hang you.
+It takes a smile to hide the fiends inside you
+It takes a mask to veil the demons that bide you
+But beware to put your sickness in their view
+’Cause it takes a pair of so-called healthy people to hang you
 
-A pair of so-called healthy people to hang you…
-A pair of so-called healthy people to hang you…
+P.S.C.H.P.T.H.Y.
+P.S.C.H.P.T.H.Y.
+P.S.C.H.P.T.H.Y.
+P.S.C.H.P.T.H.Y.
 
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-
-It takes a smile to hide the fiends inside you,
-It takes a mask to veil the demons that bide you,
-But beware to put your sickness in their view,
-’Cause it takes a pair of so-called healthy people to hang you.
-
-A pair of so-called healthy people to hang you…
-A pair of so-called healthy people to hang you…
-P! S! C! H! P! T! H! Y…
-P! S! C! H! P! T! H! Y…
-
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-’Cause it takes a pair of so-called healthy people to hang you.
+It takes a smile to hide the fiends inside you…
 
 <!-- lyrics:ru -->
 
-Иду сквозь толпу незамеченным — идеальная личина,
-Подмечаю каждое движение, остро, как ножи, — мудрая маскировка.
-Безмолвный, как ночь, мысли мои как лёд — они кристаллизуются,
-Просчитываю каждый шаг наперёд, украдкой выстраиваю стратегию.
+Иду сквозь толпу, спрятавшись под идеальной личиной
+Подмечаю каждое движение, незаметно для невооружённого глаза
+Холодные, как ночь, мои мысли, как лёд, кристаллизуются
+Всегда на два шага впереди, я выстраиваю стратегию
 
-Нет сердца, чтобы разбить, нет слёз, чтобы изображать, — эмоции лишь инструмент,
-Управляю сценой, безмятежно, держусь хладнокровно.
-В молчании я действую, никому не доверяюсь, я правлю,
-В голове шахматная доска, и каждая пешка становится моей дурой.
+Нет сердца, чтобы разбить, я леплю и подделываю эмоции, как инструмент
+Управляю сценой, безмятежно, держусь хладнокровно
+В молчании я разделяю, никому не доверяюсь, я правлю
+В голове шахматная доска, и каждая пешка становится моей дурой
 
-Мастер маскарада: лица меняются, обмен без швов,
-Каждая ухмылка и жест взвешены в этой игре в шарады.
-Но под спокойным фасадом во тьме повсюду опасности,
-Каждая улыбка, каждая шарада может оказаться лезвием клинка.
+Мастер маскарада: лица меняются, обмен без швов
+Каждая ухмылка и жест взвешены, каждая роль сыграна так ловко
+Но под спокойным спектаклем во тьме повсюду опасности
+Каждая улыбка, каждая шарада может качнуть остриё клинка
 
-Теперь ближе, проступают трещины, мелкие оплошности в моём спектакле,
-Глаза высматривают, подозрения растут, шепотки начинают склонять.
-Разглядят ли они пустоту внизу, когда мои фасады начнут расползаться?
-Один неверный шаг — и всё может ускользнуть.
+Теперь ближе, проступают трещины, оплошности в моих действиях
+Глаза высматривают, сомнения растут, легенды дают трещину
+Разглядят ли они пустоту внизу, когда фасад начнёт расползаться?
+Один неверный шаг — и всё может ускользнуть
 
-Нужна улыбка, чтобы спрятать бесов внутри тебя,
-Нужна маска, чтобы скрыть демонов, что в тебе затаились,
-Но берегись выставлять свою болезнь им напоказ,
-Ведь нужна всего пара так называемых здоровых людей, чтобы тебя повесить!
+Нужна улыбка, чтобы спрятать бесов внутри тебя
+Нужна маска, чтобы скрыть демонов, что в тебе затаились
+Но берегись выставлять свою болезнь им напоказ
+Ведь нужна всего пара так называемых здоровых людей, чтобы тебя повесить
 
-Пара так называемых здоровых людей, чтобы тебя повесить…
+Пара так называемых здоровых людей, чтобы тебя повесить
 
-Ты красишь свой мир в чёрное и белое,
-Чертишь границы, решаешь, что правильно.
-Но твой собственный гнев приглушает свет,
-Твоя собственная ярость воспламеняет твой разум.
+Ты красишь свой мир в чёрное и белое
+Чертишь границы, решаешь, что правильно
+Но твой собственный гнев приглушает свет
+Твоя собственная ярость воспламеняет твой разум
 
-Ты боишься тех, кто не чувствует,
-Но сам впадаешь в неистовство, когда чувства захлёстывают.
-Всё тычешь пальцем в мою уловку —
-Вы, нормальные, поджигаете фитиль!
+Ты боишься тех, кто не чувствует
+Но сам впадаешь в неистовство, когда чувства захлёстывают
+Всё тычешь пальцем в мою уловку
+Вы, нормальные, поджигаете фитиль
 
-Нужна улыбка, чтобы спрятать бесов внутри тебя,
-Нужна маска, чтобы скрыть демонов, что в тебе затаились,
-Но берегись выставлять свою болезнь им напоказ,
-Ведь нужна всего пара так называемых здоровых людей, чтобы тебя повесить.
+Нужна улыбка, чтобы спрятать бесов внутри тебя
+Нужна маска, чтобы скрыть демонов, что в тебе затаились
+Но берегись выставлять свою болезнь им напоказ
+Ведь нужна всего пара так называемых здоровых людей, чтобы тебя повесить
 
-Пара так называемых здоровых людей, чтобы тебя повесить…
-Пара так называемых здоровых людей, чтобы тебя повесить…
+P.S.C.H.P.T.H.Y.
+P.S.C.H.P.T.H.Y.
+P.S.C.H.P.T.H.Y.
+P.S.C.H.P.T.H.Y.
 
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-
-Нужна улыбка, чтобы спрятать бесов внутри тебя,
-Нужна маска, чтобы скрыть демонов, что в тебе затаились,
-Но берегись выставлять свою болезнь им напоказ,
-Ведь нужна всего пара так называемых здоровых людей, чтобы тебя повесить.
-
-Пара так называемых здоровых людей, чтобы тебя повесить…
-Пара так называемых здоровых людей, чтобы тебя повесить…
-P! S! C! H! P! T! H! Y…
-P! S! C! H! P! T! H! Y…
-
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-P! S! C! H! P! T! H! Y!
-Ведь нужна всего пара так называемых здоровых людей, чтобы тебя повесить.
+Нужна улыбка, чтобы спрятать бесов внутри тебя…

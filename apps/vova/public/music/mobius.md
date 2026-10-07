@@ -1,7 +1,7 @@
 ---
 date: 2024-07-23
 status: done
-language: en
+language: instrumental
 project: ['GENERATED']
 repo: 'ghosts-of-flesh'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/9.%20Mo_bius.flac
@@ -14,10 +14,9 @@ en:
   description: 'TBD'
 ru:
   title: 'Möbius'
+  titleTranslation: 'Мёбиус'
   description: 'TBD'
 ---
-
-<!-- For Vova to check: Language was blank and no words were found; set to en from the title — check it. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/ghosts-of-flesh — 9. Mo_bius.flac,
      44.1 kHz / 16-bit / stereo.

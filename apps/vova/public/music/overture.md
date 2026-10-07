@@ -1,7 +1,7 @@
 ---
 date: 2024-11-05
 status: done
-language: en
+language: instrumental
 project: ['GENERATED']
 repo: 'psch_album'
 audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/1_overture.flac
@@ -14,10 +14,9 @@ en:
   description: 'TBD'
 ru:
   title: 'Overture'
+  titleTranslation: 'Увертюра'
   description: 'TBD'
 ---
-
-<!-- For Vova to check: No words found for this track: language is set to en from the title — if the overture is instrumental, change it to instrumental. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/psch_album — 1_overture.flac,
      44.1 kHz / 16-bit / stereo.

@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Boom!'
+  titleTranslation: 'Бум!'
   description: 'TBD'
 ---
 
@@ -25,48 +26,54 @@ ru:
 
 <!-- lyrics:en -->
 
-Day by day, it’s the same old grind,
-Clock ticks slow, life’s pause and rewind.
-Coffee stains, screen glare, faces blur,
-Routine thickens, the days slur.
+Boom!
 
-Every nod, every glance, predictably plain,
-Nothing changes, it’s all the same again and again.
-Stacked so neat, life’s deceit, a comfortable beat,
-Moving through the motions, incomplete.
+Day by day, it’s the same old grind
+Clock ticks slow, life’s pause and rewind
+Coffee stains, screen glare, faces blur
+Routine thickens, the days slur
 
-But just when you think you’ve seen it all,
-The ground shifts — prepare for the fall.
+Every nod, every glance, predictably plain
+Nothing changes, it’s all the same again and again
+Stacked so neat, life’s deceit, a comfortable beat
+Moving through the motions, incomplete
 
-Boom — walls crumble down,
-Boom — truth wears the crown.
-Revelations unmask the game,
-Boom — nothing stays the same,
-Boom — see the world change,
-Boom — new rules, new range.
-Eyes wide open, now you see,
-Boom — what’s hidden sets free.
+But just when you think you’ve seen it all
+The ground shifts, prepare for the fall
+
+Boom! Walls crumble down
+Boom! Truth wears the crown
+Revelations unmask the game
+Nothing stays the same
+
+Boom! See the world change
+Boom! New rules, new range
+Eyes wide open, now you see
+Boom! What’s hidden sets free
 
 <!-- lyrics:ru -->
 
-День за днём всё та же рутина,
-Часы тикают медленно, жизнь — пауза и перемотка.
-Пятна кофе, блики экрана, лица расплываются,
-Рутина густеет, дни заплетаются.
+Бум!
 
-Каждый кивок, каждый взгляд — предсказуемо прост,
-Ничего не меняется, всё то же снова и снова.
-Сложено так аккуратно, обман жизни, удобный ритм,
-Живёшь на автомате, не до конца.
+День за днём всё та же рутина
+Часы тикают медленно, жизнь — пауза и перемотка
+Пятна кофе, блики экрана, лица расплываются
+Рутина густеет, дни смазываются
 
-Но как раз когда кажется, что ты всё уже видел,
-Земля уходит из-под ног — готовься падать.
+Каждый кивок, каждый взгляд — предсказуемо пресны
+Ничего не меняется, всё то же снова и снова
+Всё сложено так аккуратно, обман жизни, удобный ритм
+Проходишь через всё на автомате, неполный
 
-Бум — стены рушатся,
-Бум — правда в короне.
-Откровения срывают с игры маску,
-Бум — ничто не остаётся прежним,
-Бум — смотри, как меняется мир,
-Бум — новые правила, новый размах.
-Глаза широко открыты, теперь ты видишь,
-Бум — сокрытое освобождает.
+Но как раз когда кажется, что ты всё уже видел
+Земля сдвигается, готовься к падению
+
+Бум! Стены рушатся
+Бум! Правда надевает корону
+Откровения срывают маску с игры
+Ничто не остаётся прежним
+
+Бум! Смотри, как меняется мир
+Бум! Новые правила, новый размах
+Глаза широко открыты, теперь ты видишь
+Бум! Сокрытое освобождает

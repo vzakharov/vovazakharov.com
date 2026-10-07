@@ -2,24 +2,105 @@
 date: 2026-01-17
 status: done
 language: ru
+transliteration: 'Ukhodi'
 project: ['Грёбаный бал']
 repo: 'ukhodi'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/ukhodi/main/%D0%A3%D1%85%D0%BE%D0%B4%D0%B8.flac
 seconds: 234
 explicit: false
 hidden: true
 en:
   title: 'Уходи'
+  titleTranslation: 'Go Away'
   description: 'TBD'
 ru:
   title: 'Уходи'
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 17 January 2026, captioned «А ещё, конечно, „Батарейку“», which suggests it is a cover — say whose. No words for it in lyrics.md or Telegram. -->
+<!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 17 January 2026, captioned «А ещё, конечно, „Батарейку“», which suggests it is a cover — say whose. «о́кан» and «НедопереплетЕний» are set as «окон» and «Недопереплетений», read as spellings for the singer. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/ukhodi — Уходи.flac,
      44.1 kHz / 16-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- lyrics:ru -->
+
+Я прохожу мимо окон
+В которых наши тени
+Скрывает серый кокон
+Недопереплетений
+
+Два силуэта ночи
+Две птицы в твёрдом теле
+Ты знаешь, это точно
+Не то, к чему летели
+
+Улетай, уплывай, уходи
+Там, где край, там где рай, впереди
+Не смотри, не надейся, не жди
+Уходи, уходи, уходи
+
+По полу нашей вазы
+Разбросаны осколки
+Мы в децибелы сразу
+Да громко только толку
+
+И снова проблеска ждём
+Хотя давно понятно
+Холодный ветер с дождём
+И нет пути обратно
+
+Улетай, уплывай, уходи
+Там, где край, там где рай, впереди
+Не смотри, не надейся, не жди
+Уходи, уходи, уходи
+
+Улетай, уплывай, уходи
+Там, где край, там где рай, впереди
+Не смотри, не надейся, не жди
+Уходи…
+Уходи…
+Уходи.
+
+<!-- lyrics:en -->
+
+I walk past the windows
+In which our shadows
+Are hidden by a grey cocoon
+Of never-quite-intertwinings
+
+Two silhouettes of the night
+Two birds in a solid body
+You know, this is surely
+Not what we were flying towards
+
+Fly away, sail away, go away
+Where the edge is, where paradise is, up ahead
+Don’t look, don’t hope, don’t wait
+Go away, go away, go away
+
+Across the floor, of our vase
+The shards lie scattered
+We go straight to decibels
+Loud, yes, but what’s the use
+
+And again we wait for a glimmer
+Though it’s long been clear
+Cold wind and rain
+And no way back
+
+Fly away, sail away, go away
+Where the edge is, where paradise is, up ahead
+Don’t look, don’t hope, don’t wait
+Go away, go away, go away
+
+Fly away, sail away, go away
+Where the edge is, where paradise is, up ahead
+Don’t look, don’t hope, don’t wait
+Go away…
+Go away…
+Go away.

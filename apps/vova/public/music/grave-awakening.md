@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Grave Awakening'
+  titleTranslation: 'Могильное пробуждение'
   description: 'TBD'
 ---
 
@@ -27,20 +28,18 @@ ru:
 
 <!-- lyrics:en -->
 
-There’s still your mercy over your ass. You pervert creatures for your music.
+There’s still your mercy over your ass, you pervert creatures, for your music.
 
-Grave Awakening — corpses rise,
-Grave Awakening — pay for your vice,
-Grave Awakening — vengeance to claim,
-Grave Awakening — we’ll maim…
-But not slay!
+Grave Awakening — corpses rise
+Grave Awakening — pay for your vice
+Grave Awakening — vengeance to claim
+Grave Awakening — we’ll maim but not slay
 
 <!-- lyrics:ru -->
 
-Над твоей задницей всё ещё твоя милость. Вы извращаете тварей ради своей музыки.
+Над твоей задницей всё ещё твоя милость, вы, извращённые твари, — за вашу музыку.
 
-Могильное пробуждение — мертвецы встают,
-Могильное пробуждение — плати за свой порок,
-Могильное пробуждение — мы пришли за местью,
-Могильное пробуждение — мы покалечим…
-Но не убьём!
+Могильное пробуждение — мертвецы встают
+Могильное пробуждение — плати за свой порок
+Могильное пробуждение — мы пришли за местью
+Могильное пробуждение — мы покалечим, но не убьём

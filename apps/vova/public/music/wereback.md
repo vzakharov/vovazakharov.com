@@ -13,6 +13,7 @@ en:
   description: 'Written second by second on OpenAI’s Jukebox, about the comeback of a band that never existed, to fans who never existed either.'
 ru:
   title: We’re Back
+  titleTranslation: 'Мы вернулись'
   description: 'Написана по секунде на OpenAI’овском Jukebox — про возвращение группы, которой не было, к фанатам, которых тоже не было.'
 ---
 

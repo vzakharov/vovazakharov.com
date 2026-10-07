@@ -4,12 +4,15 @@ status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'okna'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/okna/main/%D0%9E%D0%BA%D0%BD%D0%B0.flac
 seconds: 286
 explicit: false
 hidden: true
+transliteration: 'Okna'
 en:
   title: 'Окна'
+  titleTranslation: 'Windows'
   description: 'TBD'
 ru:
   title: 'Окна'
@@ -87,7 +90,7 @@ I wake up, a stifled groan, a lump in my throat, someone else’s house,
 Someone else’s wall, someone else’s country, someone else’s war, and however far down you look, there’s no bottom in sight.
 The world is like a string tuned half an octave too high,
 Half-crazed, it sprays spit and breathes half-life, but no one will hear these fears.
-Because it’s part, fuck, of growing up: teeth clenched, forcing your way through the thorns,
+Because it’s part of fucking growing up: teeth clenched, forcing your way through the thorns,
 Making decisions with a knowing look, convincing yourself they’re the right ones.
 But I’m not asking heaven for salvation, only a breather in this flight,
 So that, while there’s still an hour till dawn, I can go back to that faraway summer.

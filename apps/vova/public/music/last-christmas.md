@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Last Christmas'
+  titleTranslation: 'Прошлое Рождество'
   description: 'TBD'
 ---
 
@@ -25,24 +26,28 @@ ru:
 
 <!-- lyrics:en -->
 
-Last Christmas, I ripped out your heart,
-Chilled it and stashed it away in the dark.
-This year, to savor the fear,
-I’ll serve it to someone special!
+Haha, this sounded almost festive? Let’s kick it up a notch.
 
-This Christmas, I’ll do it again,
-In an endless cycle of passion and pain.
-Next year to keep up the game,
-I’ll serve it to someone special! (Special!)
+Last Christmas, I ripped out your heart
+Chilled it and stashed it away in the dark
+This year, to savor the fear
+I’ll serve it to someone special
+
+This Christmas, I’ll do it again
+In an endless cycle of passion and pain
+Next year, to keep up the game
+I’ll serve it to someone special
 
 <!-- lyrics:ru -->
 
-В прошлое Рождество я вырвал твоё сердце,
-Остудил его и припрятал в темноте.
-В этом году, чтобы посмаковать страх,
-Я подам его кому-то особенному!
+Ха-ха, прозвучало почти празднично? Давайте поддадим жару.
 
-В это Рождество я сделаю это снова,
-В бесконечном круге страсти и боли.
-В следующем году, чтобы игра продолжалась,
-Я подам его кому-то особенному! (Особенному!)
+В прошлое Рождество я вырвал твоё сердце
+Остудил его и припрятал в темноте
+В этом году, чтобы посмаковать страх
+Я подам его кому-то особенному
+
+В это Рождество я сделаю это снова
+В бесконечном круге страсти и боли
+В следующем году, чтобы игра продолжалась
+Я подам его кому-то особенному

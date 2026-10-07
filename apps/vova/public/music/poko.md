@@ -2,21 +2,24 @@
 date: 2025-11-01
 status: done
 language: ru
+transliteration: 'Metel'
 project: ['Грёбаный бал']
 repo: 'poko'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/poko/main/%D0%9C%D0%B5%D1%82%D0%B5%D0%BB%D1%8C.flac
 seconds: 257
 explicit: false
 hidden: true
 en:
   title: 'Метель'
+  titleTranslation: 'Blizzard'
   description: 'TBD'
 ru:
   title: 'Метель'
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Project is a guess: track 4 of the unnamed `grebaniy-bal` album, posted with it to the Грёбаный бал Telegram channel on 2025-11-07; the album has no title yet, so the song is a single. It is also Dad’s song «Покойник» reworked, posted to his channel on 2025-11-04, so Полуживые may belong in the billing too. No words are on file. -->
+<!-- For Vova to check: Project is a guess: track 4 of the unnamed `grebaniy-bal` album, posted with it to the Грёбаный бал Telegram channel on 2025-11-07; the album has no title yet, so the song is a single. It is also Dad’s song «Покойник» reworked, posted to his channel on 2025-11-04, so Полуживые may belong in the billing too. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/poko — Метель.flac,
      44.1 kHz / 16-bit / stereo.
@@ -45,3 +48,103 @@ _«Покойник спать ложится на белую постель»_
 Решил «отомстить», исковеркав обоих 🙈
 
 Надеюсь ни тот, ни тот не будут в обиде.
+
+<!-- lyrics:ru -->
+
+Привет сынок прости что не звонил
+Я слышу ты немного не в своей
+Ну что ж сынок оно и так бывает…
+
+Ты знаешь сам советчик из меня
+Мне б со своим а впрочем не о том
+Помни одно я здесь я понимаю…
+
+Когда-нибудь и ты сынок поймёшь
+Не всё что боль достойно умирать
+Ты лишь успей понять…
+
+Покойник спать ложится
+На белую постель
+Всю ночь легко кружится
+Спокойная метель
+
+Прости сынок но мне уже пора
+У вас метель ну а у нас жара
+У нас всегда жара…
+
+Ты знаешь жить важней чем умирать
+Прошу тебя ты лишь успей понять
+Пускай я не успел…
+
+Снежинок лёгкий пух…
+Куда летит куда…
+Пройдут, пройдут года…
+Настанет никогда
+
+Снежинок лёгкий пух…
+Куда летит куда…
+Прошли, прошли года…
+Настало никогда
+
+Всю ночь легко кружится
+Спокойная метель
+Покойник спать ложится
+На белую постель
+
+Покойник спать ложится
+На белую постель
+Всю ночь легко кружится
+Спокойная…
+Спокойная…
+Спокойная метель
+
+<!-- lyrics:en -->
+
+Hi son sorry I didn’t call
+I can hear you’re a bit [out of your][^plate-en]
+Well son that’s how it goes sometimes…
+
+[^plate-en]: «Не в своей тарелке», literally “not in your own plate,” means out of sorts; the line breaks off before the last word.
+
+You know yourself what an adviser I am
+I’ve got enough of my own but that’s beside the point
+Remember one thing I’m here I understand…
+
+Some day you too son will understand
+Not everything that hurts deserves to die
+Just make sure you understand in time…
+
+The dead man lies down to sleep
+On a white bed
+All night lightly whirling
+The calm blizzard
+
+Sorry son but it’s time for me to go
+You’ve got a blizzard there but here it’s hot
+Here it’s always hot…
+
+You know living matters more than dying
+I beg you just make sure you understand in time
+Even if I didn’t make it…
+
+The light down of snowflakes…
+Where is it flying where…
+The years will pass, will pass…
+Never will come
+
+The light down of snowflakes…
+Where is it flying where…
+The years have passed, have passed…
+Never has come
+
+All night lightly whirling
+The calm blizzard
+The dead man lies down to sleep
+On a white bed
+
+The dead man lies down to sleep
+On a white bed
+All night lightly whirling
+The calm…
+The calm…
+The calm blizzard

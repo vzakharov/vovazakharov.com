@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Can’t Take Your Eyes out of You'
+  titleTranslation: 'Не могу вынуть из тебя твои глаза'
   description: 'TBD'
 ---
 
@@ -25,50 +26,46 @@ ru:
 
 <!-- lyrics:en -->
 
-You’re just too good to be true,
-Can’t take your eyes out of you.
-You’ll be like heaven to eat,
-A sapid holiday treat.
+You’re just too good to be true
+Can’t take your eyes out of you
+You’ll be like heaven to eat
+A sapid holiday treat
 
 But why do these second thoughts
-Keep screwing my twisted plots?
-You’re just so beautiful, you —
-Can’t take your eyes out of you!
+Keep screwing my twisted plots
+You’re just so beautiful, you
+Can’t take your eyes out of you
 
 Let me eat you, oh, baby!
 Oh, let me eat you!
-Let me eat you, oh, baby!
+Let me eat you, oh baby!
 Oh, let me eat you!
 
 Let me eat you, oh, baby!
 Oh, let me eat you!
-Let me eat you, oh, baby!
-Oh, let me eat…
-
-You!
+Let me eat you, oh baby!
+Oh, let me eat you.
 
 <!-- lyrics:ru -->
 
-Ты просто слишком хороша, чтобы быть правдой,
-[Не могу вынуть из тебя твои глаза][^eyes-ru].
-Ты будешь на вкус как рай,
-Смачное праздничное угощение.
+Ты просто слишком хороша, чтобы быть правдой
+[Не могу вынуть из тебя твои глаза][^eyes-ru]
+Ты будешь на вкус как рай
+Смачное праздничное угощение
 
 Но почему же эти сомнения
-Всё портят мне извращённые планы?
-Ты просто такая красивая, ты —
-Не могу вынуть из тебя твои глаза!
+Всё портят мне извращённые планы
+Ты просто такая красивая, ты
+Не могу вынуть из тебя твои глаза
 
 Дай мне тебя съесть, о, детка!
 О, дай мне тебя съесть!
-Дай мне тебя съесть, о, детка!
+Дай мне тебя съесть, о детка!
 О, дай мне тебя съесть!
 
 Дай мне тебя съесть, о, детка!
 О, дай мне тебя съесть!
-Дай мне тебя съесть, о, детка!
-О, дай мне съесть…
+Дай мне тебя съесть, о детка!
+О, дай мне тебя съесть.
 
-Тебя!
-
-[^eyes-ru]: Игра на «Can’t Take My Eyes Off You» («Не могу отвести от тебя глаз»): «off» заменено на «out of», и вышло «не могу вынуть из тебя твои глаза».
+[^eyes-ru]: Игра на песне [«Can’t Take My Eyes Off You»](https://ru.wikipedia.org/wiki/Can%E2%80%99t_Take_My_Eyes_Off_You) («Не могу отвести от тебя глаз»): «off» заменено на «out of», и вышло «не могу вынуть из тебя твои глаза».

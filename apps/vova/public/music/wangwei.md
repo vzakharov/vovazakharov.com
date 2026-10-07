@@ -4,12 +4,15 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'wangwei'
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/wangwei/main/%D0%9F%D1%80%D0%BE%D1%89%D0%B0%D0%BD%D0%B8%D0%B5.flac
 seconds: 339
 explicit: false
 hidden: true
+transliteration: 'Proshchanie'
 en:
   title: 'Прощание'
+  titleTranslation: 'Farewell'
   description: 'TBD'
 ru:
   title: 'Прощание'
@@ -69,9 +72,9 @@ I suppose that’s how it had to be.
 И он ушёл, не спрошен ни о чём,
 В облака, бесконечный, вечный.
 
-下马饮君酒，问君何所之？[^xiama-ru]
-君言不得意，归卧南山陲。[^junyan-ru]
-但去莫复问，白云无尽时。[^danqu-ru]
+下马饮君酒，问君何所之？
+君言不得意，归卧南山陲。
+但去莫复问，白云无尽时。[^wangwei-ru]
 
 Да, он ответил: не сбылись мечты,
 Я стремился уснуть среди южных гор.
@@ -80,11 +83,7 @@ I suppose that’s how it had to be.
 В облака, бесконечный, вечный,
 Бесконечный, вечный.
 
-[^xiama-ru]: Кит. «Сойди с коня, выпей моего вина; спрошу тебя: куда ты держишь путь?» — Ван Вэй, «Проводы».
-
-[^junyan-ru]: Кит. «Ты говоришь: не сбылись мои стремления, вернусь и лягу у подножия Южных гор».
-
-[^danqu-ru]: Кит. «Иди же, больше не спрошу; белым облакам нет конца».
+[^wangwei-ru]: Кит., Ван Вэй, «Проводы»: _Xià mǎ yǐn jūn jiǔ, wèn jūn hé suǒ zhī? Jūn yán bù dé yì, guī wò Nán Shān chuí. Dàn qù mò fù wèn, bái yún wú jìn shí._ — «Сойди с коня, выпей моего вина; спрошу тебя: куда ты держишь путь? Ты говоришь: не сбылись мои стремления, вернусь и лягу у подножия Южных гор. Иди же, больше не спрошу; белым облакам нет конца».
 
 <!-- lyrics:en -->
 
@@ -101,9 +100,9 @@ I longed to fall asleep among the southern mountains.
 And he left, unasked about anything,
 Into the clouds, endless, eternal.
 
-下马饮君酒，问君何所之？[^xiama-en]
-君言不得意，归卧南山陲。[^junyan-en]
-但去莫复问，白云无尽时。[^danqu-en]
+下马饮君酒，问君何所之？
+君言不得意，归卧南山陲。
+但去莫复问，白云无尽时。[^wangwei-en]
 
 Yes, he answered: my dreams did not come true,
 I longed to fall asleep among the southern mountains.
@@ -112,8 +111,4 @@ Into the clouds, endless, eternal,
 Into the clouds, endless, eternal,
 Endless, eternal.
 
-[^xiama-en]: Chinese: “Get down from your horse, drink my wine; I ask you: where are you headed?” — Wang Wei, “Farewell.”
-
-[^junyan-en]: Chinese: “You say your hopes came to nothing; you will go home and lie down at the foot of the Southern Mountains.”
-
-[^danqu-en]: Chinese: “Go, then, I will ask no more; the white clouds have no end.”
+[^wangwei-en]: Chinese, Wang Wei, “Farewell”: _Xià mǎ yǐn jūn jiǔ, wèn jūn hé suǒ zhī? Jūn yán bù dé yì, guī wò Nán Shān chuí. Dàn qù mò fù wèn, bái yún wú jìn shí._ — “Get down from your horse, drink my wine; I ask you: where are you headed? You say your hopes came to nothing; you will go home and lie down at the foot of the Southern Mountains. Go, then, I will ask no more; the white clouds have no end.”

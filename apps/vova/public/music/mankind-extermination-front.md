@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Mankind Extermination Front'
+  titleTranslation: 'Фронт истребления человечества'
   description: 'TBD'
 ---
 

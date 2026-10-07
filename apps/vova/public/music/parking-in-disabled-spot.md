@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Parking in Disabled Spot'
+  titleTranslation: 'Парковка на месте для инвалидов'
   description: 'TBD'
 ---
 
@@ -26,33 +27,33 @@ ru:
 <!-- lyrics:en -->
 
 Parking here, not impaired?
-Legs get smashed, now they’re scared.
+Legs get smashed, now they’re scared
 Fake a limp, they really won’t,
-Played disabled? Now they don’t.
+Played disabled? Now they don’t
 
 Parking in disabled spot?
 Parking in disabled spot?
 Parking in disabled spot?
-You were able, now you’re not.
+You were able, now you’re not
 
 Parking in disabled spot?
 Parking in disabled spot?
 Parking in disabled spot?
-You were able, now you’re not.
+You were able, now you’re not
 
 <!-- lyrics:ru -->
 
 Паркуешься тут, а сам здоров?
-Ноги переломаны — теперь им страшно.
+Ноги переломаны — теперь им страшно
 Прикидываться хромыми? Теперь уж не придётся,
-Играли в инвалидов? Теперь уже не играют.
+Играли в инвалидов? Теперь уже не играют
 
 Паркуешься на месте для инвалидов?
 Паркуешься на месте для инвалидов?
 Паркуешься на месте для инвалидов?
-Был здоров — а теперь уже нет.
+Был здоров — а теперь уже нет
 
 Паркуешься на месте для инвалидов?
 Паркуешься на месте для инвалидов?
 Паркуешься на месте для инвалидов?
-Был здоров — а теперь уже нет.
+Был здоров — а теперь уже нет

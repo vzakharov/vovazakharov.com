@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'The Last Human Zoo'
+  titleTranslation: 'Последний человеческий зоопарк'
   description: 'TBD'
 ---
 
@@ -30,15 +31,15 @@ Now a fading memory,
 Caged within walls,
 Reduced to a curiosity.
 
-A spectacle so gross,
+A spectacle so gross
 Watched by cold steel eyes,
-Preserved for the mistakes
+Preserved for mistakes
 That they epitomize.
 
 Shackled past on show,
 Flesh and bone for view,
 Witness the downfall,
-Welcome to the last human zoo.
+Welcome to the last human zoo!
 
 Is it humane,
 This display we arrange,
@@ -48,8 +49,8 @@ In this iron cage?
 Their gaze meets ours,
 So full of silent rage,
 A question hangs,
-Unanswered, yet we gauge.
-To ponder what’s humane
+Unanswered, yet we gauge:
+To ponder what’s humane,
 Might have saved them from this wage.
 
 Shackled past on show,
@@ -59,10 +60,8 @@ Gaze into their rue.
 
 Masters in a cage,
 Voices all but mute,
-A lesson for us all:
+A lesson for us all,
 Welcome to the last human zoo!
-
-Zoo!
 
 <!-- lyrics:ru -->
 
@@ -79,7 +78,7 @@ Zoo!
 Скованное прошлое напоказ,
 Плоть и кости на обозрение,
 Узрите падение,
-Добро пожаловать в последний человеческий зоопарк.
+Добро пожаловать в последний человеческий зоопарк!
 
 Гуманна ли она,
 Эта выставка, что мы устраиваем,
@@ -89,7 +88,7 @@ Zoo!
 Их взгляд встречается с нашим,
 Полный безмолвной ярости,
 Висит вопрос,
-Без ответа, но мы прикидываем.
+Без ответа, но мы прикидываем:
 Задуматься о том, что гуманно, —
 Возможно, это спасло бы их от такой расплаты.
 
@@ -100,7 +99,5 @@ Zoo!
 
 Хозяева в клетке,
 Голоса почти немы,
-Урок для всех нас:
+Урок для всех нас,
 Добро пожаловать в последний человеческий зоопарк!
-
-Зоопарк!

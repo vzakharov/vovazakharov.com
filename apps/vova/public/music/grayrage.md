@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Gray Rage'
+  titleTranslation: 'Серая ярость'
   description: 'TBD'
 ---
 
@@ -27,100 +28,74 @@ ru:
 
 <!-- lyrics:en -->
 
-Can you feel my gray rage!
+Can you feel my gray rage?
 
-Step into my mind, a maze designed, cold and refined,
-Calculating every step, where passion slept, I never pined.
-You’re caught in the storm, feelings worn, fury swarm,
-But I’m the eye, calm and sly, precision my norm.
+Step into my mind, a maze designed, cold and refined
+Calculating every step, where passion slept, I never pined
+You’re caught in the storm, feelings worn, fury swarm
+But I’m the eye, calm and sly, precision my norm
 
-While you’re wasting time on hating, I’m coldly calculating,
-My anger is colorblind, where you see red, I stay unrelating,
-No pulse in my veins, just cold, hard chains,
-Precision is my game, each move the same, without any claims.
+While you’re wasting time on hating, I’m coldly calculating
+My anger is colorblind, where you see red, I stay unrelating
+No pulse in my veins to sway my aim
+Precision is my game, no steps in vain, no fears to chain
 
-You rage with fire, a mindless ire, easily dire,
-But I’m ice in my veins, playing chess while you face the pyre.
+You blaze with fire, a mindless ire, easily dire
+But I’m ice in my veins, playing chess while you face the pyre
+Gray Rage — Calculations never cease
+Gray Rage — Where emotions find their peace
+Gray Rage — In the silence, not the screams
+Gray Rage — Cold as ice in all my dreams
 
-Gray rage! Calculations never cease,
-Gray rage! Where emotions find their peace,
-Gray rage! In the silence, not the screams,
-Gray rage! Cold as ice in all my dreams.
+Gray Rage — Watch your step, tread lightly
+Gray Rage — Shadows move, striking tightly
+Gray Rage — Cross me once and you’ll regret
+Gray Rage — A cold war you won’t forget
+Enter my game, a cold terrain, slay or be slain
+Pathways in shadow, where I tread, all others pale and wane
+I’m not violent, doesn’t mean I’m not dangerous
+The chasm of remorse and regrets separating us
 
-Gray rage! Watch your step, tread lightly,
-Gray rage! Shadows move, striking tightly,
-Gray rage! Cross me once and you’ll regret,
-Gray rage! A cold war you won’t forget.
+Call me a psychopath, but that’s the only me I’ve ever had
+You came here for a blitzkrieg, but you’ll find your Stalingrad
+No disguise, just cold eyes, precise and intent
+A sinister hand over your head that means the end
 
-Enter my game, a cold terrain, slay or be slain,
-Pathways in shadow, where I tread, all others pale and wane.
-I’m not violent, doesn’t mean I’m not dangerous,
-The chasm of remorse and regrets separating us.
-
-Call me a psychopath, but that’s the only me I’ve ever had,
-You came here for a blitzkrieg, but you’ll find your Stalingrad.
-No disguise, just cold eyes, precise and intent,
-A sinister hand over your head that means the end.
-
-Gray rage — calculations never cease,
-Gray rage — where emotions find their peace,
-Gray rage — in the silence, not the screams,
-Gray rage — cold as ice in all my dreams.
-
-Gray rage — watch your step, tread lightly,
-Gray rage — shadows move, striking tightly,
-Gray rage — cross me once and you’ll regret,
-Gray rage — a cold war you won’t forget.
-
-Can you feel my gray…
-Rage?!
+Gray Rage…
 
 <!-- lyrics:ru -->
 
-Чувствуешь мою серую ярость!
+Чувствуешь мою серую ярость?
 
-Шагни в мой разум — лабиринт, задуманный холодным и отточенным,
-Просчитываю каждый шаг; там, где спала страсть, я ни по чему не тосковал.
-Ты попал в бурю, чувства истёрты, ярость роится,
-Но я — око бури, спокойный и хитрый, точность — моя норма.
+Шагни в мой разум — лабиринт, задуманный холодным и отточенным
+Просчитываю каждый шаг; там, где спала страсть, я ни по чему не тосковал
+Ты попал в бурю, чувства истёрты, ярость роится
+Но я — око бури, спокойный и хитрый, точность — моя норма
 
-Пока ты тратишь время на ненависть, я хладнокровно просчитываю,
-Мой гнев не различает цветов: где ты видишь красное, я остаюсь безучастным,
-Ни пульса в моих венах, только холодные, жёсткие цепи,
-Точность — моя игра, каждый ход одинаков, без всяких притязаний.
+Пока ты тратишь время на ненависть, я хладнокровно просчитываю
+Мой гнев не различает цветов: где ты видишь красное, я остаюсь безучастным
+Ни пульса в моих венах, чтобы сбить мне прицел
+Точность — моя игра, ни шага впустую, ни страха, что сковал бы
 
-Ты бушуешь огнём, безмозглый гнев, легко доходящий до беды,
-А у меня лёд в венах, я играю в шахматы, пока ты всходишь на костёр.
+Ты пылаешь огнём, безмозглый гнев, легко доходящий до беды
+А у меня лёд в венах, я играю в шахматы, пока ты всходишь на костёр
+Серая ярость — расчёты не прекращаются
+Серая ярость — где эмоции обретают покой
+Серая ярость — в тишине, а не в криках
+Серая ярость — холодная как лёд во всех моих снах
 
-Серая ярость! Расчёты не прекращаются,
-Серая ярость! Где эмоции обретают покой,
-Серая ярость! В тишине, а не в криках,
-Серая ярость! Холодная как лёд во всех моих снах.
+Серая ярость — смотри под ноги, ступай осторожно
+Серая ярость — тени движутся, бьют наверняка
+Серая ярость — перейдёшь мне дорогу — и пожалеешь
+Серая ярость — холодная война, которую ты не забудешь
+Войди в мою игру, на холодную землю, убей или будь убит
+Тропы в тени, где ступаю я, а все прочие бледнеют и меркнут
+Я не жесток, но это не значит, что я не опасен
+Пропасть раскаяния и сожалений разделяет нас
 
-Серая ярость! Смотри под ноги, ступай осторожно,
-Серая ярость! Тени движутся, бьют наверняка,
-Серая ярость! Перейдёшь мне дорогу — и пожалеешь,
-Серая ярость! Холодная война, которую ты не забудешь.
+Зови меня психопатом, но другого себя у меня никогда не было
+Ты пришёл сюда за блицкригом, но найдёшь свой Сталинград
+Никакой маски, лишь холодные глаза, точные и сосредоточенные
+Зловещая рука над твоей головой, что означает конец
 
-Войди в мою игру, на холодную землю, убей или будь убит,
-Тропы в тени, где ступаю я, а все прочие бледнеют и меркнут.
-Я не жесток, но это не значит, что я не опасен,
-Пропасть раскаяния и сожалений разделяет нас.
-
-Зови меня психопатом, но другого себя у меня никогда не было,
-Ты пришёл сюда за блицкригом, но найдёшь свой Сталинград.
-Никакой маски, лишь холодные глаза, точные и сосредоточенные,
-Зловещая рука над твоей головой, что означает конец.
-
-Серая ярость — расчёты не прекращаются,
-Серая ярость — где эмоции обретают покой,
-Серая ярость — в тишине, а не в криках,
-Серая ярость — холодная как лёд во всех моих снах.
-
-Серая ярость — смотри под ноги, ступай осторожно,
-Серая ярость — тени движутся, бьют наверняка,
-Серая ярость — перейдёшь мне дорогу — и пожалеешь,
-Серая ярость — холодная война, которую ты не забудешь.
-
-Чувствуешь мою серую…
-Ярость?!
+Серая ярость…

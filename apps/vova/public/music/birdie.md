@@ -4,11 +4,14 @@ status: done
 language: ru
 project: [Грёбаный бал]
 repo: birdie
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/birdie/main/%F0%9F%85%B4%20%D0%9F%D1%82%D0%B8%D1%87%D0%BA%D0%B0.flac
 seconds: 207
 explicit: true
+transliteration: 'Ptichka'
 en:
   title: Птичка
+  titleTranslation: 'Birdie'
   description: 'Deathcore grown out of an iPhone alarm tone, with the photographer’s “watch the birdie” as its prelude.'
 ru:
   title: Птичка
@@ -108,7 +111,7 @@ bleeped version one day.
 And now, watch the...
 
 Birdie!
-Fly, bitch, fly!
+Fly, fucking fly!
 Birdie!
 High in the sky, yeah!
 
@@ -126,21 +129,21 @@ You stood off to one side, not saying a word,
 Then sighed, took wing and flew off again.
 
 Birdie!
-Fly, bitch, fly!
+Fly, fucking fly!
 Birdie!
 So fucking high!
 
 Six months went by and I’d cooled off a bit:
 Aren’t there girls enough, what do I want with this untouchable one?
 Too much honour, chasing you over roofs and treetops?
-Why would I be the sad one, bitch, what did you even do to me?
+Why the fuck would I be the sad one, what did you even do to me?
 They’re right, you know, women are nothing but trouble:
 I’ll forget you and drive on,
 And I don’t care who you’re with or where you are.
 
-And then you came over, bitch, for some reason.
+And then you fucking came over, for some reason.
 
-In an instant you tore down my, bitch, defences.
+In an instant you tore down my fucking defences.
 I’m begging, don’t — no, do — I’m coming apart,
 And you’re enjoying it!
 
@@ -153,11 +156,11 @@ Sooner or later you’ll fly off, I know,
 But for now, [born to crawl][^gorky-en], I’m flying with you.
 
 Birdie!
-Fly bitch fly!
+Fly fucking fly!
 Birdie!
 High in the sky yeah!
 Birdie!
-Fly bitch fly!
+Fly fucking fly!
 Birdie!
 Just say goodbye!
 I will survive.

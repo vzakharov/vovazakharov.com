@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Facepalm Death'
+  titleTranslation: 'Смерть-фейспалм'
   description: 'TBD'
 ---
 
@@ -25,37 +26,39 @@ ru:
 
 <!-- lyrics:en -->
 
-Chase the fame, frame by frame,
-Edge of a cliff, just for the name.
-Stream your fall right as you drop,
-Hearts tick up as your heart stops.
+Chase the fame, frame by frame
+Edge of a cliff, just for the name
+Stream your fall right as you drop
+Hearts tick up as your heart stops
 
-Carpe diem, ignore the stakes,
-Life in a snap — that’s all it takes.
-Play stupid games, win a stupid prize,
-Unlike you, death never dies.
+Carpe diem, ignore the stakes
+Life in a snap—that’s all it takes
+Play stupid games, win a stupid prize
+Unlike you, death never dies
 
-Facepalm Death —
-Death by a Thousand Likes…
-Facepalm Death —
-Death by a Thousand Likes!
+[Facepalm Death][^napalm-en]
+Death by a Thousand Likes
+Facepalm Death
+Death by a Thousand Likes
+
+[^napalm-en]: A play on the name of the band Napalm Death.
 
 <!-- lyrics:ru -->
 
-Гонись за славой, кадр за кадром,
-На краю обрыва — просто ради имени.
-Стримь своё падение прямо на лету,
-Сердечки растут, пока твоё сердце останавливается.
+Гонись за славой, кадр за кадром
+На краю обрыва — просто ради имени
+Стримь своё падение прямо на лету
+Сердечки растут, пока твоё сердце останавливается
 
-Carpe diem, плевать, что на кону,
-Жизнь в один щелчок — вот и всё, что нужно.
-Играешь в тупые игры — получаешь тупой приз,
-В отличие от тебя, смерть не умирает никогда.
+Carpe diem, плевать, что на кону
+Жизнь в один щелчок — вот и всё, что нужно
+Играешь в тупые игры — получаешь тупой приз
+В отличие от тебя, смерть не умирает никогда
 
-[Смерть-фейспалм][^napalm-ru] —
-[Смерть от тысячи лайков][^cuts-ru]…
-Смерть-фейспалм —
-Смерть от тысячи лайков!
+[Смерть-фейспалм][^napalm-ru]
+[Смерть от тысячи лайков][^cuts-ru]
+Смерть-фейспалм
+Смерть от тысячи лайков
 
 [^napalm-ru]: «Facepalm Death» — игра на названии группы Napalm Death.
 

@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Fetal Soup'
+  titleTranslation: 'Суп из эмбрионов'
   description: 'TBD'
 ---
 
@@ -25,7 +26,7 @@ ru:
 
 <!-- lyrics:en -->
 
-How can the man exist when there is such thing as fetal soup?
+How can man exist when there is such thing as fetal soup?
 
 <!-- lyrics:ru -->
 

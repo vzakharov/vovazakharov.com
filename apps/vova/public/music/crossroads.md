@@ -12,6 +12,7 @@ en:
   description: 'Punk-metalcore written on the road out of Tatarstan, and left unfinished until the ending and the too-AI words were fixed.'
 ru:
   title: Crossroads
+  titleTranslation: 'Перекрёсток'
   description: 'Панк-металкор, написанный в дороге из Татарии, и долго лежавший из-за концовки и слишком «ИИшных» слов.'
 ---
 
@@ -61,7 +62,6 @@ Crossroads calling loud
 Memories lost and found
 Choices in my face
 Till the end of days
-
 Whispers from the past
 Guide me where to tread
 Fog of doubt still thick
@@ -90,7 +90,6 @@ Crossroads speak so clear
 All the doubts disappear
 Step into the rays
 Till the end of days
-
 Which way to go
 Choices like a show
 Spin the wheel around
@@ -130,7 +129,6 @@ Crossroads calling loud!
 Воспоминания потеряны и найдены
 Выбор передо мной
 До конца дней
-
 Шёпот из прошлого
 Ведёт меня, куда ступать
 Туман сомнений всё ещё густ
@@ -159,7 +157,6 @@ Crossroads calling loud!
 Все сомнения исчезают
 Шагни в лучи
 До конца дней
-
 Куда идти
 Выбор как представление
 Крутани колесо

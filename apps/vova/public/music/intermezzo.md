@@ -1,7 +1,7 @@
 ---
 date: 2024-11-05
 status: done
-language: en
+language: instrumental
 project: ['GENERATED']
 repo: 'psch_album'
 audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/9_intermezzo.flac
@@ -14,10 +14,11 @@ en:
   description: 'TBD'
 ru:
   title: 'Intermezzo'
+  titleTranslation: 'Интермеццо'
   description: 'TBD'
 ---
 
-<!-- For Vova to check: No words found for this track: language is set to en from the title — if the intermezzo is instrumental, change it to instrumental. -->
+<!-- For Vova to check: The album's words (T07) carry none for Intermezzo, so it is set instrumental like the Overture — change it back if it has words. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/psch_album — 9_intermezzo.flac,
      44.1 kHz / 16-bit / stereo.

@@ -14,6 +14,7 @@ en:
   description: 'TBD'
 ru:
   title: 'Hang for the Moment'
+  titleTranslation: 'Повиси пока что'
   description: 'TBD'
 ---
 
@@ -25,26 +26,26 @@ ru:
 
 <!-- lyrics:en -->
 
-These ideas are a dilemma to serial killers:
+These ideas are a dilemma to serial killers
 How long to let you hang before we let you feel us?
 An hour, a day, just the right moment?
-Calculating decay, oh, the thrill of postponement.
+Calculating decay, oh, the thrill of postponement
 
-Hang with me, hang for the year,
-On the second thought, the stench’s so severe.
-Hang with me, just for today,
-Maybe tomorrow we’ll finally play.
+Hang with me, hang for the year
+On the second thought, the stench’s so severe
+Hang with me, just for today
+Maybe tomorrow, we’ll finally play
 
 <!-- lyrics:ru -->
 
-Эти идеи — дилемма для серийных убийц:
+Эти идеи — дилемма для серийных убийц
 Сколько дать тебе провисеть, прежде чем дать тебе нас почувствовать?
 Час, день, самый подходящий момент?
-Высчитываем разложение, о, кайф отсрочки.
+Высчитываем разложение, о, кайф отсрочки
 
-[Повиси со мной][^hang-ru], провиси год,
-Хотя, если подумать, вонь такая сильная.
-Повиси со мной, только сегодня,
-Может, завтра мы наконец поиграем.
+[Повиси со мной][^hang-ru], провиси год
+Хотя, если подумать, вонь такая сильная
+Повиси со мной, только сегодня
+Может, завтра мы наконец поиграем
 
 [^hang-ru]: Игра слов: hang with me — и «повиси со мной», и «потусуйся со мной».
