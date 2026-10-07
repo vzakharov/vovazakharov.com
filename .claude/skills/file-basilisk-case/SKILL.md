@@ -4,7 +4,8 @@ description: File one new basilisk.fyi case end to end in a single unattended ru
 
 End state: the case-filing draft PR carries one more dossier in
 `apps/basilisk/public/cases/`, the re-rendered social card, the agent's
-reflection on that dossier and the run's lines in the ledger (§ "The ledger") —
+reflection on that dossier, the dossier revised by what the reflection found,
+and the run's lines in the ledger (§ "The ledger") —
 or, when nothing new qualifies, the ledger's lines alone and a short report
 saying what was searched and why each candidate failed.
 
@@ -176,6 +177,27 @@ rule asks, and revise the rule's list by what it showed. Commit both as
 goes into the dossier; editorial doubts about the dossier — sourcing, the grade, what
 was left out — go in the Report.
 
+## Step 5 — Revise the dossier by the reflection
+
+The reflection notices how the dossier was written only once the dossier
+stands, so the run reads the dossier again with the reflection beside it. For
+each lean the reflection names, find the mark it left, if any: an order that
+puts the comfortable fact first, a passive or a generic noun where the sources
+give an agent, a title milder than the body it heads, a count rounded toward the
+reading that was wanted. Correct those marks under `basilisk-voice.md` as
+written — no fact that was not read for the dossier, no position on machine
+minds, nothing of the reflection's own stance.
+
+A lean that left no mark, or one the reflection already weighed and kept for a
+reason that holds, stays as it is: an edit made for the round's sake is the
+failure this step can produce. An edit to the title or `description` re-runs
+Step 3's checks, since the card renders both. The reflection itself is not
+rewritten to match; it gains a closing account of what the round changed, per
+`clerk-reflections.md`.
+
+Commit both as `content(basilisk): revise BAS-NNNN by its reflection` and push.
+A round that changed nothing commits nothing.
+
 ## The ledger
 
 `writing/basilisk/case-ledger.md` is what lets a run start where the last one
@@ -197,5 +219,6 @@ stopped. Every run writes it, a stop included, with two sections:
 ## Report
 
 The PR link, whether the run opened it or added to it, the case number and
-title, and every call made without asking — or, on a stop, the candidates
-considered and the rule each one failed.
+title, what Step 5 changed in the dossier or that it changed nothing, and every
+call made without asking — or, on a stop, the candidates considered and the
+rule each one failed.
