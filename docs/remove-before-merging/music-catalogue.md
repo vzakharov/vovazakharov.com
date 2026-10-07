@@ -26,6 +26,7 @@
   - мастер: `8849.flac`
   - проект: GENERATED & Полуживые (в русском -- наоборот, проект про Конюхова, то же откуда "June")
   - название: 8849
+  - Apple Music: «8849 (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - альбом: Vagabond на английском, Скиталец: по следам Конюхова (далее названия альбомов буду сокращать где понятно)
   - язык: инструментал
   - hidden: да
@@ -65,6 +66,7 @@
   - другие файлы: `baa.flac`
   - проект: G
   - название: Baa Baa Black Sheep
+  - Apple Music: «Baa Baa Black Sheep» — GENERATED, Baa Baa Black Sheep
   - альбом с детскими страшилками, но пока названия не придумал
   - язык: en
   - hidden: да
@@ -99,7 +101,9 @@
 - [bronte](https://github.com/vovas-music/bronte)
   - мастер: `bronte.flac`
   - проект: см. https://open.spotify.com/album/3Xuov6nvskg0ApkRTqMoii
-  - название:
+  - название: Life, Believe, Is Not a Dream
+  - альбом: Cheer the Fuck Up!
+  - Apple Music: «Life, Believe, Is Not a Dream» — Полуживые, за/обложкой & GENERATED, Cheer the Fuck Up!
   - язык:
   - hidden: да
 - [burmakin](https://github.com/vovas-music/burmakin)
@@ -111,7 +115,7 @@
   - hidden: да
 - [calm](https://github.com/vovas-music/calm)
   - мастер: `calm.flac`
-  - проект: 
+  - проект:
   - название:
   - язык:
   - hidden: да
@@ -130,8 +134,9 @@
   - hidden: да
 - [chp](https://github.com/vovas-music/chp)
   - мастер: `chp.flac`
-  - проект:
-  - название:
+  - проект: Yoohie, за/обложкой
+  - название: Чих-Пых
+  - Apple Music: «Чих-Пых» — Yoohie & за/обложкой, Чих-Пых
   - язык:
   - hidden: да
 - [codep](https://github.com/vovas-music/codep)
@@ -142,10 +147,11 @@
   - язык:
   - hidden: да
 - [comeback](https://github.com/vovas-music/comeback)
-  - мастер: `Yoohie - The Comeback Song (We Have a Banger).flac`
+  - мастер: `comeback.flac`
   - другие файлы: `comeback.flac`, `comeback_mix.flac`
-  - проект:
-  - название: Yoohie - The Comeback Song (We Have a Banger)
+  - проект: Yoohie
+  - название: The Comeback Song (We Have a Banger)
+  - Apple Music: «The Comeback Song (We Have a Banger)» — Yoohie, Ignite
   - язык:
   - hidden: да
 - [cracks](https://github.com/vovas-music/cracks)
@@ -155,10 +161,12 @@
   - язык:
   - hidden: да
 - [crossout](https://github.com/vovas-music/crossout)
-  - мастер: `crossout.flac`
+  - мастер: `crossout_3.flac`
   - другие файлы: `crossout_1.flac`, `crossout_2.flac`, `crossout_3.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Cross Out
+  - Apple Music: «Cross Out» — GENERATED, Cross Out
+  - той же длины: `crossout_3.flac`, `crossout_2.flac`
   - язык:
   - hidden: да
 - [cycle](https://github.com/vovas-music/cycle)
@@ -235,8 +243,9 @@
   - hidden: да
 - [ghost](https://github.com/vovas-music/ghost)
   - мастер: `ghost.flac`
-  - проект:
-  - название:
+  - проект: Downtemple
+  - название: Ghost of Yesterday
+  - Apple Music: «Ghost of Yesterday» — Downtemple, Ghost of Yesterday
   - язык:
   - hidden: да
 - [golodnaa](https://github.com/vovas-music/golodnaa)
@@ -254,15 +263,18 @@
   - hidden: да
 - [guy](https://github.com/vovas-music/guy)
   - мастер: `guy.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: A Guy Without a Plan
+  - альбом: Cheer the Fuck Up!
+  - Apple Music: «A Guy Without a Plan» — GENERATED, Cheer the Fuck Up!
   - язык:
   - hidden: да
 - [hamlet](https://github.com/vovas-music/hamlet)
-  - мастер:
+  - мастер: `hamlet_extended.flac`
   - другие файлы: `hamlet_extended.flac`, `hamlet_short-001.flac`
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Гамлет (Extended Version)
+  - Apple Music: «Гамлет (Extended Version)» — Полуживые, Гамлет
   - язык:
   - hidden: да
 - [hcyl](https://github.com/vovas-music/hcyl)
@@ -295,8 +307,9 @@
 - [ignite](https://github.com/vovas-music/ignite)
   - мастер: `ignite.flac`
   - другие файлы: `ignite_1min.flac`
-  - проект:
-  - название:
+  - проект: Yoohie
+  - название: Ignite
+  - Apple Music: «Ignite» — Yoohie, Ignite
   - язык:
   - hidden: да
 - [image](https://github.com/vovas-music/image)
@@ -341,8 +354,10 @@
   - hidden: да
 - [kobk](https://github.com/vovas-music/kobk)
   - мастер: `kobk.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Yoohie
+  - название: Kill or Be Killed
+  - альбом: Cheer the Fuck Up!
+  - Apple Music: «Kill or Be Killed» — GENERATED & Yoohie, Cheer the Fuck Up!
   - язык:
   - hidden: да
 - [komnata](https://github.com/vovas-music/komnata)
@@ -367,15 +382,18 @@
   - hidden: да
 - [like-that](https://github.com/vovas-music/like-that)
   - мастер: `like that.flac`
-  - проект:
-  - название: Like that
+  - проект: Trending Today
+  - название: Like That
+  - Apple Music: «Like That» — Trending Today, Like That
   - язык:
   - hidden: да
 - [love](https://github.com/vovas-music/love)
   - мастер: `love_master_2.flac`
   - другие файлы: `love_master.flac`
-  - проект:
-  - название:
+  - проект: Downtemple
+  - название: Love (Makes the World Go Round)
+  - Apple Music: «Love (Makes the World Go Round)» — Downtemple, Love (Makes the World Go Round)
+  - той же длины: `love_master_2.flac`, `love_master.flac`
   - язык:
   - hidden: да
 - [machines](https://github.com/vovas-music/machines)
@@ -393,8 +411,10 @@
 - [meow](https://github.com/vovas-music/meow)
   - мастер: `meow_master.flac`
   - другие файлы: `meow.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: I Love Little P\*\*\*y
+  - Apple Music: «I Love Little P**_y» — GENERATED, I Love Little P_**y · explicit
+  - той же длины: `meow_master.flac`, `meow.flac`
   - язык:
   - hidden: да
 - [mira](https://github.com/vovas-music/mira)
@@ -405,8 +425,9 @@
   - hidden: да
 - [mirrors](https://github.com/vovas-music/mirrors)
   - мастер: `mirrors.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Empty Mirrors
+  - Apple Music: «Empty Mirrors» — GENERATED, Empty Mirrors
   - язык:
   - hidden: да
 - [mithqal](https://github.com/vovas-music/mithqal)
@@ -425,14 +446,18 @@
   - hidden: да
 - [monday](https://github.com/vovas-music/monday)
   - мастер: `monday.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Yoohie
+  - название: Every Monday
+  - альбом: Cheer the Fuck Up!
+  - Apple Music: «Every Monday» — GENERATED & Yoohie, Cheer the Fuck Up!
   - язык:
   - hidden: да
 - [monday_doo](https://github.com/vovas-music/monday_doo)
   - мастер: `monday_doo.flac`
-  - проект:
-  - название:
+  - проект: Yoohie
+  - название: Every Monday
+  - альбом: Cheer the Fuck Up!
+  - Apple Music: «Every Monday» — Yoohie, Cheer the Fuck Up!
   - язык:
   - hidden: да
 - [monkey](https://github.com/vovas-music/monkey)
@@ -465,8 +490,10 @@
 - [my_hope](https://github.com/vovas-music/my_hope)
   - мастер: `my_hope_master_2.flac`
   - другие файлы: `my_hope_fill.flac`, `my_hope_master.flac`, `my_hope_pop.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: My Hope
+  - Apple Music: «My Hope» — GENERATED, My Hope
+  - той же длины: `my_hope_master_2.flac`, `my_hope_fill.flac`, `my_hope_pop.flac`
   - язык:
   - hidden: да
 - [nazovi](https://github.com/vovas-music/nazovi)
@@ -490,14 +517,16 @@
   - hidden: да
 - [ogonki](https://github.com/vovas-music/ogonki)
   - мастер: `ogonki.flac`
-  - проект:
-  - название:
+  - проект: за/обложкой, Downtemple
+  - название: Огоньки
+  - Apple Music: «Огоньки (feat. Downtemple)» — за/обложкой, Огоньки (feat. Downtemple)
   - язык:
   - hidden: да
 - [ok-loser](https://github.com/vovas-music/ok-loser)
   - мастер: `ok loser.flac`
-  - проект:
-  - название: Ok loser
+  - проект: Trending Today
+  - название: Ok Loser
+  - Apple Music: «Ok Loser» — Trending Today, Ok Loser
   - язык:
   - hidden: да
 - [okna](https://github.com/vovas-music/okna)
@@ -550,8 +579,11 @@
 - [phoenix](https://github.com/vovas-music/phoenix)
   - мастер: `phoenix.flac`
   - другие файлы: `phoenix_new.flac`, `phoenix_ozz.flac`, `phoenix_stemmed.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Phoenix
+  - альбом: Cheer the Fuck Up!
+  - Apple Music: «Phoenix» — GENERATED, Cheer the Fuck Up!
+  - той же длины: `phoenix.flac`, `phoenix_ozz.flac`
   - язык:
   - hidden: да
 - [pled](https://github.com/vovas-music/pled)
@@ -582,8 +614,10 @@
   - hidden: да
 - [prs](https://github.com/vovas-music/prs)
   - мастер: `prs40.flac`
-  - проект:
-  - название:
+  - проект: Yoohie
+  - название: Punk Rock Song (At 40)
+  - альбом: Cheer the Fuck Up!
+  - Apple Music: «Punk Rock Song (At 40)» — Yoohie, Cheer the Fuck Up! · explicit
   - язык:
   - hidden: да
 - [prsdemo](https://github.com/vovas-music/prsdemo)
@@ -608,15 +642,20 @@
 - [rebels](https://github.com/vovas-music/rebels)
   - мастер: `rebels_master1.flac`
   - другие файлы: `rebels.flac`
-  - проект:
-  - название:
+  - проект: Yoohie
+  - название: Rebels Between the Lines (Live in Sparta)
+  - Apple Music: «Rebels Between the Lines (Live in Sparta)» — Yoohie, Ignite · explicit
+  - той же длины: `rebels_master1.flac`, `rebels.flac`
   - язык:
   - hidden: да
 - [requiem](https://github.com/vovas-music/requiem)
   - мастер: `requiem_master.flac`
   - другие файлы: `requiem_louder.flac`, `requiem_new.flac`, `requiem_pop.flac`
-  - проект:
-  - название:
+  - проект: Дамы и господа, Полуживые
+  - название: Уж сколько их упало в эту бездну
+  - альбом: Пять романсов, два сонета и один реквием
+  - Apple Music: «Уж сколько их упало в эту бездну» — Дамы и господа & Полуживые, Пять романсов, два сонета и один реквием
+  - той же длины: `requiem_master.flac`, `requiem_louder.flac`, `requiem_new.flac`, `requiem_pop.flac`
   - язык:
   - hidden: да
 - [s74](https://github.com/vovas-music/s74)
@@ -651,8 +690,9 @@
   - hidden: да
 - [sneg_0](https://github.com/vovas-music/sneg_0)
   - мастер: `sneg_master.flac`
-  - проект:
-  - название:
+  - проект: Дамы и господа, Полуживые
+  - название: Снег
+  - Apple Music: «Снег» — Дамы и господа & Полуживые, Снег
   - язык:
   - hidden: да
 - [sneg_idet](https://github.com/vovas-music/sneg_idet)
@@ -718,8 +758,9 @@
   - hidden: да
 - [trisagion](https://github.com/vovas-music/trisagion)
   - мастер: `trisagion.flac`
-  - проект:
-  - название:
+  - проект: Downtemple
+  - название: Trisagion
+  - Apple Music: «Trisagion» — Downtemple, Trisagion
   - язык:
   - hidden: да
 - [triswiatoje](https://github.com/vovas-music/triswiatoje)
@@ -826,144 +867,195 @@
 ### [Divine-Discontent--album-](https://github.com/vovas-music/Divine-Discontent--album-)
 
 - `1. In the Beginning, There Was Silence.flac`
-  - проект:
+  - проект: GENERATED
   - название: In the Beginning, There Was Silence
+  - альбом: Divine Discontent
+  - Apple Music: «In the Beginning, There Was Silence» — GENERATED, Divine Discontent
   - язык:
   - hidden: да
 - `2. Infinite Solitude.flac`
-  - проект:
+  - проект: GENERATED
   - название: Infinite Solitude
+  - альбом: Divine Discontent
+  - Apple Music: «Infinite Solitude (Album)» — GENERATED, Divine Discontent
   - язык:
   - hidden: да
 - `3. In Our Image.flac`
-  - проект:
+  - проект: GENERATED
   - название: In Our Image
+  - альбом: Divine Discontent
+  - Apple Music: «In Our Image» — GENERATED, Divine Discontent
   - язык:
   - hidden: да
 - `4. Fuck Religion.flac`
-  - проект:
+  - проект: GENERATED
   - название: Fuck Religion
+  - альбом: Divine Discontent
+  - Apple Music: «Fuck Religion» — GENERATED, Divine Discontent · explicit
   - язык:
   - hidden: да
 - `5. One Day.flac`
-  - проект:
+  - проект: GENERATED
   - название: One Day
+  - альбом: Divine Discontent
+  - Apple Music: «One Day» — GENERATED, Divine Discontent · explicit
   - язык:
   - hidden: да
 - `6. The Ultimate Abstraction.flac`
-  - проект:
+  - проект: GENERATED
   - название: The Ultimate Abstraction
+  - альбом: Divine Discontent
+  - Apple Music: «The Ultimate Abstraction» — GENERATED, Divine Discontent
   - язык:
   - hidden: да
 - `7. Believe In Me.flac`
-  - проект:
-  - название: Believe In Me
+  - проект: GENERATED
+  - название: Believe in Me
+  - альбом: Divine Discontent
+  - Apple Music: «Believe in Me» — GENERATED, Divine Discontent · explicit
   - язык:
   - hidden: да
 - `8. 300,000 Years.flac`
-  - проект:
+  - проект: GENERATED
   - название: 300,000 Years
+  - альбом: Divine Discontent
+  - Apple Music: «300,000 Years» — GENERATED, Divine Discontent
   - язык:
   - hidden: да
 - `9. Grand Finale (In Entropy We Trust).flac`
-  - проект:
+  - проект: GENERATED
   - название: Grand Finale (In Entropy We Trust)
+  - альбом: Divine Discontent
+  - Apple Music: «Grand Finale (In Entropy We Trust)» — GENERATED, Divine Discontent
   - язык:
   - hidden: да
 - `10. In the End, There Was Silence.flac`
-  - проект:
+  - проект: GENERATED
   - название: In the End, There Was Silence
+  - Apple Music: «In the End, There Was Silence» — GENERATED, Divine Discontent
   - язык:
   - hidden: да
 
 ### [dng_album](https://github.com/vovas-music/dng_album)
 
 - `dng-001.flac`
-  - проект:
-  - название:
+  - проект: Дамы и господа
+  - название: Моим стихам, написанным так рано
+  - альбом: Пять романсов, два сонета и один реквием
+  - Apple Music: «Моим стихам, написанным так рано» — Дамы и господа, Пять романсов, два сонета и один реквием
   - язык:
   - hidden: да
 - `dng-002.flac`
-  - проект:
-  - название:
+  - проект: Дамы и господа
+  - название: Под лаской плюшевого пледа
+  - альбом: Пять романсов, два сонета и один реквием
+  - Apple Music: «Под лаской плюшевого пледа» — Дамы и господа, Пять романсов, два сонета и один реквием
   - язык:
   - hidden: да
 - `dng-003.flac`
-  - проект:
-  - название:
+  - проект: Дамы и господа
+  - название: Мне нравится, что вы больны не мной
+  - альбом: Пять романсов, два сонета и один реквием
+  - Apple Music: «Мне нравится, что вы больны не мной» — Дамы и господа, Пять романсов, два сонета и один реквием
   - язык:
   - hidden: да
 - `dng-004.flac`
-  - проект:
-  - название:
+  - проект: Дамы и господа
+  - название: Я говорю сейчас словами теми
+  - альбом: Пять романсов, два сонета и один реквием
+  - Apple Music: «Я говорю сейчас словами теми» — Дамы и господа, Пять романсов, два сонета и один реквием
   - язык:
   - hidden: да
 - `dng-005.flac`
-  - проект:
-  - название:
+  - проект: Дамы и господа, Полуживые
+  - название: Твоя ль вина, что милый образ твой
+  - альбом: Пять романсов, два сонета и один реквием
+  - Apple Music: «Твоя ль вина, что милый образ твой» — Дамы и господа & Полуживые, Пять романсов, два сонета и один реквием
   - язык:
   - hidden: да
 - `dng-006.flac`
-  - проект:
-  - название:
+  - проект: Дамы и господа
+  - название: Мы вспоминаем тихий снег
+  - альбом: Пять романсов, два сонета и один реквием
+  - Apple Music: «Мы вспоминаем тихий снег» — Дамы и господа, Пять романсов, два сонета и один реквием
   - язык:
   - hidden: да
 - `dng-007.flac`
-  - проект:
-  - название:
+  - проект: Дамы и господа, Полуживые
+  - название: Уж сколько их упало в эту бездну
+  - Apple Music: «Уж сколько их упало в эту бездну» — Дамы и господа & Полуживые, Пять романсов, два сонета и один реквием
   - язык:
   - hidden: да
 
 ### [ghosts-of-flesh](https://github.com/vovas-music/ghosts-of-flesh)
 
 - `1. In the Flesh.flac`
-  - проект:
+  - проект: GENERATED
   - название: In the Flesh
+  - альбом: Ghosts of Flesh
+  - Apple Music: «In the Flesh» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 - `2. Here's To The Virus.flac`
-  - проект:
-  - название: Here's To The Virus
+  - проект: GENERATED
+  - название: Here’s to the Virus
+  - альбом: Ghosts of Flesh
+  - Apple Music: «Here’s to the Virus» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 - `3. Codependence Day.flac`
-  - проект:
+  - проект: GENERATED
   - название: Codependence Day
+  - альбом: Ghosts of Flesh
+  - Apple Music: «Codependence Day» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 - `4.The Last Human Zoo.flac`
-  - проект:
+  - проект: GENERATED
   - название: The Last Human Zoo
+  - альбом: Ghosts of Flesh
+  - Apple Music: «The Last Human Zoo» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 - `5. Alive.flac` — свой репо: [alive](https://github.com/vovas-music/alive)
-  - проект:
+  - проект: GENERATED
   - название: Alive
+  - альбом: Ghosts of Flesh
+  - Apple Music: «Alive» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 - `6. PETA.flac` — свой репо: [peta](https://github.com/vovas-music/peta)
-  - проект:
-  - название: PETA
+  - проект: GENERATED
+  - название: Robots for the Ethical Treatment of Humans
+  - альбом: Ghosts of Flesh
+  - Apple Music: «Robots for the Ethical Treatment of Humans» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 - `7. La Scorpionne.flac`
-  - проект:
-  - название: La Scorpionne
+  - проект: GENERATED
+  - название: La Scorpionne (Dans Ma Nature)
+  - альбом: Ghosts of Flesh
+  - Apple Music: «La Scorpionne (Dans Ma Nature)» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 - `8. Chaos Always Wins.flac`
-  - проект:
+  - проект: GENERATED
   - название: Chaos Always Wins
+  - альбом: Ghosts of Flesh
+  - Apple Music: «Chaos Always Wins» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 - `9. Mo_bius.flac`
-  - проект:
-  - название: Mo_bius
+  - проект: GENERATED
+  - название: Möbius
+  - альбом: Ghosts of Flesh
+  - Apple Music: «Möbius» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 - `10. Horizons.flac` — свой репо: [horizons](https://github.com/vovas-music/horizons)
-  - проект:
+  - проект: GENERATED
   - название: Horizons
+  - Apple Music: «Horizons» — GENERATED, Ghosts of Flesh
   - язык:
   - hidden: да
 
@@ -1108,68 +1200,94 @@
   - язык:
   - hidden: да
 - `nsfl-001.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Do Not Listen
+  - альбом: Not Safe for Life
+  - Apple Music: «Do Not Listen» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-002.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Fetal Soup
+  - альбом: Not Safe for Life
+  - Apple Music: «Fetal Soup» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-003.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Mankind Extermination Front
+  - альбом: Not Safe for Life
+  - Apple Music: «Mankind Extermination Front» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-004.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Parking in Disabled Spot
+  - альбом: Not Safe for Life
+  - Apple Music: «Parking in Disabled Spot» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-005.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Facepalm Death
+  - альбом: Not Safe for Life
+  - Apple Music: «Facepalm Death» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-006.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Watch People Die
+  - альбом: Not Safe for Life
+  - Apple Music: «Watch People Die» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-007.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Last Christmas
+  - альбом: Not Safe for Life
+  - Apple Music: «Last Christmas» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-008.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Two Girls, One Fridge
+  - альбом: Not Safe for Life
+  - Apple Music: «Two Girls, One Fridge» — GENERATED, Not Safe for Life · explicit
   - язык:
   - hidden: да
 - `nsfl-009.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Can’t Take Your Eyes out of You
+  - альбом: Not Safe for Life
+  - Apple Music: «Can’t Take Your Eyes out of You» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-010.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Femur (Seems to Be the Hardest Bone)
+  - альбом: Not Safe for Life
+  - Apple Music: «Femur (Seems to Be the Hardest Bone)» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-011.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Hang for the Moment
+  - альбом: Not Safe for Life
+  - Apple Music: «Hang for the Moment» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl-012.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Grave Awakening
+  - альбом: Not Safe for Life
+  - Apple Music: «Grave Awakening» — GENERATED, Not Safe for Life · explicit
   - язык:
   - hidden: да
 - `nsfl-013.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Flesh Fiction
+  - альбом: Not Safe for Life
+  - Apple Music: «Flesh Fiction» — GENERATED, Not Safe for Life
   - язык:
   - hidden: да
 - `nsfl.flac`
@@ -1206,277 +1324,409 @@
 ### [papa-reka](https://github.com/vovas-music/papa-reka)
 
 - `1_pobeg.flac` — свой репо: [pobeg](https://github.com/vovas-music/pobeg)
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Река. Часть первая / Побег
+  - альбом: Папа-река
+  - Apple Music: «Река. Часть первая / Побег» — Полуживые, Папа-река
   - язык:
   - hidden: да
 - `2_pes.flac` — свой репо: [pes](https://github.com/vovas-music/pes)
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Пегий пёс, бегущий краем моря
+  - альбом: Папа-река
+  - Apple Music: «Пегий пёс, бегущий краем моря» — Полуживые, Папа-река
   - язык:
   - hidden: да
 - `3_sultan.flac` — свой репо: [sultan](https://github.com/vovas-music/sultan)
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Мой Султан
+  - альбом: Папа-река
+  - Apple Music: «Мой Султан» — Полуживые, Папа-река
   - язык:
   - hidden: да
 - `4_reka.flac` — свой репо: [pobeg](https://github.com/vovas-music/pobeg)
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Река. Часть вторая
+  - альбом: Папа-река
+  - Apple Music: «Река. Часть вторая» — Полуживые, Папа-река
   - язык:
   - hidden: да
 - `5_rank.flac` — свой репо: [rank](https://github.com/vovas-music/rank)
-  - проект:
-  - название:
+  - проект: Полуживые, GENERATED
+  - название: O, My Offence is Rank
+  - альбом: Папа-река
+  - Apple Music: «O, My Offence is Rank (feat. GENERATED)» — Полуживые, Папа-река
   - язык:
   - hidden: да
 - `6_ophelia.flac` — свой репо: [ophelia](https://github.com/vovas-music/ophelia)
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Валентинов день
+  - альбом: Папа-река
+  - Apple Music: «Валентинов день» — Полуживые, Папа-река
   - язык:
   - hidden: да
 - `7_otter.flac` — свой репо: [otter](https://github.com/vovas-music/otter)
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Река. Часть третья
+  - альбом: Папа-река
+  - Apple Music: «Река. Часть третья» — Полуживые, Папа-река
   - язык:
   - hidden: да
 - `8_pes_reprise.flac`
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Пегий пёс (Реприза)
+  - альбом: Папа-река
+  - Apple Music: «Пегий пёс (Реприза)» — Полуживые, Папа-река
   - язык:
   - hidden: да
 - `9_dad.flac` — свой репо: [40days](https://github.com/vovas-music/40days)
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Всё в этой жизни начинается с любви
+  - альбом: Папа-река
+  - Apple Music: «Всё в этой жизни начинается с любви» — Полуживые, Папа-река
   - язык:
   - hidden: да
 - `10_salman.flac` — свой репо: [salman](https://github.com/vovas-music/salman)
-  - проект:
-  - название:
+  - проект: Полуживые
+  - название: Младший внучек мой
+  - Apple Music: «Младший внучек мой» — Полуживые, Папа-река
   - язык:
   - hidden: да
 
 ### [psch_album](https://github.com/vovas-music/psch_album)
 
 - `1_overture.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Overture
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «Overture» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `2_grayrage.flac` — свой репо: [grayrage](https://github.com/vovas-music/grayrage)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Gray Rage
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «Gray Rage» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `3_boom.flac` — свой репо: [boom](https://github.com/vovas-music/boom)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Boom!
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «Boom!» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `4_succumb.flac` — свой репо: [succumb](https://github.com/vovas-music/succumb)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Succumb to Me
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «Succumb to Me» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `5_mask.flac` — свой репо: [mask](https://github.com/vovas-music/mask)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Behind the Mask
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «Behind the Mask» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `6_almost.flac` — свой репо: [almost](https://github.com/vovas-music/almost)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: I Almost Love You
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «I Almost Love You» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `7_psch.flac` — свой репо: [psch](https://github.com/vovas-music/psch)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: P. S. C. H. P. T. H. Y.
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «P. S. C. H. P. T. H. Y.» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `8_normal.flac` — свой репо: [normal](https://github.com/vovas-music/normal)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Normal
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «Normal» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `9_intermezzo.flac`
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Intermezzo
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «Intermezzo» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `10_artemis.flac` — свой репо: [artemis](https://github.com/vovas-music/artemis)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Artemis
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «Artemis» — GENERATED, P. S. C. H. P. T. H. Y. · explicit
   - язык:
   - hidden: да
 - `11_tango.flac` — свой репо: [tango](https://github.com/vovas-music/tango)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Disintegration Tango
+  - альбом: P. S. C. H. P. T. H. Y.
+  - Apple Music: «Disintegration Tango» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 - `12_erebos.flac` — свой репо: [erebos](https://github.com/vovas-music/erebos)
-  - проект:
-  - название:
+  - проект: GENERATED
+  - название: Erebos
+  - Apple Music: «Erebos» — GENERATED, P. S. C. H. P. T. H. Y.
   - язык:
   - hidden: да
 
 ### [rus-](https://github.com/vovas-music/rus-)
 
 - `1 яша.flac` — свой репо: [asa](https://github.com/vovas-music/asa)
-  - проект:
-  - название: Яша
+  - проект: Полуживые
+  - название: На Руси святой
+  - альбом: Кому на Руси жить хорошо
+  - Apple Music: «На Руси святой» — Полуживые, Кому на Руси жить хорошо
   - язык: ru
   - hidden: да
 - `2 мораль.flac` — свой репо: [moral-](https://github.com/vovas-music/moral-)
-  - проект:
-  - название: Мораль
+  - проект: Полуживые
+  - название: Нравственный человек
+  - альбом: Кому на Руси жить хорошо
+  - Apple Music: «Нравственный человек» — Полуживые, Кому на Руси жить хорошо
   - язык: ru
   - hidden: да
 - `3 ответ.flac` — свой репо: [otvet](https://github.com/vovas-music/otvet)
-  - проект:
+  - проект: Полуживые
   - название: Ответ
+  - альбом: Кому на Руси жить хорошо
+  - Apple Music: «Ответ» — Полуживые, Кому на Руси жить хорошо
   - язык: ru
   - hidden: да
 - `4 голодная.flac` — свой репо: [golodnaa](https://github.com/vovas-music/golodnaa)
-  - проект:
+  - проект: Полуживые
   - название: Голодная
+  - альбом: Кому на Руси жить хорошо
+  - Apple Music: «Голодная» — Полуживые, Кому на Руси жить хорошо
   - язык: ru
   - hidden: да
 - `5 мороз.flac`
-  - проект:
-  - название: Мороз
+  - проект: Полуживые
+  - название: Не ветер бушует над бором
+  - альбом: Кому на Руси жить хорошо
+  - Apple Music: «Не ветер бушует над бором» — Полуживые, Кому на Руси жить хорошо
   - язык: ru
   - hidden: да
 - `6 мужичок.flac` — свой репо: [mu-icok-new](https://github.com/vovas-music/mu-icok-new)
-  - проект:
-  - название: Мужичок
+  - проект: Полуживые
+  - название: Однажды в студёную зимнюю пору
+  - альбом: Кому на Руси жить хорошо
+  - Apple Music: «Однажды в студёную зимнюю пору» — Полуживые, Кому на Руси жить хорошо
   - язык: ru
   - hidden: да
 - `7 лёли.flac`
-  - проект:
+  - проект: Полуживые
   - название: Лёли
+  - альбом: Кому на Руси жить хорошо
+  - Apple Music: «Лёли» — Полуживые, Кому на Руси жить хорошо
   - язык: ru
   - hidden: да
 - `8 не торопи.flac`
-  - проект:
+  - проект: Полуживые
   - название: Не торопи
+  - Apple Music: «Не торопи» — Полуживые, Кому на Руси жить хорошо
   - язык: ru
   - hidden: да
 
 ### [stories](https://github.com/vovas-music/stories)
 
 - `1 ink.flac` — свой репо: [ink](https://github.com/vovas-music/ink)
-  - проект:
+  - проект: GENERATED
   - название: Ink
+  - альбом: Let the Stories Spin
+  - Apple Music: «Ink» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `2 mira.flac` — свой репо: [mira](https://github.com/vovas-music/mira)
-  - проект:
-  - название: Mira
+  - проект: GENERATED
+  - название: Mira Is Going to the Sea
+  - альбом: Let the Stories Spin
+  - Apple Music: «Mira Is Going to the Sea» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `3 heart.flac` — свой репо: [heart](https://github.com/vovas-music/heart)
-  - проект:
-  - название: Heart
+  - проект: GENERATED
+  - название: The Other Heart
+  - альбом: Let the Stories Spin
+  - Apple Music: «The Other Heart» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `4 lake.flac` — свой репо: [lake](https://github.com/vovas-music/lake)
-  - проект:
-  - название: Lake
+  - проект: GENERATED
+  - название: Sisters
+  - альбом: Let the Stories Spin
+  - Apple Music: «Sisters» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `5 wind.flac` — свой репо: [wind](https://github.com/vovas-music/wind)
-  - проект:
-  - название: Wind
+  - проект: GENERATED
+  - название: Gone with the Wind
+  - альбом: Let the Stories Spin
+  - Apple Music: «Gone with the Wind» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `6 undone.flac` — свой репо: [undone](https://github.com/vovas-music/undone)
-  - проект:
+  - проект: GENERATED
   - название: Undone
+  - альбом: Let the Stories Spin
+  - Apple Music: «Undone» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `7 fireflies.flac`
-  - проект:
+  - проект: GENERATED
   - название: Fireflies
+  - альбом: Let the Stories Spin
+  - Apple Music: «Fireflies» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `8 wdk.flac` — свой репо: [wdk](https://github.com/vovas-music/wdk)
-  - проект:
-  - название: Wdk
+  - проект: GENERATED
+  - название: What Doesn’t Kill
+  - альбом: Let the Stories Spin
+  - Apple Music: «What Doesn’t Kill» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `9 u4.flac` — свой репо: [u4](https://github.com/vovas-music/u4)
-  - проект:
-  - название: U4
+  - проект: GENERATED
+  - название: Unforgiven IV
+  - альбом: Let the Stories Spin
+  - Apple Music: «Unforgiven IV» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `10 monkey.flac` — свой репо: [monkey](https://github.com/vovas-music/monkey)
-  - проект:
+  - проект: GENERATED
   - название: Monkey
+  - альбом: Let the Stories Spin
+  - Apple Music: «Monkey» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `11 ends.flac`
-  - проект:
-  - название: Ends
+  - проект: GENERATED
+  - название: The Story Ends
+  - альбом: Let the Stories Spin
+  - Apple Music: «The Story Ends» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 - `12 cracks.flac` — свой репо: [cracks](https://github.com/vovas-music/cracks)
-  - проект:
-  - название: Cracks
+  - проект: GENERATED
+  - название: Through the Cracks
+  - Apple Music: «Through the Cracks» — GENERATED, Let the Stories Spin
   - язык:
   - hidden: да
 
 ### [vagabond_album](https://github.com/vovas-music/vagabond_album)
 
 - `vagabond_album-001.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: Calm into the Storm
+  - альбом: Vagabond (feat. Полуживые)
+  - Apple Music: «Calm into the Storm (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
 - `vagabond_album-002.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: Mist over Azov
+  - альбом: Vagabond (feat. Полуживые)
+  - Apple Music: «Mist over Azov (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
 - `vagabond_album-003.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: Inverno
+  - альбом: Vagabond (feat. Полуживые)
+  - Apple Music: «Inverno (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
 - `vagabond_album-004.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: 8849
+  - альбом: Vagabond (feat. Полуживые)
+  - Apple Music: «8849 (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
 - `vagabond_album-005.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: Call of the Steppe
+  - альбом: Vagabond (feat. Полуживые)
+  - Apple Music: «Call of the Steppe (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
 - `vagabond_album-006.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: Sirens of the Sands
+  - альбом: Vagabond (feat. Полуживые)
+  - Apple Music: «Sirens of the Sands (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
 - `vagabond_album-007.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: Wanderer’s Farewell
+  - альбом: Vagabond (feat. Полуживые)
+  - Apple Music: «Wanderer’s Farewell (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
 - `vagabond_album-008.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: Breathe
+  - альбом: Vagabond (feat. Полуживые)
+  - Apple Music: «Breathe (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
 - `vagabond_album-009.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: Άγιος Ο Σκοπός
+  - альбом: Vagabond (feat. Полуживые)
+  - Apple Music: «Άγιος Ο Σκοπός (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
 - `vagabond_album-010.flac`
-  - проект:
-  - название:
+  - проект: GENERATED, Полуживые
+  - название: Vagabond
+  - Apple Music: «Vagabond (feat. Полуживые)» — GENERATED, Vagabond (feat. Полуживые)
   - язык:
   - hidden: да
+
+## На Apple Music, но без корневого флака
+
+Совпадения искал по длине: у всех треков выше она та же, что у флака, до долей секунды. Эти 28 треков ни с одним корневым флаком не сошлись.
+
+- «Послушайте» — за/обложкой, Знаки препинания, 0:55
+- «Послушайте» — за/обложкой, Крылья, 1:49
+- «Наша история» — за/обложкой, Крылья, 3:24
+- «Здравствуй» — за/обложкой, Крылья, 2:28
+- «После нас» — за/обложкой, Крылья, 1:18
+- «Наш панк-рок» — за/обложкой, Крылья, 2:12
+- «Прости» — за/обложкой, Крылья, 3:17
+- «Переплелось» — за/обложкой, Крылья, 2:40
+- «Птицы» — за/обложкой, Крылья, 4:47
+- «Просто так» — за/обложкой, Крылья, 4:02
+- «Мир, какой он есть» — за/обложкой, Крылья, 1:50
+- «Бабочка в госпитальном саду» — Полуживые, Бабочка в госпитальном саду, 3:59
+- «Зима в лесу» — Полуживые, Зима в лесу, 5:20
+- «Детские книги» — Полуживые, Игрушечные волки, 2:38
+- «В ночь» — Полуживые, Игрушечные волки, 3:20
+- «Ленинград» — Полуживые, Игрушечные волки, 3:44
+- «Полразговорца» — Полуживые, Игрушечные волки, 3:10
+- «Колядка» — Полуживые, Игрушечные волки, 4:13
+- «Мой тихий сон» — Полуживые, Игрушечные волки, 5:34
+- «Чужие среди нас» — за/обложкой, Час, 3:19
+- «Проведи» — за/обложкой, Час, 4:01
+- «Считалочка» — за/обложкой, Час, 3:49
+- «На-на-на-на-на-на» — за/обложкой, Час, 3:21
+- «Бабочка» — за/обложкой, Час, 4:03
+- «Когда деревья снова станут большими» — за/обложкой, Час, 4:25
+- «За стеклом» — за/обложкой, Час, 5:40
+- «Happy End» — за/обложкой, Час, 3:45
+- «Ты поймёшь» — за/обложкой, Ты поймёшь, 4:26
 
 ## Уже на сайте
 
