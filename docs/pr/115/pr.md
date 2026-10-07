@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-07T06:35:11Z
-- **Updated:** 2026-10-07T17:57:11Z
+- **Updated:** 2026-10-07T18:56:41Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,12 +15,12 @@
 
 ## Awaiting an answer: 41
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at a55fa20). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 7b54f62). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/vova/public/music/300000-years.md`:6 — unresolved — last: @vzakharov (human) 2026-10-07T13:23:01Z — "да, добавить. Про in our image посмотрю по тексту" → [↓](#t01)
 - **T02** `apps/vova/public/music/300000-years.md`:6 — unresolved — last: @vzakharov (human) 2026-10-07T13:24:12Z — "давай /music начинать сразу со страницы артистов (с поддержк…" → [↓](#t02)
 - **T03** `apps/vova/public/music/40days.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:26:22Z — ""лишь варианты шествия за гробом" и у меня, просто пропустил…" → [↓](#t03)
-- **T04** `apps/vova/public/music/agios-o-skopos.md`:16 — unresolved — last: @vzakharov (human) 2026-10-07T13:27:42Z — "ну вот тут не совсем; потому что сейчас транслитерацию видно…" → [↓](#t04)
+- **T04** `apps/vova/public/music/agios-o-skopos.md`:15 — unresolved — last: @vzakharov (human) 2026-10-07T13:27:42Z — "ну вот тут не совсем; потому что сейчас транслитерацию видно…" → [↓](#t04)
 - **T05** `apps/vova/public/music/alive.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:28:33Z — "nothingness в одно, конечно. Про пустоту уже точно не вспомн…" → [↓](#t05)
 - **T06** `apps/vova/public/music/almost.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:28:57Z — "верно; вдова-мать, наверное, намеренно. В танго да, добавить…" → [↓](#t06)
 - **T07** `apps/vova/public/music/asa.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:29:27Z — "Там многое не поётся, отмечу уже по текстам" → [↓](#t07)
@@ -181,7 +181,7 @@ _49 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T01** `apps/vova/public/music/300000-years.md`:6 — unresolved — last: @vzakharov (human) 2026-10-07T13:23:01Z — "да, добавить. Про in our image посмотрю по тексту" → [↓](#t01)
 - **T02** `apps/vova/public/music/300000-years.md`:6 — unresolved — last: @vzakharov (human) 2026-10-07T13:24:12Z — "давай /music начинать сразу со страницы артистов (с поддержк…" → [↓](#t02)
 - **T03** `apps/vova/public/music/40days.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:26:22Z — ""лишь варианты шествия за гробом" и у меня, просто пропустил…" → [↓](#t03)
-- **T04** `apps/vova/public/music/agios-o-skopos.md`:16 — unresolved — last: @vzakharov (human) 2026-10-07T13:27:42Z — "ну вот тут не совсем; потому что сейчас транслитерацию видно…" → [↓](#t04)
+- **T04** `apps/vova/public/music/agios-o-skopos.md`:15 — unresolved — last: @vzakharov (human) 2026-10-07T13:27:42Z — "ну вот тут не совсем; потому что сейчас транслитерацию видно…" → [↓](#t04)
 - **T05** `apps/vova/public/music/alive.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:28:33Z — "nothingness в одно, конечно. Про пустоту уже точно не вспомн…" → [↓](#t05)
 - **T06** `apps/vova/public/music/almost.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:28:57Z — "верно; вдова-мать, наверное, намеренно. В танго да, добавить…" → [↓](#t06)
 - **T07** `apps/vova/public/music/asa.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:29:27Z — "Там многое не поётся, отмечу уже по текстам" → [↓](#t07)
@@ -386,7 +386,7 @@ _49 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 <a id="t04"></a>
 
-### `apps/vova/public/music/agios-o-skopos.md`:16 — unresolved
+### `apps/vova/public/music/agios-o-skopos.md`:15 — unresolved
 
 ```diff
 @@ -0,0 +1,34 @@
