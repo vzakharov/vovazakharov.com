@@ -11,14 +11,13 @@ localize the label.
 
 SiteFooter now renders the way home when a page hands it no note, and
 takes an optional locale to say it in; the label moves from
-music.backToHome to the shared ui.backToHome key. Home pages keep their
-own notes and pass `home`, so the LSA home, which has none, does not
-link to itself.
+music.backToHome to the shared ui.backToHome key, and BackToHome folds
+into the footer. Home pages keep their own notes and pass `home`, so
+the LSA home, which has none, does not link to itself.
 
-The footer stays page-composed rather than moving into a layout: a
-layout hears nothing from its page under a static export, /music's
-layout sits above the locale segment, and a layout-rendered footer
-would fall outside the article page's wider column.
+The plan handoff offers a go-ahead in the planning session beside a
+fresh one, since the context budget hook relays a session that runs
+long.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
