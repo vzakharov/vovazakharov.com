@@ -44,14 +44,14 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these twenty writes anything another one reads, so they overlap
-# freely.
+# None of these writes anything another one reads, so they overlap freely.
 # The Open Graph check is one entry per site, not one script running both: pnpm
 # appends a passed `--check` to the end of the command line, so a combined
 # `a && b` would leave the first site rendering for real inside a vet run.
-# There is no PDF entry: each publishing lane prints that site's PDFs fresh
-# after its own build, and the manifest deciding what to reprint lives in that
-# lane's cache rather than in the tree.
+# The one PDF entry holds the CV to its page ceiling: it prints from the export
+# the build above wrote into the OS temp directory, and records a pass under
+# `tmp/` that nothing else reads. Publishing the PDFs stays each lane's job,
+# since the manifest deciding what to reprint lives in that lane's cache.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
 # `lint:css` is the check-only stylelint form, for the same reason.
 # type-overlap and knip read source text only — no generated types, nothing
@@ -81,6 +81,7 @@ scripts/run-parallel.sh \
   og-vova='pnpm content:og:vova --check' \
   og-bible='pnpm content:og:bible --check' \
   og-basilisk='pnpm content:og:basilisk --check' \
+  cv-pages='pnpm content:pdf:vova --cv-pages --from-out' \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \

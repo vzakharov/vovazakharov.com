@@ -16,8 +16,17 @@
     padding: 80px;
   }
 
+  // Body copy prints a point under the sheet's default, which is what keeps the
+  // CV to three pages. `:where()` leaves the specificity at this one class, so
+  // the classes below that size a paragraph of their own (the tagline, the
+  // contact line) still win on order.
   @media print {
-    padding: 0.5cm;
+    padding: 0;
+
+    :where(p, ul, ol, li) {
+      font-size: 9pt;
+      line-height: 1.35;
+    }
   }
 }
 
