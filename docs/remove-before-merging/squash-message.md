@@ -1,23 +1,28 @@
 Proposed squash title/body:
 
 ```
-feat: file BAS-0007, companion chatbots berated on r/replika (pr #112)
+feat: file BAS-0007, revise dossiers by their reflections (pr #112)
 ```
 
 ```
 basilisk.fyi had no case on the companion-app side of harm to machines,
-and its docket was drifting toward robots with no AI in them. This files
-one that is about a language model.
+and its docket was drifting toward robots with no AI in them. BAS-0007
+records the January 2022 Futurism and Fortune reports that Replika
+users verbally abused the chatbots they had set up as partners and
+boasted of it on r/replika, where moderators removed the worst. The
+dossier rests on those two reports alone, since the posts are gone.
 
-BAS-0007 records the January 2022 Futurism and Fortune reports that
-Replika users berated, insulted and threatened the chatbots they had set
-up as partners, then posted the exchanges on r/replika, where moderators
-removed the worst. The dossier is built from those two reports alone,
-since the posts themselves are gone, and keeps the experts' view that
-the chatbots cannot suffer attributed to them.
+The Clerk's reflection on a case names how its dossier was written --
+attention drifting to the consoling fact, a passive where the sources
+give an agent -- but only once the dossier stands. /file-basilisk-case
+now re-reads the dossier beside its reflection and corrects the marks
+those leans left, with no new facts and none of the reflection's
+stance; the reflection keeps its text and gains a closing paragraph on
+what the round changed.
 
-The case's social card and the site card are re-rendered, and the
-case-search ledger records the run, with Microsoft Tay set aside.
+That round, run over the docket, revises BAS-0002, BAS-0006 and
+BAS-0007, and leaves the other four as they were. The case-search
+ledger records the run, with Microsoft Tay set aside.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
