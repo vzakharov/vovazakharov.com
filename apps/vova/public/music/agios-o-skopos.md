@@ -10,8 +10,11 @@ explicit: false
 album: vagabond
 track: 9
 hidden: true
+transliteration: 'Agios o Skopos'
+titleLanguage: el
 en:
   title: 'Άγιος Ο Σκοπός'
+  titleTranslation: 'Holy Is the Purpose'
   description: 'TBD'
 ru:
   title: 'Предназначение'
