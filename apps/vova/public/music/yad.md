@@ -2,7 +2,6 @@
 date: 2026-02-09
 status: done
 language: ru
-transliteration: 'Yad'
 project: ['Грёбаный бал']
 repo: 'yad'
 album: polzat
@@ -11,8 +10,11 @@ audio: https://raw.githubusercontent.com/vovas-music/yad/main/%D0%AF%D0%B4_maste
 seconds: 235
 explicit: false
 hidden: true
+credits:
+  music: ['My Chemical Romance']
 en:
   title: 'Яд'
+  transliteration: 'Yad'
   titleTranslation: 'Poison'
   description: 'TBD'
 ru:
@@ -69,7 +71,7 @@ A shot to remember!
 Да, я мерзок и пьян после ночи распутства
 Содом как искусство; ты только прошу не ори
 
-Как по Берну начало игры
+[Как по Берну][^berne-ru] начало игры
 Алкоголики, жертвы, менты и воры
 А я шатко, но верно, да в тартарары
 И мне сладко от скверны, что льётся по венам внутри
@@ -100,6 +102,8 @@ A shot to remember!
 И будет селяви
 
 А мне бы вжарить покрепче…
+
+[^berne-ru]: Эрик Берн, «Игры, в которые играют люди», где среди игр есть «Алкоголик» и «Полицейские и воры».
 
 <!-- lyrics:en -->
 

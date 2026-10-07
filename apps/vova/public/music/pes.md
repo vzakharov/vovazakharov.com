@@ -10,11 +10,12 @@ explicit: false
 album: papa-reka
 track: 2
 hidden: true
-transliteration: 'Pegiy pyos, begushchiy kraem morya'
 credits:
   lyrics: [Vladimir Zakharov Sr.]
+  music: [Vladimir Zakharov Sr.]
 en:
   title: 'Пегий пёс, бегущий краем моря'
+  transliteration: 'Pegiy pyos, begushchiy kraem morya'
   titleTranslation: 'Piebald Dog Running Along the Shore'
   description: 'TBD'
 ru:
@@ -32,7 +33,7 @@ sister Sasha.
 <!-- lang:ru -->
 
 Песня написана по мотивам одноимённого произведения Айтматова, а также
-фотографии моей сестры Саши.
+фотографии, которую сделала моя сестра Саша.
 
 <!-- lyrics:ru -->
 

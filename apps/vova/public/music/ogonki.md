@@ -2,7 +2,6 @@
 date: 2024-09-19
 status: done
 language: ru
-transliteration: 'Ogonki'
 project: ['за/обложкой', 'Downtemple']
 repo: 'ogonki'
 album: null
@@ -12,6 +11,7 @@ explicit: false
 hidden: true
 en:
   title: 'Огоньки'
+  transliteration: 'Ogonki'
   titleTranslation: 'Little Lights'
   description: 'TBD'
 ru:
@@ -31,21 +31,7 @@ ru:
 Огонёчки, огоньки
 Огонёчки, огоньки
 Ярко светят нам они
-
-Огонёчки, огоньки
-Огонёчки, огоньки
-Огонёчки, огоньки
-Ярко светят нам они
-
-Огонёчки, огоньки
-Огонёчки, огоньки
-Огонёчки, огоньки
-Ярко светят нам они
-
-Огонёчки, огоньки
-Огонёчки, огоньки
-Огонёчки, огоньки
-Ярко светят нам они
+(×4)
 
 Огонёчки, огоньки
 Ты дарил мне каждый день
@@ -73,21 +59,7 @@ Tiny lights, little lights
 Tiny lights, little lights
 Tiny lights, little lights
 They shine brightly for us
-
-Tiny lights, little lights
-Tiny lights, little lights
-Tiny lights, little lights
-They shine brightly for us
-
-Tiny lights, little lights
-Tiny lights, little lights
-Tiny lights, little lights
-They shine brightly for us
-
-Tiny lights, little lights
-Tiny lights, little lights
-Tiny lights, little lights
-They shine brightly for us
+(×4)
 
 Tiny lights, little lights
 You gave me every day

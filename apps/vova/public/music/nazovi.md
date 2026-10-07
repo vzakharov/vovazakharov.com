@@ -2,7 +2,6 @@
 date: 2024-07-23
 status: done
 language: ru
-transliteration: 'Nazovi menya po imeni'
 project: ['Грёбаный бал']
 repo: 'nazovi'
 album: nikogo
@@ -13,6 +12,7 @@ explicit: false
 hidden: true
 en:
   title: 'Назови меня по имени'
+  transliteration: 'Nazovi menya po imeni'
   titleTranslation: 'Call Me by My Name'
   description: 'TBD'
 ru:
@@ -80,8 +80,8 @@ ru:
 Назови меня по имени,
 А не между строк:
 
-Война... (а-аа)
-Война... (а-аа)
+Война
+Война
 
 Война (война)
 Война (война)
@@ -90,7 +90,7 @@ ru:
 
 Война (война)
 Война (война)
-Война-а
+Война
 Война!
 
 <!-- lyrics:en -->
@@ -145,8 +145,8 @@ A new moon?
 Call me by my name,
 And not between the lines:
 
-War... (a-aa)
-War... (a-aa)
+War
+War
 
 War (war)
 War (war)
@@ -155,5 +155,5 @@ War (war)
 
 War (war)
 War (war)
-Wa-ar
+War
 War!

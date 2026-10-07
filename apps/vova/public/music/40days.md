@@ -10,11 +10,12 @@ explicit: false
 album: papa-reka
 track: 9
 hidden: true
-transliteration: 'Vsyo v etoy zhizni nachinaetsya s lyubvi'
 credits:
   lyrics: [Vladimir Zakharov Sr.]
+  music: [Vladimir Zakharov Sr.]
 en:
   title: 'Всё в этой жизни начинается с любви'
+  transliteration: 'Vsyo v etoy zhizni nachinaetsya s lyubvi'
   titleTranslation: 'Everything in This Life Begins with Love'
   description: 'TBD'
 ru:
@@ -53,9 +54,8 @@ An original song, written around 2016–2017.
 
 Всё это лишь способы
 Нести свой крест
-Шествия за гробом[^coffin-ru]
-
-[^coffin-ru]: В папином оригинале — «Всё это лишь способы нести свой крест, / Лишь варианты шествия за гробом».
+Лишь варианты
+Шествия за гробом
 
 Где нет пути
 И бег на месте — путь
@@ -102,10 +102,9 @@ And someone, drunk,
 Clambers through the snowdrifts
 
 All of these are just ways
-To carry your cross
-Of walking behind the coffin[^coffin-en]
-
-[^coffin-en]: In my father’s original: «Всё это лишь способы нести свой крест, / Лишь варианты шествия за гробом» — “All of these are just ways to carry your cross, / Just versions of walking behind the coffin.”
+To carry your cross,
+Just versions
+Of walking behind the coffin
 
 Where there is no way,
 Even running in place is a way

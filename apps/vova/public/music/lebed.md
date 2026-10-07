@@ -10,6 +10,9 @@ audio: https://raw.githubusercontent.com/vovas-music/lebed/main/%D0%AF%20%D0%BA%
 seconds: 292
 explicit: false
 hidden: true
+credits:
+  lyrics: ['Михаил Танич']
+  music: ['Сергей Коржуков']
 en:
   title: 'Я куплю тебе дом'
   description: 'TBD'
@@ -19,12 +22,6 @@ ru:
 ---
 
 <!-- For Vova to check: Project is a guess: the song was posted to the Грёбаный бал Telegram channel on 2026-01-23. The title is the master's file name; the checklist left it blank. The checklist named no master: `Я куплю тебе дом.flac` is picked over `Я куплю тебе дом (караоке).flac`, the same length, which is the karaoke cut. -->
-
-<!-- Scaffolded from https://github.com/vovas-music/lebed — Я куплю тебе дом.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
 
 <!-- Story from Vova's Telegram post of 2026-01-23. -->
 
@@ -44,6 +41,8 @@ P.S. Dima, warm up those vocal cords!
 
 P.S. Дима, разогревай связки!
 
+<!-- lyrics:ru -->
+
 Я куплю тебе дом у пруда в Подмосковье
 И тебя приведу в этот собственный дом
 Заведу голубей, и с тобой, и с любовью
@@ -51,13 +50,11 @@ P.S. Дима, разогревай связки!
 Заведу голубей, и с тобой, и с любовью
 Мы посадим сирень под окном
 
-[Припев]
 А белый лебедь на пруду
 Качает павшую звезду
 На том пруду
 Куда тебя я приведу
 
-[Куплет 2]
 А пока ни кола, ни двора и ни сада
 Чтобы мог я за ручку тебя привести
 Угадаем с тобой, самому мне не надо
@@ -65,28 +62,57 @@ P.S. Дима, разогревай связки!
 Угадаем с тобой, самому мне не надо
 Наши пять номеров из шести
 
-[Припев]
 А белый лебедь на пруду
 Качает павшую звезду
 На том пруду
 Куда тебя я приведу
 
-You might also like
-Дым сигарет с ментолом (Menthol Cigarette Smoke)
-Нэнси (Nansy Band)
-Тебе, моя последняя любовь (To You, My Last Love)
-Ирина Круг (Irina Krug) & Михаил Круг (Mikhail Krug)
-Третье сентября (September 3rd)
-Михаил Шуфутинский (Mikhail Shufutinsky)
-
-[Куплет 3]
-Мало шансов у нас, но мужик барабанщик
+Мало шансов у нас, но мужик-барабанщик
 Что кидает шары, управляя лотом
 Мне сказал номера, если он не обманщик
 На которые нам выпадет дом
 
-[Припев]
 А белый лебедь на пруду
 Качает павшую звезду
 На том пруду
 Куда тебя я приведу
+
+<!-- lyrics:en -->
+
+I’ll buy you a house by a pond outside Moscow
+And I’ll bring you into this house of our own
+I’ll keep pigeons, and with you, and with love,
+We’ll plant lilac under the window
+I’ll keep pigeons, and with you, and with love,
+We’ll plant lilac under the window
+
+And the white swan on the pond
+Rocks a fallen star
+On that pond
+Where I will bring you
+
+But for now there’s no roof, no yard and no garden
+Where I could lead you in by the hand
+We’ll guess them together — I don’t need them for me —
+[Our five numbers out of six][^sportloto-en]
+We’ll guess them together — I don’t need them for me —
+Our five numbers out of six
+
+[^sportloto-en]: Sportloto, the Soviet state lottery: you picked six numbers, and matching five of the six drawn won a big prize.
+
+And the white swan on the pond
+Rocks a fallen star
+On that pond
+Where I will bring you
+
+Our chances are slim, but the [drum man][^drum-en]
+Who tosses the balls, running the lotto,
+Told me the numbers, if he isn’t a liar,
+That will win us a house
+
+[^drum-en]: «Барабанщик», literally “drummer”: the man at the lottery drum the numbered balls are drawn from.
+
+And the white swan on the pond
+Rocks a fallen star
+On that pond
+Where I will bring you
