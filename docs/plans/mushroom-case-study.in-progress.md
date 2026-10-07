@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
-
 # The mushroom meadow case study
 
 A case study of how Syama's mushroom meadow (PR #57, live at `/mushrooms`) was
@@ -39,6 +37,23 @@ committed so no bite re-mines it:
   then `git show <sha>:docs/remove-before-merging/relay.md` (fetch
   `pull/57/head` and unshallow first). A fact the article states is checked
   against these, not against the digest's paraphrase.
+
+- **`writing/case-studies/dictations/mushrooms-1.md`** — the operator's
+  dictation of the opening, through the turn to the walking world. It sets the
+  voice and the order: the article retells it in English, keeping its
+  talked-out lines and its asides («забегая вперёд»), rather than writing the
+  digests up. Where it and the history disagree the history wins, as the
+  operator accepted:
+  - there were **two** launches — the Thursday 17 Sep session (plan, Phaser,
+    the generator) and the big run from **Saturday** 26 Sep, 08:17 UTC;
+  - Syama's explanation is **two voice notes**, not videos;
+  - the notes, the name megabeast, and the ecology and mandalas ask came
+    **minutes into** the run, not in the launch message;
+  - the butterfly, fly and bee **were** flying when the walking idea came
+    (29 Sep, after bites 5–6), and the turn was **four bites of rebuilding**
+    (9–12), not a rewrite from scratch;
+  - screenshots were taken all along into `tmp/`; the ask was to **keep them
+    on the branch** and pick the best; the Artifact was in the launch message.
 
 Both digest files are working artifacts: the directory is swept by `/finalize`.
 `writing/notes/the-five-percent.md` is read, never appended to (the operator
