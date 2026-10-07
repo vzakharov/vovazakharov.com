@@ -3,7 +3,7 @@ import { Box, Divider, Group, Text } from '@mantine/core';
 import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
 import { BUILD_YEAR } from '@/shared/config/index.server-only';
 import type { WithOptionalChildren } from '@/shared/typings';
-import { cssColor, FeedLink, TextLink } from '@/shared/ui';
+import { cssColor, TextLink } from '@/shared/ui';
 
 type SiteFooterProps = WithOptionalChildren & {
   /** The route of the feed the page's listing mirrors, linked beside the byline. */
@@ -31,7 +31,7 @@ export function SiteFooter({ children, feed }: SiteFooterProps) {
           {feed !== undefined && (
             <>
               {' · '}
-              <FeedLink href={feed} />
+              <TextLink href={feed}>RSS</TextLink>
             </>
           )}
         </Text>
