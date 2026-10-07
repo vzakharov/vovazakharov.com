@@ -22,6 +22,9 @@ export const isLocale = isOneOf(LOCALES);
 /** What language a page is being rendered in — its route's last segment, usually. */
 export type WithLocale = { locale: Locale };
 
+/** The same, on a thing that may be in no one language — a file carrying both. */
+export type WithOptionalLocale = Partial<WithLocale>;
+
 /**
  * Which language an address is in, by the site's one rule for it: the locale
  * is the last segment, and an address without one is in the default language.

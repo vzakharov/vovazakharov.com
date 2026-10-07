@@ -2,6 +2,8 @@ import { Stack } from '@mantine/core';
 
 import { BackToHome, PageShell } from '@/shared/ui';
 
+import { SiteFooter } from '@/widgets/site-footer';
+
 import { WritingSection } from './writing-section';
 
 export function WritingPage() {
@@ -10,7 +12,9 @@ export function WritingPage() {
       <Stack gap={48}>
         <WritingSection />
 
-        <BackToHome />
+        <SiteFooter>
+          <BackToHome />
+        </SiteFooter>
       </Stack>
     </PageShell>
   );

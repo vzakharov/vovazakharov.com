@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
-import { SITE_CONFIG } from '@/shared/config';
+import { SITE_CONFIG, SITE_ID } from '@/shared/config';
 import {
   ARTICLE_COLLECTIONS,
   COLLECTIONS,
+  findFeed,
   renderPrimaryDocuments,
 } from '@/shared/content';
 import { pick } from '@/shared/lib/collections';
@@ -113,7 +114,9 @@ export async function BasiliskHomePage() {
           </ul>
         </Stack>
 
-        <SiteFooter>Omnia in actis. Everything is filed.</SiteFooter>
+        <SiteFooter feed={findFeed(SITE_ID, 'basilisk-cases').route}>
+          Omnia in actis. Everything is filed.
+        </SiteFooter>
       </Stack>
     </PageShell>
   );

@@ -1,5 +1,5 @@
 export { BackToHome } from './back-to-home';
-export { Card, CardLink, type Summarized } from './card';
+export { Card, CardLink } from './card';
 export { type Chip, ChipNav } from './chip-nav';
 export { cssColor } from './css-color';
 export { FileLink } from './file-link';

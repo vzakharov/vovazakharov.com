@@ -165,6 +165,15 @@ export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
 };
 
 /**
+ * When the site took the document in — what the sitemap reports as its last
+ * change and a feed as its publication, a case being filed long after its
+ * incident.
+ */
+export function filedDate({ date, filed }: BaseFrontmatter): Date {
+  return filed ?? date;
+}
+
+/**
  * The title a collection states outright, where it has one. An article's is
  * its body's leading heading instead, so this is `undefined` for one — and a
  * song states it once per language, so this reads the localized document rather

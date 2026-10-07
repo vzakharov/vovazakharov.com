@@ -37,6 +37,8 @@ import {
 
 import { ProseContent } from '@/entities/document';
 
+import { SiteFooter } from '@/widgets/site-footer';
+
 import { formatDuration } from '../lib/duration';
 import { musicPath, songPath } from '../lib/music-urls';
 import { localizeSong, type SongDocument, songLyrics } from '../lib/song-text';
@@ -166,7 +168,9 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
         {lyrics && <Lyrics {...{ lyrics, locale }} />}
 
-        <BackToHome label={messages.backToHome} />
+        <SiteFooter>
+          <BackToHome label={messages.backToHome} />
+        </SiteFooter>
       </Stack>
     </PageShell>
   );
