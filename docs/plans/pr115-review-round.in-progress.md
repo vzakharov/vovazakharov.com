@@ -10,7 +10,8 @@ Task as asked (`/handle claude/music-catalogue-hidden-ldz252`): «ответил
 - T02 artist/album pages, T04 per-locale transliteration (agios-o-skopos ru title «Предназначение», per Vova in chat), T46 notes over several lines, T23, languages de/it/es (T01 T06 T14), T09 T15 T26 T27 T29 T30 T31-album T33 T44 — cbd8bbd.
 - Rule: Suno vocalisms and pause ellipses do not travel — a411554. Five-percent entry — 95f545b.
 - Artist/album links underline on hover only (Vova in chat) — 4ea1ff8; DRY'd into `NameLink` (Vova: «я бы DRY-нул») — 1019f8f.
-- Ellipsis sweep, first six files (300000-years, 40days, believe-in-me, burmakin, chp, f-ec) — committed with this file.
+- Ellipsis sweep — e9510e5 (first six files), bac6ea4, a7a61ba (the rest, pes chorus in two lines); `pnpm build:vova` green.
+- Replies posted on 40 of the 41 awaiting threads; T47's reply hit GitHub's secondary rate limit (422 `abuse`) — body in `tmp/replies/T47_4206638270.md`, retry it.
 
 ## Left
 
