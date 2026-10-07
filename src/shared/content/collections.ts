@@ -41,6 +41,8 @@ export const COLLECTIONS = {
     localized: false,
     homeIndexed: false,
     generatedCards: false,
+    /** A portfolio, revised in place rather than added to. */
+    feed: false,
   },
   bible: {
     /** Rooted: the domain is named for the collection, so the route does not
@@ -52,6 +54,7 @@ export const COLLECTIONS = {
     localized: false,
     homeIndexed: true,
     generatedCards: false,
+    feed: true,
   },
   music: {
     base: 'music',
@@ -62,6 +65,7 @@ export const COLLECTIONS = {
     localized: true,
     homeIndexed: false,
     generatedCards: false,
+    feed: true,
   },
   'basilisk-cases': {
     base: 'cases',
@@ -72,6 +76,7 @@ export const COLLECTIONS = {
     homeIndexed: true,
     /** Drawn by `scripts/lib/basilisk-card.ts`. */
     generatedCards: true,
+    feed: true,
   },
   'basilisk-faq': {
     base: 'faq',
@@ -81,6 +86,8 @@ export const COLLECTIONS = {
     localized: false,
     homeIndexed: true,
     generatedCards: false,
+    /** Reference pages, edited in place rather than appended to. */
+    feed: false,
   },
 } as const satisfies Record<
   CollectionId,
@@ -100,6 +107,12 @@ export const COLLECTIONS = {
      * it, at its route plus the card suffix — the site card otherwise.
      */
     generatedCards: boolean;
+    /**
+     * Publishes an RSS feed — one per language where the collection is
+     * localized, a channel having one language. Each feed is a route file
+     * under its site's app, at `feedRoutes`.
+     */
+    feed: boolean;
   }
 >;
 
@@ -222,6 +235,28 @@ export const FEATURED_CASE_STUDY_ROUTE = documentRoute(
  */
 export function localizedRoute(route: string, locale?: string): string {
   return locale === undefined ? route : `${route}/${locale}`;
+}
+
+/**
+ * A collection's feeds, at its base plus a locale segment where it has one and
+ * `feed.xml` — so a rooted collection's is the site's `/feed.xml`, and a
+ * home-indexed one's still names its base, the listing route `/` being shared.
+ * The locales come in as an argument because this module runs under bare Node,
+ * which cannot follow the alias they are imported by.
+ */
+export function feedRoutes<L extends string>(
+  id: CollectionId,
+  locales: readonly L[],
+): Array<Routed & { locale?: L }> {
+  const { feed, localized } = COLLECTIONS[id];
+  const route = (locale?: L) =>
+    path.posix.join(localizedRoute(collectionPath(id), locale), 'feed.xml');
+
+  if (!feed) return [];
+
+  return localized
+    ? locales.map((locale) => ({ route: route(locale), locale }))
+    : [{ route: route() }];
 }
 
 /** The `<slug>[.<variant>]` stem a document's route and its files share. */

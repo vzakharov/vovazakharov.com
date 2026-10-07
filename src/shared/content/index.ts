@@ -38,6 +38,7 @@ export {
   siblingVariants,
   type WithContentDocument,
 } from './documents';
+export { type Feed, feedEntries, listFeeds } from './feeds';
 export {
   type ArticleFrontmatter,
   type BaseFrontmatter,
