@@ -10,11 +10,12 @@ explicit: false
 album: papa-reka
 track: 6
 hidden: true
-transliteration: 'Valentinov den'
 credits:
   lyrics: [William Shakespeare, К. Р.]
+  music: [Vladimir Zakharov Sr., Ferdinando Carulli]
 en:
   title: 'Валентинов день'
+  transliteration: 'Valentinov den'
   titleTranslation: 'Valentine’s Day'
   description: 'TBD'
   cribNote: 'The English is Shakespeare’s original, Ophelia’s songs from _Hamlet_, IV.5 (Folger edition); the song sings the translation by K. R. (Grand Duke Konstantin Romanov).'

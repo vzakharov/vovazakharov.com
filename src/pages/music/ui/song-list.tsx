@@ -4,21 +4,20 @@ import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { Card, Subheading, TextLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
-import { listSongs } from '../lib/songs';
+import type { WithTracks } from '../lib/player-state';
 import { ExplicitBadge } from './explicit-badge';
 import classes from './music.module.scss';
 import { TrackButton } from './track-button';
 
-/** An index, in one language; `everything` lists the hidden songs too. */
-export type MusicIndexProps = WithLocale & { everything?: boolean };
+export type SongListProps = WithLocale & WithTracks;
 
 /**
- * The catalogue on the index, row for row the queue the layout seeds the player
- * with, so pressing play on a row and pressing next on the bar move through one
- * list. A hidden row joins that queue when played, as on its own page.
+ * A list of songs, each row playable. On the public index it is row for row
+ * the queue the layout seeds the player with, so pressing play on a row and
+ * pressing next on the bar move through one list; a row the queue does not
+ * hold — a hidden song — joins it when played, as on its own page.
  */
-export function SongList({ locale, everything = false }: MusicIndexProps) {
-  const songs = listSongs(everything);
+export function SongList({ locale, tracks: songs }: SongListProps) {
   const messages = loadMessages(locale).music;
 
   if (songs.length === 0) return null;

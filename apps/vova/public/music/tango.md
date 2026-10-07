@@ -1,7 +1,7 @@
 ---
 date: 2024-11-06
 status: done
-language: en
+language: [en, es]
 project: ['GENERATED']
 repo: 'tango'
 audio: https://raw.githubusercontent.com/vovas-music/tango/main/tango.flac

@@ -10,11 +10,11 @@ explicit: false
 album: dng
 track: 6
 hidden: true
-transliteration: 'My vspominaem tikhiy sneg'
 credits:
   lyrics: ['Марина Цветаева']
 en:
   title: 'Мы вспоминаем тихий снег'
+  transliteration: 'My vspominaem tikhiy sneg'
   titleTranslation: 'We Remember the Quiet Snow'
   description: 'TBD'
 ru:

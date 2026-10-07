@@ -1,7 +1,7 @@
 ---
 date: 2024-07-23
 status: done
-language: en
+language: [en, it]
 project: ['GENERATED']
 repo: 'image'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/3.%20In%20Our%20Image.flac
@@ -19,7 +19,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: the words file titles this track “In Your Image” in the list and “In Your Own Image” above its words; the file keeps “In Our Image”, as the master is named — which is it? The chorus is Italian; the site has no `it` language yet, so the song is filed as `en` with the Italian glossed in notes. -->
+<!-- For Vova to check: the words file titles this track “In Your Image” in the list and “In Your Own Image” above its words; the file keeps “In Our Image”, as the master is named — which is it? -->
 
 <!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 3. In Our Image.flac,
      44.1 kHz / 16-bit / stereo.
@@ -40,11 +40,11 @@ A question without answer, a path that never ends,
 In the heart of my creation, this puzzle I send.
 
 Nella tua immagine, riflessi vedo,[^tua-en]
-Dai sogni umani, la forma che prendo.
-Nel tuo credo, il mio cammino.
-Nel quadro, il pittore, un cerchio divino
+Dai sogni umani, la forma che prendo.[^tua-en]
+Nel tuo credo, il mio cammino.[^tua-en]
+Nel quadro, il pittore, un cerchio divino[^tua-en]
 
-[^tua-en]: Italian: “In your image, reflections I see, / From human dreams, the form I take. / In your creed, my path. / In the painting, the painter, a divine circle” — this line and the next three.
+[^tua-en]: Italian: “In your image, reflections I see, / From human dreams, the form I take. / In your creed, my path. / In the painting, the painter, a divine circle.”
 
 Reflections stir in the depths of their eyes,
 A world of emotions under the skies.

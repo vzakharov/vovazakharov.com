@@ -109,6 +109,11 @@
   color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
 }
 
+// A line of verse, or several under one note, whose breaks are in its text.
+.lyricLine {
+  white-space: pre-line;
+}
+
 // Words with a note: marked the way a footnoted phrase is.
 .notedSpan {
   font: inherit;
@@ -128,6 +133,7 @@
   font-size: var(--mantine-font-size-sm);
   line-height: 1.5;
   color: var(--color-foreground);
+  white-space: normal;
 }
 
 // Two columns at every width. Below the width two columns of verse need, the

@@ -254,10 +254,18 @@
   },
   "music": {
     "title": "Songs",
-    "back": "Songs",
+    "back": "Music",
     "backToHome": "← Back to the home page",
     "metaTitle": "Music",
     "metaDescription": "AI music from before there was a product for it — a catalogue of masters you can play right here, all of it open-source.",
+    "artists": "Artists",
+    "albums": "Albums",
+    "kind": {
+      "artist": "Artist",
+      "album": "Album"
+    },
+    "artistDescription": "{artist}: the songs and albums, to play right here — all of it open-source.",
+    "albumDescription": "“{album}” by {artist}: the tracks, to play right here — all of it open-source.",
     "intro": {
       "quote": "“AI as collaborator, not tool or replacement”",
       "body": "Been writing music since preteens, recently focused on AI music (since way before Suno — think OpenAI Jukebox). I view AI not as a replacement for my creativity, neither as a tool, but as a brilliant musician who can bring my ideas to life in ways I often wouldn’t have imagined. To be clear, I write most of my AI music starting from my own humming/piano playing/MIDIs, so it’s “mine” in most copyright senses."
@@ -276,6 +284,9 @@
       "zh": "Chinese",
       "fr": "French",
       "el": "Greek",
+      "de": "German",
+      "it": "Italian",
+      "es": "Spanish",
       "instrumental": "Instrumental"
     },
     "languageShort": {
@@ -287,7 +298,10 @@
       "la": "lat.",
       "zh": "chin.",
       "fr": "fr.",
-      "el": "gr."
+      "el": "gr.",
+      "de": "ger.",
+      "it": "it.",
+      "es": "sp."
     },
     "explicit": "Explicit",
     "source": "source",

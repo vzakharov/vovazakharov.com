@@ -10,11 +10,11 @@ explicit: false
 album: dng
 track: 1
 hidden: true
-transliteration: 'Moim stikham, napisannym tak rano'
 credits:
   lyrics: ['Марина Цветаева']
 en:
   title: 'Моим стихам, написанным так рано'
+  transliteration: 'Moim stikham, napisannym tak rano'
   titleTranslation: 'To My Poems, Written So Early'
   description: 'TBD'
 ru:

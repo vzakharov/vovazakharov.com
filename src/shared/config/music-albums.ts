@@ -1,7 +1,8 @@
 /**
- * The releases a song can belong to. A registry rather than a collection:
- * an album has a name in each language and nothing else to route to yet, so a
- * song page can say where a song came from without an album page existing.
+ * The releases a song can belong to. A registry rather than a collection: an
+ * album has a name in each language and an artist, and its page is its songs
+ * in track order, so there is no prose of its own to author. The slug is the
+ * album page's address under `/music/albums/`.
  */
 
 import type { Localizable } from '@/shared/i18n';
@@ -66,5 +67,5 @@ export const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   },
   prototypes: { title: 'Prototypes', artist: 'GENERATED' },
   nikogo: { title: 'Ни для кого и для всех', artist: 'Грёбаный бал' },
-  polzat: { title: 'Рождённый ползать', artist: 'Грёбаный бал' },
+  polzat: { title: 'Сильней любви', artist: 'Грёбаный бал' },
 };

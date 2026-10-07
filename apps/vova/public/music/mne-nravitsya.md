@@ -10,11 +10,11 @@ explicit: false
 album: dng
 track: 3
 hidden: true
-transliteration: 'Mne nravitsya, chto vy bolny ne mnoy'
 credits:
   lyrics: ['Марина Цветаева']
 en:
   title: 'Мне нравится, что вы больны не мной'
+  transliteration: 'Mne nravitsya, chto vy bolny ne mnoy'
   titleTranslation: 'I Like It That You Are Not Lovesick for Me'
   description: 'TBD'
 ru:

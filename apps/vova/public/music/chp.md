@@ -2,7 +2,6 @@
 date: 2025-01-18
 status: done
 language: ru
-transliteration: 'Chikh-Pykh'
 project: ['Yoohie', 'за/обложкой']
 repo: 'chp'
 album: null
@@ -12,6 +11,7 @@ explicit: false
 hidden: true
 en:
   title: 'Чих-Пых'
+  transliteration: 'Chikh-Pykh'
   description: 'TBD'
 ru:
   title: 'Чих-Пых'

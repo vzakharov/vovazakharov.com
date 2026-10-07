@@ -2,7 +2,6 @@
 date: 2025-12-11
 status: done
 language: ru
-transliteration: 'Na paltsy'
 project: ['Грёбаный бал']
 repo: 'fingers'
 album: nikogo
@@ -13,6 +12,7 @@ explicit: false
 hidden: true
 en:
   title: 'На пальцы'
+  transliteration: 'Na paltsy'
   titleTranslation: 'Onto Fingers'
   description: 'TBD'
 ru:

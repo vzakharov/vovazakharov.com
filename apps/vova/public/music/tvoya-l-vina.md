@@ -10,11 +10,11 @@ explicit: false
 album: dng
 track: 5
 hidden: true
-transliteration: 'Tvoya l vina, chto milyy obraz tvoy'
 credits:
   lyrics: ['William Shakespeare', 'Самуил Маршак']
 en:
   title: 'Твоя ль вина, что милый образ твой'
+  transliteration: 'Tvoya l vina, chto milyy obraz tvoy'
   titleTranslation: 'Is it your fault that your dear image'
   description: 'TBD'
   cribNote: 'The English is Shakespeare’s original, Sonnets 61 and 75; the song sings Marshak’s translation.'

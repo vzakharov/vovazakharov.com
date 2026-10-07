@@ -10,11 +10,11 @@ explicit: false
 album: rus
 track: 8
 hidden: true
-transliteration: 'Ne toropi'
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title: 'Не торопи'
+  transliteration: 'Ne toropi'
   titleTranslation: 'Do Not Hurry'
   description: 'TBD'
 ru:

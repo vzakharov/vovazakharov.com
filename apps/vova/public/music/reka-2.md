@@ -8,11 +8,11 @@ album: papa-reka
 track: 4
 audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/4_reka.flac
 seconds: 338
-transliteration: 'Reka. Chast vtoraya'
 credits:
   lyrics: [Vova Zakharov, Vladimir Zakharov Sr.]
 en:
   title: Река. Часть вторая
+  transliteration: 'Reka. Chast vtoraya'
   titleTranslation: 'The River. Part Two'
   description: 'Written as a present for a 65th birthday, with two thirds of a century counted to the day — and a last verse that is his father’s.'
 ru:

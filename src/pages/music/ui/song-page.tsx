@@ -1,28 +1,14 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
-import { Fragment } from 'react';
 
+import { SITE_CONFIG, songRepositoryUrl } from '@/shared/config';
 import {
-  billing,
-  MUSIC_ALBUMS,
-  SITE_CONFIG,
-  songRepositoryUrl,
-} from '@/shared/config';
-import {
-  documentMonth,
-  formatDocumentMonth,
+  isListed,
   loadDocument,
   renderDocument,
-  type Slugged,
   SONGS,
 } from '@/shared/content';
-import {
-  byLocale,
-  inLocale,
-  loadMessages,
-  type Locale,
-  type WithLocale,
-} from '@/shared/i18n';
+import { byLocale, loadMessages } from '@/shared/i18n';
 import {
   constructMetadata,
   localizedAddresses,
@@ -37,17 +23,16 @@ import {
 
 import { ProseContent } from '@/entities/document';
 
-import { formatDuration } from '../lib/duration';
-import { musicPath, songPath } from '../lib/music-urls';
+import type { SongPageProps } from '../lib/music-route-params';
+import { indexPath, songPath } from '../lib/music-urls';
 import { localizeSong, type SongDocument, songLyrics } from '../lib/song-text';
 import { songTrack } from '../lib/songs';
 import { titleGloss } from '../lib/title-gloss';
 import { ExplicitBadge } from './explicit-badge';
-import { LocaleChips } from './locale-chips';
 import { Lyrics } from './lyrics';
+import { MusicNav } from './music-nav';
+import { SongFacts } from './song-facts';
 import { TrackButton } from './track-button';
-
-export type SongPageProps = WithLocale & Slugged;
 
 function resolve(slug: string): SongDocument {
   const document = loadDocument(SONGS, slug);
@@ -74,38 +59,16 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
   });
 }
 
-/**
- * The line under the title: what a listener would want to know about the
- * recording before playing it, in the order they would ask. Empty entries drop
- * out, so a song with no album and no co-author shows neither.
- */
-function songFacts(document: SongDocument, locale: Locale): string[] {
-  const { language, album, credits, project, seconds } = document.frontmatter;
-  const messages = loadMessages(locale).music;
-
-  return [
-    billing(project, locale),
-    language.map((sung) => messages.language[sung]).join(', '),
-    album &&
-      messages.album.replace(
-        '{album}',
-        inLocale(MUSIC_ALBUMS[album].title, locale),
-      ),
-    credits?.lyrics &&
-      `${messages.credits.lyrics}: ${credits.lyrics.join(', ')}`,
-    credits?.music && `${messages.credits.music}: ${credits.music.join(', ')}`,
-    formatDuration(seconds),
-  ].flatMap((fact) => fact ?? []);
-}
-
 export async function SongPage({ slug, locale }: SongPageProps) {
   const document = resolve(slug);
   const localized = localizeSong(document, locale);
   const { tree } = await renderDocument(localized);
+  // A hidden song's artists and album may have no public page, so its links
+  // stay in the whole catalogue.
+  const catalogue = { everything: !isListed(document) };
   const {
     title,
     description,
-    date,
     repo,
     explicit,
     cribNote,
@@ -126,15 +89,11 @@ export async function SongPage({ slug, locale }: SongPageProps) {
   return (
     <PageShell>
       <Stack gap={48}>
-        <Group component="nav" justify="space-between">
-          <TextLink href={musicPath(locale)} size="sm" className={hoverDim}>
-            ← {messages.back}
-          </TextLink>
-          <LocaleChips
-            hrefs={byLocale((alternate) => songPath(slug, alternate))}
-            {...{ locale }}
-          />
-        </Group>
+        <MusicNav
+          back={{ href: indexPath(catalogue, locale), label: messages.back }}
+          hrefs={byLocale((alternate) => songPath(slug, alternate))}
+          {...{ locale }}
+        />
 
         <Box component="header">
           <Stack gap={24}>
@@ -161,27 +120,19 @@ export async function SongPage({ slug, locale }: SongPageProps) {
             {/* The recording's facts, and the files behind it at the far end
                 of the same line. */}
             <Group justify="space-between" gap="12px 32px" wrap="wrap">
-              <Group component="p" gap={12} wrap="wrap" fz="sm" opacity={0.7}>
-                <time dateTime={documentMonth(date)}>
-                  {formatDocumentMonth(date, locale)}
-                </time>
-                {songFacts(document, locale).map((fact) => (
-                  <Fragment key={fact}>
-                    <span aria-hidden>·</span>
-                    <span>{fact}</span>
-                  </Fragment>
-                ))}
-              </Group>
+              <SongFacts {...{ document, catalogue, locale }} />
 
               <Group gap={16} wrap="wrap">
                 <FileLink {...localized.markdown}>.md</FileLink>
-                <TextLink
-                  href={songRepositoryUrl(repo)}
-                  size="sm"
-                  className={hoverDim}
-                >
-                  {messages.source}
-                </TextLink>
+                {repo !== undefined && (
+                  <TextLink
+                    href={songRepositoryUrl(repo)}
+                    size="sm"
+                    className={hoverDim}
+                  >
+                    {messages.source}
+                  </TextLink>
+                )}
               </Group>
             </Group>
           </Stack>

@@ -10,9 +10,9 @@ audio: https://raw.githubusercontent.com/vovas-music/okna/main/%D0%9E%D0%BA%D0%B
 seconds: 286
 explicit: false
 hidden: true
-transliteration: 'Okna'
 en:
   title: 'Окна'
+  transliteration: 'Okna'
   titleTranslation: 'Windows'
   description: 'TBD'
 ru:

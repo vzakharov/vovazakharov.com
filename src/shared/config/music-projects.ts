@@ -29,8 +29,10 @@ export const MUSIC_PROJECT_NAMES = [
   'Yoohie',
   'Trending Today',
   'Дамы и господа',
-  'Иске Курмаш',
+  'Иске Кормаш',
   'Киндерштайн',
+  'Velvet Static',
+  'Оттепель',
 ] as const;
 
 export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
@@ -40,26 +42,56 @@ const PROJECT_DISPLAY_NAMES: Partial<Record<MusicProject, Localizable>> = {
   Yoohie: { en: 'Yoohie', ru: 'Йухи' },
 };
 
-function projectName(project: MusicProject, locale: Locale): string {
+/**
+ * Each project's address under `/music/artists/` — ASCII where the name is not,
+ * and unique, which `music-projects.test.ts` holds. Keyed by every name, so a
+ * project added above without one fails to compile.
+ */
+export const MUSIC_PROJECT_SLUGS: Record<MusicProject, string> = {
+  GENERATED: 'generated',
+  Полуживые: 'poluzhivye',
+  Downtemple: 'downtemple',
+  'Грёбаный бал': 'grebanyy-bal',
+  'за/обложкой': 'za-oblozhkoy',
+  Yoohie: 'yoohie',
+  'Trending Today': 'trending-today',
+  'Дамы и господа': 'damy-i-gospoda',
+  'Иске Кормаш': 'iske-kormash',
+  Киндерштайн: 'kindershtayn',
+  'Velvet Static': 'velvet-static',
+  Оттепель: 'ottepel',
+};
+
+export function projectName(project: MusicProject, locale: Locale): string {
   return inLocale(PROJECT_DISPLAY_NAMES[project] ?? project, locale);
 }
 
 /**
- * How a song is billed: the artist first, whoever is featured after it. One
- * order in both languages — the order really is per-release, and carrying that
- * would localize a field identical in every other song.
+ * How a song is billed — the artist first, whoever is featured after it — over
+ * any rendering of a name, so a page can bill in links what `billing` bills in
+ * text. One order in both languages: the order really is per-release, and
+ * carrying that would localize a field identical in every other song.
  */
+export function bill<T>(
+  projects: readonly MusicProject[],
+  render: (project: MusicProject) => T,
+): Array<T | string> {
+  const [artist, ...featured] = projects;
+
+  if (artist === undefined) return [];
+
+  return [
+    render(artist),
+    ...featured.flatMap((project, index) => [
+      index === 0 ? ' feat. ' : ', ',
+      render(project),
+    ]),
+  ];
+}
+
 export function billing(
   projects: readonly MusicProject[],
   locale: Locale,
 ): string {
-  const [artist, ...featured] = projects.map((project) =>
-    projectName(project, locale),
-  );
-
-  if (artist === undefined) return '';
-
-  return featured.length === 0
-    ? artist
-    : `${artist} feat. ${featured.join(', ')}`;
+  return bill(projects, (project) => projectName(project, locale)).join('');
 }

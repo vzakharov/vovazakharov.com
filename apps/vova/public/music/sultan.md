@@ -10,11 +10,12 @@ explicit: false
 album: papa-reka
 track: 3
 hidden: true
-transliteration: 'Moy Sultan'
 credits:
   lyrics: [Vladimir Zakharov Sr.]
+  music: [Vladimir Zakharov Sr.]
 en:
   title: 'Мой Султан'
+  transliteration: 'Moy Sultan'
   titleTranslation: 'My Sultan'
   description: 'TBD'
 ru:

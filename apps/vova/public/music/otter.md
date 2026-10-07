@@ -10,9 +10,11 @@ explicit: false
 album: papa-reka
 track: 7
 hidden: true
-transliteration: 'Reka. Chast tretya'
+credits:
+  music: [Vladimir Zakharov Sr.]
 en:
   title: 'Река. Часть третья'
+  transliteration: 'Reka. Chast tretya'
   titleTranslation: 'The River. Part Three'
   description: 'TBD'
 ru:

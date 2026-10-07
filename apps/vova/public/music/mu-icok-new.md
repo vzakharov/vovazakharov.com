@@ -10,11 +10,11 @@ explicit: false
 album: rus
 track: 6
 hidden: true
-transliteration: 'Odnazhdy v studyonuyu zimnyuyu poru'
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title: 'Однажды в студёную зимнюю пору'
+  transliteration: 'Odnazhdy v studyonuyu zimnyuyu poru'
   titleTranslation: 'Once, in the Freezing Winter Season'
   description: 'TBD'
 ru:

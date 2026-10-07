@@ -2,7 +2,6 @@
 date: 2024-10-14
 status: done
 language: ru
-transliteration: 'Zhadina'
 project: ['Киндерштайн']
 repo: 'zhadina'
 album: null
@@ -12,6 +11,7 @@ explicit: false
 hidden: true
 en:
   title: 'Жадина'
+  transliteration: 'Zhadina'
   titleTranslation: 'Greedyguts'
   description: 'TBD'
 ru:

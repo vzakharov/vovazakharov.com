@@ -2,7 +2,6 @@
 date: 2026-02-11
 status: done
 language: ru
-transliteration: 'Dobroe utro'
 project: ['Грёбаный бал']
 repo: 'utro'
 album: polzat
@@ -13,6 +12,7 @@ explicit: false
 hidden: true
 en:
   title: 'Доброе утро'
+  transliteration: 'Dobroe utro'
   titleTranslation: 'Good Morning'
   description: 'TBD'
 ru:

@@ -98,6 +98,9 @@ const SONG_LANGUAGES = [
   'zh',
   'fr',
   'el',
+  'de',
+  'it',
+  'es',
   'instrumental',
 ] as const;
 
@@ -109,8 +112,14 @@ const songLanguageSchema = z.enum(SONG_LANGUAGES);
 
 const sungLanguageSchema = songLanguageSchema.exclude(['instrumental']);
 
-/** A song's strings in one locale: the document's own, and two only a song has. */
+/** A song's strings in one locale: the document's own, and three only a song has. */
 const songTextSchema = localizedTextSchema.extend({
+  /**
+   * The title in this locale's letters — Latin under `en`, Cyrillic under `ru`.
+   * The page shows it only where the title is in a script its reader does not
+   * read, so a Russian title wants one under `en` and none under `ru`.
+   */
+  transliteration: z.string().min(1).optional(),
   /** The title in this locale's language, where the title is in another. */
   titleTranslation: z.string().min(1).optional(),
   /**
@@ -134,10 +143,11 @@ const creditsSchema = z.object({
 /** What the player needs of a song, and all it needs. */
 const playableSchema = z.object({
   /**
-   * The master, played as-is. One field, not a lossless/lossy pair: every song
-   * in the catalogue is a FLAC master, so a second would be the same URL twice.
+   * The master, played as-is: a URL, or a site-root path for one the site
+   * hosts itself because no repository holds it. One field, not a lossless/lossy
+   * pair: a song has one master, so a second would be the same file twice.
    */
-  audio: z.url(),
+  audio: z.union([z.url(), z.string().regex(/^\/(?!\/)/)]),
   /**
    * The master's duration, read off its own FLAC header by the scaffolder. A
    * cache, and safe to be one because a master never changes — it is what lets
@@ -168,8 +178,8 @@ const songFieldsSchema = baseFrontmatterSchema
      * can be shown to the people the other project is shown to.
      */
     project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1),
-    /** Its repository under the `vovas-music` organization. */
-    repo: z.string().min(1),
+    /** Its repository under the `vovas-music` organization; absent where none holds it. */
+    repo: z.string().min(1).optional(),
     /**
      * The release it came out on; `null` for a single. Required, so a song whose
      * release nobody has decided yet cannot pass for a single by omission.
@@ -181,11 +191,6 @@ const songFieldsSchema = baseFrontmatterSchema
      * release can carry a song the catalogue has no master for.
      */
     track: z.number().int().positive().optional(),
-    /**
-     * The title in Latin letters, where it is written in another script. The
-     * page shows it only to a reader whose own script the title is not in.
-     */
-    transliteration: z.string().min(1).optional(),
     /** What the title is in, where that is not the language sung first. */
     titleLanguage: sungLanguageSchema.optional(),
     credits: creditsSchema.optional(),

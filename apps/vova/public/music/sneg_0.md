@@ -2,7 +2,6 @@
 date: 2025-02-28
 status: done
 language: ru
-transliteration: 'Sneg'
 project: ['Дамы и господа', 'Полуживые']
 repo: 'sneg_0'
 album: null
@@ -12,6 +11,7 @@ explicit: false
 hidden: true
 en:
   title: 'Снег'
+  transliteration: 'Sneg'
   titleTranslation: 'Snow'
   description: 'TBD'
 ru:

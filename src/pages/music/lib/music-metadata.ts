@@ -1,25 +1,73 @@
-import { SITE_CONFIG } from '@/shared/config';
-import { loadMessages, type Locale } from '@/shared/i18n';
+import 'server-only';
+
+import { MUSIC_ALBUMS, projectName, SITE_CONFIG } from '@/shared/config';
+import { inLocale, loadMessages, type Locale } from '@/shared/i18n';
 import {
   constructMetadata,
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
 
-import { everythingPath, musicPath } from './music-urls';
+import type {
+  AlbumPageProps,
+  ArtistPageProps,
+  CataloguePageProps,
+} from './music-route-params';
+import { albumPath, artistPath, indexPath } from './music-urls';
 
 /**
- * The index, in one language, deferring to the addressed one as the CV's rungs
- * do. The whole catalogue is kept out of search, as the hidden songs on it are.
+ * A catalogue page, in one language, deferring to the addressed one as the
+ * CV's rungs do. The whole catalogue's pages are kept out of search, as the
+ * hidden songs on them are.
  */
-export function generateMusicMetadata(locale: Locale, everything = false) {
-  const { metaTitle, metaDescription } = loadMessages(locale).music;
-  const path = everything ? everythingPath : musicPath;
-
+function catalogueMetadata(
+  { locale, everything }: CataloguePageProps,
+  title: string,
+  description: string,
+  path: (locale?: Locale) => string,
+) {
   return constructMetadata({
-    title: `${metaTitle} - ${SITE_CONFIG.name}`,
-    description: metaDescription,
+    title: `${title} - ${SITE_CONFIG.name}`,
+    description,
     path: path(locale),
     ...localizedAddresses(path, locale),
     hidden: everything,
   });
+}
+
+export function generateMusicMetadata(page: CataloguePageProps) {
+  const { metaTitle, metaDescription } = loadMessages(page.locale).music;
+
+  return catalogueMetadata(page, metaTitle, metaDescription, (locale) =>
+    indexPath(page, locale),
+  );
+}
+
+export function generateArtistMetadata(page: ArtistPageProps) {
+  const name = projectName(page.artist, page.locale);
+  const { artistDescription } = loadMessages(page.locale).music;
+
+  return catalogueMetadata(
+    page,
+    name,
+    artistDescription.replace('{artist}', name),
+    (locale) => artistPath(page.artist, page, locale),
+  );
+}
+
+export function generateAlbumMetadata(page: AlbumPageProps) {
+  const { title, artist } = MUSIC_ALBUMS[page.album];
+  const name = inLocale(title, page.locale);
+  const { albumDescription } = loadMessages(page.locale).music;
+
+  return catalogueMetadata(
+    page,
+    name,
+    albumDescription
+      .replace('{album}', name)
+      .replace(
+        '{artist}',
+        projectName(inLocale(artist, page.locale), page.locale),
+      ),
+    (locale) => albumPath(page.album, page, locale),
+  );
 }

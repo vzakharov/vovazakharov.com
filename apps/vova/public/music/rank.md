@@ -12,6 +12,7 @@ track: 5
 hidden: true
 credits:
   lyrics: [William Shakespeare]
+  music: [Vladimir Zakharov Sr.]
 en:
   title: 'O, My Offence is Rank'
   description: 'TBD'

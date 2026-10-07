@@ -13,6 +13,7 @@ import {
 import { routing } from '@/shared/i18n';
 
 import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/pages/cv';
+import { musicCatalogueRoutes } from '@/pages/music';
 
 /**
  * Which addresses a page in this collection is advertised at. A localized
@@ -40,6 +41,7 @@ function vovaRoutes(): string[] {
         ...CV_SUBPAGES.map((subpage) => cvPath(variant, locale, subpage)),
       ]),
     ),
+    ...musicCatalogueRoutes(),
   ];
 }
 

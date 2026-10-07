@@ -10,11 +10,11 @@ explicit: false
 album: rus
 track: 4
 hidden: true
-transliteration: 'Golodnaya'
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title: 'Голодная'
+  transliteration: 'Golodnaya'
   titleTranslation: 'The Hungry One'
   description: 'TBD'
   cribNote: 'The English is Juliet Soskice’s 1917 translation; the song sings Nekrasov’s original.'

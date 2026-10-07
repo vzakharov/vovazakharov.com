@@ -1,9 +1,17 @@
-export { MUSIC_ALBUM_SLUGS, MUSIC_ALBUMS } from './music-albums';
 export {
+  MUSIC_ALBUM_SLUGS,
+  MUSIC_ALBUMS,
+  type MusicAlbum,
+} from './music-albums';
+export {
+  bill,
   billing,
   MUSIC_ORGANIZATION,
   MUSIC_ORGANIZATION_URL,
   MUSIC_PROJECT_NAMES,
+  MUSIC_PROJECT_SLUGS,
+  type MusicProject,
+  projectName,
   songRepositoryUrl,
 } from './music-projects';
 export {

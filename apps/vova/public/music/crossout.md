@@ -1,7 +1,7 @@
 ---
 date: 2024-12-02
 status: done
-language: en
+language: [en, de]
 project: ['GENERATED']
 repo: 'crossout'
 album: null

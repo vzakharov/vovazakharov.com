@@ -10,11 +10,12 @@ explicit: false
 album: papa-reka
 track: 1
 hidden: true
-transliteration: 'Reka. Chast pervaya / Pobeg'
 credits:
   lyrics: [Vladimir Zakharov Sr.]
+  music: [Vladimir Zakharov Sr.]
 en:
   title: 'Река. Часть первая / Побег'
+  transliteration: 'Reka. Chast pervaya / Pobeg'
   titleTranslation: 'The River. Part One / Escape'
   description: 'TBD'
 ru:

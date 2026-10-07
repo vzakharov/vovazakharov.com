@@ -2,8 +2,7 @@
 date: 2025-02-24
 status: done
 language: tt
-transliteration: 'Minem babay'
-project: ['Иске Курмаш']
+project: ['Иске Кормаш']
 repo: 'babay'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/babay/main/babay_master.flac
@@ -12,6 +11,7 @@ explicit: false
 hidden: true
 en:
   title: 'Минем бабай'
+  transliteration: 'Minem babay'
   titleTranslation: 'My Grandpa'
   description: 'TBD'
 ru:

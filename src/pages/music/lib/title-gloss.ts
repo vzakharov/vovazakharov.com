@@ -18,10 +18,10 @@ export type TitleGlossSource = Titled & {
 };
 
 /**
- * The muted line under a song's title: the title in Latin letters for a reader
- * who cannot read its script, then its meaning prefixed with the language it is
- * in — `Agios o Skopos · gr. Holy is the purpose`. A Latin title is never
- * transliterated, and neither is one in the reader's own script.
+ * The muted line under a song's title: the title in the reader's own letters
+ * where they cannot read its script, then its meaning prefixed with the language
+ * it is in — `Agios o Skopos · gr. Holy Is the Purpose`. A Latin title is
+ * never transliterated, and neither is one in the reader's own script.
  */
 export function titleGloss(
   { title, transliteration, titleTranslation, titleLanguage }: TitleGlossSource,

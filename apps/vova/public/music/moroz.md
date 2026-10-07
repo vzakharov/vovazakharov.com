@@ -10,11 +10,11 @@ explicit: false
 album: rus
 track: 5
 hidden: true
-transliteration: 'Ne veter bushuyet nad borom'
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title: 'Не ветер бушует над бором'
+  transliteration: 'Ne veter bushuyet nad borom'
   titleTranslation: 'It Is Not the Wind Raging Over the Forest'
   description: 'TBD'
 ru:

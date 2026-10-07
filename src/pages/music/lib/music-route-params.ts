@@ -1,69 +1,162 @@
 import 'server-only';
 
 import {
+  MUSIC_ALBUM_SLUGS,
+  MUSIC_PROJECT_NAMES,
+  MUSIC_PROJECT_SLUGS,
+  type MusicAlbum,
+  type MusicProject,
+} from '@/shared/config';
+import type { Slugged } from '@/shared/content';
+import {
   DEFAULT_LOCALE,
   isLocale,
   type Locale,
   LOCALES,
-  type LocaleTail,
-  localeTailAddresses,
+  type WithLocale,
 } from '@/shared/i18n';
-import { oneOfEach } from '@/shared/lib/collections';
+import { oneOf } from '@/shared/lib/collections';
 
-import { EVERYTHING_SEGMENT } from './music-urls';
-import { listSongDocuments } from './songs';
+import { catalogueAlbums, catalogueArtists } from './catalogue';
+import {
+  albumPath,
+  ALBUMS_SEGMENT,
+  artistPath,
+  ARTISTS_SEGMENT,
+  EVERYTHING_SEGMENT,
+  indexPath,
+  musicPath,
+  songPath,
+  type WithEverything,
+} from './music-urls';
+import { catalogueSongs, listSongDocuments } from './songs';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalMusicSegments = { slugAndLocale?: string[] };
 
-/** `/music`, `/music/<locale>`, `/music/<slug>` and `/music/<slug>/<locale>`. */
-export type MusicSegments = [Locale] | LocaleTail<string>;
+/** A page of one catalogue, public or whole, in one language. */
+export type CataloguePageProps = WithLocale & WithEverything;
 
-/**
- * A parse rather than a cast, failing `next build` on a segment no reading
- * covers. The index's language is tried first — `/music/ru` is the index in
- * Russian — and `listSongDocuments` refuses a slug that is a locale, so neither
- * reading can steal the other's URL.
- */
-export function parseMusicSegments({
-  slugAndLocale = [],
-}: WithOptionalMusicSegments): MusicSegments {
-  const [head, ...tail] = slugAndLocale;
+export type ArtistPageProps = CataloguePageProps & { artist: MusicProject };
 
-  if (head === undefined) return [];
-  if (isLocale(head)) return oneOfEach([LOCALES], slugAndLocale);
+export type AlbumPageProps = CataloguePageProps & { album: MusicAlbum };
 
-  return [head, ...oneOfEach([LOCALES], tail)];
+export type SongPageProps = WithLocale & Slugged;
+
+/** Which page an address resolves to, and in which language. */
+export type MusicAddress =
+  | ({ page: 'index' } & CataloguePageProps)
+  | ({ page: 'artist' } & ArtistPageProps)
+  | ({ page: 'album' } & AlbumPageProps)
+  | ({ page: 'song' } & SongPageProps);
+
+function artistBySlug(slug: string): MusicProject {
+  const artist = MUSIC_PROJECT_NAMES.find(
+    (name) => MUSIC_PROJECT_SLUGS[name] === slug,
+  );
+
+  if (artist === undefined) {
+    throw new Error(`No artist is addressed as ${slug}.`);
+  }
+
+  return artist;
 }
 
 /**
- * Which page an address resolves to, in one language: the index, the index with
- * hidden songs on it too, or one song.
+ * A parse rather than a cast, failing `next build` on an address no reading
+ * covers. The locale is the last segment wherever it is present, and the whole
+ * catalogue's addresses are the public ones behind `all/`. `listSongDocuments`
+ * refuses a song slug that is a locale or one of the section's own first
+ * segments, so no song can steal an index's or an artist's URL.
  */
-export function musicAddressDefaults(address: MusicSegments): {
-  slug?: string;
-  everything?: true;
-  locale: Locale;
-} {
-  const [head, tail] = address;
+export function parseMusicSegments({
+  slugAndLocale = [],
+}: WithOptionalMusicSegments): MusicAddress {
+  const last = slugAndLocale.at(-1);
+  const locale = isLocale(last) ? last : DEFAULT_LOCALE;
+  const path = isLocale(last) ? slugAndLocale.slice(0, -1) : slugAndLocale;
+  const everything = path[0] === EVERYTHING_SEGMENT;
+  const [kind, slug, ...rest] = everything ? path.slice(1) : path;
+  const catalogue = { locale, everything };
 
-  if (head === undefined) return { locale: DEFAULT_LOCALE };
-  if (isLocale(head)) return { locale: head };
-  if (head === EVERYTHING_SEGMENT) {
-    return { everything: true, locale: tail ?? DEFAULT_LOCALE };
+  if (kind === undefined) return { page: 'index', ...catalogue };
+
+  if (slug !== undefined && rest.length === 0) {
+    if (kind === ARTISTS_SEGMENT) {
+      return { page: 'artist', artist: artistBySlug(slug), ...catalogue };
+    }
+    if (kind === ALBUMS_SEGMENT) {
+      return {
+        page: 'album',
+        album: oneOf(MUSIC_ALBUM_SLUGS, slug),
+        ...catalogue,
+      };
+    }
   }
 
-  return { slug: head, locale: tail ?? DEFAULT_LOCALE };
+  if (!everything && slug === undefined) {
+    return { page: 'song', slug: kind, locale };
+  }
+
+  throw new Error(
+    `/music/${slugAndLocale.join('/')} is no address of the music section.`,
+  );
+}
+
+/** A page as the function that addresses it in a language, or locale-less. */
+type Addressed = (locale?: Locale) => string;
+
+/**
+ * One catalogue's pages: its index, and every artist and album with a song in
+ * it — so an artist or album whose songs are all hidden has no public page.
+ */
+function cataloguePages(catalogue: WithEverything): Addressed[] {
+  const songs = catalogueSongs(catalogue);
+
+  return [
+    (locale) => indexPath(catalogue, locale),
+    ...catalogueArtists(songs).map(
+      (artist): Addressed =>
+        (locale) =>
+          artistPath(artist, catalogue, locale),
+    ),
+    ...catalogueAlbums(songs).map(
+      (album): Addressed =>
+        (locale) =>
+          albumPath(album, catalogue, locale),
+    ),
+  ];
 }
 
 /** Every address the music section answers, as the catch-all spells them. */
 export function musicSegmentParams(): WithOptionalMusicSegments[] {
-  const addresses: MusicSegments[] = [
-    [],
-    ...LOCALES.map<MusicSegments>((locale) => [locale]),
-    ...localeTailAddresses(EVERYTHING_SEGMENT),
-    ...listSongDocuments().flatMap(({ slug }) => localeTailAddresses(slug)),
+  const pages: Addressed[] = [
+    ...cataloguePages({ everything: false }),
+    ...cataloguePages({ everything: true }),
+    ...listSongDocuments().map(
+      ({ slug }): Addressed =>
+        (locale) =>
+          songPath(slug, locale),
+    ),
   ];
 
-  return addresses.map((slugAndLocale) => ({ slugAndLocale }));
+  return pages
+    .flatMap((page) => [page(), ...LOCALES.map((locale) => page(locale))])
+    .map((address) => ({
+      slugAndLocale: address
+        .slice(musicPath().length)
+        .split('/')
+        .filter(Boolean),
+    }));
+}
+
+/**
+ * The public catalogue's pages, one address per language and not the alias —
+ * the section's share of the sitemap, songs aside, which the collection's own
+ * walk advertises.
+ */
+export function musicCatalogueRoutes(): string[] {
+  return cataloguePages({ everything: false }).flatMap((page) =>
+    LOCALES.map((locale) => page(locale)),
+  );
 }

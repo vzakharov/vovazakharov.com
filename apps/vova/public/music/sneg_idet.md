@@ -9,11 +9,11 @@ audio: https://raw.githubusercontent.com/vovas-music/sneg_idet/main/%D0%A1%D0%BD
 seconds: 293
 explicit: false
 hidden: true
-transliteration: 'Sneg idyot'
 credits:
   lyrics: ['Борис Пастернак']
 en:
   title: 'Снег идёт'
+  transliteration: 'Sneg idyot'
   titleTranslation: 'Snow Is Falling'
   description: 'TBD'
 ru:

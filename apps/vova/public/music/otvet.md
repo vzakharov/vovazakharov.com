@@ -10,11 +10,11 @@ explicit: false
 album: rus
 track: 3
 hidden: true
-transliteration: 'Otvet'
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title: 'Ответ'
+  transliteration: 'Otvet'
   titleTranslation: 'The Answer'
   description: 'TBD'
 ru:

@@ -10,11 +10,11 @@ explicit: false
 album: rus
 track: 1
 hidden: true
-transliteration: 'Na Rusi svyatoy'
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title: 'На Руси святой'
+  transliteration: 'Na Rusi svyatoy'
   titleTranslation: 'In Holy Rus'
   description: 'TBD'
 ru:

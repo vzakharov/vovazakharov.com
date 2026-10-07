@@ -10,11 +10,11 @@ explicit: false
 album: dng
 track: 2
 hidden: true
-transliteration: 'Pod laskoy plyushevogo pleda'
 credits:
   lyrics: ['Марина Цветаева']
 en:
   title: 'Под лаской плюшевого пледа'
+  transliteration: 'Pod laskoy plyushevogo pleda'
   titleTranslation: 'Under the Caress of the Plush Plaid'
   description: 'TBD'
 ru:

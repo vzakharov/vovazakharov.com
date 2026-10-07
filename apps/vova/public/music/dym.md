@@ -2,7 +2,6 @@
 date: 2024-07-23
 status: done
 language: ru
-transliteration: 'Dym'
 project: ['за/обложкой']
 repo: 'dym'
 album: null
@@ -12,6 +11,7 @@ explicit: false
 hidden: true
 en:
   title: 'Дым'
+  transliteration: 'Dym'
   titleTranslation: 'Smoke'
   description: 'TBD'
 ru:

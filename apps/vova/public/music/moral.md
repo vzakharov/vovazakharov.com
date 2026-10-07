@@ -10,11 +10,11 @@ explicit: false
 album: rus
 track: 2
 hidden: true
-transliteration: 'Nravstvennyy chelovek'
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title: 'Нравственный человек'
+  transliteration: 'Nravstvennyy chelovek'
   titleTranslation: 'A Moral Man'
   description: 'TBD'
 ru:

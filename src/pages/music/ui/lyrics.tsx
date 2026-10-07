@@ -102,14 +102,16 @@ type StanzaProps = { lines: LyricLine[] };
 
 /**
  * A stanza as it was written: one element per line, so a line break needs
- * nothing invisible at the end of a line to survive. `div`s throughout, since
- * a note's popover is a block and sits beside the words it hangs off.
+ * nothing invisible at the end of a line to survive — save for lines under one
+ * note, which share an element and keep their breaks in its text. `div`s
+ * throughout, since a note's popover is a block and sits beside the words it
+ * hangs off.
  */
 function Stanza({ lines }: StanzaProps) {
   return (
     <Text component="div" lh={1.75}>
       {lines.map((spans, index) => (
-        <div key={index}>
+        <div key={index} className={classes['lyricLine']}>
           {spans.map(({ text, note }, at) =>
             note === undefined ? (
               text

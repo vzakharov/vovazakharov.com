@@ -36,7 +36,7 @@ Sanctus Deus, Sanctus Fortis, Sanctus Immortalis, miserere nobis.
 Sanctus Deus, Sanctus Fortis, Sanctus Immortalis, miserere nobis.
 
 Holy God, Holy Mighty, Holy Immortal, have mercy on us.[^en-ru]
-Holy God, Holy Mighty, Holy Immortal, have mercy on us.
+Holy God, Holy Mighty, Holy Immortal, have mercy on us.[^en-ru]
 Sanctus Deus, Sanctus Fortis, Sanctus Immortalis, miserere nobis.
 Святый Боже, Святый Крепкий, Святый Бессмертный, помилуй нас.
 
@@ -47,7 +47,7 @@ Have mercy on us.[^mercy-ru]
 
 [^la-ru]: Лат. «Святый Боже, Святый Крепкий, Святый Бессмертный, помилуй нас» — эта строка и все латинские ниже.
 
-[^en-ru]: Англ. «Святый Боже, Святый Крепкий, Святый Бессмертный, помилуй нас» — эта строка и следующая.
+[^en-ru]: Англ. «Святый Боже, Святый Крепкий, Святый Бессмертный, помилуй нас».
 
 [^mercy-ru]: Англ. «Помилуй нас».
 

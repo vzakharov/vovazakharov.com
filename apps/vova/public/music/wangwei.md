@@ -9,9 +9,9 @@ audio: https://raw.githubusercontent.com/vovas-music/wangwei/main/%D0%9F%D1%80%D
 seconds: 339
 explicit: false
 hidden: true
-transliteration: 'Proshchanie'
 en:
   title: 'Прощание'
+  transliteration: 'Proshchanie'
   titleTranslation: 'Farewell'
   description: 'TBD'
 ru:
@@ -72,8 +72,8 @@ I suppose that’s how it had to be.
 И он ушёл, не спрошен ни о чём,
 В облака, бесконечный, вечный.
 
-下马饮君酒，问君何所之？
-君言不得意，归卧南山陲。
+下马饮君酒，问君何所之？[^wangwei-ru]
+君言不得意，归卧南山陲。[^wangwei-ru]
 但去莫复问，白云无尽时。[^wangwei-ru]
 
 Да, он ответил: не сбылись мечты,
@@ -83,7 +83,7 @@ I suppose that’s how it had to be.
 В облака, бесконечный, вечный,
 Бесконечный, вечный.
 
-[^wangwei-ru]: Кит., Ван Вэй, «Проводы»: _Xià mǎ yǐn jūn jiǔ, wèn jūn hé suǒ zhī? Jūn yán bù dé yì, guī wò Nán Shān chuí. Dàn qù mò fù wèn, bái yún wú jìn shí._ — «Сойди с коня, выпей моего вина; спрошу тебя: куда ты держишь путь? Ты говоришь: не сбылись мои стремления, вернусь и лягу у подножия Южных гор. Иди же, больше не спрошу; белым облакам нет конца».
+[^wangwei-ru]: Кит., Ван Вэй, «Проводы»: _Ся ма инь цзюнь цзю, вэнь цзюнь хэ со чжи? Цзюнь янь бу дэ и, гуй во Наньшань чуй. Дань цюй мо фу вэнь, бай юнь у цзинь ши._ — «Сойди с коня, выпей моего вина; спрошу тебя: куда ты держишь путь? Ты говоришь: не сбылись мои стремления, вернусь и лягу у подножия Южных гор. Иди же, больше не спрошу; белым облакам нет конца».
 
 <!-- lyrics:en -->
 
@@ -100,8 +100,8 @@ I longed to fall asleep among the southern mountains.
 And he left, unasked about anything,
 Into the clouds, endless, eternal.
 
-下马饮君酒，问君何所之？
-君言不得意，归卧南山陲。
+下马饮君酒，问君何所之？[^wangwei-en]
+君言不得意，归卧南山陲。[^wangwei-en]
 但去莫复问，白云无尽时。[^wangwei-en]
 
 Yes, he answered: my dreams did not come true,

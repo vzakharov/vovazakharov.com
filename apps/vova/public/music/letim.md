@@ -8,9 +8,9 @@ audio: https://raw.githubusercontent.com/vovas-music/letim/main/letim.flac
 seconds: 208
 album: ctfu
 track: 5
-transliteration: 'Letim'
 en:
   title: Летим
+  transliteration: 'Letim'
   titleTranslation: 'Let’s Fly'
   description: 'The first song written on Suno 3, with the hills of Herzegovina outside the window of a visa run.'
 ru:

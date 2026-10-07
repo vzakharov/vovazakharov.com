@@ -1,7 +1,7 @@
 ---
 date: 2024-07-23
 status: done
-language: en
+language: [en, de]
 project: ['GENERATED']
 repo: 'believe'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/7.%20Believe%20In%20Me.flac
@@ -19,8 +19,6 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: the song mixes English and German; the site has no `de` language yet, so it is filed as `en` and the German is glossed in notes. -->
-
 <!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 7. Believe In Me.flac,
      44.1 kHz / 16-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and
@@ -30,11 +28,11 @@ ru:
 <!-- lyrics:en -->
 
 Ich bin ein big, big God[^god-en]
-Mit einem big, big heart,
-Ist keine big, big thing
+Mit einem big, big heart,[^god-en]
+Ist keine big, big thing[^god-en]
 If you leave me.
 
-[^god-en]: German, in part: “I am a big, big God / With a big, big heart, / It’s no big, big thing” — this line and the next two.
+[^god-en]: German, in part: “I am a big, big God / With a big, big heart, / It’s no big, big thing.”
 
 But I do, do feel
 Like, for re-re-real,

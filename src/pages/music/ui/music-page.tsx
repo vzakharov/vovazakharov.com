@@ -1,29 +1,51 @@
-import { Group, Stack } from '@mantine/core';
+import { Stack } from '@mantine/core';
 
-import { byLocale, loadMessages } from '@/shared/i18n';
+import { MUSIC_ALBUMS, projectName } from '@/shared/config';
+import { byLocale, inLocale, loadMessages } from '@/shared/i18n';
 import { BackToHome, PageShell } from '@/shared/ui';
 
-import { everythingPath, musicPath } from '../lib/music-urls';
-import { LocaleChips } from './locale-chips';
+import { artistAlbums, catalogueArtists } from '../lib/catalogue';
+import type { CataloguePageProps } from '../lib/music-route-params';
+import { artistPath, indexPath } from '../lib/music-urls';
+import { catalogueSongs, songTrack } from '../lib/songs';
+import { CatalogueList } from './catalogue-list';
+import { MusicNav } from './music-nav';
 import { MusicSection } from './music-section';
-import { type MusicIndexProps, SongList } from './song-list';
+import { SongList } from './song-list';
 
-export function MusicPage({ locale, everything = false }: MusicIndexProps) {
+/** The section's front page: the artists first, then every song in the catalogue. */
+export function MusicPage({ locale, everything }: CataloguePageProps) {
+  const catalogue = { everything };
+  const songs = catalogueSongs(catalogue);
+  const messages = loadMessages(locale).music;
+
   return (
     <PageShell>
       <Stack gap={48}>
-        <Group component="nav" justify="flex-end">
-          <LocaleChips
-            hrefs={byLocale(everything ? everythingPath : musicPath)}
-            {...{ locale }}
-          />
-        </Group>
+        <MusicNav
+          hrefs={byLocale((alternate) => indexPath(catalogue, alternate))}
+          {...{ locale }}
+        />
 
         <MusicSection {...{ locale }} />
 
-        <SongList {...{ locale, everything }} />
+        <CatalogueList
+          title={messages.artists}
+          entries={catalogueArtists(songs).map((artist) => ({
+            href: artistPath(artist, catalogue, locale),
+            label: projectName(artist, locale),
+            detail: artistAlbums(artist, locale, songs)
+              .map((album) => inLocale(MUSIC_ALBUMS[album].title, locale))
+              .join(' · '),
+          }))}
+        />
 
-        <BackToHome label={loadMessages(locale).music.backToHome} />
+        <SongList
+          tracks={songs.map((song) => songTrack(song))}
+          {...{ locale }}
+        />
+
+        <BackToHome label={messages.backToHome} />
       </Stack>
     </PageShell>
   );

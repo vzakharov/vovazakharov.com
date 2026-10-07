@@ -34,8 +34,12 @@ ru:
 
 <!-- lyrics:en -->
 
-And at last, silence.
+And at last, silence.[^samt-en]
+
+[^samt-en]: Arabic: _Wa-akhīran ṣamt._
 
 <!-- lyrics:ru -->
 
-И наконец — тишина.
+И наконец — тишина.[^samt-ru]
+
+[^samt-ru]: Араб.: _Ва-ахиран самт._

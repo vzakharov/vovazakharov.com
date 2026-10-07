@@ -13,28 +13,45 @@ const SHORT = {
   zh: 'chin.',
   fr: 'fr.',
   el: 'gr.',
+  de: 'ger.',
+  it: 'it.',
+  es: 'sp.',
 };
 
 describe('titleGloss', () => {
-  it('transliterates a Greek title for every reader', () => {
-    const song = {
-      title: 'Άγιος Ο Σκοπός',
-      transliteration: 'Agios o Skopos',
-      titleTranslation: 'Holy is the purpose',
-      titleLanguage: 'el' as const,
-    };
+  it('transliterates a Greek title into each reader’s letters', () => {
+    const title = 'Άγιος Ο Σκοπός';
+    const titleLanguage = 'el' as const;
 
-    assert.deepEqual(titleGloss(song, 'en', SHORT), [
-      'Agios o Skopos',
-      'gr. Holy is the purpose',
-    ]);
-    assert.deepEqual(titleGloss(song, 'ru', SHORT), [
-      'Agios o Skopos',
-      'gr. Holy is the purpose',
-    ]);
+    assert.deepEqual(
+      titleGloss(
+        {
+          title,
+          transliteration: 'Agios o Skopos',
+          titleTranslation: 'Holy Is the Purpose',
+          titleLanguage,
+        },
+        'en',
+        SHORT,
+      ),
+      ['Agios o Skopos', 'gr. Holy Is the Purpose'],
+    );
+    assert.deepEqual(
+      titleGloss(
+        {
+          title,
+          transliteration: 'Айос о Скопос',
+          titleTranslation: 'Священна цель',
+          titleLanguage,
+        },
+        'ru',
+        { ...SHORT, el: 'греч.' },
+      ),
+      ['Айос о Скопос', 'греч. Священна цель'],
+    );
   });
 
-  it('transliterates a Russian title for an English reader only', () => {
+  it('never transliterates a title in the reader’s own script', () => {
     const song = {
       title: 'Окна',
       transliteration: 'Okna',

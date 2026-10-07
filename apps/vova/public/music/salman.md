@@ -10,11 +10,12 @@ explicit: false
 album: papa-reka
 track: 10
 hidden: true
-transliteration: 'Mladshiy vnuchek moy'
 credits:
   lyrics: [Vladimir Zakharov Sr.]
+  music: [Vladimir Zakharov Sr.]
 en:
   title: 'Младший внучек мой'
+  transliteration: 'Mladshiy vnuchek moy'
   titleTranslation: 'My Youngest Grandson'
   description: 'TBD'
 ru:

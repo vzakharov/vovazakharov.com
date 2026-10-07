@@ -7,7 +7,6 @@ export {
   isLocale,
   type Locale,
   LOCALES,
-  type LocaleTail,
   localeTailAddresses,
   type Localizable,
   type WithLocale,

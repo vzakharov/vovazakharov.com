@@ -10,11 +10,11 @@ explicit: false
 album: dng
 track: 7
 hidden: true
-transliteration: 'Uzh skolko ikh upalo v etu bezdnu'
 credits:
   lyrics: ['Марина Цветаева']
 en:
   title: 'Уж сколько их упало в эту бездну'
+  transliteration: 'Uzh skolko ikh upalo v etu bezdnu'
   titleTranslation: 'How Many Have Already Fallen into This Abyss'
   description: 'TBD'
 ru:

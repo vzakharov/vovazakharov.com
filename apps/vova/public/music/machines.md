@@ -11,15 +11,13 @@ seconds: 390
 explicit: false
 hidden: true
 en:
-  title: 'Machines'
+  title: 'Trust In the Machine'
   description: 'TBD'
 ru:
-  title: 'Machines'
-  titleTranslation: 'Машины'
+  title: 'Trust In the Machine'
+  titleTranslation: 'Доверься машине'
   description: 'TBD'
 ---
-
-<!-- For Vova to check: Project is a guess: a Latin-titled Suno cover (`Media/machines (Cover^2).wav`) with no words, post or album to place it, so GENERATED. The title is the master's file name; the words you pasted are headed “2. Trust in the machine” — should that be the title? -->
 
 <!-- Scaffolded from https://github.com/vovas-music/machines — machines.flac,
      44.1 kHz / 16-bit / stereo.
