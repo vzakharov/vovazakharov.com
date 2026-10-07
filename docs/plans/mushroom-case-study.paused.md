@@ -79,8 +79,9 @@ is LinkedIn's and does not. Syama is a boy, everywhere.
 in English; the pivot quotes also carry the Russian original beneath, in
 italics, because the original is the evidence and the translation is mine.
 
-**Working title** — the hook is the operator's call (question 1): _"My son
-drew a mushroom house. 92 Claude sessions built it in eight days."_
+**Title**, the operator's pick: _"My son drew a mushroom house. 92 Claude
+sessions built it in eight days."_ Syama turns six on 12 October, and the
+work is one of his birthday presents.
 
 ### Outline
 
@@ -150,7 +151,7 @@ lead-in line); snags are told where they happen, tagged _game_ or _machinery_.
    plainly.
 9. **What I would keep.** The megabeast notes' lessons as the operator now
    reads them, and what goes into the future skill.
-10. **Syama's verdict** — the operator's paragraph (question 4).
+10. **Syama's verdict** — a paragraph the operator writes by bite 3.
 11. **Appendix A — every pivot**: date, quote (Russian + English), before →
     after, linked to its section. **Appendix B — every snag**, two tables:
     game code, machinery.
@@ -166,7 +167,7 @@ lead-in line); snags are told where they happen, tagged _game_ or _machinery_.
   1.5 MB). Frames start at bite 4 — the operator asked for them on 26 Sep
   evening. Bites 1–3 get a headless capture of the dev server at each bite's
   head commit where that builds; where it does not, the article says so.
-- **The drawing** from issue #65 (question 3).
+- **The drawing** from issue #65.
 - **The loop diagram** as a `mermaid` fence, rendered by
   `pnpm content:mermaid`.
 - **The commits-per-day chart** as SVG plus its CSV, beside the article, and
@@ -178,7 +179,7 @@ lead-in line); snags are told where they happen, tagged _game_ or _machinery_.
 
 The video. It needs its own research into what the operator calls the
 other sessions' info videos and its own toolchain, and it reuses the article
-as its script, so it is a follow-up task once this merges (question 6).
+as its script, so it is a follow-up task once this merges.
 
 ## Split
 
@@ -217,7 +218,7 @@ last.
 - **Bite 3 — Part III, the numbers, the lessons, the appendices** (§§ 7–11),
   the chart and its OG card.
 - **Bite 4 — the cuts and the read-through**: `mushrooms.mini.md` and
-  `mushrooms.nano.md` (question 5), the opening's final hook, a fact check of
+  `mushrooms.nano.md`, a fact check of
   every number against the commands in `digest.md`, `/preview` of the page in
   both themes.
 
