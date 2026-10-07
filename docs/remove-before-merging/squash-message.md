@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): hidden documents, and 119 masters as hidden song pages (pr #115)
+feat(vova): hidden documents, and 150 masters as hidden song pages (pr #115)
 ```
 
 ```
@@ -17,13 +17,15 @@ A hidden song plays from its own page: the player takes a track
 rather than a queue position, and a track it does not hold yet joins
 the end of the queue when played.
 
-119 of those masters land as hidden song pages, each one Vova assigned
-a project to, with description TBD and words from his Suno songs
-where they exist. A master or language that was a guess says so in a
-comment in its file. To carry them, a song's language is a list, main
-language first, with Tatar, Arabic, Polish, Latin and Chinese added;
-eight albums and three projects join their registries; and
-music:scaffold takes a spec naming the master and the authored
+150 of those masters land as hidden song pages, with description TBD
+and words from his Suno songs where they exist; /music/all lists them
+alongside the public ones, unlinked and unindexed, for review. A
+master, project or language that was a guess says so in a comment in
+its file. To carry them, a song's language is a list, main language
+first, with Tatar, Arabic, Polish, Latin, Chinese and French added;
+albums and projects join their registries, and a project can be
+billed under another name per language (Yoohie is «Йухи» in Russian);
+and music:scaffold takes a spec naming the master and the authored
 fields, so album tracks and repositories with several masters can be
 scaffolded.
 
