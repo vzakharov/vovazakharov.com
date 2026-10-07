@@ -1,9 +1,9 @@
 ---
-date: 2024-12-20
+date: 2024-07-23
 status: done
 language: ru
 project: ['Дамы и господа']
-repo: 'dng_album'
+repo: 'komnata'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-004.flac
 seconds: 190
 explicit: false

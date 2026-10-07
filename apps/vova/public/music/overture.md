@@ -3,7 +3,7 @@ date: 2024-11-05
 status: done
 language: instrumental
 project: ['GENERATED']
-repo: 'psch_album'
+repo: 'wagner'
 audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/1_overture.flac
 seconds: 53
 explicit: false

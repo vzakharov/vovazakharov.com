@@ -4,16 +4,19 @@ status: done
 language: ru
 project: [Полуживые]
 repo: reka-2
-album: null
-audio: https://raw.githubusercontent.com/vovas-music/reka-2/main/reka2.flac
-seconds: 340
+album: papa-reka
+track: 4
+audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/4_reka.flac
+seconds: 338
+transliteration: 'Reka. Chast vtoraya'
 credits:
   lyrics: [Vova Zakharov, Vladimir Zakharov Sr.]
 en:
-  title: Река
+  title: Река. Часть вторая
+  titleTranslation: 'The River. Part Two'
   description: 'Written as a present for a 65th birthday, with two thirds of a century counted to the day — and a last verse that is his father’s.'
 ru:
-  title: Река
+  title: Река. Часть вторая
   description: 'Подарок на 65-летие, где «две трети века» посчитаны с точностью до дня, — и последняя строфа папина.'
 ---
 

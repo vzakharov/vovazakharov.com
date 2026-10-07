@@ -1,9 +1,9 @@
 ---
-date: 2024-12-16
+date: 2024-12-07
 status: done
 language: ru
 project: ['Полуживые', 'GENERATED']
-repo: 'vagabond_album'
+repo: 'triswiatoje'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-009.flac
 seconds: 286
 explicit: false

@@ -633,7 +633,7 @@
   - hidden: да
 - [prsdemo](https://github.com/vovas-music/prsdemo)
   - мастер: `prsdemo.flac`
-  - проект:
+  - проект: —
   - название:
   - язык:
   - hidden: да

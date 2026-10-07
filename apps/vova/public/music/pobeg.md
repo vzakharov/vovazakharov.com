@@ -22,7 +22,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: The pobeg repository also holds reka.flac, which may be the master of «Река. Часть вторая» (scaffolded separately from the album file as reka-chast-vtoraya). -->
+<!-- For Vova to check: The pobeg repository also holds reka.flac, which may be another render of «Река. Часть вторая» (reka-2, which plays the album's 4_reka.flac). -->
 
 <!-- lang:en -->
 
