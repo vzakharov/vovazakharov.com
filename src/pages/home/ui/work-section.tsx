@@ -112,10 +112,10 @@ export function WorkSection() {
         >
           <Text mb={12}>
             Rebuilt a live AI chat product from Bubble into production Next.js
-            16 in 158 days: 250,000 lines of TypeScript, none of it
-            hand-written, up to 20 agents working at once, a deploy every 2.4
-            days. Reviewed and mentored three engineers on the platform, which
-            they run today without me.
+            16 in 158 days: 250,000 lines of TypeScript with tests included,
+            none of it hand-written, up to 20 agents working at once, a deploy
+            every 2.4 days. Reviewed and mentored three engineers on the
+            platform, which they run today without me.
           </Text>
         </HighlightCard>
 

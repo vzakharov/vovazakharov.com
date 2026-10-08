@@ -16,13 +16,13 @@ _Also available: the [full version](./playgram.md) and a [mini version](./playgr
 
 **The job.** Playgram is a live AI chat product — many models, team chats, file libraries, memory, voice — built entirely in Bubble, a no-code tool. They wanted it as real code in two months, mainly so they could use AI coding agents on it. I took it, and missed the deadline: the first production build was day 77, all workspaces were over by day 128.
 
-**The result.** 158 days. 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of production TypeScript. Cold loads from multi-second to sub-second. 48 versioned releases and 18 hotfixes — a production deploy every 2.4 days — three workspace cutovers, no rollbacks.
+**The result.** 158 days. 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of TypeScript with tests included. Cold loads from multi-second to sub-second. 48 versioned releases and 18 hotfixes — a production deploy every 2.4 days — three workspace cutovers, no rollbacks.
 
 |                |                                                                  |
 | -------------- | ---------------------------------------------------------------- |
 | **Span**       | 6 March – 10 August 2026 · 158 days                              |
 | **Started at** | an 11.6 MB minified JSON — the Bubble app export                 |
-| **Shipped**    | 1,029 merged PRs · 250,000 lines of production TypeScript        |
+| **Shipped**    | 1,029 merged PRs · 250,000 lines of TypeScript, tests included   |
 | **Released**   | 48 versioned releases plus 18 hotfixes — a deploy every 2.4 days |
 | **Team**       | four people, and ten to twenty-five Claude Code agents at a time |
 
