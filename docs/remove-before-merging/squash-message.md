@@ -5,8 +5,8 @@ chore: cache keepalive, cross-repo cost report, opt-in by default (pr #122)
 ```
 
 ```
-The repo this agent infrastructure is vendored from moved, and five of
-its six changes apply here.
+The repo this agent infrastructure is vendored from moved, and six of
+its seven changes apply here.
 
 An idle web session now keeps its one-hour prompt cache warm: a
 UserPromptSubmit hook has the agent start a background watcher at the
@@ -21,7 +21,8 @@ month/week/day periods, prices Sonnet 5.5, and blocks a stop once on a
 turn it cannot price instead of dropping the row unseen. The
 cold-cache guard hands a stopped prompt's images back on `!`.
 
-The muthur sync offer is made once and never chased, and the watermark
+The muthur sync offer is made once and never chased, a sync spawned as
+its own session is titled `🔄 muthur → <repo>`, and the watermark
 gains `optIn`: this repo takes every opt-in path the source ships
 unless the request starting a sync says otherwise.
 
