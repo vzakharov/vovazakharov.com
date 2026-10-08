@@ -5,8 +5,7 @@ status: done
 language: ru
 project: ['Yoohie', 'за/обложкой']
 repo: 'chp'
-album: old-shite
-track: 2
+album: null
 audio: https://raw.githubusercontent.com/vovas-music/chp/main/chp.flac
 seconds: 216
 explicit: false
