@@ -56,40 +56,48 @@ _Рабочий план небес не для тебя менять._
 
 <!-- lyrics:ru -->
 
-В безмерности небес, укрытый синевой,
-Тебе назначенный, ждёт часа кубок твой.
-Настанет твой черёд — прими без сожалений
-И радостно испей свой кубок роковой.
+В безмерности небес, укрытый синевой,[^rubai-89-ru]
+Тебе назначенный, ждёт часа кубок твой.[^rubai-89-ru]
+Настанет твой черёд — прими без сожалений[^rubai-89-ru]
+И радостно испей свой кубок роковой.[^rubai-89-ru]
+
+[^rubai-89-ru]: Омар Хайям, рубаи № 89 в переводе Игоря Голубева («Рубаи. Полное собрание», 2008).
 
 Когда сбивает с ног жестокая борьба
 И к небесам летит бесплодная мольба,
 Задумайся тогда — а что ты можешь сделать,
 Когда в твою игру включается судьба?
 
-Кружение небес никак не обогнать,
-Заранее судьбу никак не распознать.
-Вот это твой удел — иди и будь доволен;
-Рабочий план небес не для тебя менять.
+Кружение небес никак не обогнать,[^rubai-95-ru]
+Заранее судьбу никак не распознать.[^rubai-95-ru]
+Вот это твой удел — иди и будь доволен;[^rubai-95-ru]
+Рабочий план небес не для тебя менять.[^rubai-95-ru]
+
+[^rubai-95-ru]: Омар Хайям, рубаи № 95 в переводе Игоря Голубева («Рубаи. Полное собрание», 2008).
 
 Задумайся тогда — а что ты можешь сделать,
 Когда в твою игру включается судьба?
 
 <!-- lyrics:en -->
 
-In the boundlessness of heaven, hidden by the blue,
-The cup appointed you awaits its hour.
-Your turn will come — accept it without regret
-And gladly drink your fateful cup.
+In the boundlessness of heaven, hidden by the blue,[^rubai-89-en]
+The cup appointed you awaits its hour.[^rubai-89-en]
+Your turn will come — accept it without regret[^rubai-89-en]
+And gladly drink your fateful cup.[^rubai-89-en]
+
+[^rubai-89-en]: Omar Khayyam, rubai No. 89, in Igor Golubev’s Russian translation (_Rubaiyat: The Complete Collection_, 2008).
 
 When cruel struggle knocks you off your feet
 And a fruitless prayer flies up to the heavens,
 Stop and think then — what can you do
 When fate steps into your game?
 
-The whirling of the heavens can’t be outrun,
-And fate can’t be made out in advance.
-This is your lot — go, and be content;
-The working plan of heaven is not for you to change.
+The whirling of the heavens can’t be outrun,[^rubai-95-en]
+And fate can’t be made out in advance.[^rubai-95-en]
+This is your lot — go, and be content;[^rubai-95-en]
+The working plan of heaven is not for you to change.[^rubai-95-en]
+
+[^rubai-95-en]: Omar Khayyam, rubai No. 95, in Igor Golubev’s Russian translation (_Rubaiyat: The Complete Collection_, 2008).
 
 Stop and think then — what can you do
 When fate steps into your game?
