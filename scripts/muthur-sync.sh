@@ -4,6 +4,7 @@
 #
 #   muthur-sync.sh nudge               what the SessionStart hook prints
 #   muthur-sync.sh claim [--takeover]  take the lock for the next sync
+#   muthur-sync.sh handover <url>      name the session that runs the claimed sync
 #   muthur-sync.sh clone <dir>         the source, blobless, at its current HEAD
 #
 # The watermark is always read **off the trunk**, not the working tree: the lock
@@ -206,8 +207,10 @@ This is an offer to make, not work to start:
 - On yes, `/update-muthur ride-along` in this session after the task's own
   commits; for a new session, `scripts/muthur-sync.sh claim` first, then
   `/update-muthur claimed` as its prompt and `🔄 muthur → <this repo's name,
-  no owner>` as its title. A claim that exits 3 means another
-  session got there first: say who holds the lock and drop the offer.
+  no owner>` as its title, then `scripts/muthur-sync.sh handover <its session
+  URL>`, so the lock names the session doing the sync. A claim that exits 3
+  means another session got there first: say who holds the lock and drop the
+  offer.
   `/update-muthur` § "Offered at session start" has the rest.
 EOF
 }
@@ -336,6 +339,39 @@ EOF
   echo "muthur-sync: claimed the sync from ${LAST_SHA:0:12} as $LOCK."
 }
 
+# A session that claims on another's behalf is not the one anyone should ask
+# about the sync, so once that session exists the lock is re-pointed at it, the
+# claimer kept as `Spawned-By`. Only the session the lock names may hand it on,
+# and the lease on the commit it read means a takeover in between wins.
+handover() {
+  local url="${1:-}"
+  [[ "$url" =~ ^https://claude\.ai/code/session_[A-Za-z0-9]+$ ]] ||
+    die "usage: muthur-sync.sh handover https://claude.ai/code/session_<id>"
+  need jq
+  load_watermark || die "the trunk has no hydrated $WATERMARK to hand a sync over from."
+
+  local held holder commit
+  held="$(lock_sha)"
+  [ -n "$held" ] || die "nobody holds $LOCK, so there is nothing to hand over."
+  fetch_lock "$held"
+  holder="$(trailer "$held" Session)"
+  [ "$holder" = "$(session_url)" ] ||
+    die "$LOCK is held by $holder, not by this session ($(session_url))."
+
+  commit="$(git commit-tree "$held^{tree}" -p "$held^" -F - <<EOF
+$(git log -1 --format=%s "$held")
+
+Claimed-By: $(trailer "$held" Claimed-By)
+Session: $url
+Spawned-By: $holder
+EOF
+)"
+  git push --quiet origin "$commit:refs/heads/$LOCK" \
+    "--force-with-lease=refs/heads/$LOCK:$held" 2>/dev/null ||
+    die "could not hand $LOCK over: it moved on origin since it was read."
+  echo "muthur-sync: $LOCK now names $url."
+}
+
 clone() {
   [ -n "${1:-}" ] || die "usage: muthur-sync.sh clone <dir>"
   need jq
@@ -368,6 +404,7 @@ run_nudge() {
 case "$MODE" in
 nudge) run_nudge ;;
 claim) claim "${@:2}" ;;
+handover) handover "${@:2}" ;;
 clone) clone "${@:2}" ;;
-*) die "usage: muthur-sync.sh nudge | claim [--takeover] | clone <dir>" ;;
+*) die "usage: muthur-sync.sh nudge | claim [--takeover] | handover <url> | clone <dir>" ;;
 esac
