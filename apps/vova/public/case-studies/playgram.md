@@ -1,5 +1,5 @@
 ---
-description: Rebuilding a live, feature-rich Bubble app as a production Next.js 16 codebase in 158 days — 1,029 merged pull requests, 250,000 lines of TypeScript, and twenty-plus Claude Code agents running in parallel.
+description: Rebuilding a live, feature-rich Bubble app as a production Next.js 16 codebase in 158 days — 1,029 merged pull requests, 250,000 lines of TypeScript with tests included, and twenty-plus Claude Code agents running in parallel.
 date: 2026-08-29
 author: vova
 part: I of II
@@ -10,17 +10,17 @@ ogImage: ./assets/playgram-commit-cumsum.og.png
 
 **Part I of II.**
 
-|                               |                                                                                                     |
-| ----------------------------- | --------------------------------------------------------------------------------------------------- |
-| **Assignment**                | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase                        |
-| **Span**                      | 6 March – 10 August 2026 · 158 days                                                                 |
-| **The “code” I started from** | an 11.6 MB minified JSON — the Bubble app export                                                    |
-| **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of production TypeScript |
-| **Throughput**                | 6.8 → 11.2 units of work a day (+65%) after the move into the cloud                                 |
-| **Cold load**                 | multi-second → sub-second                                                                           |
-| **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days                         |
-| **Cutovers**                  | 3 workspaces, zero rollbacks                                                                        |
-| **Team**                      | four people, and ten to twenty-five Claude Code agents at a time                                    |
+|                               |                                                                                                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Assignment**                | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase                                                                    |
+| **Span**                      | 6 March – 10 August 2026 · 158 days                                                                                                             |
+| **The “code” I started from** | an 11.6 MB minified JSON — the Bubble app export                                                                                                |
+| **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of TypeScript: about 114,000 of production code and 116,000 of tests |
+| **Throughput**                | 6.8 → 11.2 units of work a day (+65%) after the move into the cloud                                                                             |
+| **Cold load**                 | multi-second → sub-second                                                                                                                       |
+| **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days                                                                     |
+| **Cutovers**                  | 3 workspaces, zero rollbacks                                                                                                                    |
+| **Team**                      | four people, and ten to twenty-five Claude Code agents at a time                                                                                |
 
 _Disclaimer: the disclosures in this case study were approved by Playgram management, i.e. no NDA breach._
 
@@ -327,7 +327,7 @@ flowchart TD
 
 Even without looking into the code of each of them, such a structure gives not just an agent, but every human who first looks at the directory structure, an approximate understanding of what’s going on. This has helped immensely especially when new features came into view: the agent doesn’t need to spend its time, mental resource — and tokens — thinking about where to place that member-group access control feature we discussed in the standup and that has now to be implemented. It sees clear, logical patterns, and follows them.
 
-There’s a second-order effect worth pointing out. Between the first production build and the handover, `src/` went from 98,000 to 223,000 lines — and the layers that grew _fastest_ in relative terms are the bottom ones. `shared` and `entities` both nearly tripled; the app-specific top layer didn’t quite double. Rigid boundaries make the reusable layer the path of least resistance, so it thickens on its own.
+There’s a second-order effect worth pointing out. Between the first production build and the handover, `src/` went from 98,000 to 223,000 lines, tests included — and the layers that grew _fastest_ in relative terms are the bottom ones. `shared` and `entities` both nearly tripled; the app-specific top layer didn’t quite double. Rigid boundaries make the reusable layer the path of least resistance, so it thickens on its own.
 
 An unobvious beauty of it, which you only discover through struggle, is that when you have something that does NOT seem to fit, it almost always ends up meaning you’ve got some higher-level conceptual understanding wrong. The form ends up defining the essence — for everyone’s better.
 
