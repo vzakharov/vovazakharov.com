@@ -12,7 +12,7 @@ seconds: 253
 explicit: false
 hidden: true
 credits:
-  lyrics: ['Omar Khayyam', 'Игорь Голубев']
+  lyrics: ['Omar Khayyam', 'Игорь Голубев', 'Vladimir Zakharov Sr.']
   music: [Vladimir Zakharov Sr.]
 en:
   description: 'TBD'
@@ -20,7 +20,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: The two verses are Omar Khayyam in Igor Golubev’s translation — rubai No. 89 («В безмерности небес, укрытый синевой…») and No. 95 («Кружение небес никак не обогнать…») of «Рубаи. Полное собрание» (РИПОЛ классик, 2008), per fantlab.ru/edition252823. The chorus turns up in no Golubev contents list and nowhere else online, so it may well be Dad’s own; credits name Khayyam and Golubev only — say if Dad should join them for the chorus. -->
+<!-- The verses are Golubev's rubai No. 89 and No. 95 per fantlab.ru/edition252823; the chorus is in no Golubev contents list and nowhere online, so it is credited to Dad. -->
 
 <!-- Story from Vova's Telegram post of 2026-03-04. -->
 
