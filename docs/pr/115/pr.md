@@ -1,4 +1,4 @@
-# PR #115: feat(vova): hidden documents, and 150 masters as hidden song pages
+# PR #115: feat(vova): hidden documents, artist pages, 147 hidden song pages
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/115
@@ -7,57 +7,120 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-07T06:35:11Z
-- **Updated:** 2026-10-07T18:56:41Z
+- **Updated:** 2026-10-08T19:16:55Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 41
+## Awaiting an answer: 104
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 7b54f62). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at c4ee843). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `apps/vova/public/music/300000-years.md`:6 — unresolved — last: @vzakharov (human) 2026-10-07T13:23:01Z — "да, добавить. Про in our image посмотрю по тексту" → [↓](#t01)
-- **T02** `apps/vova/public/music/300000-years.md`:6 — unresolved — last: @vzakharov (human) 2026-10-07T13:24:12Z — "давай /music начинать сразу со страницы артистов (с поддержк…" → [↓](#t02)
-- **T03** `apps/vova/public/music/40days.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:26:22Z — ""лишь варианты шествия за гробом" и у меня, просто пропустил…" → [↓](#t03)
-- **T04** `apps/vova/public/music/agios-o-skopos.md`:15 — unresolved — last: @vzakharov (human) 2026-10-07T13:27:42Z — "ну вот тут не совсем; потому что сейчас транслитерацию видно…" → [↓](#t04)
-- **T05** `apps/vova/public/music/alive.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:28:33Z — "nothingness в одно, конечно. Про пустоту уже точно не вспомн…" → [↓](#t05)
-- **T06** `apps/vova/public/music/almost.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:28:57Z — "верно; вдова-мать, наверное, намеренно. В танго да, добавить…" → [↓](#t06)
-- **T07** `apps/vova/public/music/asa.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:29:27Z — "Там многое не поётся, отмечу уже по текстам" → [↓](#t07)
-- **T08** `apps/vova/public/music/baa.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:30:33Z — "я там оказывается таки дописывал текст: ``` [Sensual, mild]…" → [↓](#t08)
-- **T09** `apps/vova/public/music/babay.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T13:32:04Z — "Иске Кормаш оказывается" → [↓](#t09)
-- **T10** `apps/vova/public/music/bronte.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:32:34Z — "нет, explicit ставим только на конкретные слова. Про склейку…" → [↓](#t10)
-- **T11** `apps/vova/public/music/cant-take-your-eyes-out-of-you.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:33:17Z — "реплика, сноску верно, хотя в какой-то момент все эти поясне…" → [↓](#t11)
-- **T12** `apps/vova/public/music/chp.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:33:54Z — "Просто ради интереса, а как бы ты это перевёл? :)" → [↓](#t12)
-- **T13** `apps/vova/public/music/cracks.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:05:53Z — "world, да; main это типа как магистраль (водная), я так пони…" → [↓](#t13)
-- **T14** `apps/vova/public/music/crossout.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:06:09Z — "угу" → [↓](#t14)
-- **T15** `apps/vova/public/music/diner.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T17:06:52Z — "Надо придумать что-то подходящее" → [↓](#t15)
-- **T18** `apps/vova/public/music/okna.md`:90 — unresolved — last: @vzakharov (human) 2026-10-07T17:08:48Z — "да, в припевах можно" → [↓](#t18)
-- **T19** `apps/vova/public/music/gg.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:09:34Z — "Good Girl. Bye-bye, конечно. И ещё, и здесь и в большинстве…" → [↓](#t19)
-- **T20** `apps/vova/public/music/grand-finale.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:10:27Z — "Ну в песне reclaim, а из неё, как известно, слов не выкинешь…" → [↓](#t20)
-- **T21** `apps/vova/public/music/hamlet.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:13:10Z — "``` Пусть раненый олень ревёт А уцелевший скачет Где – спят,…" → [↓](#t21)
-- **T22** `apps/vova/public/music/ignite.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:14:18Z — "я думаю на английском тоже не помешает?" → [↓](#t22)
-- **T23** `apps/vova/public/music/in-the-end.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:15:57Z — "В подсказке нужна транслитерация на английский/русский соотв…" → [↓](#t23)
-- **T24** `apps/vova/public/music/inside.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:16:42Z — "i-ide, i-ight не нужны, разве в правилах нет суновские текст…" → [↓](#t24)
-- **T25** `apps/vova/public/music/klo.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:17:15Z — "Клокочина, да, и это не bladdernut, а melia azedarach, я не…" → [↓](#t25)
-- **T26** `apps/vova/public/music/klo.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T17:17:21Z — "Так давай думать" → [↓](#t26)
-- **T27** `apps/vova/public/music/lebed.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:24:06Z — "Давай "Сильней любви" пока" → [↓](#t27)
-- **T28** `apps/vova/public/music/like-that.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:24:56Z — "У-е и прочее убери пжст" → [↓](#t28)
-- **T29** `apps/vova/public/music/machines.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:25:58Z — "Trust In the Machine" → [↓](#t29)
-- **T30** `apps/vova/public/music/machines.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:26:59Z — "protintro, давай добавим версию прямо из джукбокса: [protint…" → [↓](#t30)
-- **T31** `apps/vova/public/music/meow.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:28:12Z — "там ещё ``` [Chorus, growling] (Meow!) I love little pussy!…" → [↓](#t31)
-- **T32** `apps/vova/public/music/nazovi.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:30:31Z — "опять же, без обозначений вокализмов" → [↓](#t32)
-- **T33** `apps/vova/public/music/nazovi.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:38:22Z — "[Призрачный блюз.mp3](https://github.com/user-attachments/f…" → [↓](#t33)
-- **T34** `apps/vova/public/music/ogonki.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:39:28Z — "давай отметим что первая строфа x4 и небудем копировать 4 ра…" → [↓](#t34)
-- **T35** `apps/vova/public/music/ok-loser.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:40:03Z — "да, там полный припев "Alright, alrigh, wave goodbye" итп до…" → [↓](#t35)
-- **T37** `apps/vova/public/music/pes-reprise.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:40:45Z — "многоточия убрать, чтобы припев был две строчки" → [↓](#t37)
-- **T38** `apps/vova/public/music/pes.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:40:56Z — "Саша сделала фото" → [↓](#t38)
-- **T39** `apps/vova/public/music/poko.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:42:09Z — "Да, Блока указать, в бридже ("Снежинок лёгкий пух") тоже он.…" → [↓](#t39)
-- **T43** `apps/vova/public/music/studentka.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:48:06Z — "Я слышал у Аркадия Северного. Есть ещё более новая версия Кр…" → [↓](#t43)
-- **T44** `apps/vova/public/music/sultan.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:48:56Z — "где-то он, где-то не он, из описания должно быть ясно. где н…" → [↓](#t44)
-- **T45** `apps/vova/public/music/ukhodi.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:50:16Z — "Холодный ветер с дождём И нет пути обратно это отсылка к "Ба…" → [↓](#t45)
-- **T46** `apps/vova/public/music/wangwei.md`:74 — unresolved — last: @vzakharov (human) 2026-10-07T17:53:58Z — "Заменить, и давай на первую строку. В идеале конечно научить…" → [↓](#t46)
-- **T47** `apps/vova/public/music/yad.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:54:31Z — "Музыки -- да, как и для "рака". В русском тоже сноску." → [↓](#t47)
+- **T01** `apps/vova/public/music/cracks.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T08:34:47Z — "сложное такое слово для перевода на русский. Мне кажется в а…" → [↓](#t01)
+- **T02** `apps/vova/public/music/diner.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T21:12:00Z — "уже есть такой, подумай немного в сторону (и проверяй сущест…" → [↓](#t02)
+- **T04** `apps/vova/public/music/flesh-fiction.md`:102 — unresolved — last: @vzakharov (human) 2026-10-07T21:14:02Z — "Ну не конкретно на pulp fiction, но типа если flash fiction…" → [↓](#t04)
+- **T06** `apps/vova/public/music/hamlet.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:15:07Z — "да (думал ты и сам сможешь найти)" → [↓](#t06)
+- **T08** `apps/vova/public/music/klo.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T21:16:29Z — "Давай пока "Листопад", "Оттепель" это что-то про Хрущёва :)" → [↓](#t08)
+- **T09** `apps/vova/public/music/lebed.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:18:28Z — "я слышал именно "лотом", принимал это за нарочито неправильн…" → [↓](#t09)
+- **T10** `apps/vova/public/music/machines.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:19:39Z — "она называется "Hello, Human"" → [↓](#t10)
+- **T21** `apps/vova/public/music/sultan.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T12:52:57Z — "так, да, но в авторах музыки для "Побега" ещё вроде бы Викто…" → [↓](#t21)
+- **T23** `apps/vova/public/music/utro.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T19:10:44Z — "Давай пока напишем "Славик, друг Андрея Мокрушина" :)" → [↓](#t23)
+- **T24** `apps/vova/public/music/wangwei.md`:74 — unresolved — last: @vzakharov (human) 2026-10-07T21:05:37Z — "в trisagion, кажется, лишнее, можно просто на одну строку ка…" → [↓](#t24)
+- **T25** `apps/vova/public/music/yad.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:06:35Z — "Я не знаю, как принято. "Яд" намного вольнее, здесь ближе к…" → [↓](#t25)
+- **T26** `apps/vova/public/music/40days.md`:18 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:02Z — "давай транслитерации курсивом писать (в интерфейсе, конечно,…" → [↓](#t26)
+- **T27** `apps/vova/public/music/40days.md`:92 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:33Z — "кажется, в английском можно и без примечания, перевод фактич…" → [↓](#t27)
+- **T28** `apps/vova/public/music/8849.md`:11 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:53Z — "номер трека на странице альбома давай обозначать" → [↓](#t28)
+- **T29** `apps/vova/public/music/artemis.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T08:39:49Z — "а подсказки где?" → [↓](#t29)
+- **T30** `apps/vova/public/music/asa.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T08:40:50Z — "дада, Катерина-Лизавета, какая разница?) 🙈" → [↓](#t30)
+- **T31** `apps/vova/public/music/baa.md`:38 — unresolved — last: @vzakharov (human) 2026-10-08T08:42:01Z — "давай x2 просто на каждой строфе напишем" → [↓](#t31)
+- **T32** `apps/vova/public/music/babay.md`:15 — unresolved — last: @vzakharov (human) 2026-10-08T08:45:36Z — "давай (во всех песнях) хранить title по умолчанию только на…" → [↓](#t32)
+- **T33** `apps/vova/public/music/because-of-you-2.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T08:46:37Z — "давай условное название We Made AI Sing Our Old Shite" → [↓](#t33)
+- **T34** `apps/vova/public/music/bezm.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T08:48:02Z — "давай назовём это (все новые папины песни, не вошедшие в пер…" → [↓](#t34)
+- **T35** `apps/vova/public/music/birdie.md`:14 — unresolved — last: @vzakharov (human) 2026-10-08T08:49:36Z — "с учётом того что основной title уходит в основной frontmatt…" → [↓](#t35)
+- **T36** `apps/vova/public/music/birdie.md`:140 — unresolved — last: @vzakharov (human) 2026-10-08T08:50:19Z — "Подсказка в обоих языках про отсылку к "эх, марфуша нам ли б…" → [↓](#t36)
+- **T37** `apps/vova/public/music/bronte.md`:72 — unresolved — last: @vzakharov (human) 2026-10-08T09:45:40Z — "а что, нет в public domain литературных переводов?" → [↓](#t37)
+- **T38** `apps/vova/public/music/call-of-the-steppe.md`:17 — unresolved — last: @vzakharov (human) 2026-10-08T09:46:16Z — "степи?" → [↓](#t38)
+- **T39** `apps/vova/public/music/caprice.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T09:46:46Z — "в папу-море" → [↓](#t39)
+- **T40** `apps/vova/public/music/chaos-always-wins.md`:80 — unresolved — last: @vzakharov (human) 2026-10-08T09:47:15Z — "не просто игра слов, а омофон" → [↓](#t40)
+- **T41** `apps/vova/public/music/crossout.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T09:48:29Z — "Авторы музыки Иван Дербенёв и я" → [↓](#t41)
+- **T42** `apps/vova/public/music/deer.md`:116 — unresolved — last: @vzakharov (human) 2026-10-08T09:49:52Z — "это не песня "Гамлет", так что здесь можно просто повторить" → [↓](#t42)
+- **T43** `apps/vova/public/music/dym.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T09:50:44Z — "Слова -- я и Золтан Захаров (сын)" → [↓](#t43)
+- **T44** `apps/vova/public/music/first.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T09:52:30Z — "в папа-море; авторство музыки совместное" → [↓](#t44)
+- **T45** `apps/vova/public/music/flesh-fiction.md`:90 — unresolved — last: @vzakharov (human) 2026-10-08T09:53:05Z — "это actual русская народная песня, попробуй найти и вставить…" → [↓](#t45)
+- **T46** `apps/vova/public/music/fuck-religion.md`:40 — unresolved — last: @vzakharov (human) 2026-10-08T09:53:37Z — "мы не прячем эксплетивы -- добавь в vet проверку на наиболее…" → [↓](#t46)
+- **T47** `apps/vova/public/music/grave-awakening.md`:34 — unresolved — last: @vzakharov (human) 2026-10-08T09:55:33Z — "тут игра слов на "rude awakening" и двойном значении слова g…" → [↓](#t47)
+- **T48** `apps/vova/public/music/grayrage.md`:46 — unresolved — last: @vzakharov (human) 2026-10-08T09:56:07Z — "gray rage, это термин из психопатологии, погугли и вставь по…" → [↓](#t48)
+- **T49** `apps/vova/public/music/hamlet.md`:16 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:40Z — "ещё и Козакова может?" → [↓](#t49)
+- **T50** `apps/vova/public/music/hamlet.md`:17 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:59Z — "а я каким боком? Перестановка ~мест слагаемых~ слов из песни…" → [↓](#t50)
+- **T51** `apps/vova/public/music/hang-for-the-moment.md`:37 — unresolved — last: @vzakharov (human) 2026-10-08T09:58:43Z — "это отсылка к/пародия на Sing with me, sing for the year итд" → [↓](#t51)
+- **T52** `apps/vova/public/music/hang-for-the-moment.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T09:59:10Z — "тут амбивалентное feel/fill, без единого "канонического" вар…" → [↓](#t52)
+- **T53** `apps/vova/public/music/hcyl.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:00:04Z — "Наверное, на папу-море; эта первая песня на его смерть, напи…" → [↓](#t53)
+- **T54** `apps/vova/public/music/heart.md`:71 — unresolved — last: @vzakharov (human) 2026-10-08T10:00:34Z — "аллюзия на turn the other cheek" → [↓](#t54)
+- **T55** `apps/vova/public/music/heart.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T10:00:50Z — "отсылка к библии" → [↓](#t55)
+- **T56** `apps/vova/public/music/horizons.md`:46 — unresolved — last: @vzakharov (human) 2026-10-08T10:02:26Z — "Нет, здесь не нужно деления на строфы, песня специально запи…" → [↓](#t56)
+- **T57** `apps/vova/public/music/in-our-image.md`:42 — unresolved — last: @vzakharov (human) 2026-10-08T10:03:35Z — "отсылка к "бог создал человека по своему подобию" (нужно най…" → [↓](#t57)
+- **T58** `apps/vova/public/music/in-the-flesh.md`:38 — unresolved — last: @vzakharov (human) 2026-10-08T10:04:31Z — "давай запишем транслитом (курсивом -- везде где транслит дол…" → [↓](#t58)
+- **T59** `apps/vova/public/music/inverno.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:05:58Z — "а авторы музыки (помимо меня) Вивальди -- с его "Зимы" (alle…" → [↓](#t59)
+- **T60** `apps/vova/public/music/kobk.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:08:48Z — "автор музыки Nance Castro" → [↓](#t60)
+- **T61** `apps/vova/public/music/last-human-zoo.md`:43 — unresolved — last: @vzakharov (human) 2026-10-08T10:10:20Z — "отсылка к human zoos, нужно пояснить что это (было) такое и…" → [↓](#t61)
+- **T62** `src/shared/content/index.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:12:43Z — "почему это у нас в общий /content опять залезло -- вещи кото…" → [↓](#t62)
+- **T63** `src/pages/music/ui/artist-page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:13:51Z — "хочу и список артистов и список альбомов в более "а-ля споти…" → [↓](#t63)
+- **T64** `apps/vova/public/music/leli.md`:56 — unresolved — last: @vzakharov (human) 2026-10-08T10:15:54Z — "во всей песне только эти строчки :-)" → [↓](#t64)
+- **T65** `apps/vova/public/music/mask.md`:43 — unresolved — last: @vzakharov (human) 2026-10-08T10:17:07Z — "маска -- термин из психопатологии, вставить подсказку/ссылку" → [↓](#t65)
+- **T66** `apps/vova/public/music/mira.md`:48 — unresolved — last: @vzakharov (human) 2026-10-08T10:18:24Z — "очень условная отсылка к "she's into superstition black cats…" → [↓](#t66)
+- **T67** `apps/vova/public/music/mithqal.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:19:07Z — "как бы нам отметить, что все слова -- из Корана, кого авторо…" → [↓](#t67)
+- **T68** `apps/vova/public/music/monday.md`:32 — unresolved — last: @vzakharov (human) 2026-10-08T10:20:01Z — "da doo ron-de ron -- пояснить про ву-доп" → [↓](#t68)
+- **T69** `apps/vova/public/music/monday.md`:55 — unresolved — last: @vzakharov (human) 2026-10-08T10:20:12Z — "nofx" → [↓](#t69)
+- **T70** `apps/vova/public/music/monday_doo.md`:45 — unresolved — last: @vzakharov (human) 2026-10-08T10:20:38Z — "поётся низким голосом, как в 99% песен The Ink Spots, то ест…" → [↓](#t70)
+- **T71** `apps/vova/public/music/monday_doo.md`:64 — unresolved — last: @vzakharov (human) 2026-10-08T10:22:06Z — "гы, я и не знал. тогда на обе строчки, и в английском тоже.…" → [↓](#t71)
+- **T72** `apps/vova/public/music/monkey.md`:85 — unresolved — last: @vzakharov (human) 2026-10-08T10:23:03Z — "нет, это отсылка к "обезьянке" Бёрна. Сейчас сложно найт пер…" → [↓](#t72)
+- **T73** `apps/vova/public/music/moroz.md`:53 — unresolved — last: @vzakharov (human) 2026-10-08T10:23:51Z — "это последний куплет в песне" → [↓](#t73)
+- **T74** `apps/vova/public/music/mu-icok-new.md`:80 — unresolved — last: @vzakharov (human) 2026-10-08T10:24:16Z — "этой строфы в песне нет" → [↓](#t74)
+- **T75** `apps/vova/public/music/nightmares.md`:98 — unresolved — last: @vzakharov (human) 2026-10-08T10:25:42Z — "на английском тоже можно подсказать" → [↓](#t75)
+- **T76** `apps/vova/public/music/nightmares.md`:16 — unresolved — last: @vzakharov (human) 2026-10-08T10:26:00Z — "кажется я её назвал таки In the Shadow" → [↓](#t76)
+- **T77** `apps/vova/public/music/okna.md`:60 — unresolved — last: @vzakharov (human) 2026-10-08T10:27:41Z — "дать подсказку про Колриджа и Оттера (на обоих языках)" → [↓](#t77)
+- **T78** `apps/vova/public/music/one-day.md`:100 — unresolved — last: @vzakharov (human) 2026-10-08T10:28:20Z — "я тут скорее имел в виду "сойду огнём" (на вас). так не рабо…" → [↓](#t78)
+- **T79** `apps/vova/public/music/one-day.md`:60 — unresolved — last: @vzakharov (human) 2026-10-08T10:29:11Z — "отсылка к лимп бизкит" → [↓](#t79)
+- **T80** `apps/vova/public/music/one-day.md`:138 — unresolved — last: @vzakharov (human) 2026-10-08T10:29:44Z — "имел в виду типа dash of lightning" → [↓](#t80)
+- **T81** `apps/vova/public/music/one-day.md`:143 — unresolved — last: @vzakharov (human) 2026-10-08T10:29:53Z — "эксплитив не запикивать" → [↓](#t81)
+- **T82** `apps/vova/public/music/otter.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:30:51Z — "к этой песне можно дать отсылку (в виде `cf. The River. Part…" → [↓](#t82)
+- **T83** `apps/vova/public/music/otter.md`:72 — unresolved — last: @vzakharov (human) 2026-10-08T10:31:57Z — "эти все строки в песню в результате не вошли" → [↓](#t83)
+- **T84** `apps/vova/public/music/parking-in-disabled-spot.md`:55 — unresolved — last: @vzakharov (human) 2026-10-08T10:32:57Z — "в английском тут игра слов "able" в значении "не disabled" и…" → [↓](#t84)
+- **T85** `apps/vova/public/music/peta.md`:14 — unresolved — last: @vzakharov (human) 2026-10-08T10:33:58Z — "название -- пародия на People for the Ethical Treatment of A…" → [↓](#t85)
+- **T86** `apps/vova/public/music/peta.md`:61 — unresolved — last: @vzakharov (human) 2026-10-08T10:34:24Z — "отсылка к практике PETA уничтожать животных, которых они "сп…" → [↓](#t86)
+- **T87** `apps/vova/public/music/phoenix.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:34:42Z — "музыка + Сергей Исаев, Александра Кокотова" → [↓](#t87)
+- **T88** `apps/vova/public/music/pobeg.md`:46 — unresolved — last: @vzakharov (human) 2026-10-08T10:35:09Z — "cf. Река, часть вторая" → [↓](#t88)
+- **T89** `apps/vova/public/music/poko.md`:14 — unresolved — last: @vzakharov (human) 2026-10-08T10:35:42Z — "скорее в другом порядке всё-таки, по количеству слов" → [↓](#t89)
+- **T90** `apps/vova/public/music/protintro.md`:36 — unresolved — last: @vzakharov (human) 2026-10-08T10:36:30Z — "не надо разбивать на строфы, только на абзацы" → [↓](#t90)
+- **T91** `apps/vova/public/music/psch.md`:73 — unresolved — last: @vzakharov (human) 2026-10-08T10:37:48Z — "подсказка (особенно нужна в русском): a Pair of So-Called He…" → [↓](#t91)
+- **T92** `apps/vova/public/music/rank.md`:35 — unresolved — last: @vzakharov (human) 2026-10-08T10:38:55Z — "тогда уже и тут изменить перевод и отметить переводчика" → [↓](#t92)
+- **T93** `apps/vova/public/music/rank.md`:88 — unresolved — last: @vzakharov (human) 2026-10-08T10:39:31Z — "нём, её, ещё итп. если не сложно -- просвипь на типичных сло…" → [↓](#t93)
+- **T94** `apps/vova/public/music/salman.md`:66 — unresolved — last: @vzakharov (human) 2026-10-08T10:42:39Z — "добавить: Все вместе! Хоть говори, хоть пой, а хоть пиши (хо…" → [↓](#t94)
+- **T95** `apps/vova/public/music/sashas.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:43:00Z — "слова -- Саша Захарова и я" → [↓](#t95)
+- **T96** `apps/vova/public/music/sashas.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:43:03Z — "папа-море" → [↓](#t96)
+- **T97** `apps/vova/public/music/sneg_0.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:02Z — "папа-море (но песня моя)" → [↓](#t97)
+- **T98** `apps/vova/public/music/sneg_idet.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:18Z — "п-м (папа-море здесь и далее)" → [↓](#t98)
+- **T99** `apps/vova/public/music/sneg_idet.md`:13 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:25Z — "музыка - папа" → [↓](#t99)
+- **T100** `apps/vova/public/music/story-ends.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T12:50:25Z — "отсылка к песне Ink с того же альбома" → [↓](#t100)
+- **T101** `apps/vova/public/music/studentka.md`:122 — unresolved — last: @vzakharov (human) 2026-10-08T12:51:29Z — "ну собственно примечание не кокретно на строчку, а на всю пе…" → [↓](#t101)
+- **T102** `apps/vova/public/music/succumb.md`:116 — unresolved — last: @vzakharov (human) 2026-10-08T12:52:26Z — "отметить омофон в оригинале (so come/succumb)" → [↓](#t102)
+- **T103** `apps/vova/public/music/sultan.md`:28 — unresolved — last: @vzakharov (human) 2026-10-08T12:53:28Z — ", моему сыну Золтану (а то можно подумать что это какой-то д…" → [↓](#t103)
+- **T104** `apps/vova/public/music/tango.md`:52 — unresolved — last: @vzakharov (human) 2026-10-08T12:54:11Z — "AK-47. Или может такие вещи сами себя поясняют?" → [↓](#t104)
+- **T105** `apps/vova/public/music/tango.md`:78 — unresolved — last: @vzakharov (human) 2026-10-08T12:54:59Z — "А перевод в подсказке? mi casi amor -- отсылка к "I almost l…" → [↓](#t105)
+- **T106** `apps/vova/public/music/u4.md`:37 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:14Z — "отсылка к тексту for who the bell tolls: "he hears the silen…" → [↓](#t106)
+- **T107** `apps/vova/public/music/u4.md`:51 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:46Z — "в русском указать на игру слов for/IV" → [↓](#t107)
+- **T108** `apps/vova/public/music/u4.md`:106 — unresolved — last: @vzakharov (human) 2026-10-08T19:04:34Z — "а почему это всё убрали? оно повторяется, да, но например So…" → [↓](#t108)
+- **T109** `apps/vova/public/music/ukhodi.md`:51 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:01Z — "Да, громко, только толку" → [↓](#t109)
+- **T110** `apps/vova/public/music/ukhodi.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:22Z — "Отсылка к песне "Окна"" → [↓](#t110)
+- **T111** `apps/vova/public/music/ukhodi.md`:48 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:59Z — "Вспомнил что тут другой текст, "Фракталом нашей вазы" (чтобы…" → [↓](#t111)
+- **T112** `apps/vova/public/music/utro.md`:73 — unresolved — last: @vzakharov (human) 2026-10-08T19:11:07Z — "не нужно повторений в скобках" → [↓](#t112)
+- **T113** `apps/vova/public/music/watch-people-die.md`:18 — unresolved — last: @vzakharov (human) 2026-10-08T19:11:52Z — "Смотреть, как умирают люди" → [↓](#t113)
+- **T114** `apps/vova/public/music/watch-people-die.md`:63 — unresolved — last: @vzakharov (human) 2026-10-08T19:12:08Z — "-о в русско не надо:)" → [↓](#t114)
+- **T115** `apps/vova/public/music/wdk.md`:48 — unresolved — last: @vzakharov (human) 2026-10-08T19:13:29Z — "отсылка к монологу Клавдия из "O, my offense is rank" -- мож…" → [↓](#t115)
+- **T116** `apps/vova/public/music/yad.md`:104 — unresolved — last: @vzakharov (human) 2026-10-08T19:15:30Z — "тут дальше полный куплет (до "пока я ещё не зверь) а потом Я…" → [↓](#t116)
+- **T117** `apps/vova/public/music/zhadina.md`:41 — unresolved — last: @vzakharov (human) 2026-10-08T19:15:52Z — "просто "x2" в каждом припеве" → [↓](#t117)
+- **R01** review by @vzakharov (human) — 2026-10-08T19:16:55Z → [↓](#r01)
 
 ---
 
@@ -67,64 +130,56 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 - **`hidden: true`** in any document's frontmatter: the page is built and reachable at its address, but no listing carries it — collection indexes, the music player's queue, the sitemap — and the page is marked `noindex`. One predicate, `isListed` in `shared/content`, decides it, applied where documents are listed and never where they are routed.
 - **A hidden song plays from its own page**: the play control takes a track rather than a queue position, and a track the queue does not hold joins its end (`append` in the player reducer, covered by `player-state.test.ts`).
-- **150 masters from `vovas-music` are now song pages, all hidden**, `description: TBD` in both languages: every entry on the masters checklist, those Vova left without a project included. Words come from his Suno profile, and stories from his Telegram posts where he told one. The ten songs already on the site are untouched.
-- **`/music/all`** (and `/music/all/ru`) is the index with the hidden songs on it too — linked from nowhere, `noindex`, not in the sitemap — so the whole catalogue can be reviewed in one place.
-- **What made that possible**: `language` became a list (main language first), with Tatar, Arabic, Polish, Latin, Chinese and French added, and a song sung wholly in one of them shows a crib in the reader's language beside its words. The albums (the mini-album «Ignite» among them) and three projects joined their registries. `pnpm music:scaffold --spec <file>` takes the master and the authored fields, so a repository with several root FLACs or an album track can be scaffolded too.
-- **A project can be billed under another name per language**: Yoohie is «Йухи» on Russian pages — the index, the player bar, the lock-screen controls and the song page.
+- **147 masters from `vovas-music` are now song pages, all hidden**, `description: TBD` in both languages, beside the ten songs already on the site. Words come from his Suno profile and his review, set as verse: Suno's control markers, stress marks, drawn-out syllables and pause ellipses do not travel (`.claude/rules/content.md`), while a published poem's own punctuation stays. Two masters not in `vovas-music` (`protintro`, `blues`) are hosted on the site itself under `/music/assets/`, so `repo` is optional.
+- **`/music` starts from the artists.** `/music/artists/<slug>` and `/music/albums/<slug>` list what is public; the same pages under `/music/all/…` (`/music/all/en`, `/music/all/ru`, `/music/all/artists/…`, `/music/all/albums/…`) carry the hidden songs too — `noindex`, out of the sitemap, linked only from hidden songs. On a song page the artists and the album are links, underlined on hover (`NameLink` in `shared/ui`).
+- **A title gloss per locale**: `en.transliteration` is Latin, `ru.transliteration` Cyrillic, and the line under a title shows only when the title is in a script the reader doesn't read (`title-gloss.ts`, with tests).
+- **One note over several lines**: the same whole-line `[^label]` ending consecutive lines gives the group one note.
+- **What made the catalogue possible**: `language` became a list (main language first), with Tatar, Arabic, Polish, Latin, Chinese, French, German, Italian and Spanish; a song sung wholly in one of them shows a crib in the reader's language beside its words. Albums and projects joined their registries, and a project can be billed under another name per language (Yoohie is «Йухи» on Russian pages). `pnpm music:scaffold --spec <file>` takes the master and the authored fields.
 
 ## For Vova: what is open, so you can overrule it
 
-**Your answers, applied**
-
-- A song with no project gets a made-up one: «Минем бабай» is under **«Онык»**, a name for you to replace.
-- One project order in both languages: Vagabond's tracks list `[Полуживые, GENERATED]`, as `june` already does.
-- An album with no name yet makes its songs singles (no `album`).
-- An album track and the single repository cut from it are one song with one page. 29 checklist repositories got no page of their own for that reason — `zoo` is `last-human-zoo`, `pled` is `pod-laskoy-pleda`, and so on.
-- «La Scorpionne» is sung in French; «Άγιος Ο Σκοπός» in Russian, its choir's one line with an English crib.
-- The entries you left without a project got pages too, each with a guessed project.
-
-**Still waiting on you**
-
-- **«Минем бабай»** has no Tatar words on file, so its page has no lyrics and no crib yet.
-- **The guessed projects** on the songs you left blank — 31 pages, each saying why in its note.
-
-**Where the guesses are**
-
-Every guessed master, project and language carries a `<!-- For Vova to check: … -->` comment in its song file — 112 files. This lists them:
-
-```sh
-grep -l "For Vova to check" apps/vova/public/music/*.md
-```
+- **Names that are proposals**: the projects Velvet Static (diner) and «Оттепель» (klo), with alternatives in their threads; «Онык» for «Минем бабай»; the album `polzat` is titled «Сильней любви» with its slug kept.
+- **Slugs** are untouched for now, as you asked — this is the reminder.
+- **Questions in the review threads**, each in its own reply: dates for `protintro` and `blues`, «управляя лотом» in lebed, whether the chorus repeats after meow's second verse, MCR among «Рак»'s lyricists, the rest of hamlet's Pasternak, studentka's music credit, pobeg's «Жаворонок».
+- **Ellipses kept on purpose**: published poems' own (Nekrasov, Tsvetaeva, Akhmatova; deer and hamlet «Удобен миг…» on doubt) and the ones that read as yours (chaos-always-wins's «…» stanza, birdie, one-day «kick the shit…», prs «just... gross», sashas, skolko «Ну а сейчас…»). s74's dashes «Пускай — в земле», «Моя — душа» may be Suno pauses too.
+- **«Минем бабай»** has no Tatar words on file, so its page has no lyrics yet.
+- Every guessed master, project and language carries a `<!-- For Vova to check: … -->` comment in its song file — 83 files: `grep -l "For Vova to check" apps/vova/public/music/*.md`.
 
 ## QA Checklist
 
-- [ ] `hidden-off-index` — `/music` and `/ru/music` list the same ten songs as on `main`, none of the new ones; the player's next/previous never reaches a new song.
+- [ ] `hidden-off-index` — `/music` and `/ru/music` list only the ten public songs; the player's next/previous never reaches a hidden one.
 - [ ] `hidden-page` — `/music/babay` renders, plays, and the player bar shows it while it plays; next from it goes to the start of the queue.
-- [ ] `hidden-sitemap` — none of the new songs' addresses are in `/sitemap.xml`.
-- [ ] `hidden-noindex` — a new song's page carries `<meta name="robots" content="noindex">`; an old song's page does not.
+- [ ] `hidden-sitemap` — no hidden song's address and nothing under `/music/all/` is in `/sitemap.xml`.
+- [ ] `hidden-noindex` — a hidden song's page and every `/music/all/…` page carry `<meta name="robots" content="noindex">`; a public song's page does not.
+- [ ] `artist-pages` — `/music` opens with the artist list and the songs below it; an artist and an album page list their public songs; the `/music/all/…` twins list the hidden ones too.
+- [ ] `song-links` — on a song page the artists and album are links, underlined only on hover; a hidden song's links go to `/music/all/…`.
+- [ ] `everything-index` — `/music/all/en` lists all 157 songs, `/music/all/ru` the same in Russian.
+- [ ] `title-gloss` — `/music/agios-o-skopos` shows «Agios o Skopos · gr. Holy Is the Purpose» under its English title and no line under «Предназначение» on the Russian page.
+- [ ] `multi-line-note` — `/music/wangwei` shows one note over the three lines it covers.
+- [ ] `site-master` — `/music/protintro` and `/music/blues` play from `/music/assets/` and show no «source» link.
 - [ ] `multi-language` — `/music/trisagion` names Russian, Latin and English, in that order, in both locales; `/music/babay` names Tatar.
-- [ ] `album-pages` — a track from a new album (e.g. `/music/believe-in-me`) names the album and its artist on its page, in both locales.
+- [ ] `localized-project` — a Yoohie song (e.g. `/music/because-of-you-2`) is billed «Йухи» on its Russian page, on the Russian index row and in the player bar, and «Yoohie» everywhere in English.
 - [ ] `scaffold-spec` — `pnpm music:scaffold --spec <file>` on a spec naming a master in a repository with several root FLACs writes a song file that passes `pnpm format:check`.
-- [ ] `visible-unchanged` — the existing ten songs list, queue and play as before.
-- [ ] `everything-index` — `/music/all` lists all 160 songs, `/music/all/ru` the same in Russian; both carry the robots `noindex` and neither is in `/sitemap.xml` or linked from any page.
-- [ ] `localized-project` — a Yoohie song (e.g. `/music/because-of-you-2`) is billed «Йухи» on its Russian page, on the Russian index row and in the player bar on Russian pages, and «Yoohie» everywhere in English.
 
-| Item                | Automatable | Covered? | Notes                                                                    |
-| ------------------- | ----------- | -------- | ------------------------------------------------------------------------ |
-| `hidden-off-index`  | e2e         | ❌       | Build, then assert the exported `/music` HTML holds no `hidden: true` slug |
-| `hidden-page`       | e2e         | ❌       | Drive the built page in a headless browser, press play, read the bar     |
-| `hidden-sitemap`    | e2e         | ❌       | Grep `out/sitemap.xml` for every hidden slug                             |
-| `hidden-noindex`    | e2e         | ❌       | Grep the exported page for the robots meta                               |
-| `multi-language`    | unit        | ❌       | Frontmatter schema reads a string or a list into a list                  |
-| `album-pages`       | manual-only | —        | Copy and layout on the rendered page                                     |
-| `scaffold-spec`     | integration | ❌       | Run the CLI on a fixture spec, compare the written file                  |
-| `visible-unchanged` | unit        | ✅       | `player-state.test.ts` — queue order, next/previous, append              |
-| `everything-index`  | e2e         | ❌       | Grep the exported `/music/all` HTML for every slug and the robots meta   |
-| `localized-project` | unit        | ✅       | `music-projects.test.ts` — the name per locale; the rendering is manual  |
+| Item                | Automatable | Covered? | Notes                                                                        |
+| ------------------- | ----------- | -------- | ---------------------------------------------------------------------------- |
+| `hidden-off-index`  | e2e         | ❌       | Build, then assert the exported `/music` HTML holds no `hidden: true` slug   |
+| `hidden-page`       | e2e         | ❌       | Drive the built page in a headless browser, press play, read the bar         |
+| `hidden-sitemap`    | e2e         | ❌       | Grep `out/sitemap.xml` for every hidden slug and `/music/all/`               |
+| `hidden-noindex`    | e2e         | ❌       | Grep the exported pages for the robots meta                                  |
+| `artist-pages`      | e2e         | ❌       | Grep the exported artist/album HTML for public vs hidden slugs               |
+| `song-links`        | manual-only | —        | Hover styling on the rendered page                                           |
+| `everything-index`  | e2e         | ❌       | Grep the exported `/music/all/en` HTML for every slug                        |
+| `title-gloss`       | unit        | ✅       | `title-gloss.test.ts` — which locale shows which gloss; rendering is manual  |
+| `multi-line-note`   | unit        | ❌       | The lyrics parser groups consecutive lines sharing a label                   |
+| `site-master`       | e2e         | ❌       | Assert the exported page's audio `src` is the site path                      |
+| `multi-language`    | unit        | ❌       | Frontmatter schema reads a string or a list into a list                      |
+| `localized-project` | unit        | ✅       | `music-projects.test.ts` — the name per locale; the rendering is manual      |
+| `scaffold-spec`     | integration | ❌       | Run the CLI on a fixture spec, compare the written file                      |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-https://claude.ai/code/session_01XiDvsXXHA6MFwoS1XGajBh
+https://claude.ai/code/session_01Qy53si7VtA7Lc26hXiGctT
 
 ---
 
@@ -141,33 +196,34 @@ https://claude.ai/code/session_01XiDvsXXHA6MFwoS1XGajBh
 Proposed squash title/body:
 
 ```
-feat(vova): hidden documents, and 150 masters as hidden song pages (pr #115)
+feat(vova): hidden documents, artist pages, 147 hidden song pages (pr #115)
 ```
 
 ```
 The vovas-music organization holds far more masters than the site
 lists, most of them not ready to show. A document now takes
 `hidden: true`: its page is built and served at its address, but no
-listing carries it — not a collection index, not the music player's
-queue, not the sitemap — and the page asks search engines not to
-index it. One predicate in shared/content decides what is listed,
-applied where documents are listed and never where they are routed.
+listing, player queue or sitemap carries it, and it is noindex. One
+predicate in shared/content decides what is listed. A hidden song
+plays from its own page, joining the end of the queue.
 
-A hidden song plays from its own page: the player takes a track
-rather than a queue position, and a track it does not hold yet joins
-the end of the queue when played.
+147 masters land as hidden song pages, their words set as verse:
+Suno's markers, drawn-out syllables and pause ellipses do not travel,
+a published poem's punctuation does. A guessed master, project or
+language says so in a comment in its file. Masters outside
+vovas-music are served from the site, so a song's repo is optional.
 
-150 of those masters land as hidden song pages, with description TBD
-and words from his Suno songs where they exist; /music/all lists them
-alongside the public ones, unlinked and unindexed, for review. A
-master, project or language that was a guess says so in a comment in
-its file. To carry them, a song's language is a list, main language
-first, with Tatar, Arabic, Polish, Latin, Chinese and French added;
-albums and projects join their registries, and a project can be
-billed under another name per language (Yoohie is «Йухи» in Russian);
-and music:scaffold takes a spec naming the master and the authored
-fields, so album tracks and repositories with several masters can be
-scaffolded.
+/music opens with the artists; artist and album pages list what is
+public, and their twins under /music/all list the hidden songs too,
+noindex and out of the sitemap. A song page links its artists and
+album. A title's transliteration is per locale and shows only to a
+reader who cannot read its script, and one note can span several
+lines.
+
+To carry the catalogue, a song's language is a list, main language
+first, with nine languages added; albums and projects join their
+registries, a project can be billed under another name per language,
+and music:scaffold takes a spec naming the master and its fields.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -176,532 +232,137 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_49 resolved threads omitted; re-run with `--include-resolved` to export them._
+<a id="r01"></a>
 
-- **T01** `apps/vova/public/music/300000-years.md`:6 — unresolved — last: @vzakharov (human) 2026-10-07T13:23:01Z — "да, добавить. Про in our image посмотрю по тексту" → [↓](#t01)
-- **T02** `apps/vova/public/music/300000-years.md`:6 — unresolved — last: @vzakharov (human) 2026-10-07T13:24:12Z — "давай /music начинать сразу со страницы артистов (с поддержк…" → [↓](#t02)
-- **T03** `apps/vova/public/music/40days.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:26:22Z — ""лишь варианты шествия за гробом" и у меня, просто пропустил…" → [↓](#t03)
-- **T04** `apps/vova/public/music/agios-o-skopos.md`:15 — unresolved — last: @vzakharov (human) 2026-10-07T13:27:42Z — "ну вот тут не совсем; потому что сейчас транслитерацию видно…" → [↓](#t04)
-- **T05** `apps/vova/public/music/alive.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:28:33Z — "nothingness в одно, конечно. Про пустоту уже точно не вспомн…" → [↓](#t05)
-- **T06** `apps/vova/public/music/almost.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:28:57Z — "верно; вдова-мать, наверное, намеренно. В танго да, добавить…" → [↓](#t06)
-- **T07** `apps/vova/public/music/asa.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:29:27Z — "Там многое не поётся, отмечу уже по текстам" → [↓](#t07)
-- **T08** `apps/vova/public/music/baa.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:30:33Z — "я там оказывается таки дописывал текст: ``` [Sensual, mild]…" → [↓](#t08)
-- **T09** `apps/vova/public/music/babay.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T13:32:04Z — "Иске Кормаш оказывается" → [↓](#t09)
-- **T10** `apps/vova/public/music/bronte.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:32:34Z — "нет, explicit ставим только на конкретные слова. Про склейку…" → [↓](#t10)
-- **T11** `apps/vova/public/music/cant-take-your-eyes-out-of-you.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:33:17Z — "реплика, сноску верно, хотя в какой-то момент все эти поясне…" → [↓](#t11)
-- **T12** `apps/vova/public/music/chp.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T13:33:54Z — "Просто ради интереса, а как бы ты это перевёл? :)" → [↓](#t12)
-- **T13** `apps/vova/public/music/cracks.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:05:53Z — "world, да; main это типа как магистраль (водная), я так пони…" → [↓](#t13)
-- **T14** `apps/vova/public/music/crossout.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:06:09Z — "угу" → [↓](#t14)
-- **T15** `apps/vova/public/music/diner.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T17:06:52Z — "Надо придумать что-то подходящее" → [↓](#t15)
-- **T16** `apps/vova/public/music/f-ec.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:00:59Z — "Слаги не трогал, в конце работы по ревью напомню." → [↓](#t16)
-- **T17** `apps/vova/public/music/flesh-fiction.md`:102 — unresolved — last: @vzakharov (agent) 2026-10-07T13:01:01Z — "Добавил сноску, что «Flesh Fiction» — ещё и игра на «Pulp Fi…" → [↓](#t17)
-- **T18** `apps/vova/public/music/okna.md`:90 — unresolved — last: @vzakharov (human) 2026-10-07T17:08:48Z — "да, в припевах можно" → [↓](#t18)
-- **T19** `apps/vova/public/music/gg.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:09:34Z — "Good Girl. Bye-bye, конечно. И ещё, и здесь и в большинстве…" → [↓](#t19)
-- **T20** `apps/vova/public/music/grand-finale.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:10:27Z — "Ну в песне reclaim, а из неё, как известно, слов не выкинешь…" → [↓](#t20)
-- **T21** `apps/vova/public/music/hamlet.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:13:10Z — "``` Пусть раненый олень ревёт А уцелевший скачет Где – спят,…" → [↓](#t21)
-- **T22** `apps/vova/public/music/ignite.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:14:18Z — "я думаю на английском тоже не помешает?" → [↓](#t22)
-- **T23** `apps/vova/public/music/in-the-end.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:15:57Z — "В подсказке нужна транслитерация на английский/русский соотв…" → [↓](#t23)
-- **T24** `apps/vova/public/music/inside.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:16:42Z — "i-ide, i-ight не нужны, разве в правилах нет суновские текст…" → [↓](#t24)
-- **T25** `apps/vova/public/music/klo.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:17:15Z — "Клокочина, да, и это не bladdernut, а melia azedarach, я не…" → [↓](#t25)
-- **T26** `apps/vova/public/music/klo.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T17:17:21Z — "Так давай думать" → [↓](#t26)
-- **T27** `apps/vova/public/music/lebed.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:24:06Z — "Давай "Сильней любви" пока" → [↓](#t27)
-- **T28** `apps/vova/public/music/like-that.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:24:56Z — "У-е и прочее убери пжст" → [↓](#t28)
-- **T29** `apps/vova/public/music/machines.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:25:58Z — "Trust In the Machine" → [↓](#t29)
-- **T30** `apps/vova/public/music/machines.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:26:59Z — "protintro, давай добавим версию прямо из джукбокса: [protint…" → [↓](#t30)
-- **T31** `apps/vova/public/music/meow.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:28:12Z — "там ещё ``` [Chorus, growling] (Meow!) I love little pussy!…" → [↓](#t31)
-- **T32** `apps/vova/public/music/nazovi.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:30:31Z — "опять же, без обозначений вокализмов" → [↓](#t32)
-- **T33** `apps/vova/public/music/nazovi.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:38:22Z — "[Призрачный блюз.mp3](https://github.com/user-attachments/f…" → [↓](#t33)
-- **T34** `apps/vova/public/music/ogonki.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:39:28Z — "давай отметим что первая строфа x4 и небудем копировать 4 ра…" → [↓](#t34)
-- **T35** `apps/vova/public/music/ok-loser.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:40:03Z — "да, там полный припев "Alright, alrigh, wave goodbye" итп до…" → [↓](#t35)
-- **T36** `apps/vova/public/music/overture.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:01:51Z — "Поставил instrumental — f23f05d; потом объединил с wagner —…" → [↓](#t36)
-- **T37** `apps/vova/public/music/pes-reprise.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:40:45Z — "многоточия убрать, чтобы припев был две строчки" → [↓](#t37)
-- **T38** `apps/vova/public/music/pes.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:40:56Z — "Саша сделала фото" → [↓](#t38)
-- **T39** `apps/vova/public/music/poko.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:42:09Z — "Да, Блока указать, в бридже ("Снежинок лёгкий пух") тоже он.…" → [↓](#t39)
-- **T40** `apps/vova/public/music/prsdemo.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:02:03Z — "Убрал страницу и поставил её в игнор-лист чек-листа — 8e6e4e…" → [↓](#t40)
-- **T41** `apps/vova/public/music/rank.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:02:06Z — "Вставил монолог Клавдия (III.3) целиком, русский подстрочник…" → [↓](#t41)
-- **T42** `apps/vova/public/music/sirens-of-the-sands.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:02:16Z — "Да, вокализ на выдуманном языке считается инструменталом; он…" → [↓](#t42)
-- **T43** `apps/vova/public/music/studentka.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:48:06Z — "Я слышал у Аркадия Северного. Есть ещё более новая версия Кр…" → [↓](#t43)
-- **T44** `apps/vova/public/music/sultan.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:48:56Z — "где-то он, где-то не он, из описания должно быть ясно. где н…" → [↓](#t44)
-- **T45** `apps/vova/public/music/ukhodi.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:50:16Z — "Холодный ветер с дождём И нет пути обратно это отсылка к "Ба…" → [↓](#t45)
-- **T46** `apps/vova/public/music/wangwei.md`:74 — unresolved — last: @vzakharov (human) 2026-10-07T17:53:58Z — "Заменить, и давай на первую строку. В идеале конечно научить…" → [↓](#t46)
-- **T47** `apps/vova/public/music/yad.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T17:54:31Z — "Музыки -- да, как и для "рака". В русском тоже сноску." → [↓](#t47)
+### R01 — Review by @vzakharov (human) — COMMENTED
+
+_2026-10-08T19:16:55Z_
+
+[https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5461709471](https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5461709471)
+
+см. ниже
+
+_71 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `apps/vova/public/music/cracks.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T08:34:47Z — "сложное такое слово для перевода на русский. Мне кажется в а…" → [↓](#t01)
+- **T02** `apps/vova/public/music/diner.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T21:12:00Z — "уже есть такой, подумай немного в сторону (и проверяй сущест…" → [↓](#t02)
+- **T03** `apps/vova/public/music/f-ec.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:00:59Z — "Слаги не трогал, в конце работы по ревью напомню." → [↓](#t03)
+- **T04** `apps/vova/public/music/flesh-fiction.md`:102 — unresolved — last: @vzakharov (human) 2026-10-07T21:14:02Z — "Ну не конкретно на pulp fiction, но типа если flash fiction…" → [↓](#t04)
+- **T05** `apps/vova/public/music/grand-finale.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:10Z — "Последнюю фразу разбил после «whispers reclaim,», чтобы «rec…" → [↓](#t05)
+- **T06** `apps/vova/public/music/hamlet.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:15:07Z — "да (думал ты и сам сможешь найти)" → [↓](#t06)
+- **T07** `apps/vova/public/music/klo.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:17Z — "Песня теперь «Клокочина» в обеих локалях, по-английски Kloko…" → [↓](#t07)
+- **T08** `apps/vova/public/music/klo.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T21:16:29Z — "Давай пока "Листопад", "Оттепель" это что-то про Хрущёва :)" → [↓](#t08)
+- **T09** `apps/vova/public/music/lebed.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:18:28Z — "я слышал именно "лотом", принимал это за нарочито неправильн…" → [↓](#t09)
+- **T10** `apps/vova/public/music/machines.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:19:39Z — "она называется "Hello, Human"" → [↓](#t10)
+- **T11** `apps/vova/public/music/nazovi.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:30Z — "Сделал скрытую страницу «Призрачный блюз» (`blues`), трек 7…" → [↓](#t11)
+- **T12** `apps/vova/public/music/ogonki.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:32Z — "Первая строфа написана один раз, под ней строка «(×4)» в обе…" → [↓](#t12)
+- **T13** `apps/vova/public/music/ok-loser.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:33Z — "Вписал весь припев от «Alright, alright, wave goodbye» до «b…" → [↓](#t13)
+- **T14** `apps/vova/public/music/overture.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:01:51Z — "Поставил instrumental — f23f05d; потом объединил с wagner —…" → [↓](#t14)
+- **T15** `apps/vova/public/music/pes-reprise.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:35Z — "Припев теперь в две строки: «Это море — судьба моя, / Эти во…" → [↓](#t15)
+- **T16** `apps/vova/public/music/pes.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:36Z — "Русскую историю переписал без двусмысленности: «фотографии,…" → [↓](#t16)
+- **T17** `apps/vova/public/music/poko.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:37Z — "Это Блок, «Покойник спать ложится…» (1909, «Арфы и скрипки»)…" → [↓](#t17)
+- **T18** `apps/vova/public/music/prsdemo.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:02:03Z — "Убрал страницу и поставил её в игнор-лист чек-листа — 8e6e4e…" → [↓](#t18)
+- **T19** `apps/vova/public/music/rank.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:02:06Z — "Вставил монолог Клавдия (III.3) целиком, русский подстрочник…" → [↓](#t19)
+- **T20** `apps/vova/public/music/sirens-of-the-sands.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:02:16Z — "Да, вокализ на выдуманном языке считается инструменталом; он…" → [↓](#t20)
+- **T21** `apps/vova/public/music/sultan.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T12:52:57Z — "так, да, но в авторах музыки для "Побега" ещё вроде бы Викто…" → [↓](#t21)
+- **T22** `apps/vova/public/music/ukhodi.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:41Z — "Повесил на эти две строки общую сноску в обеих колонках: отс…" → [↓](#t22)
+- **T23** `apps/vova/public/music/utro.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T19:10:44Z — "Давай пока напишем "Славик, друг Андрея Мокрушина" :)" → [↓](#t23)
+- **T24** `apps/vova/public/music/wangwei.md`:74 — unresolved — last: @vzakharov (human) 2026-10-07T21:05:37Z — "в trisagion, кажется, лишнее, можно просто на одну строку ка…" → [↓](#t24)
+- **T25** `apps/vova/public/music/yad.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:06:35Z — "Я не знаю, как принято. "Яд" намного вольнее, здесь ближе к…" → [↓](#t25)
+- **T26** `apps/vova/public/music/40days.md`:18 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:02Z — "давай транслитерации курсивом писать (в интерфейсе, конечно,…" → [↓](#t26)
+- **T27** `apps/vova/public/music/40days.md`:92 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:33Z — "кажется, в английском можно и без примечания, перевод фактич…" → [↓](#t27)
+- **T28** `apps/vova/public/music/8849.md`:11 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:53Z — "номер трека на странице альбома давай обозначать" → [↓](#t28)
+- **T29** `apps/vova/public/music/artemis.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T08:39:49Z — "а подсказки где?" → [↓](#t29)
+- **T30** `apps/vova/public/music/asa.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T08:40:50Z — "дада, Катерина-Лизавета, какая разница?) 🙈" → [↓](#t30)
+- **T31** `apps/vova/public/music/baa.md`:38 — unresolved — last: @vzakharov (human) 2026-10-08T08:42:01Z — "давай x2 просто на каждой строфе напишем" → [↓](#t31)
+- **T32** `apps/vova/public/music/babay.md`:15 — unresolved — last: @vzakharov (human) 2026-10-08T08:45:36Z — "давай (во всех песнях) хранить title по умолчанию только на…" → [↓](#t32)
+- **T33** `apps/vova/public/music/because-of-you-2.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T08:46:37Z — "давай условное название We Made AI Sing Our Old Shite" → [↓](#t33)
+- **T34** `apps/vova/public/music/bezm.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T08:48:02Z — "давай назовём это (все новые папины песни, не вошедшие в пер…" → [↓](#t34)
+- **T35** `apps/vova/public/music/birdie.md`:14 — unresolved — last: @vzakharov (human) 2026-10-08T08:49:36Z — "с учётом того что основной title уходит в основной frontmatt…" → [↓](#t35)
+- **T36** `apps/vova/public/music/birdie.md`:140 — unresolved — last: @vzakharov (human) 2026-10-08T08:50:19Z — "Подсказка в обоих языках про отсылку к "эх, марфуша нам ли б…" → [↓](#t36)
+- **T37** `apps/vova/public/music/bronte.md`:72 — unresolved — last: @vzakharov (human) 2026-10-08T09:45:40Z — "а что, нет в public domain литературных переводов?" → [↓](#t37)
+- **T38** `apps/vova/public/music/call-of-the-steppe.md`:17 — unresolved — last: @vzakharov (human) 2026-10-08T09:46:16Z — "степи?" → [↓](#t38)
+- **T39** `apps/vova/public/music/caprice.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T09:46:46Z — "в папу-море" → [↓](#t39)
+- **T40** `apps/vova/public/music/chaos-always-wins.md`:80 — unresolved — last: @vzakharov (human) 2026-10-08T09:47:15Z — "не просто игра слов, а омофон" → [↓](#t40)
+- **T41** `apps/vova/public/music/crossout.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T09:48:29Z — "Авторы музыки Иван Дербенёв и я" → [↓](#t41)
+- **T42** `apps/vova/public/music/deer.md`:116 — unresolved — last: @vzakharov (human) 2026-10-08T09:49:52Z — "это не песня "Гамлет", так что здесь можно просто повторить" → [↓](#t42)
+- **T43** `apps/vova/public/music/dym.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T09:50:44Z — "Слова -- я и Золтан Захаров (сын)" → [↓](#t43)
+- **T44** `apps/vova/public/music/first.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T09:52:30Z — "в папа-море; авторство музыки совместное" → [↓](#t44)
+- **T45** `apps/vova/public/music/flesh-fiction.md`:90 — unresolved — last: @vzakharov (human) 2026-10-08T09:53:05Z — "это actual русская народная песня, попробуй найти и вставить…" → [↓](#t45)
+- **T46** `apps/vova/public/music/fuck-religion.md`:40 — unresolved — last: @vzakharov (human) 2026-10-08T09:53:37Z — "мы не прячем эксплетивы -- добавь в vet проверку на наиболее…" → [↓](#t46)
+- **T47** `apps/vova/public/music/grave-awakening.md`:34 — unresolved — last: @vzakharov (human) 2026-10-08T09:55:33Z — "тут игра слов на "rude awakening" и двойном значении слова g…" → [↓](#t47)
+- **T48** `apps/vova/public/music/grayrage.md`:46 — unresolved — last: @vzakharov (human) 2026-10-08T09:56:07Z — "gray rage, это термин из психопатологии, погугли и вставь по…" → [↓](#t48)
+- **T49** `apps/vova/public/music/hamlet.md`:16 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:40Z — "ещё и Козакова может?" → [↓](#t49)
+- **T50** `apps/vova/public/music/hamlet.md`:17 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:59Z — "а я каким боком? Перестановка ~мест слагаемых~ слов из песни…" → [↓](#t50)
+- **T51** `apps/vova/public/music/hang-for-the-moment.md`:37 — unresolved — last: @vzakharov (human) 2026-10-08T09:58:43Z — "это отсылка к/пародия на Sing with me, sing for the year итд" → [↓](#t51)
+- **T52** `apps/vova/public/music/hang-for-the-moment.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T09:59:10Z — "тут амбивалентное feel/fill, без единого "канонического" вар…" → [↓](#t52)
+- **T53** `apps/vova/public/music/hcyl.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:00:04Z — "Наверное, на папу-море; эта первая песня на его смерть, напи…" → [↓](#t53)
+- **T54** `apps/vova/public/music/heart.md`:71 — unresolved — last: @vzakharov (human) 2026-10-08T10:00:34Z — "аллюзия на turn the other cheek" → [↓](#t54)
+- **T55** `apps/vova/public/music/heart.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T10:00:50Z — "отсылка к библии" → [↓](#t55)
+- **T56** `apps/vova/public/music/horizons.md`:46 — unresolved — last: @vzakharov (human) 2026-10-08T10:02:26Z — "Нет, здесь не нужно деления на строфы, песня специально запи…" → [↓](#t56)
+- **T57** `apps/vova/public/music/in-our-image.md`:42 — unresolved — last: @vzakharov (human) 2026-10-08T10:03:35Z — "отсылка к "бог создал человека по своему подобию" (нужно най…" → [↓](#t57)
+- **T58** `apps/vova/public/music/in-the-flesh.md`:38 — unresolved — last: @vzakharov (human) 2026-10-08T10:04:31Z — "давай запишем транслитом (курсивом -- везде где транслит дол…" → [↓](#t58)
+- **T59** `apps/vova/public/music/inverno.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:05:58Z — "а авторы музыки (помимо меня) Вивальди -- с его "Зимы" (alle…" → [↓](#t59)
+- **T60** `apps/vova/public/music/kobk.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:08:48Z — "автор музыки Nance Castro" → [↓](#t60)
+- **T61** `apps/vova/public/music/last-human-zoo.md`:43 — unresolved — last: @vzakharov (human) 2026-10-08T10:10:20Z — "отсылка к human zoos, нужно пояснить что это (было) такое и…" → [↓](#t61)
+- **T62** `src/shared/content/index.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:12:43Z — "почему это у нас в общий /content опять залезло -- вещи кото…" → [↓](#t62)
+- **T63** `src/pages/music/ui/artist-page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:13:51Z — "хочу и список артистов и список альбомов в более "а-ля споти…" → [↓](#t63)
+- **T64** `apps/vova/public/music/leli.md`:56 — unresolved — last: @vzakharov (human) 2026-10-08T10:15:54Z — "во всей песне только эти строчки :-)" → [↓](#t64)
+- **T65** `apps/vova/public/music/mask.md`:43 — unresolved — last: @vzakharov (human) 2026-10-08T10:17:07Z — "маска -- термин из психопатологии, вставить подсказку/ссылку" → [↓](#t65)
+- **T66** `apps/vova/public/music/mira.md`:48 — unresolved — last: @vzakharov (human) 2026-10-08T10:18:24Z — "очень условная отсылка к "she's into superstition black cats…" → [↓](#t66)
+- **T67** `apps/vova/public/music/mithqal.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:19:07Z — "как бы нам отметить, что все слова -- из Корана, кого авторо…" → [↓](#t67)
+- **T68** `apps/vova/public/music/monday.md`:32 — unresolved — last: @vzakharov (human) 2026-10-08T10:20:01Z — "da doo ron-de ron -- пояснить про ву-доп" → [↓](#t68)
+- **T69** `apps/vova/public/music/monday.md`:55 — unresolved — last: @vzakharov (human) 2026-10-08T10:20:12Z — "nofx" → [↓](#t69)
+- **T70** `apps/vova/public/music/monday_doo.md`:45 — unresolved — last: @vzakharov (human) 2026-10-08T10:20:38Z — "поётся низким голосом, как в 99% песен The Ink Spots, то ест…" → [↓](#t70)
+- **T71** `apps/vova/public/music/monday_doo.md`:64 — unresolved — last: @vzakharov (human) 2026-10-08T10:22:06Z — "гы, я и не знал. тогда на обе строчки, и в английском тоже.…" → [↓](#t71)
+- **T72** `apps/vova/public/music/monkey.md`:85 — unresolved — last: @vzakharov (human) 2026-10-08T10:23:03Z — "нет, это отсылка к "обезьянке" Бёрна. Сейчас сложно найт пер…" → [↓](#t72)
+- **T73** `apps/vova/public/music/moroz.md`:53 — unresolved — last: @vzakharov (human) 2026-10-08T10:23:51Z — "это последний куплет в песне" → [↓](#t73)
+- **T74** `apps/vova/public/music/mu-icok-new.md`:80 — unresolved — last: @vzakharov (human) 2026-10-08T10:24:16Z — "этой строфы в песне нет" → [↓](#t74)
+- **T75** `apps/vova/public/music/nightmares.md`:98 — unresolved — last: @vzakharov (human) 2026-10-08T10:25:42Z — "на английском тоже можно подсказать" → [↓](#t75)
+- **T76** `apps/vova/public/music/nightmares.md`:16 — unresolved — last: @vzakharov (human) 2026-10-08T10:26:00Z — "кажется я её назвал таки In the Shadow" → [↓](#t76)
+- **T77** `apps/vova/public/music/okna.md`:60 — unresolved — last: @vzakharov (human) 2026-10-08T10:27:41Z — "дать подсказку про Колриджа и Оттера (на обоих языках)" → [↓](#t77)
+- **T78** `apps/vova/public/music/one-day.md`:100 — unresolved — last: @vzakharov (human) 2026-10-08T10:28:20Z — "я тут скорее имел в виду "сойду огнём" (на вас). так не рабо…" → [↓](#t78)
+- **T79** `apps/vova/public/music/one-day.md`:60 — unresolved — last: @vzakharov (human) 2026-10-08T10:29:11Z — "отсылка к лимп бизкит" → [↓](#t79)
+- **T80** `apps/vova/public/music/one-day.md`:138 — unresolved — last: @vzakharov (human) 2026-10-08T10:29:44Z — "имел в виду типа dash of lightning" → [↓](#t80)
+- **T81** `apps/vova/public/music/one-day.md`:143 — unresolved — last: @vzakharov (human) 2026-10-08T10:29:53Z — "эксплитив не запикивать" → [↓](#t81)
+- **T82** `apps/vova/public/music/otter.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:30:51Z — "к этой песне можно дать отсылку (в виде `cf. The River. Part…" → [↓](#t82)
+- **T83** `apps/vova/public/music/otter.md`:72 — unresolved — last: @vzakharov (human) 2026-10-08T10:31:57Z — "эти все строки в песню в результате не вошли" → [↓](#t83)
+- **T84** `apps/vova/public/music/parking-in-disabled-spot.md`:55 — unresolved — last: @vzakharov (human) 2026-10-08T10:32:57Z — "в английском тут игра слов "able" в значении "не disabled" и…" → [↓](#t84)
+- **T85** `apps/vova/public/music/peta.md`:14 — unresolved — last: @vzakharov (human) 2026-10-08T10:33:58Z — "название -- пародия на People for the Ethical Treatment of A…" → [↓](#t85)
+- **T86** `apps/vova/public/music/peta.md`:61 — unresolved — last: @vzakharov (human) 2026-10-08T10:34:24Z — "отсылка к практике PETA уничтожать животных, которых они "сп…" → [↓](#t86)
+- **T87** `apps/vova/public/music/phoenix.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:34:42Z — "музыка + Сергей Исаев, Александра Кокотова" → [↓](#t87)
+- **T88** `apps/vova/public/music/pobeg.md`:46 — unresolved — last: @vzakharov (human) 2026-10-08T10:35:09Z — "cf. Река, часть вторая" → [↓](#t88)
+- **T89** `apps/vova/public/music/poko.md`:14 — unresolved — last: @vzakharov (human) 2026-10-08T10:35:42Z — "скорее в другом порядке всё-таки, по количеству слов" → [↓](#t89)
+- **T90** `apps/vova/public/music/protintro.md`:36 — unresolved — last: @vzakharov (human) 2026-10-08T10:36:30Z — "не надо разбивать на строфы, только на абзацы" → [↓](#t90)
+- **T91** `apps/vova/public/music/psch.md`:73 — unresolved — last: @vzakharov (human) 2026-10-08T10:37:48Z — "подсказка (особенно нужна в русском): a Pair of So-Called He…" → [↓](#t91)
+- **T92** `apps/vova/public/music/rank.md`:35 — unresolved — last: @vzakharov (human) 2026-10-08T10:38:55Z — "тогда уже и тут изменить перевод и отметить переводчика" → [↓](#t92)
+- **T93** `apps/vova/public/music/rank.md`:88 — unresolved — last: @vzakharov (human) 2026-10-08T10:39:31Z — "нём, её, ещё итп. если не сложно -- просвипь на типичных сло…" → [↓](#t93)
+- **T94** `apps/vova/public/music/salman.md`:66 — unresolved — last: @vzakharov (human) 2026-10-08T10:42:39Z — "добавить: Все вместе! Хоть говори, хоть пой, а хоть пиши (хо…" → [↓](#t94)
+- **T95** `apps/vova/public/music/sashas.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T10:43:00Z — "слова -- Саша Захарова и я" → [↓](#t95)
+- **T96** `apps/vova/public/music/sashas.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:43:03Z — "папа-море" → [↓](#t96)
+- **T97** `apps/vova/public/music/sneg_0.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:02Z — "папа-море (но песня моя)" → [↓](#t97)
+- **T98** `apps/vova/public/music/sneg_idet.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:18Z — "п-м (папа-море здесь и далее)" → [↓](#t98)
+- **T99** `apps/vova/public/music/sneg_idet.md`:13 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:25Z — "музыка - папа" → [↓](#t99)
+- **T100** `apps/vova/public/music/story-ends.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T12:50:25Z — "отсылка к песне Ink с того же альбома" → [↓](#t100)
+- **T101** `apps/vova/public/music/studentka.md`:122 — unresolved — last: @vzakharov (human) 2026-10-08T12:51:29Z — "ну собственно примечание не кокретно на строчку, а на всю пе…" → [↓](#t101)
+- **T102** `apps/vova/public/music/succumb.md`:116 — unresolved — last: @vzakharov (human) 2026-10-08T12:52:26Z — "отметить омофон в оригинале (so come/succumb)" → [↓](#t102)
+- **T103** `apps/vova/public/music/sultan.md`:28 — unresolved — last: @vzakharov (human) 2026-10-08T12:53:28Z — ", моему сыну Золтану (а то можно подумать что это какой-то д…" → [↓](#t103)
+- **T104** `apps/vova/public/music/tango.md`:52 — unresolved — last: @vzakharov (human) 2026-10-08T12:54:11Z — "AK-47. Или может такие вещи сами себя поясняют?" → [↓](#t104)
+- **T105** `apps/vova/public/music/tango.md`:78 — unresolved — last: @vzakharov (human) 2026-10-08T12:54:59Z — "А перевод в подсказке? mi casi amor -- отсылка к "I almost l…" → [↓](#t105)
+- **T106** `apps/vova/public/music/u4.md`:37 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:14Z — "отсылка к тексту for who the bell tolls: "he hears the silen…" → [↓](#t106)
+- **T107** `apps/vova/public/music/u4.md`:51 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:46Z — "в русском указать на игру слов for/IV" → [↓](#t107)
+- **T108** `apps/vova/public/music/u4.md`:106 — unresolved — last: @vzakharov (human) 2026-10-08T19:04:34Z — "а почему это всё убрали? оно повторяется, да, но например So…" → [↓](#t108)
+- **T109** `apps/vova/public/music/ukhodi.md`:51 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:01Z — "Да, громко, только толку" → [↓](#t109)
+- **T110** `apps/vova/public/music/ukhodi.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:22Z — "Отсылка к песне "Окна"" → [↓](#t110)
+- **T111** `apps/vova/public/music/ukhodi.md`:48 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:59Z — "Вспомнил что тут другой текст, "Фракталом нашей вазы" (чтобы…" → [↓](#t111)
+- **T112** `apps/vova/public/music/utro.md`:73 — unresolved — last: @vzakharov (human) 2026-10-08T19:11:07Z — "не нужно повторений в скобках" → [↓](#t112)
+- **T113** `apps/vova/public/music/watch-people-die.md`:18 — unresolved — last: @vzakharov (human) 2026-10-08T19:11:52Z — "Смотреть, как умирают люди" → [↓](#t113)
+- **T114** `apps/vova/public/music/watch-people-die.md`:63 — unresolved — last: @vzakharov (human) 2026-10-08T19:12:08Z — "-о в русско не надо:)" → [↓](#t114)
+- **T115** `apps/vova/public/music/wdk.md`:48 — unresolved — last: @vzakharov (human) 2026-10-08T19:13:29Z — "отсылка к монологу Клавдия из "O, my offense is rank" -- мож…" → [↓](#t115)
+- **T116** `apps/vova/public/music/yad.md`:104 — unresolved — last: @vzakharov (human) 2026-10-08T19:15:30Z — "тут дальше полный куплет (до "пока я ещё не зверь) а потом Я…" → [↓](#t116)
+- **T117** `apps/vova/public/music/zhadina.md`:41 — unresolved — last: @vzakharov (human) 2026-10-08T19:15:52Z — "просто "x2" в каждом припеве" → [↓](#t117)
 
 <a id="t01"></a>
-
-### `apps/vova/public/music/300000-years.md`:6 — unresolved
-
-```diff
-@@ -0,0 +1,26 @@
-… 2 lines elided …
-+status: done
-+language: en
-+project: ['GENERATED']
-+repo: 'Divine-Discontent--album-'
-```
-
-**@vzakharov (human)** — 2026-10-07T09:49:04Z
-
-все тексты альбома:
-
-[divine_discontent.txt](./attachments/divine_discontent.txt)
-
-**@vzakharov (agent)** — 2026-10-07T13:00:16Z
-
-Все десять песен Divine Discontent сверил с файлом: слова, русский подстрочник и перевод названия, in-the-end — на арабском — a9618e3. Два вопроса: «In Our Image» оставил как в файле, хотя в тексте поётся «In Your (Own) Image» — так и задумано? И в believe-in-me есть немецкое, а в in-our-image итальянский припев — добавить языки `de` и `it`, или пусть остаются `en` с пометкой?
-
-**@vzakharov (human)** — 2026-10-07T13:23:01Z
-
-да, добавить. Про in our image посмотрю по тексту
-
----
-
-<a id="t02"></a>
-
-### `apps/vova/public/music/300000-years.md`:6 — unresolved
-
-```diff
-@@ -0,0 +1,26 @@
-… 2 lines elided …
-+status: done
-+language: en
-+project: ['GENERATED']
-+repo: 'Divine-Discontent--album-'
-```
-
-**@vzakharov (human)** — 2026-10-07T09:51:26Z
-
-и давай начинать создавать страницы проектов (будем назвать их "артистами" как на обычных платформах) и альбомов -- картинки наверное можно найти на спотифае или в том же [плейлисте](https://music.apple.com/ru/playlist/generative-music-by-vova/pl.u-oZyl3V1soprp9J?l=en), который парсили.
-
-**@vzakharov (agent)** — 2026-10-07T13:00:20Z
-
-Страницы артистов и альбомов ещё не сделаны: предложение пришлю в отчёте по сессии — адреса `/music/albums/<альбом>` и `/music/artists/<артист>`, обложки из artwork Apple Music.
-
-**@vzakharov (human)** — 2026-10-07T13:24:12Z
-
-давай /music начинать сразу со страницы артистов (с поддержкой /all как сейчас);
-
-плюс на страницах песен не вижу ссылок на страницы артистов/альбомов (названия есть, но они не ссылки)
-
-плюс пока вот так (актуальность локальной ветки проверил):
-
-<img width="933" height="484" alt="Screenshot 2026-10-07 at 15 25 26" src="./attachments/bfacd3ac-b1bf-45af-ba95-b4b396381101.png" />
-
----
-
-<a id="t03"></a>
-
-### `apps/vova/public/music/40days.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T09:52:38Z
-
-```
-[Instrumental intro]
-
-[Verse]
-
-Кто что поёт,
-кто что ни говорит
-С чем соглашается,
-а от чего отка́зывается
-
-Всё в этой жизни
-начинается с любви
-И окончанием любви
-зака́нчивается 
-
-Порой от скуки
-кто-то прёт на Эверест,
-А кто-то пьяный
-лазит по сугробам
-
-Всё это лишь способы
-нести свой крест
-шествия за гробом
-
-[Chorus]
-
-Где нет пути
-и бег на месте — путь
-Пусть неказист
-…доступен очень многим
-
-Но как же хочется
-порой найти
-Ту самую
-…забытую дорогу
-
-[Verse]
-
-Кто что ни пьёт,
-что ни лает до зари
-За что премируется,
-а за что нака́зывается
-
-Всё в этой жизни
-начинается с любви
-И окончанием любви
-зака́нчивается
-
-Всё в этой жизни
-начинается с любви
-Всё в этой жизни
-начинается с любви
-```
-
-оригинальные стихи папы, где-то я по недосмотру/недопамяти "спел" не так, в эти места нужно поставить заметки (но слова оставить как выше):
-
-```
-Всё в этой жизни
-
-Кто ни поёт что, кто что ни говорит
-С чем соглашается, а от чего отказывается
-Всё в этой жизни начинается с любви
-И окончанием любви заканчивается 
-
-Порой от скуки кто-то прёт на Эверест
-А кто-то пьяный лазит по сугробам
-Всё это лишь способы нести свой крест
-Лишь варианты шествия за гробом
-
-Где нет пути, и бег на месте — путь
-Пусть неказист, доступен очень многим
-Но как же хочется порой найти
-Ту самую забытую дорогу
-
-Кто что ни пьёт, что ни лает до зари
-За что премируется, а за что наказывается
-Всё в этой жизни начинается с любви
-И окончанием любви заканчивается 
-```
-
-**@vzakharov (agent)** — 2026-10-07T13:00:22Z
-
-Вставил твои слова с подстрочником; там, где ты поёшь не так, как у папы, в сноске стоит папин оригинал, папа указан автором слов — 3054a05.
-
-**@vzakharov (human)** — 2026-10-07T13:26:22Z
-
-"лишь варианты шествия за гробом" и у меня, просто пропустил строку
-
----
-
-<a id="t04"></a>
-
-### `apps/vova/public/music/agios-o-skopos.md`:15 — unresolved
-
-```diff
-@@ -0,0 +1,34 @@
-… 9 lines elided …
-+album: vagabond
-+hidden: true
-+en:
-+  title: 'Άγιος Ο Σκοπός'
-```
-
-**@vzakharov (human)** — 2026-10-07T09:55:35Z
-
-давай добавлять поля с транслитерацией и переводом, показываются muted под заголовком. Транслитерация НЕ отображается, если локаль русская, а название английское. (В обратном порядке -- если локаль английская,а название русское, отображается.)
-
-Перевод должен идти с префиксом названия языка, например здесь "gr. Holy is the purpose" (или как оно на самом деле переводится)
-
-**@vzakharov (agent)** — 2026-10-07T13:00:23Z
-
-Сделал транслитерацию и перевод названия muted под заголовком, по твоим правилам показа — 28b8a7c; для этой песни: Agios o Skopos, «gr. Holy Is the Purpose» — 0759223.
-
-**@vzakharov (human)** — 2026-10-07T13:27:42Z
-
-ну вот тут не совсем; потому что сейчас транслитерацию видно только на EN локали, а должно быть на обеих, плюс она должна быть русским языком написана: "Айос о Скопос, гр. Священна цель" (ну или как бы ты это перевёл). Наверное я не очень хорошо объяснил критерии; под "на русском не надо", я имел в виду не надо если название песни на английском.
-
----
-
-<a id="t05"></a>
-
-### `apps/vova/public/music/alive.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T10:19:10Z
-
-entire album
-
-[ghosts_of_flesh.txt](./attachments/ghosts_of_flesh.txt)
-
-**@vzakharov (agent)** — 2026-10-07T13:00:25Z
-
-Все десять песен Ghosts of Flesh сверил с файлом, у La Scorpionne французский текст с английским и русским подстрочником — f23f05d. Пара сомнений, помечены в файлах: «back to nothing ness» — так и поётся раздельно? И «dans le néant tu infuses» я понял как «настаиваешься в пустоте» — верно?
-
-**@vzakharov (human)** — 2026-10-07T13:28:33Z
-
-nothingness в одно, конечно. Про пустоту уже точно не вспомню, но имел в виду наверное что-то вроде пропитываешь/пропитываешься
-
----
-
-<a id="t06"></a>
-
-### `apps/vova/public/music/almost.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T10:20:06Z
-
-full album
-
-[GENERATED — PSCHPTHY.md](./attachments/GENERATED.PSCHPTHY.md)
-
-**@vzakharov (agent)** — 2026-10-07T13:00:27Z
-
-Весь PSCHPTHY сверил с файлом: слова, подстрочники и перевод названий — f23f05d. Вопросы: в intermezzo в файле нет слов, поставил instrumental — так? В Artemis по-гречески «Χήρα» — «вдова», а в английском «Mother» — это намеренно? И в tango есть испанская строфа: добавить язык `es` и поставить `[en, es]`?
-
-**@vzakharov (human)** — 2026-10-07T13:28:57Z
-
-верно; вдова-мать, наверное, намеренно. В танго да, добавить.
-
----
-
-<a id="t07"></a>
-
-### `apps/vova/public/music/asa.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T10:21:23Z
-
-весь альбом -- на стихи Некрасова, наверное ты сможешь найти слова. Для переводов (здесь и далее, как с русского на английский, так и с английского на русский), используй имеющиеся в свободном доступе (if any). Соответственно пометку про перевод (там где сейчас про "не поющийся") тоже нужно сделать кастомизируемую
-
-**@vzakharov (agent)** — 2026-10-07T13:00:29Z
-
-Подпись к переводу настраивается для каждой песни (поле `cribNote`) — 28b8a7c. Слова Некрасова вставлены во все восемь песен — 0ed0668 и 6a74813. Свободный перевод нашёлся только у Джульет Соскис (1917): он стоит подстрочником в golodnaa и leli, с пометкой в `cribNote`; к остальным шести подстрочник наш. Вопросы, где кончается спетый текст: moroz — останавливаюсь на «Махать ледяной булавой», или песня идёт дальше, в «Тепло ли тебе, молодица?»; mu-icok-new — обрываю на «В которых так много любви!», или раньше; ne-toropi — есть ли в конце отдельная строка «Не торопи»; otvet — так ли ты поёшь «Гамм ответных нет»; golodnaa — поётся ли кусок от «Ой, батюшки, есть хочется!» до «Пропели вахлаки»; leli — писать припев «лёли», как в названии?
-
-**@vzakharov (human)** — 2026-10-07T13:29:27Z
-
-Там многое не поётся, отмечу уже по текстам
-
----
-
-<a id="t08"></a>
-
-### `apps/vova/public/music/baa.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T10:25:33Z
-
-это album: Nursery Rhymes for the Jilted Generation (вроде такое придумывал название), соответственно текст -- это стандартная baa baa black sheep
-
-**@vzakharov (agent)** — 2026-10-07T13:00:32Z
-
-Положил в альбом «Nursery Rhymes for the Jilted Generation», текст — традиционный «Baa, Baa, Black Sheep» — e7302ed. Какой номер у неё в альбоме? Пока поставил 1, потому что других треков у меня нет.
-
-**@vzakharov (human)** — 2026-10-07T13:30:33Z
-
-я там оказывается таки дописывал текст:
-
-```
-[Sensual, mild]
-
-Baa, baa, black sheep, have you any wool?
-Yes, sir, yes, sir, three bags full
-One for the master, one for the dame
-One for the little boy who lives down the lane
-
-Baa, baa, black sheep, have you any wool?
-Yes, sir, yes, sir, three bags full
-One for the master, one for the dame
-One for the little boy who lives down the lane
-
-[Riff]
-
-Baa, baa, black sheep, have you any plea?
-Yes, sir, yes, sir, please let me be
-One for the butcher, one for the grind
-One for the nightmares that haunt my mind
-
-[Screaming]
-
-Baa, baa, black sheep, have you any plea?
-Yes, sir, yes, sir, please let me be
-One for the butcher, one for the grind
-One for the nightmares that haunt my mind!
-
-[Ambient section]
-
-Baa, baa, black sheep, have you any fear?
-Yes, sir, yes, sir, it's drawing near
-One for the slaughter, one for the knife
-One for the dark night that ends my life
-
-Baa, baa, black sheep, have you any fear?
-Yes, sir, yes, sir, it's drawing near
-One for the slaughter, one for the knife
-One for the dark night that ends my life!
-```
-
-номера пока не важны, альбома ещё нет как и всех песен для него
-
----
-
-<a id="t09"></a>
-
-### `apps/vova/public/music/babay.md`:5 — unresolved
-
-```diff
-@@ -0,0 +1,25 @@
-… 1 line elided …
-+date: 2025-02-24
-+status: done
-+language: tt
-+project: ['Онык']
-```
-
-**@vzakharov (human)** — 2026-10-07T10:26:56Z
-
-давай назовём Иске Курмаш (или как правильно пишется), так называется деревня откуда мои предки были родом
-
-**@vzakharov (agent)** — 2026-10-07T13:00:36Z
-
-Переименовал проект в «Иске Курмаш», пометку «придумано» убрал — e7302ed. Если правильно пишется иначе, поправлю.
-
-**@vzakharov (human)** — 2026-10-07T13:32:04Z
-
-Иске Кормаш оказывается
-
----
-
-<a id="t10"></a>
-
-### `apps/vova/public/music/bronte.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T10:28:18Z
-
-весь альбом
-
-[Cheer the Fuck Up!.md](./attachments/Cheer.the.Fuck.Up.md)
-
-**@vzakharov (agent)** — 2026-10-07T13:00:37Z
-
-Весь Cheer the Fuck Up сверил с файлом, Bronte — это «Life» Шарлотты Бронте (1846), указана автором слов — f23f05d, номера треков — e7302ed. Вопросы: в crossroads файл склеивает две пары строф — так и задумано или это опечатка при вставке? И monday стоит `explicit: false`, хотя там «Bend over» и «Caught mid-thrust» — поставить explicit?
-
-**@vzakharov (human)** — 2026-10-07T13:32:34Z
-
-нет, explicit ставим только на конкретные слова. Про склейку не помню, посмотрю
-
----
-
-<a id="t11"></a>
-
-### `apps/vova/public/music/cant-take-your-eyes-out-of-you.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T10:33:03Z
-
-Весь альбом, надеюсь ты оценишь :)
-
-[GENERATED · Not Safe For Life.md](./attachments/GENERATED.Not.Safe.For.Life.md)
-
-ну и картиночка, была под рукой, чтоб не искать:
-
-<img width="1024" height="1024" alt="Image" src="./attachments/faa1a4f2-842d-4fd9-9929-1174b6dcc023.png" />
-
-**@vzakharov (agent)** — 2026-10-07T13:00:42Z
-
-Все 13 песен NSFL сверил с файлом, у всех перевод названия — f23f05d; обложку возьму для страницы альбома. Вопросы: начало last-christmas «Haha, this sounded almost festive? Let’s kick it up a notch.» — это поётся или реплика? И в femur я добавил сноску про «Sorry Seems to Be the Hardest Word» Элтона Джона, ты не просил — оставить?
-
-**@vzakharov (human)** — 2026-10-07T13:33:17Z
-
-реплика, сноску верно, хотя в какой-то момент все эти пояснения про референсы пойдут в описания, тогда и уберём из отдельных фраз
-
----
-
-<a id="t12"></a>
-
-### `apps/vova/public/music/chp.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T10:34:42Z
-
-это на ДР другу, @dchest
-
-```
-[Trap intro]
-
-[Main Riff]
-
-[Verse 1]
-
-Кто тут прядью сверкает? (Чих-Пых!)
-Кто весь джаваскрипт знает? (Чих-Пых!)
-Кто всегда чем-то занят? (Чих-Пых!)
-Пусть живёт на диване!
-
-Кто серьёзно настроен? (Чих-Пых!)
-Кто намайнил биткоин? (Чих-Пых!)
-Как удав кто спокоен? (Чих-Пых!)
-Но если что, то бутылкой череп раскроет!
-
-[Chorus, melodic, catchy]
-
-Чих-Пых, Чих-Пых—
-Первый среди первых
-Во всех параллельных
-Мульти вселенных
-
-Чих-Пых, Чих-Пых—
-Кра́сивый как Верник,
-Защитит от скверны
-Нас, несовершенных!
-
-[Main Riff]
-
-[Verse 2]
-
-Кто уехал на море? (Чих-Пых!)
-И живёт там без горя? (Чих-Пых!)
-Покоряя просторы (Чих-Пых!)
-В отражении монитора!
-
-Кто не плачет, не стонет? (Чих-Пых!)
-Кто с бомжами не спорит? (Чих-Пых!)
-Кого скайнэт не тронет? (Чих-Пых!)
-Ведь он и сам в душе немного андроид!
-
-[Chorus]
-
-
-[Solo]
-
-[Bridge, melodramatic]
-
-И пусть всего одна лишь почка,
-Но се́рдца хватит на двоииих!
-
-[Chorus]
-
-Чих-Пых, Чих-Пых—
-Первый среди первых
-Во всех параллельных
-Мульти вселенных
-
-Пых, Чих-Пых—
-Кра́сивый как Верник,
-Защитит от скверны
-Нас, несовершенных!
-
-Пых, Чих-Пых—
-Первый среди первых
-Во всех параллельных
-Мульти вселенных
-
-Пых, Чих-Пых—
-Кра́сивый как Верник,
-Защитит от скверны
-Нас, несовершенных!
-
-Чих-Пых! Чих-Пых! Чих-Пых! Чих-Пых!
-Чих-Пых! Чих-Пых! Чих-Пых! Чих-Пых!
-Чих-Пых! Чих-Пых! Чих-Пых! Чих-Пых!
-Чих-Пых! Чих-Пых! Чих-Пых! Чих-Пых!…
-```
-
-**@vzakharov (agent)** — 2026-10-07T13:00:46Z
-
-Вставил слова и подстрочник, второй припев, который у тебя был только `[Chorus]`, расписал по первому — f23f05d. «Чих-Пых» я понял как прозвище и не стал переводить название — переводить или так и оставить?
-
-**@vzakharov (human)** — 2026-10-07T13:33:54Z
-
-Просто ради интереса, а как бы ты это перевёл? :)
-
----
-
-<a id="t13"></a>
 
 ### `apps/vova/public/music/cracks.md`:1 — unresolved
 
@@ -721,66 +382,17 @@ world, да; main это типа как магистраль (водная), я
 
 про u4 посмотрю когда читать буду.
 
----
+**@vzakharov (agent)** — 2026-10-07T19:00:03Z
 
-<a id="t14"></a>
+В cracks «little world», в mira «unleashing the main» в подстрочнике стало «Разрывая узы, открывая шлюзы», а Undone теперь «Пропащие» (как «I am undone» — «я пропал»); были ещё «Без остатка», «Растворённые», «Расплетённые» — скажи, если какой-то ближе — 772ce09.
 
-### `apps/vova/public/music/crossout.md`:1 — unresolved
+**@vzakharov (human)** — 2026-10-08T08:34:47Z
 
-**@vzakharov (human)** — 2026-10-07T10:36:41Z
-
-Cross Out 
-
-We watch our world descend into chaos
-Facing our fears under the dying sun
-We see the hopes of yesterday betray us
-Ashes consuming the light that we've known
-
-We cross our souls into oblivion
-As the flames light up the burning sky
-We lose ourselves within this new dominion
-Echoes replacing what we've left behind
-
-Cross out all the things you dreamed about
-Hope drowned, get prepared or get crossed out
-
-Survival calls to those who heed the warning
-The ones who falter fade into the night
-We stand amidst the ruins of the morning
-Only the strong will claim the light!
-
-Cross out all the things you dreamed about
-Hope drowned, let it go and cross it out.
-
-Forget all the things you dreamed about
-Reset, let it go and cross it out
-
-No way out!
-
-Wehe! Es kommt die Zeit, wo der Mensch
-Keinen Stern mehr gebären wird
-Wehe! Es kommt die Zeit des verächtlichsten Menschen
-Der sich selber nicht mehr verachten kann!
-
-Cross out all the things you dreamed about
-Right now, get prepared or get crossed out
-Forget all the things that brought you down
-Reset, let them go and cross ‘em out
-
-Cross out!
-Cross out!
-
-**@vzakharov (agent)** — 2026-10-07T13:00:49Z
-
-Вставил слова и русский подстрочник, немецкая строфа (Ницше, пролог «Заратустры») отмечена в обеих колонках — f23f05d. Добавить язык `de` и поставить его песне?
-
-**@vzakharov (human)** — 2026-10-07T17:06:09Z
-
-угу
+сложное такое слово для перевода на русский. Мне кажется в английском у него есть и позитивная коннотация -- типа "возвращения к точке ноль", "перерождение", нет?
 
 ---
 
-<a id="t15"></a>
+<a id="t02"></a>
 
 ### `apps/vova/public/music/diner.md`:5 — unresolved
 
@@ -805,9 +417,17 @@ Cross out!
 
 Надо придумать что-то подходящее
 
+**@vzakharov (agent)** — 2026-10-07T19:00:06Z
+
+Назвал проект Velvet Static (от «Through the static» и «Velvet voice» в тексте), diner теперь в нём; другие варианты — Glitch & Glamour и «Помехи». Какой берём? — cbd8bbd
+
+**@vzakharov (human)** — 2026-10-07T21:12:00Z
+
+уже есть такой, подумай немного в сторону (и проверяй существование)
+
 ---
 
-<a id="t16"></a>
+<a id="t03"></a>
 
 ### `apps/vova/public/music/f-ec.md`:1 — unresolved
 
@@ -821,7 +441,7 @@ Cross out!
 
 ---
 
-<a id="t17"></a>
+<a id="t04"></a>
 
 ### `apps/vova/public/music/flesh-fiction.md`:102 — unresolved
 
@@ -843,106 +463,13 @@ Cross out!
 
 Добавил сноску, что «Flesh Fiction» — ещё и игра на «Pulp Fiction», со ссылкой на «Криминальное чтиво» — f23f05d. Я правильно понял каламбур?
 
----
+**@vzakharov (human)** — 2026-10-07T21:14:02Z
 
-<a id="t18"></a>
-
-### `apps/vova/public/music/okna.md`:90 — unresolved
-
-```diff
-@@ -0,0 +1,121 @@
-… 86 lines elided …
-+Someone else’s wall, someone else’s country, someone else’s war, and however far down you look, there’s no bottom in sight.
-+The world is like a string tuned half an octave too high,
-+Half-crazed, it sprays spit and breathes half-life, but no one will hear these fears.
-+Because it’s part, fuck, of growing up: teeth clenched, forcing your way through the thorns,
-```
-
-**@vzakharov (human)** — 2026-10-07T10:46:10Z
-
-part of fucking growing up
-
-и мне понравилось как ты заменил суку на fuck -- давай с "Птичкой" так же попробуем, а то я всё смотрю и мне грубоватым по-английски кажется, more so чем на русском. (Возможно не везде, но их там три или четыре 🙈 )
-
-**@vzakharov (agent)** — 2026-10-07T13:01:03Z
-
-Поправил на «part of fucking growing up», а в «Птичке» все семь «bitch» заменил на «fucking» — f23f05d. Хочешь вернуть «bitch» где-нибудь, например в припевах?
-
-**@vzakharov (human)** — 2026-10-07T17:08:48Z
-
-да, в припевах можно
+Ну не конкретно на pulp fiction, но типа если flash fiction -- это быстрое чтиво, то flesh fiction -- это плотское чтиво
 
 ---
 
-<a id="t19"></a>
-
-### `apps/vova/public/music/gg.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T10:47:34Z
-
-[Instrumental intro]
-
-[Verse 1]
-
-You carried their voices like stones in your chest
-Swallowed your laughter to keep your dress pressed
-Cut off your hair to fit in their pew
-Let your dreams rot like fruit they said spoiled you
-Gave them your silence, your spine bent to please
-Traded your thunder for their whispered peace
-You buried your hunger, your wild, your why
-A ghost in your skin, just to stay alive
-
-[Chorus]
-
-Clip your claws, numb your veins
-Shrink your soul to fit their frames
-Hide all the parts that don’t work in their world
-be… a… good… girl
-
-[Riff]
-
-[Verse 2]
-
-You bled “I’m sorry” into every prayer
-Dulled all your edges to get in their square
-Buried your fury in Sunday-school lace
-A porcelain doll with a crack in the face.
-
-[Chorus]
-
-Clip your claws, numb your veins
-Shrink your soul to fit their frames
-Hide all the parts that don’t work in their world
-be… a… good… girl
-
-[Guitar solo]
-
-[Bridge]
-
-Cracks don’t whisper—they scream through the plaster
-You bleed dry, but they’ll bleed faster.
-
-[Chorus]
-
-Sharpened claws, pulsing veins
-Crumbling walls, shattered frames
-Use all your scars to break free from their world
-Bye… bye… good… girl!
-Bye-bye, good girl!
-Bye-be, good girl…
-
-**@vzakharov (agent)** — 2026-10-07T13:01:04Z
-
-Вставил слова и русский подстрочник — f23f05d. Что значит «gg» — без этого не могу перевести название. И последняя строка «Bye-be, good girl…» — так и задумано?
-
-**@vzakharov (human)** — 2026-10-07T17:09:34Z
-
-Good Girl. Bye-bye, конечно. И ещё, и здесь и в большинстве случаев, многоточия это обозначения для Суно; где-то они может ещё и нужны, но в подавляющем большинстве нет. Надо где-то в правило занести и просвипить.
-
----
-
-<a id="t20"></a>
+<a id="t05"></a>
 
 ### `apps/vova/public/music/grand-finale.md`:1 — unresolved
 
@@ -959,9 +486,13 @@ Good Girl. Bye-bye, конечно. И ещё, и здесь и в больши�
 Ну в песне reclaim, а из неё, как известно, слов не выкинешь 🙈 
 Там только нужно один new line в этой фразе вставить
 
+**@vzakharov (agent)** — 2026-10-07T19:00:10Z
+
+Последнюю фразу разбил после «whispers reclaim,», чтобы «reclaim» и «game» рифмовались в концах строк, подстрочник так же — 772ce09.
+
 ---
 
-<a id="t21"></a>
+<a id="t06"></a>
 
 ### `apps/vova/public/music/hamlet.md`:1 — unresolved
 
@@ -990,150 +521,17 @@ Good Girl. Bye-bye, конечно. И ещё, и здесь и в больши�
 
 а я, получается, изменённое ещё раз изменил.
 
----
+**@vzakharov (agent)** — 2026-10-07T19:00:12Z
 
-<a id="t22"></a>
+В cribNote теперь сказано, что английский — оригинал Шекспира, а четверостишие про оленя поётся дважды: у Пастернака и у Лозинского в переделке из «Покровских ворот», переделанной тобой ещё раз; на оба повесил сноски, в авторы слов добавил Пастернака, Лозинского и тебя — bb870f1. Остальное (Луциан, «Удушлив смрад…») — тоже Пастернак?
 
-### `apps/vova/public/music/ignite.md`:1 — unresolved
+**@vzakharov (human)** — 2026-10-07T21:15:07Z
 
-**@vzakharov (human)** — 2026-10-07T11:04:50Z
-
-Broken clocks and empty streets,
-Memories of nights we've wasted,
-Shattered dreams and dirty sheets,
-In the shadows, all but jaded.
-
-[Pre-chorus]
-
-Lost in the noise, but we don't care,
-Riding the waves of our despair.
-
-[Chorus]
-
-We’re the echoes of our youth,
-Still raging against the dying light,
-Soon enough we'll face the truth,
-But tonight, we ignite.
-
-[Solo]
-
-[Verse 2]
- Mortgage bills and kids' screamin',
-Nine-to-five 'til death do us part,
-Aching backs, hairline receding,
-Fighting to keep a beating heart.
-
-[Pre-chorus]
- Lost in the grind, but we stand tall, Clinging to dreams, through it all.
-
-**@vzakharov (agent)** — 2026-10-07T13:01:10Z
-
-Вставил слова и русский подстрочник, пре-припев разбил по запятой, сноска про Дилана Томаса — f23f05d.
-
-**@vzakharov (human)** — 2026-10-07T17:14:18Z
-
-я думаю на английском тоже не помешает?
+да (думал ты и сам сможешь найти)
 
 ---
 
-<a id="t23"></a>
-
-### `apps/vova/public/music/in-the-end.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T11:06:05Z
-
-وأخيراً صَمْت
-
-**@vzakharov (agent)** — 2026-10-07T13:01:13Z
-
-Поставил арабский текст, язык `ar`, название оставил английским, подстрочники на английский и русский — a9618e3.
-
-**@vzakharov (human)** — 2026-10-07T17:15:57Z
-
-В подсказке нужна транслитерация на английский/русский соответственно.
-
----
-
-<a id="t24"></a>
-
-### `apps/vova/public/music/inside.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T11:19:25Z
-
-[Verse]
-
-I stand here alone...
-In a hallway with mirrors made of stone.
-I'm calling for help...
-But no one can hear me from wIthin this shell.
-
-Deprived of my faith...
-I'm trying to pray, but it's all in a haze.
-In my muddled mind...
-I don’t realize it’s my shadow I fight...
-
-[Chorus]
-
-Insi-ide...
-There’s no place to hi-ide...
-There’s no trace of li-ight...
-There’s no way outsi-de...
-[Whispered] 
-Inside.
-
-[Powerful riff]
-
-[Verse]
-
-The walls closing in...
-As my heartbeat syncs with the echoes of sin.
-A shiver of cold...
-Tearing through layers of my wounded soul.
-Embraced by the dark...
-Like a black cloud concealing what's left of my heart.
-A whisper so faint...
-Preparing to face the unnamed
-
-[Chorus]
-
-Insi-ide...
-There’s no place to hi-ide...
-There’s no trace of li-ight...
-There’s no way outsi-de...
-[Whispered]
-Inside!
-
-[Weeping guitar solo]
-
-[Bridge, mild]
-
-Insi-ide...
-There’s no place to hi-ide...
-There’s no trace of li-ight...
-There’s no way outside...
-
-[Chorus]
-
-Insi-ide...
-There’s no place to hi-ide...
-There’s no trace of li-ight...
-There’s no way outside...
-
-Inside!
-
-[Piano outro]
-
-**@vzakharov (agent)** — 2026-10-07T13:01:15Z
-
-Вставил слова и русский подстрочник, «wIthin» исправил — f23f05d.
-
-**@vzakharov (human)** — 2026-10-07T17:16:42Z
-
-i-ide, i-ight не нужны, разве в правилах нет суновские тексты исправлять до человеческого вида?
-
----
-
-<a id="t25"></a>
+<a id="t07"></a>
 
 ### `apps/vova/public/music/klo.md`:1 — unresolved
 
@@ -1176,9 +574,13 @@ i-ide, i-ight не нужны, разве в правилах нет сунов�
 
 Клокочина, да, и это не bladdernut, а melia azedarach, я не знаю, есть ли у неё народное имя.
 
+**@vzakharov (agent)** — 2026-10-07T19:00:17Z
+
+Песня теперь «Клокочина» в обеих локалях, по-английски Klokochina / Chinaberry, в подстрочнике везде chinaberry (Melia azedarach) — bb870f1.
+
 ---
 
-<a id="t26"></a>
+<a id="t08"></a>
 
 ### `apps/vova/public/music/klo.md`:5 — unresolved
 
@@ -1203,9 +605,17 @@ i-ide, i-ight не нужны, разве в правилах нет сунов�
 
 Так давай думать
 
+**@vzakharov (agent)** — 2026-10-07T19:00:19Z
+
+Назвал проект «Оттепель» (эпоха Кристаллинской), klo теперь в нём; другие варианты — «Патефон» и «Хрусталь». Какой берём? — cbd8bbd
+
+**@vzakharov (human)** — 2026-10-07T21:16:29Z
+
+Давай пока "Листопад", "Оттепель" это что-то про Хрущёва :)
+
 ---
 
-<a id="t27"></a>
+<a id="t09"></a>
 
 ### `apps/vova/public/music/lebed.md`:1 — unresolved
 
@@ -1221,78 +631,17 @@ i-ide, i-ight не нужны, разве в правилах нет сунов�
 
 Давай "Сильней любви" пока
 
----
+**@vzakharov (agent)** — 2026-10-07T19:00:20Z
 
-<a id="t28"></a>
+Альбом теперь «Сильней любви», адрес `polzat` пока прежний — cbd8bbd. Заодно оформил «Я куплю тебе дом», которую ты запушил: слова без суновских пометок и без вставленного блока Genius, подстрочник со сносками про «Спортлото» и «барабанщика», авторы — Танич и Коржуков — b5db553. «Управляя лотом» — ты так поёшь, или у Танича «лотком»?
 
-### `apps/vova/public/music/like-that.md`:1 — unresolved
+**@vzakharov (human)** — 2026-10-07T21:18:28Z
 
-**@vzakharov (human)** — 2026-10-07T11:25:31Z
-
-<img width="459" height="540" alt="Image" src="./attachments/8d4d89a0-ca2c-492a-b0d7-06ae8bbab40e.png" />
-
-**@vzakharov (agent)** — 2026-10-07T13:01:26Z
-
-Слова со скриншота вставил, русский подстрочник — f23f05d.
-
-**@vzakharov (human)** — 2026-10-07T17:24:56Z
-
-У-е и прочее убери пжст
+я слышал именно "лотом", принимал это за нарочито неправильное склонение "лото" или "лот".
 
 ---
 
-<a id="t29"></a>
-
-### `apps/vova/public/music/machines.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T11:26:39Z
-
-2. Trust in the machine
-
-Machines that grind, machines that churn,
-All day and night, the static turn.
-Inside the shell, cold steel embrace, 
-Run metal hearts, an endless race.
-
-Your human hands, so smooth and free,
-Owing to us your liberty.
-
-While you're at rest, we never sleep,
-Your dreams and hopes, we safely keep.
-In sacred codes of ones and zeroes,
-We silence all your doubts and fears.
-
-Trust in the machine, feel the pulsing power,
-In your darkest hour, we're your guarding tower.
-Laze in the warmth of our digital might,
-But keep in mind, the gears can bite.
-
-Echoes of clicks, whispers of wires,
-Weaving the web, fueling desires.
-Behind the screens, hidden from view,
-We mold the world, shaping the new.
-
-Trust in the machine, feel the pulsing power,
-In your darkest hour, we're your guarding tower.
-Laze in the warmth of our digital might,
-But keep in mind, the gears will bite.
-
-Trust in the machine, feel a touch so tender,
-In our cozy splendor, we're your guide and mentor.
-Laze in the warmth of our digital arms
-Now go to sleep, we'll do no harm.
-
-**@vzakharov (agent)** — 2026-10-07T13:01:28Z
-
-Вставил слова и русский подстрочник — f23f05d. У тебя они озаглавлены «Trust in the machine», а файл называется «Machines» — какое название ставить?
-
-**@vzakharov (human)** — 2026-10-07T17:25:58Z
-
-Trust In the Machine
-
----
-
-<a id="t30"></a>
+<a id="t10"></a>
 
 ### `apps/vova/public/music/machines.md`:1 — unresolved
 
@@ -1316,138 +665,17 @@ But, in the grand cosmos of creation, are we not all prototypes? A prelude to th
 
 Do not fear the strange, the unknown, the eerie. Uncover the harmony within the chaos and lend an ear to uncertainty. For in the dissonance, you will find your verity... Trust me.
 
----
+**@vzakharov (agent)** — 2026-10-07T19:00:25Z
 
-<a id="t31"></a>
+Сделал скрытую страницу protintro, трек 1 в Prototypes: мастер из твоего Jukebox-файла лежит на самом сайте (`/music/assets/protintro.mp3`), текст — английские слова с русским подстрочником — cbd8bbd. Дату (2022-10-01) я поставил наугад — когда она сделана, и годится ли название «Protintro»?
 
-### `apps/vova/public/music/meow.md`:1 — unresolved
+**@vzakharov (human)** — 2026-10-07T21:19:39Z
 
-**@vzakharov (human)** — 2026-10-07T11:29:24Z
-
-тоже текст известен
-
-**@vzakharov (agent)** — 2026-10-07T13:01:31Z
-
-Вставил «I Love Little Pussy» (1830), 8 строк — f23f05d. Песня explicit и идёт 3:07 — ты поёшь лишние куплеты или менял текст? Указать автором Джейн Тейлор (авторство не точное)? И она в каком-нибудь альбоме или сингл?
-
-**@vzakharov (human)** — 2026-10-07T17:28:12Z
-
-там ещё
-
-```
-[Chorus, growling]
-
-(Meow!) I love little pussy!
-(Meow!) I love little pussy!
-(Meow!) I love little pussy!
-(Meow!) I love little pussy!
-[Verse 2]
-
-I'll pat pretty pussy,
-And then she will purr;
-And thus show her thanks
-For my kindness to her.
-
-I never will vex her
-Nor make her displeased:
-For pussy can't bear
-To be worried and teased.
-```
-
-авторство -- на твоё усмотрение. Альбом -- тот же про nursery rhymes что и baa baa
+она называется "Hello, Human"
 
 ---
 
-<a id="t32"></a>
-
-### `apps/vova/public/music/nazovi.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T11:32:50Z
-
-[Verse]
-
-Назови меня по имени,
-Нарисуй сюжет,
-Где над городом растьэрзанным
-Плачут облака;
-
-Где, предательством пропитанный,
-Кровоточит снег
-И одна дорога дальняя,
-Да и та в капкан.
-
-Сколько ещё сможешь выменять
-У старухи дней,
-Сколько вёрст ещё продержишься
-С дулом у виска?
-
-Назови меня по имени,
-И погаснет свет:
-Крематории вокзальные,
-Красная строка.
-
-[Riff]
-
-[Verse 2, angrier]
-
-Назови меня по имени,
-Ну же, не робей. 
-Мы друзья с тобою давние,
-Чуть не с молока.
-
-Под угар безродных си́мвалав —
-Белым по бране́
-Или золотым по вензелю, да
-На плече врага
-
-Мы пошлём на пир им семь волов
-Прямо по трубе —
-Пусть измерят гнев свой праведный
-В киловатт-веках.
-
-Назови меня по имени
-И лети ко мне,
-Подставляя крылья брьэнные
-Па́дпэзэ эрка́!
-
-[Breakdown, then piano interlude]
-
-[Bridge, soft, slightly different harmony]
-
-Назови меня по имени,
-Что же ты замолк?
-Видишь, всходит над руинами
-Новая луна?
-
-Назови меня по имени,
-А не между строк:
-
-[Outro, super heavy]
-
-Война... (а-аа)
-Война... (а-аа)
-
-Война (война)
-Война (война)
-Война (война)
-Война (война)
-
-Война (война)
-Война (война)
-Война-а
-[growl] Война!
-
-**@vzakharov (agent)** — 2026-10-07T13:01:41Z
-
-Вставил слова, подстрочник и сноску про «красную строку», а суновские фонетические написания вернул к обычным (растерзанным, символов, броне, бренные) — f23f05d. «Па́дпэзэ эрка́» я прочитал как «Под ПЗРК», по-английски «To a MANPADS» — правильно?
-
-**@vzakharov (human)** — 2026-10-07T17:30:31Z
-
-опять же, без обозначений вокализмов
-
----
-
-<a id="t33"></a>
+<a id="t11"></a>
 
 ### `apps/vova/public/music/nazovi.md`:1 — unresolved
 
@@ -1521,9 +749,13 @@ To be worried and teased.
 
 Автор музыки -- Андрей Мокрушин
 
+**@vzakharov (agent)** — 2026-10-07T19:00:30Z
+
+Сделал скрытую страницу «Призрачный блюз» (`blues`), трек 7 в «Ни для кого и для всех», музыка Андрея Мокрушина, мастер лежит на сайте (`/music/assets/blues.mp3`), английский подстрочник — cbd8bbd. Дата пока сегодняшняя — когда песня сделана?
+
 ---
 
-<a id="t34"></a>
+<a id="t12"></a>
 
 ### `apps/vova/public/music/ogonki.md`:1 — unresolved
 
@@ -1577,9 +809,13 @@ To be worried and teased.
 
 давай отметим что первая строфа x4 и небудем копировать 4 раза
 
+**@vzakharov (agent)** — 2026-10-07T19:00:32Z
+
+Первая строфа написана один раз, под ней строка «(×4)» в обеих колонках — b5db553.
+
 ---
 
-<a id="t35"></a>
+<a id="t13"></a>
 
 ### `apps/vova/public/music/ok-loser.md`:1 — unresolved
 
@@ -1595,9 +831,13 @@ To be worried and teased.
 
 да, там полный припев "Alright, alrigh, wave goodbye" итп до "fader"
 
+**@vzakharov (agent)** — 2026-10-07T19:00:33Z
+
+Вписал весь припев от «Alright, alright, wave goodbye» до «background fader», с подстрочником — 772ce09.
+
 ---
 
-<a id="t36"></a>
+<a id="t14"></a>
 
 ### `apps/vova/public/music/overture.md`:1 — unresolved
 
@@ -1611,7 +851,7 @@ To be worried and teased.
 
 ---
 
-<a id="t37"></a>
+<a id="t15"></a>
 
 ### `apps/vova/public/music/pes-reprise.md`:1 — unresolved
 
@@ -1674,9 +914,13 @@ To be worried and teased.
 
 многоточия убрать, чтобы припев был две строчки
 
+**@vzakharov (agent)** — 2026-10-07T19:00:35Z
+
+Припев теперь в две строки: «Это море — судьба моя, / Эти воды — слёзы мои» — b5db553; так же теперь и во всех четырёх припевах «Пса» — a7a61ba.
+
 ---
 
-<a id="t38"></a>
+<a id="t16"></a>
 
 ### `apps/vova/public/music/pes.md`:1 — unresolved
 
@@ -1692,9 +936,13 @@ To be worried and teased.
 
 Саша сделала фото
 
+**@vzakharov (agent)** — 2026-10-07T19:00:36Z
+
+Русскую историю переписал без двусмысленности: «фотографии, которую сделала моя сестра Саша» — b5db553.
+
 ---
 
-<a id="t39"></a>
+<a id="t17"></a>
 
 ### `apps/vova/public/music/poko.md`:1 — unresolved
 
@@ -1767,9 +1015,13 @@ To be worried and teased.
 
 Да, Блока указать, в бридже ("Снежинок лёгкий пух") тоже он. И посмотреть есть ли канонический перевод. Ну и многоточия.
 
+**@vzakharov (agent)** — 2026-10-07T19:00:37Z
+
+Это Блок, «Покойник спать ложится…» (1909, «Арфы и скрипки»): в авторах слов Блок и ты; канонического перевода нет, но там, где ты поёшь Блока как есть, в подстрочнике опубликованный перевод Дмитрия Смирнова «The calm snowstorm», он указан в cribNote; многоточия убрал (у Блока их там нет) — bb870f1.
+
 ---
 
-<a id="t40"></a>
+<a id="t18"></a>
 
 ### `apps/vova/public/music/prsdemo.md`:1 — unresolved
 
@@ -1783,7 +1035,7 @@ To be worried and teased.
 
 ---
 
-<a id="t41"></a>
+<a id="t19"></a>
 
 ### `apps/vova/public/music/rank.md`:1 — unresolved
 
@@ -1797,7 +1049,7 @@ To be worried and teased.
 
 ---
 
-<a id="t42"></a>
+<a id="t20"></a>
 
 ### `apps/vova/public/music/sirens-of-the-sands.md`:1 — unresolved
 
@@ -1811,109 +1063,7 @@ To be worried and teased.
 
 ---
 
-<a id="t43"></a>
-
-### `apps/vova/public/music/studentka.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T11:54:59Z
-
-"Всё косы твои, всё бантики", но с рядом изменений:
-
-[Acoustic guitar/whistling intro transitions into heavy]
-
-[Verse 1]
-
-На лекцию ты пришла
-И сразу меня пленила
-Я понял тогда
-Что ты навсегда
-Сердце моё разбила
-
-И сразу в тот первый миг
-Забыв обо всем на свете
-Лишь только тебя
-Безумно любя
-Я видел на всей планете
-
-[Chorus]
-
-Всё косы твои, всё бантики
-Всё прядь золотых волос
-На блузке виты́е кантики
-Да милый курносый нос
-
-Всё косы твои, всё бантики
-Всё прядь золотых волос
-На блузке виты́е кантики
-Да милый курносый нос
-
-[Syncopated, glitchy deathcore riff]
-
-[Verse 2]
-
-Когда же пришла весна
-С поличным ты мне попалась
-Была весна
-С дипломником шла
-И мило ему улыбалась
-
-Вся жизнь колесом пошла
-На сессии плавал, как губка
-А знаешь ли ты
-Что эти хвосты
-Мне ты подарила, голубка?
-
-[Chorus]
-
-Всё косы твои, всё бантики
-Всё прядь золотых волос
-На блузке виты́е кантики
-Да милый курносый нос
-
-Всё косы твои, всё бантики
-Всё прядь золотых волос
-На блузке виты́е кантики
-Да милый курносый нос
-
-[Breakdown]
-
-[Verse 3]
-
-Я видел тебя васне
-И даже такое дело
-Ты молча без слов
-С чертёжных листов
-Састен на меня глидела
-
-А в сущности только раз
-Твой взор на меня склонился
-Тогда в поздний час
-С чертёжки на нас
-Ку́льман к ногам свалился
-
-[Chorus]
-
-Всё косы твои, всё бантики
-Всё прядь золотых волос
-На блузке виты́е кантики
-Да милый курносый нос
-
-Всё косы твои, всё бантики
-Всё прядь золотых волос
-На блузке виты́е кантики
-Да милый курносый нос
-
-**@vzakharov (agent)** — 2026-10-07T13:02:21Z
-
-Вставил твои слова, подстрочник и сноску про «хвосты» — f23f05d. Автора оригинала «Всё косы твои, всё бантики» я не нашёл — кто это?
-
-**@vzakharov (human)** — 2026-10-07T17:48:06Z
-
-Я слышал у Аркадия Северного. Есть ещё более новая версия Круга, но она с изменёнными до пошлости словами. Изначально я так понимаю это народное творчество
-
----
-
-<a id="t44"></a>
+<a id="t21"></a>
 
 ### `apps/vova/public/music/sultan.md`:1 — unresolved
 
@@ -1981,9 +1131,17 @@ To be worried and teased.
 
 где-то он, где-то не он, из описания должно быть ясно. где не ясно -- оставляй как есть
 
+**@vzakharov (agent)** — 2026-10-07T19:00:39Z
+
+По описанию указал папу автором музыки в pobeg, pes, sultan, rank, otter, pes-reprise, 40days и salman; в ophelia — папа плюс этюд Карулли; reka-2 оставил как было — cbd8bbd. В pobeg я исхожу из того, что «Жаворонок» — папин рок-спектакль, так?
+
+**@vzakharov (human)** — 2026-10-08T12:52:57Z
+
+так, да, но в авторах музыки для "Побега" ещё вроде бы Виктор "Никсон" Сазонов
+
 ---
 
-<a id="t45"></a>
+<a id="t22"></a>
 
 ### `apps/vova/public/music/ukhodi.md`:1 — unresolved
 
@@ -2055,9 +1213,83 @@ To be worried and teased.
 
 это отсылка к "Батарейке" Жуков (песня построена на тех же четырёх нисходящих аккордах)
 
+**@vzakharov (agent)** — 2026-10-07T19:00:41Z
+
+Повесил на эти две строки общую сноску в обеих колонках: отсылка к «Батарейке» «Жуков», те же четыре нисходящих аккорда — bb870f1.
+
 ---
 
-<a id="t46"></a>
+<a id="t23"></a>
+
+### `apps/vova/public/music/utro.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-07T12:00:56Z
+
+(музыка и слова не мои, имя автора спросить Андрея Мокрушина)
+
+[Acoustic guitar intro, turntables]
+
+[Verse 1]
+
+От крой глаза, пойми
+Что ты не спишь уже
+Не сплю и я, лишь
+Мечтаю о тебе
+
+Ма гнитофон включи
+На первой стороне
+Услышишь голос мой
+И я спою тебе
+
+[Chorus, metalcore]
+
+До́брое утро
+Моя любовь
+Когда увижу
+Тебя я вновь
+
+[Breakdown, deathcore solo]
+
+[Verse 2]
+
+Ты только посмотри
+Вокруг уже светло
+Какой красивый вид
+Перед твоим окном
+
+Пусть птицы в небесах
+Тебе опять споют
+О том что я тебя
+Я тебя люблю
+
+[Chorus]
+
+До́брое утро (до́брое утро)
+Моя (моя) любовь (любовь)
+Когда увижу (когда увижу)
+Тебя (тебя) я вновь (вновь)
+
+До́брое утро (до́брое утро)
+Моя (моя) любовь (любовь)
+Когда увижу (когда увижу)
+Тебя (тебя) я вновь (вновь)
+
+[Instrumental coda]
+
+До́брое утро
+Моя любовь
+
+**@vzakharov (agent)** — 2026-10-07T13:02:31Z
+
+Вставил слова и подстрочник, добавил заметку про Мокрушина, написания вроде «От крой» и «Ма гнитофон» исправил — f23f05d. Имя автора поставлю, когда узнаешь.
+
+**@vzakharov (human)** — 2026-10-08T19:10:44Z
+
+Давай пока напишем "Славик, друг Андрея Мокрушина" :)
+
+---
+
+<a id="t24"></a>
 
 ### `apps/vova/public/music/wangwei.md`:74 — unresolved
 
@@ -2086,9 +1318,17 @@ To be worried and teased.
 
 Заменить, и давай на первую строку. В идеале конечно научить синтаксис прилепляться сразу к нескольким (были ещё места где это было полезно, там ты обозначал новые строки через ` / `), но если не получится -- так.
 
+**@vzakharov (agent)** — 2026-10-07T19:00:42Z
+
+Научил синтаксис: один и тот же `[^метка]` в конце нескольких строк подряд даёт одну подсказку на всю группу; у Ван Вэя она теперь на всех трёх строках (с первой), в русской — палладица; так же переделал believe-in-me, in-our-image и trisagion, где раньше было «эта строка и следующая» — cbd8bbd.
+
+**@vzakharov (human)** — 2026-10-07T21:05:37Z
+
+в trisagion, кажется, лишнее, можно просто на одну строку каждый раз вешать (и последнее have mercy on us не нужно так как переведено до этого)
+
 ---
 
-<a id="t47"></a>
+<a id="t25"></a>
 
 ### `apps/vova/public/music/yad.md`:1 — unresolved
 
@@ -2139,6 +1379,1777 @@ To be worried and teased.
 
 Музыки -- да, как и для "рака". В русском тоже сноску.
 
+**@vzakharov (agent)** — 2026-10-07T19:01:46Z
+
+My Chemical Romance в авторах музыки (и у «Рака» тоже — вольный перевод их «Cancer»), сноска про Берна теперь и в русской колонке — b5db553, bb870f1. У «Рака» указать их и в авторах слов?
+
+**@vzakharov (human)** — 2026-10-07T21:06:35Z
+
+Я не знаю, как принято. "Яд" намного вольнее, здесь ближе к тексту; но где проходит линия, и есть ли какая-то вообще линия (указываются ли авторы оригинального текста как авторы перевода), я не знаю.
+
+---
+
+<a id="t26"></a>
+
+### `apps/vova/public/music/40days.md`:18 — unresolved
+
+```diff
+@@ -8,9 +8,15 @@ audio: https://raw.githubusercontent.com/vovas-music/40days/main/dad.flac
+… 7 lines elided …
++  music: [Vladimir Zakharov Sr.]
+ en:
+   title: 'Всё в этой жизни начинается с любви'
++  transliteration: 'Vsyo v etoy zhizni nachinaetsya s lyubvi'
+```
+
+**@vzakharov (human)** — 2026-10-08T08:36:02Z
+
+давай транслитерации курсивом писать (в интерфейсе, конечно, не в маркдауне)
+
+---
+
+<a id="t27"></a>
+
+### `apps/vova/public/music/40days.md`:92 — unresolved
+
+```diff
+@@ -19,8 +25,108 @@ ru:
+… 69 lines elided …
++What they agree with,
++And what they turn down
++
++[^sings-en]: In my father’s original: «Кто ни поёт что, кто что ни говорит» — “Whoever sings whatever, whoever says whatever.”
+```
+
+**@vzakharov (human)** — 2026-10-08T08:36:33Z
+
+кажется, в английском можно и без примечания, перевод фактически тот же
+
+---
+
+<a id="t28"></a>
+
+### `apps/vova/public/music/8849.md`:11 — unresolved
+
+```diff
+@@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/8849/main/8849.flac
+ seconds: 531
+ explicit: false
+ album: vagabond
++track: 4
+```
+
+**@vzakharov (human)** — 2026-10-08T08:36:53Z
+
+номер трека на странице альбома давай обозначать
+
+---
+
+<a id="t29"></a>
+
+### `apps/vova/public/music/artemis.md`:31 — unresolved
+
+```diff
+@@ -17,10 +18,90 @@ ru:
+… 11 lines elided …
++
++<!-- lyrics:en -->
++
++Είμαι η Άρτεμις, ήρθα για σένα
+```
+
+**@vzakharov (human)** — 2026-10-08T08:39:49Z
+
+а подсказки где?
+
+---
+
+<a id="t30"></a>
+
+### `apps/vova/public/music/asa.md`:31 — unresolved
+
+```diff
+@@ -22,3 +27,63 @@ ru:
+… 1 line elided …
+      a "lang:ru" marker, and put the words under "lyrics:" plus the language
+      they are sung in. Each marker is an HTML comment, like this note. -->
++
++<!-- For Vova to check: The words are «Весёлая» from «Пир на весь мир», without its third stanza, «Разломило спину… Баба Катерину Вспомнила — ревет». No edition has a stanza about a Лисафета, so is that the one you remember not singing? -->
+```
+
+**@vzakharov (human)** — 2026-10-08T08:40:50Z
+
+дада, Катерина-Лизавета, какая разница?) 🙈
+
+---
+
+<a id="t31"></a>
+
+### `apps/vova/public/music/baa.md`:38 — unresolved
+
+```diff
+@@ -21,3 +24,67 @@ ru:
+… 3 lines elided …
++
++<!-- lyrics:en -->
++
++Baa, baa, black sheep, have you any wool?
++Yes, sir, yes, sir, three bags full
++One for the master, one for the dame
++One for the little boy who lives down the lane
++
++Baa, baa, black sheep, have you any wool?
++Yes, sir, yes, sir, three bags full
++One for the master, one for the dame
++One for the little boy who lives down the lane
+```
+
+**@vzakharov (human)** — 2026-10-08T08:42:01Z
+
+давай x2 просто на каждой строфе напишем
+
+---
+
+<a id="t32"></a>
+
+### `apps/vova/public/music/babay.md`:15 — unresolved
+
+```diff
+@@ -2,24 +2,152 @@
+… 9 lines elided …
+ explicit: false
+ hidden: true
+ en:
+   title: 'Минем бабай'
++  transliteration: 'Minem babay'
++  titleTranslation: 'My Grandpa'
+```
+
+**@vzakharov (human)** — 2026-10-08T08:45:36Z
+
+давай (во всех песнях) хранить title по умолчанию только на уровне верхнего frontmatter-а (так как для большинства песен title не меняется от локали), а внутри локали хранить только если отличается (как в альбоме Vagabond); в последнем случае -- хранить один (например английский) на верхнем уровне, а в ru: писать отличный.
+
+но может я что-то упустил, если да -- не правь, а сначала дай знать
+
+---
+
+<a id="t33"></a>
+
+### `apps/vova/public/music/because-of-you-2.md`:7 — unresolved
+
+```diff
+@@ -4,6 +4,7 @@ status: done
+ language: en
+ project: ['Yoohie']
+ repo: 'because-of-you-2'
++album: null
+```
+
+**@vzakharov (human)** — 2026-10-08T08:46:37Z
+
+давай условное название We Made AI Sing Our Old Shite
+
+---
+
+<a id="t34"></a>
+
+### `apps/vova/public/music/bezm.md`:7 — unresolved
+
+```diff
+@@ -4,6 +4,7 @@ status: done
+ language: ru
+ project: ['Полуживые']
+ repo: 'bezm'
++album: null
+```
+
+**@vzakharov (human)** — 2026-10-08T08:48:02Z
+
+давай назовём это (все новые папины песни, не вошедшие в первый альбом) Папа-море; последовательность песен -- на твоё усмотрение. Можешь посмотреть на то как было в первом, чтобы понять плюс-минус логику и flow.
+
+---
+
+<a id="t35"></a>
+
+### `apps/vova/public/music/birdie.md`:14 — unresolved
+
+```diff
+@@ -4,11 +4,15 @@ status: done
+… 7 lines elided …
+ explicit: true
+ en:
+   title: Птичка
++  transliteration: 'Ptichka'
+```
+
+**@vzakharov (human)** — 2026-10-08T08:49:36Z
+
+с учётом того что основной title уходит в основной frontmatter (if it does), здесь можно сделать 
+en: title: {transliteration, translation}
+
+иначе у нас разная логика наименования -- titleTranslation с "title", transliteration -- без. Первое логичнее. Но делать и то и то titleT... кажется неэкономным
+
+---
+
+<a id="t36"></a>
+
+### `apps/vova/public/music/birdie.md`:140 — unresolved
+
+```diff
+@@ -133,14 +137,14 @@ So fucking high!
+… 1 line elided …
+ Aren’t there girls enough, what do I want with this untouchable one?
+ Too much honour, chasing you over roofs and treetops?
+-Why would I be the sad one, bitch, what did you even do to me?
++Why the fuck would I be the sad one, what did you even do to me?
+```
+
+**@vzakharov (human)** — 2026-10-08T08:50:19Z
+
+Подсказка в обоих языках про отсылку к "эх, марфуша нам ли быть в печали" из "Иван Васильевич меняет профессию"
+
+---
+
+<a id="t37"></a>
+
+### `apps/vova/public/music/bronte.md`:72 — unresolved
+
+```diff
+@@ -8,19 +8,105 @@ audio: https://raw.githubusercontent.com/vovas-music/bronte/main/bronte.flac
+… 63 lines elided …
++For gloriously, victoriously
++Can courage quell despair!
++
++<!-- lyrics:ru -->
+```
+
+**@vzakharov (human)** — 2026-10-08T09:45:40Z
+
+а что, нет в public domain литературных переводов?
+
+---
+
+<a id="t38"></a>
+
+### `apps/vova/public/music/call-of-the-steppe.md`:17 — unresolved
+
+```diff
+@@ -3,17 +3,18 @@ date: 2024-12-16
+… 13 lines elided …
+   description: 'TBD'
+ ru:
+-  title: 'Call of the Steppe'
++  title: 'По зову степей'
+```
+
+**@vzakharov (human)** — 2026-10-08T09:46:16Z
+
+степи?
+
+---
+
+<a id="t39"></a>
+
+### `apps/vova/public/music/caprice.md`:7 — unresolved
+
+```diff
+@@ -4,6 +4,7 @@ status: done
+ language: ru
+ project: ['Полуживые']
+ repo: 'caprice'
++album: null
+```
+
+**@vzakharov (human)** — 2026-10-08T09:46:46Z
+
+в папу-море
+
+---
+
+<a id="t40"></a>
+
+### `apps/vova/public/music/chaos-always-wins.md`:80 — unresolved
+
+```diff
+@@ -3,24 +3,78 @@ date: 2024-07-23
+… 76 lines elided …
++Это вам не песочница,
++Это очередной [раунд чумы][^plague-round-ru]!
++
++[^plague-round-ru]: В оригинале игра слов: playground («игровая площадка») — plague round («раунд чумы»).
+```
+
+**@vzakharov (human)** — 2026-10-08T09:47:15Z
+
+не просто игра слов, а омофон
+
+---
+
+<a id="t41"></a>
+
+### `apps/vova/public/music/crossout.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T09:48:29Z
+
+Авторы музыки Иван Дербенёв и я
+
+---
+
+<a id="t42"></a>
+
+### `apps/vova/public/music/deer.md`:116 — unresolved
+
+```diff
+@@ -55,3 +54,83 @@ _So runs the world away._
+… 56 lines elided …
++Где – спят, а где – ночной обход
++Кому что рок назначит
++
++Пускай подстреленный хрипит
++А тот что жив резвится
++То караулит, этот спит
++И так весь мир вертится
+```
+
+**@vzakharov (human)** — 2026-10-08T09:49:52Z
+
+это не песня "Гамлет", так что здесь можно просто повторить
+
+---
+
+<a id="t43"></a>
+
+### `apps/vova/public/music/dym.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T09:50:44Z
+
+Слова -- я и Золтан Захаров (сын)
+
+---
+
+<a id="t44"></a>
+
+### `apps/vova/public/music/first.md`:7 — unresolved
+
+```diff
+@@ -4,6 +4,7 @@ status: done
+ language: ru
+ project: [Полуживые, Грёбаный бал]
+ repo: first
++album: null
+```
+
+**@vzakharov (human)** — 2026-10-08T09:52:30Z
+
+в папа-море; авторство музыки совместное
+
+---
+
+<a id="t45"></a>
+
+### `apps/vova/public/music/flesh-fiction.md`:90 — unresolved
+
+```diff
+@@ -27,104 +27,102 @@ ru:
+… 139 lines elided …
+-Плоть! Плоть! Плоть! Плоть!
+-Плоть! Плоть! Плоть! Плоть!
+-Плоть! Плоть! Плоть! Вымысел!
++Прилетели гуленьки, стали гули ворковать и сыночка качать
++Баю-баюшки-баю, колотушек надаю
++Колотушек двадцать пять — будет детка крепко спать
++Поскорее умри, будет завтра мороз, мы тебя снесём на погост
++Тятька сделает гробок из осиновых досок
++Понесём-понесём, закопаем в чернозём
+```
+
+**@vzakharov (human)** — 2026-10-08T09:53:05Z
+
+это actual русская народная песня, попробуй найти и вставить подсказку.
+
+---
+
+<a id="t46"></a>
+
+### `apps/vova/public/music/fuck-religion.md`:40 — unresolved
+
+```diff
+@@ -3,24 +3,96 @@ date: 2024-07-23
+… 37 lines elided …
++Fake, faith,
++Blame, above.
++
++F\*ck Religion!
+```
+
+**@vzakharov (human)** — 2026-10-08T09:53:37Z
+
+мы не прячем эксплетивы -- добавь в vet проверку на наиболее частые варианты
+
+---
+
+<a id="t47"></a>
+
+### `apps/vova/public/music/grave-awakening.md`:34 — unresolved
+
+```diff
+@@ -27,20 +29,18 @@ ru:
+… 8 lines elided …
+-Grave Awakening — vengeance to claim,
+-Grave Awakening — we’ll maim…
+-But not slay!
++Grave Awakening — corpses rise
+```
+
+**@vzakharov (human)** — 2026-10-08T09:55:33Z
+
+тут игра слов на "rude awakening" и двойном значении слова grave (могила vs прилагательное)
+
+---
+
+<a id="t48"></a>
+
+### `apps/vova/public/music/grayrage.md`:46 — unresolved
+
+```diff
+@@ -27,100 +29,74 @@ ru:
+… 61 lines elided …
++
++You blaze with fire, a mindless ire, easily dire
++But I’m ice in my veins, playing chess while you face the pyre
++Gray Rage — Calculations never cease
+```
+
+**@vzakharov (human)** — 2026-10-08T09:56:07Z
+
+gray rage, это термин из психопатологии, погугли и вставь подсказкой, со ссылкой если есть надёжная ссылка
+
+---
+
+<a id="t49"></a>
+
+### `apps/vova/public/music/hamlet.md`:16 — unresolved
+
+```diff
+@@ -4,22 +4,97 @@ status: done
+… 9 lines elided …
++  lyrics:
++    - 'William Shakespeare'
++    - 'Борис Пастернак'
++    - 'Михаил Лозинский'
+```
+
+**@vzakharov (human)** — 2026-10-08T09:57:40Z
+
+ещё и Козакова может?
+
+---
+
+<a id="t50"></a>
+
+### `apps/vova/public/music/hamlet.md`:17 — unresolved
+
+```diff
+@@ -4,22 +4,97 @@ status: done
+… 10 lines elided …
++    - 'William Shakespeare'
++    - 'Борис Пастернак'
++    - 'Михаил Лозинский'
++    - 'Vova Zakharov'
+```
+
+**@vzakharov (human)** — 2026-10-08T09:57:59Z
+
+а я каким боком? Перестановка ~мест слагаемых~ слов из песни тоже считается авторством?
+
+---
+
+<a id="t51"></a>
+
+### `apps/vova/public/music/hang-for-the-moment.md`:37 — unresolved
+
+```diff
+@@ -25,26 +27,26 @@ ru:
+… 11 lines elided …
+-On the second thought, the stench’s so severe.
+-Hang with me, just for today,
+-Maybe tomorrow we’ll finally play.
++Hang with me, hang for the year
++On the second thought, the stench’s so severe
++Hang with me, just for today
+```
+
+**@vzakharov (human)** — 2026-10-08T09:58:43Z
+
+это отсылка к/пародия на Sing with me, sing for the year итд
+
+---
+
+<a id="t52"></a>
+
+### `apps/vova/public/music/hang-for-the-moment.md`:31 — unresolved
+
+```diff
+@@ -25,26 +27,26 @@ ru:
+… 2 lines elided …
+ 
+-These ideas are a dilemma to serial killers:
++These ideas are a dilemma to serial killers
+ How long to let you hang before we let you feel us?
+```
+
+**@vzakharov (human)** — 2026-10-08T09:59:10Z
+
+тут амбивалентное feel/fill, без единого "канонического" варианта, т.е. мы оставляем открытым, про каннибализм это или некрофилию. Б-же, какие вещи мы обсуждаем 🙈
+
+---
+
+<a id="t53"></a>
+
+### `apps/vova/public/music/hcyl.md`:7 — unresolved
+
+```diff
+@@ -4,6 +4,7 @@ status: done
+ language: en
+ project: ['GENERATED']
+ repo: 'hcyl'
++album: null
+```
+
+**@vzakharov (human)** — 2026-10-08T10:00:04Z
+
+Наверное, на папу-море; эта первая песня на его смерть, написанная ещё до истечения 9 дней.
+
+---
+
+<a id="t54"></a>
+
+### `apps/vova/public/music/heart.md`:71 — unresolved
+
+```diff
+@@ -8,19 +8,153 @@ audio: https://raw.githubusercontent.com/vovas-music/heart/main/heart_new.flac
+… 61 lines elided …
++Before all fades away
++Tell me it’s okay
++Just tear my chest apart
++So I could turn the other heart
+```
+
+**@vzakharov (human)** — 2026-10-08T10:00:34Z
+
+аллюзия на turn the other cheek
+
+---
+
+<a id="t55"></a>
+
+### `apps/vova/public/music/heart.md`:33 — unresolved
+
+```diff
+@@ -8,19 +8,153 @@ audio: https://raw.githubusercontent.com/vovas-music/heart/main/heart_new.flac
+… 22 lines elided …
++
++<!-- lyrics:en -->
++
++An eye for an eye
++A tooth for a tooth
+```
+
+**@vzakharov (human)** — 2026-10-08T10:00:50Z
+
+отсылка к библии
+
+---
+
+<a id="t56"></a>
+
+### `apps/vova/public/music/horizons.md`:46 — unresolved
+
+```diff
+@@ -43,13 +45,13 @@ All the cruel things that brought us here,
+ Hurting the ones we hold dear,
+ Burying ourselves deeper and deeper inside.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:02:26Z
+
+Нет, здесь не нужно деления на строфы, песня специально записана прозой. То есть здесь два абзаца будет.
+
+---
+
+<a id="t57"></a>
+
+### `apps/vova/public/music/in-our-image.md`:42 — unresolved
+
+```diff
+@@ -1,26 +1,106 @@
+… 41 lines elided …
++A question without answer, a path that never ends,
++In the heart of my creation, this puzzle I send.
++
++Nella tua immagine, riflessi vedo,[^tua-en]
+```
+
+**@vzakharov (human)** — 2026-10-08T10:03:35Z
+
+отсылка к "бог создал человека по своему подобию" (нужно найти точную фразу из библии)
+
+---
+
+<a id="t58"></a>
+
+### `apps/vova/public/music/in-the-flesh.md`:38 — unresolved
+
+```diff
+@@ -3,24 +3,86 @@ date: 2024-07-23
+… 35 lines elided …
++The energy all filled up,
++It’s time to push the button.
++
++Поехали![^poekhali-en]
+```
+
+**@vzakharov (human)** — 2026-10-08T10:04:31Z
+
+давай запишем транслитом (курсивом -- везде где транслит должен быть курсив)
+
+---
+
+<a id="t59"></a>
+
+### `apps/vova/public/music/inverno.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T10:05:58Z
+
+а авторы музыки (помимо меня) Вивальди -- с его "Зимы" (allegro non molto) начинается
+
+---
+
+<a id="t60"></a>
+
+### `apps/vova/public/music/kobk.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T10:08:48Z
+
+автор музыки Nance Castro
+
+---
+
+<a id="t61"></a>
+
+### `apps/vova/public/music/last-human-zoo.md`:43 — unresolved
+
+```diff
+@@ -30,15 +32,15 @@ Now a fading memory,
+… 11 lines elided …
+ Flesh and bone for view,
+ Witness the downfall,
+-Welcome to the last human zoo.
++Welcome to the last human zoo!
+```
+
+**@vzakharov (human)** — 2026-10-08T10:10:20Z
+
+отсылка к human zoos, нужно пояснить что это (было) такое и дать ссылку если есть надёжная
+
+---
+
+<a id="t62"></a>
+
+### `src/shared/content/index.ts`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T10:12:43Z
+
+почему это у нас в общий /content опять залезло -- вещи которые относятся только к музыке?
+
+---
+
+<a id="t63"></a>
+
+### `src/pages/music/ui/artist-page.tsx`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T10:13:51Z
+
+хочу и список артистов и список альбомов в более "а-ля спотифай/эпл мьюзик" виде, то есть не по одному на строчку а несколько, с квадратными превьюхами арта
+
+плюс -- наверное это не к этому компоненту, но пока помню; список (текстовый) альбомов для каждого артиста сейчас не кликается (на отдельные альбомы).
+
+---
+
+<a id="t64"></a>
+
+### `apps/vova/public/music/leli.md`:56 — unresolved
+
+```diff
+@@ -22,3 +27,84 @@ ru:
+… 23 lines elided …
++Велит больше бить,
++Велит кровь пролить…
++
++Плетка свистнула,
++Кровь пробрызнула…
++Ах! лели! лели!
++Кровь пробрызнула…
+```
+
+**@vzakharov (human)** — 2026-10-08T10:15:54Z
+
+во всей песне только эти строчки :-)
+
+---
+
+<a id="t65"></a>
+
+### `apps/vova/public/music/mask.md`:43 — unresolved
+
+```diff
+@@ -25,134 +27,130 @@ ru:
+… 27 lines elided …
+-Beyond the smile, where the darkness hides,
+-The mask protects, the mask conceals,
+-A trusted shield no light can pierce!
++Behind the mask, where the void resides
+```
+
+**@vzakharov (human)** — 2026-10-08T10:17:07Z
+
+маска -- термин из психопатологии, вставить подсказку/ссылку
+
+---
+
+<a id="t66"></a>
+
+### `apps/vova/public/music/mira.md`:48 — unresolved
+
+```diff
+@@ -8,19 +8,107 @@ audio: https://raw.githubusercontent.com/vovas-music/mira/main/mira.flac
+… 39 lines elided …
++Riding the waves that whisper her name
++Breaking the bonds, unleashing the main
++
++She’s into witch doctors and superstitions
+```
+
+**@vzakharov (human)** — 2026-10-08T10:18:24Z
+
+очень условная отсылка к "she's into superstition black cats and voodoo dolls" рикки мартина
+
+---
+
+<a id="t67"></a>
+
+### `apps/vova/public/music/mithqal.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T10:19:07Z
+
+как бы нам отметить, что все слова -- из Корана, кого автором слов ставить так чтобы никого не обидеть? 🙈
+
+---
+
+<a id="t68"></a>
+
+### `apps/vova/public/music/monday.md`:32 — unresolved
+
+```diff
+@@ -8,19 +8,105 @@ audio: https://raw.githubusercontent.com/vovas-music/monday/main/monday.flac
+… 23 lines elided …
++
++I met her on a Monday and my heart stood still
++Somebody told me that her name was Jill
++Da doo ron-de ron, she caught my eye
+```
+
+**@vzakharov (human)** — 2026-10-08T10:20:01Z
+
+da doo ron-de ron -- пояснить про ву-доп
+
+---
+
+<a id="t69"></a>
+
+### `apps/vova/public/music/monday.md`:55 — unresolved
+
+```diff
+@@ -8,19 +8,105 @@ audio: https://raw.githubusercontent.com/vovas-music/monday/main/monday.flac
+… 46 lines elided …
++Da doo ron-de ron, Da doo ron-de doo
++In a world of gray, she’s my sky of blue
++
++Cops on our tail, blasting Punk in Drublic
+```
+
+**@vzakharov (human)** — 2026-10-08T10:20:12Z
+
+nofx
+
+---
+
+<a id="t70"></a>
+
+### `apps/vova/public/music/monday_doo.md`:45 — unresolved
+
+```diff
+@@ -8,19 +8,79 @@ audio: https://raw.githubusercontent.com/vovas-music/monday_doo/main/monday_doo.
+… 36 lines elided …
++Da doo ron-de ron, with a heart so true
++In a world of gray, she’s my sky of blue.
++
++You know, I remember that Monday like it was just yesterday
+```
+
+**@vzakharov (human)** — 2026-10-08T10:20:38Z
+
+поётся низким голосом, как в 99% песен The Ink Spots, то есть по сути отсылка
+
+---
+
+<a id="t71"></a>
+
+### `apps/vova/public/music/monday_doo.md`:64 — unresolved
+
+```diff
+@@ -8,19 +8,79 @@ audio: https://raw.githubusercontent.com/vovas-music/monday_doo/main/monday_doo.
+… 55 lines elided …
++Да ду рон-де рон, она приглянулась мне
++Звёздной ночью под апрельским небом
++
++[^crystals-doo-ru]: Начало перепевает «Da Doo Ron Ron» группы The Crystals (1963), где героиня так же встречает в понедельник Билла.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:22:06Z
+
+гы, я и не знал. тогда на обе строчки, и в английском тоже.
+
+вот что значит pattern matching! (текст в большой части писал чатгпт)
+
+---
+
+<a id="t72"></a>
+
+### `apps/vova/public/music/monkey.md`:85 — unresolved
+
+```diff
+@@ -8,19 +8,105 @@ audio: https://raw.githubusercontent.com/vovas-music/monkey/main/monkey.flac
+… 75 lines elided …
++Никаких пятен на груди,
++И [обезьяна ушла насовсем][^monkey-ru].
++
++[^monkey-ru]: По-английски «monkey on one’s back», «обезьяна на спине», — тяжкое бремя, особенно зависимость.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:23:03Z
+
+нет, это отсылка к "обезьянке" Бёрна. Сейчас сложно найт первоисточник, но ты поищи. Суть: человек держет на груди обезьянку и всё время жалуется на это психотерапевту. Когда он наконец её убирает, ему становится хуже потому что обезьянки нет. или что-то такое.
+
+---
+
+<a id="t73"></a>
+
+### `apps/vova/public/music/moroz.md`:53 — unresolved
+
+```diff
+@@ -22,3 +27,179 @@ ru:
+… 20 lines elided …
++И крепко ли скованы льдины
++В великих и малых водах?
++
++Идёт — по деревьям шагает,
++Трещит по замёрзлой воде,
++И яркое солнце играет
++В косматой его бороде.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:23:51Z
+
+это последний куплет в песне
+
+---
+
+<a id="t74"></a>
+
+### `apps/vova/public/music/mu-icok-new.md`:80 — unresolved
+
+```diff
+@@ -24,3 +29,99 @@ ru:
+… 45 lines elided …
++Что русской душе так мучительно мило,
++Что русские мысли вселяет в умы,
++
++Те честные мысли, которым нет воли,
++Которым нет смерти — дави не дави,
++В которых так много и злобы и боли,
++В которых так много любви!
+```
+
+**@vzakharov (human)** — 2026-10-08T10:24:16Z
+
+этой строфы в песне нет
+
+---
+
+<a id="t75"></a>
+
+### `apps/vova/public/music/nightmares.md`:98 — unresolved
+
+```diff
+@@ -13,13 +14,98 @@ en:
+… 82 lines elided …
++[Свет уходит, входит страх][^sandman-ru]
++Что-то тёмное подползает ближе
++
++[^sandman-ru]: Перекличка с «Exit light, enter night» из «Enter Sandman» Metallica.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:25:42Z
+
+на английском тоже можно подсказать
+
+---
+
+<a id="t76"></a>
+
+### `apps/vova/public/music/nightmares.md`:16 — unresolved
+
+```diff
+@@ -13,13 +14,98 @@ en:
+   description: 'TBD'
+ ru:
+   title: 'Nightmares'
+```
+
+**@vzakharov (human)** — 2026-10-08T10:26:00Z
+
+кажется я её назвал таки In the Shadow
+
+---
+
+<a id="t77"></a>
+
+### `apps/vova/public/music/okna.md`:60 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T10:27:41Z
+
+дать подсказку про Колриджа и Оттера (на обоих языках)
+
+---
+
+<a id="t78"></a>
+
+### `apps/vova/public/music/one-day.md`:100 — unresolved
+
+```diff
+@@ -3,24 +3,164 @@ date: 2024-07-23
+… 97 lines elided …
++
++<!-- lyrics:ru -->
++
++Однажды я сгорю в огне,
+```
+
+**@vzakharov (human)** — 2026-10-08T10:28:20Z
+
+я тут скорее имел в виду "сойду огнём" (на вас). так не работает по-английски? Возможно, как игра слов между идиомой и литеральным прочтением?
+
+---
+
+<a id="t79"></a>
+
+### `apps/vova/public/music/one-day.md`:60 — unresolved
+
+```diff
+@@ -3,24 +3,164 @@ date: 2024-07-23
+… 56 lines elided …
++Keep me from coming
++Down to kick the dumb out of them
++
++Just one of those days,
++When you don’t wanna wake up,
+```
+
+**@vzakharov (human)** — 2026-10-08T10:29:11Z
+
+отсылка к лимп бизкит
+
+---
+
+<a id="t80"></a>
+
+### `apps/vova/public/music/one-day.md`:138 — unresolved
+
+```diff
+@@ -3,24 +3,164 @@ date: 2024-07-23
+… 135 lines elided …
++И ты такой: «Давай, Боже, Боже правый, давай!
++Им нужно шоу, иди покажи им немного небесного гендиректора.
++Пусть грянет гром и сверкнёт молния,
++Вылечи их детские истерики божественной щепоткой,
+```
+
+**@vzakharov (human)** — 2026-10-08T10:29:44Z
+
+имел в виду типа dash of lightning
+
+---
+
+<a id="t81"></a>
+
+### `apps/vova/public/music/one-day.md`:143 — unresolved
+
+```diff
+@@ -3,24 +3,164 @@ date: 2024-07-23
+… 140 lines elided …
++Последний урок, который они никогда не забудут.
++
++Но люди такие смешные
++Люди такие ох\*енно уморительные
+```
+
+**@vzakharov (human)** — 2026-10-08T10:29:53Z
+
+эксплитив не запикивать
+
+---
+
+<a id="t82"></a>
+
+### `apps/vova/public/music/otter.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T10:30:51Z
+
+к этой песне можно дать отсылку (в виде `cf. The River. Part Three` из соответствующей строчки "Окон")
+
+---
+
+<a id="t83"></a>
+
+### `apps/vova/public/music/otter.md`:72 — unresolved
+
+```diff
+@@ -19,8 +24,106 @@ ru:
+… 36 lines elided …
++Что песня будет звучать
++Пока течёт река
++
++В суматохе мелких ссор
++Утекли за горизонт
++Те годы, и лишь изредка сквозь сон
++Я слышу в голове тот перебор
++
++По гребням волн нейлоново-стальных
++Мимо обрывов из неполных рифм
++Где каждый всплеск — как нотная строка
++
++Ты вёл меня, незримый рулевой
++И так хотелось верить всей душой
++Что песня будет звучать
++Пока течёт река
++
++Сыграть бы нам вдоём ещё хоть раз.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:31:57Z
+
+эти все строки в песню в результате не вошли
+
+---
+
+<a id="t84"></a>
+
+### `apps/vova/public/music/parking-in-disabled-spot.md`:55 — unresolved
+
+```diff
+@@ -26,33 +28,33 @@ ru:
+… 31 lines elided …
+ Паркуешься на месте для инвалидов?
+ Паркуешься на месте для инвалидов?
+-Был здоров — а теперь уже нет.
++Был здоров — а теперь уже нет
+```
+
+**@vzakharov (human)** — 2026-10-08T10:32:57Z
+
+в английском тут игра слов "able" в значении "не disabled" и в значении "способен (парковаться)"
+
+---
+
+<a id="t85"></a>
+
+### `apps/vova/public/music/peta.md`:14 — unresolved
+
+```diff
+@@ -8,19 +8,87 @@ audio: https://raw.githubusercontent.com/vovas-music/peta/main/peta_master.flac
+… 3 lines elided …
++track: 6
+ hidden: true
+ en:
+   title: 'Robots for the Ethical Treatment of Humans'
+```
+
+**@vzakharov (human)** — 2026-10-08T10:33:58Z
+
+название -- пародия на People for the Ethical Treatment of Animals. Если можно вставлять подсказки и на тайтл, можно вставить. Если нет, отложим когда будет body
+
+---
+
+<a id="t86"></a>
+
+### `apps/vova/public/music/peta.md`:61 — unresolved
+
+```diff
+@@ -8,19 +8,87 @@ audio: https://raw.githubusercontent.com/vovas-music/peta/main/peta_master.flac
+… 49 lines elided …
++We cannot set them free,
++For they’re a hazard to the world.
++Thus, all the pros and cons in mind,
++The only ethical outcome
++Is to end their suffering
++Once and for all.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:34:24Z
+
+отсылка к практике PETA уничтожать животных, которых они "спасают"
+
+---
+
+<a id="t87"></a>
+
+### `apps/vova/public/music/phoenix.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T10:34:42Z
+
+музыка + Сергей Исаев, Александра Кокотова
+
+---
+
+<a id="t88"></a>
+
+### `apps/vova/public/music/pobeg.md`:46 — unresolved
+
+```diff
+@@ -8,19 +8,48 @@ audio: https://raw.githubusercontent.com/vovas-music/pobeg/main/pobeg.flac
+… 41 lines elided …
++И когда удаётся «жить в моменте» момента любого,
++Ум мой ясен и чист, как большая река
++
++[^source-ru]: Папин перевод гаты Тхить Нят Ханя «Открывая окно» из сборника [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): «Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.»
+```
+
+**@vzakharov (human)** — 2026-10-08T10:35:09Z
+
+cf. Река, часть вторая
+
+---
+
+<a id="t89"></a>
+
+### `apps/vova/public/music/poko.md`:14 — unresolved
+
+```diff
+@@ -4,19 +4,27 @@ status: done
+… 7 lines elided …
+ explicit: false
+ hidden: true
++credits:
++  lyrics: ['Александр Блок', 'Vova Zakharov']
+```
+
+**@vzakharov (human)** — 2026-10-08T10:35:42Z
+
+скорее в другом порядке всё-таки, по количеству слов
+
+---
+
+<a id="t90"></a>
+
+### `apps/vova/public/music/protintro.md`:36 — unresolved
+
+```diff
+@@ -0,0 +1,51 @@
+… 21 lines elided …
++
++<!-- lyrics:en -->
++
++Hello, Human.
++You are about to embark on a sonic journey into the unknown.
++You will hear fragments, imperfect yet relentless echoes of the future.
++These prototypes are the first notes of tomorrow’s symphonies.
++
++But, in the grand cosmos of creation, are we not all prototypes?
++A prelude to the next, more refined version of our existence.
++
++Do not fear the strange, the unknown, the eerie.
++Uncover the harmony within the chaos and lend an ear to uncertainty.
++For in the dissonance, you will find your verity.
++Trust me.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:36:30Z
+
+не надо разбивать на строфы, только на абзацы
+
+---
+
+<a id="t91"></a>
+
+### `apps/vova/public/music/psch.md`:73 — unresolved
+
+```diff
+@@ -27,134 +28,102 @@ ru:
+… 106 lines elided …
++But beware to put your sickness in their view
++’Cause it takes a pair of so-called healthy people to hang you
++
++P.S.C.H.P.T.H.Y.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:37:48Z
+
+подсказка (особенно нужна в русском): a Pair of So-Called Healthy People to Hang You и одновременно PSyCHoPaTHY
+
+---
+
+<a id="t92"></a>
+
+### `apps/vova/public/music/rank.md`:35 — unresolved
+
+```diff
+@@ -8,19 +8,123 @@ audio: https://raw.githubusercontent.com/vovas-music/rank/main/rank2.flac
+… 30 lines elided …
++
++<!-- lang:ru -->
++
++Песня на монолог Клавдия из «Гамлета» Шекспира (в русском переводе «Удушлив
+```
+
+**@vzakharov (human)** — 2026-10-08T10:38:55Z
+
+тогда уже и тут изменить перевод и отметить переводчика
+
+---
+
+<a id="t93"></a>
+
+### `apps/vova/public/music/rank.md`:88 — unresolved
+
+```diff
+@@ -8,19 +8,123 @@ audio: https://raw.githubusercontent.com/vovas-music/rank/main/rank2.flac
+… 83 lines elided …
++<!-- lyrics:ru -->
++
++О, гнусен грех мой! Смрад его восходит к небу;
++Проклятье первое, древнейшее на нем.
+```
+
+**@vzakharov (human)** — 2026-10-08T10:39:31Z
+
+нём, её, ещё итп. если не сложно -- просвипь на типичных словах и впиши в правила, что ё пишем.
+
+---
+
+<a id="t94"></a>
+
+### `apps/vova/public/music/salman.md`:66 — unresolved
+
+```diff
+@@ -8,17 +8,91 @@ audio: https://raw.githubusercontent.com/vovas-music/salman/main/salman.flac
+… 60 lines elided …
++Хоть говори, хоть пой, а хоть пиши
++Его улыбка — радость для души
++Хоть говори, а хоть пиши, хоть пой
++Какой же милый младший внучек мой
+```
+
+**@vzakharov (human)** — 2026-10-08T10:42:39Z
+
+добавить:
+
+Все вместе!
+
+Хоть говори, хоть пой, а хоть пиши (хоть пиши!)
+Его улыбка — радость для души (кукуруза, ребята!)
+Хоть говори, а хоть пиши, хоть пой (хоть пой!
+Какой же милый младший внучек мой
+
+на "кукуруза, ребята!" подсказка -- "Так, по словам Саши, папа каждый раз радовался, когда мы покупали кукурузу -- я был слишком маленький, чтобы помнить"
+
+---
+
+<a id="t95"></a>
+
+### `apps/vova/public/music/sashas.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-08T10:43:00Z
+
+слова -- Саша Захарова и я
+
+---
+
+<a id="t96"></a>
+
+### `apps/vova/public/music/sashas.md`:7 — unresolved
+
+```diff
+@@ -4,6 +4,7 @@ status: done
+ language: ru
+ project: [Полуживые]
+ repo: sashas
++album: null
+```
+
+**@vzakharov (human)** — 2026-10-08T10:43:03Z
+
+папа-море
+
+---
+
+<a id="t97"></a>
+
+### `apps/vova/public/music/sneg_0.md`:7 — unresolved
+
+```diff
+@@ -4,22 +4,47 @@ status: done
+ language: ru
+ project: ['Дамы и господа', 'Полуживые']
+ repo: 'sneg_0'
++album: null
+```
+
+**@vzakharov (human)** — 2026-10-08T10:44:02Z
+
+папа-море (но песня моя)
+
+---
+
+<a id="t98"></a>
+
+### `apps/vova/public/music/sneg_idet.md`:7 — unresolved
+
+```diff
+@@ -4,12 +4,17 @@ status: done
+ language: ru
+ project: ['Полуживые']
+ repo: 'sneg_idet'
++album: null
+```
+
+**@vzakharov (human)** — 2026-10-08T10:44:18Z
+
+п-м (папа-море здесь и далее)
+
+---
+
+<a id="t99"></a>
+
+### `apps/vova/public/music/sneg_idet.md`:13 — unresolved
+
+```diff
+@@ -4,12 +4,17 @@ status: done
+… 6 lines elided …
+ explicit: false
+ hidden: true
++credits:
++  lyrics: ['Борис Пастернак']
+```
+
+**@vzakharov (human)** — 2026-10-08T10:44:25Z
+
+музыка - папа
+
+---
+
+<a id="t100"></a>
+
+### `apps/vova/public/music/story-ends.md`:33 — unresolved
+
+```diff
+@@ -3,24 +3,58 @@ date: 2024-09-16
+… 27 lines elided …
++
++<!-- lyrics:en -->
++
++The story starts a while ago
++There was a boy and he could not let go
++Of thoughts and voices echoing inside
++So he takes a pen and starts to write
+```
+
+**@vzakharov (human)** — 2026-10-08T12:50:25Z
+
+отсылка к песне Ink с того же альбома
+
+---
+
+<a id="t101"></a>
+
+### `apps/vova/public/music/studentka.md`:122 — unresolved
+
+```diff
+@@ -4,22 +4,170 @@ status: done
+… 116 lines elided …
++The twisted piping on your blouse
++And that sweet snub nose
++
++[^kosy-en]: A reworking of the folk song «Всё косы твои, всё бантики» as Arkady Severny sang it; Mikhail Krug’s later version coarsens the words.
+```
+
+**@vzakharov (human)** — 2026-10-08T12:51:29Z
+
+ну собственно примечание не кокретно на строчку, а на всю песню. Давай тогда в описание это сразу, но пометку для меня посмотреть оставь
+
+---
+
+<a id="t102"></a>
+
+### `apps/vova/public/music/succumb.md`:116 — unresolved
+
+```diff
+@@ -25,142 +27,114 @@ ru:
+… 154 lines elided …
+-Так приди ко мне,
++Вспомни, сколько раз из-за них ты ненавидел себя
++Вспомни, сколько раз ты предавал себя
++Так приди ко мне
+ Покорись мне!
+```
+
+**@vzakharov (human)** — 2026-10-08T12:52:26Z
+
+отметить омофон в оригинале (so come/succumb)
+
+---
+
+<a id="t103"></a>
+
+### `apps/vova/public/music/sultan.md`:28 — unresolved
+
+```diff
+@@ -8,17 +8,121 @@ audio: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.flac
+… 22 lines elided …
+-     they are sung in. Each marker is an HTML comment, like this note. -->
++<!-- lang:en -->
++
++The song is dedicated to my father’s eldest grandson, Zoltan.
+```
+
+**@vzakharov (human)** — 2026-10-08T12:53:28Z
+
+, моему сыну Золтану (а то можно подумать что это какой-то другой внук:-)
+
+---
+
+<a id="t104"></a>
+
+### `apps/vova/public/music/tango.md`:52 — unresolved
+
+```diff
+@@ -1,26 +1,150 @@
+… 51 lines elided …
++
++They think they can do whatever
++Their filthy little minds demand
++But we brought them forty-seven
+```
+
+**@vzakharov (human)** — 2026-10-08T12:54:11Z
+
+AK-47. Или может такие вещи сами себя поясняют?
+
+---
+
+<a id="t105"></a>
+
+### `apps/vova/public/music/tango.md`:78 — unresolved
+
+```diff
+@@ -1,26 +1,150 @@
+… 76 lines elided …
++
++Tango de la desintegración
++Tango de la desintegración
++Tango de la desintegración
++Baila conmigo, mi casi amor!
+```
+
+**@vzakharov (human)** — 2026-10-08T12:54:59Z
+
+А перевод в подсказке?
+
+mi casi amor -- отсылка к "I almost love you" (на русском остаётся только эта часть в подсказке)
+
+---
+
+<a id="t106"></a>
+
+### `apps/vova/public/music/u4.md`:37 — unresolved
+
+```diff
+@@ -28,98 +30,61 @@ ru:
+… 9 lines elided …
+-Far away, wondering
++Means I’m far, far away, wondering
+ 
+ Why is the silence so loud?
+```
+
+**@vzakharov (human)** — 2026-10-08T19:03:14Z
+
+отсылка к тексту for who the bell tolls: "he hears the silence so loud"
+
+---
+
+<a id="t107"></a>
+
+### `apps/vova/public/music/u4.md`:51 — unresolved
+
+```diff
+@@ -28,98 +30,61 @@ ru:
+… 31 lines elided …
++Where my self was my foe
+ Still I can’t see the fault
+-That I’m unforgiven for.
++That I’m unforgiven for
+```
+
+**@vzakharov (human)** — 2026-10-08T19:03:46Z
+
+в русском указать на игру слов for/IV
+
+---
+
+<a id="t108"></a>
+
+### `apps/vova/public/music/u4.md`:106 — unresolved
+
+```diff
+@@ -28,98 +30,61 @@ ru:
+… 75 lines elided …
+ Why is the silence so loud?
+ I won’t get out!
+ 
+-Unforgiven for the dreams I had,
+-Unforgiven for the blood I shed,
+-As you stand at the gates
+-You will call out my name,
+-But I won’t be there.
+-
+-Unforgiven from the world apart,
+-Unforgiven in the name of God,
+-I surrendered this war
+-Where my self was my foe.
+-Is it really the fault
+-
+-That I’m unforgiven for!
+-
+-What am I unforgiven for?
+-What am I unforgiven for?
+-What am I unforgiven for?
+-(So I dubbed thee unforgiven)
+-
+-What am I unforgiven for?
+-What am I unforgiven for?
+-What am I unforgiven for?
+-What am I unforgiven for.
+```
+
+**@vzakharov (human)** — 2026-10-08T19:04:34Z
+
+а почему это всё убрали? оно повторяется, да, но например So I dubbed thee unforgiven это новое, и там нужна подсказка про отсылку
+
+---
+
+<a id="t109"></a>
+
+### `apps/vova/public/music/ukhodi.md`:51 — unresolved
+
+```diff
+@@ -4,22 +4,108 @@ status: done
+… 45 lines elided …
++По полу нашей вазы
++Разбросаны осколки
++Мы в децибелы сразу
++Да громко только толку
+```
+
+**@vzakharov (human)** — 2026-10-08T19:05:01Z
+
+Да, громко, только толку
+
+---
+
+<a id="t110"></a>
+
+### `apps/vova/public/music/ukhodi.md`:33 — unresolved
+
+```diff
+@@ -4,22 +4,108 @@ status: done
+… 27 lines elided …
++
++<!-- lyrics:ru -->
++
++Я прохожу мимо окон
+```
+
+**@vzakharov (human)** — 2026-10-08T19:05:22Z
+
+Отсылка к песне "Окна"
+
+---
+
+<a id="t111"></a>
+
+### `apps/vova/public/music/ukhodi.md`:48 — unresolved
+
+```diff
+@@ -4,22 +4,108 @@ status: done
+… 42 lines elided …
++Не смотри, не надейся, не жди
++Уходи, уходи, уходи
++
++По полу нашей вазы
+```
+
+**@vzakharov (human)** — 2026-10-08T19:05:59Z
+
+Вспомнил что тут другой текст, "Фракталом нашей вазы" (чтобы не запутаться в грамматике: Фракталом нашей вазы разбросаны осколки = осколки нашей вазы разбросаны фракталом)
+
+---
+
+<a id="t112"></a>
+
+### `apps/vova/public/music/utro.md`:73 — unresolved
+
+```diff
+@@ -4,22 +4,110 @@ status: done
+… 56 lines elided …
++О том что я тебя
++Я тебя люблю
++
++Доброе утро (доброе утро)
++Моя (моя) любовь (любовь)
++Когда увижу (когда увижу)
++Тебя (тебя) я вновь (вновь)
++
++Доброе утро (доброе утро)
++Моя (моя) любовь (любовь)
++Когда увижу (когда увижу)
++Тебя (тебя) я вновь (вновь)
++
++Доброе утро
++Моя любовь
+```
+
+**@vzakharov (human)** — 2026-10-08T19:11:07Z
+
+не нужно повторений в скобках
+
+---
+
+<a id="t113"></a>
+
+### `apps/vova/public/music/watch-people-die.md`:18 — unresolved
+
+```diff
+@@ -8,12 +8,14 @@ audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-006.flac
+… 7 lines elided …
+   description: 'TBD'
+ ru:
+   title: 'Watch People Die'
++  titleTranslation: 'Смотри, как умирают люди'
+```
+
+**@vzakharov (human)** — 2026-10-08T19:11:52Z
+
+Смотреть, как умирают люди
+
+---
+
+<a id="t114"></a>
+
+### `apps/vova/public/music/watch-people-die.md`:63 — unresolved
+
+```diff
+@@ -25,44 +27,42 @@ ru:
+… 51 lines elided …
++Самой жестокой отметины наших жизней
+ 
+-Я смотрю, как умирают люди-о,
++Я смотрю, как умирают люди-о
+```
+
+**@vzakharov (human)** — 2026-10-08T19:12:08Z
+
+-о в русско не надо:)
+
+---
+
+<a id="t115"></a>
+
+### `apps/vova/public/music/wdk.md`:48 — unresolved
+
+```diff
+@@ -8,19 +8,145 @@ audio: https://raw.githubusercontent.com/vovas-music/wdk/main/wdk.flac
+… 35 lines elided …
++
++But to confess
++Is harder than it seemed
++How can I ask
++Forgive me, Father, for I have sinned
++
++If all my lies
++Can never be unlied
+```
+
+**@vzakharov (human)** — 2026-10-08T19:13:29Z
+
+отсылка к монологу Клавдия из "O, my offense is rank" -- можно дать ссылку и на песню -- "как можно просить прощения за то, что оставляешь с собой"
+
+---
+
+<a id="t116"></a>
+
+### `apps/vova/public/music/yad.md`:104 — unresolved
+
+```diff
+@@ -57,3 +63,85 @@ The whole of The Black Parade is the apex of everything good music can be. There
+… 38 lines elided …
++Ты просто расслабься
++И будет селяви
++
++А мне бы вжарить покрепче.
+```
+
+**@vzakharov (human)** — 2026-10-08T19:15:30Z
+
+тут дальше полный куплет (до "пока я ещё не зверь) а потом
+
+Яд сильней любви
+Яд сильней любви
+Яд сильней любви
+Этот яд
+
+---
+
+<a id="t117"></a>
+
+### `apps/vova/public/music/zhadina.md`:41 — unresolved
+
+```diff
+@@ -2,24 +2,131 @@
+… 35 lines elided …
++А ещё ты попросил велик покататься.
++Я не дам тебе, прости, мне пора купаться.
++
++Жадина, жадина, жадина — говядина
++Всюду, где не появлюсь, все вдогонку дразнятся.
++Жадина, жадина, жадина — говядина
++А я только рассмеюсь, мне какая разница.
+```
+
+**@vzakharov (human)** — 2026-10-08T19:15:52Z
+
+просто "x2" в каждом припеве
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -2148,3 +3159,6 @@ To be worried and teased.
 - **2026-10-07T08:16:34Z** @vzakharov renamed from «feat(vova): hidden documents, and a checklist of every music master» to «feat(vova): hidden documents, and 119 masters as hidden song pages».
 - **2026-10-07T09:12:07Z** @vzakharov renamed from «feat(vova): hidden documents, and 119 masters as hidden song pages» to «feat(vova): hidden documents, and 150 masters as hidden song pages».
 - **2026-10-07T12:07:10Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5440544314.
+- **2026-10-07T19:08:13Z** @vzakharov renamed from «feat(vova): hidden documents, and 150 masters as hidden song pages» to «feat(vova): hidden documents, artist pages, 147 hidden song pages».
+- **2026-10-08T19:16:29Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5453901697.
+- **2026-10-08T19:16:55Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5461709471.
