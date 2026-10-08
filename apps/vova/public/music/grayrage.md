@@ -29,7 +29,9 @@ ru:
 
 <!-- lyrics:en -->
 
-Can you feel my gray rage?
+Can you feel my [gray rage][^gray-rage-en]?
+
+[^gray-rage-en]: “Gray rage” is what self-described psychopaths call a cold, detached anger they know in themselves — the term M. E. Thomas, author of _Confessions of a Sociopath_, uses for a calm urge to correct, even by force, someone claiming an authority over you they do not have. It is the community’s word, not a clinical one.
 
 Step into my mind, a maze designed, cold and refined
 Calculating every step, where passion slept, I never pined
@@ -66,7 +68,9 @@ Gray Rage
 
 <!-- lyrics:ru -->
 
-Чувствуешь мою серую ярость?
+Чувствуешь мою [серую ярость][^gray-rage-ru]?
+
+[^gray-rage-ru]: Gray rage, «серая ярость», — так люди, называющие себя психопатами, зовут знакомый им холодный, отстранённый гнев: М. Э. Томас, автор «Исповеди социопата», описывает им спокойное желание поставить на место, хоть бы и силой, того, кто присвоил себе власть над тобой. Слово из их среды, а не клинический термин.
 
 Шагни в мой разум — лабиринт, задуманный холодным и отточенным
 Просчитываю каждый шаг; там, где спала страсть, я ни по чему не тосковал
