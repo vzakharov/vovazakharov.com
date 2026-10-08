@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×53)
+## What it was handed, it treats as fixed (×54)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -113,7 +113,12 @@ whole where the recording sings four lines of «Лели», and stanzas never re
 for three others; the hamlet page credited as lyricist someone who had moved
 Shakespeare's lines around. What a page documents is the recording.
 
-## An account that explains the code stands in for running it (×17)
+**8 October — the repo read as the only source.** With no cover in an album's
+repo and no artist pictures, the agent settled on text-only tiles. _is Spotify
+reachable?_ It wasn't; Apple Music, already used in the same PR, had all seven
+artists and five more covers.
+
+## An account that explains the code stands in for running it (×18)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -136,6 +141,12 @@ Lyric-note code went to `shared/content`; nothing outside `pages/music` imported
 it. One grep said so; nobody ran it. On 8 October the song model was still
 there after a round on it — _why again_ — kept on "it's frontmatter, so it's
 content," a category standing in for who imports it.
+
+**8 October, next round — the schema's needs, read as licence for its
+neighbours.** Moved to `shared/song`, the schema kept the project and album
+registries below the page layer — names, slugs, billing, covers, repo URLs —
+because it validates a few of those names. _keep only the schema in shared._
+The enum values it checks were shared; the presentation had one consumer.
 
 ## It edits the copy in front of it, not the fact behind it (×16)
 
@@ -209,7 +220,7 @@ intent before it is a typo.
 lyrics' expletives (F\*ck, ох\*енно) and wrote a rule that "the mask is his."
 Nothing is masked: the agent's guess, given the author's name.
 
-## Given a form, it fills the form (×9)
+## Given a form, it fills the form (×10)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -223,6 +234,10 @@ config retyped the first's fields — _не DRY_ — and the music registry spel
 every title `{ en: 'X', ru: 'X' }`. On 8 October a song's title still lived
 per locale, each with sibling `transliteration` and `titleTranslation` keys: one
 title, a locale carrying only a differing name or a gloss.
+
+**8 October — a note per column.** A homophone note ("so come" / "succumb") went
+on both lyric columns. _no note in the English_: an English reader hears the
+pun, and the note exists only for what the Russian crib loses.
 
 ## What it defends in writing, it stops asking about (×5)
 
