@@ -1,4 +1,5 @@
 ---
+title: 'The Story Ends'
 date: 2024-09-16
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 11
 hidden: true
 en:
-  title: 'The Story Ends'
   description: 'TBD'
 ru:
-  title: 'The Story Ends'
-  titleTranslation: 'История заканчивается'
+  title:
+    translation: 'История заканчивается'
   description: 'TBD'
 ---
 

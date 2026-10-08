@@ -1,4 +1,5 @@
 ---
+title: 'Не торопи'
 date: 2024-07-23
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
-  title: 'Не торопи'
-  transliteration: 'Ne toropi'
-  titleTranslation: 'Do Not Hurry'
+  title:
+    transliteration: 'Ne toropi'
+    translation: 'Do Not Hurry'
   description: 'TBD'
 ru:
-  title: 'Не торопи'
   description: 'TBD'
 ---
 

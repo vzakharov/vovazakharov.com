@@ -1,4 +1,5 @@
 ---
+title: 'Клокочина'
 date: 2025-02-17
 status: done
 language: ru
@@ -10,12 +11,11 @@ seconds: 283
 explicit: false
 hidden: true
 en:
-  title: 'Клокочина'
-  transliteration: 'Klokochina'
-  titleTranslation: 'Chinaberry'
+  title:
+    transliteration: 'Klokochina'
+    translation: 'Chinaberry'
   description: 'TBD'
 ru:
-  title: 'Клокочина'
   description: 'TBD'
 ---
 

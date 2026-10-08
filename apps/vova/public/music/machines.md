@@ -1,4 +1,5 @@
 ---
+title: 'Trust In the Machine'
 date: 2024-10-12
 status: done
 language: en
@@ -11,11 +12,10 @@ seconds: 390
 explicit: false
 hidden: true
 en:
-  title: 'Trust In the Machine'
   description: 'TBD'
 ru:
-  title: 'Trust In the Machine'
-  titleTranslation: 'Доверься машине'
+  title:
+    translation: 'Доверься машине'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Undone'
 date: 2024-09-11
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 6
 hidden: true
 en:
-  title: 'Undone'
   description: 'TBD'
 ru:
-  title: 'Undone'
-  titleTranslation: 'Пропащие'
+  title:
+    translation: 'Пропащие'
   description: 'TBD'
 ---
 

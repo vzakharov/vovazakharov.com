@@ -1,4 +1,5 @@
 ---
+title: 'O, My Offence is Rank'
 date: 2024-09-23
 status: done
 language: en
@@ -14,11 +15,10 @@ credits:
   lyrics: [William Shakespeare]
   music: [Vladimir Zakharov Sr.]
 en:
-  title: 'O, My Offence is Rank'
   description: 'TBD'
 ru:
-  title: 'O, My Offence is Rank'
-  titleTranslation: 'О, гнусен грех мой'
+  title:
+    translation: 'О, гнусен грех мой'
   description: 'TBD'
   cribNote: 'Русский текст — перевод К. Р. (великого князя Константина Романова); песня поёт шекспировский оригинал.'
 ---

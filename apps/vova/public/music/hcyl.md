@@ -1,4 +1,5 @@
 ---
+title: 'How Could You Leave'
 date: 2024-09-02
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 229
 explicit: false
 hidden: true
 en:
-  title: 'How Could You Leave'
   description: 'TBD'
 ru:
-  title: 'How Could You Leave'
-  titleTranslation: 'Как ты мог уйти'
+  title:
+    translation: 'Как ты мог уйти'
   description: 'TBD'
 ---
 

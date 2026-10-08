@@ -11,14 +11,20 @@ import {
   type WithStanzas,
 } from './lyric-notes';
 import { PREAMBLE, splitSections } from './sections';
+import type { GlossedTitle } from './title-gloss';
 
 export type SongDocument = ContentDocument<SongFrontmatter>;
+
+/** A locale's strings with its title resolved: its own name for the song, or the song's with a gloss. */
+type LocalizedSongText = Omit<SongText, 'title'> & GlossedTitle;
 
 /**
  * A song as one language sees it: the titles and the story for that locale,
  * lifted out of the one file both languages are authored in.
  */
-export type LocalizedSongDocument = ContentDocument<SongFrontmatter & SongText>;
+export type LocalizedSongDocument = ContentDocument<
+  SongFrontmatter & LocalizedSongText
+>;
 
 /**
  * The words, and the same words in the reader's language where the two differ.
@@ -40,6 +46,17 @@ function lyricsKey(language: SungLanguage): string {
   return `lyrics:${language}`;
 }
 
+function localeText(
+  { title, ...frontmatter }: SongFrontmatter,
+  locale: Locale,
+): LocalizedSongText {
+  const { title: own, ...text } = frontmatter[locale];
+
+  return typeof own === 'string'
+    ? { ...text, title: own }
+    : { ...text, title, gloss: own };
+}
+
 /**
  * One song document, read in one language: the locale's strings raised to the
  * top of the frontmatter, the story cut down to that locale's section, and the
@@ -59,7 +76,7 @@ export function localizeSong(
   return {
     ...document,
     locale,
-    frontmatter: { ...frontmatter, ...frontmatter[locale] },
+    frontmatter: { ...frontmatter, ...localeText(frontmatter, locale) },
     body: story,
     route: `${route}/${locale}`,
   };

@@ -1,4 +1,5 @@
 ---
+title: 'I Love Little Pussy'
 date: 2024-07-23
 status: done
 language: en
@@ -13,11 +14,10 @@ hidden: true
 credits:
   lyrics: ['Jane Taylor']
 en:
-  title: 'I Love Little Pussy'
   description: 'TBD'
 ru:
-  title: 'I Love Little Pussy'
-  titleTranslation: 'Я люблю маленькую киску'
+  title:
+    translation: 'Я люблю маленькую киску'
   description: 'TBD'
 ---
 

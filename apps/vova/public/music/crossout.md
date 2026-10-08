@@ -1,4 +1,5 @@
 ---
+title: 'Cross Out'
 date: 2024-12-02
 status: done
 language: [en, de]
@@ -10,11 +11,10 @@ seconds: 213
 explicit: false
 hidden: true
 en:
-  title: 'Cross Out'
   description: 'TBD'
 ru:
-  title: 'Cross Out'
-  titleTranslation: 'Вычеркни'
+  title:
+    translation: 'Вычеркни'
   description: 'TBD'
 ---
 

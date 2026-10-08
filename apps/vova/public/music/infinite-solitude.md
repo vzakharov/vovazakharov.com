@@ -1,4 +1,5 @@
 ---
+title: 'Infinite Solitude'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: divine
 track: 2
 hidden: true
 en:
-  title: 'Infinite Solitude'
   description: 'TBD'
 ru:
-  title: 'Infinite Solitude'
-  titleTranslation: 'Бесконечное одиночество'
+  title:
+    translation: 'Бесконечное одиночество'
   description: 'TBD'
 ---
 

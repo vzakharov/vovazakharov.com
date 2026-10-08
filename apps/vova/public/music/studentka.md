@@ -1,4 +1,5 @@
 ---
+title: 'Студентка'
 date: 2026-02-08
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Traditional', 'Vova Zakharov']
 en:
-  title: 'Студентка'
-  transliteration: 'Studentka'
-  titleTranslation: 'The Student Girl'
+  title:
+    transliteration: 'Studentka'
+    translation: 'The Student Girl'
   description: 'TBD'
 ru:
-  title: 'Студентка'
   description: 'TBD'
 ---
 

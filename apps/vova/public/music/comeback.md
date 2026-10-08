@@ -1,4 +1,5 @@
 ---
+title: 'The Comeback Song (We Have a Banger)'
 date: 2024-07-23
 status: done
 language: en
@@ -11,10 +12,8 @@ album: ignite
 track: 1
 hidden: true
 en:
-  title: 'The Comeback Song (We Have a Banger)'
   description: 'TBD'
 ru:
-  title: 'The Comeback Song (We Have a Banger)'
   description: 'TBD'
 ---
 

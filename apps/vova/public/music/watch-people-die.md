@@ -1,4 +1,5 @@
 ---
+title: 'Watch People Die'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 6
 hidden: true
 en:
-  title: 'Watch People Die'
   description: 'TBD'
 ru:
-  title: 'Watch People Die'
-  titleTranslation: 'Смотри, как умирают люди'
+  title:
+    translation: 'Смотри, как умирают люди'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Άγιος Ο Σκοπός'
 date: 2024-12-07
 status: done
 language: ru
@@ -12,9 +13,9 @@ track: 9
 hidden: true
 titleLanguage: el
 en:
-  title: 'Άγιος Ο Σκοπός'
-  transliteration: 'Agios o Skopos'
-  titleTranslation: 'Holy Is the Purpose'
+  title:
+    transliteration: 'Agios o Skopos'
+    translation: 'Holy Is the Purpose'
   description: 'TBD'
 ru:
   title: 'Предназначение'

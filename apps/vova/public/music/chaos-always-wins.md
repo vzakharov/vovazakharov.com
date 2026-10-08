@@ -1,4 +1,5 @@
 ---
+title: 'Chaos Always Wins'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ghosts
 track: 8
 hidden: true
 en:
-  title: 'Chaos Always Wins'
   description: 'TBD'
 ru:
-  title: 'Chaos Always Wins'
-  titleTranslation: 'Хаос всегда побеждает'
+  title:
+    translation: 'Хаос всегда побеждает'
   description: 'TBD'
 ---
 

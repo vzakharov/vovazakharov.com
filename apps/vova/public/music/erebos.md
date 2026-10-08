@@ -1,4 +1,5 @@
 ---
+title: 'Erebos'
 date: 2024-10-01
 status: done
 language: en
@@ -11,10 +12,8 @@ album: pschpthy
 track: 12
 hidden: true
 en:
-  title: 'Erebos'
   description: 'TBD'
 ru:
-  title: 'Erebos'
   description: 'TBD'
 ---
 

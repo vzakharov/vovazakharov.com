@@ -1,4 +1,5 @@
 ---
+title: 'One Day'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: divine
 track: 5
 hidden: true
 en:
-  title: 'One Day'
   description: 'TBD'
 ru:
-  title: 'One Day'
-  titleTranslation: 'Однажды'
+  title:
+    translation: 'Однажды'
   description: 'TBD'
 ---
 

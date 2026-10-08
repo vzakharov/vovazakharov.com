@@ -1,4 +1,5 @@
 ---
+title: 'Ignite'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ignite
 track: 2
 hidden: true
 en:
-  title: 'Ignite'
   description: 'TBD'
 ru:
-  title: 'Ignite'
-  titleTranslation: 'Вспыхнуть'
+  title:
+    translation: 'Вспыхнуть'
   description: 'TBD'
 ---
 

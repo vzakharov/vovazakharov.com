@@ -1,4 +1,5 @@
 ---
+title: 'Normal'
 date: 2024-11-04
 status: done
 language: en
@@ -11,11 +12,10 @@ album: pschpthy
 track: 8
 hidden: true
 en:
-  title: 'Normal'
   description: 'TBD'
 ru:
-  title: 'Normal'
-  titleTranslation: 'Нормальный'
+  title:
+    translation: 'Нормальный'
   description: 'TBD'
 ---
 

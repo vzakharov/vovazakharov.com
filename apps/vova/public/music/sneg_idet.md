@@ -1,4 +1,5 @@
 ---
+title: 'Снег идёт'
 date: 2025-12-04
 status: done
 language: ru
@@ -12,12 +13,11 @@ hidden: true
 credits:
   lyrics: ['Борис Пастернак']
 en:
-  title: 'Снег идёт'
-  transliteration: 'Sneg idyot'
-  titleTranslation: 'Snow Is Falling'
+  title:
+    transliteration: 'Sneg idyot'
+    translation: 'Snow Is Falling'
   description: 'TBD'
 ru:
-  title: 'Снег идёт'
   description: 'TBD'
 ---
 

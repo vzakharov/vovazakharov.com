@@ -1,4 +1,5 @@
 ---
+title: 'Intermezzo'
 date: 2024-11-05
 status: done
 language: instrumental
@@ -11,11 +12,10 @@ album: pschpthy
 track: 9
 hidden: true
 en:
-  title: 'Intermezzo'
   description: 'TBD'
 ru:
-  title: 'Intermezzo'
-  titleTranslation: 'Интермеццо'
+  title:
+    translation: 'Интермеццо'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Mira Is Going to the Sea'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 2
 hidden: true
 en:
-  title: 'Mira Is Going to the Sea'
   description: 'TBD'
 ru:
-  title: 'Mira Is Going to the Sea'
-  titleTranslation: 'Мира уходит к морю'
+  title:
+    translation: 'Мира уходит к морю'
   description: 'TBD'
 ---
 

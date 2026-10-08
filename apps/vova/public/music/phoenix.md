@@ -1,4 +1,5 @@
 ---
+title: 'Phoenix'
 date: 2024-11-30
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ctfu
 track: 10
 hidden: true
 en:
-  title: 'Phoenix'
   description: 'TBD'
 ru:
-  title: 'Phoenix'
-  titleTranslation: 'Феникс'
+  title:
+    translation: 'Феникс'
   description: 'TBD'
 ---
 

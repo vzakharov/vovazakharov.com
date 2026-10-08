@@ -1,4 +1,5 @@
 ---
+title: Не смотри
 date: 2026-02-19
 status: done
 language: ru
@@ -11,10 +12,8 @@ seconds: 219
 credits:
   music: ['My Chemical Romance']
 en:
-  title: Не смотри
   description: 'A very free translation of My Chemical Romance’s “Cancer,” begun in the early 2010s and finally heard out loud.'
 ru:
-  title: Не смотри
   description: 'Очень вольный перевод «Cancer» My Chemical Romance, начатый в начале десятых и наконец-то услышанный.'
 ---
 

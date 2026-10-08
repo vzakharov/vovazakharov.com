@@ -7,10 +7,7 @@ import { byLocale } from '@/shared/i18n';
 
 // The leaf rather than the barrel: `shared/content` registers this schema, so
 // entering it by its barrel would close an import cycle at module evaluation.
-import {
-  baseFrontmatterSchema,
-  localizedTextSchema,
-} from '../content/frontmatter';
+import { baseFrontmatterSchema } from '../content/frontmatter';
 
 /** Whether the song is released or still being worked on. */
 const SONG_STATUSES = ['done', 'wip'] as const;
@@ -44,8 +41,8 @@ const songLanguageSchema = z.enum(SONG_LANGUAGES);
 
 const sungLanguageSchema = songLanguageSchema.exclude(['instrumental']);
 
-/** A song's strings in one locale: the document's own, and three only a song has. */
-const songTextSchema = localizedTextSchema.extend({
+/** What a locale's reader is told of a title it keeps but may not read or understand. */
+const titleGlossSchema = z.object({
   /**
    * The title in this locale's letters — Latin under `en`, Cyrillic under `ru`.
    * The page shows it only where the title is in a script its reader does not
@@ -53,7 +50,20 @@ const songTextSchema = localizedTextSchema.extend({
    */
   transliteration: z.string().min(1).optional(),
   /** The title in this locale's language, where the title is in another. */
-  titleTranslation: z.string().min(1).optional(),
+  translation: z.string().min(1).optional(),
+});
+
+export type TitleGloss = z.infer<typeof titleGlossSchema>;
+
+/** A song's strings in one locale. */
+const songTextSchema = z.object({
+  /**
+   * Absent where the locale keeps the song's own title, as most do. A string
+   * is the name the song goes by in this locale instead — `june` is _Breathe_
+   * and _Повелитель ветра_ — and a gloss keeps the title and explains it.
+   */
+  title: z.union([z.string().min(1), titleGlossSchema]).optional(),
+  description: z.string().min(1),
   /**
    * What the crib beside the words is, in place of the stock line — whose
    * translation it is, or that the column is the original. One line of markdown.
@@ -95,6 +105,11 @@ export type Playable = z.infer<typeof playableSchema>;
 const songFieldsSchema = baseFrontmatterSchema
   .extend(playableSchema.shape)
   .extend({
+    /**
+     * The song's own name — in the language it is sung in, or the English one
+     * where neither locale's is that. A locale states one only where it differs.
+     */
+    title: z.string().min(1),
     status: z.enum(SONG_STATUSES),
     /**
      * One language, or a list where a song is sung in several — the main one

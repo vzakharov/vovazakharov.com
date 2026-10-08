@@ -1,4 +1,5 @@
 ---
+title: 'Fuck Religion'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: divine
 track: 4
 hidden: true
 en:
-  title: 'Fuck Religion'
   description: 'TBD'
 ru:
-  title: 'Fuck Religion'
-  titleTranslation: 'Нахуй религию'
+  title:
+    translation: 'Нахуй религию'
   description: 'TBD'
 ---
 

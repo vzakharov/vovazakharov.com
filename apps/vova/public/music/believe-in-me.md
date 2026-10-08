@@ -1,4 +1,5 @@
 ---
+title: 'Believe in Me'
 date: 2024-07-23
 status: done
 language: [en, de]
@@ -11,11 +12,10 @@ album: divine
 track: 7
 hidden: true
 en:
-  title: 'Believe in Me'
   description: 'TBD'
 ru:
-  title: 'Believe in Me'
-  titleTranslation: 'Верь в меня'
+  title:
+    translation: 'Верь в меня'
   description: 'TBD'
 ---
 

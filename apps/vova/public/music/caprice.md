@@ -1,4 +1,5 @@
 ---
+title: 'Каприс Каркасси'
 date: 2024-09-15
 status: done
 language: ru
@@ -10,10 +11,8 @@ seconds: 214
 explicit: false
 hidden: true
 en:
-  title: 'Каприс Каркасси'
   description: 'TBD'
 ru:
-  title: 'Каприс Каркасси'
   description: 'TBD'
 ---
 

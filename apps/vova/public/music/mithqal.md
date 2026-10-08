@@ -1,4 +1,5 @@
 ---
+title: 'Mithqāl'
 date: 2025-09-09
 status: done
 language: ar
@@ -10,10 +11,8 @@ seconds: 243
 explicit: false
 hidden: true
 en:
-  title: 'Mithqāl'
   description: 'TBD'
 ru:
-  title: 'Mithqāl'
   description: 'TBD'
 ---
 

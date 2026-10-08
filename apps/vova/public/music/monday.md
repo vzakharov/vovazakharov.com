@@ -1,4 +1,5 @@
 ---
+title: 'Every Monday'
 date: 2024-12-21
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ctfu
 track: 2
 hidden: true
 en:
-  title: 'Every Monday'
   description: 'TBD'
 ru:
-  title: 'Every Monday'
-  titleTranslation: 'Каждый понедельник'
+  title:
+    translation: 'Каждый понедельник'
   description: 'TBD'
 ---
 

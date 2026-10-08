@@ -1,4 +1,5 @@
 ---
+title: 'Last Christmas'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 7
 hidden: true
 en:
-  title: 'Last Christmas'
   description: 'TBD'
 ru:
-  title: 'Last Christmas'
-  titleTranslation: 'Прошлое Рождество'
+  title:
+    translation: 'Прошлое Рождество'
   description: 'TBD'
 ---
 

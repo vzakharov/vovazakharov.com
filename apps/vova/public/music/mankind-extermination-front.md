@@ -1,4 +1,5 @@
 ---
+title: 'Mankind Extermination Front'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 3
 hidden: true
 en:
-  title: 'Mankind Extermination Front'
   description: 'TBD'
 ru:
-  title: 'Mankind Extermination Front'
-  titleTranslation: 'Фронт истребления человечества'
+  title:
+    translation: 'Фронт истребления человечества'
   description: 'TBD'
 ---
 

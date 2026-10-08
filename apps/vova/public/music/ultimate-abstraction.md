@@ -1,4 +1,5 @@
 ---
+title: 'The Ultimate Abstraction'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: divine
 track: 6
 hidden: true
 en:
-  title: 'The Ultimate Abstraction'
   description: 'TBD'
 ru:
-  title: 'The Ultimate Abstraction'
-  titleTranslation: 'Предельная абстракция'
+  title:
+    translation: 'Предельная абстракция'
   description: 'TBD'
 ---
 

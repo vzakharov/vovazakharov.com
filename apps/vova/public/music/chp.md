@@ -1,4 +1,5 @@
 ---
+title: 'Чих-Пых'
 date: 2025-01-18
 status: done
 language: ru
@@ -10,11 +11,10 @@ seconds: 216
 explicit: false
 hidden: true
 en:
-  title: 'Чих-Пых'
-  transliteration: 'Chikh-Pykh'
+  title:
+    transliteration: 'Chikh-Pykh'
   description: 'TBD'
 ru:
-  title: 'Чих-Пых'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Fetal Soup'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 2
 hidden: true
 en:
-  title: 'Fetal Soup'
   description: 'TBD'
 ru:
-  title: 'Fetal Soup'
-  titleTranslation: 'Суп из эмбрионов'
+  title:
+    translation: 'Суп из эмбрионов'
   description: 'TBD'
 ---
 

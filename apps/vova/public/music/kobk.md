@@ -1,4 +1,5 @@
 ---
+title: 'Kill or Be Killed'
 date: 2024-12-19
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ctfu
 track: 3
 hidden: true
 en:
-  title: 'Kill or Be Killed'
   description: 'TBD'
 ru:
-  title: 'Kill or Be Killed'
-  titleTranslation: 'Убей или будь убит'
+  title:
+    translation: 'Убей или будь убит'
   description: 'TBD'
 ---
 

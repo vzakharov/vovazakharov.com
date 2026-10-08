@@ -1,4 +1,5 @@
 ---
+title: 'Life, Believe, Is Not a Dream'
 date: 2024-11-19
 status: done
 language: en
@@ -13,11 +14,10 @@ hidden: true
 credits:
   lyrics: ['Charlotte Brontë']
 en:
-  title: 'Life, Believe, Is Not a Dream'
   description: 'TBD'
 ru:
-  title: 'Life, Believe, Is Not a Dream'
-  titleTranslation: 'Жизнь, поверь, не сон'
+  title:
+    translation: 'Жизнь, поверь, не сон'
   description: 'TBD'
 ---
 

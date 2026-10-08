@@ -1,4 +1,5 @@
 ---
+title: 'Жадина'
 date: 2024-10-14
 status: done
 language: ru
@@ -10,12 +11,11 @@ seconds: 209
 explicit: false
 hidden: true
 en:
-  title: 'Жадина'
-  transliteration: 'Zhadina'
-  titleTranslation: 'Greedyguts'
+  title:
+    transliteration: 'Zhadina'
+    translation: 'Greedyguts'
   description: 'TBD'
 ru:
-  title: 'Жадина'
   description: 'TBD'
 ---
 

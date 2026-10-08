@@ -1,4 +1,5 @@
 ---
+title: 'Уж сколько их упало в эту бездну'
 date: 2024-07-23
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Марина Цветаева']
 en:
-  title: 'Уж сколько их упало в эту бездну'
-  transliteration: 'Uzh skolko ikh upalo v etu bezdnu'
-  titleTranslation: 'How Many Have Already Fallen into This Abyss'
+  title:
+    transliteration: 'Uzh skolko ikh upalo v etu bezdnu'
+    translation: 'How Many Have Already Fallen into This Abyss'
   description: 'TBD'
 ru:
-  title: 'Уж сколько их упало в эту бездну'
   description: 'TBD'
 ---
 

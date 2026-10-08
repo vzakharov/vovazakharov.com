@@ -1,4 +1,5 @@
 ---
+title: 'Всё в этой жизни начинается с любви'
 date: 2024-09-14
 status: done
 language: ru
@@ -14,12 +15,11 @@ credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
 en:
-  title: 'Всё в этой жизни начинается с любви'
-  transliteration: 'Vsyo v etoy zhizni nachinaetsya s lyubvi'
-  titleTranslation: 'Everything in This Life Begins with Love'
+  title:
+    transliteration: 'Vsyo v etoy zhizni nachinaetsya s lyubvi'
+    translation: 'Everything in This Life Begins with Love'
   description: 'TBD'
 ru:
-  title: 'Всё в этой жизни начинается с любви'
   description: 'TBD'
 ---
 

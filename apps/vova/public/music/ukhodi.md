@@ -1,4 +1,5 @@
 ---
+title: 'Уходи'
 date: 2026-01-17
 status: done
 language: ru
@@ -11,12 +12,11 @@ seconds: 234
 explicit: false
 hidden: true
 en:
-  title: 'Уходи'
-  transliteration: 'Ukhodi'
-  titleTranslation: 'Go Away'
+  title:
+    transliteration: 'Ukhodi'
+    translation: 'Go Away'
   description: 'TBD'
 ru:
-  title: 'Уходи'
   description: 'TBD'
 ---
 

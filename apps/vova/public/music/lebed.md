@@ -1,4 +1,5 @@
 ---
+title: 'Я куплю тебе дом'
 date: 2026-01-19
 status: done
 language: ru
@@ -14,10 +15,8 @@ credits:
   lyrics: ['Михаил Танич']
   music: ['Сергей Коржуков']
 en:
-  title: 'Я куплю тебе дом'
   description: 'TBD'
 ru:
-  title: 'Я куплю тебе дом'
   description: 'TBD'
 ---
 

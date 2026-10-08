@@ -1,4 +1,5 @@
 ---
+title: 'Голодная'
 date: 2024-07-23
 status: done
 language: ru
@@ -13,13 +14,12 @@ hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
-  title: 'Голодная'
-  transliteration: 'Golodnaya'
-  titleTranslation: 'The Hungry One'
+  title:
+    transliteration: 'Golodnaya'
+    translation: 'The Hungry One'
   description: 'TBD'
   cribNote: 'The English is Juliet Soskice’s 1917 translation; the song sings Nekrasov’s original.'
 ru:
-  title: 'Голодная'
   description: 'TBD'
 ---
 

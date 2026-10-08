@@ -1,4 +1,5 @@
 ---
+title: 'Two Girls, One Fridge'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 8
 hidden: true
 en:
-  title: 'Two Girls, One Fridge'
   description: 'TBD'
 ru:
-  title: 'Two Girls, One Fridge'
-  titleTranslation: 'Две девчонки, один холодильник'
+  title:
+    translation: 'Две девчонки, один холодильник'
   description: 'TBD'
 ---
 

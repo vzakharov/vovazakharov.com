@@ -1,4 +1,5 @@
 ---
+title: 'Do Not Listen'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 1
 hidden: true
 en:
-  title: 'Do Not Listen'
   description: 'TBD'
 ru:
-  title: 'Do Not Listen'
-  titleTranslation: 'Не слушать'
+  title:
+    translation: 'Не слушать'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Не ветер бушует над бором'
 date: 2024-07-23
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
-  title: 'Не ветер бушует над бором'
-  transliteration: 'Ne veter bushuyet nad borom'
-  titleTranslation: 'It Is Not the Wind Raging Over the Forest'
+  title:
+    transliteration: 'Ne veter bushuyet nad borom'
+    translation: 'It Is Not the Wind Raging Over the Forest'
   description: 'TBD'
 ru:
-  title: 'Не ветер бушует над бором'
   description: 'TBD'
 ---
 

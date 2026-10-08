@@ -1,4 +1,5 @@
 ---
+title: Папа
 date: 2025-11-09
 status: done
 language: ru
@@ -10,10 +11,8 @@ audio: https://raw.githubusercontent.com/vovas-music/sashas/main/%D0%9F%D0%B0%D0
 credits:
   lyrics: [Sasha Zakharova, Vova Zakharov]
 en:
-  title: Папа
   description: 'A poem by Sasha, with the father’s verse written back to it — a cross-generational, cross-species collab of the living and the dead, machine and human.'
 ru:
-  title: Папа
   description: 'Сашины стихи и написанный в ответ папин куплет — межгенерационный и межвидовой коллаб живых и умерших, машины и человека.'
 ---
 

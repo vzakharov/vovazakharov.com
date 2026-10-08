@@ -1,4 +1,5 @@
 ---
+title: 'Лёли'
 date: 2024-07-23
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
-  title: 'Лёли'
-  transliteration: 'Lyoli'
+  title:
+    transliteration: 'Lyoli'
   description: 'TBD'
   cribNote: 'The English is Juliet Soskice’s 1917 translation; the song sings Nekrasov’s original.'
 ru:
-  title: 'Лёли'
   description: 'TBD'
 ---
 

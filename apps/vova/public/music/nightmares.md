@@ -1,4 +1,5 @@
 ---
+title: 'Nightmares'
 date: 2024-07-23
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 298
 explicit: false
 hidden: true
 en:
-  title: 'Nightmares'
   description: 'TBD'
 ru:
-  title: 'Nightmares'
-  titleTranslation: 'Кошмары'
+  title:
+    translation: 'Кошмары'
   description: 'TBD'
 ---
 

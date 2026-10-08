@@ -1,4 +1,5 @@
 ---
+title: 'Calm into the Storm'
 date: 2024-12-16
 status: done
 language: instrumental
@@ -11,7 +12,6 @@ album: vagabond
 track: 1
 hidden: true
 en:
-  title: 'Calm into the Storm'
   description: 'TBD'
 ru:
   title: 'Буревестник'

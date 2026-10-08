@@ -1,4 +1,5 @@
 ---
+title: 'Снег'
 date: 2025-02-28
 status: done
 language: ru
@@ -10,12 +11,11 @@ seconds: 180
 explicit: false
 hidden: true
 en:
-  title: 'Снег'
-  transliteration: 'Sneg'
-  titleTranslation: 'Snow'
+  title:
+    transliteration: 'Sneg'
+    translation: 'Snow'
   description: 'TBD'
 ru:
-  title: 'Снег'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Нравственный человек'
 date: 2024-07-23
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
-  title: 'Нравственный человек'
-  transliteration: 'Nravstvennyy chelovek'
-  titleTranslation: 'A Moral Man'
+  title:
+    transliteration: 'Nravstvennyy chelovek'
+    translation: 'A Moral Man'
   description: 'TBD'
 ru:
-  title: 'Нравственный человек'
   description: 'TBD'
 ---
 

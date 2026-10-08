@@ -1,4 +1,5 @@
 ---
+title: 'Яд'
 date: 2026-02-09
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   music: ['My Chemical Romance']
 en:
-  title: 'Яд'
-  transliteration: 'Yad'
-  titleTranslation: 'Poison'
+  title:
+    transliteration: 'Yad'
+    translation: 'Poison'
   description: 'TBD'
 ru:
-  title: 'Яд'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'На пальцы'
 date: 2025-12-11
 status: done
 language: ru
@@ -11,12 +12,11 @@ seconds: 285
 explicit: false
 hidden: true
 en:
-  title: 'На пальцы'
-  transliteration: 'Na paltsy'
-  titleTranslation: 'Onto Fingers'
+  title:
+    transliteration: 'Na paltsy'
+    translation: 'Onto Fingers'
   description: 'TBD'
 ru:
-  title: 'На пальцы'
   description: 'TBD'
 ---
 

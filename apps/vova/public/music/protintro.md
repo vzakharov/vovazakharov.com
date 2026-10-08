@@ -1,4 +1,5 @@
 ---
+title: 'Protintro'
 date: 2022-10-01
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 77
 explicit: false
 hidden: true
 en:
-  title: 'Protintro'
   description: 'TBD'
 ru:
-  title: 'Protintro'
-  titleTranslation: 'Протоинтро'
+  title:
+    translation: 'Протоинтро'
   description: 'TBD'
 ---
 

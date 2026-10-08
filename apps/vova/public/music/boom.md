@@ -1,4 +1,5 @@
 ---
+title: 'Boom!'
 date: 2024-07-24
 status: done
 language: en
@@ -11,11 +12,10 @@ album: pschpthy
 track: 3
 hidden: true
 en:
-  title: 'Boom!'
   description: 'TBD'
 ru:
-  title: 'Boom!'
-  titleTranslation: 'Бум!'
+  title:
+    translation: 'Бум!'
   description: 'TBD'
 ---
 

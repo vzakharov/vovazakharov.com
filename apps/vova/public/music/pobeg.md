@@ -1,4 +1,5 @@
 ---
+title: 'Река. Часть первая / Побег'
 date: 2024-09-23
 status: done
 language: ru
@@ -14,12 +15,11 @@ credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
 en:
-  title: 'Река. Часть первая / Побег'
-  transliteration: 'Reka. Chast pervaya / Pobeg'
-  titleTranslation: 'The River. Part One / Escape'
+  title:
+    transliteration: 'Reka. Chast pervaya / Pobeg'
+    translation: 'The River. Part One / Escape'
   description: 'TBD'
 ru:
-  title: 'Река. Часть первая / Побег'
   description: 'TBD'
 ---
 

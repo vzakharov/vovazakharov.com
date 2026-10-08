@@ -1,4 +1,5 @@
 ---
+title: 'Punk Rock Song (At 40)'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ctfu
 track: 8
 hidden: true
 en:
-  title: 'Punk Rock Song (At 40)'
   description: 'TBD'
 ru:
-  title: 'Punk Rock Song (At 40)'
-  titleTranslation: 'Панк-рок-песня (в 40)'
+  title:
+    translation: 'Панк-рок-песня (в 40)'
   description: 'TBD'
 ---
 

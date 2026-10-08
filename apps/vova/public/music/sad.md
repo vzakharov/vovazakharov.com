@@ -1,4 +1,5 @@
 ---
+title: 'Ночной сад'
 date: 2024-11-20
 status: done
 language: ru
@@ -12,12 +13,11 @@ hidden: true
 credits:
   lyrics: ['Николай Заболоцкий']
 en:
-  title: 'Ночной сад'
-  transliteration: 'Nochnoy sad'
-  titleTranslation: 'Night Garden'
+  title:
+    transliteration: 'Nochnoy sad'
+    translation: 'Night Garden'
   description: 'TBD'
 ru:
-  title: 'Ночной сад'
   description: 'TBD'
 ---
 

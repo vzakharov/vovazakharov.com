@@ -5,4 +5,5 @@ export {
   type SongLanguage,
   type SongText,
   type SungLanguage,
+  type TitleGloss,
 } from './frontmatter';

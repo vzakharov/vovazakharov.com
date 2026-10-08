@@ -1,4 +1,5 @@
 ---
+title: 'Call of the Steppe'
 date: 2024-12-16
 status: done
 language: instrumental
@@ -11,7 +12,6 @@ album: vagabond
 track: 5
 hidden: true
 en:
-  title: 'Call of the Steppe'
   description: 'TBD'
 ru:
   title: 'По зову степей'

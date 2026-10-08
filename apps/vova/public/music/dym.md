@@ -1,4 +1,5 @@
 ---
+title: 'Дым'
 date: 2024-07-23
 status: done
 language: ru
@@ -10,12 +11,11 @@ seconds: 188
 explicit: false
 hidden: true
 en:
-  title: 'Дым'
-  transliteration: 'Dym'
-  titleTranslation: 'Smoke'
+  title:
+    transliteration: 'Dym'
+    translation: 'Smoke'
   description: 'TBD'
 ru:
-  title: 'Дым'
   description: 'TBD'
 ---
 

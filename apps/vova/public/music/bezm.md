@@ -1,4 +1,5 @@
 ---
+title: 'В безмерности небес'
 date: 2026-03-04
 status: done
 language: ru
@@ -10,10 +11,8 @@ seconds: 253
 explicit: false
 hidden: true
 en:
-  title: 'В безмерности небес'
   description: 'TBD'
 ru:
-  title: 'В безмерности небес'
   description: 'TBD'
 ---
 

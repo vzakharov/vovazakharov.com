@@ -1,4 +1,5 @@
 ---
+title: 'Прощание'
 date: 2025-12-19
 status: done
 language: ru
@@ -10,12 +11,11 @@ seconds: 339
 explicit: false
 hidden: true
 en:
-  title: 'Прощание'
-  transliteration: 'Proshchanie'
-  titleTranslation: 'Farewell'
+  title:
+    transliteration: 'Proshchanie'
+    translation: 'Farewell'
   description: 'TBD'
 ru:
-  title: 'Прощание'
   description: 'TBD'
 ---
 

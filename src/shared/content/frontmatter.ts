@@ -67,16 +67,6 @@ export const sourcedArticleFrontmatterSchema = articleFrontmatterSchema.extend({
   sources: sourcesSchema,
 });
 
-/**
- * The strings a localized document states once per language — everything else
- * about it being the same document. An article does not take one yet
- * ([#62](https://github.com/vzakharov/vovazakharov.com/issues/62)).
- */
-export const localizedTextSchema = z.object({
-  title: z.string().min(1),
-  description: z.string().min(1),
-});
-
 export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
 
 export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
@@ -103,8 +93,8 @@ export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
 /**
  * The title a collection states outright, where it has one. An article's is
  * its body's leading heading instead, so this is `undefined` for one — and a
- * song states it once per language, so this reads the localized document rather
- * than the file.
+ * song's can differ by language, so it is read off the localized document
+ * rather than the file.
  */
 export function frontmatterTitle(
   frontmatter: BaseFrontmatter,

@@ -1,4 +1,5 @@
 ---
+title: 'Ink'
 date: 2024-09-08
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 1
 hidden: true
 en:
-  title: 'Ink'
   description: 'TBD'
 ru:
-  title: 'Ink'
-  titleTranslation: 'Чернила'
+  title:
+    translation: 'Чернила'
   description: 'TBD'
 ---
 

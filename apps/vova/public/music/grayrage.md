@@ -1,4 +1,5 @@
 ---
+title: 'Gray Rage'
 date: 2024-10-24
 status: done
 language: en
@@ -11,11 +12,10 @@ album: pschpthy
 track: 2
 hidden: true
 en:
-  title: 'Gray Rage'
   description: 'TBD'
 ru:
-  title: 'Gray Rage'
-  titleTranslation: 'Серая ярость'
+  title:
+    translation: 'Серая ярость'
   description: 'TBD'
 ---
 

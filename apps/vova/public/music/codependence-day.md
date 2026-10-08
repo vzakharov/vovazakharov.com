@@ -1,4 +1,5 @@
 ---
+title: 'Codependence Day'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ghosts
 track: 3
 hidden: true
 en:
-  title: 'Codependence Day'
   description: 'TBD'
 ru:
-  title: 'Codependence Day'
-  titleTranslation: 'День созависимости'
+  title:
+    translation: 'День созависимости'
   description: 'TBD'
 ---
 

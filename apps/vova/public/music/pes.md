@@ -1,4 +1,5 @@
 ---
+title: 'Пегий пёс, бегущий краем моря'
 date: 2024-09-17
 status: done
 language: ru
@@ -14,12 +15,11 @@ credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
 en:
-  title: 'Пегий пёс, бегущий краем моря'
-  transliteration: 'Pegiy pyos, begushchiy kraem morya'
-  titleTranslation: 'Piebald Dog Running Along the Shore'
+  title:
+    transliteration: 'Pegiy pyos, begushchiy kraem morya'
+    translation: 'Piebald Dog Running Along the Shore'
   description: 'TBD'
 ru:
-  title: 'Пегий пёс, бегущий краем моря'
   description: 'TBD'
 ---
 

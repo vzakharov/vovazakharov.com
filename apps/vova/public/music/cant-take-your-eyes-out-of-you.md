@@ -1,4 +1,5 @@
 ---
+title: 'Can’t Take Your Eyes out of You'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 9
 hidden: true
 en:
-  title: 'Can’t Take Your Eyes out of You'
   description: 'TBD'
 ru:
-  title: 'Can’t Take Your Eyes out of You'
-  titleTranslation: 'Не могу вынуть из тебя твои глаза'
+  title:
+    translation: 'Не могу вынуть из тебя твои глаза'
   description: 'TBD'
 ---
 

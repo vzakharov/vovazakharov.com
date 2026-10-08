@@ -1,4 +1,5 @@
 ---
+title: 'The Other Heart'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 3
 hidden: true
 en:
-  title: 'The Other Heart'
   description: 'TBD'
 ru:
-  title: 'The Other Heart'
-  titleTranslation: 'Другое сердце'
+  title:
+    translation: 'Другое сердце'
   description: 'TBD'
 ---
 

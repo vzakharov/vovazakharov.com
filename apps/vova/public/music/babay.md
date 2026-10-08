@@ -1,4 +1,5 @@
 ---
+title: 'Минем бабай'
 date: 2025-02-24
 status: done
 language: tt
@@ -10,13 +11,13 @@ seconds: 168
 explicit: false
 hidden: true
 en:
-  title: 'Минем бабай'
-  transliteration: 'Minem babay'
-  titleTranslation: 'My Grandpa'
+  title:
+    transliteration: 'Minem babay'
+    translation: 'My Grandpa'
   description: 'TBD'
 ru:
-  title: 'Минем бабай'
-  titleTranslation: 'Мой дедушка'
+  title:
+    translation: 'Мой дедушка'
   description: 'TBD'
 ---
 

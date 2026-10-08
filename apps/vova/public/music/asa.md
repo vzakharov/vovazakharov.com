@@ -1,4 +1,5 @@
 ---
+title: 'На Руси святой'
 date: 2024-07-23
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
-  title: 'На Руси святой'
-  transliteration: 'Na Rusi svyatoy'
-  titleTranslation: 'In Holy Rus'
+  title:
+    transliteration: 'Na Rusi svyatoy'
+    translation: 'In Holy Rus'
   description: 'TBD'
 ru:
-  title: 'На Руси святой'
   description: 'TBD'
 ---
 

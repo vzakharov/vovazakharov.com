@@ -1,4 +1,5 @@
 ---
+title: 'Behind the Mask'
 date: 2024-11-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: pschpthy
 track: 5
 hidden: true
 en:
-  title: 'Behind the Mask'
   description: 'TBD'
 ru:
-  title: 'Behind the Mask'
-  titleTranslation: 'За маской'
+  title:
+    translation: 'За маской'
   description: 'TBD'
 ---
 

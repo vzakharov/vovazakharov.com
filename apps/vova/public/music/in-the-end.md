@@ -1,4 +1,5 @@
 ---
+title: 'In the End, There Was Silence'
 date: 2024-07-23
 status: done
 language: ar
@@ -12,11 +13,10 @@ album: divine
 track: 10
 hidden: true
 en:
-  title: 'In the End, There Was Silence'
   description: 'TBD'
 ru:
-  title: 'In the End, There Was Silence'
-  titleTranslation: 'В конце была тишина'
+  title:
+    translation: 'В конце была тишина'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Alive'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ghosts
 track: 5
 hidden: true
 en:
-  title: 'Alive'
   description: 'TBD'
 ru:
-  title: 'Alive'
-  titleTranslation: 'Живые'
+  title:
+    translation: 'Живые'
   description: 'TBD'
 ---
 

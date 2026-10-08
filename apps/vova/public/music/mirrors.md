@@ -1,4 +1,5 @@
 ---
+title: 'Empty Mirrors'
 date: 2024-10-18
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 319
 explicit: false
 hidden: true
 en:
-  title: 'Empty Mirrors'
   description: 'TBD'
 ru:
-  title: 'Empty Mirrors'
-  titleTranslation: 'Пустые зеркала'
+  title:
+    translation: 'Пустые зеркала'
   description: 'TBD'
 ---
 

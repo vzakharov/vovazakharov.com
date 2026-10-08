@@ -1,4 +1,5 @@
 ---
+title: 'Baa Baa Black Sheep'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ seconds: 177
 explicit: false
 hidden: true
 en:
-  title: 'Baa Baa Black Sheep'
   description: 'TBD'
 ru:
-  title: 'Baa Baa Black Sheep'
-  titleTranslation: 'Бе-е, бе-е, чёрная овечка'
+  title:
+    translation: 'Бе-е, бе-е, чёрная овечка'
   description: 'TBD'
 ---
 

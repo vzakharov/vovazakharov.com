@@ -1,4 +1,5 @@
 ---
+title: 'Призрачный блюз'
 date: 2026-10-07
 status: done
 language: ru
@@ -12,12 +13,11 @@ hidden: true
 credits:
   music: ['Андрей Мокрушин']
 en:
-  title: 'Призрачный блюз'
-  transliteration: 'Prizrachnyy blyuz'
-  titleTranslation: 'Ghostly Blues'
+  title:
+    transliteration: 'Prizrachnyy blyuz'
+    translation: 'Ghostly Blues'
   description: 'TBD'
 ru:
-  title: 'Призрачный блюз'
   description: 'TBD'
 ---
 

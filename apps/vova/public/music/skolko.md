@@ -1,4 +1,5 @@
 ---
+title: 'Сколько'
 date: 2025-09-18
 status: done
 language: ru
@@ -11,10 +12,8 @@ seconds: 240
 explicit: false
 hidden: true
 en:
-  title: 'Сколько'
   description: 'TBD'
 ru:
-  title: 'Сколько'
   description: 'TBD'
 ---
 

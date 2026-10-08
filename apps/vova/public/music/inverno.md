@@ -1,4 +1,5 @@
 ---
+title: 'Inverno'
 date: 2024-12-16
 status: done
 language: instrumental
@@ -11,7 +12,6 @@ album: vagabond
 track: 3
 hidden: true
 en:
-  title: 'Inverno'
   description: 'TBD'
 ru:
   title: 'Инверно'

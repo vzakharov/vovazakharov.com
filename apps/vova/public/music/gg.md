@@ -1,4 +1,5 @@
 ---
+title: 'Good Girl'
 date: 2025-02-26
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 247
 explicit: false
 hidden: true
 en:
-  title: 'Good Girl'
   description: 'TBD'
 ru:
-  title: 'Good Girl'
-  titleTranslation: 'Хорошая девочка'
+  title:
+    translation: 'Хорошая девочка'
   description: 'TBD'
 ---
 
