@@ -20,11 +20,13 @@ written with ё, and expletives are written out, which the
 check:masked-words vet gate holds. Masters outside vovas-music are
 served from the site, so a song's repo is optional.
 
-/music is a grid of artist tiles; an artist page shows its albums as
-covers, newest first by their latest song, and an album page numbers
-its tracks and states its length. Twins under /music/all carry the
-hidden songs too, noindex and out of the sitemap. The song model lives
-in shared/song: a song states its title once, a locale only where it
+/music is a grid of artist tiles, pictured where Apple Music has a
+picture; an artist page shows its albums as covers, newest first by
+their latest song, and an album page numbers its tracks and states its
+length. Twins under /music/all carry the hidden songs too, noindex and
+out of the sitemap. Only the song schema and the names it validates
+against live in shared/song; how projects and albums are shown is
+pages/music's. A song states its title once, a locale only where it
 differs, with a {transliteration, translation} gloss shown only to a
 reader who cannot read the title's script, transliterations in
 italics.
