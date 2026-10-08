@@ -33,8 +33,8 @@ what applies.
 
 `.claude/skills/update-muthur/watermark.json` is the state this skill runs
 on; Step 1 reads it, so it doubles as the worked example. It carries `repo`,
-`lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the three
-fields worth explaining:
+`lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the fields
+worth explaining:
 
 - **`adopted`** — the paths you took, at whatever granularity is true: directories
   or individual files. It is what turns a wall of source commits into a handful of
@@ -61,6 +61,12 @@ log` inside the source clone, so a path that was renamed on adoption must stay
 
 - **`declined`** — path → why-not. This is what keeps re-sync quiet: without it,
   every sync re-offers every skill the repo already refused.
+
+- **`optIn`** — optional: the operator's standing answer to the source's
+  `adopt — opt-in: ask` rows, in their words. Where it says take, Step 4a takes
+  such a path without asking, unless the request that started the sync says
+  otherwise. The report still names the path with its criteria, because a yes
+  brings costs the operator should see. Missing means ask.
 
 - **`lineage`** — optional provenance: the whole ancestry, **root first**, so the
   repo actually synced from leads and each later entry is one hop further from
@@ -244,7 +250,9 @@ and its parts under `catalog/` are the source's inventory, read from the clone
 and never vendored, so it is current by construction. The row is found with
 ``grep -n '^| `/<name>`' catalog.md catalog/*.md`` run in that directory, and an
 opt-in path is looked up the same way. Surface the decision **with its criteria
-attached** rather than as a bare "the source added `/foo`, want it?".
+attached** rather than as a bare "the source added `/foo`, want it?". An
+`opt-in: ask` row under a watermark `optIn` that says take is reported with
+those criteria rather than asked.
 
 - **Taken** → add the path to `adopted` — as a `{path: note}` entry if it landed
   as anything other than a verbatim copy — and **re-run the closure check**: a new
