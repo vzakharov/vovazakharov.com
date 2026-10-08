@@ -10,6 +10,8 @@ explicit: false
 album: ctfu
 track: 3
 hidden: true
+credits:
+  music: ['Nance Castro']
 en:
   title: 'Kill or Be Killed'
   description: 'TBD'

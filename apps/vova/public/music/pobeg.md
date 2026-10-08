@@ -12,7 +12,7 @@ track: 1
 hidden: true
 credits:
   lyrics: [Vladimir Zakharov Sr.]
-  music: [Vladimir Zakharov Sr.]
+  music: [Vladimir Zakharov Sr., 'Виктор «Никсон» Сазонов']
 en:
   title: 'Река. Часть первая / Побег'
   transliteration: 'Reka. Chast pervaya / Pobeg'

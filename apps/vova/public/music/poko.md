@@ -11,7 +11,7 @@ seconds: 257
 explicit: false
 hidden: true
 credits:
-  lyrics: ['Александр Блок', 'Vova Zakharov']
+  lyrics: ['Vova Zakharov', 'Александр Блок']
 en:
   title: 'Метель'
   transliteration: 'Metel'

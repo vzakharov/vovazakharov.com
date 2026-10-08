@@ -12,6 +12,7 @@ explicit: false
 hidden: true
 credits:
   lyrics: ['Борис Пастернак']
+  music: [Vladimir Zakharov Sr.]
 en:
   title: 'Снег идёт'
   transliteration: 'Sneg idyot'

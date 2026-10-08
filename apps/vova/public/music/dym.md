@@ -9,6 +9,8 @@ audio: https://raw.githubusercontent.com/vovas-music/dym/main/dym_master_new.fla
 seconds: 188
 explicit: false
 hidden: true
+credits:
+  lyrics: ['Vova Zakharov', 'Zoltan Zakharov']
 en:
   title: 'Дым'
   transliteration: 'Dym'

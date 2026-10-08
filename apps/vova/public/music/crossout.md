@@ -9,6 +9,8 @@ audio: https://raw.githubusercontent.com/vovas-music/crossout/main/crossout_3.fl
 seconds: 213
 explicit: false
 hidden: true
+credits:
+  music: ['Иван Дербенёв', 'Vova Zakharov']
 en:
   title: 'Cross Out'
   description: 'TBD'
