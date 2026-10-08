@@ -88,6 +88,15 @@
   @include fill;
 }
 
+// Wide enough for two digits, so the play buttons of a long album stay in one
+// column.
+.trackNumber {
+  flex-shrink: 0;
+  min-width: 2ch;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
 // The bar is out of flow, so it would otherwise cover whatever a page ends
 // with. Clearance is the bar's own concern, which is why the provider renders
 // this rather than every page under `/music` knowing the bar's height.
