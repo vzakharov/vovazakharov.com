@@ -62,16 +62,25 @@ export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
 
 /**
  * The artist's albums as one language credits them — `vagabond` is GENERATED's
- * in English and Полуживые's in Russian.
+ * in English and Полуживые's in Russian — newest first. The registry dates no
+ * release, so an album is as new as its latest song in this catalogue; a tie
+ * keeps registry order.
  */
 export function artistAlbums(
   artist: MusicProject,
   locale: Locale,
   songs: readonly SongDocument[],
 ): MusicAlbum[] {
-  return catalogueAlbums(songs).filter(
-    (album) => albumArtist(album, locale) === artist,
-  );
+  const latest = (album: MusicAlbum) =>
+    Math.max(
+      ...albumSongs(album, songs).map(({ frontmatter }) =>
+        frontmatter.date.getTime(),
+      ),
+    );
+
+  return catalogueAlbums(songs)
+    .filter((album) => albumArtist(album, locale) === artist)
+    .toSorted((a, b) => latest(b) - latest(a));
 }
 
 /**
