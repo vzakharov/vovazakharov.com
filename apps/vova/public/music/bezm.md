@@ -11,6 +11,8 @@ audio: https://raw.githubusercontent.com/vovas-music/bezm/main/%D0%92%20%D0%B1%D
 seconds: 253
 explicit: false
 hidden: true
+credits:
+  lyrics: ['Omar Khayyam', 'Игорь Голубев']
 en:
   description: 'TBD'
 ru:
@@ -19,11 +21,7 @@ ru:
 
 <!-- For Vova to check: The repo also holds `За горизонт.flac`, which looks like a separate song and is not scaffolded. -->
 
-<!-- Scaffolded from https://github.com/vovas-music/bezm — В безмерности небес.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- For Vova to check: The two verses are Omar Khayyam in Igor Golubev’s translation — rubai No. 89 («В безмерности небес, укрытый синевой…») and No. 95 («Кружение небес никак не обогнать…») of «Рубаи. Полное собрание» (РИПОЛ классик, 2008), per fantlab.ru/edition252823. That translation is in copyright, so the verses and their crib are not set here: the lyrics hold the chorus and its coda only, until you decide whether to print Golubev’s quatrains. The chorus turns up in no Golubev contents list and nowhere else online, so it may well be Dad’s own; credits name Khayyam and Golubev only, and say if Dad should join them for the chorus. -->
 
 <!-- Story from Vova's Telegram post of 2026-03-04. -->
 
@@ -56,3 +54,23 @@ _Рабочий план небес не для тебя менять._
 Что-то есть в этом риффе очень папино :)
 
 С днём рождения, пап!
+
+<!-- lyrics:ru -->
+
+Когда сбивает с ног жестокая борьба
+И к небесам летит бесплодная мольба,
+Задумайся тогда — а что ты можешь сделать,
+Когда в твою игру включается судьба?
+
+Задумайся тогда — а что ты можешь сделать,
+Когда в твою игру включается судьба?
+
+<!-- lyrics:en -->
+
+When cruel struggle knocks you off your feet
+And a fruitless prayer flies up to the heavens,
+Stop and think then — what can you do
+When fate steps into your game?
+
+Stop and think then — what can you do
+When fate steps into your game?
