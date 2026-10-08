@@ -9,8 +9,9 @@ The vovas-music organization holds far more masters than the site
 lists, most of them not ready to show. A document now takes
 `hidden: true`: its page is built and served at its address, but no
 listing, player queue or sitemap carries it, and it is noindex. One
-predicate in shared/content decides what is listed. A hidden song
-plays from its own page, joining the end of the queue.
+predicate in shared/content decides what is listed, and lists
+everything under `SHOW_HIDDEN=1 pnpm dev:<site>`, never in a build. A
+hidden song plays from its own page, joining the end of the queue.
 
 147 masters land as hidden song pages, their words set as verse with
 sourced notes: Suno's markers, drawn-out syllables and pause ellipses
