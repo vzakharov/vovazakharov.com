@@ -12,11 +12,11 @@ album: ghosts
 track: 6
 hidden: true
 en:
-  description: 'TBD'
+  description: 'The title parodies People for the Ethical Treatment of Animals (PETA).'
 ru:
   title:
     translation: 'Роботы за этичное обращение с людьми'
-  description: 'TBD'
+  description: 'Название — пародия на People for the Ethical Treatment of Animals (PETA), «Люди за этичное обращение с животными».'
 ---
 
 <!-- For Vova to check: Fields are taken from the Ghosts of Flesh entry (6. PETA.flac); the peta entry itself is blank. Master is the checklist's guess peta_master.flac; peta.flac and peta_o.flac are the alternatives. The album text runs "Save them, save them, Hear their final plea." on one line; it is split at the capital here. -->
