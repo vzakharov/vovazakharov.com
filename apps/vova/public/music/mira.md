@@ -45,10 +45,12 @@ She’s chasing, she’s changing, becoming the sea
 Riding the waves that whisper her name
 Breaking the bonds, unleashing the main
 
-She’s into witch doctors and superstitions
+She’s into witch doctors and superstitions[^superstitions-en]
 As if on a mission to challenge his love
 Makes him talk to people who he finds quite fishy
 And one of these days, he’ll have had enough
+
+[^superstitions-en]: A loose nod to “She’s into superstitions, black cats and voodoo dolls” from Ricky Martin’s [“Livin’ la Vida Loca”](https://en.wikipedia.org/wiki/Livin%27_la_Vida_Loca).
 
 But one of these days, lit by the setting sun
 He’ll have his grounded world turned upside down
@@ -88,12 +90,13 @@ She’s going to the sea
 Оседлав волны, что шепчут её имя,
 Разрывая узы, открывая шлюзы.
 
-Она увлекается знахарями и суевериями,
+Она увлекается знахарями и суевериями,[^superstitions-ru]
 Будто задалась целью испытать его любовь,
 Заставляет его говорить с людьми, которые кажутся ему [весьма мутными][^fishy-ru],
 И однажды с него будет довольно.
 
 [^fishy-ru]: В оригинале «fishy» — «подозрительный», а дословно «рыбный».
+[^superstitions-ru]: Очень условная отсылка к «She’s into superstitions, black cats and voodoo dolls» («Она увлекается суевериями, чёрными кошками и куклами вуду») из [«Livin’ la Vida Loca»](https://en.wikipedia.org/wiki/Livin%27_la_Vida_Loca) Рики Мартина.
 
 Но однажды, в лучах заходящего солнца,
 Его приземлённый мир перевернётся вверх дном.

@@ -27,10 +27,13 @@ ru:
 
 <!-- lyrics:en -->
 
-I met her on a Monday and my heart stood still
-Somebody told me that her name was Jill
-Da doo ron-de ron, she caught my eye
+I met her on a Monday and my heart stood still[^crystals-en]
+Somebody told me that her name was Jill[^crystals-en]
+[Da doo ron-de ron][^doowop-en], she caught my eye
 On a starry night beneath the April sky
+
+[^crystals-en]: The opening reworks The Crystals’ [“Da Doo Ron Ron”](https://en.wikipedia.org/wiki/Da_Doo_Ron_Ron) (1963), where she meets him on a Monday and somebody tells her his name is Bill.
+[^doowop-en]: Nonsense syllables, the way [doo-wop](https://en.wikipedia.org/wiki/Doo-wop) sings them — the genre is named after a refrain like it — and The Crystals’ “da doo ron-ron” began as just such a dummy line.
 
 Each day I saw her, magic seemed to grow
 The kind of love that only dreamers know
@@ -52,10 +55,12 @@ For love like ours, it’s built to last
 Da doo ron-de ron, Da doo ron-de doo
 In a world of gray, she’s my sky of blue
 
-Cops on our tail, blasting Punk in Drublic
+Cops on our tail, blasting [Punk in Drublic][^drublic-en]
 Caught mid-thrust doing stuff in public
 Da doo ron-de ron, we gave ’em the slip
 Jumped a chain-link fence in clothes all but ripped
+
+[^drublic-en]: [_Punk in Drublic_](https://en.wikipedia.org/wiki/Punk_in_Drublic) — NOFX’s 1994 album, its title a spoonerism of “drunk in public.”
 
 Now every Monday, I smile at the past
 For love like ours, it’s built to last
@@ -68,12 +73,13 @@ She’s my sky of blue
 
 <!-- lyrics:ru -->
 
-[Я встретил её в понедельник, и сердце замерло][^crystals-ru]
-Кто-то сказал мне, что её зовут Джилл
-Да ду рон-де рон, она приглянулась мне
+Я встретил её в понедельник, и сердце замерло[^crystals-ru]
+Кто-то сказал мне, что её зовут Джилл[^crystals-ru]
+[Да ду рон-де рон][^doowop-ru], она приглянулась мне
 Звёздной ночью под апрельским небом
 
-[^crystals-ru]: Начало перепевает «Da Doo Ron Ron» группы The Crystals (1963), где героиня так же встречает в понедельник Билла.
+[^crystals-ru]: Начало перепевает [«Da Doo Ron Ron»](https://en.wikipedia.org/wiki/Da_Doo_Ron_Ron) группы The Crystals (1963), где героиня так же встречает в понедельник Билла.
+[^doowop-ru]: Бессмысленные слоги в духе [ду-вопа](https://ru.wikipedia.org/wiki/%D0%94%D1%83-%D0%B2%D0%BE%D0%BF) — сам жанр назван по такому припеву, — а «da doo ron-ron» у The Crystals и было поначалу словами-«рыбой».
 
 Каждый день, что я её видел, волшебство будто росло
 Такая любовь, какую знают только мечтатели
@@ -100,7 +106,7 @@ She’s my sky of blue
 Да ду рон-де рон, мы от них улизнули
 Перемахнули через сетчатый забор, одежда почти в клочья
 
-[^drublic-ru]: «Punk in Drublic» — альбом NOFX (1994); название — перевёртыш из «drunk in public», «пьяный в общественном месте».
+[^drublic-ru]: [«Punk in Drublic»](https://en.wikipedia.org/wiki/Punk_in_Drublic) — альбом NOFX (1994); название — перевёртыш из «drunk in public», «пьяный в общественном месте».
 
 Теперь каждый понедельник я улыбаюсь прошлому
 Ведь любовь, как наша, создана на века

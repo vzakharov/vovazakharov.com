@@ -40,7 +40,7 @@ But something in the air, something in your stare
 Something about the inflection in the way you asked
 Made me wanna start to grow this painted cast
 
-Behind the mask, where the void resides
+Behind [the mask][^mask-en], where the void resides
 Beyond the smile, where the darkness hides
 The mask protects, the mask conceals
 A trusted shield no light can pierce
@@ -90,6 +90,8 @@ Emotions borrowed, never our own
 But if you saw us, you wouldn’t tell
 Behind the masks we wear so well
 
+[^mask-en]: The mask is a term from the study of psychopathy: Hervey Cleckley’s [_The Mask of Sanity_](https://en.wikipedia.org/wiki/The_Mask_of_Sanity) (1941) describes the psychopath as wearing a convincing mask of a normal, feeling person over an inner void.
+
 <!-- lyrics:ru -->
 
 Прости, мамочка, за пятна на моей одежде
@@ -105,7 +107,7 @@ Behind the masks we wear so well
 Что-то в интонации, с которой ты спросила
 Заставило меня захотеть начать отращивать этот раскрашенный слепок
 
-За маской, где живёт пустота
+За [маской][^mask-ru], где живёт пустота
 По ту сторону улыбки, где прячется тьма
 Маска защищает, маска скрывает
 Надёжный щит, который не пробьёт ни один луч
@@ -154,3 +156,5 @@ Behind the masks we wear so well
 Эмоции взяты взаймы, они никогда не наши
 Но если бы ты нас увидел, ты бы не отличил
 За масками, которые мы так ловко носим
+
+[^mask-ru]: Маска — термин из психопатологии: в книге Херви Клекли [«Маска нормальности»](https://en.wikipedia.org/wiki/The_Mask_of_Sanity) (_The Mask of Sanity_, 1941) психопат носит убедительную маску нормального, чувствующего человека, под которой — пустота.
