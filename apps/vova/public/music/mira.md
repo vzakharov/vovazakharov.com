@@ -96,6 +96,7 @@ She’s going to the sea
 И однажды с него будет довольно.
 
 [^fishy-ru]: В оригинале «fishy» — «подозрительный», а дословно «рыбный».
+
 [^superstitions-ru]: Очень условная отсылка к «She’s into superstitions, black cats and voodoo dolls» («Она увлекается суевериями, чёрными кошками и куклами вуду») из [«Livin’ la Vida Loca»](https://en.wikipedia.org/wiki/Livin%27_la_Vida_Loca) Рики Мартина.
 
 Но однажды, в лучах заходящего солнца,

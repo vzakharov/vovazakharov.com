@@ -33,6 +33,7 @@ Somebody told me that her name was Jill[^crystals-en]
 On a starry night beneath the April sky
 
 [^crystals-en]: The opening reworks The Crystals’ [“Da Doo Ron Ron”](https://en.wikipedia.org/wiki/Da_Doo_Ron_Ron) (1963), where she meets him on a Monday and somebody tells her his name is Bill.
+
 [^doowop-en]: Nonsense syllables, the way [doo-wop](https://en.wikipedia.org/wiki/Doo-wop) sings them — the genre is named after a refrain like it — and The Crystals’ “da doo ron-ron” began as just such a dummy line.
 
 Each day I saw her, magic seemed to grow
@@ -79,6 +80,7 @@ She’s my sky of blue
 Звёздной ночью под апрельским небом
 
 [^crystals-ru]: Начало перепевает [«Da Doo Ron Ron»](https://en.wikipedia.org/wiki/Da_Doo_Ron_Ron) группы The Crystals (1963), где героиня так же встречает в понедельник Билла.
+
 [^doowop-ru]: Бессмысленные слоги в духе [ду-вопа](https://ru.wikipedia.org/wiki/%D0%94%D1%83-%D0%B2%D0%BE%D0%BF) — сам жанр назван по такому припеву, — а «da doo ron-ron» у The Crystals и было поначалу словами-«рыбой».
 
 Каждый день, что я её видел, волшебство будто росло
