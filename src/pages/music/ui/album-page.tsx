@@ -5,6 +5,7 @@ import { byLocale, loadMessages } from '@/shared/i18n';
 import { BackToHome, NameLink, PageShell } from '@/shared/ui';
 
 import { albumSongs, albumYears } from '../lib/catalogue';
+import { totalDuration } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
 import { catalogueSongs, songTrack } from '../lib/songs';
@@ -39,7 +40,13 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
             <NameLink href={artistPath(artist, catalogue, locale)}>
               {projectName(artist, locale)}
             </NameLink>{' '}
-            · {albumYears(album, songs)}
+            · {albumYears(album, songs)} ·{' '}
+            {messages.albumLength.replace(
+              '{duration}',
+              totalDuration(
+                tracks.map(({ frontmatter }) => frontmatter.seconds),
+              ),
+            )}
           </Text>
         </CatalogueHeader>
 
