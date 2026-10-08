@@ -30,10 +30,12 @@ ru:
 
 <!-- lyrics:ru -->
 
-Я прохожу мимо окон
+Я прохожу мимо окон[^okna-ru]
 В которых наши тени
 Скрывает серый кокон
 Недопереплетений
+
+[^okna-ru]: Отсылка к песне [«Окна»](/music/okna/ru).
 
 Два силуэта ночи
 Две птицы в твёрдом теле
@@ -71,10 +73,12 @@ ru:
 
 <!-- lyrics:en -->
 
-I walk past the windows
+I walk past the windows[^okna-en]
 In which our shadows
 Are hidden by a grey cocoon
 Of never-quite-intertwinings
+
+[^okna-en]: A nod to the song [«Окна» (“Windows”)](/music/okna).
 
 Two silhouettes of the night
 Two birds in a solid body

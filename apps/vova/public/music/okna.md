@@ -57,10 +57,12 @@ ru:
 Кто-то просит сил у господа, кто-то просто воет голосом,
 Кто-то прыгнет в норы кроличьи, кто-то стихнет, но не скроется,
 Кто-то в поле скорым поездом, чтобы сгинуть в одиночестве.
-Я же прячусь в окнах прошлого, словно Колридж в водах Оттера,
+Я же прячусь в окнах прошлого, [словно Колридж в водах Оттера][^otter-ru],
 Словно в поисках чего-то родного такого и беззаботного,
 Отблесками, отраженьями, очертаньями неверными
 Воскрешая те мгновения вне пространства и времени.
+
+[^otter-ru]: В сонете Кольриджа [«К реке Оттер»](https://en.wikipedia.org/wiki/To_the_River_Otter) поэт видит в реке своего девонского детства всё, что видел мальчишкой, и заканчивает вздохом: «Ах, если бы мне снова стать беззаботным ребёнком!» Ср. [«Река. Часть третья»](/music/otter/ru).
 
 Пройти бы хоть краешком
 Этих окон, где юность моя светит
@@ -105,10 +107,12 @@ Everyone copes however they can: some argue, some quarrel,
 Some ask the Lord for strength, some just howl out loud,
 Some will jump down rabbit holes, some will go quiet but won’t hide,
 Some head off into the fields on a fast train, to vanish all alone.
-And me, I hide in the windows of the past, like Coleridge in the waters of the Otter,
+And me, I hide in the windows of the past, [like Coleridge in the waters of the Otter][^otter-en],
 As if searching for something so dear and carefree,
 With glints, with reflections, with unsteady outlines
 Bringing back those moments outside space and time.
+
+[^otter-en]: In Coleridge’s sonnet [“To the River Otter”](https://en.wikipedia.org/wiki/To_the_River_Otter), the stream of his Devon childhood brings back everything he saw in it as a boy, and he ends: “Ah! that once more I were a careless Child!” Cf. [The River. Part Three](/music/otter).
 
 If I could pass, even just at the edge,
 Those windows where my youth shines

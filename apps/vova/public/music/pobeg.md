@@ -43,7 +43,7 @@ translation of a gatha by Thích Nhất Hạnh.
 И когда удаётся «жить в моменте» момента любого,
 Ум мой ясен и чист, как большая река
 
-[^source-ru]: Папин перевод гаты Тхить Нят Ханя «Открывая окно» из сборника [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): «Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.»
+[^source-ru]: Папин перевод гаты Тхить Нят Ханя «Открывая окно» из сборника [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): «Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.» Ср. [«Река. Часть вторая»](/music/reka-2/ru).
 
 <!-- lyrics:en -->
 
@@ -52,4 +52,4 @@ Life is beautiful, immeasurable, full, deep.
 And when I manage to “live in the moment” of any moment,
 My mind is clear and pure, like a great river
 
-[^source-en]: My father’s translation of Thích Nhất Hạnh’s gatha “Opening the Window,” from [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): “Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.”
+[^source-en]: My father’s translation of Thích Nhất Hạnh’s gatha “Opening the Window,” from [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): “Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.” Cf. [The River. Part Two](/music/reka-2).
