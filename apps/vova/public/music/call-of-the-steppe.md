@@ -14,7 +14,7 @@ hidden: true
 en:
   description: 'TBD'
 ru:
-  title: 'По зову степей'
+  title: 'По зову степи'
   description: 'TBD'
 ---
 

@@ -15,7 +15,7 @@ en:
   description: 'TBD'
 ru:
   title:
-    translation: 'Смотри, как умирают люди'
+    translation: 'Смотреть, как умирают люди'
   description: 'TBD'
 ---
 
