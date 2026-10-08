@@ -14,7 +14,7 @@ credits:
     - 'William Shakespeare'
     - 'Борис Пастернак'
     - 'Михаил Лозинский'
-    - 'Vova Zakharov'
+    - 'Леонид Зорин'
 en:
   title: 'Гамлет (Extended Version)'
   transliteration: 'Gamlet (Extended Version)'

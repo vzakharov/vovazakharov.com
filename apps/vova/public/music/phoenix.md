@@ -10,6 +10,8 @@ explicit: false
 album: ctfu
 track: 10
 hidden: true
+credits:
+  music: ['Vova Zakharov', 'Сергей Исаев', 'Александра Кокотова']
 en:
   title: 'Phoenix'
   description: 'TBD'

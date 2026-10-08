@@ -10,6 +10,9 @@ audio: https://raw.githubusercontent.com/vovas-music/utro/main/%D0%94%D0%BE%D0%B
 seconds: 228
 explicit: false
 hidden: true
+credits:
+  lyrics: ['Славик, друг Андрея Мокрушина']
+  music: ['Славик, друг Андрея Мокрушина']
 en:
   title: 'Доброе утро'
   transliteration: 'Dobroe utro'
@@ -21,8 +24,6 @@ ru:
 ---
 
 <!-- For Vova to check: Project is a guess with little behind it: a Russian song from March 2026, Грёбаный бал's period; the source file is `utro det c1`, so if «det» means a children's song it may belong elsewhere. -->
-
-<!-- For Vova to check: words and music are not Vova's; the author's name is to be asked of Андрей Мокрушин. -->
 
 <!-- For Vova to check: «От крой» and «Ма гнитофон» are set as «Открой» and «Магнитофон», read as spellings for the singer. -->
 

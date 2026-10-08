@@ -10,6 +10,8 @@ explicit: false
 album: vagabond
 track: 3
 hidden: true
+credits:
+  music: ['Vova Zakharov', 'Antonio Vivaldi']
 en:
   title: 'Inverno'
   description: 'TBD'
@@ -25,3 +27,11 @@ ru:
      Replace this with the story, told once per language under a "lang:en" and
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- lang:en -->
+
+Opens on the allegro non molto of Vivaldi’s “Winter.”
+
+<!-- lang:ru -->
+
+Начинается с allegro non molto из «Зимы» Вивальди.
