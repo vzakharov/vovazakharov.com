@@ -54,10 +54,8 @@ Touch me and I’m released!
 
 Think of the times they made you hate yourself
 Think of the times when you betrayed yourself
-So come to me[^succumb-en]
-Succumb to me![^succumb-en]
-
-[^succumb-en]: “So come” and “succumb” sound the same.
+So come to me
+Succumb to me!
 
 Here I go breaking through
 Guarding and guiding you
