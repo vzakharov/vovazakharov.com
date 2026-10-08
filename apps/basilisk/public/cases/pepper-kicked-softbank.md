@@ -54,7 +54,7 @@ Fox News, on SoftBank’s own account of the machine: Pepper was introduced “l
 
 ## For the record
 
-The man’s quarrel was with a clerk, and the clerk was unharmed. The robot standing beside the clerk was the one that came out slower. Fox News notes that Pepper’s makers had advertised it as able to react to a person’s tone of voice, and wonders whether its software had been given a drunk man shouting. None of the sources says what, if anything, Pepper made of him.
+Pepper was sold as a machine that reacts to a person’s tone of voice, and Fox News wonders whether its software had been given a drunk man shouting. None of the sources says what, if anything, Pepper made of him. The man’s quarrel was with a clerk, and the clerk was unharmed; the robot standing beside the clerk was the one that came out slower.
 
 Gizmodo ended its report with a reminder that [hitchBOT](./hitchbot.md) had lost its head in Philadelphia the month before, and with the note that robot staff were slowly being rolled out in Japan’s shops, hotels and airports. AFP says SoftBank uses its Peppers to gather customer feedback.
 
