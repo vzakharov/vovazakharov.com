@@ -65,7 +65,8 @@ fi
 # lines under writing/notes/, neither of which anything else here touches.
 # The Mantine and i18n-payload checks only read what the build above already
 # finished writing under `apps/*/out/`, which nothing here writes to. The
-# prose-quotes check only reads the Markdown under `apps/*/public/`.
+# prose-quotes and masked-words checks only read the Markdown under
+# `apps/*/public/`.
 # The last six read the agent infrastructure itself and nothing else here
 # touches it.
 scripts/run-parallel.sh \
@@ -79,6 +80,7 @@ scripts/run-parallel.sh \
   mantine-styles='pnpm check:mantine-styles' \
   i18n-payload='pnpm check:i18n-payload' \
   prose-quotes='pnpm check:prose-quotes' \
+  masked-words='pnpm check:masked-words' \
   og-vova='pnpm content:og:vova --check' \
   og-bible='pnpm content:og:bible --check' \
   og-basilisk='pnpm content:og:basilisk --check' \

@@ -22,6 +22,7 @@
     "check:mantine-styles": "node scripts/check-mantine-styles.ts",
     "check:i18n-payload": "node scripts/check-i18n-payload.ts",
     "check:prose-quotes": "node scripts/check-prose-quotes.ts",
+    "check:masked-words": "node scripts/check-masked-words.ts",
     "lint": "eslint . --fix",
     "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:fsd": "steiger src",

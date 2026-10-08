@@ -37,7 +37,7 @@ Burn, love,
 Fake, faith,
 Blame, above.
 
-F\*ck Religion!
+Fuck Religion!
 No Permission!
 End Division!
 My Decision!
@@ -52,14 +52,14 @@ Bleed them dry,
 Crown of gold,
 Throne of lies.
 
-F\*ck Religion!
+Fuck Religion!
 No Permission!
 End Division!
 My Decision!
 
 My! Decision.
 End! Division,
-F\*ck! Religion,
+Fuck! Religion,
 
 <!-- lyrics:ru -->
 
@@ -73,7 +73,7 @@ F\*ck! Religion,
 Фальшивая, вера,
 Вали вину, на небеса.
 
-Нах\*й религию!
+Нахуй религию!
 Никаких разрешений!
 Конец разделению!
 Моё решение!
@@ -88,11 +88,11 @@ F\*ck! Religion,
 Корона из золота,
 Трон из лжи.
 
-Нах\*й религию!
+Нахуй религию!
 Никаких разрешений!
 Конец разделению!
 Моё решение!
 
 Моё! Решение.
 Конец! Разделению,
-Нах\*й! Религию,
+Нахуй! Религию,

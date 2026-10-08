@@ -48,7 +48,7 @@ Turns to primal hate
 One day
 
 But people so funny
-People so f\*cking hilarious
+People so fucking hilarious
 Keep me from coming
 Down to kick the shit…
 
@@ -62,7 +62,7 @@ Just one of those days,[^break-en]
 When you don’t wanna wake up,[^break-en]
 Cause you’re kinda god,
 But on the other hand, you’re not,
-Cause all these motherf\*ckers they don’t seem to have a clue
+Cause all these motherfuckers they don’t seem to have a clue
 ’Bout all this revelation tribulation thing of you,
 And you’re like “Go, God, good God, go!
 They need a show, Go show a little bit of the celestial C.E.O.
@@ -74,7 +74,7 @@ A final lesson they will never forget.
 [^break-en]: The opening of Limp Bizkit’s [“Break Stuff”](https://en.wikipedia.org/wiki/Break_Stuff) (1999), “It’s just one of those days…” — the song the later “break some stuff” nods to as well.
 
 But people so funny
-People so f\*cking hilarious
+People so fucking hilarious
 Keep me from coming
 Down to kick the shit…
 
@@ -122,7 +122,7 @@ Down to be the god that they deserve.
 Однажды
 
 Но люди такие смешные
-Люди такие ох\*енно уморительные
+Люди такие охуенно уморительные
 Не дают мне сойти
 Вниз и выбить всё дерьмо…
 
@@ -136,7 +136,7 @@ Down to be the god that they deserve.
 Когда не хочется просыпаться,[^break-ru]
 Потому что ты вроде как бог,
 А с другой стороны — нет,
-Потому что все эти уё\*ки, похоже, понятия не имеют
+Потому что все эти уёбки, похоже, понятия не имеют
 Обо всей этой твоей истории с откровением и скорбью,
 И ты такой: «Давай, Боже, Боже правый, давай!
 Им нужно шоу, иди покажи им немного небесного гендиректора.
@@ -148,7 +148,7 @@ Down to be the god that they deserve.
 [^break-ru]: Начало песни Limp Bizkit [«Break Stuff»](https://en.wikipedia.org/wiki/Break_Stuff) (1999): «It’s just one of those days…» — к ней же отсылает и «что-нибудь разнести» (break some stuff) ближе к концу.
 
 Но люди такие смешные
-Люди такие ох\*енно уморительные
+Люди такие охуенно уморительные
 Не дают мне сойти
 Вниз и выбить всё дерьмо…
 
