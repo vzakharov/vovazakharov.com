@@ -33,17 +33,9 @@ Look beyond the horizon: Is it the future that scares you, or is it the sad face
 
 If you had the chance to trade all your visions and premonitions for a day of being okay with yourself, would you grasp at it?
 
-The holes in our hearts,
-The cracks in our trust,
-Taking a toll on our reflection,
-To the point of inflection
-Where nothing can make us at peace anymore.
+The holes in our hearts, the cracks in our trust, taking a toll on our reflection, to the point of inflection where nothing can make us at peace anymore.
 
-Too blind to unsee,
-Too mute to unsay
-All the cruel things that brought us here,
-Hurting the ones we hold dear,
-Burying ourselves deeper and deeper inside.
+Too blind to unsee, too mute to unsay all the cruel things that brought us here, hurting the ones we hold dear, burying ourselves deeper and deeper inside.
 
 Watching from within the darkness at a newborn day, taking grievance at its unbridled luminance, we forget that we, too, were once newly born, and the whole world could fit in our hand.
 
@@ -53,16 +45,8 @@ Watching from within the darkness at a newborn day, taking grievance at its unbr
 
 Если бы у тебя был шанс обменять все свои видения и предчувствия на день в ладу с самим собой — ухватился бы ты за него?
 
-Дыры в наших сердцах,
-Трещины в нашем доверии
-Сказываются на нашем отражении
-До точки перелома,
-Где уже ничто не может дать нам покоя.
+Дыры в наших сердцах, трещины в нашем доверии сказываются на нашем отражении до точки перелома, где уже ничто не может дать нам покоя.
 
-Слишком слепы, чтобы развидеть,
-Слишком немы, чтобы взять назад
-Все жестокие слова, что привели нас сюда,
-Раня тех, кто нам дорог,
-Закапывая себя всё глубже и глубже внутрь.
+Слишком слепы, чтобы развидеть, слишком немы, чтобы взять назад все жестокие слова, что привели нас сюда, раня тех, кто нам дорог, закапывая себя всё глубже и глубже внутрь.
 
 Глядя из темноты на новорождённый день, обижаясь на его необузданное сияние, мы забываем, что и сами когда-то были новорождёнными и весь мир умещался у нас в ладони.
