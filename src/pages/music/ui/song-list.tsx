@@ -16,10 +16,9 @@ export type SongListProps = WithLocale &
   };
 
 /**
- * A list of songs, each row playable. On the public index it is row for row
- * the queue the layout seeds the player with, so pressing play on a row and
- * pressing next on the bar move through one list; a row the queue does not
- * hold — a hidden song — joins it when played, as on its own page.
+ * A list of songs, each row playable. A row plays within the queue the layout
+ * seeds the player with — the public catalogue — and a row the queue does not
+ * hold, a hidden song, joins it when played, as on its own page.
  */
 export function SongList({
   locale,

@@ -1,21 +1,19 @@
 import { Box, Text } from '@mantine/core';
 import Image from 'next/image';
 
-import { pick } from '@/shared/lib/collections';
 import type { LabeledLink, Titled } from '@/shared/typings';
-import { NameLink, Subheading, TextLink } from '@/shared/ui';
+import { NameLink, Subheading } from '@/shared/ui';
 
 import classes from './music.module.scss';
 
 /**
- * A tile linking to an artist or an album: its art, or its name set on a tinted
- * square where it has none, then the line under the name — a plain `detail`,
- * or `links` onward, an artist's albums.
+ * A tile linking to an artist or an album: its art with its name under it, or
+ * its name set on a tinted square where it has none — never both, so the name
+ * reads once — then an optional `detail` line under the square.
  */
 type CatalogueTile = LabeledLink & {
   cover?: string;
   detail?: string;
-  links?: LabeledLink[];
 };
 
 export type CatalogueGridProps = Titled & { tiles: CatalogueTile[] };
@@ -29,53 +27,58 @@ export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
       <Subheading>{title}</Subheading>
 
       <ul className={classes['tileGrid']}>
-        {tiles.map(({ href, label, cover, detail, links = [] }) => (
-          <li key={href} className={classes['tile']}>
-            {/* The art repeats the name below it, so it is hidden from
-                assistive tech; the name's link stretches over the whole tile. */}
-            <div className={classes['tileArt']} aria-hidden>
+        {tiles.map(({ href, label, cover, detail }) => {
+          // The name's link stretches over the whole tile.
+          const link = (
+            <NameLink {...{ href }} c="inherit" className={classes['tileLink']}>
+              {label}
+            </NameLink>
+          );
+
+          return (
+            <li key={href} className={classes['tile']}>
               {cover === undefined ? (
-                <span className={classes['tileName']}>{label}</span>
-              ) : (
-                <Image
-                  src={cover}
-                  alt=""
-                  width={600}
-                  height={600}
-                  sizes="(min-width: 768px) 200px, 50vw"
-                />
-              )}
-            </div>
-
-            <Text fw={500} mt={8} lh={1.3}>
-              <NameLink {...{ href }} className={classes['tileLink']}>
-                {label}
-              </NameLink>
-            </Text>
-
-            {detail !== undefined && detail !== '' && (
-              <Text size="sm" opacity={0.6}>
-                {detail}
-              </Text>
-            )}
-
-            {links.length > 0 && (
-              <Text size="sm" className={classes['tileLinks']}>
-                {links.map((link) => (
-                  <TextLink
-                    key={link.href}
-                    {...pick(link, 'href')}
-                    underline="hover"
-                    className={classes['tileOnward']}
+                <div className={classes['tileArt']}>
+                  <Box
+                    component="span"
+                    className={classes['tileName']}
+                    style={{ '--tile-word': longestWord(label) }}
                   >
-                    {link.label}
-                  </TextLink>
-                ))}
-              </Text>
-            )}
-          </li>
-        ))}
+                    {link}
+                  </Box>
+                </div>
+              ) : (
+                <>
+                  <div className={classes['tileArt']} aria-hidden>
+                    <Image
+                      src={cover}
+                      alt=""
+                      width={600}
+                      height={600}
+                      sizes="(min-width: 768px) 200px, 50vw"
+                    />
+                  </div>
+
+                  <Text fw={500} mt={8} lh={1.3}>
+                    {link}
+                  </Text>
+                </>
+              )}
+
+              {detail !== undefined && detail !== '' && (
+                <Text size="sm" opacity={0.6} mt={cover === undefined ? 8 : 0}>
+                  {detail}
+                </Text>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </Box>
   );
+}
+
+/** The letters in the name's longest word, which the type on the square is sized to fit unbroken. */
+function longestWord(name: string): number {
+  return Math.max(...name.split(/\s+/u).map((word) => word.length));
 }

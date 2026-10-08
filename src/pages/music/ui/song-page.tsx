@@ -98,7 +98,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
         <Box component="header">
           <Stack gap={24}>
             <Group gap={16} wrap="nowrap" align="center">
-              {/* The same track the index page's row plays, so both drive one
+              {/* The same track a song list's row plays, so both drive one
                   queue — which a hidden song joins only once played here. */}
               <TrackButton track={songTrack(document)} {...{ title }} />
               <Title order={1}>
