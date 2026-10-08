@@ -211,12 +211,19 @@ export function listPrimaryDocuments<F extends BaseFrontmatter>(
   return listDocuments(collection).filter((doc) => !doc.variant);
 }
 
+// A build ignores the variable, which is what keeps one left in a shell out of
+// a deploy.
+const SHOW_HIDDEN =
+  process.env.NODE_ENV === 'development' && process.env.SHOW_HIDDEN === '1';
+
 /**
  * Whether a document may be listed. Applied where documents are offered to a
  * reader, never where they are routed — a hidden page is still built.
+ * `SHOW_HIDDEN=1 pnpm dev:<site>` lists every document, so a local session
+ * browses the whole catalogue from the public pages.
  */
 export function isListed({ frontmatter }: WithFrontmatter): boolean {
-  return frontmatter.hidden !== true;
+  return SHOW_HIDDEN || frontmatter.hidden !== true;
 }
 
 export function loadDocument<F extends BaseFrontmatter>(
