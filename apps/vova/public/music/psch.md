@@ -70,10 +70,12 @@ It takes a mask to veil the demons that bide you
 But beware to put your sickness in their view
 ’Cause it takes a pair of so-called healthy people to hang you
 
-P.S.C.H.P.T.H.Y.
-P.S.C.H.P.T.H.Y.
-P.S.C.H.P.T.H.Y.
-P.S.C.H.P.T.H.Y.
+P.S.C.H.P.T.H.Y.[^acronym-en]
+P.S.C.H.P.T.H.Y.[^acronym-en]
+P.S.C.H.P.T.H.Y.[^acronym-en]
+P.S.C.H.P.T.H.Y.[^acronym-en]
+
+[^acronym-en]: A Pair of So-Called Healthy People To Hang You, and PSyCHoPaTHY.
 
 It takes a smile to hide the fiends inside you.
 
@@ -121,9 +123,11 @@ It takes a smile to hide the fiends inside you.
 Но берегись выставлять свою болезнь им напоказ
 Ведь нужна всего пара так называемых здоровых людей, чтобы тебя повесить
 
-P.S.C.H.P.T.H.Y.
-P.S.C.H.P.T.H.Y.
-P.S.C.H.P.T.H.Y.
-P.S.C.H.P.T.H.Y.
+P.S.C.H.P.T.H.Y.[^acronym-ru]
+P.S.C.H.P.T.H.Y.[^acronym-ru]
+P.S.C.H.P.T.H.Y.[^acronym-ru]
+P.S.C.H.P.T.H.Y.[^acronym-ru]
+
+[^acronym-ru]: Аббревиатура читается двояко: это первые буквы «a Pair of So-Called Healthy People To Hang You» («пара так называемых здоровых людей, чтобы тебя повесить») и одновременно согласные слова PSyCHoPaTHY — «психопатия».
 
 Нужна улыбка, чтобы спрятать бесов внутри тебя.
