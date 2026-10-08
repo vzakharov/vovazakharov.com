@@ -91,9 +91,9 @@ decided, so a later session doesn't rediscover the objection from scratch.
   established, and may simply be wrong. And **the figures themselves are
   unverified**: 98,000 → 223,000 lines in the eighty-one days between `4.0.0`
   and handover is a lot of lines, and it is published rather than checked. The
-  223,000 is known to count tests as well as production code
-  ([#120](https://github.com/vzakharov/vovazakharov.com/issues/120)), but the
-  count and its window still need re-deriving from the repo before either is
+  223,000 counts tests as well as production code
+  ([#120](https://github.com/vzakharov/vovazakharov.com/issues/120)), and the
+  count and its window need re-deriving from the repo before either is
   repeated.
 - **18 — the 5%.** That a knowledgeable human still catches something is the
   claim; naming _what_ needs specimens rather than argument. They are collected
