@@ -101,7 +101,20 @@ A shot to remember!
 Ты просто расслабься
 И будет селяви
 
-А мне бы вжарить покрепче.
+А мне бы вжарить покрепче
+Чтоб эту бездну под рёбрами унять
+Кто боль бессмертием лечит
+Тому нет разницы жить иль умирать
+
+Под пеплом бывших империй
+Сожжённых светом что сотни солнц светлей
+Смешались люди и звери
+Беги, любовь, пока я ещё не зверь
+
+Яд сильней любви
+Яд сильней любви
+Яд сильней любви
+Этот яд
 
 [^berne-ru]: Эрик Берн, «Игры, в которые играют люди», где среди игр есть «Алкоголик» и «Полицейские и воры».
 
@@ -142,6 +155,19 @@ This poison is stronger than love
 Just relax
 And it’ll be c’est la vie
 
-And I could use something stiffer.
+And I could use something stiffer
+To quiet this abyss under my ribs
+Whoever treats pain with immortality
+Doesn’t care whether to live or die
+
+Under the ashes of former empires
+Burned by a light brighter than hundreds of suns
+People and beasts are mixed together
+Run, love, while I’m not a beast yet
+
+Poison stronger than love
+Poison stronger than love
+Poison stronger than love
+This poison
 
 [^berne-en]: Eric Berne, whose “Games People Play” names games “Alcoholic” and “Cops and Robbers.”
