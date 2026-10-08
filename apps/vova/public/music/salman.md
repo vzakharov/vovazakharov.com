@@ -65,6 +65,15 @@ father’s only song in a major key :-)
 Хоть говори, а хоть пиши, хоть пой
 Какой же милый младший внучек мой
 
+Все вместе!
+
+Хоть говори, хоть пой, а хоть пиши (хоть пиши!)
+Его улыбка — радость для души ([кукуруза, ребята!][^kukuruza-ru])
+Хоть говори, а хоть пиши, хоть пой (хоть пой!)
+Какой же милый младший внучек мой
+
+[^kukuruza-ru]: Так, по словам Саши, папа каждый раз радовался, когда мы покупали кукурузу — я был слишком маленький, чтобы помнить.
+
 <!-- lyrics:en -->
 
 Fate gives priceless gifts
@@ -96,3 +105,12 @@ Whether you speak, or sing, or write
 His smile is a joy to the soul
 Whether you speak, or write, or sing
 How sweet is my youngest little grandson
+
+All together!
+
+Whether you speak, or sing, or write (or write!)
+His smile is a joy to the soul ([corn, guys!][^kukuruza-en])
+Whether you speak, or write, or sing (or sing!)
+How sweet is my youngest little grandson
+
+[^kukuruza-en]: According to Sasha, that is how Dad cheered every time we bought corn — I was too little to remember.
