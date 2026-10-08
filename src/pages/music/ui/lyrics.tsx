@@ -1,9 +1,9 @@
 import { Box, Stack, Text } from '@mantine/core';
 import Markdown, { type Components } from 'react-markdown';
 
-import type { SungLanguage } from '@/shared/content';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
+import type { SungLanguage } from '@/shared/song';
 import { Subheading, TextLink } from '@/shared/ui';
 
 import type { LyricLine, WithStanzas } from '../lib/lyric-notes';

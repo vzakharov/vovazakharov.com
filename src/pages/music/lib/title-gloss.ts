@@ -1,5 +1,5 @@
-import type { SongLanguage, SongText, SungLanguage } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
+import type { SongLanguage, SongText, SungLanguage } from '@/shared/song';
 import type { Titled } from '@/shared/typings';
 
 const LATIN = /\p{Script=Latin}/u;

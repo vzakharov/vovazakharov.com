@@ -1,5 +1,6 @@
-import type { Playable, Slugged } from '@/shared/content';
+import type { Slugged } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
+import type { Playable } from '@/shared/song';
 
 /**
  * A song as the player needs it: resolved at build time from the collection and

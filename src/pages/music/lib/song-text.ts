@@ -1,12 +1,8 @@
 import 'server-only';
 
-import type {
-  ContentDocument,
-  SongFrontmatter,
-  SongText,
-  SungLanguage,
-} from '@/shared/content';
+import type { ContentDocument } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
+import type { SongFrontmatter, SongText, SungLanguage } from '@/shared/song';
 
 import {
   readVerse,
