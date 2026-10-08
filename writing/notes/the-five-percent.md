@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×52)
+## What it was handed, it treats as fixed (×53)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -108,7 +108,12 @@ and “be… a… good… girl” as the author's punctuation. _разве в п
 transliteration of an English title, it dropped "English" and stored one Latin
 gloss per song, leaving a Greek title unreadable on the Russian page.
 
-## An account that explains the code stands in for running it (×16)
+**8 October — the poem read as the song.** Song pages printed the source text
+whole where the recording sings four lines of «Лели», and stanzas never recorded
+for three others; the hamlet page credited as lyricist someone who had moved
+Shakespeare's lines around. What a page documents is the recording.
+
+## An account that explains the code stands in for running it (×17)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -128,7 +133,9 @@ seal rode the last sentence's punctuation, argued from compiled HTML with
 
 **23 September — a placement argued from the neighbours, its consumers unread.**
 Lyric-note code went to `shared/content`; nothing outside `pages/music` imported
-it. One grep said so; nobody ran it.
+it. One grep said so; nobody ran it. On 8 October the song model was still
+there after a round on it — _why again_ — kept on "it's frontmatter, so it's
+content," a category standing in for who imports it.
 
 ## It edits the copy in front of it, not the fact behind it (×16)
 
@@ -178,7 +185,7 @@ a reader of the old tree asks. _медведь?_
 `ContentVideo`'s home got a `content.md` bullet. _the bullet is a polar bear_:
 `fsd.md` says where a component goes, and Steiger fails the wrong move unread.
 
-## Asked for a source, it supplies its own version (×10)
+## Asked for a source, it supplies its own version (×11)
 
 The version that argues better is the one that gets written, and whether a source
 exists barely moves the odds: with the file open the agent paraphrases it, with
@@ -198,7 +205,11 @@ tricks from his lyrics, the agent "fixed" «вот и новый год» to Pas
 and «вдушевлённые» to «одушевлённые». In an author's lyrics an odd form is
 intent before it is a typo.
 
-## Given a form, it fills the form (×8)
+**8 October — a politeness default, filed as his choice.** The agent masked his
+lyrics' expletives (F\*ck, ох\*енно) and wrote a rule that "the mask is his."
+Nothing is masked: the agent's guess, given the author's name.
+
+## Given a form, it fills the form (×9)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -209,7 +220,9 @@ came back carrying _English only. The site is bilingual; this isn't._
 
 **15 and 22 September — a row per key, filled cell by cell.** A second site's
 config retyped the first's fields — _не DRY_ — and the music registry spelled
-every title `{ en: 'X', ru: 'X' }`.
+every title `{ en: 'X', ru: 'X' }`. On 8 October a song's title still lived
+per locale, each with sibling `transliteration` and `titleTranslation` keys: one
+title, a locale carrying only a differing name or a gloss.
 
 ## What it defends in writing, it stops asking about (×5)
 
