@@ -2,7 +2,7 @@
 date: 2025-02-17
 status: done
 language: ru
-project: ['Оттепель']
+project: ['Листопад']
 repo: 'klo'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/klo/main/klo_remaster.flac
@@ -19,7 +19,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: the name of the project of old Soviet-style songs is the agent’s proposal, «Оттепель» (the era of Майя Кристаллинская); the other candidates were «Патефон» and «Хрусталь». Master is the checklist's guess `klo_remaster.flac`; `klo.flac` is the same length (4:43) and `klo_1.flac` runs 4:29. -->
+<!-- For Vova to check: Master is the checklist's guess `klo_remaster.flac`; `klo.flac` is the same length (4:43) and `klo_1.flac` runs 4:29. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/klo — klo_remaster.flac,
      44.1 kHz / 16-bit / stereo.

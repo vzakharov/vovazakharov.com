@@ -32,7 +32,7 @@ export const MUSIC_PROJECT_NAMES = [
   'Иске Кормаш',
   'Киндерштайн',
   'Velvet Static',
-  'Оттепель',
+  'Листопад',
 ] as const;
 
 export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
@@ -59,7 +59,7 @@ export const MUSIC_PROJECT_SLUGS: Record<MusicProject, string> = {
   'Иске Кормаш': 'iske-kormash',
   Киндерштайн: 'kindershtayn',
   'Velvet Static': 'velvet-static',
-  Оттепель: 'ottepel',
+  Листопад: 'listopad',
 };
 
 export function projectName(project: MusicProject, locale: Locale): string {
