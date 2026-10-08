@@ -370,7 +370,10 @@ ride-along` in this session, on this branch, after the task's own commits; its
   exists, spawn one on this repo with the prompt `/update-muthur claimed` and
   the title `🔄 muthur → <repo>`, `<repo>` being this repo's name without its
   owner: an operator syncing several adopters otherwise gets a session list of
-  identical titles. Elsewhere, hand the operator that command to paste into one.
+  identical titles. Then `scripts/muthur-sync.sh handover <its session URL>`:
+  the claim names the session that made it, and anyone asking who is syncing
+  wants the one that is. Elsewhere, hand the operator that command to paste into
+  one, and leave the lock naming this session.
 
 ## Add what the next sync teaches you
 
