@@ -35,7 +35,9 @@ Played disabled? Now they don’t
 Parking in disabled spot?
 Parking in disabled spot?
 Parking in disabled spot?
-You were able, now you’re not
+You were [able][^able-en], now you’re not
+
+[^able-en]: “Able” both ways: not disabled, and able to park in the spot.
 
 Parking in disabled spot?
 Parking in disabled spot?
@@ -52,7 +54,9 @@ You were able, now you’re not
 Паркуешься на месте для инвалидов?
 Паркуешься на месте для инвалидов?
 Паркуешься на месте для инвалидов?
-Был здоров — а теперь уже нет
+Был [здоров][^able-ru] — а теперь уже нет
+
+[^able-ru]: В оригинале «able» в двух смыслах сразу: «не инвалид» и «способен (тут парковаться)».
 
 Паркуешься на месте для инвалидов?
 Паркуешься на месте для инвалидов?

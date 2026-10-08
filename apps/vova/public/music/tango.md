@@ -49,8 +49,10 @@ Until the final note
 
 They think they can do whatever
 Their filthy little minds demand
-But we brought them forty-seven
+But we brought them [forty-seven][^ak-en]
 Reasons to believe they can’t
+
+[^ak-en]: As in the AK-47.
 
 Silver spoons make life shine brighter
 Lawyers keep the plebs at bay
@@ -72,10 +74,12 @@ But I’ve learned to know what’s right
 Watch us go and clear this attic
 Of the pests y’all left behind
 
-Tango de la desintegración
-Tango de la desintegración
-Tango de la desintegración
-Baila conmigo, mi casi amor!
+Tango de la desintegración[^casi-en]
+Tango de la desintegración[^casi-en]
+Tango de la desintegración[^casi-en]
+Baila conmigo, mi casi amor![^casi-en]
+
+[^casi-en]: Spanish: “Tango of disintegration… Dance with me, my almost-love!” — the almost-love of [I Almost Love You](/music/almost).
 
 Disintegration tango
 Dance with me tonight
@@ -111,8 +115,10 @@ Until the final note
 
 Они думают, что могут делать всё
 Что потребуют их грязные мыслишки
-Но мы принесли им сорок семь
+Но мы принесли им [сорок семь][^ak-ru]
 Причин поверить, что не могут
+
+[^ak-ru]: Как в АК-47.
 
 Серебряные ложки делают жизнь ярче
 Юристы держат плебс на расстоянии
@@ -137,7 +143,9 @@ Until the final note
 Танго распада
 Танго распада
 Танго распада
-Танцуй со мной, моя почти любовь!
+Танцуй со мной, [моя почти любовь][^casi-ru]!
+
+[^casi-ru]: Отсылка к [«I Almost Love You»](/music/almost/ru) («Я почти люблю тебя»).
 
 Танго распада
 Потанцуй со мной этой ночью

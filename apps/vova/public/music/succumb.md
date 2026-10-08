@@ -54,8 +54,10 @@ Touch me and I’m released!
 
 Think of the times they made you hate yourself
 Think of the times when you betrayed yourself
-So come to me
-Succumb to me!
+So come to me[^succumb-en]
+Succumb to me![^succumb-en]
+
+[^succumb-en]: “So come” and “succumb” sound the same.
 
 Here I go breaking through
 Guarding and guiding you
@@ -112,8 +114,10 @@ Here I go breaking through.
 
 Вспомни, сколько раз из-за них ты ненавидел себя
 Вспомни, сколько раз ты предавал себя
-Так приди ко мне
-Покорись мне!
+Так приди ко мне[^succumb-ru]
+Покорись мне![^succumb-ru]
+
+[^succumb-ru]: В оригинале омофоны: «so come» («так приди») и «succumb» («покорись») звучат одинаково.
 
 Вот я прорываюсь наружу
 Оберегаю и веду тебя

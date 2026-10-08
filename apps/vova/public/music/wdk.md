@@ -44,10 +44,12 @@ Is harder than it seemed
 How can I ask
 Forgive me, Father, for I have sinned
 
-If all my lies
-Can never be unlied
-And all my vice
-Is for all time inside?
+If all my lies[^rank-en]
+Can never be unlied[^rank-en]
+And all my vice[^rank-en]
+Is for all time inside?[^rank-en]
+
+[^rank-en]: Claudius’s question in _Hamlet_ (III.3), praying with the crown and the queen still his: “May one be pardon’d and retain the offence?” Cf. [O, My Offence is Rank](/music/rank).
 
 What do I feel?
 I’m filled with filth from head to heel
@@ -108,10 +110,12 @@ Steal your mind
 Как мне просить:
 «Прости меня, Отче, ибо я согрешил»,
 
-Если всю мою ложь
-Никогда не сделать несказанной,
-А все мои пороки
-Навеки во мне?
+Если всю мою ложь[^rank-ru]
+Никогда не сделать несказанной,[^rank-ru]
+А все мои пороки[^rank-ru]
+Навеки во мне?[^rank-ru]
+
+[^rank-ru]: Вопрос Клавдия в «Гамлете» (III.3), который молится, не отдав ни короны, ни королевы: «Прощен ли, кто предмет удержит злодеянья?» (пер. К. Р.). Ср. [«O, My Offence is Rank»](/music/rank/ru).
 
 Что я чувствую?
 Я полон грязи с головы до пят,

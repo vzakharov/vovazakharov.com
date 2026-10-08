@@ -55,10 +55,12 @@ We cannot keep them here,
 For they were meant to be free.
 We cannot set them free,
 For they’re a hazard to the world.
-Thus, all the pros and cons in mind,
-The only ethical outcome
-Is to end their suffering
-Once and for all.
+Thus, all the pros and cons in mind,[^peta-en]
+The only ethical outcome[^peta-en]
+Is to end their suffering[^peta-en]
+Once and for all.[^peta-en]
+
+[^peta-en]: PETA’s own shelter in Norfolk, Virginia, puts down most of the animals it takes in — [by its reports to the state](https://en.wikipedia.org/wiki/People_for_the_Ethical_Treatment_of_Animals#Euthanasia), 95% in 2011 and over 80% in 2014 — and calls it mercy.
 
 <!-- lyrics:ru -->
 
@@ -88,7 +90,9 @@ Once and for all.
 Ведь они были созданы свободными.
 Мы не можем отпустить их на свободу,
 Ведь они — угроза для мира.
-Итак, взвесив все за и против,
-Единственный этичный исход —
-Положить конец их страданиям
-Раз и навсегда.
+Итак, взвесив все за и против,[^peta-ru]
+Единственный этичный исход —[^peta-ru]
+Положить конец их страданиям[^peta-ru]
+Раз и навсегда.[^peta-ru]
+
+[^peta-ru]: Приют самой PETA в Норфолке (Вирджиния) усыпляет большинство животных, которых принимает, — [по её же отчётам властям штата](https://en.wikipedia.org/wiki/People_for_the_Ethical_Treatment_of_Animals#Euthanasia), 95% в 2011 году и больше 80% в 2014-м, — и называет это милосердием.
