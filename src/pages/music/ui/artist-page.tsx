@@ -1,6 +1,6 @@
 import { Stack } from '@mantine/core';
 
-import { albumTitle, projectName } from '@/shared/config';
+import { albumCover, albumTitle, projectName } from '@/shared/config';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { BackToHome, PageShell } from '@/shared/ui';
 
@@ -8,8 +8,8 @@ import { albumYears, artistAlbums, artistSongs } from '../lib/catalogue';
 import type { ArtistPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
 import { catalogueSongs, songTrack } from '../lib/songs';
+import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
-import { CatalogueList } from './catalogue-list';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
 
@@ -35,11 +35,12 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
           title={projectName(artist, locale)}
         />
 
-        <CatalogueList
+        <CatalogueGrid
           title={messages.albums}
-          entries={artistAlbums(artist, locale, songs).map((album) => ({
+          tiles={artistAlbums(artist, locale, songs).map((album) => ({
             href: albumPath(album, catalogue, locale),
             label: albumTitle(album, locale),
+            cover: albumCover(album),
             detail: albumYears(album, songs),
           }))}
         />
