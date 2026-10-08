@@ -17,14 +17,14 @@ Each site's `apps/<site>/app/` is a Next.js App Router and nothing else. Steiger
 
 Lowest (most generic) first — an import may only point downward:
 
-| Layer       | Holds                                                                                                    |
-| ----------- | -------------------------------------------------------------------------------------------------------- |
-| `shared/`   | Segments carrying no page composition: `config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`      |
-| `entities/` | Business nouns — `document` (its byline, its cards, its body and its sources), `case` (its brief)        |
-| `features/` | User-facing capabilities — currently `switch-theme`                                                      |
-| `widgets/`  | Composite blocks two page slices share — `site-footer`                                                   |
-| `pages/`    | Page composition — `home`, `lsa-home`, `bible-home`, `basilisk-home`, `cv`, `documents`                  |
-| `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
+| Layer       | Holds                                                                                                       |
+| ----------- | ----------------------------------------------------------------------------------------------------------- |
+| `shared/`   | Segments carrying no page composition: `config`, `content`, `song`, `i18n`, `seo`, `typings`, `ui`, `lib/*` |
+| `entities/` | Business nouns — `document` (its byline, its cards, its body and its sources), `case` (its brief)           |
+| `features/` | User-facing capabilities — currently `switch-theme`                                                         |
+| `widgets/`  | Composite blocks two page slices share — `site-footer`                                                      |
+| `pages/`    | Page composition — `home`, `lsa-home`, `bible-home`, `basilisk-home`, `cv`, `documents`                     |
+| `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments    |
 
 An entity is earned once a block is a business noun's own UI: `document` holds
 the byline, the collection's cards and the rendered body, all about a document
@@ -117,3 +117,4 @@ slices, its own segments reach each other directly.
 - **`@/` points at `src/`.** Anything outside it — an app's `public/` and the markdown it serves, root `styles/` and the Sass partial it holds — is reached by URL or relative path, not by alias. `scripts/` is the exception that proves it: a script importing a type from the tree spells the alias out (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare Node.
 - **next-intl's request config is found by path, not by import.** Each app's `next.config.ts` names `../../src/shared/i18n/request.ts` explicitly; moving that file means editing both. The path is relative to the app directory, which the plugin checks against the working directory and hands Turbopack to resolve against the project — the two agree only when a build is entered in its app directory, which is what `pnpm build:<site>` does.
 - **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/documents` slice serving every collection on every site: a slice per collection would make siblings of pages that share one composition, and sibling slices cannot reach each other. The document's own byline and cards are the exception that proves it — shared by the index and the article both, they sit a layer down in `entities/document`, per the `widgets/`-versus-`entities/` note above.
+- **The song model is `shared/song`, beside `shared/content` rather than in it**, which stays generic. The registry in `collection-schemas.ts` imports every collection's schema, so the song's cannot sit in `pages/music` above it; `shared/song` builds on `shared/content`'s base schema by its leaf module — the barrel would close a cycle. Not `shared/music`: Steiger's `ambiguous-slice-names` rejects a segment named like the `pages/music` slice.
