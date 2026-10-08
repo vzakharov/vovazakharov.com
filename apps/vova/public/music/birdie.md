@@ -78,10 +78,12 @@ bleeped version one day.
 Прошло полгода, и я вроде подостыл немного:
 Мало, что ли, девок, нафига мне эта недотрога?
 Много чести за тобой по крышам да верхушкам елей?
-Мне ли быть в печали, сука, чем меня ж ты так задела?
+[Мне ли быть в печали][^marfusha-ru], сука, чем меня ж ты так задела?
 Дело говорят, от баб одни беды:
 Забуду тебя и дальше поеду,
 И мне наплевать, с кем ты и где ты.
+
+[^marfusha-ru]: Отсылка к «Эх, Марфуша, нам ли быть в печали!» — Бунша-царь на пиру в [«Иван Васильевич меняет профессию»](https://ru.wikipedia.org/wiki/%D0%98%D0%B2%D0%B0%D0%BD_%D0%92%D0%B0%D1%81%D0%B8%D0%BB%D1%8C%D0%B5%D0%B2%D0%B8%D1%87_%D0%BC%D0%B5%D0%BD%D1%8F%D0%B5%D1%82_%D0%BF%D1%80%D0%BE%D1%84%D0%B5%D1%81%D1%81%D0%B8%D1%8E).
 
 Но тут ты подошла, сука, зачем-то.
 
@@ -137,10 +139,12 @@ So fucking high!
 Six months went by and I’d cooled off a bit:
 Aren’t there girls enough, what do I want with this untouchable one?
 Too much honour, chasing you over roofs and treetops?
-Why the fuck would I be the sad one, what did you even do to me?
+[Why the fuck would I be the sad one][^marfusha-en], what did you even do to me?
 They’re right, you know, women are nothing but trouble:
 I’ll forget you and drive on,
 And I don’t care who you’re with or where you are.
+
+[^marfusha-en]: An echo of «Эх, Марфуша, нам ли быть в печали!» — “Oh, Marfusha, why should we be sad!” — sung by Bunsha, the false tsar, at the feast in Gaidai’s [_Ivan Vasilievich: Back to the Future_](https://en.wikipedia.org/wiki/Ivan_Vasilievich:_Back_to_the_Future).
 
 And then you fucking came over, for some reason.
 

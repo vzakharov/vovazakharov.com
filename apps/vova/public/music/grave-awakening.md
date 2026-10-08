@@ -31,16 +31,20 @@ ru:
 
 There’s still your mercy over your ass, you pervert creatures, for your music.
 
-Grave Awakening — corpses rise
+[Grave Awakening][^grave-en] — corpses rise
 Grave Awakening — pay for your vice
 Grave Awakening — vengeance to claim
 Grave Awakening — we’ll maim but not slay
+
+[^grave-en]: A play on “rude awakening,” with “grave” as both the tomb and the adjective: serious, ominous.
 
 <!-- lyrics:ru -->
 
 Над твоей задницей всё ещё твоя милость, вы, извращённые твари, — за вашу музыку.
 
-Могильное пробуждение — мертвецы встают
+[Могильное пробуждение][^grave-ru] — мертвецы встают
 Могильное пробуждение — плати за свой порок
 Могильное пробуждение — мы пришли за местью
 Могильное пробуждение — мы покалечим, но не убьём
+
+[^grave-ru]: В оригинале — grave awakening, игра на rude awakening («грубое пробуждение», то есть горькое отрезвление), где grave — и «могила», и «тяжёлый, зловещий».

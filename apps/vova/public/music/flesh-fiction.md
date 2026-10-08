@@ -34,7 +34,7 @@ ru:
 Тятька сделает гробок из осиновых досок[^grobok-en]
 Понесём-понесём, закопаем в чернозём[^chernozem-en]
 
-[^gulenki-en]: Russian: “The little doves flew in, the doves began to coo and rock the little son.”
+[^gulenki-en]: Russian: “The little doves flew in, the doves began to coo and rock the little son.” The six Russian lines are a folk lullaby of the kind that wishes the child dead, as [recorded in Buryatia in 1988](https://arzamas.academy/mag/1148-horrorsongs).
 
 [^bayu-en]: Russian: “Hush-a-bye, lullaby, I’ll give you a beating.”
 
@@ -82,12 +82,14 @@ Flesh-flesh-flesh fiction
 
 <!-- lyrics:ru -->
 
-Прилетели гуленьки, стали гули ворковать и сыночка качать
-Баю-баюшки-баю, колотушек надаю
-Колотушек двадцать пять — будет детка крепко спать
-Поскорее умри, будет завтра мороз, мы тебя снесём на погост
-Тятька сделает гробок из осиновых досок
-Понесём-понесём, закопаем в чернозём
+Прилетели гуленьки, стали гули ворковать и сыночка качать[^lullaby-ru]
+Баю-баюшки-баю, колотушек надаю[^lullaby-ru]
+Колотушек двадцать пять — будет детка крепко спать[^lullaby-ru]
+Поскорее умри, будет завтра мороз, мы тебя снесём на погост[^lullaby-ru]
+Тятька сделает гробок из осиновых досок[^lullaby-ru]
+Понесём-понесём, закопаем в чернозём[^lullaby-ru]
+
+[^lullaby-ru]: Народная «смертная» колыбельная — из тех, что желают ребёнку смерти; так её записали в 1988 году в Бурятии ([«Три очень страшные песни»](https://arzamas.academy/mag/1148-horrorsongs), «Арзамас»).
 
 Снимки ужаса, боль с точностью до пикселя
 Листаем кошмары снова и снова

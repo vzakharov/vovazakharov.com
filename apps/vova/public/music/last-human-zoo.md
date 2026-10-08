@@ -40,7 +40,9 @@ That they epitomize.
 Shackled past on show,
 Flesh and bone for view,
 Witness the downfall,
-Welcome to the last human zoo!
+Welcome to the last [human zoo][^zoo-en]!
+
+[^zoo-en]: [Human zoos](https://en.wikipedia.org/wiki/Human_zoo), or ethnological expositions, put people — mostly colonized and Indigenous ones — on show in Europe and America from the 1870s well into the 20th century: some thirty exhibitions at the Jardin d’Acclimatation in Paris, the Congolese man Ota Benga in the Bronx Zoo’s monkey house in 1906, a Congolese village at Brussels’s Expo 58.
 
 Is it humane,
 This display we arrange,
@@ -79,7 +81,9 @@ Welcome to the last human zoo!
 Скованное прошлое напоказ,
 Плоть и кости на обозрение,
 Узрите падение,
-Добро пожаловать в последний человеческий зоопарк!
+Добро пожаловать в последний [человеческий зоопарк][^zoo-ru]!
+
+[^zoo-ru]: [Человеческие зоопарки](https://ru.wikipedia.org/wiki/%D0%A7%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D0%B7%D0%BE%D0%BE%D0%BF%D0%B0%D1%80%D0%BA), или этнологические выставки, показывали людей — чаще всего жителей колоний и коренные народы — публике Европы и Америки с 1870-х годов и далеко в XX век: около тридцати выставок в парижском Саду акклиматизации, конголезец Ота Бенга в обезьяннике Бронксского зоопарка в 1906 году, конголезская деревня на брюссельской «Экспо-58».
 
 Гуманна ли она,
 Эта выставка, что мы устраиваем,

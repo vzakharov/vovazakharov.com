@@ -50,7 +50,9 @@ Building your utopia, but we were always near.
 …
 
 This ain’t your playground,
-It’s another plague round!
+It’s another [plague round][^plague-round-en]!
+
+[^plague-round-en]: A homophone of “playground,” the line before.
 
 <!-- lyrics:ru -->
 
@@ -77,4 +79,4 @@ It’s another plague round!
 Это вам не песочница,
 Это очередной [раунд чумы][^plague-round-ru]!
 
-[^plague-round-ru]: В оригинале игра слов: playground («игровая площадка») — plague round («раунд чумы»).
+[^plague-round-ru]: В оригинале омофоны: playground («игровая площадка», «песочница») и plague round («раунд чумы») звучат одинаково.

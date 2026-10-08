@@ -28,12 +28,16 @@ ru:
 
 <!-- lyrics:en -->
 
-Είμαι η Άρτεμις, ήρθα για σένα
+Είμαι η Άρτεμις, ήρθα για σένα[^eimai-en]
 
-Hello, dear, ετοιμάσου
+[^eimai-en]: Greek: “I am Artemis, I have come for you.”
+
+Hello, dear, [ετοιμάσου][^etoimasou-en]
 I’m Άρτεμις, I’ve come for you
 You hurt me once, now it’s my turn
 To make you pay for what you’ve done
+
+[^etoimasou-en]: Greek: “get ready.”
 
 Prey, Hunter, Whore, Mother
 I’m all of these and more
@@ -50,10 +54,14 @@ I’m all of these and more
 Saint, Martyr, Sweet, Sour
 I’ll taste you to the core
 
-Άγιος, Μάρτυρας, Πόρνη, Χήρα
+Άγιος, Μάρτυρας, Πόρνη, Χήρα[^agios-en]
 I can’t resist the fun
-Θήραμα, Γλυκός, Ξινός, Κυνηγός
+Θήραμα, Γλυκός, Ξινός, Κυνηγός[^thirama-en]
 The hunt has just begun
+
+[^agios-en]: Greek: “Saint, Martyr, Whore, Widow.”
+
+[^thirama-en]: Greek: “Prey, Sweet, Sour, Hunter.”
 
 Sheet by sheet, slice by slice
 I admit it does feel nice
@@ -63,17 +71,23 @@ I’m all of these and more
 Saint, Martyr, Sweet, Sour
 I’ll skin you to the core
 
-Ήρθα για σένα, ήρθα για σένα
-Ήρθα για σένα, ήρθα για σένα!
+Ήρθα για σένα, ήρθα για σένα[^irtha-en]
+Ήρθα για σένα, ήρθα για σένα![^irtha-en]
+
+[^irtha-en]: Greek: “I have come for you.”
 
 <!-- lyrics:ru -->
 
-Я Артемида, я пришла за тобой
+Я Артемида, я пришла за тобой[^greek-ru]
 
-Привет, дорогой, приготовься
+[^greek-ru]: Поётся по-гречески.
+
+Привет, дорогой, [приготовься][^etoimasou-ru]
 Я Артемида, я пришла за тобой
 Однажды ты сделал мне больно, теперь мой черёд
 Заставить тебя заплатить за то, что ты сделал
+
+[^etoimasou-ru]: Поётся по-гречески.
 
 Добыча, Охотница, Шлюха, Мать
 Я всё это и больше
@@ -90,9 +104,9 @@ I’ll skin you to the core
 Святая, Мученица, Сладкая, Кислая
 Я распробую тебя до самой сердцевины
 
-Святой, Мученик, Блудница, Вдова
+Святой, Мученик, Блудница, Вдова[^greek-ru]
 Не могу устоять перед весельем
-Добыча, Сладкий, Кислый, Охотник
+Добыча, Сладкий, Кислый, Охотник[^greek-ru]
 Охота только началась
 
 Лист за листом, ломтик за ломтиком
@@ -103,5 +117,5 @@ I’ll skin you to the core
 Святая, Мученица, Сладкая, Кислая
 Я сдеру с тебя кожу до самой сердцевины
 
-Я пришла за тобой, я пришла за тобой
-Я пришла за тобой, я пришла за тобой!
+Я пришла за тобой, я пришла за тобой[^greek-ru]
+Я пришла за тобой, я пришла за тобой![^greek-ru]

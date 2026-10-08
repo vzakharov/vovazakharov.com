@@ -29,10 +29,12 @@ ru:
 
 <!-- lyrics:en -->
 
-An eye for an eye
-A tooth for a tooth
+An eye for an eye[^eye-en]
+A tooth for a tooth[^eye-en]
 But I feel that I’ve
 Grown so fed up
+
+[^eye-en]: The Bible: “Eye for eye, tooth for tooth” (Exodus 21:24, KJV), which Jesus quotes in the Sermon on the Mount — “Ye have heard that it hath been said, An eye for an eye, and a tooth for a tooth” (Matthew 5:38) — before setting it aside in the next verse.
 
 With all of this fighting
 All of this blaming
@@ -68,7 +70,9 @@ Night
 Before all fades away
 Tell me it’s okay
 Just tear my chest apart
-So I could turn the other heart
+So I could [turn the other heart][^cheek-en]
+
+[^cheek-en]: After “turn the other cheek”: “whosoever shall smite thee on thy right cheek, turn to him the other also” (Matthew 5:39, KJV).
 
 All that confines me
 Inside this rib cage
@@ -95,10 +99,12 @@ So I could turn the other heart
 
 <!-- lyrics:ru -->
 
-Око за око,
-Зуб за зуб,
+Око за око,[^eye-ru]
+Зуб за зуб,[^eye-ru]
 Но я чувствую, что
 Мне так надоели
+
+[^eye-ru]: Библия: «глаз за глаз, зуб за зуб» (Исход 21:24), что Христос приводит в Нагорной проповеди — «Вы слышали, что сказано: око за око и зуб за зуб» (Мф 5:38), — чтобы следующим стихом от этого отказаться.
 
 Все эти драки,
 Все эти обвинения,
@@ -134,7 +140,9 @@ So I could turn the other heart
 Прежде чем всё померкнет,
 Скажи мне, что всё хорошо,
 Просто разорви мне грудь,
-Чтобы я мог подставить другое сердце.
+Чтобы я мог [подставить другое сердце][^cheek-ru].
+
+[^cheek-ru]: В оригинале turn the other heart вместо turn the other cheek — «подставить другую щёку»: «кто ударит тебя в правую щеку твою, обрати к нему и другую» (Мф 5:39).
 
 Всё, что сковывает меня
 В этой грудной клетке, —
