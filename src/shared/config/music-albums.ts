@@ -92,7 +92,7 @@ export function albumArtist(album: MusicAlbum, locale: Locale): MusicProject {
   return inLocale(MUSIC_ALBUMS[album].artist, locale);
 }
 
-/** The cover's site-root path, under `apps/vova/public/`; `undefined` for a release without one. */
+/** The cover's site-root path, under `apps/vova/public/`. */
 export function albumCover(album: MusicAlbum): string | undefined {
   return MUSIC_ALBUMS[album].cover && `/music/assets/covers/${album}.jpg`;
 }

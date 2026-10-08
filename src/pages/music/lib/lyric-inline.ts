@@ -3,6 +3,8 @@ import type { WithText } from '@/shared/typings';
 /** A stretch of a line set one way: in italics, or not. */
 export type InlineRun = WithText & { emphasis?: true };
 
+const ESCAPE = /\\([!-/:-@[-`{-~])/g;
+
 /**
  * The two inline marks a line of verse takes. A backslash before ASCII
  * punctuation is how markdown — and Prettier, formatting the file — writes it
@@ -11,10 +13,10 @@ export type InlineRun = WithText & { emphasis?: true };
  * in this one's letters — _Poekhali!_ — set in italics as GitHub sets it. An
  * underscore inside a word marks nothing, as on GitHub.
  */
-const INLINE_MARK =
-  /\\([!-/:-@[-`{-~])|(?<![\p{L}\p{N}_])_(?=\S)((?:\\.|[^\\])+?)(?<=\S)_(?![\p{L}\p{N}_])/gu;
-
-const ESCAPE = /\\([!-/:-@[-`{-~])/g;
+const INLINE_MARK = new RegExp(
+  String.raw`${ESCAPE.source}|(?<![\p{L}\p{N}_])_(?=\S)((?:\\.|[^\\])+?)(?<=\S)_(?![\p{L}\p{N}_])`,
+  'gu',
+);
 
 function unescaped(text: string): string {
   return text.replaceAll(ESCAPE, '$1');
