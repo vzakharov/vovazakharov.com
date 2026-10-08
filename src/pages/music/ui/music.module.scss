@@ -196,20 +196,27 @@
   line-height: 1;
 }
 
-// As many square tiles to a row as fit at 140px or wider: two on a phone,
-// several in the page's column on a desktop.
+// Square tiles, two to a row on a phone and four in the desktop column — few
+// enough that a name set on the square keeps a size worth reading.
 .tileGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(140px, 100%), 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px 16px;
   align-items: start;
   padding: 0;
   margin: 16px 0 0;
   list-style: none;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include mantine.larger-than(mantine.$breakpoint-md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
-// The tile is one link — the name's, stretched over it — with the onward links
-// under the name lifted above that stretch so each stays a link of its own.
+// The tile is one link — the name's, stretched over it.
 .tile {
   position: relative;
 
@@ -244,28 +251,18 @@
 }
 
 // A release without art gets its name set large on the square instead, sized
-// off the tile's width so a long Russian title still fits at two to a row.
+// off the tile's width and shrunk further for a name whose longest word
+// (`--tile-word`, in letters) would not otherwise fit the 82% of it inside the
+// padding: a word breaks only between words, never inside one.
 .tileName {
   display: flex;
   align-items: flex-end;
   height: 100%;
   padding: 9cqi;
-  font-size: clamp(0.875rem, 11cqi, 1.75rem);
+  font-size: min(1.75rem, 11cqi, 82cqi / (var(--tile-word) * 0.68));
   font-weight: 700;
   line-height: 1.1;
-  overflow-wrap: anywhere;
-  hyphens: auto;
-}
-
-.tileLinks {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-top: 4px;
-}
-
-.tileOnward {
-  position: relative;
-  z-index: 1;
-  opacity: 0.7;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: manual;
 }
