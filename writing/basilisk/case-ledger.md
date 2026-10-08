@@ -40,7 +40,33 @@ skill's § "The ledger" says how it is kept; the docket itself
   https://en.wikipedia.org/wiki/Tay_(chatbot) and
   https://www.techradar.com/news/internet/microsoft-s-chat-bot-is-yanked-offline-after-twitter-users-warp-it-with-racism-1317723.
 
+- **Knightscope K5 security robot knocked over by a man in Mountain View**,
+  19 April 2017: a 41-year-old, reported drunk, arrested for prowling and public
+  intoxication; the robot chirped and called the control room; the sources
+  disagree on where it happened and how much it was damaged. First seen
+  2026-10-08. **Set aside**: found alongside BAS-0008 and not read; revive for a
+  run that wants a security-robot case, from
+  https://www.csoonline.com/article/561373/drunken-man-arrested-after-assaulting-300lb-k5-security-robot.html
+  and https://www.securitysales.com/news/drunk_man_assaults_k5_security_robot_silicon_valley/1272/.
+- **Character.AI**: the AI Incident Database entries on it
+  (https://incidentdatabase.ai/entities/character.ai/) concern harm by the
+  platform to users; a web search found no report of users abusing the
+  characters. First seen 2026-10-08. **Rejected**: wrong direction of harm.
+
 ## Runs
+
+### 2026-10-08 — filed BAS-0008
+
+Session id not available. Web search for robots kicked by customers in Japan
+(Pepper, 2015), for security-robot attacks in the US (Knightscope, 2017) and
+for Character.AI users abusing characters. The Pepper dossier rests on
+Gizmodo, the Register, Fox News and AFP via Gulf News; the Japan Times
+original, which three of them cite, could not be fetched, and Fox has no
+Wayback snapshot. `noAi` stood at three of seven, so a `noAi` candidate was
+allowed, and Pepper was filed as AI because its makers sell it as reading
+emotion. **Next**: r/CharacterAI, r/LocalLLaMA and r/singularity through
+Arctic Shift (not touched yet), the Signal Front's archive again, and incidents
+from 2017–2021 outside Japan and the US.
 
 ### 2026-10-07 — filed BAS-0007
 
