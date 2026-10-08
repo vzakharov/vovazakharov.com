@@ -15,7 +15,7 @@ credits:
     - 'William Shakespeare'
     - 'Борис Пастернак'
     - 'Михаил Лозинский'
-    - 'Леонид Зорин'
+    - 'Михаил Козаков'
 en:
   title:
     transliteration: 'Gamlet (Extended Version)'
@@ -27,7 +27,7 @@ ru:
   cribNote: 'Английский текст — оригинал Шекспира.'
 ---
 
-<!-- For Vova to check: `hamlet_short-001.flac` is a shorter version in the same repo. Vova named Pasternak for the first “stricken deer” quatrain and Lozinsky-via-«Покровские ворота» for the second; the rest (Lucianus, Claudius’s «Удушлив смрад…», the Ghost’s «Так похоть даже в ангельских объятьях») is Pasternak too, as Vova confirmed. The third line of the fifth stanza, «Он вне себя. Не трогайте его», is matched to V.1 (the King’s “O, he is mad, Laertes” and the Queen’s “For love of God forbear him!”) without the translation to confirm it; say if it comes from elsewhere. -->
+<!-- For Vova to check: `hamlet_short-001.flac` is a shorter version in the same repo. Vova named Pasternak for the first “stricken deer” quatrain and Lozinsky-via-«Покровские ворота» for the second, the film's rework credited to its director Mikhail Kozakov on Yuri Kuvaldin's word (https://kuvaldinur.livejournal.com/866899.html) — the play's author, Leonid Zorin, is the other candidate, and neither is settled; the rest (Lucianus, Claudius’s «Удушлив смрад…», the Ghost’s «Так похоть даже в ангельских объятьях») is Pasternak too, as Vova confirmed. The third line of the fifth stanza, «Он вне себя. Не трогайте его», is matched to V.1 (the King’s “O, he is mad, Laertes” and the Queen’s “For love of God forbear him!”) without the translation to confirm it; say if it comes from elsewhere. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/hamlet — hamlet_extended.flac,
      44.1 kHz / 16-bit / stereo.
