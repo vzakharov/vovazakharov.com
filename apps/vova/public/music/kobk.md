@@ -12,6 +12,7 @@ album: ctfu
 track: 3
 hidden: true
 credits:
+  lyrics: ['Nance Castro']
   music: ['Nance Castro']
 en:
   description: 'TBD'
