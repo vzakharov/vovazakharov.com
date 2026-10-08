@@ -51,8 +51,10 @@ Nightmares tighten, sanity destroyed!
 
 Silent steps, creaky boards
 Every glance, a piercing sword
-Exit light, enter fear
+[Exit light, enter fear][^sandman-en]
 Something dark crawling near
+
+[^sandman-en]: An echo of “Exit light, enter night” from Metallica’s [“Enter Sandman.”](https://en.wikipedia.org/wiki/Enter_Sandman)
 
 Darkness falls, a haunted night
 Moonless dim, light lost the fight

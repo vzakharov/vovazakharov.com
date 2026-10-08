@@ -37,9 +37,11 @@ Free, finally free
 From my fading self
 And the darkness consuming me
 
-Look: There’s no mo ropes
-No spots on my chest
-And the monkey is gone for good
+Look: There’s no mo ropes[^monkey-en]
+No spots on my chest[^monkey-en]
+And the monkey is gone for good[^monkey-en]
+
+[^monkey-en]: From Eric Berne’s parable of Gordon, signed with his pseudonym Cyprian St. Cyr and collected in _Beyond Games and Scripts_ (1976): Gordon’s parents tied a monkey to his chest, the knot growing tighter for years; the third doctor cut it, the monkey ran off, and Gordon complained of the big white spot it left and that he missed his monkey.
 
 Breathe, now I can breathe
 Filling my lungs
@@ -78,11 +80,11 @@ I will forgive at last
 От моего угасающего «я»
 И от тьмы, что поглощает меня.
 
-Смотри: больше никаких верёвок,
-Никаких пятен на груди,
-И [обезьяна ушла насовсем][^monkey-ru].
+Смотри: больше никаких верёвок,[^monkey-ru]
+Никаких пятен на груди,[^monkey-ru]
+И обезьяна ушла насовсем.[^monkey-ru]
 
-[^monkey-ru]: По-английски «monkey on one’s back», «обезьяна на спине», — тяжкое бремя, особенно зависимость.
+[^monkey-ru]: Из притчи Эрика Берна «Гордонов узел» (подписана его псевдонимом Киприан Сен-Сир, сборник «За пределами игр и сценариев», 1976): родители привязали Гордону к груди обезьянку, узел год от года затягивался; третий врач его разрубил, обезьянка убежала, а Гордон жаловался, что у него осталось большое белое пятно и что он скучает по своей обезьянке.
 
 Дышать, теперь я могу дышать,
 Наполняя лёгкие
