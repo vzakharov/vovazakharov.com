@@ -2,7 +2,11 @@ import type { Labeled, WithText } from '@/shared/typings';
 
 import { splitStanzas } from './sections';
 
-/** A stretch of a line, and the note it carries where it has one — a line of markdown, so it can link. */
+/**
+ * A stretch of a line, and the note it carries where it has one — a line of
+ * markdown, so it can link. The text keeps its inline marks, which `inlineRuns`
+ * reads where the page sets it.
+ */
 type LyricSpan = WithText & { note?: string };
 
 /**
@@ -23,17 +27,6 @@ export type WithStanzas = { stanzas: Stanzas };
  * reads as the span the footnote is about.
  */
 const NOTE_MARKER = /(?:\[([^[\]]+)])?\[\^([^\s\]]+)]/g;
-
-/**
- * A backslash before ASCII punctuation, which is how markdown — and Prettier,
- * formatting the file — writes a literal `*` in a masked `f*ck`. The page sets
- * the words as text, so it drops the escape GitHub would have consumed.
- */
-const MARKDOWN_ESCAPE = /\\([!-/:-@[-`{-~])/g;
-
-function unescaped(text: string): string {
-  return text.replaceAll(MARKDOWN_ESCAPE, '$1');
-}
 
 /** A line's note on the whole of it, which the next line can extend by ending in the same label. */
 type Whole = Labeled & { span: LyricSpan };
@@ -80,7 +73,7 @@ export function readVerse(section: string, fileName: string): Stanzas {
 
     if (whole !== undefined) {
       const [marker, , label = ''] = whole;
-      const text = unescaped(line.replace(marker, '').trimEnd());
+      const text = line.replace(marker, '').trimEnd();
 
       if (markers.length > 1) {
         throw new Error(
@@ -97,14 +90,13 @@ export function readVerse(section: string, fileName: string): Stanzas {
     let from = 0;
 
     for (const { 0: marker, 1: phrase = '', 2: label, index } of markers) {
-      if (index > from)
-        spans.push({ text: unescaped(line.slice(from, index)) });
-      spans.push({ text: unescaped(phrase), note: noteFor(label) });
+      if (index > from) spans.push({ text: line.slice(from, index) });
+      spans.push({ text: phrase, note: noteFor(label) });
       from = index + marker.length;
     }
 
     if (from < line.length || spans.length === 0) {
-      spans.push({ text: unescaped(line.slice(from)) });
+      spans.push({ text: line.slice(from) });
     }
 
     return { spans };

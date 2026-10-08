@@ -35,7 +35,7 @@ Let’s feel the pressure build up,
 The energy all filled up,
 It’s time to push the button.
 
-Поехали![^poekhali-en]
+_Poekhali!_[^poekhali-en]
 
 [^poekhali-en]: Russian for “Let’s go!” — Gagarin’s word at liftoff.
 

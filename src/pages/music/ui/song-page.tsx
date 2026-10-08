@@ -107,9 +107,15 @@ export async function SongPage({ slug, locale }: SongPageProps) {
               </Title>
             </Group>
 
-            {gloss.length > 0 && (
+            {(gloss.transliteration ?? gloss.translation) !== undefined && (
               <Text size="sm" opacity={0.6} mt={-16}>
-                {gloss.join(' · ')}
+                {gloss.transliteration !== undefined && (
+                  <em>{gloss.transliteration}</em>
+                )}
+                {gloss.transliteration !== undefined &&
+                  gloss.translation !== undefined &&
+                  ' · '}
+                {gloss.translation}
               </Text>
             )}
 

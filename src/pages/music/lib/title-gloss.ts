@@ -19,24 +19,28 @@ export type TitleGlossSource = GlossedTitle & {
 };
 
 /**
- * The muted line under a song's title: the title in the reader's own letters
- * where they cannot read its script, then its meaning prefixed with the language
- * it is in — `Agios o Skopos · gr. Holy Is the Purpose`. A Latin title is
- * never transliterated, and neither is one in the reader's own script.
+ * What the muted line under a song's title says: the title in the reader's own
+ * letters where they cannot read its script, then its meaning prefixed with the
+ * language it is in — _Agios o Skopos_ · `gr. Holy Is the Purpose`. A Latin
+ * title is never transliterated, and neither is one in the reader's own script.
  */
 export function titleGloss(
   { title, gloss = {}, titleLanguage }: TitleGlossSource,
   locale: Locale,
   languageShort: Record<SungLanguage, string>,
-): string[] {
+): TitleGloss {
   const { transliteration, translation } = gloss;
   const readable = LATIN.test(title) || LOCALE_SCRIPTS[locale].test(title);
-  const meaning =
-    translation === undefined || titleLanguage === 'instrumental'
-      ? translation
-      : `${languageShort[titleLanguage]} ${translation}`;
 
-  return [readable ? undefined : transliteration, meaning].flatMap(
-    (part) => part ?? [],
-  );
+  return {
+    ...(readable || transliteration === undefined ? {} : { transliteration }),
+    ...(translation === undefined
+      ? {}
+      : {
+          translation:
+            titleLanguage === 'instrumental'
+              ? translation
+              : `${languageShort[titleLanguage]} ${translation}`,
+        }),
+  };
 }
