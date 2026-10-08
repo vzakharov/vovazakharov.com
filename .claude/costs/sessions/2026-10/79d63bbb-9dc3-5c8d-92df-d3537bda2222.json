@@ -1,4 +1,28 @@
 {
+  "estimate": {
+    "at": "2026-10-06T19:42:09.281Z",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "routine route + two components on existing CV primitives"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "distilling his profile into a summary in two languages needs voice"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "card layout across screen, print, two themes"
+      }
+    ],
+    "comment": null
+  },
   "sessionId": "79d63bbb-9dc3-5c8d-92df-d3537bda2222",
   "branch": "claude/cv-compact-profile-stack-6ds3kd",
   "cwd": "/home/user/vovazakharov.com",
@@ -72,26 +96,5 @@
     }
   },
   "compactions": [],
-  "telemetry": null,
-  "estimate": {
-    "at": "2026-10-06T19:42:09.281Z",
-    "parts": [
-      {
-        "hours": 5.0,
-        "grade": "middle",
-        "role": "developer"
-      },
-      {
-        "hours": 2.0,
-        "grade": "senior",
-        "role": "copywriter"
-      },
-      {
-        "hours": 1.5,
-        "grade": "middle",
-        "role": "designer"
-      }
-    ],
-    "comment": "middle developer: routine route + two components on existing CV primitives; senior copywriter: distilling his profile into a summary in two languages needs voice; middle designer: card layout across screen, print, two themes"
-  }
+  "telemetry": null
 }
