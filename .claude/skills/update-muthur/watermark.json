@@ -1,7 +1,8 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "d3ba73e2af85a602f5b2f5fc87f0af6397e3bf79",
-  "lastSyncedAt": "2026-10-07",
+  "lastSyncedSha": "f5f0ae28efcb2712144321f07501dfb7f0867fc7",
+  "lastSyncedAt": "2026-10-08",
+  "optIn": "take every opt-in path unless the operator's request says otherwise — the operator's standing call, 2026-10-08",
   "adopted": [
     {
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
@@ -21,6 +22,9 @@
       ".claude/costs/": "sessions/ is each repo's own and never synced."
     },
     ".claude/cold-cache/",
+    {
+      ".claude/keepalive/": "the source's opt-in G10, taken on the operator's call. It imports the ledger's lib/restart.py, so it stays only while .claude/costs/ does. Its vet line is an entry in this repo's run-parallel fan-out rather than the source's loop, and CLAUDE.md's run_in_background ban names it as the one exception."
+    },
     ".claude/settings.json",
     {
       ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands. `file-tools-nudge.py` is verbatim but for its docstring's issue citation, written `vzakharov/muthur#118` so it does not resolve to this repo's own #118."
@@ -97,6 +101,7 @@
     ".claude/skills/release/": "merging to main deploys automatically; there is no versioned release to cut",
     ".claude/skills/renumber-migration/": "no migrations",
     ".claude/skills/test-on-gh/": "nothing runs on pull requests here, and the whole suite is fast enough to sit in the vet fan-out, so there is no bucket too slow or too heavy for a local run to dispatch to CI. A test suite existing is not the condition — this is. Revisit if one appears that needs a browser, a service, or minutes rather than seconds",
+    ".claude/skills/update-muthur/catalog/": "never — the catalog's parts, one file per group, split out of catalog.md and declined on its reason below: Step 4a reads them from the clone",
     ".claude/skills/update-muthur/catalog.md": "never — the source's own inventory of what it ships, describing the source's tree rather than this repo. Step 4a reads it from the clone, where it is current by construction; a vendored copy would only drift, and the source's own banner says to delete it wherever it turns up downstream. check-skill-catalog.sh reads it at this path and skips its catalog assertions when absent, which is the normal state here; .claude/skills/CLAUDE.md records that. Lived at docs/catalog.md until the source moved it off a path an adopter can own",
     "ADOPTING.md": "the source's guide for a repo taking the template on, which this repo did once and will not do again. Revisit only if a repo ever adopts from here — it would need its own, not a copy of the source's",
     "README.md": "never — the source's README describes the source. This repo's is the site's own, written for a person who lands on the repository, and the two answer different questions",

@@ -238,7 +238,8 @@ which bucket a path is in but **whether it arrives already reviewed**, and Step 
 already sorted every travelling path into a copy or a rewrite:
 
 - **Copies → `main`.** Reviewed where they came from, travelling unchanged:
-  `.claude/skills/**` except any `catalog.md` under it, the
+  `.claude/skills/**` except any `catalog.md` under it and its `catalog/`
+  parts, the
   `.claude/rules/` that survived the triage, the `scripts/` the loop's own skills
   call, the editor config. That exception is redundant with § "Two invariants" —
   a well-formed caller has no catalog at all — and is kept so a leaked copy

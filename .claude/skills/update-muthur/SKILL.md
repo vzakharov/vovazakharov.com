@@ -33,8 +33,8 @@ what applies.
 
 `.claude/skills/update-muthur/watermark.json` is the state this skill runs
 on; Step 1 reads it, so it doubles as the worked example. It carries `repo`,
-`lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the three
-fields worth explaining:
+`lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the fields
+worth explaining:
 
 - **`adopted`** — the paths you took, at whatever granularity is true: directories
   or individual files. It is what turns a wall of source commits into a handful of
@@ -61,6 +61,12 @@ log` inside the source clone, so a path that was renamed on adoption must stay
 
 - **`declined`** — path → why-not. This is what keeps re-sync quiet: without it,
   every sync re-offers every skill the repo already refused.
+
+- **`optIn`** — optional: the operator's standing answer to the source's
+  `adopt — opt-in: ask` rows, in their words. Where it says take, Step 4a takes
+  such a path without asking, unless the request that started the sync says
+  otherwise. The report still names the path with its criteria, because a yes
+  brings costs the operator should see. Missing means ask.
 
 - **`lineage`** — optional provenance: the whole ancestry, **root first**, so the
   repo actually synced from leads and each later entry is one hop further from
@@ -239,11 +245,14 @@ individually.
 A commit that adds a skill in neither `adopted` nor `declined` is an open
 question, and the answer belongs in the watermark so it is asked exactly once.
 
-Read the new skill's row in the source's
-`.claude/skills/update-muthur/catalog.md` — that file is the source's
-inventory, read from the clone and never vendored, so it is current by
-construction — and surface the decision **with its criteria attached** rather than
-as a bare "the source added `/foo`, want it?".
+Read the new skill's row in the source's catalog: `.claude/skills/update-muthur/catalog.md`
+and its parts under `catalog/` are the source's inventory, read from the clone
+and never vendored, so it is current by construction. The row is found with
+``grep -n '^| `/<name>`' catalog.md catalog/*.md`` run in that directory, and an
+opt-in path is looked up the same way. Surface the decision **with its criteria
+attached** rather than as a bare "the source added `/foo`, want it?". An
+`opt-in: ask` row under a watermark `optIn` that says take is reported with
+those criteria rather than asked.
 
 - **Taken** → add the path to `adopted` — as a `{path: note}` entry if it landed
   as anything other than a verbatim copy — and **re-run the closure check**: a new
@@ -334,13 +343,18 @@ operator says yes, so an offer nobody answers holds nothing. The price is that a
 parallel session may claim the sync in between: a claim that exits 3 after the
 yes means saying who holds the lock and dropping the offer.
 
-**So the lock is re-checked right before the offer is made, and before each
-repeat** — a relayed summary carrying it as open included — because hours can
+**So the lock is re-checked right before the offer is made**, because hours can
 pass between nudge and offer. The check is the `git ls-remote origin
 refs/heads/muthur-sync-lock-<lastSyncedSha:0:12>` the nudge prints, and it
 claims nothing. Any output means the sync was claimed, or landed and left its
-lock behind: drop the offer, telling the operator nothing, or that another
-session holds it if it was already made.
+lock behind: drop the offer, and tell the operator nothing of it or of the
+check.
+
+**The operator hears of a sync once, and is never chased about it.** Once made,
+the offer is not repeated, reminded of, or called still open — in a later reply
+or a handoff report — whether it was declined or left unanswered. "Once" spans a
+relay chain: a relayed session gets its own nudge, so the summary handing it
+over says the offer was made, and that session makes none.
 
 On yes, one of two shapes:
 
@@ -353,8 +367,10 @@ ride-along` in this session, on this branch, after the task's own commits; its
   says so.
 - **New session** — anything larger. `scripts/muthur-sync.sh claim` first, so
   nobody takes the lock while the session starts. Then, where `create_session`
-  exists, spawn one on this repo with the prompt `/update-muthur claimed`;
-  elsewhere, hand the operator that command to paste into one.
+  exists, spawn one on this repo with the prompt `/update-muthur claimed` and
+  the title `🔄 muthur → <repo>`, `<repo>` being this repo's name without its
+  owner: an operator syncing several adopters otherwise gets a session list of
+  identical titles. Elsewhere, hand the operator that command to paste into one.
 
 ## Add what the next sync teaches you
 
