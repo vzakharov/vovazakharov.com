@@ -1,5 +1,6 @@
 export {
   albumArtist,
+  albumCover,
   albumTitle,
   MUSIC_ALBUM_SLUGS,
   type MusicAlbum,

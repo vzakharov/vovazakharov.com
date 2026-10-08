@@ -18,6 +18,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
   const songs = catalogueSongs(catalogue);
   const messages = loadMessages(locale).music;
   const artist = albumArtist(album, locale);
+  const tracks = albumSongs(album, songs);
 
   return (
     <PageShell>
@@ -43,7 +44,14 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
         </CatalogueHeader>
 
         <SongList
-          tracks={albumSongs(album, songs).map((song) => songTrack(song))}
+          tracks={tracks.map((song) => songTrack(song))}
+          trackNumbers={
+            new Map(
+              tracks.flatMap(({ slug, frontmatter: { track } }) =>
+                track === undefined ? [] : [[slug, track] as const],
+              ),
+            )
+          }
           {...{ locale }}
         />
 

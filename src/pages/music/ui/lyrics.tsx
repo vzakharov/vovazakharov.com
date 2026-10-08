@@ -4,8 +4,10 @@ import Markdown, { type Components } from 'react-markdown';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import type { SungLanguage } from '@/shared/song';
+import type { WithText } from '@/shared/typings';
 import { Subheading, TextLink } from '@/shared/ui';
 
+import { inlineRuns } from '../lib/lyric-inline';
 import type { LyricLine, WithStanzas } from '../lib/lyric-notes';
 import type { SongLyrics } from '../lib/song-text';
 import classes from './music.module.scss';
@@ -114,9 +116,9 @@ function Stanza({ lines }: StanzaProps) {
         <div key={index} className={classes['lyricLine']}>
           {spans.map(({ text, note }, at) =>
             note === undefined ? (
-              text
+              <Inline key={at} {...{ text }} />
             ) : (
-              <NotedSpan key={at} {...{ text }}>
+              <NotedSpan key={at} words={<Inline {...{ text }} />}>
                 <Markdown components={NOTE_COMPONENTS}>{note}</Markdown>
               </NotedSpan>
             ),
@@ -124,5 +126,12 @@ function Stanza({ lines }: StanzaProps) {
         </div>
       ))}
     </Text>
+  );
+}
+
+/** A stretch of verse with its italics set. */
+function Inline({ text }: WithText) {
+  return inlineRuns(text).map(({ text: run, emphasis }, index) =>
+    emphasis ? <em key={index}>{run}</em> : run,
   );
 }
