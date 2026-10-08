@@ -266,7 +266,11 @@
     },
     "artistDescription": "{artist}: the songs and albums, to play right here — all of it open-source.",
     "albumDescription": "“{album}” by {artist}: the tracks, to play right here — all of it open-source.",
-    "albumLength": "{duration} total",
+    "albumLength": {
+      "songs": { "one": "# song", "other": "# songs" },
+      "hours": { "one": "# hour", "other": "# hours" },
+      "minutes": { "one": "# minute", "other": "# minutes" }
+    },
     "intro": {
       "quote": "“AI as collaborator, not tool or replacement”",
       "body": "Been writing music since preteens, recently focused on AI music (since way before Suno — think OpenAI Jukebox). I view AI not as a replacement for my creativity, neither as a tool, but as a brilliant musician who can bring my ideas to life in ways I often wouldn’t have imagined. To be clear, I write most of my AI music starting from my own humming/piano playing/MIDIs, so it’s “mine” in most copyright senses."
