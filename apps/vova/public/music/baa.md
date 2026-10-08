@@ -31,31 +31,19 @@ Baa, baa, black sheep, have you any wool?
 Yes, sir, yes, sir, three bags full
 One for the master, one for the dame
 One for the little boy who lives down the lane
-
-Baa, baa, black sheep, have you any wool?
-Yes, sir, yes, sir, three bags full
-One for the master, one for the dame
-One for the little boy who lives down the lane
+x2
 
 Baa, baa, black sheep, have you any plea?
 Yes, sir, yes, sir, please let me be
 One for the butcher, one for the grind
 One for the nightmares that haunt my mind
-
-Baa, baa, black sheep, have you any plea?
-Yes, sir, yes, sir, please let me be
-One for the butcher, one for the grind
-One for the nightmares that haunt my mind!
+x2
 
 Baa, baa, black sheep, have you any fear?
 Yes, sir, yes, sir, it’s drawing near
 One for the slaughter, one for the knife
 One for the dark night that ends my life
-
-Baa, baa, black sheep, have you any fear?
-Yes, sir, yes, sir, it’s drawing near
-One for the slaughter, one for the knife
-One for the dark night that ends my life!
+x2
 
 <!-- lyrics:ru -->
 
@@ -63,28 +51,16 @@ One for the dark night that ends my life!
 Да, сэр, да, сэр, целых три мешка:
 Один — хозяину, один — хозяйке,
 Один — мальчонке, что живёт в конце переулка.
-
-Бе-е, бе-е, чёрная овечка, шерсть у тебя есть?
-Да, сэр, да, сэр, целых три мешка:
-Один — хозяину, один — хозяйке,
-Один — мальчонке, что живёт в конце переулка.
+x2
 
 Бе-е, бе-е, чёрная овечка, о чём ты молишь?
 Да, сэр, да, сэр, оставьте меня в покое.
 Один — мяснику, один — в мясорубку,
 Один — кошмарам, что меня преследуют.
-
-Бе-е, бе-е, чёрная овечка, о чём ты молишь?
-Да, сэр, да, сэр, оставьте меня в покое.
-Один — мяснику, один — в мясорубку,
-Один — кошмарам, что меня преследуют!
+x2
 
 Бе-е, бе-е, чёрная овечка, тебе страшно?
 Да, сэр, да, сэр, уже совсем близко.
 Один — на бойню, один — под нож,
 Один — тёмной ночи, что оборвёт мою жизнь.
-
-Бе-е, бе-е, чёрная овечка, тебе страшно?
-Да, сэр, да, сэр, уже совсем близко.
-Один — на бойню, один — под нож,
-Один — тёмной ночи, что оборвёт мою жизнь!
+x2

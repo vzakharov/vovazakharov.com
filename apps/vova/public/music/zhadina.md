@@ -39,11 +39,7 @@ ru:
 Всюду, где не появлюсь, все вдогонку дразнятся.
 Жадина, жадина, жадина — говядина
 А я только рассмеюсь, мне какая разница.
-
-Жадина, жадина, жадина — говядина
-Всюду, где не появлюсь, все вдогонку дразнятся.
-Жадина, жадина, жадина — говядина
-А я только рассмеюсь, мне какая разница.
+x2
 
 Я хожу везде одна без друзей, подружек.
 Никому я не нужна, мне никто не нужен.
@@ -55,11 +51,7 @@ ru:
 Всюду, где не появлюсь, все вдогонку дразнятся.
 Жадина, жадина, жадина — говядина
 А я только рассмеюсь, мне какая разница.
-
-Жадина, жадина, жадина — говядина
-Всюду, где не появлюсь, все вдогонку дразнятся.
-Жадина, жадина, жадина — говядина
-А я только рассмеюсь, мне какая разница.
+x2
 
 Лук, крапива, дребедень, вдруг мне стало ясно.
 Жадным быть вчерашний день
@@ -72,11 +64,7 @@ ru:
 Всюду, где не появлюсь, все вдогонку дразнятся.
 Жадина, жадина, жадина — говядина
 А я только рассмеюсь, мне какая разница.
-
-Жадина, жадина, жадина — говядина
-Всюду, где не появлюсь, все вдогонку дразнятся.
-Жадина, жадина, жадина — говядина
-А я только рассмеюсь, мне какая разница.
+x2
 
 <!-- lyrics:en -->
 
@@ -90,13 +78,9 @@ I won’t let you, sorry, it’s time for my bath.
 Wherever I show up, everyone teases me as I go.
 Greedyguts, greedyguts, greedyguts — beefy-guts
 But I just laugh, what do I care.
+x2
 
 [^govyadina-en]: «Жадина-говядина», “greedyguts, beef,” is the rhyming taunt Russian children throw at someone who won’t share.
-
-Greedyguts, greedyguts, greedyguts — beefy-guts
-Wherever I show up, everyone teases me as I go.
-Greedyguts, greedyguts, greedyguts — beefy-guts
-But I just laugh, what do I care.
 
 I go everywhere alone, without friends or girlfriends.
 Nobody needs me, I need nobody.
@@ -108,11 +92,7 @@ Greedyguts, greedyguts, greedyguts — beefy-guts
 Wherever I show up, everyone teases me as I go.
 Greedyguts, greedyguts, greedyguts — beefy-guts
 But I just laugh, what do I care.
-
-Greedyguts, greedyguts, greedyguts — beefy-guts
-Wherever I show up, everyone teases me as I go.
-Greedyguts, greedyguts, greedyguts — beefy-guts
-But I just laugh, what do I care.
+x2
 
 Onions, nettles, nonsense — suddenly it all became clear.
 Being greedy is old news
@@ -125,8 +105,4 @@ Greedyguts, greedyguts, greedyguts — beefy-guts
 Wherever I show up, everyone teases me as I go.
 Greedyguts, greedyguts, greedyguts — beefy-guts
 But I just laugh, what do I care.
-
-Greedyguts, greedyguts, greedyguts — beefy-guts
-Wherever I show up, everyone teases me as I go.
-Greedyguts, greedyguts, greedyguts — beefy-guts
-But I just laugh, what do I care.
+x2
