@@ -13,6 +13,7 @@ explicit: false
 hidden: true
 credits:
   lyrics: ['Omar Khayyam', 'Игорь Голубев']
+  music: [Vladimir Zakharov Sr.]
 en:
   description: 'TBD'
 ru:
@@ -21,7 +22,7 @@ ru:
 
 <!-- For Vova to check: The repo also holds `За горизонт.flac`, which looks like a separate song and is not scaffolded. -->
 
-<!-- For Vova to check: The two verses are Omar Khayyam in Igor Golubev’s translation — rubai No. 89 («В безмерности небес, укрытый синевой…») and No. 95 («Кружение небес никак не обогнать…») of «Рубаи. Полное собрание» (РИПОЛ классик, 2008), per fantlab.ru/edition252823. That translation is in copyright, so the verses and their crib are not set here: the lyrics hold the chorus and its coda only, until you decide whether to print Golubev’s quatrains. The chorus turns up in no Golubev contents list and nowhere else online, so it may well be Dad’s own; credits name Khayyam and Golubev only, and say if Dad should join them for the chorus. -->
+<!-- For Vova to check: The two verses are Omar Khayyam in Igor Golubev’s translation — rubai No. 89 («В безмерности небес, укрытый синевой…») and No. 95 («Кружение небес никак не обогнать…») of «Рубаи. Полное собрание» (РИПОЛ классик, 2008), per fantlab.ru/edition252823. The chorus turns up in no Golubev contents list and nowhere else online, so it may well be Dad’s own; credits name Khayyam and Golubev only — say if Dad should join them for the chorus. -->
 
 <!-- Story from Vova's Telegram post of 2026-03-04. -->
 
@@ -57,20 +58,40 @@ _Рабочий план небес не для тебя менять._
 
 <!-- lyrics:ru -->
 
+В безмерности небес, укрытый синевой,
+Тебе назначенный, ждёт часа кубок твой.
+Настанет твой черёд — прими без сожалений
+И радостно испей свой кубок роковой.
+
 Когда сбивает с ног жестокая борьба
 И к небесам летит бесплодная мольба,
 Задумайся тогда — а что ты можешь сделать,
 Когда в твою игру включается судьба?
+
+Кружение небес никак не обогнать,
+Заранее судьбу никак не распознать.
+Вот это твой удел — иди и будь доволен;
+Рабочий план небес не для тебя менять.
 
 Задумайся тогда — а что ты можешь сделать,
 Когда в твою игру включается судьба?
 
 <!-- lyrics:en -->
 
+In the boundlessness of heaven, hidden by the blue,
+The cup appointed you awaits its hour.
+Your turn will come — accept it without regret
+And gladly drink your fateful cup.
+
 When cruel struggle knocks you off your feet
 And a fruitless prayer flies up to the heavens,
 Stop and think then — what can you do
 When fate steps into your game?
+
+The whirling of the heavens can’t be outrun,
+And fate can’t be made out in advance.
+This is your lot — go, and be content;
+The working plan of heaven is not for you to change.
 
 Stop and think then — what can you do
 When fate steps into your game?
