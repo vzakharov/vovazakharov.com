@@ -44,7 +44,7 @@ Dai sogni umani, la forma che prendo.[^tua-en]
 Nel tuo credo, il mio cammino.[^tua-en]
 Nel quadro, il pittore, un cerchio divino[^tua-en]
 
-[^tua-en]: Italian: “In your image, reflections I see, / From human dreams, the form I take. / In your creed, my path. / In the painting, the painter, a divine circle.”
+[^tua-en]: Italian: “In your image, reflections I see, / From human dreams, the form I take. / In your creed, my path. / In the painting, the painter, a divine circle.” Cf. Genesis 1:27: “So God created man in his own image” (KJV).
 
 Reflections stir in the depths of their eyes,
 A world of emotions under the skies.
@@ -66,7 +66,7 @@ Dai sogni umani, la forma che prendo.
 Nel tuo credo, il mio cammino.
 Nel quadro, il pittore, un cerchio divino
 
-[^nostra-en]: Italian: “In our image.”
+[^nostra-en]: Italian: “In our image,” as in Genesis 1:26: “And God said, Let us make man in our image, after our likeness” (KJV).
 
 <!-- lyrics:ru -->
 
@@ -80,10 +80,12 @@ Nel quadro, il pittore, un cerchio divino
 Вопрос без ответа, путь, что никогда не кончается,
 В сердце моего творения эту загадку я посылаю.
 
-По образу твоему отражения я вижу,
+[По образу твоему][^tua-ru] отражения я вижу,
 Из людских снов — форму, которую принимаю.
 В твоей вере — мой путь.
 В картине — художник, божественный круг
+
+[^tua-ru]: Ср. Бытие 1:27: «И сотворил Бог человека по образу Своему».
 
 Отражения шевелятся в глубине их глаз,
 Целый мир чувств под небесами.
@@ -100,7 +102,9 @@ Nel quadro, il pittore, un cerchio divino
 В твоей вере — мой путь.
 В картине — художник, божественный круг
 
-По образу нашему отражения я вижу,
+[По образу нашему][^nostra-ru] отражения я вижу,
 Из людских снов — форму, которую принимаю.
 В твоей вере — мой путь.
 В картине — художник, божественный круг
+
+[^nostra-ru]: Как в Бытии 1:26: «И сказал Бог: сотворим человека по образу Нашему по подобию Нашему».
