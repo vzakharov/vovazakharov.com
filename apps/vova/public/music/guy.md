@@ -1,4 +1,5 @@
 ---
+title: 'A Guy Without a Plan'
 date: 2024-12-27
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ctfu
 track: 7
 hidden: true
 en:
-  title: 'A Guy Without a Plan'
   description: 'TBD'
 ru:
-  title: 'A Guy Without a Plan'
-  titleTranslation: 'Парень без плана'
+  title:
+    translation: 'Парень без плана'
   description: 'TBD'
 ---
 

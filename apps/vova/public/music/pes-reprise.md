@@ -1,4 +1,5 @@
 ---
+title: 'Пегий пёс (Реприза)'
 date: 2024-09-23
 status: done
 language: ru
@@ -14,12 +15,11 @@ credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
 en:
-  title: 'Пегий пёс (Реприза)'
-  transliteration: 'Pegiy pyos (Repriza)'
-  titleTranslation: 'Piebald Dog (Reprise)'
+  title:
+    transliteration: 'Pegiy pyos (Repriza)'
+    translation: 'Piebald Dog (Reprise)'
   description: 'TBD'
 ru:
-  title: 'Пегий пёс (Реприза)'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'What Doesn’t Kill'
 date: 2024-09-13
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 8
 hidden: true
 en:
-  title: 'What Doesn’t Kill'
   description: 'TBD'
 ru:
-  title: 'What Doesn’t Kill'
-  titleTranslation: 'Что не убивает'
+  title:
+    translation: 'Что не убивает'
   description: 'TBD'
 ---
 

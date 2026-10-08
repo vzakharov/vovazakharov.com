@@ -1,4 +1,5 @@
 ---
+title: 'Flesh Fiction'
 date: 2024-12-05
 status: done
 language: [en, ru]
@@ -11,11 +12,10 @@ album: nsfl
 track: 13
 hidden: true
 en:
-  title: 'Flesh Fiction'
   description: 'TBD'
 ru:
-  title: 'Flesh Fiction'
-  titleTranslation: 'Плотский вымысел'
+  title:
+    translation: 'Плотский вымысел'
   description: 'TBD'
 ---
 

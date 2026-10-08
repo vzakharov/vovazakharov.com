@@ -1,4 +1,5 @@
 ---
+title: 'Why Let the Stricken Deer Go Weep'
 date: 2025-07-16
 status: done
 language: en
@@ -12,11 +13,10 @@ hidden: true
 credits:
   lyrics: ['William Shakespeare']
 en:
-  title: 'Why Let the Stricken Deer Go Weep'
   description: 'TBD'
 ru:
-  title: 'Why Let the Stricken Deer Go Weep'
-  titleTranslation: 'Пусть раненый олень ревёт'
+  title:
+    translation: 'Пусть раненый олень ревёт'
   description: 'TBD'
   cribNote: 'Песня Гамлета — в переводе Бориса Пастернака; молитва Клавдия — в переводе К. Р., строки разбиты по песне.'
 ---

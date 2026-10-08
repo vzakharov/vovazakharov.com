@@ -1,4 +1,5 @@
 ---
+title: 'Гамлет (Extended Version)'
 date: 2024-07-23
 status: done
 language: ru
@@ -16,13 +17,12 @@ credits:
     - 'Михаил Лозинский'
     - 'Леонид Зорин'
 en:
-  title: 'Гамлет (Extended Version)'
-  transliteration: 'Gamlet (Extended Version)'
-  titleTranslation: 'Hamlet (Extended Version)'
+  title:
+    transliteration: 'Gamlet (Extended Version)'
+    translation: 'Hamlet (Extended Version)'
   description: 'TBD'
   cribNote: 'The English is Shakespeare’s original. The song sings it in Russian, the “stricken deer” quatrain twice: Boris Pasternak’s translation, then Mikhail Lozinsky’s as reworked for the film _Pokrovsky Gates_ and reworked once more for the song.'
 ru:
-  title: 'Гамлет (Extended Version)'
   description: 'TBD'
   cribNote: 'Английский текст — оригинал Шекспира.'
 ---

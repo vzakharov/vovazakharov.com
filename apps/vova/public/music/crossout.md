@@ -1,4 +1,5 @@
 ---
+title: 'Cross Out'
 date: 2024-12-02
 status: done
 language: [en, de]
@@ -12,11 +13,10 @@ hidden: true
 credits:
   music: ['Иван Дербенёв', 'Vova Zakharov']
 en:
-  title: 'Cross Out'
   description: 'TBD'
 ru:
-  title: 'Cross Out'
-  titleTranslation: 'Вычеркни'
+  title:
+    translation: 'Вычеркни'
   description: 'TBD'
 ---
 

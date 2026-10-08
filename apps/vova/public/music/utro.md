@@ -1,4 +1,5 @@
 ---
+title: 'Доброе утро'
 date: 2026-02-11
 status: done
 language: ru
@@ -14,12 +15,11 @@ credits:
   lyrics: ['Славик, друг Андрея Мокрушина']
   music: ['Славик, друг Андрея Мокрушина']
 en:
-  title: 'Доброе утро'
-  transliteration: 'Dobroe utro'
-  titleTranslation: 'Good Morning'
+  title:
+    transliteration: 'Dobroe utro'
+    translation: 'Good Morning'
   description: 'TBD'
 ru:
-  title: 'Доброе утро'
   description: 'TBD'
 ---
 

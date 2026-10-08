@@ -1,4 +1,5 @@
 ---
+title: 'Метель'
 date: 2025-11-01
 status: done
 language: ru
@@ -13,13 +14,12 @@ hidden: true
 credits:
   lyrics: ['Vova Zakharov', 'Александр Блок']
 en:
-  title: 'Метель'
-  transliteration: 'Metel'
-  titleTranslation: 'Snowstorm'
+  title:
+    transliteration: 'Metel'
+    translation: 'Snowstorm'
   description: 'TBD'
   cribNote: 'The chorus and the bridge are Alexander Blok’s “Покойник спать ложится…” (1909); where the song keeps Blok’s words, the crib is Dmitri N. Smirnov’s translation, “The calm snowstorm.”'
 ru:
-  title: 'Метель'
   description: 'TBD'
   cribNote: 'Припев и бридж — стихотворение Александра Блока «Покойник спать ложится…» (1909); там, где песня поёт Блока как есть, подстрочник — перевод Дмитрия Смирнова «The calm snowstorm».'
 ---

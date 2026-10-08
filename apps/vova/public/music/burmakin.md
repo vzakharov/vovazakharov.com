@@ -1,4 +1,5 @@
 ---
+title: 'Просто устал'
 date: 2025-10-30
 status: done
 language: ru
@@ -11,10 +12,8 @@ seconds: 198
 explicit: false
 hidden: true
 en:
-  title: 'Просто устал'
   description: 'TBD'
 ru:
-  title: 'Просто устал'
   description: 'TBD'
 ---
 

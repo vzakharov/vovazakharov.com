@@ -1,4 +1,5 @@
 ---
+title: 'Мой Султан'
 date: 2024-09-16
 status: done
 language: ru
@@ -14,12 +15,11 @@ credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
 en:
-  title: 'Мой Султан'
-  transliteration: 'Moy Sultan'
-  titleTranslation: 'My Sultan'
+  title:
+    transliteration: 'Moy Sultan'
+    translation: 'My Sultan'
   description: 'TBD'
 ru:
-  title: 'Мой Султан'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'In the Flesh'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ghosts
 track: 1
 hidden: true
 en:
-  title: 'In the Flesh'
   description: 'TBD'
 ru:
-  title: 'In the Flesh'
-  titleTranslation: 'Во плоти'
+  title:
+    translation: 'Во плоти'
   description: 'TBD'
 ---
 

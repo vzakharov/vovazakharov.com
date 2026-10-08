@@ -1,4 +1,5 @@
 ---
+title: 'Назови меня по имени'
 date: 2024-07-23
 status: done
 language: ru
@@ -11,12 +12,11 @@ seconds: 231
 explicit: false
 hidden: true
 en:
-  title: 'Назови меня по имени'
-  transliteration: 'Nazovi menya po imeni'
-  titleTranslation: 'Call Me by My Name'
+  title:
+    transliteration: 'Nazovi menya po imeni'
+    translation: 'Call Me by My Name'
   description: 'TBD'
 ru:
-  title: 'Назови меня по имени'
   description: 'TBD'
 ---
 

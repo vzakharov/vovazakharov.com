@@ -1,4 +1,5 @@
 ---
+title: 'Огоньки'
 date: 2024-09-19
 status: done
 language: ru
@@ -10,12 +11,11 @@ seconds: 186
 explicit: false
 hidden: true
 en:
-  title: 'Огоньки'
-  transliteration: 'Ogonki'
-  titleTranslation: 'Little Lights'
+  title:
+    transliteration: 'Ogonki'
+    translation: 'Little Lights'
   description: 'TBD'
 ru:
-  title: 'Огоньки'
   description: 'TBD'
 ---
 

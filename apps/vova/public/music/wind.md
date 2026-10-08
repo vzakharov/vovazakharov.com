@@ -1,4 +1,5 @@
 ---
+title: 'Gone with the Wind'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 5
 hidden: true
 en:
-  title: 'Gone with the Wind'
   description: 'TBD'
 ru:
-  title: 'Gone with the Wind'
-  titleTranslation: 'Унесённые ветром'
+  title:
+    translation: 'Унесённые ветром'
   description: 'TBD'
 ---
 

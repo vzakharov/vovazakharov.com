@@ -1,4 +1,5 @@
 ---
+title: 'Artemis'
 date: 2024-10-28
 status: done
 language: [en, el]
@@ -11,10 +12,8 @@ album: pschpthy
 track: 10
 hidden: true
 en:
-  title: 'Artemis'
   description: 'TBD'
 ru:
-  title: 'Artemis'
   description: 'TBD'
 ---
 

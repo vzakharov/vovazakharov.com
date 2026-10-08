@@ -1,4 +1,5 @@
 ---
+title: 'My Hope'
 date: 2024-07-25
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 264
 explicit: false
 hidden: true
 en:
-  title: 'My Hope'
   description: 'TBD'
 ru:
-  title: 'My Hope'
-  titleTranslation: 'Моя надежда'
+  title:
+    translation: 'Моя надежда'
   description: 'TBD'
 ---
 

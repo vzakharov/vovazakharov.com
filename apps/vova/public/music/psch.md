@@ -1,4 +1,5 @@
 ---
+title: 'PSCHPTHY'
 date: 2024-10-29
 status: done
 language: en
@@ -11,10 +12,8 @@ album: pschpthy
 track: 7
 hidden: true
 en:
-  title: 'PSCHPTHY'
   description: 'TBD'
 ru:
-  title: 'PSCHPTHY'
   description: 'TBD'
 ---
 

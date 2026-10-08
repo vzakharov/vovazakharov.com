@@ -1,4 +1,5 @@
 ---
+title: 'Rebels Between the Lines (Live in Sparta)'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ignite
 track: 3
 hidden: true
 en:
-  title: 'Rebels Between the Lines (Live in Sparta)'
   description: 'TBD'
 ru:
-  title: 'Rebels Between the Lines (Live in Sparta)'
-  titleTranslation: 'Бунтари между строк (живьём в Спарте)'
+  title:
+    translation: 'Бунтари между строк (живьём в Спарте)'
   description: 'TBD'
 ---
 

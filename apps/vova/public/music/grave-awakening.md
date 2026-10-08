@@ -1,4 +1,5 @@
 ---
+title: 'Grave Awakening'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 12
 hidden: true
 en:
-  title: 'Grave Awakening'
   description: 'TBD'
 ru:
-  title: 'Grave Awakening'
-  titleTranslation: 'Могильное пробуждение'
+  title:
+    translation: 'Могильное пробуждение'
   description: 'TBD'
 ---
 

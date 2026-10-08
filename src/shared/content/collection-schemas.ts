@@ -1,13 +1,13 @@
 import 'server-only';
 
+import { type SongFrontmatter, songFrontmatterSchema } from '@/shared/song';
+
 import { caseFrontmatterSchema } from './basilisk-frontmatter';
 import type { CollectionId } from './collections';
 import {
   type ArticleFrontmatter,
   articleFrontmatterSchema,
   type Collection,
-  type SongFrontmatter,
-  songFrontmatterSchema,
 } from './frontmatter';
 
 /**

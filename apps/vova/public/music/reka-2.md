@@ -1,4 +1,5 @@
 ---
+title: Река. Часть вторая
 date: 2024-03-04
 status: done
 language: ru
@@ -11,12 +12,11 @@ seconds: 338
 credits:
   lyrics: [Vova Zakharov, Vladimir Zakharov Sr.]
 en:
-  title: Река. Часть вторая
-  transliteration: 'Reka. Chast vtoraya'
-  titleTranslation: 'The River. Part Two'
+  title:
+    transliteration: 'Reka. Chast vtoraya'
+    translation: 'The River. Part Two'
   description: 'Written as a present for a 65th birthday, with two thirds of a century counted to the day — and a last verse that is his father’s.'
 ru:
-  title: Река. Часть вторая
   description: 'Подарок на 65-летие, где «две трети века» посчитаны с точностью до дня, — и последняя строфа папина.'
 ---
 

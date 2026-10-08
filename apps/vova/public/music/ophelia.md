@@ -1,4 +1,5 @@
 ---
+title: 'Валентинов день'
 date: 2024-09-23
 status: done
 language: ru
@@ -14,13 +15,12 @@ credits:
   lyrics: [William Shakespeare, К. Р.]
   music: [Vladimir Zakharov Sr., Ferdinando Carulli]
 en:
-  title: 'Валентинов день'
-  transliteration: 'Valentinov den'
-  titleTranslation: 'Valentine’s Day'
+  title:
+    transliteration: 'Valentinov den'
+    translation: 'Valentine’s Day'
   description: 'TBD'
   cribNote: 'The English is Shakespeare’s original, Ophelia’s songs from _Hamlet_, IV.5 (Folger edition); the song sings the translation by K. R. (Grand Duke Konstantin Romanov).'
 ru:
-  title: 'Валентинов день'
   description: 'TBD'
 ---
 

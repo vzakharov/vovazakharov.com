@@ -1,4 +1,5 @@
 ---
+title: 'Моим стихам, написанным так рано'
 date: 2024-12-20
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Марина Цветаева']
 en:
-  title: 'Моим стихам, написанным так рано'
-  transliteration: 'Moim stikham, napisannym tak rano'
-  titleTranslation: 'To My Poems, Written So Early'
+  title:
+    transliteration: 'Moim stikham, napisannym tak rano'
+    translation: 'To My Poems, Written So Early'
   description: 'TBD'
 ru:
-  title: 'Моим стихам, написанным так рано'
   description: 'TBD'
 ---
 

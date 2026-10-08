@@ -1,4 +1,5 @@
 ---
+title: 'Here’s to the Virus'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ghosts
 track: 2
 hidden: true
 en:
-  title: 'Here’s to the Virus'
   description: 'TBD'
 ru:
-  title: 'Here’s to the Virus'
-  titleTranslation: 'За вирус'
+  title:
+    translation: 'За вирус'
   description: 'TBD'
 ---
 

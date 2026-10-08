@@ -1,4 +1,5 @@
 ---
+title: 'Because of You'
 date: 2026-01-18
 status: done
 language: en
@@ -11,10 +12,8 @@ seconds: 108
 explicit: false
 hidden: true
 en:
-  title: 'Because of You'
   description: 'TBD'
 ru:
-  title: 'Because of You'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Снег идёт'
 date: 2025-12-04
 status: done
 language: ru
@@ -14,12 +15,11 @@ credits:
   lyrics: ['Борис Пастернак']
   music: [Vladimir Zakharov Sr.]
 en:
-  title: 'Снег идёт'
-  transliteration: 'Sneg idyot'
-  titleTranslation: 'Snow Is Falling'
+  title:
+    transliteration: 'Sneg idyot'
+    translation: 'Snow Is Falling'
   description: 'TBD'
 ru:
-  title: 'Снег идёт'
   description: 'TBD'
 ---
 

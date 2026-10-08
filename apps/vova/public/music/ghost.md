@@ -1,4 +1,5 @@
 ---
+title: 'Ghost of Yesterday'
 date: 2024-08-07
 status: done
 language: en
@@ -10,10 +11,8 @@ seconds: 214
 explicit: false
 hidden: true
 en:
-  title: 'Ghost of Yesterday'
   description: 'TBD'
 ru:
-  title: 'Ghost of Yesterday'
   description: 'TBD'
 ---
 

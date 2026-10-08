@@ -1,4 +1,5 @@
 ---
+title: 'Mist over Azov'
 date: 2024-12-16
 status: done
 language: instrumental
@@ -11,7 +12,6 @@ album: vagabond
 track: 2
 hidden: true
 en:
-  title: 'Mist over Azov'
   description: 'TBD'
 ru:
   title: 'Туман над Азовом'

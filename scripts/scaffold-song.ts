@@ -11,7 +11,7 @@
  * A song's mechanical fields all live outside this repo — in the master's
  * filename, in its FLAC header and in the source repository's own history — so
  * they are read rather than typed. What is left for the author is the prose:
- * the per-locale titles and blurbs, `language`, `project` and the body.
+ * the title, the per-locale blurbs, `language`, `project` and the body.
  *
  * The duration comes out of the master's STREAMINFO block, fetched as the
  * first 128 KB of the file rather than the whole of it: a ten-song scaffold
@@ -292,9 +292,16 @@ function document(fields: DocumentFields): string {
     title = name,
   } = spec;
   const { sampleRate, bitsPerSample, channels } = streamInfo;
-  const { en, ru } = byLocale((locale) => inLocale(title, locale));
+  const titles = byLocale((locale) => inLocale(title, locale));
+  // The song's own name is the one in the language it is sung in, the English
+  // one where neither locale's is; a locale restates it only to differ.
+  const own = language[0] === 'ru' ? titles.ru : titles.en;
+  const { en, ru } = byLocale((locale) =>
+    titles[locale] === own ? '' : `  title: ${yaml(titles[locale])}\n`,
+  );
 
   return `---
+title: ${yaml(own)}
 date: ${date}
 status: done
 language: ${language.length === 1 ? language.join('') : `[${language.join(', ')}]`}
@@ -308,11 +315,9 @@ audio: ${master.audio}
 seconds: ${seconds}
 explicit: ${String(master.explicit || explicit === true)}
 ${album === undefined ? '' : `album: ${album}\n`}${hidden === true ? 'hidden: true\n' : ''}en:
-  title: ${yaml(en)}
-  description: ${yaml('TBD')}
+${en}  description: ${yaml('TBD')}
 ru:
-  title: ${yaml(ru)}
-  description: ${yaml('TBD')}
+${ru}  description: ${yaml('TBD')}
 ---
 
 ${note === undefined ? '' : `<!-- For Vova to check: ${note} -->\n\n`}<!-- Scaffolded from https://github.com/${MUSIC_ORGANIZATION}/${repo} — ${master.flac},

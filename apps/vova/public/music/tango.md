@@ -1,4 +1,5 @@
 ---
+title: 'Disintegration Tango'
 date: 2024-11-06
 status: done
 language: [en, es]
@@ -11,11 +12,10 @@ album: pschpthy
 track: 11
 hidden: true
 en:
-  title: 'Disintegration Tango'
   description: 'TBD'
 ru:
-  title: 'Disintegration Tango'
-  titleTranslation: 'Танго распада'
+  title:
+    translation: 'Танго распада'
   description: 'TBD'
 ---
 

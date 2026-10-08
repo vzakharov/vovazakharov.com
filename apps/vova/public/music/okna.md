@@ -1,4 +1,5 @@
 ---
+title: 'Окна'
 date: 2024-11-21
 status: done
 language: ru
@@ -11,12 +12,11 @@ seconds: 286
 explicit: false
 hidden: true
 en:
-  title: 'Окна'
-  transliteration: 'Okna'
-  titleTranslation: 'Windows'
+  title:
+    transliteration: 'Okna'
+    translation: 'Windows'
   description: 'TBD'
 ru:
-  title: 'Окна'
   description: 'TBD'
 ---
 

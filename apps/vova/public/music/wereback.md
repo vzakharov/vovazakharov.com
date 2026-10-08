@@ -1,4 +1,5 @@
 ---
+title: We’re Back
 date: 2024-12-26
 status: done
 language: en
@@ -10,11 +11,10 @@ explicit: true
 album: ctfu
 track: 1
 en:
-  title: We’re Back
   description: 'Written second by second on OpenAI’s Jukebox, about the comeback of a band that never existed, to fans who never existed either.'
 ru:
-  title: We’re Back
-  titleTranslation: 'Мы вернулись'
+  title:
+    translation: 'Мы вернулись'
   description: 'Написана по секунде на OpenAI’овском Jukebox — про возвращение группы, которой не было, к фанатам, которых тоже не было.'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Möbius'
 date: 2024-07-23
 status: done
 language: instrumental
@@ -11,11 +12,10 @@ album: ghosts
 track: 9
 hidden: true
 en:
-  title: 'Möbius'
   description: 'TBD'
 ru:
-  title: 'Möbius'
-  titleTranslation: 'Мёбиус'
+  title:
+    translation: 'Мёбиус'
   description: 'TBD'
 ---
 

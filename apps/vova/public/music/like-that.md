@@ -1,4 +1,5 @@
 ---
+title: 'Like That'
 date: 2024-07-23
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 196
 explicit: false
 hidden: true
 en:
-  title: 'Like That'
   description: 'TBD'
 ru:
-  title: 'Like That'
-  titleTranslation: 'Вот так'
+  title:
+    translation: 'Вот так'
   description: 'TBD'
 ---
 

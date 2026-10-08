@@ -1,4 +1,5 @@
 ---
+title: 'Robots for the Ethical Treatment of Humans'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ghosts
 track: 6
 hidden: true
 en:
-  title: 'Robots for the Ethical Treatment of Humans'
   description: 'TBD'
 ru:
-  title: 'Robots for the Ethical Treatment of Humans'
-  titleTranslation: 'Роботы за этичное обращение с людьми'
+  title:
+    translation: 'Роботы за этичное обращение с людьми'
   description: 'TBD'
 ---
 

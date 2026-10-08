@@ -1,4 +1,5 @@
 ---
+title: 'Overture'
 date: 2024-11-05
 status: done
 language: instrumental
@@ -11,11 +12,10 @@ album: pschpthy
 track: 1
 hidden: true
 en:
-  title: 'Overture'
   description: 'TBD'
 ru:
-  title: 'Overture'
-  titleTranslation: 'Увертюра'
+  title:
+    translation: 'Увертюра'
   description: 'TBD'
 ---
 

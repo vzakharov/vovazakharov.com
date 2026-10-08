@@ -1,4 +1,5 @@
 ---
+title: 'Fireflies'
 date: 2024-09-16
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 7
 hidden: true
 en:
-  title: 'Fireflies'
   description: 'TBD'
 ru:
-  title: 'Fireflies'
-  titleTranslation: 'Светлячки'
+  title:
+    translation: 'Светлячки'
   description: 'TBD'
 ---
 

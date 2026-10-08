@@ -1,4 +1,5 @@
 ---
+title: 'Ответ'
 date: 2024-07-23
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
-  title: 'Ответ'
-  transliteration: 'Otvet'
-  titleTranslation: 'The Answer'
+  title:
+    transliteration: 'Otvet'
+    translation: 'The Answer'
   description: 'TBD'
 ru:
-  title: 'Ответ'
   description: 'TBD'
 ---
 

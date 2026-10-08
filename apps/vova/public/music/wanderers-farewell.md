@@ -1,4 +1,5 @@
 ---
+title: 'Wanderer’s Farewell'
 date: 2024-12-16
 status: done
 language: instrumental
@@ -11,7 +12,6 @@ album: vagabond
 track: 7
 hidden: true
 en:
-  title: 'Wanderer’s Farewell'
   description: 'TBD'
 ru:
   title: 'Прощание с дорогой'

@@ -1,4 +1,5 @@
 ---
+title: 'Там'
 date: 2025-09-10
 status: done
 language: ru
@@ -11,10 +12,8 @@ seconds: 208
 explicit: false
 hidden: true
 en:
-  title: 'Там'
   description: 'TBD'
 ru:
-  title: 'Там'
   description: 'TBD'
 ---
 

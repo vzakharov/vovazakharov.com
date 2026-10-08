@@ -1,4 +1,5 @@
 ---
+title: 'Vagabond'
 date: 2024-12-16
 status: done
 language: en
@@ -11,7 +12,6 @@ album: vagabond
 track: 10
 hidden: true
 en:
-  title: 'Vagabond'
   description: 'TBD'
 ru:
   title: 'Скиталец'

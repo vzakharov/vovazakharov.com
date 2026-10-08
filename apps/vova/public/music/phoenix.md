@@ -1,4 +1,5 @@
 ---
+title: 'Phoenix'
 date: 2024-11-30
 status: done
 language: en
@@ -13,11 +14,10 @@ hidden: true
 credits:
   music: ['Vova Zakharov', 'Сергей Исаев', 'Александра Кокотова']
 en:
-  title: 'Phoenix'
   description: 'TBD'
 ru:
-  title: 'Phoenix'
-  titleTranslation: 'Феникс'
+  title:
+    translation: 'Феникс'
   description: 'TBD'
 ---
 

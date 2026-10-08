@@ -1,4 +1,5 @@
 ---
+title: 'Мы вспоминаем тихий снег'
 date: 2024-12-20
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Марина Цветаева']
 en:
-  title: 'Мы вспоминаем тихий снег'
-  transliteration: 'My vspominaem tikhiy sneg'
-  titleTranslation: 'We Remember the Quiet Snow'
+  title:
+    transliteration: 'My vspominaem tikhiy sneg'
+    translation: 'We Remember the Quiet Snow'
   description: 'TBD'
 ru:
-  title: 'Мы вспоминаем тихий снег'
   description: 'TBD'
 ---
 

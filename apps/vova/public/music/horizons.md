@@ -1,4 +1,5 @@
 ---
+title: 'Horizons'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ghosts
 track: 10
 hidden: true
 en:
-  title: 'Horizons'
   description: 'TBD'
 ru:
-  title: 'Horizons'
-  titleTranslation: 'Горизонты'
+  title:
+    translation: 'Горизонты'
   description: 'TBD'
 ---
 

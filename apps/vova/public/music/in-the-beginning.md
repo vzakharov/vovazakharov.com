@@ -1,4 +1,5 @@
 ---
+title: 'In the Beginning, There Was Silence'
 date: 2024-07-23
 status: done
 language: instrumental
@@ -11,11 +12,10 @@ album: divine
 track: 1
 hidden: true
 en:
-  title: 'In the Beginning, There Was Silence'
   description: 'TBD'
 ru:
-  title: 'In the Beginning, There Was Silence'
-  titleTranslation: 'В начале была тишина'
+  title:
+    translation: 'В начале была тишина'
   description: 'TBD'
 ---
 

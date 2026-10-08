@@ -1,4 +1,5 @@
 ---
+title: 'Мне нравится, что вы больны не мной'
 date: 2024-12-20
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Марина Цветаева']
 en:
-  title: 'Мне нравится, что вы больны не мной'
-  transliteration: 'Mne nravitsya, chto vy bolny ne mnoy'
-  titleTranslation: 'I Like It That You Are Not Lovesick for Me'
+  title:
+    transliteration: 'Mne nravitsya, chto vy bolny ne mnoy'
+    translation: 'I Like It That You Are Not Lovesick for Me'
   description: 'TBD'
 ru:
-  title: 'Мне нравится, что вы больны не мной'
   description: 'TBD'
 ---
 

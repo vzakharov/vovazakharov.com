@@ -1,4 +1,5 @@
 ---
+title: Летим
 date: 2024-02-01
 status: done
 language: ru
@@ -9,12 +10,11 @@ seconds: 208
 album: ctfu
 track: 5
 en:
-  title: Летим
-  transliteration: 'Letim'
-  titleTranslation: 'Let’s Fly'
+  title:
+    transliteration: 'Letim'
+    translation: 'Let’s Fly'
   description: 'The first song written on Suno 3, with the hills of Herzegovina outside the window of a visa run.'
 ru:
-  title: Летим
   description: 'Первая песня, написанная на Суно 3, с герцеговинскими горами за окном на виза-ране.'
 ---
 

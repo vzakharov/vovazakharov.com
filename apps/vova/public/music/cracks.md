@@ -1,4 +1,5 @@
 ---
+title: 'Through the Cracks'
 date: 2024-09-16
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 12
 hidden: true
 en:
-  title: 'Through the Cracks'
   description: 'TBD'
 ru:
-  title: 'Through the Cracks'
-  titleTranslation: 'Сквозь трещины'
+  title:
+    translation: 'Сквозь трещины'
   description: 'TBD'
 ---
 

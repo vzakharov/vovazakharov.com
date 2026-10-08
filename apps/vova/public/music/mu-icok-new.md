@@ -1,4 +1,5 @@
 ---
+title: 'Однажды в студёную зимнюю пору'
 date: 2024-07-23
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
-  title: 'Однажды в студёную зимнюю пору'
-  transliteration: 'Odnazhdy v studyonuyu zimnyuyu poru'
-  titleTranslation: 'Once, in the Freezing Winter Season'
+  title:
+    transliteration: 'Odnazhdy v studyonuyu zimnyuyu poru'
+    translation: 'Once, in the Freezing Winter Season'
   description: 'TBD'
 ru:
-  title: 'Однажды в студёную зимнюю пору'
   description: 'TBD'
 ---
 

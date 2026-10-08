@@ -1,4 +1,5 @@
 ---
+title: Crossroads
 date: 2024-07-01
 status: done
 language: en
@@ -9,11 +10,10 @@ seconds: 194
 album: ctfu
 track: 4
 en:
-  title: Crossroads
   description: 'Punk-metalcore written on the road out of Tatarstan, and left unfinished until the ending and the too-AI words were fixed.'
 ru:
-  title: Crossroads
-  titleTranslation: 'Перекрёсток'
+  title:
+    translation: 'Перекрёсток'
   description: 'Панк-металкор, написанный в дороге из Татарии, и долго лежавший из-за концовки и слишком «ИИшных» слов.'
 ---
 

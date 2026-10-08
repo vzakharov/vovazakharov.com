@@ -1,4 +1,5 @@
 ---
+title: 'Grand Finale (In Entropy We Trust)'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: divine
 track: 9
 hidden: true
 en:
-  title: 'Grand Finale (In Entropy We Trust)'
   description: 'TBD'
 ru:
-  title: 'Grand Finale (In Entropy We Trust)'
-  titleTranslation: 'Гранд-финал (На энтропию уповаем)'
+  title:
+    translation: 'Гранд-финал (На энтропию уповаем)'
   description: 'TBD'
 ---
 

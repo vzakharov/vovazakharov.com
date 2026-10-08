@@ -1,4 +1,5 @@
 ---
+title: 'Река. Часть третья'
 date: 2024-09-20
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   music: [Vladimir Zakharov Sr.]
 en:
-  title: 'Река. Часть третья'
-  transliteration: 'Reka. Chast tretya'
-  titleTranslation: 'The River. Part Three'
+  title:
+    transliteration: 'Reka. Chast tretya'
+    translation: 'The River. Part Three'
   description: 'TBD'
 ru:
-  title: 'Река. Часть третья'
   description: 'TBD'
 ---
 

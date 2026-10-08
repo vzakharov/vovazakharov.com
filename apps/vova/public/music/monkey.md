@@ -1,4 +1,5 @@
 ---
+title: 'Monkey'
 date: 2024-09-13
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 10
 hidden: true
 en:
-  title: 'Monkey'
   description: 'TBD'
 ru:
-  title: 'Monkey'
-  titleTranslation: 'Обезьяна'
+  title:
+    translation: 'Обезьяна'
   description: 'TBD'
 ---
 

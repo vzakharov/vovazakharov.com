@@ -1,4 +1,5 @@
 ---
+title: 'The Last Human Zoo'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: ghosts
 track: 4
 hidden: true
 en:
-  title: 'The Last Human Zoo'
   description: 'TBD'
 ru:
-  title: 'The Last Human Zoo'
-  titleTranslation: 'Последний человеческий зоопарк'
+  title:
+    translation: 'Последний человеческий зоопарк'
   description: 'TBD'
 ---
 

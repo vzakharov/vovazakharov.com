@@ -1,4 +1,5 @@
 ---
+title: 'Sirens of the Sands'
 date: 2024-12-16
 status: done
 language: instrumental
@@ -11,7 +12,6 @@ album: vagabond
 track: 6
 hidden: true
 en:
-  title: 'Sirens of the Sands'
   description: 'TBD'
 ru:
   title: 'Сирены барханов'

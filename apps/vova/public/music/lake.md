@@ -1,4 +1,5 @@
 ---
+title: 'Sisters'
 date: 2024-09-16
 status: done
 language: en
@@ -11,11 +12,10 @@ album: stories
 track: 4
 hidden: true
 en:
-  title: 'Sisters'
   description: 'TBD'
 ru:
-  title: 'Sisters'
-  titleTranslation: 'Сёстры'
+  title:
+    translation: 'Сёстры'
   description: 'TBD'
 ---
 

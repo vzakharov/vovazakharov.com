@@ -1,4 +1,5 @@
 ---
+title: 'Младший внучек мой'
 date: 2024-09-19
 status: done
 language: ru
@@ -14,12 +15,11 @@ credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
 en:
-  title: 'Младший внучек мой'
-  transliteration: 'Mladshiy vnuchek moy'
-  titleTranslation: 'My Youngest Grandson'
+  title:
+    transliteration: 'Mladshiy vnuchek moy'
+    translation: 'My Youngest Grandson'
   description: 'TBD'
 ru:
-  title: 'Младший внучек мой'
   description: 'TBD'
 ---
 

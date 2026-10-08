@@ -43,12 +43,7 @@ export {
   type ArticleFrontmatter,
   type BaseFrontmatter,
   type Collection,
-  type Playable,
-  type SongFrontmatter,
-  type SongLanguage,
-  type SongText,
   type Source,
-  type SungLanguage,
   type WithFrontmatter,
 } from './frontmatter';
 export {

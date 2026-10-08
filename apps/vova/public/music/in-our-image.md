@@ -1,4 +1,5 @@
 ---
+title: 'In Our Image'
 date: 2024-07-23
 status: done
 language: [en, it]
@@ -11,11 +12,10 @@ album: divine
 track: 3
 hidden: true
 en:
-  title: 'In Our Image'
   description: 'TBD'
 ru:
-  title: 'In Our Image'
-  titleTranslation: 'По образу нашему'
+  title:
+    translation: 'По образу нашему'
   description: 'TBD'
 ---
 

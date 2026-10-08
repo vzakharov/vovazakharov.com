@@ -27,8 +27,10 @@ describe('titleGloss', () => {
       titleGloss(
         {
           title,
-          transliteration: 'Agios o Skopos',
-          titleTranslation: 'Holy Is the Purpose',
+          gloss: {
+            transliteration: 'Agios o Skopos',
+            translation: 'Holy Is the Purpose',
+          },
           titleLanguage,
         },
         'en',
@@ -40,8 +42,10 @@ describe('titleGloss', () => {
       titleGloss(
         {
           title,
-          transliteration: 'Айос о Скопос',
-          titleTranslation: 'Священна цель',
+          gloss: {
+            transliteration: 'Айос о Скопос',
+            translation: 'Священна цель',
+          },
           titleLanguage,
         },
         'ru',
@@ -54,7 +58,7 @@ describe('titleGloss', () => {
   it('never transliterates a title in the reader’s own script', () => {
     const song = {
       title: 'Окна',
-      transliteration: 'Okna',
+      gloss: { transliteration: 'Okna' },
       titleLanguage: 'ru' as const,
     };
 
@@ -65,8 +69,7 @@ describe('titleGloss', () => {
   it('never transliterates a Latin title', () => {
     const song = {
       title: 'Alive',
-      transliteration: 'Alive',
-      titleTranslation: 'Живой',
+      gloss: { transliteration: 'Alive', translation: 'Живой' },
       titleLanguage: 'en' as const,
     };
 
@@ -76,10 +79,16 @@ describe('titleGloss', () => {
   it('leaves the translation unprefixed where the title has no language', () => {
     const song = {
       title: '8849',
-      titleTranslation: '8849',
+      gloss: { translation: '8849' },
       titleLanguage: 'instrumental' as const,
     };
 
     assert.deepEqual(titleGloss(song, 'en', SHORT), ['8849']);
+  });
+
+  it('says nothing of a title the locale renames or leaves unglossed', () => {
+    const song = { title: 'Повелитель ветра', titleLanguage: 'en' as const };
+
+    assert.deepEqual(titleGloss(song, 'ru', SHORT), []);
   });
 });

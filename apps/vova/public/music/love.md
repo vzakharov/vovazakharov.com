@@ -1,4 +1,5 @@
 ---
+title: 'Love (Makes the World Go Round)'
 date: 2024-07-23
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 238
 explicit: false
 hidden: true
 en:
-  title: 'Love (Makes the World Go Round)'
   description: 'TBD'
 ru:
-  title: 'Love (Makes the World Go Round)'
-  titleTranslation: 'Любовь (движет миром)'
+  title:
+    translation: 'Любовь (движет миром)'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'At the Diner'
 date: 2024-07-23
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 239
 explicit: false
 hidden: true
 en:
-  title: 'At the Diner'
   description: 'TBD'
 ru:
-  title: 'At the Diner'
-  titleTranslation: 'В закусочной'
+  title:
+    translation: 'В закусочной'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'I Almost Love You'
 date: 2024-11-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: pschpthy
 track: 6
 hidden: true
 en:
-  title: 'I Almost Love You'
   description: 'TBD'
 ru:
-  title: 'I Almost Love You'
-  titleTranslation: 'Я почти люблю тебя'
+  title:
+    translation: 'Я почти люблю тебя'
   description: 'TBD'
 ---
 

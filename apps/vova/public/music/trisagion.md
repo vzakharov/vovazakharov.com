@@ -1,4 +1,5 @@
 ---
+title: 'Trisagion'
 date: 2024-09-09
 status: done
 language: [ru, la, en]
@@ -10,10 +11,8 @@ seconds: 202
 explicit: false
 hidden: true
 en:
-  title: 'Trisagion'
   description: 'TBD'
 ru:
-  title: 'Trisagion'
   description: 'TBD'
 ---
 

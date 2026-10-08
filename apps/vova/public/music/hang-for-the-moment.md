@@ -1,4 +1,5 @@
 ---
+title: 'Hang for the Moment'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 11
 hidden: true
 en:
-  title: 'Hang for the Moment'
   description: 'TBD'
 ru:
-  title: 'Hang for the Moment'
-  titleTranslation: 'Повиси пока что'
+  title:
+    translation: 'Повиси пока что'
   description: 'TBD'
 ---
 

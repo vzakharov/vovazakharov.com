@@ -1,4 +1,5 @@
 ---
+title: Птичка
 date: 2026-04-04
 status: done
 language: ru
@@ -10,12 +11,11 @@ audio: https://raw.githubusercontent.com/vovas-music/birdie/main/%F0%9F%85%B4%20
 seconds: 207
 explicit: true
 en:
-  title: Птичка
-  transliteration: 'Ptichka'
-  titleTranslation: 'Birdie'
+  title:
+    transliteration: 'Ptichka'
+    translation: 'Birdie'
   description: 'Deathcore grown out of an iPhone alarm tone, with the photographer’s “watch the birdie” as its prelude.'
 ru:
-  title: Птичка
   description: 'Дэткор, выросший из айфонного будильника, с прелюдией «а сейчас вылетит птичка».'
 ---
 

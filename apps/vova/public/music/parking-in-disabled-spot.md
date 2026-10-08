@@ -1,4 +1,5 @@
 ---
+title: 'Parking in Disabled Spot'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 4
 hidden: true
 en:
-  title: 'Parking in Disabled Spot'
   description: 'TBD'
 ru:
-  title: 'Parking in Disabled Spot'
-  titleTranslation: 'Парковка на месте для инвалидов'
+  title:
+    translation: 'Парковка на месте для инвалидов'
   description: 'TBD'
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: 'Inside'
 date: 2024-07-23
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 329
 explicit: false
 hidden: true
 en:
-  title: 'Inside'
   description: 'TBD'
 ru:
-  title: 'Inside'
-  titleTranslation: 'Внутри'
+  title:
+    translation: 'Внутри'
   description: 'TBD'
 ---
 

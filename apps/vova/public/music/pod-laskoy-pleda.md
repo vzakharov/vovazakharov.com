@@ -1,4 +1,5 @@
 ---
+title: 'Под лаской плюшевого пледа'
 date: 2024-12-20
 status: done
 language: ru
@@ -13,12 +14,11 @@ hidden: true
 credits:
   lyrics: ['Марина Цветаева']
 en:
-  title: 'Под лаской плюшевого пледа'
-  transliteration: 'Pod laskoy plyushevogo pleda'
-  titleTranslation: 'Under the Caress of the Plush Plaid'
+  title:
+    transliteration: 'Pod laskoy plyushevogo pleda'
+    translation: 'Under the Caress of the Plush Plaid'
   description: 'TBD'
 ru:
-  title: 'Под лаской плюшевого пледа'
   description: 'TBD'
 ---
 

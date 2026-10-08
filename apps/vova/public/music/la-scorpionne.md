@@ -1,4 +1,5 @@
 ---
+title: 'La Scorpionne (Dans Ma Nature)'
 date: 2024-07-23
 status: done
 language: fr
@@ -11,12 +12,12 @@ album: ghosts
 track: 7
 hidden: true
 en:
-  title: 'La Scorpionne (Dans Ma Nature)'
-  titleTranslation: 'The Scorpioness (In My Nature)'
+  title:
+    translation: 'The Scorpioness (In My Nature)'
   description: 'TBD'
 ru:
-  title: 'La Scorpionne (Dans Ma Nature)'
-  titleTranslation: 'Скорпиониха (В моей природе)'
+  title:
+    translation: 'Скорпиониха (В моей природе)'
   description: 'TBD'
 ---
 

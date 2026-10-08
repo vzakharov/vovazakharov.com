@@ -1,4 +1,5 @@
 ---
+title: Breathe
 date: 2024-11-18
 status: done
 language: instrumental
@@ -9,7 +10,6 @@ seconds: 293
 album: vagabond
 track: 8
 en:
-  title: Breathe
   description: 'Written in Noteflight in June 2014 as “breathe, please, just breathe,” and re-recorded ten years later as the wind under Konyukhov’s balloon.'
 ru:
   title: Повелитель ветра

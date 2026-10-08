@@ -1,4 +1,5 @@
 ---
+title: 'Succumb to Me'
 date: 2024-07-23
 status: done
 language: en
@@ -11,11 +12,10 @@ album: pschpthy
 track: 4
 hidden: true
 en:
-  title: 'Succumb to Me'
   description: 'TBD'
 ru:
-  title: 'Succumb to Me'
-  titleTranslation: 'Покорись мне'
+  title:
+    translation: 'Покорись мне'
   description: 'TBD'
 ---
 

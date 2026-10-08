@@ -1,4 +1,5 @@
 ---
+title: 'Ok Loser'
 date: 2024-07-23
 status: done
 language: en
@@ -10,11 +11,10 @@ seconds: 206
 explicit: false
 hidden: true
 en:
-  title: 'Ok Loser'
   description: 'TBD'
 ru:
-  title: 'Ok Loser'
-  titleTranslation: 'Окей, лузер'
+  title:
+    translation: 'Окей, лузер'
   description: 'TBD'
 ---
 

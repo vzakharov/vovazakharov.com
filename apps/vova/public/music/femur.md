@@ -1,4 +1,5 @@
 ---
+title: 'Femur (Seems to Be the Hardest Bone)'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 10
 hidden: true
 en:
-  title: 'Femur (Seems to Be the Hardest Bone)'
   description: 'TBD'
 ru:
-  title: 'Femur (Seems to Be the Hardest Bone)'
-  titleTranslation: 'Бедренная кость (похоже, самая крепкая)'
+  title:
+    translation: 'Бедренная кость (похоже, самая крепкая)'
   description: 'TBD'
 ---
 

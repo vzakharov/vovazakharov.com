@@ -1,4 +1,5 @@
 ---
+title: 'Facepalm Death'
 date: 2024-12-05
 status: done
 language: en
@@ -11,11 +12,10 @@ album: nsfl
 track: 5
 hidden: true
 en:
-  title: 'Facepalm Death'
   description: 'TBD'
 ru:
-  title: 'Facepalm Death'
-  titleTranslation: 'Смерть-фейспалм'
+  title:
+    translation: 'Смерть-фейспалм'
   description: 'TBD'
 ---
 
