@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-07T06:35:11Z
-- **Updated:** 2026-10-08T21:09:10Z
+- **Updated:** 2026-10-08T21:12:49Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Awaiting an answer: 11
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at c2ddfa6). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at c917f5f). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/vova/public/music/cracks.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T20:50:42Z — "Развоплощённые / развоплощаемся (в зависимости от места в пе…" → [↓](#t01)
 - **T02** `apps/vova/public/music/diner.md`:5 — unresolved — last: @vzakharov (human) 2026-10-08T20:51:52Z — "Dead Pixel Lounge" → [↓](#t02)
