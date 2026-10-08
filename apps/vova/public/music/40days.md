@@ -84,12 +84,10 @@ An original song, written around 2016–2017.
 
 <!-- lyrics:en -->
 
-Who sings what,[^sings-en]
+Who sings what,
 Who says whatever
 What they agree with,
 And what they turn down
-
-[^sings-en]: In my father’s original: «Кто ни поёт что, кто что ни говорит» — “Whoever sings whatever, whoever says whatever.”
 
 Everything in this life
 Begins with love

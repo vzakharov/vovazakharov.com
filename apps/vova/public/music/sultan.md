@@ -25,11 +25,11 @@ ru:
 
 <!-- lang:en -->
 
-The song is dedicated to my father’s eldest grandson, Zoltan.
+The song is dedicated to my father’s eldest grandson, my son Zoltan.
 
 <!-- lang:ru -->
 
-Песня посвящена папиному старшему внуку Золтану.
+Песня посвящена папиному старшему внуку, моему сыну Золтану.
 
 <!-- lyrics:ru -->
 

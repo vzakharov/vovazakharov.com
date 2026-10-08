@@ -55,22 +55,6 @@ Otter.” The Russian words are mine.
 Что песня будет звучать
 Пока течёт река
 
-В суматохе мелких ссор
-Утекли за горизонт
-Те годы, и лишь изредка сквозь сон
-Я слышу в голове тот перебор
-
-По гребням волн нейлоново-стальных
-Мимо обрывов из неполных рифм
-Где каждый всплеск — как нотная строка
-
-Ты вёл меня, незримый рулевой
-И так хотелось верить всей душой
-Что песня будет звучать
-Пока течёт река
-
-Сыграть бы нам вдоём ещё хоть раз.
-
 По гребням волн нейлоново-стальных
 Мимо обрывов из неполных рифм
 Где каждый всплеск — как нотная строка
@@ -100,22 +84,6 @@ You steered me, an unseen helmsman
 And I so wanted to believe with all my soul
 That the song would go on sounding
 As long as the river flows
-
-In the bustle of petty quarrels
-Those years flowed away past the horizon
-And only now and then, through sleep,
-I hear that picking in my head
-
-Along the crests of nylon-and-steel waves
-Past cliffs of imperfect rhymes
-Where every splash is like a line of a score
-
-You steered me, an unseen helmsman
-And I so wanted to believe with all my soul
-That the song would go on sounding
-As long as the river flows
-
-If only we could play together one more time.
 
 Along the crests of nylon-and-steel waves
 Past cliffs of imperfect rhymes

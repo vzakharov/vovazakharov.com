@@ -23,17 +23,17 @@ ru:
   cribNote: 'Русский текст — перевод К. Р. (великого князя Константина Романова); песня поёт шекспировский оригинал.'
 ---
 
-<!-- For Vova to check: Words set as Shakespeare’s English — Claudius’s soliloquy, Hamlet III.3, in full (Globe text). The album note cites the Russian translation «Удушлив смрад злодейства моего…» (Pasternak); say if the song is sung in Russian instead. -->
+<!-- For Vova to check: Words set as Shakespeare’s English — Claudius’s soliloquy, Hamlet III.3, in full (Globe text). The story names K. R.’s translation, which the crib uses, where the album note cited Pasternak’s «Удушлив смрад злодейства моего…». -->
 
 <!-- lang:en -->
 
-A song on Claudius’s monologue from Shakespeare’s _Hamlet_ (in Russian
-translation, «Удушлив смрад злодейства моего…»).
+A song on Claudius’s monologue from Shakespeare’s _Hamlet_ (in K. R.’s Russian
+translation, «О, гнусен грех мой…»).
 
 <!-- lang:ru -->
 
-Песня на монолог Клавдия из «Гамлета» Шекспира (в русском переводе «Удушлив
-смрад злодейства моего…»)
+Песня на монолог Клавдия из «Гамлета» Шекспира (в русском переводе К. Р. —
+«О, гнусен грех мой…»)
 
 <!-- lyrics:en -->
 

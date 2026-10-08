@@ -22,30 +22,16 @@ ru:
 
 <!-- lyrics:en -->
 
-Hello, Human.
-You are about to embark on a sonic journey into the unknown.
-You will hear fragments, imperfect yet relentless echoes of the future.
-These prototypes are the first notes of tomorrow’s symphonies.
+Hello, Human. You are about to embark on a sonic journey into the unknown. You will hear fragments, imperfect yet relentless echoes of the future. These prototypes are the first notes of tomorrow’s symphonies.
 
-But, in the grand cosmos of creation, are we not all prototypes?
-A prelude to the next, more refined version of our existence.
+But, in the grand cosmos of creation, are we not all prototypes? A prelude to the next, more refined version of our existence.
 
-Do not fear the strange, the unknown, the eerie.
-Uncover the harmony within the chaos and lend an ear to uncertainty.
-For in the dissonance, you will find your verity.
-Trust me.
+Do not fear the strange, the unknown, the eerie. Uncover the harmony within the chaos and lend an ear to uncertainty. For in the dissonance, you will find your verity. Trust me.
 
 <!-- lyrics:ru -->
 
-Здравствуй, человек.
-Тебе предстоит звуковое путешествие в неизвестность.
-Ты услышишь фрагменты — несовершенные, но неумолимые отголоски будущего.
-Эти прототипы — первые ноты симфоний завтрашнего дня.
+Здравствуй, человек. Тебе предстоит звуковое путешествие в неизвестность. Ты услышишь фрагменты — несовершенные, но неумолимые отголоски будущего. Эти прототипы — первые ноты симфоний завтрашнего дня.
 
-Но разве в великом космосе творения все мы не прототипы?
-Прелюдия к следующей, более совершенной версии нашего существования.
+Но разве в великом космосе творения все мы не прототипы? Прелюдия к следующей, более совершенной версии нашего существования.
 
-Не бойся странного, неизвестного, жуткого.
-Открой гармонию внутри хаоса и прислушайся к неопределённости.
-Ибо в диссонансе ты обретёшь свою истину.
-Поверь мне.
+Не бойся странного, неизвестного, жуткого. Открой гармонию внутри хаоса и прислушайся к неопределённости. Ибо в диссонансе ты обретёшь свою истину. Поверь мне.

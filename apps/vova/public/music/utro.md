@@ -59,15 +59,15 @@ ru:
 О том что я тебя
 Я тебя люблю
 
-Доброе утро (доброе утро)
-Моя (моя) любовь (любовь)
-Когда увижу (когда увижу)
-Тебя (тебя) я вновь (вновь)
+Доброе утро
+Моя любовь
+Когда увижу
+Тебя я вновь
 
-Доброе утро (доброе утро)
-Моя (моя) любовь (любовь)
-Когда увижу (когда увижу)
-Тебя (тебя) я вновь (вновь)
+Доброе утро
+Моя любовь
+Когда увижу
+Тебя я вновь
 
 Доброе утро
 Моя любовь
@@ -99,15 +99,15 @@ Sing to you again
 About how I love you,
 I love you
 
-Good morning (good morning)
-My (my) love (love)
-When will I see (when will I see)
-You (you) again (again)
+Good morning
+My love
+When will I see
+You again
 
-Good morning (good morning)
-My (my) love (love)
-When will I see (when will I see)
-You (you) again (again)
+Good morning
+My love
+When will I see
+You again
 
 Good morning
 My love

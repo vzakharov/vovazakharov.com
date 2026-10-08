@@ -47,10 +47,10 @@ ru:
 Не смотри, не надейся, не жди
 Уходи, уходи, уходи
 
-По полу нашей вазы
+Фракталом нашей вазы
 Разбросаны осколки
 Мы в децибелы сразу
-Да громко только толку
+Да, громко, только толку
 
 И снова проблеска ждём
 Хотя давно понятно
@@ -90,8 +90,8 @@ Where the edge is, where paradise is, up ahead
 Don’t look, don’t hope, don’t wait
 Go away, go away, go away
 
-Across the floor, of our vase
-The shards lie scattered
+The shards of our vase
+Lie scattered as a fractal
 We go straight to decibels
 Loud, yes, but what’s the use
 

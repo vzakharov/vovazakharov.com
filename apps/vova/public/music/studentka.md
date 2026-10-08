@@ -30,6 +30,16 @@ ru:
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
 
+<!-- For Vova to check: the story is the note that hung off the «Всё косы твои» chorus, moved here as you asked; it was written from what is known of the song, not from you. -->
+
+<!-- lang:en -->
+
+A reworking of the folk song «Всё косы твои, всё бантики» as Arkady Severny sang it; Mikhail Krug’s later version coarsens the words.
+
+<!-- lang:ru -->
+
+Песня — переделка народной «Всё косы твои, всё бантики», какой её пел Аркадий Северный; в более поздней версии Михаила Круга слова изменены до пошлости.
+
 <!-- lyrics:ru -->
 
 На лекцию ты пришла
@@ -44,12 +54,10 @@ ru:
 Безумно любя
 Я видел на всей планете
 
-[Всё косы твои, всё бантики][^kosy-ru]
+Всё косы твои, всё бантики
 Всё прядь золотых волос
 На блузке витые кантики
 Да милый курносый нос
-
-[^kosy-ru]: Песня — переделка народной «Всё косы твои, всё бантики», какой её пел Аркадий Северный; в более поздней версии Михаила Круга слова изменены до пошлости.
 
 Всё косы твои, всё бантики
 Всё прядь золотых волос
@@ -114,12 +122,10 @@ Only you,
 Loving you madly,
 Did I see on the whole planet
 
-[It’s all your braids, all your bows][^kosy-en]
+It’s all your braids, all your bows
 All that lock of golden hair
 The twisted piping on your blouse
 And that sweet snub nose
-
-[^kosy-en]: A reworking of the folk song «Всё косы твои, всё бантики» as Arkady Severny sang it; Mikhail Krug’s later version coarsens the words.
 
 It’s all your braids, all your bows
 All that lock of golden hair

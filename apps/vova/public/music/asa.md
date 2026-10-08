@@ -28,8 +28,6 @@ ru:
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
 
-<!-- For Vova to check: The words are «Весёлая» from «Пир на весь мир», without its third stanza, «Разломило спину… Баба Катерину Вспомнила — ревет». No edition has a stanza about a Лисафета, so is that the one you remember not singing? -->
-
 <!-- lyrics:ru -->
 
 «Кушай тюрю, Яша!

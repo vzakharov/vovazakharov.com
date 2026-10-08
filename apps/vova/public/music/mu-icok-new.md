@@ -30,7 +30,7 @@ ru:
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
 
-<!-- For Vova to check: words are the passage of «Крестьянские дети» from «Однажды, в студёную зимнюю пору» to the end of its sentence, «В которых так много любви!», as published; the poem runs it as one block, split here into its rhyming quatrains. Does the song stop earlier — at «Что русской душе так мучительно мило» or before? -->
+<!-- For Vova to check: words are the passage of «Крестьянские дети» from «Однажды, в студёную зимнюю пору» to «Что русские мысли вселяет в умы», as published, without the stanza after it that the song leaves out; the poem runs it as one block, split here into its rhyming quatrains. -->
 
 <!-- lyrics:ru -->
 
@@ -74,11 +74,6 @@ ru:
 Что русской душе так мучительно мило,
 Что русские мысли вселяет в умы,
 
-Те честные мысли, которым нет воли,
-Которым нет смерти — дави не дави,
-В которых так много и злобы и боли,
-В которых так много любви!
-
 <!-- lyrics:en -->
 
 Once, in the freezing winter season,
@@ -120,8 +115,3 @@ All, all of it was real and Russian,
 With the brand of the sullen, deadening winter,
 That is so painfully dear to the Russian soul,
 That puts Russian thoughts into minds,
-
-Those honest thoughts that have no freedom,
-That have no death — crush them or not,
-In which there is so much anger and pain,
-In which there is so much love!
