@@ -57,7 +57,7 @@ export const MUSIC_PROJECT_SLUGS: Record<MusicProject, string> = {
   'Trending Today': 'trending-today',
   'Дамы и господа': 'damy-i-gospoda',
   'Иске Кормаш': 'iske-kormash',
-  Киндерштайн: 'kindershtayn',
+  Киндерштайн: 'kinderstein',
   'Dead Pixel Lounge': 'dead-pixel-lounge',
   Листопад: 'listopad',
 };
