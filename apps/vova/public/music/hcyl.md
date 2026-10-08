@@ -4,7 +4,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'hcyl'
-album: null
+album: papa-more
+track: 6
 audio: https://raw.githubusercontent.com/vovas-music/hcyl/main/how_could_you_leave.flac
 seconds: 229
 explicit: false
