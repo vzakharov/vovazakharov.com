@@ -18,8 +18,8 @@ type MusicAlbumRecord = {
   artist: Localizable<MusicProject>;
   /**
    * Whether the release has cover art, at `albumCover`'s path: a 600px square
-   * cut from the master in its `vovas-music` repository, small enough for a
-   * grid of them.
+   * cut from the master in its `vovas-music` repository, or Apple Music's where
+   * the repository holds none — small enough for a grid of them.
    */
   cover?: true;
 };
@@ -28,6 +28,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   ctfu: {
     title: 'Cheer The Fuck Up',
     artist: 'GENERATED',
+    cover: true,
   },
   vagabond: {
     title: { en: 'Vagabond', ru: 'Скиталец: по следам Конюхова' },
@@ -35,19 +36,19 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
   },
   divine: { title: 'Divine Discontent', artist: 'GENERATED', cover: true },
-  ghosts: { title: 'Ghosts of Flesh', artist: 'GENERATED' },
+  ghosts: { title: 'Ghosts of Flesh', artist: 'GENERATED', cover: true },
   pschpthy: { title: 'PSCHPTHY', artist: 'GENERATED', cover: true },
   nsfl: { title: 'Not Safe for Life', artist: 'GENERATED', cover: true },
   stories: { title: 'Let the Stories Spin', artist: 'GENERATED', cover: true },
-  'papa-reka': { title: 'Папа-река', artist: 'Полуживые' },
+  'papa-reka': { title: 'Папа-река', artist: 'Полуживые', cover: true },
   'papa-more': { title: 'Папа-море', artist: 'Полуживые' },
-  rus: { title: 'Кому на Руси жить хорошо', artist: 'Полуживые' },
+  rus: { title: 'Кому на Руси жить хорошо', artist: 'Полуживые', cover: true },
   dng: {
     title: 'Пять романсов, два сонета и один реквием',
     artist: 'Дамы и господа',
     cover: true,
   },
-  ignite: { title: 'Ignite', artist: 'Yoohie' },
+  ignite: { title: 'Ignite', artist: 'Yoohie', cover: true },
   'old-shite': { title: 'We Made AI Sing Our Old Shite', artist: 'Yoohie' },
   nursery: {
     title: 'Nursery Rhymes for the Jilted Generation',

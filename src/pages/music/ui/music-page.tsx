@@ -6,7 +6,7 @@ import { BackToHome, PageShell } from '@/shared/ui';
 import { catalogueArtists } from '../lib/catalogue';
 import type { CataloguePageProps } from '../lib/music-route-params';
 import { artistPath, indexPath } from '../lib/music-urls';
-import { projectName } from '../lib/projects';
+import { artistImage, projectName } from '../lib/projects';
 import { catalogueSongs } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { MusicNav } from './music-nav';
@@ -32,6 +32,7 @@ export function MusicPage({ locale, everything }: CataloguePageProps) {
           tiles={catalogueArtists(catalogueSongs(catalogue)).map((artist) => ({
             href: artistPath(artist, catalogue, locale),
             label: projectName(artist, locale),
+            cover: artistImage(artist),
           }))}
         />
 

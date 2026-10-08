@@ -45,6 +45,27 @@ export function projectName(project: MusicProject, locale: Locale): string {
 }
 
 /**
+ * The projects with a picture at `artistImage`'s path: a 600px square, the one
+ * the artist's Apple Music page shows — often its latest release's cover.
+ */
+const PICTURED_PROJECTS: ReadonlySet<MusicProject> = new Set([
+  'GENERATED',
+  'Полуживые',
+  'Downtemple',
+  'за/обложкой',
+  'Yoohie',
+  'Trending Today',
+  'Дамы и господа',
+]);
+
+/** The picture's site-root path, under `apps/vova/public/`. */
+export function artistImage(project: MusicProject): string | undefined {
+  return PICTURED_PROJECTS.has(project)
+    ? `/music/assets/artists/${MUSIC_PROJECT_SLUGS[project]}.jpg`
+    : undefined;
+}
+
+/**
  * How a song is billed — the artist first, whoever is featured after it — over
  * any rendering of a name, so a page can bill in links what `billing` bills in
  * text. One order in both languages: the order really is per-release, and
