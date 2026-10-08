@@ -1,8 +1,7 @@
 /**
- * The names a song's frontmatter may give its project and album — the enums the
- * schema validates against, and nothing the pages show of them, which
- * `pages/music` holds. `scripts/scaffold-song.ts` imports this module under
- * tsx, so it stays free of `server-only` and of every barrel.
+ * The project and album names a song's frontmatter may use — the enums its
+ * schema validates against; how each is shown is `pages/music`'s. Reached by
+ * `index.node-safe.ts`, so it stays free of `server-only` and of every barrel.
  */
 
 /** The GitHub organization a song's `repo` names a repository in. */
