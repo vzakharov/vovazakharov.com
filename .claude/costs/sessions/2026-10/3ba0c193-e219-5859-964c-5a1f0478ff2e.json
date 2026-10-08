@@ -1,0 +1,88 @@
+{
+  "sessionId": "3ba0c193-e219-5859-964c-5a1f0478ff2e",
+  "branch": "claude/music-catalogue-hidden-ldz252",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch",
+  "prs": [
+    115
+  ],
+  "url": "https://claude.ai/code/session_01C9pwKR9Gxrhqix8hAe3dai",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-08T20:48:28.444Z",
+  "lastResponseAt": "2026-10-08T20:52:08.042Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 119353,
+    "cacheReadTokens": 4629732,
+    "outputTokens": 11978,
+    "thinkingTokens": 3012,
+    "responses": 35,
+    "costUsd": 2.1206104
+  },
+  "ownTurns": {
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 119353,
+    "cacheReadTokens": 4629732,
+    "outputTokens": 11978,
+    "thinkingTokens": 3012,
+    "responses": 35,
+    "costUsd": 2.1206104
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 70,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 119353,
+      "cacheReadTokens": 4629732,
+      "outputTokens": 11978,
+      "thinkingTokens": 3012,
+      "responses": 35,
+      "costUsd": 2.1206104
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/shared/config/env.d.ts",
+    "endedAt": "2026-10-08T20:49:13.302Z",
+    "contextTokens": 126710,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 80896,
+      "cacheReadTokens": 774028,
+      "outputTokens": 3321,
+      "thinkingTokens": 1642,
+      "responses": 8,
+      "costUsd": 0.8684576
+    }
+  },
+  "compactions": [],
+  "telemetry": null,
+  "estimate": {
+    "at": "2026-10-08T20:51:56.082Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a one-predicate change, but it needs the judgement to gate it on dev so a leftover shell variable can never publish hidden songs"
+      }
+    ],
+    "comment": null
+  }
+}
