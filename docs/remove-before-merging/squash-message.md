@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): hidden documents, artist pages, 147 hidden song pages (pr #115)
+feat(vova): hidden song catalogue, artist and album pages (pr #115)
 ```
 
 ```
@@ -12,23 +12,27 @@ listing, player queue or sitemap carries it, and it is noindex. One
 predicate in shared/content decides what is listed. A hidden song
 plays from its own page, joining the end of the queue.
 
-147 masters land as hidden song pages, their words set as verse:
-Suno's markers, drawn-out syllables and pause ellipses do not travel,
-a published poem's punctuation does. A guessed master, project or
-language says so in a comment in its file. Masters outside
-vovas-music are served from the site, so a song's repo is optional.
+147 masters land as hidden song pages, their words set as verse with
+sourced notes: Suno's markers, drawn-out syllables and pause ellipses
+do not travel, a published poem's punctuation does, Russian is
+written with ё, and expletives are written out, which the
+check:masked-words vet gate holds. Masters outside vovas-music are
+served from the site, so a song's repo is optional.
 
-/music opens with the artists; artist and album pages list what is
-public, and their twins under /music/all list the hidden songs too,
-noindex and out of the sitemap. A song page links its artists and
-album. A title's transliteration is per locale and shows only to a
-reader who cannot read its script, and one note can span several
-lines.
+/music is a grid of artist tiles; an artist page shows its albums as
+covers, newest first by their latest song, and an album page numbers
+its tracks and states its length. Twins under /music/all carry the
+hidden songs too, noindex and out of the sitemap. The song model lives
+in shared/song: a song states its title once, a locale only where it
+differs, with a {transliteration, translation} gloss shown only to a
+reader who cannot read the title's script, transliterations in
+italics.
 
 To carry the catalogue, a song's language is a list, main language
 first, with nine languages added; albums and projects join their
 registries, a project can be billed under another name per language,
-and music:scaffold takes a spec naming the master and its fields.
+one note can span several lines, and music:scaffold takes a spec
+naming the master and its fields.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
