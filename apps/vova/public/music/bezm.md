@@ -20,8 +20,6 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: The repo also holds `За горизонт.flac`, which looks like a separate song and is not scaffolded. -->
-
 <!-- For Vova to check: The two verses are Omar Khayyam in Igor Golubev’s translation — rubai No. 89 («В безмерности небес, укрытый синевой…») and No. 95 («Кружение небес никак не обогнать…») of «Рубаи. Полное собрание» (РИПОЛ классик, 2008), per fantlab.ru/edition252823. The chorus turns up in no Golubev contents list and nowhere else online, so it may well be Dad’s own; credits name Khayyam and Golubev only — say if Dad should join them for the chorus. -->
 
 <!-- Story from Vova's Telegram post of 2026-03-04. -->
