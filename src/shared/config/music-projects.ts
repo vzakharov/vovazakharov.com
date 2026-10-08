@@ -31,7 +31,7 @@ export const MUSIC_PROJECT_NAMES = [
   'Дамы и господа',
   'Иске Кормаш',
   'Киндерштайн',
-  'Velvet Static',
+  'Dead Pixel Lounge',
   'Листопад',
 ] as const;
 
@@ -58,7 +58,7 @@ export const MUSIC_PROJECT_SLUGS: Record<MusicProject, string> = {
   'Дамы и господа': 'damy-i-gospoda',
   'Иске Кормаш': 'iske-kormash',
   Киндерштайн: 'kindershtayn',
-  'Velvet Static': 'velvet-static',
+  'Dead Pixel Lounge': 'dead-pixel-lounge',
   Листопад: 'listopad',
 };
 

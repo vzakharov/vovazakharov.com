@@ -3,7 +3,7 @@ title: 'At the Diner'
 date: 2024-07-23
 status: done
 language: en
-project: ['Velvet Static']
+project: ['Dead Pixel Lounge']
 repo: 'diner'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/diner/main/diner.flac
@@ -18,7 +18,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: the glitch-jazz project’s name is the agent’s proposal, Velvet Static (after “Through the static” and “Velvet voice”); the other candidates were Glitch & Glamour and «Помехи». The title is the Suno render's name in the repo, `Media/At the Diner.mp3`. -->
+<!-- For Vova to check: the title is the Suno render's name in the repo, `Media/At the Diner.mp3`. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/diner — diner.flac,
      44.1 kHz / 16-bit / stereo.
