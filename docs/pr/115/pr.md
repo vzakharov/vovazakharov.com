@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-07T06:35:11Z
-- **Updated:** 2026-10-08T19:16:55Z
+- **Updated:** 2026-10-08T20:13:17Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,11 +15,11 @@
 
 ## Awaiting an answer: 104
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at c4ee843). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 37ece58). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/vova/public/music/cracks.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T08:34:47Z — "сложное такое слово для перевода на русский. Мне кажется в а…" → [↓](#t01)
 - **T02** `apps/vova/public/music/diner.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T21:12:00Z — "уже есть такой, подумай немного в сторону (и проверяй сущест…" → [↓](#t02)
-- **T04** `apps/vova/public/music/flesh-fiction.md`:102 — unresolved — last: @vzakharov (human) 2026-10-07T21:14:02Z — "Ну не конкретно на pulp fiction, но типа если flash fiction…" → [↓](#t04)
+- **T04** `apps/vova/public/music/flesh-fiction.md`:130 — unresolved — last: @vzakharov (human) 2026-10-07T21:14:02Z — "Ну не конкретно на pulp fiction, но типа если flash fiction…" → [↓](#t04)
 - **T06** `apps/vova/public/music/hamlet.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:15:07Z — "да (думал ты и сам сможешь найти)" → [↓](#t06)
 - **T08** `apps/vova/public/music/klo.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T21:16:29Z — "Давай пока "Листопад", "Оттепель" это что-то про Хрущёва :)" → [↓](#t08)
 - **T09** `apps/vova/public/music/lebed.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:18:28Z — "я слышал именно "лотом", принимал это за нарочито неправильн…" → [↓](#t09)
@@ -30,7 +30,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T25** `apps/vova/public/music/yad.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:06:35Z — "Я не знаю, как принято. "Яд" намного вольнее, здесь ближе к…" → [↓](#t25)
 - **T26** `apps/vova/public/music/40days.md`:18 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:02Z — "давай транслитерации курсивом писать (в интерфейсе, конечно,…" → [↓](#t26)
 - **T27** `apps/vova/public/music/40days.md`:92 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:33Z — "кажется, в английском можно и без примечания, перевод фактич…" → [↓](#t27)
-- **T28** `apps/vova/public/music/8849.md`:11 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:53Z — "номер трека на странице альбома давай обозначать" → [↓](#t28)
+- **T28** `apps/vova/public/music/8849.md`:12 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:53Z — "номер трека на странице альбома давай обозначать" → [↓](#t28)
 - **T29** `apps/vova/public/music/artemis.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T08:39:49Z — "а подсказки где?" → [↓](#t29)
 - **T30** `apps/vova/public/music/asa.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T08:40:50Z — "дада, Катерина-Лизавета, какая разница?) 🙈" → [↓](#t30)
 - **T31** `apps/vova/public/music/baa.md`:38 — unresolved — last: @vzakharov (human) 2026-10-08T08:42:01Z — "давай x2 просто на каждой строфе напишем" → [↓](#t31)
@@ -50,8 +50,8 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T45** `apps/vova/public/music/flesh-fiction.md`:90 — unresolved — last: @vzakharov (human) 2026-10-08T09:53:05Z — "это actual русская народная песня, попробуй найти и вставить…" → [↓](#t45)
 - **T46** `apps/vova/public/music/fuck-religion.md`:40 — unresolved — last: @vzakharov (human) 2026-10-08T09:53:37Z — "мы не прячем эксплетивы -- добавь в vet проверку на наиболее…" → [↓](#t46)
 - **T47** `apps/vova/public/music/grave-awakening.md`:34 — unresolved — last: @vzakharov (human) 2026-10-08T09:55:33Z — "тут игра слов на "rude awakening" и двойном значении слова g…" → [↓](#t47)
-- **T48** `apps/vova/public/music/grayrage.md`:46 — unresolved — last: @vzakharov (human) 2026-10-08T09:56:07Z — "gray rage, это термин из психопатологии, погугли и вставь по…" → [↓](#t48)
-- **T49** `apps/vova/public/music/hamlet.md`:16 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:40Z — "ещё и Козакова может?" → [↓](#t49)
+- **T48** `apps/vova/public/music/grayrage.md`:48 — unresolved — last: @vzakharov (human) 2026-10-08T09:56:07Z — "gray rage, это термин из психопатологии, погугли и вставь по…" → [↓](#t48)
+- **T49** `apps/vova/public/music/hamlet.md`:17 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:40Z — "ещё и Козакова может?" → [↓](#t49)
 - **T50** `apps/vova/public/music/hamlet.md`:17 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:59Z — "а я каким боком? Перестановка ~мест слагаемых~ слов из песни…" → [↓](#t50)
 - **T51** `apps/vova/public/music/hang-for-the-moment.md`:37 — unresolved — last: @vzakharov (human) 2026-10-08T09:58:43Z — "это отсылка к/пародия на Sing with me, sing for the year итд" → [↓](#t51)
 - **T52** `apps/vova/public/music/hang-for-the-moment.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T09:59:10Z — "тут амбивалентное feel/fill, без единого "канонического" вар…" → [↓](#t52)
@@ -77,7 +77,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T72** `apps/vova/public/music/monkey.md`:85 — unresolved — last: @vzakharov (human) 2026-10-08T10:23:03Z — "нет, это отсылка к "обезьянке" Бёрна. Сейчас сложно найт пер…" → [↓](#t72)
 - **T73** `apps/vova/public/music/moroz.md`:53 — unresolved — last: @vzakharov (human) 2026-10-08T10:23:51Z — "это последний куплет в песне" → [↓](#t73)
 - **T74** `apps/vova/public/music/mu-icok-new.md`:80 — unresolved — last: @vzakharov (human) 2026-10-08T10:24:16Z — "этой строфы в песне нет" → [↓](#t74)
-- **T75** `apps/vova/public/music/nightmares.md`:98 — unresolved — last: @vzakharov (human) 2026-10-08T10:25:42Z — "на английском тоже можно подсказать" → [↓](#t75)
+- **T75** `apps/vova/public/music/nightmares.md`:100 — unresolved — last: @vzakharov (human) 2026-10-08T10:25:42Z — "на английском тоже можно подсказать" → [↓](#t75)
 - **T76** `apps/vova/public/music/nightmares.md`:16 — unresolved — last: @vzakharov (human) 2026-10-08T10:26:00Z — "кажется я её назвал таки In the Shadow" → [↓](#t76)
 - **T77** `apps/vova/public/music/okna.md`:60 — unresolved — last: @vzakharov (human) 2026-10-08T10:27:41Z — "дать подсказку про Колриджа и Оттера (на обоих языках)" → [↓](#t77)
 - **T78** `apps/vova/public/music/one-day.md`:100 — unresolved — last: @vzakharov (human) 2026-10-08T10:28:20Z — "я тут скорее имел в виду "сойду огнём" (на вас). так не рабо…" → [↓](#t78)
@@ -101,7 +101,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T96** `apps/vova/public/music/sashas.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:43:03Z — "папа-море" → [↓](#t96)
 - **T97** `apps/vova/public/music/sneg_0.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:02Z — "папа-море (но песня моя)" → [↓](#t97)
 - **T98** `apps/vova/public/music/sneg_idet.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:18Z — "п-м (папа-море здесь и далее)" → [↓](#t98)
-- **T99** `apps/vova/public/music/sneg_idet.md`:13 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:25Z — "музыка - папа" → [↓](#t99)
+- **T99** `apps/vova/public/music/sneg_idet.md`:15 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:25Z — "музыка - папа" → [↓](#t99)
 - **T100** `apps/vova/public/music/story-ends.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T12:50:25Z — "отсылка к песне Ink с того же альбома" → [↓](#t100)
 - **T101** `apps/vova/public/music/studentka.md`:122 — unresolved — last: @vzakharov (human) 2026-10-08T12:51:29Z — "ну собственно примечание не кокретно на строчку, а на всю пе…" → [↓](#t101)
 - **T102** `apps/vova/public/music/succumb.md`:116 — unresolved — last: @vzakharov (human) 2026-10-08T12:52:26Z — "отметить омофон в оригинале (so come/succumb)" → [↓](#t102)
@@ -109,7 +109,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T104** `apps/vova/public/music/tango.md`:52 — unresolved — last: @vzakharov (human) 2026-10-08T12:54:11Z — "AK-47. Или может такие вещи сами себя поясняют?" → [↓](#t104)
 - **T105** `apps/vova/public/music/tango.md`:78 — unresolved — last: @vzakharov (human) 2026-10-08T12:54:59Z — "А перевод в подсказке? mi casi amor -- отсылка к "I almost l…" → [↓](#t105)
 - **T106** `apps/vova/public/music/u4.md`:37 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:14Z — "отсылка к тексту for who the bell tolls: "he hears the silen…" → [↓](#t106)
-- **T107** `apps/vova/public/music/u4.md`:51 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:46Z — "в русском указать на игру слов for/IV" → [↓](#t107)
+- **T107** `apps/vova/public/music/u4.md`:53 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:46Z — "в русском указать на игру слов for/IV" → [↓](#t107)
 - **T108** `apps/vova/public/music/u4.md`:106 — unresolved — last: @vzakharov (human) 2026-10-08T19:04:34Z — "а почему это всё убрали? оно повторяется, да, но например So…" → [↓](#t108)
 - **T109** `apps/vova/public/music/ukhodi.md`:51 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:01Z — "Да, громко, только толку" → [↓](#t109)
 - **T110** `apps/vova/public/music/ukhodi.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:22Z — "Отсылка к песне "Окна"" → [↓](#t110)
@@ -247,7 +247,7 @@ _71 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T01** `apps/vova/public/music/cracks.md`:1 — unresolved — last: @vzakharov (human) 2026-10-08T08:34:47Z — "сложное такое слово для перевода на русский. Мне кажется в а…" → [↓](#t01)
 - **T02** `apps/vova/public/music/diner.md`:5 — unresolved — last: @vzakharov (human) 2026-10-07T21:12:00Z — "уже есть такой, подумай немного в сторону (и проверяй сущест…" → [↓](#t02)
 - **T03** `apps/vova/public/music/f-ec.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T13:00:59Z — "Слаги не трогал, в конце работы по ревью напомню." → [↓](#t03)
-- **T04** `apps/vova/public/music/flesh-fiction.md`:102 — unresolved — last: @vzakharov (human) 2026-10-07T21:14:02Z — "Ну не конкретно на pulp fiction, но типа если flash fiction…" → [↓](#t04)
+- **T04** `apps/vova/public/music/flesh-fiction.md`:130 — unresolved — last: @vzakharov (human) 2026-10-07T21:14:02Z — "Ну не конкретно на pulp fiction, но типа если flash fiction…" → [↓](#t04)
 - **T05** `apps/vova/public/music/grand-finale.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:10Z — "Последнюю фразу разбил после «whispers reclaim,», чтобы «rec…" → [↓](#t05)
 - **T06** `apps/vova/public/music/hamlet.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:15:07Z — "да (думал ты и сам сможешь найти)" → [↓](#t06)
 - **T07** `apps/vova/public/music/klo.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-07T19:00:17Z — "Песня теперь «Клокочина» в обеих локалях, по-английски Kloko…" → [↓](#t07)
@@ -271,7 +271,7 @@ _71 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T25** `apps/vova/public/music/yad.md`:1 — unresolved — last: @vzakharov (human) 2026-10-07T21:06:35Z — "Я не знаю, как принято. "Яд" намного вольнее, здесь ближе к…" → [↓](#t25)
 - **T26** `apps/vova/public/music/40days.md`:18 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:02Z — "давай транслитерации курсивом писать (в интерфейсе, конечно,…" → [↓](#t26)
 - **T27** `apps/vova/public/music/40days.md`:92 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:33Z — "кажется, в английском можно и без примечания, перевод фактич…" → [↓](#t27)
-- **T28** `apps/vova/public/music/8849.md`:11 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:53Z — "номер трека на странице альбома давай обозначать" → [↓](#t28)
+- **T28** `apps/vova/public/music/8849.md`:12 — unresolved — last: @vzakharov (human) 2026-10-08T08:36:53Z — "номер трека на странице альбома давай обозначать" → [↓](#t28)
 - **T29** `apps/vova/public/music/artemis.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T08:39:49Z — "а подсказки где?" → [↓](#t29)
 - **T30** `apps/vova/public/music/asa.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T08:40:50Z — "дада, Катерина-Лизавета, какая разница?) 🙈" → [↓](#t30)
 - **T31** `apps/vova/public/music/baa.md`:38 — unresolved — last: @vzakharov (human) 2026-10-08T08:42:01Z — "давай x2 просто на каждой строфе напишем" → [↓](#t31)
@@ -291,8 +291,8 @@ _71 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T45** `apps/vova/public/music/flesh-fiction.md`:90 — unresolved — last: @vzakharov (human) 2026-10-08T09:53:05Z — "это actual русская народная песня, попробуй найти и вставить…" → [↓](#t45)
 - **T46** `apps/vova/public/music/fuck-religion.md`:40 — unresolved — last: @vzakharov (human) 2026-10-08T09:53:37Z — "мы не прячем эксплетивы -- добавь в vet проверку на наиболее…" → [↓](#t46)
 - **T47** `apps/vova/public/music/grave-awakening.md`:34 — unresolved — last: @vzakharov (human) 2026-10-08T09:55:33Z — "тут игра слов на "rude awakening" и двойном значении слова g…" → [↓](#t47)
-- **T48** `apps/vova/public/music/grayrage.md`:46 — unresolved — last: @vzakharov (human) 2026-10-08T09:56:07Z — "gray rage, это термин из психопатологии, погугли и вставь по…" → [↓](#t48)
-- **T49** `apps/vova/public/music/hamlet.md`:16 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:40Z — "ещё и Козакова может?" → [↓](#t49)
+- **T48** `apps/vova/public/music/grayrage.md`:48 — unresolved — last: @vzakharov (human) 2026-10-08T09:56:07Z — "gray rage, это термин из психопатологии, погугли и вставь по…" → [↓](#t48)
+- **T49** `apps/vova/public/music/hamlet.md`:17 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:40Z — "ещё и Козакова может?" → [↓](#t49)
 - **T50** `apps/vova/public/music/hamlet.md`:17 — unresolved — last: @vzakharov (human) 2026-10-08T09:57:59Z — "а я каким боком? Перестановка ~мест слагаемых~ слов из песни…" → [↓](#t50)
 - **T51** `apps/vova/public/music/hang-for-the-moment.md`:37 — unresolved — last: @vzakharov (human) 2026-10-08T09:58:43Z — "это отсылка к/пародия на Sing with me, sing for the year итд" → [↓](#t51)
 - **T52** `apps/vova/public/music/hang-for-the-moment.md`:31 — unresolved — last: @vzakharov (human) 2026-10-08T09:59:10Z — "тут амбивалентное feel/fill, без единого "канонического" вар…" → [↓](#t52)
@@ -318,7 +318,7 @@ _71 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T72** `apps/vova/public/music/monkey.md`:85 — unresolved — last: @vzakharov (human) 2026-10-08T10:23:03Z — "нет, это отсылка к "обезьянке" Бёрна. Сейчас сложно найт пер…" → [↓](#t72)
 - **T73** `apps/vova/public/music/moroz.md`:53 — unresolved — last: @vzakharov (human) 2026-10-08T10:23:51Z — "это последний куплет в песне" → [↓](#t73)
 - **T74** `apps/vova/public/music/mu-icok-new.md`:80 — unresolved — last: @vzakharov (human) 2026-10-08T10:24:16Z — "этой строфы в песне нет" → [↓](#t74)
-- **T75** `apps/vova/public/music/nightmares.md`:98 — unresolved — last: @vzakharov (human) 2026-10-08T10:25:42Z — "на английском тоже можно подсказать" → [↓](#t75)
+- **T75** `apps/vova/public/music/nightmares.md`:100 — unresolved — last: @vzakharov (human) 2026-10-08T10:25:42Z — "на английском тоже можно подсказать" → [↓](#t75)
 - **T76** `apps/vova/public/music/nightmares.md`:16 — unresolved — last: @vzakharov (human) 2026-10-08T10:26:00Z — "кажется я её назвал таки In the Shadow" → [↓](#t76)
 - **T77** `apps/vova/public/music/okna.md`:60 — unresolved — last: @vzakharov (human) 2026-10-08T10:27:41Z — "дать подсказку про Колриджа и Оттера (на обоих языках)" → [↓](#t77)
 - **T78** `apps/vova/public/music/one-day.md`:100 — unresolved — last: @vzakharov (human) 2026-10-08T10:28:20Z — "я тут скорее имел в виду "сойду огнём" (на вас). так не рабо…" → [↓](#t78)
@@ -342,7 +342,7 @@ _71 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T96** `apps/vova/public/music/sashas.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:43:03Z — "папа-море" → [↓](#t96)
 - **T97** `apps/vova/public/music/sneg_0.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:02Z — "папа-море (но песня моя)" → [↓](#t97)
 - **T98** `apps/vova/public/music/sneg_idet.md`:7 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:18Z — "п-м (папа-море здесь и далее)" → [↓](#t98)
-- **T99** `apps/vova/public/music/sneg_idet.md`:13 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:25Z — "музыка - папа" → [↓](#t99)
+- **T99** `apps/vova/public/music/sneg_idet.md`:15 — unresolved — last: @vzakharov (human) 2026-10-08T10:44:25Z — "музыка - папа" → [↓](#t99)
 - **T100** `apps/vova/public/music/story-ends.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T12:50:25Z — "отсылка к песне Ink с того же альбома" → [↓](#t100)
 - **T101** `apps/vova/public/music/studentka.md`:122 — unresolved — last: @vzakharov (human) 2026-10-08T12:51:29Z — "ну собственно примечание не кокретно на строчку, а на всю пе…" → [↓](#t101)
 - **T102** `apps/vova/public/music/succumb.md`:116 — unresolved — last: @vzakharov (human) 2026-10-08T12:52:26Z — "отметить омофон в оригинале (so come/succumb)" → [↓](#t102)
@@ -350,7 +350,7 @@ _71 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T104** `apps/vova/public/music/tango.md`:52 — unresolved — last: @vzakharov (human) 2026-10-08T12:54:11Z — "AK-47. Или может такие вещи сами себя поясняют?" → [↓](#t104)
 - **T105** `apps/vova/public/music/tango.md`:78 — unresolved — last: @vzakharov (human) 2026-10-08T12:54:59Z — "А перевод в подсказке? mi casi amor -- отсылка к "I almost l…" → [↓](#t105)
 - **T106** `apps/vova/public/music/u4.md`:37 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:14Z — "отсылка к тексту for who the bell tolls: "he hears the silen…" → [↓](#t106)
-- **T107** `apps/vova/public/music/u4.md`:51 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:46Z — "в русском указать на игру слов for/IV" → [↓](#t107)
+- **T107** `apps/vova/public/music/u4.md`:53 — unresolved — last: @vzakharov (human) 2026-10-08T19:03:46Z — "в русском указать на игру слов for/IV" → [↓](#t107)
 - **T108** `apps/vova/public/music/u4.md`:106 — unresolved — last: @vzakharov (human) 2026-10-08T19:04:34Z — "а почему это всё убрали? оно повторяется, да, но например So…" → [↓](#t108)
 - **T109** `apps/vova/public/music/ukhodi.md`:51 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:01Z — "Да, громко, только толку" → [↓](#t109)
 - **T110** `apps/vova/public/music/ukhodi.md`:33 — unresolved — last: @vzakharov (human) 2026-10-08T19:05:22Z — "Отсылка к песне "Окна"" → [↓](#t110)
@@ -443,16 +443,15 @@ world, да; main это типа как магистраль (водная), я
 
 <a id="t04"></a>
 
-### `apps/vova/public/music/flesh-fiction.md`:102 — unresolved
+### `apps/vova/public/music/flesh-fiction.md`:130 — unresolved
 
 ```diff
 @@ -0,0 +1,130 @@
-… 98 lines elided …
+… 126 lines elided …
++Плоть! Плоть! Плоть! Плоть!
++Плоть! Плоть! Плоть! Вымысел!
 +
-+Вспышка! Вспышка! Плоть! Вымысел,[^flash-ru]
-+Подпитывай свою жуткую зависимость,
-+Дешёвые острые ощущения без всяких ограничений,
-… 28 lines elided …
++[^flash-ru]: Игра слов: flash — «вспышка», flesh — «плоть», а flash fiction — «микропроза», рассказ в несколько строк.
 ```
 
 **@vzakharov (human)** — 2026-10-07T10:44:41Z
@@ -1429,7 +1428,7 @@ My Chemical Romance в авторах музыки (и у «Рака» тоже 
 
 <a id="t28"></a>
 
-### `apps/vova/public/music/8849.md`:11 — unresolved
+### `apps/vova/public/music/8849.md`:12 — unresolved
 
 ```diff
 @@ -8,6 +8,7 @@ audio: https://raw.githubusercontent.com/vovas-music/8849/main/8849.flac
@@ -1809,7 +1808,7 @@ en: title: {transliteration, translation}
 
 <a id="t48"></a>
 
-### `apps/vova/public/music/grayrage.md`:46 — unresolved
+### `apps/vova/public/music/grayrage.md`:48 — unresolved
 
 ```diff
 @@ -27,100 +29,74 @@ ru:
@@ -1828,7 +1827,7 @@ gray rage, это термин из психопатологии, погугли
 
 <a id="t49"></a>
 
-### `apps/vova/public/music/hamlet.md`:16 — unresolved
+### `apps/vova/public/music/hamlet.md`:17 — unresolved
 
 ```diff
 @@ -4,22 +4,97 @@ status: done
@@ -2289,7 +2288,7 @@ nofx
 
 <a id="t75"></a>
 
-### `apps/vova/public/music/nightmares.md`:98 — unresolved
+### `apps/vova/public/music/nightmares.md`:100 — unresolved
 
 ```diff
 @@ -13,13 +14,98 @@ en:
@@ -2741,7 +2740,7 @@ cf. Река, часть вторая
 
 <a id="t99"></a>
 
-### `apps/vova/public/music/sneg_idet.md`:13 — unresolved
+### `apps/vova/public/music/sneg_idet.md`:15 — unresolved
 
 ```diff
 @@ -4,12 +4,17 @@ status: done
@@ -2900,7 +2899,7 @@ mi casi amor -- отсылка к "I almost love you" (на русском ос�
 
 <a id="t107"></a>
 
-### `apps/vova/public/music/u4.md`:51 — unresolved
+### `apps/vova/public/music/u4.md`:53 — unresolved
 
 ```diff
 @@ -28,98 +30,61 @@ ru:
@@ -3162,3 +3161,5 @@ mi casi amor -- отсылка к "I almost love you" (на русском ос�
 - **2026-10-07T19:08:13Z** @vzakharov renamed from «feat(vova): hidden documents, and 150 masters as hidden song pages» to «feat(vova): hidden documents, artist pages, 147 hidden song pages».
 - **2026-10-08T19:16:29Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5453901697.
 - **2026-10-08T19:16:55Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5461709471.
+- **2026-10-08T19:24:08Z** @vzakharov cross-referenced this pull request from [#170 PR export: warn on a large review up front and route it through subagents](https://github.com/vzakharov/muthur/issues/170).
+- **2026-10-08T19:32:52Z** @vzakharov cross-referenced this pull request from [#171 feat: warn on a large PR review up front, route it through subagents](https://github.com/vzakharov/muthur/pull/171).
