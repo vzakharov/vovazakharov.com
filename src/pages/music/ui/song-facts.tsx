@@ -1,13 +1,14 @@
 import { Group } from '@mantine/core';
 import { Fragment, type ReactNode } from 'react';
 
-import { albumTitle, bill, projectName } from '@/shared/config';
 import { documentMonth, formatDocumentMonth } from '@/shared/content';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { NameLink } from '@/shared/ui';
 
+import { albumTitle } from '../lib/albums';
 import { formatDuration } from '../lib/duration';
 import { albumPath, artistPath, type WithEverything } from '../lib/music-urls';
+import { bill, projectName } from '../lib/projects';
 import type { SongDocument } from '../lib/song-text';
 
 export type SongFactsProps = WithLocale & {

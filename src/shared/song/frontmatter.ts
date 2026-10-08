@@ -2,12 +2,12 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from '@/shared/config';
 import { byLocale } from '@/shared/i18n';
 
 // The leaf rather than the barrel: `shared/content` registers this schema, so
 // entering it by its barrel would close an import cycle at module evaluation.
 import { baseFrontmatterSchema } from '../content/frontmatter';
+import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from './names';
 
 /** Whether the song is released or still being worked on. */
 const SONG_STATUSES = ['done', 'wip'] as const;

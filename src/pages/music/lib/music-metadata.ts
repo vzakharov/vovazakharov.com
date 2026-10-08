@@ -1,23 +1,20 @@
 import 'server-only';
 
-import {
-  albumArtist,
-  albumTitle,
-  projectName,
-  SITE_CONFIG,
-} from '@/shared/config';
+import { SITE_CONFIG } from '@/shared/config';
 import { loadMessages, type Locale } from '@/shared/i18n';
 import {
   constructMetadata,
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
 
+import { albumArtist, albumTitle } from './albums';
 import type {
   AlbumPageProps,
   ArtistPageProps,
   CataloguePageProps,
 } from './music-route-params';
 import { albumPath, artistPath, indexPath } from './music-urls';
+import { projectName } from './projects';
 
 /**
  * A catalogue page, in one language, deferring to the addressed one as the

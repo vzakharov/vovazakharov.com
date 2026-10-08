@@ -1,14 +1,14 @@
 import 'server-only';
 
+import { type Locale, LOCALES } from '@/shared/i18n';
 import {
-  albumArtist,
   MUSIC_ALBUM_SLUGS,
   MUSIC_PROJECT_NAMES,
   type MusicAlbum,
   type MusicProject,
-} from '@/shared/config';
-import { type Locale, LOCALES } from '@/shared/i18n';
+} from '@/shared/song';
 
+import { albumArtist } from './albums';
 import type { SongDocument } from './song-text';
 
 /*

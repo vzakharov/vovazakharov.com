@@ -30,13 +30,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { MUSIC_ALBUM_SLUGS } from '@/shared/config/music-albums';
-import {
-  MUSIC_ORGANIZATION,
-  MUSIC_PROJECT_NAMES,
-} from '@/shared/config/music-projects';
 import { collectionDir } from '@/shared/content/collections';
 import { byLocale, inLocale } from '@/shared/i18n/locales';
+import {
+  MUSIC_ALBUM_SLUGS,
+  MUSIC_ORGANIZATION,
+  MUSIC_PROJECT_NAMES,
+} from '@/shared/song/index.node-safe';
 import type { Dated, Named } from '@/shared/typings';
 
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */

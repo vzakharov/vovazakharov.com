@@ -1,4 +1,3 @@
-import { billing } from '@/shared/config';
 import { isListed, listPrimaryDocuments, SONGS } from '@/shared/content';
 import { byLocale, isLocale } from '@/shared/i18n';
 
@@ -10,6 +9,7 @@ import {
   type WithEverything,
 } from './music-urls';
 import type { PlayerTrack } from './player-state';
+import { billing } from './projects';
 import { localizeSong, type SongDocument } from './song-text';
 
 /** The first segments under `/music` that address a page other than a song. */

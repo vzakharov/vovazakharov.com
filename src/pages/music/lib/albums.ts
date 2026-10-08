@@ -1,37 +1,11 @@
 /**
  * The releases a song can belong to. A registry rather than a collection: an
  * album has a name in each language and an artist, and its page is its songs
- * in track order, so there is no prose of its own to author. The slug is the
- * album page's address under `/music/albums/`.
+ * in track order, so there is no prose of its own to author.
  */
 
-// `scripts/scaffold-song.ts` imports this module under tsx: the next-intl-free
-// leaf, never the `@/shared/i18n` barrel.
-import { inLocale, type Locale, type Localizable } from '@/shared/i18n/locales';
-
-import type { MusicProject } from './music-projects';
-
-export const MUSIC_ALBUM_SLUGS = [
-  'ctfu',
-  'vagabond',
-  'divine',
-  'ghosts',
-  'pschpthy',
-  'nsfl',
-  'stories',
-  'papa-reka',
-  'papa-more',
-  'rus',
-  'dng',
-  'ignite',
-  'old-shite',
-  'nursery',
-  'prototypes',
-  'nikogo',
-  'polzat',
-] as const;
-
-export type MusicAlbum = (typeof MUSIC_ALBUM_SLUGS)[number];
+import { inLocale, type Locale, type Localizable } from '@/shared/i18n';
+import type { MusicAlbum, MusicProject } from '@/shared/song';
 
 type MusicAlbumRecord = {
   /**

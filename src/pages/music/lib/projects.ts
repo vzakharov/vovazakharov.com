@@ -1,16 +1,12 @@
-/**
- * The projects the songs are released under. Below `pages/` because the song
- * frontmatter schema validates against the same names the music page bills —
- * `shared/content` and `pages/music` sit on either side of the layer boundary,
- * so the list cannot live in the slice that renders it.
- */
+/** How the projects the songs are released under are shown and addressed. */
 
-// `scripts/scaffold-song.ts` imports this module under tsx: the next-intl-free
-// leaf, never the `@/shared/i18n` barrel.
-import { inLocale, type Locale, type Localizable } from '@/shared/i18n/locales';
-
-/** The GitHub organization every song's repository and master is served from. */
-export const MUSIC_ORGANIZATION = 'vovas-music';
+import { inLocale, type Locale, type Localizable } from '@/shared/i18n';
+// The node-safe barrel, which `projects.test.ts` runs under: the other one
+// carries the schema and its `server-only`.
+import {
+  MUSIC_ORGANIZATION,
+  type MusicProject,
+} from '@/shared/song/index.node-safe';
 
 export const MUSIC_ORGANIZATION_URL = `https://github.com/${MUSIC_ORGANIZATION}`;
 
@@ -19,24 +15,6 @@ export function songRepositoryUrl(repo: string): string {
   return `${MUSIC_ORGANIZATION_URL}/${repo}`;
 }
 
-/** The source of truth: the schema's enum and the registry below both derive from it. */
-export const MUSIC_PROJECT_NAMES = [
-  'GENERATED',
-  'Полуживые',
-  'Downtemple',
-  'Грёбаный бал',
-  'за/обложкой',
-  'Yoohie',
-  'Trending Today',
-  'Дамы и господа',
-  'Иске Кормаш',
-  'Киндерштайн',
-  'Dead Pixel Lounge',
-  'Листопад',
-] as const;
-
-export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
-
 /** The projects shown under another name in some language; the key is the one the frontmatter uses. */
 const PROJECT_DISPLAY_NAMES: Partial<Record<MusicProject, Localizable>> = {
   Yoohie: { en: 'Yoohie', ru: 'Йухи' },
@@ -44,8 +22,8 @@ const PROJECT_DISPLAY_NAMES: Partial<Record<MusicProject, Localizable>> = {
 
 /**
  * Each project's address under `/music/artists/` — ASCII where the name is not,
- * and unique, which `music-projects.test.ts` holds. Keyed by every name, so a
- * project added above without one fails to compile.
+ * and unique, which `projects.test.ts` holds. Keyed by every name, so a
+ * project added to `shared/song` without one fails to compile.
  */
 export const MUSIC_PROJECT_SLUGS: Record<MusicProject, string> = {
   GENERATED: 'generated',

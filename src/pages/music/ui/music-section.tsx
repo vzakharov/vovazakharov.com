@@ -1,8 +1,10 @@
 import { Box, Stack, Text } from '@mantine/core';
 
-import { MUSIC_ORGANIZATION, MUSIC_ORGANIZATION_URL } from '@/shared/config';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
+import { MUSIC_ORGANIZATION } from '@/shared/song';
 import { Section, TextLink } from '@/shared/ui';
+
+import { MUSIC_ORGANIZATION_URL } from '../lib/projects';
 
 export function MusicSection({ locale }: WithLocale) {
   const { intro, alsoOn, and, openSource } = loadMessages(locale).music;

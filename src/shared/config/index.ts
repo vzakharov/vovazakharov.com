@@ -1,22 +1,4 @@
 export {
-  albumArtist,
-  albumCover,
-  albumTitle,
-  MUSIC_ALBUM_SLUGS,
-  type MusicAlbum,
-} from './music-albums';
-export {
-  bill,
-  billing,
-  MUSIC_ORGANIZATION,
-  MUSIC_ORGANIZATION_URL,
-  MUSIC_PROJECT_NAMES,
-  MUSIC_PROJECT_SLUGS,
-  type MusicProject,
-  projectName,
-  songRepositoryUrl,
-} from './music-projects';
-export {
   getAbsoluteUrl,
   isOffSite,
   pageFile,

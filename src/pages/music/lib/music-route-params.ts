@@ -1,12 +1,5 @@
 import 'server-only';
 
-import {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
-  MUSIC_PROJECT_SLUGS,
-  type MusicAlbum,
-  type MusicProject,
-} from '@/shared/config';
 import type { Slugged } from '@/shared/content';
 import {
   DEFAULT_LOCALE,
@@ -16,6 +9,12 @@ import {
   type WithLocale,
 } from '@/shared/i18n';
 import { oneOf } from '@/shared/lib/collections';
+import {
+  MUSIC_ALBUM_SLUGS,
+  MUSIC_PROJECT_NAMES,
+  type MusicAlbum,
+  type MusicProject,
+} from '@/shared/song';
 
 import { catalogueAlbums, catalogueArtists } from './catalogue';
 import {
@@ -29,6 +28,7 @@ import {
   songPath,
   type WithEverything,
 } from './music-urls';
+import { MUSIC_PROJECT_SLUGS } from './projects';
 import { catalogueSongs, listSongDocuments } from './songs';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */

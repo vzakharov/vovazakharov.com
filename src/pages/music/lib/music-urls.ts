@@ -1,14 +1,12 @@
 import {
-  MUSIC_PROJECT_SLUGS,
-  type MusicAlbum,
-  type MusicProject,
-} from '@/shared/config';
-import {
   collectionRoute,
   documentRoute,
   localizedRoute,
 } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
+import type { MusicAlbum, MusicProject } from '@/shared/song';
+
+import { MUSIC_PROJECT_SLUGS } from './projects';
 
 /**
  * The segment that turns any catalogue page into the whole catalogue's, hidden

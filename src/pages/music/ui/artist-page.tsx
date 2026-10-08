@@ -1,12 +1,13 @@
 import { Stack } from '@mantine/core';
 
-import { albumCover, albumTitle, projectName } from '@/shared/config';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { BackToHome, PageShell } from '@/shared/ui';
 
+import { albumCover, albumTitle } from '../lib/albums';
 import { albumYears, artistAlbums, artistSongs } from '../lib/catalogue';
 import type { ArtistPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
+import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';

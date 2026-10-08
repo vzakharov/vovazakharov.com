@@ -1,7 +1,7 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
-import { SITE_CONFIG, songRepositoryUrl } from '@/shared/config';
+import { SITE_CONFIG } from '@/shared/config';
 import {
   isListed,
   loadDocument,
@@ -25,6 +25,7 @@ import { ProseContent } from '@/entities/document';
 
 import type { SongPageProps } from '../lib/music-route-params';
 import { indexPath, songPath } from '../lib/music-urls';
+import { songRepositoryUrl } from '../lib/projects';
 import { localizeSong, type SongDocument, songLyrics } from '../lib/song-text';
 import { songTrack } from '../lib/songs';
 import { titleGloss } from '../lib/title-gloss';

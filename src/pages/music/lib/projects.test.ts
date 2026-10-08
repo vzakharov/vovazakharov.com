@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { bill, billing, MUSIC_PROJECT_SLUGS } from './music-projects.ts';
+import { bill, billing, MUSIC_PROJECT_SLUGS } from './projects.ts';
 
 describe('MUSIC_PROJECT_SLUGS', () => {
   const slugs = Object.values(MUSIC_PROJECT_SLUGS);
