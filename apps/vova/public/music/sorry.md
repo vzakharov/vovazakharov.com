@@ -61,7 +61,7 @@ and I’m getting it all wrong.
 
 Прости меня, я больше не твоя
 Не для тебя накрашены глаза
-Прости меня, там было хорошо
+Прости меня, нам было хорошо
 Но наш корабль давно ко дну пошёл
 
 Прости меня, я больше не твоя
@@ -98,7 +98,7 @@ Do I have left to go through, just to get up at all[^stages-en]
 
 Forgive me, I’m not yours anymore
 My eyes aren’t made up for you
-Forgive me, it was good there
+Forgive me, we had a good time
 But our ship went down long ago
 
 Forgive me, I’m not yours anymore
