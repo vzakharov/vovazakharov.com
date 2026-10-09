@@ -8,6 +8,7 @@ paths:
   - docs/music/**
   - scripts/check-song-titles.ts
   - scripts/check-masked-words.ts
+  - scripts/check-stanza-repeats.ts
   - scripts/list-hidden-songs.ts
   - scripts/scaffold-song.ts
   - scripts/vet-songs.sh
@@ -27,13 +28,13 @@ A song's frontmatter carries what the markdown cannot: the master's URL and dura
 
 **A song's slug is its name in English, chosen once.** The file name is the address, and a static export has no redirects, so renaming a published song breaks every link to it. An English title is taken as it stands; a Russian one is translated, by the reference it rests on rather than word for word (`moroz` → `frost-the-governor`, after «Мороз-воевода»; `mu-icok-new` → `little-peasant`, after «мужичок с ноготок»), unless it is a name or a sound with nothing to translate (`lyoli`, `chikh-pykh`); a title in any other language is kept, transliterated (`minem-babay`, `agios-o-skopos`). Then lowercase, words joined by hyphens, punctuation and a leading “the”/“a” dropped, and a long title cut to its most recognisable part (`stricken-deer`). A short form the title is already known by stays: an acronym (`ctfu`), a number (`sonnet-74`, `2girls1fridge`), a one-word genre (`requiem`). An album's slug follows the same rule.
 
-**Audio and lyrics a song arrives without** — an album file to split, lyrics to hear off the recording, a mix to master — are `scripts/audio/CLAUDE.md`'s, read before touching the audio.
+**Audio and lyrics a song arrives without** — an album file to split, lyrics to hear off the recording, a mix to master — are `scripts/song-intake/CLAUDE.md`'s, read before touching the audio.
 
-**`hidden: true` stays on a song until it has a description and a story in both languages.** `pnpm music:hidden` writes what each one still lacks to `docs/music/hidden-songs.md`, and the song vet fails while that list is stale.
+**`hidden: true` stays on a song until it has a description and a story in both languages**, and a story arriving brings its `description` in both locales with it. `pnpm music:hidden` writes what each one still lacks to `docs/music/hidden-songs.md`, and the song vet fails while that list is stale.
 
 ## Body
 
-**A song's body is cut on markers, not headings.** `<!-- lang:en -->` and `<!-- lang:ru -->` open the story in each language; `<!-- lyrics:ru -->` and `<!-- lyrics:en -->` hold the words, the key being the language they are in rather than the page's. Anything before the first marker belongs to every locale. The marker is an HTML comment because the authored file is read raw — on GitHub, and at its own `.md` URL — and anything else would be markup the reader has to look past. The lyrics are rendered by the page rather than by the markdown pipeline, one element per line, so a line break is a line break and needs no two invisible spaces at the end of it. The one inline mark they take is `_…_`, which sets a transliteration in italics: a word sung in another script is written in the column's letters — in-the-flesh's English sings _Poekhali!_, not «Поехали!» — and a transliteration is italic wherever the page shows one, a title's gloss included.
+**A song's body is cut on markers, not headings.** `<!-- lang:en -->` and `<!-- lang:ru -->` open the story in each language; `<!-- lyrics:ru -->` and `<!-- lyrics:en -->` hold the words, the key being the language they are in rather than the page's. Words never arrive alone: the crib in the other locale's language — `lyrics:en` under Russian words, `lyrics:ru` under English — is written with them, and a phrase sung in a language other than its column's carries a footnote there translating it. Identical consecutive stanzas are one stanza closed by `x2`, `x3` …, which `pnpm check:stanza-repeats --fix` writes. Anything before the first marker belongs to every locale. The marker is an HTML comment because the authored file is read raw — on GitHub, and at its own `.md` URL — and anything else would be markup the reader has to look past. The lyrics are rendered by the page rather than by the markdown pipeline, one element per line, so a line break is a line break and needs no two invisible spaces at the end of it. The one inline mark they take is `_…_`, which sets a transliteration in italics: a word sung in another script is written in the column's letters — in-the-flesh's English sings _Poekhali!_, not «Поехали!» — and a transliteration is italic wherever the page shows one, a title's gloss included.
 
 **Words in a script the reader may not read carry a romanization** under `<!-- lyrics:<language>-latn -->`, lowercase — `lyrics:ar-latn` for `mithqal`. It matches the words stanza for stanza and line for line and carries no notes, which hang off the words; either slip fails the build. A switch, off by default, sets each romanized line in italics under its own — beside the script, never in place of it, which is what makes Latin letters acceptable under a Quranic phrase.
 

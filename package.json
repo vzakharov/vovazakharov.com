@@ -25,6 +25,7 @@
     "check:prose-quotes": "node scripts/check-prose-quotes.ts",
     "check:masked-words": "node scripts/check-masked-words.ts",
     "check:song-titles": "node scripts/check-song-titles.ts",
+    "check:stanza-repeats": "node scripts/check-stanza-repeats.ts",
     "lint": "eslint . --fix",
     "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:fsd": "steiger src",

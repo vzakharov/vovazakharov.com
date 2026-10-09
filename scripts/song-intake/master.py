@@ -5,7 +5,7 @@ Usage:
   master.py <song> <reference> <out.mp3> [--strength 0.5] [--lufs N]
             [--title T] [--album A] [--artist R] [--track N/M]
 
-The chain, each step there for a reason scripts/audio/CLAUDE.md gives:
+The chain, each step there for a reason scripts/song-intake/CLAUDE.md gives:
 
   1. Matchering matches the song to the reference — loudness, spectrum, peaks.
   2. The smoothed spectrum difference between that match and the song, scaled

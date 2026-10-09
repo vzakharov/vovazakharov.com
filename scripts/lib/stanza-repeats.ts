@@ -1,0 +1,178 @@
+/**
+ * Runs of identical consecutive stanzas in a song's lyrics, and the rewrite
+ * that collapses each into its first stanza closed by `xN` — how the catalogue
+ * writes a repeat (`schadina.md`). A stanza already closed by `xN` counts N
+ * times, so a run that continues past one adds to it.
+ *
+ * Every lyrics section of a song is read stanza for stanza against the others —
+ * the crib beside the words, a romanization under them — so a repeat collapses
+ * only where every section repeats at the same stanza, which keeps them
+ * aligned. One that repeats in some sections and not the rest, or in a song
+ * whose sections have already slipped apart, is refused and left to a person.
+ */
+
+import { splitSections } from '../../src/pages/music/index.node-safe.ts';
+import { frontmatterSpan } from './public-markdown.ts';
+
+const LYRICS = 'lyrics:';
+
+/** `x2`, `x3` …: the stanza it closes is sung that many times. */
+const REPEAT = /^x(\d+)$/;
+
+/**
+ * `[^label]: …`, a note's definition, which the page lifts out of the verse —
+ * so a block of nothing else is no stanza. The syntax is `NOTE_DEFINITION`'s in
+ * `src/pages/music/lib/lyric-notes.ts`, a module bare Node cannot import.
+ */
+const NOTE_DEFINITION = /^\[\^[^\s\]]+]:/;
+
+/** A blank line, however many, between two blocks; captured so a split keeps it. */
+const BETWEEN_BLOCKS = /(\n\s*\n)/;
+
+type Stanza = {
+  /** Index into the section's parts. */
+  part: number;
+  /** Offset of the stanza's first character in the file. */
+  offset: number;
+  /** The lines, trimmed, without a closing `xN`. */
+  body: string;
+  times: number;
+};
+
+type Section = {
+  name: string;
+  /** Offset of the section's text in the file. */
+  start: number;
+  /** Blocks at even indices, the blank lines between them at odd ones. */
+  parts: string[];
+  stanzas: Stanza[];
+};
+
+/** A stanza that repeats the one before it; `refused` says why it stays when it cannot collapse. */
+export type Repeat = { section: string; offset: number; refused?: string };
+
+export type StanzaRepeats = {
+  repeats: Repeat[];
+  /** The file with every repeat that can collapse collapsed. */
+  fixed: string;
+};
+
+function readStanza(block: string): Pick<Stanza, 'body' | 'times'> | undefined {
+  const lines = block.split('\n').map((line) => line.trim());
+  if (lines.every((line) => NOTE_DEFINITION.test(line))) return undefined;
+  const times = lines.length > 1 ? REPEAT.exec(lines.at(-1) ?? '') : null;
+  return times
+    ? { body: lines.slice(0, -1).join('\n'), times: Number(times[1]) }
+    : { body: lines.join('\n'), times: 1 };
+}
+
+function readSection(name: string, text: string, start: number): Section {
+  const parts = text.split(BETWEEN_BLOCKS);
+  const stanzas: Stanza[] = [];
+  let offset = start;
+  for (const [part, block] of parts.entries()) {
+    const stanza = part % 2 === 0 ? readStanza(block) : undefined;
+    if (stanza) stanzas.push({ part, offset, ...stanza });
+    offset += block.length;
+  }
+  return { name, start, parts, stanzas };
+}
+
+/** The song's lyrics sections, in file order, each located in `source`. */
+function lyricsSections(source: string): Section[] {
+  let cursor = frontmatterSpan(source)?.end ?? 0;
+  const sections: Section[] = [];
+  // `splitSections` hands back each section's text trimmed and in file order,
+  // so the first occurrence past the previous one is that section's own.
+  for (const [key, text] of splitSections(source.slice(cursor))) {
+    const at = source.indexOf(text, cursor);
+    cursor = at + text.length;
+    if (key.startsWith(LYRICS)) sections.push(readSection(key, text, at));
+  }
+  return sections;
+}
+
+function repeatsBefore({ stanzas }: Section, index: number): boolean {
+  const [previous, stanza] = [stanzas[index - 1], stanzas[index]];
+  return previous !== undefined && previous.body === stanza?.body;
+}
+
+function closeWith(block: string, times: number): string {
+  const lines = block.split('\n');
+  const last = lines.at(-1)?.trim() ?? '';
+  const closed = lines.length > 1 && REPEAT.test(last);
+  return [...(closed ? lines.slice(0, -1) : lines), `x${String(times)}`].join(
+    '\n',
+  );
+}
+
+/** The section's text with the stanzas at `collapsing` folded into the ones they repeat. */
+function collapse(section: Section, collapsing: ReadonlySet<number>): string {
+  const parts = [...section.parts];
+  let head: Stanza | undefined;
+  let times = 0;
+
+  function closeHead(): void {
+    if (head && times !== head.times)
+      parts[head.part] = closeWith(parts[head.part] ?? '', times);
+  }
+
+  for (const [index, stanza] of section.stanzas.entries()) {
+    if (collapsing.has(index)) {
+      times += stanza.times;
+      // The block and the blank lines before it; a note block between the two
+      // stanzas keeps the blank lines on its own side.
+      parts[stanza.part] = '';
+      parts[stanza.part - 1] = '';
+      continue;
+    }
+    closeHead();
+    head = stanza;
+    times = stanza.times;
+  }
+  closeHead();
+  return parts.join('');
+}
+
+export function stanzaRepeats(source: string): StanzaRepeats {
+  const sections = lyricsSections(source);
+  const counts = new Set(sections.map(({ stanzas }) => stanzas.length));
+  const aligned = counts.size <= 1;
+  const longest = Math.max(0, ...counts);
+  const collapsing = new Set<number>();
+  const repeats: Repeat[] = [];
+
+  for (let index = 1; index < longest; index++) {
+    const repeating = sections.filter((section) =>
+      repeatsBefore(section, index),
+    );
+    if (repeating.length === 0) continue;
+    const differing = sections
+      .filter((section) => !repeating.includes(section))
+      .map(({ name }) => name);
+    const refused = aligned
+      ? differing.length > 0
+        ? `the stanza differs from the one before in ${differing.join(', ')}`
+        : undefined
+      : 'its lyrics sections have different stanza counts, so collapsing one would misalign them';
+    if (refused === undefined) collapsing.add(index);
+    for (const { name, stanzas } of repeating)
+      repeats.push({
+        section: name,
+        offset: stanzas[index]?.offset ?? 0,
+        ...(refused !== undefined && { refused }),
+      });
+  }
+
+  const fixed = sections
+    .toReversed()
+    .reduce(
+      (text, section) =>
+        text.slice(0, section.start) +
+        collapse(section, collapsing) +
+        text.slice(section.start + section.parts.join('').length),
+      source,
+    );
+
+  return { repeats, fixed };
+}

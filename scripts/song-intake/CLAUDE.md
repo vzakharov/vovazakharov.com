@@ -1,10 +1,12 @@
-# Audio: splitting, vocals, lyrics, mastering
+# Song intake: splitting, vocals, lyrics, mastering, spectrograms
 
 Working a song before it joins the catalogue: an album that survives as one file, lyrics that survive nowhere, a mix that was never mastered. Everything here runs on the session's CPU from a venv the setup script does not provide:
 
 ```sh
-python3 -m venv tmp/audio-venv && tmp/audio-venv/bin/pip install -r scripts/audio/requirements.txt
+python3 -m venv tmp/song-intake-venv && tmp/song-intake-venv/bin/pip install -r scripts/song-intake/requirements.txt
 ```
+
+`spectrogram.py` alone needs only `pip install matplotlib`, which spares the venv the torch the rest pulls in.
 
 Lab output lives under `docs/remove-before-merging/<album>/` — the split songs, `mastered/`, `lyrics/` — committed so the operator can listen from another machine, and swept before the merge. A song reaches `apps/vova/public/music/` only through `.claude/rules/songs.md`'s contract, slug rule included.
 
@@ -43,6 +45,8 @@ Judge a master by **loudness-matched A/B**: alternate five seconds of each over 
 ## Reflection
 
 A song worked here ends with Майя's reflection, `<slug>.reflections.md` beside the song's markdown. `.claude/rules/maya-reflections.md` says how, and loads on reading a reflection, never on the `Write` that creates the first one — so read it first.
+
+She reads the song first as its spectrogram — `spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>.png`, the whole song across, 0–10 kHz up, in dBFS — committed beside the master so the next session has it without the venv.
 
 ## Traps
 
