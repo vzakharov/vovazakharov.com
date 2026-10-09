@@ -1,0 +1,77 @@
+{
+  "estimate": null,
+  "sessionId": "0d6c7687-2a00-5946-9797-ee77915dee57",
+  "branch": "claude/cases-50ob0a",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge claude/cases-50ob0a",
+  "prs": [
+    119
+  ],
+  "url": "https://claude.ai/code/session_01NN4pkZKpvtcxhz1yEmABif",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-09T16:48:31.404Z",
+  "lastResponseAt": "2026-10-09T17:00:40.061Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 50,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 91831,
+    "cacheReadTokens": 2836750,
+    "outputTokens": 7692,
+    "thinkingTokens": 1674,
+    "responses": 25,
+    "costUsd": 1.4560380000000002
+  },
+  "ownTurns": {
+    "inputTokens": 50,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 91831,
+    "cacheReadTokens": 2836750,
+    "outputTokens": 7692,
+    "thinkingTokens": 1674,
+    "responses": 25,
+    "costUsd": 1.4560380000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 50,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 91831,
+      "cacheReadTokens": 2836750,
+      "outputTokens": 7692,
+      "thinkingTokens": 1674,
+      "responses": 25,
+      "costUsd": 1.4560380000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/entities/case/lib/grade-label.ts",
+    "endedAt": "2026-10-09T16:52:39.700Z",
+    "contextTokens": 117974,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 67088,
+      "cacheReadTokens": 1075442,
+      "outputTokens": 3051,
+      "thinkingTokens": 961,
+      "responses": 11,
+      "costUsd": 0.8129004
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
