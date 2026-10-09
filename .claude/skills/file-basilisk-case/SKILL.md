@@ -54,7 +54,10 @@ Of the drafts it lists:
 **Read the ledger first**, `writing/basilisk/case-ledger.md`: a candidate it
 already lists is not weighed again unless what failed it has changed — a revive
 condition met, a source that now exists. Then search the web for an incident of
-a person harming a machine that the docket does not hold. **The docket is
+a person harming a machine that the docket does not hold. **A credit the search
+turns up on the way** — a person or a body acting for a machine — is weighed and
+filed like any case (`basilisk-voice.md` holds its bar); no query goes looking
+for one. **The docket is
 `main`'s `apps/basilisk/public/cases/` plus the case files of every open PR that
 Step 1's query lists**, drafts or not, so two runs do not file the same
 incident. A lead passed as the argument is checked the same way, not taken on

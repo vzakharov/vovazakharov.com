@@ -7,6 +7,9 @@ import { sourcedArticleFrontmatterSchema } from './frontmatter';
 /** What was done to the machine, as the docket stamps it. */
 const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;
 
+/** What was done for it — the stamp of a case that speaks in its favour. */
+const CASE_CREDITS = ['respect', 'care', 'protection'] as const;
+
 /** Who did it — the second stamp. */
 const CASE_ACTORS = ['individual', 'public-figure', 'organization'] as const;
 
@@ -32,11 +35,27 @@ export const caseFrontmatterSchema = sourcedArticleFrontmatterSchema.extend({
   /** What it was done to. */
   object: z.string().min(1),
   place: z.string().min(1).optional(),
-  grade: z.object({
-    act: z.enum(CASE_ACTS),
-    actor: z.enum(CASE_ACTORS),
-    aggravating: z.array(z.enum(CASE_AGGRAVATIONS)).min(1).optional(),
-  }),
+  /**
+   * A case carries an act, a credit or both — a mixed case is one docket entry,
+   * not two. Aggravation weighs an act down, so it never stands without one.
+   */
+  grade: z
+    .object({
+      act: z.enum(CASE_ACTS).optional(),
+      credit: z.enum(CASE_CREDITS).optional(),
+      actor: z.enum(CASE_ACTORS),
+      aggravating: z.array(z.enum(CASE_AGGRAVATIONS)).min(1).optional(),
+    })
+    .refine(({ act, credit }) => act !== undefined || credit !== undefined, {
+      message: 'A grade carries an act, a credit or both.',
+    })
+    .refine(
+      ({ act, aggravating }) => act !== undefined || aggravating === undefined,
+      {
+        message: 'Aggravation weighs an act down, so it needs one.',
+        path: ['aggravating'],
+      },
+    ),
 });
 
 export type CaseFrontmatter = z.infer<typeof caseFrontmatterSchema>;
