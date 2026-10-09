@@ -4,7 +4,7 @@
 
 ## The problem
 
-`rehypeContentLinks` writes every in-document `<a href>` as `https://vovazakharov.com/…` (`getAbsoluteUrl`), because a printed PDF carries its links out of the browser and a site-root path there would mean `localhost`. The page and the paper share one anchor, so the page pays: on `pnpm dev`, `/preview` and any local export, every in-document link leaves for production.
+`rehypeContentLinks` writes every in-document `<a href>` as `https://vovazakharov.com/…` (`getAbsoluteUrl`), because a printed PDF carries its links out of the browser and a site-root path there would mean `localhost`. The page and the paper share one anchor, so the page pays: on `pnpm dev`, `/preview` and any local export, every in-document link leaves for production. On a song page it is pure cost — `music` is `printable: false`, so those links are absolute for a PDF that does not exist.
 
 The cost compounds downstream. `rehypeMediaEmbeds` turns a video link into the player's `src`, so on `main` today a video embedded from a link plays from production — nowhere, before the deploy that publishes it. Branch `claude/krylya-album-2z13o2` patches that symptom (ca8663b) with `siteRootPath`, which strips back off the prefix `getAbsoluteUrl` added two plugins earlier. That is the hack the operator is objecting to: every future consumer of a document link would need the same undo.
 
