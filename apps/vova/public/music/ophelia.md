@@ -10,7 +10,7 @@ seconds: 203
 explicit: false
 album: papa-reka
 track: 6
-alsoOn: [{ album: hamlet, track: 4 }]
+alsoOn: [{ album: hamlet, track: 3 }]
 hidden: true
 credits:
   lyrics: [William Shakespeare, К. Р.]

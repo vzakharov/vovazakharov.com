@@ -6,7 +6,7 @@ language: ru
 project: ['Полуживые']
 repo: 'hamlet'
 album: hamlet
-track: 2
+track: 5
 audio: https://raw.githubusercontent.com/vovas-music/hamlet/main/hamlet_extended.flac
 seconds: 353
 explicit: false
