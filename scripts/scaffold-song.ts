@@ -36,7 +36,7 @@ import {
   MUSIC_ALBUM_SLUGS,
   MUSIC_ORGANIZATION,
   MUSIC_PROJECT_NAMES,
-} from '@/shared/song/index.node-safe';
+} from '@/shared/music-catalogue/index.node-safe';
 import type { Dated, Named } from '@/shared/typings';
 
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */

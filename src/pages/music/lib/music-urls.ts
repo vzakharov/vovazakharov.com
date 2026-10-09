@@ -4,7 +4,7 @@ import {
   localizedRoute,
 } from '@/shared/content';
 import { loadMessages, type Locale } from '@/shared/i18n';
-import type { MusicAlbum, MusicProject } from '@/shared/song';
+import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
 
 import { MUSIC_PROJECT_SLUGS } from './projects';
 

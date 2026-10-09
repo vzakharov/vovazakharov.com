@@ -8,7 +8,7 @@ import type {
   AlbumPlacement,
   MusicAlbum,
   SongFrontmatter,
-} from '@/shared/song';
+} from '@/shared/music-catalogue';
 
 type Placed = Pick<SongFrontmatter, 'album' | 'track' | 'alsoOn'>;
 

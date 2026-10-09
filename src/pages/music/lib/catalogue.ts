@@ -6,7 +6,7 @@ import {
   MUSIC_PROJECT_NAMES,
   type MusicAlbum,
   type MusicProject,
-} from '@/shared/song';
+} from '@/shared/music-catalogue';
 
 import { albumTracks } from './album-tracks';
 import { albumArtist } from './albums';

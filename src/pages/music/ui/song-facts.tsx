@@ -3,7 +3,7 @@ import { Fragment, type ReactNode } from 'react';
 
 import { documentMonth, formatDocumentMonth } from '@/shared/content';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
-import type { MusicAlbum } from '@/shared/song';
+import type { MusicAlbum } from '@/shared/music-catalogue';
 import { NameLink } from '@/shared/ui';
 
 import { albumTitle } from '../lib/albums';

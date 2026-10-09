@@ -5,7 +5,7 @@ import {
   type CreditedName,
   SONG_AUTHOR,
   type SongFrontmatter,
-} from '@/shared/song';
+} from '@/shared/music-catalogue';
 
 export type SongCreditsProps = WithLocale &
   Pick<SongFrontmatter, 'credits' | 'language'>;

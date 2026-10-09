@@ -5,7 +5,7 @@
  */
 
 import { inLocale, type Locale, type Localizable } from '@/shared/i18n';
-import type { MusicAlbum, MusicProject, TitleGloss } from '@/shared/song';
+import type { MusicAlbum, MusicProject, TitleGloss } from '@/shared/music-catalogue';
 
 import { titleGloss } from './title-gloss';
 

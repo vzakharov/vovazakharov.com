@@ -1,6 +1,6 @@
 import { Group, type GroupProps, Text } from '@mantine/core';
 
-import type { TitleGloss } from '@/shared/song';
+import type { TitleGloss } from '@/shared/music-catalogue';
 
 /**
  * The muted line under a title the reader may not read: what it means, then,

@@ -14,7 +14,7 @@ import {
   MUSIC_PROJECT_NAMES,
   type MusicAlbum,
   type MusicProject,
-} from '@/shared/song';
+} from '@/shared/music-catalogue';
 
 import { catalogueAlbums, catalogueArtists } from './catalogue';
 import {

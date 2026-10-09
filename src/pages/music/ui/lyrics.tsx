@@ -3,7 +3,7 @@ import Markdown, { type Components } from 'react-markdown';
 
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
-import type { SungLanguage } from '@/shared/song';
+import type { SungLanguage } from '@/shared/music-catalogue';
 import type { WithText } from '@/shared/typings';
 import { Subheading, TextLink } from '@/shared/ui';
 

@@ -1,6 +1,6 @@
 import type { Slugged } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
-import type { Playable } from '@/shared/song';
+import type { Playable } from '@/shared/music-catalogue';
 import type { LabeledLink } from '@/shared/typings';
 
 /** A song's billing, each artist linked to its page and the joins between them as text. */

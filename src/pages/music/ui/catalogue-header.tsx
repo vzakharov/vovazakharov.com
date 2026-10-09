@@ -1,6 +1,6 @@
 import { Box, Text, Title } from '@mantine/core';
 
-import type { TitleGloss } from '@/shared/song';
+import type { TitleGloss } from '@/shared/music-catalogue';
 import type { Titled, WithOptionalChildren } from '@/shared/typings';
 
 import { TitleGlossLine } from './title-gloss-line';

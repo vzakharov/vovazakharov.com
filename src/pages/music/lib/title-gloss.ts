@@ -1,5 +1,5 @@
 import type { Locale } from '@/shared/i18n';
-import type { TitleGloss } from '@/shared/song';
+import type { TitleGloss } from '@/shared/music-catalogue';
 import type { Titled } from '@/shared/typings';
 
 const LATIN = /\p{Script=Latin}/u;

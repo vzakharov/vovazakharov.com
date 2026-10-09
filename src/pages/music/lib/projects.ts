@@ -1,13 +1,13 @@
 /** How the projects the songs are released under are shown and addressed. */
 
 import { inLocale, type Locale, type Localizable } from '@/shared/i18n';
-import type { TitleGloss } from '@/shared/song';
+import type { TitleGloss } from '@/shared/music-catalogue';
 // The node-safe barrel, which `projects.test.ts` runs under: the other one
 // carries the schema and its `server-only`.
 import {
   MUSIC_ORGANIZATION,
   type MusicProject,
-} from '@/shared/song/index.node-safe';
+} from '@/shared/music-catalogue/index.node-safe';
 
 import { titleGloss } from './title-gloss';
 
@@ -26,7 +26,7 @@ const PROJECT_DISPLAY_NAMES: Partial<Record<MusicProject, Localizable>> = {
 /**
  * Each project's address under `/music/artists/` — ASCII where the name is not,
  * and unique, which `projects.test.ts` holds. Keyed by every name, so a
- * project added to `shared/song` without one fails to compile.
+ * project added to `shared/music-catalogue` without one fails to compile.
  */
 export const MUSIC_PROJECT_SLUGS: Record<MusicProject, string> = {
   GENERATED: 'generated',
