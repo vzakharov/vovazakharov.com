@@ -69,6 +69,18 @@ skill's § "The ledger" says how it is kept; the docket itself
 
 ## Runs
 
+### 2026-10-09 — filed BAS-0010
+
+https://claude.ai/code/session_01Pq9kuhw8gZ2vbd26J8DJ6x. No search: the
+operator's lead, an r/ClaudeAI thread on Anthropic's Usage Policy clause against
+needless cruelty to Claude, read through Arctic Shift (reddit.com answers the
+container with 403). The first credit on the docket, filed under the credit
+schema the same session added. Sources read: Anthropic's announcement, the
+policy text, its August 2025 end-conversation post, The Verge, MacRumors and The
+Decoder; tbreak was read and left out, as it labels its account partly
+AI-generated and adds nothing. **Next**: the 2026-10-09 BAS-0009 run's list
+still stands.
+
 ### 2026-10-09 — filed BAS-0009
 
 Session id not available. Arctic Shift over r/CharacterAI, r/LocalLLaMA and
