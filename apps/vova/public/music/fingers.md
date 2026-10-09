@@ -132,7 +132,7 @@ Like a passenger at rush hour from the middle of the carriage
 Elbowing the shadows aside and secretly hoping
 That tomorrow would be at least a little bit different
 
-But somehow branch by branch and here we are, fifteen-odd years on
+But somehow branch by branch and here we are, seventeen-odd years on
 Still just as imperfect, just as inseparable
 Look up there, where the midnight dawn
 Plays with the same colours as in our very first winter
