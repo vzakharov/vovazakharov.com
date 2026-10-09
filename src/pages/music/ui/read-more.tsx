@@ -49,7 +49,7 @@ export function ReadMore({ label, children }: LabeledBlock) {
         // The button goes once pressed, so focus lands on the text it opened
         // rather than falling back to the top of the document.
         tabIndex={-1}
-        className={cx(!expanded && classes['clamped'])}
+        className={cx(classes['box'], !expanded && classes['clamped'])}
         data-overflowing={overflowing}
       >
         <div ref={contentRef}>{children}</div>

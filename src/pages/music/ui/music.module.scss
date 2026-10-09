@@ -290,9 +290,8 @@
   }
 }
 
-// A song's or an album's cover, above its title on a phone and beside it from
-// `sm` up.
-.songHead {
+// A page's cover, above its title on a phone and beside it from `sm` up.
+.coverHead {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -303,7 +302,7 @@
   }
 }
 
-.songCover {
+.cover {
   flex: none;
   width: 160px;
 

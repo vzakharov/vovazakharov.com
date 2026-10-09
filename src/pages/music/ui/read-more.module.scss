@@ -19,6 +19,13 @@
   }
 }
 
+// The ring the opened text takes focus with: Mantine's own, which reaches only
+// its components, set clear of the glyphs at the column's edge.
+.box:focus-visible {
+  outline: 2px solid var(--mantine-primary-color-filled);
+  outline-offset: 8px;
+}
+
 .more {
   padding: 0 4px;
   font-size: 1.5rem;
