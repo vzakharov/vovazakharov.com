@@ -1,0 +1,75 @@
+{
+  "estimate": null,
+  "sessionId": "3b725208-e6df-5acb-8027-f54e6a5edef9",
+  "branch": "claude/krylya-album-2z13o2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/krylya-album-2z13o2",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01NEGD3GxK4JAV5bNYRh4PEw",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-09T20:01:29.445Z",
+  "lastResponseAt": "2026-10-09T20:01:48.122Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 8,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55470,
+    "cacheReadTokens": 328016,
+    "outputTokens": 1390,
+    "thinkingTokens": 341,
+    "responses": 4,
+    "costUsd": 0.5371952
+  },
+  "ownTurns": {
+    "inputTokens": 8,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55470,
+    "cacheReadTokens": 328016,
+    "outputTokens": 1390,
+    "thinkingTokens": 341,
+    "responses": 4,
+    "costUsd": 0.5371952
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55470,
+      "cacheReadTokens": 328016,
+      "outputTokens": 1390,
+      "thinkingTokens": 341,
+      "responses": 4,
+      "costUsd": 0.5371952
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-09T20:01:48.122Z",
+    "contextTokens": 100261,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 52155,
+      "cacheReadTokens": 231072,
+      "outputTokens": 599,
+      "thinkingTokens": 55,
+      "responses": 3,
+      "costUsd": 0.4754584
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
