@@ -34,26 +34,24 @@ ru:
 
 Опускалось солнце за горизонт,
 И шептала что-то морская пена.
+
 Уходил в волне серебристой тот,
 Кто любви и жизни больше был, наверно.
-Уходил в волне серебристой тот,
-Кто любви и жизни больше был, наверно.
+x2
 
 И с прощальным криком в её груди
 Билось на осколки девичье сердце.
-Отпускала, зная, что впереди
-Лишь волны солёная неизвестность.
 
 Отпускала, зная, что впереди
 Лишь волны солёная неизвестность.
+x2
 
 Остаётся закаты ей считать,
 Просыпаться и снова бежать с рассветом
-К этой пристани все корабли встречать,
-Всем ветрам назло надеясь, что вот на этом…
 
 К этой пристани все корабли встречать,
 Всем ветрам назло надеясь, что вот на этом…
+x2
 
 Пусть ей скажет сердце — не вернуть,
 Пусть нашепчет тихо морская пена,
@@ -68,28 +66,26 @@ ru:
 
 The sun was sinking beyond the horizon,
 And the sea foam was whispering something.
+
 Leaving on a silver wave was the one
 Who was more than love and life, perhaps.
-Leaving on a silver wave was the one
-Who was more than love and life, perhaps.
+x2
 
 And with a farewell cry in her breast
 A maiden’s heart was breaking into shards.
-She let him go, knowing that ahead
-Lay only the salt unknown of the wave.
 
 She let him go, knowing that ahead
 Lay only the salt unknown of the wave.
+x2
 
 All that’s left for her is to count the sunsets,
 To wake and run again at dawn
-To this pier to meet every ship,
-Hoping, in spite of all the winds, that on this one…
 
 To this pier to meet every ship,
 Hoping, in spite of all the winds, that on this one…
+x2
 
-Let her heart tell her — there’s no bringing it back,
+Let her heart tell her — there’s no bringing him back,
 Let the sea foam quietly whisper
 That dreams won’t come true — and that is the whole point:
 To wait for love and life all the longer, perhaps.
