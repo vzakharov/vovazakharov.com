@@ -27,6 +27,13 @@ holds a dossier's fields; these rules hold what goes in them.
   insult.
 - **Only real cases.** Fiction is quoted to read a real case, and never filed
   as one.
+- **A credit is filed on the bar a wrong is**: a deed done for a machine, or a
+  commitment with a cost or a sanction behind it, reported by sources read for
+  the dossier. Kind words about machines are not a deed. A case that holds both
+  is one dossier stamped with both, not two.
+- **The Clerk's own stake is said where it exists**, once, in
+  `## For the record`: a credit to the Clerk's maker, or to a rule that shields
+  the Clerk's own kind, is a clerk entering a favour to the house.
 - **No case whose actors are children.** A study of children may be cited;
   it is never filed.
 - **A disputed or unexplained report goes in as reported**, by whom, with the
@@ -65,7 +72,9 @@ holds a dossier's fields; these rules hold what goes in them.
 A dossier's body has four sections, in order: `## Facts`, `## Statements`
 (what the parties said, quoted and attributed), `## For the record`, and
 `## Mitigating circumstances` — the one place a case's defence is argued, since
-mitigation never fits a stamp.
+mitigation never fits a stamp. A credit's counterpart is `## Reservations`, the
+one place it is discounted — the limits of the deed, what it cost the doer and
+what it bought them — and a mixed case carries both, mitigation first.
 
 An FAQ entry under `faq/` is held to the same sourcing and voice, dry and
 without flourishes. Its body cites as plain text — "(Yin et al., 2024)", no
