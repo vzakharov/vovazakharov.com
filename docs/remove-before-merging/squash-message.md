@@ -1,19 +1,24 @@
 Proposed squash title/body:
 
 ```
-feat(vova): language switch replaces the history entry (pr #128)
+feat(vova): language switches stay out of history; Back keeps it (pr #128)
 ```
 
 ```
 Switching a page's language added a history entry, so Back stepped
-between the two languages of one page before it left it.
+between the two languages of one page, and returned to earlier pages
+in the language they were left in.
 
-The CV's locale picker and the music pages' locale chips now navigate
-with next/link's `replace`: a language switch overwrites the current
-entry, and Back goes to the page the reader came from. ChipNav takes
-`replace` for the whole row and TextLink hands it to the client-side
-link only; the document cut switcher still pushes, and before
-hydration the chips are plain links that push as any link does.
+The language chips on the CV and the music pages now navigate with
+next/link's `replace`, so Back leaves the page. And since a browser
+can rewrite only the entry it stands on, a page reached by Back or
+Forward in a language other than the one last switched to replaces
+itself with its own version in that language. Only a traversal does
+this; an address followed or typed keeps the language it names.
+
+A chip carrying `hrefLang` is what marks a ChipNav row as a language
+switch. The choice is kept per tab in memory with a sessionStorage
+copy, so a browser refusing storage keeps it until reload.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
