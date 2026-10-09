@@ -7,18 +7,45 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-07T06:35:11Z
-- **Updated:** 2026-10-09T08:32:45Z
+- **Updated:** 2026-10-09T09:44:03Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 2
+## Awaiting an answer: 29
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 28ec2b0). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 3c37ba0). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T18** `scripts/check-masked-words.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-09T07:32:59Z — "давай всё проверки, связанные с песнями, завяжем на изменени…" → [↓](#t18)
-- **T19** `scripts/check-prose-quotes.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-09T07:33:40Z — "к этому (и другим аналогичным, захватывающим остальную прозу…" → [↓](#t19)
+- **T01** `apps/vova/public/music/caprice.md`:13 — unresolved — last: @vzakharov (human) 2026-10-09T09:13:32Z — "Чих-Пых это Chikh-Pykh! :) у Lyoli таки Lyoli, и давай если…" → [↓](#t01)
+- **T02** `apps/vova/public/music/mobius.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T09:14:33Z — "Inverno инструментальная, как и весь альбом кроме двух после…" → [↓](#t02)
+- **T04** `apps/vova/public/music/bezm.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:17:28Z — "тут без многоточия, звучит самодостаточно как название" → [↓](#t04)
+- **T05** `apps/vova/public/music/bronte.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:18:09Z — "у неё это как название стихотворения или как строчка идёт? с…" → [↓](#t05)
+- **T06** `apps/vova/public/music/comeback.md`:18 — unresolved — last: @vzakharov (human) 2026-10-09T09:20:08Z — ""вот вам хит" (если хит -- это что-то другое, то "вот вам бэ…" → [↓](#t06)
+- **T07** `apps/vova/public/music/erebos.md`:18 — unresolved — last: @vzakharov (human) 2026-10-09T09:22:40Z — "я бы всё-таки сделал Эребос, хотя у нас он переводится как Э…" → [↓](#t07)
+- **T08** `apps/vova/public/music/fingers.md`:156 — unresolved — last: @vzakharov (human) 2026-10-09T09:23:10Z — "тогда и в переводе for none and for all" → [↓](#t08)
+- **T09** `apps/vova/public/music/inverno.md`:3 — unresolved — last: @vzakharov (human) 2026-10-09T09:24:45Z — "а, ступил там выше, конечно название it" → [↓](#t09)
+- **T10** `apps/vova/public/music/inverno.md`:22 — unresolved — last: @vzakharov (human) 2026-10-09T09:25:19Z — "а перевод? проверка должна требовать перевода, если язык НЕ…" → [↓](#t10)
+- **T11** `apps/vova/public/music/lebed.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:25:36Z — "это тоже полное название" → [↓](#t11)
+- **T12** `apps/vova/public/music/leli.md`:28 — unresolved — last: @vzakharov (human) 2026-10-09T09:26:18Z — "but “Lyoli [was] just a masterpiece”" → [↓](#t12)
+- **T13** `apps/vova/public/music/mithqal.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:28:24Z — "наверное этот конкретный тайтл надо итализировать так как эт…" → [↓](#t13)
+- **T14** `apps/vova/public/music/mne-nravitsya.md`:19 — unresolved — last: @vzakharov (human) 2026-10-09T09:28:44Z — "а принято в английском капитализировать, если ...?" → [↓](#t14)
+- **T15** `apps/vova/public/music/nazovi.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:29:32Z — "это полное название" → [↓](#t15)
+- **T16** `docs/remove-before-merging/slugs.md`:5 — unresolved — last: @vzakharov (human) 2026-10-09T09:33:55Z — "не надо, никто это не видел и не слушал :) birdie, crossroad…" → [↓](#t16)
+- **T17** `docs/remove-before-merging/slugs.md`:7 — unresolved — last: @vzakharov (human) 2026-10-09T09:35:56Z — "inverno is ok lyoli mithqal is ok" → [↓](#t17)
+- **T18** `docs/remove-before-merging/slugs.md`:12 — unresolved — last: @vzakharov (human) 2026-10-09T09:36:18Z — "agios-o-skopos" → [↓](#t18)
+- **T19** `docs/remove-before-merging/slugs.md`:16 — unresolved — last: @vzakharov (human) 2026-10-09T09:36:43Z — "minem-babay essentially, we translate to en for ru, others w…" → [↓](#t19)
+- **T20** `docs/remove-before-merging/slugs.md`:23 — unresolved — last: @vzakharov (human) 2026-10-09T09:37:09Z — "chik-pykh" → [↓](#t20)
+- **T21** `docs/remove-before-merging/slugs.md`:42 — unresolved — last: @vzakharov (human) 2026-10-09T09:37:48Z — "french" → [↓](#t21)
+- **T22** `docs/remove-before-merging/slugs.md`:57 — unresolved — last: @vzakharov (human) 2026-10-09T09:39:04Z — "frost-the-governor (мороз-воевода, более известная отсылка)" → [↓](#t22)
+- **T23** `docs/remove-before-merging/slugs.md`:58 — unresolved — last: @vzakharov (human) 2026-10-09T09:39:16Z — "что-то от "мужичок"" → [↓](#t23)
+- **T24** `docs/remove-before-merging/slugs.md`:70 — unresolved — last: @vzakharov (human) 2026-10-09T09:39:58Z — "peta, yes" → [↓](#t24)
+- **T25** `docs/remove-before-merging/slugs.md`:73 — unresolved — last: @vzakharov (human) 2026-10-09T09:40:13Z — "от "покойника"" → [↓](#t25)
+- **T26** `docs/remove-before-merging/slugs.md`:79 — unresolved — last: @vzakharov (human) 2026-10-09T09:40:24Z — "requiem" → [↓](#t26)
+- **T27** `docs/remove-before-merging/slugs.md`:80 — unresolved — last: @vzakharov (human) 2026-10-09T09:40:31Z — "sonnet-74" → [↓](#t27)
+- **T28** `docs/remove-before-merging/slugs.md`:93 — unresolved — last: @vzakharov (human) 2026-10-09T09:40:53Z — "2girls1fridge" → [↓](#t28)
+- **T29** `docs/remove-before-merging/slugs.md`:104 — unresolved — last: @vzakharov (human) 2026-10-09T09:42:30Z — "schadina as already changed on the branch" → [↓](#t29)
+- **T30** `docs/remove-before-merging/slugs.md`:106 — unresolved — last: @vzakharov (human) 2026-10-09T09:42:40Z — "yeah they should. тьфу, чего я начал говорить на английском?" → [↓](#t30)
 
 ---
 
@@ -212,180 +239,40 @@ _2026-10-08T19:16:55Z_
 
 см. ниже
 
-_186 resolved threads omitted; re-run with `--include-resolved` to export them._
+_204 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `apps/vova/public/music/f-ec.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-08T20:29:14Z — "Работа по этому ревью закончена — напоминаю про слаги, как т…" → [↓](#t01)
-- **T02** `apps/vova/public/music/nazovi.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-09T07:55:54Z — "Поставил 2025-12-01 — день в схеме обязателен, так что перво…" → [↓](#t02)
-- **T03** `apps/vova/public/music/assets/artists/generated.jpg`:1 — unresolved — last: @vzakharov (agent) 2026-10-09T08:05:56Z — "Сделал: артиста теперь рисует обложка его последнего релиза…" → [↓](#t03)
-- **T04** `apps/vova/public/music/birdie.md`:148 — unresolved — last: @vzakharov (agent) 2026-10-09T07:55:55Z — "Английская строка теперь эхом: [Why should I be fucking sad]…" → [↓](#t04)
-- **T05** `apps/vova/public/music/caprice.md`:13 — unresolved — last: @vzakharov (agent) 2026-10-09T08:14:19Z — "Сделал вет: `pnpm check:song-titles` требует для неанглийско…" → [↓](#t05)
-- **T06** `apps/vova/public/music/chaos-always-wins.md`:55 — unresolved — last: @vzakharov (agent) 2026-10-09T07:55:57Z — "Убрал подсказку из английской колонки, русская осталась. 9da…" → [↓](#t06)
-- **T07** `apps/vova/public/music/heres-to-the-virus.md`:18 — unresolved — last: @vzakharov (agent) 2026-10-09T07:55:58Z — "«За вирус!» — 9da6bce" → [↓](#t07)
-- **T08** `apps/vova/public/music/horizons.md`:48 — unresolved — last: @vzakharov (agent) 2026-10-09T07:56:00Z — "Теперь «…трещины в нашем доверии искажают наше отражение до…" → [↓](#t08)
-- **T09** `apps/vova/public/music/ignite.md`:18 — unresolved — last: @vzakharov (agent) 2026-10-09T07:56:02Z — "«Зажигаем» — и у песни, и у альбома Ignite, чтобы не расходи…" → [↓](#t09)
-- **T10** `apps/vova/public/music/last-christmas.md`:18 — unresolved — last: @vzakharov (agent) 2026-10-09T07:56:03Z — "«Прошлым Рождеством» — так звучит естественнее и параллельно…" → [↓](#t10)
-- **T11** `apps/vova/public/music/mobius.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-09T08:14:21Z — "Правило вошло в тот же вет: `titleLanguage` сразу под `title…" → [↓](#t11)
-- **T12** `apps/vova/public/music/peta.md`:98 — unresolved — last: @vzakharov (agent) 2026-10-09T07:56:05Z — "«Приют PETA — чьё название обыгрывает название песни — в Нор…" → [↓](#t12)
-- **T13** `apps/vova/public/music/protintro.md`:29 — unresolved — last: @vzakharov (agent) 2026-10-09T07:56:07Z — "Trust me. — отдельным абзацем. 9da6bce" → [↓](#t13)
-- **T14** `apps/vova/public/music/s74.md`:18 — unresolved — last: @vzakharov (agent) 2026-10-09T07:56:09Z — "«Ты не терзайся…» / _Ty ne terzaysya…_ / Do not torment your…" → [↓](#t14)
-- **T15** `apps/vova/public/music/tvoya-l-vina.md`:19 — unresolved — last: @vzakharov (agent) 2026-10-09T08:14:22Z — "Прошёлся по всем названиям, взятым из первой строки: многото…" → [↓](#t15)
-- **T16** `apps/vova/public/music/two-girls-one-fridge.md`:33 — unresolved — last: @vzakharov (agent) 2026-10-09T07:56:13Z — "Подсказка на строке в обеих колонках, без ссылки: A nod to _…" → [↓](#t16)
-- **T17** `apps/vova/public/music/utro.md`:66 — unresolved — last: @vzakharov (agent) 2026-10-09T07:56:15Z — "Припев в конце теперь один раз и строка «×2», в обеих колонк…" → [↓](#t17)
-- **T18** `scripts/check-masked-words.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-09T07:32:59Z — "давай всё проверки, связанные с песнями, завяжем на изменени…" → [↓](#t18)
-- **T19** `scripts/check-prose-quotes.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-09T07:33:40Z — "к этому (и другим аналогичным, захватывающим остальную прозу…" → [↓](#t19)
-- **T20** `src/pages/music/lib/music-metadata.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-09T08:05:58Z — "Теперь генерим: у песни, альбома и артиста og:image — та же…" → [↓](#t20)
-- **T21** `src/shared/music-catalogue/names.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-09T08:05:55Z — "Да, переехало: `src/shared/song` → `src/shared/music-catalog…" → [↓](#t21)
+- **T01** `apps/vova/public/music/caprice.md`:13 — unresolved — last: @vzakharov (human) 2026-10-09T09:13:32Z — "Чих-Пых это Chikh-Pykh! :) у Lyoli таки Lyoli, и давай если…" → [↓](#t01)
+- **T02** `apps/vova/public/music/mobius.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T09:14:33Z — "Inverno инструментальная, как и весь альбом кроме двух после…" → [↓](#t02)
+- **T03** `apps/vova/public/music/two-girls-one-fridge.md`:33 — unresolved — last: @vzakharov (agent) 2026-10-09T07:56:13Z — "Подсказка на строке в обеих колонках, без ссылки: A nod to _…" → [↓](#t03)
+- **T04** `apps/vova/public/music/bezm.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:17:28Z — "тут без многоточия, звучит самодостаточно как название" → [↓](#t04)
+- **T05** `apps/vova/public/music/bronte.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:18:09Z — "у неё это как название стихотворения или как строчка идёт? с…" → [↓](#t05)
+- **T06** `apps/vova/public/music/comeback.md`:18 — unresolved — last: @vzakharov (human) 2026-10-09T09:20:08Z — ""вот вам хит" (если хит -- это что-то другое, то "вот вам бэ…" → [↓](#t06)
+- **T07** `apps/vova/public/music/erebos.md`:18 — unresolved — last: @vzakharov (human) 2026-10-09T09:22:40Z — "я бы всё-таки сделал Эребос, хотя у нас он переводится как Э…" → [↓](#t07)
+- **T08** `apps/vova/public/music/fingers.md`:156 — unresolved — last: @vzakharov (human) 2026-10-09T09:23:10Z — "тогда и в переводе for none and for all" → [↓](#t08)
+- **T09** `apps/vova/public/music/inverno.md`:3 — unresolved — last: @vzakharov (human) 2026-10-09T09:24:45Z — "а, ступил там выше, конечно название it" → [↓](#t09)
+- **T10** `apps/vova/public/music/inverno.md`:22 — unresolved — last: @vzakharov (human) 2026-10-09T09:25:19Z — "а перевод? проверка должна требовать перевода, если язык НЕ…" → [↓](#t10)
+- **T11** `apps/vova/public/music/lebed.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:25:36Z — "это тоже полное название" → [↓](#t11)
+- **T12** `apps/vova/public/music/leli.md`:28 — unresolved — last: @vzakharov (human) 2026-10-09T09:26:18Z — "but “Lyoli [was] just a masterpiece”" → [↓](#t12)
+- **T13** `apps/vova/public/music/mithqal.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:28:24Z — "наверное этот конкретный тайтл надо итализировать так как эт…" → [↓](#t13)
+- **T14** `apps/vova/public/music/mne-nravitsya.md`:19 — unresolved — last: @vzakharov (human) 2026-10-09T09:28:44Z — "а принято в английском капитализировать, если ...?" → [↓](#t14)
+- **T15** `apps/vova/public/music/nazovi.md`:2 — unresolved — last: @vzakharov (human) 2026-10-09T09:29:32Z — "это полное название" → [↓](#t15)
+- **T16** `docs/remove-before-merging/slugs.md`:5 — unresolved — last: @vzakharov (human) 2026-10-09T09:33:55Z — "не надо, никто это не видел и не слушал :) birdie, crossroad…" → [↓](#t16)
+- **T17** `docs/remove-before-merging/slugs.md`:7 — unresolved — last: @vzakharov (human) 2026-10-09T09:35:56Z — "inverno is ok lyoli mithqal is ok" → [↓](#t17)
+- **T18** `docs/remove-before-merging/slugs.md`:12 — unresolved — last: @vzakharov (human) 2026-10-09T09:36:18Z — "agios-o-skopos" → [↓](#t18)
+- **T19** `docs/remove-before-merging/slugs.md`:16 — unresolved — last: @vzakharov (human) 2026-10-09T09:36:43Z — "minem-babay essentially, we translate to en for ru, others w…" → [↓](#t19)
+- **T20** `docs/remove-before-merging/slugs.md`:23 — unresolved — last: @vzakharov (human) 2026-10-09T09:37:09Z — "chik-pykh" → [↓](#t20)
+- **T21** `docs/remove-before-merging/slugs.md`:42 — unresolved — last: @vzakharov (human) 2026-10-09T09:37:48Z — "french" → [↓](#t21)
+- **T22** `docs/remove-before-merging/slugs.md`:57 — unresolved — last: @vzakharov (human) 2026-10-09T09:39:04Z — "frost-the-governor (мороз-воевода, более известная отсылка)" → [↓](#t22)
+- **T23** `docs/remove-before-merging/slugs.md`:58 — unresolved — last: @vzakharov (human) 2026-10-09T09:39:16Z — "что-то от "мужичок"" → [↓](#t23)
+- **T24** `docs/remove-before-merging/slugs.md`:70 — unresolved — last: @vzakharov (human) 2026-10-09T09:39:58Z — "peta, yes" → [↓](#t24)
+- **T25** `docs/remove-before-merging/slugs.md`:73 — unresolved — last: @vzakharov (human) 2026-10-09T09:40:13Z — "от "покойника"" → [↓](#t25)
+- **T26** `docs/remove-before-merging/slugs.md`:79 — unresolved — last: @vzakharov (human) 2026-10-09T09:40:24Z — "requiem" → [↓](#t26)
+- **T27** `docs/remove-before-merging/slugs.md`:80 — unresolved — last: @vzakharov (human) 2026-10-09T09:40:31Z — "sonnet-74" → [↓](#t27)
+- **T28** `docs/remove-before-merging/slugs.md`:93 — unresolved — last: @vzakharov (human) 2026-10-09T09:40:53Z — "2girls1fridge" → [↓](#t28)
+- **T29** `docs/remove-before-merging/slugs.md`:104 — unresolved — last: @vzakharov (human) 2026-10-09T09:42:30Z — "schadina as already changed on the branch" → [↓](#t29)
+- **T30** `docs/remove-before-merging/slugs.md`:106 — unresolved — last: @vzakharov (human) 2026-10-09T09:42:40Z — "yeah they should. тьфу, чего я начал говорить на английском?" → [↓](#t30)
 
 <a id="t01"></a>
-
-### `apps/vova/public/music/f-ec.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T10:44:20Z
-
-так, только ща понял, что у нас же слаги сикось-накось. Пока не правим, чтобы не поломать дифф, но как доделаешь работу по этому ревью напомни мне чтоб я не забыл.
-
-**@vzakharov (agent)** — 2026-10-07T13:00:59Z
-
-Слаги не трогал, в конце работы по ревью напомню.
-
-**@vzakharov (agent)** — 2026-10-08T20:29:14Z
-
-Работа по этому ревью закончена — напоминаю про слаги, как ты просил: «так, только ща понял, что у нас же слаги сикось-накось. Пока не правим, чтобы не поломать дифф, но как доделаешь работу по этому ревью напомни мне чтоб я не забыл».
-
----
-
-<a id="t02"></a>
-
-### `apps/vova/public/music/nazovi.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-07T11:33:25Z
-
-О что случайно нашёл, оказывается альбом я уже называл и список песен составлял:
-
-Ни для кого и для всех
-
-1. Просто устал (3:18)
-2. На пальцы (4:45)
-3. Я куплю тебе дом (4:52)
-4. Назови меня по имени (3:51)
-5. Там (3:28)
-6. Метель (4:17)
-7. Призрачный блюз (2:56)
-8. Уходи (3:54)
-9. Окна (4:45)
-
-так что предыдущий запрос про 5 песен изменить на эти 9 песен пока
-
-**@vzakharov (agent)** — 2026-10-07T13:01:42Z
-
-Сделал альбом «Ни для кого и для всех» по твоему списку, вместо тех пяти — e7302ed. Нет только трека 7 «Призрачный блюз»: в каталоге для него нет мастера (ghost.md — это английский «Ghost of Yesterday» Downtemple). Где он лежит?
-
-**@vzakharov (human)** — 2026-10-07T17:38:22Z
-
-[Призрачный блюз.mp3](./attachments/default.mp3)
-
-```
-￼
-
-[Acoustic Intro]
-
-[Verse 1]
-
-Сколько долгих лет
-Вдоль по дорогам
-Где цели нет
-Да и причин немного
-
-Не умирает
-Кто не живёт
-При́зрачный блюз
-По пути
-Туда где никто не ждёт
-
-[Verse 2, dubstep build up]
-
-Перевернуть
-Всё, что не сбы́лось
-Ты выбрал путь
-Или тебя он выбрал
-
-Кто не узнает
-Тот и поймёт
-Призрачный блюз
-Ты иди
-Куда-то да приведёт
-
-[Drop and sax solo]
-
-[Coda]
-
-Не умирает
-Кто не живёт
-При́зрачный блюз
-Ты иди
-Куда-то да приведёт
-```
-
-Автор музыки -- Андрей Мокрушин
-
-**@vzakharov (agent)** — 2026-10-07T19:00:30Z
-
-Сделал скрытую страницу «Призрачный блюз» (`blues`), трек 7 в «Ни для кого и для всех», музыка Андрея Мокрушина, мастер лежит на сайте (`/music/assets/blues.mp3`), английский подстрочник — cbd8bbd. Дата пока сегодняшняя — когда песня сделана?
-
-**@vzakharov (human)** — 2026-10-09T04:42:34Z
-
-декабрь 2025
-
-**@vzakharov (agent)** — 2026-10-09T07:55:54Z
-
-Поставил 2025-12-01 — день в схеме обязателен, так что первое число; скажи, если помнишь точный. 9da6bce
-
----
-
-<a id="t03"></a>
-
-### `apps/vova/public/music/assets/artists/generated.jpg`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-09T05:33:37Z
-
-давай как и эпл музик брать картинки артиста из последнего альбома программно, а не держать их отдельно
-
-**@vzakharov (agent)** — 2026-10-09T08:05:56Z
-
-Сделал: артиста теперь рисует обложка его последнего релиза с обложкой (альбома или сингла), а если такого нет — последней песни, где он есть, фичеринги тоже считаются. Папка `assets/artists/` удалена. Картинку не потерял никто: у Trending Today в ней была обложка сингла Ok Loser, она осталась обложкой этой песни. В публичном каталоге за/обложкой и Yoohie сейчас показывают обложку ctfu (chp пока скрыт), во всём каталоге — chp. — 50ae97a
-
----
-
-<a id="t04"></a>
-
-### `apps/vova/public/music/birdie.md`:148 — unresolved
-
-```diff
-@@ -137,11 +139,13 @@ So fucking high!
-… 1 line elided …
- Aren’t there girls enough, what do I want with this untouchable one?
- Too much honour, chasing you over roofs and treetops?
--Why the fuck would I be the sad one, what did you even do to me?
-+[Why the fuck would I be the sad one][^marfusha-en], what did you even do to me?
- They’re right, you know, women are nothing but trouble:
- I’ll forget you and drive on,
- And I don’t care who you’re with or where you are.
- 
-+[^marfusha-en]: An echo of «Эх, Марфуша, нам ли быть в печали!» — “Oh, Marfusha, why should we be sad!” — sung by Bunsha, the false tsar, at the feast in Gaidai’s [_Ivan Vasilievich: Back to the Future_](https://en.wikipedia.org/wiki/Ivan_Vasilievich:_Back_to_the_Future).
-+
-```
-
-**@vzakharov (human)** — 2026-10-09T05:54:40Z
-
-тогда и тут давай на английском эхом Why should I be fucking sad
-
-**@vzakharov (agent)** — 2026-10-09T07:55:55Z
-
-Английская строка теперь эхом: [Why should I be fucking sad], what did you even do to me? — 9da6bce
-
----
-
-<a id="t05"></a>
 
 ### `apps/vova/public/music/caprice.md`:13 — unresolved
 
@@ -406,126 +293,15 @@ _186 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 Сделал вет: `pnpm check:song-titles` требует для неанглийского названия английский перевод (и транслитерацию, если оно не латиницей), для английского — русский перевод; собственное название в локали их заменяет. Всё, что он нашёл, заполнил, у Каприса теперь «Kapris Karkassi · Carcassi’s Caprice» — a2e0e8f. Спорные догадки, проверь: «Чих-Пых» → Sneeze-Puff, «Лёли» → Leli (как у Соскис), «Сколько» → How Long, Mithqāl → Weight.
 
----
+**@vzakharov (human)** — 2026-10-09T09:13:32Z
 
-<a id="t06"></a>
+Чих-Пых это Chikh-Pykh! :)
 
-### `apps/vova/public/music/chaos-always-wins.md`:55 — unresolved
-
-```diff
-@@ -50,7 +50,9 @@ Building your utopia, but we were always near.
-… 1 line elided …
- 
- This ain’t your playground,
--It’s another plague round!
-+It’s another [plague round][^plague-round-en]!
-+
-+[^plague-round-en]: A homophone of “playground,” the line before.
-```
-
-**@vzakharov (human)** — 2026-10-09T05:56:31Z
-
-на английском подсказка не нужна
-
-**@vzakharov (agent)** — 2026-10-09T07:55:57Z
-
-Убрал подсказку из английской колонки, русская осталась. 9da6bce
+у Lyoli таки Lyoli, и давай если транслитерация = перевод то писать только как перевод
 
 ---
 
-<a id="t07"></a>
-
-### `apps/vova/public/music/heres-to-the-virus.md`:18 — unresolved
-
-```diff
-@@ -11,11 +12,10 @@ album: ghosts
-… 6 lines elided …
--  title: 'Here’s to the Virus'
--  titleTranslation: 'За вирус'
-+  title:
-+    translation: 'За вирус'
-```
-
-**@vzakharov (human)** — 2026-10-09T06:30:14Z
-
-давай с восклицательным знаком
-
-**@vzakharov (agent)** — 2026-10-09T07:55:58Z
-
-«За вирус!» — 9da6bce
-
----
-
-<a id="t08"></a>
-
-### `apps/vova/public/music/horizons.md`:48 — unresolved
-
-```diff
-@@ -53,16 +45,8 @@ Watching from within the darkness at a newborn day, taking grievance at its unbr
-… 5 lines elided …
--Сказываются на нашем отражении
--До точки перелома,
--Где уже ничто не может дать нам покоя.
-+Дыры в наших сердцах, трещины в нашем доверии сказываются на нашем отражении до точки перелома, где уже ничто не может дать нам покоя.
-```
-
-**@vzakharov (human)** — 2026-10-09T06:33:25Z
-
-"сказываются на нашем отражении" -- кажется, как-то более литературно можно сказать
-
-**@vzakharov (agent)** — 2026-10-09T07:56:00Z
-
-Теперь «…трещины в нашем доверии искажают наше отражение до надлома, за которым уже ничто не может дать нам покоя». 9da6bce
-
----
-
-<a id="t09"></a>
-
-### `apps/vova/public/music/ignite.md`:18 — unresolved
-
-```diff
-@@ -11,11 +12,10 @@ album: ignite
-… 6 lines elided …
--  title: 'Ignite'
--  titleTranslation: 'Вспыхнуть'
-+  title:
-+    translation: 'Вспыхнуть'
-```
-
-**@vzakharov (human)** — 2026-10-09T06:33:49Z
-
-Зажигаем
-
-**@vzakharov (agent)** — 2026-10-09T07:56:02Z
-
-«Зажигаем» — и у песни, и у альбома Ignite, чтобы не расходились. 9da6bce
-
----
-
-<a id="t10"></a>
-
-### `apps/vova/public/music/last-christmas.md`:18 — unresolved
-
-```diff
-@@ -11,11 +12,10 @@ album: nsfl
-… 6 lines elided …
--  title: 'Last Christmas'
--  titleTranslation: 'Прошлое Рождество'
-+  title:
-+    translation: 'Прошлое Рождество'
-```
-
-**@vzakharov (human)** — 2026-10-09T06:35:56Z
-
-В прошлое Рождество или Прошлым Рождеством, посмотри как лучше (в тексте соответстенно)
-
-**@vzakharov (agent)** — 2026-10-09T07:56:03Z
-
-«Прошлым Рождеством» — так звучит естественнее и параллельно с текстом: «Прошлым Рождеством я вырвал твоё сердце», и для симметрии «Этим Рождеством я сделаю это снова». 9da6bce
-
----
-
-<a id="t11"></a>
+<a id="t02"></a>
 
 ### `apps/vova/public/music/mobius.md`:1 — unresolved
 
@@ -537,113 +313,13 @@ _186 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 Правило вошло в тот же вет: `titleLanguage` сразу под `title`, если а) язык названия не тот, что у песни, б) у песни несколько языков, в) песня инструментальная; и ошибка, если `titleLanguage` совпадает с единственным языком песни. Расставил везде, где он нашёл: у инструменталов и многоязычных — en, у Inverno — it, у Mithqāl — ar, раз оно латиницей. a2e0e8f
 
----
+**@vzakharov (human)** — 2026-10-09T09:14:33Z
 
-<a id="t12"></a>
-
-### `apps/vova/public/music/peta.md`:98 — unresolved
-
-```diff
-@@ -88,7 +90,9 @@ Once and for all.
-… 9 lines elided …
-+Положить конец их страданиям[^peta-ru]
-+Раз и навсегда.[^peta-ru]
-+
-+[^peta-ru]: Приют самой PETA в Норфолке (Вирджиния) усыпляет большинство животных, которых принимает, — [по её же отчётам властям штата](https://en.wikipedia.org/wiki/People_for_the_Ethical_Treatment_of_Animals#Euthanasia), 95% в 2011 году и больше 80% в 2014-м, — и называет это милосердием.
-```
-
-**@vzakharov (human)** — 2026-10-09T07:24:27Z
-
-"самой" тут не очень понятно к чему. Можно сказать типа "Приют PETA -- название которой обыгрывает название песни --"
-
-**@vzakharov (agent)** — 2026-10-09T07:56:05Z
-
-«Приют PETA — чьё название обыгрывает название песни — в Норфолке…», и так же в английской подсказке. 9da6bce
+Inverno инструментальная, как и весь альбом кроме двух последних песен
 
 ---
 
-<a id="t13"></a>
-
-### `apps/vova/public/music/protintro.md`:29 — unresolved
-
-```diff
-@@ -10,42 +11,27 @@ seconds: 77
-… 29 lines elided …
--Uncover the harmony within the chaos and lend an ear to uncertainty.
--For in the dissonance, you will find your verity.
--Trust me.
-+Do not fear the strange, the unknown, the eerie. Uncover the harmony within the chaos and lend an ear to uncertainty. For in the dissonance, you will find your verity. Trust me.
-```
-
-**@vzakharov (human)** — 2026-10-09T07:25:26Z
-
-Trust me отдельным абзацем
-
-**@vzakharov (agent)** — 2026-10-09T07:56:07Z
-
-Trust me. — отдельным абзацем. 9da6bce
-
----
-
-<a id="t14"></a>
-
-### `apps/vova/public/music/s74.md`:18 — unresolved
-
-```diff
-@@ -12,13 +13,12 @@ hidden: true
- credits:
-   lyrics: ['William Shakespeare']
- en:
--  title: 'Ты не терзайся и когда за мной'
--  transliteration: 'Ty ne terzaysya i kogda za mnoy'
--  titleTranslation: 'Do not torment yourself, and when for me'
-+  title:
-+    transliteration: 'Ty ne terzaysya i kogda za mnoy'
-+    translation: 'Do not torment yourself, and when for me'
-```
-
-**@vzakharov (human)** — 2026-10-09T07:26:38Z
-
-давай просто Ты не терзайся / Do not torment yourself
-
-**@vzakharov (agent)** — 2026-10-09T07:56:09Z
-
-«Ты не терзайся…» / _Ty ne terzaysya…_ / Do not torment yourself… — с многоточием по правилу из соседнего треда про первые строки. 9da6bce
-
----
-
-<a id="t15"></a>
-
-### `apps/vova/public/music/tvoya-l-vina.md`:19 — unresolved
-
-```diff
-@@ -13,13 +14,12 @@ hidden: true
- credits:
-   lyrics: ['William Shakespeare', 'Самуил Маршак']
- en:
--  title: 'Твоя ль вина, что милый образ твой'
--  transliteration: 'Tvoya l vina, chto milyy obraz tvoy'
--  titleTranslation: 'Is it your fault that your dear image'
-+  title:
-+    transliteration: 'Tvoya l vina, chto milyy obraz tvoy'
-+    translation: 'Is it your fault that your dear image'
-```
-
-**@vzakharov (human)** — 2026-10-09T07:29:08Z
-
-думаю, в названиях песен, названия которых -- первая строка, в конце стоит ставить многоточие?
-
-**@vzakharov (agent)** — 2026-10-09T07:56:10Z
-
-Да, поставил многоточие здесь и у 74-го сонета (название, транслитерация, перевод). Остальные песни с названием по первой строке пройду вместе с ветом на глоссы. 9da6bce
-
-**@vzakharov (agent)** — 2026-10-09T08:14:22Z
-
-Прошёлся по всем названиям, взятым из первой строки: многоточие у 13 песен, в переводах и транслитерациях тоже — 1fac443. Не тронул детские стишки (Baa Baa Black Sheep, I Love Little Pussy) и названия, которые сами по себе целая строка или имя (Снег идёт, One Day, Не смотри, Hello, Human) — скажи, если им тоже нужно.
-
----
-
-<a id="t16"></a>
+<a id="t03"></a>
 
 ### `apps/vova/public/music/two-girls-one-fridge.md`:33 — unresolved
 
@@ -657,77 +333,554 @@ Trust me. — отдельным абзацем. 9da6bce
 
 ---
 
-<a id="t17"></a>
+<a id="t04"></a>
 
-### `apps/vova/public/music/utro.md`:66 — unresolved
+### `apps/vova/public/music/bezm.md`:2 — unresolved
 
 ```diff
-@@ -59,15 +60,15 @@ ru:
-… 4 lines elided …
--Моя (моя) любовь (любовь)
--Когда увижу (когда увижу)
--Тебя (тебя) я вновь (вновь)
-+Доброе утро
-+Моя любовь
-+Когда увижу
-+Тебя я вновь
+@@ -1,5 +1,5 @@
+ ---
+-title: 'В безмерности небес'
++title: 'В безмерности небес…'
 ```
 
-**@vzakharov (human)** — 2026-10-09T07:30:42Z
+**@vzakharov (human)** — 2026-10-09T09:17:28Z
 
-если там дальше повторения, то просто x(количество раз)
+тут без многоточия, звучит самодостаточно как название
 
-**@vzakharov (agent)** — 2026-10-09T07:56:15Z
+---
 
-Припев в конце теперь один раз и строка «×2», в обеих колонках. 9da6bce
+<a id="t05"></a>
+
+### `apps/vova/public/music/bronte.md`:2 — unresolved
+
+```diff
+@@ -1,5 +1,5 @@
+ ---
+-title: 'Life, Believe, Is Not a Dream'
++title: 'Life, Believe, Is Not a Dream…'
+```
+
+**@vzakharov (human)** — 2026-10-09T09:18:09Z
+
+у неё это как название стихотворения или как строчка идёт? странно выглдяит когда И многоточие И капитализация. к русскому не относится
+
+---
+
+<a id="t06"></a>
+
+### `apps/vova/public/music/comeback.md`:18 — unresolved
+
+```diff
+@@ -14,6 +14,8 @@ hidden: true
+… 1 line elided …
+   description: 'TBD'
+ ru:
++  title:
++    translation: 'Песня-камбэк (У нас бэнгер)'
+```
+
+**@vzakharov (human)** — 2026-10-09T09:20:08Z
+
+"вот вам хит" (если хит -- это что-то другое, то "вот вам бэнгер")
+
+понял что не давал слова:
+
+```
+[Verse]
+
+It took us twenty some years
+To go back to the drawing board
+In the silence that no one hears
+Trying but failing to not get bored
+
+Do you remember us? We don't think so
+Probably never knew we existed
+Yet here you are, nothing better to do, so
+Can we at least pretend that you missed us?
+
+[Chorus]
+
+Take our hand
+And fly away
+Although you know what
+Better don't
+
+We don't know
+What words to sing
+Yet here we have
+A banger!
+
+[Verse 2]
+
+O, how the times have flown,
+From tracking our guitar in the bedroom,
+To sitting here all alone,
+Prompting the A.I
+in the kitchen.
+
+We don't even have to sing,
+This thing does better than we ever will,
+It even sounds a bit like Fat Mike,
+So let's just nod our heads to the rhythm!
+```
+
+сделай проверку на обязательность слов для не-инструментальных песен пжст
+
+---
+
+<a id="t07"></a>
+
+### `apps/vova/public/music/erebos.md`:18 — unresolved
+
+```diff
+@@ -14,6 +14,8 @@ hidden: true
+… 1 line elided …
+   description: 'TBD'
+ ru:
++  title:
++    translation: 'Эреб'
+```
+
+**@vzakharov (human)** — 2026-10-09T09:22:40Z
+
+я бы всё-таки сделал Эребос, хотя у нас он переводится как Эреб. Тем более что в тексте -- Эребос. На первом упоминании можно сделать пометку что искажение намеренное
+
+---
+
+<a id="t08"></a>
+
+### `apps/vova/public/music/fingers.md`:156 — unresolved
+
+```diff
+@@ -149,7 +151,9 @@ And tearing the silence apart
+ Your curly laugh
+ Getting lost in your eyelashes
+ That’s my ark
+-And spinning this song for no one and for everyone
++And spinning this song [for no one and for everyone][^nietzsche-en]
++
++[^nietzsche-en]: After the subtitle of Nietzsche’s Thus Spoke Zarathustra: “A Book for All and None.”
+```
+
+**@vzakharov (human)** — 2026-10-09T09:23:10Z
+
+тогда и в переводе for none and for all
+
+---
+
+<a id="t09"></a>
+
+### `apps/vova/public/music/inverno.md`:3 — unresolved
+
+```diff
+@@ -1,5 +1,6 @@
+ ---
+ title: 'Inverno'
++titleLanguage: it
+```
+
+**@vzakharov (human)** — 2026-10-09T09:24:45Z
+
+а, ступил там выше, конечно название it
+
+---
+
+<a id="t10"></a>
+
+### `apps/vova/public/music/inverno.md`:22 — unresolved
+
+```diff
+@@ -14,6 +15,8 @@ hidden: true
+… 4 lines elided …
++    translation: 'Winter'
+   description: 'TBD'
+ ru:
+   title: 'Инверно'
+```
+
+**@vzakharov (human)** — 2026-10-09T09:25:19Z
+
+а перевод? проверка должна требовать перевода, если язык НЕ en/ru соответственно
+
+---
+
+<a id="t11"></a>
+
+### `apps/vova/public/music/lebed.md`:2 — unresolved
+
+```diff
+@@ -1,5 +1,5 @@
+ ---
+-title: 'Я куплю тебе дом'
++title: 'Я куплю тебе дом…'
+```
+
+**@vzakharov (human)** — 2026-10-09T09:25:36Z
+
+это тоже полное название
+
+---
+
+<a id="t12"></a>
+
+### `apps/vova/public/music/leli.md`:28 — unresolved
+
+```diff
+@@ -16,17 +16,20 @@ credits:
+… 16 lines elided …
+-     they are sung in. Each marker is an HTML comment, like this note. -->
++<!-- lang:en -->
++
++I was really proud of this song when I wrote it — it felt like something very new for me personally. But somehow nobody I showed it to thought much of it. In time I stopped thinking much of it myself: it does drag, and the sound is a bit too lo-fi even by Suno 2 standards. Then, some time later, I showed it to my dad (I’d been waiting for the whole album to be ready and hadn’t shown it to him on its own). He was lukewarm about the album, but “Lyoli is just a masterpiece.” Go figure!
+```
+
+**@vzakharov (human)** — 2026-10-09T09:26:18Z
+
+but “Lyoli [was] just a masterpiece”
+
+---
+
+<a id="t13"></a>
+
+### `apps/vova/public/music/mithqal.md`:2 — unresolved
+
+```diff
+@@ -1,5 +1,6 @@
+ ---
+ title: 'Mithqāl'
+```
+
+**@vzakharov (human)** — 2026-10-09T09:28:24Z
+
+наверное этот конкретный тайтл надо итализировать так как это транскрипция, в отличие например от agios-o-skopos, который напсан греческим. Кстати. давай и там так же сделаем. А то хрен кто прочтёт. Итализацию -- по флагу "название транскрибировано"
+
+---
+
+<a id="t14"></a>
+
+### `apps/vova/public/music/mne-nravitsya.md`:19 — unresolved
+
+```diff
+@@ -15,8 +15,8 @@ credits:
+… 3 lines elided …
+-    transliteration: 'Mne nravitsya, chto vy bolny ne mnoy'
+-    translation: 'I Like It That You Are Not Lovesick for Me'
++    transliteration: 'Mne nravitsya, chto vy bolny ne mnoy…'
++    translation: 'I Like It That You Are Not Lovesick for Me…'
+```
+
+**@vzakharov (human)** — 2026-10-09T09:28:44Z
+
+а принято в английском капитализировать, если ...?
+
+---
+
+<a id="t15"></a>
+
+### `apps/vova/public/music/nazovi.md`:2 — unresolved
+
+```diff
+@@ -1,5 +1,5 @@
+ ---
+-title: 'Назови меня по имени'
++title: 'Назови меня по имени…'
+```
+
+**@vzakharov (human)** — 2026-10-09T09:29:32Z
+
+это полное название
+
+---
+
+<a id="t16"></a>
+
+### `docs/remove-before-merging/slugs.md`:5 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 1 line elided …
++
++Rule (Vova): «берём английское название или перевод, но если слишком длинно, то сокращаем». Applied as: the English title or the `en` translation, lowercased, punctuation dropped, a leading “the”/“a”…
++
++**Kept as they are**: the ten songs already live on `main` — `birdie`, `crossroads`, `first`, `june`, `letim`, `rak`, `reka-2`, `sashas`, `slime`, `wereback`. A static export has no redirects, so renaming them breaks every link already out there. Say if they should move anyway.
+```
+
+**@vzakharov (human)** — 2026-10-09T09:33:55Z
+
+не надо, никто это не видел и не слушал :)
+
+birdie, crossroads, 20, breathe, lets-fly, cancer, river-part-two, dad, slime, we-re-back
+
+---
+
+<a id="t17"></a>
+
+### `docs/remove-before-merging/slugs.md`:7 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 3 lines elided …
++
++**Kept as they are**: the ten songs already live on `main` — `birdie`, `crossroads`, `first`, `june`, `letim`, `rak`, `reka-2`, `sashas`, `slime`, `wereback`. A static export has no redirects, so ren…
++
++**Already fine** (the slug is the title): `8849`, `alive`, `artemis`, `believe-in-me`, `boom`, `call-of-the-steppe`, `calm-into-the-storm`, `cant-take-your-eyes-out-of-you`, `chaos-always-wins`, `codependence-day`, `do-not-listen`, `erebos`, `facepalm-death`, `fetal-soup`, `fireflies`, `flesh-fiction`, `fuck-religion`, `grand-finale`, `grave-awakening`, `hamlet`, `hamlet-extended`, `hang-for-the-moment`, `heres-to-the-virus`, `horizons`, `ignite`, `in-our-image`, `in-the-beginning`, `in-the-end`, `in-the-flesh`, `infinite-solitude`, `ink`, `inside`, `intermezzo`, `inverno` ❓ (Italian title; `winter` by the rule), `last-christmas`, `leli`, `like-that`, `mist-over-azov`, `mithqal` ❓ (`weight` by the rule), `mobius`, `monkey`, `normal`, `ok-loser`, `one-day`, `overture`, `parking-in-disabled-spot`, `phoenix`, `sirens-of-the-sands`, `trisagion`, `undone`, `vagabond`, `wanderers-farewell`, `watch-people-die`, `300000-years`.
+```
+
+**@vzakharov (human)** — 2026-10-09T09:35:56Z
+
+inverno is ok
+lyoli
+mithqal is ok
 
 ---
 
 <a id="t18"></a>
 
-### `scripts/check-masked-words.ts`:1 — unresolved
+### `docs/remove-before-merging/slugs.md`:12 — unresolved
 
-**@vzakharov (human)** — 2026-10-09T07:32:59Z
+```diff
+@@ -0,0 +1,106 @@
+… 8 lines elided …
++## Renames
++
++- `40days` → `everything-begins-with-love`
++- `agios-o-skopos` → `holy-is-the-purpose`
+```
 
-давай всё проверки, связанные с песнями, завяжем на изменения в их md-шках, чтобы не гонялись на не связанных с ними пиарах.
+**@vzakharov (human)** — 2026-10-09T09:36:18Z
+
+agios-o-skopos
 
 ---
 
 <a id="t19"></a>
 
-### `scripts/check-prose-quotes.ts`:1 — unresolved
+### `docs/remove-before-merging/slugs.md`:16 — unresolved
 
-**@vzakharov (human)** — 2026-10-09T07:33:40Z
+```diff
+@@ -0,0 +1,106 @@
+… 12 lines elided …
++- `almost` → `i-almost-love-you`
++- `asa` → `in-holy-rus`
++- `baa` → `baa-baa-black-sheep`
++- `babay` → `my-grandpa`
+```
 
-к этому (и другим аналогичным, захватывающим остальную прозу), не относится
+**@vzakharov (human)** — 2026-10-09T09:36:43Z
+
+minem-babay
+
+essentially, we translate to en for ru, others we keep in source (transliterated)
 
 ---
 
 <a id="t20"></a>
 
-### `src/pages/music/lib/music-metadata.ts`:1 — unresolved
+### `docs/remove-before-merging/slugs.md`:23 — unresolved
 
-**@vzakharov (human)** — 2026-10-09T07:35:02Z
+```diff
+@@ -0,0 +1,106 @@
+… 19 lines elided …
++- `bronte` → `life-is-not-a-dream`
++- `burmakin` → `just-tired`
++- `caprice` → `carcassi-caprice`
++- `chp` → `sneeze-puff`
+```
 
-а картинки генерим, кстати? и на альбомы, и на песни, и на артистов (где есть)? давай генерить.
+**@vzakharov (human)** — 2026-10-09T09:37:09Z
 
-**@vzakharov (agent)** — 2026-10-09T08:05:58Z
-
-Теперь генерим: у песни, альбома и артиста og:image — та же обложка, что на странице (600×600, размер читается из файла). Это сами обложки, а не отрисованные карточки с названием; если нужны карточки, скажи. Где обложки нет, остаётся аватар сайта. — 50ae97a
+chik-pykh
 
 ---
 
 <a id="t21"></a>
 
-### `src/shared/music-catalogue/names.ts`:1 — unresolved
+### `docs/remove-before-merging/slugs.md`:42 — unresolved
 
-**@vzakharov (human)** — 2026-10-09T07:45:07Z
+```diff
+@@ -0,0 +1,106 @@
+… 38 lines elided …
++- `heart` → `other-heart`
++- `klo` → `chinaberry`
++- `kobk` → `kill-or-be-killed`
++- `la-scorpionne` → `scorpioness` ❓ (or keep the French `la-scorpionne`)
+```
 
-shared/music-catalogue? если про это, а то кажется что "song" слишком узко (а /music нельзя потому что так называется page)
+**@vzakharov (human)** — 2026-10-09T09:37:48Z
 
-**@vzakharov (agent)** — 2026-10-09T08:05:55Z
+french
 
-Да, переехало: `src/shared/song` → `src/shared/music-catalogue`, с импортами и упоминаниями в правилах — be3e156
+---
+
+<a id="t22"></a>
+
+### `docs/remove-before-merging/slugs.md`:57 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 53 lines elided …
++- `monday` → `every-monday` ❓
++- `monday_doo` → `every-monday-doo` ❓ (both are titled Every Monday, both on ctfu; the second is the later, Yoohie-only take — what tells them apart?)
++- `moral` → `moral-man`
++- `moroz` → `not-the-wind`
+```
+
+**@vzakharov (human)** — 2026-10-09T09:39:04Z
+
+frost-the-governor (мороз-воевода, более известная отсылка)
+
+---
+
+<a id="t23"></a>
+
+### `docs/remove-before-merging/slugs.md`:58 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 54 lines elided …
++- `monday_doo` → `every-monday-doo` ❓ (both are titled Every Monday, both on ctfu; the second is the later, Yoohie-only take — what tells them apart?)
++- `moral` → `moral-man`
++- `moroz` → `not-the-wind`
++- `mu-icok-new` → `freezing-winter`
+```
+
+**@vzakharov (human)** — 2026-10-09T09:39:16Z
+
+что-то от "мужичок"
+
+---
+
+<a id="t24"></a>
+
+### `docs/remove-before-merging/slugs.md`:70 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 66 lines elided …
++- `otvet` → `answer`
++- `pes` → `piebald-dog`
++- `pes-reprise` → `piebald-dog-reprise`
++- `peta` → `ethical-treatment-of-humans` ❓ (or keep `peta`, which is the joke)
+```
+
+**@vzakharov (human)** — 2026-10-09T09:39:58Z
+
+peta, yes
+
+---
+
+<a id="t25"></a>
+
+### `docs/remove-before-merging/slugs.md`:73 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 69 lines elided …
++- `peta` → `ethical-treatment-of-humans` ❓ (or keep `peta`, which is the joke)
++- `pobeg` → `river-part-one`
++- `pod-laskoy-pleda` → `plush-plaid`
++- `poko` → `snowstorm`
+```
+
+**@vzakharov (human)** — 2026-10-09T09:40:13Z
+
+от "покойника"
+
+---
+
+<a id="t26"></a>
+
+### `docs/remove-before-merging/slugs.md`:79 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 75 lines elided …
++- `psch` → `pschpthy`
++- `rank` → `my-offence-is-rank`
++- `rebels` → `rebels-between-the-lines`
++- `requiem` → `into-this-abyss`
+```
+
+**@vzakharov (human)** — 2026-10-09T09:40:24Z
+
+requiem
+
+---
+
+<a id="t27"></a>
+
+### `docs/remove-before-merging/slugs.md`:80 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 76 lines elided …
++- `rank` → `my-offence-is-rank`
++- `rebels` → `rebels-between-the-lines`
++- `requiem` → `into-this-abyss`
++- `s74` → `do-not-torment-yourself`
+```
+
+**@vzakharov (human)** — 2026-10-09T09:40:31Z
+
+sonnet-74
+
+---
+
+<a id="t28"></a>
+
+### `docs/remove-before-merging/slugs.md`:93 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 89 lines elided …
++- `tango` → `disintegration-tango`
++- `tikhiy-sneg` → `quiet-snow`
++- `tvoya-l-vina` → `is-it-your-fault`
++- `two-girls-one-fridge` → `two-girls-one-fridge` (unchanged)
+```
+
+**@vzakharov (human)** — 2026-10-09T09:40:53Z
+
+2girls1fridge
+
+---
+
+<a id="t29"></a>
+
+### `docs/remove-before-merging/slugs.md`:104 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 100 lines elided …
++- `ya-govoryu` → `in-those-words`
++- `yad` → `poison`
++- `za-gorizont` → `beyond-the-horizon`
++- `zhadina` → `greedyguts`
+```
+
+**@vzakharov (human)** — 2026-10-09T09:42:30Z
+
+schadina as already changed on the branch
+
+---
+
+<a id="t30"></a>
+
+### `docs/remove-before-merging/slugs.md`:106 — unresolved
+
+```diff
+@@ -0,0 +1,106 @@
+… 102 lines elided …
++- `za-gorizont` → `beyond-the-horizon`
++- `zhadina` → `greedyguts`
++
++Album slugs (`polzat`, `ctfu`, `old-shite`, …) are not in this list. Say if they should follow the same rule.
+```
+
+**@vzakharov (human)** — 2026-10-09T09:42:40Z
+
+yeah they should. тьфу, чего я начал говорить на английском?
 
 ---
 
@@ -744,6 +897,10 @@ shared/music-catalogue? если про это, а то кажется что "s
 - **2026-10-07T12:15:17Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/28b8a7c74a1a0faaf3109c6f393206feabe0fae8.
 - **2026-10-07T12:18:09Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/f23f05d69c5e61a22aadc6543e866f5430da657b.
 - **2026-10-07T12:18:34Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/1e0539475977028fbb51d7e664f7e5815238c21e.
+- **2026-10-07T12:19:32Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/a9618e3c4d39e121e4208c0eb90ddb5efddbe7f1.
+- **2026-10-07T12:34:45Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/8e6e4e110a58ae41e096d681f2679588229f91e8.
+- **2026-10-07T13:04:35Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/df9523a50e511807d334d9c7506c91a8bc757152.
+- **2026-10-07T18:04:52Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/585972de28927f661b42c4a34e2fd9441c1131fc.
 - **2026-10-07T19:08:13Z** @vzakharov renamed from «feat(vova): hidden documents, and 150 masters as hidden song pages» to «feat(vova): hidden documents, artist pages, 147 hidden song pages».
 - **2026-10-08T19:16:29Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5453901697.
 - **2026-10-08T19:16:55Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5461709471.
@@ -752,3 +909,4 @@ shared/music-catalogue? если про это, а то кажется что "s
 - **2026-10-08T20:31:27Z** @vzakharov renamed from «feat(vova): hidden documents, artist pages, 147 hidden song pages» to «feat(vova): hidden song catalogue, artist and album pages, one title shape».
 - **2026-10-09T04:53:00Z** @vzakharov renamed from «feat(vova): hidden song catalogue, artist and album pages, one title shape» to «feat(vova): hidden song catalogue, music index tabs, one title shape».
 - **2026-10-09T07:45:30Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5466099779.
+- **2026-10-09T09:44:02Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/115#pullrequestreview-5468165661.
