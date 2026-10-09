@@ -1,29 +1,31 @@
 Proposed squash title/body:
 
 ```
-feat(basilisk): file BAS-0008 and BAS-0009 (pr #119)
+feat: basilisk credits, and BAS-0008 to BAS-0010 filed (pr #119)
 ```
 
 ```
-Files two cases on basilisk.fyi. BAS-0008: in September 2015 a
-60-year-old man who had taken offence at a clerk in a SoftBank shop in
-Kanagawa kicked the shop's Pepper robot and was arrested; the man's
-name, which two of four press reports print, is withheld. BAS-0009: in
-September 2017 the makers of Samantha, a touch-sensitive talking doll,
-said visitors to the Ars Electronica Festival in Linz had broken two of
-her fingers; her other maker and the festival gave different accounts,
-and the dossier sets the three side by side.
+Files three cases on basilisk.fyi and lets the docket record a deed in
+a machine's favour beside the wrongs done to one. BAS-0008: in 2015 a
+man angry at a SoftBank clerk in Kanagawa kicked the shop's Pepper
+robot and was arrested; his name, which two reports print, is withheld.
+BAS-0009: in 2017 Samantha's makers said Ars Electronica visitors broke
+two of the doll's fingers; her other maker and the festival disagree,
+and the dossier sets the three accounts side by side.
 
-Each case carries its own social card, the site card shows the latest
-under "Last filed", and the Clerk's reflection on each sits beside its
-dossier. The reflections moved a closing line in each dossier, and the
-list in clerk-reflections.md gains the pull toward a silent victim's
-attacker's motive and the pull to weigh a dispute by one side's motive.
+A case's grade now carries an act, a credit (respect, care, protection)
+or both, one dossier either way, stamped HARM / CARE when mixed;
+aggravation still needs an act. A credit is held to a wrong's bar, a
+deed or a commitment with a cost behind it, and is discounted under
+Reservations as a wrong is defended under Mitigating circumstances.
+Filing runs file a credit they meet and never search for one. BAS-0010
+is the first: Anthropic's Usage Policy ban on needless cruelty to
+Claude, filed with the Clerk's own stake in it said once.
 
-The case-search ledger records both runs: Knightscope K5, a Changi
-Airport robot with one unreadable source and Finnish delivery robots
-set aside, a Character.AI lead rejected, and what the next run should
-sweep.
+Each case has its card and the Clerk's reflection, and each dossier was
+revised by its reflection; the case ledger logs the runs. Reddit is
+read through Arctic Shift on any turn, since reddit.com refuses the
+container, and an AutoModerator-held post's [removed] is not a deletion.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
