@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): hidden song catalogue, artist and album pages (pr #115)
+feat(vova): hidden song catalogue, music index tabs, one title shape (pr #115)
 ```
 
 ```
@@ -15,27 +15,24 @@ hidden song plays from its own page, joining the end of the queue.
 
 147 masters land as hidden song pages, their words set as verse with
 sourced notes: Suno's markers, drawn-out syllables and pause ellipses
-do not travel, a published poem's punctuation does, Russian is
-written with ё, and expletives are written out, which the
-check:masked-words vet gate holds. Masters outside vovas-music are
-served from the site, so a song's repo is optional.
+do not travel, Russian is written with ё, and expletives are written
+out, which the check:masked-words vet gate holds.
 
-/music is a grid of artist tiles, pictured where Apple Music has a
-picture; an artist page shows its albums as covers, newest first by
-their latest song, and an album page numbers its tracks and states its
-length. Twins under /music/all carry the hidden songs too, noindex and
-out of the sitemap. Only the song schema and the names it validates
-against live in shared/song; how projects and albums are shown is
-pages/music's. A song states its title once, a locale only where it
-differs, with a {transliteration, translation} gloss shown only to a
-reader who cannot read the title's script, transliterations in
-italics.
+/music opens on a short intro and a "Shuffle all" button, then tabs
+for artists, albums and songs, each a static page; an artist page
+shows its albums and singles as covers, newest first, and an album
+page numbers its tracks and states its length. Twins under /music/all
+carry the hidden songs too, noindex and out of the sitemap. Artists
+link from the song page and the player bar, credits sit under the
+lyrics, and only the song schema lives in shared/song. A song states
+its title once, a locale only where it differs, with a
+{transliteration, translation} gloss shown to a reader who cannot read
+the title's script.
 
 To carry the catalogue, a song's language is a list, main language
 first, with nine languages added; albums and projects join their
 registries, a project can be billed under another name per language,
-one note can span several lines, and music:scaffold takes a spec
-naming the master and its fields.
+and music:scaffold takes a spec naming the master and its fields.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
