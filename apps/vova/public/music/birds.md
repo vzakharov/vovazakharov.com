@@ -1,6 +1,6 @@
 ---
 title: 'Птицы'
-date: 2024-01-01
+date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
@@ -9,57 +9,62 @@ track: 8
 audio: /music/assets/birds.mp3
 seconds: 287
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Ptitsy'
     translation: 'Birds'
-  description: 'TBD'
+  description: 'Written at night on the living-room sofa: brilliant while I was writing it, drawn-out once it was done, and to my dad “the song of a departing soul.”'
 ru:
-  description: 'TBD'
+  description: 'Написана ночью на диване в зале: пока писалась — гениальная, когда дописалась — затянутая, а для папы — «песня улетающей души».'
 ---
 
-<!-- For Vova to check: the date is a placeholder for the album’s release, which nothing on the branch records — when did «Крылья» come out? -->
+<!-- lang:en -->
 
-<!-- For Vova to check: the words were heard off the recording by Whisper and Deepgram and reconciled; each line below is one they disagreed on or that reads as a mis-hearing.
-- «Что вы узнаете в этих зёрнах?» — Whisper: «Что вы узнаете в этих зернах?» (whole song), «Чтобы узнать там, в эти дни» (line heard alone), Deepgram: «Что вы? Узнать-то... Войти.»
-- «Кто-то счастлив быть с вами» — Whisper: «Кто-то счастлив быть с вами» (whole song), «Кто-то, кто счастлив быть с вами» (line heard alone), Deepgram: «Счастлив быть со мной»
-- «Ни о чём не жалей» — Whisper: «Ни о чём не жалей», Deepgram: «Ни о чем не жалеть»
-- «Свои крылья проверь» (every chorus) — Whisper: «свои крылья померь», «Свои крылья поверяя», «Свои пыль я поверю», Deepgram: «Жалеть свои игры», «Свои фритюры я номеру», «свои пылея память» (none rhymes cleanly with «жалей»; «проверь» is a guess)
-- «Моя, моя» / «Моя, как моя» — Whisper: «Моя, моя», «Моя, как моя», Deepgram: nothing (perhaps an echo of «боль моя»)
-- «Новый день, новый край» / «Боль моя, улетай» (third chorus) — Whisper: «Игра в луну, зла в золото», «Война моя, улетай!», Deepgram: nothing
-- «Здесь, внизу, на земле» — Whisper: «Здесь, внизу, на земле», Deepgram: «снесу на земле»
-- «Места нет у тебя» / «У меня» — Whisper: «Места нет у тебя», «У меня», Deepgram: «места нет. Тебя.»
-- (no line set) 01:57 and 02:50–04:00 — the voice sings on, but neither recogniser heard words there (Whisper: «Ку-у-у-у» at 01:57, nothing usable after)
--->
+I remember writing it at night on the sofa in the living room. While I was
+writing it, it seemed brilliant; once I’d finished, already somewhat drawn-out
+and dull. Dad’s comment: “A sad song, this one. What keeps going round in my
+head is ‘the song of a departing soul.’”
+
+<!-- lang:ru -->
+
+Помню, писал её ночью на диване в зале. Пока писал, казалась гениальной; когда
+дописал — уже несколько затянутой и нудной. Папин комментарий: «Грустная песня
+получилась. В голове вертится „песня улетающей души“».
 
 <!-- lyrics:ru -->
 
 Птицы, куда вы летите?
-Что вы узнаете в этих зёрнах?
+Что вы узнать там хотите?
 Может быть, там, за холмами,
 Кто-то счастлив быть с вами
 
-Новый день, новый край,
+В новый день, в новый край,
 Боль моя, улетай
 Ни о чём не жалей,
-Свои крылья проверь
-
-Новый день, новый край,
-Боль моя, улетай
-Ни о чём не жалей,
-Свои крылья проверь
-
-Моя, моя
-Моя, как моя
-
-Новый день, новый край,
-Боль моя, улетай
-Ни о чём не жалей,
-Свои крылья проверь
+В свои крылья поверь
+x3
 
 В новый день, в новый свет,
 Там, где зла и горя нет
 Здесь, внизу, на земле
-Места нет у тебя,
+Места нету тебе,
 У меня
+
+<!-- lyrics:en -->
+
+Birds, where are you flying?
+What is it you want to find out there?
+Maybe there, beyond the hills,
+Someone is happy to be with you
+
+Into a new day, into a new land,
+My pain, fly away
+Regret nothing,
+Believe in your wings
+x3
+
+Into a new day, into a new light,
+There, where there is no evil and no grief
+Here, below, on the earth
+There’s no room for you,
+With me

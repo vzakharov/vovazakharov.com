@@ -1,6 +1,6 @@
 ---
 title: 'Переплелось'
-date: 2024-01-01
+date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
@@ -9,38 +9,28 @@ track: 7
 audio: /music/assets/intertwined.mp3
 seconds: 161
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Pereplelos'
     translation: 'Intertwined'
-  description: 'TBD'
+  description: 'One of the first songs written “à la za/oblozhkoy,” if not the very first: whatever comes into my head, fixing nothing, overthinking nothing.'
 ru:
-  description: 'TBD'
+  description: 'Одна из первых, если не первая, песня «а-ля за/обложкой»: пишу, что приходит в голову, ничего не правя и ничего не overthink-ая.'
 ---
 
-<!-- For Vova to check: the date is a placeholder for the album’s release, which nothing on the branch records — when did «Крылья» come out? -->
+<!-- lang:en -->
 
-<!-- For Vova to check: the words were heard off the recording by Whisper and Deepgram and reconciled; each line below is one they disagreed on or that reads as a mis-hearing.
-- «Но вместо целых одни половинки» — Whisper: «Но вместо целых одних половинки», Deepgram: «но вместо целых огней половинки» (later choruses heard as «не половишь», «не половина»)
-- «Может, не узнают?» — Whisper: «Может мне узнают?», Deepgram: «Может, не узнают»
-- «Может, кому надо?» — Whisper: «Может кому надо?», Deepgram: «Может, прямо надо»
-- «Сами понимают» — Whisper: «Сами понимаю», Deepgram: «Сами понимают»
-- «Всё не без оглядки» — Whisper: «Все не без оглядки», Deepgram: «В тени без оглядки»
-- «Только мне ослепнуть» — Whisper: «Только мне следнуть», Deepgram: «Только мне ослепнуть»
-- «Только ложь и правда» — Whisper: «Так же и правды», Deepgram: «только жить правды» (a guess fitting both)
-- «Переплелись» — Whisper: «Перепрелазнить», Deepgram: not heard (guessed from the title; may be «Переплелось»)
-- «Открой своё сердце» — Whisper: «Открой свое сердце», Deepgram: «Открой свое зятье»
-- «Разметающим барханы» — Whisper: «Разметающим арханы», Deepgram: «Разметающим арханны» (both missed the first letter)
-- «Переплетая» — Whisper: «Переплетай», Deepgram: «Приметай»
-- «Истории и судьбы» — Whisper: «Истории и судьбы», Deepgram: «в 100 и суть»
-- «В слова резкие буквы» — Whisper: «Словаревские буквы», Deepgram: «в слова резкие буквы»
-- «В пожелтевшие страницы» — Whisper: «Твой лутевший страницы», Deepgram: «твой утевшие страницы» (a guess fitting both)
-- «Лишь прихоть борзописца» — Whisper: «Лишь прихоть познависса», Deepgram: «лишь прихоть вознаписаться» (a guess that rhymes with «страницы»)
-- «Я перебираю в голове картинки» (third chorus) — Whisper: not heard, Deepgram: «Как я не бираюсь в голове корзине» (low confidence; may be a changed line)
-- «Но вместо целых одни половинки» (third chorus) — Whisper: not heard, Deepgram: «Без мусора и колдобен» (low confidence; may be a changed line)
-- «Я не догоняю, что лишнее, что надо» (closing line) — Whisper: not heard, Deepgram: «Я не пробегала, что правда»
--->
+I think this is one of the first songs, if not the first, written “à la
+_za/oblozhkoy_,” that is, “I write whatever comes into my head, fixing nothing,
+overthinking nothing.” (The music there was different, though; maybe someday
+I’ll restore the first version too.)
+
+<!-- lang:ru -->
+
+По-моему, это одна из первых, если не первая песня, написанная «а-ля
+за/обложкой», то есть «пишу, что приходит в голову, ничего не правя, ничего не
+overthink-ая». (Музыка там, правда, была другая, может, когда-то первую версию
+тоже восстановлю.)
 
 <!-- lyrics:ru -->
 
@@ -49,14 +39,16 @@ ru:
 Я перебираю в голове картинки
 Но вместо целых одни половинки
 
-Может быть, так лучше?
-Может, не узнают?
-Может, кому надо?
-Сами понимают
-Всё не без оглядки
-Только мне ослепнуть
-Только ложь и правда
-Переплелись
+Может быть, так лучше?[^quintessence-ru]
+Может, не узнают?[^quintessence-ru]
+Может, кому надо[^quintessence-ru]
+Сами понимают?[^quintessence-ru]
+В темень без оглядки[^quintessence-ru]
+Только б мне ослепнуть[^quintessence-ru]
+Там, где лжи и правды[^quintessence-ru]
+Переплелась нить[^quintessence-ru]
+
+[^quintessence-ru]: Вся эта строфа — квинтессенция философии «о чём это вообще, нафиг?».
 
 Открой своё сердце
 Свободным ветрам
@@ -67,9 +59,9 @@ ru:
 Корабли уносящим
 В далёкие страны
 
-Переплетая
+Переплетай
 Истории и судьбы
-Соединяя
+Соединяй
 В слова резкие буквы
 Вдыхая жизнь
 В пожелтевшие страницы
@@ -80,16 +72,46 @@ ru:
 Я не догоняю, что лишнее, что надо
 Я перебираю в голове картинки
 Но вместо целых одни половинки
+x3
 
-Я не понимаю, где ложь, где правда
-Я не догоняю, что лишнее, что надо
-Я перебираю в голове картинки
-Но вместо целых одни половинки
+<!-- lyrics:en -->
 
-Я не понимаю, где ложь, где правда
-Я не догоняю, что лишнее, что надо
-Я перебираю в голове картинки
-Но вместо целых одни половинки
+I don’t understand where the lie is, where the truth
+I can’t figure out what’s extra, what’s needed
+I keep sorting through pictures in my head
+But instead of whole ones, only halves
 
-Я не понимаю, где ложь, где правда
-Я не догоняю, что лишнее, что надо
+Maybe it’s better this way?[^quintessence-en]
+Maybe they won’t find out?[^quintessence-en]
+Maybe whoever needs to[^quintessence-en]
+Will understand on their own?[^quintessence-en]
+Into the dark without looking back[^quintessence-en]
+If only I could go blind[^quintessence-en]
+There, where the threads of lies and truth[^quintessence-en]
+Have intertwined[^quintessence-en]
+
+[^quintessence-en]: This whole stanza is the quintessence of the “what the heck is this even about?” philosophy.
+
+Open your heart
+To the free winds
+That carry breath
+To the forests and mountains
+In the middle of the desert
+Sweeping the dunes apart
+Carrying ships away
+To faraway lands
+
+Interweave
+Stories and fates
+Join
+Sharp letters into words
+Breathing life
+Into yellowed pages
+Where lie and truth
+Are only a hack writer’s whim
+
+I don’t understand where the lie is, where the truth
+I can’t figure out what’s extra, what’s needed
+I keep sorting through pictures in my head
+But instead of whole ones, only halves
+x3

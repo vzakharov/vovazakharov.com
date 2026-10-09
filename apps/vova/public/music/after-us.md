@@ -1,6 +1,6 @@
 ---
 title: 'После нас'
-date: 2024-01-01
+date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
@@ -9,26 +9,29 @@ track: 4
 audio: /music/assets/after-us.mp3
 seconds: 79
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Posle nas'
     translation: 'After Us'
-  description: 'TBD'
+  description: 'The world we leave to those whose adult life is only beginning, written while everything of the last few years still felt raw.'
 ru:
-  description: 'TBD'
+  description: 'Какой мир мы оставляем тем, чья взрослая жизнь только начинается, — пока всё, что случилось за последние годы, ещё ощущалось особенно живо.'
 ---
 
-<!-- For Vova to check: the date is a placeholder for the album’s release, which nothing on the branch records — when did «Крылья» come out? -->
+<!-- lang:en -->
 
-<!-- For Vova to check: the words were heard off the recording by Whisper and Deepgram and reconciled; each line below is one they disagreed on or that reads as a mis-hearing.
-- «Скажи, зачем среди могильных плит» — Whisper: «среди малинных плит», Deepgram: «среди могилы вклик»
-- «Не преданных себе цивилизаций» — Whisper: «Не преданных себе цивилизаций», Deepgram: «неправданных себе цивилизации» (both read oddly)
-- «Нам довелось с тобою оказаться» — Whisper: «с тобою», Deepgram: «с тобой»
-- «До нас Содом, до нас Гоморра» (first chorus) — Whisper: «До нас дом стоп, до нас гауна», Deepgram: «До нас дом стоп, до нас говна» (Sodom and Gomorrah is a guess at a pair beside the Flood)
-- «До нас Содом, до нас Гоморра» (second chorus) — Whisper: «До нас констант, до нас говно», Deepgram: «до нас комства, до нас кома»
-- «Вся жизнь сейчас, вся жизнь игра» (second chorus) — Whisper: «вся жизнь мира», Deepgram: «Вся жизнь игра»
--->
+The song was inspired by everything that had happened over the last few years,
+which back then felt especially raw. It got me thinking about what kind of world
+we are leaving to our children. “After us” doesn’t mean after us, the
+forty-year-olds, but after those whose adult life is only just beginning, like
+Maya’s and Kirill’s.
+
+<!-- lang:ru -->
+
+Песня навеяна всеми событиями последних лет, которые тогда ощущались особенно
+живо. Подумалось, какой мир мы оставляем своим детям. «После нас» — это не после
+нас, 40-летних, а после тех, чья взрослая жизнь только начинается, как у Майи и
+Кирилла.
 
 <!-- lyrics:ru -->
 
@@ -40,14 +43,32 @@ ru:
 Скажи, зачем среди могильных плит
 Не преданных себе цивилизаций
 Нам довелось с тобою оказаться
-Последними, кто их похоронит?
+Последними, кто их похоронит?[^stress-ru]
 
-До нас Содом, до нас Гоморра,
+[^stress-ru]: Поётся «похорони́т», с ударением на последний слог, — так неправильно, но поют-то юные и наивные, что с них взять.
+
+До нас don’t stop, до нас go now,
 Вся жизнь сейчас, вся жизнь игра
 При нас потоп, при нас война,
 А после нас…
+x2
 
-До нас Содом, до нас Гоморра,
-Вся жизнь сейчас, вся жизнь игра
-При нас потоп, при нас война,
-А после нас…
+<!-- lyrics:en -->
+
+The horizon floats by above us,
+Sprinkling us with black tears,
+And we, like Murakami’s characters,
+Don’t know which is reality and which is a dream
+
+Tell me, why is it among the gravestones
+Of civilizations untrue to themselves
+That you and I have happened to end up
+The last ones to bury them?[^stress-en]
+
+[^stress-en]: Sung «похорони́т», stressed on the last syllable — which is wrong, but the singers are young and naive; what can you expect.
+
+Before us, don’t stop, before us, go now,
+All of life is now, all of life is a game
+In our time the flood, in our time the war,
+And after us…
+x2
