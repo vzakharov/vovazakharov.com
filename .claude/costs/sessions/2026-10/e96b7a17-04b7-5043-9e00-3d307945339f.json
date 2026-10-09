@@ -1,12 +1,24 @@
 {
   "estimate": {
-    "at": "2026-10-09T13:19:17.182Z",
+    "at": "2026-10-09T13:31:23.366Z",
     "parts": [
       {
-        "hours": 0.1,
-        "grade": "junior",
+        "hours": 3.0,
+        "grade": "middle",
         "role": "developer",
-        "comment": "cutting a named branch off main and pushing it is a routine git step anyone on the team does"
+        "comment": "wiring source separation, two recognizers and a mastering chain on CPU is tooling a developer assembles and tunes, not writes from scratch"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "editor",
+        "comment": "lyrics heard by machines need a careful ear for Russian verse to reconcile two recognizers into text the author only corrects"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "a sound engineer's pass to level and gently EQ an unmastered album against a reference"
       }
     ],
     "comment": null
@@ -19,28 +31,28 @@
   "url": "https://claude.ai/code/session_01HcrcvLdqQhLWryGh13jfyi",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-09T13:18:50.651Z",
-  "lastResponseAt": "2026-10-09T13:19:23.547Z",
+  "lastResponseAt": "2026-10-09T13:35:59.021Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 14,
+    "inputTokens": 58,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 48634,
-    "cacheReadTokens": 564916,
-    "outputTokens": 2633,
-    "thinkingTokens": 1024,
-    "responses": 7,
-    "costUsd": 0.5547712
+    "cacheWrite1hTokens": 87054,
+    "cacheReadTokens": 3104196,
+    "outputTokens": 18289,
+    "thinkingTokens": 7676,
+    "responses": 29,
+    "costUsd": 1.6832832000000002
   },
   "ownTurns": {
-    "inputTokens": 14,
+    "inputTokens": 58,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 48634,
-    "cacheReadTokens": 564916,
-    "outputTokens": 2633,
-    "thinkingTokens": 1024,
-    "responses": 7,
-    "costUsd": 0.5547712
+    "cacheWrite1hTokens": 87054,
+    "cacheReadTokens": 3104196,
+    "outputTokens": 18289,
+    "thinkingTokens": 7676,
+    "responses": 29,
+    "costUsd": 1.6832832000000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -54,14 +66,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 14,
+      "inputTokens": 58,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 48634,
-      "cacheReadTokens": 564916,
-      "outputTokens": 2633,
-      "thinkingTokens": 1024,
-      "responses": 7,
-      "costUsd": 0.5547712
+      "cacheWrite1hTokens": 87054,
+      "cacheReadTokens": 3104196,
+      "outputTokens": 18289,
+      "thinkingTokens": 7676,
+      "responses": 29,
+      "costUsd": 1.6832832000000002
     }
   },
   "warnings": [],
