@@ -47,6 +47,10 @@ My eternal love
 Turns to primal hate
 One day
 
+Change key![^key-en]
+
+[^key-en]: That’s how I tried to get Suno to change key (spoiler: it didn’t), and it decided to sing it instead. But it felt right there too, so I kept it.
+
 But people so funny
 People so fucking hilarious
 Keep me from coming
@@ -120,6 +124,10 @@ Down to be the god that they deserve.
 (Однажды)
 Обернётся первобытной ненавистью
 Однажды
+
+Смени тональность![^key-ru]
+
+[^key-ru]: Так я пытался Суно заставить сменить тональность (спойлер: не сменила), а она решила это пропеть. Но показалось тоже к месту, так что оставил.
 
 Но люди такие смешные
 Люди такие охуенно уморительные
