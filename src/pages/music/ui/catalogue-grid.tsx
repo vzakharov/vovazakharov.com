@@ -7,9 +7,9 @@ import { NameLink, Subheading } from '@/shared/ui';
 import classes from './music.module.scss';
 
 /**
- * A tile linking to an artist or an album: its art with its name under it, or
- * its name set on a tinted square where it has none — never both, so the name
- * reads once — then an optional `detail` line under the square.
+ * A tile linking to an artist, an album or a single: its art with its name
+ * under it, or its name set on a tinted square where it has none — never both,
+ * so the name reads once — then an optional `detail` line under the square.
  */
 type CatalogueTile = LabeledLink & {
   cover?: string;
@@ -19,7 +19,7 @@ type CatalogueTile = LabeledLink & {
 /** Untitled under a heading of the page's own, as the index's tabs are. */
 export type CatalogueGridProps = MaybeTitled & { tiles: CatalogueTile[] };
 
-/** Artists or albums — several to a row, each a page of its own. */
+/** Artists or releases — several to a row, each a page of its own. */
 export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
   if (tiles.length === 0) return null;
 

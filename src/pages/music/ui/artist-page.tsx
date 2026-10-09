@@ -9,6 +9,7 @@ import { albumYears, artistReleases, artistSongs } from '../lib/catalogue';
 import type { ArtistPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
 import { projectGloss, projectName } from '../lib/projects';
+import { singleCover } from '../lib/single-covers';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
@@ -52,11 +53,12 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
               };
             }
 
-            const { titles, routes } = songTrack(release.single);
+            const { slug, titles, routes } = songTrack(release.single);
 
             return {
               href: routes[locale],
               label: titles[locale],
+              cover: singleCover(slug),
               detail: `${messages.single} · ${String(release.single.frontmatter.date.getUTCFullYear())}`,
             };
           })}
