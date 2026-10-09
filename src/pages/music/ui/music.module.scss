@@ -187,10 +187,13 @@
   justify-self: start;
 }
 
-// In the HTML either way; the switch's attribute is what shows it.
+// In the HTML either way; the switch's attribute is what shows it. Smaller
+// and fainter than the line above it, so the eye reads the pair as the words
+// and their gloss rather than as two lines of verse.
 .transliteration {
   display: none;
-  color: color-mix(in srgb, currentcolor 70%, transparent);
+  font-size: 0.85em;
+  color: color-mix(in srgb, currentcolor 50%, transparent);
   white-space: normal;
 
   [data-transliteration='shown'] & {
