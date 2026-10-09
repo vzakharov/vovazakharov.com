@@ -49,12 +49,13 @@ Maya’s and Kirill’s.
 
 До нас [don’t stop][^dont-stop-ru], до нас [go now][^go-now-ru],
 Вся жизнь сейчас, вся жизнь игра
-При нас потоп, при нас война,
+[При нас потоп][^deluge-ru], при нас война,
 А после нас…
 x2
 
 [^dont-stop-ru]: «Не останавливайся» (англ.).
 [^go-now-ru]: «Иди сейчас», «вперёд» (англ.).
+[^deluge-ru]: Аллюзия на «после нас хоть потоп»: тут потоп уже при нас.
 
 <!-- lyrics:en -->
 
@@ -70,6 +71,8 @@ The last ones to bury them?
 
 Before us, don’t stop, before us, go now,
 All of life is now, all of life is a game
-In our time the flood, in our time the war,
+[In our time the flood][^deluge-en], in our time the war,
 And after us…
 x2
+
+[^deluge-en]: A nod to “après nous, le déluge” — “after us, the flood” — except here the flood has already come.
