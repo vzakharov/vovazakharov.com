@@ -15,8 +15,7 @@ paths:
 
 # Songs
 
-A song is a document in the `music` collection, so everything in `content.md`
-holds for it; this file is what a song adds.
+Everything in `content.md` holds for a song; this file is what a song adds.
 
 ## Frontmatter
 
