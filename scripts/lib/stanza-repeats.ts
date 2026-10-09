@@ -51,7 +51,7 @@ type Section = Named &
   };
 
 /** A stanza that repeats the one before it; `refused` says why it stays when it cannot collapse. */
-export type Repeat = WithOffset & { section: string; refused?: string };
+type Repeat = WithOffset & { section: string; refused?: string };
 
 export type StanzaRepeats = {
   repeats: Repeat[];
