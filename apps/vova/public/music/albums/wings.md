@@ -1,63 +1,55 @@
 <!-- lang:en -->
 
-So: how the whole za/oblozhkoy project came about — and, really, everything else
-after it.
+The whole za/oblozhkoy project — and everything that came after it — started at
+the end of 2023, when Gosha, my boss at the time, showed me some little thing
+he’d made in Suno. I decided to try it too, and it blew my mind: I’d expected a
+robot voice laid over some music, and got something else entirely. Only later,
+digging into Suno, did I learn it was nearly the same technology as Jukebox.
 
-I discovered Suno at the end of 2023, when my boss at the time, Gosha,
-recommended it to me. Recommended — well, showed me some little thing he’d made.
-I thought, well, I’ll try it too. And of course, as so often happens, it
-completely blew my mind, because it was nothing like what I’d expected. I
-thought there’d be some, like, robot voice laid over some music or other. Turned
-out no: it’s basically, as I found out later in my dealings with Suno, almost the
-same technology as Jukebox, but that’s beside the point.
+Like everyone, I started with other people’s poems. The first to come out was
+the single version of [“Listen!”](../listen-single.md), which never made the
+album. I was very pleased with it, posted it to Reddit, and got downvoted to
+hell. My taste and that crowd’s, it seems, part ways.
 
-Naturally, to start with, when you want to try all this out, you try some
-existing poems rather than writing on the spot. And that’s how it came out at
-first — this is the single version of [“Listen!”](../listen-single.md), which
-didn’t make the album, but made the single, as it turned out. I was very pleased
-with it, shared it on Reddit, and got downvoted to hell. Well, apparently I don’t
-share the tastes of the listeners who were there, but that’s not the point.
+Then I started writing words of my own, and an image came with them at once: a
+boy and a girl — teenagers, though of age — both redheads, both blindfolded. I
+knew from the first day that their names were Maya and Kirill.
 
-And at some point I started writing words, and somehow this image was born right
-away — a boy and a girl, well, teenagers, I suppose — they’re of age, really, but
-that’s not the point. Both redheads, both blindfolded. I knew right away that
-their names were Maya and Kirill.
+Almost everything I write for this project comes out in one go; I don’t sit over
+a single word. Hence the verb rhymes, the clumsy words, the naivety — “young and
+awkward, painfully naive,” like me in [“Onto Fingers,”](../onto-fingers.md) a song
+written much later for another project.
 
-And basically almost everything I wrote and write, when I write for this
-project, is born in my head just like that, well, right off the bat. I mean, I
-don’t sit and think over a single word. There are lots of verb rhymes in there,
-some clumsy words, some naivety — like “young and awkward, painfully naive”;
-anyway, they’re like me in the song [“Onto Fingers,”](../onto-fingers.md) which
-was written much later, for a different project.
+The turning point was [“Our Story”](../our-story.md): with it I saw that you can
+write not just a verse and a chorus but a whole song. Next came
+[“The World as It Is,”](../world-as-it-is.md) which ended up on the single and
+closes the album. And one of the names on the album’s shortlist was “In a
+Fucking Romcom,” a line from [“Sorry”](../sorry.md).
 
 <!-- lang:ru -->
 
-В общем, как получился весь проект за/обложкой, собственно, за ним — всё
-остальное.
+Весь проект за/обложкой — а за ним и всё остальное — начался в конце 2023 года,
+когда мой тогдашний начальник Гоша показал мне какую-то свою поделку на Суно. Я
+решил попробовать тоже, и мне снесло голову: я ждал голос-робота, наложенный на
+какую-нибудь музыку, а получил совсем другое. Уже потом, разбираясь с Суно, я
+выяснил, что это почти та же технология, что и Jukebox.
 
-Я обнаружил Суно в конце 2023 года, когда мне его посоветовал мой тогдашний
-начальник Гоша. Как посоветовал — показал поделочку какую-то. Я подумал: ну,
-попробую тоже. И, конечно, как это часто бывает, мне совершенно снесло голову,
-потому что это совсем не то, что я ожидал. Я думал, там будет какой-то, ну, типа,
-голос-робот накладывается на какую-то там музыку. Оказалось, что нет: это, по
-сути, как я уже потом при общении с Суно выяснил, почти та же технология, что и
-Jukebox, но не суть.
+Начинал, как все, с чужих стихов. Первой вышла сингловая версия
+[«Послушайте»](../listen-single.md), на альбом она так и не попала. Я был ею
+очень доволен, выложил на Реддит, и меня заминусили куда-то в ад. Видимо, со
+вкусами тамошних слушателей мы расходимся.
 
-Естественно, для начала, когда ты хочешь всё это пробовать, ты пробуешь какие-то
-существующие стихи, не пишешь на месте. И вот так получилось сначала — это
-сингловая версия [«Послушайте»](../listen-single.md), которая на альбом не вошла,
-получается, на сингл вошла. Я был очень доволен, шерил её на Реддите, меня
-заминусили куда-то в ад. В общем, видимо, я не разделяю вкусы со слушателями,
-которые там были, но не в этом суть.
+Потом я начал писать слова сам, и вместе с ними сразу родился образ: мальчик и
+девочка — подростки, хотя уже совершеннолетние, — оба рыжие, оба с завязанными
+глазами. Я с первого дня знал, что их зовут Майя и Кирилл.
 
-И в какой-то момент я начал писать слова, и как-то у меня сразу родился этот
-образ — мальчика, девочки, ну как, подростков, наверное, — они уж
-совершеннолетние, но не в этом суть. Оба рыжие, оба с завязанными глазами. Я
-сразу знал, что их зовут Майя и Кирилл.
+Почти всё, что я пишу для этого проекта, рождается сходу: я не сижу ни над одним
+словом. Отсюда глагольные рифмы, нелепые слова, наивность — «юные и нелепые, до
+боли наивные», как и я в [«На пальцы»](../onto-fingers.md), песне, написанной
+намного позже для другого проекта.
 
-И, в принципе, почти всё, что я писал и пишу, когда я пишу для этого проекта, оно
-рождается в голове прямо, ну, вот сходу. То есть я не сижу, не думаю ни над одним
-словом. Там есть очень много глагольных рифм, каких-то нелепых слов, каких-то
-наивностей — как «юные и нелепые, до боли наивные», в общем, они, как и я в песне
-[«На пальцы»](../onto-fingers.md), которая написана уже намного позже для другого
-проекта.
+Переломом стала [«Наша история»](../our-story.md): на ней я увидел, что можно
+написать не куплет с припевом, а целую песню. Следом пришла
+[«Мир, какой он есть»](../world-as-it-is.md) — она вошла и на сингл, и на альбом,
+последней песней. А в шорт-листе названий альбома было «В грёбаном ромкоме» —
+строчка из [«Прости»](../sorry.md).
