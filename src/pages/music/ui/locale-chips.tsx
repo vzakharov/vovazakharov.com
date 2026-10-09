@@ -21,5 +21,5 @@ export function LocaleChips({ locale, hrefs }: LocaleChipsProps) {
     }),
   );
 
-  return <ChipNav {...{ chips }} replace />;
+  return <ChipNav {...{ chips }} />;
 }

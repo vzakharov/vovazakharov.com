@@ -18,5 +18,5 @@ export function LocalePicker({ variant, locale }: CvEdition) {
     }),
   );
 
-  return <ChipNav {...{ chips }} replace />;
+  return <ChipNav {...{ chips }} />;
 }
