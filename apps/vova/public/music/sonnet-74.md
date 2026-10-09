@@ -22,7 +22,7 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Project is a guess: Shakespeare’s sonnet 74 set by Dad and reworked with a female voice, billed like `tvoya-l-vina`, the sonnet on the Дамы и господа album with Полуживые featured; posted to Dad’s channel rather than to an album. Vova’s story names the translator only as Kushner, so `credits.lyrics` names Shakespeare alone — give the full name to add. -->
+<!-- For Vova to check: Project is a guess: Shakespeare’s sonnet 74 set by Dad and reworked with a female voice, billed like `is-it-your-fault`, the sonnet on the Дамы и господа album with Полуживые featured; posted to Dad’s channel rather than to an album. Vova’s story names the translator only as Kushner, so `credits.lyrics` names Shakespeare alone — give the full name to add. -->
 
 <!-- Story from Vova's Telegram post of 2025-12-02. -->
 

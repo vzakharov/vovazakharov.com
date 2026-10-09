@@ -10,8 +10,8 @@ import type { SongDocument } from './song-text';
 
 /*
  * What each page of the catalogue is pictured by — on the page, on a tile, and
- * as the card it unfurls as. Every picture is a release's cover, so an artist
- * or a song has none of its own to keep current.
+ * as the card it unfurls as. Every picture is a cover, an artist borrowing one
+ * of its releases'.
  */
 
 /**
