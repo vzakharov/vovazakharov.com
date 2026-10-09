@@ -31,40 +31,40 @@ ru:
 <!-- lyrics:ru-latn-x-russisch -->
 
 Du prossil menja wtschera wkusnuju Konfetu
-A ja s'em jejo sama
+A ja sʼem jejo sama
 Schal no lischnei netu
 A jeschtscho du poprossil Welik pokatatsja
 Ja ne dam tebe prosti mne pora kupatsja
 
 Schadina Schadina Schadina Gowjadina
-Wsüdu gde ne pojawlüs' wse wdagonku drasnjatsja
+Wsüdu gde ne pojawlüsʼ wse wdagonku drasnjatsja
 Schadina Schadina Schadina Gowjadina
-A ja tol'ko rassmejus' mne kakaja Rasniza
+A ja tolʼko rassmejusʼ mne kakaja Rasniza
 x2
 
 Ja choschu wesde odna bes Drusei Podruschek
 Nikomu ja ne nuschna mne nikto ne nuschen
-Rjadom tol'ko ryschij Kot i Chomjak Mischutka
-Schadnym byt' tak ne legko
+Rjadom tolʼko ryschij Kot i Chomjak Mischutka
+Schadnym bytʼ tak ne legko
 Eto wam ne Schutka
 
 Schadina Schadina Schadina Gowjadina
-Wsüdu gde ne pojawlüs' wse wdagonku drasnjatsja
+Wsüdu gde ne pojawlüsʼ wse wdagonku drasnjatsja
 Schadina Schadina Schadina Gowjadina
-A ja tol'ko rassmejus' mne kakaja Rasniza
+A ja tolʼko rassmejusʼ mne kakaja Rasniza
 x2
 
-Luk Krapiwa Drebeden' wdruk mne stalo jasno
-Schadnym byt' wtscheraschnij Den'
-Dobrym byt' prekrasno
+Luk Krapiwa Drebedenʼ wdruk mne stalo jasno
+Schadnym bytʼ wtscheraschnij Denʼ
+Dobrym bytʼ prekrasno
 Sabi rait je Dom Klütschi maminy Koletschki
 Jessli Mama nakritschit
 Ja jej tak otwetschu
 
 Schadina Schadina Schadina Gowjadina
-Wsüdu gde ne pojawlüs' wse wdagonku drasnjatsja
+Wsüdu gde ne pojawlüsʼ wse wdagonku drasnjatsja
 Schadina Schadina Schadina Gowjadina
-A ja tol'ko rassmejus' mne kakaja Rasniza
+A ja tolʼko rassmejusʼ mne kakaja Rasniza
 x2
 
 <!-- lyrics:ru -->

@@ -68,10 +68,6 @@ A song on the words of Ophelia’s song from _Hamlet_; the song also takes in an
 Чтоб Валентиной быть твоей,
 Ждать буду под окном.
 
-В цветах он весь лежал,
-Но в землю плач подруги нежной
-Его не провожал.
-
 Ведь завтра Валентинов день;
 Уж с первым я лучом,
 Чтоб Валентиной быть твоей,
@@ -109,10 +105,6 @@ Tomorrow is Saint Valentine’s day,
 All in the morning betime,
 And I a maid at your window,
 To be your Valentine.
-
-Larded all with sweet flowers;
-Which bewept to the ground did not go
-With true-love showers.
 
 Tomorrow is Saint Valentine’s day,
 All in the morning betime,
