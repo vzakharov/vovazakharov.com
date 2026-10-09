@@ -37,24 +37,24 @@ A jeschtscho du poprossil Welik pokatatsja
 Ja ne dam tebe prosti mne pora kupatsja
 
 Schadina Schadina Schadina Gowjadina
-Wsüdu gde ne pojawlüs' wse wdagonku draznjatsja
+Wsüdu gde ne pojawlüs' wse wdagonku drasnjatsja
 Schadina Schadina Schadina Gowjadina
 A ja tol'ko rassmejus' mne kakaja Rasniza
 x2
 
-Ja choschu wezde odna bes Drusei Podruschek
+Ja choschu wesde odna bes Drusei Podruschek
 Nikomu ja ne nuschna mne nikto ne nuschen
-Rjadom tol'ko ryshij Kot i Chomjak Mischutka
+Rjadom tol'ko ryschij Kot i Chomjak Mischutka
 Schadnym byt' tak ne legko
 Eto wam ne Schutka
 
 Schadina Schadina Schadina Gowjadina
-Wsüdu gde ne pojawlüs' wse wdagonku draznjatsja
+Wsüdu gde ne pojawlüs' wse wdagonku drasnjatsja
 Schadina Schadina Schadina Gowjadina
 A ja tol'ko rassmejus' mne kakaja Rasniza
 x2
 
-Luk Krapiva Drebeden' wdruk mne stalo jasno
+Luk Krapiwa Drebeden' wdruk mne stalo jasno
 Schadnym byt' wtscheraschnij Den'
 Dobrym byt' prekrasno
 Sabi rait je Dom Klütschi maminy Koletschki
@@ -62,7 +62,7 @@ Jessli Mama nakritschit
 Ja jej tak otwetschu
 
 Schadina Schadina Schadina Gowjadina
-Wsüdu gde ne pojawlüs' wse wdagonku draznjatsja
+Wsüdu gde ne pojawlüs' wse wdagonku drasnjatsja
 Schadina Schadina Schadina Gowjadina
 A ja tol'ko rassmejus' mne kakaja Rasniza
 x2
