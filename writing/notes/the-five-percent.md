@@ -251,7 +251,7 @@ _others we keep in source (transliterated)_: `minem-babay`, `inverno`, `mithqal`
 lyrics' expletives (F\*ck, ох\*енно) and wrote a rule that "the mask is his."
 Nothing is masked: the agent's guess, given the author's name.
 
-## Given a form, it fills the form (×10)
+## Given a form, it fills the form (×11)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -269,6 +269,13 @@ title, a locale carrying only a differing name or a gloss.
 **8 October — a note per column.** A homophone note ("so come" / "succumb") went
 on both lyric columns. _no note in the English_: an English reader hears the
 pun, and the note exists only for what the Russian crib loses.
+
+**9 October — a type system for notes one reader reads.** Cleared to mark who
+sings each Krylya stanza, the agent built a frontmatter `voice` default, a
+singer registry with genders, and four build checks. _пометки про voice по ходу
+текста останутся просто for reference, без какого-то контроля типов._ Their one
+reader writes reflections, and the next song's note may say "duet" or «соло».
+The approval was of the idea; the rigor was the agent's.
 
 ## What it defends in writing, it stops asking about (×5)
 
