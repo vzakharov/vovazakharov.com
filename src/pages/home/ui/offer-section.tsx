@@ -26,8 +26,8 @@ export function OfferSection() {
           chart.{' '}
           <TextLink href={FEATURED_CASE_STUDY_ROUTE}>Last time round</TextLink>{' '}
           that took a live product from a no-code builder to 250,000 lines of
-          production TypeScript in 158 days — and the engineers who took it over
-          run it today.
+          TypeScript, tests included, in 158 days — and the engineers who took
+          it over run it today.
         </Text>
         <List spacing={8} size="lg">
           {ENGAGEMENTS.map(({ label }) => (

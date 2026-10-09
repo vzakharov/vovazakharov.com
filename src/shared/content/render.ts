@@ -20,6 +20,7 @@ import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
 import type { Variant } from './collections';
 import {
   type ContentDocument,
+  isListed,
   listPrimaryDocuments,
   siblingVariants,
   type WithContentDocument,
@@ -209,11 +210,15 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
 
 const cache = new Map<string, Promise<RenderedDocument>>();
 
-/** Renders a document, memoized per build process — several pages want the same one. */
+/**
+ * Renders a document, memoized per process — several pages want the same one.
+ * The body is part of the key because a dev server is one process for as long
+ * as it runs, and an edited file would otherwise keep its first render.
+ */
 export async function renderDocument(
   document: ContentDocument,
 ): Promise<RenderedDocument> {
-  const key = `${document.collection}:${document.fileName}:${document.locale ?? ''}`;
+  const key = `${document.collection}:${document.fileName}:${document.locale ?? ''}:${document.body}`;
   const pending = cache.get(key) ?? render(document);
 
   cache.set(key, pending);
@@ -229,17 +234,19 @@ export type DocumentCard<F extends BaseFrontmatter = BaseFrontmatter> =
   };
 
 /**
- * The full documents of a collection, rendered — what a list of cards needs.
+ * The listed full documents of a collection, rendered — what a list of cards needs.
  * Rendering just to read a title is free: `renderDocument` memoizes.
  */
 export async function renderPrimaryDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
 ): Promise<Array<DocumentCard<F>>> {
   return Promise.all(
-    listPrimaryDocuments(collection).map(async (document) => ({
-      document,
-      rendered: await renderDocument(document),
-      variants: siblingVariants(collection.id, document.slug),
-    })),
+    listPrimaryDocuments(collection)
+      .filter((document) => isListed(document))
+      .map(async (document) => ({
+        document,
+        rendered: await renderDocument(document),
+        variants: siblingVariants(collection.id, document.slug),
+      })),
   );
 }

@@ -1,11 +1,13 @@
 import 'server-only';
 
+import type { ContentDocument } from '@/shared/content';
+import type { Locale } from '@/shared/i18n';
 import type {
-  ContentDocument,
-  LocalizedText,
+  MusicAlbum,
   SongFrontmatter,
-} from '@/shared/content';
-import { isLocale, type Locale } from '@/shared/i18n';
+  SongText,
+  SungLanguage,
+} from '@/shared/music-catalogue';
 
 import {
   readVerse,
@@ -14,15 +16,32 @@ import {
   type WithStanzas,
 } from './lyric-notes';
 import { PREAMBLE, splitSections } from './sections';
+import type { GlossedTitle } from './title-gloss';
+import {
+  alignTransliteration,
+  romanizedTag,
+  type Transliteration,
+} from './transliteration';
 
 export type SongDocument = ContentDocument<SongFrontmatter>;
+
+export type SongOnRelease = {
+  document: SongDocument;
+  /** The release the page shows the song on, named first. */
+  album: MusicAlbum | null;
+};
+
+/** A locale's strings with its title resolved: its own name for the song, or the song's with a gloss. */
+type LocalizedSongText = Omit<SongText, 'title'> &
+  GlossedTitle &
+  Pick<SongFrontmatter, 'titleTransliterated'>;
 
 /**
  * A song as one language sees it: the titles and the story for that locale,
  * lifted out of the one file both languages are authored in.
  */
 export type LocalizedSongDocument = ContentDocument<
-  SongFrontmatter & LocalizedText
+  SongFrontmatter & LocalizedSongText
 >;
 
 /**
@@ -32,17 +51,30 @@ export type LocalizedSongDocument = ContentDocument<
  */
 export type SongLyrics = WithStanzas & {
   /** What the vocal is in, which is the column the author wrote. */
-  language: Locale;
+  language: SungLanguage;
   /** A crib, not a singing version — and absent where the song is in the reader's language. */
   translation?: Stanzas;
+  /** The words in Latin letters, for a script the reader may not read; shown under them on request. */
+  transliteration?: Transliteration;
 };
 
 function storyKey(locale: Locale): string {
   return `lang:${locale}`;
 }
 
-function lyricsKey(language: Locale): string {
+function lyricsKey(language: string): string {
   return `lyrics:${language}`;
+}
+
+function localeText(
+  { title, titleTransliterated, ...frontmatter }: SongFrontmatter,
+  locale: Locale,
+): LocalizedSongText {
+  const { title: own, ...text } = frontmatter[locale];
+
+  return typeof own === 'string'
+    ? { ...text, title: own, titleTransliterated: false }
+    : { ...text, title, titleTransliterated, gloss: own };
 }
 
 /**
@@ -64,7 +96,7 @@ export function localizeSong(
   return {
     ...document,
     locale,
-    frontmatter: { ...frontmatter, ...frontmatter[locale] },
+    frontmatter: { ...frontmatter, ...localeText(frontmatter, locale) },
     body: story,
     route: `${route}/${locale}`,
   };
@@ -81,23 +113,36 @@ export function songLyrics(
   locale: Locale,
 ): SongLyrics | undefined {
   const { frontmatter, body, fileName } = document;
-  const { language } = frontmatter;
+  // The main language's words are the ones shown; another sung in the song
+  // appears inside them, glossed by notes.
+  const [language] = frontmatter.language;
 
-  if (!isLocale(language)) return undefined;
+  if (language === undefined || language === 'instrumental') return undefined;
 
   const sections = splitSections(body);
   const sung = sections.get(lyricsKey(language));
 
-  if (sung === undefined) return undefined;
+  if (sung === undefined) {
+    throw new Error(
+      `${fileName} is sung in ${language} and has no "${lyricsKey(language)}" section; a song that is not instrumental carries its words.`,
+    );
+  }
 
   const stanzas = readVerse(sung, fileName);
+  const romanized = sections.get(lyricsKey(romanizedTag(language)));
+  const words = {
+    language,
+    ...(romanized !== undefined && {
+      transliteration: alignTransliteration(stanzas, romanized, fileName),
+    }),
+  };
 
-  if (language === locale) return { language, stanzas };
+  if (language === locale) return { ...words, stanzas };
 
   const translated = sections.get(lyricsKey(locale));
 
   if (translated === undefined) {
-    return { language, stanzas: withoutNotes(stanzas) };
+    return { ...words, stanzas: withoutNotes(stanzas) };
   }
 
   const translation = readVerse(translated, fileName);
@@ -108,5 +153,5 @@ export function songLyrics(
     );
   }
 
-  return { language, stanzas: withoutNotes(stanzas), translation };
+  return { ...words, stanzas: withoutNotes(stanzas), translation };
 }

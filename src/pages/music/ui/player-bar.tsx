@@ -1,14 +1,55 @@
 'use client';
 
-import { ActionIcon, Box, Group, Text } from '@mantine/core';
-import { Pause, Play, Shuffle, SkipBack, SkipForward } from 'lucide-react';
+import { ActionIcon, Box, Group, Text, UnstyledButton } from '@mantine/core';
+import {
+  LocateFixed,
+  Pause,
+  Play,
+  Shuffle,
+  SkipBack,
+  SkipForward,
+} from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useEffectEvent } from 'react';
 
 import { cx } from '@/shared/lib/class-names';
-import { TextLink } from '@/shared/ui';
+import { pick } from '@/shared/lib/collections';
+import { NameLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
+import { useStoredFlag } from '../lib/use-stored-flag';
+import { Marquee } from './marquee';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
+import { SongName } from './song-name';
+
+/**
+ * Whether the bar keeps the reader on the playing song's page: switched on, it
+ * opens that page, and opens the next one each time the track changes. Leaving
+ * the page by hand does not switch it off, so the next track brings them back;
+ * nor does a reload, the switch being remembered.
+ */
+function useFollow(route: string | undefined) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [following, setFollowing] = useStoredFlag('follow');
+
+  // An event rather than a dependency: a navigation of the reader's own must
+  // not count as a track change and send them straight back.
+  const open = useEffectEvent((to: string) => {
+    if (pathname !== to) router.push(to);
+  });
+
+  useEffect(() => {
+    if (following && route !== undefined) open(route);
+  }, [following, route]);
+
+  const toggle = () => {
+    setFollowing(!following);
+  };
+
+  return [following, toggle] as const;
+}
 
 /** The control strip, pinned to the foot of every page under `/music`. */
 export function PlayerBar() {
@@ -24,10 +65,13 @@ export function PlayerBar() {
     shuffle,
     seek,
   } = usePlayer();
+  const [following, toggleFollow] = useFollow(current?.routes[locale]);
+  // The right-hand readout: the track's length, or what is left of it.
+  const [remaining, setRemaining] = useStoredFlag('remaining');
 
   if (current === undefined) return null;
 
-  const { titles, routes, billing, seconds } = current;
+  const { slug, titles, routes, billing, seconds } = current;
 
   return (
     <Box
@@ -78,17 +122,40 @@ export function PlayerBar() {
         >
           <Shuffle size={18} />
         </ActionIcon>
+
+        <ActionIcon
+          variant="default"
+          size="lg"
+          radius="xl"
+          className={cx(following && classes['controlOn'])}
+          onClick={toggleFollow}
+          aria-label={labels.follow}
+          aria-pressed={following}
+          title={labels.followHint}
+        >
+          <LocateFixed size={18} />
+        </ActionIcon>
       </Group>
 
       <Box className={classes['playerTrack']}>
-        <Text size="sm" truncate>
-          <TextLink href={routes[locale]} underline="hover">
-            {titles[locale]}
-          </TextLink>
-          <Text component="span" inherit opacity={0.6}>
-            {' — '}
-            {billing}
-          </Text>
+        <Text size="sm" component="div">
+          <Marquee key={`${slug}/${locale}`}>
+            <NameLink href={routes[locale]}>
+              <SongName {...titles[locale]} />
+            </NameLink>
+            <Text component="span" inherit opacity={0.6}>
+              {' — '}
+              {billing[locale].map((part) =>
+                typeof part === 'string' ? (
+                  part
+                ) : (
+                  <NameLink key={part.href} {...pick(part, 'href')} c="inherit">
+                    {part.label}
+                  </NameLink>
+                ),
+              )}
+            </Text>
+          </Marquee>
         </Text>
       </Box>
 
@@ -108,9 +175,20 @@ export function PlayerBar() {
           }}
           aria-label={labels.seek}
         />
-        <Text size="xs" opacity={0.6} className={classes['playerTime']}>
-          {formatDuration(seconds)}
-        </Text>
+        <UnstyledButton
+          onClick={() => {
+            setRemaining(!remaining);
+          }}
+          aria-label={labels.timeToggle}
+          aria-pressed={remaining}
+          title={labels.timeToggle}
+        >
+          <Text size="xs" opacity={0.6} className={classes['playerTime']}>
+            {remaining
+              ? `−${formatDuration(seconds - Math.min(elapsed, seconds))}`
+              : formatDuration(seconds)}
+          </Text>
+        </UnstyledButton>
       </Group>
     </Box>
   );

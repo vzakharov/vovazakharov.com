@@ -36,6 +36,9 @@ export type Dated = { date: string };
 /** The short name a thing is shown or logged under. */
 export type Labeled = { label: string };
 
+/** A repo-relative path to the file a thing was read from. */
+export type WithFilePath = { filePath: string };
+
 /** Rendered or authored text, as opposed to a title or a label. */
 export type WithText = { text: string };
 

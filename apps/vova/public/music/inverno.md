@@ -1,0 +1,41 @@
+---
+title: 'Inverno'
+titleLanguage: it
+date: 2024-12-16
+status: done
+language: instrumental
+project: ['Полуживые', 'GENERATED']
+repo: 'vagabond_album'
+audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-003.flac
+seconds: 383
+explicit: false
+album: vagabond
+track: 3
+hidden: true
+credits:
+  music: ['Vova Zakharov', 'Antonio Vivaldi']
+en:
+  title:
+    translation: 'Winter'
+  description: 'TBD'
+ru:
+  title:
+    translation: 'Зима'
+  description: 'TBD'
+---
+
+<!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; the checklist left the language blank. -->
+
+<!-- Scaffolded from https://github.com/vovas-music/vagabond_album — vagabond_album-003.flac,
+     44.1 kHz / 16-bit / stereo.
+     Replace this with the story, told once per language under a "lang:en" and
+     a "lang:ru" marker, and put the words under "lyrics:" plus the language
+     they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- lang:en -->
+
+Opens on the allegro non molto of Vivaldi’s “Winter.”
+
+<!-- lang:ru -->
+
+Начинается с allegro non molto из «Зимы» Вивальди.

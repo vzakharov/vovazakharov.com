@@ -1,36 +1,22 @@
-import { Box, Stack, Text } from '@mantine/core';
+import { Box, Text } from '@mantine/core';
 
-import { MUSIC_ORGANIZATION, MUSIC_ORGANIZATION_URL } from '@/shared/config';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { Section, TextLink } from '@/shared/ui';
+import { Section } from '@/shared/ui';
+
+import { ShuffleAllButton } from './shuffle-all-button';
 
 export function MusicSection({ locale }: WithLocale) {
-  const { intro, alsoOn, and, openSource } = loadMessages(locale).music;
+  const { intro, shuffleAll } = loadMessages(locale).music;
 
   return (
     <Section id="music" standalone>
-      <Box>
-        <Text size="lg" lh={1.625} fs="italic" mb={16}>
-          {intro.quote}
-        </Text>
-        <Text size="lg" lh={1.625}>
-          {intro.body}
-        </Text>
-      </Box>
+      <Text size="lg" lh={1.625}>
+        {intro}
+      </Text>
 
-      <Stack gap={8}>
-        <Text size="sm" opacity={0.7}>
-          {alsoOn}{' '}
-          <TextLink href="https://soundcloud.com/vzkrv">SoundCloud</TextLink>{' '}
-          {and} <TextLink href="https://suno.com/@vova">Suno</TextLink>
-        </Text>
-        <Text size="sm" opacity={0.7}>
-          {openSource}{' '}
-          <TextLink href={MUSIC_ORGANIZATION_URL}>
-            github.com/{MUSIC_ORGANIZATION}
-          </TextLink>
-        </Text>
-      </Stack>
+      <Box>
+        <ShuffleAllButton label={shuffleAll} />
+      </Box>
     </Section>
   );
 }

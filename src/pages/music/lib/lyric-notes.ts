@@ -1,13 +1,19 @@
-import 'server-only';
-
-import type { WithText } from '@/shared/typings';
+import type { Labeled, WithText } from '@/shared/typings';
 
 import { splitStanzas } from './sections';
 
-/** A stretch of a line, and the note it carries where it has one — a line of markdown, so it can link. */
+/**
+ * A stretch of a line, and the note it carries where it has one — a line of
+ * markdown, so it can link. The text keeps its inline marks, which `inlineRuns`
+ * reads where the page sets it.
+ */
 type LyricSpan = WithText & { note?: string };
 
-/** A line of verse, cut where its notes begin and end — one plain span where it has none. */
+/**
+ * A line of verse, cut where its notes begin and end — one plain span where it
+ * has none. Consecutive lines under one whole-line note are one entry, a single
+ * span whose text keeps their line breaks, so the page marks them as one block.
+ */
 export type LyricLine = LyricSpan[];
 
 export type Stanzas = LyricLine[][];
@@ -16,13 +22,23 @@ export type WithStanzas = { stanzas: Stanzas };
 
 /**
  * `[phrase][^label]`: the note hangs off that phrase. A bare `[^label]`: off
- * the whole line. The brackets are what GitHub leaves visible around a phrase,
- * which reads as the span the footnote is about.
+ * the whole line, and off every consecutive line of the stanza ending in the
+ * same one. The brackets are what GitHub leaves visible around a phrase, which
+ * reads as the span the footnote is about.
  */
 const NOTE_MARKER = /(?:\[([^[\]]+)])?\[\^([^\s\]]+)]/g;
 
+/** A line's note on the whole of it, which the next line can extend by ending in the same label. */
+type Whole = Labeled & { span: LyricSpan };
+
 /** `[^label]: text` on a line of its own: what the note says. */
 const NOTE_DEFINITION = /^\[\^([^\s\]]+)]:\s*(\S.*)$/;
+
+/** Whether a line carries a note marker or says a note. */
+export function carriesNote(line: string): boolean {
+  // `search` ignores the global flag's `lastIndex`, which `test` would advance.
+  return line.search(NOTE_MARKER) !== -1 || NOTE_DEFINITION.test(line.trim());
+}
 
 /**
  * Every marker must resolve, every definition be used, and a line noted as a
@@ -57,12 +73,13 @@ export function readVerse(section: string, fileName: string): Stanzas {
     return note;
   }
 
-  function readLine(line: string): LyricLine {
+  function readLine(line: string): { spans: LyricLine; whole?: Whole } {
     const markers = [...line.matchAll(NOTE_MARKER)];
     const whole = markers.find(([, phrase]) => phrase === undefined);
 
     if (whole !== undefined) {
-      const text = line.replace(whole[0], '').trimEnd();
+      const [marker, , label = ''] = whole;
+      const text = line.replace(marker, '').trimEnd();
 
       if (markers.length > 1) {
         throw new Error(
@@ -70,7 +87,9 @@ export function readVerse(section: string, fileName: string): Stanzas {
         );
       }
 
-      return [{ text, note: noteFor(whole[2]) }];
+      const span = { text, note: noteFor(label) };
+
+      return { spans: [span], whole: { label, span } };
     }
 
     const spans: LyricSpan[] = [];
@@ -86,11 +105,32 @@ export function readVerse(section: string, fileName: string): Stanzas {
       spans.push({ text: line.slice(from) });
     }
 
-    return spans;
+    return { spans };
   }
 
-  const stanzas = splitStanzas(verse.join('\n')).map((stanza) =>
-    stanza.map((line) => readLine(line)),
+  function readStanza(lines: string[]): LyricLine[] {
+    const read: LyricLine[] = [];
+    let open: Whole | undefined;
+
+    for (const line of lines) {
+      const { spans, whole } = readLine(line);
+
+      if (whole !== undefined && whole.label === open?.label) {
+        open.span.text += `\n${whole.span.text}`;
+        continue;
+      }
+
+      read.push(spans);
+      open = whole;
+    }
+
+    return read;
+  }
+
+  // Trimmed, or the blank line before trailing definitions is left as an empty
+  // last line of the last stanza.
+  const stanzas = splitStanzas(verse.join('\n').trim()).map((stanza) =>
+    readStanza(stanza),
   );
   const unused = [...notes.keys()].filter((label) => !used.has(label));
 

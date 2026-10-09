@@ -88,6 +88,15 @@
   @include fill;
 }
 
+// Wide enough for two digits, so the play buttons of a long album stay in one
+// column.
+.trackNumber {
+  flex-shrink: 0;
+  min-width: 2ch;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
 // The bar is out of flow, so it would otherwise cover whatever a page ends
 // with. Clearance is the bar's own concern, which is why the provider renders
 // this rather than every page under `/music` knowing the bar's height.
@@ -109,6 +118,11 @@
   color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
 }
 
+// A line of verse, or several under one note, whose breaks are in its text.
+.lyricLine {
+  white-space: pre-line;
+}
+
 // Words with a note: marked the way a footnoted phrase is.
 .notedSpan {
   font: inherit;
@@ -128,6 +142,7 @@
   font-size: var(--mantine-font-size-sm);
   line-height: 1.5;
   color: var(--color-foreground);
+  white-space: normal;
 }
 
 // Two columns at every width. Below the width two columns of verse need, the
@@ -149,6 +164,46 @@
   display: grid;
   grid-template-rows: subgrid;
   grid-row: 1 / -1;
+}
+
+// The transliteration switch takes a row of its own above the stanzas, in the
+// words' column only, so the crib's stanzas still start level with theirs.
+.lyricsColumns[data-transliteration] {
+  grid-template-rows: auto repeat(var(--stanzas), auto);
+
+  > .lyricsColumn {
+    grid-row: 2 / -1;
+  }
+}
+
+.lyricsStack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.transliterationSwitch {
+  grid-area: 1 / 1;
+  justify-self: start;
+}
+
+// In the HTML either way; the switch's attribute is what shows it. Smaller and
+// fainter, so the pair reads as words and gloss rather than two lines of verse.
+.transliteration {
+  display: none;
+  font-size: 0.85em;
+  color: color-mix(in srgb, currentcolor 50%, transparent);
+  white-space: normal;
+
+  [data-transliteration='shown'] & {
+    display: block;
+  }
+}
+
+// One of several lines under a note, set on its own so its romanization can
+// follow it inside the block.
+.interlinearLine {
+  display: block;
 }
 
 // Measured off the capitals of the title it follows, so it sits level with them
@@ -179,4 +234,96 @@
   font-size: min(0.7cap, 0.8125rem);
   font-weight: 700;
   line-height: 1;
+}
+
+// Square tiles, two to a row on a phone and four in the desktop column — few
+// enough that a name set on the square keeps a size worth reading.
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 16px;
+  align-items: start;
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include mantine.larger-than(mantine.$breakpoint-md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+// The tile is one link — the name's, stretched over it.
+.tile {
+  position: relative;
+
+  @include mantine.hover {
+    .tileArt {
+      opacity: 0.8;
+    }
+  }
+}
+
+.tileLink::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+}
+
+.tileArt {
+  container-type: inline-size;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border-hairline);
+  border-radius: 6px;
+  transition: opacity 150ms ease;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// A song page's cover, above its title on a phone and beside it from `sm` up.
+.songHead {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+.songCover {
+  flex: none;
+  width: 160px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    width: 200px;
+  }
+}
+
+// A release without art gets its name set large on the square instead, sized
+// off the tile's width and shrunk further for a name whose longest word
+// (`--tile-word`, in letters) would not otherwise fit the 82% of it inside the
+// padding: a word breaks only between words, never inside one.
+.tileName {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  padding: 9cqi;
+  font-size: min(1.75rem, 11cqi, 82cqi / (var(--tile-word) * 0.68));
+  font-weight: 700;
+  line-height: 1.1;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: manual;
 }

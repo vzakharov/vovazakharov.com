@@ -1,41 +1,53 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import type { Locale } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
 
 import {
+  billingText,
   currentTrack,
   initialPlayerState,
   playerReducer,
   type PlayerState,
   type PlayerTrack,
   shouldRestart,
+  type WithTracks,
 } from './player-state';
+import { useStoredFlag } from './use-stored-flag';
 
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
 
 export type PlayerControls = {
-  /** Play this catalogue position, or pause it if it is the one already playing. */
-  play: (track: number) => void;
+  /**
+   * Play this track, or pause it if it is the one already playing. A track the
+   * queue does not hold yet joins its end.
+   */
+  play: (track: PlayerTrack) => void;
   toggle: () => void;
   next: () => void;
   /** Restarts the track before it steps back, once past `RESTART_AFTER_SECONDS`. */
   previous: () => void;
   shuffle: () => void;
+  /** Everything in the queue, shuffled afresh and played from the top. */
+  shuffleAll: () => void;
   seek: (seconds: number) => void;
   /** Relative to where playback is now, which is what the arrow keys want. */
   seekBy: (seconds: number) => void;
 };
 
 /** What is playing and where, as the bar and the track buttons read it. */
-export type Playback = {
+type Playback = {
   state: PlayerState;
   current?: PlayerTrack;
   /** Where playback sits, in seconds — the seek bar's value. */
   elapsed: number;
 };
 
-export type AudioPlayer = Playback & { controls: PlayerControls };
+/** Playback, and the tracks it plays from. */
+export type QueuedPlayback = Playback & WithTracks;
+
+export type AudioPlayer = QueuedPlayback & { controls: PlayerControls };
 
 /**
  * The one `<audio>` element on the site and everything that drives it: the
@@ -43,16 +55,27 @@ export type AudioPlayer = Playback & { controls: PlayerControls };
  * is the page's, which the lock screen titles the track in.
  */
 export function useAudioPlayer(
-  tracks: PlayerTrack[],
+  catalogue: PlayerTrack[],
   locale: Locale,
 ): AudioPlayer {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [tracks, setTracks] = useState(catalogue);
   const [state, dispatch] = useReducer(
     playerReducer,
-    tracks.length,
+    catalogue.length,
     initialPlayerState,
   );
   const [elapsed, setElapsed] = useState(0);
+  const [shuffleStored, storeShuffle] = useStoredFlag('shuffle');
+
+  // The stored switch leads and the queue follows, which is what restores a
+  // remembered shuffle on load — before anything plays, so the cursor has
+  // nothing to keep — as well as obeying the button.
+  useEffect(() => {
+    if (shuffleStored !== state.shuffled) {
+      dispatch({ type: 'shuffle', seed: Date.now() });
+    }
+  }, [shuffleStored, state.shuffled]);
 
   const track = currentTrack(state);
   const current = track === undefined ? undefined : tracks[track];
@@ -60,8 +83,19 @@ export function useAudioPlayer(
   const controls = useMemo<PlayerControls>(
     () => ({
       play: (next) => {
+        const position = tracks.findIndex(({ slug }) => slug === next.slug);
+
+        if (position === -1) {
+          setTracks([...tracks, next]);
+          dispatch({ type: 'append' });
+
+          return;
+        }
+
         dispatch(
-          next === track ? { type: 'toggle' } : { type: 'select', track: next },
+          position === track
+            ? { type: 'toggle' }
+            : { type: 'select', track: position },
         );
       },
       toggle: () => {
@@ -81,11 +115,15 @@ export function useAudioPlayer(
 
         dispatch({ type: 'step', by: -1 });
       },
+      shuffle: () => {
+        storeShuffle(!shuffleStored);
+      },
       // The seed is the action's, not the reducer's: a permutation has to be
       // reproducible from the number that produced it for the reducer to stay
       // pure and testable.
-      shuffle: () => {
-        dispatch({ type: 'shuffle', seed: Date.now() });
+      shuffleAll: () => {
+        storeShuffle(true);
+        dispatch({ type: 'shuffleAll', seed: Date.now() });
       },
       seek: (seconds) => {
         const audio = audioRef.current;
@@ -100,7 +138,7 @@ export function useAudioPlayer(
         }
       },
     }),
-    [track],
+    [track, tracks, shuffleStored, storeShuffle],
   );
 
   // The element is an audio engine rather than page content — the bar is what
@@ -185,8 +223,8 @@ export function useAudioPlayer(
     if (session === undefined || current === undefined) return;
 
     session.metadata = new MediaMetadata({
-      title: current.titles[locale],
-      artist: current.billing,
+      ...pick(current.titles[locale], 'title'),
+      artist: billingText(current.billing[locale]),
       album: 'vovazakharov.com/music',
     });
     session.playbackState = state.playing ? 'playing' : 'paused';
@@ -245,5 +283,5 @@ export function useAudioPlayer(
     };
   }, [controls]);
 
-  return { state, elapsed, controls, ...(current && { current }) };
+  return { state, elapsed, tracks, controls, ...(current && { current }) };
 }

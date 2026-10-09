@@ -1,13 +1,10 @@
 import type { WithParams } from '@/shared/typings';
 
 import {
-  generateMusicMetadata,
-  generateSongMetadata,
-  musicAddressDefaults,
-  MusicPage,
+  generateMusicRouteMetadata,
+  MusicRoute,
   musicSegmentParams,
   parseMusicSegments,
-  SongPage,
   type WithOptionalMusicSegments,
 } from '@/pages/music';
 
@@ -18,23 +15,11 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { slug, locale } = musicAddressDefaults(
-    parseMusicSegments(await params),
-  );
-
-  return slug === undefined
-    ? generateMusicMetadata(locale)
-    : generateSongMetadata({ slug, locale });
+  return generateMusicRouteMetadata({
+    address: parseMusicSegments(await params),
+  });
 }
 
 export default async function Page({ params }: Props) {
-  const { slug, locale } = musicAddressDefaults(
-    parseMusicSegments(await params),
-  );
-
-  return slug === undefined ? (
-    <MusicPage {...{ locale }} />
-  ) : (
-    <SongPage {...{ slug, locale }} />
-  );
+  return <MusicRoute address={parseMusicSegments(await params)} />;
 }

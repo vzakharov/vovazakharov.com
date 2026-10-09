@@ -1,28 +1,12 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Fragment } from 'react';
 
-import {
-  billing,
-  MUSIC_ALBUMS,
-  SITE_CONFIG,
-  songRepositoryUrl,
-} from '@/shared/config';
-import {
-  documentMonth,
-  formatDocumentMonth,
-  loadDocument,
-  renderDocument,
-  type Slugged,
-  SONGS,
-} from '@/shared/content';
-import {
-  byLocale,
-  inLocale,
-  loadMessages,
-  type Locale,
-  type WithLocale,
-} from '@/shared/i18n';
+import { SITE_CONFIG } from '@/shared/config';
+import { isListed, renderDocument } from '@/shared/content';
+import { byLocale, loadMessages } from '@/shared/i18n';
+import { cx } from '@/shared/lib/class-names';
+import { pick } from '@/shared/lib/collections';
 import {
   constructMetadata,
   localizedAddresses,
@@ -33,29 +17,36 @@ import { ProseContent } from '@/entities/document';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
-import { formatDuration } from '../lib/duration';
-import { musicPath, songPath } from '../lib/music-urls';
-import { localizeSong, type SongDocument, songLyrics } from '../lib/song-text';
-import { songQueueIndex } from '../lib/songs';
+import type { SongPageProps } from '../lib/music-route-params';
+import { indexPath, songPath } from '../lib/music-urls';
+import { pictureCard, songPicture } from '../lib/pictures';
+import { songRepositoryUrl } from '../lib/projects';
+import { localizeSong, songLyrics } from '../lib/song-text';
+import { listSongPages, type SongPageEntry, songTrack } from '../lib/songs';
+import { titleGloss } from '../lib/title-gloss';
 import { ExplicitBadge } from './explicit-badge';
-import { LocaleChips } from './locale-chips';
 import { Lyrics } from './lyrics';
-import { TrackButton } from './track-button';
+import classes from './music.module.scss';
+import { MusicNav } from './music-nav';
+import { SongCredits } from './song-credits';
+import { SongByline, SongFacts } from './song-facts';
+import { SongName } from './song-name';
+import { SongPlayButton } from './song-play-button';
+import { TitleGlossLine } from './title-gloss-line';
 
-export type SongPageProps = WithLocale & Slugged;
+function resolve(slug: string): SongPageEntry {
+  const page = listSongPages().find((entry) => entry.slug === slug);
 
-function resolve(slug: string): SongDocument {
-  const document = loadDocument(SONGS, slug);
+  if (!page) notFound();
 
-  if (!document) notFound();
-
-  return document;
+  return page;
 }
 
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
-  const { title, description } = localizeSong(
-    resolve(slug),
+  const { document, album } = resolve(slug);
+  const { title, description, hidden } = localizeSong(
+    document,
     locale,
   ).frontmatter;
 
@@ -65,65 +56,71 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
     path: songPath(slug, locale),
     ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
     ogType: 'article',
+    ...pictureCard(songPicture(document, album)),
+    hidden,
   });
 }
 
-/**
- * The line under the title: what a listener would want to know about the
- * recording before playing it, in the order they would ask. Empty entries drop
- * out, so a song with no album and no co-author shows neither.
- */
-function songFacts(document: SongDocument, locale: Locale): string[] {
-  const { language, album, credits, project, seconds } = document.frontmatter;
-  const messages = loadMessages(locale).music;
-
-  return [
-    billing(project),
-    messages.language[language],
-    album &&
-      messages.album.replace(
-        '{album}',
-        inLocale(MUSIC_ALBUMS[album].title, locale),
-      ),
-    credits?.lyrics &&
-      `${messages.credits.lyrics}: ${credits.lyrics.join(', ')}`,
-    credits?.music && `${messages.credits.music}: ${credits.music.join(', ')}`,
-    formatDuration(seconds),
-  ].flatMap((fact) => fact ?? []);
-}
-
 export async function SongPage({ slug, locale }: SongPageProps) {
-  const document = resolve(slug);
+  const { document, album } = resolve(slug);
   const localized = localizeSong(document, locale);
   const { tree } = await renderDocument(localized);
-  const { title, description, date, repo, explicit } = localized.frontmatter;
+  // A hidden song's artists and album may have no public page, so its links
+  // stay in the whole catalogue.
+  const catalogue = { everything: !isListed(document) };
+  const { title, titleTransliterated, description, repo, explicit, cribNote } =
+    localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
+  const picture = songPicture(document, album);
 
   return (
     <PageShell>
       <Stack gap={48}>
-        <Group component="nav" justify="space-between">
-          <TextLink href={musicPath(locale)} size="sm" className={hoverDim}>
-            ← {messages.back}
-          </TextLink>
-          <LocaleChips
-            hrefs={byLocale((alternate) => songPath(slug, alternate))}
-            {...{ locale }}
-          />
-        </Group>
+        <MusicNav
+          back={{ href: indexPath(catalogue, locale), label: messages.back }}
+          hrefs={byLocale((alternate) => songPath(slug, alternate))}
+          {...{ locale }}
+        />
 
         <Box component="header">
           <Stack gap={24}>
-            <Group gap={16} wrap="nowrap" align="center">
-              {/* The queue's own index, so the header's play button and the
-                  index page's rows drive one list. */}
-              <TrackButton track={songQueueIndex(slug)} {...{ title }} />
-              <Title order={1}>
-                {title}
-                {explicit && <ExplicitBadge label={messages.explicit} />}
-              </Title>
-            </Group>
+            <div className={classes['songHead']}>
+              {picture !== undefined && (
+                <div
+                  className={cx(classes['tileArt'], classes['songCover'])}
+                  aria-hidden
+                >
+                  <Image
+                    src={picture}
+                    alt=""
+                    width={600}
+                    height={600}
+                    sizes="200px"
+                    priority
+                  />
+                </div>
+              )}
+
+              <Stack gap={8} align="flex-start">
+                <SongByline {...{ document, album, catalogue, locale }} />
+                <Title order={1}>
+                  <SongName
+                    {...{ title }}
+                    transliterated={titleTransliterated}
+                  />
+                  {explicit && <ExplicitBadge label={messages.explicit} />}
+                </Title>
+                <TitleGlossLine
+                  gloss={titleGloss(localized.frontmatter, locale)}
+                />
+                {/* The same track a song list's row plays, so both drive one
+                    queue — which a hidden song joins only once played here. */}
+                <Box mt={12}>
+                  <SongPlayButton track={songTrack(document, album)} />
+                </Box>
+              </Stack>
+            </div>
 
             <Text size="lg" lh={1.625} opacity={0.8}>
               {description}
@@ -132,27 +129,19 @@ export async function SongPage({ slug, locale }: SongPageProps) {
             {/* The recording's facts, and the files behind it at the far end
                 of the same line. */}
             <Group justify="space-between" gap="12px 32px" wrap="wrap">
-              <Group component="p" gap={12} wrap="wrap" fz="sm" opacity={0.7}>
-                <time dateTime={documentMonth(date)}>
-                  {formatDocumentMonth(date, locale)}
-                </time>
-                {songFacts(document, locale).map((fact) => (
-                  <Fragment key={fact}>
-                    <span aria-hidden>·</span>
-                    <span>{fact}</span>
-                  </Fragment>
-                ))}
-              </Group>
+              <SongFacts {...{ document, album, catalogue, locale }} />
 
               <Group gap={16} wrap="wrap">
                 <FileLink {...localized.markdown}>.md</FileLink>
-                <TextLink
-                  href={songRepositoryUrl(repo)}
-                  size="sm"
-                  className={hoverDim}
-                >
-                  {messages.source}
-                </TextLink>
+                {repo !== undefined && (
+                  <TextLink
+                    href={songRepositoryUrl(repo)}
+                    size="sm"
+                    className={hoverDim}
+                  >
+                    {messages.source}
+                  </TextLink>
+                )}
               </Group>
             </Group>
           </Stack>
@@ -160,7 +149,12 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
         <ProseContent {...{ tree }} />
 
-        {lyrics && <Lyrics {...{ lyrics, locale }} />}
+        {lyrics && <Lyrics {...{ lyrics, locale, cribNote }} />}
+
+        <SongCredits
+          {...{ locale }}
+          {...pick(document.frontmatter, 'credits', 'language')}
+        />
 
         <SiteFooter {...{ locale }} />
       </Stack>

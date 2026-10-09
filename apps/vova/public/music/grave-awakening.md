@@ -1,0 +1,52 @@
+---
+title: 'Grave Awakening'
+date: 2024-12-05
+status: done
+language: en
+project: ['GENERATED']
+repo: 'nsfl'
+audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-012.flac
+seconds: 26
+explicit: true
+album: nsfl
+track: 12
+hidden: true
+en:
+  description: 'TBD'
+ru:
+  title:
+    translation: 'Могильное пробуждение'
+  description: 'TBD'
+---
+
+<!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-012.flac,
+     44.1 kHz / 24-bit / stereo.
+     Replace this with the story, told once per language under a "lang:en" and
+     a "lang:ru" marker, and put the words under "lyrics:" plus the language
+     they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- lyrics:en -->
+
+There’s still your mercy over your ass, you pervert creatures, for your music.[^whisper-en]
+
+[^whisper-en]: Suno delivered this line as a whispered recitative without my asking for anything of the kind. The subject must have got to it.
+
+[Grave Awakening][^grave-en] — corpses rise
+Grave Awakening — pay for your vice
+Grave Awakening — vengeance to claim
+Grave Awakening — we’ll maim but not slay
+
+[^grave-en]: A play on “rude awakening,” with “grave” as both the tomb and the adjective: serious, ominous.
+
+<!-- lyrics:ru -->
+
+Над твоей задницей всё ещё твоя милость, вы, извращённые твари, — за вашу музыку.[^whisper-ru]
+
+[^whisper-ru]: Эту строчку Суно выдал речитативом-шёпотом без какого-либо запроса с моей стороны. Видимо, слишком впечатлился темой.
+
+[Могильное пробуждение][^grave-ru] — мертвецы встают
+Могильное пробуждение — плати за свой порок
+Могильное пробуждение — мы пришли за местью
+Могильное пробуждение — мы покалечим, но не убьём
+
+[^grave-ru]: В оригинале — grave awakening, игра на rude awakening («грубое пробуждение», то есть горькое отрезвление), где grave — и «могила», и «тяжёлый, зловещий».

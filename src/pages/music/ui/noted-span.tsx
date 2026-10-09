@@ -1,13 +1,14 @@
 'use client';
 
 import { Popover, UnstyledButton } from '@mantine/core';
-import { type PointerEvent, useRef, useState } from 'react';
+import { type PointerEvent, type ReactNode, useRef, useState } from 'react';
 
-import type { WithChildren, WithText } from '@/shared/typings';
+import type { WithChildren } from '@/shared/typings';
 
 import classes from './music.module.scss';
 
-export type NotedSpanProps = WithText & WithChildren;
+/** The words the note hangs off, as set; the note itself is the children. */
+export type NotedSpanProps = WithChildren & { words: ReactNode };
 
 /**
  * Who has the note open. A hover lets go when the pointer leaves; a press —
@@ -32,7 +33,7 @@ const HOVER_GRACE_MS = 150;
  * inside the lyrics' scrolling box, which is why it is positioned `fixed`: that
  * box would clip a note dropping below the last stanza.
  */
-export function NotedSpan({ text, children }: NotedSpanProps) {
+export function NotedSpan({ words, children }: NotedSpanProps) {
   const [opener, setOpener] = useState<Opener>();
   const closingRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -72,7 +73,7 @@ export function NotedSpan({ text, children }: NotedSpanProps) {
           }}
           {...hover}
         >
-          {text}
+          {words}
         </UnstyledButton>
       </Popover.Target>
       <Popover.Dropdown className={classes['note']} {...hover}>

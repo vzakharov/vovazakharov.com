@@ -1,5 +1,20 @@
-import type { Playable, Slugged } from '@/shared/content';
+import type { Slugged } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
+import type { Playable } from '@/shared/music-catalogue';
+import type { LabeledLink, Titled } from '@/shared/typings';
+
+/** A song's title as one locale shows it, and whether it is set in italics as a romanization. */
+export type SongName = Titled & { transliterated: boolean };
+
+/** A song's billing, each artist linked to its page and the joins between them as text. */
+export type Billing = Array<LabeledLink | string>;
+
+/** The billing as one line of text, for where a link cannot go. */
+export function billingText(billing: Billing): string {
+  return billing
+    .map((part) => (typeof part === 'string' ? part : part.label))
+    .join('');
+}
 
 /**
  * A song as the player needs it: resolved at build time from the collection and
@@ -7,14 +22,13 @@ import type { Locale } from '@/shared/i18n';
  */
 export type PlayerTrack = Slugged &
   Playable & {
-    /** What the song is called in each language, and where each is served. */
-    titles: Record<Locale, string>;
+    /** What the song is called in each language, how it is billed, and where each is served. */
+    titles: Record<Locale, SongName>;
+    billing: Record<Locale, Billing>;
     routes: Record<Locale, string>;
-    /** How it is billed — the artist and its features, the same in both languages. */
-    billing: string;
   };
 
-/** The whole catalogue, in the order the collection lists it. */
+/** Tracks by catalogue position — the listed songs in collection order, then any appended. */
 export type WithTracks = { tracks: PlayerTrack[] };
 
 /**
@@ -34,11 +48,18 @@ export type PlayerState = {
 export type PlayerAction =
   /** Play this catalogue position, wherever it sits in the current order. */
   | { type: 'select'; track: number }
+  /**
+   * Play a track the catalogue did not hold — a hidden song, from its own page
+   * — which takes the next catalogue position and joins the end of the order.
+   */
+  | { type: 'append' }
   | { type: 'toggle' }
   /** One track forward or back, wrapping at either end. */
   | { type: 'step'; by: 1 | -1 }
   /** Turns shuffle on with this seed, or off; the current track stays playing. */
   | { type: 'shuffle'; seed: number }
+  /** A fresh shuffle of the whole queue, played from its top. */
+  | { type: 'shuffleAll'; seed: number }
   /** The element reporting what it is actually doing. */
   | { type: 'playback'; playing: boolean };
 
@@ -115,6 +136,17 @@ function select(state: PlayerState, track: number): PlayerState {
   return at === -1 ? state : { ...state, cursor: at, playing: true };
 }
 
+function append(state: PlayerState): PlayerState {
+  const { order } = state;
+
+  return {
+    ...state,
+    order: [...order, order.length],
+    cursor: order.length,
+    playing: true,
+  };
+}
+
 function toggle(state: PlayerState): PlayerState {
   const { cursor, playing } = state;
 
@@ -150,6 +182,19 @@ function reshuffle(state: PlayerState, seed: number): PlayerState {
   };
 }
 
+function shuffleAll(state: PlayerState, seed: number): PlayerState {
+  const { order } = state;
+
+  if (order.length === 0) return state;
+
+  return {
+    order: shuffleOrder(order.length, undefined, seed),
+    cursor: 0,
+    shuffled: true,
+    playing: true,
+  };
+}
+
 /**
  * Dispatched by early return rather than a switch, so the last branch narrows
  * to the one remaining action: a new member of `PlayerAction` stops compiling
@@ -160,9 +205,11 @@ export function playerReducer(
   action: PlayerAction,
 ): PlayerState {
   if (action.type === 'select') return select(state, action.track);
+  if (action.type === 'append') return append(state);
   if (action.type === 'toggle') return toggle(state);
   if (action.type === 'step') return step(state, action.by);
   if (action.type === 'shuffle') return reshuffle(state, action.seed);
+  if (action.type === 'shuffleAll') return shuffleAll(state, action.seed);
 
   const { playing } = action;
 

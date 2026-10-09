@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-08T21:13:25.954Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "prompter",
+        "comment": "porting three upstream changes means reading each diff against a de-vendored local copy and re-expressing hunks where the files diverged, plus staging the always-loaded CLAUDE.md edit"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the exporter's Python port has to keep the local import of die and be checked against the source's tests"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "2a2dd6c2-5c44-5f34-bbe4-05a3db794355",
+  "branch": "main",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/update-muthur claimed",
+  "prs": [
+    124
+  ],
+  "url": "https://claude.ai/code/session_01Qr2qrsPY5zs9GrpoKe7SaU",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-08T21:09:18.220Z",
+  "lastResponseAt": "2026-10-08T21:20:05.865Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 88,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 117726,
+    "cacheReadTokens": 5562744,
+    "outputTokens": 19410,
+    "thinkingTokens": 3465,
+    "responses": 43,
+    "costUsd": 2.4429087999999997
+  },
+  "ownTurns": {
+    "inputTokens": 88,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 117726,
+    "cacheReadTokens": 5562744,
+    "outputTokens": 19410,
+    "thinkingTokens": 3465,
+    "responses": 43,
+    "costUsd": 2.4429087999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 88,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 117726,
+      "cacheReadTokens": 5562744,
+      "outputTokens": 19410,
+      "thinkingTokens": 3465,
+      "responses": 43,
+      "costUsd": 2.4429087999999997
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "scripts/export-github-item.py",
+    "endedAt": "2026-10-08T21:09:56.215Z",
+    "contextTokens": 116990,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 69175,
+      "cacheReadTokens": 862203,
+      "outputTokens": 2943,
+      "thinkingTokens": 1002,
+      "responses": 9,
+      "costUsd": 0.7847725999999999
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

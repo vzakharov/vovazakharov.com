@@ -1,11 +1,3 @@
-export { MUSIC_ALBUM_SLUGS, MUSIC_ALBUMS } from './music-albums';
-export {
-  billing,
-  MUSIC_ORGANIZATION,
-  MUSIC_ORGANIZATION_URL,
-  MUSIC_PROJECT_NAMES,
-  songRepositoryUrl,
-} from './music-projects';
 export {
   getAbsoluteUrl,
   isOffSite,
