@@ -14,5 +14,5 @@ export function gradeLabel({
   actor,
 }: CaseFrontmatter['grade']): string {
   const deeds = [act, credit].filter((deed) => deed !== undefined);
-  return `${deeds.map(stamp).join(' / ')} · ${stamp(actor)}`;
+  return `${deeds.map((deed) => stamp(deed)).join(' / ')} · ${stamp(actor)}`;
 }
