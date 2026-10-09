@@ -1,18 +1,18 @@
 {
   "estimate": {
-    "at": "2026-10-09T18:52:15.295Z",
+    "at": "2026-10-09T19:04:33.023Z",
     "parts": [
       {
         "hours": 3.0,
         "grade": "middle",
         "role": "developer",
-        "comment": "masked-word exemption, changed-only test default, type-overlap and preview/DRY follow-through are routine tooling and site code"
+        "comment": "masked-word exemption, changed-only test default, type-overlap, preview fixes and the video src fix are routine tooling and site code"
       },
       {
         "hours": 3.0,
         "grade": "senior",
         "role": "copywriter",
-        "comment": "the album text and eleven reflections in Майя's voice need judgement of voice and of what a song stirred, not routine copy"
+        "comment": "the album text and eleven reflections in Майя's voice, rewritten twice to the author's direction, need judgement of voice"
       },
       {
         "hours": 1.0,
@@ -33,53 +33,53 @@
   "url": "https://claude.ai/code/session_01WPzfFZKEZAsJDFxNTMM1c1",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-09T18:21:28.318Z",
-  "lastResponseAt": "2026-10-09T19:01:43.436Z",
+  "lastResponseAt": "2026-10-09T19:05:05.182Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 922,
-    "cacheWrite5mTokens": 1851420,
-    "cacheWrite1hTokens": 220595,
-    "cacheReadTokens": 56701852,
-    "outputTokens": 60360,
-    "thinkingTokens": 9118,
-    "responses": 450,
-    "costUsd": 23.57311839999999
+    "inputTokens": 976,
+    "cacheWrite5mTokens": 1869045,
+    "cacheWrite1hTokens": 236918,
+    "cacheReadTokens": 62487274,
+    "outputTokens": 67391,
+    "thinkingTokens": 9684,
+    "responses": 474,
+    "costUsd": 25.089747799999998
   },
   "ownTurns": {
-    "inputTokens": 272,
+    "inputTokens": 310,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 220595,
-    "cacheReadTokens": 25350592,
-    "outputTokens": 56654,
-    "thinkingTokens": 9118,
-    "responses": 129,
-    "costUsd": 7.969046399999996
+    "cacheWrite1hTokens": 236918,
+    "cacheReadTokens": 29884056,
+    "outputTokens": 63573,
+    "thinkingTokens": 9684,
+    "responses": 145,
+    "costUsd": 9.144855199999999
   },
   "subagents": {
-    "inputTokens": 650,
-    "cacheWrite5mTokens": 1851420,
+    "inputTokens": 666,
+    "cacheWrite5mTokens": 1869045,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 31351260,
-    "outputTokens": 3706,
+    "cacheReadTokens": 32603218,
+    "outputTokens": 3818,
     "thinkingTokens": 0,
-    "responses": 321,
-    "costUsd": 15.604071999999997
+    "responses": 329,
+    "costUsd": 15.9448926
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 922,
-      "cacheWrite5mTokens": 1851420,
-      "cacheWrite1hTokens": 220595,
-      "cacheReadTokens": 56701852,
-      "outputTokens": 60360,
-      "thinkingTokens": 9118,
-      "responses": 450,
-      "costUsd": 23.57311839999999
+      "inputTokens": 976,
+      "cacheWrite5mTokens": 1869045,
+      "cacheWrite1hTokens": 236918,
+      "cacheReadTokens": 62487274,
+      "outputTokens": 67391,
+      "thinkingTokens": 9684,
+      "responses": 474,
+      "costUsd": 25.089747799999998
     }
   },
   "warnings": [
-    "320 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+    "328 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
   ],
   "orientation": {
     "endedBy": "Write",
