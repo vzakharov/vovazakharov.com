@@ -1,5 +1,5 @@
 ---
-title: 'Life, Believe, Is Not a Dream'
+title: 'Life, Believe, Is Not a Dream…'
 date: 2024-11-19
 status: done
 language: en
@@ -17,7 +17,7 @@ en:
   description: 'TBD'
 ru:
   title:
-    translation: 'Жизнь, поверь, не сон'
+    translation: 'Жизнь, поверь, не сон…'
   description: 'TBD'
 ---
 

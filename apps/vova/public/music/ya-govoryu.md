@@ -1,5 +1,5 @@
 ---
-title: 'Я говорю сейчас словами теми'
+title: 'Я говорю сейчас словами теми…'
 date: 2024-07-23
 status: done
 language: ru
@@ -15,8 +15,8 @@ credits:
   lyrics: ['Анна Ахматова']
 en:
   title:
-    transliteration: 'Ya govoryu seychas slovami temi'
-    translation: 'I Speak Now in Those Words'
+    transliteration: 'Ya govoryu seychas slovami temi…'
+    translation: 'I Speak Now in Those Words…'
   description: 'TBD'
   cribNote: 'The English is A. S. Kline’s translation of Akhmatova’s “Evening Room” (1911); the song sings the original.'
 ru:

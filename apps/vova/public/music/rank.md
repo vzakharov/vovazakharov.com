@@ -1,5 +1,5 @@
 ---
-title: 'O, My Offence is Rank'
+title: 'O, My Offence is Rank…'
 date: 2024-09-23
 status: done
 language: en
@@ -19,7 +19,7 @@ en:
   description: 'TBD'
 ru:
   title:
-    translation: 'О, гнусен грех мой'
+    translation: 'О, гнусен грех мой…'
   description: 'TBD'
   cribNote: 'Русский текст — перевод К. Р. (великого князя Константина Романова); песня поёт шекспировский оригинал.'
 ---

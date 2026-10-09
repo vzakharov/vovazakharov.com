@@ -1,5 +1,5 @@
 ---
-title: 'Я куплю тебе дом'
+title: 'Я куплю тебе дом…'
 date: 2026-01-19
 status: done
 language: ru
@@ -16,8 +16,8 @@ credits:
   music: ['Сергей Коржуков']
 en:
   title:
-    transliteration: 'Ya kuplyu tebe dom'
-    translation: 'I’ll Buy You a House'
+    transliteration: 'Ya kuplyu tebe dom…'
+    translation: 'I’ll Buy You a House…'
   description: 'TBD'
 ru:
   description: 'TBD'
