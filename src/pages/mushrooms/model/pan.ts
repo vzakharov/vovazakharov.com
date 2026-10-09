@@ -71,10 +71,10 @@ type Pressing = Lefted &
 /** How long something takes, in seconds. */
 type Lasting = { over: number };
 
-/** A glide from `start` to `goal`, beginning at `began` and taking `over` seconds. */
+/** A glide from `origin` to `goal`, beginning at `began` and taking `over` seconds. */
 type Gliding = Lasting & {
   kind: 'glide';
-  start: number;
+  origin: number;
   goal: number;
   began: number;
 };
@@ -174,15 +174,18 @@ function glideShare({ began, over }: Gliding, time: number): number {
 export function leftAt(pan: Pan, time: number): number {
   const { motion } = pan;
   if (motion.kind !== 'glide') return motion.left;
-  const { start, goal } = motion;
-  return inside(pan, start + (goal - start) * glided(glideShare(motion, time)));
+  const { origin, goal } = motion;
+  return inside(
+    pan,
+    origin + (goal - origin) * glided(glideShare(motion, time)),
+  );
 }
 
 /** How fast the crop's left edge moves on its own at `time`, in px per second. */
 function paceAt({ motion }: Pan, time: number): number {
   if (motion.kind === 'keys') return motion.pace;
   if (motion.kind !== 'glide') return 0;
-  return (motion.goal - motion.start) * glidePace(glideShare(motion, time));
+  return (motion.goal - motion.origin) * glidePace(glideShare(motion, time));
 }
 
 /** Where the world has `x`, across the screen in CSS px, under the crop at `time`. */
@@ -254,20 +257,20 @@ export function move(pan: Pan, x: number, time: number): Pan {
 export function release(pan: Pan, time: number): Pan {
   const { motion, turn } = pan;
   if (motion.kind !== 'press') return pan;
-  const start = leftAt(pan, time);
+  const origin = leftAt(pan, time);
   const velocity = -flung(motion.velocity, motion.last.sampledAt, time);
-  if (isHeld(pan)) return keyedFrom(pan, start, velocity);
-  if (Math.abs(velocity) < GLIDE_SLOWEST) return restingAt(pan, start);
+  if (isHeld(pan)) return keyedFrom(pan, origin, velocity);
+  if (Math.abs(velocity) < GLIDE_SLOWEST) return restingAt(pan, origin);
   const fastest =
     Math.sign(velocity) * Math.min(GLIDE_FASTEST, Math.abs(velocity));
-  const coast = start + fastest * GLIDE_TAU;
+  const coast = origin + fastest * GLIDE_TAU;
   // A heading's glide is left unwrapped, so it turns the short way round.
   const goal = turn ? coast : clampLeft(pan, coast);
   return {
     ...pan,
     motion: {
       kind: 'glide',
-      start,
+      origin,
       goal,
       began: time,
       over: GLIDE_OVER,

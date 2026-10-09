@@ -1,5 +1,3 @@
-import 'server-only';
-
 /**
  * A body section marker: `<!-- lang:ru -->` opens the Russian story,
  * `<!-- lyrics:en -->` the English words. An HTML comment rather than a heading

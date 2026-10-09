@@ -1,0 +1,178 @@
+---
+title: 'Unforgiven IV'
+date: 2024-07-23
+status: done
+language: en
+project: ['GENERATED']
+repo: 'u4'
+audio: https://raw.githubusercontent.com/vovas-music/u4/main/u4_new.flac
+seconds: 309
+explicit: false
+album: let-the-stories-spin
+track: 9
+hidden: true
+en:
+  description: 'TBD'
+ru:
+  title:
+    translation: 'Непрощённый IV'
+  description: 'TBD'
+---
+
+<!-- For Vova to check: Master is `u4_new.flac` rather than the checklist's guess `u4.flac`, because its size matches the album's `9 u4.flac` within a few kilobytes and `u4.flac` does not. The words are the album text, which ends at “I won’t get out!”; the earlier draft also had a closing chorus and a “What am I unforgiven for?” outro (with “So I dubbed thee unforgiven”) — add them back if they are sung. -->
+
+<!-- Scaffolded from https://github.com/vovas-music/u4 — u4_new.flac,
+     44.1 kHz / 16-bit / stereo.
+     Replace this with the story, told once per language under a "lang:en" and
+     a "lang:ru" marker, and put the words under "lyrics:" plus the language
+     they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- lyrics:en -->
+
+Time went to bits
+With the sound of the train, so if
+You’re reading this,
+Means I’m far, far away, wondering
+
+Why is the silence so loud?[^silence-en]
+I can’t get out.
+
+[^silence-en]: Metallica’s [“For Whom the Bell Tolls”](<https://en.wikipedia.org/wiki/For_Whom_the_Bell_Tolls_(Metallica_song)>): “He hears the silence so loud.”
+
+Am I unforgiven for the dreams I had
+Unforgiven for the wounds I bled
+In the end of your way
+You will call out my name
+But I won’t be there
+
+Unforgiven from the world apart
+Unforgiven and forsaken, but
+Having lost in this war
+Where my self was my foe
+Still I can’t see the fault
+That I’m unforgiven for
+
+Now that I’m dead
+I can see what it all was about
+As the flames
+Tenderly lick my soul inside out
+
+I can’t pray, every memory a haze
+Can’t escape from this fiery daze
+
+Unforgiven for the dreams I had
+Unforgiven for the blood I shed
+As you stand at the gates
+You will call out my name
+But I won’t be there
+
+Am I unforgiven from the world apart
+Unforgiven in the name of God
+I surrendered this war
+Where my self was my foe
+Is it really the fault
+That I’m unforgiven for
+
+Why is the silence so loud?
+I won’t get out!
+
+Unforgiven for the dreams I had,
+Unforgiven for the blood I shed,
+As you stand at the gates
+You will call out my name,
+But I won’t be there.
+
+Unforgiven from the world apart,
+Unforgiven in the name of God,
+I surrendered this war
+Where my self was my foe.
+Is it really the fault
+That I’m unforgiven for!
+
+What am I unforgiven for?
+What am I unforgiven for?
+What am I unforgiven for?
+(So I dubbed thee unforgiven)[^dub-en]
+
+What am I unforgiven for?
+What am I unforgiven for?
+What am I unforgiven for?
+What am I unforgiven for.
+
+[^dub-en]: Metallica, “The Unforgiven”: “So I dub thee unforgiven.”
+
+<!-- lyrics:ru -->
+
+Время разлетелось на куски
+Под стук поезда, так что если
+Ты читаешь это,
+Значит, я далеко-далеко и гадаю:
+
+Почему тишина так громка?[^silence-ru]
+Мне не выбраться.
+
+[^silence-ru]: Из «For Whom the Bell Tolls» Metallica: «He hears the silence so loud» — «он слышит, как громка тишина».
+
+Неужели я непрощённый за мечты, что у меня были,
+Непрощённый за раны, которыми я истекал кровью?
+В конце твоего пути
+Ты позовёшь меня по имени,
+Но меня там не будет.
+
+Непрощённый, отрезанный от мира,
+Непрощённый и покинутый, но,
+Проиграв в этой войне,
+Где моим врагом был я сам,
+Я всё равно не вижу вины,
+За которую мне нет прощения.[^iv-ru]
+
+[^iv-ru]: В оригинале строка кончается на «unforgiven for» («непрощённый за»), что звучит как «Unforgiven IV» — название песни, четвёртой после трёх «The Unforgiven» Metallica.
+
+Теперь, когда я мёртв,
+Я вижу, о чём всё это было,
+Пока языки пламени
+Нежно вылизывают мою душу, выворачивая наизнанку.
+
+Я не могу молиться, каждое воспоминание в тумане,
+Не вырваться из этого огненного морока.
+
+Непрощённый за мечты, что у меня были,
+Непрощённый за кровь, что я пролил,
+Когда ты встанешь у врат,
+Ты позовёшь меня по имени,
+Но меня там не будет.
+
+Неужели я непрощённый, отрезанный от мира,
+Непрощённый во имя Господа?
+Я сдался в этой войне,
+Где моим врагом был я сам.
+Неужели это и есть та вина,
+За которую мне нет прощения?
+
+Почему тишина так громка?
+Я не выберусь!
+
+Непрощённый за мечты, что у меня были,
+Непрощённый за кровь, что я пролил,
+Когда ты встанешь у врат,
+Ты позовёшь меня по имени,
+Но меня там не будет.
+
+Непрощённый, отрезанный от мира,
+Непрощённый во имя Господа,
+Я сдался в этой войне,
+Где моим врагом был я сам.
+Неужели это и есть та вина,
+За которую мне нет прощения!
+
+За что мне нет прощения?
+За что мне нет прощения?
+За что мне нет прощения?
+(Так нарёк я тебя непрощённым)[^dub-ru]
+
+За что мне нет прощения?
+За что мне нет прощения?
+За что мне нет прощения?
+За что мне нет прощения.
+
+[^dub-ru]: Metallica, «The Unforgiven»: «So I dub thee unforgiven» — «Так нарекаю тебя непрощённым».

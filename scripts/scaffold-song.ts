@@ -3,11 +3,15 @@
  *
  * Usage, from the repository root:
  *   pnpm music:scaffold <repo> [<repo> ...]
+ *   pnpm music:scaffold --spec <file.json>
+ *
+ * The second form writes what the author already decided rather than leaving
+ * it blank; `specSchema` below is its shape.
  *
  * A song's mechanical fields all live outside this repo — in the master's
  * filename, in its FLAC header and in the source repository's own history — so
  * they are read rather than typed. What is left for the author is the prose:
- * the per-locale titles and blurbs, `language`, `project` and the body.
+ * the title, the per-locale blurbs, `language`, `project` and the body.
  *
  * The duration comes out of the master's STREAMINFO block, fetched as the
  * first 128 KB of the file rather than the whole of it: a ten-song scaffold
@@ -26,11 +30,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
+import { collectionDir } from '@/shared/content/collections';
+import { byLocale, inLocale } from '@/shared/i18n/locales';
 import {
+  MUSIC_ALBUM_SLUGS,
   MUSIC_ORGANIZATION,
   MUSIC_PROJECT_NAMES,
-} from '@/shared/config/music-projects';
-import { collectionDir } from '@/shared/content/collections';
+  SONG_DESCRIPTION_PLACEHOLDER,
+} from '@/shared/music-catalogue/index.node-safe';
 import type { Dated, Named } from '@/shared/typings';
 
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */
@@ -88,13 +95,14 @@ async function json<T>(url: string, schema: z.ZodType<T>): Promise<T> {
 }
 
 /**
- * A YAML double-quoted scalar, which JSON's string form already is. Every
- * authored value goes through it: a title or a blurb holding `: ` parses as a
- * mapping unquoted, and the document is then rejected at build time rather than
- * where it was written.
+ * A quoted YAML scalar. Every authored value goes through it: a title or a
+ * blurb holding `: ` parses as a mapping unquoted, and the document is then
+ * rejected at build time rather than where it was written. Single-quoted unless
+ * the value holds a `'` — the choice Prettier makes, so a fresh file passes the
+ * format check; the double-quoted form is JSON's string form.
  */
 function yaml(value: string): string {
-  return JSON.stringify(value);
+  return value.includes("'") ? JSON.stringify(value) : `'${value}'`;
 }
 
 /** Everything this script prints is its result, so it goes to stdout directly. */
@@ -157,8 +165,15 @@ async function fetchStreamInfo(url: string): Promise<StreamInfo> {
   );
 }
 
-/** A song is a master, and a master is the single root `.flac`. */
-async function findMaster(repo: string, branch: string): Promise<Master> {
+/**
+ * A song is a master, and a master is a root `.flac`: the only one, or the one
+ * named — a repository holding several is ambiguous until someone picks.
+ */
+async function findMaster(
+  repo: string,
+  branch: string,
+  named?: string,
+): Promise<Master> {
   const entries = await json(
     `https://api.github.com/repos/${MUSIC_ORGANIZATION}/${repo}/contents/`,
     rootListingSchema,
@@ -168,12 +183,19 @@ async function findMaster(repo: string, branch: string): Promise<Master> {
     .map(({ name }) => name)
     .filter((name) => name.toLowerCase().endsWith('.flac'));
 
-  const [fileName] = masters;
+  const [fileName] =
+    named === undefined ? masters : masters.filter((name) => name === named);
 
-  if (fileName === undefined) throw new Error(`${repo} has no root FLAC`);
-  if (masters.length > 1) {
+  if (fileName === undefined) {
     throw new Error(
-      `${repo} has ${masters.length} root FLACs (${masters.join(', ')}) — pick one by hand`,
+      named === undefined
+        ? `${repo} has no root FLAC`
+        : `${repo} has no root ${named} (it has ${masters.join(', ')})`,
+    );
+  }
+  if (named === undefined && masters.length > 1) {
+    throw new Error(
+      `${repo} has ${masters.length} root FLACs (${masters.join(', ')}) — name one in a spec`,
     );
   }
 
@@ -209,42 +231,97 @@ async function firstCommitDate(repo: string): Promise<string> {
   return oldest.commit.author.date.slice(0, 10);
 }
 
+/**
+ * What the author already decided about a song, as `--spec` reads it. The
+ * language is left for the build to check: its list lives behind
+ * `server-only`, which a script cannot load.
+ */
+const specSchema = z.array(
+  z.object({
+    repo: z.string().min(1),
+    /** The file's name, where it is not the repository's — an album track. */
+    slug: z.string().min(1).optional(),
+    /** The root FLAC, where the repository holds several. */
+    master: z.string().min(1).optional(),
+    title: z
+      .union([
+        z.string().min(1),
+        z.object({ en: z.string().min(1), ru: z.string().min(1) }),
+      ])
+      .optional(),
+    project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1).optional(),
+    language: z.array(z.string().min(1)).min(1).optional(),
+    album: z.enum(MUSIC_ALBUM_SLUGS).optional(),
+    hidden: z.boolean().optional(),
+    /** Where a store marks the song explicit and its file name does not. */
+    explicit: z.literal(true).optional(),
+    /** Something for the author to check, kept in the file as a comment. */
+    note: z.string().min(1).optional(),
+  }),
+);
+
+type SongSpec = z.infer<typeof specSchema>[number];
+
 type DocumentFields = Named &
   Dated & {
-    repo: string;
+    spec: SongSpec;
     seconds: number;
     master: Master;
     streamInfo: StreamInfo;
   };
 
+function yamlList(values: readonly string[]): string {
+  return `[${values.map((value) => yaml(value)).join(', ')}]`;
+}
+
 /**
- * The frontmatter this script can fill, plus a body that says what is left. The
- * author's fields are written as YAML comments rather than empty values: an
- * empty one parses as null and the schema rejects it, which is the loud
- * failure a placeholder string would not be.
+ * The frontmatter this script can fill, plus a body that says what is left. A
+ * field the spec leaves out is written as a YAML comment rather than an empty
+ * value: an empty one parses as null and the schema rejects it, which is the
+ * loud failure a placeholder string would not be.
  */
 function document(fields: DocumentFields): string {
-  const { name, date, repo, seconds, master, streamInfo } = fields;
+  const { name, date, spec, seconds, master, streamInfo } = fields;
+  const {
+    repo,
+    project,
+    language = ['ru'],
+    album,
+    hidden,
+    explicit,
+    note,
+    title = name,
+  } = spec;
   const { sampleRate, bitsPerSample, channels } = streamInfo;
+  const titles = byLocale((locale) => inLocale(title, locale));
+  // The song's own name is the one in the language it is sung in, the English
+  // one where neither locale's is; a locale restates it only to differ.
+  const own = language[0] === 'ru' ? titles.ru : titles.en;
+  const { en, ru } = byLocale((locale) =>
+    titles[locale] === own ? '' : `  title: ${yaml(titles[locale])}\n`,
+  );
 
   return `---
+title: ${yaml(own)}
 date: ${date}
 status: done
-language: ru
-# project: [<artist>, <features...>] — one of ${MUSIC_PROJECT_NAMES.join(', ')}
+language: ${language.length === 1 ? language.join('') : `[${language.join(', ')}]`}
+${
+  project === undefined
+    ? `# project: [<artist>, <features...>] — one of ${MUSIC_PROJECT_NAMES.join(', ')}`
+    : `project: ${yamlList(project)}`
+}
 repo: ${yaml(repo)}
 audio: ${master.audio}
 seconds: ${seconds}
-explicit: ${String(master.explicit)}
-en:
-  title: ${yaml(name)}
-  description: ${yaml('TODO')}
+explicit: ${String(master.explicit || explicit === true)}
+${album === undefined ? '' : `album: ${album}\n`}${hidden === true ? 'hidden: true\n' : ''}en:
+${en}  description: ${yaml(SONG_DESCRIPTION_PLACEHOLDER)}
 ru:
-  title: ${yaml(name)}
-  description: ${yaml('TODO')}
+${ru}  description: ${yaml(SONG_DESCRIPTION_PLACEHOLDER)}
 ---
 
-<!-- Scaffolded from https://github.com/${MUSIC_ORGANIZATION}/${repo} — ${master.flac},
+${note === undefined ? '' : `<!-- For Vova to check: ${note} -->\n\n`}<!-- Scaffolded from https://github.com/${MUSIC_ORGANIZATION}/${repo} — ${master.flac},
      ${sampleRate / 1000} kHz / ${bitsPerSample}-bit / ${channels === 2 ? 'stereo' : `${channels} ch`}.
      Replace this with the story, told once per language under a "lang:en" and
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
@@ -252,16 +329,17 @@ ru:
 `;
 }
 
-async function scaffold(repo: string, directory: string): Promise<string> {
-  const filePath = path.join(directory, `${repo}.md`);
+async function scaffold(spec: SongSpec, directory: string): Promise<string> {
+  const { repo, slug = repo } = spec;
+  const filePath = path.join(directory, `${slug}.md`);
 
-  if (fs.existsSync(filePath)) return `${repo}: already written, left alone`;
+  if (fs.existsSync(filePath)) return `${slug}: already written, left alone`;
 
   const { default_branch: branch } = await json(
     `https://api.github.com/repos/${MUSIC_ORGANIZATION}/${repo}`,
     repositorySchema,
   );
-  const master = await findMaster(repo, branch);
+  const master = await findMaster(repo, branch, spec.master);
   const streamInfo = await fetchStreamInfo(master.audio);
   const seconds = Math.round(streamInfo.totalSamples / streamInfo.sampleRate);
 
@@ -273,7 +351,7 @@ async function scaffold(repo: string, directory: string): Promise<string> {
         .replace(EXPLICIT_MARKER, '')
         .trim(),
       date: await firstCommitDate(repo),
-      repo,
+      spec,
       seconds,
       master,
       streamInfo,
@@ -282,13 +360,26 @@ async function scaffold(repo: string, directory: string): Promise<string> {
 
   const minutes = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 
-  return `${repo}: ${master.flac} — ${minutes}`;
+  return `${slug}: ${master.flac} — ${minutes}`;
 }
 
-const repos = process.argv.slice(2);
+function readSpecs(argv: readonly string[]): SongSpec[] {
+  const [flag, file, ...rest] = argv;
 
-if (repos.length === 0) {
-  throw new Error('Usage: pnpm music:scaffold <repo> [<repo> ...]');
+  if (flag !== '--spec') return argv.map((repo) => ({ repo }));
+  if (file === undefined || rest.length > 0) {
+    throw new Error('Usage: pnpm music:scaffold --spec <file.json>');
+  }
+
+  return specSchema.parse(JSON.parse(fs.readFileSync(file, 'utf8')));
+}
+
+const specs = readSpecs(process.argv.slice(2));
+
+if (specs.length === 0) {
+  throw new Error(
+    'Usage: pnpm music:scaffold <repo> [<repo> ...] | --spec <file.json>',
+  );
 }
 
 const directory = collectionDir('music');
@@ -296,11 +387,11 @@ const directory = collectionDir('music');
 fs.mkdirSync(directory, { recursive: true });
 
 for (const line of await Promise.all(
-  repos.map(async (repo) => scaffold(repo, directory)),
+  specs.map(async (spec) => scaffold(spec, directory)),
 )) {
   report(line);
 }
 
 report(
-  `\nWritten to ${directory}. Each still needs its titles and blurbs in both languages, its language checked, a project and a body.`,
+  `\nWritten to ${directory}. Each still needs its blurbs in both languages and a body; a field the spec left out is a comment to fill in.`,
 );

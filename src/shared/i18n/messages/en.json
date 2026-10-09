@@ -254,42 +254,69 @@
   },
   "music": {
     "title": "Songs",
-    "back": "Songs",
+    "back": "Music",
     "metaTitle": "Music",
     "metaDescription": "AI music from before there was a product for it — a catalogue of masters you can play right here, all of it open-source.",
-    "intro": {
-      "quote": "“AI as collaborator, not tool or replacement”",
-      "body": "Been writing music since preteens, recently focused on AI music (since way before Suno — think OpenAI Jukebox). I view AI not as a replacement for my creativity, neither as a tool, but as a brilliant musician who can bring my ideas to life in ways I often wouldn’t have imagined. To be clear, I write most of my AI music starting from my own humming/piano playing/MIDIs, so it’s “mine” in most copyright senses."
+    "artists": "Artists",
+    "albums": "Albums",
+    "single": "Single",
+    "kind": {
+      "artist": "Artist",
+      "album": "Album"
     },
+    "artistDescription": "{artist}: the songs and albums, to play right here — all of it open-source.",
+    "albumDescription": "“{album}” by {artist}: the tracks, to play right here — all of it open-source.",
+    "albumLength": {
+      "songs": { "one": "# song", "other": "# songs" },
+      "hours": { "one": "# hour", "other": "# hours" },
+      "minutes": { "one": "# minute", "other": "# minutes" }
+    },
+    "intro": "Been writing music since my preteens, and with AI since way before Suno — back in the OpenAI Jukebox days. AI to me is neither a tool nor a replacement but a brilliant bandmate. Most of it starts from my own humming, piano or MIDIs, so it’s “mine” in most copyright senses.",
+    "shuffleAll": "Shuffle all",
     "unfiled": "Unfiled",
-    "alsoOn": "Also on",
-    "and": "and",
-    "openSource": "All my music is open-source:",
     "language": {
       "ru": "Russian",
       "en": "English",
+      "tt": "Tatar",
+      "ar": "Arabic",
+      "pl": "Polish",
+      "la": "Latin",
+      "zh": "Chinese",
+      "fr": "French",
+      "el": "Greek",
+      "de": "German",
+      "it": "Italian",
+      "es": "Spanish",
+      "ru-latn-x-russisch": "Russisch",
       "instrumental": "Instrumental"
     },
     "explicit": "Explicit",
     "source": "source",
-    "album": "From {album}",
+    "album": "from {album}",
+    "alsoOn": "also on {album}",
     "credits": {
-      "lyrics": "Words",
-      "music": "Music"
+      "lyrics": "Lyrics",
+      "music": "Music",
+      "musicAndLyrics": "Music and lyrics"
     },
     "lyrics": {
       "title": "Lyrics",
       "translation": "Translation",
-      "crib": "The translation is a crib, not a singing version."
+      "crib": "The translation is a crib, not a singing version.",
+      "transliteration": "Transliteration"
     },
     "player": {
       "label": "Player",
       "previous": "Previous track",
       "play": "Play",
+      "listen": "Listen",
       "pause": "Pause",
       "next": "Next track",
       "shuffle": "Shuffle",
-      "seek": "Seek"
+      "follow": "Follow the playing song",
+      "followHint": "Open each song’s page as it starts playing",
+      "seek": "Seek",
+      "timeToggle": "Switch between the song’s length and the time left"
     }
   },
   "ui": {

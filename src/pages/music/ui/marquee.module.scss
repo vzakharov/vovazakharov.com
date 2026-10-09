@@ -1,0 +1,39 @@
+.view {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+// The text is cut short of whichever ellipsis is showing rather than painted
+// over by it: the bar behind is translucent, so a backed ellipsis would show.
+.clip {
+  display: block;
+}
+
+.view[data-overflowing='true'] .clip {
+  clip-path: inset(0 var(--marquee-ellipsis) 0 0);
+}
+
+.text {
+  display: inline-block;
+}
+
+.lead,
+.tail {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+}
+
+.lead {
+  left: 0;
+}
+
+.tail {
+  right: 0;
+}
+
+.view[data-overflowing='true'] .tail {
+  opacity: 1;
+}

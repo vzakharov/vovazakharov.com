@@ -8,7 +8,7 @@ import {
   type WithCollectionId,
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
-import { Card, TextLink } from '@/shared/ui';
+import { Card, NameLink, TextLink } from '@/shared/ui';
 
 import classes from './document-cards.module.scss';
 import { DocumentMeta } from './document-meta';
@@ -47,9 +47,7 @@ export function DocumentCards({ collection, cards }: DocumentCardsProps) {
               )}
               <div>
                 <Title order={2} size="h3" mb={8}>
-                  <TextLink href={route} underline="hover">
-                    {title}
-                  </TextLink>
+                  <NameLink href={route}>{title}</NameLink>
                 </Title>
                 <DocumentMeta
                   {...{ frontmatter, readingMinutes }}

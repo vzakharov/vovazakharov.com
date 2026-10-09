@@ -13,5 +13,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_SITE?: string;
     /** Set by `scripts/play-mushrooms.ts` for the build it plays. */
     NEXT_PUBLIC_MUSHROOM_PROBE?: string;
+    /** `1` lists hidden documents under `next dev`; see `isListed`. */
+    SHOW_HIDDEN?: string;
   }
 }

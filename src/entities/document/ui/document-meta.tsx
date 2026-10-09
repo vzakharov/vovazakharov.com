@@ -10,7 +10,7 @@ import {
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/shared/typings';
-import { TextLink } from '@/shared/ui';
+import { NameLink } from '@/shared/ui';
 
 import classes from './document-meta.module.scss';
 
@@ -40,10 +40,7 @@ export function DocumentMeta({
       className={cx(classes['meta'], className)}
     >
       <span>
-        By{' '}
-        <TextLink {...{ href }} underline="hover">
-          {name}
-        </TextLink>
+        By <NameLink {...{ href }}>{name}</NameLink>
       </span>
       <span aria-hidden>·</span>
       <time dateTime={documentDateTime(frontmatter.date)}>

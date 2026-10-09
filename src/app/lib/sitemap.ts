@@ -7,12 +7,14 @@ import {
   COLLECTIONS,
   collectionsForSite,
   filedDate,
+  isListed,
   listAllDocuments,
   localizedRoute,
 } from '@/shared/content';
 import { routing } from '@/shared/i18n';
 
 import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/pages/cv';
+import { musicCatalogueRoutes } from '@/pages/music';
 
 /**
  * Which addresses a page in this collection is advertised at. A localized
@@ -40,6 +42,7 @@ function vovaRoutes(): string[] {
         ...CV_SUBPAGES.map((subpage) => cvPath(variant, locale, subpage)),
       ]),
     ),
+    ...musicCatalogueRoutes(),
   ];
 }
 
@@ -62,11 +65,13 @@ export function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes.map((route) => ({ url: getAbsoluteUrl(route) })),
-    ...listAllDocuments(SITE_ID).flatMap(({ route, collection, frontmatter }) =>
-      documentAddresses(route, collection).map((address) => ({
-        url: getAbsoluteUrl(address),
-        lastModified: filedDate(frontmatter),
-      })),
-    ),
+    ...listAllDocuments(SITE_ID)
+      .filter((document) => isListed(document))
+      .flatMap(({ route, collection, frontmatter }) =>
+        documentAddresses(route, collection).map((address) => ({
+          url: getAbsoluteUrl(address),
+          lastModified: filedDate(frontmatter),
+        })),
+      ),
   ];
 }
