@@ -35,11 +35,11 @@ ru:
 
 <!-- lang:en -->
 
-A reworking of the folk song «Всё косы твои, всё бантики» as Arkady Severny sang it; Mikhail Krug’s later version coarsens the words.
+A reworking of «Всё косы твои, всё бантики», a student song from the middle of the twentieth century, as Arkady Severny sang it; Mikhail Krug’s later version coarsens the words.
 
 <!-- lang:ru -->
 
-Песня — переделка народной «Всё косы твои, всё бантики», какой её пел Аркадий Северный; в более поздней версии Михаила Круга слова изменены до пошлости.
+Песня — переделка «Всё косы твои, всё бантики», студенческой песни середины XX века, какой её пел Аркадий Северный; в более поздней версии Михаила Круга слова изменены до пошлости.
 
 <!-- lyrics:ru -->
 
