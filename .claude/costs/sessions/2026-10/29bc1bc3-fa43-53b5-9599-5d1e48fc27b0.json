@@ -37,7 +37,7 @@
   },
   "sessionId": "29bc1bc3-fa43-53b5-9599-5d1e48fc27b0",
   "branch": "claude/krylya-album-2z13o2",
-  "cwd": "/home/user/vovazakharov.com/apps/vova/public/music",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/from-branch claude/krylya-album-2z13o2",
   "prs": [
     127
@@ -45,53 +45,53 @@
   "url": "https://claude.ai/code/session_01YcRnDmQ843qXHtLxPgXuch",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-09T17:22:17.625Z",
-  "lastResponseAt": "2026-10-09T18:02:25.696Z",
+  "lastResponseAt": "2026-10-09T18:04:52.545Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 870,
-    "cacheWrite5mTokens": 1521997,
-    "cacheWrite1hTokens": 246752,
-    "cacheReadTokens": 60457480,
-    "outputTokens": 68674,
-    "thinkingTokens": 17287,
-    "responses": 423,
-    "costUsd": 23.05245699999999
+    "inputTokens": 938,
+    "cacheWrite5mTokens": 1543487,
+    "cacheWrite1hTokens": 269108,
+    "cacheReadTokens": 67830279,
+    "outputTokens": 76515,
+    "thinkingTokens": 19092,
+    "responses": 456,
+    "costUsd": 24.9704068
   },
   "ownTurns": {
-    "inputTokens": 242,
+    "inputTokens": 278,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 246752,
-    "cacheReadTokens": 23562181,
-    "outputTokens": 64912,
-    "thinkingTokens": 17287,
-    "responses": 109,
-    "costUsd": 7.985660199999998
+    "cacheWrite1hTokens": 269108,
+    "cacheReadTokens": 28705608,
+    "outputTokens": 72609,
+    "thinkingTokens": 19092,
+    "responses": 126,
+    "costUsd": 9.347277599999996
   },
   "subagents": {
-    "inputTokens": 628,
-    "cacheWrite5mTokens": 1521997,
+    "inputTokens": 660,
+    "cacheWrite5mTokens": 1543487,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 36895299,
-    "outputTokens": 3762,
+    "cacheReadTokens": 39124671,
+    "outputTokens": 3906,
     "thinkingTokens": 0,
-    "responses": 314,
-    "costUsd": 15.066796800000006
+    "responses": 330,
+    "costUsd": 15.623129200000006
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 870,
-      "cacheWrite5mTokens": 1521997,
-      "cacheWrite1hTokens": 246752,
-      "cacheReadTokens": 60457480,
-      "outputTokens": 68674,
-      "thinkingTokens": 17287,
-      "responses": 423,
-      "costUsd": 23.05245699999999
+      "inputTokens": 938,
+      "cacheWrite5mTokens": 1543487,
+      "cacheWrite1hTokens": 269108,
+      "cacheReadTokens": 67830279,
+      "outputTokens": 76515,
+      "thinkingTokens": 19092,
+      "responses": 456,
+      "costUsd": 24.9704068
     }
   },
   "warnings": [
-    "306 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+    "322 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
   ],
   "orientation": {
     "endedBy": "Edit",
