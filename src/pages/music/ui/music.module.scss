@@ -187,9 +187,8 @@
   justify-self: start;
 }
 
-// In the HTML either way; the switch's attribute is what shows it. Smaller
-// and fainter than the line above it, so the eye reads the pair as the words
-// and their gloss rather than as two lines of verse.
+// In the HTML either way; the switch's attribute is what shows it. Smaller and
+// fainter, so the pair reads as words and gloss rather than two lines of verse.
 .transliteration {
   display: none;
   font-size: 0.85em;

@@ -6,13 +6,8 @@
  *
  *   pnpm music:hidden
  *
- * A song is hidden until it has a description and a story in both languages,
- * so the list is the author's to-do as much as an index. Like `pnpm
- * styles:codegen` it **exits non-zero when it had to write**, which is how
- * `scripts/vet-songs.sh` fails on a stale list while leaving it current.
- *
- * The list replaces the old one by rename, never in place: vet's format check
- * reads it in the same fan-out, and a half-written file would fail it too.
+ * Like `pnpm styles:codegen` it **exits non-zero when it had to write**, which
+ * is how `scripts/vet-songs.sh` fails on a stale list while leaving it current.
  */
 
 import matter from 'gray-matter';
@@ -147,6 +142,7 @@ const current = fs.existsSync(LIST) ? fs.readFileSync(LIST, 'utf8') : '';
 if (current === next) {
   process.stdout.write('music-hidden: current\n');
 } else {
+  // Renamed into place: vet's format check reads the list in the same fan-out.
   const staging = `${LIST}.tmp`;
   fs.mkdirSync(path.dirname(LIST), { recursive: true });
   fs.writeFileSync(staging, next);
