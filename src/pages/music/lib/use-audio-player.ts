@@ -199,7 +199,10 @@ export function useAudioPlayer(
 
     if (audio === null || current === undefined) return;
 
-    if (audio.src !== current.audio) {
+    // The attribute rather than the property: `src` reads back resolved to an
+    // absolute URL, which a site-root path never equals, and every pause would
+    // reload the track from the top.
+    if (audio.getAttribute('src') !== current.audio) {
       audio.src = current.audio;
       setElapsed(0);
     }
