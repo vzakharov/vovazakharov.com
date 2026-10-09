@@ -32,10 +32,12 @@ Edge of a cliff, just for the name
 Stream your fall right as you drop
 Hearts tick up as your heart stops
 
-Carpe diem, ignore the stakes
+[Carpe diem][^carpe-en], ignore the stakes
 Life in a snap—that’s all it takes
 Play stupid games, win a stupid prize
 Unlike you, death never dies
+
+[^carpe-en]: Latin, “seize the day,” from Horace’s Odes (I.11).
 
 [Facepalm Death][^napalm-en]
 Death by a Thousand Likes
@@ -51,10 +53,12 @@ Death by a Thousand Likes
 Стримь своё падение прямо на лету
 Сердечки растут, пока твоё сердце останавливается
 
-Carpe diem, плевать, что на кону
+[Carpe diem][^carpe-ru], плевать, что на кону
 Жизнь в один щелчок — вот и всё, что нужно
 Играешь в тупые игры — получаешь тупой приз
 В отличие от тебя, смерть не умирает никогда
+
+[^carpe-ru]: «Лови день» (лат.) — из «Од» Горация (I, 11).
 
 [Смерть-фейспалм][^napalm-ru]
 [Смерть от тысячи лайков][^cuts-ru]
