@@ -78,7 +78,7 @@ x2
 
 [^scary-movie-ru]: «Scary Movie» — «страшное кино»: американская комедия 2000 года, пародия на фильмы ужасов, в российском прокате — «Очень страшное кино».
 
-Это будет кринж, это будет торт
+Это будет кринж, это будет ор
 Это будет наш с тобой хардкор
 Закрывай глаза и скорее в путь
 Ну а дальше — всё, что будет, будь
@@ -125,7 +125,7 @@ But while we’re here together and the song isn’t over
 
 [^neformat-en]: _Neformat_, Russian showbiz jargon for anything that doesn’t fit a radio or TV format. It also echoes _neformaly_, “informals,” as kids from youth subcultures were called.
 
-It’s gonna be cringe, it’s gonna be awesome
+It’s gonna be cringe, it’s gonna be a riot
 It’s gonna be our hardcore, yours and mine
 Close your eyes and let’s hit the road
 And after that — whatever will be, let it be
