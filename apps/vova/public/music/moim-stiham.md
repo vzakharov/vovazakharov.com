@@ -16,7 +16,7 @@ credits:
 en:
   title:
     transliteration: 'Moim stikham, napisannym tak rano…'
-    translation: 'To My Poems, Written So Early…'
+    translation: 'To my poems, written so early…'
   description: 'TBD'
 ru:
   description: 'TBD'

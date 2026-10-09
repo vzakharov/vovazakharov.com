@@ -16,7 +16,7 @@ credits:
 en:
   title:
     transliteration: 'My vspominaem tikhiy sneg…'
-    translation: 'We Remember the Quiet Snow…'
+    translation: 'We remember the quiet snow…'
   description: 'TBD'
 ru:
   description: 'TBD'

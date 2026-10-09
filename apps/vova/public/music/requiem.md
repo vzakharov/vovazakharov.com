@@ -16,7 +16,7 @@ credits:
 en:
   title:
     transliteration: 'Uzh skolko ikh upalo v etu bezdnu…'
-    translation: 'How Many Have Already Fallen into This Abyss…'
+    translation: 'How many have already fallen into this abyss…'
   description: 'TBD'
 ru:
   description: 'TBD'

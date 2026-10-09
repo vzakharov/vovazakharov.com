@@ -16,7 +16,7 @@ credits:
 en:
   title:
     transliteration: 'Ne veter bushuyet nad borom…'
-    translation: 'It Is Not the Wind Raging Over the Forest…'
+    translation: 'It is not the wind raging over the forest…'
   description: 'TBD'
 ru:
   description: 'TBD'

@@ -16,7 +16,7 @@ credits:
 en:
   title:
     transliteration: 'Odnazhdy v studyonuyu zimnyuyu poru…'
-    translation: 'Once, in the Freezing Winter Season…'
+    translation: 'Once, in the freezing winter season…'
   description: 'TBD'
 ru:
   description: 'TBD'

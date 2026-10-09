@@ -16,7 +16,7 @@ credits:
 en:
   title:
     transliteration: 'Mne nravitsya, chto vy bolny ne mnoy…'
-    translation: 'I Like It That You Are Not Lovesick for Me…'
+    translation: 'I like it that you are not lovesick for me…'
   description: 'TBD'
 ru:
   description: 'TBD'

@@ -16,7 +16,7 @@ credits:
 en:
   title:
     transliteration: 'Pod laskoy plyushevogo pleda…'
-    translation: 'Under the Caress of the Plush Plaid…'
+    translation: 'Under the caress of the plush plaid…'
   description: 'TBD'
 ru:
   description: 'TBD'

@@ -1,5 +1,5 @@
 ---
-title: 'Life, Believe, Is Not a Dream…'
+title: 'Life, believe, is not a dream…'
 date: 2024-11-19
 status: done
 language: en

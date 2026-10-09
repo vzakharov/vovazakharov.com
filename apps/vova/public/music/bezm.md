@@ -1,5 +1,5 @@
 ---
-title: 'В безмерности небес…'
+title: 'В безмерности небес'
 date: 2026-03-04
 status: done
 language: ru
@@ -16,8 +16,8 @@ credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
-    transliteration: 'V bezmernosti nebes…'
-    translation: 'In the Boundless Skies…'
+    transliteration: 'V bezmernosti nebes'
+    translation: 'In the Boundless Skies'
   description: 'TBD'
 ru:
   description: 'TBD'

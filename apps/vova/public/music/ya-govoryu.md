@@ -16,7 +16,7 @@ credits:
 en:
   title:
     transliteration: 'Ya govoryu seychas slovami temi…'
-    translation: 'I Speak Now in Those Words…'
+    translation: 'I speak now in those words…'
   description: 'TBD'
   cribNote: 'The English is A. S. Kline’s translation of Akhmatova’s “Evening Room” (1911); the song sings the original.'
 ru:
