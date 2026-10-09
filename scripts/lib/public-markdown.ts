@@ -37,6 +37,18 @@ export function publicMarkdownFiles(): string[] {
     .map((file) => path.relative(process.cwd(), file));
 }
 
+const MUSIC_DIR = 'apps/vova/public/music';
+
+/** Every song — each Markdown file directly under the music collection — relative to the root, sorted. */
+export function songFiles(): string[] {
+  if (!fs.existsSync(MUSIC_DIR)) return [];
+  return fs
+    .readdirSync(MUSIC_DIR)
+    .filter((name) => name.endsWith('.md'))
+    .toSorted()
+    .map((name) => path.join(MUSIC_DIR, name));
+}
+
 export type Span = { start: number; end: number };
 
 /** The file's frontmatter block, delimiters included, or `undefined` when it has none. */

@@ -16,15 +16,10 @@ set -uo pipefail
 
 cd "$(dirname "$0")/.."
 
-MEADOW='src/pages/mushrooms/'
+# shellcheck source=scripts/lib/changed-files.sh
+source scripts/lib/changed-files.sh
 
-merge_base_with_default() {
-  for ref in refs/remotes/origin/HEAD refs/remotes/origin/main refs/remotes/origin/master; do
-    git rev-parse --verify --quiet "$ref" >/dev/null || continue
-    git merge-base HEAD "$ref" 2>/dev/null && return 0
-  done
-  return 1
-}
+MEADOW='src/pages/mushrooms/'
 
 # Every repo file the meadow's tests import, the slice's own included.
 meadow_inputs() {
@@ -36,11 +31,9 @@ meadow_inputs() {
       "$PWD/tmp/vet-test/meta.json"
 }
 
-# Committed, uncommitted and untracked alike: vet judges the tree as it stands.
 touches_meadow() {
-  local base changed inputs
-  base="$(merge_base_with_default)" || return 0
-  changed="$(git diff --name-only "$base" && git ls-files --others --exclude-standard)"
+  local changed inputs
+  changed="$(changed_files)" || return 0
   grep -q "^$MEADOW" <<<"$changed" && return 0
   mkdir -p tmp/vet-test
   inputs="$(meadow_inputs)" || return 0

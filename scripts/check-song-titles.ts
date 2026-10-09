@@ -23,10 +23,9 @@
 
 import matter from 'gray-matter';
 import fs from 'node:fs';
-import path from 'node:path';
 import { z } from 'zod';
 
-const MUSIC_DIR = 'apps/vova/public/music';
+import { songFiles } from './lib/public-markdown.ts';
 
 /** The letters each sung language is written in; a language not listed is written in Latin. */
 const SCRIPTS: Partial<Record<string, RegExp>> = {
@@ -133,19 +132,14 @@ function glossFindings({
       ]);
 }
 
-const findings = fs
-  .readdirSync(MUSIC_DIR)
-  .filter((name) => name.endsWith('.md'))
-  .toSorted()
-  .flatMap((name) => {
-    const file = path.join(MUSIC_DIR, name);
-    const { data } = matter(fs.readFileSync(file, 'utf8'));
-    const song = songTitleSchema.parse(data);
-    return [
-      ...titleLanguageFindings(song, Object.keys(data)),
-      ...glossFindings(song),
-    ].map((finding) => `${file}: ${finding}`);
-  });
+const findings = songFiles().flatMap((file) => {
+  const { data } = matter(fs.readFileSync(file, 'utf8'));
+  const song = songTitleSchema.parse(data);
+  return [
+    ...titleLanguageFindings(song, Object.keys(data)),
+    ...glossFindings(song),
+  ].map((finding) => `${file}: ${finding}`);
+});
 
 if (findings.length > 0) {
   process.stdout.write(

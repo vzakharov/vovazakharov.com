@@ -16,7 +16,7 @@ const SCRIPT = path.resolve(import.meta.dirname, 'check-masked-words.ts');
 
 function run(markdown: string) {
   const root = mkdtempSync(path.join(tmpdir(), 'masked-words-'));
-  const file = path.join(root, 'apps/a/public/song.md');
+  const file = path.join(root, 'apps/vova/public/music/song.md');
   mkdirSync(path.dirname(file), { recursive: true });
   writeFileSync(file, markdown);
   const { status, stdout } = spawnSync(process.execPath, [SCRIPT], {
@@ -55,7 +55,7 @@ describe('check-masked-words', () => {
       const { status, stdout } = run(`Clean line\nSo ${masked} funny\n`);
       assert.equal(status, 1);
       assert.ok(
-        stdout.includes(`apps/a/public/song.md:2: So ${masked} funny`),
+        stdout.includes(`apps/vova/public/music/song.md:2: So ${masked} funny`),
         stdout,
       );
     });

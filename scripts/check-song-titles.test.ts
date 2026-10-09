@@ -62,7 +62,7 @@ describe('check-song-titles', () => {
       'a title with no letters',
       "title: '8849'\ntitleLanguage: en\nlanguage: instrumental",
     ],
-  ])
+  ] satisfies Array<[string, string]>)
     it(`passes ${label}`, () => {
       const { status, stdout } = run(frontmatter);
       assert.equal(stdout, 'song-titles: clean\n');

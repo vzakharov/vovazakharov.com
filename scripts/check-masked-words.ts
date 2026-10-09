@@ -2,7 +2,7 @@
 
 /**
  * Fails on a word masked with asterisks — `f*ck`, `f\*\*k`, `х\*й`, `s***` — in
- * any site's content, every Markdown file under `apps/*\/public/`:
+ * a song, every Markdown file directly under `apps/vova/public/music/`:
  *
  *   pnpm check:masked-words
  *
@@ -24,7 +24,7 @@ import {
   frontmatterSpan,
   lineAt,
   proseSpans,
-  publicMarkdownFiles,
+  songFiles,
 } from './lib/public-markdown.ts';
 
 /**
@@ -43,7 +43,7 @@ function maskedLines(source: string): number[] {
   );
 }
 
-const findings = publicMarkdownFiles().flatMap((file) => {
+const findings = songFiles().flatMap((file) => {
   const source = fs.readFileSync(file, 'utf8');
   return findingLines(file, source, maskedLines(source));
 });
