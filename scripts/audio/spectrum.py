@@ -3,10 +3,9 @@
 
 Usage: spectrum.py <original> <master> <out.png>
 
-Both inputs are 44.1 kHz audio soundfile reads. The plot shows both spectra
-aligned at 1 kHz, so it compares tonal balance rather than level, and below
-them the difference with its half. The table it prints is the same curve at a
-dozen frequencies, enough to read without opening the image.
+Both inputs must be 44.1 kHz. The spectra are aligned at 1 kHz, so the plot
+compares tonal balance rather than level; the printed table is the same
+curves at a dozen frequencies, readable without opening the image.
 """
 
 import sys

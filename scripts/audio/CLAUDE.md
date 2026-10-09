@@ -6,7 +6,7 @@ Working a song before it joins the catalogue: an album that survives as one file
 python3 -m venv tmp/audio-venv && tmp/audio-venv/bin/pip install -r scripts/audio/requirements.txt
 ```
 
-Lab output lives under `docs/remove-before-merging/<album>/` — the split songs, `mastered/`, `lyrics/` — committed so the operator can listen from another machine, and swept before the merge. A song reaches `apps/vova/public/music/` only through `.claude/rules/content.md`'s contract, slug rule included.
+Lab output lives under `docs/remove-before-merging/<album>/` — the split songs, `mastered/`, `lyrics/` — committed so the operator can listen from another machine, and swept before the merge. A song reaches `apps/vova/public/music/` only through `.claude/rules/songs.md`'s contract, slug rule included.
 
 ## Splitting an album file
 
@@ -42,7 +42,7 @@ Judge a master by **loudness-matched A/B**: alternate five seconds of each over 
 
 ## Reflection
 
-A song worked here ends with Майя's reflection on it, `apps/vova/public/music/<slug>.reflections.md` beside the song's markdown, once the song is in the catalogue. Read `.claude/rules/maya-reflections.md` before writing one — it says who writes it and how — and any earlier `*.reflections.md` beside the songs.
+A song worked here ends with Майя's reflection, `<slug>.reflections.md` beside the song's markdown. `.claude/rules/maya-reflections.md` says how, and loads on reading a reflection, never on the `Write` that creates the first one — so read it first.
 
 ## Traps
 

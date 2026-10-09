@@ -5,9 +5,8 @@ Usage: lyrics.py <vocals>... [--language ru] [--no-vad] > out.md
 
 Feed it an isolated vocal (Demucs's vocals stem), not the mix. `--no-vad` is for
 a stem the voice-activity filter mistakes for silence — Птицы came back as one
-line with it on. Audio is decoded
-by ffmpeg rather than faster-whisper's own PyAV path, whose keyword arguments
-drift between releases.
+line with it on. Audio is decoded by ffmpeg rather than faster-whisper's own
+PyAV path, whose keyword arguments drift between releases.
 """
 
 import argparse
