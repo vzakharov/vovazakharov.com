@@ -48,7 +48,9 @@ x3
 Там, где зла и горя нет
 Здесь, внизу, на земле
 Места нету тебе,
-У меня
+Улетай[^fly-away-ru]
+
+[^fly-away-ru]: Тут Суно не справилась со словом, а исправить это тогда было нечем. Зато теперь можно придумать ему какое-нибудь своё прочтение.
 
 <!-- lyrics:en -->
 
@@ -67,4 +69,4 @@ Into a new day, into a new light,
 There, where there is no evil and no grief
 Here, below, on the earth
 There’s no room for you,
-With me
+Fly away
