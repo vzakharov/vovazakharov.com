@@ -9,7 +9,6 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/ghost/main/ghost.flac
 seconds: 214
 explicit: false
-hidden: true
 en:
   description: 'The next-to-last song I showed my dad, and I think he understood it all.'
 ru:

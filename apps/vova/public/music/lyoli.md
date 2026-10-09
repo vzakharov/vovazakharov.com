@@ -10,7 +10,6 @@ seconds: 264
 explicit: false
 album: who-is-happy-in-russia
 track: 7
-hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:

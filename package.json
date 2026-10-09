@@ -37,6 +37,7 @@
     "content:pdf:bible": "scripts/in-site.sh bible tsx scripts/render-pdf.ts",
     "content:pdf:basilisk": "scripts/in-site.sh basilisk tsx scripts/render-pdf.ts",
     "music:scaffold": "scripts/in-site.sh vova tsx scripts/scaffold-song.ts",
+    "music:hidden": "node scripts/list-hidden-songs.ts",
     "styles:codegen": "node scripts/generate-styles.ts",
     "costs": "python3 .claude/costs/report.py",
     "artifact:mushrooms": "tsx scripts/build-mushroom-artifact.ts"
