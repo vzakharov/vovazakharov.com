@@ -1,38 +1,41 @@
 Proposed squash title/body:
 
 ```
-feat(vova): hidden song catalogue, music index tabs, one title shape (pr #115)
+feat(vova): hidden song catalogue, index tabs, slugs, one title shape (pr #115)
 ```
 
 ```
 The vovas-music organization holds far more masters than the site
 lists, most of them not ready to show. A document now takes
 `hidden: true`: its page is built and served at its address, but no
-listing, player queue or sitemap carries it, and it is noindex. One
-predicate in shared/content decides what is listed, and lists
-everything under `SHOW_HIDDEN=1 pnpm dev:<site>`, never in a build. A
-hidden song plays from its own page, joining the end of the queue.
+listing, player queue or sitemap carries it, and it is noindex; one
+predicate in shared/content decides, listing everything under
+`SHOW_HIDDEN=1 pnpm dev:<site>`, never in a build. 147 masters land as
+hidden song pages, words set as verse with sourced notes, ё written,
+expletives written out (check:masked-words holds it).
 
-147 masters land as hidden song pages, their words set as verse with
-sourced notes: Suno's markers, drawn-out syllables and pause ellipses
-do not travel, Russian is written with ё, and expletives are written
-out, which the check:masked-words vet gate holds.
+Every song and album has a readable slug: English titles as they are,
+Russian ones translated, other languages transliterated; ctfu and nsfl
+keep their acronyms. Seven of the ten songs already live were renamed
+(first, june, rak, sashas, letim, reka-2, wereback), and their old
+addresses stop resolving, with no redirects.
 
 /music opens on a short intro and a "Shuffle all" button, then tabs
-for artists, albums and songs, each a static page; an artist page
-shows its albums and singles as covers, newest first, and an album
-page numbers its tracks and states its length. Twins under /music/all
-carry the hidden songs too, noindex and out of the sitemap. Artists
-link from the song page and the player bar, credits sit under the
-lyrics, and only the song schema lives in shared/song. A song states
-its title once, a locale only where it differs, with a
-{transliteration, translation} gloss shown to a reader who cannot read
-the title's script.
+for artists, albums and songs, each a static page, with twins under
+/music/all that carry the hidden songs, noindex. Every picture is a
+cover: a song shows its own or its album's, an artist its newest
+release's. Artists and albums link from the song page and the player
+bar, and an album page numbers its tracks and states its length. A
+song states its title once, with a {transliteration, translation}
+gloss for a reader who cannot read its script, romanized titles in
+italics, and check:song-titles holding the rules. Lyrics in another
+script can carry a line-aligned romanization behind a switch, off by
+default, never replacing the original.
 
-To carry the catalogue, a song's language is a list, main language
-first, with nine languages added; albums and projects join their
-registries, a project can be billed under another name per language,
-and music:scaffold takes a spec naming the master and its fields.
+To carry the catalogue, a song's language is a list with nine
+languages added, albums and projects have registries, a project can be
+billed per language, the schema lives in shared/music-catalogue, and
+music:scaffold takes a spec naming the master and its fields.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
