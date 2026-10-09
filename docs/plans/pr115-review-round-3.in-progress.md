@@ -31,19 +31,14 @@ The export is `docs/pr/115/pr.md`, committed at the `docs: #115 refresh the PR e
   - The italic flag (T13), the per-locale translation check (T10), transliteration made optional (T01), and `songLyrics` throwing on missing words (T06). a6b3e89. Vova renamed the flag `titleTransliterated` («transliterated наверное? для consistency»); the player's field is `transliterated`, `SongName` in `ui/song-name.tsx` renders it, and `content.md` states it. Mithqāl gained a ru gloss «Вес» and a takbir note in both columns, which Vova asked for in chat.
 - Chat asks outside the review: Студентка is credited to Sergey Bakanov for music and words, with the story in Vova's words (verified on Bard-Wiki and a-pesni.org), and its doubled choruses are collapsed to `×2`. 96bac22, 1a03cb4, 0847ca2.
 
+- Slugs (T16–T30): files, covers and audio renamed — 5370b83; every reference, album slugs included (`ctfu`→`cheer-the-fuck-up`, `papa-reka`→`father-river`, …; vagabond, pschpthy, hamlet, ignite, prototypes, old-shite kept), `slugs.md` deleted — 2d472f5. The T30 reply asks whether `ctfu`/`nsfl` should stay acronyms, the T20 one whether `chik-pykh` was meant literally.
+- `pnpm type-overlap` clean: `SongOnRelease` (song-text.ts) and `CatalogueView` (music-urls.ts) — 2d472f5.
+- Replies posted on all 29 threads of this round.
+
 ## Left — in this order
 
-6. **Rest of the 2026-10-09 review.**
-   - **An open question to Vova** (asked in chat, not yet answered): should Mithqāl's words also be given in Latin transliteration (`ar-Latn`)? The answer put to him: as an aid *beside* the Arabic it is widely accepted, but writing the Quran *instead of* the Arabic is what scholars object to. It would be a new third column, and nothing is built yet.
-   - **Replies**: none posted yet for this round. Reply on every thread T01–T30 except T03, in Russian, each with the commit SHA written bare. T02 and T09 need only a note: Inverno is instrumental, `titleLanguage: it`. The T01 reply must say the check was loosened.
-   - **Slugs** (T16–T30). Rename each file with `git mv`, plus every reference to it: `SONG_COVERS` in `pictures.ts` and the cover files, track data, notes linking songs, `<slug>-<album>` pages, the PR body's QA rows. Then delete `slugs.md`.
-     - The rule (T19): a Russian title is translated to English; any other language keeps its source, transliterated. Re-check `slugs.md`'s non-ru rows against it.
-     - The ten live songs move too (T16, «никто это не видел»): `first`→`20`, `june`→`breathe`, `letim`→`lets-fly`, `rak`→`cancer`, `reka-2`→`river-part-two`, `sashas`→`dad`, `wereback`→`we-re-back`. `birdie`, `crossroads` and `slime` stay.
-     - Renamed by Vova: `leli`→`lyoli`, `babay`→`minem-babay`, `chp`→`chikh-pykh` (he typed `chik-pykh`; matched to his transliteration "Chikh-Pykh" in T01, so say so), `moroz`→`frost-the-governor`, `mu-icok-new`→`little-peasant` (from «мужичок с ноготок», which he asked for), `poko`→`dead-man` (from «покойник», which he asked for), `s74`→`sonnet-74`, `two-girls-one-fridge`→`2girls1fridge`, `zhadina`→`schadina`.
-     - Kept by Vova: `inverno`, `mithqal`, `agios-o-skopos`, `la-scorpionne`, `peta`, `requiem`.
-     - Unanswered ❓ rows (`monday`, `monday_doo`) take the proposal.
-     - T30: album slugs follow the same rule. They live in `MUSIC_ALBUM_SLUGS` (`shared/music-catalogue/names.ts`), every song's `album`/`alsoOn`, and the cover files.
-7. `pnpm type-overlap` fails on `SongPageEntry`/`SongFactsProps` (`album`+`document`, `slug`) and `catalogue`. The failure predates a6b3e89, but it fails `vet`, so fix it with a shared base type before `/finalize`. Then `/polish`, then `/pr` (refresh the body: song pictures, artist pictures, the vet, the namespace).
+6. **Mithqāl transliteration toggle.** Vova: «третьей колонкой не надо, но давай сделаем прямо над текстом переключалку … покорпеть над структурой md тоже надо будет … наверное лучше через подагента». Being built by a subagent in a worktree: a switch above the Arabic column, off by default, showing an interlinear Latin line under each Arabic line — the Arabic never hidden, which is what keeps it clear of the scholars' objection — and a `lyrics:<lang>-Latn`-style marker whose alignment the build checks. Merge its branch, review, preview.
+7. `/polish`, then `/pr` (refresh the body: song pictures, artist pictures, the vet, the namespace, the slugs, the toggle).
 
 ## Decisions
 
