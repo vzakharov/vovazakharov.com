@@ -310,6 +310,7 @@
       "next": "Next track",
       "shuffle": "Shuffle",
       "follow": "Follow the playing song",
+      "followHint": "Open each song’s page as it starts playing",
       "seek": "Seek"
     }
   },

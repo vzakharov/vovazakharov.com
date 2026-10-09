@@ -126,6 +126,7 @@ export function PlayerBar() {
           onClick={toggleFollow}
           aria-label={labels.follow}
           aria-pressed={following}
+          title={labels.followHint}
         >
           <LocateFixed size={18} />
         </ActionIcon>
