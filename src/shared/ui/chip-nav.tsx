@@ -6,7 +6,7 @@ import { cx } from '@/shared/lib/class-names';
 import type { LabeledLink } from '@/shared/typings';
 
 import classes from './chip-nav.module.scss';
-import { rememberLanguage, useLanguageReturn } from './language-return';
+import { useLanguageReturn } from './language-return';
 import { TextLink } from './text-link';
 
 /** One destination in the row; the current one renders inert rather than linked. */
@@ -24,7 +24,7 @@ export type ChipNavProps = { chips: Chip[] };
  *
  * A chip with a `hrefLang` is this same page in another language, so following
  * it replaces the history entry rather than adding one for Back to step
- * through, and is remembered for `useLanguageReturn`.
+ * through; `useLanguageReturn` carries the language back to the pages before.
  */
 export function ChipNav({ chips }: ChipNavProps) {
   useLanguageReturn(chips);
@@ -45,12 +45,7 @@ export function ChipNav({ chips }: ChipNavProps) {
           <TextLink
             key={label}
             {...{ href, hrefLang }}
-            {...(hrefLang !== undefined && {
-              replace: true,
-              onClick: () => {
-                rememberLanguage(hrefLang);
-              },
-            })}
+            replace={hrefLang !== undefined}
             underline="never"
             c="inherit"
             className={cx(classes['chip'], classes['chipLink'])}

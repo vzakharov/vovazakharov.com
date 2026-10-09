@@ -3,103 +3,78 @@ import { useEffect } from 'react';
 
 import type { Chip } from './chip-nav';
 
-const KEY = 'language';
+const STORAGE_KEY = 'language';
 
-/**
- * The language the reader last switched to in this tab. Memory is the truth
- * and `sessionStorage` its copy, so a browser that refuses storage still
- * returns in the switched language within the visit, just not across a reload.
- */
-let chosen: string | null | undefined;
+/** Set on a history entry once a language row has seen it. */
+const SEEN_KEY = 'languageSeen';
 
-function readChosen(): string | null {
-  if (chosen !== undefined) return chosen;
-
+function readLanguage(): string | null {
   try {
-    chosen = sessionStorage.getItem(KEY);
+    return sessionStorage.getItem(STORAGE_KEY);
   } catch {
-    chosen = null;
-  }
-
-  return chosen;
-}
-
-export function rememberLanguage(language: string) {
-  chosen = language;
-
-  try {
-    sessionStorage.setItem(KEY, language);
-  } catch {
-    // Storage refused: the choice still holds in memory for this visit.
+    return null;
   }
 }
 
-/**
- * The address a Back or Forward has just landed on, until a language row
- * there has had its chance to act on it. Keyed by address so a traversal to a
- * page with no row cannot be claimed by the next page that has one.
- */
-const inBrowser = 'window' in globalThis;
-
-let traversedTo: string | null =
-  inBrowser &&
-  performance
-    .getEntriesByType('navigation')
-    .some(
-      (entry) =>
-        entry instanceof PerformanceNavigationTiming &&
-        entry.type === 'back_forward',
-    )
-    ? location.href
-    : null;
-
-if (inBrowser) {
-  globalThis.addEventListener('popstate', () => {
-    traversedTo = location.href;
-  });
+function writeLanguage(language: string) {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, language);
+  } catch {
+    // Storage refused: Back keeps each page's own language.
+  }
 }
 
-function claimTraversal(): boolean {
-  const claimed = traversedTo === location.href;
+function entryState(): object {
+  const state: unknown = history.state;
 
-  traversedTo = null;
-
-  return claimed;
+  return typeof state === 'object' && state !== null ? state : {};
 }
 
 /**
- * History can only be rewritten where it stands, so a page reached by Back
- * or Forward in a language other than the one last switched to replaces itself
- * with its own version in that language. Only a traversal does: an address
- * followed or typed keeps the language it names.
+ * History can only be rewritten where it stands, so a page Back or Forward
+ * returns to in another language than the reader's last replaces itself with
+ * its version in that language.
+ *
+ * What tells a return from a visit is a mark on the history entry itself: an
+ * unmarked entry is a visit — the reader followed, typed or switched to this
+ * address, so its language becomes theirs — and a marked one is a return.
+ * Next's own navigations write a fresh state, so a language switch leaves the
+ * entry unmarked and the switched-to language is recorded like any visit.
  */
 export function useLanguageReturn(chips: Chip[]) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!chips.some((chip) => chip.hrefLang !== undefined)) return;
+    const here = chips.find((chip) => chip.current)?.hrefLang;
 
-    const returnTo = (traversed: boolean) => {
-      if (!traversed) return;
+    if (here === undefined) return;
 
-      const language = readChosen();
+    const settle = () => {
+      const state = entryState();
+
+      if (!(SEEN_KEY in state)) {
+        history.replaceState({ ...state, [SEEN_KEY]: true }, '');
+        writeLanguage(here);
+
+        return;
+      }
+
+      const language = readLanguage();
       const target = chips.find((chip) => chip.hrefLang === language);
 
-      if (target !== undefined && !target.current) {
-        router.replace(target.href);
-      }
+      if (target !== undefined && !target.current) router.replace(target.href);
     };
 
     // A page restored whole from the back/forward cache runs no effect again.
     const onPageShow = (event: PageTransitionEvent) => {
-      returnTo(event.persisted);
+      if (event.persisted) settle();
     };
 
-    returnTo(claimTraversal());
-    window.addEventListener('pageshow', onPageShow);
+    settle();
+    globalThis.addEventListener('pageshow', onPageShow);
 
     return () => {
-      window.removeEventListener('pageshow', onPageShow);
+      globalThis.removeEventListener('pageshow', onPageShow);
     };
   }, [chips, router]);
 }
