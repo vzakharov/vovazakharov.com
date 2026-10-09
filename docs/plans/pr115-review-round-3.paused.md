@@ -27,7 +27,34 @@ The export is `docs/pr/115/pr.md`, committed at the `docs: #115 refresh the PR e
 
 ## Left — in this order
 
-6. **Slugs**, on Vova's answers to `slugs.md` (Vova: «берём английское название или перевод, но если слишком длинно, то сокращаем»): rename each `apps/vova/public/music/<slug>.md` with `git mv` (history follows), and every reference to the slug — `SONG_COVERS` in `pictures.ts` and the cover files, `albums.ts`-adjacent track data, the `songs` reserved slug, notes linking songs, the PR body's QA rows. Then delete `slugs.md`.
+6. **Review of 2026-10-09 09:44** (export `docs/pr/115/pr.md`, threads T01–T30; T03 is already answered). Each item names the thread it answers; reply on every one with the commit.
+   - **Titles.**
+     - T04, T11, T15: `bezm`, `lebed`, `nazovi` are full titles: drop the `…` from the title and from both glosses.
+     - T05: `bronte` is the first line of Brontë's poem "Life", so it gets sentence case with the `…`: `Life, believe, is not a dream…`. The ru side stays as it is.
+     - T14: an English first-line title is sentence case, so `mne-nravitsya` becomes `I like it that you are not lovesick for me…`. Sweep every en gloss ending in `…` the same way (`moroz`, `mu-icok-new`, …).
+     - T06: `comeback`'s ru translation becomes `Песня-камбэк (Вот вам бэнгер)` — a banger is a great track, not a commercial hit, so his conditional picks «бэнгер». Add his lyrics (thread T06, verbatim, with Suno markers dropped) as `lyrics:en` and a Russian crib with the same stanza count.
+     - T07: `erebos`'s ru translation becomes `Эребос`. Put a ru note on its first mention in the ru crib saying the distortion is intentional (in Russian he is Эреб).
+     - T08: in `fingers`' en crib, "for no one and for everyone" becomes "for none and for all", the footnote kept.
+     - T10: `inverno`'s ru title becomes the gloss `{ translation: 'Зима' }`. T02 and T09 need only a reply: it is instrumental, with `titleLanguage: it`, already right.
+     - T01: `chp` en gloss becomes `{ translation: 'Chikh-Pykh' }` and `leli` becomes `{ translation: 'Lyoli' }`. Where the transliteration equals the translation, it is written as the translation only.
+     - T12: in `leli`'s en story, “Lyoli is just a masterpiece” becomes “Lyoli [was] just a masterpiece”, verbatim.
+     - T13: add a new frontmatter flag `titleTranscribed` (the title is a romanization), which sets the title in italics wherever it shows: the song page h1, `song-list.tsx` (both spots), the artist tile label, and the player bar. Design:
+       - `localeText` in `song-text.ts` sets `titleTranscribed: false` where the locale has its own string title.
+       - `PlayerTrack` gains a per-locale `titleTranscribed`.
+       - The media session title stays plain.
+       - `mithqal` gets the flag. `agios-o-skopos`'s title becomes `Ágios o skopós` with the flag; its ru string title «Предназначение» stays, so the ru side shows no italics.
+   - **Checks** (`scripts/check-song-titles.ts`):
+     - T10: a title not in ru needs a ru `translation`, as one not in en needs an en one. A locale string title still counts.
+     - T01: a non-Latin title needs `translation`; `transliteration` becomes optional, since a translation alone may stand for both. Say in the reply that this loosens the check.
+     - T06: a non-instrumental song with no `lyrics:<first language>` section fails. Make `songLyrics` in `song-text.ts` throw instead of returning `undefined`. Only `comeback` lacks words today.
+     - Update `.claude/rules/content.md` for the italic flag.
+   - **Slugs** (T16–T30). Rename each file with `git mv`, plus every reference to it: `SONG_COVERS` in `pictures.ts` and the cover files, track data, notes linking songs, `<slug>-<album>` pages, the PR body's QA rows. Then delete `slugs.md`.
+     - The rule (T19): a Russian title is translated to English; any other language keeps its source, transliterated. Re-check `slugs.md`'s non-ru rows against it.
+     - The ten live songs move too (T16, «никто это не видел»): `first`→`20`, `june`→`breathe`, `letim`→`lets-fly`, `rak`→`cancer`, `reka-2`→`river-part-two`, `sashas`→`dad`, `wereback`→`we-re-back`. `birdie`, `crossroads` and `slime` stay.
+     - Renamed by Vova: `leli`→`lyoli`, `babay`→`minem-babay`, `chp`→`chikh-pykh` (he typed `chik-pykh`; matched to his transliteration "Chikh-Pykh" in T01, so say so), `moroz`→`frost-the-governor`, `mu-icok-new`→`little-peasant` (from «мужичок с ноготок», which he asked for), `poko`→`dead-man` (from «покойник», which he asked for), `s74`→`sonnet-74`, `two-girls-one-fridge`→`2girls1fridge`, `zhadina`→`schadina`.
+     - Kept by Vova: `inverno`, `mithqal`, `agios-o-skopos`, `la-scorpionne`, `peta`, `requiem`.
+     - Unanswered ❓ rows (`monday`, `monday_doo`) take the proposal.
+     - T30: album slugs follow the same rule. They live in `MUSIC_ALBUM_SLUGS` (`shared/music-catalogue/names.ts`), every song's `album`/`alsoOn`, and the cover files.
 7. `/polish`, then `/pr` (refresh the body: song pictures, artist pictures, the vet, the namespace).
 
 ## Decisions
