@@ -106,6 +106,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
               )}
 
               <Stack gap={8} align="flex-start">
+                <SongByline {...{ document, album, catalogue, locale }} />
                 <Title order={1}>
                   {title}
                   {explicit && <ExplicitBadge label={messages.explicit} />}
@@ -113,7 +114,6 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                 <TitleGlossLine
                   gloss={titleGloss(localized.frontmatter, locale)}
                 />
-                <SongByline {...{ document, album, catalogue, locale }} />
                 {/* The same track a song list's row plays, so both drive one
                     queue — which a hidden song joins only once played here. */}
                 <Box mt={12}>

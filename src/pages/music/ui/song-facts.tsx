@@ -94,7 +94,7 @@ function FactLine({
   );
 }
 
-/** Who made the song and the release the page shows it on, under the title. */
+/** Who made the song and the release the page shows it on, above the title. */
 export function SongByline(props: SongFactsProps) {
   return <FactLine facts={songFacts(props).byline} opacity={0.8} />;
 }
