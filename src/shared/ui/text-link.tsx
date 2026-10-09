@@ -19,6 +19,11 @@ export type TextLinkProps = Anchored &
      * don't say where it goes — a printed page can only be followed by hand.
      */
     withAddress?: boolean;
+    /**
+     * Following the link replaces the current history entry rather than adding
+     * one. Client-side only: before hydration the `<a>` navigates as any does.
+     */
+    replace?: boolean;
   };
 
 // `noopener` keeps the opened page from reaching back through `window.opener`.
@@ -65,6 +70,7 @@ export function TextLink({
   withAddress = false,
   className,
   size,
+  replace,
   ...rest
 }: TextLinkProps) {
   const printed = printedUrl(href);
@@ -83,7 +89,7 @@ export function TextLink({
     <>
       <Anchor
         component={Link}
-        {...{ href }}
+        {...{ href, replace }}
         {...props}
         className={cx('print-hidden', className)}
       >
