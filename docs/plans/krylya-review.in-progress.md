@@ -18,44 +18,24 @@ context budget.
   vzakharov/life (3c857ad); `scripts/song-intake/`, spectrograms,
   `check:stanza-repeats`, songs.md rules (commit after 3c857ad; 3516038).
 
+- Resumed after relay 2: album text as edited prose (596d9ec);
+  type-overlap (e2b19d5); a mask the recording carries, `masked` in
+  frontmatter (88debab); `pnpm test` changed-only, `test:all` the suite
+  (the commit before a96aba2; CLAUDE.md's line staged, 75b18ba); Здравствуй
+  video (3cfd231) — Listen follows to the song only with the follow switch
+  on, «да, если стоит флаг слежения», which is today's behavior; preview
+  pass: `CoverHead`, the opened story's focus ring (8db815a); a video
+  embedded from a link plays from its site-root path, not production
+  (ca8663b).
+
 ## Left
 
-1. **Album text is too literal** — the author: «описание альбома слишком
-   литерально с моих слов». Rework `albums/wings.md` (both locales) into
-   edited prose about the album, keeping his facts and voice, rather than a
-   cleaned transcript.
-2. **Masked-word exemption**: `pnpm check:masked-words` fails on
-   our-punk-rock's `про\*\*ли`, which the recording itself bleeps (the
-   author: «здесь забикано и в песне, как творческое решение»). Add an
-   explicit at-point-of-use exemption to `scripts/check-masked-words.ts`
-   with a test, and change songs.md's "A word is written out" bullet.
-3. **`pnpm test` runs only what the branch changed by default** — the
-   author: «по дефолту только --changed, и с указанием где-то в правилах
-   (потому что "грибы" тестируются полчаса)». Design, already researched:
-   `scripts/test-changed.sh` (changed `*.test.ts` plus `<stem>.test.ts` beside
-   each changed file, via `scripts/lib/changed-files.sh`; explicit args pass
-   through; none → say so, exit 0; no merge base → exit 1 naming
-   `test:all`); `"test": "scripts/test-changed.sh"`, `"test:all":
-   "scripts/vet-test.sh"`; `vet-test.sh`'s `VET_MEADOW=1` branch must call
-   node directly instead of `pnpm test`; a CLI test per
-   `.claude/rules/testing.md`; update `stack.md`, `testing.md`, the
-   `vet-test.sh` header, and CLAUDE.md § "Testing" line 102 through a staged
-   copy.
-4. **`pnpm type-overlap` fails** on `scripts/lib/stanza-repeats.ts` (`body`,
-   `name`, `offset`) and `scripts/lib/public-markdown.ts`.
-5. **`pnpm build:vova` and `/preview`**: a long story folded and opened,
-   `/music/after-us`'s `.mp3`, the album page; check the fade, the box's
-   bottom spacing, the focus ring after opening. DRY: `songHead`/`songCover`
-   are song-named but shared with `catalogue-header.tsx`, whose cover
-   `Image` duplicates song-page's.
-6. **Answered by the author**: the Здравствуй video arrived as
-   `docs/remove-before-merging/Здравствуй 720p.mp4` and is vendored as
-   `assets/hello.mp4`; Listen on an album page follows to the song's page
-   only when the follow switch is on — «да, если стоит флаг слежения»,
-   which is today's behavior (check it in item 5's preview).
-7. **Reply on GitHub to every one of the 49 threads** (CLAUDE.md § "GitHub
+1. **Reply on GitHub to every one of the 49 threads** (CLAUDE.md § "GitHub
    comments": one sentence + bare SHA, never resolve), and the
    `writing/notes/the-five-percent.md` entry via a subagent for the comments
-   that changed a settled call (e.g. the English stress note, Здравствуй's
-   line placement, the album text's literalness).
-8. Then `/polish` and `/pr` (`/go` Steps 3–4).
+   that changed a settled call.
+2. **For the author**: on a phone the story fold of after-us lands across
+   its video, a dark rectangle fading above «…» — not folding when a video
+   sits inside the fold, or a poster frame, both touch the shared prose
+   styles.
+3. Then `/polish` and `/pr` (`/go` Steps 3–4).
