@@ -10,8 +10,11 @@ export type CreditedName = Record<Locale, string>;
  * whichever the author reached for, and shown in the reader's; a name missing
  * here fails the build rather than reaching a page in the wrong alphabet.
  */
+/** Whoever a role the frontmatter leaves uncredited belongs to. */
+export const SONG_AUTHOR = { en: 'Vova Zakharov', ru: 'Вова Захаров' } as const;
+
 const CREDITED_PEOPLE = [
-  { en: 'Vova Zakharov', ru: 'Вова Захаров' },
+  SONG_AUTHOR,
   { en: 'Vladimir Zakharov Sr.', ru: 'Владимир Захаров-старший' },
   { en: 'Sasha Zakharova', ru: 'Саша Захарова' },
   { en: 'Zoltan Zakharov', ru: 'Золтан Захаров' },

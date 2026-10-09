@@ -9,6 +9,8 @@ album: polzat
 track: 7
 audio: https://raw.githubusercontent.com/vovas-music/slime/main/%D0%A1%D0%BB%D0%B8%D0%B7%D1%8C.flac
 seconds: 231
+credits:
+  music: [Sasha Zakharova]
 en:
   description: 'A cover of Sasha’s Suno song “Slime Rolls” that kept the title and went the opposite way with it.'
 ru:

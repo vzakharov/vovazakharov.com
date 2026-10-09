@@ -310,7 +310,8 @@
     "album": "С альбома {album}",
     "credits": {
       "lyrics": "Слова",
-      "music": "Музыка"
+      "music": "Музыка",
+      "musicAndLyrics": "Музыка и слова"
     },
     "lyrics": {
       "title": "Текст",

@@ -295,7 +295,8 @@
     "album": "From {album}",
     "credits": {
       "lyrics": "Words",
-      "music": "Music"
+      "music": "Music",
+      "musicAndLyrics": "Music and words"
     },
     "lyrics": {
       "title": "Lyrics",

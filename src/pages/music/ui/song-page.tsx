@@ -139,7 +139,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
         <SongCredits
           {...{ locale }}
-          {...pick(document.frontmatter, 'credits')}
+          {...pick(document.frontmatter, 'credits', 'language')}
         />
 
         <BackToHome label={messages.backToHome} />

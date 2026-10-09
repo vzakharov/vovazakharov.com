@@ -12,3 +12,4 @@ export {
   type MusicAlbum,
   type MusicProject,
 } from './names';
+export { type CreditedName, SONG_AUTHOR } from './people';

@@ -1,30 +1,36 @@
 import { Stack, Text } from '@mantine/core';
 
 import { loadMessages, type WithLocale } from '@/shared/i18n';
-import type { SongFrontmatter } from '@/shared/song';
+import {
+  type CreditedName,
+  SONG_AUTHOR,
+  type SongFrontmatter,
+} from '@/shared/song';
 
-export type SongCreditsProps = WithLocale & Pick<SongFrontmatter, 'credits'>;
-
-const CREDIT_ROLES = ['music', 'lyrics'] as const satisfies ReadonlyArray<
-  keyof NonNullable<SongFrontmatter['credits']>
->;
+export type SongCreditsProps = WithLocale &
+  Pick<SongFrontmatter, 'credits' | 'language'>;
 
 /**
- * Who wrote what, a line per role under the words. A role the frontmatter does
- * not credit is the author's alone and goes unsaid, so a song of his own shows
- * nothing here.
+ * Who wrote what, under the words: music, then lyrics — one line for both when
+ * the same people wrote both. A role the frontmatter does not credit is the
+ * author's, and an instrumental has no lyrics to credit.
  */
-export function SongCredits({ credits, locale }: SongCreditsProps) {
+export function SongCredits({ credits, language, locale }: SongCreditsProps) {
   const labels = loadMessages(locale).music.credits;
-  const lines = CREDIT_ROLES.flatMap((role) => {
-    const people = credits?.[role];
+  const names = (people: CreditedName[] = [SONG_AUTHOR]) =>
+    people.map((person) => person[locale]).join(', ');
 
-    return people === undefined
-      ? []
-      : [`${labels[role]}: ${people.map((name) => name[locale]).join(', ')}`];
-  });
+  const music = names(credits?.music);
+  const lyrics = language.includes('instrumental')
+    ? undefined
+    : names(credits?.lyrics);
 
-  if (lines.length === 0) return null;
+  const lines =
+    lyrics === undefined
+      ? [`${labels.music}: ${music}`]
+      : music === lyrics
+        ? [`${labels.musicAndLyrics}: ${music}`]
+        : [`${labels.music}: ${music}`, `${labels.lyrics}: ${lyrics}`];
 
   return (
     <Stack gap={4}>
