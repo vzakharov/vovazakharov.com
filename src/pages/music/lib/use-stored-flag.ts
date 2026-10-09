@@ -1,7 +1,12 @@
 import { useCallback, useSyncExternalStore } from 'react';
 
-/** The bar's switches a reader expects to find as they left them. */
-type StoredFlag = 'shuffle' | 'follow' | 'remaining';
+/**
+ * The bar's switches a reader expects to find as they left them, each with
+ * where it starts for a reader who has never touched it.
+ */
+const DEFAULTS = { shuffle: false, follow: true, remaining: false };
+
+type StoredFlag = keyof typeof DEFAULTS;
 
 const KEY_PREFIX = 'music.player.';
 
@@ -15,9 +20,11 @@ const listeners = new Set<() => void>();
 
 function load(flag: StoredFlag): boolean {
   try {
-    return localStorage.getItem(KEY_PREFIX + flag) === 'on';
+    const stored = localStorage.getItem(KEY_PREFIX + flag);
+
+    return stored === null ? DEFAULTS[flag] : stored === 'on';
   } catch {
-    return false;
+    return DEFAULTS[flag];
   }
 }
 
@@ -55,15 +62,15 @@ function subscribe(listener: () => void) {
 
 /**
  * A switch of the bar's, remembered per browser. The static HTML is rendered
- * with every switch off, and hydration starts from that same value before
- * React re-renders with the stored one, so a remembered switch never costs a
- * hydration mismatch.
+ * with every switch at its default, and hydration starts from that same value
+ * before React re-renders with the stored one, so a remembered switch never
+ * costs a hydration mismatch.
  */
 export function useStoredFlag(flag: StoredFlag) {
   const value = useSyncExternalStore(
     subscribe,
     () => read(flag),
-    () => false,
+    () => DEFAULTS[flag],
   );
 
   // Stable, so a memo that closes over it is not rebuilt on every render.
