@@ -309,6 +309,7 @@
       "pause": "Pause",
       "next": "Next track",
       "shuffle": "Shuffle",
+      "follow": "Follow the playing song",
       "seek": "Seek"
     }
   },
