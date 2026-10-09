@@ -37,12 +37,14 @@ That’s probably how it should be.
 
 Здравствуй, сколько дней
 Сколько снов я тебя ждала
-Вместо слов только зеркала
+Здравствуй, вместо слов
+Только зеркала
 
 Здравствуй, оглянись
 Это свет, или лишь мираж?
 Здравствуй, там вдали
 Страха нет, там оазис наш
+
 Рука в руке
 Мы строим наши замки на песке
 Душа к душе
@@ -52,12 +54,14 @@ That’s probably how it should be.
 
 Hello, how many days
 How many dreams I spent waiting for you
-Instead of words, only mirrors
+Hello, instead of words
+Only mirrors
 
 Hello, look around
 Is it light, or only a mirage?
 Hello, there in the distance
 There is no fear, there is our oasis
+
 Hand in hand
 We build our castles on the sand
 Soul to soul
