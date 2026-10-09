@@ -15,13 +15,20 @@ export type Chip = LabeledLink & {
   hrefLang?: string;
 };
 
-export type ChipNavProps = { chips: Chip[] };
+export type ChipNavProps = {
+  chips: Chip[];
+  /**
+   * The chips are one page in another form — a language, say — so switching
+   * between them adds no history entry for Back to step through.
+   */
+  replace?: boolean;
+};
 
 /**
  * Every alternative shown at once, the current one inverted and inert. A row of
  * links rather than a control, so the switch works before hydration.
  */
-export function ChipNav({ chips }: ChipNavProps) {
+export function ChipNav({ chips, replace }: ChipNavProps) {
   return (
     <Group component="nav" gap={8} wrap="wrap" fz="sm" className="print-hidden">
       {chips.map(({ label, href, current, hrefLang }) =>
@@ -37,7 +44,7 @@ export function ChipNav({ chips }: ChipNavProps) {
         ) : (
           <TextLink
             key={label}
-            {...{ href, hrefLang }}
+            {...{ href, hrefLang, replace }}
             underline="never"
             c="inherit"
             className={cx(classes['chip'], classes['chipLink'])}
