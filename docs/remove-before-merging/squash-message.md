@@ -12,13 +12,13 @@ in the language they were left in.
 The language chips on the CV and the music pages now navigate with
 next/link's `replace`, so Back leaves the page. And since a browser
 can rewrite only the entry it stands on, a page reached by Back or
-Forward in a language other than the one last switched to replaces
-itself with its own version in that language. Only a traversal does
-this; an address followed or typed keeps the language it names.
+Forward in a language other than the one last read in replaces
+itself with its own version in that language.
 
-A chip carrying `hrefLang` is what marks a ChipNav row as a language
-switch. The choice is kept per tab in memory with a sessionStorage
-copy, so a browser refusing storage keeps it until reload.
+A mark in history.state tells a return from a visit: an unmarked
+entry is a visit, followed, typed or switched to, and records its
+language per tab in sessionStorage; a marked one is a return. A chip
+carrying `hrefLang` is what marks a ChipNav row as a language switch.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
