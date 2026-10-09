@@ -159,6 +159,23 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
       },
     },
   },
+  wings: {
+    title: 'Крылья',
+    artist: 'за/обложкой',
+    cover: true,
+    gloss: { en: { transliteration: 'Krylya', translation: 'Wings' } },
+  },
+  'punctuation-marks': {
+    title: 'Знаки препинания',
+    artist: 'за/обложкой',
+    cover: true,
+    gloss: {
+      en: {
+        transliteration: 'Znaki prepinaniya',
+        translation: 'Punctuation Marks',
+      },
+    },
+  },
 };
 
 export function albumTitle(album: MusicAlbum, locale: Locale): string {
