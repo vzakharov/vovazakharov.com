@@ -55,8 +55,10 @@ In the kitchen.
 
 We don’t even have to sing,
 This thing does better than we ever will,
-It even sounds a bit like Fat Mike,
+It even sounds a bit like [Fat Mike][^fat-mike-en],
 So let’s just nod our heads to the rhythm!
+
+[^fat-mike-en]: Fat Mike: the singer and bassist of NOFX.
 
 <!-- lyrics:ru -->
 
@@ -88,5 +90,7 @@ So let’s just nod our heads to the rhythm!
 
 Нам даже петь не нужно,
 Эта штука справится лучше, чем мы когда-либо,
-Она даже звучит немного как Fat Mike,
+Она даже звучит немного как [Fat Mike][^fat-mike-ru],
 Так что давайте просто кивать в ритм!
+
+[^fat-mike-ru]: Fat Mike — вокалист и басист NOFX.
