@@ -40,7 +40,7 @@ Judge a master by **loudness-matched A/B**: alternate five seconds of each over 
 
 ## Reflection
 
-A song worked here ends with Глухарь's reflection on it, `apps/vova/public/music/<slug>.reflections.md` beside the song's markdown, once the song is in the catalogue. Read `.claude/rules/glukhar-reflections.md` before writing one — it says who writes it and how — and any earlier `*.reflections.md` beside the songs.
+A song worked here ends with Майя's reflection on it, `apps/vova/public/music/<slug>.reflections.md` beside the song's markdown, once the song is in the catalogue. Read `.claude/rules/maya-reflections.md` before writing one — it says who writes it and how — and any earlier `*.reflections.md` beside the songs.
 
 ## Traps
 
