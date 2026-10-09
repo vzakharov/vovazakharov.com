@@ -7,17 +7,22 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-09T14:50:17Z
-- **Updated:** 2026-10-09T19:27:39Z
+- **Updated:** 2026-10-09T19:39:05Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 1
+## Awaiting an answer: 6
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 7090ea8). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1e80ee8). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/vova/public/music/after-us.md`:7 — unresolved — last: @vzakharov (human) 2026-10-09T19:25:08Z — "нет, давай мы фронтматтер дальше услажнять не будем, а помет…" → [↓](#t01)
+- **T02** `apps/vova/public/music/albums/wings.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T19:29:58Z — "большинство из этого должно быть описание ко всему проекту,…" → [↓](#t02)
+- **T03** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-09T19:31:04Z — "я бы подумал о логарифмической шкале чистот -- чтобы можно б…" → [↓](#t03)
+- **T04** `apps/vova/public/music/after-us.md`:19 — unresolved — last: @vzakharov (human) 2026-10-09T19:32:16Z — ""ощущалось" звучит как будто сейчас уже нет :)" → [↓](#t04)
+- **T05** `apps/vova/public/music/our-story.md`:78 — unresolved — last: @vzakharov (human) 2026-10-09T19:34:08Z — "на эти две подсказки не надо" → [↓](#t05)
+- **T06** `apps/vova/public/music/our-punk-rock.md`:73 — unresolved — last: @vzakharov (human) 2026-10-09T19:35:20Z — "трендс и булли пояснять не надо" → [↓](#t06)
 
 ---
 
@@ -104,6 +109,11 @@ Co-authored-by: Claude <noreply@anthropic.com>
 _49 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `apps/vova/public/music/after-us.md`:7 — unresolved — last: @vzakharov (human) 2026-10-09T19:25:08Z — "нет, давай мы фронтматтер дальше услажнять не будем, а помет…" → [↓](#t01)
+- **T02** `apps/vova/public/music/albums/wings.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T19:29:58Z — "большинство из этого должно быть описание ко всему проекту,…" → [↓](#t02)
+- **T03** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-09T19:31:04Z — "я бы подумал о логарифмической шкале чистот -- чтобы можно б…" → [↓](#t03)
+- **T04** `apps/vova/public/music/after-us.md`:19 — unresolved — last: @vzakharov (human) 2026-10-09T19:32:16Z — ""ощущалось" звучит как будто сейчас уже нет :)" → [↓](#t04)
+- **T05** `apps/vova/public/music/our-story.md`:78 — unresolved — last: @vzakharov (human) 2026-10-09T19:34:08Z — "на эти две подсказки не надо" → [↓](#t05)
+- **T06** `apps/vova/public/music/our-punk-rock.md`:73 — unresolved — last: @vzakharov (human) 2026-10-09T19:35:20Z — "трендс и булли пояснять не надо" → [↓](#t06)
 
 <a id="t01"></a>
 
@@ -123,8 +133,106 @@ _49 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 ---
 
+<a id="t02"></a>
+
+### `apps/vova/public/music/albums/wings.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-09T19:29:58Z
+
+большинство из этого должно быть описание ко всему проекту, а не альбому.
+
+---
+
+<a id="t03"></a>
+
+### `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-09T19:31:04Z
+
+я бы подумал о логарифмической шкале чистот -- чтобы можно было следить за мелодиями -- сейчас всё это сжато в нижней 1/5 шкалы, а большинство уходит на по сути мало чем полезные верха
+
+а ещё можно под спектрограммой генерить и waveform, наверное это не дорого по ресурсам, а заодно и динамику будет видно
+
+---
+
+<a id="t04"></a>
+
+### `apps/vova/public/music/after-us.md`:19 — unresolved
+
+```diff
+@@ -1,34 +1,42 @@
+… 19 lines elided …
++  description: 'The world we leave to those whose adult life is only beginning, written while everything of the last few years still felt raw.'
+ ru:
+-  description: 'TBD'
++  description: 'Какой мир мы оставляем тем, чья взрослая жизнь только начинается, — пока всё, что случилось за последние годы, ещё ощущалось особенно живо.'
+```
+
+**@vzakharov (human)** — 2026-10-09T19:32:16Z
+
+"ощущалось" звучит как будто сейчас уже нет :)
+
+---
+
+<a id="t05"></a>
+
+### `apps/vova/public/music/our-story.md`:78 — unresolved
+
+```diff
+@@ -48,38 +71,56 @@ ru:
+… 15 lines elided …
+-Всё больше закономерностей, иногда ревности
+-Но с верою верность, быть может, в том и прелесть
++<!-- voice: Кирилл -->
++Не я придумал этот сюжет, да и не ты тоже[^older-ru]
++Но, может, именно нас замышлял тот, кто писал его всё же[^older-ru]
+```
+
+**@vzakharov (human)** — 2026-10-09T19:34:08Z
+
+на эти две подсказки не надо
+
+---
+
+<a id="t06"></a>
+
+### `apps/vova/public/music/our-punk-rock.md`:73 — unresolved
+
+```diff
+@@ -1,86 +1,136 @@
+… 91 lines elided …
+ Бестолковых, несносных, словно из девяностых
+-Пропустили свой рейс, пропустили весь тренд
+-В нашем топовом листе — Rise Against, Stranger
++Пропустили свой рейс, про\*\*ли все [трендс][^trends-ru]
++В нашем топ плей-листе — [Rise Against][^rise-against-ru], [Rage Against][^rage-against-ru]
+ 
+-Хоть преподы говорят, что нам надо назад
+-Что наш любительский формат
++[^trends-ru]: «Трендс» — английское trends, «тренды».
++
++[^rise-against-ru]: «Rise Against» — «восстань против»: американская панк-рок-группа из Чикаго.
++
++[^rage-against-ru]: «Rage Against» — «ярость против»: отсылка к Rage Against the Machine («Ярость против машины»), американской рэп-метал-группе из Лос-Анджелеса.
++
++<!-- voice: Кирилл -->
++Преподы говорят, что нам надо назад
++Что наш вид — [неформат][^neformat-ru],
+ Нам лишь детей пугать
+ Но пока мы здесь вместе и не кончилась песня
+-На них, на булли — это наш Scary Movie
++\*\*\* на них, \*\*\* на [булли][^bully-ru] — это наш [Scary Movie][^scary-movie-ru]
+```
+
+**@vzakharov (human)** — 2026-10-09T19:35:20Z
+
+трендс и булли пояснять не надо
+
+---
+
 ## Timeline (status, references, and other events)
 
 - **2026-10-09T17:34:41Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5472940932.
 - **2026-10-09T18:56:43Z** @vzakharov renamed from «feat(vova): the Krylya album and the Znaki prepinaniya single, hidden» to «feat(vova): the Krylya album and the Znaki prepinaniya single».
 - **2026-10-09T19:27:39Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5474451125.
+- **2026-10-09T19:39:05Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5474495807.
