@@ -28,7 +28,20 @@ context budget.
   embedded from a link plays from its site-root path, not production
   (ca8663b).
 
+- After relay 3: voice markup — `voice` frontmatter, `<!-- voice: … -->`
+  stanza markers, `SINGERS` registry with gender, build checks, all eleven
+  songs marked (18473a3); rule lines (28cf2ec); listen and listen-single
+  reflections follow the split (f6c08de). The author's corrections in chat:
+  «баснописца», not «борзописца» (11e80d1); Тёма only called just-because the
+  best, the carelessness is the author's word (bc2b22e); «Рофля», not
+  «Рокали» (2073fc1); our-punk-rock ends on Майя's growled «бууууудь»
+  (de12e07). Item 1's ambiguous readings, taken at stanza level: hello's
+  «1st half» = stanza 1 Майя, stanza 2 Кирилл; our-punk-rock's «Йоу, йоу» is
+  Кирилл's, with the rap.
+
 ## Left
+
+Item 3 only; then `/polish` and `/pr`. Items 1 and 2, as they were asked:
 
 1. **Who sings — marked in the songs.** The author approved («Замечательно,
    да»): a song's frontmatter `voice` names who sings whatever is unmarked,
@@ -56,9 +69,9 @@ context budget.
    lands across its video, a dark rectangle fading above «…». Recommended:
    don't fold a story whose fold would cut a video; the alternative is a
    poster frame. Both touch the shared prose styles. Asked twice; the
-   second time he did not follow — put it plainly, with a screenshot
-   (`tmp/preview/after-us-phone-light.png` is gone with this container;
-   re-shoot it).
+   second time he did not follow. Put a third time, plainly, with a fresh
+   390px screenshot (the export served from `apps/vova/out`, CDP at 390px);
+   waiting on his answer.
 
 Done since: all 49 threads answered on GitHub; the five-percent entry
 (6ee85b9); `/polish` (334e980, c8f9f02). Site-root links on pages
