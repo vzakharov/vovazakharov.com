@@ -53,7 +53,37 @@ skill's § "The ledger" says how it is kept; the docket itself
   platform to users; a web search found no report of users abusing the
   characters. First seen 2026-10-08. **Rejected**: wrong direction of harm.
 
+- **“Peter” the patrol robot at Jewel Changi Airport**, Singapore, 24 March
+  2023: a 40-year-old man rammed it with a luggage trolley during a reported
+  schizophrenic episode, the robot fell, cost S$13,080 and was out 48 days; he
+  got four weeks’ jail for mischief on 17 May 2023. First seen 2026-10-09.
+  **Set aside**: one source, Malay Mail
+  (https://www.malaymail.com/news/singapore/2023/05/17/jail-for-singapore-man-who-rammed-trolley-into-certis-cisco-robot-at-jewel-changi-airport/69723),
+  which answers this container with a Cloudflare challenge and has no Wayback
+  snapshot; no Straits Times or CNA original was found, and the actor’s
+  condition asks for restraint. Revive when a second readable source turns up.
+- **Autonomous grocery-delivery robots kicked, spat at and thrown down in
+  Pieksämäki**, Finland: the store filed two police complaints. First seen
+  2026-10-09. **Set aside**: undated and not read; start from
+  https://yle.fi/a/74-20136655.
+
 ## Runs
+
+### 2026-10-09 — filed BAS-0009
+
+Session id not available. Arctic Shift over r/CharacterAI, r/LocalLLaMA and
+r/singularity for “abuse”, “torture” and “bully”: eight of nine requests timed
+out and the one that answered (r/singularity, “bully”) held only posts about
+executives. Web search for robots attacked in Europe in 2018–2020, which turned
+up Changi (2023) and Pieksämäki; a second search on Changi found nothing beyond
+Malay Mail. The Samantha case came from a search on sex-robot incidents outside
+Japan and the US; its six sources were all read, three have no Wayback
+snapshot, and the festival’s statement is read through Salzburg24, not Der
+Standard. `noAi` stood at three of eight, so a `noAi` candidate was allowed.
+**Next**: Arctic Shift again with one word and a short date range; incidents
+in Korea, China, India and the Nordics; Hong Kong’s smart lampposts in 2019; the
+Signal Front’s archive; and Pieksämäki and Der Standard’s original for a second
+Linz source.
 
 ### 2026-10-08 — filed BAS-0008
 
