@@ -69,7 +69,7 @@ To look your fill through the glass while the sun measures out the final hour,
 The cardiogram jumps in time, as if it knows it’s the last time.
 
 Maybe I’m just tired,
-Or maybe it’s time at last to dance it out to the end
+Or maybe it’s finally time to finish the dance
 And tell this fucking ball to go to hell.
 
 I’m just tired.
@@ -80,7 +80,7 @@ Well then, so be it:
 You’re here, I’m into the dark.
 
 Maybe I’m just tired,
-Or maybe it’s time at last to dance it out to the end
+Or maybe it’s finally time to finish the dance
 And tell this fucking ball to go to hell.
 
 Just tired.
