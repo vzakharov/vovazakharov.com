@@ -19,8 +19,6 @@ ru:
   description: 'TBD'
 ---
 
-<!-- For Vova to check: lyrics.md says Suno sang the first line on its own, unprompted, and you heard it into these words afterwards; that could become a footnote on the line if you want one. -->
-
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-012.flac,
      44.1 kHz / 24-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and
@@ -29,7 +27,9 @@ ru:
 
 <!-- lyrics:en -->
 
-There’s still your mercy over your ass, you pervert creatures, for your music.
+There’s still your mercy over your ass, you pervert creatures, for your music.[^whisper-en]
+
+[^whisper-en]: Suno delivered this line as a whispered recitative without my asking for anything of the kind. The subject must have got to it.
 
 [Grave Awakening][^grave-en] — corpses rise
 Grave Awakening — pay for your vice
@@ -40,7 +40,9 @@ Grave Awakening — we’ll maim but not slay
 
 <!-- lyrics:ru -->
 
-Над твоей задницей всё ещё твоя милость, вы, извращённые твари, — за вашу музыку.
+Над твоей задницей всё ещё твоя милость, вы, извращённые твари, — за вашу музыку.[^whisper-ru]
+
+[^whisper-ru]: Эту строчку Суно выдал речитативом-шёпотом без какого-либо запроса с моей стороны. Видимо, впечатлился слишком темой.
 
 [Могильное пробуждение][^grave-ru] — мертвецы встают
 Могильное пробуждение — плати за свой порок
