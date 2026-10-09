@@ -60,6 +60,6 @@ describe('albumTracks', () => {
   });
 
   it('finds nothing on an album no song is on', () => {
-    assert.deepEqual(slugsOn('cheer-the-fuck-up'), []);
+    assert.deepEqual(slugsOn('ctfu'), []);
   });
 });

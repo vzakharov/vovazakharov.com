@@ -31,7 +31,8 @@ The export is `docs/pr/115/pr.md`, committed at the `docs: #115 refresh the PR e
   - The italic flag (T13), the per-locale translation check (T10), transliteration made optional (T01), and `songLyrics` throwing on missing words (T06). a6b3e89. Vova renamed the flag `titleTransliterated` («transliterated наверное? для consistency»); the player's field is `transliterated`, `SongName` in `ui/song-name.tsx` renders it, and `content.md` states it. Mithqāl gained a ru gloss «Вес» and a takbir note in both columns, which Vova asked for in chat.
 - Chat asks outside the review: Студентка is credited to Sergey Bakanov for music and words, with the story in Vova's words (verified on Bard-Wiki and a-pesni.org), and its doubled choruses are collapsed to `×2`. 96bac22, 1a03cb4, 0847ca2.
 
-- Slugs (T16–T30): files, covers and audio renamed — 5370b83; every reference, album slugs included (`ctfu`→`cheer-the-fuck-up`, `papa-reka`→`father-river`, …; vagabond, pschpthy, hamlet, ignite, prototypes, old-shite kept), `slugs.md` deleted — 2d472f5. The T30 reply asks whether `ctfu`/`nsfl` should stay acronyms, the T20 one whether `chik-pykh` was meant literally.
+- Slugs (T16–T30): files, covers and audio renamed — 5370b83; every reference, album slugs included (`papa-reka`→`father-river`, …; vagabond, pschpthy, hamlet, ignite, prototypes, old-shite kept), `slugs.md` deleted — 2d472f5. `ctfu` and `nsfl` stay acronyms (Vova, in chat: «давай абревиатурами»). The T20 reply asks whether `chik-pykh` was meant literally.
+- Vova, in chat: «если правка механическая можно и не через Read/Edit» — a mechanical substitution across many files may go through the shell; anything else still uses Edit.
 - `pnpm type-overlap` clean: `SongOnRelease` (song-text.ts) and `CatalogueView` (music-urls.ts) — 2d472f5.
 - Replies posted on all 29 threads of this round.
 

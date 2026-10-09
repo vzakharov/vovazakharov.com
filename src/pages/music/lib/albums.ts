@@ -34,7 +34,7 @@ type MusicAlbumRecord = {
 };
 
 const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
-  'cheer-the-fuck-up': {
+  ctfu: {
     title: 'Cheer The Fuck Up',
     artist: 'GENERATED',
     cover: true,
@@ -63,7 +63,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
     gloss: { ru: { translation: 'Психопатия' } },
   },
-  'not-safe-for-life': {
+  nsfl: {
     title: 'Not Safe for Life',
     artist: 'GENERATED',
     cover: true,

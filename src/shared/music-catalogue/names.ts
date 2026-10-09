@@ -26,12 +26,12 @@ export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
 
 /** Each one the address of the album's page under `/music/albums/`. */
 export const MUSIC_ALBUM_SLUGS = [
-  'cheer-the-fuck-up',
+  'ctfu',
   'vagabond',
   'divine-discontent',
   'ghosts-of-flesh',
   'pschpthy',
-  'not-safe-for-life',
+  'nsfl',
   'let-the-stories-spin',
   'father-river',
   'hamlet',

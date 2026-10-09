@@ -8,7 +8,7 @@ repo: 'monday_doo'
 audio: https://raw.githubusercontent.com/vovas-music/monday_doo/main/monday_doo.flac
 seconds: 214
 explicit: false
-album: cheer-the-fuck-up
+album: ctfu
 track: 6
 hidden: true
 en:
