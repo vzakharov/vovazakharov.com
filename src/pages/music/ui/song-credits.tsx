@@ -21,7 +21,7 @@ export function SongCredits({ credits, locale }: SongCreditsProps) {
 
     return people === undefined
       ? []
-      : [`${labels[role]}: ${people.join(', ')}`];
+      : [`${labels[role]}: ${people.map((name) => name[locale]).join(', ')}`];
   });
 
   if (lines.length === 0) return null;

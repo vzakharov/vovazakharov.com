@@ -8,6 +8,7 @@ import { byLocale } from '@/shared/i18n';
 // entering it by its barrel would close an import cycle at module evaluation.
 import { baseFrontmatterSchema } from '../content/frontmatter';
 import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from './names';
+import { creditedNameSchema } from './people';
 
 /** Whether the song is released or still being worked on. */
 const SONG_STATUSES = ['done', 'wip'] as const;
@@ -78,8 +79,8 @@ export type SongText = z.infer<typeof songTextSchema>;
  * means the author alone, which is the common case and not worth restating.
  */
 const creditsSchema = z.object({
-  lyrics: z.array(z.string().min(1)).min(1).optional(),
-  music: z.array(z.string().min(1)).min(1).optional(),
+  lyrics: z.array(creditedNameSchema).min(1).optional(),
+  music: z.array(creditedNameSchema).min(1).optional(),
 });
 
 /** What the player needs of a song, and all it needs. */
