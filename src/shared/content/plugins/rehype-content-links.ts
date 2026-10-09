@@ -45,8 +45,7 @@ const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
  * against where `public/` serves the collection. Runs before the media and
  * image plugins, which read the rewritten URLs.
  *
- * A link stays site-root for print too: `ContentLink` gives paper its absolute
- * address, the way every other page of the site does.
+ * A link's absolute address, which paper needs, is `ContentLink`'s to give.
  */
 export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
   collection,
