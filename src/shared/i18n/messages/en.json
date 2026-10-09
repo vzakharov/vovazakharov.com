@@ -312,7 +312,8 @@
       "shuffle": "Shuffle",
       "follow": "Follow the playing song",
       "followHint": "Open each song’s page as it starts playing",
-      "seek": "Seek"
+      "seek": "Seek",
+      "timeToggle": "Switch between the song’s length and the time left"
     }
   },
   "ui": {

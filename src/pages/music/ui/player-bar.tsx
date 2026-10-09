@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionIcon, Box, Group, Text } from '@mantine/core';
+import { ActionIcon, Box, Group, Text, UnstyledButton } from '@mantine/core';
 import {
   LocateFixed,
   Pause,
@@ -63,6 +63,8 @@ export function PlayerBar() {
     seek,
   } = usePlayer();
   const [following, toggleFollow] = useFollow(current?.routes[locale]);
+  // The right-hand readout: the track's length, or what is left of it.
+  const [remaining, setRemaining] = useState(false);
 
   if (current === undefined) return null;
 
@@ -168,9 +170,20 @@ export function PlayerBar() {
           }}
           aria-label={labels.seek}
         />
-        <Text size="xs" opacity={0.6} className={classes['playerTime']}>
-          {formatDuration(seconds)}
-        </Text>
+        <UnstyledButton
+          onClick={() => {
+            setRemaining(!remaining);
+          }}
+          aria-label={labels.timeToggle}
+          aria-pressed={remaining}
+          title={labels.timeToggle}
+        >
+          <Text size="xs" opacity={0.6} className={classes['playerTime']}>
+            {remaining
+              ? `−${formatDuration(seconds - Math.min(elapsed, seconds))}`
+              : formatDuration(seconds)}
+          </Text>
+        </UnstyledButton>
       </Group>
     </Box>
   );
