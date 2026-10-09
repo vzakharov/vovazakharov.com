@@ -34,6 +34,12 @@ type Whole = Labeled & { span: LyricSpan };
 /** `[^label]: text` on a line of its own: what the note says. */
 const NOTE_DEFINITION = /^\[\^([^\s\]]+)]:\s*(\S.*)$/;
 
+/** Whether a line carries a note marker or says a note. */
+export function carriesNote(line: string): boolean {
+  // `search` ignores the global flag's `lastIndex`, which `test` would advance.
+  return line.search(NOTE_MARKER) !== -1 || NOTE_DEFINITION.test(line.trim());
+}
+
 /**
  * Every marker must resolve, every definition be used, and a line noted as a
  * whole carry no other note — each fails the build, a silently dropped note

@@ -166,6 +166,44 @@
   grid-row: 1 / -1;
 }
 
+// The transliteration switch takes a row of its own above the stanzas, in the
+// words' column only, so the crib's stanzas still start level with theirs.
+.lyricsColumns[data-transliteration] {
+  grid-template-rows: auto repeat(var(--stanzas), auto);
+
+  > .lyricsColumn {
+    grid-row: 2 / -1;
+  }
+}
+
+.lyricsStack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.transliterationSwitch {
+  grid-area: 1 / 1;
+  justify-self: start;
+}
+
+// In the HTML either way; the switch's attribute is what shows it.
+.transliteration {
+  display: none;
+  color: color-mix(in srgb, currentcolor 70%, transparent);
+  white-space: normal;
+
+  [data-transliteration='shown'] & {
+    display: block;
+  }
+}
+
+// One of several lines under a note, set on its own so its romanization can
+// follow it inside the block.
+.interlinearLine {
+  display: block;
+}
+
 // Measured off the capitals of the title it follows, so it sits level with them
 // at any size: as tall as they are up to a cap, and centred on them past it.
 // The box keeps the title's font size for `cap` to mean the title's capitals,

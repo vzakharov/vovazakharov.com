@@ -66,6 +66,40 @@ ru:
 وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍۢ شَرًّا يَرَهُۥ
 وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍۢ شَرًّا يَرَهُۥ
 
+<!-- lyrics:ar-latn -->
+
+Allāhu akbar
+Bismi llāhi r-raḥmāni r-raḥīm
+Lā yukallifu llāhu nafsan illā wusʿahā
+
+Inna llāha lā yughayyiru mā bi-qawm
+Ḥattā yughayyirū mā bi-anfusihim
+Wa-an laysa li-l-insāni illā mā saʿā
+
+Fa-man yaʿmal mithqāla dharratin khayran yarah
+Wa-man yaʿmal mithqāla dharratin sharran yarah
+Fa-man yaʿmal mithqāla dharratin khayran yarah
+Wa-man yaʿmal mithqāla dharratin sharran yarah
+
+Wa-lā taziru wāziratun wizra ukhrā
+Wa-mā aṣābakum min muṣībatin fa-bi-mā kasabat aydīkum
+
+Fa-man yaʿmal mithqāla dharratin khayran yarah
+Wa-man yaʿmal mithqāla dharratin sharran yarah
+Fa-man yaʿmal mithqāla dharratin khayran yarah
+Wa-man yaʿmal mithqāla dharratin sharran yarah
+
+Qul hal yastawī lladhīna yaʿlamūna wa-lladhīna lā yaʿlamūn
+Qul hal yastawī lladhīna yaʿlamūna wa-lladhīna lā yaʿlamūn
+Qul hal yastawī lladhīna yaʿlamūna wa-lladhīna lā yaʿlamūn
+Qul hal yastawī lladhīna yaʿlamūna wa-lladhīna lā yaʿlamūn
+
+Fa-man yaʿmal mithqāla dharratin khayran yarah
+Wa-man yaʿmal mithqāla dharratin sharran yarah
+Fa-man yaʿmal mithqāla dharratin khayran yarah
+Wa-man yaʿmal mithqāla dharratin sharran yarah
+Wa-man yaʿmal mithqāla dharratin sharran yarah
+
 <!-- lyrics:en -->
 
 God is the greatest[^takbir-en]

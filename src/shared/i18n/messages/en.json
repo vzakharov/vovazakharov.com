@@ -303,7 +303,8 @@
     "lyrics": {
       "title": "Lyrics",
       "translation": "Translation",
-      "crib": "The translation is a crib, not a singing version."
+      "crib": "The translation is a crib, not a singing version.",
+      "transliteration": "Transliteration"
     },
     "player": {
       "label": "Player",

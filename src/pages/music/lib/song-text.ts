@@ -17,6 +17,11 @@ import {
 } from './lyric-notes';
 import { PREAMBLE, splitSections } from './sections';
 import type { GlossedTitle } from './title-gloss';
+import {
+  alignTransliteration,
+  romanizedTag,
+  type Transliteration,
+} from './transliteration';
 
 export type SongDocument = ContentDocument<SongFrontmatter>;
 
@@ -49,13 +54,15 @@ export type SongLyrics = WithStanzas & {
   language: SungLanguage;
   /** A crib, not a singing version — and absent where the song is in the reader's language. */
   translation?: Stanzas;
+  /** The words in Latin letters, for a script the reader may not read; shown under them on request. */
+  transliteration?: Transliteration;
 };
 
 function storyKey(locale: Locale): string {
   return `lang:${locale}`;
 }
 
-function lyricsKey(language: SungLanguage): string {
+function lyricsKey(language: string): string {
   return `lyrics:${language}`;
 }
 
@@ -122,13 +129,20 @@ export function songLyrics(
   }
 
   const stanzas = readVerse(sung, fileName);
+  const romanized = sections.get(lyricsKey(romanizedTag(language)));
+  const words = {
+    language,
+    ...(romanized !== undefined && {
+      transliteration: alignTransliteration(stanzas, romanized, fileName),
+    }),
+  };
 
-  if (language === locale) return { language, stanzas };
+  if (language === locale) return { ...words, stanzas };
 
   const translated = sections.get(lyricsKey(locale));
 
   if (translated === undefined) {
-    return { language, stanzas: withoutNotes(stanzas) };
+    return { ...words, stanzas: withoutNotes(stanzas) };
   }
 
   const translation = readVerse(translated, fileName);
@@ -139,5 +153,5 @@ export function songLyrics(
     );
   }
 
-  return { language, stanzas: withoutNotes(stanzas), translation };
+  return { ...words, stanzas: withoutNotes(stanzas), translation };
 }
