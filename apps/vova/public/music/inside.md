@@ -63,11 +63,7 @@ Inside
 There’s no place to hide,
 There’s no trace of light,
 There’s no way outside.
-
-Inside
-There’s no place to hide,
-There’s no trace of light,
-There’s no way outside.
+x2
 
 Inside!
 
@@ -108,10 +104,6 @@ Inside!
 Негде спрятаться,
 Ни следа света,
 Нет выхода наружу.
-
-Внутри
-Негде спрятаться,
-Ни следа света,
-Нет выхода наружу.
+x2
 
 Внутри!

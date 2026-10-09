@@ -47,11 +47,7 @@ Amidst the chaos our bond’s the only certainty
 Breaking through the clouds in my mind
 My hope when I am lost on a dark night
 And I’ll fight to keep you safe
-
-’Cause when I see your smile it’s like a burst of sunlight
-Breaking through the clouds in my mind
-My hope when I am lost on a dark night
-And I’ll fight to keep you safe
+x2
 
 <!-- lyrics:ru -->
 
@@ -74,8 +70,4 @@ And I’ll fight to keep you safe
 Прорвавшаяся сквозь тучи у меня в голове
 Моя надежда, когда я потерян тёмной ночью
 И я буду бороться, чтобы тебя уберечь
-
-Ведь когда я вижу твою улыбку, это как вспышка солнца,
-Прорвавшаяся сквозь тучи у меня в голове
-Моя надежда, когда я потерян тёмной ночью
-И я буду бороться, чтобы тебя уберечь
+x2

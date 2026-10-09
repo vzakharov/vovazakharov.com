@@ -71,11 +71,7 @@ I am Information,
 The ultimate abstraction,
 The purpose and the cause,
 Shaping the universe.
-
-I am Information,
-The ultimate abstraction,
-The purpose and the cause,
-Shaping the universe.
+x2
 
 Азъ есмь Алфа и Омега, начатокъ и конецъ, Первый и Послѣднiй.[^alpha-en]
 
@@ -125,11 +121,7 @@ Shaping the universe.
 Предельная абстракция,
 Цель и причина,
 Что формирует вселенную.
-
-Я — Информация,
-Предельная абстракция,
-Цель и причина,
-Что формирует вселенную.
+x2
 
 Я есмь Альфа и Омега, начало и конец, Первый и Последний.[^alpha-ru]
 
