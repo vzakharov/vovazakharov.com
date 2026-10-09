@@ -16,10 +16,12 @@ The export is `docs/pr/115/pr.md`, committed at the `docs: #115 refresh the PR e
 - T15 ellipsis sweep — 1fac443; nursery rhymes and whole-line/name titles left alone, the T15 reply asks Vova about them.
 - Replies posted on T05, T11 and T15. Guesses put to Vova on T05: Чих-Пых → Sneeze-Puff, Лёли → Leli, Сколько → How Long, Mithqāl → Weight.
 
+- T18 + T19: `scripts/vet-songs.sh` runs both song checks only when the branch touches a song or their inputs; masked-words narrowed to the songs (`songFiles()` in `public-markdown.ts`); the diff read shared through `scripts/lib/changed-files.sh` — 28ec2b0, both replied.
+- Grand Finale: a footnote on «From ashes to ashes» naming the burial service and Genesis 3:19, asked in chat — 0ab8644.
+- Play button on the song page (Vova, in chat: the button looks clumsy beside the cover; a worded one is fine; then «берём вариант с отдельной кнопкой -- не люблю когда кнопки загораживают картинку»): a subagent is prototyping separate-button variants into the session scratchpad, uncommitted.
+
 ## Left — in this order
 
-4. **T18 + T19 — song checks only when a song changed.** Gate `check:masked-words` and the new `check:song-titles` in `vet.sh` on the branch's diff touching `apps/vova/public/music/*.md` (or the check scripts / the song schema). Factor `merge_base_with_default` and the changed-files read out of `scripts/vet-test.sh` into a sourced `scripts/lib/` helper both use. Masked-words scans every site's Markdown today: narrow it to the music collection, since Vova counts it a song check, and say so in the reply. T19: `check:prose-quotes` and anything else covering the rest of the prose stay ungated. Update `.claude/rules/stack.md`'s list and `vet.sh`'s comment.
-5. **Replies** on T18, T19, each with its SHA.
 6. **Slugs**, once the above is pushed (Vova: «берём английское название или перевод, но если слишком длинно, то сокращаем»): rename each `apps/vova/public/music/<slug>.md` with `git mv` (history follows), and every reference to the slug — `SONG_COVERS` in `pictures.ts` and the cover files, `albums.ts`-adjacent track data, the `songs` reserved slug, notes linking songs, the PR body's QA rows. Propose the full old→new table to Vova before moving if any name is a judgement call; the long ones especially.
 7. `/polish`, then `/pr` (refresh the body: song pictures, artist pictures, the vet, the namespace).
 
