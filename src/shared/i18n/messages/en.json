@@ -290,20 +290,6 @@
       "es": "Spanish",
       "instrumental": "Instrumental"
     },
-    "languageShort": {
-      "ru": "rus.",
-      "en": "eng.",
-      "tt": "tat.",
-      "ar": "ar.",
-      "pl": "pol.",
-      "la": "lat.",
-      "zh": "chin.",
-      "fr": "fr.",
-      "el": "gr.",
-      "de": "ger.",
-      "it": "it.",
-      "es": "sp."
-    },
     "explicit": "Explicit",
     "source": "source",
     "album": "From {album}",

@@ -21,11 +21,10 @@ export type SongFactsProps = WithLocale & {
  * The line under the title: what a listener would want to know about the
  * recording before playing it, in the order they would ask, each artist and
  * the album linked to its page. Empty entries drop out, so a song with no
- * album and no co-author shows neither.
+ * album shows none.
  */
 export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
-  const { date, language, album, credits, project, seconds } =
-    document.frontmatter;
+  const { date, language, album, project, seconds } = document.frontmatter;
   const messages = loadMessages(locale).music;
   const [beforeAlbum, afterAlbum] = messages.album.split('{album}');
 
@@ -48,12 +47,6 @@ export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
       </NameLink>,
       afterAlbum,
     ],
-    lyrics:
-      credits?.lyrics &&
-      `${messages.credits.lyrics}: ${credits.lyrics.join(', ')}`,
-    music:
-      credits?.music &&
-      `${messages.credits.music}: ${credits.music.join(', ')}`,
     duration: formatDuration(seconds),
   };
 

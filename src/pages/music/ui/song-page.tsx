@@ -9,6 +9,7 @@ import {
   SONGS,
 } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
 import {
   constructMetadata,
   localizedAddresses,
@@ -32,6 +33,7 @@ import { titleGloss } from '../lib/title-gloss';
 import { ExplicitBadge } from './explicit-badge';
 import { Lyrics } from './lyrics';
 import { MusicNav } from './music-nav';
+import { SongCredits } from './song-credits';
 import { SongFacts } from './song-facts';
 import { TrackButton } from './track-button';
 
@@ -67,25 +69,11 @@ export async function SongPage({ slug, locale }: SongPageProps) {
   // A hidden song's artists and album may have no public page, so its links
   // stay in the whole catalogue.
   const catalogue = { everything: !isListed(document) };
-  const {
-    title,
-    description,
-    repo,
-    explicit,
-    cribNote,
-    titleLanguage,
-    language,
-  } = localized.frontmatter;
+  const { title, description, repo, explicit, cribNote } =
+    localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
-  const gloss = titleGloss(
-    {
-      ...localized.frontmatter,
-      titleLanguage: titleLanguage ?? language[0] ?? 'instrumental',
-    },
-    locale,
-    messages.languageShort,
-  );
+  const gloss = titleGloss(localized.frontmatter, locale);
 
   return (
     <PageShell>
@@ -148,6 +136,11 @@ export async function SongPage({ slug, locale }: SongPageProps) {
         <ProseContent {...{ tree }} />
 
         {lyrics && <Lyrics {...{ lyrics, locale, cribNote }} />}
+
+        <SongCredits
+          {...{ locale }}
+          {...pick(document.frontmatter, 'credits')}
+        />
 
         <BackToHome label={messages.backToHome} />
       </Stack>
