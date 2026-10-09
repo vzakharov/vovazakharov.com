@@ -60,10 +60,7 @@ export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
   );
 }
 
-/**
- * When the album came out, as far as the catalogue knows: the registry dates no
- * release, so an album is as new as its latest song in this catalogue.
- */
+/** The registry dates no release, so an album is as new as its latest song in this catalogue. */
 function albumDate(album: MusicAlbum, songs: readonly SongDocument[]): number {
   return Math.max(
     ...albumSongs(album, songs).map(({ frontmatter }) =>
@@ -83,7 +80,7 @@ export function newestAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
  * The artist's albums as one language credits them — `vagabond` is GENERATED's
  * in English and Полуживые's in Russian — newest first.
  */
-export function artistAlbums(
+function artistAlbums(
   artist: MusicProject,
   locale: Locale,
   songs: readonly SongDocument[],

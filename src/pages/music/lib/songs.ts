@@ -27,7 +27,8 @@ const RESERVED_SEGMENTS: ReadonlySet<string> = new Set([
  * claim is rejected here, where every list of songs passes: `/music/ru` is the
  * index in Russian, `/music/all` the whole catalogue, `/music/songs` its songs
  * and `/music/artists/…` an artist, so such a song would have a file, a row on
- * the index and no page of its own. Two songs claiming one album's track number are rejected here too.
+ * the index and no page of its own. Two songs claiming one album's track
+ * number are rejected here too.
  */
 export function listSongDocuments(): SongDocument[] {
   const documents = listPrimaryDocuments(SONGS);

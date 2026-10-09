@@ -8,7 +8,7 @@ import {
   type MusicProject,
 } from '@/shared/song/index.node-safe';
 
-export const MUSIC_ORGANIZATION_URL = `https://github.com/${MUSIC_ORGANIZATION}`;
+const MUSIC_ORGANIZATION_URL = `https://github.com/${MUSIC_ORGANIZATION}`;
 
 /** The repository a song was made in, where its Reaper project and stems live. */
 export function songRepositoryUrl(repo: string): string {

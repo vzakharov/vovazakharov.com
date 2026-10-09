@@ -33,7 +33,7 @@ const SONG_LANGUAGES = [
   'instrumental',
 ] as const;
 
-export type SongLanguage = (typeof SONG_LANGUAGES)[number];
+type SongLanguage = (typeof SONG_LANGUAGES)[number];
 
 export type SungLanguage = Exclude<SongLanguage, 'instrumental'>;
 

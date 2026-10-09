@@ -20,8 +20,8 @@ export type SongFactsProps = WithLocale & {
 /**
  * The line under the title: what a listener would want to know about the
  * recording before playing it, in the order they would ask, each artist and
- * the album linked to its page. Empty entries drop out, so a song with no
- * album shows none.
+ * the album linked to its page. Empty entries drop out, so a single names no
+ * album.
  */
 export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
   const { date, language, album, project, seconds } = document.frontmatter;
