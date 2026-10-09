@@ -31,6 +31,16 @@ LEADING = "«(\"'"
 _EPSILON = 1e-6
 
 
+def _alternative(response: Response) -> dict[str, Any]:
+    """The one hearing a request for a single channel and alternative gets."""
+    return response["results"]["channels"][0]["alternatives"][0]
+
+
+def _written(word: dict[str, Any]) -> str:
+    """The word as the transcript prints it, punctuation included where formatted."""
+    return word.get("punctuated_word", word["word"])
+
+
 def paragraphs(response: Response) -> list[list[Line]]:
     """The response's sentences, grouped as Deepgram paragraphed them, each
     carrying the words said within it.
@@ -40,7 +50,7 @@ def paragraphs(response: Response) -> list[list[Line]]:
     response with no paragraphs is one sentence of its whole transcript, and
     one with no speech is an empty list.
     """
-    alt = response["results"]["channels"][0]["alternatives"][0]
+    alt = _alternative(response)
     words = alt.get("words") or []
     found = [
         [dict(s, words=[]) for s in p["sentences"]]
@@ -82,7 +92,7 @@ def marked(line: Line, floor: float) -> str:
         return line["text"]
     out = []
     for word in words:
-        text = word.get("punctuated_word", word["word"])
+        text = _written(word)
         out.append(mark(text) if word["confidence"] < floor else text)
     return " ".join(out)
 
@@ -91,8 +101,8 @@ def doubts(response: Response, floor: float) -> tuple[int, int]:
     """How many words carry a confidence, and how many of those fall under
     `floor` — printed whether or not any do, since the share is what makes two
     recordings comparable."""
-    alt = response["results"]["channels"][0]["alternatives"][0]
-    scored = [w for w in alt.get("words") or [] if w.get("confidence") is not None]
+    words = _alternative(response).get("words") or []
+    scored = [w for w in words if w.get("confidence") is not None]
     return len(scored), sum(1 for w in scored if w["confidence"] < floor)
 
 
@@ -105,7 +115,7 @@ def _heard(response: Response) -> list[dict[str, Any]]:
             for word in line["words"]:
                 out.append(
                     {
-                        "text": word.get("punctuated_word", word["word"]),
+                        "text": _written(word),
                         "key": word["word"]
                         .lower()
                         .replace("ё", "е")

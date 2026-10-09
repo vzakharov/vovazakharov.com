@@ -196,16 +196,7 @@ function select(state: PlayerState, track: number): PlayerState {
 
   // A song from outside an album's queue: the album's turn is over. Shuffle
   // comes back on, if it was, through the stored switch the player obeys.
-  const queue = naturalOrder(trackCount);
-
-  return {
-    trackCount,
-    queue,
-    order: queue,
-    cursor: track,
-    shuffled: false,
-    playing: true,
-  };
+  return { ...initialPlayerState(trackCount), cursor: track, playing: true };
 }
 
 function append(state: PlayerState): PlayerState {
@@ -276,12 +267,11 @@ function shuffleAll(state: PlayerState, seed: number): PlayerState {
 
   if (trackCount === 0) return state;
 
-  const queue = naturalOrder(trackCount);
+  const catalogue = initialPlayerState(trackCount);
 
   return {
-    trackCount,
-    queue,
-    order: shuffleOrder(queue, undefined, seed),
+    ...catalogue,
+    order: shuffleOrder(catalogue.queue, undefined, seed),
     cursor: 0,
     shuffled: true,
     playing: true,

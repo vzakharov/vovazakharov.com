@@ -59,10 +59,15 @@ export type StanzaRepeats = {
   fixed: string;
 };
 
+/** The block's closing `xN`, matched, where it has one under at least one line. */
+function closingRepeat(lines: readonly string[]): RegExpExecArray | null {
+  return lines.length > 1 ? REPEAT.exec(lines.at(-1)?.trim() ?? '') : null;
+}
+
 function readStanza(block: string): Pick<Stanza, 'text' | 'times'> | undefined {
   const lines = block.split('\n').map((line) => line.trim());
   if (lines.every((line) => NOTE_DEFINITION.test(line))) return undefined;
-  const times = lines.length > 1 ? REPEAT.exec(lines.at(-1) ?? '') : null;
+  const times = closingRepeat(lines);
   return times
     ? { text: lines.slice(0, -1).join('\n'), times: Number(times[1]) }
     : { text: lines.join('\n'), times: 1 };
@@ -101,8 +106,7 @@ function repeatsBefore({ stanzas }: Section, index: number): boolean {
 
 function closeWith(block: string, times: number): string {
   const lines = block.split('\n');
-  const last = lines.at(-1)?.trim() ?? '';
-  const closed = lines.length > 1 && REPEAT.test(last);
+  const closed = closingRepeat(lines) !== null;
   return [...(closed ? lines.slice(0, -1) : lines), `x${String(times)}`].join(
     '\n',
   );
