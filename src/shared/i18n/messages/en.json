@@ -308,6 +308,7 @@
       "label": "Player",
       "previous": "Previous track",
       "play": "Play",
+      "listen": "Listen",
       "pause": "Pause",
       "next": "Next track",
       "shuffle": "Shuffle",

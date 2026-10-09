@@ -12,19 +12,30 @@ import { usePlayer } from './player-provider';
 
 export type TrackButtonProps = Titled & { track: PlayerTrack };
 
-/** The play control on a track row, showing whether this is the one playing. */
-export function TrackButton({ track, title }: TrackButtonProps) {
+/** Whether this track is the one playing, and the toggle that plays or pauses it. */
+export function useTrackPlayback(track: PlayerTrack) {
   const { state, current, play, labels } = usePlayer();
   const playing = current?.slug === track.slug && state.playing;
+
+  return {
+    playing,
+    labels,
+    toggle: () => {
+      play(track);
+    },
+  };
+}
+
+/** The play control on a track row, showing whether this is the one playing. */
+export function TrackButton({ track, title }: TrackButtonProps) {
+  const { playing, labels, toggle } = useTrackPlayback(track);
 
   return (
     <ActionIcon
       variant="default"
       size="lg"
       radius="xl"
-      onClick={() => {
-        play(track);
-      }}
+      onClick={toggle}
       className={cx(playing && classes['controlOn'])}
       aria-label={`${playing ? labels.pause : labels.play} ${title}`}
     >

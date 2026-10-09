@@ -39,8 +39,8 @@ import classes from './music.module.scss';
 import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
 import { SongFacts } from './song-facts';
+import { SongPlayButton } from './song-play-button';
 import { TitleGlossLine } from './title-gloss-line';
-import { TrackButton } from './track-button';
 
 function resolve(slug: string): SongDocument {
   const document = loadDocument(SONGS, slug);
@@ -110,20 +110,19 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                 </div>
               )}
 
-              <Stack gap={8}>
-                <Group gap={16} wrap="nowrap" align="center">
-                  {/* The same track a song list's row plays, so both drive
-                      one queue — which a hidden song joins only once played
-                      here. */}
-                  <TrackButton track={songTrack(document)} {...{ title }} />
-                  <Title order={1}>
-                    {title}
-                    {explicit && <ExplicitBadge label={messages.explicit} />}
-                  </Title>
-                </Group>
+              <Stack gap={8} align="flex-start">
+                <Title order={1}>
+                  {title}
+                  {explicit && <ExplicitBadge label={messages.explicit} />}
+                </Title>
                 <TitleGlossLine
                   gloss={titleGloss(localized.frontmatter, locale)}
                 />
+                {/* The same track a song list's row plays, so both drive one
+                    queue — which a hidden song joins only once played here. */}
+                <Box mt={12}>
+                  <SongPlayButton track={songTrack(document)} />
+                </Box>
               </Stack>
             </div>
 
