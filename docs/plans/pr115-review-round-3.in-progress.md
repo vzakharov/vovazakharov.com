@@ -27,7 +27,6 @@ The export is `docs/pr/115/pr.md`, committed at the `docs: #115 refresh the PR e
 
 ## Left — in this order
 
-5b (done, as asked). **A page per album placement** (Vova: «по нажатию "Валентинова дня" эта песня открывается в "Папе-реке", а не в "Гамлете" … в md наверное как есть, а вот собираться уже должно в две отдельные страницы, для основной слаг тот же, для неосновной с добавлением `-<album>`»): a song with `alsoOn` gets a page at `<slug>-<album>` for each such release, showing that album's cover and naming it first; an album's track list links each row to the page of its own placement. The `.md` link stays the one file.
 6. **Slugs**, on Vova's answers to `slugs.md` (Vova: «берём английское название или перевод, но если слишком длинно, то сокращаем»): rename each `apps/vova/public/music/<slug>.md` with `git mv` (history follows), and every reference to the slug — `SONG_COVERS` in `pictures.ts` and the cover files, `albums.ts`-adjacent track data, the `songs` reserved slug, notes linking songs, the PR body's QA rows. Then delete `slugs.md`.
 7. `/polish`, then `/pr` (refresh the body: song pictures, artist pictures, the vet, the namespace).
 
