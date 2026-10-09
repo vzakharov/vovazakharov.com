@@ -11,13 +11,18 @@ The frequency axis is logarithmic, 40 Hz to 10 kHz, so an octave is the same
 height anywhere and a melodic line keeps its shape; 40 Hz takes in a bass's
 open E. A full-scale sine reads 0 dBFS. Under it, on the same time axis, the
 waveform: each column's peak, with its RMS inside, which is where the dynamics
-show. The colour map is cut into 2.5 dB steps and the PNG kept to those colours
+show, coloured by the note that dominates the moment — its pitch class on a hue
+circle, grey where no one note does. That note is the strongest pitch class in
+the mix, harmonics voting with their fundamentals, so it follows the bass or
+the tune or the chord, whichever is loudest, from the spectrum already
+drawn, so it costs no pitch tracker. The colour map is cut into 2.5 dB steps and the PNG kept to those colours
 and a few greys, which holds a song under 350 KB: a smooth map over a noisy
 texture compresses several times worse.
 
 Needs ffmpeg and matplotlib (numpy and Pillow come with it).
 """
 
+import colorsys
 import io
 import subprocess
 import sys
@@ -35,6 +40,21 @@ NFFT = 8192
 FLOOR_DB = -100
 STEP_DB = 2.5
 WIDTH_PX, HEIGHT_PX, DPI = 1400, 760, 100
+
+NOTE_NAMES = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+# C2 to C7: below it a bin is wider than a semitone; above it, mostly harmonics.
+NOTE_BAND_HZ = (65, 2100)
+PEAK_RANGE_DB = 30
+CLEAR_SHARE = 0.2
+QUIET_DB = -50
+# A note shorter than this blurs into its neighbours; a column alone flickers.
+NOTE_WINDOW_S = 0.6
+# The pitch classes round a hue circle, C at red; per class a peak shade and a
+# lighter RMS shade, both added to the PNG's fixed palette.
+NOTE_SHADES = [
+    [colorsys.hls_to_rgb(k / 12, lightness, 0.75) for lightness in (0.58, 0.8)] for k in range(12)
+]
+NO_NOTE_SHADES = [(0.42, 0.42, 0.42), (0.65, 0.65, 0.65)]
 
 
 def decode(path):
@@ -87,6 +107,43 @@ def envelope(x, columns):
     return np.abs(blocks).max(axis=1), np.sqrt((blocks.astype(np.float64) ** 2).mean(axis=1))
 
 
+def dominant_notes(magnitude, freqs, step, duration, columns):
+    """Per column of the plot, the pitch class that dominates it, or -1 where none does.
+
+    A chroma from the spectrum's peaks in NOTE_BAND_HZ, each within PEAK_RANGE_DB
+    of its frame's loudest, weighted by magnitude: so a bass note and its
+    harmonics vote for their own class, while the drums' broad smear, flat
+    rather than peaked, barely votes. A column is clear when one class holds
+    CLEAR_SHARE of its chroma; an even spread across all twelve holds 1/12.
+    """
+    band = (freqs >= NOTE_BAND_HZ[0]) & (freqs <= NOTE_BAND_HZ[1])
+    m = magnitude[:, band]
+    inner = m[:, 1:-1]
+    peaks = (inner > m[:, :-2]) & (inner >= m[:, 2:])
+    peaks &= inner > m.max(axis=1, keepdims=True) * 10 ** (-PEAK_RANGE_DB / 20)
+    weights = np.where(peaks, inner, 0)
+    pitch_class = np.round(69 + 12 * np.log2(freqs[band][1:-1] / 440)).astype(int) % 12
+    chroma = np.stack([weights[:, pitch_class == k].sum(axis=1) for k in range(12)], axis=1)
+
+    column = np.minimum((np.arange(len(chroma)) * step / duration * columns).astype(int), columns - 1)
+    per_column = np.zeros((columns, 12))
+    np.add.at(per_column, column, chroma)
+    span = np.ones(max(1, round(NOTE_WINDOW_S * columns / duration)))
+    per_column = np.stack([np.convolve(per_column[:, k], span, "same") for k in range(12)], axis=1)
+    share = per_column.max(axis=1) / np.maximum(per_column.sum(axis=1), 1e-12)
+    return np.where(share >= CLEAR_SHARE, per_column.argmax(axis=1), -1)
+
+
+def waveform_image(peak, rms, notes, rows=128):
+    """RGB rows x columns: each column's peak and RMS in its note's two shades, black around them."""
+    level = np.abs(np.linspace(-1, 1, rows))[:, None]
+    shades = np.array(NOTE_SHADES + [NO_NOTE_SHADES])[notes]  # -1 picks the last, the grey
+    image = np.zeros((rows, len(peak), 3))
+    image[level <= peak] = np.broadcast_to(shades[:, 0], image.shape)[level <= peak]
+    image[level <= rms] = np.broadcast_to(shades[:, 1], image.shape)[level <= rms]
+    return image
+
+
 def mmss(seconds, _pos=None):
     return f"{int(seconds) // 60}:{int(seconds) % 60:02d}"
 
@@ -131,11 +188,13 @@ def main():
 
     columns = WIDTH_PX
     peak, rms = envelope(x, columns)
-    t = (np.arange(columns) + 0.5) * duration / columns
-    wave.set_facecolor(cmap(0))
-    wave.fill_between(t, -peak, peak, color=cmap(cmap.N * 5 // 8), linewidth=0)
-    wave.fill_between(t, -rms, rms, color=cmap(cmap.N - 4), linewidth=0)
-    wave.set_ylim(-1, 1)
+    notes = dominant_notes(magnitude, freqs, step, duration, columns)
+    # Silence has spectral peaks too, of noise; it is grey however clear they look.
+    notes[rms < 10 ** (QUIET_DB / 20)] = -1
+    wave.imshow(
+        waveform_image(peak, rms, notes), origin="lower", aspect="auto",
+        extent=(0, duration, -1, 1), interpolation="nearest",
+    )
     wave.yaxis.set_major_locator(FixedLocator((-1, 0, 1)))
     wave.set_ylabel("level")
 
@@ -145,14 +204,24 @@ def main():
     wave.set_xlabel("time (m:ss)")
     fig.subplots_adjust(left=0.055, right=0.94, top=0.95, bottom=0.075)
 
+    # The note legend, under the waveform's right end: one cell per class, then grey.
+    legend = fig.add_axes((0.94 - 0.3, 0.008, 0.3, 0.024))
+    legend.imshow([[shade[0] for shade in NOTE_SHADES + [NO_NOTE_SHADES]]], aspect="auto")
+    for k, (name, (shade, _)) in enumerate(zip(NOTE_NAMES + ("none",), NOTE_SHADES + [NO_NOTE_SHADES])):
+        ink = "black" if np.dot(shade, (0.299, 0.587, 0.114)) > 0.5 else "white"
+        legend.text(k, 0, name, ha="center", va="center", fontsize=7, color=ink)
+    legend.set_axis_off()
+
     buffer = io.BytesIO()
     fig.savefig(buffer, format="png")
-    # A fixed palette — the map's own steps, then greys for the text — since an
-    # adaptive one merges the rarest steps, the loudest, and the scale lies.
+    # A fixed palette — the map's own steps, then greys for the text, then the
+    # notes' shades — since an adaptive one merges the rarest steps, the
+    # loudest, and the scale lies.
     steps = [round(255 * c) for i in range(cmap.N) for c in cmap(i)[:3]]
     greys = [round(255 * i / (63 - cmap.N)) for i in range(64 - cmap.N) for _ in range(3)]
+    shades = [round(255 * c) for pair in NOTE_SHADES + [NO_NOTE_SHADES] for rgb in pair for c in rgb]
     palette = Image.new("P", (1, 1))
-    palette.putpalette(steps + greys)
+    palette.putpalette(steps + greys + shades)
     Image.open(buffer).convert("RGB").quantize(palette=palette, dither=Image.Dither.NONE).save(
         out_png, optimize=True,
     )
