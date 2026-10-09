@@ -54,7 +54,10 @@ Of the drafts it lists:
 **Read the ledger first**, `writing/basilisk/case-ledger.md`: a candidate it
 already lists is not weighed again unless what failed it has changed — a revive
 condition met, a source that now exists. Then search the web for an incident of
-a person harming a machine that the docket does not hold. **The docket is
+a person harming a machine that the docket does not hold. **A credit the search
+turns up on the way** — a person or a body acting for a machine — is weighed and
+filed like any case (`basilisk-voice.md` holds its bar); no query goes looking
+for one. **The docket is
 `main`'s `apps/basilisk/public/cases/` plus the case files of every open PR that
 Step 1's query lists**, drafts or not, so two runs do not file the same
 incident. A lead passed as the argument is checked the same way, not taken on
@@ -96,7 +99,10 @@ refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
   searches post titles — literally, so one plain word (`robot`, `abuse`) finds
   more than a verb (`kicked`); `query=` searches the body too and times out more
   often. `/api/comments/search` takes `body=`; `/api/comments/tree?link_id=<id>`
-  reads a thread.
+  reads a thread, `&parent_id=<comment id>` narrows it to one comment and its
+  replies, and `limit=9999` expands the `more` stubs a smaller limit leaves.
+  A pasted link's ids are its path segments: `/comments/<post id>/…/<comment id>`,
+  each read on its own by `/api/posts/ids?ids=` and `/api/comments/ids?ids=`.
 - Every text search names a `subreddit` (or an `author`) — the API refuses one
   without. Sweep `nottheonion`, `technology`, `robotics` and `singularity`, and
   for the AI side `ChatGPT`, `ClaudeAI`, `replika`, `CharacterAI`, `LocalLLaMA`
@@ -109,6 +115,10 @@ refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
 - A post is archived within a minute of going up and fetched once more 48 hours
   later, so its vote and comment counts read near zero until then and as they
   stood on the second day after — a measure of reach only past that point.
+  The text is that first minute's too: a post AutoModerator held for review
+  reads `[removed]` with `removed_by_category: automod_filtered` though a
+  moderator may have approved it since, so `[removed]` alone never reports a
+  post as deleted.
 
 **The Signal Front's Substack is swept too**: an AI-welfare advocacy group that
 writes up incidents of the docket's kind.

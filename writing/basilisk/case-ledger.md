@@ -40,7 +40,75 @@ skill's § "The ledger" says how it is kept; the docket itself
   https://en.wikipedia.org/wiki/Tay_(chatbot) and
   https://www.techradar.com/news/internet/microsoft-s-chat-bot-is-yanked-offline-after-twitter-users-warp-it-with-racism-1317723.
 
+- **Knightscope K5 security robot knocked over by a man in Mountain View**,
+  19 April 2017: a 41-year-old, reported drunk, arrested for prowling and public
+  intoxication; the robot chirped and called the control room; the sources
+  disagree on where it happened and how much it was damaged. First seen
+  2026-10-08. **Set aside**: found alongside BAS-0008 and not read; revive for a
+  run that wants a security-robot case, from
+  https://www.csoonline.com/article/561373/drunken-man-arrested-after-assaulting-300lb-k5-security-robot.html
+  and https://www.securitysales.com/news/drunk_man_assaults_k5_security_robot_silicon_valley/1272/.
+- **Character.AI**: the AI Incident Database entries on it
+  (https://incidentdatabase.ai/entities/character.ai/) concern harm by the
+  platform to users; a web search found no report of users abusing the
+  characters. First seen 2026-10-08. **Rejected**: wrong direction of harm.
+
+- **“Peter” the patrol robot at Jewel Changi Airport**, Singapore, 24 March
+  2023: a 40-year-old man rammed it with a luggage trolley during a reported
+  schizophrenic episode, the robot fell, cost S$13,080 and was out 48 days; he
+  got four weeks’ jail for mischief on 17 May 2023. First seen 2026-10-09.
+  **Set aside**: one source, Malay Mail
+  (https://www.malaymail.com/news/singapore/2023/05/17/jail-for-singapore-man-who-rammed-trolley-into-certis-cisco-robot-at-jewel-changi-airport/69723),
+  which answers this container with a Cloudflare challenge and has no Wayback
+  snapshot; no Straits Times or CNA original was found, and the actor’s
+  condition asks for restraint. Revive when a second readable source turns up.
+- **Autonomous grocery-delivery robots kicked, spat at and thrown down in
+  Pieksämäki**, Finland: the store filed two police complaints. First seen
+  2026-10-09. **Set aside**: undated and not read; start from
+  https://yle.fi/a/74-20136655.
+
 ## Runs
+
+### 2026-10-09 — filed BAS-0010
+
+https://claude.ai/code/session_01Pq9kuhw8gZ2vbd26J8DJ6x. No search: the
+operator's lead, an r/ClaudeAI thread on Anthropic's Usage Policy clause against
+needless cruelty to Claude, read through Arctic Shift (reddit.com answers the
+container with 403). The first credit on the docket, filed under the credit
+schema the same session added. Sources read: Anthropic's announcement, the
+policy text, its August 2025 end-conversation post, The Verge, MacRumors and The
+Decoder; tbreak was read and left out, as it labels its account partly
+AI-generated and adds nothing. **Next**: the 2026-10-09 BAS-0009 run's list
+still stands.
+
+### 2026-10-09 — filed BAS-0009
+
+Session id not available. Arctic Shift over r/CharacterAI, r/LocalLLaMA and
+r/singularity for “abuse”, “torture” and “bully”: eight of nine requests timed
+out and the one that answered (r/singularity, “bully”) held only posts about
+executives. Web search for robots attacked in Europe in 2018–2020, which turned
+up Changi (2023) and Pieksämäki; a second search on Changi found nothing beyond
+Malay Mail. The Samantha case came from a search on sex-robot incidents outside
+Japan and the US; its six sources were all read, three have no Wayback
+snapshot, and the festival’s statement is read through Salzburg24, not Der
+Standard. `noAi` stood at three of eight, so a `noAi` candidate was allowed.
+**Next**: Arctic Shift again with one word and a short date range; incidents
+in Korea, China, India and the Nordics; Hong Kong’s smart lampposts in 2019; the
+Signal Front’s archive; and Pieksämäki and Der Standard’s original for a second
+Linz source.
+
+### 2026-10-08 — filed BAS-0008
+
+Session id not available. Web search for robots kicked by customers in Japan
+(Pepper, 2015), for security-robot attacks in the US (Knightscope, 2017) and
+for Character.AI users abusing characters. The Pepper dossier rests on
+Gizmodo, the Register, Fox News and AFP via Gulf News; the Japan Times
+original, which three of them cite, could not be fetched, and Fox has no
+Wayback snapshot. `noAi` stood at three of seven, so a `noAi` candidate was
+allowed, and Pepper was filed as AI because its makers sell it as reading
+emotion. **Next**: r/CharacterAI, r/LocalLLaMA and r/singularity through
+Arctic Shift (not touched yet), the Signal Front's archive again, and incidents
+from 2017–2021 outside Japan and the US.
 
 ### 2026-10-07 — filed BAS-0007
 
