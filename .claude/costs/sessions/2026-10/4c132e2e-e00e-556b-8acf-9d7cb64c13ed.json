@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-09T18:40:52.793Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a pipeline change across rehype plugins, a client component boundary and the print path, with visual and PDF checks a junior would not know to run"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "printed PDFs and both themes need looking at, not just a green build"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "4c132e2e-e00e-556b-8acf-9d7cb64c13ed",
+  "branch": "claude/content-links-site-root",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task",
+  "prs": [
+    129
+  ],
+  "url": "https://claude.ai/code/session_01MroQ2txxiAST1qxK9YhSCe",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-09T18:38:44.759Z",
+  "lastResponseAt": "2026-10-09T18:41:42.480Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 40,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 92259,
+    "cacheReadTokens": 2350825,
+    "outputTokens": 14389,
+    "thinkingTokens": 5319,
+    "responses": 20,
+    "costUsd": 1.4961769999999996
+  },
+  "ownTurns": {
+    "inputTokens": 40,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 92259,
+    "cacheReadTokens": 2350825,
+    "outputTokens": 14389,
+    "thinkingTokens": 5319,
+    "responses": 20,
+    "costUsd": 1.4961769999999996
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 92259,
+      "cacheReadTokens": 2350825,
+      "outputTokens": 14389,
+      "thinkingTokens": 5319,
+      "responses": 20,
+      "costUsd": 1.4961769999999996
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/content-links-site-root.draft.do-not-implement.md",
+    "endedAt": "2026-10-09T18:40:46.581Z",
+    "contextTokens": 127404,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 72454,
+      "cacheReadTokens": 1134564,
+      "outputTokens": 6796,
+      "thinkingTokens": 5118,
+      "responses": 11,
+      "costUsd": 0.9425528
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
