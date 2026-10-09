@@ -7,6 +7,7 @@ project: ['за/обложкой']
 album: wings
 track: 3
 audio: /music/assets/hello.mp3
+video: /music/assets/hello.mp4
 seconds: 146
 explicit: false
 en:
@@ -26,16 +27,12 @@ post-chorus. A couple of times, once Suno had become much more advanced, I tried
 to continue it, to remix it, but nothing close to it in spirit ever came out.
 That’s probably how it should be.
 
-[The video for “Hello” from the Telegram post](./assets/hello.mp4)
-
 <!-- lang:ru -->
 
 Очень горд был этой песней, и дуэтом — особенно где они начинают в двухголосье
 петь в припеве, — и мощным инструментальным пост-корусом. Пару раз, когда Суно
 уже стало намного более продвинутым, пытался продолжить-ремикснуть, но так ничего
 близкого по духу и не вышло. Наверное, так и надо.
-
-[Видео к «Здравствуй» из поста в телеграме](./assets/hello.mp4)
 
 <!-- lyrics:ru -->
 

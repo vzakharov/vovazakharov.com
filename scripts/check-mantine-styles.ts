@@ -57,6 +57,20 @@ const importLine = (sheet: string) =>
  */
 const CORE_SHEETS = new Set(['baseline', 'default-css-variables', 'global']);
 
+/**
+ * Sheets of components that render only after an interaction, so no static
+ * page carries their classes and the unused half below would report them —
+ * the song page's video dialog (`pages/music/ui/song-video-button.tsx`) and
+ * the overlay and close button it composes. Whether they are styled is
+ * confirmed by eye, with the dialog open; drop an entry with its last user.
+ */
+const INTERACTION_SHEETS = new Set([
+  'Modal',
+  'ModalBase',
+  'Overlay',
+  'CloseButton',
+]);
+
 function walk(dir: string, extension: string): string[] {
   if (!fs.existsSync(dir)) return [];
 
@@ -259,7 +273,12 @@ const alphabetical = (a: string, b: string) => a.localeCompare(b);
 // counts as used by whoever pulls it.
 const renderedSheets = sheetsFor(rendered);
 const unused = [...sheetsFor(styled)]
-  .filter((sheet) => !CORE_SHEETS.has(sheet) && !renderedSheets.has(sheet))
+  .filter(
+    (sheet) =>
+      !CORE_SHEETS.has(sheet) &&
+      !INTERACTION_SHEETS.has(sheet) &&
+      !renderedSheets.has(sheet),
+  )
   .toSorted(alphabetical);
 
 /**

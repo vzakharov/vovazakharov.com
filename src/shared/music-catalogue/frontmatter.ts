@@ -102,14 +102,17 @@ const placementSchema = z.object({ album: albumSchema, track: trackSchema });
 
 export type AlbumPlacement = z.infer<typeof placementSchema>;
 
+/** A URL, or a site-root path for a file the site hosts itself. */
+const mediaSourceSchema = z.union([z.url(), z.string().regex(/^\/(?!\/)/)]);
+
 /** What the player needs of a song, and all it needs. */
 const playableSchema = z.object({
   /**
-   * The master, played as-is: a URL, or a site-root path for one the site
-   * hosts itself because no repository holds it. One field, not a lossless/lossy
-   * pair: a song has one master, so a second would be the same file twice.
+   * The master, played as-is — site-hosted where no repository holds it. One
+   * field, not a lossless/lossy pair: a song has one master, so a second would
+   * be the same file twice.
    */
-  audio: z.union([z.url(), z.string().regex(/^\/(?!\/)/)]),
+  audio: mediaSourceSchema,
   /**
    * The master's duration, read off its own FLAC header by the scaffolder. A
    * cache, and safe to be one because a master never changes — it is what lets
@@ -168,6 +171,11 @@ const songFieldsSchema = baseFrontmatterSchema
      */
     titleTransliterated: z.boolean().default(false),
     credits: creditsSchema.optional(),
+    /**
+     * The song's video, which the page opens from beside its play control and
+     * which pauses the site's player when it starts.
+     */
+    video: mediaSourceSchema.optional(),
     /** Track id, where the song is also on Spotify. */
     spotify: z.string().min(1).optional(),
   });

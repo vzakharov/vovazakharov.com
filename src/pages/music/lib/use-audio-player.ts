@@ -273,12 +273,16 @@ export function useAudioPlayer(
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       const target = event.target;
-      const typing =
+      // A key pressed inside a modal dialog is the dialog's — a song's video
+      // takes the space bar for its own play/pause, and the song must stay
+      // silent under it.
+      const elsewhere =
         target instanceof HTMLElement &&
         (target.isContentEditable ||
-          ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
+          ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) ||
+          target.closest('[aria-modal="true"]') !== null);
 
-      if (typing || event.metaKey || event.ctrlKey || event.altKey) return;
+      if (elsewhere || event.metaKey || event.ctrlKey || event.altKey) return;
 
       const handled: Record<string, () => void> = {
         ' ': controls.toggle,

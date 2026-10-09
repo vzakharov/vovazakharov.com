@@ -7,6 +7,7 @@ project: ['за/обложкой']
 album: punctuation-marks
 track: 1
 audio: /music/assets/listen-single.mp3
+video: /music/assets/listen-single.mp4
 seconds: 55
 explicit: false
 credits:
@@ -28,16 +29,12 @@ to share my delight on r/pikabu — where, as usual, they crapped all over it.
 
 By the way, there’s a [video](https://t.me/vovazvuchit/7) for this one too!
 
-[The video for “Listen!” from the Telegram post](./assets/listen-single.mp4)
-
 <!-- lang:ru -->
 
 Одна из первых генераций, был в шоке от того, как классно вышло, пошёл
 поделиться восхищением на r/pikabu — как водится, засрали.
 
 Кстати, тут же есть [видео](https://t.me/vovazvuchit/7)!
-
-[Видео к «Послушайте» из поста в телеграме](./assets/listen-single.mp4)
 
 <!-- lyrics:ru -->
 

@@ -7,6 +7,7 @@ project: ['за/обложкой']
 album: wings
 track: 4
 audio: /music/assets/after-us.mp3
+video: /music/assets/after-us.mp4
 seconds: 79
 explicit: false
 en:
@@ -26,16 +27,12 @@ we are leaving to our children. “After us” doesn’t mean after us, the
 forty-year-olds, but after those whose adult life is only just beginning, like
 Maya’s and Kirill’s.
 
-[The video for “After Us” from the Telegram post](./assets/after-us.mp4)
-
 <!-- lang:ru -->
 
 Песня навеяна всеми событиями последних лет, которые тогда ощущались особенно
 живо. Подумалось, какой мир мы оставляем своим детям. «После нас» — это не после
 нас, 40-летних, а после тех, чья взрослая жизнь только начинается, как у Майи и
 Кирилла.
-
-[Видео к «После нас» из поста в телеграме](./assets/after-us.mp4)
 
 <!-- lyrics:ru -->
 

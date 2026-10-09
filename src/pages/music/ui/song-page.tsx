@@ -31,6 +31,7 @@ import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
 import { SongName } from './song-name';
 import { SongPlayButton } from './song-play-button';
+import { SongVideoButton } from './song-video-button';
 import { TitleGlossLine } from './title-gloss-line';
 
 function resolve(slug: string): SongPageEntry {
@@ -87,6 +88,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
     explicit,
     cribNote,
     audio,
+    video,
   } = localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
@@ -119,9 +121,21 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                 />
                 {/* The same track a song list's row plays, so both drive one
                     queue — which a hidden song joins only once played here. */}
-                <Box mt={12}>
+                <Group mt={12} gap={8}>
                   <SongPlayButton track={songTrack(document, album)} />
-                </Box>
+                  {video !== undefined && (
+                    <SongVideoButton
+                      {...{ video }}
+                      heading={
+                        <SongName
+                          {...{ title }}
+                          transliterated={titleTransliterated}
+                        />
+                      }
+                      labels={messages.video}
+                    />
+                  )}
+                </Group>
               </Stack>
             </CoverHead>
 

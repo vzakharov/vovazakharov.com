@@ -293,6 +293,10 @@
     "explicit": "Explicit",
     "source": "source",
     "readMore": "Read more",
+    "video": {
+      "watch": "Watch video",
+      "close": "Close the video"
+    },
     "album": "from {album}",
     "alsoOn": "also on {album}",
     "credits": {
