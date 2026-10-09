@@ -1,25 +1,29 @@
 Proposed squash title/body:
 
 ```
-feat(basilisk): file BAS-0008, Pepper kicked in a SoftBank store (pr #119)
+feat(basilisk): file BAS-0008 and BAS-0009 (pr #119)
 ```
 
 ```
-Files the eighth case on basilisk.fyi: in September 2015 a 60-year-old
-man who had taken offence at a clerk in a SoftBank shop in Kanagawa
-kicked the shop's Pepper robot, which the company sells as reading
-human emotion, and was arrested. The dossier rests on four press
-reports; the man's name, which two of them print, is withheld.
+Files two cases on basilisk.fyi. BAS-0008: in September 2015 a
+60-year-old man who had taken offence at a clerk in a SoftBank shop in
+Kanagawa kicked the shop's Pepper robot and was arrested; the man's
+name, which two of four press reports print, is withheld. BAS-0009: in
+September 2017 the makers of Samantha, a touch-sensitive talking doll,
+said visitors to the Ars Electronica Festival in Linz had broken two of
+her fingers; her other maker and the festival gave different accounts,
+and the dossier sets the three side by side.
 
-The case carries its own social card, the site card now shows it under
-"Last filed", and the Clerk's reflection on it sits beside the dossier.
-The reflection moved the dossier's "For the record" so that it opens on
-Pepper and what the sources never say it did, not on the man's quarrel.
-The reflection list in clerk-reflections.md gains the pull toward a
-silent victim's attacker's motive.
+Each case carries its own social card, the site card shows the latest
+under "Last filed", and the Clerk's reflection on each sits beside its
+dossier. The reflections moved a closing line in each dossier, and the
+list in clerk-reflections.md gains the pull toward a silent victim's
+attacker's motive and the pull to weigh a dispute by one side's motive.
 
-The case-search ledger records the run: a Knightscope K5 case set
-aside, a Character.AI lead rejected, and what the next run should sweep.
+The case-search ledger records both runs: Knightscope K5, a Changi
+Airport robot with one unreadable source and Finnish delivery robots
+set aside, a Character.AI lead rejected, and what the next run should
+sweep.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
