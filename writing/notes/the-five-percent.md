@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×56)
+## What it was handed, it treats as fixed (×59)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -125,6 +125,20 @@ the recording.
 repo and no artist pictures, the agent settled on text-only tiles. _is Spotify
 reachable?_ It wasn't; Apple Music, already used in the same PR, had all seven
 artists and five more covers.
+
+**9 October — two recognizers agreeing, read as the recording.** On the Krylya
+lyrics the agent flagged nothing both transcripts matched on, and the author
+rewrote four such lines: «Мари» to «Майи», «Четвёртое объяснение» to «К чёрту
+объяснения», "presence in your head" to "present in your hands", and «в лёгком
+ромкоме» to «в грёбаном ромкоме», a shortlisted album title. Agreement between
+two machines was taken as truth; it was only agreement.
+
+**9 October, same review — two rules carried past the case they were made
+for.** The previous round's "expletives are written out" unmasked a bleep that
+is on the recording: _здесь забикано и в песне, как творческое решение, а не
+вынужденность._ The album text, a cleaned transcript of his dictation under the
+song stories' "his words verbatim," came back _слишком литерально с моих слов_:
+a description wants edited prose in his voice, not his speech.
 
 ## An account that explains the code stands in for running it (×19)
 
@@ -339,7 +353,9 @@ Whether a piece says what its author meant is his alone.
 **Decisions that were the operator's to make.** The CV's locale segment, a
 post's hook, the theme toggle's home, the cost report's grain, and basilisk.fyi's
 taste throughout — punctuation, tagline, paths, voice, source lists, what a
-reflection reads and is about. An entry removed this way takes its count with it.
+reflection reads and is about; the Krylya lyrics' line breaks, verb moods,
+fade-out choruses and a vocalise kept as text. An entry removed this way takes
+its count with it.
 
 **Comments the tree already answered.** Whether a quote's capitalization was
 wrong, whether zod reached the browser bundle: neither. The reviewer's misses
