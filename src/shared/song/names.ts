@@ -34,6 +34,7 @@ export const MUSIC_ALBUM_SLUGS = [
   'nsfl',
   'stories',
   'papa-reka',
+  'hamlet',
   'papa-more',
   'rus',
   'dng',

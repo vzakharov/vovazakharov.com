@@ -8,6 +8,7 @@ import {
   type MusicProject,
 } from '@/shared/song';
 
+import { albumTracks } from './album-tracks';
 import { albumArtist } from './albums';
 import type { SongDocument } from './song-text';
 
@@ -27,16 +28,12 @@ export function artistSongs(
   );
 }
 
-/** The album's songs in track order. */
+/** The album's songs in track order, those filed under another release included. */
 export function albumSongs(
   album: MusicAlbum,
   songs: readonly SongDocument[],
 ): SongDocument[] {
-  return songs
-    .filter(({ frontmatter }) => frontmatter.album === album)
-    .toSorted(
-      (a, b) => (a.frontmatter.track ?? 0) - (b.frontmatter.track ?? 0),
-    );
+  return albumTracks(album, songs).map(({ song }) => song);
 }
 
 /** The years the album's songs in this catalogue span — `2019`, or `2019–2021`. */

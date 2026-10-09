@@ -308,6 +308,7 @@
     "explicit": "Ненормативная лексика",
     "source": "исходник",
     "album": "С альбома {album}",
+    "alsoOn": "также на альбоме {album}",
     "credits": {
       "lyrics": "Слова",
       "music": "Музыка",

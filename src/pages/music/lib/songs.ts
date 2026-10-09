@@ -1,6 +1,7 @@
 import { isListed, listPrimaryDocuments, SONGS } from '@/shared/content';
 import { byLocale, isLocale } from '@/shared/i18n';
 
+import { songPlacements } from './album-tracks';
 import {
   ALBUMS_SEGMENT,
   artistPath,
@@ -45,18 +46,16 @@ export function listSongDocuments(): SongDocument[] {
   const claimed = new Map<string, string>();
 
   for (const { fileName, frontmatter } of documents) {
-    const { album, track } = frontmatter;
+    for (const { album, track } of songPlacements(frontmatter)) {
+      const position = `${album} #${String(track)}`;
+      const holder = claimed.get(position);
 
-    if (album === null) continue;
+      if (holder !== undefined) {
+        throw new Error(`${fileName} and ${holder} are both ${position}.`);
+      }
 
-    const position = `${album} #${String(track)}`;
-    const holder = claimed.get(position);
-
-    if (holder !== undefined) {
-      throw new Error(`${fileName} and ${holder} are both ${position}.`);
+      claimed.set(position, fileName);
     }
-
-    claimed.set(position, fileName);
   }
 
   return documents;

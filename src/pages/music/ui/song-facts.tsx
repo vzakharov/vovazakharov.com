@@ -3,6 +3,7 @@ import { Fragment, type ReactNode } from 'react';
 
 import { documentMonth, formatDocumentMonth } from '@/shared/content';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
+import type { MusicAlbum } from '@/shared/song';
 import { NameLink } from '@/shared/ui';
 
 import { albumTitle } from '../lib/albums';
@@ -20,13 +21,31 @@ export type SongFactsProps = WithLocale & {
 /**
  * The line under the title: what a listener would want to know about the
  * recording before playing it, in the order they would ask, each artist and
- * the album linked to its page. Empty entries drop out, so a single names no
- * album.
+ * album linked to its page — the release the song is filed under, then any
+ * other it is also on. Empty entries drop out, so a single names no album.
  */
 export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
-  const { date, language, album, project, seconds } = document.frontmatter;
+  const { date, language, album, alsoOn, project, seconds } =
+    document.frontmatter;
   const messages = loadMessages(locale).music;
-  const [beforeAlbum, afterAlbum] = messages.album.split('{album}');
+
+  /** The message with each album linked in its `{album}` slot, or nothing for none. */
+  const albumsFact = (message: string, albums: readonly MusicAlbum[]) => {
+    const [before, after] = message.split('{album}');
+
+    return (
+      albums.length > 0 && [
+        before,
+        ...albums.flatMap((linked, index) => [
+          index > 0 && ', ',
+          <NameLink key={linked} href={albumPath(linked, catalogue, locale)}>
+            {albumTitle(linked, locale)}
+          </NameLink>,
+        ]),
+        after,
+      ]
+    );
+  };
 
   const facts: Record<string, ReactNode> = {
     date: (
@@ -40,13 +59,11 @@ export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
       </NameLink>
     )),
     language: language.map((sung) => messages.language[sung]).join(', '),
-    album: album && [
-      beforeAlbum,
-      <NameLink key="album" href={albumPath(album, catalogue, locale)}>
-        {albumTitle(album, locale)}
-      </NameLink>,
-      afterAlbum,
-    ],
+    album: albumsFact(messages.album, album === null ? [] : [album]),
+    alsoOn: albumsFact(
+      messages.alsoOn,
+      (alsoOn ?? []).map((placement) => placement.album),
+    ),
     duration: formatDuration(seconds),
   };
 

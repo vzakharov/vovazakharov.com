@@ -83,6 +83,20 @@ const creditsSchema = z.object({
   music: z.array(creditedNameSchema).min(1).optional(),
 });
 
+const albumSchema = z.enum(MUSIC_ALBUM_SLUGS);
+
+/**
+ * A song's number on a release — required there and refused on a single, so
+ * an album lists in the order it was released in. Numbers may skip: a release
+ * can carry a song the catalogue has no master for.
+ */
+const trackSchema = z.number().int().positive();
+
+/** Where on a release a song sits. */
+const placementSchema = z.object({ album: albumSchema, track: trackSchema });
+
+export type AlbumPlacement = z.infer<typeof placementSchema>;
+
 /** What the player needs of a song, and all it needs. */
 const playableSchema = z.object({
   /**
@@ -132,13 +146,14 @@ const songFieldsSchema = baseFrontmatterSchema
      * The release it came out on; `null` for a single. Required, so a song whose
      * release nobody has decided yet cannot pass for a single by omission.
      */
-    album: z.enum(MUSIC_ALBUM_SLUGS).nullable(),
+    album: albumSchema.nullable(),
+    track: trackSchema.optional(),
     /**
-     * Its number on that release — required there and refused on a single, so
-     * an album lists in the order it was released in. Numbers may skip: a
-     * release can carry a song the catalogue has no master for.
+     * The other releases the same master went out on — a maxi-single, a
+     * compilation — each at its own number there. The song's page and its
+     * links stay one; `album` remains the release it is filed under.
      */
-    track: z.number().int().positive().optional(),
+    alsoOn: z.array(placementSchema).min(1).optional(),
     /** What the title is in, where that is not the language sung first. */
     titleLanguage: sungLanguageSchema.optional(),
     credits: creditsSchema.optional(),
@@ -159,6 +174,18 @@ export const songFrontmatterSchema = songFieldsSchema
     message:
       'A song on an album takes a track number, and a single takes none.',
     path: ['track'],
-  });
+  })
+  .refine(
+    ({ album, alsoOn = [] }) => {
+      const albums = [album, ...alsoOn.map((placement) => placement.album)];
+
+      return new Set(albums).size === albums.length;
+    },
+    {
+      message:
+        'A song is on each release once: `alsoOn` names neither its own `album` nor one release twice.',
+      path: ['alsoOn'],
+    },
+  );
 
 export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;

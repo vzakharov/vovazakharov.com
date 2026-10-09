@@ -78,6 +78,11 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
       en: { transliteration: 'Papa-reka', translation: 'Father River' },
     },
   },
+  hamlet: {
+    title: 'Гамлет',
+    artist: 'Полуживые',
+    gloss: { en: { transliteration: 'Gamlet', translation: 'Hamlet' } },
+  },
   'papa-more': {
     title: 'Папа-море',
     artist: 'Полуживые',

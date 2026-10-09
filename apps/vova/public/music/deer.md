@@ -5,7 +5,8 @@ status: done
 language: en
 project: ['Полуживые']
 repo: 'deer'
-album: null
+album: hamlet
+track: 5
 audio: https://raw.githubusercontent.com/vovas-music/deer/main/Why%20Let%20the%20Stricken%20Deer%20Go%20Weep.flac
 seconds: 191
 explicit: false

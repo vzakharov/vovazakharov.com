@@ -4,8 +4,9 @@ import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { BackToHome, NameLink, PageShell } from '@/shared/ui';
 
+import { albumTracks } from '../lib/album-tracks';
 import { albumArtist, albumGloss, albumTitle } from '../lib/albums';
-import { albumSongs, albumYears } from '../lib/catalogue';
+import { albumYears } from '../lib/catalogue';
 import { albumLength } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
@@ -21,7 +22,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
   const songs = catalogueSongs(catalogue);
   const messages = loadMessages(locale).music;
   const artist = albumArtist(album, locale);
-  const tracks = albumSongs(album, songs);
+  const tracks = albumTracks(album, songs);
 
   return (
     <PageShell>
@@ -47,7 +48,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
           </Text>
           <Text size="sm" opacity={0.7}>
             {albumLength(
-              tracks.map(({ frontmatter }) => frontmatter.seconds),
+              tracks.map(({ song }) => song.frontmatter.seconds),
               locale,
               messages.albumLength,
             )}
@@ -56,13 +57,9 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
 
         <SongList
           {...pick(messages, 'title')}
-          tracks={tracks.map((song) => songTrack(song))}
+          tracks={tracks.map(({ song }) => songTrack(song))}
           trackNumbers={
-            new Map(
-              tracks.flatMap(({ slug, frontmatter: { track } }) =>
-                track === undefined ? [] : [[slug, track] as const],
-              ),
-            )
+            new Map(tracks.map(({ song, track }) => [song.slug, track]))
           }
           {...{ locale }}
         />
