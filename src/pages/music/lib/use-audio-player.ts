@@ -12,6 +12,7 @@ import {
   shouldRestart,
   type WithTracks,
 } from './player-state';
+import { useStoredFlag } from './use-stored-flag';
 
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
@@ -64,6 +65,16 @@ export function useAudioPlayer(
     initialPlayerState,
   );
   const [elapsed, setElapsed] = useState(0);
+  const [shuffleStored, storeShuffle] = useStoredFlag('shuffle');
+
+  // The stored switch leads and the queue follows, which is what restores a
+  // remembered shuffle on load — before anything plays, so the cursor has
+  // nothing to keep — as well as obeying the button.
+  useEffect(() => {
+    if (shuffleStored !== state.shuffled) {
+      dispatch({ type: 'shuffle', seed: Date.now() });
+    }
+  }, [shuffleStored, state.shuffled]);
 
   const track = currentTrack(state);
   const current = track === undefined ? undefined : tracks[track];
@@ -103,13 +114,14 @@ export function useAudioPlayer(
 
         dispatch({ type: 'step', by: -1 });
       },
+      shuffle: () => {
+        storeShuffle(!shuffleStored);
+      },
       // The seed is the action's, not the reducer's: a permutation has to be
       // reproducible from the number that produced it for the reducer to stay
       // pure and testable.
-      shuffle: () => {
-        dispatch({ type: 'shuffle', seed: Date.now() });
-      },
       shuffleAll: () => {
+        storeShuffle(true);
         dispatch({ type: 'shuffleAll', seed: Date.now() });
       },
       seek: (seconds) => {
@@ -125,7 +137,7 @@ export function useAudioPlayer(
         }
       },
     }),
-    [track, tracks],
+    [track, tracks, shuffleStored, storeShuffle],
   );
 
   // The element is an audio engine rather than page content — the bar is what

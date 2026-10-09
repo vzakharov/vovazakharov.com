@@ -10,13 +10,14 @@ import {
   SkipForward,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import { NameLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
+import { useStoredFlag } from '../lib/use-stored-flag';
 import { Marquee } from './marquee';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
@@ -24,12 +25,13 @@ import { usePlayer } from './player-provider';
 /**
  * Whether the bar keeps the reader on the playing song's page: switched on, it
  * opens that page, and opens the next one each time the track changes. Leaving
- * the page by hand does not switch it off, so the next track brings them back.
+ * the page by hand does not switch it off, so the next track brings them back;
+ * nor does a reload, the switch being remembered.
  */
 function useFollow(route: string | undefined) {
   const router = useRouter();
   const pathname = usePathname();
-  const [following, setFollowing] = useState(false);
+  const [following, setFollowing] = useStoredFlag('follow');
 
   // An event rather than a dependency: a navigation of the reader's own must
   // not count as a track change and send them straight back.
@@ -64,7 +66,7 @@ export function PlayerBar() {
   } = usePlayer();
   const [following, toggleFollow] = useFollow(current?.routes[locale]);
   // The right-hand readout: the track's length, or what is left of it.
-  const [remaining, setRemaining] = useState(false);
+  const [remaining, setRemaining] = useStoredFlag('remaining');
 
   if (current === undefined) return null;
 
