@@ -51,8 +51,7 @@ describe('check-stanza-repeats', () => {
   });
 
   it('fails with --fix on a repeat it cannot collapse', () => {
-    const source =
-      '<!-- lyrics:ru -->\n\nА\n\nА\n\n<!-- lyrics:en -->\n\nA\n';
+    const source = '<!-- lyrics:ru -->\n\nА\n\nА\n\n<!-- lyrics:en -->\n\nA\n';
     const { status, stdout, after } = run(source, '--fix');
     assert.equal(status, 1);
     assert.match(stdout, /different stanza counts/);
