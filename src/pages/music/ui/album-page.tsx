@@ -9,10 +9,10 @@ import { ProseContent } from '@/entities/document';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
-import { albumText } from '../lib/album-text';
 import { albumTracks } from '../lib/album-tracks';
 import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';
 import { albumYears } from '../lib/catalogue';
+import { albumText } from '../lib/catalogue-text';
 import { albumLength } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
