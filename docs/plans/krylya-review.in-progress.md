@@ -21,7 +21,7 @@ context budget.
 - Resumed after relay 2: album text as edited prose (596d9ec);
   type-overlap (e2b19d5); a mask the recording carries, `masked` in
   frontmatter (88debab); `pnpm test` changed-only, `test:all` the suite
-  (the commit before a96aba2; CLAUDE.md's line staged, 75b18ba); Здравствуй
+  (cce02bd; CLAUDE.md's line staged, 75b18ba); Здравствуй
   video (3cfd231) — Listen follows to the song only with the follow switch
   on, «да, если стоит флаг слежения», which is today's behavior; preview
   pass: `CoverHead`, the opened story's focus ring (8db815a); a video
