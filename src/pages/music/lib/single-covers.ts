@@ -6,8 +6,6 @@
 const SINGLE_COVERS: ReadonlySet<string> = new Set([
   'chp',
   'ghost',
-  'hamlet',
-  'hamlet-extended',
   'love',
   'mirrors',
   'mithqal',

@@ -20,8 +20,9 @@ type MusicAlbumRecord = {
   artist: Localizable<MusicProject>;
   /**
    * Whether the release has cover art, at `albumCover`'s path: a 600px square
-   * cut from the master in its `vovas-music` repository, or Apple Music's where
-   * the repository holds none — small enough for a grid of them.
+   * cut from the master in its `vovas-music` repository, or Apple Music's or
+   * SoundCloud's where the repository holds none — small enough for a grid of
+   * them.
    */
   cover?: true;
   /** What each locale tells its reader about the title, as a song's gloss does. */
@@ -81,6 +82,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   hamlet: {
     title: 'Гамлет',
     artist: 'Полуживые',
+    cover: true,
     gloss: { en: { transliteration: 'Gamlet', translation: 'Hamlet' } },
   },
   'papa-more': {
