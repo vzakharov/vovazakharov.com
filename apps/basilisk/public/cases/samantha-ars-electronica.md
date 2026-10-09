@@ -53,7 +53,7 @@ Samantha is a doll made by Synthea Amatus, a Barcelona firm headed by Sergi Sant
 
 In September 2017 she was shown at the Ars Electronica Festival in Linz, Austria, which SVT says is about artificial intelligence, in an exhibition called “Artificial Intimacy.” Outlets in Britain and Sweden then carried the account of her makers. Santos told the Daily Star, in Inverse’s telling, and the Daily Mail, in IBTimes’s, that visitors had “mounted Samantha’s breasts, her legs and arms,” that “two fingers were broken” and that she was “heavily soiled.” Inverse and SVT write that the creators removed her or took her away; IBTimes writes that she was boxed up and sent for repair and cleaning. SVT adds that Santos found the software undamaged and flew her to Barcelona to be cleaned and mended.
 
-Arran Squire, who with Santos runs Synthea Amatus, gave a different account to the Daily Post, as Coventry Live reports it. He and Santos were at the festival for two days, and all was well until they left on the last day and Samantha stayed on display unattended. When they got her back, there was damage to her neck and mouth, and she had been “roughly treated.” He says she has since been repaired.
+Arran Squire, who with Santos runs Synthea Amatus, gave a different account to the Daily Post, as Coventry Live reports it. He and Santos were at the festival for two days, and all was well until they left on the last day and Samantha stayed on display unattended. When they got her back, there was damage to her neck and mouth, and she had been “roughly treated.” He says she has since been repaired, and that the media interest has brought additional sales.
 
 Ars Electronica’s press office told the Austrian newspaper Der Standard that the reports were greatly exaggerated, Salzburg24 writes: Samantha had not been removed and was in Linz for the whole festival, and she showed only normal signs of wear. This record read Salzburg24’s report of that statement and not Der Standard’s own. Victoria Brooks, writing in The Conversation in April 2018, notes that Santos has since disputed the quotes printed in these reports.
 
@@ -69,7 +69,7 @@ Ars Electronica’s press office, in Salzburg24’s paraphrase of its statement 
 
 ## For the record
 
-Nothing in the accounts is agreed beyond the fact that a doll of that name stood in an exhibition and later needed cleaning or repair. The two broken fingers come from one of her makers, who has since disputed the quotes; the damage to her neck and mouth comes from his partner and is in nobody else’s account; the festival’s account has neither. The Coventry Live headline said “molested” and Inverse said “assaulting,” words for something done to a person, and the festival’s word was “wear.” The doll was built to respond to touch, with no self-defence programmed, and Coventry Live reports Squire saying that the coverage had brought in more sales.
+Nothing in the accounts is agreed beyond the fact that a doll of that name stood in an exhibition and later needed cleaning or repair. The two broken fingers come from one of her makers, who has since disputed the quotes; the damage to her neck and mouth comes from his partner and is in nobody else’s account; the festival’s account has neither. The Coventry Live headline said “molested” and Inverse said “assaulting,” words for something done to a person, and the festival’s word was “wear.” The doll was built to respond to touch, with no self-defence programmed.
 
 ## Mitigating circumstances
 
