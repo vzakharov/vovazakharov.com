@@ -12,7 +12,8 @@ seconds: 253
 explicit: false
 hidden: true
 credits:
-  lyrics: ['Traditional', 'Vova Zakharov']
+  lyrics: ['Traditional']
+  music: ['Traditional']
 en:
   title:
     transliteration: 'Studentka'
@@ -58,11 +59,7 @@ A reworking of the folk song «Всё косы твои, всё бантики»
 Всё прядь золотых волос
 На блузке витые кантики
 Да милый курносый нос
-
-Всё косы твои, всё бантики
-Всё прядь золотых волос
-На блузке витые кантики
-Да милый курносый нос
+×2
 
 Когда же пришла весна
 С поличным ты мне попалась
@@ -80,11 +77,7 @@ A reworking of the folk song «Всё косы твои, всё бантики»
 Всё прядь золотых волос
 На блузке витые кантики
 Да милый курносый нос
-
-Всё косы твои, всё бантики
-Всё прядь золотых волос
-На блузке витые кантики
-Да милый курносый нос
+×2
 
 Я видел тебя во сне
 И даже такое дело
@@ -102,11 +95,7 @@ A reworking of the folk song «Всё косы твои, всё бантики»
 Всё прядь золотых волос
 На блузке витые кантики
 Да милый курносый нос
-
-Всё косы твои, всё бантики
-Всё прядь золотых волос
-На блузке витые кантики
-Да милый курносый нос
+×2
 
 <!-- lyrics:en -->
 
@@ -126,11 +115,7 @@ It’s all your braids, all your bows
 All that lock of golden hair
 The twisted piping on your blouse
 And that sweet snub nose
-
-It’s all your braids, all your bows
-All that lock of golden hair
-The twisted piping on your blouse
-And that sweet snub nose
+×2
 
 But when the spring came
 I caught you red-handed
@@ -150,11 +135,7 @@ It’s all your braids, all your bows
 All that lock of golden hair
 The twisted piping on your blouse
 And that sweet snub nose
-
-It’s all your braids, all your bows
-All that lock of golden hair
-The twisted piping on your blouse
-And that sweet snub nose
+×2
 
 I saw you in my dreams
 And even this happened:
@@ -172,8 +153,4 @@ It’s all your braids, all your bows
 All that lock of golden hair
 The twisted piping on your blouse
 And that sweet snub nose
-
-It’s all your braids, all your bows
-All that lock of golden hair
-The twisted piping on your blouse
-And that sweet snub nose
+×2
