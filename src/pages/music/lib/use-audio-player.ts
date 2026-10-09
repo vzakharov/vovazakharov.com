@@ -7,6 +7,8 @@ import {
   billingText,
   currentTrack,
   initialPlayerState,
+  isQueued,
+  placeTracks,
   playerReducer,
   type PlayerState,
   type PlayerTrack,
@@ -24,12 +26,17 @@ export type PlayerControls = {
    * queue does not hold yet joins its end.
    */
   play: (track: PlayerTrack) => void;
+  /**
+   * Make these tracks the queue and play them from the first, in this order,
+   * shuffle off — or pause and resume, once they already are the queue.
+   */
+  playInOrder: (tracks: PlayerTrack[]) => void;
   toggle: () => void;
   next: () => void;
   /** Restarts the track before it steps back, once past `RESTART_AFTER_SECONDS`. */
   previous: () => void;
   shuffle: () => void;
-  /** Everything in the queue, shuffled afresh and played from the top. */
+  /** The whole catalogue as the queue, shuffled afresh and played from the top. */
   shuffleAll: () => void;
   seek: (seconds: number) => void;
   /** Relative to where playback is now, which is what the arrow keys want. */
@@ -98,6 +105,21 @@ export function useAudioPlayer(
             : { type: 'select', track: position },
         );
       },
+      playInOrder: (wanted) => {
+        const { positions, missing } = placeTracks(tracks, wanted);
+
+        if (isQueued(state, positions)) {
+          dispatch({ type: 'toggle' });
+
+          return;
+        }
+
+        if (missing.length > 0) setTracks([...tracks, ...missing]);
+        // Off before the queue lands, or the stored switch would shuffle the
+        // order this control exists to keep.
+        storeShuffle(false);
+        dispatch({ type: 'queue', positions });
+      },
       toggle: () => {
         dispatch({ type: 'toggle' });
       },
@@ -138,7 +160,7 @@ export function useAudioPlayer(
         }
       },
     }),
-    [track, tracks, shuffleStored, storeShuffle],
+    [state, track, tracks, shuffleStored, storeShuffle],
   );
 
   // The element is an audio engine rather than page content — the bar is what
