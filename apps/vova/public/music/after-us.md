@@ -4,7 +4,6 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
-voice: Кирилл
 album: wings
 track: 4
 audio: /music/assets/after-us.mp3
@@ -40,6 +39,7 @@ Maya’s and Kirill’s.
 
 <!-- lyrics:ru -->
 
+<!-- voice: Кирилл -->
 Над нами проплывает горизонт,
 Нас орошая чёрными слезами,
 И мы, как персонажи Мураками,

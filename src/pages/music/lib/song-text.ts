@@ -22,7 +22,6 @@ import {
   romanizedTag,
   type Transliteration,
 } from './transliteration';
-import { liftVoices, refuseVoices } from './voices';
 
 export type SongDocument = ContentDocument<SongFrontmatter>;
 
@@ -121,14 +120,8 @@ export function songLyrics(
     );
   }
 
-  const stanzas = readVerse(
-    liftVoices(sung, fileName, frontmatter.voice),
-    fileName,
-  );
+  const stanzas = readVerse(sung, fileName);
   const romanized = sections.get(lyricsKey(romanizedTag(language)));
-
-  if (romanized !== undefined) refuseVoices(romanized, fileName);
-
   const words = {
     language,
     ...(romanized !== undefined && {
@@ -143,8 +136,6 @@ export function songLyrics(
   if (translated === undefined) {
     return { ...words, stanzas: withoutNotes(stanzas) };
   }
-
-  refuseVoices(translated, fileName);
 
   const translation = readVerse(translated, fileName);
 

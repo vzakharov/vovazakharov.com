@@ -1,6 +1,6 @@
 /**
- * For `scripts/` and the tests, which run with no bundler: the names and the
- * singers without the song schema, whose module is `server-only`.
+ * For `scripts/` and the tests, which run with no bundler: the names without
+ * the schema, whose module is `server-only`.
  */
 
 export {
@@ -10,4 +10,3 @@ export {
   type MusicProject,
   SONG_DESCRIPTION_PLACEHOLDER,
 } from './names.ts';
-export { type Singer, singerSchema } from './singers.ts';

@@ -4,7 +4,6 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
-voice: Майя
 album: wings
 track: 3
 audio: /music/assets/hello.mp3
@@ -40,6 +39,7 @@ That’s probably how it should be.
 
 <!-- lyrics:ru -->
 
+<!-- voice: Майя -->
 Здравствуй, сколько дней
 Сколько снов я тебя ждала
 Здравствуй, вместо слов

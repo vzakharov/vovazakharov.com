@@ -34,15 +34,10 @@ type Whole = Labeled & { span: LyricSpan };
 /** `[^label]: text` on a line of its own: what the note says. */
 const NOTE_DEFINITION = /^\[\^([^\s\]]+)]:\s*(\S.*)$/;
 
-/** Whether a line says what a note is, rather than being verse. */
-export function definesNote(line: string): boolean {
-  return NOTE_DEFINITION.test(line.trim());
-}
-
 /** Whether a line carries a note marker or says a note. */
 export function carriesNote(line: string): boolean {
   // `search` ignores the global flag's `lastIndex`, which `test` would advance.
-  return line.search(NOTE_MARKER) !== -1 || definesNote(line);
+  return line.search(NOTE_MARKER) !== -1 || NOTE_DEFINITION.test(line.trim());
 }
 
 /**

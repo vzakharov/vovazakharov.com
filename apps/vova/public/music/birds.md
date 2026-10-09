@@ -4,7 +4,6 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
-voice: Майя
 album: wings
 track: 8
 audio: /music/assets/birds.mp3
@@ -34,6 +33,7 @@ head is ‘the song of a departing soul.’”
 
 <!-- lyrics:ru -->
 
+<!-- voice: Майя -->
 Птицы, куда вы летите?
 Что вы узнать там хотите?
 Может быть, там, за холмами,

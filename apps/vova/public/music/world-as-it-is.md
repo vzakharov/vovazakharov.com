@@ -4,7 +4,6 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
-voice: Майя
 album: wings
 track: 10
 alsoOn:
@@ -42,6 +41,7 @@ Well, why not — it kind of sounds like one.
 
 <!-- lyrics:ru -->
 
+<!-- voice: Майя -->
 Этот мир лишь отражение твоих снов
 Подойди к огню поближе, чувствуешь тепло?
 Этот жар — всё, что тебе нужно, чтобы не сгореть

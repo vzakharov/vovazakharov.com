@@ -4,7 +4,6 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
-voice: Кирилл
 album: wings
 track: 9
 audio: /music/assets/just-because.mp3
@@ -37,6 +36,7 @@ And “minus twenty in the shade” I consider just about my best linguistic fin
 
 <!-- lyrics:ru -->
 
+<!-- voice: Кирилл -->
 Пусть отморожены пальцы
 В тени минус двадцать
 Мы будем держаться

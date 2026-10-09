@@ -59,13 +59,23 @@ export function localeProse(body: string, locale: Locale): string {
     .join('\n\n');
 }
 
+/** A line that is one HTML comment and nothing else. */
+const COMMENT_LINE = /^<!--.*-->$/;
+
 /**
  * Lines grouped into stanzas, which is the unit a translation is read against —
- * verse does not survive being zipped line for line.
+ * verse does not survive being zipped line for line. A comment line — a note
+ * for whoever reads the file, such as `<!-- voice: Майя -->` — is not verse,
+ * so it is dropped unread.
  */
 export function splitStanzas(text: string): string[][] {
   return text
     .split(/\n\s*\n/)
-    .map((stanza) => stanza.split('\n').map((line) => line.trim()))
+    .map((stanza) =>
+      stanza
+        .split('\n')
+        .map((line) => line.trim())
+        .filter((line) => !COMMENT_LINE.test(line)),
+    )
     .filter((stanza) => stanza.some((line) => line.length > 0));
 }

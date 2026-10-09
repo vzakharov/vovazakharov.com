@@ -4,7 +4,6 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
-voice: Кирилл
 album: wings
 track: 1
 audio: /music/assets/listen.mp3
@@ -43,9 +42,9 @@ where Maya was truly born :-)
 Нас не существует, но мы надеемся,
 Это не помешает вам насладиться нашей музыкой.
 
-<!-- voice: Майя -->
 Послушайте
 
+<!-- voice: Кирилл -->
 Послушайте!
 Ведь, если звёзды зажигают —
 Значит — это кому-нибудь нужно?

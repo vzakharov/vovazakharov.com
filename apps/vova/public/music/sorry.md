@@ -4,7 +4,6 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
-voice: Майя
 album: wings
 track: 6
 audio: /music/assets/sorry.mp3
@@ -32,6 +31,7 @@ and I’m getting it all wrong.
 
 <!-- lyrics:ru -->
 
+<!-- voice: Майя -->
 Прости меня, я больше не твоя
 Не для тебя накрашены глаза
 Прости меня, нам было хорошо
@@ -59,6 +59,7 @@ and I’m getting it all wrong.
 
 [^stages-ru]: Отсылка к пяти стадиям принятия.
 
+<!-- voice: Майя -->
 Прости меня, я больше не твоя
 Не для тебя накрашены глаза
 Прости меня, нам было хорошо

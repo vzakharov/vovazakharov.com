@@ -4,7 +4,6 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
-voice: Кирилл
 album: punctuation-marks
 track: 1
 audio: /music/assets/listen-single.mp3
@@ -42,6 +41,7 @@ By the way, there’s a [video](https://t.me/vovazvuchit/7) for this one too!
 
 <!-- lyrics:ru -->
 
+<!-- voice: Кирилл -->
 Послушайте!
 Ведь, если звёзды зажигают —
 Значит — это кому-нибудь нужно?

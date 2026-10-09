@@ -10,7 +10,8 @@ export const SONG_AUTHOR = { en: 'Vova Zakharov', ru: 'Вова Захаров' 
 
 /**
  * Everyone a song's `credits` may name. A credit is written in either spelling,
- * whichever the author reached for, and shown in the reader's.
+ * whichever the author reached for, and shown in the reader's; a name missing
+ * here fails the build rather than reaching a page in the wrong alphabet.
  */
 const CREDITED_PEOPLE = [
   SONG_AUTHOR,
@@ -53,40 +54,25 @@ const CREDITED_PEOPLE = [
   },
 ] as const satisfies readonly CreditedName[];
 
-/**
- * A name written in either locale's spelling and read as its registry entry,
- * so a name the registry lacks fails the build rather than reaching a page in
- * the wrong alphabet. `registry` names the list to add a missing one to.
- */
-export function spelledNameSchema<Entry extends CreditedName>(
-  entries: readonly Entry[],
-  registry: string,
-) {
-  const bySpelling = new Map<string, Entry>(
-    entries.flatMap((entry) => [
-      [entry.en, entry],
-      [entry.ru, entry],
-    ]),
-  );
-
-  return z.string().transform((spelling, context) => {
-    const entry = bySpelling.get(spelling);
-
-    if (entry === undefined) {
-      context.addIssue({
-        code: 'custom',
-        message: `No one in ${registry} is spelled “${spelling}”; add them there.`,
-      });
-
-      return z.NEVER;
-    }
-
-    return entry;
-  });
-}
+const BY_SPELLING = new Map<string, CreditedName>(
+  CREDITED_PEOPLE.flatMap((person) => [
+    [person.en, person],
+    [person.ru, person],
+  ]),
+);
 
 /** A credit, checked against the people above and read as both spellings. */
-export const creditedNameSchema = spelledNameSchema(
-  CREDITED_PEOPLE,
-  'CREDITED_PEOPLE',
-);
+export const creditedNameSchema = z.string().transform((spelling, context) => {
+  const person = BY_SPELLING.get(spelling);
+
+  if (person === undefined) {
+    context.addIssue({
+      code: 'custom',
+      message: `No credited person is spelled “${spelling}”; add them to CREDITED_PEOPLE.`,
+    });
+
+    return z.NEVER;
+  }
+
+  return person;
+});

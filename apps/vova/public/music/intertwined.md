@@ -4,7 +4,6 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
-voice: Майя
 album: wings
 track: 7
 audio: /music/assets/intertwined.mp3
@@ -35,6 +34,7 @@ overthink-ая». (Музыка там, правда, была другая, м�
 
 <!-- lyrics:ru -->
 
+<!-- voice: Майя -->
 Я не понимаю, где ложь, где правда
 Я не догоняю, что лишнее, что надо
 Я перебираю в голове картинки
