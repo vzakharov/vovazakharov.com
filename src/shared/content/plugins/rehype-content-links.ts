@@ -6,17 +6,16 @@ import { visit } from 'unist-util-visit';
 
 import { getAbsoluteUrl, isOffSite } from '@/shared/config';
 
-import { resolveAuthoredPath, type WithCollectionId } from '../collections';
+import { resolveAuthoredPath } from '../collections';
+import type { ProseSource } from '../documents';
 
 /** `./x`, `../x` and bare `x` — anything that resolves against the document. */
 function isRelative(url: string): boolean {
   return !/^(?:[a-z][\d+.a-z-]*:|\/\/|\/|#)/i.test(url);
 }
 
-type LinkContext = WithCollectionId & {
-  /** The file the links are written in, relative to the collection's directory. */
-  fileName: string;
-};
+/** The collection, and the file inside it that the links are written in. */
+type LinkContext = Pick<ProseSource, 'collection' | 'fileName'>;
 
 function rewrite(
   { collection, fileName }: LinkContext,
