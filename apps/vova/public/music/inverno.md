@@ -19,7 +19,8 @@ en:
     translation: 'Winter'
   description: 'TBD'
 ru:
-  title: 'Инверно'
+  title:
+    translation: 'Зима'
   description: 'TBD'
 ---
 

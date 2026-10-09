@@ -151,7 +151,7 @@ And tearing the silence apart
 Your curly laugh
 Getting lost in your eyelashes
 That’s my ark
-And spinning this song [for no one and for everyone][^nietzsche-en]
+And spinning this song [for none and for all][^nietzsche-en]
 
 [^nietzsche-en]: After the subtitle of Nietzsche’s Thus Spoke Zarathustra: “A Book for All and None.”
 
@@ -178,7 +178,7 @@ And tearing the silence apart
 Your curly laugh
 Getting lost in your eyelashes
 That’s my ark
-And spinning this song for no one and for everyone
+And spinning this song for none and for all
 
 And stars from the sky onto fingers
 On your cheekbones, as a blush
@@ -190,4 +190,4 @@ And tearing the silence apart
 Your curly laugh
 Getting lost in your eyelashes
 That’s my ark
-And spinning this song for no one and for everyone
+And spinning this song for none and for all

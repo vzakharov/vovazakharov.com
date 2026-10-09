@@ -15,8 +15,7 @@ credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
-    transliteration: 'Lyoli'
-    translation: 'Leli'
+    translation: 'Lyoli'
   description: 'I was proud of it, then I stopped being proud of it — and then my dad called it a masterpiece.'
   cribNote: 'The English is Juliet Soskice’s 1917 translation; the song sings Nekrasov’s original.'
 ru:
@@ -25,7 +24,7 @@ ru:
 
 <!-- lang:en -->
 
-I was really proud of this song when I wrote it — it felt like something very new for me personally. But somehow nobody I showed it to thought much of it. In time I stopped thinking much of it myself: it does drag, and the sound is a bit too lo-fi even by Suno 2 standards. Then, some time later, I showed it to my dad (I’d been waiting for the whole album to be ready and hadn’t shown it to him on its own). He was lukewarm about the album, but “Lyoli is just a masterpiece.” Go figure!
+I was really proud of this song when I wrote it — it felt like something very new for me personally. But somehow nobody I showed it to thought much of it. In time I stopped thinking much of it myself: it does drag, and the sound is a bit too lo-fi even by Suno 2 standards. Then, some time later, I showed it to my dad (I’d been waiting for the whole album to be ready and hadn’t shown it to him on its own). He was lukewarm about the album, but “Lyoli [was] just a masterpiece.” Go figure!
 
 <!-- lang:ru -->
 
