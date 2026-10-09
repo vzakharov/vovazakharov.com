@@ -12,6 +12,9 @@ seconds: 240
 explicit: false
 hidden: true
 en:
+  title:
+    transliteration: 'Skolko'
+    translation: 'How Long'
   description: 'TBD'
 ru:
   description: 'TBD'

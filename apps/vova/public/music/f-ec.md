@@ -12,6 +12,9 @@ seconds: 208
 explicit: false
 hidden: true
 en:
+  title:
+    transliteration: 'Tam'
+    translation: 'There'
   description: 'TBD'
 ru:
   description: 'TBD'

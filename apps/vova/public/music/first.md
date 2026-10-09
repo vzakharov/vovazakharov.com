@@ -12,6 +12,9 @@ seconds: 218
 credits:
   music: [Vova Zakharov, Vladimir Zakharov Sr.]
 en:
+  title:
+    transliteration: 'Dvadtsat'
+    translation: 'Twenty'
   description: 'A chord sequence made up at seven, played back by the one person who insisted it was mine, and finished into a song thirty-three years later.'
 ru:
   description: 'Гармония, придуманная в семь лет и подхваченная тем единственным, кто уверял, что написал её я, — ставшая песней тридцать три года спустя.'

@@ -12,6 +12,9 @@ seconds: 214
 explicit: false
 hidden: true
 en:
+  title:
+    transliteration: 'Kapris Karkassi'
+    translation: 'Carcassi’s Caprice'
   description: 'TBD'
 ru:
   description: 'TBD'

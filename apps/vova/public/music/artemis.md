@@ -1,5 +1,6 @@
 ---
 title: 'Artemis'
+titleLanguage: en
 date: 2024-10-28
 status: done
 language: [en, el]
@@ -14,6 +15,8 @@ hidden: true
 en:
   description: 'TBD'
 ru:
+  title:
+    translation: 'Артемида'
   description: 'TBD'
 ---
 

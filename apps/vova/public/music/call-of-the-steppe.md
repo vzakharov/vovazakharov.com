@@ -1,5 +1,6 @@
 ---
 title: 'Call of the Steppe'
+titleLanguage: en
 date: 2024-12-16
 status: done
 language: instrumental

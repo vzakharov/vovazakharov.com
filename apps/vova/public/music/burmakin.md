@@ -12,6 +12,9 @@ seconds: 198
 explicit: false
 hidden: true
 en:
+  title:
+    transliteration: 'Prosto ustal'
+    translation: 'Just Tired'
   description: 'TBD'
 ru:
   description: 'TBD'

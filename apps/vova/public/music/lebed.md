@@ -15,6 +15,9 @@ credits:
   lyrics: ['Михаил Танич']
   music: ['Сергей Коржуков']
 en:
+  title:
+    transliteration: 'Ya kuplyu tebe dom'
+    translation: 'I’ll Buy You a House'
   description: 'TBD'
 ru:
   description: 'TBD'

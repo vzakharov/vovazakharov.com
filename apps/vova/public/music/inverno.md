@@ -1,5 +1,6 @@
 ---
 title: 'Inverno'
+titleLanguage: it
 date: 2024-12-16
 status: done
 language: instrumental
@@ -14,6 +15,8 @@ hidden: true
 credits:
   music: ['Vova Zakharov', 'Antonio Vivaldi']
 en:
+  title:
+    translation: 'Winter'
   description: 'TBD'
 ru:
   title: 'Инверно'

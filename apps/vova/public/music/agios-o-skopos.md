@@ -1,5 +1,6 @@
 ---
 title: 'Άγιος Ο Σκοπός'
+titleLanguage: el
 date: 2024-12-07
 status: done
 language: ru
@@ -11,7 +12,6 @@ explicit: false
 album: vagabond
 track: 9
 hidden: true
-titleLanguage: el
 en:
   title:
     transliteration: 'Agios o Skopos'

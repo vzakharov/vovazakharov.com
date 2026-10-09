@@ -23,6 +23,7 @@
     "check:i18n-payload": "node scripts/check-i18n-payload.ts",
     "check:prose-quotes": "node scripts/check-prose-quotes.ts",
     "check:masked-words": "node scripts/check-masked-words.ts",
+    "check:song-titles": "node scripts/check-song-titles.ts",
     "lint": "eslint . --fix",
     "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:fsd": "steiger src",

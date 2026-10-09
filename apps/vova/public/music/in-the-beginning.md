@@ -1,5 +1,6 @@
 ---
 title: 'In the Beginning, There Was Silence'
+titleLanguage: en
 date: 2024-07-23
 status: done
 language: instrumental

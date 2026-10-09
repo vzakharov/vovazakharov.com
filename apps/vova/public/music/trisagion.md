@@ -1,5 +1,6 @@
 ---
 title: 'Trisagion'
+titleLanguage: en
 date: 2024-09-09
 status: done
 language: [ru, la, en]
@@ -13,6 +14,8 @@ hidden: true
 en:
   description: 'TBD'
 ru:
+  title:
+    translation: 'Трисвятое'
   description: 'TBD'
 ---
 

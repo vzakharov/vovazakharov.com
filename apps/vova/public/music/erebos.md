@@ -14,6 +14,8 @@ hidden: true
 en:
   description: 'TBD'
 ru:
+  title:
+    translation: 'Эреб'
   description: 'TBD'
 ---
 

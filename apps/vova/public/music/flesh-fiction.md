@@ -1,5 +1,6 @@
 ---
 title: 'Flesh Fiction'
+titleLanguage: en
 date: 2024-12-05
 status: done
 language: [en, ru]

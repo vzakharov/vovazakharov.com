@@ -13,6 +13,7 @@ hidden: true
 en:
   title:
     transliteration: 'Chikh-Pykh'
+    translation: 'Sneeze-Puff'
   description: 'TBD'
 ru:
   description: 'TBD'

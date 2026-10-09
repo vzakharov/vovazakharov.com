@@ -13,6 +13,8 @@ hidden: true
 en:
   description: 'The next-to-last song I showed my dad, and I think he understood it all.'
 ru:
+  title:
+    translation: 'Призрак вчерашнего дня'
   description: 'Предпоследняя песня, которую я показал папе, — и, думаю, он всё понял.'
 ---
 

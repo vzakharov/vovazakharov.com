@@ -1,5 +1,6 @@
 ---
 title: 'Cross Out'
+titleLanguage: en
 date: 2024-12-02
 status: done
 language: [en, de]

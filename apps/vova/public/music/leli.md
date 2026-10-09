@@ -16,6 +16,7 @@ credits:
 en:
   title:
     transliteration: 'Lyoli'
+    translation: 'Leli'
   description: 'I was proud of it, then I stopped being proud of it — and then my dad called it a masterpiece.'
   cribNote: 'The English is Juliet Soskice’s 1917 translation; the song sings Nekrasov’s original.'
 ru:
