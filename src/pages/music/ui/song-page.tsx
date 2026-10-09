@@ -33,7 +33,7 @@ import { Lyrics } from './lyrics';
 import classes from './music.module.scss';
 import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
-import { SongFacts } from './song-facts';
+import { SongByline, SongFacts } from './song-facts';
 import { SongPlayButton } from './song-play-button';
 import { TitleGlossLine } from './title-gloss-line';
 
@@ -113,6 +113,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                 <TitleGlossLine
                   gloss={titleGloss(localized.frontmatter, locale)}
                 />
+                <SongByline {...{ document, album, catalogue, locale }} />
                 {/* The same track a song list's row plays, so both drive one
                     queue — which a hidden song joins only once played here. */}
                 <Box mt={12}>

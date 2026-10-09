@@ -292,7 +292,7 @@
     },
     "explicit": "Explicit",
     "source": "source",
-    "album": "From {album}",
+    "album": "from {album}",
     "alsoOn": "also on {album}",
     "credits": {
       "lyrics": "Lyrics",

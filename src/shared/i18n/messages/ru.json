@@ -307,7 +307,7 @@
     },
     "explicit": "Ненормативная лексика",
     "source": "исходник",
-    "album": "С альбома {album}",
+    "album": "из {album}",
     "alsoOn": "также на альбоме {album}",
     "credits": {
       "lyrics": "Слова",

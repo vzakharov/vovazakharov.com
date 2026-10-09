@@ -1,4 +1,4 @@
-import { Group } from '@mantine/core';
+import { Group, type GroupProps } from '@mantine/core';
 import { Fragment, type ReactNode } from 'react';
 
 import { documentMonth, formatDocumentMonth } from '@/shared/content';
@@ -22,17 +22,12 @@ export type SongFactsProps = WithLocale & {
 };
 
 /**
- * The line under the title: what a listener would want to know about the
- * recording before playing it, in the order they would ask, each artist and
- * album linked to its page — the release the page shows the song on, then any
- * other it is also on. Empty entries drop out, so a single names no album.
+ * What a listener would want to know about the recording, in the order they
+ * would ask, each artist and album linked to its page: who made it and which
+ * release the page shows it on, then the rest — any other release it is also
+ * on among them. Empty entries drop out, so a single names no album.
  */
-export function SongFacts({
-  document,
-  album,
-  catalogue,
-  locale,
-}: SongFactsProps) {
+function songFacts({ document, album, catalogue, locale }: SongFactsProps) {
   const { date, language, project, seconds } = document.frontmatter;
   const messages = loadMessages(locale).music;
 
@@ -54,30 +49,39 @@ export function SongFacts({
     );
   };
 
-  const facts: Record<string, ReactNode> = {
-    date: (
-      <time dateTime={documentMonth(date)}>
-        {formatDocumentMonth(date, locale)}
-      </time>
-    ),
-    billing: bill(project, (artist) => (
-      <NameLink key={artist} href={artistPath(artist, catalogue, locale)}>
-        {projectName(artist, locale)}
-      </NameLink>
-    )),
-    language: language.map((sung) => messages.language[sung]).join(', '),
-    album: albumsFact(messages.album, album === null ? [] : [album]),
-    alsoOn: albumsFact(
-      messages.alsoOn,
-      songPlacements(document.frontmatter)
-        .map((placement) => placement.album)
-        .filter((other) => other !== album),
-    ),
-    duration: formatDuration(seconds),
-  };
+  return {
+    byline: {
+      billing: bill(project, (artist) => (
+        <NameLink key={artist} href={artistPath(artist, catalogue, locale)}>
+          {projectName(artist, locale)}
+        </NameLink>
+      )),
+      album: albumsFact(messages.album, album === null ? [] : [album]),
+    },
+    details: {
+      date: (
+        <time dateTime={documentMonth(date)}>
+          {formatDocumentMonth(date, locale)}
+        </time>
+      ),
+      language: language.map((sung) => messages.language[sung]).join(', '),
+      alsoOn: albumsFact(
+        messages.alsoOn,
+        songPlacements(document.frontmatter)
+          .map((placement) => placement.album)
+          .filter((other) => other !== album),
+      ),
+      duration: formatDuration(seconds),
+    },
+  } satisfies Record<string, Record<string, ReactNode>>;
+}
 
+function FactLine({
+  facts,
+  ...props
+}: GroupProps & { facts: Record<string, ReactNode> }) {
   return (
-    <Group component="p" gap={12} wrap="wrap" fz="sm" opacity={0.7}>
+    <Group component="p" gap={12} wrap="wrap" {...props}>
       {Object.entries(facts)
         .filter(([, fact]) => Boolean(fact))
         .map(([key, fact], index) => (
@@ -88,4 +92,14 @@ export function SongFacts({
         ))}
     </Group>
   );
+}
+
+/** Who made the song and the release the page shows it on, under the title. */
+export function SongByline(props: SongFactsProps) {
+  return <FactLine facts={songFacts(props).byline} opacity={0.8} />;
+}
+
+/** The recording's other facts, in the line further down. */
+export function SongFacts(props: SongFactsProps) {
+  return <FactLine facts={songFacts(props).details} fz="sm" opacity={0.7} />;
 }
