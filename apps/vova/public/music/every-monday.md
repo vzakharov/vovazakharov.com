@@ -8,7 +8,7 @@ repo: 'monday'
 audio: https://raw.githubusercontent.com/vovas-music/monday/main/monday.flac
 seconds: 159
 explicit: false
-album: ctfu
+album: cheer-the-fuck-up
 track: 2
 hidden: true
 en:

@@ -8,7 +8,7 @@ repo: 'oneday'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/6.%20The%20Ultimate%20Abstraction.flac
 seconds: 238
 explicit: false
-album: divine
+album: divine-discontent
 track: 6
 hidden: true
 en:

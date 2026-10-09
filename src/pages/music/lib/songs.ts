@@ -1,4 +1,9 @@
-import { isListed, listPrimaryDocuments, SONGS } from '@/shared/content';
+import {
+  isListed,
+  listPrimaryDocuments,
+  type Slugged,
+  SONGS,
+} from '@/shared/content';
 import { byLocale, isLocale } from '@/shared/i18n';
 import type { MusicAlbum } from '@/shared/music-catalogue';
 
@@ -14,7 +19,11 @@ import {
 } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { bill, projectName } from './projects';
-import { localizeSong, type SongDocument } from './song-text';
+import {
+  localizeSong,
+  type SongDocument,
+  type SongOnRelease,
+} from './song-text';
 
 /** The first segments under `/music` that address a page other than a song. */
 const RESERVED_SEGMENTS: ReadonlySet<string> = new Set([
@@ -63,11 +72,7 @@ export function listSongDocuments(): SongDocument[] {
 }
 
 /** One page of a song: as the release it is filed under shows it, or as another it is also on does. */
-export type SongPageEntry = {
-  slug: string;
-  document: SongDocument;
-  album: MusicAlbum | null;
-};
+export type SongPageEntry = Slugged & SongOnRelease;
 
 /**
  * The page a song has on a release: its own slug on the one it is filed

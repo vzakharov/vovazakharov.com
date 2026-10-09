@@ -8,7 +8,7 @@ repo: 'lake'
 audio: https://raw.githubusercontent.com/vovas-music/stories/main/4%20lake.flac
 seconds: 352
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 4
 hidden: true
 en:

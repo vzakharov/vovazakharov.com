@@ -5,7 +5,7 @@ status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'burmakin'
-album: nikogo
+album: for-none-and-for-all
 track: 1
 audio: https://raw.githubusercontent.com/vovas-music/burmakin/main/%D0%9F%D1%80%D0%BE%D1%81%D1%82%D0%BE%20%D1%83%D1%81%D1%82%D0%B0%D0%BB.flac
 seconds: 198

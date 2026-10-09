@@ -8,7 +8,7 @@ repo: 'wind'
 audio: https://raw.githubusercontent.com/vovas-music/wind/main/wind.flac
 seconds: 243
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 5
 hidden: true
 en:

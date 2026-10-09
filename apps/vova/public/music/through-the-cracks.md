@@ -8,7 +8,7 @@ repo: 'cracks'
 audio: https://raw.githubusercontent.com/vovas-music/cracks/main/cracks.flac
 seconds: 199
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 12
 hidden: true
 en:

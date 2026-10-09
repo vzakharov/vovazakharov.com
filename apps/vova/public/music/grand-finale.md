@@ -8,7 +8,7 @@ repo: 'entropy-end'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/9.%20Grand%20Finale%20(In%20Entropy%20We%20Trust).flac
 seconds: 240
 explicit: false
-album: divine
+album: divine-discontent
 track: 9
 hidden: true
 en:

@@ -80,7 +80,7 @@ Tango de la desintegración[^casi-en]
 Tango de la desintegración[^casi-en]
 Baila conmigo, mi casi amor![^casi-en]
 
-[^casi-en]: Spanish: “Tango of disintegration… Dance with me, my almost-love!” — the almost-love of [I Almost Love You](/music/almost).
+[^casi-en]: Spanish: “Tango of disintegration… Dance with me, my almost-love!” — the almost-love of [I Almost Love You](/music/i-almost-love-you).
 
 Disintegration tango
 Dance with me tonight
@@ -146,7 +146,7 @@ Until the final note
 Танго распада
 Танцуй со мной, [моя почти любовь][^casi-ru]!
 
-[^casi-ru]: Отсылка к [«I Almost Love You»](/music/almost/ru) («Я почти люблю тебя»).
+[^casi-ru]: Отсылка к [«I Almost Love You»](/music/i-almost-love-you/ru) («Я почти люблю тебя»).
 
 Танго распада
 Потанцуй со мной этой ночью

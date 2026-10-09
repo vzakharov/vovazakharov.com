@@ -8,7 +8,7 @@ repo: 'requiem'
 audio: https://raw.githubusercontent.com/vovas-music/requiem/main/requiem_master.flac
 seconds: 308
 explicit: false
-album: dng
+album: five-romances
 track: 7
 hidden: true
 credits:

@@ -8,7 +8,7 @@ repo: 'chaos'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/8.%20Chaos%20Always%20Wins.flac
 seconds: 203
 explicit: false
-album: ghosts
+album: ghosts-of-flesh
 track: 8
 hidden: true
 en:

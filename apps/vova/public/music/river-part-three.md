@@ -8,7 +8,7 @@ repo: 'otter'
 audio: https://raw.githubusercontent.com/vovas-music/otter/main/otter.flac
 seconds: 212
 explicit: false
-album: papa-reka
+album: father-river
 track: 7
 hidden: true
 credits:

@@ -8,7 +8,7 @@ repo: 'kobk'
 audio: https://raw.githubusercontent.com/vovas-music/kobk/main/kobk.flac
 seconds: 180
 explicit: false
-album: ctfu
+album: cheer-the-fuck-up
 track: 3
 hidden: true
 credits:

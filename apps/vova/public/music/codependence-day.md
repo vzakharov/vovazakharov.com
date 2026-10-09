@@ -8,7 +8,7 @@ repo: 'codep'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/3.%20Codependence%20Day.flac
 seconds: 277
 explicit: false
-album: ghosts
+album: ghosts-of-flesh
 track: 3
 hidden: true
 en:

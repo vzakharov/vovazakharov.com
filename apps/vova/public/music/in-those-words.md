@@ -8,7 +8,7 @@ repo: 'komnata'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-004.flac
 seconds: 190
 explicit: false
-album: dng
+album: five-romances
 track: 4
 hidden: true
 credits:

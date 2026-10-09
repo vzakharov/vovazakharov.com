@@ -64,7 +64,7 @@ export type TitleGloss = z.infer<typeof titleGlossSchema>;
 const songTextSchema = z.object({
   /**
    * Absent where the locale keeps the song's own title, as most do. A string
-   * is the name the song goes by in this locale instead — `june` is _Breathe_
+   * is the name the song goes by in this locale instead — `breathe` is _Breathe_
    * and _Повелитель ветра_ — and a gloss keeps the title and explains it.
    */
   title: z.union([z.string().min(1), titleGlossSchema]).optional(),

@@ -5,7 +5,7 @@ status: done
 language: ru
 project: [Полуживые]
 repo: reka-2
-album: papa-reka
+album: father-river
 track: 4
 audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/4_reka.flac
 seconds: 338

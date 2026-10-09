@@ -8,7 +8,7 @@ repo: 'bronte'
 audio: https://raw.githubusercontent.com/vovas-music/bronte/main/bronte.flac
 seconds: 194
 explicit: false
-album: ctfu
+album: cheer-the-fuck-up
 track: 9
 hidden: true
 credits:

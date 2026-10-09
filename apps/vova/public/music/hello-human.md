@@ -6,7 +6,7 @@ language: en
 project: ['GENERATED']
 album: prototypes
 track: 1
-audio: /music/assets/protintro.mp3
+audio: /music/assets/hello-human.mp3
 seconds: 77
 explicit: false
 hidden: true

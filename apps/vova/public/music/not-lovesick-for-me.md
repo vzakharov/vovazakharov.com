@@ -8,7 +8,7 @@ repo: 'mne-nravitsa'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-003.flac
 seconds: 254
 explicit: false
-album: dng
+album: five-romances
 track: 3
 hidden: true
 credits:

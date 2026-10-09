@@ -8,7 +8,7 @@ repo: 'oneday'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/5.%20One%20Day.flac
 seconds: 198
 explicit: true
-album: divine
+album: divine-discontent
 track: 5
 hidden: true
 en:

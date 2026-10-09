@@ -8,7 +8,7 @@ repo: 'horizons'
 audio: https://raw.githubusercontent.com/vovas-music/horizons/main/horizons_master.flac
 seconds: 168
 explicit: false
-album: ghosts
+album: ghosts-of-flesh
 track: 10
 hidden: true
 en:

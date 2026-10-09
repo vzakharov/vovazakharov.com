@@ -8,7 +8,7 @@ repo: 'pled'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-002.flac
 seconds: 248
 explicit: false
-album: dng
+album: five-romances
 track: 2
 hidden: true
 credits:

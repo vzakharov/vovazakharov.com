@@ -8,7 +8,7 @@ repo: 'rus-'
 audio: https://raw.githubusercontent.com/vovas-music/rus-/main/7%20%D0%BB%D1%91%D0%BB%D0%B8.flac
 seconds: 264
 explicit: false
-album: rus
+album: who-is-happy-in-russia
 track: 7
 hidden: true
 credits:

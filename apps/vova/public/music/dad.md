@@ -5,7 +5,7 @@ status: done
 language: ru
 project: [Полуживые]
 repo: sashas
-album: papa-more
+album: father-sea
 track: 7
 seconds: 173
 audio: https://raw.githubusercontent.com/vovas-music/sashas/main/%D0%9F%D0%B0%D0%BF%D0%B0.flac
@@ -23,7 +23,7 @@ ru:
 <!-- lang:en -->
 
 Claude, when he was preparing the stand-in draft for this song, called it a
-“companion piece to [Двадцать](./first.md),” which is apt enough. What he didn’t
+“companion piece to [Двадцать](./20.md),” which is apt enough. What he didn’t
 know is that this song — the poem, rather — was written by my sister, Sasha.
 Apart from the last, “father’s” verse: that one I wrote, going from her paraphrase
 of discussing those very poems with her ChatGPT. A cross-generational,
@@ -34,7 +34,7 @@ Is this why people invented angels?
 <!-- lang:ru -->
 
 Клод, когда готовил «рыбу» для этой песни, назвал её «companion piece to
-[Двадцать](./first.md)», что достаточно метко. Что он не знал — это что эта
+[Двадцать](./20.md)», что достаточно метко. Что он не знал — это что эта
 песня, точнее стихи, авторства моей сестры, Саши. Кроме последнего, «папиного»
 куплета — его написал я, исходя из её парафраза об обсуждении этих самых стихов
 с её chatgpt. Такой вот межгенерационный и межвидовой коллаб живых и умерших,

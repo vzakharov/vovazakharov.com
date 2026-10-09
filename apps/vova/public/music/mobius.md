@@ -9,7 +9,7 @@ repo: 'ghosts-of-flesh'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/9.%20Mo_bius.flac
 seconds: 361
 explicit: false
-album: ghosts
+album: ghosts-of-flesh
 track: 9
 hidden: true
 en:

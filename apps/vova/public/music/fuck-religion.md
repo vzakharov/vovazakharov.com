@@ -8,7 +8,7 @@ repo: 'fuckreligion'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/4.%20Fuck%20Religion.flac
 seconds: 140
 explicit: true
-album: divine
+album: divine-discontent
 track: 4
 hidden: true
 en:

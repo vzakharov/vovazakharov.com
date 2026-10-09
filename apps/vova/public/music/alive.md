@@ -8,7 +8,7 @@ repo: 'alive'
 audio: https://raw.githubusercontent.com/vovas-music/alive/main/alive_master.flac
 seconds: 251
 explicit: false
-album: ghosts
+album: ghosts-of-flesh
 track: 5
 hidden: true
 en:

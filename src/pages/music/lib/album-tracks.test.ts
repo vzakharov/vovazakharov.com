@@ -9,7 +9,7 @@ const song = (
 ) => ({ slug, frontmatter });
 
 const ophelia = song('ophelia', {
-  album: 'papa-reka',
+  album: 'father-river',
   track: 6,
   alsoOn: [{ album: 'hamlet', track: 4 }],
 });
@@ -19,7 +19,7 @@ const songs = [
   song('deer', { album: 'hamlet', track: 5 }),
   song('hamlet', { album: 'hamlet', track: 1 }),
   song('rank', {
-    album: 'papa-reka',
+    album: 'father-river',
     track: 5,
     alsoOn: [{ album: 'hamlet', track: 3 }],
   }),
@@ -32,7 +32,7 @@ const slugsOn = (album: Parameters<typeof albumTracks>[0]) =>
 describe('songPlacements', () => {
   it('puts the release a song is filed under ahead of the others', () => {
     assert.deepEqual(songPlacements(ophelia.frontmatter), [
-      { album: 'papa-reka', track: 6 },
+      { album: 'father-river', track: 6 },
       { album: 'hamlet', track: 4 },
     ]);
   });
@@ -53,13 +53,13 @@ describe('albumTracks', () => {
   });
 
   it('keeps the song on the album it is filed under', () => {
-    assert.deepEqual(slugsOn('papa-reka'), [
+    assert.deepEqual(slugsOn('father-river'), [
       ['rank', 5],
       ['ophelia', 6],
     ]);
   });
 
   it('finds nothing on an album no song is on', () => {
-    assert.deepEqual(slugsOn('ctfu'), []);
+    assert.deepEqual(slugsOn('cheer-the-fuck-up'), []);
   });
 });

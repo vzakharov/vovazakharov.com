@@ -7,7 +7,7 @@ project: [за/обложкой, GENERATED]
 repo: letim
 audio: https://raw.githubusercontent.com/vovas-music/letim/main/letim.flac
 seconds: 208
-album: ctfu
+album: cheer-the-fuck-up
 track: 5
 en:
   title:

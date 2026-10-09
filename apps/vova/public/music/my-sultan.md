@@ -8,7 +8,7 @@ repo: 'sultan'
 audio: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.flac
 seconds: 232
 explicit: false
-album: papa-reka
+album: father-river
 track: 3
 hidden: true
 credits:

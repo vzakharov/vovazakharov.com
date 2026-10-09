@@ -8,7 +8,7 @@ repo: 'stiham'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-001.flac
 seconds: 176
 explicit: false
-album: dng
+album: five-romances
 track: 1
 hidden: true
 credits:

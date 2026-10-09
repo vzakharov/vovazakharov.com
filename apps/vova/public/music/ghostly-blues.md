@@ -4,9 +4,9 @@ date: 2025-12-01
 status: done
 language: ru
 project: ['Грёбаный бал']
-album: nikogo
+album: for-none-and-for-all
 track: 7
-audio: /music/assets/blues.mp3
+audio: /music/assets/ghostly-blues.mp3
 seconds: 177
 explicit: false
 hidden: true

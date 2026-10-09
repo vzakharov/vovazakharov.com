@@ -8,7 +8,7 @@ repo: 'salman'
 audio: https://raw.githubusercontent.com/vovas-music/salman/main/salman.flac
 seconds: 298
 explicit: false
-album: papa-reka
+album: father-river
 track: 10
 hidden: true
 credits:

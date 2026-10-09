@@ -8,7 +8,7 @@ repo: 'guy'
 audio: https://raw.githubusercontent.com/vovas-music/guy/main/guy.flac
 seconds: 214
 explicit: false
-album: ctfu
+album: cheer-the-fuck-up
 track: 7
 hidden: true
 en:

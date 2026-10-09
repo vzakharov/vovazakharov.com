@@ -5,7 +5,7 @@ status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'okna'
-album: nikogo
+album: for-none-and-for-all
 track: 9
 audio: https://raw.githubusercontent.com/vovas-music/okna/main/%D0%9E%D0%BA%D0%BD%D0%B0.flac
 seconds: 286
@@ -62,7 +62,7 @@ ru:
 Отблесками, отраженьями, очертаньями неверными
 Воскрешая те мгновения вне пространства и времени.
 
-[^otter-ru]: В сонете Кольриджа [«К реке Оттер»](https://en.wikipedia.org/wiki/To_the_River_Otter) поэт видит в реке своего девонского детства всё, что видел мальчишкой, и заканчивает вздохом: «Ах, если бы мне снова стать беззаботным ребёнком!» Ср. [«Река. Часть третья»](/music/otter/ru).
+[^otter-ru]: В сонете Кольриджа [«К реке Оттер»](https://en.wikipedia.org/wiki/To_the_River_Otter) поэт видит в реке своего девонского детства всё, что видел мальчишкой, и заканчивает вздохом: «Ах, если бы мне снова стать беззаботным ребёнком!» Ср. [«Река. Часть третья»](/music/river-part-three/ru).
 
 Пройти бы хоть краешком
 Этих окон, где юность моя светит
@@ -112,7 +112,7 @@ As if searching for something so dear and carefree,
 With glints, with reflections, with unsteady outlines
 Bringing back those moments outside space and time.
 
-[^otter-en]: In Coleridge’s sonnet [“To the River Otter”](https://en.wikipedia.org/wiki/To_the_River_Otter), the stream of his Devon childhood brings back everything he saw in it as a boy, and he ends: “Ah! that once more I were a careless Child!” Cf. [The River. Part Three](/music/otter).
+[^otter-en]: In Coleridge’s sonnet [“To the River Otter”](https://en.wikipedia.org/wiki/To_the_River_Otter), the stream of his Devon childhood brings back everything he saw in it as a boy, and he ends: “Ah! that once more I were a careless Child!” Cf. [The River. Part Three](/music/river-part-three).
 
 If I could pass, even just at the edge,
 Those windows where my youth shines

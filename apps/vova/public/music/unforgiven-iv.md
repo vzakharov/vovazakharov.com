@@ -8,7 +8,7 @@ repo: 'u4'
 audio: https://raw.githubusercontent.com/vovas-music/u4/main/u4_new.flac
 seconds: 309
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 9
 hidden: true
 en:

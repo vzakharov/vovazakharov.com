@@ -3,6 +3,7 @@ import 'server-only';
 import type { ContentDocument } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 import type {
+  MusicAlbum,
   SongFrontmatter,
   SongText,
   SungLanguage,
@@ -18,6 +19,12 @@ import { PREAMBLE, splitSections } from './sections';
 import type { GlossedTitle } from './title-gloss';
 
 export type SongDocument = ContentDocument<SongFrontmatter>;
+
+export type SongOnRelease = {
+  document: SongDocument;
+  /** The release the page shows the song on, named first. */
+  album: MusicAlbum | null;
+};
 
 /** A locale's strings with its title resolved: its own name for the song, or the song's with a gloss. */
 type LocalizedSongText = Omit<SongText, 'title'> &

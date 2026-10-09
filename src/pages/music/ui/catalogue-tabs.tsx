@@ -1,18 +1,16 @@
 import { Group, Title } from '@mantine/core';
 
-import type { WithLocale } from '@/shared/i18n';
 import { NameLink, SUBHEADING_GAP } from '@/shared/ui';
 
 import {
   CATALOGUE_TABS,
+  type CatalogueView,
   tabLabels,
   tabPath,
-  type WithEverything,
   type WithTab,
 } from '../lib/music-urls';
 
-export type CatalogueTabsProps = WithTab &
-  WithLocale & { catalogue: WithEverything };
+export type CatalogueTabsProps = WithTab & CatalogueView;
 
 /**
  * The index's heading, naming what it lists, beside the other two lists it can

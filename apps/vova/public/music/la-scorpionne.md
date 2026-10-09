@@ -8,7 +8,7 @@ repo: 'ghosts-of-flesh'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/7.%20La%20Scorpionne.flac
 seconds: 335
 explicit: false
-album: ghosts
+album: ghosts-of-flesh
 track: 7
 hidden: true
 en:

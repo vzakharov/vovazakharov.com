@@ -9,7 +9,7 @@ repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-013.flac
 seconds: 166
 explicit: false
-album: nsfl
+album: not-safe-for-life
 track: 13
 hidden: true
 en:

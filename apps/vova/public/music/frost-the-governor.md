@@ -8,7 +8,7 @@ repo: 'moroz'
 audio: https://raw.githubusercontent.com/vovas-music/rus-/main/5%20%D0%BC%D0%BE%D1%80%D0%BE%D0%B7.flac
 seconds: 375
 explicit: false
-album: rus
+album: who-is-happy-in-russia
 track: 5
 hidden: true
 credits:

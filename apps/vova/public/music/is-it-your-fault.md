@@ -8,7 +8,7 @@ repo: 'sonnet61'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-005.flac
 seconds: 255
 explicit: false
-album: dng
+album: five-romances
 track: 5
 hidden: true
 credits:

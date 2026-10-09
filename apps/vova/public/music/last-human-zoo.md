@@ -8,7 +8,7 @@ repo: 'zoo'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/4.The%20Last%20Human%20Zoo.flac
 seconds: 291
 explicit: false
-album: ghosts
+album: ghosts-of-flesh
 track: 4
 hidden: true
 en:

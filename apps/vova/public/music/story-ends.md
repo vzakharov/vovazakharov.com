@@ -8,7 +8,7 @@ repo: 'story_ends'
 audio: https://raw.githubusercontent.com/vovas-music/stories/main/11%20ends.flac
 seconds: 118
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 11
 hidden: true
 en:

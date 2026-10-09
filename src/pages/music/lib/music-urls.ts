@@ -3,7 +3,7 @@ import {
   documentRoute,
   localizedRoute,
 } from '@/shared/content';
-import { loadMessages, type Locale } from '@/shared/i18n';
+import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
 import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
 
 import { MUSIC_PROJECT_SLUGS } from './projects';
@@ -54,6 +54,9 @@ export function tabBySegment(segment: string): CatalogueTab | undefined {
  * whole catalogue links only within it, so leaving it is a choice.
  */
 export type WithEverything = { everything: boolean };
+
+/** The catalogue a page's links stay in, and the locale they are in. */
+export type CatalogueView = WithLocale & { catalogue: WithEverything };
 
 function catalogueRoute({ everything }: WithEverything): string {
   return everything

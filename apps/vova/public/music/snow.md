@@ -5,7 +5,7 @@ status: done
 language: ru
 project: ['Дамы и господа', 'Полуживые']
 repo: 'sneg_0'
-album: papa-more
+album: father-sea
 track: 5
 audio: https://raw.githubusercontent.com/vovas-music/sneg_0/main/sneg_master.flac
 seconds: 180

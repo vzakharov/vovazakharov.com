@@ -34,7 +34,7 @@ type MusicAlbumRecord = {
 };
 
 const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
-  ctfu: {
+  'cheer-the-fuck-up': {
     title: 'Cheer The Fuck Up',
     artist: 'GENERATED',
     cover: true,
@@ -45,13 +45,13 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     artist: { en: 'GENERATED', ru: 'Полуживые' },
     cover: true,
   },
-  divine: {
+  'divine-discontent': {
     title: 'Divine Discontent',
     artist: 'GENERATED',
     cover: true,
     gloss: { ru: { translation: 'Божественное недовольство' } },
   },
-  ghosts: {
+  'ghosts-of-flesh': {
     title: 'Ghosts of Flesh',
     artist: 'GENERATED',
     cover: true,
@@ -63,19 +63,19 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
     gloss: { ru: { translation: 'Психопатия' } },
   },
-  nsfl: {
+  'not-safe-for-life': {
     title: 'Not Safe for Life',
     artist: 'GENERATED',
     cover: true,
     gloss: { ru: { translation: 'Опасно для жизни' } },
   },
-  stories: {
+  'let-the-stories-spin': {
     title: 'Let the Stories Spin',
     artist: 'GENERATED',
     cover: true,
     gloss: { ru: { translation: 'Пусть сплетаются истории' } },
   },
-  'papa-reka': {
+  'father-river': {
     title: 'Папа-река',
     artist: 'Полуживые',
     cover: true,
@@ -89,12 +89,12 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
     gloss: { en: { transliteration: 'Gamlet', translation: 'Hamlet' } },
   },
-  'papa-more': {
+  'father-sea': {
     title: 'Папа-море',
     artist: 'Полуживые',
     gloss: { en: { transliteration: 'Papa-more', translation: 'Father Sea' } },
   },
-  rus: {
+  'who-is-happy-in-russia': {
     title: 'Кому на Руси жить хорошо',
     artist: 'Полуживые',
     cover: true,
@@ -105,7 +105,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
       },
     },
   },
-  dng: {
+  'five-romances': {
     title: 'Пять романсов, два сонета и один реквием',
     artist: 'Дамы и господа',
     cover: true,
@@ -129,7 +129,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
       ru: { translation: 'Мы заставили ИИ спеть наше старое дерьмо' },
     },
   },
-  nursery: {
+  'nursery-rhymes': {
     title: 'Nursery Rhymes for the Jilted Generation',
     artist: 'GENERATED',
     gloss: { ru: { translation: 'Детские стишки для брошенного поколения' } },
@@ -139,7 +139,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     artist: 'GENERATED',
     gloss: { ru: { translation: 'Прототипы' } },
   },
-  nikogo: {
+  'for-none-and-for-all': {
     title: 'Ни для кого и для всех',
     artist: 'Грёбаный бал',
     gloss: {
@@ -149,7 +149,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
       },
     },
   },
-  polzat: {
+  'stronger-than-love': {
     title: 'Сильней любви',
     artist: 'Грёбаный бал',
     gloss: {

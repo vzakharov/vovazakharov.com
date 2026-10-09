@@ -9,7 +9,7 @@ repo: 'believe'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/7.%20Believe%20In%20Me.flac
 seconds: 274
 explicit: true
-album: divine
+album: divine-discontent
 track: 7
 hidden: true
 en:

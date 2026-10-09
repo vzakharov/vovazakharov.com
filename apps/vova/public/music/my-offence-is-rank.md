@@ -8,7 +8,7 @@ repo: 'rank'
 audio: https://raw.githubusercontent.com/vovas-music/rank/main/rank2.flac
 seconds: 220
 explicit: false
-album: papa-reka
+album: father-river
 track: 5
 alsoOn: [{ album: hamlet, track: 2 }]
 hidden: true

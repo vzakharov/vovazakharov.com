@@ -8,7 +8,7 @@ repo: 'moral-'
 audio: https://raw.githubusercontent.com/vovas-music/moral-/main/%D0%BC%D0%BE%D1%80%D0%B0%D0%BB%D1%8C_2.flac
 seconds: 231
 explicit: false
-album: rus
+album: who-is-happy-in-russia
 track: 2
 hidden: true
 credits:

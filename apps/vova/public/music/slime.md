@@ -5,7 +5,7 @@ status: done
 language: ru
 project: [Грёбаный бал, за/обложкой]
 repo: slime
-album: polzat
+album: stronger-than-love
 track: 7
 audio: https://raw.githubusercontent.com/vovas-music/slime/main/%D0%A1%D0%BB%D0%B8%D0%B7%D1%8C.flac
 seconds: 231

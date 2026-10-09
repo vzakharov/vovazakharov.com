@@ -5,7 +5,7 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'wangwei'
-album: papa-more
+album: father-sea
 track: 8
 audio: https://raw.githubusercontent.com/vovas-music/wangwei/main/%D0%9F%D1%80%D0%BE%D1%89%D0%B0%D0%BD%D0%B8%D0%B5.flac
 seconds: 339

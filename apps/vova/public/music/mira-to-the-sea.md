@@ -8,7 +8,7 @@ repo: 'mira'
 audio: https://raw.githubusercontent.com/vovas-music/mira/main/mira.flac
 seconds: 236
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 2
 hidden: true
 en:

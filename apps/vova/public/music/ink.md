@@ -8,7 +8,7 @@ repo: 'ink'
 audio: https://raw.githubusercontent.com/vovas-music/ink/main/ink.flac
 seconds: 208
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 1
 hidden: true
 en:

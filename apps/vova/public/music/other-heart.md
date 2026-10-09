@@ -8,7 +8,7 @@ repo: 'heart'
 audio: https://raw.githubusercontent.com/vovas-music/heart/main/heart_new.flac
 seconds: 282
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 3
 hidden: true
 en:

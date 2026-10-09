@@ -8,7 +8,7 @@ repo: 'undone'
 audio: https://raw.githubusercontent.com/vovas-music/undone/main/undone.flac
 seconds: 245
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 6
 hidden: true
 en:

@@ -8,7 +8,7 @@ repo: 'papa-reka'
 audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/8_pes_reprise.flac
 seconds: 323
 explicit: false
-album: papa-reka
+album: father-river
 track: 8
 hidden: true
 credits:

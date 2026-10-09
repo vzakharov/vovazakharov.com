@@ -2,24 +2,18 @@ import { Group, type GroupProps } from '@mantine/core';
 import { Fragment, type ReactNode } from 'react';
 
 import { documentMonth, formatDocumentMonth } from '@/shared/content';
-import { loadMessages, type WithLocale } from '@/shared/i18n';
+import { loadMessages } from '@/shared/i18n';
 import type { MusicAlbum } from '@/shared/music-catalogue';
 import { NameLink } from '@/shared/ui';
 
 import { songPlacements } from '../lib/album-tracks';
 import { albumTitle } from '../lib/albums';
 import { formatDuration } from '../lib/duration';
-import { albumPath, artistPath, type WithEverything } from '../lib/music-urls';
+import { albumPath, artistPath, type CatalogueView } from '../lib/music-urls';
 import { bill, projectName } from '../lib/projects';
-import type { SongDocument } from '../lib/song-text';
+import type { SongOnRelease } from '../lib/song-text';
 
-export type SongFactsProps = WithLocale & {
-  document: SongDocument;
-  /** The release the page shows the song on, named first. */
-  album: MusicAlbum | null;
-  /** The catalogue the artist and album links stay in. */
-  catalogue: WithEverything;
-};
+export type SongFactsProps = SongOnRelease & CatalogueView;
 
 /**
  * What a listener would want to know about the recording, in the order they

@@ -8,7 +8,7 @@ repo: 'monkey'
 audio: https://raw.githubusercontent.com/vovas-music/monkey/main/monkey.flac
 seconds: 267
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 10
 hidden: true
 en:

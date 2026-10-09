@@ -8,7 +8,7 @@ repo: 'peta'
 audio: https://raw.githubusercontent.com/vovas-music/peta/main/peta_master.flac
 seconds: 122
 explicit: false
-album: ghosts
+album: ghosts-of-flesh
 track: 6
 hidden: true
 en:

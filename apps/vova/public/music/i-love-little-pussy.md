@@ -5,7 +5,7 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'meow'
-album: nursery
+album: nursery-rhymes
 track: 2
 audio: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.flac
 seconds: 187

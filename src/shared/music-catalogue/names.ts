@@ -26,24 +26,24 @@ export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
 
 /** Each one the address of the album's page under `/music/albums/`. */
 export const MUSIC_ALBUM_SLUGS = [
-  'ctfu',
+  'cheer-the-fuck-up',
   'vagabond',
-  'divine',
-  'ghosts',
+  'divine-discontent',
+  'ghosts-of-flesh',
   'pschpthy',
-  'nsfl',
-  'stories',
-  'papa-reka',
+  'not-safe-for-life',
+  'let-the-stories-spin',
+  'father-river',
   'hamlet',
-  'papa-more',
-  'rus',
-  'dng',
+  'father-sea',
+  'who-is-happy-in-russia',
+  'five-romances',
   'ignite',
   'old-shite',
-  'nursery',
+  'nursery-rhymes',
   'prototypes',
-  'nikogo',
-  'polzat',
+  'for-none-and-for-all',
+  'stronger-than-love',
 ] as const;
 
 export type MusicAlbum = (typeof MUSIC_ALBUM_SLUGS)[number];

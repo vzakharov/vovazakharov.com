@@ -8,7 +8,7 @@ repo: 'stories'
 audio: https://raw.githubusercontent.com/vovas-music/stories/main/7%20fireflies.flac
 seconds: 243
 explicit: false
-album: stories
+album: let-the-stories-spin
 track: 7
 hidden: true
 en:

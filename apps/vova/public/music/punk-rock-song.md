@@ -8,7 +8,7 @@ repo: 'prs'
 audio: https://raw.githubusercontent.com/vovas-music/prs/main/prs40.flac
 seconds: 218
 explicit: true
-album: ctfu
+album: cheer-the-fuck-up
 track: 8
 hidden: true
 en:

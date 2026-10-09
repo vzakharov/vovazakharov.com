@@ -20,12 +20,12 @@ import type { SongDocument } from './song-text';
  * Music — the album covers' size, so a single sits in the same grid as they do.
  */
 const SONG_COVERS: ReadonlySet<string> = new Set([
-  'chp',
-  'ghost',
+  'chikh-pykh',
+  'empty-mirrors',
+  'ghost-of-yesterday',
   'love',
-  'mirrors',
   'mithqal',
-  'my_hope',
+  'my-hope',
   'ok-loser',
   'trisagion',
 ]);

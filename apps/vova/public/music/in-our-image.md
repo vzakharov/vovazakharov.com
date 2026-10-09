@@ -9,7 +9,7 @@ repo: 'image'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/3.%20In%20Our%20Image.flac
 seconds: 261
 explicit: false
-album: divine
+album: divine-discontent
 track: 3
 hidden: true
 en:

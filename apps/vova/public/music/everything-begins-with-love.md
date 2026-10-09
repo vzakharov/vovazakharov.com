@@ -8,7 +8,7 @@ repo: '40days'
 audio: https://raw.githubusercontent.com/vovas-music/40days/main/dad.flac
 seconds: 332
 explicit: false
-album: papa-reka
+album: father-river
 track: 9
 hidden: true
 credits:

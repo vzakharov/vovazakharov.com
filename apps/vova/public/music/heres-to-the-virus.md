@@ -8,7 +8,7 @@ repo: 'virus'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/2.%20Here's%20To%20The%20Virus.flac
 seconds: 232
 explicit: false
-album: ghosts
+album: ghosts-of-flesh
 track: 2
 hidden: true
 en:

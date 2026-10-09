@@ -8,7 +8,7 @@ repo: 'phoenix'
 audio: https://raw.githubusercontent.com/vovas-music/phoenix/main/phoenix.flac
 seconds: 193
 explicit: false
-album: ctfu
+album: cheer-the-fuck-up
 track: 10
 hidden: true
 credits:

@@ -5,7 +5,7 @@ status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'f-ec'
-album: nikogo
+album: for-none-and-for-all
 track: 5
 audio: https://raw.githubusercontent.com/vovas-music/f-ec/main/%D0%A2%D0%B0%D0%BC.flac
 seconds: 208

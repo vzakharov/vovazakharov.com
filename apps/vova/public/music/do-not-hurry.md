@@ -8,7 +8,7 @@ repo: 'Ne-toropi'
 audio: https://raw.githubusercontent.com/vovas-music/rus-/main/8%20%D0%BD%D0%B5%20%D1%82%D0%BE%D1%80%D0%BE%D0%BF%D0%B8.flac
 seconds: 273
 explicit: false
-album: rus
+album: who-is-happy-in-russia
 track: 8
 hidden: true
 credits:

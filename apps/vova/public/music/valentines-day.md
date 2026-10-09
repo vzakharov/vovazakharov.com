@@ -8,7 +8,7 @@ repo: 'ophelia'
 audio: https://raw.githubusercontent.com/vovas-music/ophelia/main/ophelia.flac
 seconds: 203
 explicit: false
-album: papa-reka
+album: father-river
 track: 6
 alsoOn: [{ album: hamlet, track: 3 }]
 hidden: true

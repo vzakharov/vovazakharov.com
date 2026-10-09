@@ -8,7 +8,7 @@ repo: 'solitude'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/2.%20Infinite%20Solitude.flac
 seconds: 243
 explicit: false
-album: divine
+album: divine-discontent
 track: 2
 hidden: true
 en:

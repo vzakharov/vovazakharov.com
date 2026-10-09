@@ -8,7 +8,7 @@ repo: 'sneg'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-006.flac
 seconds: 211
 explicit: false
-album: dng
+album: five-romances
 track: 6
 hidden: true
 credits:

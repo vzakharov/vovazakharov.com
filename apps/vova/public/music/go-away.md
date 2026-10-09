@@ -5,7 +5,7 @@ status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'ukhodi'
-album: nikogo
+album: for-none-and-for-all
 track: 8
 audio: https://raw.githubusercontent.com/vovas-music/ukhodi/main/%D0%A3%D1%85%D0%BE%D0%B4%D0%B8.flac
 seconds: 234
@@ -35,7 +35,7 @@ ru:
 Скрывает серый кокон
 Недопереплетений
 
-[^okna-ru]: Отсылка к песне [«Окна»](/music/okna/ru).
+[^okna-ru]: Отсылка к песне [«Окна»](/music/windows/ru).
 
 Два силуэта ночи
 Две птицы в твёрдом теле
@@ -78,7 +78,7 @@ In which our shadows
 Are hidden by a grey cocoon
 Of never-quite-intertwinings
 
-[^okna-en]: A nod to the song [«Окна» (“Windows”)](/music/okna).
+[^okna-en]: A nod to the song [«Окна» (“Windows”)](/music/windows).
 
 Two silhouettes of the night
 Two birds in a solid body

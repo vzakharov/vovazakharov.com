@@ -5,7 +5,7 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'baa'
-album: nursery
+album: nursery-rhymes
 track: 1
 audio: https://raw.githubusercontent.com/vovas-music/baa/main/baa_master.flac
 seconds: 177
