@@ -50,7 +50,7 @@ Get the lost album «Крылья» and the single «Знаки препинан
 ## 6. State
 
 - Branch `claude/krylya-album-2z13o2`, no PR yet. Main merged at c278298 (#115) and `claude/song-rules-split` merged in.
-- Whisper for `09 Просто так`, `10 Мир, какой он есть` and the single's Послушайте may be missing from `docs/remove-before-merging/krylya/lyrics/` and `docs/remove-before-merging/znaki-prepinaniya/` if the predecessor's background job had not finished before the relay — check; if missing, re-run per `scripts/audio/CLAUDE.md` (Demucs `htdemucs` on the split song, then `lyrics.py`). Deepgram has 02–10 (and 01, 04) under `docs/remove-before-merging/deepgram/krylya-*`, none for the single.
+- Whisper transcripts exist for all ten album songs (`docs/remove-before-merging/krylya/lyrics/*.whisper.md`) and the single's Послушайте (`docs/remove-before-merging/znaki-prepinaniya/01 Послушайте (single version).whisper.md`). Deepgram has all ten album songs under `docs/remove-before-merging/deepgram/krylya-*`, none for the single — run `scripts/transcribe.py` on its vocals if wanted (vocals stems were in the predecessor's `tmp/`; re-separate per `scripts/audio/CLAUDE.md`).
 - Estimate: this session 3 h middle developer + 1 h middle designer + 1 h middle editor. Handed on: ~3 h middle developer (vendoring audio, album entries, eleven song documents, build), ~3 h middle editor (reconciling lyrics for eleven songs), ~1 h middle copywriter (album story and song blurbs from the dictation, en + ru).
 
 ## 7. Pointers
