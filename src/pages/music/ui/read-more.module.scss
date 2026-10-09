@@ -1,9 +1,9 @@
 // Screen only, so paper gets the whole text with no rule to undo.
 @media screen {
-  // About a dozen lines of the prose's 1.75 line height.
+  // About six lines of the prose's 1.75 line height.
   .clamped {
     position: relative;
-    max-height: 21rem;
+    max-height: 10.5rem;
     overflow: hidden;
   }
 
@@ -12,7 +12,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    height: 5rem;
+    height: 4rem;
     pointer-events: none;
     content: '';
     background: linear-gradient(transparent, var(--color-background));
