@@ -1,6 +1,6 @@
 import 'server-only';
 
-import type { Slugged } from '@/shared/content';
+import { isListed, type Slugged } from '@/shared/content';
 import {
   DEFAULT_LOCALE,
   isLocale,
@@ -32,7 +32,7 @@ import {
   type WithTab,
 } from './music-urls';
 import { MUSIC_PROJECT_SLUGS } from './projects';
-import { catalogueSongs, listSongDocuments } from './songs';
+import { catalogueSongs, listSongPages } from './songs';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalMusicSegments = { slugAndLocale?: string[] };
@@ -70,7 +70,7 @@ function artistBySlug(slug: string): MusicProject {
 /**
  * A parse rather than a cast, failing `next build` on an address no reading
  * covers. The locale is the last segment wherever it is present, and the whole
- * catalogue's addresses are the public ones behind `all/`. `listSongDocuments`
+ * catalogue's addresses are the public ones behind `all/`. `listSongPages`
  * refuses a song slug that is a locale or one of the section's own first
  * segments, so no song can steal an index's or an artist's URL.
  */
@@ -148,7 +148,7 @@ export function musicSegmentParams(): WithOptionalMusicSegments[] {
   const pages: Addressed[] = [
     ...cataloguePages({ everything: false }),
     ...cataloguePages({ everything: true }),
-    ...listSongDocuments().map(
+    ...listSongPages().map(
       ({ slug }): Addressed =>
         (locale) =>
           songPath(slug, locale),
@@ -167,11 +167,22 @@ export function musicSegmentParams(): WithOptionalMusicSegments[] {
 
 /**
  * The public catalogue's pages, one address per language and not the alias —
- * the section's share of the sitemap, songs aside, which the collection's own
- * walk advertises.
+ * the section's share of the sitemap. Of the songs only a page on a release
+ * other than the song's own is here, the collection's walk advertising the
+ * song's own page.
  */
 export function musicCatalogueRoutes(): string[] {
-  return cataloguePages({ everything: false }).flatMap((page) =>
-    LOCALES.map((locale) => page(locale)),
+  const releasePages = listSongPages()
+    .filter(
+      ({ slug, document }) => isListed(document) && slug !== document.slug,
+    )
+    .map(
+      ({ slug }): Addressed =>
+        (locale) =>
+          songPath(slug, locale),
+    );
+
+  return [...cataloguePages({ everything: false }), ...releasePages].flatMap(
+    (page) => LOCALES.map((locale) => page(locale)),
   );
 }

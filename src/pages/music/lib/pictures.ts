@@ -2,7 +2,7 @@ import 'server-only';
 
 import { intrinsicDimensions } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
-import type { MusicProject } from '@/shared/music-catalogue';
+import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
 
 import { albumCover } from './albums';
 import { type ArtistRelease, artistReleases, artistSongs } from './catalogue';
@@ -30,14 +30,17 @@ const SONG_COVERS: ReadonlySet<string> = new Set([
   'trisagion',
 ]);
 
-/** The song's own cover, else its album's; a site-root path under `apps/vova/public/`. */
-export function songPicture({
-  slug,
-  frontmatter,
-}: SongDocument): string | undefined {
+/**
+ * The song's own cover, else that of the album it is shown on — the one it is
+ * filed under unless named; a site-root path under `apps/vova/public/`.
+ */
+export function songPicture(
+  { slug, frontmatter }: SongDocument,
+  album: MusicAlbum | null = frontmatter.album,
+): string | undefined {
   if (SONG_COVERS.has(slug)) return `/music/assets/covers/${slug}.jpg`;
 
-  return frontmatter.album === null ? undefined : albumCover(frontmatter.album);
+  return album === null ? undefined : albumCover(album);
 }
 
 export function releasePicture(release: ArtistRelease): string | undefined {
@@ -58,11 +61,12 @@ export function artistPicture(
 ): string | undefined {
   const releases = artistReleases(artist, locale, songs);
   const pictures = [
-    ...releases.filter((release) => 'album' in release),
-    ...releases.filter((release) => 'single' in release),
-  ]
-    .map((release) => releasePicture(release))
-    .concat(artistSongs(artist, songs).map((song) => songPicture(song)));
+    ...[
+      ...releases.filter((release) => 'album' in release),
+      ...releases.filter((release) => 'single' in release),
+    ].map((release) => releasePicture(release)),
+    ...artistSongs(artist, songs).map((song) => songPicture(song)),
+  ];
 
   return pictures.find((picture) => picture !== undefined);
 }

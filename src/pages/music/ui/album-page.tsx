@@ -57,7 +57,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
 
         <SongList
           {...pick(messages, 'title')}
-          tracks={tracks.map(({ song }) => songTrack(song))}
+          tracks={tracks.map(({ song }) => songTrack(song, album))}
           trackNumbers={
             new Map(tracks.map(({ song, track }) => [song.slug, track]))
           }

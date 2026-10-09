@@ -22,10 +22,12 @@ The export is `docs/pr/115/pr.md`, committed at the `docs: #115 refresh the PR e
 - Item 5, play button: Vova picked variant 1 (a screenshot of it, «вот этот»); patch applied, tsc and the music tests pass, `play-variants/` deleted. Not re-previewed: the screenshots he picked from are of this patch.
 - Crib fixes asked in chat: Fingers «-надцать лет» → "seventeen-odd years on" (Vova: «давай seventeen-odd, это будет правильно») — d6d1c8e; Love's Russian crib in the feminine, «As» → «Пока».
 
+- 5a, Hamlet's Extended Version last (Vova: «extended version должна идти последней») — 3d424af.
+- 5b, a page per album placement: `listSongPages()` in `songs.ts`, `songPageSlug`, `songTrack`/`songPicture` taking the release; built and checked (`ophelia-hamlet` shows Hamlet's cover and names it first). `protintro`'s Russian stanzas split to match the English, which had kept `next build` red since 9da6bce.
+
 ## Left — in this order
 
-5a. **Hamlet's Extended Version last** (Vova: «extended version должна идти последней»): `hamlet-extended` to track 5, and Rank, Valentine's Day and Deer each up one on `hamlet`.
-5b. **A page per album placement** (Vova: «по нажатию "Валентинова дня" эта песня открывается в "Папе-реке", а не в "Гамлете" … в md наверное как есть, а вот собираться уже должно в две отдельные страницы, для основной слаг тот же, для неосновной с добавлением `-<album>`»): a song with `alsoOn` gets a page at `<slug>-<album>` for each such release, showing that album's cover and naming it first; an album's track list links each row to the page of its own placement. The `.md` link stays the one file.
+5b (done, as asked). **A page per album placement** (Vova: «по нажатию "Валентинова дня" эта песня открывается в "Папе-реке", а не в "Гамлете" … в md наверное как есть, а вот собираться уже должно в две отдельные страницы, для основной слаг тот же, для неосновной с добавлением `-<album>`»): a song with `alsoOn` gets a page at `<slug>-<album>` for each such release, showing that album's cover and naming it first; an album's track list links each row to the page of its own placement. The `.md` link stays the one file.
 6. **Slugs**, on Vova's answers to `slugs.md` (Vova: «берём английское название или перевод, но если слишком длинно, то сокращаем»): rename each `apps/vova/public/music/<slug>.md` with `git mv` (history follows), and every reference to the slug — `SONG_COVERS` in `pictures.ts` and the cover files, `albums.ts`-adjacent track data, the `songs` reserved slug, notes linking songs, the PR body's QA rows. Then delete `slugs.md`.
 7. `/polish`, then `/pr` (refresh the body: song pictures, artist pictures, the vet, the namespace).
 

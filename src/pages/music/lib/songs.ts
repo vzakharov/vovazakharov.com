@@ -1,5 +1,6 @@
 import { isListed, listPrimaryDocuments, SONGS } from '@/shared/content';
 import { byLocale, isLocale } from '@/shared/i18n';
+import type { MusicAlbum } from '@/shared/music-catalogue';
 
 import { songPlacements } from './album-tracks';
 import {
@@ -61,14 +62,77 @@ export function listSongDocuments(): SongDocument[] {
   return documents;
 }
 
+/** One page of a song: as the release it is filed under shows it, or as another it is also on does. */
+export type SongPageEntry = {
+  slug: string;
+  document: SongDocument;
+  album: MusicAlbum | null;
+};
+
+/**
+ * The page a song has on a release: its own slug on the one it is filed
+ * under, `<slug>-<album>` on any other — so following a song from an album's
+ * list keeps the listener on that album, its cover and its name first.
+ */
+export function songPageSlug(
+  { slug, frontmatter }: SongDocument,
+  album: MusicAlbum | null,
+): string {
+  return album === frontmatter.album ? slug : `${slug}-${album}`;
+}
+
+/**
+ * Every song page, the release-specific ones included. A page slug another
+ * song or a section address already holds fails the build, as a song slug does
+ * in `listSongDocuments`.
+ */
+export function listSongPages(): SongPageEntry[] {
+  const documents = listSongDocuments();
+  const songSlugs = new Set(documents.map(({ slug }) => slug));
+  const pages = documents.flatMap((document) =>
+    songPlacements(document.frontmatter)
+      .filter(({ album }) => album !== document.frontmatter.album)
+      .map(({ album }) => ({
+        slug: songPageSlug(document, album),
+        document,
+        album,
+      })),
+  );
+  const taken = pages.find(
+    ({ slug }) => songSlugs.has(slug) || RESERVED_SEGMENTS.has(slug),
+  );
+
+  if (taken) {
+    throw new Error(
+      `${taken.document.fileName}'s page on ${taken.album} is /music/${taken.slug}, an address already taken.`,
+    );
+  }
+
+  return [
+    ...documents.map((document) => {
+      const {
+        slug,
+        frontmatter: { album },
+      } = document;
+
+      return { slug, document, album };
+    }),
+    ...pages,
+  ];
+}
+
 /**
  * One song, reduced to what the player needs. Resolved at build time and
  * handed down as props, which is what keeps `shared/content` — and with it
  * `gray-matter`, `zod` and the whole remark stack — out of the browser while
  * the player still has a queue to work from. Both languages travel with every
  * track: a queue that stopped at the language boundary would stop the music.
+ * `album` is the release whose page the track links to.
  */
-export function songTrack(document: SongDocument): PlayerTrack {
+export function songTrack(
+  document: SongDocument,
+  album: MusicAlbum | null = document.frontmatter.album,
+): PlayerTrack {
   const { slug, frontmatter } = document;
   const { audio, seconds, explicit, project } = frontmatter;
 
@@ -87,7 +151,9 @@ export function songTrack(document: SongDocument): PlayerTrack {
     titles: byLocale(
       (locale) => localizeSong(document, locale).frontmatter.title,
     ),
-    routes: byLocale((locale) => songPath(slug, locale)),
+    routes: byLocale((locale) =>
+      songPath(songPageSlug(document, album), locale),
+    ),
   };
 }
 

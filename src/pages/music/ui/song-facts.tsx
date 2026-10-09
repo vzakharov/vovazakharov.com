@@ -6,6 +6,7 @@ import { loadMessages, type WithLocale } from '@/shared/i18n';
 import type { MusicAlbum } from '@/shared/music-catalogue';
 import { NameLink } from '@/shared/ui';
 
+import { songPlacements } from '../lib/album-tracks';
 import { albumTitle } from '../lib/albums';
 import { formatDuration } from '../lib/duration';
 import { albumPath, artistPath, type WithEverything } from '../lib/music-urls';
@@ -14,6 +15,8 @@ import type { SongDocument } from '../lib/song-text';
 
 export type SongFactsProps = WithLocale & {
   document: SongDocument;
+  /** The release the page shows the song on, named first. */
+  album: MusicAlbum | null;
   /** The catalogue the artist and album links stay in. */
   catalogue: WithEverything;
 };
@@ -21,12 +24,16 @@ export type SongFactsProps = WithLocale & {
 /**
  * The line under the title: what a listener would want to know about the
  * recording before playing it, in the order they would ask, each artist and
- * album linked to its page — the release the song is filed under, then any
+ * album linked to its page — the release the page shows the song on, then any
  * other it is also on. Empty entries drop out, so a single names no album.
  */
-export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
-  const { date, language, album, alsoOn, project, seconds } =
-    document.frontmatter;
+export function SongFacts({
+  document,
+  album,
+  catalogue,
+  locale,
+}: SongFactsProps) {
+  const { date, language, project, seconds } = document.frontmatter;
   const messages = loadMessages(locale).music;
 
   /** The message with each album linked in its `{album}` slot, or nothing for none. */
@@ -62,7 +69,9 @@ export function SongFacts({ document, catalogue, locale }: SongFactsProps) {
     album: albumsFact(messages.album, album === null ? [] : [album]),
     alsoOn: albumsFact(
       messages.alsoOn,
-      (alsoOn ?? []).map((placement) => placement.album),
+      songPlacements(document.frontmatter)
+        .map((placement) => placement.album)
+        .filter((other) => other !== album),
     ),
     duration: formatDuration(seconds),
   };

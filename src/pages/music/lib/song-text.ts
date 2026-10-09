@@ -2,7 +2,11 @@ import 'server-only';
 
 import type { ContentDocument } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
-import type { SongFrontmatter, SongText, SungLanguage } from '@/shared/music-catalogue';
+import type {
+  SongFrontmatter,
+  SongText,
+  SungLanguage,
+} from '@/shared/music-catalogue';
 
 import {
   readVerse,

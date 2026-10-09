@@ -3,12 +3,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { SITE_CONFIG } from '@/shared/config';
-import {
-  isListed,
-  loadDocument,
-  renderDocument,
-  SONGS,
-} from '@/shared/content';
+import { isListed, renderDocument } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
@@ -30,8 +25,8 @@ import type { SongPageProps } from '../lib/music-route-params';
 import { indexPath, songPath } from '../lib/music-urls';
 import { pictureCard, songPicture } from '../lib/pictures';
 import { songRepositoryUrl } from '../lib/projects';
-import { localizeSong, type SongDocument, songLyrics } from '../lib/song-text';
-import { songTrack } from '../lib/songs';
+import { localizeSong, songLyrics } from '../lib/song-text';
+import { listSongPages, type SongPageEntry, songTrack } from '../lib/songs';
 import { titleGloss } from '../lib/title-gloss';
 import { ExplicitBadge } from './explicit-badge';
 import { Lyrics } from './lyrics';
@@ -42,17 +37,17 @@ import { SongFacts } from './song-facts';
 import { SongPlayButton } from './song-play-button';
 import { TitleGlossLine } from './title-gloss-line';
 
-function resolve(slug: string): SongDocument {
-  const document = loadDocument(SONGS, slug);
+function resolve(slug: string): SongPageEntry {
+  const page = listSongPages().find((entry) => entry.slug === slug);
 
-  if (!document) notFound();
+  if (!page) notFound();
 
-  return document;
+  return page;
 }
 
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
-  const document = resolve(slug);
+  const { document, album } = resolve(slug);
   const { title, description, hidden } = localizeSong(
     document,
     locale,
@@ -64,13 +59,13 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
     path: songPath(slug, locale),
     ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
     ogType: 'article',
-    ...pictureCard(songPicture(document)),
+    ...pictureCard(songPicture(document, album)),
     hidden,
   });
 }
 
 export async function SongPage({ slug, locale }: SongPageProps) {
-  const document = resolve(slug);
+  const { document, album } = resolve(slug);
   const localized = localizeSong(document, locale);
   const { tree } = await renderDocument(localized);
   // A hidden song's artists and album may have no public page, so its links
@@ -80,7 +75,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
     localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
-  const picture = songPicture(document);
+  const picture = songPicture(document, album);
 
   return (
     <PageShell>
@@ -121,7 +116,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                 {/* The same track a song list's row plays, so both drive one
                     queue — which a hidden song joins only once played here. */}
                 <Box mt={12}>
-                  <SongPlayButton track={songTrack(document)} />
+                  <SongPlayButton track={songTrack(document, album)} />
                 </Box>
               </Stack>
             </div>
@@ -133,7 +128,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
             {/* The recording's facts, and the files behind it at the far end
                 of the same line. */}
             <Group justify="space-between" gap="12px 32px" wrap="wrap">
-              <SongFacts {...{ document, catalogue, locale }} />
+              <SongFacts {...{ document, album, catalogue, locale }} />
 
               <Group gap={16} wrap="wrap">
                 <FileLink {...localized.markdown}>.md</FileLink>
