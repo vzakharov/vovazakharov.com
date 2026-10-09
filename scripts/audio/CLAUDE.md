@@ -38,6 +38,10 @@ Neither transcript is the lyrics. The draft reconciles both, keeps the line brea
 
 Judge a master by **loudness-matched A/B**: alternate five seconds of each over the whole song, the louder side brought down to the quieter rather than the quieter raised, whose peaks would clip — otherwise the ear hears level, not sound. `spectrum.py` shows what an EQ actually did, which is the place to start when the operator says "too bright" or "muddy".
 
+## Reflection
+
+A song worked here ends with Глухарь's reflection on it, `apps/vova/public/music/<slug>.reflections.md` beside the song's markdown, once the song is in the catalogue. Read `.claude/rules/glukhar-reflections.md` before writing one — it says who writes it and how — and any earlier `*.reflections.md` beside the songs.
+
 ## Traps
 
 - **Files sent to the operator need an ASCII name**: the Claude app's player fails silently on a Cyrillic one.
