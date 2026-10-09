@@ -116,7 +116,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     title: 'Ignite',
     artist: 'Yoohie',
     cover: true,
-    gloss: { ru: { translation: 'Зажги' } },
+    gloss: { ru: { translation: 'Зажигаем' } },
   },
   'old-shite': {
     title: 'We Made AI Sing Our Old Shite',

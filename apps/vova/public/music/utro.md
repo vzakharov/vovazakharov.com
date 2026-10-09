@@ -64,11 +64,7 @@ ru:
 Моя любовь
 Когда увижу
 Тебя я вновь
-
-Доброе утро
-Моя любовь
-Когда увижу
-Тебя я вновь
+×2
 
 Доброе утро
 Моя любовь
@@ -104,11 +100,7 @@ Good morning
 My love
 When will I see
 You again
-
-Good morning
-My love
-When will I see
-You again
+×2
 
 Good morning
 My love

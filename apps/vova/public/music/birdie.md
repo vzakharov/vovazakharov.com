@@ -139,7 +139,7 @@ So fucking high!
 Six months went by and I’d cooled off a bit:
 Aren’t there girls enough, what do I want with this untouchable one?
 Too much honour, chasing you over roofs and treetops?
-[Why the fuck would I be the sad one][^marfusha-en], what did you even do to me?
+[Why should I be fucking sad][^marfusha-en], what did you even do to me?
 They’re right, you know, women are nothing but trouble:
 I’ll forget you and drive on,
 And I don’t care who you’re with or where you are.

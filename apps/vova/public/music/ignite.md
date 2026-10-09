@@ -15,7 +15,7 @@ en:
   description: 'TBD'
 ru:
   title:
-    translation: 'Вспыхнуть'
+    translation: 'Зажигаем'
   description: 'TBD'
 ---
 

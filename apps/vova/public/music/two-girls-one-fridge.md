@@ -30,11 +30,15 @@ ru:
 One for the fridge, packed tight and cold
 One left out, for nights so bold
 One to eat and one to fuck
-Two girls, one fridge, ain’t that luck?
+Two girls, one fridge, ain’t that luck?[^cup-en]
+
+[^cup-en]: A nod to _2 Girls 1 Cup_.
 
 <!-- lyrics:ru -->
 
 Одну — в холодильник, упакованную туго, в холод
 Одну — оставить снаружи, для дерзких ночей
 Одну — чтобы есть, другую — чтобы ебать
-Две девчонки, один холодильник — ну чем не везуха?
+Две девчонки, один холодильник — ну чем не везуха?[^cup-ru]
+
+[^cup-ru]: Отсылка к «2 Girls 1 Cup».

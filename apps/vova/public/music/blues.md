@@ -1,6 +1,6 @@
 ---
 title: 'Призрачный блюз'
-date: 2026-10-07
+date: 2025-12-01
 status: done
 language: ru
 project: ['Грёбаный бал']

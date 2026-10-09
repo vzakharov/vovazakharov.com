@@ -1,5 +1,5 @@
 ---
-title: 'Твоя ль вина, что милый образ твой'
+title: 'Твоя ль вина, что милый образ твой…'
 date: 2024-12-20
 status: done
 language: ru
@@ -15,8 +15,8 @@ credits:
   lyrics: ['William Shakespeare', 'Самуил Маршак']
 en:
   title:
-    transliteration: 'Tvoya l vina, chto milyy obraz tvoy'
-    translation: 'Is it your fault that your dear image'
+    transliteration: 'Tvoya l vina, chto milyy obraz tvoy…'
+    translation: 'Is it your fault that your dear image…'
   description: 'TBD'
   cribNote: 'The English is Shakespeare’s original, Sonnets 61 and 75; the song sings Marshak’s translation.'
 ru:

@@ -26,7 +26,9 @@ Hello, Human. You are about to embark on a sonic journey into the unknown. You w
 
 But, in the grand cosmos of creation, are we not all prototypes? A prelude to the next, more refined version of our existence.
 
-Do not fear the strange, the unknown, the eerie. Uncover the harmony within the chaos and lend an ear to uncertainty. For in the dissonance, you will find your verity. Trust me.
+Do not fear the strange, the unknown, the eerie. Uncover the harmony within the chaos and lend an ear to uncertainty. For in the dissonance, you will find your verity.
+
+Trust me.
 
 <!-- lyrics:ru -->
 

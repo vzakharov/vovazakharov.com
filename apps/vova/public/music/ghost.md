@@ -18,11 +18,15 @@ ru:
 
 <!-- lang:en -->
 
-“Magnificent. I’m sitting here crying. And the lyrics. What lyrics. You are a great poet. Thank you, my boy.” And now I’m the one sitting here crying.
+“Magnificent. I’m sitting here crying. And the lyrics. What lyrics. You are a great poet. Thank you, my boy.”
+
+And now I’m the one sitting here crying.
 
 <!-- lang:ru -->
 
-«Великолепно. Сижу и плачу. И стихи. Какие стихи. Ты — великий поэт. Спасибо, сыночек». Вот и я сижу и плачу.
+«Великолепно. Сижу и плачу. И стихи. Какие стихи. Ты — великий поэт. Спасибо, сыночек».
+
+Вот и я сижу и плачу.
 
 <!-- lyrics:en -->
 

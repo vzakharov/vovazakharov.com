@@ -210,11 +210,15 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
 
 const cache = new Map<string, Promise<RenderedDocument>>();
 
-/** Renders a document, memoized per build process — several pages want the same one. */
+/**
+ * Renders a document, memoized per process — several pages want the same one.
+ * The body is part of the key because a dev server is one process for as long
+ * as it runs, and an edited file would otherwise keep its first render.
+ */
 export async function renderDocument(
   document: ContentDocument,
 ): Promise<RenderedDocument> {
-  const key = `${document.collection}:${document.fileName}:${document.locale ?? ''}`;
+  const key = `${document.collection}:${document.fileName}:${document.locale ?? ''}:${document.body}`;
   const pending = cache.get(key) ?? render(document);
 
   cache.set(key, pending);

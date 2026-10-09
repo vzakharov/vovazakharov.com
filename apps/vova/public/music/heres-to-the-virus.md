@@ -15,7 +15,7 @@ en:
   description: 'TBD'
 ru:
   title:
-    translation: 'За вирус'
+    translation: 'За вирус!'
   description: 'TBD'
 ---
 
