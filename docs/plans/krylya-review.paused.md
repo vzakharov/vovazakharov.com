@@ -46,19 +46,22 @@ context budget.
   Us's blurb in the present tense, Our Story's older-voice note starting at
   «Мороз по коже», «трендс» and «булли» unexplained (7c87b24); the story fold
   after about six lines (5caf7bb). Item 3 answered: «как сейчас нормально,
-  единственное, обрезка должна быть намного раньше».
+  единственное, обрезка должна быть намного раньше». За/обложкой's own
+  text at `artists/za-oblozhkoy.md`, the album keeping its last paragraph
+  (f7ae6e7); spectrograms on a 40 Hz–10 kHz log scale over a waveform
+  coloured by the dominant note (feebcac, 6c9797c); a song's `video` opens
+  from an outlined «Смотреть видео» beside «Слушать», pausing the song, and
+  Space no longer resumes it under the dialog (1d98e65); voice notes as
+  Prettier sets them (a536e49). All six threads of the second review
+  answered.
 
 ## Left
 
-Then `/polish` and `/pr`, once these land:
-
-- A project page carries its own text, and most of `albums/wings.md` moves
-  to за/обложкой's («большинство из этого должно быть описание ко всему
-  проекту, а не альбому»).
-- Spectrograms on a log frequency scale, with a waveform under them.
-- A song's video leaves the story body for an outlined «Смотреть видео»
-  button beside «Слушать», pausing the song when the video plays.
-- Replies on the wings.md and spectrogram threads.
+- `jsx-a11y/media-has-caption` fails lint on the `<video>` in
+  `src/pages/music/ui/song-video-button.tsx`, so vet is red. Waiting on the
+  author: (a) a point-of-use suppression — the video carries the song, whose
+  words the page prints as its lyrics — or (b) a timed `.vtt` per video.
+- Then `/polish` and `/pr`.
 
 Items 1–3, as they were asked:
 
