@@ -1,12 +1,15 @@
 /** How the projects the songs are released under are shown and addressed. */
 
 import { inLocale, type Locale, type Localizable } from '@/shared/i18n';
+import type { TitleGloss } from '@/shared/song';
 // The node-safe barrel, which `projects.test.ts` runs under: the other one
 // carries the schema and its `server-only`.
 import {
   MUSIC_ORGANIZATION,
   type MusicProject,
 } from '@/shared/song/index.node-safe';
+
+import { titleGloss } from './title-gloss';
 
 const MUSIC_ORGANIZATION_URL = `https://github.com/${MUSIC_ORGANIZATION}`;
 
@@ -42,6 +45,43 @@ export const MUSIC_PROJECT_SLUGS: Record<MusicProject, string> = {
 
 export function projectName(project: MusicProject, locale: Locale): string {
   return inLocale(PROJECT_DISPLAY_NAMES[project] ?? project, locale);
+}
+
+/** What each locale tells its reader about a project's name, as a song's gloss does. */
+const PROJECT_GLOSSES: Partial<
+  Record<MusicProject, Partial<Record<Locale, TitleGloss>>>
+> = {
+  Полуживые: {
+    en: { transliteration: 'Poluzhivye', translation: 'The Half-Alive' },
+  },
+  'Грёбаный бал': {
+    en: { transliteration: 'Grebany bal', translation: 'The Fucking Ball' },
+  },
+  'за/обложкой': {
+    en: { transliteration: 'za/oblozhkoy', translation: 'Behind the Cover' },
+  },
+  'Дамы и господа': {
+    en: {
+      transliteration: 'Damy i gospoda',
+      translation: 'Ladies and Gentlemen',
+    },
+  },
+  'Иске Кормаш': { en: { transliteration: 'Iske Kormash' } },
+  Киндерштайн: { en: { transliteration: 'Kindershtayn' } },
+  Листопад: { en: { transliteration: 'Listopad', translation: 'Leaf Fall' } },
+};
+
+export function projectGloss(
+  project: MusicProject,
+  locale: Locale,
+): TitleGloss {
+  return titleGloss(
+    {
+      title: projectName(project, locale),
+      gloss: PROJECT_GLOSSES[project]?.[locale],
+    },
+    locale,
+  );
 }
 
 /**

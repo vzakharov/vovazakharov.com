@@ -4,7 +4,7 @@ import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { BackToHome, NameLink, PageShell } from '@/shared/ui';
 
-import { albumArtist, albumTitle } from '../lib/albums';
+import { albumArtist, albumGloss, albumTitle } from '../lib/albums';
 import { albumSongs, albumYears } from '../lib/catalogue';
 import { albumLength } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
@@ -37,6 +37,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
         <CatalogueHeader
           kind={messages.kind.album}
           title={albumTitle(album, locale)}
+          gloss={albumGloss(album, locale)}
         >
           <Text size="sm" opacity={0.7} mt={12}>
             <NameLink href={artistPath(artist, catalogue, locale)}>

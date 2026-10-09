@@ -8,7 +8,7 @@ import { albumCover, albumTitle } from '../lib/albums';
 import { albumYears, artistReleases, artistSongs } from '../lib/catalogue';
 import type { ArtistPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
-import { projectName } from '../lib/projects';
+import { projectGloss, projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
@@ -35,6 +35,7 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
         <CatalogueHeader
           kind={messages.kind.artist}
           title={projectName(artist, locale)}
+          gloss={projectGloss(artist, locale)}
         />
 
         <CatalogueGrid

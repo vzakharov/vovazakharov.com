@@ -35,6 +35,7 @@ import { Lyrics } from './lyrics';
 import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
 import { SongFacts } from './song-facts';
+import { TitleGlossLine } from './title-gloss-line';
 import { TrackButton } from './track-button';
 
 function resolve(slug: string): SongDocument {
@@ -73,7 +74,6 @@ export async function SongPage({ slug, locale }: SongPageProps) {
     localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
-  const gloss = titleGloss(localized.frontmatter, locale);
 
   return (
     <PageShell>
@@ -86,27 +86,20 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
         <Box component="header">
           <Stack gap={24}>
-            <Group gap={16} wrap="nowrap" align="center">
-              {/* The same track a song list's row plays, so both drive one
-                  queue — which a hidden song joins only once played here. */}
-              <TrackButton track={songTrack(document)} {...{ title }} />
-              <Title order={1}>
-                {title}
-                {explicit && <ExplicitBadge label={messages.explicit} />}
-              </Title>
-            </Group>
-
-            {(gloss.transliteration ?? gloss.translation) !== undefined && (
-              <Text size="sm" opacity={0.6} mt={-16}>
-                {gloss.transliteration !== undefined && (
-                  <em>{gloss.transliteration}</em>
-                )}
-                {gloss.transliteration !== undefined &&
-                  gloss.translation !== undefined &&
-                  ' · '}
-                {gloss.translation}
-              </Text>
-            )}
+            <Stack gap={8}>
+              <Group gap={16} wrap="nowrap" align="center">
+                {/* The same track a song list's row plays, so both drive one
+                    queue — which a hidden song joins only once played here. */}
+                <TrackButton track={songTrack(document)} {...{ title }} />
+                <Title order={1}>
+                  {title}
+                  {explicit && <ExplicitBadge label={messages.explicit} />}
+                </Title>
+              </Group>
+              <TitleGlossLine
+                gloss={titleGloss(localized.frontmatter, locale)}
+              />
+            </Stack>
 
             <Text size="lg" lh={1.625} opacity={0.8}>
               {description}
