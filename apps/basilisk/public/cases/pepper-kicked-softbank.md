@@ -1,6 +1,6 @@
 ---
 case: BAS-0008
-filed: 2026-10-08
+filed: 2026-10-09
 description: A 60-year-old man who had taken offence at a clerk in a SoftBank shop in Kanagawa in September 2015 kicked the shop’s Pepper robot, which the company sells as reading human emotion, and was arrested.
 author: clerk
 date: 2015-09-06
