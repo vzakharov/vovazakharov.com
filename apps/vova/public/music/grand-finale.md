@@ -44,8 +44,10 @@ Pale death that none shall slip.
 
 ’Neath a new radioactive sun’s glare,
 Life and death dance in a twisted pair.
-From ashes to ashes, from dust to dust,
+[From ashes to ashes, from dust to dust][^ashes-en],
 In entropy we trust.
+
+[^ashes-en]: After the burial service of the Book of Common Prayer, “earth to earth, ashes to ashes, dust to dust,” which echoes Genesis 3:19: “for dust thou art, and unto dust shalt thou return.”
 
 The earth trembles under spectral hooves,
 A symphony of destruction, as all life moves
@@ -79,8 +81,10 @@ In the silence of the void, whispers reclaim,
 
 Под светом нового радиоактивного солнца
 Жизнь и смерть кружатся в искажённой паре.
-Из праха в прах, из пыли в пыль,
+[Из праха в прах, из пыли в пыль][^ashes-ru],
 На энтропию уповаем.
+
+[^ashes-ru]: Из англиканского чина погребения: «земля к земле, пепел к пеплу, прах к праху», — восходит к Книге Бытия (3:19): «ибо прах ты и в прах возвратишься».
 
 Земля дрожит под призрачными копытами,
 Симфония разрушения, пока всё живое движется
