@@ -16,17 +16,19 @@ credits:
 en:
   title:
     transliteration: 'Lyoli'
-  description: 'TBD'
+  description: 'I was proud of it, then I stopped being proud of it — and then my dad called it a masterpiece.'
   cribNote: 'The English is Juliet Soskice’s 1917 translation; the song sings Nekrasov’s original.'
 ru:
-  description: 'TBD'
+  description: 'Я ею гордился, потом перестал — а потом папа назвал её шедевром.'
 ---
 
-<!-- Scaffolded from https://github.com/vovas-music/rus- — 7 лёли.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- lang:en -->
+
+I was really proud of this song when I wrote it — it felt like something very new for me personally. But somehow nobody I showed it to thought much of it. In time I stopped thinking much of it myself: it does drag, and the sound is a bit too lo-fi even by Suno 2 standards. Then, some time later, I showed it to my dad (I’d been waiting for the whole album to be ready and hadn’t shown it to him on its own). He was lukewarm about the album, but “Lyoli is just a masterpiece.” Go figure!
+
+<!-- lang:ru -->
+
+Я очень был горд этой песней, когда написал — казалось, это что-то очень новое для меня лично. Но что-то никто из тех, кому показывал, не оценивал. Со временем я и сам перестал — действительно, затянута, звук какой-то слишком уж даже по меркам Suno 2 лой-фай. А спустя какое-то время я показал её папе (ждал, пока будет готов весь альбом, отдельно не показывал). Альбом он воспринял так себе, а вот «Лёли — просто шедевр». Поди пойми!
 
 <!-- lyrics:ru -->
 
