@@ -12,7 +12,7 @@ cd "$(dirname "$0")/.."
 # shellcheck source=scripts/lib/changed-files.sh
 source scripts/lib/changed-files.sh
 
-INPUTS='^(apps/vova/public/music/[^/]+\.md|scripts/(check-masked-words|check-song-titles|list-hidden-songs)\.ts|docs/music/hidden-songs\.md|scripts/lib/(public-markdown\.ts|changed-files\.sh)|scripts/vet-songs\.sh)$'
+INPUTS='^(apps/vova/public/music/[^/]+\.md|scripts/(check-masked-words|check-song-titles|list-hidden-songs)\.ts|docs/music/hidden-songs\.md|src/pages/music/lib/sections\.ts|src/shared/music-catalogue/names\.ts|scripts/lib/(public-markdown\.ts|changed-files\.sh)|scripts/vet-songs\.sh)$'
 
 if changed="$(changed_files)" && ! grep -qE "$INPUTS" <<<"$changed"; then
   printf 'vet-songs: no song has changed, so the song checks are skipped.\n'

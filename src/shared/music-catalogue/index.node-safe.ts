@@ -9,4 +9,5 @@ export {
   MUSIC_PROJECT_NAMES,
   type MusicAlbum,
   type MusicProject,
+  SONG_DESCRIPTION_PLACEHOLDER,
 } from './names.ts';

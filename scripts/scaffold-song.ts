@@ -36,6 +36,7 @@ import {
   MUSIC_ALBUM_SLUGS,
   MUSIC_ORGANIZATION,
   MUSIC_PROJECT_NAMES,
+  SONG_DESCRIPTION_PLACEHOLDER,
 } from '@/shared/music-catalogue/index.node-safe';
 import type { Dated, Named } from '@/shared/typings';
 
@@ -315,9 +316,9 @@ audio: ${master.audio}
 seconds: ${seconds}
 explicit: ${String(master.explicit || explicit === true)}
 ${album === undefined ? '' : `album: ${album}\n`}${hidden === true ? 'hidden: true\n' : ''}en:
-${en}  description: ${yaml('TBD')}
+${en}  description: ${yaml(SONG_DESCRIPTION_PLACEHOLDER)}
 ru:
-${ru}  description: ${yaml('TBD')}
+${ru}  description: ${yaml(SONG_DESCRIPTION_PLACEHOLDER)}
 ---
 
 ${note === undefined ? '' : `<!-- For Vova to check: ${note} -->\n\n`}<!-- Scaffolded from https://github.com/${MUSIC_ORGANIZATION}/${repo} — ${master.flac},

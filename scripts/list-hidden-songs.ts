@@ -20,15 +20,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
+import { PREAMBLE, splitSections } from '../src/pages/music/index.node-safe.ts';
 import {
   MUSIC_ALBUM_SLUGS,
   MUSIC_PROJECT_NAMES,
+  SONG_DESCRIPTION_PLACEHOLDER,
 } from '../src/shared/music-catalogue/index.node-safe.ts';
 import { songFiles } from './lib/public-markdown.ts';
 
 const LIST = 'docs/music/hidden-songs.md';
 const LOCALES = ['en', 'ru'] as const;
-const PLACEHOLDER = 'TBD';
 
 const localeSchema = z.object({ description: z.string().optional() });
 
@@ -48,32 +49,9 @@ type HiddenSong = z.infer<typeof hiddenSongSchema> & {
   lacks: string[];
 };
 
-const MARKER = /<!--\s*(lang|lyrics):([\w-]+)\s*-->/g;
-
-/** Whether text says anything once its HTML comments — markers, scaffold notes — are gone. */
+/** Whether text says anything once its HTML comments — scaffold notes — are gone. */
 const says = (text: string) =>
   text.replaceAll(/<!--[\S\s]*?-->/g, '').trim() !== '';
-
-/** The story each locale reads: what precedes the first marker, plus its own section. */
-function storyLocales(body: string): Set<string> {
-  const told = new Set<string>();
-  const markers = [...body.matchAll(MARKER)];
-
-  if (says(body.slice(0, markers[0]?.index ?? body.length)))
-    for (const locale of LOCALES) told.add(locale);
-  for (const [index, marker] of markers.entries()) {
-    const [, kind, key] = marker;
-    const end = markers[index + 1]?.index ?? body.length;
-    if (
-      kind === 'lang' &&
-      key !== undefined &&
-      says(body.slice(marker.index + marker[0].length, end))
-    )
-      told.add(key);
-  }
-
-  return told;
-}
 
 type Locale = (typeof LOCALES)[number];
 
@@ -86,14 +64,19 @@ function lacking(what: string, has: (locale: Locale) => boolean): string[] {
 }
 
 function lacks(song: z.infer<typeof hiddenSongSchema>, body: string) {
-  const told = storyLocales(body);
+  const sections = splitSections(body);
+  const tells = (key: string) => says(sections.get(key) ?? '');
 
   return [
     ...lacking('description', (locale) => {
       const description = song[locale]?.description?.trim();
-      return description !== undefined && description !== PLACEHOLDER;
+      return (
+        description !== undefined &&
+        description !== SONG_DESCRIPTION_PLACEHOLDER
+      );
     }),
-    ...lacking('story', (locale) => told.has(locale)),
+    // The preamble is every locale's story, as the page reads it.
+    ...lacking('story', (locale) => tells(PREAMBLE) || tells(`lang:${locale}`)),
   ];
 }
 
