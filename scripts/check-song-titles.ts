@@ -11,10 +11,11 @@
  * - `titleLanguage`, right under `title`, wherever the title is not in the one
  *   language sung — the song is sung in several, is instrumental, or its title
  *   is in another language — and nowhere else.
- * - A title not in English carries an English `translation` under `en`, plus a
- *   `transliteration` where it is not in Latin letters; an English title
- *   carries a Russian `translation` under `ru`. A locale's own name for the
- *   song, a string `title`, stands in for both.
+ * - A title not in a locale's language carries a `translation` under that
+ *   locale — Italian `Inverno` under both, a Russian title under `en`. A
+ *   `transliteration` is optional, a translation alone standing for both where
+ *   the two would read the same. A locale's own name for the song, a string
+ *   `title`, stands in for either.
  *
  * Which language a title is in is only partly mechanical: a title with no
  * letter of the sung language's script is flagged as wanting `titleLanguage`,
@@ -101,16 +102,14 @@ function titleLanguageFindings(
   ];
 }
 
-function missing(
+function missingTranslation(
   locale: 'en' | 'ru',
   localeTitle: LocaleTitle,
-  keys: Array<'translation' | 'transliteration'>,
 ): string[] {
-  return typeof localeTitle === 'string'
+  return typeof localeTitle === 'string' ||
+    localeTitle?.translation !== undefined
     ? []
-    : keys
-        .filter((key) => localeTitle?.[key] === undefined)
-        .map((key) => `\`${locale}.title.${key}\` is missing`);
+    : [`\`${locale}.title.translation\` is missing`];
 }
 
 function glossFindings({
@@ -124,12 +123,10 @@ function glossFindings({
   // A title with no letter in it — `8849` — reads the same in every language.
   if (titledIn === 'instrumental' || !/\p{L}/u.test(title)) return [];
 
-  return titledIn === 'en'
-    ? missing('ru', ru?.title, ['translation'])
-    : missing('en', en?.title, [
-        'translation',
-        ...(LATIN.test(title) ? [] : (['transliteration'] as const)),
-      ]);
+  return [
+    ...(titledIn === 'en' ? [] : missingTranslation('en', en?.title)),
+    ...(titledIn === 'ru' ? [] : missingTranslation('ru', ru?.title)),
+  ];
 }
 
 const findings = songFiles().flatMap((file) => {

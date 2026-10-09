@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import type { Locale } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
 
 import {
   billingText,
@@ -222,7 +223,7 @@ export function useAudioPlayer(
     if (session === undefined || current === undefined) return;
 
     session.metadata = new MediaMetadata({
-      title: current.titles[locale],
+      ...pick(current.titles[locale], 'title'),
       artist: billingText(current.billing[locale]),
       album: 'vovazakharov.com/music',
     });

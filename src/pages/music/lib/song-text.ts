@@ -20,7 +20,9 @@ import type { GlossedTitle } from './title-gloss';
 export type SongDocument = ContentDocument<SongFrontmatter>;
 
 /** A locale's strings with its title resolved: its own name for the song, or the song's with a gloss. */
-type LocalizedSongText = Omit<SongText, 'title'> & GlossedTitle;
+type LocalizedSongText = Omit<SongText, 'title'> &
+  GlossedTitle &
+  Pick<SongFrontmatter, 'titleTransliterated'>;
 
 /**
  * A song as one language sees it: the titles and the story for that locale,
@@ -51,14 +53,14 @@ function lyricsKey(language: SungLanguage): string {
 }
 
 function localeText(
-  { title, ...frontmatter }: SongFrontmatter,
+  { title, titleTransliterated, ...frontmatter }: SongFrontmatter,
   locale: Locale,
 ): LocalizedSongText {
   const { title: own, ...text } = frontmatter[locale];
 
   return typeof own === 'string'
-    ? { ...text, title: own }
-    : { ...text, title, gloss: own };
+    ? { ...text, title: own, titleTransliterated: false }
+    : { ...text, title, titleTransliterated, gloss: own };
 }
 
 /**
@@ -106,7 +108,11 @@ export function songLyrics(
   const sections = splitSections(body);
   const sung = sections.get(lyricsKey(language));
 
-  if (sung === undefined) return undefined;
+  if (sung === undefined) {
+    throw new Error(
+      `${fileName} is sung in ${language} and has no "${lyricsKey(language)}" section; a song that is not instrumental carries its words.`,
+    );
+  }
 
   const stanzas = readVerse(sung, fileName);
 

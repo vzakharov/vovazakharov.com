@@ -1,6 +1,7 @@
 ---
-title: 'Άγιος Ο Σκοπός'
+title: 'Ágios o skopós'
 titleLanguage: el
+titleTransliterated: true
 date: 2024-12-07
 status: done
 language: ru
@@ -14,7 +15,6 @@ track: 9
 hidden: true
 en:
   title:
-    transliteration: 'Agios o Skopos'
     translation: 'Holy Is the Purpose'
   description: 'TBD'
 ru:

@@ -34,6 +34,7 @@ import classes from './music.module.scss';
 import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
+import { SongName } from './song-name';
 import { SongPlayButton } from './song-play-button';
 import { TitleGlossLine } from './title-gloss-line';
 
@@ -71,7 +72,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
   // A hidden song's artists and album may have no public page, so its links
   // stay in the whole catalogue.
   const catalogue = { everything: !isListed(document) };
-  const { title, description, repo, explicit, cribNote } =
+  const { title, titleTransliterated, description, repo, explicit, cribNote } =
     localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
@@ -108,7 +109,10 @@ export async function SongPage({ slug, locale }: SongPageProps) {
               <Stack gap={8} align="flex-start">
                 <SongByline {...{ document, album, catalogue, locale }} />
                 <Title order={1}>
-                  {title}
+                  <SongName
+                    {...{ title }}
+                    transliterated={titleTransliterated}
+                  />
                   {explicit && <ExplicitBadge label={messages.explicit} />}
                 </Title>
                 <TitleGlossLine

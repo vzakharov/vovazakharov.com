@@ -148,9 +148,14 @@ export function songTrack(
         href: artistPath(artist, { everything: !isListed(document) }, locale),
       })),
     ),
-    titles: byLocale(
-      (locale) => localizeSong(document, locale).frontmatter.title,
-    ),
+    titles: byLocale((locale) => {
+      const { title, titleTransliterated } = localizeSong(
+        document,
+        locale,
+      ).frontmatter;
+
+      return { title, transliterated: titleTransliterated };
+    }),
     routes: byLocale((locale) =>
       songPath(songPageSlug(document, album), locale),
     ),

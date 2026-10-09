@@ -5,6 +5,7 @@ import type { LabeledLink, MaybeTitled } from '@/shared/typings';
 import { NameLink, Subheading } from '@/shared/ui';
 
 import classes from './music.module.scss';
+import { SongName } from './song-name';
 
 /**
  * A tile linking to an artist, an album or a single: its art with its name
@@ -14,6 +15,8 @@ import classes from './music.module.scss';
 type CatalogueTile = LabeledLink & {
   cover?: string;
   detail?: string;
+  /** The label is a romanized song title, set in italics. */
+  transliterated?: boolean;
 };
 
 /** Untitled under a heading of the page's own, as the index's tabs are. */
@@ -28,11 +31,11 @@ export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
       {title !== undefined && <Subheading>{title}</Subheading>}
 
       <ul className={classes['tileGrid']}>
-        {tiles.map(({ href, label, cover, detail }) => {
+        {tiles.map(({ href, label, cover, detail, transliterated = false }) => {
           // The name's link stretches over the whole tile.
           const link = (
             <NameLink {...{ href }} c="inherit" className={classes['tileLink']}>
-              {label}
+              <SongName title={label} {...{ transliterated }} />
             </NameLink>
           );
 

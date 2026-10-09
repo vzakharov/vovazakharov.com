@@ -1,6 +1,7 @@
 ---
 title: 'Mithqāl'
 titleLanguage: ar
+titleTransliterated: true
 date: 2025-09-09
 status: done
 language: ar
@@ -17,6 +18,8 @@ en:
   description: 'TBD'
   cribNote: 'The words are verses of the Quran, opened with the takbir and the basmala. The English is ours, not a canonical translation.'
 ru:
+  title:
+    translation: 'Вес'
   description: 'TBD'
   cribNote: 'Слова — аяты Корана, с такбиром и басмалой в начале. Подстрочник наш, не канонический перевод.'
 ---
@@ -65,9 +68,11 @@ ru:
 
 <!-- lyrics:en -->
 
-God is the greatest
+God is the greatest[^takbir-en]
 In the name of God, the Most Gracious, the Most Merciful[^basmala-en]
 God burdens no soul beyond what it can bear[^2-286-en]
+
+[^takbir-en]: The takbir, _Allāhu akbar_: the words of the call to prayer and of every prayer’s opening, not a verse of the Quran.
 
 [^basmala-en]: The basmala, which opens every sura but one; as a verse, [1:1](https://quran.com/1/1).
 
@@ -115,9 +120,11 @@ Whoever does an atom’s weight of evil will see it
 
 <!-- lyrics:ru -->
 
-Аллах велик
+Аллах велик[^takbir-ru]
 Во имя Аллаха, Милостивого, Милосердного[^basmala-ru]
 Аллах не возлагает на душу больше, чем она может вынести[^2-286-ru]
+
+[^takbir-ru]: Такбир, _Аллаху акбар_: слова призыва к молитве и начала каждой молитвы, не аят Корана.
 
 [^basmala-ru]: Басмала, которой открываются все суры, кроме одной; как аят — [1:1](https://quran.com/ru/1/1).
 

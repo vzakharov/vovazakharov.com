@@ -1,7 +1,10 @@
 import type { Slugged } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 import type { Playable } from '@/shared/music-catalogue';
-import type { LabeledLink } from '@/shared/typings';
+import type { LabeledLink, Titled } from '@/shared/typings';
+
+/** A song's title as one locale shows it, and whether it is set in italics as a romanization. */
+export type SongName = Titled & { transliterated: boolean };
 
 /** A song's billing, each artist linked to its page and the joins between them as text. */
 export type Billing = Array<LabeledLink | string>;
@@ -20,7 +23,7 @@ export function billingText(billing: Billing): string {
 export type PlayerTrack = Slugged &
   Playable & {
     /** What the song is called in each language, how it is billed, and where each is served. */
-    titles: Record<Locale, string>;
+    titles: Record<Locale, SongName>;
     billing: Record<Locale, Billing>;
     routes: Record<Locale, string>;
   };

@@ -57,9 +57,12 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
 
             const { titles, routes } = songTrack(release.single);
 
+            const { title, transliterated } = titles[locale];
+
             return {
               href: routes[locale],
-              label: titles[locale],
+              label: title,
+              transliterated,
               cover,
               detail: `${messages.single} · ${String(release.single.frontmatter.date.getUTCFullYear())}`,
             };

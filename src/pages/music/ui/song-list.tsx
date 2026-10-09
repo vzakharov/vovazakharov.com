@@ -1,6 +1,7 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 
 import { loadMessages, type WithLocale } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
 import type { MaybeTitled } from '@/shared/typings';
 import { Card, NameLink, Subheading } from '@/shared/ui';
 
@@ -8,6 +9,7 @@ import { formatDuration } from '../lib/duration';
 import { billingText, type WithTracks } from '../lib/player-state';
 import { ExplicitBadge } from './explicit-badge';
 import classes from './music.module.scss';
+import { SongName } from './song-name';
 import { TrackButton } from './track-button';
 
 /** Untitled under a heading of the page's own, as the index's tabs are. */
@@ -50,12 +52,15 @@ export function SongList({
                   {trackNumbers.get(track.slug)}
                 </Text>
               )}
-              <TrackButton title={track.titles[locale]} {...{ track }} />
+              <TrackButton
+                {...pick(track.titles[locale], 'title')}
+                {...{ track }}
+              />
 
               <Box className={classes['trackText']}>
                 <Text fw={500} truncate>
                   <NameLink href={track.routes[locale]}>
-                    {track.titles[locale]}
+                    <SongName {...track.titles[locale]} />
                   </NameLink>
                   {track.explicit && (
                     <ExplicitBadge label={messages.explicit} />

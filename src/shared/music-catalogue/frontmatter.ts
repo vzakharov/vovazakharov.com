@@ -160,6 +160,11 @@ const songFieldsSchema = baseFrontmatterSchema
     alsoOn: z.array(placementSchema).min(1).optional(),
     /** What the title is in, where that is not the language sung first. */
     titleLanguage: sungLanguageSchema.optional(),
+    /**
+     * The title is a romanization — `Mithqāl` — and is set in italics wherever
+     * it shows, as a transliteration is. A locale's own name for the song is not.
+     */
+    titleTransliterated: z.boolean().default(false),
     credits: creditsSchema.optional(),
     /** Track id, where the song is also on Spotify. */
     spotify: z.string().min(1).optional(),

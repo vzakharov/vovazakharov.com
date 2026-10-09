@@ -43,6 +43,10 @@ describe('check-song-titles', () => {
   for (const [label, frontmatter] of [
     ['a glossed Russian title', `title: 'Дым'\nlanguage: ru\n${RU_GLOSS}`],
     [
+      'a Russian title translated only',
+      "title: 'Чих-Пых'\nlanguage: ru\nen:\n  title:\n    translation: 'Chikh-Pykh'",
+    ],
+    [
       'an English title with a Russian translation',
       "title: 'Smoke'\nlanguage: en\nru:\n  title:\n    translation: 'Дым'",
     ],
@@ -52,11 +56,11 @@ describe('check-song-titles', () => {
     ],
     [
       'a Latin title in another language, translated only',
-      "title: 'Inverno'\ntitleLanguage: it\nlanguage: instrumental\nen:\n  title:\n    translation: 'Winter'",
+      "title: 'Inverno'\ntitleLanguage: it\nlanguage: instrumental\nen:\n  title:\n    translation: 'Winter'\nru:\n  title:\n    translation: 'Зима'",
     ],
     [
       'a romanized title in the one language sung',
-      "title: 'Mithqāl'\ntitleLanguage: ar\nlanguage: ar\nen:\n  title:\n    translation: 'Weight'",
+      "title: 'Mithqāl'\ntitleLanguage: ar\nlanguage: ar\nen:\n  title:\n    translation: 'Weight'\nru:\n  title: 'Мискаль'",
     ],
     [
       'a title with no letters',
@@ -74,9 +78,12 @@ describe('check-song-titles', () => {
       "title: 'Дым'\nlanguage: ru",
       '`en.title.translation` is missing',
     );
+  });
+
+  it('fails a title in neither locale’s language with no Russian translation', () => {
     assertFinding(
-      "title: 'Дым'\nlanguage: ru",
-      '`en.title.transliteration` is missing',
+      "title: 'Inverno'\ntitleLanguage: it\nlanguage: instrumental\nen:\n  title:\n    translation: 'Winter'",
+      '`ru.title.translation` is missing',
     );
   });
 

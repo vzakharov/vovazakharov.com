@@ -21,6 +21,7 @@ import { useStoredFlag } from '../lib/use-stored-flag';
 import { Marquee } from './marquee';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
+import { SongName } from './song-name';
 
 /**
  * Whether the bar keeps the reader on the playing song's page: switched on, it
@@ -139,7 +140,9 @@ export function PlayerBar() {
       <Box className={classes['playerTrack']}>
         <Text size="sm" component="div">
           <Marquee key={`${slug}/${locale}`}>
-            <NameLink href={routes[locale]}>{titles[locale]}</NameLink>
+            <NameLink href={routes[locale]}>
+              <SongName {...titles[locale]} />
+            </NameLink>
             <Text component="span" inherit opacity={0.6}>
               {' — '}
               {billing[locale].map((part) =>
