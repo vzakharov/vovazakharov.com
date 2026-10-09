@@ -6,23 +6,20 @@ import { visit } from 'unist-util-visit';
 
 import { getAbsoluteUrl, isOffSite } from '@/shared/config';
 
-import {
-  collectionAssetUrl,
-  type CollectionId,
-  type WithCollectionId,
-} from '../collections';
+import { resolveAuthoredPath, type WithCollectionId } from '../collections';
 
 /** `./x`, `../x` and bare `x` — anything that resolves against the document. */
 function isRelative(url: string): boolean {
   return !/^(?:[a-z][\d+.a-z-]*:|\/\/|\/|#)/i.test(url);
 }
 
-function stripLeadingDot(url: string): string {
-  return url.replace(/^\.\//, '');
-}
+type LinkContext = WithCollectionId & {
+  /** The file the links are written in, relative to the collection's directory. */
+  fileName: string;
+};
 
 function rewrite(
-  collection: CollectionId,
+  { collection, fileName }: LinkContext,
   tagName: string,
   url: string,
 ): { href: string; external: boolean } {
@@ -30,15 +27,10 @@ function rewrite(
     return { href: url, external: isOffSite(url) };
   }
 
-  const target = stripLeadingDot(url);
-  const hashAt = target.indexOf('#');
-  const pathPart = hashAt === -1 ? target : target.slice(0, hashAt);
-  const fragment = hashAt === -1 ? '' : target.slice(hashAt);
-
-  // A sibling document's route is its file name minus the `.md`, cuts
-  // included, so the documents' own cross-links resolve the same way every
-  // other relative target does — and this plugin never learns what a cut is.
-  const path = `${collectionAssetUrl(collection, pathPart.replace(/\.md$/, ''))}${fragment}`;
+  const hashAt = url.indexOf('#');
+  const pathPart = hashAt === -1 ? url : url.slice(0, hashAt);
+  const fragment = hashAt === -1 ? '' : url.slice(hashAt);
+  const path = `${resolveAuthoredPath(collection, fileName, pathPart)}${fragment}`;
 
   // A link is absolute and a source is not, because they travel differently: a
   // link leaves in the printed PDF, where a site-root path would mean whatever
@@ -59,13 +51,11 @@ const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
 
 /**
  * Resolves the documents' relative links and media sources against where
- * `public/` serves the collection, and marks off-site links safe to open in a
- * new tab. Runs before the media and image plugins, which read the rewritten
- * URLs.
+ * `public/` serves the file they are written in, and marks off-site links safe
+ * to open in a new tab. Runs before the media and image plugins, which read the
+ * rewritten URLs.
  */
-export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
-  collection,
-}) => {
+export const rehypeContentLinks: Plugin<[LinkContext], Root> = (context) => {
   return (tree) => {
     visit(tree, 'element', (node: Element) => {
       const attribute = URL_ATTRIBUTE[node.tagName];
@@ -76,7 +66,7 @@ export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
 
       if (typeof value !== 'string') return;
 
-      const { href, external } = rewrite(collection, node.tagName, value);
+      const { href, external } = rewrite(context, node.tagName, value);
       node.properties[attribute] = href;
 
       if (external && node.tagName === 'a') {

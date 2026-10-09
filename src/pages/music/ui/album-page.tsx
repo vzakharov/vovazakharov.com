@@ -1,11 +1,15 @@
-import { Stack, Text } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
 
+import { renderProse } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { NameLink, PageShell } from '@/shared/ui';
+import { FileLink, NameLink, PageShell } from '@/shared/ui';
+
+import { ProseContent } from '@/entities/document';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
+import { albumText } from '../lib/album-text';
 import { albumTracks } from '../lib/album-tracks';
 import { albumArtist, albumGloss, albumTitle } from '../lib/albums';
 import { albumYears } from '../lib/catalogue';
@@ -18,13 +22,18 @@ import { CatalogueHeader } from './catalogue-header';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
 
-/** One release: who put it out, and its songs in track order. */
-export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
+/**
+ * One release: who put it out, its own text where it has one, and its songs in
+ * track order.
+ */
+export async function AlbumPage({ album, locale, everything }: AlbumPageProps) {
   const catalogue = { everything };
   const songs = catalogueSongs(catalogue);
   const messages = loadMessages(locale).music;
   const artist = albumArtist(album, locale);
   const tracks = albumTracks(album, songs);
+  const text = albumText(album, locale);
+  const prose = text && (await renderProse(text));
 
   return (
     <PageShell>
@@ -48,14 +57,21 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
             </NameLink>{' '}
             · {albumYears(album, songs)}
           </Text>
-          <Text size="sm" opacity={0.7}>
-            {albumLength(
-              tracks.map(({ song }) => song.frontmatter.seconds),
-              locale,
-              messages.albumLength,
-            )}
-          </Text>
+          {/* The release's length, and its own file at the far end of the
+              same line, as a song page sets its facts. */}
+          <Group justify="space-between" gap="12px 32px" wrap="wrap">
+            <Text size="sm" opacity={0.7}>
+              {albumLength(
+                tracks.map(({ song }) => song.frontmatter.seconds),
+                locale,
+                messages.albumLength,
+              )}
+            </Text>
+            {text && <FileLink {...text.markdown}>.md</FileLink>}
+          </Group>
         </CatalogueHeader>
+
+        {prose && <ProseContent {...prose} />}
 
         <SongList
           {...pick(messages, 'title')}

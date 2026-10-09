@@ -36,6 +36,8 @@ export {
   listDocuments,
   listPrimaryDocuments,
   loadDocument,
+  loadProse,
+  type ProseSource,
   siblingVariants,
   type WithContentDocument,
 } from './documents';
@@ -57,6 +59,7 @@ export {
   type Headlined,
   renderDocument,
   renderPrimaryDocuments,
+  renderProse,
   type WithContentTree,
   type WithHeadings,
   type WithReadingMinutes,

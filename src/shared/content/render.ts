@@ -22,6 +22,7 @@ import {
   type ContentDocument,
   isListed,
   listPrimaryDocuments,
+  type ProseSource,
   siblingVariants,
   type WithContentDocument,
 } from './documents';
@@ -138,14 +139,12 @@ function collectHeadings(collected: WithHeadings) {
   };
 }
 
-async function render(document: ContentDocument): Promise<RenderedDocument> {
-  const { collection, markdown, body, fileName, frontmatter } = document;
-  const collected = {
-    title: undefined as string | undefined,
-    wordCount: 0,
-    headings: [] as Heading[],
-  };
+type Collected = ExtractTitleAndCountCollected & WithHeadings;
 
+async function compile(
+  { collection, markdown, body, fileName }: ProseSource,
+  collected: Collected,
+): Promise<HastRoot> {
   const { seal } = SITE_CONFIG;
 
   const processor = unified()
@@ -164,7 +163,7 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     .use(rehypeSlug)
     .use(collectHeadings(collected))
     .use(rehypeAutolinkHeadings, { behavior: 'wrap' })
-    .use(rehypeContentLinks, { collection })
+    .use(rehypeContentLinks, { collection, fileName })
     .use(rehypeMediaEmbeds)
     // Before the image pass, so the diagrams it produces are sized like any
     // other image and do not collapse the page until their SVG loads.
@@ -186,7 +185,17 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
 
   // `run` rather than `process`: the pipeline has no compiler, the tree itself
   // being what the page renders.
-  const tree = await processor.run(processor.parse(body), body);
+  return processor.run(processor.parse(body), body);
+}
+
+function emptyCollected(): Collected {
+  return { title: undefined, wordCount: 0, headings: [] };
+}
+
+async function render(document: ContentDocument): Promise<RenderedDocument> {
+  const { fileName, frontmatter } = document;
+  const collected = emptyCollected();
+  const tree = await compile(document, collected);
 
   // A collection that titles its documents in frontmatter is titled from there;
   // everywhere else the body's leading heading is the one copy of the title.
@@ -206,6 +215,25 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     wordCount,
     readingMinutes: Math.max(1, Math.round(wordCount / READING_SPEED)),
   };
+}
+
+/**
+ * Prose set under a heading its page writes itself. A `# ` heading in it would
+ * be lifted out as a title nothing shows, so one fails the build instead.
+ */
+export async function renderProse(
+  source: ProseSource,
+): Promise<WithContentTree> {
+  const collected = emptyCollected();
+  const tree = await compile(source, collected);
+
+  if (collected.title !== undefined) {
+    throw new Error(
+      `${source.fileName} has a \`# \` heading; its page titles it, so the heading would be dropped.`,
+    );
+  }
+
+  return { tree };
 }
 
 const cache = new Map<string, Promise<RenderedDocument>>();

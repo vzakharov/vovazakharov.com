@@ -1,3 +1,5 @@
+import type { Locale } from '@/shared/i18n';
+
 /**
  * A body section marker: `<!-- lang:ru -->` opens the Russian story,
  * `<!-- lyrics:en -->` the English words. An HTML comment rather than a heading
@@ -42,6 +44,19 @@ export function splitSections(body: string): ReadonlyMap<string, string> {
   flush();
 
   return sections;
+}
+
+/**
+ * The prose one locale reads: the preamble, which belongs to every locale, and
+ * the section `<!-- lang:<locale> -->` opens. A song's story and an album's
+ * text are both cut this way.
+ */
+export function localeProse(body: string, locale: Locale): string {
+  const sections = splitSections(body);
+
+  return [sections.get(PREAMBLE), sections.get(`lang:${locale}`)]
+    .filter((section) => section !== undefined)
+    .join('\n\n');
 }
 
 /**

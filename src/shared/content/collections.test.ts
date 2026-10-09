@@ -7,6 +7,7 @@ import {
   collectionRoute,
   documentRoute,
   isDocumentFile,
+  resolveAuthoredPath,
 } from './collections.ts';
 
 describe('collectionRoute', () => {
@@ -51,6 +52,33 @@ describe('collectionAssetUrl', () => {
 
   it('drops a rooted collection’s empty base', () => {
     assert.equal(collectionAssetUrl('bible', 'og.png'), '/og.png');
+  });
+});
+
+describe('resolveAuthoredPath', () => {
+  it('links a root document’s sibling to its route', () => {
+    assert.equal(
+      resolveAuthoredPath('music', 'slime.md', './after-us.md'),
+      '/music/after-us',
+    );
+  });
+
+  it('resolves a subdirectory’s link beside its own file', () => {
+    assert.equal(
+      resolveAuthoredPath('music', 'albums/wings.md', '../after-us.md'),
+      '/music/after-us',
+    );
+    assert.equal(
+      resolveAuthoredPath('music', 'albums/wings.md', './cover.jpg'),
+      '/music/albums/cover.jpg',
+    );
+  });
+
+  it('keeps a cut’s suffix', () => {
+    assert.equal(
+      resolveAuthoredPath('case-studies', 'playgram.md', './playgram.mini.md'),
+      '/case-studies/playgram.mini',
+    );
   });
 });
 
