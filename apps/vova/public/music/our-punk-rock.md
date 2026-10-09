@@ -4,6 +4,7 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+voice: Майя
 album: wings
 track: 5
 audio: /music/assets/our-punk-rock.mp3
@@ -39,7 +40,7 @@ I still am.
 Ну а дальше — всё, что будет, будь
 
 Помнишь, как по подъездам с вейпами наперевес
-Рокали назло соседям — тётям Машам, дядям Федям
+Рофля назло соседям — тётям Машам, дядям Федям
 Хотя кто их там знает, кто как их называет
 Нам по большому счёту это всё просто \*\*\*
 
@@ -49,8 +50,10 @@ I still am.
 Ну а дальше — всё, что будет, будь
 x2
 
+<!-- voice: Кирилл -->
 Йоу, йоу
 
+<!-- voice: Кирилл -->
 Мы с тобой с парты школьной — два патлатых изгоя
 Бестолковых, несносных, словно из девяностых
 Пропустили свой рейс, про\*\*ли все [трендс][^trends-ru]
@@ -62,6 +65,7 @@ x2
 
 [^rage-against-ru]: «Rage Against» — «ярость против»: отсылка к Rage Against the Machine («Ярость против машины»), американской рэп-метал-группе из Лос-Анджелеса.
 
+<!-- voice: Кирилл -->
 Преподы говорят, что нам надо назад
 Что наш вид — [неформат][^neformat-ru],
 Нам лишь детей пугать
@@ -92,7 +96,7 @@ Close your eyes and let’s hit the road
 And after that — whatever will be, let it be
 
 Remember how we roamed the stairwells, vapes at the ready
-Rocking out to spite the neighbors — the Aunt Mashas and Uncle Fedyas
+Clowning around to spite the neighbors — the Aunt Mashas and Uncle Fedyas
 Though who knows who they are, or who calls them what
 By and large, it’s all just \*\*\* to us
 
