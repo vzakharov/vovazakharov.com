@@ -39,7 +39,9 @@ Guess who’s here
 
 Here I go breaking through
 Guarding and guiding you
-Don’t wanna be a slave of my anger
+Don’t wanna be a slave of my anger[^voice-en]
+
+[^voice-en]: This refrain is sung in another voice: if the song is anger singing, here the person trying to fight it answers back.
 
 Don’t believe what they say
 You have to make them pay!
@@ -97,7 +99,9 @@ Here I go breaking through.
 
 Вот я прорываюсь наружу
 Оберегаю и веду тебя
-Не хочу быть рабом своего гнева
+Не хочу быть рабом своего гнева[^voice-ru]
+
+[^voice-ru]: Этот рефрен поётся другим голосом: если вся песня — голос гнева, то здесь ему отвечает сам человек, который пытается с ним бороться.
 
 Не верь тому, что они говорят
 Ты должен заставить их заплатить!
