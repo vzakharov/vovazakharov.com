@@ -294,9 +294,9 @@
     "source": "source",
     "album": "From {album}",
     "credits": {
-      "lyrics": "Words",
+      "lyrics": "Lyrics",
       "music": "Music",
-      "musicAndLyrics": "Music and words"
+      "musicAndLyrics": "Music and lyrics"
     },
     "lyrics": {
       "title": "Lyrics",
