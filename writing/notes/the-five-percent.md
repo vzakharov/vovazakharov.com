@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×54)
+## What it was handed, it treats as fixed (×55)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -82,6 +82,11 @@ callout link lacked `inherit`; the agent added it, citing the 18 of 21 inline
 Nine callers spelled `target="_blank"`, so the agent proposed a `newTab` prop.
 _do we ever have external links that open not in a new tab?_ No: the three
 without it lacked it by omission.
+
+**9 October — a cost of changing, assumed rather than asked.** Slug review: the
+agent kept the ten live songs (`first`, `june`, `rak`, …) under opaque slugs, a
+static export having no redirects to save links already out there. _никто это не
+видел и не слушал :)_ The pages were days old.
 
 **6 October — "widen the search," read as more places to look.** Six of eight
 ledger candidates were Waymo, the run having seeded its queries from the Waymo
@@ -196,7 +201,7 @@ a reader of the old tree asks. _медведь?_
 `ContentVideo`'s home got a `content.md` bullet. _the bullet is a polar bear_:
 `fsd.md` says where a component goes, and Steiger fails the wrong move unread.
 
-## Asked for a source, it supplies its own version (×11)
+## Asked for a source, it supplies its own version (×12)
 
 The version that argues better is the one that gets written, and whether a source
 exists barely moves the odds: with the file open the agent paraphrases it, with
@@ -215,6 +220,10 @@ lines, modelled on genius.com — a site that anchors a note on a word.
 tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там»
 and «вдушевлённые» to «одушевлённые». In an author's lyrics an odd form is
 intent before it is a typo.
+
+**9 October — a title it could not place, translated anyway.** Slugging titles,
+the agent put every non-English one into English, Чих-Пых as "Sneeze-Puff".
+_others we keep in source (transliterated)_: `minem-babay`, `inverno`, `mithqal`.
 
 **8 October — a politeness default, filed as his choice.** The agent masked his
 lyrics' expletives (F\*ck, ох\*енно) and wrote a rule that "the mask is his."
