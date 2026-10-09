@@ -1,8 +1,8 @@
 ---
-title: 'Жадина'
+title: 'Schadina'
 date: 2024-10-14
 status: done
-language: ru
+language: ru-latn-x-russisch
 project: ['Киндерштайн']
 repo: 'zhadina'
 album: null
@@ -12,20 +12,60 @@ explicit: false
 hidden: true
 en:
   title:
-    transliteration: 'Zhadina'
     translation: 'Greedyguts'
   description: 'TBD'
 ru:
+  title:
+    translation: 'Жадина'
   description: 'TBD'
 ---
 
-<!-- For Vova to check: Project is a guess with little behind it: made the same minute as `utro` in March 2026, Грёбаный бал's period. Title is the repo name in Cyrillic (its Suno source is «Zhadina (Cover)», so say whose song it covers if it is not yours); the checklist left it blank. Master is `zhadina.flac` (3:29); the repo also has `zhadina_short.flac` (0:41). -->
+<!-- For Vova to check: Project is a guess with little behind it: made the same minute as `utro` in March 2026, Грёбаный бал's period. Its Suno source is «Zhadina (Cover)», so say whose song it covers if it is not yours. Master is `zhadina.flac` (3:29); the repo also has `zhadina_short.flac` (0:41). -->
 
 <!-- Scaffolded from https://github.com/vovas-music/zhadina — zhadina.flac,
      44.1 kHz / 16-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- lyrics:ru-latn-x-russisch -->
+
+Du prossil menja wtschera wkusnuju Konfetu
+A ja s'em jejo sama
+Schal no lischnei netu
+A jeschtscho du poprossil Welik pokatatsja
+Ja ne dam tebe prosti mne pora kupatsja
+
+Schadina Schadina Schadina Gowjadina
+Wsüdu gde ne pojawlüs' wse wdagonku draznjatsja
+Schadina Schadina Schadina Gowjadina
+A ja tol'ko rassmejus' mne kakaja Rasniza
+x2
+
+Ja choschu wezde odna bes Drusei Podruschek
+Nikomu ja ne nuschna mne nikto ne nuschen
+Rjadom tol'ko ryshij Kot i Chomjak Mischutka
+Schadnym byt' tak ne legko
+Eto wam ne Schutka
+
+Schadina Schadina Schadina Gowjadina
+Wsüdu gde ne pojawlüs' wse wdagonku draznjatsja
+Schadina Schadina Schadina Gowjadina
+A ja tol'ko rassmejus' mne kakaja Rasniza
+x2
+
+Luk Krapiva Drebeden' wdruk mne stalo jasno
+Schadnym byt' wtscheraschnij Den'
+Dobrym byt' prekrasno
+Sabi rait je Dom Klütschi maminy Koletschki
+Jessli Mama nakritschit
+Ja jej tak otwetschu
+
+Schadina Schadina Schadina Gowjadina
+Wsüdu gde ne pojawlüs' wse wdagonku draznjatsja
+Schadina Schadina Schadina Gowjadina
+A ja tol'ko rassmejus' mne kakaja Rasniza
+x2
 
 <!-- lyrics:ru -->
 
