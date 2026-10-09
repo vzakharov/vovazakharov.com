@@ -8,11 +8,12 @@ feat(vova): hidden song catalogue, index tabs, slugs, one title shape (pr #115)
 The vovas-music organization holds far more masters than the site
 lists, most of them not ready to show. A document now takes
 `hidden: true`: its page is built and served at its address, but no
-listing, player queue or sitemap carries it, and it is noindex; one
-predicate in shared/content decides, listing everything under
+listing, player queue, feed or sitemap carries it, and it is noindex;
+one predicate in shared/content decides, listing everything under
 `SHOW_HIDDEN=1 pnpm dev:<site>`, never in a build. 147 masters land as
 hidden song pages, words set as verse with sourced notes, ё written,
-expletives written out (check:masked-words holds it).
+expletives written out (check:masked-words holds it); `pnpm
+music:hidden` lists what each still lacks to be shown.
 
 Every song and album has a readable slug: English titles as they are,
 Russian ones translated, other languages transliterated; ctfu and nsfl
@@ -36,6 +37,9 @@ To carry the catalogue, a song's language is a list with nine
 languages added, albums and projects have registries, a project can be
 billed per language, the schema lives in shared/music-catalogue, and
 music:scaffold takes a spec naming the master and its fields.
+
+Vet runs the mushroom meadow's half-hour tests only when VET_MEADOW=1
+asks; the slice's CLAUDE.md tells a branch changing the game to ask.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
