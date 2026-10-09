@@ -24,6 +24,8 @@ Cut at the silences between songs, and check the cuts before trusting them:
 
 `lyrics.py` on the vocals stem is the primary hearing: Whisper large-v3 hears sung Russian far better than Deepgram's nova-3 (`персонажи Мураками`, where nova-3 heard `персонажи-муратами`). `scripts/transcribe.py` on the same stem is the second opinion, since the lines the two disagree on are the ones the operator has to listen to. Whisper's first timecode can jump across an instrumental; Deepgram's place the line.
 
+**A song Whisper returns a line or two for, or fills with `Субтитры …` and `КОНЕЦ`, is heard in pieces.** Its voice filter can drop sung vocals whole (`--no-vad` turns it off), and over a long stretch it cannot make out it invents subtitle credits instead. Cut the stem at its silences and hear each sung stretch on its own — that recovered Птицы where both whole-file runs failed. A credit line in any transcript is invented and never reaches the words.
+
 Neither transcript is the lyrics. The draft reconciles both, keeps the line breaks the music makes, and marks every line the two disagreed on, because the agent cannot hear the song and the operator can. A setting of a published poem — `Послушайте` is Mayakovsky — takes the canonical text and flags only where the recording departs from it.
 
 ## Mastering
