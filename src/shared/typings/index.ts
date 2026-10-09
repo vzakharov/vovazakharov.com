@@ -60,6 +60,9 @@ export type WithOptionalChildren = { children?: ReactNode };
 /** A heading and whatever renders under it. */
 export type TitledBlock = Titled & WithChildren;
 
+/** Content and the name its control goes by. */
+export type LabeledBlock = Labeled & WithChildren;
+
 /** Where an anchor points. */
 export type Linked = { href: string };
 

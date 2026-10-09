@@ -2,7 +2,7 @@ import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
-import { SITE_CONFIG } from '@/shared/config';
+import { pageFile, SITE_CONFIG } from '@/shared/config';
 import { isListed, renderDocument } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
@@ -28,6 +28,7 @@ import { ExplicitBadge } from './explicit-badge';
 import { Lyrics } from './lyrics';
 import classes from './music.module.scss';
 import { MusicNav } from './music-nav';
+import { ReadMore } from './read-more';
 import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
 import { SongName } from './song-name';
@@ -40,6 +41,18 @@ function resolve(slug: string): SongPageEntry {
   if (!page) notFound();
 
   return page;
+}
+
+/**
+ * The master as a file to save, labelled by its extension — only when the site
+ * hosts it, since a browser ignores `download` on another origin's file.
+ */
+function hostedMaster(route: string, audio: string) {
+  if (!audio.startsWith('/')) return;
+
+  const extension = audio.slice(audio.lastIndexOf('.') + 1);
+
+  return { file: { ...pageFile(route, extension), href: audio }, extension };
 }
 
 /** The alias defers to the addressed language, which is the canonical page. */
@@ -68,11 +81,19 @@ export async function SongPage({ slug, locale }: SongPageProps) {
   // A hidden song's artists and album may have no public page, so its links
   // stay in the whole catalogue.
   const catalogue = { everything: !isListed(document) };
-  const { title, titleTransliterated, description, repo, explicit, cribNote } =
-    localized.frontmatter;
+  const {
+    title,
+    titleTransliterated,
+    description,
+    repo,
+    explicit,
+    cribNote,
+    audio,
+  } = localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
   const picture = songPicture(document, album);
+  const master = hostedMaster(localized.route, audio);
 
   return (
     <PageShell>
@@ -133,6 +154,9 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
               <Group gap={16} wrap="wrap">
                 <FileLink {...localized.markdown}>.md</FileLink>
+                {master !== undefined && (
+                  <FileLink {...master.file}>.{master.extension}</FileLink>
+                )}
                 {repo !== undefined && (
                   <TextLink
                     href={songRepositoryUrl(repo)}
@@ -147,7 +171,9 @@ export async function SongPage({ slug, locale }: SongPageProps) {
           </Stack>
         </Box>
 
-        <ProseContent {...{ tree }} />
+        <ReadMore label={messages.readMore}>
+          <ProseContent {...{ tree }} />
+        </ReadMore>
 
         {lyrics && <Lyrics {...{ lyrics, locale, cribNote }} />}
 

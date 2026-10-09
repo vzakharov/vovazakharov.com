@@ -307,6 +307,7 @@
     },
     "explicit": "Ненормативная лексика",
     "source": "исходник",
+    "readMore": "Читать дальше",
     "album": "из {album}",
     "alsoOn": "также на альбоме {album}",
     "credits": {
