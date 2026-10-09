@@ -1,0 +1,88 @@
+{
+  "estimate": {
+    "at": "2026-10-09T05:18:08.158Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "deciding whether a docket of wrongs takes a second ledger is an editorial call on the site's premise, weighed against its conflict of interest"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "bb4b10ad-e119-58b4-8ed1-6797003c9530",
+  "branch": "claude/cases-50ob0a",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/cases-50ob0a надо подумать как нам \"хорошие\" случаи логать (и логать ли)",
+  "prs": [
+    119
+  ],
+  "url": "https://claude.ai/code/session_01Pq9kuhw8gZ2vbd26J8DJ6x",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-09T05:16:39.782Z",
+  "lastResponseAt": "2026-10-09T05:21:05.947Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 58,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 88128,
+    "cacheReadTokens": 3198862,
+    "outputTokens": 18096,
+    "thinkingTokens": 7477,
+    "responses": 29,
+    "costUsd": 1.7069484
+  },
+  "ownTurns": {
+    "inputTokens": 58,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 88128,
+    "cacheReadTokens": 3198862,
+    "outputTokens": 18096,
+    "thinkingTokens": 7477,
+    "responses": 29,
+    "costUsd": 1.7069484
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 58,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 88128,
+      "cacheReadTokens": 3198862,
+      "outputTokens": 18096,
+      "thinkingTokens": 7477,
+      "responses": 29,
+      "costUsd": 1.7069484
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-09T05:18:21.958Z",
+    "contextTokens": 112724,
+    "spend": {
+      "inputTokens": 30,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 67601,
+      "cacheReadTokens": 1472425,
+      "outputTokens": 6607,
+      "thinkingTokens": 2491,
+      "responses": 15,
+      "costUsd": 0.967553
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

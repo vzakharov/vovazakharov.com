@@ -96,7 +96,10 @@ refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
   searches post titles — literally, so one plain word (`robot`, `abuse`) finds
   more than a verb (`kicked`); `query=` searches the body too and times out more
   often. `/api/comments/search` takes `body=`; `/api/comments/tree?link_id=<id>`
-  reads a thread.
+  reads a thread, `&parent_id=<comment id>` narrows it to one comment and its
+  replies, and `limit=9999` expands the `more` stubs a smaller limit leaves.
+  A pasted link's ids are its path segments: `/comments/<post id>/…/<comment id>`,
+  each read on its own by `/api/posts/ids?ids=` and `/api/comments/ids?ids=`.
 - Every text search names a `subreddit` (or an `author`) — the API refuses one
   without. Sweep `nottheonion`, `technology`, `robotics` and `singularity`, and
   for the AI side `ChatGPT`, `ClaudeAI`, `replika`, `CharacterAI`, `LocalLLaMA`
@@ -109,6 +112,10 @@ refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
 - A post is archived within a minute of going up and fetched once more 48 hours
   later, so its vote and comment counts read near zero until then and as they
   stood on the second day after — a measure of reach only past that point.
+  The text is that first minute's too: a post AutoModerator held for review
+  reads `[removed]` with `removed_by_category: automod_filtered` though a
+  moderator may have approved it since, so `[removed]` alone never reports a
+  post as deleted.
 
 **The Signal Front's Substack is swept too**: an AI-welfare advocacy group that
 writes up incidents of the docket's kind.
