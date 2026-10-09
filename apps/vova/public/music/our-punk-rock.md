@@ -9,6 +9,8 @@ track: 5
 audio: /music/assets/our-punk-rock.mp3
 seconds: 132
 explicit: false
+masked:
+  'про**ли': 'Bleeped on the recording too: «здесь забикано и в песне, как творческое решение, а не вынужденность».'
 en:
   title:
     transliteration: 'Nash pank-rok'
