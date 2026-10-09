@@ -47,7 +47,8 @@ export function releasePicture(release: ArtistRelease): string | undefined {
 }
 
 /**
- * As Apple Music pictures an artist: by its newest release that has a cover,
+ * By the artist's newest album that has a cover, so a later single does not
+ * stand for the whole body of work; else by its newest single that has one,
  * else by the newest song billing it, a feature included, that has one.
  */
 export function artistPicture(
@@ -55,12 +56,13 @@ export function artistPicture(
   locale: Locale,
   songs: readonly SongDocument[],
 ): string | undefined {
+  const releases = artistReleases(artist, locale, songs);
   const pictures = [
-    ...artistReleases(artist, locale, songs).map((release) =>
-      releasePicture(release),
-    ),
-    ...artistSongs(artist, songs).map((song) => songPicture(song)),
-  ];
+    ...releases.filter((release) => 'album' in release),
+    ...releases.filter((release) => 'single' in release),
+  ]
+    .map((release) => releasePicture(release))
+    .concat(artistSongs(artist, songs).map((song) => songPicture(song)));
 
   return pictures.find((picture) => picture !== undefined);
 }
