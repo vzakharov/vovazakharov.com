@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # What the branch has changed, for the vet entries that run only when it reaches
-# them (scripts/vet-test.sh, scripts/vet-songs.sh).
+# them (scripts/vet-songs.sh).
 #
 # This file is meant to be SOURCED, not executed — it defines functions and does
 # not set shell options.

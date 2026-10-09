@@ -56,8 +56,7 @@ fi
 # `lint:css` is the check-only stylelint form, for the same reason.
 # type-overlap and knip read source text only — no generated types, nothing
 # another check writes, and knip writes nothing without --fix, which vet never
-# passes; the test run adds only writes into the OS temp directory and its own
-# tmp/vet-test/, and
+# passes; the test run adds only writes into the OS temp directory, and
 # the two `--check` render passes only hash files, needing no browser, and the
 # cost ledger's, context budget's, cold-cache guard's and keepalive's tests write only into
 # their own temporary directories. The squash check reads the proposal under
