@@ -4,6 +4,7 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+voice: Майя
 album: wings
 track: 7
 audio: /music/assets/intertwined.mp3
@@ -66,7 +67,7 @@ overthink-ая». (Музыка там, правда, была другая, м�
 Вдыхая жизнь
 В пожелтевшие страницы
 Где ложь и правда
-Лишь прихоть борзописца
+Лишь прихоть баснописца
 
 Я не понимаю, где ложь, где правда
 Я не догоняю, что лишнее, что надо
@@ -108,7 +109,7 @@ Sharp letters into words
 Breathing life
 Into yellowed pages
 Where lie and truth
-Are only a hack writer’s whim
+Are only a fabulist’s whim
 
 I don’t understand where the lie is, where the truth
 I can’t figure out what’s extra, what’s needed
