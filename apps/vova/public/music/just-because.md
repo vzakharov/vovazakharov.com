@@ -4,6 +4,7 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+voice: Кирилл
 album: wings
 track: 9
 audio: /music/assets/just-because.mp3
@@ -13,9 +14,9 @@ en:
   title:
     transliteration: 'Prosto tak'
     translation: 'Just Because'
-  description: 'The song a producer friend called the best on the album: a natural, unforced carelessness, and “minus twenty in the shade.”'
+  description: 'The song a producer friend called the best on the album — with a natural, unforced carelessness, and “minus twenty in the shade.”'
 ru:
-  description: 'Песня, которую друг-продюсер назвал лучшей на альбоме: естественная, не надуманная небрежность и «в тени минус двадцать».'
+  description: 'Песня, которую друг-продюсер назвал лучшей на альбоме, — с естественной, не надуманной небрежностью и «в тени минус двадцать».'
 ---
 
 <!-- lang:en -->
