@@ -32,14 +32,13 @@ import {
   MERMAID_DIR,
   mermaidFileName,
 } from '../src/shared/content/mermaid-renders.ts';
+import type { WithFilePath } from '../src/shared/typings/index.ts';
 import { findChromium } from './lib/chromium.ts';
 import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
 
-type Fence = {
+type Fence = WithFilePath & {
   hash: string;
   source: string;
-  /** Repo-relative path of the document the fence was found in. */
-  file: string;
 };
 
 const OUTPUT_DIR = path.join(PUBLIC_DIR, MERMAID_DIR);
@@ -65,7 +64,7 @@ function collectFences(): Fence[] {
       return {
         hash: contentHash(source),
         source,
-        file: path.relative(REPO_ROOT, file),
+        filePath: path.relative(REPO_ROOT, file),
       };
     });
   });
@@ -143,7 +142,7 @@ function main(): void {
 
   if (checkOnly) {
     for (const fence of missing)
-      console.log(`  missing: ${fence.hash} in ${fence.file}`);
+      console.log(`  missing: ${fence.hash} in ${fence.filePath}`);
     for (const name of orphans) console.log(`  stale:   ${name}`);
     process.exitCode = missing.length > 0 || orphans.length > 0 ? 1 : 0;
     return;

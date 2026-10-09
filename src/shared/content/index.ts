@@ -31,6 +31,7 @@ export {
 } from './document-date';
 export {
   type ContentDocument,
+  isListed,
   listAllDocuments,
   listDocuments,
   listPrimaryDocuments,
@@ -44,9 +45,6 @@ export {
   type BaseFrontmatter,
   type Collection,
   filedDate,
-  type LocalizedText,
-  type Playable,
-  type SongFrontmatter,
   type Source,
   type WithFrontmatter,
 } from './frontmatter';

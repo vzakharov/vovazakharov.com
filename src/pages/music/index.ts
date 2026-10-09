@@ -1,10 +1,8 @@
-export { generateMusicMetadata } from './lib/music-metadata';
 export {
-  musicAddressDefaults,
+  musicCatalogueRoutes,
   musicSegmentParams,
   parseMusicSegments,
   type WithOptionalMusicSegments,
 } from './lib/music-route-params';
 export { MusicLayout } from './ui/music-layout';
-export { MusicPage } from './ui/music-page';
-export { generateSongMetadata, SongPage } from './ui/song-page';
+export { generateMusicRouteMetadata, MusicRoute } from './ui/music-route';

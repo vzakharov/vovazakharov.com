@@ -21,7 +21,7 @@ import {
   type Routed,
   type WithCollectionId,
 } from './collections';
-import { listPrimaryDocuments, type LocaleRouted } from './documents';
+import { isListed, listPrimaryDocuments, type LocaleRouted } from './documents';
 import { filedDate } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
@@ -90,11 +90,19 @@ export async function feedEntries({
 }: Feed): Promise<FeedEntry[]> {
   const entries =
     collection === 'music'
-      ? listPrimaryDocuments(SONGS).map(({ route, frontmatter }) => ({
-          ...frontmatter[locale],
-          route: localizedRoute(route, locale),
-          published: filedDate(frontmatter),
-        }))
+      ? listPrimaryDocuments(SONGS)
+          .filter((document) => isListed(document))
+          .map(({ route, frontmatter }) => {
+            // A locale's own name for the song wins; a gloss keeps the song's.
+            const { title, description } = frontmatter[locale];
+
+            return {
+              title: typeof title === 'string' ? title : frontmatter.title,
+              description,
+              route: localizedRoute(route, locale),
+              published: filedDate(frontmatter),
+            };
+          })
       : (await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection])).map(
           ({ document: { route, frontmatter }, rendered: { title } }) => ({
             title,

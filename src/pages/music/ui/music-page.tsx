@@ -1,28 +1,47 @@
-import { Group, Stack } from '@mantine/core';
+import { Stack } from '@mantine/core';
 
 import { SITE_ID } from '@/shared/config';
 import { findFeed } from '@/shared/content';
-import { byLocale, type WithLocale } from '@/shared/i18n';
+import { byLocale } from '@/shared/i18n';
 import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
-import { musicPath } from '../lib/music-urls';
-import { LocaleChips } from './locale-chips';
+import { albumArtist, albumCover, albumTitle } from '../lib/albums';
+import { albumYears, catalogueArtists, newestAlbums } from '../lib/catalogue';
+import type { IndexPageProps } from '../lib/music-route-params';
+import { albumPath, artistPath, tabPath } from '../lib/music-urls';
+import { artistPicture } from '../lib/pictures';
+import { projectName } from '../lib/projects';
+import { catalogueSongs, songTrack } from '../lib/songs';
+import { CatalogueGrid } from './catalogue-grid';
+import { CatalogueTabs, type CatalogueTabsProps } from './catalogue-tabs';
+import { MusicNav } from './music-nav';
 import { MusicSection } from './music-section';
 import { SongList } from './song-list';
 
-export function MusicPage({ locale }: WithLocale) {
+/**
+ * The section's front page: the artists, each a way into its albums and songs,
+ * or every album, or every song — one tab each.
+ */
+export function MusicPage({ locale, everything, tab }: IndexPageProps) {
+  const catalogue = { everything };
+
   return (
     <PageShell>
       <Stack gap={48}>
-        <Group component="nav" justify="flex-end">
-          <LocaleChips hrefs={byLocale(musicPath)} {...{ locale }} />
-        </Group>
+        <MusicNav
+          hrefs={byLocale((alternate) => tabPath(tab, catalogue, alternate))}
+          {...{ locale }}
+        />
 
         <MusicSection {...{ locale }} />
 
-        <SongList {...{ locale }} />
+        <Stack gap={24}>
+          <CatalogueTabs {...{ tab, catalogue, locale }} />
+
+          <TabContent {...{ tab, catalogue, locale }} />
+        </Stack>
 
         <SiteFooter
           {...{ locale }}
@@ -31,4 +50,45 @@ export function MusicPage({ locale }: WithLocale) {
       </Stack>
     </PageShell>
   );
+}
+
+function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
+  const songs = catalogueSongs(catalogue);
+
+  switch (tab) {
+    case 'artists': {
+      return (
+        <CatalogueGrid
+          tiles={catalogueArtists(songs).map((artist) => ({
+            href: artistPath(artist, catalogue, locale),
+            label: projectName(artist, locale),
+            cover: artistPicture(artist, locale, songs),
+          }))}
+        />
+      );
+    }
+    case 'albums': {
+      return (
+        <CatalogueGrid
+          tiles={newestAlbums(songs).map((album) => ({
+            href: albumPath(album, catalogue, locale),
+            label: albumTitle(album, locale),
+            cover: albumCover(album),
+            detail: `${projectName(albumArtist(album, locale), locale)} · ${albumYears(album, songs)}`,
+          }))}
+        />
+      );
+    }
+    case 'songs': {
+      return (
+        <SongList
+          tracks={songs.map((song) => songTrack(song))}
+          {...{ locale }}
+        />
+      );
+    }
+    default: {
+      return tab satisfies never;
+    }
+  }
 }

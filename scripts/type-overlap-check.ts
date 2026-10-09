@@ -40,7 +40,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
-import type { Named, WithId } from '@/shared/typings';
+import type { Named, WithFilePath, WithId } from '@/shared/typings';
 
 // The scan root is the working directory, not the script's own location:
 // `pnpm type-overlap` runs from the repo root, and the tests drive this same
@@ -83,13 +83,7 @@ type WithBases = { bases: string[] };
 // --- Collect type aliases ---
 // `id` is the decl locator `rel/path.ts#TypeName`, with a `#n` suffix on name
 // collisions; `name` is the type's own name.
-type TypeDecl = WithId &
-  Named &
-  WithMembers &
-  WithBases & {
-    // Repo-relative, e.g. src/shared/ui/card.tsx.
-    filePath: string;
-  };
+type TypeDecl = WithId & Named & WithMembers & WithBases & WithFilePath;
 
 const decls: TypeDecl[] = [];
 const usedIds = new Set<string>();

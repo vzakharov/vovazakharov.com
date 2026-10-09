@@ -13,8 +13,8 @@ import type { WithChildren } from '@/shared/typings';
 
 import type { WithTracks } from '../lib/player-state';
 import {
-  type Playback,
   type PlayerControls,
+  type QueuedPlayback,
   useAudioPlayer,
 } from '../lib/use-audio-player';
 import classes from './music.module.scss';
@@ -24,8 +24,7 @@ import { PlayerBar } from './player-bar';
 type PlayerLabels = Messages['music']['player'];
 
 export type PlayerContextValue = PlayerControls &
-  Playback &
-  WithTracks &
+  QueuedPlayback &
   /** The language of the page the bar is currently sitting under. */
   WithLocale & { labels: PlayerLabels };
 
@@ -60,11 +59,17 @@ export function PlayerProvider({
   labels,
 }: PlayerProviderProps) {
   const locale = addressLocale(usePathname());
-  const { state, elapsed, current, controls } = useAudioPlayer(tracks, locale);
+  const {
+    tracks: queue,
+    state,
+    elapsed,
+    current,
+    controls,
+  } = useAudioPlayer(tracks, locale);
 
   const value = useMemo<PlayerContextValue>(
     () => ({
-      tracks,
+      tracks: queue,
       state,
       elapsed,
       locale,
@@ -72,7 +77,7 @@ export function PlayerProvider({
       ...controls,
       ...(current && { current }),
     }),
-    [tracks, state, elapsed, controls, current, locale, labels],
+    [queue, state, elapsed, controls, current, locale, labels],
   );
 
   return (
