@@ -15,14 +15,15 @@ The export is `docs/pr/115/pr.md`, committed at the `docs: #115 refresh the PR e
 - T05 + T11: `scripts/check-song-titles.ts` (`pnpm check:song-titles`) and its end-to-end test, every flagged song filled — a2e0e8f. It keeps its own `LATIN` regex rather than importing `title-gloss.ts` from a pages slice for one line. Two exceptions beyond the plan: a title with no letters (`8849`) needs no gloss, and a `titleLanguage` equal to the one language sung is kept when the title is not in that language's script (`Mithqāl`, romanized Arabic). Not yet wired into `vet.sh` — item 4 does that.
 - T15 ellipsis sweep — 1fac443; nursery rhymes and whole-line/name titles left alone, the T15 reply asks Vova about them.
 - Replies posted on T05, T11 and T15. Guesses put to Vova on T05: Чих-Пых → Sneeze-Puff, Лёли → Leli, Сколько → How Long, Mithqāl → Weight.
-
 - T18 + T19: `scripts/vet-songs.sh` runs both song checks only when the branch touches a song or their inputs; masked-words narrowed to the songs (`songFiles()` in `public-markdown.ts`); the diff read shared through `scripts/lib/changed-files.sh` — 28ec2b0, both replied.
-- Grand Finale: a footnote on «From ashes to ashes» naming the burial service and Genesis 3:19, asked in chat — 0ab8644.
-- Play button on the song page (Vova, in chat: the button looks clumsy beside the cover; a worded one is fine; then «берём вариант с отдельной кнопкой -- не люблю когда кнопки загораживают картинку»): a subagent is prototyping separate-button variants into the session scratchpad, uncommitted.
+- Grand Finale: a footnote on «From ashes to ashes» naming the burial service and Genesis 3:19, asked in chat — 0ab8644. On Fingers: a footnote on «ни для кого и для всех», Vova's «отсылка к Ницше» (Zarathustra's subtitle) — ddf313f.
+- Play-button variants (Vova, in chat: the button looks clumsy beside the cover, a worded one is fine; then «берём вариант с отдельной кнопкой -- не люблю когда кнопки загораживают картинку»): three separate-button layouts, each a patch plus screenshots, in `docs/remove-before-merging/play-variants/` — ddf313f. Overlay variants dropped per Vova. The subagent recommends 1 (a «Слушать»/«Пауза» pill under the title); its patch passed eslint and prettier, tsc and tests unrun. Caveat: the pill widens from Listen to Pause.
+- Slug proposal: `docs/remove-before-merging/slugs.md` — dc8ae04, with four questions put to Vova (the ten live songs, the two Every Mondays, the ❓ lines, album slugs).
 
 ## Left — in this order
 
-6. **Slugs**, once the above is pushed (Vova: «берём английское название или перевод, но если слишком длинно, то сокращаем»): rename each `apps/vova/public/music/<slug>.md` with `git mv` (history follows), and every reference to the slug — `SONG_COVERS` in `pictures.ts` and the cover files, `albums.ts`-adjacent track data, the `songs` reserved slug, notes linking songs, the PR body's QA rows. Propose the full old→new table to Vova before moving if any name is a judgement call; the long ones especially.
+5. **Play button**: when Vova picks a variant, `git apply` its patch, run tsc and the music tests, `/preview` it, commit, and delete `play-variants/`.
+6. **Slugs**, on Vova's answers to `slugs.md` (Vova: «берём английское название или перевод, но если слишком длинно, то сокращаем»): rename each `apps/vova/public/music/<slug>.md` with `git mv` (history follows), and every reference to the slug — `SONG_COVERS` in `pictures.ts` and the cover files, `albums.ts`-adjacent track data, the `songs` reserved slug, notes linking songs, the PR body's QA rows. Then delete `slugs.md`.
 7. `/polish`, then `/pr` (refresh the body: song pictures, artist pictures, the vet, the namespace).
 
 ## Decisions
