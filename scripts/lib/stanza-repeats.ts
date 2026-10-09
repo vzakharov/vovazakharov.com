@@ -7,8 +7,9 @@
  * Every lyrics section of a song is read stanza for stanza against the others —
  * the crib beside the words, a romanization under them — so a repeat collapses
  * only where every section repeats at the same stanza, which keeps them
- * aligned. One that repeats in some sections and not the rest, or in a song
- * whose sections have already slipped apart, is refused and left to a person.
+ * aligned. One that repeats in some sections and not the rest is not a
+ * repeat; one in a song whose sections have already slipped apart is refused
+ * and left to a person.
  */
 
 import { splitSections } from '../../src/pages/music/index.node-safe.ts';
@@ -146,14 +147,16 @@ export function stanzaRepeats(source: string): StanzaRepeats {
     const repeating = sections.filter((section) =>
       repeatsBefore(section, index),
     );
-    if (repeating.length === 0) continue;
-    const differing = sections
-      .filter((section) => !repeating.includes(section))
-      .map(({ name }) => name);
+    // A stanza that repeats in one section and not another is not a repeat of
+    // the song: `sonnet-74` sings its couplet again in a variant, and the
+    // crib, being Shakespeare's own text, repeats it unchanged.
+    if (
+      repeating.length === 0 ||
+      (aligned && repeating.length < sections.length)
+    )
+      continue;
     const refused = aligned
-      ? differing.length > 0
-        ? `the stanza differs from the one before in ${differing.join(', ')}`
-        : undefined
+      ? undefined
       : 'its lyrics sections have different stanza counts, so collapsing one would misalign them';
     if (refused === undefined) collapsing.add(index);
     for (const { name, stanzas } of repeating)

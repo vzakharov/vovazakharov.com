@@ -65,15 +65,14 @@ describe('stanzaRepeats', () => {
     );
   });
 
-  it('refuses a repeat a parallel section does not share, changing nothing', () => {
+  it('reads a stanza a parallel section varies as no repeat', () => {
     const source = song(
       lyrics('ru', 'Раз', 'Раз'),
       lyrics('en', 'One', 'Once'),
     );
     const { repeats, fixed } = stanzaRepeats(source);
     assert.equal(fixed, source);
-    assert.equal(repeats.length, 1);
-    assert.match(repeats[0]?.refused ?? '', /lyrics:en/);
+    assert.deepEqual(repeats, []);
   });
 
   it('refuses every repeat once the sections have slipped apart', () => {
