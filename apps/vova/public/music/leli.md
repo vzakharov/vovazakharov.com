@@ -3,7 +3,7 @@ title: 'Лёли'
 date: 2024-07-23
 status: done
 language: ru
-project: ['Полуживые']
+project: ['Полуживые', 'Downtemple']
 repo: 'rus-'
 audio: https://raw.githubusercontent.com/vovas-music/rus-/main/7%20%D0%BB%D1%91%D0%BB%D0%B8.flac
 seconds: 264
