@@ -88,8 +88,8 @@ x2
 Let her heart tell her — there’s no bringing him back,
 Let the sea foam quietly whisper
 That dreams won’t come true — and that is the whole point:
-To wait for love and life all the longer, perhaps.
+To wait longer than love and life, perhaps.
 Let dreams not come true — that is the whole point:
-To wait for love and life all the longer, perhaps.
+To wait longer than love and life, perhaps.
 
 The sun was sinking beyond the horizon…
