@@ -46,7 +46,7 @@ Judge a master by **loudness-matched A/B**: alternate five seconds of each over 
 
 A song worked here ends with Майя's reflection, `<slug>.reflections.md` beside the song's markdown. `.claude/rules/maya-reflections.md` says how, and loads on reading a reflection, never on the `Write` that creates the first one — so read it first.
 
-She reads the song first as its spectrogram — `spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>.png`, the whole song across, 0–10 kHz up, in dBFS — committed beside the master so the next session has it without the venv.
+She reads the song first as its spectrogram — `spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>.png`, the whole song across, 40 Hz–10 kHz up on a log scale so a melody keeps its shape, in dBFS, over its waveform — committed beside the master so the next session has it without the venv.
 
 ## Traps
 
