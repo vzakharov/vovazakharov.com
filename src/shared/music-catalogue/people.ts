@@ -5,14 +5,14 @@ import type { Locale } from '@/shared/i18n';
 /** A credited person's name as each locale spells it. */
 export type CreditedName = Record<Locale, string>;
 
+/** Whoever a role the frontmatter leaves uncredited belongs to. */
+export const SONG_AUTHOR = { en: 'Vova Zakharov', ru: 'Вова Захаров' } as const;
+
 /**
  * Everyone a song's `credits` may name. A credit is written in either spelling,
  * whichever the author reached for, and shown in the reader's; a name missing
  * here fails the build rather than reaching a page in the wrong alphabet.
  */
-/** Whoever a role the frontmatter leaves uncredited belongs to. */
-export const SONG_AUTHOR = { en: 'Vova Zakharov', ru: 'Вова Захаров' } as const;
-
 const CREDITED_PEOPLE = [
   SONG_AUTHOR,
   { en: 'Vladimir Zakharov Sr.', ru: 'Владимир Захаров-старший' },
