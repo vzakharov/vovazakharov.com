@@ -37,6 +37,7 @@ And “minus twenty in the shade” I consider just about my best linguistic fin
 <!-- lyrics:ru -->
 
 <!-- voice: Кирилл -->
+
 Пусть отморожены пальцы
 В тени минус двадцать
 Мы будем держаться

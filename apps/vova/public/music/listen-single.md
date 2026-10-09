@@ -39,6 +39,7 @@ By the way, there’s a [video](https://t.me/vovazvuchit/7) for this one too!
 <!-- lyrics:ru -->
 
 <!-- voice: Кирилл -->
+
 Послушайте!
 Ведь, если звёзды зажигают —
 Значит — это кому-нибудь нужно?
