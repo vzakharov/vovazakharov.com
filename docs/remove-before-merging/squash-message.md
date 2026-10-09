@@ -1,31 +1,29 @@
 Proposed squash title/body:
 
 ```
-feat: the Krylya album and the Znaki prepinaniya single, hidden (pr #127)
+feat(vova): the Krylya album and the Znaki prepinaniya single (pr #127)
 ```
 
 ```
 За/обложкой's first album, «Крылья», survived only as one unmastered
 file with no lyrics, and its maxi-single «Знаки препинания» as three
-tracks. Both releases now sit in the music catalogue with their covers,
-every song hidden until it has a description and a story.
+tracks. Both are now published in the music catalogue: eleven songs
+mastered against letim at half strength and vendored under
+music/assets/, each with the author's corrected words, his story, an
+English crib and footnotes, and Майя's reflection beside it.
 
-The album was split at its silences and each song mastered against
-letim at half strength, the level the author's ear settled on; the
-eleven masters are vendored under music/assets/, since no vovas-music
-repository holds them. Наша история and Мир, какой он есть are filed
-under the album and listed on the single through alsoOn, and the
-single's earlier Послушайте is a song of its own, listen-single.
+После нас, the single's Послушайте and Здравствуй play their videos.
+The album page shows its cover, plays the album from Listen and
+carries the album's own text; long stories fold behind «…», and a
+vendored master downloads as .mp3.
 
-The words were heard off the separated vocals by Whisper and Deepgram
-and reconciled, every line the two disagreed on flagged in the song's
-file for the author to settle by ear. Both settings of «Послушайте»
-take Mayakovsky's published text, and he joins the credited people.
-
-scripts/audio/ keeps the tooling and its lessons: splitting,
-separation, hearing (a song Whisper drops or invents over is heard in
-pieces), mastering and spectra. Майя, the persona who will write the
-songs' reflections, gets her rule.
+The review left tooling behind: scripts/song-intake/ for mastering,
+spectra and spectrograms; check:stanza-repeats, which also fixed
+eleven older songs; transcribe.py ported from vzakharov/life, marking
+unsure words in place; and a masked word the recording itself carries
+stays, named in the song's frontmatter. pnpm test runs only the tests
+a branch changed, test:all the whole suite, and a video embedded from
+a link plays from its site-root path.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
