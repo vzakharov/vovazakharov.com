@@ -39,4 +39,7 @@ Done since: all 49 threads answered on GitHub; the five-percent entry
 (6ee85b9); `/polish` (334e980, c8f9f02). Site-root links on pages
 generally went to an unrelated session
 (https://claude.ai/code/session_01MroQ2txxiAST1qxK9YhSCe), which retires
-this branch's `siteRootPath` once it lands.
+this branch's `siteRootPath` once it lands. Майя's reflections on all
+eleven songs, rewritten after the author's «я хочу видеть отклик изнутри
+Майи о песнях» to be about the songs alone; the rule now says so without
+naming what it leaves out (d7fc9aa).
