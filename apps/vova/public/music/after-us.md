@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Posle nas'
     translation: 'After Us'
-  description: 'The world we leave to those whose adult life is only beginning, written while everything of the last few years still felt raw.'
+  description: 'The world we leave to those whose adult life is only beginning, while everything of the last few years still feels raw.'
 ru:
-  description: 'Какой мир мы оставляем тем, чья взрослая жизнь только начинается, — пока всё, что случилось за последние годы, ещё ощущалось особенно живо.'
+  description: 'Какой мир мы оставляем тем, чья взрослая жизнь только начинается, — пока всё, что случилось за последние годы, ощущается особенно живо.'
 ---
 
 <!-- lang:en -->

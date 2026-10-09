@@ -74,8 +74,8 @@ Well, it really had.
 x2
 
 <!-- voice: Кирилл -->
-Не я придумал этот сюжет, да и не ты тоже[^older-ru]
-Но, может, именно нас замышлял тот, кто писал его всё же[^older-ru]
+Не я придумал этот сюжет, да и не ты тоже
+Но, может, именно нас замышлял тот, кто писал его всё же
 Мороз по коже, когда думаю, сколько случайностей[^older-ru]
 Повлияли на то, что мы с тобой повстречались[^older-ru]
 Годы промчались, и случайностей всё реже[^older-ru]
@@ -108,8 +108,8 @@ Here is our sacred knowledge
 Without punctuation marks
 x2
 
-It wasn’t me who came up with this plot, and it wasn’t you either[^older-en]
-But maybe it was us that whoever wrote it had in mind after all[^older-en]
+It wasn’t me who came up with this plot, and it wasn’t you either
+But maybe it was us that whoever wrote it had in mind after all
 It gives me chills to think how many accidents[^older-en]
 Led to you and me meeting[^older-en]
 The years have flown by, and the accidents are fewer[^older-en]
