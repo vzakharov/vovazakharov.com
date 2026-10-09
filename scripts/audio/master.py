@@ -38,6 +38,7 @@ AIR_CAP_DB = 3.0
 NUMTAPS = 8191
 LIMIT = 0.75  # -2.5 dBFS at 4x: LAME V0 adds up to ~1.5 dB of intersample peak
 MAX_TRUE_PEAK = -1.0
+TAGS = ("title", "album", "artist", "track")
 
 
 def ffmpeg(*args):
@@ -76,7 +77,7 @@ def main():
     p.add_argument("out")
     p.add_argument("--strength", type=float, default=0.5)
     p.add_argument("--lufs", type=float)
-    for tag in ("title", "album", "artist", "track"):
+    for tag in TAGS:
         p.add_argument(f"--{tag}")
     args = p.parse_args()
 
@@ -91,7 +92,7 @@ def main():
 
         target = args.lufs if args.lufs is not None else loudness(matched)[0] - 0.5
         gain = target - loudness(eq)[0] + 0.5
-        meta = [x for tag in ("title", "album", "artist", "track")
+        meta = [x for tag in TAGS
                 if getattr(args, tag) for x in ("-metadata", f"{tag}={getattr(args, tag)}")]
         ffmpeg("-i", str(eq), "-af",
                f"volume={gain:.2f}dB,aresample={SR * 4},"
