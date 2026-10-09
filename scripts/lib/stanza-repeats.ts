@@ -13,7 +13,8 @@
  */
 
 import { splitSections } from '../../src/pages/music/index.node-safe.ts';
-import { frontmatterSpan } from './public-markdown.ts';
+import type { Named, WithText } from '../../src/shared/typings/index.ts';
+import { frontmatterSpan, type WithStart } from './public-markdown.ts';
 
 const LYRICS = 'lyrics:';
 
@@ -30,27 +31,27 @@ const NOTE_DEFINITION = /^\[\^[^\s\]]+]:/;
 /** A blank line, however many, between two blocks; captured so a split keeps it. */
 const BETWEEN_BLOCKS = /(\n\s*\n)/;
 
-type Stanza = {
-  /** Index into the section's parts. */
-  part: number;
-  /** Offset of the stanza's first character in the file. */
-  offset: number;
-  /** The lines, trimmed, without a closing `xN`. */
-  body: string;
-  times: number;
-};
+/** Offset of the stanza's first character in the file. */
+type WithOffset = { offset: number };
 
-type Section = {
-  name: string;
-  /** Offset of the section's text in the file. */
-  start: number;
-  /** Blocks at even indices, the blank lines between them at odd ones. */
-  parts: string[];
-  stanzas: Stanza[];
-};
+type Stanza = WithOffset &
+  // `text`: the lines, trimmed, without a closing `xN`.
+  WithText & {
+    /** Index into the section's parts. */
+    part: number;
+    times: number;
+  };
+
+type Section = Named &
+  // `start`: offset of the section's text in the file.
+  WithStart & {
+    /** Blocks at even indices, the blank lines between them at odd ones. */
+    parts: string[];
+    stanzas: Stanza[];
+  };
 
 /** A stanza that repeats the one before it; `refused` says why it stays when it cannot collapse. */
-export type Repeat = { section: string; offset: number; refused?: string };
+export type Repeat = WithOffset & { section: string; refused?: string };
 
 export type StanzaRepeats = {
   repeats: Repeat[];
@@ -58,13 +59,13 @@ export type StanzaRepeats = {
   fixed: string;
 };
 
-function readStanza(block: string): Pick<Stanza, 'body' | 'times'> | undefined {
+function readStanza(block: string): Pick<Stanza, 'text' | 'times'> | undefined {
   const lines = block.split('\n').map((line) => line.trim());
   if (lines.every((line) => NOTE_DEFINITION.test(line))) return undefined;
   const times = lines.length > 1 ? REPEAT.exec(lines.at(-1) ?? '') : null;
   return times
-    ? { body: lines.slice(0, -1).join('\n'), times: Number(times[1]) }
-    : { body: lines.join('\n'), times: 1 };
+    ? { text: lines.slice(0, -1).join('\n'), times: Number(times[1]) }
+    : { text: lines.join('\n'), times: 1 };
 }
 
 function readSection(name: string, text: string, start: number): Section {
@@ -95,7 +96,7 @@ function lyricsSections(source: string): Section[] {
 
 function repeatsBefore({ stanzas }: Section, index: number): boolean {
   const [previous, stanza] = [stanzas[index - 1], stanzas[index]];
-  return previous !== undefined && previous.body === stanza?.body;
+  return previous !== undefined && previous.text === stanza?.text;
 }
 
 function closeWith(block: string, times: number): string {

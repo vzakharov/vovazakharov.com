@@ -49,7 +49,10 @@ export function songFiles(): string[] {
     .map((name) => path.join(MUSIC_DIR, name));
 }
 
-export type Span = { start: number; end: number };
+/** Offset into the file where a stretch of its text begins. */
+export type WithStart = { start: number };
+
+export type Span = WithStart & { end: number };
 
 /** The file's frontmatter block, delimiters included, or `undefined` when it has none. */
 export function frontmatterSpan(source: string): Span | undefined {
