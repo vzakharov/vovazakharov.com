@@ -6,7 +6,7 @@
  *
  *   pnpm check:song-titles
  *
- * The rules are `.claude/rules/content.md`'s on a song's title:
+ * The rules are `.claude/rules/songs.md`'s on a song's title:
  *
  * - `titleLanguage`, right under `title`, wherever the title is not in the one
  *   language sung — the song is sung in several, is instrumental, or its title

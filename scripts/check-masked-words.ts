@@ -6,7 +6,7 @@
  *
  *   pnpm check:masked-words
  *
- * The rule is `.claude/rules/content.md` § "Material whose author is in the
+ * The rule is `.claude/rules/songs.md` § "Material whose author is in the
  * room": a word is written out. The body is scanned in the parser's text nodes
  * only, so emphasis — whose asterisks the parser consumes as delimiters — never
  * reads as a mask; the frontmatter is scanned whole, YAML having no emphasis.
