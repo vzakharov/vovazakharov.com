@@ -4,6 +4,7 @@ import { ActionIcon, Box, Group, Text } from '@mantine/core';
 import { Pause, Play, Shuffle, SkipBack, SkipForward } from 'lucide-react';
 
 import { cx } from '@/shared/lib/class-names';
+import { pick } from '@/shared/lib/collections';
 import { NameLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
@@ -85,7 +86,15 @@ export function PlayerBar() {
           <NameLink href={routes[locale]}>{titles[locale]}</NameLink>
           <Text component="span" inherit opacity={0.6}>
             {' — '}
-            {billing[locale]}
+            {billing[locale].map((part) =>
+              typeof part === 'string' ? (
+                part
+              ) : (
+                <NameLink key={part.href} {...pick(part, 'href')} c="inherit">
+                  {part.label}
+                </NameLink>
+              ),
+            )}
           </Text>
         </Text>
       </Box>

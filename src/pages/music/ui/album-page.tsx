@@ -1,6 +1,7 @@
 import { Stack, Text } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
 import { BackToHome, NameLink, PageShell } from '@/shared/ui';
 
 import { albumArtist, albumTitle } from '../lib/albums';
@@ -53,6 +54,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
         </CatalogueHeader>
 
         <SongList
+          {...pick(messages, 'title')}
           tracks={tracks.map((song) => songTrack(song))}
           trackNumbers={
             new Map(

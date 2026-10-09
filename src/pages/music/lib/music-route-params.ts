@@ -22,11 +22,14 @@ import {
   ALBUMS_SEGMENT,
   artistPath,
   ARTISTS_SEGMENT,
+  CATALOGUE_TABS,
   EVERYTHING_SEGMENT,
-  indexPath,
   musicPath,
   songPath,
+  tabBySegment,
+  tabPath,
   type WithEverything,
+  type WithTab,
 } from './music-urls';
 import { MUSIC_PROJECT_SLUGS } from './projects';
 import { catalogueSongs, listSongDocuments } from './songs';
@@ -37,6 +40,8 @@ export type WithOptionalMusicSegments = { slugAndLocale?: string[] };
 /** A page of one catalogue, public or whole, in one language. */
 export type CataloguePageProps = WithLocale & WithEverything;
 
+export type IndexPageProps = CataloguePageProps & WithTab;
+
 export type ArtistPageProps = CataloguePageProps & { artist: MusicProject };
 
 export type AlbumPageProps = CataloguePageProps & { album: MusicAlbum };
@@ -45,7 +50,7 @@ export type SongPageProps = WithLocale & Slugged;
 
 /** Which page an address resolves to, and in which language. */
 export type MusicAddress =
-  | ({ page: 'index' } & CataloguePageProps)
+  | ({ page: 'index' } & IndexPageProps)
   | ({ page: 'artist' } & ArtistPageProps)
   | ({ page: 'album' } & AlbumPageProps)
   | ({ page: 'song' } & SongPageProps);
@@ -79,7 +84,9 @@ export function parseMusicSegments({
   const [kind, slug, ...rest] = everything ? path.slice(1) : path;
   const catalogue = { locale, everything };
 
-  if (kind === undefined) return { page: 'index', ...catalogue };
+  if (kind === undefined) {
+    return { page: 'index', tab: 'artists', ...catalogue };
+  }
 
   if (slug !== undefined && rest.length === 0) {
     if (kind === ARTISTS_SEGMENT) {
@@ -94,8 +101,11 @@ export function parseMusicSegments({
     }
   }
 
-  if (!everything && slug === undefined) {
-    return { page: 'song', slug: kind, locale };
+  if (slug === undefined) {
+    const tab = tabBySegment(kind);
+
+    if (tab !== undefined) return { page: 'index', tab, ...catalogue };
+    if (!everything) return { page: 'song', slug: kind, locale };
   }
 
   throw new Error(
@@ -107,14 +117,19 @@ export function parseMusicSegments({
 type Addressed = (locale?: Locale) => string;
 
 /**
- * One catalogue's pages: its index, and every artist and album with a song in
- * it — so an artist or album whose songs are all hidden has no public page.
+ * One catalogue's pages: its index in each tab, and every artist and album with
+ * a song in it — so an artist or album whose songs are all hidden has no public
+ * page.
  */
 function cataloguePages(catalogue: WithEverything): Addressed[] {
   const songs = catalogueSongs(catalogue);
 
   return [
-    (locale) => indexPath(catalogue, locale),
+    ...CATALOGUE_TABS.map(
+      (tab): Addressed =>
+        (locale) =>
+          tabPath(tab, catalogue, locale),
+    ),
     ...catalogueArtists(songs).map(
       (artist): Addressed =>
         (locale) =>

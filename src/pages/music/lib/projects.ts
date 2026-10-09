@@ -67,8 +67,8 @@ export function artistImage(project: MusicProject): string | undefined {
 
 /**
  * How a song is billed — the artist first, whoever is featured after it — over
- * any rendering of a name, so a page can bill in links what `billing` bills in
- * text. One order in both languages: the order really is per-release, and
+ * any rendering of a name, so a page bills in links what the lock screen bills
+ * in text. One order in both languages: the order really is per-release, and
  * carrying that would localize a field identical in every other song.
  */
 export function bill<T>(
@@ -86,11 +86,4 @@ export function bill<T>(
       render(project),
     ]),
   ];
-}
-
-export function billing(
-  projects: readonly MusicProject[],
-  locale: Locale,
-): string {
-  return bill(projects, (project) => projectName(project, locale)).join('');
 }

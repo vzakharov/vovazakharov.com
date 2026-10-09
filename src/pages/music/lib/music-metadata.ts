@@ -12,8 +12,9 @@ import type {
   AlbumPageProps,
   ArtistPageProps,
   CataloguePageProps,
+  IndexPageProps,
 } from './music-route-params';
-import { albumPath, artistPath, indexPath } from './music-urls';
+import { albumPath, artistPath, tabLabels, tabPath } from './music-urls';
 import { projectName } from './projects';
 
 /**
@@ -36,11 +37,17 @@ function catalogueMetadata(
   });
 }
 
-export function generateMusicMetadata(page: CataloguePageProps) {
+/** The index, titled by its tab where that is not the artists it opens on. */
+export function generateMusicMetadata(page: IndexPageProps) {
   const { metaTitle, metaDescription } = loadMessages(page.locale).music;
 
-  return catalogueMetadata(page, metaTitle, metaDescription, (locale) =>
-    indexPath(page, locale),
+  return catalogueMetadata(
+    page,
+    page.tab === 'artists'
+      ? metaTitle
+      : `${metaTitle}: ${tabLabels(page.locale)[page.tab]}`,
+    metaDescription,
+    (locale) => tabPath(page.tab, page, locale),
   );
 }
 

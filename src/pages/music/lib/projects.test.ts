@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { bill, billing, MUSIC_PROJECT_SLUGS } from './projects.ts';
+import { bill, MUSIC_PROJECT_SLUGS } from './projects.ts';
 
 describe('MUSIC_PROJECT_SLUGS', () => {
   const slugs = Object.values(MUSIC_PROJECT_SLUGS);
@@ -21,27 +21,5 @@ describe('bill', () => {
       bill(['GENERATED', 'Yoohie', 'Полуживые'], (project) => [project]),
       [['GENERATED'], ' feat. ', ['Yoohie'], ', ', ['Полуживые']],
     );
-  });
-});
-
-describe('billing', () => {
-  it('puts the artist first and the features after it', () => {
-    assert.equal(
-      billing(['GENERATED', 'Полуживые'], 'en'),
-      'GENERATED feat. Полуживые',
-    );
-  });
-
-  it('bills a project under its name in the page language', () => {
-    assert.equal(billing(['Yoohie'], 'en'), 'Yoohie');
-    assert.equal(billing(['Yoohie'], 'ru'), 'Йухи');
-    assert.equal(
-      billing(['GENERATED', 'Yoohie'], 'ru'),
-      'GENERATED feat. Йухи',
-    );
-  });
-
-  it('bills nobody as an empty string', () => {
-    assert.equal(billing([], 'ru'), '');
   });
 });

@@ -1,7 +1,7 @@
 import { Box, Text } from '@mantine/core';
 import Image from 'next/image';
 
-import type { LabeledLink, Titled } from '@/shared/typings';
+import type { LabeledLink, MaybeTitled } from '@/shared/typings';
 import { NameLink, Subheading } from '@/shared/ui';
 
 import classes from './music.module.scss';
@@ -16,15 +16,16 @@ type CatalogueTile = LabeledLink & {
   detail?: string;
 };
 
-export type CatalogueGridProps = Titled & { tiles: CatalogueTile[] };
+/** Untitled under a heading of the page's own, as the index's tabs are. */
+export type CatalogueGridProps = MaybeTitled & { tiles: CatalogueTile[] };
 
-/** The artists on the index, or an artist's albums — several to a row, each a page of its own. */
+/** Artists or albums — several to a row, each a page of its own. */
 export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
   if (tiles.length === 0) return null;
 
   return (
     <Box>
-      <Subheading>{title}</Subheading>
+      {title !== undefined && <Subheading>{title}</Subheading>}
 
       <ul className={classes['tileGrid']}>
         {tiles.map(({ href, label, cover, detail }) => {

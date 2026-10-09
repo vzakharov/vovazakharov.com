@@ -3,7 +3,7 @@ import {
   documentRoute,
   localizedRoute,
 } from '@/shared/content';
-import type { Locale } from '@/shared/i18n';
+import { loadMessages, type Locale } from '@/shared/i18n';
 import type { MusicAlbum, MusicProject } from '@/shared/song';
 
 import { MUSIC_PROJECT_SLUGS } from './projects';
@@ -18,6 +18,36 @@ export const EVERYTHING_SEGMENT = 'all';
 export const ARTISTS_SEGMENT = 'artists';
 
 export const ALBUMS_SEGMENT = 'albums';
+
+export const SONGS_SEGMENT = 'songs';
+
+/**
+ * What the index lists: its artists at the section's own address, and every
+ * album or every song one segment down.
+ */
+export const CATALOGUE_TABS = ['artists', 'albums', 'songs'] as const;
+
+export type CatalogueTab = (typeof CATALOGUE_TABS)[number];
+
+export type WithTab = { tab: CatalogueTab };
+
+const TAB_SEGMENTS: Record<CatalogueTab, string | undefined> = {
+  artists: undefined,
+  albums: ALBUMS_SEGMENT,
+  songs: SONGS_SEGMENT,
+};
+
+/** What each tab is called, its heading's word for what it lists. */
+export function tabLabels(locale: Locale): Record<CatalogueTab, string> {
+  const { artists, albums, title } = loadMessages(locale).music;
+
+  return { artists, albums, songs: title };
+}
+
+/** The tab a first segment opens, if it opens one. */
+export function tabBySegment(segment: string): CatalogueTab | undefined {
+  return CATALOGUE_TABS.find((tab) => TAB_SEGMENTS[tab] === segment);
+}
 
 /**
  * Which catalogue a page lists: the public one, or the whole one. A page of the
@@ -38,6 +68,18 @@ function catalogueRoute({ everything }: WithEverything): string {
  */
 export function indexPath(catalogue: WithEverything, locale?: Locale): string {
   return localizedRoute(catalogueRoute(catalogue), locale);
+}
+
+export function tabPath(
+  tab: CatalogueTab,
+  catalogue: WithEverything,
+  locale?: Locale,
+): string {
+  const segment = TAB_SEGMENTS[tab];
+
+  return segment === undefined
+    ? indexPath(catalogue, locale)
+    : localizedRoute(`${catalogueRoute(catalogue)}/${segment}`, locale);
 }
 
 export function musicPath(locale?: Locale): string {

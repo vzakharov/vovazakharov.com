@@ -3,13 +3,15 @@ import { byLocale, isLocale } from '@/shared/i18n';
 
 import {
   ALBUMS_SEGMENT,
+  artistPath,
   ARTISTS_SEGMENT,
   EVERYTHING_SEGMENT,
   songPath,
+  SONGS_SEGMENT,
   type WithEverything,
 } from './music-urls';
 import type { PlayerTrack } from './player-state';
-import { billing } from './projects';
+import { bill, projectName } from './projects';
 import { localizeSong, type SongDocument } from './song-text';
 
 /** The first segments under `/music` that address a page other than a song. */
@@ -17,14 +19,15 @@ const RESERVED_SEGMENTS: ReadonlySet<string> = new Set([
   EVERYTHING_SEGMENT,
   ARTISTS_SEGMENT,
   ALBUMS_SEGMENT,
+  SONGS_SEGMENT,
 ]);
 
 /**
  * The catalogue, newest first. A slug the section's own addresses already
  * claim is rejected here, where every list of songs passes: `/music/ru` is the
- * index in Russian, `/music/all` the whole catalogue and `/music/artists/…` an
- * artist, so such a song would have a file, a row on the index and no page of
- * its own. Two songs claiming one album's track number are rejected here too.
+ * index in Russian, `/music/all` the whole catalogue, `/music/songs` its songs
+ * and `/music/artists/…` an artist, so such a song would have a file, a row on
+ * the index and no page of its own. Two songs claiming one album's track number are rejected here too.
  */
 export function listSongDocuments(): SongDocument[] {
   const documents = listPrimaryDocuments(SONGS);
@@ -74,7 +77,13 @@ export function songTrack(document: SongDocument): PlayerTrack {
     audio,
     seconds,
     explicit,
-    billing: byLocale((locale) => billing(project, locale)),
+    billing: byLocale((locale) =>
+      bill(project, (artist) => ({
+        label: projectName(artist, locale),
+        // The catalogue the song's own page links into.
+        href: artistPath(artist, { everything: !isListed(document) }, locale),
+      })),
+    ),
     titles: byLocale(
       (locale) => localizeSong(document, locale).frontmatter.title,
     ),

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import type { Locale } from '@/shared/i18n';
 
 import {
+  billingText,
   currentTrack,
   initialPlayerState,
   playerReducer,
@@ -26,6 +27,8 @@ export type PlayerControls = {
   /** Restarts the track before it steps back, once past `RESTART_AFTER_SECONDS`. */
   previous: () => void;
   shuffle: () => void;
+  /** Everything in the queue, shuffled afresh and played from the top. */
+  shuffleAll: () => void;
   seek: (seconds: number) => void;
   /** Relative to where playback is now, which is what the arrow keys want. */
   seekBy: (seconds: number) => void;
@@ -105,6 +108,9 @@ export function useAudioPlayer(
       // pure and testable.
       shuffle: () => {
         dispatch({ type: 'shuffle', seed: Date.now() });
+      },
+      shuffleAll: () => {
+        dispatch({ type: 'shuffleAll', seed: Date.now() });
       },
       seek: (seconds) => {
         const audio = audioRef.current;
@@ -205,7 +211,7 @@ export function useAudioPlayer(
 
     session.metadata = new MediaMetadata({
       title: current.titles[locale],
-      artist: current.billing[locale],
+      artist: billingText(current.billing[locale]),
       album: 'vovazakharov.com/music',
     });
     session.playbackState = state.playing ? 'playing' : 'paused';

@@ -1,6 +1,17 @@
 import type { Slugged } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 import type { Playable } from '@/shared/song';
+import type { LabeledLink } from '@/shared/typings';
+
+/** A song's billing, each artist linked to its page and the joins between them as text. */
+export type Billing = Array<LabeledLink | string>;
+
+/** The billing as one line of text, for where a link cannot go. */
+export function billingText(billing: Billing): string {
+  return billing
+    .map((part) => (typeof part === 'string' ? part : part.label))
+    .join('');
+}
 
 /**
  * A song as the player needs it: resolved at build time from the collection and
@@ -10,7 +21,7 @@ export type PlayerTrack = Slugged &
   Playable & {
     /** What the song is called in each language, how it is billed, and where each is served. */
     titles: Record<Locale, string>;
-    billing: Record<Locale, string>;
+    billing: Record<Locale, Billing>;
     routes: Record<Locale, string>;
   };
 
@@ -44,6 +55,8 @@ export type PlayerAction =
   | { type: 'step'; by: 1 | -1 }
   /** Turns shuffle on with this seed, or off; the current track stays playing. */
   | { type: 'shuffle'; seed: number }
+  /** A fresh shuffle of the whole queue, played from its top. */
+  | { type: 'shuffleAll'; seed: number }
   /** The element reporting what it is actually doing. */
   | { type: 'playback'; playing: boolean };
 
@@ -166,6 +179,19 @@ function reshuffle(state: PlayerState, seed: number): PlayerState {
   };
 }
 
+function shuffleAll(state: PlayerState, seed: number): PlayerState {
+  const { order } = state;
+
+  if (order.length === 0) return state;
+
+  return {
+    order: shuffleOrder(order.length, undefined, seed),
+    cursor: 0,
+    shuffled: true,
+    playing: true,
+  };
+}
+
 /**
  * Dispatched by early return rather than a switch, so the last branch narrows
  * to the one remaining action: a new member of `PlayerAction` stops compiling
@@ -180,6 +206,7 @@ export function playerReducer(
   if (action.type === 'toggle') return toggle(state);
   if (action.type === 'step') return step(state, action.by);
   if (action.type === 'shuffle') return reshuffle(state, action.seed);
+  if (action.type === 'shuffleAll') return shuffleAll(state, action.seed);
 
   const { playing } = action;
 

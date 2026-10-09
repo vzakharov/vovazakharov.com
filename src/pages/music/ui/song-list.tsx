@@ -1,16 +1,19 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 
 import { loadMessages, type WithLocale } from '@/shared/i18n';
+import type { MaybeTitled } from '@/shared/typings';
 import { Card, NameLink, Subheading } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
-import type { WithTracks } from '../lib/player-state';
+import { billingText, type WithTracks } from '../lib/player-state';
 import { ExplicitBadge } from './explicit-badge';
 import classes from './music.module.scss';
 import { TrackButton } from './track-button';
 
+/** Untitled under a heading of the page's own, as the index's tabs are. */
 export type SongListProps = WithLocale &
-  WithTracks & {
+  WithTracks &
+  MaybeTitled & {
     /** Each row's number on its release, by slug — an album's list, which may skip. */
     trackNumbers?: ReadonlyMap<string, number>;
   };
@@ -22,6 +25,7 @@ export type SongListProps = WithLocale &
  */
 export function SongList({
   locale,
+  title,
   tracks: songs,
   trackNumbers,
 }: SongListProps) {
@@ -31,7 +35,7 @@ export function SongList({
 
   return (
     <Box>
-      <Subheading>{messages.title}</Subheading>
+      {title !== undefined && <Subheading>{title}</Subheading>}
 
       <Stack gap={12}>
         {songs.map((track) => (
@@ -58,7 +62,7 @@ export function SongList({
                   )}
                 </Text>
                 <Text size="sm" opacity={0.6} truncate>
-                  {track.billing[locale]}
+                  {billingText(track.billing[locale])}
                 </Text>
               </Box>
 

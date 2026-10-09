@@ -61,26 +61,36 @@ export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
 }
 
 /**
+ * When the album came out, as far as the catalogue knows: the registry dates no
+ * release, so an album is as new as its latest song in this catalogue.
+ */
+function albumDate(album: MusicAlbum, songs: readonly SongDocument[]): number {
+  return Math.max(
+    ...albumSongs(album, songs).map(({ frontmatter }) =>
+      frontmatter.date.getTime(),
+    ),
+  );
+}
+
+/** The albums with a song in this catalogue, newest first; a tie keeps registry order. */
+export function newestAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
+  return catalogueAlbums(songs).toSorted(
+    (a, b) => albumDate(b, songs) - albumDate(a, songs),
+  );
+}
+
+/**
  * The artist's albums as one language credits them — `vagabond` is GENERATED's
- * in English and Полуживые's in Russian — newest first. The registry dates no
- * release, so an album is as new as its latest song in this catalogue; a tie
- * keeps registry order.
+ * in English and Полуживые's in Russian — newest first.
  */
 export function artistAlbums(
   artist: MusicProject,
   locale: Locale,
   songs: readonly SongDocument[],
 ): MusicAlbum[] {
-  const latest = (album: MusicAlbum) =>
-    Math.max(
-      ...albumSongs(album, songs).map(({ frontmatter }) =>
-        frontmatter.date.getTime(),
-      ),
-    );
-
-  return catalogueAlbums(songs)
-    .filter((album) => albumArtist(album, locale) === artist)
-    .toSorted((a, b) => latest(b) - latest(a));
+  return newestAlbums(songs).filter(
+    (album) => albumArtist(album, locale) === artist,
+  );
 }
 
 /**
@@ -96,4 +106,33 @@ export function catalogueArtists(
       artistSongs(artist, songs).length > 0 ||
       LOCALES.some((locale) => artistAlbums(artist, locale, songs).length > 0),
   );
+}
+
+/** What an artist put out: an album, or a song on none, which is its own release. */
+export type ArtistRelease = { album: MusicAlbum } | { single: SongDocument };
+
+/**
+ * The artist's albums and singles together, newest first. A single is a song
+ * the artist leads rather than features on, so it is listed once, under whoever
+ * released it.
+ */
+export function artistReleases(
+  artist: MusicProject,
+  locale: Locale,
+  songs: readonly SongDocument[],
+): ArtistRelease[] {
+  const released = (release: ArtistRelease) =>
+    'album' in release
+      ? albumDate(release.album, songs)
+      : release.single.frontmatter.date.getTime();
+
+  return [
+    ...artistAlbums(artist, locale, songs).map((album) => ({ album })),
+    ...songs
+      .filter(
+        ({ frontmatter }) =>
+          frontmatter.album === null && frontmatter.project[0] === artist,
+      )
+      .map((single) => ({ single })),
+  ].toSorted((a, b) => released(b) - released(a));
 }
