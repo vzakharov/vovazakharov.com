@@ -4,6 +4,7 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+voice: Майя
 album: wings
 track: 8
 audio: /music/assets/birds.mp3

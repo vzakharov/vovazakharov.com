@@ -4,6 +4,7 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
+voice: Майя
 album: wings
 track: 10
 alsoOn:

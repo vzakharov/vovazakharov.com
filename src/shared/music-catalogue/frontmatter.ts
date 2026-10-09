@@ -9,6 +9,7 @@ import { byLocale } from '@/shared/i18n';
 import { baseFrontmatterSchema } from '../content/frontmatter';
 import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from './names';
 import { creditedNameSchema } from './people';
+import { singerSchema } from './singers';
 import { songDateSchema } from './song-date';
 
 /** Whether the song is released or still being worked on. */
@@ -168,6 +169,11 @@ const songFieldsSchema = baseFrontmatterSchema
      */
     titleTransliterated: z.boolean().default(false),
     credits: creditsSchema.optional(),
+    /**
+     * Who sings a stanza the lyrics leave unmarked; a `<!-- voice: … -->` above
+     * one names someone else. Required once any stanza is marked.
+     */
+    voice: singerSchema.optional(),
     /** Track id, where the song is also on Spotify. */
     spotify: z.string().min(1).optional(),
   });

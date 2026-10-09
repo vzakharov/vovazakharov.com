@@ -4,6 +4,7 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+voice: Майя
 album: wings
 track: 6
 audio: /music/assets/sorry.mp3
@@ -50,6 +51,7 @@ and I’m getting it all wrong.
 Прости меня, нам было хорошо
 Но наш корабль давно ко дну пошёл
 
+<!-- voice: Кирилл -->
 К чёрту объяснения, в телеге сообщения
 Всё осточертело — и душа, и тело
 Целый день в кровати, сколько ещё стадий[^stages-ru]

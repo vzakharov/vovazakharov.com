@@ -4,6 +4,7 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
+voice: Кирилл
 album: punctuation-marks
 track: 1
 audio: /music/assets/listen-single.mp3

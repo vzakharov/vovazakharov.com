@@ -4,6 +4,7 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
+voice: Кирилл
 album: wings
 track: 4
 audio: /music/assets/after-us.mp3
@@ -51,6 +52,7 @@ Maya’s and Kirill’s.
 
 [^stress-ru]: Поётся «похорони́т», с ударением на последний слог, — так неправильно, но поют-то юные и наивные, что с них взять.
 
+<!-- voice: Майя -->
 До нас [don’t stop][^dont-stop-ru], до нас [go now][^go-now-ru],
 Вся жизнь сейчас, вся жизнь игра
 [При нас потоп][^deluge-ru], при нас война,
