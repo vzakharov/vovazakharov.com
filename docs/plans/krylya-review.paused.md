@@ -30,12 +30,13 @@ context budget.
 
 ## Left
 
-1. **Reply on GitHub to every one of the 49 threads** (CLAUDE.md § "GitHub
-   comments": one sentence + bare SHA, never resolve), and the
-   `writing/notes/the-five-percent.md` entry via a subagent for the comments
-   that changed a settled call.
-2. **For the author**: on a phone the story fold of after-us lands across
-   its video, a dark rectangle fading above «…» — not folding when a video
-   sits inside the fold, or a poster frame, both touch the shared prose
-   styles.
-3. Then `/polish` and `/pr` (`/go` Steps 3–4).
+1. **Open question to the author**: on a phone the story fold of after-us
+   lands across its video, a dark rectangle fading above «…». Recommended:
+   don't fold a story whose fold would cut a video; the alternative is a
+   poster frame. Both touch the shared prose styles.
+
+Done since: all 49 threads answered on GitHub; the five-percent entry
+(6ee85b9); `/polish` (334e980, c8f9f02). Site-root links on pages
+generally went to an unrelated session
+(https://claude.ai/code/session_01MroQ2txxiAST1qxK9YhSCe), which retires
+this branch's `siteRootPath` once it lands.
