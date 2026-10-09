@@ -15,8 +15,7 @@ merge_base_with_default() {
 
 # Every path changed since the merge base, one per line — committed, uncommitted
 # and untracked alike, since vet judges the tree as it stands. Fails with no base
-# to diff against, which vet-songs.sh reads as "run everything" and
-# test-changed.sh as an error naming the whole suite.
+# to diff against, which each caller handles its own way.
 changed_files() {
   local base
   base="$(merge_base_with_default)" || return 1

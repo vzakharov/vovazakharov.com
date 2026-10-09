@@ -4,9 +4,7 @@
 # replace that selection and go to the runner as they are
 # (`pnpm test scripts/lib/docket.test.ts`).
 #
-# The whole suite is `pnpm test:all`, which is vet's; the mushroom meadow's
-# tests alone take over half an hour, so a run by hand reaching them only when
-# the branch did is the default.
+# The whole suite is `pnpm test:all`, vet's (scripts/vet-test.sh).
 #
 # Runs in the repository holding the working directory, so a test can point it
 # at a throwaway one.

@@ -9,9 +9,8 @@ paths:
 **`pnpm test` runs only what the branch reached**: each changed `*.test.ts`,
 and the `<stem>.test.ts` beside each changed file (`scripts/test-changed.sh`).
 Arguments replace that selection — `pnpm test path/to/x.test.ts`. The whole
-suite is `pnpm test:all`, which vet runs; don't start it by hand, as the
-mushroom meadow's tests alone take over half an hour, and vet leaves them out
-unless `VET_MEADOW=1` asks. A test the branch reaches only through an import —
+suite is `pnpm test:all`, which vet runs — the mushroom meadow's
+half-hour tests left out unless `VET_MEADOW=1` asks; don't start it by hand. A test the branch reaches only through an import —
 a change to `src/shared/` breaking a test elsewhere — is not selected; name it,
 or leave it to vet.
 

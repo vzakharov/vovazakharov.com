@@ -7,9 +7,8 @@
  * Every lyrics section of a song is read stanza for stanza against the others —
  * the crib beside the words, a romanization under them — so a repeat collapses
  * only where every section repeats at the same stanza, which keeps them
- * aligned. One that repeats in some sections and not the rest is not a
- * repeat; one in a song whose sections have already slipped apart is refused
- * and left to a person.
+ * aligned. A song whose sections have already slipped apart is refused and left
+ * to a person.
  */
 
 import { splitSections } from '../../src/pages/music/index.node-safe.ts';
