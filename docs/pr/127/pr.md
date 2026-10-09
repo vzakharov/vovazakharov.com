@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-09T14:50:17Z
-- **Updated:** 2026-10-09T17:24:11Z
+- **Updated:** 2026-10-09T18:36:49Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Awaiting an answer: 49
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at ca8663b). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `.claude/rules/maya-reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T16:53:07Z — "а давай под каждую песню делать спектрограмму -- не усреднён…" → [↓](#t01)
 - **T02** `apps/vova/public/music/after-us.md`:43 — unresolved — last: @vzakharov (human) 2026-10-09T16:54:43Z — "подсказка: ударение на "ит" -- так неправильно, но они же юн…" → [↓](#t02)
@@ -29,12 +29,12 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T10** `apps/vova/public/music/birds.md`:43 — unresolved — last: @vzakharov (human) 2026-10-09T17:00:36Z — "В новый день, в новый край" → [↓](#t10)
 - **T11** `apps/vova/public/music/birds.md`:54 — unresolved — last: @vzakharov (human) 2026-10-09T17:00:53Z — "тут просто вокализ, можно убрать наверное" → [↓](#t11)
 - **T12** `apps/vova/public/music/birds.md`:65 — unresolved — last: @vzakharov (human) 2026-10-09T17:01:06Z — "Места нету тебе" → [↓](#t12)
-- **T13** `apps/vova/public/music/birds.md`:36 — unresolved — last: @vzakharov (human) 2026-10-09T17:01:15Z — "а переводы где?) всегда когда пишем слова -- сразу пишем пер…" → [↓](#t13)
+- **T13** `apps/vova/public/music/birds.md`:34 — unresolved — last: @vzakharov (human) 2026-10-09T17:01:15Z — "а переводы где?) всегда когда пишем слова -- сразу пишем пер…" → [↓](#t13)
 - **T14** `apps/vova/public/music/birds.md`:17 — unresolved — last: @vzakharov (human) 2026-10-09T17:01:58Z — "после появления тел (как я комментирую), описания нужно тоже…" → [↓](#t14)
 - **T15** `apps/vova/public/music/birds.md`:12 — unresolved — last: @vzakharov (human) 2026-10-09T17:02:06Z — "не забыть снять" → [↓](#t15)
 - **T16** `apps/vova/public/music/hello.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:03:00Z — "Очень горд был этой песней, и дуэтом -- особенно где они нач…" → [↓](#t16)
 - **T17** `apps/vova/public/music/hello.md`:41 — unresolved — last: @vzakharov (human) 2026-10-09T17:04:46Z — "этой строки нет" → [↓](#t17)
-- **T18** `apps/vova/public/music/hello.md`:42 — unresolved — last: @vzakharov (human) 2026-10-09T17:05:00Z — "Здравствуй, оглянись Это свет, или лишь мираж? (дальше как з…" → [↓](#t18)
+- **T18** `apps/vova/public/music/hello.md`:46 — unresolved — last: @vzakharov (human) 2026-10-09T17:05:00Z — "Здравствуй, оглянись Это свет, или лишь мираж? (дальше как з…" → [↓](#t18)
 - **T19** `apps/vova/public/music/hello.md`:45 — unresolved — last: @vzakharov (human) 2026-10-09T17:05:13Z — "мы строим... -- сновой строки" → [↓](#t19)
 - **T20** `apps/vova/public/music/intertwined.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:06:52Z — "По-моему, это одна из первых, если не первая песня, написанн…" → [↓](#t20)
 - **T21** `apps/vova/public/music/intertwined.md`:59 — unresolved — last: @vzakharov (human) 2026-10-09T17:08:20Z — "Может быть, так лучше? Может, не узнают? Может, кому надо Са…" → [↓](#t21)
@@ -64,7 +64,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T45** `docs/music/hidden-songs.md`:214 — unresolved — last: @vzakharov (human) 2026-10-09T17:30:15Z — "всё можно раскрывать" → [↓](#t45)
 - **T46** `docs/remove-before-merging/deepgram/krylya-album-story-1.transcript.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:31:26Z — "здесь получилось много про альбом, и это ок -- но давай тогд…" → [↓](#t46)
 - **T47** `docs/remove-before-merging/deepgram/krylya-album-story-1.transcript.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:32:03Z — "возьми траснкрибирование из репы vzakharov/life, там лучше р…" → [↓](#t47)
-- **T48** `scripts/audio/CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:33:45Z — "как-то поспецифичнее назвать, "аудио" может быть что угодно" → [↓](#t48)
+- **T48** `scripts/song-intake/CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:33:45Z — "как-то поспецифичнее назвать, "аудио" может быть что угодно" → [↓](#t48)
 - **T49** `apps/vova/public/music/assets/after-us.mp3`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:34:37Z — "давай это ссылкой на скачивание (.mp3), там же, где и .md и…" → [↓](#t49)
 
 ---
@@ -156,12 +156,12 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T10** `apps/vova/public/music/birds.md`:43 — unresolved — last: @vzakharov (human) 2026-10-09T17:00:36Z — "В новый день, в новый край" → [↓](#t10)
 - **T11** `apps/vova/public/music/birds.md`:54 — unresolved — last: @vzakharov (human) 2026-10-09T17:00:53Z — "тут просто вокализ, можно убрать наверное" → [↓](#t11)
 - **T12** `apps/vova/public/music/birds.md`:65 — unresolved — last: @vzakharov (human) 2026-10-09T17:01:06Z — "Места нету тебе" → [↓](#t12)
-- **T13** `apps/vova/public/music/birds.md`:36 — unresolved — last: @vzakharov (human) 2026-10-09T17:01:15Z — "а переводы где?) всегда когда пишем слова -- сразу пишем пер…" → [↓](#t13)
+- **T13** `apps/vova/public/music/birds.md`:34 — unresolved — last: @vzakharov (human) 2026-10-09T17:01:15Z — "а переводы где?) всегда когда пишем слова -- сразу пишем пер…" → [↓](#t13)
 - **T14** `apps/vova/public/music/birds.md`:17 — unresolved — last: @vzakharov (human) 2026-10-09T17:01:58Z — "после появления тел (как я комментирую), описания нужно тоже…" → [↓](#t14)
 - **T15** `apps/vova/public/music/birds.md`:12 — unresolved — last: @vzakharov (human) 2026-10-09T17:02:06Z — "не забыть снять" → [↓](#t15)
 - **T16** `apps/vova/public/music/hello.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:03:00Z — "Очень горд был этой песней, и дуэтом -- особенно где они нач…" → [↓](#t16)
 - **T17** `apps/vova/public/music/hello.md`:41 — unresolved — last: @vzakharov (human) 2026-10-09T17:04:46Z — "этой строки нет" → [↓](#t17)
-- **T18** `apps/vova/public/music/hello.md`:42 — unresolved — last: @vzakharov (human) 2026-10-09T17:05:00Z — "Здравствуй, оглянись Это свет, или лишь мираж? (дальше как з…" → [↓](#t18)
+- **T18** `apps/vova/public/music/hello.md`:46 — unresolved — last: @vzakharov (human) 2026-10-09T17:05:00Z — "Здравствуй, оглянись Это свет, или лишь мираж? (дальше как з…" → [↓](#t18)
 - **T19** `apps/vova/public/music/hello.md`:45 — unresolved — last: @vzakharov (human) 2026-10-09T17:05:13Z — "мы строим... -- сновой строки" → [↓](#t19)
 - **T20** `apps/vova/public/music/intertwined.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:06:52Z — "По-моему, это одна из первых, если не первая песня, написанн…" → [↓](#t20)
 - **T21** `apps/vova/public/music/intertwined.md`:59 — unresolved — last: @vzakharov (human) 2026-10-09T17:08:20Z — "Может быть, так лучше? Может, не узнают? Может, кому надо Са…" → [↓](#t21)
@@ -191,7 +191,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T45** `docs/music/hidden-songs.md`:214 — unresolved — last: @vzakharov (human) 2026-10-09T17:30:15Z — "всё можно раскрывать" → [↓](#t45)
 - **T46** `docs/remove-before-merging/deepgram/krylya-album-story-1.transcript.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:31:26Z — "здесь получилось много про альбом, и это ок -- но давай тогд…" → [↓](#t46)
 - **T47** `docs/remove-before-merging/deepgram/krylya-album-story-1.transcript.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:32:03Z — "возьми траснкрибирование из репы vzakharov/life, там лучше р…" → [↓](#t47)
-- **T48** `scripts/audio/CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:33:45Z — "как-то поспецифичнее назвать, "аудио" может быть что угодно" → [↓](#t48)
+- **T48** `scripts/song-intake/CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:33:45Z — "как-то поспецифичнее назвать, "аудио" может быть что угодно" → [↓](#t48)
 - **T49** `apps/vova/public/music/assets/after-us.mp3`:1 — unresolved — last: @vzakharov (human) 2026-10-09T17:34:37Z — "давай это ссылкой на скачивание (.mp3), там же, где и .md и…" → [↓](#t49)
 
 <a id="t01"></a>
@@ -421,15 +421,16 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 <a id="t13"></a>
 
-### `apps/vova/public/music/birds.md`:36 — unresolved
+### `apps/vova/public/music/birds.md`:34 — unresolved
 
 ```diff
 @@ -0,0 +1,65 @@
-… 32 lines elided …
+… 30 lines elided …
++- «Здесь, внизу, на земле» — Whisper: «Здесь, внизу, на земле», Deepgram: «снесу на земле»
++- «Места нет у тебя» / «У меня» — Whisper: «Места нет у тебя», «У меня», Deepgram: «места нет. Тебя.»
 +- (no line set) 01:57 and 02:50–04:00 — the voice sings on, but neither recogniser heard words there (Whisper: «Ку-у-у-у» at 01:57, nothing usable after)
 +-->
-+
-+<!-- lyrics:ru -->
+… 2 lines elided …
 ```
 
 **@vzakharov (human)** — 2026-10-09T17:01:15Z
@@ -507,7 +508,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 <a id="t18"></a>
 
-### `apps/vova/public/music/hello.md`:42 — unresolved
+### `apps/vova/public/music/hello.md`:46 — unresolved
 
 ```diff
 @@ -0,0 +1,47 @@
@@ -1069,7 +1070,7 @@ Feel the present in your hands
 
 <a id="t48"></a>
 
-### `scripts/audio/CLAUDE.md`:1 — unresolved
+### `scripts/song-intake/CLAUDE.md`:1 — unresolved
 
 **@vzakharov (human)** — 2026-10-09T17:33:45Z
 
