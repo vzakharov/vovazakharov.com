@@ -11,16 +11,18 @@ seconds: 214
 explicit: false
 hidden: true
 en:
-  description: 'TBD'
+  description: 'The next-to-last song I showed my dad, and I think he understood it all.'
 ru:
-  description: 'TBD'
+  description: 'Предпоследняя песня, которую я показал папе, — и, думаю, он всё понял.'
 ---
 
-<!-- Scaffolded from https://github.com/vovas-music/ghost — ghost.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- lang:en -->
+
+The next-to-last song I showed my dad. I think he understood it all: “Magnificent. I’m sitting here crying. And the lyrics. What lyrics. You are a great poet. Thank you, my boy.” And now I’m the one sitting here crying.
+
+<!-- lang:ru -->
+
+Предпоследняя песня, которую показал папе. Думаю, он всё понял: «Великолепно. Сижу и плачу. И стихи. Какие стихи. Ты — великий поэт. Спасибо, сыночек». Вот и я сижу и плачу.
 
 <!-- lyrics:en -->
 
