@@ -66,9 +66,7 @@ Don’t know which is reality and which is a dream
 Tell me, why is it among the gravestones
 Of civilizations never committed to the earth
 That you and I have happened to end up
-The last ones to bury them?[^stress-en]
-
-[^stress-en]: Sung «похорони́т», stressed on the last syllable — which is wrong, but the singers are young and naive; what can you expect.
+The last ones to bury them?
 
 Before us, don’t stop, before us, go now,
 All of life is now, all of life is a game
