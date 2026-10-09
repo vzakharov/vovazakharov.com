@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×55)
+## What it was handed, it treats as fixed (×56)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -113,17 +113,20 @@ and “be… a… good… girl” as the author's punctuation. _разве в п
 transliteration of an English title, it dropped "English" and stored one Latin
 gloss per song, leaving a Greek title unreadable on the Russian page.
 
-**8 October — the poem read as the song.** Song pages printed the source text
-whole where the recording sings four lines of «Лели», and stanzas never recorded
-for three others; the hamlet page credited as lyricist someone who had moved
-Shakespeare's lines around. What a page documents is the recording.
+**8 and 9 October — the poem read as the song.** Song pages printed the source
+text whole where the recording sings four lines of «Лели», and stanzas never
+recorded for three others; the hamlet page credited as lyricist someone who had
+moved Shakespeare's lines around. Next day «Валентинов день» set K. R.'s Ophelia
+songs in full, the English crib mirroring Shakespeare's stanzas. _этой строфы в
+песне нет_ — «В цветах он весь лежал…» is not sung. What a page documents is
+the recording.
 
 **8 October — the repo read as the only source.** With no cover in an album's
 repo and no artist pictures, the agent settled on text-only tiles. _is Spotify
 reachable?_ It wasn't; Apple Music, already used in the same PR, had all seven
 artists and five more covers.
 
-## An account that explains the code stands in for running it (×18)
+## An account that explains the code stands in for running it (×19)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -152,6 +155,11 @@ neighbours.** Moved to `shared/song`, the schema kept the project and album
 registries below the page layer — names, slugs, billing, covers, repo URLs —
 because it validates a few of those names. _keep only the schema in shared._
 The enum values it checks were shared; the presentation had one consumer.
+
+**9 October — legibility judged from the stylesheet.** The romanization under
+Mithqal's Arabic lyrics got the line's size at 70% of its colour, called legible
+enough from the code with the toggle never switched on. _потусклее бы
+транслитерацию, и может шрифт поменьше, сейчас всё в кашу как-то._
 
 ## It edits the copy in front of it, not the fact behind it (×16)
 
