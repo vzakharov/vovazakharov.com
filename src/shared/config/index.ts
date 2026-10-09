@@ -5,6 +5,7 @@ export {
   printedUrl,
   SITE_CONFIG,
   SITE_ID,
+  siteRootPath,
 } from './resolved-site';
 export {
   ANALYTICS_SCRIPT_URL,
