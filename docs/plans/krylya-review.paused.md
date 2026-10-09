@@ -41,9 +41,26 @@ context budget.
   «1st half» = stanza 1 Майя, stanza 2 Кирилл; our-punk-rock's «Йоу, йоу» is
   Кирилл's, with the rap.
 
+- After relay 4, the author's second review: voice notes are free text for
+  reference only, no frontmatter field, registry or checks (1e80ee8); After
+  Us's blurb in the present tense, Our Story's older-voice note starting at
+  «Мороз по коже», «трендс» and «булли» unexplained (7c87b24); the story fold
+  after about six lines (5caf7bb). Item 3 answered: «как сейчас нормально,
+  единственное, обрезка должна быть намного раньше».
+
 ## Left
 
-Item 3 only; then `/polish` and `/pr`. Items 1 and 2, as they were asked:
+Then `/polish` and `/pr`, once these land:
+
+- A project page carries its own text, and most of `albums/wings.md` moves
+  to за/обложкой's («большинство из этого должно быть описание ко всему
+  проекту, а не альбому»).
+- Spectrograms on a log frequency scale, with a waveform under them.
+- A song's video leaves the story body for an outlined «Смотреть видео»
+  button beside «Слушать», pausing the song when the video plays.
+- Replies on the wings.md and spectrogram threads.
+
+Items 1–3, as they were asked:
 
 1. **Who sings — marked in the songs.** The author approved («Замечательно,
    да»): a song's frontmatter `voice` names who sings whatever is unmarked,
