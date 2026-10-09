@@ -41,17 +41,20 @@ Maya’s and Kirill’s.
 Не знаем, где реальность и где сон
 
 Скажи, зачем среди могильных плит
-Не преданных себе цивилизаций
+Не преданных земле цивилизаций
 Нам довелось с тобою оказаться
 Последними, кто их похоронит?[^stress-ru]
 
 [^stress-ru]: Поётся «похорони́т», с ударением на последний слог, — так неправильно, но поют-то юные и наивные, что с них взять.
 
-До нас don’t stop, до нас go now,
+До нас [don’t stop][^dont-stop-ru], до нас [go now][^go-now-ru],
 Вся жизнь сейчас, вся жизнь игра
 При нас потоп, при нас война,
 А после нас…
 x2
+
+[^dont-stop-ru]: «Не останавливайся» (англ.).
+[^go-now-ru]: «Иди сейчас», «вперёд» (англ.).
 
 <!-- lyrics:en -->
 
@@ -61,7 +64,7 @@ And we, like Murakami’s characters,
 Don’t know which is reality and which is a dream
 
 Tell me, why is it among the gravestones
-Of civilizations untrue to themselves
+Of civilizations never committed to the earth
 That you and I have happened to end up
 The last ones to bury them?[^stress-en]
 
