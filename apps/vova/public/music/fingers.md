@@ -74,7 +74,9 @@ Bayan-core, or: any self-respecting composer has to write at least one song on t
 Кудрявый твой смех
 В ресницах твоих теряться
 Вот мой ковчег
-И эту песню крутить ни для кого и для всех
+И эту песню крутить [ни для кого и для всех][^nietzsche-ru]
+
+[^nietzsche-ru]: Отсылка к подзаголовку «Так говорил Заратустра» Ницше: «Книга для всех и ни для кого».
 
 Да, я понимаю, глупости, конечно.
 Половину переврал, а половины никогда и не было.
@@ -149,7 +151,9 @@ And tearing the silence apart
 Your curly laugh
 Getting lost in your eyelashes
 That’s my ark
-And spinning this song for no one and for everyone
+And spinning this song [for no one and for everyone][^nietzsche-en]
+
+[^nietzsche-en]: After the subtitle of Nietzsche’s Thus Spoke Zarathustra: “A Book for All and None.”
 
 Yes, I know, it’s silly, of course.
 Half of it I got wrong, and the other half never happened.

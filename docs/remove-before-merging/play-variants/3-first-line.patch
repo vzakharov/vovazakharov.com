@@ -1,0 +1,88 @@
+diff --git a/src/pages/music/ui/music.module.scss b/src/pages/music/ui/music.module.scss
+index 3999444..ca3e63a 100644
+--- a/src/pages/music/ui/music.module.scss
++++ b/src/pages/music/ui/music.module.scss
+@@ -271,6 +271,17 @@
+   }
+ }
+ 
++// One line of the title tall, in the title's own metrics, so the play control
++// centres on the first line however many the title wraps to.
++.titleLinePlay {
++  display: flex;
++  flex: none;
++  align-items: center;
++  height: 1lh;
++  font-size: var(--mantine-h1-font-size);
++  line-height: var(--mantine-h1-line-height);
++}
++
+ // A release without art gets its name set large on the square instead, sized
+ // off the tile's width and shrunk further for a name whose longest word
+ // (`--tile-word`, in letters) would not otherwise fit the 82% of it inside the
+diff --git a/src/pages/music/ui/song-page.tsx b/src/pages/music/ui/song-page.tsx
+index a5d1858..a27e9e6 100644
+--- a/src/pages/music/ui/song-page.tsx
++++ b/src/pages/music/ui/song-page.tsx
+@@ -111,11 +111,17 @@ export async function SongPage({ slug, locale }: SongPageProps) {
+               )}
+ 
+               <Stack gap={8}>
+-                <Group gap={16} wrap="nowrap" align="center">
++                <Group gap={16} wrap="nowrap" align="flex-start">
+                   {/* The same track a song list's row plays, so both drive
+                       one queue — which a hidden song joins only once played
+                       here. */}
+-                  <TrackButton track={songTrack(document)} {...{ title }} />
++                  <div className={classes['titleLinePlay']}>
++                    <TrackButton
++                      track={songTrack(document)}
++                      solid
++                      {...{ title }}
++                    />
++                  </div>
+                   <Title order={1}>
+                     {title}
+                     {explicit && <ExplicitBadge label={messages.explicit} />}
+diff --git a/src/pages/music/ui/track-button.tsx b/src/pages/music/ui/track-button.tsx
+index f399410..a5382ec 100644
+--- a/src/pages/music/ui/track-button.tsx
++++ b/src/pages/music/ui/track-button.tsx
+@@ -10,25 +10,32 @@ import type { PlayerTrack } from '../lib/player-state';
+ import classes from './music.module.scss';
+ import { usePlayer } from './player-provider';
+ 
+-export type TrackButtonProps = Titled & { track: PlayerTrack };
++export type TrackButtonProps = Titled & {
++  track: PlayerTrack;
++  /** A song page's own control: larger, and filled at rest as well as engaged. */
++  solid?: boolean;
++};
+ 
+ /** The play control on a track row, showing whether this is the one playing. */
+-export function TrackButton({ track, title }: TrackButtonProps) {
++export function TrackButton({ track, title, solid = false }: TrackButtonProps) {
+   const { state, current, play, labels } = usePlayer();
+   const playing = current?.slug === track.slug && state.playing;
++  const icon = solid
++    ? { size: 20, fill: 'currentColor', strokeWidth: 1.5 }
++    : { size: 16 };
+ 
+   return (
+     <ActionIcon
+       variant="default"
+-      size="lg"
++      size={solid ? 'xl' : 'lg'}
+       radius="xl"
+       onClick={() => {
+         play(track);
+       }}
+-      className={cx(playing && classes['controlOn'])}
++      className={cx((solid || playing) && classes['controlOn'])}
+       aria-label={`${playing ? labels.pause : labels.play} ${title}`}
+     >
+-      {playing ? <Pause size={16} /> : <Play size={16} />}
++      {playing ? <Pause {...icon} /> : <Play {...icon} />}
+     </ActionIcon>
+   );
+ }

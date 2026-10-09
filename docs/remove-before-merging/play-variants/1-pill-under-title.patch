@@ -1,0 +1,144 @@
+diff --git a/src/pages/music/ui/song-page.tsx b/src/pages/music/ui/song-page.tsx
+index a5d1858..c40a571 100644
+--- a/src/pages/music/ui/song-page.tsx
++++ b/src/pages/music/ui/song-page.tsx
+@@ -39,8 +39,8 @@ import classes from './music.module.scss';
+ import { MusicNav } from './music-nav';
+ import { SongCredits } from './song-credits';
+ import { SongFacts } from './song-facts';
++import { SongPlayButton } from './song-play-button';
+ import { TitleGlossLine } from './title-gloss-line';
+-import { TrackButton } from './track-button';
+ 
+ function resolve(slug: string): SongDocument {
+   const document = loadDocument(SONGS, slug);
+@@ -110,20 +110,19 @@ export async function SongPage({ slug, locale }: SongPageProps) {
+                 </div>
+               )}
+ 
+-              <Stack gap={8}>
+-                <Group gap={16} wrap="nowrap" align="center">
+-                  {/* The same track a song list's row plays, so both drive
+-                      one queue — which a hidden song joins only once played
+-                      here. */}
+-                  <TrackButton track={songTrack(document)} {...{ title }} />
+-                  <Title order={1}>
+-                    {title}
+-                    {explicit && <ExplicitBadge label={messages.explicit} />}
+-                  </Title>
+-                </Group>
++              <Stack gap={8} align="flex-start">
++                <Title order={1}>
++                  {title}
++                  {explicit && <ExplicitBadge label={messages.explicit} />}
++                </Title>
+                 <TitleGlossLine
+                   gloss={titleGloss(localized.frontmatter, locale)}
+                 />
++                {/* The same track a song list's row plays, so both drive one
++                    queue — which a hidden song joins only once played here. */}
++                <Box mt={12}>
++                  <SongPlayButton track={songTrack(document)} />
++                </Box>
+               </Stack>
+             </div>
+ 
+diff --git a/src/pages/music/ui/song-play-button.tsx b/src/pages/music/ui/song-play-button.tsx
+new file mode 100644
+index 0000000..9a66a77
+--- /dev/null
++++ b/src/pages/music/ui/song-play-button.tsx
+@@ -0,0 +1,29 @@
++'use client';
++
++import { Button } from '@mantine/core';
++import { Pause, Play } from 'lucide-react';
++
++import { type TrackButtonProps, useTrackPlayback } from './track-button';
++
++/**
++ * A song page's play control, worded: the shuffle button's pill, saying what
++ * it will do — listen while the song is not playing, pause while it is.
++ */
++export function SongPlayButton({ track }: Pick<TrackButtonProps, 'track'>) {
++  const { playing, labels, toggle } = useTrackPlayback(track);
++  const Icon = playing ? Pause : Play;
++
++  // The visible word is the whole accessible name: the button sits under the
++  // song's own title, which already says what it plays.
++  return (
++    <Button
++      size="md"
++      radius="xl"
++      leftSection={<Icon size={18} fill="currentColor" strokeWidth={1.5} />}
++      onClick={toggle}
++      className="print-hidden"
++    >
++      {playing ? labels.pause : labels.listen}
++    </Button>
++  );
++}
+diff --git a/src/pages/music/ui/track-button.tsx b/src/pages/music/ui/track-button.tsx
+index f399410..9790f76 100644
+--- a/src/pages/music/ui/track-button.tsx
++++ b/src/pages/music/ui/track-button.tsx
+@@ -12,19 +12,30 @@ import { usePlayer } from './player-provider';
+ 
+ export type TrackButtonProps = Titled & { track: PlayerTrack };
+ 
+-/** The play control on a track row, showing whether this is the one playing. */
+-export function TrackButton({ track, title }: TrackButtonProps) {
++/** Whether this track is the one playing, and the toggle that plays or pauses it. */
++export function useTrackPlayback(track: PlayerTrack) {
+   const { state, current, play, labels } = usePlayer();
+   const playing = current?.slug === track.slug && state.playing;
+ 
++  return {
++    playing,
++    labels,
++    toggle: () => {
++      play(track);
++    },
++  };
++}
++
++/** The play control on a track row, showing whether this is the one playing. */
++export function TrackButton({ track, title }: TrackButtonProps) {
++  const { playing, labels, toggle } = useTrackPlayback(track);
++
+   return (
+     <ActionIcon
+       variant="default"
+       size="lg"
+       radius="xl"
+-      onClick={() => {
+-        play(track);
+-      }}
++      onClick={toggle}
+       className={cx(playing && classes['controlOn'])}
+       aria-label={`${playing ? labels.pause : labels.play} ${title}`}
+     >
+diff --git a/src/shared/i18n/messages/en.json b/src/shared/i18n/messages/en.json
+index fbca1dc..359746c 100644
+--- a/src/shared/i18n/messages/en.json
++++ b/src/shared/i18n/messages/en.json
+@@ -308,6 +308,7 @@
+       "label": "Player",
+       "previous": "Previous track",
+       "play": "Play",
++      "listen": "Listen",
+       "pause": "Pause",
+       "next": "Next track",
+       "shuffle": "Shuffle",
+diff --git a/src/shared/i18n/messages/ru.json b/src/shared/i18n/messages/ru.json
+index 6870bec..9089320 100644
+--- a/src/shared/i18n/messages/ru.json
++++ b/src/shared/i18n/messages/ru.json
+@@ -323,6 +323,7 @@
+       "label": "Плеер",
+       "previous": "Предыдущий трек",
+       "play": "Играть",
++      "listen": "Слушать",
+       "pause": "Пауза",
+       "next": "Следующий трек",
+       "shuffle": "Вперемешку",
