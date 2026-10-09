@@ -1,6 +1,6 @@
 ---
 title: 'Наша история'
-date: 2023-12-01
+date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
@@ -12,28 +12,50 @@ alsoOn:
 audio: /music/assets/our-story.mp3
 seconds: 205
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Nasha istoriya'
     translation: 'Our Story'
-  description: 'TBD'
+  description: 'The first whole song, built from Suno’s brand-new continuations with the drums and guitar cut in by hand — after which the future had arrived.'
 ru:
-  description: 'TBD'
+  description: 'Первая целая песня — из только что появившихся в Суно продолжений, с вычлененными и совмещёнными барабаном и гитарой, — после которой будущее наступило.'
 ---
 
-<!-- For Vova to check: the date is the month of the single «Знаки препинания», December 2023 — which day? -->
+<!-- lang:en -->
 
-<!-- For Vova to check: the words were heard off the recording by Whisper and Deepgram and reconciled; each line below is one they disagreed on or that reads as a mis-hearing.
-- «Прочти меня, прочти от края до края» — Whisper: «Прочти меня, прочти от края до края», Deepgram: «Прочти меня, меня, прочти от края до края» (a sung repeat of «меня»?)
-- «Не я придумал этот сюжет, да и не ты тоже» — Whisper: «Не я придумал этот сюжет», Deepgram: «Ни я. Ни я придумал этот сюжет» (the extra «ни я» may be the chorus's tail)
-- «Годы промчались, и случайностей всё реже» — Whisper: «и случайностей все реже», Deepgram: «и случайности все реже»
-- «Но с верою верность, быть может, в том и прелесть» — both: «Но с верою верность»; reads oddly, possibly a mis-hearing
-- «Без знаков препинания» (second chorus after the bridge, 02:06) — Whisper: «без знаков припинания», Deepgram: «Без знаков припина ни я»
-- «Здесь два героя — ты и я» (late choruses, 02:44 on) — Whisper: «Здесь два героя, ты и я», Deepgram: «Здесь 2 героя, 3 и я» / «Здесь по героям ты я»
-- «Здесь наши сакральные знания» (late choruses) — Whisper: «Здесь наши сакральные знания», Deepgram: «Здесь наше сакральное знанья» (02:50)
-- «Без знаков препинания» (late choruses, 02:50 and 03:05) — Whisper: «без знаков критик на «не я»» both times, Deepgram: «Без знатки нам я» / «Без новых крепена я»; these choruses may change the last line, drafted as the usual one
--->
+“Our Story” was probably the first song where I, well, really fully discovered
+that you can write not just, say, one chorus, or a verse, a chorus and that’s
+it — I saw clearly that you can write a whole song.
+
+I cut it together — that is, it’s not as if Suno generated the whole thing; right
+around then, I think, it had gained the ability to continue: you’d generate a
+minute or two, and after that you could carry on. Before that there was nothing
+of the kind. You could just make a minute and that was it, or two minutes.
+
+Now it was there, so this song, first, was written with continuations, and
+second, I then also pulled out the drums in some places and the guitar in
+others, and combined it all. Not very heavily, but anyway, when I finished it, it
+felt like that was it — the future had arrived.
+
+Well, it really had.
+
+<!-- lang:ru -->
+
+«Наша история» — это, пожалуй, была первая песня, в которой я, ну, прям
+полностью раскрыл, что не просто можно написать там припев один или там куплет,
+припев и всё, а я увидел прямо, что можно написать целую песню.
+
+Я её нарезал, то есть это не прям как всё сгенерила Суно, — как раз вроде к тому
+времени там появилась возможность продолжать, то есть ты минуту там или две
+минуты сгенерировал, можешь после этого продолжать. До этого вообще такого не
+было. Ты мог просто сделать там минуту — и всё, или две минуты.
+
+Она появилась, поэтому эта песня уже, во-первых, с продолжениями была написана,
+а во-вторых, я потом ещё где-то там вычленял барабан, где-то вычленял гитару, всё
+это совмещал. Не очень сильно, но, в общем, когда я её дописал, мне показалось,
+что всё, будущее наступило.
+
+Ну, оно и правда наступило.
 
 <!-- lyrics:ru -->
 
@@ -48,38 +70,55 @@ ru:
 Здесь два героя — ты и я
 Здесь наши сакральные знания
 Без знаков препинания
+x2
 
-Это наша история
-Здесь два героя — ты и я
-Здесь наши сакральные знания
-Без знаков препинания
-
-Не я придумал этот сюжет, да и не ты тоже
-Но, может, именно нас замышлял тот, кто писал его всё же
-Мороз по коже, когда думаю, сколько случайностей
-Повлияли на то, что мы с тобой повстречались
-Годы промчались, и случайностей всё реже
-Всё больше закономерностей, иногда ревности
-Но с верою верность, быть может, в том и прелесть
+Не я придумал этот сюжет, да и не ты тоже[^older-ru]
+Но, может, именно нас замышлял тот, кто писал его всё же[^older-ru]
+Мороз по коже, когда думаю, сколько случайностей[^older-ru]
+Повлияли на то, что мы с тобой повстречались[^older-ru]
+Годы промчались, и случайностей всё реже[^older-ru]
+Всё больше закономерностей, иногда ревности[^older-ru]
+Но с верою в верность, быть может, в том и прелесть
 История из книжки закончилась
 Началась та, что обычно прячется за обложкой
 
-Это наша история
-Здесь два героя — ты и я
-Здесь наши сакральные знания
-Без знаков препинания
+[^older-ru]: Тут я немного отошёл от лирического героя Кирилла и начал писать как кто-то намного более старый (не будем показывать пальцем 🙈).
 
 Это наша история
 Здесь два героя — ты и я
 Здесь наши сакральные знания
 Без знаков препинания
+x4
 
-Это наша история
-Здесь два героя — ты и я
-Здесь наши сакральные знания
-Без знаков препинания
+<!-- lyrics:en -->
 
-Это наша история
-Здесь два героя — ты и я
-Здесь наши сакральные знания
-Без знаков препинания
+Read me, read me from cover to cover
+You know I’m hiding nothing
+Every letter and every word —
+All about one thing, again and again
+In these pages is the whole truth about us
+And about everything that matters now
+
+This is our story
+There are two heroes here — you and me
+Here is our sacred knowledge
+Without punctuation marks
+x2
+
+It wasn’t me who came up with this plot, and it wasn’t you either[^older-en]
+But maybe it was us that whoever wrote it had in mind after all[^older-en]
+It gives me chills to think how many accidents[^older-en]
+Led to you and me meeting[^older-en]
+The years have flown by, and the accidents are fewer[^older-en]
+More and more patterns, sometimes jealousy[^older-en]
+But with faith in faithfulness — maybe that’s the charm of it
+The story from the book has ended
+And the one has begun that usually hides behind the cover
+
+[^older-en]: Here I drifted a little away from the lyric persona, Kirill, and started writing like someone much older (no pointing fingers 🙈).
+
+This is our story
+There are two heroes here — you and me
+Here is our sacred knowledge
+Without punctuation marks
+x4
