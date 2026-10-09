@@ -44,6 +44,7 @@ const CREDITED_PEOPLE = [
   { en: 'Nikolay Zabolotsky', ru: 'Николай Заболоцкий' },
   { en: 'Nikolay Nekrasov', ru: 'Николай Некрасов' },
   { en: 'Samuil Marshak', ru: 'Самуил Маршак' },
+  { en: 'Sergey Bakanov', ru: 'Сергей Баканов' },
   { en: 'Sergey Isaev', ru: 'Сергей Исаев' },
   { en: 'Sergey Korzhukov', ru: 'Сергей Коржуков' },
   {

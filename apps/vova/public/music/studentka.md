@@ -12,8 +12,8 @@ seconds: 253
 explicit: false
 hidden: true
 credits:
-  lyrics: ['Traditional']
-  music: ['Traditional']
+  lyrics: ['Сергей Баканов']
+  music: ['Сергей Баканов']
 en:
   title:
     transliteration: 'Studentka'
@@ -31,15 +31,13 @@ ru:
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
 
-<!-- For Vova to check: the story is the note that hung off the «Всё косы твои» chorus, moved here as you asked; it was written from what is known of the song, not from you. -->
-
 <!-- lang:en -->
 
-A reworking of «Всё косы твои, всё бантики», a student song from the middle of the twentieth century, as Arkady Severny sang it; Mikhail Krug’s later version coarsens the words.
+An old Soviet city song, known since the late 1940s and the 1950s as «Первокурсница» (The Freshman Girl) or «Студентка». It is credited to Sergey Bakanov, who wrote music for student skits at the Moscow Aviation Institute. Sung here as Arkady Severny sang it; Mikhail Krug’s later version coarsens the words.
 
 <!-- lang:ru -->
 
-Песня — переделка «Всё косы твои, всё бантики», студенческой песни середины XX века, какой её пел Аркадий Северный; в более поздней версии Михаила Круга слова изменены до пошлости.
+Изначально это старая советская городская песня, известная ещё с конца 1940-х — 1950-х годов под названиями «Первокурсница» или «Студентка». Её автором считают Сергея Баканова, который сочинял музыку для студенческих капустников в МАИ. Здесь она спета так, как её пел Аркадий Северный; в более поздней версии Михаила Круга слова изменены до пошлости.
 
 <!-- lyrics:ru -->
 
