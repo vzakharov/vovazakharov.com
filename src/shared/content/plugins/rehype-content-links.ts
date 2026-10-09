@@ -4,8 +4,6 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl, isOffSite } from '@/shared/config';
-
 import {
   collectionAssetUrl,
   type CollectionId,
@@ -21,14 +19,8 @@ function stripLeadingDot(url: string): string {
   return url.replace(/^\.\//, '');
 }
 
-function rewrite(
-  collection: CollectionId,
-  tagName: string,
-  url: string,
-): { href: string; external: boolean } {
-  if (!isRelative(url)) {
-    return { href: url, external: isOffSite(url) };
-  }
+function rewrite(collection: CollectionId, url: string): string {
+  if (!isRelative(url)) return url;
 
   const target = stripLeadingDot(url);
   const hashAt = target.indexOf('#');
@@ -38,16 +30,7 @@ function rewrite(
   // A sibling document's route is its file name minus the `.md`, cuts
   // included, so the documents' own cross-links resolve the same way every
   // other relative target does — and this plugin never learns what a cut is.
-  const path = `${collectionAssetUrl(collection, pathPart.replace(/\.md$/, ''))}${fragment}`;
-
-  // A link is absolute and a source is not, because they travel differently: a
-  // link leaves in the printed PDF, where a site-root path would mean whatever
-  // host opened it, while a source is fetched by the page itself — and an
-  // absolute one would cost a local preview its images.
-  return {
-    href: tagName === 'a' ? getAbsoluteUrl(path) : path,
-    external: false,
-  };
+  return `${collectionAssetUrl(collection, pathPart.replace(/\.md$/, ''))}${fragment}`;
 }
 
 const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
@@ -58,10 +41,12 @@ const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
 };
 
 /**
- * Resolves the documents' relative links and media sources against where
- * `public/` serves the collection, and marks off-site links safe to open in a
- * new tab. Runs before the media and image plugins, which read the rewritten
- * URLs.
+ * Resolves the documents' relative links and media sources to site-root paths,
+ * against where `public/` serves the collection. Runs before the media and
+ * image plugins, which read the rewritten URLs.
+ *
+ * A link stays site-root for print too: `ContentLink` gives paper its absolute
+ * address, the way every other page of the site does.
  */
 export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
   collection,
@@ -76,13 +61,7 @@ export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
 
       if (typeof value !== 'string') return;
 
-      const { href, external } = rewrite(collection, node.tagName, value);
-      node.properties[attribute] = href;
-
-      if (external && node.tagName === 'a') {
-        node.properties.target = '_blank';
-        node.properties.rel = ['noopener', 'noreferrer'];
-      }
+      node.properties[attribute] = rewrite(collection, value);
     });
   };
 };

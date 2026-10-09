@@ -5,10 +5,12 @@ import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 
 import type { WithContentTree } from '@/shared/content';
 
+import { ContentLink } from './content-link';
 import { ContentVideo } from './content-video';
 
 /** The tags a component renders instead of the browser's own element. */
 const CONTENT_COMPONENTS: Partial<Components> = {
+  a: ContentLink,
   video: ContentVideo,
 };
 
