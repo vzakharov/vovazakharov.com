@@ -116,6 +116,10 @@ export function parseMusicSegments({
 /** A page as the function that addresses it in a language, or locale-less. */
 type Addressed = (locale?: Locale) => string;
 
+function songPage({ slug }: Slugged): Addressed {
+  return (locale) => songPath(slug, locale);
+}
+
 /**
  * One catalogue's pages: its index in each tab, and every artist and album with
  * a song in it — so an artist or album whose songs are all hidden has no public
@@ -148,11 +152,7 @@ export function musicSegmentParams(): WithOptionalMusicSegments[] {
   const pages: Addressed[] = [
     ...cataloguePages({ everything: false }),
     ...cataloguePages({ everything: true }),
-    ...listSongPages().map(
-      ({ slug }): Addressed =>
-        (locale) =>
-          songPath(slug, locale),
-    ),
+    ...listSongPages().map((page) => songPage(page)),
   ];
 
   return pages
@@ -176,11 +176,7 @@ export function musicCatalogueRoutes(): string[] {
     .filter(
       ({ slug, document }) => isListed(document) && slug !== document.slug,
     )
-    .map(
-      ({ slug }): Addressed =>
-        (locale) =>
-          songPath(slug, locale),
-    );
+    .map((page) => songPage(page));
 
   return [...cataloguePages({ everything: false }), ...releasePages].flatMap(
     (page) => LOCALES.map((locale) => page(locale)),
