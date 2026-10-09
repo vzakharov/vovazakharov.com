@@ -197,8 +197,11 @@ operator_silent() {
     ! dirty "$rows"
 }
 
+# What the pricing step said when it failed, for the agent to be told.
+unpriced_reason=''
+
 run_ledger() {
-  local transcript staged row latest known=true
+  local transcript staged row err latest known=true
   local stop_flags=(--at-stop)
   transcript="$(field transcript_path)"
   [ -n "$transcript" ] && [ -f "$transcript" ] || return 0
@@ -218,12 +221,19 @@ run_ledger() {
   # Priced off the tree: `tmp/` is ignored, and on the row's filesystem, so the
   # rename that puts the row in place is atomic.
   staged="$root/tmp/cost-row.$$.json"
+  err="$root/tmp/cost-row.$$.err"
   mkdir -p -- "$root/tmp" &&
     row="$(python3 "$root/.claude/costs/session_cost.py" \
       --transcript "$transcript" \
       --session-id "$session" \
-      --row-path "${stop_flags[@]}" --out "$staged")" ||
-    { rm -f -- "$staged"; state=unpriced; return 0; }
+      --row-path "${stop_flags[@]}" --out "$staged" 2>"$err")" ||
+    {
+      unpriced_reason="$(awk 'NF { line = $0 } END { print line }' "$err" 2>/dev/null)"
+      rm -f -- "$staged" "$err"
+      state=unpriced
+      return 0
+    }
+  rm -f -- "$err"
 
   ! dirty "$row" || row_left=true
 
@@ -249,11 +259,6 @@ outstanding() {
   [ "$(repo rev-list "$upstream..HEAD" --count 2>/dev/null || echo 0)" -gt 0 ]
 }
 
-# The only channel a `Stop` hook has to the agent, spent only where a block is
-# already happening — and never on a re-fired `Stop`, which the harness's check
-# bails out of and this must bail with or the turn never ends.
-[ "$state" = unpriced ] && say "pricing failed; no cost row written this turn"
-
 # A flush is a command the agent runs, so its status is the whole verdict: 0
 # where the row is on origin, as written now or already.
 if [ "$flush" = true ]; then
@@ -261,11 +266,22 @@ if [ "$flush" = true ]; then
     none | pushed) exit 0 ;;
     committed) say "the cost row is committed but not pushed: push the branch" ;;
     uncommitted) say "the cost row is written but not committed" ;;
+    unpriced) say "pricing failed; no cost row written. ${unpriced_reason:-session_cost.py exited non-zero without a message.}" ;;
   esac
   exit 1
 fi
 
+# The only channel a `Stop` hook has to the agent is an exit 2, so a row that
+# could not be priced blocks the turn once with the reason: a stderr line on a
+# turn that ends anyway reaches nobody, and the ledger would lose sessions
+# silently. Never on a re-fired `Stop`, which the harness's check bails out of
+# and this must bail with or the turn never ends.
 [ "$(field stop_hook_active)" != "true" ] || exit 0
+
+if [ "$state" = unpriced ]; then
+  say "pricing failed; no cost row written this turn. ${unpriced_reason:-session_cost.py exited non-zero without a message.} Fix that — a missing model is a new row in \`.claude/costs/prices.json\` — then just stop; the next turn's row covers this one too."
+  exit 2
+fi
 
 case "$state" in
   committed | uncommitted | pushed)

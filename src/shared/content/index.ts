@@ -39,10 +39,12 @@ export {
   siblingVariants,
   type WithContentDocument,
 } from './documents';
+export { feedEntries, findFeed, listFeeds } from './feeds';
 export {
   type ArticleFrontmatter,
   type BaseFrontmatter,
   type Collection,
+  filedDate,
   type Source,
   type WithFrontmatter,
 } from './frontmatter';

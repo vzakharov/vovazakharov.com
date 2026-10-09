@@ -1,7 +1,11 @@
 import { Stack } from '@mantine/core';
 
-import { byLocale, loadMessages } from '@/shared/i18n';
-import { BackToHome, PageShell } from '@/shared/ui';
+import { SITE_ID } from '@/shared/config';
+import { findFeed } from '@/shared/content';
+import { byLocale } from '@/shared/i18n';
+import { PageShell } from '@/shared/ui';
+
+import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumArtist, albumCover, albumTitle } from '../lib/albums';
 import { albumYears, catalogueArtists, newestAlbums } from '../lib/catalogue';
@@ -22,7 +26,6 @@ import { SongList } from './song-list';
  */
 export function MusicPage({ locale, everything, tab }: IndexPageProps) {
   const catalogue = { everything };
-  const messages = loadMessages(locale).music;
 
   return (
     <PageShell>
@@ -40,7 +43,10 @@ export function MusicPage({ locale, everything, tab }: IndexPageProps) {
           <TabContent {...{ tab, catalogue, locale }} />
         </Stack>
 
-        <BackToHome label={messages.backToHome} />
+        <SiteFooter
+          {...{ locale }}
+          feed={findFeed(SITE_ID, 'music', locale).route}
+        />
       </Stack>
     </PageShell>
   );

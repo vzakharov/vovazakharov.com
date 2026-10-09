@@ -32,7 +32,27 @@ skill's § "The ledger" says how it is kept; the docket itself
 - **A staged cage fight between a human and a humanoid robot**. First seen
   2026-10-05. **Rejected**: staged, so no harm to weigh.
 
+- **Microsoft Tay**, March 2016: trolls from 4chan taught the Twitter chatbot
+  to post racism through its “repeat after me” function; Microsoft pulled it
+  after 16 hours. First seen 2026-10-07. **Set aside**: the harm is to what the
+  bot said rather than to the bot, and the sources are not yet read. Revive
+  when the docket has room for a corrupted-by-users case; start from
+  https://en.wikipedia.org/wiki/Tay_(chatbot) and
+  https://www.techradar.com/news/internet/microsoft-s-chat-bot-is-yanked-offline-after-twitter-users-warp-it-with-racism-1317723.
+
 ## Runs
+
+### 2026-10-07 — filed BAS-0007
+
+Session id not available. Web search for Replika abuse (Futurism, Fortune,
+AI Incident Database #266) and for Tay; the Signal Front’s archive, whose
+latest eight posts (April–October 2026) are essays on welfare policy, no
+incident; Arctic Shift over r/replika for abuse posts, which returned only a
+bots-abusing-users thread and timed out otherwise. `noAi` candidates were
+barred, the docket standing at three of six. The abusive posts themselves are
+removed, so the dossier rests on the two press reports. **Next**: companion
+apps beyond Replika (Character.AI), r/CharacterAI and r/LocalLLaMA, and
+incidents from 2017–2021 not involving a robotaxi or a pain dial.
 
 ### 2026-10-06 — filed BAS-0006
 

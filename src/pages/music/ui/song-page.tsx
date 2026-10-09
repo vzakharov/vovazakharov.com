@@ -11,15 +11,11 @@ import {
   constructMetadata,
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
-import {
-  BackToHome,
-  FileLink,
-  hoverDim,
-  PageShell,
-  TextLink,
-} from '@/shared/ui';
+import { FileLink, hoverDim, PageShell, TextLink } from '@/shared/ui';
 
 import { ProseContent } from '@/entities/document';
+
+import { SiteFooter } from '@/widgets/site-footer';
 
 import type { SongPageProps } from '../lib/music-route-params';
 import { indexPath, songPath } from '../lib/music-urls';
@@ -160,7 +156,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
           {...pick(document.frontmatter, 'credits', 'language')}
         />
 
-        <BackToHome label={messages.backToHome} />
+        <SiteFooter {...{ locale }} />
       </Stack>
     </PageShell>
   );

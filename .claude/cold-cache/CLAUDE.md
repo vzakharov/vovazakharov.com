@@ -37,6 +37,12 @@ model.
   cannot rewrite the prompt it is given, so it passes `!` with context telling
   the model to act on the stored one verbatim. A new response and a new gap
   re-arm it.
+- **Images ride along by path.** The event carries the prompt's text and never
+  its attachments, but Claude Code has saved each one in the `images/` beside
+  `scratchpad_dir` before the hook runs, blocked prompt or not. A block copies
+  those newer than the last response to `tmp/cold-cache/<session_id>.images/`,
+  since a restart can reuse a number, and `!`'s context names the copies for
+  the model to `Read`.
 - **What always passes:** the commands `PASSES` lists, whose comment says
   which; a session whose re-cache costs under `COLD_CACHE_MIN_USD` (default
   `0.30`), where the stop costs more attention than it saves; and one whose

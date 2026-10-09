@@ -125,15 +125,31 @@ appears only sometimes shows up as drift.
 
 Format rules:
 
-- **Title** — exactly `<type>: #<issue number if applicable> <essence> (pr #<pr
+- **Title** — exactly `<type>[(<site>)]: #<issue number if applicable> <essence> (pr #<pr
 number>)`, e.g. `refactor: #1150 extract useVisibilityPoll to shared/lib (pr
 #1155)`. `<type>` is one of the prefixes the project's `CLAUDE.md` lists under
   "Git conventions" — read them there rather than assuming the
-  conventional-commit set, since a project may carry its own — with no scope or
-  extra words before the colon. Include `#<issue>` only when the PR addresses a GitHub issue
+  conventional-commit set, since a project may carry its own. **The scope is
+  the deploy switch** (CLAUDE.md § "Deployment"): a branch whose shipped change
+  is one site's names that site (`feat(basilisk):`), so the merge publishes it
+  alone; one that ships to several sites, or changes the shared `src/`, takes
+  none. Agent-infrastructure files riding along ship to no site and do not
+  count. No other words before the colon. Include `#<issue>` only when the PR addresses a GitHub issue
   (the primary one if several); omit it otherwise. Always end with ` (pr #<pr
 number>)`. **One line, at most 80 chars** — the mandatory suffix eats ~10 of it,
   which is why it isn't the body's own 72.
+  - **`[attn adopters]`** goes right after the colon —
+    `feat: [attn adopters] #<issue> <essence> (pr #<n>)` — when the change
+    asks whoever syncs from this repo for something their port does not do
+    by itself: a one-off sweep
+    of state that lives in their tree alone (rules to relocate, ledger rows to
+    rewrite), or an action only their operator can take or approve (a public
+    hello). Not for a change that is merely worth porting; the sync's
+    triage reads every commit anyway. The body then gives the ask a paragraph
+    of its own, opening `Adopters:` and addressed to their agent: what to do,
+    whether it waits on their operator's yes — anything reaching outside their
+    tree does — and a URL into this repo for anything their tree may not carry
+    yet. `@.claude/skills/update-muthur/SKILL.md` Step 4 is the reading side.
 - **Body** — the why, then what changed, at the altitude Step 3 sets. When the PR or diff references an issue, end
   the prose with a `Closes #N` (for `feat`/`refactor`/…) or `Fixes #N` (for
   `fix`) trailer. **Never carry `#<tbd>` into the title or the trailer** — the

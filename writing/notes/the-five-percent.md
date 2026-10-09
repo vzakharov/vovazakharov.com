@@ -283,7 +283,7 @@ different question from whether it happened, answerable only from the page.
 The explicit badge, sized beside a 48px title, stood taller than the capitals in
 the catalogue's 16px list.
 
-## Its prose answers the question it had, not the reader's (×5)
+## Its prose answers the question it had, not the reader's (×6)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question, or too compressed to give its points back, passes every
@@ -295,6 +295,10 @@ a prop comment's metaphor was plain only to its writer.
 
 **6 October — a date that answered when the agent numbered it.** A case's
 `filed:` was the day it took its number. _будет 06 если сегодня опубликуем._
+
+**7 October, two rounds running — a prop named for what its writer meant.**
+`SiteFooter`'s flag for a root page went `home`, then `isHomePage`; met cold,
+each read as the opposite. _более понятно назвать проп?_ Now `onHomePage`.
 
 ## It warns where the repo could refuse (×3)
 

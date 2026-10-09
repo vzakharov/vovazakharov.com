@@ -6,6 +6,7 @@ import {
   collectionRoute,
   COLLECTIONS,
   collectionsForSite,
+  filedDate,
   isListed,
   listAllDocuments,
   localizedRoute,
@@ -69,7 +70,7 @@ export function sitemap(): MetadataRoute.Sitemap {
       .flatMap(({ route, collection, frontmatter }) =>
         documentAddresses(route, collection).map((address) => ({
           url: getAbsoluteUrl(address),
-          lastModified: frontmatter.filed ?? frontmatter.date,
+          lastModified: filedDate(frontmatter),
         })),
       ),
   ];

@@ -27,6 +27,9 @@ export type MaybeTitled = { title?: string };
 
 export type Described = { description: string };
 
+/** A heading and the prose under it — what a card shows, and what a feed lists. */
+export type Summarized = Titled & Described;
+
 /** A date as frontmatter spells it, ISO `YYYY-MM-DD`. */
 export type Dated = { date: string };
 

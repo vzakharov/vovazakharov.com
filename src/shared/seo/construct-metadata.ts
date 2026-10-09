@@ -2,11 +2,12 @@ import 'server-only';
 
 import type { Metadata } from 'next';
 
-import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
-import type {
-  BaseFrontmatter,
-  ContentDocument,
-  WithOptionalOgImageSize,
+import { getAbsoluteUrl, SITE_CONFIG, SITE_ID } from '@/shared/config';
+import {
+  type BaseFrontmatter,
+  type ContentDocument,
+  listFeeds,
+  type WithOptionalOgImageSize,
 } from '@/shared/content';
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/shared/i18n';
 import type { Described, MaybeTitled } from '@/shared/typings';
@@ -77,6 +78,13 @@ export function constructMetadata({
   // from the caller that read the file. A wrong pair is worse than none.
   const imageDimensions =
     ogImage === undefined ? { width, height } : ogImageSize;
+  // Every page, not only a listing, so a reader handed any of the site's
+  // addresses finds the feeds. Here rather than in the root layout's metadata,
+  // which a page's own `alternates` would replace wholesale.
+  const feeds = listFeeds(SITE_ID).map(({ route, title: feedTitle }) => ({
+    url: getAbsoluteUrl(route),
+    title: feedTitle,
+  }));
 
   return {
     title,
@@ -94,6 +102,7 @@ export function constructMetadata({
                 getAbsoluteUrl(languagePath),
               ]),
             ),
+      types: feeds.length === 0 ? undefined : { 'application/rss+xml': feeds },
     },
     openGraph: {
       type: ogType,

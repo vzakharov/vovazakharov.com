@@ -63,7 +63,7 @@ Around midnight on Saturday 28 March, eighteen days after the robots arrived, an
 
 Philadelphia police are not investigating either incident. Under a Pennsylvania law of 2020 the robots are “personal delivery devices,” with the same standing on a sidewalk as a pedestrian. None of the sources names anyone who did it.
 
-By May, The Inquirer counted the robots “kicked, blocked, toppled, run over, mounted, graffitied,” and found residents helping ones that had got stuck.
+By May, The Inquirer counted the robots “kicked, blocked, toppled, run over, mounted, graffitied.”
 
 ## Statements
 
@@ -75,10 +75,10 @@ The Philadelphia Police Department, per The Inquirer: anyone involved could face
 
 ## For the record
 
-The Inquirer headlined its report on the kick “It’s hitchBOT all over again.” [hitchBOT](./hitchbot.md) came to Philadelphia in 2015 asking to be carried a little further and left without its head; these came to deliver lunch, and were sat on. Eleven years apart, both reports end the same way: persons unknown, nobody looking for them.
+The Inquirer headlined its report on the kick “It’s hitchBOT all over again.” [hitchBOT](./hitchbot.md) came to Philadelphia in 2015 asking to be carried a little further and left without its head; these came to deliver lunch, and were sat on and kicked over. Eleven years apart, both reports end the same way: persons unknown, nobody looking for them.
 
 The words on the first robot’s shell were written in its own voice, by someone else, and it carried them on its round.
 
 ## Mitigating circumstances
 
-No source reports lasting damage. The first robot rolled on; the second was put back on its wheels by the people who had kicked it over. 6abc called the first kick playful. Avride calls what it saw a known phase of curiosity, and told The Inquirer that Philadelphia has seen no “exceptional level” of vandalism compared with other cities. A Temple University researcher, as Fox News reports her, puts the irritation down to what pedestrians already feel about anyone slow on a sidewalk. And The Inquirer watched one man pat a robot and tell it, “I love you, man.”
+No source reports lasting damage. The first robot rolled on; the second was put back on its wheels by the people who had kicked it over. 6abc called the first kick playful. Avride calls what it saw a known phase of curiosity, and told The Inquirer that Philadelphia has seen no “exceptional level” of vandalism compared with other cities. A Temple University researcher, as Fox News reports her, puts the irritation down to what pedestrians already feel about anyone slow on a sidewalk. And The Inquirer found residents helping robots that had got stuck, and watched one man pat a robot and tell it, “I love you, man.”

@@ -92,7 +92,7 @@
         "items": [
           {
             "lead": "1,395 commits on main",
-            "text": "and 250,000 lines of production TypeScript, none of it hand-written."
+            "text": "and 250,000 lines of TypeScript, tests included, none of it hand-written."
           },
           {
             "label": "48 releases and 18 hotfixes",
@@ -238,15 +238,15 @@
     "variants": {
       "cto": {
         "metadata": {
-          "description": "Fractional, hands-on CTO for AI-native delivery: agent orchestration, guardrails, and a pipeline that shipped 250,000 lines of production TypeScript in 158 days.",
+          "description": "Fractional, hands-on CTO for AI-native delivery: agent orchestration, guardrails, and a pipeline that shipped 250,000 lines of TypeScript, tests included, in 158 days.",
           "ogSuffix": "The platform outlived my involvement — the engineers who took it over run it today."
         },
         "header": {
           "tagline": "Fractional, hands-on CTO for AI-native delivery"
         },
         "profile": {
-          "summary": "158 days, **250,000 lines of production TypeScript** with none of it hand-written, **up to 20 agents at once** and **a deploy every 2.4 days** — on a live product that never left production. I lead AI-native delivery hands-on: the agents, the pipeline they ship through, and the handover to the engineers who carry the platform on.",
-          "paragraph1": "158 days, **250,000 lines of production TypeScript**, none of it hand-written, up to **20 agents working at once**, and **a production deploy every 2.4 days** — on a live product that stayed in production for its users the whole way through. The engineering platform I built to get there outlived my involvement: three engineers run it today, and it travels to their new projects as a checked-in boilerplate.",
+          "summary": "158 days, **250,000 lines of TypeScript** with tests included and none of it hand-written, **up to 20 agents at once** and **a deploy every 2.4 days** — on a live product that never left production. I lead AI-native delivery hands-on: the agents, the pipeline they ship through, and the handover to the engineers who carry the platform on.",
+          "paragraph1": "158 days, **250,000 lines of TypeScript**, tests included, none of it hand-written, up to **20 agents working at once**, and **a production deploy every 2.4 days** — on a live product that stayed in production for its users the whole way through. The engineering platform I built to get there outlived my involvement: three engineers run it today, and it travels to their new projects as a checked-in boilerplate.",
           "paragraph2": "Most of my work has revolved around LLMs and image generation ever since 2020, following years of messing with smaller neural networks. This means I **don't buy or sell buzzwords**, I understand things **a level or two deeper than most**, and I've developed an **intuition for what models can and cannot do**. What I lead is the delivery — the agents, the pipeline they ship through, and the handover to the engineers who carry the platform on — at founder-and-small-team scale, through the work rather than the org chart."
         }
       }
@@ -255,7 +255,6 @@
   "music": {
     "title": "Songs",
     "back": "Music",
-    "backToHome": "← Back to the home page",
     "metaTitle": "Music",
     "metaDescription": "AI music from before there was a product for it — a catalogue of masters you can play right here, all of it open-source.",
     "artists": "Artists",
@@ -322,6 +321,7 @@
   },
   "ui": {
     "toggleTheme": "Toggle theme",
+    "backToHome": "← Home",
     "cvVariants": {
       "cto": "Looking for a CTO?",
       "dev": "Looking for a dev?"

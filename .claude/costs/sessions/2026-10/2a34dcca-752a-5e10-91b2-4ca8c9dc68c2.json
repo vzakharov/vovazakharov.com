@@ -1,0 +1,77 @@
+{
+  "estimate": null,
+  "sessionId": "2a34dcca-752a-5e10-91b2-4ca8c9dc68c2",
+  "branch": "chore/muthur-large-review-denial-phrase",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge chore/muthur-large-review-denial-phrase",
+  "prs": [
+    124
+  ],
+  "url": "https://claude.ai/code/session_01MALPGibX1DcTdzTQ5gMyDN",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-09T04:35:17.224Z",
+  "lastResponseAt": "2026-10-09T04:39:39.850Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 95704,
+    "cacheReadTokens": 1911849,
+    "outputTokens": 5535,
+    "thinkingTokens": 1952,
+    "responses": 17,
+    "costUsd": 1.2588377999999998
+  },
+  "ownTurns": {
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 95704,
+    "cacheReadTokens": 1911849,
+    "outputTokens": 5535,
+    "thinkingTokens": 1952,
+    "responses": 17,
+    "costUsd": 1.2588377999999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 95704,
+      "cacheReadTokens": 1911849,
+      "outputTokens": 5535,
+      "thinkingTokens": 1952,
+      "responses": 17,
+      "costUsd": 1.2588377999999998
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 95704,
+      "cacheReadTokens": 1911849,
+      "outputTokens": 5535,
+      "thinkingTokens": 1952,
+      "responses": 17,
+      "costUsd": 1.2588377999999998
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

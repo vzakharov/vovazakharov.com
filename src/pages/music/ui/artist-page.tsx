@@ -2,7 +2,9 @@ import { Stack } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { BackToHome, PageShell } from '@/shared/ui';
+import { PageShell } from '@/shared/ui';
+
+import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumTitle } from '../lib/albums';
 import { albumYears, artistReleases, artistSongs } from '../lib/catalogue';
@@ -75,7 +77,7 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
           {...{ locale }}
         />
 
-        <BackToHome label={messages.backToHome} />
+        <SiteFooter {...{ locale }} />
       </Stack>
     </PageShell>
   );

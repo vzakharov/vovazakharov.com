@@ -22,6 +22,14 @@
  *   pnpm content:pdf:<site> --origin <url>  # print from a server already up
  *   pnpm content:pdf:<site> --from-out      # print from `out/`, as the deploy does
  *   pnpm content:pdf:<site> --check         # report staleness, write nothing
+ *   pnpm content:pdf:vova --cv-pages --from-out  # hold the CV to its page ceiling
+ *
+ * **The CV is held to `CV_PAGE_CEILING`** wherever it prints: a render that
+ * leaves any edition past it fails, and `--cv-pages` prints the editions into a
+ * temporary directory just to ask, for the vet run, which has no other way to
+ * see a print. That mode skips the print while the CV's sources hash the same
+ * as at its last pass, recorded in `tmp/`, so a vet run on a branch that never
+ * touches the CV pays for one print per working tree.
  *
  * One run serves one site, because it is entered in that app's directory —
  * which is what `public/`, `out/` and the dev server it spawns all resolve
@@ -51,7 +59,7 @@ import { contentHash } from '@/shared/content/content-hash';
 import { routing } from '@/shared/i18n';
 
 import { cvPath } from '@/pages/cv/lib/cv-urls';
-import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
+import { CV_PAGE_CEILING, CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
 
 import { flag, given } from './lib/argv.ts';
 import { findChromium } from './lib/chromium.ts';
@@ -63,6 +71,7 @@ import {
   RENDERED_SITE,
   REPO_ROOT,
 } from './lib/content-tree.ts';
+import { pdfPageCount } from './lib/pdf-pages.ts';
 import { type PrintOrigin, withPrintOrigin } from './lib/print-origin.ts';
 import { type Renderable, runRenderJob } from './lib/render-manifest.ts';
 import { sameRender } from './lib/same-render.ts';
@@ -371,16 +380,83 @@ async function printAll(stale: Printable[]): Promise<void> {
   });
 }
 
-await runRenderJob(
-  {
-    label: 'page PDF',
-    manifestName: MANIFEST_NAME,
-    isOutput: (name) => name.endsWith('.pdf'),
-    // The CV's renders sit outside the content tree, so its root is walked too
-    // — otherwise a pruned render's manifest is never found.
-    manifestDirs: [...CONTENT_DIRS, ...(PRINTS_CV ? [CV_DIR] : [])],
-    entries: [...documentPrintables(), ...cvPrintables()],
-    render: printAll,
-  },
-  process.argv.includes('--check'),
-);
+/** Throws naming every CV print past the ceiling, so one run reports them all. */
+function holdCvToCeiling(prints: Printable[]): void {
+  if (prints.length === 0) return;
+
+  const over = prints
+    .map(({ route, outputPath }) => ({
+      route,
+      pages: pdfPageCount(fs.readFileSync(outputPath), outputPath),
+    }))
+    .filter(({ pages }) => pages > CV_PAGE_CEILING);
+
+  if (over.length > 0) {
+    throw new Error(
+      `The CV prints past its ${CV_PAGE_CEILING}-page ceiling: ${over
+        .map(({ route, pages }) => `${route} (${pages} pages)`)
+        .join(', ')}.`,
+    );
+  }
+
+  console.log(
+    `${prints.length} CV PDF(s) within the ${CV_PAGE_CEILING}-page ceiling.`,
+  );
+}
+
+/** The source hash, over every edition's, of the last `--cv-pages` run that passed. */
+const CV_PAGES_PASS = path.join(REPO_ROOT, 'tmp', 'cv-pages-pass.txt');
+
+async function checkCvPages(): Promise<void> {
+  const editions = cvPrintables();
+  const sourceHash = contentHash(
+    editions.map((edition) => edition.sourceHash).join('\n'),
+  );
+
+  if (
+    fs.existsSync(CV_PAGES_PASS) &&
+    fs.readFileSync(CV_PAGES_PASS, 'utf8') === sourceHash
+  ) {
+    console.log('The CV is unchanged since its last page check passed.');
+    return;
+  }
+
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'cv-pages-'));
+
+  try {
+    const prints = editions.map((edition) => ({
+      ...edition,
+      outputPath: path.join(dir, `${edition.route}.pdf`),
+    }));
+
+    await printAll(prints);
+    holdCvToCeiling(prints);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+
+  fs.mkdirSync(path.dirname(CV_PAGES_PASS), { recursive: true });
+  fs.writeFileSync(CV_PAGES_PASS, sourceHash);
+}
+
+if (given('cv-pages')) {
+  await checkCvPages();
+} else {
+  const check = process.argv.includes('--check');
+
+  await runRenderJob(
+    {
+      label: 'page PDF',
+      manifestName: MANIFEST_NAME,
+      isOutput: (name) => name.endsWith('.pdf'),
+      // The CV's renders sit outside the content tree, so its root is walked
+      // too — otherwise a pruned render's manifest is never found.
+      manifestDirs: [...CONTENT_DIRS, ...(PRINTS_CV ? [CV_DIR] : [])],
+      entries: [...documentPrintables(), ...cvPrintables()],
+      render: printAll,
+    },
+    check,
+  );
+
+  if (!check) holdCvToCeiling(cvPrintables());
+}
