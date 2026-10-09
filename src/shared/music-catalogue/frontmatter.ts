@@ -9,6 +9,7 @@ import { byLocale } from '@/shared/i18n';
 import { baseFrontmatterSchema } from '../content/frontmatter';
 import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from './names';
 import { creditedNameSchema } from './people';
+import { songDateSchema } from './song-date';
 
 /** Whether the song is released or still being worked on. */
 const SONG_STATUSES = ['done', 'wip'] as const;
@@ -124,6 +125,7 @@ export type Playable = z.infer<typeof playableSchema>;
 const songFieldsSchema = baseFrontmatterSchema
   .extend(playableSchema.shape)
   .extend({
+    date: songDateSchema,
     /**
      * The song's own name — in the language it is sung in, or the English one
      * where neither locale's is that. A locale states one only where it differs.
