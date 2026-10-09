@@ -1,0 +1,86 @@
+{
+  "estimate": {
+    "at": "2026-10-09T13:19:17.182Z",
+    "parts": [
+      {
+        "hours": 0.1,
+        "grade": "junior",
+        "role": "developer",
+        "comment": "cutting a named branch off main and pushing it is a routine git step anyone on the team does"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "e96b7a17-04b7-5043-9e00-3d307945339f",
+  "branch": "claude/krylya-album-2z13o2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "создай пжст новую ветку куда я кину альбом за/обложкой -- Крылья для последующей обработки с музыкой",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01HcrcvLdqQhLWryGh13jfyi",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-09T13:18:50.651Z",
+  "lastResponseAt": "2026-10-09T13:19:23.547Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 48634,
+    "cacheReadTokens": 564916,
+    "outputTokens": 2633,
+    "thinkingTokens": 1024,
+    "responses": 7,
+    "costUsd": 0.5547712
+  },
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 48634,
+    "cacheReadTokens": 564916,
+    "outputTokens": 2633,
+    "thinkingTokens": 1024,
+    "responses": 7,
+    "costUsd": 0.5547712
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48634,
+      "cacheReadTokens": 564916,
+      "outputTokens": 2633,
+      "thinkingTokens": 1024,
+      "responses": 7,
+      "costUsd": 0.5547712
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-09T13:19:23.547Z",
+    "contextTokens": 93389,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48278,
+      "cacheReadTokens": 471885,
+      "outputTokens": 2148,
+      "thinkingTokens": 1024,
+      "responses": 6,
+      "costUsd": 0.523609
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
