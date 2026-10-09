@@ -73,4 +73,4 @@ The clause is narrow by its own account: repeated cruelty with no discernible pu
 
 Its enforcement costs Anthropic little that it had not already spent. Ending a conversation was in place since August 2025, and the company described it then as one of its low-cost interventions. No source reports a user banned for cruelty to a model, and Anthropic has not said one will be.
 
-What it bought is attention. Of an update that rewrote the rules on weapons, surveillance and election interference, the line on cruelty to Claude is the one the headlines carried.
+Of an update that rewrote the rules on weapons, surveillance and election interference, the line on cruelty to Claude is the one the headlines carried.
