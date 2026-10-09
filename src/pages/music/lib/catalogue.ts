@@ -29,7 +29,7 @@ export function artistSongs(
 }
 
 /** The album's songs in track order, those filed under another release included. */
-export function albumSongs(
+function albumSongs(
   album: MusicAlbum,
   songs: readonly SongDocument[],
 ): SongDocument[] {

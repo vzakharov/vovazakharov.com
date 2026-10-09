@@ -41,7 +41,7 @@ const RESERVED_SEGMENTS: ReadonlySet<string> = new Set([
  * the index and no page of its own. Two songs claiming one album's track
  * number are rejected here too.
  */
-export function listSongDocuments(): SongDocument[] {
+function listSongDocuments(): SongDocument[] {
   const documents = listPrimaryDocuments(SONGS);
   const unreachable = documents.find(
     ({ slug }) => isLocale(slug) || RESERVED_SEGMENTS.has(slug),
@@ -79,7 +79,7 @@ export type SongPageEntry = Slugged & SongOnRelease;
  * under, `<slug>-<album>` on any other — so following a song from an album's
  * list keeps the listener on that album, its cover and its name first.
  */
-export function songPageSlug(
+function songPageSlug(
   { slug, frontmatter }: SongDocument,
   album: MusicAlbum | null,
 ): string {

@@ -1,6 +1,9 @@
 import 'server-only';
 
-import { type SongFrontmatter, songFrontmatterSchema } from '@/shared/music-catalogue';
+import {
+  type SongFrontmatter,
+  songFrontmatterSchema,
+} from '@/shared/music-catalogue';
 
 import { caseFrontmatterSchema } from './basilisk-frontmatter';
 import type { CollectionId } from './collections';

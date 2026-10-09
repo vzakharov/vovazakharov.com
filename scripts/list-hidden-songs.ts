@@ -21,6 +21,7 @@ import {
   MUSIC_PROJECT_NAMES,
   SONG_DESCRIPTION_PLACEHOLDER,
 } from '../src/shared/music-catalogue/index.node-safe.ts';
+import type { WithFilePath } from '../src/shared/typings/index.ts';
 import { songFiles } from './lib/public-markdown.ts';
 
 const LIST = 'docs/music/hidden-songs.md';
@@ -39,10 +40,10 @@ const hiddenSongSchema = z.object({
   ru: localeSchema.optional(),
 });
 
-type HiddenSong = z.infer<typeof hiddenSongSchema> & {
-  file: string;
-  lacks: string[];
-};
+type HiddenSong = z.infer<typeof hiddenSongSchema> &
+  WithFilePath & {
+    lacks: string[];
+  };
 
 /** Whether text says anything once its HTML comments — scaffold notes — are gone. */
 const says = (text: string) =>
@@ -80,7 +81,7 @@ function hiddenSongs(): HiddenSong[] {
     const { data, content } = matter(fs.readFileSync(file, 'utf8'));
     const song = hiddenSongSchema.parse(data);
     return song.hidden === true
-      ? [{ ...song, file, lacks: lacks(song, content) }]
+      ? [{ ...song, filePath: file, lacks: lacks(song, content) }]
       : [];
   });
 }
@@ -88,8 +89,8 @@ function hiddenSongs(): HiddenSong[] {
 const escaped = (text: string) =>
   text.replaceAll(/[*[\\\]_`]/g, String.raw`\$&`);
 
-function entry({ title, file, lacks: missing }: HiddenSong): string {
-  const link = path.relative(path.dirname(LIST), file);
+function entry({ title, filePath, lacks: missing }: HiddenSong): string {
+  const link = path.relative(path.dirname(LIST), filePath);
   const status = missing.length === 0 ? 'ready' : missing.join(', ');
   return `- [${escaped(title)}](${link}) — ${status}`;
 }
