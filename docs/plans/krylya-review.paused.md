@@ -35,7 +35,9 @@ context budget.
   «баснописца», not «борзописца» (11e80d1); Тёма only called just-because the
   best, the carelessness is the author's word (bc2b22e); «Рофля», not
   «Рокали» (2073fc1); our-punk-rock ends on Майя's growled «бууууудь»
-  (de12e07). Item 1's ambiguous readings, taken at stanza level: hello's
+  (de12e07); sorry sings «нам было хорошо» in every chorus, the reflection's
+  «там» reading gone (2b0b948); our-punk-rock's «это будет ор / хардкор»,
+  not «торт» (0dd4fe3). Item 1's ambiguous readings, taken at stanza level: hello's
   «1st half» = stanza 1 Майя, stanza 2 Кирилл; our-punk-rock's «Йоу, йоу» is
   Кирилл's, with the rap.
 
