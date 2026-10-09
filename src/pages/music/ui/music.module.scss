@@ -250,6 +250,27 @@
   }
 }
 
+// A song page's cover, above its title on a phone and beside it from `sm` up.
+.songHead {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+.songCover {
+  flex: none;
+  width: 160px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    width: 200px;
+  }
+}
+
 // A release without art gets its name set large on the square instead, sized
 // off the tile's width and shrunk further for a name whose longest word
 // (`--tile-word`, in letters) would not otherwise fit the 82% of it inside the

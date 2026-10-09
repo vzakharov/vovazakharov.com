@@ -1,4 +1,5 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { SITE_CONFIG } from '@/shared/config';
@@ -9,6 +10,7 @@ import {
   SONGS,
 } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
+import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import {
   constructMetadata,
@@ -26,12 +28,14 @@ import { ProseContent } from '@/entities/document';
 
 import type { SongPageProps } from '../lib/music-route-params';
 import { indexPath, songPath } from '../lib/music-urls';
+import { pictureCard, songPicture } from '../lib/pictures';
 import { songRepositoryUrl } from '../lib/projects';
 import { localizeSong, type SongDocument, songLyrics } from '../lib/song-text';
 import { songTrack } from '../lib/songs';
 import { titleGloss } from '../lib/title-gloss';
 import { ExplicitBadge } from './explicit-badge';
 import { Lyrics } from './lyrics';
+import classes from './music.module.scss';
 import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
 import { SongFacts } from './song-facts';
@@ -48,8 +52,9 @@ function resolve(slug: string): SongDocument {
 
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
+  const document = resolve(slug);
   const { title, description, hidden } = localizeSong(
-    resolve(slug),
+    document,
     locale,
   ).frontmatter;
 
@@ -59,6 +64,7 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
     path: songPath(slug, locale),
     ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
     ogType: 'article',
+    ...pictureCard(songPicture(document)),
     hidden,
   });
 }
@@ -74,6 +80,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
     localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
+  const picture = songPicture(document);
 
   return (
     <PageShell>
@@ -86,20 +93,39 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
         <Box component="header">
           <Stack gap={24}>
-            <Stack gap={8}>
-              <Group gap={16} wrap="nowrap" align="center">
-                {/* The same track a song list's row plays, so both drive one
-                    queue — which a hidden song joins only once played here. */}
-                <TrackButton track={songTrack(document)} {...{ title }} />
-                <Title order={1}>
-                  {title}
-                  {explicit && <ExplicitBadge label={messages.explicit} />}
-                </Title>
-              </Group>
-              <TitleGlossLine
-                gloss={titleGloss(localized.frontmatter, locale)}
-              />
-            </Stack>
+            <div className={classes['songHead']}>
+              {picture !== undefined && (
+                <div
+                  className={cx(classes['tileArt'], classes['songCover'])}
+                  aria-hidden
+                >
+                  <Image
+                    src={picture}
+                    alt=""
+                    width={600}
+                    height={600}
+                    sizes="200px"
+                    priority
+                  />
+                </div>
+              )}
+
+              <Stack gap={8}>
+                <Group gap={16} wrap="nowrap" align="center">
+                  {/* The same track a song list's row plays, so both drive
+                      one queue — which a hidden song joins only once played
+                      here. */}
+                  <TrackButton track={songTrack(document)} {...{ title }} />
+                  <Title order={1}>
+                    {title}
+                    {explicit && <ExplicitBadge label={messages.explicit} />}
+                  </Title>
+                </Group>
+                <TitleGlossLine
+                  gloss={titleGloss(localized.frontmatter, locale)}
+                />
+              </Stack>
+            </div>
 
             <Text size="lg" lh={1.625} opacity={0.8}>
               {description}

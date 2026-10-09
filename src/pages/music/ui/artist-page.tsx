@@ -4,12 +4,12 @@ import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { BackToHome, PageShell } from '@/shared/ui';
 
-import { albumCover, albumTitle } from '../lib/albums';
+import { albumTitle } from '../lib/albums';
 import { albumYears, artistReleases, artistSongs } from '../lib/catalogue';
 import type { ArtistPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
+import { releasePicture } from '../lib/pictures';
 import { projectGloss, projectName } from '../lib/projects';
-import { singleCover } from '../lib/single-covers';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
@@ -42,23 +42,25 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
         <CatalogueGrid
           title={messages.albums}
           tiles={artistReleases(artist, locale, songs).map((release) => {
+            const cover = releasePicture(release);
+
             if ('album' in release) {
               const { album } = release;
 
               return {
                 href: albumPath(album, catalogue, locale),
                 label: albumTitle(album, locale),
-                cover: albumCover(album),
+                cover,
                 detail: albumYears(album, songs),
               };
             }
 
-            const { slug, titles, routes } = songTrack(release.single);
+            const { titles, routes } = songTrack(release.single);
 
             return {
               href: routes[locale],
               label: titles[locale],
-              cover: singleCover(slug),
+              cover,
               detail: `${messages.single} · ${String(release.single.frontmatter.date.getUTCFullYear())}`,
             };
           })}

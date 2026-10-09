@@ -7,7 +7,7 @@ import {
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
 
-import { albumArtist, albumTitle } from './albums';
+import { albumArtist, albumCover, albumTitle } from './albums';
 import type {
   AlbumPageProps,
   ArtistPageProps,
@@ -15,7 +15,9 @@ import type {
   IndexPageProps,
 } from './music-route-params';
 import { albumPath, artistPath, tabLabels, tabPath } from './music-urls';
+import { artistPicture, pictureCard } from './pictures';
 import { projectName } from './projects';
+import { catalogueSongs } from './songs';
 
 /**
  * A catalogue page, in one language, deferring to the addressed one as the
@@ -27,12 +29,14 @@ function catalogueMetadata(
   title: string,
   description: string,
   path: (locale?: Locale) => string,
+  picture?: string,
 ) {
   return constructMetadata({
     title: `${title} - ${SITE_CONFIG.name}`,
     description,
     path: path(locale),
     ...localizedAddresses(path, locale),
+    ...pictureCard(picture),
     hidden: everything,
   });
 }
@@ -60,6 +64,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
     name,
     artistDescription.replace('{artist}', name),
     (locale) => artistPath(page.artist, page, locale),
+    artistPicture(page.artist, page.locale, catalogueSongs(page)),
   );
 }
 
@@ -77,5 +82,6 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
         projectName(albumArtist(page.album, page.locale), page.locale),
       ),
     (locale) => albumPath(page.album, page, locale),
+    albumCover(page.album),
   );
 }
