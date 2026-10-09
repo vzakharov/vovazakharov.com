@@ -1,6 +1,6 @@
 ---
 title: 'Просто так'
-date: 2024-01-01
+date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
@@ -9,27 +9,30 @@ track: 9
 audio: /music/assets/just-because.mp3
 seconds: 244
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Prosto tak'
     translation: 'Just Because'
-  description: 'TBD'
+  description: 'The song a producer friend called the best on the album: a natural, unforced carelessness, and “minus twenty in the shade.”'
 ru:
-  description: 'TBD'
+  description: 'Песня, которую друг-продюсер назвал лучшей на альбоме: естественная, не надуманная небрежность и «в тени минус двадцать».'
 ---
 
-<!-- For Vova to check: the date is a placeholder for the album’s release, which nothing on the branch records — when did «Крылья» come out? -->
+<!-- lang:en -->
 
-<!-- For Vova to check: the words were heard off the recording by Whisper and Deepgram and reconciled; each line below is one they disagreed on or that reads as a mis-hearing.
-- «В тени минус двадцать» (first chorus) — Whisper: «в тьме минус двадцать», Deepgram: «в тьме минус 20» (both heard «тьме» here, «тени» in the later choruses)
-- «Мы друг друга бросим» — Whisper: «Мы друг друга бросим», Deepgram: «Мы друг друга просим»
-- «Не хочу быть первым» — Whisper: «Не хочу быть первым», Deepgram: «не хочу быть 1-ым» (both agree; «ты скорее — не хочу» reads oddly)
-- «Холод согревает» — Whisper: «Холод загревает», Deepgram: «холод согревает»
-- «По сути, пустяк» (later choruses) — Whisper: «По сути пустят», Deepgram: «по сути, пустят» / dropped
-- «И рифмой средь прозы» (third and last chorus) — Whisper: «И рифмой средь прозы» / «И ритмой средь прозы», Deepgram: «и рифму слить грозы» / «и тьмы с этой прошлой»
-- «Мы будем держаться» (last chorus) — Whisper: «Мы будем дышаться», Deepgram: «Мы будем дышаться» (both heard «дышаться» here, «держаться» elsewhere)
--->
+I remember my producer friend Tyoma saying this was the best song on the
+album. In some ways I agree: there’s a kind of natural, unforced carelessness
+to it.
+
+And “minus twenty in the shade” I consider just about my best linguistic find.
+
+<!-- lang:ru -->
+
+Помню, мой друг-продюсер Тёма сказал, что это лучшая песня с альбома. В чём-то
+я согласен, тут есть какая-то естественная, не надуманная небрежность.
+
+Ну а «в тени минус двадцать» — считаю чуть ли не лучшей своей лингвистической
+находкой.
 
 <!-- lyrics:ru -->
 
@@ -84,3 +87,57 @@ ru:
 Целоваться просто так
 Просто так
 Просто так
+
+<!-- lyrics:en -->
+
+Let our fingers be frostbitten
+It’s minus twenty in the shade
+We’ll hold on
+It’s nothing, really
+And, like a rhyme amid prose,
+In spite of all the frosts
+We’ll kiss just because
+
+Maybe, someday
+We’ll leave each other
+Though more likely you will
+I don’t want to be the first
+But for now, while the January
+Cold keeps us warm
+We can believe in a miracle
+We have to believe in it
+
+Let our fingers be frostbitten
+It’s minus twenty in the shade
+We’ll hold on
+It’s nothing, really
+And, like a rhyme amid prose,
+In spite of all the frosts
+We’ll kiss just because
+
+Maybe, someday
+You’ll come and tell me:
+“Sorry, I’ve gone cold
+Go find someone better”
+But I don’t believe it
+And I won’t try to guess
+About everything that’s going
+To happen to us, because
+
+Let our fingers be frostbitten
+It’s minus twenty in the shade
+We’ll hold on
+It’s nothing, really
+And, like a rhyme amid prose,
+In spite of all the frosts
+We’ll kiss just because
+
+Let our fingers be frostbitten
+It’s minus twenty in the shade
+We’ll hold on
+It’s nothing, really
+And, like a rhyme amid prose,
+In spite of all the frosts
+We’ll kiss just because
+Just because
+Just because

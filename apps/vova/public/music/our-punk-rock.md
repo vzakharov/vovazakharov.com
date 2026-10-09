@@ -1,6 +1,6 @@
 ---
 title: 'Наш панк-рок'
-date: 2024-01-01
+date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
@@ -9,78 +9,122 @@ track: 5
 audio: /music/assets/our-punk-rock.mp3
 seconds: 132
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Nash pank-rok'
     translation: 'Our Punk Rock'
-  description: 'TBD'
+  description: 'One of the first songs Syama learned by heart and always asked to have on, when he was a little over three.'
 ru:
-  description: 'TBD'
+  description: 'Одна из первых песен, которую Сяма запомнил и всегда просил ставить, — в три с небольшим.'
 ---
 
-<!-- For Vova to check: the date is a placeholder for the album’s release, which nothing on the branch records — when did «Крылья» come out? -->
+<!-- lang:en -->
 
-<!-- For Vova to check: the words were heard off the recording by Whisper and Deepgram and reconciled; each line below is one they disagreed on or that reads as a mis-hearing.
-- «Это будет кринж, это будет шок» (first three choruses) — Whisper: «Это будет криш» (00:00), «Это будет фиш» (00:42, 00:52), Deepgram: «Это будет фиш»; both hear «кринж» only in the last two choruses
-- «Это будет наш с тобой панк-рок» (00:42, 00:52) — Whisper: «Это будет наш такой панк-рок», Deepgram: «Банкрот» (fragment); the opening chorus has «наш с тобой» in both
-- «Закрывай глаза и скорее в путь» (opening chorus) — Whisper: «Вцепила глаза, тут скорее в путь», Deepgram: «Всыплевать глаза. Поскорей путь»; later choruses are clearly «Закрывай глаза»
-- «Ну а дальше — всё, что будет, будет» (every chorus) — Whisper: «надо счастлив, что будет, будь» / «ну а то всё, что будет, будет», Deepgram: «Младший все, что будет. Будь» / «Ну, а дальше все, что будет путь» / «Ну, а дальше все, что будет»; the last word (будет / будь / none) is unclear
-- «Рокали назло соседям — тётям Машам, дядям Федям» — Whisper: «Рокли на зло соседям, тетям, машин, дядям, дедям», Deepgram: «рохли назло соседям тетям машин дядям Федям»
-- «Нам по большому счёту это всё просто» — both: «это все просто»; reads oddly and does not rhyme, possibly a mis-hearing
-- «Йоу, йоу» — Whisper only, Deepgram hears nothing at 01:00; keep this ad-lib or drop it?
-- «Мы в старшей школе — два патлатых изгоя» — Whisper: «Мультопоезд в партишкольной, два подхватных изгоя», Deepgram: «И школьные 2 потлатых изгоя»; the first half is a guess
-- «Бестолковых, несносных, словно из девяностых» — Whisper: «Без толковых, несмотных, словно из 90-х», Deepgram: «Пестоковых, бесносных, словно из 90-ых»
-- «Пропустили свой рейс, пропустили весь тренд» — Whisper: «Пробустили свой рейс, пробитый все тренд», Deepgram: «пропустили свой рейс» (no second half)
-- «В нашем топовом листе — Rise Against, Stranger» — Whisper: «В нашем топовом листе Rise Against Strange», Deepgram: «Наши топовые стены из a game stranger»; the band names are a guess
-- «Хоть преподы говорят, что нам надо назад» — Whisper: «Гэл, преподы говорят», Deepgram: «Guild преподы говорят»; the first word is a guess
-- «Что наш любительский формат» — Whisper: «что наш любильский формат», Deepgram: «что наш формат»
-- «Нам лишь детей пугать» — Whisper: «намеришь детей пугать», Deepgram: «нами лишь детей пугать»
-- «На них, на булли — это наш Scary Movie» — Whisper: «на них, на буле это наш scary movie», Deepgram: «на них, на булли это наш Scarry Movy»; the start of the line is unclear
-- «Это будет кринж, это будет торт» — Whisper: «Это будет Криндж, это будет вам», Deepgram: «Это будет кринж, этот будет торт» (or «шторм», to rhyme with «хардкор»?)
--->
+One of the first songs Syama memorized and always asked me to put on (he was,
+as it turns out, a little over three at the time). I was very proud of that — and
+I still am.
+
+<!-- lang:ru -->
+
+Одна из первых песен, которую запомнил и всегда просил ставить Сяма (ему тогда
+было, получается, три с небольшим). Очень был я этим горд, ну и сейчас тоже.
 
 <!-- lyrics:ru -->
 
 Это будет кринж, это будет шок
 Это будет наш с тобой панк-рок
 Закрывай глаза и скорее в путь
-Ну а дальше — всё, что будет, будет
+Ну а дальше — всё, что будет, будь
 
 Помнишь, как по подъездам с вейпами наперевес
 Рокали назло соседям — тётям Машам, дядям Федям
 Хотя кто их там знает, кто как их называет
-Нам по большому счёту это всё просто
+Нам по большому счёту это всё просто \*\*\*
 
 Это будет кринж, это будет шок
 Это будет наш с тобой панк-рок
 Закрывай глаза и скорее в путь
-Ну а дальше — всё, что будет, будет
-
-Это будет кринж, это будет шок
-Это будет наш с тобой панк-рок
-Закрывай глаза и скорее в путь
-Ну а дальше — всё, что будет, будет
+Ну а дальше — всё, что будет, будь
+x2
 
 Йоу, йоу
 
-Мы в старшей школе — два патлатых изгоя
+Мы с тобой с парты школьной — два патлатых изгоя
 Бестолковых, несносных, словно из девяностых
-Пропустили свой рейс, пропустили весь тренд
-В нашем топовом листе — Rise Against, Stranger
+Пропустили свой рейс, про\*\*ли все [трендс][^trends-ru]
+В нашем топ плей-листе — [Rise Against][^rise-against-ru], [Rage Against][^rage-against-ru]
 
-Хоть преподы говорят, что нам надо назад
-Что наш любительский формат
+[^trends-ru]: «Трендс» — английское trends, «тренды».
+
+[^rise-against-ru]: «Rise Against» — «восстань против»: американская панк-рок-группа из Чикаго.
+
+[^rage-against-ru]: «Rage Against» — «ярость против»: отсылка к Rage Against the Machine («Ярость против машины»), американской рэп-метал-группе из Лос-Анджелеса.
+
+Преподы говорят, что нам надо назад
+Что наш вид — [неформат][^neformat-ru],
 Нам лишь детей пугать
 Но пока мы здесь вместе и не кончилась песня
-На них, на булли — это наш Scary Movie
+\*\*\* на них, \*\*\* на [булли][^bully-ru] — это наш [Scary Movie][^scary-movie-ru]
+
+[^neformat-ru]: «Неформат» — жаргон шоу-бизнеса: то, что не вписывается в формат радио и телевидения. Созвучно «неформалам» — так называли подростков из молодёжных субкультур.
+
+[^bully-ru]: Булли — от английского bully: тот, кто травит других, обычно в школе.
+
+[^scary-movie-ru]: «Scary Movie» — «страшное кино»: американская комедия 2000 года, пародия на фильмы ужасов, в российском прокате — «Очень страшное кино».
 
 Это будет кринж, это будет торт
 Это будет наш с тобой хардкор
 Закрывай глаза и скорее в путь
-Ну а дальше — всё, что будет, будет
+Ну а дальше — всё, что будет, будь
 
 Это будет кринж, это будет шок
 Это будет наш с тобой панк-рок
 Закрывай глаза и скорее в путь
-Ну а дальше — всё, что будет, будет
+Ну а дальше — всё, что будет, будь
+
+<!-- lyrics:en -->
+
+It’s gonna be cringe, it’s gonna be a shock
+It’s gonna be our punk rock, yours and mine
+Close your eyes and let’s hit the road
+And after that — whatever will be, let it be
+
+Remember how we roamed the stairwells, vapes at the ready
+Rocking out to spite the neighbors — the Aunt Mashas and Uncle Fedyas
+Though who knows who they are, or who calls them what
+By and large, it’s all just \*\*\* to us
+
+It’s gonna be cringe, it’s gonna be a shock
+It’s gonna be our punk rock, yours and mine
+Close your eyes and let’s hit the road
+And after that — whatever will be, let it be
+x2
+
+Yo, yo
+
+You and me since our school desks — two shaggy-haired outcasts
+Clueless, insufferable, like something out of the nineties
+We missed our flight, \*\*\*ed away all the trends
+In our top playlist — [Rise Against][^rise-against-en], [Rage Against][^rage-against-en]
+
+[^rise-against-en]: An American punk rock band from Chicago.
+
+[^rage-against-en]: Rage Against the Machine, an American rap metal band from Los Angeles.
+
+The teachers say we have to go back
+That our look is [non-format][^neformat-en],
+All we’re good for is scaring kids
+But while we’re here together and the song isn’t over
+\*\*\* them, \*\*\* the bullies — this is our Scary Movie
+
+[^neformat-en]: _Neformat_, Russian showbiz jargon for anything that doesn’t fit a radio or TV format. It also echoes _neformaly_, “informals,” as kids from youth subcultures were called.
+
+It’s gonna be cringe, it’s gonna be awesome
+It’s gonna be our hardcore, yours and mine
+Close your eyes and let’s hit the road
+And after that — whatever will be, let it be
+
+It’s gonna be cringe, it’s gonna be a shock
+It’s gonna be our punk rock, yours and mine
+Close your eyes and let’s hit the road
+And after that — whatever will be, let it be

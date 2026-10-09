@@ -1,6 +1,6 @@
 ---
 title: 'Послушайте (Single Version)'
-date: 2023-12-01
+date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
@@ -9,7 +9,6 @@ track: 1
 audio: /music/assets/listen-single.mp3
 seconds: 55
 explicit: false
-hidden: true
 credits:
   lyrics:
     - 'Владимир Маяковский'
@@ -17,19 +16,28 @@ en:
   title:
     transliteration: 'Poslushayte (Single Version)'
     translation: 'Listen! (Single Version)'
-  description: 'TBD'
+  description: 'One of the first generations, so good it left me in shock — and, as usual, r/pikabu crapped all over it.'
 ru:
-  description: 'TBD'
+  description: 'Одна из первых генераций: вышло так классно, что я был в шоке, — а на r/pikabu, как водится, засрали.'
 ---
 
-<!-- For Vova to check: the date is the month of the single «Знаки препинания», December 2023 — which day? -->
+<!-- lang:en -->
 
-<!-- For Vova to check: the words were heard off the recording by Whisper and Deepgram and reconciled; each line below is one they disagreed on or that reads as a mis-hearing.
-- «Врывается к богу, / Боится, что опоздал, / Плачет» — Whisper only (no Deepgram for this version): «врывается в Богу, боится, что областал плач»; read as a mis-hearing of the poem's text
-- «Целует ему жилистую руку» — Whisper only: «целует ему женскую руку»; kept the poem's «жилистую»
-- «Чтоб обязательно была звезда! —» — Whisper only: «просит, чтобы обязательно была звезда»; the recording may sing «чтобы» where the poem has «чтоб»
-- «Ходит тревожный, / Но спокойный наружно» — Whisper only: «ходит тревожно, но спокойно и наружно»; the recording may sing the adverbs (as the album version does) where the poem has «тревожный … спокойный»
--->
+One of the first generations. I was in shock at how great it came out, and went
+to share my delight on r/pikabu — where, as usual, they crapped all over it.
+
+By the way, there’s a [video](https://t.me/vovazvuchit/7) for this one too!
+
+[The video for “Listen!” from the Telegram post](./assets/listen-single.mp4)
+
+<!-- lang:ru -->
+
+Одна из первых генераций, был в шоке от того, как классно вышло, пошёл
+поделиться восхищением на r/pikabu — как водится, засрали.
+
+Кстати, тут же есть [видео](https://t.me/vovazvuchit/7)!
+
+[Видео к «Послушайте» из поста в телеграме](./assets/listen-single.mp4)
 
 <!-- lyrics:ru -->
 
@@ -66,3 +74,39 @@ ru:
 Чтобы каждый вечер
 Над крышами
 Загоралась хоть одна звезда?!
+
+<!-- lyrics:en -->
+
+Listen!
+After all, if the stars are lit —
+Does that mean — somebody needs them?
+Does that mean — somebody wants them to be?
+Does that mean — somebody calls these little specks of spit
+A pearl?
+
+And, straining himself to breaking,
+In blizzards of midday dust,
+He bursts in on God,
+Afraid he’s come too late,
+Weeps,
+Kisses His sinewy hand,
+Begs —
+That there must be a star! —
+Swears —
+He won’t survive this starless torment!
+And afterward
+He goes about anxious,
+But calm on the outside.
+He says to someone:
+“You’re all right now, aren’t you?
+Not afraid?
+Yes?!”
+
+Listen!
+After all, if the stars
+Are lit —
+Does that mean — somebody needs them?
+Does that mean — it is essential
+That every evening
+Above the rooftops
+At least one star should light up?!
