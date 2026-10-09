@@ -48,10 +48,11 @@ context budget.
    bottom spacing, the focus ring after opening. DRY: `songHead`/`songCover`
    are song-named but shared with `catalogue-header.tsx`, whose cover
    `Image` duplicates song-page's.
-6. **Waiting on the author**: the Здравствуй video (t.me/vovazvuchit/13 is
-   not downloadable; he offered to send the file → `assets/hello.mp4`, embed
-   like after-us); whether Listen on an album page should follow to the
-   song's page (the player's follow switch does today).
+6. **Answered by the author**: the Здравствуй video arrived as
+   `docs/remove-before-merging/Здравствуй 720p.mp4` and is vendored as
+   `assets/hello.mp4`; Listen on an album page follows to the song's page
+   only when the follow switch is on — «да, если стоит флаг слежения»,
+   which is today's behavior (check it in item 5's preview).
 7. **Reply on GitHub to every one of the 49 threads** (CLAUDE.md § "GitHub
    comments": one sentence + bare SHA, never resolve), and the
    `writing/notes/the-five-percent.md` entry via a subagent for the comments
