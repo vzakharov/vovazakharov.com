@@ -1,11 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-  <!-- Inside: a stone corridor of receding squares, a small red figure facing its dark double. -->
-  <rect width="600" height="600" fill="#3f3b36"/>
-  <rect x="70" y="60" width="460" height="460" fill="#6f6a63"/>
-  <rect x="140" y="115" width="320" height="320" fill="#a29c93"/>
-  <rect x="200" y="160" width="200" height="200" fill="#d3cec4"/>
-  <rect x="245" y="195" width="110" height="110" fill="#f2efe8"/>
-  <rect x="294" y="190" width="8" height="120" fill="#3f3b36"/>
-  <rect x="258" y="220" width="26" height="70" fill="#c62a1d"/>
-  <rect x="312" y="220" width="26" height="70" fill="#141414"/>
+  <!-- Inside: stone grey going in, darker and darker toward a far small light. -->
+  <defs><radialGradient id="g20" gradientUnits="userSpaceOnUse" cx="300" cy="260" r="420"><stop offset="0" stop-color="#d9b98a" stop-opacity="1"/><stop offset="0.12" stop-color="#a39684" stop-opacity="1"/><stop offset="0.5" stop-color="#4a4540" stop-opacity="1"/><stop offset="1" stop-color="#141312" stop-opacity="1"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g20)"/>
+  <circle cx="300" cy="260" r="40" fill="#c62a1d"/>
 </svg>

@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-  <!-- Сильней любви: a red circle pressed down under a black wedge, a thin bar of poison through it. -->
-  <rect width="600" height="600" fill="#ece4d2"/>
-  <circle cx="300" cy="350" r="155" fill="#c62a1d"/>
-  <polygon points="30,70 570,130 530,262 70,210" fill="#141414"/>
-  <rect x="420" y="250" width="26" height="320" fill="#4f9a3a" transform="rotate(12 429 410)"/>
-  <rect x="90" y="520" width="120" height="24" fill="#141414"/>
+  <!-- Stronger than love: a red heat pressed down by a heavy dark, a thread of poison green. -->
+  <defs><linearGradient id="g10" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b0606"/><stop offset="0.45" stop-color="#2a0b0b"/><stop offset="1" stop-color="#5a1410"/></linearGradient><radialGradient id="g11" gradientUnits="userSpaceOnUse" cx="300" cy="420" r="220"><stop offset="0" stop-color="#d23020" stop-opacity="1"/><stop offset="0.45" stop-color="#d23020" stop-opacity="1"/><stop offset="1" stop-color="#d23020" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g10)"/>
+  <circle cx="300" cy="420" r="220" fill="url(#g11)"/>
+  <path d="M470 600 L520 120 L560 120 L520 600 Z" fill="#5fbf45"/>
 </svg>

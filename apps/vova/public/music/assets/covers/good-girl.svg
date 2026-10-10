@@ -1,14 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-  <!-- Good Girl: a red circle shrunk to fit a frame too small for it; the stones she carried, stacked beside. -->
-  <defs>
-    <clipPath id="frame"><rect x="235" y="190" width="200" height="200"/></clipPath>
-  </defs>
-  <rect width="600" height="600" fill="#ede6dc"/>
-  <circle cx="335" cy="290" r="150" fill="none" stroke="#c62a1d" stroke-width="9" stroke-dasharray="22 16"/>
-  <circle cx="335" cy="290" r="150" fill="#c62a1d" clip-path="url(#frame)"/>
-  <rect x="226" y="181" width="218" height="218" fill="none" stroke="#141414" stroke-width="18"/>
-  <circle cx="120" cy="508" r="44" fill="#8f8a84"/>
-  <circle cx="126" cy="436" r="34" fill="#a39e98"/>
-  <circle cx="118" cy="380" r="25" fill="#8f8a84"/>
-  <circle cx="122" cy="340" r="17" fill="#a39e98"/>
+  <!-- Good girl: a quiet pale room, a red that will not fit, pressed into a corner. -->
+  <defs><linearGradient id="g16" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4eee6"/><stop offset="1" stop-color="#c9bfb2"/></linearGradient><radialGradient id="g17" gradientUnits="userSpaceOnUse" cx="330" cy="330" r="140"><stop offset="0" stop-color="#e04a3a" stop-opacity="1"/><stop offset="0.45" stop-color="#e04a3a" stop-opacity="1"/><stop offset="1" stop-color="#e04a3a" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g16)"/>
+  <rect x="300" y="300" width="300" height="300" fill="#c62a1d"/>
+  <circle cx="330" cy="330" r="140" fill="url(#g17)"/>
 </svg>

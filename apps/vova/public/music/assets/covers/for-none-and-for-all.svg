@@ -1,21 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-  <!-- Ни для кого и для всех: a block of windows at night, a few lit, a snowstorm cutting across. -->
-  <rect width="600" height="600" fill="#1b1d24"/>
-  <rect x="70" y="110" width="270" height="490" fill="#2e3240"/>
-  <g fill="#3d4252">
-    <rect x="96" y="140" width="38" height="48"/><rect x="156" y="140" width="38" height="48"/><rect x="216" y="140" width="38" height="48"/><rect x="276" y="140" width="38" height="48"/>
-    <rect x="96" y="214" width="38" height="48"/><rect x="216" y="214" width="38" height="48"/><rect x="276" y="214" width="38" height="48"/>
-    <rect x="96" y="288" width="38" height="48"/><rect x="156" y="288" width="38" height="48"/><rect x="276" y="288" width="38" height="48"/>
-    <rect x="156" y="362" width="38" height="48"/><rect x="216" y="362" width="38" height="48"/><rect x="276" y="362" width="38" height="48"/>
-    <rect x="96" y="436" width="38" height="48"/><rect x="156" y="436" width="38" height="48"/><rect x="216" y="436" width="38" height="48"/>
-    <rect x="96" y="510" width="38" height="48"/><rect x="156" y="510" width="38" height="48"/><rect x="216" y="510" width="38" height="48"/><rect x="276" y="510" width="38" height="48"/>
-  </g>
-  <g fill="#e9b93a">
-    <rect x="156" y="214" width="38" height="48"/><rect x="216" y="288" width="38" height="48"/><rect x="96" y="362" width="38" height="48"/><rect x="276" y="436" width="38" height="48"/>
-  </g>
-  <rect x="216" y="140" width="38" height="48" fill="#c62a1d"/>
-  <polygon points="600,30 600,120 170,600 80,600" fill="#f2f0ea" fill-opacity="0.9"/>
-  <g fill="#f2f0ea">
-    <rect x="420" y="80" width="20" height="20"/><rect x="510" y="250" width="18" height="18"/><rect x="380" y="430" width="22" height="22"/><rect x="470" y="520" width="18" height="18"/><rect x="40" y="60" width="18" height="18"/>
-  </g>
+  <!-- For None and For All: a winter night block, a few warm windows, snow blowing across. -->
+  <defs><linearGradient id="g8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d3344"/><stop offset="1" stop-color="#090b10"/></linearGradient><linearGradient id="g9" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2f0ea"/><stop offset="1" stop-color="#aeb3c2"/></linearGradient></defs>
+  <rect width="600" height="600" fill="url(#g8)"/>
+  <circle cx="140" cy="200" r="42" fill="#e9b93a"/>
+  <circle cx="250" cy="330" r="42" fill="#e9b93a"/>
+  <circle cx="160" cy="440" r="40" fill="#c98a2a"/>
+  <path d="M380 -10 L610 -10 L610 260 L250 610 L140 610 Z" fill="url(#g9)"/>
 </svg>

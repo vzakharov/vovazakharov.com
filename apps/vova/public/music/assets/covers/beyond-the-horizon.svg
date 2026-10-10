@@ -1,12 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-  <!-- За горизонт: the sun going under, a sail far off, a heart in shards on the shore. -->
-  <rect width="600" height="600" fill="#eadcc4"/>
-  <circle cx="290" cy="330" r="125" fill="#c62a1d"/>
-  <rect x="0" y="330" width="600" height="270" fill="#1c5a63"/>
-  <rect x="60" y="372" width="300" height="12" fill="#eadcc4"/>
-  <polygon points="470,326 504,326 486,266" fill="#faf7f0"/>
-  <polygon points="0,500 600,540 600,600 0,600" fill="#d9c49c"/>
-  <g fill="#c62a1d">
-    <polygon points="80,536 128,522 110,566"/><polygon points="150,556 204,546 178,588"/><polygon points="226,532 262,526 250,562"/>
-  </g>
+  <!-- Beyond the horizon: warm sand sky, deep teal water, the red sun going under between them. -->
+  <defs><linearGradient id="g25" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3e6cf"/><stop offset="0.5" stop-color="#e2c9a2"/><stop offset="0.55" stop-color="#1f6670"/><stop offset="1" stop-color="#0a2c33"/></linearGradient><radialGradient id="g26" gradientUnits="userSpaceOnUse" cx="300" cy="320" r="170"><stop offset="0" stop-color="#c62a1d" stop-opacity="1"/><stop offset="0.45" stop-color="#c62a1d" stop-opacity="1"/><stop offset="1" stop-color="#c62a1d" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g25)"/>
+  <circle cx="300" cy="320" r="170" fill="url(#g26)"/>
 </svg>

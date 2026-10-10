@@ -1,19 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-  <!-- At the Diner: a record in a neon lounge, pixels glitching off its rim. -->
-  <rect width="600" height="600" fill="#231a3a"/>
-  <rect x="0" y="508" width="600" height="14" fill="#36e0ff"/>
-  <circle cx="260" cy="300" r="190" fill="#0c0b10"/>
-  <g fill="none" stroke="#2c2a36" stroke-width="9">
-    <circle cx="260" cy="300" r="160"/><circle cx="260" cy="300" r="130"/><circle cx="260" cy="300" r="100"/>
-  </g>
-  <circle cx="260" cy="300" r="56" fill="#c62a1d"/>
-  <circle cx="260" cy="300" r="7" fill="#ece4d2"/>
-  <rect x="70" y="282" width="380" height="26" fill="#0c0b10" transform="translate(34 0)"/>
-  <rect x="104" y="288" width="40" height="14" fill="#ff3fa4"/>
-  <g fill="#ff3fa4">
-    <rect x="452" y="232" width="36" height="36"/><rect x="496" y="196" width="34" height="34"/><rect x="540" y="252" width="28" height="28"/>
-  </g>
-  <g fill="#36e0ff">
-    <rect x="466" y="318" width="32" height="32"/><rect x="510" y="352" width="36" height="36"/><rect x="552" y="300" width="26" height="26"/>
-  </g>
+  <!-- At the diner: a neon lounge, magenta bleeding into cyan, a red record glowing at the middle. -->
+  <defs><linearGradient id="g12" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff3fa4"/><stop offset="0.5" stop-color="#3a1c5e"/><stop offset="1" stop-color="#18c6e6"/></linearGradient><radialGradient id="g13" gradientUnits="userSpaceOnUse" cx="290" cy="300" r="170"><stop offset="0" stop-color="#c62a1d" stop-opacity="1"/><stop offset="0.45" stop-color="#c62a1d" stop-opacity="1"/><stop offset="1" stop-color="#c62a1d" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g12)"/>
+  <circle cx="290" cy="300" r="170" fill="url(#g13)"/>
 </svg>

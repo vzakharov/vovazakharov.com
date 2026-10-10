@@ -1,10 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-  <!-- Prototypes: a blueprint, its square drawn but never filled, one red power light. -->
-  <rect width="600" height="600" fill="#1d3f8f"/>
-  <rect x="0" y="420" width="600" height="10" fill="#4a68ad"/>
-  <rect x="140" y="0" width="10" height="600" fill="#4a68ad"/>
-  <line x1="40" y1="560" x2="560" y2="40" stroke="#8fa6d8" stroke-width="10"/>
-  <rect x="150" y="150" width="300" height="300" fill="none" stroke="#faf7f0" stroke-width="20" transform="rotate(8 300 300)"/>
-  <rect x="210" y="364" width="84" height="34" fill="#faf7f0" transform="rotate(8 300 300)"/>
-  <circle cx="432" cy="168" r="28" fill="#c62a1d"/>
+  <!-- Prototypes: a blueprint, light where the drawing is worked on, one red power light. -->
+  <defs><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a56b4"/><stop offset="1" stop-color="#0b1d4d"/></linearGradient><radialGradient id="g7" gradientUnits="userSpaceOnUse" cx="280" cy="330" r="230"><stop offset="0" stop-color="#8fb0ec" stop-opacity="1"/><stop offset="0.45" stop-color="#8fb0ec" stop-opacity="1"/><stop offset="1" stop-color="#8fb0ec" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g6)"/>
+  <circle cx="280" cy="330" r="230" fill="url(#g7)"/>
+  <circle cx="470" cy="140" r="60" fill="#e2321f"/>
 </svg>

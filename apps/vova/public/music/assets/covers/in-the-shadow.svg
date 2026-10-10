@@ -1,11 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-  <!-- In the Shadow: a great shadow with one pale eye open, bare trunks behind it. -->
-  <rect width="600" height="600" fill="#8e9196"/>
-  <g fill="#2a2c30">
-    <rect x="48" y="0" width="16" height="600"/><rect x="96" y="40" width="9" height="560"/><rect x="510" y="0" width="12" height="600"/><rect x="548" y="70" width="20" height="530"/>
-  </g>
-  <circle cx="300" cy="330" r="205" fill="#141414"/>
-  <ellipse cx="352" cy="282" rx="46" ry="17" fill="#ece4d2"/>
-  <circle cx="352" cy="282" r="11" fill="#141414"/>
-  <rect x="236" y="470" width="20" height="20" fill="#ece4d2" transform="rotate(14 246 480)"/>
+  <!-- In the shadow: grey light around a great dark, one pale eye in it. -->
+  <defs><linearGradient id="g18" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9acb2"/><stop offset="1" stop-color="#3a3c40"/></linearGradient><radialGradient id="g19" gradientUnits="userSpaceOnUse" cx="300" cy="340" r="300"><stop offset="0" stop-color="#0e0e10" stop-opacity="1"/><stop offset="0.45" stop-color="#0e0e10" stop-opacity="1"/><stop offset="1" stop-color="#0e0e10" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g18)"/>
+  <circle cx="300" cy="340" r="300" fill="url(#g19)"/>
+  <circle cx="370" cy="270" r="44" fill="#ece4d2"/>
 </svg>
