@@ -11,13 +11,15 @@ The frequency axis is logarithmic, 40 Hz to 10 kHz, so an octave is the same
 height anywhere and a melodic line keeps its shape; 40 Hz takes in a bass's
 open E. A full-scale sine reads 0 dBFS. Under it, on the same time axis, the
 waveform: each column's peak, with its RMS inside, which is where the dynamics
-show, coloured by the note that dominates the moment — its pitch class on a hue
-circle, grey where no one note does. That note is the strongest pitch class in
-the mix, harmonics voting with their fundamentals, so it follows the bass or
-the tune or the chord, whichever is loudest, from the spectrum already
-drawn, so it costs no pitch tracker. The colour map is cut into 2.5 dB steps and the PNG kept to those colours
-and a few greys, which holds a song under 350 KB: a smooth map over a noisy
-texture compresses several times worse.
+show. Its lower half is coloured by the note that dominates the bass, its upper
+half by the note that dominates above it — each a pitch class on a hue circle,
+grey where no one note does or the band is quiet. Each is the strongest pitch
+class in its band of the spectrum already drawn, harmonics voting with their
+fundamentals, so the lower half steps with the bass line and the upper half
+follows the tune or the chord over it, and neither costs a pitch tracker. The
+colour map is cut into 2.5 dB steps and the PNG kept to those colours and a few
+greys, which holds a song under 350 KB: a smooth map over a noisy texture
+compresses several times worse.
 
 Needs ffmpeg and matplotlib (numpy and Pillow come with it).
 """
@@ -43,7 +45,12 @@ WIDTH_PX, HEIGHT_PX, DPI = 1400, 760, 100
 
 NOTE_NAMES = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 # C2 to C7: below it a bin is wider than a semitone; above it, mostly harmonics.
+# A bass note under C2 still votes through its octave harmonic, the same class.
 NOTE_BAND_HZ = (65, 2100)
+# Middle C splits the bass band from the high one, where the bass clef meets the
+# treble: a bass line and its first harmonics sit under it, and most of a melody
+# above it. A male voice's lowest notes fall under it, and so vote with the bass.
+CROSSOVER_HZ = 262
 PEAK_RANGE_DB = 30
 CLEAR_SHARE = 0.2
 QUIET_DB = -50
@@ -107,20 +114,23 @@ def envelope(x, columns):
     return np.abs(blocks).max(axis=1), np.sqrt((blocks.astype(np.float64) ** 2).mean(axis=1))
 
 
-def dominant_notes(magnitude, freqs, step, duration, columns):
-    """Per column of the plot, the pitch class that dominates it, or -1 where none does.
+def dominant_notes(magnitude, freqs, step, duration, columns, band_hz):
+    """Per column of the plot, the pitch class that dominates band_hz, or -1 where none does.
 
-    A chroma from the spectrum's peaks in NOTE_BAND_HZ, each within PEAK_RANGE_DB
-    of its frame's loudest, weighted by magnitude: so a bass note and its
+    A chroma from the band's spectral peaks, each within PEAK_RANGE_DB of the
+    band's loudest in its frame, weighted by magnitude: so a note and its
     harmonics vote for their own class, while the drums' broad smear, flat
     rather than peaked, barely votes. A column is clear when one class holds
     CLEAR_SHARE of its chroma; an even spread across all twelve holds 1/12.
+    It is -1 too where the band's loudest peak stays under QUIET_DB, since a
+    band that is all but silent still has peaks, of noise or bleed.
     """
-    band = (freqs >= NOTE_BAND_HZ[0]) & (freqs <= NOTE_BAND_HZ[1])
+    band = (freqs >= band_hz[0]) & (freqs <= band_hz[1])
     m = magnitude[:, band]
     inner = m[:, 1:-1]
+    loudest = m.max(axis=1)
     peaks = (inner > m[:, :-2]) & (inner >= m[:, 2:])
-    peaks &= inner > m.max(axis=1, keepdims=True) * 10 ** (-PEAK_RANGE_DB / 20)
+    peaks &= inner > loudest[:, None] * 10 ** (-PEAK_RANGE_DB / 20)
     weights = np.where(peaks, inner, 0)
     pitch_class = np.round(69 + 12 * np.log2(freqs[band][1:-1] / 440)).astype(int) % 12
     chroma = np.stack([weights[:, pitch_class == k].sum(axis=1) for k in range(12)], axis=1)
@@ -128,19 +138,26 @@ def dominant_notes(magnitude, freqs, step, duration, columns):
     column = np.minimum((np.arange(len(chroma)) * step / duration * columns).astype(int), columns - 1)
     per_column = np.zeros((columns, 12))
     np.add.at(per_column, column, chroma)
+    level = np.zeros(columns)
+    np.maximum.at(level, column, loudest)
     span = np.ones(max(1, round(NOTE_WINDOW_S * columns / duration)))
     per_column = np.stack([np.convolve(per_column[:, k], span, "same") for k in range(12)], axis=1)
     share = per_column.max(axis=1) / np.maximum(per_column.sum(axis=1), 1e-12)
-    return np.where(share >= CLEAR_SHARE, per_column.argmax(axis=1), -1)
+    clear = (share >= CLEAR_SHARE) & (level >= 10 ** (QUIET_DB / 20))
+    return np.where(clear, per_column.argmax(axis=1), -1)
 
 
-def waveform_image(peak, rms, notes, rows=128):
-    """RGB rows x columns: each column's peak and RMS in its note's two shades, black around them."""
-    level = np.abs(np.linspace(-1, 1, rows))[:, None]
-    shades = np.array(NOTE_SHADES + [NO_NOTE_SHADES])[notes]  # -1 picks the last, the grey
+def waveform_image(peak, rms, bass_notes, high_notes, rows=128):
+    """RGB rows x columns, row 0 at the bottom: each column's peak and RMS in two
+    shades of a note — the bass note's under the centre line, the high note's
+    over it — black around them."""
+    signed = np.linspace(-1, 1, rows)[:, None]
+    level = np.abs(signed)
+    palette = np.array(NOTE_SHADES + [NO_NOTE_SHADES])  # -1 picks the last, the grey
+    shades = np.where((signed < 0)[..., None, None], palette[bass_notes], palette[high_notes])
     image = np.zeros((rows, len(peak), 3))
-    image[level <= peak] = np.broadcast_to(shades[:, 0], image.shape)[level <= peak]
-    image[level <= rms] = np.broadcast_to(shades[:, 1], image.shape)[level <= rms]
+    image[level <= peak] = shades[:, :, 0][level <= peak]
+    image[level <= rms] = shades[:, :, 1][level <= rms]
     return image
 
 
@@ -188,15 +205,18 @@ def main():
 
     columns = WIDTH_PX
     peak, rms = envelope(x, columns)
-    notes = dominant_notes(magnitude, freqs, step, duration, columns)
+    bass = dominant_notes(magnitude, freqs, step, duration, columns, (NOTE_BAND_HZ[0], CROSSOVER_HZ))
+    high = dominant_notes(magnitude, freqs, step, duration, columns, (CROSSOVER_HZ, NOTE_BAND_HZ[1]))
     # Silence has spectral peaks too, of noise; it is grey however clear they look.
-    notes[rms < 10 ** (QUIET_DB / 20)] = -1
+    bass[rms < 10 ** (QUIET_DB / 20)] = -1
+    high[rms < 10 ** (QUIET_DB / 20)] = -1
     wave.imshow(
-        waveform_image(peak, rms, notes), origin="lower", aspect="auto",
+        waveform_image(peak, rms, bass, high), origin="lower", aspect="auto",
         extent=(0, duration, -1, 1), interpolation="nearest",
     )
     wave.yaxis.set_major_locator(FixedLocator((-1, 0, 1)))
-    wave.set_ylabel("level")
+    # Rotated, the label reads bottom up, so each half's band names it.
+    wave.set_ylabel("bass · level · high")
 
     wave.set_xlim(0, duration)
     wave.xaxis.set_major_locator(MultipleLocator(30 if duration > 240 else 15))
