@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-09T14:50:17Z
-- **Updated:** 2026-10-10T09:39:04Z
+- **Updated:** 2026-10-10T09:40:41Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Awaiting an answer: 7
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at eaa4543). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1c6e4ac). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T08** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:30:56Z — "класс, а можем нотки в нижней части раскрашивать октавой ещё…" → [↓](#t08)
 - **T09** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:33:45Z — "Ещё некоторые комменты из реддита, буду оставлять каждый отд…" → [↓](#t09)
