@@ -1,8 +1,9 @@
 /**
  * How an Open Graph card is rasterized: the Chromium screenshot of a staged
- * page, on the canvas `shared/config/og-canvas.ts` sizes. The page is whatever
- * a card kind produces — a letterbox around an authored SVG, or a laid-out HTML
- * card — so this file knows the frame and nothing about what goes in it.
+ * page, on the canvas `shared/config/og-canvas.ts` sizes unless the caller
+ * names another — a song's cover is square. The page is whatever a card kind
+ * produces — a letterbox around an authored SVG, or a laid-out HTML card — so
+ * this file knows the frame and nothing about what goes in it.
  *
  * Bare Node can run this file, relying on its type stripping, so it stays free
  * of syntax the stripper cannot erase and every relative import carries its
@@ -50,7 +51,14 @@ export type StagedPage = {
 
 export type Card = Renderable & StagedPage;
 
-export function renderCard(card: Card, chromium: string): void {
+/** The window the page is laid out in, and so the render's pixel size. */
+type Size = { width: number; height: number };
+
+export function renderCard(
+  card: Card,
+  chromium: string,
+  { width, height }: Size = PIXELS,
+): void {
   const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'og-'));
   const pagePath = path.join(stagingDir, 'card.html');
 
@@ -71,7 +79,7 @@ export function renderCard(card: Card, chromium: string): void {
       // Without it `--screenshot` can fire before a referenced image has
       // painted, yielding a blank card.
       '--virtual-time-budget=10000',
-      `--window-size=${PIXELS.width},${PIXELS.height}`,
+      `--window-size=${width},${height}`,
       `--screenshot=${card.outputPath}`,
       `file://${pagePath}`,
     ],
@@ -80,6 +88,6 @@ export function renderCard(card: Card, chromium: string): void {
 
   console.log(
     `  rendered ${path.relative(REPO_ROOT, card.outputPath)} ` +
-      `(${PIXELS.width}×${PIXELS.height})`,
+      `(${width}×${height})`,
   );
 }

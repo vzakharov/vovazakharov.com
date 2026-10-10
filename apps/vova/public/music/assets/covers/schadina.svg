@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Жадина: the candy kept to herself, behind her; the bike nobody gets a ride on. -->
+  <rect width="600" height="600" fill="#59c3d6"/>
+  <polygon points="236,250 176,206 176,294" fill="#f6d02c"/>
+  <polygon points="404,250 464,206 464,294" fill="#f6d02c"/>
+  <circle cx="320" cy="250" r="88" fill="#c62a1d"/>
+  <rect x="96" y="120" width="120" height="290" fill="#141414"/>
+  <circle cx="156" cy="96" r="38" fill="#141414"/>
+  <g fill="none" stroke="#141414" stroke-width="14">
+    <circle cx="300" cy="500" r="62"/><circle cx="480" cy="500" r="62"/>
+  </g>
+  <polyline points="300,500 370,420 480,500 380,500 300,500" fill="none" stroke="#faf7f0" stroke-width="8"/>
+</svg>

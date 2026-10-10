@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Cross Out: a dying sun, crossed out. -->
+  <rect width="600" height="600" fill="#b9b4ac"/>
+  <rect x="0" y="470" width="600" height="130" fill="#57534e"/>
+  <circle cx="300" cy="320" r="150" fill="#e2621f"/>
+  <rect x="-20" y="297" width="640" height="46" fill="#141414" transform="rotate(38 300 320)"/>
+  <rect x="-20" y="297" width="640" height="46" fill="#141414" transform="rotate(-38 300 320)"/>
+</svg>

@@ -27,7 +27,8 @@ type MusicAlbumRecord = {
    * Whether the release has cover art, at `albumCover`'s path: a 600px square
    * cut from the master in its `vovas-music` repository, or Apple Music's or
    * SoundCloud's where the repository holds none — small enough for a grid of
-   * them.
+   * them. A release with no artwork yet has one drawn: the SVG of the same stem
+   * beside it, which `pnpm music:covers` renders.
    */
   cover?: true;
   /** What each locale tells its reader about the title, as a song's gloss does. */
@@ -93,6 +94,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   'father-sea': {
     title: 'Папа-море',
     artist: 'Полуживые',
+    cover: true,
     gloss: { en: { transliteration: 'Papa-more', translation: 'Father Sea' } },
   },
   'who-is-happy-in-russia': {
@@ -126,6 +128,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   'old-shite': {
     title: 'We Made AI Sing Our Old Shite',
     artist: 'Yoohie',
+    cover: true,
     gloss: {
       ru: { translation: 'Мы заставили ИИ спеть наше старое дерьмо' },
     },
@@ -133,16 +136,19 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   'nursery-rhymes': {
     title: 'Nursery Rhymes for the Jilted Generation',
     artist: 'GENERATED',
+    cover: true,
     gloss: { ru: { translation: 'Детские стишки для брошенного поколения' } },
   },
   prototypes: {
     title: 'Prototypes',
     artist: 'GENERATED',
+    cover: true,
     gloss: { ru: { translation: 'Прототипы' } },
   },
   'for-none-and-for-all': {
     title: 'Ни для кого и для всех',
     artist: 'Грёбаный бал',
+    cover: true,
     gloss: {
       en: {
         transliteration: 'Ni dlya kogo i dlya vsekh',
@@ -153,6 +159,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   'stronger-than-love': {
     title: 'Сильней любви',
     artist: 'Грёбаный бал',
+    cover: true,
     gloss: {
       en: {
         transliteration: 'Silney lyubvi',

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Ни для кого и для всех: a block of windows at night, a few lit, a snowstorm cutting across. -->
+  <rect width="600" height="600" fill="#1b1d24"/>
+  <rect x="70" y="110" width="270" height="490" fill="#2e3240"/>
+  <g fill="#3d4252">
+    <rect x="96" y="140" width="38" height="48"/><rect x="156" y="140" width="38" height="48"/><rect x="216" y="140" width="38" height="48"/><rect x="276" y="140" width="38" height="48"/>
+    <rect x="96" y="214" width="38" height="48"/><rect x="216" y="214" width="38" height="48"/><rect x="276" y="214" width="38" height="48"/>
+    <rect x="96" y="288" width="38" height="48"/><rect x="156" y="288" width="38" height="48"/><rect x="276" y="288" width="38" height="48"/>
+    <rect x="156" y="362" width="38" height="48"/><rect x="216" y="362" width="38" height="48"/><rect x="276" y="362" width="38" height="48"/>
+    <rect x="96" y="436" width="38" height="48"/><rect x="156" y="436" width="38" height="48"/><rect x="216" y="436" width="38" height="48"/>
+    <rect x="96" y="510" width="38" height="48"/><rect x="156" y="510" width="38" height="48"/><rect x="216" y="510" width="38" height="48"/><rect x="276" y="510" width="38" height="48"/>
+  </g>
+  <g fill="#e9b93a">
+    <rect x="156" y="214" width="38" height="48"/><rect x="216" y="288" width="38" height="48"/><rect x="96" y="362" width="38" height="48"/><rect x="276" y="436" width="38" height="48"/>
+  </g>
+  <rect x="216" y="140" width="38" height="48" fill="#c62a1d"/>
+  <polygon points="600,30 600,120 170,600 80,600" fill="#f2f0ea" fill-opacity="0.9"/>
+  <g fill="#f2f0ea">
+    <rect x="420" y="80" width="10" height="10"/><rect x="510" y="250" width="8" height="8"/><rect x="380" y="430" width="12" height="12"/><rect x="470" y="520" width="8" height="8"/><rect x="40" y="60" width="9" height="9"/>
+  </g>
+</svg>

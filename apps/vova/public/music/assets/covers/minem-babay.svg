@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Минем бабай: the sun coming up over the hills, and the road out from home. -->
+  <rect width="600" height="600" fill="#f0e2c0"/>
+  <circle cx="330" cy="340" r="115" fill="#f0a524"/>
+  <circle cx="110" cy="820" r="420" fill="#3f7d3a"/>
+  <circle cx="580" cy="860" r="440" fill="#2c5e2b"/>
+  <polygon points="220,600 360,600 304,452 296,452" fill="#c9a46a"/>
+  <rect x="292" y="430" width="16" height="16" fill="#c62a1d" transform="rotate(45 300 438)"/>
+</svg>

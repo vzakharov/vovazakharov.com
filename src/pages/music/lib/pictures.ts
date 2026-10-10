@@ -17,16 +17,31 @@ import type { SongDocument } from './song-text';
 /**
  * The songs with a cover of their own, by slug, at `songPicture`'s path: a
  * 600px square cut from the artwork the track carries on SoundCloud or Apple
- * Music — the album covers' size, so a single sits in the same grid as they do.
+ * Music, or drawn as an album without artwork is — the album covers' size, so a
+ * single sits in the same grid as they do.
  */
 const SONG_COVERS: ReadonlySet<string> = new Set([
+  'at-the-diner',
+  'beyond-the-horizon',
   'chikh-pykh',
+  'chinaberry',
+  'cross-out',
   'empty-mirrors',
   'ghost-of-yesterday',
+  'good-girl',
+  'in-the-shadow',
+  'inside',
+  'like-that',
+  'little-lights',
   'love',
+  'minem-babay',
   'mithqal',
   'my-hope',
+  'night-garden',
   'ok-loser',
+  'schadina',
+  'smoke',
+  'sonnet-74',
   'trisagion',
 ]);
 
