@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
-
 # Drawn placeholder covers for the music without one
 
 Every release with no cover gets one drawn by hand as an SVG, in a loose Suprematist idiom — flat planes, circles, bars, a few tilts, no text — each built from what that release is about. Placeholders until the operator generates real artwork, or for good if they stick.
