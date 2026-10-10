@@ -1,9 +1,6 @@
 /**
- * The music section's social card: covers scattered across the canvas at
- * different sizes and angles, some running off its edge, with no text — the
- * index's cut from the catalogue's newest releases, an artist's from its own.
- * A page for `og-render.ts` to screenshot, saved as JPEG for the photographs'
- * sake.
+ * The music section's social card, covers scattered at different sizes and
+ * angles with no text, as a page for `og-render.ts` to screenshot.
  */
 
 import fs from 'node:fs';
@@ -20,11 +17,10 @@ import { INK, type StagedPage } from './og-render.ts';
 type Slot = { x: number; y: number; size: number; turn: number };
 
 /**
- * Hand-tuned once rather than seeded, so the composition is judged, not
- * re-rolled whenever a release reshuffles it. The first slot is the largest and
- * the newest cover's; each later one is smaller, sits under those before it, and
- * fills the emptiest stretch they leave — so any prefix of two or more composes,
- * and the edge slots overhang the frame. Canvas units, 1200×630.
+ * Hand-tuned rather than seeded, so the composition is judged once, not
+ * re-rolled whenever a release reshuffles it. Any prefix of two or more must
+ * compose: the first slot, the largest, is the newest cover's, and each later
+ * one sits under those before it in the emptiest stretch they leave. Canvas units.
  */
 const SLOTS: readonly Slot[] = [
   { x: 470, y: 330, size: 400, turn: -4 },

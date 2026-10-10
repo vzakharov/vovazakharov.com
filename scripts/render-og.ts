@@ -254,9 +254,8 @@ function collageCard(covers: readonly string[], card: string): Card {
 }
 
 /**
- * The index's collage and each artist's that has one, at the addresses its
- * pages' metadata points to — so a new release with a cover re-flags the index
- * and its artist.
+ * The index's collage and each artist's that has one, at the addresses their
+ * pages' metadata points to.
  */
 function musicCards(): Card[] {
   if (!CARDS_MUSIC) return [];

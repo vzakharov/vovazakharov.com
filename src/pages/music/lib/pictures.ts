@@ -105,7 +105,7 @@ function publicReleases(): ArtistRelease[] {
   return catalogueReleases(catalogueSongs({ everything: false }));
 }
 
-/** The covers the index's card is cut from: the public catalogue's newest releases. */
+/** The covers the index's card is cut from. */
 export function musicCollageCovers(): string[] {
   return collageCovers(publicReleases());
 }
@@ -137,7 +137,7 @@ export function artistCollage(artist: MusicProject): string {
 
 /**
  * What a music page with no picture of its own unfurls as. The index's collage
- * until a placeholder of its own is drawn: it is the one picture that stands
+ * until #137 draws a placeholder of its own: it is the one picture that stands
  * for the whole catalogue.
  */
 const MUSIC_PLACEHOLDER = MUSIC_COLLAGE;
@@ -153,7 +153,10 @@ export function artistCard(
     : artistPicture(artist, locale, songs);
 }
 
-/** The picture as the page's social card, the placeholder where there is none. */
+/**
+ * The picture as the page's social card, the placeholder where there is none —
+ * applied here, not in the pickers, which also picture the page itself.
+ */
 export function pictureCard(picture: string = MUSIC_PLACEHOLDER) {
   return { ogImage: picture, ogImageSize: intrinsicDimensions(picture) };
 }
