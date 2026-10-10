@@ -20,6 +20,7 @@ import { indexPath, songPath } from '../lib/music-urls';
 import { pictureCard, songPicture } from '../lib/pictures';
 import { songRepositoryUrl } from '../lib/projects';
 import { localizeSong, songLyrics } from '../lib/song-text';
+import { songVideo } from '../lib/song-video';
 import { listSongPages, type SongPageEntry, songTrack } from '../lib/songs';
 import { titleGloss } from '../lib/title-gloss';
 import { CoverHead } from './cover-head';
@@ -88,12 +89,12 @@ export async function SongPage({ slug, locale }: SongPageProps) {
     explicit,
     cribNote,
     audio,
-    video,
   } = localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
   const picture = songPicture(document, album);
   const master = hostedMaster(localized.route, audio);
+  const video = songVideo(document, locale);
 
   return (
     <PageShell>
@@ -123,9 +124,9 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                     queue — which a hidden song joins only once played here. */}
                 <Group mt={12} gap={8}>
                   <SongPlayButton track={songTrack(document, album)} />
-                  {video !== undefined && (
+                  {video && (
                     <SongVideoButton
-                      {...{ video }}
+                      {...video}
                       heading={
                         <SongName
                           {...{ title }}

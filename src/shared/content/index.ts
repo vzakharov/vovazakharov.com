@@ -17,6 +17,7 @@ export {
   documentRoute,
   FEATURED_CASE_STUDY_ROUTE,
   localizedRoute,
+  PUBLIC_DIR,
   type Routed,
   type Slugged,
   type Variant,

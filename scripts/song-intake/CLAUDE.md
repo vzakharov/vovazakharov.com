@@ -30,6 +30,10 @@ Cut at the silences between songs, and check the cuts before trusting them:
 
 Neither transcript is the lyrics. The draft reconciles both, keeps the line breaks the music makes, and marks every line the two disagreed on, because the agent cannot hear the song and the operator can. A setting of a published poem — `Послушайте` is Mayakovsky — takes the canonical text and flags only where the recording departs from it.
 
+## Captions
+
+A song's video carries its printed words as timed tracks. `transcribe.py` on the video itself — never the master, which a separately cut video sits seconds away from — gives the timings, and `captions.py <song.md> <deepgram.json.gz> apps/vova/public/music/assets/<slug>` writes a `.vtt` per lyrics column. A line it reports `unheard` is interpolated: pin it with `--at`, from the vocals stem's transcript shifted by the video's offset from the album cut, or from where the voice's harmonics start in a spectrogram of that stretch (`ffmpeg … -lavfi showspectrumpic=fscale=log`). The pins are in the commit that writes the track.
+
 ## Mastering
 
 `master.py <song> <reference> <out.mp3>` is the whole chain; its docstring says what each step does. What it encodes, from the operator's ear:

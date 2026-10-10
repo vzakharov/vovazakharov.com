@@ -5,11 +5,11 @@ import { type ReactNode, useId, useState } from 'react';
 
 import type { Messages } from '@/shared/i18n';
 
+import type { SongVideo } from '../lib/song-video';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 
-export type SongVideoButtonProps = {
-  video: string;
+export type SongVideoButtonProps = SongVideo & {
   /** The dialog's heading — the song's name, as the page shows it. */
   heading: ReactNode;
   labels: Messages['music']['video'];
@@ -22,6 +22,8 @@ export type SongVideoButtonProps = {
  */
 export function SongVideoButton({
   video,
+  captions,
+  subtitles,
   heading,
   labels,
 }: SongVideoButtonProps) {
@@ -67,7 +69,12 @@ export function SongVideoButton({
           onPlay={() => {
             if (state.playing) toggle();
           }}
-        />
+        >
+          <track kind="captions" {...captions} />
+          {subtitles.map((track) => (
+            <track key={track.srcLang} kind="subtitles" {...track} />
+          ))}
+        </video>
       </Modal>
     </>
   );
