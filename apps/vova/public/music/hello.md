@@ -40,7 +40,7 @@ That’s probably how it should be.
 
 Здравствуй, сколько дней
 Сколько снов я тебя ждала
-Здравствуй, вместо слов
+Здравствуй, в тишине вместо слов
 Только зеркала
 
 <!-- voice: Кирилл -->
@@ -61,7 +61,7 @@ That’s probably how it should be.
 
 Hello, how many days
 How many dreams I spent waiting for you
-Hello, instead of words
+Hello, in the silence, instead of words
 Only mirrors
 
 Hello, look around
