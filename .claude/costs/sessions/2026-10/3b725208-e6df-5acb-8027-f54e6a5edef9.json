@@ -1,35 +1,48 @@
 {
-  "estimate": null,
+  "estimate": {
+    "at": "2026-10-10T06:25:59.562Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "timing captions off a recogniser and wiring tracks with a build check is routine media work with one alignment algorithm"
+      }
+    ],
+    "comment": null
+  },
   "sessionId": "3b725208-e6df-5acb-8027-f54e6a5edef9",
   "branch": "claude/krylya-album-2z13o2",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/krylya-album-2z13o2",
-  "prs": [],
+  "prs": [
+    127
+  ],
   "url": "https://claude.ai/code/session_01NEGD3GxK4JAV5bNYRh4PEw",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-09T20:01:29.445Z",
-  "lastResponseAt": "2026-10-09T20:01:48.122Z",
+  "lastResponseAt": "2026-10-10T06:26:41.557Z",
   "pricesAsOf": "2026-10-06",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 0.5371952,
   "total": {
-    "inputTokens": 8,
+    "inputTokens": 90,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 55470,
-    "cacheReadTokens": 328016,
-    "outputTokens": 1390,
-    "thinkingTokens": 341,
-    "responses": 4,
-    "costUsd": 0.5371952
+    "cacheWrite1hTokens": 213061,
+    "cacheReadTokens": 6769944,
+    "outputTokens": 31421,
+    "thinkingTokens": 10035,
+    "responses": 45,
+    "costUsd": 3.6872568000000006
   },
   "ownTurns": {
-    "inputTokens": 8,
+    "inputTokens": 90,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 55470,
-    "cacheReadTokens": 328016,
-    "outputTokens": 1390,
-    "thinkingTokens": 341,
-    "responses": 4,
-    "costUsd": 0.5371952
+    "cacheWrite1hTokens": 213061,
+    "cacheReadTokens": 6769944,
+    "outputTokens": 31421,
+    "thinkingTokens": 10035,
+    "responses": 45,
+    "costUsd": 3.6872568000000006
   },
   "subagents": {
     "inputTokens": 0,
@@ -43,14 +56,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 8,
+      "inputTokens": 90,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 55470,
-      "cacheReadTokens": 328016,
-      "outputTokens": 1390,
-      "thinkingTokens": 341,
-      "responses": 4,
-      "costUsd": 0.5371952
+      "cacheWrite1hTokens": 213061,
+      "cacheReadTokens": 6769944,
+      "outputTokens": 31421,
+      "thinkingTokens": 10035,
+      "responses": 45,
+      "costUsd": 3.6872568000000006
     }
   },
   "warnings": [],
