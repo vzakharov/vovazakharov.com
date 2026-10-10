@@ -87,7 +87,6 @@ context budget.
 
 ## Left
 
-- Reply on T09 that the sources went to the `music-sources` release.
 - Optional DRY call: `album-page.tsx` and `artist-page.tsx` end on the same
   `ReadMore`/`ProseContent` block; left until a third page wants it.
 - `/finalize` (the PR conflicts with `main`).
