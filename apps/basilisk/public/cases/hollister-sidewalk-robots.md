@@ -46,9 +46,7 @@ Hollister police, in the statement CBS cites, confirmed the two arrests as follo
 
 ## For the record
 
-The city’s statement says the robots collect no personal data. Of the two incidents, CBS gives surveillance footage as the record of the first and a second robot as the witness to the second.
-
-The robots were sent out to document the condition of Hollister’s sidewalks. In the first week of work, CBS’s account of them is of what was done to them.
+The robots were sent out to document the condition of Hollister’s sidewalks. One of them, by CBS’s account, also recorded the man who was hitting the robot beside it.
 
 ## Mitigating circumstances
 
