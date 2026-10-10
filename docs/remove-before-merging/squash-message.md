@@ -16,7 +16,8 @@ English crib and footnotes, and Майя's reflection beside it.
 captioned with the sung words and subtitled with the crib; the build
 fails on a video without its captions. Opened while its song plays, a
 video starts at the song's place, offset by video.offsetSeconds, and
-the player yields the media session while it is open. The album page
+closed, hands the place back; the player yields the media session
+while it is open. The album page
 shows its cover, plays the album from Listen and carries the album's
 own text, the artist page за/обложкой's; long stories fold behind «…»,
 and a vendored master downloads as .mp3.
