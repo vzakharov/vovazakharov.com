@@ -80,5 +80,8 @@ The Russian infinitive addresses nobody, so it sidesteps «ты»/«вы». A pl
 
 ## Progress
 
-- **Done:** the plan, approved with the operator's answers folded in above. No source edited.
-- **Left:** every step, from step 1. The session that approved it paused at its context budget before starting.
+- **Done:** steps 1–6. The placeholder task is #137.
+- **Deviations:**
+  - The placeholder is applied in `pictureCard` rather than in each picker. The pickers also feed the on-page tiles and cover heads, which must not show the placeholder.
+  - The messages are `music.ogTitle` / `music.ogTitleIndex`, named for the field they fill.
+  - `catalogueReleases` and `releasedBy` were split out of `artistReleases`, so the index and the artists filter one list.
