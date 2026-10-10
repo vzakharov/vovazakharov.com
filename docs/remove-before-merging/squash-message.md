@@ -12,14 +12,16 @@ the build — in vet and, equally, in the deploy on merge.
 The faces are now committed under `src/app/styles/fonts/` (Fontsource
 5.3.0 woff2 with their OFL licences) and loaded through
 `next/font/local`: Merriweather 300/400/700 and JetBrains Mono's
-variable weight axis, Latin and Cyrillic, behind the same CSS
-variables, with the Latin files preloaded and a metric-matched
-fallback. A font changes only when someone replaces a file.
+variable weight axis, in every subset Google served (Latin, Latin
+Extended, Cyrillic, Cyrillic Extended, Vietnamese, and Greek for the
+mono), behind the same CSS variables, with the Latin files preloaded
+and a metric-matched fallback. A font changes only when someone
+replaces a file.
 
-Each family is two calls declaring one family name, one per subset
-with its own unicode-range, so Cyrillic downloads only where a page
-has some. The font files join PRINT_SOURCES, so every PDF is reprinted
-once in the vendored faces.
+Each family is one call per subset, all declaring one family name with
+the subset's unicode-range, so a page downloads only the subsets its
+text uses. The font files join PRINT_SOURCES, so every PDF is
+reprinted once in the vendored faces.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
