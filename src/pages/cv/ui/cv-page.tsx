@@ -1,4 +1,5 @@
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
+import { LocaleFonts } from '@/shared/ui';
 
 import { cvPdfFile } from '../lib/cv-files';
 import { cvMessages } from '../lib/cv-messages';
@@ -24,14 +25,17 @@ export function CvPage({
     label: messages.cv.caseStudies[CASE_STUDY_KEY].link,
   };
 
-  if (subpage === 'profile') {
-    return <CvProfileSheet {...{ locale, variant, messages, caseStudy }} />;
-  }
-
   return (
-    <CvSheet
-      {...{ locale, variant, messages, caseStudy }}
-      pdfFile={cvPdfFile(variant, locale)}
-    />
+    <>
+      <LocaleFonts {...{ locale }} />
+      {subpage === 'profile' ? (
+        <CvProfileSheet {...{ locale, variant, messages, caseStudy }} />
+      ) : (
+        <CvSheet
+          {...{ locale, variant, messages, caseStudy }}
+          pdfFile={cvPdfFile(variant, locale)}
+        />
+      )}
+    </>
   );
 }

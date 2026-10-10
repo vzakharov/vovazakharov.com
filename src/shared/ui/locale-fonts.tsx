@@ -5,14 +5,14 @@ import type { WithLocale } from '@/shared/i18n';
 /**
  * The font files every page in a language uses beyond the Latin ones, which
  * the root layout preloads everywhere. `pnpm check:font-preloads` holds each
- * list to what the built pages actually load.
+ * list to what the built pages actually use.
  */
 const LOCALE_FONTS: Record<WithLocale['locale'], string[]> = {
   en: [],
   ru: [
-    new URL('./fonts/merriweather-cyrillic-400-normal.woff2', import.meta.url)
+    new URL('fonts/merriweather-cyrillic-400-normal.woff2', import.meta.url)
       .href,
-    new URL('./fonts/merriweather-cyrillic-700-normal.woff2', import.meta.url)
+    new URL('fonts/merriweather-cyrillic-700-normal.woff2', import.meta.url)
       .href,
   ],
 };

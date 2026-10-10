@@ -31,6 +31,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { builtSites, pageRoute, walk } from './lib/built-sites.ts';
+
 const REPO_ROOT = path.join(import.meta.dirname, '..');
 
 /**
@@ -41,18 +43,6 @@ const REPO_ROOT = path.join(import.meta.dirname, '..');
 const RUNTIME_MARKERS = ['MISSING_MESSAGE', '@formatjs', 'IntlProvider'];
 
 const SCRIPT_SRC = /src="(\/_next\/[^"]+\.js)"/g;
-
-function walk(dir: string, extension: string): string[] {
-  if (!fs.existsSync(dir)) return [];
-
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const full = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) return walk(full, extension);
-
-    return entry.name.endsWith(extension) ? [full] : [];
-  });
-}
 
 /**
  * The runtime's own sources, as installed. `use-intl` is next-intl's core and
@@ -118,27 +108,9 @@ function shipsRuntime(html: string, out: string, cache: Map<string, boolean>) {
   );
 }
 
-function outDirs(): string[] {
-  const apps = path.join(REPO_ROOT, 'apps');
-
-  return fs
-    .readdirSync(apps, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => path.join(apps, entry.name, 'out'))
-    .filter((dir) => fs.existsSync(dir));
-}
-
 verifyMarkers();
 
-const built = outDirs();
-
-if (built.length === 0) {
-  console.error(
-    'No built site found under apps/*/out — run `pnpm build` first.\n' +
-      'This check reads the rendered pages, so it has nothing to say without it.',
-  );
-  process.exit(1);
-}
+const built = builtSites();
 
 const carrying: string[] = [];
 let checkedPages = 0;
@@ -149,12 +121,10 @@ for (const out of built) {
 
   for (const page of walk(out, '.html')) {
     const chunks = shipsRuntime(page, out, cache);
-    const route = path.relative(out, page).replace(/\.html$/, '');
-
     checkedPages += 1;
 
     if (chunks.length > 0) {
-      carrying.push(`${site}:/${route}  (${chunks.join(', ')})`);
+      carrying.push(`${site}:${pageRoute(out, page)}  (${chunks.join(', ')})`);
     }
   }
 }

@@ -62,8 +62,9 @@ fi
 # their own temporary directories. The squash check reads the proposal under
 # docs/remove-before-merging/ (or its own history) and the notes check counts
 # lines under writing/notes/, neither of which anything else here touches.
-# The Mantine and i18n-payload checks only read what the build above already
-# finished writing under `apps/*/out/`, which nothing here writes to. The
+# The Mantine, i18n-payload and font-preload checks only read what the build
+# above already finished writing under `apps/*/out/`, which nothing here writes
+# to — the last through a browser profile of its own in the OS temp directory. The
 # prose-quotes check and the song checks only read the Markdown under
 # `apps/*/public/`.
 # The last seven read the agent infrastructure itself and nothing else here
@@ -78,6 +79,7 @@ scripts/run-parallel.sh \
   knip='pnpm knip' \
   mantine-styles='pnpm check:mantine-styles' \
   i18n-payload='pnpm check:i18n-payload' \
+  font-preloads='pnpm check:font-preloads' \
   prose-quotes='pnpm check:prose-quotes' \
   songs='scripts/vet-songs.sh' \
   og-vova='pnpm content:og:vova --check' \

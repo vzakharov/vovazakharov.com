@@ -9,7 +9,13 @@ import {
   constructMetadata,
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
-import { FileLink, hoverDim, PageShell, TextLink } from '@/shared/ui';
+import {
+  FileLink,
+  hoverDim,
+  LocaleFonts,
+  PageShell,
+  TextLink,
+} from '@/shared/ui';
 
 import { ProseContent } from '@/entities/document';
 
@@ -75,6 +81,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
   return (
     <PageShell>
+      <LocaleFonts {...{ locale }} />
       <Stack gap={48}>
         <MusicNav
           back={{ href: indexPath(catalogue, locale), label: messages.back }}

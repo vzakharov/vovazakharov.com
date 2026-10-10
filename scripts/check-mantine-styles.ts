@@ -29,6 +29,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { builtSites, walk } from './lib/built-sites.ts';
+
 const REPO_ROOT = path.join(import.meta.dirname, '..');
 const MANTINE_CORE = path.join(REPO_ROOT, 'node_modules/@mantine/core');
 
@@ -57,18 +59,6 @@ const importLine = (sheet: string) =>
  */
 const CORE_SHEETS = new Set(['baseline', 'default-css-variables', 'global']);
 
-function walk(dir: string, extension: string): string[] {
-  if (!fs.existsSync(dir)) return [];
-
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const full = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) return walk(full, extension);
-
-    return entry.name.endsWith(extension) ? [full] : [];
-  });
-}
-
 function classesIn(files: string[], pattern: RegExp): Set<string> {
   return new Set(
     files.flatMap((file) => [
@@ -96,25 +86,7 @@ function sheetsByClass(): Map<string, string> {
   return byClass;
 }
 
-function outDirs(): string[] {
-  const apps = path.join(REPO_ROOT, 'apps');
-
-  return fs
-    .readdirSync(apps, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => path.join(apps, entry.name, 'out'))
-    .filter((dir) => fs.existsSync(dir));
-}
-
-const built = outDirs();
-
-if (built.length === 0) {
-  console.error(
-    'No built site found under apps/*/out — run `pnpm build` first.\n' +
-      'This check reads the rendered HTML, so it has nothing to say without it.',
-  );
-  process.exit(1);
-}
+const built = builtSites();
 
 // Each site's HTML is answered by its own CSS. Pooling the two would let one
 // site's stylesheet cover the other's markup — which, with a single shared
