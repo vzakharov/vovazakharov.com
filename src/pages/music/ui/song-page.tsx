@@ -1,11 +1,9 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { SITE_CONFIG } from '@/shared/config';
 import { isListed, renderDocument } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import {
   constructMetadata,
@@ -24,6 +22,7 @@ import { songRepositoryUrl } from '../lib/projects';
 import { localizeSong, songLyrics } from '../lib/song-text';
 import { listSongPages, type SongPageEntry, songTrack } from '../lib/songs';
 import { titleGloss } from '../lib/title-gloss';
+import { CoverZoom } from './cover-zoom';
 import { ExplicitBadge } from './explicit-badge';
 import { Lyrics } from './lyrics';
 import classes from './music.module.scss';
@@ -87,19 +86,11 @@ export async function SongPage({ slug, locale }: SongPageProps) {
           <Stack gap={24}>
             <div className={classes['songHead']}>
               {picture !== undefined && (
-                <div
-                  className={cx(classes['tileArt'], classes['songCover'])}
-                  aria-hidden
-                >
-                  <Image
-                    src={picture}
-                    alt=""
-                    width={600}
-                    height={600}
-                    sizes="200px"
-                    priority
-                  />
-                </div>
+                <CoverZoom
+                  src={picture}
+                  enlargeLabel={messages.enlargeCover}
+                  closeLabel={messages.closeCover}
+                />
               )}
 
               <Stack gap={8} align="flex-start">

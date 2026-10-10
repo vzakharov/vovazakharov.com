@@ -66,6 +66,9 @@ export type Linked = { href: string };
 /** An anchor whose label is a string rather than markup. */
 export type LabeledLink = Labeled & Linked;
 
+/** Where an image is fetched from. */
+export type Sourced = { src: string };
+
 /** Where an anchor points, when there is anywhere — a card that is only a card states no `href`. */
 export type WithOptionalLink = { href?: string };
 
