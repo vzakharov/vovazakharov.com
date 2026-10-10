@@ -18,9 +18,9 @@ with the crib; the build fails on a video without its captions. Opened
 while its song plays, a video starts at the song's place, offset by
 video.offsetSeconds, and closed, hands back its place and whether it
 was playing; the player yields the media session while it is open.
-The album page shows its cover, plays the album from Listen and carries the album's
-own text, the artist page за/обложкой's; long stories fold behind «…»,
-and a vendored master downloads as .mp3.
+The album page shows its cover, plays the album from Listen and
+carries the album's own text, the artist page за/обложкой's; long
+stories fold behind «…», and a vendored master downloads as .mp3.
 
 The review left tooling behind: scripts/song-intake/ for mastering,
 spectra, captions timed off each video's audio, and spectrograms
