@@ -3,13 +3,13 @@
 The whole za/oblozhkoy project — and everything that came after it — started at
 the end of 2023, when Gosha, my boss at the time, showed me some little thing
 he’d made in Suno. I decided to try it too, and it blew my mind: I’d expected a
-robot voice laid over some music, and got something else entirely. Only later,
-digging into Suno, did I learn it was nearly the same technology as Jukebox.
+robot voice laid over MIDI-style music, and got something else entirely. Only
+later, digging into Suno, did I learn it was nearly the same technology as
+Jukebox — just at an unthinkably higher level (for the time).
 
 Like everyone, I started with other people’s poems. The first to come out was
 the single version of [“Listen!”](../listen-single.md), which never made the
-album. I was very pleased with it, posted it to Reddit, and got downvoted to
-hell. My taste and that crowd’s, it seems, part ways.
+album.
 
 Then I started writing words of my own, and an image came with them at once: a
 boy and a girl — teenagers, though of age — both redheads, both blindfolded. I
@@ -25,13 +25,12 @@ written much later for another project.
 Весь проект за/обложкой — а за ним и всё остальное — начался в конце 2023 года,
 когда мой тогдашний начальник Гоша показал мне какую-то свою поделку на Суно. Я
 решил попробовать тоже, и мне снесло голову: я ждал голос-робота, наложенный на
-какую-нибудь музыку, а получил совсем другое. Уже потом, разбираясь с Суно, я
-выяснил, что это почти та же технология, что и Jukebox.
+а-ля мидийную музыку, а получил совсем другое. Уже потом, разбираясь с Суно, я
+выяснил, что это почти та же технология, что и Jukebox, — просто на немыслимо
+более высоком (на то время) уровне.
 
 Начинал, как все, с чужих стихов. Первой вышла сингловая версия
-[«Послушайте»](../listen-single.md), на альбом она так и не попала. Я был ею
-очень доволен, выложил на Реддит, и меня заминусили куда-то в ад. Видимо, со
-вкусами тамошних слушателей мы расходимся.
+[«Послушайте»](../listen-single.md), на альбом она так и не попала.
 
 Потом я начал писать слова сам, и вместе с ними сразу родился образ: мальчик и
 девочка — подростки, хотя уже совершеннолетние, — оба рыжие, оба с завязанными

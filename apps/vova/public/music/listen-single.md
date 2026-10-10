@@ -26,13 +26,17 @@ ru:
 
 One of the first generations. I was in shock at how great it came out, and went
 to share my delight on r/pikabu — where, as usual, they crapped all over it.
+They missed the significance of the moment. Or maybe, on the contrary, they got
+it — the masses’ rejection of AI music has only grown since.
 
 By the way, there’s a [video](https://t.me/vovazvuchit/7) for this one too!
 
 <!-- lang:ru -->
 
 Одна из первых генераций, был в шоке от того, как классно вышло, пошёл
-поделиться восхищением на r/pikabu — как водится, засрали.
+поделиться восхищением на r/pikabu — как водится, засрали. Не поняли важности
+момента. А может, наоборот, поняли — ведь неприятие ИИ-музыки массами с тех пор
+только выросло.
 
 Кстати, тут же есть [видео](https://t.me/vovazvuchit/7)!
 
