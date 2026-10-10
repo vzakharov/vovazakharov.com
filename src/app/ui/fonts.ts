@@ -1,17 +1,14 @@
 import localFont from 'next/font/local';
 
-// The faces are committed under `../styles/fonts/`, copied from Fontsource
-// 5.3.0 beside their OFL licences, so a build never reaches the network for
-// them and a font changes only when someone replaces a file. `next/font/local`
-// takes only literals, hence the ranges repeated per call rather than shared.
+// Faces from Fontsource 5.3.0, committed with their OFL licences under
+// `../styles/fonts/` so a build needs no network. `next/font/local` takes only
+// literals, hence the repeated ranges.
 //
-// Each font is one family split across two calls, one per subset, each call's
-// `unicode-range` letting the browser fetch Cyrillic only on a page that has
-// some. Both calls name the family in `declarations`, which `next/font` leaves
-// unhashed — and that name must be the Latin call's const name: the variable
-// Turbopack writes names the family after the binding, not the declaration.
-// The Latin call owns the variable and the metric-matched fallback; the
-// Cyrillic file has no Latin glyphs to measure a fallback from.
+// A family is two calls, one per subset, so Cyrillic is fetched only for a page
+// that has some. Both declare the family name, which must be the Latin call's
+// const name: Turbopack's variable names the family after the binding. Only the
+// Latin call preloads and sizes a fallback — the Cyrillic file has no Latin
+// glyphs to size one from.
 
 const merriweather = localFont({
   src: [
@@ -101,9 +98,8 @@ const jetbrainsMonoCyrillic = localFont({
 });
 
 /**
- * Every font's classes, for `<html>`. The Cyrillic calls' variables are read
- * by nothing; their classes are here so each call's `@font-face` rules are
- * pulled into the page.
+ * For `<html>`. The Cyrillic variables go unread; listing them is what uses
+ * the binding `next/font` requires each call to have.
  */
 export const fontVariables = [
   merriweather,
