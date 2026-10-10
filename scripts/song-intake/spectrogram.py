@@ -4,14 +4,16 @@
 Usage: spectrogram.py <song> <out.png>
 
 Where the voice sits and where its melody goes, where the drums come in, a
-bridge that drops out, a master that runs into its ceiling, which notes and
-chords it moves through — what a reader who cannot hear the song can see at a
-glance.
+bridge that drops out, where one section gives way to the next, a master that
+runs into its ceiling, which notes and chords it moves through — what a reader
+who cannot hear the song can see at a glance.
 
 The frequency axis is logarithmic, 40 Hz to 10 kHz, so an octave is the same
 height anywhere and a melodic line keeps its shape; 40 Hz takes in a bass's
-open E. A full-scale sine reads 0 dBFS. Under it, on the same time axis, the
-loudness envelope: each column's peak, with its RMS inside.
+open E. A full-scale sine reads 0 dBFS. A dashed white line across it is a
+section boundary, found from the sound alone: a sharp change in arrangement or
+harmony draws one, a gradual build may not. Under it, on the same time axis,
+the loudness envelope: each column's peak, with its RMS inside.
 
 Under that, two chromagram strips, the band above middle C over the band below
 it: twelve rows each, C at the bottom, a row as bright as its pitch class's
@@ -82,6 +84,17 @@ HUE_FROM = 0.35
 FAINT_GREY = 0.28
 # The envelope's peak and its lighter RMS inside it.
 LEVEL_SHADES = ((0.42, 0.42, 0.42), (0.65, 0.65, 0.65))
+# Sections are found on half-second blocks, each compared with the eight
+# seconds either side of it; a part shorter than SECTION_MIN_S is a fill or a
+# pickup, not a section, and the song's first and last moments are its edges.
+SECTION_BLOCK_S = 0.5
+SECTION_KERNEL_S = 8
+SECTION_MIN_S = 8
+# A boundary's novelty is this many times the song's median: under it are a
+# held note's swells and a fill. A multiple of the median rather than a share of
+# the peak, so one drastic change cannot hide the song's ordinary ones.
+SECTION_THRESHOLD = 3
+TIMBRE_ROWS = ROWS_PER_OCTAVE // 3
 
 
 def decode(path):
@@ -211,6 +224,53 @@ def envelope_image(peak, rms, rows=128):
     return image
 
 
+def unit_rows(features):
+    """Each row scaled to length 1; an all-zero row, a silent block's chroma, stays zero."""
+    return features / np.maximum(np.linalg.norm(features, axis=1, keepdims=True), 1e-12)
+
+
+def section_times(db, magnitude, freqs, step, duration):
+    """The times, in seconds, where one section gives way to the next.
+
+    Foote's novelty: every block's sound — its third-octave levels, which carry
+    the arrangement and the dynamics, and its chroma, which carries the
+    harmony — is compared with every other's, and a boundary is where the
+    blocks before a moment are alike, the blocks after it are alike, and the
+    two differ. A checkerboard kernel slid along the similarity matrix's
+    diagonal scores exactly that; its peaks, at least SECTION_MIN_S apart and
+    SECTION_THRESHOLD times its median, are the boundaries.
+    """
+    blocks = max(1, round(duration / SECTION_BLOCK_S))
+    block = np.minimum((np.arange(db.shape[1]) * step / SECTION_BLOCK_S).astype(int), blocks - 1)
+    bands = db[: db.shape[0] // TIMBRE_ROWS * TIMBRE_ROWS].reshape(-1, TIMBRE_ROWS, db.shape[1]).mean(axis=1)
+    timbre = np.zeros((blocks, len(bands)))
+    np.add.at(timbre, block, bands.T)
+    timbre /= np.maximum(np.bincount(block, minlength=blocks), 1)[:, None]
+    timbre = (timbre - timbre.mean(axis=0)) / np.maximum(timbre.std(axis=0), 1e-6)
+    chroma, _ = chroma_shares(magnitude, freqs, step, duration, blocks, NOTE_BAND_HZ, (2, 6))
+    features = np.hstack([unit_rows(timbre), unit_rows(chroma.T)]) / np.sqrt(2)
+    similarity = features @ features.T
+
+    half = round(SECTION_KERNEL_S / SECTION_BLOCK_S)
+    offsets = np.arange(-half, half) + 0.5
+    taper = np.exp(-0.5 * (offsets / (half / 2)) ** 2)
+    kernel = np.outer(np.sign(offsets) * taper, np.sign(offsets) * taper)
+    padded = np.pad(similarity, half)
+    novelty = np.array([(kernel * padded[i:i + 2 * half, i:i + 2 * half]).sum() for i in range(blocks)])
+
+    # The padding reads as a change at either edge, which no section is.
+    apart = round(SECTION_MIN_S / SECTION_BLOCK_S)
+    inside = novelty[apart:blocks - apart]
+    if not len(inside):
+        return []
+    bar = SECTION_THRESHOLD * np.median(inside)
+    peaks = [
+        i for i, n in enumerate(inside)
+        if n >= bar and n == inside[max(0, i - apart):i + apart + 1].max()
+    ]
+    return [(i + apart) * SECTION_BLOCK_S for i in peaks]
+
+
 def mmss(seconds, _pos=None):
     return f"{int(seconds) // 60}:{int(seconds) % 60:02d}"
 
@@ -254,6 +314,8 @@ def main():
     ax.set_ylabel("frequency (Hz)")
     ax.set_title(f"{Path(song).name} — {mmss(duration)}")
     fig.colorbar(image, cax=cax, label="dBFS")
+    for t in section_times(db, magnitude, freqs, step, duration):
+        ax.axvline(t, color="white", linewidth=0.8, linestyle=(0, (4, 3)))
 
     columns = WIDTH_PX
     peak, rms = envelope(x, columns)
