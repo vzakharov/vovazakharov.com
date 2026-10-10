@@ -12,35 +12,35 @@
     "comment": null
   },
   "sessionId": "460939a2-d54d-54f1-87a8-9e09a37f2f56",
-  "branch": "claude/trusting-carson-zcfy4g",
+  "branch": "claude/meadow-heavy-checks-zcfy4g",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "как бы нам сделать чтобы линтер проверял только изменённые в пиаре файлы? а то \"грибы\" каждый раз убивают кучу времени, даже когда их никто не трогал",
   "prs": [],
   "url": "https://claude.ai/code/session_01GTd7VeaUySkryM2XVQzXQQ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-10T12:35:45.035Z",
-  "lastResponseAt": "2026-10-10T14:11:59.022Z",
+  "lastResponseAt": "2026-10-10T18:48:18.358Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 54,
+    "inputTokens": 86,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 95905,
-    "cacheReadTokens": 3150725,
-    "outputTokens": 25959,
-    "thinkingTokens": 14597,
-    "responses": 27,
-    "costUsd": 1.916781
+    "cacheWrite1hTokens": 116892,
+    "cacheReadTokens": 5572036,
+    "outputTokens": 32163,
+    "thinkingTokens": 14838,
+    "responses": 43,
+    "costUsd": 2.6931471999999994
   },
   "ownTurns": {
-    "inputTokens": 54,
+    "inputTokens": 86,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 95905,
-    "cacheReadTokens": 3150725,
-    "outputTokens": 25959,
-    "thinkingTokens": 14597,
-    "responses": 27,
-    "costUsd": 1.916781
+    "cacheWrite1hTokens": 116892,
+    "cacheReadTokens": 5572036,
+    "outputTokens": 32163,
+    "thinkingTokens": 14838,
+    "responses": 43,
+    "costUsd": 2.6931471999999994
   },
   "subagents": {
     "inputTokens": 0,
@@ -54,14 +54,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 54,
+      "inputTokens": 86,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 95905,
-      "cacheReadTokens": 3150725,
-      "outputTokens": 25959,
-      "thinkingTokens": 14597,
-      "responses": 27,
-      "costUsd": 1.916781
+      "cacheWrite1hTokens": 116892,
+      "cacheReadTokens": 5572036,
+      "outputTokens": 32163,
+      "thinkingTokens": 14838,
+      "responses": 43,
+      "costUsd": 2.6931471999999994
     }
   },
   "warnings": [],
