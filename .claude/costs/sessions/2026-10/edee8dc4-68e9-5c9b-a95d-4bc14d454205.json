@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-10T12:24:21.461Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "audio segmentation by self-similarity novelty is signal-processing work: picking features, a kernel and a threshold that hold across eleven songs needs someone who can judge the curve, not just call a library"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "copywriter",
+        "comment": "the reply to an outside commenter and the reading guide for Maya need the voice of each"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "edee8dc4-68e9-5c9b-a95d-4bc14d454205",
+  "branch": "claude/krylya-album-2z13o2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/krylya-album-2z13o2",
+  "prs": [
+    127
+  ],
+  "url": "https://claude.ai/code/session_01NRxt7xQN7vSGvWuC8yzoh2",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-10T12:14:26.222Z",
+  "lastResponseAt": "2026-10-10T12:24:38.266Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 122,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 167066,
+    "cacheReadTokens": 9547369,
+    "outputTokens": 34340,
+    "thinkingTokens": 11218,
+    "responses": 61,
+    "costUsd": 3.9332898
+  },
+  "ownTurns": {
+    "inputTokens": 122,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 167066,
+    "cacheReadTokens": 9547369,
+    "outputTokens": 34340,
+    "thinkingTokens": 11218,
+    "responses": 61,
+    "costUsd": 3.9332898
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 122,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 167066,
+      "cacheReadTokens": 9547369,
+      "outputTokens": 34340,
+      "thinkingTokens": 11218,
+      "responses": 61,
+      "costUsd": 3.9332898
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "scripts/song-intake/spectrogram.py",
+    "endedAt": "2026-10-10T12:16:06.289Z",
+    "contextTokens": 125188,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 78411,
+      "cacheReadTokens": 1081343,
+      "outputTokens": 3198,
+      "thinkingTokens": 826,
+      "responses": 11,
+      "costUsd": 0.9076045999999999
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
