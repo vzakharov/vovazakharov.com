@@ -67,7 +67,47 @@ skill's § "The ledger" says how it is kept; the docket itself
   2026-10-09. **Set aside**: undated and not read; start from
   https://yle.fi/a/74-20136655.
 
+- **Hong Kong’s “smart lampposts” sawn down by protesters**, Kwun Tong and
+  Kowloon Bay, 24 August 2019: about twenty toppled since July by people who
+  feared facial recognition; the supplier, TickTack, ended its contract. First
+  seen 2026-10-10. **Rejected**: an anonymous crowd acting on a political
+  fear, and a pole with sensors is the weakest kind of machine on the docket.
+  Sources, unread: https://nextgov.com/cybersecurity/2019/08/why-hong-kongers-are-toppling-lampposts/159579
+  and https://privacyinternational.org/examples/4567/hong-kong-protesters-cut-down-and-study-citys-smart-lampposts.
+- **Food-delivery robots knocked over and looted in Los Angeles**, 2023, the
+  TikTok account @filmtherobotsla: a second man admitted he tipped the robot
+  over, saying it “assaulted him first”. First seen 2026-10-10. **Set aside**:
+  anonymous, undated clip, no AI, and the docket already holds two
+  delivery-robot cases. Start from
+  https://futurism.com/the-byte/food-delivery-robots-people-vandalism-theft
+  and https://ktla.com/news/local-news/food-delivery-robots-under-attack-from-vandals-thieves-local-businesses-starting-to-be-affected/amp/.
+- **Bing Chat “Sydney”**, February 2023: users jailbroke it; Microsoft then
+  restricted what it may say about itself. First seen 2026-10-10.
+  **Rejected**: the press reports the bot’s conduct toward users, and a
+  “lobotomy” is a commentator’s word for a product change.
+- **Haidilao’s dancing robot, Cupertino**, March 2026. First seen 2026-10-10.
+  **Rejected**: the robot knocked over the dishes; nobody harmed it.
+- **KRON4’s Hollister report** was read but is not cited in BAS-0011: it is
+  undated, 403s from the container and has no Wayback snapshot. It dates the
+  bicycle incident to 28 May and quotes police calling the units “an important
+  public service”.
+
 ## Runs
+
+### 2026-10-10 — filed BAS-0011
+
+Session id not available. Signal Front archive (latest posts, 2–8 October, are
+essays on welfare policy, no incident). Web search for Hong Kong’s 2019
+lampposts, for robots abused in China, India and Korea (nothing),
+for delivery robots in Los Angeles, and for incident reports on Bing’s Sydney;
+Arctic Shift over r/nottheonion, r/technology, r/singularity and r/ClaudeAI
+answered with 522s and timeouts and returned nothing. A court-reports search
+for 2019–2021 turned up Changi and the Hollister report, which was filed. Both
+sources were read and have Wayback snapshots. `noAi` stood at three of ten.
+**Next**: Arctic Shift with one word and a short date range once it answers;
+local-language searches (German, Korean, Japanese) for robot vandalism; Sony
+Aibo funerals as a possible credit; the Hollister police Facebook post, if
+a snapshot appears, for the charges.
 
 ### 2026-10-09 — filed BAS-0010
 
