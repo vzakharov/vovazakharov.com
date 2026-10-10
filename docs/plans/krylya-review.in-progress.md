@@ -85,27 +85,19 @@ context budget.
   the `music-sources` release, «давай делать релиз»; the song-intake notes
   point at it.
 
+- After relay 9, the author's fifth review (T08–T14, all answered on
+  GitHub): `CatalogueProse` shared by the album and artist pages (1d8313a);
+  the three videos carry the master, aligned to the sample, offsets and
+  captions unchanged (e8cc6d8); the strips' hue is each note's octave, one
+  per octave, with a key beside each strip (9ca54bd). Mel (T09),
+  self-similarity (T10) and a vectorscope (T12) weighed against «at a
+  glance» and declined, each with a draft Reddit reply; T10 offers thin
+  section ticks on the spectrogram should the author want them. From chat:
+  a video paused before closing leaves its song paused — a watched video
+  of the current song hands over its play state with its place (45a816a).
+
 ## Left
 
-The author's fifth review (2026-10-10, T08–T14 in `docs/pr/127/pr.md`),
-not yet started:
-
-- **T13 — DRY now**: «не, двух уже в данном случае достаточно» — extract the
-  `ReadMore`/`ProseContent` block `album-page.tsx` and `artist-page.tsx` both
-  end on.
-- **T14 — the videos' audio**: the three `.mp4`s carry the unmastered mix;
-  swap in the vendored master, then re-measure `video.offsetSeconds` with
-  `video-offset.py` and check the `.vtt` timing still holds.
-- **T08 — octave in the strips**: can the notes also show their octave,
-  «для мелодии особенно актуально», or is that hard DSP? Answer, and build
-  it if it stays readable.
-- **T09–T12 — Reddit suggestions**, each to weigh, not necessarily build,
-  under T12's bar: «задача сделать понимаемым "at a glance"… вносить
-  слишком много информации на картинку… не надо». T09 mel instead of log;
-  T10 a self-similarity or novelty strip for sections; T11 already answered
-  by the author on Reddit (a piano roll); T12 a vectorscope. For each, a
-  draft Reddit reply in a GitHub reply, following the repo's social-writing
-  conventions (the author says «social/»; the nearest is `writing/CLAUDE.md`).
 - `/finalize` (the PR conflicts with `main`).
 
 Items 1–3, as they were asked:
