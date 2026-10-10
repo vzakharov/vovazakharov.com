@@ -13,18 +13,19 @@ music/assets/, each with the author's corrected words, his story, an
 English crib and footnotes, and Майя's reflection beside it.
 
 После нас, the single's Послушайте and Здравствуй play their videos,
-captioned with the sung words and subtitled with the crib; the build
-fails on a video without its captions. Opened while its song plays, a
-video starts at the song's place, offset by video.offsetSeconds, and
-closed, hands the place back; the player yields the media session
-while it is open. The album page
-shows its cover, plays the album from Listen and carries the album's
+remuxed onto the masters, captioned with the sung words and subtitled
+with the crib; the build fails on a video without its captions. Opened
+while its song plays, a video starts at the song's place, offset by
+video.offsetSeconds, and closed, hands back its place and whether it
+was playing; the player yields the media session while it is open.
+The album page shows its cover, plays the album from Listen and carries the album's
 own text, the artist page за/обложкой's; long stories fold behind «…»,
 and a vendored master downloads as .mp3.
 
 The review left tooling behind: scripts/song-intake/ for mastering,
 spectra, captions timed off each video's audio, and spectrograms over
-a loudness envelope and treble and bass chromagram strips, with the
+a loudness envelope and treble and bass chromagram strips coloured by
+octave, with the
 recognisers' transcripts kept in docs/music/transcripts/;
 check:stanza-repeats, which also fixed eleven older songs;
 transcribe.py ported from vzakharov/life, marking unsure words in place;
