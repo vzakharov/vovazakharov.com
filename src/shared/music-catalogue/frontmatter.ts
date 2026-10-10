@@ -171,10 +171,6 @@ const songFieldsSchema = baseFrontmatterSchema
      */
     titleTransliterated: z.boolean().default(false),
     credits: creditsSchema.optional(),
-    /**
-     * The song's video, which the page opens from beside its play control and
-     * which pauses the site's player when it starts.
-     */
     video: mediaSourceSchema.optional(),
     /** Track id, where the song is also on Spotify. */
     spotify: z.string().min(1).optional(),

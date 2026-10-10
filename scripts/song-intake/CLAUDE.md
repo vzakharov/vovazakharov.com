@@ -32,7 +32,7 @@ Neither transcript is the lyrics. The draft reconciles both, keeps the line brea
 
 ## Captions
 
-A song's video carries its printed words as timed tracks. `transcribe.py` on the video itself — never the master, which a separately cut video sits seconds away from — gives the timings, and `captions.py <song.md> <deepgram.json.gz> apps/vova/public/music/assets/<slug>` writes a `.vtt` per lyrics column. A line it reports `unheard` is interpolated: pin it with `--at`, from the vocals stem's transcript shifted by the video's offset from the album cut, or from where the voice's harmonics start in a spectrogram of that stretch (`ffmpeg … -lavfi showspectrumpic=fscale=log`). The pins are in the commit that writes the track.
+A song's video carries its printed words as timed tracks: `transcribe.py` on the video itself, then `captions.py <song.md> <deepgram.json.gz> apps/vova/public/music/assets/<slug>`, a `.vtt` per lyrics column. Its docstring says why the video and not the master, and where to find the start of a line it reports `unheard`, which `--at` pins. The pins are in the commit that writes the track.
 
 ## Mastering
 
@@ -50,7 +50,7 @@ Judge a master by **loudness-matched A/B**: alternate five seconds of each over 
 
 A song worked here ends with Майя's reflection, `<slug>.reflections.md` beside the song's markdown. `.claude/rules/maya-reflections.md` says how, and loads on reading a reflection, never on the `Write` that creates the first one — so read it first.
 
-She reads the song first as its spectrogram — `spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>.png`, the whole song across, 40 Hz–10 kHz up on a log scale so a melody keeps its shape, in dBFS, over its waveform, the lower half coloured by the note that dominates the bass and the upper by the one above it — committed beside the master so the next session has it without the venv.
+She reads the song first as its spectrogram — `spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>.png`, the whole song across, pitch up, over its waveform coloured by note, the docstring saying how to read it — committed beside the master so the next session has it without the venv.
 
 ## Traps
 

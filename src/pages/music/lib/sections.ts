@@ -59,7 +59,6 @@ export function localeProse(body: string, locale: Locale): string {
     .join('\n\n');
 }
 
-/** A line that is one HTML comment and nothing else. */
 const COMMENT_LINE = /^<!--.*-->$/;
 
 /**

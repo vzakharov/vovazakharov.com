@@ -328,9 +328,9 @@
   hyphens: manual;
 }
 
-// Sized for the square videos the songs carry: as wide as the viewport's
-// height allows once the dialog's header and margins are taken out, so the
-// whole frame shows without scrolling. Mantine caps the width at the screen's.
+// A square video, as wide as the viewport's height allows past the dialog's
+// header and margins, so the whole frame shows unscrolled; Mantine caps it at
+// the screen's width.
 .videoModal {
   flex-basis: min(848px, calc(100dvh - 12rem));
 }

@@ -11,8 +11,8 @@ Writes `<out-prefix>.<lang>.vtt` for every `<!-- lyrics:<lang> -->` column, the
 crib timed line for line off the sung one, and prints each cue with how many of
 its words were heard, since an unheard line is placed by interpolation and is
 where to look first: the vocals stem's transcript, shifted by the video's offset
-from the master, or the voice's harmonics in a spectrogram of that stretch give
-the start that `--at` pins.
+from the master, or the voice's harmonics in a spectrogram of that stretch
+(`ffmpeg … -lavfi showspectrumpic=fscale=log`) give the start that `--at` pins.
 """
 
 import argparse
