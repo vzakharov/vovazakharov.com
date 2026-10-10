@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Cross out: grey ash, a dying orange sun, a dark slash through it. -->
+  <defs><linearGradient id="g14" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfc9c0"/><stop offset="1" stop-color="#4a4641"/></linearGradient><radialGradient id="g15" gradientUnits="userSpaceOnUse" cx="300" cy="300" r="200"><stop offset="0" stop-color="#e2621f" stop-opacity="1"/><stop offset="0.45" stop-color="#e2621f" stop-opacity="1"/><stop offset="1" stop-color="#e2621f" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g14)"/>
+  <circle cx="300" cy="300" r="200" fill="url(#g15)"/>
+  <path d="M60 600 L140 600 L560 0 L470 0 Z" fill="#1b1a19"/>
+</svg>

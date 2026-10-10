@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Чинара: night blue, a big pale moon, yellow berries hung beneath it. -->
+  <defs><linearGradient id="g27" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#25366a"/><stop offset="1" stop-color="#070b1a"/></linearGradient><radialGradient id="g28" gradientUnits="userSpaceOnUse" cx="420" cy="170" r="190"><stop offset="0" stop-color="#ece4d2" stop-opacity="1"/><stop offset="0.45" stop-color="#ece4d2" stop-opacity="1"/><stop offset="1" stop-color="#ece4d2" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g27)"/>
+  <circle cx="420" cy="170" r="190" fill="url(#g28)"/>
+  <circle cx="150" cy="380" r="40" fill="#f2c230"/>
+  <circle cx="250" cy="430" r="40" fill="#f2c230"/>
+  <circle cx="190" cy="500" r="40" fill="#d9a521"/>
+</svg>

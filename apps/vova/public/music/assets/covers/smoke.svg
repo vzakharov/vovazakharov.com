@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Smoke: a dark floor, grey smoke rising out of it, two embers. -->
+  <defs><linearGradient id="g24" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5d5e66"/><stop offset="0.55" stop-color="#1a1b20"/><stop offset="1" stop-color="#050506"/></linearGradient></defs>
+  <rect width="600" height="600" fill="url(#g24)"/>
+  <circle cx="200" cy="470" r="40" fill="#ff7a1a"/>
+  <circle cx="290" cy="470" r="40" fill="#ff7a1a"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- For None and For All: a winter night block, a few warm windows, snow blowing across. -->
+  <defs><linearGradient id="g8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d3344"/><stop offset="1" stop-color="#090b10"/></linearGradient><linearGradient id="g9" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2f0ea"/><stop offset="1" stop-color="#aeb3c2"/></linearGradient></defs>
+  <rect width="600" height="600" fill="url(#g8)"/>
+  <circle cx="140" cy="200" r="42" fill="#e9b93a"/>
+  <circle cx="250" cy="330" r="42" fill="#e9b93a"/>
+  <circle cx="160" cy="440" r="40" fill="#c98a2a"/>
+  <path d="M380 -10 L610 -10 L610 260 L250 610 L140 610 Z" fill="url(#g9)"/>
+</svg>

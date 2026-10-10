@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Night garden: deep green rising into a dark sky, a silver moon. -->
+  <defs><linearGradient id="g31" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1626"/><stop offset="0.45" stop-color="#132a24"/><stop offset="1" stop-color="#2d6b45"/></linearGradient><radialGradient id="g32" gradientUnits="userSpaceOnUse" cx="450" cy="140" r="150"><stop offset="0" stop-color="#d8dde3" stop-opacity="1"/><stop offset="0.45" stop-color="#d8dde3" stop-opacity="1"/><stop offset="1" stop-color="#d8dde3" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g31)"/>
+  <circle cx="450" cy="140" r="150" fill="url(#g32)"/>
+</svg>

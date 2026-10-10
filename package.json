@@ -41,6 +41,7 @@
     "content:pdf:basilisk": "scripts/in-site.sh basilisk tsx scripts/render-pdf.ts",
     "music:scaffold": "scripts/in-site.sh vova tsx scripts/scaffold-song.ts",
     "music:hidden": "node scripts/list-hidden-songs.ts",
+    "music:covers": "scripts/in-site.sh vova tsx scripts/render-covers.ts",
     "styles:codegen": "node scripts/generate-styles.ts",
     "costs": "python3 .claude/costs/report.py",
     "artifact:mushrooms": "tsx scripts/build-mushroom-artifact.ts"
@@ -84,6 +85,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/unist": "^3.0.3",
+    "d3-delaunay": "6.0.4",
     "esbuild": "0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",

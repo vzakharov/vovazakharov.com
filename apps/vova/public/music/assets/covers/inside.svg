@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Inside: stone grey going in, darker and darker toward a far small light. -->
+  <defs><radialGradient id="g20" gradientUnits="userSpaceOnUse" cx="300" cy="260" r="420"><stop offset="0" stop-color="#d9b98a" stop-opacity="1"/><stop offset="0.12" stop-color="#a39684" stop-opacity="1"/><stop offset="0.5" stop-color="#4a4540" stop-opacity="1"/><stop offset="1" stop-color="#141312" stop-opacity="1"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g20)"/>
+  <circle cx="300" cy="260" r="40" fill="#c62a1d"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- In the shadow: grey light around a great dark, one pale eye in it. -->
+  <defs><linearGradient id="g18" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9acb2"/><stop offset="1" stop-color="#3a3c40"/></linearGradient><radialGradient id="g19" gradientUnits="userSpaceOnUse" cx="300" cy="340" r="300"><stop offset="0" stop-color="#0e0e10" stop-opacity="1"/><stop offset="0.45" stop-color="#0e0e10" stop-opacity="1"/><stop offset="1" stop-color="#0e0e10" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g18)"/>
+  <circle cx="300" cy="340" r="300" fill="url(#g19)"/>
+  <circle cx="370" cy="270" r="44" fill="#ece4d2"/>
+</svg>

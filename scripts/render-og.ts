@@ -65,8 +65,8 @@ import { musicCollage } from './lib/music-collage.ts';
 import {
   CANVAS_BACKGROUND,
   type Card,
+  generatedCard,
   renderCard,
-  type StagedPage,
 } from './lib/og-render.ts';
 import { readDocket } from './lib/read-docket.ts';
 import { runRenderJob } from './lib/render-manifest.ts';
@@ -199,25 +199,6 @@ function chartCards(): Card[] {
   return pngPaths.map((pngPath) =>
     svgCard(`${pngPath.slice(0, -OG_CARD_SUFFIX.length)}.svg`, pngPath),
   );
-}
-
-/**
- * A card generated as a page, its source the page and the files it references
- * — so the template, the copy it reads and every staged file are covered, and
- * editing any of them re-flags the card.
- */
-function generatedCard(staged: StagedPage, outputPath: string): Card {
-  const files = Object.entries(staged.files)
-    .toSorted(([a], [b]) => a.localeCompare(b))
-    .map(
-      ([name, content]) => `${name}:${Buffer.from(content).toString('base64')}`,
-    );
-
-  return {
-    ...staged,
-    outputPath,
-    sourceHash: contentHash([staged.page, ...files].join('\n')),
-  };
 }
 
 /**

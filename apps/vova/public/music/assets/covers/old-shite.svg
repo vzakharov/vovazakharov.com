@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Old Shite: an old sepia shelf, faded and uneven, a few red sparks of it coming back to life. -->
+  <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e4d4b2"/><stop offset="0.5" stop-color="#bba27a"/><stop offset="1" stop-color="#6e5a3f"/></linearGradient><radialGradient id="g3" gradientUnits="userSpaceOnUse" cx="200" cy="380" r="200"><stop offset="0" stop-color="#8a7354" stop-opacity="1"/><stop offset="0.45" stop-color="#8a7354" stop-opacity="1"/><stop offset="1" stop-color="#8a7354" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g2)"/>
+  <circle cx="200" cy="380" r="200" fill="url(#g3)"/>
+  <circle cx="150" cy="170" r="46" fill="#c62a1d"/>
+  <circle cx="430" cy="250" r="40" fill="#c62a1d"/>
+  <circle cx="330" cy="470" r="44" fill="#c62a1d"/>
+</svg>

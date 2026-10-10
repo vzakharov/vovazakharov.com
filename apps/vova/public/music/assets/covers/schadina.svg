@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Сладкая: a summer-sky blue, a red candy hidden in it, a yellow glint. -->
+  <defs><linearGradient id="g22" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ee0ee"/><stop offset="1" stop-color="#1d7f98"/></linearGradient><radialGradient id="g23" gradientUnits="userSpaceOnUse" cx="330" cy="280" r="150"><stop offset="0" stop-color="#c62a1d" stop-opacity="1"/><stop offset="0.45" stop-color="#c62a1d" stop-opacity="1"/><stop offset="1" stop-color="#c62a1d" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g22)"/>
+  <circle cx="330" cy="280" r="150" fill="url(#g23)"/>
+  <circle cx="470" cy="440" r="48" fill="#f6d02c"/>
+</svg>

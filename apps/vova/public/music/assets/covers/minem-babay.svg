@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Минем бабай: a warm morning sky over green hills, the sun just rising. -->
+  <defs><linearGradient id="g29" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e7c4"/><stop offset="0.58" stop-color="#f0c070"/><stop offset="0.62" stop-color="#4f8f3a"/><stop offset="1" stop-color="#1f4a1e"/></linearGradient><radialGradient id="g30" gradientUnits="userSpaceOnUse" cx="320" cy="370" r="170"><stop offset="0" stop-color="#f0a524" stop-opacity="1"/><stop offset="0.45" stop-color="#f0a524" stop-opacity="1"/><stop offset="1" stop-color="#f0a524" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g29)"/>
+  <circle cx="320" cy="370" r="170" fill="url(#g30)"/>
+</svg>

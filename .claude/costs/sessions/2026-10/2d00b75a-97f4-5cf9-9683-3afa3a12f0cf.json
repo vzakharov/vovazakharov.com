@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-10T14:22:51.962Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "the picked fade applied in the render and the set rechecked in the page beside real covers"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "knip/lint over the new dependency read by path, polish, PR and squash refresh"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "2d00b75a-97f4-5cf9-9683-3afa3a12f0cf",
+  "branch": "claude/placeholder-covers-v2c4yn",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/placeholder-covers-v2c4yn",
+  "prs": [
+    136
+  ],
+  "url": "https://claude.ai/code/session_0121cVQ1AkDG6Fx6fty82Eaq",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-10T14:22:32.737Z",
+  "lastResponseAt": "2026-10-10T14:23:04.150Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 48426,
+    "cacheReadTokens": 746842,
+    "outputTokens": 2267,
+    "thinkingTokens": 286,
+    "responses": 8,
+    "costUsd": 0.5821803999999999
+  },
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 48426,
+    "cacheReadTokens": 746842,
+    "outputTokens": 2267,
+    "thinkingTokens": 286,
+    "responses": 8,
+    "costUsd": 0.5821803999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48426,
+      "cacheReadTokens": 746842,
+      "outputTokens": 2267,
+      "thinkingTokens": 286,
+      "responses": 8,
+      "costUsd": 0.5821803999999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-10T14:23:04.150Z",
+    "contextTokens": 104801,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48004,
+      "cacheReadTokens": 642465,
+      "outputTokens": 1609,
+      "thinkingTokens": 215,
+      "responses": 7,
+      "costUsd": 0.5447609999999999
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

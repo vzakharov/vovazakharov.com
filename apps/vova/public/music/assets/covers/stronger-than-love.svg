@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Stronger than love: a red heat pressed down by a heavy dark, a thread of poison green. -->
+  <defs><linearGradient id="g10" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b0606"/><stop offset="0.45" stop-color="#2a0b0b"/><stop offset="1" stop-color="#5a1410"/></linearGradient><radialGradient id="g11" gradientUnits="userSpaceOnUse" cx="300" cy="420" r="220"><stop offset="0" stop-color="#d23020" stop-opacity="1"/><stop offset="0.45" stop-color="#d23020" stop-opacity="1"/><stop offset="1" stop-color="#d23020" stop-opacity="0"/></radialGradient></defs>
+  <rect width="600" height="600" fill="url(#g10)"/>
+  <circle cx="300" cy="420" r="220" fill="url(#g11)"/>
+  <path d="M470 600 L520 120 L560 120 L520 600 Z" fill="#5fbf45"/>
+</svg>
