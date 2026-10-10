@@ -1,0 +1,96 @@
+{
+  "estimate": {
+    "at": "2026-10-10T11:44:35.565Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "next/font/local cannot carry a unicode-range per file, so splitting one family across subset calls, and catching Turbopack naming the variable after the binding, takes someone who reads the bundler's font loader"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "a font swap must be checked by eye on both locales and offline"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "1fa9c158-3f2d-5a5b-bba6-72f0a67ef48a",
+  "branch": "claude/vendor-fonts",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай завендорим шрифты, чтобы сборка не ходила в сеть за ними. Контекст из прошлой сессии: `src/app/ui/root-layout.tsx` грузит Merriweather и JetBrains Mono че…",
+  "prs": [
+    132
+  ],
+  "url": "https://claude.ai/code/session_013zKGUXqSuCHtmo91Dcn87Z",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-10T11:34:35.474Z",
+  "lastResponseAt": "2026-10-10T12:39:14.829Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 232,
+    "cacheWrite5mTokens": 78494,
+    "cacheWrite1hTokens": 218590,
+    "cacheReadTokens": 20802894,
+    "outputTokens": 67627,
+    "thinkingTokens": 25637,
+    "responses": 116,
+    "costUsd": 7.655236800000001
+  },
+  "ownTurns": {
+    "inputTokens": 224,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 218590,
+    "cacheReadTokens": 20584296,
+    "outputTokens": 67377,
+    "thinkingTokens": 25637,
+    "responses": 112,
+    "costUsd": 7.214015200000001
+  },
+  "subagents": {
+    "inputTokens": 8,
+    "cacheWrite5mTokens": 78494,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 218598,
+    "outputTokens": 250,
+    "thinkingTokens": 0,
+    "responses": 4,
+    "costUsd": 0.4412216
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 232,
+      "cacheWrite5mTokens": 78494,
+      "cacheWrite1hTokens": 218590,
+      "cacheReadTokens": 20802894,
+      "outputTokens": 67627,
+      "thinkingTokens": 25637,
+      "responses": 116,
+      "costUsd": 7.655236800000001
+    }
+  },
+  "warnings": [
+    "3 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/app/ui/fonts.ts",
+    "endedAt": "2026-10-10T11:36:45.059Z",
+    "contextTokens": 109777,
+    "spend": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 61454,
+      "cacheReadTokens": 924322,
+      "outputTokens": 9623,
+      "thinkingTokens": 7518,
+      "responses": 10,
+      "costUsd": 0.8690364000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
