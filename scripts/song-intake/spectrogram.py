@@ -147,6 +147,11 @@ def envelope(x, columns):
     return np.abs(blocks).max(axis=1), np.sqrt((blocks.astype(np.float64) ** 2).mean(axis=1))
 
 
+def frame_columns(frames, step, duration, columns):
+    """The column of the plot each STFT frame falls in."""
+    return np.minimum((np.arange(frames) * step / duration * columns).astype(int), columns - 1)
+
+
 def chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves):
     """Per column of the plot, each pitch class's share of band_hz and the
     octave that carries most of it, both as (12, columns).
@@ -175,7 +180,7 @@ def chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves):
         weights[:, (octave == o) & (pitch_class == k)].sum(axis=1) for o in range(count) for k in range(12)
     ], axis=1)
 
-    column = np.minimum((np.arange(len(chroma)) * step / duration * columns).astype(int), columns - 1)
+    column = frame_columns(len(chroma), step, duration, columns)
     per_column = np.zeros((columns, count * 12))
     np.add.at(per_column, column, chroma)
     level = np.zeros(columns)
@@ -241,7 +246,7 @@ def section_times(db, magnitude, freqs, step, duration):
     SECTION_THRESHOLD times its median, are the boundaries.
     """
     blocks = max(1, round(duration / SECTION_BLOCK_S))
-    block = np.minimum((np.arange(db.shape[1]) * step / SECTION_BLOCK_S).astype(int), blocks - 1)
+    block = frame_columns(db.shape[1], step, duration, blocks)
     bands = db[: db.shape[0] // TIMBRE_ROWS * TIMBRE_ROWS].reshape(-1, TIMBRE_ROWS, db.shape[1]).mean(axis=1)
     timbre = np.zeros((blocks, len(bands)))
     np.add.at(timbre, block, bands.T)
