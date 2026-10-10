@@ -1,26 +1,24 @@
 Proposed squash title/body:
 
 ```
-feat(vova): music pages unfurl as cards with their metadata (pr #134)
+feat(vova): music index and artists unfurl as cover collages (pr #134)
 ```
 
 ```
-The music index unfurled as the site avatar, and every song, album and
-artist as its raw square cover, which X, Facebook and LinkedIn crop to
-1.91:1 and lose the cover's lettering with.
+The music index unfurled as the site avatar, an artist as one cover,
+and a page with no cover as the avatar too, so a shared link to the
+catalogue said nothing about music.
 
-Every music page now has a 1200x630 card of its own in each locale: the
-picture beside the page's main metadata (title and gloss, artist, album,
-years, counts), read from the catalogue the page reads. A page with no
-picture borrows its artist's, else sets its title in its place. The
-index card is a collage of the ten newest covers at fixed slots of
-varied size and angle, some overhanging the edge, captioned "Vova's
-music".
+The index now unfurls as a collage of the ten newest covers, and an
+artist with two or more as a collage of its own releases': fixed slots
+of varied size and angle, some overhanging the edge, no text. They are
+committed JPEGs in the content:og lane, so a new cover re-flags them
+and the vet run holds them current; a photo collage weighs several
+times less as JPEG than as PNG. Songs and albums keep their covers.
 
-At some 420 cards, they are rendered at deploy as the PDFs are -
-gitignored, cached by source hash, copied into the export - rather than
-committed, and as JPEG, a photo collage weighing several times less
-than as PNG. `pnpm content:og:music` renders them locally.
+A page with no picture unfurls as one shared placeholder, the index
+collage until one is drawn for it. The unfurl's title reads "Listen to
+<name> on Vova's music", translated, while the page's own title stays.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

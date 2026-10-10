@@ -1,88 +1,92 @@
 > ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
 
-# Music pages: proper social cards
+# Music pages: collage cards and a "Listen to … on Vova's music" title
 
 ## Goal
 
-Every page under `/music` unfurls as a 1200×630 card of its own, carrying the picture **and the page's main metadata**, instead of today's:
+How the music pages unfurl today:
 
 - the index and its tabs → the site avatar (`ava.og.png`), saying nothing about music;
-- a song, an album, an artist → the raw 600px square cover, which X, Facebook and LinkedIn crop to 1.91:1, cutting off the cover's top and bottom and with them whatever lettering it carries.
+- an artist → the cover of its newest release;
+- a song or album → its cover, as a raw 600px square;
+- a page with no cover → the site avatar.
 
-The asks, in the operator's words: the index is "a cut-up of the latest covers, scattered in different positions and sizes across the picture (some may stick out), captioned _Vova's music_"; every other card has "not just the picture but the main metadata".
+What changes, in the operator's words:
+
+- **(a) the index** gets "a cut-up of the latest covers, scattered in different positions and sizes across the picture (some may stick out)";
+- **(b) an artist** gets the same, cut from its own releases' covers;
+- **(c) a page with no picture** gets one shared placeholder; drawing it is a separate task;
+- songs and albums with a cover keep it as it is;
+- the pictures carry **no text**, and the unfurl's title reads **"Listen to … on Vova's music"**.
 
 ## Approach
 
-### Cards are deploy-time artifacts, like the PDFs
+### The collage
 
-A card per page per locale is about **420 images** — 170 songs (147 of them hidden, but a hidden song is precisely the one shared by link), the albums, the artists and the index tabs, times two locales. Committed as the existing `.og.png` cards are, that is tens of megabytes in the tree and as much again in history every time the template changes.
+One template serves both cards (`scripts/lib/music-collage.ts`, beside `cv-card.ts`), taking a list of cover paths and returning a `StagedPage`:
 
-So the music cards follow the PDFs' lane instead of the committed cards': rendered by the deploy after `next build`, copied into `out/`, gitignored, and cached between runs by source hash (`.github/actions/render-pdfs` is the model). Nothing is committed but the generator.
+- a fixed slot table — each slot a position, a size and a rotation, hand-tuned once so the composition holds rather than being re-judged every time a release reshuffles a random one. The first cover takes the largest slot, and the edge slots overhang the card's border;
+- the covers staged beside the page under their own names, so their bytes are hashed and a new or changed cover re-flags the card;
+- no text on it.
 
-What that costs, stated so it is a choice: `vet.sh` cannot see the cards (as it cannot see a PDF), and a PR shows no card unless someone renders locally — `pnpm content:og:music` (below) does that in one command.
+A list shorter than the table fills the leading slots; the table is ordered so any prefix of two or more still composes.
 
-### JPEG, not PNG
+**Which covers:**
 
-A spike rendered a three-cover collage at the canvas's 2400×1260: **1.49 MB as PNG, 0.20 MB as JPEG**. A full collage of photographs is several times that as PNG, past what some consumers fetch. Chromium's `--screenshot` picks the format off the extension, so `renderCard` needs no change: the music cards are `<route>.og.jpg`.
+- **Index:** the public catalogue's releases that have a cover, newest first, distinct, the first 10 — albums by `newestAlbums`, singles by date, pictured through `releasePicture`.
+- **Artist:** the same, over that artist's releases (`artistReleases`) in either locale's credit (`vagabond` is GENERATED's in English, Полуживые's in Russian, so it belongs in both collages), so an artist has one card rather than one per language.
+- **An artist with fewer than two covers gets no collage.** One cover is the artist's picture as it is today; none is the placeholder.
 
-### What each card shows
+### Rendering and format
 
-All cards share one frame: the picture on the left at full card height, the metadata on the right on the site's light plate (`CANVAS_BACKGROUND`, `INK`, `INK_DIM` from `og-render.ts`), and a small `Vova's music` mark in a corner so a card read out of context still says whose it is. Copy is read from the catalogue the page reads, never retyped (the `cv-card.ts` rule), in the page's locale.
+The collages join `render-og.ts`'s committed lane: about 13 cards (the index and up to 12 artists), rendered by `pnpm content:og:vova` and held to their sources by the `--check` `vet.sh` already runs. Adding a release with a cover therefore re-flags the index card and its artist's, and the vet run fails until they are re-rendered, as filing a basilisk case re-flags the basilisk card.
 
-| Page   | Picture                                    | Metadata                                                                                                            |
-| ------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| Song   | `songPicture` (own cover, else its album's) | title, its gloss line where the page shows one; artist (with features); album and year; duration; an explicit mark |
-| Album  | `albumCover`                               | title and gloss; artist; years (`albumYears`); track count                                                          |
-| Artist | `artistPicture`                            | name; counts of albums and songs in that catalogue; years active                                                    |
-| Index  | the collage (below)                        | `Vova's music`, large, over the collage                                                                             |
+They are **JPEG**: a spike rendered a three-cover collage at the canvas's 2400×1260 as 1.49 MB of PNG and 0.20 MB of JPEG. Chromium's `--screenshot` picks the format off the extension, so `renderCard` is unchanged; `shared/seo/og-card.ts` gains `.og.jpg` beside `OG_CARD_SUFFIX`, `routeCardPath` takes the suffix, and the manifest's `isOutput` accepts both.
 
-A page whose picture is `undefined` — a song with no cover and no album cover, an artist with neither — takes the **artist's** picture where it has one, else a typographic card: the same frame with the title set large where the picture would be.
+The index card lives at `routeCardPath(musicPath())` — `apps/vova/public/music.og.jpg` — and an artist's at its locale-less route's: `apps/vova/public/music/artists/<slug>.og.jpg`.
 
-### The index collage
+### The placeholder
 
-- **Which covers:** the public catalogue's newest releases that have a cover — `artistReleases`'s ordering across all artists, albums and singles together, distinct cover paths — the first 10.
-- **Where they go:** a fixed slot table in the generator, each slot a position, a size and a rotation, hand-tuned once so the composition is good rather than random; the newest cover takes the largest slot, and the edge slots overhang the card's border, which is what "some may stick out" asks. A fixed table rather than a seeded random layout, because a random one has to be re-judged by eye every time a release reshuffles it.
-- **Caption:** `Vova's music` on a plate over the collage, in both locales — it is a name, given verbatim.
-- Every index tab and both catalogues (`everything` or not) share the one card per locale: they are one page as far as an unfurl is concerned.
+`pages/music/lib/pictures.ts` gains one `MUSIC_PLACEHOLDER` path, and every picker that today returns `undefined` — a song with no cover and no album cover, an album without `cover`, an artist with no cover — returns it instead, so no music page unfurls as the site avatar any more.
 
-### Wiring the pages
+**Until the placeholder is drawn, the constant points at the index collage**, the one music picture that stands for the whole catalogue. The follow-up task draws the real one and changes the constant; nothing else moves. `/go` files that task as an issue.
 
-- `shared/seo/og-card.ts` gains the `.og.jpg` suffix beside `OG_CARD_SUFFIX`, and `routeCardPath` takes the suffix, so the address of a card is still derived in one place.
-- `pages/music/lib/music-metadata.ts` and `song-page.tsx`'s `generateSongMetadata` stop passing the cover through `pictureCard`: each passes its own route's card, with `ogImageSize: CANVAS` — the size is the canvas's by construction, so nothing reads a file the build has not got yet. `pictureCard` goes, `pictures.ts` keeping what picks the picture.
+### The title
 
-### The generator
+`constructMetadata` gains `ogTitle`, mirroring its `ogDescription`: it sets `og:title` and `twitter:title`, leaving the page's `<title>` — the browser tab and the search result — as it is.
 
-- `scripts/lib/music-card.ts` — the templates, as `cv-card.ts` is for the CV: `songCard`, `albumCard`, `artistCard`, `indexCard`, each returning a `StagedPage` with the pictures staged beside it.
-- `scripts/render-music-og.ts` — enumerates every music page per locale off the catalogue (`listSongPages`, `catalogueAlbums`, `catalogueArtists`), builds each card, and renders what drifted through `runRenderJob` with its own manifest (`music-og-renders.json`), plus a `--from-out` mode that copies the renders into `apps/vova/out/` as the PDF lane does.
-- `package.json`: `content:og:music`, entered through `in-site.sh vova` with `tsx --conditions=react-server`, as `content:og:vova` is.
-- `.github/actions/render-music-cards/action.yml` — restore cache, render what drifted, copy into `out/`, save cache — called from the `vova` publishing lane beside `render-pdfs`.
-- `.gitignore`: `apps/vova/public/music/**/*.og.jpg` and the manifest, in the PDFs' block and with its rationale.
-- `.claude/rules/content.md`: the trap about OG cards gains the music lane — deploy-time, JPEG, and why — as one bullet under the existing one.
+The music pages pass it from a new message, `music.listenOn`, so it is translated with the rest:
+
+- en: `Listen to {name} on Vova's music`
+- ru: `Слушать {name} на Vova's music`
+
+`{name}` is the song's, album's or artist's name in the page's locale. The index has no name to put there and takes the bare form, `music.listenOnIndex`: `Listen to Vova's music` / `Слушать Vova's music`.
 
 ## Steps
 
-1. Spike: confirm `@/pages/music/lib/{songs,catalogue,pictures,albums,projects}` import under `tsx --conditions=react-server` from `scripts/`, as `@/pages/cv/lib` does for the CV card. If the i18n or Next imports refuse, read what the cards need through a `scripts/lib/` reader instead, as `read-docket.ts` does for cases.
-2. `og-card.ts` suffix and `routeCardPath`; the generator and its templates; render locally and look at a song with a cover, one without, a long Russian title, an album, an artist, and the index in both locales.
-3. Metadata wiring; `pnpm build:vova` and check the `og:image` tags on each page kind.
-4. The deploy action, the `.gitignore` block, the `content.md` bullet.
-5. `./scripts/vet.sh`.
+1. Spike: confirm `@/pages/music/lib/{songs,catalogue,pictures,albums}` import under `tsx --conditions=react-server` from `scripts/`, as `@/pages/cv/lib` does for the CV card. If they refuse, read the covers' order through a `scripts/lib/` reader instead, as `read-docket.ts` does for cases.
+2. `og-card.ts`'s suffix; `music-collage.ts` and its slot table; the two card kinds in `render-og.ts`. Render, look at the index and at an artist with two, five and ten covers.
+3. `MUSIC_PLACEHOLDER` and the pickers; the artist metadata choosing collage, cover or placeholder.
+4. `ogTitle` and the two messages; the four metadata builders passing it.
+5. `pnpm build:vova` and check `og:image` and `og:title` on each page kind; `./scripts/vet.sh`.
+6. File the placeholder task as an issue.
 
 ## DRY notes
 
-- **Reused:** `og-render.ts` whole (`renderCard`, `StagedPage`, `escapeHtml`, the palette), `render-manifest.ts`'s `runRenderJob` for the drift cache, `generatedCard`'s hashing (moved from `render-og.ts` into `og-render.ts`, since two scripts now need it), `routeCardPath` for every address, `CANVAS`/`SCALE` for the frame, and the music slice's own pickers — `songPicture`, `albumCover`, `artistPicture`, `artistReleases`, `albumYears`, `bill`/`projectName` — so a card cannot disagree with its page about a picture or a name.
-- **Shared within the new code:** the four templates share one frame function (plate, picture column, corner mark) and differ only in the metadata block they pass it; the collage is the one card that does not use the frame.
-- **Not extracted:** the deploy action is a second composite action rather than a generalized `render-pdfs`. The two share a shape (restore, render, copy, save) but not a single input — different script, globs, cache key — and a parameterized action would be the two of them spelled as `if`s.
-- **Not unified with `render-og.ts`:** that script's contract is committed renders that `vet.sh --check`s; these are build artifacts. One script with two lanes would make every reader of it learn both.
+- **Reused:** `render-og.ts`'s `generatedCard` and the committed lane whole (manifest, `--check`, pruning); `og-render.ts`'s `renderCard` and `StagedPage`; `routeCardPath` for both cards' addresses; the music slice's own pickers — `newestAlbums`, `artistReleases`, `releasePicture`, `albumCover` — so a collage cannot disagree with the pages about which covers exist or how new they are.
+- **Shared:** one collage template for the index and every artist, differing only in the list it is handed; one `MUSIC_PLACEHOLDER` for every picker's empty case, so the follow-up swaps one constant.
+- **`ogTitle` beside `ogDescription`**, rather than the music pages building their own `openGraph` block: the shared builder already owns the og/twitter pairing, and a second copy of it would drift.
+- **Not extracted:** the slot table stays inside `music-collage.ts`. It has one consumer and is the design itself; a "layout" abstraction would be a name for a constant.
 
 ## Open questions
 
-1. **Where the cards live.**
-   a. _(recommended, in force)_ Rendered at deploy, gitignored, cached — the PDFs' lane.
-   b. Committed like the other `.og.png` cards and checked by `vet.sh`; costs ~420 files and their weight in history on every template change.
-   c. Committed, but English only and only for listed pages, hidden songs falling back to the index collage — small, but a hidden song shared by link unfurls as a generic card.
-2. **The caption on the Russian index card.**
-   a. _(recommended, in force)_ `Vova's music` in both locales.
-   b. «Музыка Вовы» on the Russian card.
-3. **A page with no picture.**
-   a. _(recommended, in force)_ The artist's picture, else the typographic card.
-   b. Always the typographic card when the page's own picker returns nothing.
+1. **The Russian title.**
+   a. _(recommended, in force)_ `Слушать {name} на Vova's music` — the infinitive addresses nobody, so it sidesteps «ты»/«вы».
+   b. `Слушайте {name} на Vova's music`.
+   c. The English phrase on both locales.
+2. **The index's title.**
+   a. _(recommended, in force)_ `Listen to Vova's music`.
+   b. `Listen to music on Vova's music`.
+3. **The placeholder until it is drawn.**
+   a. _(recommended, in force)_ The index collage.
+   b. The site avatar, as today.
