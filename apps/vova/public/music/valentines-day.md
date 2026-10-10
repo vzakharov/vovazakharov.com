@@ -67,11 +67,7 @@ A song on the words of Ophelia’s song from _Hamlet_; the song also takes in an
 Уж с первым я лучом,
 Чтоб Валентиной быть твоей,
 Ждать буду под окном.
-
-Ведь завтра Валентинов день;
-Уж с первым я лучом,
-Чтоб Валентиной быть твоей,
-Ждать буду под окном.
+x2
 
 <!-- lyrics:en -->
 
@@ -105,8 +101,4 @@ Tomorrow is Saint Valentine’s day,
 All in the morning betime,
 And I a maid at your window,
 To be your Valentine.
-
-Tomorrow is Saint Valentine’s day,
-All in the morning betime,
-And I a maid at your window,
-To be your Valentine.
+x2

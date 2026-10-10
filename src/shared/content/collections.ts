@@ -192,6 +192,23 @@ export function collectionAssetUrl(id: CollectionId, fileName: string): string {
   return path.posix.normalize(collectionPath(id, fileName));
 }
 
+/**
+ * A relative path written in `fileName`, as the site-root path it names. It
+ * resolves beside that file, as it does on GitHub and in the served copy, so a
+ * file in a subdirectory reaches its collection's root by `../`; a sibling
+ * document's `.md` is dropped for its route, cuts included.
+ */
+export function resolveAuthoredPath(
+  id: CollectionId,
+  fileName: string,
+  target: string,
+): string {
+  return collectionAssetUrl(
+    id,
+    path.posix.join(path.posix.dirname(fileName), target.replace(/\.md$/, '')),
+  );
+}
+
 /** Where a collection is listed — its index page, or the site's home. */
 export function collectionRoute(id: CollectionId): string {
   return COLLECTIONS[id].homeIndexed ? '/' : collectionPath(id);

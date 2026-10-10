@@ -85,6 +85,7 @@ scripts/run-parallel.sh \
   og-basilisk='pnpm content:og:basilisk --check' \
   cv-pages='pnpm content:pdf:vova --cv-pages --from-out' \
   test='scripts/vet-test.sh' \
+  hearing='python3 scripts/lib/test_hearing.py' \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \
   skills='scripts/check-skill-catalog.sh' \

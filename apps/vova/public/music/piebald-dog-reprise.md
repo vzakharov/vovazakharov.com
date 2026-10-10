@@ -59,9 +59,7 @@ ru:
 
 Это море — судьба моя,
 Эти воды — слёзы мои
-
-Это море — судьба моя,
-Эти воды — слёзы мои
+x2
 
 <!-- lyrics:en -->
 
@@ -93,6 +91,4 @@ The piebald dog runs and runs along the edge of the sea
 
 This sea is my fate,
 These waters are my tears
-
-This sea is my fate,
-These waters are my tears
+x2

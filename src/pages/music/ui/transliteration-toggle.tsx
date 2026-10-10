@@ -3,16 +3,15 @@
 import { Box, type MantineStyleProp, Switch } from '@mantine/core';
 import { useState } from 'react';
 
-import type { Labeled, WithChildren } from '@/shared/typings';
+import type { LabeledBlock } from '@/shared/typings';
 
 import classes from './music.module.scss';
 
-export type TransliterationToggleProps = WithChildren &
-  Labeled & {
-    /** The box the words are laid out in, which the switch heads. */
-    className: string | undefined;
-    style?: MantineStyleProp;
-  };
+export type TransliterationToggleProps = LabeledBlock & {
+  /** The box the words are laid out in, which the switch heads. */
+  className: string | undefined;
+  style?: MantineStyleProp;
+};
 
 /**
  * The words' box, headed by a switch that sets their romanization under them.

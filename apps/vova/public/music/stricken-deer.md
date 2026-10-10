@@ -70,11 +70,7 @@ Why, let the stricken deer go weep,
 The hart ungalled play;
 For some must watch, while some must sleep:
 So runs the world away.
-
-Why, let the stricken deer go weep,
-The hart ungalled play;
-For some must watch, while some must sleep:
-So runs the world away.
+x2
 
 Try what repentance can: what can it not?
 Yet what can it when one can not repent?
@@ -110,11 +106,7 @@ So runs the world away.
 А уцелевший скачет
 Где – спят, а где – ночной обход
 Кому что рок назначит
-
-Пусть раненый олень ревёт
-А уцелевший скачет
-Где – спят, а где – ночной обход
-Кому что рок назначит
+x2
 
 Испытать, что может раскаянье. Чего оно не может!
 Но что может, если каяться не можешь?

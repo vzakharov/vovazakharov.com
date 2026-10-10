@@ -1,30 +1,38 @@
-import { Stack, Text } from '@mantine/core';
+import { Box, Group, Stack, Text } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { NameLink, PageShell } from '@/shared/ui';
+import { FileLink, NameLink, PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumTracks } from '../lib/album-tracks';
-import { albumArtist, albumGloss, albumTitle } from '../lib/albums';
+import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';
 import { albumYears } from '../lib/catalogue';
+import { albumText } from '../lib/catalogue-text';
 import { albumLength } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
 import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
+import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
+import { CatalogueProse } from './catalogue-prose';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
 
-/** One release: who put it out, and its songs in track order. */
+/**
+ * One release: who put it out, its own text where it has one, and its songs in
+ * track order.
+ */
 export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
   const catalogue = { everything };
   const songs = catalogueSongs(catalogue);
   const messages = loadMessages(locale).music;
   const artist = albumArtist(album, locale);
   const tracks = albumTracks(album, songs);
+  const text = albumText(album, locale);
+  const queue = tracks.map(({ song }) => songTrack(song, album));
 
   return (
     <PageShell>
@@ -41,6 +49,21 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
           kind={messages.kind.album}
           title={albumTitle(album, locale)}
           gloss={albumGloss(album, locale)}
+          picture={albumCover(album)}
+          facts={
+            // The release's length, and its own file at the far end of the
+            // same line, as a song page sets its facts.
+            <Group justify="space-between" gap="12px 32px" wrap="wrap">
+              <Text size="sm" opacity={0.7}>
+                {albumLength(
+                  tracks.map(({ song }) => song.frontmatter.seconds),
+                  locale,
+                  messages.albumLength,
+                )}
+              </Text>
+              {text && <FileLink {...text.markdown}>.md</FileLink>}
+            </Group>
+          }
         >
           <Text size="sm" opacity={0.7} mt={12}>
             <NameLink href={artistPath(artist, catalogue, locale)}>
@@ -48,18 +71,17 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
             </NameLink>{' '}
             · {albumYears(album, songs)}
           </Text>
-          <Text size="sm" opacity={0.7}>
-            {albumLength(
-              tracks.map(({ song }) => song.frontmatter.seconds),
-              locale,
-              messages.albumLength,
-            )}
-          </Text>
+          {/* The same tracks the list below plays, so both drive one queue. */}
+          <Box mt={20}>
+            <AlbumPlayButton tracks={queue} />
+          </Box>
         </CatalogueHeader>
+
+        {text && <CatalogueProse {...{ text }} label={messages.readMore} />}
 
         <SongList
           {...pick(messages, 'title')}
-          tracks={tracks.map(({ song }) => songTrack(song, album))}
+          tracks={queue}
           trackNumbers={
             new Map(tracks.map(({ song, track }) => [song.slug, track]))
           }

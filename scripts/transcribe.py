@@ -6,7 +6,8 @@ Usage:
                                        [--json-dir DIR]
                                        [--audio-out PATH] [--video-out PATH]
                                        [--model MODEL] [--language LANG]
-                                       [--force]
+                                       [--second-opinion] [--keyterm TERM]...
+                                       [--floor FLOOR] [--force]
 
 `<media>` is audio or video in anything ffmpeg reads. A file carrying a video
 stream is first reduced to mono 64 kbit/s AAC — speech recognition hears no
@@ -15,19 +16,45 @@ thrown away unless `--audio-out` names somewhere to keep it. `--video-out` keeps
 a re-encoded copy of the video itself, for a recording being archived rather
 than uploaded.
 
-Two files come back, named for the slug (the input's stem unless `--slug` says
-otherwise), both under `docs/remove-before-merging/deepgram/` and both
-committed — that directory is swept before the merge, so neither reaches main:
+Two files come back (three with `--second-opinion`), named for the slug — the
+input's stem unless `--slug` says otherwise — all under
+`docs/remove-before-merging/deepgram/` and all committed — that directory is
+swept before the merge, so none reaches main:
 
   <slug>.transcript.md    under `--out-dir` — one line per sentence with its
-                          timecode, plus the words Deepgram was least sure of.
-                          This is the file a person or an agent reads.
+                          timecode, every word scored under `--floor` marked
+                          `[word?]` where it was said. This is the file a
+                          person or an agent reads.
   <slug>.deepgram.json.gz under `--json-dir` — the whole response, with the
                           per-word timings a subtitle track would need. Kept
                           because a re-run is a different transcription, which
                           corrections made against this one no longer fit;
                           gzipped because 300 KB of JSON otherwise opens as
                           text in every preview that walks the branch.
+
+**A mark is where to listen again, never a verdict.** A rare word heard right
+scores low, and a word that was never said leaves no mark at all, only confident
+neighbours. The floor is 0.95 because on a recording run both ways, every word a
+second opinion disagreed on was already under it, where a 0.6 floor caught three
+of the seven corrections the first dictations needed. Confidence is read off the
+first model only: Whisper fills the field on a scale of its own, ordinary correct
+words at the bottom.
+
+**`--second-opinion` hears the recording again with `whisper-large`** and adds a
+third file, `<slug>.whisper-large.deepgram.json.gz`, and a section merging the
+two word by word: what both heard is written once, what only the first heard as
+`[-…-]`, what only Whisper heard as `{+…+}`. Where they agree the word is
+settled; where they part, the recognizer is the suspect. It catches what a mark
+cannot — a stretch the first model dropped whole comes back as Whisper's words
+on a line of their own. For speech, Whisper is Deepgram's hosted model rather
+than a local faster-whisper: on a mumbled voice note a local `large-v3-turbo`
+dropped sixteen seconds the hosted model still turned into words, and closed on
+an invented «Спасибо. Спасибо.» Sung vocals are the other way round —
+`scripts/song-intake/lyrics.py`'s local large-v3 is their first hearing, and this
+script their second.
+
+`--keyterm` (repeatable, nova-3 only) names a word the recording uses that the
+model would mishear unprompted — a name, a drug, a coinage.
 
 This script makes no decision a re-run could make differently; the judgement is
 `@.claude/skills/dictation/SKILL.md`'s.
@@ -36,7 +63,7 @@ Requires `DEEPGRAM_API_KEY` in the environment. `ffmpeg` and `ffprobe` are
 installed if they are missing, through whichever package manager is on the box.
 
 Exit codes:
-  0  - both files written.
+  0  - every file written.
   1  - bad arguments, a missing tool or key, or the API refused.
 
 Stdlib only — no third-party deps. Python 3.9+.
@@ -59,6 +86,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from lib.cli import die
+from lib.hearing import doubts, marked, merged, paragraphs
 
 DEEPGRAM_URL = "https://api.deepgram.com/v1/listen"
 
@@ -74,6 +102,8 @@ DEEPGRAM_PARAMS = {
 DEFAULT_OUT_DIR = Path("docs") / "remove-before-merging" / "deepgram"
 DEFAULT_JSON_DIR = DEFAULT_OUT_DIR
 DEFAULT_MODEL = "nova-3"
+SECOND_OPINION_MODEL = "whisper-large"
+DEFAULT_FLOOR = 0.95
 
 # Below 64k mono, quiet consonants start to drop; above it, only the upload
 # grows.
@@ -93,9 +123,6 @@ FFMPEG_INSTALLERS = (
     ("dnf", (["dnf", "install", "-y", "ffmpeg"],)),
     ("apk", (["apk", "add", "ffmpeg"],)),
 )
-
-LOW_CONFIDENCE = 0.6
-LOW_CONFIDENCE_LIMIT = 40
 
 
 def timecode(seconds: float) -> str:
@@ -177,20 +204,24 @@ def convert(media: Path, dest: Path, args: list[str], label: str) -> None:
     )
 
 
-def transcribe(audio: Path, model: str, language: Optional[str]) -> dict[str, Any]:
-    params = dict(DEEPGRAM_PARAMS, model=model)
+def transcribe(
+    audio: Path, model: str, language: Optional[str], keyterms: list[str]
+) -> dict[str, Any]:
+    params = [*DEEPGRAM_PARAMS.items(), ("model", model)]
     # Asking for a language and asking Deepgram to find one are the same slot;
     # sending both makes the detection a no-op that the header would still
     # report as having run.
     if language:
-        params["language"] = language
+        params.append(("language", language))
     else:
-        params["detect_language"] = "true"
+        params.append(("detect_language", "true"))
+    params += [("keyterm", term) for term in keyterms]
 
     key = os.environ.get("DEEPGRAM_API_KEY", "").strip()
     if not key:
         die("DEEPGRAM_API_KEY is not set.")
 
+    print(f"Transcribing with {model}…", file=sys.stderr)
     request = urllib.request.Request(
         f"{DEEPGRAM_URL}?{urllib.parse.urlencode(params)}",
         data=audio.read_bytes(),
@@ -215,11 +246,15 @@ def render_transcript(
     source: Path,
     audio_kept: Optional[Path],
     model: str,
+    floor: float,
+    keyterms: list[str],
+    second: Optional[tuple[str, dict[str, Any]]],
 ) -> str:
     channel = response["results"]["channels"][0]
     alt = channel["alternatives"][0]
     metadata = response["metadata"]
-    words = alt.get("words", [])
+    scored, low = doubts(response, floor)
+    share = f" ({100 * low / scored:.0f}%)" if scored else ""
 
     lines = [
         f"# Transcript: {source.name}",
@@ -234,43 +269,48 @@ def render_transcript(
         f"| Duration | {timecode(metadata['duration'])} |",
         f"| Language | `{channel.get('detected_language') or 'set by caller'}` |",
         f"| Model | `{model}` |",
-        f"| Words | {len(words)} |",
+    ]
+    if keyterms:
+        lines.append(f"| Keyterms | {', '.join(f'`{t}`' for t in keyterms)} |")
+    if second:
+        lines.append(f"| Second opinion | `{second[0]}` |")
+    lines += [
+        f"| Words | {len(alt.get('words') or [])} |",
         f"| Mean confidence | {alt.get('confidence', 0):.3f} |",
+        f"| Under {floor:g} | {low} of {scored}{share} |",
         "",
-        "One line per sentence, timecoded at its start. Generated by",
-        "`scripts/transcribe.py`; the whole response, per-word timings included,",
-        "sits beside this file as `<slug>.deepgram.json.gz`.",
+        "One line per sentence, timecoded at its start, every word scored under",
+        f"{floor:g} marked `[word?]` where it was said — a place to listen again,",
+        "not a verdict. Generated by `scripts/transcribe.py`; the whole response,",
+        "per-word timings included, sits beside this file as",
+        "`<slug>.deepgram.json.gz`.",
         "",
         "## Sentences",
         "",
     ]
 
-    for paragraph in alt.get("paragraphs", {}).get("paragraphs", []):
-        for sentence in paragraph["sentences"]:
-            lines.append(f"- `{timecode(sentence['start'])}` {sentence['text']}")
+    found = paragraphs(response)
+    if not found:
+        lines += ["No speech recognised — check `--language` before anything else.", ""]
+    for paragraph in found:
+        for sentence in paragraph:
+            lines.append(f"- `{timecode(sentence['start'])}` {marked(sentence, floor)}")
         lines.append("")
 
-    unsure = [w for w in words if w.get("confidence", 1.0) < LOW_CONFIDENCE]
-    lines += [
-        f"## Words scored under {LOW_CONFIDENCE}",
-        "",
-        "Where a mis-hearing is most likely, not where they all are: a rare word",
-        "heard correctly scores low, and a confident recognizer is sometimes",
-        "confidently wrong. Read it first, then read the transcript.",
-        "",
-    ]
-    if not unsure:
-        lines.append("None.")
-    else:
-        for word in unsure[:LOW_CONFIDENCE_LIMIT]:
-            lines.append(
-                f"- `{timecode(word['start'])}` "
-                f"**{word.get('punctuated_word', word['word'])}** "
-                f"({word['confidence']:.2f})"
-            )
-        if len(unsure) > LOW_CONFIDENCE_LIMIT:
-            lines.append(f"- …and {len(unsure) - LOW_CONFIDENCE_LIMIT} more.")
-    lines.append("")
+    if second:
+        other, other_response = second
+        lines += [
+            "## Second opinion",
+            "",
+            f"`{other}` heard the same recording, merged here word by word: what",
+            f"only `{model}` heard is `[-…-]`, what only `{other}` heard is",
+            "`{+…+}`. Where they agree the word is settled; where they part, the",
+            "recognizer is the suspect, and the place is one to listen to.",
+            "",
+        ]
+        for start, text in merged(response, other_response):
+            lines.append(f"- `{timecode(start)}` {text}")
+        lines.append("")
 
     return "\n".join(lines)
 
@@ -299,6 +339,24 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
         help="force a language code; omitted, Deepgram detects one",
     )
     parser.add_argument(
+        "--second-opinion",
+        action="store_true",
+        help=f"also hear it with {SECOND_OPINION_MODEL} and merge the two word by word",
+    )
+    parser.add_argument(
+        "--keyterm",
+        action="append",
+        default=[],
+        metavar="TERM",
+        help="a word the model would mishear unprompted; repeatable; nova-3 only",
+    )
+    parser.add_argument(
+        "--floor",
+        type=float,
+        default=DEFAULT_FLOOR,
+        help=f"mark words scored under this as [word?] (default {DEFAULT_FLOOR})",
+    )
+    parser.add_argument(
         "--force",
         action="store_true",
         help="overwrite outputs that already exist",
@@ -311,14 +369,21 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     if not args.media.is_file():
         die(f"No such file: {args.media}")
+    if args.keyterm and not args.model.startswith("nova-3"):
+        die(f"--keyterm is nova-3's alone; {args.model} would ignore it.")
     ensure_ffmpeg()
 
     slug = args.slug or args.media.stem
     json_path = args.json_dir / f"{slug}.deepgram.json.gz"
+    second_path = (
+        args.json_dir / f"{slug}.{SECOND_OPINION_MODEL}.deepgram.json.gz"
+        if args.second_opinion
+        else None
+    )
     transcript_path = args.out_dir / f"{slug}.transcript.md"
     # Checked before the upload, not after: the call costs money and the file it
     # would clobber is usually one someone has since corrected by hand.
-    outputs = (json_path, transcript_path, args.audio_out, args.video_out)
+    outputs = (json_path, second_path, transcript_path, args.audio_out, args.video_out)
     existing = [p for p in outputs if p is not None and p.exists()]
     if existing and not args.force:
         die(
@@ -343,26 +408,41 @@ def main(argv: Optional[list[str]] = None) -> int:
         else:
             audio = args.media
 
-        response = transcribe(audio, args.model, args.language)
+        response = transcribe(audio, args.model, args.language, args.keyterm)
+        second = None
+        if args.second_opinion:
+            second = (
+                SECOND_OPINION_MODEL,
+                transcribe(audio, SECOND_OPINION_MODEL, args.language, []),
+            )
         transcript = render_transcript(
             response,
             args.media,
             args.audio_out if has_video else None,
             args.model,
+            args.floor,
+            args.keyterm,
+            second,
         )
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     args.json_dir.mkdir(parents=True, exist_ok=True)
+    write_response(json_path, response)
+    if second_path and second:
+        write_response(second_path, second[1])
+    transcript_path.write_text(transcript, encoding="utf-8")
+
+    print(f"Wrote {transcript_path}")
+    return 0
+
+
+def write_response(path: Path, response: dict[str, Any]) -> None:
     # mtime=0 so the same response gzips to the same bytes on every run.
-    with gzip.GzipFile(json_path, "wb", compresslevel=9, mtime=0) as gz:
+    with gzip.GzipFile(path, "wb", compresslevel=9, mtime=0) as gz:
         gz.write(
             (json.dumps(response, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
         )
-    transcript_path.write_text(transcript, encoding="utf-8")
-
-    print(f"Wrote {json_path}")
-    print(f"Wrote {transcript_path}")
-    return 0
+    print(f"Wrote {path}")
 
 
 if __name__ == "__main__":

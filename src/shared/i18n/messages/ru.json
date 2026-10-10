@@ -306,7 +306,14 @@
       "instrumental": "инструментал"
     },
     "explicit": "Ненормативная лексика",
+    "enlargeCover": "Увеличить обложку",
+    "closeCover": "Закрыть обложку",
     "source": "исходник",
+    "readMore": "Читать дальше",
+    "video": {
+      "watch": "Смотреть видео",
+      "close": "Закрыть видео"
+    },
     "album": "из {album}",
     "alsoOn": "также на альбоме {album}",
     "credits": {

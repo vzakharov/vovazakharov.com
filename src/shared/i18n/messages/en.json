@@ -291,7 +291,14 @@
       "instrumental": "Instrumental"
     },
     "explicit": "Explicit",
+    "enlargeCover": "Enlarge the cover",
+    "closeCover": "Close the cover",
     "source": "source",
+    "readMore": "Read more",
+    "video": {
+      "watch": "Watch video",
+      "close": "Close the video"
+    },
     "album": "from {album}",
     "alsoOn": "also on {album}",
     "credits": {

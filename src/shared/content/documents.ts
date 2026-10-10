@@ -7,7 +7,7 @@ import path from 'node:path';
 import { pageFile, type SiteId } from '@/shared/config';
 import type { WithOptionalLocale } from '@/shared/i18n';
 import { routeCardPath } from '@/shared/seo';
-import type { DocumentFile, Sized } from '@/shared/typings';
+import type { DocumentFile, Sized, Sourced } from '@/shared/typings';
 
 import { COLLECTION_SCHEMAS } from './collection-schemas';
 import {
@@ -69,8 +69,18 @@ export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
       cardImage?: ResolvedImage;
     };
 
+/**
+ * What the pipeline reads to compile a body: the text, the collection its
+ * relative links resolve in, the file they resolve beside, and where that file
+ * is served.
+ */
+export type ProseSource = Pick<
+  ContentDocument,
+  'collection' | 'body' | 'fileName' | 'markdown'
+>;
+
 /** A frontmatter image path, resolved to what an `<img>` needs of it. */
-type ResolvedImage = Sized & { src: string };
+type ResolvedImage = Sized & Sourced;
 
 /**
  * A frontmatter image is authored relative to its document; `public/` serves
@@ -237,6 +247,29 @@ export function loadDocument<F extends BaseFrontmatter>(
   return fs.existsSync(filePath)
     ? readDocument(collection, fileName)
     : undefined;
+}
+
+/**
+ * A collection's file of prose alone — no frontmatter, so no document of its
+ * own — that a page sets under the heading it writes. `name` is its path inside
+ * the collection without the `.md`, which is also its page's route there.
+ * `undefined` where none was written.
+ */
+export function loadProse(
+  collection: CollectionId,
+  name: string,
+): ProseSource | undefined {
+  const fileName = `${name}.md`;
+  const filePath = path.join(collectionDir(collection), fileName);
+
+  if (!fs.existsSync(filePath)) return undefined;
+
+  return {
+    collection,
+    body: fs.readFileSync(filePath, { encoding: 'utf8' }),
+    fileName,
+    markdown: pageFile(collectionAssetUrl(collection, name), 'md'),
+  };
 }
 
 /** The variants of `slug` that exist on disk, in `VARIANTS` order. */

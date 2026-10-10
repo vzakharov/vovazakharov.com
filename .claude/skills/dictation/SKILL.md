@@ -19,16 +19,21 @@ which are its mistakes.**
 The script's header carries its flags. The short form:
 
 ```bash
-python3 scripts/transcribe.py <media> --slug <slug> \
+python3 scripts/transcribe.py <media> --slug <slug> --second-opinion \
   --audio-out docs/remove-before-merging/<slug>.m4a \
   --video-out docs/remove-before-merging/<slug>.mp4   # video only
 ```
 
-It writes `<slug>.transcript.md` and the gzipped whole response,
-`<slug>.deepgram.json.gz`, side by side under
-`docs/remove-before-merging/deepgram/`. Both are committed and both are swept
-before the merge — the script's header says why the response is kept and why
-gzipped.
+**Always `--second-opinion`**: a second model costs seconds, and a place where
+two models part is the strongest pointer to a mis-hearing there is. Add a
+`--keyterm <word>` for each name or coinage the operator's message or the
+project's files say the recording uses.
+
+It writes `<slug>.transcript.md` and the gzipped whole responses,
+`<slug>.deepgram.json.gz` and `<slug>.whisper-large.deepgram.json.gz`, side by
+side under `docs/remove-before-merging/deepgram/`. All are committed and all
+are swept before the merge — the script's header says why the responses are
+kept and why gzipped.
 
 ## The three modes
 
@@ -142,12 +147,23 @@ same tool that is already extracting the audio.
 ## Step 2 — Run the script, then read the transcript
 
 `<slug>.transcript.md` is what you work from, not the raw JSON. It carries one
-line per sentence with a timecode, and — at the foot — every word Deepgram
-scored under 0.6.
+line per sentence with a timecode, every word nova-3 scored under 0.95 marked
+`[word?]` in place, and under `## Second opinion` the same sentences merged with
+Whisper's hearing: `[-nova-3 only-]{+Whisper only+}`.
 
-**Read that list first, then read the transcript anyway.** It concentrates the
-mis-hearings without holding all of them — on the recordings so far it caught
-three of the seven places the text needed a correction.
+**Work from the merged lines, and read the marks as where to look.**
+
+- **A disagreement is a place to choose**, by which side parses and fits the
+  talk around it. A difference of form alone — `2023-его` and `2023`, a hyphen —
+  is no disagreement.
+- **A `{+…+}` stretch the first model has nothing for** is either speech it
+  dropped or Whisper inventing — it fills a cut-off ending or a silence with
+  «Продолжение следует…» or subtitle credits. Keep it only where the sentences
+  around it run on through it.
+- **A marked word both models heard alike is usually right**, since most
+  marks are on words heard correctly. Agreement is not proof either — two
+  models can share a mis-hearing — so Step 3's rule for a phrase that makes no
+  sense holds on settled words too.
 
 ## Step 3 — Write the dictation file
 
@@ -230,6 +246,8 @@ the chance to catch it.
 
 A table at the foot of the file, one row per place the recognizer was
 unintelligible and you chose a reading: what it heard, and what the text says.
+A disagreement you settled gets a row when the side you dropped was also a
+plausible reading.
 The operator corrects these themself and cannot do that from a file that reads
 smoothly everywhere — a silent guess is the failure mode this table exists to
 prevent.
@@ -294,9 +312,9 @@ and neither starts until the operator has agreed the transcript.
 
 ## Do NOT
 
-- Re-run the script over a recording already transcribed to get a "better" pass.
-  The transcript is committed; read it. A re-run is legitimate for one thing
-  only, which `@.claude/skills/subtitles/SKILL.md` owns: fetching per-word
+- Re-run the script over a recording already transcribed to get a "better" pass,
+  a second opinion included. The transcript is committed; read it. A re-run is
+  legitimate for one thing only, which `@.claude/skills/subtitles/SKILL.md` owns: fetching per-word
   timings that `tmp/` no longer has.
 - Edit the operator's own corrections to a dictation file. Text they supplied is
   verbatim; something in it that looks like a typo gets raised, not fixed.

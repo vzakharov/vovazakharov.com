@@ -7,6 +7,8 @@ import {
   billingText,
   currentTrack,
   initialPlayerState,
+  isQueued,
+  placeTracks,
   playerReducer,
   type PlayerState,
   type PlayerTrack,
@@ -24,16 +26,37 @@ export type PlayerControls = {
    * queue does not hold yet joins its end.
    */
   play: (track: PlayerTrack) => void;
+  /**
+   * Make these tracks the queue and play them from the first, in this order,
+   * shuffle off — or pause and resume, once they already are the queue.
+   */
+  playInOrder: (tracks: PlayerTrack[]) => void;
   toggle: () => void;
+  /** One way only, unlike `toggle`: nothing happens where playback already is. */
+  resume: () => void;
+  pause: () => void;
   next: () => void;
   /** Restarts the track before it steps back, once past `RESTART_AFTER_SECONDS`. */
   previous: () => void;
   shuffle: () => void;
-  /** Everything in the queue, shuffled afresh and played from the top. */
+  /** The whole catalogue as the queue, shuffled afresh and played from the top. */
   shuffleAll: () => void;
   seek: (seconds: number) => void;
   /** Relative to where playback is now, which is what the arrow keys want. */
   seekBy: (seconds: number) => void;
+  /**
+   * Where playback sits this instant, read off the element: `elapsed` trails it
+   * by up to a `timeupdate`, a quarter of a second, which a cut between two
+   * recordings of one song can hear.
+   */
+  position: () => number;
+  /**
+   * Hand the lock screen and media keys to other media on the page, or take
+   * them back. The browser sends them to the page's handlers whatever is
+   * playing, so under the song's, a video's play button — picture-in-picture's
+   * included — would start the song.
+   */
+  yieldMediaSession: (yielded: boolean) => void;
 };
 
 /** What is playing and where, as the bar and the track buttons read it. */
@@ -66,6 +89,7 @@ export function useAudioPlayer(
     initialPlayerState,
   );
   const [elapsed, setElapsed] = useState(0);
+  const [sessionYielded, setSessionYielded] = useState(false);
   const [shuffleStored, storeShuffle] = useStoredFlag('shuffle');
 
   // The stored switch leads and the queue follows, which is what restores a
@@ -98,8 +122,29 @@ export function useAudioPlayer(
             : { type: 'select', track: position },
         );
       },
+      playInOrder: (wanted) => {
+        const { positions, missing } = placeTracks(tracks, wanted);
+
+        if (isQueued(state, positions)) {
+          dispatch({ type: 'toggle' });
+
+          return;
+        }
+
+        if (missing.length > 0) setTracks([...tracks, ...missing]);
+        // Off before the queue lands, or the stored switch would shuffle the
+        // order this control exists to keep.
+        storeShuffle(false);
+        dispatch({ type: 'queue', positions });
+      },
       toggle: () => {
         dispatch({ type: 'toggle' });
+      },
+      resume: () => {
+        if (!state.playing) dispatch({ type: 'toggle' });
+      },
+      pause: () => {
+        if (state.playing) dispatch({ type: 'toggle' });
       },
       next: () => {
         dispatch({ type: 'step', by: 1 });
@@ -137,8 +182,10 @@ export function useAudioPlayer(
           audio.currentTime = Math.max(0, audio.currentTime + seconds);
         }
       },
+      position: () => audioRef.current?.currentTime ?? 0,
+      yieldMediaSession: setSessionYielded,
     }),
-    [track, tracks, shuffleStored, storeShuffle],
+    [state, track, tracks, shuffleStored, storeShuffle],
   );
 
   // The element is an audio engine rather than page content — the bar is what
@@ -199,7 +246,10 @@ export function useAudioPlayer(
 
     if (audio === null || current === undefined) return;
 
-    if (audio.src !== current.audio) {
+    // The attribute rather than the property: `src` reads back resolved to an
+    // absolute URL, which a site-root path never equals, and every pause would
+    // reload the track from the top.
+    if (audio.getAttribute('src') !== current.audio) {
       audio.src = current.audio;
       setElapsed(0);
     }
@@ -222,6 +272,14 @@ export function useAudioPlayer(
 
     if (session === undefined || current === undefined) return;
 
+    // The previous run's cleanup has already cleared the handlers; a state left
+    // at `paused` would tell the browser nothing plays under a playing video.
+    if (sessionYielded) {
+      session.playbackState = 'none';
+
+      return;
+    }
+
     session.metadata = new MediaMetadata({
       ...pick(current.titles[locale], 'title'),
       artist: billingText(current.billing[locale]),
@@ -229,9 +287,11 @@ export function useAudioPlayer(
     });
     session.playbackState = state.playing ? 'playing' : 'paused';
 
+    // Not `toggle`: a browser may send either action whatever the state, and a
+    // toggle would turn a pause into playback.
     const actions = [
-      ['play', controls.toggle],
-      ['pause', controls.toggle],
+      ['play', controls.resume],
+      ['pause', controls.pause],
       ['nexttrack', controls.next],
       ['previoustrack', controls.previous],
     ] as const;
@@ -243,17 +303,21 @@ export function useAudioPlayer(
     return () => {
       for (const [action] of actions) session.setActionHandler(action, null);
     };
-  }, [current, state.playing, controls, locale]);
+  }, [current, state.playing, controls, locale, sessionYielded]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       const target = event.target;
-      const typing =
+      // A key pressed inside a modal dialog is the dialog's — a song's video
+      // takes the space bar for its own play/pause, and the song must stay
+      // silent under it.
+      const elsewhere =
         target instanceof HTMLElement &&
         (target.isContentEditable ||
-          ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
+          ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) ||
+          target.closest('[aria-modal="true"]') !== null);
 
-      if (typing || event.metaKey || event.ctrlKey || event.altKey) return;
+      if (elsewhere || event.metaKey || event.ctrlKey || event.altKey) return;
 
       const handled: Record<string, () => void> = {
         ' ': controls.toggle,

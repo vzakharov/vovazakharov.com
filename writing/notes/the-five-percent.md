@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×56)
+## What it was handed, it treats as fixed (×60)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -126,7 +126,26 @@ repo and no artist pictures, the agent settled on text-only tiles. _is Spotify
 reachable?_ It wasn't; Apple Music, already used in the same PR, had all seven
 artists and five more covers.
 
-## An account that explains the code stands in for running it (×19)
+**9 October — two recognizers agreeing, read as the recording.** On the Krylya
+lyrics the agent flagged nothing both transcripts matched on, and the author
+rewrote four such lines: «Мари» to «Майи», «Четвёртое объяснение» to «К чёрту
+объяснения», "presence in your head" to "present in your hands", and «в лёгком
+ромкоме» to «в грёбаном ромкоме», a shortlisted album title. Agreement between
+two machines was taken as truth; it was only agreement.
+
+**9 October, same review — two rules carried past the case they were made
+for.** The previous round's "expletives are written out" unmasked a bleep that
+is on the recording: _здесь забикано и в песне, как творческое решение, а не
+вынужденность._ The album text, a cleaned transcript of his dictation under the
+song stories' "his words verbatim," came back _слишком литерально с моих слов_:
+a description wants edited prose in his voice, not his speech.
+
+**10 October — a vendored video's soundtrack read as the song.** The agent
+built offset-sync and captions around three song videos without hearing that
+they carried the unmastered mix, while the page plays the master. The author
+noticed: _в видео же неотмастеренный мп3. подменить можно нашим?_
+
+## An account that explains the code stands in for running it (×20)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -160,6 +179,11 @@ The enum values it checks were shared; the presentation had one consumer.
 Mithqal's Arabic lyrics got the line's size at 70% of its colour, called legible
 enough from the code with the toggle never switched on. _потусклее бы
 транслитерацию, и может шрифт поменьше, сейчас всё в кашу как-то._
+
+**10 October — a resume rule reasoned, never played through.** Closing a song's
+video resumed the song only if the video had paused it. The author played the
+song, opened the video, seeked, paused, closed: the song resumed. The rule
+tracked who paused it, not the state the viewer left playback in.
 
 ## It edits the copy in front of it, not the fact behind it (×16)
 
@@ -237,7 +261,7 @@ _others we keep in source (transliterated)_: `minem-babay`, `inverno`, `mithqal`
 lyrics' expletives (F\*ck, ох\*енно) and wrote a rule that "the mask is his."
 Nothing is masked: the agent's guess, given the author's name.
 
-## Given a form, it fills the form (×10)
+## Given a form, it fills the form (×11)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -255,6 +279,13 @@ title, a locale carrying only a differing name or a gloss.
 **8 October — a note per column.** A homophone note ("so come" / "succumb") went
 on both lyric columns. _no note in the English_: an English reader hears the
 pun, and the note exists only for what the Russian crib loses.
+
+**9 October — a type system for notes one reader reads.** Cleared to mark who
+sings each Krylya stanza, the agent built a frontmatter `voice` default, a
+singer registry with genders, and four build checks. _пометки про voice по ходу
+текста останутся просто for reference, без какого-то контроля типов._ Their one
+reader writes reflections, and the next song's note may say "duet" or «соло».
+The approval was of the idea; the rigor was the agent's.
 
 ## What it defends in writing, it stops asking about (×5)
 
@@ -339,7 +370,10 @@ Whether a piece says what its author meant is his alone.
 **Decisions that were the operator's to make.** The CV's locale segment, a
 post's hook, the theme toggle's home, the cost report's grain, and basilisk.fyi's
 taste throughout — punctuation, tagline, paths, voice, source lists, what a
-reflection reads and is about. An entry removed this way takes its count with it.
+reflection reads and is about; the Krylya lyrics' line breaks, verb moods,
+fade-out choruses and a vocalise kept as text; extracting a block with two
+uses. An entry removed this way takes
+its count with it.
 
 **Comments the tree already answered.** Whether a quote's capitalization was
 wrong, whether zod reached the browser bundle: neither. The reviewer's misses
