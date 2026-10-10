@@ -14,20 +14,23 @@ English crib and footnotes, and Майя's reflection beside it.
 
 После нас, the single's Послушайте and Здравствуй play their videos,
 captioned with the sung words and subtitled with the crib; the build
-fails on a video without its captions. The album page shows its
-cover, plays the album from Listen and carries the album's own text,
-the artist page за/обложкой's; long stories fold behind «…», and a
-vendored master downloads as .mp3.
+fails on a video without its captions. Opened while its song plays, a
+video starts at the song's place, offset by video.offsetSeconds, and
+the player yields the media session while it is open. The album page
+shows its cover, plays the album from Listen and carries the album's
+own text, the artist page за/обложкой's; long stories fold behind «…»,
+and a vendored master downloads as .mp3.
 
 The review left tooling behind: scripts/song-intake/ for mastering,
-spectra, captions timed off each video's audio, and spectrograms
-whose waveform is coloured by the bass note below and the note above
-it; check:stanza-repeats, which also fixed
-eleven older songs; transcribe.py ported from vzakharov/life, marking
-unsure words in place; and a masked word the recording itself carries
-stays, named in the song's frontmatter. pnpm test runs only the tests
-a branch changed, test:all the whole suite, and a video embedded from
-a link plays from its site-root path.
+spectra, captions timed off each video's audio, and spectrograms over
+a loudness envelope and treble and bass chromagram strips, with the
+recognisers' transcripts kept in docs/music/transcripts/;
+check:stanza-repeats, which also fixed eleven older songs;
+transcribe.py ported from vzakharov/life, marking unsure words in place;
+and a masked word the recording itself carries stays, named in the
+song's frontmatter. pnpm test runs only the tests a branch changed,
+test:all the whole suite, and a video embedded from a link plays from
+its site-root path.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
