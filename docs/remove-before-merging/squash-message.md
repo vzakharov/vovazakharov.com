@@ -9,7 +9,7 @@ The music index unfurled as the site avatar, an artist as one cover,
 and a page with no cover as the avatar too, so a shared link to the
 catalogue said nothing about music.
 
-The index now unfurls as a collage of the ten newest covers, and an
+The index now unfurls as a collage of up to ten newest covers, and an
 artist with two or more as a collage of its own releases': fixed slots
 of varied size and angle, some overhanging the edge, no text. They are
 committed JPEGs in the content:og lane, so a new cover re-flags them
