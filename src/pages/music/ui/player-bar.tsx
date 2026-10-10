@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  ActionIcon,
-  Box,
-  Group,
-  Text,
-  Tooltip,
-  UnstyledButton,
-} from '@mantine/core';
+import { ActionIcon, Box, Group, Text, UnstyledButton } from '@mantine/core';
 import { Pause, Play, Shuffle, SkipBack, SkipForward } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent, useState } from 'react';
@@ -23,60 +16,38 @@ import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 import { SongName } from './song-name';
 
-/** How long the hint stays up once the reader leaves, in milliseconds. */
-const HINT_FOR = 4000;
-
-/** `left` is `off` while the hint saying how to come back is still up. */
-type FollowMode = 'on' | 'left' | 'off';
-
 /**
- * Whether the bar keeps the reader on the playing song's page: following, it
- * opens that page, and opens the next one each time the track changes. It
- * starts on, and a navigation of the reader's own away from the page switches
- * it off; `resume` switches it back on.
+ * Keeps the reader on the playing song's page: while following, it opens that
+ * page, and opens the next one each time the track changes. Following starts
+ * on, a navigation of the reader's own away from the page switches it off, and
+ * the returned `resume` switches it back on.
  */
 function useFollow(route: string | undefined) {
   const router = useRouter();
   const pathname = usePathname();
-  const [mode, setMode] = useState<FollowMode>('on');
+  const [following, setFollowing] = useState(true);
   const [seen, setSeen] = useState(pathname);
 
   // Set during render rather than in an effect, so the push below never runs
-  // against a mode the navigation has already made stale.
+  // against a switch the navigation has already made stale.
   if (pathname !== seen) {
     setSeen(pathname);
-    if (mode === 'on' && route !== undefined && pathname !== route) {
-      setMode('left');
-    }
+    if (route !== undefined && pathname !== route) setFollowing(false);
   }
 
   // An event rather than a dependency: only a track change opens a page, and
   // the title `resume` sits on is itself a link to the one it would open.
   const open = useEffectEvent((to: string) => {
-    if (mode === 'on' && pathname !== to) router.push(to);
+    if (following && pathname !== to) router.push(to);
   });
 
   useEffect(() => {
     if (route !== undefined) open(route);
   }, [route]);
 
-  useEffect(() => {
-    if (mode !== 'left') return;
-
-    const timer = setTimeout(() => {
-      setMode('off');
-    }, HINT_FOR);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [mode]);
-
-  const resume = () => {
-    setMode('on');
+  return () => {
+    setFollowing(true);
   };
-
-  return [mode, resume] as const;
 }
 
 /** The control strip, pinned to the foot of every page under `/music`. */
@@ -93,7 +64,7 @@ export function PlayerBar() {
     shuffle,
     seek,
   } = usePlayer();
-  const [follow, resumeFollow] = useFollow(current?.routes[locale]);
+  const resumeFollow = useFollow(current?.routes[locale]);
   // The right-hand readout: the track's length, or what is left of it.
   const [remaining, setRemaining] = useStoredFlag('remaining');
 
@@ -153,40 +124,25 @@ export function PlayerBar() {
       </Group>
 
       <Box className={classes['playerTrack']}>
-        {/* Controlled while the hint is up, and on hover otherwise, until the
-            reader is following again. */}
-        <Tooltip
-          label={labels.followHint}
-          position="top-start"
-          withArrow
-          classNames={{ tooltip: classes['followHint'] }}
-          disabled={follow === 'on'}
-          {...(follow === 'left' && { opened: true })}
-        >
-          <Text size="sm" component="div">
-            <Marquee key={`${slug}/${locale}`}>
-              <NameLink href={routes[locale]} onClick={resumeFollow}>
-                <SongName {...titles[locale]} />
-              </NameLink>
-              <Text component="span" inherit opacity={0.6}>
-                {' — '}
-                {billing[locale].map((part) =>
-                  typeof part === 'string' ? (
-                    part
-                  ) : (
-                    <NameLink
-                      key={part.href}
-                      {...pick(part, 'href')}
-                      c="inherit"
-                    >
-                      {part.label}
-                    </NameLink>
-                  ),
-                )}
-              </Text>
-            </Marquee>
-          </Text>
-        </Tooltip>
+        <Text size="sm" component="div">
+          <Marquee key={`${slug}/${locale}`}>
+            <NameLink href={routes[locale]} onClick={resumeFollow}>
+              <SongName {...titles[locale]} />
+            </NameLink>
+            <Text component="span" inherit opacity={0.6}>
+              {' — '}
+              {billing[locale].map((part) =>
+                typeof part === 'string' ? (
+                  part
+                ) : (
+                  <NameLink key={part.href} {...pick(part, 'href')} c="inherit">
+                    {part.label}
+                  </NameLink>
+                ),
+              )}
+            </Text>
+          </Marquee>
+        </Text>
       </Box>
 
       <Group gap={8} wrap="nowrap" className={classes['playerSeek']}>

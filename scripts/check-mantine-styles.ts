@@ -61,17 +61,14 @@ const CORE_SHEETS = new Set(['baseline', 'default-css-variables', 'global']);
  * Sheets of components that render only after an interaction, so no static
  * page carries their classes and the unused half below would report them —
  * the song page's video dialog (`pages/music/ui/song-video-button.tsx`) and
- * the overlay and close button it composes, and the player bar's tooltip
- * (`pages/music/ui/player-bar.tsx`), the bar itself appearing only once a track
- * plays. Whether they are styled is confirmed by eye, with the dialog or the
- * tooltip open; drop an entry with its last user.
+ * the overlay and close button it composes. Whether they are styled is
+ * confirmed by eye, with the dialog open; drop an entry with its last user.
  */
 const INTERACTION_SHEETS = new Set([
   'Modal',
   'ModalBase',
   'Overlay',
   'CloseButton',
-  'Tooltip',
 ]);
 
 function walk(dir: string, extension: string): string[] {
