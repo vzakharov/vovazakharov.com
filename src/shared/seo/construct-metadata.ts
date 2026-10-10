@@ -16,6 +16,8 @@ export type ConstructMetadataParams = MaybeTitled &
   WithOptionalOgImageSize & {
     description?: string;
     ogDescription?: string; // Separate description for OpenGraph if different from main
+    /** The unfurl's title, where it differs from the page's own — the tab and the search result keep `title`. */
+    ogTitle?: string;
     path?: string; // e.g., "/cv" - automatically converted to absolute URL
     /**
      * Site-root path this page defers to, where two URLs serve one page. Left
@@ -59,6 +61,7 @@ export function constructMetadata({
   title,
   description = SITE_CONFIG.tagline,
   ogDescription,
+  ogTitle,
   path,
   canonical,
   languages,
@@ -72,7 +75,7 @@ export function constructMetadata({
 
   const absoluteUrl = path === undefined ? siteUrl : getAbsoluteUrl(path);
   const absoluteImageUrl = getAbsoluteUrl(ogImage ?? avatar.path);
-  const sharedTitle = title ?? siteName;
+  const sharedTitle = ogTitle ?? title ?? siteName;
   const { width, height } = avatar;
   // Published only when known — the avatar's from config, a custom image's
   // from the caller that read the file. A wrong pair is worse than none.
