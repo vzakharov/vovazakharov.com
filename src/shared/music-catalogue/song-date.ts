@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 /** `YYYY-MM`, or `YYYY-MM-DD` where a quoted value reaches the schema as text. */
-const SONG_DATE = /^\d{4}-\d{2}(?:-\d{2})?$/;
+const SONG_DATE = /^\d{4}(?:-\d{2}){1,2}$/;
 
 /**
  * Whether the text names a day the calendar has: `Date` rolls `2024-02-30`
@@ -10,10 +10,7 @@ const SONG_DATE = /^\d{4}-\d{2}(?:-\d{2})?$/;
 function isCalendarDate(text: string): boolean {
   const date = new Date(text);
 
-  return (
-    !Number.isNaN(date.getTime()) &&
-    date.toISOString().slice(0, text.length) === text
-  );
+  return !Number.isNaN(date.getTime()) && date.toISOString().startsWith(text);
 }
 
 /**

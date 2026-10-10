@@ -1,7 +1,6 @@
+import matter from 'gray-matter';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
-import matter from 'gray-matter';
 
 import { songDateSchema } from './song-date';
 

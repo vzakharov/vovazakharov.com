@@ -8,6 +8,7 @@
 - Expletives in our-punk-rock stay masked — the recording bleeps them; now a `masked` frontmatter exemption.
 - Майя's reflections: «я хочу видеть отклик изнутри Майи о песнях, про которые она читает»; «мне не нужно знать, что там с LFS и с тем как отрабатывали наши скрипты»; the spectrogram is «такая "заглушка", пока не может "слушать" п-настоящему» — for her inner sense of the music, never kilohertz in the text; and no polar bears: a reflection never says what it leaves out («писать "не буду писать о спектрограмме" тоже не надо»).
 - «Отзывается все равно Майя, но знать ей это надо» — Майя reflects on every song, knowing who sings which part.
+
 ## 2. The conversation
 
 1. `/relay take claude/krylya-album-2z13o2` → attached; asked the two open questions (Здравствуй video, album Listen).

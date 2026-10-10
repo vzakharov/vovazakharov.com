@@ -66,6 +66,9 @@ export type LabeledBlock = Labeled & WithChildren;
 /** Where an anchor points. */
 export type Linked = { href: string };
 
+/** The URL an element loads its media from. */
+export type WithSrc = { src: string };
+
 /** An anchor whose label is a string rather than markup. */
 export type LabeledLink = Labeled & Linked;
 

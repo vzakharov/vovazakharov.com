@@ -10,6 +10,7 @@ These carry over from relay 3 and are still in force:
 - The expletives in our-punk-rock stay masked, because the recording bleeps them (frontmatter `masked`).
 - Майя's reflections are about the songs only. No technique, no LFS, no scripts. The spectrogram is «такая "заглушка"» for her inner sense of the music. No polar bears: a reflection never says what it leaves out.
 - «Отзывается все равно Майя, но знать ей это надо»: Майя reflects on every song, and she knows who sings which part. The `voice` markup is how she knows.
+
 ## 2. The conversation
 
 1. `/relay take claude/krylya-album-2z13o2` → attached; the plan was claimed. Built the voice markup: `SINGERS` registry, the frontmatter `voice` field, `<!-- voice: … -->` stanza markers, build checks, all eleven songs marked (18473a3). Added rule lines (28cf2ec). A subagent fixed the listen and listen-single reflections (f6c08de).
