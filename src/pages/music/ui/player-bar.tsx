@@ -23,12 +23,10 @@ import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 import { SongName } from './song-name';
 
-/** How long the hint to follow again stays up after the reader leaves, in milliseconds. */
+/** How long the hint stays up once the reader leaves, in milliseconds. */
 const HINT_FOR = 4000;
 
-/**
- * `left` is `off` while the hint saying how to come back is still up.
- */
+/** `left` is `off` while the hint saying how to come back is still up. */
 type FollowMode = 'on' | 'left' | 'off';
 
 /**
