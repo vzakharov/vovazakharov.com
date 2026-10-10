@@ -1,6 +1,4 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
-
-# Music pages: collage cards and a "Listen to … on Vova's music" title
+# Music pages: collage cards and a "Listen to … by Vova" title
 
 ## Goal
 
@@ -17,7 +15,7 @@ What changes, in the operator's words:
 - **(b) an artist** gets the same, cut from its own releases' covers;
 - **(c) a page with no picture** gets one shared placeholder; drawing it is a separate task;
 - songs and albums with a cover keep it as it is;
-- the pictures carry **no text**, and the unfurl's title reads **"Listen to … on Vova's music"**.
+- the pictures carry **no text**, and the unfurl's title reads **"Listen to … by Vova"**.
 
 ## Approach
 
@@ -57,10 +55,12 @@ The index card lives at `routeCardPath(musicPath())` — `apps/vova/public/music
 
 The music pages pass it from a new message, `music.listenOn`, so it is translated with the rest:
 
-- en: `Listen to {name} on Vova's music`
-- ru: `Слушать {name} на Vova's music`
+- en: `Listen to {name} by Vova`
+- ru: `Слушать {name} у Вовы`
 
-`{name}` is the song's, album's or artist's name in the page's locale. The index has no name to put there and takes the bare form, `music.listenOnIndex`: `Listen to Vova's music` / `Слушать Vova's music`.
+`{name}` is the song's, album's or artist's name in the page's locale. The index has no name to put there and takes `music.listenOnIndex`: `Listen to Vova's music` / `Слушать музыку Вовы`.
+
+The Russian infinitive addresses nobody, so it sidesteps «ты»/«вы». A placeholder that is the site avatar until drawn was ruled out: the avatar says nothing about music, which is the defect this change fixes.
 
 ## Steps
 
@@ -78,15 +78,7 @@ The music pages pass it from a new message, `music.listenOn`, so it is translate
 - **`ogTitle` beside `ogDescription`**, rather than the music pages building their own `openGraph` block: the shared builder already owns the og/twitter pairing, and a second copy of it would drift.
 - **Not extracted:** the slot table stays inside `music-collage.ts`. It has one consumer and is the design itself; a "layout" abstraction would be a name for a constant.
 
-## Open questions
+## Progress
 
-1. **The Russian title.**
-   a. _(recommended, in force)_ `Слушать {name} на Vova's music` — the infinitive addresses nobody, so it sidesteps «ты»/«вы».
-   b. `Слушайте {name} на Vova's music`.
-   c. The English phrase on both locales.
-2. **The index's title.**
-   a. _(recommended, in force)_ `Listen to Vova's music`.
-   b. `Listen to music on Vova's music`.
-3. **The placeholder until it is drawn.**
-   a. _(recommended, in force)_ The index collage.
-   b. The site avatar, as today.
+- **Done:** the plan, approved with the operator's answers folded in above. No source edited.
+- **Left:** every step, from step 1. The session that approved it paused at its context budget before starting.
