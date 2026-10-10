@@ -1,11 +1,8 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 
-import { renderProse } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { FileLink, NameLink, PageShell } from '@/shared/ui';
-
-import { ProseContent } from '@/entities/document';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
@@ -20,22 +17,21 @@ import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
+import { CatalogueProse } from './catalogue-prose';
 import { MusicNav } from './music-nav';
-import { ReadMore } from './read-more';
 import { SongList } from './song-list';
 
 /**
  * One release: who put it out, its own text where it has one, and its songs in
  * track order.
  */
-export async function AlbumPage({ album, locale, everything }: AlbumPageProps) {
+export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
   const catalogue = { everything };
   const songs = catalogueSongs(catalogue);
   const messages = loadMessages(locale).music;
   const artist = albumArtist(album, locale);
   const tracks = albumTracks(album, songs);
   const text = albumText(album, locale);
-  const prose = text && (await renderProse(text));
   const queue = tracks.map(({ song }) => songTrack(song, album));
 
   return (
@@ -81,11 +77,7 @@ export async function AlbumPage({ album, locale, everything }: AlbumPageProps) {
           </Box>
         </CatalogueHeader>
 
-        {prose && (
-          <ReadMore label={messages.readMore}>
-            <ProseContent {...prose} />
-          </ReadMore>
-        )}
+        {text && <CatalogueProse {...{ text }} label={messages.readMore} />}
 
         <SongList
           {...pick(messages, 'title')}

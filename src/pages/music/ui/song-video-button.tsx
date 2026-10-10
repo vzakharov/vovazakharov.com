@@ -40,18 +40,22 @@ export function SongVideoButton({
   // video borrows the song's name as its label.
   const id = useId();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const watched = useRef(false);
-  const pausedPlayer = useRef(false);
+  const watchedRef = useRef(false);
+  const pausedPlayerRef = useRef(false);
 
   const close = () => {
     const videoTime = videoRef.current?.currentTime;
 
-    if (watched.current && videoTime !== undefined && current?.slug === slug) {
+    if (
+      watchedRef.current &&
+      videoTime !== undefined &&
+      current?.slug === slug
+    ) {
       seek(Math.max(0, videoTime - offsetSeconds));
     }
-    if (pausedPlayer.current) resume();
-    watched.current = false;
-    pausedPlayer.current = false;
+    if (pausedPlayerRef.current) resume();
+    watchedRef.current = false;
+    pausedPlayerRef.current = false;
     setOpened(false);
   };
 
@@ -108,9 +112,9 @@ export function SongVideoButton({
             }
           }}
           onPlay={() => {
-            watched.current = true;
+            watchedRef.current = true;
             if (state.playing) {
-              pausedPlayer.current = true;
+              pausedPlayerRef.current = true;
               pause();
             }
           }}
