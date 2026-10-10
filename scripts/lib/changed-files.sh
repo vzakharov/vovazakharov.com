@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# What the branch has changed, for the vet entries that run only when it reaches
-# them (scripts/vet-songs.sh).
+# What the branch has changed, for the checks that run only when it reaches them
+# (scripts/vet-songs.sh, and `pnpm test` through scripts/test-changed.sh).
 #
 # This file is meant to be SOURCED, not executed — it defines functions and does
 # not set shell options.
@@ -15,7 +15,7 @@ merge_base_with_default() {
 
 # Every path changed since the merge base, one per line — committed, uncommitted
 # and untracked alike, since vet judges the tree as it stands. Fails with no base
-# to diff against, which a caller reads as "run everything".
+# to diff against, which each caller handles its own way.
 changed_files() {
   local base
   base="$(merge_base_with_default)" || return 1

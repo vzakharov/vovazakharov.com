@@ -32,12 +32,17 @@ export type PlayerTrack = Slugged &
 export type WithTracks = { tracks: PlayerTrack[] };
 
 /**
- * Play order is a permutation of catalogue positions rather than a random pick
- * per skip, which is what makes a shuffled queue stable in both directions:
- * whatever `next` reached, `previous` returns to.
+ * The queue is the catalogue positions playback walks — the whole catalogue,
+ * or one album in track order — and play order a permutation of it rather than
+ * a random pick per skip, which is what makes a shuffled queue stable in both
+ * directions: whatever `next` reached, `previous` returns to.
  */
 export type PlayerState = {
-  /** Catalogue positions in play order — the identity order until shuffled. */
+  /** How many tracks the player knows, which is the position the next one takes. */
+  trackCount: number;
+  /** The queue's positions in their own order, which unshuffling returns to. */
+  queue: number[];
+  /** The queue's positions in play order — `queue` itself until shuffled. */
   order: number[];
   /** Where in `order` playback sits, or -1 before anything has been chosen. */
   cursor: number;
@@ -46,13 +51,21 @@ export type PlayerState = {
 };
 
 export type PlayerAction =
-  /** Play this catalogue position, wherever it sits in the current order. */
+  /**
+   * Play this catalogue position, wherever it sits in the current order; one
+   * outside the queue puts the whole catalogue back, unshuffled.
+   */
   | { type: 'select'; track: number }
   /**
    * Play a track the catalogue did not hold — a hidden song, from its own page
-   * — which takes the next catalogue position and joins the end of the order.
+   * — which takes the next catalogue position and joins the end of the queue.
    */
   | { type: 'append' }
+  /**
+   * Make these positions the queue, in this order, and play it from its top
+   * unshuffled. A position past the known ones is a track that joins with it.
+   */
+  | { type: 'queue'; positions: number[] }
   | { type: 'toggle' }
   /** One track forward or back, wrapping at either end. */
   | { type: 'step'; by: 1 | -1 }
@@ -79,8 +92,12 @@ function naturalOrder(count: number): number[] {
 }
 
 export function initialPlayerState(count: number): PlayerState {
+  const queue = naturalOrder(count);
+
   return {
-    order: naturalOrder(count),
+    trackCount: count,
+    queue,
+    order: queue,
     cursor: -1,
     shuffled: false,
     playing: false,
@@ -90,6 +107,46 @@ export function initialPlayerState(count: number): PlayerState {
 /** The catalogue position playing now, or `undefined` before anything is chosen. */
 export function currentTrack(state: PlayerState): number | undefined {
   return state.cursor < 0 ? undefined : state.order[state.cursor];
+}
+
+/**
+ * Whether playback is under way in exactly this queue — what an album's own
+ * button asks to decide between starting the album and pausing it.
+ */
+export function isQueued(
+  { queue, cursor }: Pick<PlayerState, 'queue' | 'cursor'>,
+  positions: readonly number[],
+): boolean {
+  return (
+    cursor >= 0 &&
+    queue.length === positions.length &&
+    queue.every((position, at) => position === positions[at])
+  );
+}
+
+/**
+ * Each wanted track's catalogue position, matched by slug. A track the player
+ * does not know yet takes the next free position and is listed in `missing`,
+ * in the order the positions were handed out.
+ */
+export function placeTracks<Track extends Slugged>(
+  known: readonly Track[],
+  wanted: readonly Track[],
+): { positions: number[]; missing: Track[] } {
+  const missing: Track[] = [];
+  const positions = wanted.map((track) => {
+    const at = [...known, ...missing].findIndex(
+      ({ slug }) => slug === track.slug,
+    );
+
+    if (at !== -1) return at;
+
+    missing.push(track);
+
+    return known.length + missing.length - 1;
+  });
+
+  return { positions, missing };
 }
 
 /** Seeded so a permutation is reproducible from the number that produced it. */
@@ -107,15 +164,15 @@ function randomFrom(seed: number): () => number {
 }
 
 /**
- * A permutation of every catalogue position, with `first` moved to the front so
+ * A permutation of the queue's positions, with `first` moved to the front so
  * turning shuffle on does not interrupt what is playing.
  */
 export function shuffleOrder(
-  count: number,
+  queue: readonly number[],
   first: number | undefined,
   seed: number,
 ): number[] {
-  const pool = naturalOrder(count);
+  const pool = [...queue];
   const random = randomFrom(seed);
   const order: number[] = [];
 
@@ -131,18 +188,42 @@ export function shuffleOrder(
 }
 
 function select(state: PlayerState, track: number): PlayerState {
-  const at = state.order.indexOf(track);
+  const { order, trackCount } = state;
+  const at = order.indexOf(track);
 
-  return at === -1 ? state : { ...state, cursor: at, playing: true };
+  if (at !== -1) return { ...state, cursor: at, playing: true };
+  if (track < 0 || track >= trackCount) return state;
+
+  // A song from outside an album's queue: the album's turn is over. Shuffle
+  // comes back on, if it was, through the stored switch the player obeys.
+  return { ...initialPlayerState(trackCount), cursor: track, playing: true };
 }
 
 function append(state: PlayerState): PlayerState {
-  const { order } = state;
+  const { trackCount, queue, order } = state;
 
   return {
     ...state,
-    order: [...order, order.length],
+    trackCount: trackCount + 1,
+    queue: [...queue, trackCount],
+    order: [...order, trackCount],
     cursor: order.length,
+    playing: true,
+  };
+}
+
+function enqueue(state: PlayerState, positions: number[]): PlayerState {
+  if (positions.length === 0) return state;
+
+  return {
+    trackCount: Math.max(
+      state.trackCount,
+      ...positions.map((position) => position + 1),
+    ),
+    queue: positions,
+    order: positions,
+    cursor: 0,
+    shuffled: false,
     playing: true,
   };
 }
@@ -170,9 +251,7 @@ function step(state: PlayerState, by: 1 | -1): PlayerState {
 function reshuffle(state: PlayerState, seed: number): PlayerState {
   const track = currentTrack(state);
   const shuffled = !state.shuffled;
-  const order = shuffled
-    ? shuffleOrder(state.order.length, track, seed)
-    : naturalOrder(state.order.length);
+  const order = shuffled ? shuffleOrder(state.queue, track, seed) : state.queue;
 
   return {
     ...state,
@@ -182,13 +261,17 @@ function reshuffle(state: PlayerState, seed: number): PlayerState {
   };
 }
 
+/** Puts the whole catalogue back as the queue, whatever album held it. */
 function shuffleAll(state: PlayerState, seed: number): PlayerState {
-  const { order } = state;
+  const { trackCount } = state;
 
-  if (order.length === 0) return state;
+  if (trackCount === 0) return state;
+
+  const catalogue = initialPlayerState(trackCount);
 
   return {
-    order: shuffleOrder(order.length, undefined, seed),
+    ...catalogue,
+    order: shuffleOrder(catalogue.queue, undefined, seed),
     cursor: 0,
     shuffled: true,
     playing: true,
@@ -206,6 +289,7 @@ export function playerReducer(
 ): PlayerState {
   if (action.type === 'select') return select(state, action.track);
   if (action.type === 'append') return append(state);
+  if (action.type === 'queue') return enqueue(state, action.positions);
   if (action.type === 'toggle') return toggle(state);
   if (action.type === 'step') return step(state, action.by);
   if (action.type === 'shuffle') return reshuffle(state, action.seed);

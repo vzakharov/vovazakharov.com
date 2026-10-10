@@ -67,4 +67,48 @@ describe('check-masked-words', () => {
     assert.equal(status, 1);
     assert.match(stdout, /song\.md:2: title: 'F\*ck Religion'/);
   });
+
+  it('passes a mask the frontmatter exempts with a reason', () => {
+    const { status, stdout } = run(
+      [
+        '---',
+        'masked:',
+        "  'про**ли': 'Bleeped on the recording too.'",
+        '---',
+        '',
+        String.raw`Пропустили свой рейс, про\*\*ли все тренды`,
+        '',
+      ].join('\n'),
+    );
+    assert.equal(stdout, 'masked-words: clean\n');
+    assert.equal(status, 0);
+  });
+
+  it('still fails a mask the exemption does not name', () => {
+    const { status, stdout } = run(
+      [
+        '---',
+        'masked:',
+        "  'про**ли': 'Bleeped on the recording too.'",
+        '---',
+        '',
+        String.raw`Про\*\*ли и f\*ck`,
+        '',
+      ].join('\n'),
+    );
+    assert.equal(status, 1);
+    assert.match(stdout, /song\.md:6: /);
+  });
+
+  it('refuses an exemption with no reason', () => {
+    const { status } = run(
+      [
+        "---\nmasked:\n  'про**ли': ''\n---",
+        '',
+        String.raw`про\*\*ли`,
+        '',
+      ].join('\n'),
+    );
+    assert.equal(status, 1);
+  });
 });

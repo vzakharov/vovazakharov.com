@@ -1,7 +1,8 @@
 /**
  * The releases a song can belong to. A registry rather than a collection: an
- * album has a name in each language and an artist, and its page is its songs
- * in track order, so there is no prose of its own to author.
+ * album's names and artist are typed values keyed by the enum a song's `album`
+ * names, not frontmatter. Its prose, where it has any, is a markdown file at
+ * its page's route plus `.md`, which `albumText` reads.
  */
 
 import { inLocale, type Locale, type Localizable } from '@/shared/i18n';
@@ -156,6 +157,23 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
       en: {
         transliteration: 'Silney lyubvi',
         translation: 'Stronger Than Love',
+      },
+    },
+  },
+  wings: {
+    title: 'Крылья',
+    artist: 'за/обложкой',
+    cover: true,
+    gloss: { en: { transliteration: 'Krylya', translation: 'Wings' } },
+  },
+  'punctuation-marks': {
+    title: 'Знаки препинания',
+    artist: 'за/обложкой',
+    cover: true,
+    gloss: {
+      en: {
+        transliteration: 'Znaki prepinaniya',
+        translation: 'Punctuation Marks',
       },
     },
   },

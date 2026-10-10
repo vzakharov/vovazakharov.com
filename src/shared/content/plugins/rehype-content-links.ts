@@ -4,33 +4,25 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import {
-  collectionAssetUrl,
-  type CollectionId,
-  type WithCollectionId,
-} from '../collections';
+import { resolveAuthoredPath } from '../collections';
+import type { ProseSource } from '../documents';
 
 /** `./x`, `../x` and bare `x` — anything that resolves against the document. */
 function isRelative(url: string): boolean {
   return !/^(?:[a-z][\d+.a-z-]*:|\/\/|\/|#)/i.test(url);
 }
 
-function stripLeadingDot(url: string): string {
-  return url.replace(/^\.\//, '');
-}
+/** The collection, and the file inside it that the links are written in. */
+type LinkContext = Pick<ProseSource, 'collection' | 'fileName'>;
 
-function rewrite(collection: CollectionId, url: string): string {
+function rewrite({ collection, fileName }: LinkContext, url: string): string {
   if (!isRelative(url)) return url;
 
-  const target = stripLeadingDot(url);
-  const hashAt = target.indexOf('#');
-  const pathPart = hashAt === -1 ? target : target.slice(0, hashAt);
-  const fragment = hashAt === -1 ? '' : target.slice(hashAt);
+  const hashAt = url.indexOf('#');
+  const pathPart = hashAt === -1 ? url : url.slice(0, hashAt);
+  const fragment = hashAt === -1 ? '' : url.slice(hashAt);
 
-  // A sibling document's route is its file name minus the `.md`, cuts
-  // included, so the documents' own cross-links resolve the same way every
-  // other relative target does — and this plugin never learns what a cut is.
-  return `${collectionAssetUrl(collection, pathPart.replace(/\.md$/, ''))}${fragment}`;
+  return `${resolveAuthoredPath(collection, fileName, pathPart)}${fragment}`;
 }
 
 const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
@@ -42,14 +34,12 @@ const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
 
 /**
  * Resolves the documents' relative links and media sources to site-root paths,
- * against where `public/` serves the collection. Runs before the media and
- * image plugins, which read the rewritten URLs.
+ * against where `public/` serves the file they are written in. Runs before the
+ * media and image plugins, which read the rewritten URLs.
  *
  * A link's absolute address, which paper needs, is `ContentLink`'s to give.
  */
-export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
-  collection,
-}) => {
+export const rehypeContentLinks: Plugin<[LinkContext], Root> = (context) => {
   return (tree) => {
     visit(tree, 'element', (node: Element) => {
       const attribute = URL_ATTRIBUTE[node.tagName];
@@ -60,7 +50,7 @@ export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
 
       if (typeof value !== 'string') return;
 
-      node.properties[attribute] = rewrite(collection, value);
+      node.properties[attribute] = rewrite(context, value);
     });
   };
 };

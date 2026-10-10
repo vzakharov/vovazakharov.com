@@ -33,6 +33,7 @@ const CREDITED_PEOPLE = [
   { en: 'Anna Akhmatova', ru: 'Анна Ахматова' },
   { en: 'Boris Pasternak', ru: 'Борис Пастернак' },
   { en: 'Viktor “Nixon” Sazonov', ru: 'Виктор «Никсон» Сазонов' },
+  { en: 'Vladimir Mayakovsky', ru: 'Владимир Маяковский' },
   { en: 'Ivan Derbenyov', ru: 'Иван Дербенёв' },
   { en: 'Igor Golubev', ru: 'Игорь Голубев' },
   { en: 'K. R.', ru: 'К. Р.' },

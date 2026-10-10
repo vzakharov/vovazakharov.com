@@ -15,7 +15,7 @@ import {
   withoutNotes,
   type WithStanzas,
 } from './lyric-notes';
-import { PREAMBLE, splitSections } from './sections';
+import { localeProse, splitSections } from './sections';
 import type { GlossedTitle } from './title-gloss';
 import {
   alignTransliteration,
@@ -58,10 +58,6 @@ export type SongLyrics = WithStanzas & {
   transliteration?: Transliteration;
 };
 
-function storyKey(locale: Locale): string {
-  return `lang:${locale}`;
-}
-
 function lyricsKey(language: string): string {
   return `lyrics:${language}`;
 }
@@ -88,16 +84,12 @@ export function localizeSong(
   locale: Locale,
 ): LocalizedSongDocument {
   const { frontmatter, body, route } = document;
-  const sections = splitSections(body);
-  const story = [sections.get(PREAMBLE), sections.get(storyKey(locale))]
-    .filter((section) => section !== undefined)
-    .join('\n\n');
 
   return {
     ...document,
     locale,
     frontmatter: { ...frontmatter, ...localeText(frontmatter, locale) },
-    body: story,
+    body: localeProse(body, locale),
     route: `${route}/${locale}`,
   };
 }

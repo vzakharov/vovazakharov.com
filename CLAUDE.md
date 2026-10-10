@@ -100,7 +100,7 @@ Never hand-write a type or schema whose shape tracks another declaration — der
 
 ## Testing
 
-`pnpm test` runs **Node's built-in test runner** (`node --import tsx --test`) over every `**/*.test.ts`. No framework, no config: a test imports `node:test` and `node:assert/strict` and sits beside the module it covers. Keep it that way unless something genuinely needs a framework.
+`pnpm test` runs **Node's built-in test runner** (`node --import tsx --test`) over the tests the branch reached — each changed `*.test.ts` and the one beside each changed file; `pnpm test:all` is the whole suite, which vet runs. No framework, no config: a test imports `node:test` and `node:assert/strict` and sits beside the module it covers. Keep it that way unless something genuinely needs a framework.
 
 **The suite covers the scripts' own libraries and the pure functions under `src/` — no page, route or component.** For the app, `pnpm build` is the stand-in: it type-checks every page and renders every route, but says nothing about whether a page is _correct_ — `/preview` is how to look. Anything whose behavior is a pure function of its input belongs in the suite rather than in a QA checklist row; `.claude/rules/testing.md` carries how to test a CLI.
 

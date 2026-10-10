@@ -43,10 +43,7 @@ That wants to see my ending?
 Everybody knows
 That’s how it goes
 There’s only kill or be killed
-
-Everybody knows
-That’s how it goes
-There’s only kill or be killed
+x2
 
 See you trying your best
 To control what’s in front of you
@@ -61,10 +58,7 @@ When there is no escaping
 Everybody knows
 That’s how it goes
 There’s only kill or be killed
-
-Everybody knows
-That’s how it goes
-There’s only kill or be killed
+x2
 
 Am I
 Losing my mind?
@@ -74,18 +68,7 @@ Do I say goodbye?
 Everybody knows
 That’s how it goes
 There’s only kill or be killed
-
-Everybody knows
-That’s how it goes
-There’s only kill or be killed
-
-Everybody knows
-That’s how it goes
-There’s only kill or be killed
-
-Everybody knows
-That’s how it goes
-There’s only kill or be killed
+x4
 
 <!-- lyrics:ru -->
 
@@ -102,10 +85,7 @@ There’s only kill or be killed
 Все знают
 Так уж оно бывает
 Есть только «убей или будь убит»
-
-Все знают
-Так уж оно бывает
-Есть только «убей или будь убит»
+x2
 
 Вижу, как ты изо всех сил стараешься
 Держать под контролем то, что перед тобой
@@ -120,10 +100,7 @@ There’s only kill or be killed
 Все знают
 Так уж оно бывает
 Есть только «убей или будь убит»
-
-Все знают
-Так уж оно бывает
-Есть только «убей или будь убит»
+x2
 
 Неужели я
 Схожу с ума?
@@ -133,15 +110,4 @@ There’s only kill or be killed
 Все знают
 Так уж оно бывает
 Есть только «убей или будь убит»
-
-Все знают
-Так уж оно бывает
-Есть только «убей или будь убит»
-
-Все знают
-Так уж оно бывает
-Есть только «убей или будь убит»
-
-Все знают
-Так уж оно бывает
-Есть только «убей или будь убит»
+x4

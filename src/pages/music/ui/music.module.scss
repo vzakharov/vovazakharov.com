@@ -290,8 +290,8 @@
   }
 }
 
-// A song page's cover, above its title on a phone and beside it from `sm` up.
-.songHead {
+// A page's cover, above its title on a phone and beside it from `sm` up.
+.coverHead {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -302,7 +302,7 @@
   }
 }
 
-.songCover {
+.cover {
   flex: none;
   width: 160px;
 
@@ -382,4 +382,16 @@
   overflow-wrap: normal;
   word-break: keep-all;
   hyphens: manual;
+}
+
+// A square video, as wide as the viewport's height allows past the dialog's
+// header and margins, so the whole frame shows unscrolled; Mantine caps it at
+// the screen's width.
+.videoModal {
+  flex-basis: min(848px, calc(100dvh - 12rem));
+}
+
+.video {
+  display: block;
+  width: 100%;
 }

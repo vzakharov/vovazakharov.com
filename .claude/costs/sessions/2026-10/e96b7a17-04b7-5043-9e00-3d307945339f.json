@@ -1,0 +1,100 @@
+{
+  "estimate": {
+    "at": "2026-10-09T14:27:18.050Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "assembling separation, recognition and a mastering chain from open tools, then codifying it as scripts, is a developer's day"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "a sound engineer's A/B rounds to settle how bright a half-strength master should be"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "editor",
+        "comment": "a persona and its reflection rule written in the house's voice"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "e96b7a17-04b7-5043-9e00-3d307945339f",
+  "branch": "claude/krylya-album-2z13o2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "создай пжст новую ветку куда я кину альбом за/обложкой -- Крылья для последующей обработки с музыкой",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01HcrcvLdqQhLWryGh13jfyi",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-09T13:18:50.651Z",
+  "lastResponseAt": "2026-10-09T14:30:05.667Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 326,
+    "cacheWrite5mTokens": 63747,
+    "cacheWrite1hTokens": 241440,
+    "cacheReadTokens": 27989261,
+    "outputTokens": 96019,
+    "thinkingTokens": 32179,
+    "responses": 154,
+    "costUsd": 9.769791199999997
+  },
+  "ownTurns": {
+    "inputTokens": 312,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 241440,
+    "cacheReadTokens": 27619338,
+    "outputTokens": 95933,
+    "thinkingTokens": 32179,
+    "responses": 147,
+    "costUsd": 9.375295599999998
+  },
+  "subagents": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 63747,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 369923,
+    "outputTokens": 86,
+    "thinkingTokens": 0,
+    "responses": 7,
+    "costUsd": 0.39449560000000006
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 326,
+      "cacheWrite5mTokens": 63747,
+      "cacheWrite1hTokens": 241440,
+      "cacheReadTokens": 27989261,
+      "outputTokens": 96019,
+      "thinkingTokens": 32179,
+      "responses": 154,
+      "costUsd": 9.769791199999997
+    }
+  },
+  "warnings": [
+    "7 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-09T13:19:23.547Z",
+    "contextTokens": 93389,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48278,
+      "cacheReadTokens": 471885,
+      "outputTokens": 2148,
+      "thinkingTokens": 1024,
+      "responses": 6,
+      "costUsd": 0.523609
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
