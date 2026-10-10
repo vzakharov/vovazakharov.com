@@ -55,16 +55,7 @@ ru:
 О, существа, заснувшие надолго!
 О, вспыхнувший над самой головой
 Мгновенный пламень звёздного осколка!
-
-О, сад ночной, о, бедный сад ночной,
-О, существа, заснувшие надолго!
-О, вспыхнувший над самой головой
-Мгновенный пламень звёздного осколка!
-
-О, сад ночной, о, бедный сад ночной,
-О, существа, заснувшие надолго!
-О, вспыхнувший над самой головой
-Мгновенный пламень звёздного осколка!
+x3
 
 О, сад ночной.
 
@@ -94,15 +85,6 @@ Oh, night garden, oh, poor night garden,
 Oh, creatures fallen asleep for long!
 Oh, flaring right overhead,
 The instant flame of a splinter of a star!
-
-Oh, night garden, oh, poor night garden,
-Oh, creatures fallen asleep for long!
-Oh, flaring right overhead,
-The instant flame of a splinter of a star!
-
-Oh, night garden, oh, poor night garden,
-Oh, creatures fallen asleep for long!
-Oh, flaring right overhead,
-The instant flame of a splinter of a star!
+x3
 
 Oh, night garden.

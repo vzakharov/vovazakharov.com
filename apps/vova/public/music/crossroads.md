@@ -104,10 +104,7 @@ Till the end of days
 Crossroads calling loud
 Crossroads calling loud
 Crossroads calling loud!
-
-Crossroads calling loud
-Crossroads calling loud
-Crossroads calling loud!
+x2
 
 <!-- lyrics:ru -->
 
@@ -171,7 +168,4 @@ Crossroads calling loud!
 Перекрёсток зовёт во весь голос
 Перекрёсток зовёт во весь голос
 Перекрёсток зовёт во весь голос!
-
-Перекрёсток зовёт во весь голос
-Перекрёсток зовёт во весь голос
-Перекрёсток зовёт во весь голос!
+x2

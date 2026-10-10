@@ -12,7 +12,10 @@ import remarkParse from 'remark-parse';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { GENERATED_DIR } from '../../src/shared/content/collections.ts';
+import {
+  GENERATED_DIR,
+  isDocumentFile,
+} from '../../src/shared/content/collections.ts';
 
 const FRONTMATTER = /^---\n[\S\s]*?\n---\n/;
 
@@ -39,17 +42,20 @@ export function publicMarkdownFiles(): string[] {
 
 const MUSIC_DIR = 'apps/vova/public/music';
 
-/** Every song — each Markdown file directly under the music collection — relative to the root, sorted. */
+/** Every song — each document directly under the music collection, companions aside — relative to the root, sorted. */
 export function songFiles(): string[] {
   if (!fs.existsSync(MUSIC_DIR)) return [];
   return fs
     .readdirSync(MUSIC_DIR)
-    .filter((name) => name.endsWith('.md'))
+    .filter((name) => isDocumentFile(name))
     .toSorted()
     .map((name) => path.join(MUSIC_DIR, name));
 }
 
-export type Span = { start: number; end: number };
+/** Offset into the file where a stretch of its text begins. */
+export type WithStart = { start: number };
+
+export type Span = WithStart & { end: number };
 
 /** The file's frontmatter block, delimiters included, or `undefined` when it has none. */
 export function frontmatterSpan(source: string): Span | undefined {

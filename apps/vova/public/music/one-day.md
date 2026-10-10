@@ -97,11 +97,7 @@ Down to break some stuff
 People so lovely hilarious
 Keep me from coming
 Down to be the god that they deserve.
-
-(People) so funny
-People so lovely hilarious
-Keep me from coming
-Down to be the god that they deserve.
+x2
 
 <!-- lyrics:ru -->
 
@@ -175,8 +171,4 @@ Down to be the god that they deserve.
 Люди такие мило уморительные
 Не дают мне сойти
 Вниз и стать тем богом, которого они заслуживают.
-
-(Люди) такие смешные
-Люди такие мило уморительные
-Не дают мне сойти
-Вниз и стать тем богом, которого они заслуживают.
+x2

@@ -47,6 +47,8 @@ export const MUSIC_ALBUM_SLUGS = [
   'prototypes',
   'for-none-and-for-all',
   'stronger-than-love',
+  'wings',
+  'punctuation-marks',
 ] as const;
 
 export type MusicAlbum = (typeof MUSIC_ALBUM_SLUGS)[number];

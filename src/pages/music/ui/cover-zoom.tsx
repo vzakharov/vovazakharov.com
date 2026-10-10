@@ -28,7 +28,7 @@ export function CoverZoom({ src, enlargeLabel, closeLabel }: CoverZoomProps) {
         type="button"
         className={cx(
           classes['tileArt'],
-          classes['songCover'],
+          classes['cover'],
           classes['coverOpen'],
         )}
         aria-label={enlargeLabel}

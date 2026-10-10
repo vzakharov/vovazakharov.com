@@ -1,0 +1,34 @@
+// Screen only, so paper gets the whole text with no rule to undo.
+@media screen {
+  // About six lines of the prose's 1.75 line height.
+  .clamped {
+    position: relative;
+    max-height: 10.5rem;
+    overflow: hidden;
+  }
+
+  .clamped[data-overflowing='true']::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 4rem;
+    pointer-events: none;
+    content: '';
+    background: linear-gradient(transparent, var(--color-background));
+  }
+}
+
+// The ring the opened text takes focus with: Mantine's own, which reaches only
+// its components, set clear of the glyphs at the column's edge.
+.box:focus-visible {
+  outline: 2px solid var(--mantine-primary-color-filled);
+  outline-offset: 8px;
+}
+
+.more {
+  padding: 0 4px;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0.1em;
+}

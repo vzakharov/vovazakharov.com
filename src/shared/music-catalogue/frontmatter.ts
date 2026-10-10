@@ -9,6 +9,7 @@ import { byLocale } from '@/shared/i18n';
 import { baseFrontmatterSchema } from '../content/frontmatter';
 import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from './names';
 import { creditedNameSchema } from './people';
+import { songDateSchema } from './song-date';
 
 /** Whether the song is released or still being worked on. */
 const SONG_STATUSES = ['done', 'wip'] as const;
@@ -101,14 +102,17 @@ const placementSchema = z.object({ album: albumSchema, track: trackSchema });
 
 export type AlbumPlacement = z.infer<typeof placementSchema>;
 
+/** A URL, or a site-root path for a file the site hosts itself. */
+const mediaSourceSchema = z.union([z.url(), z.string().regex(/^\/(?!\/)/)]);
+
 /** What the player needs of a song, and all it needs. */
 const playableSchema = z.object({
   /**
-   * The master, played as-is: a URL, or a site-root path for one the site
-   * hosts itself because no repository holds it. One field, not a lossless/lossy
-   * pair: a song has one master, so a second would be the same file twice.
+   * The master, played as-is — site-hosted where no repository holds it. One
+   * field, not a lossless/lossy pair: a song has one master, so a second would
+   * be the same file twice.
    */
-  audio: z.union([z.url(), z.string().regex(/^\/(?!\/)/)]),
+  audio: mediaSourceSchema,
   /**
    * The master's duration, read off its own FLAC header by the scaffolder. A
    * cache, and safe to be one because a master never changes — it is what lets
@@ -124,6 +128,7 @@ export type Playable = z.infer<typeof playableSchema>;
 const songFieldsSchema = baseFrontmatterSchema
   .extend(playableSchema.shape)
   .extend({
+    date: songDateSchema,
     /**
      * The song's own name — in the language it is sung in, or the English one
      * where neither locale's is that. A locale states one only where it differs.
@@ -166,6 +171,18 @@ const songFieldsSchema = baseFrontmatterSchema
      */
     titleTransliterated: z.boolean().default(false),
     credits: creditsSchema.optional(),
+    video: z
+      .object({
+        src: mediaSourceSchema,
+        /**
+         * Where the master's start falls on the video's timeline, in seconds —
+         * negative where the video starts after it. A video is cut on its own,
+         * so opening it mid-song lands on the same moment only with this.
+         * `scripts/song-intake/video-offset.py` measures it.
+         */
+        offsetSeconds: z.number(),
+      })
+      .optional(),
     /** Track id, where the song is also on Spotify. */
     spotify: z.string().min(1).optional(),
   });
