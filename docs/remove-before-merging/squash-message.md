@@ -23,10 +23,10 @@ own text, the artist page за/обложкой's; long stories fold behind «�
 and a vendored master downloads as .mp3.
 
 The review left tooling behind: scripts/song-intake/ for mastering,
-spectra, captions timed off each video's audio, and spectrograms over
-a loudness envelope and treble and bass chromagram strips coloured by
-octave, with the
-recognisers' transcripts kept in docs/music/transcripts/;
+spectra, captions timed off each video's audio, and spectrograms
+marking where sections change, over a loudness envelope and treble and
+bass chromagram strips coloured by octave, with the recognisers'
+transcripts kept in docs/music/transcripts/;
 check:stanza-repeats, which also fixed eleven older songs;
 transcribe.py ported from vzakharov/life, marking unsure words in place;
 and a masked word the recording itself carries stays, named in the
