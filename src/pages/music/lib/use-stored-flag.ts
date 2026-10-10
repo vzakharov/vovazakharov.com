@@ -4,7 +4,7 @@ import { useCallback, useSyncExternalStore } from 'react';
  * The bar's switches a reader expects to find as they left them, each with
  * where it starts for a reader who has never touched it.
  */
-const DEFAULTS = { shuffle: false, follow: true, remaining: false };
+const DEFAULTS = { shuffle: false, remaining: false };
 
 type StoredFlag = keyof typeof DEFAULTS;
 

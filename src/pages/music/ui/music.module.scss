@@ -112,6 +112,13 @@
   background: var(--color-foreground);
 }
 
+// Mantine's tooltip reads `white` as its text colour, which here is the
+// background token, so in the dark scheme its text is the colour of its fill.
+.followHint {
+  color: var(--color-background);
+  background: var(--color-foreground);
+}
+
 // Dimmed by colour rather than opacity: a note's popover sits inside the
 // column, and no descendant can undo an ancestor's opacity.
 .mutedColumn {

@@ -27,6 +27,7 @@ import '@mantine/core/styles/Container.layer.css';
 import '@mantine/core/styles/Divider.layer.css';
 import '@mantine/core/styles/List.layer.css';
 import '@mantine/core/styles/Modal.layer.css';
+import '@mantine/core/styles/Tooltip.layer.css';
 import '@mantine/core/styles/SimpleGrid.layer.css';
 import '@mantine/core/styles/Stack.layer.css';
 import '@mantine/core/styles/Switch.layer.css';

@@ -320,8 +320,7 @@
       "pause": "Pause",
       "next": "Next track",
       "shuffle": "Shuffle",
-      "follow": "Follow the playing song",
-      "followHint": "Open each song’s page as it starts playing",
+      "followHint": "Click the title to follow the playing song again",
       "seek": "Seek",
       "timeToggle": "Switch between the song’s length and the time left"
     }

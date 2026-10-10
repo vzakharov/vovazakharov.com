@@ -1,16 +1,16 @@
 'use client';
 
-import { ActionIcon, Box, Group, Text, UnstyledButton } from '@mantine/core';
 import {
-  LocateFixed,
-  Pause,
-  Play,
-  Shuffle,
-  SkipBack,
-  SkipForward,
-} from 'lucide-react';
+  ActionIcon,
+  Box,
+  Group,
+  Text,
+  Tooltip,
+  UnstyledButton,
+} from '@mantine/core';
+import { Pause, Play, Shuffle, SkipBack, SkipForward } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useEffectEvent } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
@@ -23,32 +23,62 @@ import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 import { SongName } from './song-name';
 
+/** How long the hint to follow again stays up after the reader leaves, in milliseconds. */
+const HINT_FOR = 4000;
+
 /**
- * Whether the bar keeps the reader on the playing song's page: switched on, it
- * opens that page, and opens the next one each time the track changes. Leaving
- * the page by hand does not switch it off, so the next track brings them back;
- * nor does a reload, the switch being remembered.
+ * `left` is `off` while the hint saying how to come back is still up.
+ */
+type FollowMode = 'on' | 'left' | 'off';
+
+/**
+ * Whether the bar keeps the reader on the playing song's page: following, it
+ * opens that page, and opens the next one each time the track changes. It
+ * starts on, and a navigation of the reader's own away from the page switches
+ * it off; `resume` switches it back on.
  */
 function useFollow(route: string | undefined) {
   const router = useRouter();
   const pathname = usePathname();
-  const [following, setFollowing] = useStoredFlag('follow');
+  const [mode, setMode] = useState<FollowMode>('on');
+  const [seen, setSeen] = useState(pathname);
 
-  // An event rather than a dependency: a navigation of the reader's own must
-  // not count as a track change and send them straight back.
+  // Set during render rather than in an effect, so the push below never runs
+  // against a mode the navigation has already made stale.
+  if (pathname !== seen) {
+    setSeen(pathname);
+    if (mode === 'on' && route !== undefined && pathname !== route) {
+      setMode('left');
+    }
+  }
+
+  // An event rather than a dependency: only a track change opens a page, and
+  // the title `resume` sits on is itself a link to the one it would open.
   const open = useEffectEvent((to: string) => {
-    if (pathname !== to) router.push(to);
+    if (mode === 'on' && pathname !== to) router.push(to);
   });
 
   useEffect(() => {
-    if (following && route !== undefined) open(route);
-  }, [following, route]);
+    if (route !== undefined) open(route);
+  }, [route]);
 
-  const toggle = () => {
-    setFollowing(!following);
+  useEffect(() => {
+    if (mode !== 'left') return;
+
+    const timer = setTimeout(() => {
+      setMode('off');
+    }, HINT_FOR);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [mode]);
+
+  const resume = () => {
+    setMode('on');
   };
 
-  return [following, toggle] as const;
+  return [mode, resume] as const;
 }
 
 /** The control strip, pinned to the foot of every page under `/music`. */
@@ -65,7 +95,7 @@ export function PlayerBar() {
     shuffle,
     seek,
   } = usePlayer();
-  const [following, toggleFollow] = useFollow(current?.routes[locale]);
+  const [follow, resumeFollow] = useFollow(current?.routes[locale]);
   // The right-hand readout: the track's length, or what is left of it.
   const [remaining, setRemaining] = useStoredFlag('remaining');
 
@@ -122,41 +152,43 @@ export function PlayerBar() {
         >
           <Shuffle size={18} />
         </ActionIcon>
-
-        <ActionIcon
-          variant="default"
-          size="lg"
-          radius="xl"
-          className={cx(following && classes['controlOn'])}
-          onClick={toggleFollow}
-          aria-label={labels.follow}
-          aria-pressed={following}
-          title={labels.followHint}
-        >
-          <LocateFixed size={18} />
-        </ActionIcon>
       </Group>
 
       <Box className={classes['playerTrack']}>
-        <Text size="sm" component="div">
-          <Marquee key={`${slug}/${locale}`}>
-            <NameLink href={routes[locale]}>
-              <SongName {...titles[locale]} />
-            </NameLink>
-            <Text component="span" inherit opacity={0.6}>
-              {' — '}
-              {billing[locale].map((part) =>
-                typeof part === 'string' ? (
-                  part
-                ) : (
-                  <NameLink key={part.href} {...pick(part, 'href')} c="inherit">
-                    {part.label}
-                  </NameLink>
-                ),
-              )}
-            </Text>
-          </Marquee>
-        </Text>
+        {/* Controlled while the hint is up, and on hover otherwise, until the
+            reader is following again. */}
+        <Tooltip
+          label={labels.followHint}
+          position="top-start"
+          withArrow
+          classNames={{ tooltip: classes['followHint'] }}
+          disabled={follow === 'on'}
+          {...(follow === 'left' && { opened: true })}
+        >
+          <Text size="sm" component="div">
+            <Marquee key={`${slug}/${locale}`}>
+              <NameLink href={routes[locale]} onClick={resumeFollow}>
+                <SongName {...titles[locale]} />
+              </NameLink>
+              <Text component="span" inherit opacity={0.6}>
+                {' — '}
+                {billing[locale].map((part) =>
+                  typeof part === 'string' ? (
+                    part
+                  ) : (
+                    <NameLink
+                      key={part.href}
+                      {...pick(part, 'href')}
+                      c="inherit"
+                    >
+                      {part.label}
+                    </NameLink>
+                  ),
+                )}
+              </Text>
+            </Marquee>
+          </Text>
+        </Tooltip>
       </Box>
 
       <Group gap={8} wrap="nowrap" className={classes['playerSeek']}>
