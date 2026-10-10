@@ -196,8 +196,10 @@ for (const { site, pages } of sites) {
 if (failed) {
   console.error(
     '\nThe preloads a language adds are `LOCALE_FONTS` in\n' +
-      'src/shared/ui/locale-fonts.tsx, rendered by every localized page through\n' +
-      '`LocaleFonts`. Preload exactly what every page in the language uses.',
+      'src/shared/ui/locale-fonts.tsx. Each localized section renders\n' +
+      '`LocaleFonts` from the component every one of its pages carries —\n' +
+      '`MusicNav`, `CvPage`; a page missing them all lacks it. Preload exactly\n' +
+      'what every page in the language uses.',
   );
   process.exit(1);
 }

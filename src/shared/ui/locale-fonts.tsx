@@ -19,8 +19,9 @@ const LOCALE_FONTS: Record<WithLocale['locale'], string[]> = {
 
 /**
  * Starts the page's own-language font files downloading with the HTML, rather
- * than once the stylesheet shows the browser text that needs them. Every page
- * rendered in a locale carries one.
+ * than once the stylesheet shows the browser text that needs them. A layout is
+ * never told its page's locale, so each localized section renders this from
+ * the one component its pages cannot go without — `MusicNav`, `CvPage`.
  */
 export function LocaleFonts({ locale }: WithLocale) {
   for (const href of LOCALE_FONTS[locale]) {

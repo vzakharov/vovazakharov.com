@@ -2,7 +2,7 @@ import { Stack } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { LocaleFonts, PageShell } from '@/shared/ui';
+import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
@@ -26,7 +26,6 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
 
   return (
     <PageShell>
-      <LocaleFonts {...{ locale }} />
       <Stack gap={48}>
         <MusicNav
           back={{ href: indexPath(catalogue, locale), label: messages.back }}

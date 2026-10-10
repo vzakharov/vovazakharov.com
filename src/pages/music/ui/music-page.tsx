@@ -3,7 +3,7 @@ import { Stack } from '@mantine/core';
 import { SITE_ID } from '@/shared/config';
 import { findFeed } from '@/shared/content';
 import { byLocale } from '@/shared/i18n';
-import { LocaleFonts, PageShell } from '@/shared/ui';
+import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
@@ -29,7 +29,6 @@ export function MusicPage({ locale, everything, tab }: IndexPageProps) {
 
   return (
     <PageShell>
-      <LocaleFonts {...{ locale }} />
       <Stack gap={48}>
         <MusicNav
           hrefs={byLocale((alternate) => tabPath(tab, catalogue, alternate))}
