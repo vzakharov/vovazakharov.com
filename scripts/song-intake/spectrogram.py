@@ -54,6 +54,7 @@ CROSSOVER_HZ = 262
 PEAK_RANGE_DB = 30
 CLEAR_SHARE = 0.2
 QUIET_DB = -50
+QUIET = 10 ** (QUIET_DB / 20)
 # A note shorter than this blurs into its neighbours; a column alone flickers.
 NOTE_WINDOW_S = 0.6
 # The pitch classes round a hue circle, C at red; per class a peak shade and a
@@ -62,6 +63,8 @@ NOTE_SHADES = [
     [colorsys.hls_to_rgb(k / 12, lightness, 0.75) for lightness in (0.58, 0.8)] for k in range(12)
 ]
 NO_NOTE_SHADES = [(0.42, 0.42, 0.42), (0.65, 0.65, 0.65)]
+# Indexed by pitch class, so a -1 for no note picks the grey at the end.
+SHADES = NOTE_SHADES + [NO_NOTE_SHADES]
 
 
 def decode(path):
@@ -143,7 +146,7 @@ def dominant_notes(magnitude, freqs, step, duration, columns, band_hz):
     span = np.ones(max(1, round(NOTE_WINDOW_S * columns / duration)))
     per_column = np.stack([np.convolve(per_column[:, k], span, "same") for k in range(12)], axis=1)
     share = per_column.max(axis=1) / np.maximum(per_column.sum(axis=1), 1e-12)
-    clear = (share >= CLEAR_SHARE) & (level >= 10 ** (QUIET_DB / 20))
+    clear = (share >= CLEAR_SHARE) & (level >= QUIET)
     return np.where(clear, per_column.argmax(axis=1), -1)
 
 
@@ -153,7 +156,7 @@ def waveform_image(peak, rms, bass_notes, high_notes, rows=128):
     over it — black around them."""
     signed = np.linspace(-1, 1, rows)[:, None]
     level = np.abs(signed)
-    palette = np.array(NOTE_SHADES + [NO_NOTE_SHADES])  # -1 picks the last, the grey
+    palette = np.array(SHADES)
     shades = np.where((signed < 0)[..., None, None], palette[bass_notes], palette[high_notes])
     image = np.zeros((rows, len(peak), 3))
     image[level <= peak] = shades[:, :, 0][level <= peak]
@@ -208,8 +211,8 @@ def main():
     bass = dominant_notes(magnitude, freqs, step, duration, columns, (NOTE_BAND_HZ[0], CROSSOVER_HZ))
     high = dominant_notes(magnitude, freqs, step, duration, columns, (CROSSOVER_HZ, NOTE_BAND_HZ[1]))
     # Silence has spectral peaks too, of noise; it is grey however clear they look.
-    bass[rms < 10 ** (QUIET_DB / 20)] = -1
-    high[rms < 10 ** (QUIET_DB / 20)] = -1
+    bass[rms < QUIET] = -1
+    high[rms < QUIET] = -1
     wave.imshow(
         waveform_image(peak, rms, bass, high), origin="lower", aspect="auto",
         extent=(0, duration, -1, 1), interpolation="nearest",
@@ -226,8 +229,8 @@ def main():
 
     # The note legend, under the waveform's right end: one cell per class, then grey.
     legend = fig.add_axes((0.94 - 0.3, 0.008, 0.3, 0.024))
-    legend.imshow([[shade[0] for shade in NOTE_SHADES + [NO_NOTE_SHADES]]], aspect="auto")
-    for k, (name, (shade, _)) in enumerate(zip(NOTE_NAMES + ("none",), NOTE_SHADES + [NO_NOTE_SHADES])):
+    legend.imshow([[shade[0] for shade in SHADES]], aspect="auto")
+    for k, (name, (shade, _)) in enumerate(zip(NOTE_NAMES + ("none",), SHADES)):
         ink = "black" if np.dot(shade, (0.299, 0.587, 0.114)) > 0.5 else "white"
         legend.text(k, 0, name, ha="center", va="center", fontsize=7, color=ink)
     legend.set_axis_off()
@@ -239,7 +242,7 @@ def main():
     # loudest, and the scale lies.
     steps = [round(255 * c) for i in range(cmap.N) for c in cmap(i)[:3]]
     greys = [round(255 * i / (63 - cmap.N)) for i in range(64 - cmap.N) for _ in range(3)]
-    shades = [round(255 * c) for pair in NOTE_SHADES + [NO_NOTE_SHADES] for rgb in pair for c in rgb]
+    shades = [round(255 * c) for pair in SHADES for rgb in pair for c in rgb]
     palette = Image.new("P", (1, 1))
     palette.putpalette(steps + greys + shades)
     Image.open(buffer).convert("RGB").quantize(palette=palette, dither=Image.Dither.NONE).save(

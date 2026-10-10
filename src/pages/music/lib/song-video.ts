@@ -51,8 +51,9 @@ export function songVideo(
 
   const names = new Intl.DisplayNames(locale, { type: 'language' });
   const stem = video.slice(0, video.length - path.extname(video).length);
+  const trackSrc = (srcLang: string) => `${stem}.${srcLang}.vtt`;
   const track = (srcLang: string): CaptionTrack | undefined => {
-    const src = `${stem}.${srcLang}.vtt`;
+    const src = trackSrc(srcLang);
     const name = names.of(srcLang) ?? srcLang;
 
     return fs.existsSync(path.join(PUBLIC_DIR, src))
@@ -69,7 +70,7 @@ export function songVideo(
 
   if (captions === undefined) {
     throw new Error(
-      `${fileName}: no captions at ${stem}.${sung}.vtt; scripts/song-intake/captions.py writes them.`,
+      `${fileName}: no captions at ${trackSrc(sung)}; scripts/song-intake/captions.py writes them.`,
     );
   }
 
