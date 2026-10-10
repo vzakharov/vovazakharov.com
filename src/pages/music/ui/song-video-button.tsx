@@ -44,16 +44,16 @@ export function SongVideoButton({
   const pausedPlayerRef = useRef(false);
 
   const close = () => {
-    const videoTime = videoRef.current?.currentTime;
+    const videoElement = videoRef.current;
 
-    if (
-      watchedRef.current &&
-      videoTime !== undefined &&
-      current?.slug === slug
-    ) {
-      seek(Math.max(0, videoTime - offsetSeconds));
+    // A watched video of the current song hands over its place and its
+    // play/pause state alike; otherwise only what the video paused resumes.
+    if (watchedRef.current && videoElement && current?.slug === slug) {
+      seek(Math.max(0, videoElement.currentTime - offsetSeconds));
+      if (!videoElement.paused && !videoElement.ended) resume();
+    } else if (pausedPlayerRef.current) {
+      resume();
     }
-    if (pausedPlayerRef.current) resume();
     watchedRef.current = false;
     pausedPlayerRef.current = false;
     setOpened(false);
