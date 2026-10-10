@@ -311,8 +311,7 @@
   }
 }
 
-// The cover is the button that opens it at full size, dimmed on hover as a
-// tile is.
+// Dimmed on hover as a tile's art is.
 .coverOpen {
   padding: 0;
   cursor: zoom-in;
@@ -322,8 +321,8 @@
   }
 }
 
-// Opened, it fills the viewport in the page's own background, the art at its
-// file's 600px or the screen's shorter side, whichever is less.
+// The dialog paints the scrim rather than `::backdrop`, which reads the colour
+// tokens only in browsers from 2024 on.
 .coverDialog {
   width: 100%;
   max-width: none;
@@ -359,6 +358,7 @@
   background: none;
   border: 0;
 
+  // The cover files' own 600px, or the screen's shorter side.
   img {
     display: block;
     width: min(600px, 100vw - 32px, 100dvh - 32px);

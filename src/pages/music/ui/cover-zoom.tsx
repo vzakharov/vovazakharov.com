@@ -9,17 +9,13 @@ import type { Sourced } from '@/shared/typings';
 import classes from './music.module.scss';
 
 export type CoverZoomProps = Sourced & {
-  /** What the cover's button says it does. */
   enlargeLabel: string;
-  /** What the open dialog's button says it does. */
   closeLabel: string;
 };
 
 /**
- * A song page's cover, which opens at full size over the page in the
- * browser's own modal `<dialog>` — focus trapped, Escape closing it. The
- * dialog is one button filling the viewport, so a click anywhere closes it
- * too, with no script past the `showModal()` that opens it.
+ * A song page's cover, opening at full size in a native modal `<dialog>`. The
+ * dialog is one close button filling the viewport, so any click closes it.
  */
 export function CoverZoom({ src, enlargeLabel, closeLabel }: CoverZoomProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
