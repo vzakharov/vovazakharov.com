@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-10T14:04:09.006Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "twenty motifs redrawn from scratch for a sixty-tile mosaic, each a mood palette and a gesture judged by eye against the release"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "knip/lint over the new dependency read by path, polish, PR and squash refresh"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "76ac337d-7cc1-5985-ae1c-02a38034dc92",
+  "branch": "claude/placeholder-covers-v2c4yn",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/placeholder-covers-v2c4yn",
+  "prs": [
+    136
+  ],
+  "url": "https://claude.ai/code/session_01PGX7FrVA5pCDzK7ANM77EF",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-10T14:00:35.610Z",
+  "lastResponseAt": "2026-10-10T14:04:17.349Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 56,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 110857,
+    "cacheReadTokens": 3753788,
+    "outputTokens": 15068,
+    "thinkingTokens": 3247,
+    "responses": 28,
+    "costUsd": 1.9391976000000006
+  },
+  "ownTurns": {
+    "inputTokens": 56,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 110857,
+    "cacheReadTokens": 3753788,
+    "outputTokens": 15068,
+    "thinkingTokens": 3247,
+    "responses": 28,
+    "costUsd": 1.9391976000000006
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 56,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 110857,
+      "cacheReadTokens": 3753788,
+      "outputTokens": 15068,
+      "thinkingTokens": 3247,
+      "responses": 28,
+      "costUsd": 1.9391976000000006
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "apps/vova/public/music/assets/covers/little-lights.svg",
+    "endedAt": "2026-10-10T14:01:17.783Z",
+    "contextTokens": 129279,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59142,
+      "cacheReadTokens": 763855,
+      "outputTokens": 1745,
+      "thinkingTokens": 59,
+      "responses": 8,
+      "costUsd": 0.6608710000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
