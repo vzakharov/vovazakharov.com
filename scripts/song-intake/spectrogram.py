@@ -86,7 +86,7 @@ FAINT_GREY = 0.28
 LEVEL_SHADES = ((0.42, 0.42, 0.42), (0.65, 0.65, 0.65))
 # Sections are found on half-second blocks, each compared with the eight
 # seconds either side of it; a part shorter than SECTION_MIN_S is a fill or a
-# pickup, not a section, and the song's first and last moments are its edges.
+# pickup, not a section.
 SECTION_BLOCK_S = 0.5
 SECTION_KERNEL_S = 8
 SECTION_MIN_S = 8
@@ -148,7 +148,6 @@ def envelope(x, columns):
 
 
 def frame_columns(frames, step, duration, columns):
-    """The column of the plot each STFT frame falls in."""
     return np.minimum((np.arange(frames) * step / duration * columns).astype(int), columns - 1)
 
 
