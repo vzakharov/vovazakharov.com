@@ -39,10 +39,21 @@ import {
   PUBLIC_DIR,
 } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
-import { OG_CARD_SUFFIX, routeCardPath } from '@/shared/seo';
+import { MUSIC_PROJECT_NAMES } from '@/shared/music-catalogue';
+import {
+  OG_CARD_SUFFIX,
+  OG_CARD_SUFFIXES,
+  routeCardPath,
+} from '@/shared/seo';
 
 import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
+import {
+  artistCollage,
+  artistCollageCovers,
+  MUSIC_COLLAGE,
+  musicCollageCovers,
+} from '@/pages/music/lib/pictures';
 
 import { basiliskCard, caseCard } from './lib/basilisk-card.ts';
 import { findScreenshotChromium } from './lib/chromium.ts';
@@ -61,6 +72,7 @@ import {
   type StagedPage,
 } from './lib/og-render.ts';
 import { readDocket } from './lib/read-docket.ts';
+import { musicCollage } from './lib/music-collage.ts';
 import { runRenderJob } from './lib/render-manifest.ts';
 
 /**
@@ -78,6 +90,9 @@ const CV_CARD_DIR = path.join(PUBLIC_DIR, cvPath());
 
 /** The CV is one site's page, so the other sites' runs neither card it nor walk its directory. */
 const CARDS_CV = RENDERED_SITE === 'vova';
+
+/** The music section is one site's, as the CV is. */
+const CARDS_MUSIC = collectionsForSite(RENDERED_SITE).includes('music');
 
 /** The cases, on the run of the site that files them; read once for both card kinds. */
 const DOCKET: readonly DocketCase[] = collectionsForSite(
@@ -238,6 +253,34 @@ function cvCards(): Card[] {
   );
 }
 
+/**
+ * The index's collage and each artist's that has one, at the addresses its
+ * pages' metadata points to — so a new release with a cover re-flags the index
+ * and its artist.
+ */
+function musicCards(): Card[] {
+  if (!CARDS_MUSIC) return [];
+
+  return [
+    generatedCard(
+      musicCollage(musicCollageCovers()),
+      path.join(PUBLIC_DIR, MUSIC_COLLAGE),
+    ),
+    ...MUSIC_PROJECT_NAMES.flatMap((artist) => {
+      const covers = artistCollageCovers(artist);
+
+      return covers.length === 0
+        ? []
+        : [
+            generatedCard(
+              musicCollage(covers),
+              path.join(PUBLIC_DIR, artistCollage(artist)),
+            ),
+          ];
+    }),
+  ];
+}
+
 /** One card per case, at the case's route plus the card suffix — where its page's metadata points. */
 function caseCards(): Card[] {
   return DOCKET.map((filed) =>
@@ -257,17 +300,24 @@ await runRenderJob(
   {
     label: 'Open Graph card',
     manifestName: MANIFEST_NAME,
-    isOutput: (name) => name.endsWith(OG_CARD_SUFFIX),
-    // A site card sits at the root of `public/`, which the collection walk
-    // only reaches where the collection is rooted there.
+    isOutput: (name) =>
+      OG_CARD_SUFFIXES.some((suffix) => name.endsWith(suffix)),
+    // A site card and the music index's sit at the root of `public/`, which
+    // the collection walk only reaches where the collection is rooted there.
     manifestDirs: [
       ...new Set([
         ...CONTENT_DIRS,
         ...(CARDS_CV ? [CV_CARD_DIR] : []),
-        ...(siteEntries.length > 0 ? [PUBLIC_DIR] : []),
+        ...(siteEntries.length > 0 || CARDS_MUSIC ? [PUBLIC_DIR] : []),
       ]),
     ],
-    entries: [...chartCards(), ...siteEntries, ...cvCards(), ...caseCards()],
+    entries: [
+      ...chartCards(),
+      ...siteEntries,
+      ...cvCards(),
+      ...musicCards(),
+      ...caseCards(),
+    ],
     render: (stale) => {
       const chromium = findScreenshotChromium();
       for (const card of stale) renderCard(card, chromium);
