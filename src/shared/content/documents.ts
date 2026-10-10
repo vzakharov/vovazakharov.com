@@ -7,7 +7,7 @@ import path from 'node:path';
 import { pageFile, type SiteId } from '@/shared/config';
 import type { WithOptionalLocale } from '@/shared/i18n';
 import { routeCardPath } from '@/shared/seo';
-import type { DocumentFile, Sized } from '@/shared/typings';
+import type { DocumentFile, Sized, Sourced } from '@/shared/typings';
 
 import { COLLECTION_SCHEMAS } from './collection-schemas';
 import {
@@ -70,7 +70,7 @@ export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
     };
 
 /** A frontmatter image path, resolved to what an `<img>` needs of it. */
-type ResolvedImage = Sized & { src: string };
+type ResolvedImage = Sized & Sourced;
 
 /**
  * A frontmatter image is authored relative to its document; `public/` serves

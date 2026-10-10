@@ -291,6 +291,8 @@
       "instrumental": "Instrumental"
     },
     "explicit": "Explicit",
+    "enlargeCover": "Enlarge the cover",
+    "closeCover": "Close the cover",
     "source": "source",
     "album": "from {album}",
     "alsoOn": "also on {album}",
