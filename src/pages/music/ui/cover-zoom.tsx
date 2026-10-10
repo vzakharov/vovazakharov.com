@@ -23,6 +23,8 @@ export type CoverZoomProps = Sourced & {
  */
 export function CoverZoom({ src, enlargeLabel, closeLabel }: CoverZoomProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  // One file for the thumbnail and the full size, so opening fetches nothing.
+  const art = { src, alt: '', width: 600, height: 600 };
 
   return (
     <>
@@ -36,14 +38,7 @@ export function CoverZoom({ src, enlargeLabel, closeLabel }: CoverZoomProps) {
         aria-label={enlargeLabel}
         onClick={() => dialogRef.current?.showModal()}
       >
-        <Image
-          {...{ src }}
-          alt=""
-          width={600}
-          height={600}
-          sizes="200px"
-          priority
-        />
+        <Image {...art} sizes="200px" priority />
       </button>
 
       <dialog ref={dialogRef} className={classes['coverDialog']}>
@@ -53,8 +48,7 @@ export function CoverZoom({ src, enlargeLabel, closeLabel }: CoverZoomProps) {
             className={classes['coverClose']}
             aria-label={closeLabel}
           >
-            {/* The thumbnail's own file, so opening fetches nothing. */}
-            <Image {...{ src }} alt="" width={600} height={600} sizes="600px" />
+            <Image {...art} sizes="600px" />
           </button>
         </form>
       </dialog>
