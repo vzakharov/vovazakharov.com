@@ -45,9 +45,11 @@ function useFollow(route: string | undefined) {
     if (route !== undefined) open(route);
   }, [route]);
 
-  return () => {
+  const resume = () => {
     setFollowing(true);
   };
+
+  return resume;
 }
 
 /** The control strip, pinned to the foot of every page under `/music`. */
