@@ -18,11 +18,15 @@ it: twelve rows each, C at the bottom, a row as bright as its pitch class's
 share of the band, harmonics voting with their fundamentals. So the bass strip
 steps with the bass line, the treble strip carries the tune and the chord over
 it, and a chord shows as several bright rows at once. A pitch class is read off
-its labelled row, never off a hue, since neighbouring hues are misread for each
-other. A strip is dark where its band is quiet.
+its labelled row; a row's hue is the octave that carries it, keyed beside each
+strip, one hue per octave and the same in either strip — C2 red, C3 orange, C4
+green, C5 cyan, C6 violet — so a melody that leaps an octave changes colour on
+its row. Twelve hues for twelve classes would be misread for their neighbours;
+five far apart are not. A faint cell is grey, its octave too unsure to colour,
+and a strip is dark where its band is quiet.
 
 The spectrogram's map is cut into 2.5 dB steps, the strips' into a few
-brightness steps, and the PNG kept to those colours and a few greys, which holds
+brightness steps per octave, and the PNG kept to those colours and a few greys, which holds
 a song under 350 KB: a smooth map over a noisy texture compresses several times
 worse.
 
@@ -60,12 +64,22 @@ QUIET_DB = -50
 QUIET = 10 ** (QUIET_DB / 20)
 # A note shorter than this blurs into its neighbours; a column alone flickers.
 NOTE_WINDOW_S = 0.6
+# A note's octave is voted over a longer window, since its attack and its
+# harmonics trade the lead within it, and a hue flickering inside one note
+# reads as two.
+OCTAVE_WINDOW_S = 1.5
 # A row at this share of its band's chroma is at full brightness; an even
 # spread across all twelve holds 1/12.
 FULL_SHARE = 0.5
-# One hue, dark to light, since brightness is a magnitude here, not a note.
-CHROMA_COLOURS = ("#000000", "#173a78", "#5b8fd8", "#d8e8ff")
+# A cell's hue is its octave, from C2 up, and the same octave the same hue in
+# either strip; its brightness, black up to that hue, is its share. Five hues
+# far apart, in the spectrum's order, red low to violet high.
+OCTAVE_COLOURS = {2: "#e5483a", 3: "#f29a2e", 4: "#a3d63c", 5: "#3cc8e6", 6: "#ac7cf5"}
 CHROMA_STEPS = 12
+# Under this fraction of full brightness a cell is a grey, not a hue: a faint
+# cell's octave is a coin toss, and dim hues read as mud.
+HUE_FROM = 0.35
+FAINT_GREY = 0.28
 # The envelope's peak and its lighter RMS inside it.
 LEVEL_SHADES = ((0.42, 0.42, 0.42), (0.65, 0.65, 0.65))
 
@@ -120,15 +134,18 @@ def envelope(x, columns):
     return np.abs(blocks).max(axis=1), np.sqrt((blocks.astype(np.float64) ** 2).mean(axis=1))
 
 
-def chroma_shares(magnitude, freqs, step, duration, columns, band_hz):
-    """Per column of the plot, each pitch class's share of band_hz, as (12, columns).
+def chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves):
+    """Per column of the plot, each pitch class's share of band_hz and the
+    octave that carries most of it, both as (12, columns).
 
     A chroma from the band's spectral peaks, each within PEAK_RANGE_DB of the
     band's loudest in its frame, weighted by magnitude: so a note and its
     harmonics vote for their own class, while the drums' broad smear, flat
     rather than peaked, barely votes. A column is all zeros where the band's
     loudest peak stays under QUIET_DB, since a band that is all but silent
-    still has peaks, of noise or bleed.
+    still has peaks, of noise or bleed. A peak votes for the octave it sits in,
+    clamped to octaves (first, last), C to B; a cell's octave is the one with
+    the most weight, never a mean, which can land on an octave nobody played.
     """
     band = (freqs >= band_hz[0]) & (freqs <= band_hz[1])
     m = magnitude[:, band]
@@ -137,19 +154,51 @@ def chroma_shares(magnitude, freqs, step, duration, columns, band_hz):
     peaks = (inner > m[:, :-2]) & (inner >= m[:, 2:])
     peaks &= inner > loudest[:, None] * 10 ** (-PEAK_RANGE_DB / 20)
     weights = np.where(peaks, inner, 0)
-    pitch_class = np.round(69 + 12 * np.log2(freqs[band][1:-1] / 440)).astype(int) % 12
-    chroma = np.stack([weights[:, pitch_class == k].sum(axis=1) for k in range(12)], axis=1)
+    midi = np.round(69 + 12 * np.log2(freqs[band][1:-1] / 440)).astype(int)
+    pitch_class = midi % 12
+    octave = np.clip(midi // 12 - 1, *octaves) - octaves[0]
+    count = octaves[1] - octaves[0] + 1
+    chroma = np.stack([
+        weights[:, (octave == o) & (pitch_class == k)].sum(axis=1) for o in range(count) for k in range(12)
+    ], axis=1)
 
     column = np.minimum((np.arange(len(chroma)) * step / duration * columns).astype(int), columns - 1)
-    per_column = np.zeros((columns, 12))
+    per_column = np.zeros((columns, count * 12))
     np.add.at(per_column, column, chroma)
     level = np.zeros(columns)
     np.maximum.at(level, column, loudest)
     span = np.ones(max(1, round(NOTE_WINDOW_S * columns / duration)))
-    per_column = np.stack([np.convolve(per_column[:, k], span, "same") for k in range(12)], axis=1)
-    shares = per_column / np.maximum(per_column.sum(axis=1, keepdims=True), 1e-12)
+    per_column = np.stack([np.convolve(c, span, "same") for c in per_column.T], axis=1)
+    span = np.ones(max(1, round(OCTAVE_WINDOW_S * columns / duration)))
+    votes = np.stack([np.convolve(c, span, "same") for c in per_column.T], axis=1)
+    per_class = per_column.reshape(columns, count, 12).sum(axis=1)
+    shares = per_class / np.maximum(per_class.sum(axis=1, keepdims=True), 1e-12)
     shares[level < QUIET] = 0
-    return shares.T
+    return shares.T, (votes.reshape(columns, count, 12).argmax(axis=1) + octaves[0]).T
+
+
+def chroma_ramps():
+    """Per octave, CHROMA_STEPS colours, as {octave: (steps, 3)}: black up to a
+    dim grey while a cell is faint, then from half its hue up to the hue itself."""
+    from matplotlib.colors import to_rgb
+
+    t = np.linspace(0, 1, CHROMA_STEPS)[:, None]
+    faint = t < HUE_FROM
+    grey = t / HUE_FROM * FAINT_GREY
+    lift = 0.5 + 0.5 * (t - HUE_FROM) / (1 - HUE_FROM)
+    return {
+        o: np.where(faint, grey, lift * np.array(to_rgb(hue))) for o, hue in OCTAVE_COLOURS.items()
+    }
+
+
+def chroma_image(shares, octave, ramps):
+    """RGB rows x columns: each cell its octave's ramp, at the step its share reaches."""
+    steps = np.round(np.minimum(shares / FULL_SHARE, 1) * (CHROMA_STEPS - 1)).astype(int)
+    image = np.zeros((*shares.shape, 3))
+    for o, ramp in ramps.items():
+        at = octave == o
+        image[at] = ramp[steps[at]]
+    return image
 
 
 def envelope_image(peak, rms, rows=128):
@@ -175,7 +224,6 @@ def main():
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from matplotlib.colors import LinearSegmentedColormap
     from matplotlib.ticker import FixedLocator, FuncFormatter, MultipleLocator, NullLocator
     from PIL import Image
 
@@ -186,16 +234,14 @@ def main():
     duration = len(x) / SR
 
     cmap = plt.get_cmap("magma", round(-FLOOR_DB / STEP_DB))
-    chroma_cmap = LinearSegmentedColormap.from_list("chroma", CHROMA_COLOURS, CHROMA_STEPS)
     fig, axes = plt.subplots(
         4, 2, figsize=(WIDTH_PX / DPI, HEIGHT_PX / DPI), dpi=DPI, sharex="col",
         gridspec_kw={
             "height_ratios": (4, 0.8, 1.6, 1.6), "width_ratios": (1, 0.015), "hspace": 0.08, "wspace": 0.01,
         },
     )
-    (ax, cax), (wave, *_), (treble, *_), (bass, *_) = axes
-    for spare in axes[1:, 1]:
-        spare.remove()
+    (ax, cax), (wave, spare), (treble, treble_key), (bass, bass_key) = axes
+    spare.remove()
 
     # Rows are evenly spaced in octaves, so the image sits on a linear log2(Hz) axis.
     image = ax.imshow(
@@ -218,20 +264,32 @@ def main():
     wave.yaxis.set_major_locator(NullLocator())
     wave.set_ylabel("level")
 
-    for strip, band_hz, name in (
-        (treble, (CROSSOVER_HZ, NOTE_BAND_HZ[1]), "treble, C4–C7"),
-        (bass, (NOTE_BAND_HZ[0], CROSSOVER_HZ), "bass, C2–C4"),
+    ramps = chroma_ramps()
+    for strip, key, band_hz, octaves, name in (
+        (treble, treble_key, (CROSSOVER_HZ, NOTE_BAND_HZ[1]), (4, 6), "treble, C4–C7"),
+        (bass, bass_key, (NOTE_BAND_HZ[0], CROSSOVER_HZ), (2, 3), "bass, C2–C4"),
     ):
-        shares = chroma_shares(magnitude, freqs, step, duration, columns, band_hz)
+        shares, octave = chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves)
         # Silence has spectral peaks too, of noise; it stays dark however clear they look.
         shares[:, rms < QUIET] = 0
         strip.imshow(
-            shares, origin="lower", aspect="auto", cmap=chroma_cmap, vmin=0, vmax=FULL_SHARE,
+            chroma_image(shares, octave, ramps), origin="lower", aspect="auto",
             extent=(0, duration, -0.5, 11.5), interpolation="nearest",
         )
         strip.yaxis.set_major_locator(FixedLocator(range(12)))
         strip.set_yticklabels(NOTE_NAMES, fontsize=7)
         strip.set_ylabel(name)
+        # The octave key: one swatch per octave the strip can show, low at the bottom.
+        held = range(octaves[0], octaves[1] + 1)
+        key.imshow(
+            np.array([[ramps[o][-1]] for o in held]), origin="lower", aspect="auto",
+            extent=(0, 1, octaves[0] - 0.5, octaves[1] + 0.5), interpolation="nearest",
+        )
+        key.xaxis.set_major_locator(NullLocator())
+        key.yaxis.tick_right()
+        key.yaxis.set_major_locator(FixedLocator(held))
+        key.set_yticklabels([f"C{o}" for o in held], fontsize=8)
+    treble_key.set_title("octave", fontsize=8)
 
     bass.set_xlim(0, duration)
     bass.xaxis.set_major_locator(MultipleLocator(30 if duration > 240 else 15))
@@ -246,7 +304,7 @@ def main():
     # the rarest steps, the loudest, and the scale lies.
     steps = [round(255 * c) for i in range(cmap.N) for c in cmap(i)[:3]]
     greys = [round(255 * i / (63 - cmap.N)) for i in range(64 - cmap.N) for _ in range(3)]
-    chroma = [round(255 * c) for i in range(chroma_cmap.N) for c in chroma_cmap(i)[:3]]
+    chroma = [round(255 * c) for ramp in ramps.values() for rgb in ramp[1:] for c in rgb]
     shades = [round(255 * c) for rgb in LEVEL_SHADES for c in rgb]
     palette = Image.new("P", (1, 1))
     palette.putpalette(steps + greys + chroma + shades)
