@@ -18,7 +18,7 @@ times less as JPEG than as PNG. Songs and albums keep their covers.
 
 A page with no picture unfurls as one shared placeholder, the index
 collage until one is drawn for it. The unfurl's title reads "Listen to
-<name> on Vova's music", translated, while the page's own title stays.
+<name> by Vova", translated, while the page's own title stays.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
