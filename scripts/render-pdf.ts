@@ -97,11 +97,9 @@ const PRINT_SOURCES = [
   // Names Mantine's sheets and their order, which decide what a rule on the
   // page resolves to.
   'src/app/ui/theme-provider.tsx',
-  // The faces every page is set in. A package's manifest stands for its font
-  // files: they change only with its version.
+  // The faces every page is set in, and how they are declared.
+  'src/app/styles/fonts',
   'src/app/ui/fonts.ts',
-  'node_modules/@fontsource/merriweather/package.json',
-  'node_modules/@fontsource-variable/jetbrains-mono/package.json',
   'src/shared/config',
   'src/shared/lib',
   'src/shared/ui',

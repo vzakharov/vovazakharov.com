@@ -1,9 +1,9 @@
 import localFont from 'next/font/local';
 
-// The faces come from `@fontsource/*` packages so a build never reaches the
-// network for them. `next/font/local` resolves `src` relative to this file and
-// takes only literals, hence the `node_modules` paths and the ranges repeated
-// per call rather than shared.
+// The faces are committed under `../styles/fonts/`, copied from Fontsource
+// 5.3.0 beside their OFL licences, so a build never reaches the network for
+// them and a font changes only when someone replaces a file. `next/font/local`
+// takes only literals, hence the ranges repeated per call rather than shared.
 //
 // Each font is one family split across two calls, one per subset, each call's
 // `unicode-range` letting the browser fetch Cyrillic only on a page that has
@@ -16,15 +16,15 @@ import localFont from 'next/font/local';
 const merriweather = localFont({
   src: [
     {
-      path: '../../../node_modules/@fontsource/merriweather/files/merriweather-latin-300-normal.woff2',
+      path: '../styles/fonts/merriweather-latin-300-normal.woff2',
       weight: '300',
     },
     {
-      path: '../../../node_modules/@fontsource/merriweather/files/merriweather-latin-400-normal.woff2',
+      path: '../styles/fonts/merriweather-latin-400-normal.woff2',
       weight: '400',
     },
     {
-      path: '../../../node_modules/@fontsource/merriweather/files/merriweather-latin-700-normal.woff2',
+      path: '../styles/fonts/merriweather-latin-700-normal.woff2',
       weight: '700',
     },
   ],
@@ -44,15 +44,15 @@ const merriweather = localFont({
 const merriweatherCyrillic = localFont({
   src: [
     {
-      path: '../../../node_modules/@fontsource/merriweather/files/merriweather-cyrillic-300-normal.woff2',
+      path: '../styles/fonts/merriweather-cyrillic-300-normal.woff2',
       weight: '300',
     },
     {
-      path: '../../../node_modules/@fontsource/merriweather/files/merriweather-cyrillic-400-normal.woff2',
+      path: '../styles/fonts/merriweather-cyrillic-400-normal.woff2',
       weight: '400',
     },
     {
-      path: '../../../node_modules/@fontsource/merriweather/files/merriweather-cyrillic-700-normal.woff2',
+      path: '../styles/fonts/merriweather-cyrillic-700-normal.woff2',
       weight: '700',
     },
   ],
@@ -70,7 +70,7 @@ const merriweatherCyrillic = localFont({
 });
 
 const jetbrainsMono = localFont({
-  src: '../../../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2',
+  src: '../styles/fonts/jetbrains-mono-latin-wght-normal.woff2',
   weight: '100 800',
   style: 'normal',
   variable: '--font-mono',
@@ -85,7 +85,7 @@ const jetbrainsMono = localFont({
 });
 
 const jetbrainsMonoCyrillic = localFont({
-  src: '../../../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-cyrillic-wght-normal.woff2',
+  src: '../styles/fonts/jetbrains-mono-cyrillic-wght-normal.woff2',
   weight: '100 800',
   style: 'normal',
   variable: '--font-mono-cyrillic',
