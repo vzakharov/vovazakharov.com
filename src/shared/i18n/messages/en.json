@@ -264,6 +264,8 @@
       "artist": "Artist",
       "album": "Album"
     },
+    "ogTitle": "Listen to {name} by Vova",
+    "ogTitleIndex": "Listen to Vova’s music",
     "artistDescription": "{artist}: the songs and albums, to play right here — all of it open-source.",
     "albumDescription": "“{album}” by {artist}: the tracks, to play right here — all of it open-source.",
     "albumLength": {

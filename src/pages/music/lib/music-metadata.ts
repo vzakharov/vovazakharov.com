@@ -15,7 +15,7 @@ import type {
   IndexPageProps,
 } from './music-route-params';
 import { albumPath, artistPath, tabLabels, tabPath } from './music-urls';
-import { artistPicture, pictureCard } from './pictures';
+import { artistCard, MUSIC_COLLAGE, pictureCard } from './pictures';
 import { projectName } from './projects';
 import { catalogueSongs } from './songs';
 
@@ -27,12 +27,14 @@ import { catalogueSongs } from './songs';
 function catalogueMetadata(
   { locale, everything }: CataloguePageProps,
   title: string,
+  ogTitle: string,
   description: string,
   path: (locale?: Locale) => string,
   picture?: string,
 ) {
   return constructMetadata({
     title: `${title} - ${SITE_CONFIG.name}`,
+    ogTitle,
     description,
     path: path(locale),
     ...localizedAddresses(path, locale),
@@ -41,17 +43,26 @@ function catalogueMetadata(
   });
 }
 
+/** What a music page's unfurl is titled, naming what it plays. */
+export function listenTitle(name: string, locale: Locale): string {
+  return loadMessages(locale).music.ogTitle.replace('{name}', name);
+}
+
 /** The index, titled by its tab where that is not the artists it opens on. */
 export function generateMusicMetadata(page: IndexPageProps) {
-  const { metaTitle, metaDescription } = loadMessages(page.locale).music;
+  const { metaTitle, metaDescription, ogTitleIndex } = loadMessages(
+    page.locale,
+  ).music;
 
   return catalogueMetadata(
     page,
     page.tab === 'artists'
       ? metaTitle
       : `${metaTitle}: ${tabLabels(page.locale)[page.tab]}`,
+    ogTitleIndex,
     metaDescription,
     (locale) => tabPath(page.tab, page, locale),
+    MUSIC_COLLAGE,
   );
 }
 
@@ -62,9 +73,10 @@ export function generateArtistMetadata(page: ArtistPageProps) {
   return catalogueMetadata(
     page,
     name,
+    listenTitle(name, page.locale),
     artistDescription.replace('{artist}', name),
     (locale) => artistPath(page.artist, page, locale),
-    artistPicture(page.artist, page.locale, catalogueSongs(page)),
+    artistCard(page.artist, page.locale, catalogueSongs(page)),
   );
 }
 
@@ -75,6 +87,7 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
   return catalogueMetadata(
     page,
     name,
+    listenTitle(name, page.locale),
     albumDescription
       .replace('{album}', name)
       .replace(

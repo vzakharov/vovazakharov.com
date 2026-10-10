@@ -1,12 +1,21 @@
 import 'server-only';
 
 import { intrinsicDimensions } from '@/shared/content';
-import type { Locale } from '@/shared/i18n';
+import { type Locale, LOCALES } from '@/shared/i18n';
 import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
+import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/shared/seo';
 
 import { albumCover } from './albums';
-import { type ArtistRelease, artistReleases, artistSongs } from './catalogue';
+import {
+  type ArtistRelease,
+  artistReleases,
+  artistSongs,
+  catalogueReleases,
+  releasedBy,
+} from './catalogue';
+import { artistPath, musicPath } from './music-urls';
 import type { SongDocument } from './song-text';
+import { catalogueSongs } from './songs';
 
 /*
  * What each page of the catalogue is pictured by — on the page, on a tile, and
@@ -71,9 +80,83 @@ export function artistPicture(
   return pictures.find((picture) => picture !== undefined);
 }
 
-/** The picture as the page's social card, or nothing, which leaves the site's avatar. */
-export function pictureCard(picture: string | undefined) {
-  return picture === undefined
-    ? {}
-    : { ogImage: picture, ogImageSize: intrinsicDimensions(picture) };
+/** How many covers a collage card holds at most: the length of its slot table. */
+export const COLLAGE_SIZE = 10;
+
+/**
+ * The fewest covers a collage is made of; an artist with fewer is pictured by
+ * its one cover, or by the placeholder.
+ */
+const COLLAGE_MINIMUM = 2;
+
+/** Distinct covers of the releases, in their order, as many as a collage holds. */
+function collageCovers(releases: readonly ArtistRelease[]): string[] {
+  return [
+    ...new Set(
+      releases
+        .map((release) => releasePicture(release))
+        .filter((picture) => picture !== undefined),
+    ),
+  ].slice(0, COLLAGE_SIZE);
+}
+
+/** The public catalogue's releases, newest first, which every collage is cut from. */
+function publicReleases(): ArtistRelease[] {
+  return catalogueReleases(catalogueSongs({ everything: false }));
+}
+
+/** The covers the index's card is cut from. */
+export function musicCollageCovers(): string[] {
+  return collageCovers(publicReleases());
+}
+
+/**
+ * The covers an artist's card is cut from, in either language's credit, so an
+ * artist has one card rather than one per locale; none when there are too few
+ * to make a collage of.
+ */
+export function artistCollageCovers(artist: MusicProject): string[] {
+  const covers = collageCovers(
+    publicReleases().filter((release) =>
+      LOCALES.some((locale) => releasedBy(release, artist, locale)),
+    ),
+  );
+
+  return covers.length < COLLAGE_MINIMUM ? [] : covers;
+}
+
+/** The index's collage card, at its locale-less route's address. */
+export const MUSIC_COLLAGE = routeCardPath(musicPath(), OG_PHOTO_CARD_SUFFIX);
+
+export function artistCollage(artist: MusicProject): string {
+  return routeCardPath(
+    artistPath(artist, { everything: false }),
+    OG_PHOTO_CARD_SUFFIX,
+  );
+}
+
+/**
+ * What a music page with no picture of its own unfurls as. The index's collage
+ * until #137 draws a placeholder of its own: it is the one picture that stands
+ * for the whole catalogue.
+ */
+const MUSIC_PLACEHOLDER = MUSIC_COLLAGE;
+
+/** An artist's card: its collage where it has one, else its picture. */
+export function artistCard(
+  artist: MusicProject,
+  locale: Locale,
+  songs: readonly SongDocument[],
+): string | undefined {
+  return artistCollageCovers(artist).length > 0
+    ? artistCollage(artist)
+    : artistPicture(artist, locale, songs);
+}
+
+/**
+ * The picture as the page's social card, the placeholder where there is none —
+ * applied here, not in the pickers, which also picture the page itself.
+ */
+export function pictureCard(picture: string = MUSIC_PLACEHOLDER) {
+  return { ogImage: picture, ogImageSize: intrinsicDimensions(picture) };
 }
