@@ -32,6 +32,9 @@ export type PlayerControls = {
    */
   playInOrder: (tracks: PlayerTrack[]) => void;
   toggle: () => void;
+  /** One way only, unlike `toggle`: nothing happens where playback already is. */
+  resume: () => void;
+  pause: () => void;
   next: () => void;
   /** Restarts the track before it steps back, once past `RESTART_AFTER_SECONDS`. */
   previous: () => void;
@@ -136,6 +139,12 @@ export function useAudioPlayer(
       },
       toggle: () => {
         dispatch({ type: 'toggle' });
+      },
+      resume: () => {
+        if (!state.playing) dispatch({ type: 'toggle' });
+      },
+      pause: () => {
+        if (state.playing) dispatch({ type: 'toggle' });
       },
       next: () => {
         dispatch({ type: 'step', by: 1 });
@@ -278,21 +287,11 @@ export function useAudioPlayer(
     });
     session.playbackState = state.playing ? 'playing' : 'paused';
 
-    // Play and pause each go one way only: a browser may send either whatever
-    // the state, and a toggle would turn a pause into playback.
+    // Not `toggle`: a browser may send either action whatever the state, and a
+    // toggle would turn a pause into playback.
     const actions = [
-      [
-        'play',
-        () => {
-          if (!state.playing) controls.toggle();
-        },
-      ],
-      [
-        'pause',
-        () => {
-          if (state.playing) controls.toggle();
-        },
-      ],
+      ['play', controls.resume],
+      ['pause', controls.pause],
       ['nexttrack', controls.next],
       ['previoustrack', controls.previous],
     ] as const;

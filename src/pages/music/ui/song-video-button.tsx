@@ -33,7 +33,7 @@ export function SongVideoButton({
   labels,
 }: SongVideoButtonProps) {
   const [opened, setOpened] = useState(false);
-  const { state, current, toggle, position, yieldMediaSession } = usePlayer();
+  const { state, current, pause, position, yieldMediaSession } = usePlayer();
   // Mantine ids the dialog's title off the modal's own id, which is how the
   // video borrows the song's name as its label.
   const id = useId();
@@ -91,9 +91,7 @@ export function SongVideoButton({
               );
             }
           }}
-          onPlay={() => {
-            if (state.playing) toggle();
-          }}
+          onPlay={pause}
         >
           <track kind="captions" {...captions} />
           {subtitles.map((track) => (
