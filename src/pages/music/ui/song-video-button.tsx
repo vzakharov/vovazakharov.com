@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Modal } from '@mantine/core';
-import { type ReactNode, useEffect, useId, useState } from 'react';
+import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
 
 import type { Slugged } from '@/shared/content';
 import type { Messages } from '@/shared/i18n';
@@ -21,7 +21,8 @@ export type SongVideoButtonProps = SongVideo &
  * The Listen pill's outlined twin, opening the song's video over the page. The
  * site's player is paused whenever the video starts, so the two never sound
  * over each other; opened while this song plays, the video picks up where the
- * song is. The media keys are the video's while it is open.
+ * song is, and closed, it hands the place back and resumes whatever it paused.
+ * The media keys are the video's while it is open.
  */
 export function SongVideoButton({
   video,
@@ -33,10 +34,26 @@ export function SongVideoButton({
   labels,
 }: SongVideoButtonProps) {
   const [opened, setOpened] = useState(false);
-  const { state, current, pause, position, yieldMediaSession } = usePlayer();
+  const { state, current, pause, resume, seek, position, yieldMediaSession } =
+    usePlayer();
   // Mantine ids the dialog's title off the modal's own id, which is how the
   // video borrows the song's name as its label.
   const id = useId();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const watched = useRef(false);
+  const pausedPlayer = useRef(false);
+
+  const close = () => {
+    const videoTime = videoRef.current?.currentTime;
+
+    if (watched.current && videoTime !== undefined && current?.slug === slug) {
+      seek(Math.max(0, videoTime - offsetSeconds));
+    }
+    if (pausedPlayer.current) resume();
+    watched.current = false;
+    pausedPlayer.current = false;
+    setOpened(false);
+  };
 
   useEffect(() => {
     if (!opened) return;
@@ -66,15 +83,14 @@ export function SongVideoButton({
 
       <Modal
         {...{ id, opened }}
-        onClose={() => {
-          setOpened(false);
-        }}
+        onClose={close}
         title={heading}
         closeButtonProps={{ 'aria-label': labels.close }}
         centered
         classNames={{ content: classes['videoModal'] }}
       >
         <video
+          ref={videoRef}
           src={video}
           controls
           autoPlay
@@ -91,7 +107,13 @@ export function SongVideoButton({
               );
             }
           }}
-          onPlay={pause}
+          onPlay={() => {
+            watched.current = true;
+            if (state.playing) {
+              pausedPlayer.current = true;
+              pause();
+            }
+          }}
         >
           <track kind="captions" {...captions} />
           {subtitles.map((track) => (
