@@ -18,8 +18,8 @@ it: twelve rows each, C at the bottom, a row as bright as its pitch class's
 share of the band, harmonics voting with their fundamentals. So the bass strip
 steps with the bass line, the treble strip carries the tune and the chord over
 it, and a chord shows as several bright rows at once. A pitch class is read off
-its labelled row, never off a hue: neighbouring hues are where a reading goes
-wrong, E♭ taken for E. A strip is dark where its band is quiet.
+its labelled row, never off a hue, since neighbouring hues are misread for each
+other. A strip is dark where its band is quiet.
 
 The spectrogram's map is cut into 2.5 dB steps, the strips' into a few
 brightness steps, and the PNG kept to those colours and a few greys, which holds
@@ -60,8 +60,7 @@ QUIET_DB = -50
 QUIET = 10 ** (QUIET_DB / 20)
 # A note shorter than this blurs into its neighbours; a column alone flickers.
 NOTE_WINDOW_S = 0.6
-# A row at this share of its band's chroma is at full brightness: one note
-# alone holds about half, its harmonics' stray votes the rest, and an even
+# A row at this share of its band's chroma is at full brightness; an even
 # spread across all twelve holds 1/12.
 FULL_SHARE = 0.5
 # One hue, dark to light, since brightness is a magnitude here, not a note.
