@@ -97,8 +97,8 @@ const PRINT_SOURCES = [
   // Names Mantine's sheets and their order, which decide what a rule on the
   // page resolves to.
   'src/app/ui/theme-provider.tsx',
-  // The faces every page is set in, and how they are declared.
-  'src/app/styles/fonts',
+  // How the faces every page is set in are declared; the files themselves
+  // sit under `src/shared/ui`.
   'src/app/styles/fonts.scss',
   'src/app/ui/fonts.ts',
   'src/shared/config',

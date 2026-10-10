@@ -5,7 +5,7 @@ import '../styles/fonts.scss';
 import localFont from 'next/font/local';
 
 // Faces from Fontsource 5.3.0, committed with their OFL licences under
-// `../styles/fonts/` so a build needs no network — every subset Google Fonts
+// `src/shared/ui/fonts/` so a build needs no network — every subset Google Fonts
 // served, one `@font-face` per subset, so a page fetches only what its text
 // uses. Latin is declared here, where `next/font` preloads it and sizes a
 // fallback from it; the rest is `fonts.scss`.
@@ -16,15 +16,15 @@ import localFont from 'next/font/local';
 const merriweather = localFont({
   src: [
     {
-      path: '../styles/fonts/merriweather-latin-300-normal.woff2',
+      path: '../../shared/ui/fonts/merriweather-latin-300-normal.woff2',
       weight: '300',
     },
     {
-      path: '../styles/fonts/merriweather-latin-400-normal.woff2',
+      path: '../../shared/ui/fonts/merriweather-latin-400-normal.woff2',
       weight: '400',
     },
     {
-      path: '../styles/fonts/merriweather-latin-700-normal.woff2',
+      path: '../../shared/ui/fonts/merriweather-latin-700-normal.woff2',
       weight: '700',
     },
   ],
@@ -42,7 +42,7 @@ const merriweather = localFont({
 });
 
 const jetbrainsMono = localFont({
-  src: '../styles/fonts/jetbrains-mono-latin-wght-normal.woff2',
+  src: '../../shared/ui/fonts/jetbrains-mono-latin-wght-normal.woff2',
   weight: '100 800',
   style: 'normal',
   variable: '--font-mono',

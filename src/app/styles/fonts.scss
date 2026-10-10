@@ -24,7 +24,7 @@ $ranges: (
     font-style: normal;
     font-weight: $weight;
     font-display: swap;
-    src: url('./fonts/#{$file}.woff2') format('woff2');
+    src: url('../../shared/ui/fonts/#{$file}.woff2') format('woff2');
     unicode-range: string.unquote(map.get($ranges, $range));
   }
 }
