@@ -249,6 +249,10 @@ function cvCards(): Card[] {
   );
 }
 
+function collageCard(covers: readonly string[], card: string): Card {
+  return generatedCard(musicCollage(covers), path.join(PUBLIC_DIR, card));
+}
+
 /**
  * The index's collage and each artist's that has one, at the addresses its
  * pages' metadata points to — so a new release with a cover re-flags the index
@@ -258,21 +262,13 @@ function musicCards(): Card[] {
   if (!CARDS_MUSIC) return [];
 
   return [
-    generatedCard(
-      musicCollage(musicCollageCovers()),
-      path.join(PUBLIC_DIR, MUSIC_COLLAGE),
-    ),
+    collageCard(musicCollageCovers(), MUSIC_COLLAGE),
     ...MUSIC_PROJECT_NAMES.flatMap((artist) => {
       const covers = artistCollageCovers(artist);
 
       return covers.length === 0
         ? []
-        : [
-            generatedCard(
-              musicCollage(covers),
-              path.join(PUBLIC_DIR, artistCollage(artist)),
-            ),
-          ];
+        : [collageCard(covers, artistCollage(artist))];
     }),
   ];
 }

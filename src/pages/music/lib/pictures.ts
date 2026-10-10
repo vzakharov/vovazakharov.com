@@ -100,11 +100,14 @@ function collageCovers(releases: readonly ArtistRelease[]): string[] {
   ].slice(0, COLLAGE_SIZE);
 }
 
+/** The public catalogue's releases, newest first, which every collage is cut from. */
+function publicReleases(): ArtistRelease[] {
+  return catalogueReleases(catalogueSongs({ everything: false }));
+}
+
 /** The covers the index's card is cut from: the public catalogue's newest releases. */
 export function musicCollageCovers(): string[] {
-  return collageCovers(
-    catalogueReleases(catalogueSongs({ everything: false })),
-  );
+  return collageCovers(publicReleases());
 }
 
 /**
@@ -114,7 +117,7 @@ export function musicCollageCovers(): string[] {
  */
 export function artistCollageCovers(artist: MusicProject): string[] {
   const covers = collageCovers(
-    catalogueReleases(catalogueSongs({ everything: false })).filter((release) =>
+    publicReleases().filter((release) =>
       LOCALES.some((locale) => releasedBy(release, artist, locale)),
     ),
   );
