@@ -13,8 +13,8 @@ import { COLLAGE_SIZE } from '@/pages/music/lib/pictures';
 
 import { INK, type StagedPage } from './og-render.ts';
 
-/** A cover's place on the canvas: its centre, its side, and its tilt in degrees. */
-type Slot = { x: number; y: number; size: number; turn: number };
+/** A cover's place on the canvas: its centre, the length of its edge, and its tilt. */
+type Slot = { cx: number; cy: number; edge: number; degrees: number };
 
 /**
  * Hand-tuned rather than seeded, so the composition is judged once, not
@@ -23,16 +23,16 @@ type Slot = { x: number; y: number; size: number; turn: number };
  * one sits under those before it in the emptiest stretch they leave. Canvas units.
  */
 const SLOTS: readonly Slot[] = [
-  { x: 470, y: 330, size: 400, turn: -4 },
-  { x: 830, y: 280, size: 330, turn: 6 },
-  { x: 160, y: 300, size: 300, turn: -8 },
-  { x: 1120, y: 520, size: 250, turn: -5 },
-  { x: 1110, y: 90, size: 230, turn: 9 },
-  { x: 60, y: 580, size: 240, turn: 7 },
-  { x: 330, y: 20, size: 220, turn: 5 },
-  { x: 720, y: 610, size: 230, turn: -7 },
-  { x: 30, y: 60, size: 200, turn: -10 },
-  { x: 700, y: 30, size: 190, turn: -3 },
+  { cx: 470, cy: 330, edge: 400, degrees: -4 },
+  { cx: 830, cy: 280, edge: 330, degrees: 6 },
+  { cx: 160, cy: 300, edge: 300, degrees: -8 },
+  { cx: 1120, cy: 520, edge: 250, degrees: -5 },
+  { cx: 1110, cy: 90, edge: 230, degrees: 9 },
+  { cx: 60, cy: 580, edge: 240, degrees: 7 },
+  { cx: 330, cy: 20, edge: 220, degrees: 5 },
+  { cx: 720, cy: 610, edge: 230, degrees: -7 },
+  { cx: 30, cy: 60, edge: 200, degrees: -10 },
+  { cx: 700, cy: 30, edge: 190, degrees: -3 },
 ];
 
 if (SLOTS.length !== COLLAGE_SIZE) {
@@ -41,13 +41,13 @@ if (SLOTS.length !== COLLAGE_SIZE) {
   );
 }
 
-function coverStyle({ x, y, size, turn }: Slot, depth: number): string {
+function coverStyle({ cx, cy, edge, degrees }: Slot, depth: number): string {
   return [
-    `left: ${x - size / 2}px`,
-    `top: ${y - size / 2}px`,
-    `width: ${size}px`,
-    `height: ${size}px`,
-    `transform: rotate(${turn}deg)`,
+    `left: ${cx - edge / 2}px`,
+    `top: ${cy - edge / 2}px`,
+    `width: ${edge}px`,
+    `height: ${edge}px`,
+    `transform: rotate(${degrees}deg)`,
     `z-index: ${depth}`,
   ].join('; ');
 }
