@@ -26,9 +26,9 @@ five far apart are not. A faint cell is grey, its octave too unsure to colour,
 and a strip is dark where its band is quiet.
 
 The spectrogram's map is cut into 2.5 dB steps, the strips' into a few
-brightness steps per octave, and the PNG kept to those colours and a few greys, which holds
-a song under 350 KB: a smooth map over a noisy texture compresses several times
-worse.
+brightness steps per octave, and the PNG kept to those colours and a few greys,
+which holds a song under 350 KB: a smooth map over a noisy texture compresses
+several times worse.
 
 Needs ffmpeg and matplotlib (numpy and Pillow come with it).
 """
@@ -72,7 +72,7 @@ OCTAVE_WINDOW_S = 1.5
 # spread across all twelve holds 1/12.
 FULL_SHARE = 0.5
 # A cell's hue is its octave, from C2 up, and the same octave the same hue in
-# either strip; its brightness, black up to that hue, is its share. Five hues
+# either strip; its brightness, up to that hue, is its share. Five hues
 # far apart, in the spectrum's order, red low to violet high.
 OCTAVE_COLOURS = {2: "#e5483a", 3: "#f29a2e", 4: "#a3d63c", 5: "#3cc8e6", 6: "#ac7cf5"}
 CHROMA_STEPS = 12
