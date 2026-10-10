@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×56)
+## What it was handed, it treats as fixed (×57)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -125,6 +125,12 @@ the recording.
 repo and no artist pictures, the agent settled on text-only tiles. _is Spotify
 reachable?_ It wasn't; Apple Music, already used in the same PR, had all seven
 artists and five more covers.
+
+**10 October — the deploy switch read as the type's meaning.** Vendoring the
+fonts so `next build` stopped fetching Google's, the agent proposed `fix:`
+because only a publishing type ships the new bytes, and called `chore:` the
+hazard. _if it's not technically a fix, it isn't a fix — the sites already
+work._ It picked the type from a deploy it never asked anyone wanted.
 
 ## An account that explains the code stands in for running it (×19)
 
