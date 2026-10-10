@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-10T13:35:39.951Z",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "twenty covers, each a concept read off a release's words and drawn as hand-authored vector geometry in one coherent idiom"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a render job on the existing manifest machinery, a generalized screenshot helper, registry and vet wiring"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "8a3bd68d-9638-52cf-8799-80bc4963dd9d",
+  "branch": "claude/placeholder-covers-v2c4yn",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай нарисуем обложки для всей музыки, где её нет (на уровне альбомов, где альбомы; на уровне песен где не принадлежит альбомам). Стиль должен быть условно-абс…",
+  "prs": [
+    136
+  ],
+  "url": "https://claude.ai/code/session_01TPWrsE6KBY9nzzeKuLyNrg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-10T13:30:37.054Z",
+  "lastResponseAt": "2026-10-10T13:45:04.647Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 144,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 219745,
+    "cacheReadTokens": 14020722,
+    "outputTokens": 62087,
+    "thinkingTokens": 19366,
+    "responses": 72,
+    "costUsd": 5.8044204
+  },
+  "ownTurns": {
+    "inputTokens": 144,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 219745,
+    "cacheReadTokens": 14020722,
+    "outputTokens": 62087,
+    "thinkingTokens": 19366,
+    "responses": 72,
+    "costUsd": 5.8044204
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 144,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 219745,
+      "cacheReadTokens": 14020722,
+      "outputTokens": 62087,
+      "thinkingTokens": 19366,
+      "responses": 72,
+      "costUsd": 5.8044204
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/placeholder-covers.draft.do-not-implement.md",
+    "endedAt": "2026-10-10T13:34:45.000Z",
+    "contextTokens": 191181,
+    "spend": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 141206,
+      "cacheReadTokens": 3377602,
+      "outputTokens": 14940,
+      "thinkingTokens": 8773,
+      "responses": 26,
+      "costUsd": 2.1041763999999996
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
