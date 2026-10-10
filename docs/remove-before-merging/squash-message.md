@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-fix: vendor the site fonts so builds never fetch Google Fonts (pr #132)
+chore: vendor the site fonts so builds never fetch Google Fonts (pr #132)
 ```
 
 ```
