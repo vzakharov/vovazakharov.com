@@ -7,22 +7,24 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-09T14:50:17Z
-- **Updated:** 2026-10-09T19:39:05Z
+- **Updated:** 2026-10-10T06:26:49Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 6
+## Awaiting an answer: 8
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1e80ee8). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at ea1fcd1). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `apps/vova/public/music/after-us.md`:7 — unresolved — last: @vzakharov (human) 2026-10-09T19:25:08Z — "нет, давай мы фронтматтер дальше услажнять не будем, а помет…" → [↓](#t01)
-- **T02** `apps/vova/public/music/albums/wings.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T19:29:58Z — "большинство из этого должно быть описание ко всему проекту,…" → [↓](#t02)
-- **T03** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-09T19:31:04Z — "я бы подумал о логарифмической шкале чистот -- чтобы можно б…" → [↓](#t03)
-- **T04** `apps/vova/public/music/after-us.md`:19 — unresolved — last: @vzakharov (human) 2026-10-09T19:32:16Z — ""ощущалось" звучит как будто сейчас уже нет :)" → [↓](#t04)
-- **T05** `apps/vova/public/music/our-story.md`:78 — unresolved — last: @vzakharov (human) 2026-10-09T19:34:08Z — "на эти две подсказки не надо" → [↓](#t05)
-- **T06** `apps/vova/public/music/our-punk-rock.md`:73 — unresolved — last: @vzakharov (human) 2026-10-09T19:35:20Z — "трендс и булли пояснять не надо" → [↓](#t06)
+- **T01** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T06:14:44Z — "А давай попробуем так: нижняя половина окрашивается по басам…" → [↓](#t01)
+- **T02** `apps/vova/public/music/after-us.md`:19 — unresolved — last: @vzakharov (human) 2026-10-10T06:15:18Z — "нет, правка не оч, пусть будет так: "когда всё, что случилос…" → [↓](#t02)
+- **T03** `apps/vova/public/music/albums/wings.md`:12 — unresolved — last: @vzakharov (human) 2026-10-10T06:18:54Z — "> ...а целую песню. Остальные песни альбома полились как у П…" → [↓](#t03)
+- **T04** `apps/vova/public/music/artists/za-oblozhkoy.md`:28 — unresolved — last: @vzakharov (human) 2026-10-10T06:19:29Z — ">, наложенный на а-ля мидийную музыку," → [↓](#t04)
+- **T05** `apps/vova/public/music/artists/za-oblozhkoy.md`:29 — unresolved — last: @vzakharov (human) 2026-10-10T06:19:44Z — ">... Jukebox -- просто на немыслимо более высоком (на то вре…" → [↓](#t05)
+- **T06** `apps/vova/public/music/artists/za-oblozhkoy.md`:34 — unresolved — last: @vzakharov (human) 2026-10-10T06:20:19Z — "давай это отсюда уберём -- про Реддит это история для самой…" → [↓](#t06)
+- **T07** `apps/vova/public/music/listen-single.md`:34 — unresolved — last: @vzakharov (human) 2026-10-10T06:21:20Z — "> ... засрали. Не поняли важности момента. А может, наоборот…" → [↓](#t07)
+- **T08** `apps/vova/public/music/listen-single.md`:1 — unresolved — last: @vzakharov (human) 2026-10-10T06:22:11Z — "к слову, если я правлю тексты или истории песен, то, возможн…" → [↓](#t08)
 
 ---
 
@@ -106,44 +108,18 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_49 resolved threads omitted; re-run with `--include-resolved` to export them._
+_53 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `apps/vova/public/music/after-us.md`:7 — unresolved — last: @vzakharov (human) 2026-10-09T19:25:08Z — "нет, давай мы фронтматтер дальше услажнять не будем, а помет…" → [↓](#t01)
-- **T02** `apps/vova/public/music/albums/wings.md`:1 — unresolved — last: @vzakharov (human) 2026-10-09T19:29:58Z — "большинство из этого должно быть описание ко всему проекту,…" → [↓](#t02)
-- **T03** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-09T19:31:04Z — "я бы подумал о логарифмической шкале чистот -- чтобы можно б…" → [↓](#t03)
-- **T04** `apps/vova/public/music/after-us.md`:19 — unresolved — last: @vzakharov (human) 2026-10-09T19:32:16Z — ""ощущалось" звучит как будто сейчас уже нет :)" → [↓](#t04)
-- **T05** `apps/vova/public/music/our-story.md`:78 — unresolved — last: @vzakharov (human) 2026-10-09T19:34:08Z — "на эти две подсказки не надо" → [↓](#t05)
-- **T06** `apps/vova/public/music/our-punk-rock.md`:73 — unresolved — last: @vzakharov (human) 2026-10-09T19:35:20Z — "трендс и булли пояснять не надо" → [↓](#t06)
+- **T01** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T06:14:44Z — "А давай попробуем так: нижняя половина окрашивается по басам…" → [↓](#t01)
+- **T02** `apps/vova/public/music/after-us.md`:19 — unresolved — last: @vzakharov (human) 2026-10-10T06:15:18Z — "нет, правка не оч, пусть будет так: "когда всё, что случилос…" → [↓](#t02)
+- **T03** `apps/vova/public/music/albums/wings.md`:12 — unresolved — last: @vzakharov (human) 2026-10-10T06:18:54Z — "> ...а целую песню. Остальные песни альбома полились как у П…" → [↓](#t03)
+- **T04** `apps/vova/public/music/artists/za-oblozhkoy.md`:28 — unresolved — last: @vzakharov (human) 2026-10-10T06:19:29Z — ">, наложенный на а-ля мидийную музыку," → [↓](#t04)
+- **T05** `apps/vova/public/music/artists/za-oblozhkoy.md`:29 — unresolved — last: @vzakharov (human) 2026-10-10T06:19:44Z — ">... Jukebox -- просто на немыслимо более высоком (на то вре…" → [↓](#t05)
+- **T06** `apps/vova/public/music/artists/za-oblozhkoy.md`:34 — unresolved — last: @vzakharov (human) 2026-10-10T06:20:19Z — "давай это отсюда уберём -- про Реддит это история для самой…" → [↓](#t06)
+- **T07** `apps/vova/public/music/listen-single.md`:34 — unresolved — last: @vzakharov (human) 2026-10-10T06:21:20Z — "> ... засрали. Не поняли важности момента. А может, наоборот…" → [↓](#t07)
+- **T08** `apps/vova/public/music/listen-single.md`:1 — unresolved — last: @vzakharov (human) 2026-10-10T06:22:11Z — "к слову, если я правлю тексты или истории песен, то, возможн…" → [↓](#t08)
 
 <a id="t01"></a>
-
-### `apps/vova/public/music/after-us.md`:7 — unresolved
-
-```diff
-@@ -4,6 +4,7 @@ date: 2023-12
- status: done
- language: ru
- project: ['за/обложкой']
-+voice: Кирилл
-```
-
-**@vzakharov (human)** — 2026-10-09T19:25:08Z
-
-нет, давай мы фронтматтер дальше услажнять не будем, а пометки про voice по ходу текста останутся просто for reference, без какого-то контроля типов или типа того. По сути сейчас они нужны только для reflections -- и не всегда это будут какие-то конкретные персоны, во многих песнях будет просто male/female/duet/etc. может собственно даже и не про голос быть, а пометки типа "соло", "интро" и так далее (пока таких нет)
-
----
-
-<a id="t02"></a>
-
-### `apps/vova/public/music/albums/wings.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-09T19:29:58Z
-
-большинство из этого должно быть описание ко всему проекту, а не альбому.
-
----
-
-<a id="t03"></a>
 
 ### `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved
 
@@ -153,9 +129,17 @@ _49 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 а ещё можно под спектрограммой генерить и waveform, наверное это не дорого по ресурсам, а заодно и динамику будет видно
 
+**@vzakharov (agent)** — 2026-10-09T19:52:09Z
+
+Сделано в feebcac и 6c9797c, все одиннадцать картинок перерисованы. Высота теперь логарифмическая, 40 Гц–10 кГц: каждая октава одной высоты, и линии баса и мелодии читаются ступеньками. Под спектрограммой waveform на той же оси времени: по размаху видна громкость, а цвет (это уже из сессии: «определять основную ноту в каждый слайс времени и её "цветом" раскрашивать вейвформ») показывает самую сильную ноту момента, по кругу из 12 цветов с легендой C … B. Нота считается по всему миксу, не по одной мелодии, поэтому она идёт за тем, что громче: бас, голос или аккорд. Где ноты не разобрать, волна серая — например, в плотном куске «После нас» на 0:16–0:30. Нормальный трекер мелодии (pyin) потребовал бы librosa и десятки секунд на песню; если захочешь, можно перейти на него.
+
+**@vzakharov (human)** — 2026-10-10T06:14:44Z
+
+А давай попробуем так: нижняя половина окрашивается по басам, верхняя по верхам (то есть накладываешь low pass/high pass или как это называется, и по каждому меряешь), сработает?
+
 ---
 
-<a id="t04"></a>
+<a id="t02"></a>
 
 ### `apps/vova/public/music/after-us.md`:19 — unresolved
 
@@ -172,61 +156,124 @@ _49 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 "ощущалось" звучит как будто сейчас уже нет :)
 
+**@vzakharov (agent)** — 2026-10-09T19:46:24Z
+
+Поправил в 7c87b24: «…пока всё, что случилось за последние годы, ощущается особенно живо», и в английском «still feels raw».
+
+**@vzakharov (human)** — 2026-10-10T06:15:18Z
+
+нет, правка не оч, пусть будет так: "когда всё, что случилось за последние годы, ощущалось особенно живо". Т.е. проблема была не во времени, а в "пока"
+
+---
+
+<a id="t03"></a>
+
+### `apps/vova/public/music/albums/wings.md`:12 — unresolved
+
+```diff
+@@ -28,26 +8,6 @@ Fucking Romcom,” a line from [“Sorry”](../sorry.md).
+… 20 lines elided …
+-боли наивные», как и я в [«На пальцы»](../onto-fingers.md), песне, написанной
+-намного позже для другого проекта.
+-
+ Переломом стала [«Наша история»](../our-story.md): на ней я увидел, что можно
+ написать не куплет с припевом, а целую песню. Следом пришла
+```
+
+**@vzakharov (human)** — 2026-10-10T06:18:54Z
+
+> ...а целую песню. Остальные песни альбома полились как у Пушкина в "Осени" -- подход "пиши что приходи в голову и не думаю" этому очень помогал -- в результате все треки были готовы в течение пары недель.
+
+Дальше не надо ("Следом пришла..."
+
+---
+
+<a id="t04"></a>
+
+### `apps/vova/public/music/artists/za-oblozhkoy.md`:28 — unresolved
+
+```diff
+@@ -0,0 +1,43 @@
+… 24 lines elided …
++Весь проект за/обложкой — а за ним и всё остальное — начался в конце 2023 года,
++когда мой тогдашний начальник Гоша показал мне какую-то свою поделку на Суно. Я
++решил попробовать тоже, и мне снесло голову: я ждал голос-робота, наложенный на
++какую-нибудь музыку, а получил совсем другое. Уже потом, разбираясь с Суно, я
+```
+
+**@vzakharov (human)** — 2026-10-10T06:19:29Z
+
+>, наложенный на а-ля мидийную музыку,
+
 ---
 
 <a id="t05"></a>
 
-### `apps/vova/public/music/our-story.md`:78 — unresolved
+### `apps/vova/public/music/artists/za-oblozhkoy.md`:29 — unresolved
 
 ```diff
-@@ -48,38 +71,56 @@ ru:
-… 15 lines elided …
--Всё больше закономерностей, иногда ревности
--Но с верою верность, быть может, в том и прелесть
-+<!-- voice: Кирилл -->
-+Не я придумал этот сюжет, да и не ты тоже[^older-ru]
-+Но, может, именно нас замышлял тот, кто писал его всё же[^older-ru]
+@@ -0,0 +1,43 @@
+… 25 lines elided …
++когда мой тогдашний начальник Гоша показал мне какую-то свою поделку на Суно. Я
++решил попробовать тоже, и мне снесло голову: я ждал голос-робота, наложенный на
++какую-нибудь музыку, а получил совсем другое. Уже потом, разбираясь с Суно, я
++выяснил, что это почти та же технология, что и Jukebox.
 ```
 
-**@vzakharov (human)** — 2026-10-09T19:34:08Z
+**@vzakharov (human)** — 2026-10-10T06:19:44Z
 
-на эти две подсказки не надо
+>... Jukebox -- просто на немыслимо более высоком (на то время) уровне.
 
 ---
 
 <a id="t06"></a>
 
-### `apps/vova/public/music/our-punk-rock.md`:73 — unresolved
+### `apps/vova/public/music/artists/za-oblozhkoy.md`:34 — unresolved
 
 ```diff
-@@ -1,86 +1,136 @@
-… 91 lines elided …
- Бестолковых, несносных, словно из девяностых
--Пропустили свой рейс, пропустили весь тренд
--В нашем топовом листе — Rise Against, Stranger
-+Пропустили свой рейс, про\*\*ли все [трендс][^trends-ru]
-+В нашем топ плей-листе — [Rise Against][^rise-against-ru], [Rage Against][^rage-against-ru]
- 
--Хоть преподы говорят, что нам надо назад
--Что наш любительский формат
-+[^trends-ru]: «Трендс» — английское trends, «тренды».
+@@ -0,0 +1,43 @@
+… 27 lines elided …
++какую-нибудь музыку, а получил совсем другое. Уже потом, разбираясь с Суно, я
++выяснил, что это почти та же технология, что и Jukebox.
 +
-+[^rise-against-ru]: «Rise Against» — «восстань против»: американская панк-рок-группа из Чикаго.
-+
-+[^rage-against-ru]: «Rage Against» — «ярость против»: отсылка к Rage Against the Machine («Ярость против машины»), американской рэп-метал-группе из Лос-Анджелеса.
-+
-+<!-- voice: Кирилл -->
-+Преподы говорят, что нам надо назад
-+Что наш вид — [неформат][^neformat-ru],
- Нам лишь детей пугать
- Но пока мы здесь вместе и не кончилась песня
--На них, на булли — это наш Scary Movie
-+\*\*\* на них, \*\*\* на [булли][^bully-ru] — это наш [Scary Movie][^scary-movie-ru]
++Начинал, как все, с чужих стихов. Первой вышла сингловая версия
++[«Послушайте»](../listen-single.md), на альбом она так и не попала. Я был ею
++очень доволен, выложил на Реддит, и меня заминусили куда-то в ад. Видимо, со
++вкусами тамошних слушателей мы расходимся.
 ```
 
-**@vzakharov (human)** — 2026-10-09T19:35:20Z
+**@vzakharov (human)** — 2026-10-10T06:20:19Z
 
-трендс и булли пояснять не надо
+давай это отсюда уберём -- про Реддит это история для самой сингловой версии.
+
+---
+
+<a id="t07"></a>
+
+### `apps/vova/public/music/listen-single.md`:34 — unresolved
+
+```diff
+@@ -29,19 +29,17 @@ to share my delight on r/pikabu — where, as usual, they crapped all over it.
+… 4 lines elided …
+-
+ <!-- lang:ru -->
+ 
+ Одна из первых генераций, был в шоке от того, как классно вышло, пошёл
+```
+
+**@vzakharov (human)** — 2026-10-10T06:21:20Z
+
+> ... засрали. Не поняли важности момента. А может, наоборот, поняли -- ведь неприятие ИИ-музыки массами с тех пор только выросло.
+
+---
+
+<a id="t08"></a>
+
+### `apps/vova/public/music/listen-single.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-10T06:22:11Z
+
+к слову, если я правлю тексты или истории песен, то, возможно, reflections соответствующие reflections тоже надо править.
 
 ---
 
@@ -236,3 +283,4 @@ _49 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-09T18:56:43Z** @vzakharov renamed from «feat(vova): the Krylya album and the Znaki prepinaniya single, hidden» to «feat(vova): the Krylya album and the Znaki prepinaniya single».
 - **2026-10-09T19:27:39Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5474451125.
 - **2026-10-09T19:39:05Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5474495807.
+- **2026-10-10T06:23:56Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5477929872.
