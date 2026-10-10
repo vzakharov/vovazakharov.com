@@ -75,18 +75,14 @@ context budget.
   H.264 and its headless player never started on a click; the author was
   asked to check in Arc.
 
+- After relay 8: the chromagram proposal — treble and bass strips, rows
+  labelled by pitch class in one sequential hue, under a grey loudness
+  envelope; all eleven spectrograms re-rendered, the song-intake notes and
+  Майя's rule describe them (5f0f886); polished (7f06b0f). No reflection
+  read anything off the old colours, so none changed.
+
 ## Left
 
-- **Next: `docs/remove-before-merging/chromagram-proposal.md`** — two
-  chromagram strips (treble over bass, rows labelled by pitch class, one
-  sequential hue) in place of the note-coloured waveform in
-  `scripts/song-intake/spectrogram.py`, a plain loudness envelope kept under
-  the spectrogram. The author's ask (in chat, «посмотри … предложение
-  заменить раскраску волны»); judged sound — rows by position remove the
-  adjacent-hue misreadings. Then re-render every spectrogram under
-  `apps/vova/public/music/assets/spectrograms/`, update the docstring and
-  `scripts/song-intake/CLAUDE.md` § "Reflection", and check Майя's
-  reflections for anything read off the waveform's colours.
 - The author's answer on where the pre-master mp3s go (T09): a
   `vovas-music` repo (recommended), a release on this repo, or LFS. Until
   then they stay in `docs/remove-before-merging/`.
