@@ -20,6 +20,7 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { PIXELS } from '../../src/shared/config/index.node-safe.ts';
+import { contentHash } from '../../src/shared/content/content-hash.ts';
 import { REPO_ROOT } from './content-tree.ts';
 import type { Renderable } from './render-manifest.ts';
 
@@ -50,6 +51,25 @@ export type StagedPage = {
 };
 
 export type Card = Renderable & StagedPage;
+
+/**
+ * A card generated as a page, its source the page and the files it references
+ * — so the template, the copy it reads and every staged file are covered, and
+ * editing any of them re-flags the card.
+ */
+export function generatedCard(staged: StagedPage, outputPath: string): Card {
+  const files = Object.entries(staged.files)
+    .toSorted(([a], [b]) => a.localeCompare(b))
+    .map(
+      ([name, content]) => `${name}:${Buffer.from(content).toString('base64')}`,
+    );
+
+  return {
+    ...staged,
+    outputPath,
+    sourceHash: contentHash([staged.page, ...files].join('\n')),
+  };
+}
 
 /** The window the page is laid out in, and so the render's pixel size. */
 type Size = { width: number; height: number };

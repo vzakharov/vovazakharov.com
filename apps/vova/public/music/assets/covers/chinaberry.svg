@@ -5,11 +5,11 @@
   <rect x="120" y="250" width="230" height="250" fill="#0b0f1c"/>
   <rect x="96" y="360" width="280" height="28" fill="#8a5a32" transform="rotate(32 236 374)"/>
   <rect x="96" y="360" width="280" height="28" fill="#8a5a32" transform="rotate(-32 236 374)"/>
-  <g stroke="#0b0f1c" stroke-width="7" fill="none">
+  <g stroke="#0b0f1c" stroke-width="14" fill="none">
     <polyline points="0,150 200,200 420,300 600,320"/>
     <line x1="200" y1="200" x2="230" y2="140"/><line x1="320" y1="254" x2="300" y2="190"/><line x1="420" y1="300" x2="470" y2="360"/>
   </g>
   <g fill="#f2c230">
-    <circle cx="232" cy="138" r="10"/><circle cx="250" cy="152" r="8"/><circle cx="296" cy="186" r="10"/><circle cx="314" cy="200" r="8"/><circle cx="472" cy="364" r="10"/><circle cx="490" cy="350" r="8"/><circle cx="458" cy="384" r="7"/><circle cx="560" cy="330" r="9"/>
+    <circle cx="230" cy="134" r="17"/><circle cx="296" cy="184" r="16"/><circle cx="474" cy="366" r="17"/><circle cx="560" cy="330" r="15"/>
   </g>
 </svg>

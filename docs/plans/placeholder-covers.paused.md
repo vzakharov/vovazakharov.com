@@ -9,7 +9,13 @@ Of a Suprematist set and a procedural d3 alternative, the operator picked the pr
 - **The composition stays the source.** Each `<slug>.svg` (bbf6389) is the motif; the render lays it as tiles — each tile takes the motif's colour under its centroid, with a small per-tile lightness jitter, grout between.
 - **Tiles follow the motif.** Points are a relaxed uniform scatter plus extra points along the motif's colour edges, so a sun stays round and fourteen lines of verse stay lines while the tiles stay visibly tiles.
 - **It all happens in the one Chromium screenshot.** The cover page draws the motif to a canvas, triangulates with `d3-delaunay` (a devDependency, its bundle staged beside the page), and paints the tiles; seeded by the slug, so a render is a function of its sources. The source hash covers the motif, the page and the staged bundle.
-- **Left:** `/polish`, then the PR refresh.
+- **Tiles are few and large — about sixty, a relaxed scatter, no points along edges — and each takes the colour most of it sits on.** The operator, on a denser edge-following version: "давай больше ячейки мозаики. вот как было в прежнем shite — лучше всего. темы должны угадываться, а не прорисовываться буквально". A motif detail smaller than a tile vanishes, by design.
+
+## Paused — what is left
+
+- **Done:** the mosaic job in `scripts/render-covers.ts`, `generatedCard` moved to `og-render.ts`, `d3-delaunay` as a devDependency, all twenty JPEGs rendered at sixty tiles (the operator's last word on density). Several motifs were thickened for an earlier, denser pass; that is harmless at this density.
+- **Two motifs read as nothing at this density:** `little-lights` (lights smaller than a tile — make a few of them large discs, or fewer, bigger lights on the strings) and `prototypes` (the outlined square is thinner than a tile — make it a solid tilted square, or a broad frame). Re-render with `pnpm music:covers`, look at a contact sheet of all twenty, and check the rest still guess right.
+- **Then:** `pnpm music:covers --check`, typecheck, eslint over `scripts/`, knip (the `d3-delaunay` dependency is read by path, which knip may flag — answer it per `knip.ts`'s header, never with a suppression), `/polish`, the PR body and squash proposal refreshed for the mosaic (`/pr`).
 
 The contour-and-glow alternative and the per-cover split were dropped with that pick.
 

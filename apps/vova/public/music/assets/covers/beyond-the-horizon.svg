@@ -3,10 +3,10 @@
   <rect width="600" height="600" fill="#eadcc4"/>
   <circle cx="290" cy="330" r="125" fill="#c62a1d"/>
   <rect x="0" y="330" width="600" height="270" fill="#1c5a63"/>
-  <rect x="60" y="372" width="300" height="5" fill="#eadcc4"/>
+  <rect x="60" y="372" width="300" height="12" fill="#eadcc4"/>
   <polygon points="470,326 504,326 486,266" fill="#faf7f0"/>
   <polygon points="0,500 600,540 600,600 0,600" fill="#d9c49c"/>
   <g fill="#c62a1d">
-    <polygon points="90,540 120,528 108,556"/><polygon points="140,560 176,552 160,578"/><polygon points="196,540 214,534 210,556"/><polygon points="230,566 256,560 246,584"/>
+    <polygon points="80,536 128,522 110,566"/><polygon points="150,556 204,546 178,588"/><polygon points="226,532 262,526 250,562"/>
   </g>
 </svg>

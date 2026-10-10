@@ -10,6 +10,6 @@
     <circle cx="282" cy="270" r="64" fill-opacity="0.35"/>
     <circle cx="220" cy="150" r="92" fill-opacity="0.25"/>
   </g>
-  <circle cx="128" cy="460" r="8" fill="#ff7a1a"/>
-  <circle cx="160" cy="460" r="8" fill="#ff7a1a"/>
+  <circle cx="128" cy="460" r="13" fill="#ff7a1a"/>
+  <circle cx="160" cy="460" r="13" fill="#ff7a1a"/>
 </svg>

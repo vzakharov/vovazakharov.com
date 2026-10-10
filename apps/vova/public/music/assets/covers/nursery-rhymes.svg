@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
   <!-- Nursery Rhymes for the Jilted Generation: three bags full in a row, and the black sheep off the grid. -->
   <rect width="600" height="600" fill="#f2c6cf"/>
-  <rect x="-40" y="72" width="420" height="16" fill="#c62a1d" transform="rotate(24 170 80)"/>
+  <rect x="-40" y="72" width="420" height="24" fill="#c62a1d" transform="rotate(24 170 80)"/>
   <rect x="60" y="370" width="110" height="140" fill="#faf7f0"/>
   <rect x="190" y="370" width="110" height="140" fill="#faf7f0"/>
   <rect x="320" y="370" width="110" height="140" fill="#faf7f0"/>
-  <rect x="60" y="530" width="370" height="8" fill="#141414"/>
+  <rect x="60" y="530" width="370" height="16" fill="#141414"/>
   <circle cx="455" cy="200" r="88" fill="#141414"/>
   <circle cx="548" cy="160" r="30" fill="#141414"/>
 </svg>
