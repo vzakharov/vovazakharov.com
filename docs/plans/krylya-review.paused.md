@@ -63,10 +63,34 @@ context budget.
   polished; PR body and squash proposal refreshed. All eight threads
   answered.
 
+- After relay 7, the author's fourth round (T08, T09, both answered on
+  GitHub): hello's line 3 is «Здравствуй, в тишине вместо слов» (d5915e9);
+  a video opened while its song plays starts at the song's position plus
+  frontmatter `video.offsetSeconds`, measured by
+  `scripts/song-intake/video-offset.py`, and the player yields the media
+  session while the video dialog is open — the tab-switch bug, a browser
+  play action reaching the song's toggle handler (047f962, 40748fb1);
+  transcripts kept in `docs/music/transcripts/` (bc93c64); polished
+  (eae89b7). Not verified in a browser: this container's Chromium has no
+  H.264 and its headless player never started on a click; the author was
+  asked to check in Arc.
+
 ## Left
 
-- The author's answer on hello's line 3, which both recognisers hear as
-  «Здравствуй, в тишине» where the lyrics print «вместо слов».
+- **Next: `docs/remove-before-merging/chromagram-proposal.md`** — two
+  chromagram strips (treble over bass, rows labelled by pitch class, one
+  sequential hue) in place of the note-coloured waveform in
+  `scripts/song-intake/spectrogram.py`, a plain loudness envelope kept under
+  the spectrogram. The author's ask (in chat, «посмотри … предложение
+  заменить раскраску волны»); judged sound — rows by position remove the
+  adjacent-hue misreadings. Then re-render every spectrogram under
+  `apps/vova/public/music/assets/spectrograms/`, update the docstring and
+  `scripts/song-intake/CLAUDE.md` § "Reflection", and check Майя's
+  reflections for anything read off the waveform's colours.
+- The author's answer on where the pre-master mp3s go (T09): a
+  `vovas-music` repo (recommended), a release on this repo, or LFS. Until
+  then they stay in `docs/remove-before-merging/`.
+- PR body and squash proposal: refresh for this round's changes (`/pr`).
 - Optional DRY call: `album-page.tsx` and `artist-page.tsx` end on the same
   `ReadMore`/`ProseContent` block; left until a third page wants it.
 - `/finalize` (the PR conflicts with `main`).
