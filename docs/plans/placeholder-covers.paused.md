@@ -13,7 +13,14 @@ Of a Suprematist set and a procedural d3 alternative, the operator picked the pr
 ## Paused — what is left
 
 - **Done:** the mosaic job in `scripts/render-covers.ts`, `generatedCard` moved to `og-render.ts`, `d3-delaunay` as a devDependency, all twenty motifs redrawn for the mosaic and rendered at sixty tiles.
-- **Waiting on:** the operator's look at the redrawn set.
+- **The operator accepted the redrawn set, then asked for the placeholders to sit back behind the real covers:** «сейчас они выглядят наряду с "настоящими". давай сделаем их блеклее и desatured-нее, дай несколько вариантов, выберу». Six variants were shown in the page itself (`/music/all/ru`, where every placeholder shows), each a CSS filter over the whole render, grout included:
+  - 0 — as now, `none`
+  - A — muted, `saturate(.55) contrast(.9) brightness(1.05)`
+  - B — faded, `saturate(.35) contrast(.8) brightness(1.1)`
+  - C — nearly grey, `saturate(.15) contrast(.75) brightness(1.15)`
+  - D — faded sepia, `grayscale(.75) sepia(.35) contrast(.8) brightness(1.1)`
+  - E — washed out, `saturate(.4) contrast(.7) brightness(1.25)`
+- **Waiting on:** the operator's pick. It goes into the render rather than the page — a canvas filter over the finished mosaic in `render-covers.ts`'s cover page (or the same arithmetic per pixel), then `pnpm music:covers` re-renders all twenty. The preview script that took the captures is not in the repo: a CDP script that injects `img[src*="covers/<slug>."]{filter:…}` for each SVG stem into the dev server's page, and screenshots it.
 - **Then:** `pnpm music:covers --check`, typecheck, eslint over `scripts/`, knip (the `d3-delaunay` dependency is read by path, which knip may flag — answer it per `knip.ts`'s header, never with a suppression), `/polish`, the PR body and squash proposal refreshed for the mosaic (`/pr`).
 
 The contour-and-glow alternative and the per-cover split were dropped with that pick.
