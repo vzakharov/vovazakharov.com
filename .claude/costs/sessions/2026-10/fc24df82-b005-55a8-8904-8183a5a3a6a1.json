@@ -1,5 +1,28 @@
 {
-  "estimate": null,
+  "estimate": {
+    "at": "2026-10-10T12:48:02.450Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "finding an incident not yet on the docket means sweeping news against the case ledger, then checking every figure against two outlets and their archives: a researcher's judgement of sourcing, not a junior's"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "the dossier and its reflection are in the house's deadpan voice, and leaving out suspects arrested for other things is an editorial call on fairness"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "re-rendering the social cards and running the site build is routine tooling"
+      }
+    ],
+    "comment": null
+  },
   "sessionId": "fc24df82-b005-55a8-8904-8183a5a3a6a1",
   "branch": "claude/file-basilisk-cases-syf2df",
   "cwd": "/home/user/vovazakharov.com",
