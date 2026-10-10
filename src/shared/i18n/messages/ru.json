@@ -306,6 +306,8 @@
       "instrumental": "инструментал"
     },
     "explicit": "Ненормативная лексика",
+    "enlargeCover": "Увеличить обложку",
+    "closeCover": "Закрыть обложку",
     "source": "исходник",
     "readMore": "Читать дальше",
     "video": {

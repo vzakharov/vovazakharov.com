@@ -10,12 +10,6 @@ export const SITE_CONFIG = siteConfig(SITE_ID);
 
 export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
 
-/** `getAbsoluteUrl` undone: this site's own URL as a site-root path, any other as it stands. */
-export const siteRootPath = (url: string) =>
-  url.startsWith(`${SITE_CONFIG.url}/`)
-    ? url.slice(SITE_CONFIG.url.length)
-    : url;
-
 /** One page's own file: the route plus an extension, and the saved name `DocumentFile` describes. */
 export const pageFile = (route: string, extension: string): DocumentFile => ({
   href: `${route}.${extension}`,

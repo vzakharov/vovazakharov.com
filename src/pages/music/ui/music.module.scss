@@ -311,6 +311,62 @@
   }
 }
 
+// Dimmed on hover as a tile's art is.
+.coverOpen {
+  padding: 0;
+  cursor: zoom-in;
+
+  @include mantine.hover {
+    opacity: 0.8;
+  }
+}
+
+// The dialog paints the scrim rather than `::backdrop`, which reads the colour
+// tokens only in browsers from 2024 on.
+.coverDialog {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  padding: 0;
+  margin: 0;
+  background: color-mix(in srgb, var(--color-background) 92%, transparent);
+  border: 0;
+
+  &::backdrop {
+    background: none;
+  }
+}
+
+// The page behind holds still while the cover is open.
+:global(html):has(.coverDialog[open]) {
+  overflow: hidden;
+}
+
+.coverForm {
+  height: 100%;
+}
+
+.coverClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  cursor: zoom-out;
+  background: none;
+  border: 0;
+
+  // The cover files' own 600px, or the screen's shorter side.
+  img {
+    display: block;
+    width: min(600px, 100vw - 32px, 100dvh - 32px);
+    height: auto;
+    border-radius: 6px;
+  }
+}
+
 // A release without art gets its name set large on the square instead, sized
 // off the tile's width and shrunk further for a name whose longest word
 // (`--tile-word`, in letters) would not otherwise fit the 82% of it inside the

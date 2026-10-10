@@ -3,8 +3,6 @@ import 'server-only';
 import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 
-import { siteRootPath } from '@/shared/config';
-
 import { replaceElements } from '../hast-elements';
 import { hastText } from '../hast-text';
 
@@ -54,12 +52,10 @@ function embedVideos(tree: Root) {
     const href = videoHref(link);
     if (href === undefined) return;
 
-    // The link arrives absolute, as every link leaves `rehypeContentLinks`; a
-    // source is fetched by the page and stays site-root.
     return {
       type: 'element',
       tagName: 'video',
-      properties: { src: siteRootPath(href), ariaLabel: hastText(link).trim() },
+      properties: { src: href, ariaLabel: hastText(link).trim() },
       children: [],
     };
   });

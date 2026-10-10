@@ -107,7 +107,13 @@ export async function SongPage({ slug, locale }: SongPageProps) {
 
         <Box component="header">
           <Stack gap={24}>
-            <CoverHead {...{ picture }}>
+            <CoverHead
+              {...{ picture }}
+              zoom={{
+                enlargeLabel: messages.enlargeCover,
+                closeLabel: messages.closeCover,
+              }}
+            >
               <Stack gap={8} align="flex-start">
                 <SongByline {...{ document, album, catalogue, locale }} />
                 <Title order={1}>

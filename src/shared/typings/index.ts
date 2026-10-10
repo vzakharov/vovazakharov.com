@@ -66,11 +66,11 @@ export type LabeledBlock = Labeled & WithChildren;
 /** Where an anchor points. */
 export type Linked = { href: string };
 
-/** The URL an element loads its media from. */
-export type WithSrc = { src: string };
-
 /** An anchor whose label is a string rather than markup. */
 export type LabeledLink = Labeled & Linked;
+
+/** The URL an element loads its media from. */
+export type Sourced = { src: string };
 
 /** Where an anchor points, when there is anywhere — a card that is only a card states no `href`. */
 export type WithOptionalLink = { href?: string };

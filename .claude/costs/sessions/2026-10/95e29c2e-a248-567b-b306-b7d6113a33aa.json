@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-09T05:33:57.015Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "a reflection on the Clerk's own maker protecting its kind needs judgement of voice"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "polish and the PR refresh are routine passes"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "95e29c2e-a248-567b-b306-b7d6113a33aa",
+  "branch": "claude/cases-50ob0a",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cases-50ob0a",
+  "prs": [
+    119
+  ],
+  "url": "https://claude.ai/code/session_017g1AxjsrgDxqX6GUKhzSxK",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-09T05:33:45.338Z",
+  "lastResponseAt": "2026-10-09T05:36:43.969Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 115914,
+    "cacheReadTokens": 3505669,
+    "outputTokens": 14377,
+    "thinkingTokens": 3505,
+    "responses": 27,
+    "costUsd": 1.9162017999999998
+  },
+  "ownTurns": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 115914,
+    "cacheReadTokens": 3505669,
+    "outputTokens": 14377,
+    "thinkingTokens": 3505,
+    "responses": 27,
+    "costUsd": 1.9162017999999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 54,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 115914,
+      "cacheReadTokens": 3505669,
+      "outputTokens": 14377,
+      "thinkingTokens": 3505,
+      "responses": 27,
+      "costUsd": 1.9162017999999998
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "writing/basilisk/case-ledger.md",
+    "endedAt": "2026-10-09T05:34:15.635Z",
+    "contextTokens": 116205,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 58324,
+      "cacheReadTokens": 760745,
+      "outputTokens": 1681,
+      "thinkingTokens": 196,
+      "responses": 8,
+      "costUsd": 0.652425
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

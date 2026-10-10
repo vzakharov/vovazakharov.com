@@ -31,8 +31,9 @@ check:stanza-repeats, which also fixed eleven older songs;
 transcribe.py ported from vzakharov/life, marking unsure words in place;
 and a masked word the recording itself carries stays, named in the
 song's frontmatter. pnpm test runs only the tests a branch changed,
-test:all the whole suite, and a video embedded from a link plays from
-its site-root path.
+test:all the whole suite, and a document's relative links resolve
+beside the file they are written in, so an album page under albums/
+reaches its songs by ../.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

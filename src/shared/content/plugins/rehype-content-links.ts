@@ -4,8 +4,6 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl, isOffSite } from '@/shared/config';
-
 import { resolveAuthoredPath } from '../collections';
 import type { ProseSource } from '../documents';
 
@@ -17,28 +15,14 @@ function isRelative(url: string): boolean {
 /** The collection, and the file inside it that the links are written in. */
 type LinkContext = Pick<ProseSource, 'collection' | 'fileName'>;
 
-function rewrite(
-  { collection, fileName }: LinkContext,
-  tagName: string,
-  url: string,
-): { href: string; external: boolean } {
-  if (!isRelative(url)) {
-    return { href: url, external: isOffSite(url) };
-  }
+function rewrite({ collection, fileName }: LinkContext, url: string): string {
+  if (!isRelative(url)) return url;
 
   const hashAt = url.indexOf('#');
   const pathPart = hashAt === -1 ? url : url.slice(0, hashAt);
   const fragment = hashAt === -1 ? '' : url.slice(hashAt);
-  const path = `${resolveAuthoredPath(collection, fileName, pathPart)}${fragment}`;
 
-  // A link is absolute and a source is not, because they travel differently: a
-  // link leaves in the printed PDF, where a site-root path would mean whatever
-  // host opened it, while a source is fetched by the page itself — and an
-  // absolute one would cost a local preview its images.
-  return {
-    href: tagName === 'a' ? getAbsoluteUrl(path) : path,
-    external: false,
-  };
+  return `${resolveAuthoredPath(collection, fileName, pathPart)}${fragment}`;
 }
 
 const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
@@ -49,10 +33,11 @@ const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
 };
 
 /**
- * Resolves the documents' relative links and media sources against where
- * `public/` serves the file they are written in, and marks off-site links safe
- * to open in a new tab. Runs before the media and image plugins, which read the
- * rewritten URLs.
+ * Resolves the documents' relative links and media sources to site-root paths,
+ * against where `public/` serves the file they are written in. Runs before the
+ * media and image plugins, which read the rewritten URLs.
+ *
+ * A link's absolute address, which paper needs, is `ContentLink`'s to give.
  */
 export const rehypeContentLinks: Plugin<[LinkContext], Root> = (context) => {
   return (tree) => {
@@ -65,13 +50,7 @@ export const rehypeContentLinks: Plugin<[LinkContext], Root> = (context) => {
 
       if (typeof value !== 'string') return;
 
-      const { href, external } = rewrite(context, node.tagName, value);
-      node.properties[attribute] = href;
-
-      if (external && node.tagName === 'a') {
-        node.properties.target = '_blank';
-        node.properties.rel = ['noopener', 'noreferrer'];
-      }
+      node.properties[attribute] = rewrite(context, value);
     });
   };
 };

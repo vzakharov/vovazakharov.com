@@ -5,7 +5,7 @@ import path from 'node:path';
 
 import { PUBLIC_DIR } from '@/shared/content';
 import { type Locale, LOCALES } from '@/shared/i18n';
-import type { Labeled, WithSrc } from '@/shared/typings';
+import type { Labeled, Sourced } from '@/shared/typings';
 
 import type { SongDocument } from './song-text';
 
@@ -13,7 +13,7 @@ import type { SongDocument } from './song-text';
  * One WebVTT file beside a song's video, as the `<track>` that loads it reads
  * it. The page's own language is the one shown from the start.
  */
-type CaptionTrack = WithSrc &
+type CaptionTrack = Sourced &
   Labeled & {
     srcLang: string;
     default: boolean;
