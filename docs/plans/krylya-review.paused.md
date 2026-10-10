@@ -79,14 +79,15 @@ context budget.
   labelled by pitch class in one sequential hue, under a grey loudness
   envelope; all eleven spectrograms re-rendered, the song-intake notes and
   Майя's rule describe them (5f0f886); polished (7f06b0f). No reflection
-  read anything off the old colours, so none changed.
+  read anything off the old colours, so none changed. Closing a video
+  seeks its song to the video's place and resumes what it paused
+  (a49ef28). The pre-master mp3s and the album story's m4a are assets of
+  the `music-sources` release, «давай делать релиз»; the song-intake notes
+  point at it.
 
 ## Left
 
-- The author's answer on where the pre-master mp3s go (T09): a
-  `vovas-music` repo (recommended), a release on this repo, or LFS. Until
-  then they stay in `docs/remove-before-merging/`.
-- PR body and squash proposal: refresh for this round's changes (`/pr`).
+- Reply on T09 that the sources went to the `music-sources` release.
 - Optional DRY call: `album-page.tsx` and `artist-page.tsx` end on the same
   `ReadMore`/`ProseContent` block; left until a third page wants it.
 - `/finalize` (the PR conflicts with `main`).
