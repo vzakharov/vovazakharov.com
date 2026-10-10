@@ -55,13 +55,21 @@ context budget.
   Prettier sets them (a536e49). All six threads of the second review
   answered.
 
+- After relay 5: timed `.vtt` captions per video (5b248a8). After relay 6,
+  the author's third review: После нас's blurb, the album and за/обложкой
+  texts, the single's coda and Майя's added paragraph on it (d7f040c); the
+  reflection check in `songs.md` (2c3128b); the waveform coloured by bass
+  note below and the note above it (22c0d3d); vet green (3f234208);
+  polished; PR body and squash proposal refreshed. All eight threads
+  answered.
+
 ## Left
 
-- `jsx-a11y/media-has-caption` fails lint on the `<video>` in
-  `src/pages/music/ui/song-video-button.tsx`, so vet is red. Waiting on the
-  author: (a) a point-of-use suppression — the video carries the song, whose
-  words the page prints as its lyrics — or (b) a timed `.vtt` per video.
-- Then `/polish` and `/pr`.
+- The author's answer on hello's line 3, which both recognisers hear as
+  «Здравствуй, в тишине» where the lyrics print «вместо слов».
+- Optional DRY call: `album-page.tsx` and `artist-page.tsx` end on the same
+  `ReadMore`/`ProseContent` block; left until a third page wants it.
+- `/finalize` (the PR conflicts with `main`).
 
 Items 1–3, as they were asked:
 
