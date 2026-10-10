@@ -1,30 +1,34 @@
 #!/usr/bin/env python3
-"""A song's spectrogram over its waveform: its whole length across, pitch up.
+"""A song's spectrogram over its loudness and its chromagram: its whole length across, pitch up.
 
 Usage: spectrogram.py <song> <out.png>
 
 Where the voice sits and where its melody goes, where the drums come in, a
-bridge that drops out, a master that runs into its ceiling — what a reader who
-cannot hear the song can see at a glance.
+bridge that drops out, a master that runs into its ceiling, which notes and
+chords it moves through — what a reader who cannot hear the song can see at a
+glance.
 
 The frequency axis is logarithmic, 40 Hz to 10 kHz, so an octave is the same
 height anywhere and a melodic line keeps its shape; 40 Hz takes in a bass's
 open E. A full-scale sine reads 0 dBFS. Under it, on the same time axis, the
-waveform: each column's peak, with its RMS inside, which is where the dynamics
-show. Its lower half is coloured by the note that dominates the bass, its upper
-half by the note that dominates above it — each a pitch class on a hue circle,
-grey where no one note does or the band is quiet. Each is the strongest pitch
-class in its band of the spectrum already drawn, harmonics voting with their
-fundamentals, so the lower half steps with the bass line and the upper half
-follows the tune or the chord over it, and neither costs a pitch tracker. The
-colour map is cut into 2.5 dB steps and the PNG kept to those colours and a few
-greys, which holds a song under 350 KB: a smooth map over a noisy texture
-compresses several times worse.
+loudness envelope: each column's peak, with its RMS inside.
+
+Under that, two chromagram strips, the band above middle C over the band below
+it: twelve rows each, C at the bottom, a row as bright as its pitch class's
+share of the band, harmonics voting with their fundamentals. So the bass strip
+steps with the bass line, the treble strip carries the tune and the chord over
+it, and a chord shows as several bright rows at once. A pitch class is read off
+its labelled row, never off a hue: neighbouring hues are where a reading goes
+wrong, E♭ taken for E. A strip is dark where its band is quiet.
+
+The spectrogram's map is cut into 2.5 dB steps, the strips' into a few
+brightness steps, and the PNG kept to those colours and a few greys, which holds
+a song under 350 KB: a smooth map over a noisy texture compresses several times
+worse.
 
 Needs ffmpeg and matplotlib (numpy and Pillow come with it).
 """
 
-import colorsys
 import io
 import subprocess
 import sys
@@ -41,30 +45,30 @@ ROWS_PER_OCTAVE = 48
 NFFT = 8192
 FLOOR_DB = -100
 STEP_DB = 2.5
-WIDTH_PX, HEIGHT_PX, DPI = 1400, 760, 100
+WIDTH_PX, HEIGHT_PX, DPI = 1400, 1100, 100
 
 NOTE_NAMES = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 # C2 to C7: below it a bin is wider than a semitone; above it, mostly harmonics.
 # A bass note under C2 still votes through its octave harmonic, the same class.
 NOTE_BAND_HZ = (65, 2100)
-# Middle C splits the bass band from the high one, where the bass clef meets the
-# treble: a bass line and its first harmonics sit under it, and most of a melody
-# above it. A male voice's lowest notes fall under it, and so vote with the bass.
+# Middle C splits the bass band from the treble one, where the clefs meet: a
+# bass line and its first harmonics sit under it, and most of a melody above
+# it. A male voice's lowest notes fall under it, and so vote with the bass.
 CROSSOVER_HZ = 262
 PEAK_RANGE_DB = 30
-CLEAR_SHARE = 0.2
 QUIET_DB = -50
 QUIET = 10 ** (QUIET_DB / 20)
 # A note shorter than this blurs into its neighbours; a column alone flickers.
 NOTE_WINDOW_S = 0.6
-# The pitch classes round a hue circle, C at red; per class a peak shade and a
-# lighter RMS shade, both added to the PNG's fixed palette.
-NOTE_SHADES = [
-    [colorsys.hls_to_rgb(k / 12, lightness, 0.75) for lightness in (0.58, 0.8)] for k in range(12)
-]
-NO_NOTE_SHADES = [(0.42, 0.42, 0.42), (0.65, 0.65, 0.65)]
-# Indexed by pitch class, so a -1 for no note picks the grey at the end.
-SHADES = NOTE_SHADES + [NO_NOTE_SHADES]
+# A row at this share of its band's chroma is at full brightness: one note
+# alone holds about half, its harmonics' stray votes the rest, and an even
+# spread across all twelve holds 1/12.
+FULL_SHARE = 0.5
+# One hue, dark to light, since brightness is a magnitude here, not a note.
+CHROMA_COLOURS = ("#000000", "#173a78", "#5b8fd8", "#d8e8ff")
+CHROMA_STEPS = 12
+# The envelope's peak and its lighter RMS inside it.
+LEVEL_SHADES = ((0.42, 0.42, 0.42), (0.65, 0.65, 0.65))
 
 
 def decode(path):
@@ -117,16 +121,15 @@ def envelope(x, columns):
     return np.abs(blocks).max(axis=1), np.sqrt((blocks.astype(np.float64) ** 2).mean(axis=1))
 
 
-def dominant_notes(magnitude, freqs, step, duration, columns, band_hz):
-    """Per column of the plot, the pitch class that dominates band_hz, or -1 where none does.
+def chroma_shares(magnitude, freqs, step, duration, columns, band_hz):
+    """Per column of the plot, each pitch class's share of band_hz, as (12, columns).
 
     A chroma from the band's spectral peaks, each within PEAK_RANGE_DB of the
     band's loudest in its frame, weighted by magnitude: so a note and its
     harmonics vote for their own class, while the drums' broad smear, flat
-    rather than peaked, barely votes. A column is clear when one class holds
-    CLEAR_SHARE of its chroma; an even spread across all twelve holds 1/12.
-    It is -1 too where the band's loudest peak stays under QUIET_DB, since a
-    band that is all but silent still has peaks, of noise or bleed.
+    rather than peaked, barely votes. A column is all zeros where the band's
+    loudest peak stays under QUIET_DB, since a band that is all but silent
+    still has peaks, of noise or bleed.
     """
     band = (freqs >= band_hz[0]) & (freqs <= band_hz[1])
     m = magnitude[:, band]
@@ -145,22 +148,18 @@ def dominant_notes(magnitude, freqs, step, duration, columns, band_hz):
     np.maximum.at(level, column, loudest)
     span = np.ones(max(1, round(NOTE_WINDOW_S * columns / duration)))
     per_column = np.stack([np.convolve(per_column[:, k], span, "same") for k in range(12)], axis=1)
-    share = per_column.max(axis=1) / np.maximum(per_column.sum(axis=1), 1e-12)
-    clear = (share >= CLEAR_SHARE) & (level >= QUIET)
-    return np.where(clear, per_column.argmax(axis=1), -1)
+    shares = per_column / np.maximum(per_column.sum(axis=1, keepdims=True), 1e-12)
+    shares[level < QUIET] = 0
+    return shares.T
 
 
-def waveform_image(peak, rms, bass_notes, high_notes, rows=128):
-    """RGB rows x columns, row 0 at the bottom: each column's peak and RMS in two
-    shades of a note — the bass note's under the centre line, the high note's
-    over it — black around them."""
-    signed = np.linspace(-1, 1, rows)[:, None]
-    level = np.abs(signed)
-    palette = np.array(SHADES)
-    shades = np.where((signed < 0)[..., None, None], palette[bass_notes], palette[high_notes])
+def envelope_image(peak, rms, rows=128):
+    """RGB rows x columns, row 0 at the bottom: each column's peak and the RMS
+    inside it, mirrored about the centre line, black around them."""
+    level = np.abs(np.linspace(-1, 1, rows))[:, None]
     image = np.zeros((rows, len(peak), 3))
-    image[level <= peak] = shades[:, :, 0][level <= peak]
-    image[level <= rms] = shades[:, :, 1][level <= rms]
+    image[level <= peak] = LEVEL_SHADES[0]
+    image[level <= rms] = LEVEL_SHADES[1]
     return image
 
 
@@ -177,6 +176,7 @@ def main():
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+    from matplotlib.colors import LinearSegmentedColormap
     from matplotlib.ticker import FixedLocator, FuncFormatter, MultipleLocator, NullLocator
     from PIL import Image
 
@@ -187,12 +187,16 @@ def main():
     duration = len(x) / SR
 
     cmap = plt.get_cmap("magma", round(-FLOOR_DB / STEP_DB))
+    chroma_cmap = LinearSegmentedColormap.from_list("chroma", CHROMA_COLOURS, CHROMA_STEPS)
     fig, axes = plt.subplots(
-        2, 2, figsize=(WIDTH_PX / DPI, HEIGHT_PX / DPI), dpi=DPI, sharex="col",
-        gridspec_kw={"height_ratios": (4, 1), "width_ratios": (1, 0.015), "hspace": 0.06, "wspace": 0.01},
+        4, 2, figsize=(WIDTH_PX / DPI, HEIGHT_PX / DPI), dpi=DPI, sharex="col",
+        gridspec_kw={
+            "height_ratios": (4, 0.8, 1.6, 1.6), "width_ratios": (1, 0.015), "hspace": 0.08, "wspace": 0.01,
+        },
     )
-    (ax, cax), (wave, spare) = axes
-    spare.remove()
+    (ax, cax), (wave, *_), (treble, *_), (bass, *_) = axes
+    for spare in axes[1:, 1]:
+        spare.remove()
 
     # Rows are evenly spaced in octaves, so the image sits on a linear log2(Hz) axis.
     image = ax.imshow(
@@ -208,43 +212,45 @@ def main():
 
     columns = WIDTH_PX
     peak, rms = envelope(x, columns)
-    bass = dominant_notes(magnitude, freqs, step, duration, columns, (NOTE_BAND_HZ[0], CROSSOVER_HZ))
-    high = dominant_notes(magnitude, freqs, step, duration, columns, (CROSSOVER_HZ, NOTE_BAND_HZ[1]))
-    # Silence has spectral peaks too, of noise; it is grey however clear they look.
-    bass[rms < QUIET] = -1
-    high[rms < QUIET] = -1
     wave.imshow(
-        waveform_image(peak, rms, bass, high), origin="lower", aspect="auto",
+        envelope_image(peak, rms), origin="lower", aspect="auto",
         extent=(0, duration, -1, 1), interpolation="nearest",
     )
-    wave.yaxis.set_major_locator(FixedLocator((-1, 0, 1)))
-    # Rotated, the label reads bottom up, so each half's band names it.
-    wave.set_ylabel("bass · level · high")
+    wave.yaxis.set_major_locator(NullLocator())
+    wave.set_ylabel("level")
 
-    wave.set_xlim(0, duration)
-    wave.xaxis.set_major_locator(MultipleLocator(30 if duration > 240 else 15))
-    wave.xaxis.set_major_formatter(FuncFormatter(mmss))
-    wave.set_xlabel("time (m:ss)")
-    fig.subplots_adjust(left=0.055, right=0.94, top=0.95, bottom=0.075)
+    for strip, band_hz, name in (
+        (treble, (CROSSOVER_HZ, NOTE_BAND_HZ[1]), "treble, C4–C7"),
+        (bass, (NOTE_BAND_HZ[0], CROSSOVER_HZ), "bass, C2–C4"),
+    ):
+        shares = chroma_shares(magnitude, freqs, step, duration, columns, band_hz)
+        # Silence has spectral peaks too, of noise; it stays dark however clear they look.
+        shares[:, rms < QUIET] = 0
+        strip.imshow(
+            shares, origin="lower", aspect="auto", cmap=chroma_cmap, vmin=0, vmax=FULL_SHARE,
+            extent=(0, duration, -0.5, 11.5), interpolation="nearest",
+        )
+        strip.yaxis.set_major_locator(FixedLocator(range(12)))
+        strip.set_yticklabels(NOTE_NAMES, fontsize=7)
+        strip.set_ylabel(name)
 
-    # The note legend, under the waveform's right end: one cell per class, then grey.
-    legend = fig.add_axes((0.94 - 0.3, 0.008, 0.3, 0.024))
-    legend.imshow([[shade[0] for shade in SHADES]], aspect="auto")
-    for k, (name, (shade, _)) in enumerate(zip(NOTE_NAMES + ("none",), SHADES)):
-        ink = "black" if np.dot(shade, (0.299, 0.587, 0.114)) > 0.5 else "white"
-        legend.text(k, 0, name, ha="center", va="center", fontsize=7, color=ink)
-    legend.set_axis_off()
+    bass.set_xlim(0, duration)
+    bass.xaxis.set_major_locator(MultipleLocator(30 if duration > 240 else 15))
+    bass.xaxis.set_major_formatter(FuncFormatter(mmss))
+    bass.set_xlabel("time (m:ss)")
+    fig.subplots_adjust(left=0.055, right=0.94, top=0.965, bottom=0.05)
 
     buffer = io.BytesIO()
     fig.savefig(buffer, format="png")
     # A fixed palette — the map's own steps, then greys for the text, then the
-    # notes' shades — since an adaptive one merges the rarest steps, the
-    # loudest, and the scale lies.
+    # strips' steps and the envelope's shades — since an adaptive one merges
+    # the rarest steps, the loudest, and the scale lies.
     steps = [round(255 * c) for i in range(cmap.N) for c in cmap(i)[:3]]
     greys = [round(255 * i / (63 - cmap.N)) for i in range(64 - cmap.N) for _ in range(3)]
-    shades = [round(255 * c) for pair in SHADES for rgb in pair for c in rgb]
+    chroma = [round(255 * c) for i in range(chroma_cmap.N) for c in chroma_cmap(i)[:3]]
+    shades = [round(255 * c) for rgb in LEVEL_SHADES for c in rgb]
     palette = Image.new("P", (1, 1))
-    palette.putpalette(steps + greys + shades)
+    palette.putpalette(steps + greys + chroma + shades)
     Image.open(buffer).convert("RGB").quantize(palette=palette, dither=Image.Dither.NONE).save(
         out_png, optimize=True,
     )
