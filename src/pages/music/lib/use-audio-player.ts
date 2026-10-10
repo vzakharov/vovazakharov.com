@@ -49,10 +49,9 @@ export type PlayerControls = {
   position: () => number;
   /**
    * Hand the lock screen and media keys to other media on the page, or take
-   * them back. The browser routes them to whichever handlers the page set,
-   * whatever is playing, so a song's video playing under the song's handlers
-   * would start the song from its own play button — or from the browser's
-   * play action when a tab switch floats the video into picture-in-picture.
+   * them back. The browser sends them to the page's handlers whatever is
+   * playing, so under the song's, a video's play button — picture-in-picture's
+   * included — would start the song.
    */
   yieldMediaSession: (yielded: boolean) => void;
 };

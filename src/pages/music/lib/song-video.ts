@@ -22,7 +22,7 @@ type CaptionTrack = WithSrc &
 /** A song's video with the tracks that caption it. */
 export type SongVideo = {
   video: string;
-  /** The frontmatter's `video.offsetSeconds`: the master's start on the video's timeline. */
+  /** The frontmatter's `video.offsetSeconds`. */
   offsetSeconds: number;
   /** The sung words, in the language they are sung in. */
   captions: CaptionTrack;
