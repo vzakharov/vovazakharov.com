@@ -15,8 +15,8 @@ import { ProseContent } from '@/entities/document';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
-import type { SongPageProps } from '../lib/music-route-params';
 import { listenTitle } from '../lib/music-metadata';
+import type { SongPageProps } from '../lib/music-route-params';
 import { indexPath, songPath } from '../lib/music-urls';
 import { pictureCard, songPicture } from '../lib/pictures';
 import { songRepositoryUrl } from '../lib/projects';

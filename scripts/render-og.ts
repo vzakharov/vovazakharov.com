@@ -5,7 +5,7 @@
  * the chart cards a content document's frontmatter names, from the SVG beside
  * each, the CV's card per framing, from a page generated off the message
  * catalogue, and basilisk.fyi's card per case, from a page generated off its
- * frontmatter.
+ * frontmatter — and the music section's cover collages, as JPEGs.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to
@@ -40,11 +40,7 @@ import {
 } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { MUSIC_PROJECT_NAMES } from '@/shared/music-catalogue';
-import {
-  OG_CARD_SUFFIX,
-  OG_CARD_SUFFIXES,
-  routeCardPath,
-} from '@/shared/seo';
+import { OG_CARD_SUFFIX, OG_CARD_SUFFIXES, routeCardPath } from '@/shared/seo';
 
 import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
@@ -65,6 +61,7 @@ import {
 } from './lib/content-tree.ts';
 import { cvCard } from './lib/cv-card.ts';
 import type { DocketCase } from './lib/docket.ts';
+import { musicCollage } from './lib/music-collage.ts';
 import {
   CANVAS_BACKGROUND,
   type Card,
@@ -72,7 +69,6 @@ import {
   type StagedPage,
 } from './lib/og-render.ts';
 import { readDocket } from './lib/read-docket.ts';
-import { musicCollage } from './lib/music-collage.ts';
 import { runRenderJob } from './lib/render-manifest.ts';
 
 /**

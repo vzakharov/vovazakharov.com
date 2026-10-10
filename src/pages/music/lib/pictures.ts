@@ -102,7 +102,9 @@ function collageCovers(releases: readonly ArtistRelease[]): string[] {
 
 /** The covers the index's card is cut from: the public catalogue's newest releases. */
 export function musicCollageCovers(): string[] {
-  return collageCovers(catalogueReleases(catalogueSongs({ everything: false })));
+  return collageCovers(
+    catalogueReleases(catalogueSongs({ everything: false })),
+  );
 }
 
 /**
