@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: follow the playing song by default, resume from its title (pr #135)
+feat(vova): follow the playing song by default, resume from title (pr #135)
 ```
 
 ```
@@ -11,16 +11,14 @@ bar now follows from the start of every visit, with no button, and each
 track change opens that song's page.
 
 A navigation of the reader's own away from the playing song's page
-switches following off, and a hint above the title in the bar says, for
-a few seconds, that clicking it follows again; while following is off
-the hint also shows on hover. Clicking the title switches following
-back on at any moment, the title being the link to that song's page.
+switches following off, so the next track leaves them where they are.
+Clicking the song's title in the bar switches it back on: the title is
+the link to that song's page, so the click a reader makes to see what
+is playing is also the one that resumes following, and nothing on
+screen has to explain it.
 
 Following is a per-visit state rather than a remembered switch, so the
-stored `follow` flag and its labels go. The hint is a Mantine tooltip
-with its sheet in the theme provider and its colours set from the
-tokens, since Mantine's own leave its dark-scheme text the colour of its
-fill.
+stored `follow` flag and the button's labels go.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
