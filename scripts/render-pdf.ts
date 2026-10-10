@@ -99,6 +99,7 @@ const PRINT_SOURCES = [
   'src/app/ui/theme-provider.tsx',
   // The faces every page is set in, and how they are declared.
   'src/app/styles/fonts',
+  'src/app/styles/fonts.scss',
   'src/app/ui/fonts.ts',
   'src/shared/config',
   'src/shared/lib',
