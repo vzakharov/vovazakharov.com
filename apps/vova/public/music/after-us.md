@@ -7,7 +7,9 @@ project: ['за/обложкой']
 album: wings
 track: 4
 audio: /music/assets/after-us.mp3
-video: /music/assets/after-us.mp4
+video:
+  src: /music/assets/after-us.mp4
+  offsetSeconds: -0.28
 seconds: 79
 explicit: false
 en:

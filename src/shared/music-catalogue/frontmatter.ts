@@ -171,7 +171,18 @@ const songFieldsSchema = baseFrontmatterSchema
      */
     titleTransliterated: z.boolean().default(false),
     credits: creditsSchema.optional(),
-    video: mediaSourceSchema.optional(),
+    video: z
+      .object({
+        src: mediaSourceSchema,
+        /**
+         * Where the master's start falls on the video's timeline, in seconds —
+         * negative where the video starts after it. A video is cut on its own,
+         * so opening it mid-song lands on the same moment only with this.
+         * `scripts/song-intake/video-offset.py` measures it.
+         */
+        offsetSeconds: z.number(),
+      })
+      .optional(),
     /** Track id, where the song is also on Spotify. */
     spotify: z.string().min(1).optional(),
   });

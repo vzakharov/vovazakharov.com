@@ -32,7 +32,7 @@ Neither transcript is the lyrics. The draft reconciles both, keeps the line brea
 
 ## Captions
 
-A song's video carries its printed words as timed tracks: `transcribe.py` on the video itself, then `captions.py <song.md> <deepgram.json.gz> apps/vova/public/music/assets/<slug>`, a `.vtt` per lyrics column. Its docstring says why the video and not the master, and where to find the start of a line it reports `unheard`, which `--at` pins. The pins are in the commit that writes the track.
+A song's video carries its printed words as timed tracks: `transcribe.py` on the video itself, then `captions.py <song.md> <deepgram.json.gz> apps/vova/public/music/assets/<slug>`, a `.vtt` per lyrics column. Its docstring says why the video and not the master, and where to find the start of a line it reports `unheard`, which `--at` pins. The pins are in the commit that writes the track. `video-offset.py <master> <video>` measures the frontmatter's `video.offsetSeconds`.
 
 ## Mastering
 

@@ -7,7 +7,9 @@ project: ['за/обложкой']
 album: punctuation-marks
 track: 1
 audio: /music/assets/listen-single.mp3
-video: /music/assets/listen-single.mp4
+video:
+  src: /music/assets/listen-single.mp4
+  offsetSeconds: 1.89
 seconds: 55
 explicit: false
 credits:

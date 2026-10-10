@@ -22,6 +22,8 @@ type CaptionTrack = WithSrc &
 /** A song's video with the tracks that caption it. */
 export type SongVideo = {
   video: string;
+  /** The frontmatter's `video.offsetSeconds`: the master's start on the video's timeline. */
+  offsetSeconds: number;
   /** The sung words, in the language they are sung in. */
   captions: CaptionTrack;
   /** The cribs, each in a locale's language other than the sung one. */
@@ -36,11 +38,12 @@ export type SongVideo = {
  * the build rather than reaching a reader who cannot hear it.
  */
 export function songVideo(
-  { frontmatter: { video, language }, fileName }: SongDocument,
+  { frontmatter: { video: authored, language }, fileName }: SongDocument,
   locale: Locale,
 ): SongVideo | undefined {
-  if (video === undefined) return undefined;
+  if (authored === undefined) return undefined;
 
+  const { src: video, offsetSeconds } = authored;
   const [sung] = language;
 
   if (!video.startsWith('/') || sung === undefined || sung === 'instrumental') {
@@ -78,5 +81,5 @@ export function songVideo(
     (other) => track(other) ?? [],
   );
 
-  return { video, captions, subtitles };
+  return { video, offsetSeconds, captions, subtitles };
 }

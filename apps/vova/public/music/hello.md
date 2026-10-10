@@ -7,7 +7,9 @@ project: ['за/обложкой']
 album: wings
 track: 3
 audio: /music/assets/hello.mp3
-video: /music/assets/hello.mp4
+video:
+  src: /music/assets/hello.mp4
+  offsetSeconds: -0.19
 seconds: 146
 explicit: false
 en:

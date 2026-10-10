@@ -127,6 +127,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                   {video && (
                     <SongVideoButton
                       {...video}
+                      {...{ slug }}
                       heading={
                         <SongName
                           {...{ title }}

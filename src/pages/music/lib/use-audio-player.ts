@@ -41,6 +41,20 @@ export type PlayerControls = {
   seek: (seconds: number) => void;
   /** Relative to where playback is now, which is what the arrow keys want. */
   seekBy: (seconds: number) => void;
+  /**
+   * Where playback sits this instant, read off the element: `elapsed` trails it
+   * by up to a `timeupdate`, a quarter of a second, which a cut between two
+   * recordings of one song can hear.
+   */
+  position: () => number;
+  /**
+   * Hand the lock screen and media keys to other media on the page, or take
+   * them back. The browser routes them to whichever handlers the page set,
+   * whatever is playing, so a song's video playing under the song's handlers
+   * would start the song from its own play button — or from the browser's
+   * play action when a tab switch floats the video into picture-in-picture.
+   */
+  yieldMediaSession: (yielded: boolean) => void;
 };
 
 /** What is playing and where, as the bar and the track buttons read it. */
@@ -73,6 +87,7 @@ export function useAudioPlayer(
     initialPlayerState,
   );
   const [elapsed, setElapsed] = useState(0);
+  const [sessionYielded, setSessionYielded] = useState(false);
   const [shuffleStored, storeShuffle] = useStoredFlag('shuffle');
 
   // The stored switch leads and the queue follows, which is what restores a
@@ -159,6 +174,8 @@ export function useAudioPlayer(
           audio.currentTime = Math.max(0, audio.currentTime + seconds);
         }
       },
+      position: () => audioRef.current?.currentTime ?? 0,
+      yieldMediaSession: setSessionYielded,
     }),
     [state, track, tracks, shuffleStored, storeShuffle],
   );
@@ -247,6 +264,14 @@ export function useAudioPlayer(
 
     if (session === undefined || current === undefined) return;
 
+    // The previous run's cleanup has already cleared the handlers; a state left
+    // at `paused` would tell the browser nothing plays under a playing video.
+    if (sessionYielded) {
+      session.playbackState = 'none';
+
+      return;
+    }
+
     session.metadata = new MediaMetadata({
       ...pick(current.titles[locale], 'title'),
       artist: billingText(current.billing[locale]),
@@ -254,9 +279,21 @@ export function useAudioPlayer(
     });
     session.playbackState = state.playing ? 'playing' : 'paused';
 
+    // Play and pause each go one way only: a browser may send either whatever
+    // the state, and a toggle would turn a pause into playback.
     const actions = [
-      ['play', controls.toggle],
-      ['pause', controls.toggle],
+      [
+        'play',
+        () => {
+          if (!state.playing) controls.toggle();
+        },
+      ],
+      [
+        'pause',
+        () => {
+          if (state.playing) controls.toggle();
+        },
+      ],
       ['nexttrack', controls.next],
       ['previoustrack', controls.previous],
     ] as const;
@@ -268,7 +305,7 @@ export function useAudioPlayer(
     return () => {
       for (const [action] of actions) session.setActionHandler(action, null);
     };
-  }, [current, state.playing, controls, locale]);
+  }, [current, state.playing, controls, locale, sessionYielded]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
