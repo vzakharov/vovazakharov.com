@@ -7,15 +7,23 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-09T14:50:17Z
-- **Updated:** 2026-10-10T09:18:58Z
+- **Updated:** 2026-10-10T09:39:04Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: none
+## Awaiting an answer: 7
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 141706b). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at eaa4543). Resolved threads never count; an `(agent)` tail is a reply already given._
+
+- **T08** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:30:56Z — "класс, а можем нотки в нижней части раскрашивать октавой ещё…" → [↓](#t08)
+- **T09** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:33:45Z — "Ещё некоторые комменты из реддита, буду оставлять каждый отд…" → [↓](#t09)
+- **T10** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:34:00Z — "> for structure at a glance, put a self similarity or novelt…" → [↓](#t10)
+- **T11** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:35:08Z — "> Very interesting. You can already clearly see the patterns…" → [↓](#t11)
+- **T12** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:36:59Z — "> Maybe a vectorscope. В отношении всех комментов -- помни,…" → [↓](#t12)
+- **T13** `docs/plans/krylya-review.paused.md`:90 — unresolved — last: @vzakharov (human) 2026-10-10T09:38:24Z — "не, двух уже в данном случае достаточно" → [↓](#t13)
+- **T14** `src/pages/music/lib/song-video.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:39:01Z — "ещё понял, что у нас в видео же неотмастеренный мп3. подмени…" → [↓](#t14)
 
 ---
 
@@ -24,17 +32,18 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 ## Summary
 
 - **The lost album «Крылья» and the maxi-single «Знаки препинания» (за/обложкой) are published** — every song unhidden, with the author's corrected words, his stories, English cribs and footnotes, `xN` repeats and month-only dates. Eleven masters are vendored under `music/assets/`, since no `vovas-music` repository holds them; Наша история and Мир, какой он есть sit on the album and appear on the single through `alsoOn`.
-- **Pages:** После нас, Послушайте (single) and Здравствуй play their videos from an «Смотреть видео» button beside «Слушать», captioned with the sung words and subtitled with the crib (`.vtt` timed off each video's own audio by `scripts/song-intake/captions.py`; the build fails on a video without its captions). A video opened while its song plays starts where the song is, shifted by the frontmatter's `video.offsetSeconds`, and while it is open the player yields the browser's media session, so a play action the browser sends on a tab switch no longer restarts the song. The album page shows its cover, a Listen button that plays the album, and the album's own text as edited prose; the artist page carries за/обложкой's own text. Long stories fold behind «…», and a vendored master downloads as `.mp3`.
+- **Pages:** После нас, Послушайте (single) and Здравствуй play their videos from an «Смотреть видео» button beside «Слушать», captioned with the sung words and subtitled with the crib (`.vtt` timed off each video's own audio by `scripts/song-intake/captions.py`; the build fails on a video without its captions). A video opened while its song plays starts where the song is, shifted by the frontmatter's `video.offsetSeconds`; closed, it hands its place back to the song and resumes whatever it paused; and while it is open the player yields the browser's media session, so a play action the browser sends on a tab switch no longer restarts the song. The album page shows its cover, a Listen button that plays the album, and the album's own text as edited prose; the artist page carries за/обложкой's own text. Long stories fold behind «…», and a vendored master downloads as `.mp3`.
 - **Майя's reflections** on all eleven songs sit beside them as `<slug>.reflections.md` companions, about the songs themselves; the rule for writing them is `.claude/rules/maya-reflections.md`.
 - **Tooling the review produced:** `scripts/song-intake/` (mastering, spectra, spectrograms as Майя's stand-in for listening — log-scaled 40 Hz–10 kHz over a loudness envelope and two chromagram strips, treble over bass, a labelled row per pitch class), the recognisers' transcripts kept in `docs/music/transcripts/`, `pnpm check:stanza-repeats` (eleven catalogue songs fixed by it), `transcribe.py` ported from vzakharov/life with unsure words marked in place, a masked word the recording itself carries stays, named in `masked` frontmatter. `pnpm test` now runs only the tests the branch changed, and `pnpm test:all` the whole suite. A video embedded from a link plays from its site-root path rather than production.
-- **Two questions are open for the author** (`docs/plans/krylya-review.paused.md`): where the pre-master mp3s go (a `vovas-music` repo recommended; until then they sit in `docs/remove-before-merging/`); and on a phone, the story fold on После нас lands across its video — a dark rectangle fading above «…». Recommended: don't fold a story whose fold would cut a video; the alternative is a poster frame. Both touch the shared prose styles.
+- **The pre-master sources** — the album split into songs, the single's own track, the author's spoken story of the album — are assets of the [`music-sources`](https://github.com/vzakharov/vovazakharov.com/releases/tag/music-sources) release rather than files in the tree.
+- **One question is open for the author** (`docs/plans/krylya-review.paused.md`): on a phone, the story fold on После нас lands across its video — a dark rectangle fading above «…». Recommended: don't fold a story whose fold would cut a video; the alternative is a poster frame. Both touch the shared prose styles.
 
 ## QA Checklist
 
 - [ ] `album-page` — `pnpm dev:vova`, open `/music/all/albums/wings/ru`: the cover, a Listen button that plays the album from track 1, ten tracks, and the album's text below.
 - [ ] `single-page` — `/music/all/albums/punctuation-marks/en`: Послушайте (Single Version), Наша история and Мир, какой он есть as tracks 1–3.
 - [ ] `videos` — `/music/after-us/ru`, `/music/listen-single/ru`, `/music/hello/ru`: «Смотреть видео» pauses the song and opens the video; Russian captions show by default on `/ru`, English subtitles on `/en`, each line in time with the singing.
-- [ ] `video-sync` — start Здравствуй with «Слушать», then open its video: the video starts at the song's place, not at 0:00; switch tabs in Arc with the video playing and the song does not start again.
+- [ ] `video-sync` — start Здравствуй with «Слушать», then open its video: the video starts at the song's place, not at 0:00; skip ahead in the video and close it, and the song carries on from the video's place; switch tabs in Arc with the video playing and the song does not start again.
 - [ ] `spectrogram` — open `apps/vova/public/music/assets/spectrograms/birds.png`: the bass strip shows the loop G → D# → F, each note on its own labelled row.
 - [ ] `story-fold` — a song with a long story (`/music/after-us/ru`): the story folds behind «…», opens on click with a focus ring; on a phone-width window, note where the fold lands relative to the video (the open question).
 - [ ] `mp3-download` — on a Krylya song page, the download link saves an `.mp3`.
@@ -87,7 +96,8 @@ English crib and footnotes, and Майя's reflection beside it.
 captioned with the sung words and subtitled with the crib; the build
 fails on a video without its captions. Opened while its song plays, a
 video starts at the song's place, offset by video.offsetSeconds, and
-the player yields the media session while it is open. The album page
+closed, hands the place back; the player yields the media session
+while it is open. The album page
 shows its cover, plays the album from Listen and carries the album's
 own text, the artist page за/обложкой's; long stories fold behind «…»,
 and a vendored master downloads as .mp3.
@@ -110,7 +120,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_54 resolved threads omitted; re-run with `--include-resolved` to export them._
+_56 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `apps/vova/public/music/after-us.md`:19 — unresolved — last: @vzakharov (agent) 2026-10-10T06:29:32Z — "Поставил дословно в d7f040c: «…— когда всё, что случилось за…" → [↓](#t01)
 - **T02** `apps/vova/public/music/albums/wings.md`:12 — unresolved — last: @vzakharov (agent) 2026-10-10T06:29:33Z — "Сделано в d7f040c: абзац теперь кончается на «…все треки был…" → [↓](#t02)
@@ -119,8 +129,13 @@ _54 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T05** `apps/vova/public/music/artists/za-oblozhkoy.md`:34 — unresolved — last: @vzakharov (agent) 2026-10-10T06:29:40Z — "Убрал в d7f040c: абзац теперь кончается на «…на альбом она т…" → [↓](#t05)
 - **T06** `apps/vova/public/music/listen-single.md`:38 — unresolved — last: @vzakharov (agent) 2026-10-10T06:29:42Z — "Дописал в d7f040c, дословно, и перевёл в английскую историю:…" → [↓](#t06)
 - **T07** `apps/vova/public/music/listen-single.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-10T06:29:45Z — "Да. Прошёл по всем правкам этого ревью: аннотация «После нас…" → [↓](#t07)
-- **T08** `docs/plans/krylya-review.in-progress.md`:69 — unresolved — last: @vzakharov (agent) 2026-10-10T08:38:47Z — "Строчка: «Здравствуй, в тишине вместо слов», в подстрочнике…" → [↓](#t08)
-- **T09** `docs/music/transcripts/krylya-01-listen.transcript.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-10T08:38:49Z — "Транскрипты — да, перенёс в `docs/music/transcripts/`, туда…" → [↓](#t09)
+- **T08** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:30:56Z — "класс, а можем нотки в нижней части раскрашивать октавой ещё…" → [↓](#t08)
+- **T09** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:33:45Z — "Ещё некоторые комменты из реддита, буду оставлять каждый отд…" → [↓](#t09)
+- **T10** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:34:00Z — "> for structure at a glance, put a self similarity or novelt…" → [↓](#t10)
+- **T11** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:35:08Z — "> Very interesting. You can already clearly see the patterns…" → [↓](#t11)
+- **T12** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:36:59Z — "> Maybe a vectorscope. В отношении всех комментов -- помни,…" → [↓](#t12)
+- **T13** `docs/plans/krylya-review.paused.md`:90 — unresolved — last: @vzakharov (human) 2026-10-10T09:38:24Z — "не, двух уже в данном случае достаточно" → [↓](#t13)
+- **T14** `src/pages/music/lib/song-video.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-10T09:39:01Z — "ещё понял, что у нас в видео же неотмастеренный мп3. подмени…" → [↓](#t14)
 
 <a id="t01"></a>
 
@@ -290,64 +305,88 @@ _54 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 <a id="t08"></a>
 
-### `docs/plans/krylya-review.in-progress.md`:69 — unresolved
+### `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved
 
-```diff
-@@ -55,13 +55,21 @@ context budget.
-… 16 lines elided …
--  words the page prints as its lyrics — or (b) a timed `.vtt` per video.
--- Then `/polish` and `/pr`.
-+- The author's answer on hello's line 3, which both recognisers hear as
-+  «Здравствуй, в тишине» where the lyrics print «вместо слов».
-```
+**@vzakharov (human)** — 2026-10-10T09:30:56Z
 
-**@vzakharov (human)** — 2026-10-10T08:08:46Z
-
-да, там "Здравствуй, в тишине вместо слов", забыл сам :)
-
-А ещё можно сделать что при включении видео, если музыка проигрывается, видео начинает проигрываться с того же момента (с учётом смещения)?
-
-ещё кажется есть баг:
-
-1- открываю песню, нажимаю слушать
-2- открываю видео, песня включается, видео включается
-3- переключаю вкладку. сама включается песня (видео при этом по-прежнему играет).
-
-Делаю в Арке, возможно это его приблуды, а может нет -- попробуй понять из кода
-
-Баг воспроизводится, даже если перед (2) поставить аудио на паузу вручную
-
-**@vzakharov (agent)** — 2026-10-10T08:38:47Z
-
-Строчка: «Здравствуй, в тишине вместо слов», в подстрочнике «Hello, in the silence, instead of words», и в обеих дорожках субтитров тоже. Тайминги не трогал: строка начинается там же — d5915e9
-
-Видео с того же места — 047f962. Если открыть видео, пока играет эта песня, видео стартует с позиции песни плюс сдвиг. Сдвиг записан во frontmatter, `video.offsetSeconds`: После нас −0.28, Здравствуй −0.19, сингл +1.89. Я его измерил кросс-корреляцией звуковых дорожек, сдвиг одинаковый по всей песне, так что видео — это один непрерывный кусок песни. Скрипт для следующих видео: `scripts/song-intake/video-offset.py`. Позицию читаю прямо с аудио-элемента в момент, когда у видео загрузились метаданные: счётчик плеера отстаёт до четверти секунды, а такой сдвиг ухо слышит.
-
-Баг — там же. Похоже, не Арк, а код. Медиа-сессия (кнопки ОС, медиаклавиши, действие браузера при переключении вкладки) общая на всю страницу: браузер шлёт play/pause тем обработчикам, которые поставила страница, а не тому, что сейчас играет. У нас стояли обработчики песни, и play, и pause были «переключить». Когда видео играет, а песня стоит на паузе, вкладка переключается, браузер выносит видео в картинку-в-картинке и шлёт play → песня включается. Поэтому ручная пауза перед (2) и не помогала. Теперь, пока окно с видео открыто, плеер отдаёт медиа-сессию: снимает свои обработчики, и браузер управляет самим видео. Заодно play теперь только запускает, а pause только ставит на паузу.
-
-Честно: воспроизвести в Арке я не могу. Headless Chromium здесь не умеет H.264, а плеер в нём от клика не стартовал, так что проверка — сборка и код. Проверишь у себя?
+класс, а можем нотки в нижней части раскрашивать октавой ещё (для мелодии особенно актуально)? или это уже нетривиальная DSP-задача?
 
 ---
 
 <a id="t09"></a>
 
-### `docs/music/transcripts/krylya-01-listen.transcript.md`:1 — unresolved
+### `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved
 
-**@vzakharov (human)** — 2026-10-10T08:09:32Z
+**@vzakharov (human)** — 2026-10-10T09:33:45Z
 
-думаю, может стоит транскрипты оставлять в репе? вот тут они например понадобились для видео -- может когда-то ещё пригодятся. аналогичный вопрос с исходниками мп3шек до мастера (не помню куда сейчас они положены)
+Ещё некоторые комменты из реддита, буду оставлять каждый отдельным чтобы не смешивать работу по разным (и поясняю, что имплементировать каждый необязательно, но нужно рассмотреть)
 
-**@vzakharov (agent)** — 2026-10-10T08:38:49Z
+> Look into a MEL spectrogram instead of log, it better represents how humans focus on areas of frequency
 
-Транскрипты — да, перенёс в `docs/music/transcripts/`, туда `/finalize` не заходит: все десять песен альбома, рассказ об альбоме и whisper-транскрипт сингла, 132K вместе с gzip-ответами. В правилах приёма песен (`scripts/song-intake/CLAUDE.md`) теперь написано, что транскрипты остаются там — bc93c64
+по каждому также если не сложно подготовь проект ответа с учётом требований к написаню в social/ (ответы можно просто в комментах, хранить в репе необязательно)
 
-С mp3 до мастера я бы сделал иначе. Они лежат в `docs/remove-before-merging/krylya/` (155 МБ, десять песен плюс A/B-нарезки), альбом одним файлом (52 МБ) и сингл в `znaki-prepinaniya/` (2.7 МБ). При squash в main ничего из этого не попадает. А закоммить их в main — и каждый клон этого репо навсегда платит ~210 МБ, даже если файлы потом удалить. Варианты:
+---
 
-1. **Репо в `vovas-music`** — у песен уже есть поле `repo`, «its repository under the vovas-music organization», так что исходники естественно лежат там. Я бы выбрал это.
-2. **Релиз этого репо** с mp3 в виде ассетов: в клон не попадают, лимит 2 ГБ на файл.
-3. **Git LFS здесь**: работает, но у бесплатного LFS квота 1 ГБ на хранение и трафик.
+<a id="t10"></a>
 
-Какой вариант берём? Пока не ответишь, файлы лежат где лежали.
+### `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-10T09:34:00Z
+
+> for structure at a glance, put a self similarity or novelty strip under the spectrogram, it shows where the sections change. the spectrogram says what is playing, never where the verse ends, and a chroma strip makes key changes obvious for cheap.
+
+---
+
+<a id="t11"></a>
+
+### `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-10T09:35:08Z
+
+> Very interesting. You can already clearly see the patterns as if it’s a pianoroll. Have you tried making a threshold to filter out the less dominant frequencies?
+
+(на этот уже ответил: `Thanks! Actually making a piano roll itself now:` -- со скрином из этой песни)
+
+---
+
+<a id="t12"></a>
+
+### `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-10T09:36:59Z
+
+> Maybe a vectorscope.
+
+В отношении всех комментов -- помни, что задача сделать понимаемым "at a glance", то есть вносить слишком много информации на картинку так, чтобы тебе самому становилось сложно понять что к чему, не надо.
+
+---
+
+<a id="t13"></a>
+
+### `docs/plans/krylya-review.paused.md`:90 — unresolved
+
+```diff
+@@ -63,10 +63,30 @@ context budget.
+… 26 lines elided …
+ 
+-- The author's answer on hello's line 3, which both recognisers hear as
+-  «Здравствуй, в тишине» where the lyrics print «вместо слов».
+ - Optional DRY call: `album-page.tsx` and `artist-page.tsx` end on the same
+```
+
+**@vzakharov (human)** — 2026-10-10T09:38:24Z
+
+не, двух уже в данном случае достаточно
+
+---
+
+<a id="t14"></a>
+
+### `src/pages/music/lib/song-video.ts`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-10T09:39:01Z
+
+ещё понял, что у нас в видео же неотмастеренный мп3. подменить можно нашим?
 
 ---
 
@@ -359,3 +398,4 @@ _54 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-09T19:39:05Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5474495807.
 - **2026-10-10T06:23:56Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5477929872.
 - **2026-10-10T08:10:25Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5478270426.
+- **2026-10-10T09:39:03Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/127#pullrequestreview-5478473881.
