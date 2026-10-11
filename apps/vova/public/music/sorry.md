@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Prosti'
     translation: 'Sorry'
-  hook: 'Forgive me, I’m not yours anymore. It was summer, near Kolomna.'
+  hook: '“I repeat: that summer somewhere near Kolomna NEVER HAPPENED!”'
 ru:
-  hook: 'Прости меня, я больше не твоя. Это было летом, под Коломной.'
+  hook: '«Повторяю, этого лета под Коломной где-то НИКОГДА НЕ БЫЛО!»'
 ---
 
 <!-- lang:en -->

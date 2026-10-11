@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Posle nas'
     translation: 'After Us'
-  hook: 'The world we leave to those whose adult life is only beginning, when everything of the last few years felt especially raw.'
+  hook: '“After us, the flood”? The flood is already here.'
 ru:
-  hook: 'Какой мир мы оставляем тем, чья взрослая жизнь только начинается, — когда всё, что случилось за последние годы, ощущалось особенно живо.'
+  hook: '«После нас хоть потоп»? Потоп уже при нас.'
 ---
 
 <!-- lang:en -->

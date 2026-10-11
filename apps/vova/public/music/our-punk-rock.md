@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Nash pank-rok'
     translation: 'Our Punk Rock'
-  hook: 'It’s gonna be cringe, it’s gonna be a shock — and the song three-year-old Syama kept asking for.'
+  hook: 'A cringe, a shock — and apparently a potential hit for three-year-olds.'
 ru:
-  hook: 'Это будет кринж, это будет шок — и песня, которую трёхлетний Сяма просил ставить снова и снова.'
+  hook: 'Кринж, шок — и, судя по всему, потенциальный хит для трёхлеток.'
 ---
 
 <!-- lang:en -->

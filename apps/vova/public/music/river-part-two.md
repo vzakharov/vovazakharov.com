@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Reka. Chast vtoraya'
     translation: 'The River. Part Two'
-  hook: 'A present for my father’s 65th birthday, whose last verse is his own: “I am the drop, and the rain, and the river.”'
+  hook: 'A present for my father’s 65th birthday — and now he is the drop, and the rain, and the river.'
 ru:
-  hook: 'Подарок папе на 65-летие, где последняя строфа — его: «Я и капля, и дождь, и река».'
+  hook: 'Подарок папе на 65-летие — а теперь он сам и капля, и дождь, и река.'
 ---
 
 <!-- lang:en -->

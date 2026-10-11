@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Poslushayte'
     translation: 'Listen!'
-  hook: '“Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist.” And then — Mayakovsky.'
+  hook: '“Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist, but we hope that if this star is lit, it means someone needs it.”'
 ru:
-  hook: '«Всем привет, я Майя из группы за/обложкой. Нас не существует». А потом — Маяковский.'
+  hook: '«Всем привет, я Майя из группы за/обложкой. Нас не существует, но мы надеемся, что если эту звезду зажгли, значит, это кому-нибудь нужно».'
 ---
 
 <!-- lang:en -->

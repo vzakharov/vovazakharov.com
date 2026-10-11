@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Zdravstvuy'
     translation: 'Hello'
-  hook: 'Hello — is it light, or only a mirage? Two voices meet in the chorus and build castles on the sand.'
+  hook: 'An ode to all of us building sand castles amidst mirages.'
 ru:
-  hook: 'Здравствуй — это свет или лишь мираж? Два голоса сходятся в припеве и строят замки на песке.'
+  hook: 'Ода всем нам, строящим замки на песке среди миражей.'
 ---
 
 <!-- lang:en -->

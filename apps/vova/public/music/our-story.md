@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Nasha istoriya'
     translation: 'Our Story'
-  hook: 'Read me from cover to cover. The first whole song — and after it, the future had arrived.'
+  hook: 'Read me from cover to cover — and then look behind it.'
 ru:
-  hook: 'Прочти меня от края до края. Первая целая песня — и после неё будущее наступило.'
+  hook: 'Прочти меня от края до края — и загляни за обложку.'
 ---
 
 <!-- lang:en -->

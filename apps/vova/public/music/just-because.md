@@ -13,7 +13,7 @@ en:
   title:
     transliteration: 'Prosto tak'
     translation: 'Just Because'
-  hook: 'Frostbitten fingers, minus twenty in the shade — and kissing just because.'
+  hook: 'Frostbitten fingers, four below in the shade — and kissing just because.'
 ru:
   hook: 'Пальцы отморожены, в тени минус двадцать — а мы целуемся просто так.'
 ---

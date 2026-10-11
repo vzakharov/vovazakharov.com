@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Mir, kakoy on yest'
     translation: 'The World as It Is'
-  hook: 'Come closer to the fire. Close your eyes. A Disney princess, singing the world as it is.'
+  hook: '“This heat is all you need so as not to burn.”'
 ru:
-  hook: 'Подойди к огню поближе. Закрой глаза. Диснеевская принцесса поёт о мире, какой он есть.'
+  hook: '«Этот жар — всё, что тебе нужно, чтобы не сгореть».'
 ---
 
 <!-- lang:en -->

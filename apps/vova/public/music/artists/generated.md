@@ -1,8 +1,8 @@
 ---
 en:
-  hook: 'Sometimes upbeat, sometimes cerebral heavy stuff, packaged as concept albums about the eternal, the good, and the not-so-good.'
+  hook: 'Sometimes driving, sometimes cerebral heavy stuff, packaged as concept albums about the eternal, the good, and the not-so-good.'
 ru:
-  hook: 'Местами бодрый, местами интеллектуальный тяжелячок в упаковке концепт-альбомов про вечное, доброе и не очень доброе.'
+  hook: 'Местами качающий, местами интеллектуальный тяжелячок в упаковке концепт-альбомов про вечное, доброе и не очень доброе.'
 ---
 
 <!-- lang:en -->
@@ -16,10 +16,12 @@ first few albums — one by [za/oblozhkoy](./za-oblozhkoy.md) and a few by
 Only with Suno 3 did I start writing in English again, and the name GENERATED
 came to me almost at once. Amazingly, it turned out no band had it.
 
-The idea came with the name. It would be metal or metalcore, something heavy,
-because that’s what I’ve mostly listened to all my life and what I know best.
-And it would all be concept albums, each one following a story or built around
-an idea.
+What’s good about the name is that it says straight away the music is
+generated, and hides that from no one — unlike the hundreds of Suno “bands”
+that appeared after it. The music itself wasn’t an idea so much as my main
+musical self: metal or metalcore, something heavy, because that’s what I’ve
+mostly listened to all my life and what I know best. And it would all be
+concept albums, each one following a story or built around an idea.
 
 Since then GENERATED have “released” 75 songs and eight albums, and all of them
 can be heard here.
@@ -36,10 +38,12 @@ can be heard here.
 меня родилось название GENERATED. Совершенно поразительно, но оказалось, что
 группы с таким названием нет.
 
-Вместе с названием пришла и идея. Это будет метал или металкор, что-то тяжёлое,
-потому что это то, что я всю жизнь в основном слушаю и в чём лучше всего
-разбираюсь. И это всё будут концепт-альбомы: каждый идёт по какой-то истории или
-вокруг какой-то идеи.
+Название хорошо тем, что сразу говорит: это сгенерировано, — и ни от кого этого
+не скрывает, в отличие от сотен суновских «групп», появившихся после. А сама
+музыка — это даже не идея, а просто моя основная музыкальная сущность: метал или
+металкор, что-то тяжёлое, потому что это то, что я всю жизнь в основном слушаю и
+в чём лучше всего разбираюсь. И это всё будут концепт-альбомы: каждый идёт по
+какой-то истории или вокруг какой-то идеи.
 
 С тех пор GENERATED «выпустили» 75 песен и восемь альбомов, и все их можно
 послушать здесь.

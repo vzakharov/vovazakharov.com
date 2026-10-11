@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Sliz'
     translation: 'Slime'
-  hook: '“There are no stars here, only sweet slime.” A cover of Sasha’s cheerful song that crawled off somewhere else entirely.'
+  hook: '“There are no stars here, only sweet slime.”'
 ru:
-  hook: '«Здесь нету звёзд, только сладкая слизь». Кавер на Сашину жизнерадостную песню, который уполз совсем в другую сторону.'
+  hook: '«Здесь нету звёзд, только сладкая слизь».'
 ---
 
 <!-- lang:en -->

@@ -10,11 +10,11 @@ seconds: 194
 album: ctfu
 track: 4
 en:
-  hook: 'Left or right unknown, the fog of doubt overhead — and the best is yet to come.'
+  hook: 'The fog of doubt overhead — but the best is yet to come.'
 ru:
   title:
     translation: 'Перекрёсток'
-  hook: 'Налево или направо — неизвестно, над головой туман сомнений, а лучшее ещё впереди.'
+  hook: 'Над головой туман сомнений — но лучшее ещё впереди.'
 ---
 
 <!-- lang:en -->

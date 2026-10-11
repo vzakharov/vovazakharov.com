@@ -11,10 +11,10 @@ seconds: 293
 album: vagabond
 track: 8
 en:
-  hook: '“Breathe, please, just breathe” — a plea from 2014 that became the wind under Konyukhov’s balloon.'
+  hook: '“Breathe, please, just breathe” — whether it’s to a wind or an infant fighting for life.'
 ru:
   title: Повелитель ветра
-  hook: '«Дыши, пожалуйста, только дыши» — просьба 2014 года, ставшая ветром под шаром Конюхова.'
+  hook: '«Дыши, пожалуйста, только дыши» — ветру ли, младенцу ли, который борется за жизнь.'
 ---
 
 <!-- lang:en -->

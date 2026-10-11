@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Ptitsy'
     translation: 'Birds'
-  hook: 'Birds, where are you flying? Dad heard in it “the song of a departing soul.”'
+  hook: '“The song of a departing soul,” per my dad (RIP).'
 ru:
-  hook: 'Птицы, куда вы летите? Папе в ней послышалась «песня улетающей души».'
+  hook: '«Песня улетающей души», как сказал папа (светлая ему память).'
 ---
 
 <!-- lang:en -->

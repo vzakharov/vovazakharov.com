@@ -14,9 +14,9 @@ en:
   title:
     transliteration: 'Ptichka'
     translation: 'Birdie'
-  hook: 'It started as an iPhone alarm called “Birdie.” It ended as deathcore.'
+  hook: 'An iPhone alarm-turned-deathcore.'
 ru:
-  hook: 'Начиналось с будильника на айфоне под названием «Птичка». Закончилось дэткором.'
+  hook: 'Будильник с айфона, ставший дэткором.'
 ---
 
 <!-- lang:en -->
