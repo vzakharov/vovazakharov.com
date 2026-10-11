@@ -9,24 +9,26 @@ ru:
 
 A deity is born into the void, and there is no one in the void but the deity.
 It can make whole worlds, and there is no one to show them to. So, out of
-loneliness, it makes man, in its own image.
+loneliness, it makes man, in its own image — and man names it God, and gives it
+a face like his own, and from then on God is a he.
 
-Man turns out to be the most troublesome of all its works. He invents religions
-that bear its name and have nothing of it in them, does mad things in its honor,
-and in time forgets it altogether. Age after age the discontent builds, until
-the deity that made man so as not to be alone decides to destroy him.
+Man turns out to be the most troublesome of all God’s works. He invents
+religions that bear God’s name and have nothing of God in them, does mad things
+in his honor, and in time forgets him altogether. Age after age the discontent
+builds, until the god who made man so as not to be alone decides to destroy him.
 
 <!-- universe:ru -->
 
 В пустоте рождается божество, и в пустоте нет никого, кроме него. Оно может
 творить целые миры, но показать их некому. И от одиночества оно создаёт
-человека — по своему образу.
+человека — по своему образу. А человек нарекает его Богом и даёт ему лицо,
+похожее на своё, и отныне Бог — он.
 
-Человек оказывается самым хлопотным из его творений. Он выдумывает религии,
-которые носят имя божества, но в которых нет ничего от него самого, творит во
-славу его безумства, а со временем и вовсе его забывает. Век за веком копится
-недовольство, пока божество, создавшее человека, чтобы не быть одному, не решает
-его уничтожить.
+Человек оказывается самым хлопотным из творений Бога. Он выдумывает религии,
+которые носят имя Бога, но в которых нет ничего от него самого, творит во славу
+его безумства, а со временем и вовсе его забывает. Век за веком копится
+недовольство, пока Бог, создавший человека, чтобы не быть одному, не решает его
+уничтожить.
 
 <!-- lang:en -->
 

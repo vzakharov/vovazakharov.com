@@ -23,19 +23,21 @@ ru:
 
 <!-- universe:en -->
 
-God is a thought roaming the endless night, and a thought has no form. To see
-what he is, he needs a mirror. So he makes man in his own image and
-likeness, and looks: in man’s laughter and tears he finds himself, and in man’s
-dreams, the shape he takes. Before long, who is whose image, he can no longer
-say.
+The deity is a thought roaming the endless night, and a thought has no form. To
+see what it is, it needs a mirror. So it makes man in its own image and
+likeness, and looks: in man’s laughter and tears it finds itself, and in man’s
+dreams, the shape it takes. Man looks back, and gives it a name — God — and a
+face like his own; from then on, God is a he. Before long, who is whose image,
+he can no longer say.
 
 <!-- universe:ru -->
 
-Бог — мысль, бродящая в бескрайней ночи, а у мысли нет формы. Чтобы увидеть,
-что он такое, ему нужно зеркало. И он создаёт человека по своему
+Божество — мысль, бродящая в бескрайней ночи, а у мысли нет формы. Чтобы
+увидеть, что оно такое, ему нужно зеркало. И оно создаёт человека по своему
 образу и подобию — и вглядывается: в смехе и слезах человека находит себя, в
-его снах — форму, которую принимает сам. И вскоре уже не может сказать, кто
-чей образ.
+его снах — форму, которую принимает само. А человек вглядывается в ответ и даёт
+ему имя — Бог — и лицо, похожее на своё; отныне Бог — он. И вскоре он уже не
+может сказать, кто чей образ.
 
 <!-- lang:en -->
 
