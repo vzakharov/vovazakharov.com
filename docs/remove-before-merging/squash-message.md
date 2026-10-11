@@ -7,17 +7,23 @@ feat(vova): open every song, and the music batch around it (pr #140)
 ```
 Every song in the catalogue is public. A song used to stay hidden until
 it had a description and a story in both languages; it now publishes as
-it is, and the page shows the story where there is one, the description
-only where there is none, and neither where the song has neither. The
-description stays the meta description, optional in both locales
-together, and the scaffolder no longer writes a placeholder for it.
+it is. The description, optional in both locales together, is the hook
+set in italics under the song's name as well as its meta description,
+and an album's or artist's file carries its hook as a `hook:` section.
 `pnpm music:untold` lists what each song still lacks.
+
+A concept album tells its world under a `universe:` marker, shown ahead
+of the `lang:` story, which then reads as «Как это делалось» / "Making
+of"; only what happens in the world goes under it. GENERATED, Divine
+Discontent and its ten tracks are told this way from Vova's dictation,
+Prototypes and Poluzhivye get their own text, and Майя reflects on the
+ten tracks as their listener, read off spectrograms rendered for her.
 
 An instrumental shows its story whole, there being no words for it to
 crowd. Following the playing song resumes whenever the reader lands on
-its page, not only from the player bar's title. «За горизонт» joins
-Сильней любви as its sixth track, and the stories of «Наша история» and
-«Мир, какой он есть» are cut down from the dictation they were set from.
+its page. «За горизонт» joins Сильней любви as its sixth track, and the
+stories of «Наша история» and «Мир, какой он есть» are cut down from
+the dictation they were set from.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
