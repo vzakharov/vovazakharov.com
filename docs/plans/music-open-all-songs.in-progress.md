@@ -30,33 +30,20 @@ straight from the branch once the songs are open, ahead of the merge.
 - **The mastering A/B** went to the operator as a blind file (full-strength
   `master.py` vs. the Ozone master, five seconds each, loudness-matched); the
   key is in `tmp/fingers-ab/KEY.md`, unread until the operator asks.
+- **The «Птичка» mastering A/B** (Matchering against the «На пальцы» Ozone
+  master, no master of its own), blind in order too: A (Matchering) marginally
+  better, B (Ozone) «поярче, посветлее»; past ~2:30 the mixes differ. Its
+  follow-up — choosing a reference by mix similarity — is issue #141, with the
+  mp3s on the `mastering-experiments-1` prerelease; out of this PR.
 
 ## Rest of the elephant
 
-- **Mastering without the song's own master («Птичка»).** The «На пальцы» test
-  showed Matchering gets close when it can match against the song's own Ozone
-  master; this one asks whether it does without one. «Птичка»'s mix goes through
-  `master.py` against the «На пальцы» Ozone master as a house reference, and is
-  spliced against «Птичка»'s own Ozone master the same way: five seconds each,
-  loudness-matched, neutral filename. Blind in both senses, at the operator's
-  word («в новом A/B тесте тоже неизвестен должен быть порядок»): which version
-  plays first is drawn at random, and the key goes only into a committed base64
-  file the agent does not read.
-  - Verdict: A marginally better, B «поярче, посветлее»; A (first) was
-    Matchering, B Ozone. Past ~2:30 the music differs: `birdie_mix.mp3` is not
-    the mix the Ozone master was rendered from, which also explains the low
-    correlation.
-  - Both experiments and the follow-up (choose the reference by mix similarity)
-    are issue #141; the «Птичка» mp3s are assets of the
-    `mastering-experiments-1` prerelease it links.
-  - Sent to the operator as `birdie-blind.mp3`; key in
-    `docs/remove-before-merging/birdie-ab-key.b64`. Mix `birdie_mix.mp3`
-    (`vovas-music/birdie`); `master.py … --strength 1.0` against «На пальцы
-    (EDM).flac»; Matchering lagged 44 samples; both trimmed to 199.63 s (the
-    Ozone master runs 7 s longer); both at −9.79 LUFS; correlation 0.6455
-    (0.975 on «На пальцы»). The file itself was in the predecessor's `tmp/`,
-    rebuilt from those figures if needed.
+- Whatever the operator adds as the work goes.
 
+## This bite
+
+- `/polish` over the previous bite (from the plan commit on), not yet run.
+- After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
 - **Concept albums (ask 3).** Some albums carry an in-universe story; for those
   the album's text splits into that story, shown first, and a making-of. The
   Divine Discontent dictation is in, cleaned:
@@ -83,9 +70,3 @@ straight from the branch once the songs are open, ahead of the merge.
     repo `vovas-music/Divine-Discontent--album-`.
   - Material whose author is in the room (`.claude/rules/songs.md`): retell his
     facts, add none of your own beyond what he asked for (the idiom, the quotes).
-- Whatever the operator adds as the work goes.
-
-## Rest of the bite
-
-- `/polish` over this bite (from the plan commit on), not yet run.
-- After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
