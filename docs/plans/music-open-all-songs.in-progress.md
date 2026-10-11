@@ -50,18 +50,12 @@ straight from the branch once the songs are open, ahead of the merge.
   notes are their making-of, the world keeping only what happens in it (now a
   line in `.claude/rules/songs.md`); Infinite Solitude keeps «к этому вернусь
   потом». `/polish` ran over the whole branch.
+- **Майя's reflections on Divine Discontent**, all ten tracks, as the album's
+  listener and reader, from spectrograms rendered for her beforehand. A
+  reflector is briefed as the persona («Ты Майя.»), its inputs prepared by
+  someone else (`.claude/rules/reflections.md`).
 
 ## Rest of the elephant
 
-- **Майя's reflections on Divine Discontent**, once its stories are agreed:
-  «пусть Майя потом добавит свои размышления. Она тут не исполнительница, а
-  слушатель/читатель. Но нужно будет создать спектрограммы и т. п.» — the
-  spectrograms and the rest of what `maya-reflections.md` needs, first, for
-  the ten tracks; she writes as a listener and reader, not as the singer.
 - Whatever the operator adds as the work goes.
-
-## Rest of the bite
-
 - After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
-- Майя's reflections on the ten tracks, and the spectrograms they are read
-  from — in progress.
