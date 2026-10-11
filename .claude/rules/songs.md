@@ -1,5 +1,5 @@
 ---
-description: What a song is beyond any other document — its title, frontmatter, slug, hidden state, body markers, romanization and lyric notes — and how a draft of material whose author is in the room is written
+description: What a song is beyond any other document — its title, frontmatter, slug, optional description, body markers, romanization and lyric notes — and how a draft of material whose author is in the room is written
 paths:
   - apps/*/public/music/**
   - apps/*/app/music/**
@@ -9,7 +9,7 @@ paths:
   - scripts/check-song-titles.ts
   - scripts/check-masked-words.ts
   - scripts/check-stanza-repeats.ts
-  - scripts/list-hidden-songs.ts
+  - scripts/list-untold-songs.ts
   - scripts/scaffold-song.ts
   - scripts/vet-songs.sh
 ---
@@ -30,7 +30,7 @@ A song's frontmatter carries what the markdown cannot: the master's URL and dura
 
 **Audio and lyrics a song arrives without** — an album file to split, lyrics to hear off the recording, a mix to master — are `scripts/song-intake/CLAUDE.md`'s, read before touching the audio.
 
-**`hidden: true` stays on a song until it has a description and a story in both languages**, and a story arriving brings its `description` in both locales with it. `pnpm music:hidden` writes what each one still lacks to `docs/music/hidden-songs.md`, and the song vet fails while that list is stale.
+**A song publishes whatever it has.** Its `description` is optional, in both locales or neither; the page shows the story where there is one, the description only where there is none, and the description stays the song's meta description. `pnpm music:untold` writes what each song still lacks to `docs/music/untold-songs.md`, and the song vet fails while that list is stale.
 
 ## Body
 

@@ -3,4 +3,4 @@
  * this barrel spells its extension and reaches no CSS, JSX or `server-only`.
  */
 
-export { PREAMBLE, splitSections } from './lib/sections.ts';
+export { localeProse, says, splitSections } from './lib/sections.ts';

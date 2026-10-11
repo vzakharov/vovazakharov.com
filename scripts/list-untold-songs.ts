@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * Writes `docs/music/hidden-songs.md`, the list of every song still marked
- * `hidden: true`, by artist and then by album, each naming what it lacks:
+ * Writes `docs/music/untold-songs.md`, the list of every song still lacking a
+ * description or a story, by artist and then by album, each naming what it
+ * lacks:
  *
- *   pnpm music:hidden
+ *   pnpm music:untold
  *
  * Like `pnpm styles:codegen` it **exits non-zero when it had to write**, which
  * is how `scripts/vet-songs.sh` fails on a stale list while leaving it current.
@@ -15,24 +16,22 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { PREAMBLE, splitSections } from '../src/pages/music/index.node-safe.ts';
+import { localeProse } from '../src/pages/music/index.node-safe.ts';
 import {
   MUSIC_ALBUM_SLUGS,
   MUSIC_PROJECT_NAMES,
-  SONG_DESCRIPTION_PLACEHOLDER,
 } from '../src/shared/music-catalogue/index.node-safe.ts';
 import type { WithFilePath } from '../src/shared/typings/index.ts';
 import { songFiles } from './lib/public-markdown.ts';
 
-const LIST = 'docs/music/hidden-songs.md';
+const LIST = 'docs/music/untold-songs.md';
 const LOCALES = ['en', 'ru'] as const;
 
 const localeSchema = z.object({ description: z.string().optional() });
 
 /** The few fields this list reads; the song schema itself is `server-only`. */
-const hiddenSongSchema = z.object({
+const untoldSongSchema = z.object({
   title: z.string(),
-  hidden: z.boolean().optional(),
   project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1),
   album: z.enum(MUSIC_ALBUM_SLUGS).nullable().optional(),
   track: z.number().optional(),
@@ -40,14 +39,10 @@ const hiddenSongSchema = z.object({
   ru: localeSchema.optional(),
 });
 
-type HiddenSong = z.infer<typeof hiddenSongSchema> &
+type UntoldSong = z.infer<typeof untoldSongSchema> &
   WithFilePath & {
     lacks: string[];
   };
-
-/** Whether text says anything once its HTML comments — scaffold notes — are gone. */
-const says = (text: string) =>
-  text.replaceAll(/<!--[\S\s]*?-->/g, '').trim() !== '';
 
 type Locale = (typeof LOCALES)[number];
 
@@ -59,53 +54,46 @@ function lacking(what: string, has: (locale: Locale) => boolean): string[] {
     : missing.map((locale) => `${locale} ${what}`);
 }
 
-function lacks(song: z.infer<typeof hiddenSongSchema>, body: string) {
-  const sections = splitSections(body);
-  const tells = (key: string) => says(sections.get(key) ?? '');
-
+function lacks(song: z.infer<typeof untoldSongSchema>, body: string) {
   return [
-    ...lacking('description', (locale) => {
-      const description = song[locale]?.description?.trim();
-      return (
-        description !== undefined &&
-        description !== SONG_DESCRIPTION_PLACEHOLDER
-      );
-    }),
-    // The preamble is every locale's story, as the page reads it.
-    ...lacking('story', (locale) => tells(PREAMBLE) || tells(`lang:${locale}`)),
+    ...lacking(
+      'description',
+      (locale) => (song[locale]?.description?.trim() ?? '') !== '',
+    ),
+    ...lacking('story', (locale) => localeProse(body, locale) !== ''),
   ];
 }
 
-function hiddenSongs(): HiddenSong[] {
+function untoldSongs(): UntoldSong[] {
   return songFiles().flatMap((file) => {
     const { data, content } = matter(fs.readFileSync(file, 'utf8'));
-    const song = hiddenSongSchema.parse(data);
-    return song.hidden === true
-      ? [{ ...song, filePath: file, lacks: lacks(song, content) }]
-      : [];
+    const song = untoldSongSchema.parse(data);
+    const missing = lacks(song, content);
+    return missing.length === 0
+      ? []
+      : [{ ...song, filePath: file, lacks: missing }];
   });
 }
 
 const escaped = (text: string) =>
   text.replaceAll(/[*[\\\]_`]/g, String.raw`\$&`);
 
-function entry({ title, filePath, lacks: missing }: HiddenSong): string {
+function entry({ title, filePath, lacks: missing }: UntoldSong): string {
   const link = path.relative(path.dirname(LIST), filePath);
-  const status = missing.length === 0 ? 'ready' : missing.join(', ');
-  return `- [${escaped(title)}](${link}) — ${status}`;
+  return `- [${escaped(title)}](${link}) — ${missing.join(', ')}`;
 }
 
-function byTrack(a: HiddenSong, b: HiddenSong): number {
+function byTrack(a: UntoldSong, b: UntoldSong): number {
   return (a.track ?? 0) - (b.track ?? 0) || a.title.localeCompare(b.title);
 }
 
-function section(heading: string, songs: HiddenSong[]): string[] {
+function section(heading: string, songs: UntoldSong[]): string[] {
   return songs.length === 0
     ? []
     : [heading, '', ...songs.toSorted(byTrack).map((song) => entry(song)), ''];
 }
 
-function render(songs: HiddenSong[]): string {
+function render(songs: UntoldSong[]): string {
   const artists = MUSIC_PROJECT_NAMES.flatMap((artist) => {
     const theirs = songs.filter(({ project }) => project[0] === artist);
     if (theirs.length === 0) return [];
@@ -127,27 +115,27 @@ function render(songs: HiddenSong[]): string {
   });
 
   return [
-    '# Hidden songs',
+    '# Untold songs',
     '',
-    '<!-- Generated by `pnpm music:hidden` from apps/vova/public/music/: edit a song, never this file. -->',
+    '<!-- Generated by `pnpm music:untold` from apps/vova/public/music/: edit a song, never this file. -->',
     '',
-    `${songs.length} songs are hidden, each until it has a description and a story in both languages. A line names what its song still lacks, or reads “ready” once it lacks nothing and only its \`hidden: true\` is left to drop.`,
+    `${songs.length} songs still lack a description or a story. A line names what its song lacks.`,
     '',
     ...artists,
   ].join('\n');
 }
 
-const next = render(hiddenSongs());
+const next = render(untoldSongs());
 const current = fs.existsSync(LIST) ? fs.readFileSync(LIST, 'utf8') : '';
 
 if (current === next) {
-  process.stdout.write('music-hidden: current\n');
+  process.stdout.write('music-untold: current\n');
 } else {
   // Renamed into place: vet's format check reads the list in the same fan-out.
   const staging = `${LIST}.tmp`;
   fs.mkdirSync(path.dirname(LIST), { recursive: true });
   fs.writeFileSync(staging, next);
   fs.renameSync(staging, LIST);
-  process.stdout.write(`music-hidden: rewrote ${LIST}; commit it\n`);
+  process.stdout.write(`music-untold: rewrote ${LIST}; commit it\n`);
   process.exit(1);
 }
