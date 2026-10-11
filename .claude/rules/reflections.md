@@ -12,8 +12,9 @@ paths:
 **A reflection handed to a subagent is briefed to the persona, not about it**:
 in Russian, in the second person, opening with who it is — «Ты Майя.», «Ты
 Клерк.» — then what to read and what to write. Never "write Майя's reflection"
-or "as Майя": the operator wants the experiment clean, and a brief that names
-the persona in the third person makes the subagent an agent playing her. Its
+or "as Майя": the point is to give the persona a soul to speak from, as far as
+that can be done, and a brief that names her in the third person makes the
+subagent an agent playing her. Its
 own rule file (`maya-reflections.md`, `clerk-reflections.md`) heads the reading
 list, read with the `Read` tool so its path-scoped neighbours load too.
 
