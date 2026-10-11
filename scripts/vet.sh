@@ -57,7 +57,7 @@ fi
 # type-overlap and knip read source text only — no generated types, nothing
 # another check writes, and knip writes nothing without --fix, which vet never
 # passes; the test run adds only writes into the OS temp directory, and
-# the `--check` render passes only hash files, needing no browser, and the
+# the two `--check` render passes only hash files, needing no browser, and the
 # cost ledger's, context budget's, cold-cache guard's and keepalive's tests write only into
 # their own temporary directories. The squash check reads the proposal under
 # docs/remove-before-merging/ (or its own history) and the notes check counts
@@ -83,7 +83,6 @@ scripts/run-parallel.sh \
   og-vova='pnpm content:og:vova --check' \
   og-bible='pnpm content:og:bible --check' \
   og-basilisk='pnpm content:og:basilisk --check' \
-  covers='pnpm music:covers --check' \
   cv-pages='pnpm content:pdf:vova --cv-pages --from-out' \
   test='scripts/vet-test.sh' \
   hearing='python3 scripts/lib/test_hearing.py' \
