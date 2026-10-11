@@ -40,10 +40,11 @@ The album cover shows, roughly speaking, a deity in eternal void, though in the
 background we see some other figures too, and we don’t know what they are. This
 was made at that stage of AI images when you were looking for a match in spirit
 rather than a specific match to your prompt. I even think I didn’t write any
-specific instruction about what to draw — but I won’t lie here.
+specific instruction about what to draw — but I won’t lie here; I’ll come back
+to this later.
 
-What I mean by an instruction about what to draw: on albums like Let the Stories
-Spin and PSCHPTHY, for example, I didn’t say “draw me a mountain with a human
+Still, a couple of words on what I mean by an instruction about what to draw. On
+albums like Let the Stories Spin and PSCHPTHY, for example, I didn’t say “draw me a mountain with a human
 face.” I said “draw the cover of a metalcore album called GENERATED — PSCHPTHY.”
 And whatever images came up in the neural network in the moment, that’s what you
 got. I liked it exactly like that. What’s more, when you later uploaded that
@@ -58,10 +59,11 @@ the way, do understand. Well, that’s another story.
 заднем плане мы видим ещё какие-то фигуры, но не знаем, что это. Это делалось на
 той стадии AI-картинок, когда ты скорее искал соответствие по духу, чем
 конкретное соответствие своему промпту. Мне даже кажется, что я не писал
-конкретной установки, что нарисовать, — но здесь врать не буду.
+конкретной установки, что нарисовать, — но здесь врать не буду, к этому вернусь
+потом.
 
-Что я имею в виду под установкой, что рисовать: например, на альбомах типа Let
-the Stories Spin и PSCHPTHY я не говорил «нарисуй мне гору с лицом человека». Я
+Всё-таки скажу пару слов, что я имею в виду под установкой, что рисовать.
+Например, на альбомах типа Let the Stories Spin и PSCHPTHY я не говорил «нарисуй мне гору с лицом человека». Я
 говорил: «нарисуй обложку металкор-альбома с названием GENERATED — PSCHPTHY». И
 какие образы у нейросети в моменте возникали, то и получалось. Мне это нравилось
 именно в таком виде. Более того, когда ты потом загружал эту картинку куда-то,

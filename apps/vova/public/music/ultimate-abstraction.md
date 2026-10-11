@@ -24,18 +24,24 @@ ru:
 
 God says, in so many words: this is who I am. I am information, I am the
 ultimate abstraction, everything is within me, I am the alpha and the omega, the
-beginning and the end. It echoes the earlier
-[“Fuck Religion”](./fuck-religion.md) — that it isn’t about religion — and, more
-broadly, God’s attempt to somehow present himself in the form in which he exists
-and in which people don’t perceive him.
+beginning and the end.
 
 <!-- universe:ru -->
 
 Бог, собственно, говорит: вот кто я. Я информация, я предельная абстракция, всё
-находится во мне, я альфа и омега, начало и конец. Это перекликается и с
-предыдущей [«Fuck Religion»](./fuck-religion.md) — что дело не в религии, — и в
-принципе с попыткой Бога как-то представить себя в том виде, в котором он
-является и в котором люди его не воспринимают.
+находится во мне, я альфа и омега, начало и конец.
+
+<!-- lang:en -->
+
+It echoes the earlier [“Fuck Religion”](./fuck-religion.md) too — that it isn’t
+about religion — and, more broadly, God’s attempt to somehow present himself in
+the form in which he exists and in which people don’t perceive him.
+
+<!-- lang:ru -->
+
+Это перекликается и с предыдущей [«Fuck Religion»](./fuck-religion.md) — что
+дело не в религии, — и в принципе с попыткой Бога как-то представить себя в том
+виде, в котором он является и в котором люди его не воспринимают.
 
 <!-- lyrics:en -->
 
