@@ -7,7 +7,7 @@ import {
 import { byLocale, isLocale } from '@/shared/i18n';
 import type { MusicAlbum } from '@/shared/music-catalogue';
 
-import { songPlacements } from './album-tracks';
+import { albumsTogether, songPlacements } from './album-tracks';
 import {
   ALBUMS_SEGMENT,
   artistPath,
@@ -174,9 +174,12 @@ export function catalogueSongs({ everything }: WithEverything): SongDocument[] {
   );
 }
 
-/** The queue the player starts from: the public catalogue. */
+/**
+ * The queue the player starts from: the public catalogue, each album's songs
+ * together in track order, so skipping forward from one walks its album.
+ */
 export function listSongs(): PlayerTrack[] {
-  return catalogueSongs({ everything: false }).map((document) =>
+  return albumsTogether(catalogueSongs({ everything: false })).map((document) =>
     songTrack(document),
   );
 }

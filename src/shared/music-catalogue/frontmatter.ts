@@ -61,11 +61,7 @@ const titleGlossSchema = z.object({
 
 export type TitleGloss = z.infer<typeof titleGlossSchema>;
 
-/**
- * A page's hook in one locale — a song's, an album's, an artist's: the line
- * under its name that makes someone press play, not a summary, and the page's
- * meta description.
- */
+/** A song's, an album's or an artist's hook in one locale, and its page's meta description. */
 const hookedSchema = z.object({ hook: z.string().min(1).optional() });
 
 /**

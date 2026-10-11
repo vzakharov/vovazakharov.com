@@ -66,10 +66,8 @@ export function localeProse(body: string, locale: Locale): string {
 }
 
 /**
- * The world a concept album is set in, as one locale reads it: the section
- * `<!-- universe:<locale> -->` opens, shown ahead of the story, which is then
- * its making-of. The preamble is not part of it; `undefined` where it says
- * nothing.
+ * The section `<!-- universe:<locale> -->` opens, without the preamble that
+ * `localeProse` prepends; `undefined` where it says nothing.
  */
 export function localeUniverse(
   body: string,
