@@ -61,6 +61,7 @@ function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
         <CatalogueGrid
           tiles={catalogueArtists(songs).map((artist) => ({
             href: artistPath(artist, catalogue, locale),
+            slug: artist,
             label: projectName(artist, locale),
             cover: artistPicture(artist, locale, songs),
           }))}
@@ -72,6 +73,7 @@ function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
         <CatalogueGrid
           tiles={newestAlbums(songs).map((album) => ({
             href: albumPath(album, catalogue, locale),
+            slug: album,
             label: albumTitle(album, locale),
             cover: albumCover(album),
             detail: `${projectName(albumArtist(album, locale), locale)} · ${albumYears(album, songs)}`,
