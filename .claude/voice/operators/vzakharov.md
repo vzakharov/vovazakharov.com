@@ -9,3 +9,8 @@ In Russian, address me as «ты», never «вы».
 
 When my message carries no language of its own — a bare slash command, a branch
 name, a pasted link — reply in chat in Russian.
+
+A question whose answer the rest of the work does not depend on is asked, not
+waited on: «не нужно было (и не нужно в будущем) останавливать то, что можно
+продолжать из-за затыков во, в-принципе, параллелизуемых вопросах». Ask it and
+keep going on everything it does not block.
