@@ -7,23 +7,27 @@ feat(vova): open every song, and the music batch around it (pr #140)
 ```
 Every song in the catalogue is public. A song used to stay hidden until
 it had a description and a story in both languages; it now publishes as
-it is. The description, optional in both locales together, is the hook
-set in italics under the song's name as well as its meta description,
-and an album's or artist's file carries its hook as a `hook:` section.
-`pnpm music:untold` lists what each song still lacks.
+it is, and `pnpm music:untold` lists what each still lacks. Songs,
+albums and artists alike carry an optional `hook` in frontmatter, set in
+italics under the name: a line meant to make someone press play rather
+than a summary, and an album's or artist's meta description too.
 
 A concept album tells its world under a `universe:` marker, shown ahead
 of the `lang:` story, which then reads as «Как это делалось» / "Making
-of"; only what happens in the world goes under it. GENERATED, Divine
-Discontent and its ten tracks are told this way from Vova's dictation,
-Prototypes and Poluzhivye get their own text, and Майя reflects on the
-ten tracks as their listener, read off spectrograms rendered for her.
+of". The world is told as fiction; whatever speaks about the song, how
+it unfolds or what it quotes, belongs to the making-of, written in
+Vova's own voice. GENERATED, Divine Discontent and its ten tracks are
+told this way from Vova's dictation, Prototypes and Poluzhivye get their
+own text, and Майя reflects on the ten tracks as their listener, read
+off spectrograms rendered for her.
 
-An instrumental shows its story whole, there being no words for it to
-crowd. Following the playing song resumes whenever the reader lands on
-its page. «За горизонт» joins Сильней любви as its sixth track, and the
-stories of «Наша история» and «Мир, какой он есть» are cut down from
-the dictation they were set from.
+Skipping forward plays an album's tracks in their numbered order,
+whatever order the list around them has. An instrumental shows its
+story whole, there being no words for it to crowd. Following the
+playing song resumes whenever the reader lands on its page. «За
+горизонт» joins Сильней любви as its sixth track, and the stories of
+«Наша история» and «Мир, какой он есть» are cut down from the dictation
+they were set from.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
