@@ -11,18 +11,52 @@ seconds: 261
 explicit: false
 album: divine-discontent
 track: 3
+en:
+  description: 'Who made whom, and in whose image?'
 ru:
   title:
     translation: 'По образу нашему'
+  description: 'Кто кого создал — и по чьему образу?'
 ---
 
 <!-- For Vova to check: the words file titles this track “In Your Image” in the list and “In Your Own Image” above its words; the file keeps “In Our Image”, as the master is named — which is it? -->
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 3. In Our Image.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+God creates man in his own image and likeness.
+
+There’s also an echo here of who creates whom in whose image and likeness. “In
+our image” is both God speaking of himself as “us” — “And God said, Let us make
+man in our image, after our likeness” (Genesis 1\:26, KJV) — and people creating
+God in their own image and likeness: “If God created us in his own image, we
+have more than reciprocated,” in the line attributed to Voltaire. Xenophanes
+said it first: if horses had hands, they would draw their gods as horses.
+
+<!-- universe:ru -->
+
+Бог создаёт человека по своему образу и подобию.
+
+Здесь ещё перекликается, кто кого по чьему образу и подобию создаёт. «In our
+image» — это и Бог, говорящий о себе «по нашему подобию»: «И сказал Бог:
+сотворим человека по образу Нашему по подобию Нашему» (Бытие 1\:26), — и люди,
+создающие Бога по своему образу и подобию: «Если Бог создал нас по своему
+образу и подобию, то мы ему с лихвой отплатили тем же», как гласит фраза,
+приписываемая Вольтеру. А первым это сказал Ксенофан: будь у лошадей руки, они
+рисовали бы богов похожими на лошадей.
+
+<!-- lang:en -->
+
+“In Our Image” was, I think, one of the last songs I wrote for the album. I
+wanted an operatic kind of song, and that’s where the Italian came from. I
+double-checked the Italian with a friend from Italy, by the way; it should all
+be fine.
+
+<!-- lang:ru -->
+
+«In Our Image» была написана, по-моему, одной из последних песен на альбоме. Мне
+захотелось такой оперной — operatic — песни, и отсюда родилось использование
+итальянского языка. Я, кстати, перепроверял итальянский со своей знакомой из
+Италии; вроде там всё должно быть хорошо.
 
 <!-- lyrics:en -->
 

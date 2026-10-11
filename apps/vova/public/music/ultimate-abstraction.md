@@ -10,18 +10,32 @@ seconds: 238
 explicit: false
 album: divine-discontent
 track: 6
+en:
+  description: 'What if God is just information?'
 ru:
   title:
     translation: 'Предельная абстракция'
+  description: 'А что, если Бог — это просто информация?'
 ---
 
 <!-- For Vova to check: the words file lists this track as “22:13”, while the master is named “The Ultimate Abstraction”; the title stays as the master has it — which should the page use? The closing Church Slavonic line is marked “[repeating]” in the words file; it is set once here. -->
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 6. The Ultimate Abstraction.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+God says, in so many words: this is who I am. I am information, I am the
+ultimate abstraction, everything is within me, I am the alpha and the omega, the
+beginning and the end. It echoes the earlier
+[“Fuck Religion”](./fuck-religion.md) — that it isn’t about religion — and, more
+broadly, God’s attempt to somehow present himself in the form in which he exists
+and in which people don’t perceive him.
+
+<!-- universe:ru -->
+
+Бог, собственно, говорит: вот кто я. Я информация, я предельная абстракция, всё
+находится во мне, я альфа и омега, начало и конец. Это перекликается и с
+предыдущей [«Fuck Religion»](./fuck-religion.md) — что дело не в религии, — и в
+принципе с попыткой Бога как-то представить себя в том виде, в котором он
+является и в котором люди его не воспринимают.
 
 <!-- lyrics:en -->
 

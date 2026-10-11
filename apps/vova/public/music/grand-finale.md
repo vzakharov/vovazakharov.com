@@ -10,16 +10,52 @@ seconds: 240
 explicit: false
 album: divine-discontent
 track: 9
+en:
+  description: 'Fire, radiation, four horsemen — and in entropy we trust.'
 ru:
   title:
     translation: 'Гранд-финал (На энтропию уповаем)'
+  description: 'Огонь, радиация, четыре всадника — на энтропию уповаем.'
 ---
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 9. Grand Finale (In Entropy We Trust).flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+The grand finale. Everything explodes: apocalypse, radiation, the four horsemen.
+It’s all fairly Ecclesiastes: in entropy we trust, everything returns to
+entropy.
+
+<!-- universe:ru -->
+
+Великий финал. Всё взрывается: апокалипсис, радиация, четыре всадника. Всё
+относительно экклезиастично: в энтропии уповаем, всё возвращается к энтропии.
+
+<!-- lang:en -->
+
+Most of the lyrics of “Grand Finale” I also wrote some 10–15 years ago. Again,
+there was different music then, and somewhat more sprawling lyrics, with
+explanations of what, how and where. And apparently over those 15 years I’ve
+traveled a path — I won’t call myself a poet, but a songwriter — from someone
+who wants to write songs and words that tell the whole story to songs that no
+longer tell, where the meaning hides between the lines. This song was probably
+one of the moments when I realized that and was glad of my, so to speak,
+creative growth. I have to say that while I still listen to the songs of that
+period — not even listen, really, but read their lyrics — with a little cringe,
+this one still sounds good to me. It seems I reached my peak, and probably
+haven’t grown since. Well, or maybe I have. We’ll see.
+
+<!-- lang:ru -->
+
+Большую часть текста «Grand Finale» я тоже писал лет 10–15 назад. Там опять же
+была другая музыка и чуть более пространный текст, с объяснениями, что, как и
+где. И вот, видимо, за эти 15 лет я прошёл путь — не назову себя поэтом, но
+песнописца — от того, кто хочет писать песни и слова, рассказывающие полную
+историю, к песням, которые больше не рассказывают и в которых смысл прячется
+между строк. Наверное, эта песня была одним из моментов, когда я это понял и
+порадовался своему, так сказать, творческому росту. Надо сказать, что если песни
+того периода я до сих пор слушаю — не то чтобы даже слушаю, а читаю их текст — с
+небольшим кринжом, то эта во мне всё ещё звучит хорошо. Кажется, я достиг своего
+пика, и с тех пор, наверное, уже не развивался. Ну, или, может быть, развивался.
+Посмотрим.
 
 <!-- lyrics:en -->
 

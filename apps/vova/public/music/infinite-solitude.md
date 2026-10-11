@@ -10,16 +10,65 @@ seconds: 243
 explicit: false
 album: divine-discontent
 track: 2
+en:
+  description: 'You can forge whole worlds. But who is there to show them to?'
 ru:
   title:
     translation: 'Бесконечное одиночество'
+  description: 'Можно сотворить целые миры. Но кому их показать?'
 ---
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 2. Infinite Solitude.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+The song begins with the words “In the cradle of void, a symphony starts.” At
+the end of [the first song](./in-the-beginning.md) there was either a crescendo
+or, the other way around, a diminuendo, and here it explodes: the spark went
+off, a deity appeared. And from there the song follows the life of this deity,
+who is completely alone and doesn’t know what to do with itself.
+
+<!-- universe:ru -->
+
+Песня начинается со слов «В колыбели пустоты начинается симфония». В конце
+[первой песни](./in-the-beginning.md) у нас было то ли крещендо, то ли,
+наоборот, диминуэндо, а здесь оно взрывается: искра взорвалась, появилось
+божество. И дальше песня идёт по жизни этого божества, которое совершенно одно и
+не знает, чем ему заняться.
+
+<!-- lang:en -->
+
+The album cover shows, roughly speaking, a deity in eternal void, though in the
+background we see some other figures too, and we don’t know what they are. This
+was made at that stage of AI images when you were looking for a match in spirit
+rather than a specific match to your prompt. I even think I didn’t write any
+specific instruction about what to draw — but I won’t lie here.
+
+What I mean by an instruction about what to draw: on albums like Let the Stories
+Spin and PSCHPTHY, for example, I didn’t say “draw me a mountain with a human
+face.” I said “draw the cover of a metalcore album called GENERATED — PSCHPTHY.”
+And whatever images came up in the neural network in the moment, that’s what you
+got. I liked it exactly like that. What’s more, when you later uploaded that
+picture somewhere a neural network was supposed to understand what was drawn, it
+didn’t, because the picture hadn’t been made from the words of a person saying
+“draw a man in a rock.” That was very interesting. Today’s neural networks, by
+the way, do understand. Well, that’s another story.
+
+<!-- lang:ru -->
+
+На обложке альбома изображено, условно, божество в вечной пустоте, хотя на
+заднем плане мы видим ещё какие-то фигуры, но не знаем, что это. Это делалось на
+той стадии AI-картинок, когда ты скорее искал соответствие по духу, чем
+конкретное соответствие своему промпту. Мне даже кажется, что я не писал
+конкретной установки, что нарисовать, — но здесь врать не буду.
+
+Что я имею в виду под установкой, что рисовать: например, на альбомах типа Let
+the Stories Spin и PSCHPTHY я не говорил «нарисуй мне гору с лицом человека». Я
+говорил: «нарисуй обложку металкор-альбома с названием GENERATED — PSCHPTHY». И
+какие образы у нейросети в моменте возникали, то и получалось. Мне это нравилось
+именно в таком виде. Более того, когда ты потом загружал эту картинку куда-то,
+где нейросеть должна понять, что нарисовано, она не понимала, потому что
+картинка не была сделана со слов человека, который говорит «нарисуй человека в
+скале». Это было очень интересно. Сейчас, кстати, современные нейросети уже
+понимают. Ну, это другая история.
 
 <!-- lyrics:en -->
 

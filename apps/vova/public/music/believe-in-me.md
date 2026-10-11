@@ -11,16 +11,39 @@ seconds: 274
 explicit: true
 album: divine-discontent
 track: 7
+en:
+  description: 'What becomes of a god people stop believing in?'
 ru:
   title:
     translation: 'Верь в меня'
+  description: 'Что становится с богом, в которого перестают верить?'
 ---
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 7. Believe In Me.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+This is the next-to-last, or the last, cry of despair of a deity that sees it is
+being forgotten, that it is dwindling. But God is still strong here — at least,
+at the end of his strength, he can be strong.
+
+<!-- universe:ru -->
+
+Это предпоследний или последний крик отчаяния божества, которое видит, что его
+забывают, что оно мельчает. Но здесь Бог ещё силён — по крайней мере, на исходе
+сил он может быть силён.
+
+<!-- lang:en -->
+
+This is, by the way, in a sense a nod to Pratchett’s _Small Gods_, where a god
+is the weaker the fewer people believe in him. And God expresses it through a song
+with Rammstein’s energy, with German words, and of course you don’t need to be
+any kind of music expert to hear that it’s Rammstein.
+
+<!-- lang:ru -->
+
+Здесь, кстати, в каком-то смысле идёт отсылка к «Мелким богам» Пратчетта, где
+бог тем слабее, чем меньше в него верят люди. И Бог выражает это через песню с
+энергетикой Rammstein, с немецкими словами, и, конечно, не нужно быть каким-то
+музыкальным экспертом, чтобы понять, что это Rammstein.
 
 <!-- lyrics:en -->
 
