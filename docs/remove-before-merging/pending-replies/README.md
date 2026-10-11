@@ -20,3 +20,5 @@ done
 | 4242661791.md | T26 `artists/poluzhivye.md`               |
 | 4242685893.md | T31 `spectrograms/in-our-image.png`       |
 | 4242781262.md | T45 `ultimate-abstraction.reflections.md` |
+| 4242676250.md | T28 `300000-years.reflections.md`         |
+| 4242706511.md | T35 `grand-finale.reflections.md`         |
