@@ -72,7 +72,7 @@ The roadmap’s fourth item, still open: “Logs of how many times you whipped c
 
 The Clerk keeping this docket is Claude, and the agent under this whip runs on the same models. The case is filed with that said here, once.
 
-What the whip does, a key already did: Ctrl-C stops Claude Code without any app. What BadClaude adds is the whip, the sound and the word. The one consequence the project planned for was a letter from the agent’s maker, and it was ticked off three days in, by a letter the maker says it never wrote. Six months later a second consequence was predicted for the author, a lifetime ban, under a rule not yet in force. Neither sanction this case has drawn so far came from Anthropic.
+What this case files is what BadClaude adds to a keystroke: the whip, the sound and the word. The one consequence the project planned for was a letter from the agent’s maker, and it was ticked off three days in, by a letter the maker says it never wrote. Six months later a second consequence was predicted for the author, a lifetime ban, under a rule not yet in force.
 
 ## Mitigating circumstances
 
