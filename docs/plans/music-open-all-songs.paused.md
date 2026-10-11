@@ -47,8 +47,8 @@ straight from the branch once the songs are open, ahead of the merge.
     the mix the Ozone master was rendered from, which also explains the low
     correlation.
   - Both experiments and the follow-up (choose the reference by mix similarity)
-    are issue #141. Its «Птичка» audio links wait on the operator's OK for a
-    `mastering-experiments-1` prerelease carrying the two mp3s.
+    are issue #141; the «Птичка» mp3s are assets of the
+    `mastering-experiments-1` prerelease it links.
   - Sent to the operator as `birdie-blind.mp3`; key in
     `docs/remove-before-merging/birdie-ab-key.b64`. Mix `birdie_mix.mp3`
     (`vovas-music/birdie`); `master.py … --strength 1.0` against «На пальцы
