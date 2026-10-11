@@ -68,6 +68,7 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
 
               return {
                 href: albumPath(album, catalogue, locale),
+                slug: album,
                 label: albumTitle(album, locale),
                 cover,
                 detail: albumYears(album, songs),
@@ -80,6 +81,7 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
 
             return {
               href: routes[locale],
+              ...pick(release.single, 'slug'),
               label: title,
               transliterated,
               cover,

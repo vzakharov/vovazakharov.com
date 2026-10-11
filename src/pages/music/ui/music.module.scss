@@ -290,6 +290,26 @@
   }
 }
 
+// A release without art gets a gradient in its place, of the release's own hue
+// (`--tile-hue`, from `tileHue`): the tiles differ in colour and nothing else,
+// light in the light scheme and dark in the dark, so the name set over it reads
+// in the text colour.
+.tileArtless {
+  background: linear-gradient(
+    135deg,
+    oklch(90% 0.06 var(--tile-hue)),
+    oklch(80% 0.1 calc(var(--tile-hue) + 50))
+  );
+
+  @include mantine.dark {
+    background: linear-gradient(
+      135deg,
+      oklch(40% 0.08 var(--tile-hue)),
+      oklch(28% 0.1 calc(var(--tile-hue) + 50))
+    );
+  }
+}
+
 // A page's cover, above its title on a phone and beside it from `sm` up.
 .coverHead {
   display: flex;

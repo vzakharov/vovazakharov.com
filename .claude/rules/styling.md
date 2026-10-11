@@ -60,7 +60,10 @@ colour-scheme aware, so nothing branches on the scheme itself.
 
 The one exception is the `palette*.ts` modules in
 `src/pages/mushrooms/ui/scene/`, the game's colour table: a canvas is out of the tokens' reach, so every colour it paints
-is a literal there and nowhere else.
+is a literal there and nowhere else. The other is `.tileArtless` in
+`src/pages/music/ui/music.module.scss`, whose gradient takes a hue per release
+that no fixed token can carry, so its lightness and chroma are literals beside
+it.
 
 Mantine's own variables are bound to those tokens by the `cssVariablesResolver`
 in `src/app/ui/theme-provider.tsx`, not by a `:root` block. Mantine renders its
