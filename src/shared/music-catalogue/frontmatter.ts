@@ -69,7 +69,7 @@ const songTextSchema = z.object({
    * and _Повелитель ветра_ — and a gloss keeps the title and explains it.
    */
   title: z.union([z.string().min(1), titleGlossSchema]).optional(),
-  /** The meta description, and what the page shows where the song has no story. */
+  /** The meta description, and the hook the page shows under the song's name. */
   description: z.string().min(1).optional(),
   /**
    * What the crib beside the words is, in place of the stock line — whose
