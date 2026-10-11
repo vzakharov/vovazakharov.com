@@ -2,7 +2,7 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import { byLocale } from '@/shared/i18n';
+import { byLocale, LOCALES } from '@/shared/i18n';
 
 // The leaf rather than the barrel: `shared/content` registers this schema, so
 // entering it by its barrel would close an import cycle at module evaluation.
@@ -69,7 +69,8 @@ const songTextSchema = z.object({
    * and _Повелитель ветра_ — and a gloss keeps the title and explains it.
    */
   title: z.union([z.string().min(1), titleGlossSchema]).optional(),
-  description: z.string().min(1),
+  /** The meta description, and what the page shows where the song has no story. */
+  description: z.string().min(1).optional(),
   /**
    * What the crib beside the words is, in place of the stock line — whose
    * translation it is, or that the column is the original. One line of markdown.
@@ -190,12 +191,20 @@ const songFieldsSchema = baseFrontmatterSchema
 /**
  * One file per song, both languages in it: the language-agnostic half — dates,
  * masters, credits, the words — is the bigger half, so a file per locale would
- * duplicate most of it. A key per locale, each required, which is what makes it
- * exhaustive: a document carrying `en` and no `ru` fails the build instead of
+ * duplicate most of it. A key per locale, absent where the locale has nothing to
+ * say; a description in one locale and not the other fails the build instead of
  * publishing a half-translated catalogue quietly.
  */
 export const songFrontmatterSchema = songFieldsSchema
-  .extend(byLocale(() => songTextSchema))
+  .extend(byLocale(() => songTextSchema.default({})))
+  .refine(
+    (song) =>
+      new Set(LOCALES.map((locale) => song[locale].description === undefined))
+        .size === 1,
+    {
+      message: 'A description is written in every locale or in none.',
+    },
+  )
   .refine(({ album, track }) => (album === null) === (track === undefined), {
     message:
       'A song on an album takes a track number, and a single takes none.',

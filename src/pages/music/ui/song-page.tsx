@@ -2,7 +2,11 @@ import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/shared/config';
-import { isListed, renderDocument } from '@/shared/content';
+import {
+  isListed,
+  renderDocument,
+  type WithContentTree,
+} from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import {
@@ -54,6 +58,24 @@ function hostedMaster(route: string, audio: string) {
   const extension = audio.slice(audio.lastIndexOf('.') + 1);
 
   return { file: { ...pageFile(route, extension), href: audio }, extension };
+}
+
+/**
+ * The story, held back behind «…» under the `readMore` label — absent on a song
+ * with no words, where there is nothing below it for a long story to keep the
+ * reader from.
+ */
+function Story({
+  tree,
+  readMore,
+}: WithContentTree & { readMore: string | undefined }) {
+  const prose = <ProseContent {...{ tree }} />;
+
+  return readMore === undefined ? (
+    prose
+  ) : (
+    <ReadMore label={readMore}>{prose}</ReadMore>
+  );
 }
 
 /** The alias defers to the addressed language, which is the canonical page. */
@@ -149,10 +171,6 @@ export async function SongPage({ slug, locale }: SongPageProps) {
               </Stack>
             </CoverHead>
 
-            <Text size="lg" lh={1.625} opacity={0.8}>
-              {description}
-            </Text>
-
             {/* The recording's facts, and the files behind it at the far end
                 of the same line. */}
             <Group justify="space-between" gap="12px 32px" wrap="wrap">
@@ -177,9 +195,15 @@ export async function SongPage({ slug, locale }: SongPageProps) {
           </Stack>
         </Box>
 
-        <ReadMore label={messages.readMore}>
-          <ProseContent {...{ tree }} />
-        </ReadMore>
+        {localized.body === '' ? (
+          description !== undefined && (
+            <Text size="lg" lh={1.625} opacity={0.8}>
+              {description}
+            </Text>
+          )
+        ) : (
+          <Story {...{ tree }} readMore={lyrics && messages.readMore} />
+        )}
 
         {lyrics && <Lyrics {...{ lyrics, locale, cribNote }} />}
 

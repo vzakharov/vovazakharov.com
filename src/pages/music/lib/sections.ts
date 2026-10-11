@@ -46,16 +46,22 @@ export function splitSections(body: string): ReadonlyMap<string, string> {
   return sections;
 }
 
+/** Whether text says anything to a reader once its HTML comments — notes for whoever edits the file — are gone. */
+export function says(text: string): boolean {
+  return text.replaceAll(/<!--[\S\s]*?-->/g, '').trim() !== '';
+}
+
 /**
  * The prose one locale reads: the preamble, which belongs to every locale, and
  * the section `<!-- lang:<locale> -->` opens. A song's story and an album's
- * text are both cut this way.
+ * text are both cut this way. A section that says nothing is left out, so a
+ * song with no story reads as the empty string.
  */
 export function localeProse(body: string, locale: Locale): string {
   const sections = splitSections(body);
 
   return [sections.get(PREAMBLE), sections.get(`lang:${locale}`)]
-    .filter((section) => section !== undefined)
+    .filter((section) => section !== undefined && says(section))
     .join('\n\n');
 }
 

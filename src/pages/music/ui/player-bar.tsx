@@ -19,8 +19,9 @@ import { SongName } from './song-name';
 /**
  * Keeps the reader on the playing song's page: while following, it opens that
  * page, and opens the next one each time the track changes. Following starts
- * on, a navigation of the reader's own away from the page switches it off, and
- * the returned `resume` switches it back on.
+ * on, and each navigation of the reader's own sets it — off anywhere else, on
+ * at the playing song's page, however the reader got there. The returned
+ * `resume` switches it on ahead of the navigation it rides on.
  */
 function useFollow(route: string | undefined) {
   const router = useRouter();
@@ -32,7 +33,7 @@ function useFollow(route: string | undefined) {
   // against a switch the navigation has already made stale.
   if (pathname !== seen) {
     setSeen(pathname);
-    if (route !== undefined && pathname !== route) setFollowing(false);
+    if (route !== undefined) setFollowing(pathname === route);
   }
 
   // An event rather than a dependency: only a track change opens a page, and
