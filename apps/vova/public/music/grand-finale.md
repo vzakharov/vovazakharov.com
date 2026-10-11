@@ -76,9 +76,11 @@ Pale death that none shall slip.
 ’Neath a new radioactive sun’s glare,
 Life and death dance in a twisted pair.
 [From ashes to ashes, from dust to dust][^ashes-en],
-In entropy we trust.
+[In entropy we trust][^trust-en].
 
 [^ashes-en]: After the burial service of the Book of Common Prayer, “earth to earth, ashes to ashes, dust to dust,” which echoes Genesis 3:19: “for dust thou art, and unto dust shalt thou return.”
+
+[^trust-en]: After “In God we trust,” the national motto of the United States, printed on its money.
 
 The earth trembles under spectral hooves,
 A symphony of destruction, as all life moves
@@ -113,9 +115,11 @@ In the silence of the void, whispers reclaim,
 Под светом нового радиоактивного солнца
 Жизнь и смерть кружатся в искажённой паре.
 [Из праха в прах, из пыли в пыль][^ashes-ru],
-На энтропию уповаем.
+[На энтропию уповаем][^trust-ru].
 
 [^ashes-ru]: Из англиканского чина погребения: «земля к земле, пепел к пеплу, прах к праху», — восходит к Книге Бытия (3:19): «ибо прах ты и в прах возвратишься».
+
+[^trust-ru]: По образцу «In God we trust» («На Бога уповаем») — девиза США, который печатают на долларах.
 
 Земля дрожит под призрачными копытами,
 Симфония разрушения, пока всё живое движется
