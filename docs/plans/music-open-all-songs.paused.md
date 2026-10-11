@@ -42,6 +42,13 @@ straight from the branch once the songs are open, ahead of the merge.
   word («в новом A/B тесте тоже неизвестен должен быть порядок»): which version
   plays first is drawn at random, and the key goes only into a committed base64
   file the agent does not read.
+  - Sent to the operator as `birdie-blind.mp3`, awaiting his verdict; key in
+    `docs/remove-before-merging/birdie-ab-key.b64`. Mix `birdie_mix.mp3`
+    (`vovas-music/birdie`); `master.py … --strength 1.0` against «На пальцы
+    (EDM).flac»; Matchering lagged 44 samples; both trimmed to 199.63 s (the
+    Ozone master runs 7 s longer); both at −9.79 LUFS; correlation 0.6455
+    (0.975 on «На пальцы»). The file itself was in the predecessor's `tmp/`,
+    rebuilt from those figures if needed.
 
 - **Concept albums (ask 3).** Some albums carry an in-universe story; for those
   the album's text splits into that story, shown first, and a making-of. Waits on
