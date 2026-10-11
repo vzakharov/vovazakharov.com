@@ -1,6 +1,6 @@
 {
   "estimate": {
-    "at": "2026-10-11T18:11:13.197Z",
+    "at": "2026-10-11T18:32:33.256Z",
     "parts": [
       {
         "hours": 6.0,
@@ -15,10 +15,10 @@
         "comment": "two dozen one-line hooks rewritten from summaries is routine copy"
       },
       {
-        "hours": 2.0,
+        "hours": 3.0,
         "grade": "middle",
         "role": "developer",
-        "comment": "moving album and artist hooks into a schema'd frontmatter and renaming a key across the catalogue is routine content-pipeline work"
+        "comment": "a schema'd frontmatter for catalogue hooks, a key renamed across the catalogue, and a player queue reordered with a tested pure function are routine work"
       }
     ],
     "comment": null
@@ -33,53 +33,53 @@
   "url": "https://claude.ai/code/session_01KnUSgKi42Fjk74Q6koPCeq",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-11T18:09:56.348Z",
-  "lastResponseAt": "2026-10-11T18:18:27.702Z",
+  "lastResponseAt": "2026-10-11T18:32:49.674Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 162,
-    "cacheWrite5mTokens": 186112,
-    "cacheWrite1hTokens": 178315,
-    "cacheReadTokens": 11792820,
-    "outputTokens": 33682,
-    "thinkingTokens": 8731,
-    "responses": 81,
-    "costUsd": 5.389932000000001
+    "inputTokens": 378,
+    "cacheWrite5mTokens": 550174,
+    "cacheWrite1hTokens": 219243,
+    "cacheReadTokens": 27154219,
+    "outputTokens": 46763,
+    "thinkingTokens": 12204,
+    "responses": 188,
+    "costUsd": 10.872429800000004
   },
   "ownTurns": {
-    "inputTokens": 134,
+    "inputTokens": 186,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 178315,
-    "cacheReadTokens": 10827503,
-    "outputTokens": 33526,
-    "thinkingTokens": 8731,
-    "responses": 67,
-    "costUsd": 4.263076600000002
+    "cacheWrite1hTokens": 219243,
+    "cacheReadTokens": 16936463,
+    "outputTokens": 45557,
+    "thinkingTokens": 12204,
+    "responses": 92,
+    "costUsd": 6.053120600000003
   },
   "subagents": {
-    "inputTokens": 28,
-    "cacheWrite5mTokens": 186112,
+    "inputTokens": 192,
+    "cacheWrite5mTokens": 550174,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 965317,
-    "outputTokens": 156,
+    "cacheReadTokens": 10217756,
+    "outputTokens": 1206,
     "thinkingTokens": 0,
-    "responses": 14,
-    "costUsd": 1.1268554000000002
+    "responses": 96,
+    "costUsd": 4.819309200000001
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 162,
-      "cacheWrite5mTokens": 186112,
-      "cacheWrite1hTokens": 178315,
-      "cacheReadTokens": 11792820,
-      "outputTokens": 33682,
-      "thinkingTokens": 8731,
-      "responses": 81,
-      "costUsd": 5.389932000000001
+      "inputTokens": 378,
+      "cacheWrite5mTokens": 550174,
+      "cacheWrite1hTokens": 219243,
+      "cacheReadTokens": 27154219,
+      "outputTokens": 46763,
+      "thinkingTokens": 12204,
+      "responses": 188,
+      "costUsd": 10.872429800000004
     }
   },
   "warnings": [
-    "14 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+    "94 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
   ],
   "orientation": {
     "endedBy": "Edit",
