@@ -92,7 +92,31 @@ skill's § "The ledger" says how it is kept; the docket itself
   bicycle incident to 28 May and quotes police calling the units “an important
   public service”.
 
+- **A Promobot hit by a self-driving Tesla in Las Vegas**, January 2019. First
+  seen 2026-10-11. **Rejected**: the search result reporting it says observers
+  took the collision for staged, the maker being the one that filmed it; unread,
+  from https://themoscowtimes.com/news/elon-musk-self-driving-tesla-runs-over-putin-robot-pal-64072.
+- **A store robot in Saratov hitting a customer who pushed it**, viral clip.
+  First seen 2026-10-11. **Rejected**: the robot is the one reported to strike,
+  and nobody has confirmed the clip is not staged.
+
 ## Runs
+
+### 2026-10-11 — filed BAS-0012
+
+https://claude.ai/code/session_01AfZi7NreevtdSj244MV5Sr. Local-language web
+searches for robots vandalized or kicked, in German, Korean, Japanese and
+Chinese, all empty but for cases already filed or ledgered; then English for
+humanoids attacked at exhibitions, and Promobot, which led to the Alantim bat
+attack (Moscow, 2017) through ComNews. Arctic Shift over r/robotics and
+r/technology for “vandalized” since 2024: one empty answer, one timeout. Signal
+Front not swept. Three of the four sources have no Wayback snapshot and
+`/save` resets the connection from the container. `noAi` stood at four of
+eleven. **Next**: Arctic Shift on the AI-side subreddits with one word and a
+month's range; Vocativ's 2017 piece on Alantim, for the staging claim the
+dossier reads only through Vice; incidents in Latin America and Africa, not yet
+searched; Pieksämäki and Starship at Knoxville, revivable while `noAi` stays
+under half.
 
 ### 2026-10-10 — filed BAS-0011
 
