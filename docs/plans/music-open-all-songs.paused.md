@@ -35,38 +35,33 @@ straight from the branch once the songs are open, ahead of the merge.
   better, B (Ozone) «поярче, посветлее»; past ~2:30 the mixes differ. Its
   follow-up — choosing a reference by mix similarity — is issue #141, with the
   mp3s on the `mastering-experiments-1` prerelease; out of this PR.
+- **Concept albums.** A song's `description` is back on the page as its hook,
+  italic under the name; an album's or artist's file carries one as a
+  `hook:<locale>` section. A `universe:<locale>` section tells a concept album's
+  world, shown first, with the `lang:` story under «Как это делалось» / "Making
+  of" (`ui/story.tsx`, `ui/hook.tsx`, `lib/catalogue-text.ts`). GENERATED's
+  artist story, Divine Discontent's album text and all ten tracks are written
+  from the dictation in en and ru, with the operator's two corrections
+  («религия» as the notion; «ИИ-песни»). Previewed on the built export.
+  A Bible reference in rendered prose is written `1\:26`: `remark-directive`
+  reads `:26` as a directive otherwise.
 
 ## Rest of the elephant
 
+- **Майя's reflections on Divine Discontent**, once its stories are agreed:
+  «пусть Майя потом добавит свои размышления. Она тут не исполнительница, а
+  слушатель/читатель. Но нужно будет создать спектрограммы и т. п.» — the
+  spectrograms and the rest of what `maya-reflections.md` needs, first, for
+  the ten tracks; she writes as a listener and reader, not as the singer.
 - Whatever the operator adds as the work goes.
 
-## This bite
+## Rest of the bite
 
-- `/polish` over the previous bite (from the plan commit on), not yet run.
+- `/polish` over everything since the plan commit — the previous bite and this
+  one — not yet run.
 - After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
-- **Concept albums (ask 3).** Some albums carry an in-universe story; for those
-  the album's text splits into that story, shown first, and a making-of. The
-  Divine Discontent dictation is in, cleaned:
-  `docs/music/dictations/generated-divine-discontent.md`. It tells every track
-  as in-universe then making-of, so the split reaches the songs' pages too; the
-  operator left where to cut each one to the agent («ты сам, Клод, реши, где ты
-  как-то разобьёшь»). What it asks for:
-  - **Bring the description back on the page** as a hook — «что-то типа хука…
-    односложный вопрос какой-нибудь, что-то, чтобы цепляло», especially on
-    concept albums. Its look is open («пока ещё точно не знаю, как это будет
-    выглядеть»): propose one and show it via `/preview`.
-  - **GENERATED's artist story**, cut hard from the dictation's long form
-    («очень сильно нужно будет сократить»); the dictation file is the long form
-    he wants kept.
-  - **Divine Discontent's album text**: the arc (a deity is born, lonely, makes
-    man in its image, is so discontented with him it destroys him), built on the
-    pun; explain the idiom's everyday sense, as he asked.
-  - **All ten tracks**: in-universe story and making-of, en and ru, plus a hook
-    description. Find and attach the Genesis 1:26 «let us make man in our image»
-    and the famous inverse quote (God made in man's image — Voltaire's «returned
-    the favour» or Xenophanes) for «In Our Image». «Infinite Solitude»'s opening
-    line («In the middle of void, a new … starts») is to be quoted exactly — the
-    DD songs carry no lyrics yet, so take it from the recording or the source
-    repo `vovas-music/Divine-Discontent--album-`.
-  - Material whose author is in the room (`.claude/rules/songs.md`): retell his
-    facts, add none of your own beyond what he asked for (the idiom, the quotes).
+- The operator's read of the new stories and hooks; open points to raise:
+  Prototypes and Poluzhivye are linked from `artists/generated.md` but have no
+  `.md` of their own (the pages exist; the raw links 404 on GitHub);
+  Infinite Solitude's making-of drops his «к этому вернусь потом»; tracks 6 and
+  10 have no making-of (the dictation gives none).
