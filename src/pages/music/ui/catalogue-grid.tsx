@@ -1,6 +1,7 @@
 import { Box, Text } from '@mantine/core';
 import Image from 'next/image';
 
+import type { Slugged } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
 import type { LabeledLink, MaybeTitled } from '@/shared/typings';
 import { NameLink, Subheading } from '@/shared/ui';
@@ -11,17 +12,17 @@ import { SongName } from './song-name';
 
 /**
  * A tile linking to an artist, an album or a single: its art with its name
- * under it, or its name set on a gradient where it has none — never both, so
- * the name reads once — then an optional `detail` line under the square.
+ * under it, or its name set on a gradient hued by its slug where it has none —
+ * never both, so the name reads once — then an optional `detail` line under the
+ * square.
  */
-type CatalogueTile = LabeledLink & {
-  /** What the gradient's hue is hashed from where the tile has no art. */
-  slug: string;
-  cover?: string;
-  detail?: string;
-  /** The label is a romanized song title, set in italics. */
-  transliterated?: boolean;
-};
+type CatalogueTile = LabeledLink &
+  Slugged & {
+    cover?: string;
+    detail?: string;
+    /** The label is a romanized song title, set in italics. */
+    transliterated?: boolean;
+  };
 
 /** Untitled under a heading of the page's own, as the index's tabs are. */
 export type CatalogueGridProps = MaybeTitled & { tiles: CatalogueTile[] };
