@@ -58,9 +58,31 @@ straight from the branch once the songs are open, ahead of the merge.
     rebuilt from those figures if needed.
 
 - **Concept albums (ask 3).** Some albums carry an in-universe story; for those
-  the album's text splits into that story, shown first, and a making-of. Waits on
-  the operator's dictation for Divine Discontent, which settles whether the split
-  also reaches the songs' own pages or stays on the album page.
+  the album's text splits into that story, shown first, and a making-of. The
+  Divine Discontent dictation is in, cleaned:
+  `docs/music/dictations/generated-divine-discontent.md`. It tells every track
+  as in-universe then making-of, so the split reaches the songs' pages too; the
+  operator left where to cut each one to the agent («ты сам, Клод, реши, где ты
+  как-то разобьёшь»). What it asks for:
+  - **Bring the description back on the page** as a hook — «что-то типа хука…
+    односложный вопрос какой-нибудь, что-то, чтобы цепляло», especially on
+    concept albums. Its look is open («пока ещё точно не знаю, как это будет
+    выглядеть»): propose one and show it via `/preview`.
+  - **GENERATED's artist story**, cut hard from the dictation's long form
+    («очень сильно нужно будет сократить»); the dictation file is the long form
+    he wants kept.
+  - **Divine Discontent's album text**: the arc (a deity is born, lonely, makes
+    man in its image, is so discontented with him it destroys him), built on the
+    pun; explain the idiom's everyday sense, as he asked.
+  - **All ten tracks**: in-universe story and making-of, en and ru, plus a hook
+    description. Find and attach the Genesis 1:26 «let us make man in our image»
+    and the famous inverse quote (God made in man's image — Voltaire's «returned
+    the favour» or Xenophanes) for «In Our Image». «Infinite Solitude»'s opening
+    line («In the middle of void, a new … starts») is to be quoted exactly — the
+    DD songs carry no lyrics yet, so take it from the recording or the source
+    repo `vovas-music/Divine-Discontent--album-`.
+  - Material whose author is in the room (`.claude/rules/songs.md`): retell his
+    facts, add none of your own beyond what he asked for (the idiom, the quotes).
 - Whatever the operator adds as the work goes.
 
 ## Rest of the bite
