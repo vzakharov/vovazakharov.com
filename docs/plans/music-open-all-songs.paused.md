@@ -19,8 +19,8 @@ straight from the branch once the songs are open, ahead of the merge.
   item's description is optional.
 - **`pnpm music:untold`** (the old hidden list, repurposed) writes
   `docs/music/untold-songs.md`: every song still lacking a description or a
-  story. `docs/music/hidden-songs.retired.md` is its tombstone;
-  `.claude/rules/songs.md` states the new contract.
+  story — the same list of songs to finish, renamed, so it leaves no tombstone
+  (operator's call). `.claude/rules/songs.md` states the new contract.
 - **Following** the playing song resumes on any arrival at its page.
 - **«За горизонт»** is Сильней любви #6; «Птичка» #7, «Слизь» #8.
 - **«Наша история»**'s story is retold as plain narrative; **«Мир, какой он
