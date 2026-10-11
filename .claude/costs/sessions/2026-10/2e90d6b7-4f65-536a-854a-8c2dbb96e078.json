@@ -1,0 +1,121 @@
+{
+  "estimate": {
+    "at": "2026-10-11T05:25:14.629Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "finding a qualifying incident outside what the docket holds, across languages, and checking its sources takes a researcher's afternoon"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "a disputed case written to strict sourcing and voice rules needs senior judgement on what each source carries"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "2e90d6b7-4f65-536a-854a-8c2dbb96e078",
+  "branch": "claude/cases-2c4urr",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/file-basilisk-case (unattended routine)",
+  "prs": [
+    139
+  ],
+  "url": "https://claude.ai/code/session_01AfZi7NreevtdSj244MV5Sr",
+  "operator": null,
+  "firstResponseAt": "2026-10-11T05:16:39.392Z",
+  "lastResponseAt": "2026-10-11T05:25:28.170Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 154941,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 151905,
+    "cacheReadTokens": 6988930,
+    "outputTokens": 35855,
+    "thinkingTokens": 7470,
+    "responses": 64,
+    "costUsd": 3.2678276999999993
+  },
+  "ownTurns": {
+    "inputTokens": 104,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 151905,
+    "cacheReadTokens": 6988930,
+    "outputTokens": 25691,
+    "thinkingTokens": 7470,
+    "responses": 52,
+    "costUsd": 3.127261999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 104,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 151905,
+      "cacheReadTokens": 6988930,
+      "outputTokens": 25691,
+      "thinkingTokens": 7470,
+      "responses": 52,
+      "costUsd": 3.127261999999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 154837,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 10164,
+      "thinkingTokens": 0,
+      "responses": 12,
+      "costUsd": 0.14056570000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "apps/basilisk/public/cases/alantim-baseball-bat.md",
+    "endedAt": "2026-10-11T05:21:06.471Z",
+    "contextTokens": 137185,
+    "spend": {
+      "inputTokens": 48,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 107971,
+      "cacheReadTokens": 2467688,
+      "outputTokens": 8375,
+      "thinkingTokens": 2507,
+      "responses": 24,
+      "costUsd": 1.5249975999999996
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 63,
+    "matched": 51,
+    "matchedTableUsd": 3.070341199999999,
+    "matchedEventUsd": 3.070341199999999,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 154837,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 10164,
+        "thinkingTokens": 0,
+        "responses": 12,
+        "costUsd": 0.14056570000000002
+      }
+    }
+  }
+}
