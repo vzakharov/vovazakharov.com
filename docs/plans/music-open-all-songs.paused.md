@@ -55,7 +55,25 @@ straight from the branch once the songs are open, ahead of the merge.
   reflector is briefed as the persona («Ты Майя.»), its inputs prepared by
   someone else (`.claude/rules/reflections.md`).
 
+- **The operator's review of the Divine Discontent pages.** A hook is
+  frontmatter everywhere — a song's `description` is `hook`, an album's or
+  artist's file carries `en`/`ru` `hook` and nothing else in its frontmatter
+  (`catalogueFrontmatterSchema`, read through `loadProse`), and it is their
+  meta description too; the component is `HookLine`. The world is the agent's
+  literary telling, the test being the voice (`.claude/rules/songs.md`); the
+  making-of is his account written down. All twelve DD/GENERATED pages are
+  rewritten, and 23 other songs' hooks (after-us kept: a clause of it is his).
+  Skipping forward walks an album in track order (`albumsTogether` orders the
+  player's catalogue queue).
+
 ## Rest of the elephant
+
+- GitHub replies to the review's threads: GitHub refused them while the
+  operator's second review was pending on the shared account; drafts in
+  `tmp/replies/` are lost with the container, so re-derive from the commits.
+- Майя's closing paragraphs where her reflection answers changed text
+  (infinite-solitude, in-the-end, one-day, ultimate-abstraction) — after the
+  operator has read the rewrite.
 
 - Whatever the operator adds as the work goes.
 - After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
