@@ -1,19 +1,7 @@
 {
   "estimate": {
-    "at": "2026-10-11T13:10:52.374Z",
+    "at": "2026-10-11T14:09:40.184Z",
     "parts": [
-      {
-        "hours": 1.0,
-        "grade": "middle",
-        "role": "developer",
-        "comment": "polish of bite 1 is a routine diff-scoped pass"
-      },
-      {
-        "hours": 4.0,
-        "grade": "middle",
-        "role": "developer",
-        "comment": "the concept-album split is routine page and data work once dictated"
-      },
       {
         "hours": 1.0,
         "grade": "middle",
@@ -24,7 +12,13 @@
         "hours": 3.0,
         "grade": "senior",
         "role": "analyst",
-        "comment": "a blind settings-transfer mastering A/B needs judgement of audio method and fair comparison"
+        "comment": "a blind cross-reference mastering A/B needs judgement of audio method and fair comparison"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "editor",
+        "comment": "cleaning a long voice dictation into paragraphs without rewriting it is careful but routine"
       }
     ],
     "comment": null
@@ -39,28 +33,28 @@
   "url": "https://claude.ai/code/session_01R9Tm3cAmT1URSRMiCntqDg",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-11T13:10:38.247Z",
-  "lastResponseAt": "2026-10-11T13:49:16.138Z",
+  "lastResponseAt": "2026-10-11T14:10:14.910Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": 2.474715,
   "total": {
-    "inputTokens": 112,
+    "inputTokens": 130,
     "cacheWrite5mTokens": 78048,
-    "cacheWrite1hTokens": 125618,
-    "cacheReadTokens": 7120237,
-    "outputTokens": 19406,
-    "thinkingTokens": 3943,
-    "responses": 56,
-    "costUsd": 3.2077994
+    "cacheWrite1hTokens": 154711,
+    "cacheReadTokens": 8880695,
+    "outputTokens": 38899,
+    "thinkingTokens": 6940,
+    "responses": 65,
+    "costUsd": 4.182566999999999
   },
   "ownTurns": {
-    "inputTokens": 90,
+    "inputTokens": 108,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 125618,
-    "cacheReadTokens": 6390400,
-    "outputTokens": 19287,
-    "thinkingTokens": 3943,
-    "responses": 45,
-    "costUsd": 2.6691239999999996
+    "cacheWrite1hTokens": 154711,
+    "cacheReadTokens": 8150858,
+    "outputTokens": 38780,
+    "thinkingTokens": 6940,
+    "responses": 54,
+    "costUsd": 3.643891599999999
   },
   "subagents": {
     "inputTokens": 22,
@@ -74,14 +68,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 112,
+      "inputTokens": 130,
       "cacheWrite5mTokens": 78048,
-      "cacheWrite1hTokens": 125618,
-      "cacheReadTokens": 7120237,
-      "outputTokens": 19406,
-      "thinkingTokens": 3943,
-      "responses": 56,
-      "costUsd": 3.2077994
+      "cacheWrite1hTokens": 154711,
+      "cacheReadTokens": 8880695,
+      "outputTokens": 38899,
+      "thinkingTokens": 6940,
+      "responses": 65,
+      "costUsd": 4.182566999999999
     }
   },
   "warnings": [
