@@ -20,31 +20,32 @@ ru:
 
 <!-- universe:en -->
 
-God says: damn it, one day I won’t hold back after all, one day I’ll definitely
-smash the whole lot of you to hell.
+God’s patience is running out. One day, he thinks, I won’t hold back after all
+— one day I’ll smash the whole lot of you to hell. One day his eternal love will
+turn to primal hate, and he will come down in flames. For now, though, people
+are too funny, so hilariously, lovably dumb, and that alone keeps him up there.
 
 <!-- universe:ru -->
 
-Бог говорит: блин, однажды я всё-таки не сдержусь, однажды я точно вас всех
-ухреначу нафиг.
+У Бога кончается терпение. Однажды, думает он, я всё-таки не сдержусь — однажды
+я точно вас всех ухреначу нафиг. Однажды его вечная любовь обернётся
+первобытной ненавистью, и он сойдёт огнём. Но пока люди слишком смешные, до того
+мило уморительные, что только это его наверху и держит.
 
 <!-- lang:en -->
 
-There are allusions to “Break Stuff” here. The idea for this song came to me
-ages ago, maybe 10 or 15 years back, more likely 15. It had different music
-then, and I’d probably have liked to make this song to that music, but back then
-Suno couldn’t yet make music on top of your own music, so I had to settle for a
-prompt like southern metal or something along those lines. That song is waiting
-its turn, and with this one I’m, on the whole, quite happy.
+The idea for this song came to me long ago, some 10–15 years back, and it had
+different music then. I’d have liked to make the song to that music, but Suno
+couldn’t yet build a song on music of your own, so I settled for a prompt along
+the lines of southern metal. That song is waiting its turn; with this one I’m
+quite happy.
 
 <!-- lang:ru -->
 
-Здесь есть аллюзии на «Break Stuff». Идея этой песни возникла у меня
-давным-давно, может быть, 10 или 15 лет назад, скорее 15. Там была другая
-музыка, и я, наверное, хотел бы сделать эту песню на ту музыку, но в Суно тогда
-ещё не было возможности делать музыку на свою музыку, поэтому пришлось
-ограничиться промптом типа southern metal или что-то в этом роде. Та песня ждёт
-своей очереди, а этой я, в принципе, вполне доволен.
+Идея этой песни появилась у меня давным-давно, лет 10–15 назад, и музыка у неё
+тогда была другая. Мне хотелось бы сделать песню на ту музыку, но Суно ещё не
+умела делать песню на свою музыку, так что пришлось ограничиться промптом в духе
+southern metal. Та песня ждёт своей очереди, а этой я вполне доволен.
 
 <!-- lyrics:en -->
 

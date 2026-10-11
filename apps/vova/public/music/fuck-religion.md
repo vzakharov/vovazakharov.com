@@ -20,36 +20,38 @@ ru:
 
 <!-- universe:en -->
 
-Here God’s ordeals with his people begin. God sees that people have come up
-with this thing called “religion,” which isn’t him at all, in which they do
-crazy things supposedly in his name, and he doesn’t like any of it. So “Fuck
-Religion” is really a song sung by God, not a song by some human rebel. And you
-can tell from some of the lines: where it sings “my,” that “my” is God’s.
+Here God’s troubles with his people begin. He looks down and finds they have
+invented something called religion. It bears his name and has nothing of him in
+it: sacred texts and collection plates, crowns of gold and thrones of lies, fear
+to feed on — and mad things done, supposedly, for his sake. He doesn’t like any
+of it.
 
 <!-- universe:ru -->
 
-Дальше начинаются мытарства Бога со своими людьми. Бог видит, что люди
-придумали какую-то «религию», которая совсем не он, в которой они делают
-сумасшедшие вещи как будто бы во имя его, и ему это всё не нравится. То есть на
-самом деле «Fuck Religion» — это песня, которую поёт Бог, а не песня какого-то
-бунтаря-человека. И по некоторым строчкам это видно: где там поётся «my», это
-«my» от имени Бога.
+Здесь начинаются мытарства Бога со своими людьми. Он смотрит вниз и видит, что
+они придумали какую-то «религию». На ней стоит его имя, но его самого в ней нет:
+священные тексты и доходы, золотые короны и троны из лжи, страх, которым
+кормятся, — и безумства, творимые будто бы во имя его. Ему всё это не нравится.
 
 <!-- lang:en -->
 
-Musically it was almost a hundred percent inspired by The Exploited. They’re one
-of my favorite bands of, let’s say, my late teens, and I really wanted to get
-across that reckless energy. Wattie Buchan, The Exploited’s singer, would
-probably not be at all pleased at the thought that AI songs are being written on
-his energy.
+“Fuck Religion” is sung by God, not by some human rebel, and some of the lines
+show it: where it sings “my,” that “my” is God’s.
+
+Musically it was almost a hundred percent inspired by The Exploited, one of my
+favorite bands of my late teens, and I really wanted to get across that reckless
+energy. Wattie Buchan, their singer, would hardly be pleased at the thought that
+AI songs are being written on his energy.
 
 <!-- lang:ru -->
 
-Музыкально это практически на сто процентов вдохновлялось The Exploited. Это
-одна из моих любимых групп, скажем, верхней подростковости, и мне очень хотелось
-передать эту безбашенную энергетику. Наверное, Уотти Бьюкен, вокалист The
-Exploited, совсем бы не обрадовался мысли, что по его энергетике пишутся
-ИИ-песни.
+«Fuck Religion» поёт Бог, а не какой-нибудь бунтарь-человек, и по некоторым
+строчкам это видно: где поётся «my», это «my» от имени Бога.
+
+Музыкально она почти на сто процентов вдохновлена The Exploited — одной из моих
+любимых групп старших классов, — и мне очень хотелось передать эту безбашенную
+энергетику. Уотти Бьюкен, их вокалист, вряд ли обрадовался бы мысли, что по его
+энергетике пишутся ИИ-песни.
 
 <!-- lyrics:en -->
 

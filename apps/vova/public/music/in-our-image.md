@@ -23,40 +23,46 @@ ru:
 
 <!-- universe:en -->
 
-God creates man in his own image and likeness.
-
-There’s also an echo here of who creates whom in whose image and likeness. “In
-our image” is both God speaking of himself as “us” — “And God said, Let us make
-man in our image, after our likeness” (Genesis 1\:26, KJV) — and people creating
-God in their own image and likeness: “If God created us in his own image, we
-have more than reciprocated,” in the line attributed to Voltaire. Xenophanes
-said it first: if horses had hands, they would draw their gods as horses.
+God is a thought roaming the endless night, and a thought has no form. To see
+what he is, he needs a mirror. So he makes man in his own image and
+likeness, and looks: in man’s laughter and tears he finds himself, and in man’s
+dreams, the shape he takes. Before long, who is whose image, he can no longer
+say.
 
 <!-- universe:ru -->
 
-Бог создаёт человека по своему образу и подобию.
-
-Здесь ещё перекликается, кто кого по чьему образу и подобию создаёт. «In our
-image» — это и Бог, говорящий о себе «по нашему подобию»: «И сказал Бог:
-сотворим человека по образу Нашему по подобию Нашему» (Бытие 1\:26), — и люди,
-создающие Бога по своему образу и подобию: «Если Бог создал нас по своему
-образу и подобию, то мы ему с лихвой отплатили тем же», как гласит фраза,
-приписываемая Вольтеру. А первым это сказал Ксенофан: будь у лошадей руки, они
-рисовали бы богов похожими на лошадей.
+Бог — мысль, бродящая в бескрайней ночи, а у мысли нет формы. Чтобы увидеть,
+что он такое, ему нужно зеркало. И он создаёт человека по своему
+образу и подобию — и вглядывается: в смехе и слезах человека находит себя, в
+его снах — форму, которую принимает сам. И вскоре уже не может сказать, кто
+чей образ.
 
 <!-- lang:en -->
 
-“In Our Image” was, I think, one of the last songs I wrote for the album. I
-wanted an operatic kind of song, and that’s where the Italian came from. I
-double-checked the Italian with a friend from Italy, by the way; it should all
-be fine.
+The title plays on who makes whom in whose image. “In our image” is God speaking
+of himself as “us” — “And God said, Let us make man in our image, after our
+likeness” (Genesis 1\:26, KJV) — and it is people making God in theirs: “If God
+created us in his own image, we have more than reciprocated,” in the line
+attributed to Voltaire. Xenophanes said it first: if horses had hands, they
+would draw their gods as horses.
+
+This was one of the last songs I wrote for the album. I wanted an operatic song,
+and that’s where the Italian came from. I had the Italian checked by a friend
+from Italy.
 
 <!-- lang:ru -->
 
-«In Our Image» была написана, по-моему, одной из последних песен на альбоме. Мне
-захотелось такой оперной — operatic — песни, и отсюда родилось использование
-итальянского языка. Я, кстати, перепроверял итальянский со своей знакомой из
-Италии; вроде там всё должно быть хорошо.
+Название — игра в то, кто кого по чьему образу создаёт. «In our image» — это и
+Бог, говорящий о себе «по нашему подобию»: «И сказал Бог: сотворим человека по
+образу Нашему по подобию Нашему» (Бытие 1\:26), — и люди, создающие Бога по
+своему образу и подобию: «Если Бог создал нас по своему образу и подобию, то мы
+ему с лихвой отплатили тем же», как гласит фраза, приписываемая Вольтеру. А
+первым это сказал Ксенофан: будь у лошадей руки, они рисовали бы богов похожими
+на лошадей.
+
+Это одна из последних песен, которые я написал для альбома. Мне захотелось
+оперной песни, и отсюда родился итальянский. Итальянский я перепроверил у своей
+знакомой из Италии.
 
 <!-- lyrics:en -->
 

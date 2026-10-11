@@ -21,29 +21,31 @@ ru:
 
 <!-- universe:en -->
 
-This is the next-to-last, or the last, cry of despair of a deity that sees it is
-being forgotten, that it is dwindling. But God is still strong here — at least,
-at the end of his strength, he can be strong.
+God sees that he is being forgotten. The halls empty, the faith drains away, and
+he dwindles with it. This is his last cry of despair, or nearly the last — and
+it is no feeble one. At the end of his strength a god can still be strong: the
+storms still gather at his word, and the lightning is still his to throw.
 
 <!-- universe:ru -->
 
-Это предпоследний или последний крик отчаяния божества, которое видит, что его
-забывают, что оно мельчает. Но здесь Бог ещё силён — по крайней мере, на исходе
-сил он может быть силён.
+Бог видит, что его забывают. Пустеют залы, уходит вера, и вместе с ней мельчает
+он сам. Это его последний или почти последний крик отчаяния — и слабым его не
+назовёшь. На исходе сил бог ещё может быть силён: бури ещё собираются по его
+слову, и молнии ещё в его руке.
 
 <!-- lang:en -->
 
-This is, by the way, in a sense a nod to Pratchett’s _Small Gods_, where a god
-is the weaker the fewer people believe in him. And God expresses it through a song
-with Rammstein’s energy, with German words, and of course you don’t need to be
-any kind of music expert to hear that it’s Rammstein.
+In a sense it’s a nod to Pratchett’s _Small Gods_, where a god is the weaker the
+fewer people believe in him. God says it through a song with Rammstein’s energy
+and German words, and you don’t need to be any kind of music expert to hear that
+it’s Rammstein.
 
 <!-- lang:ru -->
 
-Здесь, кстати, в каком-то смысле идёт отсылка к «Мелким богам» Пратчетта, где
-бог тем слабее, чем меньше в него верят люди. И Бог выражает это через песню с
-энергетикой Rammstein, с немецкими словами, и, конечно, не нужно быть каким-то
-музыкальным экспертом, чтобы понять, что это Rammstein.
+В каком-то смысле это отсылка к «Мелким богам» Пратчетта, где бог тем слабее,
+чем меньше в него верят люди. И Бог выражает это песней с энергетикой
+Rammstein, с немецкими словами, — и не нужно быть каким-то музыкальным
+экспертом, чтобы понять, что это Rammstein.
 
 <!-- lyrics:en -->
 

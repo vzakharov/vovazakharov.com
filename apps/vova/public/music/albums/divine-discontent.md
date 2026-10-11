@@ -7,33 +7,41 @@ ru:
 
 <!-- universe:en -->
 
-A deity is born, and it grows terribly lonely, so it makes man in its own image.
-Over time, man brings it so much trouble and so much discontent that the deity
-decides to destroy him. That is the path the album follows.
+A deity is born into the void, and there is no one in the void but the deity.
+It can make whole worlds, and there is no one to show them to. So, out of
+loneliness, it makes man, in its own image.
+
+Man turns out to be the most troublesome of all its works. He invents religions
+that bear its name and have nothing of it in them, does mad things in its honor,
+and in time forgets it altogether. Age after age the discontent builds, until
+the deity that made man so as not to be alone decides to destroy him.
 
 <!-- universe:ru -->
 
-Рождается божество, ему становится очень одиноко, и оно по своему образу создаёт
-человека. Со временем человек начинает доставлять столько хлопот и столько
-недовольства, что божество решает человека уничтожить. Вот по этому пути и идёт
-альбом.
+В пустоте рождается божество, и в пустоте нет никого, кроме него. Оно может
+творить целые миры, но показать их некому. И от одиночества оно создаёт
+человека — по своему образу.
+
+Человек оказывается самым хлопотным из его творений. Он выдумывает религии,
+которые носят имя божества, но в которых нет ничего от него самого, творит во
+славу его безумства, а со временем и вовсе его забывает. Век за веком копится
+недовольство, пока божество, создавшее человека, чтобы не быть одному, не решает
+его уничтожить.
 
 <!-- lang:en -->
 
-The name came, I guess, out of that divine theme — plus a phrase I heard
-somewhere that jumped right out at me (I have absolutely no memory of the
-context): “divine discontent.” And I went: whoa, what’s that? In everyday English
-it’s an idiom for a noble kind of restlessness — a dissatisfaction with things as
-they are that drives people to improve, to create, to reach higher. But I read
-it straight away as a deity’s discontent, and this album is built on exactly
-that pun.
+The name grew out of the theme of gods, which I’d had in mind since my Jukebox
+days, and out of a phrase I heard somewhere — I don’t remember the context —
+that jumped right out at me: “divine discontent.” In everyday English it’s an
+idiom for a noble kind of restlessness, a dissatisfaction with things as they
+are that drives people to improve, to create, to reach higher. But I read it
+straight away as a deity’s discontent, and the album is built on that pun.
 
 <!-- lang:ru -->
 
-Название, видимо, пришло от этой божественной темы, плюс я где-то услышал фразу,
-которая мне прям сразу бросилась в глаза, — не помню абсолютно, в каком
-контексте, — «divine discontent». И я такой: опа, что это за слово такое? В
-обыденном английском это идиома — «божественное недовольство», благородная
-неудовлетворённость тем, как всё есть, которая толкает человека что-то улучшать,
-создавать, тянуться выше. Но мне оно сразу бросилось как недовольство божества. И
-именно на этой игре слов у меня построился этот альбом.
+Название выросло из темы богов, которая была у меня в голове ещё со времён
+Jukebox, и из фразы, которую я где-то услышал — не помню, в каком контексте — и
+которая сразу бросилась мне в глаза: «divine discontent». В обыденном английском
+это идиома — «божественное недовольство», благородная неудовлетворённость тем,
+как всё есть, которая толкает человека улучшать, создавать, тянуться выше. Но я
+сразу прочёл её как недовольство божества, и на этой игре слов построен альбом.

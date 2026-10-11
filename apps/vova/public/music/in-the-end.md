@@ -23,32 +23,38 @@ ru:
 
 <!-- universe:en -->
 
-Humanity is no more; only silence is left.
+Humanity is gone. Silence has not quite fallen yet: what is left is the world’s
+echo, still sounding with no one left to hear it. West and East clash one last
+time, one melody turning into another and back again; pictures flash up and
+morph, and no single picture holds anymore — only the residual, agonizing
+transformations of what used to be. Then come the last words: “And at last,
+silence.” And silence falls; a final blast breaks it once more, and then it
+falls for good.
 
 <!-- universe:ru -->
 
-Человечества больше нет, осталась только тишина.
+Человечества больше нет. Но тишина ещё не наступила до конца: остаётся эхо мира,
+которое звучит, хотя слушать его уже некому. Запад и Восток сходятся в последний
+раз, одна мелодия перетекает в другую и обратно; мелькают и метаморфируют
+картинки, и единой картины уже нет — только остаточные, агонизирующие
+превращения того, что было. Потом звучат последние слова: «И наконец — тишина».
+И тишина наступает — её разрывает ещё один, последний взрыв, а потом она
+остаётся навсегда.
 
 <!-- lang:en -->
 
-But music still plays, and very varied music: if you listen to this
-instrumental piece, a great deal in it turns into something else. There is, for
-example, a battle of West and East, melodies that pass from Vivaldi into all
-sorts of Arabic chants and back. It shows those, you know, pictures that flash
-by, everything morphs, and there’s no longer any single picture — only residual
-agonistic transformations. The song’s only words are in Arabic: “And at last,
-silence.” Then silence falls, then a final explosion, and the album ends.
+It’s an instrumental piece in which a great deal turns into something else:
+there’s a battle of West and East, melodies passing from Vivaldi into Arabic
+chants and back. The only words are in Arabic, “And at last, silence.” Then
+silence falls, then a final explosion, and the album ends.
 
 <!-- lang:ru -->
 
-Но ещё звучит музыка, и музыка очень разная: если послушать эту
-инструментальную композицию, там очень многое переходит одно в другое. Там
-есть, например, битва западного и восточного, мелодии, которые переходят из
-Вивальди во всякие арабские напевы и обратно. Это показывает такие, знаете,
-картинки, которые мелькают, всё метаморфирует, и уже нет какой-то единой
-картины — есть только остаточные агонистические трансформации. Единственные
-слова этой песни — по-арабски: «И наконец — тишина». Потом наступает тишина,
-потом финальный взрыв, и альбом заканчивается.
+Это инструментальная композиция, в которой очень многое переходит одно в
+другое: здесь есть битва западного и восточного, мелодии, которые переходят из
+Вивальди в арабские напевы и обратно. Единственные слова — по-арабски: «И
+наконец — тишина». Потом наступает тишина, потом финальный взрыв, и альбом
+заканчивается.
 
 <!-- lyrics:ar -->
 

@@ -20,42 +20,41 @@ ru:
 
 <!-- universe:en -->
 
-The grand finale. Everything explodes: apocalypse, radiation, the four horsemen.
-It’s all fairly Ecclesiastes: in entropy we trust, everything returns to
-entropy.
+And then, the grand finale. Everything explodes: apocalypse, radiation, the
+four horsemen, all that jazz. The skies melt, the seas burn, and a new
+radioactive sun rises over what is left. It is all rather Ecclesiastes: in
+entropy we trust, and to entropy we, quite expectedly, return.
 
 <!-- universe:ru -->
 
-Великий финал. Всё взрывается: апокалипсис, радиация, четыре всадника. Всё
-относительно экклезиастично: в энтропии уповаем, всё возвращается к энтропии.
+И наконец — великий финал. Всё взрывается: апокалипсис, радиация, четыре
+всадника и всё, что к ним полагается. Небеса плавятся, моря горят, и над тем,
+что осталось, встаёт новое радиоактивное солнце. Всё довольно экклезиастично: на
+энтропию уповаем — и к энтропии, как и следовало ожидать, возвращаемся.
 
 <!-- lang:en -->
 
-Most of the lyrics of “Grand Finale” I also wrote some 10–15 years ago. Again,
-there was different music then, and somewhat more sprawling lyrics, with
-explanations of what, how and where. And apparently over those 15 years I’ve
-traveled a path — I won’t call myself a poet, but a songwriter — from someone
-who wants to write songs and words that tell the whole story to songs that no
-longer tell, where the meaning hides between the lines. This song was probably
-one of the moments when I realized that and was glad of my, so to speak,
-creative growth. I have to say that while I still listen to the songs of that
-period — not even listen, really, but read their lyrics — with a little cringe,
-this one still sounds good to me. It seems I reached my peak, and probably
-haven’t grown since. Well, or maybe I have. We’ll see.
+I wrote most of the lyrics of “Grand Finale” 10–15 years ago too. The music was
+different then, and the lyrics longer, with explanations of what, how and
+where. Over those 15 years I’ve traveled a path — not as a poet, I won’t call
+myself that, but as a songwriter — from wanting songs whose words tell the whole story to
+songs that no longer tell it, where the meaning hides between the lines. This
+song was one of the moments when I realized it and was glad of my creative
+growth. The songs of that period I still read with a little cringe, but this
+one still sounds good to me. It seems I reached my peak then and haven’t grown
+since. Or maybe I have. We’ll see.
 
 <!-- lang:ru -->
 
-Большую часть текста «Grand Finale» я тоже писал лет 10–15 назад. Там опять же
-была другая музыка и чуть более пространный текст, с объяснениями, что, как и
-где. И вот, видимо, за эти 15 лет я прошёл путь — не назову себя поэтом, но
-песнописца — от того, кто хочет писать песни и слова, рассказывающие полную
-историю, к песням, которые больше не рассказывают и в которых смысл прячется
-между строк. Наверное, эта песня была одним из моментов, когда я это понял и
-порадовался своему, так сказать, творческому росту. Надо сказать, что если песни
-того периода я до сих пор слушаю — не то чтобы даже слушаю, а читаю их текст — с
-небольшим кринжом, то эта во мне всё ещё звучит хорошо. Кажется, я достиг своего
-пика, и с тех пор, наверное, уже не развивался. Ну, или, может быть, развивался.
-Посмотрим.
+Большую часть текста «Grand Finale» я тоже написал лет 10–15 назад. Музыка тогда
+была другая, а текст — пространнее, с объяснениями, что, как и где. За эти 15
+лет я прошёл путь — поэтом себя не назову, но песнописцем — от желания писать
+песни, слова которых рассказывают всю историю, к песням, которые больше её не
+рассказывают и в которых смысл прячется между строк. Эта песня стала одним из
+моментов, когда я это понял и порадовался своему творческому росту. Тексты
+песен того периода я до сих пор перечитываю с небольшим кринжом, а эта во мне
+всё ещё звучит хорошо. Кажется, тогда я и достиг своего пика и с тех пор уже не
+развивался. А может, и развивался. Посмотрим.
 
 <!-- lyrics:en -->
 

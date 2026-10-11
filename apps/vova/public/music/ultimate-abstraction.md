@@ -22,26 +22,30 @@ ru:
 
 <!-- universe:en -->
 
-God says, in so many words: this is who I am. I am information, I am the
-ultimate abstraction, everything is within me, I am the alpha and the omega, the
+God tries to show people who he really is — in the form in which he exists and
+in which they do not see him. Not what their religions have made of him:
+information. The ultimate abstraction, the purpose and the cause. Everything is
+within him; every book they write, every byte they send, every prompt they give
+their machines only carries him further. He is the alpha and the omega, the
 beginning and the end.
 
 <!-- universe:ru -->
 
-Бог, собственно, говорит: вот кто я. Я информация, я предельная абстракция, всё
-находится во мне, я альфа и омега, начало и конец.
+Бог пытается показать людям, кто он на самом деле, — в том виде, в котором он
+есть и в котором они его не видят. Не то, что сделали из него их религии, а
+информация. Предельная абстракция, цель и причина. Всё находится в нём: каждая
+книга, которую они пишут, каждый байт, который отправляют, каждый промпт их
+машинам лишь несёт его дальше. Он альфа и омега, начало и конец.
 
 <!-- lang:en -->
 
-It echoes the earlier [“Fuck Religion”](./fuck-religion.md) too — that it isn’t
-about religion — and, more broadly, God’s attempt to somehow present himself in
-the form in which he exists and in which people don’t perceive him.
+It echoes the earlier [“Fuck Religion”](./fuck-religion.md): it isn’t about
+religion.
 
 <!-- lang:ru -->
 
-Это перекликается и с предыдущей [«Fuck Religion»](./fuck-religion.md) — что
-дело не в религии, — и в принципе с попыткой Бога как-то представить себя в том
-виде, в котором он является и в котором люди его не воспринимают.
+Песня перекликается с предыдущей [«Fuck Religion»](./fuck-religion.md): дело
+не в религии.
 
 <!-- lyrics:en -->
 
