@@ -6,13 +6,14 @@ type RssEntry = Titled & { link: string };
 /** An item's blurb is optional, as RSS has it: a song may have none yet. */
 export type RssItem = RssEntry & Partial<Described> & { published: Date };
 
-export type RssChannel = RssEntry & Summarized & {
-  language: string;
-  /** The feed's own absolute URL, which readers re-fetch it from. */
-  self: string;
-  /** Newest first, as the feed lists them. */
-  items: RssItem[];
-};
+export type RssChannel = RssEntry &
+  Summarized & {
+    language: string;
+    /** The feed's own absolute URL, which readers re-fetch it from. */
+    self: string;
+    /** Newest first, as the feed lists them. */
+    items: RssItem[];
+  };
 
 const XML_ESCAPES: Record<string, string> = {
   '&': '&amp;',

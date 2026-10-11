@@ -10,7 +10,7 @@ import type { Locale } from '@/shared/i18n';
 const SECTION_MARKER = /^<!--\s*([a-z]+):([a-z-]+)\s*-->$/;
 
 /** The key a section before the first marker is filed under: it belongs to every locale. */
-export const PREAMBLE = '';
+const PREAMBLE = '';
 
 /**
  * Cuts a body into its marked sections, keyed `<kind>:<name>`. Text before the
@@ -47,7 +47,7 @@ export function splitSections(body: string): ReadonlyMap<string, string> {
 }
 
 /** Whether text says anything to a reader once its HTML comments — notes for whoever edits the file — are gone. */
-export function says(text: string): boolean {
+function says(text: string): boolean {
   return text.replaceAll(/<!--[\S\s]*?-->/g, '').trim() !== '';
 }
 
