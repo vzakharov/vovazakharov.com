@@ -4,9 +4,9 @@ What three threads suggested for `scripts/song-intake/spectrogram.py` — making
 
 | Thread                                                                        | Post id   | Comments seen | Last read        |
 | ----------------------------------------------------------------------------- | --------- | ------------- | ---------------- |
-| [r/DSP](https://www.reddit.com/r/DSP/comments/1x29wdc/)                       | `1x29wdc` | 31            | 2026-10-10 20:05 |
-| [r/ClaudeAI](https://www.reddit.com/r/ClaudeAI/comments/1x29x26/)             | `1x29x26` | 16            | 2026-10-10 20:05 |
-| [r/claudexplorers](https://www.reddit.com/r/claudexplorers/comments/1x2a0q2/) | `1x2a0q2` | 3             | 2026-10-10 20:05 |
+| [r/DSP](https://www.reddit.com/r/DSP/comments/1x29wdc/)                       | `1x29wdc` | 34            | 2026-10-11 02:15 |
+| [r/ClaudeAI](https://www.reddit.com/r/ClaudeAI/comments/1x29x26/)             | `1x29x26` | 16            | 2026-10-11 02:15 |
+| [r/claudexplorers](https://www.reddit.com/r/claudexplorers/comments/1x2a0q2/) | `1x2a0q2` | 3             | 2026-10-11 02:15 |
 
 The image the threads saw is the old one: spectrogram over a waveform coloured by dominant pitch. Since then, on `main` (PR #127): chromagram strips in place of the coloured waveform, each cell coloured by its octave, and dashed section boundaries from a novelty curve.
 
@@ -36,8 +36,8 @@ The image the threads saw is the old one: spectrogram over a waveform coloured b
 - **Mel scale** — thedefibulator, polvalente. Close to linear under 1 kHz, where the bass and most melodies live, so it squashes them; log keeps every octave the same height. Already answered in both threads.
 - **Vectorscope** — coronelkentucky. Stereo image, a mixing question, and no time axis. Already answered.
 - **A CNN/VAE/LSTM in front, audio-native models, Music Flamingo** — Masterkid1230, always_wear_pyjamas, polvalente, dharma-1, averi_fox. These answer "how would you train a music model", and there is no training data or labels here; the reader is Claude, which already reads images. Music Flamingo as a second opinion is interesting but is a GPU pipeline of its own.
-- **"LLMs can't do this"** — CritiqueDeLaCritique, AvidCoco. No proposal in it; the cold reading in `chromagram-proposal.md` got form, register and voice right off the picture, which is the counter-evidence.
-- Nothing actionable: ClemensLode ("ask Claude to process it first"), texasguy911 (a Wikipedia link to the Fourier transform), 2SP00KY4ME (log is how hearing works — true, no change).
+- **"LLMs can't do this"** — CritiqueDeLaCritique, AvidCoco, and maxm arguing back. No proposal in it; the cold reading in `chromagram-proposal.md` got form, register and voice right off the picture, which is the counter-evidence.
+- Nothing actionable: ClemensLode ("ask Claude to process it first"), texasguy911 (a Wikipedia link to the Fourier transform), 2SP00KY4ME (log is how hearing works — true, no change), VS2ute (on seismic data he tried every textbook attribute to see what stuck — the blind test is the cheaper way to find out).
 
 ## Reply drafts
 
@@ -75,6 +75,6 @@ Optional. The script is public on `main`, so a link is possible.
 
 So the next read can tell what is new. Ids only; the bodies are on Reddit.
 
-- `1x29wdc`: pf0f7ht pf0gwqm pf0h496 pf0h7kk pf0hsq4 pf0i8cl pf0k54d pf0mc19 pf0mesi pf0mfgp pf0opph pf0p7s3 pf0rq7y pf0s74u pf0s9ij pf0sc0m pf0tqyp pf0u1ki pf0y1sl pf0zj35 pf10ndn pf14xm3 pf15ppw pf17aj8 pf1cjgr pf1r4me pf1r6be pf2j881 pf2wdro pf3as2i pf3dty5
+- `1x29wdc`: pf0f7ht pf0gwqm pf0h496 pf0h7kk pf0hsq4 pf0i8cl pf0k54d pf0mc19 pf0mesi pf0mfgp pf0opph pf0p7s3 pf0rq7y pf0s74u pf0s9ij pf0sc0m pf0tqyp pf0u1ki pf0y1sl pf0zj35 pf10ndn pf14xm3 pf15ppw pf17aj8 pf1cjgr pf1r4me pf1r6be pf2j881 pf2wdro pf3as2i pf3dty5 pf4i26v pf4j0o9 pf58b7y
 - `1x29x26`: pf0d6ya pf0e5h6 pf0eg4b pf0eic1 pf0ewkg pf0f29g pf0f2tw pf0f659 pf0fj1t pf0he4f pf0ilqu pf0jxgp pf0lfzd pf0m0ve pf19sn4 pf1c29x
 - `1x2a0q2`: pf1028e pf10afk pf1jdfi
