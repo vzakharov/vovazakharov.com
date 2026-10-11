@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-11T12:23:07Z
-- **Updated:** 2026-10-11T18:08:22Z
+- **Updated:** 2026-10-11T18:09:29Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Awaiting an answer: 20
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 6a69371). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at cfeb6d7). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T17:38:39Z — "давай это во фронтматтер, и тогда у существующих всех других…" → [↓](#t01)
 - **T02** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T17:39:10Z — "давай что-то типа "Что, если богу поднадоест его любимое соз…" → [↓](#t02)
@@ -581,3 +581,4 @@ Right away звучит как вытекающее из того что GENERAT
 - **2026-10-11T13:09:06Z** @vzakharov — _deployed_
 - **2026-10-11T13:26:47Z** @vzakharov cross-referenced this pull request from [#141 Mastering: pick a Matchering reference by how close its mix is](https://github.com/vzakharov/vovazakharov.com/issues/141).
 - **2026-10-11T18:08:21Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5484264652.
+- **** @vzakharov reviewed (PENDING): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5484363305.
