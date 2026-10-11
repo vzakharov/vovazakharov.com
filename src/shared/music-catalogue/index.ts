@@ -1,5 +1,6 @@
 export {
   type AlbumPlacement,
+  catalogueFrontmatterSchema,
   type Playable,
   type SongFrontmatter,
   songFrontmatterSchema,

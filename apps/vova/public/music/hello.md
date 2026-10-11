@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Zdravstvuy'
     translation: 'Hello'
-  description: 'A duet I was very proud of, with two voices in the chorus and a powerful instrumental post-chorus — and nothing close to it in spirit came of trying to remix it later.'
+  hook: 'A duet I was very proud of, with two voices in the chorus and a powerful instrumental post-chorus — and nothing close to it in spirit came of trying to remix it later.'
 ru:
-  description: 'Дуэт, которым я очень гордился, — с двухголосьем в припеве и мощным инструментальным пост-корусом; ничего близкого по духу потом из него так и не вышло.'
+  hook: 'Дуэт, которым я очень гордился, — с двухголосьем в припеве и мощным инструментальным пост-корусом; ничего близкого по духу потом из него так и не вышло.'
 ---
 
 <!-- lang:en -->

@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Letim'
     translation: 'Let’s Fly'
-  description: 'The first song written on Suno 3, with the hills of Herzegovina outside the window of a visa run.'
+  hook: 'The first song written on Suno 3, with the hills of Herzegovina outside the window of a visa run.'
 ru:
-  description: 'Первая песня, написанная на Суно 3, с герцеговинскими горами за окном на виза-ране.'
+  hook: 'Первая песня, написанная на Суно 3, с герцеговинскими горами за окном на виза-ране.'
 ---
 
 <!-- lang:en -->

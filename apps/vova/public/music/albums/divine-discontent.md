@@ -1,10 +1,9 @@
-<!-- hook:en -->
-
-What if it’s God who runs out of patience?
-
-<!-- hook:ru -->
-
-А что, если терпение кончится у самого Бога?
+---
+en:
+  hook: 'What if God grows tired of his favorite creation?'
+ru:
+  hook: 'Что, если богу поднадоест его любимое создание?'
+---
 
 <!-- universe:en -->
 

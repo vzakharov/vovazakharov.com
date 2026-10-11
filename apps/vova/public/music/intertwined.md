@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Pereplelos'
     translation: 'Intertwined'
-  description: 'One of the first songs written “à la za/oblozhkoy,” if not the very first: whatever comes into my head, fixing nothing, overthinking nothing.'
+  hook: 'One of the first songs written “à la za/oblozhkoy,” if not the very first: whatever comes into my head, fixing nothing, overthinking nothing.'
 ru:
-  description: 'Одна из первых, если не первая, песня «а-ля за/обложкой»: пишу, что приходит в голову, ничего не правя и ничего не overthink-ая.'
+  hook: 'Одна из первых, если не первая, песня «а-ля за/обложкой»: пишу, что приходит в голову, ничего не правя и ничего не overthink-ая.'
 ---
 
 <!-- lang:en -->

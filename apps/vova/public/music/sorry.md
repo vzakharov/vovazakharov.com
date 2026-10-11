@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Prosti'
     translation: 'Sorry'
-  description: 'Inspired, strangely enough, by Bad Religion: something both pop and punk, but not pop-punk.'
+  hook: 'Inspired, strangely enough, by Bad Religion: something both pop and punk, but not pop-punk.'
 ru:
-  description: 'Вдохновлено, как ни странно, Bad Religion: и попса, и панк, но не поп-панк.'
+  hook: 'Вдохновлено, как ни странно, Bad Religion: и попса, и панк, но не поп-панк.'
 ---
 
 <!-- lang:en -->

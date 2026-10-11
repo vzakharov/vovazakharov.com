@@ -66,20 +66,16 @@ export function localeProse(body: string, locale: Locale): string {
 }
 
 /**
- * What a page shows beside its story, each opened by `<!-- <kind>:<locale> -->`:
- * the `universe` a concept album's world is told in, shown ahead of the story,
- * which is then its making-of; and an album's or artist's `hook`, the line under
- * its name that a song keeps as its `description`.
+ * The world a concept album is set in, as one locale reads it: the section
+ * `<!-- universe:<locale> -->` opens, shown ahead of the story, which is then
+ * its making-of. The preamble is not part of it; `undefined` where it says
+ * nothing.
  */
-type AsideKind = 'universe' | 'hook';
-
-/** One locale's section of `kind` alone, the preamble aside; `undefined` where it says nothing. */
-export function localeAside(
+export function localeUniverse(
   body: string,
-  kind: AsideKind,
   locale: Locale,
 ): string | undefined {
-  const section = splitSections(body).get(`${kind}:${locale}`);
+  const section = splitSections(body).get(`universe:${locale}`);
 
   return section !== undefined && says(section) ? section : undefined;
 }

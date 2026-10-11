@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Poslushayte'
     translation: 'Listen!'
-  description: 'The album’s opening, tried and retried until it was worthy of one — and the place where Maya was truly born.'
+  hook: 'The album’s opening, tried and retried until it was worthy of one — and the place where Maya was truly born.'
 ru:
-  description: 'Начало альбома, перепробованное много раз, пока не стало его достойным, — и место, где по-настоящему родилась Майя.'
+  hook: 'Начало альбома, перепробованное много раз, пока не стало его достойным, — и место, где по-настоящему родилась Майя.'
 ---
 
 <!-- lang:en -->

@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Sliz'
     translation: 'Slime'
-  description: 'A cover of Sasha’s Suno song “Slime Rolls” that kept the title and went the opposite way with it.'
+  hook: 'A cover of Sasha’s Suno song “Slime Rolls” that kept the title and went the opposite way with it.'
 ru:
-  description: 'Кавер Сашиной суновской «Slime Rolls», от которой осталось название, а всё остальное вышло наоборот.'
+  hook: 'Кавер Сашиной суновской «Slime Rolls», от которой осталось название, а всё остальное вышло наоборот.'
 ---
 
 <!-- lang:en -->

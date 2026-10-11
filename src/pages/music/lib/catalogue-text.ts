@@ -2,11 +2,15 @@ import 'server-only';
 
 import { loadProse, type ProseSource } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
-import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
+import {
+  catalogueFrontmatterSchema,
+  type MusicAlbum,
+  type MusicProject,
+} from '@/shared/music-catalogue';
 
 import { ALBUMS_SEGMENT, ARTISTS_SEGMENT } from './music-urls';
 import { MUSIC_PROJECT_SLUGS } from './projects';
-import { localeAside, localeProse } from './sections';
+import { localeProse, localeUniverse } from './sections';
 
 /** A page's prose in its two parts, either of which may be missing. */
 export type StoryParts = {
@@ -35,7 +39,7 @@ export function universeOf(
   source: ProseSource,
   locale: Locale,
 ): ProseSource | undefined {
-  return part(source, localeAside(source.body, 'universe', locale));
+  return part(source, localeUniverse(source.body, locale));
 }
 
 /**
@@ -47,17 +51,17 @@ function catalogueText(
   name: string,
   locale: Locale,
 ): CatalogueText | undefined {
-  const source = loadProse('music', name);
+  const loaded = loadProse('music', name, catalogueFrontmatterSchema);
 
-  if (!source) return undefined;
+  if (!loaded) return undefined;
 
-  const { body, markdown } = source;
+  const { frontmatter, ...source } = loaded;
 
   return {
-    markdown,
+    markdown: source.markdown,
     universe: universeOf(source, locale),
-    story: part(source, localeProse(body, locale)),
-    hook: localeAside(body, 'hook', locale),
+    story: part(source, localeProse(source.body, locale)),
+    hook: frontmatter[locale].hook,
   };
 }
 

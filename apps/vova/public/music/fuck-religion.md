@@ -11,11 +11,11 @@ explicit: true
 album: divine-discontent
 track: 4
 en:
-  description: 'What if it’s God who’s fed up with religion?'
+  hook: 'What if it’s God who’s fed up with religion?'
 ru:
   title:
     translation: 'Нахуй религию'
-  description: 'А что, если от религии тошнит самого Бога?'
+  hook: 'А что, если от религии тошнит самого Бога?'
 ---
 
 <!-- universe:en -->

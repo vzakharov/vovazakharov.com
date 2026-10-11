@@ -12,11 +12,11 @@ explicit: false
 album: divine-discontent
 track: 10
 en:
-  description: 'What is left once humanity is gone? Music — and then silence.'
+  hook: 'What is left once humanity is gone? Music — and then silence.'
 ru:
   title:
     translation: 'В конце была тишина'
-  description: 'Что остаётся, когда человечества больше нет? Музыка — а потом тишина.'
+  hook: 'Что остаётся, когда человечества больше нет? Музыка — а потом тишина.'
 ---
 
 <!-- For Vova to check: The checklist entry has no album line; Divine Discontent is taken from its Apple Music line. -->

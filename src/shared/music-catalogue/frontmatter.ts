@@ -2,7 +2,7 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import { byLocale, LOCALES } from '@/shared/i18n';
+import { byLocale, type Locale, LOCALES } from '@/shared/i18n';
 
 // The leaf rather than the barrel: `shared/content` registers this schema, so
 // entering it by its barrel would close an import cycle at module evaluation.
@@ -61,16 +61,40 @@ const titleGlossSchema = z.object({
 
 export type TitleGloss = z.infer<typeof titleGlossSchema>;
 
+/**
+ * A page's hook in one locale — a song's, an album's, an artist's: the line
+ * under its name that makes someone press play, not a summary, and the page's
+ * meta description.
+ */
+const hookedSchema = z.object({ hook: z.string().min(1).optional() });
+
+/**
+ * A hook in one locale and not the other fails the build instead of publishing
+ * a half-translated catalogue quietly.
+ */
+const HOOK_IN_EVERY_LOCALE_OR_NONE = [
+  (page: Record<Locale, z.infer<typeof hookedSchema>>) =>
+    new Set(LOCALES.map((locale) => page[locale].hook === undefined)).size ===
+    1,
+  { message: 'A hook is written in every locale or in none.' },
+] as const;
+
+/**
+ * An album's or an artist's frontmatter, above the text its page sets: a key
+ * per locale, as a song's.
+ */
+export const catalogueFrontmatterSchema = z
+  .object(byLocale(() => hookedSchema.default({})))
+  .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
+
 /** A song's strings in one locale. */
-const songTextSchema = z.object({
+const songTextSchema = hookedSchema.extend({
   /**
    * Absent where the locale keeps the song's own title, as most do. A string
    * is the name the song goes by in this locale instead — `breathe` is _Breathe_
    * and _Повелитель ветра_ — and a gloss keeps the title and explains it.
    */
   title: z.union([z.string().min(1), titleGlossSchema]).optional(),
-  /** The meta description, and the hook the page shows under the song's name. */
-  description: z.string().min(1).optional(),
   /**
    * What the crib beside the words is, in place of the stock line — whose
    * translation it is, or that the column is the original. One line of markdown.
@@ -192,19 +216,11 @@ const songFieldsSchema = baseFrontmatterSchema
  * One file per song, both languages in it: the language-agnostic half — dates,
  * masters, credits, the words — is the bigger half, so a file per locale would
  * duplicate most of it. A key per locale, absent where the locale has nothing to
- * say; a description in one locale and not the other fails the build instead of
- * publishing a half-translated catalogue quietly.
+ * say.
  */
 export const songFrontmatterSchema = songFieldsSchema
   .extend(byLocale(() => songTextSchema.default({})))
-  .refine(
-    (song) =>
-      new Set(LOCALES.map((locale) => song[locale].description === undefined))
-        .size === 1,
-    {
-      message: 'A description is written in every locale or in none.',
-    },
-  )
+  .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE)
   .refine(({ album, track }) => (album === null) === (track === undefined), {
     message:
       'A song on an album takes a track number, and a single takes none.',

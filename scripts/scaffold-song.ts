@@ -12,7 +12,7 @@
  * filename, in its FLAC header and in the source repository's own history — so
  * they are read rather than typed. What is left for the author is the prose:
  * the title, `language`, `project`, the body and, where wanted, a per-locale
- * description.
+ * hook.
  *
  * The duration comes out of the master's STREAMINFO block, fetched as the
  * first 128 KB of the file rather than the whole of it: a ten-song scaffold

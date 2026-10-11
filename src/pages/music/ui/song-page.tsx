@@ -25,7 +25,7 @@ import { listSongPages, type SongPageEntry, songTrack } from '../lib/songs';
 import { titleGloss } from '../lib/title-gloss';
 import { CoverHead } from './cover-head';
 import { ExplicitBadge } from './explicit-badge';
-import { Hook } from './hook';
+import { HookLine } from './hook-line';
 import { Lyrics } from './lyrics';
 import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
@@ -59,15 +59,12 @@ function hostedMaster(route: string, audio: string) {
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
-  const { title, description, hidden } = localizeSong(
-    document,
-    locale,
-  ).frontmatter;
+  const { title, hook, hidden } = localizeSong(document, locale).frontmatter;
 
   return constructMetadata({
     title: `${title} - ${SITE_CONFIG.name}`,
     ogTitle: listenTitle(title, locale),
-    description,
+    description: hook,
     path: songPath(slug, locale),
     ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
     ogType: 'article',
@@ -82,15 +79,8 @@ export function SongPage({ slug, locale }: SongPageProps) {
   // A hidden song's artists and album may have no public page, so its links
   // stay in the whole catalogue.
   const catalogue = { everything: !isListed(document) };
-  const {
-    title,
-    titleTransliterated,
-    description,
-    repo,
-    explicit,
-    cribNote,
-    audio,
-  } = localized.frontmatter;
+  const { title, titleTransliterated, hook, repo, explicit, cribNote, audio } =
+    localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
   const picture = songPicture(document, album);
@@ -127,7 +117,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
                 <TitleGlossLine
                   gloss={titleGloss(localized.frontmatter, locale)}
                 />
-                <Hook>{description}</Hook>
+                <HookLine>{hook}</HookLine>
                 {/* The same track a song list's row plays, so both drive one
                     queue — which a hidden song joins only once played here. */}
                 <Group mt={12} gap={8}>

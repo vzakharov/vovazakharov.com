@@ -12,11 +12,11 @@ explicit: false
 album: divine-discontent
 track: 1
 en:
-  description: 'Before God, there was nothing. Then something went off.'
+  hook: 'Before God, there was nothing. Then something went off.'
 ru:
   title:
     translation: 'В начале была тишина'
-  description: 'До Бога не было ничего. Потом что-то взорвалось.'
+  hook: 'До Бога не было ничего. Потом что-то взорвалось.'
 ---
 
 <!-- universe:en -->

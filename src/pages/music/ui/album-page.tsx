@@ -17,7 +17,7 @@ import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
-import { Hook } from './hook';
+import { HookLine } from './hook-line';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
 import { Story } from './story';
@@ -72,7 +72,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
             </NameLink>{' '}
             · {albumYears(album, songs)}
           </Text>
-          <Hook>{text?.hook}</Hook>
+          <HookLine>{text?.hook}</HookLine>
           {/* The same tracks the list below plays, so both drive one queue. */}
           <Box mt={20}>
             <AlbumPlayButton tracks={queue} />

@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Mir, kakoy on yest'
     translation: 'The World as It Is'
-  description: 'A Disney princess’s song, as I pictured it, that went onto the single and closes the album.'
+  hook: 'A Disney princess’s song, as I pictured it, that went onto the single and closes the album.'
 ru:
-  description: 'Песня диснеевской принцессы — как я её себе представлял, — вошедшая на сингл и закрывающая альбом.'
+  hook: 'Песня диснеевской принцессы — как я её себе представлял, — вошедшая на сингл и закрывающая альбом.'
 ---
 
 <!-- lang:en -->

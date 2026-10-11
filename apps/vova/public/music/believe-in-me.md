@@ -12,11 +12,11 @@ explicit: true
 album: divine-discontent
 track: 7
 en:
-  description: 'What becomes of a god people stop believing in?'
+  hook: 'What becomes of a god people stop believing in?'
 ru:
   title:
     translation: 'Верь в меня'
-  description: 'Что становится с богом, в которого перестают верить?'
+  hook: 'Что становится с богом, в которого перестают верить?'
 ---
 
 <!-- universe:en -->

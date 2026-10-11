@@ -14,9 +14,9 @@ en:
   title:
     transliteration: 'Ptichka'
     translation: 'Birdie'
-  description: 'Deathcore grown out of an iPhone alarm tone, with the photographer’s “watch the birdie” as its prelude.'
+  hook: 'Deathcore grown out of an iPhone alarm tone, with the photographer’s “watch the birdie” as its prelude.'
 ru:
-  description: 'Дэткор, выросший из айфонного будильника, с прелюдией «а сейчас вылетит птичка».'
+  hook: 'Дэткор, выросший из айфонного будильника, с прелюдией «а сейчас вылетит птичка».'
 ---
 
 <!-- lang:en -->

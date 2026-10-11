@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Reka. Chast vtoraya'
     translation: 'The River. Part Two'
-  description: 'Written as a present for a 65th birthday, with two thirds of a century counted to the day — and a last verse that is his father’s.'
+  hook: 'Written as a present for a 65th birthday, with two thirds of a century counted to the day — and a last verse that is his father’s.'
 ru:
-  description: 'Подарок на 65-летие, где «две трети века» посчитаны с точностью до дня, — и последняя строфа папина.'
+  hook: 'Подарок на 65-летие, где «две трети века» посчитаны с точностью до дня, — и последняя строфа папина.'
 ---
 
 <!-- lang:en -->

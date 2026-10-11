@@ -11,11 +11,11 @@ explicit: false
 album: divine-discontent
 track: 9
 en:
-  description: 'Fire, radiation, four horsemen — and in entropy we trust.'
+  hook: 'Fire, radiation, four horsemen — and in entropy we trust.'
 ru:
   title:
     translation: 'Гранд-финал (На энтропию уповаем)'
-  description: 'Огонь, радиация, четыре всадника — на энтропию уповаем.'
+  hook: 'Огонь, радиация, четыре всадника — на энтропию уповаем.'
 ---
 
 <!-- universe:en -->

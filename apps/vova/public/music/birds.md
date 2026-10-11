@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Ptitsy'
     translation: 'Birds'
-  description: 'Written at night on the living-room sofa: brilliant while I was writing it, drawn-out once it was done, and to my dad “the song of a departing soul.”'
+  hook: 'Written at night on the living-room sofa: brilliant while I was writing it, drawn-out once it was done, and to my dad “the song of a departing soul.”'
 ru:
-  description: 'Написана ночью на диване в зале: пока писалась — гениальная, когда дописалась — затянутая, а для папы — «песня улетающей души».'
+  hook: 'Написана ночью на диване в зале: пока писалась — гениальная, когда дописалась — затянутая, а для папы — «песня улетающей души».'
 ---
 
 <!-- lang:en -->

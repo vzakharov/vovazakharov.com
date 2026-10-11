@@ -11,11 +11,11 @@ explicit: false
 album: divine-discontent
 track: 6
 en:
-  description: 'What if God is just information?'
+  hook: 'What if God is just information?'
 ru:
   title:
     translation: 'Предельная абстракция'
-  description: 'А что, если Бог — это просто информация?'
+  hook: 'А что, если Бог — это просто информация?'
 ---
 
 <!-- For Vova to check: the words file lists this track as “22:13”, while the master is named “The Ultimate Abstraction”; the title stays as the master has it — which should the page use? The closing Church Slavonic line is marked “[repeating]” in the words file; it is set once here. -->

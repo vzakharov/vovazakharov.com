@@ -11,11 +11,11 @@ explicit: false
 album: divine-discontent
 track: 2
 en:
-  description: 'You can forge whole worlds. But who is there to show them to?'
+  hook: 'You can forge whole worlds. But who is there to show them to?'
 ru:
   title:
     translation: 'Бесконечное одиночество'
-  description: 'Можно сотворить целые миры. Но кому их показать?'
+  hook: 'Можно сотворить целые миры. Но кому их показать?'
 ---
 
 <!-- universe:en -->

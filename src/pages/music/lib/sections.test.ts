@@ -1,25 +1,25 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { localeAside, localeProse, splitStanzas } from './sections';
+import { localeProse, localeUniverse, splitStanzas } from './sections';
 
-describe('localeAside', () => {
+describe('localeUniverse', () => {
   const body = [
     'Shared',
     '<!-- universe:en -->',
     'World',
     '<!-- lang:en -->',
     'Making of',
-    '<!-- hook:en -->',
+    '<!-- universe:ru -->',
     '<!-- a note -->',
   ].join('\n');
 
   it('cuts its own section, without the preamble', () => {
-    assert.equal(localeAside(body, 'universe', 'en'), 'World');
+    assert.equal(localeUniverse(body, 'en'), 'World');
   });
 
   it('reads a section of nothing but comments as absent', () => {
-    assert.equal(localeAside(body, 'hook', 'en'), undefined);
+    assert.equal(localeUniverse(body, 'ru'), undefined);
   });
 
   it('leaves the story to the lang section alone', () => {

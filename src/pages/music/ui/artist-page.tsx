@@ -16,7 +16,7 @@ import { projectGloss, projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
-import { Hook } from './hook';
+import { HookLine } from './hook-line';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
 import { Story } from './story';
@@ -56,7 +56,7 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
             )
           }
         >
-          <Hook>{text?.hook}</Hook>
+          <HookLine>{text?.hook}</HookLine>
         </CatalogueHeader>
 
         {text && (

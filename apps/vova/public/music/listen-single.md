@@ -19,9 +19,9 @@ en:
   title:
     transliteration: 'Poslushayte (Single Version)'
     translation: 'Listen! (Single Version)'
-  description: 'One of the first generations, so good it left me in shock — and, as usual, r/pikabu crapped all over it.'
+  hook: 'One of the first generations, so good it left me in shock — and, as usual, r/pikabu crapped all over it.'
 ru:
-  description: 'Одна из первых генераций: вышло так классно, что я был в шоке, — а на r/pikabu, как водится, засрали.'
+  hook: 'Одна из первых генераций: вышло так классно, что я был в шоке, — а на r/pikabu, как водится, засрали.'
 ---
 
 <!-- lang:en -->

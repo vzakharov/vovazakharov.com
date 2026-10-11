@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Prosto tak'
     translation: 'Just Because'
-  description: 'The song a producer friend called the best on the album — with a natural, unforced carelessness, and “minus twenty in the shade.”'
+  hook: 'The song a producer friend called the best on the album — with a natural, unforced carelessness, and “minus twenty in the shade.”'
 ru:
-  description: 'Песня, которую друг-продюсер назвал лучшей на альбоме, — с естественной, не надуманной небрежностью и «в тени минус двадцать».'
+  hook: 'Песня, которую друг-продюсер назвал лучшей на альбоме, — с естественной, не надуманной небрежностью и «в тени минус двадцать».'
 ---
 
 <!-- lang:en -->

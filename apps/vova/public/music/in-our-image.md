@@ -12,11 +12,11 @@ explicit: false
 album: divine-discontent
 track: 3
 en:
-  description: 'Who made whom, and in whose image?'
+  hook: 'Who made whom, and in whose image?'
 ru:
   title:
     translation: 'По образу нашему'
-  description: 'Кто кого создал — и по чьему образу?'
+  hook: 'Кто кого создал — и по чьему образу?'
 ---
 
 <!-- For Vova to check: the words file titles this track “In Your Image” in the list and “In Your Own Image” above its words; the file keeps “In Our Image”, as the master is named — which is it? -->

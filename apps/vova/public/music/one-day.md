@@ -11,11 +11,11 @@ explicit: true
 album: divine-discontent
 track: 5
 en:
-  description: 'Even God has a breaking point.'
+  hook: 'Even God has a breaking point.'
 ru:
   title:
     translation: 'Однажды'
-  description: 'Даже у Бога кончается терпение.'
+  hook: 'Даже у Бога кончается терпение.'
 ---
 
 <!-- universe:en -->

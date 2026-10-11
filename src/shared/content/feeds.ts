@@ -94,11 +94,11 @@ export async function feedEntries({
           .filter((document) => isListed(document))
           .map(({ route, frontmatter }) => {
             // A locale's own name for the song wins; a gloss keeps the song's.
-            const { title, description } = frontmatter[locale];
+            const { title, hook } = frontmatter[locale];
 
             return {
               title: typeof title === 'string' ? title : frontmatter.title,
-              description,
+              description: hook,
               route: localizedRoute(route, locale),
               published: filedDate(frontmatter),
             };

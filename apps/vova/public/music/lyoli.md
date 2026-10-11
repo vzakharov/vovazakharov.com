@@ -15,10 +15,10 @@ credits:
 en:
   title:
     translation: 'Lyoli'
-  description: 'I was proud of it, then I stopped being proud of it — and then my dad called it a masterpiece.'
+  hook: 'I was proud of it, then I stopped being proud of it — and then my dad called it a masterpiece.'
   cribNote: 'The English is Juliet Soskice’s 1917 translation; the song sings Nekrasov’s original.'
 ru:
-  description: 'Я ею гордился, потом перестал — а потом папа назвал её шедевром.'
+  hook: 'Я ею гордился, потом перестал — а потом папа назвал её шедевром.'
 ---
 
 <!-- lang:en -->

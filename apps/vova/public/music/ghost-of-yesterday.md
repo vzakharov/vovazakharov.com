@@ -10,11 +10,11 @@ audio: https://raw.githubusercontent.com/vovas-music/ghost/main/ghost.flac
 seconds: 214
 explicit: false
 en:
-  description: 'The next-to-last song I showed my dad, and I think he understood it all.'
+  hook: 'The next-to-last song I showed my dad, and I think he understood it all.'
 ru:
   title:
     translation: 'Призрак вчерашнего дня'
-  description: 'Предпоследняя песня, которую я показал папе, — и, думаю, он всё понял.'
+  hook: 'Предпоследняя песня, которую я показал папе, — и, думаю, он всё понял.'
 ---
 
 <!-- lang:en -->

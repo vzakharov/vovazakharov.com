@@ -38,7 +38,7 @@ function song(frontmatter: string, body = '') {
   return `---\n${frontmatter}\n---\n${body}`;
 }
 
-const DESCRIBED = "en:\n  description: 'Yes.'\nru:\n  description: 'Да.'";
+const HOOKED = "en:\n  hook: 'Yes.'\nru:\n  hook: 'Да.'";
 
 const STORY = `<!-- lang:en -->\n\nTold.\n\n<!-- lang:ru -->\n\nРассказано.\n`;
 
@@ -64,10 +64,7 @@ describe('list-untold-songs', () => {
         one: song(
           "title: 'One'\nproject: ['Полуживые']\nalbum: hamlet\ntrack: 1",
         ),
-        told: song(
-          `title: 'Told'\nproject: ['GENERATED']\n${DESCRIBED}`,
-          STORY,
-        ),
+        told: song(`title: 'Told'\nproject: ['GENERATED']\n${HOOKED}`, STORY),
       }),
     );
     const order = ['## Полуживые', '### hamlet', 'One', 'Two', '### Singles'];
@@ -89,19 +86,19 @@ describe('list-untold-songs', () => {
           '<!-- lang:en -->\n\nTold.\n\n<!-- lang:ru -->\n\n<!-- a note -->\n',
         ),
         preamble: song(
-          `title: 'Preamble'\nproject: ['Полуживые']\n${DESCRIBED}`,
+          `title: 'Preamble'\nproject: ['Полуживые']\n${HOOKED}`,
           'Told to everyone.\n',
         ),
         storied: song("title: 'Storied'\nproject: ['Полуживые']", STORY),
       }),
     );
     for (const line of [
-      '- [Bare](../../apps/vova/public/music/bare.md) — description, story',
-      '- [Half](../../apps/vova/public/music/half.md) — description, ru story',
-      '- [Storied](../../apps/vova/public/music/storied.md) — description',
+      '- [Bare](../../apps/vova/public/music/bare.md) — hook, story',
+      '- [Half](../../apps/vova/public/music/half.md) — hook, ru story',
+      '- [Storied](../../apps/vova/public/music/storied.md) — hook',
     ])
       assert.ok(list.includes(line), list);
     assert.ok(!list.includes('Preamble'), list);
-    assert.match(list, /^3 songs still lack a description or a story\./m);
+    assert.match(list, /^3 songs still lack a hook or a story\./m);
   });
 });

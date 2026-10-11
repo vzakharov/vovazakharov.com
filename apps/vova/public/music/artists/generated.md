@@ -1,11 +1,9 @@
-<!-- hook:en -->
-
-Gods, machines and metalcore — what else would a band called GENERATED sing
-about?
-
-<!-- hook:ru -->
-
-Боги, машины и металкор — о чём ещё петь группе с названием GENERATED?
+---
+en:
+  hook: 'Sometimes upbeat, sometimes cerebral heavy stuff, packaged as concept albums about the eternal, the good, and the not-so-good.'
+ru:
+  hook: 'Местами бодрый, местами интеллектуальный тяжелячок в упаковке концепт-альбомов про вечное, доброе и не очень доброе.'
+---
 
 <!-- lang:en -->
 

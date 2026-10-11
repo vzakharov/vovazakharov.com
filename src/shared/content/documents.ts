@@ -27,6 +27,7 @@ import {
 import type {
   BaseFrontmatter,
   Collection,
+  FrontmatterReader,
   WithFrontmatter,
 } from './frontmatter';
 import {
@@ -150,30 +151,36 @@ function parseFileName(fileName: string): { slug: string; variant?: Variant } {
     : { slug: stem };
 }
 
-function readDocument<F extends BaseFrontmatter>(
-  { id, schema }: Collection<F>,
+/** A file's frontmatter, read by `schema`, and the body under it. */
+function readMatter<F>(
+  collection: CollectionId,
   fileName: string,
-): ContentDocument<F> {
-  const raw = fs.readFileSync(path.join(collectionDir(id), fileName), {
+  schema: FrontmatterReader<F>,
+): { frontmatter: F; content: string } {
+  const raw = fs.readFileSync(path.join(collectionDir(collection), fileName), {
     encoding: 'utf8',
   });
-  const { slug, variant } = parseFileName(fileName);
 
   // Naming the file is the whole point of the rethrow: a build failure has to
   // say which document is malformed, and neither the YAML parser nor the
   // schema knows what it was handed.
-  let frontmatter: F;
-  let content: string;
   try {
     const parsed = matter(raw);
-    frontmatter = schema.parse(parsed.data);
-    content = parsed.content;
+
+    return { frontmatter: schema.parse(parsed.data), content: parsed.content };
   } catch (error) {
     throw new Error(`Invalid frontmatter in ${fileName}`, {
       cause: error instanceof Error ? error : new Error(String(error)),
     });
   }
+}
 
+function readDocument<F extends BaseFrontmatter>(
+  { id, schema }: Collection<F>,
+  fileName: string,
+): ContentDocument<F> {
+  const { slug, variant } = parseFileName(fileName);
+  const { frontmatter, content } = readMatter(id, fileName, schema);
   const route = documentRoute(id, slug, variant);
 
   return {
@@ -250,23 +257,29 @@ export function loadDocument<F extends BaseFrontmatter>(
 }
 
 /**
- * A collection's file of prose alone — no frontmatter, so no document of its
- * own — that a page sets under the heading it writes. `name` is its path inside
- * the collection without the `.md`, which is also its page's route there.
- * `undefined` where none was written.
+ * A collection's file of prose that is not a document of its own — a page sets
+ * it under the heading it writes, and `schema` reads whatever frontmatter the
+ * page wants beside it. `name` is its path inside the collection without the
+ * `.md`, which is also its page's route there. `undefined` where none was
+ * written.
  */
-export function loadProse(
+export function loadProse<F>(
   collection: CollectionId,
   name: string,
-): ProseSource | undefined {
+  schema: FrontmatterReader<F>,
+): (ProseSource & { frontmatter: F }) | undefined {
   const fileName = `${name}.md`;
-  const filePath = path.join(collectionDir(collection), fileName);
 
-  if (!fs.existsSync(filePath)) return undefined;
+  if (!fs.existsSync(path.join(collectionDir(collection), fileName))) {
+    return undefined;
+  }
+
+  const { frontmatter, content } = readMatter(collection, fileName, schema);
 
   return {
     collection,
-    body: fs.readFileSync(filePath, { encoding: 'utf8' }),
+    frontmatter,
+    body: content,
     fileName,
     markdown: pageFile(collectionAssetUrl(collection, name), 'md'),
   };

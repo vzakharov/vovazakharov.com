@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Ne smotri'
     translation: 'Don’t Look'
-  description: 'A very free translation of My Chemical Romance’s “Cancer,” begun in the early 2010s and finally heard out loud.'
+  hook: 'A very free translation of My Chemical Romance’s “Cancer,” begun in the early 2010s and finally heard out loud.'
 ru:
-  description: 'Очень вольный перевод «Cancer» My Chemical Romance, начатый в начале десятых и наконец-то услышанный.'
+  hook: 'Очень вольный перевод «Cancer» My Chemical Romance, начатый в начале десятых и наконец-то услышанный.'
 ---
 
 <!-- lang:en -->

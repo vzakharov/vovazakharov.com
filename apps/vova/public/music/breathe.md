@@ -11,10 +11,10 @@ seconds: 293
 album: vagabond
 track: 8
 en:
-  description: 'Written in Noteflight in June 2014 as “breathe, please, just breathe,” and re-recorded ten years later as the wind under Konyukhov’s balloon.'
+  hook: 'Written in Noteflight in June 2014 as “breathe, please, just breathe,” and re-recorded ten years later as the wind under Konyukhov’s balloon.'
 ru:
   title: Повелитель ветра
-  description: 'Написано в Noteflight в июне 2014-го как «дыши, пожалуйста, только дыши», а десять лет спустя перезаписано как дыхание ветра под шаром Конюхова.'
+  hook: 'Написано в Noteflight в июне 2014-го как «дыши, пожалуйста, только дыши», а десять лет спустя перезаписано как дыхание ветра под шаром Конюхова.'
 ---
 
 <!-- lang:en -->

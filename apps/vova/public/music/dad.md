@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Papa'
     translation: 'Dad'
-  description: 'A poem by Sasha, with the father’s verse written back to it — a cross-generational, cross-species collab of the living and the dead, machine and human.'
+  hook: 'A poem by Sasha, with the father’s verse written back to it — a cross-generational, cross-species collab of the living and the dead, machine and human.'
 ru:
-  description: 'Сашины стихи и написанный в ответ папин куплет — межгенерационный и межвидовой коллаб живых и умерших, машины и человека.'
+  hook: 'Сашины стихи и написанный в ответ папин куплет — межгенерационный и межвидовой коллаб живых и умерших, машины и человека.'
 ---
 
 <!-- lang:en -->
