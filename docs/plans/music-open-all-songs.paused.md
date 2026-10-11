@@ -33,6 +33,16 @@ straight from the branch once the songs are open, ahead of the merge.
 
 ## Rest of the elephant
 
+- **Mastering without the song's own master («Птичка»).** The «На пальцы» test
+  showed Matchering gets close when it can match against the song's own Ozone
+  master; this one asks whether it does without one. «Птичка»'s mix goes through
+  `master.py` against the «На пальцы» Ozone master as a house reference, and is
+  spliced against «Птичка»'s own Ozone master the same way: five seconds each,
+  loudness-matched, neutral filename. Blind in both senses, at the operator's
+  word («в новом A/B тесте тоже неизвестен должен быть порядок»): which version
+  plays first is drawn at random, and the key goes only into a committed base64
+  file the agent does not read.
+
 - **Concept albums (ask 3).** Some albums carry an in-universe story; for those
   the album's text splits into that story, shown first, and a making-of. Waits on
   the operator's dictation for Divine Discontent, which settles whether the split
