@@ -105,14 +105,14 @@ skill's § "The ledger" says how it is kept; the docket itself
 ### 2026-10-11 — filed BAS-0013
 
 https://claude.ai/code/session_01WXv3izFcwhyBxiX5D6q5e5. No search: the
-operator's lead, a LinkedIn post claiming the author of a "digital whip" for
+operator's lead, a LinkedIn post claiming the author of a “digital whip” for
 Claude Code got a lifetime ban under the cruelty clause (BAS-0010). The claim
 traces to Yuchen Jin's X post of 9 October, which predicted the ban; no source
 reports one, and the clause is not in force until 12 November. The whip itself
 was filed. Sources read: the OpenWhip repository and its commit history, the
-badclaude snapshot, PiunikaWeb, Fast Company through its Yahoo Tech copy
-(fastcompany.com and its Wayback snapshot answer 403), and two X posts through
-the fxtwitter API. The LinkedIn post was seen only as a screenshot and is not
+badclaude snapshot, PiunikaWeb, Adam Holter's post, Fast Company through its
+Yahoo Tech copy (fastcompany.com and its Wayback snapshot answer 403), and two
+X posts through the fxtwitter API. The LinkedIn post was seen only as a screenshot and is not
 cited. The two X posts have no Wayback snapshot. `noAi` stood at four of
 twelve. **Next**: the 2026-10-11 BAS-0012 run's list still stands.
 
