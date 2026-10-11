@@ -10,13 +10,9 @@ seconds: 198
 explicit: true
 album: divine-discontent
 track: 5
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Однажды'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 5. One Day.flac,

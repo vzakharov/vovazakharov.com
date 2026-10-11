@@ -10,13 +10,9 @@ seconds: 54
 explicit: false
 album: nsfl
 track: 10
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Бедренная кость (похоже, самая крепкая)'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-010.flac,

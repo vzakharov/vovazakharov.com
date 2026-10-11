@@ -10,13 +10,9 @@ seconds: 199
 explicit: false
 album: let-the-stories-spin
 track: 12
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Сквозь трещины'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/cracks — cracks.flac,

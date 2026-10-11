@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/inside/main/inside_master_pop.flac
 seconds: 329
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Внутри'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: an English-titled song with no words, post or album to place it, so GENERATED. The title is read off the render in the repo, `Media/Inside final.wav`. Master is the checklist's guess `inside_master_pop.flac`; `inside_master.flac` is the same length (5:29). -->

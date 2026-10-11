@@ -9,13 +9,9 @@ track: 1
 audio: /music/assets/hello-human.mp3
 seconds: 77
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Здравствуй, человек'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: the date is a guess — the master is the OpenAI Jukebox render you attached (`protintro-an-6-7 r3 combined e815da08.mp3`), which carries none, so it sits in the first autumn of the Jukebox Web UI (created September 2022). -->

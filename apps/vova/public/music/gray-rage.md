@@ -10,13 +10,9 @@ seconds: 205
 explicit: false
 album: pschpthy
 track: 2
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Серая ярость'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is the checklist's guess grayrage.flac (lyrics.md matched it to the Suno «final» by length); the alternatives are grayrage_1.flac and the album repo's 2_grayrage.flac. -->

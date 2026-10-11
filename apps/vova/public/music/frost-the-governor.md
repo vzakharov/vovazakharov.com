@@ -10,16 +10,12 @@ seconds: 375
 explicit: false
 album: who-is-happy-in-russia
 track: 5
-hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
     transliteration: 'Ne veter bushuyet nad borom…'
     translation: 'It is not the wind raging over the forest…'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/rus- — 5 мороз.flac,

@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/love/master/love_master_2.flac
 seconds: 238
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Любовь (движет миром)'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master picked as `love_master_2.flac`; `love_master.flac` is the same length — check which one is on OFFstep. -->

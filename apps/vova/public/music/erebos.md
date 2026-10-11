@@ -10,13 +10,9 @@ seconds: 272
 explicit: false
 album: pschpthy
 track: 12
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Эребос'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The album entry has no album line; the album is taken from the Apple Music line. Master is the checklist's guess erebos.flac; the repo also holds erebos_reprise.flac and erebos_reprise_1.flac. -->

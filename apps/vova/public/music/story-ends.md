@@ -10,13 +10,9 @@ seconds: 118
 explicit: false
 album: let-the-stories-spin
 track: 11
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'История заканчивается'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/stories — 11 ends.flac,

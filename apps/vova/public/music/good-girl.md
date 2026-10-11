@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/gg/main/gg_master.flac
 seconds: 247
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Хорошая девочка'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: nothing names it, and the Latin-named Suno renders point to GENERATED. -->

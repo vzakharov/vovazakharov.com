@@ -10,13 +10,9 @@ seconds: 309
 explicit: false
 album: let-the-stories-spin
 track: 9
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Непрощённый IV'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is `u4_new.flac` rather than the checklist's guess `u4.flac`, because its size matches the album's `9 u4.flac` within a few kilobytes and `u4.flac` does not. The words are the album text, which ends at “I won’t get out!”; the earlier draft also had a closing chorus and a “What am I unforgiven for?” outro (with “So I dubbed thee unforgiven”) — add them back if they are sung. -->

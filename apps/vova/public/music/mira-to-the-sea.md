@@ -10,13 +10,9 @@ seconds: 236
 explicit: false
 album: let-the-stories-spin
 track: 2
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Мира уходит к морю'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/mira — mira.flac,

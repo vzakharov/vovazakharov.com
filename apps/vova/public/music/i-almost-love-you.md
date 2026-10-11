@@ -10,13 +10,9 @@ seconds: 287
 explicit: false
 album: pschpthy
 track: 6
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Я почти люблю тебя'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/almost — almost.flac,

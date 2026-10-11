@@ -11,13 +11,9 @@ seconds: 172
 explicit: false
 album: pschpthy
 track: 9
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Интермеццо'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The album's words (T07) carry none for Intermezzo, so it is set instrumental like the Overture — change it back if it has words. -->

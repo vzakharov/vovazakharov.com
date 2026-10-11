@@ -11,13 +11,9 @@ seconds: 279
 explicit: false
 album: pschpthy
 track: 11
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Танго распада'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/tango — tango.flac,

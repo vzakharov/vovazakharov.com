@@ -9,16 +9,12 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/sad/main/sad.flac
 seconds: 312
 explicit: false
-hidden: true
 credits:
   lyrics: ['Николай Заболоцкий']
 en:
   title:
     transliteration: 'Nochnoy sad'
     translation: 'Night Garden'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: a Russian song to a classic poem (Заболоцкий), which is what Полуживые mostly does. Title is from the lyrics.md heading and the Suno clip, the checklist left it blank. -->

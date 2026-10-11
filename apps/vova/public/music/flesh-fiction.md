@@ -11,13 +11,9 @@ seconds: 166
 explicit: false
 album: nsfl
 track: 13
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Плотский вымысел'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-013.flac,

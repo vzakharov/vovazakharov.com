@@ -10,13 +10,9 @@ seconds: 140
 explicit: true
 album: divine-discontent
 track: 4
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Нахуй религию'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 4. Fuck Religion.flac,

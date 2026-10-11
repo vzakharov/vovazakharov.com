@@ -11,13 +11,9 @@ seconds: 356
 explicit: false
 album: divine-discontent
 track: 10
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'В конце была тишина'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The checklist entry has no album line; Divine Discontent is taken from its Apple Music line. -->

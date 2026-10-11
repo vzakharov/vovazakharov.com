@@ -10,14 +10,10 @@ track: 2
 audio: https://raw.githubusercontent.com/vovas-music/caprice/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20%E2%80%94%20%D0%9A%D0%B0%D0%BF%D1%80%D0%B8%D1%81%20%D0%9A%D0%B0%D1%80%D0%BA%D0%B0%D1%81%D1%81%D0%B8.flac
 seconds: 214
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Kapris Karkassi'
     translation: 'Carcassi’s Caprice'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: the master's file name carries «Полуживые», and the Telegram post says the words and most of the music are Dad’s. The title drops the «Полуживые — » prefix the checklist copied from the file name. The words come from the Telegram post of 2024-11-19, with its «сиьянья» corrected to «сиянья». -->

@@ -10,14 +10,10 @@ track: 5
 audio: https://raw.githubusercontent.com/vovas-music/f-ec/main/%D0%A2%D0%B0%D0%BC.flac
 seconds: 208
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Tam'
     translation: 'There'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: it is track 2 of the `grebaniy-bal` album repo and was posted to the Грёбаный бал channel on 2025-11-07; the album has no name yet, so it is a single. -->

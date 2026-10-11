@@ -10,7 +10,6 @@ seconds: 122
 explicit: false
 album: ghosts-of-flesh
 track: 6
-hidden: true
 en:
   description: 'The title parodies People for the Ethical Treatment of Animals (PETA).'
 ru:

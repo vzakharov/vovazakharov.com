@@ -10,14 +10,10 @@ track: 2
 audio: https://raw.githubusercontent.com/vovas-music/fingers/main/%D0%9D%D0%B0%20%D0%BF%D0%B0%D0%BB%D1%8C%D1%86%D1%8B%20(EDM).flac
 seconds: 285
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Na paltsy'
     translation: 'Onto Fingers'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: the EDM version was posted to the Грёбаный бал channel on 2025-12-12. The checklist names no master: `На пальцы (EDM).flac` is the one that was posted; the alternative is `На пальцы.flac`, the same length. The title is the file name’s. -->

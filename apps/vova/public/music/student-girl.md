@@ -10,7 +10,6 @@ track: 2
 audio: https://raw.githubusercontent.com/vovas-music/studentka/main/%D0%A1%D1%82%D1%83%D0%B4%D0%B5%D0%BD%D1%82%D0%BA%D0%B0.flac
 seconds: 253
 explicit: false
-hidden: true
 credits:
   lyrics: ['Сергей Баканов']
   music: ['Сергей Баканов']
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'Studentka'
     translation: 'The Student Girl'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 8 February 2026. -->

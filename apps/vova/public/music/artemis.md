@@ -11,13 +11,9 @@ seconds: 258
 explicit: true
 album: pschpthy
 track: 10
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Артемида'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The checklist names no master: `artemis_3.flac` is the repo's latest render (2024-11-14), the alternatives being `artemis_2.flac`, `artemis_new.flac`, `artemis_new_1.flac` and `artemis_to_fix.flac`. Explicit is set from the Apple Music line in the PSCHPTHY album section. -->

@@ -10,13 +10,9 @@ seconds: 243
 explicit: false
 album: pschpthy
 track: 8
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Нормальный'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/normal — normal.flac,

@@ -10,13 +10,9 @@ track: 2
 audio: https://raw.githubusercontent.com/vovas-music/machines/main/machines.flac
 seconds: 390
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Доверься машине'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/machines — machines.flac,

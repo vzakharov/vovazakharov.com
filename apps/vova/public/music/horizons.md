@@ -10,13 +10,9 @@ seconds: 168
 explicit: false
 album: ghosts-of-flesh
 track: 10
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Горизонты'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Fields are taken from the Ghosts of Flesh entry (10. Horizons.flac), which lacks an album line; Ghosts of Flesh is taken from its Apple Music line, and the horizons entry itself is blank. Master is the checklist's guess horizons_master.flac; horizons.flac and horizons_o.flac are the alternatives. The words are the album text; the album text runs the third and fourth stanzas as prose, and they keep their verse lines here. -->

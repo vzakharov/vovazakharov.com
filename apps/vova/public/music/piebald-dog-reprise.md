@@ -10,7 +10,6 @@ seconds: 323
 explicit: false
 album: father-river
 track: 8
-hidden: true
 credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'Pegiy pyos (Repriza)'
     translation: 'Piebald Dog (Reprise)'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/papa-reka — 8_pes_reprise.flac,

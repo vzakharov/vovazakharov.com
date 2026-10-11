@@ -12,14 +12,11 @@ seconds: 286
 explicit: false
 album: vagabond
 track: 9
-hidden: true
 en:
   title:
     translation: 'Holy Is the Purpose'
-  description: 'TBD'
 ru:
   title: 'Предназначение'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: the choir's one line is the whole of the words, so the song is filed as sung in Russian rather than as an instrumental. -->

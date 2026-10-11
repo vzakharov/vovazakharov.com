@@ -10,16 +10,12 @@ seconds: 212
 explicit: false
 album: father-river
 track: 7
-hidden: true
 credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
     transliteration: 'Reka. Chast tretya'
     translation: 'The River. Part Three'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is otter.flac as the checklist names it; the repository also holds siminor.flac. -->

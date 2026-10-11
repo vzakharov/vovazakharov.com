@@ -11,13 +11,9 @@ seconds: 252
 explicit: false
 album: divine-discontent
 track: 1
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'В начале была тишина'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 1. In the Beginning, There Was Silence.flac,

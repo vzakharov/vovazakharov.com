@@ -10,13 +10,9 @@ seconds: 243
 explicit: false
 album: let-the-stories-spin
 track: 7
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Светлячки'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/stories — 7 fireflies.flac,

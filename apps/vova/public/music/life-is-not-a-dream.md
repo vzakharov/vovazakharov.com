@@ -10,15 +10,11 @@ seconds: 194
 explicit: false
 album: ctfu
 track: 9
-hidden: true
 credits:
   lyrics: ['Charlotte Brontë']
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Жизнь, поверь, не сон…'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/bronte — bronte.flac,

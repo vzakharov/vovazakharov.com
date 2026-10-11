@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/ok-loser/main/ok%20loser.flac
 seconds: 206
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Окей, лузер'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/ok-loser — ok loser.flac,

@@ -10,13 +10,9 @@ seconds: 240
 explicit: false
 album: divine-discontent
 track: 9
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Гранд-финал (На энтропию уповаем)'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 9. Grand Finale (In Entropy We Trust).flac,

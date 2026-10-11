@@ -10,13 +10,9 @@ seconds: 238
 explicit: false
 album: divine-discontent
 track: 6
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Предельная абстракция'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: the words file lists this track as “22:13”, while the master is named “The Ultimate Abstraction”; the title stays as the master has it — which should the page use? The closing Church Slavonic line is marked “[repeating]” in the words file; it is set once here. -->

@@ -10,13 +10,9 @@ seconds: 53
 explicit: false
 album: nsfl
 track: 5
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Смерть-фейспалм'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-005.flac,

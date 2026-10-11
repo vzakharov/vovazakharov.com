@@ -10,16 +10,12 @@ seconds: 273
 explicit: false
 album: who-is-happy-in-russia
 track: 8
-hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
     transliteration: 'Ne toropi'
     translation: 'Do Not Hurry'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/rus- — 8 не торопи.flac,

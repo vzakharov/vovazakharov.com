@@ -10,13 +10,9 @@ seconds: 243
 explicit: false
 album: divine-discontent
 track: 2
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Бесконечное одиночество'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 2. Infinite Solitude.flac,

@@ -10,7 +10,6 @@ track: 1
 audio: https://raw.githubusercontent.com/vovas-music/hamlet/main/hamlet_short-001.flac
 seconds: 244
 explicit: false
-hidden: true
 credits:
   lyrics:
     - 'William Shakespeare'
@@ -21,10 +20,8 @@ en:
   title:
     transliteration: 'Gamlet'
     translation: 'Hamlet'
-  description: 'TBD'
   cribNote: 'The English is Shakespeare’s original. The song sings it in Russian, the “stricken deer” quatrain twice: Boris Pasternak’s translation, then Mikhail Lozinsky’s as reworked for the film _Pokrovsky Gates_ and reworked once more for the song.'
 ru:
-  description: 'TBD'
   cribNote: 'Английский текст — оригинал Шекспира.'
 ---
 

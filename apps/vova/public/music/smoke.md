@@ -9,16 +9,12 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/dym/main/dym_master_new.flac
 seconds: 188
 explicit: false
-hidden: true
 credits:
   lyrics: ['Vova Zakharov', 'Zoltan Zakharov']
 en:
   title:
     transliteration: 'Dym'
     translation: 'Smoke'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: a Russian song from 2024, before Грёбаный бал existed, so Полуживые. The title is the repo's Suno render, `Media/Дым.wav`; the project also holds a render called «Зажглись, но не для нас» — a line of the song («Огни зажглись, но не для нас») — which may be its real title. The repo also has `dym_extended.flac` and `dym_extended_mix.flac` at the same length and a shorter `dym_short.flac`. -->

@@ -10,13 +10,9 @@ seconds: 214
 explicit: false
 album: ctfu
 track: 6
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Каждый понедельник'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/monday_doo — monday_doo.flac,

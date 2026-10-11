@@ -10,13 +10,9 @@ seconds: 218
 explicit: true
 album: ctfu
 track: 8
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Панк-рок-песня (в 40)'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/prs — prs40.flac,

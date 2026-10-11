@@ -10,13 +10,9 @@ seconds: 265
 explicit: false
 album: ghosts-of-flesh
 track: 1
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Во плоти'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/ghosts-of-flesh — 1. In the Flesh.flac,

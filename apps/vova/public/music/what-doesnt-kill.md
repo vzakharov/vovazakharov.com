@@ -10,13 +10,9 @@ seconds: 220
 explicit: false
 album: let-the-stories-spin
 track: 8
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Что не убивает'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/wdk — wdk.flac,

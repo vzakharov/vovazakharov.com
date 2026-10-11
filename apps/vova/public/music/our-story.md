@@ -23,37 +23,26 @@ ru:
 
 <!-- lang:en -->
 
-“Our Story” was probably the first song where I, well, really fully discovered
-that you can write not just, say, one chorus, or a verse, a chorus and that’s
-it — I saw clearly that you can write a whole song.
+“Our Story” was probably the first song where I realized you could write not
+just one chorus, or a verse and a chorus, but a whole song.
 
-I cut it together — that is, it’s not as if Suno generated the whole thing; right
-around then, I think, it had gained the ability to continue: you’d generate a
-minute or two, and after that you could carry on. Before that there was nothing
-of the kind. You could just make a minute and that was it, or two minutes.
-
-Now it was there, so this song, first, was written with continuations, and
-second, I then also pulled out the drums in some places and the guitar in
-others, and combined it all. Not very heavily, but anyway, when I finished it, it
-felt like that was it — the future had arrived.
+Right around then, Suno learned to continue: before, you generated a minute or
+two and that was it, and now you could keep going. I put this song together from
+continuations, and here and there I also pulled out the drums and the guitar, a
+little, and combined them. When I finished it, it felt like that was it — the
+future had arrived.
 
 Well, it really had.
 
 <!-- lang:ru -->
 
-«Наша история» — это, пожалуй, была первая песня, в которой я, ну, прям
-полностью раскрыл, что не просто можно написать там припев один или там куплет,
-припев и всё, а я увидел прямо, что можно написать целую песню.
+«Наша история» — пожалуй, первая песня, на которой я понял, что можно написать
+не один припев или куплет с припевом, а целую песню.
 
-Я её нарезал, то есть это не прям как всё сгенерила Суно, — как раз вроде к тому
-времени там появилась возможность продолжать, то есть ты минуту там или две
-минуты сгенерировал, можешь после этого продолжать. До этого вообще такого не
-было. Ты мог просто сделать там минуту — и всё, или две минуты.
-
-Она появилась, поэтому эта песня уже, во-первых, с продолжениями была написана,
-а во-вторых, я потом ещё где-то там вычленял барабан, где-то вычленял гитару, всё
-это совмещал. Не очень сильно, но, в общем, когда я её дописал, мне показалось,
-что всё, будущее наступило.
+Как раз тогда Суно научилась продолжать: раньше генерировалась минута-две, и
+всё, а теперь можно было идти дальше. Эту песню я собрал из продолжений, а
+кое-где ещё понемногу вычленял и совмещал барабан и гитару. Когда я её дописал,
+мне показалось: всё, будущее наступило.
 
 Ну, оно и правда наступило.
 

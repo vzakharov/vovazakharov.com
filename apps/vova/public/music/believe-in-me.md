@@ -11,13 +11,9 @@ seconds: 274
 explicit: true
 album: divine-discontent
 track: 7
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Верь в меня'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 7. Believe In Me.flac,

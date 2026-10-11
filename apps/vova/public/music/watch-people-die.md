@@ -10,13 +10,9 @@ seconds: 65
 explicit: false
 album: nsfl
 track: 6
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Смотреть, как умирают люди'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-006.flac,

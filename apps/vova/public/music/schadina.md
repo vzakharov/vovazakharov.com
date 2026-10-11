@@ -9,15 +9,12 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/zhadina/main/zhadina.flac
 seconds: 209
 explicit: false
-hidden: true
 en:
   title:
     translation: 'Greedyguts'
-  description: 'TBD'
 ru:
   title:
     translation: 'Жадина'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess with little behind it: made the same minute as `utro` in March 2026, Грёбаный бал's period. Its Suno source is «Zhadina (Cover)», so say whose song it covers if it is not yours. Master is `zhadina.flac` (3:29); the repo also has `zhadina_short.flac` (0:41). -->

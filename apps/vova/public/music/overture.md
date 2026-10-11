@@ -11,13 +11,9 @@ seconds: 53
 explicit: false
 album: pschpthy
 track: 1
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Увертюра'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/psch_album — 1_overture.flac,

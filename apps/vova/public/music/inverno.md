@@ -11,17 +11,14 @@ seconds: 383
 explicit: false
 album: vagabond
 track: 3
-hidden: true
 credits:
   music: ['Vova Zakharov', 'Antonio Vivaldi']
 en:
   title:
     translation: 'Winter'
-  description: 'TBD'
 ru:
   title:
     translation: 'Зима'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; the checklist left the language blank. -->

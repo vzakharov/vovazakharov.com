@@ -9,16 +9,12 @@ track: 7
 audio: /music/assets/ghostly-blues.mp3
 seconds: 177
 explicit: false
-hidden: true
 credits:
   music: ['Андрей Мокрушин']
 en:
   title:
     transliteration: 'Prizrachnyy blyuz'
     translation: 'Ghostly Blues'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: the date is a placeholder, the day the master reached the site — the file you attached (`Призрачный блюз.mp3`) carries none; when was the song made? -->

@@ -10,7 +10,6 @@ track: 3
 audio: https://raw.githubusercontent.com/vovas-music/bezm/main/%D0%92%20%D0%B1%D0%B5%D0%B7%D0%BC%D0%B5%D1%80%D0%BD%D0%BE%D1%81%D1%82%D0%B8%20%D0%BD%D0%B5%D0%B1%D0%B5%D1%81.flac
 seconds: 253
 explicit: false
-hidden: true
 credits:
   lyrics: ['Omar Khayyam', 'Игорь Голубев', 'Vladimir Zakharov Sr.']
   music: [Vladimir Zakharov Sr.]
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'V bezmernosti nebes'
     translation: 'In the Boundless Skies'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- The verses are Golubev's rubai No. 89 and No. 95 per fantlab.ru/edition252823; the chorus is in no Golubev contents list and nowhere online, so it is credited to Dad. -->

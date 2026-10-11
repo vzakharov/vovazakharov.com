@@ -10,13 +10,9 @@ track: 6
 audio: https://raw.githubusercontent.com/vovas-music/hcyl/main/how_could_you_leave.flac
 seconds: 229
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Как ты мог уйти'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: an English-titled song with no other trace, so GENERATED. The title is the master's file name and the repo's Suno render, `Media/How Could You Leave.wav`. Russian needs a gender the English leaves open: the crib and the title translation say «ты мог» (the one who left, masculine) and «я не готов» (the singer, masculine) — say if either should be feminine. -->

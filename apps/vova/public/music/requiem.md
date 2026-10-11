@@ -10,16 +10,12 @@ seconds: 308
 explicit: false
 album: five-romances
 track: 7
-hidden: true
 credits:
   lyrics: ['Марина Цветаева']
 en:
   title:
     transliteration: 'Uzh skolko ikh upalo v etu bezdnu…'
     translation: 'How many have already fallen into this abyss…'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The master is a guess: requiem_louder.flac, requiem_new.flac and requiem_pop.flac are all the same length as requiem_master.flac. -->

@@ -10,7 +10,6 @@ seconds: 232
 explicit: false
 album: father-river
 track: 3
-hidden: true
 credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'Moy Sultan'
     translation: 'My Sultan'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- lang:en -->

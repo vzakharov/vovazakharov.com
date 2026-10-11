@@ -10,17 +10,13 @@ seconds: 324
 explicit: false
 album: who-is-happy-in-russia
 track: 4
-hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
     transliteration: 'Golodnaya'
     translation: 'The Hungry One'
-  description: 'TBD'
   cribNote: 'The English is Juliet Soskice’s 1917 translation; the song sings Nekrasov’s original.'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/golodnaa — голодная_1.flac,

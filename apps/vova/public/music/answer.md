@@ -10,16 +10,12 @@ seconds: 291
 explicit: false
 album: who-is-happy-in-russia
 track: 3
-hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
     transliteration: 'Otvet'
     translation: 'The Answer'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The otvet repository's checklist entry names no master (it holds ответ_1.flac and ответ_2.flac), so this file uses the album's 3 ответ.flac with repo rus-; pick one of otvet's files if either is the master. -->

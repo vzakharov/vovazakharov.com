@@ -10,13 +10,9 @@ seconds: 251
 explicit: false
 album: ghosts-of-flesh
 track: 5
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Живые'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/alive — alive_master.flac,

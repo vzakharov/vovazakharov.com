@@ -9,16 +9,13 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/babay/main/babay_master.flac
 seconds: 168
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Minem babay'
     translation: 'My Grandpa'
-  description: 'TBD'
 ru:
   title:
     translation: 'Мой дедушка'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/babay — babay_master.flac,

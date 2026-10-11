@@ -9,17 +9,13 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/s74/main/%D0%A2%D1%8B%20%D0%BD%D0%B5%20%D1%82%D0%B5%D1%80%D0%B7%D0%B0%D0%B9%D1%81%D1%8F%20%D0%B8%20%D0%BA%D0%BE%D0%B3%D0%B4%D0%B0%20%D0%B7%D0%B0%20%D0%BC%D0%BD%D0%BE%D0%B9.flac
 seconds: 237
 explicit: false
-hidden: true
 credits:
   lyrics: ['William Shakespeare']
 en:
   title:
     transliteration: 'Ty ne terzaysya…'
     translation: 'Do not torment yourself…'
-  description: 'TBD'
   cribNote: 'The English is Shakespeare’s original, Sonnet 74; the song sings Kushner’s translation.'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: Shakespeare’s sonnet 74 set by Dad and reworked with a female voice, billed like `is-it-your-fault`, the sonnet on the Дамы и господа album with Полуживые featured; posted to Dad’s channel rather than to an album. Vova’s story names the translator only as Kushner, so `credits.lyrics` names Shakespeare alone — give the full name to add. -->

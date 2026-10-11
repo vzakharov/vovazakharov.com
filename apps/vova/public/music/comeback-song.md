@@ -10,13 +10,9 @@ seconds: 209
 explicit: false
 album: ignite
 track: 1
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Песня-камбэк (Вот вам бэнгер)'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/comeback — comeback.flac,

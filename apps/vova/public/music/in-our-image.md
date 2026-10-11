@@ -11,13 +11,9 @@ seconds: 261
 explicit: false
 album: divine-discontent
 track: 3
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'По образу нашему'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: the words file titles this track “In Your Image” in the list and “In Your Own Image” above its words; the file keeps “In Our Image”, as the master is named — which is it? -->

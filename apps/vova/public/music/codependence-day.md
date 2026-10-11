@@ -10,13 +10,9 @@ seconds: 277
 explicit: false
 album: ghosts-of-flesh
 track: 3
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'День созависимости'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/ghosts-of-flesh — 3. Codependence Day.flac,

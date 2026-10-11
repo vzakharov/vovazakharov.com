@@ -10,13 +10,9 @@ seconds: 38
 explicit: false
 album: nsfl
 track: 4
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Парковка на месте для инвалидов'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-004.flac,

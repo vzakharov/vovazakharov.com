@@ -10,13 +10,9 @@ seconds: 245
 explicit: false
 album: let-the-stories-spin
 track: 6
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Развоплощённые'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/undone — undone.flac,

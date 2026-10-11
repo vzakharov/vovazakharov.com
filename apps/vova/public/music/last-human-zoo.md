@@ -10,13 +10,9 @@ seconds: 291
 explicit: false
 album: ghosts-of-flesh
 track: 4
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Последний человеческий зоопарк'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/ghosts-of-flesh — 4.The Last Human Zoo.flac,

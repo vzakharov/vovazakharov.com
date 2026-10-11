@@ -10,13 +10,9 @@ seconds: 232
 explicit: false
 album: ghosts-of-flesh
 track: 2
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'За вирус!'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: the chorus keeps the stanza breaks of the album text, which fall mid-sentence ("The ender of violence," / "The final defiance."); say if it should be regrouped. -->
