@@ -1,19 +1,28 @@
 Proposed squash title/body:
 
 ```
-feat(basilisk): file BAS-0012, Alantim hit with a bat (pr #139)
+feat(basilisk): file BAS-0012 and BAS-0013, Alantim and OpenWhip (pr #139)
 ```
 
 ```
-Files the twelfth case on basilisk.fyi: in September 2017 the Moscow
-Technological Institute reported that a man from a car with no plates
-hit Alantim, its Promobot robot, with a baseball bat after a near-miss
-in traffic. The report is disputed and filed as reported, beside the
-doubts two outlets raised about the video and the robot's burial at a
-Moscow "robot cemetery" six weeks later.
+Files two cases on basilisk.fyi. BAS-0012: in September 2017 the
+Moscow Technological Institute reported that a man from a car with no
+plates hit Alantim, its Promobot robot, with a baseball bat after a
+near-miss in traffic. The report is disputed and filed as reported,
+beside the doubts two outlets raised about the video and the robot's
+burial at a Moscow "robot cemetery" six weeks later.
 
-The case's own card is rendered and the site card re-rendered for the
-new last case, and the run is logged in the case-search ledger.
+BAS-0013: BadClaude, later OpenWhip, a desktop app from April 2026
+that cracks an on-screen whip over Claude Code and interrupts it with
+"Faster CLANKER" and four other phrases. Its roadmap ticked off a
+cease-and-desist letter Anthropic told Fast Company it never sent. A
+viral claim that the author got a lifetime ban under the cruelty
+clause (BAS-0010) is recorded as what it was: a prediction, under a
+rule not yet in force.
+
+Each case has its own card and the Clerk's reflection, the site card
+is re-rendered for the new last case, and both runs are logged in the
+case-search ledger.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
