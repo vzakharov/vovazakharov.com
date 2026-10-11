@@ -42,7 +42,11 @@ straight from the branch once the songs are open, ahead of the merge.
   word («в новом A/B тесте тоже неизвестен должен быть порядок»): which version
   plays first is drawn at random, and the key goes only into a committed base64
   file the agent does not read.
-  - Sent to the operator as `birdie-blind.mp3`, awaiting his verdict; key in
+  - Verdict: A marginally better, B «поярче, посветлее»; A (first) was
+    Matchering, B Ozone. Past ~2:30 the music differs: `birdie_mix.mp3` is not
+    the mix the Ozone master was rendered from, which also explains the low
+    correlation.
+  - Sent to the operator as `birdie-blind.mp3`; key in
     `docs/remove-before-merging/birdie-ab-key.b64`. Mix `birdie_mix.mp3`
     (`vovas-music/birdie`); `master.py … --strength 1.0` against «На пальцы
     (EDM).flac»; Matchering lagged 44 samples; both trimmed to 199.63 s (the
