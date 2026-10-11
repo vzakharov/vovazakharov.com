@@ -298,7 +298,7 @@
 .tileArtless {
   --tile-from: oklch(90% 0.06 var(--tile-hue));
   --tile-to: oklch(80% 0.1 calc(var(--tile-hue) + 50));
-  --tile-grey: 70%;
+  --tile-grey: 60%;
 
   background: linear-gradient(
     135deg,
