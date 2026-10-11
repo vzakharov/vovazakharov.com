@@ -7,21 +7,18 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-11T12:23:07Z
-- **Updated:** 2026-10-11T18:54:41Z
+- **Updated:** 2026-10-11T18:56:26Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 45
+## Awaiting an answer: 40
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 20c268a). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at dc7217d). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T17:38:39Z — "давай это во фронтматтер, и тогда у существующих всех других…" → [↓](#t01)
-- **T02** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T17:39:10Z — "давай что-то типа "Что, если богу поднадоест его любимое соз…" → [↓](#t02)
 - **T03** `apps/vova/public/music/albums/divine-discontent.md`:20 — unresolved — last: @vzakharov (human) 2026-10-11T17:39:53Z — "Нет, in-universe должно быть более литературно написано -- н…" → [↓](#t03)
 - **T04** `apps/vova/public/music/albums/divine-discontent.md`:40 — unresolved — last: @vzakharov (human) 2026-10-11T17:40:19Z — "Слишком разговорно (нужно будет по всем пройтись)" → [↓](#t04)
-- **T05** `apps/vova/public/music/artists/generated.md`:8 — unresolved — last: @vzakharov (human) 2026-10-11T17:42:23Z — "ну много о чём, на самом деле :) Давай так, "Местами бодрый,…" → [↓](#t05)
 - **T06** `apps/vova/public/music/artists/generated.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T17:43:24Z — "Right away звучит как вытекающее из того что GENERATED было…" → [↓](#t06)
 - **T07** `apps/vova/public/music/artists/generated.md`:29 — unresolved — last: @vzakharov (human) 2026-10-11T17:44:20Z — "давай это пока оставим только в заметке, а тут напишем что-т…" → [↓](#t07)
 - **T08** `apps/vova/public/music/300000-years.md`:28 — unresolved — last: @vzakharov (human) 2026-10-11T17:52:46Z — "здесь опять разговорнина, плюс см. моё замечание в сессии (с…" → [↓](#t08)
@@ -35,8 +32,6 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T16** `apps/vova/public/music/infinite-solitude.md`:71 — unresolved — last: @vzakharov (human) 2026-10-11T18:05:26Z — "это вообще не сюда. повторюсь, общая заметка -- НЕ для внесе…" → [↓](#t16)
 - **T17** `apps/vova/public/music/infinite-solitude.md`:61 — unresolved — last: @vzakharov (human) 2026-10-11T18:06:03Z — "Обложка второстепенна, можно упомянуть мельком. И про "Это д…" → [↓](#t17)
 - **T18** `apps/vova/public/music/one-day.md`:33 — unresolved — last: @vzakharov (human) 2026-10-11T18:06:42Z — "про Break Stuff и так видно из genius-заметок" → [↓](#t18)
-- **T19** `src/pages/music/ui/catalogue-prose.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:07:48Z — "почему удалили? оно ж делилось между артистом и альбомом?" → [↓](#t19)
-- **T20** `src/pages/music/ui/hook-line.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:08:03Z — "слишком общее название, особенно с учётом react hooks" → [↓](#t20)
 - **T21** `.claude/costs/sessions/2026-10/19f849d0-fcbf-5d33-9e25-a4dfbc892fc6.json`:20 — unresolved — last: @vzakharov (human) 2026-10-11T18:09:38Z — "давай добавим кастомную для этой репы роль artist. Разумеетс…" → [↓](#t21)
 - **T22** `.claude/rules/reflections.md`:15 — unresolved — last: @vzakharov (human) 2026-10-11T18:11:33Z — ""as clean as practically possible", не то чтобы оно совсем c…" → [↓](#t22)
 - **T23** `.claude/voice/operators/vzakharov.md`:16 — unresolved — last: @vzakharov (human) 2026-10-11T18:13:10Z — "я бы не сказал что это место для operators. пока можно остав…" → [↓](#t23)
@@ -158,11 +153,11 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T17:38:39Z — "давай это во фронтматтер, и тогда у существующих всех других…" → [↓](#t01)
-- **T02** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T17:39:10Z — "давай что-то типа "Что, если богу поднадоест его любимое соз…" → [↓](#t02)
+- **T01** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:36Z — "Сделал: `hook` во фронтматтере у альбомов и артистов (`en: {…" → [↓](#t01)
+- **T02** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:37Z — "Взял дословно: «Что, если богу поднадоест его любимое создан…" → [↓](#t02)
 - **T03** `apps/vova/public/music/albums/divine-discontent.md`:20 — unresolved — last: @vzakharov (human) 2026-10-11T17:39:53Z — "Нет, in-universe должно быть более литературно написано -- н…" → [↓](#t03)
 - **T04** `apps/vova/public/music/albums/divine-discontent.md`:40 — unresolved — last: @vzakharov (human) 2026-10-11T17:40:19Z — "Слишком разговорно (нужно будет по всем пройтись)" → [↓](#t04)
-- **T05** `apps/vova/public/music/artists/generated.md`:8 — unresolved — last: @vzakharov (human) 2026-10-11T17:42:23Z — "ну много о чём, на самом деле :) Давай так, "Местами бодрый,…" → [↓](#t05)
+- **T05** `apps/vova/public/music/artists/generated.md`:8 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:39Z — "Взял твою фразу (убрал только запятую перед «и»), по-английс…" → [↓](#t05)
 - **T06** `apps/vova/public/music/artists/generated.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T17:43:24Z — "Right away звучит как вытекающее из того что GENERATED было…" → [↓](#t06)
 - **T07** `apps/vova/public/music/artists/generated.md`:29 — unresolved — last: @vzakharov (human) 2026-10-11T17:44:20Z — "давай это пока оставим только в заметке, а тут напишем что-т…" → [↓](#t07)
 - **T08** `apps/vova/public/music/300000-years.md`:28 — unresolved — last: @vzakharov (human) 2026-10-11T17:52:46Z — "здесь опять разговорнина, плюс см. моё замечание в сессии (с…" → [↓](#t08)
@@ -176,8 +171,8 @@ _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T16** `apps/vova/public/music/infinite-solitude.md`:71 — unresolved — last: @vzakharov (human) 2026-10-11T18:05:26Z — "это вообще не сюда. повторюсь, общая заметка -- НЕ для внесе…" → [↓](#t16)
 - **T17** `apps/vova/public/music/infinite-solitude.md`:61 — unresolved — last: @vzakharov (human) 2026-10-11T18:06:03Z — "Обложка второстепенна, можно упомянуть мельком. И про "Это д…" → [↓](#t17)
 - **T18** `apps/vova/public/music/one-day.md`:33 — unresolved — last: @vzakharov (human) 2026-10-11T18:06:42Z — "про Break Stuff и так видно из genius-заметок" → [↓](#t18)
-- **T19** `src/pages/music/ui/catalogue-prose.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:07:48Z — "почему удалили? оно ж делилось между артистом и альбомом?" → [↓](#t19)
-- **T20** `src/pages/music/ui/hook-line.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:08:03Z — "слишком общее название, особенно с учётом react hooks" → [↓](#t20)
+- **T19** `src/pages/music/ui/catalogue-prose.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:41Z — "Оно и сейчас общее, только под другим именем: `story.tsx` (`…" → [↓](#t19)
+- **T20** `src/pages/music/ui/hook-line.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:42Z — "Переименовал в `hook-line.tsx` / `HookLine` — 1ef4e48." → [↓](#t20)
 - **T21** `.claude/costs/sessions/2026-10/19f849d0-fcbf-5d33-9e25-a4dfbc892fc6.json`:20 — unresolved — last: @vzakharov (human) 2026-10-11T18:09:38Z — "давай добавим кастомную для этой репы роль artist. Разумеетс…" → [↓](#t21)
 - **T22** `.claude/rules/reflections.md`:15 — unresolved — last: @vzakharov (human) 2026-10-11T18:11:33Z — ""as clean as practically possible", не то чтобы оно совсем c…" → [↓](#t22)
 - **T23** `.claude/voice/operators/vzakharov.md`:16 — unresolved — last: @vzakharov (human) 2026-10-11T18:13:10Z — "я бы не сказал что это место для operators. пока можно остав…" → [↓](#t23)
@@ -223,6 +218,10 @@ _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 давай это во фронтматтер, и тогда у существующих всех других песен тоже нужно заменить description на hook (в смысле не просто название ключа, но и подход. То как сейчас сделал -- ок, в частностях буду комментировать отдельно.
 
+**@vzakharov (agent)** — 2026-10-11T18:55:36Z
+
+Сделал: `hook` во фронтматтере у альбомов и артистов (`en: { hook }`, `ru: { hook }`, схема `catalogueFrontmatterSchema`), а у песен ключ `description` стал `hook` во всех 34 файлах — 1ef4e48. Подход (хук, а не пересказ) записан в `.claude/rules/songs.md`; сами хуки остальных 24 песен переписываются следующим коммитом. Заодно хук альбома/артиста стал их meta description, где он есть.
+
 ---
 
 <a id="t02"></a>
@@ -241,6 +240,10 @@ _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 **@vzakharov (human)** — 2026-10-11T17:39:10Z
 
 давай что-то типа "Что, если богу поднадоест его любимое создание?"
+
+**@vzakharov (agent)** — 2026-10-11T18:55:37Z
+
+Взял дословно: «Что, если богу поднадоест его любимое создание?», по-английски “What if God grows tired of his favorite creation?” — 1ef4e48.
 
 ---
 
@@ -312,6 +315,10 @@ _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 ну много о чём, на самом деле :)
 
 Давай так, "Местами бодрый, местами интеллектуальный тяжелячок в упаковке концепт-альбомов про вечное, доброе, и не очень доброе."
+
+**@vzakharov (agent)** — 2026-10-11T18:55:39Z
+
+Взял твою фразу (убрал только запятую перед «и»), по-английски “Sometimes upbeat, sometimes cerebral heavy stuff, packaged as concept albums about the eternal, the good, and the not-so-good.” — 1ef4e48.
 
 ---
 
@@ -620,6 +627,10 @@ Right away звучит как вытекающее из того что GENERAT
 
 почему удалили? оно ж делилось между артистом и альбомом?
 
+**@vzakharov (agent)** — 2026-10-11T18:55:41Z
+
+Оно и сейчас общее, только под другим именем: `story.tsx` (`Story`) заменил `CatalogueProse` и рендерит текст и альбома, и артиста, и песни — мир, потом «Как это делалось», под тем же «…». Два компонента делали бы одно и то же, поэтому старый удалён (a67fc23).
+
 ---
 
 <a id="t20"></a>
@@ -629,6 +640,10 @@ Right away звучит как вытекающее из того что GENERAT
 **@vzakharov (human)** — 2026-10-11T18:08:03Z
 
 слишком общее название, особенно с учётом react hooks
+
+**@vzakharov (agent)** — 2026-10-11T18:55:42Z
+
+Переименовал в `hook-line.tsx` / `HookLine` — 1ef4e48.
 
 ---
 
