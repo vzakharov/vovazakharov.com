@@ -1,16 +1,9 @@
 'use client';
 
 import { ActionIcon, Box, Group, Text, UnstyledButton } from '@mantine/core';
-import {
-  LocateFixed,
-  Pause,
-  Play,
-  Shuffle,
-  SkipBack,
-  SkipForward,
-} from 'lucide-react';
+import { Pause, Play, Shuffle, SkipBack, SkipForward } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useEffectEvent } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
@@ -24,31 +17,39 @@ import { usePlayer } from './player-provider';
 import { SongName } from './song-name';
 
 /**
- * Whether the bar keeps the reader on the playing song's page: switched on, it
- * opens that page, and opens the next one each time the track changes. Leaving
- * the page by hand does not switch it off, so the next track brings them back;
- * nor does a reload, the switch being remembered.
+ * Keeps the reader on the playing song's page: while following, it opens that
+ * page, and opens the next one each time the track changes. Following starts
+ * on, a navigation of the reader's own away from the page switches it off, and
+ * the returned `resume` switches it back on.
  */
 function useFollow(route: string | undefined) {
   const router = useRouter();
   const pathname = usePathname();
-  const [following, setFollowing] = useStoredFlag('follow');
+  const [following, setFollowing] = useState(true);
+  const [seen, setSeen] = useState(pathname);
 
-  // An event rather than a dependency: a navigation of the reader's own must
-  // not count as a track change and send them straight back.
+  // Set during render rather than in an effect, so the push below never runs
+  // against a switch the navigation has already made stale.
+  if (pathname !== seen) {
+    setSeen(pathname);
+    if (route !== undefined && pathname !== route) setFollowing(false);
+  }
+
+  // An event rather than a dependency: only a track change opens a page, and
+  // the title `resume` sits on is itself a link to the one it would open.
   const open = useEffectEvent((to: string) => {
-    if (pathname !== to) router.push(to);
+    if (following && pathname !== to) router.push(to);
   });
 
   useEffect(() => {
-    if (following && route !== undefined) open(route);
-  }, [following, route]);
+    if (route !== undefined) open(route);
+  }, [route]);
 
-  const toggle = () => {
-    setFollowing(!following);
+  const resume = () => {
+    setFollowing(true);
   };
 
-  return [following, toggle] as const;
+  return resume;
 }
 
 /** The control strip, pinned to the foot of every page under `/music`. */
@@ -65,7 +66,7 @@ export function PlayerBar() {
     shuffle,
     seek,
   } = usePlayer();
-  const [following, toggleFollow] = useFollow(current?.routes[locale]);
+  const resumeFollow = useFollow(current?.routes[locale]);
   // The right-hand readout: the track's length, or what is left of it.
   const [remaining, setRemaining] = useStoredFlag('remaining');
 
@@ -122,25 +123,12 @@ export function PlayerBar() {
         >
           <Shuffle size={18} />
         </ActionIcon>
-
-        <ActionIcon
-          variant="default"
-          size="lg"
-          radius="xl"
-          className={cx(following && classes['controlOn'])}
-          onClick={toggleFollow}
-          aria-label={labels.follow}
-          aria-pressed={following}
-          title={labels.followHint}
-        >
-          <LocateFixed size={18} />
-        </ActionIcon>
       </Group>
 
       <Box className={classes['playerTrack']}>
         <Text size="sm" component="div">
           <Marquee key={`${slug}/${locale}`}>
-            <NameLink href={routes[locale]}>
+            <NameLink href={routes[locale]} onClick={resumeFollow}>
               <SongName {...titles[locale]} />
             </NameLink>
             <Text component="span" inherit opacity={0.6}>

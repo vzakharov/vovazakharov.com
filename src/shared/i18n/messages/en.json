@@ -264,6 +264,8 @@
       "artist": "Artist",
       "album": "Album"
     },
+    "ogTitle": "Listen to {name} by Vova",
+    "ogTitleIndex": "Listen to Vova’s music",
     "artistDescription": "{artist}: the songs and albums, to play right here — all of it open-source.",
     "albumDescription": "“{album}” by {artist}: the tracks, to play right here — all of it open-source.",
     "albumLength": {
@@ -320,8 +322,6 @@
       "pause": "Pause",
       "next": "Next track",
       "shuffle": "Shuffle",
-      "follow": "Follow the playing song",
-      "followHint": "Open each song’s page as it starts playing",
       "seek": "Seek",
       "timeToggle": "Switch between the song’s length and the time left"
     }

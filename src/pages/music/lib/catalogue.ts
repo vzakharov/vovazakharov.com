@@ -105,6 +105,23 @@ export function catalogueArtists(
 /** What an artist put out: an album, or a song on none, which is its own release. */
 export type ArtistRelease = { album: MusicAlbum } | { single: SongDocument };
 
+/** Every album and single in this catalogue, newest first. */
+export function catalogueReleases(
+  songs: readonly SongDocument[],
+): ArtistRelease[] {
+  const released = (release: ArtistRelease) =>
+    'album' in release
+      ? albumDate(release.album, songs)
+      : release.single.frontmatter.date.getTime();
+
+  return [
+    ...newestAlbums(songs).map((album) => ({ album })),
+    ...songs
+      .filter(({ frontmatter }) => frontmatter.album === null)
+      .map((single) => ({ single })),
+  ].toSorted((a, b) => released(b) - released(a));
+}
+
 /**
  * The artist's albums and singles together, newest first. A single is a song
  * the artist leads rather than features on, so it is listed once, under whoever
@@ -115,18 +132,18 @@ export function artistReleases(
   locale: Locale,
   songs: readonly SongDocument[],
 ): ArtistRelease[] {
-  const released = (release: ArtistRelease) =>
-    'album' in release
-      ? albumDate(release.album, songs)
-      : release.single.frontmatter.date.getTime();
+  return catalogueReleases(songs).filter((release) =>
+    releasedBy(release, artist, locale),
+  );
+}
 
-  return [
-    ...artistAlbums(artist, locale, songs).map((album) => ({ album })),
-    ...songs
-      .filter(
-        ({ frontmatter }) =>
-          frontmatter.album === null && frontmatter.project[0] === artist,
-      )
-      .map((single) => ({ single })),
-  ].toSorted((a, b) => released(b) - released(a));
+/** Whether the release is the artist's as one language credits it. */
+export function releasedBy(
+  release: ArtistRelease,
+  artist: MusicProject,
+  locale: Locale,
+): boolean {
+  return 'album' in release
+    ? albumArtist(release.album, locale) === artist
+    : release.single.frontmatter.project[0] === artist;
 }
