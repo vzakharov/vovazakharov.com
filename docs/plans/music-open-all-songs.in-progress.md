@@ -45,6 +45,11 @@ straight from the branch once the songs are open, ahead of the merge.
   («религия» as the notion; «ИИ-песни»). Previewed on the built export.
   A Bible reference in rendered prose is written `1\:26`: `remark-directive`
   reads `:26` as a directive otherwise.
+- **The operator's read of Divine Discontent.** Prototypes (album) and
+  Poluzhivye (artist) have `.md` files of their own; tracks 6 and 10's margin
+  notes are their making-of, the world keeping only what happens in it (now a
+  line in `.claude/rules/songs.md`); Infinite Solitude keeps «к этому вернусь
+  потом». `/polish` ran over the whole branch.
 
 ## Rest of the elephant
 
@@ -57,11 +62,6 @@ straight from the branch once the songs are open, ahead of the merge.
 
 ## Rest of the bite
 
-- `/polish` over everything since the plan commit — the previous bite and this
-  one — not yet run.
 - After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
-- The operator's read of the new stories and hooks; open points to raise:
-  Prototypes and Poluzhivye are linked from `artists/generated.md` but have no
-  `.md` of their own (the pages exist; the raw links 404 on GitHub);
-  Infinite Solitude's making-of drops his «к этому вернусь потом»; tracks 6 and
-  10 have no making-of (the dictation gives none).
+- Майя's reflections on the ten tracks, and the spectrograms they are read
+  from — in progress.
