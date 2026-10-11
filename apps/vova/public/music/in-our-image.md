@@ -98,6 +98,8 @@ Dai sogni umani, la forma che prendo.
 Nel tuo credo, il mio cammino.
 Nel quadro, il pittore, un cerchio divino
 
+<!-- voice: male; the last line Майя -->
+
 [Alla nostra immagine][^nostra-en], riflessi vedo,
 Dai sogni umani, la forma che prendo.
 Nel tuo credo, il mio cammino.

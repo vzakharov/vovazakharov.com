@@ -93,6 +93,8 @@ The purpose and the cause,
 Shaping the universe.
 x2
 
+<!-- voice: Кирилл -->
+
 Азъ есмь Алфа и Омега, начатокъ и конецъ, Первый и Послѣднiй.[^alpha-en]
 
 [^alpha-en]: Church Slavonic: “I am Alpha and Omega, the beginning and the end, the first and the last” (Revelation 22:13).
