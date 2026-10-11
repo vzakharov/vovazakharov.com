@@ -151,13 +151,17 @@ function parseFileName(fileName: string): { slug: string; variant?: Variant } {
     : { slug: stem };
 }
 
+function collectionFile(collection: CollectionId, fileName: string): string {
+  return path.join(collectionDir(collection), fileName);
+}
+
 /** A file's frontmatter, read by `schema`, and the body under it. */
 function readMatter<F>(
   collection: CollectionId,
   fileName: string,
   schema: FrontmatterReader<F>,
 ): { frontmatter: F; content: string } {
-  const raw = fs.readFileSync(path.join(collectionDir(collection), fileName), {
+  const raw = fs.readFileSync(collectionFile(collection, fileName), {
     encoding: 'utf8',
   });
 
@@ -165,9 +169,9 @@ function readMatter<F>(
   // say which document is malformed, and neither the YAML parser nor the
   // schema knows what it was handed.
   try {
-    const parsed = matter(raw);
+    const { data, content } = matter(raw);
 
-    return { frontmatter: schema.parse(parsed.data), content: parsed.content };
+    return { frontmatter: schema.parse(data), content };
   } catch (error) {
     throw new Error(`Invalid frontmatter in ${fileName}`, {
       cause: error instanceof Error ? error : new Error(String(error)),
@@ -249,9 +253,7 @@ export function loadDocument<F extends BaseFrontmatter>(
   variant?: Variant,
 ): ContentDocument<F> | undefined {
   const fileName = `${documentName(slug, variant)}.md`;
-  const filePath = path.join(collectionDir(collection.id), fileName);
-
-  return fs.existsSync(filePath)
+  return fs.existsSync(collectionFile(collection.id, fileName))
     ? readDocument(collection, fileName)
     : undefined;
 }
@@ -270,9 +272,7 @@ export function loadProse<F>(
 ): (ProseSource & { frontmatter: F }) | undefined {
   const fileName = `${name}.md`;
 
-  if (!fs.existsSync(path.join(collectionDir(collection), fileName))) {
-    return undefined;
-  }
+  if (!fs.existsSync(collectionFile(collection, fileName))) return undefined;
 
   const { frontmatter, content } = readMatter(collection, fileName, schema);
 
@@ -292,7 +292,7 @@ export function siblingVariants(
 ): Variant[] {
   return VARIANTS.filter((variant) =>
     fs.existsSync(
-      path.join(collectionDir(collection), `${documentName(slug, variant)}.md`),
+      collectionFile(collection, `${documentName(slug, variant)}.md`),
     ),
   );
 }

@@ -56,12 +56,14 @@ function catalogueText(
   if (!loaded) return undefined;
 
   const { frontmatter, ...source } = loaded;
+  const { body, markdown } = source;
+  const { hook } = frontmatter[locale];
 
   return {
-    markdown: source.markdown,
+    markdown,
     universe: universeOf(source, locale),
-    story: part(source, localeProse(source.body, locale)),
-    hook: frontmatter[locale].hook,
+    story: part(source, localeProse(body, locale)),
+    hook,
   };
 }
 
