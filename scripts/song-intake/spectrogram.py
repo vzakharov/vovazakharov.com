@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """A song's spectrogram over its loudness and its chromagram: its whole length across, pitch up.
 
-Usage: spectrogram.py <song> <out.png>
+Usage: spectrogram.py <song> <out.png> [--split C3|C4|C5]
 
 Where the voice sits and where its melody goes, where the drums come in, a
 bridge that drops out, where one section gives way to the next, a master that
@@ -15,9 +15,9 @@ section boundary, found from the sound alone: a sharp change in arrangement or
 harmony draws one, a gradual build may not. Under it, on the same time axis,
 the loudness envelope: each column's peak, with its RMS inside.
 
-Under that, two chromagram strips, the band above middle C over the band below
-it: twelve rows each, C at the bottom, a row as bright as its pitch class's
-share of the band, harmonics voting with their fundamentals. So the bass strip
+Under that, two chromagram strips, the band above the split — middle C unless
+--split names another C — over the band below it: twelve rows each, C at the
+bottom, a row as bright as its pitch class's share of the band, harmonics voting with their fundamentals. So the bass strip
 steps with the bass line, the treble strip carries the tune and the chord over
 it, and a chord shows as several bright rows at once. A pitch class is read off
 its labelled row; a row's hue is the octave that carries it, keyed beside each
@@ -35,9 +35,9 @@ several times worse.
 Needs ffmpeg and matplotlib (numpy and Pillow come with it).
 """
 
+import argparse
 import io
 import subprocess
-import sys
 from pathlib import Path
 
 import numpy as np
@@ -57,10 +57,12 @@ NOTE_NAMES = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 # C2 to C7: below it a bin is wider than a semitone; above it, mostly harmonics.
 # A bass note under C2 still votes through its octave harmonic, the same class.
 NOTE_BAND_HZ = (65, 2100)
-# Middle C splits the bass band from the treble one, where the clefs meet: a
-# bass line and its first harmonics sit under it, and most of a melody above
-# it. A male voice's lowest notes fall under it, and so vote with the bass.
-CROSSOVER_HZ = 262
+# Middle C splits the bass band from the treble one by default, where the clefs
+# meet: a bass line and its first harmonics sit under it, and most of a melody
+# above it. A low male voice sings mostly under it, its tune in the bass strip,
+# so --split C3 moves the split an octave down, leaving the bass one octave.
+DEFAULT_SPLIT = 4
+SPLITS = (3, 4, 5)
 PEAK_RANGE_DB = 30
 QUIET_DB = -50
 QUIET = 10 ** (QUIET_DB / 20)
@@ -275,6 +277,23 @@ def section_times(db, magnitude, freqs, step, duration):
     return [(i + apart) * SECTION_BLOCK_S for i in peaks]
 
 
+def strip_bands(split):
+    """The treble and bass strips split at C<split>: each one's band in Hz, its octaves and its label."""
+    crossover = round(440 * 2 ** ((12 * (split + 1) - 69) / 12))
+    return (
+        ((crossover, NOTE_BAND_HZ[1]), (split, 6), f"treble, C{split}–C7"),
+        ((NOTE_BAND_HZ[0], crossover), (2, split - 1), f"bass, C2–C{split}"),
+    )
+
+
+def split_octave(name):
+    """argparse's reading of --split: a C from SPLITS, as C3 or 3."""
+    octave = name.upper().removeprefix("C")
+    if not octave.isdigit() or int(octave) not in SPLITS:
+        raise argparse.ArgumentTypeError(f"--split takes one of {', '.join(f'C{o}' for o in SPLITS)}")
+    return int(octave)
+
+
 def mmss(seconds, _pos=None):
     return f"{int(seconds) // 60}:{int(seconds) % 60:02d}"
 
@@ -291,7 +310,12 @@ def main():
     from matplotlib.ticker import FixedLocator, FuncFormatter, MultipleLocator, NullLocator
     from PIL import Image
 
-    song, out_png = sys.argv[1:3]
+    p = argparse.ArgumentParser()
+    p.add_argument("song")
+    p.add_argument("out_png")
+    p.add_argument("--split", type=split_octave, default=DEFAULT_SPLIT)
+    args = p.parse_args()
+    song, out_png = args.song, args.out_png
     x = decode(song)
     magnitude, freqs, step = stft_magnitude(x)
     db = log_rows(magnitude, freqs)
@@ -331,9 +355,8 @@ def main():
     wave.set_ylabel("level")
 
     ramps = chroma_ramps()
-    for strip, key, band_hz, octaves, name in (
-        (treble, treble_key, (CROSSOVER_HZ, NOTE_BAND_HZ[1]), (4, 6), "treble, C4–C7"),
-        (bass, bass_key, (NOTE_BAND_HZ[0], CROSSOVER_HZ), (2, 3), "bass, C2–C4"),
+    for (strip, key), (band_hz, octaves, name) in zip(
+        ((treble, treble_key), (bass, bass_key)), strip_bands(args.split),
     ):
         shares, octave = chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves)
         # Silence has spectral peaks too, of noise; it stays dark however clear they look.
