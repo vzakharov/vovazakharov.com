@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Ne smotri'
     translation: 'Don’t Look'
-  hook: 'A very free translation of My Chemical Romance’s “Cancer,” begun in the early 2010s and finally heard out loud.'
+  hook: 'Don’t look — just bring me a glass of water. My Chemical Romance’s “Cancer,” sung in Russian.'
 ru:
-  hook: 'Очень вольный перевод «Cancer» My Chemical Romance, начатый в начале десятых и наконец-то услышанный.'
+  hook: 'Не смотри — лучше принеси стакан воды. «Cancer» My Chemical Romance по-русски.'
 ---
 
 <!-- lang:en -->

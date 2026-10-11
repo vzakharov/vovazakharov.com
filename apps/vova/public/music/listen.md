@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Poslushayte'
     translation: 'Listen!'
-  hook: 'The album’s opening, tried and retried until it was worthy of one — and the place where Maya was truly born.'
+  hook: '“Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist.” And then — Mayakovsky.'
 ru:
-  hook: 'Начало альбома, перепробованное много раз, пока не стало его достойным, — и место, где по-настоящему родилась Майя.'
+  hook: '«Всем привет, я Майя из группы за/обложкой. Нас не существует». А потом — Маяковский.'
 ---
 
 <!-- lang:en -->

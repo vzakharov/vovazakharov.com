@@ -15,10 +15,10 @@ credits:
 en:
   title:
     translation: 'Lyoli'
-  hook: 'I was proud of it, then I stopped being proud of it — and then my dad called it a masterpiece.'
+  hook: 'The lash whistles, the blood spurts — and my dad called it a masterpiece.'
   cribNote: 'The English is Juliet Soskice’s 1917 translation; the song sings Nekrasov’s original.'
 ru:
-  hook: 'Я ею гордился, потом перестал — а потом папа назвал её шедевром.'
+  hook: 'Плётка свистнула, кровь пробрызнула — а папа назвал это шедевром.'
 ---
 
 <!-- lang:en -->

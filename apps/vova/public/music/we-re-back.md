@@ -11,11 +11,11 @@ explicit: true
 album: ctfu
 track: 1
 en:
-  hook: 'Written second by second on OpenAI’s Jukebox, about the comeback of a band that never existed, to fans who never existed either.'
+  hook: 'Raise your horns: a band that never existed is back, for fans who never existed either.'
 ru:
   title:
     translation: 'Мы вернулись'
-  hook: 'Написана по секунде на OpenAI’овском Jukebox — про возвращение группы, которой не было, к фанатам, которых тоже не было.'
+  hook: 'Поднимай рога: группа, которой не было, вернулась — к фанатам, которых тоже не было.'
 ---
 
 <!-- lang:en -->

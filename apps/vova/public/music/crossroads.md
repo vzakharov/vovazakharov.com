@@ -10,11 +10,11 @@ seconds: 194
 album: ctfu
 track: 4
 en:
-  hook: 'Punk-metalcore written on the road out of Tatarstan, and left unfinished until the ending and the too-AI words were fixed.'
+  hook: 'Left or right unknown, the fog of doubt overhead — and the best is yet to come.'
 ru:
   title:
     translation: 'Перекрёсток'
-  hook: 'Панк-металкор, написанный в дороге из Татарии, и долго лежавший из-за концовки и слишком «ИИшных» слов.'
+  hook: 'Налево или направо — неизвестно, над головой туман сомнений, а лучшее ещё впереди.'
 ---
 
 <!-- lang:en -->

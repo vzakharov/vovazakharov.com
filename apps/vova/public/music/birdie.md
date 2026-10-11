@@ -14,9 +14,9 @@ en:
   title:
     transliteration: 'Ptichka'
     translation: 'Birdie'
-  hook: 'Deathcore grown out of an iPhone alarm tone, with the photographer’s “watch the birdie” as its prelude.'
+  hook: 'It started as an iPhone alarm called “Birdie.” It ended as deathcore.'
 ru:
-  hook: 'Дэткор, выросший из айфонного будильника, с прелюдией «а сейчас вылетит птичка».'
+  hook: 'Начиналось с будильника на айфоне под названием «Птичка». Закончилось дэткором.'
 ---
 
 <!-- lang:en -->

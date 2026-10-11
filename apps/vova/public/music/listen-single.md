@@ -19,9 +19,9 @@ en:
   title:
     transliteration: 'Poslushayte (Single Version)'
     translation: 'Listen! (Single Version)'
-  hook: 'One of the first generations, so good it left me in shock — and, as usual, r/pikabu crapped all over it.'
+  hook: 'If the stars are lit, does that mean somebody needs them? The crowd on r/pikabu decided nobody did.'
 ru:
-  hook: 'Одна из первых генераций: вышло так классно, что я был в шоке, — а на r/pikabu, как водится, засрали.'
+  hook: 'Если звёзды зажигают — значит, это кому-нибудь нужно? На r/pikabu решили, что никому.'
 ---
 
 <!-- lang:en -->

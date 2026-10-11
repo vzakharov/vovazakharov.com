@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Prosto tak'
     translation: 'Just Because'
-  hook: 'The song a producer friend called the best on the album — with a natural, unforced carelessness, and “minus twenty in the shade.”'
+  hook: 'Frostbitten fingers, minus twenty in the shade — and kissing just because.'
 ru:
-  hook: 'Песня, которую друг-продюсер назвал лучшей на альбоме, — с естественной, не надуманной небрежностью и «в тени минус двадцать».'
+  hook: 'Пальцы отморожены, в тени минус двадцать — а мы целуемся просто так.'
 ---
 
 <!-- lang:en -->

@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Ptitsy'
     translation: 'Birds'
-  hook: 'Written at night on the living-room sofa: brilliant while I was writing it, drawn-out once it was done, and to my dad “the song of a departing soul.”'
+  hook: 'Birds, where are you flying? Dad heard in it “the song of a departing soul.”'
 ru:
-  hook: 'Написана ночью на диване в зале: пока писалась — гениальная, когда дописалась — затянутая, а для папы — «песня улетающей души».'
+  hook: 'Птицы, куда вы летите? Папе в ней послышалась «песня улетающей души».'
 ---
 
 <!-- lang:en -->

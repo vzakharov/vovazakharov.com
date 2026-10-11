@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Sliz'
     translation: 'Slime'
-  hook: 'A cover of Sasha’s Suno song “Slime Rolls” that kept the title and went the opposite way with it.'
+  hook: '“There are no stars here, only sweet slime.” A cover of Sasha’s cheerful song that crawled off somewhere else entirely.'
 ru:
-  hook: 'Кавер Сашиной суновской «Slime Rolls», от которой осталось название, а всё остальное вышло наоборот.'
+  hook: '«Здесь нету звёзд, только сладкая слизь». Кавер на Сашину жизнерадостную песню, который уполз совсем в другую сторону.'
 ---
 
 <!-- lang:en -->

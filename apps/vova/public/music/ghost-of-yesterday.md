@@ -10,11 +10,11 @@ audio: https://raw.githubusercontent.com/vovas-music/ghost/main/ghost.flac
 seconds: 214
 explicit: false
 en:
-  hook: 'The next-to-last song I showed my dad, and I think he understood it all.'
+  hook: '“Magnificent. I’m sitting here crying.” Dad’s answer to the next-to-last song I showed him.'
 ru:
   title:
     translation: 'Призрак вчерашнего дня'
-  hook: 'Предпоследняя песня, которую я показал папе, — и, думаю, он всё понял.'
+  hook: '«Великолепно. Сижу и плачу». Папин ответ на предпоследнюю песню, которую я ему показал.'
 ---
 
 <!-- lang:en -->

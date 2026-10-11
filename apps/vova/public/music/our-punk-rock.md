@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Nash pank-rok'
     translation: 'Our Punk Rock'
-  hook: 'One of the first songs Syama learned by heart and always asked to have on, when he was a little over three.'
+  hook: 'It’s gonna be cringe, it’s gonna be a shock — and the song three-year-old Syama kept asking for.'
 ru:
-  hook: 'Одна из первых песен, которую Сяма запомнил и всегда просил ставить, — в три с небольшим.'
+  hook: 'Это будет кринж, это будет шок — и песня, которую трёхлетний Сяма просил ставить снова и снова.'
 ---
 
 <!-- lang:en -->

@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Prosti'
     translation: 'Sorry'
-  hook: 'Inspired, strangely enough, by Bad Religion: something both pop and punk, but not pop-punk.'
+  hook: 'Forgive me, I’m not yours anymore. It was summer, near Kolomna.'
 ru:
-  hook: 'Вдохновлено, как ни странно, Bad Religion: и попса, и панк, но не поп-панк.'
+  hook: 'Прости меня, я больше не твоя. Это было летом, под Коломной.'
 ---
 
 <!-- lang:en -->

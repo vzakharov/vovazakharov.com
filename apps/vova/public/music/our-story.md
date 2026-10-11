@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Nasha istoriya'
     translation: 'Our Story'
-  hook: 'The first whole song, built from Suno’s brand-new continuations with the drums and guitar cut in by hand — after which the future had arrived.'
+  hook: 'Read me from cover to cover. The first whole song — and after it, the future had arrived.'
 ru:
-  hook: 'Первая целая песня — из только что появившихся в Суно продолжений, с вычлененными и совмещёнными барабаном и гитарой, — после которой будущее наступило.'
+  hook: 'Прочти меня от края до края. Первая целая песня — и после неё будущее наступило.'
 ---
 
 <!-- lang:en -->

@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Zdravstvuy'
     translation: 'Hello'
-  hook: 'A duet I was very proud of, with two voices in the chorus and a powerful instrumental post-chorus — and nothing close to it in spirit came of trying to remix it later.'
+  hook: 'Hello — is it light, or only a mirage? Two voices meet in the chorus and build castles on the sand.'
 ru:
-  hook: 'Дуэт, которым я очень гордился, — с двухголосьем в припеве и мощным инструментальным пост-корусом; ничего близкого по духу потом из него так и не вышло.'
+  hook: 'Здравствуй — это свет или лишь мираж? Два голоса сходятся в припеве и строят замки на песке.'
 ---
 
 <!-- lang:en -->

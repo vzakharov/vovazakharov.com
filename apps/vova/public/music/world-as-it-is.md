@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Mir, kakoy on yest'
     translation: 'The World as It Is'
-  hook: 'A Disney princess’s song, as I pictured it, that went onto the single and closes the album.'
+  hook: 'Come closer to the fire. Close your eyes. A Disney princess, singing the world as it is.'
 ru:
-  hook: 'Песня диснеевской принцессы — как я её себе представлял, — вошедшая на сингл и закрывающая альбом.'
+  hook: 'Подойди к огню поближе. Закрой глаза. Диснеевская принцесса поёт о мире, какой он есть.'
 ---
 
 <!-- lang:en -->
