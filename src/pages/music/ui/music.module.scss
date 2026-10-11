@@ -293,20 +293,30 @@
 // A release without art gets a gradient in its place, of the release's own hue
 // (`--tile-hue`, from `tileHue`): the tiles differ in colour and nothing else,
 // light in the light scheme and dark in the dark, so the name set over it reads
-// in the text colour.
+// in the text colour. Mixed with the surface colour a tile with no art would
+// otherwise take, so a placeholder stays quieter than a real cover.
 .tileArtless {
+  --tile-from: oklch(90% 0.06 var(--tile-hue));
+  --tile-to: oklch(80% 0.1 calc(var(--tile-hue) + 50));
+  --tile-grey: 60%;
+
   background: linear-gradient(
     135deg,
-    oklch(90% 0.06 var(--tile-hue)),
-    oklch(80% 0.1 calc(var(--tile-hue) + 50))
+    color-mix(
+      in oklch,
+      var(--tile-from),
+      var(--color-surface-strong) var(--tile-grey)
+    ),
+    color-mix(
+      in oklch,
+      var(--tile-to),
+      var(--color-surface-strong) var(--tile-grey)
+    )
   );
 
   @include mantine.dark {
-    background: linear-gradient(
-      135deg,
-      oklch(40% 0.08 var(--tile-hue)),
-      oklch(28% 0.1 calc(var(--tile-hue) + 50))
-    );
+    --tile-from: oklch(40% 0.08 var(--tile-hue));
+    --tile-to: oklch(28% 0.1 calc(var(--tile-hue) + 50));
   }
 }
 
