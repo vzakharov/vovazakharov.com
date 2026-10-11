@@ -1,0 +1,88 @@
+{
+  "estimate": {
+    "at": "2026-10-11T07:28:37.360Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "Tracing a viral claim back through a repost, an X post and a GitHub repo to its source, and weighing it against the docket's bar, takes an analyst who knows how to verify sources"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "6286e5bf-55b2-5323-86e3-6d963f14ec02",
+  "branch": "claude/cases-2c4urr",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/cases-2c4urr пжст профактчекь и посмотри стоит ли внести",
+  "prs": [
+    139
+  ],
+  "url": "https://claude.ai/code/session_01WXv3izFcwhyBxiX5D6q5e5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-11T07:27:16.707Z",
+  "lastResponseAt": "2026-10-11T07:28:48.152Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 81348,
+    "cacheReadTokens": 1481391,
+    "outputTokens": 5928,
+    "thinkingTokens": 1612,
+    "responses": 14,
+    "costUsd": 1.0657341999999999
+  },
+  "ownTurns": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 81348,
+    "cacheReadTokens": 1481391,
+    "outputTokens": 5928,
+    "thinkingTokens": 1612,
+    "responses": 14,
+    "costUsd": 1.0657341999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 81348,
+      "cacheReadTokens": 1481391,
+      "outputTokens": 5928,
+      "thinkingTokens": 1612,
+      "responses": 14,
+      "costUsd": 1.0657341999999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-11T07:28:48.152Z",
+    "contextTokens": 124721,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 80960,
+      "cacheReadTokens": 1357060,
+      "outputTokens": 4371,
+      "thinkingTokens": 1539,
+      "responses": 13,
+      "costUsd": 1.006616
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
