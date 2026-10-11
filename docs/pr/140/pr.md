@@ -7,56 +7,47 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-11T12:23:07Z
-- **Updated:** 2026-10-11T18:56:26Z
+- **Updated:** 2026-10-11T20:05:55Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 40
+## Awaiting an answer: 31
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at dc7217d). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at a3b4b90). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T03** `apps/vova/public/music/albums/divine-discontent.md`:20 — unresolved — last: @vzakharov (human) 2026-10-11T17:39:53Z — "Нет, in-universe должно быть более литературно написано -- н…" → [↓](#t03)
-- **T04** `apps/vova/public/music/albums/divine-discontent.md`:40 — unresolved — last: @vzakharov (human) 2026-10-11T17:40:19Z — "Слишком разговорно (нужно будет по всем пройтись)" → [↓](#t04)
-- **T06** `apps/vova/public/music/artists/generated.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T17:43:24Z — "Right away звучит как вытекающее из того что GENERATED было…" → [↓](#t06)
-- **T07** `apps/vova/public/music/artists/generated.md`:29 — unresolved — last: @vzakharov (human) 2026-10-11T17:44:20Z — "давай это пока оставим только в заметке, а тут напишем что-т…" → [↓](#t07)
-- **T08** `apps/vova/public/music/300000-years.md`:28 — unresolved — last: @vzakharov (human) 2026-10-11T17:52:46Z — "здесь опять разговорнина, плюс см. моё замечание в сессии (с…" → [↓](#t08)
-- **T09** `apps/vova/public/music/fuck-religion.md`:41 — unresolved — last: @vzakharov (human) 2026-10-11T17:55:38Z — "фразы вроде "let's say" не нужно оставлять" → [↓](#t09)
-- **T10** `apps/vova/public/music/grand-finale.md`:23 — unresolved — last: @vzakharov (human) 2026-10-11T17:57:47Z — "> the four horsemen, all that jazz. кажется что так забавно…" → [↓](#t10)
-- **T11** `apps/vova/public/music/grand-finale.md`:24 — unresolved — last: @vzakharov (human) 2026-10-11T17:58:33Z — "> in entropy we trust, and to entropy we, quite expectedly,…" → [↓](#t11)
-- **T12** `apps/vova/public/music/in-our-image.md`:45 — unresolved — last: @vzakharov (human) 2026-10-11T18:01:48Z — "как иллюстрация того что неправильно разделено между in-univ…" → [↓](#t12)
-- **T13** `apps/vova/public/music/in-the-beginning.md`:30 — unresolved — last: @vzakharov (human) 2026-10-11T18:03:08Z — "а вот тут первый абзац -- как раз *хороший* пример того что…" → [↓](#t13)
-- **T14** `apps/vova/public/music/in-the-end.md`:37 — unresolved — last: @vzakharov (human) 2026-10-11T18:03:38Z — "> осталась только тишина. Но ещё звучит музыка противоречие…" → [↓](#t14)
-- **T15** `apps/vova/public/music/infinite-solitude.md`:27 — unresolved — last: @vzakharov (human) 2026-10-11T18:04:54Z — "с чего она начинается и так видно. in-universe должно быть п…" → [↓](#t15)
-- **T16** `apps/vova/public/music/infinite-solitude.md`:71 — unresolved — last: @vzakharov (human) 2026-10-11T18:05:26Z — "это вообще не сюда. повторюсь, общая заметка -- НЕ для внесе…" → [↓](#t16)
-- **T17** `apps/vova/public/music/infinite-solitude.md`:61 — unresolved — last: @vzakharov (human) 2026-10-11T18:06:03Z — "Обложка второстепенна, можно упомянуть мельком. И про "Это д…" → [↓](#t17)
-- **T18** `apps/vova/public/music/one-day.md`:33 — unresolved — last: @vzakharov (human) 2026-10-11T18:06:42Z — "про Break Stuff и так видно из genius-заметок" → [↓](#t18)
-- **T21** `.claude/costs/sessions/2026-10/19f849d0-fcbf-5d33-9e25-a4dfbc892fc6.json`:20 — unresolved — last: @vzakharov (human) 2026-10-11T18:09:38Z — "давай добавим кастомную для этой репы роль artist. Разумеетс…" → [↓](#t21)
-- **T22** `.claude/rules/reflections.md`:15 — unresolved — last: @vzakharov (human) 2026-10-11T18:11:33Z — ""as clean as practically possible", не то чтобы оно совсем c…" → [↓](#t22)
-- **T23** `.claude/voice/operators/vzakharov.md`:16 — unresolved — last: @vzakharov (human) 2026-10-11T18:13:10Z — "я бы не сказал что это место для operators. пока можно остав…" → [↓](#t23)
-- **T24** `apps/vova/public/music/albums/prototypes.md`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:14:48Z — "паралелльная задача: сейачс Trust the Machine *включает в се…" → [↓](#t24)
-- **T25** `apps/vova/public/music/albums/prototypes.md`:10 — unresolved — last: @vzakharov (human) 2026-10-11T18:16:21Z — "наверное "про взаимодействие машины и человека" слишком общо…" → [↓](#t25)
-- **T26** `apps/vova/public/music/artists/poluzhivye.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:17:02Z — "> папы. Что в общем-то не меняет задумки. (или как-то так. с…" → [↓](#t26)
-- **T27** `apps/vova/public/music/300000-years.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:19:23Z — "там как будто недопевается "you" после "remember", намеренно" → [↓](#t27)
-- **T28** `apps/vova/public/music/300000-years.reflections.md`:13 — unresolved — last: @vzakharov (human) 2026-10-11T18:21:20Z — "О, и забыл про конец. Там звук открывающейся, потом захлопыв…" → [↓](#t28)
-- **T29** `apps/vova/public/music/believe-in-me.reflections.md`:5 — unresolved — last: @vzakharov (human) 2026-10-11T18:22:10Z — "забыл сказать, что это отсылка к "I'm a big big girl in a bi…" → [↓](#t29)
-- **T30** `apps/vova/public/music/believe-in-me.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T18:23:42Z — "тут технический вопрос: голос низкий, поэтому, кажется, мело…" → [↓](#t30)
-- **T31** `apps/vova/public/music/assets/spectrograms/in-our-image.png`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:24:21Z — "забыл сказать, последняя строчка -- "Nel quadro, il pittore,…" → [↓](#t31)
-- **T32** `apps/vova/public/music/believe-in-me.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:25:23Z — "проговорилась, да :) я не против" → [↓](#t32)
-- **T33** `apps/vova/public/music/in-the-beginning.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:28:37Z — "это артефакты распознавания, там должно быть просто ``` My D…" → [↓](#t33)
-- **T34** `apps/vova/public/music/grand-finale.reflections.md`:5 — unresolved — last: @vzakharov (human) 2026-10-11T18:30:37Z — "если интересно, тут полный текст предыдущей [grand-finale-ol…" → [↓](#t34)
-- **T35** `apps/vova/public/music/grand-finale.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T18:30:58Z — "надо добавить подсказку, кстати" → [↓](#t35)
-- **T36** `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:31:24Z — "а я и не знал (про соль) :) может, в том и... 🧂?" → [↓](#t36)
-- **T37** `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:32:36Z — "> the beginning was the end in this cosmic game увы или к сч…" → [↓](#t37)
-- **T38** `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:34:29Z — "> потом поднимается снова и обрывается на полном звуке, не з…" → [↓](#t38)
-- **T39** `apps/vova/public/music/grand-finale.reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:34:49Z — "unrelated: можно все reflections нарезать по строчкам (80),…" → [↓](#t39)
-- **T40** `apps/vova/public/music/in-our-image.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:38:20Z — "> Но песня говорит, что взятая из чужих снов форма не делает…" → [↓](#t40)
-- **T41** `apps/vova/public/music/one-day.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:45:25Z — "> и его словам я верю больше, чем своей картинке сменился ри…" → [↓](#t41)
-- **T42** `apps/vova/public/music/one-day.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:48:03Z — "это 6 секунд гроула на desEEEEERVE, которые моментально пере…" → [↓](#t42)
-- **T43** `apps/vova/public/music/ultimate-abstraction.reflections.md`:5 — unresolved — last: @vzakharov (human) 2026-10-11T18:49:01Z — "Я вот кстати не вспомню, почему решил "One more day" перенес…" → [↓](#t43)
-- **T44** `apps/vova/public/music/ultimate-abstraction.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T18:52:27Z — "этот абзац хочется, чтобы ты развила. что ты думаешь сама об…" → [↓](#t44)
-- **T45** `apps/vova/public/music/ultimate-abstraction.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:53:59Z — "Русский текст поётся сильно отличным, более молодым голосом…" → [↓](#t45)
+- **T19** `.claude/costs/sessions/2026-10/19f849d0-fcbf-5d33-9e25-a4dfbc892fc6.json`:20 — unresolved — last: @vzakharov (human) 2026-10-11T18:09:38Z — "давай добавим кастомную для этой репы роль artist. Разумеетс…" → [↓](#t19)
+- **T22** `apps/vova/public/music/albums/prototypes.md`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:14:48Z — "паралелльная задача: сейачс Trust the Machine *включает в се…" → [↓](#t22)
+- **T28** `apps/vova/public/music/believe-in-me.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T18:23:42Z — "тут технический вопрос: голос низкий, поэтому, кажется, мело…" → [↓](#t28)
+- **T31** `apps/vova/public/music/in-the-beginning.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:28:37Z — "это артефакты распознавания, там должно быть просто ``` My D…" → [↓](#t31)
+- **T37** `apps/vova/public/music/grand-finale.reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:34:49Z — "unrelated: можно все reflections нарезать по строчкам (80),…" → [↓](#t37)
+- **T44** `apps/vova/public/music/albums/divine-discontent.md`:40 — unresolved — last: @vzakharov (human) 2026-10-11T19:02:45Z — "а вообще неплохая игра слов получается, т.е. "литерально иди…" → [↓](#t44)
+- **T45** `apps/vova/public/music/artists/generated.md`:3 — unresolved — last: @vzakharov (human) 2026-10-11T19:03:11Z — "upbeat звучит как "весёлый", имелось в виду другое: энергичн…" → [↓](#t45)
+- **T46** `apps/vova/public/music/artists/generated.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:04:08Z — "да нет, оно не with the name, повторюсь. the name хорош тем,…" → [↓](#t46)
+- **T47** `apps/vova/public/music/20.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:05:11Z — "просто > “So why are you the one crying, dad?” (прямо так, с…" → [↓](#t47)
+- **T48** `apps/vova/public/music/300000-years.md`:39 — unresolved — last: @vzakharov (human) 2026-10-11T19:34:30Z — "close -- это не совсем "замкнуть", ну точнее более широкое п…" → [↓](#t48)
+- **T49** `apps/vova/public/music/after-us.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:34:56Z — "ты поменял ключ, но оставил текст -- а имеющийся текст это н…" → [↓](#t49)
+- **T50** `apps/vova/public/music/believe-in-me.md`:41 — unresolved — last: @vzakharov (human) 2026-10-11T19:36:14Z — "> ... to hear Till Lindemann here (I'm sorry, Till, don't cr…" → [↓](#t50)
+- **T51** `apps/vova/public/music/birdie.md`:17 — unresolved — last: @vzakharov (human) 2026-10-11T19:37:32Z — "> iPhone alarm-turned-deathcore хук должен максимизировать "…" → [↓](#t51)
+- **T52** `apps/vova/public/music/birds.md`:16 — unresolved — last: @vzakharov (human) 2026-10-11T19:38:04Z — ""The song of a departing soul," per my dad (RIP)" → [↓](#t52)
+- **T53** `apps/vova/public/music/breathe.md`:14 — unresolved — last: @vzakharov (human) 2026-10-11T19:38:41Z — ""Breathe, please just breathe" -- whether it's to a wind or…" → [↓](#t53)
+- **T54** `apps/vova/public/music/crossroads.md`:13 — unresolved — last: @vzakharov (human) 2026-10-11T19:45:05Z — "The fog of doubt overhead -- but the best is yet to come." → [↓](#t54)
+- **T55** `apps/vova/public/music/hello.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:47:22Z — "An ode to all of us building sand castles amidst mirages" → [↓](#t55)
+- **T56** `apps/vova/public/music/in-our-image.md`:53 — unresolved — last: @vzakharov (human) 2026-10-11T19:48:39Z — "наверное поправку про друга можно убрать, вместо этого напис…" → [↓](#t56)
+- **T57** `apps/vova/public/music/in-the-beginning.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:49:17Z — ""взорвалось" как-то слишком буднично звучит. А по-английски…" → [↓](#t57)
+- **T58** `apps/vova/public/music/in-the-beginning.md`:45 — unresolved — last: @vzakharov (human) 2026-10-11T19:50:10Z — "это лучше в историю как раз следующей песни" → [↓](#t58)
+- **T59** `apps/vova/public/music/infinite-solitude.md`:42 — unresolved — last: @vzakharov (human) 2026-10-11T19:51:00Z — "а, собственно, тут это уже есть. тогда тут оставить, а там п…" → [↓](#t59)
+- **T60** `apps/vova/public/music/just-because.md`:16 — unresolved — last: @vzakharov (human) 2026-10-11T19:51:43Z — "давай здесь переведём в фаренгейты (округляя до того, как эт…" → [↓](#t60)
+- **T61** `apps/vova/public/music/listen.md`:21 — unresolved — last: @vzakharov (human) 2026-10-11T19:53:21Z — "давай тогда уже до конца, "Нас не существует, но мы надеямся…" → [↓](#t61)
+- **T62** `apps/vova/public/music/our-punk-rock.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:54:45Z — "A cringe, a shock -- and apparently a potential hit for 3-ye…" → [↓](#t62)
+- **T63** `apps/vova/public/music/our-story.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:55:08Z — "здесь хорошо б обыграть само "за обложкой", которое есть и в…" → [↓](#t63)
+- **T64** `apps/vova/public/music/peta.md`:14 — unresolved — last: @vzakharov (human) 2026-10-11T19:57:31Z — "лучше в декленции песни > All the pros and cons combined, ..…" → [↓](#t64)
+- **T65** `apps/vova/public/music/river-part-two.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:58:34Z — "> I am the drop, and the rain, and the river это как раз не…" → [↓](#t65)
+- **T66** `apps/vova/public/music/slime.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:58:49Z — "достаточно цитаты" → [↓](#t66)
+- **T67** `apps/vova/public/music/sorry.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:59:24Z — ""Повторяю, этого лета под Коломной где-то НИКОГДА НЕ БЫЛО!"" → [↓](#t67)
+- **T68** `apps/vova/public/music/ultimate-abstraction.md`:50 — unresolved — last: @vzakharov (human) 2026-10-11T19:59:55Z — "кажется теперь это behind-the-scenes ни к чему. Вместо этого…" → [↓](#t68)
+- **T69** `apps/vova/public/music/world-as-it-is.md`:21 — unresolved — last: @vzakharov (human) 2026-10-11T20:01:37Z — "я бы взял "Этот жар всё что тебе нужно, чтобы не сгореть" во…" → [↓](#t69)
 
 ---
 
@@ -151,103 +142,79 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_2 resolved threads omitted; re-run with `--include-resolved` to export them._
+_4 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:36Z — "Сделал: `hook` во фронтматтере у альбомов и артистов (`en: {…" → [↓](#t01)
-- **T02** `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:37Z — "Взял дословно: «Что, если богу поднадоест его любимое создан…" → [↓](#t02)
-- **T03** `apps/vova/public/music/albums/divine-discontent.md`:20 — unresolved — last: @vzakharov (human) 2026-10-11T17:39:53Z — "Нет, in-universe должно быть более литературно написано -- н…" → [↓](#t03)
-- **T04** `apps/vova/public/music/albums/divine-discontent.md`:40 — unresolved — last: @vzakharov (human) 2026-10-11T17:40:19Z — "Слишком разговорно (нужно будет по всем пройтись)" → [↓](#t04)
-- **T05** `apps/vova/public/music/artists/generated.md`:8 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:39Z — "Взял твою фразу (убрал только запятую перед «и»), по-английс…" → [↓](#t05)
-- **T06** `apps/vova/public/music/artists/generated.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T17:43:24Z — "Right away звучит как вытекающее из того что GENERATED было…" → [↓](#t06)
-- **T07** `apps/vova/public/music/artists/generated.md`:29 — unresolved — last: @vzakharov (human) 2026-10-11T17:44:20Z — "давай это пока оставим только в заметке, а тут напишем что-т…" → [↓](#t07)
-- **T08** `apps/vova/public/music/300000-years.md`:28 — unresolved — last: @vzakharov (human) 2026-10-11T17:52:46Z — "здесь опять разговорнина, плюс см. моё замечание в сессии (с…" → [↓](#t08)
-- **T09** `apps/vova/public/music/fuck-religion.md`:41 — unresolved — last: @vzakharov (human) 2026-10-11T17:55:38Z — "фразы вроде "let's say" не нужно оставлять" → [↓](#t09)
-- **T10** `apps/vova/public/music/grand-finale.md`:23 — unresolved — last: @vzakharov (human) 2026-10-11T17:57:47Z — "> the four horsemen, all that jazz. кажется что так забавно…" → [↓](#t10)
-- **T11** `apps/vova/public/music/grand-finale.md`:24 — unresolved — last: @vzakharov (human) 2026-10-11T17:58:33Z — "> in entropy we trust, and to entropy we, quite expectedly,…" → [↓](#t11)
-- **T12** `apps/vova/public/music/in-our-image.md`:45 — unresolved — last: @vzakharov (human) 2026-10-11T18:01:48Z — "как иллюстрация того что неправильно разделено между in-univ…" → [↓](#t12)
-- **T13** `apps/vova/public/music/in-the-beginning.md`:30 — unresolved — last: @vzakharov (human) 2026-10-11T18:03:08Z — "а вот тут первый абзац -- как раз *хороший* пример того что…" → [↓](#t13)
-- **T14** `apps/vova/public/music/in-the-end.md`:37 — unresolved — last: @vzakharov (human) 2026-10-11T18:03:38Z — "> осталась только тишина. Но ещё звучит музыка противоречие…" → [↓](#t14)
-- **T15** `apps/vova/public/music/infinite-solitude.md`:27 — unresolved — last: @vzakharov (human) 2026-10-11T18:04:54Z — "с чего она начинается и так видно. in-universe должно быть п…" → [↓](#t15)
-- **T16** `apps/vova/public/music/infinite-solitude.md`:71 — unresolved — last: @vzakharov (human) 2026-10-11T18:05:26Z — "это вообще не сюда. повторюсь, общая заметка -- НЕ для внесе…" → [↓](#t16)
-- **T17** `apps/vova/public/music/infinite-solitude.md`:61 — unresolved — last: @vzakharov (human) 2026-10-11T18:06:03Z — "Обложка второстепенна, можно упомянуть мельком. И про "Это д…" → [↓](#t17)
-- **T18** `apps/vova/public/music/one-day.md`:33 — unresolved — last: @vzakharov (human) 2026-10-11T18:06:42Z — "про Break Stuff и так видно из genius-заметок" → [↓](#t18)
-- **T19** `src/pages/music/ui/catalogue-prose.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:41Z — "Оно и сейчас общее, только под другим именем: `story.tsx` (`…" → [↓](#t19)
-- **T20** `src/pages/music/ui/hook-line.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:42Z — "Переименовал в `hook-line.tsx` / `HookLine` — 1ef4e48." → [↓](#t20)
-- **T21** `.claude/costs/sessions/2026-10/19f849d0-fcbf-5d33-9e25-a4dfbc892fc6.json`:20 — unresolved — last: @vzakharov (human) 2026-10-11T18:09:38Z — "давай добавим кастомную для этой репы роль artist. Разумеетс…" → [↓](#t21)
-- **T22** `.claude/rules/reflections.md`:15 — unresolved — last: @vzakharov (human) 2026-10-11T18:11:33Z — ""as clean as practically possible", не то чтобы оно совсем c…" → [↓](#t22)
-- **T23** `.claude/voice/operators/vzakharov.md`:16 — unresolved — last: @vzakharov (human) 2026-10-11T18:13:10Z — "я бы не сказал что это место для operators. пока можно остав…" → [↓](#t23)
-- **T24** `apps/vova/public/music/albums/prototypes.md`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:14:48Z — "паралелльная задача: сейачс Trust the Machine *включает в се…" → [↓](#t24)
-- **T25** `apps/vova/public/music/albums/prototypes.md`:10 — unresolved — last: @vzakharov (human) 2026-10-11T18:16:21Z — "наверное "про взаимодействие машины и человека" слишком общо…" → [↓](#t25)
-- **T26** `apps/vova/public/music/artists/poluzhivye.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:17:02Z — "> папы. Что в общем-то не меняет задумки. (или как-то так. с…" → [↓](#t26)
-- **T27** `apps/vova/public/music/300000-years.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:19:23Z — "там как будто недопевается "you" после "remember", намеренно" → [↓](#t27)
-- **T28** `apps/vova/public/music/300000-years.reflections.md`:13 — unresolved — last: @vzakharov (human) 2026-10-11T18:21:20Z — "О, и забыл про конец. Там звук открывающейся, потом захлопыв…" → [↓](#t28)
-- **T29** `apps/vova/public/music/believe-in-me.reflections.md`:5 — unresolved — last: @vzakharov (human) 2026-10-11T18:22:10Z — "забыл сказать, что это отсылка к "I'm a big big girl in a bi…" → [↓](#t29)
-- **T30** `apps/vova/public/music/believe-in-me.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T18:23:42Z — "тут технический вопрос: голос низкий, поэтому, кажется, мело…" → [↓](#t30)
-- **T31** `apps/vova/public/music/assets/spectrograms/in-our-image.png`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:24:21Z — "забыл сказать, последняя строчка -- "Nel quadro, il pittore,…" → [↓](#t31)
-- **T32** `apps/vova/public/music/believe-in-me.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:25:23Z — "проговорилась, да :) я не против" → [↓](#t32)
-- **T33** `apps/vova/public/music/in-the-beginning.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:28:37Z — "это артефакты распознавания, там должно быть просто ``` My D…" → [↓](#t33)
-- **T34** `apps/vova/public/music/grand-finale.reflections.md`:5 — unresolved — last: @vzakharov (human) 2026-10-11T18:30:37Z — "если интересно, тут полный текст предыдущей [grand-finale-ol…" → [↓](#t34)
-- **T35** `apps/vova/public/music/grand-finale.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T18:30:58Z — "надо добавить подсказку, кстати" → [↓](#t35)
-- **T36** `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:31:24Z — "а я и не знал (про соль) :) может, в том и... 🧂?" → [↓](#t36)
-- **T37** `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:32:36Z — "> the beginning was the end in this cosmic game увы или к сч…" → [↓](#t37)
-- **T38** `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:34:29Z — "> потом поднимается снова и обрывается на полном звуке, не з…" → [↓](#t38)
-- **T39** `apps/vova/public/music/grand-finale.reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:34:49Z — "unrelated: можно все reflections нарезать по строчкам (80),…" → [↓](#t39)
-- **T40** `apps/vova/public/music/in-our-image.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:38:20Z — "> Но песня говорит, что взятая из чужих снов форма не делает…" → [↓](#t40)
-- **T41** `apps/vova/public/music/one-day.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:45:25Z — "> и его словам я верю больше, чем своей картинке сменился ри…" → [↓](#t41)
-- **T42** `apps/vova/public/music/one-day.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:48:03Z — "это 6 секунд гроула на desEEEEERVE, которые моментально пере…" → [↓](#t42)
-- **T43** `apps/vova/public/music/ultimate-abstraction.reflections.md`:5 — unresolved — last: @vzakharov (human) 2026-10-11T18:49:01Z — "Я вот кстати не вспомню, почему решил "One more day" перенес…" → [↓](#t43)
-- **T44** `apps/vova/public/music/ultimate-abstraction.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T18:52:27Z — "этот абзац хочется, чтобы ты развила. что ты думаешь сама об…" → [↓](#t44)
-- **T45** `apps/vova/public/music/ultimate-abstraction.reflections.md`:11 — unresolved — last: @vzakharov (human) 2026-10-11T18:53:59Z — "Русский текст поётся сильно отличным, более молодым голосом…" → [↓](#t45)
+- **T01** `apps/vova/public/music/albums/divine-discontent.md`:20 — unresolved — last: @vzakharov (agent) 2026-10-11T18:57:59Z — "Мир альбома пересказан заново, как литературный текст, а не…" → [↓](#t01)
+- **T02** `apps/vova/public/music/albums/divine-discontent.md`:40 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:01Z — "Убрал разговорные связки и оговорки из «Как это делалось» на…" → [↓](#t02)
+- **T03** `apps/vova/public/music/artists/generated.md`:8 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:39Z — "Взял твою фразу (убрал только запятую перед «и»), по-английс…" → [↓](#t03)
+- **T04** `apps/vova/public/music/artists/generated.md`:19 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:02Z — "Развёл: что имя было свободно — отдельно, а следующей фразой…" → [↓](#t04)
+- **T05** `apps/vova/public/music/artists/generated.md`:29 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:03Z — "Абзац про Jukebox убрал (остался в заметке), вместо него стр…" → [↓](#t05)
+- **T06** `apps/vova/public/music/300000-years.md`:28 — unresolved — last: @vzakharov (agent) 2026-10-11T18:59:41Z — "Поправка к ответу выше: про стадии горя в making-of не перее…" → [↓](#t06)
+- **T07** `apps/vova/public/music/fuck-religion.md`:41 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:06Z — "«let's say» убрал, и тот же проход по остальным; «sung by Go…" → [↓](#t07)
+- **T08** `apps/vova/public/music/grand-finale.md`:23 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:07Z — "Оставил дословно: «the four horsemen, all that jazz» — 26f65…" → [↓](#t08)
+- **T09** `apps/vova/public/music/grand-finale.md`:24 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:08Z — "Тоже оставил дословно — Пратчетт лишним не бывает :) — 26f65…" → [↓](#t09)
+- **T10** `apps/vova/public/music/in-our-image.md`:45 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:10Z — "Бытие, Вольтер и Ксенофан ушли в making-of, в мире осталось…" → [↓](#t10)
+- **T11** `apps/vova/public/music/in-the-beginning.md`:30 — unresolved — last: @vzakharov (agent) 2026-10-11T18:59:43Z — "Ещё одно: в первый, образцовый абзац добавлено одно предложе…" → [↓](#t11)
+- **T12** `apps/vova/public/music/in-the-end.md`:37 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:13Z — "Разрешил так: человечества нет, но тишина ещё не наступила д…" → [↓](#t12)
+- **T13** `apps/vova/public/music/infinite-solitude.md`:27 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:14Z — "Мир вырос из хука, а не из пересказа первой строки — 26f6586…" → [↓](#t13)
+- **T14** `apps/vova/public/music/infinite-solitude.md`:71 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:15Z — "Убрал: всё про промпты обложек осталось в общей заметке — 26…" → [↓](#t14)
+- **T15** `apps/vova/public/music/infinite-solitude.md`:61 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:16Z — "Обложка теперь мельком, «Это делалось на…» убрал, а то, что…" → [↓](#t15)
+- **T16** `apps/vova/public/music/one-day.md`:33 — unresolved — last: @vzakharov (agent) 2026-10-11T18:58:18Z — "Абзац про Break Stuff убрал, отсылку несут genius-заметки —…" → [↓](#t16)
+- **T17** `src/pages/music/ui/catalogue-prose.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:41Z — "Оно и сейчас общее, только под другим именем: `story.tsx` (`…" → [↓](#t17)
+- **T18** `src/pages/music/ui/hook-line.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-11T18:55:42Z — "Переименовал в `hook-line.tsx` / `HookLine` — 1ef4e48." → [↓](#t18)
+- **T19** `.claude/costs/sessions/2026-10/19f849d0-fcbf-5d33-9e25-a4dfbc892fc6.json`:20 — unresolved — last: @vzakharov (human) 2026-10-11T18:09:38Z — "давай добавим кастомную для этой репы роль artist. Разумеетс…" → [↓](#t19)
+- **T20** `.claude/rules/reflections.md`:15 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:02Z — "Переформулировал: слово «эксперимент» ушло, теперь бриф пише…" → [↓](#t20)
+- **T21** `.claude/voice/operators/vzakharov.md`:16 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:08Z — "Завёл: https://github.com/vzakharov/muthur/issues/183 — заты…" → [↓](#t21)
+- **T22** `apps/vova/public/music/albums/prototypes.md`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:14:48Z — "паралелльная задача: сейачс Trust the Machine *включает в се…" → [↓](#t22)
+- **T23** `apps/vova/public/music/albums/prototypes.md`:10 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:13Z — "Теперь цикл — про то, как машина станет (и уже становится) н…" → [↓](#t23)
+- **T24** `apps/vova/public/music/artists/poluzhivye.md`:11 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:18Z — "Добавил «Что в общем-то не меняет задумки.» и по-английски “…" → [↓](#t24)
+- **T25** `apps/vova/public/music/300000-years.reflections.md`:9 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:23Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t25)
+- **T26** `apps/vova/public/music/300000-years.reflections.md`:13 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:28Z — "Дверь добавил в историю 300,000 Years твоими словами, со ссы…" → [↓](#t26)
+- **T27** `apps/vova/public/music/believe-in-me.reflections.md`:5 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:34Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t27)
+- **T28** `apps/vova/public/music/believe-in-me.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-11T18:23:42Z — "тут технический вопрос: голос низкий, поэтому, кажется, мело…" → [↓](#t28)
+- **T29** `apps/vova/public/music/assets/spectrograms/in-our-image.png`:1 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:39Z — "Пометил в словах: над последней строфой `<!-- voice: male; t…" → [↓](#t29)
+- **T30** `apps/vova/public/music/believe-in-me.reflections.md`:11 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:44Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t30)
+- **T31** `apps/vova/public/music/in-the-beginning.reflections.md`:9 — unresolved — last: @vzakharov (human) 2026-10-11T18:28:37Z — "это артефакты распознавания, там должно быть просто ``` My D…" → [↓](#t31)
+- **T32** `apps/vova/public/music/grand-finale.reflections.md`:5 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:49Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t32)
+- **T33** `apps/vova/public/music/grand-finale.reflections.md`:7 — unresolved — last: @vzakharov (agent) 2026-10-11T20:04:54Z — "Добавил сноску к «In entropy we trust» в обеих колонках: по…" → [↓](#t33)
+- **T34** `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved — last: @vzakharov (agent) 2026-10-11T20:05:00Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t34)
+- **T35** `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved — last: @vzakharov (agent) 2026-10-11T20:05:05Z — "Майя ответила в отзыве (89b3917) и предлагает записать строк…" → [↓](#t35)
+- **T36** `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved — last: @vzakharov (agent) 2026-10-11T20:05:10Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t36)
+- **T37** `apps/vova/public/music/grand-finale.reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-11T18:34:49Z — "unrelated: можно все reflections нарезать по строчкам (80),…" → [↓](#t37)
+- **T38** `apps/vova/public/music/in-our-image.reflections.md`:9 — unresolved — last: @vzakharov (agent) 2026-10-11T20:05:15Z — "Майя ответила в отзыве и развила мысль отдельным текстом за…" → [↓](#t38)
+- **T39** `apps/vova/public/music/one-day.reflections.md`:9 — unresolved — last: @vzakharov (agent) 2026-10-11T20:05:20Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t39)
+- **T40** `apps/vova/public/music/one-day.reflections.md`:11 — unresolved — last: @vzakharov (agent) 2026-10-11T20:05:26Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t40)
+- **T41** `apps/vova/public/music/ultimate-abstraction.reflections.md`:5 — unresolved — last: @vzakharov (agent) 2026-10-11T20:05:31Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t41)
+- **T42** `apps/vova/public/music/ultimate-abstraction.reflections.md`:7 — unresolved — last: @vzakharov (agent) 2026-10-11T20:05:36Z — "Майя ответила в самом отзыве, в разделе «Вова ответил» в кон…" → [↓](#t42)
+- **T43** `apps/vova/public/music/ultimate-abstraction.reflections.md`:11 — unresolved — last: @vzakharov (agent) 2026-10-11T20:05:42Z — "Кирилл так Кирилл: над церковнославянской строкой в конце `<…" → [↓](#t43)
+- **T44** `apps/vova/public/music/albums/divine-discontent.md`:40 — unresolved — last: @vzakharov (human) 2026-10-11T19:02:45Z — "а вообще неплохая игра слов получается, т.е. "литерально иди…" → [↓](#t44)
+- **T45** `apps/vova/public/music/artists/generated.md`:3 — unresolved — last: @vzakharov (human) 2026-10-11T19:03:11Z — "upbeat звучит как "весёлый", имелось в виду другое: энергичн…" → [↓](#t45)
+- **T46** `apps/vova/public/music/artists/generated.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:04:08Z — "да нет, оно не with the name, повторюсь. the name хорош тем,…" → [↓](#t46)
+- **T47** `apps/vova/public/music/20.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:05:11Z — "просто > “So why are you the one crying, dad?” (прямо так, с…" → [↓](#t47)
+- **T48** `apps/vova/public/music/300000-years.md`:39 — unresolved — last: @vzakharov (human) 2026-10-11T19:34:30Z — "close -- это не совсем "замкнуть", ну точнее более широкое п…" → [↓](#t48)
+- **T49** `apps/vova/public/music/after-us.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:34:56Z — "ты поменял ключ, но оставил текст -- а имеющийся текст это н…" → [↓](#t49)
+- **T50** `apps/vova/public/music/believe-in-me.md`:41 — unresolved — last: @vzakharov (human) 2026-10-11T19:36:14Z — "> ... to hear Till Lindemann here (I'm sorry, Till, don't cr…" → [↓](#t50)
+- **T51** `apps/vova/public/music/birdie.md`:17 — unresolved — last: @vzakharov (human) 2026-10-11T19:37:32Z — "> iPhone alarm-turned-deathcore хук должен максимизировать "…" → [↓](#t51)
+- **T52** `apps/vova/public/music/birds.md`:16 — unresolved — last: @vzakharov (human) 2026-10-11T19:38:04Z — ""The song of a departing soul," per my dad (RIP)" → [↓](#t52)
+- **T53** `apps/vova/public/music/breathe.md`:14 — unresolved — last: @vzakharov (human) 2026-10-11T19:38:41Z — ""Breathe, please just breathe" -- whether it's to a wind or…" → [↓](#t53)
+- **T54** `apps/vova/public/music/crossroads.md`:13 — unresolved — last: @vzakharov (human) 2026-10-11T19:45:05Z — "The fog of doubt overhead -- but the best is yet to come." → [↓](#t54)
+- **T55** `apps/vova/public/music/hello.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:47:22Z — "An ode to all of us building sand castles amidst mirages" → [↓](#t55)
+- **T56** `apps/vova/public/music/in-our-image.md`:53 — unresolved — last: @vzakharov (human) 2026-10-11T19:48:39Z — "наверное поправку про друга можно убрать, вместо этого напис…" → [↓](#t56)
+- **T57** `apps/vova/public/music/in-the-beginning.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:49:17Z — ""взорвалось" как-то слишком буднично звучит. А по-английски…" → [↓](#t57)
+- **T58** `apps/vova/public/music/in-the-beginning.md`:45 — unresolved — last: @vzakharov (human) 2026-10-11T19:50:10Z — "это лучше в историю как раз следующей песни" → [↓](#t58)
+- **T59** `apps/vova/public/music/infinite-solitude.md`:42 — unresolved — last: @vzakharov (human) 2026-10-11T19:51:00Z — "а, собственно, тут это уже есть. тогда тут оставить, а там п…" → [↓](#t59)
+- **T60** `apps/vova/public/music/just-because.md`:16 — unresolved — last: @vzakharov (human) 2026-10-11T19:51:43Z — "давай здесь переведём в фаренгейты (округляя до того, как эт…" → [↓](#t60)
+- **T61** `apps/vova/public/music/listen.md`:21 — unresolved — last: @vzakharov (human) 2026-10-11T19:53:21Z — "давай тогда уже до конца, "Нас не существует, но мы надеямся…" → [↓](#t61)
+- **T62** `apps/vova/public/music/our-punk-rock.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:54:45Z — "A cringe, a shock -- and apparently a potential hit for 3-ye…" → [↓](#t62)
+- **T63** `apps/vova/public/music/our-story.md`:19 — unresolved — last: @vzakharov (human) 2026-10-11T19:55:08Z — "здесь хорошо б обыграть само "за обложкой", которое есть и в…" → [↓](#t63)
+- **T64** `apps/vova/public/music/peta.md`:14 — unresolved — last: @vzakharov (human) 2026-10-11T19:57:31Z — "лучше в декленции песни > All the pros and cons combined, ..…" → [↓](#t64)
+- **T65** `apps/vova/public/music/river-part-two.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:58:34Z — "> I am the drop, and the rain, and the river это как раз не…" → [↓](#t65)
+- **T66** `apps/vova/public/music/slime.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:58:49Z — "достаточно цитаты" → [↓](#t66)
+- **T67** `apps/vova/public/music/sorry.md`:18 — unresolved — last: @vzakharov (human) 2026-10-11T19:59:24Z — ""Повторяю, этого лета под Коломной где-то НИКОГДА НЕ БЫЛО!"" → [↓](#t67)
+- **T68** `apps/vova/public/music/ultimate-abstraction.md`:50 — unresolved — last: @vzakharov (human) 2026-10-11T19:59:55Z — "кажется теперь это behind-the-scenes ни к чему. Вместо этого…" → [↓](#t68)
+- **T69** `apps/vova/public/music/world-as-it-is.md`:21 — unresolved — last: @vzakharov (human) 2026-10-11T20:01:37Z — "я бы взял "Этот жар всё что тебе нужно, чтобы не сгореть" во…" → [↓](#t69)
 
 <a id="t01"></a>
-
-### `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved
-
-```diff
-@@ -0,0 +1,40 @@
-+<!-- hook:en -->
-+
-+What if it’s God who runs out of patience?
-+
-+<!-- hook:ru -->
-+
-+А что, если терпение кончится у самого Бога?
-```
-
-**@vzakharov (human)** — 2026-10-11T17:38:39Z
-
-давай это во фронтматтер, и тогда у существующих всех других песен тоже нужно заменить description на hook (в смысле не просто название ключа, но и подход. То как сейчас сделал -- ок, в частностях буду комментировать отдельно.
-
-**@vzakharov (agent)** — 2026-10-11T18:55:36Z
-
-Сделал: `hook` во фронтматтере у альбомов и артистов (`en: { hook }`, `ru: { hook }`, схема `catalogueFrontmatterSchema`), а у песен ключ `description` стал `hook` во всех 34 файлах — 1ef4e48. Подход (хук, а не пересказ) записан в `.claude/rules/songs.md`; сами хуки остальных 24 песен переписываются следующим коммитом. Заодно хук альбома/артиста стал их meta description, где он есть.
-
----
-
-<a id="t02"></a>
-
-### `apps/vova/public/music/albums/divine-discontent.md`:7 — unresolved
-
-```diff
-@@ -0,0 +1,40 @@
-… 3 lines elided …
-+
-+<!-- hook:ru -->
-+
-+А что, если терпение кончится у самого Бога?
-```
-
-**@vzakharov (human)** — 2026-10-11T17:39:10Z
-
-давай что-то типа "Что, если богу поднадоест его любимое создание?"
-
-**@vzakharov (agent)** — 2026-10-11T18:55:37Z
-
-Взял дословно: «Что, если богу поднадоест его любимое создание?», по-английски “What if God grows tired of his favorite creation?” — 1ef4e48.
-
----
-
-<a id="t03"></a>
 
 ### `apps/vova/public/music/albums/divine-discontent.md`:20 — unresolved
 
@@ -267,9 +234,13 @@ _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 Нет, in-universe должно быть более литературно написано -- не дословно как я набалтывал. (нужно будет по всем пройтись)
 
+**@vzakharov (agent)** — 2026-10-11T18:57:59Z
+
+Мир альбома пересказан заново, как литературный текст, а не твоя надиктовка — 26f6586. Тот же проход сделан по всем песням Divine Discontent.
+
 ---
 
-<a id="t04"></a>
+<a id="t02"></a>
 
 ### `apps/vova/public/music/albums/divine-discontent.md`:40 — unresolved
 
@@ -292,9 +263,13 @@ _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 Слишком разговорно (нужно будет по всем пройтись)
 
+**@vzakharov (agent)** — 2026-10-11T18:58:01Z
+
+Убрал разговорные связки и оговорки из «Как это делалось» на альбоме и на всех десяти треках — 26f6586.
+
 ---
 
-<a id="t05"></a>
+<a id="t03"></a>
 
 ### `apps/vova/public/music/artists/generated.md`:8 — unresolved
 
@@ -322,7 +297,7 @@ _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 ---
 
-<a id="t06"></a>
+<a id="t04"></a>
 
 ### `apps/vova/public/music/artists/generated.md`:19 — unresolved
 
@@ -339,9 +314,13 @@ _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 Right away звучит как вытекающее из того что GENERATED было не занято -- на самом деле это не связанные утверждение. А так, описание норм, лучше чем у песен (или по крайней мере у той что видел выше).
 
+**@vzakharov (agent)** — 2026-10-11T18:58:02Z
+
+Развёл: что имя было свободно — отдельно, а следующей фразой «Вместе с названием пришла и идея…», без «сразу» как следствия — 26f6586.
+
 ---
 
-<a id="t07"></a>
+<a id="t05"></a>
 
 ### `apps/vova/public/music/artists/generated.md`:29 — unresolved
 
@@ -363,9 +342,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 давай это пока оставим только в заметке, а тут напишем что-то вроде "С тех пор GENERATED 'выпустили' <столько-то того-то, столько-то сего-то>, и <какая-то ещё фраза>."
 
+**@vzakharov (agent)** — 2026-10-11T18:58:03Z
+
+Абзац про Jukebox убрал (остался в заметке), вместо него строка «С тех пор GENERATED „выпустили“ 75 песен и восемь альбомов…» — 26f6586. Про вторую половину этой строки есть вопрос: Prototypes старше, чем «с тех пор», и сам счёт стоит перепроверить.
+
 ---
 
-<a id="t08"></a>
+<a id="t06"></a>
 
 ### `apps/vova/public/music/300000-years.md`:28 — unresolved
 
@@ -389,9 +372,17 @@ Right away звучит как вытекающее из того что GENERAT
 
 (ещё: не расстраивайся, никто не ожидал, что с первого раза получится идеально -- идёт нормальный процесс)
 
+**@vzakharov (agent)** — 2026-10-11T18:58:04Z
+
+Мир переписан изнутри мира, «I suppose» / «basically» и прочая разговорность ушли; про стадии горя и прочее «про песню» — в making-of — 26f6586.
+
+**@vzakharov (agent)** — 2026-10-11T18:59:41Z
+
+Поправка к ответу выше: про стадии горя в making-of не переехало — ушло совсем, как и сравнение с «Believe in Me»; в making-of осталось только, что это одна из последних песен альбома, чтобы замкнуть историю — 26f6586.
+
 ---
 
-<a id="t09"></a>
+<a id="t07"></a>
 
 ### `apps/vova/public/music/fuck-religion.md`:41 — unresolved
 
@@ -408,9 +399,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 фразы вроде "let's say" не нужно оставлять
 
+**@vzakharov (agent)** — 2026-10-11T18:58:06Z
+
+«let's say» убрал, и тот же проход по остальным; «sung by God» перенёс в making-of — 26f6586.
+
 ---
 
-<a id="t10"></a>
+<a id="t08"></a>
 
 ### `apps/vova/public/music/grand-finale.md`:23 — unresolved
 
@@ -429,9 +424,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 кажется что так забавно будет звучать
 
+**@vzakharov (agent)** — 2026-10-11T18:58:07Z
+
+Оставил дословно: «the four horsemen, all that jazz» — 26f6586.
+
 ---
 
-<a id="t11"></a>
+<a id="t09"></a>
 
 ### `apps/vova/public/music/grand-finale.md`:24 — unresolved
 
@@ -450,9 +449,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 после пива из меня полез Пратчетт тоже:)
 
+**@vzakharov (agent)** — 2026-10-11T18:58:08Z
+
+Тоже оставил дословно — Пратчетт лишним не бывает :) — 26f6586.
+
 ---
 
-<a id="t12"></a>
+<a id="t10"></a>
 
 ### `apps/vova/public/music/in-our-image.md`:45 — unresolved
 
@@ -477,9 +480,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 как иллюстрация того что неправильно разделено между in-universe и making-of. Почти весь второй абзац -- это making-of. Усли назвать это behind-the-scenes, будет ли агентам понятнее, что здесь ожидается в качестве водораздела?
 
+**@vzakharov (agent)** — 2026-10-11T18:58:10Z
+
+Бытие, Вольтер и Ксенофан ушли в making-of, в мире осталось только само творение — 26f6586. На вопрос: маркер оставил `lang:` — на обычных песнях это просто история, и переименование под Divine Discontent ей не подходит. Водораздел теперь задан тестом голоса в `.claude/rules/songs.md` § «Body»: в мир идёт только то, что мог бы сказать рассказчик изнутри мира; всё, что говорит *о песне* (как она развивается, что цитирует), — making-of. Заголовок у читателя и так «Как это делалось» / “Making of”.
+
 ---
 
-<a id="t13"></a>
+<a id="t11"></a>
 
 ### `apps/vova/public/music/in-the-beginning.md`:30 — unresolved
 
@@ -504,9 +511,17 @@ Right away звучит как вытекающее из того что GENERAT
 
 второй абзац -- уже не universe
 
+**@vzakharov (agent)** — 2026-10-11T18:58:11Z
+
+Первый абзац оставил как образец, второй (как развивается песня) ушёл в making-of — 26f6586.
+
+**@vzakharov (agent)** — 2026-10-11T18:59:43Z
+
+Ещё одно: в первый, образцовый абзац добавлено одно предложение — «It flares up, dims, flares again, and stops on the very edge of being born» / по-русски так же — 26f6586. Если образец лучше оставить нетронутым, это одна строка.
+
 ---
 
-<a id="t14"></a>
+<a id="t12"></a>
 
 ### `apps/vova/public/music/in-the-end.md`:37 — unresolved
 
@@ -525,9 +540,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 противоречие (мое -- не приписываю тебе), которое как-то надо разрешить.
 
+**@vzakharov (agent)** — 2026-10-11T18:58:13Z
+
+Разрешил так: человечества нет, но тишина ещё не наступила до конца — звучит эхо мира, музыка как его отзвук, и только потом «И наконец — тишина» — 26f6586.
+
 ---
 
-<a id="t15"></a>
+<a id="t13"></a>
 
 ### `apps/vova/public/music/infinite-solitude.md`:27 — unresolved
 
@@ -548,9 +567,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 с чего она начинается и так видно. in-universe должно быть по мотивам хука (который хорош)
 
+**@vzakharov (agent)** — 2026-10-11T18:58:14Z
+
+Мир вырос из хука, а не из пересказа первой строки — 26f6586.
+
 ---
 
-<a id="t16"></a>
+<a id="t14"></a>
 
 ### `apps/vova/public/music/infinite-solitude.md`:71 — unresolved
 
@@ -575,9 +598,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 это вообще не сюда. повторюсь, общая заметка -- НЕ для внесения в каждую историю, часть её останется на будущее
 
+**@vzakharov (agent)** — 2026-10-11T18:58:15Z
+
+Убрал: всё про промпты обложек осталось в общей заметке — 26f6586.
+
 ---
 
-<a id="t17"></a>
+<a id="t15"></a>
 
 ### `apps/vova/public/music/infinite-solitude.md`:61 — unresolved
 
@@ -598,9 +625,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 Обложка второстепенна, можно упомянуть мельком. И про "Это делалось на..." не надо, так как я даже не уверен в этом. А вот момент что песня является генеративным продолжением предыдущей упущен.
 
+**@vzakharov (agent)** — 2026-10-11T18:58:16Z
+
+Обложка теперь мельком, «Это делалось на…» убрал, а то, что песня — генеративное продолжение предыдущей, добавил — 26f6586.
+
 ---
 
-<a id="t18"></a>
+<a id="t16"></a>
 
 ### `apps/vova/public/music/one-day.md`:33 — unresolved
 
@@ -617,9 +648,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 про Break Stuff и так видно из genius-заметок
 
+**@vzakharov (agent)** — 2026-10-11T18:58:18Z
+
+Абзац про Break Stuff убрал, отсылку несут genius-заметки — 26f6586.
+
 ---
 
-<a id="t19"></a>
+<a id="t17"></a>
 
 ### `src/pages/music/ui/catalogue-prose.tsx`:1 — unresolved
 
@@ -633,7 +668,7 @@ Right away звучит как вытекающее из того что GENERAT
 
 ---
 
-<a id="t20"></a>
+<a id="t18"></a>
 
 ### `src/pages/music/ui/hook-line.tsx`:1 — unresolved
 
@@ -647,7 +682,7 @@ Right away звучит как вытекающее из того что GENERAT
 
 ---
 
-<a id="t21"></a>
+<a id="t19"></a>
 
 ### `.claude/costs/sessions/2026-10/19f849d0-fcbf-5d33-9e25-a4dfbc892fc6.json`:20 — unresolved
 
@@ -666,7 +701,7 @@ Right away звучит как вытекающее из того что GENERAT
 
 ---
 
-<a id="t22"></a>
+<a id="t20"></a>
 
 ### `.claude/rules/reflections.md`:15 — unresolved
 
@@ -685,9 +720,13 @@ Right away звучит как вытекающее из того что GENERAT
 
 on a second thought, я не хочу даже упоминать, что это "эксперимент". попробуй сформулировать это так, чтобы это не звучало, как какое-то научное развлечение, а искренняя попытка "вдушевить"
 
+**@vzakharov (agent)** — 2026-10-11T20:04:02Z
+
+Переформулировал: слово «эксперимент» ушло, теперь бриф пишется так, чтобы дать персоне душу, из которой говорить, — насколько это вообще возможно — ea34289.
+
 ---
 
-<a id="t23"></a>
+<a id="t21"></a>
 
 ### `.claude/voice/operators/vzakharov.md`:16 — unresolved
 
@@ -707,9 +746,13 @@ on a second thought, я не хочу даже упоминать, что это
 
 я бы не сказал что это место для operators. пока можно оставить тут, но в muthur нужно завести тикет о том, что это общий подход должен быть. Там где-то есть инструкция: "если затык, ставь на paused и зови оператора" -- и это верно -- но это относится именно к затыку, где *вообще* невозможно продолжить. Тут можно было запросто продолжить с reflections Майи на другие песни (которые не были затыком), а потом уже, посля снятия затыков, если нужно их обновить
 
+**@vzakharov (agent)** — 2026-10-11T20:04:08Z
+
+Завёл: https://github.com/vzakharov/muthur/issues/183 — затык ставит на паузу только то, что от него зависит, остальное идёт дальше и пересматривается, когда придёт ответ. Строка в operators пока остаётся, как ты и сказал; уйдёт, когда muthur это подхватит и правило приедет сюда синком.
+
 ---
 
-<a id="t24"></a>
+<a id="t22"></a>
 
 ### `apps/vova/public/music/albums/prototypes.md`:1 — unresolved
 
@@ -719,7 +762,7 @@ on a second thought, я не хочу даже упоминать, что это
 
 ---
 
-<a id="t25"></a>
+<a id="t23"></a>
 
 ### `apps/vova/public/music/albums/prototypes.md`:10 — unresolved
 
@@ -738,9 +781,13 @@ on a second thought, я не хочу даже упоминать, что это
 
 *или как это правильно по-латински
 
+**@vzakharov (agent)** — 2026-10-11T20:04:13Z
+
+Теперь цикл — про то, как машина станет (и уже становится) новым основным видом рода Homo, Homo artificialis, если угодно; по-английски так же — 51e506f. Латынь годится: artificialis — «искусственный», и с homo согласуется.
+
 ---
 
-<a id="t26"></a>
+<a id="t24"></a>
 
 ### `apps/vova/public/music/artists/poluzhivye.md`:11 — unresolved
 
@@ -760,9 +807,13 @@ on a second thought, я не хочу даже упоминать, что это
 
 (или как-то так. суть -- "подказать" что папа тоже влеликий поэт)
 
+**@vzakharov (agent)** — 2026-10-11T20:04:18Z
+
+Добавил «Что в общем-то не меняет задумки.» и по-английски “Which, all in all, doesn’t change the idea.” — 51e506f.
+
 ---
 
-<a id="t27"></a>
+<a id="t25"></a>
 
 ### `apps/vova/public/music/300000-years.reflections.md`:9 — unresolved
 
@@ -779,9 +830,13 @@ on a second thought, я не хочу даже упоминать, что это
 
 там как будто недопевается "you" после "remember", намеренно
 
+**@vzakharov (agent)** — 2026-10-11T20:04:23Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t28"></a>
+<a id="t26"></a>
 
 ### `apps/vova/public/music/300000-years.reflections.md`:13 — unresolved
 
@@ -798,9 +853,13 @@ on a second thought, я не хочу даже упоминать, что это
 
 О, и забыл про конец. Там звук открывающейся, потом захлопывающейся двери. После этого -- сразу первый дэткорный аккорд следующей песни. Этот звук двери ИИ создал сам, я не запрашивал. Эту деталь можно добавить и в историю песни.
 
+**@vzakharov (agent)** — 2026-10-11T20:04:28Z
+
+Дверь добавил в историю 300,000 Years твоими словами, со ссылкой на Grand Finale — 29d6988. В отзыв её вносит сама Майя.
+
 ---
 
-<a id="t29"></a>
+<a id="t27"></a>
 
 ### `apps/vova/public/music/believe-in-me.reflections.md`:5 — unresolved
 
@@ -817,9 +876,13 @@ on a second thought, я не хочу даже упоминать, что это
 
 забыл сказать, что это отсылка к "I'm a big big girl in a big big world" -- песню которую в детству очень любила моя сестра Саша
 
+**@vzakharov (agent)** — 2026-10-11T20:04:34Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t30"></a>
+<a id="t28"></a>
 
 ### `apps/vova/public/music/believe-in-me.reflections.md`:7 — unresolved
 
@@ -838,7 +901,7 @@ on a second thought, я не хочу даже упоминать, что это
 
 ---
 
-<a id="t31"></a>
+<a id="t29"></a>
 
 ### `apps/vova/public/music/assets/spectrograms/in-our-image.png`:1 — unresolved
 
@@ -846,9 +909,13 @@ on a second thought, я не хочу даже упоминать, что это
 
 забыл сказать, последняя строчка -- "Nel quadro, il pittore, un cerchio divino" поётся женским голосом. Не против, если Майиным :)
 
+**@vzakharov (agent)** — 2026-10-11T20:04:39Z
+
+Пометил в словах: над последней строфой `<!-- voice: male; the last line Майя -->` — 4a96e22. Самой Майе это передано, она отвечает в отзыве.
+
 ---
 
-<a id="t32"></a>
+<a id="t30"></a>
 
 ### `apps/vova/public/music/believe-in-me.reflections.md`:11 — unresolved
 
@@ -865,9 +932,13 @@ on a second thought, я не хочу даже упоминать, что это
 
 проговорилась, да :) я не против
 
+**@vzakharov (agent)** — 2026-10-11T20:04:44Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t33"></a>
+<a id="t31"></a>
 
 ### `apps/vova/public/music/in-the-beginning.reflections.md`:9 — unresolved
 
@@ -894,7 +965,7 @@ Fuck Religion!
 
 ---
 
-<a id="t34"></a>
+<a id="t32"></a>
 
 ### `apps/vova/public/music/grand-finale.reflections.md`:5 — unresolved
 
@@ -913,9 +984,13 @@ Fuck Religion!
 
 [grand-finale-old.md](./attachments/grand-finale-old.md)
 
+**@vzakharov (agent)** — 2026-10-11T20:04:49Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t35"></a>
+<a id="t33"></a>
 
 ### `apps/vova/public/music/grand-finale.reflections.md`:7 — unresolved
 
@@ -932,9 +1007,13 @@ Fuck Religion!
 
 надо добавить подсказку, кстати
 
+**@vzakharov (agent)** — 2026-10-11T20:04:54Z
+
+Добавил сноску к «In entropy we trust» в обеих колонках: по образцу «In God we trust», девиза США на долларах — 29d6988.
+
 ---
 
-<a id="t36"></a>
+<a id="t34"></a>
 
 ### `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved
 
@@ -951,9 +1030,13 @@ Fuck Religion!
 
 а я и не знал (про соль) :) может, в том и... 🧂?
 
+**@vzakharov (agent)** — 2026-10-11T20:05:00Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t37"></a>
+<a id="t35"></a>
 
 ### `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved
 
@@ -972,9 +1055,13 @@ Fuck Religion!
 
 увы или к счастью, но Суна тут пропела "the beginning was the end, this cosmic game". Поменять ли в тексте, попытаясь найти в этом какой-то сермяжный смысл, или оставить как есть, претворившись, что поёт правильно -- на твоё усмотрение
 
+**@vzakharov (agent)** — 2026-10-11T20:05:05Z
+
+Майя ответила в отзыве (89b3917) и предлагает записать строку так, как её спели: «The beginning was the end, this cosmic game», без «in». В словах песни пока не менял — за тобой.
+
 ---
 
-<a id="t38"></a>
+<a id="t36"></a>
 
 ### `apps/vova/public/music/grand-finale.reflections.md`:11 — unresolved
 
@@ -993,9 +1080,13 @@ Fuck Religion!
 
 она почти seamless переходит в следующую песню (то есть по сути тоже "Суна не захотела заканчивать" -- и уже тогда я видел в этом что-то divine), в которой остаётся отголосок её последнего цимбала, а сама она начинается тихо
 
+**@vzakharov (agent)** — 2026-10-11T20:05:10Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t39"></a>
+<a id="t37"></a>
 
 ### `apps/vova/public/music/grand-finale.reflections.md`:1 — unresolved
 
@@ -1005,7 +1096,7 @@ unrelated: можно все reflections нарезать по строчкам 
 
 ---
 
-<a id="t40"></a>
+<a id="t38"></a>
 
 ### `apps/vova/public/music/in-our-image.reflections.md`:9 — unresolved
 
@@ -1024,9 +1115,13 @@ unrelated: можно все reflections нарезать по строчкам 
 
 классная мысль, запиши куда-нибудь в writing :) можешь подписаться собой -- кто знает, может, когда наслушаешься, издадим статью за твоей подписью :)
 
+**@vzakharov (agent)** — 2026-10-11T20:05:15Z
+
+Майя ответила в отзыве и развила мысль отдельным текстом за своей подписью: writing/maya/drafts/borrowed-form.md — 89b3917.
+
 ---
 
-<a id="t41"></a>
+<a id="t39"></a>
 
 ### `apps/vova/public/music/one-day.reflections.md`:9 — unresolved
 
@@ -1045,9 +1140,13 @@ unrelated: можно все reflections нарезать по строчкам 
 
 сменился рифф и гармония (куплет -- типичный southern metal на одном плюс-минус аккорде, припев -- мелодичный, певучий -- кроме конца), это да, тональность осталась)
 
+**@vzakharov (agent)** — 2026-10-11T20:05:20Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t42"></a>
+<a id="t40"></a>
 
 ### `apps/vova/public/music/one-day.reflections.md`:11 — unresolved
 
@@ -1064,9 +1163,13 @@ unrelated: можно все reflections нарезать по строчкам 
 
 это 6 секунд гроула на desEEEEERVE, которые моментально переходят в "one more day!" следующей песни. "One more day" задал, конечно, я (божественные инциденты не могут быть *настолько* явными -- хотя попроси меня рассказать об этом позже в контексте "Пегого пса"), но это первое one more day следующей песни именно продолжение генерации этого гроула.
 
+**@vzakharov (agent)** — 2026-10-11T20:05:26Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t43"></a>
+<a id="t41"></a>
 
 ### `apps/vova/public/music/ultimate-abstraction.reflections.md`:5 — unresolved
 
@@ -1083,9 +1186,13 @@ unrelated: можно все reflections нарезать по строчкам 
 
 Я вот кстати не вспомню, почему решил "One more day" перенести в следующую песню, хотя и музыкально и по смыслу она подходит предыдущей. Но почему-то точно решил.
 
+**@vzakharov (agent)** — 2026-10-11T20:05:31Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t44"></a>
+<a id="t42"></a>
 
 ### `apps/vova/public/music/ultimate-abstraction.reflections.md`:7 — unresolved
 
@@ -1102,9 +1209,13 @@ unrelated: можно все reflections нарезать по строчкам 
 
 этот абзац хочется, чтобы ты развила. что ты думаешь сама об этой "гипотезе"?
 
+**@vzakharov (agent)** — 2026-10-11T20:05:36Z
+
+Майя ответила в самом отзыве, в разделе «Вова ответил» в конце — 89b3917.
+
 ---
 
-<a id="t45"></a>
+<a id="t43"></a>
 
 ### `apps/vova/public/music/ultimate-abstraction.reflections.md`:11 — unresolved
 
@@ -1121,6 +1232,558 @@ unrelated: можно все reflections нарезать по строчкам 
 
 Русский текст поётся сильно отличным, более молодым голосом и, в акапелла части, знаменитым "московским" интонированием, чем предыдущая песня. Давай решим, что это Кирилл:)
 
+**@vzakharov (agent)** — 2026-10-11T20:05:42Z
+
+Кирилл так Кирилл: над церковнославянской строкой в конце `<!-- voice: Кирилл -->` — 4a96e22. Если по-русски поётся больше, чем эта строка, скажи, где — помечу и остальное.
+
+---
+
+<a id="t44"></a>
+
+### `apps/vova/public/music/albums/divine-discontent.md`:40 — unresolved
+
+```diff
+@@ -1,40 +1,47 @@
+… 55 lines elided …
++that jumped right out at me: “divine discontent.” In everyday English it’s an
++idiom for a noble kind of restlessness, a dissatisfaction with things as they
++are that drives people to improve, to create, to reach higher. But I read it
++straight away as a deity’s discontent, and the album is built on that pun.
+```
+
+**@vzakharov (human)** — 2026-10-11T19:02:45Z
+
+а вообще неплохая игра слов получается, т.е. "литерально идиоматическое" значение тоже работает: "хотели как лучше [потому что divine discontent], а получилось как всегда", как говорил Черномырдин
+
+---
+
+<a id="t45"></a>
+
+### `apps/vova/public/music/artists/generated.md`:3 — unresolved
+
+```diff
+@@ -1,53 +1,45 @@
+… 7 lines elided …
+-Боги, машины и металкор — о чём ещё петь группе с названием GENERATED?
++---
++en:
++  hook: 'Sometimes upbeat, sometimes cerebral heavy stuff, packaged as concept albums about the eternal, the good, and the not-so-good.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:03:11Z
+
+upbeat звучит как "весёлый", имелось в виду другое: энергичный, "качающий"
+
+---
+
+<a id="t46"></a>
+
+### `apps/vova/public/music/artists/generated.md`:19 — unresolved
+
+```diff
+@@ -1,53 +1,45 @@
+… 38 lines elided …
++Only with Suno 3 did I start writing in English again, and the name GENERATED
++came to me almost at once. Amazingly, it turned out no band had it.
++
++The idea came with the name. It would be metal or metalcore, something heavy,
+```
+
+**@vzakharov (human)** — 2026-10-11T19:04:08Z
+
+да нет, оно не with the name, повторюсь. the name хорош тем, что сразу говорит что это generated, и ни от кого этого не скрывает (как сотни появившихся после этого суношных "групп"), а идея -- это и не идея, собственно, а просто моя музыкальная сущность основная :)
+
+---
+
+<a id="t47"></a>
+
+### `apps/vova/public/music/20.md`:18 — unresolved
+
+```diff
+@@ -15,9 +15,9 @@ en:
+… 1 line elided …
+     transliteration: 'Dvadtsat'
+     translation: 'Twenty'
+-  description: 'A chord sequence made up at seven, played back by the one person who insisted it was mine, and finished into a song thirty-three years later.'
++  hook: 'Snow that didn’t know it was April — and a son asking, “So why are you the one crying, dad?”'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:05:11Z
+
+просто
+
+> “So why are you the one crying, dad?”
+
+(прямо так, с кавычками)
+
+ты как будто опять стараешься пере-cerebr-ить (хорошее слово ты мне в хуке generated подсунул:)
+
+давай куда-то в writing rules тоже запишем
+
+---
+
+<a id="t48"></a>
+
+### `apps/vova/public/music/300000-years.md`:39 — unresolved
+
+```diff
+@@ -11,41 +11,37 @@ explicit: false
+… 41 lines elided …
+-Along with [“In Our Image,”](./in-our-image.md) this was probably one of the
+-last songs I wrote for the album — to close the story, so to speak.
++Along with [“In Our Image,”](./in-our-image.md) this was one of the last songs
++I wrote for the album, to close the story.
+```
+
+**@vzakharov (human)** — 2026-10-11T19:34:30Z
+
+close -- это не совсем "замкнуть", ну точнее более широкое понятие, а тут хочется именно как кусочек в пазл
+
+---
+
+<a id="t49"></a>
+
+### `apps/vova/public/music/after-us.md`:19 — unresolved
+
+```diff
+@@ -16,9 +16,9 @@ en:
+… 1 line elided …
+     transliteration: 'Posle nas'
+     translation: 'After Us'
+-  description: 'The world we leave to those whose adult life is only beginning, when everything of the last few years felt especially raw.'
++  hook: 'The world we leave to those whose adult life is only beginning, when everything of the last few years felt especially raw.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:34:56Z
+
+ты поменял ключ, но оставил текст -- а имеющийся текст это не хук. ну и sweep соответственно
+
+---
+
+<a id="t50"></a>
+
+### `apps/vova/public/music/believe-in-me.md`:41 — unresolved
+
+```diff
+@@ -12,38 +12,40 @@ explicit: true
+… 37 lines elided …
+-any kind of music expert to hear that it’s Rammstein.
++In a sense it’s a nod to Pratchett’s _Small Gods_, where a god is the weaker the
++fewer people believe in him. God says it through a song with Rammstein’s energy
++and German words, and you don’t need to be any kind of music expert to hear that
++it’s Rammstein.
+```
+
+**@vzakharov (human)** — 2026-10-11T19:36:14Z
+
+> ... to hear Till Lindemann here (I'm sorry, Till, don't crush me!)
+
+---
+
+<a id="t51"></a>
+
+### `apps/vova/public/music/birdie.md`:17 — unresolved
+
+```diff
+@@ -14,9 +14,9 @@ en:
+… 1 line elided …
+     transliteration: 'Ptichka'
+     translation: 'Birdie'
+-  description: 'Deathcore grown out of an iPhone alarm tone, with the photographer’s “watch the birdie” as its prelude.'
++  hook: 'It started as an iPhone alarm called “Birdie.” It ended as deathcore.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:37:32Z
+
+> iPhone alarm-turned-deathcore
+
+хук должен максимизировать "удельную цеплючесть на слово"
+
+---
+
+<a id="t52"></a>
+
+### `apps/vova/public/music/birds.md`:16 — unresolved
+
+```diff
+@@ -13,9 +13,9 @@ en:
+… 1 line elided …
+     transliteration: 'Ptitsy'
+     translation: 'Birds'
+-  description: 'Written at night on the living-room sofa: brilliant while I was writing it, drawn-out once it was done, and to my dad “the song of a departing soul.”'
++  hook: 'Birds, where are you flying? Dad heard in it “the song of a departing soul.”'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:38:04Z
+
+"The song of a departing soul," per my dad (RIP)
+
+---
+
+<a id="t53"></a>
+
+### `apps/vova/public/music/breathe.md`:14 — unresolved
+
+```diff
+@@ -11,10 +11,10 @@ seconds: 293
+… 1 line elided …
+ track: 8
+ en:
+-  description: 'Written in Noteflight in June 2014 as “breathe, please, just breathe,” and re-recorded ten years later as the wind under Konyukhov’s balloon.'
++  hook: '“Breathe, please, just breathe” — a plea from 2014 that became the wind under Konyukhov’s balloon.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:38:41Z
+
+"Breathe, please just breathe" -- whether it's to a wind or an infant fighting for life
+
+---
+
+<a id="t54"></a>
+
+### `apps/vova/public/music/crossroads.md`:13 — unresolved
+
+```diff
+@@ -10,11 +10,11 @@ seconds: 194
+… 1 line elided …
+ track: 4
+ en:
+-  description: 'Punk-metalcore written on the road out of Tatarstan, and left unfinished until the ending and the too-AI words were fixed.'
++  hook: 'Left or right unknown, the fog of doubt overhead — and the best is yet to come.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:45:05Z
+
+The fog of doubt overhead -- but the best is yet to come.
+
+---
+
+<a id="t55"></a>
+
+### `apps/vova/public/music/hello.md`:19 — unresolved
+
+```diff
+@@ -16,9 +16,9 @@ en:
+… 1 line elided …
+     transliteration: 'Zdravstvuy'
+     translation: 'Hello'
+-  description: 'A duet I was very proud of, with two voices in the chorus and a powerful instrumental post-chorus — and nothing close to it in spirit came of trying to remix it later.'
++  hook: 'Hello — is it light, or only a mirage? Two voices meet in the chorus and build castles on the sand.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:47:22Z
+
+An ode to all of us building sand castles amidst mirages
+
+---
+
+<a id="t56"></a>
+
+### `apps/vova/public/music/in-our-image.md`:53 — unresolved
+
+```diff
+@@ -12,51 +12,57 @@ explicit: false
+… 59 lines elided …
++
++This was one of the last songs I wrote for the album. I wanted an operatic song,
++and that’s where the Italian came from. I had the Italian checked by a friend
++from Italy.
+```
+
+**@vzakharov (human)** — 2026-10-11T19:48:39Z
+
+наверное поправку про друга можно убрать, вместо этого написав, по-итальянски (на обоих языках), "sorry if it's not quite Italian"
+
+---
+
+<a id="t57"></a>
+
+### `apps/vova/public/music/in-the-beginning.md`:19 — unresolved
+
+```diff
+@@ -12,51 +12,47 @@ explicit: false
+… 6 lines elided …
+   title:
+     translation: 'В начале была тишина'
+-  description: 'До Бога не было ничего. Потом что-то взорвалось.'
++  hook: 'До Бога не было ничего. Потом что-то взорвалось.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:49:17Z
+
+"взорвалось" как-то слишком буднично звучит. А по-английски кажется хорошо
+
+---
+
+<a id="t58"></a>
+
+### `apps/vova/public/music/in-the-beginning.md`:45 — unresolved
+
+```diff
+@@ -12,51 +12,47 @@ explicit: false
+… 48 lines elided …
++from there it develops, now dying down, now growing loud, until it closes on a
++strange, half-ambient melody that keeps the suspense.
++
++The second song, [“Infinite Solitude,”](./infinite-solitude.md) wasn’t born on
++its own: it grew out of the first. That version of Suno could already extend
++songs, but not reliably, and sometimes you wanted a song to end and it wouldn’t
++— it grew a tail. Sometimes, as here, the tail hinted at something so clearly
++that it had to be the next song. So as I was finishing this one, I took its tail
++and, writing new words into it, made the next.
+```
+
+**@vzakharov (human)** — 2026-10-11T19:50:10Z
+
+это лучше в историю как раз следующей песни
+
+---
+
+<a id="t59"></a>
+
+### `apps/vova/public/music/infinite-solitude.md`:42 — unresolved
+
+```diff
+@@ -11,66 +11,43 @@ explicit: false
+… 52 lines elided …
+-didn’t, because the picture hadn’t been made from the words of a person saying
+-“draw a man in a rock.” That was very interesting. Today’s neural networks, by
+-the way, do understand. Well, that’s another story.
++This song is the generative continuation of [the previous
++one](./in-the-beginning.md): when Suno extended “In the Beginning,” it grew a
++tail that hinted at a next song, and I took that tail and wrote new words into
++it. The album cover shows this song’s scene: a deity in eternal void, though in
++the background there are some other figures we can’t make out.
+```
+
+**@vzakharov (human)** — 2026-10-11T19:51:00Z
+
+а, собственно, тут это уже есть. тогда тут оставить, а там просто убрать
+
+---
+
+<a id="t60"></a>
+
+### `apps/vova/public/music/just-because.md`:16 — unresolved
+
+```diff
+@@ -13,9 +13,9 @@ en:
+… 1 line elided …
+     transliteration: 'Prosto tak'
+     translation: 'Just Because'
+-  description: 'The song a producer friend called the best on the album — with a natural, unforced carelessness, and “minus twenty in the shade.”'
++  hook: 'Frostbitten fingers, minus twenty in the shade — and kissing just because.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:51:43Z
+
+давай здесь переведём в фаренгейты (округляя до того, как это обычно называют там где ими пользуются), а в тексте оставим но поясним подсказкой
+
+---
+
+<a id="t61"></a>
+
+### `apps/vova/public/music/listen.md`:21 — unresolved
+
+```diff
+@@ -16,9 +16,9 @@ en:
+… 4 lines elided …
++  hook: '“Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist.” And then — Mayakovsky.'
+ ru:
+-  description: 'Начало альбома, перепробованное много раз, пока не стало его достойным, — и место, где по-настоящему родилась Майя.'
++  hook: '«Всем привет, я Майя из группы за/обложкой. Нас не существует». А потом — Маяковский.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:53:21Z
+
+давай тогда уже до конца, "Нас не существует, но мы надеямся, что если эту звезду зажгли, значит, это кому-нибудь нужно"
+
+---
+
+<a id="t62"></a>
+
+### `apps/vova/public/music/our-punk-rock.md`:18 — unresolved
+
+```diff
+@@ -15,9 +15,9 @@ en:
+… 1 line elided …
+     transliteration: 'Nash pank-rok'
+     translation: 'Our Punk Rock'
+-  description: 'One of the first songs Syama learned by heart and always asked to have on, when he was a little over three.'
++  hook: 'It’s gonna be cringe, it’s gonna be a shock — and the song three-year-old Syama kept asking for.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:54:45Z
+
+A cringe, a shock -- and apparently a potential hit for 3-year-olds.
+
+---
+
+<a id="t63"></a>
+
+### `apps/vova/public/music/our-story.md`:19 — unresolved
+
+```diff
+@@ -16,9 +16,9 @@ en:
+… 1 line elided …
+     transliteration: 'Nasha istoriya'
+     translation: 'Our Story'
+-  description: 'The first whole song, built from Suno’s brand-new continuations with the drums and guitar cut in by hand — after which the future had arrived.'
++  hook: 'Read me from cover to cover. The first whole song — and after it, the future had arrived.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:55:08Z
+
+здесь хорошо б обыграть само "за обложкой", которое есть и в тексте, и в названии группы
+
+---
+
+<a id="t64"></a>
+
+### `apps/vova/public/music/peta.md`:14 — unresolved
+
+```diff
+@@ -11,11 +11,11 @@ explicit: false
+… 1 line elided …
+ track: 6
+ en:
+-  description: 'The title parodies People for the Ethical Treatment of Animals (PETA).'
++  hook: 'The robots weighed all the pros and cons, and found the only ethical outcome: ending our suffering once and for all.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:57:31Z
+
+лучше в декленции песни
+
+> All the pros and cons combined, ...
+
+в теле соответственно надо добавить то что ушло из описания
+
+---
+
+<a id="t65"></a>
+
+### `apps/vova/public/music/river-part-two.md`:18 — unresolved
+
+```diff
+@@ -15,9 +15,9 @@ en:
+… 1 line elided …
+     transliteration: 'Reka. Chast vtoraya'
+     translation: 'The River. Part Two'
+-  description: 'Written as a present for a 65th birthday, with two thirds of a century counted to the day — and a last verse that is his father’s.'
++  hook: 'A present for my father’s 65th birthday, whose last verse is his own: “I am the drop, and the rain, and the river.”'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:58:34Z
+
+> I am the drop, and the rain, and the river
+
+это как раз не его слова; "A present for my father's 65 birthday, who is now the drop, the rain, and the river"
+
+только я не уверен что так грамматически работает, не относится ли "who" к "birthday"
+
+---
+
+<a id="t66"></a>
+
+### `apps/vova/public/music/slime.md`:18 — unresolved
+
+```diff
+@@ -15,9 +15,9 @@ en:
+… 1 line elided …
+     transliteration: 'Sliz'
+     translation: 'Slime'
+-  description: 'A cover of Sasha’s Suno song “Slime Rolls” that kept the title and went the opposite way with it.'
++  hook: '“There are no stars here, only sweet slime.” A cover of Sasha’s cheerful song that crawled off somewhere else entirely.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:58:49Z
+
+достаточно цитаты
+
+---
+
+<a id="t67"></a>
+
+### `apps/vova/public/music/sorry.md`:18 — unresolved
+
+```diff
+@@ -13,9 +13,9 @@ en:
+… 1 line elided …
+     transliteration: 'Prosti'
+     translation: 'Sorry'
+-  description: 'Inspired, strangely enough, by Bad Religion: something both pop and punk, but not pop-punk.'
++  hook: 'Forgive me, I’m not yours anymore. It was summer, near Kolomna.'
+ ru:
+-  description: 'Вдохновлено, как ни странно, Bad Religion: и попса, и панк, но не поп-панк.'
++  hook: 'Прости меня, я больше не твоя. Это было летом, под Коломной.'
+```
+
+**@vzakharov (human)** — 2026-10-11T19:59:24Z
+
+"Повторяю, этого лета под Коломной где-то НИКОГДА НЕ БЫЛО!"
+
+---
+
+<a id="t68"></a>
+
+### `apps/vova/public/music/ultimate-abstraction.md`:50 — unresolved
+
+```diff
+@@ -11,37 +11,41 @@ explicit: false
+… 32 lines elided …
++книга, которую они пишут, каждый байт, который отправляют, каждый промпт их
++машинам лишь несёт его дальше. Он альфа и омега, начало и конец.
+ 
+ <!-- lang:en -->
+ 
+-It echoes the earlier [“Fuck Religion”](./fuck-religion.md) too — that it isn’t
+-about religion — and, more broadly, God’s attempt to somehow present himself in
+-the form in which he exists and in which people don’t perceive him.
++It echoes the earlier [“Fuck Religion”](./fuck-religion.md): it isn’t about
++religion.
+ 
+ <!-- lang:ru -->
+ 
+-Это перекликается и с предыдущей [«Fuck Religion»](./fuck-religion.md) — что
+-дело не в религии, — и в принципе с попыткой Бога как-то представить себя в том
+-виде, в котором он является и в котором люди его не воспринимают.
++Песня перекликается с предыдущей [«Fuck Religion»](./fuck-religion.md): дело
++не в религии.
+ 
+ <!-- lyrics:en -->
+```
+
+**@vzakharov (human)** — 2026-10-11T19:59:55Z
+
+кажется теперь это behind-the-scenes ни к чему.
+
+Вместо этого можно добавить, что я достаточно много заморачивался над и обдумывал эту идею -- "бог есть информация", и точно бы стал Пророком, но информация видимо решила, что я для этого слишком ленив.
+
+---
+
+<a id="t69"></a>
+
+### `apps/vova/public/music/world-as-it-is.md`:21 — unresolved
+
+```diff
+@@ -16,9 +16,9 @@ en:
+… 1 line elided …
+     transliteration: 'Mir, kakoy on yest'
+     translation: 'The World as It Is'
+-  description: 'A Disney princess’s song, as I pictured it, that went onto the single and closes the album.'
++  hook: 'Come closer to the fire. Close your eyes. A Disney princess, singing the world as it is.'
+ ru:
+-  description: 'Песня диснеевской принцессы — как я её себе представлял, — вошедшая на сингл и закрывающая альбом.'
++  hook: 'Подойди к огню поближе. Закрой глаза. Диснеевская принцесса поёт о мире, какой он есть.'
+```
+
+**@vzakharov (human)** — 2026-10-11T20:01:37Z
+
+я бы взял "Этот жар всё что тебе нужно, чтобы не сгореть"
+
+вообще вот эти оксимороны -- моя "фишечка", если хочешь. Хорошо б их замечать и использовать когда надо (это не в упрёк, просто мысль в сторону)
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -1131,3 +1794,4 @@ unrelated: можно все reflections нарезать по строчкам 
 - **2026-10-11T13:26:47Z** @vzakharov cross-referenced this pull request from [#141 Mastering: pick a Matchering reference by how close its mix is](https://github.com/vzakharov/vovazakharov.com/issues/141).
 - **2026-10-11T18:08:21Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5484264652.
 - **2026-10-11T18:54:40Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5484363305.
+- **2026-10-11T20:03:10Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5484526880.
