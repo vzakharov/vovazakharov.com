@@ -21,32 +21,34 @@
   "branch": "claude/music-open-all-songs-2g882w",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/music-open-all-songs-2g882w",
-  "prs": [],
+  "prs": [
+    140
+  ],
   "url": "https://claude.ai/code/session_01PUYJksvzRTYbgjWSg2ypty",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-11T19:07:44.339Z",
-  "lastResponseAt": "2026-10-11T19:08:22.376Z",
+  "lastResponseAt": "2026-10-11T19:35:01.979Z",
   "pricesAsOf": "2026-10-06",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 0.6427086000000001,
   "total": {
-    "inputTokens": 20,
+    "inputTokens": 60,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 47762,
-    "cacheReadTokens": 908095,
-    "outputTokens": 2581,
-    "thinkingTokens": 457,
-    "responses": 10,
-    "costUsd": 0.615415
+    "cacheWrite1hTokens": 95516,
+    "cacheReadTokens": 3491415,
+    "outputTokens": 11564,
+    "thinkingTokens": 3101,
+    "responses": 30,
+    "costUsd": 1.693931
   },
   "ownTurns": {
-    "inputTokens": 20,
+    "inputTokens": 60,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 47762,
-    "cacheReadTokens": 908095,
-    "outputTokens": 2581,
-    "thinkingTokens": 457,
-    "responses": 10,
-    "costUsd": 0.615415
+    "cacheWrite1hTokens": 95516,
+    "cacheReadTokens": 3491415,
+    "outputTokens": 11564,
+    "thinkingTokens": 3101,
+    "responses": 30,
+    "costUsd": 1.693931
   },
   "subagents": {
     "inputTokens": 0,
@@ -60,14 +62,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 20,
+      "inputTokens": 60,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 47762,
-      "cacheReadTokens": 908095,
-      "outputTokens": 2581,
-      "thinkingTokens": 457,
-      "responses": 10,
-      "costUsd": 0.615415
+      "cacheWrite1hTokens": 95516,
+      "cacheReadTokens": 3491415,
+      "outputTokens": 11564,
+      "thinkingTokens": 3101,
+      "responses": 30,
+      "costUsd": 1.693931
     }
   },
   "warnings": [],
