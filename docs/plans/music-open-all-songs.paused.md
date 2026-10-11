@@ -42,3 +42,4 @@ straight from the branch once the songs are open, ahead of the merge.
 ## Rest of the bite
 
 - `/polish` over this bite (from the plan commit on), not yet run.
+- After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
