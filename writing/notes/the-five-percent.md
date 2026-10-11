@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×60)
+## What it was handed, it treats as fixed (×61)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -144,6 +144,12 @@ a description wants edited prose in his voice, not his speech.
 built offset-sync and captions around three song videos without hearing that
 they carried the unmastered mix, while the page plays the master. The author
 noticed: _в видео же неотмастеренный мп3. подменить можно нашим?_
+
+**11 October — a source's framing read as the case's.** Fast Company opens on a
+Penn State study where rude prompts drew more accurate answers, and the agent
+filed it under OpenWhip's mitigating circumstances. _how is that a mitigating
+circumstance?_ The app sends no rude prompt: it sends Ctrl-C and then one, an
+interrupt its own dossier described two sections up.
 
 ## An account that explains the code stands in for running it (×20)
 
