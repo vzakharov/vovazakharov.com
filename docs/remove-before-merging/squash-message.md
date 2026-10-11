@@ -1,23 +1,21 @@
 Proposed squash title/body:
 
 ```
-feat(vova): drawn placeholder covers for the uncovered music (pr #136)
+feat(vova): tint the music tiles that have no cover (pr #136)
 ```
 
 ```
-Six albums and fourteen singles had no cover, so their tiles stood
-blank and their pages unfurled as the site avatar. Each now has one
-drawn by hand as an SVG in a loose Suprematist idiom, built from what
-that release is about: placeholders until real artwork replaces them.
+A release or artist with no cover showed its name on a flat grey
+square, so every uncovered tile in the music grid looked the same.
 
-The SVG sits beside its render in music/assets/covers/, rasterized to
-the 600px JPEG every cover already is, so the pages take it unchanged
-and only the registry learns the new covers. A cover with an SVG of
-its stem is a drawn one.
+Each now sits on a diagonal gradient whose hue is hashed from its slug
+(tileHue), so tiles differ in colour and nothing else, and a release
+keeps its colour on every page and in either locale. It is plain CSS:
+no generated asset.
 
-`pnpm music:covers` renders them through the same manifest job as the
-Open Graph cards, and its --check joins vet, so an edited drawing
-cannot ship behind a stale JPEG.
+The gradient is mixed 60% toward the surface grey and made half
+see-through, so a placeholder reads as one beside a real cover, and it
+is light or dark with the scheme so the name keeps the text colour.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
