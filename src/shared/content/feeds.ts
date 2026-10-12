@@ -9,6 +9,7 @@ import {
 } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import type { RssItem } from '@/shared/lib/rss';
+import { plainHook } from '@/shared/music-catalogue';
 import type { Summarized } from '@/shared/typings';
 
 import { ARTICLE_COLLECTIONS, SONGS } from './collection-schemas';
@@ -98,7 +99,7 @@ export async function feedEntries({
 
             return {
               title: typeof title === 'string' ? title : frontmatter.title,
-              description: hook,
+              description: hook === undefined ? undefined : plainHook(hook),
               route: localizedRoute(route, locale),
               published: filedDate(frontmatter),
             };

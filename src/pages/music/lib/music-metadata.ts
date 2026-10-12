@@ -2,6 +2,7 @@ import 'server-only';
 
 import { SITE_CONFIG } from '@/shared/config';
 import { loadMessages, type Locale } from '@/shared/i18n';
+import { plainHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
@@ -75,8 +76,10 @@ export function generateArtistMetadata(page: ArtistPageProps) {
     page,
     name,
     listenTitle(name, page.locale),
-    artistText(page.artist, page.locale)?.hook ??
-      artistDescription.replace('{artist}', name),
+    plainHook(
+      artistText(page.artist, page.locale)?.hook ??
+        artistDescription.replace('{artist}', name),
+    ),
     (locale) => artistPath(page.artist, page, locale),
     artistCard(page.artist, page.locale, catalogueSongs(page)),
   );
@@ -90,13 +93,15 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
     page,
     name,
     listenTitle(name, page.locale),
-    albumText(page.album, page.locale)?.hook ??
-      albumDescription
-        .replace('{album}', name)
-        .replace(
-          '{artist}',
-          projectName(albumArtist(page.album, page.locale), page.locale),
-        ),
+    plainHook(
+      albumText(page.album, page.locale)?.hook ??
+        albumDescription
+          .replace('{album}', name)
+          .replace(
+            '{artist}',
+            projectName(albumArtist(page.album, page.locale), page.locale),
+          ),
+    ),
     (locale) => albumPath(page.album, page, locale),
     albumCover(page.album),
   );

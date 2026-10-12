@@ -8,6 +8,7 @@ export {
   type SungLanguage,
   type TitleGloss,
 } from './frontmatter';
+export { hookRuns, plainHook } from './hook-marks';
 export {
   MUSIC_ALBUM_SLUGS,
   MUSIC_PROJECT_NAMES,
