@@ -74,7 +74,7 @@ The man’s attorney, outside court, as NBC reports, called it “a very serious
 
 Roscoe was sent into the basement so that a trooper or a police dog would not be the one to meet the rifle there, and it met it. The State Police headed their statement “MSP Robot Dog ‘Roscoe’ Takes Bullets for His Human Law Enforcement Partners,” wrote “him” throughout, and ended on “the process of replacing him with a new SPOT platform is underway.” The maker counted one casualty, its robot, and was relieved at the count.
 
-What the man shot was a machine that had been knocked down once and came up the stairs after him. Nobody on the record says why he fired. The police and the maker both say it went as intended.
+What the man shot was a machine he had knocked down once, which a trooper had set back on its feet and was walking up the stairs after him. Nobody on the record says why he fired. The police and the maker both say it went as intended.
 
 ## Mitigating circumstances
 
