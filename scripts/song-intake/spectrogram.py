@@ -17,8 +17,9 @@ the loudness envelope: each column's peak, with its RMS inside.
 
 Under that, two chromagram strips, the band above the split — middle C unless
 --split names another C — over the band below it: twelve rows each, C at the
-bottom, a row as bright as its pitch class's share of the band, harmonics voting with their fundamentals. So the bass strip
-steps with the bass line, the treble strip carries the tune and the chord over
+bottom, a row as bright as its pitch class's share of the band, harmonics
+voting with their fundamentals. So the bass strip steps with the bass line,
+the treble strip carries the tune and the chord over
 it, and a chord shows as several bright rows at once. A pitch class is read off
 its labelled row; a row's hue is the octave that carries it, keyed beside each
 strip, one hue per octave and the same in either strip — C2 red, C3 orange, C4

@@ -1,7 +1,7 @@
 """A session's human-hour estimate: the task broken into parts, each hours of one
 role at one grade, or of a role that takes none, with the reason for them,
-converted to senior-hours only when read. `.claude/costs/CLAUDE.md` § "Human-hour estimates" carries why, and what
-the figure measures.
+converted to senior-hours only when read. `.claude/costs/CLAUDE.md`
+§ "Human-hour estimates" carries why, and what the figure measures.
 """
 
 from __future__ import annotations
