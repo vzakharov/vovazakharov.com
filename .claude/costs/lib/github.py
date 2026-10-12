@@ -4,7 +4,8 @@ default branch through GitHub's GraphQL API, with no clone of anything.
 A repository qualifies by carrying a ledger, not muthur's watermark: the
 ledger is opt-in for adopters, so a watermark alone has nothing to count. The
 watermark is read only to name the adopters that opted out, so a repository
-missing from the report has a visible reason.
+missing from the report has a visible reason. Each one's rate overlay is read
+too, since its rows may name a role only that overlay rates.
 
 Every call goes through one `Transport`, which is where the tests stand in
 for the network.
@@ -19,11 +20,13 @@ import time
 from dataclasses import dataclass, field
 from typing import Any, Callable, Collection, Dict, List, Mapping, Optional, Sequence, Tuple
 
+from lib.estimate import OVERLAY
 from lib.rows import SessionCost, reshape
 from lib.shape import ShapeError, read_object, read_string, required
 
 LEDGER = ".claude/costs/sessions"
 WATERMARK = ".claude/skills/update-muthur/watermark.json"
+RATES = f".claude/costs/{OVERLAY}"
 # A page of 100 answered HTTP 502 on a token reaching 357 repositories; 40 did not.
 PAGE = 40
 # Month trees per query, each arriving as its rows' text, a few kB a row.
@@ -120,6 +123,7 @@ REPO_FIELDS = f"""
   nameWithOwner
   ledger: object(expression: {literal("HEAD:" + LEDGER)}) {{ ... on Tree {{ entries {{ name type }} }} }}
   watermark: object(expression: {literal("HEAD:" + WATERMARK)}) {{ __typename }}
+  rates: object(expression: {literal("HEAD:" + RATES)}) {{ ... on Blob {{ isTruncated isBinary text }} }}
 """
 
 LISTING = f"""
@@ -141,6 +145,8 @@ query($cursor: String) {{
 class Candidate:
     repo: str
     months: List[str]
+    # The text of its rate overlay, where it has one.
+    rates: Optional[str] = None
 
 
 @dataclass
@@ -165,7 +171,7 @@ def _entries(tree: Any, where: str) -> Optional[List[Dict[str, Any]]]:
     return entries
 
 
-def _read_node(node: Any) -> Tuple[str, Optional[List[str]], bool]:
+def _read_node(node: Any) -> Tuple[str, Optional[List[str]], bool, Optional[str]]:
     if not isinstance(node, dict):
         raise ShapeError("repository node: not an object")
     repo = required(read_string, node, "nameWithOwner", "repository node")
@@ -179,7 +185,9 @@ def _read_node(node: Any) -> Tuple[str, Optional[List[str]], bool]:
             if entry.get("type") == "tree" and MONTH.fullmatch(str(entry.get("name")))
         )
     )
-    return repo, months, node.get("watermark") is not None
+    rates = node.get("rates")
+    overlay = None if rates is None else _blob_text(rates, f"{repo}:{RATES}")
+    return repo, months, node.get("watermark") is not None, overlay
 
 
 def _nodes(client: Client, only: Optional[Sequence[str]]) -> List[Any]:
@@ -209,9 +217,9 @@ def discover(client: Client, only: Optional[Sequence[str]] = None) -> Discovery:
     ledgers: List[Candidate] = []
     without_ledger: List[str] = []
     nodes = _nodes(client, only)
-    for repo, months, watermarked in sorted(map(_read_node, nodes), key=lambda read: read[0]):
+    for repo, months, watermarked, rates in sorted(map(_read_node, nodes), key=lambda read: read[0]):
         if months is not None:
-            ledgers.append(Candidate(repo, months))
+            ledgers.append(Candidate(repo, months, rates))
         elif only:
             raise GitHubError(f"{repo}: no {LEDGER} on its default branch")
         elif watermarked:
@@ -228,11 +236,16 @@ def _month_query(pairs: Sequence[Tuple[str, str]]) -> str:
     return f"query {{ {aliased} }}"
 
 
-def _row_text(entry: Dict[str, Any], where: str) -> str:
-    blob = required(read_object, entry, "object", where)
+def _blob_text(blob: Any, where: str) -> str:
+    if not isinstance(blob, dict):
+        raise ShapeError(f"{where}: not an object")
     if blob.get("isTruncated") or blob.get("isBinary"):
-        raise ShapeError(f"{where}: GitHub did not return the row whole as text")
+        raise ShapeError(f"{where}: GitHub did not return the file whole as text")
     return required(read_string, blob, "text", where)
+
+
+def _row_text(entry: Dict[str, Any], where: str) -> str:
+    return _blob_text(required(read_object, entry, "object", where), where)
 
 
 def ledger_texts(client: Client, candidates: Sequence[Candidate]) -> List[Tuple[str, str, str]]:
@@ -274,6 +287,8 @@ class RemoteLedger:
     # Session id to the repository its row was counted from.
     repo_of: Dict[str, str]
     repos: List[RepoLedger]
+    # Repository to the text of its rate overlay, for each counted one that has one.
+    overlays: Dict[str, str]
     without_ledger: List[str]
     seen: int
 
@@ -290,7 +305,7 @@ def remote_ledger(
     found = discover(client, only)
     client.progress(f"{_count(len(found.ledgers), 'ledger')} among {_count(found.seen, 'repository', 'repositories')}")
     wanted = [
-        Candidate(c.repo, [m for m in c.months if months is None or m in months])
+        Candidate(c.repo, [m for m in c.months if months is None or m in months], c.rates)
         for c in found.ledgers
     ]
     repos = {c.repo: RepoLedger(c.repo, c.months) for c in wanted}
@@ -313,6 +328,7 @@ def remote_ledger(
         rows=rows,
         repo_of=repo_of,
         repos=[ledger for ledger in repos.values() if ledger.months],
+        overlays={c.repo: c.rates for c in wanted if c.months and c.rates is not None},
         without_ledger=found.without_ledger,
         seen=found.seen,
     )

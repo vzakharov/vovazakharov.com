@@ -146,6 +146,14 @@ class HoursByRoleAndGrade(unittest.TestCase):
         self.assertEqual(table.by_role, {"copywriter": {"junior": 1}, "developer": {"senior": 5}})
         self.assertEqual((table.estimated, table.rows), (2, 3))
 
+    def test_files_an_ungraded_role_s_hours_in_a_column_after_the_grades(self) -> None:
+        rates = replace(self.RATES, ungraded={"artist": 1})
+        rows = [estimated(Part(1, None, "artist"), Part(2, "senior", "developer"), Part(1, "junior", "developer"))]
+        table = totals_of(rows, rates, hours_period=MARCH).hours
+        assert table is not None
+        self.assertEqual(table.grades, ["junior", "senior", "ungraded"])
+        self.assertEqual(table.by_role, {"developer": {"junior": 1, "senior": 2}, "artist": {"ungraded": 1}})
+
     def test_counts_only_the_sessions_that_started_in_its_period(self) -> None:
         rows = [
             estimated(Part(2, "senior", "developer"), started="2026-04-01T00:00:00.000Z"),

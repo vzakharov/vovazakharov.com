@@ -18,7 +18,8 @@ reach the trunk by merge, so a month read there is a month of *merged* work:
 
 `--all-my-repos` reads every repository the `gh` user can see whose default
 branch carries a ledger, and `--repo` (repeatable) just the ones named, off
-GitHub rather than this checkout, adding a table by repository.
+GitHub rather than this checkout, adding a table by repository. Their rows are
+rated by this checkout's table plus each one's own overlay.
 
 Stdlib only — Python 3.9+.
 """
@@ -32,8 +33,8 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from lib.estimate import Rates, parse_rates
-from lib.github import REPO, Client, GitHubError, remote_ledger
+from lib.estimate import Rates, load_rates, with_overlay
+from lib.github import RATES, REPO, Client, GitHubError, remote_ledger
 from lib.hours import HoursTable
 from lib.period import FORMATS, KINDS, Period, PeriodError, month_of, period
 from lib.pricing import load_prices
@@ -259,6 +260,8 @@ def across_repos(only: Optional[List[str]], span: Optional[Period], as_json: boo
         ledger = remote_ledger(Client(progress=status), only, None if span is None else span.months())
     finally:
         status.clear()
+    for repo, overlay in ledger.overlays.items():
+        rates = with_overlay(rates, overlay, f"{repo}:{RATES}")
     rows = [row for row in ledger.rows if span is None or span.holds(row)]
     totals = totals_of(rows, rates, ledger.repo_of, span or month_of(today()))
     repos = by_repo(rows, ledger.repo_of)
@@ -378,7 +381,7 @@ def main() -> int:
         span = period(*named[0], today()) if named else None
     except PeriodError as error:
         parser.error(str(error))
-    rates = parse_rates((COSTS / "rates.json").read_text(encoding="utf-8"))
+    rates = load_rates(COSTS)
     if not (args.all_my_repos or args.repo):
         return this_repo(span, args.json, rates)
     try:

@@ -1,0 +1,779 @@
+From 49fadd9db8239c351e552b70d8f49e2b62ea9b68 Mon Sep 17 00:00:00 2001
+From: Vova Zakharov <vzakharov@gmail.com>
+Date: Mon, 12 Oct 2026 02:18:45 +0000
+Subject: [PATCH] feat: let a repository add its own estimate roles, graded or
+ not
+
+An adopting repository could only estimate in the roles rates.json ships,
+and editing that file collides with every sync of it. A repository now keeps
+its own roles in .claude/costs/rates.repo.json, beside the table and in its
+shape. The overlay may only add: an entry the table already rates at another
+multiplier raises, so no row is re-rated without the table saying so.
+
+Either file may also carry an `ungraded` table: roles that take no grade,
+worth hours times the role's own multiplier. Such a part is written as
+`--part <hours> <role> <why>` and stored with a null grade; checked() refuses
+a grade on an ungraded role and a missing one on a graded role. The hours
+table files ungraded hours in an `ungraded` column after the grades.
+
+estimate.py, report.py and check_estimates.py load the table through
+load_rates(); the estimate notice and check_estimates list ungraded roles
+only when there are some, so the shipped text is unchanged. report.py
+--all-my-repos reads each ledger's overlay off GitHub as well, since a row
+there may name a role only its own repository rates.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01PUYJksvzRTYbgjWSg2ypty
+---
+ .claude/costs/CLAUDE.md                |  7 ++
+ .claude/costs/check_estimates.py       |  7 +-
+ .claude/costs/estimate.py              | 28 +++++---
+ .claude/costs/hooks/estimate-notice.sh | 14 +++-
+ .claude/costs/lib/estimate.py          | 93 +++++++++++++++++++++-----
+ .claude/costs/lib/github.py            | 34 +++++++---
+ .claude/costs/lib/hours.py             | 16 +++--
+ .claude/costs/report.py                | 11 +--
+ .claude/costs/test_estimate.py         | 57 +++++++++++++++-
+ .claude/costs/test_github.py           | 31 +++++++--
+ .claude/costs/test_totals.py           |  8 +++
+ 11 files changed, 247 insertions(+), 59 deletions(-)
+
+diff --git a/.claude/costs/CLAUDE.md b/.claude/costs/CLAUDE.md
+index 721f299..13fe5f7 100644
+--- a/.claude/costs/CLAUDE.md
++++ b/.claude/costs/CLAUDE.md
+@@ -227,6 +227,13 @@ the reason for them. A revision replaces it, so its history is git's.
+   per grade, a part being worth hours × both, and is applied when the report
+   reads a row, so retuning one re-rates the whole history alike and the trend
+   stays comparable with itself.
++- **A repository's own roles go in `rates.repo.json`**, beside the table and
++  in its shape, so a sync of `rates.json` never meets them. It may only add:
++  an entry the table already rates otherwise raises, since letting either win
++  would re-rate history unannounced. Its `ungraded` table holds roles that
++  take no grade — `--part <hours> <role> <why>`, worth hours × the role's
++  multiplier. `--all-my-repos` reads each ledger's overlay off GitHub too,
++  since a row there may name a role only its own repository rates.
+ - **Of the row's copy and a running session's pending one, the later wins.**
+   That is how a `--session` edit to a running session's row survives its next
+   `Stop`, and how the session's own later `set` overrides that edit.
+diff --git a/.claude/costs/check_estimates.py b/.claude/costs/check_estimates.py
+index 582141c..eb116d6 100755
+--- a/.claude/costs/check_estimates.py
++++ b/.claude/costs/check_estimates.py
+@@ -18,7 +18,7 @@ import sys
+ from pathlib import Path
+ from typing import List, Optional, Tuple
+ 
+-from lib.estimate import latest, parse_rates
++from lib.estimate import latest, load_rates
+ from lib.rows import ROOT, SESSIONS, SessionCost, parse_session_cost, read_pending_estimate, row_path
+ from lib.shape import ShapeError
+ 
+@@ -87,14 +87,15 @@ def main() -> int:
+         return 1
+ 
+     if missing:
+-        rates = parse_rates((COSTS / "rates.json").read_text(encoding="utf-8"))
++        rates = load_rates(COSTS)
+         print(f"{PROG}: {len(missing)} session(s) on this branch have no human-hour estimate.", file=sys.stderr)
+         for session_id, what in missing.items():
+             print(f"{PROG}:   {session_id} ({(what or 'no opening prompt')[:80]!r}):", file=sys.stderr)
+             print(f"{PROG}:     {fix_for(session_id, running)}", file=sys.stderr)
++        ungraded = f"; roles that take no grade: {', '.join(rates.ungraded)}" if rates.ungraded else ""
+         print(
+             f"{PROG}: Each part is the hours one role at one grade would spend on the task, and why"
+-            f" (roles: {', '.join(rates.roles)}; grades: {', '.join(rates.grades)}).",
++            f" (roles: {', '.join(rates.roles)}; grades: {', '.join(rates.grades)}{ungraded}).",
+             file=sys.stderr,
+         )
+         if base is not None:
+diff --git a/.claude/costs/estimate.py b/.claude/costs/estimate.py
+index 92570a1..9259ad7 100755
+--- a/.claude/costs/estimate.py
++++ b/.claude/costs/estimate.py
+@@ -2,12 +2,13 @@
+ """Set or show a session's human-hour estimate.
+ 
+ Usage:
+-  python3 .claude/costs/estimate.py set --part <hours> <grade> <role> <why> [--part ...] [--session <id>]
++  python3 .claude/costs/estimate.py set --part <hours> [<grade>] <role> <why> [--part ...] [--session <id>]
+   python3 .claude/costs/estimate.py show [--session <id>]
+ 
+ Each `--part` is the hours one role at one grade would spend on the task, and
+-why that role, at that grade, for those hours; the parts add up to the
+-estimate, and `set` replaces the whole of it. Without
++why that role, at that grade, for those hours — the grade left out on a role
++the table rates as ungraded; the parts add up to the estimate, and `set`
++replaces the whole of it. Without
+ `--session` the session is this one, read off `CLAUDE_CODE_SESSION_ID`: the
+ estimate goes to `tmp/estimates/<id>.json`, and the row folds it in when the
+ turn ends. Another session's id edits that session's committed row in place,
+@@ -25,7 +26,7 @@ from datetime import datetime, timezone
+ from pathlib import Path
+ from typing import List, Optional
+ 
+-from lib.estimate import Estimate, Part, Rates, checked, senior_hours, latest, parse_rates
++from lib.estimate import Estimate, Part, Rates, checked, senior_hours, latest, load_rates
+ from lib.rows import SESSIONS, read_pending_estimate, read_row, row_path, row_text, write_atomic, write_pending_estimate
+ from lib.shape import ShapeError
+ 
+@@ -41,12 +42,16 @@ def describe(estimate: Optional[Estimate], rates: Rates) -> str:
+ 
+ 
+ def parts_of(raw: List[List[str]]) -> List[Part]:
++    """`checked` is what says whether a role takes the grade it was given."""
+     parts = []
+-    for hours, grade, role, why in raw:
++    for given in raw:
++        if len(given) not in (3, 4):
++            raise ShapeError(f"`--part {' '.join(given)}`: not HOURS [GRADE] ROLE WHY")
++        hours, *grade, role, why = given
+         try:
+-            parts.append(Part(hours=float(hours), grade=grade, role=role, comment=why.strip()))
++            parts.append(Part(hours=float(hours), grade=grade[0] if grade else None, role=role, comment=why.strip()))
+         except ValueError as error:
+-            raise ShapeError(f"`--part {hours} {grade} {role}`: hours are not a number") from error
++            raise ShapeError(f"`--part {' '.join(given[:-1])}`: hours are not a number") from error
+     return parts
+ 
+ 
+@@ -56,11 +61,12 @@ def main() -> int:
+     setting = commands.add_parser("set")
+     setting.add_argument(
+         "--part",
+-        nargs=4,
++        nargs="+",
+         action="append",
+         required=True,
+-        metavar=("HOURS", "GRADE", "ROLE", "WHY"),
+-        help="WHY: why this role, at this grade, for these hours; not a summary of the work",
++        metavar=("HOURS", "[GRADE] ROLE WHY"),
++        help="GRADE: left out on an ungraded role; WHY: why this role, at this grade, for these hours;"
++        " not a summary of the work",
+     )
+     showing = commands.add_parser("show")
+     for command in (setting, showing):
+@@ -72,7 +78,7 @@ def main() -> int:
+     if session_id is None:
+         print("estimate: no CLAUDE_CODE_SESSION_ID; name the session with --session", file=sys.stderr)
+         return 1
+-    rates = parse_rates((COSTS / "rates.json").read_text(encoding="utf-8"))
++    rates = load_rates(COSTS)
+     running = session_id == current
+     path = row_path(session_id)
+     if not running and path is None:
+diff --git a/.claude/costs/hooks/estimate-notice.sh b/.claude/costs/hooks/estimate-notice.sh
+index e13cffb..388c60e 100755
+--- a/.claude/costs/hooks/estimate-notice.sh
++++ b/.claude/costs/hooks/estimate-notice.sh
+@@ -19,8 +19,18 @@ session_id="$(field session_id)"
+ script=".claude/costs/estimate.py"
+ shown="$(CLAUDE_CODE_SESSION_ID="$session_id" python3 "$root/$script" show)" || exit 0
+ current="${shown#*: }"
+-roles="$(jq -r '.roles | keys_unsorted | join(", ")' "$root/.claude/costs/rates.json")"
+-grades="$(jq -r '.grades | keys_unsorted | join(", ")' "$root/.claude/costs/rates.json")"
++tables=("$root/.claude/costs/rates.json")
++[ -f "$root/.claude/costs/rates.repo.json" ] && tables+=("$root/.claude/costs/rates.repo.json")
++# A table's names across both files, in order and once each.
++table() {
++  jq -rs --arg name "$1" \
++    'reduce (.[] | .[$name] // {} | keys_unsorted[]) as $k ([]; if index([$k]) then . else . + [$k] end) | join(", ")' \
++    "${tables[@]}"
++}
++roles="$(table roles)"
++grades="$(table grades)"
++ungraded="$(table ungraded)"
++[ -n "$ungraded" ] && grades="$grades; roles that take no grade, their part given as \`--part <hours> <role> \"<why>\"\`: $ungraded"
+ usage="python3 $script set --part <hours> <grade> <role> \"<why, at most 280 characters>\" [--part ...]"
+ 
+ # One line per paragraph: the agent reads it unwrapped, and a hard break inside
+diff --git a/.claude/costs/lib/estimate.py b/.claude/costs/lib/estimate.py
+index 5215b70..31f4365 100644
+--- a/.claude/costs/lib/estimate.py
++++ b/.claude/costs/lib/estimate.py
+@@ -1,6 +1,6 @@
+ """A session's human-hour estimate: the task broken into parts, each hours of one
+-role at one grade with the reason for them, converted to senior-hours only when
+-read. `.claude/costs/CLAUDE.md` § "Human-hour estimates" carries why, and what
++role at one grade, or of a role that takes none, with the reason for them,
++converted to senior-hours only when read. `.claude/costs/CLAUDE.md` § "Human-hour estimates" carries why, and what
+ the figure measures.
+ """
+ 
+@@ -8,8 +8,9 @@ from __future__ import annotations
+ 
+ import json
+ import re
+-from dataclasses import dataclass, replace
+-from typing import Any, Dict, List, Mapping, Optional
++from dataclasses import dataclass, field, replace
++from pathlib import Path
++from typing import Any, Dict, List, Mapping, Optional, Sequence
+ 
+ from lib.shape import ShapeError, is_number, read_number, read_object, read_string, required
+ 
+@@ -19,7 +20,8 @@ COMMENT_LIMIT = 280
+ @dataclass(frozen=True)
+ class Part:
+     hours: float
+-    grade: str
++    # Null on a role the table rates as `ungraded`.
++    grade: Optional[str]
+     role: str
+     # Why this role, at this grade, for these hours. Null only on a part of an
+     # estimate that carries one comment for the whole.
+@@ -28,7 +30,7 @@ class Part:
+     @property
+     def label(self) -> str:
+         """How a comment for the whole names this part, before its reason."""
+-        return f"{self.grade} {self.role}"
++        return self.role if self.grade is None else f"{self.grade} {self.role}"
+ 
+ 
+ @dataclass
+@@ -44,10 +46,26 @@ class Estimate:
+ @dataclass(frozen=True)
+ class Rates:
+     """Multipliers against an hour of the reference role at the reference
+-    grade — each table's `1` — which is what a senior-hour is."""
++    grade — each table's `1` — which is what a senior-hour is. An `ungraded`
++    role takes no grade, its multiplier being the whole of its rate."""
+ 
+     roles: Dict[str, float]
+     grades: Dict[str, float]
++    ungraded: Dict[str, float] = field(default_factory=dict)
++
++    @property
++    def role_names(self) -> List[str]:
++        return [*self.roles, *self.ungraded]
++
++    def multiplier(self, part: Part) -> float:
++        if part.grade is None:
++            return self.ungraded[part.role]
++        return self.roles[part.role] * self.grades[part.grade]
++
++
++TABLES = ("roles", "grades", "ungraded")
++# A repository's own additions to the shared table, beside it and in its shape.
++OVERLAY = "rates.repo.json"
+ 
+ 
+ def _multipliers(table: Optional[Dict[str, Any]], where: str) -> Dict[str, float]:
+@@ -59,14 +77,50 @@ def _multipliers(table: Optional[Dict[str, Any]], where: str) -> Dict[str, float
+     return table
+ 
+ 
+-def parse_rates(text: str, where: str = "rates.json") -> Rates:
++def _tables(text: str, where: str, needed: Sequence[str]) -> Dict[str, Dict[str, float]]:
+     rates = json.loads(text)
+     if not isinstance(rates, dict):
+         raise ShapeError(f"{where}: not an object")
+-    return Rates(
+-        roles=_multipliers(read_object(rates, "roles", where), f"{where} roles"),
+-        grades=_multipliers(read_object(rates, "grades", where), f"{where} grades"),
+-    )
++    for key in rates:
++        if key not in TABLES:
++            raise ShapeError(f"{where}: `{key}` is not one of {', '.join(TABLES)}")
++    return {
++        name: _multipliers(read_object(rates, name, where), f"{where} {name}")
++        for name in TABLES
++        if name in needed or name in rates
++    }
++
++
++def parse_rates(text: str, where: str = "rates.json") -> Rates:
++    tables = _tables(text, where, ("roles", "grades"))
++    return _checked_names(Rates(**tables), where)
++
++
++def with_overlay(rates: Rates, text: str, where: str = OVERLAY) -> Rates:
++    """`rates` plus an overlay's entries. An entry may only add: one the table
++    already has at another multiplier raises, since letting either win would
++    re-rate every row that names it without the table saying so."""
++    merged = {"roles": dict(rates.roles), "grades": dict(rates.grades), "ungraded": dict(rates.ungraded)}
++    for name, table in _tables(text, where, ()).items():
++        for key, multiplier in table.items():
++            if merged[name].get(key, multiplier) != multiplier:
++                raise ShapeError(f"{where} {name}: `{key}` is rated {merged[name][key]:g} already, not {multiplier:g}")
++            merged[name][key] = multiplier
++    return _checked_names(Rates(**merged), where)
++
++
++def _checked_names(rates: Rates, where: str) -> Rates:
++    for role in rates.ungraded:
++        if role in rates.roles:
++            raise ShapeError(f"{where}: `{role}` is both a graded and an ungraded role")
++    return rates
++
++
++def load_rates(costs: Path) -> Rates:
++    """`rates.json`, plus this repository's overlay where it has one."""
++    rates = parse_rates((costs / "rates.json").read_text(encoding="utf-8"))
++    overlay = costs / OVERLAY
++    return with_overlay(rates, overlay.read_text(encoding="utf-8")) if overlay.is_file() else rates
+ 
+ 
+ def checked(estimate: Estimate, rates: Rates, where: str) -> Estimate:
+@@ -78,9 +132,14 @@ def checked(estimate: Estimate, rates: Rates, where: str) -> Estimate:
+         at = f"{where} part {index + 1}"
+         if part.hours < 0:
+             raise ShapeError(f"{at}: hours are {part.hours:g}, below zero")
+-        if part.role not in rates.roles:
+-            raise ShapeError(f"{at}: role `{part.role}` is not one of {', '.join(rates.roles)} (rates.json)")
+-        if part.grade not in rates.grades:
++        if part.role in rates.ungraded:
++            if part.grade is not None:
++                raise ShapeError(f"{at}: role `{part.role}` takes no grade, and was given `{part.grade}`")
++        elif part.role not in rates.roles:
++            raise ShapeError(f"{at}: role `{part.role}` is not one of {', '.join(rates.role_names)} (rates.json)")
++        elif part.grade is None:
++            raise ShapeError(f"{at}: role `{part.role}` takes a grade: one of {', '.join(rates.grades)}")
++        elif part.grade not in rates.grades:
+             raise ShapeError(f"{at}: grade `{part.grade}` is not one of {', '.join(rates.grades)} (rates.json)")
+         if estimate.comment is None:
+             _check_comment(part.comment, at)
+@@ -114,7 +173,7 @@ def parse_estimate(value: Any, where: str) -> Optional[Estimate]:
+         read.append(
+             Part(
+                 hours=required(read_number, part, "hours", at),
+-                grade=required(read_string, part, "grade", at),
++                grade=read_string(part, "grade", at),
+                 role=required(read_string, part, "role", at),
+                 comment=read_string(part, "comment", at),
+             )
+@@ -165,4 +224,4 @@ def latest(*estimates: Optional[Estimate]) -> Optional[Estimate]:
+ 
+ 
+ def senior_hours(estimate: Estimate, rates: Rates) -> float:
+-    return sum(part.hours * rates.roles[part.role] * rates.grades[part.grade] for part in estimate.parts)
++    return sum(part.hours * rates.multiplier(part) for part in estimate.parts)
+diff --git a/.claude/costs/lib/github.py b/.claude/costs/lib/github.py
+index 2c60fe1..2f576b8 100644
+--- a/.claude/costs/lib/github.py
++++ b/.claude/costs/lib/github.py
+@@ -4,7 +4,8 @@ default branch through GitHub's GraphQL API, with no clone of anything.
+ A repository qualifies by carrying a ledger, not muthur's watermark: the
+ ledger is opt-in for adopters, so a watermark alone has nothing to count. The
+ watermark is read only to name the adopters that opted out, so a repository
+-missing from the report has a visible reason.
++missing from the report has a visible reason. Each one's rate overlay is read
++too, since its rows may name a role only that overlay rates.
+ 
+ Every call goes through one `Transport`, which is where the tests stand in
+ for the network.
+@@ -19,11 +20,13 @@ import time
+ from dataclasses import dataclass, field
+ from typing import Any, Callable, Collection, Dict, List, Mapping, Optional, Sequence, Tuple
+ 
++from lib.estimate import OVERLAY
+ from lib.rows import SessionCost, reshape
+ from lib.shape import ShapeError, read_object, read_string, required
+ 
+ LEDGER = ".claude/costs/sessions"
+ WATERMARK = ".claude/skills/update-muthur/watermark.json"
++RATES = f".claude/costs/{OVERLAY}"
+ # A page of 100 answered HTTP 502 on a token reaching 357 repositories; 40 did not.
+ PAGE = 40
+ # Month trees per query, each arriving as its rows' text, a few kB a row.
+@@ -120,6 +123,7 @@ REPO_FIELDS = f"""
+   nameWithOwner
+   ledger: object(expression: {literal("HEAD:" + LEDGER)}) {{ ... on Tree {{ entries {{ name type }} }} }}
+   watermark: object(expression: {literal("HEAD:" + WATERMARK)}) {{ __typename }}
++  rates: object(expression: {literal("HEAD:" + RATES)}) {{ ... on Blob {{ isTruncated isBinary text }} }}
+ """
+ 
+ LISTING = f"""
+@@ -141,6 +145,8 @@ query($cursor: String) {{
+ class Candidate:
+     repo: str
+     months: List[str]
++    # The text of its rate overlay, where it has one.
++    rates: Optional[str] = None
+ 
+ 
+ @dataclass
+@@ -165,7 +171,7 @@ def _entries(tree: Any, where: str) -> Optional[List[Dict[str, Any]]]:
+     return entries
+ 
+ 
+-def _read_node(node: Any) -> Tuple[str, Optional[List[str]], bool]:
++def _read_node(node: Any) -> Tuple[str, Optional[List[str]], bool, Optional[str]]:
+     if not isinstance(node, dict):
+         raise ShapeError("repository node: not an object")
+     repo = required(read_string, node, "nameWithOwner", "repository node")
+@@ -179,7 +185,9 @@ def _read_node(node: Any) -> Tuple[str, Optional[List[str]], bool]:
+             if entry.get("type") == "tree" and MONTH.fullmatch(str(entry.get("name")))
+         )
+     )
+-    return repo, months, node.get("watermark") is not None
++    rates = node.get("rates")
++    overlay = None if rates is None else _blob_text(rates, f"{repo}:{RATES}")
++    return repo, months, node.get("watermark") is not None, overlay
+ 
+ 
+ def _nodes(client: Client, only: Optional[Sequence[str]]) -> List[Any]:
+@@ -209,9 +217,9 @@ def discover(client: Client, only: Optional[Sequence[str]] = None) -> Discovery:
+     ledgers: List[Candidate] = []
+     without_ledger: List[str] = []
+     nodes = _nodes(client, only)
+-    for repo, months, watermarked in sorted(map(_read_node, nodes), key=lambda read: read[0]):
++    for repo, months, watermarked, rates in sorted(map(_read_node, nodes), key=lambda read: read[0]):
+         if months is not None:
+-            ledgers.append(Candidate(repo, months))
++            ledgers.append(Candidate(repo, months, rates))
+         elif only:
+             raise GitHubError(f"{repo}: no {LEDGER} on its default branch")
+         elif watermarked:
+@@ -228,13 +236,18 @@ def _month_query(pairs: Sequence[Tuple[str, str]]) -> str:
+     return f"query {{ {aliased} }}"
+ 
+ 
+-def _row_text(entry: Dict[str, Any], where: str) -> str:
+-    blob = required(read_object, entry, "object", where)
++def _blob_text(blob: Any, where: str) -> str:
++    if not isinstance(blob, dict):
++        raise ShapeError(f"{where}: not an object")
+     if blob.get("isTruncated") or blob.get("isBinary"):
+-        raise ShapeError(f"{where}: GitHub did not return the row whole as text")
++        raise ShapeError(f"{where}: GitHub did not return the file whole as text")
+     return required(read_string, blob, "text", where)
+ 
+ 
++def _row_text(entry: Dict[str, Any], where: str) -> str:
++    return _blob_text(required(read_object, entry, "object", where), where)
++
++
+ def ledger_texts(client: Client, candidates: Sequence[Candidate]) -> List[Tuple[str, str, str]]:
+     """`(repo, where, text)` for each row of the candidates' months, read in
+     batches of month trees. A row GitHub truncates raises rather than going
+@@ -274,6 +287,8 @@ class RemoteLedger:
+     # Session id to the repository its row was counted from.
+     repo_of: Dict[str, str]
+     repos: List[RepoLedger]
++    # Repository to the text of its rate overlay, for each counted one that has one.
++    overlays: Dict[str, str]
+     without_ledger: List[str]
+     seen: int
+ 
+@@ -290,7 +305,7 @@ def remote_ledger(
+     found = discover(client, only)
+     client.progress(f"{_count(len(found.ledgers), 'ledger')} among {_count(found.seen, 'repository', 'repositories')}")
+     wanted = [
+-        Candidate(c.repo, [m for m in c.months if months is None or m in months])
++        Candidate(c.repo, [m for m in c.months if months is None or m in months], c.rates)
+         for c in found.ledgers
+     ]
+     repos = {c.repo: RepoLedger(c.repo, c.months) for c in wanted}
+@@ -313,6 +328,7 @@ def remote_ledger(
+         rows=rows,
+         repo_of=repo_of,
+         repos=[ledger for ledger in repos.values() if ledger.months],
++        overlays={c.repo: c.rates for c in wanted if c.months and c.rates is not None},
+         without_ledger=found.without_ledger,
+         seen=found.seen,
+     )
+diff --git a/.claude/costs/lib/hours.py b/.claude/costs/lib/hours.py
+index 5ba6718..c3b5c10 100644
+--- a/.claude/costs/lib/hours.py
++++ b/.claude/costs/lib/hours.py
+@@ -4,24 +4,27 @@ and grade, not senior-hours, so a junior's hour reads as an hour."""
+ from __future__ import annotations
+ 
+ from dataclasses import dataclass
+-from typing import Dict, Iterable, List, Mapping, Tuple
++from typing import Dict, Iterable, List, Tuple
+ 
+ from lib.estimate import Rates
+ from lib.period import Period
+ from lib.rows import SessionCost
+ 
++# The column an ungraded role's hours fill.
++UNGRADED = "ungraded"
++
+ 
+ @dataclass
+ class HoursTable:
+     period: str
+     estimated: int
+     rows: int
+-    # Only what was estimated, each in `rates.json`'s order.
++    # Only what was estimated, each in `rates.json`'s order, `UNGRADED` last.
+     grades: List[str]
+     by_role: Dict[str, Dict[str, float]]
+ 
+ 
+-def _ordered(keys: Iterable[str], order: Mapping[str, float]) -> List[str]:
++def _ordered(keys: Iterable[str], order: Iterable[str]) -> List[str]:
+     ranks = {key: rank for rank, key in enumerate(order)}
+     return sorted(set(keys), key=lambda key: (ranks.get(key, len(ranks)), key))
+ 
+@@ -33,8 +36,9 @@ def hours_of(rows: Iterable[SessionCost], rates: Rates, period: Period) -> Hours
+     cells: Dict[Tuple[str, str], float] = {}
+     for row in inside:
+         for part in row.estimate.parts if row.estimate is not None else []:
+-            cells[(part.role, part.grade)] = cells.get((part.role, part.grade), 0.0) + part.hours
+-    grades = _ordered((grade for _, grade in cells), rates.grades)
++            cell = (part.role, UNGRADED if part.grade is None else part.grade)
++            cells[cell] = cells.get(cell, 0.0) + part.hours
++    grades = _ordered((grade for _, grade in cells), [*rates.grades, UNGRADED])
+     return HoursTable(
+         period=period.label,
+         estimated=sum(1 for row in inside if row.estimate is not None),
+@@ -42,6 +46,6 @@ def hours_of(rows: Iterable[SessionCost], rates: Rates, period: Period) -> Hours
+         grades=grades,
+         by_role={
+             role: {grade: round(cells[(role, grade)], 2) for grade in grades if (role, grade) in cells}
+-            for role in _ordered((role for role, _ in cells), rates.roles)
++            for role in _ordered((role for role, _ in cells), rates.role_names)
+         },
+     )
+diff --git a/.claude/costs/report.py b/.claude/costs/report.py
+index c8a0b1c..4d5e145 100755
+--- a/.claude/costs/report.py
++++ b/.claude/costs/report.py
+@@ -18,7 +18,8 @@ reach the trunk by merge, so a month read there is a month of *merged* work:
+ 
+ `--all-my-repos` reads every repository the `gh` user can see whose default
+ branch carries a ledger, and `--repo` (repeatable) just the ones named, off
+-GitHub rather than this checkout, adding a table by repository.
++GitHub rather than this checkout, adding a table by repository. Their rows are
++rated by this checkout's table plus each one's own overlay.
+ 
+ Stdlib only — Python 3.9+.
+ """
+@@ -32,8 +33,8 @@ from datetime import date, datetime, timezone
+ from pathlib import Path
+ from typing import Dict, List, Optional
+ 
+-from lib.estimate import Rates, parse_rates
+-from lib.github import REPO, Client, GitHubError, remote_ledger
++from lib.estimate import Rates, load_rates, with_overlay
++from lib.github import RATES, REPO, Client, GitHubError, remote_ledger
+ from lib.hours import HoursTable
+ from lib.period import FORMATS, KINDS, Period, PeriodError, month_of, period
+ from lib.pricing import parse_prices
+@@ -258,6 +259,8 @@ def across_repos(only: Optional[List[str]], span: Optional[Period], as_json: boo
+         ledger = remote_ledger(Client(progress=status), only, None if span is None else span.months())
+     finally:
+         status.clear()
++    for repo, overlay in ledger.overlays.items():
++        rates = with_overlay(rates, overlay, f"{repo}:{RATES}")
+     rows = [row for row in ledger.rows if span is None or span.holds(row)]
+     totals = totals_of(rows, rates, ledger.repo_of, span or month_of(today()))
+     repos = by_repo(rows, ledger.repo_of)
+@@ -377,7 +380,7 @@ def main() -> int:
+         span = period(*named[0], today()) if named else None
+     except PeriodError as error:
+         parser.error(str(error))
+-    rates = parse_rates((COSTS / "rates.json").read_text(encoding="utf-8"))
++    rates = load_rates(COSTS)
+     if not (args.all_my_repos or args.repo):
+         return this_repo(span, args.json, rates)
+     try:
+diff --git a/.claude/costs/test_estimate.py b/.claude/costs/test_estimate.py
+index b3589de..20d05d9 100644
+--- a/.claude/costs/test_estimate.py
++++ b/.claude/costs/test_estimate.py
+@@ -24,17 +24,19 @@ from lib.estimate import (
+     Rates,
+     checked,
+     latest,
++    load_rates,
+     parse_estimate,
+     parse_rates,
+     senior_hours,
+     split_comment,
++    with_overlay,
+ )
+ from lib.rows import ROOT, SessionCost, parse_session_cost, pending_estimate_path, read_row, row_text
+ from lib.shape import ShapeError, to_json
+ from lib.tally import Tally
+ from lib.totals import effort_of, main_model
+ 
+-RATES = Rates(roles={"copywriter": 0.5, "developer": 1}, grades={"junior": 0.4, "senior": 1})
++RATES = Rates(roles={"copywriter": 0.5, "developer": 1}, grades={"junior": 0.4, "senior": 1}, ungraded={"artist": 0.9})
+ COSTS = Path(__file__).resolve().parent
+ 
+ 
+@@ -112,6 +114,43 @@ class WhatAnEstimateMayHold(unittest.TestCase):
+             with self.assertRaises(ShapeError):
+                 parse_rates(text)
+ 
++    def test_takes_an_ungraded_role_with_no_grade_at_its_own_multiplier(self) -> None:
++        artist = estimate_of("t", Part(2, None, "artist"), Part(1, "junior", "copywriter"))
++        self.assertEqual(checked(artist, RATES, "e"), artist)
++        self.assertEqual(senior_hours(artist, RATES), 2 * 0.9 + 0.5 * 0.4)
++
++    def test_refuses_a_grade_on_an_ungraded_role_and_none_on_a_graded_one(self) -> None:
++        for part, says in ((Part(1, "senior", "artist"), "takes no grade"), (Part(1, None, "developer"), "takes a grade")):
++            with self.assertRaisesRegex(ShapeError, says):
++                checked(estimate_of("t", part), RATES, "e")
++
++
++class TheOverlay(unittest.TestCase):
++    BASE = parse_rates('{"roles": {"developer": 1}, "grades": {"senior": 1}}')
++
++    def test_adds_its_roles_grades_and_ungraded_roles_to_the_table(self) -> None:
++        rates = with_overlay(self.BASE, '{"roles": {"poet": 0.7}, "grades": {"staff": 1.4}, "ungraded": {"artist": 0.9}}')
++        self.assertEqual(rates, Rates({"developer": 1, "poet": 0.7}, {"senior": 1, "staff": 1.4}, {"artist": 0.9}))
++
++    def test_repeating_an_entry_at_its_multiplier_changes_nothing(self) -> None:
++        self.assertEqual(with_overlay(self.BASE, '{"roles": {"developer": 1}}'), self.BASE)
++
++    def test_refuses_to_retune_an_entry_the_table_has(self) -> None:
++        with self.assertRaisesRegex(ShapeError, "`developer` is rated 1 already, not 2"):
++            with_overlay(self.BASE, '{"roles": {"developer": 2}}')
++
++    def test_refuses_a_role_both_graded_and_ungraded_and_a_table_it_does_not_know(self) -> None:
++        for text in ('{"ungraded": {"developer": 1}}', '{"role": {"poet": 1}}'):
++            with self.subTest(text), self.assertRaises(ShapeError):
++                with_overlay(self.BASE, text)
++
++    def test_is_read_from_beside_the_table_where_there_is_one(self) -> None:
++        with tempfile.TemporaryDirectory() as costs:
++            (Path(costs) / "rates.json").write_text('{"roles": {"developer": 1}, "grades": {"senior": 1}}', encoding="utf-8")
++            self.assertEqual(load_rates(Path(costs)), self.BASE)
++            (Path(costs) / "rates.repo.json").write_text('{"ungraded": {"artist": 0.9}}', encoding="utf-8")
++            self.assertEqual(load_rates(Path(costs)).ungraded, {"artist": 0.9})
++
+ 
+ class WhichCopyWins(unittest.TestCase):
+     def test_the_one_set_last(self) -> None:
+@@ -122,7 +161,10 @@ class WhichCopyWins(unittest.TestCase):
+ 
+ class RowsCarryTheirEstimate(unittest.TestCase):
+     def test_a_row_with_an_estimate_parses_back_to_itself(self) -> None:
+-        row = replace(ROW, estimate=estimate_of("a", Part(1, "junior", "developer"), Part(2, "senior", "copywriter")))
++        row = replace(
++            ROW,
++            estimate=estimate_of("a", Part(1, "junior", "developer"), Part(2, "senior", "copywriter"), Part(1, None, "artist")),
++        )
+         self.assertEqual(parse_session_cost(json.dumps(to_json(row))), row)
+ 
+     def test_a_row_is_written_with_its_estimate_first(self) -> None:
+@@ -302,6 +344,17 @@ class TheCommand(unittest.TestCase):
+         self.assertEqual(done.returncode, 2)
+         self.assertFalse(pending_estimate_path(self.running).exists())
+ 
++    def test_a_part_without_a_grade_is_refused_for_a_role_that_takes_one(self) -> None:
++        done = estimate("set", "--part", "1", "developer", "why", session=self.running)
++        self.assertEqual(done.returncode, 1)
++        self.assertIn("takes a grade", done.stderr)
++        self.assertFalse(pending_estimate_path(self.running).exists())
++
++    def test_a_part_of_the_wrong_length_is_refused(self) -> None:
++        done = estimate("set", "--part", "1", "why", session=self.running)
++        self.assertEqual(done.returncode, 1)
++        self.assertIn("not HOURS [GRADE] ROLE WHY", done.stderr)
++
+     def test_a_session_with_no_row_is_refused_rather_than_guessed_at(self) -> None:
+         done = estimate("show", "--session", "no-such-session", session=self.running)
+         self.assertEqual(done.returncode, 1)
+diff --git a/.claude/costs/test_github.py b/.claude/costs/test_github.py
+index 5a59f58..a8f4ee8 100644
+--- a/.claude/costs/test_github.py
++++ b/.claude/costs/test_github.py
+@@ -1,7 +1,8 @@
+ #!/usr/bin/env python3
+ """The cross-repo ledger is read through one transport, so each case is a fake
+ GitHub answering in the shapes the real one returns: a repository listing
+-paged by cursor, and aliased month trees whose blobs carry the rows' text.
++paged by cursor, each repository with its rate overlay where it has one, and
++aliased month trees whose blobs carry the rows' text.
+ What it protects is which repositories count, that every row arrives or the
+ run stops, and that a row is counted once however many repositories carry it.
+ 
+@@ -58,12 +59,14 @@ class FakeGitHub:
+         self,
+         ledgers: Mapping[str, Optional[Months]],
+         watermarked: tuple = (),
++        overlays: Optional[Mapping[str, Any]] = None,
+         page: int = 2,
+         failures: int = 0,
+         errors: Optional[List[Dict[str, Any]]] = None,
+     ) -> None:
+         self.ledgers = dict(sorted(ledgers.items()))
+         self.watermarked = set(watermarked)
++        self.overlays = dict(overlays or {})
+         self.page = page
+         self.failures = failures
+         self.errors = errors
+@@ -77,8 +80,15 @@ class FakeGitHub:
+             if months is None
+             else {"entries": [{"name": m, "type": "tree"} for m in months] + [{"name": ".gitkeep", "type": "blob"}]},
+             "watermark": {"__typename": "Blob"} if repo in self.watermarked else None,
++            "rates": None if repo not in self.overlays else self.blob(self.overlays[repo]),
+         }
+ 
++    @staticmethod
++    def blob(text: Any) -> Dict[str, Any]:
++        if text is TRUNCATED:
++            return {"isTruncated": True, "isBinary": False, "text": "{"}
++        return {"isTruncated": False, "isBinary": False, "text": text}
++
+     def tree(self, repo: str, month: str) -> Dict[str, Any]:
+         files = (self.ledgers[repo] or {})[month]
+         return {
+@@ -87,9 +97,7 @@ class FakeGitHub:
+                     {
+                         "name": name,
+                         "type": "blob",
+-                        "object": {"isTruncated": True, "isBinary": False, "text": "{"}
+-                        if text is TRUNCATED
+-                        else {"isTruncated": False, "isBinary": False, "text": text},
++                        "object": self.blob(text),
+                     }
+                     for name, text in files.items()
+                 ]
+@@ -177,7 +185,7 @@ class FailuresAreLoud(unittest.TestCase):
+ 
+     def test_a_truncated_row_raises(self) -> None:
+         github = FakeGitHub({"a/ledger": {"2026-03": {"s.json": TRUNCATED}}})
+-        with self.assertRaisesRegex(ShapeError, "a/ledger:.*s.json: GitHub did not return the row whole"):
++        with self.assertRaisesRegex(ShapeError, "a/ledger:.*s.json: GitHub did not return the file whole"):
+             remote_ledger(Client(github, no_sleep))
+ 
+ 
+@@ -228,6 +236,19 @@ class WhatIsRead(unittest.TestCase):
+         self.assertEqual([r.session_id for r in ledger.rows], ["s"])
+         self.assertEqual(ledger.repos[0].warnings, ["1 row in an older or newer shape than this ledger's"])
+ 
++    def test_each_counted_repo_s_rate_overlay_comes_back_with_its_rows(self) -> None:
++        github = FakeGitHub(
++            {"a/ledger": {"2026-03": {"s.json": row("s")}}, "b/ledger": {"2026-03": {}}, "c/ledger": {"2026-04": {}}},
++            overlays={"a/ledger": '{"ungraded": {"artist": 1}}', "c/ledger": "{}"},
++        )
++        ledger = remote_ledger(Client(github, no_sleep), months={"2026-03"})
++        self.assertEqual(ledger.overlays, {"a/ledger": '{"ungraded": {"artist": 1}}'})
++
++    def test_a_truncated_overlay_raises(self) -> None:
++        github = FakeGitHub({"a/ledger": {"2026-03": {}}}, overlays={"a/ledger": TRUNCATED})
++        with self.assertRaisesRegex(ShapeError, "a/ledger:.claude/costs/rates.repo.json: GitHub did not return the file whole"):
++            discover(Client(github, no_sleep))
++
+     def test_a_repo_with_no_month_under_the_filter_is_left_out(self) -> None:
+         github = FakeGitHub({"a/ledger": {"2026-03": {"s.json": row("s")}}, "b/ledger": {"2026-04": {}}})
+         ledger = remote_ledger(Client(github, no_sleep), months={"2026-03"})
+diff --git a/.claude/costs/test_totals.py b/.claude/costs/test_totals.py
+index fbb3904..f1faaba 100755
+--- a/.claude/costs/test_totals.py
++++ b/.claude/costs/test_totals.py
+@@ -146,6 +146,14 @@ class HoursByRoleAndGrade(unittest.TestCase):
+         self.assertEqual(table.by_role, {"copywriter": {"junior": 1}, "developer": {"senior": 5}})
+         self.assertEqual((table.estimated, table.rows), (2, 3))
+ 
++    def test_files_an_ungraded_role_s_hours_in_a_column_after_the_grades(self) -> None:
++        rates = replace(self.RATES, ungraded={"artist": 1})
++        rows = [estimated(Part(1, None, "artist"), Part(2, "senior", "developer"), Part(1, "junior", "developer"))]
++        table = totals_of(rows, rates, hours_period=MARCH).hours
++        assert table is not None
++        self.assertEqual(table.grades, ["junior", "senior", "ungraded"])
++        self.assertEqual(table.by_role, {"developer": {"junior": 1, "senior": 2}, "artist": {"ungraded": 1}})
++
+     def test_counts_only_the_sessions_that_started_in_its_period(self) -> None:
+         rows = [
+             estimated(Part(2, "senior", "developer"), started="2026-04-01T00:00:00.000Z"),
+-- 
+2.43.0
+

@@ -19,7 +19,7 @@
       ".claude/context-budget/": "adopted whole. `auto-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; the source's `vzakharov` entry is taken verbatim because that operator is this repo's too, and a source entry for any other handle is theirs to set here, not a port."
     },
     {
-      ".claude/costs/": "sessions/ is each repo's own and never synced."
+      ".claude/costs/": "sessions/ and rates.repo.json are each repo's own and never synced. This repo's overlay rates `artist`, an ungraded role, on the operator's call."
     },
     ".claude/cold-cache/",
     {

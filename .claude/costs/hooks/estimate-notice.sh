@@ -19,8 +19,18 @@ session_id="$(field session_id)"
 script=".claude/costs/estimate.py"
 shown="$(CLAUDE_CODE_SESSION_ID="$session_id" python3 "$root/$script" show)" || exit 0
 current="${shown#*: }"
-roles="$(jq -r '.roles | keys_unsorted | join(", ")' "$root/.claude/costs/rates.json")"
-grades="$(jq -r '.grades | keys_unsorted | join(", ")' "$root/.claude/costs/rates.json")"
+tables=("$root/.claude/costs/rates.json")
+[ -f "$root/.claude/costs/rates.repo.json" ] && tables+=("$root/.claude/costs/rates.repo.json")
+# A table's names across both files, in order and once each.
+table() {
+  jq -rs --arg name "$1" \
+    'reduce (.[] | .[$name] // {} | keys_unsorted[]) as $k ([]; if index([$k]) then . else . + [$k] end) | join(", ")' \
+    "${tables[@]}"
+}
+roles="$(table roles)"
+grades="$(table grades)"
+ungraded="$(table ungraded)"
+[ -n "$ungraded" ] && grades="$grades; roles that take no grade, their part given as \`--part <hours> <role> \"<why>\"\`: $ungraded"
 usage="python3 $script set --part <hours> <grade> <role> \"<why, at most 280 characters>\" [--part ...]"
 
 # One line per paragraph: the agent reads it unwrapped, and a hard break inside
