@@ -39,6 +39,10 @@ idiom for a noble kind of restlessness, a dissatisfaction with things as they
 are that drives people to improve, to create, to reach higher. But I read it
 straight away as a deity’s discontent, and the album is built on that pun.
 
+And it’s a nice play on words, because the idiomatic meaning, taken literally,
+works too: out of that noble restlessness God “wanted the best, but it turned
+out as always,” as Viktor Chernomyrdin put it.
+
 <!-- lang:ru -->
 
 Название выросло из темы богов, которая была у меня в голове ещё со времён
@@ -47,3 +51,7 @@ Jukebox, и из фразы, которую я где-то услышал — н
 это идиома — «божественное недовольство», благородная неудовлетворённость тем,
 как всё есть, которая толкает человека улучшать, создавать, тянуться выше. Но я
 сразу прочёл её как недовольство божества, и на этой игре слов построен альбом.
+
+А вообще неплохая игра слов получается: «литерально идиоматическое» значение
+тоже работает. Хотели как лучше — из того самого divine discontent, — а
+получилось как всегда, как говорил Черномырдин.

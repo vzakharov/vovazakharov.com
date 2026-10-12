@@ -93,7 +93,7 @@ From ashes to ashes, from dust to dust,
 In entropy we trust.
 
 In the silence of the void, whispers reclaim,
-“The beginning was the end, in this cosmic game.”
+“The beginning was the end, this cosmic game.”
 
 <!-- lyrics:ru -->
 
@@ -132,4 +132,4 @@ In the silence of the void, whispers reclaim,
 На энтропию уповаем.
 
 В тишине пустоты шёпоты вновь твердят:
-«Начало было концом в этой космической игре».
+«Начало было концом, эта космическая игра».

@@ -93,12 +93,14 @@ And “minus twenty in the shade” I consider just about my best linguistic fin
 <!-- lyrics:en -->
 
 Let our fingers be frostbitten
-It’s minus twenty in the shade
+It’s [minus twenty][^celsius-en] in the shade
 We’ll hold on
 It’s nothing, really
 And, like a rhyme amid prose,
 In spite of all the frosts
 We’ll kiss just because
+
+[^celsius-en]: Celsius: about four below zero Fahrenheit.
 
 Maybe, someday
 We’ll leave each other

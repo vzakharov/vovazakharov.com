@@ -85,9 +85,9 @@ No Permission!
 End Division!
 My Decision!
 
-My! Decision.
-End! Division,
-Fuck! Religion,
+My Decision!
+End Division!
+Fuck Religion!
 
 <!-- lyrics:ru -->
 
@@ -121,6 +121,6 @@ Fuck! Religion,
 Конец разделению!
 Моё решение!
 
-Моё! Решение.
-Конец! Разделению,
-Нахуй! Религию,
+Моё решение!
+Конец разделению!
+Нахуй религию!

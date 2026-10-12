@@ -20,11 +20,14 @@ ru:
 
 <!-- For Vova to check: Fields are taken from the Ghosts of Flesh entry (6. PETA.flac); the peta entry itself is blank. Master is the checklist's guess peta_master.flac; peta.flac and peta_o.flac are the alternatives. The album text runs "Save them, save them, Hear their final plea." on one line; it is split at the capital here. -->
 
-<!-- Scaffolded from https://github.com/vovas-music/peta — peta_master.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- lang:en -->
+
+The title parodies People for the Ethical Treatment of Animals (PETA).
+
+<!-- lang:ru -->
+
+Название — пародия на People for the Ethical Treatment of Animals (PETA), «Люди
+за этичное обращение с животными».
 
 <!-- lyrics:en -->
 

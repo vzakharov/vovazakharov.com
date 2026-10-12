@@ -39,13 +39,15 @@ beginning and the end.
 
 <!-- lang:en -->
 
-It echoes the earlier [“Fuck Religion”](./fuck-religion.md): it isn’t about
-religion.
+I spent a good deal of time puzzling over this idea, that God is information,
+and I would surely have become a Prophet, but information apparently decided I
+was too lazy for that.
 
 <!-- lang:ru -->
 
-Песня перекликается с предыдущей [«Fuck Religion»](./fuck-religion.md): дело
-не в религии.
+Я достаточно много заморачивался над этой идеей — «Бог есть информация» — и
+обдумывал её, и точно стал бы Пророком, но информация, видимо, решила, что я для
+этого слишком ленив.
 
 <!-- lyrics:en -->
 

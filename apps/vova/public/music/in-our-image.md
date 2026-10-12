@@ -49,8 +49,7 @@ attributed to Voltaire. Xenophanes said it first: if horses had hands, they
 would draw their gods as horses.
 
 This was one of the last songs I wrote for the album. I wanted an operatic song,
-and that’s where the Italian came from. I had the Italian checked by a friend
-from Italy.
+and that’s where the Italian came from. Scusate se non è proprio italiano.
 
 <!-- lang:ru -->
 
@@ -63,8 +62,7 @@ from Italy.
 на лошадей.
 
 Это одна из последних песен, которые я написал для альбома. Мне захотелось
-оперной песни, и отсюда родился итальянский. Итальянский я перепроверил у своей
-знакомой из Италии.
+оперной песни, и отсюда родился итальянский. Scusate se non è proprio italiano.
 
 <!-- lyrics:en -->
 

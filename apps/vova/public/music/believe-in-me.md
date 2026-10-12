@@ -37,15 +37,16 @@ storms still gather at his word, and the lightning is still his to throw.
 
 In a sense it’s a nod to Pratchett’s _Small Gods_, where a god is the weaker the
 fewer people believe in him. God says it through a song with Rammstein’s energy
-and German words, and you don’t need to be any kind of music expert to hear that
-it’s Rammstein.
+and German words, and you don’t need to be any kind of music expert to hear Till
+Lindemann here (I’m sorry, Till, don’t crush me!).
 
 <!-- lang:ru -->
 
 В каком-то смысле это отсылка к «Мелким богам» Пратчетта, где бог тем слабее,
 чем меньше в него верят люди. И Бог выражает это песней с энергетикой
 Rammstein, с немецкими словами, — и не нужно быть каким-то музыкальным
-экспертом, чтобы понять, что это Rammstein.
+экспертом, чтобы услышать здесь Тилля Линдеманна (прости, Тилль, не раздави
+меня!).
 
 <!-- lyrics:en -->
 
