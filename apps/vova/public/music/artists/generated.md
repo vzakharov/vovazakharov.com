@@ -18,10 +18,15 @@ came to me almost at once. Amazingly, it turned out no band had it.
 
 What’s good about the name is that it says straight away the music is
 generated, and hides that from no one — unlike the hundreds of Suno “bands”
-that appeared after it. The music itself wasn’t an idea so much as my main
-musical self: metal or metalcore, something heavy, because that’s what I’ve
-mostly listened to all my life and what I know best. And it would all be
-concept albums, each one following a story or built around an idea.
+that appeared after it.
+
+It would be heavy, metal or metalcore, what I’ve mostly listened to all my life,
+and it would all be concept albums, each one following a story or built around
+an idea. The concept albums are older than GENERATED: back in Jukebox I was
+already planning album cycles. One, about the machine and man, is still in my
+notes, and two songs from it are [Prototypes](../albums/prototypes.md). Another
+was about gods, a song for each deity; [Artemis](../artemis.md) came out of it,
+and the big album about the gods is still in my head.
 
 Since then GENERATED have “released” 75 songs and eight albums, and all of them
 can be heard here.
@@ -39,11 +44,15 @@ can be heard here.
 группы с таким названием нет.
 
 Название хорошо тем, что сразу говорит: это сгенерировано, — и ни от кого этого
-не скрывает, в отличие от сотен суновских «групп», появившихся после. А сама
-музыка — это даже не идея, а просто моя основная музыкальная сущность: метал или
-металкор, что-то тяжёлое, потому что это то, что я всю жизнь в основном слушаю и
-в чём лучше всего разбираюсь. И это всё будут концепт-альбомы: каждый идёт по
-какой-то истории или вокруг какой-то идеи.
+не скрывает, в отличие от сотен суновских «групп», появившихся после.
+
+Это будет что-то тяжёлое, метал или металкор, — то, что я всю жизнь в основном
+слушаю, — и это всё будут концепт-альбомы: каждый идёт по какой-то истории или
+вокруг какой-то идеи. Концепт-альбомы старше GENERATED: ещё в Jukebox я
+придумывал циклы альбомов. Один, про машину и человека, до сих пор лежит в
+заметках, а две песни из него — это [Prototypes](../albums/prototypes.md).
+Другой был про богов, по песне на каждое божество; из него родилась
+[Artemis](../artemis.md), а большой альбом про богов у меня пока ещё в голове.
 
 С тех пор GENERATED «выпустили» 75 песен и восемь альбомов, и все их можно
 послушать здесь.

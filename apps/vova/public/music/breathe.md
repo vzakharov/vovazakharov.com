@@ -14,7 +14,7 @@ en:
   hook: '“Breathe, please, just breathe” — whether it’s to a wind or an infant fighting for life.'
 ru:
   title: Повелитель ветра
-  hook: '«Дыши, пожалуйста, только дыши» — ветру ли, младенцу ли, который борется за жизнь.'
+  hook: '«Дыши, пожалуйста, только дыши» — будь то ветру или младенцу, который борется за жизнь.'
 ---
 
 <!-- lang:en -->

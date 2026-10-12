@@ -16,9 +16,9 @@ en:
   title:
     transliteration: 'Posle nas'
     translation: 'After Us'
-  hook: '“After us, the flood”? The flood is already here.'
+  hook: 'The flood is already here. And after?'
 ru:
-  hook: '«После нас хоть потоп»? Потоп уже при нас.'
+  hook: 'Потоп — уже при нас. А после?'
 ---
 
 <!-- lang:en -->

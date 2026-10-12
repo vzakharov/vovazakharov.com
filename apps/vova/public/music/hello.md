@@ -18,7 +18,7 @@ en:
     translation: 'Hello'
   hook: 'An ode to all of us building sand castles amidst mirages.'
 ru:
-  hook: 'Ода всем нам, строящим замки на песке среди миражей.'
+  hook: 'Ода всем строящим замки на песке среди миражей.'
 ---
 
 <!-- lang:en -->
