@@ -27,7 +27,13 @@ story whole, there being no words for it to crowd. Following the
 playing song resumes whenever the reader lands on its page. «За
 горизонт» joins Сильней любви as its sixth track, and the stories of
 «Наша история» and «Мир, какой он есть» are cut down from the dictation
-they were set from.
+they were set from. Trust In the Machine's master drops the Hello, Human
+intro its source file opened on, which played twice.
+
+Alongside: `spectrogram.py --split` moves the chromagram's bass/treble
+split for a low or high lead, and the cost ledger reads a repository's
+own estimate roles from `rates.repo.json`, which only adds to
+`rates.json` and here rates an ungraded artist.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
