@@ -2,13 +2,12 @@
 """Set or show a session's human-hour estimate.
 
 Usage:
-  python3 .claude/costs/estimate.py set --part <hours> [<grade>] <role> <why> [--part ...] [--session <id>]
+  python3 .claude/costs/estimate.py set --part <hours> <grade> <role> <why> [--part ...] [--session <id>]
   python3 .claude/costs/estimate.py show [--session <id>]
 
 Each `--part` is the hours one role at one grade would spend on the task, and
-why that role, at that grade, for those hours — the grade left out on a role
-the table rates as ungraded; the parts add up to the estimate, and `set`
-replaces the whole of it. Without
+why that role, at that grade, for those hours; the parts add up to the
+estimate, and `set` replaces the whole of it. Without
 `--session` the session is this one, read off `CLAUDE_CODE_SESSION_ID`: the
 estimate goes to `tmp/estimates/<id>.json`, and the row folds it in when the
 turn ends. Another session's id edits that session's committed row in place,
@@ -26,7 +25,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional
 
-from lib.estimate import Estimate, Part, Rates, checked, senior_hours, latest, load_rates
+from lib.estimate import Estimate, Part, Rates, checked, senior_hours, latest, parse_rates
 from lib.rows import read_pending_estimate, read_row, row_text, write_atomic, write_pending_estimate
 from lib.shape import ShapeError
 
@@ -47,16 +46,12 @@ def describe(estimate: Optional[Estimate], rates: Rates) -> str:
 
 
 def parts_of(raw: List[List[str]]) -> List[Part]:
-    """`checked` is what says whether a role takes the grade it was given."""
     parts = []
-    for given in raw:
-        if len(given) not in (3, 4):
-            raise ShapeError(f"`--part {' '.join(given)}`: not HOURS [GRADE] ROLE WHY")
-        hours, *grade, role, why = given
+    for hours, grade, role, why in raw:
         try:
-            parts.append(Part(hours=float(hours), grade=grade[0] if grade else None, role=role, comment=why.strip()))
+            parts.append(Part(hours=float(hours), grade=grade, role=role, comment=why.strip()))
         except ValueError as error:
-            raise ShapeError(f"`--part {' '.join(given[:-1])}`: hours are not a number") from error
+            raise ShapeError(f"`--part {hours} {grade} {role}`: hours are not a number") from error
     return parts
 
 
@@ -66,12 +61,11 @@ def main() -> int:
     setting = commands.add_parser("set")
     setting.add_argument(
         "--part",
-        nargs="+",
+        nargs=4,
         action="append",
         required=True,
-        metavar=("HOURS", "[GRADE] ROLE WHY"),
-        help="GRADE: left out on an ungraded role; WHY: why this role, at this grade, for these hours;"
-        " not a summary of the work",
+        metavar=("HOURS", "GRADE", "ROLE", "WHY"),
+        help="WHY: why this role, at this grade, for these hours; not a summary of the work",
     )
     showing = commands.add_parser("show")
     for command in (setting, showing):
@@ -83,7 +77,7 @@ def main() -> int:
     if session_id is None:
         print("estimate: no CLAUDE_CODE_SESSION_ID; name the session with --session", file=sys.stderr)
         return 1
-    rates = load_rates(COSTS)
+    rates = parse_rates((COSTS / "rates.json").read_text(encoding="utf-8"))
     running = session_id == current
     path = row_path(session_id)
     if not running and path is None:

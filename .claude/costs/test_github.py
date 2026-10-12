@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """The cross-repo ledger is read through one transport, so each case is a fake
 GitHub answering in the shapes the real one returns: a repository listing
-paged by cursor, each repository with its rate overlay where it has one, and
-aliased month trees whose blobs carry the rows' text.
+paged by cursor, and aliased month trees whose blobs carry the rows' text.
 What it protects is which repositories count, that every row arrives or the
 run stops, and that a row is counted once however many repositories carry it.
 
@@ -59,14 +58,12 @@ class FakeGitHub:
         self,
         ledgers: Mapping[str, Optional[Months]],
         watermarked: tuple = (),
-        overlays: Optional[Mapping[str, Any]] = None,
         page: int = 2,
         failures: int = 0,
         errors: Optional[List[Dict[str, Any]]] = None,
     ) -> None:
         self.ledgers = dict(sorted(ledgers.items()))
         self.watermarked = set(watermarked)
-        self.overlays = dict(overlays or {})
         self.page = page
         self.failures = failures
         self.errors = errors
@@ -80,14 +77,7 @@ class FakeGitHub:
             if months is None
             else {"entries": [{"name": m, "type": "tree"} for m in months] + [{"name": ".gitkeep", "type": "blob"}]},
             "watermark": {"__typename": "Blob"} if repo in self.watermarked else None,
-            "rates": None if repo not in self.overlays else self.blob(self.overlays[repo]),
         }
-
-    @staticmethod
-    def blob(text: Any) -> Dict[str, Any]:
-        if text is TRUNCATED:
-            return {"isTruncated": True, "isBinary": False, "text": "{"}
-        return {"isTruncated": False, "isBinary": False, "text": text}
 
     def tree(self, repo: str, month: str) -> Dict[str, Any]:
         files = (self.ledgers[repo] or {})[month]
@@ -97,7 +87,9 @@ class FakeGitHub:
                     {
                         "name": name,
                         "type": "blob",
-                        "object": self.blob(text),
+                        "object": {"isTruncated": True, "isBinary": False, "text": "{"}
+                        if text is TRUNCATED
+                        else {"isTruncated": False, "isBinary": False, "text": text},
                     }
                     for name, text in files.items()
                 ]
@@ -185,7 +177,7 @@ class FailuresAreLoud(unittest.TestCase):
 
     def test_a_truncated_row_raises(self) -> None:
         github = FakeGitHub({"a/ledger": {"2026-03": {"s.json": TRUNCATED}}})
-        with self.assertRaisesRegex(ShapeError, "a/ledger:.*s.json: GitHub did not return the file whole"):
+        with self.assertRaisesRegex(ShapeError, "a/ledger:.*s.json: GitHub did not return the row whole"):
             remote_ledger(Client(github, no_sleep))
 
 
@@ -235,19 +227,6 @@ class WhatIsRead(unittest.TestCase):
         ledger = remote_ledger(Client(FakeGitHub({"a/ledger": {"2026-03": {"s.json": text}}}), no_sleep))
         self.assertEqual([r.session_id for r in ledger.rows], ["s"])
         self.assertEqual(ledger.repos[0].warnings, ["1 row in an older or newer shape than this ledger's"])
-
-    def test_each_counted_repo_s_rate_overlay_comes_back_with_its_rows(self) -> None:
-        github = FakeGitHub(
-            {"a/ledger": {"2026-03": {"s.json": row("s")}}, "b/ledger": {"2026-03": {}}, "c/ledger": {"2026-04": {}}},
-            overlays={"a/ledger": '{"ungraded": {"artist": 1}}', "c/ledger": "{}"},
-        )
-        ledger = remote_ledger(Client(github, no_sleep), months={"2026-03"})
-        self.assertEqual(ledger.overlays, {"a/ledger": '{"ungraded": {"artist": 1}}'})
-
-    def test_a_truncated_overlay_raises(self) -> None:
-        github = FakeGitHub({"a/ledger": {"2026-03": {}}}, overlays={"a/ledger": TRUNCATED})
-        with self.assertRaisesRegex(ShapeError, "a/ledger:.claude/costs/rates.repo.json: GitHub did not return the file whole"):
-            discover(Client(github, no_sleep))
 
     def test_a_repo_with_no_month_under_the_filter_is_left_out(self) -> None:
         github = FakeGitHub({"a/ledger": {"2026-03": {"s.json": row("s")}}, "b/ledger": {"2026-04": {}}})

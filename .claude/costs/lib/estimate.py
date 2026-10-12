@@ -1,16 +1,15 @@
 """A session's human-hour estimate: the task broken into parts, each hours of one
-role at one grade, or of a role that takes none, with the reason for them,
-converted to senior-hours only when read. `.claude/costs/CLAUDE.md`
-§ "Human-hour estimates" carries why, and what the figure measures.
+role at one grade with the reason for them, converted to senior-hours only when
+read. `.claude/costs/CLAUDE.md` § "Human-hour estimates" carries why, and what
+the figure measures.
 """
 
 from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass, field, replace
-from pathlib import Path
-from typing import Any, Dict, List, Mapping, Optional, Sequence
+from dataclasses import dataclass, replace
+from typing import Any, Dict, List, Mapping, Optional
 
 from lib.shape import ShapeError, is_number, read_number, read_object, read_string, required
 
@@ -20,8 +19,7 @@ COMMENT_LIMIT = 280
 @dataclass(frozen=True)
 class Part:
     hours: float
-    # Null on a role the table rates as `ungraded`.
-    grade: Optional[str]
+    grade: str
     role: str
     # Why this role, at this grade, for these hours. Null only on a part of an
     # estimate that carries one comment for the whole.
@@ -30,7 +28,7 @@ class Part:
     @property
     def label(self) -> str:
         """How a comment for the whole names this part, before its reason."""
-        return self.role if self.grade is None else f"{self.grade} {self.role}"
+        return f"{self.grade} {self.role}"
 
 
 @dataclass
@@ -46,26 +44,10 @@ class Estimate:
 @dataclass(frozen=True)
 class Rates:
     """Multipliers against an hour of the reference role at the reference
-    grade — each table's `1` — which is what a senior-hour is. An `ungraded`
-    role takes no grade, its multiplier being the whole of its rate."""
+    grade — each table's `1` — which is what a senior-hour is."""
 
     roles: Dict[str, float]
     grades: Dict[str, float]
-    ungraded: Dict[str, float] = field(default_factory=dict)
-
-    @property
-    def role_names(self) -> List[str]:
-        return [*self.roles, *self.ungraded]
-
-    def multiplier(self, part: Part) -> float:
-        if part.grade is None:
-            return self.ungraded[part.role]
-        return self.roles[part.role] * self.grades[part.grade]
-
-
-TABLES = ("roles", "grades", "ungraded")
-# A repository's own additions to the shared table, beside it and in its shape.
-OVERLAY = "rates.repo.json"
 
 
 def _multipliers(table: Optional[Dict[str, Any]], where: str) -> Dict[str, float]:
@@ -77,50 +59,14 @@ def _multipliers(table: Optional[Dict[str, Any]], where: str) -> Dict[str, float
     return table
 
 
-def _tables(text: str, where: str, needed: Sequence[str]) -> Dict[str, Dict[str, float]]:
+def parse_rates(text: str, where: str = "rates.json") -> Rates:
     rates = json.loads(text)
     if not isinstance(rates, dict):
         raise ShapeError(f"{where}: not an object")
-    for key in rates:
-        if key not in TABLES:
-            raise ShapeError(f"{where}: `{key}` is not one of {', '.join(TABLES)}")
-    return {
-        name: _multipliers(read_object(rates, name, where), f"{where} {name}")
-        for name in TABLES
-        if name in needed or name in rates
-    }
-
-
-def parse_rates(text: str, where: str = "rates.json") -> Rates:
-    tables = _tables(text, where, ("roles", "grades"))
-    return _checked_names(Rates(**tables), where)
-
-
-def with_overlay(rates: Rates, text: str, where: str = OVERLAY) -> Rates:
-    """`rates` plus an overlay's entries. An entry may only add: one the table
-    already has at another multiplier raises, since letting either win would
-    re-rate every row that names it without the table saying so."""
-    merged = {"roles": dict(rates.roles), "grades": dict(rates.grades), "ungraded": dict(rates.ungraded)}
-    for name, table in _tables(text, where, ()).items():
-        for key, multiplier in table.items():
-            if merged[name].get(key, multiplier) != multiplier:
-                raise ShapeError(f"{where} {name}: `{key}` is rated {merged[name][key]:g} already, not {multiplier:g}")
-            merged[name][key] = multiplier
-    return _checked_names(Rates(**merged), where)
-
-
-def _checked_names(rates: Rates, where: str) -> Rates:
-    for role in rates.ungraded:
-        if role in rates.roles:
-            raise ShapeError(f"{where}: `{role}` is both a graded and an ungraded role")
-    return rates
-
-
-def load_rates(costs: Path) -> Rates:
-    """`rates.json`, plus this repository's overlay where it has one."""
-    rates = parse_rates((costs / "rates.json").read_text(encoding="utf-8"))
-    overlay = costs / OVERLAY
-    return with_overlay(rates, overlay.read_text(encoding="utf-8")) if overlay.is_file() else rates
+    return Rates(
+        roles=_multipliers(read_object(rates, "roles", where), f"{where} roles"),
+        grades=_multipliers(read_object(rates, "grades", where), f"{where} grades"),
+    )
 
 
 def checked(estimate: Estimate, rates: Rates, where: str) -> Estimate:
@@ -132,14 +78,9 @@ def checked(estimate: Estimate, rates: Rates, where: str) -> Estimate:
         at = f"{where} part {index + 1}"
         if part.hours < 0:
             raise ShapeError(f"{at}: hours are {part.hours:g}, below zero")
-        if part.role in rates.ungraded:
-            if part.grade is not None:
-                raise ShapeError(f"{at}: role `{part.role}` takes no grade, and was given `{part.grade}`")
-        elif part.role not in rates.roles:
-            raise ShapeError(f"{at}: role `{part.role}` is not one of {', '.join(rates.role_names)} (rates.json)")
-        elif part.grade is None:
-            raise ShapeError(f"{at}: role `{part.role}` takes a grade: one of {', '.join(rates.grades)}")
-        elif part.grade not in rates.grades:
+        if part.role not in rates.roles:
+            raise ShapeError(f"{at}: role `{part.role}` is not one of {', '.join(rates.roles)} (rates.json)")
+        if part.grade not in rates.grades:
             raise ShapeError(f"{at}: grade `{part.grade}` is not one of {', '.join(rates.grades)} (rates.json)")
         if estimate.comment is None:
             _check_comment(part.comment, at)
@@ -173,7 +114,7 @@ def parse_estimate(value: Any, where: str) -> Optional[Estimate]:
         read.append(
             Part(
                 hours=required(read_number, part, "hours", at),
-                grade=read_string(part, "grade", at),
+                grade=required(read_string, part, "grade", at),
                 role=required(read_string, part, "role", at),
                 comment=read_string(part, "comment", at),
             )
@@ -224,4 +165,4 @@ def latest(*estimates: Optional[Estimate]) -> Optional[Estimate]:
 
 
 def senior_hours(estimate: Estimate, rates: Rates) -> float:
-    return sum(part.hours * rates.multiplier(part) for part in estimate.parts)
+    return sum(part.hours * rates.roles[part.role] * rates.grades[part.grade] for part in estimate.parts)

@@ -251,13 +251,6 @@ the reason for them. A revision replaces it, so its history is git's.
   per grade, a part being worth hours × both, and is applied when the report
   reads a row, so retuning one re-rates the whole history alike and the trend
   stays comparable with itself.
-- **A repository's own roles go in `rates.repo.json`**, beside the table and
-  in its shape, so a sync of `rates.json` never meets them. It may only add:
-  an entry the table already rates otherwise raises, since letting either win
-  would re-rate history unannounced. Its `ungraded` table holds roles that
-  take no grade — `--part <hours> <role> <why>`, worth hours × the role's
-  multiplier. `--all-my-repos` reads each ledger's overlay off GitHub too,
-  since a row there may name a role only its own repository rates.
 - **Of the row's copy and a running session's pending one, the later wins.**
   That is how a `--session` edit to a running session's row survives its next
   `Stop`, and how the session's own later `set` overrides that edit.

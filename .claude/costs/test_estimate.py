@@ -24,19 +24,17 @@ from lib.estimate import (
     Rates,
     checked,
     latest,
-    load_rates,
     parse_estimate,
     parse_rates,
     senior_hours,
     split_comment,
-    with_overlay,
 )
 from lib.rows import ROOT, SessionCost, parse_session_cost, pending_estimate_path, read_row, row_text
 from lib.shape import ShapeError, to_json
 from lib.tally import Tally
 from lib.totals import effort_of, main_model
 
-RATES = Rates(roles={"copywriter": 0.5, "developer": 1}, grades={"junior": 0.4, "senior": 1}, ungraded={"artist": 0.9})
+RATES = Rates(roles={"copywriter": 0.5, "developer": 1}, grades={"junior": 0.4, "senior": 1})
 COSTS = Path(__file__).resolve().parent
 
 
@@ -114,43 +112,6 @@ class WhatAnEstimateMayHold(unittest.TestCase):
             with self.assertRaises(ShapeError):
                 parse_rates(text)
 
-    def test_takes_an_ungraded_role_with_no_grade_at_its_own_multiplier(self) -> None:
-        artist = estimate_of("t", Part(2, None, "artist"), Part(1, "junior", "copywriter"))
-        self.assertEqual(checked(artist, RATES, "e"), artist)
-        self.assertEqual(senior_hours(artist, RATES), 2 * 0.9 + 0.5 * 0.4)
-
-    def test_refuses_a_grade_on_an_ungraded_role_and_none_on_a_graded_one(self) -> None:
-        for part, says in ((Part(1, "senior", "artist"), "takes no grade"), (Part(1, None, "developer"), "takes a grade")):
-            with self.assertRaisesRegex(ShapeError, says):
-                checked(estimate_of("t", part), RATES, "e")
-
-
-class TheOverlay(unittest.TestCase):
-    BASE = parse_rates('{"roles": {"developer": 1}, "grades": {"senior": 1}}')
-
-    def test_adds_its_roles_grades_and_ungraded_roles_to_the_table(self) -> None:
-        rates = with_overlay(self.BASE, '{"roles": {"poet": 0.7}, "grades": {"staff": 1.4}, "ungraded": {"artist": 0.9}}')
-        self.assertEqual(rates, Rates({"developer": 1, "poet": 0.7}, {"senior": 1, "staff": 1.4}, {"artist": 0.9}))
-
-    def test_repeating_an_entry_at_its_multiplier_changes_nothing(self) -> None:
-        self.assertEqual(with_overlay(self.BASE, '{"roles": {"developer": 1}}'), self.BASE)
-
-    def test_refuses_to_retune_an_entry_the_table_has(self) -> None:
-        with self.assertRaisesRegex(ShapeError, "`developer` is rated 1 already, not 2"):
-            with_overlay(self.BASE, '{"roles": {"developer": 2}}')
-
-    def test_refuses_a_role_both_graded_and_ungraded_and_a_table_it_does_not_know(self) -> None:
-        for text in ('{"ungraded": {"developer": 1}}', '{"role": {"poet": 1}}'):
-            with self.subTest(text), self.assertRaises(ShapeError):
-                with_overlay(self.BASE, text)
-
-    def test_is_read_from_beside_the_table_where_there_is_one(self) -> None:
-        with tempfile.TemporaryDirectory() as costs:
-            (Path(costs) / "rates.json").write_text('{"roles": {"developer": 1}, "grades": {"senior": 1}}', encoding="utf-8")
-            self.assertEqual(load_rates(Path(costs)), self.BASE)
-            (Path(costs) / "rates.repo.json").write_text('{"ungraded": {"artist": 0.9}}', encoding="utf-8")
-            self.assertEqual(load_rates(Path(costs)).ungraded, {"artist": 0.9})
-
 
 class WhichCopyWins(unittest.TestCase):
     def test_the_one_set_last(self) -> None:
@@ -161,10 +122,7 @@ class WhichCopyWins(unittest.TestCase):
 
 class RowsCarryTheirEstimate(unittest.TestCase):
     def test_a_row_with_an_estimate_parses_back_to_itself(self) -> None:
-        row = replace(
-            ROW,
-            estimate=estimate_of("a", Part(1, "junior", "developer"), Part(2, "senior", "copywriter"), Part(1, None, "artist")),
-        )
+        row = replace(ROW, estimate=estimate_of("a", Part(1, "junior", "developer"), Part(2, "senior", "copywriter")))
         self.assertEqual(parse_session_cost(json.dumps(to_json(row))), row)
 
     def test_a_row_is_written_with_its_estimate_first(self) -> None:
@@ -343,17 +301,6 @@ class TheCommand(unittest.TestCase):
         done = estimate("set", "a reason for the whole", "--part", "1", "senior", "developer", session=self.running)
         self.assertEqual(done.returncode, 2)
         self.assertFalse(pending_estimate_path(self.running).exists())
-
-    def test_a_part_without_a_grade_is_refused_for_a_role_that_takes_one(self) -> None:
-        done = estimate("set", "--part", "1", "developer", "why", session=self.running)
-        self.assertEqual(done.returncode, 1)
-        self.assertIn("takes a grade", done.stderr)
-        self.assertFalse(pending_estimate_path(self.running).exists())
-
-    def test_a_part_of_the_wrong_length_is_refused(self) -> None:
-        done = estimate("set", "--part", "1", "why", session=self.running)
-        self.assertEqual(done.returncode, 1)
-        self.assertIn("not HOURS [GRADE] ROLE WHY", done.stderr)
 
     def test_a_session_with_no_row_is_refused_rather_than_guessed_at(self) -> None:
         done = estimate("show", "--session", "no-such-session", session=self.running)
