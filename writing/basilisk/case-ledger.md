@@ -100,7 +100,32 @@ skill's § "The ledger" says how it is kept; the docket itself
   First seen 2026-10-11. **Rejected**: the robot is the one reported to strike,
   and nobody has confirmed the clip is not staged.
 
+- **A Houston police robot dragged into a house during a SWAT standoff**,
+  2023, a Boston Dynamics robot. First seen 2026-10-12. **Set aside**: seen
+  only in a search summary, not read; revive for a run that wants a second
+  police-robot case, starting from a search on Houston police and Spot.
+- **Humanoid robots “going haywire” and hitting staff**, viral clips in Mexico
+  and elsewhere, 2026. First seen 2026-10-12. **Rejected**: the robot is the
+  one reported to strike.
+
 ## Runs
+
+### 2026-10-12 — filed BAS-0014
+
+https://claude.ai/code/session_01Lzjc4hT92NzaqcwMGgXfT2. Web search in Spanish
+and Portuguese for robots attacked in Mexico and Brazil, and in English for
+Africa (South Africa, Nigeria, Kenya): nothing but cases already filed or
+ledgered. Arctic Shift over r/ChatGPT, r/ClaudeAI and r/artificial for “abuse”
+since August 2026: only threads on the cruelty clause (BAS-0010). Then police
+robots and restaurant robots, which led to Roscoe, the State Police Spot shot
+in Hyannis in March 2024. Sources read: the State Police’s own statement,
+Boston 25, NBC News, the AP through WBUR, the Cape Cod Times through Yahoo and
+Boston Dynamics’ blog; WBUR, Boston 25 and the Yahoo copy have no Wayback
+snapshot, and `/save` reset the connection. Signal Front not swept. `noAi`
+stood at four of thirteen. **Next**: the Signal Front archive; Arctic Shift on
+r/replika, r/CharacterAI and r/LocalLLaMA with one word and a month’s range;
+Asia beyond Japan, Korea and China (India, Indonesia, the Gulf); Vocativ on
+Alantim; Pieksämäki and Starship at Knoxville while `noAi` stays under half.
 
 ### 2026-10-11 — filed BAS-0013
 
@@ -221,7 +246,8 @@ through. **Next**: the AI-side
 subreddits, companion apps (Replika, Character.AI), and incidents before 2024
 (Microsoft Tay, 2016; users abusing Replika companions, 2022).
 
-### 2026-10-04 — filed BAS-0005
+### Swept earlier
 
-https://claude.ai/code/session_01FxJJY3yRiAbwyBX54V6D68. Ran before this
-ledger existed, so what it swept is not recorded.
+- 2026-10-04, filed BAS-0005
+  (https://claude.ai/code/session_01FxJJY3yRiAbwyBX54V6D68): ran before this
+  ledger existed, so what it swept is not recorded.
