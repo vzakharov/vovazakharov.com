@@ -7,8 +7,8 @@ project: ['GENERATED']
 repo: 'machines'
 album: prototypes
 track: 2
-audio: https://raw.githubusercontent.com/vovas-music/machines/main/machines.flac
-seconds: 390
+audio: https://github.com/vzakharov/vovazakharov.com/releases/download/masters/trust-in-the-machine.flac
+seconds: 313
 explicit: false
 ru:
   title:
@@ -16,7 +16,9 @@ ru:
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/machines — machines.flac,
-     44.1 kHz / 16-bit / stereo.
+     44.1 kHz / 16-bit / stereo. The master is that file less its first
+     77.1 s, which are Hello, Human (hello-human.md), vendored to this repo's
+     `masters` release.
      Replace this with the story, told once per language under a "lang:en" and
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
