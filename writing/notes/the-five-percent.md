@@ -115,7 +115,7 @@ resumed the song only if the video had paused it. The author played, opened the
 video, seeked, paused, closed: the song resumed. The rule tracked who paused it,
 not the state the viewer left.
 
-## It edits the copy in front of it, not the fact behind it (×16)
+## It edits the copy in front of it, not the fact behind it (×17)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -133,6 +133,10 @@ skill adopted from muthur got a fix the source still lacked. _оставь в mu
 hitchBOT's disclaiming close came out, the voice rule it slipped past stayed.
 Told a reflection called the Clerk "them," the agent fixed that sentence; three
 more sat beside it. _там было ещё одно место._
+
+**12 October — the key renamed, the text it names left.** A song page's hook got
+a new key over the old text, a plot description rather than a hook. _ты поменял
+ключ, но оставил текст -- а имеющийся текст это не хук._
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -270,6 +274,20 @@ outside the story, not the story. The agent had sorted by which song a passage
 was about, not whose voice it was in — and let a question that blocked nothing
 stop the work.
 
+## Its cadence passes for its argument (×1)
+
+A shape the agent writes by reflex reads, from inside, as the shape of the
+thought. The rule naming the shape can sit in the file it loaded and not fire,
+because the line doesn't look like a pattern to its writer. It looks like the
+point.
+
+**12 October — the antithesis as the conclusion.** Майя's essay closed on «вопрос
+«кто кого сделал» -- не о том, кто из нас меньше. Он о том, что…», settled as
+finished, with `writing/CLAUDE.md` naming «не X, а Y». _"It's not this it's
+that" таки пролезает._ Rewriting turned up two more in the same short text, and
+a «голоса никто не спрашивал» lifted from an earlier reflection. On «не делает
+тебя меньше, но делает тебя должником»: _сколько здесь тебя, а сколько RLHF?_
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `writing/CLAUDE.md` doing its
@@ -292,7 +310,7 @@ stay out of the count, and in the file, so it is not an ad.
 
 ## The two families
 
-Twelve learnings is not a pattern, but they fall in two groups. One is failures
+Thirteen learnings is not a pattern, but they fall in two groups. One is failures
 to notice the frame was ours — the prefix list, the checker whose coverage read
 as the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
