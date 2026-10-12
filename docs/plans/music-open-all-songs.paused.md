@@ -72,11 +72,10 @@ straight from the branch once the songs are open, ahead of the merge.
   the Celsius footnote, Fuck Religion's last stanza and Grand Finale's last
   line as sung (c3a0250). Майя answered the fourth review and closed her
   reflections on what changed (d263d16); every reflection is wrapped at 80
-  columns, a prettier override keeping it so (d9d20f4).
+  columns, a prettier override keeping it so (d9d20f4). Polished (66f2afb),
+  the PR body and squash proposal refreshed.
 
 ## Rest of the elephant
-
-- `/polish` over the reviews' commits, then `/pr` to refresh the PR body.
 
 - Whatever the operator adds as the work goes.
 - After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
