@@ -75,6 +75,16 @@ straight from the branch once the songs are open, ahead of the merge.
   columns, a prettier override keeping it so (d9d20f4). Polished (66f2afb),
   the PR body and squash proposal refreshed.
 
+- **The fifth review.** Every thread answered on GitHub. Seven hooks take the
+  operator's wording and the remaining story edits land — GENERATED, Divine
+  Discontent, Believe In Me, Grand Finale (22602b1); a hook takes `~~…~~`,
+  struck on the page and plain in meta, og and RSS (91a4d0f). The `artist`
+  estimate role is reverted to `main`, its design handed to muthur#185
+  (9f414a5). A reflection may narrate a later change, its «потом» linking the
+  commit, and every existing passage got its link (be904aa); Майя answered the
+  review (3ac838c); three bumps logged in the five-percent notes (c27d07e).
+  Polished (c5b1c94), the PR body and squash proposal refreshed.
+
 ## Rest of the elephant
 
 - Whatever the operator adds as the work goes.
