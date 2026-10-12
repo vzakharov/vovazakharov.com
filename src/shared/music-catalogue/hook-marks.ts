@@ -1,6 +1,5 @@
 import type { WithText } from '@/shared/typings';
 
-/** A stretch of a hook set one way: struck through, or not. */
 export type HookRun = WithText & { struck?: true };
 
 /**
