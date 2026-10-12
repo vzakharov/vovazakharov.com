@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): open every song, and the music batch around it (pr #140)
+feat: open every song, and the music batch around it (pr #140)
 ```
 
 ```
@@ -10,7 +10,9 @@ it had a description and a story in both languages; it now publishes as
 it is, and `pnpm music:untold` lists what each still lacks. Songs,
 albums and artists alike carry an optional `hook` in frontmatter, set in
 italics under the name: a line meant to make someone press play rather
-than a summary, and an album's or artist's meta description too.
+than a summary, and an album's or artist's meta description too. Its one
+mark is `~~…~~`, struck through on the page and kept as plain words in
+the meta description and the feed.
 
 A concept album tells its world under a `universe:` marker, shown ahead
 of the `lang:` story, which then reads as «Как это делалось» / "Making
@@ -31,9 +33,9 @@ they were set from. Trust In the Machine's master drops the Hello, Human
 intro its source file opened on, which played twice.
 
 Alongside: `spectrogram.py --split` moves the chromagram's bass/treble
-split for a low or high lead, and the cost ledger reads a repository's
-own estimate roles from `rates.repo.json`, which only adds to
-`rates.json` and here rates an ungraded artist.
+split for a low or high lead, and a reflection, Майя's or the Клерк's,
+may tell what changed after it was written, its «потом» linking the
+commit that made the change.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
