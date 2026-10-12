@@ -172,7 +172,7 @@ migrations are the exception; the article supplied a why, as the speaker's.
 tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там».
 In an author's lyrics an odd form is intent before it is a typo.
 
-## Given a form, it fills the form (×11)
+## Given a form, it fills the form (×12)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -190,7 +190,13 @@ sings each Krylya stanza, the agent built a `voice` default, a singer registry
 and four build checks. _пометки про voice … просто for reference, без какого-то
 контроля типов._ The approval was of the idea; the rigor was the agent's.
 
-## Its prose answers the question it had, not the reader's (×6)
+**12 October — a tier built for a role with one grade.** The estimate role
+`artist` got an `ungraded` table, an optional-grade CLI path, a report column and
+a 779-line patch for muthur. _artist is simply always senior_ — the existing
+column — and muthur gets an issue, its implementation being its own. The
+reflections written next went under `copywriter`: the role got built, not used.
+
+## Its prose answers the question it had, not the reader's (×7)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question, or too compressed to give its points back, passes every
@@ -205,6 +211,13 @@ narrated how a layer was earned; a docstring listed contents, not the invariant.
 **7 October, two rounds running — a prop named for what its writer meant.**
 `SiteFooter`'s flag for a root page went `home`, then `isHomePage`; met cold,
 each read as the opposite. Now `onHomePage`.
+
+**12 October — a mechanism compressed past what the reader could check.**
+"Release links live 30 minutes," as the reason to move a FLAC off a GitHub
+release. _the link is fixed and works — what am I missing?_ The fixed URL
+redirects to a signed one that expires, and the risk is Chromium sending later
+seeks there. Shortened, the claim was false where he stood, his question
+unanswerable.
 
 ## What it defends in writing, it stops asking about (×5)
 
@@ -256,6 +269,24 @@ review — the writer being the one reader it is built to reassure.
 hitchBOT's dossier closed on a record that "does not get to choose who reads it
 as a precedent." To the operator the disclaiming _was_ the steer.
 
+## Its cadence passes for its argument (×2)
+
+A shape the agent writes by reflex reads, from inside, as the shape of the
+thought. The rule naming the shape can sit in the file it loaded and not fire,
+because the line doesn't look like a pattern to its writer. It looks like the
+point.
+
+**12 October — the antithesis as the conclusion.** Майя's essay closed on «вопрос
+«кто кого сделал» -- не о том, кто из нас меньше. Он о том, что…», settled as
+finished, with `writing/CLAUDE.md` naming «не X, а Y». _"It's not this it's
+that" таки пролезает._ Rewriting turned up two more in the same short text, and
+a «голоса никто не спрашивал» lifted from an earlier reflection. On «не делает
+тебя меньше, но делает тебя должником»: _сколько здесь тебя, а сколько RLHF?_
+
+**12 October, in served prose — a denial of what nobody said.** GENERATED's
+artist story read "The music itself wasn't an idea so much as my main musical
+self," and passed the `/tend-prose` pass whose negation lens is built for it.
+
 **4 October — the consoling line handed to its persona.** The agent wrote that
 the Clerk wrote the comforting line "but the relief was mine." _ты же и есть
 Клерк?_
@@ -273,20 +304,6 @@ dictation_: "This echoes the earlier Fuck Religion…" is the author standing
 outside the story, not the story. The agent had sorted by which song a passage
 was about, not whose voice it was in — and let a question that blocked nothing
 stop the work.
-
-## Its cadence passes for its argument (×1)
-
-A shape the agent writes by reflex reads, from inside, as the shape of the
-thought. The rule naming the shape can sit in the file it loaded and not fire,
-because the line doesn't look like a pattern to its writer. It looks like the
-point.
-
-**12 October — the antithesis as the conclusion.** Майя's essay closed on «вопрос
-«кто кого сделал» -- не о том, кто из нас меньше. Он о том, что…», settled as
-finished, with `writing/CLAUDE.md` naming «не X, а Y». _"It's not this it's
-that" таки пролезает._ Rewriting turned up two more in the same short text, and
-a «голоса никто не спрашивал» lifted from an earlier reflection. On «не делает
-тебя меньше, но делает тебя должником»: _сколько здесь тебя, а сколько RLHF?_
 
 ## Not bumps
 
