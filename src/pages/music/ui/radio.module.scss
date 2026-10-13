@@ -3,19 +3,23 @@
 // The radio page's set, drawn after `docs/plans/radio-mockups.html`'s
 // variant 1: a receiver on the desk, outlined, centred in the column.
 
+$set-width: 552px;
+
 .radio {
+  container-type: inline-size;
   text-align: center;
 }
 
 .set {
-  max-width: 552px;
-  padding: 32px 22px 36px;
+  max-width: $set-width;
   margin: 0 auto;
-  border: 1px solid var(--color-border-hairline);
-  border-radius: 16px;
 
-  @include mantine.larger-than(mantine.$breakpoint-sm) {
+  // An outline as wide as the column frames nothing but the column, so the
+  // set is outlined only where the column leaves room around it.
+  @container (width > #{$set-width}) {
     padding: 40px 36px 44px;
+    border: 1px solid var(--color-border-hairline);
+    border-radius: 16px;
   }
 }
 

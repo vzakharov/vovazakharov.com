@@ -88,7 +88,7 @@ A static export serves it like any other page, because nothing on it differs bet
 - **Cover**: the playing song's cover beside its title, billing and album line, as tall as the three, opening `CoverZoom` on a press — variant 1 in `radio-mockups.html`, the operator's pick («вариант 1 норм»), at phone and wide alike.
 - **from _album_** under the billing, where the song is on one, as the song page's line says it.
 - **Song, artist and album are links** to their pages. Those are the reader's own navigation, so the bar follows to a song's page as **Read story** does.
-- **The set has an outline**: a thin border and radius, as the section's cards have — marked, not decorated — with room inside it («немного добавить воздуха внутри»): about 40px above and 36px at the sides on a wide screen, 32px and 22px on a phone, the mockup's `.boxed`.
+- **The set has an outline**: a thin border and radius, as the section's cards have — marked, not decorated — with room inside it («немного добавить воздуха внутри»): about 40px above and 36px at the sides, the mockup's `.boxed`. **Only where the column leaves room around it**: a column no wider than the set gets no outline at all (operator: «если рамка достигает ширины экрана, значит не надо уже»), a container query on the column deciding.
 - **The [i] note states the cycle's length** as `h:mm:ss` — the sum of the public catalogue's `seconds`, the radio's whole round. The radio page is a server component rendered at build, so the sum is computed there from `listSongs()`, with no codegen step: a static export already bakes it in at every deploy, which is when the catalogue changes.
 
 ## The hint
