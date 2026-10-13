@@ -8,7 +8,9 @@
 
 § "Changes" 4: `ui/radio-toggle.tsx` in the bar, the hint with it; the layout passes `radioRoutes` down, `music-urls` being out of a client bundle's reach (its `@/shared/content` barrel is server-only); `useFollow(route, !state.radio)`. Not yet looked at: the five-control strip at phone width (`/preview`).
 
-**Left:** § "Changes" 5–9, plus § "The operator's additions" below. The cycle length counts public songs only (operator: «да, только публичные»), computed in the page at build. Two calls for the page:
+§ "Changes" 7, its first piece: `lib/song-excerpt.ts` (+ test) — `songExcerpt(story)` gives the plain text cut at a word past `EXCERPT_LENGTH` (600), or `undefined` for no words. The hook fallback is the radio page's: `songExcerpt(localized.body) ?? (hook && textHook(hook))`, `textHook` living behind the server-only `@/shared/music-catalogue` barrel a `node:test` cannot load. Unused until the page imports it, so `knip` may flag it.
+
+**Left:** § "Changes" 5, 6's route parse, the rest of 7, 8, 9's remaining copy, plus § "The operator's additions" below. The cycle length counts public songs only (operator: «да, только публичные»), computed in the page at build. Two calls for the page:
 
 - **The landing attempt runs only when nothing is in the player** (`current === undefined`). With a track loaded, its `src` swap would race the source effect and abort its own `play()`; a reader arriving with music paused gets **Tune in**.
 - **Following needs no radio-path check**: `useFollow` should start as `!state.radio` at the bar's mount. A bar first mounting with the radio on was tuned from the launcher or the radio page, both of which keep the reader where they are; once mounted, the reader's own navigation already sets following as today. Without it, the launcher's tune on `/music` races its own `router.push` to `/music/radio`.
