@@ -14,7 +14,7 @@ import {
 const DRIFT = 1;
 
 /** A slot and the song it plays. */
-export type OnAir = WithTrack & { station: Station };
+type OnAir = WithTrack & { station: Station };
 
 export type StationControls = {
   /** Plays the radio from where it is now — the live moment, even when already on. */
