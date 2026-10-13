@@ -19,7 +19,7 @@ describe('collectionRoute', () => {
 
   it('lists any other collection at its base', () => {
     assert.equal(collectionRoute('case-studies'), '/case-studies');
-    assert.equal(collectionRoute('music'), '/music');
+    assert.equal(collectionRoute('music'), '/music/songs');
   });
 });
 
@@ -59,18 +59,26 @@ describe('resolveAuthoredPath', () => {
   it('links a root document’s sibling to its route', () => {
     assert.equal(
       resolveAuthoredPath('music', 'slime.md', './after-us.md'),
-      '/music/after-us',
+      '/music/songs/after-us',
     );
   });
 
-  it('resolves a subdirectory’s link beside its own file', () => {
+  it('resolves a sibling directory’s link beside its own file', () => {
     assert.equal(
-      resolveAuthoredPath('music', 'albums/wings.md', '../after-us.md'),
-      '/music/after-us',
+      resolveAuthoredPath(
+        'music',
+        '../albums/wings.md',
+        '../songs/after-us.md',
+      ),
+      '/music/songs/after-us',
     );
     assert.equal(
-      resolveAuthoredPath('music', 'albums/wings.md', './cover.jpg'),
+      resolveAuthoredPath('music', '../albums/wings.md', './cover.jpg'),
       '/music/albums/cover.jpg',
+    );
+    assert.equal(
+      resolveAuthoredPath('music', 'breathe.md', '../assets/vagabond.png'),
+      '/music/assets/vagabond.png',
     );
   });
 

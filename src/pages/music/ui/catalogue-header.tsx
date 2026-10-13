@@ -37,14 +37,18 @@ export function CatalogueHeader({
   return (
     <Box component="header">
       <Stack gap={24}>
-        <CoverHead {...{ picture }}>
-          <div>
-            <Group gap={8} mb={6}>
+        <CoverHead
+          {...{ picture }}
+          kicker={
+            <Group gap={8}>
               <Text size="xs" tt="uppercase" opacity={0.6} lts="0.06em">
                 {kind}
               </Text>
               {wip !== undefined && <WipMark note={wip} />}
             </Group>
+          }
+        >
+          <div>
             <Title order={1}>{title}</Title>
             <TitleGlossLine {...{ gloss }} mt={8} />
             {children}

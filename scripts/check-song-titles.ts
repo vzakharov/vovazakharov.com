@@ -2,7 +2,7 @@
 
 /**
  * Fails on a song whose title a reader cannot place — every Markdown file
- * directly under `apps/vova/public/music/`:
+ * directly under `apps/vova/public/music/songs/`:
  *
  *   pnpm check:song-titles
  *

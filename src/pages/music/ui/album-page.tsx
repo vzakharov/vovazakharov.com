@@ -12,7 +12,7 @@ import { albumKind, albumWipNote, albumYears } from '../lib/catalogue';
 import { albumText } from '../lib/catalogue-text';
 import { catalogueSize } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
-import { albumPath, artistPath, indexPath } from '../lib/music-urls';
+import { albumPath, artistPath, musicPath } from '../lib/music-urls';
 import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
@@ -27,9 +27,8 @@ import { Story } from './story';
  * One release: who put it out, whether it is still being made, its own text
  * where it has one, and its songs in track order.
  */
-export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
-  const catalogue = { everything };
-  const songs = catalogueSongs(catalogue);
+export function AlbumPage({ album, locale }: AlbumPageProps) {
+  const songs = catalogueSongs();
   const messages = loadMessages(locale).music;
   const artist = albumArtist(album, locale);
   const tracks = albumTracks(album, songs);
@@ -40,10 +39,8 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
     <PageShell>
       <Stack gap={48}>
         <MusicNav
-          back={{ href: indexPath(catalogue, locale), label: messages.back }}
-          hrefs={byLocale((alternate) =>
-            albumPath(album, catalogue, alternate),
-          )}
+          back={{ href: musicPath(locale), label: messages.back }}
+          hrefs={byLocale((alternate) => albumPath(album, alternate))}
           {...{ locale }}
         />
 
@@ -63,7 +60,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
           <FactLine
             facts={{
               artist: (
-                <NameLink href={artistPath(artist, catalogue, locale)}>
+                <NameLink href={artistPath(artist, locale)}>
                   {projectName(artist, locale)}
                 </NameLink>
               ),

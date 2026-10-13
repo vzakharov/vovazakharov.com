@@ -5,6 +5,7 @@ import {
   catalogueSize,
   type CatalogueSizeForms,
   formatDuration,
+  spokenLength,
 } from './duration';
 
 describe('formatDuration', () => {
@@ -122,5 +123,28 @@ describe('catalogueSize', () => {
       '1 song',
       '1 minute',
     ]);
+  });
+});
+
+describe('spokenLength', () => {
+  const ACCUSATIVE = {
+    ...RU,
+    minutes: { ...RU.minutes, one: '# минуту' },
+  };
+
+  it('takes the sentence’s own case', () => {
+    assert.equal(
+      spokenLength(5 * 3600 + 21 * 60, 'ru', ACCUSATIVE),
+      '5 часов 21 минуту',
+    );
+    assert.equal(
+      spokenLength(3600 + 3 * 60 + 29, 'ru', ACCUSATIVE),
+      '1 час 3 минуты',
+    );
+  });
+
+  it('drops the seconds, rounding to the minute', () => {
+    assert.equal(spokenLength(2 * 3600 + 89, 'en', EN), '2 hours 1 minute');
+    assert.equal(spokenLength(2 * 3600 + 29, 'en', EN), '2 hours');
   });
 });

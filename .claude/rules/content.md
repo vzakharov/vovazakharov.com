@@ -23,7 +23,7 @@ paths:
 
 # Content
 
-Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/vova/public/music/` — and `next build` renders it once per deploy. **A collection whose site is named for it is rooted instead**, its base empty and its directory that site's whole `public/`: the Bible is `apps/bible/public/`, and an article is `agentic.bible/<slug>` rather than repeating the collection's name after a domain that already says it. The pipeline stops at the hast tree and hands it to React through `hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`) is where that happens. The paths below are written from the app directory, which is where every build and every render script is entered.
+Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/vova/public/music/songs/` — and `next build` renders it once per deploy. **A collection whose site is named for it is rooted instead**, its base empty and its directory that site's whole `public/`: the Bible is `apps/bible/public/`, and an article is `agentic.bible/<slug>` rather than repeating the collection's name after a domain that already says it. The pipeline stops at the hast tree and hands it to React through `hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`) is where that happens. The paths below are written from the app directory, which is where every build and every render script is entered.
 
 **A collection belongs to one site**, named in its registry entry, because `public/` is per app: every walk over the registry goes through `collectionsForSite()`, or the other site's build reads a directory that is not there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the app directory it is entered in — `scripts/in-site.sh` is what pairs the two, so no `package.json` entry spells either out — and `content:pdf` and `content:og` are therefore one script per site, while `content:mermaid` is `vova`'s until another site authors a diagram.
 
@@ -145,7 +145,7 @@ is held by reading.
 
 ## The locale seam, and where it was settled
 
-**A cut is a dotted suffix; a locale is a trailing segment.** `/case-studies/playgram.mini` and `/music/slime/ru` are different positions in a URL, so the two can be combined in any order without either having to know about the other. A document's own file stays locale-less, one file carrying both languages, so `/music/slime.md` serves the same bytes whichever page sent the reader there.
+**A cut is a dotted suffix; a locale is a trailing segment.** `/case-studies/playgram.mini` and `/music/songs/slime/ru` are different positions in a URL, so the two can be combined in any order without either having to know about the other. A document's own file stays locale-less, one file carrying both languages, so `/music/songs/slime.md` serves the same bytes whichever page sent the reader there.
 
 A collection says whether its pages are localized (`COLLECTIONS[id].localized`), which is what the sitemap reads to advertise one address per language instead of the alias. Case studies are unlocalized: the documents are English-only, and a `ru` route for a document that does not exist in Russian would only duplicate the English one.
 

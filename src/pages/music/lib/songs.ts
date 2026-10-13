@@ -8,15 +8,7 @@ import { byLocale, isLocale } from '@/shared/i18n';
 import type { MusicAlbum } from '@/shared/music-catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
-import {
-  ALBUMS_SEGMENT,
-  artistPath,
-  ARTISTS_SEGMENT,
-  EVERYTHING_SEGMENT,
-  songPath,
-  SONGS_SEGMENT,
-  type WithEverything,
-} from './music-urls';
+import { artistPath, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { bill, projectName } from './projects';
 import {
@@ -25,31 +17,19 @@ import {
   type SongOnRelease,
 } from './song-text';
 
-/** The first segments under `/music` that address a page other than a song. */
-const RESERVED_SEGMENTS: ReadonlySet<string> = new Set([
-  EVERYTHING_SEGMENT,
-  ARTISTS_SEGMENT,
-  ALBUMS_SEGMENT,
-  SONGS_SEGMENT,
-]);
-
 /**
- * The catalogue, newest first. A slug the section's own addresses already
- * claim is rejected here, where every list of songs passes: `/music/ru` is the
- * index in Russian, `/music/all` the whole catalogue, `/music/songs` its songs
- * and `/music/artists/…` an artist, so such a song would have a file, a row on
- * the index and no page of its own. Two songs claiming one album's track
- * number are rejected here too.
+ * The catalogue, newest first. A slug that is a locale is rejected here, where
+ * every list of songs passes: `/music/songs/ru` is the songs tab in Russian, so
+ * such a song would have a file, a row on the index and no page of its own. Two
+ * songs claiming one album's track number are rejected here too.
  */
 function listSongDocuments(): SongDocument[] {
   const documents = listPrimaryDocuments(SONGS);
-  const unreachable = documents.find(
-    ({ slug }) => isLocale(slug) || RESERVED_SEGMENTS.has(slug),
-  );
+  const unreachable = documents.find(({ slug }) => isLocale(slug));
 
   if (unreachable) {
     throw new Error(
-      `${unreachable.fileName} is named after an address of the music section, /music/${unreachable.slug}.`,
+      `${unreachable.fileName} is named after an address of the music section, ${songPath(unreachable.slug)}.`,
     );
   }
 
@@ -88,8 +68,8 @@ function songPageSlug(
 
 /**
  * Every song page, the release-specific ones included. A page slug another
- * song or a section address already holds fails the build, as a song slug does
- * in `listSongDocuments`.
+ * song or a locale already holds fails the build, as a song slug does in
+ * `listSongDocuments`.
  */
 export function listSongPages(): SongPageEntry[] {
   const documents = listSongDocuments();
@@ -103,13 +83,11 @@ export function listSongPages(): SongPageEntry[] {
         album,
       })),
   );
-  const taken = pages.find(
-    ({ slug }) => songSlugs.has(slug) || RESERVED_SEGMENTS.has(slug),
-  );
+  const taken = pages.find(({ slug }) => songSlugs.has(slug) || isLocale(slug));
 
   if (taken) {
     throw new Error(
-      `${taken.document.fileName}'s page on ${taken.album} is /music/${taken.slug}, an address already taken.`,
+      `${taken.document.fileName}'s page on ${taken.album} is ${songPath(taken.slug)}, an address already taken.`,
     );
   }
 
@@ -150,8 +128,7 @@ export function songTrack(
     billing: byLocale((locale) =>
       bill(project, (artist) => ({
         label: projectName(artist, locale),
-        // The catalogue the song's own page links into.
-        href: artistPath(artist, { everything: !isListed(document) }, locale),
+        href: artistPath(artist, locale),
       })),
     ),
     titles: byLocale((locale) => {
@@ -168,19 +145,17 @@ export function songTrack(
   };
 }
 
-/** Every listed song — or every song, hidden ones too — in catalogue order. */
-export function catalogueSongs({ everything }: WithEverything): SongDocument[] {
-  return listSongDocuments().filter(
-    (document) => everything || isListed(document),
-  );
+/** Every listed song, in catalogue order. */
+export function catalogueSongs(): SongDocument[] {
+  return listSongDocuments().filter((document) => isListed(document));
 }
 
 /**
- * The queue the player starts from: the public catalogue, each album's songs
- * together in track order, so skipping forward from one walks its album.
+ * The queue the player starts from: the catalogue, each album's songs together
+ * in track order, so skipping forward from one walks its album.
  */
 export function listSongs(): PlayerTrack[] {
-  return albumsTogether(catalogueSongs({ everything: false })).map((document) =>
+  return albumsTogether(catalogueSongs()).map((document) =>
     songTrack(document),
   );
 }

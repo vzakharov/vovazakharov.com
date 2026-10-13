@@ -45,13 +45,14 @@ export function universeOf(
 /**
  * A catalogue page's own text in one language, from the markdown file at its
  * route plus `.md` — `albums/<slug>.md`, `artists/<slug>.md` — cut on markers
- * as a song's story is. `undefined` where the page has none.
+ * as a song's story is. `undefined` where the page has none. Its directory is a
+ * sibling of the songs collection's, reached from it by `../`.
  */
 function catalogueText(
   name: string,
   locale: Locale,
 ): CatalogueText | undefined {
-  const loaded = loadProse('music', name, catalogueFrontmatterSchema);
+  const loaded = loadProse('music', `../${name}`, catalogueFrontmatterSchema);
 
   if (!loaded) return undefined;
 

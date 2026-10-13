@@ -27,7 +27,7 @@ export const baseFrontmatterSchema = z.object({
   /**
    * Built and served at its address, but left out of every public listing —
    * the index, the player's queue, the sitemap — and of search: reachable only
-   * by a link someone was given, or from the unlinked `/music/all`.
+   * by a link someone was given.
    */
   hidden: z.boolean().optional(),
 });
