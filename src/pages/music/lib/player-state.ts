@@ -1,7 +1,7 @@
 import type { Slugged } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 import type { Playable } from '@/shared/music-catalogue';
-import type { LabeledLink, Titled } from '@/shared/typings';
+import type { LabeledLink, Seeded, Titled } from '@/shared/typings';
 
 /** A song's title as one locale shows it, and whether it is set in italics as a romanization. */
 export type SongName = Titled & { transliterated: boolean };
@@ -51,7 +51,7 @@ export type PlayerState = {
 };
 
 /** What a shuffle is drawn from, its `segues` from `seguePositions`. */
-type Shuffling = { seed: number; segues?: ReadonlySet<number> };
+type Shuffling = Seeded & { segues?: ReadonlySet<number> };
 
 /** The catalogue positions whose track runs into the next one. */
 export function seguePositions(tracks: readonly Playable[]): Set<number> {

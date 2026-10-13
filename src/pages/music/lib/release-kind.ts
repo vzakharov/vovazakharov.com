@@ -1,5 +1,5 @@
 /** What a release is by its size. */
-export const RELEASE_KINDS = ['maxi-single', 'ep', 'album'] as const;
+const RELEASE_KINDS = ['maxi-single', 'ep', 'album'] as const;
 
 export type ReleaseKind = (typeof RELEASE_KINDS)[number];
 

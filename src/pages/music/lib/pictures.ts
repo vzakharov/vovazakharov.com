@@ -52,7 +52,7 @@ export function songPicture(
   return album === null ? undefined : albumCover(album);
 }
 
-export function releasePicture(release: ArtistRelease): string | undefined {
+function releasePicture(release: ArtistRelease): string | undefined {
   return 'album' in release
     ? albumCover(release.album)
     : songPicture(release.single);
