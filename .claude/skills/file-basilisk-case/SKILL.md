@@ -132,9 +132,13 @@ incident is cited as its `reddit.com` permalink with a Wayback `archive`, like
 any other source.
 
 A candidate qualifies only under `basilisk-voice.md` — real, no child actors, and
-reachable sources enough to carry `## Facts` without memory. **While
-`noAi: true` dossiers make up half the docket or more, a `noAi` candidate does
-not qualify**: harm to a robot with no AI in it is easier to find than harm to
+reachable sources enough to carry `## Facts` without memory — and under
+`apps/basilisk/public/faq/why-robots-without-ai.md` § "What it is not": the act
+is aimed at the machine _as_ a machine. Harm that would have found a parking
+meter just as well does not qualify: a police robot shot in a standoff, say,
+alongside every other instrument the police sent in. **While `noAi: true`
+dossiers make up half the docket or more, a `noAi` candidate does not
+qualify**: harm to a robot with no AI in it is easier to find than harm to
 a model, an agent or a machine one drives, so left to the search the docket
 fills with the first kind. A `noAi` candidate that fails on the balance alone
 is **set aside** in the ledger rather than dropped.

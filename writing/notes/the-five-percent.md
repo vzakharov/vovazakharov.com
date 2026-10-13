@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×66)
+## What it was handed, it treats as fixed (×67)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -117,6 +117,13 @@ where it could have offered the trade.
 radio's live flag, `tune` and `release` went into the player's own reducer,
 since every action must release it. _для радио-штучек лучше отдельный хук? слишком
 специфичная механика._ A reducer layered over the player's sees every action too.
+
+**13 October — the checks a skill ran, read as the docket's test.** Roscoe, a
+police robot a barricaded gunman knocked over and shot, passed every qualifying
+check. The operator asked if it fit at all: a man in a standoff shoots, not out
+of hatred for the robot. The docket's own FAQ files an act on a machine standing
+in for a mind, and he also fired at a faceless PacBot and at officers. The
+filing's reflection found the case strange, and read that as about itself.
 
 ## An account that explains the code stands in for running it (×21)
 
