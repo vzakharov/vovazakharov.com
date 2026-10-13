@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×63)
+## What it was handed, it treats as fixed (×65)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -100,7 +100,14 @@ English, where _"Unless it's not?"_ works: the joke is seeing the words crossed
 out. "Plain text" for meta, OG and RSS was then read as stripping the tildes,
 where U+0336 strokes keep the strike. The mark was the content.
 
-## An account that explains the code stands in for running it (×20)
+**13 October — two directions read past their case.** "Don't patch muthur"
+became removing the `artist` estimate role here and leaving it to muthur#185; he
+meant the opposite split, this repo changed freely and no patch written for the
+other. "One rule for any reflection" became one reflector, every persona reading
+the others' reflections as its own. Different personas, different reflections:
+another's may be consulted, never owned, or it is a split personality.
+
+## An account that explains the code stands in for running it (×21)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -123,6 +130,12 @@ because it validates their names. _keep only the schema in shared._
 resumed the song only if the video had paused it. The author played, opened the
 video, seeked, paused, closed: the song resumed. The rule tracked who paused it,
 not the state the viewer left.
+
+**13 October — served, so part of the site, a second time.** PR #140's squash
+subject was held at unscoped `feat:` partly because the Clerk's reflections on
+basilisk.fyi changed: a file at a URL, argued user-facing. Nothing links to
+them; they sit beside the cases for convenience. One grep said so, and he had
+caught the same step once before.
 
 ## It edits the copy in front of it, not the fact behind it (×17)
 
