@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mostlyNeedsLatin, needsLatin, spell } from './spelling';
+import { mostlyNeedsLatin, needsLatin, scriptSample, spell } from './spelling';
 
 describe('needsLatin', () => {
   it('asks for Latin by script, not by language', () => {
@@ -22,6 +22,27 @@ describe('mostlyNeedsLatin', () => {
 
     assert.equal(mostlyNeedsLatin(farewell, 'ru'), false);
     assert.equal(mostlyNeedsLatin(farewell, 'en'), true);
+  });
+});
+
+describe('scriptSample', () => {
+  it('names the script most unreadable letters are in', () => {
+    assert.equal(scriptSample(['Ночной сад', 'Άγιος'], 'en'), 'Абв');
+    assert.equal(scriptSample(['Ночной сад', 'Άγιος ο σκοπός'], 'en'), 'Αβγ');
+    assert.equal(scriptSample(['Ночной сад', 'مِثْقَال'], 'ru'), 'أبج');
+  });
+
+  it('is undefined where the locale reads every letter', () => {
+    assert.equal(scriptSample(['Ночной сад', 'Breathe'], 'ru'), undefined);
+    assert.equal(scriptSample([], 'en'), undefined);
+  });
+
+  it('passes over a script with no sample beside one that has it', () => {
+    assert.equal(scriptSample(['Сойди с коня\n下马饮君酒'], 'en'), 'Абв');
+  });
+
+  it('fails when only scripts with no sample need Latin', () => {
+    assert.throws(() => scriptSample(['下马饮君酒'], 'en'), /no sample/);
   });
 });
 

@@ -16,4 +16,9 @@ export {
   type MusicProject,
 } from './names';
 export { type CreditedName, SONG_AUTHOR } from './people';
-export { mostlyNeedsLatin, songTitle, spelledText } from './spelling';
+export {
+  mostlyNeedsLatin,
+  scriptSample,
+  songTitle,
+  spelledText,
+} from './spelling';

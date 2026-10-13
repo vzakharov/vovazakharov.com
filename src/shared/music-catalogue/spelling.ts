@@ -13,6 +13,13 @@ const LOCALE_SCRIPTS: Record<Locale, RegExp> = {
   ru: /\p{Script=Cyrillic}/u,
 };
 
+/** How the switch to the original names each script a name here is written in. */
+const SCRIPT_SAMPLES = [
+  [/\p{Script=Cyrillic}/u, 'Абв'],
+  [/\p{Script=Arabic}/u, 'أبج'],
+  [/\p{Script=Greek}/u, 'Αβγ'],
+] as const;
+
 /**
  * A name or a line as one locale shows it. `latin` is there only where the
  * locale does not read the original's script, and is then what shows until
@@ -49,6 +56,42 @@ export function mostlyNeedsLatin(text: string, locale: Locale): boolean {
   return (
     all.filter((letter) => unreadable(letter, locale)).length * 2 > all.length
   );
+}
+
+/**
+ * The sample of the script most of the texts' letters are in among those the
+ * locale's readers may not read — what a page's switch to the original shows —
+ * or `undefined` where they read every letter. A text whose unreadable letters
+ * are all in scripts with no sample fails the build when no other text has one.
+ */
+export function scriptSample(
+  texts: readonly string[],
+  locale: Locale,
+): string | undefined {
+  const counts = new Map<string, number>();
+  let unsampled: string | undefined;
+
+  for (const letter of texts.flatMap((text) => letters(text))) {
+    if (!unreadable(letter, locale)) continue;
+
+    const sample = SCRIPT_SAMPLES.find(([script]) => script.test(letter))?.[1];
+
+    if (sample === undefined) {
+      unsampled ??= letter;
+    } else {
+      counts.set(sample, (counts.get(sample) ?? 0) + 1);
+    }
+  }
+
+  const [dominant] = [...counts].sort(([, a], [, b]) => b - a);
+
+  if (dominant === undefined && unsampled !== undefined) {
+    throw new Error(
+      `“${unsampled}” is in a script with no sample for the switch to the original; add one to SCRIPT_SAMPLES.`,
+    );
+  }
+
+  return dominant?.[0];
 }
 
 export type WithSpelledName = { name: Spelled };
