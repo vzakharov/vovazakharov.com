@@ -1,5 +1,11 @@
 # Fixed radio
 
+## Progress
+
+**Done:** nothing in source yet. The plan is approved (go-ahead «и поехали!», commit e082fcd); the planning session paused before building because its context was spent on the design discussion. The look is settled in `docs/plans/radio-mockups.html` — the tuning dial, centred at about 480px on every width — and the implementation follows it.
+
+**Left:** all of § "Changes", in its order. The open questions below keep their recommendations unless the operator answers otherwise.
+
 A **Radio** button beside **Shuffle all** on `/music`, and a round radio toggle in the player bar to the right of shuffle. Pressed, it plays what every other listener who pressed it hears at that moment — the same song, at the same second — **with no server**: the song and the second are a pure function of the current Unix time and the catalogue the page was built with. Any action on playback — pause, seek, skip, shuffle, picking a song — releases it. The radio also has a page of its own, `/music/radio`, with its own link card, to share.
 
 ## The station
