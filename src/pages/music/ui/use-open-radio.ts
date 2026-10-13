@@ -16,14 +16,17 @@ export function useOnRadioPage(): boolean {
   return [pathname, `${pathname}/${DEFAULT_LOCALE}`].includes(radioRoute);
 }
 
-/** Tunes in and opens the radio's page, unless the reader is already on it. */
+/**
+ * Opens the radio's page, unless the reader is already on it, tuning in first
+ * where the radio is off.
+ */
 export function useOpenRadio(): () => void {
-  const { tuneIn, radioRoute } = usePlayer();
+  const { state, tuneIn, radioRoute } = usePlayer();
   const onRadioPage = useOnRadioPage();
   const router = useRouter();
 
   return () => {
-    tuneIn();
+    if (!state.radio) tuneIn();
     if (!onRadioPage) router.push(radioRoute);
   };
 }

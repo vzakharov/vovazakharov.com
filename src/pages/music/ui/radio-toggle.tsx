@@ -10,12 +10,12 @@ import { usePlayer } from './player-provider';
 import { useOnRadioPage, useOpenRadio } from './use-open-radio';
 
 /**
- * The bar's radio switch: pressed, it releases the radio and the music plays
- * on; unpressed, it tunes in and opens the radio's page. Absent on that page,
- * whose own knob tunes in.
+ * The bar's way to the radio, pressed while tuned in. It never tunes out:
+ * releasing the radio means nothing while the music plays on, and any action on
+ * playback already does it. Absent on the radio's page, whose own knob tunes in.
  */
 export function RadioToggle() {
-  const { state, labels, release } = usePlayer();
+  const { state, labels } = usePlayer();
   const openRadio = useOpenRadio();
   const onRadioPage = useOnRadioPage();
 
@@ -27,7 +27,7 @@ export function RadioToggle() {
       size="lg"
       radius="xl"
       className={cx(state.radio && classes['controlOn'])}
-      onClick={state.radio ? release : openRadio}
+      onClick={openRadio}
       aria-label={labels.radio}
       aria-pressed={state.radio}
     >

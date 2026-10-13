@@ -53,8 +53,6 @@ export type PlayerControls = StationControls & {
   seek: (seconds: number) => void;
   /** Relative to where playback is now, which is what the arrow keys want. */
   seekBy: (seconds: number) => void;
-  /** Off the radio, the music playing on from where it is. */
-  release: () => void;
   /**
    * Where playback sits this instant, read off the element: `elapsed` trails it
    * by up to a `timeupdate`, a quarter of a second, which a cut between two
@@ -214,9 +212,6 @@ export function useAudioPlayer(
         if (audio !== null) {
           audio.currentTime = Math.max(0, audio.currentTime + seconds);
         }
-      },
-      release: () => {
-        dispatch({ type: 'release' });
       },
       tuneIn,
       tryTuneIn,
