@@ -1,0 +1,100 @@
+{
+  "estimate": {
+    "at": "2026-10-13T20:25:36.725Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a square cover means parameterising the card and collage renderers plus scaffolder and vet support for a new frontmatter field"
+      },
+      {
+        "hours": 1.0,
+        "grade": "junior",
+        "role": "developer",
+        "comment": "encoding and pushing the remaining MP3 copies is mechanical"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "podcast feeds need checking against validators and real podcast apps"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "2eb34569-e563-583d-8278-89ae6eb747a1",
+  "branch": "claude/feed-full-content-0lat2x",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/feed-full-content-0lat2x",
+  "prs": [
+    149
+  ],
+  "url": "https://claude.ai/code/session_015uSMjzUkxd9RcMWkTrRpJj",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-13T20:25:14.982Z",
+  "lastResponseAt": "2026-10-13T20:31:25.354Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 76,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 123683,
+    "cacheReadTokens": 5236214,
+    "outputTokens": 20189,
+    "thinkingTokens": 4461,
+    "responses": 38,
+    "costUsd": 2.4407908000000007
+  },
+  "ownTurns": {
+    "inputTokens": 76,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 123683,
+    "cacheReadTokens": 5236214,
+    "outputTokens": 20189,
+    "thinkingTokens": 4461,
+    "responses": 38,
+    "costUsd": 2.4407908000000007
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 76,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 123683,
+      "cacheReadTokens": 5236214,
+      "outputTokens": 20189,
+      "thinkingTokens": 4461,
+      "responses": 38,
+      "costUsd": 2.4407908000000007
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "apps/vova/public/music/songs/because-of-you.md",
+    "endedAt": "2026-10-13T20:27:22.313Z",
+    "contextTokens": 134115,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64931,
+      "cacheReadTokens": 1352202,
+      "outputTokens": 3107,
+      "thinkingTokens": 776,
+      "responses": 13,
+      "costUsd": 0.8521324000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
