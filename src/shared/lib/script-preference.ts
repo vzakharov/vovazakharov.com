@@ -52,9 +52,8 @@ function markScriptPreference(
 }
 
 /**
- * `markScriptPreference` called with this module's constants and
- * `defaultScript`. The root layout inlines it in `<head>`, which is why the
- * client hook that reads the same choice lives in a module of its own.
+ * Inlined in `<head>` by the root layout, which is why the client hook reading
+ * the same choice lives in a module of its own.
  */
 export const SCRIPT_PREFERENCE_SCRIPT = `(${markScriptPreference.toString()})(${JSON.stringify(
   SCRIPT_STORAGE_KEY,
