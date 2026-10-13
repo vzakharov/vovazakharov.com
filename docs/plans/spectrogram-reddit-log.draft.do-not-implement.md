@@ -2,23 +2,13 @@
 
 # Build the spectrogram's "worth building" list
 
-The five ideas `docs/remove-before-merging/spectrogram-reddit.md` § "Worth building" ranks, in `scripts/song-intake/spectrogram.py`: the tuning fix, tempo, a text sidecar of exact values, a zoomed render, and a blind test that says whether the picture now answers what it owes. Then every committed spectrogram is re-rendered and gets its sidecar.
+Four of the five ideas `docs/remove-before-merging/spectrogram-reddit.md` § "Worth building" ranks, in `scripts/song-intake/spectrogram.py`: the tuning fix, tempo, a text sidecar of exact values and a zoomed render. Then every committed spectrogram is re-rendered and gets its sidecar, and the sidecar's numbers are checked against librosa before anyone reads them.
 
-The order is load-bearing: tuning changes which row a note lands in, so it lands before anything reads the chroma for a key or a chord; tempo's beats are what the chords are counted in; and the blind test runs last, on the pictures and sidecars it judges.
+The order is load-bearing: tuning changes which row a note lands in, so it lands before anything reads the chroma for a key or a chord; tempo's beats are what the chords are counted in; and the check runs last, on the sidecars it judges.
 
 Taken whole, in this PR: it is one script and its outputs, and the session's context budget relays it on if it runs long. The PR's type moves from `content:` to `feat(vova):`, since the re-rendered PNGs and the new sidecars are served.
 
-## What "at a glance" means
-
-ktpr's point, settled first because every step below answers to it. From the picture and its legend alone, a reader can say:
-
-1. **the key** — tonic and mode;
-2. **the bass line** — the loop's notes, in order;
-3. **the tempo**, within 10%;
-4. **the form** — where the sections change, which parts return;
-5. **where the voice is** — enters, drops out, comes back.
-
-The sidecar carries 1–4 as numbers; the picture has to carry them as shapes, and 5 is the picture's alone. The list goes into the script's docstring, where its opening paragraph already says what a reader sees, and is the blind test's questionnaire.
+**The blind test is dropped.** It earned its place when the picture was the only channel and a cold reading was how the hue encoding was caught misleading. With the sidecar, the facts a reader would be tested on — key, tempo, sections, chords — are printed as numbers, so a picture-only test would measure a channel nobody has to rely on for them. What can still mislead is a wrong number stated with confidence, which is step 8's check.
 
 ## Steps
 
@@ -93,22 +83,22 @@ Wired into `scripts/vet.sh` beside `hearing`, and into `.claude/rules/stack.md`'
 ### 7. Re-render and write down
 
 - Every `apps/vova/public/music/assets/spectrograms/*.png` (eleven) re-rendered from its master in `apps/vova/public/music/assets/<slug>.mp3`, each with its `.txt` beside it; every PNG still under 350 KB.
-- `spectrogram.py`'s docstring: tuning, tempo in the title, the sidecar, the zoom, and the "at a glance" list.
+- `spectrogram.py`'s docstring: tuning, tempo in the title, the sidecar, the zoom.
 - `scripts/song-intake/CLAUDE.md` § "Reflection": the sidecar is committed beside the PNG.
 - `.claude/rules/maya-reflections.md` (path-scoped, edited in place, in its Russian): Майя reads the sidecar after the picture, not before, so the picture is still what she hears the song through and the numbers check her.
 
-### 8. The blind test
+### 8. Check the sidecars against librosa
 
-Last, on what step 7 committed. One subagent per song, eleven, each given only the PNG and the docstring's legend — no title from the catalogue, no sidecar, no audio — and the five questions. Its answers are frozen in the results before anything is compared.
+Last, on what step 7 committed. The synthetic tests prove the methods on clean signals; a real mix — drums over the bass, a voice over the chords — is where a key comes out as its relative major or a tempo as half itself, and a sidecar states either as flatly as the truth.
 
-- **Truth** is the sidecar for 1–4, itself checked once against librosa (`key` by `chroma_cqt` and the same profiles, tempo by `beat_track`) in a throwaway venv under `tmp/`, so a wrong sidecar is not mistaken for a wrong reading. Where the two disagree, the disagreement is reported and Vova's ear settles it. Question 5 is scored against the lyrics' sections and the vocal stem's silences.
-- **Results** go to `docs/remove-before-merging/blind-test.md`: per song, each answer against truth; then per question, how many of eleven, and what the failures had in common. That last part is the deliverable — it ranks "Maybe later" (melody contour, stems) by evidence rather than by thread votes.
-- A finding that changes what the picture should be is reported, not built here.
+- In a throwaway venv under `tmp/`, librosa computes each song's key (`chroma_cqt`, the same Krumhansl profiles), tempo (`beat_track`) and a chord per beat (the same triad templates on its chroma), and a script compares them with the eleven sidecars.
+- **Results** go to `docs/remove-before-merging/sidecar-check.md`: per song, where the two agree and where they do not. Птицы's G minor at 0.80 is the one known answer.
+- A disagreement goes to Vova, who knows his songs' keys, rather than to whichever method sounds more authoritative; one that his answer shows is the script's is fixed here, and the sidecar re-rendered.
 
 ## Out of scope
 
-- Everything under "Maybe later": melody contour, stems into the strips, CLAP, CQT. The blind test is what decides which of them goes next.
-- Ok-Motor-3984's playback test — the reader writes the music back out and a listener judges it. It wants a synthesis step and Vova's ear per song; worth its own round once the blind test says where the picture is weakest.
+- Everything under "Maybe later": melody contour, stems into the strips, CLAP, CQT.
+- Ok-Motor-3984's playback test — the reader writes the music back out and a listener judges it. It wants a synthesis step and Vova's ear per song.
 
 ## DRY notes
 

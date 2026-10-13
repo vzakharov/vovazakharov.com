@@ -11,16 +11,16 @@ A440 splits each note across two chromagram rows, and a key or tempo
 read off a picture is approximate where a number is exact.
 
 The script now measures the song's tuning and shifts its note grid by
-it, takes the tempo from an onset envelope into the title, and writes a
-text sidecar beside each PNG: tempo, key with its Krumhansl confidence,
-tuning, and per section its span, loudness and chords, a repeating loop
-folded. --from/--to renders a stretch at full width with its beats.
-The analysis lives in a numpy-only song_facts.py with its own tests.
+it, tracks beats that follow a drifting tempo into the title, and
+writes a text sidecar beside each PNG: tempo, key with its Krumhansl
+confidence, tuning, and per section its span, tempo, loudness and
+chords, a repeating loop folded. --from/--to renders a stretch at full
+width with its beats. The analysis lives in a numpy-only song_facts.py
+with its own tests.
 
-Every committed spectrogram is re-rendered with its sidecar, and a blind
-test reads each picture cold against five questions that define "at a
-glance" — key, bass line, tempo, form, voice — scored against the
-sidecar, itself cross-checked against librosa.
+Every committed spectrogram is re-rendered with its sidecar, and each
+sidecar's key, tempo and chords are checked against librosa, the
+disagreements settled by the songs' author.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
