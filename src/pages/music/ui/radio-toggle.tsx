@@ -7,15 +7,19 @@ import { cx } from '@/shared/lib/class-names';
 
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
-import { useOpenRadio } from './use-open-radio';
+import { useOnRadioPage, useOpenRadio } from './use-open-radio';
 
 /**
  * The bar's radio switch: pressed, it releases the radio and the music plays
- * on; unpressed, it tunes in and opens the radio's page.
+ * on; unpressed, it tunes in and opens the radio's page. Absent on that page,
+ * whose own knob tunes in.
  */
 export function RadioToggle() {
   const { state, labels, release } = usePlayer();
   const openRadio = useOpenRadio();
+  const onRadioPage = useOnRadioPage();
+
+  if (onRadioPage) return null;
 
   return (
     <ActionIcon

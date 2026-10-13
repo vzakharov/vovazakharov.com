@@ -6,18 +6,24 @@ import { DEFAULT_LOCALE } from '@/shared/i18n';
 
 import { usePlayer } from './player-provider';
 
+/** Whether the reader is on the radio's page, in either language. */
+export function useOnRadioPage(): boolean {
+  const { radioRoute } = usePlayer();
+  const pathname = usePathname();
+
+  // The locale-less alias is the default language's page, so it is spelled
+  // with that locale appended before it is compared.
+  return [pathname, `${pathname}/${DEFAULT_LOCALE}`].includes(radioRoute);
+}
+
 /** Tunes in and opens the radio's page, unless the reader is already on it. */
 export function useOpenRadio(): () => void {
   const { tuneIn, radioRoute } = usePlayer();
-  const pathname = usePathname();
+  const onRadioPage = useOnRadioPage();
   const router = useRouter();
 
   return () => {
     tuneIn();
-    // The locale-less alias is the default language's page, so it is spelled
-    // with that locale appended before it is compared.
-    if (![pathname, `${pathname}/${DEFAULT_LOCALE}`].includes(radioRoute)) {
-      router.push(radioRoute);
-    }
+    if (!onRadioPage) router.push(radioRoute);
   };
 }
