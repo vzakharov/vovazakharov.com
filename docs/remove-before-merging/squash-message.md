@@ -17,8 +17,9 @@ A Radio button beside Shuffle all and a round switch in the player bar
 both tune in and open the radio's page. The player joins the station
 where it is once the master has loaded, hands a finished track to the
 next slot, and catches up after a stall. Any action on playback —
-pause, seek, skip, shuffle, picking a song — releases the radio, which
-the player's reducer enforces for every action but tuning in.
+pause, seek, skip, shuffle, picking a song — releases the radio: a
+reducer of the radio's own, laid over the player's, enforces it for
+every action but tuning in.
 
 /music/radio is the radio's own set, which the music never moves the
 reader off: a tuning dial whose needle glides through the song on air,
