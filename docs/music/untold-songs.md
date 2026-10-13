@@ -240,7 +240,7 @@
 
 ### Singles
 
-- [Минем бабай](../../apps/vova/public/music/minem-babay.md) — hook, story
+- [Бабай минем](../../apps/vova/public/music/minem-babay.md) — hook, story
 
 ## Киндерштайн
 

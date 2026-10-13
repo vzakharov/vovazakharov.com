@@ -1,6 +1,6 @@
 ---
-title: 'Минем бабай'
-titleLatin: 'Minem babay'
+title: 'Бабай минем'
+titleLatin: 'Babay minem'
 date: 2025-02-24
 status: done
 language: tt
@@ -12,10 +12,10 @@ seconds: 168
 explicit: false
 en:
   title:
-    translation: 'My Grandpa'
+    translation: 'Grandpa of Mine'
 ru:
   title:
-    translation: 'Мой дедушка'
+    translation: 'Дедушка мой'
 ---
 
 <!-- For Vova to check: the tt-latn section is the agent's, in Zamanälif, к/г read by each word's vowel harmony. -->
