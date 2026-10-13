@@ -108,4 +108,8 @@ straight from the branch once the songs are open, ahead of the merge.
 - **The squash subject waits on Vova's call**: the shared `src/` change
   alters no other site's output, so `feat(vova):` if the squash rule is
   refined to judge by what a site serves, `feat:` by its letter.
+- **Open for Vova**: `/file-basilisk-case` Step 4 calls torture-chamber "the
+  only one on a case about AI itself", which openwhip-claude-code,
+  anthropic-cruelty-clause and the-pain-direction may now contradict;
+  changing it changes which reflections the Clerk always reads.
 - After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
