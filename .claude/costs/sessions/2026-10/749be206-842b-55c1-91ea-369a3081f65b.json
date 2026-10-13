@@ -1,0 +1,86 @@
+{
+  "estimate": {
+    "at": "2026-10-13T19:52:34.677Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the head script as a generated public file, wired into codegen and vet, needs someone who knows the static export and the vet gates"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "749be206-842b-55c1-91ea-369a3081f65b",
+  "branch": "claude/latin-first-transliteration-ymni59",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/latin-first-transliteration-ymni59",
+  "prs": [],
+  "url": "https://claude.ai/code/session_011i3j4yqxSAWYP7cVMzLSQM",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-13T19:52:14.988Z",
+  "lastResponseAt": "2026-10-13T19:52:42.339Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 48423,
+    "cacheReadTokens": 647734,
+    "outputTokens": 1994,
+    "thinkingTokens": 316,
+    "responses": 7,
+    "costUsd": 0.5568668000000001
+  },
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 48423,
+    "cacheReadTokens": 647734,
+    "outputTokens": 1994,
+    "thinkingTokens": 316,
+    "responses": 7,
+    "costUsd": 0.5568668000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48423,
+      "cacheReadTokens": 647734,
+      "outputTokens": 1994,
+      "thinkingTokens": 316,
+      "responses": 7,
+      "costUsd": 0.5568668000000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-13T19:52:42.339Z",
+    "contextTokens": 104798,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47422,
+      "cacheReadTokens": 543939,
+      "outputTokens": 1375,
+      "thinkingTokens": 232,
+      "responses": 6,
+      "costUsd": 0.5157118
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
