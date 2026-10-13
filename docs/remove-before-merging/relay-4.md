@@ -12,19 +12,19 @@ Auto-relay at the context budget's 200k line, with no argument.
 
 Earlier turns: `relay-3.md` § 2 and before.
 
-*Agent (pickup):* resumed the paused plan; built the hook and the universe / making-of split; two subagents wrote GENERATED, the album and the ten tracks from the dictation.
+_Agent (pickup):_ resumed the paused plan; built the hook and the universe / making-of split; two subagents wrote GENERATED, the album and the ten tracks from the dictation.
 
 **Operator (mid-turn):** «> что люди придумали какую-то религию — тут имеется в виду `что люди придумали какую-то "религию"`, то есть речь не про определённую (a religion), а про понятие религии вообще»
 
-*Agent:* fixed the dictation file and passed it to the track writer; Fuck Religion's story says «придумали какую-то «религию»» / “this thing called ‘religion’”.
+_Agent:_ fixed the dictation file and passed it to the track writer; Fuck Religion's story says «придумали какую-то «религию»» / “this thing called ‘religion’”.
 
 **Operator (mid-turn):** «> совсем бы не обрадовался мысли, что по его энергетике пишутся такие песни. — ИИ-песни, а не просто "такие песни". "Таким" бы он может и обрадовался, если бы они не были ИИ»
 
-*Agent:* the same: dictation fixed, making-of reads «пишутся ИИ-песни» / “AI songs”.
+_Agent:_ the same: dictation fixed, making-of reads «пишутся ИИ-песни» / “AI songs”.
 
 **Operator (mid-turn):** «а, и пусть Майя потом добавит свои размышления. Она тут не исполнительница, а слушатель/читатель. Но нужно будет создать спектрограмммы и тп»
 
-*Agent:* recorded it in the plan's `## Rest of the elephant`; built, previewed, committed, paused, relayed. No reply about the new pages has reached the operator yet beyond this relay's report.
+_Agent:_ recorded it in the plan's `## Rest of the elephant`; built, previewed, committed, paused, relayed. No reply about the new pages has reached the operator yet beyond this relay's report.
 
 ## 3. Intent
 

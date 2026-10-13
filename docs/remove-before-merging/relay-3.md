@@ -12,31 +12,31 @@ Auto-relay at the context budget's 200k line, with no argument.
 
 Earlier turns: `relay-2.md` § 2, `relay-1.md` § 2.
 
-*Agent (pickup):* attached; ran `/handle` on #140. Two threads: dropped the `hidden-songs` tombstone (f158b20) and explained `says()` (it keeps a comment-only preamble, the `<!-- Scaffolded from … -->` 184 songs carry, from counting as a story). Replied on both threads, left them open.
+_Agent (pickup):_ attached; ran `/handle` on #140. Two threads: dropped the `hidden-songs` tombstone (f158b20) and explained `says()` (it keeps a comment-only preamble, the `<!-- Scaffolded from … -->` 184 songs carry, from counting as a story). Replied on both threads, left them open.
 
 **Operator (mid-turn):** «в новом A/B тесте тоже неизвестен должен быть порядок»
 
-*Agent:* recorded it in the plan; a subagent built the «Птичка» blind A/B (`birdie_mix.mp3` mastered by `master.py --strength 1.0` against «На пальцы (EDM).flac», spliced 5 s against `🅴 Птичка.flac`, loudness-matched at −9.79 LUFS, correlation 0.65, order by `secrets.choice`, key in `birdie-ab-key.b64`). Sent the file.
+_Agent:_ recorded it in the plan; a subagent built the «Птичка» blind A/B (`birdie_mix.mp3` mastered by `master.py --strength 1.0` against «На пальцы (EDM).flac», spliced 5 s against `🅴 Птичка.flac`, loudness-matched at −9.79 LUFS, correlation 0.65, order by `secrets.choice`, key in `birdie-ab-key.b64`). Sent the file.
 
 **Operator:** «так, там миксы разные были поэтому после 2.30 не совпадает музыка; но до этого лучше вроде A, и опять же маргинально -- чувствуется разный "окрас", на B как будто поярче, посветлее»
 
-*Agent:* revealed: A = Matchering (reference: «На пальцы»), B = Ozone. The repo's `birdie_mix.mp3` is not the mix the Ozone master came from (`birdie_1.RPP`), which explains both the mismatch after 2:30 and the low correlation. Offered a re-run on the right mix, or `/polish` + `/finalize`.
+_Agent:_ revealed: A = Matchering (reference: «На пальцы»), B = Ozone. The repo's `birdie_mix.mp3` is not the mix the Ozone master came from (`birdie_1.RPP`), which explains both the mismatch after 2:30 and the low correlation. Offered a re-run on the right mix, or `/polish` + `/finalize`.
 
-**Operator:** «тут хорошо бы для новых песен сначала находить песню-с-мастером, *несматеренный* микс которой похож по окрасу на текущий, тогда соответственно и мастер будет выходить более похоже. Но для этого нужно завендорить, или по крайней мере обозначить ссылки на миксы; выбрать где мастеры на самом деле хорошие (собственным ухом) и тп-- поэтому на это давай заведём issue, где зафиксируем результаты эксперимента, с нужными ссылками на мп3шки итп»
+**Operator:** «тут хорошо бы для новых песен сначала находить песню-с-мастером, _несматеренный_ микс которой похож по окрасу на текущий, тогда соответственно и мастер будет выходить более похоже. Но для этого нужно завендорить, или по крайней мере обозначить ссылки на миксы; выбрать где мастеры на самом деле хорошие (собственным ухом) и тп-- поэтому на это давай заведём issue, где зафиксируем результаты эксперимента, с нужными ссылками на мп3шки итп»
 
-*Agent:* opened issue #141 (both experiments, source links, the proposal as steps). The prerelease for the mp3s was blocked by auto mode; handed him the line to send.
+_Agent:_ opened issue #141 (both experiments, source links, the proposal as steps). The prerelease for the mp3s was blocked by auto mode; handed him the line to send.
 
 **Operator:** «Создай пре-релиз mastering-experiments-1 в vzakharov/vovazakharov.com через gh release create с файлами tmp/birdie-ab/birdie-blind.mp3 и tmp/birdie-ab/birdie-matchering.mp3 и впиши ссылки в issue #141»
 
-*Agent:* created the prerelease, linked both assets in #141.
+_Agent:_ created the prerelease, linked both assets in #141.
 
 **Operator:** a long voice-typed dictation on GENERATED and Divine Discontent — condensed here, kept in full (cleaned) at `docs/music/dictations/generated-divine-discontent.md`, raw at `git show 327bd62:docs/music/dictations/generated-divine-discontent.md`. It opens: «И сначала общая заметка, наверное, нам все-таки стоит вернуть в отображение поля description. Пока еще точно не знаю, как это будет выглядеть, но особенно в концептуальных альбомах, наверное, важно, чтобы было какое-то такое description, пусть называется, на что-то типа хука. Ну, может, там где-то будет там односложный вопрос какой-нибудь, что-то, чтобы цеплял.» Then: GENERATED's origin (Russian first on Suno, English from Suno 3, the name, metal, concept albums, Prototypes, the gods idea that gave «Artemis»), «Это все, что я говорю, конечно, очень сильно нужно будет сократить для истории артиста. Но где-то, наверное, в большем виде, в каких-то там заметках это оставить»; the album's pun and arc, «ты, Клод, объясни, что это имеется в виду в обыденном таком в обыденной идиоме»; then all ten tracks, in-universe first, making-of after, «ты сам, Клод, реши, где ты как-то разобьешь»; for «In Our Image», «По-моему, есть какая-то известная цитата на эту тему. Ее тоже найди на, наверное, стоит прикрепить ее куда-то.»
 
-*Agent:* committed it verbatim (327bd62).
+_Agent:_ committed it verbatim (327bd62).
 
 **Operator (mid-turn):** «ну не совсем прям в дословном, разбивай там на абзацы и правь очевидные огрехи распознавания» / «и всякие эмм умм убирац»
 
-*Agent:* rewrote the file paragraphed, by track, fillers and slips removed, nothing else rewritten (78516d1); recorded what the dictation asks for in the plan; relayed for context budget.
+_Agent:_ rewrote the file paragraphed, by track, fillers and slips removed, nothing else rewritten (78516d1); recorded what the dictation asks for in the plan; relayed for context budget.
 
 ## 3. Intent
 

@@ -20,12 +20,18 @@ export function hookRuns(hook: string): HookRun[] {
 /** U+0336, which draws a line through the character before it. */
 const COMBINING_STROKE = '̶';
 
+/** Graphemes, so the stroke lands after a whole `й` or emoji, never inside one. */
+const GRAPHEMES = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+
 /**
  * A hook as plain text — a meta description, a feed — the struck words drawn
  * through with a combining stroke, the joke being in seeing them crossed out.
  */
 export function textHook(hook: string): string {
   return hook.replaceAll(STRUCK, (_, words: string) =>
-    [...words].map((char) => char + COMBINING_STROKE).join(''),
+    Array.from(
+      GRAPHEMES.segment(words),
+      ({ segment }) => segment + COMBINING_STROKE,
+    ).join(''),
   );
 }

@@ -11,23 +11,23 @@
 
 Earlier turns: `docs/remove-before-merging/relay-1.md` § 2.
 
-*Agent (pickup):* reported the branch-deploy block and offered (a) allow the branch in the `github-pages` environment or (b) wait for merge.
+_Agent (pickup):_ reported the branch-deploy block and offered (a) allow the branch in the `github-pages` environment or (b) wait for merge.
 
 **Operator:** «Добавь ветку claude/music-open-all-songs-2g882w в deployment-branch-policies окружения github-pages и задеплой vova с неё»
 
-*Agent:* added the policy (id 62680175), deployed vova from the branch (run 38140180469, green), checked «За горизонт» live at vovazakharov.com/music; noted the post-merge policy removal in the plan (7a3b89a). Predecessor meanwhile pushed `docs/remove-before-merging/fingers-ab-key.b64` (base64 of the A/B key).
+_Agent:_ added the policy (id 62680175), deployed vova from the branch (run 38140180469, green), checked «За горизонт» live at vovazakharov.com/music; noted the post-merge policy removal in the plan (7a3b89a). Predecessor meanwhile pushed `docs/remove-before-merging/fingers-ab-key.b64` (base64 of the A/B key).
 
 **Operator (with a phone screenshot of a song page, theme toggle overlapping the RU chip):** «по слепому тестированию: маргинально лучше версия A (та которая с 0-5, 10-15 итп секунд). раскрывай карты :) ещё вспомнил: на узких экранах переключатель темы налезает на язык. Я б решил, поставив переключатели в один ряд с заголовком, но не знаю, насколько это просто или сложно сделать в коде»
 
-*Agent:* revealed: the file he got was `fingers-blind-1` (full-strength Matchering), where A (first side) = **Ozone**; loudness matched (both ≈ −9.3 LUFS), waveform correlation 0.975. Fixed the toggle (391d928): below `sm` the music nav (`.nav` in `src/pages/music/ui/music.module.scss`, used by `music-nav.tsx`) reserves the toggle's 38px + 12px gap and takes its 38px height, so chips and toggle sit in one centred row; measured at 390px via CDP. Noted that at 640–~1070px the toggle's button box clips the RU chip's corner by 6px (pre-existing), but the icon ink clears it — left alone. Offered to redeploy.
+_Agent:_ revealed: the file he got was `fingers-blind-1` (full-strength Matchering), where A (first side) = **Ozone**; loudness matched (both ≈ −9.3 LUFS), waveform correlation 0.975. Fixed the toggle (391d928): below `sm` the music nav (`.nav` in `src/pages/music/ui/music.module.scss`, used by `music-nav.tsx`) reserves the toggle's 38px + 12px gap and takes its 38px height, so chips and toggle sit in one centred row; measured at 390px via CDP. Noted that at 640–~1070px the toggle's button box clips the RU chip's corner by 6px (pre-existing), but the icon ink clears it — left alone. Offered to redeploy.
 
 **Operator:** «да, давай задеплой. оставил ревью тоже. по мастерингу: давай теперь попробуем взять какую-то другую песню, например, Птичку, и сделать с ней то же -- но в этот раз не матчить, а использовать настройки матчеринга, полученные на "на пальцах" (если матчеринг так умеет, конечно). Резон: чтобы матчить под готовый мастер, нужен этот мастер, то есть сама по себе первая проверка показала что "если есть мастер на озоне, можно сделать почти так же хорошо с матчерингом". теперь надо понять, можно ли это сделать, если мастера озона (для новой песни) нет.»
 
-*Agent:* redeployed vova from the branch (run 38141909749, green — the toggle fix is live). Then, mid-turn:
+_Agent:_ redeployed vova from the branch (run 38141909749, green — the toggle fix is live). Then, mid-turn:
 
 **Operator:** «а что с переключалкой-то сделал?»
 
-*Agent:* answered in the relay report (the toggle fix as above), and relayed for context budget before touching the review or the new A/B.
+_Agent:_ answered in the relay report (the toggle fix as above), and relayed for context budget before touching the review or the new A/B.
 
 ## 3. Intent
 

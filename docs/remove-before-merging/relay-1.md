@@ -21,23 +21,23 @@
 >
 > вроде всё что пока помню, но по ходу буду добавлять. Всё что можно делать подагентами, и релеиться дальше, когда нужно. Слон, в общем (но план можно не утверждать, кажется, тут особо никаких развилок). Но если что затык, спрашивай
 
-*Agent:* routed to `/task` → elephant plan, gate waived by the operator's words; renamed branch, opened draft PR #140, flipped plan to in-progress quoting the go-ahead; launched a subagent for the A/B.
+_Agent:_ routed to `/task` → elephant plan, gate waived by the operator's words; renamed branch, opened draft PR #140, flipped plan to in-progress quoting the go-ahead; launched a subagent for the A/B.
 
 **Operator:** «когда мастеринг будет готов, надо мне это дать в таком виде, чтобы сразу не раскрыть, что идёт первым. Понятно что через репу я это смогу найти, но я постараюсь не искать :)»
 
-*Agent:* made the A/B blind: random side order per file, neutral names, key in `KEY.md` unread by the agent.
+_Agent:_ made the A/B blind: random side order per file, neutral names, key in `KEY.md` unread by the agent.
 
 **Operator:** «по description, давай, если нет body, показывать description в месте где body»
 
-*Agent:* implemented — with no story, the description sits in the story's slot (below the facts line), not in the header.
+_Agent:_ implemented — with no story, the description sits in the story's slot (below the facts line), not in the header.
 
 **Operator:** «> For each A/B file — а что значит each? вроде только один файл планировали?»
 
-*Agent:* explained it added a second file on its own: one at `master.py`'s house half strength (the «Крылья» recipe), one at full strength, since "match to its own master" reads as a full match.
+_Agent:_ explained it added a second file on its own: one at `master.py`'s house half strength (the «Крылья» recipe), one at full strength, since "match to its own master" reads as a full match.
 
 **Operator:** «как минимум я смогу вычислить где matchering по тому, что он будет меняться в двух файлах, а другая часть -- нет; дай только полносильный»
 
-*Agent:* had the subagent copy only the full-strength file to `fingers-blind.mp3` without telling the agent the order; sent it. Ran vet (green after fixes), dispatched `deploy.yml` on the branch with `site: vova` — **deploy-vova failed**: `Branch "claude/music-open-all-songs-2g882w" is not allowed to deploy to github-pages due to environment protection rules.` (build-vova succeeded). The `github-pages` environment's deployment branch policy lists only `main`. Told the operator; relayed for context budget.
+_Agent:_ had the subagent copy only the full-strength file to `fingers-blind.mp3` without telling the agent the order; sent it. Ran vet (green after fixes), dispatched `deploy.yml` on the branch with `site: vova` — **deploy-vova failed**: `Branch "claude/music-open-all-songs-2g882w" is not allowed to deploy to github-pages due to environment protection rules.` (build-vova succeeded). The `github-pages` environment's deployment branch policy lists only `main`. Told the operator; relayed for context budget.
 
 ## 3. Intent
 
@@ -46,7 +46,7 @@ Make the whole music catalogue public now and keep shaping it; publish to vovaza
 ## 4. Decisions
 
 - **Elephant, one PR, gate waived** — operator's words. Bites continue without per-bite review pauses being enforced as stops beyond what context needs.
-- **Description vs story** — story shown where it exists; else description shown *in the story's slot* (operator's call, superseding the plan's "description only in header"); else nothing. Description remains meta/OG description; songs without one fall back to the site tagline via `constructMetadata`.
+- **Description vs story** — story shown where it exists; else description shown _in the story's slot_ (operator's call, superseding the plan's "description only in header"); else nothing. Description remains meta/OG description; songs without one fall back to the site tagline via `constructMetadata`.
 - **Description optional in every locale or none** — schema refine; locale blocks default to `{}`.
 - **"Has a story"** = `localeProse(body, locale) !== ''`; `localeProse` drops sections that say nothing once HTML comments are stripped.
 - **Instrumental** = no lyrics (`songLyrics` returns `undefined`) → story unclamped (local `Story` component in `song-page.tsx`).

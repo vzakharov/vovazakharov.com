@@ -22,7 +22,7 @@ Earlier turns: `relay-5.md` § 2 and before.
 
 **(Session opened on `/relay take`, Next step `handle`.)**
 
-*Agent:* attached (the local branch ref was stale and diverged; reset to
+_Agent:_ attached (the local branch ref was stale and diverged; reset to
 origin, nothing local lost), exported the review (20 threads), resumed the
 plan. Code: `hook` in frontmatter for songs/albums/artists, `HookLine`,
 `loadProse` parses frontmatter by a schema (1ef4e48). Subagents rewrote the
@@ -38,7 +38,7 @@ the fix is the voice test in `songs.md`.
 всегда, у некоторых альбомов есть пропуски, где песн ещё нет, а номера уже
 проставлены)»
 
-*Agent:* cause — the player's queue was the catalogue newest-first, so "next"
+_Agent:_ cause — the player's queue was the catalogue newest-first, so "next"
 was the next song by date. `albumsTogether` (`src/pages/music/lib/album-tracks.ts`,
 tested) gathers each album's songs in track order where its first song stood;
 `listSongs` uses it. It landed inside polish commit 42ae392 (the polish
@@ -55,14 +55,14 @@ read.
 **Operator:** «кинул ещё ревью (ещё до твоих последних правок), а сам пошёл
 смотреть правки)»
 
-*Agent:* exported (45 awaiting), posted the five drafted replies (T01, T02,
+_Agent:_ exported (45 awaiting), posted the five drafted replies (T01, T02,
 T05, T19, T20 — r4242786396…686), relayed.
 
 ## 3. Intent
 
 The whole catalogue public and shaped; Divine Discontent told as a literary
 world plus a making-of in his written voice. Now: answer his second review —
-written against the version *before* 26f6586, so many DD threads may already
+written against the version _before_ 26f6586, so many DD threads may already
 be addressed by the rewrite; check each against the current text before
 changing anything.
 

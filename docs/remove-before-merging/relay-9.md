@@ -72,7 +72,7 @@ reflections answering Vova. Then the plan's Rest.
 ## 7. Pointers
 
 - Review export: `docs/pr/140/pr.md` (re-run `python3
-  scripts/export-github-item.py 140` for anything new).
+scripts/export-github-item.py 140` for anything new).
 - Rules: `.claude/rules/songs.md`, `.claude/rules/reflections.md`,
   `.claude/rules/maya-reflections.md`.
 - Transcript: https://claude.ai/code/session_01Q1GxUbf5BDAaWY7bgimX4p; before it

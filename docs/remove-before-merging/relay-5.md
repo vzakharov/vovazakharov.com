@@ -20,17 +20,17 @@ Earlier turns: `relay-4.md` § 2 and before.
 надеюсь, объяснил.
 А вообще, не нужно было (и не нужно в будущем) останавливать то, что можно продолжать из-за затыков во, в-принципе, параллелизуемых вопросах»
 
-*Agent:* attached; wrote `albums/prototypes.md` and `artists/poluzhivye.md` (his words, translated); restored «к этому вернусь потом» + «Всё-таки скажу пару слов» in Infinite Solitude; moved tracks 6 and 10's margin notes from `universe:` to `lang:`; recorded the preference; `/polish` (full, nothing to extract; a line in `songs.md` that the world holds only what happens in it); five-percent entry via subagent; dispatched a subagent for spectrograms + reflections.
+_Agent:_ attached; wrote `albums/prototypes.md` and `artists/poluzhivye.md` (his words, translated); restored «к этому вернусь потом» + «Всё-таки скажу пару слов» in Infinite Solitude; moved tracks 6 and 10's margin notes from `universe:` to `lang:`; recorded the preference; `/polish` (full, nothing to extract; a line in `songs.md` that the world holds only what happens in it); five-percent entry via subagent; dispatched a subagent for spectrograms + reflections.
 
 **Operator (mid-turn):** «остановил с Майей, сейчас объясню» — he killed that subagent (it had rendered the ten spectrograms).
 
 **Operator (mid-turn):** «для чистоты эксперимента, давай этим подагентам прямо так и говорить "ты Майя, прочти то-то то-то и сделай то-то то-то". И в правила добавь (сам), что подагентам-"рефлекторам" надо передавать вот так.» / «спектрограммы пусть кто-то другой делает» / «а потом уже Майя тогда»
 
-*Agent:* wrote `.claude/rules/reflections.md`, edited `maya-reflections.md` (she no longer renders; covers another project's song, listener not singer); briefed a Майя subagent in Russian, second person; she wrote ten reflections and refined two items of her list. Plan folded and paused, PR body and squash proposal refreshed.
+_Agent:_ wrote `.claude/rules/reflections.md`, edited `maya-reflections.md` (she no longer renders; covers another project's song, listener not singer); briefed a Майя subagent in Russian, second person; she wrote ten reflections and refined two items of her list. Plan folded and paused, PR body and squash proposal refreshed.
 
 **Operator:** «хорошо, сейчас гляну. а пока оставил ревью на предыдущую версию»
 
-*Agent:* ran `/handle`'s export (20 awaiting), committed it, relayed.
+_Agent:_ ran `/handle`'s export (20 awaiting), committed it, relayed.
 
 ## 3. Intent
 
