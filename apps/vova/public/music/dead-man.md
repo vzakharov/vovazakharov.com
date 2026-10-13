@@ -10,17 +10,14 @@ track: 6
 audio: https://raw.githubusercontent.com/vovas-music/poko/main/%D0%9C%D0%B5%D1%82%D0%B5%D0%BB%D1%8C.flac
 seconds: 257
 explicit: false
-hidden: true
 credits:
   lyrics: ['Vova Zakharov', 'Александр Блок']
 en:
   title:
     transliteration: 'Metel'
     translation: 'Snowstorm'
-  description: 'TBD'
   cribNote: 'The chorus and the bridge are Alexander Blok’s “Покойник спать ложится…” (1909); where the song keeps Blok’s words, the crib is Dmitri N. Smirnov’s translation, “The calm snowstorm.”'
 ru:
-  description: 'TBD'
   cribNote: 'Припев и бридж — стихотворение Александра Блока «Покойник спать ложится…» (1909); там, где песня поёт Блока как есть, подстрочник — перевод Дмитрия Смирнова «The calm snowstorm».'
 ---
 

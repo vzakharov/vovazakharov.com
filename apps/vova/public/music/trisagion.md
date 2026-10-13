@@ -10,13 +10,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/trisagion/main/trisagion.flac
 seconds: 202
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Трисвятое'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The words are sung in Russian, Latin and English in turn; they are set as one Russian text with the Latin and English lines glossed, and the language order (ru, la, en) is a guess. -->

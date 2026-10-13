@@ -10,16 +10,12 @@ seconds: 211
 explicit: false
 album: five-romances
 track: 6
-hidden: true
 credits:
   lyrics: ['Марина Цветаева']
 en:
   title:
     transliteration: 'My vspominaem tikhiy sneg…'
     translation: 'We remember the quiet snow…'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/dng_album — dng-006.flac,

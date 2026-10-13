@@ -10,16 +10,12 @@ seconds: 157
 explicit: false
 album: who-is-happy-in-russia
 track: 1
-hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
     transliteration: 'Na Rusi svyatoy'
     translation: 'In Holy Rus'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/asa — яша_v6.flac,

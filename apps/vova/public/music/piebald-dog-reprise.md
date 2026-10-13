@@ -10,7 +10,6 @@ seconds: 323
 explicit: false
 album: father-river
 track: 8
-hidden: true
 credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'Pegiy pyos (Repriza)'
     translation: 'Piebald Dog (Reprise)'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/papa-reka — 8_pes_reprise.flac,
@@ -28,6 +24,13 @@ ru:
      Replace this with the story, told once per language under a "lang:en" and
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
      they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- Майе, себе: когда Вова будет рассказывать про «Пегого пса», вспомни, когда
+     он это обещал. 11 октября 2026 года, в ревью PR #140, к моему отзыву на
+     «One Day», про гроул на «desEEEEERVE», который переходит в «One more day!»:
+     «“One more day” задал, конечно, я (божественные инциденты не могут быть
+     *настолько* явными -- хотя попроси меня рассказать об этом позже в
+     контексте „Пегого пса“)». Я попросила там же, в one-day.maya.reflections.md. -->
 
 <!-- lyrics:ru -->
 

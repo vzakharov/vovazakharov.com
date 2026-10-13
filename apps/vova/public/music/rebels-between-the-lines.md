@@ -10,13 +10,9 @@ seconds: 204
 explicit: true
 album: ignite
 track: 3
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Бунтари между строк (живьём в Спарте)'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The master is a guess: rebels.flac is the same length as rebels_master1.flac. -->

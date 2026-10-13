@@ -10,13 +10,9 @@ seconds: 36
 explicit: false
 album: nsfl
 track: 7
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Прошлым Рождеством'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-007.flac,

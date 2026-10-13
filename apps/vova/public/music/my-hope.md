@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/my_hope/main/my_hope_master_2.flac
 seconds: 264
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Моя надежда'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The master is a guess: my_hope_fill.flac and my_hope_pop.flac are the same length as my_hope_master_2.flac, and my_hope_master.flac is also in the repo. -->

@@ -10,13 +10,9 @@ seconds: 6
 explicit: false
 album: nsfl
 track: 2
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Суп из эмбрионов'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-002.flac,

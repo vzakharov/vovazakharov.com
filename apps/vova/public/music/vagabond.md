@@ -10,12 +10,8 @@ seconds: 314
 explicit: false
 album: vagabond
 track: 10
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title: 'Скиталец'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: lyrics.md suggests its Suno footer note “Piano intro, lyrics, curation, production” for `credits`. -->

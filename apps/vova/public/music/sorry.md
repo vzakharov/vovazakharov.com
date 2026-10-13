@@ -4,18 +4,19 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: sorry
 album: wings
 track: 6
-audio: /music/assets/sorry.mp3
+audio: https://raw.githubusercontent.com/vovas-music/sorry/main/sorry.mp3
 seconds: 198
 explicit: false
 en:
   title:
     transliteration: 'Prosti'
     translation: 'Sorry'
-  description: 'Inspired, strangely enough, by Bad Religion: something both pop and punk, but not pop-punk.'
+  hook: '“I repeat: that summer somewhere near Kolomna NEVER HAPPENED!”'
 ru:
-  description: 'Вдохновлено, как ни странно, Bad Religion: и попса, и панк, но не поп-панк.'
+  hook: '«Повторяю, этого лета под Коломной где-то НИКОГДА НЕ БЫЛО!»'
 ---
 
 <!-- lang:en -->

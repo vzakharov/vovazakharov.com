@@ -10,13 +10,9 @@ seconds: 18
 explicit: false
 album: nsfl
 track: 3
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Фронт истребления человечества'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-003.flac,

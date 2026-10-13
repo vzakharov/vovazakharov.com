@@ -10,14 +10,10 @@ track: 5
 audio: https://raw.githubusercontent.com/vovas-music/sneg_0/main/sneg_master.flac
 seconds: 180
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Sneg'
     translation: 'Snow'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/sneg_0 — sneg_master.flac,

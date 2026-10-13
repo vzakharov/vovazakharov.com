@@ -10,13 +10,9 @@ seconds: 33
 explicit: false
 album: nsfl
 track: 1
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Не слушать'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-001.flac,

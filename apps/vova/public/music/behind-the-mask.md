@@ -10,13 +10,9 @@ seconds: 208
 explicit: false
 album: pschpthy
 track: 5
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'За маской'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/mask — mask.flac,

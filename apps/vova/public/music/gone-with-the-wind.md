@@ -10,13 +10,9 @@ seconds: 243
 explicit: false
 album: let-the-stories-spin
 track: 5
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Унесённые ветром'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is `wind.flac` rather than the checklist's guess `Gone With the Wind.flac`, because its size matches the album's `5 wind.flac` within a kilobyte and the other does not; `wind_ending.flac` is a fragment. The title follows the album entry’s “Gone with the Wind”; the repo’s own entry spells it “Gone With the Wind”. -->

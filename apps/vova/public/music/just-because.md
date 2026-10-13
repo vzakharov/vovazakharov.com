@@ -4,18 +4,19 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: just-because
 album: wings
 track: 9
-audio: /music/assets/just-because.mp3
+audio: https://raw.githubusercontent.com/vovas-music/just-because/main/just-because.mp3
 seconds: 244
 explicit: false
 en:
   title:
     transliteration: 'Prosto tak'
     translation: 'Just Because'
-  description: 'The song a producer friend called the best on the album — with a natural, unforced carelessness, and “minus twenty in the shade.”'
+  hook: 'Frostbitten fingers, −4°F in the shade — and kissing just because.'
 ru:
-  description: 'Песня, которую друг-продюсер назвал лучшей на альбоме, — с естественной, не надуманной небрежностью и «в тени минус двадцать».'
+  hook: 'Пальцы отморожены, в тени минус двадцать — а мы целуемся просто так.'
 ---
 
 <!-- lang:en -->
@@ -93,12 +94,14 @@ And “minus twenty in the shade” I consider just about my best linguistic fin
 <!-- lyrics:en -->
 
 Let our fingers be frostbitten
-It’s minus twenty in the shade
+It’s [minus twenty][^celsius-en] in the shade
 We’ll hold on
 It’s nothing, really
 And, like a rhyme amid prose,
 In spite of all the frosts
 We’ll kiss just because
+
+[^celsius-en]: Celsius: about four below zero Fahrenheit.
 
 Maybe, someday
 We’ll leave each other

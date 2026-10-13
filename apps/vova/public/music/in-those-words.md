@@ -10,17 +10,13 @@ seconds: 190
 explicit: false
 album: five-romances
 track: 4
-hidden: true
 credits:
   lyrics: ['Анна Ахматова']
 en:
   title:
     transliteration: 'Ya govoryu seychas slovami temi…'
     translation: 'I speak now in those words…'
-  description: 'TBD'
   cribNote: 'The English is A. S. Kline’s translation of Akhmatova’s “Evening Room” (1911); the song sings the original.'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/dng_album — dng-004.flac,

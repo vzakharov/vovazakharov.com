@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/diner/main/diner.flac
 seconds: 239
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'В закусочной'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: the title is the Suno render's name in the repo, `Media/At the Diner.mp3`. -->

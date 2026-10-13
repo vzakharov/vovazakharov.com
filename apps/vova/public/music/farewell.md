@@ -10,14 +10,10 @@ track: 8
 audio: https://raw.githubusercontent.com/vovas-music/wangwei/main/%D0%9F%D1%80%D0%BE%D1%89%D0%B0%D0%BD%D0%B8%D0%B5.flac
 seconds: 339
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Proshchanie'
     translation: 'Farewell'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: it is your father's last song, posted on the «Владимир Захаров. Жизнь и творчество» channel, like the other Полуживые songs of his. The Russian glosses on the Chinese bridge (Wang Wei's «送别») are mine, not his. -->

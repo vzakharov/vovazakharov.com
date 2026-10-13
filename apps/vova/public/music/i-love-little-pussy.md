@@ -10,15 +10,11 @@ track: 2
 audio: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.flac
 seconds: 187
 explicit: true
-hidden: true
 credits:
   lyrics: ['Jane Taylor']
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Я люблю маленькую киску'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master picked as `meow_master.flac`; `meow.flac` is the same length — check which one is on OFFstep. -->

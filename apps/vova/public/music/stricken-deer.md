@@ -10,15 +10,11 @@ track: 4
 audio: https://raw.githubusercontent.com/vovas-music/deer/main/Why%20Let%20the%20Stricken%20Deer%20Go%20Weep.flac
 seconds: 191
 explicit: false
-hidden: true
 credits:
   lyrics: ['William Shakespeare']
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Пусть раненый олень ревёт'
-  description: 'TBD'
   cribNote: 'Песня Гамлета — в переводе Бориса Пастернака; молитва Клавдия — в переводе К. Р., строки разбиты по песне.'
 ---
 

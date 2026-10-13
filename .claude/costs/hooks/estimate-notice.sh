@@ -14,13 +14,16 @@ read_payload
 
 root="$(project_root)"
 session_id="$(field session_id)"
-[ -n "$root" ] && [ -n "$session_id" ] && [ -f "$root/.claude/costs/rates.json" ] || exit 0
+rates="$root/.claude/costs/rates.json"
+[ -n "$root" ] && [ -n "$session_id" ] && [ -f "$rates" ] || exit 0
 
 script=".claude/costs/estimate.py"
 shown="$(CLAUDE_CODE_SESSION_ID="$session_id" python3 "$root/$script" show)" || exit 0
 current="${shown#*: }"
-roles="$(jq -r '.roles | keys_unsorted | join(", ")' "$root/.claude/costs/rates.json")"
-grades="$(jq -r '.grades | keys_unsorted | join(", ")' "$root/.claude/costs/rates.json")"
+roles="$(jq -r '.roles | keys_unsorted | join(", ")' "$rates")"
+grades="$(jq -r '.grades | keys_unsorted | join(", ")' "$rates")"
+fixed="$(jq -r '.fixedGrades // {} | to_entries | map("\(.key) only ever \(.value)") | join(", ")' "$rates")"
+[ -n "$fixed" ] && grades="$grades; $fixed"
 usage="python3 $script set --part <hours> <grade> <role> \"<why, at most 280 characters>\" [--part ...]"
 
 # One line per paragraph: the agent reads it unwrapped, and a hard break inside

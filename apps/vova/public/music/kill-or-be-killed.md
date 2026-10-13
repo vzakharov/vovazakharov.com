@@ -10,16 +10,12 @@ seconds: 180
 explicit: false
 album: ctfu
 track: 3
-hidden: true
 credits:
   lyrics: ['Nance Castro']
   music: ['Nance Castro']
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Убей или будь убит'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/kobk — kobk.flac,

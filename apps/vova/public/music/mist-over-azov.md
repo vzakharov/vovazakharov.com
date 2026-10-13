@@ -11,12 +11,8 @@ seconds: 270
 explicit: false
 album: vagabond
 track: 2
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title: 'Туман над Азовом'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; the checklist left the language blank. -->

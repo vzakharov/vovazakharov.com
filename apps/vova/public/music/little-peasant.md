@@ -10,16 +10,12 @@ seconds: 190
 explicit: false
 album: who-is-happy-in-russia
 track: 6
-hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
     transliteration: 'Odnazhdy v studyonuyu zimnyuyu poru…'
     translation: 'Once, in the freezing winter season…'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The mu-icok-new repository's checklist entry names no master and holds only «мужичок+лёли» files (nocomp, v2 and plain), which seem to join this track to «Лёли», so this file uses the album's 6 мужичок.flac with repo rus-. -->

@@ -10,13 +10,9 @@ seconds: 203
 explicit: false
 album: ghosts-of-flesh
 track: 8
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Хаос всегда побеждает'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: the album text marks a gap with "…" between the third verse and the closing couplet; it stands here as you wrote it. -->

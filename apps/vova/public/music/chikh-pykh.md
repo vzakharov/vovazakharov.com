@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/chp/main/chp.flac
 seconds: 216
 explicit: false
-hidden: true
 en:
   title:
     translation: 'Chikh-Pykh'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/chp — chp.flac,

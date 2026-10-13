@@ -1,20 +1,20 @@
-import { Box, Group, Stack, Text, Title } from '@mantine/core';
+import { Box, Group, Stack, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/shared/config';
-import { isListed, renderDocument } from '@/shared/content';
+import { isListed } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
+import { textHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
 import { FileLink, hoverDim, PageShell, TextLink } from '@/shared/ui';
 
-import { ProseContent } from '@/entities/document';
-
 import { SiteFooter } from '@/widgets/site-footer';
 
+import { universeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';
 import type { SongPageProps } from '../lib/music-route-params';
 import { indexPath, songPath } from '../lib/music-urls';
@@ -26,14 +26,15 @@ import { listSongPages, type SongPageEntry, songTrack } from '../lib/songs';
 import { titleGloss } from '../lib/title-gloss';
 import { CoverHead } from './cover-head';
 import { ExplicitBadge } from './explicit-badge';
+import { HookLine } from './hook-line';
 import { Lyrics } from './lyrics';
 import { MusicNav } from './music-nav';
-import { ReadMore } from './read-more';
 import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
 import { SongName } from './song-name';
 import { SongPlayButton } from './song-play-button';
 import { SongVideoButton } from './song-video-button';
+import { Story } from './story';
 import { TitleGlossLine } from './title-gloss-line';
 
 function resolve(slug: string): SongPageEntry {
@@ -59,15 +60,12 @@ function hostedMaster(route: string, audio: string) {
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
-  const { title, description, hidden } = localizeSong(
-    document,
-    locale,
-  ).frontmatter;
+  const { title, hook, hidden } = localizeSong(document, locale).frontmatter;
 
   return constructMetadata({
     title: `${title} - ${SITE_CONFIG.name}`,
     ogTitle: listenTitle(title, locale),
-    description,
+    description: hook === undefined ? undefined : textHook(hook),
     path: songPath(slug, locale),
     ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
     ogType: 'article',
@@ -76,22 +74,14 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
   });
 }
 
-export async function SongPage({ slug, locale }: SongPageProps) {
+export function SongPage({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
   const localized = localizeSong(document, locale);
-  const { tree } = await renderDocument(localized);
   // A hidden song's artists and album may have no public page, so its links
   // stay in the whole catalogue.
   const catalogue = { everything: !isListed(document) };
-  const {
-    title,
-    titleTransliterated,
-    description,
-    repo,
-    explicit,
-    cribNote,
-    audio,
-  } = localized.frontmatter;
+  const { title, titleTransliterated, hook, repo, explicit, cribNote, audio } =
+    localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
   const picture = songPicture(document, album);
@@ -128,6 +118,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                 <TitleGlossLine
                   gloss={titleGloss(localized.frontmatter, locale)}
                 />
+                <HookLine>{hook}</HookLine>
                 {/* The same track a song list's row plays, so both drive one
                     queue — which a hidden song joins only once played here. */}
                 <Group mt={12} gap={8}>
@@ -148,10 +139,6 @@ export async function SongPage({ slug, locale }: SongPageProps) {
                 </Group>
               </Stack>
             </CoverHead>
-
-            <Text size="lg" lh={1.625} opacity={0.8}>
-              {description}
-            </Text>
 
             {/* The recording's facts, and the files behind it at the far end
                 of the same line. */}
@@ -177,9 +164,14 @@ export async function SongPage({ slug, locale }: SongPageProps) {
           </Stack>
         </Box>
 
-        <ReadMore label={messages.readMore}>
-          <ProseContent {...{ tree }} />
-        </ReadMore>
+        {/* Held behind «…» only above words, which a long story would keep
+            the reader from. */}
+        <Story
+          universe={universeOf(document, locale)}
+          story={localized.body === '' ? undefined : localized}
+          {...pick(messages, 'makingOf')}
+          readMore={lyrics && messages.readMore}
+        />
 
         {lyrics && <Lyrics {...{ lyrics, locale, cribNote }} />}
 

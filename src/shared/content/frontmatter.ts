@@ -74,6 +74,14 @@ export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
 };
 
 /**
+ * The one method a reader calls, rather than the whole `ZodType<F>`: that
+ * mentions `F` on both sides and is therefore invariant, which would stop a
+ * list of every collection reading as a list at the base shape — and that
+ * list is what the sitemap walks.
+ */
+export type FrontmatterReader<F> = { parse: (data: unknown) => F };
+
+/**
  * A collection and the schema that reads it, as one value. A song carries
  * fields an article must not silently accept, so the two are validated apart
  * — and pairing the id with its schema is what keeps a reader from being handed
@@ -81,13 +89,7 @@ export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
  */
 export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
   id: CollectionId;
-  /**
-   * The one method a reader calls, rather than the whole `ZodType<F>`: that
-   * mentions `F` on both sides and is therefore invariant, which would stop a
-   * list of every collection reading as a list at the base shape — and that
-   * list is what the sitemap walks.
-   */
-  schema: { parse: (data: unknown) => F };
+  schema: FrontmatterReader<F>;
 };
 
 /**

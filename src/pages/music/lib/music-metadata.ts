@@ -2,12 +2,14 @@ import 'server-only';
 
 import { SITE_CONFIG } from '@/shared/config';
 import { loadMessages, type Locale } from '@/shared/i18n';
+import { textHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
 
 import { albumArtist, albumCover, albumTitle } from './albums';
+import { albumText, artistText } from './catalogue-text';
 import type {
   AlbumPageProps,
   ArtistPageProps,
@@ -74,7 +76,10 @@ export function generateArtistMetadata(page: ArtistPageProps) {
     page,
     name,
     listenTitle(name, page.locale),
-    artistDescription.replace('{artist}', name),
+    textHook(
+      artistText(page.artist, page.locale)?.hook ??
+        artistDescription.replace('{artist}', name),
+    ),
     (locale) => artistPath(page.artist, page, locale),
     artistCard(page.artist, page.locale, catalogueSongs(page)),
   );
@@ -88,12 +93,15 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
     page,
     name,
     listenTitle(name, page.locale),
-    albumDescription
-      .replace('{album}', name)
-      .replace(
-        '{artist}',
-        projectName(albumArtist(page.album, page.locale), page.locale),
-      ),
+    textHook(
+      albumText(page.album, page.locale)?.hook ??
+        albumDescription
+          .replace('{album}', name)
+          .replace(
+            '{artist}',
+            projectName(albumArtist(page.album, page.locale), page.locale),
+          ),
+    ),
     (locale) => albumPath(page.album, page, locale),
     albumCover(page.album),
   );

@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/nightmares/main/nightmares_rock.flac
 seconds: 298
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'В тени'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: an English-titled Suno song with no words, post or album to place it, so GENERATED. The checklist named no master: `nightmares_rock.flac` is picked, and `nightmares_pop.flac` is the same length (4:58) — check which is the song. -->

@@ -10,13 +10,9 @@ seconds: 352
 explicit: false
 album: let-the-stories-spin
 track: 4
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Сёстры'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is the album's `4 lake.flac`: the only FLAC in the song's own repo `lake`, `lake_end_fix.flac`, runs 1:31 against the album file's full length, so it looks like a patch for the ending rather than the song. -->

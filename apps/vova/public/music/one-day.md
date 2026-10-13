@@ -10,20 +10,42 @@ seconds: 198
 explicit: true
 album: divine-discontent
 track: 5
-hidden: true
 en:
-  description: 'TBD'
+  hook: 'Even God has a breaking point.'
 ru:
   title:
     translation: 'Однажды'
-  description: 'TBD'
+  hook: 'Даже у Бога кончается терпение.'
 ---
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 5. One Day.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+God’s patience is running out. One day, he thinks, I won’t hold back after all
+— one day I’ll smash the whole lot of you to hell. One day his eternal love will
+turn to primal hate, and he will come down in flames. For now, though, people
+are too funny, so hilariously, lovably dumb, and that alone keeps him up there.
+
+<!-- universe:ru -->
+
+У Бога кончается терпение. Однажды, думает он, я всё-таки не сдержусь — однажды
+я точно вас всех ухреначу нафиг. Однажды его вечная любовь обернётся
+первобытной ненавистью, и он сойдёт огнём. Но пока люди слишком смешные, до того
+мило уморительные, что только это его наверху и держит.
+
+<!-- lang:en -->
+
+The idea for this song came to me long ago, some 10–15 years back, and it had
+different music then. I’d have liked to make the song to that music, but Suno
+couldn’t yet build a song on music of your own, so I settled for a prompt along
+the lines of southern metal. That song is waiting its turn; with this one I’m
+quite happy.
+
+<!-- lang:ru -->
+
+Идея этой песни появилась у меня давным-давно, лет 10–15 назад, и музыка у неё
+тогда была другая. Мне хотелось бы сделать песню на ту музыку, но Суно ещё не
+умела делать песню на свою музыку, так что пришлось ограничиться промптом в духе
+southern metal. Та песня ждёт своей очереди, а этой я вполне доволен.
 
 <!-- lyrics:en -->
 

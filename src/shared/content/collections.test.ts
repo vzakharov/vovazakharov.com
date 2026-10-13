@@ -98,7 +98,7 @@ describe('isDocumentFile', () => {
   });
 
   it('leaves out a companion and anything not markdown', () => {
-    assert.equal(isDocumentFile('hitchbot.reflections.md'), false);
+    assert.equal(isDocumentFile('hitchbot.clerk.reflections.md'), false);
     assert.equal(isDocumentFile('hitchbot.pdf'), false);
   });
 });

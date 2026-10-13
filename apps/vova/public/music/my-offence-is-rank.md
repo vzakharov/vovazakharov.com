@@ -11,16 +11,12 @@ explicit: false
 album: father-river
 track: 5
 alsoOn: [{ album: hamlet, track: 2 }]
-hidden: true
 credits:
   lyrics: [William Shakespeare]
   music: [Vladimir Zakharov Sr.]
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'О, гнусен грех мой…'
-  description: 'TBD'
   cribNote: 'Русский текст — перевод К. Р. (великого князя Константина Романова); песня поёт шекспировский оригинал.'
 ---
 

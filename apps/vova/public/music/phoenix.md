@@ -10,15 +10,11 @@ seconds: 193
 explicit: false
 album: ctfu
 track: 10
-hidden: true
 credits:
   music: ['Vova Zakharov', 'Сергей Исаев', 'Александра Кокотова']
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Феникс'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The master is a guess: phoenix_ozz.flac is the same length as phoenix.flac, and phoenix_new.flac and phoenix_stemmed.flac are also in the repo. -->

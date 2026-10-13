@@ -9,14 +9,10 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/ogonki/main/ogonki.flac
 seconds: 186
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Ogonki'
     translation: 'Little Lights'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/ogonki — ogonki.flac,

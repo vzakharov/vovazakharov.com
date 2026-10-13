@@ -10,22 +10,44 @@ seconds: 238
 explicit: false
 album: divine-discontent
 track: 6
-hidden: true
 en:
-  description: 'TBD'
+  hook: 'What if God is just information?'
 ru:
   title:
     translation: 'Предельная абстракция'
-  description: 'TBD'
+  hook: 'А что, если Бог — это просто информация?'
 ---
 
 <!-- For Vova to check: the words file lists this track as “22:13”, while the master is named “The Ultimate Abstraction”; the title stays as the master has it — which should the page use? The closing Church Slavonic line is marked “[repeating]” in the words file; it is set once here. -->
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 6. The Ultimate Abstraction.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+God tries to show people who he really is — in the form in which he exists and
+in which they do not see him. Not what their religions have made of him:
+information. The ultimate abstraction, the purpose and the cause. Everything is
+within him; every book they write, every byte they send, every prompt they give
+their machines only carries him further. He is the alpha and the omega, the
+beginning and the end.
+
+<!-- universe:ru -->
+
+Бог пытается показать людям, кто он на самом деле, — в том виде, в котором он
+есть и в котором они его не видят. Не то, что сделали из него их религии, а
+информация. Предельная абстракция, цель и причина. Всё находится в нём: каждая
+книга, которую они пишут, каждый байт, который отправляют, каждый промпт их
+машинам лишь несёт его дальше. Он альфа и омега, начало и конец.
+
+<!-- lang:en -->
+
+I spent a good deal of time puzzling over this idea, that God is information,
+and I would surely have become a Prophet, but information apparently decided I
+was too lazy for that.
+
+<!-- lang:ru -->
+
+Я достаточно много заморачивался над этой идеей — «Бог есть информация» — и
+обдумывал её, и точно стал бы Пророком, но информация, видимо, решила, что я для
+этого слишком ленив.
 
 <!-- lyrics:en -->
 
@@ -72,6 +94,8 @@ The ultimate abstraction,
 The purpose and the cause,
 Shaping the universe.
 x2
+
+<!-- voice: Кирилл -->
 
 Азъ есмь Алфа и Омега, начатокъ и конецъ, Первый и Послѣднiй.[^alpha-en]
 

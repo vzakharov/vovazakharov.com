@@ -11,16 +11,13 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/mithqal/main/mithqal_rock_master.flac
 seconds: 243
 explicit: false
-hidden: true
 en:
   title:
     translation: 'Weight'
-  description: 'TBD'
   cribNote: 'The words are verses of the Quran, opened with the takbir and the basmala. The English is ours, not a canonical translation.'
 ru:
   title:
     translation: 'Вес'
-  description: 'TBD'
   cribNote: 'Слова — аяты Корана, с такбиром и басмалой в начале. Подстрочник наш, не канонический перевод.'
 ---
 

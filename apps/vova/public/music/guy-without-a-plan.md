@@ -10,13 +10,9 @@ seconds: 214
 explicit: false
 album: ctfu
 track: 7
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Парень без плана'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/guy — guy.flac,

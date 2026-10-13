@@ -10,15 +10,12 @@ seconds: 335
 explicit: false
 album: ghosts-of-flesh
 track: 7
-hidden: true
 en:
   title:
     translation: 'The Scorpioness (In My Nature)'
-  description: 'TBD'
 ru:
   title:
     translation: 'Скорпиониха (В моей природе)'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: the album text marks a gap with "…" after the fourth stanza; it stands here as you wrote it. -->

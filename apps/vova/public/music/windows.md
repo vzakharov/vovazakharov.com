@@ -10,14 +10,10 @@ track: 9
 audio: https://raw.githubusercontent.com/vovas-music/okna/main/%D0%9E%D0%BA%D0%BD%D0%B0.flac
 seconds: 286
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Okna'
     translation: 'Windows'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: track 5 of the unnamed `grebaniy-bal` album, posted with it to the Грёбаный бал Telegram channel on 2025-11-07; the album has no title yet, so the song is a single. Master is the checklist's `Окна.flac`, byte for byte the size of the album's `05 Окна.flac`; the repo also has `okna.flac`, a 4:53 render against the master's 4:46. -->

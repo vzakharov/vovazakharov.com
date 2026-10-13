@@ -10,7 +10,6 @@ track: 3
 audio: https://raw.githubusercontent.com/vovas-music/lebed/main/%D0%AF%20%D0%BA%D1%83%D0%BF%D0%BB%D1%8E%20%D1%82%D0%B5%D0%B1%D0%B5%20%D0%B4%D0%BE%D0%BC.flac
 seconds: 292
 explicit: false
-hidden: true
 credits:
   lyrics: ['Михаил Танич']
   music: ['Сергей Коржуков']
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'Ya kuplyu tebe dom'
     translation: 'I’ll Buy You a House'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: the song was posted to the Грёбаный бал Telegram channel on 2026-01-23. The title is the master's file name; the checklist left it blank. The checklist named no master: `Я куплю тебе дом.flac` is picked over `Я куплю тебе дом (караоке).flac`, the same length, which is the karaoke cut. -->

@@ -4,9 +4,10 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: hello
 album: wings
 track: 3
-audio: /music/assets/hello.mp3
+audio: https://raw.githubusercontent.com/vovas-music/hello/main/hello.mp3
 video:
   src: /music/assets/hello.mp4
   offsetSeconds: -0.19
@@ -16,9 +17,9 @@ en:
   title:
     transliteration: 'Zdravstvuy'
     translation: 'Hello'
-  description: 'A duet I was very proud of, with two voices in the chorus and a powerful instrumental post-chorus — and nothing close to it in spirit came of trying to remix it later.'
+  hook: 'An ode to all of us building sand castles amidst mirages.'
 ru:
-  description: 'Дуэт, которым я очень гордился, — с двухголосьем в припеве и мощным инструментальным пост-корусом; ничего близкого по духу потом из него так и не вышло.'
+  hook: 'Ода всем строящим замки на песке среди миражей.'
 ---
 
 <!-- lang:en -->

@@ -11,22 +11,58 @@ seconds: 261
 explicit: false
 album: divine-discontent
 track: 3
-hidden: true
 en:
-  description: 'TBD'
+  hook: 'Who made whom, and in whose image?'
 ru:
   title:
     translation: 'По образу нашему'
-  description: 'TBD'
+  hook: 'Кто кого создал — и по чьему образу?'
 ---
 
 <!-- For Vova to check: the words file titles this track “In Your Image” in the list and “In Your Own Image” above its words; the file keeps “In Our Image”, as the master is named — which is it? -->
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 3. In Our Image.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+The deity is a thought roaming the endless night, and a thought has no form. To
+see what it is, it needs a mirror. So it makes man in its own image and
+likeness, and looks: in man’s laughter and tears it finds itself, and in man’s
+dreams, the shape it takes. Man looks back, and gives it a name — God — and a
+face like his own; from then on, God is a he. Before long, who is whose image,
+he can no longer say.
+
+<!-- universe:ru -->
+
+Божество — мысль, бродящая в бескрайней ночи, а у мысли нет формы. Чтобы
+увидеть, что оно такое, ему нужно зеркало. И оно создаёт человека по своему
+образу и подобию — и вглядывается: в смехе и слезах человека находит себя, в
+его снах — форму, которую принимает само. А человек вглядывается в ответ и даёт
+ему имя — Бог — и лицо, похожее на своё; отныне Бог — он. И вскоре он уже не
+может сказать, кто чей образ.
+
+<!-- lang:en -->
+
+The title plays on who makes whom in whose image. “In our image” is God speaking
+of himself as “us” — “And God said, Let us make man in our image, after our
+likeness” (Genesis 1\:26, KJV) — and it is people making God in theirs: “If God
+created us in his own image, we have more than reciprocated,” in the line
+attributed to Voltaire. Xenophanes said it first: if horses had hands, they
+would draw their gods as horses.
+
+This was one of the last songs I wrote for the album. I wanted an operatic song,
+and that’s where the Italian came from. Scusate se non è proprio italiano.
+
+<!-- lang:ru -->
+
+Название — игра в то, кто кого по чьему образу создаёт. «In our image» — это и
+Бог, говорящий о себе «по нашему подобию»: «И сказал Бог: сотворим человека по
+образу Нашему по подобию Нашему» (Бытие 1\:26), — и люди, создающие Бога по
+своему образу и подобию: «Если Бог создал нас по своему образу и подобию, то мы
+ему с лихвой отплатили тем же», как гласит фраза, приписываемая Вольтеру. А
+первым это сказал Ксенофан: будь у лошадей руки, они рисовали бы богов похожими
+на лошадей.
+
+Это одна из последних песен, которые я написал для альбома. Мне захотелось
+оперной песни, и отсюда родился итальянский. Scusate se non è proprio italiano.
 
 <!-- lyrics:en -->
 
@@ -61,6 +97,8 @@ Nella tua immagine, riflessi vedo,
 Dai sogni umani, la forma che prendo.
 Nel tuo credo, il mio cammino.
 Nel quadro, il pittore, un cerchio divino
+
+<!-- voice: male; the last line Майя -->
 
 [Alla nostra immagine][^nostra-en], riflessi vedo,
 Dai sogni umani, la forma che prendo.

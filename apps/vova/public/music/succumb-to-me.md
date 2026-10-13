@@ -10,13 +10,9 @@ seconds: 204
 explicit: false
 album: pschpthy
 track: 4
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Покорись мне'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/succumb — succumb.flac,

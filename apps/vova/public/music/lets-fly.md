@@ -13,9 +13,9 @@ en:
   title:
     transliteration: 'Letim'
     translation: 'Let’s Fly'
-  description: 'The first song written on Suno 3, with the hills of Herzegovina outside the window of a visa run.'
+  hook: 'Somewhere very far away — so far it’s within arm’s reach — moonlit water dozes at the foot of ancient mountains.'
 ru:
-  description: 'Первая песня, написанная на Суно 3, с герцеговинскими горами за окном на виза-ране.'
+  hook: 'Где-то очень далеко — так, что хоть рукой подать, — у подножья древних гор дремлет лунная вода.'
 ---
 
 <!-- lang:en -->

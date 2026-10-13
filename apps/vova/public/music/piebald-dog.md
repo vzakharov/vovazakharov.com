@@ -10,7 +10,6 @@ seconds: 321
 explicit: false
 album: father-river
 track: 2
-hidden: true
 credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'Pegiy pyos, begushchiy kraem morya'
     translation: 'Piebald Dog Running Along the Shore'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is pes.flac as the checklist names it; the repository also holds pes_faster.flac. -->

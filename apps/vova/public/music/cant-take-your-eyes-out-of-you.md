@@ -10,13 +10,9 @@ seconds: 53
 explicit: false
 album: nsfl
 track: 9
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Не могу вынуть из тебя твои глаза'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-009.flac,

@@ -16,9 +16,10 @@ import { projectGloss, projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
-import { CatalogueProse } from './catalogue-prose';
+import { HookLine } from './hook-line';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
+import { Story } from './story';
 
 /**
  * One project: its own text where it has one, the albums and singles it put
@@ -54,9 +55,16 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
               </Group>
             )
           }
-        />
+        >
+          <HookLine>{text?.hook}</HookLine>
+        </CatalogueHeader>
 
-        {text && <CatalogueProse {...{ text }} label={messages.readMore} />}
+        {text && (
+          <Story
+            {...pick(text, 'universe', 'story')}
+            {...pick(messages, 'makingOf', 'readMore')}
+          />
+        )}
 
         <CatalogueGrid
           title={messages.albums}

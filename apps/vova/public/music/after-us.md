@@ -4,9 +4,10 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
+repo: after-us
 album: wings
 track: 4
-audio: /music/assets/after-us.mp3
+audio: https://raw.githubusercontent.com/vovas-music/after-us/main/after-us.mp3
 video:
   src: /music/assets/after-us.mp4
   offsetSeconds: -0.28
@@ -16,9 +17,9 @@ en:
   title:
     transliteration: 'Posle nas'
     translation: 'After Us'
-  description: 'The world we leave to those whose adult life is only beginning, when everything of the last few years felt especially raw.'
+  hook: 'The flood is already here. And after?'
 ru:
-  description: 'Какой мир мы оставляем тем, чья взрослая жизнь только начинается, — когда всё, что случилось за последние годы, ощущалось особенно живо.'
+  hook: 'Потоп — уже при нас. А после?'
 ---
 
 <!-- lang:en -->

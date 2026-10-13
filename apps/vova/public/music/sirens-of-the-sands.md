@@ -11,12 +11,8 @@ seconds: 352
 explicit: false
 album: vagabond
 track: 6
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title: 'Сирены барханов'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; the checklist left the language blank. -->

@@ -5,11 +5,11 @@ status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'bezm'
-album: null
+album: stronger-than-love
+track: 6
 audio: https://raw.githubusercontent.com/vovas-music/bezm/main/%D0%97%D0%B0%20%D0%B3%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%BD%D1%82.flac
 seconds: 227
 explicit: false
-hidden: true
 credits:
   lyrics: ['Мария Коськова', 'Vova Zakharov']
   music: ['Мария Коськова']
@@ -17,12 +17,9 @@ en:
   title:
     transliteration: 'Za gorizont'
     translation: 'Beyond the Horizon'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
-<!-- For Vova to check: date and album are guesses. The date is the day `За горизонт.flac` landed in `bezm` (“sync: add latest project files”, with `za_gorizont.RPP`); the album is null, a single. The final chorus sings «Что мечтам не сбыться» and then «Пусть мечтам не сбыться», set here as sung. -->
+<!-- For Vova to check: the date is a guess, the day `За горизонт.flac` landed in `bezm` (“sync: add latest project files”, with `za_gorizont.RPP`). The final chorus sings «Что мечтам не сбыться» and then «Пусть мечтам не сбыться», set here as sung. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/bezm — За горизонт.flac,
      44.1 kHz / 16-bit / stereo.

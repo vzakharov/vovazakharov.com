@@ -10,16 +10,12 @@ seconds: 176
 explicit: false
 album: five-romances
 track: 1
-hidden: true
 credits:
   lyrics: ['Марина Цветаева']
 en:
   title:
     transliteration: 'Moim stikham, napisannym tak rano…'
     translation: 'To my poems, written so early…'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/dng_album — dng-001.flac,

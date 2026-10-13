@@ -11,13 +11,9 @@ seconds: 361
 explicit: false
 album: ghosts-of-flesh
 track: 9
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Мёбиус'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/ghosts-of-flesh — 9. Mo_bius.flac,

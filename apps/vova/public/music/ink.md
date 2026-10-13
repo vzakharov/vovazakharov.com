@@ -10,13 +10,9 @@ seconds: 208
 explicit: false
 album: let-the-stories-spin
 track: 1
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Чернила'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is the checklist's guess `ink.flac`; the repo also has `ink_pop.flac`, and the album repo `stories` has its own `1 ink.flac`. -->

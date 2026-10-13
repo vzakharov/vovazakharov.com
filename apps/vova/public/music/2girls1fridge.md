@@ -10,13 +10,9 @@ seconds: 15
 explicit: true
 album: nsfl
 track: 8
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Две девчонки, один холодильник'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-008.flac,

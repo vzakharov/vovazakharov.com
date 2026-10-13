@@ -10,14 +10,10 @@ track: 1
 audio: https://raw.githubusercontent.com/vovas-music/skolko/main/%D0%A1%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE.flac
 seconds: 240
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Skolko'
     translation: 'How Long'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: original Russian words with rap verses, made a week after `Там` (f-ec), a Грёбаный бал track; Полуживые is the other candidate. -->

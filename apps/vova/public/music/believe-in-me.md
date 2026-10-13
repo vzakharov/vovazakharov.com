@@ -11,20 +11,41 @@ seconds: 274
 explicit: true
 album: divine-discontent
 track: 7
-hidden: true
 en:
-  description: 'TBD'
+  hook: 'What becomes of a god people stop believing in?'
 ru:
   title:
     translation: 'Верь в меня'
-  description: 'TBD'
+  hook: 'Что становится с богом, в которого перестают верить?'
 ---
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 7. Believe In Me.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+God sees that he is being forgotten. The halls empty, the faith drains away, and
+he dwindles with it. This is his last cry of despair, or nearly the last — and
+it is no feeble one. At the end of his strength a god can still be strong: the
+storms still gather at his word, and the lightning is still his to throw.
+
+<!-- universe:ru -->
+
+Бог видит, что его забывают. Пустеют залы, уходит вера, и вместе с ней мельчает
+он сам. Это его последний или почти последний крик отчаяния — и слабым его не
+назовёшь. На исходе сил бог ещё может быть силён: бури ещё собираются по его
+слову, и молнии ещё в его руке.
+
+<!-- lang:en -->
+
+In a sense it’s a nod to Pratchett’s _Small Gods_, where a god is the weaker the
+fewer people believe in him. God says it through a song with Rammstein’s energy
+and German words, and you don’t need to be any kind of music expert to hear Till
+Lindemann here (Till, spare a fool!).
+
+<!-- lang:ru -->
+
+В каком-то смысле это отсылка к «Мелким богам» Пратчетта, где бог тем слабее,
+чем меньше в него верят люди. И Бог выражает это песней с энергетикой
+Rammstein, с немецкими словами, — и не нужно быть каким-то музыкальным
+экспертом, чтобы услышать здесь Тилля Линдеманна (Тилль, пощади дурака!).
 
 <!-- lyrics:en -->
 

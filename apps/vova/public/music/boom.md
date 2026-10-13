@@ -10,13 +10,9 @@ seconds: 212
 explicit: false
 album: pschpthy
 track: 3
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Бум!'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/boom — boom.flac,

@@ -11,12 +11,8 @@ seconds: 316
 explicit: false
 album: vagabond
 track: 5
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title: 'По зову степи'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; the checklist left the language blank. -->

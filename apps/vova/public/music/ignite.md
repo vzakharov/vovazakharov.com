@@ -10,13 +10,9 @@ seconds: 149
 explicit: false
 album: ignite
 track: 2
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Зажигаем'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/ignite — ignite.flac,

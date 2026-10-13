@@ -7,6 +7,16 @@
   min-width: 0;
 }
 
+// Below `sm` the line reaches the layout's corner toggle, so the language chips
+// stop short of it and the two read as one row: the toggle's 38px and a gap,
+// and its height, so the row's middle is the toggle's.
+.nav {
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    min-height: 38px;
+    padding-inline-end: 50px;
+  }
+}
+
 // Pinned rather than in flow: the bar is the one control that has to stay
 // reachable while the reader is anywhere in a song's prose.
 .playerBar {

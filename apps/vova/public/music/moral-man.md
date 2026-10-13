@@ -10,16 +10,12 @@ seconds: 231
 explicit: false
 album: who-is-happy-in-russia
 track: 2
-hidden: true
 credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
     transliteration: 'Nravstvennyy chelovek'
     translation: 'A Moral Man'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/moral- — мораль_2.flac,

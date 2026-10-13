@@ -4,18 +4,19 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: birds
 album: wings
 track: 8
-audio: /music/assets/birds.mp3
+audio: https://raw.githubusercontent.com/vovas-music/birds/main/birds.mp3
 seconds: 287
 explicit: false
 en:
   title:
     transliteration: 'Ptitsy'
     translation: 'Birds'
-  description: 'Written at night on the living-room sofa: brilliant while I was writing it, drawn-out once it was done, and to my dad “the song of a departing soul.”'
+  hook: '“The song of a departing soul,” per my dad (RIP).'
 ru:
-  description: 'Написана ночью на диване в зале: пока писалась — гениальная, когда дописалась — затянутая, а для папы — «песня улетающей души».'
+  hook: '«Песня улетающей души», как сказал папа (светлая ему память).'
 ---
 
 <!-- lang:en -->

@@ -10,13 +10,9 @@ seconds: 26
 explicit: true
 album: nsfl
 track: 12
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Могильное пробуждение'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/nsfl — nsfl-012.flac,

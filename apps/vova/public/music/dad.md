@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Papa'
     translation: 'Dad'
-  description: 'A poem by Sasha, with the father’s verse written back to it — a cross-generational, cross-species collab of the living and the dead, machine and human.'
+  hook: 'Dad, why do clouds so often look like wings? Is that why people invented angels?'
 ru:
-  description: 'Сашины стихи и написанный в ответ папин куплет — межгенерационный и межвидовой коллаб живых и умерших, машины и человека.'
+  hook: 'Папа, почему облака так часто похожи на крылья? Это поэтому люди придумали ангелов?'
 ---
 
 <!-- lang:en -->

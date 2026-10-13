@@ -4,9 +4,10 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: our-punk-rock
 album: wings
 track: 5
-audio: /music/assets/our-punk-rock.mp3
+audio: https://raw.githubusercontent.com/vovas-music/our-punk-rock/main/our-punk-rock.mp3
 seconds: 132
 explicit: false
 masked:
@@ -15,9 +16,9 @@ en:
   title:
     transliteration: 'Nash pank-rok'
     translation: 'Our Punk Rock'
-  description: 'One of the first songs Syama learned by heart and always asked to have on, when he was a little over three.'
+  hook: 'A cringe, a shock — and apparently a potential hit for three-year-olds.'
 ru:
-  description: 'Одна из первых песен, которую Сяма запомнил и всегда просил ставить, — в три с небольшим.'
+  hook: 'Кринж, шок — и, судя по всему, потенциальный хит для трёхлеток.'
 ---
 
 <!-- lang:en -->

@@ -1,5 +1,6 @@
 export {
   type AlbumPlacement,
+  catalogueFrontmatterSchema,
   type Playable,
   type SongFrontmatter,
   songFrontmatterSchema,
@@ -7,6 +8,7 @@ export {
   type SungLanguage,
   type TitleGloss,
 } from './frontmatter';
+export { hookRuns, textHook } from './hook-marks';
 export {
   MUSIC_ALBUM_SLUGS,
   MUSIC_PROJECT_NAMES,

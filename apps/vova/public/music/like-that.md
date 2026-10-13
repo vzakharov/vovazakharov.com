@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/like-that/master/like%20that.flac
 seconds: 196
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Вот так'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/like-that — like that.flac,

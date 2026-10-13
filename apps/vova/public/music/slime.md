@@ -6,7 +6,7 @@ language: ru
 project: [Грёбаный бал, за/обложкой]
 repo: slime
 album: stronger-than-love
-track: 7
+track: 8
 audio: https://raw.githubusercontent.com/vovas-music/slime/main/%D0%A1%D0%BB%D0%B8%D0%B7%D1%8C.flac
 seconds: 231
 credits:
@@ -15,9 +15,9 @@ en:
   title:
     transliteration: 'Sliz'
     translation: 'Slime'
-  description: 'A cover of Sasha’s Suno song “Slime Rolls” that kept the title and went the opposite way with it.'
+  hook: '“There are no stars here, only sweet slime.”'
 ru:
-  description: 'Кавер Сашиной суновской «Slime Rolls», от которой осталось название, а всё остальное вышло наоборот.'
+  hook: '«Здесь нету звёзд, только сладкая слизь».'
 ---
 
 <!-- lang:en -->

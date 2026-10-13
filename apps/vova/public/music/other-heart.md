@@ -10,13 +10,9 @@ seconds: 282
 explicit: false
 album: let-the-stories-spin
 track: 3
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Другое сердце'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is `heart_new.flac` rather than the checklist's guess `heart_master.flac`, because its size matches the album's `3 heart.flac` within a few kilobytes and `heart_master.flac` does not. -->

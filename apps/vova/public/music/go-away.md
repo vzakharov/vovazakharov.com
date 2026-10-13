@@ -10,14 +10,10 @@ track: 8
 audio: https://raw.githubusercontent.com/vovas-music/ukhodi/main/%D0%A3%D1%85%D0%BE%D0%B4%D0%B8.flac
 seconds: 234
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Ukhodi'
     translation: 'Go Away'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 17 January 2026, captioned «А ещё, конечно, „Батарейку“». «о́кан» and «НедопереплетЕний» are set as «окон» and «Недопереплетений», read as spellings for the singer. -->

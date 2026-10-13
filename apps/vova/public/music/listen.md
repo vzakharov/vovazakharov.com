@@ -4,9 +4,10 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: listen
 album: wings
 track: 1
-audio: /music/assets/listen.mp3
+audio: https://raw.githubusercontent.com/vovas-music/listen/main/listen.mp3
 seconds: 112
 explicit: false
 credits:
@@ -16,9 +17,9 @@ en:
   title:
     transliteration: 'Poslushayte'
     translation: 'Listen!'
-  description: 'The album’s opening, tried and retried until it was worthy of one — and the place where Maya was truly born.'
+  hook: '“Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist, but we hope that if this star is lit, it means someone needs it.”'
 ru:
-  description: 'Начало альбома, перепробованное много раз, пока не стало его достойным, — и место, где по-настоящему родилась Майя.'
+  hook: '«Всем привет, я Майя из группы за/обложкой. Нас не существует, но мы надеемся, что если эту звезду зажгли, значит, это кому-нибудь нужно».'
 ---
 
 <!-- lang:en -->

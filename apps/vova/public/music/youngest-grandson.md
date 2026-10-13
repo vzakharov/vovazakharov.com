@@ -10,7 +10,6 @@ seconds: 298
 explicit: false
 album: father-river
 track: 10
-hidden: true
 credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'Mladshiy vnuchek moy'
     translation: 'My Youngest Grandson'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- lang:en -->

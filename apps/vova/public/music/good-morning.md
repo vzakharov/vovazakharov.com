@@ -10,7 +10,6 @@ track: 4
 audio: https://raw.githubusercontent.com/vovas-music/utro/main/%D0%94%D0%BE%D0%B1%D1%80%D0%BE%D0%B5%20%D1%83%D1%82%D1%80%D0%BE.flac
 seconds: 228
 explicit: false
-hidden: true
 credits:
   lyrics: ['Славик, друг Андрея Мокрушина']
   music: ['Славик, друг Андрея Мокрушина']
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'Dobroe utro'
     translation: 'Good Morning'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess with little behind it: a Russian song from March 2026, Грёбаный бал's period; the source file is `utro det c1`, so if «det» means a children's song it may belong elsewhere. -->

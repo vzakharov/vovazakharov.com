@@ -9,13 +9,9 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/mirrors/main/mirrors.flac
 seconds: 319
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Пустые зеркала'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/mirrors — mirrors.flac,

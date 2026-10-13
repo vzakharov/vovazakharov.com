@@ -9,14 +9,10 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/klo/main/klo_remaster.flac
 seconds: 283
 explicit: false
-hidden: true
 en:
   title:
     transliteration: 'Klokochina'
     translation: 'Chinaberry'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is the checklist's guess `klo_remaster.flac`; `klo.flac` is the same length (4:43) and `klo_1.flac` runs 4:29. -->

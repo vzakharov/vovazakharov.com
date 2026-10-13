@@ -10,16 +10,12 @@ seconds: 254
 explicit: false
 album: five-romances
 track: 3
-hidden: true
 credits:
   lyrics: ['Марина Цветаева']
 en:
   title:
     transliteration: 'Mne nravitsya, chto vy bolny ne mnoy…'
     translation: 'I like it that you are not lovesick for me…'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/dng_album — dng-003.flac,

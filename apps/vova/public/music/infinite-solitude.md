@@ -10,20 +10,44 @@ seconds: 243
 explicit: false
 album: divine-discontent
 track: 2
-hidden: true
 en:
-  description: 'TBD'
+  hook: 'You can forge whole worlds. But who is there to show them to?'
 ru:
   title:
     translation: 'Бесконечное одиночество'
-  description: 'TBD'
+  hook: 'Можно сотворить целые миры. Но кому их показать?'
 ---
 
-<!-- Scaffolded from https://github.com/vovas-music/Divine-Discontent--album- — 2. Infinite Solitude.flac,
-     44.1 kHz / 16-bit / stereo.
-     Replace this with the story, told once per language under a "lang:en" and
-     a "lang:ru" marker, and put the words under "lyrics:" plus the language
-     they are sung in. Each marker is an HTML comment, like this note. -->
+<!-- universe:en -->
+
+The spark goes off, and there is a deity in the void. It can scatter stars
+across the dark like notes, set galaxies turning, forge whole worlds in its hand
+— and there is no one to show them to. A kingdom with no one to behold it,
+stories with no one to hear them. The deity is utterly alone and does not know
+what to do with itself.
+
+<!-- universe:ru -->
+
+Вспыхивает искра, и в пустоте появляется божество. Оно может рассыпать звёзды
+по тьме, как ноты, закружить галактики, выковать в руке целые миры — но показать
+их некому. Царство, которое некому узреть, истории, которые некому рассказать.
+Божество совершенно одно и не знает, чем себя занять.
+
+<!-- lang:en -->
+
+This song is the generative continuation of [the previous
+one](./in-the-beginning.md): when Suno extended “In the Beginning,” it grew a
+tail that hinted at a next song, and I took that tail and wrote new words into
+it. The album cover shows this song’s scene: a deity in eternal void, though in
+the background there are some other figures we can’t make out.
+
+<!-- lang:ru -->
+
+Эта песня — генеративное продолжение [предыдущей](./in-the-beginning.md): когда
+Суно продлевала «In the Beginning», у той вырос хвост, который намекал на
+следующую песню, и я взял этот хвост и вписал в него новые слова. На обложке
+альбома — как раз эта сцена: божество в вечной пустоте, хотя на заднем плане
+видны ещё какие-то фигуры, и что это, мы не знаем.
 
 <!-- lyrics:en -->
 

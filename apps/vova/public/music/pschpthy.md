@@ -10,13 +10,9 @@ seconds: 282
 explicit: false
 album: pschpthy
 track: 7
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Психопатия'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is the checklist's guess psch.flac; the alternatives are psch_1.flac and the album repo's 7_psch.flac (lyrics.md's Suno clip is «psch_3 (final)»). -->

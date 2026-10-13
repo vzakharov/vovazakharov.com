@@ -11,12 +11,8 @@ seconds: 266
 explicit: false
 album: vagabond
 track: 7
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title: 'Прощание с дорогой'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; the checklist left the language blank. -->

@@ -10,13 +10,9 @@ track: 1
 audio: https://raw.githubusercontent.com/vovas-music/baa/main/baa_master.flac
 seconds: 177
 explicit: false
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Бе-е, бе-е, чёрная овечка'
-  description: 'TBD'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/baa — baa_master.flac,

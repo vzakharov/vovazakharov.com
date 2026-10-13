@@ -10,11 +10,11 @@ seconds: 194
 album: ctfu
 track: 4
 en:
-  description: 'Punk-metalcore written on the road out of Tatarstan, and left unfinished until the ending and the too-AI words were fixed.'
+  hook: 'The fog of doubt overhead — but the best is yet to come. ~~Unless it’s not?~~'
 ru:
   title:
     translation: 'Перекрёсток'
-  description: 'Панк-металкор, написанный в дороге из Татарии, и долго лежавший из-за концовки и слишком «ИИшных» слов.'
+  hook: 'Над головой туман сомнений — но лучшее ещё впереди. ~~Но это не точно~~'
 ---
 
 <!-- lang:en -->

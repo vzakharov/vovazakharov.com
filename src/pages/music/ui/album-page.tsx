@@ -17,9 +17,10 @@ import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
-import { CatalogueProse } from './catalogue-prose';
+import { HookLine } from './hook-line';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
+import { Story } from './story';
 
 /**
  * One release: who put it out, its own text where it has one, and its songs in
@@ -71,13 +72,19 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
             </NameLink>{' '}
             · {albumYears(album, songs)}
           </Text>
+          <HookLine>{text?.hook}</HookLine>
           {/* The same tracks the list below plays, so both drive one queue. */}
           <Box mt={20}>
             <AlbumPlayButton tracks={queue} />
           </Box>
         </CatalogueHeader>
 
-        {text && <CatalogueProse {...{ text }} label={messages.readMore} />}
+        {text && (
+          <Story
+            {...pick(text, 'universe', 'story')}
+            {...pick(messages, 'makingOf', 'readMore')}
+          />
+        )}
 
         <SongList
           {...pick(messages, 'title')}

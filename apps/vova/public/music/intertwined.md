@@ -4,18 +4,19 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: intertwined
 album: wings
 track: 7
-audio: /music/assets/intertwined.mp3
+audio: https://raw.githubusercontent.com/vovas-music/intertwined/main/intertwined.mp3
 seconds: 161
 explicit: false
 en:
   title:
     transliteration: 'Pereplelos'
     translation: 'Intertwined'
-  description: 'One of the first songs written “à la za/oblozhkoy,” if not the very first: whatever comes into my head, fixing nothing, overthinking nothing.'
+  hook: 'Where is the lie, where is the truth — and does it matter, if both are only a fabulist’s whim?'
 ru:
-  description: 'Одна из первых, если не первая, песня «а-ля за/обложкой»: пишу, что приходит в голову, ничего не правя и ничего не overthink-ая.'
+  hook: 'Где ложь, где правда — и важно ли это, если и то и другое лишь прихоть баснописца?'
 ---
 
 <!-- lang:en -->

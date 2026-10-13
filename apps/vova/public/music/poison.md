@@ -10,16 +10,12 @@ track: 3
 audio: https://raw.githubusercontent.com/vovas-music/yad/main/%D0%AF%D0%B4_master2.flac
 seconds: 235
 explicit: false
-hidden: true
 credits:
   music: ['My Chemical Romance']
 en:
   title:
     transliteration: 'Yad'
     translation: 'Poison'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 10 February 2026. Title is «Яд» rather than the checklist's «Яд_master2», which is the file name. Master is the checklist's `Яд_master2.flac`; the repo also has `Яд.flac`, which is the one posted to Telegram (3:55). -->

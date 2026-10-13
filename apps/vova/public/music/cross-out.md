@@ -10,15 +10,11 @@ album: null
 audio: https://raw.githubusercontent.com/vovas-music/crossout/main/crossout_3.flac
 seconds: 213
 explicit: false
-hidden: true
 credits:
   music: ['Иван Дербенёв', 'Vova Zakharov']
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Вычеркни'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master picked as `crossout_3.flac`; `crossout_2.flac` is the same length, and `crossout_1.flac` is also in the repo — check which one is on OFFstep. -->

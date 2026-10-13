@@ -10,7 +10,6 @@ seconds: 332
 explicit: false
 album: father-river
 track: 9
-hidden: true
 credits:
   lyrics: [Vladimir Zakharov Sr.]
   music: [Vladimir Zakharov Sr.]
@@ -18,9 +17,6 @@ en:
   title:
     transliteration: 'Vsyo v etoy zhizni nachinaetsya s lyubvi'
     translation: 'Everything in This Life Begins with Love'
-  description: 'TBD'
-ru:
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: The title is corrected from the checklist's «начинаетс» to «начинается», as the album entry and Apple Music spell it. -->

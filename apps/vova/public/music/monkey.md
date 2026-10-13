@@ -10,13 +10,9 @@ seconds: 267
 explicit: false
 album: let-the-stories-spin
 track: 10
-hidden: true
-en:
-  description: 'TBD'
 ru:
   title:
     translation: 'Обезьяна'
-  description: 'TBD'
 ---
 
 <!-- For Vova to check: Master is the checklist's guess `monkey.flac`; the repo also has `monkey_4_inpaint.flac`, and the album repo `stories` has its own `10 monkey.flac`. -->
