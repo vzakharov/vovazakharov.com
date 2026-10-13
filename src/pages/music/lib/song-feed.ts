@@ -2,7 +2,7 @@ import 'server-only';
 
 import type { ElementContent, Root } from 'hast';
 
-import { getAbsoluteUrl } from '@/shared/config';
+import { absoluteUrl, getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
 import {
   type FeedEntry,
   filedDate,
@@ -12,10 +12,13 @@ import {
   SONGS,
 } from '@/shared/content';
 import { loadMessages, type Locale } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
 import { feedHtml } from '@/shared/lib/feed-html';
+import type { RssPodcast } from '@/shared/lib/rss';
 import { textHook } from '@/shared/music-catalogue';
 
 import { universeOf } from './catalogue-text';
+import { PODCAST_COVER, songPicture } from './pictures';
 import {
   type LocalizedSongDocument,
   localizeSong,
@@ -69,6 +72,34 @@ async function songContent(
   return feedHtml(root, getAbsoluteUrl);
 }
 
+/** The song as a podcast episode, once its MP3 copy is recorded. */
+function songEpisode(document: SongDocument): FeedEntry['episode'] {
+  const { audio, podcast, seconds, explicit } = document.frontmatter;
+
+  if (podcast === undefined) return undefined;
+
+  const picture = songPicture(document);
+
+  return {
+    enclosure: {
+      url: absoluteUrl(podcast.url ?? audio),
+      ...pick(podcast, 'bytes'),
+    },
+    seconds,
+    explicit,
+    ...(picture === undefined ? {} : { image: absoluteUrl(picture) }),
+  };
+}
+
+/** What makes either songs feed a podcast: its owner and its square cover. */
+export function songPodcast(): RssPodcast {
+  return {
+    owner: SITE_CONFIG.author,
+    image: absoluteUrl(PODCAST_COVER),
+    category: 'Music',
+  };
+}
+
 /** A songs feed's items in one language, newest first. */
 export async function songFeedEntries(locale: Locale): Promise<FeedEntry[]> {
   const entries = await Promise.all(
@@ -81,9 +112,10 @@ export async function songFeedEntries(locale: Locale): Promise<FeedEntry[]> {
         return {
           title,
           description: hook === undefined ? undefined : textHook(hook),
-          route: localized.route,
+          ...pick(localized, 'route'),
           published: filedDate(document.frontmatter),
           content: await songContent(document, localized, locale),
+          episode: songEpisode(document),
         };
       }),
   );

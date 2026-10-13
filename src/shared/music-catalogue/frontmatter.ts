@@ -126,6 +126,10 @@ export type AlbumPlacement = z.infer<typeof placementSchema>;
 /** A URL, or a site-root path for a file the site hosts itself. */
 const mediaSourceSchema = z.union([z.url(), z.string().regex(/^\/(?!\/)/)]);
 
+function isMp3(audio: string): boolean {
+  return audio.toLowerCase().endsWith('.mp3');
+}
+
 /** What the player needs of a song, and all it needs. */
 const playableSchema = z.object({
   /**
@@ -206,6 +210,18 @@ const songFieldsSchema = baseFrontmatterSchema
       .optional(),
     /** Track id, where the song is also on Spotify. */
     spotify: z.string().min(1).optional(),
+    /**
+     * What the songs feed hands podcast apps, which refuse FLAC: a 320 kbps MP3
+     * copy beside the master in its repository, `url` absent where `audio` is
+     * already an MP3 and the enclosure reuses it. `bytes` is recorded rather
+     * than fetched, so a deploy depends on no request to the file's host.
+     */
+    podcast: z
+      .object({
+        url: z.url().optional(),
+        bytes: z.number().int().positive(),
+      })
+      .optional(),
   });
 
 /**
@@ -222,6 +238,15 @@ export const songFrontmatterSchema = songFieldsSchema
       'A song on an album takes a track number, and a single takes none.',
     path: ['track'],
   })
+  .refine(
+    ({ audio, podcast }) =>
+      podcast === undefined || (podcast.url === undefined) === isMp3(audio),
+    {
+      message:
+        'A podcast copy names its own `url` exactly where `audio` is not already an MP3.',
+      path: ['podcast'],
+    },
+  )
   .refine(
     ({ album, alsoOn = [] }) => {
       const albums = [album, ...alsoOn.map((placement) => placement.album)];

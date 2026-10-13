@@ -10,7 +10,7 @@ import { DEFAULT_LOCALE, type Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { renderRss } from '@/shared/lib/rss';
 
-import { songFeedEntries } from '@/pages/music';
+import { songFeedEntries, songPodcast } from '@/pages/music';
 
 export function collectionFeed(collection: CollectionId, locale?: Locale) {
   const feed = findFeed(SITE_ID, collection, locale);
@@ -28,6 +28,7 @@ export function collectionFeed(collection: CollectionId, locale?: Locale) {
         ),
         language: locale ?? DEFAULT_LOCALE,
         self: getAbsoluteUrl(feed.route),
+        ...(collection === 'music' ? { podcast: songPodcast() } : {}),
         items: entries.map(({ route, ...entry }) => ({
           ...entry,
           link: getAbsoluteUrl(route),
