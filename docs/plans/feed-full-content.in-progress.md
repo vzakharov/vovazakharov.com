@@ -59,20 +59,23 @@ The work is one PR, as the operator asked. Each part leaves the branch building,
 
 **Done — part 1, the text** (commits 530712b, c58144a): `content:encoded` in `rss.ts`, `feedHtml` in `src/shared/lib/feed-html.ts` (a pure `shared/lib` file taking the URL resolver as a parameter, because the test runner has no `react-server` condition and a `server-only` module cannot load there), article bodies in `shared/content/feeds.ts` (now article collections only), the songs feed in `pages/music/lib/song-feed.ts`, routed from `src/app/lib/feed.ts`, and the `music.feedPageLink` message. The vova build passes and both songs feeds are well-formed; the Bible and basilisk feeds are first built at `/finalize`'s vet.
 
-**Blocked — part 2, the MP3 copies.** The session's git proxy refuses pushes to `vovas-music/*` (403, "not in this session's authorized repository set"); `check_repo_access` says each is attachable, but `add_repo` with `access: "push"` is denied by the auto-mode classifier unless the operator names it. Nothing was pushed. To unblock, the operator sends, in the session doing the work:
+**Part 2, the MP3 copies — under way.** The operator's go-ahead to push: «Разрешаю add_repo с access push для 108 репозиториев vovas-music из списка, который собирается из audio-URL FLAC-песен, чтобы запушить в них MP3-копии мастеров.» `add_repo` attaches, but the session's proxy still refuses pushes: the Claude GitHub App is not installed on `vovas-music`. Installing it there is the clean way through; one of four batches has not run.
 
-> Разрешаю add_repo с access push для 108 репозиториев vovas-music из tmp/mp3/repos.txt (или из списка, который собирается из audio-URL FLAC-песен), чтобы запушить в них MP3-копии мастеров.
+- The job list is built from frontmatter (`audio`'s repo, branch, path; slug, title, `project[0]` for ID3), split into four batches by repository; each copy is `libmp3lame -b:a 320k` beside the master, an existing `<stem>.mp3` skipped, one commit per repository. A copy already pushed is found again by its path, so a lost `tmp/` costs nothing.
+- **The frontmatter is `podcast: { url, bytes }`** after `seconds:`, written by a small script from those rows; a song whose `audio` is already an MP3 gets `bytes` alone. 22 songs carry it so far (9656588).
+- **Existing MP3s need the operator's eye**: `40days` holds `dad.mp3` the same size as `dad_mix.mp3` (13272293), so it may be the mix rather than the master; the brief records such rows as `existing` with the neighbouring MP3s in the note.
+- `chinaberry` (Клокочина) now plays `klo_1.flac`, at the operator's ask (d61954e).
 
-Then the session calls `add_repo` (owner `vovas-music`, `access: "push"`) for each repository itself, and only then hands the encoding and pushing to subagents.
+Done in part 3 (c6b5e72): `rss.ts` writes the itunes channel tags where the channel states `podcast` and an enclosure, duration, explicit flag and cover per item with an `episode`; `songPodcast()` and `songEpisode()` in `song-feed.ts`; the `podcast` schema field, refined so `url` is present exactly where `audio` is not an MP3; `absoluteUrl` in `shared/config`.
+
+**Left:** the remaining batches' rows into frontmatter; the scaffolder writing `podcast` for a new song and the song vet failing a listed song without it (once every song has one); the square cover at `PODCAST_COVER` (`/music.podcast.jpg`, a 1500-unit square canvas at scale 2 — `renderCard` and `music-collage.ts` take their size from `PIXELS`/`CANVAS` today, so both need a size parameter and the square cut its own slot table); the checks in the plan's Verification.
 
 Facts the next run needs (`tmp/` dies with the machine, so they are here):
 
 - **The repository and branch come from `audio`'s URL, never from `repo:`**, which is an id: `entropy-end`, `solitude`, `one-day`, `ultimate-abstraction` live in `Divine-Discontent--album-` (branch `master`); `otvet`, `ne-toropi` in `rus-`; `in-the-flesh` in `ghosts-of-flesh`; `lake`, `fireflies` in `stories`; `meow` and `like-that` are on `master`. 108 repositories in all; group the jobs by the URL's repository so no two agents push to one.
 - `git clone --filter=blob:none` still fetches every blob on checkout: clone with `--no-checkout` and sparse-check-out only the README. Set `core.quotePath=false`, or `git ls-tree` octal-escapes Cyrillic names and an existing-MP3 check misses them.
 - `bezm` already holds `В безмерности небес.mp3` (10135509 bytes) beside its FLAC — `boundless-skies` needs no copy, only its `podcast` frontmatter. Expect more such; skip rather than overwrite.
-- The repositories checked so far have no `README.md` file list to extend.
-
-**Left:** part 2 as planned once unblocked, then part 3.
+- The repositories have no `README.md` file list to extend, so the copies go without a README line.
 
 ## DRY notes
 
