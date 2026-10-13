@@ -8,7 +8,7 @@ import { byLocale, isLocale } from '@/shared/i18n';
 import type { MusicAlbum } from '@/shared/music-catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
-import { artistPath, songPath, type WithEverything } from './music-urls';
+import { artistPath, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { bill, projectName } from './projects';
 import {
@@ -127,8 +127,7 @@ export function songTrack(
     billing: byLocale((locale) =>
       bill(project, (artist) => ({
         label: projectName(artist, locale),
-        // The catalogue the song's own page links into.
-        href: artistPath(artist, { everything: !isListed(document) }, locale),
+        href: artistPath(artist, locale),
       })),
     ),
     titles: byLocale((locale) => {
@@ -145,19 +144,17 @@ export function songTrack(
   };
 }
 
-/** Every listed song — or every song, hidden ones too — in catalogue order. */
-export function catalogueSongs({ everything }: WithEverything): SongDocument[] {
-  return listSongDocuments().filter(
-    (document) => everything || isListed(document),
-  );
+/** Every listed song, in catalogue order. */
+export function catalogueSongs(): SongDocument[] {
+  return listSongDocuments().filter((document) => isListed(document));
 }
 
 /**
- * The queue the player starts from: the public catalogue, each album's songs
- * together in track order, so skipping forward from one walks its album.
+ * The queue the player starts from: the catalogue, each album's songs together
+ * in track order, so skipping forward from one walks its album.
  */
 export function listSongs(): PlayerTrack[] {
-  return albumsTogether(catalogueSongs({ everything: false })).map((document) =>
+  return albumsTogether(catalogueSongs()).map((document) =>
     songTrack(document),
   );
 }

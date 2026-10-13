@@ -15,7 +15,7 @@ import { artistPicture } from '../lib/pictures';
 import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
-import { CatalogueTabs, type CatalogueTabsProps } from './catalogue-tabs';
+import { CatalogueTabs } from './catalogue-tabs';
 import { MusicNav } from './music-nav';
 import { MusicSection } from './music-section';
 import { SongList } from './song-list';
@@ -24,23 +24,21 @@ import { SongList } from './song-list';
  * The section's front page: the artists, each a way into its albums and songs,
  * or every album, or every song — one tab each.
  */
-export function MusicPage({ locale, everything, tab }: IndexPageProps) {
-  const catalogue = { everything };
-
+export function MusicPage({ locale, tab }: IndexPageProps) {
   return (
     <PageShell>
       <Stack gap={48}>
         <MusicNav
-          hrefs={byLocale((alternate) => tabPath(tab, catalogue, alternate))}
+          hrefs={byLocale((alternate) => tabPath(tab, alternate))}
           {...{ locale }}
         />
 
         <MusicSection {...{ locale }} />
 
         <Stack gap={24}>
-          <CatalogueTabs {...{ tab, catalogue, locale }} />
+          <CatalogueTabs {...{ tab, locale }} />
 
-          <TabContent {...{ tab, catalogue, locale }} />
+          <TabContent {...{ tab, locale }} />
         </Stack>
 
         <SiteFooter
@@ -52,15 +50,15 @@ export function MusicPage({ locale, everything, tab }: IndexPageProps) {
   );
 }
 
-function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
-  const songs = catalogueSongs(catalogue);
+function TabContent({ tab, locale }: IndexPageProps) {
+  const songs = catalogueSongs();
 
   switch (tab) {
     case 'artists': {
       return (
         <CatalogueGrid
           tiles={catalogueArtists(songs).map((artist) => ({
-            href: artistPath(artist, catalogue, locale),
+            href: artistPath(artist, locale),
             slug: artist,
             label: projectName(artist, locale),
             cover: artistPicture(artist, locale, songs),
@@ -72,7 +70,7 @@ function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
       return (
         <CatalogueGrid
           tiles={newestAlbums(songs).map((album) => ({
-            href: albumPath(album, catalogue, locale),
+            href: albumPath(album, locale),
             slug: album,
             label: albumTitle(album, locale),
             cover: albumCover(album),

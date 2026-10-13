@@ -2,21 +2,14 @@ import { Group, Title } from '@mantine/core';
 
 import { NameLink, SUBHEADING_GAP } from '@/shared/ui';
 
-import {
-  CATALOGUE_TABS,
-  type CatalogueView,
-  tabLabels,
-  tabPath,
-  type WithTab,
-} from '../lib/music-urls';
-
-export type CatalogueTabsProps = WithTab & CatalogueView;
+import type { IndexPageProps } from '../lib/music-route-params';
+import { CATALOGUE_TABS, tabLabels, tabPath } from '../lib/music-urls';
 
 /**
  * The index's heading, naming what it lists, beside the other two lists it can
  * be: each tab a page of its own, so a static export serves every one.
  */
-export function CatalogueTabs({ tab, catalogue, locale }: CatalogueTabsProps) {
+export function CatalogueTabs({ tab, locale }: IndexPageProps) {
   const labels = tabLabels(locale);
 
   return (
@@ -26,7 +19,7 @@ export function CatalogueTabs({ tab, catalogue, locale }: CatalogueTabsProps) {
           {each === tab ? (
             <span aria-current="page">{labels[each]}</span>
           ) : (
-            <NameLink href={tabPath(each, catalogue, locale)} c="inherit">
+            <NameLink href={tabPath(each, locale)} c="inherit">
               {labels[each]}
             </NameLink>
           )}

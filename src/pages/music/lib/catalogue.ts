@@ -13,9 +13,9 @@ import { albumArtist } from './albums';
 import type { SongDocument } from './song-text';
 
 /*
- * The artists and albums of one catalogue — public or whole — each derived from
- * the songs handed in, so a page reads the collection once and an artist or an
- * album with nothing to list in that catalogue has no page in it.
+ * The catalogue's artists and albums, each derived from the songs handed in, so
+ * a page reads the collection once and an artist or an album with nothing to
+ * list has no page.
  */
 
 /** Every song billing the project, as the artist or as a feature. */

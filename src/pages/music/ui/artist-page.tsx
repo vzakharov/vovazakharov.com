@@ -10,7 +10,7 @@ import { albumTitle } from '../lib/albums';
 import { albumYears, artistReleases, artistSongs } from '../lib/catalogue';
 import { artistText } from '../lib/catalogue-text';
 import type { ArtistPageProps } from '../lib/music-route-params';
-import { albumPath, artistPath, indexPath } from '../lib/music-urls';
+import { albumPath, artistPath, musicPath } from '../lib/music-urls';
 import { releasePicture } from '../lib/pictures';
 import { projectGloss, projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
@@ -25,9 +25,8 @@ import { Story } from './story';
  * One project: its own text where it has one, the albums and singles it put
  * out, then every song it is billed on.
  */
-export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
-  const catalogue = { everything };
-  const songs = catalogueSongs(catalogue);
+export function ArtistPage({ artist, locale }: ArtistPageProps) {
+  const songs = catalogueSongs();
   const messages = loadMessages(locale).music;
   const text = artistText(artist, locale);
 
@@ -35,10 +34,8 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
     <PageShell>
       <Stack gap={48}>
         <MusicNav
-          back={{ href: indexPath(catalogue, locale), label: messages.back }}
-          hrefs={byLocale((alternate) =>
-            artistPath(artist, catalogue, alternate),
-          )}
+          back={{ href: musicPath(locale), label: messages.back }}
+          hrefs={byLocale((alternate) => artistPath(artist, alternate))}
           {...{ locale }}
         />
 
@@ -75,7 +72,7 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
               const { album } = release;
 
               return {
-                href: albumPath(album, catalogue, locale),
+                href: albumPath(album, locale),
                 slug: album,
                 label: albumTitle(album, locale),
                 cover,
