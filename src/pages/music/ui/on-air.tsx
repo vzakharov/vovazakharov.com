@@ -121,9 +121,14 @@ export function OnAir({
     if (current === undefined) tryTuneIn();
   });
 
+  // On the clock's first tick, not at mount: the player that owns the element
+  // is an ancestor, and an ancestor's mount effect runs after this one's, so
+  // at mount there is no element to play yet.
+  const ticking = now !== undefined;
+
   useEffect(() => {
-    land();
-  }, []);
+    if (ticking) land();
+  }, [ticking]);
 
   const air = now === undefined ? undefined : onAir(now);
   const extra = air && extras[air.track.slug];
@@ -137,7 +142,15 @@ export function OnAir({
         </Title>
         <div className={classes['pitch']}>
           {labels.pitch}{' '}
-          <NotedSpan words={<Info size={15} aria-label={labels.aboutLabel} />}>
+          <NotedSpan
+            words={
+              <Info
+                size={15}
+                className={classes['aboutIcon']}
+                aria-label={labels.aboutLabel}
+              />
+            }
+          >
             {labels.about.replace('{length}', cycleLength)}
           </NotedSpan>
         </div>

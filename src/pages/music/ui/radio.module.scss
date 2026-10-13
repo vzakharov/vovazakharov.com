@@ -20,7 +20,7 @@
 }
 
 .heading {
-  margin-bottom: 4px;
+  margin-bottom: 12px;
   font-size: 28px;
   line-height: 1.2;
 }
@@ -30,6 +30,11 @@
   margin: 0 auto 22px;
   font-size: 15px;
   opacity: 0.8;
+}
+
+// An inline SVG sits on the baseline, which leaves it riding above the words.
+.aboutIcon {
+  vertical-align: -0.2em;
 }
 
 .nowPlaying {
@@ -95,6 +100,10 @@
 
 .dial {
   min-height: 92px;
+
+  // `.travel` is the scale's width, translated by up to all of it: unclipped,
+  // its box widens a phone's page by the needle's progress.
+  overflow-x: clip;
 }
 
 .scale {
