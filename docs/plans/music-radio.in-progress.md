@@ -62,6 +62,22 @@ A static export serves it like any other page, because nothing on it differs bet
 - **No muted stream.** Playing muted would autoplay everywhere, but 157 of the 170 masters are FLAC, tens of megabytes a song, which would stream to every visitor who never listens — on a phone, over their data plan. A refused autoplay downloads nothing.
 - **Its link card is static**: one image, rendered once by `pnpm content:og:vova` and committed beside `music.og.jpg`. A link preview is fetched by the platform once and cached, so it could never show what is on air anyway; the card says what the radio is instead. It is drawn by `scripts/lib/music-collage.ts` — the covers collage the index unfurls as — with a band across it reading **Radio** and the hint's line. The `og:title`/`og:description` carry the same words.
 
+### The operator's additions (this session)
+
+> так, ещё пара замечаний,
+> 1- где-то обложку now playing надо показывать. не фул-сайзом, наверное по размеру заголовка песни (где песня и исполнитель), сбоку от них. Нажатие максимизирует обложку (существующий компонент)
+> 1b - как вариант, более большую обложку, слева от блока начинающегося с Vova's Radio и заканчивающегося (и включающего) шкалу. Но отгда нужно решать как это выглядит на мобиле. Можно тоже подготовить мокапы с разными вариантами
+> 2- добавить from ... (альбом, если есть)
+> 3- нажатие на песню, исполнителя, альбом, переводит на их страницы
+> 4- у всего радио должно быть очертание, не сразу понял, но на мокапе они как будто бы просто посреди страницы. Не слишком жирно-вычурно, но обозначить
+> 5- в пояснялке про что такое радио -- добавить динамически вычисляемую (кодгеном, в отдельном модуле?) total duration всех-всех сонг, в формате часы:минуты:секунды
+
+- **Cover**: the playing song's cover beside its title and billing, about their height, opening `CoverZoom` on a press — or, the alternative 1b, a larger cover left of the block from the heading to the scale. Mockups of both, phone and wide, go into `radio-mockups.html` before the page is built; the operator picks.
+- **from _album_** under the billing, where the song is on one, as the song page's line says it.
+- **Song, artist and album are links** to their pages. Those are the reader's own navigation, so the bar follows to a song's page as **Read story** does.
+- **The set has an outline**: a thin border and radius, as the section's cards have — marked, not decorated.
+- **The [i] note states the cycle's length** as `h:mm:ss` — the sum of the public catalogue's `seconds`, the radio's whole round. The radio page is a server component rendered at build, so the sum is computed there from `listSongs()`, with no codegen step: a static export already bakes it in at every deploy, which is when the catalogue changes.
+
 ## The hint
 
 Each time the radio turns on, from any of its buttons, a popover rises over the bar's radio button for about five seconds, closing early on any click outside it. Away from `/music/radio`, its word “radio” links there. `PlayerBar` opens it on `state.radio` going from `false` to `true`, which catches both buttons with no plumbing between them; Mantine's `Popover` is what `noted-span.tsx` already uses and whose stylesheet the theme already loads.
