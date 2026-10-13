@@ -24,35 +24,37 @@
     "comment": null
   },
   "sessionId": "05a6d0b9-cf3a-5a9c-b7fa-4edc7e299ba9",
-  "branch": "claude/sweet-newton-ymni59",
+  "branch": "claude/latin-first-transliteration-ymni59",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "давай изменим механику транслитерации: Первый раз при показе песни на другом (по сравнению с локалью) языке сперва всегда показываетс транслитерация на латинице…",
-  "prs": [],
+  "prs": [
+    148
+  ],
   "url": "https://claude.ai/code/session_01DGp7py5xxyXaFxhwa5kzy8",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-13T11:27:49.971Z",
-  "lastResponseAt": "2026-10-13T11:30:04.757Z",
+  "lastResponseAt": "2026-10-13T11:53:46.452Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 32,
+    "inputTokens": 86,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 98706,
-    "cacheReadTokens": 1915805,
-    "outputTokens": 12477,
-    "thinkingTokens": 6840,
-    "responses": 16,
-    "costUsd": 1.4224770000000002
+    "cacheWrite1hTokens": 159761,
+    "cacheReadTokens": 6840543,
+    "outputTokens": 35144,
+    "thinkingTokens": 17249,
+    "responses": 43,
+    "costUsd": 3.3494206
   },
   "ownTurns": {
-    "inputTokens": 32,
+    "inputTokens": 86,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 98706,
-    "cacheReadTokens": 1915805,
-    "outputTokens": 12477,
-    "thinkingTokens": 6840,
-    "responses": 16,
-    "costUsd": 1.4224770000000002
+    "cacheWrite1hTokens": 159761,
+    "cacheReadTokens": 6840543,
+    "outputTokens": 35144,
+    "thinkingTokens": 17249,
+    "responses": 43,
+    "costUsd": 3.3494206
   },
   "subagents": {
     "inputTokens": 0,
@@ -66,14 +68,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 32,
+      "inputTokens": 86,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 98706,
-      "cacheReadTokens": 1915805,
-      "outputTokens": 12477,
-      "thinkingTokens": 6840,
-      "responses": 16,
-      "costUsd": 1.4224770000000002
+      "cacheWrite1hTokens": 159761,
+      "cacheReadTokens": 6840543,
+      "outputTokens": 35144,
+      "thinkingTokens": 17249,
+      "responses": 43,
+      "costUsd": 3.3494206
     }
   },
   "warnings": [],
