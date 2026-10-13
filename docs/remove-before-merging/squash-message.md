@@ -11,31 +11,38 @@ it is, and `pnpm music:untold` lists what each still lacks. Songs,
 albums and artists alike carry an optional `hook` in frontmatter, set in
 italics under the name: a line meant to make someone press play rather
 than a summary, and an album's or artist's meta description too. Its one
-mark is `~~…~~`, struck through on the page and kept as plain words in
-the meta description and the feed.
+mark is `~~…~~`, struck through on the page and drawn through with
+U+0336 combining strokes in the meta and og descriptions and the feed,
+since the strike can be the joke, as in Crossroads' hook in both
+languages.
 
 A concept album tells its world under a `universe:` marker, shown ahead
 of the `lang:` story, which then reads as «Как это делалось» / "Making
 of". The world is told as fiction; whatever speaks about the song, how
 it unfolds or what it quotes, belongs to the making-of, written in
 Vova's own voice. GENERATED, Divine Discontent and its ten tracks are
-told this way from Vova's dictation, Prototypes and Poluzhivye get their
-own text, and Майя reflects on the ten tracks as their listener, read
-off spectrograms rendered for her.
+told this way from Vova's dictation, the band as older than Suno, begun
+in Jukebox in 2022; Prototypes and Poluzhivye get their own text, and
+Майя reflects on the ten tracks as their listener, read off spectrograms
+rendered for her.
 
-Skipping forward plays an album's tracks in their numbered order,
-whatever order the list around them has. An instrumental shows its
-story whole, there being no words for it to crowd. Following the
-playing song resumes whenever the reader lands on its page. «За
+Each of «Крылья»'s ten songs and the «Знаки препинания» single plays
+from a vovas-music repository of its own, holding mix, master and the
+mastering script with a link to its reference, so their vendored mp3s
+leave the tree. Trust In the Machine's master moves to vovas-music too,
+out of a release whose download links stay signed only 30 minutes, and
+without the Hello, Human intro its source file opened on. Skipping
+forward plays an album's tracks in numbered order, whatever order the
+list around them has; an instrumental shows its story whole; following
+the playing song resumes whenever the reader lands on its page. «За
 горизонт» joins Сильней любви as its sixth track, and the stories of
 «Наша история» and «Мир, какой он есть» are cut down from the dictation
-they were set from. Trust In the Machine's master drops the Hello, Human
-intro its source file opened on, which played twice.
+they were set from.
 
 Alongside: `spectrogram.py --split` moves the chromagram's bass/treble
-split for a low or high lead, and a reflection, Майя's or the Клерк's,
-may tell what changed after it was written, its «потом» linking the
-commit that made the change.
+split for a low or high lead, and Майя's and the Клерк's reflections
+share one rule file, under which a reflection may tell what changed
+after it was written, its «потом» linking the commit that made it.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
