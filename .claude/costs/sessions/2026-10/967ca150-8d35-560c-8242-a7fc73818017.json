@@ -1,0 +1,98 @@
+{
+  "estimate": {
+    "at": "2026-10-13T20:06:44.073Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "podcast tags, a schema field with its scaffolder and vet, and a second collage cut"
+      },
+      {
+        "hours": 3.0,
+        "grade": "junior",
+        "role": "developer",
+        "comment": "encoding and pushing an MP3 into ~108 song repositories is mechanical but long"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "a podcast only shows its faults in real apps and validators, which a build does not open"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "967ca150-8d35-560c-8242-a7fc73818017",
+  "branch": "claude/feed-full-content-0lat2x",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/feed-full-content-0lat2x",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01CKKScMhQkW2bcJ6wqySVGG",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-13T20:06:29.034Z",
+  "lastResponseAt": "2026-10-13T20:06:54.665Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 50242,
+    "cacheReadTokens": 660056,
+    "outputTokens": 1838,
+    "thinkingTokens": 183,
+    "responses": 7,
+    "costUsd": 0.5707632
+  },
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 50242,
+    "cacheReadTokens": 660056,
+    "outputTokens": 1838,
+    "thinkingTokens": 183,
+    "responses": 7,
+    "costUsd": 0.5707632
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50242,
+      "cacheReadTokens": 660056,
+      "outputTokens": 1838,
+      "thinkingTokens": 183,
+      "responses": 7,
+      "costUsd": 0.5707632
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-13T20:06:54.665Z",
+    "contextTokens": 106617,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49999,
+      "cacheReadTokens": 553684,
+      "outputTokens": 1216,
+      "thinkingTokens": 183,
+      "responses": 6,
+      "costUsd": 0.5350968
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
