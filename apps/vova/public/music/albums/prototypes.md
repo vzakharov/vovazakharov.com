@@ -1,3 +1,10 @@
+---
+title: 'Prototypes'
+artist: 'GENERATED'
+ru:
+  title: { translation: 'Прототипы' }
+---
+
 <!-- lang:en -->
 
 Back when I was writing in Jukebox, I was already planning album cycles. One of

@@ -1,3 +1,10 @@
+---
+name: 'Полуживые'
+order: 2
+en:
+  name: { translation: 'The Half-Alive' }
+---
+
 <!-- lang:en -->
 
 The project began as more or less traditional Russian rock set to the poems of

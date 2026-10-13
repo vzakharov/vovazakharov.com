@@ -1,4 +1,6 @@
 ---
+name: 'GENERATED'
+order: 1
 en:
   hook: 'Sometimes driving, sometimes cerebral heavy stuff, packaged as concept albums about the eternal, the good, and the not-so-good.'
 ru:

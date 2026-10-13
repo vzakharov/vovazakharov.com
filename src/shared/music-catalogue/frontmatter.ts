@@ -77,14 +77,70 @@ export const catalogueFrontmatterSchema = z
   .object(byLocale(() => hookedSchema.default({})))
   .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
 
+/**
+ * A name in one locale: absent where the locale keeps the own one, as most do.
+ * A string is the name it goes by in this locale instead — `breathe` is
+ * _Breathe_ and _Повелитель ветра_ — and a gloss keeps the name and explains it.
+ */
+const localNameSchema = z.union([z.string().min(1), titleGlossSchema]);
+
+export type LocalName = z.infer<typeof localNameSchema>;
+
+const projectSchema = z.enum(MUSIC_PROJECT_NAMES);
+
+/**
+ * An album's frontmatter, a key per locale as a song's. Its slug is its file
+ * name, and its cover is `albumCover`'s to find.
+ */
+export const albumFrontmatterSchema = z
+  .object({
+    /** What the release is called, in the language it is called in. */
+    title: z.string().min(1),
+    /** Whose release it is, which can differ from a song's own billing. */
+    artist: projectSchema,
+  })
+  .extend(
+    byLocale(() =>
+      hookedSchema
+        .extend({
+          title: localNameSchema.optional(),
+          /**
+           * Whose release it is in this locale, where one release went out
+           * under two names: `vagabond` is GENERATED's to the Western
+           * services and Полуживые's to the Russian ones.
+           */
+          artist: projectSchema.optional(),
+        })
+        .default({}),
+    ),
+  )
+  .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
+
+export type AlbumFrontmatter = z.infer<typeof albumFrontmatterSchema>;
+
+/**
+ * An artist's frontmatter, a key per locale as a song's. Its slug is its file
+ * name; `name` and `order` are what `pnpm music:codegen` reads.
+ */
+export const artistFrontmatterSchema = z
+  .object({
+    /** The name a song's `project` bills it by. */
+    name: projectSchema,
+    /** Where the music index lists it, lowest first. */
+    order: z.number().int().positive(),
+  })
+  .extend(
+    byLocale(() =>
+      hookedSchema.extend({ name: localNameSchema.optional() }).default({}),
+    ),
+  )
+  .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
+
+export type ArtistFrontmatter = z.infer<typeof artistFrontmatterSchema>;
+
 /** A song's strings in one locale. */
 const songTextSchema = hookedSchema.extend({
-  /**
-   * Absent where the locale keeps the song's own title, as most do. A string
-   * is the name the song goes by in this locale instead — `breathe` is _Breathe_
-   * and _Повелитель ветра_ — and a gloss keeps the title and explains it.
-   */
-  title: z.union([z.string().min(1), titleGlossSchema]).optional(),
+  title: localNameSchema.optional(),
   /**
    * What the crib beside the words is, in place of the stock line — whose
    * translation it is, or that the column is the original. One line of markdown.
@@ -163,7 +219,7 @@ const songFieldsSchema = baseFrontmatterSchema
      * The artist first, whoever is featured after it — a feature meaning the song
      * can be shown to the people the other project is shown to.
      */
-    project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1),
+    project: z.array(projectSchema).min(1),
     /** Its repository under the `vovas-music` organization; absent where none holds it. */
     repo: z.string().min(1).optional(),
     /**
