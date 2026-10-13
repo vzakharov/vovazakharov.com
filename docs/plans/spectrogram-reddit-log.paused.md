@@ -1,5 +1,12 @@
 # Build the spectrogram's "worth building" list
 
+## Progress
+
+Paused for the context budget after step 1.
+
+- **Done — step 1** (cd420f5): `scripts/song-intake/song_facts.py` holds the analysis; `stft_magnitude(x, nfft, hop)` and `peak_chroma` are split out as planned. Птицы renders byte-identical to the pre-split script. A venv with matplotlib is at `tmp/spec-venv` (gitignored, so a new container rebuilds it: `python3 -m venv tmp/spec-venv && tmp/spec-venv/bin/pip install matplotlib`).
+- **Left — steps 2–8**, as written below. `peak_chroma` does not take `tuning` yet; step 2 adds it.
+
 Four of the five ideas `docs/remove-before-merging/spectrogram-reddit.md` § "Worth building" ranks, in `scripts/song-intake/spectrogram.py`: the tuning fix, tempo, a text sidecar of exact values and a zoomed render. Then every committed spectrogram is re-rendered and gets its sidecar, and the sidecar's numbers are checked against librosa before anyone reads them.
 
 The order is load-bearing: tuning changes which row a note lands in, so it lands before anything reads the chroma for a key or a chord; tempo's beats are what the chords are counted in; and the check runs last, on the sidecars it judges.
