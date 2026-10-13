@@ -92,8 +92,8 @@
 - [Good Girl](../../apps/vova/public/music/good-girl.md) — hook, story
 - [In the Shadow](../../apps/vova/public/music/in-the-shadow.md) — hook, story
 - [Inside](../../apps/vova/public/music/inside.md) — hook, story
-- [Mithqāl](../../apps/vova/public/music/mithqal.md) — hook, story
 - [My Hope](../../apps/vova/public/music/my-hope.md) — hook, story
+- [مِثْقَال](../../apps/vova/public/music/mithqal.md) — hook, story
 
 ## Полуживые
 
@@ -110,7 +110,7 @@
 - [Call of the Steppe](../../apps/vova/public/music/call-of-the-steppe.md) — hook, story
 - [Sirens of the Sands](../../apps/vova/public/music/sirens-of-the-sands.md) — hook, story
 - [Wanderer’s Farewell](../../apps/vova/public/music/wanderers-farewell.md) — hook, story
-- [Ágios o skopós](../../apps/vova/public/music/agios-o-skopos.md) — hook, story
+- [Άγιος ο σκοπός](../../apps/vova/public/music/agios-o-skopos.md) — hook, story
 - [Vagabond](../../apps/vova/public/music/vagabond.md) — hook, story
 
 ### father-river

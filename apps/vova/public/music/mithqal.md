@@ -1,7 +1,6 @@
 ---
 title: 'مِثْقَال'
 titleLatin: 'Mithqāl'
-titleLanguage: ar
 keepsScript: true
 date: 2025-09-09
 status: done

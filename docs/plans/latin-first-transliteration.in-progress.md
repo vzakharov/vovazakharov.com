@@ -61,7 +61,8 @@ The tip is a Mantine popover anchored to the song title on its page.
   - Step 7 as sketched when paused: `projectName`/`albumTitle` return a `Spelled` (by the Russian rule, `spell({ text, language: 'ru' }, locale)`); `Billing` parts carry a `Spelled` name instead of a `label`; `billingText` and string consumers take the reader's `Script` (a `spelledText(spelled, script = 'latin')` helper replacing `defaultSpelling`); `PlayerTrack.titles` is `Record<Locale, Spelled>` from `songTitle`. Step 9 folds in there: `title-gloss.ts` goes, and a gloss is just the optional `{ translation }` looked up from `PROJECT_GLOSSES`, the album record or the song's locale.
 - **The tree type-checks**, and lint passes on `src/pages/music` and `src/shared` but for one error: `@eslint-react/dom-no-dangerously-set-innerhtml` on the head script in `root-layout.tsx`. A `<script>` child is no way out, since React escapes its `'`s. **Open question to Vova**: may it carry a point-of-use suppression, the invariant being that the string is a compile-time constant (`SCRIPT_PREFERENCE_SCRIPT`)?
 - step 10: `feeds.ts` titles songs with `spelledText(songTitle(…))`, the rest of the metadata having taken it in step 7.
-- **Next:** step 12.
+- step 12, vet: green but for the open question below; knip, the song-title order and `untold-songs.md` fixed.
+- **Next:** the open question, then step 12's previews.
 
 ## Steps
 

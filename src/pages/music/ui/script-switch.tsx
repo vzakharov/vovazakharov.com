@@ -9,9 +9,9 @@ import type { WithChildren } from '@/shared/typings';
 
 import classes from './music.module.scss';
 
-export type ScriptTips = Messages['music']['titleScript'];
-
-export type ScriptSwitchProps = WithChildren & { tips: ScriptTips };
+export type ScriptSwitchProps = WithChildren & {
+  tips: Messages['music']['titleScript'];
+};
 
 /** How long the tip after a switch stays, unless a tap anywhere closes it first. */
 const AFTER_SWITCH_MS = 4000;

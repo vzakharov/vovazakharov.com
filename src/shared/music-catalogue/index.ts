@@ -16,14 +16,4 @@ export {
   type MusicProject,
 } from './names';
 export { type CreditedName, SONG_AUTHOR } from './people';
-export { romanizeRussian } from './romanize';
-export {
-  mostlyNeedsLatin,
-  needsLatin,
-  songTitle,
-  spell,
-  type Spellable,
-  type Spelled,
-  spelledText,
-  type WithSpelledName,
-} from './spelling';
+export { mostlyNeedsLatin, songTitle, spelledText } from './spelling';
