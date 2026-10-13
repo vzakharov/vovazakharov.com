@@ -1,7 +1,16 @@
+import { isOneOf } from './collections';
+
+const SCRIPTS = ['latin', 'original'] as const;
+
 /** The two spellings a name shows in: Latin letters, the default, or its own script. */
-export type Script = 'latin' | 'original';
+export type Script = (typeof SCRIPTS)[number];
+
+export const isScript = isOneOf(SCRIPTS);
 
 export const SCRIPT_STORAGE_KEY = 'script';
+
+/** The `<html>` attribute the stylesheet picks a spelling by, present only as `original`. */
+export const SCRIPT_ATTRIBUTE = 'data-script';
 
 /**
  * Set on `<html>` before the body paints, as Mantine's `ColorSchemeScript`
@@ -13,4 +22,4 @@ export const SCRIPT_STORAGE_KEY = 'script';
  * It renders as a plain `<script>` child, which React HTML-escapes, so it must
  * hold none of `" & ' < >` — its strings are backtick-quoted for that reason.
  */
-export const SCRIPT_PREFERENCE_SCRIPT = `try{if(localStorage.getItem(\`${SCRIPT_STORAGE_KEY}\`)===\`original\`)document.documentElement.setAttribute(\`data-script\`,\`original\`)}catch(e){}`;
+export const SCRIPT_PREFERENCE_SCRIPT = `try{if(localStorage.getItem(\`${SCRIPT_STORAGE_KEY}\`)===\`original\`)document.documentElement.setAttribute(\`${SCRIPT_ATTRIBUTE}\`,\`original\`)}catch(e){}`;

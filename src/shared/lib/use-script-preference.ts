@@ -1,6 +1,11 @@
 import { useSyncExternalStore } from 'react';
 
-import { type Script, SCRIPT_STORAGE_KEY } from './script-preference';
+import {
+  isScript,
+  type Script,
+  SCRIPT_ATTRIBUTE,
+  SCRIPT_STORAGE_KEY,
+} from './script-preference';
 
 /**
  * Memory is the choice's truth and `localStorage` only its copy, so a browser
@@ -14,7 +19,7 @@ function load(): Script | null {
   try {
     const stored = localStorage.getItem(SCRIPT_STORAGE_KEY);
 
-    return stored === 'latin' || stored === 'original' ? stored : null;
+    return isScript(stored) ? stored : null;
   } catch {
     return null;
   }
@@ -28,9 +33,9 @@ function read(): Script | null {
 
 function mark(script: Script) {
   if (script === 'original') {
-    document.documentElement.dataset['script'] = 'original';
+    document.documentElement.setAttribute(SCRIPT_ATTRIBUTE, script);
   } else {
-    delete document.documentElement.dataset['script'];
+    document.documentElement.removeAttribute(SCRIPT_ATTRIBUTE);
   }
 }
 
