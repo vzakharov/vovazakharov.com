@@ -2,7 +2,7 @@ import { Stack } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/shared/config';
 import { byLocale, loadMessages, type WithLocale } from '@/shared/i18n';
-import { textHook } from '@/shared/music-catalogue';
+import { hookRuns } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
@@ -15,7 +15,6 @@ import { albumTitle } from '../lib/albums';
 import { formatDuration } from '../lib/duration';
 import { albumPath, musicPath, radioPath } from '../lib/music-urls';
 import { pictureCard, RADIO_CARD, songPicture } from '../lib/pictures';
-import { songExcerpt } from '../lib/song-excerpt';
 import { localizeSong } from '../lib/song-text';
 import { catalogueSongs, listSongs } from '../lib/songs';
 import { MusicNav } from './music-nav';
@@ -42,10 +41,7 @@ export function generateRadioMetadata({ locale }: WithLocale) {
 function onAirExtras({ locale }: WithLocale): Record<string, OnAirExtras> {
   return Object.fromEntries(
     catalogueSongs({ everything: false }).map((document) => {
-      const { body, frontmatter } = localizeSong(document, locale);
-      const { album, hook } = frontmatter;
-      const excerpt =
-        songExcerpt(body) ?? (hook === undefined ? undefined : textHook(hook));
+      const { album, hook } = localizeSong(document, locale).frontmatter;
 
       return [
         document.slug,
@@ -58,7 +54,7 @@ function onAirExtras({ locale }: WithLocale): Record<string, OnAirExtras> {
                   label: albumTitle(album, locale),
                   href: albumPath(album, { everything: false }, locale),
                 },
-          excerpt,
+          hook: hook === undefined ? undefined : hookRuns(hook),
         },
       ];
     }),

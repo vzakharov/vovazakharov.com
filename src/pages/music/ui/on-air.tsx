@@ -2,28 +2,29 @@
 
 import { Text, Title, UnstyledButton } from '@mantine/core';
 import { Info, Radio } from 'lucide-react';
-import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 
 import type { Messages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
+import type { HookRun } from '@/shared/music-catalogue';
 import type { LabeledLink } from '@/shared/typings';
 import { InternalButton, NameLink } from '@/shared/ui';
 
 import { stationOffset } from '../lib/station';
 import { BillingLinks } from './billing-links';
 import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
+import { HookRuns } from './hook-runs';
 import { NotedSpan } from './noted-span';
 import { usePlayer } from './player-provider';
 import classes from './radio.module.scss';
 import { RadioDial } from './radio-dial';
-import readMore from './read-more.module.scss';
 import { SongName } from './song-name';
 
 /** What the page shows beside a song, resolved at build for every one the radio may play. */
 export type OnAirExtras = {
   cover?: string | undefined;
   album?: LabeledLink | undefined;
-  excerpt?: string | undefined;
+  hook?: HookRun[] | undefined;
 };
 
 export type OnAirProps = {
@@ -61,45 +62,11 @@ function useClock(): number | undefined {
   return now;
 }
 
-type ExcerptProps = { text: string };
-
-/** The story's opening, held to a few lines and fading out only where it overflows them. */
-function Excerpt({ text }: ExcerptProps) {
-  const boxRef = useRef<HTMLDivElement>(null);
-  const [overflowing, setOverflowing] = useState(false);
-
-  useEffect(() => {
-    const box = boxRef.current;
-
-    if (!box) return;
-
-    const observer = new ResizeObserver(() => {
-      setOverflowing(box.scrollHeight > box.clientHeight + 1);
-    });
-
-    observer.observe(box);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  return (
-    <div
-      ref={boxRef}
-      className={readMore['clamped']}
-      data-overflowing={overflowing}
-    >
-      <Text lh={1.75}>{text}</Text>
-    </div>
-  );
-}
-
 /**
  * The radio's set: what is on air and how far into it, from the clock and the
  * same catalogue the player tunes by, whether or not anything plays. On mount
  * it tries to tune in, which the browser may refuse; tuned in, the song's
- * story shows in the set, under the dial, and any action on playback puts **Tune back in**
+ * hook shows in the set, under the dial, and any action on playback puts **Tune back in**
  * where it stood.
  */
 export function OnAir({
@@ -212,9 +179,7 @@ export function OnAir({
 
         {state.radio && air && (
           <div className={classes['story']}>
-            {extra?.excerpt !== undefined && (
-              <Excerpt key={air.track.slug} text={extra.excerpt} />
-            )}
+            {extra?.hook !== undefined && <HookRuns runs={extra.hook} />}
             <div className={classes['cta']}>
               <InternalButton
                 href={air.track.routes[locale]}
