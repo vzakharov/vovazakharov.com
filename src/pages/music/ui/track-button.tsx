@@ -7,11 +7,11 @@ import { cx } from '@/shared/lib/class-names';
 import { useScriptPreference } from '@/shared/lib/use-script-preference';
 import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
-import type { PlayerTrack } from '../lib/player-state';
+import type { PlayerTrack, WithTrack } from '../lib/player-state';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 
-export type TrackButtonProps = { track: PlayerTrack };
+export type TrackButtonProps = WithTrack;
 
 /** Whether this track is the one playing, and the toggle that plays or pauses it. */
 export function useTrackPlayback(track: PlayerTrack) {

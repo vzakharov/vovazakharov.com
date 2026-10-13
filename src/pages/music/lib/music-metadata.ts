@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { SITE_CONFIG } from '@/shared/config';
-import { loadMessages, type Locale } from '@/shared/i18n';
+import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
 import { spelledText, textHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
@@ -13,7 +13,6 @@ import { albumText, artistText } from './catalogue-text';
 import type {
   AlbumPageProps,
   ArtistPageProps,
-  CataloguePageProps,
   IndexPageProps,
 } from './music-route-params';
 import { albumPath, artistPath, tabLabels, tabPath } from './music-urls';
@@ -23,11 +22,10 @@ import { catalogueSongs } from './songs';
 
 /**
  * A catalogue page, in one language, deferring to the addressed one as the
- * CV's rungs do. The whole catalogue's pages are kept out of search, as the
- * hidden songs on them are.
+ * CV's rungs do.
  */
 function catalogueMetadata(
-  { locale, everything }: CataloguePageProps,
+  { locale }: WithLocale,
   title: string,
   ogTitle: string,
   description: string,
@@ -41,7 +39,6 @@ function catalogueMetadata(
     path: path(locale),
     ...localizedAddresses(path, locale),
     ...pictureCard(picture),
-    hidden: everything,
   });
 }
 
@@ -63,7 +60,7 @@ export function generateMusicMetadata(page: IndexPageProps) {
       : `${metaTitle}: ${tabLabels(page.locale)[page.tab]}`,
     ogTitleIndex,
     metaDescription,
-    (locale) => tabPath(page.tab, page, locale),
+    (locale) => tabPath(page.tab, locale),
     MUSIC_COLLAGE,
   );
 }
@@ -80,8 +77,8 @@ export function generateArtistMetadata(page: ArtistPageProps) {
       artistText(page.artist, page.locale)?.hook ??
         artistDescription.replace('{artist}', name),
     ),
-    (locale) => artistPath(page.artist, page, locale),
-    artistCard(page.artist, page.locale, catalogueSongs(page)),
+    (locale) => artistPath(page.artist, locale),
+    artistCard(page.artist, page.locale, catalogueSongs()),
   );
 }
 
@@ -104,7 +101,7 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
             ),
           ),
     ),
-    (locale) => albumPath(page.album, page, locale),
+    (locale) => albumPath(page.album, locale),
     albumCover(page.album),
   );
 }

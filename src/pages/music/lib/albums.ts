@@ -29,6 +29,8 @@ type MusicAlbumRecord = {
    * them.
    */
   cover?: true;
+  /** The release is still being made, so its songs and their order may change. */
+  wip?: true;
   /** What each locale tells its reader about the title, as a song's gloss does. */
   gloss?: Partial<Record<Locale, TitleGloss>>;
 };
@@ -87,11 +89,13 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     title: 'Гамлет',
     artist: 'Полуживые',
     cover: true,
+    wip: true,
     gloss: { en: { translation: 'Hamlet' } },
   },
   'father-sea': {
     title: 'Папа-море',
     artist: 'Полуживые',
+    wip: true,
     gloss: { en: { translation: 'Father Sea' } },
   },
   'who-is-happy-in-russia': {
@@ -123,6 +127,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   'old-shite': {
     title: 'We Made AI Sing Our Old Shite',
     artist: 'Yoohie',
+    wip: true,
     gloss: {
       ru: { translation: 'Мы заставили ИИ спеть наше старое дерьмо' },
     },
@@ -130,16 +135,19 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   'nursery-rhymes': {
     title: 'Nursery Rhymes for the Jilted Generation',
     artist: 'GENERATED',
+    wip: true,
     gloss: { ru: { translation: 'Детские стишки для брошенного поколения' } },
   },
   prototypes: {
     title: 'Prototypes',
     artist: 'GENERATED',
+    wip: true,
     gloss: { ru: { translation: 'Прототипы' } },
   },
   'for-none-and-for-all': {
     title: 'Ни для кого и для всех',
     artist: 'Грёбаный бал',
+    wip: true,
     gloss: {
       en: {
         translation: 'For None and for All',
@@ -149,6 +157,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   'stronger-than-love': {
     title: 'Сильней любви',
     artist: 'Грёбаный бал',
+    wip: true,
     gloss: {
       en: {
         translation: 'Stronger Than Love',
@@ -190,6 +199,10 @@ export function albumGloss(
 
 export function albumArtist(album: MusicAlbum, locale: Locale): MusicProject {
   return inLocale(MUSIC_ALBUMS[album].artist, locale);
+}
+
+export function albumWip(album: MusicAlbum): boolean {
+  return MUSIC_ALBUMS[album].wip === true;
 }
 
 /** The cover's site-root path, under `apps/vova/public/`. */

@@ -263,6 +263,12 @@
   }
 }
 
+// A work in progress's sign is not the link, and a dimmed square would show
+// through the note it opens.
+.tile:has(button:hover, button:focus) .tileArt {
+  opacity: 1;
+}
+
 .tileLink::after {
   position: absolute;
   inset: 0;
@@ -303,12 +309,21 @@
   );
 }
 
+// Nothing to crop without art, so a work in progress's note can leave the
+// square: it spans the tile just under it, the sign at the end of a name
+// leaving no room to hang it from without running into the next tile.
 .tileArtless {
   --tile-from: oklch(90% 0.06 var(--tile-hue));
   --tile-to: oklch(80% 0.1 calc(var(--tile-hue) + 50));
   --tile-grey: 60%;
   --tile-clear: 50%;
+  --wip-anchor: static;
+  --wip-note-top: calc(100cqi + 6px);
+  --wip-note-left: 0;
+  --wip-note-right: 0;
+  --wip-note-width: auto;
 
+  overflow: visible;
   background: linear-gradient(
     135deg,
     placeholder-tone(var(--tile-from)),
@@ -321,15 +336,39 @@
   }
 }
 
-// A page's cover, above its title on a phone and beside it from `sm` up.
+// A page's cover, above its title on a phone and beside it from `sm` up, its
+// top level with the name's: the kicker takes a row of its own above both.
 .coverHead {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-areas: 'cover' 'kicker' 'body';
+}
 
+.coverHeadCover {
+  grid-area: cover;
+  margin-bottom: 24px;
+}
+
+.coverHeadKicker {
+  grid-area: kicker;
+  margin-bottom: 8px;
+}
+
+.coverHeadBody {
+  grid-area: body;
+}
+
+.coverHeadArt {
   @include mantine.larger-than(mantine.$breakpoint-sm) {
-    flex-direction: row;
-    align-items: flex-end;
+    grid-template-areas:
+      '. kicker'
+      'cover body';
+    grid-template-columns: auto 1fr;
+    column-gap: 24px;
+    align-items: start;
+
+    .coverHeadCover {
+      margin-bottom: 0;
+    }
   }
 }
 

@@ -30,7 +30,7 @@ en:
 Скрывает серый кокон
 Недопереплетений
 
-[^okna-ru]: Отсылка к песне [«Окна»](/music/windows/ru).
+[^okna-ru]: Отсылка к песне [«Окна»](/music/songs/windows/ru).
 
 Два силуэта ночи
 Две птицы в твёрдом теле
@@ -73,7 +73,7 @@ In which our shadows
 Are hidden by a grey cocoon
 Of never-quite-intertwinings
 
-[^okna-en]: A nod to the song [«Окна» (“Windows”)](/music/windows).
+[^okna-en]: A nod to the song [«Окна» (“Windows”)](/music/songs/windows).
 
 Two silhouettes of the night
 Two birds in a solid body

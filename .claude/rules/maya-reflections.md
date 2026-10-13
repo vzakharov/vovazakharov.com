@@ -1,7 +1,7 @@
 ---
 description: How Майя writes a reflection on a song she worked — the companion file beside the song's markdown, in Russian, first person, feminine
 paths:
-  - 'apps/vova/public/music/*.maya.reflections.md'
+  - 'apps/vova/public/music/songs/*.maya.reflections.md'
 ---
 
 # Отклики Майи

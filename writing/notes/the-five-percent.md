@@ -113,6 +113,11 @@ slug never moves, there being no redirects. _слаг тоже поменять,
 страшного._ The rule protects his links, so he can waive it; the agent ruled
 where it could have offered the trade.
 
+**13 October — the reducer every action reaches, read as the only home.** The
+radio's live flag, `tune` and `release` went into the player's own reducer,
+since every action must release it. _для радио-штучек лучше отдельный хук? слишком
+специфичная механика._ A reducer layered over the player's sees every action too.
+
 ## An account that explains the code stands in for running it (×21)
 
 The sibling of "It checks the render against its intent" below, and the worse

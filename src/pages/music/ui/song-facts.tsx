@@ -1,20 +1,20 @@
-import { Group, type GroupProps } from '@mantine/core';
-import { Fragment, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { documentMonth, formatDocumentMonth } from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
+import { loadMessages, type WithLocale } from '@/shared/i18n';
 import type { MusicAlbum } from '@/shared/music-catalogue';
 import { NameLink } from '@/shared/ui';
 
 import { songPlacements } from '../lib/album-tracks';
 import { albumTitle } from '../lib/albums';
 import { formatDuration } from '../lib/duration';
-import { albumPath, artistPath, type CatalogueView } from '../lib/music-urls';
+import { albumPath, artistPath } from '../lib/music-urls';
 import { bill, projectName } from '../lib/projects';
 import type { SongOnRelease } from '../lib/song-text';
+import { FactLine } from './fact-line';
 import { Spelling } from './spelling';
 
-export type SongFactsProps = SongOnRelease & CatalogueView;
+export type SongFactsProps = SongOnRelease & WithLocale;
 
 /**
  * What a listener would want to know about the recording, in the order they
@@ -22,7 +22,7 @@ export type SongFactsProps = SongOnRelease & CatalogueView;
  * release the page shows it on, then the rest — any other release it is also
  * on among them. Empty entries drop out, so a single names no album.
  */
-function songFacts({ document, album, catalogue, locale }: SongFactsProps) {
+function songFacts({ document, album, locale }: SongFactsProps) {
   const { date, language, project, seconds } = document.frontmatter;
   const messages = loadMessages(locale).music;
 
@@ -35,7 +35,7 @@ function songFacts({ document, album, catalogue, locale }: SongFactsProps) {
         before,
         ...albums.flatMap((linked, index) => [
           index > 0 && ', ',
-          <NameLink key={linked} href={albumPath(linked, catalogue, locale)}>
+          <NameLink key={linked} href={albumPath(linked, locale)}>
             <Spelling {...albumTitle(linked, locale)} />
           </NameLink>,
         ]),
@@ -47,7 +47,7 @@ function songFacts({ document, album, catalogue, locale }: SongFactsProps) {
   return {
     byline: {
       billing: bill(project, (artist) => (
-        <NameLink key={artist} href={artistPath(artist, catalogue, locale)}>
+        <NameLink key={artist} href={artistPath(artist, locale)}>
           <Spelling {...projectName(artist, locale)} />
         </NameLink>
       )),
@@ -69,24 +69,6 @@ function songFacts({ document, album, catalogue, locale }: SongFactsProps) {
       duration: formatDuration(seconds),
     },
   } satisfies Record<string, Record<string, ReactNode>>;
-}
-
-function FactLine({
-  facts,
-  ...props
-}: GroupProps & { facts: Record<string, ReactNode> }) {
-  return (
-    <Group component="p" gap={12} wrap="wrap" {...props}>
-      {Object.entries(facts)
-        .filter(([, fact]) => Boolean(fact))
-        .map(([key, fact], index) => (
-          <Fragment key={key}>
-            {index > 0 && <span aria-hidden>·</span>}
-            <span>{fact}</span>
-          </Fragment>
-        ))}
-    </Group>
-  );
 }
 
 /** Who made the song and the release the page shows it on, above the title. */

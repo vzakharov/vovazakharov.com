@@ -2,7 +2,6 @@ import { Box, Group, Stack, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/shared/config';
-import { isListed } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import {
@@ -22,7 +21,7 @@ import { SiteFooter } from '@/widgets/site-footer';
 import { universeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';
 import type { SongPageProps } from '../lib/music-route-params';
-import { indexPath, songPath } from '../lib/music-urls';
+import { musicPath, songPath } from '../lib/music-urls';
 import { pictureCard, songPicture } from '../lib/pictures';
 import { songRepositoryUrl } from '../lib/projects';
 import { localizeSong, songLyrics, wordsText } from '../lib/song-text';
@@ -87,9 +86,6 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
 export function SongPage({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
   const localized = localizeSong(document, locale);
-  // A hidden song's artists and album may have no public page, so its links
-  // stay in the whole catalogue.
-  const catalogue = { everything: !isListed(document) };
   const { gloss, hook, repo, explicit, cribNote, audio } =
     localized.frontmatter;
   const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
@@ -113,7 +109,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
     <PageShell>
       <Stack gap={48}>
         <MusicNav
-          back={{ href: indexPath(catalogue, locale), label: messages.back }}
+          back={{ href: musicPath(locale), label: messages.back }}
           hrefs={byLocale((alternate) => songPath(slug, alternate))}
           {...{ locale, sample }}
         />
@@ -126,9 +122,9 @@ export function SongPage({ slug, locale }: SongPageProps) {
                 enlargeLabel: messages.enlargeCover,
                 closeLabel: messages.closeCover,
               }}
+              kicker={<SongByline {...{ document, album, locale }} />}
             >
               <Stack gap={8} align="flex-start">
-                <SongByline {...{ document, album, catalogue, locale }} />
                 <Title order={1}>
                   {title}
                   {explicit && <ExplicitBadge label={messages.explicit} />}
@@ -154,7 +150,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
             {/* The recording's facts, and the files behind it at the far end
                 of the same line. */}
             <Group justify="space-between" gap="12px 32px" wrap="wrap">
-              <SongFacts {...{ document, album, catalogue, locale }} />
+              <SongFacts {...{ document, album, locale }} />
 
               <Group gap={16} wrap="wrap">
                 <FileLink {...localized.markdown}>.md</FileLink>

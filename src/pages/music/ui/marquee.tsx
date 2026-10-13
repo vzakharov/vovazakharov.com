@@ -66,10 +66,12 @@ export function Marquee({ children }: WithChildren) {
       const fade = Math.min(FADE, crawl / 2);
       const total = REST_AT_START + crawl + REST_AT_END;
       // Offsets into the cycle: the crawl starts, the lead ellipsis is in,
-      // the tail ellipsis starts to go, and the crawl ends.
+      // the tail ellipsis starts to go, and the crawl ends. `crawl - fade` is
+      // grouped so a short crawl, where it equals `fade`, sums to the very same
+      // float as `leadIn` — `animate` throws on keyframes an ulp out of order.
       const moving = REST_AT_START / total;
       const leadIn = (REST_AT_START + fade) / total;
-      const tailOut = (REST_AT_START + crawl - fade) / total;
+      const tailOut = (REST_AT_START + (crawl - fade)) / total;
       const stopped = (REST_AT_START + crawl) / total;
 
       const timing = { duration: total, iterations: Infinity };

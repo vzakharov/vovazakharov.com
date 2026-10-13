@@ -1,25 +1,20 @@
+import { documentRoute, localizedRoute } from '@/shared/content';
+import { loadMessages, type Locale } from '@/shared/i18n';
 import {
-  collectionRoute,
-  documentRoute,
-  localizedRoute,
-} from '@/shared/content';
-import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
-import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
+  MUSIC_ROUTE,
+  type MusicAlbum,
+  type MusicProject,
+} from '@/shared/music-catalogue';
 
 import { MUSIC_PROJECT_SLUGS } from './projects';
-
-/**
- * The segment that turns any catalogue page into the whole catalogue's, hidden
- * songs included — linked from nowhere public and not indexed, for the author to
- * see what the public pages leave out.
- */
-export const EVERYTHING_SEGMENT = 'all';
 
 export const ARTISTS_SEGMENT = 'artists';
 
 export const ALBUMS_SEGMENT = 'albums';
 
 export const SONGS_SEGMENT = 'songs';
+
+export const RADIO_SEGMENT = 'radio';
 
 /**
  * What the index lists: its artists at the section's own address, and every
@@ -50,65 +45,35 @@ export function tabBySegment(segment: string): CatalogueTab | undefined {
 }
 
 /**
- * Which catalogue a page lists: the public one, or the whole one. A page of the
- * whole catalogue links only within it, so leaving it is a choice.
- */
-export type WithEverything = { everything: boolean };
-
-/** The catalogue a page's links stay in, and the locale they are in. */
-export type CatalogueView = WithLocale & { catalogue: WithEverything };
-
-function catalogueRoute({ everything }: WithEverything): string {
-  return everything
-    ? `${collectionRoute('music')}/${EVERYTHING_SEGMENT}`
-    : collectionRoute('music');
-}
-
-/**
  * The index. The locale-less form is an alias of the default language's page
  * rather than a page of its own, which is what lets `/music` stay the address
  * anyone links to.
  */
-export function indexPath(catalogue: WithEverything, locale?: Locale): string {
-  return localizedRoute(catalogueRoute(catalogue), locale);
+export function musicPath(locale?: Locale): string {
+  return localizedRoute(MUSIC_ROUTE, locale);
 }
 
-export function tabPath(
-  tab: CatalogueTab,
-  catalogue: WithEverything,
-  locale?: Locale,
-): string {
+export function tabPath(tab: CatalogueTab, locale?: Locale): string {
   const segment = TAB_SEGMENTS[tab];
 
   return segment === undefined
-    ? indexPath(catalogue, locale)
-    : localizedRoute(`${catalogueRoute(catalogue)}/${segment}`, locale);
+    ? musicPath(locale)
+    : localizedRoute(`${MUSIC_ROUTE}/${segment}`, locale);
 }
 
-export function musicPath(locale?: Locale): string {
-  return indexPath({ everything: false }, locale);
-}
-
-export function artistPath(
-  artist: MusicProject,
-  catalogue: WithEverything,
-  locale?: Locale,
-): string {
+export function artistPath(artist: MusicProject, locale?: Locale): string {
   return localizedRoute(
-    `${catalogueRoute(catalogue)}/${ARTISTS_SEGMENT}/${MUSIC_PROJECT_SLUGS[artist]}`,
+    `${MUSIC_ROUTE}/${ARTISTS_SEGMENT}/${MUSIC_PROJECT_SLUGS[artist]}`,
     locale,
   );
 }
 
-export function albumPath(
-  album: MusicAlbum,
-  catalogue: WithEverything,
-  locale?: Locale,
-): string {
-  return localizedRoute(
-    `${catalogueRoute(catalogue)}/${ALBUMS_SEGMENT}/${album}`,
-    locale,
-  );
+export function albumPath(album: MusicAlbum, locale?: Locale): string {
+  return localizedRoute(`${MUSIC_ROUTE}/${ALBUMS_SEGMENT}/${album}`, locale);
+}
+
+export function radioPath(locale?: Locale): string {
+  return localizedRoute(`${MUSIC_ROUTE}/${RADIO_SEGMENT}`, locale);
 }
 
 /** One song, in one language — the canonical address its alias defers to. */

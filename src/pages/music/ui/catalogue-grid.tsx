@@ -12,6 +12,7 @@ import type { SpelledLink } from '../lib/player-state';
 import { tileHue } from '../lib/tile-hue';
 import classes from './music.module.scss';
 import { Spelling } from './spelling';
+import { WipMark, type WipNoted } from './wip-mark';
 
 /**
  * A tile linking to an artist, an album or a single: its art with its name
@@ -20,7 +21,8 @@ import { Spelling } from './spelling';
  * square.
  */
 type CatalogueTile = SpelledLink &
-  Slugged & {
+  Slugged &
+  WipNoted & {
     cover?: string;
     detail?: ReactNode;
   };
@@ -37,12 +39,25 @@ export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
       {title !== undefined && <Subheading>{title}</Subheading>}
 
       <ul className={classes['tileGrid']}>
-        {tiles.map(({ href, slug, name, cover, detail }) => {
-          // The name's link stretches over the whole tile.
+        {tiles.map(({ href, slug, name, cover, detail, wip }) => {
+          // The name's link stretches over the whole tile; the sign follows it
+          // outside the link, a button being no anchor's content.
           const link = (
-            <NameLink {...{ href }} c="inherit" className={classes['tileLink']}>
-              <Spelling {...name} />
-            </NameLink>
+            <span>
+              <NameLink
+                {...{ href }}
+                c="inherit"
+                className={classes['tileLink']}
+              >
+                <Spelling {...name} />
+              </NameLink>
+              {wip !== undefined && (
+                <>
+                  {' '}
+                  <WipMark note={wip} size="0.7em" />
+                </>
+              )}
+            </span>
           );
 
           return (
