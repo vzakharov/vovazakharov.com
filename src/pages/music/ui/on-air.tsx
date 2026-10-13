@@ -99,7 +99,7 @@ function Excerpt({ text }: ExcerptProps) {
  * The radio's set: what is on air and how far into it, from the clock and the
  * same catalogue the player tunes by, whether or not anything plays. On mount
  * it tries to tune in, which the browser may refuse; tuned in, the song's
- * story shows under the set, and any action on playback puts **Tune back in**
+ * story shows in the set, under the dial, and any action on playback puts **Tune back in**
  * where it stood.
  */
 export function OnAir({
@@ -209,27 +209,27 @@ export function OnAir({
             {wasTuned ? labels.tuneBackIn : labels.tuneIn}
           </UnstyledButton>
         )}
-      </div>
 
-      {state.radio && air && (
-        <div className={classes['story']}>
-          {extra?.excerpt !== undefined && (
-            <Excerpt key={air.track.slug} text={extra.excerpt} />
-          )}
-          <div className={classes['cta']}>
-            <InternalButton
-              href={air.track.routes[locale]}
-              variant="outline"
-              radius="xl"
-            >
-              {labels.readMore}
-            </InternalButton>
-            <Text size="xs" opacity={0.55} mt={8}>
-              {labels.keepsPlaying}
-            </Text>
+        {state.radio && air && (
+          <div className={classes['story']}>
+            {extra?.excerpt !== undefined && (
+              <Excerpt key={air.track.slug} text={extra.excerpt} />
+            )}
+            <div className={classes['cta']}>
+              <InternalButton
+                href={air.track.routes[locale]}
+                variant="outline"
+                radius="xl"
+              >
+                {labels.readMore}
+              </InternalButton>
+              <Text size="xs" opacity={0.55} mt={8}>
+                {labels.keepsPlaying}
+              </Text>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
