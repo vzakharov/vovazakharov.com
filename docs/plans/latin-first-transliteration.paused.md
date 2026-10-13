@@ -62,7 +62,8 @@ The tip is a Mantine popover anchored to the song title on its page.
 - **The tree type-checks**, and lint passes on `src/pages/music` and `src/shared` but for one error: `@eslint-react/dom-no-dangerously-set-innerhtml` on the head script in `root-layout.tsx`. A `<script>` child is no way out, since React escapes its `'`s. **Open question to Vova**: may it carry a point-of-use suppression, the invariant being that the string is a compile-time constant (`SCRIPT_PREFERENCE_SCRIPT`)?
 - step 10: `feeds.ts` titles songs with `spelledText(songTitle(…))`, the rest of the metadata having taken it in step 7.
 - step 12, vet: green but for the open question below; knip, the song-title order and `untold-songs.md` fixed.
-- **Next:** the open question, then step 12's previews.
+- step 12, previews of the built site: Dvadtsat' under `en` opens in Latin with the first-visit tip, a click shows the Cyrillic and the switch-back tip, the choice survives a reload, and Mithqal under `ru` in original mode shows the script alone; no console errors.
+- **Next:** the open question (the agent proposed a fourth option: write the head script with backtick strings, which React does not escape, render it as `<script>{…}</script>` and pin that with a test that it holds none of `" & ' < >`; no answer yet), then `/go` Step 3 (`/polish`, never run on this branch) and Step 4 (`/pr`).
 
 ## Steps
 
