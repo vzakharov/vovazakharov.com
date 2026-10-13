@@ -2,6 +2,7 @@ import { Box, Group, Stack, Text } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
+import { scriptSample } from '@/shared/music-catalogue';
 import { FileLink, NameLink, PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
@@ -14,7 +15,7 @@ import { albumLength } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
 import { projectName } from '../lib/projects';
-import { catalogueSongs, songTrack } from '../lib/songs';
+import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
 import { HookLine } from './hook-line';
@@ -35,6 +36,12 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
   const tracks = albumTracks(album, songs);
   const text = albumText(album, locale);
   const queue = tracks.map(({ song }) => songTrack(song, album));
+  const title = albumTitle(album, locale);
+  const artistName = projectName(artist, locale);
+  const sample = scriptSample(
+    [title.original, artistName.original, ...trackNames(queue, locale)],
+    locale,
+  );
 
   return (
     <PageShell>
@@ -44,12 +51,12 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
           hrefs={byLocale((alternate) =>
             albumPath(album, catalogue, alternate),
           )}
-          {...{ locale }}
+          {...{ locale, sample }}
         />
 
         <CatalogueHeader
           kind={messages.kind.album}
-          title={albumTitle(album, locale)}
+          {...{ title }}
           gloss={albumGloss(album, locale)}
           picture={albumCover(album)}
           facts={
@@ -69,7 +76,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
         >
           <Text size="sm" opacity={0.7} mt={12}>
             <NameLink href={artistPath(artist, catalogue, locale)}>
-              <Spelling {...projectName(artist, locale)} />
+              <Spelling {...artistName} />
             </NameLink>{' '}
             · {albumYears(album, songs)}
           </Text>

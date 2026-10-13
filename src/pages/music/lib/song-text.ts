@@ -63,6 +63,14 @@ export type SongLyrics = WithStanzas & {
   transliteration?: Transliteration;
 } & Pick<SongFrontmatter, 'keepsScript'>;
 
+/** The words as plain text, a line to an entry, for what reads their letters. */
+export function wordsText(stanzas: Stanzas): string {
+  return stanzas
+    .flat()
+    .map((entry) => entryText(entry))
+    .join('\n');
+}
+
 function lyricsKey(language: string): string {
   return `lyrics:${language}`;
 }
@@ -144,14 +152,10 @@ export function songLyrics(
   }
 
   const stanzas = readVerse(sung, fileName);
-  const text = stanzas
-    .flat()
-    .map((entry) => entryText(entry))
-    .join('\n');
   const words = {
     language,
     ...pick(frontmatter, 'keepsScript'),
-    ...(mostlyNeedsLatin(text, locale) && {
+    ...(mostlyNeedsLatin(wordsText(stanzas), locale) && {
       transliteration: wordsInLatin(stanzas, sections, language, fileName),
     }),
   };

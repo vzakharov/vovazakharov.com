@@ -4,7 +4,7 @@ import {
   type Slugged,
   SONGS,
 } from '@/shared/content';
-import { byLocale, isLocale } from '@/shared/i18n';
+import { byLocale, isLocale, type Locale } from '@/shared/i18n';
 import { type MusicAlbum, songTitle } from '@/shared/music-catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
@@ -154,6 +154,19 @@ export function songTrack(
       songPath(songPageSlug(document, album), locale),
     ),
   };
+}
+
+/** The names a list of tracks shows under a locale, for `scriptSample` to read: each title and its billing. */
+export function trackNames(
+  tracks: readonly PlayerTrack[],
+  locale: Locale,
+): string[] {
+  return tracks.flatMap(({ titles, billing }) => [
+    titles[locale].original,
+    ...billing[locale].map((part) =>
+      typeof part === 'string' ? part : part.name.original,
+    ),
+  ]);
 }
 
 /** Every listed song — or every song, hidden ones too — in catalogue order. */

@@ -185,35 +185,14 @@
   white-space: normal;
 }
 
-// The song's title as the script switch: still the title to look at, with a
-// dotted underline saying it does something.
-.scriptSwitch {
+// The current language chip as the script switch: the row's type, not the
+// button's, and dimmed on hover as the chips beside it are tinted.
+.scriptChip {
   font: inherit;
-  line-height: inherit;
-  color: inherit;
-  text-align: start;
-  text-decoration: underline dotted;
-  text-decoration-thickness: 0.06em;
-  text-underline-offset: 0.2em;
-  cursor: pointer;
+  transition: opacity 150ms ease;
 
   @include mantine.hover {
-    text-decoration-style: solid;
-  }
-}
-
-// A tip's wording for a touch screen or a pointer that hovers.
-.onHover {
-  display: none;
-}
-
-@media (hover: hover) {
-  .onTouch {
-    display: none;
-  }
-
-  .onHover {
-    display: inline;
+    opacity: 0.8;
   }
 }
 

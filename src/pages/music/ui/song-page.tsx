@@ -5,7 +5,12 @@ import { pageFile, SITE_CONFIG } from '@/shared/config';
 import { isListed } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
+import {
+  scriptSample,
+  songTitle,
+  spelledText,
+  textHook,
+} from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
@@ -20,15 +25,19 @@ import type { SongPageProps } from '../lib/music-route-params';
 import { indexPath, songPath } from '../lib/music-urls';
 import { pictureCard, songPicture } from '../lib/pictures';
 import { songRepositoryUrl } from '../lib/projects';
-import { localizeSong, songLyrics } from '../lib/song-text';
+import { localizeSong, songLyrics, wordsText } from '../lib/song-text';
 import { songVideo } from '../lib/song-video';
-import { listSongPages, type SongPageEntry, songTrack } from '../lib/songs';
+import {
+  listSongPages,
+  type SongPageEntry,
+  songTrack,
+  trackNames,
+} from '../lib/songs';
 import { CoverHead } from './cover-head';
 import { ExplicitBadge } from './explicit-badge';
 import { HookLine } from './hook-line';
 import { Lyrics } from './lyrics';
 import { MusicNav } from './music-nav';
-import { ScriptSwitch } from './script-switch';
 import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
 import { SongPlayButton } from './song-play-button';
@@ -83,14 +92,19 @@ export function SongPage({ slug, locale }: SongPageProps) {
   const catalogue = { everything: !isListed(document) };
   const { gloss, hook, repo, explicit, cribNote, audio } =
     localized.frontmatter;
-  const spelled = songTitle(document.frontmatter, locale);
-  const title = <Spelling {...spelled} />;
+  const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
-  // The words switch with the title, so it is the switch even where only the
-  // words have a Latin spelling.
-  const switchable =
-    spelled.latin !== undefined || lyrics?.transliteration !== undefined;
+  const track = songTrack(document, album);
+  const sample = scriptSample(
+    [
+      ...trackNames([track], locale),
+      ...(lyrics?.transliteration === undefined
+        ? []
+        : [wordsText(lyrics.stanzas)]),
+    ],
+    locale,
+  );
   const picture = songPicture(document, album);
   const master = hostedMaster(localized.route, audio);
   const video = songVideo(document, locale);
@@ -101,7 +115,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
         <MusicNav
           back={{ href: indexPath(catalogue, locale), label: messages.back }}
           hrefs={byLocale((alternate) => songPath(slug, alternate))}
-          {...{ locale }}
+          {...{ locale, sample }}
         />
 
         <Box component="header">
@@ -116,13 +130,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
               <Stack gap={8} align="flex-start">
                 <SongByline {...{ document, album, catalogue, locale }} />
                 <Title order={1}>
-                  {switchable ? (
-                    <ScriptSwitch tips={messages.titleScript}>
-                      {title}
-                    </ScriptSwitch>
-                  ) : (
-                    title
-                  )}
+                  {title}
                   {explicit && <ExplicitBadge label={messages.explicit} />}
                 </Title>
                 <TitleGlossLine {...{ gloss }} />
@@ -130,7 +138,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
                 {/* The same track a song list's row plays, so both drive one
                     queue — which a hidden song joins only once played here. */}
                 <Group mt={12} gap={8}>
-                  <SongPlayButton track={songTrack(document, album)} />
+                  <SongPlayButton {...{ track }} />
                   {video && (
                     <SongVideoButton
                       {...video}

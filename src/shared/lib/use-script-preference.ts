@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 
 import {
+  defaultScript,
   isScript,
   type Script,
   SCRIPT_ATTRIBUTE,
@@ -59,7 +60,7 @@ function subscribe(listener: () => void) {
     if (key !== SCRIPT_STORAGE_KEY) return;
 
     chosen = load();
-    mark(chosen ?? 'latin');
+    mark(current());
     listener();
   }
 
@@ -72,14 +73,21 @@ function subscribe(listener: () => void) {
   };
 }
 
+function current(): Script {
+  return read() ?? defaultScript(navigator.languages);
+}
+
 /**
- * The reader's spelling, for what takes a string rather than markup, and
- * whether they ever chose one, which the tip waits on. The static HTML and
- * hydration render as never chosen; the head script has already shown the
- * stored spelling by then, so only string consumers re-render.
+ * The reader's spelling, for what takes a string rather than markup. The
+ * static HTML and hydration render in Latin; the head script has already shown
+ * the reader's spelling by then, so only string consumers re-render.
  */
 export function useScriptPreference() {
-  const choice = useSyncExternalStore(subscribe, read, () => null);
+  const script = useSyncExternalStore<Script>(
+    subscribe,
+    current,
+    () => 'latin',
+  );
 
-  return { script: choice ?? 'latin', chosen: choice !== null, choose };
+  return { script, choose };
 }

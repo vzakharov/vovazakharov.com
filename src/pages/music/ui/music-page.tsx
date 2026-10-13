@@ -1,8 +1,10 @@
 import { Stack } from '@mantine/core';
+import type { ReactNode } from 'react';
 
 import { SITE_ID } from '@/shared/config';
 import { findFeed } from '@/shared/content';
 import { byLocale } from '@/shared/i18n';
+import { scriptSample } from '@/shared/music-catalogue';
 import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
@@ -13,7 +15,7 @@ import type { IndexPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, tabPath } from '../lib/music-urls';
 import { artistPicture } from '../lib/pictures';
 import { projectName } from '../lib/projects';
-import { catalogueSongs, songTrack } from '../lib/songs';
+import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueTabs, type CatalogueTabsProps } from './catalogue-tabs';
 import { MusicNav } from './music-nav';
@@ -27,12 +29,14 @@ import { Spelling } from './spelling';
  */
 export function MusicPage({ locale, everything, tab }: IndexPageProps) {
   const catalogue = { everything };
+  const { content, names } = tabContent({ tab, catalogue, locale });
 
   return (
     <PageShell>
       <Stack gap={48}>
         <MusicNav
           hrefs={byLocale((alternate) => tabPath(tab, catalogue, alternate))}
+          sample={scriptSample(names, locale)}
           {...{ locale }}
         />
 
@@ -41,7 +45,7 @@ export function MusicPage({ locale, everything, tab }: IndexPageProps) {
         <Stack gap={24}>
           <CatalogueTabs {...{ tab, catalogue, locale }} />
 
-          <TabContent {...{ tab, catalogue, locale }} />
+          {content}
         </Stack>
 
         <SiteFooter
@@ -53,49 +57,61 @@ export function MusicPage({ locale, everything, tab }: IndexPageProps) {
   );
 }
 
-function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
+/** The tab's list, and the names it shows for `scriptSample` to read. */
+function tabContent({ tab, catalogue, locale }: CatalogueTabsProps): {
+  content: ReactNode;
+  names: string[];
+} {
   const songs = catalogueSongs(catalogue);
 
   switch (tab) {
     case 'artists': {
-      return (
-        <CatalogueGrid
-          tiles={catalogueArtists(songs).map((artist) => ({
-            href: artistPath(artist, catalogue, locale),
-            slug: artist,
-            name: projectName(artist, locale),
-            cover: artistPicture(artist, locale, songs),
-          }))}
-        />
-      );
+      const tiles = catalogueArtists(songs).map((artist) => ({
+        href: artistPath(artist, catalogue, locale),
+        slug: artist,
+        name: projectName(artist, locale),
+        cover: artistPicture(artist, locale, songs),
+      }));
+
+      return {
+        content: <CatalogueGrid {...{ tiles }} />,
+        names: tiles.map(({ name }) => name.original),
+      };
     }
     case 'albums': {
-      return (
-        <CatalogueGrid
-          tiles={newestAlbums(songs).map((album) => ({
-            href: albumPath(album, catalogue, locale),
-            slug: album,
-            name: albumTitle(album, locale),
-            cover: albumCover(album),
-            detail: (
-              <>
-                <Spelling
-                  {...projectName(albumArtist(album, locale), locale)}
-                />
-                {` · ${albumYears(album, songs)}`}
-              </>
-            ),
-          }))}
-        />
-      );
+      const tiles = newestAlbums(songs).map((album) => {
+        const artist = projectName(albumArtist(album, locale), locale);
+
+        return {
+          href: albumPath(album, catalogue, locale),
+          slug: album,
+          name: albumTitle(album, locale),
+          artist,
+          cover: albumCover(album),
+          detail: (
+            <>
+              <Spelling {...artist} />
+              {` · ${albumYears(album, songs)}`}
+            </>
+          ),
+        };
+      });
+
+      return {
+        content: <CatalogueGrid {...{ tiles }} />,
+        names: tiles.flatMap(({ name, artist }) => [
+          name.original,
+          artist.original,
+        ]),
+      };
     }
     case 'songs': {
-      return (
-        <SongList
-          tracks={songs.map((song) => songTrack(song))}
-          {...{ locale }}
-        />
-      );
+      const tracks = songs.map((song) => songTrack(song));
+
+      return {
+        content: <SongList {...{ tracks, locale }} />,
+        names: trackNames(tracks, locale),
+      };
     }
     default: {
       return tab satisfies never;

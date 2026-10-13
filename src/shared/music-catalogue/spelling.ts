@@ -83,7 +83,7 @@ export function scriptSample(
     }
   }
 
-  const [dominant] = [...counts].sort(([, a], [, b]) => b - a);
+  const [dominant] = [...counts].toSorted(([, a], [, b]) => b - a);
 
   if (dominant === undefined && unsampled !== undefined) {
     throw new Error(
