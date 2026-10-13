@@ -61,7 +61,7 @@ export function byLocale<T>(pick: (locale: Locale) => T): Record<Locale, T> {
  * A string stated once where the languages agree and once per locale where they
  * do not — the common case being the first, a name that is not translated.
  */
-export type Localizable<T extends string = string> = T | Record<Locale, T>;
+type Localizable<T extends string = string> = T | Record<Locale, T>;
 
 export function inLocale<T extends string>(
   value: Localizable<T>,

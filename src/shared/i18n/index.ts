@@ -3,12 +3,10 @@ export {
   addressLocale,
   byLocale,
   DEFAULT_LOCALE,
-  inLocale,
   isLocale,
   type Locale,
   LOCALES,
   localeTailAddresses,
-  type Localizable,
   type WithLocale,
   type WithOptionalLocale,
 } from './locales';

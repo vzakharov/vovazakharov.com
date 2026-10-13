@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { loadProse, type ProseSource } from '@/shared/content';
+import { loadProse } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 import {
   albumFrontmatterSchema,
@@ -22,7 +22,7 @@ import { ALBUMS_SEGMENT, ARTISTS_SEGMENT } from './music-urls';
  * the names a song may use from them.
  */
 
-type CatalogueFile<F> = ProseSource & { frontmatter: F };
+type CatalogueFile<F> = NonNullable<ReturnType<typeof loadProse<F>>>;
 
 /** Each file read once per process — every page names a dozen of them. */
 function readOnce<K, F>(
