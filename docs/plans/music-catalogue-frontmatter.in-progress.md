@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
-
 # Albums and artists live in their own frontmatter
 
 Asked in review of #148 ([r4263026823](https://github.com/vzakharov/vovazakharov.com/pull/148#discussion_r4263026823)): «а зачем мы вообще инфу об альбомах храним тут, а не во фронтматтерах их мдшек?». Based on `claude/latin-first-transliteration-ymni59` until #148 merges.
