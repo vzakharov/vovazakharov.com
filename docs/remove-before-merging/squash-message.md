@@ -13,8 +13,7 @@ italics under the name: a line meant to make someone press play rather
 than a summary, and an album's or artist's meta description too. Its one
 mark is `~~…~~`, struck through on the page and drawn through with
 U+0336 combining strokes in the meta and og descriptions and the feed,
-since the strike can be the joke, as in Crossroads' hook in both
-languages.
+since the strike can be the joke, as in Crossroads' hook.
 
 A concept album tells its world under a `universe:` marker, shown ahead
 of the `lang:` story, which then reads as «Как это делалось» / "Making
@@ -40,9 +39,10 @@ the playing song resumes whenever the reader lands on its page. «За
 they were set from.
 
 Alongside: `spectrogram.py --split` moves the chromagram's bass/treble
-split for a low or high lead, and Майя's and the Клерк's reflections
-share one rule file, under which a reflection may tell what changed
-after it was written, its «потом» linking the commit that made it.
+split for a low or high lead. Each persona's reflections, «отклики»,
+are named `<slug>.<persona>.reflections.md` under one shared rule and
+may tell what changed since, linking the commit; the cost ledger books
+them as an `artist` role, only ever senior.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
