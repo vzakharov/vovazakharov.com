@@ -1,12 +1,12 @@
 {
   "estimate": {
-    "at": "2026-10-13T17:11:01.371Z",
+    "at": "2026-10-13T17:44:32.660Z",
     "parts": [
       {
-        "hours": 0.3,
+        "hours": 0.7,
         "grade": "middle",
         "role": "developer",
-        "comment": "a shared facts-line component swapped in at three call sites, the size helper returning parts and its tests reshaped, checked by a build and screenshots"
+        "comment": "a shared facts-line component across three call sites with the size helper reshaped, then a hover note done in CSS alone because a Mantine tooltip never reaches the static HTML its stylesheet check reads"
       }
     ],
     "comment": null
@@ -21,28 +21,28 @@
   "url": "https://claude.ai/code/session_012uSxeKTobZB2vuBK4P9E8F",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-13T12:29:13.214Z",
-  "lastResponseAt": "2026-10-13T17:11:22.611Z",
+  "lastResponseAt": "2026-10-13T17:44:41.720Z",
   "pricesAsOf": "2026-10-06",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 3.019686800000001,
   "total": {
-    "inputTokens": 112,
+    "inputTokens": 188,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 112594,
-    "cacheReadTokens": 7447960,
-    "outputTokens": 18531,
-    "thinkingTokens": 3185,
-    "responses": 55,
-    "costUsd": 2.7614120000000004
+    "cacheWrite1hTokens": 161152,
+    "cacheReadTokens": 15045040,
+    "outputTokens": 35213,
+    "thinkingTokens": 6734,
+    "responses": 93,
+    "costUsd": 5.003235999999999
   },
   "ownTurns": {
-    "inputTokens": 112,
+    "inputTokens": 188,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 112594,
-    "cacheReadTokens": 7447960,
-    "outputTokens": 18531,
-    "thinkingTokens": 3185,
-    "responses": 55,
-    "costUsd": 2.7614120000000004
+    "cacheWrite1hTokens": 161152,
+    "cacheReadTokens": 15045040,
+    "outputTokens": 35213,
+    "thinkingTokens": 6734,
+    "responses": 93,
+    "costUsd": 5.003235999999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -56,14 +56,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 112,
+      "inputTokens": 188,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 112594,
-      "cacheReadTokens": 7447960,
-      "outputTokens": 18531,
-      "thinkingTokens": 3185,
-      "responses": 55,
-      "costUsd": 2.7614120000000004
+      "cacheWrite1hTokens": 161152,
+      "cacheReadTokens": 15045040,
+      "outputTokens": 35213,
+      "thinkingTokens": 6734,
+      "responses": 93,
+      "costUsd": 5.003235999999999
     }
   },
   "warnings": [],
