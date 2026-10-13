@@ -1,0 +1,8 @@
+listen-single.mp3 — 0:55
+tempo 109–113 BPM, median 110
+key G♭ major (r 0.75; next D♭ major, 0.75)
+tuning A = 440 Hz −5 ¢
+sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+0:00–0:11  109 BPM  −16 dB  D♭m G♭m D♭
+0:11–0:39  109 BPM  −12 dB  D♭ G♭m D♭m G♭m D♭
+0:39–0:55  113 BPM  −12 dB  G♭m D♭ G♭

@@ -1,0 +1,8 @@
+after-us.mp3 — 1:19
+tempo 125 BPM
+key E♭ minor (r 0.79; next B♭ minor, 0.74)
+tuning A = 440 Hz −4 ¢
+sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+0:00–0:15  124 BPM  −17 dB  B♭m A♭ B B♭m G♭
+0:15–1:02  125 BPM  −11 dB  E♭m D♭ G♭ E♭m D♭ B B♭ F E♭m D♭ G♭ F
+1:02–1:19  – BPM  −24 dB  F

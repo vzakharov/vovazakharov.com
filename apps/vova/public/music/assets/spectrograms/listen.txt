@@ -1,0 +1,8 @@
+listen.mp3 — 1:51
+tempo 119 BPM
+key B minor (r 0.62; next B major, 0.53)
+tuning A = 440 Hz −4 ¢
+sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+0:00–0:22  120 BPM  −17 dB  Bm G A G F♯ ×2
+0:22–1:39  119 BPM  −8 dB  B A F♯ G ×2 + G♯m F♯ Gm F♯m G
+1:39–1:51  – BPM  −18 dB  

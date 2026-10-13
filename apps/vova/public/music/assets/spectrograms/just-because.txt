@@ -1,0 +1,13 @@
+just-because.mp3 — 4:03
+tempo 118–123 BPM, median 121
+key F♯ minor (r 0.94; next D major, 0.68)
+tuning A = 440 Hz +3 ¢
+sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+0:00–0:12  118 BPM  −12 dB  F♯m D E D F♯
+0:12–0:23  121 BPM  −11 dB  F♯ A C♯m D F♯m
+0:23–0:45  120 BPM  −9 dB  F♯m A C♯m Dm F♯m Am C♯m Dm
+0:45–1:06  121 BPM  −11 dB  F♯ D E D F♯ A C♯m D
+1:06–1:28  123 BPM  −10 dB  F♯ D E D F♯ A C♯m D
+1:28–2:54  122 BPM  −10 dB  F♯m D E D F♯m A C♯m D F♯ D E D F♯ A C♯ + D F♯m E ×4 + D G
+2:54–3:29  122 BPM  −10 dB  G F♯m D E D F♯m A Em D F♯m A E D F♯
+3:29–4:03  123 BPM  −16 dB  F♯

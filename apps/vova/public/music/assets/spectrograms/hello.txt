@@ -1,0 +1,11 @@
+hello.mp3 — 2:26
+tempo 122–128 BPM, median 125
+key G major (r 0.74; next G minor, 0.72)
+tuning A = 440 Hz −2 ¢
+sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+0:00–0:16  122 BPM  −23 dB  Cm G♯ Gm G♯ G
+0:16–0:50  128 BPM  −14 dB  G + G♯ Gm ×4
+0:50–1:01  126 BPM  −11 dB  G♯ Gm ×2
+1:01–1:19  124 BPM  −12 dB  Gm G♯ ×2 + Gm
+1:19–2:10  124 BPM  −8 dB  Gm G♯ ×2 + G C♯ Gm G♯ G Gm
+2:10–2:26  122 BPM  −13 dB  Gm

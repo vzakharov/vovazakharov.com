@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 """A song's spectrogram over its loudness and its chromagram: its whole length across, pitch up.
 
-Usage: spectrogram.py <song> <out.png>
+Usage: spectrogram.py <song> <out.png> [--from m:ss --to m:ss]
+
+Beside the PNG it writes <out>.txt, the sidecar: the numbers the picture can
+only approximate — tempo, key, tuning, and per section its tempo, loudness and
+chords. `song_facts.py`'s docstrings say how each is measured. The title
+carries the tempo, and the tuning when it is over 15 cents off A440.
+
+--from and --to draw that stretch at the full width, on song time, with a
+faint line down the chroma strips at each beat; the analysis still runs on
+the whole song, and a zoom writes no sidecar, which describes all of it.
 
 Where the voice sits and where its melody goes, where the drums come in, a
 bridge that drops out, where one section gives way to the next, a master that

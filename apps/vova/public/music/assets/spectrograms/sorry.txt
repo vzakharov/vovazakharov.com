@@ -1,0 +1,14 @@
+sorry.mp3 — 3:17
+tempo 131 BPM
+key E♭ major (r 0.82; next C minor, 0.72)
+tuning A = 440 Hz +5 ¢
+sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+0:00–0:08  130 BPM  −12 dB  B♭m Cm B♭ Cm
+0:08–0:30  131 BPM  −9 dB  Cm B♭ + C E♭ ×2 + Cm
+0:30–0:45  131 BPM  −9 dB  Cm E♭ Fm Cm E♭ F Cm
+0:45–1:00  131 BPM  −8 dB  Cm E♭ Cm
+1:00–1:14  133 BPM  −11 dB  Cm E♭ ×2 + F C
+1:14–1:36  130 BPM  −9 dB  C E♭ Cm E♭ F Cm E♭ Fm Cm
+1:36–2:21  130 BPM  −8 dB  Cm E♭ ×2
+2:21–3:03  130 BPM  −9 dB  E♭ Cm B♭m + Cm E♭ ×3 + C E♭ F E♭
+3:03–3:17  130 BPM  −23 dB  E♭ F E♭
