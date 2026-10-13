@@ -13,20 +13,20 @@ its own index — so the song and the second are a pure function of the
 clock and of the catalogue the page was built with. A deploy that
 changes the catalogue redraws the station from that moment.
 
-A Radio button sits beside Shuffle all, and a round toggle in the
-player bar right of shuffle; each tune-in shows a hint saying everyone
-on the radio hears this same second. The player joins the station
+A Radio button beside Shuffle all and a round switch in the player bar
+both tune in and open the radio's page. The player joins the station
 where it is once the master has loaded, hands a finished track to the
 next slot, and catches up after a stall. Any action on playback —
 pause, seek, skip, shuffle, picking a song — releases the radio, which
 the player's reducer enforces for every action but tuning in.
 
-/music/radio is the radio's own screen, which the music never moves the
-reader off: the song on air with a ticking counter, from the same
-timetable; once tuned in, the song's story and a link to its page that
-leaves playback alone; once released, Tune back in. It starts at once
-where the browser allows sound unasked, and unfurls as a static card.
-A muted stream was not an option: most masters are FLAC, too heavy to
+/music/radio is the radio's own set, which the music never moves the
+reader off: a tuning dial whose needle glides through the song on air,
+from the same timetable; once tuned in, the song's hook and a link to
+its story; once released, Tune back in. Its own knob is how one tunes
+in there, so the bar carries no switch on it. It starts at once where
+the browser allows sound unasked, and unfurls as a static card. A
+muted stream was not an option: most masters are FLAC, too heavy to
 send to visitors who never listen.
 
 Co-authored-by: Claude <noreply@anthropic.com>
