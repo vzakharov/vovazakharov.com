@@ -14,7 +14,7 @@ export type ScriptChipProps = Labeled & {
   /** Three letters of the script the page's names are in, from `scriptSample`. */
   sample: string;
   /** What the switch turns on, for a screen reader: the original spelling. */
-  original: string;
+  originalScript: string;
 };
 
 /**
@@ -22,14 +22,14 @@ export type ScriptChipProps = Labeled & {
  * `EN / Abc` in Latin, `EN / Абв` in the original. A checkbox rather than a
  * button, so it shows the spelling in force, not the one a click gives.
  */
-export function ScriptChip({ label, sample, original }: ScriptChipProps) {
+export function ScriptChip({ label, sample, originalScript }: ScriptChipProps) {
   const { script, choose } = useScriptPreference();
 
   return (
     <UnstyledButton
       role="switch"
       aria-checked={script === 'original'}
-      aria-label={`${label}: ${original}`}
+      aria-label={`${label}: ${originalScript}`}
       className={cx(CURRENT_CHIP_CLASS, classes['scriptChip'])}
       onClick={() => {
         choose(script === 'latin' ? 'original' : 'latin');

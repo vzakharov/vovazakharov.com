@@ -42,7 +42,7 @@ export function LocaleChips({ locale, hrefs, sample }: LocaleChipsProps) {
           <ScriptChip
             label={locale.toUpperCase()}
             {...{ sample }}
-            original={loadMessages(locale).music.originalScript}
+            originalScript={loadMessages(locale).music.originalScript}
           />
         )
       }
