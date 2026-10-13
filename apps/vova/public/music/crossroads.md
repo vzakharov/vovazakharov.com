@@ -10,7 +10,7 @@ seconds: 194
 album: ctfu
 track: 4
 en:
-  hook: 'The fog of doubt overhead — but the best is yet to come.'
+  hook: 'The fog of doubt overhead — but the best is yet to come. ~~Unless it’s not?~~'
 ru:
   title:
     translation: 'Перекрёсток'

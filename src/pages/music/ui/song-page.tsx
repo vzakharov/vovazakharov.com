@@ -5,7 +5,7 @@ import { pageFile, SITE_CONFIG } from '@/shared/config';
 import { isListed } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { plainHook } from '@/shared/music-catalogue';
+import { textHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
@@ -65,7 +65,7 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
   return constructMetadata({
     title: `${title} - ${SITE_CONFIG.name}`,
     ogTitle: listenTitle(title, locale),
-    description: hook === undefined ? undefined : plainHook(hook),
+    description: hook === undefined ? undefined : textHook(hook),
     path: songPath(slug, locale),
     ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
     ogType: 'article',

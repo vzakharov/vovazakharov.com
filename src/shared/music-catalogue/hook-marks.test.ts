@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { hookRuns, plainHook } from './hook-marks';
+import { hookRuns, textHook } from './hook-marks';
 
 const CROSSROADS = 'Лучшее ещё впереди. ~~Но это не точно~~';
 
@@ -31,8 +31,15 @@ describe('hookRuns', () => {
   });
 });
 
-describe('plainHook', () => {
-  it('keeps the struck words and drops the tildes', () => {
-    assert.equal(plainHook(CROSSROADS), 'Лучшее ещё впереди. Но это не точно');
+describe('textHook', () => {
+  it('draws a stroke through every struck character, spaces included', () => {
+    assert.equal(
+      textHook('Лучшее ещё впереди. ~~Но это~~'),
+      'Лучшее ещё впереди. Н̶о̶ ̶э̶т̶о̶',
+    );
+  });
+
+  it('keeps a hook with no marks whole', () => {
+    assert.equal(textHook('Let my people go'), 'Let my people go');
   });
 });

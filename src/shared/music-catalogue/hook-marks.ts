@@ -17,10 +17,15 @@ export function hookRuns(hook: string): HookRun[] {
     );
 }
 
+/** U+0336, which draws a line through the character before it. */
+const COMBINING_STROKE = '̶';
+
 /**
- * A hook where no mark can be drawn — a meta description, a feed — the struck
- * words kept as words.
+ * A hook as plain text — a meta description, a feed — the struck words drawn
+ * through with a combining stroke, the joke being in seeing them crossed out.
  */
-export function plainHook(hook: string): string {
-  return hook.replaceAll(STRUCK, '$1');
+export function textHook(hook: string): string {
+  return hook.replaceAll(STRUCK, (_, words: string) =>
+    [...words].map((char) => char + COMBINING_STROKE).join(''),
+  );
 }

@@ -2,7 +2,7 @@ import 'server-only';
 
 import { SITE_CONFIG } from '@/shared/config';
 import { loadMessages, type Locale } from '@/shared/i18n';
-import { plainHook } from '@/shared/music-catalogue';
+import { textHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
@@ -76,7 +76,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
     page,
     name,
     listenTitle(name, page.locale),
-    plainHook(
+    textHook(
       artistText(page.artist, page.locale)?.hook ??
         artistDescription.replace('{artist}', name),
     ),
@@ -93,7 +93,7 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
     page,
     name,
     listenTitle(name, page.locale),
-    plainHook(
+    textHook(
       albumText(page.album, page.locale)?.hook ??
         albumDescription
           .replace('{album}', name)
