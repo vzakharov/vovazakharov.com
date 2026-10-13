@@ -27,56 +27,70 @@
   "branch": "claude/feed-full-content-0lat2x",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/feed-full-content-0lat2x",
-  "prs": [],
+  "prs": [
+    149
+  ],
   "url": "https://claude.ai/code/session_01CKKScMhQkW2bcJ6wqySVGG",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-13T20:06:29.034Z",
-  "lastResponseAt": "2026-10-13T20:06:54.665Z",
+  "lastResponseAt": "2026-10-13T20:19:30.600Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 14,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 50242,
-    "cacheReadTokens": 660056,
-    "outputTokens": 1838,
-    "thinkingTokens": 183,
-    "responses": 7,
-    "costUsd": 0.5707632
+    "inputTokens": 192,
+    "cacheWrite5mTokens": 213242,
+    "cacheWrite1hTokens": 162537,
+    "cacheReadTokens": 12371111,
+    "outputTokens": 37488,
+    "thinkingTokens": 9293,
+    "responses": 96,
+    "costUsd": 5.053747199999998
   },
   "ownTurns": {
-    "inputTokens": 14,
+    "inputTokens": 120,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 50242,
-    "cacheReadTokens": 660056,
-    "outputTokens": 1838,
-    "thinkingTokens": 183,
-    "responses": 7,
-    "costUsd": 0.5707632
+    "cacheWrite1hTokens": 162537,
+    "cacheReadTokens": 10203226,
+    "outputTokens": 37062,
+    "thinkingTokens": 9293,
+    "responses": 60,
+    "costUsd": 4.082661199999999
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 72,
+    "cacheWrite5mTokens": 213242,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
+    "cacheReadTokens": 2167885,
+    "outputTokens": 426,
     "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "responses": 36,
+    "costUsd": 0.9710859999999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 14,
+      "inputTokens": 120,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 50242,
-      "cacheReadTokens": 660056,
-      "outputTokens": 1838,
-      "thinkingTokens": 183,
-      "responses": 7,
-      "costUsd": 0.5707632
+      "cacheWrite1hTokens": 162537,
+      "cacheReadTokens": 10203226,
+      "outputTokens": 37062,
+      "thinkingTokens": 9293,
+      "responses": 60,
+      "costUsd": 4.082661199999999
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 72,
+      "cacheWrite5mTokens": 213242,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 2167885,
+      "outputTokens": 426,
+      "thinkingTokens": 0,
+      "responses": 36,
+      "costUsd": 0.9710859999999999
     }
   },
-  "warnings": [],
+  "warnings": [
+    "36 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
   "orientation": {
     "endedBy": "end_turn",
     "endedOn": null,
