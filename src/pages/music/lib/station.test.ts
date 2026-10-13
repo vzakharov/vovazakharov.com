@@ -40,6 +40,20 @@ describe('cycleOrder', () => {
       assert.notEqual(cycleOrder(3, cycle)[0], cycleOrder(3, cycle - 1).at(-1));
     }
   });
+
+  it('keeps a song that segues ahead of the one it runs into, across the swap too', () => {
+    const segues = new Set([1, 4, 5]);
+
+    for (let cycle = 0; cycle < 2000; cycle++) {
+      const order = cycleOrder(8, cycle, segues);
+
+      assert.equal(order.indexOf(2), order.indexOf(1) + 1);
+      assert.deepEqual(order.slice(order.indexOf(4), order.indexOf(4) + 3), [
+        4, 5, 6,
+      ]);
+      assert.notEqual(order[0], cycleOrder(8, cycle - 1, segues).at(-1));
+    }
+  });
 });
 
 describe('stationAt', () => {
