@@ -1,8 +1,8 @@
-import { Stack, Text } from '@mantine/core';
+import { Stack } from '@mantine/core';
 
 import { SITE_ID } from '@/shared/config';
 import { findFeed } from '@/shared/content';
-import { byLocale, loadMessages, type Locale } from '@/shared/i18n';
+import { byLocale, loadMessages } from '@/shared/i18n';
 import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
@@ -14,17 +14,11 @@ import {
   catalogueArtists,
   newestAlbums,
 } from '../lib/catalogue';
-import { type CatalogueSize, catalogueSize } from '../lib/duration';
+import { catalogueSize } from '../lib/duration';
 import type { IndexPageProps } from '../lib/music-route-params';
-import {
-  albumPath,
-  artistPath,
-  type CatalogueTab,
-  tabPath,
-} from '../lib/music-urls';
+import { albumPath, artistPath, tabPath } from '../lib/music-urls';
 import { artistPicture } from '../lib/pictures';
 import { projectName } from '../lib/projects';
-import type { SongDocument } from '../lib/song-text';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueTabs, type CatalogueTabsProps } from './catalogue-tabs';
@@ -48,16 +42,21 @@ export function MusicPage({ locale, everything, tab }: IndexPageProps) {
           {...{ locale }}
         />
 
-        <MusicSection {...{ locale }} />
+        <MusicSection
+          size={catalogueSize(
+            {
+              artists: catalogueArtists(songs).length,
+              albums: catalogueAlbums(songs).length,
+              seconds: songs.map(({ frontmatter }) => frontmatter.seconds),
+            },
+            locale,
+            loadMessages(locale).music.size,
+          )}
+          {...{ locale }}
+        />
 
         <Stack gap={24}>
-          <Stack gap={8}>
-            <CatalogueTabs {...{ tab, catalogue, locale }} />
-
-            <Text size="sm" opacity={0.7}>
-              {tabSize(tab, songs, locale)}
-            </Text>
-          </Stack>
+          <CatalogueTabs {...{ tab, catalogue, locale }} />
 
           <TabContent {...{ tab, catalogue, locale }} />
         </Stack>
@@ -115,33 +114,4 @@ function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
       return tab satisfies never;
     }
   }
-}
-
-/**
- * The whole catalogue's size, the same on the artists and albums tabs, which
- * only group it differently; the songs tab counts its songs alone.
- */
-function tabSize(
-  tab: CatalogueTab,
-  songs: readonly SongDocument[],
-  locale: Locale,
-): string {
-  const whole = {
-    artists: catalogueArtists(songs).length,
-    albums: catalogueAlbums(songs).length,
-  };
-  const ahead: Record<CatalogueTab, Omit<CatalogueSize, 'seconds'>> = {
-    artists: whole,
-    albums: whole,
-    songs: {},
-  };
-
-  return catalogueSize(
-    {
-      ...ahead[tab],
-      seconds: songs.map(({ frontmatter }) => frontmatter.seconds),
-    },
-    locale,
-    loadMessages(locale).music.size,
-  );
 }
