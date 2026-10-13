@@ -46,6 +46,14 @@ A song's video carries its printed words as timed tracks: `transcribe.py` on the
 
 Judge a master by **loudness-matched A/B**: alternate five seconds of each over the whole song, the louder side brought down to the quieter rather than the quieter raised, whose peaks would clip — otherwise the ear hears level, not sound. `spectrum.py` shows what an EQ actually did, which is the place to start when the operator says "too bright" or "muddy".
 
+## A song's repository
+
+**A song plays from a public repository of its own under the `vovas-music` organization**, named in the frontmatter's `repo:`, with `audio:` the master's raw URL there (`https://raw.githubusercontent.com/vovas-music/<repo>/main/<file>`). It holds what the master was made from and how: the mix (`<slug>_mix.mp3`), the master the site plays (`<slug>.mp3`), the video where there is one, `mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied from here — and a README naming each file, the command that made the master and its reference, linked at a commit rather than copied when another repository there holds it. `vovas-music/birds` is the pattern.
+
+- **A change to a song's audio is made in its repository**: a new master replaces the old one there, and the README's command with it. This repo changes only what the frontmatter reads off it — `audio:` when the file is renamed, `duration` when its length moves.
+- **A new song gets its repository before its page**, named by `songs.md`'s slug rule: `gh repo create vovas-music/<slug> --public`, the files above, then `pnpm music:scaffold <slug>`. Songs that share a project's session may share one repository, as `machines` does.
+- **Neither the tree nor a release hosts a master the site plays.** A vendored mp3 grows the repo with every take, and a release download redirects to a storage URL signed for 30 minutes, which a player still seeking after that is refused.
+
 ## Reflection
 
 A song worked here ends with Майя's reflection, `<slug>.maya.reflections.md` beside the song's markdown. `.claude/rules/maya-reflections.md` says how, and loads on reading a reflection, never on the `Write` that creates the first one — so read it first.
