@@ -14,19 +14,22 @@ import { useStoredFlag } from '../lib/use-stored-flag';
 import { Marquee } from './marquee';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
+import { RadioToggle } from './radio-toggle';
 import { SongName } from './song-name';
 
 /**
  * Keeps the reader on the playing song's page: while following, it opens that
  * page, and opens the next one each time the track changes. Following starts
- * on, and each navigation of the reader's own sets it — off anywhere else, on
- * at the playing song's page, however the reader got there. The returned
- * `resume` switches it on ahead of the navigation it rides on.
+ * on unless the bar mounts on the radio — tuned from a launcher or the radio's
+ * page, both of which keep the reader where they are — and each navigation of
+ * the reader's own sets it: off anywhere else, on at the playing song's page,
+ * however the reader got there. The returned `resume` switches it on ahead of
+ * the navigation it rides on.
  */
-function useFollow(route: string | undefined) {
+function useFollow(route: string | undefined, initially: boolean) {
   const router = useRouter();
   const pathname = usePathname();
-  const [following, setFollowing] = useState(true);
+  const [following, setFollowing] = useState(initially);
   const [seen, setSeen] = useState(pathname);
 
   // Set during render rather than in an effect, so the push below never runs
@@ -67,7 +70,7 @@ export function PlayerBar() {
     shuffle,
     seek,
   } = usePlayer();
-  const resumeFollow = useFollow(current?.routes[locale]);
+  const resumeFollow = useFollow(current?.routes[locale], !state.radio);
   // The right-hand readout: the track's length, or what is left of it.
   const [remaining, setRemaining] = useStoredFlag('remaining');
 
@@ -124,6 +127,8 @@ export function PlayerBar() {
         >
           <Shuffle size={18} />
         </ActionIcon>
+
+        <RadioToggle />
       </Group>
 
       <Box className={classes['playerTrack']}>
