@@ -278,7 +278,7 @@
     "radio": "Radio",
     "radioPage": {
       "title": "Vova’s Radio",
-      "metaDescription": "Vova’s songs on a radio with no server: the same song, at the same second, for everyone listening.",
+      "metaDescription": "Vova’s songs on the radio: the same song, at the same second, for everyone listening.",
       "pitch": "Same song, same second, for everyone listening.",
       "about": "You’re hearing what everyone tuned in is hearing. Every song in the catalogue plays, in random order. When the round ends — every {length} — the songs are shuffled again.",
       "cycleLength": {
