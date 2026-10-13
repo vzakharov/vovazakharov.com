@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): serve songs under /music/songs (pr #146)
+feat(vova): /music/songs for songs, /music/all retired (pr #146)
 ```
 
 ```
@@ -13,13 +13,15 @@ sit under a segment of their own. A song's page is now
 The songs collection's base becomes music/songs, so its markdown moves
 to apps/vova/public/music/songs/ and its RSS feeds to
 /music/songs/<locale>/feed.xml; albums, artists and assets keep their
-places. The section's own address no longer equals the collection's
-route, so it is named on its own, MUSIC_ROUTE, which the catalogue's
-URLs and the home page's link read.
+places. The section's own address is named on its own, MUSIC_ROUTE,
+read by the catalogue's URLs and the home page's link, and a song slug
+competes only with the locales for its segment.
 
-A song slug now competes only with the locales for its segment, so the
-check that refused slugs named like the section's addresses shrinks to
-that.
+/music/all, the whole-catalogue view that also listed hidden songs, is
+retired: every uploaded song is public, so it duplicated /music. Its
+dimension leaves every music path, page and metadata builder, noindex
+included. Frontmatter hidden and the dev-only SHOW_HIDDEN stay, being
+shared across collections.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
