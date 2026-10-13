@@ -21,7 +21,7 @@ type CatalogueTile = LabeledLink &
   Slugged & {
     cover?: string;
     detail?: string;
-    /** A work in progress's note, its sign set after the detail line. */
+    /** A work in progress's note, its sign set after the name. */
     wip?: string;
     /** The label is a romanized song title, set in italics. */
     transliterated?: boolean;
@@ -49,15 +49,24 @@ export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
             wip,
             transliterated = false,
           }) => {
-            // The name's link stretches over the whole tile.
+            // The name's link stretches over the whole tile; the sign follows
+            // it outside the link, a button being no anchor's content.
             const link = (
-              <NameLink
-                {...{ href }}
-                c="inherit"
-                className={classes['tileLink']}
-              >
-                <SongName title={label} {...{ transliterated }} />
-              </NameLink>
+              <span>
+                <NameLink
+                  {...{ href }}
+                  c="inherit"
+                  className={classes['tileLink']}
+                >
+                  <SongName title={label} {...{ transliterated }} />
+                </NameLink>
+                {wip !== undefined && (
+                  <>
+                    {' '}
+                    <WipMark note={wip} size="0.7em" />
+                  </>
+                )}
+              </span>
             );
 
             return (
@@ -94,16 +103,12 @@ export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
                 )}
 
                 {detail !== undefined && detail !== '' && (
-                  <Text size="sm" mt={cover === undefined ? 8 : 0}>
-                    <Box component="span" opacity={0.6}>
-                      {detail}
-                    </Box>
-                    {wip !== undefined && (
-                      <>
-                        {' '}
-                        <WipMark note={wip} />
-                      </>
-                    )}
+                  <Text
+                    size="sm"
+                    opacity={0.6}
+                    mt={cover === undefined ? 8 : 0}
+                  >
+                    {detail}
                   </Text>
                 )}
               </li>

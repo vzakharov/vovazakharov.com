@@ -1,7 +1,10 @@
 // A tooltip of CSS alone, so it is in the static HTML and needs no script: the
 // note shows while the sign is hovered or focused, a tap focusing the button.
+// The note hangs from the sign unless the context sets the `--wip-*` variables:
+// `--wip-anchor: static` hands its positioning to the nearest positioned
+// ancestor, which the other four then place it against.
 .mark {
-  position: relative;
+  position: var(--wip-anchor, relative);
   display: inline-flex;
   cursor: help;
 }
@@ -17,13 +20,15 @@
 // column's left edge, where a centred note would run off a phone's screen.
 .note {
   position: absolute;
-  top: calc(100% + 6px);
-  left: -6px;
+  top: var(--wip-note-top, calc(100% + 6px));
+  right: var(--wip-note-right, auto);
+  left: var(--wip-note-left, -6px);
   z-index: 10;
-  width: max-content;
+  width: var(--wip-note-width, max-content);
   max-width: 16rem;
   padding: 6px 10px;
   font-size: var(--mantine-font-size-sm);
+  font-weight: 400;
   line-height: 1.4;
   color: var(--color-background);
   text-align: left;
