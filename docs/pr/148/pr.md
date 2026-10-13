@@ -7,21 +7,20 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-13T11:53:15Z
-- **Updated:** 2026-10-13T19:36:19Z
+- **Updated:** 2026-10-13T19:46:12Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 5
+## Awaiting an answer: 4
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at ec77454). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `apps/vova/public/music/minem-babay.md`:3 — unresolved — last: @vzakharov (human) 2026-10-13T19:17:36Z — "так, а) а тут зачем, учитывая что транслитерация по правилам…" → [↓](#t01)
-- **T02** `src/app/styles/globals.scss`:20 — unresolved — last: @vzakharov (human) 2026-10-13T19:21:19Z — "это о чём, для чего?" → [↓](#t02)
-- **T03** `src/pages/music/lib/albums.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-13T19:22:47Z — "так, а зачем мы вообще инфу об альбомах храним тут, а не во…" → [↓](#t03)
-- **T04** `src/pages/music/lib/projects.ts`:58 — unresolved — last: @vzakharov (human) 2026-10-13T19:23:46Z — "аналогичный вопрос" → [↓](#t04)
-- **T05** `src/shared/lib/script-preference.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-13T19:35:05Z — "ох как мне это не нравится. какие варианты?" → [↓](#t05)
+- **T01** `apps/vova/public/music/minem-babay.md`:3 — unresolved — last: @vzakharov (human) 2026-10-13T19:44:26Z — "слаг тоже поменять, ничего страшного" → [↓](#t01)
+- **T02** `src/pages/music/lib/albums.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-13T19:44:54Z — "issue не надо, сессию новую создай с этой задачей" → [↓](#t02)
+- **T03** `src/shared/lib/script-preference.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-13T19:46:12Z — "> и это лишний блокирующий запрос перед отрисовкой. сколько…" → [↓](#t03)
+- **T04** `apps/vova/public/music/minem-babay.md`:18 — unresolved — last: @vzakharov (human) 2026-10-13T19:47:22Z — "думаешь эта переделка отражает то как это звучит по-разному…" → [↓](#t04)
 
 ---
 
@@ -124,11 +123,12 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `apps/vova/public/music/minem-babay.md`:3 — unresolved — last: @vzakharov (human) 2026-10-13T19:17:36Z — "так, а) а тут зачем, учитывая что транслитерация по правилам…" → [↓](#t01)
-- **T02** `src/app/styles/globals.scss`:20 — unresolved — last: @vzakharov (human) 2026-10-13T19:21:19Z — "это о чём, для чего?" → [↓](#t02)
-- **T03** `src/pages/music/lib/albums.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-13T19:22:47Z — "так, а зачем мы вообще инфу об альбомах храним тут, а не во…" → [↓](#t03)
-- **T04** `src/pages/music/lib/projects.ts`:58 — unresolved — last: @vzakharov (human) 2026-10-13T19:23:46Z — "аналогичный вопрос" → [↓](#t04)
-- **T05** `src/shared/lib/script-preference.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-13T19:35:05Z — "ох как мне это не нравится. какие варианты?" → [↓](#t05)
+_2 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `apps/vova/public/music/minem-babay.md`:3 — unresolved — last: @vzakharov (human) 2026-10-13T19:44:26Z — "слаг тоже поменять, ничего страшного" → [↓](#t01)
+- **T02** `src/pages/music/lib/albums.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-13T19:44:54Z — "issue не надо, сессию новую создай с этой задачей" → [↓](#t02)
+- **T03** `src/shared/lib/script-preference.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-13T19:46:12Z — "> и это лишний блокирующий запрос перед отрисовкой. сколько…" → [↓](#t03)
+- **T04** `apps/vova/public/music/minem-babay.md`:18 — unresolved — last: @vzakharov (human) 2026-10-13T19:47:22Z — "думаешь эта переделка отражает то как это звучит по-разному…" → [↓](#t04)
 
 <a id="t01"></a>
 
@@ -145,32 +145,19 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 так, а) а тут зачем, учитывая что транслитерация по правилам кириллицы? или это сложнее сочетать с вручную прописанной лирикой? в любом случае не настаиваю; б) давай переименуем в Babay minem заодно
 
+**@vzakharov (agent)** — 2026-10-13T19:40:26Z
+
+а) Правило транслитерации у нас только для русского, а песня на татарском, поэтому сборка требует написанную вручную латиницу. Название целиком из русских букв, так что правило дало бы то же самое. Но на остальном татарском тексте оно ошибается: ә, ө, ү, җ, ң, һ ему неизвестны, а к/г по сингармонизму становятся q/ğ (тот же раздел `tt-latn` на Заманалифе). Поэтому разрешать правилу «татарский, если буквы русские» я не стал: название вышло бы по одной системе, а текст под ним по другой.
+
+б) Переименовал: «Бабай минем» / *Babay minem*, как в припеве, а переводы — «Дедушка мой» / “Grandpa of Mine”, как в подстрочнике. Slug `minem-babay` оставил, адрес уже опубликован. 00f81a5
+
+**@vzakharov (human)** — 2026-10-13T19:44:26Z
+
+слаг тоже поменять, ничего страшного
+
 ---
 
 <a id="t02"></a>
-
-### `src/app/styles/globals.scss`:20 — unresolved
-
-```diff
-@@ -12,6 +12,13 @@
-   );
- }
- 
-+// A name in a script the reader may not read is in the HTML in both
-+// spellings, and the head script's `data-script` picks one before paint.
-+:root:not([data-script='original']) [data-spelling='original'],
-+:root[data-script='original'] [data-spelling='latin'] {
-+  display: none;
-+}
-```
-
-**@vzakharov (human)** — 2026-10-13T19:21:19Z
-
-это о чём, для чего?
-
----
-
-<a id="t03"></a>
 
 ### `src/pages/music/lib/albums.ts`:1 — unresolved
 
@@ -178,28 +165,24 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 так, а зачем мы вообще инфу об альбомах храним тут, а не во фронтамттерах их мдшек?
 
----
+**@vzakharov (agent)** — 2026-10-13T19:40:29Z
 
-<a id="t04"></a>
+Так было и до этой ветки: `MUSIC_ALBUMS` и `PROJECT_*` лежат на `main`, ветка только меняет форму названий и глоссов. Причина в том, что альбом и артист — это перечисление (`MusicAlbum`, `MusicProject` в `shared/music-catalogue`). Песня ссылается на них в своём frontmatter, и опечатка в `album:` или `project:` валит сборку ещё на проверке типов. Как файлы `.md` лежат только три альбома и одна страница артиста, у остальных записей файлов нет вовсе.
 
-### `src/pages/music/lib/projects.ts`:58 — unresolved
+Перенести во frontmatter можно, но это отдельная работа:
+1. у каждого альбома и артиста появляется свой `.md`;
+2. перечисление строится из этих файлов (кодогенерация, как у `styles:codegen`) или проверка «такой альбом существует» переезжает в схему при сборке;
+3. `albums.ts` и `projects.ts` превращаются в чтение этих файлов.
 
-```diff
-@@ -43,45 +43,43 @@ export const MUSIC_PROJECT_SLUGS: Record<MusicProject, string> = {
-… 14 lines elided …
- }
- 
- /** What each locale tells its reader about a project's name, as a song's gloss does. */
- const PROJECT_GLOSSES: Partial<
-```
+Предлагаю завести под это отдельный issue, а не растить этот PR. Согласен?
 
-**@vzakharov (human)** — 2026-10-13T19:23:46Z
+**@vzakharov (human)** — 2026-10-13T19:44:54Z
 
-аналогичный вопрос
+issue не надо, сессию новую создай с этой задачей
 
 ---
 
-<a id="t05"></a>
+<a id="t03"></a>
 
 ### `src/shared/lib/script-preference.ts`:38 — unresolved
 
@@ -227,9 +210,50 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
  ох как мне это не нравится. какие варианты?
 
+**@vzakharov (agent)** — 2026-10-13T19:40:31Z
+
+Строка такая потому, что React экранирует текст внутри `<script>`, а `dangerouslySetInnerHTML` у нас запрещён линтером. Варианты:
+
+1. **Настоящая функция + `toString()`** (рекомендую). Скрипт пишется обычной типизированной функцией в TS, тест вызывает её напрямую, а в `<head>` уходит `(${fn})(${JSON.stringify(args)})` через `dangerouslySetInnerHTML` — так устроен и `ColorSchemeScript` у Mantine. Цена: одно согласованное исключение линтера в месте использования, и функция должна быть самодостаточной, все константы приходят аргументами.
+2. **Отдельный файл `public/script-preference.js`** через `<script src>` в `<head>`. Обычный JS, но ключ хранилища и имя атрибута придётся держать в двух местах, и это лишний блокирующий запрос перед отрисовкой.
+3. **Без скрипта в `<head>`.** Страница всегда рисуется латиницей, а после гидрации переключается. Тот, кто выбрал оригинал, на каждой загрузке видит мигание латиницы.
+4. **Оставить как есть.**
+
+Скажи, какой — займусь (для первого нужно твоё «да» на исключение линтера).
+
+**@vzakharov (human)** — 2026-10-13T19:46:12Z
+
+> и это лишний блокирующий запрос перед отрисовкой.
+
+сколько по времени? по описанию звучит как элегантное
+
+---
+
+<a id="t04"></a>
+
+### `apps/vova/public/music/minem-babay.md`:18 — unresolved
+
+```diff
+@@ -12,10 +12,10 @@ seconds: 168
+ explicit: false
+ en:
+   title:
+-    translation: 'My Grandpa'
++    translation: 'Grandpa of Mine'
+ ru:
+   title:
+-    translation: 'Мой дедушка'
++    translation: 'Дедушка мой'
+```
+
+**@vzakharov (human)** — 2026-10-13T19:47:22Z
+
+думаешь эта переделка отражает то как это звучит по-разному в зависимости от порядка на татарском? если оставить как было, то что будет?
+
 ---
 
 ## Timeline (status, references, and other events)
 
 - **2026-10-13T18:51:55Z** @vzakharov renamed from «feat(vova): Latin-first spelling with the song title as the script switch» to «feat(vova): Latin-first spelling with the locale chip as the script switch».
 - **2026-10-13T19:36:19Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/148#pullrequestreview-5508750683.
+- **2026-10-13T19:47:27Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/148#pullrequestreview-5509077570.
