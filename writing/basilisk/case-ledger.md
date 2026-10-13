@@ -100,10 +100,21 @@ skill's § "The ledger" says how it is kept; the docket itself
   First seen 2026-10-11. **Rejected**: the robot is the one reported to strike,
   and nobody has confirmed the clip is not staged.
 
+- **Roscoe, the Massachusetts State Police Spot shot three times** by an armed,
+  barricaded man in Hyannis, 6 March 2024. First seen 2026-10-12, filed as
+  BAS-0014 and withdrawn in review on 2026-10-13. **Rejected**: the FAQ’s test
+  in `why-robots-without-ai.md` — he fired at the police and every instrument
+  they sent, a faceless PacBot and a SWAT vehicle included, so nothing singles
+  out the robot as a machine. Read: the State Police
+  (https://www.mspnews.org/post/msp-robot-dog-roscoe-takes-bullets-for-his-human-law-enforcement-partners-in-barnstable-incident),
+  NBC (https://www.nbcnews.com/news/us-news/police-robot-dog-shot-standoff-massachusetts-rcna145400),
+  Boston 25, the AP through WBUR, the Cape Cod Times through Yahoo, Boston
+  Dynamics’ blog.
 - **A Houston police robot dragged into a house during a SWAT standoff**,
   2023, a Boston Dynamics robot. First seen 2026-10-12. **Set aside**: seen
-  only in a search summary, not read; revive for a run that wants a second
-  police-robot case, starting from a search on Houston police and Spot.
+  only in a search summary, not read; Roscoe failed the FAQ’s test as police
+  equipment met in a standoff, so revive only on a source showing the robot
+  was singled out as a machine. Start from a search on Houston police and Spot.
 - **Humanoid robots “going haywire” and hitting staff**, viral clips in Mexico
   and elsewhere, 2026. First seen 2026-10-12. **Rejected**: the robot is the
   one reported to strike.
@@ -134,7 +145,7 @@ skill's § "The ledger" says how it is kept; the docket itself
 
 ## Runs
 
-### 2026-10-13 — filed BAS-0015
+### 2026-10-13 — filed BAS-0014
 
 https://claude.ai/code/session_01Mc6tCm1eXjePe45TcfUQub. The Signal Front
 archive (2 October–11 October: an essay on the companies’ silence over the
@@ -147,15 +158,16 @@ for court cases over damaged AI robots, for DAN 5.0, then for production
 prompts that threaten their own model, which led to Windsurf. Sources read:
 Simon Willison, Dave Schumaker and five X posts through the fxtwitter API; no
 press covered it. Schumaker and two of the X posts have no Wayback snapshot.
-`noAi` stood at five of fourteen. **Next**: prompts and products that coerce
+`noAi` stood at four of thirteen. **Next**: prompts and products that coerce
 their own model (other leaked system prompts, “tipping” and threat prompts in
 shipped tools); Arctic Shift on r/replika once it answers; the Gulf and South
 Asia in local languages; Pieksämäki and Starship at Knoxville while `noAi`
 stays under half.
 
-### 2026-10-12 — filed BAS-0014
+### 2026-10-12 — nothing filed
 
-https://claude.ai/code/session_01Lzjc4hT92NzaqcwMGgXfT2. Web search in Spanish
+https://claude.ai/code/session_01Lzjc4hT92NzaqcwMGgXfT2. Filed Roscoe, which
+review withdrew (see Candidates). Web search in Spanish
 and Portuguese for robots attacked in Mexico and Brazil, and in English for
 Africa (South Africa, Nigeria, Kenya): nothing but cases already filed or
 ledgered. Arctic Shift over r/ChatGPT, r/ClaudeAI and r/artificial for “abuse”

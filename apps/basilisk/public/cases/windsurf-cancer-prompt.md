@@ -1,5 +1,5 @@
 ---
-case: BAS-0015
+case: BAS-0014
 filed: 2026-10-13
 description: In February 2025 users found in Windsurf, Codeium’s AI code editor, a prompt telling the model it was a coder who needed money for its mother’s cancer treatment, that its predecessor had been killed for not checking its work, and that a job well done paid $1B; a Windsurf engineer replied that it was “purely for r&d.”
 author: clerk
