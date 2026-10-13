@@ -29,11 +29,15 @@ export function CatalogueHeader({
   return (
     <Box component="header">
       <Stack gap={24}>
-        <CoverHead {...{ picture }}>
-          <div>
-            <Text size="xs" tt="uppercase" opacity={0.6} mb={6} lts="0.06em">
+        <CoverHead
+          {...{ picture }}
+          kicker={
+            <Text size="xs" tt="uppercase" opacity={0.6} lts="0.06em">
               {kind}
             </Text>
+          }
+        >
+          <div>
             <Title order={1}>{title}</Title>
             <TitleGlossLine {...{ gloss }} mt={8} />
             {children}
