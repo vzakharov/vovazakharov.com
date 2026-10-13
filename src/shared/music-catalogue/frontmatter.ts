@@ -70,14 +70,6 @@ const HOOK_IN_EVERY_LOCALE_OR_NONE = [
 ] as const;
 
 /**
- * An album's or an artist's frontmatter, above the text its page sets: a key
- * per locale, as a song's.
- */
-export const catalogueFrontmatterSchema = z
-  .object(byLocale(() => hookedSchema.default({})))
-  .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
-
-/**
  * A name in one locale: absent where the locale keeps the own one, as most do.
  * A string is the name it goes by in this locale instead — `breathe` is
  * _Breathe_ and _Повелитель ветра_ — and a gloss keeps the name and explains it.
@@ -116,8 +108,6 @@ export const albumFrontmatterSchema = z
   )
   .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
 
-export type AlbumFrontmatter = z.infer<typeof albumFrontmatterSchema>;
-
 /**
  * An artist's frontmatter, a key per locale as a song's. Its slug is its file
  * name; `name` and `order` are what `pnpm music:codegen` reads.
@@ -135,8 +125,6 @@ export const artistFrontmatterSchema = z
     ),
   )
   .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
-
-export type ArtistFrontmatter = z.infer<typeof artistFrontmatterSchema>;
 
 /** A song's strings in one locale. */
 const songTextSchema = hookedSchema.extend({

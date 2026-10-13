@@ -50,14 +50,14 @@ export function albumYears(
   return first === last ? `${first}` : `${first}–${last}`;
 }
 
-/** The albums with a song in this catalogue, in registry order. */
+/** The albums with a song in this catalogue, by slug. */
 export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
   return MUSIC_ALBUM_SLUGS.filter(
     (album) => albumSongs(album, songs).length > 0,
   );
 }
 
-/** The registry dates no release, so an album is as new as its latest song in this catalogue. */
+/** An album's file dates no release, so an album is as new as its latest song in this catalogue. */
 function albumDate(album: MusicAlbum, songs: readonly SongDocument[]): number {
   return Math.max(
     ...albumSongs(album, songs).map(({ frontmatter }) =>
@@ -66,7 +66,7 @@ function albumDate(album: MusicAlbum, songs: readonly SongDocument[]): number {
   );
 }
 
-/** The albums with a song in this catalogue, newest first; a tie keeps registry order. */
+/** The albums with a song in this catalogue, newest first; a tie goes by slug. */
 export function newestAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
   return catalogueAlbums(songs).toSorted(
     (a, b) => albumDate(b, songs) - albumDate(a, songs),
@@ -88,7 +88,7 @@ function artistAlbums(
 }
 
 /**
- * The artists with a song or an album in this catalogue, in registry order. An
+ * The artists with a song or an album in this catalogue, in their `order`. An
  * album counts in either language, so every artist an album page links to has
  * a page.
  */

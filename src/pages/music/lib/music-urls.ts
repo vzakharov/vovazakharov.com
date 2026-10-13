@@ -5,8 +5,7 @@ import {
 } from '@/shared/content';
 import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
 import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
-
-import { MUSIC_PROJECT_SLUGS } from './projects';
+import { MUSIC_PROJECT_SLUGS } from '@/shared/music-catalogue/index.node-safe';
 
 /**
  * The segment that turns any catalogue page into the whole catalogue's, hidden

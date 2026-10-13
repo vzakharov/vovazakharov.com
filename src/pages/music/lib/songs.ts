@@ -8,6 +8,7 @@ import { byLocale, isLocale, type Locale } from '@/shared/i18n';
 import { type MusicAlbum, songTitle } from '@/shared/music-catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
+import { projectName } from './artists';
 import {
   ALBUMS_SEGMENT,
   artistPath,
@@ -18,7 +19,7 @@ import {
   type WithEverything,
 } from './music-urls';
 import type { PlayerTrack } from './player-state';
-import { bill, projectName } from './projects';
+import { bill } from './projects';
 import type { SongDocument, SongOnRelease } from './song-text';
 
 /** The first segments under `/music` that address a page other than a song. */

@@ -12,6 +12,7 @@ import { oneOf } from '@/shared/lib/collections';
 import {
   MUSIC_ALBUM_SLUGS,
   MUSIC_PROJECT_NAMES,
+  MUSIC_PROJECT_SLUGS,
   type MusicAlbum,
   type MusicProject,
 } from '@/shared/music-catalogue';
@@ -31,7 +32,6 @@ import {
   type WithEverything,
   type WithTab,
 } from './music-urls';
-import { MUSIC_PROJECT_SLUGS } from './projects';
 import { catalogueSongs, listSongPages } from './songs';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */

@@ -9,6 +9,7 @@ import {
 } from '@/shared/seo/index.server-only';
 
 import { albumArtist, albumCover, albumTitle } from './albums';
+import { projectName } from './artists';
 import { albumText, artistText } from './catalogue-text';
 import type {
   AlbumPageProps,
@@ -18,7 +19,6 @@ import type {
 } from './music-route-params';
 import { albumPath, artistPath, tabLabels, tabPath } from './music-urls';
 import { artistCard, MUSIC_COLLAGE, pictureCard } from './pictures';
-import { projectName } from './projects';
 import { catalogueSongs } from './songs';
 
 /**
@@ -77,7 +77,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
     name,
     listenTitle(name, page.locale),
     textHook(
-      artistText(page.artist, page.locale)?.hook ??
+      artistText(page.artist, page.locale).hook ??
         artistDescription.replace('{artist}', name),
     ),
     (locale) => artistPath(page.artist, page, locale),
@@ -94,7 +94,7 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
     name,
     listenTitle(name, page.locale),
     textHook(
-      albumText(page.album, page.locale)?.hook ??
+      albumText(page.album, page.locale).hook ??
         albumDescription
           .replace('{album}', name)
           .replace(

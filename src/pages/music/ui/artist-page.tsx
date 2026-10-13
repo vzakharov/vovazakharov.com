@@ -8,12 +8,12 @@ import { FileLink, PageShell } from '@/shared/ui';
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumTitle } from '../lib/albums';
+import { projectGloss, projectName } from '../lib/artists';
 import { albumYears, artistReleases, artistSongs } from '../lib/catalogue';
 import { artistText } from '../lib/catalogue-text';
 import type { ArtistPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
 import { releasePicture } from '../lib/pictures';
-import { projectGloss, projectName } from '../lib/projects';
 import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
@@ -85,22 +85,18 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
           facts={
             // Its own file at the far end of the line, where an album page
             // sets it.
-            text && (
-              <Group justify="flex-end">
-                <FileLink {...text.markdown}>.md</FileLink>
-              </Group>
-            )
+            <Group justify="flex-end">
+              <FileLink {...text.markdown}>.md</FileLink>
+            </Group>
           }
         >
-          <HookLine>{text?.hook}</HookLine>
+          <HookLine>{text.hook}</HookLine>
         </CatalogueHeader>
 
-        {text && (
-          <Story
-            {...pick(text, 'universe', 'story')}
-            {...pick(messages, 'makingOf', 'readMore')}
-          />
-        )}
+        <Story
+          {...pick(text, 'universe', 'story')}
+          {...pick(messages, 'makingOf', 'readMore')}
+        />
 
         <CatalogueGrid title={messages.albums} {...{ tiles }} />
 
