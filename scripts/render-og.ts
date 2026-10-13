@@ -50,6 +50,7 @@ import {
   artistCollageCovers,
   MUSIC_COLLAGE,
   musicCollageCovers,
+  PODCAST_COVER,
   RADIO_CARD,
 } from '@/pages/music/lib/pictures';
 
@@ -63,7 +64,11 @@ import {
 } from './lib/content-tree.ts';
 import { cvCard } from './lib/cv-card.ts';
 import type { DocketCase } from './lib/docket.ts';
-import { type CollageBand, musicCollage } from './lib/music-collage.ts';
+import {
+  type CollageBand,
+  type CollageShape,
+  musicCollage,
+} from './lib/music-collage.ts';
 import {
   CANVAS_BACKGROUND,
   type Card,
@@ -254,9 +259,12 @@ function cvCards(): Card[] {
 function collageCard(
   covers: readonly string[],
   card: string,
-  band?: CollageBand,
+  options?: { band?: CollageBand; shape?: CollageShape },
 ): Card {
-  return generatedCard(musicCollage(covers, band), path.join(PUBLIC_DIR, card));
+  return generatedCard(
+    musicCollage(covers, options),
+    path.join(PUBLIC_DIR, card),
+  );
 }
 
 /** English only, one card for both languages, as every collage is. */
@@ -267,15 +275,17 @@ function radioBand(): CollageBand {
 }
 
 /**
- * The index's collage, the radio's — the same covers under its band — and
- * each artist's that has one, at the addresses their pages' metadata points to.
+ * The index's collage, the radio's — the same covers under its band — the
+ * songs feeds' square cut of it, and each artist's that has one, at the
+ * addresses their pages' metadata and the feeds point to.
  */
 function musicCards(): Card[] {
   if (!CARDS_MUSIC) return [];
 
   return [
     collageCard(musicCollageCovers(), MUSIC_COLLAGE),
-    collageCard(musicCollageCovers(), RADIO_CARD, radioBand()),
+    collageCard(musicCollageCovers(), RADIO_CARD, { band: radioBand() }),
+    collageCard(musicCollageCovers(), PODCAST_COVER, { shape: 'square' }),
     ...MUSIC_PROJECT_NAMES.flatMap((artist) => {
       const covers = artistCollageCovers(artist);
 
@@ -306,7 +316,8 @@ await runRenderJob(
     label: 'Open Graph card',
     manifestName: MANIFEST_NAME,
     isOutput: (name) =>
-      OG_CARD_SUFFIXES.some((suffix) => name.endsWith(suffix)),
+      OG_CARD_SUFFIXES.some((suffix) => name.endsWith(suffix)) ||
+      name === path.basename(PODCAST_COVER),
     // A site card and the music index's sit at the root of `public/`, which
     // the collection walk only reaches where the collection is rooted there.
     manifestDirs: [

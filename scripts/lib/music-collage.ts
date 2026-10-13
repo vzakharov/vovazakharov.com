@@ -1,7 +1,7 @@
 /**
- * The music section's social card, covers scattered at different sizes and
- * angles — with no text but the radio's band — as a page for `og-render.ts` to
- * screenshot.
+ * The music section's social card and its podcast cover, covers scattered at
+ * different sizes and angles — with no text but the radio's band — as a page for
+ * `og-render.ts` to screenshot.
  */
 
 import fs from 'node:fs';
@@ -9,7 +9,7 @@ import path from 'node:path';
 
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
 import { PUBLIC_DIR } from '@/shared/content/collections';
-import type { Titled } from '@/shared/typings';
+import type { Sized, Titled } from '@/shared/typings';
 
 import { COLLAGE_SIZE } from '@/pages/music/lib/pictures';
 
@@ -21,29 +21,58 @@ export type CollageBand = Titled & { line: string };
 /** A cover's place on the canvas: its centre, the length of its edge, and its tilt. */
 type Slot = { cx: number; cy: number; edge: number; degrees: number };
 
+/** A canvas and where the covers fall on it. */
+type Layout = { canvas: Sized; slots: readonly Slot[] };
+
 /**
  * Hand-tuned rather than seeded, so the composition is judged once, not
  * re-rolled whenever a release reshuffles it. Any prefix of two or more must
  * compose: the first slot, the largest, is the newest cover's, and each later
  * one sits under those before it in the emptiest stretch they leave. Canvas units.
  */
-const SLOTS: readonly Slot[] = [
-  { cx: 470, cy: 330, edge: 400, degrees: -4 },
-  { cx: 830, cy: 280, edge: 330, degrees: 6 },
-  { cx: 160, cy: 300, edge: 300, degrees: -8 },
-  { cx: 1120, cy: 520, edge: 250, degrees: -5 },
-  { cx: 1110, cy: 90, edge: 230, degrees: 9 },
-  { cx: 60, cy: 580, edge: 240, degrees: 7 },
-  { cx: 330, cy: 20, edge: 220, degrees: 5 },
-  { cx: 720, cy: 610, edge: 230, degrees: -7 },
-  { cx: 30, cy: 60, edge: 200, degrees: -10 },
-  { cx: 700, cy: 30, edge: 190, degrees: -3 },
-];
+const LAYOUTS = {
+  /** The social card. */
+  card: {
+    canvas: CANVAS,
+    slots: [
+      { cx: 470, cy: 330, edge: 400, degrees: -4 },
+      { cx: 830, cy: 280, edge: 330, degrees: 6 },
+      { cx: 160, cy: 300, edge: 300, degrees: -8 },
+      { cx: 1120, cy: 520, edge: 250, degrees: -5 },
+      { cx: 1110, cy: 90, edge: 230, degrees: 9 },
+      { cx: 60, cy: 580, edge: 240, degrees: 7 },
+      { cx: 330, cy: 20, edge: 220, degrees: 5 },
+      { cx: 720, cy: 610, edge: 230, degrees: -7 },
+      { cx: 30, cy: 60, edge: 200, degrees: -10 },
+      { cx: 700, cy: 30, edge: 190, degrees: -3 },
+    ],
+  },
+  /** The podcast cover, which Apple wants square and 1400–3000 px a side. */
+  square: {
+    canvas: { width: 1500, height: 1500 },
+    slots: [
+      { cx: 560, cy: 560, edge: 620, degrees: -4 },
+      { cx: 1130, cy: 470, edge: 520, degrees: 6 },
+      { cx: 1060, cy: 1080, edge: 500, degrees: -6 },
+      { cx: 420, cy: 1150, edge: 480, degrees: 5 },
+      { cx: 130, cy: 420, edge: 380, degrees: -9 },
+      { cx: 1400, cy: 1300, edge: 360, degrees: 8 },
+      { cx: 760, cy: 1400, edge: 340, degrees: -7 },
+      { cx: 1420, cy: 90, edge: 320, degrees: -5 },
+      { cx: 110, cy: 1400, edge: 330, degrees: 8 },
+      { cx: 720, cy: 60, edge: 300, degrees: 4 },
+    ],
+  },
+} as const satisfies Record<string, Layout>;
 
-if (SLOTS.length !== COLLAGE_SIZE) {
-  throw new Error(
-    `music-collage.ts has ${SLOTS.length} slots for collages of up to ${COLLAGE_SIZE} covers.`,
-  );
+export type CollageShape = keyof typeof LAYOUTS;
+
+for (const [shape, { slots }] of Object.entries(LAYOUTS)) {
+  if (slots.length !== COLLAGE_SIZE) {
+    throw new Error(
+      `music-collage.ts has ${slots.length} ${shape} slots for collages of up to ${COLLAGE_SIZE} covers.`,
+    );
+  }
 }
 
 function coverStyle({ cx, cy, edge, degrees }: Slot, depth: number): string {
@@ -63,19 +92,20 @@ function coverStyle({ cx, cy, edge, degrees }: Slot, depth: number): string {
  */
 export function musicCollage(
   covers: readonly string[],
-  band?: CollageBand,
+  { band, shape = 'card' }: { band?: CollageBand; shape?: CollageShape } = {},
 ): StagedPage {
+  const { canvas, slots }: Layout = LAYOUTS[shape];
   const bandHtml =
     band === undefined
       ? ''
       : `    <div class="band"><h1>${escapeHtml(band.title)}</h1><p>${escapeHtml(band.line)}</p></div>\n`;
   const images = covers.flatMap((cover, index) => {
-    const slot = SLOTS[index];
+    const slot = slots[index];
 
     return slot === undefined
       ? []
       : [
-          `    <img src="${path.basename(cover)}" alt="" style="${coverStyle(slot, SLOTS.length - index)}" />`,
+          `    <img src="${path.basename(cover)}" alt="" style="${coverStyle(slot, slots.length - index)}" />`,
         ];
   });
 
@@ -89,8 +119,8 @@ export function musicCollage(
       html, body { margin: 0; padding: 0; }
       body {
         position: relative;
-        width: ${CANVAS.width}px;
-        height: ${CANVAS.height}px;
+        width: ${canvas.width}px;
+        height: ${canvas.height}px;
         overflow: hidden;
         background: ${INK};
       }
@@ -104,7 +134,7 @@ export function musicCollage(
         left: 0;
         right: 0;
         top: 380px;
-        z-index: ${SLOTS.length + 1};
+        z-index: ${slots.length + 1};
         padding: 26px 64px 30px;
         background: rgb(11 11 11 / 0.84);
         color: #ffffff;
@@ -125,5 +155,6 @@ ${bandHtml}  </body>
         fs.readFileSync(path.join(PUBLIC_DIR, cover)),
       ]),
     ),
+    pixels: { width: canvas.width * SCALE, height: canvas.height * SCALE },
   };
 }
