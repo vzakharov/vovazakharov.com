@@ -93,6 +93,29 @@ straight from the branch once the songs are open, ahead of the merge.
   squash subject stays `feat:` — basilisk's served reflections and the shared
   `src/` both change — pending Vova's word.
 
+## This bite
+
+The seventh review, every thread answered on GitHub:
+
+- **`artist`, a fixed-senior role**, in this repo's `rates.json`: an `artist`
+  part at any other grade is refused, and the notice says so. How it meets
+  muthur#185's version is decided at that sync. Session 738aa3b8's row books
+  Майя's answers as `artist`.
+- **Reflections are «отклики»**, everywhere a rule or skill names them.
+  `any-reflection.md` becomes `persona-reflections.md`; a reflection file is
+  `<slug>.<persona>.reflections.md` (`maya`, `clerk`), and a reflector reads
+  its own persona's past ones as its own, another's only to consult. A small
+  correction may be made in place, the reflector judging what is small.
+- **A companion file is not the site as a product**: the squash-message rule
+  says reflections served beside a site's documents do not make the change
+  that site's. The subject becomes `feat(vova):` unless the shared `src/`
+  change reaches another site.
+- **GENERATED's artist story**: the four line edits, en and ru; the Jukebox
+  album cycles move to a note under `writing/`.
+- **The vovas-music repositories get a rule here**: what a song's repository
+  holds, where a change to a mix or master is made, and how a new song gets
+  one.
+
 ## Rest of the elephant
 
 - Whatever the operator adds as the work goes.
