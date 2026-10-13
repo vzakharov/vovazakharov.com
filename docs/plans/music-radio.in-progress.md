@@ -4,7 +4,9 @@
 
 **Done:** § "Changes" 1–3. `lib/station.ts` (+ tests): `stationAt`, `nextStation`, `cycleOrder`'s boundary swap. `lib/player-state.ts` (+ tests): `radio`, the `tune` and `release` actions, every action but `tune` and a `playing: true` report releasing. `lib/use-station.ts`, wired into `use-audio-player.ts`: `controls.tuneIn`, `tryTuneIn` (the landing attempt, dispatching nothing until `play()` resolves), `onAir(nowMs)`, `release`; the owed seek on `loadedmetadata`, drift catch-up on `playing`, the handover on `ended`; seeks release; the end-of-track `pause` and an `AbortError` no longer release.
 
-**Left:** § "Changes" 4–9, plus § "The operator's additions" below — mock up the cover (1 vs 1b, phone and wide) first and let the operator pick before building the page. Two calls for the page:
+**Also done:** the cover mockups (variant 1 picked), the `radio` segment and `radioPath`, the catalogue's words. The route's parse, static params and sitemap entries land with the page, `music-route.tsx`'s switch being exhaustive.
+
+**Left:** § "Changes" 4–9, plus § "The operator's additions" below. Two calls for the page:
 
 - **The landing attempt runs only when nothing is in the player** (`current === undefined`). With a track loaded, its `src` swap would race the source effect and abort its own `play()`; a reader arriving with music paused gets **Tune in**.
 - **Following needs no radio-path check**: `useFollow` should start as `!state.radio` at the bar's mount. A bar first mounting with the radio on was tuned from the launcher or the radio page, both of which keep the reader where they are; once mounted, the reader's own navigation already sets following as today. Without it, the launcher's tune on `/music` races its own `router.push` to `/music/radio`.
@@ -77,10 +79,10 @@ A static export serves it like any other page, because nothing on it differs bet
 > 4- у всего радио должно быть очертание, не сразу понял, но на мокапе они как будто бы просто посреди страницы. Не слишком жирно-вычурно, но обозначить
 > 5- в пояснялке про что такое радио -- добавить динамически вычисляемую (кодгеном, в отдельном модуле?) total duration всех-всех сонг, в формате часы:минуты:секунды
 
-- **Cover**: the playing song's cover beside its title and billing, about their height, opening `CoverZoom` on a press — or, the alternative 1b, a larger cover left of the block from the heading to the scale. Mockups of both, phone and wide, go into `radio-mockups.html` before the page is built; the operator picks.
+- **Cover**: the playing song's cover beside its title, billing and album line, as tall as the three, opening `CoverZoom` on a press — variant 1 in `radio-mockups.html`, the operator's pick («вариант 1 норм»), at phone and wide alike.
 - **from _album_** under the billing, where the song is on one, as the song page's line says it.
 - **Song, artist and album are links** to their pages. Those are the reader's own navigation, so the bar follows to a song's page as **Read story** does.
-- **The set has an outline**: a thin border and radius, as the section's cards have — marked, not decorated.
+- **The set has an outline**: a thin border and radius, as the section's cards have — marked, not decorated — with room inside it («немного добавить воздуха внутри»): about 40px above and 36px at the sides on a wide screen, 32px and 22px on a phone, the mockup's `.boxed`.
 - **The [i] note states the cycle's length** as `h:mm:ss` — the sum of the public catalogue's `seconds`, the radio's whole round. The radio page is a server component rendered at build, so the sum is computed there from `listSongs()`, with no codegen step: a static export already bakes it in at every deploy, which is when the catalogue changes.
 
 ## The hint
