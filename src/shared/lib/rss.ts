@@ -4,7 +4,12 @@ import type { Described, Summarized, Titled } from '@/shared/typings';
 type RssEntry = Titled & { link: string };
 
 /** An item's blurb is optional, as RSS has it: a song may have none yet. */
-export type RssItem = RssEntry & Partial<Described> & { published: Date };
+export type RssItem = RssEntry &
+  Partial<Described> & {
+    published: Date;
+    /** The body as HTML, which a reader shows in its reading pane. */
+    content?: string;
+  };
 
 export type RssChannel = RssEntry &
   Summarized & {
@@ -31,7 +36,18 @@ function element(name: string, text: string): string {
   return `<${name}>${escapeXml(text)}</${name}>`;
 }
 
-function renderItem({ title, link, description, published }: RssItem): string {
+/** A `]]>` inside the text would close the section early, so it is split across two. */
+function cdata(text: string): string {
+  return `<![CDATA[${text.replaceAll(']]>', ']]]]><![CDATA[>')}]]>`;
+}
+
+function renderItem({
+  title,
+  link,
+  description,
+  published,
+  content,
+}: RssItem): string {
   return [
     '<item>',
     element('title', title),
@@ -39,6 +55,9 @@ function renderItem({ title, link, description, published }: RssItem): string {
     `<guid isPermaLink="true">${escapeXml(link)}</guid>`,
     element('pubDate', published.toUTCString()),
     ...(description === undefined ? [] : [element('description', description)]),
+    ...(content === undefined
+      ? []
+      : [`<content:encoded>${cdata(content)}</content:encoded>`]),
     '</item>',
   ].join('');
 }
@@ -59,7 +78,7 @@ export function renderRss({
 
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+    '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">',
     '<channel>',
     element('title', title),
     element('link', link),

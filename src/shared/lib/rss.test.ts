@@ -62,6 +62,28 @@ describe('renderRss', () => {
     );
   });
 
+  it('carries the body in content:encoded, whatever its text', () => {
+    const rss = renderRss({
+      ...channel,
+      items: [
+        {
+          title: 'Body',
+          link: 'https://example.com/body',
+          description: 'blurb',
+          published: PUBLISHED,
+          content: '<p>a ]]> b</p>',
+        },
+      ],
+    });
+
+    assert.match(rss, /xmlns:content="http:\/\/purl\.org\/rss\/1\.0\/modules\/content\/"/);
+    assert.match(rss, /<description>blurb<\/description>/);
+    assert.match(
+      rss,
+      /<content:encoded><!\[CDATA\[<p>a \]\]\]\]><!\[CDATA\[> b<\/p>\]\]><\/content:encoded>/,
+    );
+  });
+
   it('leaves the build date out of an empty feed', () => {
     assert.doesNotMatch(renderRss({ ...channel, items: [] }), /lastBuildDate/);
   });
