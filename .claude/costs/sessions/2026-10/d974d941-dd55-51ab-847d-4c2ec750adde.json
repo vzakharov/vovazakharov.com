@@ -1,12 +1,12 @@
 {
   "estimate": {
-    "at": "2026-10-13T21:19:56.914Z",
+    "at": "2026-10-13T21:21:30.604Z",
     "parts": [
       {
-        "hours": 0.5,
+        "hours": 3.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "explaining why a squash-merged parent PR still shows in a stacked PR's diff takes knowing how GitHub picks the merge base, not just reading the diff"
+        "comment": "reconciling a registry-to-frontmatter refactor with three feature PRs that extended the same registries takes judgement per field about where it now lives, not a mechanical pick of sides"
       }
     ],
     "comment": null
@@ -15,32 +15,34 @@
   "branch": "claude/music-catalogue-frontmatter-q4h7ze",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/from-branch claude/music-catalogue-frontmatter-q4h7ze",
-  "prs": [],
+  "prs": [
+    150
+  ],
   "url": "https://claude.ai/code/session_01U7CgBgRDbig5DY4dAdXJDb",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-13T21:19:15.493Z",
-  "lastResponseAt": "2026-10-13T21:20:11.109Z",
+  "lastResponseAt": "2026-10-13T21:36:30.015Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 16,
+    "inputTokens": 124,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 58385,
-    "cacheReadTokens": 749432,
-    "outputTokens": 3477,
-    "thinkingTokens": 949,
-    "responses": 8,
-    "costUsd": 0.6865703999999999
+    "cacheWrite1hTokens": 155111,
+    "cacheReadTokens": 9535768,
+    "outputTokens": 27382,
+    "thinkingTokens": 7244,
+    "responses": 62,
+    "costUsd": 3.696177599999999
   },
   "ownTurns": {
-    "inputTokens": 16,
+    "inputTokens": 124,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 58385,
-    "cacheReadTokens": 749432,
-    "outputTokens": 3477,
-    "thinkingTokens": 949,
-    "responses": 8,
-    "costUsd": 0.6865703999999999
+    "cacheWrite1hTokens": 155111,
+    "cacheReadTokens": 9535768,
+    "outputTokens": 27382,
+    "thinkingTokens": 7244,
+    "responses": 62,
+    "costUsd": 3.696177599999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -54,14 +56,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 16,
+      "inputTokens": 124,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 58385,
-      "cacheReadTokens": 749432,
-      "outputTokens": 3477,
-      "thinkingTokens": 949,
-      "responses": 8,
-      "costUsd": 0.6865703999999999
+      "cacheWrite1hTokens": 155111,
+      "cacheReadTokens": 9535768,
+      "outputTokens": 27382,
+      "thinkingTokens": 7244,
+      "responses": 62,
+      "costUsd": 3.696177599999999
     }
   },
   "warnings": [],
