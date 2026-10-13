@@ -12,13 +12,17 @@ export const SCRIPT_STORAGE_KEY = 'script';
 /** The `<html>` attribute the stylesheet picks a spelling by, present only as `original`. */
 export const SCRIPT_ATTRIBUTE = 'data-script';
 
-/** The browser language whose readers start in the original: they read the Cyrillic most names here are in. */
-const ORIGINAL_READERS = 'ru';
-
-/** The spelling a reader who never chose starts in, by the browser's languages. */
+/**
+ * The spelling a reader who never chose starts in: the original for a browser
+ * that reads Russian, the Cyrillic most names here are in, else Latin.
+ *
+ * It and `markScriptPreference` reach the page as their own source text, so
+ * each reads nothing but its parameters and browser globals: a module binding
+ * either closed over would be undefined there.
+ */
 export function defaultScript(languages: readonly string[]): Script {
   return languages.some(
-    (language) => language.slice(0, 2).toLowerCase() === ORIGINAL_READERS,
+    (language) => language.slice(0, 2).toLowerCase() === 'ru',
   )
     ? 'original'
     : 'latin';
@@ -27,16 +31,12 @@ export function defaultScript(languages: readonly string[]): Script {
 /**
  * Marks `<html>` before the body paints, as Mantine's `ColorSchemeScript`
  * marks the colour scheme, so the first paint already shows the stored
- * spelling, else `defaultScript`'s, which it restates.
- *
- * It reaches the page as its own source text, so it reads nothing but its
- * parameters and browser globals: a module binding it closed over would be
- * undefined there.
+ * spelling, else the default's.
  */
 function markScriptPreference(
   storageKey: string,
   attribute: string,
-  originalReaders: string,
+  defaultFor: typeof defaultScript,
 ) {
   let stored: string | null = null;
 
@@ -46,28 +46,16 @@ function markScriptPreference(
     // Storage refused: the browser's languages decide, as for a first visit.
   }
 
-  const script =
-    stored ??
-    (navigator.languages.some(
-      (language) => language.slice(0, 2).toLowerCase() === originalReaders,
-    )
-      ? 'original'
-      : 'latin');
-
-  if (script === 'original') {
-    document.documentElement.setAttribute(attribute, script);
+  if ((stored ?? defaultFor(navigator.languages)) === 'original') {
+    document.documentElement.setAttribute(attribute, 'original');
   }
 }
 
 /**
- * `markScriptPreference` called with this module's constants. The root layout
- * inlines it in `<head>`, which is why the client hook that reads the same
- * choice lives in a module of its own.
+ * `markScriptPreference` called with this module's constants and
+ * `defaultScript`. The root layout inlines it in `<head>`, which is why the
+ * client hook that reads the same choice lives in a module of its own.
  */
-export const SCRIPT_PREFERENCE_SCRIPT = `(${markScriptPreference.toString()})(${[
+export const SCRIPT_PREFERENCE_SCRIPT = `(${markScriptPreference.toString()})(${JSON.stringify(
   SCRIPT_STORAGE_KEY,
-  SCRIPT_ATTRIBUTE,
-  ORIGINAL_READERS,
-]
-  .map((argument) => JSON.stringify(argument))
-  .join(',')})`;
+)},${JSON.stringify(SCRIPT_ATTRIBUTE)},${defaultScript.toString()})`;
