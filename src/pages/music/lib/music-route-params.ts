@@ -26,6 +26,7 @@ import {
   EVERYTHING_SEGMENT,
   musicPath,
   songPath,
+  SONGS_SEGMENT,
   tabBySegment,
   tabPath,
   type WithEverything,
@@ -70,9 +71,10 @@ function artistBySlug(slug: string): MusicProject {
 /**
  * A parse rather than a cast, failing `next build` on an address no reading
  * covers. The locale is the last segment wherever it is present, and the whole
- * catalogue's addresses are the public ones behind `all/`. `listSongPages`
- * refuses a song slug that is a locale or one of the section's own first
- * segments, so no song can steal an index's or an artist's URL.
+ * catalogue's addresses are the public ones behind `all/`. A song sits under
+ * `songs/`, as an artist and an album sit under theirs, and `listSongPages`
+ * refuses a song slug that is a locale, so no song can steal the songs tab's
+ * URL in a language.
  */
 export function parseMusicSegments({
   slugAndLocale = [],
@@ -99,17 +101,19 @@ export function parseMusicSegments({
         ...catalogue,
       };
     }
+    if (kind === SONGS_SEGMENT && !everything) {
+      return { page: 'song', slug, locale };
+    }
   }
 
   if (slug === undefined) {
     const tab = tabBySegment(kind);
 
     if (tab !== undefined) return { page: 'index', tab, ...catalogue };
-    if (!everything) return { page: 'song', slug: kind, locale };
   }
 
   throw new Error(
-    `/music/${slugAndLocale.join('/')} is no address of the music section.`,
+    `${musicPath()}/${slugAndLocale.join('/')} is no address of the music section.`,
   );
 }
 

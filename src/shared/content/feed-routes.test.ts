@@ -37,8 +37,8 @@ describe('feedRoutes', () => {
 
   it('gives a localized collection one feed per language', () => {
     assert.deepEqual(feedRoutes('music', LOCALES), [
-      { route: '/music/en/feed.xml', locale: 'en' },
-      { route: '/music/ru/feed.xml', locale: 'ru' },
+      { route: '/music/songs/en/feed.xml', locale: 'en' },
+      { route: '/music/songs/ru/feed.xml', locale: 'ru' },
     ]);
   });
 

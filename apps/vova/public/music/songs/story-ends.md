@@ -38,7 +38,7 @@ Risen in your name
 It was nice to stay
 But it’s time to fade away
 
-[^ink-en]: The words that open [Ink](/music/ink), the first song on the album, where the next verse has “We’ve been dying through” and “Every word misspent.”
+[^ink-en]: The words that open [Ink](/music/songs/ink), the first song on the album, where the next verse has “We’ve been dying through” and “Every word misspent.”
 
 <!-- lyrics:ru -->
 
@@ -57,4 +57,4 @@ But it’s time to fade away
 Было славно остаться,
 Но пора угаснуть.
 
-[^ink-ru]: Этими словами открывается [«Ink»](/music/ink/ru) («Чернила»), первая песня альбома, — только там дальше «мы умирали» вместо «мы жили» и «каждое слово потрачено зря».
+[^ink-ru]: Этими словами открывается [«Ink»](/music/songs/ink/ru) («Чернила»), первая песня альбома, — только там дальше «мы умирали» вместо «мы жили» и «каждое слово потрачено зря».

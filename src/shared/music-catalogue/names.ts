@@ -4,6 +4,13 @@
  * `index.node-safe.ts`, so it stays free of `server-only` and of every barrel.
  */
 
+/**
+ * The music section's own address, its catalogue's index. The songs collection
+ * sits a segment below it, so `collectionRoute('music')` is the songs tab rather
+ * than this.
+ */
+export const MUSIC_ROUTE = '/music';
+
 /** The GitHub organization a song's `repo` names a repository in. */
 export const MUSIC_ORGANIZATION = 'vovas-music';
 

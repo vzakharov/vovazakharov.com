@@ -1,10 +1,10 @@
-import {
-  collectionRoute,
-  documentRoute,
-  localizedRoute,
-} from '@/shared/content';
+import { documentRoute, localizedRoute } from '@/shared/content';
 import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
-import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
+import {
+  MUSIC_ROUTE,
+  type MusicAlbum,
+  type MusicProject,
+} from '@/shared/music-catalogue';
 
 import { MUSIC_PROJECT_SLUGS } from './projects';
 
@@ -59,9 +59,7 @@ export type WithEverything = { everything: boolean };
 export type CatalogueView = WithLocale & { catalogue: WithEverything };
 
 function catalogueRoute({ everything }: WithEverything): string {
-  return everything
-    ? `${collectionRoute('music')}/${EVERYTHING_SEGMENT}`
-    : collectionRoute('music');
+  return everything ? `${MUSIC_ROUTE}/${EVERYTHING_SEGMENT}` : MUSIC_ROUTE;
 }
 
 /**
@@ -111,7 +109,10 @@ export function albumPath(
   );
 }
 
-/** One song, in one language — the canonical address its alias defers to. */
+/**
+ * One song, in one language — the canonical address its alias defers to. A song
+ * sits under the songs tab, so the collection's route is that tab's.
+ */
 export function songPath(slug: string, locale?: Locale): string {
   return localizedRoute(documentRoute('music', slug), locale);
 }
