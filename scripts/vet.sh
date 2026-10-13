@@ -29,20 +29,22 @@ if ! pnpm build >tmp/vet-build.log 2>&1; then
   status=1
 fi
 
-# The one check that repairs what it finds, and it reports by failing: the
-# generator exits non-zero exactly when it had to write, so a stale partial is
-# both fixed and named in one pass and `git diff` is the report. A generated
-# file has one correct content, so the rewrite is never the judgment call that
-# keeps `eslint --fix` out of vet.
+# The checks that repair what they find, and report by failing: each generator
+# exits non-zero exactly when it had to write, so a stale file is both fixed
+# and named in one pass and `git diff` is the report. A generated file has one
+# correct content, so the rewrite is never the judgment call that keeps
+# `eslint --fix` out of vet.
 #
-# It runs alone for the mirror image of the build's reason: it *writes* two
-# `.scss` files that the fan-out's stylelint and Prettier glob, and would hand
+# They run alone for the mirror image of the build's reason: they *write* files
+# that the fan-out's stylelint, Prettier and type check glob, and would hand
 # one of them over truncated.
-if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
-  sed 's/^/[styles] /' tmp/vet-styles.log
-  printf '[styles] full log: tmp/vet-styles.log\n'
-  status=1
-fi
+for codegen in styles music; do
+  if ! pnpm "$codegen:codegen" >"tmp/vet-$codegen.log" 2>&1; then
+    sed "s/^/[$codegen] /" "tmp/vet-$codegen.log"
+    printf '[%s] full log: tmp/vet-%s.log\n' "$codegen" "$codegen"
+    status=1
+  fi
+done
 
 # None of these writes anything another one reads, so they overlap freely.
 # The Open Graph check is one entry per site, not one script running both: pnpm
