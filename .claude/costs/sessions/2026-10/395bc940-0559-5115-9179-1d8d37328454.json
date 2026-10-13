@@ -1,30 +1,24 @@
 {
   "estimate": {
-    "at": "2026-10-13T10:04:30.347Z",
+    "at": "2026-10-13T10:14:22.516Z",
     "parts": [
-      {
-        "hours": 5.0,
-        "grade": "senior",
-        "role": "developer",
-        "comment": "the page's live dial, landing autoplay and follow behaviour sit on the same media timing and need the same care"
-      },
-      {
-        "hours": 2.0,
-        "grade": "middle",
-        "role": "developer",
-        "comment": "route, sitemap, launch buttons, messages and the link card follow patterns the section already has"
-      },
       {
         "hours": 1.0,
         "grade": "middle",
         "role": "designer",
-        "comment": "the cover placement wants mockups at phone and wide widths for the operator to pick from"
+        "comment": "the cover placement wanted mockups at phone and wide widths, re-tuned once on the operator's eye"
       },
       {
-        "hours": 1.5,
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the bar's switch and its hint sit on the radio's release and follow semantics"
+      },
+      {
+        "hours": 1.0,
         "grade": "middle",
-        "role": "qa",
-        "comment": "sync has to be checked on two real devices side by side, plus the phone-width bar"
+        "role": "developer",
+        "comment": "the address, messages in two languages and server-to-client plumbing follow the section's patterns"
       }
     ],
     "comment": null
@@ -39,28 +33,28 @@
   "url": "https://claude.ai/code/session_01Lc9NEDDEfGjytEaBPsM1ur",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-13T10:04:07.561Z",
-  "lastResponseAt": "2026-10-13T10:09:37.110Z",
+  "lastResponseAt": "2026-10-13T10:14:26.251Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 106,
+    "inputTokens": 134,
     "cacheWrite5mTokens": 78003,
-    "cacheWrite1hTokens": 137069,
-    "cacheReadTokens": 7068916,
-    "outputTokens": 18268,
-    "thinkingTokens": 4148,
-    "responses": 52,
-    "costUsd": 3.2661342
+    "cacheWrite1hTokens": 152878,
+    "cacheReadTokens": 9897974,
+    "outputTokens": 30810,
+    "thinkingTokens": 6946,
+    "responses": 66,
+    "costUsd": 4.2093698
   },
   "ownTurns": {
-    "inputTokens": 86,
+    "inputTokens": 114,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 137069,
-    "cacheReadTokens": 6411270,
-    "outputTokens": 18160,
-    "thinkingTokens": 4148,
-    "responses": 42,
-    "costUsd": 2.7423500000000005
+    "cacheWrite1hTokens": 152878,
+    "cacheReadTokens": 9240328,
+    "outputTokens": 30702,
+    "thinkingTokens": 6946,
+    "responses": 56,
+    "costUsd": 3.6855856
   },
   "subagents": {
     "inputTokens": 20,
@@ -74,14 +68,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 106,
+      "inputTokens": 134,
       "cacheWrite5mTokens": 78003,
-      "cacheWrite1hTokens": 137069,
-      "cacheReadTokens": 7068916,
-      "outputTokens": 18268,
-      "thinkingTokens": 4148,
-      "responses": 52,
-      "costUsd": 3.2661342
+      "cacheWrite1hTokens": 152878,
+      "cacheReadTokens": 9897974,
+      "outputTokens": 30810,
+      "thinkingTokens": 6946,
+      "responses": 66,
+      "costUsd": 4.2093698
     }
   },
   "warnings": [
