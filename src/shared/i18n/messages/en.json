@@ -275,6 +275,19 @@
     },
     "intro": "Been writing music since my preteens, and with AI since way before Suno — back in the OpenAI Jukebox days. AI to me is neither a tool nor a replacement but a brilliant bandmate. Most of it starts from my own humming, piano or MIDIs, so it’s “mine” in most copyright senses.",
     "shuffleAll": "Shuffle all",
+    "radio": "Radio",
+    "radioPage": {
+      "title": "Vova’s Radio",
+      "metaDescription": "Vova’s songs on a radio with no server: the same song, at the same second, for everyone listening.",
+      "pitch": "Same song, same second, for everyone listening.",
+      "about": "There is no server behind this radio. Your device works out what is on air from its clock and the list of songs alone: they play back to back, in an order shuffled afresh for every round, and every device doing the same sum at the same moment lands on the same song at the same second. One round of the whole catalogue lasts {length}.",
+      "aboutLabel": "How it works",
+      "nowPlaying": "Now playing",
+      "tuneIn": "Tune in",
+      "tuneBackIn": "Tune back in",
+      "readMore": "Read story, lyrics & more",
+      "keepsPlaying": "Don’t worry, this won’t stop the playback"
+    },
     "unfiled": "Unfiled",
     "language": {
       "ru": "Russian",
@@ -323,6 +336,9 @@
       "pause": "Pause",
       "next": "Next track",
       "shuffle": "Shuffle",
+      "radio": "Radio",
+      "radioHint": "Same song, same second, for everyone on the {radio}.",
+      "radioHintLink": "radio",
       "seek": "Seek",
       "timeToggle": "Switch between the song’s length and the time left"
     }
