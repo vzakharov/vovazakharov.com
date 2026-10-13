@@ -1,4 +1,4 @@
-import { Badge, Box, Group, Stack, Text } from '@mantine/core';
+import { Box, Stack } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
@@ -64,6 +64,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
             messages.size,
           )}
           markdown={text?.markdown}
+          wip={albumWip(album) ? messages.wip.note : undefined}
         >
           <FactLine
             facts={{
@@ -79,16 +80,6 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
             mt={12}
           />
           <HookLine>{text?.hook}</HookLine>
-          {albumWip(album) && (
-            <Group gap={8} mt={12} wrap="nowrap" align="baseline">
-              <Badge variant="outline" color="gray" size="sm" radius="sm">
-                {messages.wip.mark}
-              </Badge>
-              <Text size="sm" opacity={0.7}>
-                {messages.wip.note}
-              </Text>
-            </Group>
-          )}
           {/* The same tracks the list below plays, so both drive one queue. */}
           <Box mt={20}>
             <AlbumPlayButton tracks={queue} />

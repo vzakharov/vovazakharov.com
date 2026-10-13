@@ -8,6 +8,7 @@ import type { CatalogueText } from '../lib/catalogue-text';
 import { CoverHead, type CoverHeadProps } from './cover-head';
 import { FactLine } from './fact-line';
 import { TitleGlossLine } from './title-gloss-line';
+import { WipMark } from './wip-mark';
 
 export type CatalogueHeaderProps = Titled &
   WithOptionalChildren &
@@ -18,6 +19,8 @@ export type CatalogueHeaderProps = Titled &
     gloss: TitleGloss;
     /** On the line across the header's foot, under the name and its art both. */
     size: readonly string[];
+    /** Why the release may still change, shown on the mark beside its kind. */
+    wip?: string;
   };
 
 /** An artist's or an album's name, what it is, and the lines under it. */
@@ -28,6 +31,7 @@ export function CatalogueHeader({
   picture,
   markdown,
   size,
+  wip,
   children,
 }: CatalogueHeaderProps) {
   return (
@@ -35,9 +39,12 @@ export function CatalogueHeader({
       <Stack gap={24}>
         <CoverHead {...{ picture }}>
           <div>
-            <Text size="xs" tt="uppercase" opacity={0.6} mb={6} lts="0.06em">
-              {kind}
-            </Text>
+            <Group gap={8} mb={6}>
+              <Text size="xs" tt="uppercase" opacity={0.6} lts="0.06em">
+                {kind}
+              </Text>
+              {wip !== undefined && <WipMark note={wip} />}
+            </Group>
             <Title order={1}>{title}</Title>
             <TitleGlossLine {...{ gloss }} mt={8} />
             {children}
