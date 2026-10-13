@@ -36,14 +36,13 @@ Needs ffmpeg and matplotlib (numpy and Pillow come with it).
 """
 
 import io
-import sys
 from pathlib import Path
 
 import numpy as np
 
 from song_facts import (
-    FLOOR_DB, LOW_HZ, NOTE_BAND_HZ, QUIET, SR, TOP_HZ, chroma_shares, decode, log_rows, mmss, section_times,
-    stft_magnitude,
+    FLOOR_DB, LOW_HZ, NOTE_BAND_HZ, QUIET, SR, TOP_HZ, chroma_shares, decode, log_rows, measure, mmss, sidecar,
+    stft_magnitude, tempo_label, tuning_label,
 )
 
 TICKS_HZ = (50, 100, 200, 500, 1000, 2000, 5000, 10000)
@@ -52,6 +51,12 @@ TICKS_HZ = (50, 100, 200, 500, 1000, 2000, 5000, 10000)
 NFFT = 8192
 STEP_DB = 2.5
 WIDTH_PX, HEIGHT_PX, DPI = 1400, 1100, 100
+PLOT_LEFT, PLOT_RIGHT = 0.055, 0.94
+# A song's tuning is in the title when it is this far off A440: past it, a
+# note sits a fifth of the way to its neighbour.
+TITLE_TUNING_CENTS = 15
+# Beat lines closer than this are a wash, not a grid.
+BEAT_MIN_PX = 6
 
 NOTE_NAMES = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 # Middle C splits the bass band from the treble one, where the clefs meet: a
@@ -119,7 +124,20 @@ def hz(f):
     return f"{f // 1000}k" if f >= 1000 else str(f)
 
 
+def drawing_stft(x):
+    """The STFT the picture is drawn from, about two frames per pixel column, and its dB rows."""
+    magnitude, freqs, step = stft_magnitude(x, NFFT, max(256, len(x) // (2 * WIDTH_PX)))
+    return magnitude, freqs, step, log_rows(magnitude, freqs)
+
+
+def seconds(text):
+    minutes, _, secs = text.rpartition(":")
+    return 60 * int(minutes or 0) + float(secs)
+
+
 def main():
+    import argparse
+
     import matplotlib
 
     matplotlib.use("Agg")
@@ -127,12 +145,25 @@ def main():
     from matplotlib.ticker import FixedLocator, FuncFormatter, MultipleLocator, NullLocator
     from PIL import Image
 
-    song, out_png = sys.argv[1:3]
+    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    parser.add_argument("song")
+    parser.add_argument("out_png")
+    parser.add_argument("--from", dest="start", type=seconds, help="zoom start, m:ss")
+    parser.add_argument("--to", dest="end", type=seconds, help="zoom end, m:ss")
+    args = parser.parse_args()
+    song, out_png = args.song, args.out_png
+
     x = decode(song)
-    # About two frames per pixel column.
-    magnitude, freqs, step = stft_magnitude(x, NFFT, max(256, len(x) // (2 * WIDTH_PX)))
-    db = log_rows(magnitude, freqs)
-    duration = len(x) / SR
+    whole = drawing_stft(x)
+    facts = measure(x, *whole)
+    zoomed = args.start is not None or args.end is not None
+    t0 = args.start or 0
+    t1 = min(args.end or facts.duration, facts.duration)
+    if not 0 <= t0 < t1:
+        parser.error(f"--from {mmss(t0)} must come before --to {mmss(t1)}")
+    x = x[int(t0 * SR):int(t1 * SR)]
+    magnitude, freqs, step, db = drawing_stft(x) if zoomed else whole
+    duration = t1 - t0
 
     cmap = plt.get_cmap("magma", round(-FLOOR_DB / STEP_DB))
     fig, axes = plt.subplots(
@@ -147,38 +178,50 @@ def main():
     # Rows are evenly spaced in octaves, so the image sits on a linear log2(Hz) axis.
     image = ax.imshow(
         db, origin="lower", aspect="auto", cmap=cmap, vmin=FLOOR_DB, vmax=0,
-        extent=(0, db.shape[1] * step, np.log2(LOW_HZ), np.log2(TOP_HZ)), interpolation="antialiased",
+        extent=(t0, t0 + db.shape[1] * step, np.log2(LOW_HZ), np.log2(TOP_HZ)), interpolation="antialiased",
     )
     ax.yaxis.set_major_locator(FixedLocator(np.log2(TICKS_HZ)))
     ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _pos: hz(round(2 ** v))))
     ax.yaxis.set_minor_locator(NullLocator())
     ax.set_ylabel("frequency (Hz)")
-    ax.set_title(f"{Path(song).name} — {mmss(duration)}")
+    span = f"{mmss(t0)}–{mmss(t1)} of {mmss(facts.duration)}" if zoomed else mmss(facts.duration)
+    title = f"{Path(song).name} — {span} · {tempo_label(facts)}"
+    if abs(facts.tuning) > TITLE_TUNING_CENTS:
+        title += f" · {tuning_label(facts.tuning)}"
+    ax.set_title(title)
     fig.colorbar(image, cax=cax, label="dBFS")
-    for t in section_times(db, magnitude, freqs, step, duration):
-        ax.axvline(t, color="white", linewidth=0.8, linestyle=(0, (4, 3)))
+    for s in facts.sections[1:]:
+        if t0 < s.start < t1:
+            ax.axvline(s.start, color="white", linewidth=0.8, linestyle=(0, (4, 3)))
 
     columns = WIDTH_PX
     peak, rms = envelope(x, columns)
     wave.imshow(
         envelope_image(peak, rms), origin="lower", aspect="auto",
-        extent=(0, duration, -1, 1), interpolation="nearest",
+        extent=(t0, t1, -1, 1), interpolation="nearest",
     )
     wave.yaxis.set_major_locator(NullLocator())
     wave.set_ylabel("level")
 
+    # Beats only where they stand apart: across a whole song they are a grey wash.
+    beats = facts.beats[(facts.beats >= t0) & (facts.beats < t1)]
+    plot_px = WIDTH_PX * (PLOT_RIGHT - PLOT_LEFT)
+    if not zoomed or len(beats) < 2 or np.median(np.diff(beats)) / duration * plot_px < BEAT_MIN_PX:
+        beats = []
     ramps = chroma_ramps()
     for strip, key, band_hz, octaves, name in (
         (treble, treble_key, (CROSSOVER_HZ, NOTE_BAND_HZ[1]), (4, 6), "treble, C4–C7"),
         (bass, bass_key, (NOTE_BAND_HZ[0], CROSSOVER_HZ), (2, 3), "bass, C2–C4"),
     ):
-        shares, octave = chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves)
+        shares, octave = chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
         # Silence has spectral peaks too, of noise; it stays dark however clear they look.
         shares[:, rms < QUIET] = 0
         strip.imshow(
             chroma_image(shares, octave, ramps), origin="lower", aspect="auto",
-            extent=(0, duration, -0.5, 11.5), interpolation="nearest",
+            extent=(t0, t1, -0.5, 11.5), interpolation="nearest",
         )
+        for t in beats:
+            strip.axvline(t, color="white", alpha=0.45, linewidth=0.6)
         strip.yaxis.set_major_locator(FixedLocator(range(12)))
         strip.set_yticklabels(NOTE_NAMES, fontsize=7)
         strip.set_ylabel(name)
@@ -194,11 +237,11 @@ def main():
         key.set_yticklabels([f"C{o}" for o in held], fontsize=8)
     treble_key.set_title("octave", fontsize=8)
 
-    bass.set_xlim(0, duration)
-    bass.xaxis.set_major_locator(MultipleLocator(30 if duration > 240 else 15))
+    bass.set_xlim(t0, t1)
+    bass.xaxis.set_major_locator(MultipleLocator(next(s for s in (60, 30, 15, 5, 2, 1) if duration / s >= 8)))
     bass.xaxis.set_major_formatter(FuncFormatter(mmss))
     bass.set_xlabel("time (m:ss)")
-    fig.subplots_adjust(left=0.055, right=0.94, top=0.965, bottom=0.05)
+    fig.subplots_adjust(left=PLOT_LEFT, right=PLOT_RIGHT, top=0.965, bottom=0.05)
 
     buffer = io.BytesIO()
     fig.savefig(buffer, format="png")
@@ -215,6 +258,11 @@ def main():
         out_png, optimize=True,
     )
     print(f"{out_png}: {Path(out_png).stat().st_size // 1024} KB")
+    # A zoom shows part of the song, and the sidecar describes the whole of it.
+    if not zoomed:
+        text = Path(out_png).with_suffix(".txt")
+        text.write_text(sidecar(Path(song).name, facts), encoding="utf-8")
+        print(text)
 
 
 if __name__ == "__main__":

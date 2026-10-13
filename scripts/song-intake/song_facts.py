@@ -5,6 +5,7 @@ is `spectrogram.py`'s.
 """
 
 import subprocess
+from typing import NamedTuple
 
 import numpy as np
 
@@ -45,6 +46,29 @@ ONSET_RANGE_DB = 80
 MIN_BPM, MAX_BPM, PRIOR_BPM = 60, 200, 120
 # How hard a beat gap off the period is penalized; librosa's default.
 BEAT_TIGHTNESS = 100
+# Sections whose tempos differ by more than this are a range in the title.
+TEMPO_SPREAD = 0.03
+
+# Krumhansl and Kessler's probe-tone ratings, C as the tonic.
+KEY_PROFILES = {
+    "major": np.array([6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88]),
+    "minor": np.array([6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17]),
+}
+# Major and minor triads only: a seventh reads as its triad, which is all a
+# chroma can honestly resolve.
+TRIAD_NAMES = [(root, quality) for quality in ("", "m") for root in range(12)]
+TRIADS = np.array([
+    np.isin(np.arange(12), [root, (root + (4 if quality == "" else 3)) % 12, (root + 7) % 12])
+    for root, quality in TRIAD_NAMES
+], float) / np.sqrt(3)
+# Tuned on Птицы, whose bass line G → E♭ → F is known: at these weights its
+# loops come out whole, where a beat-by-beat cosine scatters them.
+BASS_ROOT_WEIGHT = 1.0
+CHORD_CHANGE_COST = 1.0
+SHARP_NAMES = ("C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B")
+FLAT_NAMES = ("C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B")
+# F, B♭, E♭, A♭, D♭, G♭ major: the keys whose signature is flats.
+FLAT_MAJORS = {5, 10, 3, 8, 1, 6}
 
 
 def decode(path):
@@ -306,8 +330,181 @@ def beat_times(envelope, step, bpm):
 
 
 def beats_bpm(beats):
-    """The tempo the beats keep: 60 over their median gap, or None under two beats."""
-    return 60 / float(np.median(np.diff(beats))) if len(beats) > 1 else None
+    """The tempo the beats keep, or None under two beats: 60 over their mean
+    gap, first to last. Not the median: each gap is a whole number of onset
+    frames, so at 120 BPM's 21.5 the median snaps to 117 or 123."""
+    return 60 * (len(beats) - 1) / float(beats[-1] - beats[0]) if len(beats) > 1 else None
+
+
+def song_key(pitch_classes):
+    """The 24 keys by Pearson r against the Krumhansl–Kessler profiles, best
+    first, as [(r, tonic pitch class, "major" | "minor")]."""
+    return sorted(
+        ((float(np.corrcoef(pitch_classes, np.roll(profile, tonic))[0, 1]), tonic, mode)
+         for mode, profile in KEY_PROFILES.items() for tonic in range(12)),
+        reverse=True,
+    )
+
+
+def beat_chords(chroma, loudest, step, beats, end):
+    """A triad per beat, beat to next beat (the last to end), as (root, "" | "m"),
+    or None where the band stays under QUIET.
+
+    chroma is `peak_chroma`'s over C2–C7. Each beat scores every triad by the
+    cosine between its template and the beat's 12-class chroma, plus
+    BASS_ROOT_WEIGHT times the share of the bass octaves, C2–B3, its root
+    holds: a melody note held over a chord pulls the cosine toward a
+    neighbour, and the bass, which plays the root, pulls it back. The path
+    through the beats maximizes the scores less CHORD_CHANGE_COST per change
+    (Viterbi), so a beat the voice pulls astray does not break a held chord.
+    """
+    by_octave = chroma.reshape(len(chroma), -1, 12)
+    roots = np.array([root for root, _ in TRIAD_NAMES])
+    frame = np.round(np.concatenate([beats, [end]]) / step).astype(int)
+    scores, quiet = [], []
+    for a, b in zip(frame[:-1], frame[1:]):
+        b = max(b, a + 1)
+        whole = by_octave[a:b].sum(axis=(0, 1))
+        bass = by_octave[a:b, :2].sum(axis=(0, 1))
+        quiet.append(loudest[a:b].max(initial=0) < QUIET or not whole.any())
+        fit = TRIADS @ (whole / max(np.linalg.norm(whole), 1e-12))
+        scores.append(fit + BASS_ROOT_WEIGHT * bass[roots] / max(bass.sum(), 1e-12))
+    if not scores:
+        return []
+
+    best = scores[0]
+    back = []
+    for score in scores[1:]:
+        switch = best.max() - CHORD_CHANGE_COST
+        back.append(np.where(best >= switch, np.arange(len(best)), best.argmax()))
+        best = np.maximum(best, switch) + score
+    path = [int(best.argmax())]
+    for links in reversed(back):
+        path.append(int(links[path[-1]]))
+    return [None if q else TRIAD_NAMES[c] for c, q in zip(reversed(path), quiet)]
+
+
+def runs(sequence):
+    """The sequence with each run of equal neighbours merged into one."""
+    return [c for i, c in enumerate(sequence) if i == 0 or c != sequence[i - 1]]
+
+
+def fold_loop(sequence):
+    """The sequence as a loop played over and over: (head, loop, times, tail).
+
+    The loop is the stretch repeating at least twice that covers the most of
+    the sequence, the earliest and then the shortest on a tie; head is what
+    comes before it, tail what follows its last whole pass, a partial one
+    included. A sequence that never repeats is all loop, once.
+    """
+    best, covered = ([], sequence, 1, []), 0
+    for start in range(len(sequence)):
+        for period in range(1, (len(sequence) - start) // 2 + 1):
+            end = start + period
+            while end < len(sequence) and sequence[end] == sequence[end - period]:
+                end += 1
+            times = (end - start) // period
+            if times >= 2 and end - start > covered:
+                stop = start + times * period
+                best, covered = (sequence[:start], sequence[start:start + period], times, sequence[stop:]), end - start
+    return best
+
+
+def folded(sequence):
+    """`fold_loop` as text: 'B♭ + Gm E♭ F ×3 + Gm'."""
+    head, loop, times, tail = fold_loop(sequence)
+    parts = [" ".join(head), " ".join(loop) + (f" ×{times}" if times > 1 else ""), " ".join(tail)]
+    return " + ".join(p for p in parts if p)
+
+
+class Section(NamedTuple):
+    start: float
+    end: float
+    bpm: float | None
+    db: float
+    chords: list
+
+
+class Facts(NamedTuple):
+    duration: float
+    tuning: float
+    keys: list
+    beats: np.ndarray
+    sections: list
+
+
+def measure(x, magnitude, freqs, step, db):
+    """Everything the sidecar states, from the samples and the drawing's STFT."""
+    duration = len(x) / SR
+    tuning = tuning_cents(magnitude, freqs)
+    envelope, onset_step = onset_envelope(x)
+    beats = beat_times(envelope, onset_step, tempo_bpm(envelope, onset_step))
+    chroma, loudest = peak_chroma(magnitude, freqs, NOTE_BAND_HZ, (2, 6), tuning)
+    chords = beat_chords(chroma, loudest, step, beats, duration)
+    pitch_classes = chroma.reshape(len(chroma), -1, 12).sum(axis=(0, 1))
+    edges = [0, *section_times(db, magnitude, freqs, step, duration, tuning), duration]
+    sections = []
+    for start, end in zip(edges[:-1], edges[1:]):
+        inside = (beats >= start) & (beats < end)
+        samples = x[int(start * SR):int(end * SR)].astype(np.float64)
+        rms = np.sqrt((samples ** 2).mean()) if len(samples) else 0
+        sections.append(Section(
+            start, end, beats_bpm(beats[inside]), 20 * np.log10(max(rms, 1e-10)),
+            runs([chords[i] for i in np.flatnonzero(inside)]),
+        ))
+    return Facts(duration, tuning, song_key(pitch_classes), beats, sections)
+
+
+def tempo_spread(facts):
+    """The slowest and fastest section's tempo, or None where they are within TEMPO_SPREAD."""
+    tempos = [s.bpm for s in facts.sections if s.bpm]
+    if tempos and max(tempos) / min(tempos) > 1 + TEMPO_SPREAD:
+        return min(tempos), max(tempos)
+    return None
+
+
+def tempo_label(facts):
+    """'76 BPM', or '74–79 BPM' where the sections' tempos spread."""
+    spread = tempo_spread(facts)
+    if spread:
+        return f"{spread[0]:.0f}–{spread[1]:.0f} BPM"
+    return f"{beats_bpm(facts.beats):.0f} BPM" if len(facts.beats) > 1 else "no beat"
+
+
+def tuning_label(cents):
+    return f"A = 440 Hz {cents:+.0f} ¢".replace("-", "−")
+
+
+def note_names(tonic, mode):
+    """Pitch-class names spelled as the key's signature spells them: flats in
+    a flat key, sharps otherwise."""
+    major = tonic if mode == "major" else (tonic + 3) % 12
+    return FLAT_NAMES if major in FLAT_MAJORS else SHARP_NAMES
+
+
+def sidecar(name, facts):
+    """The sidecar's text: the numbers the picture can only approximate."""
+    (r, tonic, mode), (r2, tonic2, mode2) = facts.keys[:2]
+    names = note_names(tonic, mode)
+
+    def spell(chord):
+        return "N" if chord is None else names[chord[0]] + chord[1]
+
+    tempo = tempo_label(facts)
+    if tempo_spread(facts):
+        tempo += f", median {beats_bpm(facts.beats):.0f}"
+    lines = [
+        f"{name} — {mmss(facts.duration)}",
+        f"tempo {tempo}",
+        f"key {names[tonic]} {mode} (r {r:.2f}; next {names[tonic2]} {mode2}, {r2:.2f})",
+        f"tuning {tuning_label(facts.tuning)}",
+        "sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:",
+    ]
+    for s in facts.sections:
+        bpm = f"{s.bpm:.0f} BPM" if s.bpm else "– BPM"
+        chords = folded([spell(c) for c in s.chords])
+        lines.append(f"{mmss(s.start)}–{mmss(s.end)}  {bpm}  {s.db:.0f} dB  {chords}".replace("-", "−"))
+    return "\n".join(lines) + "\n"
 
 
 def mmss(seconds, _pos=None):
