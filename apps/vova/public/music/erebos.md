@@ -17,6 +17,8 @@ ru:
 
 <!-- For Vova to check: The album entry has no album line; the album is taken from the Apple Music line. -->
 
+<!-- Song versions, once the site has them: erebos.flac (4:32), the earlier master in the same repository, joins this page as a second version beside the reprise. -->
+
 <!-- Scaffolded from https://github.com/vovas-music/erebos — erebos_reprise.flac,
      44.1 kHz / 16-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and
