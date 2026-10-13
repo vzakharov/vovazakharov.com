@@ -1,7 +1,8 @@
 ---
-title: 'Mithqāl'
+title: 'مِثْقَال'
+titleLatin: 'Mithqāl'
 titleLanguage: ar
-titleTransliterated: true
+keepsScript: true
 date: 2025-09-09
 status: done
 language: ar

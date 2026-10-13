@@ -11,7 +11,6 @@ album: ctfu
 track: 5
 en:
   title:
-    transliteration: 'Letim'
     translation: 'Let’s Fly'
   hook: 'Somewhere very far away — so far it’s within arm’s reach — moonlit water dozes at the foot of ancient mountains.'
 ru:

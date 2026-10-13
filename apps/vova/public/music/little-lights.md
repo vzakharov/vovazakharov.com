@@ -11,7 +11,6 @@ seconds: 186
 explicit: false
 en:
   title:
-    transliteration: 'Ogonki'
     translation: 'Little Lights'
 ---
 

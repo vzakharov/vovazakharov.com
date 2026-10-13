@@ -15,7 +15,6 @@ credits:
   music: ['Сергей Баканов']
 en:
   title:
-    transliteration: 'Studentka'
     translation: 'The Student Girl'
 ---
 

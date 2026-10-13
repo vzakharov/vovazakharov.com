@@ -15,7 +15,6 @@ seconds: 146
 explicit: false
 en:
   title:
-    transliteration: 'Zdravstvuy'
     translation: 'Hello'
   hook: 'An ode to all of us building sand castles amidst mirages.'
 ru:

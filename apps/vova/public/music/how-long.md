@@ -12,7 +12,6 @@ seconds: 240
 explicit: false
 en:
   title:
-    transliteration: 'Skolko'
     translation: 'How Long'
 ---
 

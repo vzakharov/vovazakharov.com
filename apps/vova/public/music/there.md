@@ -12,7 +12,6 @@ seconds: 208
 explicit: false
 en:
   title:
-    transliteration: 'Tam'
     translation: 'There'
 ---
 

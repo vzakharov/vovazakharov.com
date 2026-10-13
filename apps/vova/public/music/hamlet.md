@@ -18,7 +18,6 @@ credits:
     - 'Михаил Козаков'
 en:
   title:
-    transliteration: 'Gamlet'
     translation: 'Hamlet'
   cribNote: 'The English is Shakespeare’s original. The song sings it in Russian, the “stricken deer” quatrain twice: Boris Pasternak’s translation, then Mikhail Lozinsky’s as reworked for the film _Pokrovsky Gates_ and reworked once more for the song.'
 ru:

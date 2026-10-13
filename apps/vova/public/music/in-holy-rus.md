@@ -14,7 +14,6 @@ credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
-    transliteration: 'Na Rusi svyatoy'
     translation: 'In Holy Rus'
 ---
 

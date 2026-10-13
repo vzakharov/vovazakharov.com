@@ -14,7 +14,6 @@ credits:
   lyrics: ['Марина Цветаева']
 en:
   title:
-    transliteration: 'Mne nravitsya, chto vy bolny ne mnoy…'
     translation: 'I like it that you are not lovesick for me…'
 ---
 

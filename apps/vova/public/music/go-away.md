@@ -12,7 +12,6 @@ seconds: 234
 explicit: false
 en:
   title:
-    transliteration: 'Ukhodi'
     translation: 'Go Away'
 ---
 

@@ -15,7 +15,6 @@ seconds: 205
 explicit: false
 en:
   title:
-    transliteration: 'Nasha istoriya'
     translation: 'Our Story'
   hook: 'The first look behind the cover, where the future began.'
 ru:

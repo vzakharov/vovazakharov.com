@@ -15,7 +15,6 @@ credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
-    transliteration: 'Mladshiy vnuchek moy'
     translation: 'My Youngest Grandson'
 ---
 

@@ -14,7 +14,6 @@ credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
-    transliteration: 'Ne toropi'
     translation: 'Do Not Hurry'
 ---
 

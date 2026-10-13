@@ -15,7 +15,6 @@ credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
-    transliteration: 'Sneg idyot'
     translation: 'Snow Is Falling'
 ---
 
