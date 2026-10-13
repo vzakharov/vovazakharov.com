@@ -21,6 +21,8 @@ shown="$(CLAUDE_CODE_SESSION_ID="$session_id" python3 "$root/$script" show)" || 
 current="${shown#*: }"
 roles="$(jq -r '.roles | keys_unsorted | join(", ")' "$root/.claude/costs/rates.json")"
 grades="$(jq -r '.grades | keys_unsorted | join(", ")' "$root/.claude/costs/rates.json")"
+fixed="$(jq -r '.fixedGrades // {} | to_entries | map("\(.key) only ever \(.value)") | join(", ")' "$root/.claude/costs/rates.json")"
+[ -n "$fixed" ] && grades="$grades; $fixed"
 usage="python3 $script set --part <hours> <grade> <role> \"<why, at most 280 characters>\" [--part ...]"
 
 # One line per paragraph: the agent reads it unwrapped, and a hard break inside

@@ -251,6 +251,9 @@ the reason for them. A revision replaces it, so its history is git's.
   per grade, a part being worth hours × both, and is applied when the report
   reads a row, so retuning one re-rates the whole history alike and the trend
   stays comparable with itself.
+- **A role done at one grade only is pinned to it in `fixedGrades`**, and a
+  part naming it at another is refused — so the hours-by-grade table needs no
+  column for a role a grade does not describe.
 - **Of the row's copy and a running session's pending one, the later wins.**
   That is how a `--session` edit to a running session's row survives its next
   `Stop`, and how the session's own later `set` overrides that edit.

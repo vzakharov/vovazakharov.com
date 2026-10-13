@@ -1,12 +1,18 @@
 {
   "estimate": {
-    "at": "2026-10-12T02:40:36.320Z",
+    "at": "2026-10-13T08:19:36.669Z",
     "parts": [
       {
-        "hours": 1.5,
+        "hours": 1.0,
         "grade": "senior",
         "role": "copywriter",
-        "comment": "the stories and Майя's answers needed judgement of the author's voice and jokes in two languages"
+        "comment": "the stories needed judgement of the author's voice and jokes in two languages"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "artist",
+        "comment": "Майя's answers to the review are her own voice, a persona's work no copywriter does"
       },
       {
         "hours": 0.5,
