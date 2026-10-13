@@ -63,19 +63,17 @@ A stale `names.ts` in a deploy is loud either way: an album file with no enum en
 6. **Prose**: `.claude/rules/songs.md` § "Frontmatter" — the enums are generated from the album and artist files, and the hook paragraph's "a frontmatter holding nothing else" changes; `albums.ts`/`names.ts` docstrings.
 7. Vet; `/preview` the music index, one album (`vagabond`, both locales) and one artist (`yoohie`, `ru`) to confirm names, glosses and covers read the same.
 
-## Progress (paused for the context budget)
+## Progress (paused for the context budget, second time)
 
-**Done** — the commit after the plan flip:
+**Done** — Steps 1–6 and Step 7's build, commits cc62a49 (data, schema), 2d1fbde (generator, readers), 285ce49 (vet, rules), 234ed1f (cleanup):
 
-- Step 3's data move: all 32 album and artist files carry the frontmatter above (26 created). Each artist's `order` is its index in the old `MUSIC_PROJECT_NAMES`, 1-based. The registries in `albums.ts`/`projects.ts` are still in place and still what the pages read, so the tree builds unchanged.
-- Step 1's schema, in `shared/music-catalogue/frontmatter.ts`: `localNameSchema` (the song's locale `title` value, now shared), `projectSchema`, `albumFrontmatterSchema`, `artistFrontmatterSchema`. Not yet exported from `index.ts`. `catalogueFrontmatterSchema` is kept until `catalogue-text.ts` moves to the new two — delete it then.
+- **Generator** `scripts/generate-music-names.ts` (`pnpm music:codegen`, formatted through Prettier's API) writes `names.ts`: `MUSIC_PROJECT_NAMES` in `order`, `MUSIC_PROJECT_SLUGS` (`satisfies Record<MusicProject, string>`, so the old name and every caller survive), `MUSIC_ALBUM_SLUGS` sorted by slug. It also fails on a file name that is not a lowercase-ASCII slug — that check moved out of `projects.test.ts`, whose uniqueness case went (file names are unique). `MUSIC_ORGANIZATION` moved to `organization.ts`. `vet.sh` loops over both codegens.
+- **Readers**: `catalogue-files.ts` (server-only) holds `albumFile`/`artistFile`, each read once per process and throwing on a missing file, plus `localName`/`localGloss`. `albums.ts` and the new `artists.ts` (`projectName`, `projectGloss`) read through it, both server-only; `projects.ts` keeps `songRepositoryUrl` and `bill`. `catalogueText` takes the loaded file, so `albumText`/`artistText` never return `undefined` and every album and artist page shows its `.md` link — a frontmatter-only file is still the album's own record, as a song's `.md` is.
+- `catalogueFrontmatterSchema` deleted; `inLocale` dropped from the i18n barrel (`scaffold-song.ts` still imports it from `locales.ts`), `Localizable` made module-local.
+- `vet-songs.sh` left as it was: `list-untold-songs.ts` reads only `names.ts`, which its `INPUTS` already names.
+- Checked: `pnpm build:vova` green; built pages show the same names, glosses and covers (vagabond per locale, ctfu's ru gloss, father-sea without a cover, Йухи on ru); typecheck, eslint, knip, type-overlap, format, steiger and `projects.test.ts` green. `/preview` not run — the markup did not change beyond the `.md` link, and the built HTML was checked instead.
 
-**Left**, in this order:
-
-1. Step 2, the generator. `names.ts` also holds the hand-written `MUSIC_ORGANIZATION`, used by `projects.ts` and `scripts/scaffold-song.ts` via `index.node-safe.ts` — move it out (e.g. `organization.ts`) before `names.ts` becomes generated. `scripts/vet-songs.sh`'s `INPUTS` regex names `names.ts` and matches only top-level `music/*.md`; widen it to `albums/`/`artists/` if the untold list should re-run when those change. `scripts/list-untold-songs.ts` reads only `MUSIC_PROJECT_NAMES`/`MUSIC_ALBUM_SLUGS` — unaffected.
-2. Steps 4–5: readers and consumers. `albumTitle` spells with `language: 'ru'` regardless of locale, as today; keep that. `catalogue-text.ts` is the natural single loader for both readers (it already `loadProse`s these files) — memoize per name there.
-3. Check what an album page's `.md` header link does now that every album has a file, even a frontmatter-only one (`catalogueText` returns `markdown` whenever the file exists).
-4. Steps 6–7, then `/go` Step 3 onward.
+**Left**: `/go` Step 3 (`/polish`), then the flip to `*.completed.md`, then Step 4 (`/pr` refresh of #150 — the body and squash proposal predate the generator and readers).
 
 ## DRY notes
 
