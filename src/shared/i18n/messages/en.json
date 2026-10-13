@@ -1,4 +1,10 @@
 {
+  "notFound": {
+    "title": "Nothing here",
+    "body": "This address leads nowhere on the site.",
+    "checking": "Checking whether this song has moved…",
+    "home": "To the home page"
+  },
   "cv": {
     "metadata": {
       "description": "Full-stack developer with deep AI/ML expertise since 2020. Building practical LLM-powered tools, prototypes, and production systems.",
