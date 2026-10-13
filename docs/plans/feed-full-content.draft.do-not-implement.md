@@ -29,10 +29,38 @@ Languages need nothing new: each locale has its own song feed, and the story is 
 6. **The doc comment** on `feedEntries` is rewritten to the new contract: the blurb in `description`, the body in `content:encoded`, absolute URLs.
 7. **Check** — `pnpm build:vova` and `pnpm build:bible`, then validate the built feeds with xmllint and look at one song item per locale and one Bible item in the built XML; `./scripts/vet.sh` at `/finalize`.
 
+## The songs feeds as podcasts
+
+Each song feed (`en` and `ru`) is also a valid Apple podcast: every item carries the song itself as an `<enclosure>`, and the channel carries the `itunes:` tags Apple's directory requires.
+
+**An MP3 per song, in its repository.** Podcast apps take MP3/AAC, and 157 of 170 masters are FLAC. Each FLAC song's repository gains `<master stem>.mp3` beside the master — a distribution copy, `ffmpeg -c:a libmp3lame -b:a 320k`, no processing, ID3 title/artist set — and a README line naming it and the command. The site keeps playing the master; only the feed points at the copy. Songs whose `audio` is already an MP3 (the 11 in repositories and the 2 under `/music/assets/`) need no copy. Repositories sharing several songs (`machines`) get one copy per song.
+
+- **Subagents make the copies and push them**, a batch of repositories apiece, each repository cloned, encoded, pushed and deleted before the next so the disk holds one at a time. Each returns per song: the MP3's raw URL and its byte size.
+
+**The frontmatter records the copy.** A song gains `podcast: { url, bytes }` — `url` omitted where `audio` is already the MP3, the enclosure then reusing it — read by the song schema in `shared/music-catalogue`. `bytes` is recorded rather than fetched at build, so a deploy never depends on 170 HEAD requests to GitHub. `pnpm music:scaffold` writes it for a new song from the same stream it already reads the duration from, and the song vet fails a listed song without it.
+
+**What the feed adds** (`src/shared/lib/rss.ts` grows optional podcast fields; `pages/music` fills them):
+
+- On `<rss>`: `xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"`.
+- Channel: `itunes:author` and `itunes:owner` (the site author's name and `vzakharov@gmail.com` from `SITE_CONFIG.author`), `itunes:image` (below), `itunes:category text="Music"`, `itunes:explicit` (`true` when any listed song is explicit), `itunes:type` `episodic`.
+- Item: `<enclosure url length type="audio/mpeg"/>`, `itunes:duration` (the frontmatter's `seconds`), `itunes:explicit` from the song, `itunes:image` (the song's cover via `songPicture`, absolute), `itunes:episodeType` `full`.
+
+**A square cover.** Apple wants 1400–3000 px square; the music card is 2400×1260. `content:og:vova`'s collage (`scripts/lib/music-collage.ts`) also renders a 3000×3000 cut of the same covers to `apps/vova/public/music.podcast.jpg`, hashed like the card so a new cover re-flags it.
+
+**Verification:** both built feeds pass xmllint; one song's `<enclosure>` URL answers 200 with a `content-length` equal to its `length`; the feed passes a public podcast validator (Podbase or Cast Feed Validator) once deployed — a post-merge check, listed in the PR's QA.
+
+## Order of work
+
+1. The text part (Steps 1–7 above).
+2. The MP3 copies across the song repositories (subagents), then the `podcast` frontmatter for every song, the schema and the scaffolder.
+3. The feed's podcast tags, the square cover, and the checks.
+
+The work is one PR, as the operator asked. Each part leaves the branch building, so a session that runs out of context pauses at a part's end and the next one resumes.
+
 ## DRY notes
 
 - **Shared:** `feedHtml` is the one hast→HTML path for both kinds of item; the song prose goes through `renderProse`, the same compile the page runs, so a story renders identically on the page and in the feed apart from the feed-only pass.
-- **Reused:** `localizeSong`/`universeOf` for the song's prose per locale, the `makingOf` message the page already titles the story with, `songPath` for the link, `visitElements` (`hast-elements.ts`) for the URL pass, `getAbsoluteUrl` for the origin; `escapeXml` stays for every non-CDATA field.
+- **Reused:** `localizeSong`/`universeOf` for the song's prose per locale, the `makingOf` message the page already titles the story with, `songPath` for the link, `visitElements` (`hast-elements.ts`) for the URL pass, `getAbsoluteUrl` for the origin; `escapeXml` stays for every non-CDATA field. The podcast half reuses `seconds` for the duration, `songPicture` for the episode image, `SITE_CONFIG.author` for the owner, and `music-collage.ts` with its hash manifest for the square cover — a second cut of the same collage, not a second collage script.
 - **Not extracted:** the order "world, then making-of under its label" is restated in `songFeedEntries` rather than pulled out of `story.tsx`, which lays it out as Mantine components; the shared part is the two inputs, and two lines of ordering are cheaper than an abstraction both callers would bend around.
 
 ## Open questions
