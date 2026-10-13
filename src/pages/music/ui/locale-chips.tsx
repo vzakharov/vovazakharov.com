@@ -4,6 +4,7 @@ import {
   LOCALES,
   type WithLocale,
 } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
 import { type Chip, ChipNav } from '@/shared/ui';
 
 import { ScriptChip } from './script-chip';
@@ -42,7 +43,7 @@ export function LocaleChips({ locale, hrefs, sample }: LocaleChipsProps) {
           <ScriptChip
             label={locale.toUpperCase()}
             {...{ sample }}
-            originalScript={loadMessages(locale).music.originalScript}
+            {...pick(loadMessages(locale).music, 'originalScript')}
           />
         )
       }
