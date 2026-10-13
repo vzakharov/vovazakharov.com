@@ -12,7 +12,7 @@ seconds: 168
 explicit: false
 en:
   title:
-    translation: 'Grandpa of Mine'
+    translation: 'My Grandpa'
 ru:
   title:
     translation: 'Дедушка мой'
