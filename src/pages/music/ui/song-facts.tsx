@@ -12,6 +12,7 @@ import { albumPath, artistPath } from '../lib/music-urls';
 import { bill, projectName } from '../lib/projects';
 import type { SongOnRelease } from '../lib/song-text';
 import { FactLine } from './fact-line';
+import { Spelling } from './spelling';
 
 export type SongFactsProps = SongOnRelease & WithLocale;
 
@@ -35,7 +36,7 @@ function songFacts({ document, album, locale }: SongFactsProps) {
         ...albums.flatMap((linked, index) => [
           index > 0 && ', ',
           <NameLink key={linked} href={albumPath(linked, locale)}>
-            {albumTitle(linked, locale)}
+            <Spelling {...albumTitle(linked, locale)} />
           </NameLink>,
         ]),
         after,
@@ -47,7 +48,7 @@ function songFacts({ document, album, locale }: SongFactsProps) {
     byline: {
       billing: bill(project, (artist) => (
         <NameLink key={artist} href={artistPath(artist, locale)}>
-          {projectName(artist, locale)}
+          <Spelling {...projectName(artist, locale)} />
         </NameLink>
       )),
       album: albumsFact(messages.album, album === null ? [] : [album]),

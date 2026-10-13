@@ -14,7 +14,6 @@ masked:
   'про**ли': 'Bleeped on the recording too: «здесь забикано и в песне, как творческое решение, а не вынужденность».'
 en:
   title:
-    transliteration: 'Nash pank-rok'
     translation: 'Our Punk Rock'
   hook: 'A cringe, a shock — and apparently a potential hit for three-year-olds.'
 ru:

@@ -12,7 +12,6 @@ seconds: 287
 explicit: false
 en:
   title:
-    transliteration: 'Ptitsy'
     translation: 'Birds'
   hook: '“The song of a departing soul,” per my dad (RIP).'
 ru:

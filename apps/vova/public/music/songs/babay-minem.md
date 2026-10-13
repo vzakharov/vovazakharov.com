@@ -1,5 +1,6 @@
 ---
-title: 'Минем бабай'
+title: 'Бабай минем'
+titleLatin: 'Babay minem'
 date: 2025-02-24
 status: done
 language: tt
@@ -11,12 +12,13 @@ seconds: 168
 explicit: false
 en:
   title:
-    transliteration: 'Minem babay'
     translation: 'My Grandpa'
 ru:
   title:
-    translation: 'Мой дедушка'
+    translation: 'Дедушка мой'
 ---
+
+<!-- For Vova to check: the tt-latn section is the agent's, in Zamanälif, к/г read by each word's vowel harmony. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/babay — babay_master.flac,
      44.1 kHz / 16-bit / stereo.
@@ -65,6 +67,48 @@ ru:
 Минем бабай
 Барысы өчен дә рәхмәт,
 Минем бабай
+
+<!-- lyrics:tt-latn -->
+
+Qırlar östendä qoyaş çığa
+Añlıym, tağın yulğa çığarğa.
+Yaña keşelär, yaña yözlär
+Tormış şulay qorılğan inde
+
+Öydän yıraqta ber tawış işetäm
+Ul äytä, min barısın da beläm
+Şundıy şaw-şulı, şundıy küñelle
+Şundıy cırlawçı tatar tele
+
+Babay minem,
+Barısı öçen dä räxmät
+Süzläreñdä
+Xikmät häm mäxäbbät
+
+Sineñ öçen
+Min härwaqıt şul malay
+Barısı öçen dä räxmät,
+Minem babay
+
+Başqa cirlärdä
+Başqa tellärdä
+Minem yörägem
+Sineñ keçkenä şähäreñdä
+
+Babay minem,
+Barısı öçen dä räxmät
+Süzläreñdä
+Xikmät häm mäxäbbät
+
+Sineñ öçen
+Min härwaqıt şul malay
+Barısı öçen dä räxmät,
+Minem babay
+
+Barısı öçen dä räxmät,
+Minem babay
+Barısı öçen dä räxmät,
+Minem babay
 
 <!-- lyrics:en -->
 

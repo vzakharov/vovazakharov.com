@@ -8,9 +8,9 @@ import type { Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import type { HookRun } from '@/shared/music-catalogue';
-import type { LabeledLink } from '@/shared/typings';
 import { InternalButton, NameLink } from '@/shared/ui';
 
+import type { SpelledLink } from '../lib/player-state';
 import { stationOffset } from '../lib/station';
 import { BillingLinks } from './billing-links';
 import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
@@ -19,12 +19,12 @@ import { NotedSpan } from './noted-span';
 import { usePlayer } from './player-provider';
 import classes from './radio.module.scss';
 import { RadioDial } from './radio-dial';
-import { SongName } from './song-name';
+import { Spelling } from './spelling';
 
 /** What the page shows beside a song, resolved at build for every one the radio may play. */
 export type OnAirExtras = {
   cover?: string | undefined;
-  album?: LabeledLink | undefined;
+  album?: SpelledLink | undefined;
   hook?: HookRun[] | undefined;
 };
 
@@ -144,7 +144,7 @@ export function OnAir({
               <div className={classes['songLines']}>
                 <div className={classes['songTitle']}>
                   <NameLink href={air.track.routes[locale]} c="inherit">
-                    <SongName {...air.track.titles[locale]} />
+                    <Spelling {...air.track.titles[locale]} />
                   </NameLink>
                 </div>
                 <div className={classes['songMeta']}>
@@ -154,7 +154,7 @@ export function OnAir({
                   <div className={classes['songMeta']}>
                     {beforeAlbum}
                     <NameLink {...pick(extra.album, 'href')} c="inherit">
-                      {extra.album.label}
+                      <Spelling {...extra.album.name} />
                     </NameLink>
                     {afterAlbum}
                   </div>

@@ -12,7 +12,6 @@ seconds: 161
 explicit: false
 en:
   title:
-    transliteration: 'Pereplelos'
     translation: 'Intertwined'
   hook: 'Where is the lie, where is the truth — and does it matter, if both are only a fabulist’s whim?'
 ru:

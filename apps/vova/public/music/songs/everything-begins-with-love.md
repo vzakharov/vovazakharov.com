@@ -15,7 +15,6 @@ credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
-    transliteration: 'Vsyo v etoy zhizni nachinaetsya s lyubvi'
     translation: 'Everything in This Life Begins with Love'
 ---
 

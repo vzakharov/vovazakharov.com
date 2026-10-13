@@ -10,6 +10,7 @@ import {
   SITE_CONFIG,
   withoutScheme,
 } from '@/shared/config';
+import { SCRIPT_PREFERENCE_SCRIPT } from '@/shared/lib/script-preference';
 import { constructMetadata } from '@/shared/seo/index.server-only';
 
 import { ThemeCorner } from './theme-corner';
@@ -55,6 +56,10 @@ export function RootLayout({
     >
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
+        <script
+          // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml -- the markup is `script-preference.ts`'s own function source and constants, never reader input; a `<script>` child would reach the page HTML-escaped
+          dangerouslySetInnerHTML={{ __html: SCRIPT_PREFERENCE_SCRIPT }}
+        />
         {/* `data-domains` keeps a dev server or a preview from counting as the site. */}
         <script
           defer

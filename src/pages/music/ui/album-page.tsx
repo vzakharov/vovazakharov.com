@@ -2,6 +2,7 @@ import { Box, Stack } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
+import { scriptSample } from '@/shared/music-catalogue';
 import { NameLink, PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
@@ -14,13 +15,14 @@ import { catalogueSize } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, musicPath } from '../lib/music-urls';
 import { projectName } from '../lib/projects';
-import { catalogueSongs, songTrack } from '../lib/songs';
+import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
 import { FactLine } from './fact-line';
 import { HookLine } from './hook-line';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
+import { Spelling } from './spelling';
 import { Story } from './story';
 
 /**
@@ -34,6 +36,12 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
   const tracks = albumTracks(album, songs);
   const text = albumText(album, locale);
   const queue = tracks.map(({ song }) => songTrack(song, album));
+  const title = albumTitle(album, locale);
+  const artistName = projectName(artist, locale);
+  const sample = scriptSample(
+    [title.original, artistName.original, ...trackNames(queue, locale)],
+    locale,
+  );
 
   return (
     <PageShell>
@@ -41,12 +49,12 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
         <MusicNav
           back={{ href: musicPath(locale), label: messages.back }}
           hrefs={byLocale((alternate) => albumPath(album, alternate))}
-          {...{ locale }}
+          {...{ locale, sample }}
         />
 
         <CatalogueHeader
           kind={messages.kind[albumKind(album, songs)]}
-          title={albumTitle(album, locale)}
+          {...{ title }}
           gloss={albumGloss(album, locale)}
           picture={albumCover(album)}
           size={catalogueSize(
@@ -61,7 +69,7 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
             facts={{
               artist: (
                 <NameLink href={artistPath(artist, locale)}>
-                  {projectName(artist, locale)}
+                  <Spelling {...artistName} />
                 </NameLink>
               ),
               years: albumYears(album, songs),

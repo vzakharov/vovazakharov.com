@@ -12,7 +12,6 @@ seconds: 339
 explicit: false
 en:
   title:
-    transliteration: 'Proshchanie'
     translation: 'Farewell'
 ---
 

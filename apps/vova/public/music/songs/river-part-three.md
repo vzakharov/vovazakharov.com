@@ -14,7 +14,6 @@ credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
-    transliteration: 'Reka. Chast tretya'
     translation: 'The River. Part Three'
 ---
 

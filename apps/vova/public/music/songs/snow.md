@@ -12,7 +12,6 @@ seconds: 180
 explicit: false
 en:
   title:
-    transliteration: 'Sneg'
     translation: 'Snow'
 ---
 

@@ -11,8 +11,7 @@ import type {
   MusicProject,
   TitleGloss,
 } from '@/shared/music-catalogue';
-
-import { titleGloss } from './title-gloss';
+import { spell, type Spelled } from '@/shared/music-catalogue/index.node-safe';
 
 type MusicAlbumRecord = {
   /**
@@ -83,7 +82,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     artist: 'Полуживые',
     cover: true,
     gloss: {
-      en: { transliteration: 'Papa-reka', translation: 'Father River' },
+      en: { translation: 'Father River' },
     },
   },
   hamlet: {
@@ -91,13 +90,13 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     artist: 'Полуживые',
     cover: true,
     wip: true,
-    gloss: { en: { transliteration: 'Gamlet', translation: 'Hamlet' } },
+    gloss: { en: { translation: 'Hamlet' } },
   },
   'father-sea': {
     title: 'Папа-море',
     artist: 'Полуживые',
     wip: true,
-    gloss: { en: { transliteration: 'Papa-more', translation: 'Father Sea' } },
+    gloss: { en: { translation: 'Father Sea' } },
   },
   'who-is-happy-in-russia': {
     title: 'Кому на Руси жить хорошо',
@@ -105,7 +104,6 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
     gloss: {
       en: {
-        transliteration: 'Komu na Rusi zhit khorosho',
         translation: 'Who Is Happy in Russia?',
       },
     },
@@ -116,7 +114,6 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
     gloss: {
       en: {
-        transliteration: 'Pyat romansov, dva soneta i odin rekviem',
         translation: 'Five Romances, Two Sonnets and One Requiem',
       },
     },
@@ -153,7 +150,6 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     wip: true,
     gloss: {
       en: {
-        transliteration: 'Ni dlya kogo i dlya vsekh',
         translation: 'For None and for All',
       },
     },
@@ -164,7 +160,6 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     wip: true,
     gloss: {
       en: {
-        transliteration: 'Silney lyubvi',
         translation: 'Stronger Than Love',
       },
     },
@@ -173,7 +168,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     title: 'Крылья',
     artist: 'за/обложкой',
     cover: true,
-    gloss: { en: { transliteration: 'Krylya', translation: 'Wings' } },
+    gloss: { en: { translation: 'Wings' } },
   },
   'punctuation-marks': {
     title: 'Знаки препинания',
@@ -181,25 +176,25 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
     gloss: {
       en: {
-        transliteration: 'Znaki prepinaniya',
         translation: 'Punctuation Marks',
       },
     },
   },
 };
 
-export function albumTitle(album: MusicAlbum, locale: Locale): string {
-  return inLocale(MUSIC_ALBUMS[album].title, locale);
-}
-
-export function albumGloss(album: MusicAlbum, locale: Locale): TitleGloss {
-  return titleGloss(
-    {
-      title: albumTitle(album, locale),
-      gloss: MUSIC_ALBUMS[album].gloss?.[locale],
-    },
+/** A release's title under a locale, romanized by the Russian rule where the locale cannot read it. */
+export function albumTitle(album: MusicAlbum, locale: Locale): Spelled {
+  return spell(
+    { text: inLocale(MUSIC_ALBUMS[album].title, locale), language: 'ru' },
     locale,
   );
+}
+
+export function albumGloss(
+  album: MusicAlbum,
+  locale: Locale,
+): TitleGloss | undefined {
+  return MUSIC_ALBUMS[album].gloss?.[locale];
 }
 
 export function albumArtist(album: MusicAlbum, locale: Locale): MusicProject {

@@ -2,6 +2,7 @@ import { pick } from '@/shared/lib/collections';
 import { NameLink } from '@/shared/ui';
 
 import type { Billing } from '../lib/player-state';
+import { Spelling } from './spelling';
 
 type BillingLinksProps = { billing: Billing };
 
@@ -12,7 +13,7 @@ export function BillingLinks({ billing }: BillingLinksProps) {
       part
     ) : (
       <NameLink key={part.href} {...pick(part, 'href')} c="inherit">
-        {part.label}
+        <Spelling {...part.name} />
       </NameLink>
     ),
   );

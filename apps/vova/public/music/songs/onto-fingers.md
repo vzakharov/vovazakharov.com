@@ -12,7 +12,6 @@ seconds: 285
 explicit: false
 en:
   title:
-    transliteration: 'Na paltsy'
     translation: 'Onto Fingers'
 ---
 

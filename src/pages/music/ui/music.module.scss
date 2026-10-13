@@ -176,37 +176,23 @@
   grid-row: 1 / -1;
 }
 
-// The transliteration switch takes a row of its own above the stanzas, in the
-// words' column only, so the crib's stanzas still start level with theirs.
-.lyricsColumns[data-transliteration] {
-  grid-template-rows: auto repeat(var(--stanzas), auto);
-
-  > .lyricsColumn {
-    grid-row: 2 / -1;
-  }
-}
-
-.lyricsStack {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.transliterationSwitch {
-  grid-area: 1 / 1;
-  justify-self: start;
-}
-
-// In the HTML either way; the switch's attribute is what shows it. Smaller and
-// fainter, so the pair reads as words and gloss rather than two lines of verse.
+// A romanization under words that keep their script. Smaller and fainter, so
+// the pair reads as words and gloss rather than two lines of verse.
 .transliteration {
-  display: none;
+  display: block;
   font-size: 0.85em;
   color: color-mix(in srgb, currentcolor 50%, transparent);
   white-space: normal;
+}
 
-  [data-transliteration='shown'] & {
-    display: block;
+// The current language chip as the script switch: the row's type, not the
+// button's, and dimmed on hover as the chips beside it are tinted.
+.scriptChip {
+  font: inherit;
+  transition: opacity 150ms ease;
+
+  @include mantine.hover {
+    opacity: 0.8;
   }
 }
 

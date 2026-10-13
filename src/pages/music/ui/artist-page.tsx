@@ -2,6 +2,7 @@ import { Stack } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
+import { scriptSample } from '@/shared/music-catalogue';
 import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
@@ -19,7 +20,7 @@ import type { ArtistPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, musicPath } from '../lib/music-urls';
 import { songPicture } from '../lib/pictures';
 import { projectGloss, projectName } from '../lib/projects';
-import { catalogueSongs, songTrack } from '../lib/songs';
+import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
 import { HookLine } from './hook-line';
@@ -35,8 +36,37 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const songs = catalogueSongs();
   const messages = loadMessages(locale).music;
   const text = artistText(artist, locale);
+  const name = projectName(artist, locale);
   const { albums, singles } = artistDiscography(artist, locale, songs);
   const billed = artistSongs(artist, songs);
+  const albumTiles = albums.map((album) => ({
+    href: albumPath(album, locale),
+    slug: album,
+    name: albumTitle(album, locale),
+    cover: albumCover(album),
+    detail: albumDetail(album, locale, songs).join(' · '),
+    wip: albumWipNote(album, locale),
+  }));
+  const singleTiles = singles.map((single) => {
+    const { titles, routes } = songTrack(single);
+
+    return {
+      href: routes[locale],
+      ...pick(single, 'slug'),
+      name: titles[locale],
+      cover: songPicture(single),
+      detail: String(single.frontmatter.date.getUTCFullYear()),
+    };
+  });
+  const tracks = billed.map((song) => songTrack(song));
+  const sample = scriptSample(
+    [
+      name.original,
+      ...[...albumTiles, ...singleTiles].map((tile) => tile.name.original),
+      ...trackNames(tracks, locale),
+    ],
+    locale,
+  );
 
   return (
     <PageShell>
@@ -44,12 +74,12 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
         <MusicNav
           back={{ href: musicPath(locale), label: messages.back }}
           hrefs={byLocale((alternate) => artistPath(artist, alternate))}
-          {...{ locale }}
+          {...{ locale, sample }}
         />
 
         <CatalogueHeader
           kind={messages.kind.artist}
-          title={projectName(artist, locale)}
+          title={name}
           gloss={projectGloss(artist, locale)}
           size={catalogueSize(
             {
@@ -71,40 +101,11 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
           />
         )}
 
-        <CatalogueGrid
-          title={messages.albums}
-          tiles={albums.map((album) => ({
-            href: albumPath(album, locale),
-            slug: album,
-            label: albumTitle(album, locale),
-            cover: albumCover(album),
-            detail: albumDetail(album, locale, songs).join(' · '),
-            wip: albumWipNote(album, locale),
-          }))}
-        />
+        <CatalogueGrid title={messages.albums} tiles={albumTiles} />
 
-        <CatalogueGrid
-          title={messages.singles}
-          tiles={singles.map((single) => {
-            const { titles, routes } = songTrack(single);
-            const { title, transliterated } = titles[locale];
+        <CatalogueGrid title={messages.singles} tiles={singleTiles} />
 
-            return {
-              href: routes[locale],
-              ...pick(single, 'slug'),
-              label: title,
-              transliterated,
-              cover: songPicture(single),
-              detail: String(single.frontmatter.date.getUTCFullYear()),
-            };
-          })}
-        />
-
-        <SongList
-          {...pick(messages, 'title')}
-          tracks={billed.map((song) => songTrack(song))}
-          {...{ locale }}
-        />
+        <SongList {...pick(messages, 'title')} {...{ tracks, locale }} />
 
         <SiteFooter {...{ locale }} />
       </Stack>

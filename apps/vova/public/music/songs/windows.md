@@ -12,7 +12,6 @@ seconds: 286
 explicit: false
 en:
   title:
-    transliteration: 'Okna'
     translation: 'Windows'
 ---
 

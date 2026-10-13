@@ -310,15 +310,21 @@ describe('shuffling everything', () => {
 });
 
 describe('billingText', () => {
-  it('reads each linked name as its label', () => {
-    assert.equal(
-      billingText([
-        { label: 'GENERATED', href: '/music/artists/generated' },
-        ' feat. ',
-        { label: 'Йухи', href: '/music/artists/yoohie/ru' },
-      ]),
-      'GENERATED feat. Йухи',
-    );
+  const billing = [
+    { name: { original: 'GENERATED' }, href: '/music/artists/generated' },
+    ' feat. ',
+    {
+      name: { original: 'Полуживые', latin: 'Poluzhivye' },
+      href: '/music/artists/poluzhivye',
+    },
+  ];
+
+  it('reads each name in Latin letters before the reader has chosen', () => {
+    assert.equal(billingText(billing), 'GENERATED feat. Poluzhivye');
+  });
+
+  it('reads each name in the script the reader chose', () => {
+    assert.equal(billingText(billing, 'original'), 'GENERATED feat. Полуживые');
   });
 });
 

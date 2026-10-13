@@ -92,8 +92,8 @@
 - [Good Girl](../../apps/vova/public/music/songs/good-girl.md) — hook, story
 - [In the Shadow](../../apps/vova/public/music/songs/in-the-shadow.md) — hook, story
 - [Inside](../../apps/vova/public/music/songs/inside.md) — hook, story
-- [Mithqāl](../../apps/vova/public/music/songs/mithqal.md) — hook, story
 - [My Hope](../../apps/vova/public/music/songs/my-hope.md) — hook, story
+- [مِثْقَال](../../apps/vova/public/music/songs/mithqal.md) — hook, story
 
 ## Полуживые
 
@@ -110,7 +110,7 @@
 - [Call of the Steppe](../../apps/vova/public/music/songs/call-of-the-steppe.md) — hook, story
 - [Sirens of the Sands](../../apps/vova/public/music/songs/sirens-of-the-sands.md) — hook, story
 - [Wanderer’s Farewell](../../apps/vova/public/music/songs/wanderers-farewell.md) — hook, story
-- [Ágios o skopós](../../apps/vova/public/music/songs/agios-o-skopos.md) — hook, story
+- [Άγιος ο σκοπός](../../apps/vova/public/music/songs/agios-o-skopos.md) — hook, story
 - [Vagabond](../../apps/vova/public/music/songs/vagabond.md) — hook, story
 
 ### father-river
@@ -240,7 +240,7 @@
 
 ### Singles
 
-- [Минем бабай](../../apps/vova/public/music/songs/minem-babay.md) — hook, story
+- [Бабай минем](../../apps/vova/public/music/songs/babay-minem.md) — hook, story
 
 ## Киндерштайн
 

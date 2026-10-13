@@ -15,7 +15,6 @@ credits:
   music: ['Сергей Коржуков']
 en:
   title:
-    transliteration: 'Ya kuplyu tebe dom'
     translation: 'I’ll Buy You a House'
 ---
 

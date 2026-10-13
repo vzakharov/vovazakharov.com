@@ -1,18 +1,26 @@
 import type { Slugged } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
+import type { Script } from '@/shared/lib/script-preference';
 import type { Playable } from '@/shared/music-catalogue';
-import type { LabeledLink, Seeded, Titled } from '@/shared/typings';
+import {
+  type Spelled,
+  spelledText,
+  type WithSpelledName,
+} from '@/shared/music-catalogue/index.node-safe';
+import type { Linked, Seeded } from '@/shared/typings';
 
-/** A song's title as one locale shows it, and whether it is set in italics as a romanization. */
-export type SongName = Titled & { transliterated: boolean };
+/** A name linked to its page — an artist on a billing, a tile on a grid. */
+export type SpelledLink = Linked & WithSpelledName;
 
 /** A song's billing, each artist linked to its page and the joins between them as text. */
-export type Billing = Array<LabeledLink | string>;
+export type Billing = Array<SpelledLink | string>;
 
-/** The billing as one line of text, for where a link cannot go. */
-export function billingText(billing: Billing): string {
+/** The billing as one line of text in the reader's script, for where a link cannot go. */
+export function billingText(billing: Billing, script?: Script): string {
   return billing
-    .map((part) => (typeof part === 'string' ? part : part.label))
+    .map((part) =>
+      typeof part === 'string' ? part : spelledText(part.name, script),
+    )
     .join('');
 }
 
@@ -23,7 +31,7 @@ export function billingText(billing: Billing): string {
 export type PlayerTrack = Slugged &
   Playable & {
     /** What the song is called in each language, how it is billed, and where each is served. */
-    titles: Record<Locale, SongName>;
+    titles: Record<Locale, Spelled>;
     billing: Record<Locale, Billing>;
     routes: Record<Locale, string>;
   };

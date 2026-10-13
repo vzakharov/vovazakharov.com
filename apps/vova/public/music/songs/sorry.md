@@ -12,7 +12,6 @@ seconds: 198
 explicit: false
 en:
   title:
-    transliteration: 'Prosti'
     translation: 'Sorry'
   hook: '“I repeat: that summer somewhere near Kolomna NEVER HAPPENED!”'
 ru:

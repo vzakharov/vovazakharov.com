@@ -342,9 +342,9 @@
     "lyrics": {
       "title": "Lyrics",
       "translation": "Translation",
-      "crib": "The translation is a crib, not a singing version.",
-      "transliteration": "Transliteration"
+      "crib": "The translation is a crib, not a singing version."
     },
+    "originalScript": "original script",
     "player": {
       "label": "Player",
       "previous": "Previous track",

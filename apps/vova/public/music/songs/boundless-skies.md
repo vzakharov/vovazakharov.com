@@ -15,7 +15,6 @@ credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
-    transliteration: 'V bezmernosti nebes'
     translation: 'In the Boundless Skies'
 ---
 

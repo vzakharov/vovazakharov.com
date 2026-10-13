@@ -13,7 +13,6 @@ credits:
   lyrics: ['Николай Заболоцкий']
 en:
   title:
-    transliteration: 'Nochnoy sad'
     translation: 'Night Garden'
 ---
 

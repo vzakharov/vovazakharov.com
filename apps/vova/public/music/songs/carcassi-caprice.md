@@ -12,7 +12,6 @@ seconds: 214
 explicit: false
 en:
   title:
-    transliteration: 'Kapris Karkassi'
     translation: 'Carcassi’s Caprice'
 ---
 
