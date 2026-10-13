@@ -3,9 +3,9 @@
 import { Button } from '@mantine/core';
 import { Pause, Play } from 'lucide-react';
 
-import type { PlayerState } from '../lib/player-state';
+import type { PlayerState, WithTrack } from '../lib/player-state';
 import type { PlayerContextValue } from './player-provider';
-import { type TrackButtonProps, useTrackPlayback } from './track-button';
+import { useTrackPlayback } from './track-button';
 
 export type ListenButtonProps = Pick<PlayerContextValue, 'labels'> &
   Pick<PlayerState, 'playing'> & { onClick: () => void };
@@ -33,7 +33,7 @@ export function ListenButton({ playing, labels, onClick }: ListenButtonProps) {
 }
 
 /** A song page's play control. */
-export function SongPlayButton({ track }: TrackButtonProps) {
+export function SongPlayButton({ track }: WithTrack) {
   const { playing, labels, toggle } = useTrackPlayback(track);
 
   return <ListenButton {...{ playing, labels }} onClick={toggle} />;

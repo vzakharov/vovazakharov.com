@@ -33,6 +33,9 @@ export type Summarized = Titled & Described;
 /** A date as frontmatter spells it, ISO `YYYY-MM-DD`. */
 export type Dated = { date: string };
 
+/** What a reproducible random draw starts from: the same seed, the same result. */
+export type Seeded = { seed: number };
+
 /** The short name a thing is shown or logged under. */
 export type Labeled = { label: string };
 

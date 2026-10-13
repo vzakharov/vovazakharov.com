@@ -6,34 +6,41 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent, useState } from 'react';
 
 import { cx } from '@/shared/lib/class-names';
-import { pick } from '@/shared/lib/collections';
 import { NameLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import { useStoredFlag } from '../lib/use-stored-flag';
+import { BillingLinks } from './billing-links';
 import { Marquee } from './marquee';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
+import { RadioToggle } from './radio-toggle';
 import { Spelling } from './spelling';
 
 /**
  * Keeps the reader on the playing song's page: while following, it opens that
- * page, and opens the next one each time the track changes. Following starts
- * on, and each navigation of the reader's own sets it — off anywhere else, on
- * at the playing song's page, however the reader got there. The returned
- * `resume` switches it on ahead of the navigation it rides on.
+ * page, and opens the next one each time the track changes. The radio turning
+ * on switches it off, every way of tuning in taking the reader to the radio's
+ * page instead; each navigation of the reader's own sets it: off anywhere
+ * else, on at the playing song's page, however the reader got there. The
+ * returned `resume` switches it on ahead of the navigation it rides on.
  */
-function useFollow(route: string | undefined) {
+function useFollow(route: string | undefined, radio: boolean) {
   const router = useRouter();
   const pathname = usePathname();
-  const [following, setFollowing] = useState(true);
+  const [following, setFollowing] = useState(!radio);
   const [seen, setSeen] = useState(pathname);
+  const [wasRadio, setWasRadio] = useState(radio);
 
   // Set during render rather than in an effect, so the push below never runs
-  // against a switch the navigation has already made stale.
+  // against a switch the navigation or the tuning has already made stale.
   if (pathname !== seen) {
     setSeen(pathname);
     if (route !== undefined) setFollowing(pathname === route);
+  }
+  if (radio !== wasRadio) {
+    setWasRadio(radio);
+    if (radio) setFollowing(false);
   }
 
   // An event rather than a dependency: only a track change opens a page, and
@@ -67,7 +74,7 @@ export function PlayerBar() {
     shuffle,
     seek,
   } = usePlayer();
-  const resumeFollow = useFollow(current?.routes[locale]);
+  const resumeFollow = useFollow(current?.routes[locale], state.radio);
   // The right-hand readout: the track's length, or what is left of it.
   const [remaining, setRemaining] = useStoredFlag('remaining');
 
@@ -124,6 +131,8 @@ export function PlayerBar() {
         >
           <Shuffle size={18} />
         </ActionIcon>
+
+        <RadioToggle />
       </Group>
 
       <Box className={classes['playerTrack']}>
@@ -134,15 +143,7 @@ export function PlayerBar() {
             </NameLink>
             <Text component="span" inherit opacity={0.6}>
               {' — '}
-              {billing[locale].map((part) =>
-                typeof part === 'string' ? (
-                  part
-                ) : (
-                  <NameLink key={part.href} {...pick(part, 'href')} c="inherit">
-                    <Spelling {...part.name} />
-                  </NameLink>
-                ),
-              )}
+              <BillingLinks billing={billing[locale]} />
             </Text>
           </Marquee>
         </Text>

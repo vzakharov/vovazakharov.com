@@ -1,6 +1,7 @@
 ---
 title: 'Prototypes'
 artist: 'GENERATED'
+wip: true
 ru:
   title: { translation: 'Прототипы' }
 ---

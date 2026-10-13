@@ -5,6 +5,7 @@
 ## 1. Standing constraints
 
 None stated by the operator. From the original task prompt (see `relay-9.md` § 2): «issue не надо» — no issue is filed for this work.
+
 ## 2. The conversation
 
 The only operator input this session was the launch line `/relay take claude/music-catalogue-frontmatter-q4h7ze` (an auto-relay from `relay-9.md`'s session).

@@ -90,6 +90,8 @@ export const albumFrontmatterSchema = z
     title: z.string().min(1),
     /** Whose release it is, which can differ from a song's own billing. */
     artist: projectSchema,
+    /** The release is still being made, so its songs and their order may change. */
+    wip: z.literal(true).optional(),
   })
   .extend(
     byLocale(() =>
@@ -180,6 +182,11 @@ const playableSchema = z.object({
   seconds: z.number().int().positive(),
   /** Read off the 🅴 in the master's file name by the scaffolder. */
   explicit: z.boolean().default(false),
+  /**
+   * The song runs straight into its release's next track, so a shuffle keeps
+   * the two together, in order.
+   */
+  segue: z.boolean().default(false),
 });
 
 export type Playable = z.infer<typeof playableSchema>;

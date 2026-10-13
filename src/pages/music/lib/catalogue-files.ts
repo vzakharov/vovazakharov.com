@@ -45,17 +45,24 @@ function required<F>(
   return loaded;
 }
 
-export const albumFile = readOnce((album: MusicAlbum) => {
-  const name = `${ALBUMS_SEGMENT}/${album}`;
+/** `albums/` and `artists/` are siblings of the songs collection's directory, reached from it by `../`. */
+function loadCatalogueFile<F>(
+  name: string,
+  schema: Parameters<typeof loadProse<F>>[2],
+): CatalogueFile<F> {
+  return required(name, loadProse('music', `../${name}`, schema));
+}
 
-  return required(name, loadProse('music', name, albumFrontmatterSchema));
-});
+export const albumFile = readOnce((album: MusicAlbum) =>
+  loadCatalogueFile(`${ALBUMS_SEGMENT}/${album}`, albumFrontmatterSchema),
+);
 
-export const artistFile = readOnce((artist: MusicProject) => {
-  const name = `${ARTISTS_SEGMENT}/${MUSIC_PROJECT_SLUGS[artist]}`;
-
-  return required(name, loadProse('music', name, artistFrontmatterSchema));
-});
+export const artistFile = readOnce((artist: MusicProject) =>
+  loadCatalogueFile(
+    `${ARTISTS_SEGMENT}/${MUSIC_PROJECT_SLUGS[artist]}`,
+    artistFrontmatterSchema,
+  ),
+);
 
 /**
  * An album's or an artist's name under a locale — the locale's own where it

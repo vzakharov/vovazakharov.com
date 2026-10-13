@@ -38,7 +38,7 @@ export function addressLocale(pathname: string): Locale {
   return isLocale(last) ? last : DEFAULT_LOCALE;
 }
 
-/** An address whose last segment may be a locale — `/cv/cto/ru`, `/music/slime/ru`. */
+/** An address whose last segment may be a locale — `/cv/cto/ru`, `/music/songs/slime/ru`. */
 export type LocaleTail<Head extends string> = [] | [Head] | [Head, Locale];
 
 /** Every address one head value answers: itself, and one per locale. */

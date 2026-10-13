@@ -8,16 +8,27 @@ import type { Sourced } from '@/shared/typings';
 
 import classes from './music.module.scss';
 
-export type CoverZoomProps = Sourced & {
+export type CoverZoomLabels = {
   enlargeLabel: string;
   closeLabel: string;
 };
 
+export type CoverZoomProps = Sourced &
+  CoverZoomLabels & {
+    /** The thumbnail's size, in place of a song page's. */
+    sizeClass?: string | undefined;
+  };
+
 /**
- * A song page's cover, opening at full size in a native modal `<dialog>`. The
- * dialog is one close button filling the viewport, so any click closes it.
+ * A cover, opening at full size in a native modal `<dialog>`. The dialog is one
+ * close button filling the viewport, so any click closes it.
  */
-export function CoverZoom({ src, enlargeLabel, closeLabel }: CoverZoomProps) {
+export function CoverZoom({
+  src,
+  enlargeLabel,
+  closeLabel,
+  sizeClass = classes['cover'],
+}: CoverZoomProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   // One file for the thumbnail and the full size, so opening fetches nothing.
   const art = { src, width: 600, height: 600 };
@@ -26,11 +37,7 @@ export function CoverZoom({ src, enlargeLabel, closeLabel }: CoverZoomProps) {
     <>
       <button
         type="button"
-        className={cx(
-          classes['tileArt'],
-          classes['cover'],
-          classes['coverOpen'],
-        )}
+        className={cx(classes['tileArt'], sizeClass, classes['coverOpen'])}
         aria-label={enlargeLabel}
         onClick={() => dialogRef.current?.showModal()}
       >

@@ -24,12 +24,13 @@ import {
   artistPath,
   ARTISTS_SEGMENT,
   CATALOGUE_TABS,
-  EVERYTHING_SEGMENT,
   musicPath,
+  RADIO_SEGMENT,
+  radioPath,
   songPath,
+  SONGS_SEGMENT,
   tabBySegment,
   tabPath,
-  type WithEverything,
   type WithTab,
 } from './music-urls';
 import { catalogueSongs, listSongPages } from './songs';
@@ -37,14 +38,11 @@ import { catalogueSongs, listSongPages } from './songs';
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalMusicSegments = { slugAndLocale?: string[] };
 
-/** A page of one catalogue, public or whole, in one language. */
-export type CataloguePageProps = WithLocale & WithEverything;
+export type IndexPageProps = WithLocale & WithTab;
 
-export type IndexPageProps = CataloguePageProps & WithTab;
+export type ArtistPageProps = WithLocale & { artist: MusicProject };
 
-export type ArtistPageProps = CataloguePageProps & { artist: MusicProject };
-
-export type AlbumPageProps = CataloguePageProps & { album: MusicAlbum };
+export type AlbumPageProps = WithLocale & { album: MusicAlbum };
 
 export type SongPageProps = WithLocale & Slugged;
 
@@ -53,7 +51,8 @@ export type MusicAddress =
   | ({ page: 'index' } & IndexPageProps)
   | ({ page: 'artist' } & ArtistPageProps)
   | ({ page: 'album' } & AlbumPageProps)
-  | ({ page: 'song' } & SongPageProps);
+  | ({ page: 'song' } & SongPageProps)
+  | ({ page: 'radio' } & WithLocale);
 
 function artistBySlug(slug: string): MusicProject {
   const artist = MUSIC_PROJECT_NAMES.find(
@@ -69,47 +68,44 @@ function artistBySlug(slug: string): MusicProject {
 
 /**
  * A parse rather than a cast, failing `next build` on an address no reading
- * covers. The locale is the last segment wherever it is present, and the whole
- * catalogue's addresses are the public ones behind `all/`. `listSongPages`
- * refuses a song slug that is a locale or one of the section's own first
- * segments, so no song can steal an index's or an artist's URL.
+ * covers. The locale is the last segment wherever it is present.
+ * `listSongPages` refuses a song slug that is a locale, so no song can steal
+ * the songs tab's URL in a language.
  */
 export function parseMusicSegments({
   slugAndLocale = [],
 }: WithOptionalMusicSegments): MusicAddress {
   const last = slugAndLocale.at(-1);
   const locale = isLocale(last) ? last : DEFAULT_LOCALE;
-  const path = isLocale(last) ? slugAndLocale.slice(0, -1) : slugAndLocale;
-  const everything = path[0] === EVERYTHING_SEGMENT;
-  const [kind, slug, ...rest] = everything ? path.slice(1) : path;
-  const catalogue = { locale, everything };
+  const [kind, slug, ...rest] = isLocale(last)
+    ? slugAndLocale.slice(0, -1)
+    : slugAndLocale;
 
   if (kind === undefined) {
-    return { page: 'index', tab: 'artists', ...catalogue };
+    return { page: 'index', tab: 'artists', locale };
   }
 
   if (slug !== undefined && rest.length === 0) {
     if (kind === ARTISTS_SEGMENT) {
-      return { page: 'artist', artist: artistBySlug(slug), ...catalogue };
+      return { page: 'artist', artist: artistBySlug(slug), locale };
     }
     if (kind === ALBUMS_SEGMENT) {
-      return {
-        page: 'album',
-        album: oneOf(MUSIC_ALBUM_SLUGS, slug),
-        ...catalogue,
-      };
+      return { page: 'album', album: oneOf(MUSIC_ALBUM_SLUGS, slug), locale };
+    }
+    if (kind === SONGS_SEGMENT) {
+      return { page: 'song', slug, locale };
     }
   }
 
   if (slug === undefined) {
     const tab = tabBySegment(kind);
 
-    if (tab !== undefined) return { page: 'index', tab, ...catalogue };
-    if (!everything) return { page: 'song', slug: kind, locale };
+    if (tab !== undefined) return { page: 'index', tab, locale };
+    if (kind === RADIO_SEGMENT) return { page: 'radio', locale };
   }
 
   throw new Error(
-    `/music/${slugAndLocale.join('/')} is no address of the music section.`,
+    `${musicPath()}/${slugAndLocale.join('/')} is no address of the music section.`,
   );
 }
 
@@ -121,28 +117,27 @@ function songPage({ slug }: Slugged): Addressed {
 }
 
 /**
- * One catalogue's pages: its index in each tab, and every artist and album with
- * a song in it — so an artist or album whose songs are all hidden has no public
- * page.
+ * The catalogue's pages: its index in each tab, and every artist and album with
+ * a listed song — so an artist or album whose songs are all hidden has no page.
  */
-function cataloguePages(catalogue: WithEverything): Addressed[] {
-  const songs = catalogueSongs(catalogue);
+function cataloguePages(): Addressed[] {
+  const songs = catalogueSongs();
 
   return [
     ...CATALOGUE_TABS.map(
       (tab): Addressed =>
         (locale) =>
-          tabPath(tab, catalogue, locale),
+          tabPath(tab, locale),
     ),
     ...catalogueArtists(songs).map(
       (artist): Addressed =>
         (locale) =>
-          artistPath(artist, catalogue, locale),
+          artistPath(artist, locale),
     ),
     ...catalogueAlbums(songs).map(
       (album): Addressed =>
         (locale) =>
-          albumPath(album, catalogue, locale),
+          albumPath(album, locale),
     ),
   ];
 }
@@ -150,9 +145,9 @@ function cataloguePages(catalogue: WithEverything): Addressed[] {
 /** Every address the music section answers, as the catch-all spells them. */
 export function musicSegmentParams(): WithOptionalMusicSegments[] {
   const pages: Addressed[] = [
-    ...cataloguePages({ everything: false }),
-    ...cataloguePages({ everything: true }),
+    ...cataloguePages(),
     ...listSongPages().map((page) => songPage(page)),
+    radioPath,
   ];
 
   return pages
@@ -166,7 +161,7 @@ export function musicSegmentParams(): WithOptionalMusicSegments[] {
 }
 
 /**
- * The public catalogue's pages, one address per language and not the alias —
+ * The catalogue's pages, one address per language and not the alias —
  * the section's share of the sitemap. Of the songs only a page on a release
  * other than the song's own is here, the collection's walk advertising the
  * song's own page.
@@ -178,7 +173,7 @@ export function musicCatalogueRoutes(): string[] {
     )
     .map((page) => songPage(page));
 
-  return [...cataloguePages({ everything: false }), ...releasePages].flatMap(
-    (page) => LOCALES.map((locale) => page(locale)),
+  return [...cataloguePages(), ...releasePages, radioPath].flatMap((page) =>
+    LOCALES.map((locale) => page(locale)),
   );
 }

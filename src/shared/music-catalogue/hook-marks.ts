@@ -1,5 +1,9 @@
 import type { WithText } from '@/shared/typings';
 
+/**
+ * A run, in the typesetter's sense: a stretch of a hook set all one way, struck
+ * through or plain. A hook is the sequence of its runs.
+ */
 export type HookRun = WithText & { struck?: true };
 
 /**

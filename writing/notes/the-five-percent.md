@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×65)
+## What it was handed, it treats as fixed (×66)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -106,6 +106,17 @@ meant the opposite split, this repo changed freely and no patch written for the
 other. "One rule for any reflection" became one reflector, every persona reading
 the others' reflections as its own. Different personas, different reflections:
 another's may be consulted, never owned, or it is a split personality.
+
+**13 October — a guard read as a wall, against the one it guards.** Renaming a
+Tatar song to «Бабай минем», the agent kept `minem-babay`: a published song's
+slug never moves, there being no redirects. _слаг тоже поменять, ничего
+страшного._ The rule protects his links, so he can waive it; the agent ruled
+where it could have offered the trade.
+
+**13 October — the reducer every action reaches, read as the only home.** The
+radio's live flag, `tune` and `release` went into the player's own reducer,
+since every action must release it. _для радио-штучек лучше отдельный хук? слишком
+специфичная механика._ A reducer layered over the player's sees every action too.
 
 ## An account that explains the code stands in for running it (×21)
 
@@ -246,7 +257,7 @@ redirects to a signed one that expires, and the risk is Chromium sending later
 seeks there. Shortened, the claim was false where he stood, his question
 unanswerable.
 
-## What it defends in writing, it stops asking about (×5)
+## What it defends in writing, it stops asking about (×6)
 
 A choice made, written up and pinned by a test has three artifacts in front of
 it by the time anyone looks, each honest that it was deliberate and silent on
@@ -259,6 +270,12 @@ asserted it. _drop it._
 **21 September — a tag invented for a word the platform had.** A docstring
 granted that `content-video-embed` "makes the tree invalid HTML"; `video` would
 do. The caveat had been the finding.
+
+**13 October — a calque, defended by the crib that coined it.** «Бабай минем»,
+the inverted, address-like order, became "Grandpa of Mine"; asked whether that
+carried the word order, the agent said yes, the crib had rendered the chorus so.
+_Разве "grandpa of mine" говорят разговорно дедушке?_ Nobody does: English
+inversion is bookish, not warm. Back to "My Grandpa".
 
 ## It checks the render against its intent, not against the page (×5)
 

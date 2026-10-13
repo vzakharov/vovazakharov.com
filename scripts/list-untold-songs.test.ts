@@ -15,7 +15,7 @@ const SCRIPT = path.resolve(import.meta.dirname, 'list-untold-songs.ts');
 
 function tree(songs: Record<string, string>) {
   const root = mkdtempSync(path.join(tmpdir(), 'untold-songs-'));
-  const dir = path.join(root, 'apps/vova/public/music');
+  const dir = path.join(root, 'apps/vova/public/music/songs');
   mkdirSync(dir, { recursive: true });
   for (const [slug, text] of Object.entries(songs))
     writeFileSync(path.join(dir, `${slug}.md`), text);
@@ -93,9 +93,9 @@ describe('list-untold-songs', () => {
       }),
     );
     for (const line of [
-      '- [Bare](../../apps/vova/public/music/bare.md) — hook, story',
-      '- [Half](../../apps/vova/public/music/half.md) — hook, ru story',
-      '- [Storied](../../apps/vova/public/music/storied.md) — hook',
+      '- [Bare](../../apps/vova/public/music/songs/bare.md) — hook, story',
+      '- [Half](../../apps/vova/public/music/songs/half.md) — hook, ru story',
+      '- [Storied](../../apps/vova/public/music/songs/storied.md) — hook',
     ])
       assert.ok(list.includes(line), list);
     assert.ok(!list.includes('Preamble'), list);

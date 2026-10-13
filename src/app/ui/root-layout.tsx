@@ -56,7 +56,10 @@ export function RootLayout({
     >
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
-        <script>{SCRIPT_PREFERENCE_SCRIPT}</script>
+        <script
+          // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml -- the markup is `script-preference.ts`'s own function source and constants, never reader input; a `<script>` child would reach the page HTML-escaped
+          dangerouslySetInnerHTML={{ __html: SCRIPT_PREFERENCE_SCRIPT }}
+        />
         {/* `data-domains` keeps a dev server or a preview from counting as the site. */}
         <script
           defer

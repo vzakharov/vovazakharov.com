@@ -41,10 +41,6 @@ describe('defaultScript', () => {
 });
 
 describe('SCRIPT_PREFERENCE_SCRIPT', () => {
-  it('holds no character React escapes in a <script> child', () => {
-    assert.doesNotMatch(SCRIPT_PREFERENCE_SCRIPT, /["&'<>]/);
-  });
-
   it('agrees with defaultScript where nothing is stored', () => {
     for (const languages of [['en-US', 'ru-RU'], ['en-US'], []]) {
       assert.equal(marked(null, languages), defaultScript(languages));

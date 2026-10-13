@@ -40,7 +40,7 @@ export function publicMarkdownFiles(): string[] {
     .map((file) => path.relative(process.cwd(), file));
 }
 
-const MUSIC_DIR = 'apps/vova/public/music';
+const MUSIC_DIR = 'apps/vova/public/music/songs';
 
 /** Every song — each document directly under the music collection, companions aside — relative to the root, sorted. */
 export function songFiles(): string[] {

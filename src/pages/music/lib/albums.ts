@@ -34,6 +34,10 @@ export function albumArtist(album: MusicAlbum, locale: Locale): MusicProject {
   return frontmatter[locale].artist ?? frontmatter.artist;
 }
 
+export function albumWip(album: MusicAlbum): boolean {
+  return albumFile(album).frontmatter.wip === true;
+}
+
 /**
  * The cover's site-root path, where the release has one: a 600px square cut
  * from the master in its `vovas-music` repository, or Apple Music's or

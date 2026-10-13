@@ -1,6 +1,7 @@
 import { byLocale, loadMessages } from '@/shared/i18n';
 import type { WithChildren } from '@/shared/typings';
 
+import { radioPath } from '../lib/music-urls';
 import { listSongs } from '../lib/songs';
 import { PlayerProvider } from './player-provider';
 
@@ -15,6 +16,7 @@ export function MusicLayout({ children }: WithChildren) {
     <PlayerProvider
       tracks={listSongs()}
       labels={byLocale((locale) => loadMessages(locale).music.player)}
+      radioRoutes={byLocale((locale) => radioPath(locale))}
     >
       {children}
     </PlayerProvider>

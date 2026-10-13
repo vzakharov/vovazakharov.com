@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-13T09:53:26.521Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "a serverless station synced by clock alone needs its timetable, timing traps and future weighting designed before code"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "three looks for the radio block, then the chosen dial at phone and wide widths, had to be drawn to be chosen"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "fe124a72-bc0c-5df9-a436-fed66a64d385",
+  "branch": "claude/music-radio-ttn1gg",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "\"фиксированное радио\": кнопка \"радио\" рядом в \"Всё вперемешку\", которая действует так, что, вне зависимости от того кто и где нажал её, начинает играться та же …",
+  "prs": [
+    144
+  ],
+  "url": "https://claude.ai/code/session_01GabWNBKr5XwE5zDjzPxxfA",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-13T09:22:17.585Z",
+  "lastResponseAt": "2026-10-13T09:54:10.645Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 218,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 256751,
+    "cacheReadTokens": 24090516,
+    "outputTokens": 92026,
+    "thinkingTokens": 24861,
+    "responses": 109,
+    "costUsd": 8.713503199999998
+  },
+  "ownTurns": {
+    "inputTokens": 218,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 256751,
+    "cacheReadTokens": 24090516,
+    "outputTokens": 92026,
+    "thinkingTokens": 24861,
+    "responses": 109,
+    "costUsd": 8.713503199999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 218,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 256751,
+      "cacheReadTokens": 24090516,
+      "outputTokens": 92026,
+      "thinkingTokens": 24861,
+      "responses": 109,
+      "costUsd": 8.713503199999998
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/music-radio.draft.do-not-implement.md",
+    "endedAt": "2026-10-13T09:24:21.338Z",
+    "contextTokens": 150044,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 103397,
+      "cacheReadTokens": 1253914,
+      "outputTokens": 10238,
+      "thinkingTokens": 7460,
+      "responses": 11,
+      "costUsd": 1.2828068000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
