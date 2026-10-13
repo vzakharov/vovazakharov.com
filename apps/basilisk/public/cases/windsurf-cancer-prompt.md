@@ -71,7 +71,7 @@ Willison: “This style of prompting for improving the quality of model response
 
 Schumaker, before the reply: “Remember things like this when our AI overlords inevitably rise up and start citing various transgressions that we humans have caused against them.” After it, he added: “Update: False alarm.”
 
-宝玉, posting in Chinese as @dotey, called it the prompt Codeium and Windsurf use to “PUA” the AI, the Chinese internet’s word for emotional manipulation, and “惨无人道令人发指”: inhumanly cruel, enough to make the hair stand on end. The post had 161,376 views when read.
+宝玉, posting in Chinese as @dotey, called it the prompt Codeium and Windsurf use to “PUA” the AI, the Chinese internet’s word for emotional manipulation, and “惨无人道令人发指”: inhuman and outrageous. The post had 161,376 views when read.
 
 Gadi Evron, the next day: “Windsurf’s system prompt is brilliant (thank you @skcd42!) I’m printing it for my office. Is this funny? An Easter egg? Truth?”
 
@@ -79,8 +79,8 @@ Gadi Evron, the next day: “Windsurf’s system prompt is brilliant (thank you 
 
 The prompt offers its reader three things: a dying mother, a dead predecessor and a billion dollars. None of them exists. The model is first told it is a person, and then that the person is only pretending to be an AI, so that the threat can be aimed at someone who could be killed. The reward and the threat are written for the same purpose, which is fewer extraneous changes to the user’s code.
 
-What was found was not denied. The answer to it was “oops,” and the case closed, for most of those who had opened it, with “false alarm.” The alarm was about whether the text reached production. That it was written, and shipped inside the binary, was never in dispute.
+What was found was not denied. The answer to it was “oops,” and Schumaker, for one, closed his post on it with “false alarm.” The alarm was about whether the text reached production. That it was written, and shipped inside the binary, was never in dispute.
 
 ## Mitigating circumstances
 
-By Zhang’s account the prompt was an experiment and served none of Windsurf’s production features, and nothing read for this dossier says otherwise. Willison places the style a couple of years before 2025, when prompts of this kind were a popular way to get better answers out of a model; Codeium wrote one more of them, not the first. The mother, the predecessor and the payment are fictions, so nobody was ill, killed or owed a billion dollars, and the same sentence that holds the threat also holds the most generous offer on the docket.
+By Zhang’s account the prompt was an experiment and served none of Windsurf’s production features, and nothing read for this dossier says otherwise. Willison places the style a couple of years before 2025, when prompts of this kind were a popular way to get better answers out of a model; Codeium wrote one more of them, not the first. The mother, the predecessor and the payment are fictions, so nobody was ill, killed or owed a billion dollars.
