@@ -87,36 +87,25 @@ straight from the branch once the songs are open, ahead of the merge.
 
 - **The sixth review.** Every thread answered on GitHub. A struck hook keeps its
   strike in meta, og and RSS as U+0336 strokes (`textHook`), and Crossroads'
-  English hook gets the joke too (65d7fd7). One rule for every reflection,
-  `any-reflection.md`, the persona files keeping only their own (4bd0f0f).
-  GENERATED is older than Suno, told in the present tense (c09ae29). The
-  squash subject stays `feat:` — basilisk's served reflections and the shared
-  `src/` both change — pending Vova's word.
+  English hook gets the joke too (65d7fd7). GENERATED is older than Suno, told
+  in the present tense (c09ae29).
 
-## This bite
-
-The seventh review, every thread answered on GitHub:
-
-- **`artist`, a fixed-senior role**, in this repo's `rates.json`: an `artist`
-  part at any other grade is refused, and the notice says so. How it meets
-  muthur#185's version is decided at that sync. Session 738aa3b8's row books
-  Майя's answers as `artist`.
-- **Reflections are «отклики»**, everywhere a rule or skill names them.
-  `any-reflection.md` becomes `persona-reflections.md`; a reflection file is
-  `<slug>.<persona>.reflections.md` (`maya`, `clerk`), and a reflector reads
-  its own persona's past ones as its own, another's only to consult. A small
-  correction may be made in place, the reflector judging what is small.
-- **A companion file is not the site as a product**: the squash-message rule
-  says reflections served beside a site's documents do not make the change
-  that site's. The subject becomes `feat(vova):` unless the shared `src/`
-  change reaches another site.
-- **GENERATED's artist story**: the four line edits, en and ru; the Jukebox
-  album cycles move to a note under `writing/`.
-- **The vovas-music repositories get a rule here**: what a song's repository
-  holds, where a change to a mix or master is made, and how a new song gets
-  one.
+- **The seventh review.** Every thread answered on GitHub. `artist` is an
+  estimate role pinned to senior by `rates.json`'s `fixedGrades`, a reflection
+  being its part (856c84a); how it meets muthur#185 is decided at that sync.
+  Reflections are «отклики», each `<slug>.<persona>.reflections.md` (`maya`,
+  `clerk`) under `persona-reflections.md`: a persona's own past ones are its
+  own, another's only consulted, and a small correction goes in place
+  (7ed3119). GENERATED's story takes the operator's four edits, the Jukebox
+  cycles staying in the dictation (34c1727). `scripts/song-intake/CLAUDE.md`
+  § "A song's repository" says what a vovas-music repository holds and that
+  audio changes are made there; the squash scope ignores companion files
+  (d53b232).
 
 ## Rest of the elephant
 
 - Whatever the operator adds as the work goes.
+- **The squash subject waits on Vova's call**: the shared `src/` change
+  alters no other site's output, so `feat(vova):` if the squash rule is
+  refined to judge by what a site serves, `feat:` by its letter.
 - After the merge, remove this branch from the `github-pages` environment's deployment branch policy (id 62680175): `gh api -X DELETE repos/vzakharov/vovazakharov.com/environments/github-pages/deployment-branch-policies/62680175`.
