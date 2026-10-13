@@ -30,10 +30,10 @@ const EN: CatalogueSizeForms = {
 
 const RU: CatalogueSizeForms = {
   artists: {
-    one: '# исполнитель',
-    few: '# исполнителя',
-    many: '# исполнителей',
-    other: '# исполнителя',
+    one: '# артист',
+    few: '# артиста',
+    many: '# артистов',
+    other: '# артиста',
   },
   albums: {
     one: '# альбом',
@@ -112,7 +112,7 @@ describe('catalogueSize', () => {
         'ru',
         RU,
       ),
-      '5 исполнителей, 21 альбом, 3 песни, 1 час 12 минут',
+      '5 артистов, 21 альбом, 3 песни, 1 час 12 минут',
     );
     assert.equal(
       catalogueSize({ albums: 1, seconds: [200, 185, 241] }, 'en', EN),

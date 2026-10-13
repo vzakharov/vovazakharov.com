@@ -15,7 +15,7 @@ export function MusicSection({ locale, size }: WithLocale & { size: string }) {
         {intro}
       </Text>
 
-      <Text size="sm" opacity={0.7} mt={-8}>
+      <Text size="sm" opacity={0.55} mt={-8}>
         {size}
       </Text>
 

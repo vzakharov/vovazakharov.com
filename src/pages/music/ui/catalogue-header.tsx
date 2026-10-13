@@ -46,7 +46,7 @@ export function CatalogueHeader({
         {/* The page's own file at the line's far end, as a song page sets its
             facts. */}
         <Group justify="space-between" gap="12px 32px" wrap="wrap">
-          <Text size="sm" opacity={0.7}>
+          <Text size="sm" opacity={0.55}>
             {size}
           </Text>
           {markdown && <FileLink {...markdown}>.md</FileLink>}
