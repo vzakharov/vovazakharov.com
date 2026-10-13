@@ -337,8 +337,6 @@
       "next": "Next track",
       "shuffle": "Shuffle",
       "radio": "Radio",
-      "radioHint": "Same song, same second, for everyone on the {radio}.",
-      "radioHintLink": "radio",
       "seek": "Seek",
       "timeToggle": "Switch between the song’s length and the time left"
     }

@@ -6,7 +6,7 @@
 
 **Also done:** the cover mockups (variant 1 picked), the `radio` segment and `radioPath`, the catalogue's words. The route's parse, static params and sitemap entries land with the page, `music-route.tsx`'s switch being exhaustive.
 
-§ "Changes" 4: `ui/radio-toggle.tsx` in the bar, the hint with it; the layout passes `radioRoutes` down, `music-urls` being out of a client bundle's reach (its `@/shared/content` barrel is server-only); `useFollow(route, !state.radio)`. Not yet looked at: the five-control strip at phone width (`/preview`).
+§ "Changes" 4: `ui/radio-toggle.tsx` in the bar; the layout passes `radioRoutes` down, `music-urls` being out of a client bundle's reach (its `@/shared/content` barrel is server-only); `useFollow` switching off as the radio turns on. Not yet looked at: the five-control strip at phone width (`/preview`).
 
 § "Changes" 7, its first piece: `lib/song-excerpt.ts` (+ test) — `songExcerpt(story)` gives the plain text cut at a word past `EXCERPT_LENGTH` (600), or `undefined` for no words. The hook fallback is the radio page's: `songExcerpt(localized.body) ?? (hook && textHook(hook))`, `textHook` living behind the server-only `@/shared/music-catalogue` barrel a `node:test` cannot load. Unused until the page imports it, so `knip` may flag it.
 
@@ -73,7 +73,7 @@ A static export serves it like any other page, because nothing on it differs bet
 - **It tries to play at once.** On load the page attempts to tune in. Whether that is allowed is the browser's call: Chrome allows it on a site whose media the reader has played before (its media-engagement score, which is how YouTube autoplays) and after any in-site click, a client-side navigation keeping the gesture; Safari and Firefox refuse a cold visit by default. Allowed, the page is tuned in as if **Tune in** had been pressed. Refused, it stays as it loaded and **Tune in** is the press the browser asked for; it tunes in afresh, so the wait costs no sync.
 - **The attempt commits nothing until the browser says yes.** Tuning in puts a track in the player, which mounts the bar and marks the radio on — before `play()` has answered. A refusal arriving after that would leave a paused bar and a **Tune back in** for a radio the reader never chose. So the landing attempt loads the station's track into the element and calls `play()` with the player's state untouched, and dispatches `tune` only when the promise resolves.
 - **No muted stream.** Playing muted would autoplay everywhere, but 157 of the 170 masters are FLAC, tens of megabytes a song, which would stream to every visitor who never listens — on a phone, over their data plan. A refused autoplay downloads nothing.
-- **Its link card is static**: one image, rendered once by `pnpm content:og:vova` and committed beside `music.og.jpg`. A link preview is fetched by the platform once and cached, so it could never show what is on air anyway; the card says what the radio is instead. It is drawn by `scripts/lib/music-collage.ts` — the covers collage the index unfurls as — with a band across it reading **Radio** and the hint's line. The `og:title`/`og:description` carry the same words.
+- **Its link card is static**: one image, rendered once by `pnpm content:og:vova` and committed beside `music.og.jpg`. A link preview is fetched by the platform once and cached, so it could never show what is on air anyway; the card says what the radio is instead. It is drawn by `scripts/lib/music-collage.ts` — the covers collage the index unfurls as — with a band across it reading **Vova’s Radio** and the pitch. The `og:title`/`og:description` carry the same words.
 
 ### The operator's additions (this session)
 
@@ -91,26 +91,21 @@ A static export serves it like any other page, because nothing on it differs bet
 - **The set has an outline**: a thin border and radius, as the section's cards have — marked, not decorated — with room inside it («немного добавить воздуха внутри»): about 40px above and 36px at the sides, the mockup's `.boxed`. **Only where the column leaves room around it**: a column no wider than the set gets no outline at all (operator: «если рамка достигает ширины экрана, значит не надо уже»), a container query on the column deciding.
 - **The [i] note states the cycle's length** as `h:mm:ss` — the sum of the public catalogue's `seconds`, the radio's whole round. The radio page is a server component rendered at build, so the sum is computed there from `listSongs()`, with no codegen step: a static export already bakes it in at every deploy, which is when the catalogue changes.
 
-## The hint
+## Tuning in opens the radio's page
 
-Each time the radio turns on, from any of its buttons, a popover rises over the bar's radio button for about five seconds, closing early on any click outside it. Away from `/music/radio`, its word “radio” links there. `PlayerBar` opens it on `state.radio` going from `false` to `true`, which catches both buttons with no plumbing between them; Mantine's `Popover` is what `noted-span.tsx` already uses and whose stylesheet the theme already loads.
-
-Copy:
-
-- **en**: “Same song, same second, for everyone on the radio.”
-- **ru**: «Та же песня, та же секунда — у всех, кто включил радио.»
+Every way of tuning in — the big **Radio** on `/music` and the bar's radio button alike — tunes in and opens `/music/radio`, unless the reader is already there; one `useOpenRadio` hook serves both. The radio turning on switches the bar's following off, so the track change that tuning makes cannot push the song's page over the radio's. No hint: the operator dropped it («этой подсказки уже не надо, просто при включении радио переходить на его страницу (если уже не там)»).
 
 ## Changes
 
 1. `lib/station.ts` + `station.test.ts` — the timetable: `stationAt`, the next-slot handover, the boundary swap. Tests: same `nowMs` → same answer; a slot's last millisecond and the next one's first; a cycle boundary; the no-repeat swap; an empty catalogue.
 2. `lib/player-state.ts` (+ tests) — `radio` in the state, the `tune` action, every other action releasing it.
 3. `lib/use-audio-player.ts` — `controls.radio()` (tune in) and `controls.unradio()`; the deferred seek; `ended` handing over in radio mode; the stall catch-up; `storeShuffle(true)` on tuning, as `shuffleAll` does, so the stored switch does not undo the cycle's order. The file is at 351 lines and this is its largest addition: if it passes ~450, the radio's element-side half moves to its own `use-station.ts` hook beside it.
-4. `ui/player-bar.tsx` — the radio `ActionIcon` (lucide `Radio`) right of shuffle, `aria-pressed`, the popover. A fifth control in the strip: check the phone-width layout with `/preview`.
+4. `ui/player-bar.tsx` — the radio `ActionIcon` (lucide `Radio`) right of shuffle, `aria-pressed`; unpressed, it opens the radio's page. A fifth control in the strip: check the phone-width layout with `/preview`.
 5. `ui/shuffle-all-button.tsx` → `ui/launch-buttons.tsx` — **Shuffle all** and **Radio** side by side, the second in the `default` variant so shuffle stays the primary action.
 6. `lib/songs.ts`, `lib/music-urls.ts`, `lib/music-route-params.ts` — the reserved `radio` segment, `radioPath(locale?)`, the `radio` page in the parse, its addresses in the static params and the sitemap.
 7. `ui/radio-page.tsx` (server) + `ui/on-air.tsx` (client) — the page, and the block it hosts: now playing and its counter, the autoplay attempt, **Tune in** / the story / **Tune back in**; `ui/music-route.tsx` dispatches to it, with its metadata. `lib/song-excerpt.ts` + test — the plain-text excerpt per song, built from `localizeSong`'s story, falling back to the hook. `ui/player-bar.tsx`'s `useFollow` starts off on `/music/radio`.
 8. `scripts/lib/music-collage.ts` and its caller — the radio's card, `music/radio.og.jpg`, rendered and committed.
-9. `src/shared/i18n/messages/{en,ru}.json` — `music.radio` (the big button), `music.player.radio` (the bar's label), `music.player.radioHint`, and the page's own words (`music.radioPage`: **Vova’s Radio**, the pitch, **Now playing**, **Tune in**, **Tune back in**, **Read story, lyrics & more**, **Don't worry, this won't stop the playback**).
+9. `src/shared/i18n/messages/{en,ru}.json` — `music.radio` (the big button), `music.player.radio` (the bar's label), and the page's own words (`music.radioPage`: **Vova’s Radio**, the pitch, **Now playing**, **Tune in**, **Tune back in**, **Read story, lyrics & more**, **Don't worry, this won't stop the playback**).
 
 ## DRY notes
 
@@ -121,7 +116,7 @@ Copy:
 - **Now playing and the player read one function.** `on-air.tsx` calls the same `stationAt` the player tunes by, with the same `catalogue`, so the page cannot show a song the radio is not playing.
 - **The page's address goes through the section's own machinery** — `RESERVED_SEGMENTS`, the catch-all's parse, `musicCatalogueRoutes()` — rather than a separate `app/music/radio/` route beside the catch-all.
 - **The card reuses the collage renderer** and its hash-cached manifest, adding a band, rather than a second card pipeline.
-- **The hint is not a toast system.** One popover on one button; a notifications package would be a dependency for one sentence.
+- **Both tune-in buttons share `useOpenRadio`**, the one place that knows the radio's page and when not to push it.
 
 ## Open questions
 
@@ -129,6 +124,6 @@ Each has its recommendation already written into the plan above; silence keeps i
 
 1. **A pause the reader did not make** (headphones, a call, a video): **a) releases the radio** _(recommended — "pressed" stays honest)_; b) leaves it pressed, and resuming re-tunes to the live moment.
 2. **Shuffle button while the radio plays**: **a) lit** _(recommended — the order is a shuffle, and stays one after release)_; b) dark, lit only once released.
-3. **The hint's words**: **a) as above** _(recommended)_; b) your own.
+3. **The hint**: dropped by the operator for opening the radio's page.
 4. **On landing**: **a) try to play at once; refused, wait for Tune in** _(recommended — an in-site click or a Chrome regular skips the press)_; b) always wait for Tune in; c) play muted, unmute on press — instant everywhere, at the cost of streaming FLAC to everyone who never unmutes.
 5. **The radio's link card**: **a) the covers collage with a "Radio" band** _(recommended — one renderer, and it looks like the section it belongs to)_; b) a typographic card of its own, an SVG drawn for it.

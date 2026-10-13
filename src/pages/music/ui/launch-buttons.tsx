@@ -2,11 +2,11 @@
 
 import { Button, Group } from '@mantine/core';
 import { Radio, Shuffle } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 
 import type { Messages } from '@/shared/i18n';
 
 import { usePlayer } from './player-provider';
+import { useOpenRadio } from './use-open-radio';
 
 type LaunchLabels = Pick<Messages['music'], 'shuffleAll' | 'radio'>;
 
@@ -17,12 +17,7 @@ type LaunchLabels = Pick<Messages['music'], 'shuffleAll' | 'radio'>;
  */
 export function LaunchButtons({ shuffleAll, radio }: LaunchLabels) {
   const player = usePlayer();
-  const router = useRouter();
-
-  function openRadio() {
-    player.tuneIn();
-    router.push(player.radioRoute);
-  }
+  const openRadio = useOpenRadio();
 
   return (
     <Group gap="sm" className="print-hidden">

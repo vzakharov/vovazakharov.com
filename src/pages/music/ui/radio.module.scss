@@ -33,7 +33,10 @@ $set-width: 552px;
   max-width: 32ch;
   margin: 0 auto 22px;
   font-size: 15px;
-  opacity: 0.8;
+
+  // Dimmed by colour, not `opacity`: the [i] note opens inside this block, and
+  // an opacity would show the page through it and stack it under the dial.
+  color: color-mix(in srgb, var(--color-foreground) 80%, transparent);
 }
 
 // An inline SVG sits on the baseline, which leaves it riding above the words.

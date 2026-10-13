@@ -28,7 +28,7 @@ export type PlayerContextValue = PlayerControls &
   /** The language of the page the bar is currently sitting under. */
   WithLocale & {
     labels: PlayerLabels;
-    /** The radio's page in the page's language, which the bar's hint links to. */
+    /** The radio's page in the page's language, which tuning in opens. */
     radioRoute: string;
   };
 
