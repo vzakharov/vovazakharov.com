@@ -343,7 +343,7 @@
 
   @include mantine.larger-than(mantine.$breakpoint-sm) {
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
   }
 }
 
