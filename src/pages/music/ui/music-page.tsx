@@ -118,18 +118,21 @@ function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
 }
 
 /**
- * The size of what the tab lists, and of everything it is a way into: the
- * artists tab is the front page, so it counts the whole catalogue.
+ * The whole catalogue's size, the same on the artists and albums tabs, which
+ * only group it differently; the songs tab counts its songs alone.
  */
 function tabSize(
   tab: CatalogueTab,
   songs: readonly SongDocument[],
   locale: Locale,
 ): string {
-  const albums = catalogueAlbums(songs).length;
+  const whole = {
+    artists: catalogueArtists(songs).length,
+    albums: catalogueAlbums(songs).length,
+  };
   const ahead: Record<CatalogueTab, Omit<CatalogueSize, 'seconds'>> = {
-    artists: { artists: catalogueArtists(songs).length, albums },
-    albums: { albums },
+    artists: whole,
+    albums: whole,
     songs: {},
   };
 
