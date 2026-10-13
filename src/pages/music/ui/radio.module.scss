@@ -1,0 +1,213 @@
+@use '../../../../styles/mantine';
+
+// The radio page's set, drawn after `docs/plans/radio-mockups.html`'s
+// variant 1: a receiver on the desk, outlined, centred in the column.
+
+.radio {
+  text-align: center;
+}
+
+.set {
+  max-width: 552px;
+  padding: 32px 22px 36px;
+  margin: 0 auto;
+  border: 1px solid var(--color-border-hairline);
+  border-radius: 16px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    padding: 40px 36px 44px;
+  }
+}
+
+.heading {
+  margin-bottom: 4px;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.pitch {
+  max-width: 32ch;
+  margin: 0 auto 22px;
+  font-size: 15px;
+  opacity: 0.8;
+}
+
+.nowPlaying {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 11px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.55;
+}
+
+.dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  background: var(--color-foreground);
+  border-radius: 50%;
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+// Reserved before the clock is read, so the page does not jump on mount.
+.onAir {
+  min-height: 88px;
+}
+
+.song {
+  display: inline-flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 12px;
+  text-align: left;
+}
+
+.cover {
+  width: 76px;
+}
+
+.songLines {
+  min-width: 0;
+}
+
+.songTitle {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.songMeta {
+  font-size: 14px;
+  line-height: 1.45;
+  opacity: 0.6;
+}
+
+.dial {
+  min-height: 92px;
+}
+
+.scale {
+  position: relative;
+  height: 40px;
+  margin: 18px 4px 0;
+}
+
+.base {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: var(--color-border-hairline);
+}
+
+.tick,
+.majorTick {
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  height: 8px;
+  background: var(--color-border-hairline);
+}
+
+.majorTick {
+  height: 18px;
+  background: var(--color-border-hairline-strong);
+}
+
+// The needle's whole journey is one animation: no script moves it.
+.travel {
+  position: absolute;
+  inset: 0;
+  animation: travel var(--song) linear forwards;
+  animation-delay: var(--at);
+  will-change: transform;
+}
+
+.needle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-foreground);
+}
+
+@keyframes travel {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.marks {
+  position: relative;
+  height: 18px;
+  margin: 4px 4px 0;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 11px;
+  opacity: 0.55;
+
+  span {
+    position: absolute;
+    transform: translateX(-50%);
+  }
+
+  span:first-child {
+    transform: none;
+  }
+}
+
+.times {
+  margin: 6px 4px 22px;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+.knob {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-background);
+  background: var(--color-foreground);
+  border-radius: 50%;
+  transition: opacity 150ms ease;
+
+  @include mantine.hover {
+    opacity: 0.85;
+  }
+}
+
+.story {
+  max-width: 62ch;
+  margin: 32px auto 0;
+  text-align: left;
+}
+
+.cta {
+  margin-top: 14px;
+  text-align: center;
+}

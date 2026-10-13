@@ -1,0 +1,222 @@
+'use client';
+
+import { Text, Title, UnstyledButton } from '@mantine/core';
+import { Info, Radio } from 'lucide-react';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
+
+import type { Messages } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
+import type { LabeledLink } from '@/shared/typings';
+import { InternalButton, NameLink } from '@/shared/ui';
+
+import { stationOffset } from '../lib/station';
+import { BillingLinks } from './billing-links';
+import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
+import { NotedSpan } from './noted-span';
+import { usePlayer } from './player-provider';
+import classes from './radio.module.scss';
+import { RadioDial } from './radio-dial';
+import readMore from './read-more.module.scss';
+import { SongName } from './song-name';
+
+/** What the page shows beside a song, resolved at build for every one the radio may play. */
+export type OnAirExtras = {
+  cover?: string | undefined;
+  album?: LabeledLink | undefined;
+  excerpt?: string | undefined;
+};
+
+export type OnAirProps = {
+  labels: Messages['music']['radioPage'];
+  zoom: CoverZoomLabels;
+  /** The song page's “from {album}”. */
+  albumLine: string;
+  /** One round of the public catalogue, `h:mm:ss`. */
+  cycleLength: string;
+  extras: Record<string, OnAirExtras>;
+};
+
+/**
+ * The device's clock, ticking on each whole second — when a slot boundary or
+ * the counter's next second falls. Undefined until mount, a build not knowing
+ * the hour it will be read at.
+ */
+function useClock(): number | undefined {
+  const [now, setNow] = useState<number>();
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const tick = () => {
+      setNow(Date.now());
+      timer = setTimeout(tick, 1000 - (Date.now() % 1000));
+    };
+
+    timer = setTimeout(tick, 0);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  return now;
+}
+
+type ExcerptProps = { text: string };
+
+/** The story's opening, held to a few lines and fading out only where it overflows them. */
+function Excerpt({ text }: ExcerptProps) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [overflowing, setOverflowing] = useState(false);
+
+  useEffect(() => {
+    const box = boxRef.current;
+
+    if (!box) return;
+
+    const observer = new ResizeObserver(() => {
+      setOverflowing(box.scrollHeight > box.clientHeight + 1);
+    });
+
+    observer.observe(box);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return (
+    <div
+      ref={boxRef}
+      className={readMore['clamped']}
+      data-overflowing={overflowing}
+    >
+      <Text lh={1.75}>{text}</Text>
+    </div>
+  );
+}
+
+/**
+ * The radio's set: what is on air and how far into it, from the clock and the
+ * same catalogue the player tunes by, whether or not anything plays. On mount
+ * it tries to tune in, which the browser may refuse; tuned in, the song's
+ * story shows under the set, and any action on playback puts **Tune back in**
+ * where it stood.
+ */
+export function OnAir({
+  labels,
+  zoom,
+  albumLine,
+  cycleLength,
+  extras,
+}: OnAirProps) {
+  const { state, current, locale, onAir, tryTuneIn, tuneIn } = usePlayer();
+  const now = useClock();
+  const [wasTuned, setWasTuned] = useState(false);
+
+  if (state.radio && !wasTuned) setWasTuned(true);
+
+  // Only with nothing in the player: a loaded track's source swap would race
+  // the attempt and abort its own `play()`.
+  const land = useEffectEvent(() => {
+    if (current === undefined) tryTuneIn();
+  });
+
+  useEffect(() => {
+    land();
+  }, []);
+
+  const air = now === undefined ? undefined : onAir(now);
+  const extra = air && extras[air.track.slug];
+  const [beforeAlbum, afterAlbum] = albumLine.split('{album}');
+
+  return (
+    <div className={classes['radio']}>
+      <div className={classes['set']}>
+        <Title order={1} className={classes['heading']}>
+          {labels.title}
+        </Title>
+        <div className={classes['pitch']}>
+          {labels.pitch}{' '}
+          <NotedSpan words={<Info size={15} aria-label={labels.aboutLabel} />}>
+            {labels.about.replace('{length}', cycleLength)}
+          </NotedSpan>
+        </div>
+
+        <div className={classes['nowPlaying']}>
+          {state.radio && <span className={classes['dot']} />}
+          {labels.nowPlaying}
+        </div>
+
+        <div className={classes['onAir']}>
+          {air && extra && (
+            <div className={classes['song']}>
+              {extra.cover !== undefined && (
+                <CoverZoom
+                  src={extra.cover}
+                  sizeClass={classes['cover']}
+                  {...zoom}
+                />
+              )}
+              <div className={classes['songLines']}>
+                <div className={classes['songTitle']}>
+                  <NameLink href={air.track.routes[locale]} c="inherit">
+                    <SongName {...air.track.titles[locale]} />
+                  </NameLink>
+                </div>
+                <div className={classes['songMeta']}>
+                  <BillingLinks billing={air.track.billing[locale]} />
+                </div>
+                {extra.album && (
+                  <div className={classes['songMeta']}>
+                    {beforeAlbum}
+                    <NameLink {...pick(extra.album, 'href')} c="inherit">
+                      {extra.album.label}
+                    </NameLink>
+                    {afterAlbum}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className={classes['dial']}>
+          {air && now !== undefined && (
+            <RadioDial
+              key={`${String(air.station.cycle)}/${String(air.station.cursor)}`}
+              {...pick(air.track, 'seconds')}
+              at={stationOffset(air.station, now)}
+            />
+          )}
+        </div>
+
+        {!state.radio && (
+          <UnstyledButton className={classes['knob']} onClick={tuneIn}>
+            <Radio size={24} />
+            {wasTuned ? labels.tuneBackIn : labels.tuneIn}
+          </UnstyledButton>
+        )}
+      </div>
+
+      {state.radio && air && (
+        <div className={classes['story']}>
+          {extra?.excerpt !== undefined && (
+            <Excerpt key={air.track.slug} text={extra.excerpt} />
+          )}
+          <div className={classes['cta']}>
+            <InternalButton
+              href={air.track.routes[locale]}
+              variant="outline"
+              radius="xl"
+            >
+              {labels.readMore}
+            </InternalButton>
+            <Text size="xs" opacity={0.55} mt={8}>
+              {labels.keepsPlaying}
+            </Text>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

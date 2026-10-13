@@ -6,11 +6,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent, useState } from 'react';
 
 import { cx } from '@/shared/lib/class-names';
-import { pick } from '@/shared/lib/collections';
 import { NameLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import { useStoredFlag } from '../lib/use-stored-flag';
+import { BillingLinks } from './billing-links';
 import { Marquee } from './marquee';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
@@ -139,15 +139,7 @@ export function PlayerBar() {
             </NameLink>
             <Text component="span" inherit opacity={0.6}>
               {' — '}
-              {billing[locale].map((part) =>
-                typeof part === 'string' ? (
-                  part
-                ) : (
-                  <NameLink key={part.href} {...pick(part, 'href')} c="inherit">
-                    {part.label}
-                  </NameLink>
-                ),
-              )}
+              <BillingLinks billing={billing[locale]} />
             </Text>
           </Marquee>
         </Text>
