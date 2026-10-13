@@ -13,6 +13,7 @@ import {
   artistPath,
   ARTISTS_SEGMENT,
   EVERYTHING_SEGMENT,
+  RADIO_SEGMENT,
   songPath,
   SONGS_SEGMENT,
   type WithEverything,
@@ -31,6 +32,7 @@ const RESERVED_SEGMENTS: ReadonlySet<string> = new Set([
   ARTISTS_SEGMENT,
   ALBUMS_SEGMENT,
   SONGS_SEGMENT,
+  RADIO_SEGMENT,
 ]);
 
 /**

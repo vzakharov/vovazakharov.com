@@ -254,7 +254,7 @@
   },
   "music": {
     "title": "Songs",
-    "back": "Music",
+    "back": "All Vova’s music",
     "metaTitle": "Music",
     "metaDescription": "AI music from before there was a product for it — a catalogue of masters you can play right here, all of it open-source.",
     "artists": "Artists",
@@ -275,6 +275,23 @@
     },
     "intro": "Been writing music since my preteens, and with AI since way before Suno — back in the OpenAI Jukebox days. AI to me is neither a tool nor a replacement but a brilliant bandmate. Most of it starts from my own humming, piano or MIDIs, so it’s “mine” in most copyright senses.",
     "shuffleAll": "Shuffle all",
+    "radio": "Radio",
+    "radioPage": {
+      "title": "Vova’s Radio",
+      "metaDescription": "Vova’s songs on the radio: the same song, at the same second, for everyone listening.",
+      "pitch": "Same song, same second, for everyone listening.",
+      "about": "You’re hearing what everyone tuned in is hearing. Every song in the catalogue plays, in random order. When the round ends — every {length} — the songs are shuffled again.",
+      "cycleLength": {
+        "hours": { "one": "# hour", "other": "# hours" },
+        "minutes": { "one": "# minute", "other": "# minutes" }
+      },
+      "aboutLabel": "How it works",
+      "nowPlaying": "Now playing",
+      "tuneIn": "Tune in",
+      "tuneBackIn": "Tune back in",
+      "readMore": "Read story, lyrics & more",
+      "keepsPlaying": "Don’t worry, this won’t stop the playback"
+    },
     "unfiled": "Unfiled",
     "language": {
       "ru": "Russian",
@@ -323,6 +340,7 @@
       "pause": "Pause",
       "next": "Next track",
       "shuffle": "Shuffle",
+      "radio": "Radio",
       "seek": "Seek",
       "timeToggle": "Switch between the song’s length and the time left"
     }

@@ -5,8 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'erebos'
-audio: https://raw.githubusercontent.com/vovas-music/erebos/main/erebos.flac
-seconds: 272
+audio: https://raw.githubusercontent.com/vovas-music/erebos/main/erebos_reprise.flac
+seconds: 231
 explicit: false
 album: pschpthy
 track: 12
@@ -15,9 +15,11 @@ ru:
     translation: 'Эребос'
 ---
 
-<!-- For Vova to check: The album entry has no album line; the album is taken from the Apple Music line. Master is the checklist's guess erebos.flac; the repo also holds erebos_reprise.flac and erebos_reprise_1.flac. -->
+<!-- For Vova to check: The album entry has no album line; the album is taken from the Apple Music line. -->
 
-<!-- Scaffolded from https://github.com/vovas-music/erebos — erebos.flac,
+<!-- Song versions, once the site has them: erebos.flac (4:32), the earlier master in the same repository, joins this page as a second version beside the reprise. -->
+
+<!-- Scaffolded from https://github.com/vovas-music/erebos — erebos_reprise.flac,
      44.1 kHz / 16-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and
      a "lang:ru" marker, and put the words under "lyrics:" plus the language

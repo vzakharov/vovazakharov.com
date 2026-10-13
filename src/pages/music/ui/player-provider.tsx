@@ -26,7 +26,11 @@ type PlayerLabels = Messages['music']['player'];
 export type PlayerContextValue = PlayerControls &
   QueuedPlayback &
   /** The language of the page the bar is currently sitting under. */
-  WithLocale & { labels: PlayerLabels };
+  WithLocale & {
+    labels: PlayerLabels;
+    /** The radio's page in the page's language, which tuning in opens. */
+    radioRoute: string;
+  };
 
 const PlayerContext = createContext<PlayerContextValue | undefined>(undefined);
 
@@ -44,6 +48,8 @@ export type PlayerProviderProps = WithChildren &
   WithTracks & {
     /** Every language's labels, the layout being above the segment that picks one. */
     labels: Record<Locale, PlayerLabels>;
+    /** Resolved by the server, the URL module being out of a client bundle's reach. */
+    radioRoutes: Record<Locale, string>;
   };
 
 /**
@@ -57,6 +63,7 @@ export function PlayerProvider({
   children,
   tracks,
   labels,
+  radioRoutes,
 }: PlayerProviderProps) {
   const locale = addressLocale(usePathname());
   const {
@@ -74,10 +81,11 @@ export function PlayerProvider({
       elapsed,
       locale,
       labels: labels[locale],
+      radioRoute: radioRoutes[locale],
       ...controls,
       ...(current && { current }),
     }),
-    [queue, state, elapsed, controls, current, locale, labels],
+    [queue, state, elapsed, controls, current, locale, labels, radioRoutes],
   );
 
   return (
