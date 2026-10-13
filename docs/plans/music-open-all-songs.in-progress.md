@@ -85,6 +85,14 @@ straight from the branch once the songs are open, ahead of the merge.
   review (3ac838c); three bumps logged in the five-percent notes (c27d07e).
   Polished (c5b1c94), the PR body and squash proposal refreshed.
 
+- **The sixth review.** Every thread answered on GitHub. A struck hook keeps its
+  strike in meta, og and RSS as U+0336 strokes (`textHook`), and Crossroads'
+  English hook gets the joke too (65d7fd7). One rule for every reflection,
+  `any-reflection.md`, the persona files keeping only their own (4bd0f0f).
+  GENERATED is older than Suno, told in the present tense (c09ae29). The
+  squash subject stays `feat:` — basilisk's served reflections and the shared
+  `src/` both change — pending Vova's word.
+
 ## Rest of the elephant
 
 - Whatever the operator adds as the work goes.
