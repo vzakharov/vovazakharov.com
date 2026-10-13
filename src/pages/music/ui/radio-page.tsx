@@ -12,7 +12,7 @@ import { PageShell } from '@/shared/ui';
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumTitle } from '../lib/albums';
-import { formatDuration } from '../lib/duration';
+import { spokenLength } from '../lib/duration';
 import { albumPath, musicPath, radioPath } from '../lib/music-urls';
 import { pictureCard, RADIO_CARD, songPicture } from '../lib/pictures';
 import { localizeSong } from '../lib/song-text';
@@ -85,7 +85,11 @@ export function RadioPage({ locale }: WithLocale) {
             closeLabel: messages.closeCover,
           }}
           albumLine={messages.album}
-          cycleLength={formatDuration(cycle)}
+          cycleLength={spokenLength(
+            cycle,
+            locale,
+            messages.radioPage.cycleLength,
+          )}
           extras={onAirExtras({ locale })}
         />
 

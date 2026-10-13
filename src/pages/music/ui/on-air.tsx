@@ -32,7 +32,7 @@ export type OnAirProps = {
   zoom: CoverZoomLabels;
   /** The song page's “from {album}”. */
   albumLine: string;
-  /** One round of the public catalogue, `h:mm:ss`. */
+  /** One round of the public catalogue, in words. */
   cycleLength: string;
   extras: Record<string, OnAirExtras>;
 };

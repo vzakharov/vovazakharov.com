@@ -281,6 +281,10 @@
       "metaDescription": "Vova’s songs on a radio with no server: the same song, at the same second, for everyone listening.",
       "pitch": "Same song, same second, for everyone listening.",
       "about": "There is no server behind this radio. Your device works out what is on air from its clock and the list of songs alone: they play back to back, in an order shuffled afresh for every round, and every device doing the same sum at the same moment lands on the same song at the same second. One round of the whole catalogue lasts {length}.",
+      "cycleLength": {
+        "hours": { "one": "# hour", "other": "# hours" },
+        "minutes": { "one": "# minute", "other": "# minutes" }
+      },
       "aboutLabel": "How it works",
       "nowPlaying": "Now playing",
       "tuneIn": "Tune in",
