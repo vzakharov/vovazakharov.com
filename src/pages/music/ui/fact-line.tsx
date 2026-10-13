@@ -30,3 +30,11 @@ export function FactLine({ facts, ...props }: FactLineProps) {
     </Group>
   );
 }
+
+/** A catalogue's or a release's size, a lighter gray than the facts about it. */
+export function SizeLine({
+  size,
+  ...props
+}: GroupProps & { size: readonly string[] }) {
+  return <FactLine facts={size} fz="sm" opacity={0.55} {...props} />;
+}

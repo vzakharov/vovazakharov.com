@@ -6,7 +6,7 @@ import { FileLink } from '@/shared/ui';
 
 import type { CatalogueText } from '../lib/catalogue-text';
 import { CoverHead, type CoverHeadProps } from './cover-head';
-import { FactLine } from './fact-line';
+import { SizeLine } from './fact-line';
 import { TitleGlossLine } from './title-gloss-line';
 import { WipMark } from './wip-mark';
 
@@ -54,7 +54,7 @@ export function CatalogueHeader({
         {/* The page's own file at the line's far end, as a song page sets its
             facts. */}
         <Group justify="space-between" gap="12px 32px" wrap="wrap">
-          <FactLine facts={size} fz="sm" opacity={0.55} />
+          <SizeLine {...{ size }} />
           {markdown && <FileLink {...markdown}>.md</FileLink>}
         </Group>
       </Stack>

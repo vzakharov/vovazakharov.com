@@ -3,7 +3,7 @@ import { Box, Text } from '@mantine/core';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { Section } from '@/shared/ui';
 
-import { FactLine } from './fact-line';
+import { SizeLine } from './fact-line';
 import { ShuffleAllButton } from './shuffle-all-button';
 
 /** The section's intro, the whole catalogue's size under it, and the button that plays it all. */
@@ -19,7 +19,7 @@ export function MusicSection({
         {intro}
       </Text>
 
-      <FactLine facts={size} fz="sm" opacity={0.55} mt={-8} />
+      <SizeLine {...{ size }} mt={-8} />
 
       <Box>
         <ShuffleAllButton label={shuffleAll} />
