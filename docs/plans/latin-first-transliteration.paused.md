@@ -48,12 +48,16 @@ The tip is a Mantine popover anchored to the song title on its page.
   - step 1, `romanizeRussian` and its tests, in dfa1927;
   - steps 2–3 in 061138c: `spell`, `needsLatin`, `songTitle` and `defaultSpelling` with tests, and the frontmatter change;
   - step 4 in 53bc142: every bullet, artists and albums included. Minem babay also needed a `titleLatin`.
+  - step 5: `songLyrics` gives a `transliteration` wherever `mostlyNeedsLatin` says most of the words' letters are unreadable under the locale (so farewell's Chinese does not turn its Russian Latin under `ru`) — the `-latn` section, else `romanizeStanzas` for Russian, else the build fails — and carries `keepsScript`. `entryText` moved into `lyric-notes.ts`.
+  - step 6: `src/shared/lib/script-preference.ts` (`SCRIPT_PREFERENCE_SCRIPT`, `useScriptPreference()` → `{ script, chosen, choose }`, storage key `script`, `storage` event followed), the head script in `root-layout.tsx`, the hiding rule in `globals.scss`, and `src/pages/music/ui/spelling.tsx` (`<Spelling>`, which replaced `song-name.tsx` — its callers still import `SongName` and are step 7's).
 - **Deviations from the steps below:**
   - `romanize.ts` and `spelling.ts` live in `src/shared/music-catalogue/`, exported from its barrel, not in `pages/music/lib`: `shared/content/feeds.ts` spells titles too, and `shared` cannot import `pages`. `title-gloss.ts`'s script table already moved there, so step 2's move is done; `title-gloss.ts` itself is still there for step 9 to delete.
   - `TitleGloss` is `{ translation }` with `translation` required, so an artist with nothing to translate (Иске Кормаш, Киндерштайн) has no entry.
-  - Step 6's head script, storage key and client hook are meant for `src/shared/lib/script-preference.ts`, not `pages/music/lib`, since `src/app/ui/root-layout.tsx` needs the first two and the preference is site-wide.
+  - Step 6's head script, storage key and client hook are in `src/shared/lib/script-preference.ts`, not `pages/music/lib`, since `src/app/ui/root-layout.tsx` needs the first two and the preference is site-wide.
+  - The spelling model and the romanizer are also exported from `shared/music-catalogue/index.node-safe.ts`: the main barrel pulls the schema's `server-only`, which breaks tests and would break client components.
+  - Step 7 as sketched when paused: `projectName`/`albumTitle` return a `Spelled` (by the Russian rule, `spell({ text, language: 'ru' }, locale)`); `Billing` parts carry a `Spelled` name instead of a `label`; `billingText` and string consumers take the reader's `Script` (a `spelledText(spelled, script = 'latin')` helper replacing `defaultSpelling`); `PlayerTrack.titles` is `Record<Locale, Spelled>` from `songTitle`. Step 9 folds in there: `title-gloss.ts` goes, and a gloss is just the optional `{ translation }` looked up from `PROJECT_GLOSSES`, the album record or the song's locale.
 - **The tree does not type-check** until steps 5–10 land: `song-text.ts`, `songs.ts`, `title-gloss.ts`, `projects.ts`, `albums.ts`, `song-page.tsx` and the rest still read `titleTransliterated` and the gloss's `transliteration`.
-- **Next:** step 5. The sessions so far paused for their context budget, each at a committed step boundary.
+- **Next:** step 7. The sessions so far paused for their context budget, each at a committed step boundary.
 
 ## Steps
 
