@@ -63,21 +63,28 @@ export function albumKind(
 
 /**
  * What an album's tile says under its name: its kind where it is shorter than
- * an album, the work-in-progress mark where it has one, and its years.
+ * an album, and its years.
  */
 export function albumDetail(
   album: MusicAlbum,
   locale: Locale,
   songs: readonly SongDocument[],
 ): string[] {
-  const { kind, wip } = loadMessages(locale).music;
+  const { kind } = loadMessages(locale).music;
   const sized = albumKind(album, songs);
 
   return [
     ...(sized === 'album' ? [] : [kind[sized]]),
-    ...(albumWip(album) ? [wip.mark] : []),
     albumYears(album, songs),
   ];
+}
+
+/** The note a work-in-progress album's sign shows, or nothing for a finished one. */
+export function albumWipNote(
+  album: MusicAlbum,
+  locale: Locale,
+): string | undefined {
+  return albumWip(album) ? loadMessages(locale).music.wip.note : undefined;
 }
 
 /** The albums with a song in this catalogue, in registry order. */

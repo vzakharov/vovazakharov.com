@@ -7,7 +7,12 @@ import { PageShell } from '@/shared/ui';
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumCover, albumTitle } from '../lib/albums';
-import { albumDetail, artistDiscography, artistSongs } from '../lib/catalogue';
+import {
+  albumDetail,
+  albumWipNote,
+  artistDiscography,
+  artistSongs,
+} from '../lib/catalogue';
 import { artistText } from '../lib/catalogue-text';
 import { catalogueSize } from '../lib/duration';
 import type { ArtistPageProps } from '../lib/music-route-params';
@@ -77,6 +82,7 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
             label: albumTitle(album, locale),
             cover: albumCover(album),
             detail: albumDetail(album, locale, songs).join(' · '),
+            wip: albumWipNote(album, locale),
           }))}
         />
 

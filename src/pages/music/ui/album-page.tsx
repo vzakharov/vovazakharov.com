@@ -7,14 +7,8 @@ import { NameLink, PageShell } from '@/shared/ui';
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumTracks } from '../lib/album-tracks';
-import {
-  albumArtist,
-  albumCover,
-  albumGloss,
-  albumTitle,
-  albumWip,
-} from '../lib/albums';
-import { albumKind, albumYears } from '../lib/catalogue';
+import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';
+import { albumKind, albumWipNote, albumYears } from '../lib/catalogue';
 import { albumText } from '../lib/catalogue-text';
 import { catalogueSize } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
@@ -64,7 +58,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
             messages.size,
           )}
           markdown={text?.markdown}
-          wip={albumWip(album) ? messages.wip.note : undefined}
+          wip={albumWipNote(album, locale)}
         >
           <FactLine
             facts={{

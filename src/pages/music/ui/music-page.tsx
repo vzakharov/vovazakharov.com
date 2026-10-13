@@ -10,6 +10,7 @@ import { SiteFooter } from '@/widgets/site-footer';
 import { albumArtist, albumCover, albumTitle } from '../lib/albums';
 import {
   albumDetail,
+  albumWipNote,
   catalogueAlbums,
   catalogueArtists,
   newestAlbums,
@@ -98,6 +99,7 @@ function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
               projectName(albumArtist(album, locale), locale),
               ...albumDetail(album, locale, songs),
             ].join(' · '),
+            wip: albumWipNote(album, locale),
           }))}
         />
       );
