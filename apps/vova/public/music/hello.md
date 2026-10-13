@@ -4,9 +4,10 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: hello
 album: wings
 track: 3
-audio: /music/assets/hello.mp3
+audio: https://raw.githubusercontent.com/vovas-music/hello/main/hello.mp3
 video:
   src: /music/assets/hello.mp4
   offsetSeconds: -0.19

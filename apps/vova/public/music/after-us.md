@@ -4,9 +4,10 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
+repo: after-us
 album: wings
 track: 4
-audio: /music/assets/after-us.mp3
+audio: https://raw.githubusercontent.com/vovas-music/after-us/main/after-us.mp3
 video:
   src: /music/assets/after-us.mp4
   offsetSeconds: -0.28

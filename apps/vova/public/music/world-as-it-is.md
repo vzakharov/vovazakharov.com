@@ -4,12 +4,13 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
+repo: world-as-it-is
 album: wings
 track: 10
 alsoOn:
   - album: punctuation-marks
     track: 3
-audio: /music/assets/world-as-it-is.mp3
+audio: https://raw.githubusercontent.com/vovas-music/world-as-it-is/main/world-as-it-is.mp3
 seconds: 110
 explicit: false
 en:

@@ -4,9 +4,10 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: just-because
 album: wings
 track: 9
-audio: /music/assets/just-because.mp3
+audio: https://raw.githubusercontent.com/vovas-music/just-because/main/just-because.mp3
 seconds: 244
 explicit: false
 en:

@@ -4,9 +4,10 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: birds
 album: wings
 track: 8
-audio: /music/assets/birds.mp3
+audio: https://raw.githubusercontent.com/vovas-music/birds/main/birds.mp3
 seconds: 287
 explicit: false
 en:

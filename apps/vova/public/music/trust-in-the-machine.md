@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'machines'
 album: prototypes
 track: 2
-audio: https://github.com/vzakharov/vovazakharov.com/releases/download/masters/trust-in-the-machine.flac
+audio: https://raw.githubusercontent.com/vovas-music/machines/main/trust-in-the-machine.flac
 seconds: 313
 explicit: false
 ru:

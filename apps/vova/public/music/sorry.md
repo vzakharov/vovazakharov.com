@@ -4,9 +4,10 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: sorry
 album: wings
 track: 6
-audio: /music/assets/sorry.mp3
+audio: https://raw.githubusercontent.com/vovas-music/sorry/main/sorry.mp3
 seconds: 198
 explicit: false
 en:

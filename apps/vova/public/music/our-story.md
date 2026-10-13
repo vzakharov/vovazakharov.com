@@ -4,12 +4,13 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
+repo: our-story
 album: wings
 track: 2
 alsoOn:
   - album: punctuation-marks
     track: 2
-audio: /music/assets/our-story.mp3
+audio: https://raw.githubusercontent.com/vovas-music/our-story/main/our-story.mp3
 seconds: 205
 explicit: false
 en:

@@ -4,9 +4,10 @@ date: 2023-12
 status: done
 language: ru
 project: ['за/обложкой']
+repo: listen-single
 album: punctuation-marks
 track: 1
-audio: /music/assets/listen-single.mp3
+audio: https://raw.githubusercontent.com/vovas-music/listen-single/main/listen-single.mp3
 video:
   src: /music/assets/listen-single.mp4
   offsetSeconds: 1.89

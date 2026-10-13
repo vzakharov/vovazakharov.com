@@ -4,9 +4,10 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: intertwined
 album: wings
 track: 7
-audio: /music/assets/intertwined.mp3
+audio: https://raw.githubusercontent.com/vovas-music/intertwined/main/intertwined.mp3
 seconds: 161
 explicit: false
 en:

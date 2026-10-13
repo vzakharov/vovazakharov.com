@@ -4,9 +4,10 @@ date: 2024-01
 status: done
 language: ru
 project: ['за/обложкой']
+repo: listen
 album: wings
 track: 1
-audio: /music/assets/listen.mp3
+audio: https://raw.githubusercontent.com/vovas-music/listen/main/listen.mp3
 seconds: 112
 explicit: false
 credits:
