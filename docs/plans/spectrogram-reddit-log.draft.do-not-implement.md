@@ -43,8 +43,8 @@ polvalente's catch: a song tuned a quarter-tone off splits every note across two
 
 - `onset_envelope(x)`: half-wave-rectified spectral flux of the log magnitude, from the short STFT above, 23 ms per frame.
 - `tempo_bpm(envelope, step)`: its autocorrelation over 60–200 BPM, weighted by a log-normal prior centred on 120 BPM, one octave wide — librosa's answer to half- and double-tempo errors — with the winning lag refined by parabolic interpolation.
-- `beat_times(envelope, step, bpm)`: the fixed grid at that tempo whose phase collects the most onset. A fixed grid, not Ellis's dynamic programming, because a Suno song does not drift; a song that does is the blind test's to catch.
-- The title gains it: `birds.mp3 — 4:46 · 76 BPM`.
+- `beat_times(envelope, step, bpm)`: Ellis's dynamic programming, librosa's own beat tracker — each beat placed on a strong onset at roughly one period from the last, the global tempo only the prior, so the beats follow a tempo that drifts. A Suno song does drift, which rules out a fixed grid: its phase would slide off the beat within a minute.
+- The tempo a reader sees is read off the beats, not the autocorrelation: the median inter-beat interval. The title gains it, as a range when the sections' own tempos spread more than 3% — `birds.mp3 — 4:46 · 74–79 BPM` — and a single number otherwise.
 
 ### 4. The sidecar
 
@@ -52,16 +52,17 @@ polvalente's catch: a song tuned a quarter-tone off splits every note across two
 
 ```
 birds.mp3 — 4:46
-tempo 76 BPM
+tempo 74–79 BPM, median 76
 key G minor (r 0.80; next B♭ major, 0.62)
 tuning A = 440 Hz +3 ¢
-sections — start–end, loudness, chords a beat each, a repeating loop folded:
-0:00–0:41  −27 dB  Gm E♭ F ×3
-0:41–1:25  −18 dB  Gm E♭ F Gm E♭ Dm
+sections — start–end, tempo, loudness, chords a beat each, a repeating loop folded:
+0:00–0:41  74 BPM  −27 dB  Gm E♭ F ×3
+0:41–1:25  77 BPM  −18 dB  Gm E♭ F Gm E♭ Dm
 …
 ```
 
 - **Key**: Krumhansl–Kessler profiles, all 24 rotations, correlated against the whole song's `peak_chroma` summed over `NOTE_BAND_HZ` — what `chromagram-proposal.md`'s check used (`git show origin/claude/spectrogram-reddit-feedback:docs/remove-before-merging/chromagram-proposal.md`), so its 0.80 for Птицы is a first test of this one.
+- **Tempo per section**: the median inter-beat interval of the beats inside it, so a drift shows where it happens.
 - **Loudness**: each section's RMS in dBFS, from the samples. Not LUFS: the question is which section is louder, and K-weighting does not change the order.
 - **Chords**: each beat's `peak_chroma`, matched against the 24 major and minor triads by cosine, `N` under `QUIET_DB`; a chord held for one beat between two of the same is absorbed into them; runs merged; the sequence within a section folded to its shortest repeating period (`fold_loop`), so a four-chord loop played eight times is one line. Triads only: a seventh reads as its triad, which is the honest resolution of a chroma.
 - The sections are `section_times`' boundaries, the same dashed lines, plus the song's ends.
@@ -82,7 +83,7 @@ The CLI moves to `argparse` for the two flags.
 
 - a 440 Hz sine 30 cents sharp → `tuning_cents` within 3 of +30; a 49-cent-flat one → ≈ −49, not +51 (the wrap);
 - a click train at 100 BPM, and at 140 → within 1 BPM, and not half or double;
-- the beat grid's phase on a click train offset by 0.2 s;
+- the beats on a click train offset by 0.2 s, and on one accelerating from 90 to 100 BPM, each beat within 50 ms of its click to the end — the drift a fixed grid loses;
 - a G-minor scale's chroma → G minor; a C-major triad's chroma → `C`, an A-minor's → `Am`;
 - `fold_loop`: a four-chord loop ×3, ×3 with a partial last pass, and a sequence with no period;
 - the sidecar's lines from fixed facts.
