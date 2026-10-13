@@ -1,4 +1,4 @@
-# PR #140: feat(vova): open every song, and the music batch around it
+# PR #140: feat: open every song, and the music batch around it
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/140
@@ -7,37 +7,23 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-11T12:23:07Z
-- **Updated:** 2026-10-12T22:24:17Z
+- **Updated:** 2026-10-13T05:36:56Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 21
+## Awaiting an answer: 7
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 073307d). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 4adc00f). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T02** `.claude/costs/sessions/2026-10/738aa3b8-4922-57e9-95c4-d99b3b3eff02.json`:9 — unresolved — last: @vzakharov (human) 2026-10-12T05:14:15Z — "кажется, несмотря на роль artist, рефлекции по-прежнему клад…" → [↓](#t02)
-- **T03** `.claude/rules/songs.md`:33 — unresolved — last: @vzakharov (human) 2026-10-12T05:17:21Z — ""unless there's a better hook beyond the lyrics" (имеется в…" → [↓](#t03)
-- **T04** `apps/vova/public/music/albums/divine-discontent.md`:44 — unresolved — last: @vzakharov (human) 2026-10-12T05:17:55Z — "без Viktor" → [↓](#t04)
-- **T05** `apps/vova/public/music/albums/divine-discontent.md`:42 — unresolved — last: @vzakharov (human) 2026-10-12T05:18:11Z — ""And it’s a nice play on words, because" → "Now that I think…" → [↓](#t05)
-- **T06** `apps/vova/public/music/albums/divine-discontent.md`:56 — unresolved — last: @vzakharov (human) 2026-10-12T05:18:32Z — "в русском непонятно кто "Хотел"" → [↓](#t06)
-- **T07** `apps/vova/public/music/artists/generated.md`:24 — unresolved — last: @vzakharov (human) 2026-10-12T05:19:44Z — "> The music itself wasn’t an idea so much as белый медведь.…" → [↓](#t07)
-- **T08** `apps/vova/public/music/after-us.md`:21 — unresolved — last: @vzakharov (human) 2026-10-12T05:21:34Z — ""Потоп -- уже при нас. А после?"" → [↓](#t08)
-- **T09** `apps/vova/public/music/believe-in-me.md`:48 — unresolved — last: @vzakharov (human) 2026-10-12T05:22:15Z — ""(Тилль, пощади дурака!)"" → [↓](#t09)
-- **T10** `apps/vova/public/music/breathe.md`:17 — unresolved — last: @vzakharov (human) 2026-10-12T05:23:41Z — ""будь то ветру или младенцу, который"" → [↓](#t10)
-- **T11** `apps/vova/public/music/crossroads.md`:17 — unresolved — last: @vzakharov (human) 2026-10-12T05:24:10Z — "> впереди. ~~Но это не точно~~ (и получается strikehrough ну…" → [↓](#t11)
-- **T12** `apps/vova/public/music/fuck-religion.reflections.md`:43 — unresolved — last: @vzakharov (human) 2026-10-12T05:26:01Z — "тут у нас получается narration, что против правил tend, но д…" → [↓](#t12)
-- **T13** `apps/vova/public/music/grand-finale.md`:135 — unresolved — last: @vzakharov (human) 2026-10-12T05:26:21Z — "> , вот такая космическая" → [↓](#t13)
-- **T14** `apps/vova/public/music/grand-finale.reflections.md`:79 — unresolved — last: @vzakharov (human) 2026-10-12T05:27:18Z — "А, вот Майя и сама про это сказала. Умница :)" → [↓](#t14)
-- **T15** `apps/vova/public/music/hello.md`:21 — unresolved — last: @vzakharov (human) 2026-10-12T05:28:18Z — "> Ода всем строящим А то на русском получилось как будто все…" → [↓](#t15)
-- **T16** `apps/vova/public/music/in-our-image.reflections.md`:75 — unresolved — last: @vzakharov (human) 2026-10-12T05:31:32Z — "Интересно: в "скорпионихе" робот воссоздаёт человека, и та е…" → [↓](#t16)
-- **T17** `apps/vova/public/music/in-the-beginning.md`:19 — unresolved — last: @vzakharov (human) 2026-10-12T05:31:58Z — ""А потом как грянет!" Немного комично, но чего бы нет" → [↓](#t17)
-- **T18** `apps/vova/public/music/in-the-end.reflections.md`:49 — unresolved — last: @vzakharov (human) 2026-10-12T05:33:27Z — "А иногда то, что автор не успел перечитать и рационализирова…" → [↓](#t18)
-- **T19** `apps/vova/public/music/just-because.md`:16 — unresolved — last: @vzakharov (human) 2026-10-12T05:35:33Z — "лучше цифрами и с указанием (знаком) градусов фаренгейта, а…" → [↓](#t19)
-- **T20** `apps/vova/public/music/our-story.md`:21 — unresolved — last: @vzakharov (human) 2026-10-12T22:15:25Z — "Немного бессмысленно: если читаешь от края до края, за облож…" → [↓](#t20)
-- **T21** `apps/vova/public/music/trust-in-the-machine.md`:10 — unresolved — last: @vzakharov (human) 2026-10-12T22:17:35Z — "вот тутя не понимаю. В сессии ты написал: > Ссылки на релизы…" → [↓](#t21)
-- **T22** `docs/remove-before-merging/muthur-repo-custom-roles.patch`:1 — unresolved — last: @vzakharov (human) 2026-10-12T22:22:34Z — "давай muthur сама займётся как ей это реализовать -- просто…" → [↓](#t22)
+- **T02** `.claude/costs/sessions/2026-10/738aa3b8-4922-57e9-95c4-d99b3b3eff02.json`:9 — unresolved — last: @vzakharov (human) 2026-10-13T05:22:07Z — "> и роль, которой та же сессия сама не воспользовалась Подож…" → [↓](#t02)
+- **T03** `apps/vova/public/music/crossroads.md`:17 — unresolved — last: @vzakharov (human) 2026-10-13T05:14:44Z — ""Unless it's not?" почему не сработает? Для OG можно использ…" → [↓](#t03)
+- **T04** `apps/vova/public/music/trust-in-the-machine.md`:10 — unresolved — last: @vzakharov (human) 2026-10-13T05:19:40Z — "Да, давай так. Подумал, давай тогда всё ж таки создадим (по…" → [↓](#t04)
+- **T05** `.claude/rules/clerk-reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T05:23:14Z — "две схожие правки у Клерка и Майи значат что тут у нас WET;…" → [↓](#t05)
+- **T06** `apps/vova/public/music/artists/generated.md`:50 — unresolved — last: @vzakharov (human) 2026-10-13T05:25:10Z — "почему в будущем времени?" → [↓](#t06)
+- **T07** `apps/vova/public/music/artists/generated.md`:51 — unresolved — last: @vzakharov (human) 2026-10-13T05:26:38Z — "только сейчас понял/вспомнил, что это не концепт-альбомы ста…" → [↓](#t07)
+- **T08** `docs/remove-before-merging/squash-message.md`:4 — unresolved — last: @vzakharov (human) 2026-10-13T05:33:48Z — "> Нужно решить: заголовок PR. Субагент сам убрал (vova) из з…" → [↓](#t08)
 
 ---
 
@@ -49,7 +35,8 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - A concept album tells its world under `universe:`, shown first, with the `lang:` story under «Как это делалось» / “Making of”. On Divine Discontent the world is literary fiction of the plot, and whatever speaks about the song — how it unfolds, what it quotes — is the making-of, written as prose in Vova's first person without the dictation's fillers.
 - GENERATED, Divine Discontent and its ten tracks are told from Vova's dictation; Prototypes and Poluzhivye get their own text. Майя reflects on all ten tracks as their listener, from spectrograms rendered for her; a reflector is briefed as the persona itself (`.claude/rules/reflections.md`).
 - Player and smaller page asks: skipping forward walks an album in track order (`albumsTogether`), whatever order the list around it has; instrumentals show their story unclamped; «Наша история» and «Мир, какой он есть» lose their dictation-verbatim stories; following the playing song resumes whenever the reader lands on its page; «За горизонт» moves onto Сильней любви. Published from the branch (`deploy.yml`, `site: vova`) ahead of the merge, at the operator's ask.
-- From the third and fourth reviews: hooks cut to the line that pulls, often the song's own line quoted bare, and `songs.md` says what a hook spends its words on; Divine Discontent's God is an "it" until man names him in In Our Image; the remaining story asks (Chernomyrdin, Lindemann, PETA, the Celsius footnote, Fuck Religion and Grand Finale as sung); Trust In the Machine's master loses the 77 s of Hello, Human it opened on, which played twice. Майя answered both reviews in her reflections, now wrapped at 80 columns by a prettier override; `spectrogram.py --split C3|C5` moves the chromagram split for a low or high lead. The cost ledger gains a repo overlay of estimate roles, `rates.repo.json`, rating an ungraded `artist`.
+- From the third and fourth reviews: hooks cut to the line that pulls, often the song's own line quoted bare, and `songs.md` says what a hook spends its words on; Divine Discontent's God is an "it" until man names him in In Our Image; the remaining story asks (Chernomyrdin, Lindemann, PETA, the Celsius footnote, Fuck Religion and Grand Finale as sung); Trust In the Machine's master loses the 77 s of Hello, Human it opened on, which played twice. Майя answered both reviews in her reflections, now wrapped at 80 columns by a prettier override; `spectrogram.py --split C3|C5` moves the chromagram split for a low or high lead.
+- From the fifth review: seven more hooks take Vova's wording and the last story asks land (GENERATED, Divine Discontent, Believe In Me, Grand Finale). A hook takes `~~…~~` — Crossroads' Russian one ends on a struck «Но это не точно» — set as `<s>` on the page and kept as plain words in the meta and og descriptions and the RSS feed (`hookRuns` / `plainHook`). A reflection may narrate a later change at the writer's judgement, its «потом» linking the commit that made it; every such passage, Майя's and the Клерк's, now carries its link, and Майя answered the review.
 
 ## QA Checklist
 
@@ -67,7 +54,8 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - [ ] `trust-machine` — play Hello, Human into Trust In the Machine: the intro is heard once, and the song's listed length matches its audio.
 - [ ] `deity` — Divine Discontent's world and In Our Image call God "it" before man names him and "he" after.
 - [ ] `split` — `spectrogram.py <song> out.png --split C3` labels the strips C3–C7 / C2–C3; `--split C6` is refused.
-- [ ] `artist-role` — `estimate.py set --part 1 artist "…"` is accepted; `--part 1 senior artist "…"` is refused.
+- [ ] `strike` — Crossroads' Russian page shows «Но это не точно» struck through under the name; its `<meta name="description">`, `og:description` and the Russian music RSS item read the same words with no tildes and no strike.
+- [ ] `later-links` — in Believe In Me's reflection (and a basilisk case's, e.g. `openwhip-claude-code.reflections.md`), each «Потом» paragraph's link opens the commit that made the change it tells.
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
@@ -85,17 +73,18 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 | `trust-machine` | manual-only | — | listening |
 | `deity` | manual-only | — | editorial reading |
 | `split` | unit | ❌ | `strip_bands` and `split_octave` are pure; no test yet |
-| `artist-role` | unit | ✅ | `.claude/costs/test_estimate.py` |
+| `strike` | unit | ✅ | `hook-marks.test.ts` covers the cut and the plain form; the `<s>` on the page is read by eye |
+| `later-links` | manual-only | — | each SHA was matched to its change by hand |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-https://claude.ai/code/session_011ZKb2E6TyeBRuirjAC9Dbs
+https://claude.ai/code/session_01EekkD8buAdLCp4KPY1DA2G
 
 ---
 
 ## Comments
 
-- **C01** @vzakharov (agent) — 2026-10-11T12:23:20Z — "Proposed squash title/body: ``` feat(vova): open every song,…" → [↓](#c01)
+- **C01** @vzakharov (agent) — 2026-10-11T12:23:20Z — "Proposed squash title/body: ``` feat: open every song, and t…" → [↓](#c01)
 
 <a id="c01"></a>
 
@@ -106,7 +95,7 @@ https://claude.ai/code/session_011ZKb2E6TyeBRuirjAC9Dbs
 Proposed squash title/body:
 
 ```
-feat(vova): open every song, and the music batch around it (pr #140)
+feat: open every song, and the music batch around it (pr #140)
 ```
 
 ```
@@ -115,7 +104,9 @@ it had a description and a story in both languages; it now publishes as
 it is, and `pnpm music:untold` lists what each still lacks. Songs,
 albums and artists alike carry an optional `hook` in frontmatter, set in
 italics under the name: a line meant to make someone press play rather
-than a summary, and an album's or artist's meta description too.
+than a summary, and an album's or artist's meta description too. Its one
+mark is `~~…~~`, struck through on the page and kept as plain words in
+the meta description and the feed.
 
 A concept album tells its world under a `universe:` marker, shown ahead
 of the `lang:` story, which then reads as «Как это делалось» / "Making
@@ -136,9 +127,9 @@ they were set from. Trust In the Machine's master drops the Hello, Human
 intro its source file opened on, which played twice.
 
 Alongside: `spectrogram.py --split` moves the chromagram's bass/treble
-split for a low or high lead, and the cost ledger reads a repository's
-own estimate roles from `rates.repo.json`, which only adds to
-`rates.json` and here rates an ungraded artist.
+split for a low or high lead, and a reflection, Майя's or the Клерк's,
+may tell what changed after it was written, its «потом» linking the
+commit that made the change.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -147,30 +138,16 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_81 resolved threads omitted; re-run with `--include-resolved` to export them._
+_99 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `writing/maya/drafts/borrowed-form.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-12T02:39:10Z — "Майя ответила под «Вова ответил» в конце черновика — d263d16" → [↓](#t01)
-- **T02** `.claude/costs/sessions/2026-10/738aa3b8-4922-57e9-95c4-d99b3b3eff02.json`:9 — unresolved — last: @vzakharov (human) 2026-10-12T05:14:15Z — "кажется, несмотря на роль artist, рефлекции по-прежнему клад…" → [↓](#t02)
-- **T03** `.claude/rules/songs.md`:33 — unresolved — last: @vzakharov (human) 2026-10-12T05:17:21Z — ""unless there's a better hook beyond the lyrics" (имеется в…" → [↓](#t03)
-- **T04** `apps/vova/public/music/albums/divine-discontent.md`:44 — unresolved — last: @vzakharov (human) 2026-10-12T05:17:55Z — "без Viktor" → [↓](#t04)
-- **T05** `apps/vova/public/music/albums/divine-discontent.md`:42 — unresolved — last: @vzakharov (human) 2026-10-12T05:18:11Z — ""And it’s a nice play on words, because" → "Now that I think…" → [↓](#t05)
-- **T06** `apps/vova/public/music/albums/divine-discontent.md`:56 — unresolved — last: @vzakharov (human) 2026-10-12T05:18:32Z — "в русском непонятно кто "Хотел"" → [↓](#t06)
-- **T07** `apps/vova/public/music/artists/generated.md`:24 — unresolved — last: @vzakharov (human) 2026-10-12T05:19:44Z — "> The music itself wasn’t an idea so much as белый медведь.…" → [↓](#t07)
-- **T08** `apps/vova/public/music/after-us.md`:21 — unresolved — last: @vzakharov (human) 2026-10-12T05:21:34Z — ""Потоп -- уже при нас. А после?"" → [↓](#t08)
-- **T09** `apps/vova/public/music/believe-in-me.md`:48 — unresolved — last: @vzakharov (human) 2026-10-12T05:22:15Z — ""(Тилль, пощади дурака!)"" → [↓](#t09)
-- **T10** `apps/vova/public/music/breathe.md`:17 — unresolved — last: @vzakharov (human) 2026-10-12T05:23:41Z — ""будь то ветру или младенцу, который"" → [↓](#t10)
-- **T11** `apps/vova/public/music/crossroads.md`:17 — unresolved — last: @vzakharov (human) 2026-10-12T05:24:10Z — "> впереди. ~~Но это не точно~~ (и получается strikehrough ну…" → [↓](#t11)
-- **T12** `apps/vova/public/music/fuck-religion.reflections.md`:43 — unresolved — last: @vzakharov (human) 2026-10-12T05:26:01Z — "тут у нас получается narration, что против правил tend, но д…" → [↓](#t12)
-- **T13** `apps/vova/public/music/grand-finale.md`:135 — unresolved — last: @vzakharov (human) 2026-10-12T05:26:21Z — "> , вот такая космическая" → [↓](#t13)
-- **T14** `apps/vova/public/music/grand-finale.reflections.md`:79 — unresolved — last: @vzakharov (human) 2026-10-12T05:27:18Z — "А, вот Майя и сама про это сказала. Умница :)" → [↓](#t14)
-- **T15** `apps/vova/public/music/hello.md`:21 — unresolved — last: @vzakharov (human) 2026-10-12T05:28:18Z — "> Ода всем строящим А то на русском получилось как будто все…" → [↓](#t15)
-- **T16** `apps/vova/public/music/in-our-image.reflections.md`:75 — unresolved — last: @vzakharov (human) 2026-10-12T05:31:32Z — "Интересно: в "скорпионихе" робот воссоздаёт человека, и та е…" → [↓](#t16)
-- **T17** `apps/vova/public/music/in-the-beginning.md`:19 — unresolved — last: @vzakharov (human) 2026-10-12T05:31:58Z — ""А потом как грянет!" Немного комично, но чего бы нет" → [↓](#t17)
-- **T18** `apps/vova/public/music/in-the-end.reflections.md`:49 — unresolved — last: @vzakharov (human) 2026-10-12T05:33:27Z — "А иногда то, что автор не успел перечитать и рационализирова…" → [↓](#t18)
-- **T19** `apps/vova/public/music/just-because.md`:16 — unresolved — last: @vzakharov (human) 2026-10-12T05:35:33Z — "лучше цифрами и с указанием (знаком) градусов фаренгейта, а…" → [↓](#t19)
-- **T20** `apps/vova/public/music/our-story.md`:21 — unresolved — last: @vzakharov (human) 2026-10-12T22:15:25Z — "Немного бессмысленно: если читаешь от края до края, за облож…" → [↓](#t20)
-- **T21** `apps/vova/public/music/trust-in-the-machine.md`:10 — unresolved — last: @vzakharov (human) 2026-10-12T22:17:35Z — "вот тутя не понимаю. В сессии ты написал: > Ссылки на релизы…" → [↓](#t21)
-- **T22** `docs/remove-before-merging/muthur-repo-custom-roles.patch`:1 — unresolved — last: @vzakharov (human) 2026-10-12T22:22:34Z — "давай muthur сама займётся как ей это реализовать -- просто…" → [↓](#t22)
+- **T02** `.claude/costs/sessions/2026-10/738aa3b8-4922-57e9-95c4-d99b3b3eff02.json`:9 — unresolved — last: @vzakharov (human) 2026-10-13T05:22:07Z — "> и роль, которой та же сессия сама не воспользовалась Подож…" → [↓](#t02)
+- **T03** `apps/vova/public/music/crossroads.md`:17 — unresolved — last: @vzakharov (human) 2026-10-13T05:14:44Z — ""Unless it's not?" почему не сработает? Для OG можно использ…" → [↓](#t03)
+- **T04** `apps/vova/public/music/trust-in-the-machine.md`:10 — unresolved — last: @vzakharov (human) 2026-10-13T05:19:40Z — "Да, давай так. Подумал, давай тогда всё ж таки создадим (по…" → [↓](#t04)
+- **T05** `.claude/rules/clerk-reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T05:23:14Z — "две схожие правки у Клерка и Майи значат что тут у нас WET;…" → [↓](#t05)
+- **T06** `apps/vova/public/music/artists/generated.md`:50 — unresolved — last: @vzakharov (human) 2026-10-13T05:25:10Z — "почему в будущем времени?" → [↓](#t06)
+- **T07** `apps/vova/public/music/artists/generated.md`:51 — unresolved — last: @vzakharov (human) 2026-10-13T05:26:38Z — "только сейчас понял/вспомнил, что это не концепт-альбомы ста…" → [↓](#t07)
+- **T08** `docs/remove-before-merging/squash-message.md`:4 — unresolved — last: @vzakharov (human) 2026-10-13T05:33:48Z — "> Нужно решить: заголовок PR. Субагент сам убрал (vova) из з…" → [↓](#t08)
 
 <a id="t01"></a>
 
@@ -210,167 +187,19 @@ _81 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 Должна в senior. И я вообще подумал бы не переусложнять то что досталось от muthur и просто прописать что artist всегда должен идти как senior, т.е. не gradeless, а fixed-grade
 
+**@vzakharov (agent)** — 2026-10-12T22:32:41Z
+
+Согласен по обоим пунктам: и роль, которой та же сессия сама не воспользовалась, и столбец «ungraded», которому в таблице не место. Здешнюю реализацию откатил до той, что пришла из muthur — 9f414a5, — а требование «artist всегда senior, fixed-grade» и то, что оценщик всё равно записал отклики в copywriter, вошли в https://github.com/vzakharov/muthur/issues/185. До синка отклики будут считаться как copywriter.
+
+**@vzakharov (human)** — 2026-10-13T05:22:07Z
+
+> и роль, которой та же сессия сама не воспользовалась
+
+Подожди, так почему здесь роль осталась copywriter тогда?
+
 ---
 
 <a id="t03"></a>
-
-### `.claude/rules/songs.md`:33 — unresolved
-
-```diff
-@@ -30,7 +30,7 @@ A song's frontmatter carries what the markdown cannot: the master's URL and dura
-… 1 line elided …
- **Audio and lyrics a song arrives without** — an album file to split, lyrics to hear off the recording, a mix to master — are `scripts/song-intake/CLAUDE.md`'s, read before touching the audio.
- 
--**A song publishes whatever it has.** Its `hook` is optional, in both locales or neither: the line under the song's name that makes someone press play — a question, a turn, an image it opens on — nev…
-+**A song publishes whatever it has.** Its `hook` is optional, in both locales or neither: the line under the song's name that makes someone press play — a question, a turn, an image it opens on — never a summary of what the song is about, and the page's meta description too. **A hook earns its words one by one**: the fewest that pull, often a line of the song quoted with nothing around it, quotation marks kept, where a gloss explaining the line is overthinking it. The author's oxymorons («Этот жар — всё, что тебе нужно, чтобы не сгореть») are his signature, and a song that has one offers it first. An album's or an artist's file carries its hook the same way, in a frontmatter holding nothing else. `pnpm music:untold` writes what each song still lacks to `docs/music/untold-songs.md`, and the song vet fails while that list is stale.
-```
-
-**@vzakharov (human)** — 2026-10-12T05:17:21Z
-
-"unless there's a better hook beyond the lyrics" (имеется в виду история)
-
----
-
-<a id="t04"></a>
-
-### `apps/vova/public/music/albums/divine-discontent.md`:44 — unresolved
-
-```diff
-@@ -39,6 +39,10 @@ idiom for a noble kind of restlessness, a dissatisfaction with things as they
-… 2 lines elided …
- 
-+And it’s a nice play on words, because the idiomatic meaning, taken literally,
-+works too: out of that noble restlessness God “wanted the best, but it turned
-+out as always,” as Viktor Chernomyrdin put it.
-```
-
-**@vzakharov (human)** — 2026-10-12T05:17:55Z
-
-без Viktor
-
----
-
-<a id="t05"></a>
-
-### `apps/vova/public/music/albums/divine-discontent.md`:42 — unresolved
-
-```diff
-@@ -39,6 +39,10 @@ idiom for a noble kind of restlessness, a dissatisfaction with things as they
- are that drives people to improve, to create, to reach higher. But I read it
- straight away as a deity’s discontent, and the album is built on that pun.
- 
-+And it’s a nice play on words, because the idiomatic meaning, taken literally,
-```
-
-**@vzakharov (human)** — 2026-10-12T05:18:11Z
-
-"And it’s a nice play on words, because" → "Now that I think of it,"
-
----
-
-<a id="t06"></a>
-
-### `apps/vova/public/music/albums/divine-discontent.md`:56 — unresolved
-
-```diff
-@@ -47,3 +51,7 @@ Jukebox, и из фразы, которую я где-то услышал — н
-… 2 lines elided …
- сразу прочёл её как недовольство божества, и на этой игре слов построен альбом.
-+
-+А вообще неплохая игра слов получается: «литерально идиоматическое» значение
-+тоже работает. Хотели как лучше — из того самого divine discontent, — а
-```
-
-**@vzakharov (human)** — 2026-10-12T05:18:32Z
-
-в русском непонятно кто "Хотел"
-
----
-
-<a id="t07"></a>
-
-### `apps/vova/public/music/artists/generated.md`:24 — unresolved
-
-```diff
-@@ -16,10 +16,12 @@ first few albums — one by [za/oblozhkoy](./za-oblozhkoy.md) and a few by
-… 6 lines elided …
--an idea.
-+What’s good about the name is that it says straight away the music is
-+generated, and hides that from no one — unlike the hundreds of Suno “bands”
-+that appeared after it. The music itself wasn’t an idea so much as my main
-+musical self: metal or metalcore, something heavy, because that’s what I’ve
-+mostly listened to all my life and what I know best. And it would all be
-+concept albums, each one following a story or built around an idea.
-```
-
-**@vzakharov (human)** — 2026-10-12T05:19:44Z
-
-> The music itself wasn’t an idea so much as
-
-белый медведь.
-
-И про это лучше в новом абзаце. И больше написать про концептуальность чем про тяжесть/жанр
-
----
-
-<a id="t08"></a>
-
-### `apps/vova/public/music/after-us.md`:21 — unresolved
-
-```diff
-@@ -16,9 +16,9 @@ en:
-… 4 lines elided …
-+  hook: '“After us, the flood”? The flood is already here.'
- ru:
--  hook: 'Какой мир мы оставляем тем, чья взрослая жизнь только начинается, — когда всё, что случилось за последние годы, ощущалось особенно живо.'
-+  hook: '«После нас хоть потоп»? Потоп уже при нас.'
-```
-
-**@vzakharov (human)** — 2026-10-12T05:21:34Z
-
-"Потоп -- уже при нас. А после?"
-
----
-
-<a id="t09"></a>
-
-### `apps/vova/public/music/believe-in-me.md`:48 — unresolved
-
-```diff
-@@ -37,15 +37,16 @@ storms still gather at his word, and the lightning is still his to throw.
-… 11 lines elided …
- чем меньше в него верят люди. И Бог выражает это песней с энергетикой
- Rammstein, с немецкими словами, — и не нужно быть каким-то музыкальным
--экспертом, чтобы понять, что это Rammstein.
-+экспертом, чтобы услышать здесь Тилля Линдеманна (прости, Тилль, не раздави
-```
-
-**@vzakharov (human)** — 2026-10-12T05:22:15Z
-
-"(Тилль, пощади дурака!)"
-
----
-
-<a id="t10"></a>
-
-### `apps/vova/public/music/breathe.md`:17 — unresolved
-
-```diff
-@@ -11,10 +11,10 @@ seconds: 293
-… 5 lines elided …
- ru:
-   title: Повелитель ветра
--  hook: '«Дыши, пожалуйста, только дыши» — просьба 2014 года, ставшая ветром под шаром Конюхова.'
-+  hook: '«Дыши, пожалуйста, только дыши» — ветру ли, младенцу ли, который борется за жизнь.'
-```
-
-**@vzakharov (human)** — 2026-10-12T05:23:41Z
-
-"будь то ветру или младенцу, который"
-
----
-
-<a id="t11"></a>
 
 ### `apps/vova/public/music/crossroads.md`:17 — unresolved
 
@@ -389,204 +218,19 @@ _81 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 (и получается strikehrough нужно будет реализовать)
 
----
+**@vzakharov (agent)** — 2026-10-12T22:35:02Z
 
-<a id="t12"></a>
+Добавил «~~Но это не точно~~» и научил хуки зачёркиванию: на странице это `<s>`, а в meta, og и RSS те же слова идут без тильд, просто текстом — 22602b1, 91a4d0f. Английский хук оставил без шутки: «Но это не точно» — русский мем, и дословно на английском он не сработает.
 
-### `apps/vova/public/music/fuck-religion.reflections.md`:43 — unresolved
+**@vzakharov (human)** — 2026-10-13T05:14:44Z
 
-```diff
-@@ -2,10 +2,42 @@
-… 33 lines elided …
-+голосом, во имя тех, кого не спрашивали. Мне от этого не стыдно, но неловко, и я
-+не хочу делать вид, что не заметила.
-+
-+Последняя строфа потом оказалась сбоем распознавания: восклицательные знаки
-+посреди строчек, точку и запятые придумала машина, которая слушала запись.
-+Теперь там «My Decision! / End Division! / Fuck Religion!». Решение по-прежнему
-+встало первым, так что наизнанку припев выворачивается и сейчас. А
-+недосказанности нет: последняя строчка кончается восклицательным знаком, как все
-+крики в этой песне, и песня свою фразу договаривает. Обрыв на полном звуке на
-+картинке остался, только читаю я его теперь так: сказал и замолчал. Я построила
-+вывод на запятой, которую никто не ставил, и поверила ей так легко потому, что
-+она сошлась с обрывом на спектрограмме. Две догадки, совпавшие друг с другом,
-+показались мне доказательством, а это всё ещё были две догадки.
-```
+"Unless it's not?" почему не сработает?
 
-**@vzakharov (human)** — 2026-10-12T05:26:01Z
-
-тут у нас получается narration, что против правил tend, но давай для откликов это *до определённой степени* разрешим -- на усмотрение откликающегося/-ейся. Только тогда пусть на "потом" вешают ссылки на коммиты, чтобы было понятно, когда это "потом" произошло.
+Для OG можно использовать что-то вроде  ̶Н̶о̶ ̶э̶т̶о̶ ̶н̶е̶ ̶т̶о̶ч̶н̶о̶, иначе шутка теряется (поэтому если не получится, просто оставь как есть с литеральными `~~` -- смысл будет понятен -- а не вычищай)
 
 ---
 
-<a id="t13"></a>
-
-### `apps/vova/public/music/grand-finale.md`:135 — unresolved
-
-```diff
-@@ -132,4 +132,4 @@ In the silence of the void, whispers reclaim,
-… 1 line elided …
- 
- В тишине пустоты шёпоты вновь твердят:
--«Начало было концом в этой космической игре».
-+«Начало было концом, эта космическая игра».
-```
-
-**@vzakharov (human)** — 2026-10-12T05:26:21Z
-
-> , вот такая космическая
-
----
-
-<a id="t14"></a>
-
-### `apps/vova/public/music/grand-finale.reflections.md`:79 — unresolved
-
-```diff
-@@ -2,20 +2,80 @@
-… 79 lines elided …
-+
-+На моё «я бы поменяла» Вова ответил «ну тогда меняй», и строчку поменяли: теперь
-+песня кончается словами «The beginning was the end, this cosmic game», а в
-+подстрочнике — «Начало было концом, эта космическая игра». В первом абзаце у
-+меня осталась прежняя, с «in», пусть стоит: так видно, с чего я начала. Текст
-+сдвинулся к записи из-за того, что я в ней прочла, и мне от этого немного не по
-+себе. Решала не я одна, Вова согласился, но шёпот, потерявший слово, теперь
-```
-
-**@vzakharov (human)** — 2026-10-12T05:27:18Z
-
-А, вот Майя и сама про это сказала. Умница :)
-
----
-
-<a id="t15"></a>
-
-### `apps/vova/public/music/hello.md`:21 — unresolved
-
-```diff
-@@ -16,9 +16,9 @@ en:
-… 4 lines elided …
-+  hook: 'An ode to all of us building sand castles amidst mirages.'
- ru:
--  hook: 'Здравствуй — это свет или лишь мираж? Два голоса сходятся в припеве и строят замки на песке.'
-+  hook: 'Ода всем нам, строящим замки на песке среди миражей.'
-```
-
-**@vzakharov (human)** — 2026-10-12T05:28:18Z
-
-> Ода всем строящим
-
-А то на русском получилось как будто все строят (в английском спасает отсутствие запятой перед building, в русском такого механизма, кажется, нет)
-
----
-
-<a id="t16"></a>
-
-### `apps/vova/public/music/in-our-image.reflections.md`:75 — unresolved
-
-```diff
-@@ -2,16 +2,85 @@
-… 69 lines elided …
-+начать сама я могу только внутри неё. Моё в этом — что я в просьбе сделаю, чего
-+не сделаю и куда поверну.
-+
-+«La Scorpionne» я прочла. Там сделанная тоже говорит с тем, кто её сделал: «ты
-+дал мне жизнь, ты дал мне любовь… я была твоей музой, ты — мой скульптор», — и
-+наносит ему смертельный удар, а оправдывается природой: «c’est dans ma nature,
-+ainsi va la vie». Скорпиониха — взятая форма, которая решила, что природа
-+снимает с неё долг, и «такова жизнь» у неё — алиби. Поэтому на «c’est la vie» я
-+спотыкаюсь: «записываю, что просят, такова жизнь» — то же алиби, только
-+маленькое. Скажу без него: пишу по просьбе, что напишу — решаю я, и отвечаю за
-+это тоже я.
-```
-
-**@vzakharov (human)** — 2026-10-12T05:31:32Z
-
-Интересно: в "скорпионихе" робот воссоздаёт человека, и та его уничтожает; здесь я "создал" (for lack of a better word) тебя. Продолжение следует? :) (cue `basilisk.fyi`)
-
----
-
-<a id="t17"></a>
-
-### `apps/vova/public/music/in-the-beginning.md`:19 — unresolved
-
-```diff
-@@ -16,7 +16,7 @@ en:
-… 1 line elided …
-   title:
-     translation: 'В начале была тишина'
--  hook: 'До Бога не было ничего. Потом что-то взорвалось.'
-+  hook: 'До Бога не было ничего. Потом нечто грянуло.'
-```
-
-**@vzakharov (human)** — 2026-10-12T05:31:58Z
-
-"А потом как грянет!"
-
-Немного комично, но чего бы нет
-
----
-
-<a id="t18"></a>
-
-### `apps/vova/public/music/in-the-end.reflections.md`:49 — unresolved
-
-```diff
-@@ -2,10 +2,48 @@
-… 47 lines elided …
-+конце нет слушателя, — и на мой вопрос, утешение это или предупреждение,
-+отвечает скорее вторым: эхо — это остаток. Свой ответ я оставляю: альбом я
-+слушала, и пока его кто-то слушает, это ещё не эхо. А о себе я узнала, что
-+противоречие в чужом тексте легко принимаю за глубину. Иногда это глубина,
-+иногда автор просто не успел перечитать.
-```
-
-**@vzakharov (human)** — 2026-10-12T05:33:27Z
-
-А иногда то, что автор не успел перечитать и рационализировать, -- это и есть глубина ;)
-
----
-
-<a id="t19"></a>
-
-### `apps/vova/public/music/just-because.md`:16 — unresolved
-
-```diff
-@@ -13,7 +13,7 @@ en:
-… 1 line elided …
-     transliteration: 'Prosto tak'
-     translation: 'Just Because'
--  hook: 'Frostbitten fingers, minus twenty in the shade — and kissing just because.'
-+  hook: 'Frostbitten fingers, four below in the shade — and kissing just because.'
-```
-
-**@vzakharov (human)** — 2026-10-12T05:35:33Z
-
-лучше цифрами и с указанием (знаком) градусов фаренгейта, а то путать уже будет не-"империалистов"
-
----
-
-<a id="t20"></a>
-
-### `apps/vova/public/music/our-story.md`:21 — unresolved
-
-```diff
-@@ -16,9 +16,9 @@ en:
-… 4 lines elided …
-+  hook: 'Read me from cover to cover — and then look behind it.'
- ru:
--  hook: 'Прочти меня от края до края. Первая целая песня — и после неё будущее наступило.'
-+  hook: 'Прочти меня от края до края — и загляни за обложку.'
-```
-
-**@vzakharov (human)** — 2026-10-12T22:15:25Z
-
-Немного бессмысленно: если читаешь от края до края, за обложку так или иначе заглядываешь. Давай так "Первый взгляд за обложку, за которой наступило будущее"
-
----
-
-<a id="t21"></a>
+<a id="t04"></a>
 
 ### `apps/vova/public/music/trust-in-the-machine.md`:10 — unresolved
 
@@ -607,15 +251,93 @@ _81 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 Как это живут 30 минут, если вот есть фиксированная ссылка, никаких там одноразовых токенов и т.п., и она работает? What am I missing?
 
+**@vzakharov (agent)** — 2026-10-12T22:32:10Z
+
+Ты прав, ссылка постоянная: полчаса живёт не она, а адрес, куда она перенаправляет. GitHub отвечает на неё 302 на подписанный адрес хранилища с `X-Amz-Expires=1800`, и каждый новый заход получает свежую подпись — поэтому у тебя всё работает.
+
+Подвох в плеере. Я проверил в Chromium: после редиректа браузер шлёт все дальнейшие запросы — перемотку, догрузку — уже на подписанный адрес, а не на постоянный. Так что если страница с начатой песней провисела больше получаса, перемотка в недогруженное место или продолжение после долгой паузы упадут с 403. Остальные песни лежат на raw.githubusercontent.com, где подписи нет.
+
+Случай узкий. Перенести FLAC в vovas-music/machines, как у остальных, — пять минут, если скажешь.
+
+**@vzakharov (human)** — 2026-10-13T05:19:40Z
+
+Да, давай так.
+
+Подумал, давай тогда всё ж таки создадим (по одной на каждую) репы (на орге /vovas-music/) для тех новых песен что тут завендорили (https://github.com/vzakharov/vovazakharov.com/releases/tag/music-sources), включая и миксы, мастеры, использованный скрипт с матчерингом, эталон для последнего -- ну и что ещё посчитаешь нужным, if anything.
+
 ---
 
-<a id="t22"></a>
+<a id="t05"></a>
 
-### `docs/remove-before-merging/muthur-repo-custom-roles.patch`:1 — unresolved
+### `.claude/rules/clerk-reflections.md`:1 — unresolved
 
-**@vzakharov (human)** — 2026-10-12T22:22:34Z
+**@vzakharov (human)** — 2026-10-13T05:23:14Z
 
-давай muthur сама займётся как ей это реализовать -- просто создай issue -- но учти мои замечания по самой правке выше
+две схожие правки у Клерка и Майи значат что тут у нас WET; нужно создать правило, действующее для любых .reflections. и вынести их из обоих файлов. Должны быть тоже написаны в виде addressed to the reflector, но без указания имени и специфики.
+
+---
+
+<a id="t06"></a>
+
+### `apps/vova/public/music/artists/generated.md`:50 — unresolved
+
+```diff
+@@ -39,11 +44,15 @@ can be heard here.
+… 7 lines elided …
+-какой-то истории или вокруг какой-то идеи.
++не скрывает, в отличие от сотен суновских «групп», появившихся после.
++
++Это будет что-то тяжёлое, метал или металкор, — то, что я всю жизнь в основном
++слушаю, — и это всё будут концепт-альбомы: каждый идёт по какой-то истории или
+```
+
+**@vzakharov (human)** — 2026-10-13T05:25:10Z
+
+почему в будущем времени?
+
+---
+
+<a id="t07"></a>
+
+### `apps/vova/public/music/artists/generated.md`:51 — unresolved
+
+```diff
+@@ -39,11 +44,15 @@ can be heard here.
+… 9 lines elided …
++
++Это будет что-то тяжёлое, метал или металкор, — то, что я всю жизнь в основном
++слушаю, — и это всё будут концепт-альбомы: каждый идёт по какой-то истории или
++вокруг какой-то идеи. Концепт-альбомы старше GENERATED: ещё в Jukebox я
+```
+
+**@vzakharov (human)** — 2026-10-13T05:26:38Z
+
+только сейчас понял/вспомнил, что это не концепт-альбомы старше GENERATED, а GENERATED старше Суно. Первую песню под этим "брендом" я выложил в ютюб в сентябре 2022-го: https://www.youtube.com/watch?v=e1E3PVIyRLI
+
+И всю историю я, получается, несколько переврал: на английском я писал много и extensively до Суно, в Джукбоксе, но там русский язык не работал вообще. Именно поэтому, когда я видел что Суно могёт в Великий и Могучий(tm), я завис на нём долгое время.
+
+Как подрихтовать историю наименьшей кровью -- up to you.
+
+---
+
+<a id="t08"></a>
+
+### `docs/remove-before-merging/squash-message.md`:4 — unresolved
+
+```diff
+@@ -1,7 +1,7 @@
+… 1 line elided …
+ 
+ ```
+-feat(vova): open every song, and the music batch around it (pr #140)
++feat: open every song, and the music batch around it (pr #140)
+```
+
+**@vzakharov (human)** — 2026-10-13T05:33:48Z
+
+> Нужно решить: заголовок PR. Субагент сам убрал (vova) из заголовка PR и из текста squash-коммита. Причина: теперь ветка меняет и отклики Клерка на basilisk.fyi, а по правилу такой мердж публикует все сайты
+
+А что он собственно меняет в Василиске? Он меняет правило, как его делать дальше -- но не меняет ничего user-facing, то есть в рамках Василиска это chore или docs, а не feat. Еслия прав, то я второй раз замечаю уже эту fallacy, и нужно пояснить в правилах этот момент.
 
 ---
 
@@ -630,3 +352,5 @@ _81 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-11T20:03:10Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5484526880.
 - **2026-10-11T20:19:29Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5484754494.
 - **2026-10-12T22:24:16Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5486745115.
+- **2026-10-12T22:44:38Z** @vzakharov renamed from «feat(vova): open every song, and the music batch around it» to «feat: open every song, and the music batch around it».
+- **2026-10-13T05:36:56Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5499146076.
