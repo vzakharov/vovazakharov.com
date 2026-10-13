@@ -2,9 +2,14 @@
 
 ## Progress
 
-**Done:** nothing in source yet. The plan is approved (go-ahead «и поехали!», commit e082fcd); the planning session paused before building because its context was spent on the design discussion. The look is settled in `docs/plans/radio-mockups.html` — the tuning dial, centred at about 480px on every width — and the implementation follows it.
+**Done:** § "Changes" 1–3. `lib/station.ts` (+ tests): `stationAt`, `nextStation`, `cycleOrder`'s boundary swap. `lib/player-state.ts` (+ tests): `radio`, the `tune` and `release` actions, every action but `tune` and a `playing: true` report releasing. `lib/use-station.ts`, wired into `use-audio-player.ts`: `controls.tuneIn`, `tryTuneIn` (the landing attempt, dispatching nothing until `play()` resolves), `onAir(nowMs)`, `release`; the owed seek on `loadedmetadata`, drift catch-up on `playing`, the handover on `ended`; seeks release; the end-of-track `pause` and an `AbortError` no longer release.
 
-**Left:** all of § "Changes", in its order. The open questions below keep their recommendations unless the operator answers otherwise.
+**Left:** § "Changes" 4–9, plus § "The operator's additions" below — mock up the cover (1 vs 1b, phone and wide) first and let the operator pick before building the page. Two calls for the page:
+
+- **The landing attempt runs only when nothing is in the player** (`current === undefined`). With a track loaded, its `src` swap would race the source effect and abort its own `play()`; a reader arriving with music paused gets **Tune in**.
+- **Following needs no radio-path check**: `useFollow` should start as `!state.radio` at the bar's mount. A bar first mounting with the radio on was tuned from the launcher or the radio page, both of which keep the reader where they are; once mounted, the reader's own navigation already sets following as today. Without it, the launcher's tune on `/music` races its own `router.push` to `/music/radio`.
+
+The open questions below keep their recommendations unless the operator answers otherwise.
 
 A **Radio** button beside **Shuffle all** on `/music`, and a round radio toggle in the player bar to the right of shuffle. Pressed, it plays what every other listener who pressed it hears at that moment — the same song, at the same second — **with no server**: the song and the second are a pure function of the current Unix time and the catalogue the page was built with. Any action on playback — pause, seek, skip, shuffle, picking a song — releases it. The radio also has a page of its own, `/music/radio`, with its own link card, to share.
 
