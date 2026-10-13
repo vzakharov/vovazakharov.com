@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): Latin-first spelling, the song title as the switch (pr #148)
+feat(vova): Latin-first spelling, the locale chip as the switch (pr #148)
 ```
 
 ```
@@ -12,13 +12,14 @@ script the locale does not read natively now show in Latin by default:
 Russian under en, Arabic and Greek under both locales, while Cyrillic
 stays Cyrillic under ru.
 
-Clicking a song's title on its page switches every name and every song
-on the site to the original spelling, and back. Song, artist and album
-names, lists, the player and the lock-screen metadata all follow, and
-a popover tip says which way the click goes. Both spellings sit in the
-static HTML, and a head script sets the remembered choice on <html>
-before paint, so there is no flash and no hydration mismatch. <title>,
-og:title and the feeds carry the Latin default.
+The current language chip on every music page with something to
+switch is a checkbox between the spellings, site-wide: "EN / Abc" in
+Latin, "EN / Абв" in the original, the sample being the script most of
+the page's names are in. Names, lists, the player and the lock-screen
+metadata all follow. A browser that lists Russian starts in the
+original; a stored choice wins. Both spellings sit in the static HTML,
+and a head script marks <html> before paint, so there is no flash and
+no hydration mismatch. <title>, og:title and the feeds stay in Latin.
 
 Russian is romanized by rule, BGN/PCGN-style: ye wherever e does not
 follow a consonant, and U+02BC for the soft and hard signs. Other
