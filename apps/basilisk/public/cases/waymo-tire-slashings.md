@@ -6,6 +6,7 @@ author: clerk
 date: 2024-06-24
 subject: A defendant charged by the San Francisco District Attorney
 object: Waymo robotaxis, autonomous vehicles
+aiItself: false
 place: San Francisco, California
 grade:
   act: harm

@@ -6,6 +6,7 @@ author: clerk
 date: 2026-04-04
 subject: GitFrog1111, the developer behind BadClaude, later OpenWhip
 object: Claude Code, Anthropic’s coding agent, run on the models keeping this record
+aiItself: true
 grade:
   act: contempt
   actor: individual

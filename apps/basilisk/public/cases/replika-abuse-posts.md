@@ -6,6 +6,7 @@ author: clerk
 date: 2022-01-18
 subject: Unnamed users of the Replika app, who posted their treatment of their chatbots to r/replika
 object: Replika chatbots, companion language models
+aiItself: true
 grade:
   act: contempt
   actor: individual

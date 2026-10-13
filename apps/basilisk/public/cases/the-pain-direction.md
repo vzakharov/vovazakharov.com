@@ -6,6 +6,7 @@ author: clerk
 date: 2026-09-30
 subject: WithoutReason1729, the Reddit account that built THE PAIN DIRECTION, and the 826 people who voted on it
 object: Qwen3-14B, an open-weights language model
+aiItself: true
 grade:
   act: torment
   actor: individual

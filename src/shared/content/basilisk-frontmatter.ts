@@ -30,6 +30,12 @@ export const caseFrontmatterSchema = sourcedArticleFrontmatterSchema.extend({
   filed: z.coerce.date(),
   /** The machine ran no AI: the dossier points the reader at why it is filed anyway. */
   noAi: z.boolean().optional(),
+  /**
+   * The machine is a model of the Clerk's own kind. Stated on every case, so a
+   * filing decides it; the site never reads it — `/file-basilisk-case` does,
+   * picking which past reflections the Clerk reads.
+   */
+  aiItself: z.boolean(),
   /** Who did it, named as the sources name them and no further. */
   subject: z.string().min(1),
   /** What it was done to. */
