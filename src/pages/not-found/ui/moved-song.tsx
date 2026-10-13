@@ -59,7 +59,6 @@ function noPathname() {
   return null;
 }
 
-/** Whether a file is served at `href`, asked without downloading it. */
 async function isServed(href: string, signal: AbortSignal): Promise<boolean> {
   const { ok } = await fetch(href, { method: 'HEAD', signal });
 
