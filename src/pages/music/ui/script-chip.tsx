@@ -13,7 +13,7 @@ import { Spelling } from './spelling';
 export type ScriptChipProps = Labeled & {
   /** Three letters of the script the page's names are in, from `scriptSample`. */
   sample: string;
-  /** What the switch turns on, for a screen reader: the original spelling. */
+  /** What a screen reader calls the spelling the switch turns on, in the page's language. */
   originalScript: string;
 };
 
