@@ -3,282 +3,166 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Radio Mockups</title>
+<title>Radio Dial Mockups</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #fff; --fg: #000;
     --hair: rgb(0 0 0 / 20%); --hair-strong: rgb(0 0 0 / 40%);
-    --surface: rgb(0 0 0 / 4%); --surface-strong: rgb(0 0 0 / 10%);
+    --surface: rgb(0 0 0 / 4%);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #090909; --fg: #fff;
       --hair: rgb(255 255 255 / 20%); --hair-strong: rgb(255 255 255 / 40%);
-      --surface: rgb(255 255 255 / 6%); --surface-strong: rgb(255 255 255 / 14%);
+      --surface: rgb(255 255 255 / 6%);
     }
   }
   :root[data-theme="dark"] {
     --bg: #090909; --fg: #fff;
     --hair: rgb(255 255 255 / 20%); --hair-strong: rgb(255 255 255 / 40%);
-    --surface: rgb(255 255 255 / 6%); --surface-strong: rgb(255 255 255 / 14%);
+    --surface: rgb(255 255 255 / 6%);
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--fg);
-    font-family: Merriweather, serif; font-size: 16px; line-height: 1.6;
-  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: Merriweather, serif; font-size: 16px; line-height: 1.6; }
   .wrap { max-width: 1240px; margin: 0 auto; padding: 24px 16px 64px; }
   .top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
-  .top p { margin: 4px 0 0; opacity: .6; font-size: 14px; }
+  .top p { margin: 4px 0 0; opacity: .6; font-size: 14px; max-width: 80ch; }
   .theme { font: inherit; font-size: 13px; background: none; color: var(--fg); border: 1px solid var(--hair-strong); border-radius: 99px; padding: 4px 14px; cursor: pointer; }
-  h2.variant { font-size: 22px; margin: 56px 0 4px; }
-  .variant-note { margin: 0 0 20px; opacity: .6; font-size: 14px; max-width: 70ch; }
-  .states { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-  @media (max-width: 900px) { .states { grid-template-columns: 1fr; } }
-  .state { border: 1px dashed var(--hair); border-radius: 12px; padding: 20px; min-width: 0; }
-  .state-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .5; margin-bottom: 16px; }
+  h2.section { font-size: 22px; margin: 56px 0 4px; }
+  .note { margin: 0 0 20px; opacity: .6; font-size: 14px; max-width: 75ch; }
+  .label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .5; margin-bottom: 16px; }
   .mono { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
 
-  /* Shared bits */
+  /* Frames */
+  .phones { display: flex; gap: 20px; flex-wrap: wrap; }
+  .phone { width: 360px; max-width: 100%; border: 1px dashed var(--hair); border-radius: 18px; padding: 20px 16px; }
+  .screen { overflow-x: auto; margin-bottom: 24px; }
+  .screen-inner { width: 1100px; border: 1px dashed var(--hair); border-radius: 12px; padding: 32px 0; }
+  .column { width: 896px; margin: 0 auto; position: relative; }
+  .column::before, .column::after { content: ""; position: absolute; top: -20px; bottom: -20px; width: 0; border-left: 1px dotted var(--hair); }
+  .column::before { left: 0; } .column::after { right: 0; }
+  .column-tag { position: absolute; top: -28px; right: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px; opacity: .4; }
+
+  /* The block */
+  .radio { text-align: center; }
+  .radio h1 { font-size: 28px; font-weight: 900; margin: 0 0 4px; line-height: 1.2; }
+  .radio .pitch { margin: 0 auto 22px; font-size: 15px; opacity: .8; max-width: 32ch; }
+  .np-label { display: flex; justify-content: center; align-items: center; line-height: 1; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .55; }
+  .w2 .right .np-label { justify-content: flex-end; }
+  .np-title { font-size: 20px; font-weight: 700; margin: 4px 0 0; line-height: 1.3; }
+  .np-artist { opacity: .6; font-size: 15px; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--fg); flex: none; margin-right: 8px; animation: blink 1.6s ease-in-out infinite; }
+  @keyframes blink { 50% { opacity: .2; } }
+
+  /* The dial: ticks drawn per song, needle on a CSS animation as long as the song */
+  .scale { position: relative; height: 40px; margin: 18px 4px 0; }
+  .scale .tick { position: absolute; bottom: 0; width: 1px; height: 8px; background: var(--hair); }
+  .scale .tick.major { height: 18px; background: var(--hair-strong); }
+  .scale .base { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--hair); }
+  .scale .track { position: absolute; inset: 0; animation: travel var(--song) linear infinite; animation-delay: var(--at); will-change: transform; }
+  .scale .needle { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; margin-left: -1px; background: var(--fg); }
+  @keyframes travel { from { transform: translateX(0); } to { transform: translateX(100%); } }
+  .marks { position: relative; height: 18px; margin: 4px 4px 0; font-size: 11px; opacity: .55; }
+  .marks span { position: absolute; transform: translateX(-50%); }
+  .marks span:first-child { transform: none; }
+  .times { display: flex; justify-content: center; font-size: 13px; opacity: .7; margin: 6px 4px 22px; }
+
   .btn { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 15px; font-weight: 700; border-radius: 99px; padding: 10px 22px; cursor: pointer; border: 1px solid var(--fg); }
   .btn.filled { background: var(--fg); color: var(--bg); }
   .btn.outline { background: none; color: var(--fg); }
-  .btn svg { width: 18px; height: 18px; }
-  .caption { font-size: 12px; opacity: .55; margin-top: 8px; }
+  .btn.round { width: 104px; height: 104px; border-radius: 50%; padding: 0; justify-content: center; flex-direction: column; gap: 2px; font-size: 12px; }
+  .btn.round svg { width: 24px; height: 24px; }
+  .story { text-align: left; margin: 4px auto 0; max-width: 62ch; }
   .excerpt { position: relative; max-height: 7.2em; overflow: hidden; font-size: 15px; line-height: 1.6; margin: 0; }
   .excerpt::after { content: ""; position: absolute; inset: auto 0 0 0; height: 3.2em; background: linear-gradient(to bottom, transparent, var(--bg)); }
-  .excerpt em { font-style: italic; }
-  .song-title { font-weight: 700; }
-  .song-artist { opacity: .6; }
-  .bar-note { margin-top: 18px; font-size: 12px; opacity: .45; font-style: italic; }
-  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--fg); margin-right: 8px; vertical-align: middle; }
-  .live .dot { animation: blink 1.6s ease-in-out infinite; }
-  @keyframes blink { 50% { opacity: .2; } }
-  .progress { height: 2px; background: var(--hair); border-radius: 2px; overflow: hidden; }
-  .progress > i { display: block; height: 100%; background: var(--fg); width: 0; }
+  .cta { text-align: center; margin-top: 14px; }
+  .caption { font-size: 12px; opacity: .55; margin-top: 8px; }
 
-  /* Variant A — the page's own column */
-  .a h1 { font-size: 30px; font-weight: 900; margin: 0 0 6px; line-height: 1.2; }
-  .a .pitch { margin: 0 0 22px; font-size: 16px; opacity: .8; }
-  .a .np-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; opacity: .55; margin-bottom: 2px; }
-  .a .np-line { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
-  .a .np-line .mono { font-size: 13px; opacity: .7; white-space: nowrap; }
-  .a .progress { margin: 8px 0 22px; }
-  .a .story { margin-top: 2px; }
-  .a .story .btn { margin-top: 14px; }
+  /* W1: the set stays a compact object in the middle of the column */
+  .w1 .set { max-width: 480px; margin: 0 auto; }
 
-  /* Variant B — a receiver: one panel with a display */
-  .b h1 { font-size: 26px; font-weight: 900; margin: 0 0 4px; line-height: 1.2; }
-  .b .pitch { margin: 0 0 18px; font-size: 15px; opacity: .8; }
-  .b .panel { border: 1px solid var(--hair-strong); border-radius: 14px; padding: 14px; background: var(--surface); }
-  .b .panel-head { display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
-  .b .panel-head .off { opacity: .4; }
-  .b .display { display: flex; gap: 14px; align-items: center; margin: 12px 0; }
-  .b .cover { flex: none; width: 64px; height: 64px; border-radius: 8px; background: linear-gradient(135deg, var(--surface-strong), var(--hair)); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; opacity: .8; }
-  .b .display .who { min-width: 0; }
-  .b .display .who div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .b .digits { font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 600; letter-spacing: .02em; line-height: 1; margin: 2px 0 10px; font-variant-numeric: tabular-nums; }
-  .b .digits small { font-size: 15px; font-weight: 400; opacity: .5; }
-  .b .panel .btn { width: 100%; justify-content: center; margin-top: 14px; }
-  .b .story { margin-top: 16px; }
-  .b .story .btn { margin-top: 12px; }
-
-  /* Variant C — a dial, centred */
-  .c { text-align: center; }
-  .c h1 { font-size: 28px; font-weight: 900; margin: 0 0 4px; line-height: 1.2; letter-spacing: .01em; }
-  .c .pitch { margin: 0 auto 22px; font-size: 15px; opacity: .8; max-width: 32ch; }
-  .c .np-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .55; }
-  .c .np-title { font-size: 20px; font-weight: 700; margin: 4px 0 0; line-height: 1.3; }
-  .c .np-artist { opacity: .6; font-size: 15px; }
-  .c .scale { position: relative; height: 34px; margin: 18px 4px 4px; }
-  .c .scale .ticks { position: absolute; inset: 0; background:
-      repeating-linear-gradient(to right, var(--hair-strong) 0 1px, transparent 1px 10%),
-      repeating-linear-gradient(to right, var(--hair) 0 1px, transparent 1px 2.5%);
-    background-size: 100% 18px, 100% 9px; background-position: 0 100%, 0 100%; background-repeat: no-repeat; }
-  .c .scale .needle { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--fg); left: 0; transform: translateX(-1px); }
-  .c .times { display: flex; justify-content: space-between; font-size: 12px; opacity: .6; margin: 0 4px 22px; }
-  .c .btn.round { width: 104px; height: 104px; border-radius: 50%; padding: 0; justify-content: center; flex-direction: column; gap: 2px; font-size: 12px; }
-  .c .btn.round svg { width: 24px; height: 24px; }
-  .c .story { text-align: left; margin-top: 4px; }
-  .c .story .cta { text-align: center; margin-top: 14px; }
+  /* W2: the dial spans the column, like the long glass scale of an old receiver */
+  .w2 .head { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 24px; }
+  .w2 .head .left { text-align: left; }
+  .w2 .head .left h1 { font-size: 34px; margin: 0; }
+  .w2 .head .left .pitch { margin: 2px 0 0; max-width: 30ch; }
+  .w2 .head .right { text-align: right; }
+  .w2 .dialbox { border: 1px solid var(--hair-strong); border-radius: 14px; padding: 6px 16px 4px; margin: 22px 0 6px; background: var(--surface); }
+  .w2 .dialbox .scale { height: 46px; margin-top: 10px; }
+  .w2 .under { display: flex; justify-content: center; margin-top: 18px; }
+  .w2 .story { margin-top: 26px; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="top">
     <div>
-      <strong>Radio block — three looks, three states each</strong>
-      <p>Only the block; the page around it and the player bar are left out. The counter ticks live; the song is Breathe, 4:53.</p>
+      <strong>Radio — the dial, phone and wide</strong>
+      <p>The needle runs on one CSS animation as long as the song, started mid-way by a negative delay equal to the time elapsed — no script moves it, so it glides. The ticks are drawn per song: a long one each minute, labelled, a short one every 15 seconds. The page around the block and the player bar are left out.</p>
     </div>
     <button class="theme" type="button" id="theme">Light / dark</button>
   </div>
 
-  <!-- ===================== VARIANT A ===================== -->
-  <h2 class="variant">A — Like the rest of the site</h2>
-  <p class="variant-note">The page's own column of text: a heading, a line, the song, a hairline progress under it, the button. Nothing new for the eye; reads as an article that happens to play.</p>
-  <div class="states">
-    <div class="state a">
-      <div class="state-label">1 · Not tuned in</div>
-      <h1>Vova’s Radio</h1>
-      <p class="pitch">Same song, same second, for everyone listening.</p>
-      <div class="np-label">Now playing</div>
-      <div class="np-line"><div><span class="song-title">Breathe</span> <span class="song-artist">— Полуживые, GENERATED</span></div><span class="mono" data-clock></span></div>
-      <div class="progress"><i data-progress></i></div>
-      <button class="btn filled" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>Tune in</button>
-    </div>
-
-    <div class="state a">
-      <div class="state-label">2 · Tuned in</div>
-      <h1>Vova’s Radio</h1>
-      <p class="pitch">Same song, same second, for everyone listening.</p>
-      <div class="np-label live"><span class="dot"></span>Now playing</div>
-      <div class="np-line"><div><span class="song-title">Breathe</span> <span class="song-artist">— Полуживые, GENERATED</span></div><span class="mono" data-clock></span></div>
-      <div class="progress"><i data-progress></i></div>
-      <div class="story">
-        <p class="excerpt">I originally wrote this music back in Noteflight, in June of the far-off 2014, and the occasion was a sad one — a tragedy in a relative’s family. <em>Breathe</em> is both the breath of the June wind and the plea: breathe, please, just breathe. At the time I planned it as part of a “Seasons” cycle…</p>
-        <button class="btn outline" type="button">Read story, lyrics &amp; more</button>
-        <div class="caption">Don’t worry, this won’t stop the playback</div>
-      </div>
-      <div class="bar-note">+ the usual player bar at the foot of the page</div>
-    </div>
-
-    <div class="state a">
-      <div class="state-label">3 · Released (paused, sought…)</div>
-      <h1>Vova’s Radio</h1>
-      <p class="pitch">Same song, same second, for everyone listening.</p>
-      <div class="np-label">Now playing</div>
-      <div class="np-line"><div><span class="song-title">Breathe</span> <span class="song-artist">— Полуживые, GENERATED</span></div><span class="mono" data-clock></span></div>
-      <div class="progress"><i data-progress></i></div>
-      <button class="btn filled" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>Tune back in</button>
-      <div class="bar-note">+ the bar, paused or wherever the reader took it</div>
-    </div>
+  <h2 class="section">Phone</h2>
+  <p class="note">The look you picked, unchanged apart from the needle and the per-song scale.</p>
+  <div class="phones">
+    <div class="phone"><div class="label">Not tuned in</div><div data-block="narrow" data-state="off"></div></div>
+    <div class="phone"><div class="label">Tuned in</div><div data-block="narrow" data-state="on"></div></div>
+    <div class="phone"><div class="label">Released</div><div data-block="narrow" data-state="released"></div></div>
   </div>
 
-  <!-- ===================== VARIANT B ===================== -->
-  <h2 class="variant">B — A receiver on the desk</h2>
-  <p class="variant-note">One panel with a display: an ON AIR lamp, the cover, big mono digits like an LCD, the button built into the set. The story sits under the set, outside it — the set is the radio, the story is about the song.</p>
-  <div class="states">
-    <div class="state b">
-      <div class="state-label">1 · Not tuned in</div>
-      <h1>Vova’s Radio</h1>
-      <p class="pitch">Same song, same second, for everyone listening.</p>
-      <div class="panel">
-        <div class="panel-head"><span><span class="dot" style="opacity:.25"></span>On air</span><span class="off">not listening</span></div>
-        <div class="display">
-          <div class="cover">cover</div>
-          <div class="who"><div class="song-title">Breathe</div><div class="song-artist">Полуживые, GENERATED</div></div>
-        </div>
-        <div class="digits" data-digits></div>
-        <div class="progress"><i data-progress></i></div>
-        <button class="btn filled" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>Tune in</button>
-      </div>
-    </div>
+  <h2 class="section">Wide — 1: a set on the desk</h2>
+  <p class="note">The block keeps the phone's shape, about 480px wide, in the middle of the site's 896px column; the story under it reads at the usual measure. Calm and object-like; the wide screen is mostly air around it.</p>
+  <div class="screen"><div class="screen-inner"><div class="column w1"><span class="column-tag">site column · 896px</span><div class="label">Not tuned in</div><div data-block="w1" data-state="off"></div></div></div></div>
+  <div class="screen"><div class="screen-inner"><div class="column w1"><span class="column-tag">site column · 896px</span><div class="label">Tuned in</div><div data-block="w1" data-state="on"></div></div></div></div>
 
-    <div class="state b">
-      <div class="state-label">2 · Tuned in</div>
-      <h1>Vova’s Radio</h1>
-      <p class="pitch">Same song, same second, for everyone listening.</p>
-      <div class="panel">
-        <div class="panel-head live"><span><span class="dot"></span>On air</span><span>listening</span></div>
-        <div class="display">
-          <div class="cover">cover</div>
-          <div class="who"><div class="song-title">Breathe</div><div class="song-artist">Полуживые, GENERATED</div></div>
-        </div>
-        <div class="digits" data-digits></div>
-        <div class="progress"><i data-progress></i></div>
-      </div>
-      <div class="story">
-        <p class="excerpt">I originally wrote this music back in Noteflight, in June of the far-off 2014, and the occasion was a sad one — a tragedy in a relative’s family. <em>Breathe</em> is both the breath of the June wind and the plea: breathe, please, just breathe. At the time I planned it as part of a “Seasons” cycle…</p>
-        <button class="btn outline" type="button">Read story, lyrics &amp; more</button>
-        <div class="caption">Don’t worry, this won’t stop the playback</div>
-      </div>
-      <div class="bar-note">+ the usual player bar at the foot of the page</div>
-    </div>
-
-    <div class="state b">
-      <div class="state-label">3 · Released (paused, sought…)</div>
-      <h1>Vova’s Radio</h1>
-      <p class="pitch">Same song, same second, for everyone listening.</p>
-      <div class="panel">
-        <div class="panel-head"><span><span class="dot" style="opacity:.25"></span>On air</span><span class="off">off the air</span></div>
-        <div class="display">
-          <div class="cover">cover</div>
-          <div class="who"><div class="song-title">Breathe</div><div class="song-artist">Полуживые, GENERATED</div></div>
-        </div>
-        <div class="digits" data-digits></div>
-        <div class="progress"><i data-progress></i></div>
-        <button class="btn filled" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>Tune back in</button>
-      </div>
-      <div class="bar-note">+ the bar, paused or wherever the reader took it</div>
-    </div>
-  </div>
-
-  <!-- ===================== VARIANT C ===================== -->
-  <h2 class="variant">C — The tuning dial</h2>
-  <p class="variant-note">Centred, like the front of an old set: the song over a tuning scale, the needle walking across it as the song plays, a round knob-like button. The most “object”, the least like the rest of the site.</p>
-  <div class="states">
-    <div class="state c">
-      <div class="state-label">1 · Not tuned in</div>
-      <h1>Vova’s Radio</h1>
-      <p class="pitch">Same song, same second, for everyone listening.</p>
-      <div class="np-label">Now playing</div>
-      <div class="np-title">Breathe</div>
-      <div class="np-artist">Полуживые, GENERATED</div>
-      <div class="scale"><div class="ticks"></div><div class="needle" data-needle></div></div>
-      <div class="times mono"><span data-elapsed></span><span>4:53</span></div>
-      <button class="btn filled round" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>Tune in</button>
-    </div>
-
-    <div class="state c">
-      <div class="state-label">2 · Tuned in</div>
-      <h1>Vova’s Radio</h1>
-      <p class="pitch">Same song, same second, for everyone listening.</p>
-      <div class="np-label live"><span class="dot"></span>Now playing</div>
-      <div class="np-title">Breathe</div>
-      <div class="np-artist">Полуживые, GENERATED</div>
-      <div class="scale"><div class="ticks"></div><div class="needle" data-needle></div></div>
-      <div class="times mono"><span data-elapsed></span><span>4:53</span></div>
-      <div class="story">
-        <p class="excerpt">I originally wrote this music back in Noteflight, in June of the far-off 2014, and the occasion was a sad one — a tragedy in a relative’s family. <em>Breathe</em> is both the breath of the June wind and the plea: breathe, please, just breathe. At the time I planned it as part of a “Seasons” cycle…</p>
-        <div class="cta">
-          <button class="btn outline" type="button">Read story, lyrics &amp; more</button>
-          <div class="caption">Don’t worry, this won’t stop the playback</div>
-        </div>
-      </div>
-      <div class="bar-note">+ the usual player bar at the foot of the page</div>
-    </div>
-
-    <div class="state c">
-      <div class="state-label">3 · Released (paused, sought…)</div>
-      <h1>Vova’s Radio</h1>
-      <p class="pitch">Same song, same second, for everyone listening.</p>
-      <div class="np-label">Now playing</div>
-      <div class="np-title">Breathe</div>
-      <div class="np-artist">Полуживые, GENERATED</div>
-      <div class="scale"><div class="ticks"></div><div class="needle" data-needle></div></div>
-      <div class="times mono"><span data-elapsed></span><span>4:53</span></div>
-      <button class="btn filled round" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>Tune back in</button>
-      <div class="bar-note">+ the bar, paused or wherever the reader took it</div>
-    </div>
-  </div>
+  <h2 class="section">Wide — 2: the long glass dial</h2>
+  <p class="note">The heading moves left, now playing right, and the scale runs the full column inside a framed strip, like the dial glass across the front of an old receiver. The knob sits under the glass; the story under that.</p>
+  <div class="screen"><div class="screen-inner"><div class="column w2"><span class="column-tag">site column · 896px</span><div class="label">Not tuned in</div><div data-block="w2" data-state="off"></div></div></div></div>
+  <div class="screen"><div class="screen-inner"><div class="column w2"><span class="column-tag">site column · 896px</span><div class="label">Tuned in</div><div data-block="w2" data-state="on"></div></div></div></div>
 </div>
 
 <script>
   const LENGTH = 293;
   const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>';
+  const STORY = '<div class="story"><p class="excerpt">I originally wrote this music back in Noteflight, in June of the far-off 2014, and the occasion was a sad one — a tragedy in a relative’s family. <em>Breathe</em> is both the breath of the June wind and the plea: breathe, please, just breathe. At the time I planned it as part of a “Seasons” cycle…</p><div class="cta"><button class="btn outline" type="button">Read story, lyrics &amp; more</button><div class="caption">Don’t worry, this won’t stop the playback</div></div></div>';
+
+  function scale() {
+    let ticks = '';
+    for (let s = 0; s <= LENGTH; s += 15) {
+      ticks += `<i class="tick${s % 60 === 0 ? ' major' : ''}" style="left:${(s / LENGTH) * 100}%"></i>`;
+    }
+    let marks = '';
+    for (let m = 0; m * 60 <= LENGTH; m += 1) marks += `<span style="left:${(m * 60 / LENGTH) * 100}%">${m}</span>`;
+    return `<div class="scale"><div class="base"></div>${ticks}<div class="track"><div class="needle"></div></div></div><div class="marks mono">${marks}</div>`;
+  }
+  const nowPlaying = (on) => `<div class="np-label">${on ? '<span class="dot"></span>' : ''}Now playing</div><div class="np-title">Breathe</div><div class="np-artist">Полуживые, GENERATED</div>`;
+  const times = '<div class="times mono"><span><span data-elapsed></span> / 4:53</span></div>';
+  const knob = (label) => `<button class="btn filled round" type="button">${ICON}${label}</button>`;
+  const tail = (state) => (state === 'on' ? STORY : knob(state === 'off' ? 'Tune in' : 'Tune back in'));
+  const heading = '<h1>Vova’s Radio</h1><p class="pitch">Same song, same second, for everyone listening.</p>';
+
+  const render = {
+    narrow: (state) => `<div class="radio">${heading}${nowPlaying(state === 'on')}${scale()}${times}${tail(state)}</div>`,
+    w1: (state) => `<div class="radio"><div class="set">${heading}${nowPlaying(state === 'on')}${scale()}${times}${state === 'on' ? '' : tail(state)}</div>${state === 'on' ? STORY : ''}</div>`,
+    w2: (state) => `<div class="radio"><div class="head"><div class="left">${heading}</div><div></div><div class="right">${nowPlaying(state === 'on')}<div class="mono" style="font-size:13px;opacity:.6;margin-top:2px"><span data-elapsed></span> / 4:53</div></div></div><div class="dialbox">${scale()}</div>${state === 'on' ? STORY : `<div class="under">${tail(state)}</div>`}</div>`,
+  };
+  document.querySelectorAll('[data-block]').forEach((el) => { el.innerHTML = render[el.dataset.block](el.dataset.state); });
+
+  // Started once from the clock; from then on the browser animates it.
+  const at = (Date.now() / 1000) % LENGTH;
+  document.documentElement.style.setProperty('--song', `${LENGTH}s`);
+  document.documentElement.style.setProperty('--at', `${-at}s`);
+
   function tick() {
-    const at = (Date.now() / 1000) % LENGTH;
-    const share = (at / LENGTH) * 100;
-    document.querySelectorAll('[data-clock]').forEach((el) => { el.textContent = `${fmt(at)} / ${fmt(LENGTH)}`; });
-    document.querySelectorAll('[data-digits]').forEach((el) => { el.innerHTML = `${fmt(at)} <small>/ ${fmt(LENGTH)}</small>`; });
-    document.querySelectorAll('[data-elapsed]').forEach((el) => { el.textContent = fmt(at); });
-    document.querySelectorAll('[data-progress]').forEach((el) => { el.style.width = `${share}%`; });
-    document.querySelectorAll('[data-needle]').forEach((el) => { el.style.left = `${share}%`; });
+    const now = (Date.now() / 1000) % LENGTH;
+    document.querySelectorAll('[data-elapsed]').forEach((el) => { el.textContent = fmt(now); });
   }
   tick();
-  setInterval(tick, 1000);
+  setInterval(tick, 250);
   document.getElementById('theme').addEventListener('click', () => {
     const root = document.documentElement;
     const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
