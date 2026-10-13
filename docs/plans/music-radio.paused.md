@@ -6,7 +6,9 @@
 
 **Also done:** the cover mockups (variant 1 picked), the `radio` segment and `radioPath`, the catalogue's words. The route's parse, static params and sitemap entries land with the page, `music-route.tsx`'s switch being exhaustive.
 
-**Left:** § "Changes" 4–9, plus § "The operator's additions" below. Two calls for the page:
+§ "Changes" 4: `ui/radio-toggle.tsx` in the bar, the hint with it; the layout passes `radioRoutes` down, `music-urls` being out of a client bundle's reach (its `@/shared/content` barrel is server-only); `useFollow(route, !state.radio)`. Not yet looked at: the five-control strip at phone width (`/preview`).
+
+**Left:** § "Changes" 5–9, plus § "The operator's additions" below. The cycle length counts public songs only (operator: «да, только публичные»), computed in the page at build. Two calls for the page:
 
 - **The landing attempt runs only when nothing is in the player** (`current === undefined`). With a track loaded, its `src` swap would race the source effect and abort its own `play()`; a reader arriving with music paused gets **Tune in**.
 - **Following needs no radio-path check**: `useFollow` should start as `!state.radio` at the bar's mount. A bar first mounting with the radio on was tuned from the launcher or the radio page, both of which keep the reader where they are; once mounted, the reader's own navigation already sets following as today. Without it, the launcher's tune on `/music` races its own `router.push` to `/music/radio`.
