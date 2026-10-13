@@ -2,7 +2,7 @@
 
 ## Progress
 
-Paused for the context budget after step 7.
+Paused in step 8, on Vova's answers to the six disagreements in `docs/remove-before-merging/sidecar-check.md`.
 
 - **Done — step 1** (cd420f5): the analysis lives in `scripts/song-intake/song_facts.py`. A venv with matplotlib goes at `tmp/spec-venv` (gitignored: `python3 -m venv tmp/spec-venv && tmp/spec-venv/bin/pip install matplotlib`).
 - **Done — steps 2–3** (c8d5843): `tuning_cents`, `peak_chroma(…, tuning)`, `onset_envelope`, `tempo_bpm`, `beat_times`. The envelope is smoothed before the autocorrelation, or a 140 BPM click train reads as 70.
@@ -11,7 +11,8 @@ Paused for the context budget after step 7.
   - **`fold_loop` allows a head and a tail** around the loop, so one stray chord at a section's edge does not stop the fold.
   - **Tempo is the beats' mean gap**, not the median: gaps are whole onset frames, so at 120 BPM the median snapped to 117 or 123 and drew a false range.
 - **Done — step 7** (ec8e944): all eleven PNGs re-rendered (largest 304 KB), each with its `.txt`; docstring, `scripts/song-intake/CLAUDE.md`, `.claude/rules/maya-reflections.md`.
-- **Left — step 8**, as written below. Leads from the sidecars: `listen` keys at r 0.62; `hello` G major against G minor at 0.74/0.72; `listen-single` G♭/D♭ major tied at 0.75; `our-punk-rock`'s chords (distorted guitars, power chords) look unreliable, and its key may be C minor rather than G major. Птицы matches its known G minor (r 0.81) and reads its bass loop G → E♭ → F.
+- **Step 8, run** (`tmp/sidecar_check.py` in a librosa 1.0.0 venv at `tmp/librosa-venv`, both throwaway): results in `docs/remove-before-merging/sidecar-check.md`. Key agrees on 8 of 11, tempo on 8 of 11; the six disagreements are put to Vova there as numbered questions.
+- **Left — step 8's tail**: for each answer that shows the sidecar wrong, fix the method where the fix is general (not per-song overrides), re-render the affected PNGs and sidecars together, re-run the check. If our-punk-rock is C minor, consider leaving a song's chord line off where power chords leave no third to read. Then Step 3 (`/polish`) and Step 4 (`/pr`).
 
 Four of the five ideas `docs/remove-before-merging/spectrogram-reddit.md` § "Worth building" ranks, in `scripts/song-intake/spectrogram.py`: the tuning fix, tempo, a text sidecar of exact values and a zoomed render. Then every committed spectrogram is re-rendered and gets its sidecar, and the sidecar's numbers are checked against librosa before anyone reads them.
 
