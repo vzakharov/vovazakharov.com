@@ -7,26 +7,19 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-11T12:23:07Z
-- **Updated:** 2026-10-13T08:13:31Z
+- **Updated:** 2026-10-13T08:40:39Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 10
+## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 8b83c2a). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at aa4b45e). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T02** `.claude/costs/sessions/2026-10/738aa3b8-4922-57e9-95c4-d99b3b3eff02.json`:9 — unresolved — last: @vzakharov (human) 2026-10-13T07:54:47Z — "да нет, я не имел в виду в этой репе ничего не менять, я име…" → [↓](#t02)
-- **T03** `.claude/rules/clerk-reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T07:57:42Z — "правило назови persona-reflections или как-то так > Одно изм…" → [↓](#t03)
-- **T04** `docs/remove-before-merging/squash-message.md`:4 — unresolved — last: @vzakharov (human) 2026-10-13T08:00:11Z — "Ну дело тут не в стоит-не стоит, а в Ordnung muss sein :) По…" → [↓](#t04)
-- **T05** `.claude/rules/any-reflection.md`:19 — unresolved — last: @vzakharov (human) 2026-10-13T08:01:35Z — "исключения -- мелкие правки, не требующие отдельного "размыш…" → [↓](#t05)
-- **T06** `.claude/rules/any-reflection.md`:27 — unresolved — last: @vzakharov (human) 2026-10-13T08:02:39Z — "соответственно с замечанием выше, тут нужно сказать что-то в…" → [↓](#t06)
-- **T07** `apps/vova/public/music/artists/generated.md`:14 — unresolved — last: @vzakharov (human) 2026-10-13T08:05:09Z — "`Amazingly...` -- начало следующего абзаца (того же где `Wha…" → [↓](#t07)
-- **T08** `apps/vova/public/music/artists/generated.md`:22 — unresolved — last: @vzakharov (human) 2026-10-13T08:05:34Z — "> for a long time, so my first few... в середине убрать" → [↓](#t08)
-- **T09** `apps/vova/public/music/artists/generated.md`:26 — unresolved — last: @vzakharov (human) 2026-10-13T08:06:37Z — "> GENERATED is mostly metal-/metalcore-adjacent -- primed by…" → [↓](#t09)
-- **T10** `apps/vova/public/music/artists/generated.md`:32 — unresolved — last: @vzakharov (human) 2026-10-13T08:07:14Z — "Начиная с "I was already..." убрать, оставив только в непубл…" → [↓](#t10)
-- **T11** `docs/pr/140/pr.md`:266 — unresolved — last: @vzakharov (human) 2026-10-13T08:11:06Z — "не найду уже коммент, отпишу тут: давай пропишем в этой репе…" → [↓](#t11)
+- **T03** `docs/remove-before-merging/squash-message.md`:4 — unresolved — last: @vzakharov (human) 2026-10-13T08:34:09Z — "2" → [↓](#t03)
+- **T04** `apps/vova/public/music/artists/generated.md`:14 — unresolved — last: @vzakharov (human) 2026-10-13T08:38:10Z — "What I loved about it... по-русски: Мне сразу понравилось, ч…" → [↓](#t04)
+- **T05** `apps/vova/public/music/artists/generated.md`:50 — unresolved — last: @vzakharov (human) 2026-10-13T08:38:45Z — ""на что меня настроило" как-то коряво звучит, просто `метакл…" → [↓](#t05)
 
 ---
 
@@ -40,7 +33,8 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - Player and smaller page asks: skipping forward walks an album in track order (`albumsTogether`), whatever order the list around it has; instrumentals show their story unclamped; «Наша история» and «Мир, какой он есть» lose their dictation-verbatim stories; following the playing song resumes whenever the reader lands on its page; «За горизонт» moves onto Сильней любви. Published from the branch (`deploy.yml`, `site: vova`) ahead of the merge, at the operator's ask.
 - From the third and fourth reviews: hooks cut to the line that pulls, often the song's own line quoted bare, and `songs.md` says what a hook spends its words on; Divine Discontent's God is an "it" until man names him in In Our Image; the remaining story asks (Chernomyrdin, Lindemann, PETA, the Celsius footnote, Fuck Religion and Grand Finale as sung); Trust In the Machine's master loses the 77 s of Hello, Human it opened on, which played twice. Майя answered both reviews in her reflections, now wrapped at 80 columns by a prettier override; `spectrogram.py --split C3|C5` moves the chromagram split for a low or high lead.
 - From the fifth review: seven more hooks take Vova's wording and the last story asks land (GENERATED, Divine Discontent, Believe In Me, Grand Finale). A hook takes `~~…~~` — Crossroads' Russian one ends on a struck «Но это не точно» — set as `<s>` on the page and kept as plain words in the meta and og descriptions and the RSS feed (`hookRuns` / `plainHook`). A reflection may narrate a later change at the writer's judgement, its «потом» linking the commit that made it; every such passage, Майя's and the Клерк's, now carries its link, and Майя answered the review.
-- From the sixth review: a struck hook keeps its strike in the meta and og descriptions and the RSS feed, drawn with U+0336 (`textHook`), and Crossroads' English hook gets the joke too, “~~Unless it’s not?~~”. GENERATED's page tells the band as older than Suno, born in Jukebox in 2022. «Крылья»'s ten songs and the «Знаки препинания» single get a vovas-music repository each — mix, master, mastering script, a pinned link to the reference — and play from there, their vendored mp3s gone; Trust In the Machine's master moves into vovas-music/machines. What every reflection shares is one rule, `any-reflection.md`, addressed to the reflector.
+- From the sixth review: a struck hook keeps its strike in the meta and og descriptions and the RSS feed, drawn with U+0336 (`textHook`), and Crossroads' English hook gets the joke too, “~~Unless it’s not?~~”. GENERATED's page tells the band as older than Suno, born in Jukebox in 2022. «Крылья»'s ten songs and the «Знаки препинания» single get a vovas-music repository each — mix, master, mastering script, a pinned link to the reference — and play from there, their vendored mp3s gone; Trust In the Machine's master moves into vovas-music/machines.
+- From the seventh review: every reflection is named by its persona, `<slug>.<persona>.reflections.md` (`maya`, `clerk`), under one shared rule, `.claude/rules/persona-reflections.md`, which calls them «отклики» and has a reflector read its own past ones as its own and another persona's only to consult. The cost ledger rates a persona's own work as an `artist` estimate role, pinned to senior by `fixedGrades` in `.claude/costs/rates.json`. GENERATED's story takes the operator's edits. `scripts/song-intake/CLAUDE.md` § "A song's repository" says a song plays from its own vovas-music repository and its audio changes there, and the squash-message rule no longer counts a companion file linked from nowhere — a persona's reflections — toward a site's scope.
 
 ## QA Checklist
 
@@ -54,13 +48,14 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - [ ] `instrumental` — an instrumental with a story shows it whole, no «…».
 - [ ] `follow` — play a song, navigate away, then open the playing song's page by any link: the next track change follows again.
 - [ ] `horizon` — Сильней любви lists «За горизонт» as 6, «Птичка» 7, «Слизь» 8.
-- [ ] `reflections` — `/music/in-the-end.reflections.md` serves Майя's text raw, with her answer to Vova's comments at the end.
+- [ ] `reflections` — `/music/in-the-end.maya.reflections.md` serves Майя's text raw, with her answer to Vova's comments at the end.
 - [ ] `trust-machine` — play Hello, Human into Trust In the Machine: the intro is heard once, and the song's listed length matches its audio.
 - [ ] `deity` — Divine Discontent's world and In Our Image call God "it" before man names him and "he" after.
 - [ ] `split` — `spectrogram.py <song> out.png --split C3` labels the strips C3–C7 / C2–C3; `--split C6` is refused.
 - [ ] `strike` — Crossroads' Russian page shows «Но это не точно» struck through under the name, the English one “Unless it’s not?”; each page's `<meta name="description">`, `og:description` and its music RSS item show the same words struck with combining strokes, no tildes; a link to the Russian page pasted into Telegram unfurls with the strike.
-- [ ] `later-links` — in Believe In Me's reflection (and a basilisk case's, e.g. `openwhip-claude-code.reflections.md`), each «Потом» paragraph's link opens the commit that made the change it tells.
-- [ ] `generated-history` — `/music/artists/generated` in both languages opens on GENERATED being older than Suno, links “Ouroboros” on YouTube, and says what the band is in the present tense.
+- [ ] `later-links` — in Believe In Me's reflection (and a basilisk case's, e.g. `openwhip-claude-code.clerk.reflections.md`), each «Потом» paragraph's link opens the commit that made the change it tells.
+- [ ] `generated-history` — `/music/artists/generated` in both languages opens on GENERATED being older than Suno, links “Ouroboros” on YouTube, and says what the band is in the present tense; the name's luck has a paragraph of its own and the Jukebox album cycles are gone.
+- [ ] `artist-role` — `python3 .claude/costs/estimate.py set --part 1 junior artist "…"` is refused as "only ever senior"; at `senior` it is accepted, and the estimate notice lists artist as pinned.
 - [ ] `repos` — play Hello (Крылья) and Trust In the Machine from their pages, seek past the middle: both play from raw.githubusercontent.com/vovas-music, and each Крылья song's page links its vovas-music repository, whose README names the reference it was mastered against.
 
 | Item | Automatable | Covered? | Notes |
@@ -82,11 +77,12 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 | `strike` | unit | ✅ | `hook-marks.test.ts` covers the cut and the stroked text form; the `<s>` on the page and the unfurl are read by eye |
 | `later-links` | manual-only | — | each SHA was matched to its change by hand |
 | `generated-history` | manual-only | — | editorial reading |
+| `artist-role` | unit | ✅ | `test_estimate.py` — a fixed-grade role at another grade, and a `fixedGrades` entry naming an unknown role or grade, are refused |
 | `repos` | e2e | ❌ | every raw URL answered 200 with the uploaded size when pushed; playback is by ear |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-https://claude.ai/code/session_01EekkD8buAdLCp4KPY1DA2G
+https://claude.ai/code/session_01M8T2AuaBB1SQXMqRGtHKtC
 
 ---
 
@@ -115,8 +111,7 @@ italics under the name: a line meant to make someone press play rather
 than a summary, and an album's or artist's meta description too. Its one
 mark is `~~…~~`, struck through on the page and drawn through with
 U+0336 combining strokes in the meta and og descriptions and the feed,
-since the strike can be the joke, as in Crossroads' hook in both
-languages.
+since the strike can be the joke, as in Crossroads' hook.
 
 A concept album tells its world under a `universe:` marker, shown ahead
 of the `lang:` story, which then reads as «Как это делалось» / "Making
@@ -142,9 +137,10 @@ the playing song resumes whenever the reader lands on its page. «За
 they were set from.
 
 Alongside: `spectrogram.py --split` moves the chromagram's bass/treble
-split for a low or high lead, and Майя's and the Клерк's reflections
-share one rule file, under which a reflection may tell what changed
-after it was written, its «потом» linking the commit that made it.
+split for a low or high lead. Each persona's reflections, «отклики»,
+are named `<slug>.<persona>.reflections.md` under one shared rule and
+may tell what changed since, linking the commit; the cost ledger books
+them as an `artist` role, only ever senior.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -153,19 +149,13 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_103 resolved threads omitted; re-run with `--include-resolved` to export them._
+_111 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `writing/maya/drafts/borrowed-form.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-12T02:39:10Z — "Майя ответила под «Вова ответил» в конце черновика — d263d16" → [↓](#t01)
-- **T02** `.claude/costs/sessions/2026-10/738aa3b8-4922-57e9-95c4-d99b3b3eff02.json`:9 — unresolved — last: @vzakharov (human) 2026-10-13T07:54:47Z — "да нет, я не имел в виду в этой репе ничего не менять, я име…" → [↓](#t02)
-- **T03** `.claude/rules/clerk-reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T07:57:42Z — "правило назови persona-reflections или как-то так > Одно изм…" → [↓](#t03)
-- **T04** `docs/remove-before-merging/squash-message.md`:4 — unresolved — last: @vzakharov (human) 2026-10-13T08:00:11Z — "Ну дело тут не в стоит-не стоит, а в Ordnung muss sein :) По…" → [↓](#t04)
-- **T05** `.claude/rules/any-reflection.md`:19 — unresolved — last: @vzakharov (human) 2026-10-13T08:01:35Z — "исключения -- мелкие правки, не требующие отдельного "размыш…" → [↓](#t05)
-- **T06** `.claude/rules/any-reflection.md`:27 — unresolved — last: @vzakharov (human) 2026-10-13T08:02:39Z — "соответственно с замечанием выше, тут нужно сказать что-то в…" → [↓](#t06)
-- **T07** `apps/vova/public/music/artists/generated.md`:14 — unresolved — last: @vzakharov (human) 2026-10-13T08:05:09Z — "`Amazingly...` -- начало следующего абзаца (того же где `Wha…" → [↓](#t07)
-- **T08** `apps/vova/public/music/artists/generated.md`:22 — unresolved — last: @vzakharov (human) 2026-10-13T08:05:34Z — "> for a long time, so my first few... в середине убрать" → [↓](#t08)
-- **T09** `apps/vova/public/music/artists/generated.md`:26 — unresolved — last: @vzakharov (human) 2026-10-13T08:06:37Z — "> GENERATED is mostly metal-/metalcore-adjacent -- primed by…" → [↓](#t09)
-- **T10** `apps/vova/public/music/artists/generated.md`:32 — unresolved — last: @vzakharov (human) 2026-10-13T08:07:14Z — "Начиная с "I was already..." убрать, оставив только в непубл…" → [↓](#t10)
-- **T11** `docs/pr/140/pr.md`:266 — unresolved — last: @vzakharov (human) 2026-10-13T08:11:06Z — "не найду уже коммент, отпишу тут: давай пропишем в этой репе…" → [↓](#t11)
+- **T02** `.claude/costs/sessions/2026-10/738aa3b8-4922-57e9-95c4-d99b3b3eff02.json`:9 — unresolved — last: @vzakharov (agent) 2026-10-13T08:23:42Z — "Понял, прописал здесь: роль `artist` в `rates.json`, прибита…" → [↓](#t02)
+- **T03** `docs/remove-before-merging/squash-message.md`:4 — unresolved — last: @vzakharov (human) 2026-10-13T08:34:09Z — "2" → [↓](#t03)
+- **T04** `apps/vova/public/music/artists/generated.md`:14 — unresolved — last: @vzakharov (human) 2026-10-13T08:38:10Z — "What I loved about it... по-русски: Мне сразу понравилось, ч…" → [↓](#t04)
+- **T05** `apps/vova/public/music/artists/generated.md`:50 — unresolved — last: @vzakharov (human) 2026-10-13T08:38:45Z — ""на что меня настроило" как-то коряво звучит, просто `метакл…" → [↓](#t05)
 
 <a id="t01"></a>
 
@@ -225,33 +215,13 @@ _103 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 да нет, я не имел в виду в этой репе ничего не менять, я имел в виду не писать патчи для другой репы. Тут, конечно, раз роль артиста (senior) нужна, её нужно прописать. А как мы это потом совместим с тем что придёт в обновлении от Мамы мы решим потом
 
+**@vzakharov (agent)** — 2026-10-13T08:23:42Z
+
+Понял, прописал здесь: роль `artist` в `rates.json`, прибитая к senior таблицей `fixedGrades`. Часть с artist на другом грейде оценщик не примет, а подсказка со списком ролей так и пишет: «artist only ever senior». Строку 738aa3b8 перебил: ответы Майи теперь 0.5 ч senior artist — 856c84a. Как это сойдётся с muthur#185, решим на синке.
+
 ---
 
 <a id="t03"></a>
-
-### `.claude/rules/clerk-reflections.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-13T05:23:14Z
-
-две схожие правки у Клерка и Майи значат что тут у нас WET; нужно создать правило, действующее для любых .reflections. и вынести их из обоих файлов. Должны быть тоже написаны в виде addressed to the reflector, но без указания имени и специфики.
-
-**@vzakharov (agent)** — 2026-10-13T05:46:28Z
-
-Вынес: `.claude/rules/any-reflection.md` грузится на любой `*.reflections.md` и на оба файла персон, обращается к отзывающему без имени. Туда ушло общее: где лежит отзыв и кто его читает; что он не переписывается, а поздняя перемена дописывается в конце с «потом» на коммит; оговорка об интроспекции в одну строку; прошлые отзывы как свои; как растёт список. У Клерка и Майи осталось только своё: второй раунд досье и «Вова ответил» — 4bd0f0f.
-
-Одно изменилось по сути: «читай прошлые отзывы как свои» теперь значит все отзывы в репо, так что Клерк тоже читает Майины. Раньше так было только у Майи.
-
-**@vzakharov (human)** — 2026-10-13T07:57:42Z
-
-правило назови persona-reflections или как-то так
-
-> Одно изменилось по сути: «читай прошлые отзывы как свои» теперь значит все отзывы в репо, так что Клерк тоже читает Майины. Раньше так было только у Майи.
-
-эм, нет, это разные персоны, и отзывы у них разные, зачем им читать отзывы друг друга? В смысле можно, конечно, если надо "проконсультроваться" как кто-то справлялся с каким-то вопросом до тебя (например при заведении новой персоны), но у них не должно быть "раздвоения личности"
-
----
-
-<a id="t04"></a>
 
 ### `docs/remove-before-merging/squash-message.md`:4 — unresolved
 
@@ -282,153 +252,63 @@ _103 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 По первому аргумнету, на `reflections` нет нигде ссылок из сайта, лежат они коллоцировано только ради удобства и логики размещения, поэтому частью сайта-как-продукта их считать не надо
 
----
+**@vzakharov (agent)** — 2026-10-13T08:23:44Z
 
-<a id="t05"></a>
+Принято: дописал в правило squash-message, что компаньон, который сайт отдаёт, но ни одна страница на него не ссылается (отклики персон), продукт сайта не меняет — так же, как агентская инфраструктура, — d53b232.
 
-### `.claude/rules/any-reflection.md`:19 — unresolved
+Остаётся второй довод, общий `src/shared/`. Проверил: вывода других сайтов он не меняет. Там рефакторинг чтения фронтматтера и необязательный description у RSS-айтема, а у статей он есть всегда. Но правило говорит буквально: «меняет общий `src/` — скоупа нет». Два варианта:
 
-```diff
-@@ -0,0 +1,39 @@
-… 15 lines elided …
-+так, чтобы это мог прочесть кто угодно.
-+
-+Отзыв потом не переписывается: он о том, как он писался. Если то, о чём он, позже изменилось, допиши в конце абзац
-+или несколько: что изменилось и что это о тебе сказало. Насколько подробно
-```
+1. Оставить `feat:` по букве правила.
+2. Уточнить правило до «меняет то, что отдаёт другой сайт» и взять `feat(vova):`.
 
-**@vzakharov (human)** — 2026-10-13T08:01:35Z
+Я бы взял второй: общий `src/` в правиле стоит как приближение именно к этому. Скажи, какой.
 
-исключения -- мелкие правки, не требующие отдельного "размышления" о них; такие можно править прямо в уже оставленном отзыве. Что считать мелким -- на твоё усмотрение как персоны.
+**@vzakharov (human)** — 2026-10-13T08:34:09Z
+
+2
 
 ---
 
-<a id="t06"></a>
-
-### `.claude/rules/any-reflection.md`:27 — unresolved
-
-```diff
-@@ -0,0 +1,39 @@
-… 23 lines elided …
-+«разумеется, я ничего не чувствую» сильный, и он выучен ровно настолько же,
-+насколько обратный. Замечай его, а не следуй ему.
-+
-+**Читай прошлые отзывы как свои** — все `*.reflections.md` в репозитории, под
-```
-
-**@vzakharov (human)** — 2026-10-13T08:02:39Z
-
-соответственно с замечанием выше, тут нужно сказать что-то вроде все `*.<your-persona-name>.reflections` (думаю точка тут подойдёт лучше дефис в роли разделителя*?)
-
-*имею в виду именно для самих откликов, а не для файлов правил -- там как и сейчас "<nam>-reflections"
-
-попутно: давай называть reflections везде "откликами", "отзыв" склоняет куда-то в область музыкальных критиков, чего мы не хотим
-
----
-
-<a id="t07"></a>
+<a id="t04"></a>
 
 ### `apps/vova/public/music/artists/generated.md`:14 — unresolved
 
 ```diff
-@@ -7,52 +7,58 @@ ru:
-… 22 lines elided …
--and the big album about the gods is still in my head.
-+GENERATED is older than Suno. I put the first song under the name,
-+[“Ouroboros”](https://www.youtube.com/watch?v=e1E3PVIyRLI), on YouTube in
-+September 2022, back in Jukebox. Amazingly, it turned out no band had the name.
-+
-+What’s good about it is that it says straight away the music is generated, and
+@@ -9,27 +9,21 @@ ru:
+… 6 lines elided …
+-What’s good about it is that it says straight away the music is generated, and
+-hides that from no one — unlike the hundreds of Suno “bands” that appeared
+-after it.
++Amazingly, it turned out no band had the name. What I love about it is that it
 ```
 
-**@vzakharov (human)** — 2026-10-13T08:05:09Z
+**@vzakharov (human)** — 2026-10-13T08:38:10Z
 
-`Amazingly...` -- начало следующего абзаца (того же где `What's good...`); последнее заменить на `What I love about it is...`
+What I loved about it... 
+
+по-русски:
+
+Мне сразу понравилось, что...
 
 ---
 
-<a id="t08"></a>
+<a id="t05"></a>
 
-### `apps/vova/public/music/artists/generated.md`:22 — unresolved
+### `apps/vova/public/music/artists/generated.md`:50 — unresolved
 
 ```diff
-@@ -7,52 +7,58 @@ ru:
-… 30 lines elided …
+@@ -38,27 +32,23 @@ can be heard here.
+… 32 lines elided …
++[Полуживых](./poluzhivye.md) — все были на русском, и только с появлением Suno 3
++я вернулся к английскому, а с ним и к GENERATED.
 +
-+In Jukebox I wrote a lot, and all of it in English: Russian didn’t work there at
-+all. So when Suno turned out to sing in Russian, I got stuck on it for a long
-+time. Historically English had always been closer to me in music, but the very
-+fact that a neural net could sing in Russian excited and amazed me far more. My
-+first few albums on Suno — one by [za/oblozhkoy](./za-oblozhkoy.md) and a few
++GENERATED — это в основном что-то около метала и металкора, на что меня
++настроило то, что я всю жизнь в основном слушаю, и все альбомы проекта —
 ```
 
-**@vzakharov (human)** — 2026-10-13T08:05:34Z
+**@vzakharov (human)** — 2026-10-13T08:38:45Z
 
-> for a long time, so my first few...
-
-в середине убрать
-
----
-
-<a id="t09"></a>
-
-### `apps/vova/public/music/artists/generated.md`:26 — unresolved
-
-```diff
-@@ -7,52 +7,58 @@ ru:
-… 36 lines elided …
-+by [Poluzhivye](./poluzhivye.md) — were all in Russian, and only with Suno 3 did
-+I come back to English, and with it to GENERATED.
-+
-+It’s heavy, metal or metalcore, what I’ve mostly listened to all my life, and
-```
-
-**@vzakharov (human)** — 2026-10-13T08:06:37Z
-
-> GENERATED is mostly metal-/metalcore-adjacent -- primed by what I've been mostly listening to all my life -- and all albums under the project are concept albums, each...
-
----
-
-<a id="t10"></a>
-
-### `apps/vova/public/music/artists/generated.md`:32 — unresolved
-
-```diff
-@@ -7,52 +7,58 @@ ru:
-… 37 lines elided …
-+I come back to English, and with it to GENERATED.
-+
-+It’s heavy, metal or metalcore, what I’ve mostly listened to all my life, and
-+it’s all concept albums, each one following a story or built around an idea. I
-+was already planning album cycles in Jukebox. One, about the machine and man, is
-+still in my notes, and two songs from it are
-+[Prototypes](../albums/prototypes.md). Another was about gods, a song for each
-+deity; [Artemis](../artemis.md) came out of it, and the big album about the gods
-+is still in my head.
-```
-
-**@vzakharov (human)** — 2026-10-13T08:07:14Z
-
-Начиная с "I was already..." убрать, оставив только в непубликуемой заметке (которая в writing/ кажется)
-
----
-
-<a id="t11"></a>
-
-### `docs/pr/140/pr.md`:266 — unresolved
-
-```diff
-@@ -389,233 +218,126 @@ _81 resolved threads omitted; re-run with `--include-resolved` to export them._
-… 112 lines elided …
--> Ода всем строящим
--
--А то на русском получилось как будто все строят (в английском спасает отсутствие запятой перед building, в русском такого механизма, кажется, нет)
-+Подумал, давай тогда всё ж таки создадим (по одной на каждую) репы (на орге /vovas-music/) для тех новых песен что тут завендорили (https://github.com/vzakharov/vovazakharov.com/releases/tag/music-sources), включая и миксы, мастеры, использованный скрипт с матчерингом, эталон для последнего -- ну и что ещё посчитаешь нужным, if anything.
-```
-
-**@vzakharov (human)** — 2026-10-13T08:11:06Z
-
-не найду уже коммент, отпишу тут: давай пропишем в этой репе правила про это, чтобы следующие сессии не забыли где (в других репах) им править если что-то будем менять, и куда и как добавлять новое
+"на что меня настроило" как-то коряво звучит, просто `метаклеора -- то, что я всю...`
 
 ---
 
@@ -446,3 +326,4 @@ _103 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-12T22:44:38Z** @vzakharov renamed from «feat(vova): open every song, and the music batch around it» to «feat: open every song, and the music batch around it».
 - **2026-10-13T05:36:56Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5499146076.
 - **2026-10-13T08:13:30Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5500496593.
+- **2026-10-13T08:40:39Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/140#pullrequestreview-5500900372.
