@@ -10,6 +10,7 @@ import {
   SITE_CONFIG,
   withoutScheme,
 } from '@/shared/config';
+import { SCRIPT_PREFERENCE_SCRIPT } from '@/shared/lib/script-preference';
 import { constructMetadata } from '@/shared/seo/index.server-only';
 
 import { ThemeCorner } from './theme-corner';
@@ -55,6 +56,9 @@ export function RootLayout({
     >
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
+        <script
+          dangerouslySetInnerHTML={{ __html: SCRIPT_PREFERENCE_SCRIPT }}
+        />
         {/* `data-domains` keeps a dev server or a preview from counting as the site. */}
         <script
           defer
