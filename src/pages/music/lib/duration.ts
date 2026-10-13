@@ -26,9 +26,8 @@ type PluralForms = Partial<Record<Intl.LDMLPluralRule, string>> & {
 };
 
 /**
- * Hours and minutes in words. A Russian count takes its case from the sentence
- * around it — `1 минута` alone, `длится 1 минуту` — so each sentence brings its
- * own forms.
+ * A Russian count takes its case from the sentence around it — `1 минута`
+ * alone, `длится 1 минуту` — so each sentence brings its own forms.
  */
 export type SpokenLengthForms = Record<'hours' | 'minutes', PluralForms>;
 

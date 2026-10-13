@@ -65,9 +65,7 @@ function useClock(): number | undefined {
 /**
  * The radio's set: what is on air and how far into it, from the clock and the
  * same catalogue the player tunes by, whether or not anything plays. On mount
- * it tries to tune in, which the browser may refuse; tuned in, the song's
- * hook shows in the set, under the dial, and any action on playback puts **Tune back in**
- * where it stood.
+ * it tries to tune in, which the browser may refuse.
  */
 export function OnAir({
   labels,
