@@ -10,6 +10,7 @@ import { pick } from '@/shared/lib/collections';
 import type { HookRun } from '@/shared/music-catalogue';
 import { InternalButton, NameLink } from '@/shared/ui';
 
+import type { SpelledLink } from '../lib/player-state';
 import { stationOffset } from '../lib/station';
 import { BillingLinks } from './billing-links';
 import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
@@ -17,7 +18,6 @@ import { HookRuns } from './hook-runs';
 import { NotedSpan } from './noted-span';
 import { usePlayer } from './player-provider';
 import classes from './radio.module.scss';
-import type { SpelledLink } from '../lib/player-state';
 import { RadioDial } from './radio-dial';
 import { Spelling } from './spelling';
 
