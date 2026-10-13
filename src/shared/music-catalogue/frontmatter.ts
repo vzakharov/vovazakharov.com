@@ -47,16 +47,10 @@ const songLanguageSchema = z.enum(SONG_LANGUAGES);
 
 const sungLanguageSchema = songLanguageSchema.exclude(['instrumental']);
 
-/** What a locale's reader is told of a title it keeps but may not read or understand. */
+/** What a locale's reader is told of a title it keeps but may not understand. */
 const titleGlossSchema = z.object({
-  /**
-   * The title in this locale's letters — Latin under `en`, Cyrillic under `ru`.
-   * The page shows it only where the title is in a script its reader does not
-   * read, so a Russian title wants one under `en` and none under `ru`.
-   */
-  transliteration: z.string().min(1).optional(),
   /** The title in this locale's language, where the title is in another. */
-  translation: z.string().min(1).optional(),
+  translation: z.string().min(1),
 });
 
 export type TitleGloss = z.infer<typeof titleGlossSchema>;
@@ -187,10 +181,15 @@ const songFieldsSchema = baseFrontmatterSchema
     /** What the title is in, where that is not the language sung first. */
     titleLanguage: sungLanguageSchema.optional(),
     /**
-     * The title is a romanization — `Mithqāl` — and is set in italics wherever
-     * it shows, as a transliteration is. A locale's own name for the song is not.
+     * The title in Latin letters, written by hand: for a script no rule
+     * romanizes (`Mithqāl`), or a name with an established Latin spelling.
      */
-    titleTransliterated: z.boolean().default(false),
+    titleLatin: z.string().min(1).optional(),
+    /**
+     * The words and title keep their script beside the romanization rather than
+     * giving way to it — a sacred text, whose letters are not to be replaced.
+     */
+    keepsScript: z.boolean().default(false),
     credits: creditsSchema.optional(),
     video: z
       .object({

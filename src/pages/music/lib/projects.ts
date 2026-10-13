@@ -52,23 +52,20 @@ const PROJECT_GLOSSES: Partial<
   Record<MusicProject, Partial<Record<Locale, TitleGloss>>>
 > = {
   Полуживые: {
-    en: { transliteration: 'Poluzhivye', translation: 'The Half-Alive' },
+    en: { translation: 'The Half-Alive' },
   },
   'Грёбаный бал': {
-    en: { transliteration: 'Grebany bal', translation: 'The Fucking Ball' },
+    en: { translation: 'The Fucking Ball' },
   },
   'за/обложкой': {
-    en: { transliteration: 'za/oblozhkoy', translation: 'Behind the Cover' },
+    en: { translation: 'Behind the Cover' },
   },
   'Дамы и господа': {
     en: {
-      transliteration: 'Damy i gospoda',
       translation: 'Ladies and Gentlemen',
     },
   },
-  'Иске Кормаш': { en: { transliteration: 'Iske Kormash' } },
-  Киндерштайн: { en: { transliteration: 'Kindershtayn' } },
-  Листопад: { en: { transliteration: 'Listopad', translation: 'Leaf Fall' } },
+  Листопад: { en: { translation: 'Leaf Fall' } },
 };
 
 export function projectGloss(

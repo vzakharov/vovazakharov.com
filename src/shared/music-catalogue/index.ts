@@ -16,3 +16,12 @@ export {
   type MusicProject,
 } from './names';
 export { type CreditedName, SONG_AUTHOR } from './people';
+export { romanizeRussian } from './romanize';
+export {
+  defaultSpelling,
+  needsLatin,
+  spell,
+  type Spellable,
+  type Spelled,
+  songTitle,
+} from './spelling';

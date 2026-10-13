@@ -81,19 +81,19 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     artist: 'Полуживые',
     cover: true,
     gloss: {
-      en: { transliteration: 'Papa-reka', translation: 'Father River' },
+      en: { translation: 'Father River' },
     },
   },
   hamlet: {
     title: 'Гамлет',
     artist: 'Полуживые',
     cover: true,
-    gloss: { en: { transliteration: 'Gamlet', translation: 'Hamlet' } },
+    gloss: { en: { translation: 'Hamlet' } },
   },
   'father-sea': {
     title: 'Папа-море',
     artist: 'Полуживые',
-    gloss: { en: { transliteration: 'Papa-more', translation: 'Father Sea' } },
+    gloss: { en: { translation: 'Father Sea' } },
   },
   'who-is-happy-in-russia': {
     title: 'Кому на Руси жить хорошо',
@@ -101,7 +101,6 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
     gloss: {
       en: {
-        transliteration: 'Komu na Rusi zhit khorosho',
         translation: 'Who Is Happy in Russia?',
       },
     },
@@ -112,7 +111,6 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
     gloss: {
       en: {
-        transliteration: 'Pyat romansov, dva soneta i odin rekviem',
         translation: 'Five Romances, Two Sonnets and One Requiem',
       },
     },
@@ -145,7 +143,6 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     artist: 'Грёбаный бал',
     gloss: {
       en: {
-        transliteration: 'Ni dlya kogo i dlya vsekh',
         translation: 'For None and for All',
       },
     },
@@ -155,7 +152,6 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     artist: 'Грёбаный бал',
     gloss: {
       en: {
-        transliteration: 'Silney lyubvi',
         translation: 'Stronger Than Love',
       },
     },
@@ -164,7 +160,7 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     title: 'Крылья',
     artist: 'за/обложкой',
     cover: true,
-    gloss: { en: { transliteration: 'Krylya', translation: 'Wings' } },
+    gloss: { en: { translation: 'Wings' } },
   },
   'punctuation-marks': {
     title: 'Знаки препинания',
@@ -172,7 +168,6 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
     cover: true,
     gloss: {
       en: {
-        transliteration: 'Znaki prepinaniya',
         translation: 'Punctuation Marks',
       },
     },
