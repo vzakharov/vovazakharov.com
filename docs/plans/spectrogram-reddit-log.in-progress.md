@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) _before_ touching code.
-
 # Build the spectrogram's "worth building" list
 
 Four of the five ideas `docs/remove-before-merging/spectrogram-reddit.md` § "Worth building" ranks, in `scripts/song-intake/spectrogram.py`: the tuning fix, tempo, a text sidecar of exact values and a zoomed render. Then every committed spectrogram is re-rendered and gets its sidecar, and the sidecar's numbers are checked against librosa before anyone reads them.
