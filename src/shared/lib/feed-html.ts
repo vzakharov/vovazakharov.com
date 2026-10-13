@@ -1,6 +1,6 @@
 import type { Element, Root } from 'hast';
 import { toHtml } from 'hast-util-to-html';
-import { SKIP, visit } from 'unist-util-visit';
+import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 
 const URL_PROPERTIES = ['href', 'src', 'poster'] as const;
 
@@ -36,12 +36,10 @@ export function feedHtml(
   visit(copy, 'element', (node: Element, index, parent) => {
     const { properties } = node;
 
-    if (properties['ariaHidden'] === 'true' || properties['ariaHidden'] === true) {
-      if (parent !== undefined && index !== undefined) {
-        parent.children.splice(index, 1);
+    if (properties['ariaHidden'] === 'true' && parent && index !== undefined) {
+      parent.children.splice(index, 1);
 
-        return [SKIP, index];
-      }
+      return [SKIP, index];
     }
 
     for (const name of URL_PROPERTIES) {
@@ -54,9 +52,9 @@ export function feedHtml(
 
     if (typeof srcSet === 'string') {
       properties['srcSet'] = absoluteSrcSet(srcSet, absolute);
-    } else if (Array.isArray(srcSet)) {
-      properties['srcSet'] = absoluteSrcSet(srcSet.join(', '), absolute);
     }
+
+    return CONTINUE;
   });
 
   return toHtml(copy);

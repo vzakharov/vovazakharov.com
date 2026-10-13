@@ -26,7 +26,7 @@ const tree: Root = {
         { type: 'text', value: 'there' },
       ]),
     ]),
-    element('img', { src: '/a.png', srcSet: ['/a.png 1x', '/a@2x.png 2x'] }),
+    element('img', { src: '/a.png', srcSet: '/a.png 1x, /a@2x.png 2x' }),
     element('aside', { ariaHidden: 'true' }, [
       { type: 'text', value: 'twice' },
     ]),

@@ -10,12 +10,17 @@ import { DEFAULT_LOCALE, type Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { renderRss } from '@/shared/lib/rss';
 
+import { songFeedEntries } from '@/pages/music';
+
 export function collectionFeed(collection: CollectionId, locale?: Locale) {
   const feed = findFeed(SITE_ID, collection, locale);
 
   return {
     GET: async () => {
-      const entries = await feedEntries(feed);
+      const entries =
+        collection === 'music'
+          ? await songFeedEntries(locale ?? DEFAULT_LOCALE)
+          : await feedEntries(collection);
       const rss = renderRss({
         ...pick(feed, 'title', 'description'),
         link: getAbsoluteUrl(

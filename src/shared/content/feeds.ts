@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { siteConfig, type SiteId } from '@/shared/config';
+import { getAbsoluteUrl, siteConfig, type SiteId } from '@/shared/config';
 import {
   DEFAULT_LOCALE,
   loadMessages,
@@ -8,21 +8,23 @@ import {
   LOCALES,
 } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
+import { feedHtml } from '@/shared/lib/feed-html';
 import type { RssItem } from '@/shared/lib/rss';
-import { textHook } from '@/shared/music-catalogue';
 import type { Summarized } from '@/shared/typings';
 
-import { ARTICLE_COLLECTIONS, SONGS } from './collection-schemas';
+import {
+  ARTICLE_COLLECTIONS,
+  type ArticleCollectionId,
+} from './collection-schemas';
 import {
   type CollectionId,
   COLLECTIONS,
   collectionsForSite,
   feedRoutes,
-  localizedRoute,
   type Routed,
   type WithCollectionId,
 } from './collections';
-import { isListed, listPrimaryDocuments, type LocaleRouted } from './documents';
+import type { LocaleRouted } from './documents';
 import { filedDate } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
@@ -82,36 +84,22 @@ export function findFeed(
 }
 
 /**
- * A feed's items, newest first. The blurb rather than the body: the body is
- * rendered for the page, and reads wrong anywhere else.
+ * An article feed's items, newest first: the blurb in `description` for a
+ * reader's list, the body as HTML for its reading pane. A song's item is cut
+ * from markers only `pages/music` reads, so the songs feed is built there.
  */
-export async function feedEntries({
-  collection,
-  locale = DEFAULT_LOCALE,
-}: Feed): Promise<FeedEntry[]> {
-  const entries =
-    collection === 'music'
-      ? listPrimaryDocuments(SONGS)
-          .filter((document) => isListed(document))
-          .map(({ route, frontmatter }) => {
-            // A locale's own name for the song wins; a gloss keeps the song's.
-            const { title, hook } = frontmatter[locale];
-
-            return {
-              title: typeof title === 'string' ? title : frontmatter.title,
-              description: hook === undefined ? undefined : textHook(hook),
-              route: localizedRoute(route, locale),
-              published: filedDate(frontmatter),
-            };
-          })
-      : (await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection])).map(
-          ({ document: { route, frontmatter }, rendered: { title } }) => ({
-            title,
-            ...pick(frontmatter, 'description'),
-            route,
-            published: filedDate(frontmatter),
-          }),
-        );
+export async function feedEntries(
+  collection: ArticleCollectionId,
+): Promise<FeedEntry[]> {
+  const entries = (
+    await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection])
+  ).map(({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
+    title,
+    ...pick(frontmatter, 'description'),
+    route,
+    published: filedDate(frontmatter),
+    content: feedHtml(tree, getAbsoluteUrl),
+  }));
 
   return entries.toSorted(
     (a, b) => b.published.getTime() - a.published.getTime(),
