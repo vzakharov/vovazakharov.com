@@ -63,6 +63,20 @@ A stale `names.ts` in a deploy is loud either way: an album file with no enum en
 6. **Prose**: `.claude/rules/songs.md` § "Frontmatter" — the enums are generated from the album and artist files, and the hook paragraph's "a frontmatter holding nothing else" changes; `albums.ts`/`names.ts` docstrings.
 7. Vet; `/preview` the music index, one album (`vagabond`, both locales) and one artist (`yoohie`, `ru`) to confirm names, glosses and covers read the same.
 
+## Progress (paused for the context budget)
+
+**Done** — the commit after the plan flip:
+
+- Step 3's data move: all 32 album and artist files carry the frontmatter above (26 created). Each artist's `order` is its index in the old `MUSIC_PROJECT_NAMES`, 1-based. The registries in `albums.ts`/`projects.ts` are still in place and still what the pages read, so the tree builds unchanged.
+- Step 1's schema, in `shared/music-catalogue/frontmatter.ts`: `localNameSchema` (the song's locale `title` value, now shared), `projectSchema`, `albumFrontmatterSchema`, `artistFrontmatterSchema`. Not yet exported from `index.ts`. `catalogueFrontmatterSchema` is kept until `catalogue-text.ts` moves to the new two — delete it then.
+
+**Left**, in this order:
+
+1. Step 2, the generator. `names.ts` also holds the hand-written `MUSIC_ORGANIZATION`, used by `projects.ts` and `scripts/scaffold-song.ts` via `index.node-safe.ts` — move it out (e.g. `organization.ts`) before `names.ts` becomes generated. `scripts/vet-songs.sh`'s `INPUTS` regex names `names.ts` and matches only top-level `music/*.md`; widen it to `albums/`/`artists/` if the untold list should re-run when those change. `scripts/list-untold-songs.ts` reads only `MUSIC_PROJECT_NAMES`/`MUSIC_ALBUM_SLUGS` — unaffected.
+2. Steps 4–5: readers and consumers. `albumTitle` spells with `language: 'ru'` regardless of locale, as today; keep that. `catalogue-text.ts` is the natural single loader for both readers (it already `loadProse`s these files) — memoize per name there.
+3. Check what an album page's `.md` header link does now that every album has a file, even a frontmatter-only one (`catalogueText` returns `markdown` whenever the file exists).
+4. Steps 6–7, then `/go` Step 3 onward.
+
 ## DRY notes
 
 - **Reused**: `loadProse` and `catalogueFrontmatterSchema`'s hook rule; the song's locale-`title` shape, extracted once and used by songs, albums and artists; `generate-styles.ts`'s write-and-fail-on-drift contract, mirrored rather than shared — the two generators share only "write a file if it differs", three lines not worth a helper module across a bare-Node script boundary.
