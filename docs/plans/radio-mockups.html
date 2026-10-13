@@ -81,6 +81,49 @@
 
   /* W1: the set stays a compact object in the middle of the column */
   .w1 .set { max-width: 480px; margin: 0 auto; }
+
+  /* Cover placement variants */
+  .variant { margin-top: 40px; }
+  .variant h3 { font-size: 18px; margin: 0 0 4px; }
+  .variant-cap { font-family: 'JetBrains Mono', monospace; font-size: 12px; opacity: .7; margin: 10px 0 0; max-width: 75ch; }
+  .variant-cap b { font-weight: 600; opacity: 1; }
+  .frames { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+  .frames .screen { flex: 1 1 100%; margin-bottom: 0; }
+  .variant .phone { width: 375px; }
+  .screen-inner.mid { width: 960px; }
+  .screen-inner.mid .column { width: 896px; }
+
+  /* The outline: marked, not decorated */
+  .boxed { border: 1px solid var(--hair); border-radius: 14px; padding: 24px 18px 28px; }
+  .wide-set { max-width: 480px; margin: 0 auto; }
+  .wide-set.lg { max-width: 760px; }
+
+  /* Links: inherit the text, a hairline underline that firms up on hover */
+  a.lnk { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: var(--hair); transition: text-decoration-color .15s; }
+  a.lnk:hover { text-decoration-color: currentColor; }
+  .np-album { opacity: .6; font-size: 14px; line-height: 1.5; }
+
+  /* Placeholder cover */
+  .cover { display: block; flex: none; padding: 0; border: 0; border-radius: 6px; aspect-ratio: 1; cursor: zoom-in; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 30% 28%, rgb(255 255 255 / 35%), transparent 45%), linear-gradient(140deg, #2f5d7c 0%, #6c8ca3 45%, #c8a46a 100%); box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%); }
+  .cover::after { content: "Breathe"; position: absolute; left: 8%; bottom: 7%; font: italic 700 11px/1 Merriweather, serif; color: rgb(255 255 255 / 85%); }
+  .cover.sm { width: 76px; }
+  .cover.sm::after { display: none; }
+  .cover.lg { width: 240px; }
+  .cover.lg::after { font-size: 18px; }
+  .cover.stack { width: 100%; max-width: 200px; margin: 0 auto 20px; }
+  .cover.stack::after { font-size: 16px; }
+
+  /* V1: small cover left of title, billing and album */
+  .np-row { display: inline-flex; align-items: center; gap: 12px; text-align: left; margin-top: 8px; }
+  .np-row .np-title { margin: 0; }
+  .np-row .np-artist, .np-row .np-album { line-height: 1.45; }
+
+  /* V1b: large cover left of the block from heading to counter */
+  .row-1b { display: flex; align-items: center; gap: 28px; }
+  .row-1b .block { flex: 1; min-width: 0; }
+  .row-1b .times { margin-bottom: 0; }
+  .knob-row { text-align: center; margin-top: 22px; }
 </style>
 </head>
 <body>
@@ -105,6 +148,36 @@
   <p class="note">The block keeps the phone's shape, about 480px wide, in the middle of the site's 896px column; the story under it reads at the usual measure.</p>
   <div class="screen"><div class="screen-inner"><div class="column w1"><span class="column-tag">site column · 896px</span><div class="label">Not tuned in</div><div data-block="w1" data-state="off"></div></div></div></div>
   <div class="screen"><div class="screen-inner"><div class="column w1"><span class="column-tag">site column · 896px</span><div class="label">Tuned in</div><div data-block="w1" data-state="on"></div></div></div></div>
+
+  <h2 class="section">Cover placement — pick one</h2>
+  <p class="note">Every variant also carries the other additions: a <em>from Album</em> line under the billing, the song, artist and album as links (hairline underline, firmer on hover), and a thin outline round the whole set. Drawn not tuned in, so the knob shows inside the outline; tuned in, the story sits under the set as above. Answer with the label: <strong>1</strong>, <strong>1b-i</strong> or <strong>1b-ii</strong>.</p>
+
+  <div class="variant">
+    <h3>Variant 1 — small cover beside the song</h3>
+    <div class="frames">
+      <div class="phone"><div class="label">Phone · 375</div><div data-block="v1" data-state="off"></div></div>
+      <div class="screen"><div class="screen-inner mid"><div class="column"><span class="column-tag">site column · 896px</span><div class="label">Wide</div><div data-block="v1wide" data-state="off"></div></div></div></div>
+    </div>
+    <p class="variant-cap"><b>1</b> · the cover is a square as tall as title + artist + album, left of them; the row stays centred. Pressing the cover maximizes it (CoverZoom).</p>
+  </div>
+
+  <div class="variant">
+    <h3>Variant 1b — large cover left of the heading-to-scale block</h3>
+    <div class="frames">
+      <div class="screen"><div class="screen-inner mid"><div class="column"><span class="column-tag">site column · 896px</span><div class="label">Wide (shared by 1b-i and 1b-ii)</div><div data-block="v1bwide" data-state="off"></div></div></div></div>
+    </div>
+    <p class="variant-cap"><b>1b</b> · wide: the cover (240px) beside the block from “Vova’s Radio” down to the scale and its counter; the knob sits under both. The set grows to about 760px. Pressing the cover maximizes it.</p>
+    <div class="frames" style="margin-top: 24px">
+      <div>
+        <div class="phone"><div class="label">Phone · 375</div><div data-block="v1bi" data-state="off"></div></div>
+        <p class="variant-cap"><b>1b-i</b> · phone: the cover stacks above the block, centred, capped at 200px.</p>
+      </div>
+      <div>
+        <div class="phone"><div class="label">Phone · 375</div><div data-block="v1" data-state="off"></div></div>
+        <p class="variant-cap"><b>1b-ii</b> · phone: the cover shrinks into variant 1’s small place beside the song.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -127,10 +200,18 @@
   const knob = (label) => `<button class="btn filled round" type="button">${ICON}${label}</button>`;
   const tail = (state) => (state === 'on' ? STORY : knob(state === 'off' ? 'Tune in' : 'Tune back in'));
   const heading = '<h1>Vova’s Radio</h1><p class="pitch">Same song, same second, for everyone listening.</p>';
+  const cover = (size) => `<button class="cover ${size}" type="button" aria-label="Enlarge the cover of Breathe" title="Press to maximize"></button>`;
+  const npLines = '<div class="np-title"><a class="lnk" href="#">Breathe</a></div><div class="np-artist"><a class="lnk" href="#">Полуживые, GENERATED</a></div><div class="np-album">from <a class="lnk" href="#"><i>Konyukhov</i></a></div>';
+  const npLinked = (on, withCover) => `<div class="np-label">${on ? '<span class="dot"></span>' : ''}Now playing</div>${withCover ? `<div class="np-row">${cover('sm')}<div>${npLines}</div></div>` : npLines}`;
 
   const render = {
     narrow: (state) => `<div class="radio">${heading}${nowPlaying(state === 'on')}${scale()}${times}${tail(state)}</div>`,
-    w1: (state) => `<div class="radio"><div class="set">${heading}${nowPlaying(state === 'on')}${scale()}${times}${state === 'on' ? '' : tail(state)}</div>${state === 'on' ? STORY : ''}</div>`,  };
+    w1: (state) => `<div class="radio"><div class="set">${heading}${nowPlaying(state === 'on')}${scale()}${times}${state === 'on' ? '' : tail(state)}</div>${state === 'on' ? STORY : ''}</div>`,
+    v1: (state) => `<div class="radio"><div class="boxed">${heading}${npLinked(state === 'on', true)}${scale()}${times}${tail(state)}</div></div>`,
+    v1wide: (state) => `<div class="radio"><div class="boxed wide-set">${heading}${npLinked(state === 'on', true)}${scale()}${times}${tail(state)}</div></div>`,
+    v1bi: (state) => `<div class="radio"><div class="boxed">${cover('stack')}${heading}${npLinked(state === 'on', false)}${scale()}${times}${tail(state)}</div></div>`,
+    v1bwide: (state) => `<div class="radio"><div class="boxed wide-set lg"><div class="row-1b">${cover('lg')}<div class="block">${heading}${npLinked(state === 'on', false)}${scale()}${times}</div></div><div class="knob-row">${tail(state)}</div></div></div>`,
+  };
   document.querySelectorAll('[data-block]').forEach((el) => { el.innerHTML = render[el.dataset.block](el.dataset.state); });
 
   // Started once from the clock; from then on the browser animates it.
