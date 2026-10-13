@@ -42,6 +42,11 @@ The tip is a Mantine popover anchored to the song title on its page.
   - Lyrics take a `<!-- lyrics:<language>-latn -->` section, which `alignTransliteration` already checks stanza for stanza. Titles take a frontmatter `titleLatin`; artists and albums take a `latin` beside their names. A hand-written spelling also wins over the rule where both apply, for a name with an established Latin spelling.
 - **The build fails** on any name or words in a script some locale needs romanized when neither a rule nor a hand-written spelling covers them.
 
+## Progress
+
+- **Done:** step 1, `romanize.ts` (`romanizeRussian`) and its tests, in dfa1927. It is Russian-only by name, and step 2's `spell()` is what picks it by language.
+- **Next:** step 2 onward. The session that did step 1 paused for its context budget, with nothing half-built.
+
 ## Steps
 
 1. **Romanizer.** `src/pages/music/lib/romanize.ts`, Russian rules as above, with `romanize.test.ts`. The tests cover every rule, the 67 titles' current hand-written spellings (now expected to differ only where the е/ё/ь rules say so), and Latin pass-through.
