@@ -6,18 +6,18 @@ feat: full content in the RSS feeds (pr #149)
 
 ```
 A feed item carried only its blurb, so a reader opening a song showed
-one line under its title and no story or words.
+one line under its title and no story.
 
 Every item now carries its body as HTML in content:encoded, beside the
-blurb that stays in description for the reader's list. A song gives its
-cover, world, making-of, then the sung words with the crib in the
-feed's language and each column's notes; an article gives its rendered
-body. URLs are absolute, and what the page draws twice (pull quotes,
-the seal) is left out.
+blurb that stays in description for the reader's list. A song gives
+its story in the feed's language, world first where it has one, and a
+link to its page for the words and notes; an article gives its
+rendered body. URLs are absolute, and what the page draws twice (pull
+quotes, the seal) is left out.
 
 The song half of the feed lives in pages/music now, beside the story
-cut and the words it reads, and one hast-to-HTML pass serves songs and
-articles alike.
+cut it reads, and one hast-to-HTML pass serves songs and articles
+alike.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
