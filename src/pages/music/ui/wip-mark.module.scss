@@ -6,8 +6,11 @@
   cursor: help;
 }
 
+// Centred on the kind's capitals rather than on its line box, whose middle
+// sits lower by the room the line keeps for descenders.
 .sign {
   opacity: 0.6;
+  transform: translateY(-1px);
 }
 
 // Hung from the sign's left rather than centred on it, the sign sitting at the

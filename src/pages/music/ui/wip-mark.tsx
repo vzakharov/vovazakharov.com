@@ -12,7 +12,7 @@ export type WipMarkProps = { note: string };
 export function WipMark({ note }: WipMarkProps) {
   return (
     <UnstyledButton className={classes['mark']} aria-label={note}>
-      <Construction className={classes['sign']} size={14} aria-hidden />
+      <Construction className={classes['sign']} size={12} aria-hidden />
       <span className={classes['note']} aria-hidden>
         {note}
       </span>
