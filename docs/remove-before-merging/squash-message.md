@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: open every song, and the music batch around it (pr #140)
+feat(vova): open every song, and the music batch around it (pr #140)
 ```
 
 ```
