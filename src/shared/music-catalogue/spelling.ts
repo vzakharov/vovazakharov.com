@@ -28,8 +28,6 @@ const SCRIPT_SAMPLES = [
 export type Spelled = {
   original: string;
   latin?: string;
-  /** The original stays in Latin mode, the romanization beside it rather than in its place. */
-  keepsScript?: boolean;
 };
 
 function letters(text: string): string[] {
@@ -100,7 +98,6 @@ export type WithSpelledName = { name: Spelled };
 export type Spellable = WithText & {
   language: SungLanguage | 'instrumental';
   latin?: string | undefined;
-  keepsScript?: boolean | undefined;
 };
 
 /**
@@ -109,7 +106,7 @@ export type Spellable = WithText & {
  * and nothing spells fails the build, naming the text.
  */
 export function spell(
-  { text, language, latin, keepsScript = false }: Spellable,
+  { text, language, latin }: Spellable,
   locale: Locale,
 ): Spelled {
   if (!needsLatin(text, locale)) return { original: text };
@@ -122,11 +119,7 @@ export function spell(
     );
   }
 
-  return {
-    original: text,
-    latin: spelled,
-    ...(keepsScript && { keepsScript }),
-  };
+  return { original: text, latin: spelled };
 }
 
 /**
@@ -142,15 +135,13 @@ export function songTitle(
   if (typeof own === 'string')
     return spell({ text: own, language: locale }, locale);
 
-  const { title, titleLanguage, language, titleLatin, keepsScript } =
-    frontmatter;
+  const { title, titleLanguage, language, titleLatin } = frontmatter;
 
   return spell(
     {
       text: title,
       language: titleLanguage ?? language[0] ?? 'instrumental',
       latin: titleLatin,
-      keepsScript,
     },
     locale,
   );

@@ -25,9 +25,9 @@ Russian is romanized by rule, BGN/PCGN-style: ye wherever e does not
 follow a consonant, and U+02BC for the soft and hard signs. Other
 scripts carry hand-written spellings, and the build fails on a name or
 words that need one and have none. A song flagged keepsScript (Mithqal)
-keeps its Arabic in both modes, with the romanization under it in Latin
-mode. The muted line under a title carries only the translation, and
-the lyrics switch is gone.
+keeps its Arabic words in both modes, the romanization under them in
+Latin mode; its title switches like any name. The muted line under a
+title carries only the translation, and the lyrics switch is gone.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

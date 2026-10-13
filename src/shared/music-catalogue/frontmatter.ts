@@ -186,8 +186,9 @@ const songFieldsSchema = baseFrontmatterSchema
      */
     titleLatin: z.string().min(1).optional(),
     /**
-     * The words and title keep their script beside the romanization rather than
-     * giving way to it — a sacred text, whose letters are not to be replaced.
+     * The words keep their script beside the romanization rather than giving
+     * way to it — a sacred text, whose letters are not to be replaced. The
+     * title is a name, and switches as any other does.
      */
     keepsScript: z.boolean().default(false),
     credits: creditsSchema.optional(),

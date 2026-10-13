@@ -68,21 +68,6 @@ describe('spell', () => {
     );
   });
 
-  it('carries keepsScript only where it is set', () => {
-    assert.deepEqual(
-      spell(
-        {
-          text: 'مِثْقَال',
-          language: 'ar',
-          latin: 'Mithqāl',
-          keepsScript: true,
-        },
-        'ru',
-      ),
-      { original: 'مِثْقَال', latin: 'Mithqāl', keepsScript: true },
-    );
-  });
-
   it('fails on a script nothing romanizes', () => {
     assert.throws(
       () => spell({ text: 'Минем бабай', language: 'tt' }, 'en'),
