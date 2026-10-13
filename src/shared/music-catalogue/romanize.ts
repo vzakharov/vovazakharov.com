@@ -89,7 +89,7 @@ function cased(
 export function romanizeRussian(text: string): string {
   // Code points, not UTF-16 units: a letter outside the BMP passes through
   // whole.
-  const chars = text.match(/./gsu) ?? [];
+  const chars = text.match(/[\s\S]/gu) ?? [];
   let out = '';
 
   for (let at = 0; at < chars.length; at += 1) {

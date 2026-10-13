@@ -33,7 +33,7 @@ export function ListenButton({ playing, labels, onClick }: ListenButtonProps) {
 }
 
 /** A song page's play control. */
-export function SongPlayButton({ track }: Pick<TrackButtonProps, 'track'>) {
+export function SongPlayButton({ track }: TrackButtonProps) {
   const { playing, labels, toggle } = useTrackPlayback(track);
 
   return <ListenButton {...{ playing, labels }} onClick={toggle} />;

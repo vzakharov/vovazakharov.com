@@ -77,7 +77,7 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
               return {
                 href: albumPath(album, catalogue, locale),
                 slug: album,
-                label: albumTitle(album, locale),
+                name: albumTitle(album, locale),
                 cover,
                 detail: albumYears(album, songs),
               };
@@ -85,13 +85,10 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
 
             const { titles, routes } = songTrack(release.single);
 
-            const { title, transliterated } = titles[locale];
-
             return {
               href: routes[locale],
               ...pick(release.single, 'slug'),
-              label: title,
-              transliterated,
+              name: titles[locale],
               cover,
               detail: `${messages.single} · ${String(release.single.frontmatter.date.getUTCFullYear())}`,
             };

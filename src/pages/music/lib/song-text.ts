@@ -2,12 +2,14 @@ import 'server-only';
 
 import type { ContentDocument } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
 import {
-  type MusicAlbum,
   mostlyNeedsLatin,
+  type MusicAlbum,
   type SongFrontmatter,
   type SongText,
   type SungLanguage,
+  type TitleGloss,
 } from '@/shared/music-catalogue';
 
 import {
@@ -18,7 +20,6 @@ import {
   type WithStanzas,
 } from './lyric-notes';
 import { localeProse, splitSections } from './sections';
-import type { GlossedTitle } from './title-gloss';
 import {
   alignTransliteration,
   romanizedTag,
@@ -34,10 +35,11 @@ export type SongOnRelease = {
   album: MusicAlbum | null;
 };
 
-/** A locale's strings with its title resolved: its own name for the song, or the song's with a gloss. */
-type LocalizedSongText = Omit<SongText, 'title'> &
-  GlossedTitle &
-  Pick<SongFrontmatter, 'titleTransliterated'>;
+/**
+ * A locale's strings, its title aside — `songTitle` spells that — and what the
+ * locale tells its reader about a title it keeps.
+ */
+type LocalizedSongText = Omit<SongText, 'title'> & { gloss?: TitleGloss };
 
 /**
  * A song as one language sees it: the titles and the story for that locale,
@@ -91,14 +93,12 @@ function wordsInLatin(
 }
 
 function localeText(
-  { title, titleTransliterated, ...frontmatter }: SongFrontmatter,
+  frontmatter: SongFrontmatter,
   locale: Locale,
 ): LocalizedSongText {
-  const { title: own, ...text } = frontmatter[locale];
+  const { title, ...text } = frontmatter[locale];
 
-  return typeof own === 'string'
-    ? { ...text, title: own, titleTransliterated: false }
-    : { ...text, title, titleTransliterated, gloss: own };
+  return typeof title === 'object' ? { ...text, gloss: title } : text;
 }
 
 /**
@@ -149,10 +149,14 @@ export function songLyrics(
   }
 
   const stanzas = readVerse(sung, fileName);
+  const text = stanzas
+    .flat()
+    .map((entry) => entryText(entry))
+    .join('\n');
   const words = {
     language,
-    keepsScript: frontmatter.keepsScript,
-    ...(mostlyNeedsLatin(stanzas.flat().map(entryText).join('\n'), locale) && {
+    ...pick(frontmatter, 'keepsScript'),
+    ...(mostlyNeedsLatin(text, locale) && {
       transliteration: wordsInLatin(stanzas, sections, language, fileName),
     }),
   };

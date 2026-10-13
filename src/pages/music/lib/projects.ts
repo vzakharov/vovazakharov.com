@@ -7,9 +7,9 @@ import type { TitleGloss } from '@/shared/music-catalogue';
 import {
   MUSIC_ORGANIZATION,
   type MusicProject,
+  spell,
+  type Spelled,
 } from '@/shared/music-catalogue/index.node-safe';
-
-import { titleGloss } from './title-gloss';
 
 const MUSIC_ORGANIZATION_URL = `https://github.com/${MUSIC_ORGANIZATION}`;
 
@@ -43,8 +43,15 @@ export const MUSIC_PROJECT_SLUGS: Record<MusicProject, string> = {
   Листопад: 'listopad',
 };
 
-export function projectName(project: MusicProject, locale: Locale): string {
-  return inLocale(PROJECT_DISPLAY_NAMES[project] ?? project, locale);
+/** A project's name under a locale, romanized by the Russian rule where the locale cannot read it. */
+export function projectName(project: MusicProject, locale: Locale): Spelled {
+  return spell(
+    {
+      text: inLocale(PROJECT_DISPLAY_NAMES[project] ?? project, locale),
+      language: 'ru',
+    },
+    locale,
+  );
 }
 
 /** What each locale tells its reader about a project's name, as a song's gloss does. */
@@ -71,14 +78,8 @@ const PROJECT_GLOSSES: Partial<
 export function projectGloss(
   project: MusicProject,
   locale: Locale,
-): TitleGloss {
-  return titleGloss(
-    {
-      title: projectName(project, locale),
-      gloss: PROJECT_GLOSSES[project]?.[locale],
-    },
-    locale,
-  );
+): TitleGloss | undefined {
+  return PROJECT_GLOSSES[project]?.[locale];
 }
 
 /**

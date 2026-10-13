@@ -5,7 +5,7 @@ import { pageFile, SITE_CONFIG } from '@/shared/config';
 import { isListed } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { textHook } from '@/shared/music-catalogue';
+import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
@@ -23,7 +23,6 @@ import { songRepositoryUrl } from '../lib/projects';
 import { localizeSong, songLyrics } from '../lib/song-text';
 import { songVideo } from '../lib/song-video';
 import { listSongPages, type SongPageEntry, songTrack } from '../lib/songs';
-import { titleGloss } from '../lib/title-gloss';
 import { CoverHead } from './cover-head';
 import { ExplicitBadge } from './explicit-badge';
 import { HookLine } from './hook-line';
@@ -31,9 +30,9 @@ import { Lyrics } from './lyrics';
 import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
-import { SongName } from './song-name';
 import { SongPlayButton } from './song-play-button';
 import { SongVideoButton } from './song-video-button';
+import { Spelling } from './spelling';
 import { Story } from './story';
 import { TitleGlossLine } from './title-gloss-line';
 
@@ -60,7 +59,8 @@ function hostedMaster(route: string, audio: string) {
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
-  const { title, hook, hidden } = localizeSong(document, locale).frontmatter;
+  const { hook, hidden } = localizeSong(document, locale).frontmatter;
+  const title = spelledText(songTitle(document.frontmatter, locale));
 
   return constructMetadata({
     title: `${title} - ${SITE_CONFIG.name}`,
@@ -80,8 +80,9 @@ export function SongPage({ slug, locale }: SongPageProps) {
   // A hidden song's artists and album may have no public page, so its links
   // stay in the whole catalogue.
   const catalogue = { everything: !isListed(document) };
-  const { title, titleTransliterated, hook, repo, explicit, cribNote, audio } =
+  const { gloss, hook, repo, explicit, cribNote, audio } =
     localized.frontmatter;
+  const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
   const picture = songPicture(document, album);
@@ -109,15 +110,10 @@ export function SongPage({ slug, locale }: SongPageProps) {
               <Stack gap={8} align="flex-start">
                 <SongByline {...{ document, album, catalogue, locale }} />
                 <Title order={1}>
-                  <SongName
-                    {...{ title }}
-                    transliterated={titleTransliterated}
-                  />
+                  {title}
                   {explicit && <ExplicitBadge label={messages.explicit} />}
                 </Title>
-                <TitleGlossLine
-                  gloss={titleGloss(localized.frontmatter, locale)}
-                />
+                <TitleGlossLine {...{ gloss }} />
                 <HookLine>{hook}</HookLine>
                 {/* The same track a song list's row plays, so both drive one
                     queue — which a hidden song joins only once played here. */}
@@ -127,12 +123,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
                     <SongVideoButton
                       {...video}
                       {...{ slug }}
-                      heading={
-                        <SongName
-                          {...{ title }}
-                          transliterated={titleTransliterated}
-                        />
-                      }
+                      heading={title}
                       labels={messages.video}
                     />
                   )}

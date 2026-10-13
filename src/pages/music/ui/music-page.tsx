@@ -19,6 +19,7 @@ import { CatalogueTabs, type CatalogueTabsProps } from './catalogue-tabs';
 import { MusicNav } from './music-nav';
 import { MusicSection } from './music-section';
 import { SongList } from './song-list';
+import { Spelling } from './spelling';
 
 /**
  * The section's front page: the artists, each a way into its albums and songs,
@@ -62,7 +63,7 @@ function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
           tiles={catalogueArtists(songs).map((artist) => ({
             href: artistPath(artist, catalogue, locale),
             slug: artist,
-            label: projectName(artist, locale),
+            name: projectName(artist, locale),
             cover: artistPicture(artist, locale, songs),
           }))}
         />
@@ -74,9 +75,16 @@ function TabContent({ tab, catalogue, locale }: CatalogueTabsProps) {
           tiles={newestAlbums(songs).map((album) => ({
             href: albumPath(album, catalogue, locale),
             slug: album,
-            label: albumTitle(album, locale),
+            name: albumTitle(album, locale),
             cover: albumCover(album),
-            detail: `${projectName(albumArtist(album, locale), locale)} · ${albumYears(album, songs)}`,
+            detail: (
+              <>
+                <Spelling
+                  {...projectName(albumArtist(album, locale), locale)}
+                />
+                {` · ${albumYears(album, songs)}`}
+              </>
+            ),
           }))}
         />
       );

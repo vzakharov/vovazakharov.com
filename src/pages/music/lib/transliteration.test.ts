@@ -69,9 +69,14 @@ describe('alignTransliteration', () => {
 describe('romanizeStanzas', () => {
   it('romanizes by rule in the shape a hand-written section aligns to', () => {
     const words = readVerse(
-      ['[Раз][^n] два', 'Ещё[^m]', 'Всё[^m]', '', '[^n]: Счёт.', '[^m]: Ну.'].join(
-        '\n',
-      ),
+      [
+        '[Раз][^n] два',
+        'Ещё[^m]',
+        'Всё[^m]',
+        '',
+        '[^n]: Счёт.',
+        '[^m]: Ну.',
+      ].join('\n'),
       FILE,
     );
 

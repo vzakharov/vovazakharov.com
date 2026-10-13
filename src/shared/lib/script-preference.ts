@@ -38,9 +38,9 @@ function read(): Script | null {
 
 function mark(script: Script) {
   if (script === 'original') {
-    document.documentElement.setAttribute('data-script', 'original');
+    document.documentElement.dataset['script'] = 'original';
   } else {
-    document.documentElement.removeAttribute('data-script');
+    delete document.documentElement.dataset['script'];
   }
 }
 
@@ -69,11 +69,11 @@ function subscribe(listener: () => void) {
   }
 
   listeners.add(listener);
-  window.addEventListener('storage', onStorage);
+  globalThis.addEventListener('storage', onStorage);
 
   return () => {
     listeners.delete(listener);
-    window.removeEventListener('storage', onStorage);
+    globalThis.removeEventListener('storage', onStorage);
   };
 }
 

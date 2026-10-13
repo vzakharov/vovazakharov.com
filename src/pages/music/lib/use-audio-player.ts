@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import type { Locale } from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
+import { useScriptPreference } from '@/shared/lib/script-preference';
+import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
 import {
   billingText,
@@ -75,7 +76,8 @@ export type AudioPlayer = QueuedPlayback & { controls: PlayerControls };
 /**
  * The one `<audio>` element on the site and everything that drives it: the
  * queue, the element's own events, the lock screen and the keyboard. The locale
- * is the page's, which the lock screen titles the track in.
+ * is the page's, which the lock screen titles the track in, spelled as the
+ * reader chose.
  */
 export function useAudioPlayer(
   catalogue: PlayerTrack[],
@@ -91,6 +93,7 @@ export function useAudioPlayer(
   const [elapsed, setElapsed] = useState(0);
   const [sessionYielded, setSessionYielded] = useState(false);
   const [shuffleStored, storeShuffle] = useStoredFlag('shuffle');
+  const { script } = useScriptPreference();
 
   // The stored switch leads and the queue follows, which is what restores a
   // remembered shuffle on load — before anything plays, so the cursor has
@@ -281,8 +284,8 @@ export function useAudioPlayer(
     }
 
     session.metadata = new MediaMetadata({
-      ...pick(current.titles[locale], 'title'),
-      artist: billingText(current.billing[locale]),
+      title: spelledText(current.titles[locale], script),
+      artist: billingText(current.billing[locale], script),
       album: 'vovazakharov.com/music',
     });
     session.playbackState = state.playing ? 'playing' : 'paused';
@@ -303,7 +306,7 @@ export function useAudioPlayer(
     return () => {
       for (const [action] of actions) session.setActionHandler(action, null);
     };
-  }, [current, state.playing, controls, locale, sessionYielded]);
+  }, [current, state.playing, controls, locale, script, sessionYielded]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {

@@ -1,4 +1,6 @@
 import type { Locale } from '@/shared/i18n';
+import type { Script } from '@/shared/lib/script-preference';
+import type { WithText } from '@/shared/typings';
 
 import type { SongFrontmatter, SungLanguage } from './frontmatter.ts';
 import { romanizeRussian } from './romanize.ts';
@@ -52,9 +54,11 @@ export function mostlyNeedsLatin(text: string, locale: Locale): boolean {
   );
 }
 
+/** A name, spelled — an artist on a billing, a tile on a grid. */
+export type WithSpelledName = { name: Spelled };
+
 /** What a text is spelled from: what it is in, and a hand-written Latin spelling where it has one. */
-export type Spellable = {
-  text: string;
+export type Spellable = WithText & {
   language: SungLanguage | 'instrumental';
   latin?: string | undefined;
   keepsScript?: boolean | undefined;
@@ -113,7 +117,13 @@ export function songTitle(
   );
 }
 
-/** The one spelling a string can carry — a page title, a feed item, the lock screen — before the reader has chosen. */
-export function defaultSpelling({ original, latin }: Spelled): string {
-  return latin ?? original;
+/**
+ * The one spelling a string can carry — a page title, a feed item, the lock
+ * screen — in the reader's script, Latin where they have not chosen.
+ */
+export function spelledText(
+  { original, latin }: Spelled,
+  script: Script = 'latin',
+): string {
+  return script === 'original' ? original : (latin ?? original);
 }

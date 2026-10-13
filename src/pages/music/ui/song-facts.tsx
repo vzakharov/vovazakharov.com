@@ -12,6 +12,7 @@ import { formatDuration } from '../lib/duration';
 import { albumPath, artistPath, type CatalogueView } from '../lib/music-urls';
 import { bill, projectName } from '../lib/projects';
 import type { SongOnRelease } from '../lib/song-text';
+import { Spelling } from './spelling';
 
 export type SongFactsProps = SongOnRelease & CatalogueView;
 
@@ -35,7 +36,7 @@ function songFacts({ document, album, catalogue, locale }: SongFactsProps) {
         ...albums.flatMap((linked, index) => [
           index > 0 && ', ',
           <NameLink key={linked} href={albumPath(linked, catalogue, locale)}>
-            {albumTitle(linked, locale)}
+            <Spelling {...albumTitle(linked, locale)} />
           </NameLink>,
         ]),
         after,
@@ -47,7 +48,7 @@ function songFacts({ document, album, catalogue, locale }: SongFactsProps) {
     byline: {
       billing: bill(project, (artist) => (
         <NameLink key={artist} href={artistPath(artist, catalogue, locale)}>
-          {projectName(artist, locale)}
+          <Spelling {...projectName(artist, locale)} />
         </NameLink>
       )),
       album: albumsFact(messages.album, album === null ? [] : [album]),

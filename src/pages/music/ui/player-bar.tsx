@@ -14,7 +14,7 @@ import { useStoredFlag } from '../lib/use-stored-flag';
 import { Marquee } from './marquee';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
-import { SongName } from './song-name';
+import { Spelling } from './spelling';
 
 /**
  * Keeps the reader on the playing song's page: while following, it opens that
@@ -130,7 +130,7 @@ export function PlayerBar() {
         <Text size="sm" component="div">
           <Marquee key={`${slug}/${locale}`}>
             <NameLink href={routes[locale]} onClick={resumeFollow}>
-              <SongName {...titles[locale]} />
+              <Spelling {...titles[locale]} />
             </NameLink>
             <Text component="span" inherit opacity={0.6}>
               {' — '}
@@ -139,7 +139,7 @@ export function PlayerBar() {
                   part
                 ) : (
                   <NameLink key={part.href} {...pick(part, 'href')} c="inherit">
-                    {part.label}
+                    <Spelling {...part.name} />
                   </NameLink>
                 ),
               )}

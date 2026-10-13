@@ -18,11 +18,12 @@ export {
 export { type CreditedName, SONG_AUTHOR } from './people';
 export { romanizeRussian } from './romanize';
 export {
-  defaultSpelling,
   mostlyNeedsLatin,
   needsLatin,
+  songTitle,
   spell,
   type Spellable,
   type Spelled,
-  songTitle,
+  spelledText,
+  type WithSpelledName,
 } from './spelling';

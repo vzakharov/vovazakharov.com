@@ -20,6 +20,7 @@ import { CatalogueHeader } from './catalogue-header';
 import { HookLine } from './hook-line';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
+import { Spelling } from './spelling';
 import { Story } from './story';
 
 /**
@@ -68,7 +69,7 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
         >
           <Text size="sm" opacity={0.7} mt={12}>
             <NameLink href={artistPath(artist, catalogue, locale)}>
-              {projectName(artist, locale)}
+              <Spelling {...projectName(artist, locale)} />
             </NameLink>{' '}
             · {albumYears(album, songs)}
           </Text>

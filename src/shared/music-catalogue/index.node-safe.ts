@@ -11,11 +11,12 @@ export {
 } from './names.ts';
 export { romanizeRussian } from './romanize.ts';
 export {
-  defaultSpelling,
   mostlyNeedsLatin,
   needsLatin,
+  songTitle,
   spell,
   type Spellable,
   type Spelled,
-  songTitle,
+  spelledText,
+  type WithSpelledName,
 } from './spelling.ts';

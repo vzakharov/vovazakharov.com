@@ -5,7 +5,7 @@ import {
   SONGS,
 } from '@/shared/content';
 import { byLocale, isLocale } from '@/shared/i18n';
-import type { MusicAlbum } from '@/shared/music-catalogue';
+import { type MusicAlbum, songTitle } from '@/shared/music-catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
 import {
@@ -19,11 +19,7 @@ import {
 } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { bill, projectName } from './projects';
-import {
-  localizeSong,
-  type SongDocument,
-  type SongOnRelease,
-} from './song-text';
+import type { SongDocument, SongOnRelease } from './song-text';
 
 /** The first segments under `/music` that address a page other than a song. */
 const RESERVED_SEGMENTS: ReadonlySet<string> = new Set([
@@ -148,19 +144,12 @@ export function songTrack(
     explicit,
     billing: byLocale((locale) =>
       bill(project, (artist) => ({
-        label: projectName(artist, locale),
+        name: projectName(artist, locale),
         // The catalogue the song's own page links into.
         href: artistPath(artist, { everything: !isListed(document) }, locale),
       })),
     ),
-    titles: byLocale((locale) => {
-      const { title, titleTransliterated } = localizeSong(
-        document,
-        locale,
-      ).frontmatter;
-
-      return { title, transliterated: titleTransliterated };
-    }),
+    titles: byLocale((locale) => songTitle(frontmatter, locale)),
     routes: byLocale((locale) =>
       songPath(songPageSlug(document, album), locale),
     ),

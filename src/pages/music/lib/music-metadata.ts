@@ -2,7 +2,7 @@ import 'server-only';
 
 import { SITE_CONFIG } from '@/shared/config';
 import { loadMessages, type Locale } from '@/shared/i18n';
-import { textHook } from '@/shared/music-catalogue';
+import { spelledText, textHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
@@ -69,7 +69,7 @@ export function generateMusicMetadata(page: IndexPageProps) {
 }
 
 export function generateArtistMetadata(page: ArtistPageProps) {
-  const name = projectName(page.artist, page.locale);
+  const name = spelledText(projectName(page.artist, page.locale));
   const { artistDescription } = loadMessages(page.locale).music;
 
   return catalogueMetadata(
@@ -86,7 +86,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
 }
 
 export function generateAlbumMetadata(page: AlbumPageProps) {
-  const name = albumTitle(page.album, page.locale);
+  const name = spelledText(albumTitle(page.album, page.locale));
   const { albumDescription } = loadMessages(page.locale).music;
 
   return catalogueMetadata(
@@ -99,7 +99,9 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
           .replace('{album}', name)
           .replace(
             '{artist}',
-            projectName(albumArtist(page.album, page.locale), page.locale),
+            spelledText(
+              projectName(albumArtist(page.album, page.locale), page.locale),
+            ),
           ),
     ),
     (locale) => albumPath(page.album, page, locale),

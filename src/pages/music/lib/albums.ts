@@ -11,8 +11,7 @@ import type {
   MusicProject,
   TitleGloss,
 } from '@/shared/music-catalogue';
-
-import { titleGloss } from './title-gloss';
+import { spell, type Spelled } from '@/shared/music-catalogue/index.node-safe';
 
 type MusicAlbumRecord = {
   /**
@@ -174,18 +173,19 @@ const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   },
 };
 
-export function albumTitle(album: MusicAlbum, locale: Locale): string {
-  return inLocale(MUSIC_ALBUMS[album].title, locale);
-}
-
-export function albumGloss(album: MusicAlbum, locale: Locale): TitleGloss {
-  return titleGloss(
-    {
-      title: albumTitle(album, locale),
-      gloss: MUSIC_ALBUMS[album].gloss?.[locale],
-    },
+/** A release's title under a locale, romanized by the Russian rule where the locale cannot read it. */
+export function albumTitle(album: MusicAlbum, locale: Locale): Spelled {
+  return spell(
+    { text: inLocale(MUSIC_ALBUMS[album].title, locale), language: 'ru' },
     locale,
   );
+}
+
+export function albumGloss(
+  album: MusicAlbum,
+  locale: Locale,
+): TitleGloss | undefined {
+  return MUSIC_ALBUMS[album].gloss?.[locale];
 }
 
 export function albumArtist(album: MusicAlbum, locale: Locale): MusicProject {
