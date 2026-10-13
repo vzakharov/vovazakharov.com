@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
-
 # Latin first: names and words in a script the reader may not read
 
 ## Goal
@@ -11,6 +9,7 @@ A song, artist or album whose name or words are in a script the reader's locale 
 - **Lyrics follow the same switch.** In Latin mode the words column shows the Latin lines in place of the script. A song flagged `keepsScript` (Mithqal) keeps its script in both modes: Latin mode sets the romanization line under line beneath it, as the switch does today, and original mode shows the script alone.
 - **The lyrics switch above the words goes**: the title is the switch. It is a switch on any page with something to switch, including a Latin title over Cyrillic words (_Trisagion_ under `en`), where clicking it changes the words alone.
 - **A line in a third script inside the words stays as it is now**, glossed by its note: farewell's Wang Wei lines in Chinese, among Russian. The rule romanizes only the main language's letters, so in Latin mode the Russian around them turns Latin and the Chinese does not. Setting a romanization over such a line as `<ruby>`, with the note keeping only the meaning, is a follow-up (§ "Not in this plan").
+- **A Latin spelling is set in italics** wherever it shows, as a transliteration is today.
 - **Metadata follows the default.** `<title>`, `og:title` and the feeds carry the Latin spelling where the locale gets one, so an English link preview of a Russian song reads _Nochnoy sad_.
 
 ## How the preference works without a flash
@@ -33,7 +32,8 @@ The tip is a Mantine popover anchored to the song title on its page.
 - **Russian is romanized by rule**, in `romanize.ts`, BGN/PCGN-style:
   - а b в v г g д d з z и i й y к k л l м m н n о o п p р r с s т t у u ф f х kh ц ts ч ch ш sh щ shch ы y э e ю yu я ya ж zh.
   - **е** → `e` after a consonant, `ye` everywhere else: word start, after a vowel, after ь/ъ. That gives _yest_, _bushuyet_, _Dobroye utro_, _krayem morya_.
-  - **ё** → `yo` (_pyos_, _idyot_), except `o` after ж ч ш щ (_zholtyy_).
+  - **ые** → `ye`, **ый** → `y`: _Poluzhivye_, _Gryobany bal_, _Prizrachny blyuz_. These two pairs are matched before the single letters.
+  - **ё** → `yo` (_pyos_, _idyot_), except `o` after ж ч ш щ (_zholty_).
   - **ь, ъ** → `ʼ` (U+02BC), as in Schadina: _Dvadtsatʼ_, _Pyatʼ romansov_.
   - Latin text and punctuation pass through, so «Гамлет (Extended Version)» → _Gamlet (Extended Version)_. Capitalization follows the source letter, and a digraph capitalizes its first letter only (Ш → Sh).
 - **Every other script is romanized by hand**, because no rule gets it right:
@@ -59,7 +59,7 @@ The tip is a Mantine popover anchored to the song title on its page.
    - Agios o skopos: `title: 'Άγιος ο σκοπός'`, `titleLatin: 'Ágios o skopós'`;
    - In the End: an `ar-latn` section, _Wa-akhīran ṣamt_, from its own footnote;
    - Minem babay: a `tt-latn` section in Zamanälif, written by the agent and flagged for Vova to check;
-   - artists (`projects.ts`) and albums (`albums.ts`) lose their gloss transliterations, and the two artists with an established spelling keep it as `latin`: _Poluzhivye_, _Grebany bal_.
+   - artists (`projects.ts`) and albums (`albums.ts`) lose their gloss transliterations; every Cyrillic name among them is romanized by rule.
 5. **Lyrics data.** `songLyrics` returns a `transliteration` for every song whose words need one under the locale: the hand-written section where there is one, else the rule applied line by line, into the same `Transliteration` shape. It also returns `keepsScript`.
 6. **`<Spelling>` component and the preference** (`src/pages/music/ui/spelling.tsx`, `lib/use-script-preference.ts`):
    - the component renders one span, or both spans tagged as above;
@@ -86,14 +86,6 @@ The tip is a Mantine popover anchored to the song title on its page.
 
 - **Ruby for lines in a third script.** Today such a line carries its romanization in a footnote; farewell's Chinese has its pinyin there. `<ruby>` is the typographic form made for this: pinyin set over the characters it reads, in both modes, leaving the note only the meaning. It needs an inline mark in the words, e.g. `{下马饮君酒|Xià mǎ yǐn jūn jiǔ}`, that the verse reader parses, which is separate work. It is proposed as its own issue.
 
-## Questions open with this draft
+## Settled with the operator
 
-Each one is written into the plan with the recommendation in force:
-
-1. ё after ж ч ш щ — **a) `o`: _zholtyy_ (recommended)**; b) `yo` everywhere: _zhyoltyy_.
-2. Artists' names — **a) keep the established spelling as an override: _Poluzhivye_, _Grebany bal_ (recommended)**; b) by rule: _Poluzhivyye_, _Gryobanyy bal_.
-3. Latin names in italics, as a transliteration is today — **a) yes, everywhere (recommended)**; b) upright, now that Latin is the default rather than an aside.
-4. Tip lifecycle and wording — **a) as in § "The tip" (recommended)**; b) other.
-5. In the End: its whole words are the one Arabic line, sung as the song's main language, so it is a Mithqal without the flag rather than a farewell. Options:
-   - **a) an `ar-latn` section from its footnote, and the title switches the line (recommended)**;
-   - b) left as now: Arabic with the footnote, exempt from the build check by a frontmatter flag.
+- ё after ж ч ш щ is `o`; artists and albums go by rule with no overrides; a Latin spelling is set in italics everywhere it shows; the tip works as § "The tip" says; In the End gets an `ar-latn` section.
