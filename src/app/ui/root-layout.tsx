@@ -56,9 +56,7 @@ export function RootLayout({
     >
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
-        <script
-          dangerouslySetInnerHTML={{ __html: SCRIPT_PREFERENCE_SCRIPT }}
-        />
+        <script>{SCRIPT_PREFERENCE_SCRIPT}</script>
         {/* `data-domains` keeps a dev server or a preview from counting as the site. */}
         <script
           defer
