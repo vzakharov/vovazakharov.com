@@ -82,6 +82,11 @@ $set-width: 552px;
   text-align: left;
 }
 
+// With no cover to sit beside, the lines centre under the heading.
+.songBare {
+  text-align: center;
+}
+
 .cover {
   width: 76px;
 }
