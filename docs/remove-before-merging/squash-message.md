@@ -9,13 +9,14 @@ The music section said how long an album runs but nothing about the
 catalogue, an artist, or what kind of release a short album is.
 
 Every catalogue page now states its size in the locale's plural forms:
-the index's artists tab counts artists, albums, songs and time, the
-albums and songs tabs their own share of that, and an artist page its
-albums, songs and time. A release under 25 minutes, the UK Official
-Charts' album line, is an EP, or a maxi single at three tracks or
-fewer; the album page names its kind and album tiles carry it. An
-artist page lists its albums, EPs and maxi singles first and its
-singles under a heading of their own.
+the index's artists and albums tabs count artists, albums, songs and
+time, the songs tab songs and time, and an artist page its albums,
+songs and time; an artist is «исполнитель» in Russian throughout. A
+release under 25 minutes, the UK Official Charts' album line, is an
+EP, or a maxi single at three tracks or fewer; the album page names
+its kind and album tiles carry it. An artist page lists its albums,
+EPs and maxi singles first and its singles under a heading of their
+own.
 
 Releases still being made carry a `wip` flag in the album registry,
 shown as a WIP mark on their tiles and a note on their page that the
