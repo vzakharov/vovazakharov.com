@@ -14,15 +14,17 @@ import { pick } from '@/shared/lib/collections';
 import {
   billingText,
   currentTrack,
-  initialPlayerState,
   isQueued,
   placeTracks,
-  playerReducer,
-  type PlayerState,
   type PlayerTrack,
   shouldRestart,
   type WithTracks,
 } from './player-state';
+import {
+  initialRadioPlayerState,
+  radioPlayerReducer,
+  type RadioPlayerState,
+} from './radio-state';
 import { type StationControls, useStation } from './use-station';
 import { useStoredFlag } from './use-stored-flag';
 
@@ -70,7 +72,7 @@ export type PlayerControls = StationControls & {
 
 /** What is playing and where, as the bar and the track buttons read it. */
 type Playback = {
-  state: PlayerState;
+  state: RadioPlayerState;
   current?: PlayerTrack;
   /** Where playback sits, in seconds — the seek bar's value. */
   elapsed: number;
@@ -93,9 +95,9 @@ export function useAudioPlayer(
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [tracks, setTracks] = useState(catalogue);
   const [state, dispatch] = useReducer(
-    playerReducer,
+    radioPlayerReducer,
     catalogue.length,
-    initialPlayerState,
+    initialRadioPlayerState,
   );
   const [elapsed, setElapsed] = useState(0);
   const [sessionYielded, setSessionYielded] = useState(false);

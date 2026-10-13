@@ -1,6 +1,7 @@
 import { type ActionDispatch, useEffect, useMemo, useRef } from 'react';
 
-import type { PlayerAction, PlayerTrack } from './player-state';
+import type { PlayerTrack, WithTrack } from './player-state';
+import type { OnRadio, RadioPlayerAction } from './radio-state';
 import {
   nextStation,
   type Station,
@@ -13,7 +14,7 @@ import {
 const DRIFT = 1;
 
 /** A slot and the song it plays. */
-export type OnAir = { station: Station; track: PlayerTrack };
+export type OnAir = WithTrack & { station: Station };
 
 export type StationControls = {
   /** Plays the radio from where it is now — the live moment, even when already on. */
@@ -27,13 +28,12 @@ export type StationControls = {
   onAir: (nowMs: number) => OnAir | undefined;
 };
 
-type StationInput = {
+type StationInput = OnRadio & {
   /** The player's element, read when it is needed rather than held. */
   element: () => HTMLAudioElement | null;
   /** The public catalogue, whose positions the station's order holds. */
   catalogue: PlayerTrack[];
-  radio: boolean;
-  dispatch: ActionDispatch<[PlayerAction]>;
+  dispatch: ActionDispatch<[RadioPlayerAction]>;
   /** Shuffle on as the radio tunes, or the stored switch would undo the cycle's order. */
   storeShuffle: (on: boolean) => void;
 };
