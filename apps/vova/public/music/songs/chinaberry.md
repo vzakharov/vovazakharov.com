@@ -18,8 +18,6 @@ en:
     translation: 'Chinaberry'
 ---
 
-<!-- For Vova to check: Master is the checklist's guess `klo_remaster.flac`; `klo.flac` is the same length (4:43) and `klo_1.flac` runs 4:29. -->
-
 <!-- Scaffolded from https://github.com/vovas-music/klo — klo_remaster.flac,
      44.1 kHz / 16-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and
