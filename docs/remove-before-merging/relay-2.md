@@ -11,6 +11,7 @@ None stated by the operator beyond the repo's own rules.
 This session opened with `/relay take claude/music-sizes-and-release-kinds-l11dfp` and received no direct operator message. One operator message reached it forwarded by the predecessor (verified against the predecessor's own user turns):
 
 1. **Operator (forwarded from session_01V1av5HU9hGN3qa9Ef7eoqy, with a screenshot of a song page's facts line «июль 2024 г. · английский · 3:29»):**
+
    > воздуха побольше по краям, как вот тут например. к верхним метаданным (артист · год) это тоже можно применить
 
    It answered the predecessor's `·` separator screenshot: the dot stays, with the song page's wider spacing.

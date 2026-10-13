@@ -1,6 +1,10 @@
 import { type ActionDispatch, useEffect, useMemo, useRef } from 'react';
 
-import { type PlayerTrack, seguePositions, type WithTrack } from './player-state';
+import {
+  type PlayerTrack,
+  seguePositions,
+  type WithTrack,
+} from './player-state';
 import type { OnRadio, RadioPlayerAction } from './radio-state';
 import {
   nextStation,

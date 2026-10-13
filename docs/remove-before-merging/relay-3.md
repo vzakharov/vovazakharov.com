@@ -11,11 +11,13 @@ None stated by the operator beyond the repo's own rules.
 Turns before the park are in `relay-2.md` § 2 (the forwarded «воздуха побольше по краям…» → shared `FactLine` spacing). After the park:
 
 1. **Operator** (screenshot of the «Папа-море» album header with the old `WIP` badge line):
+
    > я тут) чё-то вот часть с WIP не оч нравится, выглядит слишком бюрократично и само по себе как недоделка. Давай какую-то иконку типа 🚧 но в серой отрисовке, и не отдельной строкой, а где-то может быть сверху, где "Альбом" написано, и с подсказкой при наведении
 
    **Agent:** Replaced the badge line with `WipMark` (`src/pages/music/ui/wip-mark.tsx` + `.module.scss`): lucide `Construction` icon, gray, beside the kind label in `CatalogueHeader` (new `wip?: string` prop, the note), its note a CSS-only tooltip on hover/focus/tap. Sent screenshots. Noted the album tiles' caption still carries a text «WIP» (`catalogue.ts` `albumDetail`, `wip.mark`) and offered to change it — unanswered.
 
 2. **Operator:**
+
    > знак ок, но как будто не выглядит отцентрированным
    >
    > и подсказку давай попроще, типа "Я ещё работаю над этим релизом, всё может поменяться"

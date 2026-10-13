@@ -9,6 +9,7 @@ None beyond the repo's own rules.
 ## 2. The conversation
 
 1. **Operator** (screenshot: an album tile captioned `WIP · 2024–2026`):
+
    > вот тут тогда тоже
    >
    > 2024-2026 🚧
@@ -24,6 +25,7 @@ None beyond the repo's own rules.
    **Agent:** A second variant puts the sign at the end of the tile's name (`db9f169`). On a tile without art, the note spans the tile just under the square, through `WipMark`'s `--wip-*` CSS variables; `.tileArtless` sets `overflow: visible`. The square stays undimmed while the sign is hovered. Sent screenshots of both variants.
 
 4. **Operator:**
+
    > значки в названии -- лучше, да..
    >
    > meadow проверять не нужно, редь ведь только про тип, если что неправильно оно просто не сбилдится

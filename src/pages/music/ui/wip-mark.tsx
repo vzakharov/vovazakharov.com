@@ -3,6 +3,9 @@ import { Construction } from 'lucide-react';
 
 import classes from './wip-mark.module.scss';
 
+/** Why a release may still change, where it is a work in progress. */
+export type WipNoted = { wip?: string };
+
 export type WipMarkProps = {
   note: string;
   /** The sign's size, `1em` being the text it follows. */

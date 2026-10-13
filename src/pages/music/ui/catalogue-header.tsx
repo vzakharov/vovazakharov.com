@@ -8,19 +8,18 @@ import type { CatalogueText } from '../lib/catalogue-text';
 import { CoverHead, type CoverHeadProps } from './cover-head';
 import { SizeLine } from './fact-line';
 import { TitleGlossLine } from './title-gloss-line';
-import { WipMark } from './wip-mark';
+import { WipMark, type WipNoted } from './wip-mark';
 
 export type CatalogueHeaderProps = Titled &
   WithOptionalChildren &
   Pick<CoverHeadProps, 'picture'> &
-  Partial<Pick<CatalogueText, 'markdown'>> & {
+  Partial<Pick<CatalogueText, 'markdown'>> &
+  WipNoted & {
     /** What the page is of — “Artist”, “Album” — above its name. */
     kind: string;
     gloss: TitleGloss;
     /** On the line across the header's foot, under the name and its art both. */
     size: readonly string[];
-    /** Why the release may still change, shown on the mark beside its kind. */
-    wip?: string;
   };
 
 /** An artist's or an album's name, what it is, and the lines under it. */

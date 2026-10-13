@@ -48,9 +48,10 @@ describe('cycleOrder', () => {
       const order = cycleOrder(8, cycle, segues);
 
       assert.equal(order.indexOf(2), order.indexOf(1) + 1);
-      assert.deepEqual(order.slice(order.indexOf(4), order.indexOf(4) + 3), [
-        4, 5, 6,
-      ]);
+      assert.deepEqual(
+        order.slice(order.indexOf(4), order.indexOf(4) + 3),
+        [4, 5, 6],
+      );
       assert.notEqual(order[0], cycleOrder(8, cycle - 1, segues).at(-1));
     }
   });

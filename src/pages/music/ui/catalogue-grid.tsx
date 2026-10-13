@@ -9,7 +9,7 @@ import { NameLink, Subheading } from '@/shared/ui';
 import { tileHue } from '../lib/tile-hue';
 import classes from './music.module.scss';
 import { SongName } from './song-name';
-import { WipMark } from './wip-mark';
+import { WipMark, type WipNoted } from './wip-mark';
 
 /**
  * A tile linking to an artist, an album or a single: its art with its name
@@ -18,11 +18,10 @@ import { WipMark } from './wip-mark';
  * square.
  */
 type CatalogueTile = LabeledLink &
-  Slugged & {
+  Slugged &
+  WipNoted & {
     cover?: string;
     detail?: string;
-    /** A work in progress's note, its sign set after the name. */
-    wip?: string;
     /** The label is a romanized song title, set in italics. */
     transliterated?: boolean;
   };

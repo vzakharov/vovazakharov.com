@@ -7,6 +7,7 @@ None stated by the operator beyond the repo's own rules.
 ## 2. The conversation
 
 1. **Operator:**
+
    > большой блок работ по музыке, но для одного пиара
    >
    > на страницах писать длительность:
@@ -24,6 +25,7 @@ None stated by the operator beyond the repo's own rules.
    **Agent:** Routed via `/task` → planless `/go`. Implemented size lines, release kinds, albums/singles split, WIP marks.
 
 2. **Operator (mid-turn):**
+
    > ещё в кучу:
    >
    > некоторые песни должны всегда идти с следующей песней после них, даже в режиме шафла. Сейчас сходу помню два примера: Hello, Human → Trust The Machine, Fetal Soup → Mankind Extermination Front
@@ -31,38 +33,45 @@ None stated by the operator beyond the repo's own rules.
    **Agent:** Added `segue: true` frontmatter; shuffle keeps runs together. Ran `/polish` (subagent) and `/pr` → draft PR #147. Asked: (1) EP/album line at 25 min, NSFL becomes an EP — ok? (2) «исполнители» vs the tab's «Артисты»? (3) keep a size line on the albums tab?
 
 3. **Operator:**
+
    > 1- ок
    > 2- "Исполнители" должно быть, наверное? как принято?
    > 3- Угу, столько-то альбомов, столько-то время
 
    then mid-turn:
+
    > хотя собственно на "Исполнителях" и "Альбомах" одна и та же строка может быть
    > и там и там указывать и количество исполнителей, и альбомов, просто как бы группировка разная
 
    **Agent:** Renamed to «Исполнители»/«Исполнитель»; artists and albums tabs got the same full line, songs tab songs+time.
 
 4. **Operator** (with a screenshot of the size line under the tabs):
+
    > чё-т как-то мусорно. давай совать это прямо под lede, и писать всё время одно и то же (то что сейчас на скрине), в независимости от вкладки. и может на самую малость посветлее серый для написания взять? попробуй снять оба скриншота, я выберу
    >
    > остальное хорошо
 
    then mid-turn:
+
    > и для остальных страниц где кол-во/длительность указыватся тоже скрины б для сравнения
 
    **Agent:** Moved the line under the intro (one line, every tab); sent a side-by-side of opacity 0.7 vs 0.55 for index, artist and album pages.
 
 5. **Operator:**
+
    > 0.55 хорошо. кажется "исполнителей" прям долго читается как текст, да? что если таки сделать "артистов" (но нужно будет по всей копии пройтись тогда)?
 
    then mid-turn:
+
    > или "артист" не из русского языка понятие для этого
 
    **Agent:** Back to «артист» everywhere in the Russian catalogue (the only other «исполнител» is the author's prose in `poison.md`, left alone); size lines at 0.55. Answered: «артист» is Russian, its use for a band is the streaming-industry calque, «исполнитель» fits a band better but reads long; kept «артистов».
 
 6. **Operator:**
-   > вроде лучше. а давай попробуем не через запятые а ·  как в остальных метаданных?
 
-   **Agent:** `catalogueSize` now joins with ` · `; tests updated; built, screenshot sent (`12 артистов · 20 альбомов · 170 песен · 10 часов 29 минут`, `5 песен · 20 минут`). Then the context budget's pause line hit, and this relay ran. The operator has not yet reacted to the dot screenshot.
+   > вроде лучше. а давай попробуем не через запятые а · как в остальных метаданных?
+
+   **Agent:** `catalogueSize` now joins with `·`; tests updated; built, screenshot sent (`12 артистов · 20 альбомов · 170 песен · 10 часов 29 минут`, `5 песен · 20 минут`). Then the context budget's pause line hit, and this relay ran. The operator has not yet reacted to the dot screenshot.
 
 ## 3. Intent
 
@@ -76,7 +85,7 @@ One PR for the music batch: size lines in Russian/English plural forms, release 
 - **Index size line**: one line under the intro on every tab — artists · albums · songs · time — replacing per-tab lines (the operator called those «мусорно»).
 - **Gray** 0.55 for size lines (index intro and catalogue headers); operator picked it over 0.7.
 - **Wording**: «артист»/«артистов» over «исполнитель»; Apple Music-style calque accepted for brevity.
-- **Separator**: ` · ` instead of `, ` — just tried, awaiting the operator's verdict.
+- **Separator**: `·` instead of `, ` — just tried, awaiting the operator's verdict.
 - **`Seeded`** moved to `src/shared/typings` (type-overlap gate: shuffle's `seed` vs the meadow's); `src/pages/mushrooms/model/random.ts` re-exports it.
 
 ## 5. Errors and dead ends
