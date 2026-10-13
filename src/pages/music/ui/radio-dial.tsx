@@ -9,6 +9,9 @@ import classes from './radio.module.scss';
 /** A short tick every quarter of a minute, a long one on the minute. */
 const TICK_SECONDS = 15;
 
+/** A long tick, and the only ones the marks under the scale number. */
+const onMinute = (second: number) => second % 60 === 0;
+
 type DialProps = {
   /** The song's length, which the scale spans. */
   seconds: number;
@@ -58,7 +61,7 @@ export function RadioDial({ seconds, at }: DialProps) {
           <i
             key={second}
             className={
-              second % 60 === 0 ? classes['majorTick'] : classes['tick']
+              onMinute(second) ? classes['majorTick'] : classes['tick']
             }
             style={position(second)}
           />
@@ -67,7 +70,7 @@ export function RadioDial({ seconds, at }: DialProps) {
       </div>
       <div className={classes['marks']} aria-hidden>
         {ticks
-          .filter((second) => second % 60 === 0)
+          .filter((second) => onMinute(second))
           .map((second) => (
             <span key={second} style={position(second)}>
               {second / 60}
