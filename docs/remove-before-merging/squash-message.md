@@ -8,7 +8,11 @@ feat(vova): /music/songs for songs, /music/all retired (pr #146)
 Songs sat at /music/<slug>, beside the catalogue's own addresses rather
 than under the songs tab that lists them, while artists and albums each
 sit under a segment of their own. A song's page is now
-/music/songs/<slug>, with no redirect from the old address.
+/music/songs/<slug>. The export carries nothing at the old address, so
+the site's new 404 page catches it: on /music/<slug>[/<locale>] it
+checks with a HEAD that /music/songs/<slug>.md is served and replaces
+itself with the song. People following old links land on the song;
+crawlers and link-preview bots, running no script, see the 404.
 
 The songs collection's base becomes music/songs, so its markdown moves
 to apps/vova/public/music/songs/ and its RSS feeds to
