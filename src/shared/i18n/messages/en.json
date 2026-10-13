@@ -312,8 +312,18 @@
     "lyrics": {
       "title": "Lyrics",
       "translation": "Translation",
-      "crib": "The translation is a crib, not a singing version.",
-      "transliteration": "Transliteration"
+      "crib": "The translation is a crib, not a singing version."
+    },
+    "titleScript": {
+      "toOriginal": {
+        "tap": "Tap to see the original script",
+        "click": "Click to see the original script"
+      },
+      "toLatin": {
+        "tap": "Tap to switch back to Latin letters",
+        "click": "Click to switch back to Latin letters"
+      },
+      "close": "Close the tip"
     },
     "player": {
       "label": "Player",

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import type { Locale } from '@/shared/i18n';
-import { useScriptPreference } from '@/shared/lib/script-preference';
+import { useScriptPreference } from '@/shared/lib/use-script-preference';
 import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
 import {

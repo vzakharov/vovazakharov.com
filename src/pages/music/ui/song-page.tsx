@@ -28,6 +28,7 @@ import { ExplicitBadge } from './explicit-badge';
 import { HookLine } from './hook-line';
 import { Lyrics } from './lyrics';
 import { MusicNav } from './music-nav';
+import { ScriptSwitch } from './script-switch';
 import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
 import { SongPlayButton } from './song-play-button';
@@ -82,9 +83,14 @@ export function SongPage({ slug, locale }: SongPageProps) {
   const catalogue = { everything: !isListed(document) };
   const { gloss, hook, repo, explicit, cribNote, audio } =
     localized.frontmatter;
-  const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
+  const spelled = songTitle(document.frontmatter, locale);
+  const title = <Spelling {...spelled} />;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
+  // Latin words under a title the reader can read switch too, so the title is
+  // the switch wherever either has a Latin spelling.
+  const switchable =
+    spelled.latin !== undefined || lyrics?.transliteration !== undefined;
   const picture = songPicture(document, album);
   const master = hostedMaster(localized.route, audio);
   const video = songVideo(document, locale);
@@ -110,7 +116,13 @@ export function SongPage({ slug, locale }: SongPageProps) {
               <Stack gap={8} align="flex-start">
                 <SongByline {...{ document, album, catalogue, locale }} />
                 <Title order={1}>
-                  {title}
+                  {switchable ? (
+                    <ScriptSwitch tips={messages.titleScript}>
+                      {title}
+                    </ScriptSwitch>
+                  ) : (
+                    title
+                  )}
                   {explicit && <ExplicitBadge label={messages.explicit} />}
                 </Title>
                 <TitleGlossLine {...{ gloss }} />

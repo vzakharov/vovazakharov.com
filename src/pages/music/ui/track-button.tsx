@@ -4,7 +4,7 @@ import { ActionIcon } from '@mantine/core';
 import { Pause, Play } from 'lucide-react';
 
 import { cx } from '@/shared/lib/class-names';
-import { useScriptPreference } from '@/shared/lib/script-preference';
+import { useScriptPreference } from '@/shared/lib/use-script-preference';
 import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
 import type { PlayerTrack } from '../lib/player-state';
