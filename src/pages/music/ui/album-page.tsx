@@ -2,7 +2,7 @@ import { Badge, Box, Group, Stack, Text } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { FileLink, NameLink, PageShell } from '@/shared/ui';
+import { NameLink, PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
@@ -57,22 +57,12 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
           title={albumTitle(album, locale)}
           gloss={albumGloss(album, locale)}
           picture={albumCover(album)}
-          facts={
-            // The release's length, and its own file at the far end of the
-            // same line, as a song page sets its facts.
-            <Group justify="space-between" gap="12px 32px" wrap="wrap">
-              <Text size="sm" opacity={0.7}>
-                {catalogueSize(
-                  {
-                    seconds: tracks.map(({ song }) => song.frontmatter.seconds),
-                  },
-                  locale,
-                  messages.size,
-                )}
-              </Text>
-              {text && <FileLink {...text.markdown}>.md</FileLink>}
-            </Group>
-          }
+          size={catalogueSize(
+            { seconds: tracks.map(({ song }) => song.frontmatter.seconds) },
+            locale,
+            messages.size,
+          )}
+          markdown={text?.markdown}
         >
           <Text size="sm" opacity={0.7} mt={12}>
             <NameLink href={artistPath(artist, catalogue, locale)}>

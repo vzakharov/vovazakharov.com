@@ -1,8 +1,8 @@
-import { Group, Stack, Text } from '@mantine/core';
+import { Stack } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { FileLink, PageShell } from '@/shared/ui';
+import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
@@ -49,25 +49,15 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
           kind={messages.kind.artist}
           title={projectName(artist, locale)}
           gloss={projectGloss(artist, locale)}
-          facts={
-            // The artist's size, and its own file at the far end of the same
-            // line, as an album page sets its facts.
-            <Group justify="space-between" gap="12px 32px" wrap="wrap">
-              <Text size="sm" opacity={0.7}>
-                {catalogueSize(
-                  {
-                    albums: albums.length,
-                    seconds: billed.map(
-                      ({ frontmatter }) => frontmatter.seconds,
-                    ),
-                  },
-                  locale,
-                  messages.size,
-                )}
-              </Text>
-              {text && <FileLink {...text.markdown}>.md</FileLink>}
-            </Group>
-          }
+          size={catalogueSize(
+            {
+              albums: albums.length,
+              seconds: billed.map(({ frontmatter }) => frontmatter.seconds),
+            },
+            locale,
+            messages.size,
+          )}
+          markdown={text?.markdown}
         >
           <HookLine>{text?.hook}</HookLine>
         </CatalogueHeader>

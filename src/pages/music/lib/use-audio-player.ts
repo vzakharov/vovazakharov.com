@@ -21,6 +21,15 @@ import { useStoredFlag } from './use-stored-flag';
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
 
+/**
+ * A new shuffle's seed, and the tracks that segue in it. The seed is the
+ * action's, not the reducer's: a permutation has to be reproducible from the
+ * number that produced it for the reducer to stay pure and testable.
+ */
+function freshShuffle(tracks: readonly PlayerTrack[]) {
+  return { seed: Date.now(), segues: seguePositions(tracks) };
+}
+
 export type PlayerControls = {
   /**
    * Play this track, or pause it if it is the one already playing. A track the
@@ -98,11 +107,7 @@ export function useAudioPlayer(
   // nothing to keep — as well as obeying the button.
   useEffect(() => {
     if (shuffleStored !== state.shuffled) {
-      dispatch({
-        type: 'shuffle',
-        seed: Date.now(),
-        segues: seguePositions(tracks),
-      });
+      dispatch({ type: 'shuffle', ...freshShuffle(tracks) });
     }
   }, [shuffleStored, state.shuffled, tracks]);
 
@@ -168,16 +173,9 @@ export function useAudioPlayer(
       shuffle: () => {
         storeShuffle(!shuffleStored);
       },
-      // The seed is the action's, not the reducer's: a permutation has to be
-      // reproducible from the number that produced it for the reducer to stay
-      // pure and testable.
       shuffleAll: () => {
         storeShuffle(true);
-        dispatch({
-          type: 'shuffleAll',
-          seed: Date.now(),
-          segues: seguePositions(tracks),
-        });
+        dispatch({ type: 'shuffleAll', ...freshShuffle(tracks) });
       },
       seek: (seconds) => {
         const audio = audioRef.current;
