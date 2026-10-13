@@ -67,11 +67,6 @@ function lyricsKey(language: string): string {
   return `lyrics:${language}`;
 }
 
-/**
- * The words in Latin letters: the hand-written section where there is one,
- * else the rule, which only Russian has. Words nothing romanizes fail the
- * build, as an unspelled name does.
- */
 function wordsInLatin(
   stanzas: Stanzas,
   sections: ReadonlyMap<string, string>,

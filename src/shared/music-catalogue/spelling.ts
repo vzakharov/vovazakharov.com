@@ -21,10 +21,7 @@ const LOCALE_SCRIPTS: Record<Locale, RegExp> = {
 export type Spelled = {
   original: string;
   latin?: string;
-  /**
-   * The original stays in Latin mode, the romanization beside it rather than
-   * in its place — for a sacred text, whose letters are not to be replaced.
-   */
+  /** The original stays in Latin mode, the romanization beside it rather than in its place. */
   keepsScript?: boolean;
 };
 
@@ -54,7 +51,6 @@ export function mostlyNeedsLatin(text: string, locale: Locale): boolean {
   );
 }
 
-/** A name, spelled — an artist on a billing, a tile on a grid. */
 export type WithSpelledName = { name: Spelled };
 
 /** What a text is spelled from: what it is in, and a hand-written Latin spelling where it has one. */

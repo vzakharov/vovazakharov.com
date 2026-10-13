@@ -87,8 +87,8 @@ export function SongPage({ slug, locale }: SongPageProps) {
   const title = <Spelling {...spelled} />;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
-  // Latin words under a title the reader can read switch too, so the title is
-  // the switch wherever either has a Latin spelling.
+  // The words switch with the title, so it is the switch even where only the
+  // words have a Latin spelling.
   const switchable =
     spelled.latin !== undefined || lyrics?.transliteration !== undefined;
   const picture = songPicture(document, album);

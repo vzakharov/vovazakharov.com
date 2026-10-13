@@ -43,9 +43,7 @@ const NOTE_COMPONENTS: Components = {
  *
  * Words with a transliteration follow the reader's script, which the song's
  * title switches: in Latin mode each line shows in Latin letters, in place of
- * the script — or, for words that keep their script, line under line beside
- * it: Latin letters standing in for a Quranic phrase are what scholars object
- * to, and a reading aid under it is what they accept.
+ * the script — or, for words that keep their script, line under line beside it.
  */
 export function Lyrics({ lyrics, locale, cribNote }: LyricsProps) {
   const { stanzas, translation, language, transliteration, keepsScript } =
@@ -145,10 +143,8 @@ type StanzaProps = Tagged & {
  * throughout, since a note's popover is a block and sits beside the words it
  * hangs off.
  *
- * A romanized line is in the static HTML in either mode, `<html>`'s
- * `data-script` picking what shows: in place of its line, or — for words that
- * keep their script — under it: after the line, or, in lines sharing a note,
- * inside the block under each of them.
+ * Both spellings are in the static HTML, `<html>`'s `data-script` picking which
+ * shows.
  */
 function Stanza({ lines, romanized, tag, keepsScript }: StanzaProps) {
   return (
