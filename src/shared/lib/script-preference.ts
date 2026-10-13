@@ -25,14 +25,49 @@ export function defaultScript(languages: readonly string[]): Script {
 }
 
 /**
- * Set on `<html>` before the body paints, as Mantine's `ColorSchemeScript`
- * sets the colour scheme, so the first paint already shows the stored
- * spelling, else `defaultScript`'s, which it restates. The root layout renders
- * it, which is why the client hook that reads the same choice lives in a module
- * of its own.
+ * Marks `<html>` before the body paints, as Mantine's `ColorSchemeScript`
+ * marks the colour scheme, so the first paint already shows the stored
+ * spelling, else `defaultScript`'s, which it restates.
  *
- * It renders as a plain `<script>` child, which React HTML-escapes, so it must
- * hold none of `" & ' < >` — its strings are backtick-quoted, and it has no
- * arrow function or `&&`, for that reason.
+ * It reaches the page as its own source text, so it reads nothing but its
+ * parameters and browser globals: a module binding it closed over would be
+ * undefined there.
  */
-export const SCRIPT_PREFERENCE_SCRIPT = `try{var s=localStorage.getItem(\`${SCRIPT_STORAGE_KEY}\`);if(s===null)s=navigator.languages.some(function(l){return l.slice(0,2).toLowerCase()===\`${ORIGINAL_READERS}\`})?\`original\`:\`latin\`;if(s===\`original\`)document.documentElement.setAttribute(\`${SCRIPT_ATTRIBUTE}\`,\`original\`)}catch(e){}`;
+function markScriptPreference(
+  storageKey: string,
+  attribute: string,
+  originalReaders: string,
+) {
+  let stored: string | null = null;
+
+  try {
+    stored = localStorage.getItem(storageKey);
+  } catch {
+    // Storage refused: the browser's languages decide, as for a first visit.
+  }
+
+  const script =
+    stored ??
+    (navigator.languages.some(
+      (language) => language.slice(0, 2).toLowerCase() === originalReaders,
+    )
+      ? 'original'
+      : 'latin');
+
+  if (script === 'original') {
+    document.documentElement.setAttribute(attribute, script);
+  }
+}
+
+/**
+ * `markScriptPreference` called with this module's constants. The root layout
+ * inlines it in `<head>`, which is why the client hook that reads the same
+ * choice lives in a module of its own.
+ */
+export const SCRIPT_PREFERENCE_SCRIPT = `(${markScriptPreference.toString()})(${[
+  SCRIPT_STORAGE_KEY,
+  SCRIPT_ATTRIBUTE,
+  ORIGINAL_READERS,
+]
+  .map((argument) => JSON.stringify(argument))
+  .join(',')})`;
