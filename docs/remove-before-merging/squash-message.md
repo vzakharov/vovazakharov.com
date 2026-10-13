@@ -21,10 +21,12 @@ next slot, and catches up after a stall. Any action on playback —
 pause, seek, skip, shuffle, picking a song — releases the radio, which
 the player's reducer enforces for every action but tuning in.
 
-The radio has a page of its own, /music/radio in both languages, with a
-static link card and an On air now block the browser computes from the
-same timetable; a press of Tune in is all a shared link asks of whoever
-opens it, browsers allowing no audio before one.
+A shared link lands on /music/radio, a doorway with a static link card
+and the song on air, computed from the same timetable. It starts the
+radio at once where the browser allows sound unasked, and otherwise
+shows a mute switch to press; then the bar takes the reader to the
+song's page, as any playback does. A muted stream was not an option:
+most masters are FLAC, too heavy to send to visitors who never unmute.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

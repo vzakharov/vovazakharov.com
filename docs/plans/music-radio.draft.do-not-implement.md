@@ -42,15 +42,15 @@ The function says where the station _is_; the `<audio>` element has to be put th
 A static export serves it like any other page, because nothing on it differs between visitors: the HTML is the same for everyone, and what is on air is computed by the browser from its clock, exactly as the player does. The server's absence costs nothing here.
 
 - **Addresses**: `/music/radio`, `/music/radio/en`, `/music/radio/ru` — the section's usual alias-plus-locales. `radio` joins `RESERVED_SEGMENTS` in `songs.ts`, so a song can never take the address, and `parseMusicSegments` gains a `radio` page. The two locale addresses go into `musicCatalogueRoutes()`, the section's share of the sitemap.
-- **What it shows**: the radio's one-line pitch, a large **Tune in** button, and **On air now** — the station's current song, its artist, cover and a running `1:23 / 3:40`, ticking each second whether or not the reader is listening. The static HTML ships without that block (a build cannot know the hour it will be read at), and it fills in on mount; the space is reserved so the page does not jump.
-- **A shared link cannot start the music by itself.** Browsers refuse audio until the reader has pressed something on the page, so the visitor lands on the page and presses **Tune in** — one press, and they are in sync.
-- **The big Radio button on `/music` tunes in and opens `/music/radio`**, so the address bar holds the link to share at the moment there is something to share.
-- **The page keeps the reader on it.** The bar follows the playing song to its page on every track change, which suits a listener who came from a song; on the radio page the page itself is the now-playing screen, so following starts off there.
+- **A doorway, not a now-playing screen.** The site's now-playing screen is the song's own page, which the bar opens on every track change; a second one would be a concept the site has nowhere else. So the page is where a shared link lands: the radio's one-line pitch, **On air now: _song_ — _artist_** (filled on mount, a build not knowing the hour it will be read at, and changed when the song does — no ticking clock), and the button. Once the radio plays, the bar follows the song to its page here as everywhere, and from then on the bar is the radio's only control — the page has no part in listening. A reader who comes back to it while the radio plays finds the on-air line linking to the song's page and no button, there being nothing left to press.
+- **It tries to play at once.** On load the page tunes in and calls `play()`. Whether that is allowed is the browser's call: Chrome allows it on a site whose media the reader has played before (its media-engagement score, which is how YouTube autoplays) and after any in-site click, a client-side navigation keeping the gesture; Safari and Firefox refuse a cold visit by default. Allowed, the radio plays and the bar takes the reader to the song. Refused, the button reads as a mute switch — a crossed-out speaker, **Turn the sound on** — and pressing it tunes in afresh and plays.
+- **Silent is a look, not a muted stream.** Playing muted would autoplay everywhere, but 157 of the 170 masters are FLAC, tens of megabytes a song, which would stream to every visitor who never unmutes — on a phone, over their data plan. A refused autoplay downloads nothing.
+- **The link to share is in the hint.** Tuning in moves the address bar to the song's page, so the hint over the bar's radio button carries the radio's own address as a copy link.
 - **Its link card is static**: one image, rendered once by `pnpm content:og:vova` and committed beside `music.og.jpg`. A link preview is fetched by the platform once and cached, so it could never show what is on air anyway; the card says what the radio is instead. It is drawn by `scripts/lib/music-collage.ts` — the covers collage the index unfurls as — with a band across it reading **Radio** and the hint's line. The `og:title`/`og:description` carry the same words.
 
 ## The hint
 
-Each time the radio turns on, from either button, a popover rises over the bar's radio button for about five seconds, closing early on any click. `PlayerBar` opens it on `state.radio` going from `false` to `true`, which catches both buttons with no plumbing between them; Mantine's `Popover` is what `noted-span.tsx` already uses and whose stylesheet the theme already loads.
+Each time the radio turns on, from any of its buttons, a popover rises over the bar's radio button for about five seconds, closing early on any click outside it. Under the line it carries `vovazakharov.com/music/radio` with a copy button. `PlayerBar` opens it on `state.radio` going from `false` to `true`, which catches both buttons with no plumbing between them; Mantine's `Popover` is what `noted-span.tsx` already uses and whose stylesheet the theme already loads.
 
 Copy:
 
@@ -65,9 +65,9 @@ Copy:
 4. `ui/player-bar.tsx` — the radio `ActionIcon` (lucide `Radio`) right of shuffle, `aria-pressed`, the popover. A fifth control in the strip: check the phone-width layout with `/preview`.
 5. `ui/shuffle-all-button.tsx` → `ui/launch-buttons.tsx` — **Shuffle all** and **Radio** side by side, the second in the `default` variant so shuffle stays the primary action.
 6. `lib/songs.ts`, `lib/music-urls.ts`, `lib/music-route-params.ts` — the reserved `radio` segment, `radioPath(locale?)`, the `radio` page in the parse, its addresses in the static params and the sitemap.
-7. `ui/radio-page.tsx` (server) + `ui/on-air.tsx` (client) — the page, and the ticking now-playing block it hosts; `ui/music-route.tsx` dispatches to it, with its metadata.
+7. `ui/radio-page.tsx` (server) + `ui/on-air.tsx` (client) — the page, and the block it hosts: the on-air line, the autoplay attempt, and the button that turns into a mute switch when the attempt is refused; `ui/music-route.tsx` dispatches to it, with its metadata.
 8. `scripts/lib/music-collage.ts` and its caller — the radio's card, `music/radio.og.jpg`, rendered and committed.
-9. `src/shared/i18n/messages/{en,ru}.json` — `music.radio` (the big button), `music.player.radio` (the bar's label), `music.player.radioHint`, and the page's own words (`music.radioPage`: title, pitch, **Tune in**, **On air now**).
+9. `src/shared/i18n/messages/{en,ru}.json` — `music.radio` (the big button), `music.player.radio` (the bar's label), `music.player.radioHint`, the hint's copy-link label, and the page's own words (`music.radioPage`: title, pitch, **On air now**, **Turn the sound on**).
 
 ## DRY notes
 
@@ -87,5 +87,6 @@ Each has its recommendation already written into the plan above; silence keeps i
 1. **A pause the reader did not make** (headphones, a call, a video): **a) releases the radio** _(recommended — "pressed" stays honest)_; b) leaves it pressed, and resuming re-tunes to the live moment.
 2. **Shuffle button while the radio plays**: **a) lit** _(recommended — the order is a shuffle, and stays one after release)_; b) dark, lit only once released.
 3. **The hint's words**: **a) as above** _(recommended)_; b) your own.
-4. **The big Radio button on `/music`**: **a) tunes in and opens `/music/radio`** _(recommended — the link to share is in the address bar the moment it is worth sharing)_; b) tunes in and stays on `/music`, as **Shuffle all** does.
-5. **The radio's link card**: **a) the covers collage with a "Radio" band** _(recommended — one renderer, and it looks like the section it belongs to)_; b) a typographic card of its own, an SVG drawn for it.
+4. **What `/music/radio` is**: **a) a doorway** — pitch, the on-air line, one button, then the song's page as everywhere _(recommended — the song's page already is the now-playing screen)_; b) a now-playing screen of its own, which keeps the reader on it.
+5. **On landing**: **a) try to play at once; refused, show the mute switch** _(recommended)_; b) always wait for a press; c) play muted, unmute on press — instant everywhere, at the cost of streaming FLAC to everyone who never unmutes.
+6. **The radio's link card**: **a) the covers collage with a "Radio" band** _(recommended — one renderer, and it looks like the section it belongs to)_; b) a typographic card of its own, an SVG drawn for it.
