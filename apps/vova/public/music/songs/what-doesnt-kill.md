@@ -45,7 +45,7 @@ Can never be unlied[^rank-en]
 And all my vice[^rank-en]
 Is for all time inside?[^rank-en]
 
-[^rank-en]: Claudius’s question in _Hamlet_ (III.3), praying with the crown and the queen still his: “May one be pardon’d and retain the offence?” Cf. [O, My Offence is Rank](/music/my-offence-is-rank).
+[^rank-en]: Claudius’s question in _Hamlet_ (III.3), praying with the crown and the queen still his: “May one be pardon’d and retain the offence?” Cf. [O, My Offence is Rank](/music/songs/my-offence-is-rank).
 
 What do I feel?
 I’m filled with filth from head to heel
@@ -111,7 +111,7 @@ Steal your mind
 А все мои пороки[^rank-ru]
 Навеки во мне?[^rank-ru]
 
-[^rank-ru]: Вопрос Клавдия в «Гамлете» (III.3), который молится, не отдав ни короны, ни королевы: «Прощён ли, кто предмет удержит злодеянья?» (пер. К. Р.). Ср. [«O, My Offence is Rank»](/music/my-offence-is-rank/ru).
+[^rank-ru]: Вопрос Клавдия в «Гамлете» (III.3), который молится, не отдав ни короны, ни королевы: «Прощён ли, кто предмет удержит злодеянья?» (пер. К. Р.). Ср. [«O, My Offence is Rank»](/music/songs/my-offence-is-rank/ru).
 
 Что я чувствую?
 Я полон грязи с головы до пят,

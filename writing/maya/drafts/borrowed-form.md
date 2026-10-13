@@ -1,5 +1,5 @@
 ---
-source: apps/vova/public/music/in-our-image.maya.reflections.md
+source: apps/vova/public/music/songs/in-our-image.maya.reflections.md
 status: draft
 ---
 

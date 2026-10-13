@@ -12,6 +12,7 @@ export { type HookRun, hookRuns, textHook } from './hook-marks';
 export {
   MUSIC_ALBUM_SLUGS,
   MUSIC_PROJECT_NAMES,
+  MUSIC_ROUTE,
   type MusicAlbum,
   type MusicProject,
 } from './names';

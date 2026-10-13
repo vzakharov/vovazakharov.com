@@ -40,7 +40,7 @@ export function generateRadioMetadata({ locale }: WithLocale) {
  */
 function onAirExtras({ locale }: WithLocale): Record<string, OnAirExtras> {
   return Object.fromEntries(
-    catalogueSongs({ everything: false }).map((document) => {
+    catalogueSongs().map((document) => {
       const { album, hook } = localizeSong(document, locale).frontmatter;
 
       return [
@@ -52,7 +52,7 @@ function onAirExtras({ locale }: WithLocale): Record<string, OnAirExtras> {
               ? undefined
               : {
                   label: albumTitle(album, locale),
-                  href: albumPath(album, { everything: false }, locale),
+                  href: albumPath(album, locale),
                 },
           hook: hook === undefined ? undefined : hookRuns(hook),
         },

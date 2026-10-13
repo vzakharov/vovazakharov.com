@@ -56,7 +56,7 @@ export type PlayerProviderProps = WithChildren &
  * Hands the player to every page under the music layout, and pins the bar to
  * their foot. Mounted by the layout and never unmounted, which is the whole
  * reason the player is not a component a page drops in: React preserves a
- * layout's subtree across a navigation into and out of `/music/<slug>`, so a
+ * layout's subtree across a navigation into and out of `/music/songs/<slug>`, so a
  * track keeps playing.
  */
 export function PlayerProvider({

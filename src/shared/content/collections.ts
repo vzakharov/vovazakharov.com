@@ -31,8 +31,8 @@ export type CollectionId = (typeof COLLECTION_IDS)[number];
  */
 export const COLLECTIONS = {
   'case-studies': {
-    /** Its directory under `public/` and the first segment of its routes, which
-     * is what puts a document's files at its own route plus an extension. */
+    /** Its directory under `public/` and the prefix of its routes, which is
+     * what puts a document's files at its own route plus an extension. */
     base: 'case-studies',
     label: 'Case studies',
     site: 'vova',
@@ -57,7 +57,9 @@ export const COLLECTIONS = {
     feed: true,
   },
   music: {
-    base: 'music',
+    /** The music catalogue's songs tab, which `pages/music`'s parser reads a
+     * song under — the two move together. */
+    base: 'music/songs',
     label: 'Songs',
     site: 'vova',
     /** A song is a recording with prose around it; there is nothing to print. */

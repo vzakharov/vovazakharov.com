@@ -100,9 +100,9 @@ function collageCovers(releases: readonly ArtistRelease[]): string[] {
   ].slice(0, COLLAGE_SIZE);
 }
 
-/** The public catalogue's releases, newest first, which every collage is cut from. */
+/** The catalogue's releases, newest first, which every collage is cut from. */
 function publicReleases(): ArtistRelease[] {
-  return catalogueReleases(catalogueSongs({ everything: false }));
+  return catalogueReleases(catalogueSongs());
 }
 
 /** The covers the index's card is cut from. */
@@ -132,10 +132,7 @@ export const MUSIC_COLLAGE = routeCardPath(musicPath(), OG_PHOTO_CARD_SUFFIX);
 export const RADIO_CARD = routeCardPath(radioPath(), OG_PHOTO_CARD_SUFFIX);
 
 export function artistCollage(artist: MusicProject): string {
-  return routeCardPath(
-    artistPath(artist, { everything: false }),
-    OG_PHOTO_CARD_SUFFIX,
-  );
+  return routeCardPath(artistPath(artist), OG_PHOTO_CARD_SUFFIX);
 }
 
 /**
