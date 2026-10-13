@@ -1,0 +1,90 @@
+{
+  "estimate": {
+    "at": "2026-10-13T12:13:04.617Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "sync has to be checked on two real devices side by side"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "c8f20d00-ad14-5046-b2fe-92c23d7d7b84",
+  "branch": "claude/music-radio-ttn1gg",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/music-radio-ttn1gg",
+  "prs": [
+    144
+  ],
+  "url": "https://claude.ai/code/session_017f33SCwTm1o1f4Ye7Nez9i",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-13T12:12:40.652Z",
+  "lastResponseAt": "2026-10-13T12:25:13.158Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 79511,
+    "cacheWrite1hTokens": 131794,
+    "cacheReadTokens": 5387324,
+    "outputTokens": 11364,
+    "thinkingTokens": 2739,
+    "responses": 42,
+    "costUsd": 2.7569878
+  },
+  "ownTurns": {
+    "inputTokens": 74,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 131794,
+    "cacheReadTokens": 5087224,
+    "outputTokens": 11301,
+    "thinkingTokens": 2739,
+    "responses": 37,
+    "costUsd": 2.2981128
+  },
+  "subagents": {
+    "inputTokens": 10,
+    "cacheWrite5mTokens": 79511,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 300100,
+    "outputTokens": 63,
+    "thinkingTokens": 0,
+    "responses": 5,
+    "costUsd": 0.458875
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 84,
+      "cacheWrite5mTokens": 79511,
+      "cacheWrite1hTokens": 131794,
+      "cacheReadTokens": 5387324,
+      "outputTokens": 11364,
+      "thinkingTokens": 2739,
+      "responses": 42,
+      "costUsd": 2.7569878
+    }
+  },
+  "warnings": [
+    "5 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/pr/144/body.md",
+    "endedAt": "2026-10-13T12:14:35.267Z",
+    "contextTokens": 137807,
+    "spend": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 79689,
+      "cacheReadTokens": 1672467,
+      "outputTokens": 3485,
+      "thinkingTokens": 1262,
+      "responses": 16,
+      "costUsd": 1.0418334000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
