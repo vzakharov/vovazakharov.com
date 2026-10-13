@@ -25,24 +25,38 @@ type PluralForms = Partial<Record<Intl.LDMLPluralRule, string>> & {
   other: string;
 };
 
-export type AlbumLengthForms = Record<
-  'songs' | 'hours' | 'minutes',
+/** What a size line can count ahead of its songs, outermost first. */
+type CountedAhead = 'artists' | 'albums';
+
+export type CatalogueSizeForms = Record<
+  CountedAhead | 'songs' | 'hours' | 'minutes',
   PluralForms
 >;
 
 /**
- * A release's size as the streaming services write it — `7 songs, 25 minutes`,
- * `1 hour 12 minutes` from an hour up — to the nearest minute, in the locale's
- * plural rules.
+ * The songs' lengths, and how many artists and albums hold them where the line
+ * counts those too.
  */
-export function albumLength(
-  seconds: readonly number[],
+export type CatalogueSize = Partial<Record<CountedAhead, number>> & {
+  seconds: readonly number[];
+};
+
+/**
+ * A catalogue's or a release's size as the streaming services write it —
+ * `7 songs, 25 minutes`, `1 hour 12 minutes` from an hour up — to the nearest
+ * minute, in the locale's plural rules, led by any artist and album counts; a
+ * count of none is left out rather than written.
+ */
+export function catalogueSize(
+  { artists, albums, seconds }: CatalogueSize,
   locale: Locale,
-  forms: AlbumLengthForms,
+  forms: CatalogueSizeForms,
 ): string {
   const rules = new Intl.PluralRules(locale);
   const count = (n: number, wording: PluralForms) =>
     (wording[rules.select(n)] ?? wording.other).replace('#', String(n));
+  const ahead = (n: number | undefined, wording: PluralForms) =>
+    n === undefined || n === 0 ? [] : [count(n, wording)];
 
   const total = Math.round(seconds.reduce((sum, track) => sum + track, 0) / 60);
   const hours = Math.floor(total / 60);
@@ -52,5 +66,10 @@ export function albumLength(
     ...(hours === 0 || minutes > 0 ? [count(minutes, forms.minutes)] : []),
   ];
 
-  return `${count(seconds.length, forms.songs)}, ${time.join(' ')}`;
+  return [
+    ...ahead(artists, forms.artists),
+    ...ahead(albums, forms.albums),
+    count(seconds.length, forms.songs),
+    time.join(' '),
+  ].join(', ');
 }

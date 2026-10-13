@@ -1,4 +1,4 @@
-import { Group, Stack } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
@@ -6,12 +6,13 @@ import { FileLink, PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
-import { albumTitle } from '../lib/albums';
-import { albumYears, artistReleases, artistSongs } from '../lib/catalogue';
+import { albumCover, albumTitle } from '../lib/albums';
+import { albumDetail, artistDiscography, artistSongs } from '../lib/catalogue';
 import { artistText } from '../lib/catalogue-text';
+import { catalogueSize } from '../lib/duration';
 import type { ArtistPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, indexPath } from '../lib/music-urls';
-import { releasePicture } from '../lib/pictures';
+import { songPicture } from '../lib/pictures';
 import { projectGloss, projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
@@ -22,14 +23,16 @@ import { SongList } from './song-list';
 import { Story } from './story';
 
 /**
- * One project: its own text where it has one, the albums and singles it put
- * out, then every song it is billed on.
+ * One project: its own text where it has one, the albums it put out, then its
+ * singles, then every song it is billed on.
  */
 export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
   const catalogue = { everything };
   const songs = catalogueSongs(catalogue);
   const messages = loadMessages(locale).music;
   const text = artistText(artist, locale);
+  const { albums, singles } = artistDiscography(artist, locale, songs);
+  const billed = artistSongs(artist, songs);
 
   return (
     <PageShell>
@@ -47,13 +50,23 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
           title={projectName(artist, locale)}
           gloss={projectGloss(artist, locale)}
           facts={
-            // Its own file at the far end of the line, where an album page
-            // sets it.
-            text && (
-              <Group justify="flex-end">
-                <FileLink {...text.markdown}>.md</FileLink>
-              </Group>
-            )
+            // The artist's size, and its own file at the far end of the same
+            // line, as an album page sets its facts.
+            <Group justify="space-between" gap="12px 32px" wrap="wrap">
+              <Text size="sm" opacity={0.7}>
+                {catalogueSize(
+                  {
+                    albums: albums.length,
+                    seconds: billed.map(
+                      ({ frontmatter }) => frontmatter.seconds,
+                    ),
+                  },
+                  locale,
+                  messages.size,
+                )}
+              </Text>
+              {text && <FileLink {...text.markdown}>.md</FileLink>}
+            </Group>
           }
         >
           <HookLine>{text?.hook}</HookLine>
@@ -68,39 +81,35 @@ export function ArtistPage({ artist, locale, everything }: ArtistPageProps) {
 
         <CatalogueGrid
           title={messages.albums}
-          tiles={artistReleases(artist, locale, songs).map((release) => {
-            const cover = releasePicture(release);
+          tiles={albums.map((album) => ({
+            href: albumPath(album, catalogue, locale),
+            slug: album,
+            label: albumTitle(album, locale),
+            cover: albumCover(album),
+            detail: albumDetail(album, locale, songs).join(' · '),
+          }))}
+        />
 
-            if ('album' in release) {
-              const { album } = release;
-
-              return {
-                href: albumPath(album, catalogue, locale),
-                slug: album,
-                label: albumTitle(album, locale),
-                cover,
-                detail: albumYears(album, songs),
-              };
-            }
-
-            const { titles, routes } = songTrack(release.single);
-
+        <CatalogueGrid
+          title={messages.singles}
+          tiles={singles.map((single) => {
+            const { titles, routes } = songTrack(single);
             const { title, transliterated } = titles[locale];
 
             return {
               href: routes[locale],
-              ...pick(release.single, 'slug'),
+              ...pick(single, 'slug'),
               label: title,
               transliterated,
-              cover,
-              detail: `${messages.single} · ${String(release.single.frontmatter.date.getUTCFullYear())}`,
+              cover: songPicture(single),
+              detail: String(single.frontmatter.date.getUTCFullYear()),
             };
           })}
         />
 
         <SongList
           {...pick(messages, 'title')}
-          tracks={artistSongs(artist, songs).map((song) => songTrack(song))}
+          tracks={billed.map((song) => songTrack(song))}
           {...{ locale }}
         />
 
