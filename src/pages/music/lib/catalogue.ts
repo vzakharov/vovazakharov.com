@@ -51,7 +51,7 @@ export function albumYears(
   return first === last ? `${first}` : `${first}–${last}`;
 }
 
-/** Whether the album, as this catalogue holds it, is an album, an EP or a maxi single. */
+/** The album's kind by the songs of it this catalogue holds. */
 export function albumKind(
   album: MusicAlbum,
   songs: readonly SongDocument[],

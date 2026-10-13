@@ -50,7 +50,7 @@ export type PlayerState = {
   playing: boolean;
 };
 
-/** What a shuffle is drawn from: its seed, and the positions whose song segues, from `seguePositions`. */
+/** What a shuffle is drawn from, its `segues` from `seguePositions`. */
 type Shuffling = { seed: number; segues?: ReadonlySet<number> };
 
 /** The catalogue positions whose track runs into the next one. */

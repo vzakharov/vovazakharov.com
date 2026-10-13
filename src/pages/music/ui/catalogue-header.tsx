@@ -15,7 +15,7 @@ export type CatalogueHeaderProps = Titled &
     /** What the page is of — “Artist”, “Album” — above its name. */
     kind: string;
     gloss: TitleGloss;
-    /** What the page holds, across the header's foot under the name and its art both. */
+    /** On the line across the header's foot, under the name and its art both. */
     size: string;
   };
 
@@ -43,8 +43,8 @@ export function CatalogueHeader({
           </div>
         </CoverHead>
 
-        {/* The page's own file at the far end of the size's line, as a song
-            page sets its facts. */}
+        {/* The page's own file at the line's far end, as a song page sets its
+            facts. */}
         <Group justify="space-between" gap="12px 32px" wrap="wrap">
           <Text size="sm" opacity={0.7}>
             {size}

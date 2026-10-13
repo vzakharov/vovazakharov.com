@@ -33,10 +33,6 @@ export type CatalogueSizeForms = Record<
   PluralForms
 >;
 
-/**
- * The songs' lengths, and how many artists and albums hold them where the line
- * counts those too.
- */
 export type CatalogueSize = Partial<Record<CountedAhead, number>> & {
   seconds: readonly number[];
 };
@@ -44,8 +40,8 @@ export type CatalogueSize = Partial<Record<CountedAhead, number>> & {
 /**
  * A catalogue's or a release's size as the streaming services write it —
  * `7 songs, 25 minutes`, `1 hour 12 minutes` from an hour up — to the nearest
- * minute, in the locale's plural rules, led by any artist and album counts; a
- * count of none is left out rather than written.
+ * minute, in the locale's plural rules, led by the artist and album counts it
+ * is handed, a zero one left out.
  */
 export function catalogueSize(
   { artists, albums, seconds }: CatalogueSize,

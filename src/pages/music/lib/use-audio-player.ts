@@ -22,9 +22,9 @@ import { useStoredFlag } from './use-stored-flag';
 const SEEK_STEP = 5;
 
 /**
- * A new shuffle's seed, and the tracks that segue in it. The seed is the
- * action's, not the reducer's: a permutation has to be reproducible from the
- * number that produced it for the reducer to stay pure and testable.
+ * The seed is the action's, not the reducer's: a permutation has to be
+ * reproducible from the number that produced it for the reducer to stay pure
+ * and testable.
  */
 function freshShuffle(tracks: readonly PlayerTrack[]) {
   return { seed: Date.now(), segues: seguePositions(tracks) };
