@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
-
 # Fixed radio
 
 A **Radio** button beside **Shuffle all** on `/music`, and a round radio toggle in the player bar to the right of shuffle. Pressed, it plays what every other listener who pressed it hears at that moment — the same song, at the same second — **with no server**: the song and the second are a pure function of the current Unix time and the catalogue the page was built with. Any action on playback — pause, seek, skip, shuffle, picking a song — releases it. The radio also has a page of its own, `/music/radio`, with its own link card, to share.
@@ -44,7 +42,7 @@ A static export serves it like any other page, because nothing on it differs bet
 - **Addresses**: `/music/radio`, `/music/radio/en`, `/music/radio/ru` — the section's usual alias-plus-locales. `radio` joins `RESERVED_SEGMENTS` in `songs.ts`, so a song can never take the address, and `parseMusicSegments` gains a `radio` page. The two locale addresses go into `musicCatalogueRoutes()`, the section's share of the sitemap.
 - **A set on the desk, not a doorway.** The radio is somewhere you stay, like an old receiver on the table: the page is the radio's own screen, and the reader is never moved off it by the music. Top to bottom:
   1. **Vova’s Radio** («Радио Вовы»).
-  2. The radio's one-line pitch.
+  2. The radio's one-line pitch, “Same song, same second, for everyone listening.”, with an **[i]** after it opening a longer explanation — how a radio with no server keeps everyone in step. Its form (popover, as `noted-span.tsx`'s, or an expanding note) and its words are the implementation's to settle.
   3. **Now playing: _song_ — _artist_**, with a counter, `1:23 / 3:40`, ticking each second. Both come from `stationAt` and the clock, so they run whether or not anything plays, and they are what the radio plays when it does. Filled on mount, a build not knowing the hour it will be read at; the space is reserved so the page does not jump.
   4. **Not tuned in** — **Tune in**. **Tuned in** — the song's story, its opening cut and fading out, then an outline button, **Read story, lyrics & more**, linking to the song's page, with **Don't worry, this won't stop the playback** in small type under it. Both change with the song.
   5. **Released while on the page** — any action on playback (pause, seek, skip, through the bar or a key) takes the story away and puts **Tune back in** where it stood. **Now playing** and its counter carry on, being the station's.
