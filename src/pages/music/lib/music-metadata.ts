@@ -1,17 +1,18 @@
 import 'server-only';
 
 import { SITE_CONFIG } from '@/shared/config';
-import { loadMessages, type Locale } from '@/shared/i18n';
+import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
+import { spelledText, textHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
 
 import { albumArtist, albumCover, albumTitle } from './albums';
+import { albumText, artistText } from './catalogue-text';
 import type {
   AlbumPageProps,
   ArtistPageProps,
-  CataloguePageProps,
   IndexPageProps,
 } from './music-route-params';
 import { albumPath, artistPath, tabLabels, tabPath } from './music-urls';
@@ -21,11 +22,10 @@ import { catalogueSongs } from './songs';
 
 /**
  * A catalogue page, in one language, deferring to the addressed one as the
- * CV's rungs do. The whole catalogue's pages are kept out of search, as the
- * hidden songs on them are.
+ * CV's rungs do.
  */
 function catalogueMetadata(
-  { locale, everything }: CataloguePageProps,
+  { locale }: WithLocale,
   title: string,
   ogTitle: string,
   description: string,
@@ -39,7 +39,6 @@ function catalogueMetadata(
     path: path(locale),
     ...localizedAddresses(path, locale),
     ...pictureCard(picture),
-    hidden: everything,
   });
 }
 
@@ -61,40 +60,48 @@ export function generateMusicMetadata(page: IndexPageProps) {
       : `${metaTitle}: ${tabLabels(page.locale)[page.tab]}`,
     ogTitleIndex,
     metaDescription,
-    (locale) => tabPath(page.tab, page, locale),
+    (locale) => tabPath(page.tab, locale),
     MUSIC_COLLAGE,
   );
 }
 
 export function generateArtistMetadata(page: ArtistPageProps) {
-  const name = projectName(page.artist, page.locale);
+  const name = spelledText(projectName(page.artist, page.locale));
   const { artistDescription } = loadMessages(page.locale).music;
 
   return catalogueMetadata(
     page,
     name,
     listenTitle(name, page.locale),
-    artistDescription.replace('{artist}', name),
-    (locale) => artistPath(page.artist, page, locale),
-    artistCard(page.artist, page.locale, catalogueSongs(page)),
+    textHook(
+      artistText(page.artist, page.locale)?.hook ??
+        artistDescription.replace('{artist}', name),
+    ),
+    (locale) => artistPath(page.artist, locale),
+    artistCard(page.artist, page.locale, catalogueSongs()),
   );
 }
 
 export function generateAlbumMetadata(page: AlbumPageProps) {
-  const name = albumTitle(page.album, page.locale);
+  const name = spelledText(albumTitle(page.album, page.locale));
   const { albumDescription } = loadMessages(page.locale).music;
 
   return catalogueMetadata(
     page,
     name,
     listenTitle(name, page.locale),
-    albumDescription
-      .replace('{album}', name)
-      .replace(
-        '{artist}',
-        projectName(albumArtist(page.album, page.locale), page.locale),
-      ),
-    (locale) => albumPath(page.album, page, locale),
+    textHook(
+      albumText(page.album, page.locale)?.hook ??
+        albumDescription
+          .replace('{album}', name)
+          .replace(
+            '{artist}',
+            spelledText(
+              projectName(albumArtist(page.album, page.locale), page.locale),
+            ),
+          ),
+    ),
+    (locale) => albumPath(page.album, locale),
     albumCover(page.album),
   );
 }

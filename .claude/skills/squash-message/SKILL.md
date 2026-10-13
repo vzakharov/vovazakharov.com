@@ -132,9 +132,12 @@ number>)`, e.g. `refactor: #1150 extract useVisibilityPoll to shared/lib (pr
   conventional-commit set, since a project may carry its own. **The scope is
   the deploy switch** (CLAUDE.md § "Deployment"): a branch whose shipped change
   is one site's names that site (`feat(basilisk):`), so the merge publishes it
-  alone; one that ships to several sites, or changes the shared `src/`, takes
-  none. Agent-infrastructure files riding along ship to no site and do not
-  count. No other words before the colon. Include `#<issue>` only when the PR addresses a GitHub issue
+  alone; one that ships to several sites takes none. A change to the shared
+  `src/` counts by what each site then serves: checked to alter one site's
+  output alone, it is that site's; unchecked, it takes none. Agent-infrastructure files riding along ship to no site and do not
+  count, and neither does a companion file a site serves beside a document
+  but links from nowhere — a persona's `*.reflections.md`: the site as a
+  product is what its pages reach. No other words before the colon. Include `#<issue>` only when the PR addresses a GitHub issue
   (the primary one if several); omit it otherwise. Always end with ` (pr #<pr
 number>)`. **One line, at most 80 chars** — the mandatory suffix eats ~10 of it,
   which is why it isn't the body's own 72.

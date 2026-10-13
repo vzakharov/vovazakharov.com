@@ -5,7 +5,7 @@ import { addressLocale } from './locales';
 
 describe('addressLocale', () => {
   it('reads the locale off the last segment', () => {
-    assert.equal(addressLocale('/music/slime/ru'), 'ru');
+    assert.equal(addressLocale('/music/songs/slime/ru'), 'ru');
     assert.equal(addressLocale('/music/ru'), 'ru');
     assert.equal(addressLocale('/music/en/'), 'en');
   });

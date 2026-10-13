@@ -1,6 +1,7 @@
 /**
  * The music section's social card, covers scattered at different sizes and
- * angles with no text, as a page for `og-render.ts` to screenshot.
+ * angles — with no text but the radio's band — as a page for `og-render.ts` to
+ * screenshot.
  */
 
 import fs from 'node:fs';
@@ -8,10 +9,14 @@ import path from 'node:path';
 
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
 import { PUBLIC_DIR } from '@/shared/content/collections';
+import type { Titled } from '@/shared/typings';
 
 import { COLLAGE_SIZE } from '@/pages/music/lib/pictures';
 
-import { INK, type StagedPage } from './og-render.ts';
+import { escapeHtml, INK, type StagedPage } from './og-render.ts';
+
+/** Words laid across the covers in a band, for a card that names more than the covers do. */
+export type CollageBand = Titled & { line: string };
 
 /** A cover's place on the canvas: its centre, the length of its edge, and its tilt. */
 type Slot = { cx: number; cy: number; edge: number; degrees: number };
@@ -56,7 +61,14 @@ function coverStyle({ cx, cy, edge, degrees }: Slot, depth: number): string {
  * `covers` are site-root paths under `public/`, newest first, staged under their
  * own names — they share one directory, so the names are distinct.
  */
-export function musicCollage(covers: readonly string[]): StagedPage {
+export function musicCollage(
+  covers: readonly string[],
+  band?: CollageBand,
+): StagedPage {
+  const bandHtml =
+    band === undefined
+      ? ''
+      : `    <div class="band"><h1>${escapeHtml(band.title)}</h1><p>${escapeHtml(band.line)}</p></div>\n`;
   const images = covers.flatMap((cover, index) => {
     const slot = SLOTS[index];
 
@@ -87,11 +99,24 @@ export function musicCollage(covers: readonly string[]): StagedPage {
         display: block;
         box-shadow: 0 10px 36px rgb(0 0 0 / 0.6);
       }
+      .band {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 380px;
+        z-index: ${SLOTS.length + 1};
+        padding: 26px 64px 30px;
+        background: rgb(11 11 11 / 0.84);
+        color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+      h1 { margin: 0; font-size: 68px; font-weight: 700; line-height: 1.1; }
+      p { margin: 12px 0 0; font-size: 30px; line-height: 1.3; color: rgb(255 255 255 / 0.78); }
     </style>
   </head>
   <body>
 ${images.join('\n')}
-  </body>
+${bandHtml}  </body>
 </html>
 `,
     files: Object.fromEntries(

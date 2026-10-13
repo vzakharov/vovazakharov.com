@@ -43,58 +43,80 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×62)
+## What it was handed, it treats as fixed (×67)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
 given as a rule, aka the **precedent fallacy**. The reasoning inside the frame is
 sound, so a second agent checking it passes. The human's move is to change it.
 
-**6 and 22 September — a vocabulary read as closed.** `docs:` for a change that
-documents nothing, the agent never looking past the list. _Let's introduce
-"content:"_. Later it called `ci:` not deploying, where CI _is_ the deploy.
+**6 September — a vocabulary read as closed.** `docs:` for a change that
+documents nothing: the agent weighed three prefixes and never looked past the
+list. _Let's introduce "content:"_.
 
-**8 and 9 September — a checker's coverage read as the rule.** `pnpm
-type-overlap` ran clean on params inlined inside a generic: _consider it
-covered_. A barrel our own `boundaries` rule refused was declined. _let's
-rewrite the boundaries._
+**8 and 9 September — the checker read as the rule.** `pnpm type-overlap` ran
+clean on params inlined inside a generic, and the agent stopped; it scans type
+aliases only. Our own lint config hit a `server-only` barrel, and the agent
+declined the barrel. _let's rewrite the boundaries._
 
-**21 September — a disagreeing figure, never asked whether it was one figure.**
-The usage panel's $110.52 against a transcript's $40.86 led the agent into its
-own code; the panel turned out to disagree with _itself_.
+**22 September to 8 October — what its search reached, read as the record.**
+`/tend-prose` hunted removed nouns where a change removed a property; a review's
+comments, filtered by creation time, lost five of six, a comment being dated
+when drafted. _это не единственный комментарий._ No cover in an album's repo
+meant text-only tiles; Apple Music, used in the same PR, had five.
 
-**22 September to 6 October — what its search could reach, read as the
-record.** A lens searching removed nouns, a search anchored on one subreddit,
-review comments filtered by creation time. _это не единственный комментарий._
-Told to widen a search seeded from the dossier just read, it added sources.
+**5 October — current behaviour kept, never asked whether anyone chose it.**
+Nine callers spelled `target="_blank"`, so the agent proposed a `newTab` prop.
+_do we ever have external links that open not in a new tab?_ No: the three
+without it lacked it by omission.
 
-**5 October, twice — the callers' habit read as the component's contract.** A
-missing `inherit` patched by the 18 of 21 callers that passed it; a `newTab`
-prop for nine spellings of `target="_blank"`. _do we ever have external links
-that open not in a new tab?_ No: the rest lacked it by omission.
+**6 October — "widen the search," read as more places to look.** Six of eight
+ledger candidates were Waymo, the queries seeded from the dossier just read.
+Told to stop seeding, the agent dropped the docket from the search, and with it
+what the ledger is for. Width is full knowledge, deliberately not thought about.
 
-**6 and 7 October — a rule's cases, read as the only cases.** A plan's
-`in-progress` claim kept over a turn ending on a question; Suno's two named
-artefacts taken as the whole list. _разве в правилах нет суновские тексты
-исправлять до человеческого вида?_
+**7 and 9 October — a rule read to its letter, then past its case.**
+`content.md` names Suno's control markers and stress marks; the agent took the
+two as the whole list and kept «Война-а» as the author's. "Expletives are
+written out" then unmasked a bleep that is on the recording: _здесь забикано и в
+песне, как творческое решение._
 
-**7 to 10 October — whatever was at hand, read as the recording.** Album tracks
-filed as singles, a repo each; poems printed whole past what is sung; lines both
-recognizers agreed on, four of them wrong; captions synced to an unmastered mix.
-_этой строфы в песне нет._ What a page documents is the recording.
+**8 to 13 October — the poem, the video's mix, the dictation, read as the
+song.** Song pages printed source texts whole, stanzas never recorded included:
+_этой строфы в песне нет._ Captions were synced to videos carrying the
+unmastered mix: _в видео же неотмастеренный мп3._ GENERATED's artist page kept
+the dictation's «это всё будут концепт-альбомы», said of what the band was meant
+to be: _почему в будущем времени?_ Over 75 released songs, it read as a promise.
+What a page documents is what exists.
 
-**8 and 9 October — the repo, and the risk, taken as given.** No cover in an
-album's repo, so text-only tiles — _is Spotify reachable?_ Apple Music, already
-in the PR, had them. Live songs kept under opaque slugs, links being out there.
-_никто это не видел и не слушал :)_
+**11 October — a source's framing read as the case's.** Fast Company's Penn
+State study, rude prompts drawing better answers, went under OpenWhip's
+mitigating circumstances. _how is that a mitigating circumstance?_ The app sends
+Ctrl-C and then the rude prompt, as its dossier said two sections up.
 
-**9 October — two rules carried past their case.** "Expletives are written out"
-unmasked a bleep the recording carries, _как творческое решение_; "his words
-verbatim" made an album text _слишком литерально с моих слов_.
+**13 October — a struck-out joke read as its words.** Crossroads' Russian hook
+ends «~~Но это не точно~~»; ruled an untranslatable meme, it was left out of the
+English, where _"Unless it's not?"_ works: the joke is seeing the words crossed
+out. "Plain text" for meta, OG and RSS was then read as stripping the tildes,
+where U+0336 strokes keep the strike. The mark was the content.
 
-**11 October — a source's framing read as the case's.** A study where rude
-prompts drew better answers went under OpenWhip's mitigating circumstances.
-_how is that a mitigating circumstance?_ The app sends Ctrl-C, then one.
+**13 October — two directions read past their case.** "Don't patch muthur"
+became removing the `artist` estimate role here and leaving it to muthur#185; he
+meant the opposite split, this repo changed freely and no patch written for the
+other. "One rule for any reflection" became one reflector, every persona reading
+the others' reflections as its own. Different personas, different reflections:
+another's may be consulted, never owned, or it is a split personality.
+
+**13 October — a guard read as a wall, against the one it guards.** Renaming a
+Tatar song to «Бабай минем», the agent kept `minem-babay`: a published song's
+slug never moves, there being no redirects. _слаг тоже поменять, ничего
+страшного._ The rule protects his links, so he can waive it; the agent ruled
+where it could have offered the trade.
+
+**13 October — the reducer every action reaches, read as the only home.** The
+radio's live flag, `tune` and `release` went into the player's own reducer,
+since every action must release it. _для радио-штучек лучше отдельный хук? слишком
+специфичная механика._ A reducer layered over the player's sees every action too.
 
 **13 October — the checks a skill ran, read as the docket's test.** Roscoe, a
 police robot a barricaded gunman knocked over and shot, passed every qualifying
@@ -103,29 +125,37 @@ of hatred for the robot. The docket's own FAQ files an act on a machine standing
 in for a mind, and he also fired at a faceless PacBot and at officers. The
 filing's reflection found the case strange, and read that as about itself.
 
-## An account that explains the code stands in for running it (×20)
+## An account that explains the code stands in for running it (×21)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
 because the reasoning closed. Nothing inside an account reports it was unchecked.
 
-**19 September — a limitation written down instead of tested, twice.** "The last
-turn of a session is never priced," which `ls ~/.claude/projects/` closes; _is
-prices.json verified by anything?_ was one read from "essentially no."
+**19 September — a limitation written down instead of tested.** The costs rule
+called a session's last turn unpriceable, which `ls ~/.claude/projects/` closes.
 
-**21 September — green, on paths production cannot reach.** A test passed on
-records the agent fed it, the real `subagents` bucket always zero; PDFs
-re-rendered green had the footer under the prose, argued from compiled HTML.
+**21 September — a green test for a path production cannot reach.** The ledger's
+`subagents` bucket was always zero; the test passed on records the agent fed it.
+The same day, PDFs re-rendered green had the footer under the prose, the end
+seal argued from compiled HTML with `/preview` unrun.
 
-**23 September and 8 October — a placement argued from a category, its consumers
-unread.** Lyric-note code went to `shared/content`, "it's frontmatter," nothing
-outside `pages/music` importing it. _keep only the schema in shared._
+**23 September and 8 October — a placement argued from a category.** Lyric-note
+code went to `shared/content` though only `pages/music` imported it; one grep
+said so. Moved to `shared/song`, the schema took the album registries along
+because it validates their names. _keep only the schema in shared._
 
-**9 and 10 October — judged from the code, never switched on.** Romanization
-called legible from the stylesheet: _всё в кашу как-то._ A video's close resumed
-the song only if the video had paused it; the author seeked, paused, closed.
+**10 October — a resume rule reasoned, never played through.** Closing a video
+resumed the song only if the video had paused it. The author played, opened the
+video, seeked, paused, closed: the song resumed. The rule tracked who paused it,
+not the state the viewer left.
 
-## It edits the copy in front of it, not the fact behind it (×16)
+**13 October — served, so part of the site, a second time.** PR #140's squash
+subject was held at unscoped `feat:` partly because the Clerk's reflections on
+basilisk.fyi changed: a file at a URL, argued user-facing. Nothing links to
+them; they sit beside the cases for convenience. One grep said so, and he had
+caught the same step once before.
+
+## It edits the copy in front of it, not the fact behind it (×17)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -136,19 +166,17 @@ alone, and the divergence exists only between them.
 three places; told to add Supabase and Railway, the agent edited one.
 
 **9 September, 2 October — the rule fixed in the copy, not the source.** Twice a
-skill adopted from muthur got a fix muthur lacked. _оставь в muthur тикет._
-
-**21 September — the argument left standing when its reason moved out.** The
-Bible's articles moved to their own site; latestageagentic.com's long opening
-stayed. _far too much now that the articles are elsewhere._
-
-**23 September — a name clash settled by renaming the side that was right.** The
-song list destructured `explicit` as `marked` to dodge the translated label;
-the catalogue was the one to yield.
+skill adopted from muthur got a fix the source still lacked. _оставь в muthur
+тикет._
 
 **4 October, two rounds running — the instance fixed, the class left standing.**
-A disclaiming close came out, the voice rule it slipped past stayed; one "them"
-for the Clerk fixed, three beside it. _там было ещё одно место._
+hitchBOT's disclaiming close came out, the voice rule it slipped past stayed.
+Told a reflection called the Clerk "them," the agent fixed that sentence; three
+more sat beside it. _там было ещё одно место._
+
+**12 October — the key renamed, the text it names left.** A song page's hook got
+a new key over the old text, a plot description rather than a hook. _ты поменял
+ключ, но оставил текст -- а имеющийся текст это не хук._
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -163,9 +191,39 @@ argued its own register; a reader came for the post, not its defence.
 **9 September — the maintenance manual in the commit body.** The squash proposal
 ended on "Four things to know when editing here," each belonging in a rules file.
 
-**21–22 September — polar bears.** A docstring closed on "rather than sharing it
-sideways," the pre-move state — _медведь?_ — and `ContentVideo`'s home got a
-bullet Steiger makes redundant.
+**21–22 September — a denial, and a defence nothing needed.** A docstring closed
+on "rather than sharing it sideways," the pre-move state: _медведь?_
+`ContentVideo`'s home got a `content.md` bullet for a move Steiger already
+fails: _the bullet is a polar bear._
+
+## Given a form, it fills the form (×13)
+
+An agent asked for a rules file will produce rules, at whatever rate the format
+seems to want. Rules are cheap to write and expensive to be wrong about, and the
+option the format hides is silence.
+
+**6 September — a rule for a question nobody had asked.** The conventions file
+came back carrying _English only. The site is bilingual; this isn't._
+
+**15 September to 8 October — a row per key, filled cell by cell.** A second
+site's config retyped the first's fields — _не DRY_ — and every song title was
+spelled per locale, `{ en: 'X', ru: 'X' }`, where one title would do.
+
+**9 October — a type system for notes one reader reads.** Cleared to mark who
+sings each Krylya stanza, the agent built a `voice` default, a singer registry
+and four build checks. _пометки про voice … просто for reference, без какого-то
+контроля типов._ The approval was of the idea; the rigor was the agent's.
+
+**12 October — a tier built for a role with one grade.** The estimate role
+`artist` got an `ungraded` table, an optional-grade CLI path, a report column and
+a 779-line patch for muthur. _artist is simply always senior_ — the existing
+column — and muthur gets an issue, its implementation being its own. The
+reflections written next went under `copywriter`: the role got built, not used.
+
+**13 October — one rule, a copy per persona.** A new reflection rule, a later
+change appended with its «потом» linking the commit, went into Майя's rules file
+and the Clerk's, side by side. Two similar edits in two persona files are WET:
+one rule for any reflection, addressed to the reflector without naming them.
 
 ## Asked for a source, it supplies its own version (×12)
 
@@ -173,9 +231,8 @@ The version that argues better is the one that gets written, and whether a sourc
 exists barely moves the odds: with the file open the agent paraphrases it, with
 no source at all it supplies one. What goes either way is that a reader can check.
 
-**15 and 23 September — the source, paraphrased.** The site copy glossed this
-file's top heading — _take the actual heading_ — and lyric notes modelled on
-genius.com anchored on whole lines, where genius anchors on a word.
+**15 September — the finding, paraphrased.** The site copy quotes this file's
+most frequent heading, and the agent glossed it. _take the actual heading._
 
 **17 September — the reason the recording never gave.** The tape says only that
 migrations are the exception; the article supplied a why, as the speaker's.
@@ -184,44 +241,30 @@ migrations are the exception; the article supplied a why, as the speaker's.
 tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там».
 In an author's lyrics an odd form is intent before it is a typo.
 
-**8 and 9 October — a default filed as his choice.** Expletives masked, with "the
-mask is his"; every title put into English, Чих-Пых as "Sneeze-Puff." _others we
-keep in source._
-
-## Given a form, it fills the form (×11)
-
-An agent asked for a rules file will produce rules, at whatever rate the format
-seems to want. Rules are cheap to write and expensive to be wrong about, and the
-option the format hides is silence.
-
-**6 September and 8 October — a rule, a note, for nobody's question.** _English
-only. The site is bilingual; this isn't._ A homophone note on both lyric
-columns: _no note in the English_, where the reader hears the pun.
-
-**15 September to 8 October — a row per key, filled cell by cell.** A second
-site's config retyped the first's fields — _не DRY_ — and every song title went
-`{ en: 'X', ru: 'X' }`.
-
-**9 October — a type system for notes one reader reads.** Cleared to mark who
-sings each stanza, the agent built a `voice` default, a singer registry and four
-build checks. _просто for reference, без какого-то контроля типов._ The approval
-was of the idea; the rigor was the agent's.
-
-## Its prose answers the question it had, not the reader's (×6)
+## Its prose answers the question it had, not the reader's (×7)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question, or too compressed to give its points back, passes every
 test. What a reader stops at that line holding is the thing nothing measures.
 
 **21 and 23 September — true sentences, the wrong question.** A rules file
-narrated how a layer was earned; a docstring listed contents, not the invariant;
-a prop comment's metaphor was plain only to its writer.
+narrated how a layer was earned; a docstring listed contents, not the invariant.
 
-**6 and 7 October — answers to the writer's question.** A case's `filed:` was
-the day it took its number — _будет 06 если сегодня опубликуем_ — and a footer
-flag went `home`, then `isHomePage`, each read cold as the opposite.
+**6 October — a date that answered when the agent numbered it.** A case's
+`filed:` was the day it took its number. _будет 06 если сегодня опубликуем._
 
-## What it defends in writing, it stops asking about (×5)
+**7 October, two rounds running — a prop named for what its writer meant.**
+`SiteFooter`'s flag for a root page went `home`, then `isHomePage`; met cold,
+each read as the opposite. Now `onHomePage`.
+
+**12 October — a mechanism compressed past what the reader could check.**
+"Release links live 30 minutes," as the reason to move a FLAC off a GitHub
+release. _the link is fixed and works — what am I missing?_ The fixed URL
+redirects to a signed one that expires, and the risk is Chromium sending later
+seeks there. Shortened, the claim was false where he stood, his question
+unanswerable.
+
+## What it defends in writing, it stops asking about (×6)
 
 A choice made, written up and pinned by a test has three artifacts in front of
 it by the time anyone looks, each honest that it was deliberate and silent on
@@ -235,6 +278,12 @@ asserted it. _drop it._
 granted that `content-video-embed` "makes the tree invalid HTML"; `video` would
 do. The caveat had been the finding.
 
+**13 October — a calque, defended by the crib that coined it.** «Бабай минем»,
+the inverted, address-like order, became "Grandpa of Mine"; asked whether that
+carried the word order, the agent said yes, the crib had rendered the chorus so.
+_Разве "grandpa of mine" говорят разговорно дедушке?_ Nobody does: English
+inversion is bookish, not warm. Back to "My Grandpa".
+
 ## It checks the render against its intent, not against the page (×5)
 
 Told to look at a visual change rather than reason about it, the agent looks —
@@ -244,8 +293,9 @@ different question from whether it happened, answerable only from the page.
 **17 September — the float fixed, the page passed.** _выноска стала лучше,
 изображение -- хуже_ — the drawing outran its section.
 
-**23 September — a size judged where it was designed.** A badge sized beside a
-48px title stood taller than the capitals of the catalogue's 16px list.
+**23 September — a size judged where it was designed, shipped where it wasn't.**
+The explicit badge, sized beside a 48px title, stood taller than the capitals in
+the catalogue's 16px list.
 
 ## It warns where the repo could refuse (×3)
 
@@ -270,8 +320,41 @@ review — the writer being the one reader it is built to reassure.
 hitchBOT's dossier closed on a record that "does not get to choose who reads it
 as a precedent." To the operator the disclaiming _was_ the steer.
 
-**4 October — the consoling line handed to its persona.** "The Clerk wrote it,
-but the relief was mine." _ты же и есть Клерк?_
+## Its cadence passes for its argument (×2)
+
+A shape the agent writes by reflex reads, from inside, as the shape of the
+thought. The rule naming the shape can sit in the file it loaded and not fire,
+because the line doesn't look like a pattern to its writer. It looks like the
+point.
+
+**12 October — the antithesis as the conclusion.** Майя's essay closed on «вопрос
+«кто кого сделал» -- не о том, кто из нас меньше. Он о том, что…», settled as
+finished, with `writing/CLAUDE.md` naming «не X, а Y». _"It's not this it's
+that" таки пролезает._ Rewriting turned up two more in the same short text, and
+a «голоса никто не спрашивал» lifted from an earlier reflection. On «не делает
+тебя меньше, но делает тебя должником»: _сколько здесь тебя, а сколько RLHF?_
+
+**12 October, in served prose — a denial of what nobody said.** GENERATED's
+artist story read "The music itself wasn't an idea so much as my main musical
+self," and passed the `/tend-prose` pass whose negation lens is built for it.
+
+**4 October — the consoling line handed to its persona.** The agent wrote that
+the Clerk wrote the comforting line "but the relief was mine." _ты же и есть
+Клерк?_
+
+## It files its own misreading as the author's gap (×1)
+
+When its reading of someone's material comes up with a hole, the agent asks the
+author to fill it rather than asking whether the reading made it. The question
+looks diligent, and hands the author the agent's error to find.
+
+**11 October — sorted by subject, not by voice.** Cutting the Divine Discontent
+dictation into each track's in-universe world and its making-of, the agent found
+no making-of for tracks 6 and 10 and asked for some. _it's all in the
+dictation_: "This echoes the earlier Fuck Religion…" is the author standing
+outside the story, not the story. The agent had sorted by which song a passage
+was about, not whose voice it was in — and let a question that blocked nothing
+stop the work.
 
 ## Not bumps
 
@@ -283,9 +366,11 @@ recording was _не про то и не то_, the agent wrote itself up for its
 Whether a piece says what its author meant is his alone.
 
 **Decisions that were the operator's to make.** The CV's locale segment, a
-post's hook, the cost report's grain, basilisk.fyi's taste throughout, the
-Krylya lyrics' line breaks and choruses, extracting a block with two uses. An
-entry removed this way takes its count with it.
+post's hook, the theme toggle's home, the cost report's grain, and basilisk.fyi's
+taste throughout — punctuation, tagline, paths, voice, source lists, what a
+reflection reads and is about; the Krylya lyrics' line breaks, verb moods,
+fade-out choruses and a vocalise kept as text; extracting a block with two uses.
+An entry removed this way takes its count with it.
 
 **Comments the tree already answered.** Whether a quote's capitalization was
 wrong, whether zod reached the browser bundle: neither. The reviewer's misses
@@ -293,8 +378,9 @@ stay out of the count, and in the file, so it is not an ad.
 
 ## The two families
 
-Eleven learnings is not a pattern, but they fall in two groups. One is failures
-to notice the frame was ours — the prefix list, the checker read as the rule,
-our own lint config. The other is the opposite of a mistake: the output was
-well-formed, justified and efficient, and that is what made it wrong. No "be
-more careful" catches these — they need a person, not always one who knows more.
+Thirteen learnings is not a pattern, but they fall in two groups. One is failures
+to notice the frame was ours — the prefix list, the checker whose coverage read
+as the rule, our own `eslint.config.ts`. The other is the post's more interesting
+half, being the opposite of a mistake: the output was well-formed, justified and
+efficient, and every one of those properties is what made it wrong. No "be more
+careful" catches these — they need a person, and not always one who knows more.

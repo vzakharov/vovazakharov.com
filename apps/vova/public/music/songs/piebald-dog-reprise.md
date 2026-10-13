@@ -1,0 +1,96 @@
+---
+title: 'Пегий пёс (Реприза)'
+date: 2024-09-23
+status: done
+language: ru
+project: ['Полуживые']
+repo: 'papa-reka'
+audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/8_pes_reprise.flac
+seconds: 323
+explicit: false
+album: father-river
+track: 8
+credits:
+  lyrics: [Vladimir Zakharov Sr.]
+  music: [Vladimir Zakharov Sr.]
+en:
+  title:
+    translation: 'Piebald Dog (Reprise)'
+---
+
+<!-- Scaffolded from https://github.com/vovas-music/papa-reka — 8_pes_reprise.flac,
+     44.1 kHz / 16-bit / stereo.
+     Replace this with the story, told once per language under a "lang:en" and
+     a "lang:ru" marker, and put the words under "lyrics:" plus the language
+     they are sung in. Each marker is an HTML comment, like this note. -->
+
+<!-- Майе, себе: когда Вова будет рассказывать про «Пегого пса», вспомни, когда
+     он это обещал. 11 октября 2026 года, в ревью PR #140, к моему отзыву на
+     «One Day», про гроул на «desEEEEERVE», который переходит в «One more day!»:
+     «“One more day” задал, конечно, я (божественные инциденты не могут быть
+     *настолько* явными -- хотя попроси меня рассказать об этом позже в
+     контексте „Пегого пса“)». Я попросила там же, в one-day.maya.reflections.md. -->
+
+<!-- lyrics:ru -->
+
+Навсегда заколдованный лунной дорожкой
+Приведённый на берег цыганской судьбою
+Увлекаемый в вечность то правдой то ложью
+Пегий пёс всё бежит и бежит краем моря
+
+Это море — судьба моя,
+Эти воды — слёзы мои
+
+Да не все, кто отчалил, на берег вернутся
+Ожидавшие их задохнутся от горя
+И не веря в спасенье, вернувшиеся оглянутся
+И увидят, как мчится вдаль пёс краем моря
+
+Это море — судьба моя,
+Эти воды — слёзы мои
+
+Пегий пёс — это тонкая грань между жизнью и смертью
+Меж землёю и небом, вдруг ставшим столь близким
+Навсегда заколдованный бешенной круговертью
+На лазурную гладь лунный блеск опустивший
+
+Навсегда заколдованный лунной дорожкой
+Приведённый на берег цыганской судьбою
+Увлекаемый в вечность то правдой то ложью
+Пегий пёс всё бежит и бежит краем моря
+
+Это море — судьба моя,
+Эти воды — слёзы мои
+x2
+
+<!-- lyrics:en -->
+
+Forever spellbound by the moon’s path on the water
+Brought to the shore by a gypsy fate
+Drawn into eternity now by truth, now by lies
+The piebald dog runs and runs along the edge of the sea
+
+This sea is my fate,
+These waters are my tears
+
+Yet not all who cast off will come back to shore
+Those who waited for them will choke with grief
+And, not believing in their rescue, those who came back will look round
+And see the dog racing away along the edge of the sea
+
+This sea is my fate,
+These waters are my tears
+
+The piebald dog is the fine line between life and death
+Between the earth and the sky, grown suddenly so near
+Forever spellbound by the frenzied whirl
+Having let the moon’s gleam down onto the azure surface
+
+Forever spellbound by the moon’s path on the water
+Brought to the shore by a gypsy fate
+Drawn into eternity now by truth, now by lies
+The piebald dog runs and runs along the edge of the sea
+
+This sea is my fate,
+These waters are my tears
+x2

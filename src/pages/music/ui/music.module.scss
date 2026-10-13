@@ -7,6 +7,16 @@
   min-width: 0;
 }
 
+// Below `sm` the line reaches the layout's corner toggle, so the language chips
+// stop short of it and the two read as one row: the toggle's 38px and a gap,
+// and its height, so the row's middle is the toggle's.
+.nav {
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    min-height: 38px;
+    padding-inline-end: 50px;
+  }
+}
+
 // Pinned rather than in flow: the bar is the one control that has to stay
 // reachable while the reader is anywhere in a song's prose.
 .playerBar {
@@ -166,37 +176,23 @@
   grid-row: 1 / -1;
 }
 
-// The transliteration switch takes a row of its own above the stanzas, in the
-// words' column only, so the crib's stanzas still start level with theirs.
-.lyricsColumns[data-transliteration] {
-  grid-template-rows: auto repeat(var(--stanzas), auto);
-
-  > .lyricsColumn {
-    grid-row: 2 / -1;
-  }
-}
-
-.lyricsStack {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.transliterationSwitch {
-  grid-area: 1 / 1;
-  justify-self: start;
-}
-
-// In the HTML either way; the switch's attribute is what shows it. Smaller and
-// fainter, so the pair reads as words and gloss rather than two lines of verse.
+// A romanization under words that keep their script. Smaller and fainter, so
+// the pair reads as words and gloss rather than two lines of verse.
 .transliteration {
-  display: none;
+  display: block;
   font-size: 0.85em;
   color: color-mix(in srgb, currentcolor 50%, transparent);
   white-space: normal;
+}
 
-  [data-transliteration='shown'] & {
-    display: block;
+// The current language chip as the script switch: the row's type, not the
+// button's, and dimmed on hover as the chips beside it are tinted.
+.scriptChip {
+  font: inherit;
+  transition: opacity 150ms ease;
+
+  @include mantine.hover {
+    opacity: 0.8;
   }
 }
 
@@ -267,6 +263,12 @@
   }
 }
 
+// A work in progress's sign is not the link, and a dimmed square would show
+// through the note it opens.
+.tile:has(button:hover, button:focus) .tileArt {
+  opacity: 1;
+}
+
 .tileLink::after {
   position: absolute;
   inset: 0;
@@ -307,12 +309,21 @@
   );
 }
 
+// Nothing to crop without art, so a work in progress's note can leave the
+// square: it spans the tile just under it, the sign at the end of a name
+// leaving no room to hang it from without running into the next tile.
 .tileArtless {
   --tile-from: oklch(90% 0.06 var(--tile-hue));
   --tile-to: oklch(80% 0.1 calc(var(--tile-hue) + 50));
   --tile-grey: 60%;
   --tile-clear: 50%;
+  --wip-anchor: static;
+  --wip-note-top: calc(100cqi + 6px);
+  --wip-note-left: 0;
+  --wip-note-right: 0;
+  --wip-note-width: auto;
 
+  overflow: visible;
   background: linear-gradient(
     135deg,
     placeholder-tone(var(--tile-from)),
@@ -325,15 +336,39 @@
   }
 }
 
-// A page's cover, above its title on a phone and beside it from `sm` up.
+// A page's cover, above its title on a phone and beside it from `sm` up, its
+// top level with the name's: the kicker takes a row of its own above both.
 .coverHead {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-areas: 'cover' 'kicker' 'body';
+}
 
+.coverHeadCover {
+  grid-area: cover;
+  margin-bottom: 24px;
+}
+
+.coverHeadKicker {
+  grid-area: kicker;
+  margin-bottom: 8px;
+}
+
+.coverHeadBody {
+  grid-area: body;
+}
+
+.coverHeadArt {
   @include mantine.larger-than(mantine.$breakpoint-sm) {
-    flex-direction: row;
-    align-items: flex-end;
+    grid-template-areas:
+      '. kicker'
+      'cover body';
+    grid-template-columns: auto 1fr;
+    column-gap: 24px;
+    align-items: start;
+
+    .coverHeadCover {
+      margin-bottom: 0;
+    }
   }
 }
 

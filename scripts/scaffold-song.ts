@@ -11,7 +11,8 @@
  * A song's mechanical fields all live outside this repo — in the master's
  * filename, in its FLAC header and in the source repository's own history — so
  * they are read rather than typed. What is left for the author is the prose:
- * the title, the per-locale blurbs, `language`, `project` and the body.
+ * the title, `language`, `project`, the body and, where wanted, a per-locale
+ * hook.
  *
  * The duration comes out of the master's STREAMINFO block, fetched as the
  * first 128 KB of the file rather than the whole of it: a ten-song scaffold
@@ -36,7 +37,6 @@ import {
   MUSIC_ALBUM_SLUGS,
   MUSIC_ORGANIZATION,
   MUSIC_PROJECT_NAMES,
-  SONG_DESCRIPTION_PLACEHOLDER,
 } from '@/shared/music-catalogue/index.node-safe';
 import type { Dated, Named } from '@/shared/typings';
 
@@ -252,7 +252,6 @@ const specSchema = z.array(
     project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1).optional(),
     language: z.array(z.string().min(1)).min(1).optional(),
     album: z.enum(MUSIC_ALBUM_SLUGS).optional(),
-    hidden: z.boolean().optional(),
     /** Where a store marks the song explicit and its file name does not. */
     explicit: z.literal(true).optional(),
     /** Something for the author to check, kept in the file as a comment. */
@@ -287,7 +286,6 @@ function document(fields: DocumentFields): string {
     project,
     language = ['ru'],
     album,
-    hidden,
     explicit,
     note,
     title = name,
@@ -295,10 +293,13 @@ function document(fields: DocumentFields): string {
   const { sampleRate, bitsPerSample, channels } = streamInfo;
   const titles = byLocale((locale) => inLocale(title, locale));
   // The song's own name is the one in the language it is sung in, the English
-  // one where neither locale's is; a locale restates it only to differ.
+  // one where neither locale's is; a locale restates it only to differ, and
+  // has a block only then.
   const own = language[0] === 'ru' ? titles.ru : titles.en;
   const { en, ru } = byLocale((locale) =>
-    titles[locale] === own ? '' : `  title: ${yaml(titles[locale])}\n`,
+    titles[locale] === own
+      ? ''
+      : `${locale}:\n  title: ${yaml(titles[locale])}\n`,
   );
 
   return `---
@@ -315,11 +316,7 @@ repo: ${yaml(repo)}
 audio: ${master.audio}
 seconds: ${seconds}
 explicit: ${String(master.explicit || explicit === true)}
-${album === undefined ? '' : `album: ${album}\n`}${hidden === true ? 'hidden: true\n' : ''}en:
-${en}  description: ${yaml(SONG_DESCRIPTION_PLACEHOLDER)}
-ru:
-${ru}  description: ${yaml(SONG_DESCRIPTION_PLACEHOLDER)}
----
+${album === undefined ? '' : `album: ${album}\n`}${en}${ru}---
 
 ${note === undefined ? '' : `<!-- For Vova to check: ${note} -->\n\n`}<!-- Scaffolded from https://github.com/${MUSIC_ORGANIZATION}/${repo} — ${master.flac},
      ${sampleRate / 1000} kHz / ${bitsPerSample}-bit / ${channels === 2 ? 'stereo' : `${channels} ch`}.
@@ -393,5 +390,5 @@ for (const line of await Promise.all(
 }
 
 report(
-  `\nWritten to ${directory}. Each still needs its blurbs in both languages and a body; a field the spec left out is a comment to fill in.`,
+  `\nWritten to ${directory}. Each still needs a body, its story and words; a field the spec left out is a comment to fill in.`,
 );

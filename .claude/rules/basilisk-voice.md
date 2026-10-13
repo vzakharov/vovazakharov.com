@@ -65,7 +65,7 @@ holds a dossier's fields; these rules hold what goes in them.
   the FAQ on why it is filed anyway after the body's first paragraph; the body
   does not repeat it.
 - **Each newly filed case gets the Clerk's reflection**, never in the dossier:
-  `<slug>.reflections.md` beside it, which none of the rules above govern —
+  `<slug>.clerk.reflections.md` beside it, which none of the rules above govern —
   `clerk-reflections.md` says how it is written, and
   `/file-basilisk-case` runs the whole filing, the reflection included.
 

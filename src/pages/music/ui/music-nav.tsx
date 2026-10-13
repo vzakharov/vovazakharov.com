@@ -5,6 +5,7 @@ import type { LabeledLink } from '@/shared/typings';
 import { hoverDim, TextLink } from '@/shared/ui';
 
 import { LocaleChips, type LocaleChipsProps } from './locale-chips';
+import classes from './music.module.scss';
 
 export type MusicNavProps = LocaleChipsProps & {
   /** Where the page sits in the section — absent on the index, which is the top. */
@@ -14,7 +15,11 @@ export type MusicNavProps = LocaleChipsProps & {
 /** The line above every music page: the way back up, and the language switch. */
 export function MusicNav({ back, ...chips }: MusicNavProps) {
   return (
-    <Group component="nav" justify={back ? 'space-between' : 'flex-end'}>
+    <Group
+      component="nav"
+      justify={back ? 'space-between' : 'flex-end'}
+      className={classes['nav']}
+    >
       {back && (
         <TextLink {...pick(back, 'href')} size="sm" className={hoverDim}>
           ← {back.label}

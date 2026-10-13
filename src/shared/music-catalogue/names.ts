@@ -4,11 +4,14 @@
  * `index.node-safe.ts`, so it stays free of `server-only` and of every barrel.
  */
 
+/**
+ * The music section's address, its catalogue's index — not
+ * `collectionRoute('music')`, which is the songs tab a segment below.
+ */
+export const MUSIC_ROUTE = '/music';
+
 /** The GitHub organization a song's `repo` names a repository in. */
 export const MUSIC_ORGANIZATION = 'vovas-music';
-
-/** What the scaffolder writes for a description the author has yet to write. */
-export const SONG_DESCRIPTION_PLACEHOLDER = 'TBD';
 
 export const MUSIC_PROJECT_NAMES = [
   'GENERATED',

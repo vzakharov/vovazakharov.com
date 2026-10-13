@@ -59,6 +59,34 @@ describe('shuffleOrder', () => {
       assert.equal(shuffleOrder(EVERY, 6, seed)[0], 6);
     }
   });
+
+  it('keeps a song that segues right before the next one in its queue', () => {
+    // 2 runs into 3, and 3 into 4: one run of three.
+    const segues = new Set([2, 3, 8]);
+
+    for (const seed of [1, 2, 3, 42, 9999]) {
+      const order = shuffleOrder(EVERY, undefined, seed, segues);
+      const at = order.indexOf(2);
+
+      assert.deepEqual(order.slice(at, at + 3), [2, 3, 4]);
+      assert.equal(order[order.indexOf(8) + 1], 9);
+      assert.equal(order.length, COUNT);
+    }
+
+    // On an album's queue the next track is the next one listed, not the next position.
+    const album = shuffleOrder(ALBUM, undefined, 5, new Set([7]));
+
+    assert.equal(album[album.indexOf(7) + 1], 2);
+  });
+
+  it('starts from the run of the track already playing, its lead-in first', () => {
+    for (const seed of [1, 2, 3, 42, 9999]) {
+      assert.deepEqual(
+        shuffleOrder(EVERY, 6, seed, new Set([5])).slice(0, 2),
+        [5, 6],
+      );
+    }
+  });
 });
 
 describe('the queue', () => {
@@ -282,15 +310,21 @@ describe('shuffling everything', () => {
 });
 
 describe('billingText', () => {
-  it('reads each linked name as its label', () => {
-    assert.equal(
-      billingText([
-        { label: 'GENERATED', href: '/music/artists/generated' },
-        ' feat. ',
-        { label: 'Йухи', href: '/music/artists/yoohie/ru' },
-      ]),
-      'GENERATED feat. Йухи',
-    );
+  const billing = [
+    { name: { original: 'GENERATED' }, href: '/music/artists/generated' },
+    ' feat. ',
+    {
+      name: { original: 'Полуживые', latin: 'Poluzhivye' },
+      href: '/music/artists/poluzhivye',
+    },
+  ];
+
+  it('reads each name in Latin letters before the reader has chosen', () => {
+    assert.equal(billingText(billing), 'GENERATED feat. Poluzhivye');
+  });
+
+  it('reads each name in the script the reader chose', () => {
+    assert.equal(billingText(billing, 'original'), 'GENERATED feat. Полуживые');
   });
 });
 

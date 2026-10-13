@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { albumTracks, songPlacements } from './album-tracks.ts';
+import { albumsTogether, albumTracks, songPlacements } from './album-tracks.ts';
 
 const song = (
   slug: string,
@@ -61,5 +61,20 @@ describe('albumTracks', () => {
 
   it('finds nothing on an album no song is on', () => {
     assert.deepEqual(slugsOn('ctfu'), []);
+  });
+});
+
+describe('albumsTogether', () => {
+  it('walks each album in track order from where its first song stood, past gaps in the numbering', () => {
+    assert.deepEqual(
+      albumsTogether(songs).map(({ slug }) => slug),
+      [
+        'my-offence-is-rank',
+        'valentines-day',
+        'hamlet',
+        'stricken-deer',
+        'single',
+      ],
+    );
   });
 });
