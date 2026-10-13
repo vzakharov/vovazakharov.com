@@ -5,9 +5,8 @@
  */
 
 /**
- * The music section's own address, its catalogue's index. The songs collection
- * sits a segment below it, so `collectionRoute('music')` is the songs tab rather
- * than this.
+ * The music section's address, its catalogue's index — not
+ * `collectionRoute('music')`, which is the songs tab a segment below.
  */
 export const MUSIC_ROUTE = '/music';
 

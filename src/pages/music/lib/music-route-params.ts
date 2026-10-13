@@ -71,8 +71,7 @@ function artistBySlug(slug: string): MusicProject {
 /**
  * A parse rather than a cast, failing `next build` on an address no reading
  * covers. The locale is the last segment wherever it is present, and the whole
- * catalogue's addresses are the public ones behind `all/`. A song sits under
- * `songs/`, as an artist and an album sit under theirs, and `listSongPages`
+ * catalogue's addresses are the public ones behind `all/`. `listSongPages`
  * refuses a song slug that is a locale, so no song can steal the songs tab's
  * URL in a language.
  */

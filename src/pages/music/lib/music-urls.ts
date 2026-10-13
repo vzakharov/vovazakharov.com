@@ -109,10 +109,7 @@ export function albumPath(
   );
 }
 
-/**
- * One song, in one language — the canonical address its alias defers to. A song
- * sits under the songs tab, so the collection's route is that tab's.
- */
+/** One song, in one language — the canonical address its alias defers to. */
 export function songPath(slug: string, locale?: Locale): string {
   return localizedRoute(documentRoute('music', slug), locale);
 }

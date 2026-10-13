@@ -57,8 +57,8 @@ export const COLLECTIONS = {
     feed: true,
   },
   music: {
-    /** A segment below the music section's own address, which is the
-     * catalogue's index; `/music/songs` is the catalogue's songs tab. */
+    /** The music catalogue's songs tab, which `pages/music`'s parser reads a
+     * song under — the two move together. */
     base: 'music/songs',
     label: 'Songs',
     site: 'vova',
