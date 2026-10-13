@@ -142,6 +142,11 @@ const playableSchema = z.object({
   seconds: z.number().int().positive(),
   /** Read off the 🅴 in the master's file name by the scaffolder. */
   explicit: z.boolean().default(false),
+  /**
+   * The song runs straight into its release's next track, so a shuffle keeps
+   * the two together, in order.
+   */
+  segue: z.boolean().default(false),
 });
 
 export type Playable = z.infer<typeof playableSchema>;

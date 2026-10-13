@@ -12,6 +12,7 @@ import {
   playerReducer,
   type PlayerState,
   type PlayerTrack,
+  seguePositions,
   shouldRestart,
   type WithTracks,
 } from './player-state';
@@ -97,9 +98,13 @@ export function useAudioPlayer(
   // nothing to keep — as well as obeying the button.
   useEffect(() => {
     if (shuffleStored !== state.shuffled) {
-      dispatch({ type: 'shuffle', seed: Date.now() });
+      dispatch({
+        type: 'shuffle',
+        seed: Date.now(),
+        segues: seguePositions(tracks),
+      });
     }
-  }, [shuffleStored, state.shuffled]);
+  }, [shuffleStored, state.shuffled, tracks]);
 
   const track = currentTrack(state);
   const current = track === undefined ? undefined : tracks[track];
@@ -168,7 +173,11 @@ export function useAudioPlayer(
       // pure and testable.
       shuffleAll: () => {
         storeShuffle(true);
-        dispatch({ type: 'shuffleAll', seed: Date.now() });
+        dispatch({
+          type: 'shuffleAll',
+          seed: Date.now(),
+          segues: seguePositions(tracks),
+        });
       },
       seek: (seconds) => {
         const audio = audioRef.current;

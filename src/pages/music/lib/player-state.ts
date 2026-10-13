@@ -50,6 +50,16 @@ export type PlayerState = {
   playing: boolean;
 };
 
+/** What a shuffle is drawn from: its seed, and the positions whose song segues, from `seguePositions`. */
+type Shuffling = { seed: number; segues?: ReadonlySet<number> };
+
+/** The catalogue positions whose track runs into the next one. */
+export function seguePositions(tracks: readonly Playable[]): Set<number> {
+  return new Set(
+    tracks.flatMap(({ segue }, position) => (segue ? [position] : [])),
+  );
+}
+
 export type PlayerAction =
   /**
    * Play this catalogue position, wherever it sits in the current order; one
@@ -70,9 +80,9 @@ export type PlayerAction =
   /** One track forward or back, wrapping at either end. */
   | { type: 'step'; by: 1 | -1 }
   /** Turns shuffle on with this seed, or off; the current track stays playing. */
-  | { type: 'shuffle'; seed: number }
+  | ({ type: 'shuffle' } & Shuffling)
   /** A fresh shuffle of the whole queue, played from its top. */
-  | { type: 'shuffleAll'; seed: number }
+  | ({ type: 'shuffleAll' } & Shuffling)
   /** The element reporting what it is actually doing. */
   | { type: 'playback'; playing: boolean };
 
@@ -164,27 +174,53 @@ function randomFrom(seed: number): () => number {
 }
 
 /**
- * A permutation of the queue's positions, with `first` moved to the front so
- * turning shuffle on does not interrupt what is playing.
+ * The queue cut into runs that play as one: a position that segues takes the
+ * next one in the queue with it, which is its release's next track because a
+ * queue holds each album in track order.
+ */
+function segueRuns(
+  queue: readonly number[],
+  segues: ReadonlySet<number>,
+): number[][] {
+  const runs: number[][] = [];
+
+  for (const [at, position] of queue.entries()) {
+    const previous = runs.at(-1);
+    const joined = at > 0 && segues.has(queue[at - 1] ?? -1);
+
+    if (joined && previous !== undefined) previous.push(position);
+    else runs.push([position]);
+  }
+
+  return runs;
+}
+
+/**
+ * A permutation of the queue's positions, a song that segues never parted from
+ * the one it runs into, with `first`'s run moved to the front so turning
+ * shuffle on does not interrupt what is playing.
  */
 export function shuffleOrder(
   queue: readonly number[],
   first: number | undefined,
   seed: number,
+  segues: ReadonlySet<number> = new Set(),
 ): number[] {
-  const pool = [...queue];
+  const pool = segueRuns(queue, segues);
   const random = randomFrom(seed);
-  const order: number[] = [];
+  const order: number[][] = [];
 
-  // Drawn from a shrinking pool rather than swapped in place, so no position is
-  // ever read back out of an array the type system cannot prove is occupied.
+  // Drawn from a shrinking pool rather than swapped in place, so no run is ever
+  // read back out of an array the type system cannot prove is occupied.
   while (pool.length > 0) {
     order.push(...pool.splice(Math.floor(random() * pool.length), 1));
   }
 
-  return first === undefined
-    ? order
-    : [first, ...order.filter((position) => position !== first)];
+  const leading = order.filter(
+    (run) => first !== undefined && run.includes(first),
+  );
+
+  return [...leading, ...order.filter((run) => !leading.includes(run))].flat();
 }
 
 function select(state: PlayerState, track: number): PlayerState {
@@ -248,10 +284,15 @@ function step(state: PlayerState, by: 1 | -1): PlayerState {
   };
 }
 
-function reshuffle(state: PlayerState, seed: number): PlayerState {
+function reshuffle(
+  state: PlayerState,
+  { seed, segues }: Shuffling,
+): PlayerState {
   const track = currentTrack(state);
   const shuffled = !state.shuffled;
-  const order = shuffled ? shuffleOrder(state.queue, track, seed) : state.queue;
+  const order = shuffled
+    ? shuffleOrder(state.queue, track, seed, segues)
+    : state.queue;
 
   return {
     ...state,
@@ -262,7 +303,10 @@ function reshuffle(state: PlayerState, seed: number): PlayerState {
 }
 
 /** Puts the whole catalogue back as the queue, whatever album held it. */
-function shuffleAll(state: PlayerState, seed: number): PlayerState {
+function shuffleAll(
+  state: PlayerState,
+  { seed, segues }: Shuffling,
+): PlayerState {
   const { trackCount } = state;
 
   if (trackCount === 0) return state;
@@ -271,7 +315,7 @@ function shuffleAll(state: PlayerState, seed: number): PlayerState {
 
   return {
     ...catalogue,
-    order: shuffleOrder(catalogue.queue, undefined, seed),
+    order: shuffleOrder(catalogue.queue, undefined, seed, segues),
     cursor: 0,
     shuffled: true,
     playing: true,
@@ -292,8 +336,8 @@ export function playerReducer(
   if (action.type === 'queue') return enqueue(state, action.positions);
   if (action.type === 'toggle') return toggle(state);
   if (action.type === 'step') return step(state, action.by);
-  if (action.type === 'shuffle') return reshuffle(state, action.seed);
-  if (action.type === 'shuffleAll') return shuffleAll(state, action.seed);
+  if (action.type === 'shuffle') return reshuffle(state, action);
+  if (action.type === 'shuffleAll') return shuffleAll(state, action);
 
   const { playing } = action;
 

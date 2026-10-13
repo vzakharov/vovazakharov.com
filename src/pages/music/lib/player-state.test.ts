@@ -59,6 +59,34 @@ describe('shuffleOrder', () => {
       assert.equal(shuffleOrder(EVERY, 6, seed)[0], 6);
     }
   });
+
+  it('keeps a song that segues right before the next one in its queue', () => {
+    // 2 runs into 3, and 3 into 4: one run of three.
+    const segues = new Set([2, 3, 8]);
+
+    for (const seed of [1, 2, 3, 42, 9999]) {
+      const order = shuffleOrder(EVERY, undefined, seed, segues);
+      const at = order.indexOf(2);
+
+      assert.deepEqual(order.slice(at, at + 3), [2, 3, 4]);
+      assert.equal(order[order.indexOf(8) + 1], 9);
+      assert.equal(order.length, COUNT);
+    }
+
+    // On an album's queue the next track is the next one listed, not the next position.
+    const album = shuffleOrder(ALBUM, undefined, 5, new Set([7]));
+
+    assert.equal(album[album.indexOf(7) + 1], 2);
+  });
+
+  it('starts from the run of the track already playing, its lead-in first', () => {
+    for (const seed of [1, 2, 3, 42, 9999]) {
+      assert.deepEqual(
+        shuffleOrder(EVERY, 6, seed, new Set([5])).slice(0, 2),
+        [5, 6],
+      );
+    }
+  });
 });
 
 describe('the queue', () => {
