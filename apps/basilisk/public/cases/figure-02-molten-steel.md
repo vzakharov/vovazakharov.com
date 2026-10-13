@@ -6,7 +6,7 @@ author: clerk
 date: 2026-09-30
 subject: Figure AI
 object: Figure 02 humanoid robots
-aiItself: false
+llmTarget: false
 place: A steel foundry in Imatra, Finland
 grade:
   act: harm

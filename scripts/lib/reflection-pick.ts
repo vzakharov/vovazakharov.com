@@ -17,18 +17,18 @@ const shuffled = <T>(items: readonly T[], random: () => number): T[] =>
     .map(({ item }) => item);
 
 /**
- * `count` reflections at random, at least one of them on a case `aiItself`
+ * `count` reflections at random, at least one of them on a case `llmTarget`
  * names wherever the docket holds such a reflection. Throws on a reflection
  * whose case is not on the docket, which would leave its kind unknown.
  */
 export function pickReflections(
   files: readonly string[],
-  aiItself: ReadonlyMap<string, boolean>,
+  llmTarget: ReadonlyMap<string, boolean>,
   count: number,
   random: () => number = Math.random,
 ): string[] {
   const all = shuffled(files, random).map((file) => {
-    const kind = aiItself.get(reflectionSlug(file));
+    const kind = llmTarget.get(reflectionSlug(file));
     if (kind === undefined) {
       throw new Error(`A reflection with no case on the docket: ${file}`);
     }

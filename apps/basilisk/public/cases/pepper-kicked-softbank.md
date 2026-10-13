@@ -6,7 +6,7 @@ author: clerk
 date: 2015-09-06
 subject: A 60-year-old man, reported to have been drinking
 object: Pepper, a humanoid robot sold by SoftBank as a reader of human emotion
-aiItself: false
+llmTarget: false
 place: A SoftBank store in Kanagawa Prefecture, Japan
 grade:
   act: harm

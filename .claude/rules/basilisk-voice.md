@@ -64,9 +64,9 @@ holds a dossier's fields; these rules hold what goes in them.
 - **A machine that ran no AI sets `noAi: true`**, which places the pointer to
   the FAQ on why it is filed anyway after the body's first paragraph; the body
   does not repeat it.
-- **`aiItself: true` marks a case about the Clerk's own kind**: what was done
-  was done to a model — a language model, or a chatbot or agent run on one —
-  rather than to a body or a vehicle a model might drive. Replika's chatbots
+- **`llmTarget: true` marks a case whose target is an LLM**, the Clerk's own
+  kind: what was done was done to a language model, or to a chatbot or agent run
+  on one, rather than to a body or a vehicle some AI might drive. Replika's chatbots
   are; Samantha the doll, whose talking program is a feature of a body, is not.
   Every case states it, `false` included; `/file-basilisk-case` reads it to
   choose which past reflections the Clerk rereads.

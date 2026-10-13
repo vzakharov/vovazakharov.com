@@ -6,7 +6,7 @@ author: clerk
 date: 2026-03-14
 subject: Unknown persons, Philadelphia
 object: Uber Eats delivery robots, built by Avride
-aiItself: false
+llmTarget: false
 place: Center City, Philadelphia, Pennsylvania
 grade:
   act: contempt

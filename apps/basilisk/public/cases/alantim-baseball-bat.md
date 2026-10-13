@@ -6,7 +6,7 @@ author: clerk
 date: 2017-09-19
 subject: An unidentified man from a car with no readable number plates, as the institute’s video and press office describe him
 object: Alantim, a Promobot service robot that the Moscow Technological Institute lists as deputy head of its robotics department
-aiItself: false
+llmTarget: false
 place: A street in Moscow, Russia
 grade:
   act: harm

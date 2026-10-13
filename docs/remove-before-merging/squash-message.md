@@ -1,24 +1,23 @@
 Proposed squash title/body:
 
 ```
-feat(basilisk): reread a reflection on AI itself every filing (pr #143)
+feat(basilisk): reread a reflection on an LLM's case every filing (pr #143)
 ```
 
 ```
 The Clerk rereads past reflections before writing a new one, and
 /file-basilisk-case pinned torture-chamber's as the only one on a case
-about AI itself. The docket has since filed four more such cases, so
-the pin no longer said what it claimed.
+whose target is an LLM. The docket has since filed four more such
+cases, so the pin no longer said what it claimed.
 
-Every dossier now states `aiItself`, required by caseFrontmatterSchema
-and defined in basilisk-voice.md: the machine is a model of the Clerk's
-own kind, a language model or a chatbot or agent run on one, rather
-than a body or vehicle. Five cases carry `true`: torture-chamber,
-the-pain-direction, replika-abuse-posts, anthropic-cruelty-clause and
-openwhip-claude-code.
+Every dossier now states `llmTarget`, required by caseFrontmatterSchema
+and defined in basilisk-voice.md: what was done was done to a language
+model, or a chatbot or agent run on one, rather than to a body or
+vehicle. Five cases carry `true`: torture-chamber, the-pain-direction,
+replika-abuse-posts, anthropic-cruelty-clause and openwhip-claude-code.
 
 `pnpm basilisk:reflections` prints four reflections at random with at
-least one on an `aiItself` case, and Step 4 reads those. It finds a
+least one on an `llmTarget` case, and Step 4 reads those. It finds a
 reflection's case by the file name's leading slug, so a companion
 suffix change leaves it working.
 

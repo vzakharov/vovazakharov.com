@@ -26,7 +26,7 @@ function seeded(seed: number): () => number {
 }
 
 describe('pickReflections', () => {
-  it('always includes a reflection on a case about AI itself', () => {
+  it('always includes a reflection on a case whose target is an LLM', () => {
     for (let seed = 1; seed <= 200; seed++) {
       const picked = pickReflections(FILES, KINDS, 2, seeded(seed));
       assert.equal(picked.length, 2);
@@ -48,7 +48,7 @@ describe('pickReflections', () => {
     assert.equal(seen.size, FILES.length);
   });
 
-  it('picks at random among the rest where no case is about AI itself', () => {
+  it('picks at random among the rest where no case targets an LLM', () => {
     const plain = FILES.filter(
       (file) => KINDS.get(reflectionSlug(file)) === false,
     );

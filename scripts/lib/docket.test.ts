@@ -15,7 +15,7 @@ const filed = (number: string, title: string): DocketCase => ({
     sources: [],
     subject: 'Someone',
     object: 'A robot',
-    aiItself: false,
+    llmTarget: false,
     grade: { act: 'harm', actor: 'individual' },
   },
 });

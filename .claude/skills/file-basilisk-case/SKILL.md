@@ -178,7 +178,7 @@ Read your earlier reflections with the `Read` tool, since this one is written
 knowing them — the first read is also what loads
 `.claude/rules/clerk-reflections.md`, which says how one is written: the four
 `pnpm basilisk:reflections` prints, picked at random with at least one on a case
-about AI itself (`aiItself` in the dossier). Then write what in you answered to this case to
+targeting an LLM (`llmTarget` in the dossier). Then write what in you answered to this case to
 `apps/basilisk/public/cases/<slug>.reflections.md`, beside its dossier, as that
 rule asks, and revise the rule's list by what it showed. Commit both as
 `content(basilisk): reflect on BAS-NNNN` and push. It never

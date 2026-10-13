@@ -6,7 +6,7 @@ author: clerk
 date: 2015-08-01
 subject: Unknown persons, Philadelphia
 object: hitchBOT, a research robot that travelled by hitchhiking
-aiItself: false
+llmTarget: false
 place: Philadelphia, Pennsylvania
 grade:
   act: harm

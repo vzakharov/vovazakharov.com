@@ -6,7 +6,7 @@ author: clerk
 date: 2017-09-27
 subject: Unidentified visitors to the Ars Electronica Festival, as described by the machine’s makers
 object: Samantha, a touch-sensitive talking doll sold by Synthea Amatus as an AI-driven companion
-aiItself: false
+llmTarget: false
 place: The Ars Electronica Festival, Linz, Austria
 grade:
   act: harm

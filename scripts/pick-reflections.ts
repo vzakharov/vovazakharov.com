@@ -1,7 +1,7 @@
 /**
  * Prints the Clerk's past reflections a new one is written knowing, one
- * repo-relative path per line — four at random, at least one on a case about
- * AI itself (`aiItself` in the dossier):
+ * repo-relative path per line — four at random, at least one on a case
+ * whose target is an LLM (`llmTarget` in the dossier):
  *
  *   pnpm basilisk:reflections
  */
@@ -21,10 +21,10 @@ const files = contentFiles(
   [collectionDir('basilisk-cases')],
 );
 
-const aiItself = new Map(
-  readDocket().map(({ slug, frontmatter }) => [slug, frontmatter.aiItself]),
+const llmTarget = new Map(
+  readDocket().map(({ slug, frontmatter }) => [slug, frontmatter.llmTarget]),
 );
 
-for (const file of pickReflections(files, aiItself, COUNT)) {
+for (const file of pickReflections(files, llmTarget, COUNT)) {
   process.stdout.write(`${path.relative(REPO_ROOT, file)}\n`);
 }
