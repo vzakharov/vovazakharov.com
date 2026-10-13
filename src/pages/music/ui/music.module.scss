@@ -277,6 +277,12 @@
   }
 }
 
+// A work in progress's sign is not the link, and a dimmed square would show
+// through the note it opens.
+.tile:has(button:hover, button:focus) .tileArt {
+  opacity: 1;
+}
+
 .tileLink::after {
   position: absolute;
   inset: 0;
@@ -317,12 +323,21 @@
   );
 }
 
+// Nothing to crop without art, so a work in progress's note can leave the
+// square: it spans the tile just under it, the sign at the end of a name
+// leaving no room to hang it from without running into the next tile.
 .tileArtless {
   --tile-from: oklch(90% 0.06 var(--tile-hue));
   --tile-to: oklch(80% 0.1 calc(var(--tile-hue) + 50));
   --tile-grey: 60%;
   --tile-clear: 50%;
+  --wip-anchor: static;
+  --wip-note-top: calc(100cqi + 6px);
+  --wip-note-left: 0;
+  --wip-note-right: 0;
+  --wip-note-width: auto;
 
+  overflow: visible;
   background: linear-gradient(
     135deg,
     placeholder-tone(var(--tile-from)),

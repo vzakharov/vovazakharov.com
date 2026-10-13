@@ -1,30 +1,31 @@
-import { Box, Group, Stack, Text } from '@mantine/core';
+import { Box, Stack } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { FileLink, NameLink, PageShell } from '@/shared/ui';
+import { NameLink, PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumTracks } from '../lib/album-tracks';
 import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';
-import { albumYears } from '../lib/catalogue';
+import { albumKind, albumWipNote, albumYears } from '../lib/catalogue';
 import { albumText } from '../lib/catalogue-text';
-import { albumLength } from '../lib/duration';
+import { catalogueSize } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, musicPath } from '../lib/music-urls';
 import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
+import { FactLine } from './fact-line';
 import { HookLine } from './hook-line';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
 import { Story } from './story';
 
 /**
- * One release: who put it out, its own text where it has one, and its songs in
- * track order.
+ * One release: who put it out, whether it is still being made, its own text
+ * where it has one, and its songs in track order.
  */
 export function AlbumPage({ album, locale }: AlbumPageProps) {
   const songs = catalogueSongs();
@@ -44,31 +45,31 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
         />
 
         <CatalogueHeader
-          kind={messages.kind.album}
+          kind={messages.kind[albumKind(album, songs)]}
           title={albumTitle(album, locale)}
           gloss={albumGloss(album, locale)}
           picture={albumCover(album)}
-          facts={
-            // The release's length, and its own file at the far end of the
-            // same line, as a song page sets its facts.
-            <Group justify="space-between" gap="12px 32px" wrap="wrap">
-              <Text size="sm" opacity={0.7}>
-                {albumLength(
-                  tracks.map(({ song }) => song.frontmatter.seconds),
-                  locale,
-                  messages.albumLength,
-                )}
-              </Text>
-              {text && <FileLink {...text.markdown}>.md</FileLink>}
-            </Group>
-          }
+          size={catalogueSize(
+            { seconds: tracks.map(({ song }) => song.frontmatter.seconds) },
+            locale,
+            messages.size,
+          )}
+          markdown={text?.markdown}
+          wip={albumWipNote(album, locale)}
         >
-          <Text size="sm" opacity={0.7} mt={12}>
-            <NameLink href={artistPath(artist, locale)}>
-              {projectName(artist, locale)}
-            </NameLink>{' '}
-            · {albumYears(album, songs)}
-          </Text>
+          <FactLine
+            facts={{
+              artist: (
+                <NameLink href={artistPath(artist, locale)}>
+                  {projectName(artist, locale)}
+                </NameLink>
+              ),
+              years: albumYears(album, songs),
+            }}
+            fz="sm"
+            opacity={0.7}
+            mt={12}
+          />
           <HookLine>{text?.hook}</HookLine>
           {/* The same tracks the list below plays, so both drive one queue. */}
           <Box mt={20}>

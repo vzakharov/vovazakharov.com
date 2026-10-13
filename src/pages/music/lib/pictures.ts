@@ -7,8 +7,8 @@ import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/shared/seo';
 
 import { albumCover } from './albums';
 import {
+  artistDiscography,
   type ArtistRelease,
-  artistReleases,
   artistSongs,
   catalogueReleases,
   releasedBy,
@@ -52,7 +52,7 @@ export function songPicture(
   return album === null ? undefined : albumCover(album);
 }
 
-export function releasePicture(release: ArtistRelease): string | undefined {
+function releasePicture(release: ArtistRelease): string | undefined {
   return 'album' in release
     ? albumCover(release.album)
     : songPicture(release.single);
@@ -68,13 +68,12 @@ export function artistPicture(
   locale: Locale,
   songs: readonly SongDocument[],
 ): string | undefined {
-  const releases = artistReleases(artist, locale, songs);
+  const { albums, singles } = artistDiscography(artist, locale, songs);
   const pictures = [
-    ...[
-      ...releases.filter((release) => 'album' in release),
-      ...releases.filter((release) => 'single' in release),
-    ].map((release) => releasePicture(release)),
-    ...artistSongs(artist, songs).map((song) => songPicture(song)),
+    ...albums.map((album) => albumCover(album)),
+    ...[...singles, ...artistSongs(artist, songs)].map((song) =>
+      songPicture(song),
+    ),
   ];
 
   return pictures.find((picture) => picture !== undefined);

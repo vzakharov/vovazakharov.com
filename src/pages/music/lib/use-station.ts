@@ -1,6 +1,10 @@
 import { type ActionDispatch, useEffect, useMemo, useRef } from 'react';
 
-import type { PlayerTrack, WithTrack } from './player-state';
+import {
+  type PlayerTrack,
+  seguePositions,
+  type WithTrack,
+} from './player-state';
 import type { OnRadio, RadioPlayerAction } from './radio-state';
 import {
   nextStation,
@@ -75,6 +79,7 @@ export function useStation({
   // not rebuilt on every `timeupdate`.
   return useMemo(() => {
     const durations = catalogue.map(({ seconds }) => seconds);
+    const segues = seguePositions(catalogue);
 
     function trackOf(slot: Station): PlayerTrack | undefined {
       const position = stationTrack(slot);
@@ -83,7 +88,7 @@ export function useStation({
     }
 
     function onAir(nowMs: number): OnAir | undefined {
-      const station = stationAt(durations, nowMs);
+      const station = stationAt(durations, nowMs, segues);
       const track = station && trackOf(station);
 
       return station && track && { station, track };
@@ -124,7 +129,7 @@ export function useStation({
     }
 
     function tuneIn() {
-      const slot = stationAt(durations, Date.now());
+      const slot = stationAt(durations, Date.now(), segues);
 
       if (slot !== undefined) tuneTo(slot);
     }
@@ -156,7 +161,7 @@ export function useStation({
 
       if (!radio || slot === undefined) return false;
 
-      const next = nextStation(durations, slot, Date.now());
+      const next = nextStation(durations, slot, Date.now(), segues);
 
       if (next === undefined) return false;
 

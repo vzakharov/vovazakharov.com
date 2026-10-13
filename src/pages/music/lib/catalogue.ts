@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { type Locale, LOCALES } from '@/shared/i18n';
+import { loadMessages, type Locale, LOCALES } from '@/shared/i18n';
 import {
   MUSIC_ALBUM_SLUGS,
   MUSIC_PROJECT_NAMES,
@@ -9,7 +9,8 @@ import {
 } from '@/shared/music-catalogue';
 
 import { albumTracks } from './album-tracks';
-import { albumArtist } from './albums';
+import { albumArtist, albumWip } from './albums';
+import { type ReleaseKind, releaseKind } from './release-kind';
 import type { SongDocument } from './song-text';
 
 /*
@@ -48,6 +49,42 @@ export function albumYears(
   const last = Math.max(...years);
 
   return first === last ? `${first}` : `${first}–${last}`;
+}
+
+/** The album's kind by the songs of it this catalogue holds. */
+export function albumKind(
+  album: MusicAlbum,
+  songs: readonly SongDocument[],
+): ReleaseKind {
+  return releaseKind(
+    albumSongs(album, songs).map(({ frontmatter }) => frontmatter.seconds),
+  );
+}
+
+/**
+ * What an album's tile says under its name: its kind where it is shorter than
+ * an album, and its years.
+ */
+export function albumDetail(
+  album: MusicAlbum,
+  locale: Locale,
+  songs: readonly SongDocument[],
+): string[] {
+  const { kind } = loadMessages(locale).music;
+  const sized = albumKind(album, songs);
+
+  return [
+    ...(sized === 'album' ? [] : [kind[sized]]),
+    albumYears(album, songs),
+  ];
+}
+
+/** The note a work-in-progress album's sign shows, or nothing for a finished one. */
+export function albumWipNote(
+  album: MusicAlbum,
+  locale: Locale,
+): string | undefined {
+  return albumWip(album) ? loadMessages(locale).music.wip.note : undefined;
 }
 
 /** The albums with a song in this catalogue, in registry order. */
@@ -127,7 +164,7 @@ export function catalogueReleases(
  * the artist leads rather than features on, so it is listed once, under whoever
  * released it.
  */
-export function artistReleases(
+function artistReleases(
   artist: MusicProject,
   locale: Locale,
   songs: readonly SongDocument[],
@@ -146,4 +183,22 @@ export function releasedBy(
   return 'album' in release
     ? albumArtist(release.album, locale) === artist
     : release.single.frontmatter.project[0] === artist;
+}
+
+/** The artist's releases, newest first, its albums — EPs and maxi singles among them — apart from its singles. */
+export function artistDiscography(
+  artist: MusicProject,
+  locale: Locale,
+  songs: readonly SongDocument[],
+): { albums: MusicAlbum[]; singles: SongDocument[] } {
+  const releases = artistReleases(artist, locale, songs);
+
+  return {
+    albums: releases.flatMap((release) =>
+      'album' in release ? [release.album] : [],
+    ),
+    singles: releases.flatMap((release) =>
+      'single' in release ? [release.single] : [],
+    ),
+  };
 }

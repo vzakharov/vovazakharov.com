@@ -9,6 +9,7 @@ import { NameLink, Subheading } from '@/shared/ui';
 import { tileHue } from '../lib/tile-hue';
 import classes from './music.module.scss';
 import { SongName } from './song-name';
+import { WipMark, type WipNoted } from './wip-mark';
 
 /**
  * A tile linking to an artist, an album or a single: its art with its name
@@ -17,7 +18,8 @@ import { SongName } from './song-name';
  * square.
  */
 type CatalogueTile = LabeledLink &
-  Slugged & {
+  Slugged &
+  WipNoted & {
     cover?: string;
     detail?: string;
     /** The label is a romanized song title, set in italics. */
@@ -37,16 +39,33 @@ export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
 
       <ul className={classes['tileGrid']}>
         {tiles.map(
-          ({ href, slug, label, cover, detail, transliterated = false }) => {
-            // The name's link stretches over the whole tile.
+          ({
+            href,
+            slug,
+            label,
+            cover,
+            detail,
+            wip,
+            transliterated = false,
+          }) => {
+            // The name's link stretches over the whole tile; the sign follows
+            // it outside the link, a button being no anchor's content.
             const link = (
-              <NameLink
-                {...{ href }}
-                c="inherit"
-                className={classes['tileLink']}
-              >
-                <SongName title={label} {...{ transliterated }} />
-              </NameLink>
+              <span>
+                <NameLink
+                  {...{ href }}
+                  c="inherit"
+                  className={classes['tileLink']}
+                >
+                  <SongName title={label} {...{ transliterated }} />
+                </NameLink>
+                {wip !== undefined && (
+                  <>
+                    {' '}
+                    <WipMark note={wip} size="0.7em" />
+                  </>
+                )}
+              </span>
             );
 
             return (

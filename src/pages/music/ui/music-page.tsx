@@ -2,13 +2,20 @@ import { Stack } from '@mantine/core';
 
 import { SITE_ID } from '@/shared/config';
 import { findFeed } from '@/shared/content';
-import { byLocale } from '@/shared/i18n';
+import { byLocale, loadMessages } from '@/shared/i18n';
 import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumArtist, albumCover, albumTitle } from '../lib/albums';
-import { albumYears, catalogueArtists, newestAlbums } from '../lib/catalogue';
+import {
+  albumDetail,
+  albumWipNote,
+  catalogueAlbums,
+  catalogueArtists,
+  newestAlbums,
+} from '../lib/catalogue';
+import { catalogueSize } from '../lib/duration';
 import type { IndexPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, tabPath } from '../lib/music-urls';
 import { artistPicture } from '../lib/pictures';
@@ -25,6 +32,8 @@ import { SongList } from './song-list';
  * or every album, or every song — one tab each.
  */
 export function MusicPage({ locale, tab }: IndexPageProps) {
+  const songs = catalogueSongs();
+
   return (
     <PageShell>
       <Stack gap={48}>
@@ -33,7 +42,18 @@ export function MusicPage({ locale, tab }: IndexPageProps) {
           {...{ locale }}
         />
 
-        <MusicSection {...{ locale }} />
+        <MusicSection
+          size={catalogueSize(
+            {
+              artists: catalogueArtists(songs).length,
+              albums: catalogueAlbums(songs).length,
+              seconds: songs.map(({ frontmatter }) => frontmatter.seconds),
+            },
+            locale,
+            loadMessages(locale).music.size,
+          )}
+          {...{ locale }}
+        />
 
         <Stack gap={24}>
           <CatalogueTabs {...{ tab, locale }} />
@@ -74,7 +94,11 @@ function TabContent({ tab, locale }: IndexPageProps) {
             slug: album,
             label: albumTitle(album, locale),
             cover: albumCover(album),
-            detail: `${projectName(albumArtist(album, locale), locale)} · ${albumYears(album, songs)}`,
+            detail: [
+              projectName(albumArtist(album, locale), locale),
+              ...albumDetail(album, locale, songs),
+            ].join(' · '),
+            wip: albumWipNote(album, locale),
           }))}
         />
       );

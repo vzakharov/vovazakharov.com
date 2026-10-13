@@ -31,7 +31,11 @@ type PluralForms = Partial<Record<Intl.LDMLPluralRule, string>> & {
  */
 export type SpokenLengthForms = Record<'hours' | 'minutes', PluralForms>;
 
-export type AlbumLengthForms = SpokenLengthForms & Record<'songs', PluralForms>;
+/** What a size line can count ahead of its songs, outermost first. */
+type CountedAhead = 'artists' | 'albums';
+
+export type CatalogueSizeForms = SpokenLengthForms &
+  Record<CountedAhead | 'songs', PluralForms>;
 
 function counter(locale: Locale) {
   const rules = new Intl.PluralRules(locale);
@@ -39,6 +43,10 @@ function counter(locale: Locale) {
   return (n: number, wording: PluralForms) =>
     (wording[rules.select(n)] ?? wording.other).replace('#', String(n));
 }
+
+export type CatalogueSize = Partial<Record<CountedAhead, number>> & {
+  seconds: readonly number[];
+};
 
 /**
  * A length to the nearest minute — `25 minutes`, `1 hour 12 minutes` from an
@@ -61,14 +69,24 @@ export function spokenLength(
 }
 
 /**
- * A release's size as the streaming services write it — `7 songs, 25 minutes`.
+ * A catalogue's or a release's size — `7 songs`, `25 minutes` — led by the
+ * artist and album counts it is handed, a zero one left out; one part per
+ * fact, for a facts line to space out.
  */
-export function albumLength(
-  seconds: readonly number[],
+export function catalogueSize(
+  { artists, albums, seconds }: CatalogueSize,
   locale: Locale,
-  forms: AlbumLengthForms,
-): string {
+  forms: CatalogueSizeForms,
+): string[] {
+  const count = counter(locale);
+  const ahead = (n: number | undefined, wording: PluralForms) =>
+    n === undefined || n === 0 ? [] : [count(n, wording)];
   const total = seconds.reduce((sum, track) => sum + track, 0);
 
-  return `${counter(locale)(seconds.length, forms.songs)}, ${spokenLength(total, locale, forms)}`;
+  return [
+    ...ahead(artists, forms.artists),
+    ...ahead(albums, forms.albums),
+    count(seconds.length, forms.songs),
+    spokenLength(total, locale, forms),
+  ];
 }

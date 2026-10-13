@@ -17,6 +17,7 @@ import {
   isQueued,
   placeTracks,
   type PlayerTrack,
+  seguePositions,
   shouldRestart,
   type WithTracks,
 } from './player-state';
@@ -30,6 +31,15 @@ import { useStoredFlag } from './use-stored-flag';
 
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
+
+/**
+ * The seed is the action's, not the reducer's: a permutation has to be
+ * reproducible from the number that produced it for the reducer to stay pure
+ * and testable.
+ */
+function freshShuffle(tracks: readonly PlayerTrack[]) {
+  return { seed: Date.now(), segues: seguePositions(tracks) };
+}
 
 export type PlayerControls = StationControls & {
   /**
@@ -108,9 +118,9 @@ export function useAudioPlayer(
   // nothing to keep — as well as obeying the button.
   useEffect(() => {
     if (shuffleStored !== state.shuffled) {
-      dispatch({ type: 'shuffle', seed: Date.now() });
+      dispatch({ type: 'shuffle', ...freshShuffle(tracks) });
     }
-  }, [shuffleStored, state.shuffled]);
+  }, [shuffleStored, state.shuffled, tracks]);
 
   const track = currentTrack(state);
   const current = track === undefined ? undefined : tracks[track];
@@ -192,12 +202,9 @@ export function useAudioPlayer(
       shuffle: () => {
         storeShuffle(!shuffleStored);
       },
-      // The seed is the action's, not the reducer's: a permutation has to be
-      // reproducible from the number that produced it for the reducer to stay
-      // pure and testable.
       shuffleAll: () => {
         storeShuffle(true);
-        dispatch({ type: 'shuffleAll', seed: Date.now() });
+        dispatch({ type: 'shuffleAll', ...freshShuffle(tracks) });
       },
       // A seek moves the element rather than the queue, so it releases the
       // radio by an action of its own.
