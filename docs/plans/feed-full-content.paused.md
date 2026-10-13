@@ -68,7 +68,9 @@ The work is one PR, as the operator asked. Each part leaves the branch building,
 
 Done in part 3 (c6b5e72): `rss.ts` writes the itunes channel tags where the channel states `podcast` and an enclosure, duration, explicit flag and cover per item with an `episode`; `songPodcast()` and `songEpisode()` in `song-feed.ts`; the `podcast` schema field, refined so `url` is present exactly where `audio` is not an MP3; `absoluteUrl` in `shared/config`.
 
-**Left:** the remaining batches' rows into frontmatter; the scaffolder writing `podcast` for a new song and the song vet failing a listed song without it (once every song has one); the square cover at `PODCAST_COVER` (`/music.podcast.jpg`, a 1500-unit square canvas at scale 2 — `renderCard` and `music-collage.ts` take their size from `PIXELS`/`CANVAS` today, so both need a size parameter and the square cut its own slot table); the checks in the plan's Verification.
+Done in part 3 since: the square cover, `music.podcast.jpg` at 3000×3000 — `music-collage.ts`'s `square` layout, a staged page stating its own `pixels` to `renderCard`. `pnpm build:vova` passes; both songs feeds pass xmllint with 131 enclosures each, and every recorded enclosure answers 200 with a `content-length` equal to its `bytes` (because-of-you's garbled row fixed in the process).
+
+**Left, all waiting on the operator's two answers:** batch 0's copies and the thirteen existing-MP3 songs into frontmatter; the scaffolder writing `podcast` for a new song, which needs the copy's naming settled first (`<stem>.mp3`, or `<stem>.master.mp3` where that name is taken); the song vet failing a listed song without `podcast`, once every song has one. Then the post-merge validator check in the PR's QA.
 
 Facts the next run needs (`tmp/` dies with the machine, so they are here):
 
