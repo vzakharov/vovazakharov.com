@@ -1,12 +1,18 @@
 {
   "estimate": {
-    "at": "2026-10-13T09:50:36.539Z",
+    "at": "2026-10-13T10:10:51.440Z",
     "parts": [
       {
         "hours": 0.5,
         "grade": "middle",
         "role": "developer",
-        "comment": "finishing a decommission already coded: a vet pass whose fixes are lint-level, a prose sweep for leftovers, and the PR body and squash message brought in line with the wider scope"
+        "comment": "finishing a decommission already coded: vet, prose sweep, PR and squash refresh"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a client-side fallback on a static 404: an FSD home for site-wide UI that reaches into music routing, a client probe of the song file, copy in two languages, and checking it against a real export"
       }
     ],
     "comment": null
@@ -21,28 +27,28 @@
   "url": "https://claude.ai/code/session_01EVRRqSj65sDvBmZYXzF9yA",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-13T09:50:22.561Z",
-  "lastResponseAt": "2026-10-13T10:07:06.088Z",
+  "lastResponseAt": "2026-10-13T10:29:22.732Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": 1.8777488,
   "total": {
-    "inputTokens": 62,
+    "inputTokens": 156,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 133174,
-    "cacheReadTokens": 4253326,
-    "outputTokens": 10043,
-    "thinkingTokens": 1751,
-    "responses": 31,
-    "costUsd": 2.1171652
+    "cacheWrite1hTokens": 193135,
+    "cacheReadTokens": 14794530,
+    "outputTokens": 37363,
+    "thinkingTokens": 8665,
+    "responses": 78,
+    "costUsd": 5.251869999999998
   },
   "ownTurns": {
-    "inputTokens": 62,
+    "inputTokens": 156,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 133174,
-    "cacheReadTokens": 4253326,
-    "outputTokens": 10043,
-    "thinkingTokens": 1751,
-    "responses": 31,
-    "costUsd": 2.1171652
+    "cacheWrite1hTokens": 193135,
+    "cacheReadTokens": 14794530,
+    "outputTokens": 37363,
+    "thinkingTokens": 8665,
+    "responses": 78,
+    "costUsd": 5.251869999999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -56,14 +62,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 62,
+      "inputTokens": 156,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 133174,
-      "cacheReadTokens": 4253326,
-      "outputTokens": 10043,
-      "thinkingTokens": 1751,
-      "responses": 31,
-      "costUsd": 2.1171652
+      "cacheWrite1hTokens": 193135,
+      "cacheReadTokens": 14794530,
+      "outputTokens": 37363,
+      "thinkingTokens": 8665,
+      "responses": 78,
+      "costUsd": 5.251869999999998
     }
   },
   "warnings": [],
