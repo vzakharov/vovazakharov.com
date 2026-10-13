@@ -2,10 +2,16 @@
 
 ## Progress
 
-Paused for the context budget after step 1.
+Paused for the context budget after step 7.
 
-- **Done — step 1** (cd420f5): `scripts/song-intake/song_facts.py` holds the analysis; `stft_magnitude(x, nfft, hop)` and `peak_chroma` are split out as planned. Птицы renders byte-identical to the pre-split script. A venv with matplotlib is at `tmp/spec-venv` (gitignored, so a new container rebuilds it: `python3 -m venv tmp/spec-venv && tmp/spec-venv/bin/pip install matplotlib`).
-- **Left — steps 2–8**, as written below. `peak_chroma` does not take `tuning` yet; step 2 adds it.
+- **Done — step 1** (cd420f5): the analysis lives in `scripts/song-intake/song_facts.py`. A venv with matplotlib goes at `tmp/spec-venv` (gitignored: `python3 -m venv tmp/spec-venv && tmp/spec-venv/bin/pip install matplotlib`).
+- **Done — steps 2–3** (c8d5843): `tuning_cents`, `peak_chroma(…, tuning)`, `onset_envelope`, `tempo_bpm`, `beat_times`. The envelope is smoothed before the autocorrelation, or a 140 BPM click train reads as 70.
+- **Done — steps 4–6** (d3cf4be): `measure`, `sidecar`, the zoom, `test_song_facts.py` (13 tests) wired into vet and the staged `stack.md`. Deviations from the text below, each forced by Птицы:
+  - **Chords are Viterbi-smoothed with a bass-root bonus** (`BASS_ROOT_WEIGHT`, `CHORD_CHANGE_COST`, both 1.0), not one-beat blip absorption: a beat-by-beat cosine scattered the G–E♭–F loop, the melody held over the bass pulling each beat astray.
+  - **`fold_loop` allows a head and a tail** around the loop, so one stray chord at a section's edge does not stop the fold.
+  - **Tempo is the beats' mean gap**, not the median: gaps are whole onset frames, so at 120 BPM the median snapped to 117 or 123 and drew a false range.
+- **Done — step 7** (ec8e944): all eleven PNGs re-rendered (largest 304 KB), each with its `.txt`; docstring, `scripts/song-intake/CLAUDE.md`, `.claude/rules/maya-reflections.md`.
+- **Left — step 8**, as written below. Leads from the sidecars: `listen` keys at r 0.62; `hello` G major against G minor at 0.74/0.72; `listen-single` G♭/D♭ major tied at 0.75; `our-punk-rock`'s chords (distorted guitars, power chords) look unreliable, and its key may be C minor rather than G major. Птицы matches its known G minor (r 0.81) and reads its bass loop G → E♭ → F.
 
 Four of the five ideas `docs/remove-before-merging/spectrogram-reddit.md` § "Worth building" ranks, in `scripts/song-intake/spectrogram.py`: the tuning fix, tempo, a text sidecar of exact values and a zoomed render. Then every committed spectrogram is re-rendered and gets its sidecar, and the sidecar's numbers are checked against librosa before anyone reads them.
 
