@@ -7,20 +7,18 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-13T11:53:15Z
-- **Updated:** 2026-10-13T19:46:12Z
+- **Updated:** 2026-10-13T19:58:33Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 4
+## Awaiting an answer: 2
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at ec77454). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 12d0b2c). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `apps/vova/public/music/minem-babay.md`:3 — unresolved — last: @vzakharov (human) 2026-10-13T19:44:26Z — "слаг тоже поменять, ничего страшного" → [↓](#t01)
-- **T02** `src/pages/music/lib/albums.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-13T19:44:54Z — "issue не надо, сессию новую создай с этой задачей" → [↓](#t02)
-- **T03** `src/shared/lib/script-preference.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-13T19:46:12Z — "> и это лишний блокирующий запрос перед отрисовкой. сколько…" → [↓](#t03)
-- **T04** `apps/vova/public/music/minem-babay.md`:18 — unresolved — last: @vzakharov (human) 2026-10-13T19:47:22Z — "думаешь эта переделка отражает то как это звучит по-разному…" → [↓](#t04)
+- **T01** `src/shared/lib/script-preference.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-13T19:57:49Z — "не, раз в десять минут фигово. давай вариант 1 тогда" → [↓](#t01)
+- **T02** `apps/vova/public/music/babay-minem.md`:18 — unresolved — last: @vzakharov (human) 2026-10-13T19:58:32Z — "Разве "grandpa of mine" говорят разговорно дедушке? не наста…" → [↓](#t02)
 
 ---
 
@@ -123,66 +121,12 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_2 resolved threads omitted; re-run with `--include-resolved` to export them._
+_4 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `apps/vova/public/music/minem-babay.md`:3 — unresolved — last: @vzakharov (human) 2026-10-13T19:44:26Z — "слаг тоже поменять, ничего страшного" → [↓](#t01)
-- **T02** `src/pages/music/lib/albums.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-13T19:44:54Z — "issue не надо, сессию новую создай с этой задачей" → [↓](#t02)
-- **T03** `src/shared/lib/script-preference.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-13T19:46:12Z — "> и это лишний блокирующий запрос перед отрисовкой. сколько…" → [↓](#t03)
-- **T04** `apps/vova/public/music/minem-babay.md`:18 — unresolved — last: @vzakharov (human) 2026-10-13T19:47:22Z — "думаешь эта переделка отражает то как это звучит по-разному…" → [↓](#t04)
+- **T01** `src/shared/lib/script-preference.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-13T19:57:49Z — "не, раз в десять минут фигово. давай вариант 1 тогда" → [↓](#t01)
+- **T02** `apps/vova/public/music/babay-minem.md`:18 — unresolved — last: @vzakharov (human) 2026-10-13T19:58:32Z — "Разве "grandpa of mine" говорят разговорно дедушке? не наста…" → [↓](#t02)
 
 <a id="t01"></a>
-
-### `apps/vova/public/music/minem-babay.md`:3 — unresolved
-
-```diff
-@@ -1,5 +1,6 @@
- ---
- title: 'Минем бабай'
-+titleLatin: 'Minem babay'
-```
-
-**@vzakharov (human)** — 2026-10-13T19:17:36Z
-
-так, а) а тут зачем, учитывая что транслитерация по правилам кириллицы? или это сложнее сочетать с вручную прописанной лирикой? в любом случае не настаиваю; б) давай переименуем в Babay minem заодно
-
-**@vzakharov (agent)** — 2026-10-13T19:40:26Z
-
-а) Правило транслитерации у нас только для русского, а песня на татарском, поэтому сборка требует написанную вручную латиницу. Название целиком из русских букв, так что правило дало бы то же самое. Но на остальном татарском тексте оно ошибается: ә, ө, ү, җ, ң, һ ему неизвестны, а к/г по сингармонизму становятся q/ğ (тот же раздел `tt-latn` на Заманалифе). Поэтому разрешать правилу «татарский, если буквы русские» я не стал: название вышло бы по одной системе, а текст под ним по другой.
-
-б) Переименовал: «Бабай минем» / *Babay minem*, как в припеве, а переводы — «Дедушка мой» / “Grandpa of Mine”, как в подстрочнике. Slug `minem-babay` оставил, адрес уже опубликован. 00f81a5
-
-**@vzakharov (human)** — 2026-10-13T19:44:26Z
-
-слаг тоже поменять, ничего страшного
-
----
-
-<a id="t02"></a>
-
-### `src/pages/music/lib/albums.ts`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-13T19:22:47Z
-
-так, а зачем мы вообще инфу об альбомах храним тут, а не во фронтамттерах их мдшек?
-
-**@vzakharov (agent)** — 2026-10-13T19:40:29Z
-
-Так было и до этой ветки: `MUSIC_ALBUMS` и `PROJECT_*` лежат на `main`, ветка только меняет форму названий и глоссов. Причина в том, что альбом и артист — это перечисление (`MusicAlbum`, `MusicProject` в `shared/music-catalogue`). Песня ссылается на них в своём frontmatter, и опечатка в `album:` или `project:` валит сборку ещё на проверке типов. Как файлы `.md` лежат только три альбома и одна страница артиста, у остальных записей файлов нет вовсе.
-
-Перенести во frontmatter можно, но это отдельная работа:
-1. у каждого альбома и артиста появляется свой `.md`;
-2. перечисление строится из этих файлов (кодогенерация, как у `styles:codegen`) или проверка «такой альбом существует» переезжает в схему при сборке;
-3. `albums.ts` и `projects.ts` превращаются в чтение этих файлов.
-
-Предлагаю завести под это отдельный issue, а не растить этот PR. Согласен?
-
-**@vzakharov (human)** — 2026-10-13T19:44:54Z
-
-issue не надо, сессию новую создай с этой задачей
-
----
-
-<a id="t03"></a>
 
 ### `src/shared/lib/script-preference.ts`:38 — unresolved
 
@@ -227,11 +171,23 @@ issue не надо, сессию новую создай с этой задач
 
 сколько по времени? по описанию звучит как элегантное
 
+**@vzakharov (agent)** — 2026-10-13T19:50:25Z
+
+При первом визите — примерно один сетевой круг до GitHub Pages: обычно 20–100 мс, на мобильной сети до 200–300 мс. Файл крошечный, так что время уходит на сам запрос, а не на скачивание. Пока он не пришёл, браузер не рисует страницу. Дальше файл берётся из кэша, но GitHub Pages отдаёт его с `max-age=600`, поэтому раз в 10 минут браузер снова спрашивает сервер, не изменился ли он, и это опять один круг.
+
+Дублирование констант убирается так же, как у стилей: файл в `public/` генерируется из TS (как `pnpm styles:codegen`), а vet падает, если он устарел. Тогда источник один, файл обычный JS, исключение линтера не нужно — вся цена в этих десятках миллисекунд.
+
+Делаем так?
+
+**@vzakharov (human)** — 2026-10-13T19:57:49Z
+
+не, раз в десять минут фигово. давай вариант 1 тогда
+
 ---
 
-<a id="t04"></a>
+<a id="t02"></a>
 
-### `apps/vova/public/music/minem-babay.md`:18 — unresolved
+### `apps/vova/public/music/babay-minem.md`:18 — unresolved
 
 ```diff
 @@ -12,10 +12,10 @@ seconds: 168
@@ -250,6 +206,16 @@ issue не надо, сессию новую создай с этой задач
 
 думаешь эта переделка отражает то как это звучит по-разному в зависимости от порядка на татарском? если оставить как было, то что будет?
 
+**@vzakharov (agent)** — 2026-10-13T19:50:26Z
+
+Думаю, да. «Минем бабай» — обычный порядок, местоимение перед существительным: «мой дедушка». «Бабай минем» — инверсия, так звучит обращение, ласковое и разговорное: «дедушка мой». Английское “Grandpa of mine” ближе всего передаёт эту интонацию, и подстрочник уже переводит припев именно так.
+
+Если вернуть «My Grandpa» / «Мой дедушка», ничего не сломается: переводы будут точными, но нейтральными, и разойдутся с порядком слов в новом татарском названии. Оставить или вернуть — как скажешь.
+
+**@vzakharov (human)** — 2026-10-13T19:58:32Z
+
+Разве "grandpa of mine" говорят разговорно дедушке? не настаиваю. По-русски ок, согласен
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -257,3 +223,4 @@ issue не надо, сессию новую создай с этой задач
 - **2026-10-13T18:51:55Z** @vzakharov renamed from «feat(vova): Latin-first spelling with the song title as the script switch» to «feat(vova): Latin-first spelling with the locale chip as the script switch».
 - **2026-10-13T19:36:19Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/148#pullrequestreview-5508750683.
 - **2026-10-13T19:47:27Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/148#pullrequestreview-5509077570.
+- **2026-10-13T19:53:34Z** @vzakharov cross-referenced this pull request from [#150 refactor(vova): albums and artists live in their own frontmatter](https://github.com/vzakharov/vovazakharov.com/pull/150).
