@@ -53,7 +53,10 @@ describe('stationAt', () => {
 
     assert.ok(track !== undefined);
     assert.ok(station.startMs <= NOW && NOW < station.endMs);
-    assert.equal(station.endMs - station.startMs, (DURATIONS[track] ?? 0) * 1000);
+    assert.equal(
+      station.endMs - station.startMs,
+      (DURATIONS[track] ?? 0) * 1000,
+    );
   });
 
   it('hands a slot’s last millisecond and the next one’s first to different slots', () => {

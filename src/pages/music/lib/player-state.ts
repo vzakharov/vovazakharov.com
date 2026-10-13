@@ -48,6 +48,11 @@ export type PlayerState = {
   cursor: number;
   shuffled: boolean;
   playing: boolean;
+  /**
+   * Playing the radio live. Any action but `tune`, and any pause, releases it:
+   * playback carries on from there as an ordinary shuffled queue.
+   */
+  radio: boolean;
 };
 
 export type PlayerAction =
@@ -73,6 +78,13 @@ export type PlayerAction =
   | { type: 'shuffle'; seed: number }
   /** A fresh shuffle of the whole queue, played from its top. */
   | { type: 'shuffleAll'; seed: number }
+  /**
+   * The whole catalogue as the queue in the radio's order for this cycle,
+   * played from the slot on air.
+   */
+  | { type: 'tune'; order: number[]; cursor: number }
+  /** Off the radio, everything else as it is — a seek's way of releasing it. */
+  | { type: 'release' }
   /** The element reporting what it is actually doing. */
   | { type: 'playback'; playing: boolean };
 
@@ -101,6 +113,7 @@ export function initialPlayerState(count: number): PlayerState {
     cursor: -1,
     shuffled: false,
     playing: false,
+    radio: false,
   };
 }
 
@@ -225,6 +238,7 @@ function enqueue(state: PlayerState, positions: number[]): PlayerState {
     cursor: 0,
     shuffled: false,
     playing: true,
+    radio: false,
   };
 }
 
@@ -279,13 +293,55 @@ function shuffleAll(state: PlayerState, seed: number): PlayerState {
 }
 
 /**
- * Dispatched by early return rather than a switch, so the last branch narrows
- * to the one remaining action: a new member of `PlayerAction` stops compiling
- * here instead of falling into a default nobody wrote on purpose.
+ * The queue is the catalogue positions the cycle holds, once each and in their
+ * own order, so unshuffling after a release returns to the catalogue's.
+ */
+function tune(
+  state: PlayerState,
+  order: number[],
+  cursor: number,
+): PlayerState {
+  if (order[cursor] === undefined) return state;
+
+  return {
+    ...state,
+    queue: [...new Set(order)].toSorted((a, b) => a - b),
+    order,
+    cursor,
+    shuffled: true,
+    playing: true,
+    radio: true,
+  };
+}
+
+/**
+ * Releasing the radio happens here, once, rather than at every control that
+ * can: every action but `tune` releases it, so a new one does by default. Of
+ * the element's reports only a pause does — playback that resumes after one is
+ * no longer live.
  */
 export function playerReducer(
   state: PlayerState,
   action: PlayerAction,
+): PlayerState {
+  if (action.type === 'tune') {
+    return tune(state, action.order, action.cursor);
+  }
+
+  const next = actOn(state, action);
+  const live = action.type === 'playback' && action.playing && state.radio;
+
+  return next.radio === live ? next : { ...next, radio: live };
+}
+
+/**
+ * Dispatched by early return rather than a switch, so the last branch narrows
+ * to the one remaining action: a new member of `PlayerAction` stops compiling
+ * here instead of falling into a default nobody wrote on purpose.
+ */
+function actOn(
+  state: PlayerState,
+  action: Exclude<PlayerAction, { type: 'tune' }>,
 ): PlayerState {
   if (action.type === 'select') return select(state, action.track);
   if (action.type === 'append') return append(state);
@@ -294,6 +350,7 @@ export function playerReducer(
   if (action.type === 'step') return step(state, action.by);
   if (action.type === 'shuffle') return reshuffle(state, action.seed);
   if (action.type === 'shuffleAll') return shuffleAll(state, action.seed);
+  if (action.type === 'release') return state;
 
   const { playing } = action;
 
