@@ -64,7 +64,8 @@ The tip is a Mantine popover anchored to the song title on its page.
 - step 12, vet: green; knip, the song-title order and `untold-songs.md` fixed.
 - step 12, previews of the built site: Dvadtsat' under `en` opens in Latin with the first-visit tip, a click shows the Cyrillic and the switch-back tip, the choice survives a reload, and Mithqal under `ru` in original mode shows the script alone; no console errors.
 - `/go` Steps 3–4 ran once: `/dry` 8cfbb72, `/tend-prose` 699b6e8, PR body refreshed.
-- **Next:** § "Follow-up: the switch rides on the locale chip", then `/go` Steps 3–4 again.
+- Follow-up steps 1–6 done: `scriptSample` + tests in abeff9d, the chip, the browser-language default, the removals and the page wiring in 426eb60, `songs.md` after it. `ChipNav` took a `current?: ReactNode` slot and exports `CURRENT_CHIP_CLASS`; `ScriptChip` (`pages/music/ui/script-chip.tsx`) is the switch; `trackNames` (`lib/songs.ts`) and `wordsText` (`lib/song-text.ts`) feed the count; the hook no longer returns `chosen`. `pnpm build:vova` and `check:mantine-styles` pass; the built HTML has the switch with `Абв` on `/music/en`, `أبج` on Mithqal under `ru`, and a plain chip on `/music/ru`.
+- **Next:** follow-up step 7 (vet, then the previews it lists), then `/go` Steps 3–4 again.
 
 ## Steps
 
