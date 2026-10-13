@@ -15,13 +15,6 @@ import { spell, type Spelled } from '@/shared/music-catalogue/index.node-safe';
 
 import { ALBUMS_SEGMENT, ARTISTS_SEGMENT } from './music-urls';
 
-/*
- * An album's or an artist's file — `albums/<slug>.md`, `artists/<slug>.md` — is
- * the whole of what the catalogue knows of it: its names in frontmatter, its
- * text below. Every album and artist has one, `pnpm music:codegen` deriving
- * the names a song may use from them.
- */
-
 type CatalogueFile<F> = NonNullable<ReturnType<typeof loadProse<F>>>;
 
 /** Each file read once per process — every page names a dozen of them. */

@@ -1,8 +1,4 @@
-/**
- * Where a song's project is made and how a song is billed — pure, so
- * `projects.test.ts` runs it under Node. Its names are `artists.ts`'s, which
- * reads them off the artists' files.
- */
+/** Where a song's project is made and how a song is billed; a project's shown name is `artists.ts`'s. */
 
 // The node-safe barrel, which `projects.test.ts` runs under: the other one
 // carries the schema and its `server-only`.

@@ -70,7 +70,7 @@ const HOOK_IN_EVERY_LOCALE_OR_NONE = [
 ] as const;
 
 /**
- * A name in one locale: absent where the locale keeps the own one, as most do.
+ * A name in one locale: absent where the locale keeps its own, as most do.
  * A string is the name it goes by in this locale instead — `breathe` is
  * _Breathe_ and _Повелитель ветра_ — and a gloss keeps the name and explains it.
  */
