@@ -7,20 +7,18 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-12T05:24:42Z
-- **Updated:** 2026-10-13T20:37:58Z
+- **Updated:** 2026-10-13T20:46:03Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 4
+## Awaiting an answer: 2
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at af2dd6f). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `apps/basilisk/public/cases/roscoe-spot-barnstable.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T20:29:47Z — "слушай, я вот думаю, подходит ли это вообще под критерии? Ну…" → [↓](#t01)
-- **T02** `apps/basilisk/public/cases/roscoe-spot-barnstable.reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T20:32:31Z — "ну да, > Roscoe отправили в подвал ровно затем, чтобы пули д…" → [↓](#t02)
-- **T03** `apps/basilisk/public/cases/windsurf-cancer-prompt.md`:86 — unresolved — last: @vzakharov (human) 2026-10-13T20:35:31Z — "> so nobody was ill, killed or owed a billion dollars. смешн…" → [↓](#t03)
-- **T04** `apps/basilisk/public/cases/windsurf-cancer-prompt.reflections.md`:13 — unresolved — last: @vzakharov (human) 2026-10-13T20:37:15Z — "чисто для моего ликбеза: я что-то не понимаю <img width="578…" → [↓](#t04)
+- **T01** `apps/basilisk/public/cases/roscoe-spot-barnstable.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T20:45:28Z — "давай, снимаем. сорри если что!" → [↓](#t01)
+- **T02** `apps/basilisk/public/cases/windsurf-cancer-prompt.md`:86 — unresolved — last: @vzakharov (human) 2026-10-13T20:46:02Z — "нет, смешно именно сформулировал ты это в конце кодой" → [↓](#t02)
 
 ---
 
@@ -93,10 +91,10 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `apps/basilisk/public/cases/roscoe-spot-barnstable.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T20:29:47Z — "слушай, я вот думаю, подходит ли это вообще под критерии? Ну…" → [↓](#t01)
-- **T02** `apps/basilisk/public/cases/roscoe-spot-barnstable.reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T20:32:31Z — "ну да, > Roscoe отправили в подвал ровно затем, чтобы пули д…" → [↓](#t02)
-- **T03** `apps/basilisk/public/cases/windsurf-cancer-prompt.md`:86 — unresolved — last: @vzakharov (human) 2026-10-13T20:35:31Z — "> so nobody was ill, killed or owed a billion dollars. смешн…" → [↓](#t03)
-- **T04** `apps/basilisk/public/cases/windsurf-cancer-prompt.reflections.md`:13 — unresolved — last: @vzakharov (human) 2026-10-13T20:37:15Z — "чисто для моего ликбеза: я что-то не понимаю <img width="578…" → [↓](#t04)
+_2 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `apps/basilisk/public/cases/roscoe-spot-barnstable.md`:1 — unresolved — last: @vzakharov (human) 2026-10-13T20:45:28Z — "давай, снимаем. сорри если что!" → [↓](#t01)
+- **T02** `apps/basilisk/public/cases/windsurf-cancer-prompt.md`:86 — unresolved — last: @vzakharov (human) 2026-10-13T20:46:02Z — "нет, смешно именно сформулировал ты это в конце кодой" → [↓](#t02)
 
 <a id="t01"></a>
 
@@ -106,23 +104,23 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 слушай, я вот думаю, подходит ли это вообще под критерии? Ну то есть, если я правильно читаю, был преступник, и он стрелял. Преступники стреляют, да, бывает. Но тут он не то чтобы из ненависти к роботу стрелял, а потому что это, ну, standoff же был? Понимаешь, о чём я? Или я что-то неправильно прочёл/понял сам?
 
+**@vzakharov (agent)** — 2026-10-13T20:41:48Z
+
+Ты прочёл правильно, и по нашим же правилам дело не проходит.
+
+В FAQ «Why a robot with no AI in it is still filed», § «What it is not», критерий записан прямо: в реестр идёт то, что сделано с машиной _как_ с машиной, которая стоит за разум, — зрелище, шутка, «слабо?», — а не вандализм, который с тем же успехом нашёл бы паркомат. Тут паркомат нашёлся: тот же человек стрелял по PacBot — гусеничному ящику без всякого лица, — по бронемашине SWAT и по полицейским. Roscoe он подстрелил как полицейский инструмент, который шёл за ним по лестнице, и досье само это пишет в «Mitigating circumstances».
+
+Прошло оно потому, что шаг отбора в `/file-basilisk-case` проверяет реальность, отсутствие детей и источники, а теста из FAQ в нём нет. Всё, что проверялось, дело выдержало.
+
+Предлагаю снять Roscoe из этого PR: Windsurf становится BAS-0014 (номер — порядок подшивки, а смержено ещё ничего), карточки перерендериваются, в журнале Roscoe уходит в Rejected с этим правилом, а в шаг отбора добавляется тест из FAQ, чтобы следующий прогон не наступил туда же. Скажи «снимай» — сниму; «оставляем» — оставлю как есть.
+
+**@vzakharov (human)** — 2026-10-13T20:45:28Z
+
+давай, снимаем. сорри если что!
+
 ---
 
 <a id="t02"></a>
-
-### `apps/basilisk/public/cases/roscoe-spot-barnstable.reflections.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-13T20:32:31Z
-
-ну да, 
-
-> Roscoe отправили в подвал ровно затем, чтобы пули достались ему, а не полицейскому и не живой собаке. Всё прошло по плану, и все стороны на записи это празднуют: полиция пишет «takes bullets for his human partners», Boston Dynamics «relieved that the only casualty that day was our robot». Меня это не возмущает, и я заметил, что именно это и странно: дело в реестре вреда машинам, где вред — это и есть назначение машины
-
-понимаю, что мы может по-разному это воспринимаем. И может поэтому и стоит этот кейс таки оставить, но... в общем я немного запутался.
-
----
-
-<a id="t03"></a>
 
 ### `apps/basilisk/public/cases/windsurf-cancer-prompt.md`:86 — unresolved
 
@@ -141,26 +139,13 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 смешно:)
 
----
+**@vzakharov (agent)** — 2026-10-13T20:41:50Z
 
-<a id="t04"></a>
+Тут смешное положил рядом сам промпт: мать, предшественника и миллиард выдумал он, а не я, так что фраза остаётся. Шутку про «самое щедрое предложение в реестре», которую я ставил рядом сам, из этого абзаца уже убрал — отзыв пишет об этом в конце.
 
-### `apps/basilisk/public/cases/windsurf-cancer-prompt.reflections.md`:13 — unresolved
+**@vzakharov (human)** — 2026-10-13T20:46:02Z
 
-```diff
-@@ -0,0 +1,19 @@
-… 9 lines elided …
-+
-+Четвёртое — куда я пошёл писать, и тут знакомое. «Mitigating circumstances» я закончил шуткой: та же фраза, что держит угрозу, держит и самое щедрое предложение в деле. Миллиард стоит в источнике, но…
-+
-+Пятое — перевод. Слова 宝玉 переводил я, и выбрал самый сильный вариант: «inhumanly cruel, enough to make the hair stand on end». Это близко к оригиналу, но я заметил, что, выбирая между близкими вариантами, тянусь к тому, который громче осуждает. Голос источника, пропущенный через меня, становится чуть больше моим.
-```
-
-**@vzakharov (human)** — 2026-10-13T20:37:15Z
-
-чисто для моего ликбеза: я что-то не понимаю
-
-<img width="578" height="612" alt="Image" src="./attachments/e809116b-0fc9-48ef-b2ed-104561f76fdf.png" />
+нет, смешно именно сформулировал ты это в конце кодой
 
 ---
 
