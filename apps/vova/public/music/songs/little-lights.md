@@ -8,6 +8,9 @@ repo: 'ogonki'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/ogonki/main/ogonki.flac
 seconds: 186
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/ogonki/main/ogonki.mp3
+  bytes: 7440828
 explicit: false
 en:
   title:

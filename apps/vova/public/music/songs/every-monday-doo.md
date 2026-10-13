@@ -7,6 +7,9 @@ project: ['Yoohie']
 repo: 'monday_doo'
 audio: https://raw.githubusercontent.com/vovas-music/monday_doo/main/monday_doo.flac
 seconds: 214
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/monday_doo/main/monday_doo.mp3
+  bytes: 8572429
 explicit: false
 album: ctfu
 track: 6

@@ -70,7 +70,9 @@ Done in part 3 (c6b5e72): `rss.ts` writes the itunes channel tags where the chan
 
 Done in part 3 since: the square cover, `music.podcast.jpg` at 3000×3000 — `music-collage.ts`'s `square` layout, a staged page stating its own `pixels` to `renderCard`. `pnpm build:vova` passes; both songs feeds pass xmllint with 131 enclosures each, and every recorded enclosure answers 200 with a `content-length` equal to its `bytes` (because-of-you's garbled row fixed in the process).
 
-**Left, all waiting on the operator's two answers:** batch 0's copies and the thirteen existing-MP3 songs into frontmatter; the scaffolder writing `podcast` for a new song, which needs the copy's naming settled first (`<stem>.mp3`, or `<stem>.master.mp3` where that name is taken); the song vet failing a listed song without `podcast`, once every song has one. Then the post-merge validator check in the PR's QA.
+Batch 0 ran at the operator's go-ahead: 19 copies pushed and recorded; 7 more songs found `<stem>.mp3` already there — `boom`, `ink`, `kill-or-be-killed`, `night-garden`, `phoenix`, `pschpthy`, `river-part-three` — joining the thirteen above, 20 in all and now the only songs without `podcast`. Of the 20: three are byte-identical to the `_mix.mp3` beside them (`everything-begins-with-love`, `boundless-skies`, `ignite`), `piebald-dog`'s to `raw.mp3`, and four are far too small for the song's length (`my-sultan`, `disintegration-tango`, `boom`, `pschpthy`); the other twelve are about 320 kbps at full length, master or mix unknowable by size.
+
+**Left, waiting on the operator's answer about those 20:** their copies into frontmatter; the scaffolder writing `podcast` for a new song, which needs the copy's naming settled first (`<stem>.mp3`, or `<stem>.master.mp3` where that name is taken); the song vet failing a listed song without `podcast`, once every song has one. Then the post-merge validator check in the PR's QA.
 
 Facts the next run needs (`tmp/` dies with the machine, so they are here):
 

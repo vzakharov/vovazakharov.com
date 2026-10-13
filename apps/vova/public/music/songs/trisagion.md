@@ -9,6 +9,9 @@ repo: 'trisagion'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/trisagion/main/trisagion.flac
 seconds: 202
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/trisagion/main/trisagion.mp3
+  bytes: 8083417
 explicit: false
 ru:
   title:
