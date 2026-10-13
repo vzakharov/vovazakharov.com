@@ -44,8 +44,16 @@ The tip is a Mantine popover anchored to the song title on its page.
 
 ## Progress
 
-- **Done:** step 1, `romanize.ts` (`romanizeRussian`) and its tests, in dfa1927. It is Russian-only by name, and step 2's `spell()` is what picks it by language.
-- **Next:** step 2 onward. The session that did step 1 paused for its context budget, with nothing half-built.
+- **Done:**
+  - step 1, `romanizeRussian` and its tests, in dfa1927;
+  - steps 2–3 in 061138c: `spell`, `needsLatin`, `songTitle` and `defaultSpelling` with tests, and the frontmatter change;
+  - step 4 in 53bc142: every bullet, artists and albums included. Minem babay also needed a `titleLatin`.
+- **Deviations from the steps below:**
+  - `romanize.ts` and `spelling.ts` live in `src/shared/music-catalogue/`, exported from its barrel, not in `pages/music/lib`: `shared/content/feeds.ts` spells titles too, and `shared` cannot import `pages`. `title-gloss.ts`'s script table already moved there, so step 2's move is done; `title-gloss.ts` itself is still there for step 9 to delete.
+  - `TitleGloss` is `{ translation }` with `translation` required, so an artist with nothing to translate (Иске Кормаш, Киндерштайн) has no entry.
+  - Step 6's head script, storage key and client hook are meant for `src/shared/lib/script-preference.ts`, not `pages/music/lib`, since `src/app/ui/root-layout.tsx` needs the first two and the preference is site-wide.
+- **The tree does not type-check** until steps 5–10 land: `song-text.ts`, `songs.ts`, `title-gloss.ts`, `projects.ts`, `albums.ts`, `song-page.tsx` and the rest still read `titleTransliterated` and the gloss's `transliteration`.
+- **Next:** step 5. The sessions so far paused for their context budget, each at a committed step boundary.
 
 ## Steps
 
