@@ -24,7 +24,7 @@ the player's reducer enforces for every action but tuning in.
 A shared link lands on /music/radio, a doorway with a static link card
 and the song on air, computed from the same timetable. It starts the
 radio at once where the browser allows sound unasked, and otherwise
-shows a mute switch to press; then the bar takes the reader to the
+waits for Tune in; then the bar takes the reader to the
 song's page, as any playback does. A muted stream was not an option:
 most masters are FLAC, too heavy to send to visitors who never unmute.
 
