@@ -1,0 +1,96 @@
+{
+  "estimate": {
+    "at": "2026-10-13T12:48:21.127Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the head-script fix touches the pre-paint path on all four sites, and the polish passes read a 120-file diff that only a senior can judge for DRY and prose"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "the PR checklist spans two locales times two spelling modes, routine but needs care"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "ae87c37f-bb7c-55ef-ac3b-7ee84ac2f0b4",
+  "branch": "claude/latin-first-transliteration-ymni59",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/latin-first-transliteration-ymni59",
+  "prs": [
+    148
+  ],
+  "url": "https://claude.ai/code/session_01831ynLgir5kRLAnKuU7W5M",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-13T12:48:00.441Z",
+  "lastResponseAt": "2026-10-13T12:54:12.272Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 74,
+    "cacheWrite5mTokens": 143273,
+    "cacheWrite1hTokens": 81189,
+    "cacheReadTokens": 4279500,
+    "outputTokens": 8704,
+    "thinkingTokens": 1455,
+    "responses": 37,
+    "costUsd": 2.396153
+  },
+  "ownTurns": {
+    "inputTokens": 40,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 81189,
+    "cacheReadTokens": 2331522,
+    "outputTokens": 8539,
+    "thinkingTokens": 1455,
+    "responses": 20,
+    "costUsd": 1.2867564
+  },
+  "subagents": {
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 143273,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1947978,
+    "outputTokens": 165,
+    "thinkingTokens": 0,
+    "responses": 17,
+    "costUsd": 1.1093966000000002
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 74,
+      "cacheWrite5mTokens": 143273,
+      "cacheWrite1hTokens": 81189,
+      "cacheReadTokens": 4279500,
+      "outputTokens": 8704,
+      "thinkingTokens": 1455,
+      "responses": 37,
+      "costUsd": 2.396153
+    }
+  },
+  "warnings": [
+    "17 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/shared/lib/script-preference.ts",
+    "endedAt": "2026-10-13T12:48:37.695Z",
+    "contextTokens": 124456,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 61335,
+      "cacheReadTokens": 659002,
+      "outputTokens": 2154,
+      "thinkingTokens": 480,
+      "responses": 7,
+      "costUsd": 0.6656164
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
