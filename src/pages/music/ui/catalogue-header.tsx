@@ -6,6 +6,7 @@ import { FileLink } from '@/shared/ui';
 
 import type { CatalogueText } from '../lib/catalogue-text';
 import { CoverHead, type CoverHeadProps } from './cover-head';
+import { FactLine } from './fact-line';
 import { TitleGlossLine } from './title-gloss-line';
 
 export type CatalogueHeaderProps = Titled &
@@ -16,7 +17,7 @@ export type CatalogueHeaderProps = Titled &
     kind: string;
     gloss: TitleGloss;
     /** On the line across the header's foot, under the name and its art both. */
-    size: string;
+    size: readonly string[];
   };
 
 /** An artist's or an album's name, what it is, and the lines under it. */
@@ -46,9 +47,7 @@ export function CatalogueHeader({
         {/* The page's own file at the line's far end, as a song page sets its
             facts. */}
         <Group justify="space-between" gap="12px 32px" wrap="wrap">
-          <Text size="sm" opacity={0.55}>
-            {size}
-          </Text>
+          <FactLine facts={size} fz="sm" opacity={0.55} />
           {markdown && <FileLink {...markdown}>.md</FileLink>}
         </Group>
       </Stack>

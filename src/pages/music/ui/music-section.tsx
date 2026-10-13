@@ -3,10 +3,14 @@ import { Box, Text } from '@mantine/core';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { Section } from '@/shared/ui';
 
+import { FactLine } from './fact-line';
 import { ShuffleAllButton } from './shuffle-all-button';
 
 /** The section's intro, the whole catalogue's size under it, and the button that plays it all. */
-export function MusicSection({ locale, size }: WithLocale & { size: string }) {
+export function MusicSection({
+  locale,
+  size,
+}: WithLocale & { size: readonly string[] }) {
   const { intro, shuffleAll } = loadMessages(locale).music;
 
   return (
@@ -15,9 +19,7 @@ export function MusicSection({ locale, size }: WithLocale & { size: string }) {
         {intro}
       </Text>
 
-      <Text size="sm" opacity={0.55} mt={-8}>
-        {size}
-      </Text>
+      <FactLine facts={size} fz="sm" opacity={0.55} mt={-8} />
 
       <Box>
         <ShuffleAllButton label={shuffleAll} />

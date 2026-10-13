@@ -23,6 +23,7 @@ import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
+import { FactLine } from './fact-line';
 import { HookLine } from './hook-line';
 import { MusicNav } from './music-nav';
 import { SongList } from './song-list';
@@ -64,12 +65,19 @@ export function AlbumPage({ album, locale, everything }: AlbumPageProps) {
           )}
           markdown={text?.markdown}
         >
-          <Text size="sm" opacity={0.7} mt={12}>
-            <NameLink href={artistPath(artist, catalogue, locale)}>
-              {projectName(artist, locale)}
-            </NameLink>{' '}
-            · {albumYears(album, songs)}
-          </Text>
+          <FactLine
+            facts={{
+              artist: (
+                <NameLink href={artistPath(artist, catalogue, locale)}>
+                  {projectName(artist, locale)}
+                </NameLink>
+              ),
+              years: albumYears(album, songs),
+            }}
+            fz="sm"
+            opacity={0.7}
+            mt={12}
+          />
           <HookLine>{text?.hook}</HookLine>
           {albumWip(album) && (
             <Group gap={8} mt={12} wrap="nowrap" align="baseline">

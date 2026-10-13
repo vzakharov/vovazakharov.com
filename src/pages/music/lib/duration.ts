@@ -38,16 +38,16 @@ export type CatalogueSize = Partial<Record<CountedAhead, number>> & {
 };
 
 /**
- * A catalogue's or a release's size — `7 songs · 25 minutes`, `1 hour 12
+ * A catalogue's or a release's size — `7 songs`, `25 minutes`, `1 hour 12
  * minutes` from an hour up — to the nearest minute, in the locale's plural
  * rules, led by the artist and album counts it is handed, a zero one left out;
- * joined by the `·` the page's other facts lines use.
+ * one part per fact, for a facts line to space out.
  */
 export function catalogueSize(
   { artists, albums, seconds }: CatalogueSize,
   locale: Locale,
   forms: CatalogueSizeForms,
-): string {
+): string[] {
   const rules = new Intl.PluralRules(locale);
   const count = (n: number, wording: PluralForms) =>
     (wording[rules.select(n)] ?? wording.other).replace('#', String(n));
@@ -67,5 +67,5 @@ export function catalogueSize(
     ...ahead(albums, forms.albums),
     count(seconds.length, forms.songs),
     time.join(' '),
-  ].join(' · ');
+  ];
 }
