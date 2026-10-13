@@ -9,6 +9,8 @@ album: wings
 track: 9
 audio: https://raw.githubusercontent.com/vovas-music/just-because/main/just-because.mp3
 seconds: 244
+podcast:
+  bytes: 6255425
 explicit: false
 en:
   title:

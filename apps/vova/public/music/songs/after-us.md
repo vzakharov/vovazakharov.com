@@ -12,6 +12,8 @@ video:
   src: /music/assets/after-us.mp4
   offsetSeconds: -0.28
 seconds: 79
+podcast:
+  bytes: 2274152
 explicit: false
 en:
   title:

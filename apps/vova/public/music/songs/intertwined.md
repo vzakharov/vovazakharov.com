@@ -9,6 +9,8 @@ album: wings
 track: 7
 audio: https://raw.githubusercontent.com/vovas-music/intertwined/main/intertwined.mp3
 seconds: 161
+podcast:
+  bytes: 4727153
 explicit: false
 en:
   title:

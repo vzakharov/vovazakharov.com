@@ -8,6 +8,8 @@ album: for-none-and-for-all
 track: 7
 audio: /music/assets/ghostly-blues.mp3
 seconds: 177
+podcast:
+  bytes: 3956885
 explicit: false
 credits:
   music: ['Андрей Мокрушин']

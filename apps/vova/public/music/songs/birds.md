@@ -9,6 +9,8 @@ album: wings
 track: 8
 audio: https://raw.githubusercontent.com/vovas-music/birds/main/birds.mp3
 seconds: 287
+podcast:
+  bytes: 7291395
 explicit: false
 en:
   title:

@@ -7,6 +7,9 @@ project: ['Yoohie']
 repo: 'comeback'
 audio: https://raw.githubusercontent.com/vovas-music/comeback/main/comeback.flac
 seconds: 209
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/comeback/main/comeback.mp3
+  bytes: 8348844
 explicit: false
 album: ignite
 track: 1

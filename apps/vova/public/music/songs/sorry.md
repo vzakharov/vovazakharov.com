@@ -9,6 +9,8 @@ album: wings
 track: 6
 audio: https://raw.githubusercontent.com/vovas-music/sorry/main/sorry.mp3
 seconds: 198
+podcast:
+  bytes: 5571993
 explicit: false
 en:
   title:
