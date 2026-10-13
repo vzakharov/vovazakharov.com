@@ -3,10 +3,10 @@ import { Box, Text } from '@mantine/core';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { Section } from '@/shared/ui';
 
-import { ShuffleAllButton } from './shuffle-all-button';
+import { LaunchButtons } from './launch-buttons';
 
 export function MusicSection({ locale }: WithLocale) {
-  const { intro, shuffleAll } = loadMessages(locale).music;
+  const { intro, shuffleAll, radio } = loadMessages(locale).music;
 
   return (
     <Section id="music" standalone>
@@ -15,7 +15,7 @@ export function MusicSection({ locale }: WithLocale) {
       </Text>
 
       <Box>
-        <ShuffleAllButton label={shuffleAll} />
+        <LaunchButtons {...{ shuffleAll, radio }} />
       </Box>
     </Section>
   );
