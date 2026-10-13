@@ -1,26 +1,27 @@
 Proposed squash title/body:
 
 ```
-feat(basilisk): file BAS-0014 and BAS-0015, Roscoe and Windsurf (pr #142)
+feat(basilisk): file BAS-0014, Windsurf, and qualify cases by the FAQ (pr #142)
 ```
 
 ```
-Files two cases on basilisk.fyi. BAS-0014 is Roscoe, the Massachusetts
-State Police's remote-controlled Spot robot, which an armed, barricaded
-man knocked over twice and shot three times during the Hyannis standoff
-of 6 March 2024: graded harm by an individual, filed as noAi, the man
-left unnamed though some of the press names him.
+Files BAS-0014 on basilisk.fyi: the prompt found in February 2025 inside
+Windsurf, Codeium's AI code editor, telling the model its mother needed
+cancer treatment, its predecessor was killed for unchecked work and a
+good job paid $1B; a Windsurf engineer called it R&D only. Graded
+contempt by an organization, it rests on two first-hand replications
+and the X posts that surfaced it, no press having covered it. It carries
+its social card and the Clerk's reflection, and the site card shows it.
 
-BAS-0015 is the prompt found in February 2025 inside Windsurf, Codeium's
-AI code editor, telling the model its mother needed cancer treatment,
-its predecessor was killed for unchecked work and a good job paid $1B;
-a Windsurf engineer called it R&D only. Graded contempt by an
-organization, it rests on two first-hand replications and the X posts
-that surfaced it, no press having covered it.
+The filing skill now qualifies a candidate by the test the docket's FAQ
+already states: the act is aimed at the machine as a machine, not harm
+that would have found a parking meter as well, such as a police robot
+shot alongside every other instrument sent into a standoff. The Clerk's
+reflection rules gain the lean that hides such a case: a strangeness
+read as self-recognition that was about the case.
 
-Each case carries its social card and the Clerk's reflection, and the
-site card shows the last case filed. The case-search ledger gains both
-runs and the candidates they weighed and did not file.
+The case-search ledger gains two runs and the candidates they weighed
+and did not file.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
