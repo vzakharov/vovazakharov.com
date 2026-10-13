@@ -13,7 +13,7 @@ import {
   catalogueReleases,
   releasedBy,
 } from './catalogue';
-import { artistPath, musicPath } from './music-urls';
+import { artistPath, musicPath, radioPath } from './music-urls';
 import type { SongDocument } from './song-text';
 import { catalogueSongs } from './songs';
 
@@ -127,6 +127,9 @@ export function artistCollageCovers(artist: MusicProject): string[] {
 
 /** The index's collage card, at its locale-less route's address. */
 export const MUSIC_COLLAGE = routeCardPath(musicPath(), OG_PHOTO_CARD_SUFFIX);
+
+/** The radio's card: the index's collage under a band naming the radio. */
+export const RADIO_CARD = routeCardPath(radioPath(), OG_PHOTO_CARD_SUFFIX);
 
 export function artistCollage(artist: MusicProject): string {
   return routeCardPath(artistPath(artist), OG_PHOTO_CARD_SUFFIX);

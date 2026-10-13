@@ -101,9 +101,9 @@ export function SongPage({ slug, locale }: SongPageProps) {
                 enlargeLabel: messages.enlargeCover,
                 closeLabel: messages.closeCover,
               }}
+              kicker={<SongByline {...{ document, album, locale }} />}
             >
               <Stack gap={8} align="flex-start">
-                <SongByline {...{ document, album, locale }} />
                 <Title order={1}>
                   <SongName
                     {...{ title }}

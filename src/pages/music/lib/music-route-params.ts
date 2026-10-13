@@ -24,6 +24,8 @@ import {
   ARTISTS_SEGMENT,
   CATALOGUE_TABS,
   musicPath,
+  RADIO_SEGMENT,
+  radioPath,
   songPath,
   SONGS_SEGMENT,
   tabBySegment,
@@ -49,7 +51,8 @@ export type MusicAddress =
   | ({ page: 'index' } & IndexPageProps)
   | ({ page: 'artist' } & ArtistPageProps)
   | ({ page: 'album' } & AlbumPageProps)
-  | ({ page: 'song' } & SongPageProps);
+  | ({ page: 'song' } & SongPageProps)
+  | ({ page: 'radio' } & WithLocale);
 
 function artistBySlug(slug: string): MusicProject {
   const artist = MUSIC_PROJECT_NAMES.find(
@@ -98,6 +101,7 @@ export function parseMusicSegments({
     const tab = tabBySegment(kind);
 
     if (tab !== undefined) return { page: 'index', tab, locale };
+    if (kind === RADIO_SEGMENT) return { page: 'radio', locale };
   }
 
   throw new Error(
@@ -143,6 +147,7 @@ export function musicSegmentParams(): WithOptionalMusicSegments[] {
   const pages: Addressed[] = [
     ...cataloguePages(),
     ...listSongPages().map((page) => songPage(page)),
+    radioPath,
   ];
 
   return pages
@@ -168,7 +173,7 @@ export function musicCatalogueRoutes(): string[] {
     )
     .map((page) => songPage(page));
 
-  return [...cataloguePages(), ...releasePages].flatMap((page) =>
+  return [...cataloguePages(), ...releasePages, radioPath].flatMap((page) =>
     LOCALES.map((locale) => page(locale)),
   );
 }

@@ -1,4 +1,12 @@
-import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 
 import type { Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
@@ -6,21 +14,24 @@ import { pick } from '@/shared/lib/collections';
 import {
   billingText,
   currentTrack,
-  initialPlayerState,
   isQueued,
   placeTracks,
-  playerReducer,
-  type PlayerState,
   type PlayerTrack,
   shouldRestart,
   type WithTracks,
 } from './player-state';
+import {
+  initialRadioPlayerState,
+  radioPlayerReducer,
+  type RadioPlayerState,
+} from './radio-state';
+import { type StationControls, useStation } from './use-station';
 import { useStoredFlag } from './use-stored-flag';
 
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
 
-export type PlayerControls = {
+export type PlayerControls = StationControls & {
   /**
    * Play this track, or pause it if it is the one already playing. A track the
    * queue does not hold yet joins its end.
@@ -61,7 +72,7 @@ export type PlayerControls = {
 
 /** What is playing and where, as the bar and the track buttons read it. */
 type Playback = {
-  state: PlayerState;
+  state: RadioPlayerState;
   current?: PlayerTrack;
   /** Where playback sits, in seconds — the seek bar's value. */
   elapsed: number;
@@ -84,9 +95,9 @@ export function useAudioPlayer(
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [tracks, setTracks] = useState(catalogue);
   const [state, dispatch] = useReducer(
-    playerReducer,
+    radioPlayerReducer,
     catalogue.length,
-    initialPlayerState,
+    initialRadioPlayerState,
   );
   const [elapsed, setElapsed] = useState(0);
   const [sessionYielded, setSessionYielded] = useState(false);
@@ -103,6 +114,23 @@ export function useAudioPlayer(
 
   const track = currentTrack(state);
   const current = track === undefined ? undefined : tracks[track];
+  const element = useCallback(() => audioRef.current, []);
+  const station = useStation({
+    element,
+    catalogue,
+    ...pick(state, 'radio'),
+    dispatch,
+    storeShuffle,
+  });
+  const { tuneIn, tryTuneIn, onAir, keepTime, handOver } = station;
+  const onMedia = useEffectEvent(() => {
+    keepTime();
+  });
+  // On the radio a song's end hands over to the next slot of the timetable;
+  // off it, to the next track of the queue.
+  const onEnded = useEffectEvent(() => {
+    if (!handOver()) dispatch({ type: 'step', by: 1 });
+  });
 
   const controls = useMemo<PlayerControls>(
     () => ({
@@ -153,6 +181,7 @@ export function useAudioPlayer(
         const audio = audioRef.current;
 
         if (audio !== null && shouldRestart(audio.currentTime)) {
+          dispatch({ type: 'release' });
           audio.currentTime = 0;
 
           return;
@@ -170,22 +199,38 @@ export function useAudioPlayer(
         storeShuffle(true);
         dispatch({ type: 'shuffleAll', seed: Date.now() });
       },
+      // A seek moves the element rather than the queue, so it releases the
+      // radio by an action of its own.
       seek: (seconds) => {
         const audio = audioRef.current;
 
+        dispatch({ type: 'release' });
         if (audio !== null) audio.currentTime = seconds;
       },
       seekBy: (seconds) => {
         const audio = audioRef.current;
 
+        dispatch({ type: 'release' });
         if (audio !== null) {
           audio.currentTime = Math.max(0, audio.currentTime + seconds);
         }
       },
+      tuneIn,
+      tryTuneIn,
+      onAir,
       position: () => audioRef.current?.currentTime ?? 0,
       yieldMediaSession: setSessionYielded,
     }),
-    [state, track, tracks, shuffleStored, storeShuffle],
+    [
+      state,
+      track,
+      tracks,
+      shuffleStored,
+      storeShuffle,
+      tuneIn,
+      tryTuneIn,
+      onAir,
+    ],
   );
 
   // The element is an audio engine rather than page content — the bar is what
@@ -205,10 +250,12 @@ export function useAudioPlayer(
           setElapsed(audio.currentTime);
         },
       ],
+      ['loadedmetadata', onMedia],
+      ['playing', onMedia],
       [
         'ended',
         () => {
-          dispatch({ type: 'step', by: 1 });
+          onEnded();
         },
       ],
       [
@@ -220,7 +267,9 @@ export function useAudioPlayer(
       [
         'pause',
         () => {
-          dispatch({ type: 'playback', playing: false });
+          // A track reaching its end pauses on the way to `ended`, which
+          // decides what plays next; only any other pause is the reader's.
+          if (!audio.ended) dispatch({ type: 'playback', playing: false });
         },
       ],
     ] as const;
@@ -256,8 +305,13 @@ export function useAudioPlayer(
 
     if (state.playing) {
       // A rejected play is the browser withholding autoplay, which is a state
-      // the UI has to show rather than a failure to report.
-      audio.play().catch(() => {
+      // the UI has to show rather than a failure to report — unless it is an
+      // abort, a source change cutting short the play before it, which is no
+      // pause and must not release the radio.
+      audio.play().catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return;
+        }
         dispatch({ type: 'playback', playing: false });
       });
     } else {

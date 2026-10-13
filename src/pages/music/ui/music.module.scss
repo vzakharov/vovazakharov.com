@@ -335,15 +335,39 @@
   }
 }
 
-// A page's cover, above its title on a phone and beside it from `sm` up.
+// A page's cover, above its title on a phone and beside it from `sm` up, its
+// top level with the name's: the kicker takes a row of its own above both.
 .coverHead {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-areas: 'cover' 'kicker' 'body';
+}
 
+.coverHeadCover {
+  grid-area: cover;
+  margin-bottom: 24px;
+}
+
+.coverHeadKicker {
+  grid-area: kicker;
+  margin-bottom: 8px;
+}
+
+.coverHeadBody {
+  grid-area: body;
+}
+
+.coverHeadArt {
   @include mantine.larger-than(mantine.$breakpoint-sm) {
-    flex-direction: row;
-    align-items: flex-end;
+    grid-template-areas:
+      '. kicker'
+      'cover body';
+    grid-template-columns: auto 1fr;
+    column-gap: 24px;
+    align-items: start;
+
+    .coverHeadCover {
+      margin-bottom: 0;
+    }
   }
 }
 

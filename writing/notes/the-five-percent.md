@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×65)
+## What it was handed, it treats as fixed (×66)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -106,6 +106,11 @@ meant the opposite split, this repo changed freely and no patch written for the
 other. "One rule for any reflection" became one reflector, every persona reading
 the others' reflections as its own. Different personas, different reflections:
 another's may be consulted, never owned, or it is a split personality.
+
+**13 October — the reducer every action reaches, read as the only home.** The
+radio's live flag, `tune` and `release` went into the player's own reducer,
+since every action must release it. _для радио-штучек лучше отдельный хук? слишком
+специфичная механика._ A reducer layered over the player's sees every action too.
 
 ## An account that explains the code stands in for running it (×21)
 

@@ -14,6 +14,8 @@ export const ALBUMS_SEGMENT = 'albums';
 
 export const SONGS_SEGMENT = 'songs';
 
+export const RADIO_SEGMENT = 'radio';
+
 /**
  * What the index lists: its artists at the section's own address, and every
  * album or every song one segment down.
@@ -68,6 +70,10 @@ export function artistPath(artist: MusicProject, locale?: Locale): string {
 
 export function albumPath(album: MusicAlbum, locale?: Locale): string {
   return localizedRoute(`${MUSIC_ROUTE}/${ALBUMS_SEGMENT}/${album}`, locale);
+}
+
+export function radioPath(locale?: Locale): string {
+  return localizedRoute(`${MUSIC_ROUTE}/${RADIO_SEGMENT}`, locale);
 }
 
 /** One song, in one language — the canonical address its alias defers to. */

@@ -28,6 +28,9 @@ export type PlayerTrack = Slugged &
     routes: Record<Locale, string>;
   };
 
+/** A track, as the one a control or a slot is about. */
+export type WithTrack = { track: PlayerTrack };
+
 /** Tracks by catalogue position — the listed songs in collection order, then any appended. */
 export type WithTracks = { tracks: PlayerTrack[] };
 
@@ -37,18 +40,20 @@ export type WithTracks = { tracks: PlayerTrack[] };
  * a random pick per skip, which is what makes a shuffled queue stable in both
  * directions: whatever `next` reached, `previous` returns to.
  */
-export type PlayerState = {
+export type PlayerState = PlayOrder & {
   /** How many tracks the player knows, which is the position the next one takes. */
   trackCount: number;
   /** The queue's positions in their own order, which unshuffling returns to. */
   queue: number[];
-  /** The queue's positions in play order — `queue` itself until shuffled. */
-  order: number[];
-  /** Where in `order` playback sits, or -1 before anything has been chosen. */
-  cursor: number;
   shuffled: boolean;
   playing: boolean;
 };
+
+/**
+ * Catalogue positions in the order they play — a player's `queue` itself until
+ * shuffled — and where in it playback sits, -1 before anything has been chosen.
+ */
+export type PlayOrder = { order: number[]; cursor: number };
 
 export type PlayerAction =
   /**

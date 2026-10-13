@@ -7,6 +7,7 @@ import type { MusicAddress } from '../lib/music-route-params';
 import { AlbumPage } from './album-page';
 import { ArtistPage } from './artist-page';
 import { MusicPage } from './music-page';
+import { generateRadioMetadata, RadioPage } from './radio-page';
 import { generateSongMetadata, SongPage } from './song-page';
 
 export type MusicRouteProps = { address: MusicAddress };
@@ -25,6 +26,9 @@ export function MusicRoute({ address }: MusicRouteProps) {
     }
     case 'song': {
       return <SongPage {...address} />;
+    }
+    case 'radio': {
+      return <RadioPage {...address} />;
     }
     default: {
       return address satisfies never;
@@ -45,6 +49,9 @@ export function generateMusicRouteMetadata({ address }: MusicRouteProps) {
     }
     case 'song': {
       return generateSongMetadata(address);
+    }
+    case 'radio': {
+      return generateRadioMetadata(address);
     }
     default: {
       return address satisfies never;
