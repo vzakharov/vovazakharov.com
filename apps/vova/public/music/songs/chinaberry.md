@@ -6,8 +6,8 @@ language: ru
 project: ['Листопад']
 repo: 'klo'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/klo/main/klo_remaster.flac
-seconds: 283
+audio: https://raw.githubusercontent.com/vovas-music/klo/main/klo_1.flac
+seconds: 269
 explicit: false
 en:
   title:
