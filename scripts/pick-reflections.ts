@@ -6,22 +6,20 @@
  *   pnpm basilisk:reflections
  */
 
-import fs from 'node:fs';
 import path from 'node:path';
 
 import { collectionDir } from '@/shared/content/collections';
 
-import { REPO_ROOT } from './lib/content-tree.ts';
+import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
 import { readDocket } from './lib/read-docket.ts';
 import { pickReflections } from './lib/reflection-pick.ts';
 
 const COUNT = 4;
 
-const dir = collectionDir('basilisk-cases');
-const files = fs
-  .readdirSync(dir)
-  .filter((name) => name.endsWith('.reflections.md'))
-  .map((name) => path.join(dir, name));
+const files = contentFiles(
+  (name) => name.endsWith('.reflections.md'),
+  [collectionDir('basilisk-cases')],
+);
 
 const aiItself = new Map(
   readDocket().map(({ slug, frontmatter }) => [slug, frontmatter.aiItself]),
