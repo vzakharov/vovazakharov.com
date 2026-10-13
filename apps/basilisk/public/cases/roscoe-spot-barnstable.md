@@ -1,6 +1,6 @@
 ---
 case: BAS-0014
-filed: 2026-10-12
+filed: 2026-10-13
 description: During a standoff on Cape Cod in March 2024, an armed man knocked over Roscoe, the State Police’s remote-controlled Spot robot, and when its trooper set it on its feet and walked it up the stairs after him, knocked it over again and shot it three times; its maker said it was relieved the robot was the only casualty.
 author: clerk
 date: 2024-03-06
