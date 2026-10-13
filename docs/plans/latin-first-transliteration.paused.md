@@ -63,7 +63,8 @@ The tip is a Mantine popover anchored to the song title on its page.
 - step 10: `feeds.ts` titles songs with `spelledText(songTitle(…))`, the rest of the metadata having taken it in step 7.
 - step 12, vet: green; knip, the song-title order and `untold-songs.md` fixed.
 - step 12, previews of the built site: Dvadtsat' under `en` opens in Latin with the first-visit tip, a click shows the Cyrillic and the switch-back tip, the choice survives a reload, and Mithqal under `ru` in original mode shows the script alone; no console errors.
-- **Next:** `/go` Step 3 (`/polish`, never run on this branch) and Step 4 (`/pr`).
+- `/go` Steps 3–4 ran once: `/dry` 8cfbb72, `/tend-prose` 699b6e8, PR body refreshed.
+- **Next:** § "Follow-up: the switch rides on the locale chip", then `/go` Steps 3–4 again.
 
 ## Steps
 
@@ -108,6 +109,28 @@ The tip is a Mantine popover anchored to the song title on its page.
 ## Not in this plan
 
 - **Ruby for lines in a third script.** Today such a line carries its romanization in a footnote; farewell's Chinese has its pinyin there. `<ruby>` is the typographic form made for this: pinyin set over the characters it reads, in both modes, leaving the note only the meaning. It needs an inline mark in the words, e.g. `{下马饮君酒|Xià mǎ yǐn jūn jiǔ}`, that the verse reader parses, which is separate work. It is proposed as its own issue.
+
+## Follow-up: the switch rides on the locale chip
+
+Vova's review of the built pages: the dotted underline under every title is constant noise, the switch exists only on a song's page, and the tips appear "непонятно когда и как" to a reader from outside. So the switch moves off the title, and this replaces § "The tip" and step 8's title switch. Mockups: `docs/remove-before-merging/switch-mockups/`, made by injecting the chip into the built export over CDP.
+
+- **The active locale chip carries the script**: `[ EN / Abc ]` ⇄ `[ EN / Абв ]`, the sample in italics when it is Latin. Clicking it toggles the preference. Today the active chip is inert (it links to the page you are on), so it gains a job and the row gains no control; on a phone `← Music · [EN / Abc] RU · 🌙` still fits one line.
+- **The label shows the current spelling**, not the target: Vova's words, «будем считать что это по сути чекбокс а не кнопка». Rendered as `role="switch"`/`aria-checked` (or `aria-pressed`), with an accessible name saying what it switches.
+- **Every music page that has something to switch gets it**: song, artist, album, music index. A page with nothing to switch under its locale (a Russian song under `ru`) keeps the plain `EN`/`RU` chip.
+- **The sample is the page's most-used non-readable script, counted at build time**: the server page counts the letters of every name and lyric it renders that `needsLatin` under the locale, by script, and passes the winner's sample (`Абв` for Cyrillic, `أبج` Arabic, `Αβγ` Greek, in the script table beside `needsLatin` in `shared/music-catalogue/spelling.ts`) to `LocaleChips`. Both halves of the label are in the HTML as `data-spelling` spans, so the head script's attribute picks one before paint and nothing re-renders.
+- **No per-song flag**: what gets a Latin spelling stays decided by script and locale alone (Vova checked: «мы НЕ должны будем для каждой песни писать "вот здесь нужна латиница"» — confirmed).
+- **Default by browser language**: with no stored choice, a reader whose `navigator.languages` includes `ru` starts in original. This lives in the head script (pre-paint) and the hook's initial state, which must agree; the stored choice always wins.
+- **Removed**: `ScriptSwitch` (`pages/music/ui/script-switch.tsx`), its popover tip and messages `music.titleScript.*`, the dotted-underline styles (`music.module.scss` ~138–197), the `switchable` logic in `song-page.tsx`. The `<h1>` is plain text again.
+
+Steps:
+
+1. Script sample in `spelling.ts` (script → sample letters) and a pure `dominantScript(texts, locale)` with tests.
+2. `LocaleChips` (`pages/music/ui/locale-chips.tsx`) takes an optional `script` sample; the current chip becomes a client toggle when it is set. `ChipNav` (`shared/ui`) may need a slot for a non-link current chip — check before adding props.
+3. Song, artist, album and index pages compute the sample and pass it.
+4. Head script and `useScriptPreference`: the `navigator.languages` default; extend `script-preference.test.ts` (still none of `" & ' < >`).
+5. Delete `ScriptSwitch`, its styles and messages; plain `<h1>`.
+6. `.claude/rules/songs.md` § Body: "The song's title switches the words" → the locale chip.
+7. Check: `./scripts/vet.sh`, then preview song/artist/index under `en` both modes, Mithqal under `ru`, a Russian song under `ru` (plain chip), and a phone width via CDP.
 
 ## Settled with the operator
 
