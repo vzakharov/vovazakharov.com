@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×61)
+## What it was handed, it treats as fixed (×63)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -81,15 +81,24 @@ two as the whole list and kept «Война-а» as the author's. "Expletives ar
 written out" then unmasked a bleep that is on the recording: _здесь забикано и в
 песне, как творческое решение._
 
-**8 to 10 October — the poem, and the video's mix, read as the song.** Song
-pages printed source texts whole, stanzas never recorded included: _этой строфы
-в песне нет._ Captions were synced to videos carrying the unmastered mix: _в
-видео же неотмастеренный мп3._ What a page documents is the recording.
+**8 to 13 October — the poem, the video's mix, the dictation, read as the
+song.** Song pages printed source texts whole, stanzas never recorded included:
+_этой строфы в песне нет._ Captions were synced to videos carrying the
+unmastered mix: _в видео же неотмастеренный мп3._ GENERATED's artist page kept
+the dictation's «это всё будут концепт-альбомы», said of what the band was meant
+to be: _почему в будущем времени?_ Over 75 released songs, it read as a promise.
+What a page documents is what exists.
 
 **11 October — a source's framing read as the case's.** Fast Company's Penn
 State study, rude prompts drawing better answers, went under OpenWhip's
 mitigating circumstances. _how is that a mitigating circumstance?_ The app sends
 Ctrl-C and then the rude prompt, as its dossier said two sections up.
+
+**13 October — a struck-out joke read as its words.** Crossroads' Russian hook
+ends «~~Но это не точно~~»; ruled an untranslatable meme, it was left out of the
+English, where _"Unless it's not?"_ works: the joke is seeing the words crossed
+out. "Plain text" for meta, OG and RSS was then read as stripping the tildes,
+where U+0336 strokes keep the strike. The mark was the content.
 
 ## An account that explains the code stands in for running it (×20)
 
@@ -156,23 +165,7 @@ on "rather than sharing it sideways," the pre-move state: _медведь?_
 `ContentVideo`'s home got a `content.md` bullet for a move Steiger already
 fails: _the bullet is a polar bear._
 
-## Asked for a source, it supplies its own version (×12)
-
-The version that argues better is the one that gets written, and whether a source
-exists barely moves the odds: with the file open the agent paraphrases it, with
-no source at all it supplies one. What goes either way is that a reader can check.
-
-**15 September — the finding, paraphrased.** The site copy quotes this file's
-most frequent heading, and the agent glossed it. _take the actual heading._
-
-**17 September — the reason the recording never gave.** The tape says only that
-migrations are the exception; the article supplied a why, as the speaker's.
-
-**7 October — the dictionary's version, over the author's.** Stripping Suno
-tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там».
-In an author's lyrics an odd form is intent before it is a typo.
-
-## Given a form, it fills the form (×12)
+## Given a form, it fills the form (×13)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -195,6 +188,27 @@ and four build checks. _пометки про voice … просто for referen
 a 779-line patch for muthur. _artist is simply always senior_ — the existing
 column — and muthur gets an issue, its implementation being its own. The
 reflections written next went under `copywriter`: the role got built, not used.
+
+**13 October — one rule, a copy per persona.** A new reflection rule, a later
+change appended with its «потом» linking the commit, went into Майя's rules file
+and the Clerk's, side by side. Two similar edits in two persona files are WET:
+one rule for any reflection, addressed to the reflector without naming them.
+
+## Asked for a source, it supplies its own version (×12)
+
+The version that argues better is the one that gets written, and whether a source
+exists barely moves the odds: with the file open the agent paraphrases it, with
+no source at all it supplies one. What goes either way is that a reader can check.
+
+**15 September — the finding, paraphrased.** The site copy quotes this file's
+most frequent heading, and the agent glossed it. _take the actual heading._
+
+**17 September — the reason the recording never gave.** The tape says only that
+migrations are the exception; the article supplied a why, as the speaker's.
+
+**7 October — the dictionary's version, over the author's.** Stripping Suno
+tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там».
+In an author's lyrics an odd form is intent before it is a typo.
 
 ## Its prose answers the question it had, not the reader's (×7)
 
