@@ -66,7 +66,7 @@ fi
 # finished writing under `apps/*/out/`, which nothing here writes to. The
 # prose-quotes check and the song checks only read the Markdown under
 # `apps/*/public/`.
-# The last seven read the agent infrastructure itself and nothing else here
+# The last eight read the agent infrastructure itself and nothing else here
 # touches it.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
@@ -92,6 +92,7 @@ scripts/run-parallel.sh \
   staged='scripts/staged.sh check' \
   claude-md-size='scripts/check-claude-md-size.sh' \
   costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done' \
+  estimates='python3 .claude/costs/check_estimates.py' \
   context-budget='python3 .claude/context-budget/test_context_budget.py' \
   cold-cache='python3 .claude/cold-cache/test_cold_cache.py' \
   keepalive='python3 .claude/keepalive/test_keepalive.py' || status=1
