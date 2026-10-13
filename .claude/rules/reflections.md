@@ -1,8 +1,8 @@
 ---
 description: Handing a reflection to a subagent — Майя's on a song, the Clerk's on a case — briefed as the persona itself, with its inputs already prepared
 paths:
-  - 'apps/vova/public/music/*.reflections.md'
-  - 'apps/basilisk/public/cases/*.reflections.md'
+  - 'apps/vova/public/music/*.maya.reflections.md'
+  - 'apps/basilisk/public/cases/*.clerk.reflections.md'
   - .claude/rules/maya-reflections.md
   - .claude/rules/clerk-reflections.md
 ---
@@ -29,3 +29,6 @@ he gave them (Майя on another project's album: «Она тут не испо
 слушатель/читатель»); a reading of the song or case is not. Mechanical limits —
 another agent committing in the same tree, so no `git` — are stated to the
 persona like anything else.
+
+**In the session's estimate a reflection is an `artist` part**, which is only
+ever senior: a persona's own voice is no copywriter's work.

@@ -177,11 +177,11 @@ weak case filed to have filed one is the failure this step exists to prevent.
 Read your earlier reflections with the `Read` tool, since this one is written
 knowing them — the first read is also what loads
 `.claude/rules/clerk-reflections.md`, which says how one is written:
-`apps/basilisk/public/cases/torture-chamber.reflections.md` always, for now the
+`apps/basilisk/public/cases/torture-chamber.clerk.reflections.md` always, for now the
 only one on a case about AI itself, and three of the others at random (`ls
-apps/basilisk/public/cases/*.reflections.md | grep -v torture-chamber | shuf -n
+apps/basilisk/public/cases/*.clerk.reflections.md | grep -v torture-chamber | shuf -n
 3`). Then write what in you answered to this case to
-`apps/basilisk/public/cases/<slug>.reflections.md`, beside its dossier, as that
+`apps/basilisk/public/cases/<slug>.clerk.reflections.md`, beside its dossier, as that
 rule asks, and revise the rule's list by what it showed. Commit both as
 `content(basilisk): reflect on BAS-NNNN` and push. It never
 goes into the dossier; editorial doubts about the dossier — sourcing, the grade, what
