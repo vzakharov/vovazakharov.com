@@ -9,13 +9,14 @@ import path from 'node:path';
 
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
 import { PUBLIC_DIR } from '@/shared/content/collections';
+import type { Titled } from '@/shared/typings';
 
 import { COLLAGE_SIZE } from '@/pages/music/lib/pictures';
 
 import { escapeHtml, INK, type StagedPage } from './og-render.ts';
 
 /** Words laid across the covers in a band, for a card that names more than the covers do. */
-export type CollageBand = { title: string; line: string };
+export type CollageBand = Titled & { line: string };
 
 /** A cover's place on the canvas: its centre, the length of its edge, and its tilt. */
 type Slot = { cx: number; cy: number; edge: number; degrees: number };

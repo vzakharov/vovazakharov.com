@@ -4,6 +4,7 @@ import { Box } from '@mantine/core';
 import { useState } from 'react';
 
 import { formatDuration } from '../lib/duration';
+import type { PlayerTrack } from '../lib/player-state';
 import classes from './radio.module.scss';
 
 /** A short tick every quarter of a minute, a long one on the minute. */
@@ -12,20 +13,16 @@ const TICK_SECONDS = 15;
 /** A long tick, and the only ones the marks under the scale number. */
 const onMinute = (second: number) => second % 60 === 0;
 
-type DialProps = {
-  /** The song's length, which the scale spans. */
-  seconds: number;
-  /** How far into the song the station is now. */
-  at: number;
-};
+/** The song's length, which the scale spans, and how far into it the station is now. */
+type DialProps = Pick<PlayerTrack, 'seconds'> & { into: number };
 
 /**
  * The needle, gliding across the scale on one CSS animation as long as the
- * song, started `at` seconds in. Its start is held from the first render, as
+ * song, started `into` seconds in. Its start is held from the first render, as
  * a running animation counts from when it began: the slot's key remounts it.
  */
-function Needle({ seconds, at }: DialProps) {
-  const [startAt] = useState(at);
+function Needle({ seconds, into }: DialProps) {
+  const [startAt] = useState(into);
 
   return (
     <Box
@@ -44,7 +41,7 @@ function Needle({ seconds, at }: DialProps) {
  * The song drawn as a tuning scale, its needle where the station is, and the
  * counter under it — the only thing a timer updates.
  */
-export function RadioDial({ seconds, at }: DialProps) {
+export function RadioDial({ seconds, into }: DialProps) {
   const ticks = Array.from(
     { length: Math.floor(seconds / TICK_SECONDS) + 1 },
     (_, index) => index * TICK_SECONDS,
@@ -66,7 +63,7 @@ export function RadioDial({ seconds, at }: DialProps) {
             style={position(second)}
           />
         ))}
-        <Needle {...{ seconds, at }} />
+        <Needle {...{ seconds, into }} />
       </div>
       <div className={classes['marks']} aria-hidden>
         {ticks
@@ -78,7 +75,7 @@ export function RadioDial({ seconds, at }: DialProps) {
           ))}
       </div>
       <div className={classes['times']}>
-        {formatDuration(at)} / {formatDuration(seconds)}
+        {formatDuration(into)} / {formatDuration(seconds)}
       </div>
     </div>
   );

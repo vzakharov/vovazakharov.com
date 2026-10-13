@@ -1,14 +1,11 @@
-import { shuffleOrder } from './player-state';
+import { type PlayOrder, shuffleOrder } from './player-state';
 
 /**
  * Where the radio is at one instant: which cycle of the catalogue, that
  * cycle's play order, which slot of it is on air, since when, and for how long.
  */
-export type Station = {
+export type Station = PlayOrder & {
   cycle: number;
-  /** Catalogue positions in the cycle's play order, one per slot. */
-  order: number[];
-  cursor: number;
   /** When the slot on air began, in milliseconds since the epoch. */
   startMs: number;
   /** When it ends, which is when the next slot begins. */

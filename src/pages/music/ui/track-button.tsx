@@ -6,11 +6,11 @@ import { Pause, Play } from 'lucide-react';
 import { cx } from '@/shared/lib/class-names';
 import type { Titled } from '@/shared/typings';
 
-import type { PlayerTrack } from '../lib/player-state';
+import type { PlayerTrack, WithTrack } from '../lib/player-state';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 
-export type TrackButtonProps = Titled & { track: PlayerTrack };
+export type TrackButtonProps = Titled & WithTrack;
 
 /** Whether this track is the one playing, and the toggle that plays or pauses it. */
 export function useTrackPlayback(track: PlayerTrack) {

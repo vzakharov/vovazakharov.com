@@ -169,7 +169,7 @@ export function OnAir({
             <RadioDial
               key={`${String(air.station.cycle)}/${String(air.station.cursor)}`}
               {...pick(air.track, 'seconds')}
-              at={stationOffset(air.station, now)}
+              into={stationOffset(air.station, now)}
             />
           )}
         </div>
