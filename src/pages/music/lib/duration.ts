@@ -38,10 +38,10 @@ export type CatalogueSize = Partial<Record<CountedAhead, number>> & {
 };
 
 /**
- * A catalogue's or a release's size as the streaming services write it —
- * `7 songs, 25 minutes`, `1 hour 12 minutes` from an hour up — to the nearest
- * minute, in the locale's plural rules, led by the artist and album counts it
- * is handed, a zero one left out.
+ * A catalogue's or a release's size — `7 songs · 25 minutes`, `1 hour 12
+ * minutes` from an hour up — to the nearest minute, in the locale's plural
+ * rules, led by the artist and album counts it is handed, a zero one left out;
+ * joined by the `·` the page's other facts lines use.
  */
 export function catalogueSize(
   { artists, albums, seconds }: CatalogueSize,
@@ -67,5 +67,5 @@ export function catalogueSize(
     ...ahead(albums, forms.albums),
     count(seconds.length, forms.songs),
     time.join(' '),
-  ].join(', ');
+  ].join(' · ');
 }
