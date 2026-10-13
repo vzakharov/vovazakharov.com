@@ -1,33 +1,23 @@
 Proposed squash title/body:
 
 ```
-feat(vova): Latin-first spelling, the locale chip as the switch (pr #148)
+refactor(vova): albums and artists live in their own frontmatter (pr #150)
 ```
 
 ```
-A reader met a Russian song under /en in a script they may not read,
-with its Latin spelling tucked into a muted line and the lyrics'
-romanization behind a switch most never pressed. Names and words in a
-script the locale does not read natively now show in Latin by default:
-Russian under en, Arabic and Greek under both locales, while Cyrillic
-stays Cyrillic under ru.
+An album's or an artist's names, billing and glosses sat in TypeScript
+registries beside the markdown file that already carried its prose and
+hook, so one release was described in two places. Each album and artist
+now has one file under apps/vova/public/music/, its frontmatter holding
+what the registries held; a locale's title or name reuses a song's
+field, a string renaming it there and { translation } glossing it.
 
-The current language chip on every music page with something to
-switch is a checkbox between the spellings, site-wide: "EN / Abc" in
-Latin, "EN / Абв" in the original, the sample being the script most of
-the page's names are in. Names, lists, the player and the lock-screen
-metadata all follow. A browser that lists Russian starts in the
-original; a stored choice wins. Both spellings sit in the static HTML,
-and a head script marks <html> before paint, so there is no flash and
-no hydration mismatch. <title>, og:title and the feeds stay in Latin.
-
-Russian is romanized by rule, BGN/PCGN-style: ye wherever e does not
-follow a consonant, and U+02BC for the soft and hard signs. Other
-scripts carry hand-written spellings, and the build fails on a name or
-words that need one and have none. A song flagged keepsScript (Mithqal)
-keeps its Arabic words in both modes, the romanization under them in
-Latin mode; its title switches like any name. The muted line under a
-title carries only the translation, and the lyrics switch is gone.
+A misspelt album or project in a song still fails the build:
+`pnpm music:codegen` generates the MusicAlbum and MusicProject enums
+from those files, committed and checked by vet as styles:codegen is, so
+the types stay literal for every call site and script. An artist's slug
+is its file name and its place on the music index an `order` field; an
+album's cover is read off the covers directory rather than stated.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
