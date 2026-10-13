@@ -18,6 +18,7 @@ from those files, committed and checked by vet as styles:codegen is, so
 the types stay literal for every call site and script. An artist's slug
 is its file name and its place on the music index an `order` field; an
 album's cover is read off the covers directory rather than stated.
+Every album and artist page links its .md, since every one has a file.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
