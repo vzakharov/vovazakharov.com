@@ -9,7 +9,7 @@ import {
 } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import type { RssItem } from '@/shared/lib/rss';
-import { textHook } from '@/shared/music-catalogue';
+import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
 import type { Summarized } from '@/shared/typings';
 
 import { ARTICLE_COLLECTIONS, SONGS } from './collection-schemas';
@@ -94,11 +94,11 @@ export async function feedEntries({
       ? listPrimaryDocuments(SONGS)
           .filter((document) => isListed(document))
           .map(({ route, frontmatter }) => {
-            // A locale's own name for the song wins; a gloss keeps the song's.
-            const { title, hook } = frontmatter[locale];
+            const { hook } = frontmatter[locale];
 
             return {
-              title: typeof title === 'string' ? title : frontmatter.title,
+              // A feed reader has no switch, so the default spelling it is.
+              title: spelledText(songTitle(frontmatter, locale)),
               description: hook === undefined ? undefined : textHook(hook),
               route: localizedRoute(route, locale),
               published: filedDate(frontmatter),

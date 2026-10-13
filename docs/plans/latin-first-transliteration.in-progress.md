@@ -60,7 +60,8 @@ The tip is a Mantine popover anchored to the song title on its page.
   - The spelling model and the romanizer are also exported from `shared/music-catalogue/index.node-safe.ts`: the main barrel pulls the schema's `server-only`, which breaks tests and would break client components.
   - Step 7 as sketched when paused: `projectName`/`albumTitle` return a `Spelled` (by the Russian rule, `spell({ text, language: 'ru' }, locale)`); `Billing` parts carry a `Spelled` name instead of a `label`; `billingText` and string consumers take the reader's `Script` (a `spelledText(spelled, script = 'latin')` helper replacing `defaultSpelling`); `PlayerTrack.titles` is `Record<Locale, Spelled>` from `songTitle`. Step 9 folds in there: `title-gloss.ts` goes, and a gloss is just the optional `{ translation }` looked up from `PROJECT_GLOSSES`, the album record or the song's locale.
 - **The tree type-checks**, and lint passes on `src/pages/music` and `src/shared` but for one error: `@eslint-react/dom-no-dangerously-set-innerhtml` on the head script in `root-layout.tsx`. A `<script>` child is no way out, since React escapes its `'`s. **Open question to Vova**: may it carry a point-of-use suppression, the invariant being that the string is a compile-time constant (`SCRIPT_PREFERENCE_SCRIPT`)?
-- **Next:** step 10 (`listenTitle` on the song page already gets the Latin string; `shared/content/feeds.ts` is what is left), then 12. The sessions so far paused for their context budget, each at a committed step boundary.
+- step 10: `feeds.ts` titles songs with `spelledText(songTitle(…))`, the rest of the metadata having taken it in step 7.
+- **Next:** step 12.
 
 ## Steps
 
