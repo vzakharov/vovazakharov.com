@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'intheflesh'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/1.%20In%20the%20Flesh.flac
 seconds: 265
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/1.%20In%20the%20Flesh.mp3
+  bytes: 10582815
 explicit: false
 album: ghosts-of-flesh
 track: 1

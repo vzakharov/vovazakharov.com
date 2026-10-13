@@ -9,6 +9,9 @@ album: nursery-rhymes
 track: 2
 audio: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.flac
 seconds: 187
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.mp3
+  bytes: 7471116
 explicit: true
 credits:
   lyrics: ['Jane Taylor']

@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'horizons'
 audio: https://raw.githubusercontent.com/vovas-music/horizons/main/horizons_master.flac
 seconds: 168
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/horizons/main/horizons_master.mp3
+  bytes: 6722958
 explicit: false
 album: ghosts-of-flesh
 track: 10

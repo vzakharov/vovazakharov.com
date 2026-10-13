@@ -7,6 +7,9 @@ project: ['Полуживые']
 repo: 'papa-reka'
 audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/8_pes_reprise.flac
 seconds: 323
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/papa-reka/main/8_pes_reprise.mp3
+  bytes: 12922383
 explicit: false
 album: father-river
 track: 8

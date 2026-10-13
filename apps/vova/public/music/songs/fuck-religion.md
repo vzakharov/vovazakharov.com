@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'fuckreligion'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/4.%20Fuck%20Religion.flac
 seconds: 140
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/4.%20Fuck%20Religion.mp3
+  bytes: 5582979
 explicit: true
 album: divine-discontent
 track: 4

@@ -7,6 +7,9 @@ project: ['Дамы и господа']
 repo: 'pled'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-002.flac
 seconds: 248
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-002.mp3
+  bytes: 9922507
 explicit: false
 album: five-romances
 track: 2

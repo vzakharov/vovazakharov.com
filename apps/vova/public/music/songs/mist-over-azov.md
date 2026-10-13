@@ -8,6 +8,9 @@ project: ['Полуживые', 'GENERATED']
 repo: 'wanderlust'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-002.flac
 seconds: 270
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-002.mp3
+  bytes: 10802258
 explicit: false
 album: vagabond
 track: 2

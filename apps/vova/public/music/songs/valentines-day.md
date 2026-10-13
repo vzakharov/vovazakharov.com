@@ -7,6 +7,9 @@ project: ['Полуживые']
 repo: 'ophelia'
 audio: https://raw.githubusercontent.com/vovas-music/ophelia/main/ophelia.flac
 seconds: 203
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/ophelia/main/ophelia.mp3
+  bytes: 8108530
 explicit: false
 album: father-river
 track: 6

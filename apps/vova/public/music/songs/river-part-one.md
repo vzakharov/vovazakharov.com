@@ -7,6 +7,9 @@ project: ['Полуживые']
 repo: 'pobeg'
 audio: https://raw.githubusercontent.com/vovas-music/pobeg/main/pobeg.flac
 seconds: 220
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/pobeg/main/pobeg.mp3
+  bytes: 8821172
 explicit: false
 album: father-river
 track: 1

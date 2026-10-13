@@ -8,6 +8,9 @@ project: ['GENERATED']
 repo: 'wagner'
 audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/1_overture.flac
 seconds: 53
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/psch_album/main/1_overture.mp3
+  bytes: 2122272
 explicit: false
 album: pschpthy
 track: 1

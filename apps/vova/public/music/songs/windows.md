@@ -9,6 +9,9 @@ album: for-none-and-for-all
 track: 9
 audio: https://raw.githubusercontent.com/vovas-music/okna/main/%D0%9E%D0%BA%D0%BD%D0%B0.flac
 seconds: 286
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/okna/main/%D0%9E%D0%BA%D0%BD%D0%B0.mp3
+  bytes: 11432334
 explicit: false
 en:
   title:

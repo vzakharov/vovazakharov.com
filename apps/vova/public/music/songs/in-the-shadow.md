@@ -8,6 +8,9 @@ repo: 'nightmares'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/nightmares/main/nightmares_rock.flac
 seconds: 298
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/nightmares/main/nightmares_rock.mp3
+  bytes: 11910882
 explicit: false
 ru:
   title:

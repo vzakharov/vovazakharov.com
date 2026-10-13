@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'heart'
 audio: https://raw.githubusercontent.com/vovas-music/heart/main/heart_new.flac
 seconds: 282
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/heart/main/heart_new.mp3
+  bytes: 11282900
 explicit: false
 album: let-the-stories-spin
 track: 3

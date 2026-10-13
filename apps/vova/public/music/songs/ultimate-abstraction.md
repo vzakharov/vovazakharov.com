@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'oneday'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/6.%20The%20Ultimate%20Abstraction.flac
 seconds: 238
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/6.%20The%20Ultimate%20Abstraction.mp3
+  bytes: 9538974
 explicit: false
 album: divine-discontent
 track: 6

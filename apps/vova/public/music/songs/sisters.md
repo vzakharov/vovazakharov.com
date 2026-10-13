@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'lake'
 audio: https://raw.githubusercontent.com/vovas-music/stories/main/4%20lake.flac
 seconds: 352
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/stories/main/4%20lake.mp3
+  bytes: 14062320
 explicit: false
 album: let-the-stories-spin
 track: 4

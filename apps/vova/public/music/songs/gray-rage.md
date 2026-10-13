@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'grayrage'
 audio: https://raw.githubusercontent.com/vovas-music/grayrage/main/grayrage.flac
 seconds: 205
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/grayrage/main/grayrage.mp3
+  bytes: 8195220
 explicit: false
 album: pschpthy
 track: 2

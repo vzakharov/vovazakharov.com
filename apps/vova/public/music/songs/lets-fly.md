@@ -7,6 +7,9 @@ project: [за/обложкой, GENERATED]
 repo: letim
 audio: https://raw.githubusercontent.com/vovas-music/letim/main/letim.flac
 seconds: 208
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/letim/main/letim.mp3
+  bytes: 8337347
 album: ctfu
 track: 5
 en:

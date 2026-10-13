@@ -9,6 +9,9 @@ album: father-sea
 track: 4
 audio: https://raw.githubusercontent.com/vovas-music/sneg_idet/main/%D0%A1%D0%BD%D0%B5%D0%B3%20%D0%B8%D0%B4%D1%91%D1%82.flac
 seconds: 293
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/sneg_idet/main/%D0%A1%D0%BD%D0%B5%D0%B3%20%D0%B8%D0%B4%D1%91%D1%82.mp3
+  bytes: 11735359
 explicit: false
 credits:
   lyrics: ['Борис Пастернак']

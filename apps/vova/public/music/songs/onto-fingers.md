@@ -9,6 +9,9 @@ album: for-none-and-for-all
 track: 2
 audio: https://raw.githubusercontent.com/vovas-music/fingers/main/%D0%9D%D0%B0%20%D0%BF%D0%B0%D0%BB%D1%8C%D1%86%D1%8B%20(EDM).flac
 seconds: 285
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/fingers/main/%D0%9D%D0%B0%20%D0%BF%D0%B0%D0%BB%D1%8C%D1%86%D1%8B%20(EDM).mp3
+  bytes: 11422940
 explicit: false
 en:
   title:

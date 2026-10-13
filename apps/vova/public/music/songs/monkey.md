@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'monkey'
 audio: https://raw.githubusercontent.com/vovas-music/monkey/main/monkey.flac
 seconds: 267
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/monkey/main/monkey.mp3
+  bytes: 10695658
 explicit: false
 album: let-the-stories-spin
 track: 10
