@@ -10,8 +10,8 @@ track: 1
 audio: https://raw.githubusercontent.com/vovas-music/because-of-you-2/main/Because%20of%20You.flac
 seconds: 108
 podcast:
-  url: https://raw.githubusercontent.com/vovas-music/because-of-you-2/main/Because                   0flife-is-not-a-dream
-  bytes: NaN
+  url: https://raw.githubusercontent.com/vovas-music/because-of-you-2/main/Because%20of%20You.mp3
+  bytes: 4311337
 explicit: false
 ru:
   title:
