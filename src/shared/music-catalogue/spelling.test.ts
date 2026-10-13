@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { needsLatin, spell } from './spelling';
+import { mostlyNeedsLatin, needsLatin, spell } from './spelling';
 
 describe('needsLatin', () => {
   it('asks for Latin by script, not by language', () => {
@@ -13,6 +13,15 @@ describe('needsLatin', () => {
 
   it('reads letters only, so digits and punctuation never ask', () => {
     assert.equal(needsLatin('8849 — …', 'en'), false);
+  });
+});
+
+describe('mostlyNeedsLatin', () => {
+  it('goes by most of the letters, not a phrase in a third script', () => {
+    const farewell = 'Сойди с коня, выпей вина\n下马饮君酒';
+
+    assert.equal(mostlyNeedsLatin(farewell, 'ru'), false);
+    assert.equal(mostlyNeedsLatin(farewell, 'en'), true);
   });
 });
 

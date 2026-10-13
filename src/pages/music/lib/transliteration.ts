@@ -1,6 +1,12 @@
 import type { SungLanguage } from '@/shared/music-catalogue';
+import { romanizeRussian } from '@/shared/music-catalogue/index.node-safe';
 
-import { carriesNote, type LyricLine, type Stanzas } from './lyric-notes';
+import {
+  carriesNote,
+  entryText,
+  type LyricLine,
+  type Stanzas,
+} from './lyric-notes';
 import { splitStanzas } from './sections';
 
 /**
@@ -20,10 +26,14 @@ export function romanizedTag(language: SungLanguage): string {
 
 /** How many authored lines a read entry stands for. */
 function linesIn(entry: LyricLine): number {
-  return entry
-    .map(({ text }) => text)
-    .join('')
-    .split('\n').length;
+  return entryText(entry).split('\n').length;
+}
+
+/** Russian words romanized by rule, entry for entry, in the shape a hand-written section aligns to. */
+export function romanizeStanzas(stanzas: Stanzas): Transliteration {
+  return stanzas.map((entries) =>
+    entries.map((entry) => romanizeRussian(entryText(entry))),
+  );
 }
 
 /**

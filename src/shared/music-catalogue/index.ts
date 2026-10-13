@@ -19,6 +19,7 @@ export { type CreditedName, SONG_AUTHOR } from './people';
 export { romanizeRussian } from './romanize';
 export {
   defaultSpelling,
+  mostlyNeedsLatin,
   needsLatin,
   spell,
   type Spellable,

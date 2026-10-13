@@ -2,14 +2,16 @@ import 'server-only';
 
 import type { ContentDocument } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
-import type {
-  MusicAlbum,
-  SongFrontmatter,
-  SongText,
-  SungLanguage,
+import {
+  type MusicAlbum,
+  mostlyNeedsLatin,
+  type SongFrontmatter,
+  type SongText,
+  type SungLanguage,
 } from '@/shared/music-catalogue';
 
 import {
+  entryText,
   readVerse,
   type Stanzas,
   withoutNotes,
@@ -20,6 +22,7 @@ import type { GlossedTitle } from './title-gloss';
 import {
   alignTransliteration,
   romanizedTag,
+  romanizeStanzas,
   type Transliteration,
 } from './transliteration';
 
@@ -54,12 +57,37 @@ export type SongLyrics = WithStanzas & {
   language: SungLanguage;
   /** A crib, not a singing version — and absent where the song is in the reader's language. */
   translation?: Stanzas;
-  /** The words in Latin letters, for a script the reader may not read; shown under them on request. */
+  /** The words in Latin letters, where most of them are in a script the reader may not read. */
   transliteration?: Transliteration;
-};
+} & Pick<SongFrontmatter, 'keepsScript'>;
 
 function lyricsKey(language: string): string {
   return `lyrics:${language}`;
+}
+
+/**
+ * The words in Latin letters: the hand-written section where there is one,
+ * else the rule, which only Russian has. Words nothing romanizes fail the
+ * build, as an unspelled name does.
+ */
+function wordsInLatin(
+  stanzas: Stanzas,
+  sections: ReadonlyMap<string, string>,
+  language: SungLanguage,
+  fileName: string,
+): Transliteration {
+  const key = lyricsKey(romanizedTag(language));
+  const romanized = sections.get(key);
+
+  if (romanized !== undefined) {
+    return alignTransliteration(stanzas, romanized, fileName);
+  }
+
+  if (language === 'ru') return romanizeStanzas(stanzas);
+
+  throw new Error(
+    `${fileName} is sung in ${language}, which no rule romanizes, and has no "${key}" section.`,
+  );
 }
 
 function localeText(
@@ -121,11 +149,11 @@ export function songLyrics(
   }
 
   const stanzas = readVerse(sung, fileName);
-  const romanized = sections.get(lyricsKey(romanizedTag(language)));
   const words = {
     language,
-    ...(romanized !== undefined && {
-      transliteration: alignTransliteration(stanzas, romanized, fileName),
+    keepsScript: frontmatter.keepsScript,
+    ...(mostlyNeedsLatin(stanzas.flat().map(entryText).join('\n'), locale) && {
+      transliteration: wordsInLatin(stanzas, sections, language, fileName),
     }),
   };
 
