@@ -36,7 +36,7 @@ full tags.
 
 Relays 2–3 § 4 stand. Added here, and recorded in the plan's `## Status`:
 
-- **The frontmatter's own name** is the song's name in its *own locale*: the
+- **The frontmatter's own name** is the song's name in its _own locale_: the
   sung language (or `titleLanguage`) when it is a locale that keeps the name,
   else the first locale that keeps it. That name comes first in
   `MasterFile.names`.

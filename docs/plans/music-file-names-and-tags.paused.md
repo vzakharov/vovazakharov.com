@@ -29,7 +29,7 @@ and of item 3:
   `SongBilling` & the rest, `SongTags`) with its test (20b26e7); the artist
   billing is `billedArtists` in `file-name.ts`, shared by the name and the tags;
 - the writer, `scripts/lib/song-tag-writer.ts` (`writeSongTags(path, tags,
-  cover?)`), checked on `boom`'s real files: audio MD5 unchanged, ID3v2.3, one
+cover?)`), checked on `boom`'s real files: audio MD5 unchanged, ID3v2.3, one
   cover, idempotent across re-runs;
 - the resolver, `scripts/lib/song-tag-source.ts` (`songTagJobs(publicDir)` →
   per song: tags, cover path, and per file its `RepoLocation`, `source` path,
@@ -161,7 +161,7 @@ Facts established, not to re-derive:
   `FlacTag`, a native picture block); set on the Xiph comment as well it lands
   twice. `metaflac` is not installed, so `ffmpeg`'s decoded MD5 is the check
   for FLAC too. `TEXT`/`TLAN` via `tag.setTextFrame(Id3v2FrameIdentifiers.X,
-  …)`, `WOAF` via `Id3v2UrlLinkFrame.fromIdentity`, Xiph extras via
+…)`, `WOAF` via `Id3v2UrlLinkFrame.fromIdentity`, Xiph extras via
   `setFieldAsStrings`.
 - **`songFileName`/`songFileNames`** are in `shared/music-catalogue/file-name.ts`
   and its `index.node-safe.ts`, taking a resolved `SongBilling` (`artists`,
@@ -169,12 +169,12 @@ Facts established, not to re-derive:
   is `projectName` in `pages/music/lib/artists.ts`, which `shared` cannot
   import. `songFileNames` returns a `Spelled`, so a link renders through the
   same `data-spelling` pair a name does. Left for item 4: a `songBilling(document,
-  locale)` in `pages/music/lib/songs.ts` (it already imports `projectName`
+locale)` in `pages/music/lib/songs.ts` (it already imports `projectName`
   and `songTitle`), and `songFiles` in `song-files.ts` taking that billing and
   returning per-file hrefs as a `Spelled`, the last URL segment replaced by
   the encoded name.
 - **Push by git, not the Git Data API**: `git clone --filter=blob:none
-  --depth=1 --no-checkout` of `boom` takes 0.8 s and 40 MB of trees, no
+--depth=1 --no-checkout` of `boom` takes 0.8 s and 40 MB of trees, no
   audio. So per repository: that clone, `git cat-file blob HEAD:<path>` for
   the master and copy (fetches just those blobs), tag, `git hash-object -w`,
   `git read-tree HEAD` + `git update-index --add --cacheinfo` for every
@@ -288,19 +288,19 @@ read (`spelledText`'s default, as the page title, the feeds and the lock
 screen already use). The lyrics stay in the script they are sung in, the
 words someone reading along sings (question 6).
 
-| Field                        | ID3v2.3 (MP3)                 | Vorbis comment (FLAC)    | Source                                       |
-| ---------------------------- | ----------------------------- | ------------------------ | -------------------------------------------- |
-| Title                        | `TIT2`                        | `TITLE`                  | `songTitle(…, 'en')`, Latin                  |
-| Artist                       | `TPE1`                        | `ARTIST`                 | `project`, as in the Latin file name         |
-| Album artist                 | `TPE2`                        | `ALBUMARTIST`            | the album's `artist`, through `localName`    |
-| Album                        | `TALB`                        | `ALBUM`                  | the album's `title`, through `localName`     |
-| Track                        | `TRCK` `n/total`              | `TRACKNUMBER`/`TRACKTOTAL` | `track`, total = the album's song count    |
-| Year                         | `TYER`                        | `DATE`                   | `date`                                       |
-| Language                     | `TLAN`                        | `LANGUAGE`               | `language`                                   |
-| Lyricist / composer          | `TEXT` / `TCOM`               | `LYRICIST` / `COMPOSER`  | `credits`, else the author                   |
-| Lyrics                       | `USLT`                        | `LYRICS`                 | the sung column, notes stripped              |
-| Cover                        | `APIC` (front cover)          | `METADATA_BLOCK_PICTURE` | `songPicture()` — what the page shows        |
-| Song page                    | `WOAF`                        | `CONTACT`                | the song's canonical URL                     |
+| Field               | ID3v2.3 (MP3)        | Vorbis comment (FLAC)      | Source                                    |
+| ------------------- | -------------------- | -------------------------- | ----------------------------------------- |
+| Title               | `TIT2`               | `TITLE`                    | `songTitle(…, 'en')`, Latin               |
+| Artist              | `TPE1`               | `ARTIST`                   | `project`, as in the Latin file name      |
+| Album artist        | `TPE2`               | `ALBUMARTIST`              | the album's `artist`, through `localName` |
+| Album               | `TALB`               | `ALBUM`                    | the album's `title`, through `localName`  |
+| Track               | `TRCK` `n/total`     | `TRACKNUMBER`/`TRACKTOTAL` | `track`, total = the album's song count   |
+| Year                | `TYER`               | `DATE`                     | `date`                                    |
+| Language            | `TLAN`               | `LANGUAGE`                 | `language`                                |
+| Lyricist / composer | `TEXT` / `TCOM`      | `LYRICIST` / `COMPOSER`    | `credits`, else the author                |
+| Lyrics              | `USLT`               | `LYRICS`                   | the sung column, notes stripped           |
+| Cover               | `APIC` (front cover) | `METADATA_BLOCK_PICTURE`   | `songPicture()` — what the page shows     |
+| Song page           | `WOAF`               | `CONTACT`                  | the song's canonical URL                  |
 
 ID3v2.3 with UTF-16 text rather than v2.4, because Windows Explorer and older
 car and phone players read v2.3 only, and the lyrics need the Unicode
@@ -359,7 +359,7 @@ loses both files:
   `audio:` there; `machines`' README names it as the intro and says which
   track it runs into.
 - **`ghostly-blues`** gets `vovas-music/ghostly-blues` (`gh repo create
-  --public`, its slug by `songs.md`'s rule), as each of
+--public`, its slug by `songs.md`'s rule), as each of
   `for-none-and-for-all`'s other songs has a repository of its own. It holds
   the MP3 and a README naming it; what it was made from is not in this repo,
   so the README says so rather than inventing a provenance. `repo:` and
@@ -454,18 +454,18 @@ names until this branch deploys. So:
 
 Each has a recommendation, written into the plan above; silence keeps it.
 
-- **1. Order** — (a) `Artist - Title` *(recommended, the industry default)*;
+- **1. Order** — (a) `Artist - Title` _(recommended, the industry default)_;
   (b) `Title - Artist`.
-- **3. Lyrics in the files** — (a) embed the sung column *(recommended: Apple
-  Music, foobar2000 and most phone players show them)*; (b) leave them out,
+- **3. Lyrics in the files** — (a) embed the sung column _(recommended: Apple
+  Music, foobar2000 and most phone players show them)_; (b) leave them out,
   so a lyrics edit never needs a re-tag.
 - **6. Script of the embedded lyrics** — (a) as sung, Cyrillic or Arabic
-  *(recommended: the words for someone singing along)*; (b) the Latin
+  _(recommended: the words for someone singing along)_; (b) the Latin
   section where the song has one (`lyrics:ar-latn`), Russian romanized by
   rule otherwise.
 - **7. Tags per spelling** — (a) one set, names in Latin, every name a path
-  to the same bytes *(recommended: no storage beyond the re-upload, and
-  Latin is the spelling every listener reads)*; (b) a file per spelling,
+  to the same bytes _(recommended: no storage beyond the re-upload, and
+  Latin is the spelling every listener reads)_; (b) a file per spelling,
   each tagged in its own, which doubles the history growth to about 10 GB
   and the upload time with it.
 

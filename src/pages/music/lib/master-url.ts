@@ -8,8 +8,10 @@ import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
 
 const RAW_HOST = 'raw.githubusercontent.com';
 
+export type WithBranch = { branch: string };
+
 /** A branch of a `vovas-music` repository. */
-export type RepoBranch = { repo: string; branch: string };
+export type RepoBranch = WithBranch & { repo: string };
 
 /** Where a file lives in its repository, read off its raw URL. */
 export type RepoLocation = RepoBranch & {

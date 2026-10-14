@@ -15,7 +15,7 @@
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
 
-import type { RepoBranch } from '@/pages/music/lib/master-url';
+import type { RepoBranch, WithBranch } from '@/pages/music/lib/master-url';
 
 import {
   githubApi,
@@ -63,9 +63,8 @@ export function splitParts(content: Buffer, size: number): Buffer[] {
   return parts;
 }
 
-export type RelaySpec = {
-  /** The branch the commit is pushed to. */
-  branch: string;
+/** `branch` is the one the commit is pushed to. */
+export type RelaySpec = WithBranch & {
   /** The temporary branch holding the parts and this workflow. */
   relayBranch: string;
   /** The commit the bundle must unpack to. */

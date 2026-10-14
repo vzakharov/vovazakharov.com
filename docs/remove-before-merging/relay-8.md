@@ -35,7 +35,7 @@ and `tag-renders.json` committed (5734d94).
 
 **Agent:** Added the allow rule (5734d94). One combined command was denied as
 «Auto-Mode Bypass» right after the edit; `check` alone then passed. Whether the
-rule lets a *write* through without the classifier is not yet proven. Gave him
+rule lets a _write_ through without the classifier is not yet proven. Gave him
 download links for item 6.
 
 **Вова:** «мп3 и флаки скачались, вроде всё ок -- но во флаках не отображается ни обложка, ни метаданные,возможно они там просто не предусмотрены / 1- зачем ffmpeg? / 2- о чём это?»
