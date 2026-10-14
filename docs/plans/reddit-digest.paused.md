@@ -121,6 +121,41 @@ answers the container with a 403, and the voice is the operator's.
   them without the network half; nothing in `scripts/lib/` already does Reddit
   or Umami.
 
+## Progress
+
+Done: the plan, PR #155 with its squash proposal, and item 1 — the playbook
+(`writing/reddit/playbook.md`, commit e397ae4), seeded from the analysis.
+
+Left, in order: item 3 (script, lib, test), item 4 (skill), item 5 (Arctic Shift
+notes), item 6 (`writing/CLAUDE.md`), item 8 (dogfood: run the skill once on
+this branch), item 7 (the routine), then `/polish` and the PR body refresh.
+
+What the analysis found about the APIs, for the script:
+
+- **Arctic Shift**: `/api/comments/search?author=vzakharov&limit=100&sort=desc`,
+  paged with `before=<created_utc of the last row>`; same for
+  `/api/posts/search`. Parent posts in batches of 100 via
+  `/api/posts/ids?ids=…&fields=…`. A row's `_meta.retrieved_2nd_on` says the
+  score is settled. A link comment is one whose body matches
+  `muthur|vovazakharov|agentic\.bible|basilisk|latestageagentic`. Replies:
+  `/api/comments/tree?link_id=<post id>&limit=9999`, children whose `parent_id`
+  is `t1_<operator's comment id>`.
+- **Umami**: login as `agent` / `UMAMI_AGENT_PASSWORD`, team `Sites`,
+  `/api/teams/<team>/websites`. `/api/websites/<id>/metrics?type=referrer`,
+  `type=entry&referrer=reddit.com` (entry pages; `type=url` returns nulls), and
+  `/api/websites/<id>/pageviews?unit=day&timezone=UTC&referrer=<ref>&path=<p>`
+  (`.sessions[]`). Referrers to sum: `reddit.com`, `com.reddit.frontpage`,
+  `old.reddit.com`. **Never write the token to a file** — the auto-mode
+  classifier denies it as credential materialization; keep it in memory.
+- **GitHub**: `gh api repos/vzakharov/muthur/traffic/popular/referrers` and
+  `…/traffic/views` work with the session's token.
+- The operator's comments start around 04:00 UTC (hourly histogram), hence the
+  03:47 UTC routine.
+
+The old auto-branch `claude/ecstatic-planck-o1rpxs` is still on the remote: the
+proxy refused its deletion with a 403. It carries no PR and nothing this branch
+lacks.
+
 ## Checks
 
 - `pnpm test scripts/lib/reddit-digest.test.ts`.
