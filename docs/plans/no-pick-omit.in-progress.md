@@ -161,32 +161,36 @@ A meadow bite is a game change: it runs `VET_MEADOW=1 ./scripts/vet.sh` (or
     `insect-steering.ts`'s `Faced`; `cruise.ts`'s `Eased`.
   - A base knip found unused outside its file is declared without `export`; a
     `ui/` site that needs one exports it.
-- **The 69 `ui/` and `api/` files sit in the grandfather override** in
-  `eslint.config.ts`, `pnpm lint`, `typecheck`, `type-overlap` and `knip` clean.
-
-## This bite
-
-**The layout and paint side of `ui/scene/`** — ~66 sites in 34 files, the ones
-picking `MeadowLayout`, `Controls`, `Camera`, view's `Placed`/`Viewed`, `Point`,
-`Circle`, `Box`, `Stand`, `Bake`, `Lighting`, `BuzzParts`, `Siding`, `Laid`,
-`Planted`, `Mottle`, `Room`, `BrowBlade`, `FlowerGenes`, `Footed`, `Standing`.
-`MeadowLayout` is decomposed into named bases its 19 sites intersect.
-
-Files leaving the override: `anchored-stand`, `backdrop-tones`, `bake-picture`,
-`bed-place`, `brow`, `clump-shade`, `draw-buzz`, `draw-flower`, `dusk-stars`,
-`flower-cover`, `flower-layout`, `flower-plots`, `flower-seat`, `flower-sight`,
-`flower-tints`, `gait-spot`, `grass`, `insect-away`, `insect-shadow`, `lawn`,
-`layout`, `mottles`, `mushroom-light`, `paint-backdrop`, `panorama`,
-`picker-rows`, `rain-sky`, `repaint-queue`, `shapes`, `sky-layout`, `skyline`,
-`sun-layout`, `view`, `widest-spans`.
+- **Bite 3, the layout and paint side of `ui/scene/`, is done** (`42450e1`): 34
+  files left the override, `pnpm test:meadow` green. Bases a bite-4 site can
+  take:
+  - `layout.ts` — `MeadowLayout = Stood & {flowers, wash}`, `Stood` over
+    `ControlledScreen` (`GroundedScreen & Controls & Crossed & Sunned`),
+    `WithCamera`, `Horizoned`, `NearHilled`, `ClumpGround`, `InsectScaled`
+    (`InsectSized & {insectSize}`, unexported); `HillsSunned`.
+  - `model/ground.ts` — `Grounded`, `GroundBand` (`WithHeight & Grounded`),
+    `Camera = WorldScreen & {midline}`; `shared/typings` — `WithHeight`;
+    `geometry.ts` — `Ordinate`, `Radiused`; `pinhole.ts` — `Ahead`.
+  - `view.ts` — `Placed = Viewed & Receding` (`Zooming & Distant`).
+  - `flower-sight.ts` — `Stand = PlotGround & WithSpores`, `PlotGround` over
+    `SeededLayout` (`WithLayout & {flowers}`), `Tended` (`game.ts`,
+    `WithMushrooms & WithPulled`), `WithPlanted` (now exported from
+    `insects.ts`); `sprouting.ts` — `Spored = WithSpores & {scattered}`.
+  - `sky-layout.ts` — `Controls` over `WithMap`, `Gaited`, `Columns`
+    (`Yielders & {plus, minus}`); `bake-picture.ts` — `Bake = Layered & Baking`,
+    `Baking` over `Spread`; `ink.ts` — `Hairlined`; `repaint-queue.ts` —
+    `PaintedSide`; `clump-layout.ts` — `LaidAhead`; `draw-buzz.ts` — `Wings`,
+    `BlurredWings`; `mottles.ts` — `Deep`.
+- **The 35 files left sit in the grandfather override** in `eslint.config.ts`,
+  `pnpm lint`, `typecheck`, `type-overlap` and `knip` clean.
 
 ## Rest of the elephant
 
 - **The scene wiring and shown objects of `ui/scene/`, and `api/`** — ~77 sites
-  in the 37 files left in the override: `Scened`, `MeadowSound`, `PerchHosts`,
-  `Shown`, `Swell` and the classes (`Planter`, `MapView`, `FlowerBed`,
-  `Perches`, `MushroomBed`, `RainView`, `DuskView`) are the big ones. Model
-  types they pick mostly have their bases already
+  in the 35 files left in the override, one bite: `Scened`, `MeadowSound`,
+  `PerchHosts`, `Shown`, `Swell` and the classes (`Planter`, `MapView`,
+  `FlowerBed`, `Perches`, `MushroomBed`, `RainView`, `DuskView`) are the big
+  ones. Model types they pick mostly have their bases already
   (`Pick<Leg, 'from' | 'departs'>` is `Origin & Departing`; `Pick<Meadow, …>`
   takes `WithPlanted`, `WithMushrooms`, `WithPulled`, `Spored`, `WithDusk`). The
   last bite removes the override and completes the plan.
