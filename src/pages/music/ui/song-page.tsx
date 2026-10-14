@@ -98,8 +98,7 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
 export function SongPage({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
   const localized = localizeSong(document, locale);
-  const { gloss, hook, repo, explicit, cribNote } =
-    localized.frontmatter;
+  const { gloss, hook, repo, explicit, cribNote } = localized.frontmatter;
   const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
