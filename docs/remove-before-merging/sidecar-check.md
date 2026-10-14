@@ -18,3 +18,24 @@ Each of these is a question about the song, not about the code: the sidecar is f
 4. **Просто так (just-because) — tempo.** Ours 121 BPM; librosa 89. Not a half or double: 121 / 89 is about 4 : 3, which is what a tracker gives when one counts a triplet or shuffle feel and the other the straight pulse. Does it feel like 120, or like 90?
 5. **Послушайте (listen-single) — tempo.** Ours 110; librosa 86, the same ratio near 4 : 3 — while the album version, listen, agrees at 119. 110 or 86?
 6. **Мир, какой он есть (world-as-it-is) — tempo.** Ours 132; librosa 153. 132 or about 150?
+
+## Vova's answers, and the sidecars after them
+
+Answered on PR #138's review. The fixes are general (267ad6e): the key and the chords discount each note's 3rd and 5th overtones, and the onset flux is averaged per octave so the hi-hat stops outvoting the kick. Every sidecar was re-rendered after them (4f2cb55).
+
+| Song | Answer | Sidecar now |
+| --- | --- | --- |
+| 1. Здравствуй | C minor | C minor (0.68; G minor 0.63) |
+| 2. Наш панк-рок | C minor | C minor (0.56; C major 0.45) |
+| 3. Наша история | D minor | D minor (0.71; A minor 0.71 — a thin margin) |
+| 4. Просто так | 90 BPM | 87–93, median 89 |
+| 5. Послушайте (сингл) | 86 BPM | 86 (G♭ major 0.78 against minor 0.77 — a thin margin) |
+| 6. Мир, какой он есть | 110–115, drifting a lot; a piano song | 121 — **still wrong**: every onset envelope tried puts the pulse at 117–121 |
+
+librosa was right on all three keys and on two of the three tempos; world-as-it-is fooled both tools. The other eight songs kept the key and tempo they agreed on.
+
+Three answers are not computations, so they went to Майя's rule (`.claude/rules/maya-reflections.md`) instead of the code:
+
+- **Major or minor over power chords** is judged by the vocal melody's third; a distorted power chord carries none.
+- **The chord lines swallow and invent chords in places**, so they are read with caution.
+- **Chords are spelled from the key** — E♭ and A♭ in C minor, not D♯ and G♯ — which the code does (878c431).
