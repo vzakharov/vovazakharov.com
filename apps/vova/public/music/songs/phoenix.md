@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'phoenix'
-audio: https://raw.githubusercontent.com/vovas-music/phoenix/main/phoenix.flac
+audio: https://raw.githubusercontent.com/vovas-music/phoenix/main/GENERATED%20-%20Phoenix.flac
 seconds: 193
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/phoenix/main/phoenix.master.mp3
-  bytes: 7710386
+  url: https://raw.githubusercontent.com/vovas-music/phoenix/main/GENERATED%20-%20Phoenix.mp3
+  bytes: 7871207
 explicit: false
 album: ctfu
 track: 10

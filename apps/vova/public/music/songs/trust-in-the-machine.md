@@ -7,11 +7,11 @@ project: ['GENERATED']
 repo: 'machines'
 album: prototypes
 track: 2
-audio: https://raw.githubusercontent.com/vovas-music/machines/main/trust-in-the-machine.flac
+audio: https://raw.githubusercontent.com/vovas-music/machines/main/GENERATED%20-%20Trust%20In%20the%20Machine.flac
 seconds: 313
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/machines/main/trust-in-the-machine.mp3
-  bytes: 12537862
+  url: https://raw.githubusercontent.com/vovas-music/machines/main/GENERATED%20-%20Trust%20In%20the%20Machine.mp3
+  bytes: 12541207
 explicit: false
 ru:
   title:

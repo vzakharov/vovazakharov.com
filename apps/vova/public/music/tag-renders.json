@@ -32,6 +32,15 @@
       "vagabond_album/Полуживые - Предназначение feat. GENERATED.mp3"
     ]
   },
+  "artemis": {
+    "hash": "751fa27d50ca",
+    "paths": [
+      "artemis/GENERATED - Artemis.flac",
+      "artemis/GENERATED - Artemis.mp3",
+      "artemis/artemis_3.flac",
+      "artemis/artemis_3.mp3"
+    ]
+  },
   "babay-minem": {
     "hash": "18f1fe5c10a6",
     "paths": [
@@ -52,6 +61,15 @@
       "because-of-you-2/Yoohie - Because of You.mp3",
       "because-of-you-2/Йухи - Because of You.flac",
       "because-of-you-2/Йухи - Because of You.mp3"
+    ]
+  },
+  "behind-the-mask": {
+    "hash": "f180ec7a019d",
+    "paths": [
+      "mask/GENERATED - Behind the Mask.flac",
+      "mask/GENERATED - Behind the Mask.mp3",
+      "mask/mask.flac",
+      "mask/mask.master.mp3"
     ]
   },
   "beyond-the-horizon": {
@@ -94,6 +112,19 @@
       "bezm/В безмерности небес.master.mp3",
       "bezm/Полуживые - В безмерности небес.flac",
       "bezm/Полуживые - В безмерности небес.mp3"
+    ]
+  },
+  "breathe": {
+    "hash": "d9aabdbc5d2b",
+    "paths": [
+      "june/Poluzhivye - Breathe feat. GENERATED.flac",
+      "june/Poluzhivye - Breathe feat. GENERATED.mp3",
+      "june/breathe.flac",
+      "june/breathe.mp3",
+      "june/Полуживые - Breathe feat. GENERATED.flac",
+      "june/Полуживые - Breathe feat. GENERATED.mp3",
+      "june/Полуживые - Повелитель ветра feat. GENERATED.flac",
+      "june/Полуживые - Повелитель ветра feat. GENERATED.mp3"
     ]
   },
   "buy-you-a-house": {
@@ -177,6 +208,15 @@
       "klo/Листопад - Клокочина.mp3"
     ]
   },
+  "cross-out": {
+    "hash": "3fd0cf66f25d",
+    "paths": [
+      "crossout/GENERATED - Cross Out.flac",
+      "crossout/GENERATED - Cross Out.mp3",
+      "crossout/crossout_3.flac",
+      "crossout/crossout_3.mp3"
+    ]
+  },
   "dad": {
     "hash": "73da871c6898",
     "paths": [
@@ -199,6 +239,15 @@
       "poko/Метель.mp3"
     ]
   },
+  "disintegration-tango": {
+    "hash": "258ba849dfc8",
+    "paths": [
+      "tango/GENERATED - Disintegration Tango.flac",
+      "tango/GENERATED - Disintegration Tango.mp3",
+      "tango/tango.flac",
+      "tango/tango.master.mp3"
+    ]
+  },
   "do-not-listen": {
     "hash": "c50a6e50b634",
     "paths": [
@@ -206,6 +255,24 @@
       "nsfl/GENERATED - Do Not Listen.mp3",
       "nsfl/nsfl-001.flac",
       "nsfl/nsfl-001.mp3"
+    ]
+  },
+  "empty-mirrors": {
+    "hash": "f0f876b866b6",
+    "paths": [
+      "mirrors/GENERATED - Empty Mirrors.flac",
+      "mirrors/GENERATED - Empty Mirrors.mp3",
+      "mirrors/mirrors.flac",
+      "mirrors/mirrors.mp3"
+    ]
+  },
+  "erebos": {
+    "hash": "50aa7d3f46ea",
+    "paths": [
+      "erebos/GENERATED - Erebos.flac",
+      "erebos/GENERATED - Erebos.mp3",
+      "erebos/erebos_reprise.flac",
+      "erebos/erebos_reprise.master.mp3"
     ]
   },
   "every-monday": {
@@ -325,6 +392,15 @@
       "nsfl/nsfl-012.mp3"
     ]
   },
+  "gray-rage": {
+    "hash": "d1bada1c736e",
+    "paths": [
+      "grayrage/GENERATED - Gray Rage.flac",
+      "grayrage/GENERATED - Gray Rage.mp3",
+      "grayrage/grayrage.flac",
+      "grayrage/grayrage.mp3"
+    ]
+  },
   "guy-without-a-plan": {
     "hash": "43d5ddf8ef0e",
     "paths": [
@@ -359,6 +435,24 @@
       "skolko/Грёбаный бал - Сколько.mp3",
       "skolko/Сколько.flac",
       "skolko/Сколько.mp3"
+    ]
+  },
+  "i-almost-love-you": {
+    "hash": "899176b9c350",
+    "paths": [
+      "almost/GENERATED - I Almost Love You.flac",
+      "almost/GENERATED - I Almost Love You.mp3",
+      "almost/almost.flac",
+      "almost/almost.mp3"
+    ]
+  },
+  "intermezzo": {
+    "hash": "903a5f3b4c23",
+    "paths": [
+      "psch_album/9_intermezzo.flac",
+      "psch_album/9_intermezzo.mp3",
+      "psch_album/GENERATED - Intermezzo.flac",
+      "psch_album/GENERATED - Intermezzo.mp3"
     ]
   },
   "is-it-your-fault": {
@@ -403,6 +497,17 @@
       "nsfl/nsfl-007.mp3"
     ]
   },
+  "life-is-not-a-dream": {
+    "hash": "709bb114c02f",
+    "paths": [
+      "bronte/Poluzhivye - Life, believe, is not a dream… feat. za_oblozhkoy & GENERATED.flac",
+      "bronte/Poluzhivye - Life, believe, is not a dream… feat. za_oblozhkoy & GENERATED.mp3",
+      "bronte/bronte.flac",
+      "bronte/bronte.master.mp3",
+      "bronte/Полуживые - Life, believe, is not a dream… feat. за_обложкой & GENERATED.flac",
+      "bronte/Полуживые - Life, believe, is not a dream… feat. за_обложкой & GENERATED.mp3"
+    ]
+  },
   "mankind-extermination-front": {
     "hash": "90a6d79a52be",
     "paths": [
@@ -436,6 +541,37 @@
       "mithqal/mithqal_rock_master.mp3"
     ]
   },
+  "my-offence-is-rank": {
+    "hash": "318e7cf0fabf",
+    "paths": [
+      "rank/Poluzhivye - O, my offence is rank… feat. GENERATED.flac",
+      "rank/Poluzhivye - O, my offence is rank… feat. GENERATED.mp3",
+      "rank/rank2.flac",
+      "rank/rank2.master.mp3",
+      "rank/Полуживые - O, my offence is rank… feat. GENERATED.flac",
+      "rank/Полуживые - O, my offence is rank… feat. GENERATED.mp3"
+    ]
+  },
+  "night-garden": {
+    "hash": "d1a7d7294d97",
+    "paths": [
+      "sad/Poluzhivye - Nochnoy sad.flac",
+      "sad/Poluzhivye - Nochnoy sad.mp3",
+      "sad/sad.flac",
+      "sad/sad.master.mp3",
+      "sad/Полуживые - Ночной сад.flac",
+      "sad/Полуживые - Ночной сад.mp3"
+    ]
+  },
+  "normal": {
+    "hash": "5f72f4ab2ee5",
+    "paths": [
+      "normal/GENERATED - Normal.flac",
+      "normal/GENERATED - Normal.mp3",
+      "normal/normal.flac",
+      "normal/normal.mp3"
+    ]
+  },
   "not-lovesick-for-me": {
     "hash": "202e718f3344",
     "paths": [
@@ -458,6 +594,15 @@
       "fingers/На пальцы (EDM).mp3"
     ]
   },
+  "overture": {
+    "hash": "326aafda831c",
+    "paths": [
+      "psch_album/1_overture.flac",
+      "psch_album/1_overture.mp3",
+      "psch_album/GENERATED - Overture.flac",
+      "psch_album/GENERATED - Overture.mp3"
+    ]
+  },
   "parking-in-disabled-spot": {
     "hash": "99e3fd5987f6",
     "paths": [
@@ -465,6 +610,15 @@
       "nsfl/GENERATED - Parking in Disabled Spot.mp3",
       "nsfl/nsfl-004.flac",
       "nsfl/nsfl-004.mp3"
+    ]
+  },
+  "phoenix": {
+    "hash": "535d01a8be08",
+    "paths": [
+      "phoenix/GENERATED - Phoenix.flac",
+      "phoenix/GENERATED - Phoenix.mp3",
+      "phoenix/phoenix.flac",
+      "phoenix/phoenix.master.mp3"
     ]
   },
   "plush-plaid": {
@@ -489,6 +643,15 @@
       "yad/Яд_master2.mp3"
     ]
   },
+  "pschpthy": {
+    "hash": "3fadc9654dfb",
+    "paths": [
+      "psch/GENERATED - PSCHPTHY.flac",
+      "psch/GENERATED - PSCHPTHY.mp3",
+      "psch/psch.flac",
+      "psch/psch.master.mp3"
+    ]
+  },
   "quiet-snow": {
     "hash": "f81ddfefb510",
     "paths": [
@@ -498,6 +661,17 @@
       "dng_album/dng-006.mp3",
       "dng_album/Дамы и господа - Мы вспоминаем тихий снег….flac",
       "dng_album/Дамы и господа - Мы вспоминаем тихий снег….mp3"
+    ]
+  },
+  "schadina": {
+    "hash": "c136b3e36665",
+    "paths": [
+      "zhadina/Kindershtayn - Schadina.flac",
+      "zhadina/Kindershtayn - Schadina.mp3",
+      "zhadina/zhadina.flac",
+      "zhadina/zhadina.mp3",
+      "zhadina/Киндерштайн - Schadina.flac",
+      "zhadina/Киндерштайн - Schadina.mp3"
     ]
   },
   "sirens-of-the-sands": {
@@ -601,6 +775,15 @@
       "dng_album/Дамы и господа - Моим стихам, написанным так рано….mp3"
     ]
   },
+  "trust-in-the-machine": {
+    "hash": "872cdc9b9b52",
+    "paths": [
+      "machines/GENERATED - Trust In the Machine.flac",
+      "machines/GENERATED - Trust In the Machine.mp3",
+      "machines/trust-in-the-machine.flac",
+      "machines/trust-in-the-machine.mp3"
+    ]
+  },
   "vagabond": {
     "hash": "14f04c37a398",
     "paths": [
@@ -645,6 +828,17 @@
       "wereback/GENERATED - We’re Back feat. Йухи.mp3",
       "wereback/wereback.flac",
       "wereback/wereback.mp3"
+    ]
+  },
+  "windows": {
+    "hash": "8cfe5975f29d",
+    "paths": [
+      "okna/Gryobany bal - Okna.flac",
+      "okna/Gryobany bal - Okna.mp3",
+      "okna/Грёбаный бал - Окна.flac",
+      "okna/Грёбаный бал - Окна.mp3",
+      "okna/Окна.flac",
+      "okna/Окна.mp3"
     ]
   }
 }
