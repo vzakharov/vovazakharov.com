@@ -19,6 +19,15 @@
       "nsfl/nsfl-008.mp3"
     ]
   },
+  "300000-years": {
+    "hash": "08de32f2fb1f",
+    "paths": [
+      "Divine-Discontent--album-/8. 300,000 Years.flac",
+      "Divine-Discontent--album-/8. 300,000 Years.mp3",
+      "Divine-Discontent--album-/GENERATED - 300,000 Years.flac",
+      "Divine-Discontent--album-/GENERATED - 300,000 Years.mp3"
+    ]
+  },
   "agios-o-skopos": {
     "hash": "691736559955",
     "paths": [
@@ -32,6 +41,26 @@
       "vagabond_album/Полуживые - Предназначение feat. GENERATED.mp3"
     ]
   },
+  "alive": {
+    "hash": "8f210e1c6d77",
+    "paths": [
+      "alive/GENERATED - Alive.flac",
+      "alive/GENERATED - Alive.mp3",
+      "alive/alive_master.flac",
+      "alive/alive_master.mp3"
+    ]
+  },
+  "answer": {
+    "hash": "0f911a7da4d4",
+    "paths": [
+      "rus-/3 ответ.flac",
+      "rus-/3 ответ.mp3",
+      "rus-/Poluzhivye - Otvet.flac",
+      "rus-/Poluzhivye - Otvet.mp3",
+      "rus-/Полуживые - Ответ.flac",
+      "rus-/Полуживые - Ответ.mp3"
+    ]
+  },
   "artemis": {
     "hash": "751fa27d50ca",
     "paths": [
@@ -39,6 +68,24 @@
       "artemis/GENERATED - Artemis.mp3",
       "artemis/artemis_3.flac",
       "artemis/artemis_3.mp3"
+    ]
+  },
+  "at-the-diner": {
+    "hash": "38e093f33951",
+    "paths": [
+      "diner/Dead Pixel Lounge - At the Diner.flac",
+      "diner/Dead Pixel Lounge - At the Diner.mp3",
+      "diner/diner.flac",
+      "diner/diner.mp3"
+    ]
+  },
+  "baa-baa-black-sheep": {
+    "hash": "e546b5e58292",
+    "paths": [
+      "baa/GENERATED - Baa Baa Black Sheep.flac",
+      "baa/GENERATED - Baa Baa Black Sheep.mp3",
+      "baa/baa_master.flac",
+      "baa/baa_master.mp3"
     ]
   },
   "babay-minem": {
@@ -70,6 +117,15 @@
       "mask/GENERATED - Behind the Mask.mp3",
       "mask/mask.flac",
       "mask/mask.master.mp3"
+    ]
+  },
+  "believe-in-me": {
+    "hash": "3d158cef140b",
+    "paths": [
+      "Divine-Discontent--album-/7. Believe In Me.flac",
+      "Divine-Discontent--album-/7. Believe In Me.mp3",
+      "Divine-Discontent--album-/GENERATED - Believe in Me.flac",
+      "Divine-Discontent--album-/GENERATED - Believe in Me.mp3"
     ]
   },
   "beyond-the-horizon": {
@@ -138,6 +194,17 @@
       "lebed/Я куплю тебе дом.mp3"
     ]
   },
+  "call-me-by-name": {
+    "hash": "7e32685d951f",
+    "paths": [
+      "nazovi/Gryobany bal - Nazovi menya po imeni.flac",
+      "nazovi/Gryobany bal - Nazovi menya po imeni.mp3",
+      "nazovi/Грёбаный бал - Назови меня по имени.flac",
+      "nazovi/Грёбаный бал - Назови меня по имени.mp3",
+      "nazovi/Назови меня по имени.flac",
+      "nazovi/Назови меня по имени.mp3"
+    ]
+  },
   "call-of-the-steppe": {
     "hash": "c0f85d871271",
     "paths": [
@@ -195,6 +262,15 @@
       "caprice/Полуживые — Каприс Каркасси.mp3"
     ]
   },
+  "chaos-always-wins": {
+    "hash": "0ffc00d4f3a3",
+    "paths": [
+      "ghosts-of-flesh/8. Chaos Always Wins.flac",
+      "ghosts-of-flesh/8. Chaos Always Wins.mp3",
+      "ghosts-of-flesh/GENERATED - Chaos Always Wins.flac",
+      "ghosts-of-flesh/GENERATED - Chaos Always Wins.mp3"
+    ]
+  },
   "chikh-pykh": {
     "hash": "b63841ab8cb7",
     "paths": [
@@ -217,6 +293,26 @@
       "klo/klo_1.mp3",
       "klo/Листопад - Клокочина.flac",
       "klo/Листопад - Клокочина.mp3"
+    ]
+  },
+  "codependence-day": {
+    "hash": "5241a92d66b5",
+    "paths": [
+      "ghosts-of-flesh/3. Codependence Day.flac",
+      "ghosts-of-flesh/3. Codependence Day.mp3",
+      "ghosts-of-flesh/GENERATED - Codependence Day.flac",
+      "ghosts-of-flesh/GENERATED - Codependence Day.mp3"
+    ]
+  },
+  "comeback-song": {
+    "hash": "e6d3dd0a46a1",
+    "paths": [
+      "comeback/Yoohie - The Comeback Song (We Have a Banger).flac",
+      "comeback/Yoohie - The Comeback Song (We Have a Banger).mp3",
+      "comeback/comeback.flac",
+      "comeback/comeback.mp3",
+      "comeback/Йухи - The Comeback Song (We Have a Banger).flac",
+      "comeback/Йухи - The Comeback Song (We Have a Banger).mp3"
     ]
   },
   "cross-out": {
@@ -257,6 +353,17 @@
       "tango/GENERATED - Disintegration Tango.mp3",
       "tango/tango.flac",
       "tango/tango.master.mp3"
+    ]
+  },
+  "do-not-hurry": {
+    "hash": "38e43a1b773d",
+    "paths": [
+      "rus-/8 не торопи.flac",
+      "rus-/8 не торопи.mp3",
+      "rus-/Poluzhivye - Ne toropi.flac",
+      "rus-/Poluzhivye - Ne toropi.mp3",
+      "rus-/Полуживые - Не торопи.flac",
+      "rus-/Полуживые - Не торопи.mp3"
     ]
   },
   "do-not-listen": {
@@ -375,6 +482,35 @@
       "nsfl/nsfl-013.mp3"
     ]
   },
+  "frost-the-governor": {
+    "hash": "5db72bc92719",
+    "paths": [
+      "rus-/5 мороз.flac",
+      "rus-/5 мороз.mp3",
+      "rus-/Poluzhivye - Ne veter bushuyet nad borom….flac",
+      "rus-/Poluzhivye - Ne veter bushuyet nad borom….mp3",
+      "rus-/Полуживые - Не ветер бушует над бором….flac",
+      "rus-/Полуживые - Не ветер бушует над бором….mp3"
+    ]
+  },
+  "fuck-religion": {
+    "hash": "8afe5cb35c60",
+    "paths": [
+      "Divine-Discontent--album-/4. Fuck Religion.flac",
+      "Divine-Discontent--album-/4. Fuck Religion.mp3",
+      "Divine-Discontent--album-/GENERATED - Fuck Religion.flac",
+      "Divine-Discontent--album-/GENERATED - Fuck Religion.mp3"
+    ]
+  },
+  "ghost-of-yesterday": {
+    "hash": "3fb039f63018",
+    "paths": [
+      "ghost/Downtemple - Ghost of Yesterday.flac",
+      "ghost/Downtemple - Ghost of Yesterday.mp3",
+      "ghost/ghost.flac",
+      "ghost/ghost.mp3"
+    ]
+  },
   "ghostly-blues": {
     "hash": "714a76a8222e",
     "paths": [
@@ -392,6 +528,15 @@
       "ukhodi/Грёбаный бал - Уходи.mp3",
       "ukhodi/Уходи.flac",
       "ukhodi/Уходи.mp3"
+    ]
+  },
+  "gone-with-the-wind": {
+    "hash": "e684f8bc353a",
+    "paths": [
+      "wind/GENERATED - Gone with the Wind.flac",
+      "wind/GENERATED - Gone with the Wind.mp3",
+      "wind/wind.flac",
+      "wind/wind.master.mp3"
     ]
   },
   "good-girl": {
@@ -412,6 +557,15 @@
       "utro/Грёбаный бал - Доброе утро.mp3",
       "utro/Доброе утро.flac",
       "utro/Доброе утро.mp3"
+    ]
+  },
+  "grand-finale": {
+    "hash": "b7e43fc28dda",
+    "paths": [
+      "Divine-Discontent--album-/9. Grand Finale (In Entropy We Trust).flac",
+      "Divine-Discontent--album-/9. Grand Finale (In Entropy We Trust).mp3",
+      "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).flac",
+      "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).mp3"
     ]
   },
   "grave-awakening": {
@@ -441,6 +595,28 @@
       "guy/guy.mp3"
     ]
   },
+  "hamlet": {
+    "hash": "d0574ea717a1",
+    "paths": [
+      "hamlet/Poluzhivye - Gamlet.flac",
+      "hamlet/Poluzhivye - Gamlet.mp3",
+      "hamlet/hamlet_short-001.flac",
+      "hamlet/hamlet_short-001.mp3",
+      "hamlet/Полуживые - Гамлет.flac",
+      "hamlet/Полуживые - Гамлет.mp3"
+    ]
+  },
+  "hamlet-extended": {
+    "hash": "3b143398dc63",
+    "paths": [
+      "hamlet/Poluzhivye - Gamlet (Extended Version).flac",
+      "hamlet/Poluzhivye - Gamlet (Extended Version).mp3",
+      "hamlet/hamlet_extended.flac",
+      "hamlet/hamlet_extended.mp3",
+      "hamlet/Полуживые - Гамлет (Extended Version).flac",
+      "hamlet/Полуживые - Гамлет (Extended Version).mp3"
+    ]
+  },
   "hang-for-the-moment": {
     "hash": "60289bebda9c",
     "paths": [
@@ -455,6 +631,15 @@
     "paths": [
       "machines/GENERATED - Hello, Human.mp3",
       "machines/protintro.mp3"
+    ]
+  },
+  "heres-to-the-virus": {
+    "hash": "7408e7f5bdac",
+    "paths": [
+      "ghosts-of-flesh/2. Here's To The Virus.flac",
+      "ghosts-of-flesh/2. Here's To The Virus.mp3",
+      "ghosts-of-flesh/GENERATED - Here’s to the Virus.flac",
+      "ghosts-of-flesh/GENERATED - Here’s to the Virus.mp3"
     ]
   },
   "how-could-you-leave": {
@@ -608,6 +793,15 @@
       "monkey/GENERATED - Monkey.mp3",
       "monkey/monkey.flac",
       "monkey/monkey.mp3"
+    ]
+  },
+  "my-hope": {
+    "hash": "e73d770ed32f",
+    "paths": [
+      "my_hope/GENERATED - My Hope.flac",
+      "my_hope/GENERATED - My Hope.mp3",
+      "my_hope/my_hope_master_2.flac",
+      "my_hope/my_hope_master_2.mp3"
     ]
   },
   "my-offence-is-rank": {

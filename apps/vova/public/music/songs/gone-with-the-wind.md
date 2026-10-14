@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'wind'
-audio: https://raw.githubusercontent.com/vovas-music/wind/main/wind.flac
+audio: https://raw.githubusercontent.com/vovas-music/wind/main/GENERATED%20-%20Gone%20with%20the%20Wind.flac
 seconds: 243
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/wind/main/wind.master.mp3
-  bytes: 9737499
+  url: https://raw.githubusercontent.com/vovas-music/wind/main/GENERATED%20-%20Gone%20with%20the%20Wind.mp3
+  bytes: 9830241
 explicit: false
 album: let-the-stories-spin
 track: 5

@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'fuckreligion'
-audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/4.%20Fuck%20Religion.flac
+audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20Fuck%20Religion.flac
 seconds: 140
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/4.%20Fuck%20Religion.mp3
-  bytes: 5582979
+  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20Fuck%20Religion.mp3
+  bytes: 5651840
 explicit: true
 album: divine-discontent
 track: 4
