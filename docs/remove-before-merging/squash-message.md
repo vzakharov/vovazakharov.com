@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-refactor(vova): albums and artists live in their own frontmatter (pr #150)
+feat(vova): albums and artists live in their own frontmatter (pr #150)
 ```
 
 ```
@@ -15,10 +15,14 @@ field, a string renaming it there and { translation } glossing it.
 A misspelt album or project in a song still fails the build:
 `pnpm music:codegen` generates the MusicAlbum and MusicProject enums
 from those files, committed and checked by vet as styles:codegen is, so
-the types stay literal for every call site and script. An artist's slug
-is its file name and its place on the music index an `order` field; an
-album's cover is read off the covers directory rather than stated.
-Every album and artist page links its .md, since every one has a file.
+the types stay literal for every call site and script. A slug is its
+file's name, and an album's cover is read off the covers directory
+rather than stated.
+
+The music index ranks its artists rather than keeping a hand-set order:
+the one billed on the most songs first, between equals the one whose
+latest song is newer. Every album and artist page links its .md, since
+every one has a file.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
