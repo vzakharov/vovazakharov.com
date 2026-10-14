@@ -10,6 +10,28 @@
       "first/Полуживые - Двадцать feat. Грёбаный бал.mp3"
     ]
   },
+  "babay-minem": {
+    "hash": "18f1fe5c10a6",
+    "paths": [
+      "babay/Iske Kormash - Babay minem.flac",
+      "babay/Iske Kormash - Babay minem.mp3",
+      "babay/babay_master.flac",
+      "babay/babay_master.mp3",
+      "babay/Иске Кормаш - Бабай минем.flac",
+      "babay/Иске Кормаш - Бабай минем.mp3"
+    ]
+  },
+  "because-of-you": {
+    "hash": "c3d444414bd5",
+    "paths": [
+      "because-of-you-2/Because of You.flac",
+      "because-of-you-2/Because of You.mp3",
+      "because-of-you-2/Yoohie - Because of You.flac",
+      "because-of-you-2/Yoohie - Because of You.mp3",
+      "because-of-you-2/Йухи - Because of You.flac",
+      "because-of-you-2/Йухи - Because of You.mp3"
+    ]
+  },
   "beyond-the-horizon": {
     "hash": "feb583001f18",
     "paths": [
@@ -74,12 +96,111 @@
       "rak/Не смотри.mp3"
     ]
   },
+  "chikh-pykh": {
+    "hash": "b63841ab8cb7",
+    "paths": [
+      "chp/Yoohie - Chikh-Pykh feat. za_oblozhkoy.flac",
+      "chp/Yoohie - Chikh-Pykh feat. za_oblozhkoy.mp3",
+      "chp/Yoohie - Чих-Пых feat. за_обложкой.flac",
+      "chp/Yoohie - Чих-Пых feat. за_обложкой.mp3",
+      "chp/chp.flac",
+      "chp/chp.mp3",
+      "chp/Йухи - Чих-Пых feat. за_обложкой.flac",
+      "chp/Йухи - Чих-Пых feat. за_обложкой.mp3"
+    ]
+  },
+  "chinaberry": {
+    "hash": "b24014220ccf",
+    "paths": [
+      "klo/Listopad - Klokochina.flac",
+      "klo/Listopad - Klokochina.mp3",
+      "klo/klo_1.flac",
+      "klo/klo_1.mp3",
+      "klo/Листопад - Клокочина.flac",
+      "klo/Листопад - Клокочина.mp3"
+    ]
+  },
+  "dad": {
+    "hash": "73da871c6898",
+    "paths": [
+      "sashas/Poluzhivye - Papa.flac",
+      "sashas/Poluzhivye - Papa.mp3",
+      "sashas/Папа.flac",
+      "sashas/Папа.mp3",
+      "sashas/Полуживые - Папа.flac",
+      "sashas/Полуживые - Папа.mp3"
+    ]
+  },
+  "dead-man": {
+    "hash": "814d56522789",
+    "paths": [
+      "poko/Gryobany bal - Metelʼ.flac",
+      "poko/Gryobany bal - Metelʼ.mp3",
+      "poko/Грёбаный бал - Метель.flac",
+      "poko/Грёбаный бал - Метель.mp3",
+      "poko/Метель.flac",
+      "poko/Метель.mp3"
+    ]
+  },
+  "every-monday": {
+    "hash": "1b9841ed695c",
+    "paths": [
+      "monday/GENERATED - Every Monday feat. Yoohie.flac",
+      "monday/GENERATED - Every Monday feat. Yoohie.mp3",
+      "monday/GENERATED - Every Monday feat. Йухи.flac",
+      "monday/GENERATED - Every Monday feat. Йухи.mp3",
+      "monday/monday.flac",
+      "monday/monday.master.mp3"
+    ]
+  },
+  "every-monday-doo": {
+    "hash": "f571fed407ca",
+    "paths": [
+      "monday_doo/Yoohie - Every Monday.flac",
+      "monday_doo/Yoohie - Every Monday.mp3",
+      "monday_doo/monday_doo.flac",
+      "monday_doo/monday_doo.mp3",
+      "monday_doo/Йухи - Every Monday.flac",
+      "monday_doo/Йухи - Every Monday.mp3"
+    ]
+  },
+  "farewell": {
+    "hash": "b9419fe394da",
+    "paths": [
+      "wangwei/Poluzhivye - Proshchaniye.flac",
+      "wangwei/Poluzhivye - Proshchaniye.mp3",
+      "wangwei/Полуживые - Прощание.flac",
+      "wangwei/Полуживые - Прощание.mp3",
+      "wangwei/Прощание.flac",
+      "wangwei/Прощание.mp3"
+    ]
+  },
   "ghostly-blues": {
     "hash": "714a76a8222e",
     "paths": [
       "ghostly-blues/Gryobany bal - Prizrachny blyuz.mp3",
       "ghostly-blues/ghostly-blues.mp3",
       "ghostly-blues/Грёбаный бал - Призрачный блюз.mp3"
+    ]
+  },
+  "go-away": {
+    "hash": "aca379964b36",
+    "paths": [
+      "ukhodi/Gryobany bal - Ukhodi.flac",
+      "ukhodi/Gryobany bal - Ukhodi.mp3",
+      "ukhodi/Грёбаный бал - Уходи.flac",
+      "ukhodi/Грёбаный бал - Уходи.mp3",
+      "ukhodi/Уходи.flac",
+      "ukhodi/Уходи.mp3"
+    ]
+  },
+  "good-girl": {
+    "hash": "58229985fee7",
+    "paths": [
+      "gg/GENERATED - Good Girl.flac",
+      "gg/GENERATED - Good Girl.mp3",
+      "gg/gg_master.flac",
+      "gg/gg_master.mp3"
     ]
   },
   "good-morning": {
@@ -93,11 +214,64 @@
       "utro/Доброе утро.mp3"
     ]
   },
+  "guy-without-a-plan": {
+    "hash": "43d5ddf8ef0e",
+    "paths": [
+      "guy/GENERATED - A Guy Without a Plan.flac",
+      "guy/GENERATED - A Guy Without a Plan.mp3",
+      "guy/guy.flac",
+      "guy/guy.mp3"
+    ]
+  },
   "hello-human": {
     "hash": "539929b639f4",
     "paths": [
       "machines/GENERATED - Hello, Human.mp3",
       "machines/protintro.mp3"
+    ]
+  },
+  "how-long": {
+    "hash": "e48169fa678b",
+    "paths": [
+      "skolko/Gryobany bal - Skolʼko.flac",
+      "skolko/Gryobany bal - Skolʼko.mp3",
+      "skolko/Грёбаный бал - Сколько.flac",
+      "skolko/Грёбаный бал - Сколько.mp3",
+      "skolko/Сколько.flac",
+      "skolko/Сколько.mp3"
+    ]
+  },
+  "just-tired": {
+    "hash": "7d481e62cb13",
+    "paths": [
+      "burmakin/Gryobany bal - Prosto ustal.flac",
+      "burmakin/Gryobany bal - Prosto ustal.mp3",
+      "burmakin/Грёбаный бал - Просто устал.flac",
+      "burmakin/Грёбаный бал - Просто устал.mp3",
+      "burmakin/Просто устал.flac",
+      "burmakin/Просто устал.mp3"
+    ]
+  },
+  "mithqal": {
+    "hash": "e67f49fc09e5",
+    "paths": [
+      "mithqal/GENERATED - Mithqāl.flac",
+      "mithqal/GENERATED - Mithqāl.mp3",
+      "mithqal/GENERATED - مِثْقَال.flac",
+      "mithqal/GENERATED - مِثْقَال.mp3",
+      "mithqal/mithqal_rock_master.flac",
+      "mithqal/mithqal_rock_master.mp3"
+    ]
+  },
+  "onto-fingers": {
+    "hash": "5aef2cd69948",
+    "paths": [
+      "fingers/Gryobany bal - Na palʼtsy.flac",
+      "fingers/Gryobany bal - Na palʼtsy.mp3",
+      "fingers/Грёбаный бал - На пальцы.flac",
+      "fingers/Грёбаный бал - На пальцы.mp3",
+      "fingers/На пальцы (EDM).flac",
+      "fingers/На пальцы (EDM).mp3"
     ]
   },
   "poison": {
@@ -122,6 +296,17 @@
       "slime/Слизь.mp3"
     ]
   },
+  "snow": {
+    "hash": "fa16548df6ee",
+    "paths": [
+      "sneg_0/Damy i gospoda - Sneg feat. Poluzhivye.flac",
+      "sneg_0/Damy i gospoda - Sneg feat. Poluzhivye.mp3",
+      "sneg_0/sneg_master.flac",
+      "sneg_0/sneg_master.mp3",
+      "sneg_0/Дамы и господа - Снег feat. Полуживые.flac",
+      "sneg_0/Дамы и господа - Снег feat. Полуживые.mp3"
+    ]
+  },
   "snow-is-falling": {
     "hash": "3370036c3763",
     "paths": [
@@ -133,6 +318,28 @@
       "sneg_idet/Снег идёт.mp3"
     ]
   },
+  "sonnet-74": {
+    "hash": "21fe75f00321",
+    "paths": [
+      "s74/Damy i gospoda - Ty ne terzaysya… feat. Poluzhivye.flac",
+      "s74/Damy i gospoda - Ty ne terzaysya… feat. Poluzhivye.mp3",
+      "s74/Дамы и господа - Ты не терзайся… feat. Полуживые.flac",
+      "s74/Дамы и господа - Ты не терзайся… feat. Полуживые.mp3",
+      "s74/Ты не терзайся и когда за мной.flac",
+      "s74/Ты не терзайся и когда за мной.master.mp3"
+    ]
+  },
+  "stricken-deer": {
+    "hash": "4df601c708a1",
+    "paths": [
+      "deer/Poluzhivye - Why Let the Stricken Deer Go Weep.flac",
+      "deer/Poluzhivye - Why Let the Stricken Deer Go Weep.mp3",
+      "deer/Why Let the Stricken Deer Go Weep.flac",
+      "deer/Why Let the Stricken Deer Go Weep.mp3",
+      "deer/Полуживые - Why Let the Stricken Deer Go Weep.flac",
+      "deer/Полуживые - Why Let the Stricken Deer Go Weep.mp3"
+    ]
+  },
   "student-girl": {
     "hash": "77e72eee1d72",
     "paths": [
@@ -142,6 +349,28 @@
       "studentka/Грёбаный бал - Студентка.mp3",
       "studentka/Студентка.flac",
       "studentka/Студентка.mp3"
+    ]
+  },
+  "there": {
+    "hash": "02b822c168c3",
+    "paths": [
+      "f-ec/Gryobany bal - Tam.flac",
+      "f-ec/Gryobany bal - Tam.mp3",
+      "f-ec/Грёбаный бал - Там.flac",
+      "f-ec/Грёбаный бал - Там.mp3",
+      "f-ec/Там.flac",
+      "f-ec/Там.mp3"
+    ]
+  },
+  "we-re-back": {
+    "hash": "ca10304962a6",
+    "paths": [
+      "wereback/GENERATED - We’re Back feat. Yoohie.flac",
+      "wereback/GENERATED - We’re Back feat. Yoohie.mp3",
+      "wereback/GENERATED - We’re Back feat. Йухи.flac",
+      "wereback/GENERATED - We’re Back feat. Йухи.mp3",
+      "wereback/wereback.flac",
+      "wereback/wereback.mp3"
     ]
   }
 }
