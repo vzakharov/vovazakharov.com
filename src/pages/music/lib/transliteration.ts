@@ -29,9 +29,28 @@ export function romanizedTag(language: SungLanguage): string {
   return `${language}-latn`;
 }
 
-/** How many authored lines a read entry stands for. */
-function linesIn(entry: LyricLine): number {
-  return entryText(entry).split('\n').length;
+/** The authored lines a read entry stands for. */
+function entryLines(entry: LyricLine): string[] {
+  return entryText(entry).split('\n');
+}
+
+/** The marker of a language's romanized section, as an error names it. */
+function sectionMarker(language: SungLanguage): string {
+  return `lyrics:${romanizedTag(language)}`;
+}
+
+/** A romanized section's stanzas, none of their lines carrying a note. */
+function sectionStanzas(section: string, fileName: string): string[][] {
+  const stanzas = splitStanzas(section);
+  const noted = stanzas.flat().find((line) => carriesNote(line));
+
+  if (noted !== undefined) {
+    throw new Error(
+      `${fileName}: the transliteration line “${noted}” carries a note; notes go on the words it romanizes.`,
+    );
+  }
+
+  return stanzas;
 }
 
 const LATIN = /\p{Script=Latin}/u;
@@ -95,7 +114,7 @@ function romanizeLine(line: string, { scripts, queues, fileName }: LineSource) {
 
     if (next === undefined) {
       throw new Error(
-        `${fileName}: “${line}” has no line left in the “lyrics:${romanizedTag(only.language)}” section, which holds one per line with ${only.language} letters, in order.`,
+        `${fileName}: “${line}” has no line left in the “${sectionMarker(only.language)}” section, which holds one per line with ${only.language} letters, in order.`,
       );
     }
 
@@ -105,7 +124,7 @@ function romanizeLine(line: string, { scripts, queues, fileName }: LineSource) {
   if (only.language === 'ru') return romanizeRussian(line);
 
   throw new Error(
-    `${fileName}: “${line}” is in ${only.language}, which no rule romanizes; give it a line in a “lyrics:${romanizedTag(only.language)}” section.`,
+    `${fileName}: “${line}” is in ${only.language}, which no rule romanizes; give it a line in a “${sectionMarker(only.language)}” section.`,
   );
 }
 
@@ -129,14 +148,13 @@ function romanizeLines(
 
       return section === undefined
         ? []
-        : [[language, sectionLines(section, fileName)] as const];
+        : [[language, sectionStanzas(section, fileName).flat()] as const];
     }),
   );
   const source = { scripts, queues, fileName };
   const lines = stanzas.map((entries) =>
     entries.map((entry) =>
-      entryText(entry)
-        .split('\n')
+      entryLines(entry)
         .map((line) => romanizeLine(line, source))
         .join('\n'),
     ),
@@ -147,21 +165,7 @@ function romanizeLines(
     const [language, queue] = left;
 
     throw new Error(
-      `${fileName}: the “lyrics:${romanizedTag(language)}” section has ${String(queue.length)} line(s) more than the words have lines with ${language} letters.`,
-    );
-  }
-
-  return lines;
-}
-
-/** A section's lines, stanza breaks aside, none of them carrying a note. */
-function sectionLines(section: string, fileName: string): string[] {
-  const lines = splitStanzas(section).flat();
-  const noted = lines.find((line) => carriesNote(line));
-
-  if (noted !== undefined) {
-    throw new Error(
-      `${fileName}: the transliteration line “${noted}” carries a note; notes go on the words it romanizes.`,
+      `${fileName}: the “${sectionMarker(language)}” section has ${String(queue.length)} line(s) more than the words have lines with ${language} letters.`,
     );
   }
 
@@ -174,7 +178,7 @@ function forReader(
   latin: string,
   locale: Locale,
 ): string | undefined {
-  const lines = entryText(entry).split('\n');
+  const lines = entryLines(entry);
   const romanized = latin.split('\n');
   const needed = lines.map((line) => needsLatin(line, locale));
 
@@ -238,14 +242,7 @@ export function alignTransliteration(
   section: string,
   fileName: string,
 ): Transliteration {
-  const romanized = splitStanzas(section);
-  const noted = romanized.flat().find((line) => carriesNote(line));
-
-  if (noted !== undefined) {
-    throw new Error(
-      `${fileName}: the transliteration line “${noted}” carries a note; notes go on the words it romanizes.`,
-    );
-  }
+  const romanized = sectionStanzas(section, fileName);
 
   if (romanized.length !== stanzas.length) {
     throw new Error(
@@ -255,7 +252,7 @@ export function alignTransliteration(
 
   return stanzas.map((entries, index) => {
     const lines = romanized[index] ?? [];
-    const counts = entries.map((entry) => linesIn(entry));
+    const counts = entries.map((entry) => entryLines(entry).length);
     const expected = counts.reduce((sum, count) => sum + count, 0);
 
     if (lines.length !== expected) {
