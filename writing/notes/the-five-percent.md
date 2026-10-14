@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×66)
+## What it was handed, it treats as fixed (×67)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -111,6 +111,13 @@ another's may be consulted, never owned, or it is a split personality.
 radio's live flag, `tune` and `release` went into the player's own reducer,
 since every action must release it. _для радио-штучек лучше отдельный хук? слишком
 специфичная механика._ A reducer layered over the player's sees every action too.
+
+**14 October — a song's field named for the feature that first read it.** Each
+FLAC master's MP3 copy went into frontmatter as `podcast`, required and
+scaffolded, since the feed needed it. _зачем мы это называем `podcast` если это
+просто по сути мастер mp3?_ Non-lossless playback will want it too; now `mp3`
+across 170 songs. Built for enclosures, the MP3s went unseen as a download: _&
+download?_
 
 ## An account that explains the code stands in for running it (×21)
 
