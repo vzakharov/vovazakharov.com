@@ -18,7 +18,7 @@
  * first 128 KB of the file rather than the whole of it: a ten-song scaffold
  * moves about 1 MB where the masters themselves are a quarter of a gigabyte.
  * That the host answers a range request at all is what lets the player seek.
- * The podcast copy's size, `<stem>.master.mp3` beside the master, is read off
+ * The MP3 copy's size, `<stem>.master.mp3` beside the master, is read off
  * the host's `content-length` the same way, by a HEAD.
  *
  * It never overwrites a document that exists, so a re-run after the author has
@@ -55,11 +55,11 @@ type Master = {
   /** Where `raw.githubusercontent.com` serves it, percent-encoded. */
   audio: string;
   explicit: boolean;
-  /** Its podcast copy's URL, where the repository holds one yet. */
+  /** Its MP3 copy's URL, where the repository holds one yet. */
   copy?: string;
 };
 
-/** The podcast copy's name beside a FLAC master: `<stem>.master.mp3`. */
+/** The MP3 copy's name beside a FLAC master: `<stem>.master.mp3`. */
 function copyName(flac: string): string {
   return flac.replace(/\.flac$/i, '.master.mp3');
 }
@@ -295,7 +295,7 @@ type DocumentFields = Named &
     seconds: number;
     master: Master;
     streamInfo: StreamInfo;
-    podcast?: { url: string; bytes: number };
+    mp3?: { url: string; bytes: number };
   };
 
 function yamlList(values: readonly string[]): string {
@@ -309,7 +309,7 @@ function yamlList(values: readonly string[]): string {
  * loud failure a placeholder string would not be.
  */
 function document(fields: DocumentFields): string {
-  const { name, date, spec, seconds, master, streamInfo, podcast } = fields;
+  const { name, date, spec, seconds, master, streamInfo, mp3 } = fields;
   const {
     repo,
     project,
@@ -345,9 +345,9 @@ repo: ${yaml(repo)}
 audio: ${master.audio}
 seconds: ${seconds}
 ${
-  podcast === undefined
-    ? `# podcast: { url, bytes } — encode ${copyName(master.flac)} beside the master first`
-    : `podcast:\n  url: ${podcast.url}\n  bytes: ${podcast.bytes}`
+  mp3 === undefined
+    ? `# mp3: { url, bytes } — encode ${copyName(master.flac)} beside the master first`
+    : `mp3:\n  url: ${mp3.url}\n  bytes: ${mp3.bytes}`
 }
 explicit: ${String(master.explicit || explicit === true)}
 ${album === undefined ? '' : `album: ${album}\n`}${en}${ru}---
@@ -389,7 +389,7 @@ async function scaffold(spec: SongSpec, directory: string): Promise<string> {
       ...(master.copy === undefined
         ? {}
         : {
-            podcast: { url: master.copy, bytes: await fetchBytes(master.copy) },
+            mp3: { url: master.copy, bytes: await fetchBytes(master.copy) },
           }),
     }),
   );

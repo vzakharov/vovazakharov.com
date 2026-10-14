@@ -25,30 +25,48 @@ import {
   type SongDocument,
 } from './song-text';
 
+function text(value: string): ElementContent {
+  return { type: 'text', value };
+}
+
 function element(
   tagName: string,
   properties: Record<string, string>,
-  text: string,
+  value: string,
 ): ElementContent {
-  return {
-    type: 'element',
-    tagName,
-    properties,
-    children: [{ type: 'text', value: text }],
-  };
+  return { type: 'element', tagName, properties, children: [text(value)] };
+}
+
+function paragraph(children: ElementContent[]): ElementContent {
+  return { type: 'element', tagName: 'p', properties: {}, children };
+}
+
+/** The song's files to download: the MP3, and the FLAC master where it is one. */
+function downloadLinks(document: SongDocument): ElementContent[] {
+  const { audio, mp3 } = document.frontmatter;
+  const files = [
+    { label: 'MP3', href: mp3.url ?? audio },
+    ...(mp3.url === undefined ? [] : [{ label: 'FLAC', href: audio }]),
+  ];
+
+  return files.flatMap(({ label, href }, index) => [
+    ...(index === 0 ? [] : [text(' · ')]),
+    element('a', { href }, label),
+  ]);
 }
 
 /**
  * The song's prose as its page's story shows it — the world first where it has
- * one, then the making-of under its label — and a link to the page for the
- * words and their notes, whose columns and popovers are the page's to lay out.
+ * one, then the making-of under its label — then a link to the page for the
+ * words and their notes, whose columns and popovers are the page's to lay out,
+ * and the song's files.
  */
 async function songContent(
   document: SongDocument,
   localized: LocalizedSongDocument,
   locale: Locale,
 ): Promise<string> {
-  const { makingOf, feedPageLink } = loadMessages(locale).music;
+  const { makingOf, feedPageLink, feedDownload } = loadMessages(locale).music;
   const universe = universeOf(document, locale);
   const [world, told] = await Promise.all([
     universe && renderProse(universe),
@@ -60,12 +78,8 @@ async function songContent(
       ...(world?.tree.children ?? []),
       ...(world && told ? [element('h2', {}, makingOf)] : []),
       ...(told?.tree.children ?? []),
-      {
-        type: 'element',
-        tagName: 'p',
-        properties: {},
-        children: [element('a', { href: localized.route }, feedPageLink)],
-      },
+      paragraph([element('a', { href: localized.route }, feedPageLink)]),
+      paragraph([text(`${feedDownload}: `), ...downloadLinks(document)]),
     ],
   };
 
@@ -73,13 +87,13 @@ async function songContent(
 }
 
 function songEpisode(document: SongDocument): FeedEntry['episode'] {
-  const { audio, podcast, seconds, explicit } = document.frontmatter;
+  const { audio, mp3, seconds, explicit } = document.frontmatter;
   const picture = songPicture(document);
 
   return {
     enclosure: {
-      url: absoluteUrl(podcast.url ?? audio),
-      ...pick(podcast, 'bytes'),
+      url: absoluteUrl(mp3.url ?? audio),
+      ...pick(mp3, 'bytes'),
     },
     seconds,
     explicit,
