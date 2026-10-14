@@ -1,4 +1,37 @@
 {
+  "20": {
+    "hash": "13a56b1aa685",
+    "paths": [
+      "first/Poluzhivye - Dvadtsatʼ feat. Gryobany bal.flac",
+      "first/Poluzhivye - Dvadtsatʼ feat. Gryobany bal.mp3",
+      "first/Двадцать.flac",
+      "first/Двадцать.mp3",
+      "first/Полуживые - Двадцать feat. Грёбаный бал.flac",
+      "first/Полуживые - Двадцать feat. Грёбаный бал.mp3"
+    ]
+  },
+  "beyond-the-horizon": {
+    "hash": "feb583001f18",
+    "paths": [
+      "bezm/Gryobany bal - Za gorizont.flac",
+      "bezm/Gryobany bal - Za gorizont.mp3",
+      "bezm/Грёбаный бал - За горизонт.flac",
+      "bezm/Грёбаный бал - За горизонт.mp3",
+      "bezm/За горизонт.flac",
+      "bezm/За горизонт.mp3"
+    ]
+  },
+  "birdie": {
+    "hash": "358035d9965c",
+    "paths": [
+      "birdie/Gryobany bal - Ptichka.flac",
+      "birdie/Gryobany bal - Ptichka.mp3",
+      "birdie/Грёбаный бал - Птичка.flac",
+      "birdie/Грёбаный бал - Птичка.mp3",
+      "birdie/🅴 Птичка.flac",
+      "birdie/🅴 Птичка.mp3"
+    ]
+  },
   "boom": {
     "hash": "aadc79bcc21e",
     "paths": [
@@ -6,6 +39,39 @@
       "boom/GENERATED - Boom!.mp3",
       "boom/boom.flac",
       "boom/boom.master.mp3"
+    ]
+  },
+  "boundless-skies": {
+    "hash": "16200cd1c9c4",
+    "paths": [
+      "bezm/Poluzhivye - V bezmernosti nebes.flac",
+      "bezm/Poluzhivye - V bezmernosti nebes.mp3",
+      "bezm/В безмерности небес.flac",
+      "bezm/В безмерности небес.master.mp3",
+      "bezm/Полуживые - В безмерности небес.flac",
+      "bezm/Полуживые - В безмерности небес.mp3"
+    ]
+  },
+  "buy-you-a-house": {
+    "hash": "86688e55c3a3",
+    "paths": [
+      "lebed/Gryobany bal - Ya kuplyu tebe dom.flac",
+      "lebed/Gryobany bal - Ya kuplyu tebe dom.mp3",
+      "lebed/Грёбаный бал - Я куплю тебе дом.flac",
+      "lebed/Грёбаный бал - Я куплю тебе дом.mp3",
+      "lebed/Я куплю тебе дом.flac",
+      "lebed/Я куплю тебе дом.mp3"
+    ]
+  },
+  "cancer": {
+    "hash": "f38cead94c53",
+    "paths": [
+      "rak/Gryobany bal - Ne smotri.flac",
+      "rak/Gryobany bal - Ne smotri.mp3",
+      "rak/Грёбаный бал - Не смотри.flac",
+      "rak/Грёбаный бал - Не смотри.mp3",
+      "rak/Не смотри.flac",
+      "rak/Не смотри.mp3"
     ]
   },
   "ghostly-blues": {
@@ -16,11 +82,44 @@
       "ghostly-blues/Грёбаный бал - Призрачный блюз.mp3"
     ]
   },
+  "good-morning": {
+    "hash": "a3cb7a0e3719",
+    "paths": [
+      "utro/Gryobany bal - Dobroye utro.flac",
+      "utro/Gryobany bal - Dobroye utro.mp3",
+      "utro/Грёбаный бал - Доброе утро.flac",
+      "utro/Грёбаный бал - Доброе утро.mp3",
+      "utro/Доброе утро.flac",
+      "utro/Доброе утро.mp3"
+    ]
+  },
   "hello-human": {
     "hash": "539929b639f4",
     "paths": [
       "machines/GENERATED - Hello, Human.mp3",
       "machines/protintro.mp3"
+    ]
+  },
+  "poison": {
+    "hash": "8fbdc5dde8bb",
+    "paths": [
+      "yad/Gryobany bal - Yad.flac",
+      "yad/Gryobany bal - Yad.mp3",
+      "yad/Грёбаный бал - Яд.flac",
+      "yad/Грёбаный бал - Яд.mp3",
+      "yad/Яд_master2.flac",
+      "yad/Яд_master2.mp3"
+    ]
+  },
+  "slime": {
+    "hash": "530e3440aa27",
+    "paths": [
+      "slime/Gryobany bal - Slizʼ feat. za_oblozhkoy.flac",
+      "slime/Gryobany bal - Slizʼ feat. za_oblozhkoy.mp3",
+      "slime/Грёбаный бал - Слизь feat. за_обложкой.flac",
+      "slime/Грёбаный бал - Слизь feat. за_обложкой.mp3",
+      "slime/Слизь.flac",
+      "slime/Слизь.mp3"
     ]
   },
   "snow-is-falling": {
@@ -32,6 +131,17 @@
       "sneg_idet/Полуживые - Снег идёт.mp3",
       "sneg_idet/Снег идёт.flac",
       "sneg_idet/Снег идёт.mp3"
+    ]
+  },
+  "student-girl": {
+    "hash": "77e72eee1d72",
+    "paths": [
+      "studentka/Gryobany bal - Studentka.flac",
+      "studentka/Gryobany bal - Studentka.mp3",
+      "studentka/Грёбаный бал - Студентка.flac",
+      "studentka/Грёбаный бал - Студентка.mp3",
+      "studentka/Студентка.flac",
+      "studentka/Студентка.mp3"
     ]
   }
 }
