@@ -32,6 +32,7 @@ import {
   defaultBranch,
   MUSIC_WORK_DIR,
   readBlob,
+  removeClone,
   stageBlob,
   stagedSummary,
 } from './lib/music-repo.ts';
@@ -72,7 +73,7 @@ function get([repo, repoPath, file]: string[]): void {
   const clone = cloneDefault(repo);
 
   fs.writeFileSync(path.resolve(REPO_ROOT, file), readBlob(clone, repoPath));
-  fs.rmSync(clone.dir, { recursive: true, force: true });
+  removeClone(clone);
 }
 
 function put([repo, ...pairs]: string[]): void {
@@ -95,11 +96,11 @@ function put([repo, ...pairs]: string[]): void {
     );
   }
 
-  process.stdout.write(`${repo}:\n${stagedSummary(clone)}\n`);
+  process.stdout.write(`${stagedSummary(clone)}\n`);
   if (!commitStaged(clone, message, true)) {
     process.stdout.write(`${repo}: nothing changed\n`);
   }
-  fs.rmSync(clone.dir, { recursive: true, force: true });
+  removeClone(clone);
 }
 
 const RUN: Record<Command, (args: string[]) => void> = {

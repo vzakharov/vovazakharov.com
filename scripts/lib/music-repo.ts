@@ -104,6 +104,10 @@ export function cloneRepo(
   return { repo, branch, dir };
 }
 
+export function removeClone({ dir }: MusicRepo): void {
+  fs.rmSync(dir, { recursive: true, force: true });
+}
+
 /** Every file path the branch's head holds. */
 export function treePaths({ dir }: MusicRepo): Set<string> {
   return new Set(
@@ -271,7 +275,7 @@ function publishHead({ repo, branch, dir }: MusicRepo, message: string): void {
   });
 }
 
-/** The staged changes against the head, one `<status>\t<path>` per line. */
-export function stagedSummary({ dir }: MusicRepo): string {
-  return text(dir, ['diff', '--cached', '--name-status', 'HEAD']);
+/** The staged changes against the head, one `<status>\t<path>` per line under a `<repo>:` header. */
+export function stagedSummary({ repo, dir }: MusicRepo): string {
+  return `${repo}:\n${text(dir, ['diff', '--cached', '--name-status', 'HEAD'])}`;
 }

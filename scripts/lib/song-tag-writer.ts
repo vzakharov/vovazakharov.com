@@ -20,6 +20,8 @@ import {
   XiphComment,
 } from 'node-taglib-sharp';
 
+import { extensionOf } from '@/pages/music/lib/song-files';
+
 import type { SongTags } from './song-tags.ts';
 
 Id3v2Settings.defaultVersion = 3;
@@ -104,8 +106,7 @@ export function writeSongTags(
   tags: SongTags,
   cover?: string,
 ): void {
-  const extension = path.slice(path.lastIndexOf('.') + 1).toLowerCase();
-  const write = WRITERS[extension];
+  const write = WRITERS[extensionOf(path)];
 
   if (write === undefined) throw new Error(`No tag writer for ${path}`);
 

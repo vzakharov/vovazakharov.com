@@ -3,14 +3,11 @@ import { describe, it } from 'node:test';
 
 import { renameMentions, rewriteSongDocument } from './song-tag-rewrites.ts';
 
-const FLAC =
-  'https://raw.githubusercontent.com/vovas-music/boom/main/boom.flac';
-const MP3 =
-  'https://raw.githubusercontent.com/vovas-music/boom/main/boom.master.mp3';
-const NEW_FLAC =
-  'https://raw.githubusercontent.com/vovas-music/boom/main/GENERATED%20-%20Boom!.flac';
-const NEW_MP3 =
-  'https://raw.githubusercontent.com/vovas-music/boom/main/GENERATED%20-%20Boom!.mp3';
+const BOOM = 'https://raw.githubusercontent.com/vovas-music/boom/main';
+const FLAC = `${BOOM}/boom.flac`;
+const MP3 = `${BOOM}/boom.master.mp3`;
+const NEW_FLAC = `${BOOM}/GENERATED%20-%20Boom!.flac`;
+const NEW_MP3 = `${BOOM}/GENERATED%20-%20Boom!.mp3`;
 
 const DOCUMENT = `---
 audio: ${FLAC}

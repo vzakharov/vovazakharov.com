@@ -40,6 +40,7 @@ import {
   MUSIC_WORK_DIR,
   type MusicRepo,
   readBlob,
+  removeClone,
   stageBlob,
   stagedSummary,
   treePaths,
@@ -83,12 +84,13 @@ function jobHash({ tags, coverPath, files }: SongTagJob): string {
   );
 }
 
-const inDirectory = (directory: string, name: string): string =>
-  directory === '' ? name : `${directory}/${name}`;
+/** The repository path of each name the file is derived under. */
+const namedPaths = ({ directory, names }: MasterFile): string[] =>
+  names.map((name) => (directory === '' ? name : `${directory}/${name}`));
 
 /** `<repo>/<path>` for each name the file is derived under. */
 const derivedPaths = (file: MasterFile): string[] =>
-  file.names.map((name) => servedPath(file, inDirectory(file.directory, name)));
+  namedPaths(file).map((at) => servedPath(file, at));
 
 /** The decoded audio's MD5, which tagging must leave as it was. */
 function audioMd5(file: string): string {
@@ -121,11 +123,7 @@ function tagFile(repo: MusicRepo, job: SongTagJob, file: MasterFile): Buffer {
   const tagged = fs.readFileSync(local);
 
   fs.rmSync(local);
-  stageBlob(
-    repo,
-    tagged,
-    file.names.map((name) => inDirectory(file.directory, name)),
-  );
+  stageBlob(repo, tagged, namedPaths(file));
 
   return tagged;
 }
@@ -228,13 +226,13 @@ function tagRepository(
   }
 
   renameInReadme(repo, jobs);
-  report(`${name}:\n${stagedSummary(repo)}`);
+  report(stagedSummary(repo));
   commitStaged(repo, 'chore: name and tag the masters for download', !dryRun);
 
   // A dry run keeps the clone and its unpushed commit to look at.
   if (dryRun) return;
 
-  fs.rmSync(repo.dir, { recursive: true, force: true });
+  removeClone(repo);
 
   for (const job of jobs) {
     const bytes = mp3Bytes.get(job.slug);
@@ -280,9 +278,9 @@ export function pruneSongs(slugs: readonly string[]): void {
       repo,
       gone.map((at) => at.slice(name.length + 1)).filter((at) => held.has(at)),
     );
-    report(`${name}:\n${stagedSummary(repo)}`);
+    report(stagedSummary(repo));
     commitStaged(repo, "chore: prune the masters' old names", true);
-    fs.rmSync(repo.dir, { recursive: true, force: true });
+    removeClone(repo);
 
     for (const job of group.jobs) {
       const entry = manifest[job.slug];
