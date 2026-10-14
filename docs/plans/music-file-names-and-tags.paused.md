@@ -3,13 +3,42 @@
 ## Status
 
 Approved (6293ffb). **Done:** checklist items 1–2 (the spike, `songFileName`),
-and of item 3 the pure tag set: `scripts/lib/song-tags.ts` (`buildTags`,
-`TagSource` = `SongBilling` & the rest, `SongTags`) with its test (20b26e7);
-the artist billing is `billedArtists` in `file-name.ts`, shared by the name and
-the tags. **Left:** the rest of item 3 — the writer (`SongTags` → ID3v2.3 /
-Xiph through `node-taglib-sharp`, cover from `songPicture`), the
-upload, the frontmatter rewrite, the manifest, `--check`, `--prune` — then
-items 4 onward.
+and of item 3:
+
+- the pure tag set: `scripts/lib/song-tags.ts` (`buildTags`, `TagSource` =
+  `SongBilling` & the rest, `SongTags`) with its test (20b26e7); the artist
+  billing is `billedArtists` in `file-name.ts`, shared by the name and the tags;
+- the writer, `scripts/lib/song-tag-writer.ts` (`writeSongTags(path, tags,
+  cover?)`), checked on `boom`'s real files: audio MD5 unchanged, ID3v2.3, one
+  cover, idempotent across re-runs;
+- the resolver, `scripts/lib/song-tag-source.ts` (`songTagJobs(publicDir)` →
+  per song: tags, cover path, and per file its `RepoLocation`, `source` path,
+  `field` (`audio`/`mp3`) and `names`, the frontmatter's own first; `rawUrl`
+  builds a derived name's URL). It needed `songBilling(document, locale)` in
+  `songs.ts` and `sungStanzas` in `song-text.ts`, both added (7a899bd). Run
+  under `scripts/in-site.sh vova tsx --conditions=react-server`; 168 songs
+  resolve.
+
+**Left of item 3:** `scripts/tag-songs.ts` and the `music:tag` entry —
+
+- per repository (group the jobs by `repo`, one commit each): blobless clone
+  into `tmp/music-tag/<repo>`, `git cat-file blob HEAD:<source>`, tag,
+  `git hash-object -w`, `git read-tree HEAD` + `update-index --add --cacheinfo`
+  under every name, README mentions of the old basename rewritten to the own
+  name, commit, push with `gh auth git-credential` as the credential helper
+  (the proxy authenticates only this repo; commit signing may need
+  `-c commit.gpgsign=false` there);
+- the frontmatter rewrite: replace each old URL with `rawUrl(file, names[0])`,
+  and `mp3.bytes` with the tagged MP3's size;
+- the manifest `apps/vova/public/music/tag-renders.json`, its own ~30 lines:
+  slug → `{ hash, paths }`, the hash over the tags, the cover's bytes and the
+  names; `paths` accumulating every repository path read or written, so
+  `--prune` deletes `paths` minus what is derived now;
+- `--check`: offline, stale = hash differs; not wired into vet until the run
+  has happened (item 8).
+
+Then items 4 onward. Billing nit to raise with the operator: the page bills
+two features `A feat. B, C`, `billedArtists` writes `A feat. B & C`.
 
 **Blocked: pushing to `vovas-music`.** The auto-mode classifier refused the
 `tag-spike` test push to `vovas-music/boom` as "Create Public Surface"; the
