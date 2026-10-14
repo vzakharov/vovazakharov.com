@@ -1,6 +1,6 @@
 /**
  * The music section's social card and its podcast cover, covers scattered at
- * different sizes and angles — with no text but the radio's band — as a page for
+ * different sizes and angles — with no text but the radio's and the podcast's band — as a page for
  * `og-render.ts` to screenshot.
  */
 
@@ -21,8 +21,8 @@ export type CollageBand = Titled & { line: string };
 /** A cover's place on the canvas: its centre, the length of its edge, and its tilt. */
 type Slot = { cx: number; cy: number; edge: number; degrees: number };
 
-/** A canvas and where the covers fall on it. */
-type Layout = { canvas: Sized; slots: readonly Slot[] };
+/** A canvas, where the covers fall on it, and how far down a band sits. */
+type Layout = { canvas: Sized; slots: readonly Slot[]; bandTop: number };
 
 /**
  * Hand-tuned rather than seeded, so the composition is judged once, not
@@ -46,6 +46,7 @@ const LAYOUTS = {
       { cx: 30, cy: 60, edge: 200, degrees: -10 },
       { cx: 700, cy: 30, edge: 190, degrees: -3 },
     ],
+    bandTop: 380,
   },
   /** The podcast cover, which Apple wants square and 1400–3000 px a side. */
   square: {
@@ -62,6 +63,7 @@ const LAYOUTS = {
       { cx: 110, cy: 1400, edge: 330, degrees: 8 },
       { cx: 720, cy: 60, edge: 300, degrees: 4 },
     ],
+    bandTop: 1180,
   },
 } as const satisfies Record<string, Layout>;
 
@@ -94,7 +96,7 @@ export function musicCollage(
   covers: readonly string[],
   { band, shape = 'card' }: { band?: CollageBand; shape?: CollageShape } = {},
 ): StagedPage {
-  const { canvas, slots }: Layout = LAYOUTS[shape];
+  const { canvas, slots, bandTop }: Layout = LAYOUTS[shape];
   const bandHtml =
     band === undefined
       ? ''
@@ -133,7 +135,7 @@ export function musicCollage(
         position: absolute;
         left: 0;
         right: 0;
-        top: 380px;
+        top: ${bandTop}px;
         z-index: ${slots.length + 1};
         padding: 26px 64px 30px;
         background: rgb(11 11 11 / 0.84);

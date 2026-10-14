@@ -274,9 +274,19 @@ function radioBand(): CollageBand {
   return { title, line: pitch };
 }
 
+/** The songs feeds' name without its locale, over the feeds' own description. */
+function podcastBand(): CollageBand {
+  const { title, metaDescription } = loadMessages('en').music;
+
+  return {
+    title: `${siteConfig(RENDERED_SITE).name} — ${title}`,
+    line: metaDescription,
+  };
+}
+
 /**
  * The index's collage, the radio's — the same covers under its band — the
- * songs feeds' square cut of it, and each artist's that has one, at the
+ * songs feeds' square cut of it under theirs, and each artist's that has one, at the
  * addresses their pages' metadata and the feeds point to.
  */
 function musicCards(): Card[] {
@@ -285,7 +295,10 @@ function musicCards(): Card[] {
   return [
     collageCard(musicCollageCovers(), MUSIC_COLLAGE),
     collageCard(musicCollageCovers(), RADIO_CARD, { band: radioBand() }),
-    collageCard(musicCollageCovers(), PODCAST_COVER, { shape: 'square' }),
+    collageCard(musicCollageCovers(), PODCAST_COVER, {
+      band: podcastBand(),
+      shape: 'square',
+    }),
     ...MUSIC_PROJECT_NAMES.flatMap((artist) => {
       const covers = artistCollageCovers(artist);
 
