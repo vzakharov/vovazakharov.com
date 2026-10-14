@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from audio import stft_magnitude
+from audio import log_rows, stft_magnitude
 
 # 46 ms windows at a 23 ms hop: short enough to place an onset within a beat.
 ONSET_NFFT = 1024
@@ -18,11 +18,16 @@ def onset_envelope(x):
     """Half-wave-rectified spectral flux of the log magnitude: (envelope, step in s).
 
     From a short window, ONSET_NFFT at a hop of half that, since the drawing's
-    0.37 s window smears every onset across a third of a beat.
+    0.37 s window smears every onset across a third of a beat. The flux is
+    averaged over `log_rows`, so every octave weighs the same: averaged over
+    linear bins, most of which lie above 5 kHz, the hi-hat outvotes the kick,
+    the bass and the chords, and a shuffle's off-beat hats read as a faster
+    straight beat.
     """
-    magnitude, _, step = stft_magnitude(x, ONSET_NFFT, ONSET_NFFT // 2)
-    db = 20 * np.log10(np.maximum(magnitude, magnitude.max() * 10 ** (-ONSET_RANGE_DB / 20) + 1e-12))
-    flux = np.maximum(np.diff(db, axis=0), 0).mean(axis=1)
+    magnitude, freqs, step = stft_magnitude(x, ONSET_NFFT, ONSET_NFFT // 2)
+    db = log_rows(magnitude, freqs)
+    db = np.maximum(db, db.max() - ONSET_RANGE_DB)
+    flux = np.maximum(np.diff(db, axis=1), 0).mean(axis=0)
     return np.concatenate([[0], flux]), step
 
 
