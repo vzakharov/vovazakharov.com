@@ -8,19 +8,21 @@
 
 import { pick } from '@/shared/lib/collections';
 
-import type { Aloft, Framed } from '../../model/flight-frame';
+import type { Aloft, Forward } from '../../model/flight-frame';
 import { type Turned, wrap } from '../../model/geometry';
 import { onHost } from './bed-place';
 import { reachesScreen, type Spanned, type Zoomed } from './insect-away';
 import { aloftFramed, type SeatEnds } from './insect-frame';
-import type { Drinking } from './insect-look';
+import type { Layered } from '../../model/ground';
+import type { Translucent } from './ink';
+import type { Rotated } from './insect-look';
 import { drawnFlier, drawnSitter } from './insect-seat';
 import { shadowOf, type ShadowPlace } from './insect-shadow';
-import type { Shown } from './insect-shown';
-import { type Sinking, sinkingOf, type Under } from './insect-sink';
-import type { Seat } from './perch-hosts';
+import type { Flown } from './insect-shown';
+import { sinkingOf, type Under } from './insect-sink';
+import type { Nectared, Seat } from './perch-hosts';
 import { tapReach } from './tap-reach';
-import type { Placed, View } from './view';
+import type { View, Zooming } from './view';
 
 /**
  * An insect's flight this frame, in its leg's frame, centred at the azimuth
@@ -34,9 +36,9 @@ import type { Placed, View } from './view';
  * off its seat it is (`airborne`, `aloft` in `insect-motion.ts`).
  */
 export type LegFlight = Spanned &
-  Pick<Shown, 'at' | 'offset' | 'flown'> &
-  Pick<Framed, 'forward'> &
-  Pick<Placed, 'zoom'> &
+  Flown &
+  Forward &
+  Zooming &
   Turned & {
     frameAt: number;
     sunk: number;
@@ -55,8 +57,10 @@ export type LegFlight = Spanned &
  * draws it unzoomed about `middle`; and its body's `rotation` on the screen,
  * in radians clockwise from up.
  */
-export type Posed = Pick<Sinking, 'depth' | 'alpha'> &
-  Pick<Drinking, 'nectar' | 'rotation'> & {
+export type Posed = Layered &
+  Translucent &
+  Nectared &
+  Rotated & {
     middle: Zoomed;
     hit: number;
   };

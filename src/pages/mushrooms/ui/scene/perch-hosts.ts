@@ -18,7 +18,9 @@ import { dropped, perchSpot, shelterDrop } from './perch-sight';
  * px), its parts on the host at the host's zoom and its lift off the host at
  * the sitter's own.
  */
-export type Seat = Point & { on: Host; drawn: Point; nectar?: Point };
+export type Seat = Point & Nectared & { on: Host; drawn: Point };
+/** The middle of the flower a seat drinks at, where it has one. */
+export type Nectared = { nectar?: Point };
 
 /** Where an insect sits on a perch: a seat on a host, or a spot in the open air as a fixed point in the world. */
 export type Perched = Seat | { aloft: Aloft };

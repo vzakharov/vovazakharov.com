@@ -16,7 +16,8 @@ import { type Eye, EYE_HEIGHT, type Eyed, SPREAD } from './ground';
 export type Aloft = Point & { h: number };
 
 /** An `Aloft` in a leg's frame: across and down in the units of its `EyeFrame`, and `forward`, its distance ahead of the eye along the frame’s centre, in the clump's size. */
-export type Framed = Point & { forward: number };
+export type Framed = Point & Forward;
+export type Forward = { forward: number };
 
 /**
  * The frame an eye draws a leg in, in some unit of the screen: the `eye`,

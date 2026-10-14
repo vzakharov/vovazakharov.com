@@ -173,7 +173,7 @@ export type Timed = { now: number };
 export type Leg = Span & Route & Leaving & OutFirst;
 
 /** Where a leg sets off from. */
-type Origin = { from: Perch };
+export type Origin = { from: Perch };
 
 /** Where a leg flies to. */
 export type Destination = { to: Perch };
