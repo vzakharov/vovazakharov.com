@@ -1,18 +1,30 @@
 Proposed squash body:
 
 ```
-The radio's language chip was the EN / Abc spelling switch on every
-song: the page sampled the script of every name the station may play,
-and some song in the catalogue always has a name in Cyrillic. A song
-page samples only its own names, so there the switch appears only where
-it does something.
+The EN / Abc spelling switch appeared where it switched nothing: the
+radio sampled the script of every name the station may play, and lyrics
+got a Latin spelling only when most of their letters needed one, a
+threshold that left a few foreign lines in a song unspelled.
 
-The radio now matches that. The page hands the chip one sample per
-song, and the chip follows whichever song is on air, by the same clock
-as the on-air set. A song whose title, artist and album need no Latin
-spelling gets the plain current chip, as does the page before it
-mounts. That plain chip is CurrentChip in shared/ui, which ChipNav
-renders too.
+The switch now appears exactly where it changes something on screen.
+The radio hands the chip one sample per song, and the chip follows the
+song on air by the same clock as the on-air set. On any page the chip
+falls back to the player bar's track when the page's own names need no
+Latin spelling. The plain chip is CurrentChip in shared/ui.
+
+Lyrics are spelled line by line: a line gets Latin letters where it has
+a letter the reader may not read. The main language's -latn section,
+where a song has one, spells every line; otherwise Russian goes by rule
+and any other language by its own -latn section, which holds only the
+lines with that language's letters, in order. A line with no source,
+in a language the song does not list, or mixing two, fails the build,
+as does a section with lines to spare. A letter of no script, such as
+the apostrophe a transliteration writes a soft sign with, counts as
+readable.
+
+Farewell's Wang Wei lines, Artemis' Greek and The Ultimate
+Abstraction's Church Slavonic verse get sections of their own, and the
+notes that carried a reading keep only their translation.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
