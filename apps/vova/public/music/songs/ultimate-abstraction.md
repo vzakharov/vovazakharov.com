@@ -2,7 +2,7 @@
 title: 'The Ultimate Abstraction'
 date: 2024-07-23
 status: done
-language: en
+language: [en, cu]
 project: ['GENERATED']
 repo: 'oneday'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/6.%20The%20Ultimate%20Abstraction.flac
@@ -103,6 +103,10 @@ x2
 Азъ есмь Алфа и Омега, начатокъ и конецъ, Первый и Послѣднiй.[^alpha-en]
 
 [^alpha-en]: Church Slavonic: “I am Alpha and Omega, the beginning and the end, the first and the last” (Revelation 22:13).
+
+<!-- lyrics:cu-latn -->
+
+Az yesmʼ Alfa i Omega, nachatok i konets, Pervy i Posledniy.
 
 <!-- lyrics:ru -->
 

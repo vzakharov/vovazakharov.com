@@ -3,6 +3,7 @@ import type { SungLanguage } from '@/shared/music-catalogue';
 import {
   needsLatin,
   romanizeRussian,
+  scriptLetters,
 } from '@/shared/music-catalogue/index.node-safe';
 
 import {
@@ -33,7 +34,7 @@ function linesIn(entry: LyricLine): number {
   return entryText(entry).split('\n').length;
 }
 
-const NON_LATIN_LETTERS = /(?!\p{Script=Latin})\p{L}/gu;
+const LATIN = /\p{Script=Latin}/u;
 
 /** The letters of the script a language is written in. */
 function languageScript(language: SungLanguage): RegExp {
@@ -68,8 +69,9 @@ type LineSource = {
 function romanizeLine(line: string, { scripts, queues, fileName }: LineSource) {
   const sung = scripts.filter(({ letters }) => letters.test(line));
   const [only, other] = sung;
-  const unsung = (line.match(NON_LATIN_LETTERS) ?? []).some(
-    (letter) => !sung.some(({ letters }) => letters.test(letter)),
+  const unsung = scriptLetters(line).some(
+    (letter) =>
+      !LATIN.test(letter) && !sung.some(({ letters }) => letters.test(letter)),
   );
 
   if (unsung) {

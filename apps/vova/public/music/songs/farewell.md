@@ -2,7 +2,7 @@
 title: 'Прощание'
 date: 2025-12-19
 status: done
-language: ru
+language: [ru, zh]
 project: ['Полуживые']
 repo: 'wangwei'
 album: father-sea
@@ -82,7 +82,13 @@ I suppose that’s how it had to be.
 В облака, бесконечный, вечный,
 Бесконечный, вечный.
 
-[^wangwei-ru]: Кит., Ван Вэй, «Проводы»: _Ся ма инь цзюнь цзю, вэнь цзюнь хэ со чжи? Цзюнь янь бу дэ и, гуй во Наньшань чуй. Дань цюй мо фу вэнь, бай юнь у цзинь ши._ — «Сойди с коня, выпей моего вина; спрошу тебя: куда ты держишь путь? Ты говоришь: не сбылись мои стремления, вернусь и лягу у подножия Южных гор. Иди же, больше не спрошу; белым облакам нет конца».
+[^wangwei-ru]: Кит., Ван Вэй, «Проводы»: «Сойди с коня, выпей моего вина; спрошу тебя: куда ты держишь путь? Ты говоришь: не сбылись мои стремления, вернусь и лягу у подножия Южных гор. Иди же, больше не спрошу; белым облакам нет конца».
+
+<!-- lyrics:zh-latn -->
+
+Xià mǎ yǐn jūn jiǔ, wèn jūn hé suǒ zhī?
+Jūn yán bù dé yì, guī wò Nán Shān chuí.
+Dàn qù mò fù wèn, bái yún wú jìn shí.
 
 <!-- lyrics:en -->
 
@@ -110,4 +116,4 @@ Into the clouds, endless, eternal,
 Into the clouds, endless, eternal,
 Endless, eternal.
 
-[^wangwei-en]: Chinese, Wang Wei, “Farewell”: _Xià mǎ yǐn jūn jiǔ, wèn jūn hé suǒ zhī? Jūn yán bù dé yì, guī wò Nán Shān chuí. Dàn qù mò fù wèn, bái yún wú jìn shí._ — “Get down from your horse, drink my wine; I ask you: where are you headed? You say your hopes came to nothing; you will go home and lie down at the foot of the Southern Mountains. Go, then, I will ask no more; the white clouds have no end.”
+[^wangwei-en]: Chinese, Wang Wei, “Farewell”: “Get down from your horse, drink my wine; I ask you: where are you headed? You say your hopes came to nothing; you will go home and lie down at the foot of the Southern Mountains. Go, then, I will ask no more; the white clouds have no end.”

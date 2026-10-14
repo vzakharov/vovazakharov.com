@@ -31,8 +31,13 @@ export type Spelled = {
   latin?: string;
 };
 
-function letters(text: string): string[] {
-  return text.match(/\p{L}/gu) ?? [];
+/**
+ * The text's letters that belong to a script. A letter every script shares —
+ * `ʼ`, the modifier apostrophe a Latin transliteration writes a soft sign
+ * with — is nobody's to be unable to read.
+ */
+export function scriptLetters(text: string): string[] {
+  return text.match(/(?![\p{Script=Common}\p{Script=Inherited}])\p{L}/gu) ?? [];
 }
 
 function unreadable(letter: string, locale: Locale): boolean {
@@ -41,7 +46,7 @@ function unreadable(letter: string, locale: Locale): boolean {
 
 /** Whether any letter of the text is in a script the locale's readers may not read. */
 export function needsLatin(text: string, locale: Locale): boolean {
-  return letters(text).some((letter) => unreadable(letter, locale));
+  return scriptLetters(text).some((letter) => unreadable(letter, locale));
 }
 
 /**
@@ -57,7 +62,7 @@ export function scriptSample(
   const counts = new Map<string, number>();
   let unsampled: string | undefined;
 
-  for (const letter of texts.flatMap((text) => letters(text))) {
+  for (const letter of texts.flatMap((text) => scriptLetters(text))) {
     if (!unreadable(letter, locale)) continue;
 
     const sample = SCRIPT_SAMPLES.find(([script]) => script.test(letter))?.[1];

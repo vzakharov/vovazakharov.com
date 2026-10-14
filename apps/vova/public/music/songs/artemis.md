@@ -31,14 +31,14 @@ ru:
 
 Είμαι η Άρτεμις, ήρθα για σένα[^eimai-en]
 
-[^eimai-en]: Greek, pronounced _Íme i Ártemis, írtha ya séna_: “I am Artemis, I have come for you.”
+[^eimai-en]: Greek: “I am Artemis, I have come for you.”
 
 Hello, dear, [ετοιμάσου][^etoimasou-en]
 I’m Άρτεμις, I’ve come for you
 You hurt me once, now it’s my turn
 To make you pay for what you’ve done
 
-[^etoimasou-en]: Greek, pronounced _etimásu_: “get ready.”
+[^etoimasou-en]: Greek: “get ready.”
 
 Prey, Hunter, Whore, Mother
 I’m all of these and more
@@ -60,9 +60,9 @@ I can’t resist the fun
 Θήραμα, Γλυκός, Ξινός, Κυνηγός[^thirama-en]
 The hunt has just begun
 
-[^agios-en]: Greek, pronounced _Áyos, Mártiras, Pórni, Chíra_: “Saint, Martyr, Whore, Widow.”
+[^agios-en]: Greek: “Saint, Martyr, Whore, Widow.”
 
-[^thirama-en]: Greek, pronounced _Thírama, Glikós, Ksinós, Kinigós_: “Prey, Sweet, Sour, Hunter.”
+[^thirama-en]: Greek: “Prey, Sweet, Sour, Hunter.”
 
 Sheet by sheet, slice by slice
 I admit it does feel nice
@@ -75,20 +75,29 @@ I’ll skin you to the core
 Ήρθα για σένα, ήρθα για σένα[^irtha-en]
 Ήρθα για σένα, ήρθα για σένα![^irtha-en]
 
-[^irtha-en]: Greek, pronounced _Írtha ya séna_: “I have come for you.”
+[^irtha-en]: Greek: “I have come for you.”
+
+<!-- lyrics:el-latn -->
+
+Íme i Ártemis, írtha ya séna
+
+Hello, dear, etimásu
+I’m Ártemis, I’ve come for you
+
+Áyos, Mártiras, Pórni, Chíra
+Thírama, Glikós, Ksinós, Kinigós
+
+Írtha ya séna, írtha ya séna
+Írtha ya séna, írtha ya séna!
 
 <!-- lyrics:ru -->
 
-Я Артемида, я пришла за тобой[^eimai-ru]
+Я Артемида, я пришла за тобой
 
-[^eimai-ru]: _И́ме и А́ртемис, и́рфа я се́на._
-
-Привет, дорогой, [приготовься][^etoimasou-ru]
+Привет, дорогой, приготовься
 Я Артемида, я пришла за тобой
 Однажды ты сделал мне больно, теперь мой черёд
 Заставить тебя заплатить за то, что ты сделал
-
-[^etoimasou-ru]: _Этима́су._
 
 Добыча, Охотница, Шлюха, Мать
 Я всё это и больше
@@ -105,14 +114,10 @@ I’ll skin you to the core
 Святая, Мученица, Сладкая, Кислая
 Я распробую тебя до самой сердцевины
 
-Святая, Мученица, Блудница, Вдова[^agios-ru]
+Святая, Мученица, Блудница, Вдова
 Не могу устоять перед весельем
-Добыча, Сладкая, Кислая, Охотница[^thirama-ru]
+Добыча, Сладкая, Кислая, Охотница
 Охота только началась
-
-[^agios-ru]: _А́йос, Ма́ртирас, По́рни, Хи́ра._
-
-[^thirama-ru]: _Фи́рама, Глико́с, Ксино́с, Киниго́с._
 
 Лист за листом, ломтик за ломтиком
 Признаюсь, это и правда приятно
@@ -122,7 +127,5 @@ I’ll skin you to the core
 Святая, Мученица, Сладкая, Кислая
 Я сдеру с тебя кожу до самой сердцевины
 
-Я пришла за тобой, я пришла за тобой[^irtha-ru]
-Я пришла за тобой, я пришла за тобой![^irtha-ru]
-
-[^irtha-ru]: _И́рфа я се́на._
+Я пришла за тобой, я пришла за тобой
+Я пришла за тобой, я пришла за тобой!

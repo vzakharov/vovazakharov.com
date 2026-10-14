@@ -162,6 +162,10 @@ describe('wordsInLatin', () => {
     );
   });
 
+  it('reads a letter of no script, as a soft sign’s apostrophe, as Latin', () => {
+    assert.equal(spell('A ja sʼem jejo sama', ['ru']), undefined);
+  });
+
   it('fails on a line mixing two languages’ letters', () => {
     assert.throws(
       () => spell('Раз 一', ['ru', 'zh'], { zh: 'yī' }),
