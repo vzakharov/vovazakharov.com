@@ -1,12 +1,18 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
+import { z } from 'zod';
 
-import { musicAlbumSchema } from '@/shared/music-catalogue/index.node-safe';
+import type { MusicAlbum } from '@/shared/music-catalogue/index.node-safe';
 
 import { albumsTogether, albumTracks, songPlacements } from './album-tracks.ts';
 
-const HAMLET = musicAlbumSchema.parse('hamlet');
-const FATHER_RIVER = musicAlbumSchema.parse('father-river');
+// The catalogue's own schema stays out of the barrel a client component
+// enters; a fixture brands its slugs with a schema of the same brand.
+const albumSlug = (slug: string): MusicAlbum =>
+  z.string().brand<'MusicAlbum'>().parse(slug);
+
+const HAMLET = albumSlug('hamlet');
+const FATHER_RIVER = albumSlug('father-river');
 
 const song = (
   slug: string,
@@ -65,7 +71,7 @@ describe('albumTracks', () => {
   });
 
   it('finds nothing on an album no song is on', () => {
-    assert.deepEqual(slugsOn(musicAlbumSchema.parse('ctfu')), []);
+    assert.deepEqual(slugsOn(albumSlug('ctfu')), []);
   });
 });
 
