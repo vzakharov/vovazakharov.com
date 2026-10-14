@@ -1,6 +1,6 @@
-/** A position, in whatever unit the module holding it works in. */
 /** Where a thing stands across, in its module's units. */
 export type Abscissa = { x: number };
+/** A position, in whatever unit the module holding it works in. */
 export type Point = Abscissa & { y: number };
 export type Circle = Point & { r: number };
 /** Where a thing's top edge stands, in its module's units. */

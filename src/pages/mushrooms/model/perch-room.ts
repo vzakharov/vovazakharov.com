@@ -55,8 +55,6 @@ export function blockedFor(
   return blocked;
 }
 
-/** What of `Perches` the rules for flowers read: the flowers in sight, a bee's own, and the crowded pairs. */
-
 /**
  * The flowers `perches` offers an insect of `kind`: a bee's own, where the
  * scene gives them (`Sight`), and the ones in sight to every kind otherwise.

@@ -66,7 +66,6 @@ export type FlowerSound =
   | { kind: 'note'; pitchClass: PitchClass }
   | { kind: 'drum'; drum: Drum };
 
-
 function shapeIndex({ petal, rings }: Classed): number {
   return FLOWER_SHAPES.findIndex(
     (shape) => shape.petal === petal && shape.rings === rings,

@@ -74,6 +74,7 @@ type CapTilted = { capTilt: number };
 
 /** How a mushroom's stem bends and its cap turns against it. */
 export type Tilted = Bent & CapTilted;
+
 type ShapeGene = keyof MushroomShape;
 
 /** White spots, each centred `y` above the cap's underside: a fly agaric's, none on any other. */

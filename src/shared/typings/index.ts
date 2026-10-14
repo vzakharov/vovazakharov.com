@@ -19,7 +19,7 @@ export type Titled = { title: string };
 /** A box's width and height: an image's intrinsic pixel size, which reserves its box before it loads, or a drawn part's. */
 export type Sized = WithWidth & { height: number };
 
-/** A box's width alone: what a crop across a wider span reads. */
+/** A box's width alone. */
 export type WithWidth = { width: number };
 
 /** A title that may be absent — a document's is derived, so it exists only once read. */

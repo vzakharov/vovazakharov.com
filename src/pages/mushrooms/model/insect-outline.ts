@@ -46,7 +46,6 @@ export type Side = -1 | 1;
 
 type Axis = { root: Point; along: Point; across: Point };
 
-/** The genes the body's outlines and the wings' roots are drawn from. */
 /**
  * A wing's axis off `root`, the right side's root mirrored for the left, at
  * `angle` in radians from +x with y down, mirrored the same way.
