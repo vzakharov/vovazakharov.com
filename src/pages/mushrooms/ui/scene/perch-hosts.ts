@@ -37,12 +37,15 @@ export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
  * (`airAlofts`); and each insect kind's unit on the layout, which a seat
  * under a cap hangs by.
  */
-export type PerchHosts = {
+export type PerchHosts = HostBeds &
+  Alofted & { sizes: Readonly<Record<InsectKind, number>> | undefined };
+
+export type HostBeds = {
   bed: MushroomBed | undefined;
   flowers: FlowerBed | undefined;
-  alofts: ReadonlyMap<string, Aloft>;
-  sizes: Readonly<Record<InsectKind, number>> | undefined;
 };
+
+export type Alofted = { alofts: ReadonlyMap<string, Aloft> };
 
 /**
  * Where `perch` stands this frame: over a flower's head, as it sways and

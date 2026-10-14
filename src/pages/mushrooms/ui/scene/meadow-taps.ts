@@ -1,22 +1,26 @@
 import type * as Phaser from 'phaser';
 
-import type { Arrivals } from './arrivals';
-import type { DuskView } from './dusk-view';
-import type { MushroomBed } from './mushroom-bed';
+import type { DuskTapped } from './dusk-view';
+import type { Sporing } from './mushroom-bed';
 import { restingOn } from './perch-hosts';
-import type { Perches } from './perches';
-import type { Planter, Scened } from './planter';
-import type { RainView } from './rain-view';
+import type { TappedThrough } from './perches';
+import type {
+  Dispatching,
+  MeadowSeen,
+  SightSeen,
+  TuftTapping,
+} from './planter';
+import type { RainTapped } from './rain-view';
 import type { Grass } from './tufts';
 
 /** What of the scene, as it stands at the tap, a tap on the meadow acts through. */
-type MeadowTapped = Pick<Scened, 'dispatch'> & {
+type MeadowTapped = Dispatching & {
   camera: Phaser.Cameras.Scene2D.Camera;
-  planter: Pick<Planter, 'tapTuft'>;
+  planter: TuftTapping;
   grass: Grass | undefined;
-  rain: Pick<RainView, 'tap'> | undefined;
-  dusk: Pick<DuskView, 'tap'> | undefined;
-  bed: Pick<MushroomBed, 'spores'> | undefined;
+  rain: RainTapped | undefined;
+  dusk: DuskTapped | undefined;
+  bed: Sporing | undefined;
 };
 
 /**
@@ -46,10 +50,7 @@ export function tapMeadow(
 }
 
 /** What of the scene a tap on an insect acts through: the arrivals' own. */
-type InsectTapped = Pick<
-  ConstructorParameters<typeof Arrivals>[2],
-  'meadow' | 'dispatch' | 'sight'
->;
+type InsectTapped = MeadowSeen & Dispatching & SightSeen;
 
 /**
  * A tap on the insect `id`, at `now` ms, startles it; at rest, the tap goes
@@ -58,7 +59,7 @@ type InsectTapped = Pick<
  */
 export function tapInsect(
   scene: InsectTapped,
-  perches: Pick<Perches, 'tapThrough'>,
+  perches: TappedThrough,
   id: string,
   now: number,
 ): void {

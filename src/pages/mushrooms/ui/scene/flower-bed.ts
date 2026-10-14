@@ -47,6 +47,15 @@ import { type Following, onScreen, type View } from './view';
  */
 const BROW_FADE = 1.5;
 
+export type ChordTapped = {
+  chordTap: (object: Phaser.GameObjects.GameObject) => boolean;
+};
+export type Answering = {
+  inView: () => FlowerInView[];
+  hush: (id: string) => void;
+  answer: (flowers: readonly FlowerInView[]) => void;
+};
+
 /**
  * The meadow's flowers on screen, kept by id, the visit's seeded ones and the
  * ones the bees plant alike: each stands where the layout puts it
@@ -56,7 +65,7 @@ const BROW_FADE = 1.5;
  * held on one opens the flower picker on it (`FlowerHold`), and the flower
  * the picker is open on stands in a ring (`FlowerRing`).
  */
-export class FlowerBed implements Following {
+export class FlowerBed implements Following, ChordTapped, Answering {
   private readonly shown = new Map<string, Shown>();
   /** The view it last followed; `undefined` while it stands as laid out. */
   private view: View | undefined;

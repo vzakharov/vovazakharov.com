@@ -6,7 +6,7 @@
 
 import { sowable, type SporeTap } from '../../model/sprouting';
 import { roomFor } from './mushroom-room';
-import type { Scened } from './planter';
+import type { MeadowSeen, StandSeen } from './planter';
 
 /**
  * The spore a tap on the mushroom `id` at `now`, in ms, settles, as the
@@ -15,7 +15,7 @@ import type { Scened } from './planter';
  * mushroom sows none or the seed finds no room.
  */
 export function sporeOnTap(
-  { meadow, stand, view }: Pick<Scened, 'meadow' | 'stand' | 'view'>,
+  { meadow, stand, view }: MeadowSeen & StandSeen,
   id: string,
   now: number,
 ): SporeTap {

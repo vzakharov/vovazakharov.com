@@ -20,7 +20,7 @@ import type { MeadowLayout } from './layout';
 import { MoonView } from './moon-view';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
-import type { MeadowSound } from './sound';
+import type { DuskVoiced, Glinting } from './sound';
 
 /** The dusk wash's alpha at full dusk. */
 export const DUSK_WASH_DEEPEST = 0.38;
@@ -37,7 +37,11 @@ export type Lights = Pick<Meadow, 'dusk'> & { before: Dusk } & Layered;
  * dusk, a rising one toward day, the dusk's own sound each frame, and a
  * firefly's chime as it flares.
  */
-type DuskSound = Pick<MeadowSound, 'sink' | 'grow' | 'dusk' | 'glint'>;
+type DuskSound = DuskVoiced & Glinting;
+
+export type DuskTapped = {
+  tap: (at: Point, bob: number, within: 'disc' | 'rays') => boolean;
+};
 
 /**
  * The light over the meadow: the backdrop relit (`relight`), the dusk wash
@@ -48,7 +52,7 @@ type DuskSound = Pick<MeadowSound, 'sink' | 'grow' | 'dusk' | 'glint'>;
  * turn. The sun's and its glow's alpha are the rain view's, which reads
  * `level`.
  */
-export class DuskView {
+export class DuskView implements DuskTapped {
   /**
    * Over the dusk wash and under the rain's drops: where everything that
    * glows at dusk is drawn — the moon, the lit windows, the fireflies — so

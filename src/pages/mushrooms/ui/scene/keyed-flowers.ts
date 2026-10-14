@@ -8,7 +8,7 @@ import {
 } from '../../model/flower-sounds';
 import type { Action, Planting } from '../../model/game';
 import { pick, type Random } from '../../model/random';
-import type { Instrument } from './instrument';
+import type { Playable } from './instrument';
 import type { PlayedKey } from './keyboard';
 
 /**
@@ -86,7 +86,7 @@ export type KeyedPlay = {
  * in view grows one that does.
  */
 export function playKey(
-  instrument: Pick<Instrument, 'wake' | 'key'>,
+  instrument: Playable,
   keyed: KeyedPlay,
   action: PlayedKey,
 ): void {
