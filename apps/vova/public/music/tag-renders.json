@@ -1,0 +1,22 @@
+{
+  "boom": {
+    "hash": "aadc79bcc21e",
+    "paths": [
+      "boom/GENERATED - Boom!.flac",
+      "boom/GENERATED - Boom!.mp3",
+      "boom/boom.flac",
+      "boom/boom.master.mp3"
+    ]
+  },
+  "snow-is-falling": {
+    "hash": "3370036c3763",
+    "paths": [
+      "sneg_idet/Poluzhivye - Sneg idyot.flac",
+      "sneg_idet/Poluzhivye - Sneg idyot.mp3",
+      "sneg_idet/Полуживые - Снег идёт.flac",
+      "sneg_idet/Полуживые - Снег идёт.mp3",
+      "sneg_idet/Снег идёт.flac",
+      "sneg_idet/Снег идёт.mp3"
+    ]
+  }
+}
