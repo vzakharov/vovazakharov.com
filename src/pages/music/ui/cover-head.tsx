@@ -7,8 +7,10 @@ import type { WithOptionalChildren } from '@/shared/typings';
 import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
 import classes from './music.module.scss';
 
-export type CoverHeadProps = WithOptionalChildren & {
-  picture?: string;
+/** The cover a page's head sits beside, where it has one, and what sits beside it. */
+export type CoverHeadBody = WithOptionalChildren & { picture?: string };
+
+export type CoverHeadProps = CoverHeadBody & {
   /** The labels a cover that opens at full size reads out. */
   zoom?: CoverZoomLabels;
   /**

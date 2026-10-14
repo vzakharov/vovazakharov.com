@@ -44,12 +44,14 @@ export type RunOpening = Extract<RunLeg, 'peek' | 'leave' | 'run'>;
  * sign of the side its course bows out to (`sideOf`), the leg it opens with,
  * and whether its target was called and holds its door open from the start.
  */
-export type RunCourse = {
+export type RunCourse = Opened & {
   runLength: number;
   bowSign: number;
-  opening: RunOpening;
   calling: boolean;
 };
+
+/** The leg a run opens with. */
+export type Opened = { opening: RunOpening };
 
 /** How long the mouse looks toward its target from the doorway before it goes. */
 const RUN_LOOK = 0.5;

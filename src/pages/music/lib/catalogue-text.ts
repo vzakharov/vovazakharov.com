@@ -1,6 +1,6 @@
 import 'server-only';
 
-import type { ProseSource } from '@/shared/content';
+import type { ProseSource, ServedMarkdown } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
 
@@ -16,7 +16,7 @@ export type StoryParts = {
 };
 
 export type CatalogueText = StoryParts &
-  Pick<ProseSource, 'markdown'> & {
+  ServedMarkdown & {
     /** The line under the page's name. */
     hook: string | undefined;
   };

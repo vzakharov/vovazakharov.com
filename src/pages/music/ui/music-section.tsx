@@ -11,18 +11,18 @@ export function MusicSection({
   locale,
   size,
 }: WithLocale & { size: readonly string[] }) {
-  const { intro, shuffleAll, radio } = loadMessages(locale).music;
+  const labels = loadMessages(locale).music;
 
   return (
     <Section id="music" standalone>
       <Text size="lg" lh={1.625}>
-        {intro}
+        {labels.intro}
       </Text>
 
       <SizeLine {...{ size }} mt={-8} />
 
       <Box>
-        <LaunchButtons {...{ shuffleAll, radio }} />
+        <LaunchButtons {...{ labels }} />
       </Box>
     </Section>
   );

@@ -23,6 +23,7 @@ import {
   type Routed,
   type Variant,
   VARIANTS,
+  type WithCollectionId,
 } from './collections';
 import type {
   BaseFrontmatter,
@@ -54,34 +55,37 @@ type ResolvedOgImage = WithOptionalOgImageSize & {
  */
 export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
   DocumentRef &
+    ProseSource &
     WithFrontmatter<F> &
     ResolvedOgImage &
+    WithCardImage &
     // The language is this reading's; absent on the file as authored, which
     // carries both.
     LocaleRouted & {
       /** Absent on the full document; set on each shorter cut. */
       variant?: Variant;
-      /** The markdown body with the frontmatter block removed. */
-      body: string;
-      fileName: string;
-      /** The authored markdown, as served. */
-      markdown: DocumentFile;
-      /** The frontmatter's `cardImage`, resolved as `ogImageUrl` is. */
-      cardImage?: ResolvedImage;
     };
 
-/**
- * What the pipeline reads to compile a body: the text, the collection its
- * relative links resolve in, the file they resolve beside, and where that file
- * is served.
- */
-export type ProseSource = Pick<
-  ContentDocument,
-  'collection' | 'body' | 'fileName' | 'markdown'
->;
+/** The collection a body's relative links resolve in, and the file they resolve beside. */
+export type FileInCollection = WithCollectionId & { fileName: string };
+
+/** Where the authored markdown is served. */
+export type ServedMarkdown = { markdown: DocumentFile };
+
+/** What the pipeline reads to compile a body. */
+export type ProseSource = FileInCollection &
+  ServedMarkdown & {
+    /** The markdown body with the frontmatter block removed. */
+    body: string;
+  };
 
 /** A frontmatter image path, resolved to what an `<img>` needs of it. */
 type ResolvedImage = Sized & Sourced;
+
+type WithCardImage = {
+  /** The frontmatter's `cardImage`, resolved as `ogImageUrl` is. */
+  cardImage?: ResolvedImage;
+};
 
 /**
  * A frontmatter image is authored relative to its document; `public/` serves
@@ -121,7 +125,7 @@ function resolveOgImage(
 function resolveCardImage(
   collection: CollectionId,
   cardImage: string | undefined,
-): Pick<ContentDocument, 'cardImage'> {
+): WithCardImage {
   if (cardImage === undefined) return {};
 
   const { url, size } = resolveImage(collection, cardImage);

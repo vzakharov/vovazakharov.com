@@ -48,20 +48,29 @@ export type WithTracks = { tracks: PlayerTrack[] };
  * a random pick per skip, which is what makes a shuffled queue stable in both
  * directions: whatever `next` reached, `previous` returns to.
  */
-export type PlayerState = PlayOrder & {
-  /** How many tracks the player knows, which is the position the next one takes. */
-  trackCount: number;
+export type PlayerState = PlayOrder &
+  QueuePositions &
+  Playing & {
+    /** How many tracks the player knows, which is the position the next one takes. */
+    trackCount: number;
+    shuffled: boolean;
+  };
+
+export type Playing = { playing: boolean };
+
+type QueuePositions = {
   /** The queue's positions in their own order, which unshuffling returns to. */
   queue: number[];
-  shuffled: boolean;
-  playing: boolean;
 };
+
+/** Where in the play order playback sits, -1 before anything has been chosen. */
+type Cursored = { cursor: number };
 
 /**
  * Catalogue positions in the order they play — a player's `queue` itself until
- * shuffled — and where in it playback sits, -1 before anything has been chosen.
+ * shuffled — and where in it playback sits.
  */
-export type PlayOrder = { order: number[]; cursor: number };
+export type PlayOrder = Cursored & { order: number[] };
 
 /** What a shuffle is drawn from, its `segues` from `seguePositions`. */
 type Shuffling = Seeded & { segues?: ReadonlySet<number> };
@@ -137,7 +146,7 @@ export function currentTrack(state: PlayerState): number | undefined {
  * button asks to decide between starting the album and pausing it.
  */
 export function isQueued(
-  { queue, cursor }: Pick<PlayerState, 'queue' | 'cursor'>,
+  { queue, cursor }: QueuePositions & Cursored,
   positions: readonly number[],
 ): boolean {
   return (

@@ -123,9 +123,8 @@ export const artistFrontmatterSchema = z
   )
   .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
 
-/** A song's strings in one locale. */
-const songTextSchema = hookedSchema.extend({
-  title: localNameSchema.optional(),
+/** A song's strings in one locale, its title aside. */
+const untitledSongTextSchema = hookedSchema.extend({
   /**
    * What the crib beside the words is, in place of the stock line — whose
    * translation it is, or that the column is the original. One line of markdown.
@@ -133,7 +132,12 @@ const songTextSchema = hookedSchema.extend({
   cribNote: z.string().min(1).optional(),
 });
 
-export type SongText = z.infer<typeof songTextSchema>;
+export type UntitledSongText = z.infer<typeof untitledSongTextSchema>;
+
+/** A song's strings in one locale. */
+const songTextSchema = untitledSongTextSchema.extend({
+  title: localNameSchema.optional(),
+});
 
 /**
  * Who wrote which half, in contribution order rather than billing order. Absent
@@ -144,6 +148,20 @@ const creditsSchema = z.object({
   music: z.array(creditedNameSchema).min(1).optional(),
 });
 
+/** What a credits line reads: who wrote the song, and what it is sung in. */
+const creditedSongSchema = z.object({
+  /**
+   * One language, or a list where a song is sung in several — the main one
+   * first, whose words the page shows.
+   */
+  language: z
+    .union([songLanguageSchema, z.array(songLanguageSchema).min(1)])
+    .transform((language) => (Array.isArray(language) ? language : [language])),
+  credits: creditsSchema.optional(),
+});
+
+export type CreditedSong = z.infer<typeof creditedSongSchema>;
+
 /**
  * A song's number on a release — required there and refused on a single, so
  * an album lists in the order it was released in. Numbers may skip: a release
@@ -151,10 +169,42 @@ const creditsSchema = z.object({
  */
 const trackSchema = z.number().int().positive();
 
+/** A song's number on the one release in view. */
+const trackedSchema = z.object({ track: trackSchema });
+
+export type Tracked = z.infer<typeof trackedSchema>;
+
 /** Where on a release a song sits. */
-const placementSchema = z.object({ album: albumSchema, track: trackSchema });
+const placementSchema = trackedSchema.extend({ album: albumSchema });
 
 export type AlbumPlacement = z.infer<typeof placementSchema>;
+
+/** Every release a song is on. */
+const releasedSchema = z.object({
+  /**
+   * The release it came out on; `null` for a single. Required, so a song whose
+   * release nobody has decided yet cannot pass for a single by omission.
+   */
+  album: albumSchema.nullable(),
+  track: trackSchema.optional(),
+  /**
+   * The other releases the same master went out on — a maxi-single, a
+   * compilation — each at its own number there. The song's page and its
+   * links stay one; `album` remains the release it is filed under.
+   */
+  alsoOn: z.array(placementSchema).min(1).optional(),
+});
+
+export type Released = z.infer<typeof releasedSchema>;
+
+/**
+ * The words keep their script beside the romanization rather than giving way
+ * to it — a sacred text, whose letters are not to be replaced. The title is a
+ * name, and switches as any other does.
+ */
+const scriptKeptSchema = z.object({ keepsScript: z.boolean().default(false) });
+
+export type ScriptKept = z.infer<typeof scriptKeptSchema>;
 
 /** A URL, or a site-root path for a file the site hosts itself. */
 const mediaSourceSchema = z.union([z.url(), z.string().regex(/^\/(?!\/)/)]);
@@ -163,14 +213,35 @@ function isMp3(audio: string): boolean {
   return audio.toLowerCase().endsWith('.mp3');
 }
 
-/** What the player needs of a song, and all it needs. */
-const playableSchema = z.object({
+const masteredSchema = z.object({
   /**
    * The master, played as-is — site-hosted where no repository holds it. One
    * field, not a lossless/lossy pair: a song has one master, so a second would
    * be the same file twice.
    */
   audio: mediaSourceSchema,
+});
+
+export type Mastered = z.infer<typeof masteredSchema>;
+
+const mp3CopiedSchema = z.object({
+  /**
+   * The master as an MP3, for whatever refuses or cannot afford FLAC — the
+   * songs feeds' enclosures, a download: a 320 kbps copy beside the master in
+   * its repository, `url` absent where `audio` is already an MP3. `bytes` is
+   * recorded rather than fetched, so a deploy depends on no request to the
+   * file's host. Required: a song without one would be missing from the feeds.
+   */
+  mp3: z.object({
+    url: z.url().optional(),
+    bytes: z.number().int().positive(),
+  }),
+});
+
+export type Mp3Copied = z.infer<typeof mp3CopiedSchema>;
+
+/** What the player needs of a song, and all it needs. */
+const playableSchema = masteredSchema.extend({
   /**
    * The master's duration, read off its own FLAC header by the scaffolder. A
    * cache, and safe to be one because a master never changes — it is what lets
@@ -190,6 +261,10 @@ export type Playable = z.infer<typeof playableSchema>;
 
 const songFieldsSchema = baseFrontmatterSchema
   .extend(playableSchema.shape)
+  .extend(mp3CopiedSchema.shape)
+  .extend(creditedSongSchema.shape)
+  .extend(releasedSchema.shape)
+  .extend(scriptKeptSchema.shape)
   .extend({
     date: songDateSchema,
     /**
@@ -199,33 +274,12 @@ const songFieldsSchema = baseFrontmatterSchema
     title: z.string().min(1),
     status: z.enum(SONG_STATUSES),
     /**
-     * One language, or a list where a song is sung in several — the main one
-     * first, whose words the page shows.
-     */
-    language: z
-      .union([songLanguageSchema, z.array(songLanguageSchema).min(1)])
-      .transform((language) =>
-        Array.isArray(language) ? language : [language],
-      ),
-    /**
      * The artist first, whoever is featured after it — a feature meaning the song
      * can be shown to the people the other project is shown to.
      */
     project: z.array(projectSchema).min(1),
     /** Its repository under the `vovas-music` organization; absent where none holds it. */
     repo: z.string().min(1).optional(),
-    /**
-     * The release it came out on; `null` for a single. Required, so a song whose
-     * release nobody has decided yet cannot pass for a single by omission.
-     */
-    album: albumSchema.nullable(),
-    track: trackSchema.optional(),
-    /**
-     * The other releases the same master went out on — a maxi-single, a
-     * compilation — each at its own number there. The song's page and its
-     * links stay one; `album` remains the release it is filed under.
-     */
-    alsoOn: z.array(placementSchema).min(1).optional(),
     /** What the title is in, where that is not the language sung first. */
     titleLanguage: sungLanguageSchema.optional(),
     /**
@@ -233,13 +287,6 @@ const songFieldsSchema = baseFrontmatterSchema
      * romanizes (`Mithqāl`), or a name with an established Latin spelling.
      */
     titleLatin: z.string().min(1).optional(),
-    /**
-     * The words keep their script beside the romanization rather than giving
-     * way to it — a sacred text, whose letters are not to be replaced. The
-     * title is a name, and switches as any other does.
-     */
-    keepsScript: z.boolean().default(false),
-    credits: creditsSchema.optional(),
     video: z
       .object({
         src: mediaSourceSchema,
@@ -254,17 +301,6 @@ const songFieldsSchema = baseFrontmatterSchema
       .optional(),
     /** Track id, where the song is also on Spotify. */
     spotify: z.string().min(1).optional(),
-    /**
-     * The master as an MP3, for whatever refuses or cannot afford FLAC — the
-     * songs feeds' enclosures, a download: a 320 kbps copy beside the master in
-     * its repository, `url` absent where `audio` is already an MP3. `bytes` is
-     * recorded rather than fetched, so a deploy depends on no request to the
-     * file's host. Required: a song without one would be missing from the feeds.
-     */
-    mp3: z.object({
-      url: z.url().optional(),
-      bytes: z.number().int().positive(),
-    }),
   });
 
 /**

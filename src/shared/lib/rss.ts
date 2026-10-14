@@ -21,14 +21,19 @@ type RssEpisode = Partial<WithImage> &
   Timed &
   Rated & { enclosure: { url: string; bytes: number } };
 
-/** An item's blurb is optional, as RSS has it: a song may have none yet. */
-export type RssItem = RssEntry &
+/**
+ * An item before it has its absolute link. Its blurb is optional, as RSS has
+ * it: a song may have none yet.
+ */
+export type UnlinkedRssItem = Titled &
   Partial<Described> & {
     published: Date;
     /** The body as HTML, which a reader shows in its reading pane. */
     content?: string;
     episode?: RssEpisode;
   };
+
+type RssItem = RssEntry & UnlinkedRssItem;
 
 /**
  * What Apple's directory, the strictest, requires of a podcast's channel. Its

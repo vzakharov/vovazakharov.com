@@ -12,24 +12,28 @@ import {
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/shared/i18n';
 import type { Described, MaybeTitled } from '@/shared/typings';
 
+type Addresses = {
+  /**
+   * Site-root path this page defers to, where two URLs serve one page. Left
+   * off, a search engine picks its own canonical.
+   */
+  canonical?: string;
+  /**
+   * Site-root paths of this page's translations, by BCP-47 tag (or
+   * `x-default`). Nothing else marks two addresses as one page in two
+   * languages.
+   */
+  languages?: Record<string, string>;
+};
+
 export type ConstructMetadataParams = MaybeTitled &
-  WithOptionalOgImageSize & {
+  WithOptionalOgImageSize &
+  Addresses & {
     description?: string;
     ogDescription?: string; // Separate description for OpenGraph if different from main
     /** The unfurl's title, where it differs from the page's own — the tab and the search result keep `title`. */
     ogTitle?: string;
     path?: string; // e.g., "/cv" - automatically converted to absolute URL
-    /**
-     * Site-root path this page defers to, where two URLs serve one page. Left
-     * off, a search engine picks its own canonical.
-     */
-    canonical?: string;
-    /**
-     * Site-root paths of this page's translations, by BCP-47 tag (or
-     * `x-default`). Nothing else marks two addresses as one page in two
-     * languages.
-     */
-    languages?: Record<string, string>;
     ogType?: 'website' | 'profile' | 'article';
     ogImage?: string; // Custom Open Graph image path; the avatar when absent
     /** A page reachable only by its link, which search engines are asked to leave out. */
@@ -45,7 +49,7 @@ export type ConstructMetadataParams = MaybeTitled &
 export function localizedAddresses(
   address: (locale: Locale) => string,
   locale: Locale,
-): Pick<ConstructMetadataParams, 'canonical' | 'languages'> {
+): Addresses {
   return {
     canonical: address(locale),
     languages: {

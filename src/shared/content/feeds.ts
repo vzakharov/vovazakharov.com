@@ -9,7 +9,7 @@ import {
 } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { feedHtml } from '@/shared/lib/feed-html';
-import type { RssItem } from '@/shared/lib/rss';
+import type { UnlinkedRssItem } from '@/shared/lib/rss';
 import type { Summarized } from '@/shared/typings';
 
 import {
@@ -31,7 +31,7 @@ import { renderPrimaryDocuments } from './render';
 export type Feed = WithCollectionId & LocaleRouted & Summarized;
 
 /** An item before its link is made absolute, which is the site's to do. */
-export type FeedEntry = Omit<RssItem, 'link'> & Routed;
+export type FeedEntry = UnlinkedRssItem & Routed;
 
 /**
  * Every feed the site publishes, described by the site's tagline save the

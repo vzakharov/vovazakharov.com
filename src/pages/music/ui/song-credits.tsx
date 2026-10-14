@@ -3,12 +3,11 @@ import { Stack, Text } from '@mantine/core';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import {
   type CreditedName,
+  type CreditedSong,
   SONG_AUTHOR,
-  type SongFrontmatter,
 } from '@/shared/music-catalogue';
 
-export type SongCreditsProps = WithLocale &
-  Pick<SongFrontmatter, 'credits' | 'language'>;
+export type SongCreditsProps = WithLocale & CreditedSong;
 
 /**
  * Who wrote what, under the words: music, then lyrics — one line for both when
