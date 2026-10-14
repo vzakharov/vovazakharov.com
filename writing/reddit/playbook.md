@@ -27,7 +27,7 @@ The baseline (2026-06-07 → 2026-10-14): 246 comments in other people’s threa
 - **Opening a preference war.** “Web, always…” (−6, under terminal vs desktop), “Uhm, nope” to “Opus 5 is a rage-inducing mess” (−4), “Three words: Claude Code Web” (−1). Web-over-terminal is reliably negative as a stated preference — and reliably clicked as a link (below).
 - **Arguing deep in a thread an hour or more in.** Four replies in a row under the Claude Startups thread, 87–97 minutes in: all at zero. Nobody is reading that far down by then.
 - **Correcting someone’s personal story**, even when right: “I don’t think afib is life threatening though?” (−1) under “I think Claude Code saved my life.”
-- **Replying to critics in your own thread.** Under the keepalive post the replies went −5 and −1 while the top comments ran the ethics angle (“this is why we can’t have nice things,” 18).
+- **Answering a moral objection in your own thread.** Under the keepalive post the replies went −5 and −1 while the top comments ran the ethics angle (“this is why we can’t have nice things,” 18). Replies to doubts about the numbers do not sink: under the $20-vs-API post (r/ClaudeAI, 83 comments) 18 replies over 2.5–21 h all scored 1 or more, median 2, the skeptics’ answers at 2–3, the best at 27.
 - **A link to your own work, for votes.** 25 comments carried one (muthur, agentic.bible, basilisk.fyi, the site); none reached 10, median 1. “I wrote a hook that… feel free to adopt” in the very thread about that pain: 0.
 
 ## What brings readers
@@ -51,6 +51,8 @@ One entry per pain the subs keep raising: the page that answers it, what to lead
 - **“Comments / docs go stale”** → `https://agentic.bible/tend-prose`.
 - **“A successful person’s advice that won’t generalise”** → `https://agentic.bible/precedent-fallacy` (the comment it grew from: the million-dollar homepage, 18).
 - **“Abuse of AI / banned for abusing Claude”** → `https://basilisk.fyi/faq/why-this-record-is-kept`, and the case that fits.
+- **“Banned while working on a medical / security project”** → no page. Lead: biology and cybersecurity are flagged automatically, so bona fide work gets caught; the appeal goes to `usersafety@anthropic.com`. The line in that thread (r/ClaudeCode, 2026-10-12) took 9.
+- **“Is a generated CLAUDE.md good or bad?”** → `https://agentic.bible/tend-prose`. Lead: generate it, then cut it to what is not in the code; an `@` before an imported file loads it without a round trip.
 - **“The model got dumber”** → no page yet. The record says: a stated opinion without data sinks; a measurement earns votes.
 
 ## Open hypotheses
@@ -61,4 +63,5 @@ One entry per pain the subs keep raising: the page that answers it, what to lead
 
 ## Revisions
 
+- 2026-10-14 — digest 1: “replying to critics in your own thread” narrowed to moral objections, after 18 replies under the $20-vs-API post held at 1+ (median 2, best 27); ammo gained the sensitive-topic ban and the generated CLAUDE.md.
 - 2026-10-14 — seeded from 246 comments in AI subs since 2026-06-07, Umami’s 30 days and muthur’s 14 days of GitHub traffic.

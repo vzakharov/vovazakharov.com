@@ -66,11 +66,15 @@ when it has nothing:
 2. **Settled** — each judged comment as one bullet: score, the sub, lag after
    the post (`4 min`, `6 h`), nesting, the post's title and comment count, a
    link, then a verdict against the playbook naming the rule it confirms or
-   breaks. Strongest first.
+   breaks. Strongest first. Replies under the operator's own post
+   (`post.ownPost`) are one bullet per post — count, score range, the outliers
+   quoted — since the playbook judges them as a thread, not one by one.
 3. **Waiting on you** — each unanswered reply in an AI sub: who, its score, a
    link, the reply quoted short, and the angle an answer could take. A reply
    that asks nothing — a joke, a thanks, an insult — is left out, and the count
-   left out says so in one line.
+   left out says so in one line. The list covers every thread the window's
+   comments sit in, so a reply days older than the window can surface; its age
+   goes in the bullet.
 4. **Readers** — per site, the Reddit visits per day and the entry pages, each
    with the link comments the JSON pairs with it; muthur's Reddit referrers and
    daily views. One line of reading: which link comment, if any, a day's spike
