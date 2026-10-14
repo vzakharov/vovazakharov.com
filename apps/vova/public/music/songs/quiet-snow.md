@@ -17,7 +17,6 @@ credits:
   lyrics: ['Марина Цветаева']
 en:
   title:
-    transliteration: 'My vspominaem tikhiy sneg…'
     translation: 'We remember the quiet snow…'
 ---
 

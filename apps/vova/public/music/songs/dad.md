@@ -16,7 +16,6 @@ credits:
   lyrics: [Sasha Zakharova, Vova Zakharov]
 en:
   title:
-    transliteration: 'Papa'
     translation: 'Dad'
   hook: 'Dad, why do clouds so often look like wings? Is that why people invented angels?'
 ru:

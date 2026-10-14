@@ -18,7 +18,6 @@ credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
-    transliteration: 'Pegiy pyos, begushchiy kraem morya'
     translation: 'Piebald Dog Running Along the Shore'
 ---
 

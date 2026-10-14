@@ -14,7 +14,6 @@ mp3:
 explicit: false
 en:
   title:
-    transliteration: 'Klokochina'
     translation: 'Chinaberry'
 ---
 

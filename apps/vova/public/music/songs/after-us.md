@@ -17,7 +17,6 @@ mp3:
 explicit: false
 en:
   title:
-    transliteration: 'Posle nas'
     translation: 'After Us'
   hook: 'The flood is already here. And after?'
 ru:

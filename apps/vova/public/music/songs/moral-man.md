@@ -17,7 +17,6 @@ credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
-    transliteration: 'Nravstvennyy chelovek'
     translation: 'A Moral Man'
 ---
 

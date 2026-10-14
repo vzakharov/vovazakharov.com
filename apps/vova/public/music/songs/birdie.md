@@ -15,7 +15,6 @@ mp3:
 explicit: true
 en:
   title:
-    transliteration: 'Ptichka'
     translation: 'Birdie'
   hook: 'An iPhone alarm-turned-deathcore.'
 ru:

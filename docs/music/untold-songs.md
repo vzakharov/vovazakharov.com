@@ -4,6 +4,39 @@
 
 136 songs still lack a hook or a story. A line names what its song lacks.
 
+## Дамы и господа
+
+### father-sea
+
+- [Снег](../../apps/vova/public/music/songs/snow.md) — hook, story
+
+### five-romances
+
+- [Моим стихам, написанным так рано…](../../apps/vova/public/music/songs/to-my-poems.md) — hook, story
+- [Под лаской плюшевого пледа…](../../apps/vova/public/music/songs/plush-plaid.md) — hook, story
+- [Мне нравится, что вы больны не мной…](../../apps/vova/public/music/songs/not-lovesick-for-me.md) — hook, story
+- [Я говорю сейчас словами теми…](../../apps/vova/public/music/songs/in-those-words.md) — hook, story
+- [Твоя ль вина, что милый образ твой…](../../apps/vova/public/music/songs/is-it-your-fault.md) — hook, story
+- [Мы вспоминаем тихий снег…](../../apps/vova/public/music/songs/quiet-snow.md) — hook, story
+- [Уж сколько их упало в эту бездну…](../../apps/vova/public/music/songs/requiem.md) — hook, story
+
+### Singles
+
+- [Ты не терзайся…](../../apps/vova/public/music/songs/sonnet-74.md) — hook
+
+## Dead Pixel Lounge
+
+### Singles
+
+- [At the Diner](../../apps/vova/public/music/songs/at-the-diner.md) — hook, story
+
+## Downtemple
+
+### Singles
+
+- [Love (Makes the World Go Round)](../../apps/vova/public/music/songs/love.md) — hook, story
+- [Trisagion](../../apps/vova/public/music/songs/trisagion.md) — hook, story
+
 ## GENERATED
 
 ### ctfu
@@ -12,6 +45,10 @@
 - [Kill or Be Killed](../../apps/vova/public/music/songs/kill-or-be-killed.md) — hook, story
 - [A Guy Without a Plan](../../apps/vova/public/music/songs/guy-without-a-plan.md) — hook, story
 - [Phoenix](../../apps/vova/public/music/songs/phoenix.md) — hook, story
+
+### father-sea
+
+- [How Could You Leave](../../apps/vova/public/music/songs/how-could-you-leave.md) — hook, story
 
 ### ghosts-of-flesh
 
@@ -25,20 +62,20 @@
 - [Möbius](../../apps/vova/public/music/songs/mobius.md) — hook, story
 - [Horizons](../../apps/vova/public/music/songs/horizons.md) — hook, story
 
-### pschpthy
+### let-the-stories-spin
 
-- [Overture](../../apps/vova/public/music/songs/overture.md) — hook, story
-- [Gray Rage](../../apps/vova/public/music/songs/gray-rage.md) — hook, story
-- [Boom!](../../apps/vova/public/music/songs/boom.md) — hook, story
-- [Succumb to Me](../../apps/vova/public/music/songs/succumb-to-me.md) — hook, story
-- [Behind the Mask](../../apps/vova/public/music/songs/behind-the-mask.md) — hook, story
-- [I Almost Love You](../../apps/vova/public/music/songs/i-almost-love-you.md) — hook, story
-- [PSCHPTHY](../../apps/vova/public/music/songs/pschpthy.md) — hook, story
-- [Normal](../../apps/vova/public/music/songs/normal.md) — hook, story
-- [Intermezzo](../../apps/vova/public/music/songs/intermezzo.md) — hook, story
-- [Artemis](../../apps/vova/public/music/songs/artemis.md) — hook, story
-- [Disintegration Tango](../../apps/vova/public/music/songs/disintegration-tango.md) — hook, story
-- [Erebos](../../apps/vova/public/music/songs/erebos.md) — hook, story
+- [Ink](../../apps/vova/public/music/songs/ink.md) — hook, story
+- [Mira Is Going to the Sea](../../apps/vova/public/music/songs/mira-to-the-sea.md) — hook, story
+- [The Other Heart](../../apps/vova/public/music/songs/other-heart.md) — hook, story
+- [Sisters](../../apps/vova/public/music/songs/sisters.md) — hook, story
+- [Gone with the Wind](../../apps/vova/public/music/songs/gone-with-the-wind.md) — hook, story
+- [Undone](../../apps/vova/public/music/songs/undone.md) — hook, story
+- [Fireflies](../../apps/vova/public/music/songs/fireflies.md) — hook, story
+- [What Doesn’t Kill](../../apps/vova/public/music/songs/what-doesnt-kill.md) — hook, story
+- [Unforgiven IV](../../apps/vova/public/music/songs/unforgiven-iv.md) — hook, story
+- [Monkey](../../apps/vova/public/music/songs/monkey.md) — hook, story
+- [The Story Ends](../../apps/vova/public/music/songs/story-ends.md) — hook, story
+- [Through the Cracks](../../apps/vova/public/music/songs/through-the-cracks.md) — hook, story
 
 ### nsfl
 
@@ -56,25 +93,6 @@
 - [Grave Awakening](../../apps/vova/public/music/songs/grave-awakening.md) — hook, story
 - [Flesh Fiction](../../apps/vova/public/music/songs/flesh-fiction.md) — hook, story
 
-### let-the-stories-spin
-
-- [Ink](../../apps/vova/public/music/songs/ink.md) — hook, story
-- [Mira Is Going to the Sea](../../apps/vova/public/music/songs/mira-to-the-sea.md) — hook, story
-- [The Other Heart](../../apps/vova/public/music/songs/other-heart.md) — hook, story
-- [Sisters](../../apps/vova/public/music/songs/sisters.md) — hook, story
-- [Gone with the Wind](../../apps/vova/public/music/songs/gone-with-the-wind.md) — hook, story
-- [Undone](../../apps/vova/public/music/songs/undone.md) — hook, story
-- [Fireflies](../../apps/vova/public/music/songs/fireflies.md) — hook, story
-- [What Doesn’t Kill](../../apps/vova/public/music/songs/what-doesnt-kill.md) — hook, story
-- [Unforgiven IV](../../apps/vova/public/music/songs/unforgiven-iv.md) — hook, story
-- [Monkey](../../apps/vova/public/music/songs/monkey.md) — hook, story
-- [The Story Ends](../../apps/vova/public/music/songs/story-ends.md) — hook, story
-- [Through the Cracks](../../apps/vova/public/music/songs/through-the-cracks.md) — hook, story
-
-### father-sea
-
-- [How Could You Leave](../../apps/vova/public/music/songs/how-could-you-leave.md) — hook, story
-
 ### nursery-rhymes
 
 - [Baa Baa Black Sheep](../../apps/vova/public/music/songs/baa-baa-black-sheep.md) — hook, story
@@ -85,6 +103,21 @@
 - [Hello, Human](../../apps/vova/public/music/songs/hello-human.md) — hook, story
 - [Trust In the Machine](../../apps/vova/public/music/songs/trust-in-the-machine.md) — hook, story
 
+### pschpthy
+
+- [Overture](../../apps/vova/public/music/songs/overture.md) — hook, story
+- [Gray Rage](../../apps/vova/public/music/songs/gray-rage.md) — hook, story
+- [Boom!](../../apps/vova/public/music/songs/boom.md) — hook, story
+- [Succumb to Me](../../apps/vova/public/music/songs/succumb-to-me.md) — hook, story
+- [Behind the Mask](../../apps/vova/public/music/songs/behind-the-mask.md) — hook, story
+- [I Almost Love You](../../apps/vova/public/music/songs/i-almost-love-you.md) — hook, story
+- [PSCHPTHY](../../apps/vova/public/music/songs/pschpthy.md) — hook, story
+- [Normal](../../apps/vova/public/music/songs/normal.md) — hook, story
+- [Intermezzo](../../apps/vova/public/music/songs/intermezzo.md) — hook, story
+- [Artemis](../../apps/vova/public/music/songs/artemis.md) — hook, story
+- [Disintegration Tango](../../apps/vova/public/music/songs/disintegration-tango.md) — hook, story
+- [Erebos](../../apps/vova/public/music/songs/erebos.md) — hook, story
+
 ### Singles
 
 - [Cross Out](../../apps/vova/public/music/songs/cross-out.md) — hook, story
@@ -92,72 +125,8 @@
 - [Good Girl](../../apps/vova/public/music/songs/good-girl.md) — hook, story
 - [In the Shadow](../../apps/vova/public/music/songs/in-the-shadow.md) — hook, story
 - [Inside](../../apps/vova/public/music/songs/inside.md) — hook, story
-- [Mithqāl](../../apps/vova/public/music/songs/mithqal.md) — hook, story
 - [My Hope](../../apps/vova/public/music/songs/my-hope.md) — hook, story
-
-## Полуживые
-
-### ctfu
-
-- [Life, believe, is not a dream…](../../apps/vova/public/music/songs/life-is-not-a-dream.md) — hook, story
-
-### vagabond
-
-- [Calm into the Storm](../../apps/vova/public/music/songs/calm-into-the-storm.md) — hook, story
-- [Mist over Azov](../../apps/vova/public/music/songs/mist-over-azov.md) — hook, story
-- [Inverno](../../apps/vova/public/music/songs/inverno.md) — hook
-- [8849](../../apps/vova/public/music/songs/8849.md) — hook, story
-- [Call of the Steppe](../../apps/vova/public/music/songs/call-of-the-steppe.md) — hook, story
-- [Sirens of the Sands](../../apps/vova/public/music/songs/sirens-of-the-sands.md) — hook, story
-- [Wanderer’s Farewell](../../apps/vova/public/music/songs/wanderers-farewell.md) — hook, story
-- [Ágios o skopós](../../apps/vova/public/music/songs/agios-o-skopos.md) — hook, story
-- [Vagabond](../../apps/vova/public/music/songs/vagabond.md) — hook, story
-
-### father-river
-
-- [Река. Часть первая / Побег](../../apps/vova/public/music/songs/river-part-one.md) — hook
-- [Пегий пёс, бегущий краем моря](../../apps/vova/public/music/songs/piebald-dog.md) — hook
-- [Мой Султан](../../apps/vova/public/music/songs/my-sultan.md) — hook
-- [O, my offence is rank…](../../apps/vova/public/music/songs/my-offence-is-rank.md) — hook
-- [Валентинов день](../../apps/vova/public/music/songs/valentines-day.md) — hook
-- [Река. Часть третья](../../apps/vova/public/music/songs/river-part-three.md) — hook
-- [Пегий пёс (Реприза)](../../apps/vova/public/music/songs/piebald-dog-reprise.md) — hook, story
-- [Всё в этой жизни начинается с любви](../../apps/vova/public/music/songs/everything-begins-with-love.md) — hook
-- [Младший внучек мой](../../apps/vova/public/music/songs/youngest-grandson.md) — hook
-
-### hamlet
-
-- [Гамлет](../../apps/vova/public/music/songs/hamlet.md) — hook, story
-- [Why Let the Stricken Deer Go Weep](../../apps/vova/public/music/songs/stricken-deer.md) — hook
-- [Гамлет (Extended Version)](../../apps/vova/public/music/songs/hamlet-extended.md) — hook, story
-
-### father-sea
-
-- [Каприс Каркасси](../../apps/vova/public/music/songs/carcassi-caprice.md) — hook
-- [В безмерности небес](../../apps/vova/public/music/songs/boundless-skies.md) — hook
-- [Снег идёт](../../apps/vova/public/music/songs/snow-is-falling.md) — hook
-- [Прощание](../../apps/vova/public/music/songs/farewell.md) — hook
-
-### who-is-happy-in-russia
-
-- [На Руси святой](../../apps/vova/public/music/songs/in-holy-rus.md) — hook, story
-- [Нравственный человек](../../apps/vova/public/music/songs/moral-man.md) — hook, story
-- [Ответ](../../apps/vova/public/music/songs/answer.md) — hook, story
-- [Голодная](../../apps/vova/public/music/songs/hungry-one.md) — hook, story
-- [Не ветер бушует над бором…](../../apps/vova/public/music/songs/frost-the-governor.md) — hook, story
-- [Однажды в студёную зимнюю пору…](../../apps/vova/public/music/songs/little-peasant.md) — hook, story
-- [Не торопи](../../apps/vova/public/music/songs/do-not-hurry.md) — hook, story
-
-### Singles
-
-- [Ночной сад](../../apps/vova/public/music/songs/night-garden.md) — hook, story
-
-## Downtemple
-
-### Singles
-
-- [Love (Makes the World Go Round)](../../apps/vova/public/music/songs/love.md) — hook, story
-- [Trisagion](../../apps/vova/public/music/songs/trisagion.md) — hook, story
+- [مِثْقَال](../../apps/vova/public/music/songs/mithqal.md) — hook, story
 
 ## Грёбаный бал
 
@@ -181,12 +150,87 @@
 - [Доброе утро](../../apps/vova/public/music/songs/good-morning.md) — hook, story
 - [За горизонт](../../apps/vova/public/music/songs/beyond-the-horizon.md) — hook, story
 
-## за/обложкой
+## Иске Кормаш
 
 ### Singles
 
-- [Дым](../../apps/vova/public/music/songs/smoke.md) — hook, story
-- [Огоньки](../../apps/vova/public/music/songs/little-lights.md) — hook, story
+- [Бабай минем](../../apps/vova/public/music/songs/babay-minem.md) — hook, story
+
+## Киндерштайн
+
+### Singles
+
+- [Schadina](../../apps/vova/public/music/songs/schadina.md) — hook, story
+
+## Листопад
+
+### Singles
+
+- [Клокочина](../../apps/vova/public/music/songs/chinaberry.md) — hook, story
+
+## Полуживые
+
+### ctfu
+
+- [Life, believe, is not a dream…](../../apps/vova/public/music/songs/life-is-not-a-dream.md) — hook, story
+
+### father-river
+
+- [Река. Часть первая / Побег](../../apps/vova/public/music/songs/river-part-one.md) — hook
+- [Пегий пёс, бегущий краем моря](../../apps/vova/public/music/songs/piebald-dog.md) — hook
+- [Мой Султан](../../apps/vova/public/music/songs/my-sultan.md) — hook
+- [O, my offence is rank…](../../apps/vova/public/music/songs/my-offence-is-rank.md) — hook
+- [Валентинов день](../../apps/vova/public/music/songs/valentines-day.md) — hook
+- [Река. Часть третья](../../apps/vova/public/music/songs/river-part-three.md) — hook
+- [Пегий пёс (Реприза)](../../apps/vova/public/music/songs/piebald-dog-reprise.md) — hook, story
+- [Всё в этой жизни начинается с любви](../../apps/vova/public/music/songs/everything-begins-with-love.md) — hook
+- [Младший внучек мой](../../apps/vova/public/music/songs/youngest-grandson.md) — hook
+
+### father-sea
+
+- [Каприс Каркасси](../../apps/vova/public/music/songs/carcassi-caprice.md) — hook
+- [В безмерности небес](../../apps/vova/public/music/songs/boundless-skies.md) — hook
+- [Снег идёт](../../apps/vova/public/music/songs/snow-is-falling.md) — hook
+- [Прощание](../../apps/vova/public/music/songs/farewell.md) — hook
+
+### hamlet
+
+- [Гамлет](../../apps/vova/public/music/songs/hamlet.md) — hook, story
+- [Why Let the Stricken Deer Go Weep](../../apps/vova/public/music/songs/stricken-deer.md) — hook
+- [Гамлет (Extended Version)](../../apps/vova/public/music/songs/hamlet-extended.md) — hook, story
+
+### vagabond
+
+- [Calm into the Storm](../../apps/vova/public/music/songs/calm-into-the-storm.md) — hook, story
+- [Mist over Azov](../../apps/vova/public/music/songs/mist-over-azov.md) — hook, story
+- [Inverno](../../apps/vova/public/music/songs/inverno.md) — hook
+- [8849](../../apps/vova/public/music/songs/8849.md) — hook, story
+- [Call of the Steppe](../../apps/vova/public/music/songs/call-of-the-steppe.md) — hook, story
+- [Sirens of the Sands](../../apps/vova/public/music/songs/sirens-of-the-sands.md) — hook, story
+- [Wanderer’s Farewell](../../apps/vova/public/music/songs/wanderers-farewell.md) — hook, story
+- [Άγιος ο σκοπός](../../apps/vova/public/music/songs/agios-o-skopos.md) — hook, story
+- [Vagabond](../../apps/vova/public/music/songs/vagabond.md) — hook, story
+
+### who-is-happy-in-russia
+
+- [На Руси святой](../../apps/vova/public/music/songs/in-holy-rus.md) — hook, story
+- [Нравственный человек](../../apps/vova/public/music/songs/moral-man.md) — hook, story
+- [Ответ](../../apps/vova/public/music/songs/answer.md) — hook, story
+- [Голодная](../../apps/vova/public/music/songs/hungry-one.md) — hook, story
+- [Не ветер бушует над бором…](../../apps/vova/public/music/songs/frost-the-governor.md) — hook, story
+- [Однажды в студёную зимнюю пору…](../../apps/vova/public/music/songs/little-peasant.md) — hook, story
+- [Не торопи](../../apps/vova/public/music/songs/do-not-hurry.md) — hook, story
+
+### Singles
+
+- [Ночной сад](../../apps/vova/public/music/songs/night-garden.md) — hook, story
+
+## Trending Today
+
+### Singles
+
+- [Like That](../../apps/vova/public/music/songs/like-that.md) — hook, story
+- [Ok Loser](../../apps/vova/public/music/songs/ok-loser.md) — hook, story
 
 ## Yoohie
 
@@ -209,53 +253,9 @@
 
 - [Чих-Пых](../../apps/vova/public/music/songs/chikh-pykh.md) — hook, story
 
-## Trending Today
+## за/обложкой
 
 ### Singles
 
-- [Like That](../../apps/vova/public/music/songs/like-that.md) — hook, story
-- [Ok Loser](../../apps/vova/public/music/songs/ok-loser.md) — hook, story
-
-## Дамы и господа
-
-### father-sea
-
-- [Снег](../../apps/vova/public/music/songs/snow.md) — hook, story
-
-### five-romances
-
-- [Моим стихам, написанным так рано…](../../apps/vova/public/music/songs/to-my-poems.md) — hook, story
-- [Под лаской плюшевого пледа…](../../apps/vova/public/music/songs/plush-plaid.md) — hook, story
-- [Мне нравится, что вы больны не мной…](../../apps/vova/public/music/songs/not-lovesick-for-me.md) — hook, story
-- [Я говорю сейчас словами теми…](../../apps/vova/public/music/songs/in-those-words.md) — hook, story
-- [Твоя ль вина, что милый образ твой…](../../apps/vova/public/music/songs/is-it-your-fault.md) — hook, story
-- [Мы вспоминаем тихий снег…](../../apps/vova/public/music/songs/quiet-snow.md) — hook, story
-- [Уж сколько их упало в эту бездну…](../../apps/vova/public/music/songs/requiem.md) — hook, story
-
-### Singles
-
-- [Ты не терзайся…](../../apps/vova/public/music/songs/sonnet-74.md) — hook
-
-## Иске Кормаш
-
-### Singles
-
-- [Минем бабай](../../apps/vova/public/music/songs/minem-babay.md) — hook, story
-
-## Киндерштайн
-
-### Singles
-
-- [Schadina](../../apps/vova/public/music/songs/schadina.md) — hook, story
-
-## Dead Pixel Lounge
-
-### Singles
-
-- [At the Diner](../../apps/vova/public/music/songs/at-the-diner.md) — hook, story
-
-## Листопад
-
-### Singles
-
-- [Клокочина](../../apps/vova/public/music/songs/chinaberry.md) — hook, story
+- [Дым](../../apps/vova/public/music/songs/smoke.md) — hook, story
+- [Огоньки](../../apps/vova/public/music/songs/little-lights.md) — hook, story

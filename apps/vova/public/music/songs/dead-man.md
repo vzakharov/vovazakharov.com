@@ -17,7 +17,6 @@ credits:
   lyrics: ['Vova Zakharov', 'Александр Блок']
 en:
   title:
-    transliteration: 'Metel'
     translation: 'Snowstorm'
   cribNote: 'The chorus and the bridge are Alexander Blok’s “Покойник спать ложится…” (1909); where the song keeps Blok’s words, the crib is Dmitri N. Smirnov’s translation, “The calm snowstorm.”'
 ru:

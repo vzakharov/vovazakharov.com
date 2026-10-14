@@ -18,7 +18,6 @@ credits:
   music: ['Мария Коськова']
 en:
   title:
-    transliteration: 'Za gorizont'
     translation: 'Beyond the Horizon'
 ---
 

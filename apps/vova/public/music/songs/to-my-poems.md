@@ -17,7 +17,6 @@ credits:
   lyrics: ['Марина Цветаева']
 en:
   title:
-    transliteration: 'Moim stikham, napisannym tak rano…'
     translation: 'To my poems, written so early…'
 ---
 

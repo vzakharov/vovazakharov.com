@@ -16,7 +16,6 @@ credits:
   lyrics: ['Vova Zakharov', 'Zoltan Zakharov']
 en:
   title:
-    transliteration: 'Dym'
     translation: 'Smoke'
 ---
 

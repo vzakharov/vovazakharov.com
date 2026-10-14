@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  albumLength,
-  type AlbumLengthForms,
+  catalogueSize,
+  type CatalogueSizeForms,
   formatDuration,
   spokenLength,
 } from './duration';
@@ -21,13 +21,27 @@ describe('formatDuration', () => {
   });
 });
 
-const EN: AlbumLengthForms = {
+const EN: CatalogueSizeForms = {
+  artists: { one: '# artist', other: '# artists' },
+  albums: { one: '# album', other: '# albums' },
   songs: { one: '# song', other: '# songs' },
   hours: { one: '# hour', other: '# hours' },
   minutes: { one: '# minute', other: '# minutes' },
 };
 
-const RU: AlbumLengthForms = {
+const RU: CatalogueSizeForms = {
+  artists: {
+    one: '# артист',
+    few: '# артиста',
+    many: '# артистов',
+    other: '# артиста',
+  },
+  albums: {
+    one: '# альбом',
+    few: '# альбома',
+    many: '# альбомов',
+    other: '# альбома',
+  },
   songs: { one: '# песня', few: '# песни', many: '# песен', other: '# песни' },
   hours: { one: '# час', few: '# часа', many: '# часов', other: '# часа' },
   minutes: {
@@ -38,40 +52,77 @@ const RU: AlbumLengthForms = {
   },
 };
 
-describe('albumLength', () => {
+describe('catalogueSize', () => {
   it('counts the songs and rounds the total to the minute', () => {
-    assert.equal(albumLength([200, 185, 241], 'en', EN), '3 songs, 10 minutes');
-    assert.equal(albumLength([200, 215, 241], 'en', EN), '3 songs, 11 minutes');
-    assert.equal(albumLength([61], 'en', EN), '1 song, 1 minute');
+    assert.deepEqual(catalogueSize({ seconds: [200, 185, 241] }, 'en', EN), [
+      '3 songs',
+      '10 minutes',
+    ]);
+    assert.deepEqual(catalogueSize({ seconds: [200, 215, 241] }, 'en', EN), [
+      '3 songs',
+      '11 minutes',
+    ]);
+    assert.deepEqual(catalogueSize({ seconds: [61] }, 'en', EN), [
+      '1 song',
+      '1 minute',
+    ]);
   });
 
   it('takes the locale’s plural forms', () => {
-    assert.equal(albumLength([200, 215, 241], 'ru', RU), '3 песни, 11 минут');
-    assert.equal(
-      albumLength([60, 60, 60, 60, 60], 'ru', RU),
-      '5 песен, 5 минут',
+    assert.deepEqual(catalogueSize({ seconds: [200, 215, 241] }, 'ru', RU), [
+      '3 песни',
+      '11 минут',
+    ]);
+    assert.deepEqual(
+      catalogueSize({ seconds: [60, 60, 60, 60, 60] }, 'ru', RU),
+      ['5 песен', '5 минут'],
     );
-    assert.equal(
-      albumLength(
-        Array.from({ length: 21 }, () => 60),
+    assert.deepEqual(
+      catalogueSize(
+        { seconds: Array.from({ length: 21 }, () => 60) },
         'ru',
         RU,
       ),
-      '21 песня, 21 минута',
+      ['21 песня', '21 минута'],
     );
-    assert.equal(albumLength([120, 120], 'ru', RU), '2 песни, 4 минуты');
+    assert.deepEqual(catalogueSize({ seconds: [120, 120] }, 'ru', RU), [
+      '2 песни',
+      '4 минуты',
+    ]);
   });
 
   it('writes hours from an hour up, dropping a zero minute count', () => {
-    assert.equal(
-      albumLength([1800, 1800, 720], 'en', EN),
-      '3 songs, 1 hour 12 minutes',
+    assert.deepEqual(catalogueSize({ seconds: [1800, 1800, 720] }, 'en', EN), [
+      '3 songs',
+      '1 hour 12 minutes',
+    ]);
+    assert.deepEqual(catalogueSize({ seconds: [1800, 1800, 720] }, 'ru', RU), [
+      '3 песни',
+      '1 час 12 минут',
+    ]);
+    assert.deepEqual(catalogueSize({ seconds: [3600, 3600] }, 'en', EN), [
+      '2 songs',
+      '2 hours',
+    ]);
+  });
+
+  it('leads with the artists and albums it is handed, leaving out a count of none', () => {
+    assert.deepEqual(
+      catalogueSize(
+        { artists: 5, albums: 21, seconds: [1800, 1800, 720] },
+        'ru',
+        RU,
+      ),
+      ['5 артистов', '21 альбом', '3 песни', '1 час 12 минут'],
     );
-    assert.equal(
-      albumLength([1800, 1800, 720], 'ru', RU),
-      '3 песни, 1 час 12 минут',
+    assert.deepEqual(
+      catalogueSize({ albums: 1, seconds: [200, 185, 241] }, 'en', EN),
+      ['1 album', '3 songs', '10 minutes'],
     );
-    assert.equal(albumLength([3600, 3600], 'en', EN), '2 songs, 2 hours');
+    assert.deepEqual(catalogueSize({ albums: 0, seconds: [61] }, 'en', EN), [
+      '1 song',
+      '1 minute',
+    ]);
   });
 });
 

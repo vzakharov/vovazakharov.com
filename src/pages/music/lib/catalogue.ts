@@ -1,15 +1,16 @@
 import 'server-only';
 
-import { type Locale, LOCALES } from '@/shared/i18n';
+import { loadMessages, type Locale, LOCALES } from '@/shared/i18n';
 import {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
   type MusicAlbum,
+  musicAlbumSlugs,
   type MusicProject,
+  musicProjectNames,
 } from '@/shared/music-catalogue';
 
 import { albumTracks } from './album-tracks';
-import { albumArtist } from './albums';
+import { albumArtist, albumWip } from './albums';
+import { type ReleaseKind, releaseKind } from './release-kind';
 import type { SongDocument } from './song-text';
 
 /*
@@ -50,23 +51,63 @@ export function albumYears(
   return first === last ? `${first}` : `${first}–${last}`;
 }
 
-/** The albums with a song in this catalogue, in registry order. */
+/** The album's kind by the songs of it this catalogue holds. */
+export function albumKind(
+  album: MusicAlbum,
+  songs: readonly SongDocument[],
+): ReleaseKind {
+  return releaseKind(
+    albumSongs(album, songs).map(({ frontmatter }) => frontmatter.seconds),
+  );
+}
+
+/**
+ * What an album's tile says under its name: its kind where it is shorter than
+ * an album, and its years.
+ */
+export function albumDetail(
+  album: MusicAlbum,
+  locale: Locale,
+  songs: readonly SongDocument[],
+): string[] {
+  const { kind } = loadMessages(locale).music;
+  const sized = albumKind(album, songs);
+
+  return [
+    ...(sized === 'album' ? [] : [kind[sized]]),
+    albumYears(album, songs),
+  ];
+}
+
+/** The note a work-in-progress album's sign shows, or nothing for a finished one. */
+export function albumWipNote(
+  album: MusicAlbum,
+  locale: Locale,
+): string | undefined {
+  return albumWip(album) ? loadMessages(locale).music.wip.note : undefined;
+}
+
+/** The albums with a song in this catalogue, by slug. */
 export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
-  return MUSIC_ALBUM_SLUGS.filter(
+  return musicAlbumSlugs().filter(
     (album) => albumSongs(album, songs).length > 0,
   );
 }
 
-/** The registry dates no release, so an album is as new as its latest song in this catalogue. */
-function albumDate(album: MusicAlbum, songs: readonly SongDocument[]): number {
+/** The newest of the songs' dates, as a time; 0 for none. */
+function latestDate(songs: readonly SongDocument[]): number {
   return Math.max(
-    ...albumSongs(album, songs).map(({ frontmatter }) =>
-      frontmatter.date.getTime(),
-    ),
+    0,
+    ...songs.map(({ frontmatter }) => frontmatter.date.getTime()),
   );
 }
 
-/** The albums with a song in this catalogue, newest first; a tie keeps registry order. */
+/** An album's file dates no release, so an album is as new as its latest song in this catalogue. */
+function albumDate(album: MusicAlbum, songs: readonly SongDocument[]): number {
+  return latestDate(albumSongs(album, songs));
+}
+
+/** The albums with a song in this catalogue, newest first; a tie goes by slug. */
 export function newestAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
   return catalogueAlbums(songs).toSorted(
     (a, b) => albumDate(b, songs) - albumDate(a, songs),
@@ -88,18 +129,30 @@ function artistAlbums(
 }
 
 /**
- * The artists with a song or an album in this catalogue, in registry order. An
+ * The artists with a song or an album in this catalogue, the one billed on the
+ * most songs first; between equals, the one whose latest song is newer. An
  * album counts in either language, so every artist an album page links to has
  * a page.
  */
 export function catalogueArtists(
   songs: readonly SongDocument[],
 ): MusicProject[] {
-  return MUSIC_PROJECT_NAMES.filter(
-    (artist) =>
-      artistSongs(artist, songs).length > 0 ||
-      LOCALES.some((locale) => artistAlbums(artist, locale, songs).length > 0),
-  );
+  const ranked = musicProjectNames().map((artist) => {
+    const billed = artistSongs(artist, songs);
+
+    return { artist, count: billed.length, latest: latestDate(billed) };
+  });
+
+  return ranked
+    .filter(
+      ({ artist, count }) =>
+        count > 0 ||
+        LOCALES.some(
+          (locale) => artistAlbums(artist, locale, songs).length > 0,
+        ),
+    )
+    .toSorted((a, b) => b.count - a.count || b.latest - a.latest)
+    .map(({ artist }) => artist);
 }
 
 /** What an artist put out: an album, or a song on none, which is its own release. */
@@ -127,7 +180,7 @@ export function catalogueReleases(
  * the artist leads rather than features on, so it is listed once, under whoever
  * released it.
  */
-export function artistReleases(
+function artistReleases(
   artist: MusicProject,
   locale: Locale,
   songs: readonly SongDocument[],
@@ -146,4 +199,22 @@ export function releasedBy(
   return 'album' in release
     ? albumArtist(release.album, locale) === artist
     : release.single.frontmatter.project[0] === artist;
+}
+
+/** The artist's releases, newest first, its albums — EPs and maxi singles among them — apart from its singles. */
+export function artistDiscography(
+  artist: MusicProject,
+  locale: Locale,
+  songs: readonly SongDocument[],
+): { albums: MusicAlbum[]; singles: SongDocument[] } {
+  const releases = artistReleases(artist, locale, songs);
+
+  return {
+    albums: releases.flatMap((release) =>
+      'album' in release ? [release.album] : [],
+    ),
+    singles: releases.flatMap((release) =>
+      'single' in release ? [release.single] : [],
+    ),
+  };
 }

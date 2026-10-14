@@ -10,6 +10,8 @@ import {
 
 import type { Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
+import { useScriptPreference } from '@/shared/lib/use-script-preference';
+import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
 import {
   billingText,
@@ -17,6 +19,7 @@ import {
   isQueued,
   placeTracks,
   type PlayerTrack,
+  seguePositions,
   shouldRestart,
   type WithTracks,
 } from './player-state';
@@ -30,6 +33,15 @@ import { useStoredFlag } from './use-stored-flag';
 
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
+
+/**
+ * The seed is the action's, not the reducer's: a permutation has to be
+ * reproducible from the number that produced it for the reducer to stay pure
+ * and testable.
+ */
+function freshShuffle(tracks: readonly PlayerTrack[]) {
+  return { seed: Date.now(), segues: seguePositions(tracks) };
+}
 
 export type PlayerControls = StationControls & {
   /**
@@ -86,7 +98,8 @@ export type AudioPlayer = QueuedPlayback & { controls: PlayerControls };
 /**
  * The one `<audio>` element on the site and everything that drives it: the
  * queue, the element's own events, the lock screen and the keyboard. The locale
- * is the page's, which the lock screen titles the track in.
+ * is the page's, which the lock screen titles the track in, spelled as the
+ * reader chose.
  */
 export function useAudioPlayer(
   catalogue: PlayerTrack[],
@@ -102,15 +115,16 @@ export function useAudioPlayer(
   const [elapsed, setElapsed] = useState(0);
   const [sessionYielded, setSessionYielded] = useState(false);
   const [shuffleStored, storeShuffle] = useStoredFlag('shuffle');
+  const { script } = useScriptPreference();
 
   // The stored switch leads and the queue follows, which is what restores a
   // remembered shuffle on load — before anything plays, so the cursor has
   // nothing to keep — as well as obeying the button.
   useEffect(() => {
     if (shuffleStored !== state.shuffled) {
-      dispatch({ type: 'shuffle', seed: Date.now() });
+      dispatch({ type: 'shuffle', ...freshShuffle(tracks) });
     }
-  }, [shuffleStored, state.shuffled]);
+  }, [shuffleStored, state.shuffled, tracks]);
 
   const track = currentTrack(state);
   const current = track === undefined ? undefined : tracks[track];
@@ -192,12 +206,9 @@ export function useAudioPlayer(
       shuffle: () => {
         storeShuffle(!shuffleStored);
       },
-      // The seed is the action's, not the reducer's: a permutation has to be
-      // reproducible from the number that produced it for the reducer to stay
-      // pure and testable.
       shuffleAll: () => {
         storeShuffle(true);
-        dispatch({ type: 'shuffleAll', seed: Date.now() });
+        dispatch({ type: 'shuffleAll', ...freshShuffle(tracks) });
       },
       // A seek moves the element rather than the queue, so it releases the
       // radio by an action of its own.
@@ -335,8 +346,8 @@ export function useAudioPlayer(
     }
 
     session.metadata = new MediaMetadata({
-      ...pick(current.titles[locale], 'title'),
-      artist: billingText(current.billing[locale]),
+      title: spelledText(current.titles[locale], script),
+      artist: billingText(current.billing[locale], script),
       album: 'vovazakharov.com/music',
     });
     session.playbackState = state.playing ? 'playing' : 'paused';
@@ -357,7 +368,7 @@ export function useAudioPlayer(
     return () => {
       for (const [action] of actions) session.setActionHandler(action, null);
     };
-  }, [current, state.playing, controls, locale, sessionYielded]);
+  }, [current, state.playing, controls, locale, script, sessionYielded]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {

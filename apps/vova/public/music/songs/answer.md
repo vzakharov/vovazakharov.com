@@ -17,7 +17,6 @@ credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
-    transliteration: 'Otvet'
     translation: 'The Answer'
 ---
 

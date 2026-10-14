@@ -17,7 +17,6 @@ credits:
   lyrics: ['Марина Цветаева']
 en:
   title:
-    transliteration: 'Pod laskoy plyushevogo pleda…'
     translation: 'Under the caress of the plush plaid…'
 ---
 

@@ -10,10 +10,10 @@ import {
 } from '@/shared/i18n';
 import { oneOf } from '@/shared/lib/collections';
 import {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
   type MusicAlbum,
+  musicAlbumSlugs,
   type MusicProject,
+  projectBySlug,
 } from '@/shared/music-catalogue';
 
 import { catalogueAlbums, catalogueArtists } from './catalogue';
@@ -32,7 +32,6 @@ import {
   tabPath,
   type WithTab,
 } from './music-urls';
-import { MUSIC_PROJECT_SLUGS } from './projects';
 import { catalogueSongs, listSongPages } from './songs';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
@@ -55,9 +54,7 @@ export type MusicAddress =
   | ({ page: 'radio' } & WithLocale);
 
 function artistBySlug(slug: string): MusicProject {
-  const artist = MUSIC_PROJECT_NAMES.find(
-    (name) => MUSIC_PROJECT_SLUGS[name] === slug,
-  );
+  const artist = projectBySlug(slug);
 
   if (artist === undefined) {
     throw new Error(`No artist is addressed as ${slug}.`);
@@ -90,7 +87,7 @@ export function parseMusicSegments({
       return { page: 'artist', artist: artistBySlug(slug), locale };
     }
     if (kind === ALBUMS_SEGMENT) {
-      return { page: 'album', album: oneOf(MUSIC_ALBUM_SLUGS, slug), locale };
+      return { page: 'album', album: oneOf(musicAlbumSlugs(), slug), locale };
     }
     if (kind === SONGS_SEGMENT) {
       return { page: 'song', slug, locale };

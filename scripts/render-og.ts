@@ -40,7 +40,7 @@ import {
 } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { loadMessages } from '@/shared/i18n';
-import { MUSIC_PROJECT_NAMES } from '@/shared/music-catalogue';
+import { musicProjectNames } from '@/shared/music-catalogue';
 import { OG_CARD_SUFFIX, OG_CARD_SUFFIXES, routeCardPath } from '@/shared/seo';
 
 import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
@@ -299,7 +299,7 @@ function musicCards(): Card[] {
       band: podcastBand(),
       shape: 'square',
     }),
-    ...MUSIC_PROJECT_NAMES.flatMap((artist) => {
+    ...musicProjectNames().flatMap((artist) => {
       const covers = artistCollageCovers(artist);
 
       return covers.length === 0

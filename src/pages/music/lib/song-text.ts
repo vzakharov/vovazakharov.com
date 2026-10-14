@@ -2,24 +2,28 @@ import 'server-only';
 
 import type { ContentDocument } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
-import type {
-  MusicAlbum,
-  SongFrontmatter,
-  SongText,
-  SungLanguage,
+import { pick } from '@/shared/lib/collections';
+import {
+  mostlyNeedsLatin,
+  type MusicAlbum,
+  type SongFrontmatter,
+  type SongText,
+  type SungLanguage,
+  type TitleGloss,
 } from '@/shared/music-catalogue';
 
 import {
+  entryText,
   readVerse,
   type Stanzas,
   withoutNotes,
   type WithStanzas,
 } from './lyric-notes';
 import { localeProse, splitSections } from './sections';
-import type { GlossedTitle } from './title-gloss';
 import {
   alignTransliteration,
   romanizedTag,
+  romanizeStanzas,
   type Transliteration,
 } from './transliteration';
 
@@ -31,10 +35,11 @@ export type SongOnRelease = {
   album: MusicAlbum | null;
 };
 
-/** A locale's strings with its title resolved: its own name for the song, or the song's with a gloss. */
-type LocalizedSongText = Omit<SongText, 'title'> &
-  GlossedTitle &
-  Pick<SongFrontmatter, 'titleTransliterated'>;
+/**
+ * A locale's strings, its title aside — `songTitle` spells that — and what the
+ * locale tells its reader about a title it keeps.
+ */
+type LocalizedSongText = Omit<SongText, 'title'> & { gloss?: TitleGloss };
 
 /**
  * A song as one language sees it: the titles and the story for that locale,
@@ -54,23 +59,49 @@ export type SongLyrics = WithStanzas & {
   language: SungLanguage;
   /** A crib, not a singing version — and absent where the song is in the reader's language. */
   translation?: Stanzas;
-  /** The words in Latin letters, for a script the reader may not read; shown under them on request. */
+  /** The words in Latin letters, where most of them are in a script the reader may not read. */
   transliteration?: Transliteration;
-};
+} & Pick<SongFrontmatter, 'keepsScript'>;
+
+/** The words as plain text, a line to an entry, for what reads their letters. */
+export function wordsText(stanzas: Stanzas): string {
+  return stanzas
+    .flat()
+    .map((entry) => entryText(entry))
+    .join('\n');
+}
 
 function lyricsKey(language: string): string {
   return `lyrics:${language}`;
 }
 
+function wordsInLatin(
+  stanzas: Stanzas,
+  sections: ReadonlyMap<string, string>,
+  language: SungLanguage,
+  fileName: string,
+): Transliteration {
+  const key = lyricsKey(romanizedTag(language));
+  const romanized = sections.get(key);
+
+  if (romanized !== undefined) {
+    return alignTransliteration(stanzas, romanized, fileName);
+  }
+
+  if (language === 'ru') return romanizeStanzas(stanzas);
+
+  throw new Error(
+    `${fileName} is sung in ${language}, which no rule romanizes, and has no "${key}" section.`,
+  );
+}
+
 function localeText(
-  { title, titleTransliterated, ...frontmatter }: SongFrontmatter,
+  frontmatter: SongFrontmatter,
   locale: Locale,
 ): LocalizedSongText {
-  const { title: own, ...text } = frontmatter[locale];
+  const { title, ...text } = frontmatter[locale];
 
-  return typeof own === 'string'
-    ? { ...text, title: own, titleTransliterated: false }
-    : { ...text, title, titleTransliterated, gloss: own };
+  return typeof title === 'object' ? { ...text, gloss: title } : text;
 }
 
 /**
@@ -121,11 +152,11 @@ export function songLyrics(
   }
 
   const stanzas = readVerse(sung, fileName);
-  const romanized = sections.get(lyricsKey(romanizedTag(language)));
   const words = {
     language,
-    ...(romanized !== undefined && {
-      transliteration: alignTransliteration(stanzas, romanized, fileName),
+    ...pick(frontmatter, 'keepsScript'),
+    ...(mostlyNeedsLatin(wordsText(stanzas), locale) && {
+      transliteration: wordsInLatin(stanzas, sections, language, fileName),
     }),
   };
 

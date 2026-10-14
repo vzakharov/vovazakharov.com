@@ -19,7 +19,6 @@ credits:
   music: [Vladimir Zakharov Sr., Ferdinando Carulli]
 en:
   title:
-    transliteration: 'Valentinov den'
     translation: 'Valentine’s Day'
   cribNote: 'The English is Shakespeare’s original, Ophelia’s songs from _Hamlet_, IV.5 (Folger edition); the song sings the translation by K. R. (Grand Duke Konstantin Romanov).'
 ---

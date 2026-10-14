@@ -18,7 +18,6 @@ credits:
   music: [Vladimir Zakharov Sr., 'Виктор «Никсон» Сазонов']
 en:
   title:
-    transliteration: 'Reka. Chast pervaya / Pobeg'
     translation: 'The River. Part One / Escape'
 ---
 

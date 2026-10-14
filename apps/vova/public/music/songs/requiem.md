@@ -17,7 +17,6 @@ credits:
   lyrics: ['Марина Цветаева']
 en:
   title:
-    transliteration: 'Uzh skolko ikh upalo v etu bezdnu…'
     translation: 'How many have already fallen into this abyss…'
 ---
 

@@ -5,7 +5,12 @@ import { pageFile, SITE_CONFIG } from '@/shared/config';
 import type { Routed } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { textHook } from '@/shared/music-catalogue';
+import {
+  scriptSample,
+  songTitle,
+  spelledText,
+  textHook,
+} from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
@@ -21,10 +26,14 @@ import { musicPath, songPath } from '../lib/music-urls';
 import { pictureCard, songPicture } from '../lib/pictures';
 import { songRepositoryUrl } from '../lib/projects';
 import { type SongFile, songFiles } from '../lib/song-files';
-import { localizeSong, songLyrics } from '../lib/song-text';
+import { localizeSong, songLyrics, wordsText } from '../lib/song-text';
 import { songVideo } from '../lib/song-video';
-import { listSongPages, type SongPageEntry, songTrack } from '../lib/songs';
-import { titleGloss } from '../lib/title-gloss';
+import {
+  listSongPages,
+  type SongPageEntry,
+  songTrack,
+  trackNames,
+} from '../lib/songs';
 import { CoverHead } from './cover-head';
 import { ExplicitBadge } from './explicit-badge';
 import { HookLine } from './hook-line';
@@ -32,9 +41,9 @@ import { Lyrics } from './lyrics';
 import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
-import { SongName } from './song-name';
 import { SongPlayButton } from './song-play-button';
 import { SongVideoButton } from './song-video-button';
+import { Spelling } from './spelling';
 import { Story } from './story';
 import { TitleGlossLine } from './title-gloss-line';
 
@@ -71,7 +80,8 @@ function SongFileLink({ route, file }: SongFileLinkProps) {
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
-  const { title, hook, hidden } = localizeSong(document, locale).frontmatter;
+  const { hook, hidden } = localizeSong(document, locale).frontmatter;
+  const title = spelledText(songTitle(document.frontmatter, locale));
 
   return constructMetadata({
     title: `${title} - ${SITE_CONFIG.name}`,
@@ -88,10 +98,21 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
 export function SongPage({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
   const localized = localizeSong(document, locale);
-  const { title, titleTransliterated, hook, repo, explicit, cribNote } =
+  const { gloss, hook, repo, explicit, cribNote } =
     localized.frontmatter;
+  const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
+  const track = songTrack(document, album);
+  const sample = scriptSample(
+    [
+      ...trackNames([track], locale),
+      ...(lyrics?.transliteration === undefined
+        ? []
+        : [wordsText(lyrics.stanzas)]),
+    ],
+    locale,
+  );
   const picture = songPicture(document, album);
   const video = songVideo(document, locale);
 
@@ -101,7 +122,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
         <MusicNav
           back={{ href: musicPath(locale), label: messages.back }}
           hrefs={byLocale((alternate) => songPath(slug, alternate))}
-          {...{ locale }}
+          {...{ locale, sample }}
         />
 
         <Box component="header">
@@ -116,30 +137,20 @@ export function SongPage({ slug, locale }: SongPageProps) {
             >
               <Stack gap={8} align="flex-start">
                 <Title order={1}>
-                  <SongName
-                    {...{ title }}
-                    transliterated={titleTransliterated}
-                  />
+                  {title}
                   {explicit && <ExplicitBadge label={messages.explicit} />}
                 </Title>
-                <TitleGlossLine
-                  gloss={titleGloss(localized.frontmatter, locale)}
-                />
+                <TitleGlossLine {...{ gloss }} />
                 <HookLine>{hook}</HookLine>
                 {/* The same track a song list's row plays, so both drive one
                     queue — which a hidden song joins only once played here. */}
                 <Group mt={12} gap={8}>
-                  <SongPlayButton track={songTrack(document, album)} />
+                  <SongPlayButton {...{ track }} />
                   {video && (
                     <SongVideoButton
                       {...video}
                       {...{ slug }}
-                      heading={
-                        <SongName
-                          {...{ title }}
-                          transliterated={titleTransliterated}
-                        />
-                      }
+                      heading={title}
                       labels={messages.video}
                     />
                   )}

@@ -14,7 +14,6 @@ mp3:
 explicit: false
 en:
   title:
-    transliteration: 'Prosto tak'
     translation: 'Just Because'
   hook: 'Frostbitten fingers, −4°F in the shade — and kissing just because.'
 ru:

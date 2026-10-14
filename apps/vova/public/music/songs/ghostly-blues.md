@@ -15,7 +15,6 @@ credits:
   music: ['Андрей Мокрушин']
 en:
   title:
-    transliteration: 'Prizrachnyy blyuz'
     translation: 'Ghostly Blues'
 ---
 

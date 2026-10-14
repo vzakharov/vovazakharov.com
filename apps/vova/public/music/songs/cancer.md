@@ -17,7 +17,6 @@ credits:
   music: ['My Chemical Romance']
 en:
   title:
-    transliteration: 'Ne smotri'
     translation: 'Don’t Look'
   hook: 'Don’t look — just bring me a glass of water. My Chemical Romance’s “Cancer,” sung in Russian.'
 ru:

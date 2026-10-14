@@ -1,7 +1,7 @@
 ---
-title: 'Ágios o skopós'
+title: 'Άγιος ο σκοπός'
 titleLanguage: el
-titleTransliterated: true
+titleLatin: 'Ágios o skopós'
 date: 2024-12-07
 status: done
 language: ru

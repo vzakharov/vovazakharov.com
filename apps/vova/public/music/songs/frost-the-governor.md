@@ -17,7 +17,6 @@ credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
-    transliteration: 'Ne veter bushuyet nad borom…'
     translation: 'It is not the wind raging over the forest…'
 ---
 

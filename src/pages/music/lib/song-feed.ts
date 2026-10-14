@@ -15,7 +15,7 @@ import { loadMessages, type Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { feedHtml } from '@/shared/lib/feed-html';
 import type { RssPodcast } from '@/shared/lib/rss';
-import { textHook } from '@/shared/music-catalogue';
+import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
 
 import { universeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';
@@ -113,10 +113,11 @@ export async function songFeedEntries(locale: Locale): Promise<FeedEntry[]> {
       .filter((document) => isListed(document))
       .map(async (document) => {
         const localized = localizeSong(document, locale);
-        const { title, hook } = localized.frontmatter;
+        const { hook } = localized.frontmatter;
 
         return {
-          title,
+          // A feed reader has no switch, so the default spelling it is.
+          title: spelledText(songTitle(document.frontmatter, locale)),
           description: hook === undefined ? undefined : textHook(hook),
           ...pick(localized, 'route'),
           published: filedDate(document.frontmatter),

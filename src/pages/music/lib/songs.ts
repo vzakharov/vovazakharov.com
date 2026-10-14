@@ -4,18 +4,15 @@ import {
   type Slugged,
   SONGS,
 } from '@/shared/content';
-import { byLocale, isLocale } from '@/shared/i18n';
-import type { MusicAlbum } from '@/shared/music-catalogue';
+import { byLocale, isLocale, type Locale } from '@/shared/i18n';
+import { type MusicAlbum, songTitle } from '@/shared/music-catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
+import { projectName } from './artists';
 import { artistPath, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
-import { bill, projectName } from './projects';
-import {
-  localizeSong,
-  type SongDocument,
-  type SongOnRelease,
-} from './song-text';
+import { bill } from './projects';
+import type { SongDocument, SongOnRelease } from './song-text';
 
 /**
  * The catalogue, newest first. A slug that is a locale is rejected here, where
@@ -117,31 +114,38 @@ export function songTrack(
   album: MusicAlbum | null = document.frontmatter.album,
 ): PlayerTrack {
   const { slug, frontmatter } = document;
-  const { audio, seconds, explicit, project } = frontmatter;
+  const { audio, seconds, explicit, segue, project } = frontmatter;
 
   return {
     slug,
     audio,
     seconds,
     explicit,
+    segue,
     billing: byLocale((locale) =>
       bill(project, (artist) => ({
-        label: projectName(artist, locale),
+        name: projectName(artist, locale),
         href: artistPath(artist, locale),
       })),
     ),
-    titles: byLocale((locale) => {
-      const { title, titleTransliterated } = localizeSong(
-        document,
-        locale,
-      ).frontmatter;
-
-      return { title, transliterated: titleTransliterated };
-    }),
+    titles: byLocale((locale) => songTitle(frontmatter, locale)),
     routes: byLocale((locale) =>
       songPath(songPageSlug(document, album), locale),
     ),
   };
+}
+
+/** The names a list of tracks shows under a locale, for `scriptSample` to read: each title and its billing. */
+export function trackNames(
+  tracks: readonly PlayerTrack[],
+  locale: Locale,
+): string[] {
+  return tracks.flatMap(({ titles, billing }) => [
+    titles[locale].original,
+    ...billing[locale].map((part) =>
+      typeof part === 'string' ? part : part.name.original,
+    ),
+  ]);
 }
 
 /** Every listed song, in catalogue order. */

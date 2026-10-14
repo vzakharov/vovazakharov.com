@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×67)
+## What it was handed, it treats as fixed (×68)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -65,10 +65,12 @@ comments, filtered by creation time, lost five of six, a comment being dated
 when drafted. _это не единственный комментарий._ No cover in an album's repo
 meant text-only tiles; Apple Music, used in the same PR, had five.
 
-**5 October — current behaviour kept, never asked whether anyone chose it.**
-Nine callers spelled `target="_blank"`, so the agent proposed a `newTab` prop.
-_do we ever have external links that open not in a new tab?_ No: the three
-without it lacked it by omission.
+**5 and 14 October — current behaviour kept, never asked whether anyone chose
+it.** Nine callers spelled `target="_blank"`, so the agent proposed a `newTab`
+prop. _do we ever have external links that open not in a new tab?_ No: the three
+without it lacked it by omission. Moving the music index's artists into
+frontmatter, it carried their order across as a hand-kept `order:` and defended
+it as design. _зачем нужен order?_ It derives: most songs, then latest release.
 
 **6 October — "widen the search," read as more places to look.** Six of eight
 ledger candidates were Waymo, the queries seeded from the dossier just read.
@@ -107,10 +109,23 @@ other. "One rule for any reflection" became one reflector, every persona reading
 the others' reflections as its own. Different personas, different reflections:
 another's may be consulted, never owned, or it is a split personality.
 
+**13 October — a guard read as a wall, against the one it guards.** Renaming a
+Tatar song to «Бабай минем», the agent kept `minem-babay`: a published song's
+slug never moves, there being no redirects. _слаг тоже поменять, ничего
+страшного._ The rule protects his links, so he can waive it; the agent ruled
+where it could have offered the trade.
+
 **13 October — the reducer every action reaches, read as the only home.** The
 radio's live flag, `tune` and `release` went into the player's own reducer,
 since every action must release it. _для радио-штучек лучше отдельный хук? слишком
 специфичная механика._ A reducer layered over the player's sees every action too.
+
+**13 October — the checks a skill ran, read as the docket's test.** Roscoe, a
+police robot a barricaded gunman knocked over and shot, passed every qualifying
+check. The operator asked if it fit at all: a man in a standoff shoots, not out
+of hatred for the robot. The docket's own FAQ files an act on a machine standing
+in for a mind, and he also fired at a faceless PacBot and at officers. The
+filing's reflection found the case strange, and read that as about itself.
 
 **14 October — a song's field named for the feature that first read it.** Each
 FLAC master's MP3 copy went into frontmatter as `podcast`, required and
@@ -119,7 +134,7 @@ scaffolded, since the feed needed it. _зачем мы это называем `
 across 170 songs. Built for enclosures, the MP3s went unseen as a download: _&
 download?_
 
-## An account that explains the code stands in for running it (×21)
+## An account that explains the code stands in for running it (×22)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -148,6 +163,12 @@ subject was held at unscoped `feat:` partly because the Clerk's reflections on
 basilisk.fyi changed: a file at a URL, argued user-facing. Nothing links to
 them; they sit beside the cases for convenience. One grep said so, and he had
 caught the same step once before.
+
+**14 October — a codegen defended by a check it never made.** Song frontmatter's
+album and artist names became generated literal unions, wired into vet, argued
+as what fails the build on a typo. _приведи пример функции … в которой мы будем
+*литерально* передавать "Полуживые"._ None exists, and tsc never reads `.md`:
+zod's parse had caught the typo all along, needing only a runtime list.
 
 ## It edits the copy in front of it, not the fact behind it (×17)
 
@@ -258,7 +279,7 @@ redirects to a signed one that expires, and the risk is Chromium sending later
 seeks there. Shortened, the claim was false where he stood, his question
 unanswerable.
 
-## What it defends in writing, it stops asking about (×5)
+## What it defends in writing, it stops asking about (×6)
 
 A choice made, written up and pinned by a test has three artifacts in front of
 it by the time anyone looks, each honest that it was deliberate and silent on
@@ -271,6 +292,12 @@ asserted it. _drop it._
 **21 September — a tag invented for a word the platform had.** A docstring
 granted that `content-video-embed` "makes the tree invalid HTML"; `video` would
 do. The caveat had been the finding.
+
+**13 October — a calque, defended by the crib that coined it.** «Бабай минем»,
+the inverted, address-like order, became "Grandpa of Mine"; asked whether that
+carried the word order, the agent said yes, the crib had rendered the chorus so.
+_Разве "grandpa of mine" говорят разговорно дедушке?_ Nobody does: English
+inversion is bookish, not warm. Back to "My Grandpa".
 
 ## It checks the render against its intent, not against the page (×5)
 

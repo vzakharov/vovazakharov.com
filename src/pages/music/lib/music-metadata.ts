@@ -2,13 +2,14 @@ import 'server-only';
 
 import { SITE_CONFIG } from '@/shared/config';
 import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
-import { textHook } from '@/shared/music-catalogue';
+import { spelledText, textHook } from '@/shared/music-catalogue';
 import {
   constructMetadata,
   localizedAddresses,
 } from '@/shared/seo/index.server-only';
 
 import { albumArtist, albumCover, albumTitle } from './albums';
+import { projectName } from './artists';
 import { albumText, artistText } from './catalogue-text';
 import type {
   AlbumPageProps,
@@ -17,7 +18,6 @@ import type {
 } from './music-route-params';
 import { albumPath, artistPath, tabLabels, tabPath } from './music-urls';
 import { artistCard, MUSIC_COLLAGE, pictureCard } from './pictures';
-import { projectName } from './projects';
 import { catalogueSongs } from './songs';
 
 /**
@@ -66,7 +66,7 @@ export function generateMusicMetadata(page: IndexPageProps) {
 }
 
 export function generateArtistMetadata(page: ArtistPageProps) {
-  const name = projectName(page.artist, page.locale);
+  const name = spelledText(projectName(page.artist, page.locale));
   const { artistDescription } = loadMessages(page.locale).music;
 
   return catalogueMetadata(
@@ -74,7 +74,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
     name,
     listenTitle(name, page.locale),
     textHook(
-      artistText(page.artist, page.locale)?.hook ??
+      artistText(page.artist, page.locale).hook ??
         artistDescription.replace('{artist}', name),
     ),
     (locale) => artistPath(page.artist, locale),
@@ -83,7 +83,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
 }
 
 export function generateAlbumMetadata(page: AlbumPageProps) {
-  const name = albumTitle(page.album, page.locale);
+  const name = spelledText(albumTitle(page.album, page.locale));
   const { albumDescription } = loadMessages(page.locale).music;
 
   return catalogueMetadata(
@@ -91,12 +91,14 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
     name,
     listenTitle(name, page.locale),
     textHook(
-      albumText(page.album, page.locale)?.hook ??
+      albumText(page.album, page.locale).hook ??
         albumDescription
           .replace('{album}', name)
           .replace(
             '{artist}',
-            projectName(albumArtist(page.album, page.locale), page.locale),
+            spelledText(
+              projectName(albumArtist(page.album, page.locale), page.locale),
+            ),
           ),
     ),
     (locale) => albumPath(page.album, locale),

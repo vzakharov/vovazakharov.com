@@ -17,7 +17,6 @@ credits:
     - 'Владимир Маяковский'
 en:
   title:
-    transliteration: 'Poslushayte'
     translation: 'Listen!'
   hook: '“Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist, but we hope that if this star is lit, it means someone needs it.”'
 ru:

@@ -18,7 +18,6 @@ credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
-    transliteration: 'Pegiy pyos (Repriza)'
     translation: 'Piebald Dog (Reprise)'
 ---
 

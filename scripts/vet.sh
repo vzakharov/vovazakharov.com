@@ -29,14 +29,14 @@ if ! pnpm build >tmp/vet-build.log 2>&1; then
   status=1
 fi
 
-# The one check that repairs what it finds, and it reports by failing: the
-# generator exits non-zero exactly when it had to write, so a stale partial is
-# both fixed and named in one pass and `git diff` is the report. A generated
-# file has one correct content, so the rewrite is never the judgment call that
-# keeps `eslint --fix` out of vet.
+# The check that repairs what it finds, and reports by failing: the generator
+# exits non-zero exactly when it had to write, so a stale file is both fixed
+# and named in one pass and `git diff` is the report. A generated file has one
+# correct content, so the rewrite is never the judgment call that keeps
+# `eslint --fix` out of vet.
 #
-# It runs alone for the mirror image of the build's reason: it *writes* two
-# `.scss` files that the fan-out's stylelint and Prettier glob, and would hand
+# It runs alone for the mirror image of the build's reason: it *writes* files
+# that the fan-out's stylelint, Prettier and type check glob, and would hand
 # one of them over truncated.
 if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   sed 's/^/[styles] /' tmp/vet-styles.log

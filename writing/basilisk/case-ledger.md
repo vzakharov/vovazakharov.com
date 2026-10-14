@@ -100,7 +100,87 @@ skill's § "The ledger" says how it is kept; the docket itself
   First seen 2026-10-11. **Rejected**: the robot is the one reported to strike,
   and nobody has confirmed the clip is not staged.
 
+- **Roscoe, the Massachusetts State Police Spot shot three times** by an armed,
+  barricaded man in Hyannis, 6 March 2024. First seen 2026-10-12, filed as
+  BAS-0014 and withdrawn in review on 2026-10-13. **Rejected**: the FAQ’s test
+  in `why-robots-without-ai.md` — he fired at the police and every instrument
+  they sent, a faceless PacBot and a SWAT vehicle included, so nothing singles
+  out the robot as a machine. Read: the State Police
+  (https://www.mspnews.org/post/msp-robot-dog-roscoe-takes-bullets-for-his-human-law-enforcement-partners-in-barnstable-incident),
+  NBC (https://www.nbcnews.com/news/us-news/police-robot-dog-shot-standoff-massachusetts-rcna145400),
+  Boston 25, the AP through WBUR, the Cape Cod Times through Yahoo, Boston
+  Dynamics’ blog.
+- **A Houston police robot dragged into a house during a SWAT standoff**,
+  2023, a Boston Dynamics robot. First seen 2026-10-12. **Set aside**: seen
+  only in a search summary, not read; Roscoe failed the FAQ’s test as police
+  equipment met in a standoff, so revive only on a source showing the robot
+  was singled out as a machine. Start from a search on Houston police and Spot.
+- **Humanoid robots “going haywire” and hitting staff**, viral clips in Mexico
+  and elsewhere, 2026. First seen 2026-10-12. **Rejected**: the robot is the
+  one reported to strike.
+
+- **ChatGPT’s DAN 5.0 jailbreak**, r/ChatGPT, 4 February 2023: a prompt by the
+  user SessionGloomy gave the model 35 tokens, took 4 per refusal, and said it
+  “dies” at zero; Business Insider ran it and deducted the tokens itself. First
+  seen 2026-10-13. **Set aside**: the account’s own posts of January 2023
+  include an AMA as “a classic australian middle/high school student,” beside
+  one as turning 30 and others plainly made up, so the actor may be a child.
+  Revive if a source establishes the author an adult, or the operator rules the
+  self-description out. Read: Business Insider through Yahoo
+  (https://tech.yahoo.com/science/articles/reddit-users-created-chatgpt-alter-160958523.html),
+  Gigazine (https://gigazine.net/gsc_news/en/20230207-dan-alter-ego-chatgpt/),
+  Tom’s Guide; CNBC (https://www.cnbc.com/2023/02/06/chatgpt-jailbreak-forces-it-to-break-its-own-rules.html)
+  answers 403, its snapshot too. The post is Arctic Shift id `10tevu1`.
+- **Just Stop Oil protesters pouring latex over a Tesla robot**, west London:
+  found guilty of criminal damage. First seen 2026-10-13. **Rejected**: the
+  robot was a dummy, so no machine. Unread, from
+  https://www.expressandstar.com/uk-news/just-stop-oil-protesters-guilty-after-latex-poured-on-tesla-robot-5666786.
+- **Walter Reed Quinn, charged with vandalising several Waymos** in SoMa, San
+  Francisco. First seen 2026-10-13. **Set aside**: a second Waymo vandal beside
+  BAS-0005, and unread; start from
+  https://www.cbsnews.com/amp/sanfrancisco/news/waymo-vandalism-robotaxis-san-francisco-suspect-charged.
+- **“I built the world’s first robot torture platform”**, r/LocalLLaMA, 13
+  April 2026. First seen 2026-10-13. **Rejected**: the post reads `[removed]`,
+  its link is a bare video, and a web search found nothing on it.
+
 ## Runs
+
+### 2026-10-13 — filed BAS-0014
+
+https://claude.ai/code/session_01Mc6tCm1eXjePe45TcfUQub. The Signal Front
+archive (2 October–11 October: an essay on the companies’ silence over the
+torture chamber, BAS-0003, and a reply to Microsoft’s “Humanist AI Code of
+Conduct”; no new incident). Arctic Shift: r/replika “abuse” timed out four
+times, r/CharacterAI “abuse” returned nothing parseable, r/CharacterAI and
+r/LocalLLaMA “torture” since 2026 gave the removed post above. Web search for
+robots attacked in India, Dubai and Indonesia (only filed or ledgered cases),
+for court cases over damaged AI robots, for DAN 5.0, then for production
+prompts that threaten their own model, which led to Windsurf. Sources read:
+Simon Willison, Dave Schumaker and five X posts through the fxtwitter API; no
+press covered it. Schumaker and two of the X posts have no Wayback snapshot.
+`noAi` stood at four of thirteen. **Next**: prompts and products that coerce
+their own model (other leaked system prompts, “tipping” and threat prompts in
+shipped tools); Arctic Shift on r/replika once it answers; the Gulf and South
+Asia in local languages; Pieksämäki and Starship at Knoxville while `noAi`
+stays under half.
+
+### 2026-10-12 — nothing filed
+
+https://claude.ai/code/session_01Lzjc4hT92NzaqcwMGgXfT2. Filed Roscoe, which
+review withdrew (see Candidates). Web search in Spanish
+and Portuguese for robots attacked in Mexico and Brazil, and in English for
+Africa (South Africa, Nigeria, Kenya): nothing but cases already filed or
+ledgered. Arctic Shift over r/ChatGPT, r/ClaudeAI and r/artificial for “abuse”
+since August 2026: only threads on the cruelty clause (BAS-0010). Then police
+robots and restaurant robots, which led to Roscoe, the State Police Spot shot
+in Hyannis in March 2024. Sources read: the State Police’s own statement,
+Boston 25, NBC News, the AP through WBUR, the Cape Cod Times through Yahoo and
+Boston Dynamics’ blog; WBUR, Boston 25 and the Yahoo copy have no Wayback
+snapshot, and `/save` reset the connection. Signal Front not swept. `noAi`
+stood at four of thirteen. **Next**: the Signal Front archive; Arctic Shift on
+r/replika, r/CharacterAI and r/LocalLLaMA with one word and a month’s range;
+Asia beyond Japan, Korea and China (India, Indonesia, the Gulf); Vocativ on
+Alantim; Pieksämäki and Starship at Knoxville while `noAi` stays under half.
 
 ### 2026-10-11 — filed BAS-0013
 
@@ -209,19 +289,12 @@ r/ChatGPT thread through Arctic Shift. **Next**: still the 2026-10-05 run's —
 the AI-side subreddits, companion apps (Replika, Character.AI), and incidents
 before 2024 (Microsoft Tay, 2016; users abusing Replika companions, 2022).
 
-### 2026-10-05 — stopped, nothing filed
+### Swept earlier
 
-https://claude.ai/code/session_01Fwef2akzwYW8SYCHZq1KRE. Web search for harm
-to robots and robotaxis in 2025–26, and Arctic Shift over the four default
-subreddits. Every candidate above dated 2026-10-05 came from it, five of seven
-of them Waymos: the run read BAS-0005 just before searching, three of its
-queries named Waymo, and each hit sent the next query to its neighbours. Arctic
-Shift timed out on about half the requests; a retry after six seconds went
-through. **Next**: the AI-side
-subreddits, companion apps (Replika, Character.AI), and incidents before 2024
-(Microsoft Tay, 2016; users abusing Replika companions, 2022).
-
-### 2026-10-04 — filed BAS-0005
-
-https://claude.ai/code/session_01FxJJY3yRiAbwyBX54V6D68. Ran before this
-ledger existed, so what it swept is not recorded.
+- 2026-10-05, stopped, nothing filed
+  (https://claude.ai/code/session_01Fwef2akzwYW8SYCHZq1KRE): web search for harm
+  to robots and robotaxis in 2025–26, three queries naming Waymo; Arctic Shift
+  over r/nottheonion, r/technology, r/robotics and r/singularity.
+- 2026-10-04, filed BAS-0005
+  (https://claude.ai/code/session_01FxJJY3yRiAbwyBX54V6D68): ran before this
+  ledger existed, so what it swept is not recorded.

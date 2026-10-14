@@ -15,7 +15,6 @@ mp3:
 explicit: false
 en:
   title:
-    transliteration: 'Nazovi menya po imeni'
     translation: 'Call Me by My Name'
 ---
 

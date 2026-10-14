@@ -18,7 +18,6 @@ credits:
   music: [Vladimir Zakharov Sr.]
 en:
   title:
-    transliteration: 'Moy Sultan'
     translation: 'My Sultan'
 ---
 

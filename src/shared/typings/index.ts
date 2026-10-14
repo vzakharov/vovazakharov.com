@@ -39,6 +39,9 @@ export type Timed = { seconds: number };
 /** Whether a recording carries the explicit-content mark. */
 export type Rated = { explicit: boolean };
 
+/** What a reproducible random draw starts from: the same seed, the same result. */
+export type Seeded = { seed: number };
+
 /** The short name a thing is shown or logged under. */
 export type Labeled = { label: string };
 

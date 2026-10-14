@@ -18,7 +18,6 @@ credits:
   music: ['Славик, друг Андрея Мокрушина']
 en:
   title:
-    transliteration: 'Dobroe utro'
     translation: 'Good Morning'
 ---
 

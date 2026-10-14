@@ -17,7 +17,6 @@ credits:
   lyrics: ['Николай Некрасов']
 en:
   title:
-    transliteration: 'Odnazhdy v studyonuyu zimnyuyu poru…'
     translation: 'Once, in the freezing winter season…'
 ---
 

@@ -7,7 +7,7 @@ import { byLocale, type Locale, LOCALES } from '@/shared/i18n';
 // The leaf rather than the barrel: `shared/content` registers this schema, so
 // entering it by its barrel would close an import cycle at module evaluation.
 import { baseFrontmatterSchema } from '../content/frontmatter';
-import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from './names';
+import { albumSchema, projectSchema } from './names';
 import { creditedNameSchema } from './people';
 import { songDateSchema } from './song-date';
 
@@ -47,16 +47,10 @@ const songLanguageSchema = z.enum(SONG_LANGUAGES);
 
 const sungLanguageSchema = songLanguageSchema.exclude(['instrumental']);
 
-/** What a locale's reader is told of a title it keeps but may not read or understand. */
+/** What a locale's reader is told of a title it keeps but may not understand. */
 const titleGlossSchema = z.object({
-  /**
-   * The title in this locale's letters — Latin under `en`, Cyrillic under `ru`.
-   * The page shows it only where the title is in a script its reader does not
-   * read, so a Russian title wants one under `en` and none under `ru`.
-   */
-  transliteration: z.string().min(1).optional(),
   /** The title in this locale's language, where the title is in another. */
-  translation: z.string().min(1).optional(),
+  translation: z.string().min(1),
 });
 
 export type TitleGloss = z.infer<typeof titleGlossSchema>;
@@ -76,21 +70,62 @@ const HOOK_IN_EVERY_LOCALE_OR_NONE = [
 ] as const;
 
 /**
- * An album's or an artist's frontmatter, above the text its page sets: a key
- * per locale, as a song's.
+ * A name in one locale: absent where the locale keeps its own, as most do.
+ * A string is the name it goes by in this locale instead — `breathe` is
+ * _Breathe_ and _Повелитель ветра_ — and a gloss keeps the name and explains it.
  */
-export const catalogueFrontmatterSchema = z
-  .object(byLocale(() => hookedSchema.default({})))
+const localNameSchema = z.union([z.string().min(1), titleGlossSchema]);
+
+export type LocalName = z.infer<typeof localNameSchema>;
+
+/**
+ * An album's frontmatter, a key per locale as a song's. Its slug is its file
+ * name, and its cover is `albumCover`'s to find.
+ */
+export const albumFrontmatterSchema = z
+  .object({
+    /** What the release is called, in the language it is called in. */
+    title: z.string().min(1),
+    /** Whose release it is, which can differ from a song's own billing. */
+    artist: projectSchema,
+    /** The release is still being made, so its songs and their order may change. */
+    wip: z.literal(true).optional(),
+  })
+  .extend(
+    byLocale(() =>
+      hookedSchema
+        .extend({
+          title: localNameSchema.optional(),
+          /**
+           * Whose release it is in this locale, where one release went out
+           * under two names: `vagabond` is GENERATED's to the Western
+           * services and Полуживые's to the Russian ones.
+           */
+          artist: projectSchema.optional(),
+        })
+        .default({}),
+    ),
+  )
+  .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
+
+/**
+ * An artist's frontmatter, a key per locale as a song's. Its slug is its file
+ * name, and its `name` is what a song's `project` bills it by.
+ */
+export const artistFrontmatterSchema = z
+  .object({
+    name: projectSchema,
+  })
+  .extend(
+    byLocale(() =>
+      hookedSchema.extend({ name: localNameSchema.optional() }).default({}),
+    ),
+  )
   .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
 
 /** A song's strings in one locale. */
 const songTextSchema = hookedSchema.extend({
-  /**
-   * Absent where the locale keeps the song's own title, as most do. A string
-   * is the name the song goes by in this locale instead — `breathe` is _Breathe_
-   * and _Повелитель ветра_ — and a gloss keeps the title and explains it.
-   */
-  title: z.union([z.string().min(1), titleGlossSchema]).optional(),
+  title: localNameSchema.optional(),
   /**
    * What the crib beside the words is, in place of the stock line — whose
    * translation it is, or that the column is the original. One line of markdown.
@@ -108,8 +143,6 @@ const creditsSchema = z.object({
   lyrics: z.array(creditedNameSchema).min(1).optional(),
   music: z.array(creditedNameSchema).min(1).optional(),
 });
-
-const albumSchema = z.enum(MUSIC_ALBUM_SLUGS);
 
 /**
  * A song's number on a release — required there and refused on a single, so
@@ -146,6 +179,11 @@ const playableSchema = z.object({
   seconds: z.number().int().positive(),
   /** Read off the 🅴 in the master's file name by the scaffolder. */
   explicit: z.boolean().default(false),
+  /**
+   * The song runs straight into its release's next track, so a shuffle keeps
+   * the two together, in order.
+   */
+  segue: z.boolean().default(false),
 });
 
 export type Playable = z.infer<typeof playableSchema>;
@@ -173,7 +211,7 @@ const songFieldsSchema = baseFrontmatterSchema
      * The artist first, whoever is featured after it — a feature meaning the song
      * can be shown to the people the other project is shown to.
      */
-    project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1),
+    project: z.array(projectSchema).min(1),
     /** Its repository under the `vovas-music` organization; absent where none holds it. */
     repo: z.string().min(1).optional(),
     /**
@@ -191,10 +229,16 @@ const songFieldsSchema = baseFrontmatterSchema
     /** What the title is in, where that is not the language sung first. */
     titleLanguage: sungLanguageSchema.optional(),
     /**
-     * The title is a romanization — `Mithqāl` — and is set in italics wherever
-     * it shows, as a transliteration is. A locale's own name for the song is not.
+     * The title in Latin letters, written by hand: for a script no rule
+     * romanizes (`Mithqāl`), or a name with an established Latin spelling.
      */
-    titleTransliterated: z.boolean().default(false),
+    titleLatin: z.string().min(1).optional(),
+    /**
+     * The words keep their script beside the romanization rather than giving
+     * way to it — a sacred text, whose letters are not to be replaced. The
+     * title is a name, and switches as any other does.
+     */
+    keepsScript: z.boolean().default(false),
     credits: creditsSchema.optional(),
     video: z
       .object({

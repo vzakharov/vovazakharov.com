@@ -1,5 +1,4 @@
-import { Group, type GroupProps } from '@mantine/core';
-import { Fragment, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { documentMonth, formatDocumentMonth } from '@/shared/content';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
@@ -8,10 +7,13 @@ import { NameLink } from '@/shared/ui';
 
 import { songPlacements } from '../lib/album-tracks';
 import { albumTitle } from '../lib/albums';
+import { projectName } from '../lib/artists';
 import { formatDuration } from '../lib/duration';
 import { albumPath, artistPath } from '../lib/music-urls';
-import { bill, projectName } from '../lib/projects';
+import { bill } from '../lib/projects';
 import type { SongOnRelease } from '../lib/song-text';
+import { FactLine } from './fact-line';
+import { Spelling } from './spelling';
 
 export type SongFactsProps = SongOnRelease & WithLocale;
 
@@ -35,7 +37,7 @@ function songFacts({ document, album, locale }: SongFactsProps) {
         ...albums.flatMap((linked, index) => [
           index > 0 && ', ',
           <NameLink key={linked} href={albumPath(linked, locale)}>
-            {albumTitle(linked, locale)}
+            <Spelling {...albumTitle(linked, locale)} />
           </NameLink>,
         ]),
         after,
@@ -47,7 +49,7 @@ function songFacts({ document, album, locale }: SongFactsProps) {
     byline: {
       billing: bill(project, (artist) => (
         <NameLink key={artist} href={artistPath(artist, locale)}>
-          {projectName(artist, locale)}
+          <Spelling {...projectName(artist, locale)} />
         </NameLink>
       )),
       album: albumsFact(messages.album, album === null ? [] : [album]),
@@ -68,24 +70,6 @@ function songFacts({ document, album, locale }: SongFactsProps) {
       duration: formatDuration(seconds),
     },
   } satisfies Record<string, Record<string, ReactNode>>;
-}
-
-function FactLine({
-  facts,
-  ...props
-}: GroupProps & { facts: Record<string, ReactNode> }) {
-  return (
-    <Group component="p" gap={12} wrap="wrap" {...props}>
-      {Object.entries(facts)
-        .filter(([, fact]) => Boolean(fact))
-        .map(([key, fact], index) => (
-          <Fragment key={key}>
-            {index > 0 && <span aria-hidden>·</span>}
-            <span>{fact}</span>
-          </Fragment>
-        ))}
-    </Group>
-  );
 }
 
 /** Who made the song and the release the page shows it on, above the title. */

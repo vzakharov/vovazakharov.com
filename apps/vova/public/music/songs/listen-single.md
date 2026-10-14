@@ -20,7 +20,6 @@ credits:
     - 'Владимир Маяковский'
 en:
   title:
-    transliteration: 'Poslushayte (Single Version)'
     translation: 'Listen! (Single Version)'
   hook: 'If the stars are lit, does that mean somebody needs them? The crowd on r/pikabu decided nobody did.'
 ru:

@@ -15,7 +15,6 @@ mp3:
 explicit: false
 en:
   title:
-    transliteration: 'Proshchanie'
     translation: 'Farewell'
 ---
 

@@ -63,6 +63,10 @@ silence falls, then a final explosion, and the album ends.
 
 وأخيراً صَمْت
 
+<!-- lyrics:ar-latn -->
+
+Wa-akhīran ṣamt
+
 <!-- lyrics:en -->
 
 And at last, silence.[^samt-en]

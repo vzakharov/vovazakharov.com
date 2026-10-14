@@ -1,7 +1,10 @@
 ---
+title: 'Divine Discontent'
+artist: 'GENERATED'
 en:
   hook: 'What if God grows tired of his favorite creation?'
 ru:
+  title: { translation: 'Божественное недовольство' }
   hook: 'Что, если богу поднадоест его любимое создание?'
 ---
 

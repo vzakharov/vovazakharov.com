@@ -17,7 +17,6 @@ mp3:
 explicit: false
 en:
   title:
-    transliteration: 'Mir, kakoy on yest'
     translation: 'The World as It Is'
   hook: '“This heat is all you need so as not to burn.”'
 ru:

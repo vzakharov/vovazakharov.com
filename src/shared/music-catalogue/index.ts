@@ -1,6 +1,8 @@
 export {
+  albumFrontmatterSchema,
   type AlbumPlacement,
-  catalogueFrontmatterSchema,
+  artistFrontmatterSchema,
+  type LocalName,
   type Playable,
   type SongFrontmatter,
   songFrontmatterSchema,
@@ -10,10 +12,18 @@ export {
 } from './frontmatter';
 export { type HookRun, hookRuns, textHook } from './hook-marks';
 export {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
-  MUSIC_ROUTE,
   type MusicAlbum,
+  musicAlbumSlugs,
   type MusicProject,
+  musicProjectNames,
+  projectBySlug,
+  projectSlug,
 } from './names';
 export { type CreditedName, SONG_AUTHOR } from './people';
+export { MUSIC_ROUTE } from './route';
+export {
+  mostlyNeedsLatin,
+  scriptSample,
+  songTitle,
+  spelledText,
+} from './spelling';

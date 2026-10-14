@@ -4,22 +4,22 @@ import { ActionIcon } from '@mantine/core';
 import { Pause, Play } from 'lucide-react';
 
 import { cx } from '@/shared/lib/class-names';
-import type { Titled } from '@/shared/typings';
+import { useScriptPreference } from '@/shared/lib/use-script-preference';
+import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
 import type { PlayerTrack, WithTrack } from '../lib/player-state';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 
-export type TrackButtonProps = Titled & WithTrack;
-
 /** Whether this track is the one playing, and the toggle that plays or pauses it. */
 export function useTrackPlayback(track: PlayerTrack) {
-  const { state, current, play, labels } = usePlayer();
+  const { state, current, play, labels, locale } = usePlayer();
   const playing = current?.slug === track.slug && state.playing;
 
   return {
     playing,
     labels,
+    locale,
     toggle: () => {
       play(track);
     },
@@ -27,8 +27,10 @@ export function useTrackPlayback(track: PlayerTrack) {
 }
 
 /** The play control on a track row, showing whether this is the one playing. */
-export function TrackButton({ track, title }: TrackButtonProps) {
-  const { playing, labels, toggle } = useTrackPlayback(track);
+export function TrackButton({ track }: WithTrack) {
+  const { playing, labels, locale, toggle } = useTrackPlayback(track);
+  const { script } = useScriptPreference();
+  const title = spelledText(track.titles[locale], script);
 
   return (
     <ActionIcon

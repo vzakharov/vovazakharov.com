@@ -16,7 +16,6 @@ credits:
   lyrics: ['William Shakespeare']
 en:
   title:
-    transliteration: 'Ty ne terzaysya…'
     translation: 'Do not torment yourself…'
   cribNote: 'The English is Shakespeare’s original, Sonnet 74; the song sings Kushner’s translation.'
 ---

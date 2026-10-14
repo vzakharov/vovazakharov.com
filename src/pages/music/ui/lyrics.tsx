@@ -14,10 +14,6 @@ import type { SongLyrics } from '../lib/song-text';
 import { romanizedTag, type Transliteration } from '../lib/transliteration';
 import classes from './music.module.scss';
 import { NotedSpan } from './noted-span';
-import {
-  TransliterationToggle,
-  type TransliterationToggleProps,
-} from './transliteration-toggle';
 
 export type LyricsProps = WithLocale & {
   lyrics: SongLyrics;
@@ -45,17 +41,15 @@ const NOTE_COMPONENTS: Components = {
  * Each language is one element holding all of its stanzas, so a selection
  * started in one column stays in it.
  *
- * Words with a transliteration get a switch above their column that sets it
- * line under line — beside the script, never in place of it: Latin letters
- * standing in for a Quranic phrase are what scholars object to, and a reading
- * aid under it is what they accept.
+ * Words with a transliteration follow the reader's script, which the song's
+ * title switches: in Latin mode each line shows in Latin letters, in place of
+ * the script — or, for words that keep their script, line under line beside it.
  */
 export function Lyrics({ lyrics, locale, cribNote }: LyricsProps) {
-  const { stanzas, translation, language, transliteration } = lyrics;
+  const { stanzas, translation, language, transliteration, keepsScript } =
+    lyrics;
   const { lyrics: labels } = loadMessages(locale).music;
-  const words = { stanzas, transliteration, lang: language };
-  const switchLabel =
-    transliteration === undefined ? undefined : labels.transliteration;
+  const words = { stanzas, transliteration, keepsScript, lang: language };
 
   return (
     <Stack component="section" gap={24}>
@@ -73,41 +67,27 @@ export function Lyrics({ lyrics, locale, cribNote }: LyricsProps) {
       </Box>
 
       {translation === undefined ? (
-        <WordsBox className={classes['lyricsStack']} label={switchLabel}>
-          <Stack gap={24} lang={language}>
-            <StanzaList {...words} />
-          </Stack>
-        </WordsBox>
+        <Stack gap={24} lang={language}>
+          <StanzaList {...words} />
+        </Stack>
       ) : (
         <Box className={classes['lyricsScroll']}>
-          <WordsBox
+          <Box
             className={classes['lyricsColumns']}
             style={{ '--stanzas': stanzas.length }}
-            label={switchLabel}
           >
             <LyricsColumn {...words} />
             <LyricsColumn stanzas={translation} lang={locale} muted />
-          </WordsBox>
+          </Box>
         </Box>
       )}
     </Stack>
   );
 }
 
-type WordsBoxProps = Omit<TransliterationToggleProps, 'label'> & {
-  /** The transliteration switch's, where the words have a transliteration. */
-  label: string | undefined;
-};
-
-function WordsBox({ label, ...box }: WordsBoxProps) {
-  return label === undefined ? (
-    <Box {...box} />
-  ) : (
-    <TransliterationToggle {...box} {...{ label }} />
-  );
-}
-
-type Romanizable = { transliteration?: Transliteration | undefined };
+type Romanizable = { transliteration?: Transliteration | undefined } & Partial<
+  Pick<SongLyrics, 'keepsScript'>
+>;
 
 type LyricsColumnProps = WithStanzas &
   Romanizable & {
@@ -130,6 +110,7 @@ function LyricsColumn({ lang, muted = false, ...words }: LyricsColumnProps) {
 function StanzaList({
   stanzas,
   transliteration,
+  keepsScript = false,
   lang,
 }: WithStanzas & Romanizable & { lang: SungLanguage }) {
   const tag = romanizedTag(lang);
@@ -139,7 +120,7 @@ function StanzaList({
   return stanzas.map((lines, index) => (
     <Stanza
       key={index}
-      {...{ lines, tag }}
+      {...{ lines, tag, keepsScript }}
       romanized={transliteration?.[index]}
     />
   ));
@@ -152,6 +133,7 @@ type StanzaProps = Tagged & {
   lines: LyricLine[];
   /** Each entry's romanization, where the words have one. */
   romanized: string[] | undefined;
+  keepsScript: boolean;
 };
 
 /**
@@ -161,42 +143,70 @@ type StanzaProps = Tagged & {
  * throughout, since a note's popover is a block and sits beside the words it
  * hangs off.
  *
- * A romanized line sits under its own, in the static HTML whether shown or
- * not: after the line, or — in lines sharing a note — inside the block, under
- * each of them.
+ * Both spellings are in the static HTML, `<html>`'s `data-script` picking which
+ * shows.
  */
-function Stanza({ lines, romanized, tag }: StanzaProps) {
+function Stanza({ lines, romanized, tag, keepsScript }: StanzaProps) {
   return (
     <Text component="div" lh={1.75}>
       {lines.map((spans, index) => {
-        const under = romanized?.[index];
-        const block = under?.includes('\n') === true ? under : undefined;
+        const latin = romanized?.[index];
 
         return (
           <div key={index} className={classes['lyricLine']}>
-            {spans.map(({ text, note }, at) => {
-              const words =
-                block === undefined ? (
-                  <Inline {...{ text }} />
-                ) : (
-                  <Interlinear {...{ text, tag }} under={block} />
-                );
-
-              return note === undefined ? (
-                <Fragment key={at}>{words}</Fragment>
-              ) : (
-                <NotedSpan key={at} {...{ words }}>
-                  <Markdown components={NOTE_COMPONENTS}>{note}</Markdown>
-                </NotedSpan>
-              );
-            })}
-            {block === undefined && under !== undefined && (
-              <Romanized text={under} {...{ tag }} />
+            {latin === undefined || keepsScript ? (
+              <LineWords {...{ spans, tag }} under={latin} />
+            ) : (
+              <>
+                <div data-spelling="original">
+                  <LineWords {...{ spans, tag }} />
+                </div>
+                <div data-spelling="latin">
+                  <i lang={tag}>
+                    <Inline text={latin} />
+                  </i>
+                </div>
+              </>
             )}
           </div>
         );
       })}
     </Text>
+  );
+}
+
+type LineWordsProps = Tagged & {
+  spans: LyricLine;
+  /** The line's romanization, set under it in Latin mode. */
+  under?: string | undefined;
+};
+
+/** A line's words with their notes, and its romanization under it where given. */
+function LineWords({ spans, tag, under }: LineWordsProps) {
+  const block = under?.includes('\n') === true ? under : undefined;
+
+  return (
+    <>
+      {spans.map(({ text, note }, at) => {
+        const words =
+          block === undefined ? (
+            <Inline {...{ text }} />
+          ) : (
+            <Interlinear {...{ text, tag }} under={block} />
+          );
+
+        return note === undefined ? (
+          <Fragment key={at}>{words}</Fragment>
+        ) : (
+          <NotedSpan key={at} {...{ words }}>
+            <Markdown components={NOTE_COMPONENTS}>{note}</Markdown>
+          </NotedSpan>
+        );
+      })}
+      {block === undefined && under !== undefined && (
+        <Romanized text={under} {...{ tag }} />
+      )}
+    </>
   );
 }
 
@@ -218,10 +228,10 @@ function Interlinear({
   ));
 }
 
-/** A line in Latin letters, italic as a transliteration is wherever the page shows one. */
+/** A line in Latin letters under its own, shown in Latin mode only. */
 function Romanized({ text, tag }: WithText & Tagged) {
   return (
-    <span className={classes['transliteration']}>
+    <span className={classes['transliteration']} data-spelling="latin">
       <i lang={tag}>
         <Inline {...{ text }} />
       </i>

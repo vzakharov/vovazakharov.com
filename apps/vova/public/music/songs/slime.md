@@ -16,7 +16,6 @@ credits:
   music: [Sasha Zakharova]
 en:
   title:
-    transliteration: 'Sliz'
     translation: 'Slime'
   hook: '“There are no stars here, only sweet slime.”'
 ru:

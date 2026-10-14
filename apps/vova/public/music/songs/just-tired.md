@@ -15,7 +15,6 @@ mp3:
 explicit: false
 en:
   title:
-    transliteration: 'Prosto ustal'
     translation: 'Just Tired'
 ---
 

@@ -16,22 +16,50 @@ const MS = 1000;
 
 /**
  * One cycle's play order: the catalogue shuffled with the cycle's own index as
- * the seed, so any device that asks gets the same answer. A cycle that would
- * open on the song the cycle before it closed on swaps its first two slots —
- * which keeps a song from playing twice running at any catalogue of three
- * songs or more, the swap never reaching a cycle's last slot.
+ * the seed, so any device that asks gets the same answer, a song that segues
+ * never parted from the one it runs into. A cycle that would open on the song
+ * the cycle before it closed on swaps its first two runs — which keeps a song
+ * from playing twice running at any catalogue of three runs or more, the swap
+ * never reaching a cycle's last slot.
  */
-export function cycleOrder(count: number, cycle: number): number[] {
+export function cycleOrder(
+  count: number,
+  cycle: number,
+  segues: ReadonlySet<number> = new Set(),
+): number[] {
   const positions = Array.from({ length: count }, (_, position) => position);
-  const shuffled = (seed: number) => shuffleOrder(positions, undefined, seed);
+  const shuffled = (seed: number) =>
+    shuffleOrder(positions, undefined, seed, segues);
   const order = shuffled(cycle);
-  const [first, second, ...rest] = order;
+  const [first, ...rest] = order;
 
-  return first !== undefined &&
-    second !== undefined &&
-    first === shuffled(cycle - 1).at(-1)
-    ? [second, first, ...rest]
-    : order;
+  // A run that closed the cycle before ends on that song, so one that opens on
+  // it is that song alone.
+  if (first === undefined || first !== shuffled(cycle - 1).at(-1)) {
+    return order;
+  }
+
+  const second = runLength(rest, 0, segues);
+
+  return [...rest.slice(0, second), first, ...rest.slice(second)];
+}
+
+/** How many slots from `from` play as one: each segue takes the next position along. */
+function runLength(
+  order: readonly number[],
+  from: number,
+  segues: ReadonlySet<number>,
+): number {
+  let length = 1;
+
+  for (const [at, position] of order.slice(from + 1).entries()) {
+    const previous = order[from + at] ?? -1;
+
+    if (!segues.has(previous) || position !== previous + 1) break;
+    length++;
+  }
+
+  return length;
 }
 
 /**
@@ -43,13 +71,14 @@ export function cycleOrder(count: number, cycle: number): number[] {
 export function stationAt(
   durations: readonly number[],
   nowMs: number,
+  segues: ReadonlySet<number> = new Set(),
 ): Station | undefined {
   const cycleMs = durations.reduce((sum, seconds) => sum + seconds * MS, 0);
 
   if (cycleMs <= 0) return undefined;
 
   const cycle = Math.floor(nowMs / cycleMs);
-  const order = cycleOrder(durations.length, cycle);
+  const order = cycleOrder(durations.length, cycle, segues);
   let startMs = cycle * cycleMs;
   let cursor = 0;
 
@@ -86,8 +115,9 @@ export function nextStation(
   durations: readonly number[],
   station: Station,
   nowMs: number,
+  segues: ReadonlySet<number> = new Set(),
 ): Station | undefined {
-  return stationAt(durations, Math.max(nowMs, station.endMs));
+  return stationAt(durations, Math.max(nowMs, station.endMs), segues);
 }
 
 /** Seconds into the slot at `nowMs`, which is where the song plays from. */

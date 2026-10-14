@@ -17,7 +17,6 @@ credits:
   music: ['My Chemical Romance']
 en:
   title:
-    transliteration: 'Yad'
     translation: 'Poison'
 ---
 

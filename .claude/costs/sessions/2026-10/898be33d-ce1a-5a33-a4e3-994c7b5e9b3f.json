@@ -1,0 +1,96 @@
+{
+  "estimate": {
+    "at": "2026-10-13T20:40:56.275Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "deciding whether a filed case meets the docket's own FAQ test, and answering four review threads on two dossiers, is editorial judgement on voice and criteria"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "checking the case against the FAQ, the filing skill's qualification step and the ledger is a read across several records"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "898be33d-ce1a-5a33-a4e3-994c7b5e9b3f",
+  "branch": "claude/cases-4j8ylp",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/cases-4j8ylp",
+  "prs": [
+    142
+  ],
+  "url": "https://claude.ai/code/session_01VZJ5tsPCg3errvnEmmyDAT",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-13T20:38:33.621Z",
+  "lastResponseAt": "2026-10-13T21:27:10.848Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 3.530808400000002,
+  "total": {
+    "inputTokens": 228,
+    "cacheWrite5mTokens": 115062,
+    "cacheWrite1hTokens": 233403,
+    "cacheReadTokens": 20300022,
+    "outputTokens": 46303,
+    "thinkingTokens": 16876,
+    "responses": 114,
+    "costUsd": 7.4295104
+  },
+  "ownTurns": {
+    "inputTokens": 198,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 233403,
+    "cacheReadTokens": 19012920,
+    "outputTokens": 46145,
+    "thinkingTokens": 16876,
+    "responses": 99,
+    "costUsd": 6.593500000000002
+  },
+  "subagents": {
+    "inputTokens": 30,
+    "cacheWrite5mTokens": 115062,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1287102,
+    "outputTokens": 158,
+    "thinkingTokens": 0,
+    "responses": 15,
+    "costUsd": 0.8360104
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 228,
+      "cacheWrite5mTokens": 115062,
+      "cacheWrite1hTokens": 233403,
+      "cacheReadTokens": 20300022,
+      "outputTokens": 46303,
+      "thinkingTokens": 16876,
+      "responses": 114,
+      "costUsd": 7.4295104
+    }
+  },
+  "warnings": [
+    "15 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/drop-roscoe.paused.md",
+    "endedAt": "2026-10-13T20:41:58.757Z",
+    "contextTokens": 158112,
+    "spend": {
+      "inputTokens": 56,
+      "cacheWrite5mTokens": 85573,
+      "cacheWrite1hTokens": 111413,
+      "cacheReadTokens": 3085275,
+      "outputTokens": 14701,
+      "thinkingTokens": 8094,
+      "responses": 28,
+      "costUsd": 2.230468
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
