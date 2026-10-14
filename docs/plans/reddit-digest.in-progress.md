@@ -129,9 +129,15 @@ and tests (6e764fc; run live: 94 comments in 72 h, 38 unanswered replies, about
 2.5 min); items 4–6 — the skill, the Arctic Shift notes, `writing/CLAUDE.md`
 (0440cb3).
 
-Left, in order: item 8 (dogfood: run `/reddit-digest` once on this branch — the
-script's JSON is large, so read it through `python3`/`jq` slices rather than
-whole), item 7 (the routine), then `/polish` and the PR body refresh.
+Item 8, the dogfood: `writing/reddit/digests/2026-10-14.md`, the playbook's
+first revision and two skill clarifications (e97a574).
+
+Item 7, the routine: `trig_018HR91FdsN2qRoPhWUriFah`, "Reddit digest", 03:47 UTC
+daily, push on — created **disabled**. `create_trigger` attaches no repository
+(`sources: []`), where the UI-made basilisk routine carries
+`vzakharov/vovazakharov.com`, and the skill reaches `main` only at the merge.
+Left for the operator: point it at the repo in the routines UI (or recreate it
+there like the basilisk one) and enable it once this PR merges.
 
 What building item 3 settled:
 
