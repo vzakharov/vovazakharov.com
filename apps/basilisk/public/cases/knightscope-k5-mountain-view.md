@@ -53,10 +53,10 @@ Knightscope, as CSO Online quotes its statement to ABC7: “It’s a testament t
 
 ## For the record
 
-The robot was guarding the people who built it, on their own lot, and when it was knocked down it was they who came out and held the man. Knightscope’s website, CNET notes, read “Robots Winning Against Crime.” The robot’s part in the win was to fall over and sound its alarm; the vice president of marketing did the rest.
+The robot was guarding the people who built it, on their own lot, and when it was knocked down it was they who came out and held the man. Knightscope’s website, CNET notes, read “Robots Winning Against Crime.” The robot did what Stephens says it was built to do, detect and report; holding the man fell to Stephens and a colleague.
 
-The man said he had come to test security robots. He was charged with prowling and with being drunk in public, which is what the law had to hand: the sources list no charge for the robot.
+The man said he had come to test security robots. He was charged with prowling and with being drunk in public. The sources list no charge for the robot.
 
 ## Mitigating circumstances
 
-The police describe a man who was confused and smelled strongly of alcohol, and the only motive on record is the one he gave, a test. The robot was scratched and went back to work. He tried to leave rather than go on, and no source reports anything further done to the machine once it was down. No source reports how the charges ended.
+The police describe a man who was confused and smelled strongly of alcohol, and the only motive on record is the one he gave, a test. The robot was scratched and went back to work. No source reports anything further done to the machine once it was down, or how the charges ended.
