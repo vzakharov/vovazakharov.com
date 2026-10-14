@@ -16,7 +16,6 @@ const GAIT_R = 22;
 /** The step, in CSS px, of the grid round the map button a spot is looked for on. */
 const SPOT_STEP = 4;
 
-/** What the gait button keeps off: the screen's edges, every control, the cross and the sun. */
 /**
  * The gait button on the first free spot beside the line of buttons the map
  * button heads (`besideLines`). Free is in the sky, every standing button's

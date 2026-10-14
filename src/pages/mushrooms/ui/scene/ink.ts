@@ -11,12 +11,9 @@ import { GROUND_STOPS } from './backdrop-tones';
 import { darken, dimTo, lightenTo, luminance, mix } from './colour';
 import { PALETTE } from './palette';
 
-/**
- * The light a painter draws by, and the thinnest line the screen shows, in
- * CSS px: one device pixel.
- */
+/** The light a painter draws by, and the screen's hairline. */
 export type Lighting = Light & Hairlined;
-/** How fine an ink line is drawn. */
+/** The thinnest line the screen shows, in CSS px: one device pixel. */
 export type Hairlined = { hairline: number };
 export type Lighted = { lighting: Lighting };
 

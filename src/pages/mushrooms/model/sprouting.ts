@@ -49,7 +49,7 @@ export type Placed = Mushroom & Footed;
 /** A spore on the ground: the sprout it will be, its `at` the moment it settled. */
 export type Spore = Placed & Sprout;
 
-/** The spores on the ground, in the order they settled, and how many the meadow has ever scattered, so every id and seed is new. */
+/** The spores on the ground, and how many the meadow has ever scattered, so every id and seed is new. */
 export type Spored = WithSpores & { scattered: number };
 
 /** The spores on the ground, in the order they settled. */

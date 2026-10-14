@@ -71,7 +71,7 @@ export type Gaited = {
   yielding: readonly Giving[];
 };
 
-/** The buttons down the right, and those that give way to a picker. */
+/** The buttons down the screen's sides (`placeColumns`). */
 type Columns = Yielders & { plus: Circle; minus: Circle };
 
 export type Controls = WithMap &
