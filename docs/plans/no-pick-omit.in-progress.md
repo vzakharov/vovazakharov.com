@@ -137,25 +137,45 @@ A meadow bite is a game change: it runs `VET_MEADOW=1 ./scripts/vet.sh` (or
   in the override for its other sites). `LaunchButtons` takes
   `Messages['music']` whole, ~3 KB more in the music index's RSC payload.
   `build:vova` and `build:basilisk` pass on the new schemas.
-- **The 96 meadow files sit in the grandfather override** in `eslint.config.ts`,
-  `pnpm lint`, `typecheck`, `type-overlap` and `knip` clean.
-
-## This bite
-
-**`src/pages/mushrooms/model/`** — 49 sites in 27 files leave the override.
-`Leg`, `Perches`, `MushroomGenes`/`MushroomShape`, `Footed`, `Flee`, `Camera`,
-`Meadow`, `FlowerGenes` and the insect genes are the wide types picked; each is
-decomposed once into named bases, wherever it is declared (a `ui/` type gains
-bases too), and every model site takes an intersection of them. A `ui/` site
-over a decomposed type is left for the next bite unless the base it needs
-already exists. Ends with `pnpm test:meadow`.
+- **Bite 2, `src/pages/mushrooms/model/`, is done** (`934edd0`): its 27 files
+  left the override, `pnpm test:meadow` green. The model's wide types are now
+  intersections of named bases, which `ui/` sites can take too:
+  - `flight.ts` — `Leg = Span & Route & Leaving & OutFirst`, `Route` over
+    `Origin` and `Destination`; `Sight` over `FlowersSeen` (`Flowered` and a
+    local `Crowded`), `Placed` and `Sheltered`; `Perches` adds `Raining`;
+    `Choosing` over `Hemmed`. `flight-timing.ts` — `Span` over `Scheduled`
+    (`Departing & Arriving`) and `Dashing`.
+  - `mushroom-genes.ts` — `MushroomShape` over `Stemmed`, `StemShaped`, `Capped`
+    (`CapWide`), `CapTilted`; `Tilted = Bent & CapTilted`; `OfSpecies` exported.
+  - `game.ts` — `Meadow = Unkept & KeptMeadow`: `Unkept` over `Pickers`;
+    `KeptMeadow` (moved here from `kept-record.ts`) over `Swarm`,
+    `WithMushrooms`, `WithPulled`, `WithDusk`, `Spored`. `insects.ts` —
+    `Swarm = WithInsects & WithPlanted`.
+  - `ground.ts` — `Camera` over `GroundedScreen` (`Grounded`) and `WorldScaled`;
+    `geometry.ts` — `Point = Abscissa & …`; `shared/typings` —
+    `Sized = WithWidth & …`.
+  - The rest: `placement.ts`'s `Stood`; `mouse-run.ts`'s `LeftFrom`, `HeadedTo`;
+    `mouse-run-clock.ts`'s `InLeg`, `Bowed`; `night-runs.ts`'s `NightOuting`;
+    `insect-genes.ts`'s `Bodied`, `Winged`; `bee-genes.ts`'s `BeeHeaded`;
+    `flower-genes.ts`'s `Petalled`, `Classed`; `motion.ts`'s `Switched`;
+    `insect-steering.ts`'s `Faced`; `cruise.ts`'s `Eased`.
+  - A base knip found unused outside its file is declared without `export`; a
+    `ui/` site that needs one exports it.
+- **The 69 `ui/` and `api/` files sit in the grandfather override** in
+  `eslint.config.ts`, `pnpm lint`, `typecheck`, `type-overlap` and `knip` clean.
 
 ## Rest of the elephant
 
 - **`src/pages/mushrooms/ui/` and `api/`** — 150 sites in 71 files, likely two
   bites: `MeadowLayout`, `Placed`, `Shown`, `Scened`, `MeadowSound` and the
-  classes (`Planter`, `MapView`, `FlowerBed`, `Perches`) are the big ones. The
-  last bite removes the override and completes the plan.
+  classes (`Planter`, `MapView`, `FlowerBed`, `Perches`) are the big ones. Model
+  types they pick mostly have their bases already
+  (`Pick<Leg, 'from' | 'departs'>` is `Origin & Departing`; `Pick<Meadow, …>`
+  takes `WithPlanted`, `WithMushrooms`, `WithPulled`, `Spored`, `WithDusk`;
+  `Pick<Camera, 'width' | 'groundTop'>` is `WithWidth & Grounded`). The last
+  bite removes the override and completes the plan.
+- **Running `pnpm test:meadow` from one Bash call overruns its 10-minute
+  limit**; split the 147 files into ~12 chunks (`split -n l/12`), each under it.
 
 ## DRY notes
 
