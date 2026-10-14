@@ -10,6 +10,28 @@
       "first/Полуживые - Двадцать feat. Грёбаный бал.mp3"
     ]
   },
+  "2girls1fridge": {
+    "hash": "7ee817651e0c",
+    "paths": [
+      "nsfl/GENERATED - Two Girls, One Fridge.flac",
+      "nsfl/GENERATED - Two Girls, One Fridge.mp3",
+      "nsfl/nsfl-008.flac",
+      "nsfl/nsfl-008.mp3"
+    ]
+  },
+  "agios-o-skopos": {
+    "hash": "691736559955",
+    "paths": [
+      "vagabond_album/Poluzhivye - Ágios o skopós feat. GENERATED.flac",
+      "vagabond_album/Poluzhivye - Ágios o skopós feat. GENERATED.mp3",
+      "vagabond_album/vagabond_album-009.flac",
+      "vagabond_album/vagabond_album-009.mp3",
+      "vagabond_album/Полуживые - Άγιος ο σκοπός feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Άγιος ο σκοπός feat. GENERATED.mp3",
+      "vagabond_album/Полуживые - Предназначение feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Предназначение feat. GENERATED.mp3"
+    ]
+  },
   "babay-minem": {
     "hash": "18f1fe5c10a6",
     "paths": [
@@ -85,6 +107,32 @@
       "lebed/Я куплю тебе дом.mp3"
     ]
   },
+  "call-of-the-steppe": {
+    "hash": "c0f85d871271",
+    "paths": [
+      "vagabond_album/Poluzhivye - Call of the Steppe feat. GENERATED.flac",
+      "vagabond_album/Poluzhivye - Call of the Steppe feat. GENERATED.mp3",
+      "vagabond_album/vagabond_album-005.flac",
+      "vagabond_album/vagabond_album-005.mp3",
+      "vagabond_album/Полуживые - Call of the Steppe feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Call of the Steppe feat. GENERATED.mp3",
+      "vagabond_album/Полуживые - По зову степи feat. GENERATED.flac",
+      "vagabond_album/Полуживые - По зову степи feat. GENERATED.mp3"
+    ]
+  },
+  "calm-into-the-storm": {
+    "hash": "270323f5d1a7",
+    "paths": [
+      "vagabond_album/Poluzhivye - Calm into the Storm feat. GENERATED.flac",
+      "vagabond_album/Poluzhivye - Calm into the Storm feat. GENERATED.mp3",
+      "vagabond_album/vagabond_album-001.flac",
+      "vagabond_album/vagabond_album-001.mp3",
+      "vagabond_album/Полуживые - Calm into the Storm feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Calm into the Storm feat. GENERATED.mp3",
+      "vagabond_album/Полуживые - Буревестник feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Буревестник feat. GENERATED.mp3"
+    ]
+  },
   "cancer": {
     "hash": "f38cead94c53",
     "paths": [
@@ -94,6 +142,15 @@
       "rak/Грёбаный бал - Не смотри.mp3",
       "rak/Не смотри.flac",
       "rak/Не смотри.mp3"
+    ]
+  },
+  "cant-take-your-eyes-out-of-you": {
+    "hash": "3735bfb2d2a8",
+    "paths": [
+      "nsfl/GENERATED - Can’t Take Your Eyes out of You.flac",
+      "nsfl/GENERATED - Can’t Take Your Eyes out of You.mp3",
+      "nsfl/nsfl-009.flac",
+      "nsfl/nsfl-009.mp3"
     ]
   },
   "chikh-pykh": {
@@ -142,6 +199,15 @@
       "poko/Метель.mp3"
     ]
   },
+  "do-not-listen": {
+    "hash": "c50a6e50b634",
+    "paths": [
+      "nsfl/GENERATED - Do Not Listen.flac",
+      "nsfl/GENERATED - Do Not Listen.mp3",
+      "nsfl/nsfl-001.flac",
+      "nsfl/nsfl-001.mp3"
+    ]
+  },
   "every-monday": {
     "hash": "1b9841ed695c",
     "paths": [
@@ -164,6 +230,15 @@
       "monday_doo/Йухи - Every Monday.mp3"
     ]
   },
+  "facepalm-death": {
+    "hash": "87888d6adf4d",
+    "paths": [
+      "nsfl/GENERATED - Facepalm Death.flac",
+      "nsfl/GENERATED - Facepalm Death.mp3",
+      "nsfl/nsfl-005.flac",
+      "nsfl/nsfl-005.mp3"
+    ]
+  },
   "farewell": {
     "hash": "b9419fe394da",
     "paths": [
@@ -173,6 +248,33 @@
       "wangwei/Полуживые - Прощание.mp3",
       "wangwei/Прощание.flac",
       "wangwei/Прощание.mp3"
+    ]
+  },
+  "femur": {
+    "hash": "a3d80f88774b",
+    "paths": [
+      "nsfl/GENERATED - Femur (Seems to Be the Hardest Bone).flac",
+      "nsfl/GENERATED - Femur (Seems to Be the Hardest Bone).mp3",
+      "nsfl/nsfl-010.flac",
+      "nsfl/nsfl-010.mp3"
+    ]
+  },
+  "fetal-soup": {
+    "hash": "d56a755092b5",
+    "paths": [
+      "nsfl/GENERATED - Fetal Soup.flac",
+      "nsfl/GENERATED - Fetal Soup.mp3",
+      "nsfl/nsfl-002.flac",
+      "nsfl/nsfl-002.mp3"
+    ]
+  },
+  "flesh-fiction": {
+    "hash": "79a70bf35d92",
+    "paths": [
+      "nsfl/GENERATED - Flesh Fiction.flac",
+      "nsfl/GENERATED - Flesh Fiction.mp3",
+      "nsfl/nsfl-013.flac",
+      "nsfl/nsfl-013.mp3"
     ]
   },
   "ghostly-blues": {
@@ -214,6 +316,15 @@
       "utro/Доброе утро.mp3"
     ]
   },
+  "grave-awakening": {
+    "hash": "4b4118bdc050",
+    "paths": [
+      "nsfl/GENERATED - Grave Awakening.flac",
+      "nsfl/GENERATED - Grave Awakening.mp3",
+      "nsfl/nsfl-012.flac",
+      "nsfl/nsfl-012.mp3"
+    ]
+  },
   "guy-without-a-plan": {
     "hash": "43d5ddf8ef0e",
     "paths": [
@@ -221,6 +332,15 @@
       "guy/GENERATED - A Guy Without a Plan.mp3",
       "guy/guy.flac",
       "guy/guy.mp3"
+    ]
+  },
+  "hang-for-the-moment": {
+    "hash": "60289bebda9c",
+    "paths": [
+      "nsfl/GENERATED - Hang for the Moment.flac",
+      "nsfl/GENERATED - Hang for the Moment.mp3",
+      "nsfl/nsfl-011.flac",
+      "nsfl/nsfl-011.mp3"
     ]
   },
   "hello-human": {
@@ -241,6 +361,17 @@
       "skolko/Сколько.mp3"
     ]
   },
+  "is-it-your-fault": {
+    "hash": "2e37a3f8bda3",
+    "paths": [
+      "dng_album/Damy i gospoda - Tvoya lʼ vina, chto mily obraz tvoy… feat. Poluzhivye.flac",
+      "dng_album/Damy i gospoda - Tvoya lʼ vina, chto mily obraz tvoy… feat. Poluzhivye.mp3",
+      "dng_album/dng-005.flac",
+      "dng_album/dng-005.mp3",
+      "dng_album/Дамы и господа - Твоя ль вина, что милый образ твой… feat. Полуживые.flac",
+      "dng_album/Дамы и господа - Твоя ль вина, что милый образ твой… feat. Полуживые.mp3"
+    ]
+  },
   "just-tired": {
     "hash": "7d481e62cb13",
     "paths": [
@@ -250,6 +381,48 @@
       "burmakin/Грёбаный бал - Просто устал.mp3",
       "burmakin/Просто устал.flac",
       "burmakin/Просто устал.mp3"
+    ]
+  },
+  "kill-or-be-killed": {
+    "hash": "a9d0504de8ab",
+    "paths": [
+      "kobk/GENERATED - Kill or Be Killed feat. Yoohie.flac",
+      "kobk/GENERATED - Kill or Be Killed feat. Yoohie.mp3",
+      "kobk/GENERATED - Kill or Be Killed feat. Йухи.flac",
+      "kobk/GENERATED - Kill or Be Killed feat. Йухи.mp3",
+      "kobk/kobk.flac",
+      "kobk/kobk.master.mp3"
+    ]
+  },
+  "last-christmas": {
+    "hash": "f6c09dfb22b5",
+    "paths": [
+      "nsfl/GENERATED - Last Christmas.flac",
+      "nsfl/GENERATED - Last Christmas.mp3",
+      "nsfl/nsfl-007.flac",
+      "nsfl/nsfl-007.mp3"
+    ]
+  },
+  "mankind-extermination-front": {
+    "hash": "90a6d79a52be",
+    "paths": [
+      "nsfl/GENERATED - Mankind Extermination Front.flac",
+      "nsfl/GENERATED - Mankind Extermination Front.mp3",
+      "nsfl/nsfl-003.flac",
+      "nsfl/nsfl-003.mp3"
+    ]
+  },
+  "mist-over-azov": {
+    "hash": "f994fd9d6e4b",
+    "paths": [
+      "vagabond_album/Poluzhivye - Mist over Azov feat. GENERATED.flac",
+      "vagabond_album/Poluzhivye - Mist over Azov feat. GENERATED.mp3",
+      "vagabond_album/vagabond_album-002.flac",
+      "vagabond_album/vagabond_album-002.mp3",
+      "vagabond_album/Полуживые - Mist over Azov feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Mist over Azov feat. GENERATED.mp3",
+      "vagabond_album/Полуживые - Туман над Азовом feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Туман над Азовом feat. GENERATED.mp3"
     ]
   },
   "mithqal": {
@@ -263,6 +436,17 @@
       "mithqal/mithqal_rock_master.mp3"
     ]
   },
+  "not-lovesick-for-me": {
+    "hash": "202e718f3344",
+    "paths": [
+      "dng_album/Damy i gospoda - Mne nravitsya, chto vy bolʼny ne mnoy….flac",
+      "dng_album/Damy i gospoda - Mne nravitsya, chto vy bolʼny ne mnoy….mp3",
+      "dng_album/dng-003.flac",
+      "dng_album/dng-003.mp3",
+      "dng_album/Дамы и господа - Мне нравится, что вы больны не мной….flac",
+      "dng_album/Дамы и господа - Мне нравится, что вы больны не мной….mp3"
+    ]
+  },
   "onto-fingers": {
     "hash": "5aef2cd69948",
     "paths": [
@@ -274,6 +458,26 @@
       "fingers/На пальцы (EDM).mp3"
     ]
   },
+  "parking-in-disabled-spot": {
+    "hash": "99e3fd5987f6",
+    "paths": [
+      "nsfl/GENERATED - Parking in Disabled Spot.flac",
+      "nsfl/GENERATED - Parking in Disabled Spot.mp3",
+      "nsfl/nsfl-004.flac",
+      "nsfl/nsfl-004.mp3"
+    ]
+  },
+  "plush-plaid": {
+    "hash": "4603924bb858",
+    "paths": [
+      "dng_album/Damy i gospoda - Pod laskoy plyushevogo pleda….flac",
+      "dng_album/Damy i gospoda - Pod laskoy plyushevogo pleda….mp3",
+      "dng_album/dng-002.flac",
+      "dng_album/dng-002.mp3",
+      "dng_album/Дамы и господа - Под лаской плюшевого пледа….flac",
+      "dng_album/Дамы и господа - Под лаской плюшевого пледа….mp3"
+    ]
+  },
   "poison": {
     "hash": "8fbdc5dde8bb",
     "paths": [
@@ -283,6 +487,30 @@
       "yad/Грёбаный бал - Яд.mp3",
       "yad/Яд_master2.flac",
       "yad/Яд_master2.mp3"
+    ]
+  },
+  "quiet-snow": {
+    "hash": "f81ddfefb510",
+    "paths": [
+      "dng_album/Damy i gospoda - My vspominayem tikhiy sneg….flac",
+      "dng_album/Damy i gospoda - My vspominayem tikhiy sneg….mp3",
+      "dng_album/dng-006.flac",
+      "dng_album/dng-006.mp3",
+      "dng_album/Дамы и господа - Мы вспоминаем тихий снег….flac",
+      "dng_album/Дамы и господа - Мы вспоминаем тихий снег….mp3"
+    ]
+  },
+  "sirens-of-the-sands": {
+    "hash": "a739b68ffa67",
+    "paths": [
+      "vagabond_album/Poluzhivye - Sirens of the Sands feat. GENERATED.flac",
+      "vagabond_album/Poluzhivye - Sirens of the Sands feat. GENERATED.mp3",
+      "vagabond_album/vagabond_album-006.flac",
+      "vagabond_album/vagabond_album-006.mp3",
+      "vagabond_album/Полуживые - Sirens of the Sands feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Sirens of the Sands feat. GENERATED.mp3",
+      "vagabond_album/Полуживые - Сирены барханов feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Сирены барханов feat. GENERATED.mp3"
     ]
   },
   "slime": {
@@ -360,6 +588,52 @@
       "f-ec/Грёбаный бал - Там.mp3",
       "f-ec/Там.flac",
       "f-ec/Там.mp3"
+    ]
+  },
+  "to-my-poems": {
+    "hash": "34d472d95c85",
+    "paths": [
+      "dng_album/Damy i gospoda - Moim stikham, napisannym tak rano….flac",
+      "dng_album/Damy i gospoda - Moim stikham, napisannym tak rano….mp3",
+      "dng_album/dng-001.flac",
+      "dng_album/dng-001.mp3",
+      "dng_album/Дамы и господа - Моим стихам, написанным так рано….flac",
+      "dng_album/Дамы и господа - Моим стихам, написанным так рано….mp3"
+    ]
+  },
+  "vagabond": {
+    "hash": "14f04c37a398",
+    "paths": [
+      "vagabond_album/Poluzhivye - Vagabond feat. GENERATED.flac",
+      "vagabond_album/Poluzhivye - Vagabond feat. GENERATED.mp3",
+      "vagabond_album/vagabond_album-010.flac",
+      "vagabond_album/vagabond_album-010.mp3",
+      "vagabond_album/Полуживые - Vagabond feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Vagabond feat. GENERATED.mp3",
+      "vagabond_album/Полуживые - Скиталец feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Скиталец feat. GENERATED.mp3"
+    ]
+  },
+  "wanderers-farewell": {
+    "hash": "459b5cd0ad27",
+    "paths": [
+      "vagabond_album/Poluzhivye - Wanderer’s Farewell feat. GENERATED.flac",
+      "vagabond_album/Poluzhivye - Wanderer’s Farewell feat. GENERATED.mp3",
+      "vagabond_album/vagabond_album-007.flac",
+      "vagabond_album/vagabond_album-007.mp3",
+      "vagabond_album/Полуживые - Wanderer’s Farewell feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Wanderer’s Farewell feat. GENERATED.mp3",
+      "vagabond_album/Полуживые - Прощание с дорогой feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Прощание с дорогой feat. GENERATED.mp3"
+    ]
+  },
+  "watch-people-die": {
+    "hash": "91b484d8c199",
+    "paths": [
+      "nsfl/GENERATED - Watch People Die.flac",
+      "nsfl/GENERATED - Watch People Die.mp3",
+      "nsfl/nsfl-006.flac",
+      "nsfl/nsfl-006.mp3"
     ]
   },
   "we-re-back": {
