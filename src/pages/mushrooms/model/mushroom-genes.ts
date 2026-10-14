@@ -78,7 +78,7 @@ export type Tilted = Bent & CapTilted;
 type ShapeGene = keyof MushroomShape;
 
 /** White spots, each centred `y` above the cap's underside: a fly agaric's, none on any other. */
-type Spotted = { spots: readonly Circle[] };
+export type Spotted = { spots: readonly Circle[] };
 /** How far the middle of the cap's top sinks below where a plain dome would stand. */
 type Hollowed = { hollow: number };
 /**

@@ -98,6 +98,8 @@ export type ClumpGround = { mushrooms: MushroomGround };
 export type InsectSized = { insectSizes: Readonly<Record<InsectKind, number>> };
 /** The unit a butterfly's genes are painted in, and each kind's. */
 type InsectScaled = InsectSized & { insectSize: number };
+/** What the meadow is shown through, which a turn or a resize fits anew, and the insects' units on it. */
+export type InsectCamera = WithCamera & InsectScaled;
 /** The screen with the hills and the sun over it: what the sky is painted on. */
 export type HillsSunned = Sized & NearHilled & Sunned;
 
@@ -106,12 +108,10 @@ export type ControlledScreen = GroundedScreen & Controls & Crossed & Sunned;
 
 /** Everything the meadow stands on a screen but its flowers and the sun's wash. */
 type Stood = ControlledScreen &
-  // What the meadow is shown through: a turn or a resize fits a new one.
-  WithCamera &
+  InsectCamera &
   Horizoned &
   NearHilled &
-  ClumpGround &
-  InsectScaled & { clouds: readonly Cloud[] };
+  ClumpGround & { clouds: readonly Cloud[] };
 
 export type MeadowLayout = Stood & {
   flowers: Bed;

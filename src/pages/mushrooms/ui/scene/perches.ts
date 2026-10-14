@@ -8,9 +8,9 @@ import type { Stand } from './flower-sight';
 import { type Away, awayPlaces } from './insect-away';
 import type { MeadowLayout } from './layout';
 import {
+  type HostBeds,
   type Perched,
   perchedOn,
-  type HostBeds,
   type PerchHosts,
   tapThrough,
 } from './perch-hosts';

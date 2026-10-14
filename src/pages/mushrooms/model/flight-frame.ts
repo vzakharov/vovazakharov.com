@@ -107,7 +107,8 @@ export function unframed(
  * placed in, in the units of `Places`, and `near`, the least forward distance
  * a place is measured at.
  */
-export type Pose = { aloft: Aloft; frame: EyeFrame; near: number };
+export type Pose = AtAloft & { frame: EyeFrame; near: number };
+export type AtAloft = { aloft: Aloft };
 
 /**
  * `aloft` as the `Place` a leg to or from it is timed by, posed in `frame`:

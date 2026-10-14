@@ -1,5 +1,6 @@
 import { pick } from '@/shared/lib/collections';
 
+import type { Sight } from '../../model/flight';
 import type { FlowerColour } from '../../model/flower-genes';
 import {
   type FlowerShape,
@@ -7,7 +8,6 @@ import {
   seedSounding,
   shapeSeeds,
 } from '../../model/flower-sounds';
-import type { Sight } from '../../model/flight';
 import { type Action, type Meadow, sameFoot } from '../../model/game';
 import type { Eye } from '../../model/ground';
 import type { Stamped } from '../../model/motion';
@@ -21,6 +21,8 @@ import type { View } from './view';
 
 export type Dispatching = { dispatch: (action: Action) => void };
 export type MeadowSeen = { meadow: () => Meadow | undefined };
+/** What acts on the meadow: the reducer, and the meadow it reduces. */
+export type MeadowActed = Dispatching & MeadowSeen;
 export type StandSeen = {
   stand: () => Stand | undefined;
   view: () => View | undefined;
@@ -34,8 +36,7 @@ export type SightSeen = { sight: () => Sight };
  * (`Grass.tendedAt`), which every rule of the planter judges at, so a tuft
  * shown takes the flower it is tapped for until the grass is tended again.
  */
-export type Scened = Dispatching &
-  MeadowSeen &
+export type Scened = MeadowActed &
   StandSeen & {
     tufts: () => readonly Sprout[];
     tendedAt: () => Eye;

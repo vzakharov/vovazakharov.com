@@ -67,10 +67,9 @@ function offSides(view: View, { x }: Abscissa, height: number): boolean {
  */
 export type BedPlace = LayeredPoint &
   Ahead &
-  Receding & {
-    drawn: boolean;
-    behind: boolean;
-  };
+  Receding &
+  Drawn & { behind: boolean };
+export type Drawn = { drawn: boolean };
 
 /** A bed object's place on the screen as last placed. */
 export type Standing = { stands: BedPlace };

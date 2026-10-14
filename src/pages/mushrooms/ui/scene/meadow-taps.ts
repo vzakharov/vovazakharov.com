@@ -6,7 +6,7 @@ import { restingOn } from './perch-hosts';
 import type { TappedThrough } from './perches';
 import type {
   Dispatching,
-  MeadowSeen,
+  MeadowActed,
   SightSeen,
   TuftTapping,
 } from './planter';
@@ -50,7 +50,7 @@ export function tapMeadow(
 }
 
 /** What of the scene a tap on an insect acts through: the arrivals' own. */
-type InsectTapped = MeadowSeen & Dispatching & SightSeen;
+type InsectTapped = MeadowActed & SightSeen;
 
 /**
  * A tap on the insect `id`, at `now` ms, startles it; at rest, the tap goes

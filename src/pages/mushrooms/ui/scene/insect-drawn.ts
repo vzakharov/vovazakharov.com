@@ -11,16 +11,14 @@ import { pick } from '@/shared/lib/collections';
 import type { Aloft, Forward } from '../../model/flight-frame';
 import { type Turned, wrap } from '../../model/geometry';
 import { onHost } from './bed-place';
-import { reachesScreen, type Spanned, type Zoomed } from './insect-away';
+import { reachesScreen, type Zoomed } from './insect-away';
 import { aloftFramed, type SeatEnds } from './insect-frame';
-import type { Layered } from '../../model/ground';
-import type { Translucent } from './ink';
-import type { Rotated } from './insect-look';
+import type { Sipping } from './insect-look';
 import { drawnFlier, drawnSitter } from './insect-seat';
 import { shadowOf, type ShadowPlace } from './insect-shadow';
-import type { Flown } from './insect-shown';
-import { sinkingOf, type Under } from './insect-sink';
-import type { Nectared, Seat } from './perch-hosts';
+import type { FlownSpan } from './insect-shown';
+import { type Faded, sinkingOf, type Under } from './insect-sink';
+import type { Seat } from './perch-hosts';
 import { tapReach } from './tap-reach';
 import type { View, Zooming } from './view';
 
@@ -35,8 +33,7 @@ import type { View, Zooming } from './view';
  * its body's `turn` in the frame, in radians clockwise from up; and how far
  * off its seat it is (`airborne`, `aloft` in `insect-motion.ts`).
  */
-export type LegFlight = Spanned &
-  Flown &
+export type LegFlight = FlownSpan &
   Forward &
   Zooming &
   Turned & {
@@ -57,10 +54,8 @@ export type LegFlight = Spanned &
  * draws it unzoomed about `middle`; and its body's `rotation` on the screen,
  * in radians clockwise from up.
  */
-export type Posed = Layered &
-  Translucent &
-  Nectared &
-  Rotated & {
+export type Posed = Faded &
+  Sipping & {
     middle: Zoomed;
     hit: number;
   };

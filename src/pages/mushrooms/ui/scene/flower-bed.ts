@@ -4,12 +4,12 @@ import { pick } from '@/shared/lib/collections';
 
 import { type Flower, flowerGenes } from '../../model/flower-genes';
 import { soundOf } from '../../model/flower-sounds';
-import type { Action, Meadow } from '../../model/game';
+import type { Action, Meadow, Tended } from '../../model/game';
 import { placedAt } from '../../model/geometry';
 import { CLUMP_DISTANCE, gathered, OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Dip, drinkDip } from '../../model/insect-motion';
-import type { Flier } from '../../model/insects';
+import type { Flier, WithPlanted } from '../../model/insects';
 import { headedLight } from '../../model/light';
 import { bloom, emerge, sway } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
@@ -33,7 +33,7 @@ import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 import { containsFlower } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Instrument } from './instrument';
-import type { FlowerInView } from './keyed-flowers';
+import type { Answers, FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
 import type { Seat } from './perch-hosts';
@@ -50,10 +50,9 @@ const BROW_FADE = 1.5;
 export type ChordTapped = {
   chordTap: (object: Phaser.GameObjects.GameObject) => boolean;
 };
-export type Answering = {
+export type Answering = Answers & {
   inView: () => FlowerInView[];
   hush: (id: string) => void;
-  answer: (flowers: readonly FlowerInView[]) => void;
 };
 
 /**
@@ -170,11 +169,7 @@ export class FlowerBed implements Following, ChordTapped, Answering {
    * of `pulled` hides (`standingFlowers`).
    */
   reconcile(
-    {
-      planted,
-      mushrooms,
-      pulled,
-    }: Pick<Meadow, 'planted' | 'mushrooms' | 'pulled'>,
+    { planted, mushrooms, pulled }: WithPlanted & Tended,
     layout: MeadowLayout,
     clock: number,
     opening = false,

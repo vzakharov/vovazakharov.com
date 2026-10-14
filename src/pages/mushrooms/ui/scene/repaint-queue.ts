@@ -70,7 +70,7 @@ export function hazeAhead(
 }
 
 /** A thing's sun side now, as its light from the heading gives it, and as it was painted. */
-export type Siding = PaintedSide & { sunSide: number };
+type Siding = PaintedSide & { sunSide: number };
 /** The sun side a thing was painted with. */
 export type PaintedSide = { paintedSunSide: number };
 

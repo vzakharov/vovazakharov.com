@@ -230,9 +230,11 @@ export function paintBody(
 }
 
 /** How far the proboscis is out, where it reaches in the body's frame, and which side it bows to (`proboscisLine`). */
-export type Reaching = Reach & NectarReached & { side: Side };
+export type Reaching = Proboscis & { side: Side };
+/** How far the proboscis is out, and where it reaches. */
+export type Proboscis = Reach & NectarReached;
 /** Where the proboscis reaches, the flower's middle in the body's frame. */
-export type NectarReached = { nectar: Point };
+type NectarReached = { nectar: Point };
 
 /** The proboscis into `graphics`, about the body's middle (`proboscisLine`). */
 export function paintProboscis(

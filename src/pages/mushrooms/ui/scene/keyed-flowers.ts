@@ -71,9 +71,10 @@ export function sowingTuft<Tuft extends object>(
  * is open, returning whether it was; and the grass in view, which grows the
  * flower of a sound no flower in view makes (`sow`), where a tuft is free.
  */
-export type KeyedPlay = {
+export type Answers = { answer: (flowers: readonly FlowerInView[]) => void };
+
+export type KeyedPlay = Answers & {
   inView: () => readonly FlowerInView[];
-  answer: (flowers: readonly FlowerInView[]) => void;
   plant: (sound: FlowerSound) => boolean;
   sow: (sound: FlowerSound) => void;
 };

@@ -1,5 +1,5 @@
 import { isAloft, isLeaving, type Perch } from '../../model/flight';
-import type { Aloft } from '../../model/flight-frame';
+import type { Aloft, AtAloft } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
@@ -23,7 +23,7 @@ export type Seat = Point & Nectared & { on: Host; drawn: Point };
 export type Nectared = { nectar?: Point };
 
 /** Where an insect sits on a perch: a seat on a host, or a spot in the open air as a fixed point in the world. */
-export type Perched = Seat | { aloft: Aloft };
+export type Perched = Seat | AtAloft;
 
 /** Whether `perched` is a seat on a host. */
 export function isSeated(perched: Perched): perched is Seat {

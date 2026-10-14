@@ -2,8 +2,8 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Origin } from '../../model/flight';
 import type { Aloft, Framed } from '../../model/flight-frame';
-import type { Point } from '../../model/geometry';
 import type { Departing } from '../../model/flight-timing';
+import type { Point } from '../../model/geometry';
 import type { CarryingOver } from '../../model/insect-paths';
 import {
   firstSteering,
@@ -27,7 +27,10 @@ export type Steered = {
   steering: Steering;
 };
 
-export type Flown = {
+/** Its span as last painted, and how far along it it flew. */
+export type FlownSpan = Spanned & Flown;
+
+type Flown = {
   /** How far along the stretch drawn now it was last frame, from 0 to 1. */
   flown: number;
   /** Where its flight had it last frame, in its leg's frame. */
@@ -40,8 +43,7 @@ export type Flown = {
 export type Shown = TappedFigure &
   Flying &
   CarryingOver &
-  // Its span as last painted.
-  Spanned &
+  FlownSpan &
   // How far its landing's bob sank it last frame, in units of its size.
   Bobbed &
   // Where its current leg set off.
@@ -50,8 +52,7 @@ export type Shown = TappedFigure &
   // once it is `out`, when it flew out of view.
   Departing &
   Looked &
-  Steered &
-  Flown & {
+  Steered & {
     /**
      * The centre azimuth of its current leg's frame (`centreOf`), fixed on
      * the leg's first frame; `undefined` before it.

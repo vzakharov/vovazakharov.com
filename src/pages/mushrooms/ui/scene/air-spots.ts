@@ -15,8 +15,9 @@ import {
   perchName,
   type Place,
   type Places,
+  type Sited,
 } from '../../model/flight';
-import { type Aloft, azimuthOf, type Pose } from '../../model/flight-frame';
+import { type Aloft, type AtAloft, azimuthOf } from '../../model/flight-frame';
 import { distanceBetween, type Point, wrap } from '../../model/geometry';
 import {
   anchored,
@@ -31,9 +32,9 @@ import { INSECT_LIMITS } from '../../model/insects';
 import { mulberry32 } from '../../model/random';
 import type { Zoomed } from './insect-away';
 import { drawnAloft } from './insect-frame';
-import type { MeadowLayout } from './layout';
+import type { InsectCamera } from './layout';
 import { pointCrowdings } from './perch-crowding';
-import type { PerchHosts } from './perch-hosts';
+import type { Alofted } from './perch-hosts';
 import { placeOfAloft } from './plane-place';
 import { rowAt, viewAt } from './view';
 import { widestOn } from './widest-spans';
@@ -53,23 +54,20 @@ export const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
 );
 
 /** What of a layout the air is laid by: the insects' sizes are the camera's. */
-type AirLaid = Pick<MeadowLayout, 'camera' | 'insectSize' | 'insectSizes'>;
 
 /**
  * One spot in the air: its id, where on the layout's screen it is laid out
  * (`x`, `y`, `fromEye`, what a leg is timed by), where in the world it stands,
  * and where the eye it is offered round draws it (`drawn`).
  */
-type Spot = CellName &
-  Pick<Place, 'x' | 'y' | 'fromEye'> &
-  Pick<Pose, 'aloft'> & { drawn: Zoomed };
+type Spot = CellName & Sited & AtAloft & { drawn: Zoomed };
 
 /**
  * The air offered round an eye: its spots by id where the eye's anchored
  * layout draws them, each in the world (`alofts`) and as a `Place`, and
  * every two of them on which two insects of their kinds would overlap at all.
  */
-export type Air = Pick<PerchHosts, 'alofts'> & {
+export type Air = Alofted & {
   spots: ReadonlyArray<WithId & Point>;
   places: Places;
   aloft: readonly Crowding[];
@@ -88,7 +86,7 @@ export function clumpRow(camera: Camera): number {
  * of the others as drawn, by their kinds' widest spans zoomed where each
  * hovers, taken widest first.
  */
-function seatsEveryOne(laid: AirLaid, spots: readonly Spot[]): boolean {
+function seatsEveryOne(laid: InsectCamera, spots: readonly Spot[]): boolean {
   const spans = EVERY_ONE.map((kind) => widestOn(laid, kind)).toSorted(
     (a, b) => b - a,
   );
@@ -114,7 +112,10 @@ function seatsEveryOne(laid: AirLaid, spots: readonly Spot[]): boolean {
  * where the eye they are offered round draws them, would overlap: nearer
  * than half their widest spans, each zoomed where it hovers.
  */
-function crowdingsAsDrawn(laid: AirLaid, spots: readonly Spot[]): Crowding[] {
+function crowdingsAsDrawn(
+  laid: InsectCamera,
+  spots: readonly Spot[],
+): Crowding[] {
   const drawnOn = new Map<Perch, Zoomed>();
   const points = spots.map(({ id, drawn }) => {
     const perch: Perch = { kind: 'air', id };
@@ -150,7 +151,7 @@ const lattices = new WeakMap<Camera, Lattice>();
  * the opening eye (`seatsEveryOne`); its heights from a butterfly's widest
  * wings under the world's top down to `AIR_BELOW` over the back of the ground.
  */
-function latticeOf(laid: AirLaid): Lattice {
+function latticeOf(laid: InsectCamera): Lattice {
   const { camera } = laid;
   const known = lattices.get(camera);
   if (known) return known;
@@ -226,7 +227,7 @@ function namedCell(
  * does (`namedCell`), entered in `kept`.
  */
 function spotsAt(
-  laid: AirLaid,
+  laid: InsectCamera,
   lattice: Lattice,
   anchor: Eye,
   known: Names,
@@ -283,7 +284,7 @@ const KEPT = 8;
  * each (`crowdingsAsDrawn`), so hovering insects never overlap on the screen
  * while the eye stands there; kept for the last `KEPT` anchors.
  */
-export function airOf(laid: AirLaid, anchor: Eye = OPENING_EYE): Air {
+export function airOf(laid: InsectCamera, anchor: Eye = OPENING_EYE): Air {
   const { camera, insectSize: unit } = laid;
   const known = offered.get(camera) ?? new Map<string, Air>();
   offered.set(camera, known);
@@ -322,7 +323,7 @@ export function airOf(laid: AirLaid, anchor: Eye = OPENING_EYE): Air {
 
 /** The spots in the open air `laid` offers round `anchor` (`airOf`), where the layout anchored at `anchor` draws each. */
 export function airSpots(
-  laid: AirLaid,
+  laid: InsectCamera,
   anchor: Eye = OPENING_EYE,
 ): ReadonlyArray<WithId & Point> {
   return airOf(laid, anchor).spots;
@@ -330,7 +331,7 @@ export function airSpots(
 
 /** Each spot in the open air `laid` offers round `anchor` (`airOf`) as a fixed point in the world, by id. */
 export function airAlofts(
-  laid: AirLaid,
+  laid: InsectCamera,
   anchor: Eye = OPENING_EYE,
 ): ReadonlyMap<string, Aloft> {
   return airOf(laid, anchor).alofts;
@@ -341,7 +342,7 @@ export function airAlofts(
  * round any eye or none: where an insect still holding a spot the eye has
  * walked away from hovers.
  */
-export function airAloftOf(laid: AirLaid, id: string): Aloft | undefined {
+export function airAloftOf(laid: InsectCamera, id: string): Aloft | undefined {
   const cell = /^air-(-?\d+)-(-?\d+)$/u.exec(id);
   if (!cell) return undefined;
   return cellAloft(latticeOf(laid), Number(cell[1]), Number(cell[2]));

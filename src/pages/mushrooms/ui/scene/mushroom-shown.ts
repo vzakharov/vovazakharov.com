@@ -12,39 +12,46 @@ import {
   type Tapped,
   UNLIT,
 } from '../../model/motion';
-import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
+import { mushroomGenes, type Spotted } from '../../model/mushroom-genes';
 import {
   type Chorded,
   CURVE_STEPS,
   curveSteps,
 } from '../../model/mushroom-profile';
+import type { Footed } from '../../model/placement';
+import type { Sprouting } from '../../model/sprouting';
 import { UNPLACED } from './bed-place';
-import type { Laid } from './clump-layout';
+import type { LaidAhead } from './clump-layout';
 import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
+import type { WithGraphics } from './hit-areas';
 import type { Body, HouseView } from './house-view';
 import type { Lighting } from './ink';
 import type { MushroomLights } from './mushroom-light';
-import type { Selected } from './mushroom-selection';
-import type { Siding } from './repaint-queue';
+import type { AreaHit, Selected } from './mushroom-selection';
+import type { PaintedSide } from './repaint-queue';
 
 /** What a shown mushroom keeps of its mushroom as planted. */
 const SHOWN_OF = ['foot', 'lean', 'sprout'] as const;
-type ShownOf = (typeof SHOWN_OF)[number];
+type ShownOf = Footed & Sprouting;
+
+type HouseShadowed = {
+  /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
+  shadow: Phaser.GameObjects.Graphics;
+  /** Its windows and door, which follow it. */
+  house: HouseView;
+};
 
 /** `spots`: those its house left painted (`paintedSpots`) when it was last drawn. */
 export type Shown = Tapped &
   Sprouted &
   Lit &
   Body &
-  Pick<MushroomGenes, 'spots'> &
-  Pick<Planted, ShownOf> &
+  Spotted &
+  ShownOf &
   Selected &
+  HouseShadowed &
   // How far its tap area reaches above its foot, in world px at the opening eye.
   Tall & {
-    /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
-    shadow: Phaser.GameObjects.Graphics;
-    /** Its windows and door, which follow it. */
-    house: HouseView;
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
     goneAt: number;
     /** Where the bed lays its foot out to paint it (`laidOf`), in world px. */
@@ -53,11 +60,11 @@ export type Shown = Tapped &
     lightsAt: (heading: number) => MushroomLights<Lighting>;
     /** Its shadow's light as the opening eye sees it, which `headedLight` turns by the heading. */
     sunFrom: Light;
-  } & Pick<Laid, 'opening'> &
+  } & LaidAhead &
   // The chords to a curve it was last painted with.
   Chorded &
   // Its shadow's sun side when last painted.
-  Pick<Siding, 'paintedSunSide'>;
+  PaintedSide;
 
 /**
  * `mushroom` as shown before the bed first places it, planted at `plantedAt`
@@ -69,7 +76,7 @@ export function unplacedShown(
   mushroom: Planted,
   plantedAt: number,
   lighting: Lighting,
-  objects: Pick<Shown, 'graphics' | 'shadow' | 'house' | 'hit'>,
+  objects: WithGraphics & HouseShadowed & AreaHit,
 ): Shown {
   const { sprout } = mushroom;
   return {

@@ -18,7 +18,8 @@ export function isSamePerch(a: Perch, b: Perch): boolean {
 }
 
 /** A perch another insect sits on or is heading to, and that insect's kind. */
-export type Held = Kinded & { perch: Perch };
+export type Held = Kinded & OnPerch;
+export type OnPerch = { perch: Perch };
 
 /** A perch's name, the same for the same perch, as `Places` keys it. */
 export function perchName(perch: Perch): string {

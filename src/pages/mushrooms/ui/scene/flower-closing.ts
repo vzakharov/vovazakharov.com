@@ -7,7 +7,8 @@
  */
 
 import { type Point, wrap } from '../../model/geometry';
-import type { BedPlace } from './bed-place';
+import type { Ahead } from '../../model/pinhole';
+import type { Drawn } from './bed-place';
 
 /** How many steps a flower closes in, each one repaint of its head. */
 export const CLOSING_STEPS = 12;
@@ -112,7 +113,7 @@ const CLOSINGS_PER_FRAME = 6;
 export type Shut = { closing: number };
 
 /** A flower as the closing sees it: how far shut it was painted, and where it stands. */
-type Closing = Shut & { stands: Pick<BedPlace, 'drawn' | 'ahead'> };
+type Closing = Shut & { stands: Drawn & Ahead };
 
 /** How far shut `flowers` are painted, on average, from 0 (open) to 1; 0 with none. */
 export function meanClosing(flowers: readonly Shut[]): number {

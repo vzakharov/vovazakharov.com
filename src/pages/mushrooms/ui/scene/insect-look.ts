@@ -18,7 +18,7 @@ import {
 } from '../../model/buzz-rest';
 import type { Timed } from '../../model/flight';
 import type { FlyGenes } from '../../model/fly-genes';
-import type { Point, Reach, Scaled, WithMiddle } from '../../model/geometry';
+import type { Point, Scaled, WithMiddle } from '../../model/geometry';
 import {
   type ButterflyGenes,
   insectGenes,
@@ -44,7 +44,7 @@ import {
   drawInsect,
   type InsectParts,
   paintProboscis,
-  type NectarReached,
+  type Proboscis,
 } from './draw-insect';
 import type { Lighted, Lighting } from './ink';
 import type { Nectared } from './perch-hosts';
@@ -73,8 +73,7 @@ const RUB_STEP = 0.05;
  */
 type ButterflyLook = OfKind<'butterfly'> &
   InsectParts &
-  Reach &
-  NectarReached & {
+  Proboscis & {
     genes: ButterflyGenes;
     side: BodySide | undefined;
     painted: Point;
@@ -82,9 +81,7 @@ type ButterflyLook = OfKind<'butterfly'> &
 /** A fly's parts, and how far into a rub its front legs were last painted. */
 type FlyLook = OfKind<'fly'> & BuzzParts & { genes: FlyGenes; rub: number };
 /** A bee's parts, and how many specks of pollen its baskets were last painted with. */
-type BeeLook = OfKind<'bee'> &
-  BuzzParts &
-  Specked & { genes: BeeGenes };
+type BeeLook = OfKind<'bee'> & BuzzParts & Specked & { genes: BeeGenes };
 /**
  * Each look; the light it was last painted in, as the screen stands, which
  * its every repaint keeps; and the body's turn its parts were last painted
@@ -109,9 +106,11 @@ export type Moment = Timed &
 export type Flying = { flier: Flier };
 
 /** Where a drinking butterfly's middle and turn stand this frame, and the flower's middle it drinks from. */
-export type Drinking = Nectared & WithMiddle & Rotated;
+export type Drinking = Sipping & WithMiddle;
+/** The flower's middle a flier drinks from, and its body's turn on the screen. */
+export type Sipping = Nectared & Rotated;
 /** Its body's turn on the screen, in radians clockwise from up. */
-export type Rotated = { rotation: number };
+type Rotated = { rotation: number };
 
 /**
  * A look for `flier`, its graphics made in `scene`, and those graphics in

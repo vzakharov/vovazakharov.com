@@ -1,13 +1,13 @@
 import type * as Phaser from 'phaser';
 
 import type { TapArea } from '../../model/mushroom-outline';
-import { standAt, type Standing } from './bed-place';
+import { standAt } from './bed-place';
 import {
   drawSelection,
   drawSelectionRing,
   type RingGraphics,
 } from './draw-mushroom';
-import type { Body } from './house-view';
+import type { Puffing } from './spores';
 
 /**
  * How much nearer than its mushroom each part of the selection is drawn: the
@@ -16,8 +16,8 @@ import type { Body } from './house-view';
 const NEARER = { ringEdge: -0.4, band: -0.3, ringTop: -0.2 };
 
 /** A mushroom as the selection is drawn round it: where it stands on the screen, and where it takes taps. */
-export type Selected = Pick<Body, 'graphics' | 'genes' | 'size' | 'turn'> &
-  Standing & { hit: TapArea };
+export type Selected = Puffing & AreaHit;
+export type AreaHit = { hit: TapArea };
 
 /**
  * The selected mushroom's band, set each frame to its graphics' own pose so

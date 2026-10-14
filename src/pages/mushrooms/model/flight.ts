@@ -95,7 +95,11 @@ export type Crowding = readonly [Perch, Perch, readonly Pairing[]];
  * gives it, where it stands on the plane (`Pose`), so a leg is timed in the
  * frame it is drawn in (`pairFramed`).
  */
-export type Place = Point & { fromEye: number; pose?: Pose };
+export type Place = Sited & { pose?: Pose };
+/** A point on the plane, and how far it stands from the eye. */
+export type Sited = Point & FromEye;
+/** How far from the eye a thing stands, in the clump's size. */
+type FromEye = { fromEye: number };
 
 /**
  * Where each perch stands (`Place`), by its name (`perchName`), so a distance

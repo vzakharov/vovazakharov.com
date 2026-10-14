@@ -3,7 +3,7 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { type Dusk, duskness } from '../../model/dusk';
-import type { Action, Meadow } from '../../model/game';
+import type { Action, WithDusk } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import type { Layered } from '../../model/ground';
 import {
@@ -30,7 +30,9 @@ export const DUSK_WASH_DEEPEST = 0.38;
  * that a lagging house still reads (the dusk itself until it is first
  * turned), and the depth over the dusk wash they are drawn at.
  */
-export type Lights = Pick<Meadow, 'dusk'> & { before: Dusk } & Layered;
+export type Lights = DuskFrom & Layered;
+/** Which way the light is going, and which way it went before. */
+export type DuskFrom = WithDusk & { before: Dusk };
 
 /**
  * What the turning light asks of the meadow's sound: a sinking slide toward

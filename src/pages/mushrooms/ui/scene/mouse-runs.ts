@@ -14,7 +14,12 @@ import type { WithId } from '@/shared/typings';
 
 import { panOf } from '../../model/flight-frame';
 import { CLUMP_DISTANCE } from '../../model/ground';
-import { outingOf, outingStart, type Tapped } from '../../model/motion';
+import {
+  outingOf,
+  outingStart,
+  type Tapped,
+  type TapTimed,
+} from '../../model/motion';
 import {
   answerTap,
   entered,
@@ -68,7 +73,7 @@ import type { View } from './view';
  * was last tapped, and its patter's last tick.
  */
 type MouseRun = DoorRun &
-  Pick<Tapped, 'tappedAt'> &
+  TapTimed &
   WithCircleHit &
   WithGraphics & {
     start: PaintedEnd | undefined;

@@ -117,7 +117,7 @@ type WithPulled = {
   pulled: readonly string[];
 };
 
-type WithDusk = {
+export type WithDusk = {
   /** Which way the light is going (`duskness`): the one record of the time of day. */
   dusk: Dusk;
 };
