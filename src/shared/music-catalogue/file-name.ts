@@ -28,13 +28,12 @@ function legal(stem: string): string {
   );
 }
 
-/** `<Artist> - <Title>.<extension>`, features as `feat.` — the convention taggers and download stores default to. */
-export function songFileName(
-  { artists: [artist, ...features], title }: SongBilling,
+/** `A feat. B & C` — the form taggers and MusicBrainz credit features in. */
+export function billedArtists(
+  [artist, ...features]: SongBilling['artists'],
   script: Script,
-  extension: string,
 ): string {
-  const billed = [
+  return [
     spelledText(artist, script),
     ...(features.length === 0
       ? []
@@ -43,8 +42,15 @@ export function songFileName(
           features.map((feature) => spelledText(feature, script)).join(' & '),
         ]),
   ].join(' ');
+}
 
-  return `${legal(`${billed} - ${spelledText(title, script)}`)}.${extension}`;
+/** `<Artist> - <Title>.<extension>` — the convention taggers and download stores default to. */
+export function songFileName(
+  { artists, title }: SongBilling,
+  script: Script,
+  extension: string,
+): string {
+  return `${legal(`${billedArtists(artists, script)} - ${spelledText(title, script)}`)}.${extension}`;
 }
 
 /**
