@@ -25,11 +25,17 @@ writing/
       <slug>.md        # a recording, transcribed
   basilisk/
     case-ledger.md     # every case search and every candidate it weighed
+  reddit/
+    playbook.md        # what makes a comment land, revised by every digest
+    digests/
+      <YYYY-MM-DD>.md  # one daily run's review of the operator's comments
 ```
 
-`basilisk/` is no channel and holds no drafts: it is the working record behind
-basilisk.fyi, kept by `/file-basilisk-case`, which says how the ledger is
-written. Nothing below applies to it.
+`basilisk/` and `reddit/` are no channels and hold no drafts: each is the
+working record its skill keeps — `basilisk/` behind basilisk.fyi, by
+`/file-basilisk-case`; `reddit/` behind the operator's Reddit comments, by
+`/reddit-digest` — and that skill says how its files are written. Nothing below
+applies to either.
 
 `notes/` is for a claim that needs specimens rather than argument: the file
 collects them as they occur, so the post is written from a record instead of

@@ -103,21 +103,23 @@ refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
   pasted link's ids are its path segments: `/comments/<post id>/…/<comment id>`,
   each read on its own by `/api/posts/ids?ids=` and `/api/comments/ids?ids=`.
 - Every text search names a `subreddit` (or an `author`) — the API refuses one
-  without. Sweep `nottheonion`, `technology`, `robotics` and `singularity`, and
-  for the AI side `ChatGPT`, `ClaudeAI`, `replika`, `CharacterAI`, `LocalLLaMA`
-  and `artificial`. **Once a lead names a city, search that city's own
-  subreddit**: local threads carry what national press does not.
+  without. `author=` alone works on both search endpoints, which is how
+  `pnpm reddit:digest` reads the operator's own comments. Sweep `nottheonion`,
+  `technology`, `robotics` and `singularity`, and for the AI side `ChatGPT`,
+  `ClaudeAI`, `replika`, `CharacterAI`, `LocalLLaMA` and `artificial`. **Once a
+  lead names a city, search that city's own subreddit**: local threads carry
+  what national press does not.
 - `Timeout. Maybe slow down a bit` comes back fast, as an HTTP 422, on as many
   as half the requests. Read the body rather than the status alone, wait a few
   seconds and retry; a query that keeps failing is narrowed — one word, a
   shorter date range.
-- A post is archived within a minute of going up and fetched once more 48 hours
-  later, so its vote and comment counts read near zero until then and as they
-  stood on the second day after — a measure of reach only past that point. The
-  text is that first minute's too: a post AutoModerator held for review reads
-  `[removed]` with `removed_by_category: automod_filtered` though a moderator
-  may have approved it since, so `[removed]` alone never reports a post as
-  deleted.
+- A post or comment is archived within a minute of going up and fetched once
+  more 36–48 hours later, so its vote and comment counts read near zero until
+  then and as they stood on the second day after — a measure of reach only past
+  that point, which a row's `_meta.retrieved_2nd_on` marks. The text is that
+  first minute's too: a post AutoModerator held for review reads `[removed]`
+  with `removed_by_category: automod_filtered` though a moderator may have
+  approved it since, so `[removed]` alone never reports a post as deleted.
 
 **The Signal Front's Substack is swept too**: an AI-welfare advocacy group that
 writes up incidents of the docket's kind.
