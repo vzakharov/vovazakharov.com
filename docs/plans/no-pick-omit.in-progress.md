@@ -126,18 +126,19 @@ A meadow bite is a game change: it runs `VET_MEADOW=1 ./scripts/vet.sh` (or
   the tree it reports 219 sites in 117 files; the only files using `Pick`/`Omit`
   it passes are the DOM, Mantine and type-parameter ones (`open-kept.ts`,
   `keyboard.ts`, `title-gloss-line.tsx`, `collections.ts`, `text-link.tsx`).
-- **All 117 files sit in the grandfather override** in `eslint.config.ts`,
-  `pnpm lint`, `typecheck` and `type-overlap` clean.
-
-## This bite
-
-Everything outside the meadow, each file leaving the override as it migrates.
-
-- Migrate the 21 flagged files outside `src/pages/mushrooms/`: `src/shared/`
-  (`documents`, `feeds`, `rehype-content-links`, `construct-metadata`,
-  `site-avatar`, `name-link`), `src/entities/case/` (a narrow case-frontmatter
-  schema), `src/pages/music/` (a narrow song-frontmatter schema where its sites
-  need one), `scripts/lib/` (`stanza-repeats`, `play-runs`).
+- **Bite 1, outside the meadow, is done** (`3557d2b`): all 21 files left the
+  override. Narrow bases now declared first: `FileInCollection`,
+  `ServedMarkdown`, `ProseSource` under `ContentDocument`; `UnlinkedRssItem`;
+  the metadata's `Addresses`; `TextLinkBaseProps`; `WithAvatar`; the song
+  schema's `Released`, `Tracked`, `Mastered`, `Mp3Copied`, `CreditedSong`,
+  `ScriptKept`, `UntitledSongText`; the player's `Playing`, `QueuePositions`,
+  `Cursored`, `WithPlayerLabels`; `CoverHeadBody`; the case's `Docketed`; the
+  probe's `RunEnds`; and `Opened` in `mouse-run-clock.ts` (a meadow file, still
+  in the override for its other sites). `LaunchButtons` takes
+  `Messages['music']` whole, ~3 KB more in the music index's RSC payload.
+  `build:vova` and `build:basilisk` pass on the new schemas.
+- **The 96 meadow files sit in the grandfather override** in `eslint.config.ts`,
+  `pnpm lint`, `typecheck`, `type-overlap` and `knip` clean.
 
 ## Rest of the elephant
 
