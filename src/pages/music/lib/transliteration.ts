@@ -34,12 +34,14 @@ function entryLines(entry: LyricLine): string[] {
   return entryText(entry).split('\n');
 }
 
-/** The marker of a language's romanized section, as an error names it. */
 function sectionMarker(language: SungLanguage): string {
   return `lyrics:${romanizedTag(language)}`;
 }
 
-/** A romanized section's stanzas, none of their lines carrying a note. */
+/**
+ * A romanized section's stanzas, failing on a note: notes hang off the words,
+ * and a romanization is a reading aid for those same words.
+ */
 function sectionStanzas(section: string, fileName: string): string[][] {
   const stanzas = splitStanzas(section);
   const noted = stanzas.flat().find((line) => carriesNote(line));
@@ -233,9 +235,8 @@ export function wordsInLatin({
 /**
  * Pairs a transliteration with the words it romanizes, stanza for stanza and
  * line for line, so the page can set each romanized line under its own. Any
- * misalignment fails the build — a romanization one line off reads as the
- * wrong words under every line after it — and so does a note: notes hang off
- * the words, and a romanization is a reading aid for those same words.
+ * misalignment fails the build: a romanization one line off reads as the wrong
+ * words under every line after it.
  */
 export function alignTransliteration(
   stanzas: Stanzas,
