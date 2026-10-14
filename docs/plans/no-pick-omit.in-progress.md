@@ -181,30 +181,16 @@ A meadow bite is a game change: it runs `VET_MEADOW=1 ./scripts/vet.sh` (or
     `Baking` over `Spread`; `ink.ts` — `Hairlined`; `repaint-queue.ts` —
     `PaintedSide`; `clump-layout.ts` — `LaidAhead`; `draw-buzz.ts` — `Wings`,
     `BlurredWings`; `mottles.ts` — `Deep`.
-- **The 35 files left sit in the grandfather override** in `eslint.config.ts`,
-  `pnpm lint`, `typecheck`, `type-overlap` and `knip` clean.
-
-## This bite
-
-The last one: every site in the override (80 in 35 files under `ui/scene/`;
-`api/` has none left), migrated per § "Migrating a site", with the classes'
-picks as `implements`-ed types. Then the override goes, the meadow suite runs
-chunked, and Steps 3–4 complete the plan.
-
-## Rest of the elephant
-
-- **The scene wiring and shown objects of `ui/scene/`, and `api/`** — ~77 sites
-  in the 35 files left in the override, one bite: `Scened`, `MeadowSound`,
-  `PerchHosts`, `Shown`, `Swell` and the classes (`Planter`, `MapView`,
-  `FlowerBed`, `Perches`, `MushroomBed`, `RainView`, `DuskView`) are the big
-  ones. Model types they pick mostly have their bases already
-  (`Pick<Leg, 'from' | 'departs'>` is `Origin & Departing`; `Pick<Meadow, …>`
-  takes `WithPlanted`, `WithMushrooms`, `WithPulled`, `Spored`, `WithDusk`). The
-  last bite removes the override and completes the plan.
-- **The rule forced on lists every site left**:
-  `npx eslint --rule '{"vova/no-pick-omit":"error"}' src/pages/mushrooms/ui src/pages/mushrooms/api`.
-- **Running `pnpm test:meadow` from one Bash call overruns its 10-minute
-  limit**; split the 147 files into ~12 chunks (`split -n l/12`), each under it.
+- **Bite 4, the rest of `ui/scene/`, is done** (`3c2a843`): no site is left and
+  the grandfather override is gone; `pnpm test:meadow` green (2275). The scene's
+  classes implement the narrow types their callers take
+  (`MeadowSound implements Waking, Hushing, Keyed, …`; `Planter`, `MapView`,
+  `EyeInput`, `Arrivals`, `FlowerBed`, `MushroomBed`, `RainView`, `DuskView`,
+  `Perches`, `Instrument`, `Grass` likewise), and the wiring types are
+  intersections: `Scened = MeadowActed & StandSeen & …`,
+  `PerchHosts = HostBeds & Alofted & …`, `Opening = Reopened & KeptBy & …`,
+  `MeadowKeeping = Binding & …`,
+  `Swell = Voiced & Lasting & Attacked & Pitched & …`.
 
 ## DRY notes
 
