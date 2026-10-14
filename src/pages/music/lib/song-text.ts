@@ -3,12 +3,12 @@ import 'server-only';
 import type { ContentDocument } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import {
-  type MusicAlbum,
-  type SongFrontmatter,
-  type SongText,
-  type SungLanguage,
-  type TitleGloss,
+import type {
+  MusicAlbum,
+  SongFrontmatter,
+  SongText,
+  SungLanguage,
+  TitleGloss,
 } from '@/shared/music-catalogue';
 
 import {

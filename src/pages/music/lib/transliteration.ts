@@ -33,7 +33,7 @@ function linesIn(entry: LyricLine): number {
   return entryText(entry).split('\n').length;
 }
 
-const NON_LATIN = /(?!\p{Script=Latin})\p{L}/u;
+const NON_LATIN_LETTERS = /(?!\p{Script=Latin})\p{L}/gu;
 
 /** The letters of the script a language is written in. */
 function languageScript(language: SungLanguage): RegExp {
@@ -46,7 +46,7 @@ function languageScript(language: SungLanguage): RegExp {
   // ISO 15924 tells simplified Chinese from traditional; Unicode has one Han.
   const code = script === 'Hans' || script === 'Hant' ? 'Hani' : script;
 
-  return new RegExp(`\\p{Script=${code}}`, 'u');
+  return new RegExp(String.raw`\p{Script=${code}}`, 'u');
 }
 
 /** A sung language's own `-latn` section, where the song has one. */
@@ -68,12 +68,11 @@ type LineSource = {
 function romanizeLine(line: string, { scripts, queues, fileName }: LineSource) {
   const sung = scripts.filter(({ letters }) => letters.test(line));
   const [only, other] = sung;
-  const unsung = sung.reduce(
-    (rest, { letters }) => rest.replaceAll(new RegExp(letters, 'gu'), ''),
-    line,
+  const unsung = (line.match(NON_LATIN_LETTERS) ?? []).some(
+    (letter) => !sung.some(({ letters }) => letters.test(letter)),
   );
 
-  if (NON_LATIN.test(unsung)) {
+  if (unsung) {
     throw new Error(
       `${fileName}: “${line}” has letters in a script none of the song’s languages is written in; name the language in its \`language\`.`,
     );
@@ -180,7 +179,7 @@ function forReader(
   if (!needed.includes(true)) return undefined;
 
   return lines
-    .map((line, index) => (needed[index] ? romanized[index] : line))
+    .map((line, index) => (needed[index] === true ? romanized[index] : line))
     .join('\n');
 }
 
