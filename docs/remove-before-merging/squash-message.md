@@ -15,10 +15,9 @@ field, a string renaming it there and { translation } glossing it.
 A misspelt album or project in a song still fails the build: the song
 schema reads the albums/ and artists/ directories and accepts only a
 name a file there carries. MusicAlbum and MusicProject are zod brands
-rather than literal unions, so neither passes for the other, and no
-generated file or codegen step is needed — tsc never read the markdown
-the typo is in. A slug is its file's name, and an album's cover is read
-off the covers directory rather than stated.
+rather than literal unions, so neither passes for the other. A slug is
+its file's name, and an album's cover is read off the covers directory
+rather than stated.
 
 The music index ranks its artists rather than keeping a hand-set order:
 the one billed on the most songs first, between equals the one whose
