@@ -51,6 +51,9 @@ header says what each part is. Two things it leaves to judgement:
 - **`settled: false` in `settled` means Arctic Shift has not re-fetched it
   yet**: its score is the first minute's. Such a comment is listed, not judged,
   and the next digest picks it up.
+- **`recent` is the comments too young for the settled window.** None is judged
+  or listed — a later digest settles each — but their threads feed § "Close the
+  loop" and § "Ammo changes", where a fresh pain matters more than a score.
 
 A fetch that fails is the run's failure: report it, with the error, and commit
 nothing. A digest written from half the data reads as a whole one.
