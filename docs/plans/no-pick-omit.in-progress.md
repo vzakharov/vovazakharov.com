@@ -164,16 +164,34 @@ A meadow bite is a game change: it runs `VET_MEADOW=1 ./scripts/vet.sh` (or
 - **The 69 `ui/` and `api/` files sit in the grandfather override** in
   `eslint.config.ts`, `pnpm lint`, `typecheck`, `type-overlap` and `knip` clean.
 
+## This bite
+
+**The layout and paint side of `ui/scene/`** — ~66 sites in 34 files, the ones
+picking `MeadowLayout`, `Controls`, `Camera`, view's `Placed`/`Viewed`, `Point`,
+`Circle`, `Box`, `Stand`, `Bake`, `Lighting`, `BuzzParts`, `Siding`, `Laid`,
+`Planted`, `Mottle`, `Room`, `BrowBlade`, `FlowerGenes`, `Footed`, `Standing`.
+`MeadowLayout` is decomposed into named bases its 19 sites intersect.
+
+Files leaving the override: `anchored-stand`, `backdrop-tones`, `bake-picture`,
+`bed-place`, `brow`, `clump-shade`, `draw-buzz`, `draw-flower`, `dusk-stars`,
+`flower-cover`, `flower-layout`, `flower-plots`, `flower-seat`, `flower-sight`,
+`flower-tints`, `gait-spot`, `grass`, `insect-away`, `insect-shadow`, `lawn`,
+`layout`, `mottles`, `mushroom-light`, `paint-backdrop`, `panorama`,
+`picker-rows`, `rain-sky`, `repaint-queue`, `shapes`, `sky-layout`, `skyline`,
+`sun-layout`, `view`, `widest-spans`.
+
 ## Rest of the elephant
 
-- **`src/pages/mushrooms/ui/` and `api/`** — 150 sites in 71 files, likely two
-  bites: `MeadowLayout`, `Placed`, `Shown`, `Scened`, `MeadowSound` and the
-  classes (`Planter`, `MapView`, `FlowerBed`, `Perches`) are the big ones. Model
+- **The scene wiring and shown objects of `ui/scene/`, and `api/`** — ~77 sites
+  in the 37 files left in the override: `Scened`, `MeadowSound`, `PerchHosts`,
+  `Shown`, `Swell` and the classes (`Planter`, `MapView`, `FlowerBed`,
+  `Perches`, `MushroomBed`, `RainView`, `DuskView`) are the big ones. Model
   types they pick mostly have their bases already
   (`Pick<Leg, 'from' | 'departs'>` is `Origin & Departing`; `Pick<Meadow, …>`
-  takes `WithPlanted`, `WithMushrooms`, `WithPulled`, `Spored`, `WithDusk`;
-  `Pick<Camera, 'width' | 'groundTop'>` is `WithWidth & Grounded`). The last
-  bite removes the override and completes the plan.
+  takes `WithPlanted`, `WithMushrooms`, `WithPulled`, `Spored`, `WithDusk`). The
+  last bite removes the override and completes the plan.
+- **The rule forced on lists every site left**:
+  `npx eslint --rule '{"vova/no-pick-omit":"error"}' src/pages/mushrooms/ui src/pages/mushrooms/api`.
 - **Running `pnpm test:meadow` from one Bash call overruns its 10-minute
   limit**; split the 147 files into ~12 chunks (`split -n l/12`), each under it.
 
