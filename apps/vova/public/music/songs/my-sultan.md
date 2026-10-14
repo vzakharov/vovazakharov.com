@@ -10,6 +10,7 @@ seconds: 232
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.master.mp3
   bytes: 9270446
+stream: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.mp4
 explicit: false
 album: father-river
 track: 3

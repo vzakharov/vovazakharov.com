@@ -166,9 +166,10 @@ function isMp3(audio: string): boolean {
 /** What the player needs of a song, and all it needs. */
 const playableSchema = z.object({
   /**
-   * The master, played as-is — site-hosted where no repository holds it. One
-   * field, not a lossless/lossy pair: a song has one master, so a second would
-   * be the same file twice.
+   * The master — site-hosted where no repository holds it — played as-is
+   * unless the song's `stream` names a copy to play instead. One field, not a
+   * lossless/lossy pair: a song has one master, so a second would be the same
+   * file twice.
    */
   audio: mediaSourceSchema,
   /**
@@ -265,6 +266,12 @@ const songFieldsSchema = baseFrontmatterSchema
       url: z.url().optional(),
       bytes: z.number().int().positive(),
     }),
+    /**
+     * What the player plays where it is not `audio`, which the downloads keep:
+     * the FLAC stream copied into MP4, whose sample index AVFoundation — every
+     * iOS browser's player — seeks exactly, where a bare FLAC lands seconds off.
+     */
+    stream: mediaSourceSchema.optional(),
   });
 
 /**
