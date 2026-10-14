@@ -19,7 +19,8 @@
         "docs/plans/**/*.md",
         "README.md",
         "src/**/*.md",
-        "scripts/**/*.md"
+        "scripts/**/*.md",
+        ".claude/staged/**/*.md.staged"
       ],
       "options": {
         "proseWrap": "always",
@@ -28,11 +29,7 @@
     },
     {
       "files": ".claude/staged/**/*.md.staged",
-      "options": {
-        "parser": "markdown",
-        "proseWrap": "always",
-        "embeddedLanguageFormatting": "off"
-      }
+      "options": { "parser": "markdown" }
     }
   ]
 }
