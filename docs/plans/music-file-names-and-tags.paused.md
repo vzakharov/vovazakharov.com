@@ -2,14 +2,50 @@
 
 ## Status
 
-Approved (6293ffb), then paused before any source edit: the planning session
-had carried its context budget, so implementation starts fresh. **Done:**
-nothing past the plan. **Left:** the whole § "Checklist", from its first
-item. Facts the planning session established, not to re-derive: `hello-human`'s
-MP3 is `vovas-music/machines`' `protintro.mp3` byte for byte; the token can
-push to every `vovas-music` repository; `vovas-music/ghostly-blues` does not
-exist yet; the `data-spelling` rule in `src/app/styles/globals.scss` selects
-any element, so an `<a>` takes it as a `<span>` does.
+Approved (6293ffb). **Done:** checklist items 1–2 (the spike, `songFileName`).
+**Left:** from item 3. Facts established, not to re-derive:
+
+- `hello-human`'s MP3 is `vovas-music/machines`' `protintro.mp3` byte for
+  byte; the token can push to every `vovas-music` repository;
+  `vovas-music/ghostly-blues` does not exist yet; the `data-spelling` rule in
+  `src/app/styles/globals.scss` selects any element, so an `<a>` takes it as a
+  `<span>` does.
+- **The spike** (on `boom`): `node-taglib-sharp` 6.0.3 writes ID3v2.3 UTF-16
+  (`Id3v2Settings.defaultVersion = 3`, `defaultEncoding = StringType.UTF16`,
+  both `force…` true) and Vorbis comments; `ffprobe` reads every field back,
+  and the decoded audio's MD5 (`ffmpeg -i f -map 0:a -f md5 -`) is unchanged
+  in both. **The FLAC cover goes through `file.tag.pictures`** (the combined
+  `FlacTag`, a native picture block); set on the Xiph comment as well it lands
+  twice. `metaflac` is not installed, so `ffmpeg`'s decoded MD5 is the check
+  for FLAC too. `TEXT`/`TLAN` via `tag.setTextFrame(Id3v2FrameIdentifiers.X,
+  …)`, `WOAF` via `Id3v2UrlLinkFrame.fromIdentity`, Xiph extras via
+  `setFieldAsStrings`.
+- **`songFileName`/`songFileNames`** are in `shared/music-catalogue/file-name.ts`
+  and its `index.node-safe.ts`, taking a resolved `SongBilling` (`artists`,
+  `title`, each `Spelled`) rather than the frontmatter: the artist spelling
+  is `projectName` in `pages/music/lib/artists.ts`, which `shared` cannot
+  import. `songFileNames` returns a `Spelled`, so a link renders through the
+  same `data-spelling` pair a name does. Left for item 4: a `songBilling(document,
+  locale)` in `pages/music/lib/songs.ts` (it already imports `projectName`
+  and `songTitle`), and `songFiles` in `song-files.ts` taking that billing and
+  returning per-file hrefs as a `Spelled`, the last URL segment replaced by
+  the encoded name.
+- **Push by git, not the Git Data API**: `git clone --filter=blob:none
+  --depth=1 --no-checkout` of `boom` takes 0.8 s and 40 MB of trees, no
+  audio. So per repository: that clone, `git cat-file blob HEAD:<path>` for
+  the master and copy (fetches just those blobs), tag, `git hash-object -w`,
+  `git read-tree HEAD` + `git update-index --add --cacheinfo` for every
+  derived name, commit, push. No content-creation rate limit applies to a
+  push, so the pacing in § "The script" falls away; the manifest still makes
+  the run resumable. The push from a blobless clone is untested — try it on
+  `boom` first.
+- **Plan for the tag-set test**: a pure `buildTags(source)` in
+  `scripts/lib/song-tags.ts` over already-resolved data (Latin spellings
+  picked, `date` → year, `language[0]` → ISO 639-2, credits falling back to
+  `SONG_AUTHOR.en`, the sung stanzas joined by blank lines with `_…_` marks
+  dropped via `inlineRuns`), tested on a fixture; the catalogue resolution
+  lives in `scripts/tag-songs.ts`, run under `--conditions=react-server` as
+  `content:og` is, so it can import `pages/music/lib`.
 
 ## Goal
 
@@ -229,9 +265,9 @@ names until this branch deploys. So:
 
 ## Checklist
 
-- [ ] Add `node-taglib-sharp`; spike it on `boom` in `tmp/`, read the result
+- [x] Add `node-taglib-sharp`; spike it on `boom` in `tmp/`, read the result
       back with `ffprobe`/`metaflac`, confirm the audio MD5.
-- [ ] Write `songFileName` with its test — the spellings per locale and
+- [x] Write `songFileName` with its test — the spellings per locale and
       script, the artist credit, the character replacement, a locale that
       renames the song.
 - [ ] Write `scripts/tag-songs.ts` (tags, upload, frontmatter, manifest,
