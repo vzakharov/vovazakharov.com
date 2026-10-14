@@ -13,6 +13,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from audio import SR, stft_magnitude
+from drums import LANES, band_rises, hits
 from harmony import beat_chords, folded, fold_loop, song_key
 from pitch import NOTE_BAND_HZ, peak_chroma, tuning_cents
 from rhythm import beat_times, onset_envelope, tempo_bpm
@@ -140,6 +141,47 @@ class Sidecar(unittest.TestCase):
             "0:00–0:40  120 BPM  −13 dB  Gm E♭ F ×2",
             "0:40–1:35  124 BPM  −10 dB  N Gm",
         ])
+
+
+class Drums(unittest.TestCase):
+    """Each kit piece, struck every half second over quiet pink noise, lights its own lane most."""
+
+    rng = np.random.default_rng(1)
+
+    def decaying(self, f, seconds, decay):
+        """A sine at f, a function of time, dying away over decay seconds."""
+        t = np.arange(int(SR * seconds)) / SR
+        return np.sin(2 * np.pi * np.cumsum(f(t)) / SR) * np.exp(-t / decay)
+
+    def noise(self, seconds, decay, above_hz=0):
+        """A white-noise burst dying away over decay seconds, cut below above_hz."""
+        n = int(SR * seconds)
+        spectrum = np.fft.rfft(self.rng.standard_normal(n))
+        spectrum[np.fft.rfftfreq(n, 1 / SR) < above_hz] = 0
+        return np.fft.irfft(spectrum, n) * np.exp(-np.arange(n) / SR / decay)
+
+    def lit(self, hit):
+        n = int(SR * 4)
+        spectrum = np.fft.rfft(self.rng.standard_normal(n)) / np.sqrt(np.maximum(np.fft.rfftfreq(n, 1 / SR), 20))
+        background = np.fft.irfft(spectrum, n)
+        x = 0.003 * background / background.std()
+        for t in np.arange(0.5, 3.5, 0.5):
+            i = int(t * SR)
+            x[i:i + len(hit)] += 0.5 * hit
+        return hits(band_rises(x.astype(np.float32))[0]).sum(axis=0)
+
+    def assert_lights(self, lane, hit):
+        lit = self.lit(hit)
+        self.assertEqual(LANES[int(np.argmax(lit))], lane, dict(zip(LANES, lit.round())))
+
+    def test_kick(self):
+        self.assert_lights("kick", self.decaying(lambda t: 50 + 70 * np.exp(-t / 0.03), 0.4, 0.15))
+
+    def test_snare(self):
+        self.assert_lights("snare", self.noise(0.3, 0.05) + self.decaying(lambda t: np.full_like(t, 200), 0.3, 0.08))
+
+    def test_hi_hat(self):
+        self.assert_lights("cymbals", self.noise(0.1, 0.03, above_hz=6000))
 
 
 if __name__ == "__main__":
