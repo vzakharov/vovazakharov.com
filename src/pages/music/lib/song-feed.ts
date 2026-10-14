@@ -42,7 +42,6 @@ function paragraph(children: ElementContent[]): ElementContent {
   return { type: 'element', tagName: 'p', properties: {}, children };
 }
 
-/** The song's files to download: the MP3, and the FLAC master where it is one. */
 function downloadLinks(document: SongDocument): ElementContent[] {
   return songFiles(document.frontmatter).flatMap(
     ({ extension, href }, index) => [

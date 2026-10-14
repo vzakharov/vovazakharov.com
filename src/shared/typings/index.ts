@@ -33,6 +33,12 @@ export type Summarized = Titled & Described;
 /** A date as frontmatter spells it, ISO `YYYY-MM-DD`. */
 export type Dated = { date: string };
 
+/** A recording's length, in whole seconds. */
+export type Timed = { seconds: number };
+
+/** Whether a recording carries the explicit-content mark. */
+export type Rated = { explicit: boolean };
+
 /** The short name a thing is shown or logged under. */
 export type Labeled = { label: string };
 

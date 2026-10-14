@@ -40,7 +40,7 @@ import {
   MUSIC_ORGANIZATION,
   MUSIC_PROJECT_NAMES,
 } from '@/shared/music-catalogue/index.node-safe';
-import type { Dated, Named } from '@/shared/typings';
+import type { Dated, Named, Rated, Timed } from '@/shared/typings';
 
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */
 const HEADER_BYTES = 128 * 1024;
@@ -49,12 +49,11 @@ const HEADER_BYTES = 128 * 1024;
 const EXPLICIT_MARKER = '🅴';
 
 /** The single root FLAC that makes a repository a song. */
-type Master = {
+type Master = Rated & {
   /** Its name in the repository, which is where the song's own name comes from. */
   flac: string;
   /** Where `raw.githubusercontent.com` serves it, percent-encoded. */
   audio: string;
-  explicit: boolean;
   /** Its MP3 copy's URL, where the repository holds one yet. */
   copy?: string;
 };
@@ -290,9 +289,9 @@ const specSchema = z.array(
 type SongSpec = z.infer<typeof specSchema>[number];
 
 type DocumentFields = Named &
-  Dated & {
+  Dated &
+  Timed & {
     spec: SongSpec;
-    seconds: number;
     master: Master;
     streamInfo: StreamInfo;
     mp3?: { url: string; bytes: number };

@@ -1,4 +1,11 @@
-import type { Described, Named, Summarized, Titled } from '@/shared/typings';
+import type {
+  Described,
+  Named,
+  Rated,
+  Summarized,
+  Timed,
+  Titled,
+} from '@/shared/typings';
 
 /** What a feed and each of its items both state: a title and an absolute link. */
 type RssEntry = Titled & { link: string };
@@ -10,11 +17,9 @@ type WithImage = { image: string };
  * What makes an item a podcast episode: the file an app plays — MP3, as every
  * podcast app takes — and what a directory lists beside it.
  */
-type RssEpisode = Partial<WithImage> & {
-  enclosure: { url: string; bytes: number };
-  seconds: number;
-  explicit: boolean;
-};
+type RssEpisode = Partial<WithImage> &
+  Timed &
+  Rated & { enclosure: { url: string; bytes: number } };
 
 /** An item's blurb is optional, as RSS has it: a song may have none yet. */
 export type RssItem = RssEntry &

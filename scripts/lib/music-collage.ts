@@ -1,7 +1,7 @@
 /**
  * The music section's social card and its podcast cover, covers scattered at
- * different sizes and angles — with no text but the radio's and the podcast's band — as a page for
- * `og-render.ts` to screenshot.
+ * different sizes and angles — with no text but a band where one is given — as
+ * a page for `og-render.ts` to screenshot.
  */
 
 import fs from 'node:fs';
@@ -69,7 +69,9 @@ const LAYOUTS = {
 
 export type CollageShape = keyof typeof LAYOUTS;
 
-for (const [shape, { slots }] of Object.entries(LAYOUTS)) {
+export type MusicCollageOptions = { band?: CollageBand; shape?: CollageShape };
+
+for (const [shape, { slots }] of Object.entries<Layout>(LAYOUTS)) {
   if (slots.length !== COLLAGE_SIZE) {
     throw new Error(
       `music-collage.ts has ${slots.length} ${shape} slots for collages of up to ${COLLAGE_SIZE} covers.`,
@@ -94,7 +96,7 @@ function coverStyle({ cx, cy, edge, degrees }: Slot, depth: number): string {
  */
 export function musicCollage(
   covers: readonly string[],
-  { band, shape = 'card' }: { band?: CollageBand; shape?: CollageShape } = {},
+  { band, shape = 'card' }: MusicCollageOptions = {},
 ): StagedPage {
   const { canvas, slots, bandTop }: Layout = LAYOUTS[shape];
   const bandHtml =

@@ -66,8 +66,8 @@ import { cvCard } from './lib/cv-card.ts';
 import type { DocketCase } from './lib/docket.ts';
 import {
   type CollageBand,
-  type CollageShape,
   musicCollage,
+  type MusicCollageOptions,
 } from './lib/music-collage.ts';
 import {
   CANVAS_BACKGROUND,
@@ -259,7 +259,7 @@ function cvCards(): Card[] {
 function collageCard(
   covers: readonly string[],
   card: string,
-  options?: { band?: CollageBand; shape?: CollageShape },
+  options?: MusicCollageOptions,
 ): Card {
   return generatedCard(
     musicCollage(covers, options),
@@ -286,8 +286,8 @@ function podcastBand(): CollageBand {
 
 /**
  * The index's collage, the radio's — the same covers under its band — the
- * songs feeds' square cut of it under theirs, and each artist's that has one, at the
- * addresses their pages' metadata and the feeds point to.
+ * songs feeds' square cut of it under theirs, and each artist's that has one,
+ * at the addresses their pages' metadata and the feeds point to.
  */
 function musicCards(): Card[] {
   if (!CARDS_MUSIC) return [];
