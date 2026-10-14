@@ -101,25 +101,48 @@ Two shapes need more than the recipe:
 one site with no narrow type to declare — `Messages` is `typeof` a JSON file. It
 takes `Messages['music']` whole rather than earning an exemption.
 
-## Shape: a pizza, three slices
+## The loop
 
-Recommended split (question 2 below):
+An elephant: one PR, a bite per session. **Bites hand over unattended** — the
+operator asked not to review between them — so a bite's end runs `/go` Steps 3
+and 4, pauses the plan, and then `/relay go` hands the branch to a fresh session
+that takes the next bite. The last bite completes the plan and stops there,
+leaving `/finalize` to the operator.
 
-1. **This PR** — the rule and its tests; every site outside
-   `src/pages/mushrooms/` migrated (32 in 24 files); the 98 mushroom files
-   grandfathered in one `off` override in `eslint.config.ts`, each file named in
-   `files:`, the comment naming the tracking issue.
-2. **`src/pages/mushrooms/model/`** — 49 sites in 27 files; the override list
-   shrinks by those files.
-3. **`src/pages/mushrooms/ui/` and `api/`** — 150 sites in 71 files; the
-   override goes away.
+Until the last bite, the meadow files still carrying `Pick`/`Omit` sit in one
+scoped `off` override for `vova/no-pick-omit` in `eslint.config.ts`, each named
+in `files:`, so every bite leaves `vet` green. Each bite removes the files it
+migrated from that list; the last removes the override. It never reaches `main`,
+the PR landing whole.
 
-**Why a pizza:** the rule on `main` stops new `Pick`/`Omit` from landing in
-every file not on the list, while the meadow — the most actively edited slice —
-is migrated; and each mushroom slice is a game change, so it runs `VET_MEADOW=1`
-(half an hour), which slice 1 does not. Slices 2 and 3 are filed as issues by
-`/go` from this list, and are planned when taken; the decomposition of `Leg`,
-`MeadowLayout`, `Placed` and the rest is that slice's plan, not this one's.
+A meadow bite is a game change: it runs `VET_MEADOW=1 ./scripts/vet.sh` (or
+`pnpm test:meadow`) before it pauses, per `src/pages/mushrooms/CLAUDE.md`.
+
+## This bite
+
+The rule, and everything outside the meadow.
+
+- `eslint/rules/no-pick-omit.ts` and `eslint/rules/no-pick-omit.test.ts`;
+  registered in the `vova` plugin and at `error` in
+  `eslint/rule-groups/vova.ts`.
+- The grandfather override over the meadow's 98 files.
+- Migrate the 24 files outside `src/pages/mushrooms/`: `src/shared/`
+  (`documents`, `feeds`, `rehype-content-links`, `construct-metadata`,
+  `site-avatar`, `name-link`), `src/entities/case/` (a narrow case-frontmatter
+  schema), `src/pages/music/` (a narrow song-frontmatter schema where its sites
+  need one), `scripts/lib/` (`stanza-repeats`, `play-runs`). `collections.ts`,
+  `text-link.tsx` and `title-gloss-line.tsx` pick a type parameter or a Mantine
+  type and stay as they are.
+
+## Rest of the elephant
+
+- **`src/pages/mushrooms/model/`** — 49 sites in 27 files. `Leg`, `Perches`,
+  `MushroomGenes`/`MushroomShape`, `Footed`, `Flee` are the wide types most
+  picked; each is decomposed once, its bases serving every site.
+- **`src/pages/mushrooms/ui/` and `api/`** — 150 sites in 71 files, likely two
+  bites: `MeadowLayout`, `Placed`, `Shown`, `Scened`, `MeadowSound` and the
+  classes (`Planter`, `MapView`, `FlowerBed`, `Perches`) are the big ones. The
+  last bite removes the override and completes the plan.
 
 ## DRY notes
 
@@ -136,27 +159,3 @@ is migrated; and each mushroom slice is a game change, so it runs `VET_MEADOW=1`
 - **Not extracted:** a codemod. The work at each site is choosing the bases and
   naming them, which a codemod cannot do; the mechanical part (rewriting
   references) is a few lines per site.
-
-## Checklist
-
-- [ ] `eslint/rules/no-pick-omit.ts` and its test; registered at `error`.
-- [ ] Migrate `src/shared/` (`site-avatar`, `documents`, `rehype-content-links`,
-      `construct-metadata`, `text-link`, `name-link`, `feeds`).
-- [ ] Migrate `src/entities/case/` via a narrow case-frontmatter schema.
-- [ ] Migrate `src/pages/music/` (song-frontmatter schema included).
-- [ ] Migrate `scripts/lib/` (`stanza-repeats`, `play-runs`).
-- [ ] Grandfather the mushroom files in one scoped `off` override naming the
-      tracking issue.
-- [ ] File slices 2 and 3 as issues; the override's comment links them.
-- [ ] `./scripts/vet.sh` green.
-
-## Questions
-
-1. **Library types.** (a) **Recommended:** exempt them — the rule fires only
-   over the repo's own types, as above. (b) Ban `Pick`/`Omit` everywhere with
-   the stock `@typescript-eslint/no-restricted-types`; then
-   `Pick<Location, 'hash'>` becomes `{ hash: Location['hash'] }` under a name of
-   its own, which is the same subset spelled longer.
-2. **Shape.** (a) **Recommended:** the three-slice pizza above. (b) An elephant:
-   one PR, the rule lands with the last mushroom file, bites per session. (c)
-   Everything in this PR, no grandfathering.
