@@ -2,10 +2,10 @@ import 'server-only';
 
 import { loadMessages, type Locale, LOCALES } from '@/shared/i18n';
 import {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
   type MusicAlbum,
+  musicAlbumSlugs,
   type MusicProject,
+  musicProjectNames,
 } from '@/shared/music-catalogue';
 
 import { albumTracks } from './album-tracks';
@@ -87,23 +87,27 @@ export function albumWipNote(
   return albumWip(album) ? loadMessages(locale).music.wip.note : undefined;
 }
 
-/** The albums with a song in this catalogue, in registry order. */
+/** The albums with a song in this catalogue, by slug. */
 export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
-  return MUSIC_ALBUM_SLUGS.filter(
+  return musicAlbumSlugs().filter(
     (album) => albumSongs(album, songs).length > 0,
   );
 }
 
-/** The registry dates no release, so an album is as new as its latest song in this catalogue. */
-function albumDate(album: MusicAlbum, songs: readonly SongDocument[]): number {
+/** The newest of the songs' dates, as a time; 0 for none. */
+function latestDate(songs: readonly SongDocument[]): number {
   return Math.max(
-    ...albumSongs(album, songs).map(({ frontmatter }) =>
-      frontmatter.date.getTime(),
-    ),
+    0,
+    ...songs.map(({ frontmatter }) => frontmatter.date.getTime()),
   );
 }
 
-/** The albums with a song in this catalogue, newest first; a tie keeps registry order. */
+/** An album's file dates no release, so an album is as new as its latest song in this catalogue. */
+function albumDate(album: MusicAlbum, songs: readonly SongDocument[]): number {
+  return latestDate(albumSongs(album, songs));
+}
+
+/** The albums with a song in this catalogue, newest first; a tie goes by slug. */
 export function newestAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
   return catalogueAlbums(songs).toSorted(
     (a, b) => albumDate(b, songs) - albumDate(a, songs),
@@ -125,18 +129,30 @@ function artistAlbums(
 }
 
 /**
- * The artists with a song or an album in this catalogue, in registry order. An
+ * The artists with a song or an album in this catalogue, the one billed on the
+ * most songs first; between equals, the one whose latest song is newer. An
  * album counts in either language, so every artist an album page links to has
  * a page.
  */
 export function catalogueArtists(
   songs: readonly SongDocument[],
 ): MusicProject[] {
-  return MUSIC_PROJECT_NAMES.filter(
-    (artist) =>
-      artistSongs(artist, songs).length > 0 ||
-      LOCALES.some((locale) => artistAlbums(artist, locale, songs).length > 0),
-  );
+  const ranked = musicProjectNames().map((artist) => {
+    const billed = artistSongs(artist, songs);
+
+    return { artist, count: billed.length, latest: latestDate(billed) };
+  });
+
+  return ranked
+    .filter(
+      ({ artist, count }) =>
+        count > 0 ||
+        LOCALES.some(
+          (locale) => artistAlbums(artist, locale, songs).length > 0,
+        ),
+    )
+    .toSorted((a, b) => b.count - a.count || b.latest - a.latest)
+    .map(({ artist }) => artist);
 }
 
 /** What an artist put out: an album, or a song on none, which is its own release. */

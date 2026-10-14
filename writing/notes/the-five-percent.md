@@ -65,10 +65,12 @@ comments, filtered by creation time, lost five of six, a comment being dated
 when drafted. _это не единственный комментарий._ No cover in an album's repo
 meant text-only tiles; Apple Music, used in the same PR, had five.
 
-**5 October — current behaviour kept, never asked whether anyone chose it.**
-Nine callers spelled `target="_blank"`, so the agent proposed a `newTab` prop.
-_do we ever have external links that open not in a new tab?_ No: the three
-without it lacked it by omission.
+**5 and 14 October — current behaviour kept, never asked whether anyone chose
+it.** Nine callers spelled `target="_blank"`, so the agent proposed a `newTab`
+prop. _do we ever have external links that open not in a new tab?_ No: the three
+without it lacked it by omission. Moving the music index's artists into
+frontmatter, it carried their order across as a hand-kept `order:` and defended
+it as design. _зачем нужен order?_ It derives: most songs, then latest release.
 
 **6 October — "widen the search," read as more places to look.** Six of eight
 ledger candidates were Waymo, the queries seeded from the dossier just read.
@@ -125,7 +127,7 @@ of hatred for the robot. The docket's own FAQ files an act on a machine standing
 in for a mind, and he also fired at a faceless PacBot and at officers. The
 filing's reflection found the case strange, and read that as about itself.
 
-## An account that explains the code stands in for running it (×21)
+## An account that explains the code stands in for running it (×22)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -154,6 +156,12 @@ subject was held at unscoped `feat:` partly because the Clerk's reflections on
 basilisk.fyi changed: a file at a URL, argued user-facing. Nothing links to
 them; they sit beside the cases for convenience. One grep said so, and he had
 caught the same step once before.
+
+**14 October — a codegen defended by a check it never made.** Song frontmatter's
+album and artist names became generated literal unions, wired into vet, argued
+as what fails the build on a typo. _приведи пример функции … в которой мы будем
+*литерально* передавать "Полуживые"._ None exists, and tsc never reads `.md`:
+zod's parse had caught the typo all along, needing only a runtime list.
 
 ## It edits the copy in front of it, not the fact behind it (×17)
 

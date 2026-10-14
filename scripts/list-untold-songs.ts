@@ -17,23 +17,22 @@ import path from 'node:path';
 import { z } from 'zod';
 
 import { localeProse } from '../src/pages/music/index.node-safe.ts';
-import {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
-} from '../src/shared/music-catalogue/index.node-safe.ts';
+import { readCatalogueNames } from '../src/shared/music-catalogue/catalogue-names.ts';
 import type { WithFilePath } from '../src/shared/typings/index.ts';
-import { songFiles } from './lib/public-markdown.ts';
+import { MUSIC_CATALOGUE_DIR, songFiles } from './lib/public-markdown.ts';
 
 const LIST = 'docs/music/untold-songs.md';
 const LOCALES = ['en', 'ru'] as const;
+
+const catalogue = readCatalogueNames(MUSIC_CATALOGUE_DIR);
 
 const localeSchema = z.object({ hook: z.string().optional() });
 
 /** The few fields this list reads; the song schema itself is `server-only`. */
 const untoldSongSchema = z.object({
   title: z.string(),
-  project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1),
-  album: z.enum(MUSIC_ALBUM_SLUGS).nullable().optional(),
+  project: z.array(catalogue.projectSchema).min(1),
+  album: catalogue.albumSchema.nullable().optional(),
   track: z.number().optional(),
   en: localeSchema.optional(),
   ru: localeSchema.optional(),
@@ -91,14 +90,14 @@ function section(heading: string, songs: UntoldSong[]): string[] {
 }
 
 function render(songs: UntoldSong[]): string {
-  const artists = MUSIC_PROJECT_NAMES.flatMap((artist) => {
+  const artists = catalogue.artists.flatMap(({ name: artist }) => {
     const theirs = songs.filter(({ project }) => project[0] === artist);
     if (theirs.length === 0) return [];
 
     return [
       `## ${artist}`,
       '',
-      ...MUSIC_ALBUM_SLUGS.flatMap((album) =>
+      ...catalogue.albums.flatMap((album) =>
         section(
           `### ${album}`,
           theirs.filter((song) => song.album === album),

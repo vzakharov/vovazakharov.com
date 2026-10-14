@@ -10,6 +10,7 @@ import { PageShell } from '@/shared/ui';
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumArtist, albumCover, albumTitle } from '../lib/albums';
+import { projectName } from '../lib/artists';
 import {
   albumDetail,
   albumWipNote,
@@ -21,7 +22,6 @@ import { catalogueSize } from '../lib/duration';
 import type { IndexPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, tabPath } from '../lib/music-urls';
 import { artistPicture } from '../lib/pictures';
-import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueTabs } from './catalogue-tabs';

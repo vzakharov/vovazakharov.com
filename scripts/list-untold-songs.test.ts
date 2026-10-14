@@ -13,12 +13,27 @@ import { describe, it } from 'node:test';
 
 const SCRIPT = path.resolve(import.meta.dirname, 'list-untold-songs.ts');
 
+/** The albums and artists the songs below may name, one file each. */
+const CATALOGUE = {
+  'albums/hamlet': '',
+  'artists/poluzhivye': "---\nname: 'Полуживые'\n---\n",
+  'artists/generated': "---\nname: 'GENERATED'\n---\n",
+};
+
 function tree(songs: Record<string, string>) {
   const root = mkdtempSync(path.join(tmpdir(), 'untold-songs-'));
-  const dir = path.join(root, 'apps/vova/public/music/songs');
-  mkdirSync(dir, { recursive: true });
-  for (const [slug, text] of Object.entries(songs))
-    writeFileSync(path.join(dir, `${slug}.md`), text);
+  const music = path.join(root, 'apps/vova/public/music');
+  const files = {
+    ...CATALOGUE,
+    ...Object.fromEntries(
+      Object.entries(songs).map(([slug, text]) => [`songs/${slug}`, text]),
+    ),
+  };
+  for (const [name, text] of Object.entries(files)) {
+    const file = path.join(music, `${name}.md`);
+    mkdirSync(path.dirname(file), { recursive: true });
+    writeFileSync(file, text);
+  }
   return root;
 }
 

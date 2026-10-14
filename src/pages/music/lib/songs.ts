@@ -8,9 +8,10 @@ import { byLocale, isLocale, type Locale } from '@/shared/i18n';
 import { type MusicAlbum, songTitle } from '@/shared/music-catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
+import { projectName } from './artists';
 import { artistPath, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
-import { bill, projectName } from './projects';
+import { bill } from './projects';
 import type { SongDocument, SongOnRelease } from './song-text';
 
 /**

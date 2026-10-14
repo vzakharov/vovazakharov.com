@@ -1,3 +1,9 @@
+---
+name: 'за/обложкой'
+en:
+  name: { translation: 'Behind the Cover' }
+---
+
 <!-- lang:en -->
 
 The whole za/oblozhkoy project — and everything that came after it — started at

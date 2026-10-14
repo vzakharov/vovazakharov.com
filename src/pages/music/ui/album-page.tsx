@@ -9,12 +9,12 @@ import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumTracks } from '../lib/album-tracks';
 import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';
+import { projectName } from '../lib/artists';
 import { albumKind, albumWipNote, albumYears } from '../lib/catalogue';
 import { albumText } from '../lib/catalogue-text';
 import { catalogueSize } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, musicPath } from '../lib/music-urls';
-import { projectName } from '../lib/projects';
 import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
@@ -62,7 +62,7 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
             locale,
             messages.size,
           )}
-          markdown={text?.markdown}
+          {...pick(text, 'markdown')}
           wip={albumWipNote(album, locale)}
         >
           <FactLine
@@ -78,19 +78,17 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
             opacity={0.7}
             mt={12}
           />
-          <HookLine>{text?.hook}</HookLine>
+          <HookLine>{text.hook}</HookLine>
           {/* The same tracks the list below plays, so both drive one queue. */}
           <Box mt={20}>
             <AlbumPlayButton tracks={queue} />
           </Box>
         </CatalogueHeader>
 
-        {text && (
-          <Story
-            {...pick(text, 'universe', 'story')}
-            {...pick(messages, 'makingOf', 'readMore')}
-          />
-        )}
+        <Story
+          {...pick(text, 'universe', 'story')}
+          {...pick(messages, 'makingOf', 'readMore')}
+        />
 
         <SongList
           {...pick(messages, 'title')}

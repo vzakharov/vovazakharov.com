@@ -7,9 +7,10 @@ import { NameLink } from '@/shared/ui';
 
 import { songPlacements } from '../lib/album-tracks';
 import { albumTitle } from '../lib/albums';
+import { projectName } from '../lib/artists';
 import { formatDuration } from '../lib/duration';
 import { albumPath, artistPath } from '../lib/music-urls';
-import { bill, projectName } from '../lib/projects';
+import { bill } from '../lib/projects';
 import type { SongOnRelease } from '../lib/song-text';
 import { FactLine } from './fact-line';
 import { Spelling } from './spelling';

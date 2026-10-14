@@ -8,6 +8,7 @@ import { PageShell } from '@/shared/ui';
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { albumCover, albumTitle } from '../lib/albums';
+import { projectGloss, projectName } from '../lib/artists';
 import {
   albumDetail,
   albumWipNote,
@@ -19,7 +20,6 @@ import { catalogueSize } from '../lib/duration';
 import type { ArtistPageProps } from '../lib/music-route-params';
 import { albumPath, artistPath, musicPath } from '../lib/music-urls';
 import { songPicture } from '../lib/pictures';
-import { projectGloss, projectName } from '../lib/projects';
 import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
@@ -89,17 +89,15 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
             locale,
             messages.size,
           )}
-          markdown={text?.markdown}
+          {...pick(text, 'markdown')}
         >
-          <HookLine>{text?.hook}</HookLine>
+          <HookLine>{text.hook}</HookLine>
         </CatalogueHeader>
 
-        {text && (
-          <Story
-            {...pick(text, 'universe', 'story')}
-            {...pick(messages, 'makingOf', 'readMore')}
-          />
-        )}
+        <Story
+          {...pick(text, 'universe', 'story')}
+          {...pick(messages, 'makingOf', 'readMore')}
+        />
 
         <CatalogueGrid title={messages.albums} tiles={albumTiles} />
 

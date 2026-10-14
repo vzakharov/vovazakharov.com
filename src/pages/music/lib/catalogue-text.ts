@@ -1,15 +1,10 @@
 import 'server-only';
 
-import { loadProse, type ProseSource } from '@/shared/content';
+import type { ProseSource } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
-import {
-  catalogueFrontmatterSchema,
-  type MusicAlbum,
-  type MusicProject,
-} from '@/shared/music-catalogue';
+import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
 
-import { ALBUMS_SEGMENT, ARTISTS_SEGMENT } from './music-urls';
-import { MUSIC_PROJECT_SLUGS } from './projects';
+import { albumFile, artistFile } from './catalogue-files';
 import { localeProse, localeUniverse } from './sections';
 
 /** A page's prose in its two parts, either of which may be missing. */
@@ -44,19 +39,15 @@ export function universeOf(
 
 /**
  * A catalogue page's own text in one language, from the markdown file at its
- * route plus `.md` — `albums/<slug>.md`, `artists/<slug>.md` — cut on markers
- * as a song's story is. `undefined` where the page has none. Its directory is a
- * sibling of the songs collection's, reached from it by `../`.
+ * route plus `.md`, cut on markers as a song's story is.
  */
 function catalogueText(
-  name: string,
+  {
+    frontmatter,
+    ...source
+  }: ProseSource & { frontmatter: Record<Locale, { hook?: string }> },
   locale: Locale,
-): CatalogueText | undefined {
-  const loaded = loadProse('music', `../${name}`, catalogueFrontmatterSchema);
-
-  if (!loaded) return undefined;
-
-  const { frontmatter, ...source } = loaded;
+): CatalogueText {
   const { body, markdown } = source;
   const { hook } = frontmatter[locale];
 
@@ -68,19 +59,13 @@ function catalogueText(
   };
 }
 
-export function albumText(
-  album: MusicAlbum,
-  locale: Locale,
-): CatalogueText | undefined {
-  return catalogueText(`${ALBUMS_SEGMENT}/${album}`, locale);
+export function albumText(album: MusicAlbum, locale: Locale): CatalogueText {
+  return catalogueText(albumFile(album), locale);
 }
 
 export function artistText(
   artist: MusicProject,
   locale: Locale,
-): CatalogueText | undefined {
-  return catalogueText(
-    `${ARTISTS_SEGMENT}/${MUSIC_PROJECT_SLUGS[artist]}`,
-    locale,
-  );
+): CatalogueText {
+  return catalogueText(artistFile(artist), locale);
 }
