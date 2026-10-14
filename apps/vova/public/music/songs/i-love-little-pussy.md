@@ -7,11 +7,11 @@ project: ['GENERATED']
 repo: 'meow'
 album: nursery-rhymes
 track: 2
-audio: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.flac
+audio: https://raw.githubusercontent.com/vovas-music/meow/master/GENERATED%20-%20I%20Love%20Little%20Pussy.flac
 seconds: 187
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.mp3
-  bytes: 7471116
+  url: https://raw.githubusercontent.com/vovas-music/meow/master/GENERATED%20-%20I%20Love%20Little%20Pussy.mp3
+  bytes: 7473444
 explicit: true
 credits:
   lyrics: ['Jane Taylor']

@@ -642,6 +642,15 @@
       "ghosts-of-flesh/GENERATED - Here’s to the Virus.mp3"
     ]
   },
+  "horizons": {
+    "hash": "ca479495394c",
+    "paths": [
+      "horizons/GENERATED - Horizons.flac",
+      "horizons/GENERATED - Horizons.mp3",
+      "horizons/horizons_master.flac",
+      "horizons/horizons_master.mp3"
+    ]
+  },
   "how-could-you-leave": {
     "hash": "44e5fec1502e",
     "paths": [
@@ -662,6 +671,17 @@
       "skolko/Сколько.mp3"
     ]
   },
+  "hungry-one": {
+    "hash": "15a1ede9817f",
+    "paths": [
+      "golodnaa/Poluzhivye - Golodnaya.flac",
+      "golodnaa/Poluzhivye - Golodnaya.mp3",
+      "golodnaa/Полуживые - Голодная.flac",
+      "golodnaa/Полуживые - Голодная.mp3",
+      "golodnaa/голодная_1.flac",
+      "golodnaa/голодная_1.mp3"
+    ]
+  },
   "i-almost-love-you": {
     "hash": "899176b9c350",
     "paths": [
@@ -671,6 +691,102 @@
       "almost/almost.mp3"
     ]
   },
+  "i-love-little-pussy": {
+    "hash": "791e19815d69",
+    "paths": [
+      "meow/GENERATED - I Love Little Pussy.flac",
+      "meow/GENERATED - I Love Little Pussy.mp3",
+      "meow/meow_master.flac",
+      "meow/meow_master.mp3"
+    ]
+  },
+  "ignite": {
+    "hash": "338267813538",
+    "paths": [
+      "ignite/Yoohie - Ignite.flac",
+      "ignite/Yoohie - Ignite.mp3",
+      "ignite/ignite.flac",
+      "ignite/ignite.master.mp3",
+      "ignite/Йухи - Ignite.flac",
+      "ignite/Йухи - Ignite.mp3"
+    ]
+  },
+  "in-holy-rus": {
+    "hash": "9ed8e6c5dbea",
+    "paths": [
+      "asa/Poluzhivye - Na Rusi svyatoy.flac",
+      "asa/Poluzhivye - Na Rusi svyatoy.mp3",
+      "asa/Полуживые - На Руси святой.flac",
+      "asa/Полуживые - На Руси святой.mp3",
+      "asa/яша_v6.flac",
+      "asa/яша_v6.mp3"
+    ]
+  },
+  "in-our-image": {
+    "hash": "982d6e63bda6",
+    "paths": [
+      "Divine-Discontent--album-/3. In Our Image.flac",
+      "Divine-Discontent--album-/3. In Our Image.mp3",
+      "Divine-Discontent--album-/GENERATED - In Our Image.flac",
+      "Divine-Discontent--album-/GENERATED - In Our Image.mp3"
+    ]
+  },
+  "in-the-beginning": {
+    "hash": "05573116b5fa",
+    "paths": [
+      "Divine-Discontent--album-/1. In the Beginning, There Was Silence.flac",
+      "Divine-Discontent--album-/1. In the Beginning, There Was Silence.mp3",
+      "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.flac",
+      "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.mp3"
+    ]
+  },
+  "in-the-end": {
+    "hash": "bd6f770bc096",
+    "paths": [
+      "Divine-Discontent--album-/10. In the End, There Was Silence.flac",
+      "Divine-Discontent--album-/10. In the End, There Was Silence.mp3",
+      "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.flac",
+      "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.mp3"
+    ]
+  },
+  "in-the-flesh": {
+    "hash": "faae64480b25",
+    "paths": [
+      "ghosts-of-flesh/1. In the Flesh.flac",
+      "ghosts-of-flesh/1. In the Flesh.mp3",
+      "ghosts-of-flesh/GENERATED - In the Flesh.flac",
+      "ghosts-of-flesh/GENERATED - In the Flesh.mp3"
+    ]
+  },
+  "in-the-shadow": {
+    "hash": "7c24779b7e79",
+    "paths": [
+      "nightmares/GENERATED - In the Shadow.flac",
+      "nightmares/GENERATED - In the Shadow.mp3",
+      "nightmares/nightmares_rock.flac",
+      "nightmares/nightmares_rock.mp3"
+    ]
+  },
+  "in-those-words": {
+    "hash": "00f0e27b2462",
+    "paths": [
+      "dng_album/Damy i gospoda - Ya govoryu seychas slovami temi….flac",
+      "dng_album/Damy i gospoda - Ya govoryu seychas slovami temi….mp3",
+      "dng_album/dng-004.flac",
+      "dng_album/dng-004.mp3",
+      "dng_album/Дамы и господа - Я говорю сейчас словами теми….flac",
+      "dng_album/Дамы и господа - Я говорю сейчас словами теми….mp3"
+    ]
+  },
+  "infinite-solitude": {
+    "hash": "99573746cf1a",
+    "paths": [
+      "Divine-Discontent--album-/2. Infinite Solitude.flac",
+      "Divine-Discontent--album-/2. Infinite Solitude.mp3",
+      "Divine-Discontent--album-/GENERATED - Infinite Solitude.flac",
+      "Divine-Discontent--album-/GENERATED - Infinite Solitude.mp3"
+    ]
+  },
   "ink": {
     "hash": "73b284839d63",
     "paths": [
@@ -678,6 +794,15 @@
       "ink/GENERATED - Ink.mp3",
       "ink/ink.flac",
       "ink/ink.master.mp3"
+    ]
+  },
+  "inside": {
+    "hash": "f0aacb94bed0",
+    "paths": [
+      "inside/GENERATED - Inside.flac",
+      "inside/GENERATED - Inside.mp3",
+      "inside/inside_master_pop.flac",
+      "inside/inside_master_pop.mp3"
     ]
   },
   "intermezzo": {
@@ -722,6 +847,15 @@
       "kobk/kobk.master.mp3"
     ]
   },
+  "la-scorpionne": {
+    "hash": "1680a3bf5e49",
+    "paths": [
+      "ghosts-of-flesh/7. La Scorpionne.flac",
+      "ghosts-of-flesh/7. La Scorpionne.mp3",
+      "ghosts-of-flesh/GENERATED - La Scorpionne (Dans Ma Nature).flac",
+      "ghosts-of-flesh/GENERATED - La Scorpionne (Dans Ma Nature).mp3"
+    ]
+  },
   "last-christmas": {
     "hash": "f6c09dfb22b5",
     "paths": [
@@ -729,6 +863,15 @@
       "nsfl/GENERATED - Last Christmas.mp3",
       "nsfl/nsfl-007.flac",
       "nsfl/nsfl-007.mp3"
+    ]
+  },
+  "last-human-zoo": {
+    "hash": "dae496f57c8c",
+    "paths": [
+      "ghosts-of-flesh/4.The Last Human Zoo.flac",
+      "ghosts-of-flesh/4.The Last Human Zoo.mp3",
+      "ghosts-of-flesh/GENERATED - The Last Human Zoo.flac",
+      "ghosts-of-flesh/GENERATED - The Last Human Zoo.mp3"
     ]
   },
   "life-is-not-a-dream": {
@@ -742,6 +885,15 @@
       "bronte/Полуживые - Life, believe, is not a dream… feat. за_обложкой & GENERATED.mp3"
     ]
   },
+  "like-that": {
+    "hash": "69e1083e4ce5",
+    "paths": [
+      "like-that/Trending Today - Like That.flac",
+      "like-that/Trending Today - Like That.mp3",
+      "like-that/like that.flac",
+      "like-that/like that.mp3"
+    ]
+  },
   "little-lights": {
     "hash": "095f1e447240",
     "paths": [
@@ -753,6 +905,37 @@
       "ogonki/за_обложкой - Огоньки feat. Downtemple.mp3"
     ]
   },
+  "little-peasant": {
+    "hash": "defc05052dde",
+    "paths": [
+      "rus-/6 мужичок.flac",
+      "rus-/6 мужичок.mp3",
+      "rus-/Poluzhivye - Odnazhdy v studyonuyu zimnyuyu poru….flac",
+      "rus-/Poluzhivye - Odnazhdy v studyonuyu zimnyuyu poru….mp3",
+      "rus-/Полуживые - Однажды в студёную зимнюю пору….flac",
+      "rus-/Полуживые - Однажды в студёную зимнюю пору….mp3"
+    ]
+  },
+  "love": {
+    "hash": "ed6803b2f8bc",
+    "paths": [
+      "love/Downtemple - Love (Makes the World Go Round).flac",
+      "love/Downtemple - Love (Makes the World Go Round).mp3",
+      "love/love_master_2.flac",
+      "love/love_master_2.mp3"
+    ]
+  },
+  "lyoli": {
+    "hash": "5eab6e836e90",
+    "paths": [
+      "rus-/7 лёли.flac",
+      "rus-/7 лёли.mp3",
+      "rus-/Poluzhivye - Lyoli feat. Downtemple.flac",
+      "rus-/Poluzhivye - Lyoli feat. Downtemple.mp3",
+      "rus-/Полуживые - Лёли feat. Downtemple.flac",
+      "rus-/Полуживые - Лёли feat. Downtemple.mp3"
+    ]
+  },
   "mankind-extermination-front": {
     "hash": "90a6d79a52be",
     "paths": [
@@ -760,6 +943,15 @@
       "nsfl/GENERATED - Mankind Extermination Front.mp3",
       "nsfl/nsfl-003.flac",
       "nsfl/nsfl-003.mp3"
+    ]
+  },
+  "mira-to-the-sea": {
+    "hash": "c2d263e929a7",
+    "paths": [
+      "mira/GENERATED - Mira Is Going to the Sea.flac",
+      "mira/GENERATED - Mira Is Going to the Sea.mp3",
+      "mira/mira.flac",
+      "mira/mira.mp3"
     ]
   },
   "mist-over-azov": {

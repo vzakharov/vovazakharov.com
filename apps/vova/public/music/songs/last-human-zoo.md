@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'zoo'
-audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/4.The%20Last%20Human%20Zoo.flac
+audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20The%20Last%20Human%20Zoo.flac
 seconds: 291
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/4.The%20Last%20Human%20Zoo.mp3
-  bytes: 11622495
+  url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20The%20Last%20Human%20Zoo.mp3
+  bytes: 11720358
 explicit: false
 album: ghosts-of-flesh
 track: 4
