@@ -111,7 +111,7 @@ Last, on what step 7 committed. The synthetic tests prove the methods on clean s
 
 ### 9. Split `song_facts.py` (review T11)
 
-511 lines, past the 450 rule of thumb: `audio.py` (decoding, STFT, log rows, peaks), `pitch.py` (tuning, chroma, sections), `rhythm.py` (onsets, tempo, beats, drums), `harmony.py` (key, chords, loops, spelling), and `song_facts.py` keeps `measure` and the sidecar. A pure move, committed alone; the tests split the same way.
+511 lines, past the 450 rule of thumb: `audio.py` (decoding, STFT, log rows, peaks), `pitch.py` (tuning, chroma, sections), `rhythm.py` (onsets, tempo, beats, drums), `harmony.py` (key, chords, loops, spelling), and `song_facts.py` keeps `measure` and the sidecar. A pure move, committed alone; the one test file stays, importing from each.
 
 ### 10. Fix key and tempo on the answers (step 8's tail)
 

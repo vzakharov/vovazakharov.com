@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Runs `song_facts.py`'s measurements over synthetic signals, so no fixture is committed.
+"""Runs the spectrogram's measurements over synthetic signals, so no fixture is committed.
 
 Run by path (`python3 scripts/song-intake/test_song_facts.py`), as `scripts/vet.sh` does.
 """
@@ -12,10 +12,11 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from song_facts import (
-    NOTE_BAND_HZ, SR, Facts, Section, beat_chords, beat_times, folded, fold_loop, onset_envelope, peak_chroma,
-    sidecar, song_key, stft_magnitude, tempo_bpm, tuning_cents,
-)
+from audio import SR, stft_magnitude
+from harmony import beat_chords, folded, fold_loop, song_key
+from pitch import NOTE_BAND_HZ, peak_chroma, tuning_cents
+from rhythm import beat_times, onset_envelope, tempo_bpm
+from song_facts import Facts, Section, sidecar
 
 NFFT, HOP = 8192, 2048
 

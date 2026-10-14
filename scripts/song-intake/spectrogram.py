@@ -5,7 +5,8 @@ Usage: spectrogram.py <song> <out.png> [--from m:ss --to m:ss]
 
 Beside the PNG it writes <out>.txt, the sidecar: the numbers the picture can
 only approximate — tempo, key, tuning, and per section its tempo, loudness and
-chords. `song_facts.py`'s docstrings say how each is measured. The title
+chords. The docstrings of `song_facts.py` and the modules it imports say how
+each is measured. The title
 carries the tempo, and the tuning when it is over 15 cents off A440.
 
 --from and --to draw that stretch at the full width, on song time, with a
@@ -49,10 +50,9 @@ from pathlib import Path
 
 import numpy as np
 
-from song_facts import (
-    FLOOR_DB, LOW_HZ, NOTE_BAND_HZ, QUIET, SR, TOP_HZ, chroma_shares, decode, log_rows, measure, mmss, sidecar,
-    stft_magnitude, tempo_label, tuning_label,
-)
+from audio import FLOOR_DB, LOW_HZ, QUIET, SR, TOP_HZ, decode, log_rows, mmss, stft_magnitude
+from pitch import NOTE_BAND_HZ, chroma_shares
+from song_facts import measure, sidecar, tempo_label, tuning_label
 
 TICKS_HZ = (50, 100, 200, 500, 1000, 2000, 5000, 10000)
 # 2.7 Hz bins: a semitone apart is 2.4 Hz at 40 Hz and 6 Hz at 100, so the
