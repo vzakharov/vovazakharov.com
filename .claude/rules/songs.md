@@ -137,14 +137,21 @@ read by whoever writes about the song (Майя's reflections), never by the bui
 the verse reader drops any line that is a whole HTML comment, so a note of
 another kind (`<!-- solo -->`) needs no code either.
 
-**Words mostly in a script the reader may not read show in Latin letters**: from
-a section under `<!-- lyrics:<language>-latn -->`, lowercase — `lyrics:ar-latn`
-for `mithqal` — else, for Russian, by rule; any other language without one fails
-the build. A section matches the words stanza for stanza and line for line and
-carries no notes, which hang off the words; either slip fails the build. The
-page's current language chip switches the words between spellings with the
-names, Latin first. **`keepsScript: true` keeps the original in Latin mode**,
-the romanization in italics under each line rather than in its place — the words
+**A line with a letter the reader may not read shows in Latin letters**, decided
+line by line. A section under `<!-- lyrics:<language>-latn -->`, lowercase, set
+right after the words, spells them. The main language's — `lyrics:ar-latn` for
+`mithqal` — spells every line, matching the words stanza for stanza and line for
+line. Without one, a line takes its spelling from the language its letters are
+in: Russian by rule, any other from its own section, which holds only the lines
+with that language's letters, in order — `farewell`'s `lyrics:zh-latn` is its
+three Chinese lines — so nobody rewrites the whole text. Every language whose
+letters the words carry is in `language`; a line in an unlisted one, one mixing
+two, a section short of lines or with lines to spare, and a section carrying a
+note, which hangs off the words, each fail the build. A note on such a line
+translates it and spells nothing, the line being spelled in place. The page's
+current language chip switches the words between spellings with the names, Latin
+first. **`keepsScript: true` keeps the original in Latin mode**, the
+romanization in italics under each line rather than in its place — the words
 only, the title switching like any name: Latin letters standing in for a Quranic
 phrase are what scholars object to, and a reading aid under it is what they
 accept.

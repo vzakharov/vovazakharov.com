@@ -20,6 +20,7 @@ import { usePlayer } from './player-provider';
 import classes from './radio.module.scss';
 import { RadioDial } from './radio-dial';
 import { Spelling } from './spelling';
+import { useClock } from './use-clock';
 
 /** What the page shows beside a song, resolved at build for every one the radio may play. */
 export type OnAirExtras = {
@@ -37,31 +38,6 @@ export type OnAirProps = {
   cycleLength: string;
   extras: Record<string, OnAirExtras>;
 };
-
-/**
- * The device's clock, ticking on each whole second — when a slot boundary or
- * the counter's next second falls. Undefined until mount, a build not knowing
- * the hour it will be read at.
- */
-function useClock(): number | undefined {
-  const [now, setNow] = useState<number>();
-
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const tick = () => {
-      setNow(Date.now());
-      timer = setTimeout(tick, 1000 - (Date.now() % 1000));
-    };
-
-    timer = setTimeout(tick, 0);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
-  return now;
-}
 
 /**
  * The radio's set: what is on air and how far into it, from the clock and the

@@ -18,6 +18,7 @@ const SCRIPT_SAMPLES = [
   [/\p{Script=Cyrillic}/u, 'Абв'],
   [/\p{Script=Arabic}/u, 'أبج'],
   [/\p{Script=Greek}/u, 'Αβγ'],
+  [/\p{Script=Han}/u, '一二三'],
 ] as const;
 
 /**
@@ -30,8 +31,13 @@ export type Spelled = {
   latin?: string;
 };
 
-function letters(text: string): string[] {
-  return text.match(/\p{L}/gu) ?? [];
+/**
+ * The text's letters that belong to a script. A letter every script shares —
+ * `ʼ`, the modifier apostrophe a Latin transliteration writes a soft sign
+ * with — is nobody's to be unable to read.
+ */
+export function scriptLetters(text: string): string[] {
+  return text.match(/(?![\p{Script=Common}\p{Script=Inherited}])\p{L}/gu) ?? [];
 }
 
 function unreadable(letter: string, locale: Locale): boolean {
@@ -40,20 +46,7 @@ function unreadable(letter: string, locale: Locale): boolean {
 
 /** Whether any letter of the text is in a script the locale's readers may not read. */
 export function needsLatin(text: string, locale: Locale): boolean {
-  return letters(text).some((letter) => unreadable(letter, locale));
-}
-
-/**
- * Whether most of the text's letters are — the test for a song's words, which
- * go by their main language: a line in a third script inside them, farewell's
- * Chinese among Russian, does not turn the Russian Latin.
- */
-export function mostlyNeedsLatin(text: string, locale: Locale): boolean {
-  const all = letters(text);
-
-  return (
-    all.filter((letter) => unreadable(letter, locale)).length * 2 > all.length
-  );
+  return scriptLetters(text).some((letter) => unreadable(letter, locale));
 }
 
 /**
@@ -69,7 +62,7 @@ export function scriptSample(
   const counts = new Map<string, number>();
   let unsampled: string | undefined;
 
-  for (const letter of texts.flatMap((text) => letters(text))) {
+  for (const letter of texts.flatMap((text) => scriptLetters(text))) {
     if (!unreadable(letter, locale)) continue;
 
     const sample = SCRIPT_SAMPLES.find(([script]) => script.test(letter))?.[1];

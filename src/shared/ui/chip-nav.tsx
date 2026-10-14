@@ -4,7 +4,7 @@ import { Box, Group } from '@mantine/core';
 import { Fragment, type ReactNode } from 'react';
 
 import { cx } from '@/shared/lib/class-names';
-import type { LabeledLink } from '@/shared/typings';
+import type { Labeled, LabeledLink } from '@/shared/typings';
 
 import classes from './chip-nav.module.scss';
 import { useLanguageReturn } from './language-return';
@@ -25,6 +25,14 @@ export type ChipNavProps = {
 
 export const CURRENT_CHIP_CLASS = cx(classes['chip'], classes['chipCurrent']);
 
+export function CurrentChip({ label }: Labeled) {
+  return (
+    <Box component="span" aria-current="page" className={CURRENT_CHIP_CLASS}>
+      {label}
+    </Box>
+  );
+}
+
 /**
  * Every alternative shown at once, the current one inverted and inert unless
  * `current` gives it a job. A row of links rather than a control, so the
@@ -42,15 +50,7 @@ export function ChipNav({ chips, current: control }: ChipNavProps) {
       {chips.map(({ label, href, current, hrefLang }) =>
         current ? (
           <Fragment key={label}>
-            {control ?? (
-              <Box
-                component="span"
-                aria-current="page"
-                className={CURRENT_CHIP_CLASS}
-              >
-                {label}
-              </Box>
-            )}
+            {control ?? <CurrentChip {...{ label }} />}
           </Fragment>
         ) : (
           <TextLink

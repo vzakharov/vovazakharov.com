@@ -32,6 +32,7 @@ const SONG_LANGUAGES = [
   'de',
   'it',
   'es',
+  'cu',
   // Russisch: Russian spelled the German way, a language of one song — Russian
   // in Latin letters, the private-use subtag naming it. Lowercase, as a
   // section marker takes it; BCP 47 ignores case.

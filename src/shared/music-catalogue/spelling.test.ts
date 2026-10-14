@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mostlyNeedsLatin, needsLatin, scriptSample, spell } from './spelling';
+import { needsLatin, scriptSample, spell } from './spelling';
 
 describe('needsLatin', () => {
   it('asks for Latin by script, not by language', () => {
@@ -13,15 +13,6 @@ describe('needsLatin', () => {
 
   it('reads letters only, so digits and punctuation never ask', () => {
     assert.equal(needsLatin('8849 — …', 'en'), false);
-  });
-});
-
-describe('mostlyNeedsLatin', () => {
-  it('goes by most of the letters, not a phrase in a third script', () => {
-    const farewell = 'Сойди с коня, выпей вина\n下马饮君酒';
-
-    assert.equal(mostlyNeedsLatin(farewell, 'ru'), false);
-    assert.equal(mostlyNeedsLatin(farewell, 'en'), true);
   });
 });
 
@@ -38,11 +29,15 @@ describe('scriptSample', () => {
   });
 
   it('passes over a script with no sample beside one that has it', () => {
-    assert.equal(scriptSample(['Сойди с коня\n下马饮君酒'], 'en'), 'Абв');
+    assert.equal(scriptSample(['Сойди с коня\nשָׁלוֹם'], 'en'), 'Абв');
   });
 
   it('fails when only scripts with no sample need Latin', () => {
-    assert.throws(() => scriptSample(['下马饮君酒'], 'en'), /no sample/);
+    assert.throws(() => scriptSample(['שָׁלוֹם'], 'en'), /no sample/);
+  });
+
+  it('samples Han, which a song’s words may quote', () => {
+    assert.equal(scriptSample(['下马饮君酒'], 'ru'), '一二三');
   });
 });
 

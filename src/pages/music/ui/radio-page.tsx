@@ -70,14 +70,21 @@ export function RadioPage({ locale }: WithLocale) {
   const tracks = listSongs();
   const cycle = tracks.reduce((sum, { seconds }) => sum + seconds, 0);
   const extras = onAirExtras({ locale });
-  const sample = scriptSample(
-    [
-      ...trackNames(tracks, locale),
-      ...Object.values(extras).flatMap(({ album }) =>
-        album === undefined ? [] : [album.name.original],
-      ),
-    ],
-    locale,
+  const onAirSamples = Object.fromEntries(
+    tracks.map((track) => {
+      const album = extras[track.slug]?.album;
+
+      return [
+        track.slug,
+        scriptSample(
+          [
+            ...trackNames([track], locale),
+            ...(album === undefined ? [] : [album.name.original]),
+          ],
+          locale,
+        ),
+      ];
+    }),
   );
 
   return (
@@ -86,7 +93,7 @@ export function RadioPage({ locale }: WithLocale) {
         <MusicNav
           back={{ href: musicPath(locale), label: messages.back }}
           hrefs={byLocale(radioPath)}
-          {...{ locale, sample }}
+          {...{ locale, onAirSamples }}
         />
 
         <OnAir

@@ -21,9 +21,4 @@ export {
 } from './names';
 export { type CreditedName, SONG_AUTHOR } from './people';
 export { MUSIC_ROUTE } from './route';
-export {
-  mostlyNeedsLatin,
-  scriptSample,
-  songTitle,
-  spelledText,
-} from './spelling';
+export { scriptSample, songTitle, spelledText } from './spelling';
