@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'oneday'
-audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/5.%20One%20Day.flac
+audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20One%20Day.flac
 seconds: 198
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/5.%20One%20Day.mp3
-  bytes: 7926680
+  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20One%20Day.mp3
+  bytes: 7997561
 explicit: true
 album: divine-discontent
 track: 5

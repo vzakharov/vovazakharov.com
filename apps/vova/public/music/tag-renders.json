@@ -324,6 +324,17 @@
       "crossout/crossout_3.mp3"
     ]
   },
+  "crossroads": {
+    "hash": "208e6bea20e2",
+    "paths": [
+      "crossroads/GENERATED - Crossroads feat. Yoohie.flac",
+      "crossroads/GENERATED - Crossroads feat. Yoohie.mp3",
+      "crossroads/GENERATED - Crossroads feat. Йухи.flac",
+      "crossroads/GENERATED - Crossroads feat. Йухи.mp3",
+      "crossroads/crossroads.flac",
+      "crossroads/crossroads.mp3"
+    ]
+  },
   "dad": {
     "hash": "73da871c6898",
     "paths": [
@@ -978,6 +989,15 @@
       "mithqal/mithqal_rock_master.mp3"
     ]
   },
+  "mobius": {
+    "hash": "7d2c71bdd1fd",
+    "paths": [
+      "ghosts-of-flesh/9. Mo_bius.flac",
+      "ghosts-of-flesh/9. Mo_bius.mp3",
+      "ghosts-of-flesh/GENERATED - Möbius.flac",
+      "ghosts-of-flesh/GENERATED - Möbius.mp3"
+    ]
+  },
   "monkey": {
     "hash": "2e164bc6e8cf",
     "paths": [
@@ -985,6 +1005,17 @@
       "monkey/GENERATED - Monkey.mp3",
       "monkey/monkey.flac",
       "monkey/monkey.mp3"
+    ]
+  },
+  "moral-man": {
+    "hash": "6e7a2dc873b0",
+    "paths": [
+      "moral-/Poluzhivye - Nravstvenny chelovek.flac",
+      "moral-/Poluzhivye - Nravstvenny chelovek.mp3",
+      "moral-/Полуживые - Нравственный человек.flac",
+      "moral-/Полуживые - Нравственный человек.mp3",
+      "moral-/мораль_2.flac",
+      "moral-/мораль_2.mp3"
     ]
   },
   "my-hope": {
@@ -1049,6 +1080,24 @@
       "dng_album/Дамы и господа - Мне нравится, что вы больны не мной….mp3"
     ]
   },
+  "ok-loser": {
+    "hash": "17bdd95097bb",
+    "paths": [
+      "ok-loser/Trending Today - Ok Loser.flac",
+      "ok-loser/Trending Today - Ok Loser.mp3",
+      "ok-loser/ok loser.flac",
+      "ok-loser/ok loser.mp3"
+    ]
+  },
+  "one-day": {
+    "hash": "50faa679b057",
+    "paths": [
+      "Divine-Discontent--album-/5. One Day.flac",
+      "Divine-Discontent--album-/5. One Day.mp3",
+      "Divine-Discontent--album-/GENERATED - One Day.flac",
+      "Divine-Discontent--album-/GENERATED - One Day.mp3"
+    ]
+  },
   "onto-fingers": {
     "hash": "5aef2cd69948",
     "paths": [
@@ -1058,6 +1107,15 @@
       "fingers/Грёбаный бал - На пальцы.mp3",
       "fingers/На пальцы (EDM).flac",
       "fingers/На пальцы (EDM).mp3"
+    ]
+  },
+  "other-heart": {
+    "hash": "95bc9024393a",
+    "paths": [
+      "heart/GENERATED - The Other Heart.flac",
+      "heart/GENERATED - The Other Heart.mp3",
+      "heart/heart_new.flac",
+      "heart/heart_new.mp3"
     ]
   },
   "overture": {
@@ -1076,6 +1134,15 @@
       "nsfl/GENERATED - Parking in Disabled Spot.mp3",
       "nsfl/nsfl-004.flac",
       "nsfl/nsfl-004.mp3"
+    ]
+  },
+  "peta": {
+    "hash": "18beda9ec868",
+    "paths": [
+      "peta/GENERATED - Robots for the Ethical Treatment of Humans.flac",
+      "peta/GENERATED - Robots for the Ethical Treatment of Humans.mp3",
+      "peta/peta_master.flac",
+      "peta/peta_master.mp3"
     ]
   },
   "phoenix": {
@@ -1140,6 +1207,17 @@
       "psch/psch.master.mp3"
     ]
   },
+  "punk-rock-song": {
+    "hash": "3420b31d4961",
+    "paths": [
+      "prs/Yoohie - Punk Rock Song (At 40).flac",
+      "prs/Yoohie - Punk Rock Song (At 40).mp3",
+      "prs/prs40.flac",
+      "prs/prs40.mp3",
+      "prs/Йухи - Punk Rock Song (At 40).flac",
+      "prs/Йухи - Punk Rock Song (At 40).mp3"
+    ]
+  },
   "quiet-snow": {
     "hash": "f81ddfefb510",
     "paths": [
@@ -1149,6 +1227,28 @@
       "dng_album/dng-006.mp3",
       "dng_album/Дамы и господа - Мы вспоминаем тихий снег….flac",
       "dng_album/Дамы и господа - Мы вспоминаем тихий снег….mp3"
+    ]
+  },
+  "rebels-between-the-lines": {
+    "hash": "b1e704e5ad7b",
+    "paths": [
+      "rebels/Yoohie - Rebels Between the Lines (Live in Sparta).flac",
+      "rebels/Yoohie - Rebels Between the Lines (Live in Sparta).mp3",
+      "rebels/rebels_master1.flac",
+      "rebels/rebels_master1.mp3",
+      "rebels/Йухи - Rebels Between the Lines (Live in Sparta).flac",
+      "rebels/Йухи - Rebels Between the Lines (Live in Sparta).mp3"
+    ]
+  },
+  "requiem": {
+    "hash": "1de4ebe7955a",
+    "paths": [
+      "requiem/Damy i gospoda - Uzh skolʼko ikh upalo v etu bezdnu… feat. Poluzhivye.flac",
+      "requiem/Damy i gospoda - Uzh skolʼko ikh upalo v etu bezdnu… feat. Poluzhivye.mp3",
+      "requiem/requiem_master.flac",
+      "requiem/requiem_master.mp3",
+      "requiem/Дамы и господа - Уж сколько их упало в эту бездну… feat. Полуживые.flac",
+      "requiem/Дамы и господа - Уж сколько их упало в эту бездну… feat. Полуживые.mp3"
     ]
   },
   "river-part-one": {
@@ -1217,6 +1317,17 @@
       "slime/Слизь.mp3"
     ]
   },
+  "smoke": {
+    "hash": "090c58a9c1b4",
+    "paths": [
+      "dym/dym_master_new.flac",
+      "dym/dym_master_new.mp3",
+      "dym/za_oblozhkoy - Dym.flac",
+      "dym/za_oblozhkoy - Dym.mp3",
+      "dym/за_обложкой - Дым.flac",
+      "dym/за_обложкой - Дым.mp3"
+    ]
+  },
   "snow": {
     "hash": "fa16548df6ee",
     "paths": [
@@ -1281,6 +1392,15 @@
       "studentka/Студентка.mp3"
     ]
   },
+  "succumb-to-me": {
+    "hash": "69112394e0b0",
+    "paths": [
+      "succumb/GENERATED - Succumb to Me.flac",
+      "succumb/GENERATED - Succumb to Me.mp3",
+      "succumb/succumb.flac",
+      "succumb/succumb.mp3"
+    ]
+  },
   "there": {
     "hash": "02b822c168c3",
     "paths": [
@@ -1330,6 +1450,15 @@
       "machines/trust-in-the-machine.mp3"
     ]
   },
+  "ultimate-abstraction": {
+    "hash": "9eda0d1aaaac",
+    "paths": [
+      "Divine-Discontent--album-/6. The Ultimate Abstraction.flac",
+      "Divine-Discontent--album-/6. The Ultimate Abstraction.mp3",
+      "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.flac",
+      "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.mp3"
+    ]
+  },
   "undone": {
     "hash": "92c4f91a43f8",
     "paths": [
@@ -1337,6 +1466,15 @@
       "undone/GENERATED - Undone.mp3",
       "undone/undone.flac",
       "undone/undone.mp3"
+    ]
+  },
+  "unforgiven-iv": {
+    "hash": "5f5a077d4f91",
+    "paths": [
+      "u4/GENERATED - Unforgiven IV.flac",
+      "u4/GENERATED - Unforgiven IV.mp3",
+      "u4/u4_new.flac",
+      "u4/u4_new.mp3"
     ]
   },
   "vagabond": {

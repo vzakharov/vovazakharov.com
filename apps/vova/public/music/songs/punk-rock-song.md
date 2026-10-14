@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'prs'
-audio: https://raw.githubusercontent.com/vovas-music/prs/main/prs40.flac
+audio: https://raw.githubusercontent.com/vovas-music/prs/main/Yoohie%20-%20Punk%20Rock%20Song%20(At%2040).flac
 seconds: 218
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/prs/main/prs40.mp3
-  bytes: 8722904
+  url: https://raw.githubusercontent.com/vovas-music/prs/main/Yoohie%20-%20Punk%20Rock%20Song%20(At%2040).mp3
+  bytes: 8884496
 explicit: true
 album: ctfu
 track: 8
