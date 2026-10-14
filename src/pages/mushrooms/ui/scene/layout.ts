@@ -8,6 +8,7 @@
  */
 
 import { pick } from '@/shared/lib/collections';
+import type { Sized } from '@/shared/typings';
 
 import type { Box, Circle } from '../../model/geometry';
 import {
@@ -85,31 +86,38 @@ const KIND_SCALE = {
   bee: 0.65,
 } as const satisfies Record<InsectKind, number>;
 
-export type MeadowLayout = GroundedScreen &
-  Controls &
-  Crossed &
-  // What the meadow is shown through: a turn or a resize fits a new one.
-  WithCamera & {
-    /** Where the far hills meet the sky. */
-    horizon: number;
-    /** The top of the near hills' band. */
-    nearHills: number;
-    /** The sun as the opening screen shows it; it stands at that azimuth (`azimuthAt`). */
-    sun: Circle;
-    clouds: readonly Cloud[];
-    /** How the mushrooms stand, each by its foot (`placeIn`), as the opening eye judges them (`anchoredGround`). */
-    mushrooms: MushroomGround;
-    flowers: Bed;
-    /** The unit a butterfly's genes are painted in. */
-    insectSize: number;
-    /** The unit each kind's genes are painted in, the butterfly's `insectSize`. */
-    insectSizes: Readonly<Record<InsectKind, number>>;
-    /** The radii of the sun's wash over the sky, innermost first (`washRings`). */
-    wash: readonly number[];
-  };
+/** Where the far hills meet the sky. */
+export type Horizoned = { horizon: number };
+/** The top of the near hills' band. */
+export type NearHilled = { nearHills: number };
+/** The sun as the opening screen shows it; it stands at that azimuth (`azimuthAt`). */
+export type Sunned = { sun: Circle };
+/** How the mushrooms stand, each by its foot (`placeIn`), as the opening eye judges them (`anchoredGround`). */
+export type ClumpGround = { mushrooms: MushroomGround };
+/** The unit each kind's genes are painted in, the butterfly's `insectSize`. */
+export type InsectSized = { insectSizes: Readonly<Record<InsectKind, number>> };
+/** The unit a butterfly's genes are painted in, and each kind's. */
+type InsectScaled = InsectSized & { insectSize: number };
+/** The screen with the hills and the sun over it: what the sky is painted on. */
+export type HillsSunned = Sized & NearHilled & Sunned;
+
+/** The screen with its buttons, the flower picker's cross and the sun on it: what the gait button is placed among (`gaitSpot`). */
+export type ControlledScreen = GroundedScreen & Controls & Crossed & Sunned;
 
 /** Everything the meadow stands on a screen but its flowers and the sun's wash. */
-type Stood = Omit<MeadowLayout, 'flowers' | 'wash'>;
+type Stood = ControlledScreen &
+  // What the meadow is shown through: a turn or a resize fits a new one.
+  WithCamera &
+  Horizoned &
+  NearHilled &
+  ClumpGround &
+  InsectScaled & { clouds: readonly Cloud[] };
+
+export type MeadowLayout = Stood & {
+  flowers: Bed;
+  /** The radii of the sun's wash over the sky, innermost first (`washRings`). */
+  wash: readonly number[];
+};
 
 /**
  * `seed` is the visit's: it places what varies between visits, and a resize

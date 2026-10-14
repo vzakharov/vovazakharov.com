@@ -50,7 +50,10 @@ export type Placed = Mushroom & Footed;
 export type Spore = Placed & Sprout;
 
 /** The spores on the ground, in the order they settled, and how many the meadow has ever scattered, so every id and seed is new. */
-export type Spored = { spores: readonly Spore[]; scattered: number };
+export type Spored = WithSpores & { scattered: number };
+
+/** The spores on the ground, in the order they settled. */
+export type WithSpores = { spores: readonly Spore[] };
 
 /** A tap's spore: the foot the scene found for it, and the tap's moment. */
 export type SporeTap = { spore?: Footed & Timed };

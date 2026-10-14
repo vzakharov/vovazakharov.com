@@ -4,9 +4,11 @@
  * rather than in proportion to it; `sun-layout.ts` keeps the sun off them.
  */
 
+import type { WithWidth } from '@/shared/typings';
+
 import { FLOWER_SHAPES, PICKED_COLOURS } from '../../model/flower-sounds';
 import type { Circle } from '../../model/geometry';
-import type { Camera, GroundedScreen } from '../../model/ground';
+import type { Grounded, GroundedScreen } from '../../model/ground';
 import { FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
@@ -50,31 +52,39 @@ type Yielder = (typeof YIELDERS)[number];
 /** Those, and the gait button, which gives way where the sky has no spot free for it (`gaitSpot`). */
 type Giving = Yielder | 'gait';
 
-export type Controls = WithMap & {
-  /** The button that switches a ground drag between steps and flight, beside the map button (`gaitSpot`). */
-  gait: Circle;
-  plus: Circle;
-  minus: Circle;
+/** The buttons that give way to a picker opening over them (`Yielder`). */
+type Yielders = {
   house: Circle;
   /** One per `INSECT_KINDS`, each releasing one of its kind: the insects' column down the left. */
   releases: Readonly<Record<InsectKind, Circle>>;
+};
+
+/** Where `gaitSpot` stands the gait button, and what gives way to the pickers for it. */
+export type Gaited = {
+  /** The button that switches a ground drag between steps and flight, beside the map button (`gaitSpot`). */
+  gait: Circle;
   /**
    * Those buttons that stand where a picker opens, which a screen too small
    * for both anywhere else has them share: they give way, hidden, while a
    * picker is open.
    */
   yielding: readonly Giving[];
-  /** One per `MUSHROOM_SPECIES`, in that order. */
-  picker: readonly Circle[];
-  /** One per `FURNISHINGS`, in that order. */
-  housePicker: readonly Circle[];
 };
 
+/** The buttons down the right, and those that give way to a picker. */
+type Columns = Yielders & { plus: Circle; minus: Circle };
+
+export type Controls = WithMap &
+  Gaited &
+  Columns & {
+    /** One per `MUSHROOM_SPECIES`, in that order. */
+    picker: readonly Circle[];
+    /** One per `FURNISHINGS`, in that order. */
+    housePicker: readonly Circle[];
+  };
+
 /** The button `name` names among `house` and `releases`. */
-function yielder(
-  name: Yielder,
-  { house, releases }: Pick<Controls, 'house' | 'releases'>,
-): Circle {
+function yielder(name: Yielder, { house, releases }: Yielders): Circle {
   return name === 'house' ? house : releases[name];
 }
 
@@ -163,7 +173,7 @@ export type Crossed = { cross: Circle };
  * open, so the cross, shown only while picking, is what yields.
  */
 export function flowerCross(
-  controls: Controls & Pick<Camera, 'width' | 'groundTop'>,
+  controls: Controls & WithWidth & Grounded,
   drawn: readonly Circle[],
 ): Circle {
   const { width, groundTop } = controls;
@@ -281,11 +291,9 @@ const COLUMN_SIZES = [
 ] as const;
 type ColumnSize = (typeof COLUMN_SIZES)[number];
 
-type Columns = Pick<Controls, 'plus' | 'minus' | 'house' | 'releases'>;
-
 /** What the columns are placed among: the screen, the map button and the pickers' rows. */
 type PlaceColumnsParams = GroundedScreen &
-  Pick<Controls, 'map'> & { rows: readonly [Circle[], Circle[]] };
+  WithMap & { rows: readonly [Circle[], Circle[]] };
 
 /**
  * The insects' buttons, butterfly, fly and bee, down the left, and `+`, `−`

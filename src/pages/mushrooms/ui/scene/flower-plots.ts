@@ -31,7 +31,7 @@ import {
   headsApart,
   standingOn,
 } from './flower-layout';
-import type { Stand } from './flower-sight';
+import type { PlotGround, Stand } from './flower-sight';
 import type { MeadowLayout } from './layout';
 
 /**
@@ -205,7 +205,7 @@ function plotted({
   planted,
   mushrooms,
   pulled,
-}: Omit<Stand, 'spores'>): {
+}: PlotGround): {
   standing: StandingFlower[];
   feet: ReadonlyMap<string, Footing>;
 } {

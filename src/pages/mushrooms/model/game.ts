@@ -89,8 +89,7 @@ export type Unkept = Pickers & {
 
 /** A meadow as a reload keeps it: all of it but `Unkept`. */
 export type KeptMeadow = Swarm &
-  WithMushrooms &
-  WithPulled &
+  Tended &
   WithDusk &
   Spored & {
     /** How many mushrooms the meadow has ever grown, so every id is new. */
@@ -100,6 +99,9 @@ export type KeptMeadow = Swarm &
     /** The mice's own outings at dusk (`nightRan`). */
     nightRuns: NightRuns;
   };
+
+/** The mushrooms standing and the flowers pulled up: what the child's hands left on the ground. */
+export type Tended = WithMushrooms & WithPulled;
 
 export type WithMushrooms = {
   /** In the order they were planted, so the last is the newest. */

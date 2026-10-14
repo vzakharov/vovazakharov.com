@@ -17,10 +17,13 @@ export type WithId = { id: string };
 export type Titled = { title: string };
 
 /** A box's width and height: an image's intrinsic pixel size, which reserves its box before it loads, or a drawn part's. */
-export type Sized = WithWidth & { height: number };
+export type Sized = WithWidth & WithHeight;
 
 /** A box's width alone. */
 export type WithWidth = { width: number };
+
+/** A box's height alone. */
+export type WithHeight = { height: number };
 
 /** A title that may be absent — a document's is derived, so it exists only once read. */
 export type MaybeTitled = { title?: string };

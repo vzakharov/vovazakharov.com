@@ -13,16 +13,16 @@ import { aboutFoot, bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import type { BoxedOutlines } from './flower-sight';
-import type { MeadowLayout } from './layout';
-import type { Placed, View } from './view';
+import type { ClumpGround } from './layout';
+import type { Distant, View } from './view';
 
 /** A mushroom as a frame draws it: how far from the eye it stands, and its outlines on the screen. */
-export type ShownCover = Pick<Placed, 'distance'> & BoxedOutlines;
+export type ShownCover = Distant & BoxedOutlines;
 
 /** Every one of `mushrooms` that `view` draws, as it covers what stands behind it. */
 export function coversShown(
   view: View,
-  { mushrooms: ground }: Pick<MeadowLayout, 'mushrooms'>,
+  { mushrooms: ground }: ClumpGround,
   mushrooms: readonly Planted[],
 ): ShownCover[] {
   return mushrooms.flatMap((mushroom) => {

@@ -7,7 +7,13 @@
  * (`pinholeOf`).
  */
 
-import { type Circle, type Point, sample, wrap } from '../../model/geometry';
+import {
+  type Ordinate,
+  type Point,
+  type Radiused,
+  sample,
+  wrap,
+} from '../../model/geometry';
 import type { Camera } from '../../model/ground';
 import { pinholeOf } from '../../model/pinhole';
 import { between, mulberry32 } from '../../model/random';
@@ -147,7 +153,8 @@ export function placedLeft(
  * drifts rightward round the sky in radians a second, its height on the
  * screen and its size.
  */
-export type Cloud = Pick<Circle, 'y' | 'r'> &
+export type Cloud = Ordinate &
+  Radiused &
   Azimuthed & {
     drift: number;
   };

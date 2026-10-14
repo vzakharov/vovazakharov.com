@@ -8,6 +8,7 @@
 import { mouthEdges } from '../../model/chanterelle-outline';
 import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import {
+  type Abscissa,
   type Circle,
   placedAt,
   type Point,
@@ -331,7 +332,7 @@ const SHADOW_LAYERS = [
 ] as const;
 
 /** One ellipse of a cast shadow, round `x` along the ground from the foot: its full width and height, and alpha. */
-export type ShadowLayer = Pick<Point, 'x'> & Wide & Tall & Translucent;
+export type ShadowLayer = Abscissa & Wide & Tall & Translucent;
 
 /**
  * The shadow a thing standing at the origin casts on the ground, `across` by

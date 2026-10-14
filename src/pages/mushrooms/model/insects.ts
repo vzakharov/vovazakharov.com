@@ -59,7 +59,7 @@ export type Swarm = WithInsects & WithPlanted;
 
 type WithInsects = { insects: readonly Flier[] };
 
-type WithPlanted = { planted: readonly Sown[] };
+export type WithPlanted = { planted: readonly Sown[] };
 
 /**
  * A swarm, the shower it flies in, which sends its fliers under the caps
