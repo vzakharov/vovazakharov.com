@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-chore: ban Pick and Omit over the repo's own types (#158)
-```
+Proposed squash body:
 
 ```
 A narrow type is declared first and the wide one is built from it, so
@@ -11,16 +7,19 @@ order: the subset gets a name but no home. A type inferred from a schema
 follows the same order one level down — the narrow schema comes first
 and the full one extends it.
 
-vova/no-pick-omit rejects Pick<X, …> and Omit<X, …> wherever X is
-declared in this repo, a schema-inferred type included. Library and DOM
+vova/no-pick-omit rejects Pick<X, …> and Omit<X, …> wherever X resolves,
+through ESLint's scope manager and without type information, to a type
+this repo declares, a schema-inferred one included. Library and DOM
 types and type parameters are exempt, since nothing there can be
-declared narrow first. The rule resolves names through ESLint's scope
-manager and needs no type information.
+declared narrow first. Its node:test suite runs it over ESLint's Linter
+with the TypeScript parser, now a direct dev dependency.
 
-Every site outside the meadow moves to named narrow bases that the wide
-types intersect, and the case and song frontmatter schemas gain narrow
-schemas their full ones extend. The meadow's files are grandfathered in
-one scoped override until their own migration lands.
+The whole tree, the mushroom meadow included, moves to named narrow
+bases that the wide types intersect, and the case and song frontmatter
+schemas gain narrow schemas their full ones extend; the rule is error
+everywhere, with no grandfathered files. LaunchButtons takes the music
+messages whole, since the catalogue JSON has no narrower type, at about
+3 KB more in the music index's RSC payload.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
