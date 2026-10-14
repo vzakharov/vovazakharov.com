@@ -34,29 +34,28 @@ function legal(stem: string): string {
   return name;
 }
 
+/** ` feat. B & C`, or nothing for a song with no features. */
+function featuring(features: readonly Spelled[], script: Script): string {
+  return features.length === 0
+    ? ''
+    : ` feat. ${features.map((feature) => spelledText(feature, script)).join(' & ')}`;
+}
+
 /** `A feat. B & C` — the form taggers and MusicBrainz credit features in. */
 export function billedArtists(
   [artist, ...features]: SongBilling['artists'],
   script: Script,
 ): string {
-  return [
-    spelledText(artist, script),
-    ...(features.length === 0
-      ? []
-      : [
-          'feat.',
-          features.map((feature) => spelledText(feature, script)).join(' & '),
-        ]),
-  ].join(' ');
+  return `${spelledText(artist, script)}${featuring(features, script)}`;
 }
 
-/** `<Artist> - <Title>.<extension>` — the convention taggers and download stores default to. */
+/** `<Artist> - <Title> feat. <Features>.<extension>` — the convention download stores name a featured track by. */
 export function songFileName(
-  { artists, title }: SongBilling,
+  { artists: [artist, ...features], title }: SongBilling,
   script: Script,
   extension: string,
 ): string {
-  return `${legal(`${billedArtists(artists, script)} - ${spelledText(title, script)}`)}.${extension}`;
+  return `${legal(`${spelledText(artist, script)} - ${spelledText(title, script)}${featuring(features, script)}`)}.${extension}`;
 }
 
 /**

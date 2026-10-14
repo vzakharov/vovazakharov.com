@@ -24,7 +24,7 @@ describe('songFileName', () => {
     );
   });
 
-  it('bills features after the artist as taggers do', () => {
+  it('bills features after the title, as download stores do', () => {
     assert.equal(
       songFileName(
         {
@@ -34,7 +34,7 @@ describe('songFileName', () => {
         'original',
         'mp3',
       ),
-      'Полуживые feat. GENERATED & Майя - Boom!.mp3',
+      'Полуживые - Boom! feat. GENERATED & Майя.mp3',
     );
   });
 
