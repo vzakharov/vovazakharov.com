@@ -295,7 +295,6 @@ type DocumentFields = Named &
     seconds: number;
     master: Master;
     streamInfo: StreamInfo;
-    /** The podcast copy, where the repository holds one yet. */
     podcast?: { url: string; bytes: number };
   };
 

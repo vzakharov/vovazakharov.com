@@ -215,7 +215,7 @@ const songFieldsSchema = baseFrontmatterSchema
      * copy beside the master in its repository, `url` absent where `audio` is
      * already an MP3 and the enclosure reuses it. `bytes` is recorded rather
      * than fetched, so a deploy depends on no request to the file's host.
-     * Required, so a song missing from the feeds fails the build instead.
+     * Required: a song without one would be missing from the feeds.
      */
     podcast: z.object({
       url: z.url().optional(),
