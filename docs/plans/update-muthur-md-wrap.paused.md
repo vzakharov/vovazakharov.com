@@ -50,6 +50,33 @@ One local commit per rationale, in source order; the watermark bumps last.
 8. **Watermark** → `0f16275`, `markdown.md` and `markdown-wrap.md` into
    `adopted`.
 
+## Progress (paused for the context budget)
+
+**Done**, one commit each: items 1–3 (relay default, keepalive renewals,
+`MUTHUR_` prefix — this repo's own `CONTEXT_BUDGET_SUBAGENT` became
+`MUTHUR_CONTEXT_BUDGET_SUBAGENT` with them), and item 4's first half, 4e5c041:
+tables → lists in the adopted skills, CLAUDE.md's ladder as rungs in
+`.claude/staged/CLAUDE.md.staged` (CLAUDE.md and voice.md are both staged
+already), `markdown.md` and `check-markdown-tables.sh` added.
+
+**Left:**
+
+- Item 4's second half, c75ea67: replace `.claude/rules/markdown.md` and
+  `scripts/check-markdown-tables.sh` with the source's narrowed versions
+  (agent-facing only: every `CLAUDE.md`, `.claude/**/*.md`). Then wire the check
+  into `scripts/vet.sh`'s fan-out keyed on the rule file
+  (`[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh`),
+  add it to `.claude/rules/stack.md`'s roster (its "last nine" count moves), and
+  convert what the narrowed check still flags — this repo's own tables in
+  `.claude/skills/{megabeast,preview,stand-up-site}`, `writing/CLAUDE.md` and
+  the rest it lists.
+- Items 5–8 as written above. Port helpers used here: a 3-way
+  `git merge-file <local> <src parent> <src commit>` per touched file, skipping
+  `declined` paths, then resolving each conflict by hand — the local files are
+  rewrites, so most conflicts keep the local side.
+- The watermark's `.claude/context-budget/` note still names `auto-relay/`,
+  which item 1 replaced with `manual-relay/`; fix it in item 8's commit.
+
 ## DRY notes
 
 - The wrap reuses the repo's own prettier and its `format:check` vet line rather
