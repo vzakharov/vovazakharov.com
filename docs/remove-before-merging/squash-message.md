@@ -12,12 +12,13 @@ now has one file under apps/vova/public/music/, its frontmatter holding
 what the registries held; a locale's title or name reuses a song's
 field, a string renaming it there and { translation } glossing it.
 
-A misspelt album or project in a song still fails the build:
-`pnpm music:codegen` generates the MusicAlbum and MusicProject enums
-from those files, committed and checked by vet as styles:codegen is, so
-the types stay literal for every call site and script. A slug is its
-file's name, and an album's cover is read off the covers directory
-rather than stated.
+A misspelt album or project in a song still fails the build: the song
+schema reads the albums/ and artists/ directories and accepts only a
+name a file there carries. MusicAlbum and MusicProject are zod brands
+rather than literal unions, so neither passes for the other, and no
+generated file or codegen step is needed — tsc never read the markdown
+the typo is in. A slug is its file's name, and an album's cover is read
+off the covers directory rather than stated.
 
 The music index ranks its artists rather than keeping a hand-set order:
 the one billed on the most songs first, between equals the one whose

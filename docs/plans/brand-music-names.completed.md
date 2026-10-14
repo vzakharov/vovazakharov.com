@@ -13,12 +13,9 @@
 - Tests `album-tracks.test.ts`, `projects.test.ts` build branded values with `musicAlbumSchema.parse`/`musicProjectSchema.parse` from `index.node-safe`.
 - Green: `pnpm typecheck`, eslint on touched files, `lint:fsd`, `knip`, `type-overlap`, those tests, `music:untold` (current), `pnpm build:vova` (index order unchanged).
 
-## Left
-
-1. **Fix the client-bundle leak — blocking.** Exporting the brand *schemas* through `index.node-safe.ts` put zod into the client bundle of every song page (`b3104b78…js` carries `z.string().regex(SLUG).brand()`; a ~377 kB chunk `0b74a6c8…` is likely zod itself — confirm against a `main` build). Client components enter that barrel. Recommended fix: `index.node-safe.ts` exports **types only** from `name-brands.ts`; the two tests get their branded values without a runtime import from that barrel — e.g. type the fixtures off the function under test and build them with the brand schema imported from a module tests may enter (check `eslint.config.ts` boundaries: tests have no exemption; `shared/lib/*.ts` is enterable from every layer, so a brand helper does not belong there either). Decide, then rebuild and re-scan `apps/vova/out/_next/static/chunks/` for `da-z]+(?:-[` and zod.
-2. **Prove a typo still fails the build**: a song with `album: vagabnd` and one with a misspelt `project` fail `pnpm build:vova`; revert.
-3. `/polish` over the change (`catalogue-names.ts` duplicates nothing with `scripts/lib/public-markdown.ts`? check), then refresh the squash proposal (`docs/remove-before-merging/squash-message.md`: its paragraph 2 still describes the codegen) and the PR body (Summary bullet 2, QA rows `typo`/`codegen`) via `/pr`.
-4. Reply on the thread above with the commit SHA.
+- Client-bundle leak closed (f1c8083): `index.node-safe.ts` exports the brand types only; the two tests brand their fixtures with a zod schema of the same brand. After `pnpm build:vova` no chunk carries `da-z]+(?:-[`, and the one chunk holding zod belongs to `/mushrooms`.
+- A misspelt `album` and a misspelt `project` (a Latin `e` in `Полуживые`) each fail `pnpm build:vova` with "Invalid frontmatter in 20.md".
+- Polished (05bab01); the squash proposal and the PR body describe the brands rather than the codegen, and the review thread has its reply.
 
 ## Decisions already made
 
