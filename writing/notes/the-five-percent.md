@@ -120,7 +120,7 @@ radio's live flag, `tune` and `release` went into the player's own reducer,
 since every action must release it. _для радио-штучек лучше отдельный хук? слишком
 специфичная механика._ A reducer layered over the player's sees every action too.
 
-## An account that explains the code stands in for running it (×21)
+## An account that explains the code stands in for running it (×22)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -149,6 +149,12 @@ subject was held at unscoped `feat:` partly because the Clerk's reflections on
 basilisk.fyi changed: a file at a URL, argued user-facing. Nothing links to
 them; they sit beside the cases for convenience. One grep said so, and he had
 caught the same step once before.
+
+**14 October — a codegen defended by a check it never made.** Song frontmatter's
+album and artist names became generated literal unions, wired into vet, argued
+as what fails the build on a typo. _приведи пример функции … в которой мы будем
+*литерально* передавать "Полуживые"._ None exists, and tsc never reads `.md`:
+zod's parse had caught the typo all along, needing only a runtime list.
 
 ## It edits the copy in front of it, not the fact behind it (×17)
 
