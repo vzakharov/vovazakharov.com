@@ -1,6 +1,6 @@
 /**
  * For `scripts/`, the tests and client components, none of which may take the
- * schema, whose module is `server-only`: the name brands and the spellings.
+ * schema, whose module is `server-only`: the name brands' types and the spellings.
  * A script reads the names themselves off `catalogue-names.ts`.
  */
 
