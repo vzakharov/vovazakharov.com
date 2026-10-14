@@ -129,7 +129,7 @@ A meadow bite is a game change: it runs `VET_MEADOW=1 ./scripts/vet.sh` (or
 - **All 117 files sit in the grandfather override** in `eslint.config.ts`,
   `pnpm lint`, `typecheck` and `type-overlap` clean.
 
-## Rest of the bite
+## This bite
 
 Everything outside the meadow, each file leaving the override as it migrates.
 
