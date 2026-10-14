@@ -25,8 +25,10 @@ section boundary, found from the sound alone: a sharp change in arrangement or
 harmony draws one, a gradual build may not. Under it, on the same time axis,
 the loudness envelope: each column's peak, with its RMS inside.
 
-Under that, two chromagram strips, the band above middle C over the band below
-it: twelve rows each, C at the bottom, a row as bright as its pitch class's
+Under that, two chromagram strips, the band above the split over the band below
+it — middle C unless --split names another note, the split drawn as a dotted
+line across the spectrogram: twelve rows each, C at the bottom, each named as
+the song's key spells it, a row as bright as its pitch class's
 share of the band, harmonics voting with their fundamentals. So the bass strip
 steps with the bass line, the treble strip carries the tune and the chord over
 it, and a chord shows as several bright rows at once. A pitch class is read off
@@ -51,6 +53,7 @@ from pathlib import Path
 import numpy as np
 
 from audio import FLOOR_DB, LOW_HZ, QUIET, SR, TOP_HZ, decode, log_rows, mmss, stft_magnitude
+from harmony import note_names
 from pitch import NOTE_BAND_HZ, chroma_shares
 from song_facts import measure, sidecar, tempo_label, tuning_label
 
@@ -67,11 +70,13 @@ TITLE_TUNING_CENTS = 15
 # Beat lines closer than this are a wash, not a grid.
 BEAT_MIN_PX = 6
 
-NOTE_NAMES = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
-# Middle C splits the bass band from the treble one, where the clefs meet: a
-# bass line and its first harmonics sit under it, and most of a melody above
-# it. A male voice's lowest notes fall under it, and so vote with the bass.
-CROSSOVER_HZ = 262
+LETTERS = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
+# Middle C splits the bass band from the treble one by default, where the
+# clefs meet: a bass line and its first harmonics sit under it, and most of a
+# melody above it. A male voice's lowest notes fall under it, and so vote with
+# the bass. No song-wide valley marks a better split, since the bass's
+# harmonics fill every semitone up past C5, so another is chosen by ear.
+SPLIT_NOTE = "C4"
 # A row at this share of its band's chroma is at full brightness; an even
 # spread across all twelve holds 1/12.
 FULL_SHARE = 0.5
@@ -144,6 +149,19 @@ def seconds(text):
     return 60 * int(minutes or 0) + float(secs)
 
 
+def midi_note(text):
+    """'C4', 'F#3', 'Bb2' or 'E♭3' as a MIDI number, C4 being 60."""
+    letter, accidental, octave = text[0].upper(), text[1:-1], int(text[-1])
+    shift = {"": 0, "#": 1, "♯": 1, "b": -1, "♭": -1}[accidental]
+    return 12 * (octave + 1) + LETTERS[letter] + shift
+
+
+def split_hz(midi, tuning):
+    """The edge between the bass and treble bands: half a semitone under the
+    split note, on the song's tuned grid, so the note itself is treble."""
+    return 440 * 2 ** ((midi - 69.5) / 12 + tuning / 1200)
+
+
 def main():
     import argparse
 
@@ -159,8 +177,14 @@ def main():
     parser.add_argument("out_png")
     parser.add_argument("--from", dest="start", type=seconds, help="zoom start, m:ss")
     parser.add_argument("--to", dest="end", type=seconds, help="zoom end, m:ss")
+    parser.add_argument(
+        "--split", type=midi_note, default=SPLIT_NOTE,
+        help=f"the lowest note of the treble strip, e.g. E3 or Bb2 (default {SPLIT_NOTE})",
+    )
     args = parser.parse_args()
     song, out_png = args.song, args.out_png
+    if not midi_note("C#2") <= args.split <= midi_note("C7"):
+        parser.error("--split must leave both strips a note, C♯2 to C7")
 
     x = decode(song)
     whole = drawing_stft(x)
@@ -202,6 +226,10 @@ def main():
     for s in facts.sections[1:]:
         if t0 < s.start < t1:
             ax.axvline(s.start, color="white", linewidth=0.8, linestyle=(0, (4, 3)))
+    # The split across the spectrogram, so a part straddling it reads as one
+    # instrument cut in two by the strips, not as two.
+    crossover = split_hz(args.split, facts.tuning)
+    ax.axhline(np.log2(crossover), color="white", linewidth=0.8, linestyle=(0, (1, 3)))
 
     columns = WIDTH_PX
     peak, rms = envelope(x, columns)
@@ -218,9 +246,12 @@ def main():
     if not zoomed or len(beats) < 2 or np.median(np.diff(beats)) / duration * plot_px < BEAT_MIN_PX:
         beats = []
     ramps = chroma_ramps()
+    _, tonic, mode = facts.keys[0]
+    names = note_names(tonic, mode)
+    split = f"{names[args.split % 12]}{args.split // 12 - 1}"
     for strip, key, band_hz, octaves, name in (
-        (treble, treble_key, (CROSSOVER_HZ, NOTE_BAND_HZ[1]), (4, 6), "treble, C4–C7"),
-        (bass, bass_key, (NOTE_BAND_HZ[0], CROSSOVER_HZ), (2, 3), "bass, C2–C4"),
+        (treble, treble_key, (crossover, NOTE_BAND_HZ[1]), (args.split // 12 - 1, 6), f"treble, {split}–C7"),
+        (bass, bass_key, (NOTE_BAND_HZ[0], crossover), (2, (args.split - 1) // 12 - 1), f"bass, C2–{split}"),
     ):
         shares, octave = chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
         # Silence has spectral peaks too, of noise; it stays dark however clear they look.
@@ -232,7 +263,7 @@ def main():
         for t in beats:
             strip.axvline(t, color="white", alpha=0.45, linewidth=0.6)
         strip.yaxis.set_major_locator(FixedLocator(range(12)))
-        strip.set_yticklabels(NOTE_NAMES, fontsize=7)
+        strip.set_yticklabels(names, fontsize=7)
         strip.set_ylabel(name)
         # The octave key: one swatch per octave the strip can show, low at the bottom.
         held = range(octaves[0], octaves[1] + 1)
