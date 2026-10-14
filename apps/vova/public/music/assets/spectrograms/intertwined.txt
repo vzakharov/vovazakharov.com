@@ -1,10 +1,10 @@
 intertwined.mp3 — 2:41
 tempo 120 BPM
-key C minor (r 0.94; next E♭ major, 0.81)
+key C minor (r 0.79; next A♭ major, 0.75)
 tuning A = 440 Hz +0 ¢
-sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
-0:00–0:32  120 BPM  −9 dB  Cm E♭ A♭m F C E♭ A♭ Fm + Cm E♭ A♭ F ×2 + Cm
-0:32–0:48  120 BPM  −9 dB  Cm E♭ A♭ F ×2
-0:48–1:28  120 BPM  −8 dB  Cm E♭ A♭ Fm E♭ A♭ F + Cm E♭ A♭ Fm ×2 + C E♭ A♭ Fm
-1:28–2:30  120 BPM  −8 dB  Cm E♭ A♭ Fm ×6 + Cm E♭ A♭ F Cm E♭ A♭ Fm
-2:30–2:41  120 BPM  −14 dB  Fm N
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+1  0:00–0:32  120 BPM  −9 dB  Cm E♭ A♭m F Cm E♭ A♭m + Fm Cm E♭ A♭ ×2 + Fm Cm
+2  0:32–0:48  120 BPM  −9 dB  Cm E♭ A♭ Fm ×2
+3  0:48–1:28  120 BPM  −8 dB  Cm E♭ A♭m Fm E♭m + A♭ Fm Cm E♭ ×2 + A♭ Fm Cm E♭m A♭m Fm
+4  1:28–2:30  120 BPM  −8 dB  Cm E♭ A♭m + Fm Cm E♭ A♭ ×7 + Fm
+5  2:30–2:41  120 BPM  −14 dB  Fm N

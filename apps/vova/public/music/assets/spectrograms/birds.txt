@@ -1,12 +1,12 @@
 birds.mp3 — 4:47
 tempo 120 BPM
-key G minor (r 0.81; next B♭ major, 0.73)
+key G minor (r 0.80; next B♭ major, 0.75)
 tuning A = 440 Hz +1 ¢
-sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
-0:00–0:10  121 BPM  −13 dB  Gm E♭ F
-0:10–0:33  121 BPM  −14 dB  F Gm E♭ F Gm
-0:33–1:04  123 BPM  −13 dB  Gm E♭ F ×2 + Gm
-1:04–2:04  120 BPM  −12 dB  Gm E♭ F ×4 + B♭
-2:04–2:52  120 BPM  −13 dB  B♭ + Gm E♭ F ×3
-2:52–3:56  120 BPM  −10 dB  Gm F E♭ F ×4
-3:56–4:47  120 BPM  −22 dB  Gm
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+1  0:00–0:10  120 BPM  −13 dB  Gm E♭ F
+2  0:10–0:33  123 BPM  −14 dB  F Gm E♭ F Gm
+3  0:33–1:04  122 BPM  −13 dB  Gm E♭ F ×2 + Gm
+4  1:04–2:04  120 BPM  −12 dB  Gm E♭ F ×2 + Gm E♭m Fm Gm E♭ F B♭
+5  2:04–2:52  120 BPM  −13 dB  B♭ + Gm E♭ F ×3
+6  2:52–3:56  120 BPM  −10 dB  Gm F E♭ F ×4
+7  3:56–4:47  120 BPM  −22 dB  Gm
