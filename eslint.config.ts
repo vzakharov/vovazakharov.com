@@ -305,6 +305,9 @@ const eslintConfig = defineConfig([
     '**/next-env.d.ts',
     // Dev artifacts (gitignored, transient — CLAUDE.md § "Key principles"):
     'tmp/**',
+    // The cost ledger's rows: JSON only, and vet's concurrent cost tests make
+    // and remove month directories here while ESLint walks the tree.
+    '.claude/costs/sessions/**',
   ]),
 ]);
 
