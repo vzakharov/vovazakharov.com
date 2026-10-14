@@ -30,6 +30,12 @@ const tree: Root = {
     element('aside', { ariaHidden: 'true' }, [
       { type: 'text', value: 'twice' },
     ]),
+    element('h2', { id: 'why' }, [
+      element('a', { href: '#why' }, [{ type: 'text', value: 'Why' }]),
+    ]),
+    element('p', {}, [
+      element('a', { href: '#fn-1' }, [{ type: 'text', value: '1' }]),
+    ]),
   ],
 };
 
@@ -48,6 +54,11 @@ describe('feedHtml', () => {
 
   it('drops what the page hides as a repeat', () => {
     assert.doesNotMatch(html, /twice/);
+  });
+
+  it('unwraps a heading’s link to itself and keeps other in-page links', () => {
+    assert.match(html, /<h2 id="why">Why<\/h2>/);
+    assert.match(html, /<a href="#fn-1">1<\/a>/);
   });
 
   it('leaves the tree it was given untouched', () => {

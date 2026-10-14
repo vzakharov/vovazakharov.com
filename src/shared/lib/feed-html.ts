@@ -19,11 +19,22 @@ function absoluteSrcSet(
     .join(', ');
 }
 
+/** A link a heading wraps its own text in, to its own anchor, so the page can hand it out. */
+function isSelfLink(node: Element, parent: Element): boolean {
+  return (
+    node.tagName === 'a' &&
+    /^h[1-6]$/.test(parent.tagName) &&
+    typeof parent.properties['id'] === 'string' &&
+    node.properties['href'] === `#${parent.properties['id']}`
+  );
+}
+
 /**
  * A rendered body as the HTML a feed reader shows. A reader resolves nothing
- * against the site, so every site-root URL is made absolute; and an element the
+ * against the site, so every site-root URL is made absolute; an element the
  * page hides from assistive tech is one it draws twice — a pull quote, the
- * seal — which a reader would show twice.
+ * seal — which a reader would show twice; and a heading's link to itself would
+ * show every heading as a link.
  */
 export function feedHtml(
   tree: Root,
@@ -38,6 +49,16 @@ export function feedHtml(
 
     if (properties['ariaHidden'] === 'true' && parent && index !== undefined) {
       parent.children.splice(index, 1);
+
+      return [SKIP, index];
+    }
+
+    if (
+      parent?.type === 'element' &&
+      index !== undefined &&
+      isSelfLink(node, parent)
+    ) {
+      parent.children.splice(index, 1, ...node.children);
 
       return [SKIP, index];
     }
