@@ -13,11 +13,11 @@ file name.
 
 Every master the site plays or offers is now named
 `<Artist> - <Title>.<ext>`, the order download stores and taggers
-default to, in Latin letters as the English page spells the song, so a
-listener who reads no Cyrillic or Arabic can read it. Features are
-credited as `A feat. B`, and filesystem-reserved characters replaced the
-way beets does. The two songs this repo vendored move to vovas-music
-with the rest, so every song plays from there. Each FLAC and MP3
+default to, spelled as the page's locale and script chip spell the
+song: Cyrillic on RU and EN / Абв, Latin on EN / Abc. Every name is a
+path to the same bytes, so the extra names cost no storage, and one
+function derives them for both the links and the upload. The two songs
+this repo vendored move to vovas-music with the rest. Each FLAC and MP3
 carries its title, artist, album artist, album, track, year, language,
 credits, sung lyrics, cover and song page, written from the catalogue
 by `pnpm music:tag` with the audio verified unchanged.

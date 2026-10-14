@@ -6,8 +6,9 @@
 
 Every master the site plays or offers for download from a `vovas-music`
 repository — the FLAC in `audio:` and the MP3 in `mp3.url` (or the MP3 in
-`audio:` where the master is one) — is named `<Artist> - <Title>.<ext>` and
-carries the song's tags, so a saved file says what it is and a player shows it
+`audio:` where the master is one) — downloads as `<Artist> - <Title>.<ext>`,
+**spelled the way the page the reader is on spells the song**, and carries
+the song's tags, so a saved file says what it is and a player shows it
 properly.
 
 **Why renaming is the whole fix for the download name:** both links point at
@@ -37,40 +38,72 @@ saves the file under the URL's last segment. Today that is `boom.master.mp3`,
 stores, rips and taggers default to (foobar2000's and Mp3tag's
 `%artist% - %title%`, Beatport, SoundCloud and YouTube downloads; Bandcamp's
 `Artist - Album - NN Title` for album downloads), and it is what sorts a
-folder of downloads by artist. Title-first is rare and mostly an artefact of
-specific apps.
+folder of downloads by artist.
 
-**In Latin letters**, as the English page spells the song: a Russian speaker
-reads Latin, a listener who does not read Cyrillic cannot read
-`Снег идёт`, and `mithqal`'s title would otherwise land in Arabic script.
-`Poluzhivye - Sneg idyot.flac`, `GENERATED - Boom!.flac`.
+**Spelled as the page shows the song**, per locale and per script chip: `RU`
+and `EN / Абв` save `Полуживые - Снег идёт.flac`, `EN / Abc` saves
+`Poluzhivye - Sneg idyot.flac`. One function,
+`songFileName(frontmatter, locale, script, extension)` in
+`shared/music-catalogue`, decides every name:
 
-- **Title**: `spelledText(songTitle(frontmatter, 'en'))` — the English
-  locale's name for the song, romanized by the site's own rule, or by
-  `titleLatin` where one is hand-written.
-- **Artist**: each `project` name through `localName(…, 'en')`, the spelling
-  the artist pages use; a song with features names them as
-  `Poluzhivye feat. GENERATED`, the form taggers and MusicBrainz use.
+- **Title**: `spelledText(songTitle(frontmatter, locale), script)` — exactly
+  what the page's `<h1>` shows, a locale's own name for the song included
+  (`breathe` saves as `Повелитель ветра` from the Russian page).
+- **Artist**: each `project` name through `localName(…, locale)` and the same
+  script, the spelling the artist pages use; a song with features names them
+  as `Poluzhivye feat. GENERATED`, the form taggers and MusicBrainz use.
 - **Characters**: beets' default replacements, so a name is legal on every
   filesystem — `\ / < > : " ? * |` become `_`, control characters are dropped,
   a leading `.` and a trailing `.` become `_`, trailing spaces are trimmed.
-  `за/обложкой` therefore saves as `za_oblozhkoy - <Title>.flac`.
-- Two songs landing on one name in one repository fail the run, naming both.
+  `за/обложкой` saves as `за_обложкой` or `za_oblozhkoy`.
+
+**Every name is a path to the same bytes.** A repository gets one path per
+distinct name across the song's pages — usually two, one where the title
+needs no Latin spelling (`GENERATED - Boom!.flac`), three for a song a
+locale renames — and git stores identical content once, so each extra path
+costs a tree entry, not a file. That is also why a Russian song with a Latin
+title needs no suffix: both spellings land on the same name, which is the
+same file. Two different songs landing on one name in one repository fail
+the run, naming both.
+
+## The links
+
+`SongFileLink` renders one anchor per spelling the page has, each marked
+`data-spelling` as `Spelling` marks a name, so the stylesheet that already
+picks a name's spelling by `<html data-script>` picks the link too — static,
+no client code. Where the locale has a single spelling it renders the one
+anchor it does today.
+
+The href is the master's URL with its last segment replaced by
+`songFileName(…)`: the directory comes off the frontmatter's `audio:`, never
+off `repo:`, which names a different repository for some songs
+(`heres-to-the-virus`'s audio lives in `ghosts-of-flesh`) and a `master`
+branch for others.
+
+- **The frontmatter keeps one URL per file**, the song's own name in its own
+  script — `songFileName(frontmatter, language, 'original', …)` — for the
+  player and the feeds' enclosures, where the name never reaches the
+  listener.
+- **The feeds' download links** take the feed locale's default spelling
+  (`spelledText`'s Latin for the English feed, the original for the
+  Russian), since a feed reader has no switch.
+- **The build fails on a name no file was written under**, offline: it
+  checks every derived name against the manifest (§ "The script"), so a
+  title edit without a re-run fails `next build`, not a listener's download.
 
 ## The tags
 
-Written from the catalogue, so the frontmatter stays the one source. **The
-names in them — title, artist, album — are spelled as in the file name**, in
-Latin: a tag is a surface with one spelling and no switch, which the site
-already spells in Latin wherever it has to pick one (`spelledText`'s default,
-used for the page title, the feed and the lock screen). The lyrics stay in the
-script they are sung in, the words someone reading along sings
-(question 6).
+Written from the catalogue, so the frontmatter stays the one source. **One
+set of tags per file**, since every name points at the same bytes: the names
+in them — title, artist, album — in Latin, the spelling every listener can
+read (`spelledText`'s default, as the page title, the feeds and the lock
+screen already use). The lyrics stay in the script they are sung in, the
+words someone reading along sings (question 6).
 
 | Field                        | ID3v2.3 (MP3)                 | Vorbis comment (FLAC)    | Source                                       |
 | ---------------------------- | ----------------------------- | ------------------------ | -------------------------------------------- |
-| Title                        | `TIT2`                        | `TITLE`                  | the title, as in the file name               |
-| Artist                       | `TPE1`                        | `ARTIST`                 | `project`, as in the file name               |
+| Title                        | `TIT2`                        | `TITLE`                  | `songTitle(…, 'en')`, Latin                  |
+| Artist                       | `TPE1`                        | `ARTIST`                 | `project`, as in the Latin file name         |
 | Album artist                 | `TPE2`                        | `ALBUMARTIST`            | the album's `artist`, through `localName`    |
 | Album                        | `TALB`                        | `ALBUM`                  | the album's `title`, through `localName`     |
 | Track                        | `TRCK` `n/total`              | `TRACKNUMBER`/`TRACKTOTAL` | `track`, total = the album's song count    |
@@ -82,7 +115,7 @@ script they are sung in, the words someone reading along sings
 | Song page                    | `WOAF`                        | `CONTACT`                | the song's canonical URL                     |
 
 ID3v2.3 with UTF-16 text rather than v2.4, because Windows Explorer and older
-car and phone players read v2.3 only, and Cyrillic needs the Unicode
+car and phone players read v2.3 only, and the lyrics need the Unicode
 encoding. Each run replaces the tags whole, so nothing stale from an earlier
 encode survives. Audio frames are untouched — tagging is a metadata rewrite,
 checked by comparing the decoded audio's MD5 before and after (FLAC's
@@ -92,8 +125,8 @@ STREAMINFO MD5 for the masters, `ffmpeg -f md5` for the MP3s).
 
 `scripts/tag-songs.ts`, under `tsx` from the app directory like
 `music:scaffold`, so it reads the catalogue through `src/`'s own model —
-titles, artists, albums, people's spellings, lyrics, `songPicture` — rather
-than re-parsing frontmatter. Tags are written with
+titles, artists, albums, people's spellings, lyrics, `songPicture`,
+`songFileName` — rather than re-parsing frontmatter. Tags are written with
 [`node-taglib-sharp`](https://www.npmjs.com/package/node-taglib-sharp), which
 handles ID3v2 and Xiph comments with pictures in-process; the first song's
 output is checked against `ffprobe` and `metaflac` before the batch runs.
@@ -102,26 +135,27 @@ Per repository, with no clone (the organization holds 39 GB of history):
 
 1. Download each song's master and MP3 copy from `raw.githubusercontent.com`
    into `tmp/music-tag/`, one repository at a time, deleted after.
-2. Tag them, rename them, verify the audio MD5 is unchanged.
+2. Tag them and verify the audio MD5 is unchanged.
 3. Push through the Git Data API: one blob per file, one tree on the current
-   head adding the new names, one commit
-   (`chore: name and tag the masters for download`), fast-forward `main`.
-   The README's mentions of the old names are rewritten in the same tree.
+   head entering that blob under every name the song's pages derive, one
+   commit (`chore: name and tag the masters for download`), fast-forward the
+   branch. The README's mentions of the old names are rewritten in the same
+   tree.
 4. Rewrite the song document's `audio:`, `mp3.url` and `mp3.bytes` (tagging
    changes the size; `seconds` does not move).
 5. Record the song in `apps/vova/public/music/tag-renders.json`: the hash of
-   every input the tags were built from, beside the names written.
+   every input the tags were built from, and the names written.
 
 **Re-runnable and resumable.** A song whose inputs hash to its manifest entry
 is skipped, so a run interrupted by GitHub's content-creation rate limit
 (about 500 writes an hour, and this is roughly 600) picks up where it stopped,
 and the script paces its writes to stay under it.
 
-**The manifest keeps the tags current**, as `og-renders.json` keeps the cards:
-`pnpm music:tag --check`, wired into `vet.sh`, fails offline when a song's
-title, album, credits, lyrics or cover changed since its files were tagged,
-naming the songs to re-run. Without it a renamed album would ship with the
-old name inside every file and nothing would say so.
+**The manifest keeps the files current**, as `og-renders.json` keeps the
+cards: `pnpm music:tag --check`, wired into `vet.sh`, fails offline when a
+song's title, album, credits, lyrics or cover changed since its files were
+tagged, naming the songs to re-run; the build's own check above covers the
+names.
 
 ## The two vendored songs
 
@@ -129,13 +163,19 @@ Every song plays from `vovas-music`, so the two MP3s under
 `apps/vova/public/music/assets/` move there before the run, and this repo
 loses both files:
 
-- **`hello-human`** is already there: `vovas-music/machines`'
-  `protintro.mp3` is the same file byte for byte (SHA-1 `4c32eeb0…`). Its
-  frontmatter gains `repo: 'machines'` and points `audio:` there.
+- **`hello-human`** goes to `vovas-music/machines`, beside the track it runs
+  into: it is the intro of `prototypes`, track 1 with `segue: true` into
+  `trust-in-the-machine`, track 2, which `machines` already holds — and
+  `machines`' `protintro.mp3` is the same file byte for byte (SHA-1
+  `4c32eeb0…`). Its frontmatter gains `repo: 'machines'` and points
+  `audio:` there; `machines`' README names it as the intro and says which
+  track it runs into.
 - **`ghostly-blues`** gets `vovas-music/ghostly-blues` (`gh repo create
-  --public`, its slug by `songs.md`'s rule), holding the MP3 and a README
-  naming it; what it was made from is not in this repo, so the README says
-  so rather than inventing a provenance. `repo:` and `audio:` follow.
+  --public`, its slug by `songs.md`'s rule), as each of
+  `for-none-and-for-all`'s other songs has a repository of its own. It holds
+  the MP3 and a README naming it; what it was made from is not in this repo,
+  so the README says so rather than inventing a provenance. `repo:` and
+  `audio:` follow.
 
 Both are MP3 masters, so they join the run as the 13 others do.
 
@@ -144,11 +184,11 @@ Both are MP3 masters, so they join the run as the 13 others do.
 Raw URLs answer as soon as a commit lands, and the site keeps serving the old
 names until this branch deploys. So:
 
-1. **Add** — the run above commits the new files beside the old ones.
+1. **Add** — the run above commits the new paths beside the old ones.
    The live site keeps working; the branch points at the new names.
 2. **Prune, after the merge deploys** — `pnpm music:tag --prune` deletes, per
-   repository, the old master and copy that no song document on `main` names
-   any more, in one commit each. It runs in the session that merges, as its
+   repository, every master and copy path that no song on `main` derives any
+   more, in one commit each. It runs in the session that merges, as its
    last step; until then a repository holds both, which costs only clutter.
 
 ## Accepted costs
@@ -156,7 +196,8 @@ names until this branch deploys. So:
 - **History grows by every file re-uploaded**: tagging changes the bytes, so
   each repository gains a new blob of its master and copy — about 5 GB across
   the organization, and `nsfl` (934 MB today) passes GitHub's 1 GB
-  recommendation at about 1.3 GB, still far under its 5 GB one.
+  recommendation at about 1.3 GB, still far under its 5 GB one. The extra
+  names add nothing to it.
 - **Every podcast enclosure URL changes once.** The feed item's guid is the
   song page, so a podcast app sees the same episode with a new file, not a new
   episode.
@@ -170,9 +211,10 @@ names until this branch deploys. So:
   still produces `<stem>.flac` and `<stem>.master.mp3`, which
   `music:scaffold` reads, and the tag run renames them. A new song therefore
   ends with `pnpm music:tag <slug>`.
-- `.claude/rules/songs.md`: a sentence that tag inputs are frontmatter and
-  `--check` fails when they drift. The rule is path-scoped, so it is edited in
-  place rather than staged.
+- `.claude/rules/songs.md`: a sentence that a song's file names are derived
+  and its tags written from the frontmatter, and that the build and
+  `--check` fail when either drifts. The rule is path-scoped, so it is edited
+  in place rather than staged.
 - `scripts/vet.sh`: the `--check` step. `node-taglib-sharp` is a
   devDependency, so the install hook covers it with no setup-script change.
 
@@ -180,14 +222,19 @@ names until this branch deploys. So:
 
 - [ ] Add `node-taglib-sharp`; spike it on `boom` in `tmp/`, read the result
       back with `ffprobe`/`metaflac`, confirm the audio MD5.
-- [ ] Write `scripts/tag-songs.ts` (name, tags, upload, frontmatter, manifest,
-      `--check`, `--prune`) and its test for the pure parts — the file name
-      and character replacement, the artist credit, the tag set from a
-      frontmatter fixture.
-- [ ] Move the vendored songs: create `vovas-music/ghostly-blues`, point
-      `hello-human` at `machines`' `protintro.mp3`, delete both MP3s here.
-- [ ] Run it on `boom`, have the operator download both files from the
-      branch's preview and look at them in a player.
+- [ ] Write `songFileName` with its test — the spellings per locale and
+      script, the artist credit, the character replacement, a locale that
+      renames the song.
+- [ ] Write `scripts/tag-songs.ts` (tags, upload, frontmatter, manifest,
+      `--check`, `--prune`) and its test for the tag set from a frontmatter
+      fixture.
+- [ ] `SongFileLink` and the feed links on derived names; the build's
+      name-against-manifest check.
+- [ ] Move the vendored songs: `hello-human` into `machines` with its README
+      line, `vovas-music/ghostly-blues` created, both MP3s deleted here.
+- [ ] Run it on `boom` and `snow-is-falling`, have the operator download
+      each spelling from the branch's preview and look at the files in a
+      player.
 - [ ] Run the rest; commit the frontmatter and manifest in batches.
 - [ ] Wire `--check` into `vet.sh`; update `song-intake/CLAUDE.md` and
       `songs.md`.
@@ -195,9 +242,15 @@ names until this branch deploys. So:
 
 ## DRY notes
 
+- **One function names every file**: `songFileName` sits in
+  `shared/music-catalogue`, which both the page and the tag script import,
+  so the name a link asks for and the name a commit wrote cannot disagree;
+  the manifest and the build's check catch the one way they still can, a
+  frontmatter edit between runs.
 - **Reused:** the catalogue model in `src/shared/music-catalogue` and
   `src/pages/music/lib` for every tag value (titles, artist names, people's
-  spellings, `songPicture`), so a tag can never disagree with the page;
+  spellings, `songPicture`), so a tag can never disagree with the page; the
+  `data-spelling` mechanism `Spelling` already uses, for the links;
   `scaffold-song.ts`'s `raw()` URL shape and `json()` fetch helper, moved to a
   small `scripts/lib/vovas-music.ts` both scripts import; `content-hash.ts`
   for the manifest's hashes.
@@ -206,27 +259,32 @@ names until this branch deploys. So:
   SVG→PNG inputs; extracting a generic "render manifest" for two callers
   whose inputs differ entirely would be an abstraction over a dictionary of
   hashes, so the tag manifest is its own ~30 lines.
-- **Not extracted:** the beets character table lives in the tag script — no
-  second caller names files for a filesystem.
+- **Not extracted:** the beets character table lives beside `songFileName` —
+  no second caller names files for a filesystem.
 
 ## Questions
 
 Each has a recommendation, written into the plan above; silence keeps it.
 
 - **1. Order** — (a) `Artist - Title` *(recommended, the industry default)*;
-   (b) `Title - Artist`.
+  (b) `Title - Artist`.
 - **3. Lyrics in the files** — (a) embed the sung column *(recommended: Apple
-   Music, foobar2000 and most phone players show them)*; (b) leave them out,
-   so a lyrics edit never needs a re-tag.
+  Music, foobar2000 and most phone players show them)*; (b) leave them out,
+  so a lyrics edit never needs a re-tag.
 - **6. Script of the embedded lyrics** — (a) as sung, Cyrillic or Arabic
-   *(recommended: the words for someone singing along)*; (b) the Latin
-   section where the song has one (`lyrics:ar-latn`), Russian romanized by
-   rule otherwise, to match the names.
+  *(recommended: the words for someone singing along)*; (b) the Latin
+  section where the song has one (`lyrics:ar-latn`), Russian romanized by
+  rule otherwise.
+- **7. Tags per spelling** — (a) one set, names in Latin, every name a path
+  to the same bytes *(recommended: no storage beyond the re-upload, and
+  Latin is the spelling every listener reads)*; (b) a file per spelling,
+  each tagged in its own, which doubles the history growth to about 10 GB
+  and the upload time with it.
 
-Settled with the operator: names in Latin, both in the file name and the
-tags, over the song's own script, which a listener who does not read it
-cannot read; the vendored songs move to `vovas-music` rather than keeping
-their `download` attribute; the old files are pruned after deploy rather than
-kept for links copied before.
+Settled with the operator: the download name follows the page's locale and
+script chip, rather than one Latin name for everyone; the vendored songs move
+to `vovas-music`, `hello-human` into `machines` beside the track it runs
+into; the old files are pruned after deploy rather than kept for links copied
+before.
 
 This fits one session; no split.
