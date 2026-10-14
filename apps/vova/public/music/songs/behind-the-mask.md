@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'mask'
 audio: https://raw.githubusercontent.com/vovas-music/mask/main/mask.flac
 seconds: 208
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/mask/main/mask.master.mp3
+  bytes: 8322704
 explicit: false
 album: pschpthy
 track: 5

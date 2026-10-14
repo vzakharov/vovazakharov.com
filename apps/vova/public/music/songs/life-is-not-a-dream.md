@@ -7,6 +7,9 @@ project: ['Полуживые', 'за/обложкой', 'GENERATED']
 repo: 'bronte'
 audio: https://raw.githubusercontent.com/vovas-music/bronte/main/bronte.flac
 seconds: 194
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/bronte/main/bronte.master.mp3
+  bytes: 7782552
 explicit: false
 album: ctfu
 track: 9

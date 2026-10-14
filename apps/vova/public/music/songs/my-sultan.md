@@ -7,6 +7,9 @@ project: ['Полуживые']
 repo: 'sultan'
 audio: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.flac
 seconds: 232
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.master.mp3
+  bytes: 9270446
 explicit: false
 album: father-river
 track: 3

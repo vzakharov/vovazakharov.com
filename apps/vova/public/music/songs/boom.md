@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'boom'
 audio: https://raw.githubusercontent.com/vovas-music/boom/main/boom.flac
 seconds: 212
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/boom/main/boom.master.mp3
+  bytes: 8476294
 explicit: false
 album: pschpthy
 track: 3

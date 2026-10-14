@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'ink'
 audio: https://raw.githubusercontent.com/vovas-music/ink/main/ink.flac
 seconds: 208
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/ink/main/ink.master.mp3
+  bytes: 8322692
 explicit: false
 album: let-the-stories-spin
 track: 1

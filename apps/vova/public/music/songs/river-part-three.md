@@ -7,6 +7,9 @@ project: ['Полуживые']
 repo: 'otter'
 audio: https://raw.githubusercontent.com/vovas-music/otter/main/otter.flac
 seconds: 212
+podcast:
+  url: https://raw.githubusercontent.com/vovas-music/otter/main/otter.master.mp3
+  bytes: 8479475
 explicit: false
 album: father-river
 track: 7
