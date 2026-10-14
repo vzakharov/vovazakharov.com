@@ -66,7 +66,13 @@ run's, then `git/commits` and the ref; the raw URL served the file;
 `/tmp/…/scratchpad/api_push_spike.py` (gone with the container) — the
 recipe is the sentence above.
 
-**The API transport is built, not yet run**: `commitStaged` publishes through
+**`boom` and `snow-is-falling` are tagged for real** (5734d94), under the
+operator's permission «Разрешаю запускать pnpm music:masters (tag, prune, get,
+put, create) — он пишет в репозитории организации vovas-music через GitHub
+API.» and an allow rule for the command in `.claude/settings.json`; the raw
+URLs serve the new names. Item 6's download check by the operator is next.
+
+**The API transport**: `commitStaged` publishes through
 `publishHead` in `scripts/lib/music-repo.ts` (each new blob checked against
 its local SHA, the tree against the clone's), and every operation on the
 organization is one script, `pnpm music:masters` (`tag`, `check`, `prune`,
