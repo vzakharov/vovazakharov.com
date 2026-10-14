@@ -31,14 +31,33 @@ and of item 3:
 **Left of item 3:** the first real push (blocked, below), which also proves
 pushing from a blobless clone works; then items 4 onward.
 
-**Vet blockers found, not this item's:** `pnpm type-overlap` reports
-overlaps in `song-tags.ts` (`TagSource`/`SongTags` share `language` + `url`,
-which `SiteConfig` and `RssChannel` also declare; `TagRelease`), `MasterFile`,
-`SongTagJob`, `UrlChange` — needs bases (`url`, `language` likely in
-`shared/typings`). `pnpm knip`: `billedArtists`, `songFileName`,
+**`pnpm type-overlap` is clean** (e9e7cd1): `WithUrl`/`WithLanguage` in
+`shared/typings`, `WithSpelledTitle` in `spelling.ts`, `SungWords` in
+`song-text.ts`, `WithExtension` + exported `extensionOf` in `song-files.ts`;
+keys renamed where they only shared a spelling — `TagSource.sungLanguage`,
+`MasterFile.sourcePath`, `SongTagJob.coverPath`, `UrlChange`'s
+`oldUrl`/`newUrl` (the manifest hash still keys the cover as `cover`, so no
+hash moved). Lint is clean on every file the branch touched.
+
+**Vet blocker left:** `pnpm knip`: `billedArtists`, `songFileName`,
 `songFileNames` unused in `shared/music-catalogue/index.ts` until item 4
 consumes them. Billing nit to raise with the operator: the page bills
 two features `A feat. B, C`, `billedArtists` writes `A feat. B & C`.
+
+**Item 4, how it is meant to go** (nothing written yet): `songFiles` in
+`song-files.ts` takes the document plus `songBilling(document, locale)` and
+returns per file an `href` that is a `Spelled` (the `vovas-music` URL's last
+segment replaced by the encoded `songFileNames(…)`), with a site-root path
+left as it is; `SongFileLink` in `song-page.tsx` renders one `TextLink` per
+spelling, each wrapped or attributed `data-spelling` the way `Spelling`
+(`ui/spelling.tsx`) does; the feed's `downloadLinks` (`song-feed.ts`) takes
+`spelledText`'s default for the feed's locale. **Deviation to put to the
+operator:** a hard build check against `tag-renders.json` fails every song
+until the whole run lands, which also breaks the item-6 preview of `boom`
+and `snow-is-falling` alone. Proposed: a song in the manifest must have
+every derived path recorded or the build throws (catches a title edit); a
+song absent from it keeps its frontmatter URLs as today; `--check` in vet
+(item 8) is what refuses a merge with any song untagged.
 
 **Blocked: pushing to `vovas-music`.** The auto-mode classifier refused the
 `tag-spike` test push to `vovas-music/boom` as "Create Public Surface"; the
