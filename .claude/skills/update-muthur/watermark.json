@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "460e11099a57b8317becca6940955e88c0b9bddf",
-  "lastSyncedAt": "2026-10-13",
+  "lastSyncedSha": "0f162751d2584b55cde91905125322b08e7e6a99",
+  "lastSyncedAt": "2026-10-14",
   "optIn": "take every opt-in path unless the operator's request says otherwise — the operator's standing call, 2026-10-08",
   "adopted": [
     {
@@ -15,8 +15,12 @@
       ".claude/rules/stack.md": "rewritten for this repo: this stack's vet roster and why each check is on it, plus the source's three sites a toolchain change wires. The source's clause on what vet.sh exits with no stack yet is the template's — this repo has a stack, and spinoff states the clause where it seeds one."
     },
     ".claude/rules/staging.md",
+    ".claude/rules/markdown.md",
     {
-      ".claude/context-budget/": "adopted whole. `auto-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; the source's `vzakharov` entry is taken verbatim because that operator is this repo's too, and a source entry for any other handle is theirs to set here, not a port."
+      ".claude/rules/markdown-wrap.md": "worded for this repo: the wrap runs through the prettier package.json already pins, as a `proseWrap: always` override in .prettierrc.json that the existing `pnpm format:check` enforces, so the source's scripts/prettier.sh and check-markdown-wrap.sh do not travel. Its scope is agent-facing and repo-doc Markdown; the content trees (apps/*/public/, writing/, docs/music/) keep their line breaks."
+    },
+    {
+      ".claude/context-budget/": "adopted whole, this repo's `MUTHUR_CONTEXT_BUDGET_SUBAGENT` extension included. `manual-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; a source entry for a handle is that operator's to set here, not a port."
     },
     {
       ".claude/costs/": "sessions/ is each repo's own and never synced."
@@ -27,7 +31,7 @@
     },
     ".claude/settings.json",
     {
-      ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands. `file-tools-nudge.py` is verbatim but for its docstring's issue citation, written `vzakharov/muthur#118` so it does not resolve to this repo's own #118."
+      ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands. `file-tools-nudge.py` is verbatim but for its docstring's issue citation, written `vzakharov/muthur#118` so it does not resolve to this repo's own #118. `format-md.sh` calls the prettier under node_modules rather than the source's scripts/prettier.sh."
     },
     {
       ".claude/voice/": "the house rule for writing to a person, imported by CLAUDE.md, plus `operators/` one file per handle. The source marks the entries `rewrite` because its own are its operator's; here that is the same person, so `operators/vzakharov.md` is taken verbatim. A second operator gets a file of their own rather than a rewrite of that one."
