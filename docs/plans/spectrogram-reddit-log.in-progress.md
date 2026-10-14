@@ -14,7 +14,10 @@ Resumed in step 8 on Vova's review of PR #138 (2026-10-14), which answers the si
   - **Tempo is the beats' mean gap**, not the median: gaps are whole onset frames, so at 120 BPM the median snapped to 117 or 123 and drew a false range.
 - **Done — step 7** (ec8e944): all eleven PNGs re-rendered (largest 304 KB), each with its `.txt`; docstring, `scripts/song-intake/CLAUDE.md`, `.claude/rules/maya-reflections.md`.
 - **Step 8, run** (`tmp/sidecar_check.py` in a librosa 1.0.0 venv at `tmp/librosa-venv`, both throwaway): results in `docs/remove-before-merging/sidecar-check.md`. Key agrees on 8 of 11, tempo on 8 of 11; the six disagreements are put to Vova there as numbered questions.
-- **Left — step 8's tail**: for each answer that shows the sidecar wrong, fix the method where the fix is general (not per-song overrides), re-render the affected PNGs and sidecars together, re-run the check. If our-punk-rock is C minor, consider leaving a song's chord line off where power chords leave no third to read. Then Step 3 (`/polish`) and Step 4 (`/pr`).
+- **Done — step 9** (878c431) and **step 11** (the `--split` commit after it), the strips' rows spelled from the song's key.
+- **In flight — step 10 and step 12**, each on a subagent's worktree branch (`kt-fix`, `drums`), to be merged here.
+- **Left — step 13**, then re-render all eleven (each song's `--split` left at middle C unless a render shows a part cut in two), update `sidecar-check.md` with the answers and the re-run, the maya-reflections rule (sidecar chords to be trusted with caution — T08; major/minor over power chords judged by the vocal's third — T03; the section zooms — T10), and a reply on every review thread T01–T11.
+- **Superseded — step 8's tail below** by step 10: for each answer that shows the sidecar wrong, fix the method where the fix is general (not per-song overrides), re-render the affected PNGs and sidecars together, re-run the check. If our-punk-rock is C minor, consider leaving a song's chord line off where power chords leave no third to read. Then Step 3 (`/polish`) and Step 4 (`/pr`).
 
 Four of the five ideas `docs/remove-before-merging/spectrogram-reddit.md` § "Worth building" ranks, in `scripts/song-intake/spectrogram.py`: the tuning fix, tempo, a text sidecar of exact values and a zoomed render. Then every committed spectrogram is re-rendered and gets its sidecar, and the sidecar's numbers are checked against librosa before anyone reads them.
 
@@ -119,7 +122,7 @@ General method changes only, judged on all eleven songs against the known keys a
 
 ### 11. A movable bass/treble split, drawn (review T02)
 
-The split at any note, not only a C: chosen per song where the bass and the accompaniment are farthest apart, with a `--split` override, and drawn as a horizontal dashed line across the spectrogram so a reader sees one instrument cut in two.
+The split at any note, not only a C: `--split E3`, default middle C, drawn as a horizontal dotted line across the spectrogram so a reader sees one instrument cut in two. Not chosen per song: no song-wide valley marks one, since the bass's harmonics fill every semitone up past C5 (checked on hello, birds, world-as-it-is, our-punk-rock).
 
 ### 12. A drum strip (review T09)
 
