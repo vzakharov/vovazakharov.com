@@ -27,27 +27,17 @@ a dossier is touched.
 
 ## Step 1 — Get onto the case-filing branch
 
-First, because the ledger the search starts from is the one on that branch. Open
-PRs touching the docket or the ledger are found by path, since a PR's title need
-not name the site:
+First, because the ledger the search starts from is the one on that branch:
 
 ```bash
-gh pr list --state open --json number,title,isDraft,files \
-  --jq '.[] | select(any(.files[]; .path | startswith("apps/basilisk/public/cases/") or . == "writing/basilisk/case-ledger.md")) | "\(.number) \(.isDraft) \(.title)"'
+scripts/routine-branch.sh cases apps/basilisk/public/cases/ writing/basilisk/case-ledger.md
 ```
 
-Of the drafts it lists:
-
-- **One** → `gh pr checkout <number>`. Merging `main` into it is left to
-  `/finalize`, so Step 3 counts `origin/main`'s cases alongside the branch's,
-  after `git fetch origin main`.
-- **Several** → the oldest, by number; the report names the rest.
-- **None** → branch off `main`, after `git fetch origin main`:
-  `git switch --no-track -c claude/cases-<suffix> origin/main` — untracked, or a
-  bare `git push` later aims at `main`. `<suffix>` is the random tail of the
-  session's own branch name, or six fresh lowercase letters and digits where
-  that name has none — the form `@.claude/skills/branch-rename/SKILL.md` gives,
-  so `/pr` leaves it as is.
+It takes the open draft PR touching the docket or the ledger, or cuts a fresh
+branch off the default one; its header says how it chooses. Other drafts it
+names go in the report. Merging `main` into a taken draft is left to
+`/finalize`, so Step 3 counts `origin/main`'s cases alongside the branch's,
+after `git fetch origin main`.
 
 ## Step 2 — Find
 
