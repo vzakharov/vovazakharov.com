@@ -53,6 +53,7 @@ from pathlib import Path
 import numpy as np
 
 from audio import FLOOR_DB, LOW_HZ, QUIET, SR, TOP_HZ, decode, log_rows, mmss, stft_magnitude
+from drums import LANES, drum_lanes
 from harmony import note_names
 from pitch import NOTE_BAND_HZ, chroma_shares
 from song_facts import measure, sidecar, tempo_label, tuning_label
@@ -62,7 +63,7 @@ TICKS_HZ = (50, 100, 200, 500, 1000, 2000, 5000, 10000)
 # bass's notes stay apart at the cost of a 0.37 s window.
 NFFT = 8192
 STEP_DB = 2.5
-WIDTH_PX, HEIGHT_PX, DPI = 1400, 1100, 100
+WIDTH_PX, HEIGHT_PX, DPI = 1400, 1220, 100
 PLOT_LEFT, PLOT_RIGHT = 0.055, 0.94
 # A song's tuning is in the title when it is this far off A440: past it, a
 # note sits a fifth of the way to its neighbour.
@@ -91,6 +92,10 @@ HUE_FROM = 0.35
 FAINT_GREY = 0.28
 # The envelope's peak and its lighter RMS inside it.
 LEVEL_SHADES = ((0.42, 0.42, 0.42), (0.65, 0.65, 0.65))
+# One hue per drum lane, warm low to cool high, each ramped from black in
+# DRUM_STEPS; none is an octave's hue, since a lane has no octave.
+DRUM_COLOURS = {"kick": "#ff6a3d", "toms": "#ffb347", "snare": "#fff27a", "cymbals": "#9fe8ff"}
+DRUM_STEPS = 8
 
 
 def envelope(x, columns):
@@ -122,6 +127,20 @@ def chroma_image(shares, octave, ramps):
         at = octave == o
         image[at] = ramp[steps[at]]
     return image
+
+
+def drum_ramps():
+    """Per lane, DRUM_STEPS colours from black up to its hue, as (lanes, steps, 3)."""
+    from matplotlib.colors import to_rgb
+
+    t = np.linspace(0, 1, DRUM_STEPS)[:, None]
+    return np.array([t * np.array(to_rgb(DRUM_COLOURS[lane])) for lane in LANES])
+
+
+def drum_image(hits, ramps):
+    """RGB lanes x columns: each cell its lane's ramp, at the step its hits reach."""
+    steps = np.round(hits * (DRUM_STEPS - 1)).astype(int)
+    return ramps[np.arange(len(LANES))[:, None], steps]
 
 
 def envelope_image(peak, rms, rows=128):
@@ -200,13 +219,14 @@ def main():
 
     cmap = plt.get_cmap("magma", round(-FLOOR_DB / STEP_DB))
     fig, axes = plt.subplots(
-        4, 2, figsize=(WIDTH_PX / DPI, HEIGHT_PX / DPI), dpi=DPI, sharex="col",
+        5, 2, figsize=(WIDTH_PX / DPI, HEIGHT_PX / DPI), dpi=DPI, sharex="col",
         gridspec_kw={
-            "height_ratios": (4, 0.8, 1.6, 1.6), "width_ratios": (1, 0.015), "hspace": 0.08, "wspace": 0.01,
+            "height_ratios": (4, 0.8, 1.6, 1.6, 0.8), "width_ratios": (1, 0.015), "hspace": 0.08, "wspace": 0.01,
         },
     )
-    (ax, cax), (wave, spare), (treble, treble_key), (bass, bass_key) = axes
+    (ax, cax), (wave, spare), (treble, treble_key), (bass, bass_key), (kit, kit_spare) = axes
     spare.remove()
+    kit_spare.remove()
 
     # Rows are evenly spaced in octaves, so the image sits on a linear log2(Hz) axis.
     image = ax.imshow(
@@ -277,10 +297,22 @@ def main():
         key.set_yticklabels([f"C{o}" for o in held], fontsize=8)
     treble_key.set_title("octave", fontsize=8)
 
-    bass.set_xlim(t0, t1)
-    bass.xaxis.set_major_locator(MultipleLocator(next(s for s in (60, 30, 15, 5, 2, 1) if duration / s >= 8)))
-    bass.xaxis.set_major_formatter(FuncFormatter(mmss))
-    bass.set_xlabel("time (m:ss)")
+    hits = drum_lanes(x, duration, columns)
+    hits[:, rms < QUIET] = 0
+    kit.imshow(
+        drum_image(hits, drum_ramps()), origin="lower", aspect="auto",
+        extent=(t0, t1, -0.5, len(LANES) - 0.5), interpolation="nearest",
+    )
+    for t in beats:
+        kit.axvline(t, color="white", alpha=0.45, linewidth=0.6)
+    kit.yaxis.set_major_locator(FixedLocator(range(len(LANES))))
+    kit.set_yticklabels(LANES, fontsize=7)
+    kit.set_ylabel("drums")
+
+    kit.set_xlim(t0, t1)
+    kit.xaxis.set_major_locator(MultipleLocator(next(s for s in (60, 30, 15, 5, 2, 1) if duration / s >= 8)))
+    kit.xaxis.set_major_formatter(FuncFormatter(mmss))
+    kit.set_xlabel("time (m:ss)")
     fig.subplots_adjust(left=PLOT_LEFT, right=PLOT_RIGHT, top=0.965, bottom=0.05)
 
     buffer = io.BytesIO()
@@ -292,8 +324,9 @@ def main():
     greys = [round(255 * i / (63 - cmap.N)) for i in range(64 - cmap.N) for _ in range(3)]
     chroma = [round(255 * c) for ramp in ramps.values() for rgb in ramp[1:] for c in rgb]
     shades = [round(255 * c) for rgb in LEVEL_SHADES for c in rgb]
+    kit_steps = [round(255 * c) for ramp in drum_ramps() for rgb in ramp[1:] for c in rgb]
     palette = Image.new("P", (1, 1))
-    palette.putpalette(steps + greys + chroma + shades)
+    palette.putpalette(steps + greys + chroma + shades + kit_steps)
     Image.open(buffer).convert("RGB").quantize(palette=palette, dither=Image.Dither.NONE).save(
         out_png, optimize=True,
     )
