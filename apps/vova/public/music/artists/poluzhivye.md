@@ -1,6 +1,5 @@
 ---
 name: 'Полуживые'
-order: 2
 en:
   name: { translation: 'The Half-Alive' }
 ---

@@ -3,8 +3,8 @@
 /**
  * Generates `src/shared/music-catalogue/names.ts` — the album and artist names
  * a song's frontmatter may use — from the files under
- * `apps/vova/public/music/albums/` and `artists/`. Run it after adding,
- * renaming or reordering one:
+ * `apps/vova/public/music/albums/` and `artists/`. Run it after adding or
+ * renaming one:
  *
  *   pnpm music:codegen
  *
@@ -38,10 +38,7 @@ const OUTPUT = 'src/shared/music-catalogue/names.ts';
  * `artistFrontmatterSchema`, which validates `name` against the union this
  * script writes, so it cannot be what the script reads with.
  */
-const artistNamingSchema = z.object({
-  name: z.string().min(1),
-  order: z.number().int().positive(),
-});
+const artistNamingSchema = z.object({ name: z.string().min(1) });
 
 /** A page's address: lowercase ASCII, words joined by hyphens. */
 const SLUG = /^[\da-z]+(?:-[\da-z]+)*$/;
@@ -76,18 +73,14 @@ function artists(): Array<{ name: string; slug: string }> {
     return { slug, ...parsed.data };
   });
 
-  for (const field of ['name', 'order'] as const) {
-    const values = read.map((artist) => artist[field]);
-    const repeated = values.find(
-      (value, index) => values.indexOf(value) !== index,
-    );
+  const names = read.map(({ name }) => name);
+  const repeated = names.find((name, index) => names.indexOf(name) !== index);
 
-    if (repeated !== undefined) {
-      throw new Error(`Two artists share the ${field} ${String(repeated)}.`);
-    }
+  if (repeated !== undefined) {
+    throw new Error(`Two artists share the name ${repeated}.`);
   }
 
-  return read.toSorted((a, b) => a.order - b.order);
+  return read;
 }
 
 function literal(value: string): string {
@@ -97,7 +90,7 @@ function literal(value: string): string {
 const ARTISTS = artists();
 
 const source = `// Generated from ${MUSIC_DIR}/albums/ and artists/ by \`pnpm music:codegen\`.
-// Add, rename or reorder a file there, not here — the vet run regenerates this
+// Add or rename a file there, not here — the vet run regenerates this
 // file and fails when it had to.
 
 /**
@@ -106,7 +99,7 @@ const source = `// Generated from ${MUSIC_DIR}/albums/ and artists/ by \`pnpm mu
  * \`index.node-safe.ts\`, so it stays free of \`server-only\` and of every barrel.
  */
 
-/** In each artist's \`order\`, which is where the music index lists it. */
+/** By file name; the music index lists them by what they released. */
 export const MUSIC_PROJECT_NAMES = [${ARTISTS.map(({ name }) => literal(name)).join(', ')}] as const;
 
 export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];

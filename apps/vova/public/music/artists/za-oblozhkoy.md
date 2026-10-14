@@ -1,6 +1,5 @@
 ---
 name: 'за/обложкой'
-order: 5
 en:
   name: { translation: 'Behind the Cover' }
 ---

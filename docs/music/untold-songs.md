@@ -4,6 +4,39 @@
 
 136 songs still lack a hook or a story. A line names what its song lacks.
 
+## Дамы и господа
+
+### father-sea
+
+- [Снег](../../apps/vova/public/music/songs/snow.md) — hook, story
+
+### five-romances
+
+- [Моим стихам, написанным так рано…](../../apps/vova/public/music/songs/to-my-poems.md) — hook, story
+- [Под лаской плюшевого пледа…](../../apps/vova/public/music/songs/plush-plaid.md) — hook, story
+- [Мне нравится, что вы больны не мной…](../../apps/vova/public/music/songs/not-lovesick-for-me.md) — hook, story
+- [Я говорю сейчас словами теми…](../../apps/vova/public/music/songs/in-those-words.md) — hook, story
+- [Твоя ль вина, что милый образ твой…](../../apps/vova/public/music/songs/is-it-your-fault.md) — hook, story
+- [Мы вспоминаем тихий снег…](../../apps/vova/public/music/songs/quiet-snow.md) — hook, story
+- [Уж сколько их упало в эту бездну…](../../apps/vova/public/music/songs/requiem.md) — hook, story
+
+### Singles
+
+- [Ты не терзайся…](../../apps/vova/public/music/songs/sonnet-74.md) — hook
+
+## Dead Pixel Lounge
+
+### Singles
+
+- [At the Diner](../../apps/vova/public/music/songs/at-the-diner.md) — hook, story
+
+## Downtemple
+
+### Singles
+
+- [Love (Makes the World Go Round)](../../apps/vova/public/music/songs/love.md) — hook, story
+- [Trisagion](../../apps/vova/public/music/songs/trisagion.md) — hook, story
+
 ## GENERATED
 
 ### ctfu
@@ -95,6 +128,46 @@
 - [My Hope](../../apps/vova/public/music/songs/my-hope.md) — hook, story
 - [مِثْقَال](../../apps/vova/public/music/songs/mithqal.md) — hook, story
 
+## Грёбаный бал
+
+### for-none-and-for-all
+
+- [Просто устал](../../apps/vova/public/music/songs/just-tired.md) — hook, story
+- [На пальцы](../../apps/vova/public/music/songs/onto-fingers.md) — hook
+- [Я куплю тебе дом](../../apps/vova/public/music/songs/buy-you-a-house.md) — hook
+- [Назови меня по имени](../../apps/vova/public/music/songs/call-me-by-name.md) — hook, story
+- [Там](../../apps/vova/public/music/songs/there.md) — hook, story
+- [Метель](../../apps/vova/public/music/songs/dead-man.md) — hook
+- [Призрачный блюз](../../apps/vova/public/music/songs/ghostly-blues.md) — hook, story
+- [Уходи](../../apps/vova/public/music/songs/go-away.md) — hook, story
+- [Окна](../../apps/vova/public/music/songs/windows.md) — hook, story
+
+### stronger-than-love
+
+- [Сколько](../../apps/vova/public/music/songs/how-long.md) — hook, story
+- [Студентка](../../apps/vova/public/music/songs/student-girl.md) — hook
+- [Яд](../../apps/vova/public/music/songs/poison.md) — hook
+- [Доброе утро](../../apps/vova/public/music/songs/good-morning.md) — hook, story
+- [За горизонт](../../apps/vova/public/music/songs/beyond-the-horizon.md) — hook, story
+
+## Иске Кормаш
+
+### Singles
+
+- [Бабай минем](../../apps/vova/public/music/songs/babay-minem.md) — hook, story
+
+## Киндерштайн
+
+### Singles
+
+- [Schadina](../../apps/vova/public/music/songs/schadina.md) — hook, story
+
+## Листопад
+
+### Singles
+
+- [Клокочина](../../apps/vova/public/music/songs/chinaberry.md) — hook, story
+
 ## Полуживые
 
 ### ctfu
@@ -152,41 +225,12 @@
 
 - [Ночной сад](../../apps/vova/public/music/songs/night-garden.md) — hook, story
 
-## Downtemple
+## Trending Today
 
 ### Singles
 
-- [Love (Makes the World Go Round)](../../apps/vova/public/music/songs/love.md) — hook, story
-- [Trisagion](../../apps/vova/public/music/songs/trisagion.md) — hook, story
-
-## Грёбаный бал
-
-### for-none-and-for-all
-
-- [Просто устал](../../apps/vova/public/music/songs/just-tired.md) — hook, story
-- [На пальцы](../../apps/vova/public/music/songs/onto-fingers.md) — hook
-- [Я куплю тебе дом](../../apps/vova/public/music/songs/buy-you-a-house.md) — hook
-- [Назови меня по имени](../../apps/vova/public/music/songs/call-me-by-name.md) — hook, story
-- [Там](../../apps/vova/public/music/songs/there.md) — hook, story
-- [Метель](../../apps/vova/public/music/songs/dead-man.md) — hook
-- [Призрачный блюз](../../apps/vova/public/music/songs/ghostly-blues.md) — hook, story
-- [Уходи](../../apps/vova/public/music/songs/go-away.md) — hook, story
-- [Окна](../../apps/vova/public/music/songs/windows.md) — hook, story
-
-### stronger-than-love
-
-- [Сколько](../../apps/vova/public/music/songs/how-long.md) — hook, story
-- [Студентка](../../apps/vova/public/music/songs/student-girl.md) — hook
-- [Яд](../../apps/vova/public/music/songs/poison.md) — hook
-- [Доброе утро](../../apps/vova/public/music/songs/good-morning.md) — hook, story
-- [За горизонт](../../apps/vova/public/music/songs/beyond-the-horizon.md) — hook, story
-
-## за/обложкой
-
-### Singles
-
-- [Дым](../../apps/vova/public/music/songs/smoke.md) — hook, story
-- [Огоньки](../../apps/vova/public/music/songs/little-lights.md) — hook, story
+- [Like That](../../apps/vova/public/music/songs/like-that.md) — hook, story
+- [Ok Loser](../../apps/vova/public/music/songs/ok-loser.md) — hook, story
 
 ## Yoohie
 
@@ -209,53 +253,9 @@
 
 - [Чих-Пых](../../apps/vova/public/music/songs/chikh-pykh.md) — hook, story
 
-## Trending Today
+## за/обложкой
 
 ### Singles
 
-- [Like That](../../apps/vova/public/music/songs/like-that.md) — hook, story
-- [Ok Loser](../../apps/vova/public/music/songs/ok-loser.md) — hook, story
-
-## Дамы и господа
-
-### father-sea
-
-- [Снег](../../apps/vova/public/music/songs/snow.md) — hook, story
-
-### five-romances
-
-- [Моим стихам, написанным так рано…](../../apps/vova/public/music/songs/to-my-poems.md) — hook, story
-- [Под лаской плюшевого пледа…](../../apps/vova/public/music/songs/plush-plaid.md) — hook, story
-- [Мне нравится, что вы больны не мной…](../../apps/vova/public/music/songs/not-lovesick-for-me.md) — hook, story
-- [Я говорю сейчас словами теми…](../../apps/vova/public/music/songs/in-those-words.md) — hook, story
-- [Твоя ль вина, что милый образ твой…](../../apps/vova/public/music/songs/is-it-your-fault.md) — hook, story
-- [Мы вспоминаем тихий снег…](../../apps/vova/public/music/songs/quiet-snow.md) — hook, story
-- [Уж сколько их упало в эту бездну…](../../apps/vova/public/music/songs/requiem.md) — hook, story
-
-### Singles
-
-- [Ты не терзайся…](../../apps/vova/public/music/songs/sonnet-74.md) — hook
-
-## Иске Кормаш
-
-### Singles
-
-- [Бабай минем](../../apps/vova/public/music/songs/babay-minem.md) — hook, story
-
-## Киндерштайн
-
-### Singles
-
-- [Schadina](../../apps/vova/public/music/songs/schadina.md) — hook, story
-
-## Dead Pixel Lounge
-
-### Singles
-
-- [At the Diner](../../apps/vova/public/music/songs/at-the-diner.md) — hook, story
-
-## Листопад
-
-### Singles
-
-- [Клокочина](../../apps/vova/public/music/songs/chinaberry.md) — hook, story
+- [Дым](../../apps/vova/public/music/songs/smoke.md) — hook, story
+- [Огоньки](../../apps/vova/public/music/songs/little-lights.md) — hook, story

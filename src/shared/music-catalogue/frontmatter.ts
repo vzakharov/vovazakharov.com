@@ -112,14 +112,12 @@ export const albumFrontmatterSchema = z
 
 /**
  * An artist's frontmatter, a key per locale as a song's. Its slug is its file
- * name; `name` and `order` are what `pnpm music:codegen` reads.
+ * name; `name` is what `pnpm music:codegen` reads.
  */
 export const artistFrontmatterSchema = z
   .object({
     /** The name a song's `project` bills it by. */
     name: projectSchema,
-    /** Where the music index lists it, lowest first. */
-    order: z.number().int().positive(),
   })
   .extend(
     byLocale(() =>

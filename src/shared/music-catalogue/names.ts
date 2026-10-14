@@ -1,5 +1,5 @@
 // Generated from apps/vova/public/music/albums/ and artists/ by `pnpm music:codegen`.
-// Add, rename or reorder a file there, not here — the vet run regenerates this
+// Add or rename a file there, not here — the vet run regenerates this
 // file and fails when it had to.
 
 /**
@@ -8,38 +8,38 @@
  * `index.node-safe.ts`, so it stays free of `server-only` and of every barrel.
  */
 
-/** In each artist's `order`, which is where the music index lists it. */
+/** By file name; the music index lists them by what they released. */
 export const MUSIC_PROJECT_NAMES = [
-  'GENERATED',
-  'Полуживые',
-  'Downtemple',
-  'Грёбаный бал',
-  'за/обложкой',
-  'Yoohie',
-  'Trending Today',
   'Дамы и господа',
+  'Dead Pixel Lounge',
+  'Downtemple',
+  'GENERATED',
+  'Грёбаный бал',
   'Иске Кормаш',
   'Киндерштайн',
-  'Dead Pixel Lounge',
   'Листопад',
+  'Полуживые',
+  'Trending Today',
+  'Yoohie',
+  'за/обложкой',
 ] as const;
 
 export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
 
 /** Each artist's address under `/music/artists/`, its file's name. */
 export const MUSIC_PROJECT_SLUGS = {
-  GENERATED: 'generated',
-  Полуживые: 'poluzhivye',
-  Downtemple: 'downtemple',
-  'Грёбаный бал': 'grebanyy-bal',
-  'за/обложкой': 'za-oblozhkoy',
-  Yoohie: 'yoohie',
-  'Trending Today': 'trending-today',
   'Дамы и господа': 'damy-i-gospoda',
+  'Dead Pixel Lounge': 'dead-pixel-lounge',
+  Downtemple: 'downtemple',
+  GENERATED: 'generated',
+  'Грёбаный бал': 'grebanyy-bal',
   'Иске Кормаш': 'iske-kormash',
   Киндерштайн: 'kinderstein',
-  'Dead Pixel Lounge': 'dead-pixel-lounge',
   Листопад: 'listopad',
+  Полуживые: 'poluzhivye',
+  'Trending Today': 'trending-today',
+  Yoohie: 'yoohie',
+  'за/обложкой': 'za-oblozhkoy',
 } as const satisfies Record<MusicProject, string>;
 
 /** Each one the address of the album's page under `/music/albums/`, its file's name. */

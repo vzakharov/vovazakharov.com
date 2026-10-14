@@ -125,18 +125,38 @@ function artistAlbums(
 }
 
 /**
- * The artists with a song or an album in this catalogue, in their `order`. An
+ * The artists with a song or an album in this catalogue, the one billed on the
+ * most songs first; between equals, the one whose latest song is newer. An
  * album counts in either language, so every artist an album page links to has
  * a page.
  */
 export function catalogueArtists(
   songs: readonly SongDocument[],
 ): MusicProject[] {
-  return MUSIC_PROJECT_NAMES.filter(
-    (artist) =>
-      artistSongs(artist, songs).length > 0 ||
-      LOCALES.some((locale) => artistAlbums(artist, locale, songs).length > 0),
-  );
+  const ranked = MUSIC_PROJECT_NAMES.map((artist) => {
+    const billed = artistSongs(artist, songs);
+
+    return {
+      artist,
+      count: billed.length,
+      // 0 for an artist listed by an album alone, which then sorts last.
+      latest: Math.max(
+        0,
+        ...billed.map(({ frontmatter }) => frontmatter.date.getTime()),
+      ),
+    };
+  });
+
+  return ranked
+    .filter(
+      ({ artist, count }) =>
+        count > 0 ||
+        LOCALES.some(
+          (locale) => artistAlbums(artist, locale, songs).length > 0,
+        ),
+    )
+    .toSorted((a, b) => b.count - a.count || b.latest - a.latest)
+    .map(({ artist }) => artist);
 }
 
 /** What an artist put out: an album, or a song on none, which is its own release. */
