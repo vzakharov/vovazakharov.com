@@ -28,8 +28,8 @@ describe('rewriteSongDocument', () => {
       rewriteSongDocument(
         DOCUMENT,
         [
-          { from: FLAC, to: NEW_FLAC },
-          { from: MP3, to: NEW_MP3 },
+          { oldUrl: FLAC, newUrl: NEW_FLAC },
+          { oldUrl: MP3, newUrl: NEW_MP3 },
         ],
         8_501_234,
       ),
@@ -49,14 +49,19 @@ explicit: false
     const master = `audio: ${MP3}\nmp3:\n  bytes: 2274152\nexplicit: false\n`;
 
     assert.equal(
-      rewriteSongDocument(master, [{ from: MP3, to: NEW_MP3 }], 2_300_000),
+      rewriteSongDocument(
+        master,
+        [{ oldUrl: MP3, newUrl: NEW_MP3 }],
+        2_300_000,
+      ),
       `audio: ${NEW_MP3}\nmp3:\n  bytes: 2300000\nexplicit: false\n`,
     );
   });
 
   it('throws on a URL the document does not state', () => {
     assert.throws(
-      () => rewriteSongDocument(DOCUMENT, [{ from: NEW_MP3, to: MP3 }], 1),
+      () =>
+        rewriteSongDocument(DOCUMENT, [{ oldUrl: NEW_MP3, newUrl: MP3 }], 1),
       /No frontmatter line states/,
     );
   });

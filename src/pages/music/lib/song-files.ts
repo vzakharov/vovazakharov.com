@@ -1,9 +1,12 @@
 import type { SongFrontmatter } from '@/shared/music-catalogue';
 import type { Linked } from '@/shared/typings';
 
-export type SongFile = Linked & { extension: string };
+/** A file's extension, lowercase and without its dot. */
+export type WithExtension = { extension: string };
 
-function extensionOf(href: string): string {
+export type SongFile = Linked & WithExtension;
+
+export function extensionOf(href: string): string {
   return href.slice(href.lastIndexOf('.') + 1).toLowerCase();
 }
 

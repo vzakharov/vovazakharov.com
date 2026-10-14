@@ -5,21 +5,24 @@
  * script they are sung in, the words someone reading along sings.
  */
 
-import { inlineRuns } from '@/pages/music/lib/lyric-inline';
+import { pick } from '@/shared/lib/collections';
 import {
   billedArtists,
   type SongBilling,
   type Spelled,
   spelledText,
+  type WithSpelledTitle,
 } from '@/shared/music-catalogue/index.node-safe';
 import {
   type CreditedName,
   SONG_AUTHOR,
 } from '@/shared/music-catalogue/people';
+import type { Titled, WithLanguage, WithUrl } from '@/shared/typings';
+
+import { inlineRuns } from '@/pages/music/lib/lyric-inline';
 
 /** Where on a release the song sits, and what the release is. */
-type TagRelease = {
-  title: Spelled;
+type TagRelease = WithSpelledTitle & {
   artist: Spelled;
   track: number;
   /** The release's highest track number, which a gap in the catalogue does not lower. */
@@ -27,34 +30,35 @@ type TagRelease = {
 };
 
 /** A song's catalogue facts, resolved but not yet spelled. */
-export type TagSource = SongBilling & {
-  release?: TagRelease;
-  date: Date;
-  /** The language sung first, as the frontmatter names it. */
-  language: string;
-  credits?: { lyrics?: CreditedName[]; music?: CreditedName[] };
-  /** The sung column's stanzas, each a line of verse as authored. */
-  stanzas?: readonly (readonly string[])[];
+export type TagSource = SongBilling &
   /** The canonical song page. */
-  url: string;
-};
+  WithUrl & {
+    release?: TagRelease;
+    date: Date;
+    /** The language sung first, as the frontmatter names it. */
+    sungLanguage: string;
+    credits?: { lyrics?: CreditedName[]; music?: CreditedName[] };
+    /** The sung column's stanzas, each a line of verse as authored. */
+    stanzas?: ReadonlyArray<readonly string[]>;
+  };
 
-/** What a file is tagged with — the writer's whole input, so its hash is the manifest's. */
-export type SongTags = {
-  title: string;
-  artist: string;
-  album?: string;
-  albumArtist?: string;
-  track?: number;
-  trackTotal?: number;
-  year: number;
-  /** ISO 639-2, which ID3's `TLAN` and `USLT` take. */
-  language: string;
-  lyricists: string[];
-  composers: string[];
-  lyrics?: string;
-  url: string;
-};
+/**
+ * What a file is tagged with — the writer's whole input, so its hash is the
+ * manifest's. Its `language` is ISO 639-2, which ID3's `TLAN` and `USLT` take.
+ */
+export type SongTags = Titled &
+  WithLanguage &
+  WithUrl & {
+    artist: string;
+    album?: string;
+    albumArtist?: string;
+    track?: number;
+    trackTotal?: number;
+    year: number;
+    lyricists: string[];
+    composers: string[];
+    lyrics?: string;
+  };
 
 /**
  * ISO 639-2's bibliographic codes, the set taggers write. `zxx` is its "no
@@ -109,7 +113,7 @@ function lyricsText(stanzas: TagSource['stanzas']): string | undefined {
 }
 
 export function buildTags(source: TagSource): SongTags {
-  const { title, artists, release, date, language, credits, stanzas, url } =
+  const { title, artists, release, date, sungLanguage, credits, stanzas, url } =
     source;
   const lyrics = lyricsText(stanzas);
 
@@ -119,11 +123,11 @@ export function buildTags(source: TagSource): SongTags {
     ...(release && {
       album: spelledText(release.title),
       albumArtist: spelledText(release.artist),
-      track: release.track,
+      ...pick(release, 'track'),
       trackTotal: release.total,
     }),
     year: date.getUTCFullYear(),
-    language: languageCode(language),
+    language: languageCode(sungLanguage),
     lyricists: credited(credits?.lyrics),
     composers: credited(credits?.music),
     ...(lyrics !== undefined && { lyrics }),

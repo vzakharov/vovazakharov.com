@@ -4,7 +4,7 @@
  * renamed.
  */
 
-export type UrlChange = { from: string; to: string };
+export type UrlChange = { oldUrl: string; newUrl: string };
 
 const MP3_BYTES = /^(mp3:\n(?: {2}.*\n)*? {2}bytes: )\d+$/m;
 
@@ -20,15 +20,15 @@ export function rewriteSongDocument(
 ): string {
   const lines = markdown.split('\n');
 
-  for (const { from, to } of changes) {
+  for (const { oldUrl, newUrl } of changes) {
     const at = lines.findIndex(
-      (line) => /^ *[a-z]+: /.test(line) && line.endsWith(`: ${from}`),
+      (line) => /^ *[a-z]+: /.test(line) && line.endsWith(`: ${oldUrl}`),
     );
     const line = lines[at];
 
     if (line === undefined)
-      throw new Error(`No frontmatter line states ${from}`);
-    lines[at] = `${line.slice(0, -from.length)}${to}`;
+      throw new Error(`No frontmatter line states ${oldUrl}`);
+    lines[at] = `${line.slice(0, -oldUrl.length)}${newUrl}`;
   }
 
   const urled = lines.join('\n');

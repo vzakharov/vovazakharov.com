@@ -15,6 +15,7 @@ import {
   songFileName,
   songFileNames,
 } from '@/shared/music-catalogue/index.node-safe';
+import type { WithUrl } from '@/shared/typings';
 
 import { songPlacements } from '@/pages/music/lib/album-tracks';
 import { albumArtist, albumTitle } from '@/pages/music/lib/albums';
@@ -22,6 +23,7 @@ import { projectName } from '@/pages/music/lib/artists';
 import { entryText } from '@/pages/music/lib/lyric-notes';
 import { songPath } from '@/pages/music/lib/music-urls';
 import { songPicture } from '@/pages/music/lib/pictures';
+import { extensionOf, type WithExtension } from '@/pages/music/lib/song-files';
 import { type SongDocument, sungStanzas } from '@/pages/music/lib/song-text';
 import { listSongPages, songBilling } from '@/pages/music/lib/songs';
 
@@ -39,23 +41,21 @@ type RepoLocation = RepoBranch & {
   directory: string;
 };
 
-export type MasterFile = RepoLocation & {
-  field: MasterField;
-  /** The URL the frontmatter states now. */
-  url: string;
-  /** The repository path that URL serves. */
-  source: string;
-  extension: string;
-  /** Every name a page saves it under, the frontmatter's own first. */
-  names: [string, ...string[]];
-};
+/** `url` is the one the frontmatter states now. */
+export type MasterFile = RepoLocation &
+  WithUrl &
+  WithExtension & {
+    field: MasterField;
+    /** The repository path that URL serves. */
+    sourcePath: string;
+    /** Every name a page saves it under, the frontmatter's own first. */
+    names: [string, ...string[]];
+  };
 
-export type SongTagJob = {
-  slug: string;
-  fileName: string;
+export type SongTagJob = Pick<SongDocument, 'slug' | 'fileName'> & {
   tags: SongTags;
   /** On disk, the JPEG the song's page shows. */
-  cover?: string;
+  coverPath?: string;
   files: MasterFile[];
 };
 
@@ -139,15 +139,15 @@ function masterFiles(document: SongDocument): MasterFile[] {
 
     if (location === null) return [];
 
-    const { path: source, ...where } = location;
-    const extension = source.slice(source.lastIndexOf('.') + 1).toLowerCase();
+    const { path: sourcePath, ...where } = location;
+    const extension = extensionOf(sourcePath);
 
     return [
       {
         ...where,
         field,
         url,
-        source,
+        sourcePath,
         extension,
         names: fileNames(document, extension),
       },
@@ -192,7 +192,7 @@ function tagSource(
         },
       }),
     date,
-    language: sung,
+    sungLanguage: sung,
     ...(credits && { credits }),
     ...(stanzas && { stanzas }),
     url: getAbsoluteUrl(songPath(slug)),
@@ -215,7 +215,7 @@ export function songTagJobs(publicDir: string): SongTagJob[] {
         ...pick(document, 'slug', 'fileName'),
         tags: buildTags(tagSource(document, songs)),
         ...(picture !== undefined && {
-          cover: path.join(publicDir, picture),
+          coverPath: path.join(publicDir, picture),
         }),
         files,
       },

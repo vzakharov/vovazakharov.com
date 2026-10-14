@@ -15,10 +15,10 @@ const SNOW: TagSource = {
     total: 11,
   },
   date: new Date('2023-12-01'),
-  language: 'ru',
+  sungLanguage: 'ru',
   stanzas: [
     ['Снег идёт', 'И _Poekhali!_ поём'],
-    ['Снег идёт\\!', 'x2'],
+    [String.raw`Снег идёт\!`, 'x2'],
   ],
   url: 'https://vovazakharov.com/music/songs/snow-is-falling',
 };
@@ -51,7 +51,7 @@ describe('buildTags', () => {
       credits: {
         lyrics: [{ en: 'Anna Akhmatova', ru: 'Анна Ахматова' }],
       },
-      language: 'instrumental',
+      sungLanguage: 'instrumental',
     });
 
     assert.equal(tags.artist, 'GENERATED feat. Poluzhivye');
@@ -63,6 +63,9 @@ describe('buildTags', () => {
   });
 
   it('refuses a language it has no code for', () => {
-    assert.throws(() => buildTags({ ...SNOW, language: 'xx' }), /ISO_639_2/);
+    assert.throws(
+      () => buildTags({ ...SNOW, sungLanguage: 'xx' }),
+      /ISO_639_2/,
+    );
   });
 });

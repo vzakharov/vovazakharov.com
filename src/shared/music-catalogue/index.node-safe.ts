@@ -20,4 +20,5 @@ export {
   type Spelled,
   spelledText,
   type WithSpelledName,
+  type WithSpelledTitle,
 } from './spelling.ts';

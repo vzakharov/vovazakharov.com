@@ -1,19 +1,22 @@
 import type { Script } from '@/shared/lib/script-preference';
 
-import { type Spelled, spelledText } from './spelling.ts';
+import {
+  type Spelled,
+  spelledText,
+  type WithSpelledTitle,
+} from './spelling.ts';
 
 /** Who a song is billed to — the artist first, features after — and what it is called, as one page spells them. */
-export type SongBilling = {
+export type SongBilling = WithSpelledTitle & {
   artists: readonly [Spelled, ...Spelled[]];
-  title: Spelled;
 };
 
 /**
  * beets' default replacements, so a name is legal on every filesystem a
  * listener saves it to.
  */
-const REPLACEMENTS: readonly (readonly [RegExp, string])[] = [
-  [/[\\/<>:"?*|]/g, '_'],
+const REPLACEMENTS: ReadonlyArray<readonly [RegExp, string]> = [
+  [/["*/:<>?\\|]/g, '_'],
   [/\p{Cc}/gu, ''],
   [/^\./, '_'],
   [/\.$/, '_'],
@@ -22,10 +25,13 @@ const REPLACEMENTS: readonly (readonly [RegExp, string])[] = [
 ];
 
 function legal(stem: string): string {
-  return REPLACEMENTS.reduce(
-    (name, [pattern, replacement]) => name.replace(pattern, replacement),
-    stem.normalize('NFC'),
-  );
+  let name = stem.normalize('NFC');
+
+  for (const [pattern, replacement] of REPLACEMENTS) {
+    name = name.replace(pattern, replacement);
+  }
+
+  return name;
 }
 
 /** `A feat. B & C` — the form taggers and MusicBrainz credit features in. */

@@ -91,12 +91,14 @@ function writeManifest(manifest: Manifest): void {
   );
 }
 
-function jobHash({ tags, cover, files }: SongTagJob): string {
+function jobHash({ tags, coverPath, files }: SongTagJob): string {
   return contentHash(
     JSON.stringify({
       tags,
       cover:
-        cover === undefined ? null : fs.readFileSync(cover).toString('base64'),
+        coverPath === undefined
+          ? null
+          : fs.readFileSync(coverPath).toString('base64'),
       names: files.map(({ directory, names }) => [directory, names]),
     }),
   );
@@ -125,14 +127,16 @@ function tagFile(repo: MusicRepo, job: SongTagJob, file: MasterFile): Buffer {
     `${job.slug}.${file.field}.${file.extension}`,
   );
 
-  fs.writeFileSync(local, readBlob(repo, file.source));
+  fs.writeFileSync(local, readBlob(repo, file.sourcePath));
 
   const before = audioMd5(local);
 
-  writeSongTags(local, job.tags, job.cover);
+  writeSongTags(local, job.tags, job.coverPath);
 
   if (audioMd5(local) !== before) {
-    throw new Error(`Tagging ${file.source} in ${repo.repo} changed its audio`);
+    throw new Error(
+      `Tagging ${file.sourcePath} in ${repo.repo} changed its audio`,
+    );
   }
 
   const tagged = fs.readFileSync(local);
@@ -152,8 +156,8 @@ function renameInReadme(repo: MusicRepo, jobs: readonly SongTagJob[]): void {
 
   const renames = new Map(
     jobs.flatMap(({ files }) =>
-      files.map(({ source, names }): [string, string] => [
-        path.posix.basename(source),
+      files.map(({ sourcePath, names }): [string, string] => [
+        path.posix.basename(sourcePath),
         names[0],
       ]),
     ),
@@ -167,8 +171,11 @@ function renameInReadme(repo: MusicRepo, jobs: readonly SongTagJob[]): void {
 function repointDocument(job: SongTagJob, mp3Bytes: number): void {
   const document = path.join(collectionDir('music'), job.fileName);
   const changes = job.files
-    .map((file) => ({ from: file.url, to: rawUrl(file, file.names[0]) }))
-    .filter(({ from, to }) => from !== to);
+    .map((file) => ({
+      oldUrl: file.url,
+      newUrl: rawUrl(file, file.names[0]),
+    }))
+    .filter(({ oldUrl, newUrl }) => oldUrl !== newUrl);
 
   fs.writeFileSync(
     document,
@@ -260,7 +267,7 @@ function tagRepository(
       paths: [
         ...new Set([
           ...(manifest[job.slug]?.paths ?? []),
-          ...job.files.map(({ repo: at, source }) => `${at}/${source}`),
+          ...job.files.map(({ repo: at, sourcePath }) => `${at}/${sourcePath}`),
           ...job.files.flatMap((file) => derivedPaths(file)),
         ]),
       ].toSorted(),
