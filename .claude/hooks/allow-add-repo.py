@@ -5,7 +5,7 @@ repository belongs to an owner in `OWNERS`, and stay silent otherwise.
 A `permissions.allow` rule on an MCP tool matches its name only, so it would
 allow every repository; this hook is how the allowance narrows to one owner.
 Silence is not a denial: any other call goes through the ordinary permission
-flow, as it would with no hook at all.
+flow.
 """
 
 from __future__ import annotations
