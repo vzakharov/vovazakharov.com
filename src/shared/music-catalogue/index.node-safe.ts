@@ -10,6 +10,7 @@ export type { MusicAlbum, MusicProject } from './name-brands.ts';
 export { MUSIC_ORGANIZATION } from './organization.ts';
 export { romanizeRussian } from './romanize.ts';
 export {
+  needsLatin,
   spell,
   type Spelled,
   spelledText,

@@ -132,7 +132,7 @@ type Tagged = { tag: string };
 type StanzaProps = Tagged & {
   lines: LyricLine[];
   /** Each entry's romanization, where the words have one. */
-  romanized: string[] | undefined;
+  romanized: Array<string | undefined> | undefined;
   keepsScript: boolean;
 };
 

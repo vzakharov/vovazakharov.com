@@ -18,6 +18,7 @@ const SCRIPT_SAMPLES = [
   [/\p{Script=Cyrillic}/u, 'Абв'],
   [/\p{Script=Arabic}/u, 'أبج'],
   [/\p{Script=Greek}/u, 'Αβγ'],
+  [/\p{Script=Han}/u, '一二三'],
 ] as const;
 
 /**
@@ -41,19 +42,6 @@ function unreadable(letter: string, locale: Locale): boolean {
 /** Whether any letter of the text is in a script the locale's readers may not read. */
 export function needsLatin(text: string, locale: Locale): boolean {
   return letters(text).some((letter) => unreadable(letter, locale));
-}
-
-/**
- * Whether most of the text's letters are — the test for a song's words, which
- * go by their main language: a line in a third script inside them, farewell's
- * Chinese among Russian, does not turn the Russian Latin.
- */
-export function mostlyNeedsLatin(text: string, locale: Locale): boolean {
-  const all = letters(text);
-
-  return (
-    all.filter((letter) => unreadable(letter, locale)).length * 2 > all.length
-  );
 }
 
 /**
