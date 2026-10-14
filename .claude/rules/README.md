@@ -20,8 +20,9 @@ directory whose own conventions live in a scoped rule file rather than in its
 
 Two carry the agent loop's own conventions — `stack.md` (what `scripts/vet.sh`
 runs, and what a toolchain change wires) and `staging.md` (editing a file that
-loads on every turn), each spanning paths no one directory holds. The rest are
-this repo's, each scoped to the area it governs.
+loads on every turn), each spanning paths no one directory holds — plus
+`markdown.md` (no tables), the source's opt-in, taken here. The rest are this
+repo's, each scoped to the area it governs.
 
 ## Format
 
@@ -48,11 +49,12 @@ paths:
 
 ## What belongs here vs. in a `CLAUDE.md`
 
-|                                                                                              | Goes in                          |
-| -------------------------------------------------------------------------------------------- | -------------------------------- |
-| Holds everywhere in the repo (commit style, error handling, general principles)              | the root `CLAUDE.md`             |
-| Holds in one directory's files (schema rules under `src/db/`, a directory with a trap in it) | that directory's own `CLAUDE.md` |
-| Holds in files no single directory bounds (`'**/*.test.ts'`, several scattered paths)        | a rule file here                 |
+- **Holds everywhere in the repo** (commit style, error handling, general
+  principles) — the root `CLAUDE.md`.
+- **Holds in one directory's files** (schema rules under `src/db/`, a directory
+  with a trap in it) — that directory's own `CLAUDE.md`.
+- **Holds in files no single directory bounds** (`'**/*.test.ts'`, several
+  scattered paths) — a rule file here.
 
 The test is scope, not importance. A directory's `CLAUDE.md` loads when a rule
 scoped to that directory would — on a read of a file beneath it — and sits where

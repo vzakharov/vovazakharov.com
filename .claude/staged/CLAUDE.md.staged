@@ -71,18 +71,17 @@ In web/remote sessions the plan-mode approval UI and `AskUserQuestion` re-emit t
 - **The plan file's name gates implementation.** While a plan is named `docs/plans/<slug>.draft.do-not-implement.md` you have not been cleared: edit no source. `<slug>.in-progress.md` means a session holds the plan **right now**, so it is not yours; `<slug>.paused.md` is the one a later session resumes. Who flips which name when is `@.claude/skills/plan/SKILL.md` § "Plan file lifecycle".
 - **A new session's opening prompt routes on one question: does it ask for a change to this codebase?** This ladder is the home of that rule; `/task`, `/plan` and `/go` point at it.
 
-  | Opening prompt                                                       | Routes to                                            |
-  | -------------------------------------------------------------------- | ---------------------------------------------------- |
-  | asks for a change — "add a case-study page", with or without a `#55` | `/task`                                              |
-  | asks for no change — "what would a case-study page need?"            | nothing: answer it — no skill covers this, by design |
-  - **The test is the expected deliverable, not the grammar.** "Analyse the latest market trends" is an imperative and still row 2, because nothing in this repo changes.
+  1. **Asks for a change** — "add a case-study page", with or without a `#55` → `/task`.
+  2. **Asks for no change** — "what would a case-study page need?" → nothing: answer it — no skill covers this, by design.
+
+  - **The test is the expected deliverable, not the grammar.** "Analyse the latest market trends" is an imperative and still rung 2, because nothing in this repo changes.
   - **`let's …` is a token collision.** It is on `@.claude/skills/plan/SKILL.md` § "The approval gate"'s go-ahead list, so it is a directive in a session not yet routed and an approval once a draft plan is waiting.
-  - **In doubt, read it as row 2.** Row 2 read as row 1 mutates and commits against a request that wanted an answer, and undoing it is a revert the operator has to ask for; row 1 read as row 2 costs one turn — the operator says "now do it".
+  - **In doubt, read it as rung 2.** Rung 2 read as rung 1 mutates and commits against a request that wanted an answer, and undoing it is a revert the operator has to ask for; rung 1 read as rung 2 costs one turn — the operator says "now do it".
 
   **"No plan" (or equivalent) in the prompt being routed skips `/task`'s Step 1** and enters `@.claude/skills/go/SKILL.md` § "Planless entry" directly — the one thing that overrides the agent's own call.
 
 - **An issue number is a detail of the prompt, not a destination.** A `#<N>` anywhere in it means the thread is exported and read — `@.claude/skills/take-issue/SKILL.md`, which `/task`, `/plan` and `/go` each run first — **before** the routing call, which the thread informs and does not replace.
-- **The first turn that asks for a change is a routing point, wherever it falls.** A session opened on row 2 is answered but not routed, so a later turn asking for a change goes to `/task`, which makes the plan-or-not call against the work as it now stands. The switch is a request whose answer lands as a file in the repo — one that leaves something in `tmp/` is not — and "in doubt, read it as row 2" holds per turn. The call usually lands on no plan; what the route buys is `/go`'s mandatory tail, `/polish` then `/pr`.
+- **The first turn that asks for a change is a routing point, wherever it falls.** A session opened on rung 2 is answered but not routed, so a later turn asking for a change goes to `/task`, which makes the plan-or-not call against the work as it now stands. The switch is a request whose answer lands as a file in the repo — one that leaves something in `tmp/` is not — and "in doubt, read it as rung 2" holds per turn. The call usually lands on no plan; what the route buys is `/go`'s mandatory tail, `/polish` then `/pr`.
 - **Once routed, a session is continued work.** Past the plan's approval gate where the route wrote one, a returning operator's follow-ups are handled **directly** — answered in chat, **requested code changes implemented** — without re-writing the plan file or reopening a plan cycle. A `/from-branch` or `/handle` launch is routed from the start, re-pointing the session at work begun elsewhere: no plan cycle unless the operator explicitly asks to plan a fresh piece of work.
 - Outside web/remote sessions (local CLI), native plan mode and `AskUserQuestion` work fine.
 
