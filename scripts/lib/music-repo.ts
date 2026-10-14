@@ -39,29 +39,57 @@ const GIT_CONFIG = [
 
 const shaReply = z.object({ sha: z.string() });
 
-/** One call to `repos/<organization>/<repo>/<endpoint>`, its JSON reply parsed. */
+/** Tries per call while GitHub answers 5xx — a large blob's upload meets the odd 502. */
+const API_ATTEMPTS = 3;
+
+const sleep = (ms: number): void => {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+};
+
+/**
+ * One call to `repos/<organization>/<repo>/<endpoint>`, its JSON reply parsed.
+ * A 5xx is retried: a publish's writes are content-addressed or a fast-forward
+ * to a known SHA, so repeating one that landed unseen changes nothing, and a
+ * repository created unseen answers the retry with a 422.
+ */
 function githubApi(
   method: 'GET' | 'POST' | 'PATCH',
   endpoint: string,
   body?: unknown,
 ): unknown {
-  const reply = execFileSync(
-    'gh',
-    [
-      'api',
-      '--method',
-      method,
-      endpoint,
-      ...(body === undefined ? [] : ['--input', '-']),
-    ],
-    {
-      input: body === undefined ? undefined : JSON.stringify(body),
-      maxBuffer: 64 * 1024 * 1024,
-      stdio: ['pipe', 'pipe', 'inherit'],
-    },
-  );
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const reply = execFileSync(
+        'gh',
+        [
+          'api',
+          '--method',
+          method,
+          endpoint,
+          ...(body === undefined ? [] : ['--input', '-']),
+        ],
+        {
+          input: body === undefined ? undefined : JSON.stringify(body),
+          maxBuffer: 64 * 1024 * 1024,
+          stdio: ['pipe', 'pipe', 'pipe'],
+        },
+      );
 
-  return JSON.parse(reply.toString('utf8'));
+      return JSON.parse(reply.toString('utf8'));
+    } catch (error) {
+      const stderr = z
+        .object({ stderr: z.instanceof(Buffer) })
+        .safeParse(error)
+        .data?.stderr.toString('utf8');
+
+      if (stderr === undefined) throw error;
+      process.stderr.write(stderr);
+      if (attempt === API_ATTEMPTS || !/\(HTTP 5\d\d\)/.test(stderr)) {
+        throw error;
+      }
+      sleep(5000 * attempt);
+    }
+  }
 }
 
 const repoEndpoint = (repo: string, rest: string): string =>
