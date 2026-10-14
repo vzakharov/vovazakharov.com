@@ -2,6 +2,22 @@
 
 ## Status
 
+**Where it stands (relay 9's session):** items 5 and 7 are done but for two
+songs. `hello-human` points at `machines`' existing `protintro.mp3` (no upload;
+`machines` has no README, so none was added), `vovas-music/ghostly-blues` was
+created with the master and a README, both vendored MP3s are gone, and 168 of
+170 songs are tagged, committed in batches; every frontmatter master URL
+answers 200. `githubApi` retries a 5xx (a 39 MB blob met a 502 once).
+
+**Blocked, on the operator:** `inverno` (45.9 MB FLAC) and `8849` (65.9 MB)
+cannot go up — the Git Data API refuses the blob as too large (HTTP 422; 39.4
+MB passed), and `git push` to `vovas-music` is refused by the session's proxy.
+Options put to him: install the Claude GitHub App on `vovas-music`, so a
+session can push; or run those two from his own machine over a `git push`
+transport. `pnpm music:masters check` (in vet) fails on the two until then.
+**Left:** those two, item 6's QA across players, then `/finalize`, then
+`prune` after the deploy.
+
 Approved (6293ffb). **Done:** checklist items 1–2 (the spike, `songFileName`),
 and of item 3:
 
