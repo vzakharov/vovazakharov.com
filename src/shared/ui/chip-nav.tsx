@@ -25,7 +25,6 @@ export type ChipNavProps = {
 
 export const CURRENT_CHIP_CLASS = cx(classes['chip'], classes['chipCurrent']);
 
-/** The current chip with no job: the row's own label, marked as the page. */
 export function CurrentChip({ label }: Labeled) {
   return (
     <Box component="span" aria-current="page" className={CURRENT_CHIP_CLASS}>
