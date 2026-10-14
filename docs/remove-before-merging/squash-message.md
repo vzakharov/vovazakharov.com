@@ -24,6 +24,9 @@ the one billed on the most songs first, between equals the one whose
 latest song is newer. Every album and artist page links its .md, since
 every one has a file.
 
+ESLint skips .claude/costs/sessions/, where vet's concurrent cost tests
+make and remove directories mid-walk and failed eslint with ENOENT.
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
