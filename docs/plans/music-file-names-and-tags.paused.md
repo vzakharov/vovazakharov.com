@@ -52,7 +52,24 @@ vet's fan-out (fails until every song is tagged, by design), `stack.md`,
 `scripts/tag-songs.ts` — a system tool, so the fix is `ignoreBinaries` in
 `knip.ts`, a suppression that needs their yes.
 
-**Left:** items 5–7 and 9, all behind the push permission.
+**The operator permitted `git push`** (verbatim in
+`docs/remove-before-merging/relay-7.md` § 1, with the message asking for the
+API transport, which writing by API waits on) and the spike ran: **`git push`
+cannot work** — the session's git proxy refuses any repository not in the
+session's sources, and `add_repo` attaches `vovas-music/*` read-only (no Claude
+GitHub App on the organization). **The Git Data API through `gh api` works**
+with the session's token: on `boom`, the dry run's two tagged masters went up
+as blobs (`POST git/blobs`, base64 via `--input`; 22 MB FLAC fine, ~10 s
+total), `POST git/trees` with `base_tree` gave a tree identical to the dry
+run's, then `git/commits` and the ref; the raw URL served the file;
+`tag-spike` deleted. Script used:
+`/tmp/…/scratchpad/api_push_spike.py` (gone with the container) — the
+recipe is the sentence above.
+
+**Left:** make `commitStaged`'s push in `scripts/lib/music-repo.ts` publish
+through that API (blobs for the staged new/changed paths, a tree on the
+clone's HEAD tree, a commit, fast-forward the ref — no force), keeping the
+blobless clone for reading and building; then items 5–7 and 9.
 
 **`pnpm type-overlap` is clean** (e9e7cd1): `WithUrl`/`WithLanguage` in
 `shared/typings`, `WithSpelledTitle` in `spelling.ts`, `SungWords` in
