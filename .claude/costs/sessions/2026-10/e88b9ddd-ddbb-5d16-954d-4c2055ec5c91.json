@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-14T12:26:11.465Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a fetch script over three APIs with zod parsing, retries and a tested pure half is routine tooling work"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "an unattended skill that judges comments and revises a living document needs someone fluent in the agent loop"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "e88b9ddd-ddbb-5d16-954d-4c2055ec5c91",
+  "branch": "claude/reddit-digest-o1rpxs",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/reddit-digest-o1rpxs",
+  "prs": [
+    155
+  ],
+  "url": "https://claude.ai/code/session_01RoaW4X1K8vL6jrStABtubh",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T12:11:48.734Z",
+  "lastResponseAt": "2026-10-14T12:26:31.331Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 116,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 182250,
+    "cacheReadTokens": 10382626,
+    "outputTokens": 44874,
+    "thinkingTokens": 8158,
+    "responses": 58,
+    "costUsd": 4.4324692
+  },
+  "ownTurns": {
+    "inputTokens": 116,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 182250,
+    "cacheReadTokens": 10382626,
+    "outputTokens": 44874,
+    "thinkingTokens": 8158,
+    "responses": 58,
+    "costUsd": 4.4324692
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 116,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 182250,
+      "cacheReadTokens": 10382626,
+      "outputTokens": 44874,
+      "thinkingTokens": 8158,
+      "responses": 58,
+      "costUsd": 4.4324692
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "scripts/lib/reddit-digest.ts",
+    "endedAt": "2026-10-14T12:13:29.114Z",
+    "contextTokens": 148629,
+    "spend": {
+      "inputTokens": 30,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 89838,
+      "cacheReadTokens": 1769048,
+      "outputTokens": 6032,
+      "thinkingTokens": 1663,
+      "responses": 15,
+      "costUsd": 1.1932736000000004
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
