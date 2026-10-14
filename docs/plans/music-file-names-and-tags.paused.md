@@ -2,8 +2,26 @@
 
 ## Status
 
-Approved (6293ffb). **Done:** checklist items 1–2 (the spike, `songFileName`).
-**Left:** from item 3. Facts established, not to re-derive:
+Approved (6293ffb). **Done:** checklist items 1–2 (the spike, `songFileName`),
+and of item 3 the pure tag set: `scripts/lib/song-tags.ts` (`buildTags`,
+`TagSource` = `SongBilling` & the rest, `SongTags`) with its test (20b26e7);
+the artist billing is `billedArtists` in `file-name.ts`, shared by the name and
+the tags. **Left:** the rest of item 3 — the writer (`SongTags` → ID3v2.3 /
+Xiph through `node-taglib-sharp`, cover from `songPicture`), the
+upload, the frontmatter rewrite, the manifest, `--check`, `--prune` — then
+items 4 onward.
+
+**Blocked: pushing to `vovas-music`.** The auto-mode classifier refused the
+`tag-spike` test push to `vovas-music/boom` as "Create Public Surface"; the
+operator was handed a message to send back naming it. Until they do, nothing
+can be uploaded; everything up to the upload can be built and run locally.
+
+- `buildTags` decisions: track total is the release's highest track number,
+  not its song count (numbers may skip); language is ISO 639-2 bibliographic
+  (`zxx` for instrumental); lyrics are the sung column's lines with
+  `inlineRuns`' marks dropped, `x2` lines kept as the page shows them.
+
+Facts established, not to re-derive:
 
 - `hello-human`'s MP3 is `vovas-music/machines`' `protintro.mp3` byte for
   byte; the token can push to every `vovas-music` repository;
