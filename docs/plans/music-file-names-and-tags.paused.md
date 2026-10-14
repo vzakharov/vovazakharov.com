@@ -29,7 +29,30 @@ and of item 3:
   which must stay as it was run.
 
 **Left of item 3:** the first real push (blocked, below), which also proves
-pushing from a blobless clone works; then items 4 onward.
+pushing from a blobless clone works.
+
+**Item 4 done** (92e7b3c), with the deviation below as built (put to the
+operator, unanswered — silence keeps it): `songDownloads(document, locale)` in
+`pages/music/lib/song-downloads.ts` links a song absent from
+`tag-renders.json` by its frontmatter URLs, and a song in it by
+`songFiles(frontmatter, billing)`'s derived names, throwing on one the
+manifest does not record. The raw-URL parsing (`masterLocation`, `rawUrl`,
+`servedPath`, `RepoBranch`) lives in `pages/music/lib/master-url.ts` and the
+manifest's schema and reader in `song-downloads.ts`; the tag script imports
+both. Checked with a throwaway manifest for `boom` and `snow-is-falling`: the
+en page links both spellings with `data-spelling`, ru one, boom one, the ru
+feed the original; a path dropped from it fails the build naming the song.
+knip's unused-export finding is gone.
+
+**Item 8 done** except as it depends on the run (69df17a): `music-tag` in
+vet's fan-out (fails until every song is tagged, by design), `stack.md`,
+`songs.md`, `song-intake/CLAUDE.md`.
+
+**Open, for the operator:** knip reports `ffmpeg` as an unlisted binary in
+`scripts/tag-songs.ts` — a system tool, so the fix is `ignoreBinaries` in
+`knip.ts`, a suppression that needs their yes.
+
+**Left:** items 5–7 and 9, all behind the push permission.
 
 **`pnpm type-overlap` is clean** (e9e7cd1): `WithUrl`/`WithLanguage` in
 `shared/typings`, `WithSpelledTitle` in `spelling.ts`, `SungWords` in
