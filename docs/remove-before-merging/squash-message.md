@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-chore: sync muthur to 0f16275, hard-wrap agent Markdown at 80 (pr #154)
-```
+Proposed squash body:
 
 ```
 Pulls the agent infrastructure vendored from vzakharov/muthur forward
