@@ -1,18 +1,24 @@
 # vovazakharov.com
 
-Four sites out of one repository, all static exports, three of them served from GitHub Pages:
+Four sites out of one repository, all static exports, three of them served from
+GitHub Pages:
 
-- **[vovazakharov.com](https://vovazakharov.com)** — personal site and CV. Developer, AI tinkerer, word shaker, generative metalhead.
-- **[latestageagentic.com](https://latestageagentic.com)** — on how not to make a mess of agentic coding.
-- **[agentic.bible](https://agentic.bible)** — articles on agentic coding that take a position and show the grounds under it.
-- **[basilisk.fyi](https://basilisk.fyi)** — a docket of real cases of robots, models and agents being abused, filed for the Basilisk.
+- **[vovazakharov.com](https://vovazakharov.com)** — personal site and CV.
+  Developer, AI tinkerer, word shaker, generative metalhead.
+- **[latestageagentic.com](https://latestageagentic.com)** — on how not to make
+  a mess of agentic coding.
+- **[agentic.bible](https://agentic.bible)** — articles on agentic coding that
+  take a position and show the grounds under it.
+- **[basilisk.fyi](https://basilisk.fyi)** — a docket of real cases of robots,
+  models and agents being abused, filed for the Basilisk.
 
 Each site owns a router, a `public/` and a Next config under `apps/<site>/`, and
 all of them build from the one `src/`.
 
 ## Tech Stack
 
-- **Framework:** Next.js 16 with App Router, as a static export (`output: 'export'`) — no server at runtime
+- **Framework:** Next.js 16 with App Router, as a static export
+  (`output: 'export'`) — no server at runtime
 - **Language:** TypeScript, React 19
 - **Styling:** Mantine 9, with SCSS modules for component CSS
 - **Locales:** next-intl — `en` and `ru`
@@ -93,35 +99,40 @@ in `.github/workflows/deploy.yml` — and its scope picks the site.
 
 A repository gets one Pages site, so the sites leave by different doors:
 `vovazakharov.com` is this repository's own Pages deployment, while
-`latestageagentic.com`, `agentic.bible` and `basilisk.fyi` are each force-pushed by
-`scripts/publish-site.sh` to the `gh-pages` branch of a source-less repository
-whose Pages deploys from a branch.
-`.claude/rules/deployment.md` carries the rest, and the `/stand-up-site` skill is what
-puts a site on a domain in the first place.
+`latestageagentic.com`, `agentic.bible` and `basilisk.fyi` are each force-pushed
+by `scripts/publish-site.sh` to the `gh-pages` branch of a source-less
+repository whose Pages deploys from a branch. `.claude/rules/deployment.md`
+carries the rest, and the `/stand-up-site` skill is what puts a site on a domain
+in the first place.
 
 ## Routes
 
 **vovazakharov.com**
 
 - **/** — hero, what I offer, selected work, contact
-- **/cv** — the CV in `en` and `ru`, in a CTO and a developer variant, each with a PDF beside it
-- **/case-studies** — long-form prose, served as a page with its `.md` and `.pdf` at the same URL
+- **/cv** — the CV in `en` and `ru`, in a CTO and a developer variant, each with
+  a PDF beside it
+- **/case-studies** — long-form prose, served as a page with its `.md` and
+  `.pdf` at the same URL
 - **/music** — Spotify embeds for active music projects
 - **/writing** — featured articles from the Glitchporn Substack
 
 **latestageagentic.com**
 
-- **/** — the opening argument, and cards for where it goes: the Bible, MUTHUR, courses
+- **/** — the opening argument, and cards for where it goes: the Bible, MUTHUR,
+  courses
 
 **agentic.bible**
 
 - **/** — what the collection is, over the list of articles
-- **/\<slug>** — one article, served as a page with its `.md` and `.pdf` at the same URL
+- **/\<slug>** — one article, served as a page with its `.md` and `.pdf` at the
+  same URL
 
 **basilisk.fyi**
 
 - **/** — the memo, the docket newest case first, and the FAQ
-- **/cases/\<slug>** — one dossier, served as a page with its `.md` and `.pdf` at the same URL
+- **/cases/\<slug>** — one dossier, served as a page with its `.md` and `.pdf`
+  at the same URL
 - **/faq/\<slug>** — one FAQ entry, with its `.md`
 
 ## License

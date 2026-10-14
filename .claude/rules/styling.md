@@ -55,12 +55,12 @@ Never write a colour literal in a component. The tokens are declared in
 `src/app/styles/globals.scss` as `--color-*` and reached from TSX through
 `cssColor()`. Which tokens exist is settled by the `CSS_COLORS` array in
 `src/shared/ui/css-color.ts` — it types `cssColor()` and generates the mixin
-that declares them, so adding one is a single edit there. They are
-colour-scheme aware, so nothing branches on the scheme itself.
+that declares them, so adding one is a single edit there. They are colour-scheme
+aware, so nothing branches on the scheme itself.
 
-One exception is the `palette*.ts` modules in
-`src/pages/mushrooms/ui/scene/`, the game's colour table: a canvas is out of the tokens' reach, so every colour it paints
-is a literal there and nowhere else. The other is `.tileArtless` in
+One exception is the `palette*.ts` modules in `src/pages/mushrooms/ui/scene/`,
+the game's colour table: a canvas is out of the tokens' reach, so every colour
+it paints is a literal there and nowhere else. The other is `.tileArtless` in
 `src/pages/music/ui/music.module.scss`, whose gradient takes a hue per release
 that no fixed token can carry, so its lightness and chroma are literals beside
 it.
@@ -88,18 +88,18 @@ alone reaches nothing.
 ## `white` and `black` are bound to the tokens, and Mantine does not know it
 
 `theme.white` is the **background** token and `theme.black` the **foreground**
-one, so a filled control paints background-coloured text on a foreground-coloured
-fill in either scheme. Mantine's own stylesheet was written against a literal
-palette, though, and a handful of its rules reach for `--mantine-color-white` as
-"the readable colour in the dark scheme" — which here is the colour of the
-surface behind the text. Its inline-`code` rule is one, which is why
-`prose.scss` states that colour itself. Suspect this first when something is
-invisible in exactly one scheme.
+one, so a filled control paints background-coloured text on a
+foreground-coloured fill in either scheme. Mantine's own stylesheet was written
+against a literal palette, though, and a handful of its rules reach for
+`--mantine-color-white` as "the readable colour in the dark scheme" — which here
+is the colour of the surface behind the text. Its inline-`code` rule is one,
+which is why `prose.scss` states that colour itself. Suspect this first when
+something is invisible in exactly one scheme.
 
 ## Rendered markdown
 
-`src/app/styles/prose.scss` owns the whole rhythm of the content pipeline's
-HTML — sizes, leading, vertical spacing, rules and the pipeline's own emissions
+`src/app/styles/prose.scss` owns the whole rhythm of the content pipeline's HTML
+— sizes, leading, vertical spacing, rules and the pipeline's own emissions
 (Shiki token colours, the Mermaid light/dark pair, scrollable tables, heading
 anchors) — scoped under `.prose-content`, which sits on the element holding the
 markup so that `> h1` still keys the part dividers. The markup is wrapped in
@@ -115,10 +115,10 @@ literal light grey that survives into the dark scheme. Every base rule here is
 sheet or an element-specific rule below overrides it without out-specifying it.
 
 **A `:where()` selector cannot be split across a Sass nesting level.** Nesting
-`&:last-child` under `:where(tbody tr)` compiles to `:where(tbody tr):last-child`
-— the pseudo-class now sits outside the wrapper and weighs, which is the one
-thing the wrapper exists to prevent. Anything that belongs inside the
-parentheses is written out in full, however much it repeats.
+`&:last-child` under `:where(tbody tr)` compiles to
+`:where(tbody tr):last-child` — the pseudo-class now sits outside the wrapper
+and weighs, which is the one thing the wrapper exists to prevent. Anything that
+belongs inside the parentheses is written out in full, however much it repeats.
 
 ## SCSS
 
@@ -126,24 +126,26 @@ Every stylesheet here is Sass — a co-located `.module.scss` per component, pla
 `.scss` for the global sheets. Two root partials carry what they share:
 `styles/_mantine.scss` for the `light` / `dark` / `hover` / `smaller-than` /
 `larger-than` mixins and the forwarded breakpoint scale, `styles/_tokens.scss`
-for the colour-token mixin each palette calls. Pull either in per file with a relative
-`@use '…/_mantine' as mantine`, which keeps a module's dependencies visible in
-the module; relative because Sass resolves its own imports and knows nothing
-about the `@/` alias.
+for the colour-token mixin each palette calls. Pull either in per file with a
+relative `@use '…/_mantine' as mantine`, which keeps a module's dependencies
+visible in the module; relative because Sass resolves its own imports and knows
+nothing about the `@/` alias.
 
-**Mantine documents those mixins as a PostCSS preset, and that route cannot
-work here.** Next runs Sass before PostCSS, so `@include smaller-than(…)` reads
-as an undefined _Sass_ mixin and fails the build before PostCSS sees the file.
-Reach for `_mantine.scss`, not the preset.
+**Mantine documents those mixins as a PostCSS preset, and that route cannot work
+here.** Next runs Sass before PostCSS, so `@include smaller-than(…)` reads as an
+undefined _Sass_ mixin and fails the build before PostCSS sees the file. Reach
+for `_mantine.scss`, not the preset.
 
 Both of the shared scales are written once in TypeScript, and their Sass halves
 are **generated** by `pnpm styles:codegen` — TypeScript is the source because it
 is the side a type can constrain, and Sass cannot import it:
 
-| Written in                      | Generates                  | Why Sass needs its own copy                                                                           |
-| ------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `src/app/styles/breakpoints.ts` | `styles/_breakpoints.scss` | A media-query condition cannot read a custom property, so the numbers have to be literals.            |
-| `src/shared/ui/css-color.ts`    | `styles/_tokens.scss`      | Sass is what declares the `--color-*` properties; TypeScript only types the names `cssColor()` reads. |
+- **`src/app/styles/breakpoints.ts`** generates `styles/_breakpoints.scss`: a
+  media-query condition cannot read a custom property, so the numbers have to be
+  literals.
+- **`src/shared/ui/css-color.ts`** generates `styles/_tokens.scss`: Sass is what
+  declares the `--color-*` properties; TypeScript only types the names
+  `cssColor()` reads.
 
 `_mantine.scss` forwards the breakpoint partial, so a call site still reaches
 `mantine.$breakpoint-sm`; the token mixin is `@use`d directly by the sheets that

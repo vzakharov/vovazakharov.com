@@ -32,9 +32,9 @@ only the next session.
 - `scripts/staged.sh stage <path>…`, then commit that alone, before any edit:
   the copy is byte-identical, so every later commit reads as a diff against the
   original. Edit the copy, `.claude/staged/<path>.staged`, never the real file.
-- The `.staged` suffix is what keeps a copy inert: under its real name it
-  would load as a nested `CLAUDE.md`, rule or skill the first time a file
-  there is read. `vet` fails a file in `.claude/staged/` without it.
+- The `.staged` suffix is what keeps a copy inert: under its real name it would
+  load as a nested `CLAUDE.md`, rule or skill the first time a file there is
+  read. `vet` fails a file in `.claude/staged/` without it.
 - `scripts/staged.sh list` shows what is staged, each real path beside its copy.
 - `/finalize` runs `swap` before its quality passes, merging in anything the
   real file gained meanwhile, and nothing deletes a copy by hand.

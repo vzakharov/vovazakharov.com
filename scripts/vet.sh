@@ -89,6 +89,7 @@ scripts/run-parallel.sh \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \
   skills='scripts/check-skill-catalog.sh' \
+  tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh' \
   staged='scripts/staged.sh check' \
   claude-md-size='scripts/check-claude-md-size.sh' \
   costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done' \
