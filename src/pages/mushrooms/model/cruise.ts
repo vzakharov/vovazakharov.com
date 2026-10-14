@@ -16,6 +16,9 @@ export type Cruised = { cruise: number };
 /** How fast a drive moves along its axis now, in units per second. */
 export type Paced = { pace: number };
 
+/** A drive's `cruise`, reached from rest in `ease` seconds. */
+export type Eased = Cruised & { ease: number };
+
 /** Where on its axis a drive stands. */
 type Placed<P> = { at: P };
 
@@ -32,8 +35,7 @@ type Stepped<P> = Placed<P> & { stopped: boolean };
  * can still go each way before it must rest, in units (`Infinity` for no
  * end); and where a move of `by` units from `at` lands.
  */
-export type Course<P> = Cruised & {
-  ease: number;
+export type Course<P> = Eased & {
   toward: (at: P) => number;
   room: (at: P, way: Direction) => number;
   step: (at: P, by: number) => Stepped<P>;

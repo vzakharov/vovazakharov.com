@@ -9,8 +9,8 @@ import { pick } from '@/shared/lib/collections';
 
 import { FULL_DAY, FULL_DUSK } from './dusk';
 import { restedFliers } from './flier-rest';
-import type { Meadow } from './game';
-import { type KeptMeadow, RESTED_AT, UNKEPT } from './kept-record';
+import type { KeptMeadow, Meadow } from './game';
+import { RESTED_AT, UNKEPT } from './kept-record';
 import { NO_NIGHT_RUNS } from './night-runs';
 import { sproutedInRain } from './sprouting';
 

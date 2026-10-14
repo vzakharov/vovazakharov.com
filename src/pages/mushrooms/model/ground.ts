@@ -8,14 +8,19 @@
 import { pick } from '@/shared/lib/collections';
 import type { Sized } from '@/shared/typings';
 
-import { alongAzimuth, type Point, type Scaled } from './geometry';
+import {
+  type Abscissa,
+  alongAzimuth,
+  type Point,
+  type Scaled,
+} from './geometry';
 
 /**
  * A point on the ground, in the clump's size: `x` across from the middle of
  * the meadow, rightward, and `z` into the distance from the clump's
  * front foot, farther away the larger.
  */
-export type Ground = Pick<Point, 'x'> & { z: number };
+export type Ground = Abscissa & { z: number };
 
 /**
  * A foot on the plane the eye walks and its size in the clump's before depth
@@ -39,15 +44,17 @@ export type Hazed = { haze: number };
  * (`midline`, the world's middle); and `unit`, the clump's size where the
  * clump's front foot stands.
  */
-export type Camera = Sized & {
-  groundTop: number;
-  ground: number;
-  world: number;
-  midline: number;
-  unit: number;
-};
+export type Camera = GroundedScreen &
+  WorldScaled & {
+    ground: number;
+    midline: number;
+  };
+/** Where the ground's top stands on a screen. */
+type Grounded = { groundTop: number };
+/** How wide a camera's world stands, and the clump's size where its front foot stands. */
+export type WorldScaled = { world: number; unit: number };
 /** A screen and where the ground's top stands on it. */
-export type GroundedScreen = Sized & Pick<Camera, 'groundTop'>;
+export type GroundedScreen = Sized & Grounded;
 /** The camera a thing is seen through. */
 export type WithCamera = { camera: Camera };
 

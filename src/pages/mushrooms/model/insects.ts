@@ -55,7 +55,11 @@ export type Flier = Insect & Flight & Shying & (Visitor | Pollinator);
  * released, so the first is the oldest; and the flowers the bees planted, in
  * the order they opened.
  */
-export type Swarm = { insects: readonly Flier[]; planted: readonly Sown[] };
+export type Swarm = WithInsects & WithPlanted;
+
+type WithInsects = { insects: readonly Flier[] };
+
+type WithPlanted = { planted: readonly Sown[] };
 
 /**
  * A swarm, the shower it flies in, which sends its fliers under the caps
@@ -221,7 +225,7 @@ export const isShying = ({ shied, legs }: Flier): boolean => shied === legs;
  */
 function isDue(
   insect: Flier,
-  { insects, rain, dusk }: Omit<Rained, 'planted'>,
+  { insects, rain, dusk }: WithInsects & Showered & Dusked,
   perches: Perches,
   now: number,
 ): boolean {

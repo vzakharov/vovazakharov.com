@@ -174,12 +174,13 @@ const BECKON_RELEASE = BECKON_PERIOD;
  * back from `litAt` while the thing is selected (`unlitAt` is `Infinity`),
  * `settled` being where it stood at the latest of the two.
  */
-export type Lit = {
+export type Lit = Switched & {
   swellFrom: number;
-  litAt: number;
-  unlitAt: number;
   settled: number;
 };
+
+/** When a thing was last lit and let go, on the scene's clock (`Lit`). */
+export type Switched = { litAt: number; unlitAt: number };
 
 /** A thing never selected: at rest, and settled for good. */
 export const UNLIT: Lit = {

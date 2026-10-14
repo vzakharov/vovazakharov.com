@@ -4,13 +4,16 @@
  * layout keeps inside the screen is what gets painted.
  */
 
-import type { Point, Turned } from './geometry';
+import type { Bent, Leaning, Point, Turned } from './geometry';
 import {
   GENE_RANGES,
   HEAD_KIND,
   MUSHROOM_SPECIES,
   type MushroomGenes,
+  type OfSpecies,
   type Species,
+  type Stemmed,
+  type Tilted,
   TRUMPET_RANGES,
 } from './mushroom-genes';
 import { capBase, capSurface } from './mushroom-profile';
@@ -28,10 +31,7 @@ const CAP_FOLLOW = {
   russula: 0.45,
 } as const satisfies Record<Species, number>;
 
-type Posed = Pick<
-  MushroomGenes,
-  'species' | 'stemHeight' | 'stemBend' | 'capTilt'
->;
+type Posed = OfSpecies & Stemmed & Tilted;
 
 /** A point on the stem's centreline and its tilt there, `t` from foot to top. */
 export type StemStation = Point & { tilt: number };
@@ -51,10 +51,7 @@ function turn({ x, y }: Point, angle: number): Point {
  * The centreline is a quadratic curve that leaves the foot upright and ends
  * `stemBend` of its height to the side.
  */
-export function stemAt(
-  genes: Pick<MushroomGenes, 'stemHeight' | 'stemBend'>,
-  t: number,
-): StemStation {
+export function stemAt(genes: Stemmed & Bent, t: number): StemStation {
   const height = genes.stemHeight;
   const control = { x: 0, y: height * BEND_FROM };
   const end = { x: genes.stemBend * height, y: height };
@@ -139,7 +136,7 @@ export function maxReach(splay: number): Reach {
   };
 }
 
-type Facing = Pick<MushroomGenes, 'lean' | 'stemBend' | 'capTilt'>;
+type Facing = Leaning & Tilted;
 
 /**
  * The same mushroom bending and leaning toward `side`, -1 for left and 1 for

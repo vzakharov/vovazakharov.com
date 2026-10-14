@@ -11,6 +11,7 @@ import { pick } from '@/shared/lib/collections';
 
 import type {
   Leg,
+  OutFirst,
   Perch,
   Perches,
   PerchKind,
@@ -18,7 +19,7 @@ import type {
   Places,
   Side,
 } from './flight';
-import { apartOf } from './flight-timing';
+import { apartOf, type Scheduled } from './flight-timing';
 import { distanceBetween, type Lefted, type Point } from './geometry';
 import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
@@ -125,7 +126,7 @@ export function outOfView({
   departs,
   arrives,
   out,
-}: Pick<Leg, 'departs' | 'arrives' | 'out'>): number {
+}: Scheduled & OutFirst): number {
   return out ?? (arrives - departs) / 2;
 }
 

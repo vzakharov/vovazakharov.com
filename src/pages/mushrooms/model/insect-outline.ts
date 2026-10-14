@@ -7,9 +7,9 @@
 
 import { distanceToEdge, ellipse, type Point, sample } from './geometry';
 import type {
+  Bodied,
   ButterflyGenes,
   Buzzing,
-  InsectBody,
   InsectGenes,
   Wing,
 } from './insect-genes';
@@ -47,8 +47,6 @@ export type Side = -1 | 1;
 type Axis = { root: Point; along: Point; across: Point };
 
 /** The genes the body's outlines and the wings' roots are drawn from. */
-type BodyGenes = Pick<InsectBody, 'bodyLength' | 'bodyWidth'>;
-
 /**
  * A wing's axis off `root`, the right side's root mirrored for the left, at
  * `angle` in radians from +x with y down, mirrored the same way.
@@ -61,7 +59,7 @@ function axisAt(root: Point, angle: number, side: Side): Axis {
   return { root: { ...root, x: side * root.x }, along, across };
 }
 
-function axisOf(genes: BodyGenes, pair: WingPair, side: Side): Axis {
+function axisOf(genes: Bodied, pair: WingPair, side: Side): Axis {
   const root = {
     x: genes.bodyWidth * 0.3,
     y: genes.bodyLength * WING_ROOT[pair],
@@ -159,7 +157,7 @@ export const ABDOMEN = { at: 0.12, half: 0.3 } as const;
 
 /** The body's three parts, head first: head, thorax and abdomen, as closed outlines. */
 export function bodyParts(
-  genes: BodyGenes,
+  genes: Bodied,
 ): [head: Point[], thorax: Point[], abdomen: Point[]] {
   const { bodyLength: length, bodyWidth: width } = genes;
   const { r, ...head } = headOf(genes);
@@ -171,13 +169,13 @@ export function bodyParts(
 }
 
 /** The head's middle and radius, which the eyes and antennae start from. */
-export function headOf(genes: BodyGenes): Point & { r: number } {
+export function headOf(genes: Bodied): Point & { r: number } {
   const r = genes.bodyWidth * 0.62;
   return { x: 0, y: -genes.bodyLength / 2 + r, r };
 }
 
 /** One antenna, from the head out and forward, curling at its end where its club sits. */
-export function antenna(genes: BodyGenes, side: Side): Point[] {
+export function antenna(genes: Bodied, side: Side): Point[] {
   const head = headOf(genes);
   const reach = genes.bodyLength * 0.42;
   return sample(0, 1, 10, (t) => ({

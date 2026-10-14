@@ -38,8 +38,11 @@ export const OPENING_FEET: readonly [Point, Point] = [
 /** Which way a mushroom leans for its whole life: its splay's sign. */
 export type Lean = -1 | 1;
 
+/** Where a mushroom stands for its whole life, on the plane. */
+export type Stood = { foot: Point };
+
 /** Where a mushroom stands for its whole life, on the plane, and which way it leans. */
-export type Footed = { foot: Point; lean: Lean };
+export type Footed = Stood & { lean: Lean };
 
 /** The opening pair as they stand, their stems crossing: the back one leaning left, the front one right. */
 export const OPENING_FOOTING: readonly [Footed, Footed] = [

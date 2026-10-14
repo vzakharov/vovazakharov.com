@@ -7,11 +7,12 @@
  */
 
 import {
+  type Classed,
   type Coloured,
   type Flower,
   type FlowerColour,
-  type FlowerGenes,
   flowerGenes,
+  type Petalled,
 } from './flower-genes';
 import { mulberry32, nextSeed, type Random } from './random';
 
@@ -37,7 +38,7 @@ export const FLOWER_SHAPES = [
   { petal: 'round', rings: 2 },
   { petal: 'pointed', rings: 1 },
   { petal: 'pointed', rings: 2 },
-] as const satisfies ReadonlyArray<Pick<FlowerGenes, 'petal' | 'rings'>>;
+] as const satisfies readonly Petalled[];
 export type FlowerShape = (typeof FLOWER_SHAPES)[number];
 
 /** Semitones above C. */
@@ -65,7 +66,6 @@ export type FlowerSound =
   | { kind: 'note'; pitchClass: PitchClass }
   | { kind: 'drum'; drum: Drum };
 
-type Classed = Pick<FlowerGenes, 'colour' | 'petal' | 'rings'>;
 
 function shapeIndex({ petal, rings }: Classed): number {
   return FLOWER_SHAPES.findIndex(

@@ -20,13 +20,7 @@ import {
   outWay,
   shownOf,
 } from './flight-in';
-import {
-  apartIn,
-  legTo,
-  type Placed,
-  placesSetOff,
-  type Span,
-} from './flight-timing';
+import { apartIn, legTo, placesSetOff, type Span } from './flight-timing';
 import type { Point } from './geometry';
 import type { InsectKind, InsectSeed, Kinded } from './insect-genes';
 import {
@@ -114,15 +108,30 @@ export type Places = Readonly<Record<string, Place>>;
  * What the scene sees of the perches, which only the screen can say, and
  * where a bee could plant a flower (`Plot`).
  */
-export type Sight = Plot & {
+export type Sight = Plot &
+  FlowersSeen &
+  Placed &
+  Sheltered & {
+    /** The spots in the open air, by id, an insect with nowhere to sit roams between. */
+    air: readonly string[];
+  };
+
+/** The flowers in sight. */
+export type Flowered = {
   /** The flowers in sight, by id: the only ones an insect is sent to. */
   flowers: readonly string[];
   /** The more of them a bee's narrower wings see (`flowersFor`). */
   beeFlowers?: readonly string[];
-  /** The spots in the open air, by id, an insect with nowhere to sit roams between. */
-  air: readonly string[];
-  /** A perch crowded by a taken one counts as taken. */
-  crowded: readonly Crowding[];
+};
+
+/** A perch crowded by a taken one counts as taken. */
+type Crowded = { crowded: readonly Crowding[] };
+
+/** The flowers in sight, and the perches crowded by taken ones. */
+export type FlowersSeen = Flowered & Crowded;
+
+/** What of `Sight` times a leg. */
+export type Placed = {
   /** Where the perches stand, so a long flight takes longer than a short one (`Habits`). */
   places?: Places;
   /**
@@ -132,22 +141,25 @@ export type Sight = Plot & {
   drawn?: Readonly<Record<string, Place>>;
   /** Each flier's own away spots, by its id: the scene draws one leaving at its own height and span past the edge. */
   aways?: Readonly<Record<string, Places>>;
-  /** The seats under the caps in sight, offered only while it rains (`shelteredPerches`). */
-  shelters?: readonly ShelterSeat[];
 };
+
+/** The seats under the caps in sight, offered only while it rains (`shelteredPerches`). */
+export type Sheltered = { shelters?: readonly ShelterSeat[] };
+
+/** While it rains: no flower or cap top is offered, and a flier takes the nearest shelter. */
+export type Raining = { raining?: boolean };
 
 /**
  * The perches the meadow offers: every standing mushroom's cap, the spotted
  * ones among them by id again, and what the scene sees.
  */
-export type Perches = Sight & {
-  caps: readonly string[];
-  spotted: readonly string[];
-  /** While it rains: no flower or cap top is offered, and a flier takes the nearest shelter. */
-  raining?: boolean;
-  /** Past half way to dusk: a flier seeks its `roost` first and never roams by choice (`roostedPerches`). */
-  dusky?: boolean;
-};
+export type Perches = Sight &
+  Raining & {
+    caps: readonly string[];
+    spotted: readonly string[];
+    /** Past half way to dusk: a flier seeks its `roost` first and never roams by choice (`roostedPerches`). */
+    dusky?: boolean;
+  };
 
 /** A moment on the scene's clock, in ms. */
 export type Timed = { now: number };
@@ -158,13 +170,22 @@ export type Timed = { now: number };
  * leg to the air hovers there a while (`hovering`); an `away` leg leaves as
  * it arrives, and the insect is gone.
  */
-export type Leg = Span & {
-  from: Perch;
-  to: Perch;
-  leaves: number;
-  /** On a first leg flown out of view first (`outFirst`), how long that stretch takes, in ms. */
-  out?: number;
-};
+export type Leg = Span & Route & Leaving & OutFirst;
+
+/** Where a leg sets off from. */
+type Origin = { from: Perch };
+
+/** Where a leg flies to. */
+export type Destination = { to: Perch };
+
+/** Where a leg sets off from and flies to. */
+export type Route = Origin & Destination;
+
+/** When a leg's stay ends and the next leg is due, in ms. */
+export type Leaving = { leaves: number };
+
+/** On a first leg flown out of view first (`outFirst`), how long that stretch takes, in ms. */
+export type OutFirst = { out?: number };
 
 /** An insect's current leg, and how many legs it has flown, that one included. */
 export type Flight = { leg: Leg; legs: number };
@@ -177,13 +198,17 @@ function legRandom(seed: number, legs: number): Random {
 }
 
 /** What `nextPerch` weighs a choice by: where the insect is, what it cannot take, and the kind and habits choosing. */
-export type Choosing = Kinded &
-  Pick<Leg, 'from'> & {
+type Choosing = Kinded &
+  Hemmed & {
     habits: Habits;
-    perches: Perches;
     taken: readonly Held[];
-    blocked: ReadonlySet<string>;
   };
+
+/** Where a choice sets off from, the perches offered, and the ones it cannot take. */
+export type Hemmed = Origin & {
+  perches: Perches;
+  blocked: ReadonlySet<string>;
+};
 
 /**
  * A spot in the air for a flier with no perch open, the nearer the likelier
