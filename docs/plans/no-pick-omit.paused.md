@@ -109,30 +109,35 @@ and 4, pauses the plan, and then `/relay go` hands the branch to a fresh session
 that takes the next bite. The last bite completes the plan and stops there,
 leaving `/finalize` to the operator.
 
-Until the last bite, the meadow files still carrying `Pick`/`Omit` sit in one
-scoped `off` override for `vova/no-pick-omit` in `eslint.config.ts`, each named
-in `files:`, so every bite leaves `vet` green. Each bite removes the files it
-migrated from that list; the last removes the override. It never reaches `main`,
-the PR landing whole.
+Until the last bite, the files the rule still flags sit in one scoped `off`
+override for `vova/no-pick-omit` in `eslint.config.ts`, each named in `files:`,
+so every bite leaves `vet` green. That list is the work left: each bite removes
+the files it migrated, and the last removes the override. It never reaches
+`main`, the PR landing whole.
 
 A meadow bite is a game change: it runs `VET_MEADOW=1 ./scripts/vet.sh` (or
 `pnpm test:meadow`) before it pauses, per `src/pages/mushrooms/CLAUDE.md`.
 
-## This bite
+## Eaten so far
 
-The rule, and everything outside the meadow.
+- **The rule is live.** `eslint/rules/no-pick-omit.ts`, registered at `error`,
+  with `eslint/rules/no-pick-omit.test.ts` (16 cases, passing) over ESLint's
+  `Linter` and `@typescript-eslint/parser`, now a direct dev dependency. Over
+  the tree it reports 219 sites in 117 files; the only files using `Pick`/`Omit`
+  it passes are the DOM, Mantine and type-parameter ones (`open-kept.ts`,
+  `keyboard.ts`, `title-gloss-line.tsx`, `collections.ts`, `text-link.tsx`).
+- **All 117 files sit in the grandfather override** in `eslint.config.ts`,
+  `pnpm lint`, `typecheck` and `type-overlap` clean.
 
-- `eslint/rules/no-pick-omit.ts` and `eslint/rules/no-pick-omit.test.ts`;
-  registered in the `vova` plugin and at `error` in
-  `eslint/rule-groups/vova.ts`.
-- The grandfather override over the meadow's 98 files.
-- Migrate the 24 files outside `src/pages/mushrooms/`: `src/shared/`
+## Rest of the bite
+
+Everything outside the meadow, each file leaving the override as it migrates.
+
+- Migrate the 21 flagged files outside `src/pages/mushrooms/`: `src/shared/`
   (`documents`, `feeds`, `rehype-content-links`, `construct-metadata`,
   `site-avatar`, `name-link`), `src/entities/case/` (a narrow case-frontmatter
   schema), `src/pages/music/` (a narrow song-frontmatter schema where its sites
-  need one), `scripts/lib/` (`stanza-repeats`, `play-runs`). `collections.ts`,
-  `text-link.tsx` and `title-gloss-line.tsx` pick a type parameter or a Mantine
-  type and stay as they are.
+  need one), `scripts/lib/` (`stanza-repeats`, `play-runs`).
 
 ## Rest of the elephant
 
