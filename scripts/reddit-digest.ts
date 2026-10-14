@@ -248,10 +248,13 @@ function muthur() {
 }
 
 const iso = (seconds: number) => new Date(seconds * 1000).toISOString();
+/** A comment's `link_id` is its post's id behind Reddit's `t3_` kind prefix. */
+const postId = (linkId: string) => linkId.replace(/^t3_/, '');
+const redditUrl = (permalink: string) => `https://reddit.com${permalink}`;
 
 const comments = await recentComments();
 const linkIds = [...new Set(comments.map(({ link_id }) => link_id))];
-const parents = await posts(linkIds.map((id) => id.replace(/^t3_/, '')));
+const parents = await posts(linkIds.map((linkId) => postId(linkId)));
 
 const threads = new Map(
   await inSequence(
@@ -273,11 +276,11 @@ function postSummary({ title, author, score, num_comments }: Post) {
 function row(comment: Comment) {
   const { id, subreddit, score, body, permalink, created_utc, link_id } =
     comment;
-  const post = parents.get(link_id.replace(/^t3_/, ''));
+  const post = parents.get(postId(link_id));
   const placed = threads.get(link_id)?.find((c) => c.id === id);
   return {
     id,
-    url: `https://reddit.com${permalink}`,
+    url: redditUrl(permalink),
     subreddit,
     created: iso(created_utc),
     score,
@@ -300,7 +303,7 @@ const waiting = [...threads.values()].flatMap((inThread) =>
         author,
         created: iso(created_utc),
         score,
-        url: `https://reddit.com${permalink}`,
+        url: redditUrl(permalink),
         body,
       },
     };
