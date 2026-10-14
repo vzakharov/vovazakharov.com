@@ -11,52 +11,31 @@ import {
   OnAirScriptChip,
   type OnAirScriptChipProps,
 } from './on-air-script-chip';
-import { ScriptChip } from './script-chip';
-
-type ScriptSamples = {
-  /**
-   * The sample of the script the page's names are in where the locale gets
-   * them in Latin, from `scriptSample`: it makes the current chip the switch.
-   */
-  sample?: string | undefined;
-  /**
-   * The radio's stand-in for `sample`, which only the browser can pick: one
-   * per song it may play, the chip following whichever is on air.
-   */
-  onAirSamples?: OnAirScriptChipProps['samples'] | undefined;
-};
+import { ScriptChip, type ScriptChipProps } from './script-chip';
 
 export type LocaleChipsProps = WithLocale &
-  ScriptSamples & {
+  Pick<ScriptChipProps, 'sample'> & {
     /** Where this same page is served in each language. */
     hrefs: Record<Locale, string>;
+    /**
+     * The radio's stand-in for `sample`, which only the browser can pick: one
+     * per song it may play, the chip following whichever is on air.
+     */
+    onAirSamples?: OnAirScriptChipProps['samples'] | undefined;
   };
-
-/** What stands in for the current chip, if anything does. */
-function scriptSwitch(
-  { locale, sample, onAirSamples }: WithLocale & ScriptSamples,
-) {
-  const chip = {
-    label: locale.toUpperCase(),
-    ...pick(loadMessages(locale).music, 'originalScript'),
-  };
-
-  if (onAirSamples !== undefined) {
-    return <OnAirScriptChip {...chip} samples={onAirSamples} />;
-  }
-
-  return sample === undefined ? undefined : (
-    <ScriptChip {...chip} {...{ sample }} />
-  );
-}
 
 /**
- * The switch between a page's two languages, and on a page with names in
- * another script, between their two spellings. A server component, unlike the
- * CV's: a music page's locale is a segment of its own route, so it is known
- * without asking the client which language it is in.
+ * The switch between a page's two languages, and where the page or the
+ * playing track has names in another script, between their two spellings. A
+ * server component, unlike the CV's: a music page's locale is a segment of its
+ * own route, so it is known without asking the client which language it is in.
  */
-export function LocaleChips({ locale, hrefs, ...samples }: LocaleChipsProps) {
+export function LocaleChips({
+  locale,
+  hrefs,
+  sample,
+  onAirSamples,
+}: LocaleChipsProps) {
   const chips = LOCALES.map(
     (alternate): Chip => ({
       label: alternate.toUpperCase(),
@@ -65,8 +44,21 @@ export function LocaleChips({ locale, hrefs, ...samples }: LocaleChipsProps) {
       current: alternate === locale,
     }),
   );
+  const chip = {
+    label: locale.toUpperCase(),
+    ...pick(loadMessages(locale).music, 'originalScript'),
+  };
 
   return (
-    <ChipNav {...{ chips }} current={scriptSwitch({ locale, ...samples })} />
+    <ChipNav
+      {...{ chips }}
+      current={
+        onAirSamples === undefined ? (
+          <ScriptChip {...chip} {...{ sample }} />
+        ) : (
+          <OnAirScriptChip {...chip} samples={onAirSamples} />
+        )
+      }
+    />
   );
 }

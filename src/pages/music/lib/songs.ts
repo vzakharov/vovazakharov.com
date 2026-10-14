@@ -5,7 +5,11 @@ import {
   SONGS,
 } from '@/shared/content';
 import { byLocale, isLocale, type Locale } from '@/shared/i18n';
-import { type MusicAlbum, songTitle } from '@/shared/music-catalogue';
+import {
+  type MusicAlbum,
+  scriptSample,
+  songTitle,
+} from '@/shared/music-catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
 import { projectName } from './artists';
@@ -115,13 +119,7 @@ export function songTrack(
 ): PlayerTrack {
   const { slug, frontmatter } = document;
   const { audio, seconds, explicit, segue, project } = frontmatter;
-
-  return {
-    slug,
-    audio,
-    seconds,
-    explicit,
-    segue,
+  const names = {
     billing: byLocale((locale) =>
       bill(project, (artist) => ({
         name: projectName(artist, locale),
@@ -129,15 +127,27 @@ export function songTrack(
       })),
     ),
     titles: byLocale((locale) => songTitle(frontmatter, locale)),
+  };
+
+  return {
+    slug,
+    audio,
+    seconds,
+    explicit,
+    segue,
+    ...names,
     routes: byLocale((locale) =>
       songPath(songPageSlug(document, album), locale),
+    ),
+    samples: byLocale((locale) =>
+      scriptSample(trackNames([names], locale), locale),
     ),
   };
 }
 
 /** The names a list of tracks shows under a locale, for `scriptSample` to read: each title and its billing. */
 export function trackNames(
-  tracks: readonly PlayerTrack[],
+  tracks: ReadonlyArray<Pick<PlayerTrack, 'titles' | 'billing'>>,
   locale: Locale,
 ): string[] {
   return tracks.flatMap(({ titles, billing }) => [

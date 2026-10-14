@@ -1,8 +1,5 @@
 'use client';
 
-import { pick } from '@/shared/lib/collections';
-import { CurrentChip } from '@/shared/ui';
-
 import { usePlayer } from './player-provider';
 import { ScriptChip, type ScriptChipProps } from './script-chip';
 import { useClock } from './use-clock';
@@ -13,19 +10,18 @@ export type OnAirScriptChipProps = Omit<ScriptChipProps, 'sample'> & {
 };
 
 /**
- * The radio's language chip: the spelling switch while the song on air has
- * names in another script, the plain chip otherwise — and until mount, which
- * is when the clock first says what is on air.
+ * The radio's language chip, whose page is the song on air: known only once
+ * the clock first ticks after mount.
  */
 export function OnAirScriptChip({ samples, ...chip }: OnAirScriptChipProps) {
   const { onAir } = usePlayer();
   const now = useClock();
   const slug = now === undefined ? undefined : onAir(now)?.track.slug;
-  const sample = slug === undefined ? undefined : samples[slug];
 
-  return sample === undefined ? (
-    <CurrentChip {...pick(chip, 'label')} />
-  ) : (
-    <ScriptChip {...chip} {...{ sample }} />
+  return (
+    <ScriptChip
+      {...chip}
+      sample={slug === undefined ? undefined : samples[slug]}
+    />
   );
 }

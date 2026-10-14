@@ -34,6 +34,8 @@ export type PlayerTrack = Slugged &
     titles: Record<Locale, Spelled>;
     billing: Record<Locale, Billing>;
     routes: Record<Locale, string>;
+    /** `scriptSample` of the title and billing, where the locale gets them in Latin. */
+    samples: Record<Locale, string | undefined>;
   };
 
 /** A track, as the one a control or a slot is about. */
