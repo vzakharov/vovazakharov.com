@@ -40,11 +40,15 @@ kept and why gzipped.
 What the recording is for decides how much of the file is the speaker's own
 wording:
 
-| Mode         | What it is                                                                   | What the body is                                                         |
-| ------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| **verbatim** | a recording that ships as recorded — the words go on screen as subtitles     | the speaker's words in the speaker's order, under Step 3                 |
-| **retake**   | a recording that will be said again, better — this file is what is read from | the same talk with the stumbles out: their phrasing, without the tangles |
-| **prose**    | a read-aloud that exists to give the repo context, and is never published    | the same content as connected text, loose sentences tightened            |
+- **verbatim** — a recording that ships as recorded, the words going on screen
+  as subtitles. The body is the speaker's words in the speaker's order, under
+  Step 3.
+- **retake** — a recording that will be said again, better, this file being what
+  is read from. The body is the same talk with the stumbles out: their phrasing,
+  without the tangles.
+- **prose** — a read-aloud that exists to give the repo context, and is never
+  published. The body is the same content as connected text, loose sentences
+  tightened.
 
 **Which of the three applies is `auto`'s to work out, and `auto` is what runs
 when the invocation names no mode.** A recording routinely says what it is for
@@ -83,12 +87,13 @@ this, and would they be glad they did**.
 
 What that keeps, and what it takes out:
 
-| Keep                                                                | Take out                                                            |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| Their turns of phrase, their register, their asides to the listener | False starts, tautologies, the third restatement of the same clause |
-| The order the thought arrives in                                    | A metaphor they withdrew mid-sentence — replace it or drop it       |
-| A digression that earns its place                                   | A digression that goes nowhere and comes back changing nothing      |
-| The looseness of speech                                             | The tangle of speech                                                |
+- **Keep** their turns of phrase, their register, their asides to the listener;
+  the order the thought arrives in; a digression that earns its place; the
+  looseness of speech.
+- **Take out** false starts, tautologies, the third restatement of the same
+  clause; a metaphor they withdrew mid-sentence — replace it or drop it; a
+  digression that goes nowhere and comes back changing nothing; the tangle of
+  speech.
 
 **Under-edit rather than over-edit.** A text tightened until every sentence
 pulls its weight is a text nobody talks like, and the speaker then fights it at
@@ -172,14 +177,12 @@ Whisper's hearing: `[-nova-3 only-]{+Whisper only+}`.
 
 Four parts, in this order, and only one of them is the recording:
 
-| Part                                                     | Whose words |
-| -------------------------------------------------------- | ----------- |
-| A header line — when, where, what was recorded, the mode | yours       |
-| The lede (Step 5)                                        | yours       |
-| In retake mode, the beat sheet (Step 5)                  | yours       |
-| **The recording**, under one `##`                        | **theirs**  |
-| The table of what you guessed (Step 4)                   | yours       |
-| In retake mode, the `## Что поправлено` footnotes        | yours       |
+1. A header line — when, where, what was recorded, the mode: yours
+2. The lede (Step 5): yours
+3. In retake mode, the beat sheet (Step 5): yours
+4. **The recording**, under one `##`: **theirs**
+5. The table of what you guessed (Step 4): yours
+6. In retake mode, the `## Что поправлено` footnotes: yours
 
 **The body's heading names what the file is**, so it follows the mode:
 `## Расшифровка` in verbatim and prose, `## Текст для начитки` in retake, where
@@ -199,25 +202,28 @@ and nowhere else.
 depend on it: it is the speaker's own manner of talking, and it is what the
 subtitles say. So:
 
-| Do                                               | Don't                                   |
-| ------------------------------------------------ | --------------------------------------- |
-| Cut filler, false starts, repeated words         | Tighten a sentence that is merely loose |
-| Add punctuation, paragraph breaks, headings      | Reorder clauses to read better          |
-| Fix what the recognizer misheard                 | Replace a word with a better word       |
-| Spell out numbers and acronyms as they were said | Summarize, merge or drop a digression   |
+- **Do**: cut filler, false starts, repeated words; add punctuation, paragraph
+  breaks, headings; fix what the recognizer misheard; spell out numbers and
+  acronyms as they were said.
+- **Don't**: tighten a sentence that is merely loose; reorder clauses to read
+  better; replace a word with a better word; summarize, merge or drop a
+  digression.
 
 The rule is mechanical, and it holds over **words** — punctuation,
 capitalisation and paragraph breaks are yours to put in, so they are not what it
 governs. Every word you write is the transcript's word in the transcript's
 place, and five departures are licensed.
 
-| Departure                            | What it looks like                                                               |
-| ------------------------------------ | -------------------------------------------------------------------------------- |
-| A filler or false start you removed  | the transcript has a word, you have none                                         |
-| A mis-hearing you corrected          | you have a different word, and it has a row in the table at the foot of the file |
-| A slip of the tongue you replaced    | one or two words, in the same place, where the speaker plainly meant another     |
-| A word you inserted to join a clause | one or two words, `[в квадратных скобках]`, and only where the speech is broken  |
-| A heading you added                  | your words between their sentences, never inside one                             |
+- **A filler or false start you removed** — the transcript has a word, you have
+  none.
+- **A mis-hearing you corrected** — you have a different word, and it has a row
+  in the table at the foot of the file.
+- **A slip of the tongue you replaced** — one or two words, in the same place,
+  where the speaker plainly meant another.
+- **A word you inserted to join a clause** — one or two words,
+  `[в квадратных скобках]`, and only where the speech is broken.
+- **A heading you added** — your words between their sentences, never inside
+  one.
 
 A reordering or a synonym is none of the five, so it is a rewrite. Note what the
 rule does **not** ask: that the result read well. The recording was loose, so the

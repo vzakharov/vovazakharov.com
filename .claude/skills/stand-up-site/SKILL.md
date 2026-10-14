@@ -60,11 +60,11 @@ has to read.
 GitHub's Pages addresses are the same for every site, so the table is the same
 every time, whoever writes it:
 
-| Type  | Host  | Value                                                                                   |
-| ----- | ----- | --------------------------------------------------------------------------------------- |
-| A     | `@`   | `185.199.108.153` `185.199.109.153` `185.199.110.153` `185.199.111.153`                 |
-| AAAA  | `@`   | `2606:50c0:8000::153` `2606:50c0:8001::153` `2606:50c0:8002::153` `2606:50c0:8003::153` |
-| CNAME | `www` | `<owner>.github.io`                                                                     |
+- **A** on `@` — `185.199.108.153` `185.199.109.153` `185.199.110.153`
+  `185.199.111.153`
+- **AAAA** on `@` — `2606:50c0:8000::153` `2606:50c0:8001::153`
+  `2606:50c0:8002::153` `2606:50c0:8003::153`
+- **CNAME** on `www` — `<owner>.github.io`
 
 One record per value — four A rows and four AAAA rows, not one row holding four
 addresses. Which repository answers is decided by the `CNAME` file inside each

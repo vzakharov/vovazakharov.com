@@ -34,12 +34,12 @@ stopped being the same piece.
 
 ## The draft file
 
-| Part                                                        | What it is                                      |
-| ----------------------------------------------------------- | ----------------------------------------------- |
-| A header line — which dictation, which channel, status      | yours                                           |
-| **The post**, in a `text` fence                             | the deliverable                                 |
-| `## Швы` — the departures, one row each                     | yours, and the reason this skill can be trusted |
-| `## Открытые вопросы` — anything the draft could not settle | yours, and only where a real question is open   |
+- **A header line** — which dictation, which channel, status: yours
+- **The post**, in a `text` fence — the deliverable
+- **`## Швы`** — the departures, one row each: yours, and the reason this skill
+  can be trusted
+- **`## Открытые вопросы`** — anything the draft could not settle: yours, and
+  only where a real question is open
 
 **The post text is copy-exact**, per `@writing/CLAUDE.md`
 § "A draft's post text is copy-exact": one unwrapped line per paragraph inside a

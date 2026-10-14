@@ -25,11 +25,16 @@ condensed first, and split along a seam only when condensing is not enough;
 a new file gets a row here. The single file these replaced is recorded in
 `.claude/skills/megabeast/notes.retired.md`.
 
-| File                                             | Theme                                                                                                  |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
-| [contract.md](contract.md)                       | The loop's contract: the plan as its home, standing rules, the model, operator input mid-run           |
-| [pickup-and-relay.md](pickup-and-relay.md)       | Attaching a successor, the stale branch, the context budget, the depth cap, what a relay carries       |
-| [subagents.md](subagents.md)                     | Orchestrating: briefs, waves over files, a subagent's context, pauses, container restarts, the tail    |
-| [gates.md](gates.md)                             | Vet and the quick gates, the order of a bite's end, `/polish`'s scope, tooling traps                   |
-| [play-run-and-frames.md](play-run-and-frames.md) | The play script, stepping and shooting, runtime state and sound, the orchestrator's own look at frames |
-| [quality.md](quality.md)                         | Review practice, sweeps and what they measure, finding classes, design levers                          |
+- **[contract.md](contract.md)** — the loop's contract: the plan as its home,
+  standing rules, the model, operator input mid-run
+- **[pickup-and-relay.md](pickup-and-relay.md)** — attaching a successor, the
+  stale branch, the context budget, the depth cap, what a relay carries
+- **[subagents.md](subagents.md)** — orchestrating: briefs, waves over files, a
+  subagent's context, pauses, container restarts, the tail
+- **[gates.md](gates.md)** — vet and the quick gates, the order of a bite's end,
+  `/polish`'s scope, tooling traps
+- **[play-run-and-frames.md](play-run-and-frames.md)** — the play script,
+  stepping and shooting, runtime state and sound, the orchestrator's own look at
+  frames
+- **[quality.md](quality.md)** — review practice, sweeps and what they measure,
+  finding classes, design levers

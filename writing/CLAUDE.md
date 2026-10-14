@@ -55,12 +55,10 @@ An idea graduating into a draft leaves its file behind as the redirect — a lin
 saying which draft it became — until the draft is posted, at which point both
 retire and the links repoint at the published piece.
 
-| Key      | Meaning                                    |
-| -------- | ------------------------------------------ |
-| `source` | the case-study section its facts come from |
-| `shape`  | one of the five below                      |
-| `status` | `draft` \| `approved` \| `posted`          |
-| `posted` | the date, once it is                       |
+- **`source`** — the case-study section its facts come from
+- **`shape`** — one of the five below
+- **`status`** — `draft`, `approved` or `posted`
+- **`posted`** — the date, once it is
 
 `source` exists so "which posts repeat this number?" is a grep rather than a
 memory. The case study is the single source of truth for every fact, and a post

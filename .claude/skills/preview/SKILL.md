@@ -47,11 +47,10 @@ There is deliberately no Playwright dependency — Chrome's own `--screenshot` i
 
 ## Routes
 
-| Route        | Why                                                                                                                   |
-| ------------ | --------------------------------------------------------------------------------------------------------------------- |
-| `/`          | home                                                                                                                  |
-| `/cv`        | the CV, English                                                                                                       |
-| `/cv/cto/ru` | the CV, Russian — `ru` copy is longer and wraps differently, so it is a distinct layout, not a translation spot-check |
+- **`/`** — home
+- **`/cv`** — the CV, English
+- **`/cv/cto/ru`** — the CV, Russian: `ru` copy is longer and wraps differently,
+  so it is a distinct layout, not a translation spot-check
 
 The locale sits inside the CV's own route (`/cv/<variant>/<locale>`), not in a
 prefix: there is no `/en/…` or `/ru/…` on this site, and `/cv` renders the
@@ -78,13 +77,11 @@ Confirm the expected attribute is there. A theme that silently failed to apply o
 
 `--window-size` has a **500px floor**, and below it the capture lies. Measured by reading `innerWidth` inside headless Chromium 141:
 
-| `--window-size` | resulting `innerWidth` |
-| --------------- | ---------------------- |
-| `360,800`       | **500**                |
-| `390,844`       | **500**                |
-| `500,844`       | 500                    |
-| `768,1024`      | 768                    |
-| `1280,900`      | 1280                   |
+- `--window-size=360,800` → `innerWidth` **500**
+- `--window-size=390,844` → `innerWidth` **500**
+- `--window-size=500,844` → `innerWidth` 500
+- `--window-size=768,1024` → `innerWidth` 768
+- `--window-size=1280,900` → `innerWidth` 1280
 
 Any requested width under 500 is laid out at 500 CSS px and the screenshot is _then_ cropped to the width asked for. Content that fits at 500 gets sliced mid-word and reads as horizontal overflow that isn't there — a 390px capture of `/en/cv` and `/ru/cv` produces exactly that, while the same page in a real browser at 360px reflows correctly.
 

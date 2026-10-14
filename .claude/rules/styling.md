@@ -140,10 +140,12 @@ Both of the shared scales are written once in TypeScript, and their Sass halves
 are **generated** by `pnpm styles:codegen` — TypeScript is the source because it
 is the side a type can constrain, and Sass cannot import it:
 
-| Written in                      | Generates                  | Why Sass needs its own copy                                                                           |
-| ------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `src/app/styles/breakpoints.ts` | `styles/_breakpoints.scss` | A media-query condition cannot read a custom property, so the numbers have to be literals.            |
-| `src/shared/ui/css-color.ts`    | `styles/_tokens.scss`      | Sass is what declares the `--color-*` properties; TypeScript only types the names `cssColor()` reads. |
+- **`src/app/styles/breakpoints.ts`** generates `styles/_breakpoints.scss`: a
+  media-query condition cannot read a custom property, so the numbers have to be
+  literals.
+- **`src/shared/ui/css-color.ts`** generates `styles/_tokens.scss`: Sass is what
+  declares the `--color-*` properties; TypeScript only types the names
+  `cssColor()` reads.
 
 `_mantine.scss` forwards the breakpoint partial, so a call site still reaches
 `mantine.$breakpoint-sm`; the token mixin is `@use`d directly by the sheets that
