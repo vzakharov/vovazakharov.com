@@ -1,14 +1,14 @@
 /**
  * For `scripts/`, the tests and client components, none of which may take the
- * schema, whose module is `server-only`: the names and the spellings.
+ * schema, whose module is `server-only`: the name brands and the spellings.
+ * A script reads the names themselves off `catalogue-names.ts`.
  */
 
 export {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
-  MUSIC_PROJECT_SLUGS,
+  musicAlbumSchema,
   type MusicProject,
-} from './names.ts';
+  musicProjectSchema,
+} from './name-brands.ts';
 export { MUSIC_ORGANIZATION } from './organization.ts';
 export { romanizeRussian } from './romanize.ts';
 export {

@@ -33,12 +33,11 @@ import { z } from 'zod';
 
 import { collectionDir } from '@/shared/content/collections';
 import { byLocale, inLocale } from '@/shared/i18n/locales';
-import {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_ORGANIZATION,
-  MUSIC_PROJECT_NAMES,
-} from '@/shared/music-catalogue/index.node-safe';
+import { readSiteCatalogueNames } from '@/shared/music-catalogue/catalogue-names';
+import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
 import type { Dated, Named } from '@/shared/typings';
+
+const CATALOGUE = readSiteCatalogueNames();
 
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */
 const HEADER_BYTES = 128 * 1024;
@@ -249,9 +248,9 @@ const specSchema = z.array(
         z.object({ en: z.string().min(1), ru: z.string().min(1) }),
       ])
       .optional(),
-    project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1).optional(),
+    project: z.array(CATALOGUE.projectSchema).min(1).optional(),
     language: z.array(z.string().min(1)).min(1).optional(),
-    album: z.enum(MUSIC_ALBUM_SLUGS).optional(),
+    album: CATALOGUE.albumSchema.optional(),
     /** Where a store marks the song explicit and its file name does not. */
     explicit: z.literal(true).optional(),
     /** Something for the author to check, kept in the file as a comment. */
@@ -309,7 +308,7 @@ status: done
 language: ${language.length === 1 ? language.join('') : `[${language.join(', ')}]`}
 ${
   project === undefined
-    ? `# project: [<artist>, <features...>] — one of ${MUSIC_PROJECT_NAMES.join(', ')}`
+    ? `# project: [<artist>, <features...>] — one of ${CATALOGUE.artists.map((artist) => artist.name).join(', ')}`
     : `project: ${yamlList(project)}`
 }
 repo: ${yaml(repo)}

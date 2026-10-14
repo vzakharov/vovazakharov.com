@@ -14,9 +14,10 @@ export { type HookRun, hookRuns, textHook } from './hook-marks';
 export {
   MUSIC_ALBUM_SLUGS,
   MUSIC_PROJECT_NAMES,
-  MUSIC_PROJECT_SLUGS,
   type MusicAlbum,
   type MusicProject,
+  projectBySlug,
+  projectSlug,
 } from './names';
 export { type CreditedName, SONG_AUTHOR } from './people';
 export { MUSIC_ROUTE } from './route';

@@ -6,9 +6,9 @@ import {
   albumFrontmatterSchema,
   artistFrontmatterSchema,
   type LocalName,
-  MUSIC_PROJECT_SLUGS,
   type MusicAlbum,
   type MusicProject,
+  projectSlug,
   type TitleGloss,
 } from '@/shared/music-catalogue';
 import { spell, type Spelled } from '@/shared/music-catalogue/index.node-safe';
@@ -37,9 +37,7 @@ function required<F>(
   loaded: CatalogueFile<F> | undefined,
 ): CatalogueFile<F> {
   if (loaded === undefined) {
-    throw new Error(
-      `music/${name}.md is gone; run \`pnpm music:codegen\` to drop it from the names a song may use.`,
-    );
+    throw new Error(`music/${name}.md is gone.`);
   }
 
   return loaded;
@@ -59,7 +57,7 @@ export const albumFile = readOnce((album: MusicAlbum) =>
 
 export const artistFile = readOnce((artist: MusicProject) =>
   loadCatalogueFile(
-    `${ARTISTS_SEGMENT}/${MUSIC_PROJECT_SLUGS[artist]}`,
+    `${ARTISTS_SEGMENT}/${projectSlug(artist)}`,
     artistFrontmatterSchema,
   ),
 );

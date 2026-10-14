@@ -11,10 +11,9 @@ import {
 import { oneOf } from '@/shared/lib/collections';
 import {
   MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
-  MUSIC_PROJECT_SLUGS,
   type MusicAlbum,
   type MusicProject,
+  projectBySlug,
 } from '@/shared/music-catalogue';
 
 import { catalogueAlbums, catalogueArtists } from './catalogue';
@@ -55,9 +54,7 @@ export type MusicAddress =
   | ({ page: 'radio' } & WithLocale);
 
 function artistBySlug(slug: string): MusicProject {
-  const artist = MUSIC_PROJECT_NAMES.find(
-    (name) => MUSIC_PROJECT_SLUGS[name] === slug,
-  );
+  const artist = projectBySlug(slug);
 
   if (artist === undefined) {
     throw new Error(`No artist is addressed as ${slug}.`);

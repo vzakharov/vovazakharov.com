@@ -7,7 +7,7 @@ import { byLocale, type Locale, LOCALES } from '@/shared/i18n';
 // The leaf rather than the barrel: `shared/content` registers this schema, so
 // entering it by its barrel would close an import cycle at module evaluation.
 import { baseFrontmatterSchema } from '../content/frontmatter';
-import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from './names';
+import { albumSchema, projectSchema } from './names';
 import { creditedNameSchema } from './people';
 import { songDateSchema } from './song-date';
 
@@ -78,8 +78,6 @@ const localNameSchema = z.union([z.string().min(1), titleGlossSchema]);
 
 export type LocalName = z.infer<typeof localNameSchema>;
 
-const projectSchema = z.enum(MUSIC_PROJECT_NAMES);
-
 /**
  * An album's frontmatter, a key per locale as a song's. Its slug is its file
  * name, and its cover is `albumCover`'s to find.
@@ -112,11 +110,10 @@ export const albumFrontmatterSchema = z
 
 /**
  * An artist's frontmatter, a key per locale as a song's. Its slug is its file
- * name; `name` is what `pnpm music:codegen` reads.
+ * name, and its `name` is what a song's `project` bills it by.
  */
 export const artistFrontmatterSchema = z
   .object({
-    /** The name a song's `project` bills it by. */
     name: projectSchema,
   })
   .extend(
@@ -146,8 +143,6 @@ const creditsSchema = z.object({
   lyrics: z.array(creditedNameSchema).min(1).optional(),
   music: z.array(creditedNameSchema).min(1).optional(),
 });
-
-const albumSchema = z.enum(MUSIC_ALBUM_SLUGS);
 
 /**
  * A song's number on a release — required there and refused on a single, so

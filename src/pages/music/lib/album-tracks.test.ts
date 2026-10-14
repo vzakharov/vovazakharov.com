@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { musicAlbumSchema } from '@/shared/music-catalogue/index.node-safe';
+
 import { albumsTogether, albumTracks, songPlacements } from './album-tracks.ts';
+
+const HAMLET = musicAlbumSchema.parse('hamlet');
+const FATHER_RIVER = musicAlbumSchema.parse('father-river');
 
 const song = (
   slug: string,
@@ -9,19 +14,19 @@ const song = (
 ) => ({ slug, frontmatter });
 
 const valentinesDay = song('valentines-day', {
-  album: 'father-river',
+  album: FATHER_RIVER,
   track: 6,
-  alsoOn: [{ album: 'hamlet', track: 4 }],
+  alsoOn: [{ album: HAMLET, track: 4 }],
 });
 
 const songs = [
   valentinesDay,
-  song('stricken-deer', { album: 'hamlet', track: 5 }),
-  song('hamlet', { album: 'hamlet', track: 1 }),
+  song('stricken-deer', { album: HAMLET, track: 5 }),
+  song('hamlet', { album: HAMLET, track: 1 }),
   song('my-offence-is-rank', {
-    album: 'father-river',
+    album: FATHER_RIVER,
     track: 5,
-    alsoOn: [{ album: 'hamlet', track: 3 }],
+    alsoOn: [{ album: HAMLET, track: 3 }],
   }),
   song('single', { album: null }),
 ];
@@ -32,8 +37,8 @@ const slugsOn = (album: Parameters<typeof albumTracks>[0]) =>
 describe('songPlacements', () => {
   it('puts the release a song is filed under ahead of the others', () => {
     assert.deepEqual(songPlacements(valentinesDay.frontmatter), [
-      { album: 'father-river', track: 6 },
-      { album: 'hamlet', track: 4 },
+      { album: FATHER_RIVER, track: 6 },
+      { album: HAMLET, track: 4 },
     ]);
   });
 
@@ -44,7 +49,7 @@ describe('songPlacements', () => {
 
 describe('albumTracks', () => {
   it('lists a song filed elsewhere at its number on this album', () => {
-    assert.deepEqual(slugsOn('hamlet'), [
+    assert.deepEqual(slugsOn(HAMLET), [
       ['hamlet', 1],
       ['my-offence-is-rank', 3],
       ['valentines-day', 4],
@@ -53,14 +58,14 @@ describe('albumTracks', () => {
   });
 
   it('keeps the song on the album it is filed under', () => {
-    assert.deepEqual(slugsOn('father-river'), [
+    assert.deepEqual(slugsOn(FATHER_RIVER), [
       ['my-offence-is-rank', 5],
       ['valentines-day', 6],
     ]);
   });
 
   it('finds nothing on an album no song is on', () => {
-    assert.deepEqual(slugsOn('ctfu'), []);
+    assert.deepEqual(slugsOn(musicAlbumSchema.parse('ctfu')), []);
   });
 });
 

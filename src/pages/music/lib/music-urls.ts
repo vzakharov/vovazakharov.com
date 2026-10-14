@@ -4,8 +4,8 @@ import {
   MUSIC_ROUTE,
   type MusicAlbum,
   type MusicProject,
+  projectSlug,
 } from '@/shared/music-catalogue';
-import { MUSIC_PROJECT_SLUGS } from '@/shared/music-catalogue/index.node-safe';
 
 export const ARTISTS_SEGMENT = 'artists';
 
@@ -62,7 +62,7 @@ export function tabPath(tab: CatalogueTab, locale?: Locale): string {
 
 export function artistPath(artist: MusicProject, locale?: Locale): string {
   return localizedRoute(
-    `${MUSIC_ROUTE}/${ARTISTS_SEGMENT}/${MUSIC_PROJECT_SLUGS[artist]}`,
+    `${MUSIC_ROUTE}/${ARTISTS_SEGMENT}/${projectSlug(artist)}`,
     locale,
   );
 }

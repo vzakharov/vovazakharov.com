@@ -1,69 +1,34 @@
-// Generated from apps/vova/public/music/albums/ and artists/ by `pnpm music:codegen`.
-// Add or rename a file there, not here — the vet run regenerates this
-// file and fails when it had to.
+import 'server-only';
 
-/**
- * The artist and album names a song's frontmatter may use — the enums its
- * schema validates against; how each is shown is `pages/music`'s. Reached by
- * `index.node-safe.ts`, so it stays free of `server-only` and of every barrel.
- */
+import { readSiteCatalogueNames } from './catalogue-names';
+import type { MusicProject } from './name-brands';
 
-/** By file name, as the albums are; the music index ranks them itself. */
-export const MUSIC_PROJECT_NAMES = [
-  'Дамы и господа',
-  'Dead Pixel Lounge',
-  'Downtemple',
-  'GENERATED',
-  'Грёбаный бал',
-  'Иске Кормаш',
-  'Киндерштайн',
-  'Листопад',
-  'Полуживые',
-  'Trending Today',
-  'Yoohie',
-  'за/обложкой',
-] as const;
+export type { MusicAlbum, MusicProject } from './name-brands';
 
-export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
+// The albums and artists this site's files hold, read once per build.
+const { albums, artists, albumSchema, projectSchema } =
+  readSiteCatalogueNames();
 
-/** Each artist's address under `/music/artists/`, its file's name. */
-export const MUSIC_PROJECT_SLUGS = {
-  'Дамы и господа': 'damy-i-gospoda',
-  'Dead Pixel Lounge': 'dead-pixel-lounge',
-  Downtemple: 'downtemple',
-  GENERATED: 'generated',
-  'Грёбаный бал': 'grebanyy-bal',
-  'Иске Кормаш': 'iske-kormash',
-  Киндерштайн: 'kinderstein',
-  Листопад: 'listopad',
-  Полуживые: 'poluzhivye',
-  'Trending Today': 'trending-today',
-  Yoohie: 'yoohie',
-  'за/обложкой': 'za-oblozhkoy',
-} as const satisfies Record<MusicProject, string>;
+export { albumSchema, projectSchema };
 
 /** Each one the address of the album's page under `/music/albums/`, its file's name. */
-export const MUSIC_ALBUM_SLUGS = [
-  'ctfu',
-  'divine-discontent',
-  'father-river',
-  'father-sea',
-  'five-romances',
-  'for-none-and-for-all',
-  'ghosts-of-flesh',
-  'hamlet',
-  'ignite',
-  'let-the-stories-spin',
-  'nsfl',
-  'nursery-rhymes',
-  'old-shite',
-  'prototypes',
-  'pschpthy',
-  'punctuation-marks',
-  'stronger-than-love',
-  'vagabond',
-  'who-is-happy-in-russia',
-  'wings',
-] as const;
+export const MUSIC_ALBUM_SLUGS = albums;
 
-export type MusicAlbum = (typeof MUSIC_ALBUM_SLUGS)[number];
+/** By file name; the music index ranks them itself. */
+export const MUSIC_PROJECT_NAMES = artists.map(({ name }) => name);
+
+/** The artist's address under `/music/artists/`, its file's name. */
+export function projectSlug(artist: MusicProject): string {
+  const found = artists.find(({ name }) => name === artist);
+
+  if (found === undefined) {
+    throw new Error(`No artist file names ${artist}.`);
+  }
+
+  return found.slug;
+}
+
+/** The artist whose file the slug names, if any. */
+export function projectBySlug(slug: string): MusicProject | undefined {
+  return artists.find((artist) => artist.slug === slug)?.name;
+}
