@@ -28,6 +28,14 @@
       "Divine-Discontent--album-/GENERATED - 300,000 Years.mp3"
     ]
   },
+  "after-us": {
+    "hash": "f2971916d379",
+    "paths": [
+      "after-us/after-us.mp3",
+      "after-us/za_oblozhkoy - Posle nas.mp3",
+      "after-us/за_обложкой - После нас.mp3"
+    ]
+  },
   "agios-o-skopos": {
     "hash": "691736559955",
     "paths": [
@@ -148,6 +156,14 @@
       "birdie/Грёбаный бал - Птичка.mp3",
       "birdie/🅴 Птичка.flac",
       "birdie/🅴 Птичка.mp3"
+    ]
+  },
+  "birds": {
+    "hash": "18d1f92a162b",
+    "paths": [
+      "birds/birds.mp3",
+      "birds/za_oblozhkoy - Ptitsy.mp3",
+      "birds/за_обложкой - Птицы.mp3"
     ]
   },
   "boom": {
@@ -637,6 +653,14 @@
       "nsfl/nsfl-011.mp3"
     ]
   },
+  "hello": {
+    "hash": "34ef9de78ab4",
+    "paths": [
+      "hello/hello.mp3",
+      "hello/za_oblozhkoy - Zdravstvuy.mp3",
+      "hello/за_обложкой - Здравствуй.mp3"
+    ]
+  },
   "hello-human": {
     "hash": "539929b639f4",
     "paths": [
@@ -825,6 +849,14 @@
       "psch_album/GENERATED - Intermezzo.mp3"
     ]
   },
+  "intertwined": {
+    "hash": "26f26f1e28c4",
+    "paths": [
+      "intertwined/intertwined.mp3",
+      "intertwined/za_oblozhkoy - Pereplelosʼ.mp3",
+      "intertwined/за_обложкой - Переплелось.mp3"
+    ]
+  },
   "is-it-your-fault": {
     "hash": "2e37a3f8bda3",
     "paths": [
@@ -834,6 +866,14 @@
       "dng_album/dng-005.mp3",
       "dng_album/Дамы и господа - Твоя ль вина, что милый образ твой… feat. Полуживые.flac",
       "dng_album/Дамы и господа - Твоя ль вина, что милый образ твой… feat. Полуживые.mp3"
+    ]
+  },
+  "just-because": {
+    "hash": "1cddca53f1fa",
+    "paths": [
+      "just-because/just-because.mp3",
+      "just-because/za_oblozhkoy - Prosto tak.mp3",
+      "just-because/за_обложкой - Просто так.mp3"
     ]
   },
   "just-tired": {
@@ -885,6 +925,17 @@
       "ghosts-of-flesh/GENERATED - The Last Human Zoo.mp3"
     ]
   },
+  "lets-fly": {
+    "hash": "5bcd6a7649cb",
+    "paths": [
+      "letim/letim.flac",
+      "letim/letim.mp3",
+      "letim/za_oblozhkoy - Letim feat. GENERATED.flac",
+      "letim/za_oblozhkoy - Letim feat. GENERATED.mp3",
+      "letim/за_обложкой - Летим feat. GENERATED.flac",
+      "letim/за_обложкой - Летим feat. GENERATED.mp3"
+    ]
+  },
   "life-is-not-a-dream": {
     "hash": "709bb114c02f",
     "paths": [
@@ -903,6 +954,22 @@
       "like-that/Trending Today - Like That.mp3",
       "like-that/like that.flac",
       "like-that/like that.mp3"
+    ]
+  },
+  "listen": {
+    "hash": "73fd445de125",
+    "paths": [
+      "listen/listen.mp3",
+      "listen/za_oblozhkoy - Poslushayte.mp3",
+      "listen/за_обложкой - Послушайте.mp3"
+    ]
+  },
+  "listen-single": {
+    "hash": "cba9e6954ea6",
+    "paths": [
+      "listen-single/listen-single.mp3",
+      "listen-single/za_oblozhkoy - Poslushayte (Single Version).mp3",
+      "listen-single/за_обложкой - Послушайте (Single Version).mp3"
     ]
   },
   "little-lights": {
@@ -1118,6 +1185,22 @@
       "heart/heart_new.mp3"
     ]
   },
+  "our-punk-rock": {
+    "hash": "6fea194c25f4",
+    "paths": [
+      "our-punk-rock/our-punk-rock.mp3",
+      "our-punk-rock/za_oblozhkoy - Nash pank-rok.mp3",
+      "our-punk-rock/за_обложкой - Наш панк-рок.mp3"
+    ]
+  },
+  "our-story": {
+    "hash": "1be3f013a683",
+    "paths": [
+      "our-story/our-story.mp3",
+      "our-story/za_oblozhkoy - Nasha istoriya.mp3",
+      "our-story/за_обложкой - Наша история.mp3"
+    ]
+  },
   "overture": {
     "hash": "326aafda831c",
     "paths": [
@@ -1273,6 +1356,17 @@
       "otter/Полуживые - Река. Часть третья.mp3"
     ]
   },
+  "river-part-two": {
+    "hash": "336fd686d068",
+    "paths": [
+      "papa-reka/4_reka.flac",
+      "papa-reka/4_reka.mp3",
+      "papa-reka/Poluzhivye - Reka. Chastʼ vtoraya.flac",
+      "papa-reka/Poluzhivye - Reka. Chastʼ vtoraya.mp3",
+      "papa-reka/Полуживые - Река. Часть вторая.flac",
+      "papa-reka/Полуживые - Река. Часть вторая.mp3"
+    ]
+  },
   "schadina": {
     "hash": "c136b3e36665",
     "paths": [
@@ -1359,6 +1453,14 @@
       "s74/Дамы и господа - Ты не терзайся… feat. Полуживые.mp3",
       "s74/Ты не терзайся и когда за мной.flac",
       "s74/Ты не терзайся и когда за мной.master.mp3"
+    ]
+  },
+  "sorry": {
+    "hash": "4dad9c18d7cb",
+    "paths": [
+      "sorry/sorry.mp3",
+      "sorry/za_oblozhkoy - Prosti.mp3",
+      "sorry/за_обложкой - Прости.mp3"
     ]
   },
   "story-ends": {
@@ -1552,6 +1654,14 @@
       "okna/Грёбаный бал - Окна.mp3",
       "okna/Окна.flac",
       "okna/Окна.mp3"
+    ]
+  },
+  "world-as-it-is": {
+    "hash": "29f6ae2d4396",
+    "paths": [
+      "world-as-it-is/world-as-it-is.mp3",
+      "world-as-it-is/za_oblozhkoy - Mir, kakoy on yestʼ.mp3",
+      "world-as-it-is/за_обложкой - Мир, какой он есть.mp3"
     ]
   },
   "youngest-grandson": {
