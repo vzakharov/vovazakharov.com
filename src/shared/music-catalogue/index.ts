@@ -10,6 +10,12 @@ export {
   type SungLanguage,
   type TitleGloss,
 } from './frontmatter';
+export {
+  billedArtists,
+  type SongBilling,
+  songFileName,
+  songFileNames,
+} from './file-name';
 export { type HookRun, hookRuns, textHook } from './hook-marks';
 export {
   type MusicAlbum,
