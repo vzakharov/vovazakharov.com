@@ -1,28 +1,28 @@
 # megabeast — notes toward a skill
 
-Not a skill yet: no `SKILL.md`, so nothing loads it. The working name is for
-the skill that would run a whole elephant autonomously — plan, then per bite
-`/go` → `/relay` review → `/relay /handle` → … → `/relay /finalize` — the
-loop `docs/plans/mushroom-game-syama.*.md` § "How this elephant is eaten"
-spelled out by hand for PR #57. Every session in that chain adds what it
-found that would make the loop repeatable and better, at its end and before
-its relay; the operator asked for it in these words:
+Not a skill yet: no `SKILL.md`, so nothing loads it. The working name is for the
+skill that would run a whole elephant autonomously — plan, then per bite `/go` →
+`/relay` review → `/relay /handle` → … → `/relay /finalize` — the loop
+`docs/plans/mushroom-game-syama.*.md` § "How this elephant is eaten" spelled out
+by hand for PR #57. Every session in that chain adds what it found that would
+make the loop repeatable and better, at its end and before its relay; the
+operator asked for it in these words:
 
-> одна штука которую хочу чтобы ты держал, в том числе между сессиями --
-> файлик будущего скилла, который будет это всё автоматизировать (рабочее
-> название megabeast). Не сам скилл, а именно соображения с тем, что ты нашёл
-> по пути, что помогло бы сделать этот процесс повторяемым и на лучшем уровне
+> одна штука которую хочу чтобы ты держал, в том числе между сессиями -- файлик
+> будущего скилла, который будет это всё автоматизировать (рабочее название
+> megabeast). Не сам скилл, а именно соображения с тем, что ты нашёл по пути,
+> что помогло бы сделать этот процесс повторяемым и на лучшем уровне
 
 > заполнять в конце каждой сессии перед релеем
 
-A note already here that a later session sharpens gets rewritten in place,
-not answered with a second one.
+A note already here that a later session sharpens gets rewritten in place, not
+answered with a second one.
 
 Each note: what happened, and what the skill should do about it.
 
-A note goes in the file for its theme. A file nearing ~450 lines is
-condensed first, and split along a seam only when condensing is not enough;
-a new file gets a row here. The single file these replaced is recorded in
+A note goes in the file for its theme. A file nearing ~450 lines is condensed
+first, and split along a seam only when condensing is not enough; a new file
+gets a row here. The single file these replaced is recorded in
 `.claude/skills/megabeast/notes.retired.md`.
 
 - **[contract.md](contract.md)** — the loop's contract: the plan as its home,

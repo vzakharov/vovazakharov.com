@@ -1,26 +1,26 @@
 # The context budget hook
 
 `hooks/post-tool-context-budget.sh` tells the agent when its session's context
-crosses the warning line and the pause line, so work is left resumable
-before a compact or a dead session takes the choice away. The warning gives the
-work the room up to the pause line, to finish in or to steer to a good stopping
-point and pause there; the pause line is where that estimate missed, so it
-stops the work where it stands, a last step aside. What the agent does on
-each notice is `@.claude/skills/go/SKILL.md` § "Stopping partway releases the
-plan".
+crosses the warning line and the pause line, so work is left resumable before a
+compact or a dead session takes the choice away. The warning gives the work the
+room up to the pause line, to finish in or to steer to a good stopping point and
+pause there; the pause line is where that estimate missed, so it stops the work
+where it stands, a last step aside. What the agent does on each notice is
+`@.claude/skills/go/SKILL.md` § "Stopping partway releases the plan".
 
 - **`PostToolUse`, not `UserPromptSubmit`.** The lines are crossed mid-turn, in
   the long autonomous stretches where no operator prompt arrives to fire on.
   `PostToolUse` fires after every tool call and its `additionalContext` reaches
   the model before its next step.
 - **The reading is what the last request sent**: the last main-chain assistant
-  record's `input_tokens + cache_read_input_tokens + cache_creation_input_tokens`.
+  record's
+  `input_tokens + cache_read_input_tokens + cache_creation_input_tokens`.
   `output_tokens` is left out — the next request carries it, and the next
   reading counts it then.
 - **Both lines are priced by what `/relay` saves over the next 100k tokens of
-  work** (`finish`): the warning where that saving reaches $0, the
-  pause where it reaches `MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING` percent (default
-  20) of what carrying on costs. The model is `.claude/costs/lib/restart.py`, via
+  work** (`finish`): the warning where that saving reaches $0, the pause where
+  it reaches `MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING` percent (default 20) of what
+  carrying on costs. The model is `.claude/costs/lib/restart.py`, via
   `hooks/priced_line.py`, and the notice carries the dollars.
   - **Each is capped at its fixed line, 200k and 300k**, so pricing only ever
     moves a line earlier: context quality and the hard window are not cost
@@ -34,8 +34,8 @@ plan".
   - **The lines are cached** in `tmp/context-budget/<session_id>.line` and
     recomputed per 10k of growth, since a Python start-up per tool call is what
     this bash hook avoids.
-  - **Without the ledger's lib, or under `MUTHUR_CONTEXT_BUDGET_LINES=fixed`**, the
-    hook runs no Python; those and an unpriced model leave the lines at 200k
+  - **Without the ledger's lib, or under `MUTHUR_CONTEXT_BUDGET_LINES=fixed`**,
+    the hook runs no Python; those and an unpriced model leave the lines at 200k
     and 300k.
 - **The main chain only**, for the session's reading: `isSidechain` records are
   skipped, as is the `<synthetic>` placeholder Claude Code writes for a turn no
@@ -45,18 +45,18 @@ plan".
   carries `agent_id` but the parent's `transcript_path`; its own is
   `<transcript_path minus .jsonl>/subagents/agent-<agent_id>.jsonl`, where every
   record is a sidechain one. At a fixed 170k, unpriced, it is told to commit
-  what passes, bring its hand-over note current and report — never to pause
-  the plan, which would release it while its parent works on.
+  what passes, bring its hand-over note current and report — never to pause the
+  plan, which would release it while its parent works on.
 - **Each notice fires once per climb.** `tmp/context-budget/<session_id>` holds
   the highest level announced, `<session_id>.agent-<agent_id>` a subagent's; a
-  reading back under its first line clears it, so a compact re-arms the
-  notices. A notice that cannot be recorded is not sent, since
-  it would otherwise repeat on every tool call.
-- **The operator is resolved only when a notice is about to fire**, with `gh api
-  user`, since it costs a network call and the ordinary tool call has no use for
-  it — and not at all once `MUTHUR_MANUAL_CONTEXT_BUDGET_RELAY` has settled how
-  the pause ends. A `gh` that cannot answer, or a token that is not a `User`'s, has no
-  operator file to read and leaves the default.
+  reading back under its first line clears it, so a compact re-arms the notices.
+  A notice that cannot be recorded is not sent, since it would otherwise repeat
+  on every tool call.
+- **The operator is resolved only when a notice is about to fire**, with
+  `gh api user`, since it costs a network call and the ordinary tool call has no
+  use for it — and not at all once `MUTHUR_MANUAL_CONTEXT_BUDGET_RELAY` has
+  settled how the pause ends. A `gh` that cannot answer, or a token that is not
+  a `User`'s, has no operator file to read and leaves the default.
 - **Anything unreadable is silence**, never an error: a missing notice costs a
   warning, a hook failing on every tool call costs the session.
 
@@ -75,15 +75,16 @@ of two switches set to `true` makes the pause end the turn offering the relay
 instead:
 
 - **`MUTHUR_MANUAL_CONTEXT_BUDGET_RELAY`, for an environment**, set where the
-  variables above are — on the web, the dialog that also holds the setup script. It is the
-  switch for launches nobody reopens, whose successor would be a session nobody
-  finds, and the only one for a session with no operator to resolve.
+  variables above are — on the web, the dialog that also holds the setup script.
+  It is the switch for launches nobody reopens, whose successor would be a
+  session nobody finds, and the only one for a session with no operator to
+  resolve.
 - **`manual-relay/<handle>`, for an operator**, the handle being the one
   `.claude/hooks/operator-voice.sh` resolves — the lowercased login of the
   session's `User`-type GitHub token.
   - **Only the operator's own words write it**, whenever they say it: write
-    `true`, commit it with their words quoted, and push; asked to have the
-    pause relay unasked again, delete the file the same way.
+    `true`, commit it with their words quoted, and push; asked to have the pause
+    relay unasked again, delete the file the same way.
   - **It applies wherever the tree carries it**: on this branch from the next
     notice, and on every branch once it reaches the default branch. Say so when
     you write it, since the operator's next session may start from a base that

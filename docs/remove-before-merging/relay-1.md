@@ -34,7 +34,7 @@ Pull the agent infrastructure forward from `vzakharov/muthur` per
   for the in-scope globs, enforced by the existing `pnpm format:check` in vet —
   so no `check-markdown-wrap.sh`. The `format-md.sh` hook is translated to call
   the local prettier (and wrap `*.md.staged` with `--parser markdown --prose-wrap
-  always`).
+always`).
 - **Wrap scope**: every `CLAUDE.md`, `.claude/**/*.md`, `docs/plans/`,
   `README.md`, `src/**/*.md`, `scripts/**/*.md`. Excluded: `apps/*/public/`
   (served pages and raw `.md` variants — a reflow there is a site change),

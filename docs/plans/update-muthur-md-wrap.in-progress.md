@@ -1,8 +1,8 @@
 # Sync vzakharov/muthur 460e110 → 0f16275
 
 Eight source commits, taken whole in one PR (no split: the source's own split
-instruction at #187 is an ordering within the sync, not a session boundary).
-One local commit per rationale, in source order; the watermark bumps last.
+instruction at #187 is an ordering within the sync, not a session boundary). One
+local commit per rationale, in source order; the watermark bumps last.
 
 ## Order
 
@@ -19,9 +19,9 @@ One local commit per rationale, in source order; the watermark bumps last.
    rule is an `opt-in: ask`, taken under the watermark's `optIn`. Rule file,
    `check-markdown-tables.sh` in the vet fan-out, the tables in adopted files
    converted as the source did, and this repo's own agent-facing tables
-   (`.claude/rules/*`, nested `CLAUDE.md`s) converted too. `test_markdown_tables.py`
-   stays declined with `scripts/test_*.py`. CLAUDE.md's routing ladder goes
-   through its staged copy.
+   (`.claude/rules/*`, nested `CLAUDE.md`s) converted too.
+   `test_markdown_tables.py` stays declined with `scripts/test_*.py`.
+   CLAUDE.md's routing ladder goes through its staged copy.
 5. **86f2ade — squash on the PR title, propose only the body** (translate):
    `/squash-message` keeps its `<type>[(<site>)]:` scope rule; the deploy gate
    reads the subject's prefix only, so GitHub's ` (#n)` suffix changes nothing
@@ -32,7 +32,8 @@ One local commit per rationale, in source order; the watermark bumps last.
    - Wrap through the prettier already in `package.json` rather than the
      source's `npx`-pinned `scripts/prettier.sh`: an override in
      `.prettierrc.json` sets `proseWrap: always` for the in-scope globs, and the
-     existing `format:check` in vet enforces it — so no `check-markdown-wrap.sh`.
+     existing `format:check` in vet enforces it — so no
+     `check-markdown-wrap.sh`.
    - **Scope: agent-facing and repo-doc Markdown** — every `CLAUDE.md`,
      `.claude/**/*.md`, `docs/plans/`, `README.md`, `src/**/*.md`,
      `scripts/**/*.md`. **Not** the content trees: `apps/*/public/` (served
@@ -40,8 +41,8 @@ One local commit per rationale, in source order; the watermark bumps last.
      `writing/` (copy-exact drafts pasted into channels that keep newlines) and
      `docs/music/` (transcripts). Recommended; the alternative is the source's
      "all tracked Markdown".
-   - `format-md.sh` PostToolUse hook, translated to call the local prettier
-     (and to wrap a `*.md.staged` copy as Markdown).
+   - `format-md.sh` PostToolUse hook, translated to call the local prettier (and
+     to wrap a `*.md.staged` copy as Markdown).
    - `.prettierignore` gains the squash proposal's home.
    - `check-skill-catalog.sh` citation fix (verbatim).
    - Rule file `.claude/rules/markdown-wrap.md`, worded for this repo.

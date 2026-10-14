@@ -8,16 +8,18 @@ this repository still serves its own content.
 
 **A repository gets one Pages site**, so every site after the first is published
 to a **receiving repository** of its own — `.claude/rules/deployment.md` carries
-the arrangement that follows, and what this skill stands up is its receiving end.
+the arrangement that follows, and what this skill stands up is its receiving
+end.
 
 **The domain is bought by the operator; its records are written by whoever can
 reach the registrar.** Step 2 splits on that, and either way the site is dark
 until they land, whatever CI reports.
 
 The code half — the app directory, its `next.config.ts`, the site's entry in the
-shared config — is ordinary work on the branch and is not this skill's; CLAUDE.md
-§ "Repository layout" and `.claude/rules/deployment.md` own it. This skill starts where the
-build already produces the site and ends where the domain serves it.
+shared config — is ordinary work on the branch and is not this skill's;
+CLAUDE.md § "Repository layout" and `.claude/rules/deployment.md` own it. This
+skill starts where the build already produces the site and ends where the domain
+serves it.
 
 ## Step 1 — The receiving repository and its key
 
@@ -42,10 +44,10 @@ rm tmp/deploy-key tmp/deploy-key.pub
 ```
 
 **The web container has no `ssh-keygen`.** Python's `cryptography` writes the
-same pair: `Ed25519PrivateKey.generate()`, its `private_bytes` in
-`Encoding.PEM` / `PrivateFormat.OpenSSH` / `NoEncryption()` to `tmp/deploy-key`
-under `umask 077`, and its public key in `Encoding.OpenSSH` /
-`PublicFormat.OpenSSH`, plus the comment, to `tmp/deploy-key.pub`.
+same pair: `Ed25519PrivateKey.generate()`, its `private_bytes` in `Encoding.PEM`
+/ `PrivateFormat.OpenSSH` / `NoEncryption()` to `tmp/deploy-key` under
+`umask 077`, and its public key in `Encoding.OpenSSH` / `PublicFormat.OpenSSH`,
+plus the comment, to `tmp/deploy-key.pub`.
 
 Print nothing and keep nothing: once the private half is in the secret, rotation
 is the only way back, and the publish script's own header carries that contract
@@ -143,10 +145,10 @@ A manual run is the only way to serve the site before the merge, and a dispatch
 from an unmerged branch publishes whatever it is told to — including sites whose
 pages the branch also changes.
 
-**So the run names one site.** The gate reads a scope off the commit
-subject on a push and off the **site** picker on a manual run
-(`.claude/rules/deployment.md`); naming one site is what keeps an unmerged tree from republishing
-the others.
+**So the run names one site.** The gate reads a scope off the commit subject on
+a push and off the **site** picker on a manual run
+(`.claude/rules/deployment.md`); naming one site is what keeps an unmerged tree
+from republishing the others.
 
 ```bash
 gh workflow run deploy.yml --ref <branch> -f site=<site>
@@ -159,9 +161,9 @@ not merely green. That is the assertion — the picker held — and it is the on
 thing a failed reading of it costs a live site.
 
 **Only receivers are in range of a branch dispatch.** The Pages-native site
-deploys through the `github-pages` environment, whose protection rules admit
-the default branch alone, so its deploy job **fails** on any other ref — after
-its build has passed — with "not allowed to deploy to github-pages due to
+deploys through the `github-pages` environment, whose protection rules admit the
+default branch alone, so its deploy job **fails** on any other ref — after its
+build has passed — with "not allowed to deploy to github-pages due to
 environment protection rules". That is the guard rail holding, not a failure to
 chase, and it caps what a pre-merge publish can disturb: a picker naming
 everything still cannot touch the site served from this repository's own Pages.
@@ -169,11 +171,12 @@ Weigh a dispatch against the receivers alone.
 
 ## Step 4 — Settle Pages on the receiving repository
 
-**The push usually does this by itself.** GitHub takes a pushed `gh-pages` as the
-source, reads the domain off `CNAME` and has the certificate approved before
-anything asks, so the first call below answers `409 already enabled` and only the
-second is needed. Run both anyway: the first is there for a receiving repository
-that does not self-enable, and a 409 is an answer rather than a failure.
+**The push usually does this by itself.** GitHub takes a pushed `gh-pages` as
+the source, reads the domain off `CNAME` and has the certificate approved before
+anything asks, so the first call below answers `409 already enabled` and only
+the second is needed. Run both anyway: the first is there for a receiving
+repository that does not self-enable, and a 409 is an answer rather than a
+failure.
 
 ```bash
 gh api -X POST repos/<owner>/<domain>/pages \
@@ -232,9 +235,9 @@ is the thing under test, so reading the tree only confirms the input.
 
 ## Traps
 
-- **A 404 on the new domain is `CNAME` not reaching the branch**, or DNS that has
-  not propagated. The publish script asserts on `CNAME` and `.nojekyll` before
-  pushing, so propagation is the likelier of the two.
+- **A 404 on the new domain is `CNAME` not reaching the branch**, or DNS that
+  has not propagated. The publish script asserts on `CNAME` and `.nojekyll`
+  before pushing, so propagation is the likelier of the two.
 - **The new domain serving an existing site** means the apex records point
   somewhere else entirely — that is DNS, not the build.
 - **GitHub's run-workflow form reads its input list off the default branch.** A

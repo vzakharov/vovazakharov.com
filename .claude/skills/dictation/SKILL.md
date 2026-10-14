@@ -31,9 +31,9 @@ project's files say the recording uses.
 
 It writes `<slug>.transcript.md` and the gzipped whole responses,
 `<slug>.deepgram.json.gz` and `<slug>.whisper-large.deepgram.json.gz`, side by
-side under `docs/remove-before-merging/deepgram/`. All are committed and all
-are swept before the merge — the script's header says why the responses are
-kept and why gzipped.
+side under `docs/remove-before-merging/deepgram/`. All are committed and all are
+swept before the merge — the script's header says why the responses are kept and
+why gzipped.
 
 ## The three modes
 
@@ -165,10 +165,10 @@ Whisper's hearing: `[-nova-3 only-]{+Whisper only+}`.
   dropped or Whisper inventing — it fills a cut-off ending or a silence with
   «Продолжение следует…» or subtitle credits. Keep it only where the sentences
   around it run on through it.
-- **A marked word both models heard alike is usually right**, since most
-  marks are on words heard correctly. Agreement is not proof either — two
-  models can share a mis-hearing — so Step 3's rule for a phrase that makes no
-  sense holds on settled words too.
+- **A marked word both models heard alike is usually right**, since most marks
+  are on words heard correctly. Agreement is not proof either — two models can
+  share a mis-hearing — so Step 3's rule for a phrase that makes no sense holds
+  on settled words too.
 
 ## Step 3 — Write the dictation file
 
@@ -226,9 +226,9 @@ place, and five departures are licensed.
   one.
 
 A reordering or a synonym is none of the five, so it is a rewrite. Note what the
-rule does **not** ask: that the result read well. The recording was loose, so the
-text is loose — smoothness is the tell that a sentence has been improved rather
-than transcribed, which is the same rule `@writing/CLAUDE.md` § "Voice"
+rule does **not** ask: that the result read well. The recording was loose, so
+the text is loose — smoothness is the tell that a sentence has been improved
+rather than transcribed, which is the same rule `@writing/CLAUDE.md` § "Voice"
 states for drafts.
 
 The slip and the insertion are the two to be careful with, because both are you
@@ -251,20 +251,19 @@ the chance to catch it.
 ## Step 4 — List what you guessed
 
 A table at the foot of the file, one row per place the recognizer was
-unintelligible and you chose a reading: what it heard, and what the text says.
-A disagreement you settled gets a row when the side you dropped was also a
-plausible reading.
-The operator corrects these themself and cannot do that from a file that reads
-smoothly everywhere — a silent guess is the failure mode this table exists to
-prevent.
+unintelligible and you chose a reading: what it heard, and what the text says. A
+disagreement you settled gets a row when the side you dropped was also a
+plausible reading. The operator corrects these themself and cannot do that from
+a file that reads smoothly everywhere — a silent guess is the failure mode this
+table exists to prevent.
 
 Where you could not make out a reading at all, leave `[?]` in the text and say
 so in the table. An honest gap beats a plausible invention.
 
 **Every mark in the text carries the timecode it sits at** — `[?04:12]`,
 `[база 06:31]` — taken from the transcript's sentence lines. The operator finds
-these places by scrubbing the recording, and a mark without a timecode makes them
-hunt through six minutes of talk for a word they cannot search for.
+these places by scrubbing the recording, and a mark without a timecode makes
+them hunt through six minutes of talk for a word they cannot search for.
 
 **The table is transient and shrinks to nothing.** It carries the rows that are
 still open questions, so a reading the operator has ruled on has done its work
@@ -285,8 +284,8 @@ what is in it before deciding to read it. So the file opens with a summary, and
 in retake mode carries a beat sheet for the take itself. Both are in the
 recording's language, not this file's.
 
-- **The lede** — `## О чём это`, above the recording. Three or four sentences
-  on what it says, in the operator's own vocabulary, so that they recognise it
+- **The lede** — `## О чём это`, above the recording. Three or four sentences on
+  what it says, in the operator's own vocabulary, so that they recognise it
   rather than decode it.
 - **The beat sheet** — `## Рыба`, between the lede and the recording, in retake
   mode only. The points, the turns and the transitions as a bulleted list, in
@@ -320,8 +319,8 @@ and neither starts until the operator has agreed the transcript.
 
 - Re-run the script over a recording already transcribed to get a "better" pass,
   a second opinion included. The transcript is committed; read it. A re-run is
-  legitimate for one thing only, which `@.claude/skills/subtitles/SKILL.md` owns: fetching per-word
-  timings that `tmp/` no longer has.
+  legitimate for one thing only, which `@.claude/skills/subtitles/SKILL.md`
+  owns: fetching per-word timings that `tmp/` no longer has.
 - Edit the operator's own corrections to a dictation file. Text they supplied is
   verbatim; something in it that looks like a typo gets raised, not fixed.
 - Leave the source media only in the container. It dies with the session.
