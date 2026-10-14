@@ -1,13 +1,20 @@
 Proposed squash body:
 
 ```
-Building a Reddit digest (since moved to vzakharov/life#195) turned up
-two facts about Arctic Shift that /file-basilisk-case's notes lacked.
+/file-basilisk-case picks up two things from building a Reddit digest
+(since moved to vzakharov/life#195).
 
-`author=` alone is enough on both search endpoints, with no subreddit.
-And comments settle the way posts do: archived within a minute, fetched
-once more 36-48 hours later, their votes near zero until then, which a
-row's `_meta.retrieved_2nd_on` marks.
+Its Step 1 is now a call to scripts/routine-branch.sh, copied from
+vzakharov/muthur#198 ahead of /update-muthur: the oldest open draft PR
+touching the docket or the ledger, or a fresh branch off the default
+one. Two routines in vzakharov/life ran the same step in their own
+words, and the script is the one copy all three now call.
+
+Its Arctic Shift notes gain two facts: `author=` alone is enough on
+both search endpoints, with no subreddit, and comments settle the way
+posts do — archived within a minute, fetched once more 36-48 hours
+later, their votes near zero until then, which a row's
+`_meta.retrieved_2nd_on` marks.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
