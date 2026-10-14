@@ -7,7 +7,7 @@ import { type AstNode, tsType } from './estree-mixins';
 // narrow type is declared first and the wide one intersects it; carving the
 // subset back out of the wide type names it without giving it a home. A type
 // `z.infer`red from a schema follows the same order through a narrow schema the
-// full one `.extend`s, which this rule needs no help to demand.
+// full one `.extend`s, and is caught by the `typeof` in its target.
 //
 // X is the repo's when a name inside it — a type reference's root, or a
 // `typeof` query's — resolves to a declaration in the file or an import from a
