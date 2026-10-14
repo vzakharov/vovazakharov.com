@@ -12,7 +12,7 @@ video:
   src: /music/assets/hello.mp4
   offsetSeconds: -0.19
 seconds: 146
-podcast:
+mp3:
   bytes: 3841187
 explicit: false
 en:

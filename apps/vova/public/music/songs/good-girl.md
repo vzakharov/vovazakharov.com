@@ -8,7 +8,7 @@ repo: 'gg'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/gg/main/gg_master.flac
 seconds: 247
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/gg/main/gg_master.mp3
   bytes: 9876461
 explicit: false

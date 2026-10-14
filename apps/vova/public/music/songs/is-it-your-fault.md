@@ -7,7 +7,7 @@ project: ['Дамы и господа', 'Полуживые']
 repo: 'sonnet61'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-005.flac
 seconds: 255
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-005.mp3
   bytes: 10202555
 explicit: false

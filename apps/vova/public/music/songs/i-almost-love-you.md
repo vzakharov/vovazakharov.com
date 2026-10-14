@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'almost'
 audio: https://raw.githubusercontent.com/vovas-music/almost/main/almost.flac
 seconds: 287
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/almost/main/almost.mp3
   bytes: 11487702
 explicit: false

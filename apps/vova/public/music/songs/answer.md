@@ -7,7 +7,7 @@ project: ['Полуживые']
 repo: 'otvet'
 audio: https://raw.githubusercontent.com/vovas-music/rus-/main/3%20%D0%BE%D1%82%D0%B2%D0%B5%D1%82.flac
 seconds: 291
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/rus-/main/3%20%D0%BE%D1%82%D0%B2%D0%B5%D1%82.mp3
   bytes: 11642355
 explicit: false

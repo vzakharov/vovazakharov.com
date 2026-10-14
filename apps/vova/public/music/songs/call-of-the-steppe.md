@@ -8,7 +8,7 @@ project: ['Полуживые', 'GENERATED']
 repo: 'steppe'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-005.flac
 seconds: 316
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-005.mp3
   bytes: 12645462
 explicit: false

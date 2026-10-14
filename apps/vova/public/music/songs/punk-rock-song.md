@@ -7,7 +7,7 @@ project: ['Yoohie']
 repo: 'prs'
 audio: https://raw.githubusercontent.com/vovas-music/prs/main/prs40.flac
 seconds: 218
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/prs/main/prs40.mp3
   bytes: 8722904
 explicit: true

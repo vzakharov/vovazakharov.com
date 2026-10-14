@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'mira'
 audio: https://raw.githubusercontent.com/vovas-music/mira/main/mira.flac
 seconds: 236
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/mira/main/mira.mp3
   bytes: 9459562
 explicit: false

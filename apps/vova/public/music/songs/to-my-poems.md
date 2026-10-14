@@ -7,7 +7,7 @@ project: ['Дамы и господа']
 repo: 'stiham'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-001.flac
 seconds: 176
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-001.mp3
   bytes: 7042780
 explicit: false

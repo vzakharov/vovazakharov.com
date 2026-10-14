@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'normal'
 audio: https://raw.githubusercontent.com/vovas-music/normal/main/normal.flac
 seconds: 243
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/normal/main/normal.mp3
   bytes: 9739577
 explicit: false

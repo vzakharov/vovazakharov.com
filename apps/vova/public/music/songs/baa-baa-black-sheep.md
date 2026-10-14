@@ -9,7 +9,7 @@ album: nursery-rhymes
 track: 1
 audio: https://raw.githubusercontent.com/vovas-music/baa/main/baa_master.flac
 seconds: 177
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/baa/main/baa_master.mp3
   bytes: 7073010
 explicit: false

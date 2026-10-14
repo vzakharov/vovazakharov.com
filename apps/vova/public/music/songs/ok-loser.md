@@ -8,7 +8,7 @@ repo: 'ok-loser'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/ok-loser/main/ok%20loser.flac
 seconds: 206
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/ok-loser/main/ok%20loser.mp3
   bytes: 8239110
 explicit: false

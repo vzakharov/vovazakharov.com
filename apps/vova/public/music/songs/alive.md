@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'alive'
 audio: https://raw.githubusercontent.com/vovas-music/alive/main/alive_master.flac
 seconds: 251
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/alive/main/alive_master.mp3
   bytes: 10035282
 explicit: false

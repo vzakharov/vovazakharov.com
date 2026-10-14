@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'psch'
 audio: https://raw.githubusercontent.com/vovas-music/psch/main/psch.flac
 seconds: 282
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/psch/main/psch.master.mp3
   bytes: 11265130
 explicit: false

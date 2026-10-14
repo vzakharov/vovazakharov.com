@@ -7,7 +7,7 @@ project: ['Полуживые', 'Downtemple']
 repo: 'rus-'
 audio: https://raw.githubusercontent.com/vovas-music/rus-/main/7%20%D0%BB%D1%91%D0%BB%D0%B8.flac
 seconds: 264
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/rus-/main/7%20%D0%BB%D1%91%D0%BB%D0%B8.mp3
   bytes: 10562973
 explicit: false

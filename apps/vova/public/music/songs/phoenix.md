@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'phoenix'
 audio: https://raw.githubusercontent.com/vovas-music/phoenix/main/phoenix.flac
 seconds: 193
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/phoenix/main/phoenix.master.mp3
   bytes: 7710386
 explicit: false

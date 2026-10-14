@@ -8,7 +8,7 @@ project: ['GENERATED']
 repo: 'entropy-end'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/10.%20In%20the%20End%2C%20There%20Was%20Silence.flac
 seconds: 356
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/10.%20In%20the%20End%2C%20There%20Was%20Silence.mp3
   bytes: 14243110
 explicit: false

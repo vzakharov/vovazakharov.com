@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'wdk'
 audio: https://raw.githubusercontent.com/vovas-music/wdk/main/wdk.flac
 seconds: 220
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/wdk/main/wdk.mp3
   bytes: 8804424
 explicit: false

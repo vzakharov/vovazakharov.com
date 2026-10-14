@@ -9,7 +9,7 @@ album: hamlet
 track: 5
 audio: https://raw.githubusercontent.com/vovas-music/hamlet/main/hamlet_extended.flac
 seconds: 353
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/hamlet/main/hamlet_extended.mp3
   bytes: 14111489
 explicit: false

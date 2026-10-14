@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'story_ends'
 audio: https://raw.githubusercontent.com/vovas-music/stories/main/11%20ends.flac
 seconds: 118
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/stories/main/11%20ends.mp3
   bytes: 4723029
 explicit: false

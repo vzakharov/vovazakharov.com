@@ -7,7 +7,7 @@ project: ['GENERATED', 'Yoohie']
 repo: 'kobk'
 audio: https://raw.githubusercontent.com/vovas-music/kobk/main/kobk.flac
 seconds: 180
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/kobk/main/kobk.master.mp3
   bytes: 7221383
 explicit: false

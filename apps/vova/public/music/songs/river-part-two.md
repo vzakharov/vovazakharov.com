@@ -9,7 +9,7 @@ album: father-river
 track: 4
 audio: https://raw.githubusercontent.com/vovas-music/papa-reka/main/4_reka.flac
 seconds: 338
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/papa-reka/main/4_reka.mp3
   bytes: 13523197
 credits:

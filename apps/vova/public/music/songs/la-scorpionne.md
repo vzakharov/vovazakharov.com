@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'ghosts-of-flesh'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/7.%20La%20Scorpionne.flac
 seconds: 335
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/7.%20La%20Scorpionne.mp3
   bytes: 13403013
 explicit: false

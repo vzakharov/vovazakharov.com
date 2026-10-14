@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'erebos'
 audio: https://raw.githubusercontent.com/vovas-music/erebos/main/erebos_reprise.flac
 seconds: 231
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/erebos/main/erebos_reprise.master.mp3
   bytes: 9259968
 explicit: false

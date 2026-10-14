@@ -7,7 +7,7 @@ project: ['Дамы и господа']
 repo: 'sneg'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-006.flac
 seconds: 211
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-006.mp3
   bytes: 8442927
 explicit: false

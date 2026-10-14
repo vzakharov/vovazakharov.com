@@ -7,7 +7,7 @@ project: ['Полуживые']
 repo: 'moral-'
 audio: https://raw.githubusercontent.com/vovas-music/moral-/main/%D0%BC%D0%BE%D1%80%D0%B0%D0%BB%D1%8C_2.flac
 seconds: 231
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/moral-/main/%D0%BC%D0%BE%D1%80%D0%B0%D0%BB%D1%8C_2.mp3
   bytes: 9230760
 explicit: false

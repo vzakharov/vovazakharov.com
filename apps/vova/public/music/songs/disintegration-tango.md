@@ -8,7 +8,7 @@ project: ['GENERATED']
 repo: 'tango'
 audio: https://raw.githubusercontent.com/vovas-music/tango/main/tango.flac
 seconds: 279
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/tango/main/tango.master.mp3
   bytes: 11161697
 explicit: false

@@ -8,7 +8,7 @@ repo: 'ghost'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/ghost/main/ghost.flac
 seconds: 214
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/ghost/main/ghost.mp3
   bytes: 8551541
 explicit: false

@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'nsfl'
 audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-003.flac
 seconds: 18
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-003.mp3
   bytes: 726308
 explicit: false

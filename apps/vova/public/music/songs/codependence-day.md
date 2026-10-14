@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'codep'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/3.%20Codependence%20Day.flac
 seconds: 277
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/3.%20Codependence%20Day.mp3
   bytes: 11082280
 explicit: false

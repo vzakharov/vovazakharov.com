@@ -8,7 +8,7 @@ repo: 'sad'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/sad/main/sad.flac
 seconds: 312
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/sad/main/sad.master.mp3
   bytes: 12475148
 explicit: false

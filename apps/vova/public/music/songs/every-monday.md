@@ -7,7 +7,7 @@ project: ['GENERATED', 'Yoohie']
 repo: 'monday'
 audio: https://raw.githubusercontent.com/vovas-music/monday/main/monday.flac
 seconds: 159
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/monday/main/monday.master.mp3
   bytes: 6354113
 explicit: false

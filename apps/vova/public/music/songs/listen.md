@@ -9,7 +9,7 @@ album: wings
 track: 1
 audio: https://raw.githubusercontent.com/vovas-music/listen/main/listen.mp3
 seconds: 112
-podcast:
+mp3:
   bytes: 3277636
 explicit: false
 credits:

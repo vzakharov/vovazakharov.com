@@ -7,7 +7,7 @@ project: [GENERATED, Yoohie]
 repo: wereback
 audio: https://raw.githubusercontent.com/vovas-music/wereback/main/wereback.flac
 seconds: 191
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/wereback/main/wereback.mp3
   bytes: 7638304
 explicit: true

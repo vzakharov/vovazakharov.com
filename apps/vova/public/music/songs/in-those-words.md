@@ -7,7 +7,7 @@ project: ['Дамы и господа']
 repo: 'komnata'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-004.flac
 seconds: 190
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-004.mp3
   bytes: 7602837
 explicit: false

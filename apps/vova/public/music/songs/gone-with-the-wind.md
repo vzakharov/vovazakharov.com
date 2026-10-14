@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'wind'
 audio: https://raw.githubusercontent.com/vovas-music/wind/main/wind.flac
 seconds: 243
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/wind/main/wind.master.mp3
   bytes: 9737499
 explicit: false

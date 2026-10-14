@@ -9,7 +9,7 @@ album: father-sea
 track: 6
 audio: https://raw.githubusercontent.com/vovas-music/hcyl/main/how_could_you_leave.flac
 seconds: 229
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/hcyl/main/how_could_you_leave.mp3
   bytes: 9162806
 explicit: false

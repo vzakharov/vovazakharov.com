@@ -9,7 +9,7 @@ album: stronger-than-love
 track: 6
 audio: https://raw.githubusercontent.com/vovas-music/bezm/main/%D0%97%D0%B0%20%D0%B3%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%BD%D1%82.flac
 seconds: 227
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/bezm/main/%D0%97%D0%B0%20%D0%B3%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%BD%D1%82.mp3
   bytes: 9087597
 explicit: false

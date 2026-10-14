@@ -8,7 +8,7 @@ project: [Полуживые, GENERATED]
 repo: june
 audio: https://raw.githubusercontent.com/vovas-music/june/main/breathe.flac
 seconds: 293
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/june/main/breathe.mp3
   bytes: 11708177
 album: vagabond

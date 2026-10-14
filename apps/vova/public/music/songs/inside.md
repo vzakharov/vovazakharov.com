@@ -8,7 +8,7 @@ repo: 'inside'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/inside/main/inside_master_pop.flac
 seconds: 329
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/inside/main/inside_master_pop.mp3
   bytes: 13157438
 explicit: false

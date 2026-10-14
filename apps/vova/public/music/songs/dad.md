@@ -8,7 +8,7 @@ repo: sashas
 album: father-sea
 track: 7
 seconds: 173
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/sashas/main/%D0%9F%D0%B0%D0%BF%D0%B0.mp3
   bytes: 6937177
 audio: https://raw.githubusercontent.com/vovas-music/sashas/main/%D0%9F%D0%B0%D0%BF%D0%B0.flac

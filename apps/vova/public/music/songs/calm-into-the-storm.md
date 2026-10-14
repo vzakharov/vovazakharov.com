@@ -8,7 +8,7 @@ project: ['Полуживые', 'GENERATED']
 repo: 'calm'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-001.flac
 seconds: 324
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-001.mp3
   bytes: 12963112
 explicit: false

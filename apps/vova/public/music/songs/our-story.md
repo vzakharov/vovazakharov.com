@@ -12,7 +12,7 @@ alsoOn:
     track: 2
 audio: https://raw.githubusercontent.com/vovas-music/our-story/main/our-story.mp3
 seconds: 205
-podcast:
+mp3:
   bytes: 5623076
 explicit: false
 en:

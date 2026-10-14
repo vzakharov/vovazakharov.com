@@ -9,7 +9,7 @@ album: nursery-rhymes
 track: 2
 audio: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.flac
 seconds: 187
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.mp3
   bytes: 7471116
 explicit: true

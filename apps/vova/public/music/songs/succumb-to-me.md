@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'succumb'
 audio: https://raw.githubusercontent.com/vovas-music/succumb/main/succumb.flac
 seconds: 204
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/succumb/main/succumb.mp3
   bytes: 8156563
 explicit: false

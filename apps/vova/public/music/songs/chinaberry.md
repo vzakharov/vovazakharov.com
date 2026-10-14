@@ -8,7 +8,7 @@ repo: 'klo'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/klo/main/klo_1.flac
 seconds: 269
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/klo/main/klo_1.mp3
   bytes: 10750018
 explicit: false

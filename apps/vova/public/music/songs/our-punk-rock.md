@@ -9,7 +9,7 @@ album: wings
 track: 5
 audio: https://raw.githubusercontent.com/vovas-music/our-punk-rock/main/our-punk-rock.mp3
 seconds: 132
-podcast:
+mp3:
   bytes: 3487218
 explicit: false
 masked:

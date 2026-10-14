@@ -7,7 +7,7 @@ project: ['GENERATED']
 repo: 'stories'
 audio: https://raw.githubusercontent.com/vovas-music/stories/main/7%20fireflies.flac
 seconds: 243
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/stories/main/7%20fireflies.mp3
   bytes: 9703008
 explicit: false

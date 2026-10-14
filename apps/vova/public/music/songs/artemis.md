@@ -8,7 +8,7 @@ project: ['GENERATED']
 repo: 'artemis'
 audio: https://raw.githubusercontent.com/vovas-music/artemis/main/artemis_3.flac
 seconds: 258
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/artemis/main/artemis_3.mp3
   bytes: 10311137
 explicit: true

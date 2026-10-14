@@ -7,7 +7,7 @@ project: ['Дамы и господа', 'Полуживые']
 repo: 'requiem'
 audio: https://raw.githubusercontent.com/vovas-music/requiem/main/requiem_master.flac
 seconds: 308
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/requiem/main/requiem_master.mp3
   bytes: 12326829
 explicit: false

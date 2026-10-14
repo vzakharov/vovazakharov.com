@@ -8,7 +8,7 @@ project: ['GENERATED']
 repo: 'solitude'
 audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/1.%20In%20the%20Beginning%2C%20There%20Was%20Silence.flac
 seconds: 252
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/1.%20In%20the%20Beginning%2C%20There%20Was%20Silence.mp3
   bytes: 10090691
 explicit: false

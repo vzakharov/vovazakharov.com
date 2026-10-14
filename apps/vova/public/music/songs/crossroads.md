@@ -7,7 +7,7 @@ project: [GENERATED, Yoohie]
 repo: crossroads
 audio: https://raw.githubusercontent.com/vovas-music/crossroads/main/crossroads.flac
 seconds: 194
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/crossroads/main/crossroads.mp3
   bytes: 7772038
 album: ctfu

@@ -8,7 +8,7 @@ repo: 'chp'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/chp/main/chp.flac
 seconds: 216
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/chp/main/chp.mp3
   bytes: 8639307
 explicit: false

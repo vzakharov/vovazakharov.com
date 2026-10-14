@@ -9,7 +9,7 @@ repo: 'crossout'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/crossout/main/crossout_3.flac
 seconds: 213
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/crossout/main/crossout_3.mp3
   bytes: 8522273
 explicit: false

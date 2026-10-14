@@ -9,7 +9,7 @@ album: old-shite
 track: 1
 audio: https://raw.githubusercontent.com/vovas-music/because-of-you-2/main/Because%20of%20You.flac
 seconds: 108
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/because-of-you-2/main/Because%20of%20You.mp3
   bytes: 4311337
 explicit: false

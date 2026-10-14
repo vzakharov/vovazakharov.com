@@ -9,7 +9,7 @@ album: father-sea
 track: 5
 audio: https://raw.githubusercontent.com/vovas-music/sneg_0/main/sneg_master.flac
 seconds: 180
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/sneg_0/main/sneg_master.mp3
   bytes: 7186918
 explicit: false

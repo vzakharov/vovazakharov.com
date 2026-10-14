@@ -8,7 +8,7 @@ repo: 'dym'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/dym/main/dym_master_new.flac
 seconds: 188
-podcast:
+mp3:
   url: https://raw.githubusercontent.com/vovas-music/dym/main/dym_master_new.mp3
   bytes: 7518143
 explicit: false
