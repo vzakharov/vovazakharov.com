@@ -84,24 +84,20 @@ export function findFeed(
 }
 
 /**
- * An article feed's items, newest first: the blurb in `description` for a
- * reader's list, the body as HTML for its reading pane. A song's item is cut
- * from markers only `pages/music` reads, so the songs feed is built there.
+ * An article feed's items: the blurb in `description` for a reader's list, the
+ * body as HTML for its reading pane. A song's item is cut from markers only
+ * `pages/music` reads, so the songs feed is built there.
  */
 export async function feedEntries(
   collection: ArticleCollectionId,
 ): Promise<FeedEntry[]> {
-  const entries = (
-    await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection])
-  ).map(({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
-    title,
-    ...pick(frontmatter, 'description'),
-    route,
-    published: filedDate(frontmatter),
-    content: feedHtml(tree, getAbsoluteUrl),
-  }));
-
-  return entries.toSorted(
-    (a, b) => b.published.getTime() - a.published.getTime(),
+  return (await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection])).map(
+    ({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
+      title,
+      ...pick(frontmatter, 'description'),
+      route,
+      published: filedDate(frontmatter),
+      content: feedHtml(tree, getAbsoluteUrl),
+    }),
   );
 }

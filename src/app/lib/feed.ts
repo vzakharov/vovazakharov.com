@@ -29,10 +29,12 @@ export function collectionFeed(collection: CollectionId, locale?: Locale) {
         language: locale ?? DEFAULT_LOCALE,
         self: getAbsoluteUrl(feed.route),
         ...(collection === 'music' ? { podcast: songPodcast() } : {}),
-        items: entries.map(({ route, ...entry }) => ({
-          ...entry,
-          link: getAbsoluteUrl(route),
-        })),
+        items: entries
+          .toSorted((a, b) => b.published.getTime() - a.published.getTime())
+          .map(({ route, ...entry }) => ({
+            ...entry,
+            link: getAbsoluteUrl(route),
+          })),
       });
 
       return new Response(rss, {

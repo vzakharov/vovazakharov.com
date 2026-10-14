@@ -97,9 +97,9 @@ export function songPodcast(): RssPodcast {
   };
 }
 
-/** A songs feed's items in one language, newest first. */
+/** A songs feed's items in one language. */
 export async function songFeedEntries(locale: Locale): Promise<FeedEntry[]> {
-  const entries = await Promise.all(
+  return Promise.all(
     listPrimaryDocuments(SONGS)
       .filter((document) => isListed(document))
       .map(async (document) => {
@@ -115,9 +115,5 @@ export async function songFeedEntries(locale: Locale): Promise<FeedEntry[]> {
           episode: songEpisode(document),
         };
       }),
-  );
-
-  return entries.toSorted(
-    (a, b) => b.published.getTime() - a.published.getTime(),
   );
 }
