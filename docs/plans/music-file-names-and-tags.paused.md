@@ -19,25 +19,25 @@ and of item 3:
   under `scripts/in-site.sh vova tsx --conditions=react-server`; 168 songs
   resolve.
 
-**Left of item 3:** `scripts/tag-songs.ts` and the `music:tag` entry —
+- the run, `pnpm music:tag` (`scripts/tag-songs.ts`, git half in
+  `scripts/lib/music-repo.ts`, text edits in `song-tag-rewrites.ts` + test),
+  d668364. `--dry-run` builds each repository's commit in `tmp/music-tag/<repo>`
+  and stops; tried on `boom`, `snow-is-falling`, `after-us` (README rewritten)
+  and two `nsfl` songs (one commit for both), and the document rewrite on all
+  168 songs in memory. README mentions are renamed only where a code span
+  holds the bare name: `after-us`'s README also runs `master.py … after-us.mp3`,
+  which must stay as it was run.
 
-- per repository (group the jobs by `repo`, one commit each): blobless clone
-  into `tmp/music-tag/<repo>`, `git cat-file blob HEAD:<source>`, tag,
-  `git hash-object -w`, `git read-tree HEAD` + `update-index --add --cacheinfo`
-  under every name, README mentions of the old basename rewritten to the own
-  name, commit, push with `gh auth git-credential` as the credential helper
-  (the proxy authenticates only this repo; commit signing may need
-  `-c commit.gpgsign=false` there);
-- the frontmatter rewrite: replace each old URL with `rawUrl(file, names[0])`,
-  and `mp3.bytes` with the tagged MP3's size;
-- the manifest `apps/vova/public/music/tag-renders.json`, its own ~30 lines:
-  slug → `{ hash, paths }`, the hash over the tags, the cover's bytes and the
-  names; `paths` accumulating every repository path read or written, so
-  `--prune` deletes `paths` minus what is derived now;
-- `--check`: offline, stale = hash differs; not wired into vet until the run
-  has happened (item 8).
+**Left of item 3:** the first real push (blocked, below), which also proves
+pushing from a blobless clone works; then items 4 onward.
 
-Then items 4 onward. Billing nit to raise with the operator: the page bills
+**Vet blockers found, not this item's:** `pnpm type-overlap` reports
+overlaps in `song-tags.ts` (`TagSource`/`SongTags` share `language` + `url`,
+which `SiteConfig` and `RssChannel` also declare; `TagRelease`), `MasterFile`,
+`SongTagJob`, `UrlChange` — needs bases (`url`, `language` likely in
+`shared/typings`). `pnpm knip`: `billedArtists`, `songFileName`,
+`songFileNames` unused in `shared/music-catalogue/index.ts` until item 4
+consumes them. Billing nit to raise with the operator: the page bills
 two features `A feat. B, C`, `billedArtists` writes `A feat. B & C`.
 
 **Blocked: pushing to `vovas-music`.** The auto-mode classifier refused the
