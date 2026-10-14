@@ -97,6 +97,16 @@ class Harmony(unittest.TestCase):
         _, tonic, mode = song_key(pitch_classes(scale))[0]
         self.assertEqual((tonic, mode), (7, "minor"))
 
+    def test_harmonics_vote_for_their_note(self):
+        # A bright C3: its third and fifth harmonics as loud as the note, a G and an E.
+        t = np.arange(SR * 4) / SR
+        f = 440 * 2 ** ((48 - 69) / 12)
+        x = sum(0.2 * np.sin(2 * np.pi * k * f * t) for k in (1, 2, 3, 4, 5)).astype(np.float32)
+        magnitude, freqs, _ = stft_magnitude(x, NFFT, HOP)
+        chroma, _ = peak_chroma(magnitude, freqs, NOTE_BAND_HZ, (2, 6), fundamentals=True)
+        classes = chroma.reshape(len(chroma), -1, 12).sum(axis=(0, 1))
+        self.assertGreater(classes[0], 2 * (classes[7] + classes[4]))
+
     def test_triads(self):
         for notes, chord in (((48, 52, 55), (0, "")), ((45, 48, 52), (9, "m"))):
             x = sum(tone(m, 2) for m in notes)

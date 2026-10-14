@@ -37,7 +37,7 @@ def measure(x, magnitude, freqs, step, db):
     tuning = tuning_cents(magnitude, freqs)
     envelope, onset_step = onset_envelope(x)
     beats = beat_times(envelope, onset_step, tempo_bpm(envelope, onset_step))
-    chroma, loudest = peak_chroma(magnitude, freqs, NOTE_BAND_HZ, (2, 6), tuning)
+    chroma, loudest = peak_chroma(magnitude, freqs, NOTE_BAND_HZ, (2, 6), tuning, fundamentals=True)
     chords = beat_chords(chroma, loudest, step, beats, duration)
     pitch_classes = chroma.reshape(len(chroma), -1, 12).sum(axis=(0, 1))
     edges = [0, *section_times(db, magnitude, freqs, step, duration, tuning), duration]

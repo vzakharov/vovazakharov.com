@@ -26,6 +26,11 @@ SECTION_MIN_S = 8
 # the peak, so one drastic change cannot hide the song's ordinary ones.
 SECTION_THRESHOLD = 3
 TIMBRE_ROWS = ROWS_PER_OCTAVE // 3
+# The harmonics that land in another pitch class than their note's, and how
+# much of the note's own peak each is taken to be: half, since a chord voiced
+# wide puts a real fifth or third where a harmonic would sit.
+HARMONICS = (3, 5)
+HARMONIC_SHARE = 0.5
 
 
 def tuning_cents(magnitude, freqs):
@@ -47,18 +52,43 @@ def tuning_cents(magnitude, freqs):
     return float(np.angle((w * np.exp(1j * angle)).sum()) / (2 * np.pi) * 100)
 
 
-def peak_chroma(magnitude, freqs, band_hz, octaves, tuning=0.0):
+def without_harmonics(magnitude, weights, bins):
+    """weights with each peak less HARMONIC_SHARE of the peak at a third and at
+    a fifth of its frequency, floored at zero.
+
+    A note's third and fifth harmonics land a fifth and a major third above it,
+    in another class, so a C read with its harmonics is a C major chord, and a
+    C minor one reads as G minor: a peak is that note's harmonic as far as the
+    note below it reaches, and votes only for its excess. The note below is
+    the loudest peak within a bin of the exact fraction, since neither lands
+    on a bin's centre.
+    """
+    below = bins.max() // min(HARMONICS) + 2
+    m = magnitude[:, :below + 1]
+    peaks = np.zeros_like(m)
+    inner = m[:, 1:-1]
+    peaks[:, 1:-1] = np.where((inner > m[:, :-2]) & (inner >= m[:, 2:]), inner, 0)
+    near = np.maximum(peaks, np.maximum(np.roll(peaks, 1, axis=1), np.roll(peaks, -1, axis=1)))
+    for h in HARMONICS:
+        weights = np.maximum(weights - HARMONIC_SHARE * near[:, np.round(bins / h).astype(int)], 0)
+    return weights
+
+
+def peak_chroma(magnitude, freqs, band_hz, octaves, tuning=0.0, fundamentals=False):
     """Per frame, the weight of each (octave, pitch class) in band_hz, as
     (frames, octaves × 12), and the band's loudest magnitude per frame.
 
     A chroma from `band_peaks`, weighted by magnitude: so a note and its
-    harmonics vote for their own class, while the drums' broad smear, flat
-    rather than peaked, barely votes. A peak votes for the octave it sits in,
-    clamped to octaves (first, last), C to B, on a semitone grid shifted by
+    octave harmonics vote for their own class, while the drums' broad smear,
+    flat rather than peaked, barely votes. A peak votes for the octave it sits
+    in, clamped to octaves (first, last), C to B, on a semitone grid shifted by
     tuning cents, so a song tuned off A440 does not split each note across two
-    classes.
+    classes. fundamentals takes the third and fifth harmonics out first
+    (`without_harmonics`), for a key or a chord, which they would move.
     """
     weights, bins, loudest = band_peaks(magnitude, freqs, band_hz)
+    if fundamentals:
+        weights = without_harmonics(magnitude, weights, bins)
     midi = np.round(69 + 12 * np.log2(freqs[bins] / 440) - tuning / 100).astype(int)
     pitch_class = midi % 12
     octave = np.clip(midi // 12 - 1, *octaves) - octaves[0]
