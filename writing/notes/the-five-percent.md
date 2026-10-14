@@ -120,6 +120,13 @@ radio's live flag, `tune` and `release` went into the player's own reducer,
 since every action must release it. _для радио-штучек лучше отдельный хук? слишком
 специфичная механика._ A reducer layered over the player's sees every action too.
 
+**13 October — the checks a skill ran, read as the docket's test.** Roscoe, a
+police robot a barricaded gunman knocked over and shot, passed every qualifying
+check. The operator asked if it fit at all: a man in a standoff shoots, not out
+of hatred for the robot. The docket's own FAQ files an act on a machine standing
+in for a mind, and he also fired at a faceless PacBot and at officers. The
+filing's reflection found the case strange, and read that as about itself.
+
 ## An account that explains the code stands in for running it (×22)
 
 The sibling of "It checks the render against its intent" below, and the worse
