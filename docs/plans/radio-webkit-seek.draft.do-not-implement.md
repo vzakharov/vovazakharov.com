@@ -1,99 +1,69 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source
-> while this file is named `*.draft.do-not-implement.md` — prep and spikes go in
-> `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md`
-> and delete this banner (quoting the go-ahead in the commit) _before_ touching
-> code.
+> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
 
-# On Apple's engine, play the MP3 copy
+# A one-second SEEKTABLE in every FLAC master
+
+**Blocked on [#153](https://github.com/vzakharov/vovazakharov.com/pull/153).**
+The operator's call: «предлагаю дождаться #153, а потом таки разметить все».
+#153 renames and retags every master, and publishes them, so this plan builds
+on its tooling instead of doing the same thing twice.
 
 ## The bug, and what it comes from
 
-On the phone, the radio joins a song at an earlier moment than the dial shows.
-When the dial reaches the end and moves on to the next slot, the previous song
-keeps playing.
+On an iPhone, the radio joins a song earlier than the dial shows. When the
+dial moves on to the next slot, the previous song keeps playing. A manual seek
+on the phone lands early too. The operator reproduced this on the device.
 
-The dial and the song card come from the device's clock (`OnAir`'s `useClock`,
-`RadioDial`). They do not come from the `<audio>` element. So the clock is
-right, and the element is playing behind it. The element runs out of audio data
-later than the slot ends, and only then does it fire `ended`.
+The dial runs off the device's clock (`OnAir`'s `useClock`, `RadioDial`). The
+`<audio>` element lags behind it. Every browser on iOS is WebKit, which plays
+media through AVFoundation. AVFoundation seeks a FLAC that has no SEEKTABLE
+(none of the masters had one) by estimating the byte offset. It lands early,
+but `currentTime` still reports the requested second, so `keepTime`'s drift
+check never sees the gap. Desktop engines find a FLAC's frames exactly.
 
-The element is behind because **the seek lands short, and the element reports
-the time it was asked for anyway**. Every master is a FLAC with no SEEKTABLE
-(checked: `sultan.flac`, `dad.flac`, `8849.flac` and others carry only
-STREAMINFO and VORBIS_COMMENT). Every browser on an iPhone is WebKit, and WebKit
-plays media through AVFoundation. By default, AVFoundation seeks a FLAC without
-timing data from an estimate. Apple's forum has a report that FLAC seeks land
-wrong there, and that MP3 and M4A are fine
-(<https://developer.apple.com/forums/thread/665417>). A page cannot set the
-precise-timing option that thread uses to fix it. `keepTime` cannot catch the
-gap either, because `currentTime` already reads as the target. Desktop Chrome
-and Firefox use their own demuxers, which find a FLAC's frames exactly. That
-explains why the bug does not show up on a computer.
+**Tested:** `vovas-music/sultan#1` added a 1 s SEEKTABLE to `sultan.flac`,
+and the file is live. On the iPhone, seeking got much better, with a few
+seconds of drift left. The operator: «явно лучше, но несколько секунд,
+кажется, рассинхрон таки есть. думаю это best we can do».
 
-The same gap breaks every seek on the phone, not only the radio. The seek bar,
-the arrow keys and a song's video, which opens at `position()`, all land short.
-The radio is just where it shows, because it is the only part checked against a
-clock.
+## The work
 
-**Unconfirmed until tested on the device.** Before any code changes, try this:
-on the phone, open a song you know well and drag its seek bar to the middle.
-Then do the same on the computer. If the phone plays an earlier passage than the
-computer at the same displayed time, the diagnosis holds.
+- **Every FLAC master gets a SEEKTABLE with one point per second**
+  (`metaflac --add-seekpoint=1s`). Only the header changes: about 4 KB per
+  song, and the decoded audio is identical. The interval is 1 s, not `flac`'s
+  default of 10 s. A decoder that seeks to a point and plays on from there
+  then misses by under a second, which is the radio's `DRIFT`, and each point
+  costs only 18 bytes.
+- **It goes through #153's `pnpm music:masters`.** `tag` writes the table into
+  each FLAC it publishes, and `check` fails on a FLAC master that has none.
+  `check` is offline, and an index's presence can be read straight off the
+  metadata block headers. Re-read that script once #153 has merged, before
+  deciding exactly where each step goes. One run over the catalogue then
+  publishes every master, using the Git Data API path #153 already set up.
+- **`scripts/song-intake/CLAUDE.md` § "A song's repository"** states that a
+  FLAC master carries a 1 s SEEKTABLE, so a new song gets one before its page
+  exists.
+- **`metaflac` is a toolchain addition.** Wire it into
+  `.claude/hooks/install-deps.sh` (the `flac` package) and into `vet.sh` only
+  if `check` needs it. The report names what the operator adds to the
+  environment's setup script.
 
-## The fix
+**Check after #153 lands:** its renamed copy of `sultan.flac` may have been
+built from the file before the table was added. If so, the run above
+restores the table for that song along with all the others. Also confirm that
+#153's FLAC tag writer (`node-taglib-sharp`) keeps a SEEKTABLE block when it
+rewrites tags. If it does not, `tag` has to add the table after writing the
+tags, not before.
 
-Where the engine is Apple's, the player plays the song's `mp3` copy. It already
-exists for every song, as a 320 kbps CBR file with an `Info` header and TOC
-(checked on `sultan.master.mp3`). AVFoundation seeks a constant-bitrate MP3
-exactly. Everywhere else, the master plays as it does now.
-
-- `PlayerTrack` gets the MP3 copy's address beside `audio`. `songTrack` sets it
-  from `mp3.url ?? audio`, so a song whose master is already an MP3 gets the
-  same file.
-- One pure function picks the source for the engine,
-  `trackSource(track, engine)`, with a test next to it. A second function reads
-  the engine from `navigator`: any iPhone, iPad or iPod user agent, an iPad in
-  desktop mode (`Macintosh` with touch points), or desktop Safari (`Safari`
-  without `Chrome`/`Chromium`/`Edg`/`OPR`/`Firefox`). The one `useAudioPlayer`
-  reads the engine once, when it mounts.
-- The three places that compare or set `src` to `track.audio`
-  (`use-audio-player.ts`'s source effect, and `keepTime` and `tryTuneIn` in
-  `use-station.ts`) use the picked source instead.
-- `playableSchema`'s "played as-is" docstring changes to state the exception and
-  why.
-
-## Open questions
-
-1. **Where does the MP3 play?**
-   - a) **On Apple's engine only, everywhere in the player (recommended, and the
-     plan as written).** It keeps the master wherever the master seeks
-     correctly, and it fixes the seek bar and the video on the phone too. The
-     cost is user-agent sniffing, held in one tested function.
-   - b) On every browser, everywhere. No sniffing, and a third of the data on
-     mobile (9 MB against 25 MB for `sultan`). It drops "the master, played
-     as-is" as a product decision.
-   - c) On the radio only. This leaves the seek bar on the phone broken.
-2. **Which phone?** The diagnosis assumes an iPhone. On Android, Chrome seeks a
-   FLAC the same way the desktop does, and the cause would be somewhere else.
-
-**Rejected: adding a SEEKTABLE to every master.** `metaflac --add-seekpoint`
-rewrites only the header, so the audio, its MD5 and `seconds` all stay the same.
-But nothing shows that AVFoundation reads a SEEKTABLE. The indirect evidence
-says it seeks FLAC and VBR MP3 without any index
-(<https://developer.apple.com/forums/thread/819924>,
-<https://pxlnv.com/linklog/vbr-mp3s-and-avfoundation/>). Doing it would also put
-a second ~25 MB blob into every `vovas-music` repository's history. This option
-comes back only if one song with a seektable seeks correctly on an iPhone.
+**Deferred, outside these PRs:** playing the MP3 by default. The operator will
+make that switch together with an HQ button: «на проигрывание мп3 по дефолту
+мы перейдём, но уже когда введём кнопочку HQ, не в этих пиарах». The player
+code stays as it is.
 
 ## DRY notes
 
-- The only new code is the source choice. `trackSource` is the one place that
-  decides, and all three `src` call sites go through it. A call site that checks
-  `track.audio` itself would compare against the wrong file, and the player
-  would reload the track on every pause.
-- The engine check goes in `src/pages/music/lib/`. Nothing else on the site
-  checks the browser engine, so it gets no `shared/lib` home of its own.
-- `songFiles` and `song-feed.ts` already resolve `mp3.url ?? audio` for
-  downloads and feeds. `songTrack` makes the same choice for a different
-  purpose: what plays, not what is offered. The two stay separate inline
-  expressions. A helper for a single `??` would cost more than it saves.
+- The table is written in one place, `music:masters tag`, and checked in one
+  place, `check`. Neither gets a script of its own. The publishing (clone, Git
+  Data API, large-blob relay) is #153's, reused unchanged.
+- Reading block headers to check for the table is a few lines next to `check`.
+  If #153's tag code already parses FLAC metadata blocks, the check reuses that
+  parser rather than adding a second one.

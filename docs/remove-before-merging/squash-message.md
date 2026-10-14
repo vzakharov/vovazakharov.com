@@ -1,20 +1,18 @@
 Proposed squash body:
 
 ```
-On an iPhone the radio joined songs earlier than its dial showed, and
-kept playing the previous song after the dial moved on. The FLAC
-masters carry no SEEKTABLE, and AVFoundation, which plays media for
-every iOS browser and for Safari, seeks such a file from an estimate.
-The seek lands short while currentTime reports the second that was
-asked for, so the element trails the clock the dial reads. The seek
-bar, the arrow keys and a song's video sync on the phone missed by the
-same amount.
+On an iPhone the radio joined songs earlier than its dial showed and
+kept playing the previous song after the dial moved on; a manual seek
+landed early too. AVFoundation, which plays media for every iOS
+browser, seeks a FLAC with no SEEKTABLE by estimate and reports the
+second it was asked for, so the element trailed the clock the dial
+reads. None of the masters carried a seektable.
 
-On Apple's engine the player now plays each song's MP3 copy, 320 kbps
-CBR with an Info/TOC header, which AVFoundation seeks exactly. Every
-other engine plays the master as before. PlayerTrack carries the copy's
-address, and one tested trackSource function picks the source for
-every place that sets or compares the element's src.
+Every FLAC master now carries one with a point per second, written by
+pnpm music:masters tag and required by its offline check, and the song
+intake states it for new songs. Only the header changes, about 4 KB a
+song. Tested on sultan first: the seek lands far closer, a few seconds
+of drift remaining.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
