@@ -45,7 +45,7 @@ export function feedHtml(
     url.startsWith('/') && !url.startsWith('//') ? siteUrl(url) : url;
 
   visit(copy, 'element', (node: Element, index, parent) => {
-    const { properties } = node;
+    const { properties, children } = node;
 
     if (properties['ariaHidden'] === 'true' && parent && index !== undefined) {
       parent.children.splice(index, 1);
@@ -58,7 +58,7 @@ export function feedHtml(
       index !== undefined &&
       isSelfLink(node, parent)
     ) {
-      parent.children.splice(index, 1, ...node.children);
+      parent.children.splice(index, 1, ...children);
 
       return [SKIP, index];
     }

@@ -1,7 +1,6 @@
+import type { Element, Root } from 'hast';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
-import type { Element, Root } from 'hast';
 
 import { feedHtml } from './feed-html';
 

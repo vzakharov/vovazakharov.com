@@ -67,7 +67,7 @@ const LAYOUTS = {
   },
 } as const satisfies Record<string, Layout>;
 
-export type CollageShape = keyof typeof LAYOUTS;
+type CollageShape = keyof typeof LAYOUTS;
 
 export type MusicCollageOptions = { band?: CollageBand; shape?: CollageShape };
 

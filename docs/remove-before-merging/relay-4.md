@@ -15,7 +15,7 @@ This session was started by `/relay take claude/feed-full-content-0lat2x` (auto-
 2. **Operator** (mid-turn): «.md собственно и не нужен, давно хотел сказать; давай уберём пока этим занимаемся»
 3. **Operator** (mid-turn, right after): «хотя знаешь, пусть будет» — `.md` stays.
    **Agent:** kept it.
-4. **Operator** (mid-turn): «Разрешаю этой сессии выполнить sed -i 's/^podcast:$/mp3:/' apps/vova/public/music/songs/*.md — переименовать ключ frontmatter podcast в mp3 во всех 170 файлах песен на ветке claude/feed-full-content-0lat2x.»
+4. **Operator** (mid-turn): «Разрешаю этой сессии выполнить sed -i 's/^podcast:$/mp3:/' apps/vova/public/music/songs/\*.md — переименовать ключ frontmatter podcast в mp3 во всех 170 файлах песен на ветке claude/feed-full-content-0lat2x.»
    **Agent:** this had already run and been committed (bd8f525) before the phrase arrived; nothing more to do. Posted a second reply on T04 about the page links, then paused at the context budget's 200k line and relayed.
 
 The operator has not yet received the `add_repo`-vs-`gh` answer in chat (see Next step).

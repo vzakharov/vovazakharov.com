@@ -2,6 +2,7 @@ import { Box, Group, Stack, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/shared/config';
+import type { Routed } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { textHook } from '@/shared/music-catalogue';
@@ -45,20 +46,23 @@ function resolve(slug: string): SongPageEntry {
   return page;
 }
 
+type SongFileLinkProps = Routed & { file: SongFile };
+
 /**
  * A song's file labelled by its extension. Saved under the page's name where the
  * site hosts it; another origin's opens in a tab of its own, since a browser
  * ignores `download` there.
  */
-function SongFileLink({ route, file }: { route: string; file: SongFile }) {
-  const label = `.${file.extension}`;
+function SongFileLink({ route, file }: SongFileLinkProps) {
+  const { extension, href } = file;
+  const label = `.${extension}`;
 
-  return file.href.startsWith('/') ? (
-    <FileLink {...pageFile(route, file.extension)} href={file.href}>
+  return href.startsWith('/') ? (
+    <FileLink {...pageFile(route, extension)} {...{ href }}>
       {label}
     </FileLink>
   ) : (
-    <TextLink href={file.href} size="sm" className={hoverDim}>
+    <TextLink {...{ href }} size="sm" className={hoverDim}>
       {label}
     </TextLink>
   );
@@ -153,7 +157,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
                 {songFiles(document.frontmatter).map((file) => (
                   <SongFileLink
                     key={file.href}
-                    route={localized.route}
+                    {...pick(localized, 'route')}
                     {...{ file }}
                   />
                 ))}
