@@ -10,8 +10,8 @@ import {
 } from '@/shared/i18n';
 import { oneOf } from '@/shared/lib/collections';
 import {
-  MUSIC_ALBUM_SLUGS,
   type MusicAlbum,
+  musicAlbumSlugs,
   type MusicProject,
   projectBySlug,
 } from '@/shared/music-catalogue';
@@ -87,7 +87,7 @@ export function parseMusicSegments({
       return { page: 'artist', artist: artistBySlug(slug), locale };
     }
     if (kind === ALBUMS_SEGMENT) {
-      return { page: 'album', album: oneOf(MUSIC_ALBUM_SLUGS, slug), locale };
+      return { page: 'album', album: oneOf(musicAlbumSlugs(), slug), locale };
     }
     if (kind === SONGS_SEGMENT) {
       return { page: 'song', slug, locale };

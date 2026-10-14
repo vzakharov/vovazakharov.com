@@ -12,10 +12,10 @@ export {
 } from './frontmatter';
 export { type HookRun, hookRuns, textHook } from './hook-marks';
 export {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
   type MusicAlbum,
+  musicAlbumSlugs,
   type MusicProject,
+  musicProjectNames,
   projectBySlug,
   projectSlug,
 } from './names';

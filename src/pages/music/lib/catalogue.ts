@@ -2,10 +2,10 @@ import 'server-only';
 
 import { loadMessages, type Locale, LOCALES } from '@/shared/i18n';
 import {
-  MUSIC_ALBUM_SLUGS,
-  MUSIC_PROJECT_NAMES,
   type MusicAlbum,
+  musicAlbumSlugs,
   type MusicProject,
+  musicProjectNames,
 } from '@/shared/music-catalogue';
 
 import { albumTracks } from './album-tracks';
@@ -89,7 +89,7 @@ export function albumWipNote(
 
 /** The albums with a song in this catalogue, by slug. */
 export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
-  return MUSIC_ALBUM_SLUGS.filter(
+  return musicAlbumSlugs().filter(
     (album) => albumSongs(album, songs).length > 0,
   );
 }
@@ -137,7 +137,7 @@ function artistAlbums(
 export function catalogueArtists(
   songs: readonly SongDocument[],
 ): MusicProject[] {
-  const ranked = MUSIC_PROJECT_NAMES.map((artist) => {
+  const ranked = musicProjectNames().map((artist) => {
     const billed = artistSongs(artist, songs);
 
     return { artist, count: billed.length, latest: latestDate(billed) };

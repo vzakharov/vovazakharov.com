@@ -1,25 +1,39 @@
 import 'server-only';
 
+import { z } from 'zod';
+
 import { readSiteCatalogueNames } from './catalogue-names';
-import type { MusicProject } from './name-brands';
+import type { MusicAlbum, MusicProject } from './name-brands';
 
 export type { MusicAlbum, MusicProject } from './name-brands';
 
-// The albums and artists this site's files hold, read once per build.
-const { albums, artists, albumSchema, projectSchema } =
-  readSiteCatalogueNames();
+let read: ReturnType<typeof readSiteCatalogueNames> | undefined;
 
-export { albumSchema, projectSchema };
+// Read on first use rather than on import: every site's build and render
+// scripts load the song schema through the collection registry, and only the
+// site that serves the music collection has the files to read.
+function catalogue(): ReturnType<typeof readSiteCatalogueNames> {
+  read ??= readSiteCatalogueNames();
+  return read;
+}
+
+export const albumSchema = z.lazy(() => catalogue().albumSchema);
+
+export const projectSchema = z.lazy(() => catalogue().projectSchema);
 
 /** Each one the address of the album's page under `/music/albums/`, its file's name. */
-export const MUSIC_ALBUM_SLUGS = albums;
+export function musicAlbumSlugs(): MusicAlbum[] {
+  return catalogue().albums;
+}
 
 /** By file name; the music index ranks them itself. */
-export const MUSIC_PROJECT_NAMES = artists.map(({ name }) => name);
+export function musicProjectNames(): MusicProject[] {
+  return catalogue().artists.map(({ name }) => name);
+}
 
 /** The artist's address under `/music/artists/`, its file's name. */
 export function projectSlug(artist: MusicProject): string {
-  const found = artists.find(({ name }) => name === artist);
+  const found = catalogue().artists.find(({ name }) => name === artist);
 
   if (found === undefined) {
     throw new Error(`No artist file names ${artist}.`);
@@ -30,5 +44,5 @@ export function projectSlug(artist: MusicProject): string {
 
 /** The artist whose file the slug names, if any. */
 export function projectBySlug(slug: string): MusicProject | undefined {
-  return artists.find((artist) => artist.slug === slug)?.name;
+  return catalogue().artists.find((artist) => artist.slug === slug)?.name;
 }
