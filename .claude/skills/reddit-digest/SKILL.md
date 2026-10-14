@@ -6,12 +6,12 @@ End state: the digest draft PR carries `writing/reddit/digests/<today>.md` and
 whatever the run revised in `writing/reddit/playbook.md`, and the report says
 the one thing worth doing today.
 
-**The run is unattended**, typically its routine firing into a fresh session at
-03:47 UTC, so it asks nothing: a call left open is made the conservative way and
-named in the report. **It advises and never acts on Reddit** — reddit.com
-answers this container with a 403, and the voice is the operator's. It files
-nothing elsewhere either: a case, an article or an idea is proposed in the
-digest, for the operator to start. **It never merges.**
+**The run is unattended**, typically its routine firing into a fresh session, so
+it asks nothing: a call left open is made the conservative way and named in the
+report. **It advises and never acts on Reddit** — reddit.com answers this
+container with a 403, and the voice is the operator's. It files nothing
+elsewhere either: a case, an article or an idea is proposed in the digest, for
+the operator to start. **It never merges.**
 
 **The digest is English** (CLAUDE.md § "Language": the operator reads it to
 decide something), the operator's and others' comments quoted in their own
@@ -42,8 +42,8 @@ and Step 4 revises it. Then the latest digest under `writing/reddit/digests/`,
 for what it advised and what it said to watch.
 
 Then `pnpm reddit:digest > tmp/reddit-digest.json` — a few minutes, most of it
-Arctic Shift's rate limit — and read the JSON. Its header says what each part
-is. Two things it leaves to judgement:
+Arctic Shift's rate limit — and read the JSON. `scripts/reddit-digest.ts`'s
+header says what each part is. Two things it leaves to judgement:
 
 - **Only comments in AI subs are judged** — subs about models, agents and the
   tools around them. The rest get one line in the digest, a count, since the

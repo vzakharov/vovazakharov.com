@@ -1,7 +1,6 @@
 /**
  * The pure half of `pnpm reddit:digest`: the Arctic Shift row shapes, and what
- * the digest derives from them without the network. The script parses every
- * response through these schemas; the tests load this file alone.
+ * the digest derives from them without the network.
  */
 
 import { z } from 'zod';
@@ -168,7 +167,6 @@ export function attributeEntries(
   }));
 }
 
-/** Sums counts reported per referrer into one count per key. */
 export function sumByKey(
   rows: ReadonlyArray<{ x: string; y: number }>,
 ): Map<string, number> {

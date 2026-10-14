@@ -103,8 +103,7 @@ refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
   pasted link's ids are its path segments: `/comments/<post id>/…/<comment id>`,
   each read on its own by `/api/posts/ids?ids=` and `/api/comments/ids?ids=`.
 - Every text search names a `subreddit` (or an `author`) — the API refuses one
-  without. `author=` alone works on both search endpoints, which is how
-  `pnpm reddit:digest` reads the operator's own comments. Sweep `nottheonion`,
+  without; `author=` alone works on both search endpoints. Sweep `nottheonion`,
   `technology`, `robotics` and `singularity`, and for the AI side `ChatGPT`,
   `ClaudeAI`, `replika`, `CharacterAI`, `LocalLLaMA` and `artificial`. **Once a
   lead names a city, search that city's own subreddit**: local threads carry

@@ -7,7 +7,9 @@
  *   pnpm reddit:digest [--author vzakharov]
  *
  * - `settled`: the author's comments 48–72 h old, with their parent posts;
- * - `waiting`: replies to the author's comments of the last 72 h, unanswered;
+ * - `recent`: the same for the author's comments under 48 h old;
+ * - `waiting`: unanswered replies to the author, in every thread the window's
+ *   comments sit in;
  * - `readers`: Reddit-referred visits per site, per UTC day and per entry page,
  *   each page with the link comments pointing at it;
  * - `muthur`: its GitHub traffic from Reddit.
@@ -79,8 +81,8 @@ const arcticReply = z.union([
 ]);
 
 /**
- * One Arctic Shift call. Its rate limit answers within a second with a 422
- * `Timeout`, which a pause clears; anything else is a real failure.
+ * Arctic Shift's rate limit answers within a second with a 422 `Timeout`,
+ * which a pause clears; anything else is a real failure.
  */
 async function arctic<T>(
   path: string,
