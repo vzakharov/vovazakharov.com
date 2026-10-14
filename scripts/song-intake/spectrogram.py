@@ -6,12 +6,18 @@ Usage: spectrogram.py <song> <out.png> [--from m:ss --to m:ss]
 Beside the PNG it writes <out>.txt, the sidecar: the numbers the picture can
 only approximate — tempo, key, tuning, and per section its tempo, loudness and
 chords. The docstrings of `song_facts.py` and the modules it imports say how
-each is measured. The title
-carries the tempo, and the tuning when it is over 15 cents off A440.
+each is measured. The title carries the tempo, and the tuning when it is over
+15 cents off A440.
 
---from and --to draw that stretch at the full width, on song time, with a
-faint line down the chroma strips at each beat; the analysis still runs on
-the whole song, and a zoom writes no sidecar, which describes all of it.
+And into <out>/, one zoom per section, <n>.png: the stretch between two
+dashed lines drawn at the full width, so a section can be looked at closely
+without asking. The number is the one at the section's top left in the whole
+song's picture, and at the head of its line in the sidecar.
+
+--from and --to draw that stretch at the full width alone, on song time; the
+analysis still runs on the whole song, and such a zoom writes no sidecar,
+which describes all of it. Every zoom draws a faint line down the strips at
+each beat, where the beats stand far enough apart to read.
 
 Where the voice sits and where its melody goes, where the drums come in, a
 bridge that drops out, where one section gives way to the next, a master that
@@ -186,9 +192,10 @@ def split_hz(midi, tuning):
     return 440 * 2 ** ((midi - 69.5) / 12 + tuning / 1200)
 
 
-def main():
-    import argparse
-
+def render(name, x, whole, facts, t0, t1, split_midi, out_png, section=None):
+    """Draw t0–t1 of the song to out_png. x is the whole song's samples and
+    whole its drawing_stft, reused when the stretch is all of it; section is
+    the number a section's zoom is titled with."""
     import matplotlib
 
     matplotlib.use("Agg")
@@ -196,28 +203,7 @@ def main():
     from matplotlib.ticker import FixedLocator, FuncFormatter, MultipleLocator, NullLocator
     from PIL import Image
 
-    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("song")
-    parser.add_argument("out_png")
-    parser.add_argument("--from", dest="start", type=seconds, help="zoom start, m:ss")
-    parser.add_argument("--to", dest="end", type=seconds, help="zoom end, m:ss")
-    parser.add_argument(
-        "--split", type=midi_note, default=SPLIT_NOTE,
-        help=f"the lowest note of the treble strip, e.g. E3 or Bb2 (default {SPLIT_NOTE})",
-    )
-    args = parser.parse_args()
-    song, out_png = args.song, args.out_png
-    if not midi_note("C#2") <= args.split <= midi_note("C7"):
-        parser.error("--split must leave both strips a note, C♯2 to C7")
-
-    x = decode(song)
-    whole = drawing_stft(x)
-    facts = measure(x, *whole)
-    zoomed = args.start is not None or args.end is not None
-    t0 = args.start or 0
-    t1 = min(args.end or facts.duration, facts.duration)
-    if not 0 <= t0 < t1:
-        parser.error(f"--from {mmss(t0)} must come before --to {mmss(t1)}")
+    zoomed = t0 > 0 or t1 < facts.duration
     x = x[int(t0 * SR):int(t1 * SR)]
     magnitude, freqs, step, db = drawing_stft(x) if zoomed else whole
     duration = t1 - t0
@@ -243,17 +229,29 @@ def main():
     ax.yaxis.set_minor_locator(NullLocator())
     ax.set_ylabel("frequency (Hz)")
     span = f"{mmss(t0)}–{mmss(t1)} of {mmss(facts.duration)}" if zoomed else mmss(facts.duration)
-    title = f"{Path(song).name} — {span} · {tempo_label(facts)}"
+    tempo = tempo_label(facts)
+    if section:
+        span = f"section {section}, {span}"
+        bpm = facts.sections[section - 1].bpm
+        tempo = f"{bpm:.0f} BPM" if bpm else "no beat"
+    title = f"{name} — {span} · {tempo}"
     if abs(facts.tuning) > TITLE_TUNING_CENTS:
         title += f" · {tuning_label(facts.tuning)}"
     ax.set_title(title)
     fig.colorbar(image, cax=cax, label="dBFS")
-    for s in facts.sections[1:]:
+    for n, s in enumerate(facts.sections, 1):
         if t0 < s.start < t1:
             ax.axvline(s.start, color="white", linewidth=0.8, linestyle=(0, (4, 3)))
+        # Each section's number at its top left, the one its zoom and its
+        # sidecar line carry.
+        if not zoomed:
+            ax.annotate(
+                str(n), (s.start, 1), xycoords=("data", "axes fraction"), xytext=(3, -3),
+                textcoords="offset points", va="top", color="white", fontsize=9,
+            )
     # The split across the spectrogram, so a part straddling it reads as one
     # instrument cut in two by the strips, not as two.
-    crossover = split_hz(args.split, facts.tuning)
+    crossover = split_hz(split_midi, facts.tuning)
     ax.axhline(np.log2(crossover), color="white", linewidth=0.8, linestyle=(0, (1, 3)))
 
     columns = WIDTH_PX
@@ -273,10 +271,10 @@ def main():
     ramps = chroma_ramps()
     _, tonic, mode = facts.keys[0]
     names = note_names(tonic, mode)
-    split = f"{names[args.split % 12]}{args.split // 12 - 1}"
+    split = f"{names[split_midi % 12]}{split_midi // 12 - 1}"
     for strip, key, band_hz, octaves, name in (
-        (treble, treble_key, (crossover, NOTE_BAND_HZ[1]), (args.split // 12 - 1, 6), f"treble, {split}–C7"),
-        (bass, bass_key, (NOTE_BAND_HZ[0], crossover), (2, (args.split - 1) // 12 - 1), f"bass, C2–{split}"),
+        (treble, treble_key, (crossover, NOTE_BAND_HZ[1]), (split_midi // 12 - 1, 6), f"treble, {split}–C7"),
+        (bass, bass_key, (NOTE_BAND_HZ[0], crossover), (2, (split_midi - 1) // 12 - 1), f"bass, C2–{split}"),
     ):
         shares, octave = chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
         # Silence has spectral peaks too, of noise; it stays dark however clear they look.
@@ -335,12 +333,51 @@ def main():
     Image.open(buffer).convert("RGB").quantize(palette=palette, dither=Image.Dither.NONE).save(
         out_png, optimize=True,
     )
+    plt.close(fig)
     print(f"{out_png}: {Path(out_png).stat().st_size // 1024} KB")
-    # A zoom shows part of the song, and the sidecar describes the whole of it.
-    if not zoomed:
-        text = Path(out_png).with_suffix(".txt")
-        text.write_text(sidecar(Path(song).name, facts), encoding="utf-8")
-        print(text)
+
+
+def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    parser.add_argument("song")
+    parser.add_argument("out_png")
+    parser.add_argument("--from", dest="start", type=seconds, help="zoom start, m:ss")
+    parser.add_argument("--to", dest="end", type=seconds, help="zoom end, m:ss")
+    parser.add_argument(
+        "--split", type=midi_note, default=SPLIT_NOTE,
+        help=f"the lowest note of the treble strip, e.g. E3 or Bb2 (default {SPLIT_NOTE})",
+    )
+    args = parser.parse_args()
+    name, out_png = Path(args.song).name, Path(args.out_png)
+    if not midi_note("C#2") <= args.split <= midi_note("C7"):
+        parser.error("--split must leave both strips a note, C♯2 to C7")
+
+    x = decode(args.song)
+    whole = drawing_stft(x)
+    facts = measure(x, *whole)
+    if args.start is not None or args.end is not None:
+        t0 = args.start or 0
+        t1 = min(args.end or facts.duration, facts.duration)
+        if not 0 <= t0 < t1:
+            parser.error(f"--from {mmss(t0)} must come before --to {mmss(t1)}")
+        render(name, x, whole, facts, t0, t1, args.split, out_png)
+        return
+
+    render(name, x, whole, facts, 0, facts.duration, args.split, out_png)
+    text = out_png.with_suffix(".txt")
+    text.write_text(sidecar(name, facts), encoding="utf-8")
+    print(text)
+    # One zoom per section, numbered as the sidecar and the whole song's
+    # picture number them; a re-render clears the old ones, whose sections
+    # may no longer be there.
+    zooms = out_png.with_suffix("")
+    zooms.mkdir(exist_ok=True)
+    for old in zooms.glob("*.png"):
+        old.unlink()
+    for n, s in enumerate(facts.sections, 1):
+        render(name, x, whole, facts, s.start, s.end, args.split, zooms / f"{n}.png", section=n)
 
 
 if __name__ == "__main__":

@@ -89,10 +89,10 @@ def sidecar(name, facts):
         f"tempo {tempo}",
         f"key {names[tonic]} {mode} (r {r:.2f}; next {names[tonic2]} {mode2}, {r2:.2f})",
         f"tuning {tuning_label(facts.tuning)}",
-        "sections — start–end, tempo, loudness, chords with runs merged and a repeating loop folded:",
+        "sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded:",
     ]
-    for s in facts.sections:
+    for n, s in enumerate(facts.sections, 1):
         bpm = f"{s.bpm:.0f} BPM" if s.bpm else "– BPM"
         chords = folded([spell(c) for c in s.chords])
-        lines.append(f"{mmss(s.start)}–{mmss(s.end)}  {bpm}  {s.db:.0f} dB  {chords}".replace("-", "−"))
+        lines.append(f"{n}  {mmss(s.start)}–{mmss(s.end)}  {bpm}  {s.db:.0f} dB  {chords}".replace("-", "−"))
     return "\n".join(lines) + "\n"
