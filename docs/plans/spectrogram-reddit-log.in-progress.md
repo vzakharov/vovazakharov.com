@@ -2,7 +2,9 @@
 
 ## Progress
 
-Paused in step 8, on Vova's answers to the six disagreements in `docs/remove-before-merging/sidecar-check.md`.
+Resumed in step 8 on Vova's review of PR #138 (2026-10-14), which answers the six questions and asks for steps 9–13 below.
+
+**The answers:** Здравствуй is C minor, Наш панк-рок C minor, Наша история D minor — librosa was right on all three key questions. Просто так is 90 BPM, Послушайте (сингл) 86 — librosa again; Мир, какой он есть is 110–115 and drifts a lot, a piano song — both tools were wrong. Chords in a minor key should be spelled from it (E♭ and A♭ in C minor, not D♯ and G♯). Major or minor over power chords is the reader's judgement (the vocal melody's third), not a computation. The sidecar's chord lines swallow and invent chords in places, so the rule tells Майя to trust them with caution.
 
 - **Done — step 1** (cd420f5): the analysis lives in `scripts/song-intake/song_facts.py`. A venv with matplotlib goes at `tmp/spec-venv` (gitignored: `python3 -m venv tmp/spec-venv && tmp/spec-venv/bin/pip install matplotlib`).
 - **Done — steps 2–3** (c8d5843): `tuning_cents`, `peak_chroma(…, tuning)`, `onset_envelope`, `tempo_bpm`, `beat_times`. The envelope is smoothed before the autocorrelation, or a 140 BPM click train reads as 70.
@@ -106,6 +108,26 @@ Last, on what step 7 committed. The synthetic tests prove the methods on clean s
 - In a throwaway venv under `tmp/`, librosa computes each song's key (`chroma_cqt`, the same Krumhansl profiles), tempo (`beat_track`) and a chord per beat (the same triad templates on its chroma), and a script compares them with the eleven sidecars.
 - **Results** go to `docs/remove-before-merging/sidecar-check.md`: per song, where the two agree and where they do not. Птицы's G minor at 0.80 is the one known answer.
 - A disagreement goes to Vova, who knows his songs' keys, rather than to whichever method sounds more authoritative; one that his answer shows is the script's is fixed here, and the sidecar re-rendered.
+
+### 9. Split `song_facts.py` (review T11)
+
+511 lines, past the 450 rule of thumb: `audio.py` (decoding, STFT, log rows, peaks), `pitch.py` (tuning, chroma, sections), `rhythm.py` (onsets, tempo, beats, drums), `harmony.py` (key, chords, loops, spelling), and `song_facts.py` keeps `measure` and the sidecar. A pure move, committed alone; the tests split the same way.
+
+### 10. Fix key and tempo on the answers (step 8's tail)
+
+General method changes only, judged on all eleven songs against the known keys and tempos, never a per-song override. Strip labels spelled from the song's key.
+
+### 11. A movable bass/treble split, drawn (review T02)
+
+The split at any note, not only a C: chosen per song where the bass and the accompaniment are farthest apart, with a `--split` override, and drawn as a horizontal dashed line across the spectrogram so a reader sees one instrument cut in two.
+
+### 12. A drum strip (review T09)
+
+Four lanes under the bass strip — low (kick), lead (snare, claps), cymbals, pitched (toms) — from the percussive part of the spectrum, each lane as bright as its hits. The image grows taller for it rather than squeezing the rest.
+
+### 13. A zoom per section, rendered unasked (review T10)
+
+Every whole-song render also writes one zoom per section into `spectrograms/<slug>/<n>.png`, and the sidecar numbers its sections to match.
 
 ## Out of scope
 
