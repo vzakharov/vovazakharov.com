@@ -7,6 +7,7 @@
 
 import {
   File,
+  type Id3v2FrameIdentifier,
   Id3v2FrameIdentifiers,
   Id3v2Settings,
   Id3v2Tag,
@@ -39,6 +40,16 @@ function setCommon(tag: Tag, tags: SongTags): void {
   if (tags.lyrics !== undefined) tag.lyrics = tags.lyrics;
 }
 
+/** taglib types its frame table as an open record, so a missing name throws here. */
+function frame(name: string): Id3v2FrameIdentifier {
+  const identifier = Id3v2FrameIdentifiers[name];
+
+  if (identifier === undefined)
+    throw new Error(`taglib knows no ${name} frame`);
+
+  return identifier;
+}
+
 function frontCover(path: string): Picture {
   const picture = Picture.fromPath(path);
 
@@ -57,10 +68,10 @@ function writeId3(file: File, tags: SongTags, cover?: string): void {
   // The language `USLT` is filed under, which taglib reads off this static.
   Id3v2Tag.language = tags.language;
   setCommon(tag, tags);
-  tag.setTextFrame(Id3v2FrameIdentifiers.TEXT, ...tags.lyricists);
-  tag.setTextFrame(Id3v2FrameIdentifiers.TLAN, tags.language);
+  tag.setTextFrame(frame('TEXT'), ...tags.lyricists);
+  tag.setTextFrame(frame('TLAN'), tags.language);
 
-  const page = Id3v2UrlLinkFrame.fromIdentity(Id3v2FrameIdentifiers.WOAF);
+  const page = Id3v2UrlLinkFrame.fromIdentity(frame('WOAF'));
 
   page.text = [tags.url];
   tag.addFrame(page);

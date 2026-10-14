@@ -6,34 +6,35 @@
 
 import path from 'node:path';
 
-import { listSongPages, songBilling } from '@/pages/music/lib/songs';
-import { albumArtist, albumTitle } from '@/pages/music/lib/albums';
-import { projectName } from '@/pages/music/lib/artists';
-import { songPlacements } from '@/pages/music/lib/album-tracks';
-import { entryText } from '@/pages/music/lib/lyric-notes';
-import { songPath } from '@/pages/music/lib/music-urls';
-import { songPicture } from '@/pages/music/lib/pictures';
-import { type SongDocument, sungStanzas } from '@/pages/music/lib/song-text';
 import { getAbsoluteUrl } from '@/shared/config';
 import { isLocale, type Locale, LOCALES } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
 import {
-  type MusicAlbum,
   MUSIC_ORGANIZATION,
+  type MusicAlbum,
   songFileName,
   songFileNames,
 } from '@/shared/music-catalogue/index.node-safe';
 
+import { songPlacements } from '@/pages/music/lib/album-tracks';
+import { albumArtist, albumTitle } from '@/pages/music/lib/albums';
+import { projectName } from '@/pages/music/lib/artists';
+import { entryText } from '@/pages/music/lib/lyric-notes';
+import { songPath } from '@/pages/music/lib/music-urls';
+import { songPicture } from '@/pages/music/lib/pictures';
+import { type SongDocument, sungStanzas } from '@/pages/music/lib/song-text';
+import { listSongPages, songBilling } from '@/pages/music/lib/songs';
+
+import type { RepoBranch } from './music-repo.ts';
 import { buildTags, type SongTags, type TagSource } from './song-tags.ts';
 
 const RAW_HOST = 'raw.githubusercontent.com';
 
 /** The frontmatter fields that hold a file's URL. */
-export type MasterField = 'audio' | 'mp3';
+type MasterField = 'audio' | 'mp3';
 
 /** Where a file lives in its repository, read off its raw URL. */
-type RepoLocation = {
-  repo: string;
-  branch: string;
+type RepoLocation = RepoBranch & {
   /** The file's directory in the repository, `''` at its root. */
   directory: string;
 };
@@ -125,10 +126,13 @@ function fileNames(
 
 function masterFiles(document: SongDocument): MasterFile[] {
   const { audio, mp3 } = document.frontmatter;
-  const urls: [MasterField, string][] = [
-    ['audio', audio],
-    ...(mp3.url === undefined ? [] : [['mp3', mp3.url] as const]),
-  ];
+  const urls: Array<[MasterField, string]> =
+    mp3.url === undefined
+      ? [['audio', audio]]
+      : [
+          ['audio', audio],
+          ['mp3', mp3.url],
+        ];
 
   return urls.flatMap(([field, url]) => {
     const location = repoPath(url);
@@ -152,7 +156,10 @@ function masterFiles(document: SongDocument): MasterFile[] {
 }
 
 /** The highest number any song holds on the release, a gap in the catalogue not lowering it. */
-function releaseTotal(album: MusicAlbum, songs: readonly SongDocument[]): number {
+function releaseTotal(
+  album: MusicAlbum,
+  songs: readonly SongDocument[],
+): number {
   return Math.max(
     ...songs.flatMap(({ frontmatter }) =>
       songPlacements(frontmatter)
@@ -194,9 +201,7 @@ function tagSource(
 
 /** Every song a `vovas-music` repository serves, under `publicDir` (the app's `public/`). */
 export function songTagJobs(publicDir: string): SongTagJob[] {
-  const songs = [
-    ...new Set(listSongPages().map(({ document }) => document)),
-  ];
+  const songs = [...new Set(listSongPages().map(({ document }) => document))];
 
   return songs.flatMap((document) => {
     const files = masterFiles(document);
@@ -207,8 +212,7 @@ export function songTagJobs(publicDir: string): SongTagJob[] {
 
     return [
       {
-        slug: document.slug,
-        fileName: document.fileName,
+        ...pick(document, 'slug', 'fileName'),
         tags: buildTags(tagSource(document, songs)),
         ...(picture !== undefined && {
           cover: path.join(publicDir, picture),
