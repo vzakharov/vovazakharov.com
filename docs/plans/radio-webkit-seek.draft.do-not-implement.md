@@ -76,9 +76,14 @@ exactly. Everywhere else, the master plays as it does now.
 2. **Which phone?** The diagnosis assumes an iPhone. On Android, Chrome seeks a
    FLAC the same way the desktop does, and the cause would be somewhere else.
 
-**Rejected: adding a SEEKTABLE to every master.** That means re-pushing every
-`vovas-music` repository, which breaks "a master never changes". And nothing
-shows that AVFoundation reads a SEEKTABLE.
+**Rejected: adding a SEEKTABLE to every master.** `metaflac --add-seekpoint`
+rewrites only the header, so the audio, its MD5 and `seconds` all stay the same.
+But nothing shows that AVFoundation reads a SEEKTABLE. The indirect evidence
+says it seeks FLAC and VBR MP3 without any index
+(<https://developer.apple.com/forums/thread/819924>,
+<https://pxlnv.com/linklog/vbr-mp3s-and-avfoundation/>). Doing it would also put
+a second ~25 MB blob into every `vovas-music` repository's history. This option
+comes back only if one song with a seektable seeks correctly on an iPhone.
 
 ## DRY notes
 
