@@ -7,10 +7,10 @@ project: ['Грёбаный бал']
 repo: 'ghostly-blues'
 album: for-none-and-for-all
 track: 7
-audio: https://raw.githubusercontent.com/vovas-music/ghostly-blues/main/ghostly-blues.mp3
+audio: https://raw.githubusercontent.com/vovas-music/ghostly-blues/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%9F%D1%80%D0%B8%D0%B7%D1%80%D0%B0%D1%87%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%BB%D1%8E%D0%B7.mp3
 seconds: 177
 mp3:
-  bytes: 3956885
+  bytes: 3946771
 explicit: false
 credits:
   music: ['Андрей Мокрушин']
