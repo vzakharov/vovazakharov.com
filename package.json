@@ -43,6 +43,7 @@
     "music:untold": "node scripts/list-untold-songs.ts",
     "styles:codegen": "node scripts/generate-styles.ts",
     "costs": "python3 .claude/costs/report.py",
+    "reddit:digest": "node scripts/reddit-digest.ts",
     "artifact:mushrooms": "tsx scripts/build-mushroom-artifact.ts"
   },
   "dependencies": {
