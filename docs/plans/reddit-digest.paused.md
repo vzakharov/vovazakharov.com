@@ -123,12 +123,23 @@ answers the container with a 403, and the voice is the operator's.
 
 ## Progress
 
-Done: the plan, PR #155 with its squash proposal, and item 1 — the playbook
-(`writing/reddit/playbook.md`, commit e397ae4), seeded from the analysis.
+Done: the plan, PR #155 with its squash proposal, item 1 — the playbook
+(`writing/reddit/playbook.md`, e397ae4); item 3 — `pnpm reddit:digest`, its lib
+and tests (6e764fc; run live: 94 comments in 72 h, 38 unanswered replies, about
+2.5 min); items 4–6 — the skill, the Arctic Shift notes, `writing/CLAUDE.md`
+(0440cb3).
 
-Left, in order: item 3 (script, lib, test), item 4 (skill), item 5 (Arctic Shift
-notes), item 6 (`writing/CLAUDE.md`), item 8 (dogfood: run the skill once on
-this branch), item 7 (the routine), then `/polish` and the PR body refresh.
+Left, in order: item 8 (dogfood: run `/reddit-digest` once on this branch — the
+script's JSON is large, so read it through `python3`/`jq` slices rather than
+whole), item 7 (the routine), then `/polish` and the PR body refresh.
+
+What building item 3 settled:
+
+- The JSON names a thread position `nesting` and a page `landing`:
+  `pnpm type-overlap` held `depth` against the meadow's paint depth and `page`
+  against `og-render.ts`'s HTML, different facts under the same key.
+- The operator's 72 h hold many comments outside AI subs (r/TopCharacterTropes
+  and the like); the skill judges AI subs only and counts the rest.
 
 What the analysis found about the APIs, for the script:
 
