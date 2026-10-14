@@ -12,7 +12,7 @@
  * files were built from — tags, cover, names — and every repository path the
  * runs read or wrote, as `<repo>/<path>`. A song whose hash matches is
  * skipped, which makes an interrupted run resumable; the paths are what
- * `--prune` deletes, minus what is derived now, and it runs only once the
+ * `prune` deletes, minus what is derived now, and it runs only once the
  * site serving the new names has deployed.
  *
  * Runs under `tsx --conditions=react-server` from the app directory, so it
