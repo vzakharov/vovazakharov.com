@@ -167,8 +167,11 @@ song. Nothing ruled out yet between the two fixes.
 
 ## 8. Next step
 
-Wait for the operator's result of the `sultan` test on iPhone. If seeking now
-lands right: rewrite the plan to add a 1 s SEEKTABLE to every FLAC master
-(scripted, via REST per song repo) instead of the MP3 switch, and refresh PR
-#157's body and squash proposal. If it still misses: the plan stands as written
-(MP3 on Apple's engine), awaiting `/go`.
+Settled after the park, in this same session. The operator tested sultan:
+«слушай, ну явно лучше, но несколько секунд, кажется, рассинхрон таки есть.
+думаю это best we can do / предлагаю дождаться #153, а потом таки разметить
+все. / на проигрывание мп3 по дефолту мы перейдём, но уже когда введём кнопочку
+HQ, не в этих пиарах». The plan, PR #157's title and body, and the squash
+proposal now describe a 1 s SEEKTABLE in every FLAC master through #153's
+`pnpm music:masters` (commit c1d6b926). Wait for #153 to merge, then for the
+operator's go-ahead on the plan.
