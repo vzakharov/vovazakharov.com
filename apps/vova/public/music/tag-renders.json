@@ -184,6 +184,17 @@
       "nsfl/nsfl-009.mp3"
     ]
   },
+  "carcassi-caprice": {
+    "hash": "1c0ce9f6e0a8",
+    "paths": [
+      "caprice/Poluzhivye - Kapris Karkassi.flac",
+      "caprice/Poluzhivye - Kapris Karkassi.mp3",
+      "caprice/Полуживые - Каприс Каркасси.flac",
+      "caprice/Полуживые - Каприс Каркасси.mp3",
+      "caprice/Полуживые — Каприс Каркасси.flac",
+      "caprice/Полуживые — Каприс Каркасси.mp3"
+    ]
+  },
   "chikh-pykh": {
     "hash": "b63841ab8cb7",
     "paths": [
@@ -297,6 +308,17 @@
       "monday_doo/Йухи - Every Monday.mp3"
     ]
   },
+  "everything-begins-with-love": {
+    "hash": "92441c6a44bd",
+    "paths": [
+      "40days/Poluzhivye - Vsyo v etoy zhizni nachinayetsya s lyubvi.flac",
+      "40days/Poluzhivye - Vsyo v etoy zhizni nachinayetsya s lyubvi.mp3",
+      "40days/dad.flac",
+      "40days/dad.master.mp3",
+      "40days/Полуживые - Всё в этой жизни начинается с любви.flac",
+      "40days/Полуживые - Всё в этой жизни начинается с любви.mp3"
+    ]
+  },
   "facepalm-death": {
     "hash": "87888d6adf4d",
     "paths": [
@@ -333,6 +355,15 @@
       "nsfl/GENERATED - Fetal Soup.mp3",
       "nsfl/nsfl-002.flac",
       "nsfl/nsfl-002.mp3"
+    ]
+  },
+  "fireflies": {
+    "hash": "3df61b5fb5b8",
+    "paths": [
+      "stories/7 fireflies.flac",
+      "stories/7 fireflies.mp3",
+      "stories/GENERATED - Fireflies.flac",
+      "stories/GENERATED - Fireflies.mp3"
     ]
   },
   "flesh-fiction": {
@@ -426,6 +457,15 @@
       "machines/protintro.mp3"
     ]
   },
+  "how-could-you-leave": {
+    "hash": "44e5fec1502e",
+    "paths": [
+      "hcyl/GENERATED - How Could You Leave.flac",
+      "hcyl/GENERATED - How Could You Leave.mp3",
+      "hcyl/how_could_you_leave.flac",
+      "hcyl/how_could_you_leave.mp3"
+    ]
+  },
   "how-long": {
     "hash": "e48169fa678b",
     "paths": [
@@ -444,6 +484,15 @@
       "almost/GENERATED - I Almost Love You.mp3",
       "almost/almost.flac",
       "almost/almost.mp3"
+    ]
+  },
+  "ink": {
+    "hash": "73b284839d63",
+    "paths": [
+      "ink/GENERATED - Ink.flac",
+      "ink/GENERATED - Ink.mp3",
+      "ink/ink.flac",
+      "ink/ink.master.mp3"
     ]
   },
   "intermezzo": {
@@ -508,6 +557,17 @@
       "bronte/Полуживые - Life, believe, is not a dream… feat. за_обложкой & GENERATED.mp3"
     ]
   },
+  "little-lights": {
+    "hash": "095f1e447240",
+    "paths": [
+      "ogonki/ogonki.flac",
+      "ogonki/ogonki.mp3",
+      "ogonki/za_oblozhkoy - Ogonʼki feat. Downtemple.flac",
+      "ogonki/za_oblozhkoy - Ogonʼki feat. Downtemple.mp3",
+      "ogonki/за_обложкой - Огоньки feat. Downtemple.flac",
+      "ogonki/за_обложкой - Огоньки feat. Downtemple.mp3"
+    ]
+  },
   "mankind-extermination-front": {
     "hash": "90a6d79a52be",
     "paths": [
@@ -541,6 +601,15 @@
       "mithqal/mithqal_rock_master.mp3"
     ]
   },
+  "monkey": {
+    "hash": "2e164bc6e8cf",
+    "paths": [
+      "monkey/GENERATED - Monkey.flac",
+      "monkey/GENERATED - Monkey.mp3",
+      "monkey/monkey.flac",
+      "monkey/monkey.mp3"
+    ]
+  },
   "my-offence-is-rank": {
     "hash": "318e7cf0fabf",
     "paths": [
@@ -550,6 +619,17 @@
       "rank/rank2.master.mp3",
       "rank/Полуживые - O, my offence is rank… feat. GENERATED.flac",
       "rank/Полуживые - O, my offence is rank… feat. GENERATED.mp3"
+    ]
+  },
+  "my-sultan": {
+    "hash": "c73ece3c3e3d",
+    "paths": [
+      "sultan/Poluzhivye - Moy Sultan.flac",
+      "sultan/Poluzhivye - Moy Sultan.mp3",
+      "sultan/sultan.flac",
+      "sultan/sultan.master.mp3",
+      "sultan/Полуживые - Мой Султан.flac",
+      "sultan/Полуживые - Мой Султан.mp3"
     ]
   },
   "night-garden": {
@@ -621,6 +701,28 @@
       "phoenix/phoenix.master.mp3"
     ]
   },
+  "piebald-dog": {
+    "hash": "28e0757d7f37",
+    "paths": [
+      "pes/Poluzhivye - Pegiy pyos, begushchiy krayem morya.flac",
+      "pes/Poluzhivye - Pegiy pyos, begushchiy krayem morya.mp3",
+      "pes/pes.flac",
+      "pes/pes.master.mp3",
+      "pes/Полуживые - Пегий пёс, бегущий краем моря.flac",
+      "pes/Полуживые - Пегий пёс, бегущий краем моря.mp3"
+    ]
+  },
+  "piebald-dog-reprise": {
+    "hash": "dea87bdec9c2",
+    "paths": [
+      "papa-reka/8_pes_reprise.flac",
+      "papa-reka/8_pes_reprise.mp3",
+      "papa-reka/Poluzhivye - Pegiy pyos (Repriza).flac",
+      "papa-reka/Poluzhivye - Pegiy pyos (Repriza).mp3",
+      "papa-reka/Полуживые - Пегий пёс (Реприза).flac",
+      "papa-reka/Полуживые - Пегий пёс (Реприза).mp3"
+    ]
+  },
   "plush-plaid": {
     "hash": "4603924bb858",
     "paths": [
@@ -663,6 +765,28 @@
       "dng_album/Дамы и господа - Мы вспоминаем тихий снег….mp3"
     ]
   },
+  "river-part-one": {
+    "hash": "b637271cdca2",
+    "paths": [
+      "pobeg/Poluzhivye - Reka. Chastʼ pervaya _ Pobeg.flac",
+      "pobeg/Poluzhivye - Reka. Chastʼ pervaya _ Pobeg.mp3",
+      "pobeg/pobeg.flac",
+      "pobeg/pobeg.mp3",
+      "pobeg/Полуживые - Река. Часть первая _ Побег.flac",
+      "pobeg/Полуживые - Река. Часть первая _ Побег.mp3"
+    ]
+  },
+  "river-part-three": {
+    "hash": "5fa7a42ed6aa",
+    "paths": [
+      "otter/Poluzhivye - Reka. Chastʼ tretʼya.flac",
+      "otter/Poluzhivye - Reka. Chastʼ tretʼya.mp3",
+      "otter/otter.flac",
+      "otter/otter.master.mp3",
+      "otter/Полуживые - Река. Часть третья.flac",
+      "otter/Полуживые - Река. Часть третья.mp3"
+    ]
+  },
   "schadina": {
     "hash": "c136b3e36665",
     "paths": [
@@ -685,6 +809,15 @@
       "vagabond_album/Полуживые - Sirens of the Sands feat. GENERATED.mp3",
       "vagabond_album/Полуживые - Сирены барханов feat. GENERATED.flac",
       "vagabond_album/Полуживые - Сирены барханов feat. GENERATED.mp3"
+    ]
+  },
+  "sisters": {
+    "hash": "a4c5ab0f3c1c",
+    "paths": [
+      "stories/4 lake.flac",
+      "stories/4 lake.mp3",
+      "stories/GENERATED - Sisters.flac",
+      "stories/GENERATED - Sisters.mp3"
     ]
   },
   "slime": {
@@ -731,6 +864,15 @@
       "s74/Ты не терзайся и когда за мной.master.mp3"
     ]
   },
+  "story-ends": {
+    "hash": "881b9f13a938",
+    "paths": [
+      "stories/11 ends.flac",
+      "stories/11 ends.mp3",
+      "stories/GENERATED - The Story Ends.flac",
+      "stories/GENERATED - The Story Ends.mp3"
+    ]
+  },
   "stricken-deer": {
     "hash": "4df601c708a1",
     "paths": [
@@ -764,6 +906,15 @@
       "f-ec/Там.mp3"
     ]
   },
+  "through-the-cracks": {
+    "hash": "73d8711059bd",
+    "paths": [
+      "cracks/GENERATED - Through the Cracks.flac",
+      "cracks/GENERATED - Through the Cracks.mp3",
+      "cracks/cracks.flac",
+      "cracks/cracks.mp3"
+    ]
+  },
   "to-my-poems": {
     "hash": "34d472d95c85",
     "paths": [
@@ -775,6 +926,15 @@
       "dng_album/Дамы и господа - Моим стихам, написанным так рано….mp3"
     ]
   },
+  "trisagion": {
+    "hash": "265c306c6241",
+    "paths": [
+      "trisagion/Downtemple - Trisagion.flac",
+      "trisagion/Downtemple - Trisagion.mp3",
+      "trisagion/trisagion.flac",
+      "trisagion/trisagion.mp3"
+    ]
+  },
   "trust-in-the-machine": {
     "hash": "872cdc9b9b52",
     "paths": [
@@ -782,6 +942,15 @@
       "machines/GENERATED - Trust In the Machine.mp3",
       "machines/trust-in-the-machine.flac",
       "machines/trust-in-the-machine.mp3"
+    ]
+  },
+  "undone": {
+    "hash": "92c4f91a43f8",
+    "paths": [
+      "undone/GENERATED - Undone.flac",
+      "undone/GENERATED - Undone.mp3",
+      "undone/undone.flac",
+      "undone/undone.mp3"
     ]
   },
   "vagabond": {
@@ -795,6 +964,17 @@
       "vagabond_album/Полуживые - Vagabond feat. GENERATED.mp3",
       "vagabond_album/Полуживые - Скиталец feat. GENERATED.flac",
       "vagabond_album/Полуживые - Скиталец feat. GENERATED.mp3"
+    ]
+  },
+  "valentines-day": {
+    "hash": "c8b1d559c089",
+    "paths": [
+      "ophelia/Poluzhivye - Valentinov denʼ.flac",
+      "ophelia/Poluzhivye - Valentinov denʼ.mp3",
+      "ophelia/ophelia.flac",
+      "ophelia/ophelia.mp3",
+      "ophelia/Полуживые - Валентинов день.flac",
+      "ophelia/Полуживые - Валентинов день.mp3"
     ]
   },
   "wanderers-farewell": {
@@ -830,6 +1010,15 @@
       "wereback/wereback.mp3"
     ]
   },
+  "what-doesnt-kill": {
+    "hash": "da442d5eaec8",
+    "paths": [
+      "wdk/GENERATED - What Doesn’t Kill.flac",
+      "wdk/GENERATED - What Doesn’t Kill.mp3",
+      "wdk/wdk.flac",
+      "wdk/wdk.mp3"
+    ]
+  },
   "windows": {
     "hash": "8cfe5975f29d",
     "paths": [
@@ -839,6 +1028,17 @@
       "okna/Грёбаный бал - Окна.mp3",
       "okna/Окна.flac",
       "okna/Окна.mp3"
+    ]
+  },
+  "youngest-grandson": {
+    "hash": "28a447fd2748",
+    "paths": [
+      "salman/Poluzhivye - Mladshiy vnuchek moy.flac",
+      "salman/Poluzhivye - Mladshiy vnuchek moy.mp3",
+      "salman/salman.flac",
+      "salman/salman.mp3",
+      "salman/Полуживые - Младший внучек мой.flac",
+      "salman/Полуживые - Младший внучек мой.mp3"
     ]
   }
 }

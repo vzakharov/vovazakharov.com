@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'wdk'
-audio: https://raw.githubusercontent.com/vovas-music/wdk/main/wdk.flac
+audio: https://raw.githubusercontent.com/vovas-music/wdk/main/GENERATED%20-%20What%20Doesn%E2%80%99t%20Kill.flac
 seconds: 220
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/wdk/main/wdk.mp3
-  bytes: 8804424
+  url: https://raw.githubusercontent.com/vovas-music/wdk/main/GENERATED%20-%20What%20Doesn%E2%80%99t%20Kill.mp3
+  bytes: 8897255
 explicit: false
 album: let-the-stories-spin
 track: 8
