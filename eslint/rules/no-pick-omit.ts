@@ -119,12 +119,9 @@ const rule: Rule.RuleModule = {
       [tsType('TSTypeReference')](node: ESTree.Node) {
         const reference = node as unknown as Reference;
         const utility = reference.typeName;
-        if (
-          utility?.type !== 'Identifier' ||
-          !UTILITIES.has((utility as unknown as ESTree.Identifier).name)
-        ) {
-          return;
-        }
+        if (utility?.type !== 'Identifier') return;
+        const { name } = utility as unknown as ESTree.Identifier;
+        if (!UTILITIES.has(name)) return;
         // A local binding named `Pick` is someone else's type.
         if (resolve(sourceCode, utility)?.defs[0] !== undefined) {
           return;
@@ -135,7 +132,7 @@ const rule: Rule.RuleModule = {
           node,
           messageId: 'carved',
           data: {
-            utility: (utility as unknown as ESTree.Identifier).name,
+            utility: name,
             target: sourceCode.getText(target),
           },
         });
