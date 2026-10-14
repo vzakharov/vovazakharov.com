@@ -1,7 +1,7 @@
 /**
  * Where a `vovas-music` repository serves a song's file, read off and written
  * back into its raw URL — the one shape the page's download links and
- * `pnpm music:tag` both derive their names in.
+ * `pnpm music:masters tag` both derive their names in.
  */
 
 import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';

@@ -19,7 +19,7 @@ and of item 3:
   under `scripts/in-site.sh vova tsx --conditions=react-server`; 168 songs
   resolve.
 
-- the run, `pnpm music:tag` (`scripts/tag-songs.ts`, git half in
+- the run, `pnpm music:masters tag` (`scripts/masters.ts`, git half in
   `scripts/lib/music-repo.ts`, text edits in `song-tag-rewrites.ts` + test),
   d668364. `--dry-run` builds each repository's commit in `tmp/music-tag/<repo>`
   and stops; tried on `boom`, `snow-is-falling`, `after-us` (README rewritten)
@@ -49,7 +49,7 @@ vet's fan-out (fails until every song is tagged, by design), `stack.md`,
 `songs.md`, `song-intake/CLAUDE.md`.
 
 **Open, for the operator:** knip reports `ffmpeg` as an unlisted binary in
-`scripts/tag-songs.ts` — a system tool, so the fix is `ignoreBinaries` in
+`scripts/masters.ts` — a system tool, so the fix is `ignoreBinaries` in
 `knip.ts`, a suppression that needs their yes.
 
 **The operator permitted `git push`** (verbatim in
@@ -66,10 +66,14 @@ run's, then `git/commits` and the ref; the raw URL served the file;
 `/tmp/…/scratchpad/api_push_spike.py` (gone with the container) — the
 recipe is the sentence above.
 
-**Left:** make `commitStaged`'s push in `scripts/lib/music-repo.ts` publish
-through that API (blobs for the staged new/changed paths, a tree on the
-clone's HEAD tree, a commit, fast-forward the ref — no force), keeping the
-blobless clone for reading and building; then items 5–7 and 9.
+**The API transport is built, not yet run**: `commitStaged` publishes through
+`publishHead` in `scripts/lib/music-repo.ts` (each new blob checked against
+its local SHA, the tree against the clone's), and every operation on the
+organization is one script, `pnpm music:masters` (`tag`, `check`, `prune`,
+`get`, `put`, `create`), so the operator's permission names it rather than
+each `gh api` call. **Left:** the first real `pnpm music:masters tag boom
+snow-is-falling` once permitted, then items 5–7 and 9 — the vendored songs
+move with `create` and `put`.
 
 **`pnpm type-overlap` is clean** (e9e7cd1): `WithUrl`/`WithLanguage` in
 `shared/typings`, `WithSpelledTitle` in `spelling.ts`, `SungWords` in
@@ -150,7 +154,7 @@ Facts established, not to re-derive:
   picked, `date` → year, `language[0]` → ISO 639-2, credits falling back to
   `SONG_AUTHOR.en`, the sung stanzas joined by blank lines with `_…_` marks
   dropped via `inlineRuns`), tested on a fixture; the catalogue resolution
-  lives in `scripts/tag-songs.ts`, run under `--conditions=react-server` as
+  lives in `scripts/masters.ts`, run under `--conditions=react-server` as
   `content:og` is, so it can import `pages/music/lib`.
 
 ## Goal
@@ -272,9 +276,9 @@ encode survives. Audio frames are untouched — tagging is a metadata rewrite,
 checked by comparing the decoded audio's MD5 before and after (FLAC's
 STREAMINFO MD5 for the masters, `ffmpeg -f md5` for the MP3s).
 
-## The script: `pnpm music:tag [<slug> ...]`
+## The script: `pnpm music:masters tag [<slug> ...]`
 
-`scripts/tag-songs.ts`, under `tsx` from the app directory like
+`scripts/masters.ts`, under `tsx` from the app directory like
 `music:scaffold`, so it reads the catalogue through `src/`'s own model —
 titles, artists, albums, people's spellings, lyrics, `songPicture`,
 `songFileName` — rather than re-parsing frontmatter. Tags are written with
@@ -303,7 +307,7 @@ is skipped, so a run interrupted by GitHub's content-creation rate limit
 and the script paces its writes to stay under it.
 
 **The manifest keeps the files current**, as `og-renders.json` keeps the
-cards: `pnpm music:tag --check`, wired into `vet.sh`, fails offline when a
+cards: `pnpm music:masters check`, wired into `vet.sh`, fails offline when a
 song's title, album, credits, lyrics or cover changed since its files were
 tagged, naming the songs to re-run; the build's own check above covers the
 names.
@@ -337,7 +341,7 @@ names until this branch deploys. So:
 
 1. **Add** — the run above commits the new paths beside the old ones.
    The live site keeps working; the branch points at the new names.
-2. **Prune, after the merge deploys** — `pnpm music:tag --prune` deletes, per
+2. **Prune, after the merge deploys** — `pnpm music:masters prune` deletes, per
    repository, every master and copy path that no song on `main` derives any
    more, in one commit each. It runs in the session that merges, as its
    last step; until then a repository holds both, which costs only clutter.
@@ -358,10 +362,10 @@ names until this branch deploys. So:
 ## Conventions that change with it
 
 - `scripts/song-intake/CLAUDE.md` § "A song's repository": the master and its
-  copy are named and tagged by `pnpm music:tag` once the page exists; intake
+  copy are named and tagged by `pnpm music:masters tag` once the page exists; intake
   still produces `<stem>.flac` and `<stem>.master.mp3`, which
   `music:scaffold` reads, and the tag run renames them. A new song therefore
-  ends with `pnpm music:tag <slug>`.
+  ends with `pnpm music:masters tag <slug>`.
 - `.claude/rules/songs.md`: a sentence that a song's file names are derived
   and its tags written from the frontmatter, and that the build and
   `--check` fail when either drifts. The rule is path-scoped, so it is edited
@@ -376,7 +380,7 @@ names until this branch deploys. So:
 - [x] Write `songFileName` with its test — the spellings per locale and
       script, the artist credit, the character replacement, a locale that
       renames the song.
-- [ ] Write `scripts/tag-songs.ts` (tags, upload, frontmatter, manifest,
+- [ ] Write `scripts/masters.ts` (tags, upload, frontmatter, manifest,
       `--check`, `--prune`) and its test for the tag set from a frontmatter
       fixture.
 - [ ] `SongFileLink` and the feed links on derived names; the build's
@@ -389,7 +393,7 @@ names until this branch deploys. So:
 - [ ] Run the rest; commit the frontmatter and manifest in batches.
 - [ ] Wire `--check` into `vet.sh`; update `song-intake/CLAUDE.md` and
       `songs.md`.
-- [ ] After merge and deploy: `pnpm music:tag --prune`.
+- [ ] After merge and deploy: `pnpm music:masters prune`.
 
 ## DRY notes
 

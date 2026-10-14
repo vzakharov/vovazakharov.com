@@ -1,11 +1,6 @@
 /**
- * Name and tag every song master a `vovas-music` repository serves.
- *
- * Usage, from the repository root:
- *   pnpm music:tag [<slug> ...]           tag what drifted, push, repoint the documents
- *   pnpm music:tag --dry-run [<slug> ...] build each commit in tmp/music-tag/ and stop there
- *   pnpm music:tag --check                offline: fail naming the songs that drifted
- *   pnpm music:tag --prune                delete the paths no song derives any more
+ * Naming and tagging every song master a `vovas-music` repository serves —
+ * `pnpm music:masters`' `tag`, `check` and `prune`.
  *
  * Per repository, one commit: each song's master and MP3 copy, tagged from
  * the catalogue and checked to decode to the same audio, under every name a
@@ -21,8 +16,8 @@
  * site serving the new names has deployed.
  *
  * Runs under `tsx --conditions=react-server` from the app directory, so it
- * reads the catalogue through the page's own model. Needs network, `ffmpeg`,
- * and `gh` holding a token that can push to the organization.
+ * reads the catalogue through the page's own model. Needs network and
+ * `ffmpeg`.
  */
 
 import { execFileSync } from 'node:child_process';
@@ -39,30 +34,25 @@ import {
   type TagManifest,
 } from '@/pages/music/lib/song-downloads';
 
-import { given } from './lib/argv.ts';
-import { REPO_ROOT } from './lib/content-tree.ts';
 import {
   cloneRepo,
   commitStaged,
+  MUSIC_WORK_DIR,
   type MusicRepo,
   readBlob,
   stageBlob,
   stagedSummary,
   treePaths,
   unstagePaths,
-} from './lib/music-repo.ts';
-import {
-  renameMentions,
-  rewriteSongDocument,
-} from './lib/song-tag-rewrites.ts';
+} from './music-repo.ts';
+import { renameMentions, rewriteSongDocument } from './song-tag-rewrites.ts';
 import {
   type MasterFile,
   type SongTagJob,
   songTagJobs,
-} from './lib/song-tag-source.ts';
-import { writeSongTags } from './lib/song-tag-writer.ts';
+} from './song-tag-source.ts';
+import { writeSongTags } from './song-tag-writer.ts';
 
-const WORK_DIR = path.join(REPO_ROOT, 'tmp', 'music-tag');
 const README = 'README.md';
 
 function report(line: string): void {
@@ -112,7 +102,7 @@ function audioMd5(file: string): string {
 /** Fetches, tags and stages one file; the tagged bytes. */
 function tagFile(repo: MusicRepo, job: SongTagJob, file: MasterFile): Buffer {
   const local = path.join(
-    WORK_DIR,
+    MUSIC_WORK_DIR,
     `${job.slug}.${file.field}.${file.extension}`,
   );
 
@@ -226,7 +216,7 @@ function tagRepository(
   manifest: TagManifest,
   dryRun: boolean,
 ): void {
-  const repo = cloneRepo(name, branch, WORK_DIR);
+  const repo = cloneRepo(name, branch, MUSIC_WORK_DIR);
   const mp3Bytes = new Map<string, number>();
 
   for (const job of jobs) {
@@ -265,7 +255,11 @@ function tagRepository(
   writeManifest(manifest);
 }
 
-function prune(jobs: readonly SongTagJob[], manifest: TagManifest): void {
+/** Deletes, per repository, the paths the manifest recorded and no song derives any more. */
+export function pruneSongs(slugs: readonly string[]): void {
+  const jobs = selectedJobs(slugs);
+  const manifest = readTagManifest();
+
   for (const [name, group] of byRepository(jobs)) {
     const derived = new Set(
       group.jobs.flatMap(({ files }) =>
@@ -279,7 +273,7 @@ function prune(jobs: readonly SongTagJob[], manifest: TagManifest): void {
 
     if (gone.length === 0) continue;
 
-    const repo = cloneRepo(name, group.branch, WORK_DIR);
+    const repo = cloneRepo(name, group.branch, MUSIC_WORK_DIR);
     const held = treePaths(repo);
 
     unstagePaths(
@@ -301,9 +295,8 @@ function prune(jobs: readonly SongTagJob[], manifest: TagManifest): void {
   }
 }
 
-function selectedJobs(): SongTagJob[] {
+function selectedJobs(slugs: readonly string[]): SongTagJob[] {
   const all = songTagJobs(PUBLIC_DIR);
-  const slugs = process.argv.slice(2).filter((arg) => !arg.startsWith('--'));
   const unknown = slugs.filter((slug) => !all.some((job) => job.slug === slug));
 
   if (unknown.length > 0) {
@@ -317,30 +310,39 @@ function selectedJobs(): SongTagJob[] {
     : all.filter((job) => slugs.includes(job.slug));
 }
 
-function main(): void {
-  const jobs = selectedJobs();
-  const manifest = readTagManifest();
-
-  if (given('prune')) {
-    prune(jobs, manifest);
-    return;
-  }
-
+/** The selected songs whose files were never tagged, or tagged from inputs that changed since. */
+function staleJobs(
+  slugs: readonly string[],
+  manifest: TagManifest,
+): SongTagJob[] {
+  const jobs = selectedJobs(slugs);
   const stale = jobs.filter((job) => manifest[job.slug]?.hash !== jobHash(job));
 
   report(`${jobs.length} song(s), ${stale.length} to tag.`);
 
-  if (given('check')) {
-    for (const job of stale) report(`  stale: ${job.slug}`);
-    process.exitCode = stale.length > 0 ? 1 : 0;
-    return;
-  }
+  return stale;
+}
+
+/** Offline: `false`, naming each, when a song's files are stale. */
+export function checkSongs(slugs: readonly string[]): boolean {
+  const stale = staleJobs(slugs, readTagManifest());
+
+  for (const job of stale) report(`  stale: ${job.slug}`);
+
+  return stale.length === 0;
+}
+
+/**
+ * Tags what drifted, publishes it, and repoints the documents; a dry run
+ * builds each repository's commit in its clone and stops there.
+ */
+export function tagSongs(slugs: readonly string[], dryRun: boolean): void {
+  const manifest = readTagManifest();
+  const stale = staleJobs(slugs, manifest);
 
   assertNoCollision(songTagJobs(PUBLIC_DIR));
 
   for (const [name, { branch, jobs: group }] of byRepository(stale)) {
-    tagRepository(name, branch, group, manifest, given('dry-run'));
+    tagRepository(name, branch, group, manifest, dryRun);
   }
 }
-
-main();

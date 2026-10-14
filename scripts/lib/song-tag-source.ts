@@ -1,6 +1,6 @@
 /**
  * One song, resolved through the catalogue the way its pages resolve it, into
- * what `pnpm music:tag` writes: the tags, the cover, and for each of its files
+ * what `pnpm music:masters tag` writes: the tags, the cover, and for each of its files
  * the repository path it is read from and every name it is saved under.
  */
 

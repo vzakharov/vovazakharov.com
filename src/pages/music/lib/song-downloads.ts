@@ -13,7 +13,7 @@ import type { SongDocument } from './song-text';
 import { songBilling } from './songs';
 
 /**
- * Per song, a hash of what `pnpm music:tag` built its files from, and every
+ * Per song, a hash of what `pnpm music:masters tag` built its files from, and every
  * `<repo>/<path>` its runs read or wrote.
  */
 export const TAG_MANIFEST = path.join(PUBLIC_DIR, 'music', 'tag-renders.json');
@@ -59,7 +59,7 @@ export function songDownloads(
       !written.has(servedPath(location, location.path))
     ) {
       throw new Error(
-        `${document.fileName} links ${location.repo}/${location.path}, which no tag run wrote; run \`pnpm music:tag ${document.slug}\`.`,
+        `${document.fileName} links ${location.repo}/${location.path}, which no tag run wrote; run \`pnpm music:masters tag ${document.slug}\`.`,
       );
     }
   }

@@ -37,7 +37,7 @@ function namedHref(
 /**
  * The song's files to take away: the MP3 first, then the master where the MP3
  * is a copy of it. With a billing, a file a `vovas-music` repository serves is
- * linked under the name `pnpm music:tag` saved it as for that billing; without
+ * linked under the name `pnpm music:masters tag` saved it as for that billing; without
  * one, and for a file the site hosts, under the URL the frontmatter states.
  */
 export function songFiles(
