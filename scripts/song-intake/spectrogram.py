@@ -39,6 +39,11 @@ its row. Twelve hues for twelve classes would be misread for their neighbours;
 five far apart are not. A faint cell is grey, its octave too unsure to colour,
 and a strip is dark where its band is quiet.
 
+At the bottom, the drums: four lanes, kick, toms, snare (claps with it) and
+cymbals, each a hue of its own and a mark as bright as the hit, so the rhythm
+reads off it the way the harmony reads off the strips. `drums.py` says how a
+hit is told from the mix and which piece it is, and where it gets that wrong.
+
 The spectrogram's map is cut into 2.5 dB steps, the strips' into a few
 brightness steps per octave, and the PNG kept to those colours and a few greys,
 which holds a song under 350 KB: a smooth map over a noisy texture compresses
@@ -318,8 +323,8 @@ def main():
     buffer = io.BytesIO()
     fig.savefig(buffer, format="png")
     # A fixed palette — the map's own steps, then greys for the text, then the
-    # strips' steps and the envelope's shades — since an adaptive one merges
-    # the rarest steps, the loudest, and the scale lies.
+    # strips' steps, the envelope's shades and the drum lanes' steps — since an
+    # adaptive one merges the rarest steps, the loudest, and the scale lies.
     steps = [round(255 * c) for i in range(cmap.N) for c in cmap(i)[:3]]
     greys = [round(255 * i / (63 - cmap.N)) for i in range(64 - cmap.N) for _ in range(3)]
     chroma = [round(255 * c) for ramp in ramps.values() for rgb in ramp[1:] for c in rgb]

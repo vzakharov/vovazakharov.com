@@ -3,19 +3,27 @@
 A hit is a sudden rise: per 23 ms frame, how far each of nine bands climbs over
 its quietest in the frames before. A kit piece rises in its own bands and not
 in others, so each frame's rises are unmixed onto one fixed band signature per
-lane by non-negative least squares, and a lane is as bright as its share.
+kit piece by non-negative least squares, and a lane is as bright as its
+pieces' share — lit only at the frame where that share peaks, so a hit is one
+mark rather than a smear across the frames its pooling reaches.
 
 The signatures are heuristics, read off hits measured in the catalogue's mixes
 rather than learned: a kick rises most under 250 Hz and clicks at 2.5–8 kHz; a
-tom rises at 60–500 Hz with nothing under 60; a snare or clap is noise from
-1 kHz up over a 120–500 Hz body; a cymbal is noise above 2.5 kHz alone, which
-is what tells it from a snare. A kick's click, body and pitch sweep land a
-frame or two apart, so each band's rise is the most it reaches across a few
-frames around the hit, and the hit unmixes whole instead of lighting toms and
-cymbals with its parts.
+tom rises at 120–250 Hz, less at 60–120 and over its 250–500 Hz overtones, with
+nothing under 60; a snare or clap is noise from 1 kHz up over a 120–500 Hz
+body; a cymbal is noise above 2.5 kHz alone, which is what tells it from a
+snare. A floor tom down around 100 Hz rises where a kick does, and lights the
+kick lane. A kick's click, body and pitch sweep land a frame or two apart, so
+each band's rise is the most it reaches across a few frames around the hit,
+and the hit unmixes whole instead of lighting toms and cymbals with its parts.
+
+The lanes read a kit over a mix: over near-silence any sound rises tens of dB
+in every band, and the lanes are a coin toss.
 
 There is no harmonic/percussive separation first: at the 21.5 Hz bins a 23 ms
 frame allows, a kick's few low bins look harmonic and the separation erases it.
+Nor a longer window for the low bands, finer as their bins would be: it
+averages a kick's burst with the bass held under it, and the kick goes dim.
 """
 
 import numpy as np

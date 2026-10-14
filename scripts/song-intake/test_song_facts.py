@@ -154,7 +154,7 @@ class Sidecar(unittest.TestCase):
 
 
 class Drums(unittest.TestCase):
-    """Each kit piece, struck every half second over quiet pink noise, lights its own lane most."""
+    """Each kit piece, struck every half second over pink noise, lights its own lane most."""
 
     rng = np.random.default_rng(1)
 
@@ -171,14 +171,21 @@ class Drums(unittest.TestCase):
         return np.fft.irfft(spectrum, n) * np.exp(-np.arange(n) / SR / decay)
 
     def lit(self, hit):
+        """Each lane's hits summed over the first 0.1 s of every strike: the
+        noise between strikes is not what the test is about."""
         n = int(SR * 4)
         spectrum = np.fft.rfft(self.rng.standard_normal(n)) / np.sqrt(np.maximum(np.fft.rfftfreq(n, 1 / SR), 20))
         background = np.fft.irfft(spectrum, n)
-        x = 0.003 * background / background.std()
-        for t in np.arange(0.5, 3.5, 0.5):
+        # A mix under the kit, 20 dB under the strikes: over near-silence any
+        # sound rises tens of dB in every band, and the lanes are a coin toss.
+        x = 0.05 * background / background.std()
+        strikes = np.arange(0.5, 3.5, 0.5)
+        for t in strikes:
             i = int(t * SR)
             x[i:i + len(hit)] += 0.5 * hit
-        return hits(band_rises(x.astype(np.float32))[0]).sum(axis=0)
+        rise, step = band_rises(x.astype(np.float32))
+        lanes = hits(rise)
+        return sum(lanes[round(t / step):round((t + 0.1) / step) + 1].sum(axis=0) for t in strikes)
 
     def assert_lights(self, lane, hit):
         lit = self.lit(hit)
@@ -186,6 +193,12 @@ class Drums(unittest.TestCase):
 
     def test_kick(self):
         self.assert_lights("kick", self.decaying(lambda t: 50 + 70 * np.exp(-t / 0.03), 0.4, 0.15))
+
+    def test_tom(self):
+        # A membrane's first modes, at 1.59 and 2.14 times its fundamental: a
+        # bare sine is no drum, and its onset click alone reads as a kick.
+        modes = ((1, 1), (1.59, 0.5), (2.14, 0.4))
+        self.assert_lights("toms", sum(a * self.decaying(lambda t, m=m: np.full_like(t, 150 * m), 0.4, 0.15) for m, a in modes))
 
     def test_snare(self):
         self.assert_lights("snare", self.noise(0.3, 0.05) + self.decaying(lambda t: np.full_like(t, 200), 0.3, 0.08))
