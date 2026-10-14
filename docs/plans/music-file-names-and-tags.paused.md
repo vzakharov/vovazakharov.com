@@ -70,7 +70,14 @@ recipe is the sentence above.
 operator's permission «Разрешаю запускать pnpm music:masters (tag, prune, get,
 put, create) — он пишет в репозитории организации vovas-music через GitHub
 API.» and an allow rule for the command in `.claude/settings.json`; the raw
-URLs serve the new names. Item 6's download check by the operator is next.
+URLs serve the new names. **Item 6 passed**: the operator downloaded the MP3s
+and FLACs, «вроде всё ок»; the FLACs' tags and cover are in the files
+(ffprobe) and the player he looked in does not show them — which player is
+asked, not answered. His calls since: a featured song's file is
+`<Artist> - <Title> feat. <Features>` (f326461; the artist tag keeps
+`A feat. B & C`), and knip's `ignoreBinaries: ['ffmpeg']` with its reason
+(f326461). The build check as built is approved («ок»). **Next: item 5**, the
+vendored songs, with `music:masters create` and `put`, then item 7.
 
 **The API transport**: `commitStaged` publishes through
 `publishHead` in `scripts/lib/music-repo.ts` (each new blob checked against
