@@ -19,8 +19,8 @@ plan".
   reading counts it then.
 - **Both lines are priced by what `/relay` saves over the next 100k tokens of
   work** (`finish`): the warning where that saving reaches $0, the
-  pause where it reaches `CONTEXT_BUDGET_PAUSE_SAVING` percent (default 20) of
-  what carrying on costs. The model is `.claude/costs/lib/restart.py`, via
+  pause where it reaches `MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING` percent (default
+  20) of what carrying on costs. The model is `.claude/costs/lib/restart.py`, via
   `hooks/priced_line.py`, and the notice carries the dollars.
   - **Each is capped at its fixed line, 200k and 300k**, so pricing only ever
     moves a line earlier: context quality and the hard window are not cost
@@ -34,7 +34,7 @@ plan".
   - **The lines are cached** in `tmp/context-budget/<session_id>.line` and
     recomputed per 10k of growth, since a Python start-up per tool call is what
     this bash hook avoids.
-  - **Without the ledger's lib, or under `CONTEXT_BUDGET_LINES=fixed`**, the
+  - **Without the ledger's lib, or under `MUTHUR_CONTEXT_BUDGET_LINES=fixed`**, the
     hook runs no Python; those and an unpriced model leave the lines at 200k
     and 300k.
 - **The main chain only**, for the session's reading: `isSidechain` records are
@@ -60,9 +60,10 @@ plan".
 - **Anything unreadable is silence**, never an error: a missing notice costs a
   warning, a hook failing on every tool call costs the session.
 
-`CONTEXT_BUDGET_WARN`, `CONTEXT_BUDGET_PAUSE` and `CONTEXT_BUDGET_SUBAGENT`
-each fix their line, in tokens, `CONTEXT_BUDGET_PAUSE_SAVING` moves the priced pause, and
-`CONTEXT_BUDGET_LINES=fixed` turns the pricing off — set them in
+`MUTHUR_CONTEXT_BUDGET_WARN`, `MUTHUR_CONTEXT_BUDGET_PAUSE` and
+`MUTHUR_CONTEXT_BUDGET_SUBAGENT` each fix their line, in tokens,
+`MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING` moves the priced pause, and
+`MUTHUR_CONTEXT_BUDGET_LINES=fixed` turns the pricing off — set them in
 `.claude/settings.local.json`'s `env`, or on the web among the cloud
 environment's variables, to tune without editing a tracked file.
 
