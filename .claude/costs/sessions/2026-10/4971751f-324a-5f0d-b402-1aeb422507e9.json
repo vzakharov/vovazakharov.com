@@ -1,0 +1,86 @@
+{
+  "estimate": {
+    "at": "2026-10-14T20:48:48.924Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "finishing a scripted upload by hand needs someone who can read the tag pipeline well enough to split it into a local push and a remote repoint without breaking the manifest"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "4971751f-324a-5f0d-b402-1aeb422507e9",
+  "branch": "claude/music-file-names-and-tags-5hw4ll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/music-file-names-and-tags-5hw4ll",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01JNjECeMPGTGsdzAsMgSKFD",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T20:40:36.035Z",
+  "lastResponseAt": "2026-10-14T20:49:12.712Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 99961,
+    "cacheReadTokens": 2220784,
+    "outputTokens": 8532,
+    "thinkingTokens": 3276,
+    "responses": 18,
+    "costUsd": 1.4146288000000002
+  },
+  "ownTurns": {
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 99961,
+    "cacheReadTokens": 2220784,
+    "outputTokens": 8532,
+    "thinkingTokens": 3276,
+    "responses": 18,
+    "costUsd": 1.4146288000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 99961,
+      "cacheReadTokens": 2220784,
+      "outputTokens": 8532,
+      "thinkingTokens": 3276,
+      "responses": 18,
+      "costUsd": 1.4146288000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-14T20:49:12.712Z",
+    "contextTokens": 147018,
+    "spend": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 99795,
+      "cacheReadTokens": 2073934,
+      "outputTokens": 8421,
+      "thinkingTokens": 3202,
+      "responses": 17,
+      "costUsd": 1.3817028000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
