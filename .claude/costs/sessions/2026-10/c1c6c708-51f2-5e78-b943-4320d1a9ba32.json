@@ -1,18 +1,18 @@
 {
   "estimate": {
-    "at": "2026-10-14T11:20:26.624Z",
+    "at": "2026-10-14T11:23:27.358Z",
     "parts": [
       {
-        "hours": 3.0,
+        "hours": 4.5,
         "grade": "middle",
         "role": "analyst",
-        "comment": "pulling ~130 own posts and 1500 comments, filtering the agentic ones and reading the reply threads under ten of them is a routine but slow data pass"
+        "comment": "joining ~340 agentic comments to their parent posts, cutting scores by timing, depth, length and sub, and cross-checking link comments against the repo's GitHub traffic is a routine but slow data pass"
       },
       {
         "hours": 1.0,
         "grade": "senior",
         "role": "copywriter",
-        "comment": "judging why a post landed or flopped on Reddit, and proposing a daily routine around it, takes someone who knows the communities and the voice"
+        "comment": "reading why a comment landed or flopped in a given sub, and turning that into advice for a daily routine, takes someone who knows the communities and the voice"
       }
     ],
     "comment": null
@@ -25,28 +25,28 @@
   "url": "https://claude.ai/code/session_01D8KBmh3aLZs3V4wdrTtb5X",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-14T11:17:22.252Z",
-  "lastResponseAt": "2026-10-14T11:20:38.826Z",
+  "lastResponseAt": "2026-10-14T11:23:34.582Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 26,
+    "inputTokens": 40,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 61601,
-    "cacheReadTokens": 1205726,
-    "outputTokens": 11238,
-    "thinkingTokens": 3721,
-    "responses": 13,
-    "costUsd": 0.9588172
+    "cacheWrite1hTokens": 77035,
+    "cacheReadTokens": 2021754,
+    "outputTokens": 18796,
+    "thinkingTokens": 5832,
+    "responses": 20,
+    "costUsd": 1.3967108000000001
   },
   "ownTurns": {
-    "inputTokens": 26,
+    "inputTokens": 40,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 61601,
-    "cacheReadTokens": 1205726,
-    "outputTokens": 11238,
-    "thinkingTokens": 3721,
-    "responses": 13,
-    "costUsd": 0.9588172
+    "cacheWrite1hTokens": 77035,
+    "cacheReadTokens": 2021754,
+    "outputTokens": 18796,
+    "thinkingTokens": 5832,
+    "responses": 20,
+    "costUsd": 1.3967108000000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -60,14 +60,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 26,
+      "inputTokens": 40,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 61601,
-      "cacheReadTokens": 1205726,
-      "outputTokens": 11238,
-      "thinkingTokens": 3721,
-      "responses": 13,
-      "costUsd": 0.9588172
+      "cacheWrite1hTokens": 77035,
+      "cacheReadTokens": 2021754,
+      "outputTokens": 18796,
+      "thinkingTokens": 5832,
+      "responses": 20,
+      "costUsd": 1.3967108000000001
     }
   },
   "warnings": [],
