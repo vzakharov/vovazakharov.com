@@ -99,7 +99,7 @@ const source = `// Generated from ${MUSIC_DIR}/albums/ and artists/ by \`pnpm mu
  * \`index.node-safe.ts\`, so it stays free of \`server-only\` and of every barrel.
  */
 
-/** By file name; the music index lists them by what they released. */
+/** By file name, as the albums are; the music index ranks them itself. */
 export const MUSIC_PROJECT_NAMES = [${ARTISTS.map(({ name }) => literal(name)).join(', ')}] as const;
 
 export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];

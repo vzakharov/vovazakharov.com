@@ -8,7 +8,7 @@
  * `index.node-safe.ts`, so it stays free of `server-only` and of every barrel.
  */
 
-/** By file name; the music index lists them by what they released. */
+/** By file name, as the albums are; the music index ranks them itself. */
 export const MUSIC_PROJECT_NAMES = [
   'Дамы и господа',
   'Dead Pixel Lounge',

@@ -94,13 +94,17 @@ export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
   );
 }
 
+/** The newest of the songs' dates, as a time; 0 for none. */
+function latestDate(songs: readonly SongDocument[]): number {
+  return Math.max(
+    0,
+    ...songs.map(({ frontmatter }) => frontmatter.date.getTime()),
+  );
+}
+
 /** An album's file dates no release, so an album is as new as its latest song in this catalogue. */
 function albumDate(album: MusicAlbum, songs: readonly SongDocument[]): number {
-  return Math.max(
-    ...albumSongs(album, songs).map(({ frontmatter }) =>
-      frontmatter.date.getTime(),
-    ),
-  );
+  return latestDate(albumSongs(album, songs));
 }
 
 /** The albums with a song in this catalogue, newest first; a tie goes by slug. */
@@ -136,15 +140,7 @@ export function catalogueArtists(
   const ranked = MUSIC_PROJECT_NAMES.map((artist) => {
     const billed = artistSongs(artist, songs);
 
-    return {
-      artist,
-      count: billed.length,
-      // 0 for an artist listed by an album alone, which then sorts last.
-      latest: Math.max(
-        0,
-        ...billed.map(({ frontmatter }) => frontmatter.date.getTime()),
-      ),
-    };
+    return { artist, count: billed.length, latest: latestDate(billed) };
   });
 
   return ranked
