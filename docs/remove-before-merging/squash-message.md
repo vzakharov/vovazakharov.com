@@ -1,12 +1,13 @@
 Proposed squash title/body:
 
 ```
-feat: full content in the RSS feeds (pr #149)
+feat: full content in the RSS feeds, the songs feeds as podcasts (pr #149)
 ```
 
 ```
 A feed item carried only its blurb, so a reader opening a song showed
-one line under its title and no story.
+one line under its title and no story; and the songs had no way into
+podcast apps.
 
 Every item now carries its body as HTML in content:encoded, beside the
 blurb that stays in description for the reader's list. A song gives
@@ -15,9 +16,16 @@ link to its page for the words and notes; an article gives its
 rendered body. URLs are absolute, and what the page draws twice (pull
 quotes, the seal) is left out.
 
-The song half of the feed lives in pages/music now, beside the story
-cut it reads, and one hast-to-HTML pass serves songs and articles
-alike.
+Both songs feeds are Apple podcasts: itunes channel tags, a square
+cover cut from the music collage, and an MP3 enclosure per song. Podcast
+apps refuse FLAC, so each FLAC master's vovas-music repository holds a
+320 kbps copy beside it, <stem>.mp3 or, where that name was taken,
+<stem>.master.mp3; the frontmatter records it as podcast { url, bytes },
+so a deploy fetches nothing from GitHub.
+
+podcast is required by the song schema, so a song that would drop out
+of the feeds fails the build, and music:scaffold writes it from a new
+song's <stem>.master.mp3.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
