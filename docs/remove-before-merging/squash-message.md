@@ -11,20 +11,22 @@ podcast apps.
 
 Every item now carries its body as HTML in content:encoded, beside the
 blurb that stays in description for the reader's list. A song gives
-its story in the feed's language, world first where it has one, and a
-link to its page for the words and notes; an article gives its
-rendered body. URLs are absolute, and what the page draws twice (pull
-quotes, the seal) is left out.
+its story in the feed's language, world first where it has one, a link
+to its page for the words and notes, and its files to download; an
+article gives its rendered body. URLs are absolute, and what the page
+draws twice (pull quotes, the seal) and a heading's link to itself are
+left out.
 
 Both songs feeds are Apple podcasts: itunes channel tags, a square
-cover cut from the music collage, and an MP3 enclosure per song. Podcast
-apps refuse FLAC, so each FLAC master's vovas-music repository holds a
-320 kbps copy beside it, <stem>.mp3 or, where that name was taken,
-<stem>.master.mp3; the frontmatter records it as podcast { url, bytes },
-so a deploy fetches nothing from GitHub.
+cover cut from the music collage under a band naming the feeds, and an
+MP3 enclosure per song. Podcast apps refuse FLAC, so each FLAC master's
+vovas-music repository holds a 320 kbps copy beside it, <stem>.mp3 or,
+where that name was taken, <stem>.master.mp3; the frontmatter records
+it as mp3 { url, bytes }, so a deploy fetches nothing from GitHub. The
+song page's header offers the same .mp3 and .flac beside its .md.
 
-podcast is required by the song schema, so a song that would drop out
-of the feeds fails the build, and music:scaffold writes it from a new
+mp3 is required by the song schema, so a song that would drop out of
+the feeds fails the build, and music:scaffold writes it from a new
 song's <stem>.master.mp3.
 
 Co-authored-by: Claude <noreply@anthropic.com>
