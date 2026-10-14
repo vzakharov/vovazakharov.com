@@ -8,9 +8,6 @@ None stated by the operator. Carried from relay 1:
   classifier denies it as credential materialization. `pnpm reddit:digest` logs
   in and keeps the token in memory.
 
-The muthur sync offer was made; do not make it again. (This session did not
-make it; the line stands so no later session does either.)
-
 ## 2. The conversation
 
 This session's only operator input was the launch, `/relay take
