@@ -96,6 +96,7 @@
     "jiti": "^2.7.0",
     "knip": "^6.38.0",
     "mdast-util-directive": "^3.1.0",
+    "node-taglib-sharp": "^6.0.3",
     "prettier": "^3.6.2",
     "sass": "^1.103.1",
     "steiger": "^0.6.0",
