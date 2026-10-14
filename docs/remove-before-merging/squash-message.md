@@ -1,26 +1,34 @@
 Proposed squash title/body:
 
 ```
-feat(vova): tuning, tempo, a sidecar and a zoom for the spectrogram (pr #138)
+feat(vova): spectrogram sidecar, drum row and a zoom per section (pr #138)
 ```
 
 ```
 A model reads a song through spectrogram.py's picture, and Reddit
 feedback on it named what the picture could not carry: a song tuned off
 A440 splits each note across two chromagram rows, and a key or tempo
-read off a picture is approximate where a number is exact.
+read off a picture is approximate where a number is exact. The author's
+review then asked for rhythm, a closer look at each section, and the
+keys and tempos he hears.
 
-The script now measures the song's tuning and shifts its note grid by
-it, tracks beats that follow a drifting tempo into the title, and
-writes a text sidecar beside each PNG: tempo, key with its Krumhansl
-confidence, tuning, and per section its span, tempo, loudness and
-chords, a repeating loop folded. --from/--to renders a stretch at full
-width with its beats. The analysis lives in a numpy-only song_facts.py
-with its own tests.
+The script measures the song's tuning and shifts its note grid by it,
+tracks beats that follow a drifting tempo, and reads the key and chords
+with each note's 3rd and 5th overtones discounted, so C minor does not
+read as G. A text sidecar beside each PNG states tempo, key with its
+confidence, tuning, and per numbered section its span, tempo, loudness
+and chords spelled from the key, a repeating loop folded.
 
-Every committed spectrogram is re-rendered with its sidecar, and each
-sidecar's key, tempo and chords are checked against librosa, the
-disagreements settled by the songs' author.
+The picture gains a drum row - kick, toms, snare, cymbals, unmixed from
+each band's rise - and a dotted bass/treble split that --split moves to
+any note. Every render writes one full-width zoom per section beside the
+PNG. The analysis is numpy-only, split by concern, with synthetic tests
+run by vet.
+
+All eleven spectrograms are re-rendered. Checked against librosa and
+the author, every key and all tempos but world-as-it-is's are right;
+Майя's rule reads chords with caution and judges major or minor over
+power chords by the vocal's third.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
