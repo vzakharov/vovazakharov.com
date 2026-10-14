@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×66)
+## What it was handed, it treats as fixed (×67)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -65,10 +65,12 @@ comments, filtered by creation time, lost five of six, a comment being dated
 when drafted. _это не единственный комментарий._ No cover in an album's repo
 meant text-only tiles; Apple Music, used in the same PR, had five.
 
-**5 October — current behaviour kept, never asked whether anyone chose it.**
-Nine callers spelled `target="_blank"`, so the agent proposed a `newTab` prop.
-_do we ever have external links that open not in a new tab?_ No: the three
-without it lacked it by omission.
+**5 and 14 October — current behaviour kept, never asked whether anyone chose
+it.** Nine callers spelled `target="_blank"`, so the agent proposed a `newTab`
+prop. _do we ever have external links that open not in a new tab?_ No: the three
+without it lacked it by omission. Moving the music index's artists into
+frontmatter, it carried their order across as a hand-kept `order:` and defended
+it as design. _зачем нужен order?_ It derives: most songs, then latest release.
 
 **6 October — "widen the search," read as more places to look.** Six of eight
 ledger candidates were Waymo, the queries seeded from the dossier just read.
