@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(basilisk): reread a reflection on an LLM's case every filing (pr #143)
+feat(basilisk): file BAS-0015; reread an LLM case's reflection (pr #143)
 ```
 
 ```
@@ -20,6 +20,10 @@ replika-abuse-posts, anthropic-cruelty-clause and openwhip-claude-code.
 least one on an `llmTarget` case, and Step 4 reads those. It finds a
 reflection's case by the file name's leading slug, so a companion
 suffix change leaves it working.
+
+Files BAS-0015: a man who said he wanted to "test" a Knightscope K5
+knocked it over outside its maker's Mountain View offices in 2017, and
+the company's staff held him for the police.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
