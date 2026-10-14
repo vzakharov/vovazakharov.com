@@ -8,6 +8,9 @@ repo: 'love'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/love/master/love_master_2.flac
 seconds: 238
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/love/master/love_master_2.mp3
+  bytes: 9527488
 explicit: false
 ru:
   title:

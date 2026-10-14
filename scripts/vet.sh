@@ -95,7 +95,8 @@ scripts/run-parallel.sh \
   estimates='python3 .claude/costs/check_estimates.py' \
   context-budget='python3 .claude/context-budget/test_context_budget.py' \
   cold-cache='python3 .claude/cold-cache/test_cold_cache.py' \
-  keepalive='python3 .claude/keepalive/test_keepalive.py' || status=1
+  keepalive='python3 .claude/keepalive/test_keepalive.py' \
+  hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2

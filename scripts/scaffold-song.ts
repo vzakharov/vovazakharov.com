@@ -18,6 +18,8 @@
  * first 128 KB of the file rather than the whole of it: a ten-song scaffold
  * moves about 1 MB where the masters themselves are a quarter of a gigabyte.
  * That the host answers a range request at all is what lets the player seek.
+ * The MP3 copy's size, `<stem>.master.mp3` beside the master, is read off
+ * the host's `content-length` the same way, by a HEAD.
  *
  * It never overwrites a document that exists, so a re-run after the author has
  * edited one is safe and reports what it skipped.
@@ -35,7 +37,7 @@ import { collectionDir } from '@/shared/content/collections';
 import { byLocale, inLocale } from '@/shared/i18n/locales';
 import { readSiteCatalogueNames } from '@/shared/music-catalogue/catalogue-names';
 import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
-import type { Dated, Named } from '@/shared/typings';
+import type { Dated, Named, Rated, Timed } from '@/shared/typings';
 
 const CATALOGUE = readSiteCatalogueNames();
 
@@ -46,13 +48,19 @@ const HEADER_BYTES = 128 * 1024;
 const EXPLICIT_MARKER = '🅴';
 
 /** The single root FLAC that makes a repository a song. */
-type Master = {
+type Master = Rated & {
   /** Its name in the repository, which is where the song's own name comes from. */
   flac: string;
   /** Where `raw.githubusercontent.com` serves it, percent-encoded. */
   audio: string;
-  explicit: boolean;
+  /** Its MP3 copy's URL, where the repository holds one yet. */
+  copy?: string;
 };
+
+/** The MP3 copy's name beside a FLAC master: `<stem>.master.mp3`. */
+function copyName(flac: string): string {
+  return flac.replace(/\.flac$/i, '.master.mp3');
+}
 
 /** Sample rate, channel count and total samples, as STREAMINFO packs them. */
 type StreamInfo = {
@@ -198,11 +206,30 @@ async function findMaster(
     );
   }
 
+  const raw = (name: string) =>
+    `https://raw.githubusercontent.com/${MUSIC_ORGANIZATION}/${repo}/${branch}/${encodeURIComponent(name)}`;
+  const copy = copyName(fileName);
+
   return {
     flac: fileName,
-    audio: `https://raw.githubusercontent.com/${MUSIC_ORGANIZATION}/${repo}/${branch}/${encodeURIComponent(fileName)}`,
+    audio: raw(fileName),
     explicit: fileName.includes(EXPLICIT_MARKER),
+    ...(entries.some(({ name }) => name === copy) ? { copy: raw(copy) } : {}),
   };
+}
+
+/** The file's size as its host reports it, which the feed's enclosure states. */
+async function fetchBytes(url: string): Promise<number> {
+  const response = await fetch(url, { method: 'HEAD' });
+  const bytes = Number(response.headers.get('content-length'));
+
+  if (!response.ok || !Number.isInteger(bytes) || bytes <= 0) {
+    throw new Error(
+      `${url} answered ${response.status} with no usable content-length`,
+    );
+  }
+
+  return bytes;
 }
 
 /**
@@ -261,11 +288,12 @@ const specSchema = z.array(
 type SongSpec = z.infer<typeof specSchema>[number];
 
 type DocumentFields = Named &
-  Dated & {
+  Dated &
+  Timed & {
     spec: SongSpec;
-    seconds: number;
     master: Master;
     streamInfo: StreamInfo;
+    mp3?: { url: string; bytes: number };
   };
 
 function yamlList(values: readonly string[]): string {
@@ -279,7 +307,7 @@ function yamlList(values: readonly string[]): string {
  * loud failure a placeholder string would not be.
  */
 function document(fields: DocumentFields): string {
-  const { name, date, spec, seconds, master, streamInfo } = fields;
+  const { name, date, spec, seconds, master, streamInfo, mp3 } = fields;
   const {
     repo,
     project,
@@ -314,6 +342,11 @@ ${
 repo: ${yaml(repo)}
 audio: ${master.audio}
 seconds: ${seconds}
+${
+  mp3 === undefined
+    ? `# mp3: { url, bytes } — encode ${copyName(master.flac)} beside the master first`
+    : `mp3:\n  url: ${mp3.url}\n  bytes: ${mp3.bytes}`
+}
 explicit: ${String(master.explicit || explicit === true)}
 ${album === undefined ? '' : `album: ${album}\n`}${en}${ru}---
 
@@ -351,6 +384,11 @@ async function scaffold(spec: SongSpec, directory: string): Promise<string> {
       seconds,
       master,
       streamInfo,
+      ...(master.copy === undefined
+        ? {}
+        : {
+            mp3: { url: master.copy, bytes: await fetchBytes(master.copy) },
+          }),
     }),
   );
 

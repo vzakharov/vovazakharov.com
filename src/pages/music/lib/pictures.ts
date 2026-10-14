@@ -127,6 +127,12 @@ export function artistCollageCovers(artist: MusicProject): string[] {
 /** The index's collage card, at its locale-less route's address. */
 export const MUSIC_COLLAGE = routeCardPath(musicPath(), OG_PHOTO_CARD_SUFFIX);
 
+/**
+ * The songs feeds' podcast cover: the index's collage cut square, as Apple's
+ * directory requires.
+ */
+export const PODCAST_COVER = '/music.podcast.jpg';
+
 /** The radio's card: the index's collage under a band naming the radio. */
 export const RADIO_CARD = routeCardPath(radioPath(), OG_PHOTO_CARD_SUFFIX);
 

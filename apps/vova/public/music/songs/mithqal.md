@@ -10,6 +10,9 @@ repo: 'mithqal'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/mithqal/main/mithqal_rock_master.flac
 seconds: 243
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/mithqal/main/mithqal_rock_master.mp3
+  bytes: 9719735
 explicit: false
 en:
   title:

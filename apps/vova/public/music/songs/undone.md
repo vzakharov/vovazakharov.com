@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'undone'
 audio: https://raw.githubusercontent.com/vovas-music/undone/main/undone.flac
 seconds: 245
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/undone/main/undone.mp3
+  bytes: 9805405
 explicit: false
 album: let-the-stories-spin
 track: 6

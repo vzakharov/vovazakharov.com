@@ -8,6 +8,9 @@ repo: 'zhadina'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/zhadina/main/zhadina.flac
 seconds: 209
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/zhadina/main/zhadina.mp3
+  bytes: 8373913
 explicit: false
 en:
   title:

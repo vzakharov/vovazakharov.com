@@ -12,6 +12,8 @@ video:
   src: /music/assets/listen-single.mp4
   offsetSeconds: 1.89
 seconds: 55
+mp3:
+  bytes: 1595611
 explicit: false
 credits:
   lyrics:

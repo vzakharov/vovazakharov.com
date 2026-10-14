@@ -9,6 +9,9 @@ album: hamlet
 track: 1
 audio: https://raw.githubusercontent.com/vovas-music/hamlet/main/hamlet_short-001.flac
 seconds: 244
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/hamlet/main/hamlet_short-001.mp3
+  bytes: 9774079
 explicit: false
 credits:
   lyrics:

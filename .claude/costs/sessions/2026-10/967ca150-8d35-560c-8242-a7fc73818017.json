@@ -1,0 +1,106 @@
+{
+  "estimate": {
+    "at": "2026-10-13T20:24:12.186Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the feed's podcast tags and schema field are routine extensions of an RSS writer already in place"
+      },
+      {
+        "hours": 2.0,
+        "grade": "junior",
+        "role": "developer",
+        "comment": "encoding and pushing MP3 copies across three quarters of 108 repositories is mechanical but long"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "967ca150-8d35-560c-8242-a7fc73818017",
+  "branch": "claude/feed-full-content-0lat2x",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/feed-full-content-0lat2x",
+  "prs": [
+    149
+  ],
+  "url": "https://claude.ai/code/session_01CKKScMhQkW2bcJ6wqySVGG",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-13T20:06:29.034Z",
+  "lastResponseAt": "2026-10-13T20:24:38.375Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 224,
+    "cacheWrite5mTokens": 292044,
+    "cacheWrite1hTokens": 178311,
+    "cacheReadTokens": 15003254,
+    "outputTokens": 45626,
+    "thinkingTokens": 10370,
+    "responses": 112,
+    "costUsd": 6.065156799999998
+  },
+  "ownTurns": {
+    "inputTokens": 140,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 178311,
+    "cacheReadTokens": 12477585,
+    "outputTokens": 45092,
+    "thinkingTokens": 10370,
+    "responses": 70,
+    "costUsd": 4.824404999999998
+  },
+  "subagents": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 292044,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2525669,
+    "outputTokens": 534,
+    "thinkingTokens": 0,
+    "responses": 42,
+    "costUsd": 1.2407517999999997
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 140,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 178311,
+      "cacheReadTokens": 12477585,
+      "outputTokens": 45092,
+      "thinkingTokens": 10370,
+      "responses": 70,
+      "costUsd": 4.824404999999998
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 84,
+      "cacheWrite5mTokens": 292044,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 2525669,
+      "outputTokens": 534,
+      "thinkingTokens": 0,
+      "responses": 42,
+      "costUsd": 1.2407517999999997
+    }
+  },
+  "warnings": [
+    "42 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-13T20:06:54.665Z",
+    "contextTokens": 106617,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49999,
+      "cacheReadTokens": 553684,
+      "outputTokens": 1216,
+      "thinkingTokens": 183,
+      "responses": 6,
+      "costUsd": 0.5350968
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

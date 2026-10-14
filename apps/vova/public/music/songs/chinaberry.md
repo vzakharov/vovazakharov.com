@@ -6,15 +6,16 @@ language: ru
 project: ['Листопад']
 repo: 'klo'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/klo/main/klo_remaster.flac
-seconds: 283
+audio: https://raw.githubusercontent.com/vovas-music/klo/main/klo_1.flac
+seconds: 269
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/klo/main/klo_1.mp3
+  bytes: 10750018
 explicit: false
 en:
   title:
     translation: 'Chinaberry'
 ---
-
-<!-- For Vova to check: Master is the checklist's guess `klo_remaster.flac`; `klo.flac` is the same length (4:43) and `klo_1.flac` runs 4:29. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/klo — klo_remaster.flac,
      44.1 kHz / 16-bit / stereo.

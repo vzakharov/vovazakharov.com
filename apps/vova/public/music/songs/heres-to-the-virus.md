@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'virus'
 audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/2.%20Here's%20To%20The%20Virus.flac
 seconds: 232
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/2.%20Here's%20To%20The%20Virus.mp3
+  bytes: 9263138
 explicit: false
 album: ghosts-of-flesh
 track: 2

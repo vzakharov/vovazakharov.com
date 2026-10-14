@@ -7,6 +7,9 @@ project: ['GENERATED']
 repo: 'cracks'
 audio: https://raw.githubusercontent.com/vovas-music/cracks/main/cracks.flac
 seconds: 199
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/cracks/main/cracks.mp3
+  bytes: 7975801
 explicit: false
 album: let-the-stories-spin
 track: 12

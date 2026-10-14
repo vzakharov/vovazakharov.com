@@ -8,6 +8,9 @@ repo: 'diner'
 album: null
 audio: https://raw.githubusercontent.com/vovas-music/diner/main/diner.flac
 seconds: 239
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/diner/main/diner.mp3
+  bytes: 9574497
 explicit: false
 ru:
   title:

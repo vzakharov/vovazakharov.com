@@ -9,6 +9,9 @@ project: ['Полуживые', 'GENERATED']
 repo: 'triswiatoje'
 audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-009.flac
 seconds: 286
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-009.mp3
+  bytes: 11442797
 explicit: false
 album: vagabond
 track: 9

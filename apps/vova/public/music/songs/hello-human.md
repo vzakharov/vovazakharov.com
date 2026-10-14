@@ -8,6 +8,8 @@ album: prototypes
 track: 1
 audio: /music/assets/hello-human.mp3
 seconds: 77
+mp3:
+  bytes: 3067864
 segue: true
 explicit: false
 ru:

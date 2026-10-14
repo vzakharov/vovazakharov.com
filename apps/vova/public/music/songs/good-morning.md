@@ -9,6 +9,9 @@ album: stronger-than-love
 track: 4
 audio: https://raw.githubusercontent.com/vovas-music/utro/main/%D0%94%D0%BE%D0%B1%D1%80%D0%BE%D0%B5%20%D1%83%D1%82%D1%80%D0%BE.flac
 seconds: 228
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/utro/main/%D0%94%D0%BE%D0%B1%D1%80%D0%BE%D0%B5%20%D1%83%D1%82%D1%80%D0%BE.mp3
+  bytes: 9111630
 explicit: false
 credits:
   lyrics: ['Славик, друг Андрея Мокрушина']

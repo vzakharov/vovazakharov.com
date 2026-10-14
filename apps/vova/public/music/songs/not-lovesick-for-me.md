@@ -7,6 +7,9 @@ project: ['Дамы и господа']
 repo: 'mne-nravitsa'
 audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-003.flac
 seconds: 254
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/dng_album/main/dng-003.mp3
+  bytes: 10162851
 explicit: false
 album: five-romances
 track: 3

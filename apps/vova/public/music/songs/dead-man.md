@@ -9,6 +9,9 @@ album: for-none-and-for-all
 track: 6
 audio: https://raw.githubusercontent.com/vovas-music/poko/main/%D0%9C%D0%B5%D1%82%D0%B5%D0%BB%D1%8C.flac
 seconds: 257
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/poko/main/%D0%9C%D0%B5%D1%82%D0%B5%D0%BB%D1%8C.mp3
+  bytes: 10294444
 explicit: false
 credits:
   lyrics: ['Vova Zakharov', 'Александр Блок']

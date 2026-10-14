@@ -2,6 +2,7 @@ import { Box, Group, Stack, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/shared/config';
+import type { Routed } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import {
@@ -24,6 +25,7 @@ import type { SongPageProps } from '../lib/music-route-params';
 import { musicPath, songPath } from '../lib/music-urls';
 import { pictureCard, songPicture } from '../lib/pictures';
 import { songRepositoryUrl } from '../lib/projects';
+import { type SongFile, songFiles } from '../lib/song-files';
 import { localizeSong, songLyrics, wordsText } from '../lib/song-text';
 import { songVideo } from '../lib/song-video';
 import {
@@ -53,16 +55,26 @@ function resolve(slug: string): SongPageEntry {
   return page;
 }
 
+type SongFileLinkProps = Routed & { file: SongFile };
+
 /**
- * The master as a file to save, labelled by its extension — only when the site
- * hosts it, since a browser ignores `download` on another origin's file.
+ * A song's file labelled by its extension. Saved under the page's name where the
+ * site hosts it; another origin's opens in a tab of its own, since a browser
+ * ignores `download` there.
  */
-function hostedMaster(route: string, audio: string) {
-  if (!audio.startsWith('/')) return;
+function SongFileLink({ route, file }: SongFileLinkProps) {
+  const { extension, href } = file;
+  const label = `.${extension}`;
 
-  const extension = audio.slice(audio.lastIndexOf('.') + 1);
-
-  return { file: { ...pageFile(route, extension), href: audio }, extension };
+  return href.startsWith('/') ? (
+    <FileLink {...pageFile(route, extension)} {...{ href }}>
+      {label}
+    </FileLink>
+  ) : (
+    <TextLink {...{ href }} size="sm" className={hoverDim}>
+      {label}
+    </TextLink>
+  );
 }
 
 /** The alias defers to the addressed language, which is the canonical page. */
@@ -86,8 +98,7 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
 export function SongPage({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
   const localized = localizeSong(document, locale);
-  const { gloss, hook, repo, explicit, cribNote, audio } =
-    localized.frontmatter;
+  const { gloss, hook, repo, explicit, cribNote } = localized.frontmatter;
   const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
@@ -102,7 +113,6 @@ export function SongPage({ slug, locale }: SongPageProps) {
     locale,
   );
   const picture = songPicture(document, album);
-  const master = hostedMaster(localized.route, audio);
   const video = songVideo(document, locale);
 
   return (
@@ -154,9 +164,13 @@ export function SongPage({ slug, locale }: SongPageProps) {
 
               <Group gap={16} wrap="wrap">
                 <FileLink {...localized.markdown}>.md</FileLink>
-                {master !== undefined && (
-                  <FileLink {...master.file}>.{master.extension}</FileLink>
-                )}
+                {songFiles(document.frontmatter).map((file) => (
+                  <SongFileLink
+                    key={file.href}
+                    {...pick(localized, 'route')}
+                    {...{ file }}
+                  />
+                ))}
                 {repo !== undefined && (
                   <TextLink
                     href={songRepositoryUrl(repo)}

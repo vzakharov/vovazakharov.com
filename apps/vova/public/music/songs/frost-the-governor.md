@@ -7,6 +7,9 @@ project: ['Полуживые']
 repo: 'moroz'
 audio: https://raw.githubusercontent.com/vovas-music/rus-/main/5%20%D0%BC%D0%BE%D1%80%D0%BE%D0%B7.flac
 seconds: 375
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/rus-/main/5%20%D0%BC%D0%BE%D1%80%D0%BE%D0%B7.mp3
+  bytes: 15002789
 explicit: false
 album: who-is-happy-in-russia
 track: 5

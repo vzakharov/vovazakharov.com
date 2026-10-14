@@ -12,6 +12,8 @@ alsoOn:
     track: 3
 audio: https://raw.githubusercontent.com/vovas-music/world-as-it-is/main/world-as-it-is.mp3
 seconds: 110
+mp3:
+  bytes: 2871604
 explicit: false
 en:
   title:

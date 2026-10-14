@@ -9,6 +9,9 @@ album: prototypes
 track: 2
 audio: https://raw.githubusercontent.com/vovas-music/machines/main/trust-in-the-machine.flac
 seconds: 313
+mp3:
+  url: https://raw.githubusercontent.com/vovas-music/machines/main/trust-in-the-machine.mp3
+  bytes: 12537862
 explicit: false
 ru:
   title:
