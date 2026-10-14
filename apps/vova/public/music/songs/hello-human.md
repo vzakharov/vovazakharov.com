@@ -4,9 +4,10 @@ date: 2022-10-01
 status: done
 language: en
 project: ['GENERATED']
+repo: 'machines'
 album: prototypes
 track: 1
-audio: /music/assets/hello-human.mp3
+audio: https://raw.githubusercontent.com/vovas-music/machines/main/protintro.mp3
 seconds: 77
 mp3:
   bytes: 3067864
