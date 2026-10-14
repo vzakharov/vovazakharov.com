@@ -25,10 +25,11 @@ saves the file under the URL's last segment. Today that is `boom.master.mp3`,
 - The session's token can push to all 249 repositories in the organization.
 - Existing tags are thin: `boom.master.mp3` has title and artist only, and
   `boom.flac` has none.
+- Two more songs are vendored in this repo under
+  `apps/vova/public/music/assets/` and move out to `vovas-music` first
+  (§ "The two vendored songs"), which makes 170.
 - Out of scope: the mixes (`<slug>_mix.mp3`) and other working files, which
-  nothing links; and the two songs vendored in this repo
-  (`ghostly-blues`, `hello-human`), whose download already takes its name from
-  the `download` attribute — see question 4.
+  nothing links.
 
 ## The name
 
@@ -39,26 +40,39 @@ stores, rips and taggers default to (foobar2000's and Mp3tag's
 folder of downloads by artist. Title-first is rare and mostly an artefact of
 specific apps.
 
-- **Title**: the song's top-level `title` — its own name, in the language it
-  is sung in. `Полуживые - Снег идёт.flac`, `GENERATED - Boom!.flac`.
-- **Artist**: `project[0]`'s artist `name`; a song with features names them
-  as `Полуживые feat. GENERATED`, the form taggers and MusicBrainz use.
+**In Latin letters**, as the English page spells the song: a Russian speaker
+reads Latin, a listener who does not read Cyrillic cannot read
+`Снег идёт`, and `mithqal`'s title would otherwise land in Arabic script.
+`Poluzhivye - Sneg idyot.flac`, `GENERATED - Boom!.flac`.
+
+- **Title**: `spelledText(songTitle(frontmatter, 'en'))` — the English
+  locale's name for the song, romanized by the site's own rule, or by
+  `titleLatin` where one is hand-written.
+- **Artist**: each `project` name through `localName(…, 'en')`, the spelling
+  the artist pages use; a song with features names them as
+  `Poluzhivye feat. GENERATED`, the form taggers and MusicBrainz use.
 - **Characters**: beets' default replacements, so a name is legal on every
   filesystem — `\ / < > : " ? * |` become `_`, control characters are dropped,
   a leading `.` and a trailing `.` become `_`, trailing spaces are trimmed.
-  `за/обложкой` therefore saves as `за_обложкой - <Title>.flac`.
+  `за/обложкой` therefore saves as `za_oblozhkoy - <Title>.flac`.
 - Two songs landing on one name in one repository fail the run, naming both.
 
 ## The tags
 
-Written from the catalogue, so the frontmatter stays the one source:
+Written from the catalogue, so the frontmatter stays the one source. **The
+names in them — title, artist, album — are spelled as in the file name**, in
+Latin: a tag is a surface with one spelling and no switch, which the site
+already spells in Latin wherever it has to pick one (`spelledText`'s default,
+used for the page title, the feed and the lock screen). The lyrics stay in the
+script they are sung in, the words someone reading along sings
+(question 6).
 
 | Field                        | ID3v2.3 (MP3)                 | Vorbis comment (FLAC)    | Source                                       |
 | ---------------------------- | ----------------------------- | ------------------------ | -------------------------------------------- |
-| Title                        | `TIT2`                        | `TITLE`                  | `title`                                      |
+| Title                        | `TIT2`                        | `TITLE`                  | the title, as in the file name               |
 | Artist                       | `TPE1`                        | `ARTIST`                 | `project`, as in the file name               |
-| Album artist                 | `TPE2`                        | `ALBUMARTIST`            | the album's `artist`                         |
-| Album                        | `TALB`                        | `ALBUM`                  | the album's `title`                          |
+| Album artist                 | `TPE2`                        | `ALBUMARTIST`            | the album's `artist`, through `localName`    |
+| Album                        | `TALB`                        | `ALBUM`                  | the album's `title`, through `localName`     |
 | Track                        | `TRCK` `n/total`              | `TRACKNUMBER`/`TRACKTOTAL` | `track`, total = the album's song count    |
 | Year                         | `TYER`                        | `DATE`                   | `date`                                       |
 | Language                     | `TLAN`                        | `LANGUAGE`               | `language`                                   |
@@ -109,6 +123,22 @@ title, album, credits, lyrics or cover changed since its files were tagged,
 naming the songs to re-run. Without it a renamed album would ship with the
 old name inside every file and nothing would say so.
 
+## The two vendored songs
+
+Every song plays from `vovas-music`, so the two MP3s under
+`apps/vova/public/music/assets/` move there before the run, and this repo
+loses both files:
+
+- **`hello-human`** is already there: `vovas-music/machines`'
+  `protintro.mp3` is the same file byte for byte (SHA-1 `4c32eeb0…`). Its
+  frontmatter gains `repo: 'machines'` and points `audio:` there.
+- **`ghostly-blues`** gets `vovas-music/ghostly-blues` (`gh repo create
+  --public`, its slug by `songs.md`'s rule), holding the MP3 and a README
+  naming it; what it was made from is not in this repo, so the README says
+  so rather than inventing a provenance. `repo:` and `audio:` follow.
+
+Both are MP3 masters, so they join the run as the 13 others do.
+
 ## Two phases, so no link breaks
 
 Raw URLs answer as soon as a commit lands, and the site keeps serving the old
@@ -154,6 +184,8 @@ names until this branch deploys. So:
       `--check`, `--prune`) and its test for the pure parts — the file name
       and character replacement, the artist credit, the tag set from a
       frontmatter fixture.
+- [ ] Move the vendored songs: create `vovas-music/ghostly-blues`, point
+      `hello-human` at `machines`' `protintro.mp3`, delete both MP3s here.
 - [ ] Run it on `boom`, have the operator download both files from the
       branch's preview and look at them in a player.
 - [ ] Run the rest; commit the frontmatter and manifest in batches.
@@ -181,18 +213,20 @@ names until this branch deploys. So:
 
 Each has a recommendation, written into the plan above; silence keeps it.
 
-1. **Order** — (a) `Artist - Title` *(recommended, the industry default)*;
+- **1. Order** — (a) `Artist - Title` *(recommended, the industry default)*;
    (b) `Title - Artist`.
-2. **Title script** — (a) the song's own name, Cyrillic where it is sung in
-   Russian *(recommended: it matches the tags and the page)*; (b) the Latin
-   spelling the site shows (`Sneg idyot`), for players that mangle Unicode.
-3. **Lyrics in the files** — (a) embed the sung column *(recommended: Apple
+- **3. Lyrics in the files** — (a) embed the sung column *(recommended: Apple
    Music, foobar2000 and most phone players show them)*; (b) leave them out,
    so a lyrics edit never needs a re-tag.
-4. **The two vendored songs** — (a) tag them too and make their `download`
-   attribute `<Artist> - <Title>.mp3`, so every song saves the same way
-   *(recommended)*; (b) leave them as they are.
-5. **Old files** — (a) prune after deploy *(recommended)*; (b) keep them for
-   good, so any link someone copied keeps working.
+- **6. Script of the embedded lyrics** — (a) as sung, Cyrillic or Arabic
+   *(recommended: the words for someone singing along)*; (b) the Latin
+   section where the song has one (`lyrics:ar-latn`), Russian romanized by
+   rule otherwise, to match the names.
+
+Settled with the operator: names in Latin, both in the file name and the
+tags, over the song's own script, which a listener who does not read it
+cannot read; the vendored songs move to `vovas-music` rather than keeping
+their `download` attribute; the old files are pruned after deploy rather than
+kept for links copied before.
 
 This fits one session; no split.
