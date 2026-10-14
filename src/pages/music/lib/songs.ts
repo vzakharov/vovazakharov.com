@@ -118,11 +118,11 @@ export function songTrack(
   album: MusicAlbum | null = document.frontmatter.album,
 ): PlayerTrack {
   const { slug, frontmatter } = document;
-  const { audio, seconds, explicit, segue, project } = frontmatter;
+  const { audio, stream, seconds, explicit, segue, project } = frontmatter;
 
   return {
     slug,
-    audio,
+    audio: stream ?? audio,
     seconds,
     explicit,
     segue,
