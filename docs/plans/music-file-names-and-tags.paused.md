@@ -1,5 +1,16 @@
 # Song masters: listener-facing file names and full tags
 
+## Status
+
+Approved (6293ffb), then paused before any source edit: the planning session
+had carried its context budget, so implementation starts fresh. **Done:**
+nothing past the plan. **Left:** the whole § "Checklist", from its first
+item. Facts the planning session established, not to re-derive: `hello-human`'s
+MP3 is `vovas-music/machines`' `protintro.mp3` byte for byte; the token can
+push to every `vovas-music` repository; `vovas-music/ghostly-blues` does not
+exist yet; the `data-spelling` rule in `src/app/styles/globals.scss` selects
+any element, so an `<a>` takes it as a `<span>` does.
+
 ## Goal
 
 Every master the site plays or offers for download from a `vovas-music`
