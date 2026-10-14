@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-10T20:11:45Z
-- **Updated:** 2026-10-14T11:52:39Z
+- **Updated:** 2026-10-14T12:36:40Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Awaiting an answer: 11
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 5a9efb8). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/vova/public/music/assets/spectrograms/hello.txt`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:30:17Z — "здесь и далее цитаты -- из твоих сообщений в сессии. > Здрав…" → [↓](#t01)
 - **T02** `apps/vova/public/music/assets/spectrograms/hello.png`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:31:36Z — "тут, кажется, проблема в том что небасовый аккомпанемент (фо…" → [↓](#t02)
@@ -24,7 +24,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T05** `apps/vova/public/music/assets/spectrograms/just-because.txt`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:39:56Z — "> Просто так: у меня 121 BPM, у librosa 89. Это не ошибка вд…" → [↓](#t05)
 - **T06** `apps/vova/public/music/assets/spectrograms/listen-single.txt`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:41:07Z — "> Послушайте (сингл): у меня 110, у librosa 86, снова около…" → [↓](#t06)
 - **T07** `apps/vova/public/music/assets/spectrograms/world-as-it-is.txt`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:43:04Z — "> Мир, какой он есть: у меня 132, у librosa около 153. Какой…" → [↓](#t07)
-- **T08** `.claude/rules/maya-reflections.md`:46 — unresolved — last: @vzakharov (human) 2026-10-14T11:45:53Z — "это правильное замечание; вообще я посмотрел на эти текстови…" → [↓](#t08)
+- **T08** `.claude/rules/maya-reflections.md`:50 — unresolved — last: @vzakharov (human) 2026-10-14T11:45:53Z — "это правильное замечание; вообще я посмотрел на эти текстови…" → [↓](#t08)
 - **T09** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:47:48Z — "относится ко всем песням: а давай-ка ещё добавим строчку уда…" → [↓](#t09)
 - **T10** `.claude/rules/maya-reflections.md`:42 — unresolved — last: @vzakharov (human) 2026-10-14T11:49:02Z — "а давай для автоматически определённых полос (те что отмечаю…" → [↓](#t10)
 - **T11** `scripts/song-intake/song_facts.py`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:51:05Z — "слишком большой, надо разбивать" → [↓](#t11)
@@ -115,7 +115,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T05** `apps/vova/public/music/assets/spectrograms/just-because.txt`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:39:56Z — "> Просто так: у меня 121 BPM, у librosa 89. Это не ошибка вд…" → [↓](#t05)
 - **T06** `apps/vova/public/music/assets/spectrograms/listen-single.txt`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:41:07Z — "> Послушайте (сингл): у меня 110, у librosa 86, снова около…" → [↓](#t06)
 - **T07** `apps/vova/public/music/assets/spectrograms/world-as-it-is.txt`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:43:04Z — "> Мир, какой он есть: у меня 132, у librosa около 153. Какой…" → [↓](#t07)
-- **T08** `.claude/rules/maya-reflections.md`:46 — unresolved — last: @vzakharov (human) 2026-10-14T11:45:53Z — "это правильное замечание; вообще я посмотрел на эти текстови…" → [↓](#t08)
+- **T08** `.claude/rules/maya-reflections.md`:50 — unresolved — last: @vzakharov (human) 2026-10-14T11:45:53Z — "это правильное замечание; вообще я посмотрел на эти текстови…" → [↓](#t08)
 - **T09** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:47:48Z — "относится ко всем песням: а давай-ка ещё добавим строчку уда…" → [↓](#t09)
 - **T10** `.claude/rules/maya-reflections.md`:42 — unresolved — last: @vzakharov (human) 2026-10-14T11:49:02Z — "а давай для автоматически определённых полос (те что отмечаю…" → [↓](#t10)
 - **T11** `scripts/song-intake/song_facts.py`:1 — unresolved — last: @vzakharov (human) 2026-10-14T11:51:05Z — "слишком большой, надо разбивать" → [↓](#t11)
@@ -212,12 +212,11 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 <a id="t08"></a>
 
-### `.claude/rules/maya-reflections.md`:46 — unresolved
+### `.claude/rules/maya-reflections.md`:50 — unresolved
 
 ```diff
 @@ -37,7 +37,14 @@ paths:
-… 6 lines elided …
-+(`--from m:ss --to m:ss`), с долями поверх хромаграмм.
+… 7 lines elided …
 +
 +Рядом с картинкой лежит `<slug>.txt`: темп, тональность, строй и аккорды по
 +частям, числами. Читай его после картинки, не до: песню ты слышишь через
