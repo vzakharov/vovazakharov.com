@@ -19,6 +19,7 @@ import { textHook } from '@/shared/music-catalogue';
 
 import { universeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';
+import { songFiles } from './song-files';
 import {
   type LocalizedSongDocument,
   localizeSong,
@@ -43,16 +44,12 @@ function paragraph(children: ElementContent[]): ElementContent {
 
 /** The song's files to download: the MP3, and the FLAC master where it is one. */
 function downloadLinks(document: SongDocument): ElementContent[] {
-  const { audio, mp3 } = document.frontmatter;
-  const files = [
-    { label: 'MP3', href: mp3.url ?? audio },
-    ...(mp3.url === undefined ? [] : [{ label: 'FLAC', href: audio }]),
-  ];
-
-  return files.flatMap(({ label, href }, index) => [
-    ...(index === 0 ? [] : [text(' · ')]),
-    element('a', { href }, label),
-  ]);
+  return songFiles(document.frontmatter).flatMap(
+    ({ extension, href }, index) => [
+      ...(index === 0 ? [] : [text(' · ')]),
+      element('a', { href }, extension.toUpperCase()),
+    ],
+  );
 }
 
 /**
