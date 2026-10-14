@@ -140,11 +140,18 @@ A meadow bite is a game change: it runs `VET_MEADOW=1 ./scripts/vet.sh` (or
 - **The 96 meadow files sit in the grandfather override** in `eslint.config.ts`,
   `pnpm lint`, `typecheck`, `type-overlap` and `knip` clean.
 
+## This bite
+
+**`src/pages/mushrooms/model/`** — 49 sites in 27 files leave the override.
+`Leg`, `Perches`, `MushroomGenes`/`MushroomShape`, `Footed`, `Flee`, `Camera`,
+`Meadow`, `FlowerGenes` and the insect genes are the wide types picked; each is
+decomposed once into named bases, wherever it is declared (a `ui/` type gains
+bases too), and every model site takes an intersection of them. A `ui/` site
+over a decomposed type is left for the next bite unless the base it needs
+already exists. Ends with `pnpm test:meadow`.
+
 ## Rest of the elephant
 
-- **`src/pages/mushrooms/model/`** — 49 sites in 27 files. `Leg`, `Perches`,
-  `MushroomGenes`/`MushroomShape`, `Footed`, `Flee` are the wide types most
-  picked; each is decomposed once, its bases serving every site.
 - **`src/pages/mushrooms/ui/` and `api/`** — 150 sites in 71 files, likely two
   bites: `MeadowLayout`, `Placed`, `Shown`, `Scened`, `MeadowSound` and the
   classes (`Planter`, `MapView`, `FlowerBed`, `Perches`) are the big ones. The
