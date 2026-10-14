@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from audio import QUIET, ROWS_PER_OCTAVE, band_peaks, frame_columns
+from audio import QUIET, ROWS_PER_OCTAVE, band_peaks, frame_columns, local_peaks
 
 # C2 to C7: below it a bin is wider than a semitone; above it, mostly harmonics.
 # A bass note under C2 still votes through its octave harmonic, the same class.
@@ -66,8 +66,7 @@ def without_harmonics(magnitude, weights, bins):
     below = bins.max() // min(HARMONICS) + 2
     m = magnitude[:, :below + 1]
     peaks = np.zeros_like(m)
-    inner = m[:, 1:-1]
-    peaks[:, 1:-1] = np.where((inner > m[:, :-2]) & (inner >= m[:, 2:]), inner, 0)
+    peaks[:, 1:-1] = np.where(local_peaks(m), m[:, 1:-1], 0)
     near = np.maximum(peaks, np.maximum(np.roll(peaks, 1, axis=1), np.roll(peaks, -1, axis=1)))
     for h in HARMONICS:
         weights = np.maximum(weights - HARMONIC_SHARE * near[:, np.round(bins / h).astype(int)], 0)

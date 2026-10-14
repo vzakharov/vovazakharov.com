@@ -59,6 +59,13 @@ def frame_columns(frames, step, duration, columns):
     return np.minimum((np.arange(frames) * step / duration * columns).astype(int), columns - 1)
 
 
+def local_peaks(v):
+    """Along the last axis, whether each inner value rises over the one before
+    and holds against the one after — one True per flat-topped peak."""
+    inner = v[..., 1:-1]
+    return (inner > v[..., :-2]) & (inner >= v[..., 2:])
+
+
 def band_peaks(magnitude, freqs, band_hz):
     """The band's spectral peaks, each within PEAK_RANGE_DB of the band's
     loudest in its frame: (magnitudes with every non-peak zeroed, their bins'
@@ -67,8 +74,7 @@ def band_peaks(magnitude, freqs, band_hz):
     m = magnitude[:, band]
     inner = m[:, 1:-1]
     loudest = m.max(axis=1)
-    peaks = (inner > m[:, :-2]) & (inner >= m[:, 2:])
-    peaks &= inner > loudest[:, None] * 10 ** (-PEAK_RANGE_DB / 20)
+    peaks = local_peaks(m) & (inner > loudest[:, None] * 10 ** (-PEAK_RANGE_DB / 20))
     return np.where(peaks, inner, 0), band[1:-1], loudest
 
 

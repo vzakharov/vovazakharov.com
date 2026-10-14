@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from audio import log_rows, stft_magnitude
+from audio import local_peaks, log_rows, stft_magnitude
 
 # 46 ms windows at a 23 ms hop: short enough to place an onset within a beat.
 ONSET_NFFT = 1024
@@ -90,7 +90,7 @@ def beat_times(envelope, step, bpm):
 
     # The last beat is the last local maximum of the score that reaches half
     # their median: past it the track only coasts.
-    peaks = np.flatnonzero((score[1:-1] > score[:-2]) & (score[1:-1] >= score[2:])) + 1
+    peaks = np.flatnonzero(local_peaks(score)) + 1
     if not len(peaks):
         return np.array([])
     last = peaks[score[peaks] >= 0.5 * np.median(score[peaks])][-1]

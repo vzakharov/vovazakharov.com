@@ -68,9 +68,7 @@ def band_rises(x):
     level = 10 * np.log10(np.maximum(energy, 10 ** (BAND_FLOOR_DB / 10)))
     padded = np.pad(level, ((RISE_FRAMES, 0), (0, 0)), mode="edge")
     before = np.min([padded[RISE_FRAMES - k:len(padded) - k] for k in range(1, RISE_FRAMES + 1)], axis=0)
-    rise = np.maximum(level - before, 0)
-    padded = np.pad(rise, ((HIT_BEFORE, HIT_AFTER), (0, 0)))
-    return np.max([padded[k:k + len(rise)] for k in range(HIT_BEFORE + HIT_AFTER + 1)], axis=0), step
+    return around(np.maximum(level - before, 0), HIT_BEFORE, HIT_AFTER), step
 
 
 def unmix(rise):
@@ -86,10 +84,10 @@ def unmix(rise):
     return np.stack([a[:, lane == k].sum(axis=1) for k in range(len(LANES))], axis=1)
 
 
-def around(v):
-    """v's maximum over PEAK_FRAMES either side of each frame."""
-    padded = np.pad(v, ((PEAK_FRAMES, PEAK_FRAMES),) + ((0, 0),) * (v.ndim - 1))
-    return np.max([padded[k:k + len(v)] for k in range(2 * PEAK_FRAMES + 1)], axis=0)
+def around(v, before=PEAK_FRAMES, after=PEAK_FRAMES):
+    """v's maximum over the frames from before ahead of each frame to after past it."""
+    padded = np.pad(v, ((before, after),) + ((0, 0),) * (v.ndim - 1))
+    return np.max([padded[k:k + len(v)] for k in range(before + after + 1)], axis=0)
 
 
 def hits(rise):

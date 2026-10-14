@@ -283,8 +283,6 @@ def render(name, x, whole, facts, t0, t1, split_midi, out_png, section=None):
             chroma_image(shares, octave, ramps), origin="lower", aspect="auto",
             extent=(t0, t1, -0.5, 11.5), interpolation="nearest",
         )
-        for t in beats:
-            strip.axvline(t, color="white", alpha=0.45, linewidth=0.6)
         strip.yaxis.set_major_locator(FixedLocator(range(12)))
         strip.set_yticklabels(names, fontsize=7)
         strip.set_ylabel(name)
@@ -302,12 +300,14 @@ def render(name, x, whole, facts, t0, t1, split_midi, out_png, section=None):
 
     hits = drum_lanes(x, duration, columns)
     hits[:, rms < QUIET] = 0
+    kit_ramps = drum_ramps()
     kit.imshow(
-        drum_image(hits, drum_ramps()), origin="lower", aspect="auto",
+        drum_image(hits, kit_ramps), origin="lower", aspect="auto",
         extent=(t0, t1, -0.5, len(LANES) - 0.5), interpolation="nearest",
     )
-    for t in beats:
-        kit.axvline(t, color="white", alpha=0.45, linewidth=0.6)
+    for strip in (treble, bass, kit):
+        for t in beats:
+            strip.axvline(t, color="white", alpha=0.45, linewidth=0.6)
     kit.yaxis.set_major_locator(FixedLocator(range(len(LANES))))
     kit.set_yticklabels(LANES, fontsize=7)
     kit.set_ylabel("drums")
@@ -323,13 +323,15 @@ def render(name, x, whole, facts, t0, t1, split_midi, out_png, section=None):
     # A fixed palette — the map's own steps, then greys for the text, then the
     # strips' steps, the envelope's shades and the drum lanes' steps — since an
     # adaptive one merges the rarest steps, the loudest, and the scale lies.
-    steps = [round(255 * c) for i in range(cmap.N) for c in cmap(i)[:3]]
-    greys = [round(255 * i / (63 - cmap.N)) for i in range(64 - cmap.N) for _ in range(3)]
-    chroma = [round(255 * c) for ramp in ramps.values() for rgb in ramp[1:] for c in rgb]
-    shades = [round(255 * c) for rgb in LEVEL_SHADES for c in rgb]
-    kit_steps = [round(255 * c) for ramp in drum_ramps() for rgb in ramp[1:] for c in rgb]
+    def bytes_of(colours):
+        return [round(255 * c) for rgb in colours for c in rgb[:3]]
+
+    steps = bytes_of(cmap(i) for i in range(cmap.N))
+    greys = bytes_of((i / (63 - cmap.N),) * 3 for i in range(64 - cmap.N))
+    chroma = bytes_of(rgb for ramp in ramps.values() for rgb in ramp[1:])
+    kit_steps = bytes_of(rgb for ramp in kit_ramps for rgb in ramp[1:])
     palette = Image.new("P", (1, 1))
-    palette.putpalette(steps + greys + chroma + shades + kit_steps)
+    palette.putpalette(steps + greys + chroma + bytes_of(LEVEL_SHADES) + kit_steps)
     Image.open(buffer).convert("RGB").quantize(palette=palette, dither=Image.Dither.NONE).save(
         out_png, optimize=True,
     )
