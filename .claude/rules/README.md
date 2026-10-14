@@ -7,13 +7,13 @@ paths:
 # `.claude/rules/`
 
 Path-scoped convention files. Claude Code loads a rule file when a session reads
-a file matching its `paths:` globs — so conventions reach the agent at the moment
-they're relevant, without being permanently resident in context the way the root
-`CLAUDE.md` is.
+a file matching its `paths:` globs — so conventions reach the agent at the
+moment they're relevant, without being permanently resident in context the way
+the root `CLAUDE.md` is.
 
 **Every `.md` under this directory is a rule, this README included, and one with
-no `paths:` loads on every turn**, exactly as `CLAUDE.md` does — which is why this
-README carries one, and why editing such a file goes through a staged copy
+no `paths:` loads on every turn**, exactly as `CLAUDE.md` does — which is why
+this README carries one, and why editing such a file goes through a staged copy
 (`staging.md`). A `CLAUDE.md` here would be a rule too, so this is the one
 directory whose own conventions live in a scoped rule file rather than in its
 `CLAUDE.md`.
@@ -21,8 +21,9 @@ directory whose own conventions live in a scoped rule file rather than in its
 Two carry the agent loop's own conventions — `stack.md` (what `scripts/vet.sh`
 runs, and what a toolchain change wires) and `staging.md` (editing a file that
 loads on every turn), each spanning paths no one directory holds — plus
-`markdown.md` (no tables), the source's opt-in, taken here. The rest are this
-repo's, each scoped to the area it governs.
+`markdown.md` (no tables), the source's opt-in, taken here, and
+`markdown-wrap.md` (hard-wrapped Markdown). The rest are this repo's, each
+scoped to the area it governs.
 
 ## Format
 
@@ -69,11 +70,11 @@ directory stay a rule file here (`logos.md`).
 
 ## Good candidates
 
-- A kind of file rather than a place — tests, stories, generated code —
-  wherever it sits.
-- One contract spread over paths that share no parent short of the root: a schema
-  provisioned outside the repo and the Dockerfile or deploy manifest that must
-  mirror it.
+- A kind of file rather than a place — tests, stories, generated code — wherever
+  it sits.
+- One contract spread over paths that share no parent short of the root: a
+  schema provisioned outside the repo and the Dockerfile or deploy manifest that
+  must mirror it.
 - Traps that have already bitten someone once, when the files they live in share
   a pattern rather than a directory. If a code review comment would apply again
   to the next person editing those files, it's a rule.
