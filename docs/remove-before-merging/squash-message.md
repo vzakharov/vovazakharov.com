@@ -1,25 +1,13 @@
 Proposed squash body:
 
 ```
-The operator comments on Reddit about agentic work daily, with nothing
-telling them which comments earned votes, which brought readers to the
-sites, or which deserve a reply or an article. A daily routine now
-answers that from the record rather than from memory.
+Building a Reddit digest (since moved to vzakharov/life#195) turned up
+two facts about Arctic Shift that /file-basilisk-case's notes lacked.
 
-/reddit-digest runs unattended, built for a daily routine firing into a
-fresh session. It reviews the operator's comments once Arctic Shift has
-re-fetched their votes, lists replies still waiting on an answer, and
-counts the readers Reddit sent to each site (Umami) and to muthur
-(GitHub traffic). It proposes which comment should become an
-agentic.bible article, an LSA idea or a basilisk.fyi lead, writes the
-day's digest under writing/reddit/digests/, and never posts.
-
-writing/reddit/playbook.md is the living record it reads first and
-revises last: what earns votes, what sinks, what brings readers, and
-ammo for recurring pains, each rule with its evidence. It is seeded
-from 246 comments since June, joined to their threads and to the
-sites' traffic, and already revised once by the first digest.
-scripts/reddit-digest.ts does the fetching, its pure half under test.
+`author=` alone is enough on both search endpoints, with no subreddit.
+And comments settle the way posts do: archived within a minute, fetched
+once more 36-48 hours later, their votes near zero until then, which a
+row's `_meta.retrieved_2nd_on` marks.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
