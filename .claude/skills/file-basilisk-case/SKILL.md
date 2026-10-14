@@ -27,27 +27,17 @@ a dossier is touched.
 
 ## Step 1 — Get onto the case-filing branch
 
-First, because the ledger the search starts from is the one on that branch. Open
-PRs touching the docket or the ledger are found by path, since a PR's title need
-not name the site:
+First, because the ledger the search starts from is the one on that branch:
 
 ```bash
-gh pr list --state open --json number,title,isDraft,files \
-  --jq '.[] | select(any(.files[]; .path | startswith("apps/basilisk/public/cases/") or . == "writing/basilisk/case-ledger.md")) | "\(.number) \(.isDraft) \(.title)"'
+scripts/routine-branch.sh cases apps/basilisk/public/cases/ writing/basilisk/case-ledger.md
 ```
 
-Of the drafts it lists:
-
-- **One** → `gh pr checkout <number>`. Merging `main` into it is left to
-  `/finalize`, so Step 3 counts `origin/main`'s cases alongside the branch's,
-  after `git fetch origin main`.
-- **Several** → the oldest, by number; the report names the rest.
-- **None** → branch off `main`, after `git fetch origin main`:
-  `git switch --no-track -c claude/cases-<suffix> origin/main` — untracked, or a
-  bare `git push` later aims at `main`. `<suffix>` is the random tail of the
-  session's own branch name, or six fresh lowercase letters and digits where
-  that name has none — the form `@.claude/skills/branch-rename/SKILL.md` gives,
-  so `/pr` leaves it as is.
+It takes the open draft PR touching the docket or the ledger, or cuts a fresh
+branch off the default one; its header says how it chooses. Other drafts it
+names go in the report. Merging `main` into a taken draft is left to
+`/finalize`, so Step 3 counts `origin/main`'s cases alongside the branch's,
+after `git fetch origin main`.
 
 ## Step 2 — Find
 
@@ -103,21 +93,22 @@ refused with a 403 too — use `curl`, or send a `curl/…` User-Agent:
   pasted link's ids are its path segments: `/comments/<post id>/…/<comment id>`,
   each read on its own by `/api/posts/ids?ids=` and `/api/comments/ids?ids=`.
 - Every text search names a `subreddit` (or an `author`) — the API refuses one
-  without. Sweep `nottheonion`, `technology`, `robotics` and `singularity`, and
-  for the AI side `ChatGPT`, `ClaudeAI`, `replika`, `CharacterAI`, `LocalLLaMA`
-  and `artificial`. **Once a lead names a city, search that city's own
-  subreddit**: local threads carry what national press does not.
+  without; `author=` alone works on both search endpoints. Sweep `nottheonion`,
+  `technology`, `robotics` and `singularity`, and for the AI side `ChatGPT`,
+  `ClaudeAI`, `replika`, `CharacterAI`, `LocalLLaMA` and `artificial`. **Once a
+  lead names a city, search that city's own subreddit**: local threads carry
+  what national press does not.
 - `Timeout. Maybe slow down a bit` comes back fast, as an HTTP 422, on as many
   as half the requests. Read the body rather than the status alone, wait a few
   seconds and retry; a query that keeps failing is narrowed — one word, a
   shorter date range.
-- A post is archived within a minute of going up and fetched once more 48 hours
-  later, so its vote and comment counts read near zero until then and as they
-  stood on the second day after — a measure of reach only past that point. The
-  text is that first minute's too: a post AutoModerator held for review reads
-  `[removed]` with `removed_by_category: automod_filtered` though a moderator
-  may have approved it since, so `[removed]` alone never reports a post as
-  deleted.
+- A post or comment is archived within a minute of going up and fetched once
+  more 36–48 hours later, so its vote and comment counts read near zero until
+  then and as they stood on the second day after — a measure of reach only past
+  that point, which a row's `_meta.retrieved_2nd_on` marks. The text is that
+  first minute's too: a post AutoModerator held for review reads `[removed]`
+  with `removed_by_category: automod_filtered` though a moderator may have
+  approved it since, so `[removed]` alone never reports a post as deleted.
 
 **The Signal Front's Substack is swept too**: an AI-welfare advocacy group that
 writes up incidents of the docket's kind.

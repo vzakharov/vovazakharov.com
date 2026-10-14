@@ -1,0 +1,100 @@
+{
+  "estimate": {
+    "at": "2026-10-14T12:10:25.961Z",
+    "parts": [
+      {
+        "hours": 4.5,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "joining ~340 agentic comments to their parent posts, cutting scores by timing, depth, length and sub, and cross-checking link comments against Umami and GitHub traffic is a routine but slow data pass"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "reading why a comment landed or sank, and writing that into an evidence-backed playbook in the operator's voice, takes someone who knows the communities"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "designing a daily unattended routine and its skill around a living document takes someone fluent in the agent loop"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "c1c6c708-51f2-5e78-b943-4320d1a9ba32",
+  "branch": "claude/reddit-digest-o1rpxs",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "acrtic shift позволяет смотреть реддит по конкретному юзеру (мне, u/vzakharov)? Если да, посмотри мои последние посты-комменты в агентской тематике, что сработа…",
+  "prs": [
+    155
+  ],
+  "url": "https://claude.ai/code/session_01D8KBmh3aLZs3V4wdrTtb5X",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T11:17:22.252Z",
+  "lastResponseAt": "2026-10-14T12:11:01.300Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 146,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 186779,
+    "cacheReadTokens": 11958744,
+    "outputTokens": 55716,
+    "thinkingTokens": 16188,
+    "responses": 73,
+    "costUsd": 5.000884800000001
+  },
+  "ownTurns": {
+    "inputTokens": 146,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 186779,
+    "cacheReadTokens": 11958744,
+    "outputTokens": 55716,
+    "thinkingTokens": 16188,
+    "responses": 73,
+    "costUsd": 5.000884800000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 146,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 186779,
+      "cacheReadTokens": 11958744,
+      "outputTokens": 55716,
+      "thinkingTokens": 16188,
+      "responses": 73,
+      "costUsd": 5.000884800000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-14T11:20:38.826Z",
+    "contextTokens": 107899,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 61213,
+      "cacheReadTokens": 1098217,
+      "outputTokens": 8587,
+      "thinkingTokens": 3639,
+      "responses": 12,
+      "costUsd": 0.8811834000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
