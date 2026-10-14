@@ -8,7 +8,8 @@
  * A commit is published through GitHub's Git Data API rather than `git push`:
  * the agent proxy lets a session push to the repositories it was started on
  * and no others, while `gh api` carries the session's own token anywhere it
- * reaches.
+ * reaches. A commit holding a file too large for that API goes through a
+ * relay run in the repository instead (`music-relay.ts`).
  */
 
 import { execFileSync } from 'node:child_process';
@@ -21,6 +22,13 @@ import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
 import type { RepoBranch } from '@/pages/music/lib/master-url';
 
 import { REPO_ROOT } from './content-tree.ts';
+import {
+  githubApi,
+  repoEndpoint,
+  shaReply,
+  uploadBlob,
+} from './music-github.ts';
+import { API_BLOB_LIMIT, relayCommit } from './music-relay.ts';
 
 /** Where the clones live, each replaced by the next run on its repository. */
 export const MUSIC_WORK_DIR = path.join(REPO_ROOT, 'tmp', 'music-tag');
@@ -36,64 +44,6 @@ const GIT_CONFIG = [
   '-c',
   'core.quotePath=false',
 ];
-
-const shaReply = z.object({ sha: z.string() });
-
-/** Tries per call while GitHub answers 5xx — a large blob's upload meets the odd 502. */
-const API_ATTEMPTS = 3;
-
-const sleep = (ms: number): void => {
-  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
-};
-
-/**
- * One call to `repos/<organization>/<repo>/<endpoint>`, its JSON reply parsed.
- * A 5xx is retried: a publish's writes are content-addressed or a fast-forward
- * to a known SHA, so repeating one that landed unseen changes nothing, and a
- * repository created unseen answers the retry with a 422.
- */
-function githubApi(
-  method: 'GET' | 'POST' | 'PATCH',
-  endpoint: string,
-  body?: unknown,
-): unknown {
-  for (let attempt = 1; ; attempt++) {
-    try {
-      const reply = execFileSync(
-        'gh',
-        [
-          'api',
-          '--method',
-          method,
-          endpoint,
-          ...(body === undefined ? [] : ['--input', '-']),
-        ],
-        {
-          input: body === undefined ? undefined : JSON.stringify(body),
-          maxBuffer: 64 * 1024 * 1024,
-          stdio: ['pipe', 'pipe', 'pipe'],
-        },
-      );
-
-      return JSON.parse(reply.toString('utf8'));
-    } catch (error) {
-      const stderr = z
-        .object({ stderr: z.instanceof(Buffer) })
-        .safeParse(error)
-        .data?.stderr.toString('utf8');
-
-      if (stderr === undefined) throw error;
-      process.stderr.write(stderr);
-      if (attempt === API_ATTEMPTS || !/\(HTTP 5\d\d\)/.test(stderr)) {
-        throw error;
-      }
-      sleep(5000 * attempt);
-    }
-  }
-}
-
-const repoEndpoint = (repo: string, rest: string): string =>
-  `repos/${MUSIC_ORGANIZATION}/${repo}/${rest}`;
 
 export function defaultBranch(repo: string): string {
   return z
@@ -267,26 +217,32 @@ function headChanges(dir: string) {
  * Re-creates the clone's head commit on GitHub and fast-forwards the branch to
  * it: each new blob uploaded once, a tree on the parent's that must hash to
  * the clone's own, a commit with the parent, then the ref — never forced, so a
- * branch that moved since the clone refuses rather than loses work.
+ * branch that moved since the clone refuses rather than loses work. A commit
+ * with a blob past `API_BLOB_LIMIT` is relayed whole instead, as the same
+ * commit.
  */
 function publishHead({ repo, branch, dir }: MusicRepo, message: string): void {
   const changes = headChanges(dir);
-  const uploaded = new Set<string>();
+  const blobs = [
+    ...new Set(changes.flatMap(({ sha }) => (sha === null ? [] : [sha]))),
+  ];
 
-  for (const { sha } of changes) {
-    if (sha === null || uploaded.has(sha)) continue;
-
-    const reply = shaReply.parse(
-      githubApi('POST', repoEndpoint(repo, 'git/blobs'), {
-        content: git(dir, ['cat-file', 'blob', sha]).toString('base64'),
-        encoding: 'base64',
-      }),
+  if (
+    blobs.some(
+      (sha) => Number(text(dir, ['cat-file', '-s', sha])) > API_BLOB_LIMIT,
+    )
+  ) {
+    relayCommit(
+      { repo, branch },
+      git(dir, ['bundle', 'create', '-', 'HEAD^..HEAD']),
+      text(dir, ['rev-parse', 'HEAD']),
     );
 
-    if (reply.sha !== sha) {
-      throw new Error(`${repo}: blob ${sha} uploaded as ${reply.sha}`);
-    }
-    uploaded.add(sha);
+    return;
+  }
+
+  for (const sha of blobs) {
+    uploadBlob(repo, git(dir, ['cat-file', 'blob', sha]), sha);
   }
 
   const tree = shaReply.parse(
