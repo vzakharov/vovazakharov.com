@@ -215,13 +215,12 @@ const songFieldsSchema = baseFrontmatterSchema
      * copy beside the master in its repository, `url` absent where `audio` is
      * already an MP3 and the enclosure reuses it. `bytes` is recorded rather
      * than fetched, so a deploy depends on no request to the file's host.
+     * Required, so a song missing from the feeds fails the build instead.
      */
-    podcast: z
-      .object({
-        url: z.url().optional(),
-        bytes: z.number().int().positive(),
-      })
-      .optional(),
+    podcast: z.object({
+      url: z.url().optional(),
+      bytes: z.number().int().positive(),
+    }),
   });
 
 /**
@@ -239,8 +238,7 @@ export const songFrontmatterSchema = songFieldsSchema
     path: ['track'],
   })
   .refine(
-    ({ audio, podcast }) =>
-      podcast === undefined || (podcast.url === undefined) === isMp3(audio),
+    ({ audio, podcast }) => (podcast.url === undefined) === isMp3(audio),
     {
       message:
         'A podcast copy names its own `url` exactly where `audio` is not already an MP3.',

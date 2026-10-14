@@ -72,12 +72,9 @@ async function songContent(
   return feedHtml(root, getAbsoluteUrl);
 }
 
-/** The song as a podcast episode, once its MP3 copy is recorded. */
+/** The song as a podcast episode. */
 function songEpisode(document: SongDocument): FeedEntry['episode'] {
   const { audio, podcast, seconds, explicit } = document.frontmatter;
-
-  if (podcast === undefined) return undefined;
-
   const picture = songPicture(document);
 
   return {
