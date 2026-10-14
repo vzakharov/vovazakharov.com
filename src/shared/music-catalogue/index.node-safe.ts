@@ -6,6 +6,11 @@
 
 // Types only: the schemas are zod, which a client component entering this
 // barrel would carry into every song page's bundle.
+export {
+  type SongBilling,
+  songFileName,
+  songFileNames,
+} from './file-name.ts';
 export type { MusicAlbum, MusicProject } from './name-brands.ts';
 export { MUSIC_ORGANIZATION } from './organization.ts';
 export { romanizeRussian } from './romanize.ts';
