@@ -25,7 +25,8 @@ import type { SongPageProps } from '../lib/music-route-params';
 import { musicPath, songPath } from '../lib/music-urls';
 import { pictureCard, songPicture } from '../lib/pictures';
 import { songRepositoryUrl } from '../lib/projects';
-import { type SongFile, songFiles } from '../lib/song-files';
+import { songDownloads } from '../lib/song-downloads';
+import type { SongFile } from '../lib/song-files';
 import { localizeSong, songLyrics, wordsText } from '../lib/song-text';
 import { songVideo } from '../lib/song-video';
 import {
@@ -60,20 +61,35 @@ type SongFileLinkProps = Routed & { file: SongFile };
 /**
  * A song's file labelled by its extension. Saved under the page's name where the
  * site hosts it; another origin's opens in a tab of its own, since a browser
- * ignores `download` there.
+ * ignores `download` there, so its URL carries the name — one link per
+ * spelling, shown by the reader's script as `Spelling` shows a name.
  */
 function SongFileLink({ route, file }: SongFileLinkProps) {
   const { extension, href } = file;
   const label = `.${extension}`;
+  const { original, latin } = href;
 
-  return href.startsWith('/') ? (
-    <FileLink {...pageFile(route, extension)} {...{ href }}>
-      {label}
-    </FileLink>
-  ) : (
-    <TextLink {...{ href }} size="sm" className={hoverDim}>
+  if (original.startsWith('/')) {
+    return (
+      <FileLink {...pageFile(route, extension)} href={original}>
+        {label}
+      </FileLink>
+    );
+  }
+
+  const link = (at: string, spelling?: keyof typeof href) => (
+    <TextLink href={at} size="sm" className={hoverDim} data-spelling={spelling}>
       {label}
     </TextLink>
+  );
+
+  return latin === undefined ? (
+    link(original)
+  ) : (
+    <>
+      {link(original, 'original')}
+      {link(latin, 'latin')}
+    </>
   );
 }
 
@@ -164,9 +180,9 @@ export function SongPage({ slug, locale }: SongPageProps) {
 
               <Group gap={16} wrap="wrap">
                 <FileLink {...localized.markdown}>.md</FileLink>
-                {songFiles(document.frontmatter).map((file) => (
+                {songDownloads(document, locale).map((file) => (
                   <SongFileLink
-                    key={file.href}
+                    key={file.extension}
                     {...pick(localized, 'route')}
                     {...{ file }}
                   />

@@ -28,10 +28,16 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import { z } from 'zod';
 
 import { collectionDir, PUBLIC_DIR } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
+
+import { rawUrl, servedPath } from '@/pages/music/lib/master-url';
+import {
+  readTagManifest,
+  TAG_MANIFEST,
+  type TagManifest,
+} from '@/pages/music/lib/song-downloads';
 
 import { given } from './lib/argv.ts';
 import { REPO_ROOT } from './lib/content-tree.ts';
@@ -51,42 +57,25 @@ import {
 } from './lib/song-tag-rewrites.ts';
 import {
   type MasterFile,
-  rawUrl,
   type SongTagJob,
   songTagJobs,
 } from './lib/song-tag-source.ts';
 import { writeSongTags } from './lib/song-tag-writer.ts';
 
 const WORK_DIR = path.join(REPO_ROOT, 'tmp', 'music-tag');
-const MANIFEST = path.join(PUBLIC_DIR, 'music', 'tag-renders.json');
 const README = 'README.md';
-
-const manifestSchema = z.record(
-  z.string(),
-  z.object({ hash: z.string(), paths: z.array(z.string()) }),
-);
-
-type Manifest = z.infer<typeof manifestSchema>;
 
 function report(line: string): void {
   process.stdout.write(`${line}\n`);
 }
 
-function readManifest(): Manifest {
-  if (!fs.existsSync(MANIFEST)) return {};
-
-  return manifestSchema.parse(JSON.parse(fs.readFileSync(MANIFEST, 'utf8')), {
-    error: () => `Malformed tag manifest: ${MANIFEST}`,
-  });
-}
-
-function writeManifest(manifest: Manifest): void {
+function writeManifest(manifest: TagManifest): void {
   const sorted = Object.entries(manifest).toSorted(([a], [b]) =>
     a.localeCompare(b),
   );
 
   fs.writeFileSync(
-    MANIFEST,
+    TAG_MANIFEST,
     `${JSON.stringify(Object.fromEntries(sorted), undefined, 2)}\n`,
   );
 }
@@ -108,8 +97,8 @@ const inDirectory = (directory: string, name: string): string =>
   directory === '' ? name : `${directory}/${name}`;
 
 /** `<repo>/<path>` for each name the file is derived under. */
-const derivedPaths = ({ repo, directory, names }: MasterFile): string[] =>
-  names.map((name) => `${repo}/${inDirectory(directory, name)}`);
+const derivedPaths = (file: MasterFile): string[] =>
+  file.names.map((name) => servedPath(file, inDirectory(file.directory, name)));
 
 /** The decoded audio's MD5, which tagging must leave as it was. */
 function audioMd5(file: string): string {
@@ -234,7 +223,7 @@ function tagRepository(
   name: string,
   branch: string,
   jobs: readonly SongTagJob[],
-  manifest: Manifest,
+  manifest: TagManifest,
   dryRun: boolean,
 ): void {
   const repo = cloneRepo(name, branch, WORK_DIR);
@@ -267,7 +256,7 @@ function tagRepository(
       paths: [
         ...new Set([
           ...(manifest[job.slug]?.paths ?? []),
-          ...job.files.map(({ repo: at, sourcePath }) => `${at}/${sourcePath}`),
+          ...job.files.map((file) => servedPath(file, file.sourcePath)),
           ...job.files.flatMap((file) => derivedPaths(file)),
         ]),
       ].toSorted(),
@@ -276,7 +265,7 @@ function tagRepository(
   writeManifest(manifest);
 }
 
-function prune(jobs: readonly SongTagJob[], manifest: Manifest): void {
+function prune(jobs: readonly SongTagJob[], manifest: TagManifest): void {
   for (const [name, group] of byRepository(jobs)) {
     const derived = new Set(
       group.jobs.flatMap(({ files }) =>
@@ -330,7 +319,7 @@ function selectedJobs(): SongTagJob[] {
 
 function main(): void {
   const jobs = selectedJobs();
-  const manifest = readManifest();
+  const manifest = readTagManifest();
 
   if (given('prune')) {
     prune(jobs, manifest);

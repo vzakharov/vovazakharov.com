@@ -12,6 +12,8 @@ import path from 'node:path';
 
 import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
 
+import type { RepoBranch } from '@/pages/music/lib/master-url';
+
 /**
  * The agent proxy authenticates pushes to the site's own repository only, so
  * a push here carries the session's GitHub token through `gh`; commit signing
@@ -27,9 +29,6 @@ const GIT_CONFIG = [
   '-c',
   'core.quotePath=false',
 ];
-
-/** A branch of a `vovas-music` repository. */
-export type RepoBranch = { repo: string; branch: string };
 
 export type MusicRepo = RepoBranch & {
   /** The clone's directory. */

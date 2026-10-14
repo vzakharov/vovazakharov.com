@@ -10,7 +10,6 @@ import { getAbsoluteUrl } from '@/shared/config';
 import { isLocale, type Locale, LOCALES } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import {
-  MUSIC_ORGANIZATION,
   type MusicAlbum,
   songFileName,
   songFileNames,
@@ -21,25 +20,20 @@ import { songPlacements } from '@/pages/music/lib/album-tracks';
 import { albumArtist, albumTitle } from '@/pages/music/lib/albums';
 import { projectName } from '@/pages/music/lib/artists';
 import { entryText } from '@/pages/music/lib/lyric-notes';
+import {
+  masterLocation,
+  type RepoLocation,
+} from '@/pages/music/lib/master-url';
 import { songPath } from '@/pages/music/lib/music-urls';
 import { songPicture } from '@/pages/music/lib/pictures';
 import { extensionOf, type WithExtension } from '@/pages/music/lib/song-files';
 import { type SongDocument, sungStanzas } from '@/pages/music/lib/song-text';
 import { listSongPages, songBilling } from '@/pages/music/lib/songs';
 
-import type { RepoBranch } from './music-repo.ts';
 import { buildTags, type SongTags, type TagSource } from './song-tags.ts';
-
-const RAW_HOST = 'raw.githubusercontent.com';
 
 /** The frontmatter fields that hold a file's URL. */
 type MasterField = 'audio' | 'mp3';
-
-/** Where a file lives in its repository, read off its raw URL. */
-type RepoLocation = RepoBranch & {
-  /** The file's directory in the repository, `''` at its root. */
-  directory: string;
-};
 
 /** `url` is the one the frontmatter states now. */
 export type MasterFile = RepoLocation &
@@ -58,44 +52,6 @@ export type SongTagJob = Pick<SongDocument, 'slug' | 'fileName'> & {
   coverPath?: string;
   files: MasterFile[];
 };
-
-/** `null` for a file no `vovas-music` repository serves. */
-function repoPath(url: string): (RepoLocation & { path: string }) | null {
-  // A site-root path is a file the site hosts itself.
-  if (!URL.canParse(url)) return null;
-
-  const { host, pathname } = new URL(url);
-  const [, organization, repo, branch, ...segments] = pathname.split('/');
-
-  if (
-    host !== RAW_HOST ||
-    organization !== MUSIC_ORGANIZATION ||
-    repo === undefined ||
-    branch === undefined ||
-    segments.length === 0
-  ) {
-    return null;
-  }
-
-  const decoded = segments.map((segment) => decodeURIComponent(segment));
-
-  return {
-    repo,
-    branch,
-    directory: decoded.slice(0, -1).join('/'),
-    path: decoded.join('/'),
-  };
-}
-
-/** The URL a repository serves `name` at, beside the file it replaces. */
-export function rawUrl(
-  { repo, branch, directory }: RepoLocation,
-  name: string,
-): string {
-  const segments = [...(directory === '' ? [] : directory.split('/')), name];
-
-  return `https://${RAW_HOST}/${MUSIC_ORGANIZATION}/${repo}/${branch}/${segments.map((segment) => encodeURIComponent(segment)).join('/')}`;
-}
 
 /** The locale whose page calls the song by its own name, the one it is sung in first. */
 function ownLocale({ frontmatter }: SongDocument): Locale {
@@ -135,7 +91,7 @@ function masterFiles(document: SongDocument): MasterFile[] {
         ];
 
   return urls.flatMap(([field, url]) => {
-    const location = repoPath(url);
+    const location = masterLocation(url);
 
     if (location === null) return [];
 
