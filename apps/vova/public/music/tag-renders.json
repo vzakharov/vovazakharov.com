@@ -10,6 +10,17 @@
       "first/Полуживые - Двадцать feat. Грёбаный бал.mp3"
     ]
   },
+  "8849": {
+    "hash": "f614769ef0fc",
+    "paths": [
+      "8849/8849.flac",
+      "8849/8849.mp3",
+      "8849/Poluzhivye - 8849 feat. GENERATED.flac",
+      "8849/Poluzhivye - 8849 feat. GENERATED.mp3",
+      "8849/Полуживые - 8849 feat. GENERATED.flac",
+      "8849/Полуживые - 8849 feat. GENERATED.mp3"
+    ]
+  },
   "2girls1fridge": {
     "hash": "7ee817651e0c",
     "paths": [
@@ -855,6 +866,17 @@
       "intertwined/intertwined.mp3",
       "intertwined/za_oblozhkoy - Pereplelosʼ.mp3",
       "intertwined/за_обложкой - Переплелось.mp3"
+    ]
+  },
+  "inverno": {
+    "hash": "3736794b51f2",
+    "paths": [
+      "vagabond_album/Poluzhivye - Inverno feat. GENERATED.flac",
+      "vagabond_album/Poluzhivye - Inverno feat. GENERATED.mp3",
+      "vagabond_album/vagabond_album-003.flac",
+      "vagabond_album/vagabond_album-003.mp3",
+      "vagabond_album/Полуживые - Inverno feat. GENERATED.flac",
+      "vagabond_album/Полуживые - Inverno feat. GENERATED.mp3"
     ]
   },
   "is-it-your-fault": {
