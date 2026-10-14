@@ -1,18 +1,12 @@
 {
   "estimate": {
-    "at": "2026-10-14T21:37:36.944Z",
+    "at": "2026-10-14T21:47:09.886Z",
     "parts": [
       {
-        "hours": 3.0,
+        "hours": 2.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "a scope-resolving ESLint rule with its first rule test, plus schema-first refactors of frontmatter types that other slices import"
-      },
-      {
-        "hours": 10.0,
-        "grade": "senior",
-        "role": "developer",
-        "comment": "199 meadow sites need each wide type decomposed into named bases, a naming judgement per type that a codemod cannot make"
+        "comment": "a scope-resolving ESLint rule with the repo's first rule test needs judgement of what the scope manager reports for TS-only definitions"
       },
       {
         "hours": 1.5,
@@ -33,28 +27,28 @@
   "url": "https://claude.ai/code/session_014kf4pQVj4A1ZWtBJR9onxj",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-14T21:34:48.632Z",
-  "lastResponseAt": "2026-10-14T21:38:47.936Z",
+  "lastResponseAt": "2026-10-14T21:47:36.129Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 58,
+    "inputTokens": 146,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 122123,
-    "cacheReadTokens": 3964656,
-    "outputTokens": 21321,
-    "thinkingTokens": 8225,
-    "responses": 29,
-    "costUsd": 2.1965672
+    "cacheWrite1hTokens": 186777,
+    "cacheReadTokens": 13079231,
+    "outputTokens": 46404,
+    "thinkingTokens": 15041,
+    "responses": 73,
+    "costUsd": 5.038726200000001
   },
   "ownTurns": {
-    "inputTokens": 58,
+    "inputTokens": 146,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 122123,
-    "cacheReadTokens": 3964656,
-    "outputTokens": 21321,
-    "thinkingTokens": 8225,
-    "responses": 29,
-    "costUsd": 2.1965672
+    "cacheWrite1hTokens": 186777,
+    "cacheReadTokens": 13079231,
+    "outputTokens": 46404,
+    "thinkingTokens": 15041,
+    "responses": 73,
+    "costUsd": 5.038726200000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -68,14 +62,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 58,
+      "inputTokens": 146,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 122123,
-      "cacheReadTokens": 3964656,
-      "outputTokens": 21321,
-      "thinkingTokens": 8225,
-      "responses": 29,
-      "costUsd": 2.1965672
+      "cacheWrite1hTokens": 186777,
+      "cacheReadTokens": 13079231,
+      "outputTokens": 46404,
+      "thinkingTokens": 15041,
+      "responses": 73,
+      "costUsd": 5.038726200000001
     }
   },
   "warnings": [],
