@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×60)
+## What it was handed, it treats as fixed (×61)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -144,6 +144,14 @@ a description wants edited prose in his voice, not his speech.
 built offset-sync and captions around three song videos without hearing that
 they carried the unmastered mix, while the page plays the master. The author
 noticed: _в видео же неотмастеренный мп3. подменить можно нашим?_
+
+**14 October — its script's number, held over its script's evidence.** The
+spectrogram sidecars stated keys and tempos as fact; where librosa disagreed, the
+agent put it to the author as a tie, calling its script «у меня». librosa was
+right on all three keys and two of three tempos, and C minor sat in the picture
+(C–E♭–G) and the script's own chord list (Cm G# Gm): it had counted G, C's third
+harmonic, as a note. Over power chords it took "can't compute" for "can't know";
+the sung third decides it, by ear. Its chord lines swallow and invent chords.
 
 ## An account that explains the code stands in for running it (×20)
 
