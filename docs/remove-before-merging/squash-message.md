@@ -7,11 +7,12 @@ it.
 
 The player bar gains a volume button — right of the seek bar on wide
 screens, at the right end of the buttons' row on narrow ones. It opens,
-on hover or a tap, a vertical volume slider with an [HQ] toggle above
-it, which switches playback to the master; a switch mid-song resumes
-at the same moment, and on the radio the station re-syncs it. iOS
-ignores a page's volume, so there the bar shows the HQ toggle alone in
-the button's place.
+on hover or a tap, a vertical volume slider with its level read out
+and an HQ toggle above it, which switches playback to the master. A
+switch mid-song resumes at the same moment, the seek bar holding still
+and the toggle spinning until the other file can play; on the radio
+the station re-syncs it. iOS ignores a page's volume, so there the bar
+shows the HQ toggle alone in the button's place.
 
 Volume and HQ are remembered per browser beside shuffle and the time
 readout: `useStoredFlag` becomes `useStoredSetting`, which stores a
