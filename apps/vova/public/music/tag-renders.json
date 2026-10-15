@@ -34,12 +34,13 @@
     ]
   },
   "300000-years": {
-    "hash": "08de32f2fb1f",
+    "hash": "38b67e5929ab",
     "paths": [
       "Divine-Discontent--album-/8. 300,000 Years.flac",
       "Divine-Discontent--album-/8. 300,000 Years.mp3",
       "Divine-Discontent--album-/GENERATED - 300,000 Years.flac",
-      "Divine-Discontent--album-/GENERATED - 300,000 Years.mp3"
+      "Divine-Discontent--album-/GENERATED - 300,000 Years.mp3",
+      "Divine-Discontent--album-/GENERATED - 300,000 Years.mp4"
     ]
   },
   "after-us": {
@@ -65,21 +66,23 @@
     ]
   },
   "alive": {
-    "hash": "8f210e1c6d77",
+    "hash": "2c346b56c967",
     "paths": [
       "alive/GENERATED - Alive.flac",
       "alive/GENERATED - Alive.mp3",
+      "alive/GENERATED - Alive.mp4",
       "alive/alive_master.flac",
       "alive/alive_master.mp3"
     ]
   },
   "answer": {
-    "hash": "0f911a7da4d4",
+    "hash": "a6931f885bc2",
     "paths": [
       "rus-/3 ответ.flac",
       "rus-/3 ответ.mp3",
       "rus-/Poluzhivye - Otvet.flac",
       "rus-/Poluzhivye - Otvet.mp3",
+      "rus-/Poluzhivye - Otvet.mp4",
       "rus-/Полуживые - Ответ.flac",
       "rus-/Полуживые - Ответ.mp3"
     ]
@@ -95,10 +98,11 @@
     ]
   },
   "at-the-diner": {
-    "hash": "38e093f33951",
+    "hash": "778e9cfc899d",
     "paths": [
       "diner/Dead Pixel Lounge - At the Diner.flac",
       "diner/Dead Pixel Lounge - At the Diner.mp3",
+      "diner/Dead Pixel Lounge - At the Diner.mp4",
       "diner/diner.flac",
       "diner/diner.mp3"
     ]
@@ -188,10 +192,11 @@
     ]
   },
   "boom": {
-    "hash": "aadc79bcc21e",
+    "hash": "1af0c67fab04",
     "paths": [
       "boom/GENERATED - Boom!.flac",
       "boom/GENERATED - Boom!.mp3",
+      "boom/GENERATED - Boom!.mp4",
       "boom/boom.flac",
       "boom/boom.master.mp3"
     ]
@@ -483,10 +488,11 @@
     ]
   },
   "everything-begins-with-love": {
-    "hash": "92441c6a44bd",
+    "hash": "6ae74aecb813",
     "paths": [
       "40days/Poluzhivye - Vsyo v etoy zhizni nachinayetsya s lyubvi.flac",
       "40days/Poluzhivye - Vsyo v etoy zhizni nachinayetsya s lyubvi.mp3",
+      "40days/Poluzhivye - Vsyo v etoy zhizni nachinayetsya s lyubvi.mp4",
       "40days/dad.flac",
       "40days/dad.master.mp3",
       "40days/Полуживые - Всё в этой жизни начинается с любви.flac",
@@ -576,10 +582,11 @@
     ]
   },
   "ghost-of-yesterday": {
-    "hash": "3fb039f63018",
+    "hash": "7aa0a131bed4",
     "paths": [
       "ghost/Downtemple - Ghost of Yesterday.flac",
       "ghost/Downtemple - Ghost of Yesterday.mp3",
+      "ghost/Downtemple - Ghost of Yesterday.mp4",
       "ghost/ghost.flac",
       "ghost/ghost.mp3"
     ]
@@ -740,10 +747,11 @@
     ]
   },
   "how-could-you-leave": {
-    "hash": "44e5fec1502e",
+    "hash": "719f93f14f00",
     "paths": [
       "hcyl/GENERATED - How Could You Leave.flac",
       "hcyl/GENERATED - How Could You Leave.mp3",
+      "hcyl/GENERATED - How Could You Leave.mp4",
       "hcyl/how_could_you_leave.flac",
       "hcyl/how_could_you_leave.mp3"
     ]
@@ -878,10 +886,11 @@
     ]
   },
   "ink": {
-    "hash": "73b284839d63",
+    "hash": "b00c7508d9e7",
     "paths": [
       "ink/GENERATED - Ink.flac",
       "ink/GENERATED - Ink.mp3",
+      "ink/GENERATED - Ink.mp4",
       "ink/ink.flac",
       "ink/ink.master.mp3"
     ]
@@ -1143,10 +1152,11 @@
     ]
   },
   "monkey": {
-    "hash": "2e164bc6e8cf",
+    "hash": "094a82892582",
     "paths": [
       "monkey/GENERATED - Monkey.flac",
       "monkey/GENERATED - Monkey.mp3",
+      "monkey/GENERATED - Monkey.mp4",
       "monkey/monkey.flac",
       "monkey/monkey.mp3"
     ]
@@ -1163,10 +1173,11 @@
     ]
   },
   "my-hope": {
-    "hash": "e73d770ed32f",
+    "hash": "87bce26bcd04",
     "paths": [
       "my_hope/GENERATED - My Hope.flac",
       "my_hope/GENERATED - My Hope.mp3",
+      "my_hope/GENERATED - My Hope.mp4",
       "my_hope/my_hope_master_2.flac",
       "my_hope/my_hope_master_2.mp3"
     ]
@@ -1642,10 +1653,11 @@
     ]
   },
   "trisagion": {
-    "hash": "265c306c6241",
+    "hash": "382856585ff1",
     "paths": [
       "trisagion/Downtemple - Trisagion.flac",
       "trisagion/Downtemple - Trisagion.mp3",
+      "trisagion/Downtemple - Trisagion.mp4",
       "trisagion/trisagion.flac",
       "trisagion/trisagion.mp3"
     ]
@@ -1670,10 +1682,11 @@
     ]
   },
   "undone": {
-    "hash": "92c4f91a43f8",
+    "hash": "ced11d2c92c1",
     "paths": [
       "undone/GENERATED - Undone.flac",
       "undone/GENERATED - Undone.mp3",
+      "undone/GENERATED - Undone.mp4",
       "undone/undone.flac",
       "undone/undone.mp3"
     ]
@@ -1750,10 +1763,11 @@
     ]
   },
   "what-doesnt-kill": {
-    "hash": "da442d5eaec8",
+    "hash": "9842560c9d51",
     "paths": [
       "wdk/GENERATED - What Doesn’t Kill.flac",
       "wdk/GENERATED - What Doesn’t Kill.mp3",
+      "wdk/GENERATED - What Doesn’t Kill.mp4",
       "wdk/wdk.flac",
       "wdk/wdk.mp3"
     ]

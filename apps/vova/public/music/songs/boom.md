@@ -10,6 +10,7 @@ seconds: 212
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/boom/main/GENERATED%20-%20Boom!.mp3
   bytes: 8555802
+stream: https://raw.githubusercontent.com/vovas-music/boom/main/GENERATED%20-%20Boom!.mp4
 explicit: false
 album: pschpthy
 track: 3

@@ -10,6 +10,7 @@ seconds: 208
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/ink/main/GENERATED%20-%20Ink.mp3
   bytes: 8415612
+stream: https://raw.githubusercontent.com/vovas-music/ink/main/GENERATED%20-%20Ink.mp4
 explicit: false
 album: let-the-stories-spin
 track: 1

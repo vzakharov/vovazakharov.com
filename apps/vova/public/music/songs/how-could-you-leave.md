@@ -12,6 +12,7 @@ seconds: 229
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/hcyl/main/GENERATED%20-%20How%20Could%20You%20Leave.mp3
   bytes: 9165636
+stream: https://raw.githubusercontent.com/vovas-music/hcyl/main/GENERATED%20-%20How%20Could%20You%20Leave.mp4
 explicit: false
 ru:
   title:

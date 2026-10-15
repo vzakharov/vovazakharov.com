@@ -11,6 +11,7 @@ seconds: 239
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/diner/main/Dead%20Pixel%20Lounge%20-%20At%20the%20Diner.mp3
   bytes: 9577072
+stream: https://raw.githubusercontent.com/vovas-music/diner/main/Dead%20Pixel%20Lounge%20-%20At%20the%20Diner.mp4
 explicit: false
 ru:
   title:

@@ -11,6 +11,7 @@ seconds: 264
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/my_hope/main/GENERATED%20-%20My%20Hope.mp3
   bytes: 10623578
+stream: https://raw.githubusercontent.com/vovas-music/my_hope/main/GENERATED%20-%20My%20Hope.mp4
 explicit: false
 ru:
   title:

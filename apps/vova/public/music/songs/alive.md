@@ -10,6 +10,7 @@ seconds: 251
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/alive/main/GENERATED%20-%20Alive.mp3
   bytes: 10132983
+stream: https://raw.githubusercontent.com/vovas-music/alive/main/GENERATED%20-%20Alive.mp4
 explicit: false
 album: ghosts-of-flesh
 track: 5
