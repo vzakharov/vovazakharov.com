@@ -10,11 +10,8 @@ import {
 
 import type { Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { useScriptPreference } from '@/shared/lib/use-script-preference';
-import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
 import {
-  billingText,
   currentTrack,
   isQueued,
   placeTracks,
@@ -29,11 +26,10 @@ import {
   radioPlayerReducer,
   type RadioPlayerState,
 } from './radio-state';
+import { useMediaSession } from './use-media-session';
+import { usePlayerKeys } from './use-player-keys';
 import { type StationControls, useStation } from './use-station';
 import { useStoredSetting } from './use-stored-setting';
-
-/** How far a seek key moves, in seconds. */
-const SEEK_STEP = 5;
 
 /**
  * The seed is the action's, not the reducer's: a permutation has to be
@@ -120,7 +116,6 @@ export function useAudioPlayer(
   const [shuffleStored, storeShuffle] = useStoredSetting('shuffle');
   const [lossless] = useStoredSetting('lossless');
   const [volume] = useStoredSetting('volume');
-  const { script } = useScriptPreference();
 
   // The stored switch leads and the queue follows, which is what restores a
   // remembered shuffle on load — before anything plays, so the cursor has
@@ -363,87 +358,14 @@ export function useAudioPlayer(
     if (audioRef.current !== null) audioRef.current.volume = volume;
   }, [volume]);
 
-  // Lock screen, OS media keys, headphone buttons and car controls, all driving
-  // the same queue rather than a second copy of its logic.
-  useEffect(() => {
-    const session = navigator.mediaSession as MediaSession | undefined;
-
-    if (session === undefined || current === undefined) return;
-
-    // The previous run's cleanup has already cleared the handlers; a state left
-    // at `paused` would tell the browser nothing plays under a playing video.
-    if (sessionYielded) {
-      session.playbackState = 'none';
-
-      return;
-    }
-
-    session.metadata = new MediaMetadata({
-      title: spelledText(current.titles[locale], script),
-      artist: billingText(current.billing[locale], script),
-      album: 'vovazakharov.com/music',
-    });
-    session.playbackState = state.playing ? 'playing' : 'paused';
-
-    // Not `toggle`: a browser may send either action whatever the state, and a
-    // toggle would turn a pause into playback.
-    const actions = [
-      ['play', controls.resume],
-      ['pause', controls.pause],
-      ['nexttrack', controls.next],
-      ['previoustrack', controls.previous],
-    ] as const;
-
-    for (const [action, handler] of actions) {
-      session.setActionHandler(action, handler);
-    }
-
-    return () => {
-      for (const [action] of actions) session.setActionHandler(action, null);
-    };
-  }, [current, state.playing, controls, locale, script, sessionYielded]);
-
-  useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      const target = event.target;
-      // A key pressed inside a modal dialog is the dialog's — a song's video
-      // takes the space bar for its own play/pause, and the song must stay
-      // silent under it.
-      const elsewhere =
-        target instanceof HTMLElement &&
-        (target.isContentEditable ||
-          ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) ||
-          target.closest('[aria-modal="true"]') !== null);
-
-      if (elsewhere || event.metaKey || event.ctrlKey || event.altKey) return;
-
-      const handled: Record<string, () => void> = {
-        ' ': controls.toggle,
-        ArrowLeft: event.shiftKey
-          ? controls.previous
-          : () => {
-              controls.seekBy(-SEEK_STEP);
-            },
-        ArrowRight: event.shiftKey
-          ? controls.next
-          : () => {
-              controls.seekBy(SEEK_STEP);
-            },
-      };
-      const handler = handled[event.key];
-
-      if (handler === undefined) return;
-
-      event.preventDefault();
-      handler();
-    }
-
-    globalThis.addEventListener('keydown', onKeyDown);
-
-    return () => {
-      globalThis.removeEventListener('keydown', onKeyDown);
-    };
-  }, [controls]);
+  useMediaSession({
+    current,
+    ...pick(state, 'playing'),
+    controls,
+    locale,
+    yielded: sessionYielded,
+  });
+  usePlayerKeys(controls);
 
   return { state, elapsed, tracks, controls, ...(current && { current }) };
 }
