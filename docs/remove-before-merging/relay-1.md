@@ -179,5 +179,6 @@ seektabled FLAC missed badly from a cold load. The plan now streams an MP4
 rewrap for every FLAC song through #153's `pnpm music:masters`, the `stream`
 frontmatter field coming from #160's commit 8df1b894 (#160 stays unmerged:
 «нет, не надо, дождёмся #153»). Pages was switched off afterwards at the
-operator's ask, the page kept under `seek-test/`. Wait for #153 to merge, then
-for the operator's go-ahead on the plan.
+operator's ask, the page kept under `seek-test/`. #153 merged 2026-10-15
+07:17Z, and the plan now names the exact hooks in `scripts/lib/song-tagging.ts`.
+Wait for the operator's go-ahead on the plan.

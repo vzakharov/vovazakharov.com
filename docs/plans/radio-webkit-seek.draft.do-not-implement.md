@@ -2,9 +2,14 @@
 
 # Every song streams its FLAC rewrapped in MP4
 
-**Blocked on [#153](https://github.com/vzakharov/vovazakharov.com/pull/153).**
-#153 renames, retags and republishes every master, so this plan builds on its
-tooling instead of doing the same work twice.
+**Builds on [#153](https://github.com/vzakharov/vovazakharov.com/pull/153)**
+(merged): its `pnpm music:masters` already renames, retags and republishes
+every master, so the rewrap rides that run instead of a pipeline of its own.
+Merge `main` into this branch before the first source edit.
+
+**`sultan.mp4`, the test file, stays out of the manifest.** It is not a derived
+name, so `prune` leaves it alone, and the test page kept at `seek-test/`
+still plays it.
 
 ## The bug, and what it comes from
 
@@ -43,12 +48,21 @@ back), on iPhone Safari (UA `iPhone OS 18_7 … Version/26.6.1`):
   (`claude/sultan-mp4-stream-mnv6xc`). Cherry-pick that commit here, then close
   #160. The operator: «нет, не надо, дождёмся #153», so sultan does not ship
   on its own first.
-- **It goes through #153's `pnpm music:masters`.** `tag` writes the rewrap
-  after it tags the FLAC, because MP4 carries the FLAC stream and not its
-  Vorbis comment. It then publishes the rewrap and repoints `stream`. `check`
-  fails on a FLAC song with no `stream`, or with a `stream` older than its
-  master. Re-read that script once #153 has merged, before deciding exactly
-  where each step goes.
+- **It goes through #153's `pnpm music:masters`**, in
+  `scripts/lib/song-tagging.ts`:
+  - **`tagFile`**, for a FLAC: once the tags are written and the audio md5
+    check passes, rewrap the local tagged file into MP4. The md5 must equal
+    the FLAC's. Stage the MP4 in the same repository commit. ffmpeg carries
+    the Vorbis tags across as MP4 metadata.
+  - **One name per song**, the Latin spelling of #153's download name with
+    `.mp4` (`Poluzhivye - Moy Sultan.mp4`). Only the player fetches this file,
+    so it needs no locale variants, and ASCII keeps its URL plain.
+  - **`repointDocument`** writes `stream:` as well as the URLs it already
+    repoints. The manifest records the MP4's path next to the others, so
+    `prune` keeps working.
+  - **`jobHash`** includes the stream name, so every song tagged before this
+    change reads as stale. `check` then fails on it, and one `tag` run
+    rewraps the whole catalogue. No separate check is needed.
 - **`scripts/song-intake/CLAUDE.md` § "A song's repository"** lists the rewrap
   next to the MP3 copy, so a new song gets one before its page exists.
   `.claude/rules/songs.md` names `stream` among the frontmatter fields.
