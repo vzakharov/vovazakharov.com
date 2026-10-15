@@ -19,7 +19,10 @@ import {
 
 import { cx } from '@/shared/lib/class-names';
 
-import { useStoredSetting } from '../lib/use-stored-setting';
+import {
+  type SettingValues,
+  useStoredSetting,
+} from '../lib/use-stored-setting';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 
@@ -99,7 +102,7 @@ function useHoverPopover() {
   };
 }
 
-type VolumeIconProps = { volume: number };
+type VolumeIconProps = Pick<SettingValues, 'volume'>;
 
 function VolumeIcon({ volume }: VolumeIconProps) {
   if (volume === 0) return <VolumeX size={18} />;

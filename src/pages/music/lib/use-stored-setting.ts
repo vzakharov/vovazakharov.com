@@ -1,7 +1,7 @@
 import { useCallback, useSyncExternalStore } from 'react';
 
 /** The bar's settings a reader expects to find as they left them. */
-type SettingValues = {
+export type SettingValues = {
   shuffle: boolean;
   remaining: boolean;
   /** The master rather than its MP3. */

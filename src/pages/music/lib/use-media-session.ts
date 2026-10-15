@@ -1,21 +1,24 @@
 import { useEffect } from 'react';
 
-import type { Locale } from '@/shared/i18n';
+import type { WithLocale } from '@/shared/i18n';
 import { useScriptPreference } from '@/shared/lib/use-script-preference';
 import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
-import { billingText, type PlayerTrack } from './player-state';
-import type { PlayerControls } from './use-audio-player';
+import {
+  billingText,
+  type PlayerState,
+  type PlayerTrack,
+} from './player-state';
+import type { WithControls } from './use-audio-player';
 
-type MediaSessionInput = {
-  current: PlayerTrack | undefined;
-  playing: boolean;
-  controls: PlayerControls;
-  /** The page's, which the lock screen titles the track in. */
-  locale: Locale;
-  /** Set while other media on the page holds the lock screen. */
-  yielded: boolean;
-};
+/** The locale is the page's, which the lock screen titles the track in. */
+type MediaSessionInput = WithControls &
+  WithLocale &
+  Pick<PlayerState, 'playing'> & {
+    current: PlayerTrack | undefined;
+    /** Set while other media on the page holds the lock screen. */
+    yielded: boolean;
+  };
 
 /**
  * Lock screen, OS media keys, headphone buttons and car controls, all driving

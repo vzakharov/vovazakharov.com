@@ -92,7 +92,9 @@ type Playback = {
 /** Playback, and the tracks it plays from. */
 export type QueuedPlayback = Playback & WithTracks;
 
-export type AudioPlayer = QueuedPlayback & { controls: PlayerControls };
+export type WithControls = { controls: PlayerControls };
+
+export type AudioPlayer = QueuedPlayback & WithControls;
 
 /**
  * The one `<audio>` element on the site and everything that drives it: the
