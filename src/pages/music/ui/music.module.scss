@@ -81,8 +81,9 @@
   border-radius: 50%;
 }
 
-// The input is the touch target and the track the line it draws, so a thumb
-// aimed at the line from above lands on it rather than on the buttons over it.
+// The input is the touch target and the track only the line it draws, so a
+// finger that falls short of the line lands on the slider, not on the buttons
+// above it on a phone.
 .seekBar {
   @include fill;
 
