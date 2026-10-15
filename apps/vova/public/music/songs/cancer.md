@@ -12,6 +12,7 @@ seconds: 219
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/rak/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%9D%D0%B5%20%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B8.mp3
   bytes: 8753537
+stream: https://raw.githubusercontent.com/vovas-music/rak/main/Gryobany%20bal%20-%20Ne%20smotri.mp4
 credits:
   lyrics: ['My Chemical Romance', 'Vova Zakharov']
   music: ['My Chemical Romance']
