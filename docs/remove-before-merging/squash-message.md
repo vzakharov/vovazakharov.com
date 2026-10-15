@@ -6,7 +6,7 @@ kept playing the previous song after the dial moved on; a manual seek
 landed early too. AVFoundation, which plays media for every iOS
 browser, seeks a bare FLAC by estimate and reports the second it was
 asked for, so the element trailed the clock the dial reads. A
-seektable narrowed the miss to seconds; the same FLAC stream in an MP4
+seektable left the miss in place; the same FLAC stream in an MP4
 container seeks exactly.
 
 Every FLAC song now streams that rewrap: pnpm music:masters writes it

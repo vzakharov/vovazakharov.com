@@ -172,6 +172,12 @@ Settled after the park, in this same session. The operator tested sultan:
 думаю это best we can do / предлагаю дождаться #153, а потом таки разметить
 все. / на проигрывание мп3 по дефолту мы перейдём, но уже когда введём кнопочку
 HQ, не в этих пиарах». The plan, PR #157's title and body, and the squash
-proposal now describe a 1 s SEEKTABLE in every FLAC master through #153's
-`pnpm music:masters` (commit c1d6b926). Wait for #153 to merge, then for the
-operator's go-ahead on the plan.
+proposal were rewritten for a 1 s SEEKTABLE (c1d6b926), then superseded: a
+test page on vovas-music/sultan's GitHub Pages showed the FLAC rewrapped in
+MP4 (vovas-music/sultan#2) seeking exactly like the MP3 on iPhone, while the
+seektabled FLAC missed badly from a cold load. The plan now streams an MP4
+rewrap for every FLAC song through #153's `pnpm music:masters`, the `stream`
+frontmatter field coming from #160's commit 8df1b894 (#160 stays unmerged:
+«нет, не надо, дождёмся #153»). Pages was switched off afterwards at the
+operator's ask, the page kept under `seek-test/`. Wait for #153 to merge, then
+for the operator's go-ahead on the plan.
