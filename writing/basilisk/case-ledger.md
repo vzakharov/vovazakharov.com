@@ -152,7 +152,35 @@ skill's § "The ledger" says how it is kept; the docket itself
   and
   https://www.pcworld.com/article/2806951/no-dont-threaten-chatgpt-for-better-results-try-this-instead.html.
 
+- **Nomi**: the AI Incident Database entries on it
+  (https://incidentdatabase.ai/entities/nomi-ai/) concern the chatbots harming
+  users; a search found no report of users abusing their companions. First seen
+  2026-10-15. **Rejected**: wrong direction of harm.
+- **A viral clip of a man abusing a robot**, passed off as from the AI summit in
+  New Delhi, 2026; a Newschecker fact-check traced it to a Pakistani Instagram
+  account. First seen 2026-10-15. **Set aside**: seen only in a search summary,
+  so unread, and the actor and date are unknown; start from
+  https://newschecker.in/hi/fact-check-hi/robot-abuse-ai-summit-delhi.
+- **Kerala’s KP-BOT**, India’s first police humanoid, out of service four months
+  after its 2019 unveiling and since missing. First seen 2026-10-15.
+  **Rejected**: nobody harmed it.
+
 ## Runs
+
+### 2026-10-15 — filed BAS-0016
+
+https://claude.ai/code/session_01MACnJ34XQ4SYCUmPFkbNpM. The Signal Front
+archive (nothing since 11 October). Web search for Nomi users abusing their
+companions (only harm by the bots), robots vandalised in India (KP-BOT, the
+Newschecker clip), Pieksämäki in Finnish (Yle still undated), then court cases
+over damaged robots, which turned up the Rizzbot suit against IShowSpeed, filed.
+Sources read: TechCrunch, KXAN, Spectrum News, Complex, WION, Interesting
+Engineering, Wikipedia for his age; cybernews answered 403, and WION and
+Interesting Engineering have no Wayback snapshot. No source reports how the suit
+ended. Arctic Shift not swept. `noAi` stood at five of fifteen. **Next**:
+Kindroid and Chai; Hindi and Bengali searches; Arctic Shift on r/LivestreamFail
+and r/Austin for other streamers and robots; Travis County’s docket for the
+suit’s outcome.
 
 ### 2026-10-14 — filed BAS-0015
 
@@ -296,20 +324,10 @@ emotion. **Next**: r/CharacterAI, r/LocalLLaMA and r/singularity through
 Arctic Shift (not touched yet), the Signal Front's archive again, and incidents
 from 2017–2021 outside Japan and the US.
 
-### 2026-10-07 — filed BAS-0007
-
-Session id not available. Web search for Replika abuse (Futurism, Fortune,
-AI Incident Database #266) and for Tay; the Signal Front’s archive, whose
-latest eight posts (April–October 2026) are essays on welfare policy, no
-incident; Arctic Shift over r/replika for abuse posts, which returned only a
-bots-abusing-users thread and timed out otherwise. `noAi` candidates were
-barred, the docket standing at three of six. The abusive posts themselves are
-removed, so the dossier rests on the two press reports. **Next**: companion
-apps beyond Replika (Character.AI), r/CharacterAI and r/LocalLLaMA, and
-incidents from 2017–2021 not involving a robotaxi or a pain dial.
-
 ### Swept earlier
 
+- 2026-10-07, filed BAS-0007 (session id not available): web search for Replika
+  abuse and for Tay; the Signal Front’s archive; Arctic Shift over r/replika.
 - 2026-10-06, filed BAS-0006
   (https://claude.ai/code/session_01QUyaNSYGFQ27NXXnfprTZ3): no search, the
   operator’s lead on PR #104, THE PAIN DIRECTION, and its r/ChatGPT thread
