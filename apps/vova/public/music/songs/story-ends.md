@@ -10,6 +10,7 @@ seconds: 118
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/stories/main/GENERATED%20-%20The%20Story%20Ends.mp3
   bytes: 4814261
+stream: https://raw.githubusercontent.com/vovas-music/stories/main/GENERATED%20-%20The%20Story%20Ends.mp4
 explicit: false
 album: let-the-stories-spin
 track: 11

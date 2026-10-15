@@ -10,6 +10,7 @@ seconds: 352
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/stories/main/GENERATED%20-%20Sisters.mp3
   bytes: 14153980
+stream: https://raw.githubusercontent.com/vovas-music/stories/main/GENERATED%20-%20Sisters.mp4
 explicit: false
 album: let-the-stories-spin
 track: 4

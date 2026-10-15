@@ -296,10 +296,11 @@
     ]
   },
   "carcassi-caprice": {
-    "hash": "1c0ce9f6e0a8",
+    "hash": "53492ce8d689",
     "paths": [
       "caprice/Poluzhivye - Kapris Karkassi.flac",
       "caprice/Poluzhivye - Kapris Karkassi.mp3",
+      "caprice/Poluzhivye - Kapris Karkassi.mp4",
       "caprice/Полуживые - Каприс Каркасси.flac",
       "caprice/Полуживые - Каприс Каркасси.mp3",
       "caprice/Полуживые — Каприс Каркасси.flac",
@@ -535,12 +536,13 @@
     ]
   },
   "fireflies": {
-    "hash": "3df61b5fb5b8",
+    "hash": "724d2eebcabc",
     "paths": [
       "stories/7 fireflies.flac",
       "stories/7 fireflies.mp3",
       "stories/GENERATED - Fireflies.flac",
-      "stories/GENERATED - Fireflies.mp3"
+      "stories/GENERATED - Fireflies.mp3",
+      "stories/GENERATED - Fireflies.mp4"
     ]
   },
   "flesh-fiction": {
@@ -1044,12 +1046,13 @@
     ]
   },
   "little-lights": {
-    "hash": "095f1e447240",
+    "hash": "878d31698315",
     "paths": [
       "ogonki/ogonki.flac",
       "ogonki/ogonki.mp3",
       "ogonki/za_oblozhkoy - Ogonʼki feat. Downtemple.flac",
       "ogonki/za_oblozhkoy - Ogonʼki feat. Downtemple.mp3",
+      "ogonki/za_oblozhkoy - Ogonʼki feat. Downtemple.mp4",
       "ogonki/за_обложкой - Огоньки feat. Downtemple.flac",
       "ogonki/за_обложкой - Огоньки feat. Downtemple.mp3"
     ]
@@ -1321,10 +1324,11 @@
     ]
   },
   "piebald-dog": {
-    "hash": "28e0757d7f37",
+    "hash": "10928a5b2147",
     "paths": [
       "pes/Poluzhivye - Pegiy pyos, begushchiy krayem morya.flac",
       "pes/Poluzhivye - Pegiy pyos, begushchiy krayem morya.mp3",
+      "pes/Poluzhivye - Pegiy pyos, begushchiy krayem morya.mp4",
       "pes/pes.flac",
       "pes/pes.master.mp3",
       "pes/Полуживые - Пегий пёс, бегущий краем моря.flac",
@@ -1332,12 +1336,13 @@
     ]
   },
   "piebald-dog-reprise": {
-    "hash": "dea87bdec9c2",
+    "hash": "e90b7348084c",
     "paths": [
       "papa-reka/8_pes_reprise.flac",
       "papa-reka/8_pes_reprise.mp3",
       "papa-reka/Poluzhivye - Pegiy pyos (Repriza).flac",
       "papa-reka/Poluzhivye - Pegiy pyos (Repriza).mp3",
+      "papa-reka/Poluzhivye - Pegiy pyos (Repriza).mp4",
       "papa-reka/Полуживые - Пегий пёс (Реприза).flac",
       "papa-reka/Полуживые - Пегий пёс (Реприза).mp3"
     ]
@@ -1422,10 +1427,11 @@
     ]
   },
   "river-part-one": {
-    "hash": "b637271cdca2",
+    "hash": "6011fe6daa29",
     "paths": [
       "pobeg/Poluzhivye - Reka. Chastʼ pervaya _ Pobeg.flac",
       "pobeg/Poluzhivye - Reka. Chastʼ pervaya _ Pobeg.mp3",
+      "pobeg/Poluzhivye - Reka. Chastʼ pervaya _ Pobeg.mp4",
       "pobeg/pobeg.flac",
       "pobeg/pobeg.mp3",
       "pobeg/Полуживые - Река. Часть первая _ Побег.flac",
@@ -1433,10 +1439,11 @@
     ]
   },
   "river-part-three": {
-    "hash": "5fa7a42ed6aa",
+    "hash": "cceca6bc68f6",
     "paths": [
       "otter/Poluzhivye - Reka. Chastʼ tretʼya.flac",
       "otter/Poluzhivye - Reka. Chastʼ tretʼya.mp3",
+      "otter/Poluzhivye - Reka. Chastʼ tretʼya.mp4",
       "otter/otter.flac",
       "otter/otter.master.mp3",
       "otter/Полуживые - Река. Часть третья.flac",
@@ -1481,12 +1488,13 @@
     ]
   },
   "sisters": {
-    "hash": "a4c5ab0f3c1c",
+    "hash": "72aa79bf02ee",
     "paths": [
       "stories/4 lake.flac",
       "stories/4 lake.mp3",
       "stories/GENERATED - Sisters.flac",
-      "stories/GENERATED - Sisters.mp3"
+      "stories/GENERATED - Sisters.mp3",
+      "stories/GENERATED - Sisters.mp4"
     ]
   },
   "slime": {
@@ -1557,12 +1565,13 @@
     ]
   },
   "story-ends": {
-    "hash": "881b9f13a938",
+    "hash": "a6fc21a06d03",
     "paths": [
       "stories/11 ends.flac",
       "stories/11 ends.mp3",
       "stories/GENERATED - The Story Ends.flac",
-      "stories/GENERATED - The Story Ends.mp3"
+      "stories/GENERATED - The Story Ends.mp3",
+      "stories/GENERATED - The Story Ends.mp4"
     ]
   },
   "stricken-deer": {
@@ -1611,10 +1620,11 @@
     ]
   },
   "through-the-cracks": {
-    "hash": "73d8711059bd",
+    "hash": "21ce16c42ca4",
     "paths": [
       "cracks/GENERATED - Through the Cracks.flac",
       "cracks/GENERATED - Through the Cracks.mp3",
+      "cracks/GENERATED - Through the Cracks.mp4",
       "cracks/cracks.flac",
       "cracks/cracks.mp3"
     ]
@@ -1692,10 +1702,11 @@
     ]
   },
   "valentines-day": {
-    "hash": "c8b1d559c089",
+    "hash": "0a8b2a801ba0",
     "paths": [
       "ophelia/Poluzhivye - Valentinov denʼ.flac",
       "ophelia/Poluzhivye - Valentinov denʼ.mp3",
+      "ophelia/Poluzhivye - Valentinov denʼ.mp4",
       "ophelia/ophelia.flac",
       "ophelia/ophelia.mp3",
       "ophelia/Полуживые - Валентинов день.flac",
@@ -1768,10 +1779,11 @@
     ]
   },
   "youngest-grandson": {
-    "hash": "28a447fd2748",
+    "hash": "dc8c35b666c9",
     "paths": [
       "salman/Poluzhivye - Mladshiy vnuchek moy.flac",
       "salman/Poluzhivye - Mladshiy vnuchek moy.mp3",
+      "salman/Poluzhivye - Mladshiy vnuchek moy.mp4",
       "salman/salman.flac",
       "salman/salman.mp3",
       "salman/Полуживые - Младший внучек мой.flac",

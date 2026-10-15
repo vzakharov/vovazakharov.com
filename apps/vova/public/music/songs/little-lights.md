@@ -11,6 +11,7 @@ seconds: 186
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/ogonki/main/%D0%B7%D0%B0_%D0%BE%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%BE%D0%B9%20-%20%D0%9E%D0%B3%D0%BE%D0%BD%D1%8C%D0%BA%D0%B8%20feat.%20Downtemple.mp3
   bytes: 7442891
+stream: https://raw.githubusercontent.com/vovas-music/ogonki/main/za_oblozhkoy%20-%20Ogon%CA%BCki%20feat.%20Downtemple.mp4
 explicit: false
 en:
   title:
