@@ -6,11 +6,11 @@ language: ru
 project: ['за/обложкой']
 repo: 'dym'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/dym/main/dym_master_new.flac
+audio: https://raw.githubusercontent.com/vovas-music/dym/main/%D0%B7%D0%B0_%D0%BE%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%BE%D0%B9%20-%20%D0%94%D1%8B%D0%BC.flac
 seconds: 188
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/dym/main/dym_master_new.mp3
-  bytes: 7518143
+  url: https://raw.githubusercontent.com/vovas-music/dym/main/%D0%B7%D0%B0_%D0%BE%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%BE%D0%B9%20-%20%D0%94%D1%8B%D0%BC.mp3
+  bytes: 7520572
 explicit: false
 credits:
   lyrics: ['Vova Zakharov', 'Zoltan Zakharov']

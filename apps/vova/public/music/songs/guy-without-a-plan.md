@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'guy'
-audio: https://raw.githubusercontent.com/vovas-music/guy/main/guy.flac
+audio: https://raw.githubusercontent.com/vovas-music/guy/main/GENERATED%20-%20A%20Guy%20Without%20a%20Plan.flac
 seconds: 214
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/guy/main/guy.mp3
-  bytes: 8580799
+  url: https://raw.githubusercontent.com/vovas-music/guy/main/GENERATED%20-%20A%20Guy%20Without%20a%20Plan.mp3
+  bytes: 8741818
 explicit: false
 album: ctfu
 track: 7

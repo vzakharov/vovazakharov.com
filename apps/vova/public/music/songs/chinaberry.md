@@ -6,11 +6,11 @@ language: ru
 project: ['Листопад']
 repo: 'klo'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/klo/main/klo_1.flac
+audio: https://raw.githubusercontent.com/vovas-music/klo/main/%D0%9B%D0%B8%D1%81%D1%82%D0%BE%D0%BF%D0%B0%D0%B4%20-%20%D0%9A%D0%BB%D0%BE%D0%BA%D0%BE%D1%87%D0%B8%D0%BD%D0%B0.flac
 seconds: 269
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/klo/main/klo_1.mp3
-  bytes: 10750018
+  url: https://raw.githubusercontent.com/vovas-music/klo/main/%D0%9B%D0%B8%D1%81%D1%82%D0%BE%D0%BF%D0%B0%D0%B4%20-%20%D0%9A%D0%BB%D0%BE%D0%BA%D0%BE%D1%87%D0%B8%D0%BD%D0%B0.mp3
+  bytes: 10753176
 explicit: false
 en:
   title:

@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-011.flac
+audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Hang%20for%20the%20Moment.flac
 seconds: 35
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-011.mp3
-  bytes: 1382496
+  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Hang%20for%20the%20Moment.mp3
+  bytes: 1512677
 explicit: false
 album: nsfl
 track: 11

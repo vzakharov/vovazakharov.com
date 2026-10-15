@@ -5,11 +5,11 @@ status: done
 language: en
 project: [GENERATED, Yoohie]
 repo: wereback
-audio: https://raw.githubusercontent.com/vovas-music/wereback/main/wereback.flac
+audio: https://raw.githubusercontent.com/vovas-music/wereback/main/GENERATED%20-%20We%E2%80%99re%20Back%20feat.%20Yoohie.flac
 seconds: 191
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/wereback/main/wereback.mp3
-  bytes: 7638304
+  url: https://raw.githubusercontent.com/vovas-music/wereback/main/GENERATED%20-%20We%E2%80%99re%20Back%20feat.%20Yoohie.mp3
+  bytes: 7800302
 explicit: true
 album: ctfu
 track: 1

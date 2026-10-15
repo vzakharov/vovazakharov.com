@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'mira'
-audio: https://raw.githubusercontent.com/vovas-music/mira/main/mira.flac
+audio: https://raw.githubusercontent.com/vovas-music/mira/main/GENERATED%20-%20Mira%20Is%20Going%20to%20the%20Sea.flac
 seconds: 236
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/mira/main/mira.mp3
-  bytes: 9459562
+  url: https://raw.githubusercontent.com/vovas-music/mira/main/GENERATED%20-%20Mira%20Is%20Going%20to%20the%20Sea.mp3
+  bytes: 9552885
 explicit: false
 album: let-the-stories-spin
 track: 2
