@@ -35,6 +35,8 @@ export type StationControls = {
 type StationInput = OnRadio & {
   /** The player's element, read when it is needed rather than held. */
   element: () => HTMLAudioElement | null;
+  /** The file the element loads for a track, in the quality the reader chose. */
+  source: (track: PlayerTrack) => string;
   /** The public catalogue, whose positions the station's order holds. */
   catalogue: PlayerTrack[];
   dispatch: ActionDispatch<[RadioPlayerAction]>;
@@ -59,6 +61,7 @@ export type StationKeeper = StationControls & {
  */
 export function useStation({
   element,
+  source,
   catalogue,
   radio,
   dispatch,
@@ -104,7 +107,7 @@ export function useStation({
         slot === undefined ||
         track === undefined ||
         !(radio || seekOwedRef.current) ||
-        audio.getAttribute('src') !== track.audio ||
+        audio.getAttribute('src') !== source(track) ||
         audio.readyState < HTMLMediaElement.HAVE_METADATA
       ) {
         return;
@@ -142,7 +145,7 @@ export function useStation({
 
       slotRef.current = now.station;
       seekOwedRef.current = true;
-      audio.src = now.track.audio;
+      audio.src = source(now.track);
       // Tuned afresh once allowed: the station may have moved on while the
       // browser decided.
       audio.play().then(tuneIn, (error: unknown) => {
@@ -171,5 +174,5 @@ export function useStation({
     }
 
     return { tuneIn, tryTuneIn, onAir, handOver, keepTime };
-  }, [element, catalogue, radio, dispatch, storeShuffle]);
+  }, [element, source, catalogue, radio, dispatch, storeShuffle]);
 }

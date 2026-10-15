@@ -30,11 +30,17 @@ export function billingText(billing: Billing, script?: Script): string {
  */
 export type PlayerTrack = Slugged &
   Playable & {
+    /** What the player plays unless the reader asks for the lossless master. */
+    mp3: string;
     /** What the song is called in each language, how it is billed, and where each is served. */
     titles: Record<Locale, Spelled>;
     billing: Record<Locale, Billing>;
     routes: Record<Locale, string>;
   };
+
+export function trackSource(track: PlayerTrack, lossless: boolean): string {
+  return lossless ? track.audio : track.mp3;
+}
 
 /** A track, as the one a control or a slot is about. */
 export type WithTrack = { track: PlayerTrack };
