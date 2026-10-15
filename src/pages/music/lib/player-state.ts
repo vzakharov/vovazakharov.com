@@ -44,6 +44,11 @@ export function trackSource(track: PlayerTrack, lossless: boolean): string {
   return lossless ? track.audio : track.mp3;
 }
 
+/** Whether asking for lossless plays a file other than the MP3 — not for a lossy song. */
+export function hasLossless({ audio, mp3 }: PlayerTrack): boolean {
+  return audio !== mp3;
+}
+
 /** A track, as the one a control or a slot is about. */
 export type WithTrack = { track: PlayerTrack };
 
