@@ -29,6 +29,14 @@ export function songHome({ repo }: Pick<SongFrontmatter, 'repo'>): RepoLocation 
   return { repo, branch: SONG_BRANCH, directory: '' };
 }
 
+/** Where `raw.githubusercontent.com` serves the song's file of that name. */
+export function songUrl(
+  hosting: Pick<SongFrontmatter, 'repo'>,
+  name: string,
+): string {
+  return rawUrl(songHome(hosting), name);
+}
+
 /** The extensions of the song's files to take away: the MP3, then the FLAC master it is a copy of. */
 export function downloadExtensions({
   lossy,
@@ -44,16 +52,14 @@ export function songFiles(
   hosting: SongHosting,
   billing: SongBilling,
 ): SongFile[] {
-  const home = songHome(hosting);
-
   return downloadExtensions(hosting).map((extension) => {
     const { original, latin } = songFileNames(billing, extension);
 
     return {
       extension,
       href: {
-        original: rawUrl(home, original),
-        ...(latin !== undefined && { latin: rawUrl(home, latin) }),
+        original: songUrl(hosting, original),
+        ...(latin !== undefined && { latin: songUrl(hosting, latin) }),
       },
     };
   });

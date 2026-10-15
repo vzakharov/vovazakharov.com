@@ -13,11 +13,10 @@ import {
 
 import { albumsTogether, songPlacements } from './album-tracks';
 import { projectName } from './artists';
-import { rawUrl } from './master-url';
 import { artistPath, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { bill } from './projects';
-import { playedName, songHome } from './song-files';
+import { playedName, songUrl } from './song-files';
 import type { SongDocument, SongOnRelease } from './song-text';
 import { assertWritten } from './tag-manifest';
 
@@ -122,8 +121,8 @@ export function songTrack(
 ): PlayerTrack {
   const { slug, frontmatter } = document;
   const { seconds, explicit, segue, project } = frontmatter;
-  const audio = rawUrl(
-    songHome(frontmatter),
+  const audio = songUrl(
+    frontmatter,
     playedName(frontmatter, songBilling(document, 'en')),
   );
 

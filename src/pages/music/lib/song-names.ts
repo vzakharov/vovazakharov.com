@@ -4,8 +4,7 @@ import {
   songFileNames,
 } from '@/shared/music-catalogue/index.node-safe';
 
-import { rawUrl } from './master-url';
-import { songHome } from './song-files';
+import { songUrl } from './song-files';
 import type { SongDocument } from './song-text';
 import { songBilling } from './songs';
 
@@ -41,5 +40,5 @@ export function savedNames(
 export function mp3Url(document: SongDocument): string {
   const [own] = savedNames(document, 'mp3');
 
-  return rawUrl(songHome(document.frontmatter), own);
+  return songUrl(document.frontmatter, own);
 }
