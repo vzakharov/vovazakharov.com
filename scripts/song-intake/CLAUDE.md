@@ -117,12 +117,11 @@ the site plays (`<slug>.mp3`) — and, where that master is a FLAC, its MP3 copy
 `<stem>.master.mp3`
 (`ffmpeg -i <stem>.flac -map 0:a -c:a libmp3lame -b:a 320k`), which
 `music:scaffold` reads and the build requires, and its MP4 rewrap (the
-frontmatter's `stream:`, which the player plays because AVFoundation seeks a
-bare FLAC by estimate), which `music:masters tag` makes — the video where there
-is one, `mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied
-from here — and a README naming each file, the command that made the master and
-its reference, linked at a commit rather than copied when another repository
-there holds it. `vovas-music/birds` is the pattern.
+frontmatter's `stream:`, which the player plays) — the video where there is one,
+`mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied from
+here — and a README naming each file, the command that made the master and its
+reference, linked at a commit rather than copied when another repository there
+holds it. `vovas-music/birds` is the pattern.
 
 - **Every read and write of these repositories goes through
   `pnpm music:masters`** (`scripts/masters.ts`, its header the usage), never a

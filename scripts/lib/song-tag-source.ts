@@ -52,9 +52,8 @@ export type SongTagJob = Pick<SongDocument, 'slug' | 'fileName'> & {
   coverPath?: string;
   files: MasterFile[];
   /**
-   * Where the master is a FLAC, the name its MP4 rewrap is published under
-   * beside it — what the player streams, AVFoundation seeking a bare FLAC by
-   * estimate. One Latin name: no page offers it for download.
+   * Where the master is a FLAC, the name its MP4 rewrap is published under.
+   * One Latin name: no page offers it for download.
    */
   stream?: string;
 };

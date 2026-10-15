@@ -103,7 +103,7 @@ function streamFile(job: SongTagJob): MasterFile | undefined {
     : { ...master, names: [job.stream] };
 }
 
-/** `<repo>/<path>` of every file the job derives: each master's names, then its stream. */
+/** `<repo>/<path>` of every file the job derives, its stream included. */
 function jobPaths(job: SongTagJob): string[] {
   const stream = streamFile(job);
 
@@ -148,11 +148,7 @@ function tagFile(repo: MusicRepo, job: SongTagJob, file: MasterFile): Buffer {
   return tagged;
 }
 
-/**
- * Copies a tagged FLAC's audio into MP4 and stages it as the job's stream:
- * MP4 indexes every sample, which AVFoundation seeks exactly. The cover stays
- * behind, and the decoded audio is checked to be the FLAC's.
- */
+/** Stages a tagged FLAC's audio, copied into MP4, as the job's stream; the cover stays behind. */
 function stageStream(
   repo: MusicRepo,
   job: SongTagJob,
