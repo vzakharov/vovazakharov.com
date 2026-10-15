@@ -85,6 +85,8 @@ type Playback = {
   current?: PlayerTrack;
   /** Where playback sits, in seconds — the seek bar's value. */
   elapsed: number;
+  /** From a change of quality until the new file can play from where it was. */
+  switching: boolean;
 };
 
 /** Playback, and the tracks it plays from. */
@@ -112,6 +114,7 @@ export function useAudioPlayer(
     initialRadioPlayerState,
   );
   const [elapsed, setElapsed] = useState(0);
+  const [switching, setSwitching] = useState(false);
   const [sessionYielded, setSessionYielded] = useState(false);
   const [shuffleStored, storeShuffle] = useStoredSetting('shuffle');
   const [lossless] = useStoredSetting('lossless');
@@ -263,7 +266,15 @@ export function useAudioPlayer(
       [
         'timeupdate',
         () => {
-          setElapsed(audio.currentTime);
+          // A new source reports its reset to 0 before a switch of quality
+          // seeks it back, which would flick the seek bar to the start.
+          if (resumeAtRef.current === undefined) setElapsed(audio.currentTime);
+        },
+      ],
+      [
+        'canplay',
+        () => {
+          setSwitching(false);
         },
       ],
       [
@@ -334,6 +345,7 @@ export function useAudioPlayer(
       const switched = loaded === trackSource(current, !lossless);
 
       resumeAtRef.current = switched ? audio.currentTime : undefined;
+      setSwitching(switched);
       audio.src = wanted;
       if (!switched) setElapsed(0);
     }
@@ -367,5 +379,12 @@ export function useAudioPlayer(
   });
   usePlayerKeys(controls);
 
-  return { state, elapsed, tracks, controls, ...(current && { current }) };
+  return {
+    state,
+    elapsed,
+    switching,
+    tracks,
+    controls,
+    ...(current && { current }),
+  };
 }

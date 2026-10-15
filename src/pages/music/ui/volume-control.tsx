@@ -8,7 +8,7 @@ import {
   Text,
   UnstyledButton,
 } from '@mantine/core';
-import { Volume1, Volume2, VolumeX } from 'lucide-react';
+import { LoaderCircle, Volume1, Volume2, VolumeX } from 'lucide-react';
 import {
   type PointerEvent,
   useEffect,
@@ -108,7 +108,7 @@ function VolumeIcon({ volume }: VolumeIconProps) {
 }
 
 function LosslessToggle() {
-  const { labels } = usePlayer();
+  const { labels, switching } = usePlayer();
   const [lossless, setLossless] = useStoredSetting('lossless');
 
   return (
@@ -119,9 +119,14 @@ function LosslessToggle() {
       }}
       aria-label={labels.lossless}
       aria-pressed={lossless}
+      aria-busy={switching}
       title={labels.lossless}
     >
-      HQ
+      {switching ? (
+        <LoaderCircle size={12} className={classes['spinner']} />
+      ) : (
+        'HQ'
+      )}
     </UnstyledButton>
   );
 }

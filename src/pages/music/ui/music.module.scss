@@ -167,13 +167,29 @@
   }
 }
 
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 .volumeReadout {
   font-variant-numeric: tabular-nums;
 }
 
 // Letterspaced caps in a soft rectangle, set apart from the round transport
 // buttons as a setting rather than an action.
+// Wide enough for the spinner that stands in for the letters while the other
+// quality loads, so the chip keeps its size.
 .losslessChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
   height: 24px;
   padding: 0 8px;
   font-family: var(--mantine-font-family-monospace);
