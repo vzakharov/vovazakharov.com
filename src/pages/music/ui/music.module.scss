@@ -181,10 +181,8 @@
   font-variant-numeric: tabular-nums;
 }
 
-// Letterspaced caps in a soft rectangle, set apart from the round transport
-// buttons as a setting rather than an action.
-// Wide enough for the spinner that stands in for the letters while the other
-// quality loads, so the chip keeps its size.
+// A setting, so set apart from the round transport buttons; wide enough that
+// the spinner standing in for its letters while a quality loads keeps its size.
 .losslessChip {
   display: inline-flex;
   align-items: center;

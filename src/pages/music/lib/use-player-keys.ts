@@ -5,10 +5,6 @@ import type { PlayerControls } from './use-audio-player';
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
 
-/**
- * Space plays and pauses, the arrows seek, and with Shift they step through the
- * queue — anywhere on the page but a field, or a dialog that takes them.
- */
 export function usePlayerKeys(controls: PlayerControls) {
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
