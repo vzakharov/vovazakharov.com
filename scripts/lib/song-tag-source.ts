@@ -184,11 +184,9 @@ export function songTagJobs(publicDir: string): SongTagJob[] {
         }),
         files,
         ...(flac && {
-          stream: songFileName(
-            songBilling(document, ownLocale(document)),
-            'latin',
-            'mp4',
-          ),
+          // The English page's billing: a Russian page spells its Latin
+          // names in Cyrillic.
+          stream: songFileName(songBilling(document, 'en'), 'latin', 'mp4'),
         }),
       },
     ];
