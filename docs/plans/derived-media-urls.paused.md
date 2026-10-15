@@ -1,0 +1,97 @@
+# Derive every song file's URL from the catalogue
+
+PR: https://github.com/vzakharov/vovazakharov.com/pull/157 (same branch, before
+merge — `stream` is not on `main` yet, so dropping it now costs no migration of
+the live frontmatter beyond this branch's own).
+
+## Why
+
+A song's frontmatter states three file URLs under three unrelated keys —
+`audio`, `mp3.url`, `stream` — though `pnpm music:masters tag` already derives
+every file name from the billing and `check` (in vet) fails on a song it has not
+tagged. Measured over the 170 songs: every `mp3.url` is the master's URL with
+`.mp3`, every `stream` sits beside the master under the English page's Latin
+name. The URLs carry only two facts the catalogue does not: **which repository
+and branch** the master sits in, and **whether there is a lossless master**.
+
+## Decisions (the operator's, in session)
+
+- **A master sits in its song's own repository** (`repo`). ~30 songs keep theirs
+  in an album repository (`dng_album`, `Divine-Discontent--album-`,
+  `vagabond_album`, `stories`, `psch_album`, `ghosts-of-flesh`, `rus-`,
+  `papa-reka`): move them into the song's repo.
+- **Every song repository's branch is `main`.** Five default to `master`:
+  `golodnaa`, `lake`, `like-that`, `love`, `meow`.
+- **A song with no lossless master carries a boolean flag**, true where the
+  master is itself the MP3 (13 songs); absent/false means a FLAC master with an
+  MP3 copy and an MP4 stream.
+
+## Decisions taken here (open to the operator; none blocks starting)
+
+- Flag name `lossy: true`; size field `mp3Bytes` (top level, replacing
+  `mp3: { bytes }`). `mp3Bytes` stays: RSS needs the enclosure's `length`, and
+  the tag run writes it, so nobody types it.
+- **The live site must not break between these steps and the deploy**: files are
+  _copied_ into the song repos and `main` is _created_ at `master`'s head (then
+  made default), never renamed or deleted; the album copies and the `master`
+  branches go after the deploy — the album copies through
+  `pnpm music:masters prune`, the five `master` branches by hand (list them in
+  the PR).
+- **Where the tag run reads a song's current file from is `tag-renders.json`**,
+  which already records every `<repo>/<path>` a run read or wrote (e.g.
+  `one-day` → `Divine-Discontent--album-/GENERATED - One Day.flac`). Source
+  lookup per file type: the derived name in the song repo's tree, else a
+  recorded path with that extension, fetched from its own repository's default
+  branch (an album repo during the move, the same repo after a title edit). With
+  the move expressed this way, the migration is just a `tag` run — the job hash
+  gains the repository, so the moved songs read as stale.
+- **A new song gets its manifest entry from the scaffolder**: `findMaster`
+  already locates the root FLAC and its `.master.mp3`; it records those paths
+  under the slug with an empty hash, so `check` fails until `tag` names them.
+
+## Steps
+
+- [ ] Create `main` at `master`'s head in the five repositories and make it the
+      default (Git refs API + `PATCH repos/…` `default_branch`); `master` stays.
+- [ ] Shared derivation in `src/pages/music/lib/` (beside `master-url.ts` /
+      `song-files.ts`): from `repo`, `lossy` and the billing — the master URL
+      (`.flac`, or `.mp3` when `lossy`), the MP3 URL, the stream URL. Move
+      `ownLocale`/`fileNames` out of `scripts/lib/song-tag-source.ts` into it so
+      the player, the feed, the downloads and the tag run share one.
+- [ ] Schema (`shared/music-catalogue/frontmatter.ts`): drop `audio`, `mp3`,
+      `stream`; add `lossy` (default false) and `mp3Bytes`; `repo` becomes
+      required (all 170 have one; the site-hosted `/…` source goes); drop the
+      `isMp3` refine.
+- [ ] Consumers: `songTrack` (plays the stream, or the MP3 when `lossy`),
+      `songEpisode` (MP3 URL + `mp3Bytes`), `songFiles`/`songDownloads` (drop
+      the untagged branch — a song with no manifest entry fails the build; the
+      guard covers the player's URL too).
+- [ ] Tag run (`song-tag-source.ts`, `song-tagging.ts`): files from the
+      derivation, sources from the manifest as above (fetch across repos);
+      `jobHash` gains repo + branch; `repointDocument` writes only `mp3Bytes`;
+      `rewriteSongDocument` shrinks to that (+ its test); `songRepo`'s
+      one-repository check goes; `prune` groups recorded paths by their own
+      repository rather than slicing by the job's.
+- [ ] Scaffolder (`scripts/scaffold-song.ts`): writes `repo`, `seconds`,
+      `mp3Bytes`, `lossy` where the master is an MP3, and the manifest entry.
+- [ ] Rewrite the 170 song documents' frontmatter (one-off script under `tmp/`):
+      drop `audio`/`mp3`/`stream`, add `mp3Bytes`, `lossy: true` on the 13.
+- [ ] `pnpm music:masters tag`: moves the ~30 album-held masters into their song
+      repos and tags the five `main` branches' files; `check` passes over 170.
+- [ ] Docs: `.claude/rules/songs.md` § "Frontmatter", the schema docstrings,
+      `scripts/song-intake/CLAUDE.md` where it names `audio`/`mp3.url`.
+- [ ] PR body: the post-deploy steps (`prune`, delete five `master` branches).
+
+## DRY notes
+
+- One derivation module replaces three hand-kept URLs and the two places that
+  already compute names (`song-files.ts`' `namedHref`, the tag run's
+  `fileNames`); `master-url.ts`' `rawUrl` builds every URL.
+- The manifest is reused as the record of where files are rather than adding a
+  `source` field: it already holds exactly that, and a second record would drift
+  from it.
+- No abstraction for the branch migration: five API calls, once.
+
+## Done so far
+
+Nothing beyond the design: the counts above were measured, no code changed.
