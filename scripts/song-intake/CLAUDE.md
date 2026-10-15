@@ -116,11 +116,13 @@ the site plays (`<slug>.mp3`) — and, where that master is a FLAC, its MP3 copy
 (the frontmatter's `mp3:`, which the songs feeds and downloads serve),
 `<stem>.master.mp3`
 (`ffmpeg -i <stem>.flac -map 0:a -c:a libmp3lame -b:a 320k`), which
-`music:scaffold` reads and the build requires — the video where there is one,
-`mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied from
-here — and a README naming each file, the command that made the master and its
-reference, linked at a commit rather than copied when another repository there
-holds it. `vovas-music/birds` is the pattern.
+`music:scaffold` reads and the build requires, and its MP4 rewrap (the
+frontmatter's `stream:`, which the player plays because AVFoundation seeks a
+bare FLAC by estimate), which `music:masters tag` makes — the video where there
+is one, `mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied
+from here — and a README naming each file, the command that made the master and
+its reference, linked at a commit rather than copied when another repository
+there holds it. `vovas-music/birds` is the pattern.
 
 - **Every read and write of these repositories goes through
   `pnpm music:masters`** (`scripts/masters.ts`, its header the usage), never a
@@ -139,9 +141,9 @@ holds it. `vovas-music/birds` is the pattern.
   with `pnpm music:masters put`, then `pnpm music:scaffold <slug>`, which reads
   `<stem>.flac` and `<stem>.master.mp3`, and last
   `pnpm music:masters tag <slug>`, which adds the master and its copy under the
-  names a listener saves them as, tagged, and points the frontmatter there.
-  Songs that share a project's session may share one repository, as `machines`
-  does.
+  names a listener saves them as, tagged, and a FLAC master's MP4 rewrap, and
+  points the frontmatter there. Songs that share a project's session may share
+  one repository, as `machines` does.
 - **Neither the tree nor a release hosts a master the site plays.** A vendored
   mp3 grows the repo with every take, and a release download redirects to a
   storage URL signed for 30 minutes, which a player still seeking after that is
