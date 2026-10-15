@@ -88,7 +88,7 @@ The table already in `sultan.flac` costs 4 KB and stays.
   the tags. The publishing (clone, Git Data API, large-blob relay) is #153's,
   reused unchanged.
 
-## Progress (paused for the context budget)
+## Progress
 
 **Done:**
 
@@ -103,18 +103,13 @@ The table already in `sultan.flac` costs 4 KB and stays.
   the MP4, decoded md5 equals the FLAC's (`ed58ef12…`), atoms
   `ftyp, moov, free, mdat`, MP4 tags carried across.
 
-**Left:**
+- The catalogue run: all 157 FLAC songs carry an MP4 rewrap in their repository
+  and `stream:` in their document; `pnpm music:masters check` passes over
+  all 170.
+- The rewrap is listed in `scripts/song-intake/CLAUDE.md` and `stream` in
+  `.claude/rules/songs.md`. #160 is closed.
 
-- The real run, `pnpm music:masters tag` over the catalogue: one commit per
-  `vovas-music` repository, ~25 MB per FLAC song; then commit the repointed song
-  documents and `tag-renders.json`, and confirm `pnpm music:masters check`
-  passes (vet runs it, and every song reads stale until the run).
-- `scripts/song-intake/CLAUDE.md` § "A song's repository": list the rewrap
-  beside the MP3 copy. `.claude/rules/songs.md`: name `stream` among the
-  frontmatter fields, next to the masters' names and tags.
-- The plan's test bullet: `songFiles` takes `Pick<…, 'audio' | 'mp3'>`, so the
-  type already keeps `stream` out of the downloads, and `songs.ts` imports the
-  server-only content layer, so no unit test reaches `songTrack`. Drop the
-  bullet rather than open a seam for it.
-- Close #160 (its commit lives here now). Then `/go` Steps 3–4: `/polish`, `/pr`
-  refresh.
+**Unconfirmed:** the device test played the MP4 from GitHub Pages (`audio/mp4`),
+while the site serves raw.githubusercontent.com (`application/octet-stream`).
+The FLAC plays on the iPhone from that same host, so the MP4 most likely does as
+well, but this needs one check on the iPhone before merge.
