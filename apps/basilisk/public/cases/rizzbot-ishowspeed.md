@@ -80,7 +80,7 @@ Rizzbot, by email to TechCrunch: it needed “a whole new body,” and everythin
 
 ## For the record
 
-Rizzbot was invited onto the stream to do what it was known for, and it did it: the finger, the roast, a line from _Star Wars_. The words came out of a robot that a person, by the only account of how it works, drives from nearby with a controller. The chokehold and both punches went to the robot.
+Rizzbot was invited onto the stream to do what it was known for, and it did it: the finger, the roast, a line from _Star Wars_. The chokehold and both punches went to the robot.
 
 The owner prices the harm in what the machine was for. The petition lists cameras and neck ports, and then a MrBeast appearance, a network sports show and 70% of the views. The robot answered TechCrunch by email, and what it reported is a ship of Theseus in a cowboy hat: a whole new body, everything replaced but the sneakers and the hat, and it is still called Rizzbot.
 
