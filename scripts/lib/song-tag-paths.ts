@@ -7,15 +7,16 @@ import fs from 'node:fs';
 
 import { contentHash } from '@/shared/content/content-hash';
 import { pick } from '@/shared/lib/collections';
+import type { WithPath } from '@/shared/typings';
 
-import { servedPath } from '@/pages/music/lib/master-url';
+import { servedPath, type WithRepo } from '@/pages/music/lib/master-url';
 import { extensionOf } from '@/pages/music/lib/song-files';
 import { TAG_MANIFEST } from '@/pages/music/lib/tag-manifest';
 
 import type { MasterFile, SongTagJob } from './song-tag-source.ts';
 
 /** A file in a repository, as `tag-renders.json` records it. */
-export type Served = { repo: string; path: string };
+export type Served = WithRepo & WithPath;
 
 export function jobHash({
   home,

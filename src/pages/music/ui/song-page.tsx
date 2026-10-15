@@ -187,15 +187,13 @@ export function SongPage({ slug, locale }: SongPageProps) {
                     {...{ file }}
                   />
                 ))}
-                {repo !== undefined && (
-                  <TextLink
-                    href={songRepositoryUrl(repo)}
-                    size="sm"
-                    className={hoverDim}
-                  >
-                    {messages.source}
-                  </TextLink>
-                )}
+                <TextLink
+                  href={songRepositoryUrl(repo)}
+                  size="sm"
+                  className={hoverDim}
+                >
+                  {messages.source}
+                </TextLink>
               </Group>
             </Group>
           </Stack>

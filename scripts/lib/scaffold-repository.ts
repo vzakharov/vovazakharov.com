@@ -8,20 +8,20 @@
 import { z } from 'zod';
 
 import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
-import type { Rated } from '@/shared/typings';
+import type { Rated, WithUrl } from '@/shared/typings';
 
 /** How the explicit-content marker appears in a master's filename. */
 export const EXPLICIT_MARKER = '🅴';
 
 /** The single root FLAC that makes a repository a song. */
-export type Master = Rated & {
-  /** Its name in the repository, which is where the song's own name comes from. */
-  flac: string;
-  /** Where `raw.githubusercontent.com` serves it, percent-encoded. */
-  url: string;
-  /** Its MP3 copy's name and URL, where the repository holds one yet. */
-  copy?: { name: string; url: string };
-};
+/** `url` is where `raw.githubusercontent.com` serves it, percent-encoded. */
+export type Master = Rated &
+  WithUrl & {
+    /** Its name in the repository, which is where the song's own name comes from. */
+    flac: string;
+    /** Its MP3 copy's name and URL, where the repository holds one yet. */
+    copy?: { name: string; url: string };
+  };
 
 /** The MP3 copy's name beside a FLAC master: `<stem>.master.mp3`. */
 export function copyName(flac: string): string {

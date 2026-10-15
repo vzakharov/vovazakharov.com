@@ -11,6 +11,7 @@ import type {
   Named,
   PresentOrAbsent,
   Sized,
+  WithPath,
   WithUrl,
 } from '@/shared/typings';
 
@@ -38,7 +39,7 @@ export const PAGE_ROUTES = {
  * there and absent where it is not, never a nullable slot. `pnpm
  * content:og:<site>` rasterises `path` from `vector` for the marks that are both.
  */
-export type SiteImage = Sized & { path: string } & PresentOrAbsent<
+export type SiteImage = Sized & WithPath & PresentOrAbsent<
     'vector',
     string
   >;

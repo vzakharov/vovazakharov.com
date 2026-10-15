@@ -112,9 +112,9 @@ export function songTagJobs(publicDir: string): SongTagJob[] {
       files: downloadExtensions(frontmatter)
         .toReversed()
         .map((extension) => ({
-        extension,
-        names: savedNames(document, extension),
-      })),
+          extension,
+          names: savedNames(document, extension),
+        })),
       ...(!frontmatter.lossy && {
         stream: playedName(frontmatter, songBilling(document, 'en'), true),
       }),

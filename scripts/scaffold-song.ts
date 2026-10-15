@@ -30,7 +30,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { collectionDir } from '@/shared/content/collections';
+import { collectionDir } from '@/shared/content/index.node-safe';
 import { byLocale, inLocale } from '@/shared/i18n/locales';
 import { readSiteCatalogueNames } from '@/shared/music-catalogue/catalogue-names';
 import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';

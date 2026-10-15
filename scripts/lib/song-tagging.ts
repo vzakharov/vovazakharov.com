@@ -25,7 +25,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { collectionDir, PUBLIC_DIR } from '@/shared/content/collections';
+import { collectionDir, PUBLIC_DIR } from '@/shared/content/index.node-safe';
 
 import { servedPath } from '@/pages/music/lib/master-url';
 import {

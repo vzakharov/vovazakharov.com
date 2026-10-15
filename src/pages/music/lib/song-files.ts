@@ -25,7 +25,9 @@ export function extensionOf(href: string): string {
 export const SONG_BRANCH = 'main';
 
 /** Where every file of a song sits: its repository's root. */
-export function songHome({ repo }: Pick<SongFrontmatter, 'repo'>): RepoLocation {
+export function songHome({
+  repo,
+}: Pick<SongFrontmatter, 'repo'>): RepoLocation {
   return { repo, branch: SONG_BRANCH, directory: '' };
 }
 
